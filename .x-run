@@ -1,0 +1,8 @@
+
+:: compile / peg :: test "${#}" -eq 0 ; if test ./src/parser_peg.peg -nt ./src/parser_peg.rs ; then rust-peg < ./src/parser_peg.peg | rust-fmt > ./src/parser_peg.rs || true ; fi
+:: compile / elf / debug :: x-run ':: compile / peg' ; exec -- cargo build "${@}"
+:: compile / elf / release :: x-run ':: compile / peg' ; exec -- cargo build --release "${@}"
+
+:: execute / debug :: x-run ':: compile / peg' ; exec -- cargo run -- "${@}"
+:: execute / release :: x-run ':: compile / peg' ; exec -- cargo run --release -- "${@}"
+
