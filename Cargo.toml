@@ -1,0 +1,15 @@
+
+[package]
+name = "rust-scheme"
+version = "0.1.0"
+authors = ["Ciprian Dorin Craciun <ciprian@volution.ro>"]
+publish = false
+
+[[bin]]
+name = "rust-scheme"
+path = "./sources/bin.rs"
+
+[lib]
+name = "rust_scheme"
+path = "./sources/lib.rs"
+
