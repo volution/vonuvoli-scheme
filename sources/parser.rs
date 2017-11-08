@@ -1,9 +1,17 @@
 
-use super::parser_peg;
-use super::values;
 
-pub fn parse_value (input : &str) -> values::Value
-{
-	return parser_peg::value_full (input) .expect ("391e2457");
+use super::parser_peg as peg;
+use super::values::exports::*;
+
+
+pub mod exports {
+	pub use super::parse_value;
+}
+
+
+
+
+pub fn parse_value (input : &str) -> Value {
+	return peg::value_full (input) .expect ("391e2457");
 }
 
