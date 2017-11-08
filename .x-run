@@ -1,8 +1,14 @@
 
-:: compile / peg :: test "${#}" -eq 0 ; if test ./src/parser_peg.peg -nt ./src/parser_peg.rs ; then rust-peg < ./src/parser_peg.peg | rust-fmt > ./src/parser_peg.rs || true ; fi
-:: compile / elf / debug :: x-run ':: compile / peg' ; exec -- cargo build "${@}"
-:: compile / elf / release :: x-run ':: compile / peg' ; exec -- cargo build --release "${@}"
+:: compile / peg :: test "${#}" -eq 0 ; if test ./sources/parser_peg.peg -nt ./sources/parser_peg.rs ; then rust-peg < ./sources/parser_peg.peg | rust-fmt >| ./sources/parser_peg.rs || true ; fi
 
-:: execute / debug :: x-run ':: compile / peg' ; exec -- cargo run -- "${@}"
-:: execute / release :: x-run ':: compile / peg' ; exec -- cargo run --release -- "${@}"
+:: compile / bin / debug :: x-run ':: compile / peg' ; exec -- less-exec cargo build "${@}"
+:: execute / bin / debug :: x-run ':: compile / peg' ; exec -- cargo run -- "${@}"
+:: compile / bin / release :: x-run ':: compile / peg' ; exec -- less-exec cargo build --release "${@}"
+:: execute / bin / release :: x-run ':: compile / peg' ; exec -- cargo run --release -- "${@}"
+
+:: test / all :: x-run ':: compile / peg' ; exec -- cargo test -- --nocapture "${@}"
+:: test / sizes :: x-run ':: compile / peg' ; exec -- cargo test --test sizes -- --nocapture "${@}"
+:: test / parser :: x-run ':: compile / peg' ; exec -- cargo test --test parser -- --nocapture "${@}"
+:: test / contexts :: x-run ':: compile / peg' ; exec -- cargo test --test contexts -- --nocapture "${@}"
+:: test / counters :: x-run ':: compile / peg' ; exec -- cargo test --test counters -- --nocapture "${@}"
 
