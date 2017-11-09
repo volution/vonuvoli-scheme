@@ -25,10 +25,12 @@ pub struct PermutationCounter {
 impl PermutationCounter {
 	
 	
+	#[ inline (always) ]
 	pub fn new () -> (Self) {
 		PermutationCounter::with_seed (0, 0)
 	}
 	
+	#[ inline (always) ]
 	pub fn with_seed (index : u32, offset : u32) -> (Self) {
 		PermutationCounter {
 				index : index,
@@ -38,6 +40,7 @@ impl PermutationCounter {
 	}
 	
 	
+	#[ inline (always) ]
 	pub fn initialize (&mut self) -> () {
 		if !self.initialized {
 			self.index = self.permute (self.permute (Wrapping (self.index)) + FUZZ_2) .0;
@@ -46,6 +49,7 @@ impl PermutationCounter {
 		}
 	}
 	
+	#[ inline (always) ]
 	pub fn next (&mut self) -> (u32) {
 		self.initialize ();
 		self.index = (Wrapping (self.index) + Wrapping (1u32)) .0;
@@ -56,6 +60,7 @@ impl PermutationCounter {
 		return output.0;
 	}
 	
+	#[ inline (always) ]
 	fn permute (&self, index : Wrapping<u32>) -> (Wrapping<u32>) {
 		if index >= PRIME {
 			return index;

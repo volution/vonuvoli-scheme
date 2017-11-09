@@ -1,6 +1,6 @@
 
 
-pub mod std {
+pub mod exports {
 	
 	pub use std::borrow::Borrow as StdBorrow;
 	pub use std::boxed::Box as StdBox;
@@ -14,7 +14,7 @@ pub mod std {
 	pub use std::rc::Rc as StdRc;
 	pub use std::result::Result as StdResult;
 	pub use std::string::String as StdString;
-	pub use std::vec::Vec as StdVector;
+	pub use std::vec::Vec as StdVec;
 	
 }
 
