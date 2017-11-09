@@ -1,0 +1,84 @@
+
+
+#[ allow (unused_macros) ]
+macro_rules! failed {
+	( $code : expr ) => (
+		::std::result::Result::Err (::errors::error_generic ($code))
+	);
+}
+
+#[ allow (unused_macros) ]
+macro_rules! failed_unimplemented {
+	( $code : expr ) => (
+		::std::result::Result::Err (::errors::error_unimplemented ($code))
+	);
+}
+
+#[ allow (unused_macros) ]
+macro_rules! fail {
+	( $code : expr ) => (
+		return failed! ($code)
+	);
+}
+
+
+
+
+#[ allow (unused_macros) ]
+macro_rules! enforce_value_class {
+	( $class : ident, $value : expr, $code : expr ) => (
+		if !$value.is (ValueClass::$class) {
+			return failed! ($code);
+		}
+	);
+	( $class : ident, $value : expr ) => (
+		enforce_value_class ($value, 0xacc9dfc7)
+	);
+}
+
+#[ allow (unused_macros) ]
+macro_rules! enforce_is_null {
+	( $value : expr, $code : expr ) => ( enforce_value_class! (Null, $value, $code) );
+	( $value : expr ) => ( enforce_value_is_null! ($value, 0x85d6deef) );
+}
+
+#[ allow (unused_macros) ]
+macro_rules! enforce_is_void {
+	( $value : expr, $code : expr ) => ( enforce_value_class! (Void, $value, $code) );
+	( $value : expr ) => ( enforce_value_is_void! ($value, 0xe2116f5f) );
+}
+
+#[ allow (unused_macros) ]
+macro_rules! enforce_is_undefined {
+	( $value : expr, $code : expr ) => ( enforce_value_class! (Undefined, $value, $code) );
+	( $value : expr ) => ( enforce_value_is_undefined! ($value, 0x11c91a64) );
+}
+
+#[ allow (unused_macros) ]
+macro_rules! enforce_is_boolean {
+	( $value : expr, $code : expr ) => ( enforce_value_class! (Boolean, $value, $code) );
+	( $value : expr ) => ( enforce_value_is_boolean! ($value, 0xd45dac18) );
+}
+
+
+
+
+#[ allow (unused_macros) ]
+macro_rules! enforce_value_unwrap {
+	( $class : ident, $value : expr, $code : expr ) => (
+		match $value {
+			Value::$class (ref value) => value,
+			_ => return failed! ($code),
+		}
+	);
+	( $class : ident, $value : expr ) => (
+		enforce_value_unwrap ($value, 0xf5b2b46e)
+	);
+}
+
+#[ allow (unused_macros) ]
+macro_rules! enforce_boolean_unwrap {
+	( $value : expr, $code : expr ) => ( enforce_value_unwrap! (Boolean, $value, $code) );
+	( $value : expr ) => ( enforce_boolean_unwrap! ($value, 0xdce0860d) );
+}
+
