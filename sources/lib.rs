@@ -13,11 +13,12 @@ pub mod primitives;
 pub mod primitives_arithmetic;
 pub mod primitives_bitwise;
 pub mod primitives_boolean;
+pub mod primitives_procedures;
+pub mod primitives_syntaxes;
 pub mod primitives_types;
 pub mod procedures;
 pub mod parser;
 pub mod runtime;
-pub mod syntaxes;
 pub mod values;
 
 mod parser_peg;
@@ -34,7 +35,6 @@ pub mod exports {
 	pub use super::primitives::exports::*;
 	pub use super::parser::exports::*;
 	pub use super::procedures::exports::*;
-	pub use super::syntaxes::exports::*;
 	pub use super::values::exports::*;
 }
 

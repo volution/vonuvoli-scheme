@@ -46,16 +46,16 @@ impl Evaluator {
 			Expression::ContextSelect (ref identifier) =>
 				self.evaluate_context_select (context, identifier),
 			
-			Expression::PrimitiveCall0 (primitive) =>
-				self.evaluate_primitive_0 (context, primitive),
-			Expression::PrimitiveCall1 (primitive, ref input) =>
-				self.evaluate_primitive_1 (context, primitive, input),
-			Expression::PrimitiveCall2 (primitive, ref input_1, ref input_2) =>
-				self.evaluate_primitive_2 (context, primitive, input_1, input_2),
-			Expression::PrimitiveCallN (primitive, ref inputs) =>
-				self.evaluate_primitive_n (context, primitive, inputs.as_ref ()),
-			Expression::PrimitiveCall (primitive, ref inputs) =>
-				self.evaluate_primitive (context, primitive, inputs.as_ref ()),
+			Expression::ProcedurePrimitiveCall0 (primitive) =>
+				self.evaluate_procedure_primitive_0 (context, primitive),
+			Expression::ProcedurePrimitiveCall1 (primitive, ref input) =>
+				self.evaluate_procedure_primitive_1 (context, primitive, input),
+			Expression::ProcedurePrimitiveCall2 (primitive, ref input_1, ref input_2) =>
+				self.evaluate_procedure_primitive_2 (context, primitive, input_1, input_2),
+			Expression::ProcedurePrimitiveCallN (primitive, ref inputs) =>
+				self.evaluate_procedure_primitive_n (context, primitive, inputs.as_ref ()),
+			Expression::ProcedurePrimitiveCall (primitive, ref inputs) =>
+				self.evaluate_procedure_primitive (context, primitive, inputs.as_ref ()),
 			
 			_ =>
 				failed_unimplemented! (0xc1942075),
@@ -103,37 +103,37 @@ impl Evaluator {
 	
 	
 	#[ inline (always) ]
-	pub fn evaluate_primitive_0 (&mut self, context : &mut Context, primitive : Primitive0) -> (Outcome<Value>) {
-		let output = primitive_0_evaluate (primitive, context);
+	pub fn evaluate_procedure_primitive_0 (&mut self, context : &mut Context, primitive : ProcedurePrimitive0) -> (Outcome<Value>) {
+		let output = procedure_primitive_0_evaluate (primitive, context);
 		return output;
 	}
 	
 	#[ inline (always) ]
-	pub fn evaluate_primitive_1 (&mut self, context : &mut Context, primitive : Primitive1, input : &Expression) -> (Outcome<Value>) {
+	pub fn evaluate_procedure_primitive_1 (&mut self, context : &mut Context, primitive : ProcedurePrimitive1, input : &Expression) -> (Outcome<Value>) {
 		let input = try! (self.evaluate (context, input));
-		let output = primitive_1_evaluate (primitive, &input, context);
+		let output = procedure_primitive_1_evaluate (primitive, &input, context);
 		return output;
 	}
 	
 	#[ inline (always) ]
-	pub fn evaluate_primitive_2 (&mut self, context : &mut Context, primitive : Primitive2, input_1 : &Expression, input_2 : &Expression) -> (Outcome<Value>) {
+	pub fn evaluate_procedure_primitive_2 (&mut self, context : &mut Context, primitive : ProcedurePrimitive2, input_1 : &Expression, input_2 : &Expression) -> (Outcome<Value>) {
 		let input_1 = try! (self.evaluate (context, input_1));
 		let input_2 = try! (self.evaluate (context, input_2));
-		let output = primitive_2_evaluate (primitive, &input_1, &input_2, context);
+		let output = procedure_primitive_2_evaluate (primitive, &input_1, &input_2, context);
 		return output;
 	}
 	
 	#[ inline (always) ]
-	pub fn evaluate_primitive_n (&mut self, context : &mut Context, primitive : PrimitiveN, inputs : &[Expression]) -> (Outcome<Value>) {
+	pub fn evaluate_procedure_primitive_n (&mut self, context : &mut Context, primitive : ProcedurePrimitiveN, inputs : &[Expression]) -> (Outcome<Value>) {
 		let inputs = try! (self.evaluate_slice (context, inputs));
-		let output = primitive_n_evaluate (primitive, inputs.as_ref (), context);
+		let output = procedure_primitive_n_evaluate (primitive, inputs.as_ref (), context);
 		return output;
 	}
 	
 	#[ inline (always) ]
-	pub fn evaluate_primitive (&mut self, context : &mut Context, primitive : Primitive, inputs : &[Expression]) -> (Outcome<Value>) {
+	pub fn evaluate_procedure_primitive (&mut self, context : &mut Context, primitive : ProcedurePrimitive, inputs : &[Expression]) -> (Outcome<Value>) {
 		let inputs = try! (self.evaluate_slice (context, inputs));
-		let output = primitive_evaluate (primitive, inputs.as_ref (), context);
+		let output = procedure_primitive_evaluate (primitive, inputs.as_ref (), context);
 		return output;
 	}
 	

@@ -21,10 +21,14 @@ pub enum ArithmeticPrimitive1 {
 	
 }
 
+
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
 pub enum ArithmeticPrimitive2 {
+	
 	Power,
+	
 }
+
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
 pub enum ArithmeticPrimitiveN {

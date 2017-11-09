@@ -19,7 +19,7 @@ pub mod exports {
 
 #[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
 pub enum Procedure {
-	Primitive ( Primitive ),
+	Primitive ( ProcedurePrimitive ),
 	Lambda ( Lambda ),
 }
 

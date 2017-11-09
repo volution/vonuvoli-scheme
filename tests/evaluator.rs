@@ -20,13 +20,13 @@ fn test () -> () {
 			Expression::ContextUpdate (symbol ("a"), ONE.into ()),
 			Expression::ContextSelect (symbol ("a")),
 			
-			Expression::PrimitiveCall1 (Primitive1::Boolean (BooleanPrimitive1::Negate), TRUE.into ()),
-			Expression::PrimitiveCall1 (Primitive1::Boolean (BooleanPrimitive1::Negate), FALSE.into ()),
+			Expression::ProcedurePrimitiveCall1 (ProcedurePrimitive1::Boolean (BooleanPrimitive1::Negate), TRUE.into ()),
+			Expression::ProcedurePrimitiveCall1 (ProcedurePrimitive1::Boolean (BooleanPrimitive1::Negate), FALSE.into ()),
 			
-			Expression::PrimitiveCallN (PrimitiveN::Boolean (BooleanPrimitiveN::And), vec! [TRUE.into (), TRUE.into ()]),
-			Expression::PrimitiveCallN (PrimitiveN::Boolean (BooleanPrimitiveN::And), vec! [TRUE.into (), FALSE.into ()]),
-			Expression::PrimitiveCallN (PrimitiveN::Boolean (BooleanPrimitiveN::And), vec! [FALSE.into (), TRUE.into ()]),
-			Expression::PrimitiveCallN (PrimitiveN::Boolean (BooleanPrimitiveN::And), vec! [FALSE.into (), FALSE.into ()]),
+			Expression::ProcedurePrimitiveCallN (ProcedurePrimitiveN::Boolean (BooleanPrimitiveN::And), vec! [TRUE.into (), TRUE.into ()]),
+			Expression::ProcedurePrimitiveCallN (ProcedurePrimitiveN::Boolean (BooleanPrimitiveN::And), vec! [TRUE.into (), FALSE.into ()]),
+			Expression::ProcedurePrimitiveCallN (ProcedurePrimitiveN::Boolean (BooleanPrimitiveN::And), vec! [FALSE.into (), TRUE.into ()]),
+			Expression::ProcedurePrimitiveCallN (ProcedurePrimitiveN::Boolean (BooleanPrimitiveN::And), vec! [FALSE.into (), FALSE.into ()]),
 			
 		];
 	

@@ -31,11 +31,16 @@ pub enum Expression {
 	BindingGet ( Binding ),
 	BindingSet ( Binding, ExpressionBox ),
 	
-	PrimitiveCall0 ( Primitive0 ),
-	PrimitiveCall1 ( Primitive1, ExpressionBox ),
-	PrimitiveCall2 ( Primitive2, ExpressionBox, ExpressionBox ),
-	PrimitiveCallN ( PrimitiveN, ExpressionVec ),
-	PrimitiveCall ( Primitive, ExpressionVec ),
+	ProcedurePrimitiveCall0 ( ProcedurePrimitive0 ),
+	ProcedurePrimitiveCall1 ( ProcedurePrimitive1, ExpressionBox ),
+	ProcedurePrimitiveCall2 ( ProcedurePrimitive2, ExpressionBox, ExpressionBox ),
+	ProcedurePrimitiveCallN ( ProcedurePrimitiveN, ExpressionVec ),
+	ProcedurePrimitiveCall ( ProcedurePrimitive, ExpressionVec ),
+	
+	SyntaxPrimitiveCall1 ( SyntaxPrimitive1, ExpressionBox ),
+	SyntaxPrimitiveCall2 ( SyntaxPrimitive2, ExpressionBox, ExpressionBox ),
+	SyntaxPrimitiveCallN ( SyntaxPrimitiveN, ExpressionVec ),
+	SyntaxPrimitiveCall ( SyntaxPrimitive, ExpressionVec ),
 	
 }
 

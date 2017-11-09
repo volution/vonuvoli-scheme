@@ -17,17 +17,22 @@ pub mod exports {
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
 pub enum BooleanPrimitive1 {
+	
 	Negate,
+	
 }
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
 pub enum BooleanPrimitiveN {
+	
 	And,
 	Or,
 	Xor,
+	
 	Nand,
 	Nor,
 	Nxor,
+	
 }
 
 
