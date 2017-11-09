@@ -100,6 +100,25 @@ impl Context {
 }
 
 
+impl cmp::Eq for Context {}
+
+impl cmp::PartialEq for Context {
+	fn eq (&self, other : &Self) -> (bool) {
+		let self_0 = self.internals_ref ();
+		let other_0 = other.internals_ref ();
+		return self_0.handle == other_0.handle;
+	}
+}
+
+
+impl hash::Hash for Context {
+	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
+		let self_0 = self.internals_ref ();
+		hasher.write_u32 (self_0.handle);
+	}
+}
+
+
 impl fmt::Display for Context {
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = self.internals_ref ();
@@ -173,6 +192,7 @@ impl Binding {
 
 
 impl cmp::Eq for Binding {}
+
 impl cmp::PartialEq for Binding {
 	fn eq (&self, other : &Self) -> (bool) {
 		let self_0 = self.internals_ref ();
