@@ -1,10 +1,12 @@
 
 
+use super::contexts::exports::*;
 use super::errors::exports::*;
+use super::procedures::exports::*;
 use super::runtime::exports::*;
+use super::syntaxes::exports::*;
 
 use std::cmp;
-use std::f64;
 use std::fmt;
 use std::hash;
 use std::ops;
@@ -44,6 +46,11 @@ pub enum ValueClass {
 	
 	Error,
 	
+	Procedure,
+	Syntax,
+	Context,
+	Binding,
+	
 	Number,
 	List,
 	
@@ -70,6 +77,11 @@ pub enum Value {
 	
 	Pair ( Pair ),
 	Array ( Array ),
+	
+	Procedure ( Procedure ),
+	Syntax ( Syntax ),
+	Context ( Context ),
+	Binding ( Binding ),
 	
 	Error ( Error ),
 	
@@ -98,6 +110,11 @@ impl Value {
 			Value::Pair (_) => ValueClass::Pair,
 			Value::Array (_) => ValueClass::Array,
 			
+			Value::Procedure (_) => ValueClass::Procedure,
+			Value::Syntax (_) => ValueClass::Syntax,
+			Value::Context (_) => ValueClass::Context,
+			Value::Binding (_) => ValueClass::Binding,
+			
 			Value::Error (_) => ValueClass::Error,
 			
 		}
@@ -110,9 +127,9 @@ impl Value {
 			return true;
 		} else {
 			match class {
-				List =>
+				ValueClass::List =>
 					return (class_actual == ValueClass::Null) || (class_actual == ValueClass::Pair),
-				Number =>
+				ValueClass::Number =>
 					return (class_actual == ValueClass::NumberInteger) || (class_actual == ValueClass::NumberReal),
 				_ =>
 					panic! ("1fa4f499"),
@@ -159,6 +176,10 @@ impl fmt::Display for Value {
 			Value::Pair (ref value) => value.fmt (formatter),
 			Value::Array (ref value) => value.fmt (formatter),
 			Value::Error (ref value) => value.fmt (formatter),
+			Value::Procedure (ref value) => value.fmt (formatter),
+			Value::Syntax (ref value) => value.fmt (formatter),
+			Value::Context (ref value) => value.fmt (formatter),
+			Value::Binding (ref value) => value.fmt (formatter),
 		}
 	}
 }
@@ -166,8 +187,8 @@ impl fmt::Display for Value {
 
 
 
-#[ derive (Clone, Copy, Debug, Eq, PartialEq, Hash) ]
-pub struct Boolean ( bool );
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+pub struct Boolean ( pub bool );
 
 
 impl Boolean {
@@ -214,7 +235,7 @@ impl ops::Not for Boolean {
 	
 	#[ inline (always) ]
 	fn not (self) -> (Boolean) {
-		self.not ()
+		Boolean::not (&self)
 	}
 }
 
@@ -234,8 +255,8 @@ impl fmt::Display for Boolean {
 
 
 
-#[ derive (Clone, Copy, Debug, Eq, PartialEq, Hash) ]
-pub struct NumberInteger ( i64 );
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+pub struct NumberInteger ( pub i64 );
 
 
 impl StdFrom<i64> for NumberInteger { fn from (value : i64) -> (Self) { NumberInteger (value) } }
@@ -250,8 +271,8 @@ impl fmt::Display for NumberInteger {
 
 
 
-#[ derive (Clone, Copy, Debug) ]
-pub struct NumberReal ( f64 );
+#[ derive (Copy, Clone, Debug) ]
+pub struct NumberReal ( pub f64 );
 
 
 impl StdFrom<f64> for NumberReal { fn from (value : f64) -> (Self) { NumberReal (value) } }
@@ -280,8 +301,8 @@ impl fmt::Display for NumberReal {
 
 
 
-#[ derive (Clone, Copy, Debug, Eq, PartialEq, Hash) ]
-pub struct Character ( char );
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+pub struct Character ( pub char );
 
 
 impl StdFrom<char> for Character { fn from (value : char) -> (Self) { Character (value) } }
