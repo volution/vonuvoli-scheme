@@ -1,3 +1,12 @@
+#!/bin/bash
+
+set -e -E -u -o pipefail -o noclobber -o noglob +o braceexpand || exit -- 1
+trap 'printf -- "[ee] failed: %s\n" "${BASH_COMMAND}" >&2' ERR || exit -- 1
+test "${#}" -eq 0
+export -- LC_ALL=C
+
+
+cat <<'EOS'
 
 :: compile / peg :: test "${#}" -eq 0 ; if test ./sources/parser_peg.peg -nt ./sources/parser_peg.rs ; then rust-peg < ./sources/parser_peg.peg | rust-fmt >| ./sources/parser_peg.rs || true ; fi
 
@@ -6,9 +15,19 @@
 :: compile / bin / release :: x-run ':: compile / peg' ; exec -- less-exec cargo build --release "${@}"
 :: execute / bin / release :: x-run ':: compile / peg' ; exec -- cargo run --release -- "${@}"
 
-:: test / all :: x-run ':: compile / peg' ; exec -- cargo test -- --nocapture "${@}"
-:: test / sizes :: x-run ':: compile / peg' ; exec -- cargo test --test sizes -- --nocapture "${@}"
-:: test / parser :: x-run ':: compile / peg' ; exec -- cargo test --test parser -- --nocapture "${@}"
-:: test / contexts :: x-run ':: compile / peg' ; exec -- cargo test --test contexts -- --nocapture "${@}"
-:: test / counters :: x-run ':: compile / peg' ; exec -- cargo test --test counters -- --nocapture "${@}"
+:: test / all :: x-run ':: compile / peg' ; export -- RUSTFLAGS=-Awarnings ; exec -- less-exec cargo test -- "${@}"
+:: test / sizes :: x-run ':: compile / peg' ; export -- RUSTFLAGS=-Awarnings ; exec -- less-exec cargo test --test sizes -- --nocapture "${@}"
+:: test / parser :: x-run ':: compile / peg' ; export -- RUSTFLAGS=-Awarnings ; exec -- less-exec cargo test --test parser -- --nocapture "${@}"
+:: test / contexts :: x-run ':: compile / peg' ; export -- RUSTFLAGS=-Awarnings ; exec -- less-exec cargo test --test contexts -- --nocapture "${@}"
+:: test / expressions :: x-run ':: compile / peg' ; export -- RUSTFLAGS=-Awarnings ; exec -- less-exec cargo test --test expressions -- --nocapture "${@}"
+:: test / evaluator :: x-run ':: compile / peg' ; export -- RUSTFLAGS=-Awarnings ; exec -- less-exec cargo test --test evaluator -- --nocapture "${@}"
+:: test / counters :: x-run ':: compile / peg' ; export -- RUSTFLAGS=-Awarnings ; exec -- less-exec cargo test --test counters -- --nocapture "${@}"
+
+EOS
+
+
+find . -xdev -type f -name '*.rs' -printf ':: edit / %P :: exec -- sce %p\n' | sort
+
+
+exit -- 0
 
