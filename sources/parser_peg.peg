@@ -1,7 +1,8 @@
 
 
-use super::values::exports as values;
+use super::constants::exports as constants;
 use super::errors::exports as errors;
+use super::values::exports as values;
 
 use std::char;
 use std::str::FromStr;
@@ -17,7 +18,7 @@ atom -> values::Value = boolean / number / symbol / character / string / bytes
 list -> values::Value = list_empty / list_proper / list_dotted
 list_proper -> values::Value = "(" space? elements : value ++ space space? ")" { values::list_from_slice (elements.as_slice ()) }
 list_dotted -> values::Value = "(" space? elements : value ++ space space "." space last : value space? ")" { values::list_from_slice_2 (elements.as_slice (), last) }
-list_empty -> values::Value = ( "(" space? ")" / "#null" ) { values::NULL.into () }
+list_empty -> values::Value = ( "(" space? ")" / "#null" ) { constants::NULL.into () }
 
 array -> values::Value = "#(" space? elements : value ** space space? ")" {  values::array_from_slice (elements.as_slice ()) .into () }
 
@@ -25,8 +26,8 @@ abbreviation -> values::Value = abbreviation_prefix whitespace? value { errors::
 abbreviation_prefix = "'" / "`" / "," / ",@"
 
 boolean -> values::Value = boolean_true / boolean_false
-boolean_true -> values::Value = "#true" { values::TRUE.into () } / "#t" { values::TRUE.into () }
-boolean_false -> values::Value = "#false" { values::FALSE.into () } / "#f" { values::FALSE.into () }
+boolean_true -> values::Value = "#true" { constants::TRUE.into () } / "#t" { constants::TRUE.into () }
+boolean_false -> values::Value = "#false" { constants::FALSE.into () } / "#f" { constants::FALSE.into () }
 
 symbol -> values::Value = symbol_multiple_characters / symbol_single_character
 symbol_single_character -> values::Value = !"." value : $( symbol_character ) { values::symbol (value) .into () }
@@ -46,11 +47,11 @@ number_real_variant_2 -> values::Value = value : $( number_sign? [0-9]+ "." numb
 number_real_variant_3 -> values::Value = value : $( number_sign? "." [0-9]+ number_real_exponent? ) {? f64::from_str (value) .map (|value| values::number_f64 (value) .into ()) .map_err (|_| "invalid real syntax") }
 number_real_variant_4 -> values::Value = value : $( number_sign? [0-9]+ number_real_exponent ) {? f64::from_str (value) .map (|value| values::number_f64 (value). into ()) .map_err (|_| "invalid real syntax") }
 number_real_inf -> values::Value = number_real_inf_positive / number_real_inf_negative
-number_real_inf_positive -> values::Value = &"+" number_sign "inf" ".0"? { values::INF_POSITIVE .into () }
-number_real_inf_negative -> values::Value = &"-" number_sign "inf" ".0"? { values::INF_NEGATIVE .into () }
+number_real_inf_positive -> values::Value = &"+" number_sign "inf" ".0"? { constants::INF_POSITIVE .into () }
+number_real_inf_negative -> values::Value = &"-" number_sign "inf" ".0"? { constants::INF_NEGATIVE .into () }
 number_real_nan -> values::Value = number_real_nan_positive / number_real_nan_negative
-number_real_nan_positive -> values::Value = &"+" number_sign "nan" ".0"? { values::NAN_POSITIVE .into () }
-number_real_nan_negative -> values::Value = &"-" number_sign "nan" ".0"? { values::NAN_NEGATIVE .into () }
+number_real_nan_positive -> values::Value = &"+" number_sign "nan" ".0"? { constants::NAN_POSITIVE .into () }
+number_real_nan_negative -> values::Value = &"-" number_sign "nan" ".0"? { constants::NAN_NEGATIVE .into () }
 number_real_exponent = ( "e" / "E" ) number_sign? [0-9]+
 number_sign = ( "+" / "-" )
 

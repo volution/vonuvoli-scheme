@@ -2,6 +2,7 @@
 
 include! ("macros.in");
 
+pub mod constants;
 pub mod contexts;
 pub mod counters;
 pub mod errors;
@@ -23,6 +24,7 @@ mod parser_peg;
 
 
 pub mod exports {
+	pub use super::constants::exports::*;
 	pub use super::contexts::exports::*;
 	pub use super::errors::exports::*;
 	pub use super::evaluator::exports::*;

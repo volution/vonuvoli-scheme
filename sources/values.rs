@@ -15,10 +15,6 @@ use std::ops;
 pub mod exports {
 	pub use super::{Value, ValueClass};
 	pub use super::{Boolean, NumberInteger, NumberReal, Character, Symbol, String, Bytes, Pair, Array};
-	pub use super::{NULL, VOID, UNDEFINED};
-	pub use super::{TRUE, FALSE};
-	pub use super::{ONE, ZERO};
-	pub use super::{INF_POSITIVE, INF_NEGATIVE, NAN_POSITIVE, NAN_NEGATIVE};
 	pub use super::{number_i64, number_f64, character};
 	pub use super::{symbol, string, string_from_slice, bytes_from_slice};
 	pub use super::{list_from_slice, list_from_slice_2, array_from_slice};
@@ -430,24 +426,6 @@ impl fmt::Display for Array {
 
 
 
-pub const NULL : Value = Value::Null;
-pub const VOID : Value = Value::Void;
-pub const UNDEFINED : Value = Value::Undefined;
-
-pub const TRUE : Boolean = Boolean (true);
-pub const FALSE : Boolean = Boolean (false);
-
-pub const ZERO : NumberInteger = NumberInteger (0);
-pub const ONE : NumberInteger = NumberInteger (1);
-
-pub const INF_POSITIVE : NumberReal = NumberReal (f64::INFINITY);
-pub const INF_NEGATIVE : NumberReal = NumberReal (f64::NEG_INFINITY);
-pub const NAN_POSITIVE : NumberReal = NumberReal (f64::NAN);
-pub const NAN_NEGATIVE : NumberReal = NumberReal (f64::NAN);
-
-
-
-
 #[ inline (always) ]
 pub fn number_i64 (value : i64) -> (NumberInteger) {
 	NumberInteger (value)
@@ -495,7 +473,7 @@ pub fn bytes_from_slice (slice : &[u8]) -> (Bytes) {
 
 #[ inline (always) ]
 pub fn list_from_slice (slice : &[Value]) -> (Value) {
-	list_from_slice_2 (slice, NULL.into ())
+	list_from_slice_2 (slice, Value::Null)
 }
 
 #[ inline (always) ]
