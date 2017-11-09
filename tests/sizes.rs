@@ -2,9 +2,7 @@
 
 extern crate rust_scheme;
 
-use rust_scheme::expressions::exports::*;
-use rust_scheme::values::exports::*;
-use rust_scheme::runtime::exports::*;
+use rust_scheme::exports::*;
 
 use std::mem::size_of;
 
@@ -20,11 +18,16 @@ fn test () -> () {
 	println! ("## size-of `Boolean`: {}", size_of::<Boolean> ());
 	println! ("## size-of `NumberInteger`: {}", size_of::<NumberInteger> ());
 	println! ("## size-of `NumberReal`: {}", size_of::<NumberReal> ());
-	println! ("## size-of `Symbol`: {}", size_of::<Symbol> ());
 	println! ("## size-of `Character`: {}", size_of::<Character> ());
+	println! ("## size-of `Symbol`: {}", size_of::<Symbol> ());
 	println! ("## size-of `String`: {}", size_of::<String> ());
 	println! ("## size-of `Bytes`: {}", size_of::<Bytes> ());
 	println! ("## size-of `Pair`: {}", size_of::<Pair> ());
+	println! ("## size-of `Array`: {}", size_of::<Array> ());
+	println! ("## size-of `Error`: {}", size_of::<Error> ());
+	println! ("## size-of `Lambda`: {}", size_of::<Lambda> ());
+	println! ("## size-of `Context`: {}", size_of::<Context> ());
+	println! ("## size-of `Binding`: {}", size_of::<Binding> ());
 	
 	println! ("## size-of `()`: {}", size_of::<()> ());
 	println! ("## size-of `Option<()>`: {}", size_of::<Option<()>> ());
