@@ -104,14 +104,14 @@ impl Evaluator {
 	
 	#[ inline (always) ]
 	pub fn evaluate_primitive_0 (&mut self, context : &mut Context, primitive : Primitive0) -> (Outcome<Value>) {
-		let output = primitive_0_evaluate (primitive);
+		let output = primitive_0_evaluate (primitive, context);
 		return output;
 	}
 	
 	#[ inline (always) ]
 	pub fn evaluate_primitive_1 (&mut self, context : &mut Context, primitive : Primitive1, input : &Expression) -> (Outcome<Value>) {
 		let input = try! (self.evaluate (context, input));
-		let output = primitive_1_evaluate (primitive, &input);
+		let output = primitive_1_evaluate (primitive, &input, context);
 		return output;
 	}
 	
@@ -119,21 +119,21 @@ impl Evaluator {
 	pub fn evaluate_primitive_2 (&mut self, context : &mut Context, primitive : Primitive2, input_1 : &Expression, input_2 : &Expression) -> (Outcome<Value>) {
 		let input_1 = try! (self.evaluate (context, input_1));
 		let input_2 = try! (self.evaluate (context, input_2));
-		let output = primitive_2_evaluate (primitive, &input_1, &input_2);
+		let output = primitive_2_evaluate (primitive, &input_1, &input_2, context);
 		return output;
 	}
 	
 	#[ inline (always) ]
 	pub fn evaluate_primitive_n (&mut self, context : &mut Context, primitive : PrimitiveN, inputs : &[Expression]) -> (Outcome<Value>) {
 		let inputs = try! (self.evaluate_slice (context, inputs));
-		let output = primitive_n_evaluate (primitive, inputs.as_ref ());
+		let output = primitive_n_evaluate (primitive, inputs.as_ref (), context);
 		return output;
 	}
 	
 	#[ inline (always) ]
 	pub fn evaluate_primitive (&mut self, context : &mut Context, primitive : Primitive, inputs : &[Expression]) -> (Outcome<Value>) {
 		let inputs = try! (self.evaluate_slice (context, inputs));
-		let output = primitive_evaluate (primitive, inputs.as_ref ());
+		let output = primitive_evaluate (primitive, inputs.as_ref (), context);
 		return output;
 	}
 	

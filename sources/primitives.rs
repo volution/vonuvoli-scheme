@@ -1,5 +1,6 @@
 
 
+use super::contexts::exports::*;
 use super::errors::exports::*;
 use super::values::exports::*;
 
@@ -75,12 +76,12 @@ pub enum PrimitiveN {
 
 
 #[ inline (always) ]
-pub fn primitive_0_evaluate (primitive : Primitive0) -> (Outcome<Value>) {
+pub fn primitive_0_evaluate (_primitive : Primitive0, _context : &mut Context) -> (Outcome<Value>) {
 	failed_unimplemented! (0xf5c28466)
 }
 
 #[ inline (always) ]
-pub fn primitive_1_evaluate (primitive : Primitive1, input : &Value) -> (Outcome<Value>) {
+pub fn primitive_1_evaluate (primitive : Primitive1, input : &Value, _context : &mut Context) -> (Outcome<Value>) {
 	match primitive {
 		Primitive1::Boolean (primitive) =>
 			return boolean_primitive_1_evaluate (primitive, input),
@@ -90,12 +91,12 @@ pub fn primitive_1_evaluate (primitive : Primitive1, input : &Value) -> (Outcome
 }
 
 #[ inline (always) ]
-pub fn primitive_2_evaluate (primitive : Primitive2, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
+pub fn primitive_2_evaluate (_primitive : Primitive2, _input_1 : &Value, _input_2 : &Value, _context : &mut Context) -> (Outcome<Value>) {
 	failed_unimplemented! (0x9ed223e5)
 }
 
 #[ inline (always) ]
-pub fn primitive_n_evaluate (primitive : PrimitiveN, inputs : &[Value]) -> (Outcome<Value>) {
+pub fn primitive_n_evaluate (primitive : PrimitiveN, inputs : &[Value], _context : &mut Context) -> (Outcome<Value>) {
 	match primitive {
 		PrimitiveN::Boolean (primitive) =>
 			return boolean_primitive_n_evaluate (primitive, inputs),
@@ -106,29 +107,29 @@ pub fn primitive_n_evaluate (primitive : PrimitiveN, inputs : &[Value]) -> (Outc
 
 
 #[ inline (always) ]
-pub fn primitive_evaluate (primitive : Primitive, inputs : &[Value]) -> (Outcome<Value>) {
+pub fn primitive_evaluate (primitive : Primitive, inputs : &[Value], context : &mut Context) -> (Outcome<Value>) {
 	let inputs_count = inputs.len ();
 	match primitive {
 		Primitive::Primitive0 (primitive) =>
 			if inputs_count != 0 {
 				return failed! (0xabfe1f25);
 			} else {
-				return primitive_0_evaluate (primitive);
+				return primitive_0_evaluate (primitive, context);
 			},
 		Primitive::Primitive1 (primitive) =>
 			if inputs_count != 1 {
 				return failed! (0x5bc94cf2);
 			} else {
-				return primitive_1_evaluate (primitive, &inputs[0]);
+				return primitive_1_evaluate (primitive, &inputs[0], context);
 			},
 		Primitive::Primitive2 (primitive) =>
 			if inputs_count != 2 {
 				return failed! (0xb1c56ed3);
 			} else {
-				return primitive_2_evaluate (primitive, &inputs[0], &inputs[1]);
+				return primitive_2_evaluate (primitive, &inputs[0], &inputs[1], context);
 			},
 		Primitive::PrimitiveN (primitive) =>
-			return primitive_n_evaluate (primitive, inputs),
+			return primitive_n_evaluate (primitive, inputs, context),
 	}
 }
 
