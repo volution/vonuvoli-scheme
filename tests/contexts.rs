@@ -13,10 +13,10 @@ fn test () -> () {
 	
 	println! ("context -> {}", context);
 	
-	let mut binding_a1 = context.define_expect (symbol ("a"), NULL);
+	let mut binding_a1 = context.define_expect (symbol ("a"));
 	let mut binding_a2 = context.resolve_expect (symbol ("a"));
 	
-	let mut binding_b1 = context.define_expect (symbol ("b"), NULL);
+	let mut binding_b1 = context.define_expect (symbol ("b"));
 	let mut binding_b2 = context.resolve_expect (symbol ("b"));
 	
 	println! ("a1 -> {}", binding_a1);
