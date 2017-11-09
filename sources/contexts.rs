@@ -50,18 +50,14 @@ impl Context {
 	
 	
 	#[ inline (always) ]
-	pub fn resolve_expect<SymbolRef> (&self, identifier : SymbolRef) -> (Binding)
-			where SymbolRef : StdBorrow<Symbol>
-	{
+	pub fn resolve_expect (&self, identifier : &Symbol) -> (Binding) {
 		return self.resolve (identifier) .expect ("d6dcf293");
 	}
 	
 	#[ inline (always) ]
-	pub fn resolve<SymbolRef> (&self, identifier : SymbolRef) -> (Outcome<Binding>)
-			where SymbolRef : StdBorrow<Symbol>
-	{
+	pub fn resolve (&self, identifier : &Symbol) -> (Outcome<Binding>) {
 		let self_0 = self.internals_ref ();
-		return match self_0.bindings.get (identifier.borrow ()) {
+		return match self_0.bindings.get (&identifier) {
 			Some (binding) => Ok (binding.clone ()),
 			None => failed! (0x7fa02d50),
 		};
@@ -69,22 +65,22 @@ impl Context {
 	
 	
 	#[ inline (always) ]
-	pub fn define_expect<SymbolRef> (&mut self, identifier : SymbolRef) -> (Binding)
-			where SymbolRef : StdBorrow<Symbol>
-	{
+	pub fn define_expect (&mut self, identifier : &Symbol) -> (Binding) {
 		return self.define (identifier) .expect ("16ccb995");
 	}
 	
 	#[ inline (always) ]
-	pub fn define<SymbolRef> (&mut self, identifier : SymbolRef) -> (Outcome<Binding>)
-			where SymbolRef : StdBorrow<Symbol>
-	{
+	pub fn define (&mut self, identifier : &Symbol) -> (Outcome<Binding>) {
 		use std::collections::hash_map::Entry::*;
 		let mut self_0 = self.internals_ref_mut ();
-		let bindings_entry = self_0.bindings.entry (identifier.borrow () .clone ());
+		let bindings_entry = self_0.bindings.entry (identifier.clone ());
 		return match bindings_entry {
 			Occupied (_) => failed! (0x5b8e8d57),
-			Vacant (_) => Ok (bindings_entry.or_insert (Binding::new (identifier.borrow () .clone (), UNDEFINED.clone ())) .clone ()),
+			Vacant (_) => {
+				let binding = Binding::new (identifier.clone (), UNDEFINED);
+				bindings_entry.or_insert (binding.clone ());
+				Ok (binding)
+			},
 		};
 	}
 	
@@ -155,8 +151,8 @@ impl Binding {
 	#[ inline (always) ]
 	pub fn new (identifier : Symbol, value : Value) -> (Binding) {
 		let internals = BindingInternals {
-				identifier : identifier.clone (),
-				value : value.clone (),
+				identifier : identifier,
+				value : value,
 				handle : globals::bindings_handles_next (),
 			};
 		return Binding (StdRc::new (StdRefCell::new (internals)));
