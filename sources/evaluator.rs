@@ -57,7 +57,7 @@ impl Evaluator {
 				self.evaluate_primitive (context, primitive, inputs.as_ref ()),
 			
 			_ =>
-				unimplemented! (0xc1942075),
+				failed_unimplemented! (0xc1942075),
 		}
 		
 	}

@@ -76,7 +76,7 @@ pub enum PrimitiveN {
 
 #[ inline (always) ]
 pub fn primitive_0_evaluate (primitive : Primitive0) -> (Outcome<Value>) {
-	unimplemented! (0xf5c28466)
+	failed_unimplemented! (0xf5c28466)
 }
 
 #[ inline (always) ]
@@ -85,13 +85,13 @@ pub fn primitive_1_evaluate (primitive : Primitive1, input : &Value) -> (Outcome
 		Primitive1::Boolean (primitive) =>
 			return boolean_primitive_1_evaluate (primitive, input),
 		_ =>
-			return unimplemented! (0x85e495c7)
+			return failed_unimplemented! (0x85e495c7)
 	}
 }
 
 #[ inline (always) ]
 pub fn primitive_2_evaluate (primitive : Primitive2, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
-	unimplemented! (0x9ed223e5)
+	failed_unimplemented! (0x9ed223e5)
 }
 
 #[ inline (always) ]
@@ -100,7 +100,7 @@ pub fn primitive_n_evaluate (primitive : PrimitiveN, inputs : &[Value]) -> (Outc
 		PrimitiveN::Boolean (primitive) =>
 			return boolean_primitive_n_evaluate (primitive, inputs),
 		_ =>
-			return unimplemented! (0xa1bd3a06)
+			return failed_unimplemented! (0xa1bd3a06)
 	}
 }
 
