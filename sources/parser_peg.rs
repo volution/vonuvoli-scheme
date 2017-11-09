@@ -704,7 +704,7 @@ fn __parse_symbol_single_character<'input>(
                 match __seq_res {
                     Matched(__pos, value) => {
                         Matched(__pos, {
-                            values::symbol(value).into()
+                            values::symbol_from_slice(value).into()
                         })
                     }
                     Failed => Failed,
@@ -757,7 +757,7 @@ fn __parse_symbol_multiple_characters<'input>(
         match __seq_res {
             Matched(__pos, value) => {
                 Matched(__pos, {
-                    values::symbol(value).into()
+                    values::symbol_from_slice(value).into()
                 })
             }
             Failed => Failed,
@@ -2280,7 +2280,7 @@ fn __parse_string<'input>(
                         match __seq_res {
                             Matched(__pos, _) => {
                                 Matched(__pos, {
-                                    values::string_from_slice(elements.as_slice()).into()
+                                    values::string_from_characters(elements.as_slice()).into()
                                 })
                             }
                             Failed => Failed,

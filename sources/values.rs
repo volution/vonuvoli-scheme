@@ -15,11 +15,14 @@ use std::ops;
 
 
 pub mod exports {
-	pub use super::{Value, ValueClass};
+	pub use super::{ValueClass};
+	pub use super::{Value, ValueBox, ValueVec};
 	pub use super::{Boolean, NumberInteger, NumberReal, Character, Symbol, String, Bytes, Pair, Array};
-	pub use super::{number_i64, number_f64, character};
-	pub use super::{symbol, string, string_from_slice, bytes_from_slice};
-	pub use super::{list_from_slice, list_from_slice_2, array_from_slice};
+	pub use super::{boolean, number_i64, number_f64, character};
+	pub use super::{symbol, symbol_from_slice, symbol_from_characters};
+	pub use super::{string, string_from_slice, string_from_characters};
+	pub use super::{bytes_from_slice, array_from_slice};
+	pub use super::{list_from_slice, list_from_slice_2};
 }
 
 
@@ -94,6 +97,10 @@ pub enum Value {
 }
 
 
+pub type ValueBox = StdBox<Value>;
+pub type ValueVec = StdVec<Value>;
+
+
 impl Value {
 	
 	#[ inline (always) ]
@@ -152,24 +159,6 @@ impl Value {
 }
 
 
-impl StdFrom<Boolean> for Value { fn from (value : Boolean) -> (Self) { Value::Boolean (value) } }
-impl StdFrom<NumberInteger> for Value { fn from (value : NumberInteger) -> (Self) { Value::NumberInteger (value) } }
-impl StdFrom<NumberReal> for Value { fn from (value : NumberReal) -> (Self) { Value::NumberReal (value) } }
-impl StdFrom<Character> for Value { fn from (value : Character) -> (Self) { Value::Character (value) } }
-impl StdFrom<Symbol> for Value { fn from (value : Symbol) -> (Self) { Value::Symbol (value) } }
-impl StdFrom<String> for Value { fn from (value : String) -> (Self) { Value::String (value) } }
-impl StdFrom<Bytes> for Value { fn from (value : Bytes) -> (Self) { Value::Bytes (value) } }
-impl StdFrom<Pair> for Value { fn from (value : Pair) -> (Self) { Value::Pair (value) } }
-impl StdFrom<Array> for Value { fn from (value : Array) -> (Self) { Value::Array (value) } }
-impl StdFrom<Error> for Value { fn from (value : Error) -> (Self) { Value::Error (value) } }
-
-impl StdFrom<bool> for Value { fn from (value : bool) -> (Self) { Value::Boolean (value.into ()) } }
-impl StdFrom<i64> for Value { fn from (value : i64) -> (Self) { Value::NumberInteger (value.into ()) } }
-impl StdFrom<f64> for Value { fn from (value : f64) -> (Self) { Value::NumberReal (value.into ()) } }
-impl StdFrom<char> for Value { fn from (value : char) -> (Self) { Value::Character (value.into ()) } }
-
-impl StdFrom<StdString> for Value { fn from (value : StdString) -> (Self) { Value::String (value.into ()) } }
-impl StdFrom<&'static str> for Value { fn from (value : &'static str) -> (Self) { Value::String (value.into ()) } }
 
 
 impl fmt::Display for Value {
@@ -253,9 +242,6 @@ impl ops::Not for Boolean {
 }
 
 
-impl StdFrom<bool> for Boolean { fn from (value : bool) -> (Self) { Boolean (value) } }
-
-
 impl fmt::Display for Boolean {
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		match self.0 {
@@ -272,9 +258,6 @@ impl fmt::Display for Boolean {
 pub struct NumberInteger ( pub i64 );
 
 
-impl StdFrom<i64> for NumberInteger { fn from (value : i64) -> (Self) { NumberInteger (value) } }
-
-
 impl fmt::Display for NumberInteger {
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		write! (formatter, "{}", self.0)
@@ -286,9 +269,6 @@ impl fmt::Display for NumberInteger {
 
 #[ derive (Copy, Clone, Debug) ]
 pub struct NumberReal ( pub f64 );
-
-
-impl StdFrom<f64> for NumberReal { fn from (value : f64) -> (Self) { NumberReal (value) } }
 
 
 impl cmp::Eq for NumberReal {}
@@ -316,9 +296,6 @@ impl fmt::Display for NumberReal {
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
 pub struct Character ( pub char );
-
-
-impl StdFrom<char> for Character { fn from (value : char) -> (Self) { Character (value) } }
 
 
 impl fmt::Display for Character {
@@ -351,10 +328,6 @@ impl fmt::Display for Symbol {
 
 #[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
 pub struct String ( StdRc<StdString> );
-
-
-impl StdFrom<StdString> for String { fn from (value : StdString) -> (Self) { String (StdRc::new (value)) } }
-impl StdFrom<&'static str> for String { fn from (value : &'static str) -> (Self) { String (StdRc::new (StdString::from (value))) } }
 
 
 impl fmt::Display for String {
@@ -461,6 +434,11 @@ impl fmt::Display for Array {
 
 
 #[ inline (always) ]
+pub fn boolean (value : bool) -> (Boolean) {
+	Boolean (value)
+}
+
+#[ inline (always) ]
 pub fn number_i64 (value : i64) -> (NumberInteger) {
 	NumberInteger (value)
 }
@@ -475,31 +453,64 @@ pub fn character (value : char) -> (Character) {
 	Character (value)
 }
 
+
+
+
 #[ inline (always) ]
-pub fn symbol (value : &str) -> (Symbol) {
-	Symbol (StdRc::new (StdString::from (value)))
+pub fn symbol (value : StdString) -> (Symbol) {
+	Symbol (StdRc::new (value))
 }
 
 #[ inline (always) ]
-pub fn string (value : &str) -> (String) {
-	String (StdRc::new (StdString::from (value)))
+pub fn string (value : StdString) -> (String) {
+	String (StdRc::new (value))
 }
 
 
 
 
 #[ inline (always) ]
-pub fn string_from_slice (slice : &[char]) -> (String) {
+pub fn symbol_from_slice (value : &str) -> (Symbol) {
+	symbol (StdString::from (value))
+}
+
+#[ inline (always) ]
+pub fn string_from_slice (value : &str) -> (String) {
+	string (StdString::from (value))
+}
+
+
+
+
+#[ inline (always) ]
+pub fn symbol_from_characters (slice : &[char]) -> (Symbol) {
 	let mut value = StdString::with_capacity (slice.len ());
 	for character in slice {
 		value.push (*character);
 	}
-	return String (StdRc::new (StdString::from (value)));
+	return symbol (StdString::from (value));
 }
+
+#[ inline (always) ]
+pub fn string_from_characters (slice : &[char]) -> (String) {
+	let mut value = StdString::with_capacity (slice.len ());
+	for character in slice {
+		value.push (*character);
+	}
+	return string (StdString::from (value));
+}
+
+
+
 
 #[ inline (always) ]
 pub fn bytes_from_slice (slice : &[u8]) -> (Bytes) {
 	Bytes (StdRc::new (slice.to_vec ()))
+}
+
+#[ inline (always) ]
+pub fn array_from_slice (slice : &[Value]) -> (Array) {
+	Array (StdRc::new (slice.to_vec ()))
 }
 
 
@@ -512,18 +523,10 @@ pub fn list_from_slice (slice : &[Value]) -> (Value) {
 
 #[ inline (always) ]
 pub fn list_from_slice_2 (slice : &[Value], continuation : Value) -> (Value) {
-	let mut head = continuation.clone ();
+	let mut head = continuation;
 	for value in slice.iter () .rev () {
 		head = Value::Pair (Pair (StdRc::new ((value.clone (), head))));
 	}
 	return head;
-}
-
-
-
-
-#[ inline (always) ]
-pub fn array_from_slice (slice : &[Value]) -> (Array) {
-	Array (StdRc::new (slice.to_vec ()))
 }
 

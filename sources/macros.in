@@ -82,3 +82,57 @@ macro_rules! enforce_boolean_unwrap {
 	( $value : expr ) => ( enforce_boolean_unwrap! ($value, 0xdce0860d) );
 }
 
+
+
+
+#[ allow (unused_macros) ]
+macro_rules! impl_from_for_enum {
+	( $to : ident, $from : ty, $tag : ident, $value : ident, $expression : expr ) => (
+		impl StdFrom<$from> for $to {
+			#[ inline ( always ) ]
+			fn from ($value : $from) -> (Self) { $to::$tag ($expression) }
+		}
+	);
+}
+
+#[ allow (unused_macros) ]
+macro_rules! impl_from_for_enum_wrapper {
+	( $to : ident, $from : ty, $tag : ident ) => (
+		impl StdFrom<$from> for $to {
+			#[ inline ( always ) ]
+			fn from (value : $from) -> (Self) { $to::$tag (value.into ()) }
+		}
+	);
+}
+
+
+#[ allow (unused_macros) ]
+macro_rules! impl_from_for_type {
+	( $to : ty, $from : ty, $value : ident, $expression : expr ) => (
+		impl StdFrom<$from> for $to {
+			#[ inline ( always ) ]
+			fn from ($value : $from) -> (Self) { $expression }
+		}
+	);
+}
+
+#[ allow (unused_macros) ]
+macro_rules! impl_from_for_type_wrapper {
+	( $to : ty, $from : ty, $value : ident, $expression : expr ) => (
+		impl StdFrom<$from> for $to {
+			#[ inline ( always ) ]
+			fn from ($value : $from) -> (Self) { $to ($expression.into ()) }
+		}
+	);
+}
+
+#[ allow (unused_macros) ]
+macro_rules! impl_into_for_type {
+	( $to : ty, $from : ty, $value : ident, $expression : expr ) => (
+		impl StdInto<$to> for $from {
+			#[ inline ( always ) ]
+			fn into ($value) -> ($to) { $expression }
+		}
+	);
+}
+
