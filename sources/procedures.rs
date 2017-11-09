@@ -1,7 +1,6 @@
 
 
 use super::expressions::exports::*;
-use super::primitives::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
 
@@ -11,23 +10,7 @@ use std::fmt;
 
 
 pub mod exports {
-	pub use super::Procedure;
-}
-
-
-
-
-#[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
-pub enum Procedure {
-	Primitive ( ProcedurePrimitive ),
-	Lambda ( Lambda ),
-}
-
-
-impl fmt::Display for Procedure {
-	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		formatter.write_str ("#<procedure>")
-	}
+	pub use super::Lambda;
 }
 
 

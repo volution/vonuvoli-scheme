@@ -2,9 +2,9 @@
 
 use super::contexts::exports::*;
 use super::errors::exports::*;
+use super::primitives::exports::*;
 use super::procedures::exports::*;
 use super::runtime::exports::*;
-use super::syntaxes::exports::*;
 
 use std::cmp;
 use std::fmt;
@@ -46,13 +46,17 @@ pub enum ValueClass {
 	
 	Error,
 	
-	Procedure,
-	Syntax,
+	Lambda,
+	ProcedurePrimitive,
+	SyntaxPrimitive,
+	
 	Context,
 	Binding,
 	
 	Number,
 	List,
+	Procedure,
+	Syntax,
 	
 }
 
@@ -78,12 +82,14 @@ pub enum Value {
 	Pair ( Pair ),
 	Array ( Array ),
 	
-	Procedure ( Procedure ),
-	Syntax ( Syntax ),
+	Error ( Error ),
+	
+	Lambda ( Lambda ),
+	ProcedurePrimitive ( ProcedurePrimitive ),
+	SyntaxPrimitive ( SyntaxPrimitive ),
+	
 	Context ( Context ),
 	Binding ( Binding ),
-	
-	Error ( Error ),
 	
 }
 
@@ -110,12 +116,14 @@ impl Value {
 			Value::Pair (_) => ValueClass::Pair,
 			Value::Array (_) => ValueClass::Array,
 			
-			Value::Procedure (_) => ValueClass::Procedure,
-			Value::Syntax (_) => ValueClass::Syntax,
+			Value::Error (_) => ValueClass::Error,
+			
+			Value::Lambda (_) => ValueClass::Lambda,
+			Value::ProcedurePrimitive (_) => ValueClass::ProcedurePrimitive,
+			Value::SyntaxPrimitive (_) => ValueClass::SyntaxPrimitive,
+			
 			Value::Context (_) => ValueClass::Context,
 			Value::Binding (_) => ValueClass::Binding,
-			
-			Value::Error (_) => ValueClass::Error,
 			
 		}
 	}
@@ -131,6 +139,10 @@ impl Value {
 					return (class_actual == ValueClass::Null) || (class_actual == ValueClass::Pair),
 				ValueClass::Number =>
 					return (class_actual == ValueClass::NumberInteger) || (class_actual == ValueClass::NumberReal),
+				ValueClass::Procedure =>
+					return (class_actual == ValueClass::ProcedurePrimitive) || (class_actual == ValueClass::Lambda),
+				ValueClass::Syntax =>
+					return (class_actual == ValueClass::SyntaxPrimitive) || false,
 				_ =>
 					panic! ("1fa4f499"),
 			}
@@ -176,8 +188,9 @@ impl fmt::Display for Value {
 			Value::Pair (ref value) => value.fmt (formatter),
 			Value::Array (ref value) => value.fmt (formatter),
 			Value::Error (ref value) => value.fmt (formatter),
-			Value::Procedure (ref value) => value.fmt (formatter),
-			Value::Syntax (ref value) => value.fmt (formatter),
+			Value::Lambda (ref value) => value.fmt (formatter),
+			Value::ProcedurePrimitive (ref value) => write! (formatter, "#<procedure:{:?}>", value),
+			Value::SyntaxPrimitive (ref value) => write! (formatter, "#<syntax:{:?}>", value),
 			Value::Context (ref value) => value.fmt (formatter),
 			Value::Binding (ref value) => value.fmt (formatter),
 		}
