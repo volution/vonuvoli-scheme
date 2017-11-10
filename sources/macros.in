@@ -131,7 +131,7 @@ macro_rules! impl_into_for_type {
 	( $to : ty, $from : ty, $value : ident, $expression : expr ) => (
 		impl StdInto<$to> for $from {
 			#[ inline ( always ) ]
-			fn into ($value) -> ($to) { $expression }
+			fn into ($value : $from) -> ($to) { $expression }
 		}
 	);
 }

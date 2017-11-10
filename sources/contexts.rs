@@ -50,12 +50,17 @@ impl Context {
 	
 	
 	#[ inline (always) ]
-	pub fn resolve_expect (&self, identifier : &Symbol) -> (Binding) {
+	pub fn resolve_expect<SymbolFrom> (&self, identifier : &SymbolFrom) -> (Binding)
+			where Symbol : StdFrom<SymbolFrom>, SymbolFrom : Clone
+	{
 		return self.resolve (identifier) .expect ("d6dcf293");
 	}
 	
 	#[ inline (always) ]
-	pub fn resolve (&self, identifier : &Symbol) -> (Outcome<Binding>) {
+	pub fn resolve<SymbolFrom> (&self, identifier : &SymbolFrom) -> (Outcome<Binding>)
+			where Symbol : StdFrom<SymbolFrom>, SymbolFrom : Clone
+	{
+		let identifier = Symbol::from (identifier.clone ());
 		let self_0 = self.internals_ref ();
 		return match self_0.bindings.get (&identifier) {
 			Some (binding) => Ok (binding.clone ()),
@@ -65,18 +70,23 @@ impl Context {
 	
 	
 	#[ inline (always) ]
-	pub fn define_expect (&mut self, identifier : &Symbol) -> (Binding) {
+	pub fn define_expect<SymbolFrom> (&mut self, identifier : &SymbolFrom) -> (Binding)
+			where Symbol : StdFrom<SymbolFrom>, SymbolFrom : Clone
+	{
 		return self.define (identifier) .expect ("16ccb995");
 	}
 	
 	#[ inline (always) ]
-	pub fn define (&mut self, identifier : &Symbol) -> (Outcome<Binding>) {
-		use std::collections::hash_map::Entry::*;
+	pub fn define<SymbolFrom> (&mut self, identifier : &SymbolFrom) -> (Outcome<Binding>)
+			where Symbol : StdFrom<SymbolFrom>, SymbolFrom : Clone
+	{
+		use std::collections::hash_map::Entry;
+		let identifier = Symbol::from (identifier.clone ());
 		let mut self_0 = self.internals_ref_mut ();
 		let bindings_entry = self_0.bindings.entry (identifier.clone ());
 		return match bindings_entry {
-			Occupied (_) => failed! (0x5b8e8d57),
-			Vacant (_) => {
+			Entry::Occupied (_) => failed! (0x5b8e8d57),
+			Entry::Vacant (_) => {
 				let binding = Binding::new (identifier.clone (), UNDEFINED);
 				bindings_entry.or_insert (binding.clone ());
 				Ok (binding)
@@ -166,10 +176,10 @@ impl Binding {
 	}
 	
 	#[ inline (always) ]
-	pub fn set<ValueInto> (&mut self, value : ValueInto) -> (Value)
-		where ValueInto : Into<Value>
+	pub fn set<ValueFrom> (&mut self, value : ValueFrom) -> (Value)
+			where Value : StdFrom<ValueFrom>
 	{
-		let mut value = value.into ();
+		let mut value = Value::from (value);
 		let mut self_0 = self.internals_ref_mut ();
 		mem::swap (&mut self_0.value, &mut value);
 		return value;

@@ -18,7 +18,7 @@ pub mod exports {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
 pub enum BooleanPrimitive1 {
 	
-	Negate,
+	Not,
 	
 }
 
@@ -42,7 +42,7 @@ pub enum BooleanPrimitiveN {
 pub fn boolean_primitive_1_evaluate (primitive : BooleanPrimitive1, input : &Value) -> (Outcome<Value>) {
 	let input = enforce_boolean_unwrap! (*input);
 	let output = match primitive {
-		BooleanPrimitive1::Negate => input.not (),
+		BooleanPrimitive1::Not => input.not (),
 	};
 	return Ok (output.into ());
 }
