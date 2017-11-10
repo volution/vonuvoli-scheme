@@ -18,6 +18,7 @@ pub mod exports {
 
 
 
+#[ allow (unused_macros) ]
 macro_rules! impl_from_for_Expression_1 {
 	( $from : ty, $tag : ident ) => (
 		impl_from_for_enum_wrapper! (Expression, $from, $tag);
@@ -27,6 +28,7 @@ macro_rules! impl_from_for_Expression_1 {
 	);
 }
 
+#[ allow (unused_macros) ]
 macro_rules! impl_from_for_Expression_2 {
 	( $from : ty, $value : ident, $expression : expr ) => (
 		impl_from_for_type! (Expression, $from, $value, $expression);
@@ -36,6 +38,7 @@ macro_rules! impl_from_for_Expression_2 {
 	);
 }
 
+#[ allow (unused_macros) ]
 macro_rules! impl_from_for_Value_1 {
 	( $from : ty, $tag : ident ) => (
 		impl_from_for_Expression_1! ($from, Value);
@@ -46,6 +49,7 @@ macro_rules! impl_from_for_Value_1 {
 	);
 }
 
+#[ allow (unused_macros) ]
 macro_rules! impl_from_for_Value_2 {
 	( $from : ty, $to : ty, $tag : ident, $value : ident, $expression : expr ) => (
 		impl_from_for_Value_1! ($from, $tag);
@@ -97,6 +101,7 @@ impl_from_for_type! (Symbol, &'static str, value, symbol_from_slice (value));
 
 
 
+#[ allow (unused_macros) ]
 macro_rules! impl_from_for_primitive_procedure {
 	( $from : ty, $tag_1 : ident, $tag_2 : ident, $tag_3 : ident ) => (
 		impl_from_for_Value_1! ($from, ProcedurePrimitive);
@@ -122,6 +127,7 @@ impl_from_for_primitive_procedure! (BitwisePrimitiveN, ProcedurePrimitiveN, Prim
 
 
 
+#[ allow (unused_macros) ]
 macro_rules! impl_from_for_primitive_syntax {
 	( $from : ty, $tag : ident ) => (
 		impl_from_for_Value_1! ($from, SyntaxPrimitive);
@@ -137,6 +143,7 @@ impl_from_for_primitive_syntax! (SyntaxPrimitiveN, PrimitiveN);
 
 
 
+#[ allow (unused_macros) ]
 macro_rules! impl_from_for_ProcedurePrimitiveCall1 {
 	( $primitive : ty ) => (
 		impl_from_for_ProcedurePrimitiveCall1! ($primitive, [
@@ -161,6 +168,7 @@ macro_rules! impl_from_for_ProcedurePrimitiveCall1 {
 	);
 }
 
+#[ allow (unused_macros) ]
 macro_rules! impl_from_for_ProcedurePrimitiveCall2 {
 	( $primitive : ty ) => (
 		impl_from_for_ProcedurePrimitiveCall2! ($primitive, [
@@ -186,6 +194,7 @@ macro_rules! impl_from_for_ProcedurePrimitiveCall2 {
 	);
 }
 
+#[ allow (unused_macros) ]
 macro_rules! impl_from_for_ProcedurePrimitiveCall3 {
 	( $primitive : ty ) => (
 		impl_from_for_ProcedurePrimitiveCall3! ($primitive, [
@@ -211,6 +220,7 @@ macro_rules! impl_from_for_ProcedurePrimitiveCall3 {
 	);
 }
 
+#[ allow (unused_macros) ]
 macro_rules! impl_from_for_ProcedurePrimitiveCallN {
 	( $primitive : ty ) => (
 		impl_from_for_Expression_2! (($primitive,), value, Expression::ProcedurePrimitiveCallN (value.0.into (), vec! []));

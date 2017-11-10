@@ -188,6 +188,7 @@ impl Registers {
 		return StdRefCell::borrow (StdRc::as_ref (&self.0));
 	}
 	
+	#[ allow (dead_code) ]
 	#[ inline (always) ]
 	fn internals_ref_mut (&mut self) -> (StdRefMut<RegistersInternals>) {
 		return StdRefCell::borrow_mut (StdRc::as_ref (&self.0));
