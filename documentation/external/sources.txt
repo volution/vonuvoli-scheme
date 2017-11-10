@@ -1,4 +1,11 @@
 
+== Links ==
+https://practical-scheme.net/gauche/man/gauche-refe/Library-modules-_002d-R7RS-integration.html
+https://justinethier.github.io/husk-scheme/manual
+https://tsahara.github.io/r7rs
+
+
+== Downloaded ==
 https://web.archive.org/web/*/http://trac.sacrideo.us/wg/raw-attachment/wiki/WikiStart/r7rs.pdf
 https://web.archive.org/web/20170606034308/http://trac.sacrideo.us/wg/raw-attachment/wiki/WikiStart/r7rs.pdf
     MD5: 4b3dfe90422a410abd2137ea983594cf
