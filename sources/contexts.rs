@@ -17,6 +17,7 @@ use std::mem;
 
 pub mod exports {
 	pub use super::Context;
+	pub use super::Registers;
 	pub use super::Binding;
 }
 
@@ -134,6 +135,74 @@ impl fmt::Display for Context {
 }
 
 impl fmt::Debug for Context {
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		let self_0 = self.internals_ref ();
+		return self_0.fmt (formatter);
+	}
+}
+
+
+
+
+#[ derive (Clone) ]
+pub struct Registers ( StdRc<StdRefCell<RegistersInternals>> );
+
+
+#[ derive (Debug) ]
+struct RegistersInternals {
+	bindings : StdVec<Binding>,
+	handle : u32,
+}
+
+
+impl Registers {
+	
+	
+	#[ inline (always) ]
+	pub fn new (count : usize) -> (Registers) {
+		let internals = RegistersInternals {
+				bindings : StdVec::with_capacity (count),
+				handle : globals::context_handles_next (),
+			};
+		return Registers (StdRc::new (StdRefCell::new (internals)));
+	}
+	
+	
+	#[ inline (always) ]
+	pub fn resolve_expect (&self, index : usize) -> (Binding) {
+		return self.resolve (index) .expect ("b653f0a0");
+	}
+	
+	#[ inline (always) ]
+	pub fn resolve (&self, index : usize) -> (Outcome<Binding>) {
+		let self_0 = self.internals_ref ();
+		return match self_0.bindings.get (index) {
+			Some (binding) => Ok (binding.clone ()),
+			None => failed! (0x97ff34a1),
+		};
+	}
+	
+	
+	#[ inline (always) ]
+	fn internals_ref (&self) -> (StdRef<RegistersInternals>) {
+		return StdRefCell::borrow (StdRc::as_ref (&self.0));
+	}
+	
+	#[ inline (always) ]
+	fn internals_ref_mut (&mut self) -> (StdRefMut<RegistersInternals>) {
+		return StdRefCell::borrow_mut (StdRc::as_ref (&self.0));
+	}
+}
+
+
+impl fmt::Display for Registers {
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		let self_0 = self.internals_ref ();
+		return write! (formatter, "#<context:{:08x}>", self_0.handle);
+	}
+}
+
+impl fmt::Debug for Registers {
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = self.internals_ref ();
 		return self_0.fmt (formatter);

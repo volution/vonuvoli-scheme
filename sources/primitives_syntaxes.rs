@@ -1,6 +1,5 @@
 
 
-use super::contexts::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
 use super::expressions::exports::*;
@@ -94,25 +93,25 @@ pub enum SyntaxPrimitiveN {
 
 
 #[ inline (always) ]
-pub fn syntax_primitive_1_evaluate (_primitive : SyntaxPrimitive1, _input : &Expression, _evaluator : &mut Evaluator, _context : &mut Context) -> (Outcome<Value>) {
+pub fn syntax_primitive_1_evaluate (_primitive : SyntaxPrimitive1, _input : &Expression, _context : &mut EvaluationContext) -> (Outcome<Value>) {
 	return failed_unimplemented! (0xc0c18893);
 }
 
 
 #[ inline (always) ]
-pub fn syntax_primitive_2_evaluate (_primitive : SyntaxPrimitive2, _input_1 : &Expression, _input_2 : &Expression, _evaluator : &mut Evaluator, _context : &mut Context) -> (Outcome<Value>) {
+pub fn syntax_primitive_2_evaluate (_primitive : SyntaxPrimitive2, _input_1 : &Expression, _input_2 : &Expression, _context : &mut EvaluationContext) -> (Outcome<Value>) {
 	return failed_unimplemented! (0xc0c18893);
 }
 
 
 #[ inline (always) ]
-pub fn syntax_primitive_3_evaluate (_primitive : SyntaxPrimitive3, _input_1 : &Expression, _input_2 : &Expression, _input_3 : &Expression, _evaluator : &mut Evaluator, _context : &mut Context) -> (Outcome<Value>) {
+pub fn syntax_primitive_3_evaluate (_primitive : SyntaxPrimitive3, _input_1 : &Expression, _input_2 : &Expression, _input_3 : &Expression, _context : &mut EvaluationContext) -> (Outcome<Value>) {
 	return failed_unimplemented! (0xc0c18893);
 }
 
 
 #[ inline (always) ]
-pub fn syntax_primitive_n_evaluate (_primitive : SyntaxPrimitiveN, _input : &[Expression], _evaluator : &mut Evaluator, _context : &mut Context) -> (Outcome<Value>) {
+pub fn syntax_primitive_n_evaluate (_primitive : SyntaxPrimitiveN, _input : &[Expression], _context : &mut EvaluationContext) -> (Outcome<Value>) {
 	return failed_unimplemented! (0xc0c18893);
 }
 
@@ -120,29 +119,29 @@ pub fn syntax_primitive_n_evaluate (_primitive : SyntaxPrimitiveN, _input : &[Ex
 
 
 #[ inline (always) ]
-pub fn syntax_primitive_evaluate (primitive : SyntaxPrimitive, inputs : &[Expression], evaluator : &mut Evaluator, context : &mut Context) -> (Outcome<Value>) {
+pub fn syntax_primitive_evaluate (primitive : SyntaxPrimitive, inputs : &[Expression], context : &mut EvaluationContext) -> (Outcome<Value>) {
 	let inputs_count = inputs.len ();
 	match primitive {
 		SyntaxPrimitive::Primitive1 (primitive) =>
 			if inputs_count != 1 {
 				return failed! (0xc7837cc4);
 			} else {
-				return syntax_primitive_1_evaluate (primitive, &inputs[0], evaluator, context);
+				return syntax_primitive_1_evaluate (primitive, &inputs[0], context);
 			},
 		SyntaxPrimitive::Primitive2 (primitive) =>
 			if inputs_count != 2 {
 				return failed! (0xb92232f2);
 			} else {
-				return syntax_primitive_2_evaluate (primitive, &inputs[0], &inputs[1], evaluator, context);
+				return syntax_primitive_2_evaluate (primitive, &inputs[0], &inputs[1], context);
 			},
 		SyntaxPrimitive::Primitive3 (primitive) =>
 			if inputs_count != 3 {
 				return failed! (0x18d7a5f8);
 			} else {
-				return syntax_primitive_3_evaluate (primitive, &inputs[0], &inputs[1], &inputs[2], evaluator, context);
+				return syntax_primitive_3_evaluate (primitive, &inputs[0], &inputs[1], &inputs[2], context);
 			},
 		SyntaxPrimitive::PrimitiveN (primitive) =>
-			return syntax_primitive_n_evaluate (primitive, inputs, evaluator, context),
+			return syntax_primitive_n_evaluate (primitive, inputs, context),
 	}
 }
 

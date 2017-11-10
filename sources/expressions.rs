@@ -27,6 +27,9 @@ pub enum Expression {
 	ContextUpdate ( Symbol, ExpressionBox ),
 	ContextSelect ( Symbol ),
 	
+	RegisterGet ( usize ),
+	RegisterSet ( usize, ExpressionBox ),
+	
 	BindingGet ( Binding ),
 	BindingSet ( Binding, ExpressionBox ),
 	
