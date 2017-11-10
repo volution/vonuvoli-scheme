@@ -33,6 +33,7 @@ pub mod exports {
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
 pub enum ProcedurePrimitive {
+	Unimplemented,
 	Primitive0 ( ProcedurePrimitive0 ),
 	Primitive1 ( ProcedurePrimitive1 ),
 	Primitive2 ( ProcedurePrimitive2 ),
@@ -133,6 +134,8 @@ pub fn procedure_primitive_evaluate (primitive : ProcedurePrimitive, inputs : &[
 			},
 		ProcedurePrimitive::PrimitiveN (primitive) =>
 			return procedure_primitive_n_evaluate (primitive, inputs, context),
+		ProcedurePrimitive::Unimplemented =>
+			return failed_unimplemented! (0x10d3710f),
 	}
 }
 
