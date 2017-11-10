@@ -13,24 +13,27 @@ fn test () -> () {
 	
 	println! ("context -> {}", context);
 	
-	let mut binding_a1 = context.define_expect (&"a".into ());
-	let mut binding_a2 = context.resolve_expect (&"a".into ());
+	let a_identifier = &"a";
+	let b_identifier = &symbol_from_slice ("b");
 	
-	let mut binding_b1 = context.define_expect (&"b".into ());
-	let mut binding_b2 = context.resolve_expect (&"b".into ());
+	let mut a_binding_1 = context.define_expect (a_identifier);
+	let mut a_binding_2 = context.resolve_expect (a_identifier);
 	
-	println! ("a1 -> {}", binding_a1);
-	println! ("a2 -> {}", binding_a2);
-	println! ("b1 -> {}", binding_b1);
-	println! ("b2 -> {}", binding_b2);
+	let mut b_binding_1 = context.define_expect (b_identifier);
+	let mut b_binding_2 = context.resolve_expect (b_identifier);
 	
-	binding_a1.set (ZERO);
-	binding_b1.set (ONE);
+	println! ("a:1 -> {}", a_binding_1);
+	println! ("a:2 -> {}", a_binding_2);
+	println! ("b:1 -> {}", b_binding_1);
+	println! ("b:2 -> {}", b_binding_2);
 	
-	println! ("a1 -> {}", binding_a1);
-	println! ("a2 -> {}", binding_a2);
-	println! ("b1 -> {}", binding_b1);
-	println! ("b2 -> {}", binding_b2);
+	a_binding_1.set (ZERO);
+	b_binding_1.set (ONE);
+	
+	println! ("a:1 -> {}", a_binding_1);
+	println! ("a:2 -> {}", a_binding_2);
+	println! ("b:1 -> {}", b_binding_1);
+	println! ("b:2 -> {}", b_binding_2);
 	
 }
 

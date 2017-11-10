@@ -20,13 +20,9 @@ fn test () -> () {
 			Expression::ContextUpdate ("a".into (), ONE.into ()),
 			Expression::ContextSelect ("a".into ()),
 			
-			Expression::ProcedurePrimitiveCall1 (BooleanPrimitive1::Negate.into (), TRUE.into ()),
-			Expression::ProcedurePrimitiveCall1 (BooleanPrimitive1::Negate.into (), FALSE.into ()),
+			(BooleanPrimitive1::Not, TRUE) .into (),
 			
-			Expression::ProcedurePrimitiveCallN (BooleanPrimitiveN::And.into (), vec! [TRUE.into (), TRUE.into ()]),
-			Expression::ProcedurePrimitiveCallN (BooleanPrimitiveN::And.into (), vec! [TRUE.into (), FALSE.into ()]),
-			Expression::ProcedurePrimitiveCallN (BooleanPrimitiveN::And.into (), vec! [FALSE.into (), TRUE.into ()]),
-			Expression::ProcedurePrimitiveCallN (BooleanPrimitiveN::And.into (), vec! [FALSE.into (), FALSE.into ()]),
+			(BooleanPrimitiveN::And, (TRUE, TRUE)) .into (),
 			
 		];
 	
