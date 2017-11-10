@@ -136,3 +136,14 @@ macro_rules! impl_into_for_type {
 	);
 }
 
+
+
+
+#[ macro_export ]
+#[ allow (unused_macros) ]
+macro_rules! vec_into {
+	( $( $value : expr ),* ) => (
+		vec! [ $( $value, )* ] .into_iter () .map (|value| value.into ()) .collect ()
+	);
+}
+

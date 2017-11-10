@@ -122,6 +122,21 @@ impl_from_for_primitive_procedure! (BitwisePrimitiveN, ProcedurePrimitiveN, Prim
 
 
 
+macro_rules! impl_from_for_primitive_syntax {
+	( $from : ty, $tag : ident ) => (
+		impl_from_for_Value_1! ($from, SyntaxPrimitive);
+		impl_from_for_enum_wrapper! (SyntaxPrimitive, $from, $tag);
+	);
+}
+
+impl_from_for_primitive_syntax! (SyntaxPrimitive1, Primitive1);
+impl_from_for_primitive_syntax! (SyntaxPrimitive2, Primitive2);
+impl_from_for_primitive_syntax! (SyntaxPrimitive3, Primitive3);
+impl_from_for_primitive_syntax! (SyntaxPrimitiveN, PrimitiveN);
+
+
+
+
 macro_rules! impl_from_for_ProcedurePrimitiveCall1 {
 	( $primitive : ty ) => (
 		impl_from_for_ProcedurePrimitiveCall1! ($primitive, [
@@ -235,6 +250,7 @@ macro_rules! impl_from_for_ProcedurePrimitiveCallN {
 }
 
 
+/* * /
 impl_from_for_ProcedurePrimitiveCall1! (TypePrimitive1);
 
 impl_from_for_ProcedurePrimitiveCall1! (BooleanPrimitive1);
@@ -247,6 +263,7 @@ impl_from_for_ProcedurePrimitiveCallN! (ArithmeticPrimitiveN);
 impl_from_for_ProcedurePrimitiveCall1! (BitwisePrimitive1);
 impl_from_for_ProcedurePrimitiveCall2! (BitwisePrimitive2);
 impl_from_for_ProcedurePrimitiveCallN! (BitwisePrimitiveN);
+/ * */
 
 
 
