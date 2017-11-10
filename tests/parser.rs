@@ -54,12 +54,18 @@ fn test () -> () {
 			
 		];
 	
+	
 	for input_1 in tests {
+		
 		println! (">> `{}`", input_1);
+		
 		let output_1 = parse_value (input_1);
 		let input_2 = output_1.to_string ();
 		let output_2 = parse_value (input_2.as_ref ());
+		
 		println! ("== `{}` -> `{}` -> `{}`", input_1, output_1, output_2);
+		println! ("## {:#?}", output_1);
+		println! ();
 	}
 	
 }

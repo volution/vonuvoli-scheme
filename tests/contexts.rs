@@ -11,7 +11,7 @@ fn test () -> () {
 	
 	let mut context = Context::new (None);
 	
-	println! ("context -> {}", context);
+	println! ("context -> {:#?}", context);
 	
 	let a_identifier = &"a";
 	let b_identifier = &symbol_from_slice ("b");
@@ -34,6 +34,8 @@ fn test () -> () {
 	println! ("a:2 -> {}", a_binding_2);
 	println! ("b:1 -> {}", b_binding_1);
 	println! ("b:2 -> {}", b_binding_2);
+	
+	println! ("context -> {:#?}", context);
 	
 }
 

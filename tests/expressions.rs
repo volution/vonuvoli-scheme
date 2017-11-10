@@ -117,8 +117,11 @@ fn test () -> () {
 			
 		];
 	
+	
 	for expression in expressions {
-		println! (">> {:?}", expression);
+		println! ();
+		println! (">> {:#?}", expression);
+		println! ();
 	}
 	
 }
