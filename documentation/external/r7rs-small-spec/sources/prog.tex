@@ -1,0 +1,659 @@
+\chapter{Program structure}
+\label{programchapter}
+
+\section{Programs}
+
+A Scheme program consists of  
+one or more import declarations followed by a sequence of
+expressions and definitions.
+Import declarations specify the libraries on which a program or library depends;
+a subset of the identifiers exported by the libraries are made available to
+the program.
+Expressions are described in chapter~\ref{expressionchapter}.
+Definitions are either variable definitions, syntax definitions, or
+record-type definitions, all of which are explained in this chapter.
+They are valid in some, but not all, contexts where expressions
+are allowed, specifically at the outermost level of a \hyper{program}
+and at the beginning of a \hyper{body}.
+\mainindex{definition}
+
+At the outermost level of a program, {\tt(begin \hyperi{expression or definition} \dotsfoo)} is
+equivalent to the sequence of expressions and definitions
+in the \ide{begin}.   
+Similarly, in a \hyper{body}, {\tt(begin \hyperi{definition} \dotsfoo)} is equivalent
+to the sequence \hyperi{definition} \dotsfoo.
+Macros can expand into such {\cf begin} forms.
+For the formal definition, see~\ref{sequencing}.
+
+Import declarations and definitions
+cause bindings to be created in the global
+environment or modify the value of existing global bindings.
+The initial environment of a program is empty,
+so at least one import declaration is needed to introduce initial bindings.
+
+Expressions occurring at the outermost level of a program
+do not create any bindings.  They are
+executed in order when the program is
+invoked or loaded, and typically perform some kind of initialization.
+
+
+Programs and libraries are typically stored in files, although
+in some implementations they can be entered interactively into a running
+Scheme system.  Other paradigms are possible.
+Implementations which store libraries in files should document the
+mapping from the name of a library to its location in the file system.
+
+\section{Import declarations}
+\mainschindex{import}
+
+An import declaration takes the following form:
+\begin{scheme}
+(import \hyper{import-set} \dotsfoo)
+\end{scheme}
+
+An import declaration provides a way to import identifiers
+exported by a library.  Each \hyper{import set} names a set of bindings
+from a library and possibly specifies local names for the
+imported bindings. It takes one of the following forms:
+
+\begin{itemize}
+\item {\tt\hyper{library name}}
+\item {\tt(only \hyper{import set} \hyper{identifier} \dotsfoo)}
+\item {\tt(except \hyper{import set} \hyper{identifier} \dotsfoo)}
+\item {\tt(prefix \hyper{import set} \hyper{identifier})}
+\item {\tt(rename \hyper{import set}\\
+{\obeyspaces%
+\hspace*{4em}(\hyperi{identifier} \hyperii{identifier}) \dotsfoo)}}
+\end{itemize}
+
+In the first form, all of the identifiers in the named library's export
+clauses are imported with the same names (or the exported names if
+exported with \ide{rename}).  The additional \hyper{import set}
+forms modify this set as follows:
+
+\begin{itemize}
+
+\item \ide{only} produces a subset of the given
+  \hyper{import set} including only the listed identifiers (after any
+  renaming).  It is an error if any of the listed identifiers are
+  not found in the original set.
+
+\item \ide{except} produces a subset of the given
+  \hyper{import set}, excluding the listed identifiers (after any
+  renaming). It is an error if any of the listed identifiers are not
+  found in the original set.
+
+\item \ide{rename} modifies the given \hyper{import set},
+  replacing each instance of \hyperi{identifier} with
+  \hyperii{identifier}. It is an error if any of the listed
+  \hyperi{identifier}s are not found in the original set.
+
+\item \ide{prefix} automatically renames all identifiers in
+  the given \hyper{import set}, prefixing each with the specified
+  \hyper{identifier}.
+
+\end{itemize}
+
+In a program or library declaration, it is an error to import the same
+identifier more than once with different bindings, or to redefine or
+mutate an imported binding with a definition
+or with {\cf set!}, or to refer to an identifier before it is imported.
+However, a REPL should permit these actions.
+
+\section{Variable definitions}
+\label{defines}
+\mainindex{variable definition}
+
+A variable definition binds one or more identifiers and specifies an initial
+value for each of them.
+The simplest kind of variable definition
+takes one of the following forms:\mainschindex{define}
+
+\begin{itemize}
+
+\item{\tt(define \hyper{variable} \hyper{expression})}
+
+\item{\tt(define (\hyper{variable} \hyper{formals}) \hyper{body})}
+
+\hyper{Formals} are either a
+sequence of zero or more variables, or a sequence of one or more
+variables followed by a space-delimited period and another variable (as
+in a lambda expression).  This form is equivalent to
+\begin{scheme}
+(define \hyper{variable}
+  (lambda (\hyper{formals}) \hyper{body}))\rm.%
+\end{scheme}
+
+\item{\tt(define (\hyper{variable} .\ \hyper{formal}) \hyper{body})}
+
+\hyper{Formal} is a single
+variable.  This form is equivalent to
+\begin{scheme}
+(define \hyper{variable}
+  (lambda \hyper{formal} \hyper{body}))\rm.%
+\end{scheme}
+
+\end{itemize}
+
+\subsection{Top level definitions}
+
+At the outermost level of a program, a definition
+\begin{scheme}
+(define \hyper{variable} \hyper{expression})%
+\end{scheme}
+has essentially the same effect as the assignment expression
+\begin{scheme}
+(\ide{set!}\ \hyper{variable} \hyper{expression})%
+\end{scheme}
+if \hyper{variable} is bound to a non-syntax value.  However, if
+\hyper{variable} is not bound, 
+or is a syntactic keyword,
+then the definition will bind
+\hyper{variable} to a new location before performing the assignment,
+whereas it would be an error to perform a {\cf set!}\ on an
+unbound\index{unbound} variable.
+
+\begin{scheme}
+(define add3
+  (lambda (x) (+ x 3)))
+(add3 3)                            \ev  6
+(define first car)
+(first '(1 2))                      \ev  1%
+\end{scheme}
+
+\subsection{Internal definitions}
+\label{internaldefines}
+
+Definitions can occur at the
+beginning of a \hyper{body} (that is, the body of a \ide{lambda},
+\ide{let}, \ide{let*}, \ide{letrec}, \ide{letrec*},
+\ide{let-values}, \ide{let*-values}, \ide{let-syntax}, \ide{letrec-syntax},
+\ide{parameterize}, \ide{guard}, or \ide{case-lambda}).  Note that
+such a body might not be apparent until after expansion of other syntax.
+Such definitions are known as {\em internal definitions}\mainindex{internal
+definition} as opposed to the global definitions described above.
+The variables defined by internal definitions are local to the
+\hyper{body}.  That is, \hyper{variable} is bound rather than assigned,
+and the region of the binding is the entire \hyper{body}.  For example,
+
+\begin{scheme}
+(let ((x 5))
+  (define foo (lambda (y) (bar x y)))
+  (define bar (lambda (a b) (+ (* a b) a)))
+  (foo (+ x 3)))                \ev  45%
+\end{scheme}
+
+An expanded \hyper{body} containing internal definitions
+can always be
+converted into a completely equivalent {\cf letrec*} expression.  For
+example, the {\cf let} expression in the above example is equivalent
+to
+
+\begin{scheme}
+(let ((x 5))
+  (letrec* ((foo (lambda (y) (bar x y)))
+            (bar (lambda (a b) (+ (* a b) a))))
+    (foo (+ x 3))))%
+\end{scheme}
+
+Just as for the equivalent {\cf letrec*} expression, it is an error if it is not
+possible to evaluate each \hyper{expression} of every internal
+definition in a \hyper{body} without assigning or referring to
+the value of the corresponding \hyper{variable} or the \hyper{variable}
+of any of the definitions that follow it in \hyper{body}.
+
+It is an error to define the same identifier more than once in the
+same \hyper{body}.
+
+Wherever an internal definition can occur,
+{\tt(begin \hyperi{definition} \dotsfoo)}
+is equivalent to the sequence of definitions
+that form the body of the \ide{begin}.
+
+\subsection{Multiple-value definitions}
+
+Another kind of definition is provided by {\cf define-values}, 
+which creates multiple definitions from a single
+expression returning multiple values.
+It is allowed wherever {\cf define} is allowed.
+
+\begin{entry}{%
+\proto{define-values}{ \hyper{formals} \hyper{expression}}{\exprtype}}\nobreak
+
+It is an error if a variable appears more than once in the set of \hyper{formals}.
+
+\semantics
+\hyper{Expression} is evaluated, and the \hyper{formals} are bound
+to the return values in the same way that the \hyper{formals} in a
+{\cf lambda} expression are matched to the arguments in a procedure
+call.
+
+\begin{scheme}
+(define-values (x y) (integer-sqrt 17))
+(list x y) \ev (4 1)
+
+(let ()
+  (define-values (x y) (values 1 2))
+  (+ x y))     \ev 3%
+\end{scheme}
+
+\end{entry}
+
+\section{Syntax definitions}
+
+\mainindex{syntax definition}
+Syntax definitions have this form:\mainschindex{define-syntax}
+
+{\tt(define-syntax \hyper{keyword} \hyper{transformer spec})}
+
+\hyper{Keyword} is an identifier, and
+the \hyper{transformer spec} is an instance of \ide{syntax-rules}.
+Like variable definitions, syntax definitions can appear at the outermost level or
+nested within a \ide{body}.
+
+If the {\cf define-syntax} occurs at the outermost level, then the global
+syntactic environment is extended by binding the
+\hyper{keyword} to the specified transformer, but previous expansions
+of any global binding for \hyper{keyword} remain unchanged.
+Otherwise, it is an \defining{internal syntax definition}, and is local to the
+\hyper{body} in which it is defined.
+Any use of a syntax keyword before its corresponding definition is an error.
+In particular, a use that precedes an inner definition will not apply an outer
+definition.
+
+\begin{scheme}
+(let ((x 1) (y 2))
+  (define-syntax swap!
+    (syntax-rules ()
+      ((swap! a b)
+       (let ((tmp a))
+         (set! a b)
+         (set! b tmp)))))
+  (swap! x y)
+  (list x y))                \ev (2 1)%
+\end{scheme}
+
+\todo{Shinn: This description is hideous.
+Cowan: But now less hideous than before.}
+
+Macros can expand into definitions in any context that permits
+them. However, it is an error for a definition to define an
+identifier whose binding has to be known in order to determine the meaning of the
+definition itself, or of any preceding definition that belongs to the
+same group of internal definitions. Similarly, it is an error for an
+internal definition to define an identifier whose binding has to be known
+in order
+to determine the boundary between the internal definitions and the
+expressions of the body it belongs to. For example, the following are
+errors:
+
+\begin{scheme}
+(define define 3)
+
+(begin (define begin list))
+
+(let-syntax
+    ((foo (syntax-rules ()
+            ((foo (proc args ...) body ...)
+             (define proc
+               (lambda (args ...)
+                 body ...))))))
+  (let ((x 3))
+    (foo (plus x y) (+ x y))
+    (define foo x)
+    (plus foo x)))%
+\end{scheme}
+
+\section{Record-type definitions}
+\label{usertypes}
+
+\defining{Record-type definitions} are used to introduce new data types, called
+\defining{record types}.
+Like other definitions, they can appear either at the outermost level or in a body.
+The values of a record type are called \defining{records} and are
+aggregations of zero or more \defining{fields}, each of which holds a single location.
+A predicate, a constructor, and field accessors and
+mutators are defined for each record type.
+
+\begin{entry}{%
+\mainschindex{define-record-type}
+\pproto{(define-record-type \hyper{name}}{syntax}
+\hspace*{4em}{\tt \hyper{constructor} \hyper{pred} \hyper{field} \dotsfoo})}
+
+\syntax
+\hyper{name} and \hyper{pred} are identifiers.
+The \hyper{constructor} is of the form
+\begin{scheme}
+(\hyper{constructor name} \hyper{field name} \dotsfoo)%
+\end{scheme}
+and each \hyper{field} is either of the form
+\begin{scheme}
+(\hyper{field name} \hyper{accessor name})%
+\end{scheme}
+or of the form
+\begin{scheme}
+(\hyper{field name} \hyper{accessor name} \hyper{modifier name})%
+\end{scheme}
+
+It is an error for the same identifier to occur more than once as a
+field name.
+It is also an error for the same identifier to occur more than once
+as an accessor or mutator name.
+
+The {\cf define-record-type} construct is generative: each use creates a new record
+type that is distinct from all existing types, including Scheme's
+predefined types and other record types --- even record types of
+the same name or structure.
+
+An instance of {\cf define-record-type} is equivalent to the following
+definitions:
+
+\begin{itemize}
+
+\item \hyper{name} is bound to a representation of the record type itself.
+This may be a run-time object or a purely syntactic representation.
+The representation is not utilized in this report, but it serves as a
+means to identify the record type for use by further language extensions.
+
+\item \hyper{constructor name} is bound to a procedure that takes as
+  many arguments as there are \hyper{field name}s in the
+  \texttt{(\hyper{constructor name} \dotsfoo)} subexpression and returns a
+  new record of type \hyper{name}.  Fields whose names are listed with
+  \hyper{constructor name} have the corresponding argument as their
+  initial value.  The initial values of all other fields are
+  unspecified.  It is an error for a field name to appear in
+  \hyper{constructor} but not as a \hyper{field name}.
+
+\item \hyper{pred} is bound to a predicate that returns \schtrue{} when given a
+  value returned by the procedure bound to  \hyper{constructor name} and \schfalse{} for
+  everything else.
+
+\item Each \hyper{accessor name} is bound to a procedure that takes a record of
+  type \hyper{name} and returns the current value of the corresponding
+  field.  It is an error to pass an accessor a value which is not a
+  record of the appropriate type.
+
+\item Each \hyper{modifier name} is bound to a procedure that takes a record of
+  type \hyper{name} and a value which becomes the new value of the
+  corresponding field; an unspecified value is returned.  It is an
+  error to pass a modifier a first argument which is not a record of
+  the appropriate type.
+
+\end{itemize}
+
+For instance, the following record-type definition
+
+\begin{scheme}
+(define-record-type <pare>
+  (kons x y)
+  pare?
+  (x kar set-kar!)
+  (y kdr))
+\end{scheme}
+
+defines {\cf kons} to be a constructor, {\cf kar} and {\cf kdr}
+to be accessors, {\cf set-kar!} to be a modifier, and {\cf pare?}
+to be a predicate for instances of {\cf <pare>}.
+
+\begin{scheme}
+  (pare? (kons 1 2))        \ev \schtrue
+  (pare? (cons 1 2))        \ev \schfalse
+  (kar (kons 1 2))          \ev 1
+  (kdr (kons 1 2))          \ev 2
+  (let ((k (kons 1 2)))
+    (set-kar! k 3)
+    (kar k))                \ev 3
+\end{scheme}
+
+\end{entry}
+
+
+\section{Libraries}
+\label{libraries}
+
+Libraries provide a way to organize Scheme programs into reusable parts
+with explicitly defined interfaces to the rest of the program.  This
+section defines the notation and semantics for libraries.
+
+
+\subsection{Library Syntax}
+
+A library definition takes the following form:
+\mainschindex{define-library}
+
+\begin{scheme}
+(define-library \hyper{library name}
+  \hyper{library declaration} \dotsfoo)
+\end{scheme}
+
+\hyper{library name} is a list whose members are identifiers and exact non-negative integers.  It is used to
+identify the library uniquely when importing from other programs or
+libraries.
+Libraries whose first identifier is {\cf scheme} are reserved for use by this
+report and future versions of this report.
+Libraries whose first identifier is {\cf srfi} are reserved for libraries
+implementing Scheme Requests for Implementation.
+It is inadvisable, but not an error, for identifiers in library names to
+contain any of the characters {\cf | \backwhack{} ? * < " : > + [ ] /}
+or control characters after escapes are expanded.
+
+\label{librarydeclarations}
+A \hyper{library declaration} is any of:
+
+\begin{itemize}
+
+\item{\tt(export \hyper{export spec} \dotsfoo)}
+
+\item{\tt(import \hyper{import set} \dotsfoo)}
+
+\item{\tt(begin \hyper{command or definition} \dotsfoo)}
+
+\item{\tt(include \hyperi{filename} \hyperii{filename} \dotsfoo)}
+
+\item{\tt(include-ci \hyperi{filename} \hyperii{filename} \dotsfoo)}
+
+\item{\tt(include-library-declarations \hyperi{filename} \hyperii{filename} \dotsfoo)}
+
+\item{\tt(cond-expand \hyperi{ce-clause} \hyperii{ce-clause} \dotsfoo)}
+
+\end{itemize}
+
+An \ide{export} declaration specifies a list of identifiers which
+can be made visible to other libraries or programs.
+An \hyper{export spec} takes one of the following forms:
+
+\begin{itemize}
+\item{\hyper{identifier}}
+\item{\tt{(rename \hyperi{identifier} \hyperii{identifier})}}
+\end{itemize}
+
+In an \hyper{export spec}, an \hyper{identifier} names a single
+binding defined within or imported into the library, where the
+external name for the export is the same as the name of the binding
+within the library. A \ide{rename} spec exports the binding 
+defined within or imported into the library and named by
+\hyperi{identifier} in each
+{\tt(\hyperi{identifier} \hyperii{identifier})} pairing,
+using \hyperii{identifier} as the external name.
+
+An \ide{import} declaration provides a way to import the identifiers
+exported by another library.  It has the same syntax and semantics as
+an import declaration used in a program or at the REPL (see section~\ref{import}).
+
+The \ide{begin}, \ide{include}, and \ide{include-ci} declarations are
+used to specify the body of
+the library.  They have the same syntax and semantics as the corresponding
+expression types.
+This form of {\cf begin} is analogous to, but not the same as, the
+two types of {\cf begin} defined in section~\ref{sequencing}.
+
+The \ide{include-library-declarations} declaration is similar to
+\ide{include} except that the contents of the file are spliced directly into the
+current library definition.  This can be used, for example, to share the
+same \ide{export} declaration among multiple libraries as a simple
+form of library interface.
+
+The \ide{cond-expand} declaration has the same syntax and semantics as
+the \ide{cond-expand} expression type, except that it expands to
+spliced-in library declarations rather than expressions enclosed in {\cf begin}.
+
+\todo{Shinn: Perhaps make this a separate subsection describing a
+  library ``resolution'' phase which runs prior to library expansion.}
+
+One possible implementation of libraries is as follows:
+After all \ide{cond-expand} library declarations are expanded, a new
+environment is constructed for the library consisting of all
+imported bindings.  The expressions
+from all \ide{begin}, \ide{include} and \ide{include-ci}
+library declarations are expanded in that environment in the order in which
+they occur in the library.
+Alternatively, \ide{cond-expand} and \ide{import} declarations may be processed
+in left to right order interspersed with the processing of other
+declarations, with the environment growing as imported bindings are
+added to it by each \ide{import} declaration.
+
+When a library is loaded, its expressions are executed
+in textual order.
+If a library's definitions are referenced in the expanded form of a
+program or library body, then that library must be loaded before the
+expanded program or library body is evaluated. This rule applies
+transitively.  If a library is imported by more than one program or
+library, it may possibly be loaded additional times.
+
+Similarly, during the expansion of a library {\cf (foo)}, if any syntax
+keywords imported from another library {\cf (bar)} are needed to expand
+the library, then the library {\cf (bar)} must be expanded and its syntax
+definitions evaluated before the expansion of {\cf (foo)}.
+
+Regardless of the number of times that a library is loaded, each
+program or library that imports bindings from a library must do so from a
+single loading of that library, regardless of the number of import
+declarations in which it appears.
+That is, {\cf (import (only (foo) a))} followed by {\cf (import (only (foo) b))}
+has the same effect as {\cf (import (only (foo) a b))}.
+
+\subsection{Library example}
+The following example shows
+how a program can be divided into libraries plus a relatively small
+main program~\cite{life}.
+If the main program is entered into a REPL, it is not necessary to import
+the base library.
+
+\begin{scheme}
+(define-library (example grid)
+  (export make rows cols ref each
+          (rename put! set!))
+  (import (scheme base))
+  (begin
+    ;; Create an NxM grid.
+    (define (make n m)
+      (let ((grid (make-vector n)))
+        (do ((i 0 (+ i 1)))
+            ((= i n) grid)
+          (let ((v (make-vector m \sharpfalse{})))
+            (vector-set! grid i v)))))
+    (define (rows grid)
+      (vector-length grid))
+    (define (cols grid)
+      (vector-length (vector-ref grid 0)))
+    ;; Return \sharpfalse{} if out of range.
+    (define (ref grid n m)
+      (and (< -1 n (rows grid))
+           (< -1 m (cols grid))
+           (vector-ref (vector-ref grid n) m)))
+    (define (put! grid n m v)
+      (vector-set! (vector-ref grid n) m v))
+    (define (each grid proc)
+      (do ((j 0 (+ j 1)))
+          ((= j (rows grid)))
+        (do ((k 0 (+ k 1)))
+            ((= k (cols grid)))
+          (proc j k (ref grid j k)))))))
+
+(define-library (example life)
+  (export life)
+  (import (except (scheme base) set!)
+          (scheme write)
+          (example grid))
+  (begin
+    (define (life-count grid i j)
+      (define (count i j)
+        (if (ref grid i j) 1 0))
+      (+ (count (- i 1) (- j 1))
+         (count (- i 1) j)
+         (count (- i 1) (+ j 1))
+         (count i (- j 1))
+         (count i (+ j 1))
+         (count (+ i 1) (- j 1))
+         (count (+ i 1) j)
+         (count (+ i 1) (+ j 1))))
+    (define (life-alive? grid i j)
+      (case (life-count grid i j)
+        ((3) \sharptrue{})
+        ((2) (ref grid i j))
+        (else \sharpfalse{})))
+    (define (life-print grid)
+      (display "\backwhack{}x1B;[1H\backwhack{}x1B;[J")  ; clear vt100
+      (each grid
+       (lambda (i j v)
+         (display (if v "*" " "))
+         (when (= j (- (cols grid) 1))
+           (newline)))))
+    (define (life grid iterations)
+      (do ((i 0 (+ i 1))
+           (grid0 grid grid1)
+           (grid1 (make (rows grid) (cols grid))
+                  grid0))
+          ((= i iterations))
+        (each grid0
+         (lambda (j k v)
+           (let ((a (life-alive? grid0 j k)))
+             (set! grid1 j k a))))
+        (life-print grid1)))))
+
+;; Main program.
+(import (scheme base)
+        (only (example life) life)
+        (rename (prefix (example grid) grid-)
+                (grid-make make-grid)))
+
+;; Initialize a grid with a glider.
+(define grid (make-grid 24 24))
+(grid-set! grid 1 1 \sharptrue{})
+(grid-set! grid 2 2 \sharptrue{})
+(grid-set! grid 3 0 \sharptrue{})
+(grid-set! grid 3 1 \sharptrue{})
+(grid-set! grid 3 2 \sharptrue{})
+
+;; Run for 80 iterations.
+(life grid 80)
+
+\end{scheme}
+
+\section{The REPL}
+
+Implementations may provide an interactive session called a
+\defining{REPL} (Read-Eval-Print Loop), where import declarations,
+expressions and definitions can be
+entered and evaluated one at a time.  For convenience and ease of use,
+the global Scheme environment in a REPL
+must not be empty, but must start out with at least the bindings provided by the
+base library.  This library includes the core syntax of Scheme
+and generally useful procedures that manipulate data.  For example, the
+variable {\cf abs} is bound to a
+procedure of one argument that computes the absolute value of a
+number, and the variable {\cf +} is bound to a procedure that computes
+sums.  The full list of {\cf(scheme base)} bindings can be found in
+Appendix~\ref{stdlibraries}.
+
+Implementations may provide an initial REPL environment 
+which behaves as if all possible variables are bound to locations, most of
+which contain unspecified values.  Top level REPL definitions in
+such an implementation are truly equivalent to assignments,
+unless the identifier is defined as a syntax keyword.
+
+An implementation may provide a mode of operation in which the REPL
+reads its input from a file.  Such a file is not, in general, the same
+as a program, because it can contain import declarations in places other than
+the beginning.
+

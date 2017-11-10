@@ -1,0 +1,278 @@
+% Macros for R^nRS.
+
+\makeatletter
+
+\newcommand{\topnewpage}{\@topnewpage}
+\newcommand{\authorsc}[1]{{\scriptsize\scshape #1}}
+
+% Chapters, sections, etc.
+
+\newcommand{\extrapart}[1]{
+ % \chapter{#1}
+  \chapter*{#1}
+  \markboth{#1}{#1}
+  \vskip 1ex
+  \addcontentsline{toc}{chapter}{#1}}
+
+\newcommand{\clearchapterstar}[1]{
+  \clearpage
+  \topnewpage[
+    \centerline{\large\bf\uppercase{#1}}
+    \bigskip]}
+
+\newcommand{\clearextrapart}[1]{
+  \clearchapterstar{#1}
+  \markboth{#1}{#1}
+  \addcontentsline{toc}{chapter}{#1}}
+
+\newcommand{\vest}{}
+\newcommand{\dotsfoo}{$\ldots\,$}
+
+\newcommand{\sharpfoo}[1]{{\tt\##1}}
+\newcommand{\schfalse}{\sharpfoo{f}}
+\newcommand{\schtrue}{\sharpfoo{t}}
+\newcommand{\sharpfalse}{\sharpfoo{false}}
+\newcommand{\sharptrue}{\sharpfoo{true}}
+
+\newcommand{\singlequote}{{\tt'}}  %\char19
+\newcommand{\doublequote}{{\tt"}}
+\newcommand{\backquote}{{\tt\char18}}
+\newcommand{\backwhack}{{\tt\char`\\}}
+\newcommand{\atsign}{{\tt\char`\@}}
+\newcommand{\comma}{{\tt\char`\,}}
+\newcommand{\commaatsign}{{\tt\char`\,}{\tt\char`\@}}
+\newcommand{\sharpsign}{{\tt\#}}
+\newcommand{\verticalbar}{{\tt|}}
+
+\newcommand{\coerce}{\discretionary{->}{}{->}}
+
+% Knuth's \in sucks big boulders
+\def\elem{\hbox{\raise.13ex\hbox{$\scriptstyle\in$}}}
+
+\newcommand{\meta}[1]{{\noindent\hbox{\rm$\langle$#1$\rangle$}}}
+\let\hyper=\meta
+\newcommand{\hyperi}[1]{\hyper{#1$_1$}}
+\newcommand{\hyperii}[1]{\hyper{#1$_2$}}
+\newcommand{\hyperj}[1]{\hyper{#1$_i$}}
+\newcommand{\hypern}[1]{\hyper{#1$_n$}}
+\newcommand{\var}[1]{\noindent\hbox{\it{}#1\/}}  % Careful, is \/ always the right thing?
+\newcommand{\vari}[1]{\var{#1$_1$}}
+\newcommand{\varii}[1]{\var{#1$_2$}}
+\newcommand{\variii}[1]{\var{#1$_3$}}
+\newcommand{\variv}[1]{\var{#1$_4$}}
+\newcommand{\varj}[1]{\var{#1$_j$}}
+\newcommand{\varn}[1]{\var{#1$_n$}}
+
+\newcommand{\vr}[1]{{\noindent\hbox{$#1$\/}}}  % Careful, is \/ always the right thing?
+\newcommand{\vri}[1]{\vr{#1_1}}
+\newcommand{\vrii}[1]{\vr{#1_2}}
+\newcommand{\vriii}[1]{\vr{#1_3}}
+\newcommand{\vriv}[1]{\vr{#1_4}}
+\newcommand{\vrv}[1]{\vr{#1_5}}
+\newcommand{\vrj}[1]{\vr{#1_j}}
+\newcommand{\vrn}[1]{\vr{#1_n}}
+
+
+\newcommand{\defining}[1]{\mainindex{#1}{\em #1}}
+\newcommand{\ide}[1]{{\schindex{#1}\frenchspacing\tt{#1}}}
+
+\newcommand{\lambdaexp}{{\cf lambda} expression}
+\newcommand{\Lambdaexp}{{\cf Lambda} expression}
+
+\newcommand{\callcc}{{\tt call-with-current-continuation}}
+
+% \reallyindex{SORTKEY}{HEADCS}{TYPE}
+% writes (index-entry "SORTKEY" "HEADCS" TYPE PAGENUMBER)
+% which becomes  \item \HEADCS{SORTKEY} mainpagenumber ; auxpagenumber ...
+
+\global\def\reallyindex#1#2#3{%
+\write\@indexfile{"#1" "#2" #3 \thepage}}
+
+\newcommand{\mainschindex}[1]{\label{#1}\reallyindex{#1}{tt}{main}}
+\newcommand{\mainindex}[1]{\reallyindex{#1}{rm}{main}}
+\newcommand{\schindex}[1]{\reallyindex{#1}{tt}{aux}}
+\newcommand{\sharpindex}[1]{\reallyindex{#1}{sharpfoo}{aux}}
+\newcommand{\sharpbangindex}[1]{\index{#1@\texttt{\#!#1}}}
+\renewcommand{\index}[1]{\reallyindex{#1}{rm}{aux}}
+
+\newcommand{\domain}[1]{{\small\noindent #1}
+
+}
+\newcommand{\nodomain}[1]{}
+\newcommand{\todo}[1]{}
+
+% \frobq will make quote and backquote look nicer.
+\def\frobqcats{%\catcode`\'=13
+\catcode`\`=13{}}
+{\frobqcats
+\gdef\frobqdefs{%\def'{\singlequote}
+\def`{\backquote}}}
+\def\frobq{\frobqcats\frobqdefs}
+
+% \cf = code font
+% Unfortunately, \cf \cf won't work at all, so don't even attempt to
+% nest constructions which use them...
+\newcommand{\cf}{\frenchspacing\frobq\tt}
+
+% Same as \obeycr, but doesn't do a \@gobblecr.
+{\catcode`\^^M=13 \gdef\myobeycr{\catcode`\^^M=13 \def^^M{\\}}%
+\gdef\restorecr{\catcode`\^^M=5 }}
+
+{\catcode`\^^I=13 \gdef\obeytabs{\catcode`\^^I=13 \def^^I{\hbox{\hskip 4em}}}}
+
+{\obeyspaces\gdef {\hbox{\hskip0.5em}}}
+
+\gdef\gobblecr{\@gobblecr}
+
+\def\setupcode{\@makeother\^}
+
+% Scheme example environment
+% At 11 points, one column, these are about 56 characters wide.
+% That's 32 characters to the left of the => and about 20 to the right.
+
+\newenvironment{schemenoindent}{
+  % Commands for scheme examples
+  \newcommand{\ev}{\>\>\evalsto}
+  \newcommand{\lev}{\\\>\evalsto}
+  \newcommand{\unspecified}{{\em{}unspecified}}
+  \newcommand{\scherror}{{\em{}error}}
+  \setupcode
+  \small \cf \obeytabs \obeyspaces \myobeycr
+  \begin{tabbing}%
+\qquad\=\hspace*{5em}\=\hspace*{9em}\=\kill%   was 16em
+\gobblecr}{\unskip\end{tabbing}}
+
+\newenvironment{scheme}{
+  % Commands for scheme examples
+  \newcommand{\ev}{\>\>\evalsto}
+  \newcommand{\lev}{\\\>\evalsto}
+  \renewcommand{\em}{\rmfamily\itshape}
+  \newcommand{\unspecified}{{\em{}unspecified}}
+  \newcommand{\scherror}{{\em{}error}}
+  \setupcode
+  \small \cf \obeyspaces \myobeycr
+  \begin{tabbing}%
+\qquad\=\hspace*{5em}\=\hspace*{9em}\=\+\kill%   was 16em
+\gobblecr}{\unskip\end{tabbing}}
+
+\newcommand{\evalsto}{$\Longrightarrow$}
+
+% Rationale
+
+\newenvironment{rationale}{%
+\bgroup\small\noindent{\em Rationale:}\space}{%
+\egroup}
+
+% Notes
+
+\newenvironment{note}{%
+\bgroup\small\noindent{\em Note:}\space}{%
+\egroup}
+
+% Manual entries
+
+\newenvironment{entry}[1]{
+  \vspace{3.1ex plus .5ex minus .3ex}\noindent#1%
+\unpenalty\nopagebreak}{\vspace{0ex plus 1ex minus 1ex}}
+
+\newcommand{\exprtype}{syntax}
+
+\newcommand{\auxiliarytype}{auxiliary syntax}
+
+% Primitive prototype
+\newcommand{\pproto}[2]{\unskip%
+\hbox{\cf\spaceskip=0.5em#1}\hfill\penalty 0%
+\hbox{ }\nobreak\hfill\hbox{\rm #2}\break}
+
+% Parenthesized prototype
+\newcommand{\proto}[3]{\pproto{(\mainschindex{#1}\hbox{#1}{\it#2\/})}{#3}}
+
+% Variable prototype
+\newcommand{\vproto}[2]{\mainschindex{#1}\pproto{#1}{#2}}
+
+% Extending an existing definition (\proto without the index entry)
+\newcommand{\rproto}[3]{\pproto{(\hbox{#1}{\it#2\/})}{#3}}
+
+% Grammar environment
+
+\newenvironment{grammar}{
+  \def\:{\goesto{}}
+  \def\|{$\vert$}
+  \cf \myobeycr
+  \begin{tabbing}
+    %\qquad\quad \= 
+    \qquad \= $\vert$ \= \kill
+  }{\unskip\end{tabbing}}
+
+\newcommand{\unsection}{{\vskip -2ex}}
+
+% Commands for grammars
+\newcommand{\arbno}[1]{#1\hbox{\rm*}}  
+\newcommand{\atleastone}[1]{#1\hbox{$^+$}}
+
+\newcommand{\goesto}{$\longrightarrow$}
+
+% Feature identifiers
+\newcommand{\feature}[2]{
+\vskip 1em
+\hbox{\hfil\cf #1}
+\parindent=2em\par{#2}}
+
+% Scheme reports
+\newcommand{\rnrs}[1]{R$^{#1}$RS}
+\newcommand{\rthreers}{\rnrs 3}
+\newcommand{\rfourrs}{\rnrs 4}
+\newcommand{\rfivers}{\rnrs 5}
+\newcommand{\rsixrs}{\rnrs 6}
+\newcommand{\rsevenrs}{\rnrs 7}
+
+% The index
+
+\def\theindex{%\@restonecoltrue\if@twocolumn\@restonecolfalse\fi
+\clearpage
+\@topnewpage[
+    \centerline{\large\bf\uppercase{Alphabetic index of definitions of concepts,}}
+    \centerline{\large\bf\uppercase{keywords, and procedures}}
+    \vskip 1ex \bigskip]
+    \markboth{Index}{Index}
+    \phantomsection
+    \addcontentsline{toc}{chapter}{Alphabetic index of 
+ definitions of concepts,\hfil\penalty0 \hbox{\hspace*{2em} keywords, and procedures}}
+    \bgroup %\small
+    \parindent\z@
+    \parskip\z@ plus .1pt\relax\let\item\@idxitem}
+
+\def\@idxitem{\par\hangindent 40pt}
+
+\def\subitem{\par\hangindent 40pt \hspace*{20pt}}
+
+\def\subsubitem{\par\hangindent 40pt \hspace*{30pt}}
+
+\def\endtheindex{%\if@restonecol\onecolumn\else\clearpage\fi
+\egroup}
+
+\def\indexspace{\par \vskip 10pt plus 5pt minus 3pt\relax}
+
+\makeatother
+
+%DIF PREAMBLE EXTENSION ADDED BY LATEXDIFF
+%DIF UNDERLINE PREAMBLE %DIF PREAMBLE
+\RequirePackage[normalem]{ulem} %DIF PREAMBLE
+\RequirePackage{color}\definecolor{RED}{rgb}{1,0,0}\definecolor{BLUE}{rgb}{0,0,1} %DIF PREAMBLE
+\providecommand{\DIFadd}[1]{{\protect\color{blue}\uwave{#1}}} %DIF PREAMBLE
+\providecommand{\DIFdel}[1]{{\protect\color{red}\sout{#1}}}                      %DIF PREAMBLE
+%DIF SAFE PREAMBLE %DIF PREAMBLE
+\providecommand{\DIFaddbegin}{} %DIF PREAMBLE
+\providecommand{\DIFaddend}{} %DIF PREAMBLE
+\providecommand{\DIFdelbegin}{} %DIF PREAMBLE
+\providecommand{\DIFdelend}{} %DIF PREAMBLE
+%DIF FLOATSAFE PREAMBLE %DIF PREAMBLE
+\providecommand{\DIFaddFL}[1]{\DIFadd{#1}} %DIF PREAMBLE
+\providecommand{\DIFdelFL}[1]{\DIFdel{#1}} %DIF PREAMBLE
+\providecommand{\DIFaddbeginFL}{} %DIF PREAMBLE
+\providecommand{\DIFaddendFL}{} %DIF PREAMBLE
+\providecommand{\DIFdelbeginFL}{} %DIF PREAMBLE
+\providecommand{\DIFdelendFL}{} %DIF PREAMBLE
+%DIF END PREAMBLE EXTENSION ADDED BY LATEXDIFF
+
+\newenvironment{DIFnomarkup}{}{}

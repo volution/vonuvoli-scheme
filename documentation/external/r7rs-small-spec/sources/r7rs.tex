@@ -1,0 +1,79 @@
+\documentclass[twoside,twocolumn]{algol60}
+
+\usepackage{amsmath}
+
+\pagestyle{headings}
+\showboxdepth=0
+\makeindex
+\input{commands}
+
+\def\headertitle{Revised$^{7}$ Scheme}
+\def\integerversion{7}
+
+% Sizes and dimensions
+
+\topmargin -.375in       %    Nominal distance from top of page to top of
+                         %    box containing running head.
+\headsep 15pt            %    Space between running head and text.
+
+\textheight 663pt        % Height of text (including footnotes and figures, 
+                         % excluding running head and foot).
+
+\textwidth 523pt         % Width of text line.
+\columnsep 15pt          % Space between columns 
+\columnseprule 0pt       % Width of rule between columns.
+
+\parskip 5pt plus 2pt minus 2pt % Extra vertical space between paragraphs.
+\parindent 0pt                  % Width of paragraph indentation.
+\topsep 0pt plus 2pt            % Extra vertical space, in addition to 
+                                % \parskip, added above and below list and
+                                % paragraphing environments.
+
+\oddsidemargin  -.5in    % Left margin on odd-numbered pages.
+\evensidemargin -.5in    % Left margin on even-numbered pages.
+
+%% End of sizes and dimensions
+
+\usepackage{hyperref}
+%% \usepackage{supertabular}
+
+\begin{document}
+
+\parindent 0pt %!! 15pt                    % Width of paragraph indentation.
+
+\input{first}   \par
+\input{intro}   \par
+\vskip 2ex
+\clearchapterstar{Description of the language} %\unskip\vskip -2ex
+\input{struct}  \par
+\input{lex}	\par
+\input{basic}	\par
+\input{expr}	\par  \vfill\eject
+\input{prog}	\par
+\input{procs}	\par  \vfill\eject
+\input{syn}	\par
+\input{sem}	\par
+\input{derive}	\par  \vfill\eject
+\appendix
+\input{stdmod}	\par \vfill\eject
+\input{features} \par \vfill\eject
+\input{notes}	\par
+\input{repository} \par \vfill\eject
+\input{example}	\par  %\vfill\eject
+\renewcommand{\bibname}{References}
+\input{bib}	\par
+
+\vfill\eject
+
+
+\begin{theindex}
+
+The principal entry for each term, procedure, or keyword is listed
+first, separated from the other entries by a semicolon.
+
+\bigskip
+
+\input{index}
+\end{theindex}
+
+\end{document}

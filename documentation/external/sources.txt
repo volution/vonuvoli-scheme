@@ -1,0 +1,21 @@
+
+https://web.archive.org/web/*/http://trac.sacrideo.us/wg/raw-attachment/wiki/WikiStart/r7rs.pdf
+https://web.archive.org/web/20170606034308/http://trac.sacrideo.us/wg/raw-attachment/wiki/WikiStart/r7rs.pdf
+    MD5: 4b3dfe90422a410abd2137ea983594cf
+    SHA1: 9cbc794fb6d800c8f973a7ea0e3f087f3c3ce3e8
+
+https://web.archive.org/web/*/http://trac.sacrideo.us/wg/wiki/R7RSSmallErrata
+https://web.archive.org/web/20170115010345/http://trac.sacrideo.us/wg/wiki/R7RSSmallErrata
+    MD5: c0f48a9c7c6b9e17f0b1658e30d12554
+    SHA1: 2b84ca1f3a26b91781e30131ca030f5455382652
+
+https://web.archive.org/web/*/http://trac.sacrideo.us/wg/wiki/R7RSSmallErrata?format=txt
+https://web.archive.org/web/20160420180956/http://trac.sacrideo.us/wg/wiki/R7RSSmallErrata?format=txt
+    MD5: f764421e5e3281652c847d70e6d09bc9
+    SHA1: 68141bafc53bcd37d37f0c3ec8402322dba726d5
+
+https://web.archive.org/web/*/http://trac.sacrideo.us/wg/raw-attachment/wiki/WikiStart/r7rs-small-spec.zip
+https://web.archive.org/web/20160918044616/http://trac.sacrideo.us/wg/raw-attachment/wiki/WikiStart/r7rs-small-spec.zip
+    MD5: f14d704a4189646a067f541359d36991
+    SHA1: cde39e3981605f7677080876b54c0cba51414f7c
+

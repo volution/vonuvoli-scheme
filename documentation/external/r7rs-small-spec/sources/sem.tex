@@ -1,0 +1,773 @@
+%\vfill\eject
+\section{Formal semantics}
+\label{formalsemanticssection}
+
+\bgroup
+
+\newcommand{\sembrack}[1]{[\![#1]\!]}
+\newcommand{\fun}[1]{\hbox{\it #1}}
+\newenvironment{semfun}{\begin{tabbing}$}{$\end{tabbing}}
+\newcommand\LOC{{\tt{}L}}
+\newcommand\NAT{{\tt{}N}}
+\newcommand\TRU{{\tt{}T}}
+\newcommand\SYM{{\tt{}Q}}
+\newcommand\CHR{{\tt{}H}}
+\newcommand\NUM{{\tt{}R}}
+\newcommand\FUN{{\tt{}F}}
+\newcommand\EXP{{\tt{}E}}
+\newcommand\STV{{\tt{}E}}
+\newcommand\STO{{\tt{}S}}
+\newcommand\ENV{{\tt{}U}}
+\newcommand\ANS{{\tt{}A}}
+\newcommand\ERR{{\tt{}X}}
+\newcommand\DP{\tt{P}}
+\newcommand\EC{{\tt{}K}}
+\newcommand\CC{{\tt{}C}}
+\newcommand\MSC{{\tt{}M}}
+\newcommand\PAI{\hbox{\EXP$_{\rm p}$}}
+\newcommand\VEC{\hbox{\EXP$_{\rm v}$}}
+\newcommand\STR{\hbox{\EXP$_{\rm s}$}}
+
+\newcommand\elt{\downarrow}
+\newcommand\drop{\dagger}
+
+\newcommand{\wrong}[1]{\fun{wrong }\hbox{\rm``#1''}}
+\newcommand{\go}[1]{\hbox{\hspace*{#1em}}}
+
+This section provides a formal denotational semantics for the primitive
+expressions of Scheme and selected built-in procedures.  The concepts
+and notation used here are described in~\cite{Stoy77}; the definition of
+{\cf dynamic-wind} is taken from~\cite{GasbichlerKnauelSperberKelsey2003}.
+The notation is summarized below:
+
+\begin{tabular}{ll}
+$\langle\,\ldots\,\rangle$ & sequence formation \\
+$s \elt k$                 & $k$th member of the sequence $s$ (1-based) \\
+$\#s$                      & length of sequence $s$ \\
+$s \:\S\: t$               & concatenation of sequences $s$ and $t$ \\
+$s \drop k$                & drop the first $k$ members of sequence $s$ \\
+$t \rightarrow a, b$       & McCarthy conditional ``if $t$ then $a$ else $b$'' \\
+$\rho[x/i]$                & substitution ``$\rho$ with $x$ for $i$'' \\
+$x\hbox{ \rm in }{\texttt{D}}$         & injection of $x$ into domain $\texttt{D}$ \\
+$x\,\vert\,\texttt{D}$       & projection of $x$ to domain $\texttt{D}$
+\end{tabular}
+
+The reason that expression continuations take sequences of values instead
+of single values is to simplify the formal treatment of procedure calls
+and multiple return values.
+
+The boolean flag associated with pairs, vectors, and strings will be true
+for mutable objects and false for immutable objects.
+
+The order of evaluation within a call is unspecified.  We mimic that
+here by applying arbitrary permutations {\it permute} and {\it
+unpermute}, which must be inverses, to the arguments in a call before
+and after they are evaluated.  This is not quite right since it suggests,
+incorrectly, that the order of evaluation is constant throughout a program (for
+any given number of arguments), but it is a closer approximation to the intended
+semantics than a left-to-right evaluation would be.
+
+The storage allocator {\it new} is implementation-dependent, but it must
+obey the following axiom:  if \hbox{$\fun{new}\:\sigma\:\elem\:\LOC$}, then
+$\sigma\:(\fun{new}\:\sigma\:\vert\:\LOC)\elt 2 = {\it false}$.
+
+\def\P{\hbox{\rm P}}
+\def\I{\hbox{\rm I}}
+\def\Ksem{\hbox{$\cal K$}}
+\def\Esem{\hbox{$\cal E$}}
+
+The definition of $\Ksem$ is omitted because an accurate definition of
+$\Ksem$ would complicate the semantics without being very interesting.
+
+If \P{} is a program in which all variables are defined before being
+referenced or assigned, then the meaning of \P{} is
+$$\Esem\sembrack{\hbox{\texttt{((lambda (\arbno{\I}) \P')
+\hyper{undefined} \dotsfoo)}}}$$
+where \arbno{\I} is the sequence of variables defined in \P, $\P'$
+is the sequence of expressions obtained by replacing every definition
+in \P{} by an assignment, \hyper{undefined} is an expression that evaluates
+to \fun{undefined}, and
+$\Esem$ is the semantic function that assigns meaning to expressions.
+
+%The semantics in this section was translated by machine from an
+%executable version of the semantics written in Scheme itself.
+%[This was once true, but then I modified the semantics without
+%going back to the executable version.  -- Will]
+
+
+\subsection{Abstract syntax}
+
+\def\K{\hbox{\rm K}}
+\def\I{\hbox{\rm I}}
+\def\E{\hbox{\rm E}}
+\def\C{\hbox{$\Gamma$}}
+\def\Con{\hbox{\rm Con}}
+\def\Ide{\hbox{\rm Ide}}
+\def\Exp{\hbox{\rm Exp}}
+\def\Com{\hbox{\rm Com}}
+\def\|{$\vert$}
+
+\begin{tabular}{r@{ }c@{ }l@{\qquad}l}
+\K & \elem & \Con & constants, including quotations \\
+\I & \elem & \Ide & identifiers (variables) \\
+\E & \elem & \Exp & expressions\\
+\C & \elem & \Com{} $=$ \Exp & commands
+\end{tabular}
+
+\setbox0=\hbox{\texttt{\Exp \goesto{}}}  %\tt for spacing
+\setbox1=\hbox to 1\wd0{\hfil \|}
+\begin{grammar}
+\Exp{} \goesto{} \K{} \| \I{} \| (\E$_0$ \arbno{\E})
+ \copy1{} (lambda (\arbno{\I}) \arbno{\C} \E$_0$)
+ \copy1{} (lambda (\arbno{\I} {\bf.}\ \I) \arbno{\C} \E$_0$)
+ \copy1{} (lambda \I{} \arbno{\C} \E$_0$)
+ \copy1{} (if \E$_0$ \E$_1$ \E$_2$) \| (if \E$_0$ \E$_1$)
+ \copy1{} (set! \I{} \E)
+\end{grammar}
+
+\subsection{Domain equations}
+
+\begin{tabular}{@{}r@{ }c@{ }l@{ }l@{ }ll}
+$\alpha$   & \elem & \LOC & &          & locations \\
+$\nu$      & \elem & \NAT & &          & natural numbers \\
+           &       & \TRU &=& $\{$\it false, true$\}$ & booleans \\
+           &       & \SYM & &          & symbols \\
+           &       & \CHR & &          & characters \\
+           &       & \NUM & &          & numbers \\
+           &       & \PAI &=& $\LOC \times \LOC \times \TRU$  & pairs \\
+           &       & \VEC &=& $\arbno{\LOC} \times \TRU$ & vectors \\
+           &       & \STR &=& $\arbno{\LOC} \times \TRU$ & strings \\
+           &       & \MSC &=& \makebox[0pt][l]{$\{$\it false, true, 
+                                null, undefined, unspecified$\}$} \\
+           &       &      & &          & miscellaneous \\
+$\phi$     & \elem & \FUN &=& $\LOC\times(\arbno{\EXP} \to \DP \to \EC \to \CC)$
+                                       & procedure values \\
+$\epsilon$ & \elem & \EXP &=& \makebox[0pt][l]{$\SYM+\CHR+\NUM+\PAI+\VEC+\STR+\MSC+\FUN$}\\
+           &       &      & &          & expressed values \\
+%          &       & \STV &=& \EXP     & stored values \\
+$\sigma$   & \elem & \STO &=& $\LOC\to(\STV\times\TRU)$ & stores \\
+$\rho$     & \elem & \ENV &=& $\Ide\to\LOC$  & environments \\
+$\theta$   & \elem & \CC  &=& $\STO\to\ANS$  & command conts \\
+$\kappa$   & \elem & \EC  &=& $\arbno{\EXP}\to\CC$ & expression conts \\
+           &       & \ANS & &                & answers \\
+           &       & \ERR & &                & errors \\
+$\omega$   & \elem & \DP  &=& $(\FUN \times \FUN \times \DP) + \{\textit{root}\}$ & dynamic points\\
+\end{tabular}
+
+\subsection{Semantic functions}
+
+\def\Ksem{\hbox{$\cal K$}}
+\def\Esem{\hbox{$\cal E$}}
+\def\Csem{\hbox{$\cal C$}}
+
+\begin{tabular}{@{}r@{ }l}
+  $\Ksem:$ & $\Con\to\EXP$  \\
+  $\Esem:$ & $\Exp\to\ENV\to\DP\to\EC\to\CC$ \\
+$\arbno{\Esem}:$ & $\arbno{\Exp}\to\ENV\to\DP\to\EC\to\CC$ \\
+  $\Csem:$ & $\arbno{\Com}\to\ENV\to\DP\to\CC\to\CC$
+\end{tabular}
+
+\bgroup\small
+
+\vspace{1ex}
+
+Definition of \Ksem{} deliberately omitted.
+
+\begin{semfun}
+\Esem\sembrack{\K} =
+  \lambda\rho\omega\kappa\:.\:\fun{send}\,(\Ksem\sembrack{\K})\,\kappa
+\end{semfun}
+
+\begin{semfun}
+\Esem\sembrack{\I} = 
+  \lambda\rho\omega\kappa\:.\:\fun{hold}\:
+    $\=$(\fun{lookup}\:\rho\:\I)$\\
+     \>$(\fun{single}(\lambda\epsilon\:.\:
+        $\=$\epsilon = \fun{undefined}\rightarrow$\\
+     \>  \> \go{2}$\wrong{undefined variable},$\\
+     \>  \>\go{1}$\fun{send}\:\epsilon\:\kappa))
+\end{semfun}
+
+\begin{semfun}
+\Esem\sembrack{\hbox{\texttt{($\E_0$ \arbno{\E})}}} =$\\
+ \go{1}$\lambda\rho\omega\kappa\:.\:\arbno{\Esem}
+    $\=$(\fun{permute}(\langle\E_0\rangle\:\S\:\arbno{\E}))$\\
+     \>$\rho\:$\\
+     \>$\omega\:$\\
+     \>$(\lambda\arbno{\epsilon}\:.\:
+        ($\=$(\lambda\arbno{\epsilon}\:.\:
+                 \fun{applicate}\:(\arbno{\epsilon}\elt 1)
+                                \:(\arbno{\epsilon}\drop 1)
+                                \:\omega\kappa)$\\
+     \>   \>$(\fun{unpermute}\:\arbno{\epsilon})))
+\end{semfun}
+
+\begin{semfun}
+\Esem\sembrack{\hbox{\texttt{(\ide{lambda} (\arbno{\I}) \arbno{\C} $\E_0$)}}} =$\\
+ \go{1}$\lambda\rho\omega\kappa\:.\:\lambda\sigma\:.\:$\\
+  \go{2}$\fun{new}\:\sigma\:\elem\:\LOC\rightarrow$\\
+   \go{3}$\fun{send}\:
+     $\=$(\langle
+         $\=$\fun{new}\:\sigma\,\vert\,\LOC,$\\
+      \>  \>$\lambda\arbno{\epsilon}\omega^\prime\kappa^\prime\:.\:
+               $\=$\#\arbno{\epsilon} = \#{\arbno{\I}}\rightarrow$\\
+      \>  \>    $\go{1}\fun{tievals}
+                   $\=$(\lambda\arbno{\alpha}\:.\:
+                         $\=$(\lambda\rho^\prime\:.\:\Csem\sembrack{\arbno{\C}}\rho^\prime\omega^\prime
+                              (\Esem\sembrack{\E_0}\rho^\prime\omega^\prime\kappa^\prime))$\\
+      \>  \>      \>    \>$(\fun{extends}\:\rho\:{\arbno{\I}}\:\arbno{\alpha}))$\\
+      \>  \>      \>$\arbno{\epsilon},$\\
+      \>  \>    \go{1}$\wrong{wrong number of arguments}\rangle$\\
+      \>  \>$\hbox{ \rm in }\EXP)$\\
+      \>$\kappa$\\
+      \>$(\fun{update}\:(\fun{new}\:\sigma\,\vert\,\LOC)
+                           \:\fun{unspecified}
+                           \:\sigma),$\\
+  \go{3}$\wrong{out of memory}\:\sigma
+\end{semfun}
+
+\begin{semfun}
+\Esem\sembrack{\hbox{\texttt{(lambda (\arbno{\I} {\bf.}\ \I) \arbno{\C} $\E_0$)}}} =$\\
+ \go{1}$\lambda\rho\omega\kappa\:.\:\lambda\sigma\:.\:$\\
+  \go{2}$\fun{new}\:\sigma\:\elem\:\LOC\rightarrow$\\
+   \go{3}$\fun{send}\:
+     $\=$(\langle
+         $\=$\fun{new}\:\sigma\,\vert\,\LOC,$\\
+      \>  \>$\lambda\arbno{\epsilon}\omega^\prime\kappa^\prime\:.\:
+               $\=$\#\arbno{\epsilon} \geq \#\arbno{\I}\rightarrow$\\
+      \>  \>    \>\go{1}$\fun{tievalsrest}$\\
+      \>  \>    \>\go{2}\=$(\lambda\arbno{\alpha}\:.\:
+                           $\=$(\lambda\rho^\prime\:.\:\Csem\sembrack{\arbno{\C}}\rho^\prime\omega^\prime
+                               (\Esem\sembrack{\E_0}\rho^\prime\omega^\prime\kappa^\prime))$\\
+      \>  \>    \>       \> \>$(\fun{extends}\:\rho
+                               \:(\arbno{\I}\:\S\:\langle\I\rangle)
+                               \:\arbno{\alpha}))$\\
+      \>  \>    \>       \>$\arbno{\epsilon}$\\
+      \>  \>    \>       \>$(\#\arbno{\I}),$\\
+      \>  \>    \>\go{1}$\wrong{too few arguments}\rangle\hbox{ \rm in }\EXP)$\\
+      \>$\kappa$\\
+      \>$(\fun{update}\:(\fun{new}\:\sigma\,\vert\,\LOC)
+                           \:\fun{unspecified}
+                           \:\sigma),$\\
+  \go{3}$\wrong{out of memory}\:\sigma
+\end{semfun}
+
+\begin{semfun}
+\Esem\sembrack{\hbox{\texttt{(lambda \I{} \arbno{\C} $\E_0$)}}} =
+ \Esem\sembrack{\hbox{\texttt{(lambda ({\bf.}\ \I) \arbno{\C} $\E_0$)}}}
+\end{semfun}
+
+\begin{semfun}
+\Esem\sembrack{\hbox{\texttt{(\ide{if} $\E_0$ $\E_1$ $\E_2$)}}} =$\\
+ \go{1}$\lambda\rho\omega\kappa\:.\:
+   \Esem\sembrack{\E_0}\:\rho\omega\:(\fun{single}\:(\lambda\epsilon\:.\:
+    $\=$\fun{truish}\:\epsilon\rightarrow\Esem\sembrack{\E_1}\rho\omega\kappa,$\\
+     \>\go{1}$\Esem\sembrack{\E_2}\rho\omega\kappa))
+\end{semfun}
+
+\begin{semfun}
+\Esem\sembrack{\hbox{\texttt{(if $\E_0$ $\E_1$)}}} =$\\
+ \go{1}$\lambda\rho\omega\kappa\:.\:
+   \Esem\sembrack{\E_0}\:\rho\omega\:(\fun{single}\:(\lambda\epsilon\:.\:
+    $\=$\fun{truish}\:\epsilon\rightarrow\Esem\sembrack{\E_1}\rho\omega\kappa,$\\
+     \>\go{1}$\fun{send}\:\fun{unspecified}\:\kappa))
+\end{semfun}
+
+Here and elsewhere, any expressed value other than {\it undefined} may
+be used in place of {\it unspecified}.
+
+\begin{semfun}
+\Esem\sembrack{\hbox{\texttt{(\ide{set!} \I{} \E)}}} =$\\
+ \go{1}$\lambda\rho\omega\kappa\:.\:\Esem\sembrack{\E}\:\rho\:\omega\:
+     (\fun{single}(\lambda\epsilon\:.\:\fun{assign}\:
+       $\=$(\fun{lookup}\:\rho\:\I)$\\
+        \>$\epsilon$\\
+        \>$(\fun{send}\:\fun{unspecified}\:\kappa)))
+\end{semfun}
+
+\begin{semfun}
+\arbno{\Esem}\sembrack{\:} =
+  \lambda\rho\omega\kappa\:.\:\kappa\langle\:\rangle
+\end{semfun}
+
+\begin{semfun}
+\arbno{\Esem}\sembrack{\E_0\:\arbno{\E}} =$\\
+ \go{1}$\lambda\rho\omega\kappa\:.\:
+      \Esem\sembrack{\E_0}\:\rho\omega\:
+         (\fun{single}
+            (\lambda\epsilon_0\:.\:\arbno{\Esem}\sembrack{\arbno{\E}}
+                \:\rho\omega\:(\lambda\arbno{\epsilon}\:.\:
+                           \kappa\:(\langle\epsilon_0\rangle\:\S\:\arbno{\epsilon}))))
+\end{semfun}
+
+\begin{semfun}
+\Csem\sembrack{\:} = \lambda\rho\omega\theta\,.\:\theta
+\end{semfun}
+
+\begin{semfun}
+\Csem\sembrack{\C_0\:\arbno{\C}} =
+  \lambda\rho\omega\theta\:.\:\Esem\sembrack{\C_0}\:\rho\omega\:(\lambda\arbno{\epsilon}\:.\:
+   \Csem\sembrack{\arbno{\C}}\rho\omega\theta)
+\end{semfun}
+
+\egroup  % end smallish
+
+\subsection{Auxiliary functions}
+
+\bgroup\small
+
+\begin{semfun}
+\fun{lookup}        :  \ENV \to \Ide \to \LOC$\\$
+\fun{lookup} =
+ \lambda\rho\I\:.\:\rho\I
+\end{semfun}
+
+\begin{semfun}
+\fun{extends}       :  \ENV \to \arbno{\Ide} \to \arbno{\LOC} \to \ENV$\\$
+\fun{extends} =$\\
+ \go{1}$\lambda\rho\arbno{\I}\arbno{\alpha}\:.\:
+   $\=$\#\arbno{\I}=0\rightarrow\rho,$\\
+    \>$\go{1}\fun{extends}\:(\rho[(\arbno{\alpha}\elt 1)/(\arbno{\I}\elt 1)])
+                               \:(\arbno{\I}\drop 1)
+                               \:(\arbno{\alpha}\drop 1)
+\end{semfun}
+
+\begin{semfun}
+\fun{wrong}  :  \ERR \to \CC    \hbox{\qquad [implementation-dependent]}
+\end{semfun}
+
+\begin{semfun}
+\fun{send}          :  \EXP \to \EC \to \CC$\\$
+\fun{send} =
+ \lambda\epsilon\kappa\:.\:\kappa\langle\epsilon\rangle
+\end{semfun}
+
+\begin{semfun}
+\fun{single}        :  (\EXP \to \CC) \to \EC$\\$
+\fun{single} =$\\
+ \go{1}$\lambda\psi\arbno{\epsilon}\:.\:
+   $\=$\#\arbno{\epsilon}=1\rightarrow\psi(\arbno{\epsilon}\elt 1),$\\
+    \>$\go{1}\wrong{wrong number of return values}
+\end{semfun}
+
+\begin{semfun}
+\fun{new}           :  \STO \to (\LOC + \{ \fun{error} \})
+    \hbox{\qquad [implementation-dependent]}
+\end{semfun}
+
+\begin{semfun}
+\fun{hold}          :  \LOC \to \EC \to \CC$\\$
+\fun{hold} =
+ \lambda\alpha\kappa\sigma\:.\:\fun{send}\,(\sigma\alpha\elt 1)\kappa\sigma
+\end{semfun}
+
+\begin{semfun}
+\fun{assign}        :  \LOC \to \EXP \to \CC \to \CC$\\$
+\fun{assign} =
+ \lambda\alpha\epsilon\theta\sigma\:.\:\theta(\fun{update}\:\alpha\epsilon\sigma)
+\end{semfun}
+
+\begin{semfun}
+\fun{update}        :  \LOC \to \EXP \to \STO \to \STO$\\$
+\fun{update} =
+ \lambda\alpha\epsilon\sigma\:.\:\sigma[\langle\epsilon,\fun{true}\rangle/\alpha]
+\end{semfun}
+
+\begin{semfun}
+\fun{tievals}       :  (\arbno{\LOC} \to \CC) \to \arbno{\EXP} \to \CC$\\$
+\fun{tievals} =$\\
+ \go{1}$\lambda\psi\arbno{\epsilon}\sigma\:.\:
+   $\=$\#\arbno{\epsilon}=0\rightarrow\psi\langle\:\rangle\sigma,$\\
+    \>$\fun{new}\:\sigma\:\elem\:\LOC\rightarrow\fun{tievals}\,
+       $\=$(\lambda\arbno{\alpha}\:.\:\psi(\langle\fun{new}\:\sigma\:\vert\:\LOC\rangle
+                                     \:\S\:\arbno{\alpha}))$\\
+    \>  \>$(\arbno{\epsilon}\drop 1)$\\
+    \>  \>$(\fun{update}(\fun{new}\:\sigma\:\vert\:\LOC)
+                                 (\arbno{\epsilon}\elt 1)
+                                 \sigma),$\\
+    \>$\go{1}\wrong{out of memory}\sigma
+\end{semfun}
+
+\begin{semfun}
+\fun{tievalsrest}   :  (\arbno{\LOC} \to \CC) \to \arbno{\EXP} \to \NAT \to \CC$\\$
+\fun{tievalsrest} =$\\
+ \go{1}$\lambda\psi\arbno{\epsilon}\nu\:.\:\fun{list}\:
+   $\=$(\fun{dropfirst}\:\arbno{\epsilon}\nu)$\\
+    \>$(\fun{single}(\lambda\epsilon\:.\:\fun{tievals}\:\psi\:
+           ((\fun{takefirst}\:\arbno{\epsilon}\nu)\:\S\:\langle\epsilon\rangle)))
+\end{semfun}
+
+\begin{semfun}
+\fun{dropfirst} =
+ \lambda l n \:.\:  n=0 \rightarrow l, \fun{dropfirst}\,(l \drop 1)(n - 1)
+\end{semfun}
+
+\begin{semfun}
+\fun{takefirst} =
+ \lambda l n \:.\: n=0 \rightarrow \langle\:\rangle,
+     \langle l \elt 1\rangle\:\S\:(\fun{takefirst}\,(l \drop 1)(n - 1))
+\end{semfun}
+
+\begin{semfun}
+\fun{truish}        :  \EXP \to \TRU$\\$
+\fun{truish} =
+  \lambda\epsilon\:.\:
+%    (\epsilon = \fun{false}\vee\epsilon = \fun{null})\rightarrow
+     \epsilon = \fun{false}\rightarrow
+          \fun{false},
+          \fun{true}
+\end{semfun}
+
+\begin{semfun}
+\fun{permute}       :  \arbno{\Exp} \to \arbno{\Exp}
+    \hbox{\qquad [implementation-dependent]}
+\end{semfun}
+
+\begin{semfun}
+\fun{unpermute}     :  \arbno{\EXP} \to \arbno{\EXP}
+    \hbox{\qquad [inverse of \fun{permute}]}
+\end{semfun}
+
+\begin{semfun}
+\fun{applicate}     :  \EXP \to \arbno{\EXP} \to \DP \to \EC \to \CC$\\$
+\fun{applicate} =$\\
+ \go{1}$\lambda\epsilon\arbno{\epsilon}\omega\kappa\:.\:
+   $\=$\epsilon\:\elem\:\FUN\rightarrow(\epsilon\:\vert\:\FUN\elt 2)\arbno{\epsilon}\omega\kappa,
+          \wrong{bad procedure}
+\end{semfun}
+
+\begin{semfun}
+\fun{onearg}      :  (\EXP \to \DP \to \EC \to \CC) \to (\arbno{\EXP} \to \DP \to \EC \to \CC)$\\$
+\fun{onearg} =$\\
+ \go{1}$\lambda\zeta\arbno{\epsilon}\omega\kappa\:.\:
+   $\=$\#\arbno{\epsilon}=1\rightarrow\zeta(\arbno{\epsilon}\elt 1)\omega\kappa,$\\
+    \>$\go{1}\wrong{wrong number of arguments}
+\end{semfun}
+
+\begin{semfun}
+\fun{twoarg}      :  (\EXP \to \EXP \to \DP \to \EC \to \CC) \to (\arbno{\EXP} \to \DP \to \EC \to \CC)$\\$
+\fun{twoarg} =$\\
+ \go{1}$\lambda\zeta\arbno{\epsilon}\omega\kappa\:.\:
+   $\=$\#\arbno{\epsilon}=2\rightarrow\zeta(\arbno{\epsilon}\elt 1)(\arbno{\epsilon}\elt 2)\omega\kappa,$\\
+    \>$\go{1}\wrong{wrong number of arguments}
+\end{semfun}
+
+\begin{semfun}
+\fun{threearg}      :  (\EXP \to \EXP \to \EXP \to \DP \to \EC \to \CC) \to (\arbno{\EXP} \to \DP \to \EC \to \CC)$\\$
+\fun{threearg} =$\\
+ \go{1}$\lambda\zeta\arbno{\epsilon}\omega\kappa\:.\:
+   $\=$\#\arbno{\epsilon}=3\rightarrow\zeta(\arbno{\epsilon}\elt 1)(\arbno{\epsilon}\elt 2)(\arbno{\epsilon}\elt 3)\omega\kappa,$\\
+    \>$\go{1}\wrong{wrong number of arguments}
+\end{semfun}
+
+\begin{semfun}
+\fun{list}          :  \arbno{\EXP} \to \DP \to \EC \to \CC$\\$
+\fun{list} =$\\
+ \go{1}$\lambda\arbno{\epsilon}\omega\kappa\:.\:
+   $\=$\#\arbno{\epsilon}=0\rightarrow\fun{send}\:\fun{null}\:\kappa,$\\
+    \>$\go{1}\fun{list}\,(\arbno{\epsilon}\drop 1)
+             (\fun{single}(\lambda\epsilon\:.\:
+                   \fun{cons}\langle\arbno{\epsilon}\elt 1,\epsilon\rangle\kappa))
+\end{semfun}
+
+\begin{semfun}
+\fun{cons}          :  \arbno{\EXP} \to \DP \to \EC \to \CC$\\$
+\fun{cons} =$\\
+ \go{1}$\fun{twoarg}\,(\lambda\epsilon_1\epsilon_2\kappa\omega\sigma\:.\:
+   $\=$\fun{new}\:\sigma\:\elem\:\LOC\rightarrow$\\
+    \> 
+        \=$(\lambda\sigma^\prime\:.\:
+           $\=$\fun{new}\:\sigma^\prime\:\elem\:\LOC\rightarrow$\\
+    \>  \>$\go{1}\fun{send}\,
+               $\=$($\=$\langle\fun{new}\:\sigma\:\vert\:\LOC,
+                                            \fun{new}\:\sigma^\prime\:\vert\:\LOC,
+         \fun{true}\rangle$\\
+                                \>  \>  \>  \>$\hbox{ \rm in }\EXP)$\\
+    \>  \>  \>$\kappa$\\
+    \>  \>  \>$(\fun{update}(\fun{new}\:\sigma^\prime\:\vert\:\LOC)
+                                     \epsilon_2
+                                     \sigma^\prime),$\\
+    \>  \>$\go{1}\wrong{out of memory}\sigma^\prime)$\\
+    \>  $(\fun{update}(\fun{new}\:\sigma\:\vert\:\LOC)\epsilon_1\sigma),$\\
+    \>$\wrong{out of memory}\sigma)
+\end{semfun}
+
+\schindex{<}
+\begin{semfun}
+\fun{less}          :  \arbno{\EXP} \to \DP \to \EC \to \CC$\\$
+\fun{less} =$\\
+ \go{1}$\fun{twoarg}\,(\lambda\epsilon_1\epsilon_2\omega\kappa\:.\:
+   $\=$(\epsilon_1\:\elem\:\NUM\wedge\epsilon_2\:\elem\:\NUM)\rightarrow$\\
+    \>$\go{1}\fun{send}\,
+               (\epsilon_1\:\vert\:\NUM<\epsilon_2\:\vert\:\NUM\rightarrow
+                   \fun{true},
+                   \fun{false})
+               \kappa,$\\
+    \>$\go{1}\wrong{non-numeric argument to {\cf <}})
+\end{semfun}
+
+\schindex{+}
+\begin{semfun}
+\fun{add}          :  \arbno{\EXP} \to \DP \to \EC \to \CC$\\$
+\fun{add} =$\\
+ \go{1}$\fun{twoarg}\,(\lambda\epsilon_1\epsilon_2\omega\kappa\:.\:
+   $\=$(\epsilon_1\:\elem\:\NUM\wedge\epsilon_2\:\elem\:\NUM)\rightarrow$\\
+    \>$\go{1}\fun{send}\,
+       $\=$((\epsilon_1\:\vert\:\NUM+\epsilon_2\:\vert\:\NUM)\hbox{ \rm in }\EXP)
+           \kappa,$\\
+    \>$\go{1}\wrong{non-numeric argument to {\cf +}})
+\end{semfun}
+
+\schindex{car}
+\begin{semfun}
+\fun{car}          :  \arbno{\EXP} \to \DP \to \EC \to \CC$\\$
+\fun{car} =$\\
+ \go{1}$\fun{onearg}\,(\lambda\epsilon\omega\kappa\:.\:
+   $\=$\epsilon\:\elem\:\PAI\rightarrow
+          \fun{car-internal}\:\epsilon\kappa,$\\
+    \>$\go{1}\wrong{non-pair argument to {\cf car}})
+\end{semfun}
+
+\schindex{car-internal}
+\begin{semfun}
+\fun{car-internal}          :  \EXP \to \EC \to \CC$\\$
+\fun{car-internal} =
+ $\go{1}$\lambda\epsilon\omega\kappa\:.\:
+   $\=$\fun{hold}\, (\epsilon\:\vert\:\PAI\elt 1) \kappa
+\end{semfun}
+
+\begin{semfun}
+\fun{cdr}          :  \arbno{\EXP} \to \DP \to \EC \to \CC %$\\$
+\hbox{\qquad [similar to \fun{car}]}
+\end{semfun}
+
+\begin{semfun}
+\fun{cdr-internal} :  \EXP \to \EC \to \CC %$\\$
+\hbox{\qquad [similar to \fun{car-internal}]}
+\end{semfun}
+
+\schindex{setcar}
+\begin{semfun}
+\fun{setcar}          :  \arbno{\EXP} \to \DP \to \EC \to \CC$\\$
+\fun{setcar} =$\\
+ \go{1}$\fun{twoarg}\,(\lambda\epsilon_1\epsilon_2\omega\kappa\:.\:
+   $\=$\epsilon_1\:\elem\:\PAI\rightarrow$\\
+    \>$(\epsilon_1\:\vert\:\PAI\elt 3)\rightarrow
+          \fun{assign}\,$\=$(\epsilon_1\:\vert\:\PAI\elt 1)$\\
+    \>                           \>$\epsilon_2$\\
+    \>                                  \>$(\fun{send}\:\fun{unspecified}\:\kappa),$\\
+    \>$\wrong{immutable argument to {\cf set-car!}},$\\
+    \>$\wrong{non-pair argument to {\cf set-car!}})
+\end{semfun}
+
+\schindex{eqv?}
+\begin{semfun}
+\fun{eqv}          :  \arbno{\EXP} \to \DP \to \EC \to \CC$\\$
+\fun{eqv} =$\\
+ \go{1}$\fun{twoarg}\,(\lambda\epsilon_1\epsilon_2\omega\kappa\:.\:
+   $\=$(\epsilon_1\:\elem\:\MSC\wedge\epsilon_2\:\elem\:\MSC)\rightarrow$\\
+    \>$\go{1}\fun{send}\,
+       $\=$(\epsilon_1\:\vert\:\MSC = \epsilon_2\:\vert\:\MSC\rightarrow\fun{true},
+            \fun{false})\kappa,$\\
+    \>$(\epsilon_1\:\elem\:\SYM\wedge\epsilon_2\:\elem\:\SYM)\rightarrow$\\
+    \>$\go{1}\fun{send}\,
+       $\=$(\epsilon_1\:\vert\:\SYM = \epsilon_2\:\vert\:\SYM\rightarrow\fun{true},
+            \fun{false})\kappa,$\\
+    \>$(\epsilon_1\:\elem\:\CHR\wedge\epsilon_2\:\elem\:\CHR)\rightarrow$\\
+    \>$\go{1}\fun{send}\,
+       $\=$(\epsilon_1\:\vert\:\CHR = \epsilon_2\:\vert\:\CHR \rightarrow\fun{true},
+            \fun{false})\kappa,$\\
+    \>$(\epsilon_1\:\elem\:\NUM\wedge\epsilon_2\:\elem\:\NUM)\rightarrow$\\
+    \>$\go{1}\fun{send}\,
+       $\=$(\epsilon_1\:\vert\:\NUM=\epsilon_2\:\vert\:\NUM\rightarrow\fun{true},
+            \fun{false})\kappa,$\\
+    \>$(\epsilon_1\:\elem\:\PAI\wedge\epsilon_2\:\elem\:\PAI)\rightarrow$\\
+    \>$\go{1}\fun{send}\,
+       $\=$($\=$(\lambda{p_1}{p_2}\:.\:
+                ($\=$({p_1}\elt 1) = ({p_2}\elt 1)\wedge$\\
+    \>  \>   \>   \>$({p_1}\elt 2) = ({p_2}\elt 2))
+                     \rightarrow\fun{true},$\\
+    \>  \>   \>   \>$\go{1}\fun{false})$\\
+    \>  \>   \>$(\epsilon_1\:\vert\:\PAI)$\\
+    \>  \>   \>$(\epsilon_2\:\vert\:\PAI))$\\
+    \>  \>$\kappa,$\\
+    \>$(\epsilon_1\:\elem\:\VEC\wedge\epsilon_2\:\elem\:\VEC)\rightarrow
+%\fun{send}\,
+%       $\=$((\#(\epsilon_1\:\vert\:\VEC)=\#(\epsilon_2\:\vert\:\VEC)
+%         \wedge\hbox{\rm Y}(\lambda\fun{loop}\:.\:\lambda\fun{v1}\fun{v2}\:.\:
+%       $\=$\#\fun{v1}=0\rightarrow\fun{true},$\\
+%    \>  \>  \>$(\fun{v1}\elt 1) = (\fun{v2}\elt 1)\rightarrow
+%       \fun{loop}(\fun{v1}\drop 1)(\fun{v2}\drop 1),$\\
+%    \>  \>  \>$\go{1}\fun{false})(\epsilon_1\:\vert\:\VEC)(\epsilon_2\:\vert\:\VEC))
+%          \rightarrow\fun{true},$\\
+%    \>  \>$\go{1}\fun{false})\kappa
+\ldots,$\\
+    \>$(\epsilon_1\:\elem\:\STR\wedge\epsilon_2\:\elem\:\STR)\rightarrow
+%\fun{send}\,
+%       $\=$((\#(\epsilon_1\:\vert\:\STR)=\#(\epsilon_2\:\vert\:\STR)\wedge
+%    \hbox{\rm Y}(\lambda\fun{loop}\:.\:\lambda\fun{v1}\fun{v2}\:.\:
+%       $\=$\#\fun{v1}=0\rightarrow\fun{true},$\\
+%    \>  \>  \>$(\fun{v1}\elt 1) = (\fun{v2}\elt 1)\rightarrow
+%     \fun{loop}(\fun{v1}\drop 1)(\fun{v2}\drop 1),$\\
+%    \>  \>  \>$\go{1}\fun{false})(\epsilon_1\:\vert\:\STR)(\epsilon_2\:\vert\:\STR))
+%      \rightarrow\fun{true},$\\
+%    \>  \>$\go{1}\fun{false})\kappa
+\ldots,$\\
+    \>$(\epsilon_1\:\elem\:\FUN\wedge\epsilon_2\:\elem\:\FUN)\rightarrow$\\
+    \>$\go{1}\fun{send}\,
+       $\=$((\epsilon_1\:\vert\:\FUN\elt 1) = (\epsilon_2\:\vert\:\FUN\elt 1)
+               \rightarrow\fun{true},
+                          \fun{false})$\\
+    \>  \>$\kappa,$\\
+    \>$\go{1}\fun{send}\,\:\fun{false}\:\kappa)
+\end{semfun}
+
+\schindex{apply}
+\begin{semfun}
+\fun{apply}          :  \arbno{\EXP} \to \DP \to \EC \to \CC$\\$
+\fun{apply} =$\\
+ \go{1}$\fun{twoarg}\,(\lambda\epsilon_1\epsilon_2\omega\kappa\:.\:
+   $\=$\epsilon_1\:\elem\:\FUN\rightarrow
+         \fun{valueslist}\:\epsilon_2
+            (\lambda\arbno{\epsilon}\:.\:\fun{applicate}\:\epsilon_1\arbno{\epsilon}\omega\kappa),$\\
+    \>$\go{1}\wrong{bad procedure argument to {\cf apply}})
+\end{semfun}
+
+\begin{semfun}
+\fun{valueslist}          :  \EXP \to \EC \to \CC$\\$
+\fun{valueslist} =$\\
+ \go{1}$\lambda\epsilon\kappa\:.\:
+   $\=$\epsilon\:\elem\:\PAI\rightarrow$\\
+    \>$\go{1}\fun{cdr-internal}\:
+         $\=$\epsilon$\\
+    \>    \>$(\lambda\arbno{\epsilon}\:.\:
+                  $\=$\fun{valueslist}\:$\\
+    \>    \>       \>$\arbno{\epsilon}$\\
+    \>    \>       \>$(\lambda\arbno{\epsilon}\:.\:$\=$\fun{car-internal}$\\
+    \>    \>       \>                               \>$\:\epsilon$\\
+    \>    \>       \>                               \>$ (\fun{single}(\lambda\epsilon\:.\:
+              \kappa(\langle\epsilon\rangle\:\S\:\arbno{\epsilon}))))),$\\
+    \>$\epsilon = \fun{null}\rightarrow\kappa\langle\:\rangle,$\\
+    \>$\go{1}\wrong{non-list argument to {\cf values-list}}
+\end{semfun}
+
+\begin{semfun}
+\fun{cwcc}          $\=$:  \arbno{\EXP} \to \DP \to \EC \to \CC$\\$
+    $\>$ \hbox{\qquad [\ide{call-with-current-continuation}]}$\\$
+\fun{cwcc} =$\\
+ \go{1}$\fun{onearg}\,(\lambda\epsilon\omega\kappa\:.\:
+   $\=$\epsilon\:\elem\:\FUN\rightarrow$\\
+    \>$(\lambda\sigma\:.\:
+       $\=$\fun{new}\:\sigma\:\elem\:\LOC\rightarrow$\\
+    \>  \>$\go{1}\fun{applicate}\:
+           $\=$\epsilon$\\
+    \>  \>  \>$\langle\langle$\=$\fun{new}\:\sigma\:\vert\:\LOC,$\\
+    \>  \>  \>  \>$          \lambda\arbno{\epsilon}\omega^\prime\kappa^\prime\:.\:
+                             \fun{travel}\:\omega^\prime\omega(\kappa\arbno{\epsilon})\rangle$\\
+    \>  \>  \>$                      \hbox{ \rm in }\EXP\rangle$\\
+    \>  \>  \>$\omega$\\
+    \>  \>  \>$\kappa$\\
+    \>  \>  \>$(\fun{update}\,
+                $\=$(\fun{new}\:\sigma\:\vert\:\LOC)$\\
+    \>  \>  \>   \>$\fun{unspecified}$\\
+    \>  \>  \>   \>$\sigma),$\\
+    \>  \>$\go{1}\wrong{out of memory}\,\sigma),$\\
+    \>$\wrong{bad procedure argument})
+\end{semfun}
+
+\begin{semfun}
+\fun{travel} : \DP \to \DP \to \CC \to \CC$\\$
+\fun{travel} = $\\
+  \go{1}$\lambda\omega_1\omega_2\:.\:
+  \fun{travelpath}\:($\=$(\fun{pathup}\:\omega_1(\fun{commonancest}\:\omega_1\omega_2)) \:\S\:$\\
+  \>$ (\fun{pathdown}\:(\fun{commonancest}\:\omega_1\omega_2)\omega_2))
+\end{semfun}
+
+\begin{semfun}
+\fun{pointdepth} : \DP \to \NAT$\\$
+\fun{pointdepth} = $\\
+  \go{1}$\lambda\omega\:.\: \omega = \textit{root} \rightarrow 0,
+  1 + (\fun{pointdepth}\:(\omega\:\vert\:(\FUN \times \FUN \times
+  \DP)\elt 3))
+\end{semfun}
+
+\begin{semfun}
+\fun{ancestors} : \DP \to \mathcal{P}\DP$\\$
+\fun{ancestors} = $\\
+  \go{1}$\lambda\omega\:.\: \omega = \textit{root} \rightarrow \{\omega\},
+  \{\omega\}\:\cup\:(\fun{ancestors}\:(\omega\:\vert\:(\FUN \times \FUN \times
+  \DP)\elt 3))
+\end{semfun}
+
+\begin{semfun}
+\fun{commonancest} : \DP \to \DP \to \DP$\\$
+\fun{commonancest} = $\\
+  \go{1}$\lambda\omega_1\omega_2\:.\:$\=$
+  \textrm{the only element of }$\\
+  \>$\{ \omega^\prime \:\mid\:$\=$
+  \omega^\prime\in(\fun{ancestors}\:\omega_1)\:\cap\:(\fun{ancestors}\:\omega_2),$\\
+  \>\>$\fun{pointdepth}\:\omega^\prime\geq \fun{pointdepth}\:\omega^{\prime\prime}$\\
+  \>\>$\forall
+  \omega^{\prime\prime}\in(\fun{ancestors}\:\omega_1)\:\cap\:(\fun{ancestors}\:\omega_2)\}
+\end{semfun}
+
+\begin{semfun}
+\fun{pathup} : \DP \to \DP \to \arbno{(\DP \times \FUN)}$\\$
+\fun{pathup} = $\\
+  \go{1}$\lambda\omega_1\omega_2\:.\:
+  $\=$\omega_1=\omega_2\rightarrow\langle\rangle,$\\
+  \>$\langle(\omega_1, \omega_1\:\vert\:(\FUN \times \FUN \times \DP)\elt 2)\rangle
+  \:\S\:$\\
+  \>$(\fun{pathup}\:(\omega_1\:\vert\:(\FUN \times \FUN \times \DP)\elt 3)\omega_2)
+\end{semfun}
+
+\begin{semfun}
+\fun{pathdown} : \DP \to \DP \to \arbno{(\DP \times \FUN)}$\\$
+\fun{pathdown} = $\\
+  \go{1}$\lambda\omega_1\omega_2\:.\:
+  $\=$\omega_1=\omega_2\rightarrow\langle\rangle,$\\
+  \>$(\fun{pathdown}\:\omega_1(\omega_2\:\vert\:(\FUN \times \FUN \times \DP)\elt 3))
+  \:\S\:$\\
+  \>$\langle(\omega_2, \omega_2\:\vert\:(\FUN \times \FUN \times \DP)\elt 1)\rangle
+\end{semfun}
+
+\begin{semfun}
+\fun{travelpath} : \arbno{(\DP \times \FUN)} \to \CC \to \CC$\\$
+\fun{travelpath} = $\\
+  \go{1}$\lambda\arbno{\pi}\theta\:.\:
+  $\=$\#\arbno{\pi}=0\rightarrow\theta,$\\
+  \>$((\arbno{\pi}\elt 1)\elt 2)$\=$\langle\rangle((\arbno{\pi}\elt 1)\elt 1)$\\
+  \>\>$(\lambda\arbno{\epsilon}\:.\:\fun{travelpath}\:(\arbno{\pi} \drop 1)\theta)
+\end{semfun}
+
+\begin{semfun}
+\fun{dynamicwind} : \arbno{\EXP} \to \DP \to \EC \to \CC$\\$
+\fun{dynamicwind} = $\\
+\go{1}$\fun{threearg}\,(\lambda$\=$\epsilon_1\epsilon_2\epsilon_3\omega\kappa\:.\:
+  (\epsilon_1\:\elem\:\FUN\wedge\epsilon_2\:\elem\:\FUN\wedge\epsilon_3\:\elem\:\FUN)\rightarrow$\\
+  \>$\fun{applicate}\:
+  $\=$\epsilon_1\langle\rangle\omega(\lambda\arbno{\zeta}$\=$\:.\:$\\
+  \>\>$\fun{applicate}\:$\=$\epsilon_2\langle\rangle
+  ((\epsilon_1\:\vert\:\FUN,\epsilon_3\:\vert\:\FUN,\omega)\textrm{ in }\DP)$\\
+  \>\>\>$(\lambda\arbno{\epsilon}\:.\:\fun{applicate}\:\epsilon_3\langle\rangle\omega(\lambda\arbno{\zeta}\:.\:\kappa\arbno{\epsilon}))),$\\
+  \>$\wrong{bad procedure argument})
+\end{semfun}
+
+\begin{semfun}
+\fun{values}          :  \arbno{\EXP} \to \DP \to \EC \to \CC$\\$
+\fun{values} =
+ \lambda\arbno{\epsilon}\omega\kappa\:.\:\kappa\arbno{\epsilon}
+\end{semfun}
+
+\begin{semfun}
+\fun{cwv}          :  \arbno{\EXP} \to \DP \to \EC \to \CC
+    \hbox{\qquad [\ide{call-with-values}]}$\\$
+\fun{cwv} =$\\
+ \go{1}$\fun{twoarg}\,(\lambda\epsilon_1\epsilon_2\omega\kappa\:.\:
+   $\=$\fun{applicate}\:\epsilon_1\langle\:\rangle\omega
+(\lambda\arbno{\epsilon}\:.\:\fun{applicate}\:\epsilon_2\:\arbno{\epsilon}\omega))
+\end{semfun}
+
+\egroup  % end smallish
+
+\egroup

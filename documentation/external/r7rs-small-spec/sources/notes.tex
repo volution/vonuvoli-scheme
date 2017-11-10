@@ -1,0 +1,325 @@
+\extrapart{Language changes}
+
+
+\subsection*{Incompatibilities with \rfivers}
+\label{incompatibilities}
+
+This section enumerates the incompatibilities between this report and
+the ``Revised$^5$ report''~\cite{R5RS}.
+
+{\em This list is not authoritative, but is believed to be correct and complete.}
+
+
+\begin{itemize}
+
+\item Case sensitivity is now the default in symbols and character names.
+This means that code written under the assumption that symbols could be
+written {\cf FOO} or {\cf Foo} in some contexts and {\cf foo} in other contexts
+can either be changed, be marked with the new {\cf \#!fold-case} directive,
+or be included in a library using the {\cf include-ci} library declaration.
+All standard identifiers are entirely in lower case.
+
+\item The {\cf syntax-rules} construct now recognizes {\em \_} (underscore) 
+as a wildcard, which means it cannot be used as a syntax variable.
+It can still be used as a literal.
+
+\item The \rfivers\ procedures {\cf exact->inexact} and {\cf inexact->exact}
+have been renamed to their \rsixrs\ names, {\cf inexact} and {\cf exact},
+respectively, as these names are shorter and more correct.
+The former names are still available in the \rfivers\ library.
+
+\item The guarantee that string comparison (with {\cf string<?} and the
+related predicates) is a lexicographical extension of character comparison
+(with {\cf char<?} and the related predicates) has been removed.  
+
+\item Support for the \# character in numeric literals is no longer required.
+
+\item Support for the letters {\cf s}, {\cf f}, {\cf d}, and {\cf l}
+as exponent markers is no longer required.
+
+\item Implementations of {\cf string\coerce{}number} are no longer permitted
+to return \schfalse{} when the argument contains an explicit radix prefix,
+and must be compatible with {\cf read} and the syntax of numbers in programs.
+
+\item The procedures {\cf transcript-on} and {\cf transcript-off} have been removed.
+
+\end{itemize}
+
+\subsection*{Other language changes since \rfivers}
+\label{differences}
+This section enumerates the additional differences between this report and
+the ``Revised$^5$ report''~\cite{R5RS}.
+
+{\em This list is not authoritative, but is believed to be correct and complete.}
+
+\begin{itemize}
+
+\item Various minor ambiguities and unclarities in \rfivers\ have been cleaned up.
+
+\item Libraries have been added as a new program structure to improve
+encapsulation and sharing of code.  Some existing and new identifiers
+have been factored out into separate libraries.
+Libraries can be imported into other libraries or main programs, with
+controlled exposure and renaming of identifiers.
+The contents of a library can be made conditional on the features of
+the implementation on which it is to be used.
+There is an \rfivers\ compatibility library.
+
+\item The expressions types {\cf include}, {\cf include-ci}, and {\cf cond-expand}
+have been added to the base library; they have the same semantics as the
+corresponding library declarations.
+
+\item Exceptions can now be signaled explicitly with {\cf raise},
+{\cf raise-continuable} or {\cf error}, and can be handled with {\cf
+with-exception-handler} and the {\cf guard} syntax.
+Any object can specify an error condition; the implementation-defined
+conditions signaled by {\cf error} have a predicate to detect them and accessor functions to
+retrieve the arguments passed to {\cf error}.
+Conditions signaled by {\cf read} and by file-related procedures
+also have predicates to detect them.
+
+\item New disjoint types supporting access to multiple fields can be
+generated with the {\cf define-record-type} of SRFI 9~\cite{srfi9}
+
+\item Parameter objects can be created with {\cf make-parameter}, and
+dynamically rebound with {\cf parameterize}.
+The procedures {\cf current-input-port} and {\cf current-output-port} are now
+parameter objects, as is the newly introduced {\cf current-error-port}.
+
+\item Support for promises has been enhanced based on SRFI 45~\cite{srfi45}.
+
+\item {\em Bytevectors}, vectors of exact integers in the range
+from 0 to 255 inclusive, have been added as a new disjoint type.
+A subset of the vector procedures is provided.  Bytevectors
+can be converted to and from strings in accordance with the UTF-8 character encoding.
+Bytevectors have a datum representation and evaluate to themselves.
+
+\item Vector constants evaluate to themselves.
+
+\item The procedure {\cf read-line} is provided to make line-oriented textual input
+simpler.
+
+\item The procedure {\cf flush-output-port} is provided to allow minimal
+control of output port buffering.
+
+\item {\em Ports} can now be designated as {\em textual} or {\em
+binary} ports, with new procedures for reading and writing binary
+data.
+The new predicates {\cf input-port-open?} and {\cf output-port-open?} return whether a port is open or closed.
+The new procedure {\cf close-port} now closes a port; if the port
+has both input and output sides, both are closed.
+
+\item {\em String ports} have been added as a way to read and write
+characters to and from strings, and {\em bytevector ports} to read
+and write bytes to and from bytevectors.
+
+\item There are now I/O procedures specific to strings and bytevectors.
+
+\item The {\cf write} procedure now generates datum labels when applied to
+circular objects.  The new procedure {\cf write-simple} never generates
+labels; {\cf write-shared} generates labels for all shared and circular
+structure.
+The {\cf display} procedure must not loop on circular objects.
+
+\item The \rsixrs\ procedure {\cf eof-object} has been added.
+Eof-objects are now required to be a disjoint type.
+
+\item Syntax definitions are now allowed wherever variable definitions are.
+
+\item The {\cf syntax-rules} construct now allows
+the ellipsis symbol to be specified explicitly instead of the default
+{\cf ...}, allows template escapes with an ellipsis-prefixed list, and
+allows tail patterns to follow an ellipsis pattern.
+
+\item The {\cf syntax-error} syntax has been added as a way to signal immediate
+and more informative errors when a macro is expanded.
+
+\item The {\cf letrec*} binding construct has been added, and internal {\cf define} 
+is specified in terms of it.
+
+\item Support for capturing multiple values has been enhanced with {\cf
+define-values}, {\cf let-values}, and {\cf let*-values}.
+Standard expression types which contain a sequence of expressions now
+permit passing zero or more than one value to the continuations of all
+non-final expressions of the sequence.
+
+\item The {\cf case} conditional now supports {\tt =>} syntax
+analogous to {\cf cond} not only in regular clauses but in the {\cf
+else} clause as well.
+
+\item To support dispatching on the number of arguments passed to a
+procedure, {\cf case-lambda} has been added in its own library.
+
+\item The convenience conditionals {\cf when} and {\cf unless} have been added.
+
+\item The behavior of {\cf eqv?} on inexact numbers now conforms to the
+\rsixrs\ definition.
+
+\item When applied to procedures, {\cf eq?} and {\cf eqv?} are permitted to
+return different answers.
+
+\item The \rsixrs\ procedures {\cf boolean=?} and {\cf symbol=?} have been added.
+
+\item Positive infinity, negative infinity, NaN, and negative inexact zero have been added
+to the numeric tower as inexact values with the written
+representations {\tt +inf.0}, {\tt -inf.0}, {\tt +nan.0}, and {\cf -0.0}
+respectively.  Support for them is not required.
+The representation {\tt -nan.0} is synonymous with {\tt +nan.0}.
+
+\item The {\cf log} procedure now accepts a second argument specifying
+the logarithm base.
+
+\item The procedures {\cf map} and {\cf for-each} are now required to terminate on
+the shortest argument list.
+
+\item The procedures {\cf member} and {\cf assoc} now take an optional third argument
+specifying the equality predicate to be used.
+
+\item The numeric procedures {\cf finite?}, {\cf infinite?}, {\cf nan?},
+{\cf exact-integer?}, {\cf square}, and {\cf exact-integer-sqrt}
+have been added.
+
+\item The {\cf -} and {\cf /} procedures
+and the character and string comparison
+predicates are now required to support more than two arguments.
+
+\item The forms \sharptrue{} and \sharpfalse{} are now supported
+as well as \schtrue{} and \schfalse{}.
+
+\item The procedures {\cf make-list}, {\cf list-copy}, {\cf list-set!},
+{\cf string-map}, {\cf string-for-each}, {\cf string->vector}, 
+{\cf vector-append},
+{\cf vector-copy}, {\cf vector-map}, {\cf vector-for-each}, 
+{\cf vector->string}, {\cf vector-copy!}, and {\cf string-copy!}
+have been added to round out the sequence operations.
+
+\item Some string and vector procedures support processing of part of a string or vector using
+optional \var{start} and \var{end} arguments.
+
+\item Some list procedures are now defined on circular lists.
+
+\item Implementations may provide any subset of the full Unicode
+repertoire that includes ASCII, but implementations must support any
+such subset in a way consistent with Unicode.
+Various character and string procedures have been extended accordingly,
+and case conversion procedures added for strings.
+String comparison is no longer
+required to be consistent with character comparison, which is based
+solely on Unicode scalar values.
+The new {\cf digit-value} procedure has been added to obtain the numerical
+value of a numeric character.
+
+\item There are now two additional comment syntaxes: {\tt \#;} to
+skip the next datum, and {\tt \#| ... |\#}
+for nestable block comments.
+
+\item Data prefixed with datum labels {\tt \#<n>=} can be referenced
+with {\tt \#<n>\#}, allowing for reading and writing of data with
+shared structure.
+
+\item Strings and symbols now allow mnemonic and numeric escape
+sequences, and the list of named characters has been extended.
+
+\item The procedures {\cf file-exists?}\ and {\cf delete-file} are available in the
+{\tt (scheme file)} library.
+
+\item An interface to the system environment, command line, and process exit status is
+available in the {\tt (scheme process-context)} library.
+
+\item Procedures for accessing time-related values are available in the
+{\tt (scheme time)} library.
+
+\item A less irregular set of integer division operators is provided
+with new and clearer names.
+
+\item The {\cf load} procedure now accepts a second argument specifying the environment to
+load into.
+
+\item The {\cf call-with-current-continuation} procedure now has the synonym
+{\cf call/cc}.
+
+\item The semantics of read-eval-print loops are now partly prescribed,
+requiring the redefinition of procedures, but not syntax keywords, to have retroactive effect.
+
+\item The formal semantics now handles {\cf dynamic-wind}.
+\end{itemize}
+
+\subsection*{Incompatibilities with \rsixrs}
+This section enumerates the incompatibilities between \rsevenrs~and
+the ``Revised$^6$ report''~\cite{R6RS} and its accompanying Standard Libraries document.
+
+{\em This list is not authoritative, and is possibly incomplete.}
+
+\begin{itemize}
+\item \rsevenrs\ libraries begin with the keyword {\cf define-library}
+rather than {\cf library} in order to make them syntactically
+distinguishable from \rsixrs\ libraries.
+In \rsevenrs\ terms, the body of an \rsixrs\ library consists
+of a single export declaration followed by a single import declaration,
+followed by commands and definitions.  In \rsevenrs, commands and
+definitions are not permitted directly within the body: they have to be be wrapped in a {\cf begin}
+library declaration.
+
+\item There is no direct \rsixrs\ equivalent of the {\cf include}, {\cf include-ci},
+{\cf include-library-declarations}, or {\cf cond-expand} library declarations.
+On the other hand, the \rsevenrs\ library syntax does not support phase or version specifications.
+
+\item The grouping of standardized identifiers into libraries is different from the \rsixrs\
+approach. In particular, procedures which are optional in \rfivers\, either expressly
+or by implication, have been removed from the base library.
+Only the base library itself is an absolute requirement.
+
+\item No form of identifier syntax is provided. 
+
+\item Internal syntax definitions are allowed, but uses of a syntax form
+cannot appear before its definition; the {\cf even}/{\cf odd} example given in
+\rsixrs\ is not allowed.
+
+\item The \rsixrs\ exception system was incorporated as-is, but the condition
+types have been left unspecified.  In particular, where \rsixrs\ requires
+a condition of a specified type to be signaled, \rsevenrs\ says only
+``it is an error'', leaving the question of signaling open.
+
+\item Full Unicode support is not required.
+Normalization is not provided.
+Character comparisons are
+defined by Unicode, but string comparisons are implementation-dependent.
+Non-Unicode characters are permitted.
+
+\item The full numeric tower is optional as in \rfivers, but optional support for IEEE
+infinities, NaN, and {\mbox -0.0} was adopted from \rsixrs. Most clarifications on
+numeric results were also adopted, but the \rsixrs\ procedures {\cf real-valued?},
+{\cf rational-valued?}, and {\cf integer-valued}? were not. 
+The \rsixrs\ division operators {\cf div}, {\cf mod}, {\cf div-and-mod}, {\cf
+div0}, {\cf mod0} and {\cf div0-and-mod0} are not provided.
+
+\item When a result is unspecified, it is still required to be a single value.
+However, non-final expressions
+in a body can return any number of values.
+
+\item The semantics of {\cf map} and {\cf for-each} have been changed to use
+the SRFI 1~\cite{srfi1} early termination behavior. Likewise,
+{\cf assoc} and {\cf member} take an optional {\cf equal?} argument as in SRFI 1,
+instead of the separate {\cf assp} and {\cf memp} procedures of \rsixrs.
+
+\item The \rsixrs~{\cf quasiquote} clarifications have been adopted, with the
+exception of multiple-argument {\cf unquote} and
+{\cf unquote-splicing}.
+
+\item The \rsixrs~method of specifying mantissa widths was not adopted.
+
+\item String ports are compatible with SRFI 6~\cite{srfi6} rather than \rsixrs.
+
+\item \rsixrs{}-style bytevectors are included, but 
+only the unsigned byte ({\cf u8}) procedures have been provided.
+The lexical syntax uses {\cf \#u8} for compatibility
+with SRFI 4~\cite{srfi4}, rather than the \rsixrs~{\cf \#vu8} style.
+
+\item The utility macros {\cf when} and {\cf unless} are provided, but 
+their result is left unspecified.
+
+\item The remaining features of the Standard Libraries document were
+left to future standardization efforts.
+
+\end{itemize}
+
