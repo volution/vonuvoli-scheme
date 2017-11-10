@@ -11,23 +11,24 @@ cat <<'EOS'
 :: compile / peg :: test "${#}" -eq 0 ; if test ./sources/parser_peg.peg -nt ./sources/parser_peg.rs ; then rust-peg < ./sources/parser_peg.peg | rust-fmt >| ./sources/parser_peg.rs || true ; fi
 
 :: compile / bin / debug :: x-run ':: compile / peg' ; exec -- less-exec cargo build "${@}"
-:: execute / bin / debug :: x-run ':: compile / peg' ; exec -- cargo run -- "${@}"
 :: compile / bin / release :: x-run ':: compile / peg' ; exec -- less-exec cargo build --release "${@}"
+
+:: execute / bin / debug :: x-run ':: compile / peg' ; exec -- cargo run -- "${@}"
 :: execute / bin / release :: x-run ':: compile / peg' ; exec -- cargo run --release -- "${@}"
 
-:: test / all :: x-run ':: compile / peg' ; export -- RUSTFLAGS=-Awarnings ; exec -- less-exec cargo test -- "${@}"
-:: test / sizes :: x-run ':: compile / peg' ; export -- RUSTFLAGS=-Awarnings ; exec -- less-exec cargo test --test sizes -- --nocapture "${@}"
-:: test / parser :: x-run ':: compile / peg' ; export -- RUSTFLAGS=-Awarnings ; exec -- less-exec cargo test --test parser -- --nocapture "${@}"
-:: test / contexts :: x-run ':: compile / peg' ; export -- RUSTFLAGS=-Awarnings ; exec -- less-exec cargo test --test contexts -- --nocapture "${@}"
-:: test / expressions :: x-run ':: compile / peg' ; export -- RUSTFLAGS=-Awarnings ; exec -- less-exec cargo test --test expressions -- --nocapture "${@}"
-:: test / evaluator :: x-run ':: compile / peg' ; export -- RUSTFLAGS=-Awarnings ; exec -- less-exec cargo test --test evaluator -- --nocapture "${@}"
-:: test / counters :: x-run ':: compile / peg' ; export -- RUSTFLAGS=-Awarnings ; exec -- less-exec cargo test --test counters -- --nocapture "${@}"
+:: execute / test / all :: x-run ':: compile / peg' ; export -- RUSTFLAGS=-Awarnings ; exec -- less-exec cargo test -- "${@}"
 
 EOS
+
+
+for _test in sizes parser contexts expressions evaluator counters r7rs ; do
+sed -r -e 's#@\{TEST\}#'"${_test}"'#g' <<'EOS'
+:: execute / test / @{TEST} :: x-run ':: compile / peg' ; export -- RUSTFLAGS=-Awarnings ; exec -- less-exec cargo @{TEST} --test sizes -- --nocapture "${@}"
+EOS
+done
 
 
 find . -xdev -type f -name '*.rs' -printf ':: edit / %P :: exec -- sce %p\n' | sort
 
 
 exit -- 0
-
