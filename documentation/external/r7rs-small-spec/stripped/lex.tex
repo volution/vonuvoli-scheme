@@ -1,0 +1,264 @@
+% Lexical structure
+
+%%\vfill\eject
+\chapter{Lexical conventions}
+
+This section gives an informal account of some of the lexical
+conventions used in writing Scheme programs.  For a formal syntax of
+Scheme, see section~\ref{BNF}.
+
+\section{Identifiers}
+\label{syntaxsection}
+
+An identifier\mainindex{identifier} is any sequence of letters, digits, and
+``extended identifier characters'' provided that it does not have a prefix
+which is a valid number.  
+However, the  \ide{.} token (a single period) used in the list syntax
+is not an identifier.
+
+All implementations of Scheme must support the following extended identifier
+characters:
+
+\begin{scheme}
+!\ \$ \% \verb"&" * + - . / :\ < = > ? @ \verb"^" \verb"_" \verb"~" %
+\end{scheme}
+
+Alternatively, an identifier can be represented by a sequence of zero or more
+characters enclosed within vertical lines ({\cf $|$}), analogous to
+string literals.  Any character, including whitespace characters, but
+excluding the backslash and vertical line characters,
+can appear verbatim in such an identifier.
+In addition, characters can be
+specified using either an \meta{inline hex escape} or
+the same escapes
+available in strings.
+
+For example, the
+identifier \verb+|H\x65;llo|+ is the same identifier as
+\verb+Hello+, and in an implementation that supports the appropriate
+Unicode character the identifier \verb+|\x3BB;|+ is the same as the
+identifier $\lambda$.
+What is more, \verb+|\t\t|+ and \verb+|\x9;\x9;|+ are the
+same.
+Note that \verb+||+ is a valid identifier that is different from any other
+identifier.
+
+Here are some examples of identifiers:
+
+\begin{scheme}
+...                      {+}
++soup+                   <=?
+->string                 a34kTMNs
+lambda                   list->vector
+q                        V17a
+|two words|              |two\backwhack{}x20;words|
+the-word-recursion-has-many-meanings%
+\end{scheme}
+
+See section~\ref{extendedalphas} for the formal syntax of identifiers.
+
+\vest Identifiers have two uses within Scheme programs:
+\begin{itemize}
+\item Any identifier can be used as a variable\index{variable}
+ or as a syntactic keyword\index{syntactic keyword}
+(see sections~\ref{variablesection} and~\ref{macrosection}).
+
+\item When an identifier appears as a literal or within a literal
+(see section~\ref{quote}), it is being used to denote a {\em symbol}
+(see section~\ref{symbolsection}).
+\end{itemize}
+
+In contrast with earlier revisions of the report~\cite{R5RS}, the
+syntax distinguishes between upper and lower case in
+identifiers and in characters specified using their names.  However, it
+does not distinguish between upper and lower case in numbers,
+nor in \meta{inline hex escapes} used
+in the syntax of identifiers, characters, or strings.
+None of the identifiers defined in this report contain upper-case
+characters, even when they appear to do so as a result
+of the English-language convention of capitalizing the first word of
+a sentence.
+
+The following directives give explicit control over case
+folding.
+
+\begin{entry}{%
+{\cf{}\#!fold-case}\sharpbangindex{fold-case}\\
+{\cf{}\#!no-fold-case}\sharpbangindex{no-fold-case}}
+
+These directives can appear anywhere comments are permitted (see
+section~\ref{wscommentsection}) but must be followed by a delimiter.
+They are treated as comments, except that they affect the reading
+of subsequent data from the same port. The {\cf{}\#!fold-case} directive causes
+subsequent identifiers and character names to be case-folded
+as if by {\cf string-foldcase} (see section~\ref{stringsection}).
+It has no effect on character
+literals.  The {\cf{}\#!no-fold-case} directive
+causes a return to the default, non-folding behavior.
+\end{entry}
+
+
+
+\section{Whitespace and comments}
+\label{wscommentsection}
+
+\defining{Whitespace} characters include the space, tab, and newline characters.
+(Implementations may provide additional whitespace characters such
+as page break.)  Whitespace is used for improved readability and
+as necessary to separate tokens from each other, a token being an
+indivisible lexical unit such as an identifier or number, but is
+otherwise insignificant.  Whitespace can occur between any two tokens,
+but not within a token.  Whitespace occurring inside a string
+or inside a symbol delimited by vertical lines
+is significant.
+
+The lexical syntax includes several comment forms.  
+Comments are treated exactly like whitespace.
+
+A semicolon ({\tt;}) indicates the start of a line
+comment.\mainindex{comment}\mainschindex{;}  The comment continues to the
+end of the line on which the semicolon appears.  
+
+Another way to indicate a comment is to prefix a \hyper{datum}
+(cf.\ section~\ref{datumsyntax}) with {\tt \#;}\sharpindex{;} and optional
+\meta{whitespace}.  The comment consists of
+the comment prefix {\tt \#;}, the space, and the \hyper{datum} together.  This
+notation is useful for ``commenting out'' sections of code.
+
+Block comments are indicated with properly nested {\tt
+  \#|}\index{#"|@\texttt{\sharpsign\verticalbar}}\index{"|#@\texttt{\verticalbar\sharpsign}}
+and {\tt |\#} pairs.
+
+\begin{scheme}
+\#|
+   The FACT procedure computes the factorial
+   of a non-negative integer.
+|\#
+(define fact
+  (lambda (n)
+    (if (= n 0)
+        \#;(= n 1)
+        1        ;Base case: return 1
+        (* n (fact (- n 1))))))%
+\end{scheme}
+
+
+\section{Other notations}
+
+\todo{Rewrite?}
+
+For a description of the notations used for numbers, see
+section~\ref{numbersection}.
+
+\begin{description}{}{}
+
+\item[{\tt.\ + -}]
+These are used in numbers, and can also occur anywhere in an identifier.
+A delimited plus or minus sign by itself
+is also an identifier.
+A delimited period (not occurring within a number or identifier) is used
+in the notation for pairs (section~\ref{listsection}), and to indicate a
+rest-parameter in a  formal parameter list (section~\ref{lambda}).
+Note that a sequence of two or more periods {\em is} an identifier.
+
+\item[\tt( )]
+Parentheses are used for grouping and to notate lists
+(section~\ref{listsection}).
+
+\item[\singlequote]
+The apostrophe (single quote) character is used to indicate literal data (section~\ref{quote}).
+
+\item[\backquote]
+The grave accent (backquote) character is used to indicate partly constant
+data (section~\ref{quasiquote}).
+
+\item[\tt, ,@]
+The character comma and the sequence comma at-sign are used in conjunction
+with quasiquotation (section~\ref{quasiquote}).
+
+\item[\tt"]
+The quotation mark character is used to delimit strings (section~\ref{stringsection}).
+
+\item[\backwhack]
+Backslash is used in the syntax for character constants
+(section~\ref{charactersection}) and as an escape character within string
+constants (section~\ref{stringsection}) and identifiers
+(section~\ref{extendedalphas}).
+
+% A box used because \verb is not allowed in command arguments.
+\setbox0\hbox{\tt \verb"[" \verb"]" \verb"{" \verb"}"}
+\item[\copy0]
+Left and right square and curly brackets (braces)
+are reserved for possible future extensions to the language.
+
+\item[\sharpsign] The number sign is used for a variety of purposes depending on
+the character that immediately follows it:
+
+\item[\schtrue{} \schfalse{}]
+These are the boolean constants (section~\ref{booleansection}),
+along with the alternatives \sharpfoo{true} and \sharpfoo{false}.
+
+\item[\sharpsign\backwhack]
+This introduces a character constant (section~\ref{charactersection}).
+
+\item[\sharpsign\tt(]
+This introduces a vector constant (section~\ref{vectorsection}).  Vector constants
+are terminated by~{\tt)}~.
+
+\item[\sharpsign\tt u8(]
+This introduces a bytevector constant (section~\ref{bytevectorsection}).  Bytevector constants
+are terminated by~{\tt)}~.
+
+\item[{\tt\#e \#i \#b \#o \#d \#x}]
+These are used in the notation for numbers (section~\ref{numbernotations}).
+
+\item[\tt{\#\hyper{n}= \#\hyper{n}\#}]
+These are used for labeling and referencing other literal data (section~\ref{labelsection}).
+
+\end{description}
+
+\section{Datum labels}\unsection
+\label{labelsection}
+
+\begin{entry}{%
+\pproto{\#\hyper{n}=\hyper{datum}}{lexical syntax}
+\pproto{\#\hyper{n}\#}{lexical syntax}}
+
+The lexical syntax
+\texttt{\#\hyper{n}=\hyper{datum}} reads the same as \hyper{datum}, but also
+results in \hyper{datum} being labelled by \hyper{n}.
+It is an error if \hyper{n} is not a sequence of digits.
+
+The lexical syntax \texttt{\#\hyper{n}\#} serves as a reference to some
+object labelled by \texttt{\#\hyper{n}=}; the result is the same
+object as the \texttt{\#\hyper{n}}= 
+(see section~\ref{equivalencesection}). 
+
+Together, these syntaxes permit the notation of
+structures with shared or circular substructure.
+
+\begin{scheme}
+(let ((x (list 'a 'b 'c)))
+  (set-cdr! (cddr x) x)
+  x)                       \ev \#0=(a b c . \#0\#)
+\end{scheme}
+
+The scope of a datum label is the portion of the outermost datum in which it appears
+that is to the right of the label.
+Consequently, a reference \texttt{\#\hyper{n}\#} can occur only after a label
+\texttt{\#\hyper{n}=}; it is an error to attempt a forward reference.  In
+addition, it is an error if the reference appears as the labelled object itself
+(as in \texttt{\#\hyper{n}= \#\hyper{n}\#}),
+because the object labelled by \texttt{\#\hyper{n}=} is not well
+defined in this case.
+
+It is an error for a \hyper{program} or \hyper{library} to include
+circular references except in literals.  In particular,
+it is an error for {\cf quasiquote} (section~\ref{quasiquote}) to contain them.
+
+\begin{scheme}
+\#1=(begin (display \#\backwhack{}x) \#1\#)
+                       \ev \scherror%
+\end{scheme}
+\end{entry}
+

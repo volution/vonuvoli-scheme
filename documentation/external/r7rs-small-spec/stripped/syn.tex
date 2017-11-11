@@ -1,0 +1,471 @@
+\chapter{Formal syntax and semantics}
+\label{formalchapter}
+
+This chapter provides formal descriptions of what has already been
+described informally in previous chapters of this report.
+
+
+
+\section{Formal syntax}
+\label{BNF}
+
+This section provides a formal syntax for Scheme written in an extended
+BNF.
+
+All spaces in the grammar are for legibility.  Case is not significant
+except in the definitions of \meta{letter}, \meta{character name} and \meta{mnemonic escape}; for example, {\cf \#x1A}
+and {\cf \#X1a} are equivalent, but {\cf foo} and {\cf Foo}
+and {\cf \#\backwhack{}space} and {\cf \#\backwhack{}Space} are distinct.
+\meta{empty} stands for the empty string.
+
+The following extensions to BNF are used to make the description more
+concise:  \arbno{\meta{thing}} means zero or more occurrences of
+\meta{thing}; and \atleastone{\meta{thing}} means at least one
+\meta{thing}.
+
+
+\subsection{Lexical structure}
+
+This section describes how individual tokens\index{token} (identifiers,
+numbers, etc.) are formed from sequences of characters.  The following
+sections describe how expressions and programs are formed from sequences
+of tokens.
+
+\meta{Intertoken space} can occur on either side of any token, but not
+within a token.
+
+\vest Identifiers that do not begin with a vertical line are
+terminated by a \meta{delimiter} or by the end of the input.
+So are dot, numbers, characters, and booleans.
+Identifiers that begin with a vertical line are terminated by another vertical line.
+
+The following four characters from the ASCII repertoire
+are reserved for future extensions to the
+language: {\tt \verb"[" \verb"]" \verb"{" \verb"}"}
+
+In addition to the identifier characters of the ASCII repertoire specified
+below, Scheme implementations may permit any additional repertoire of
+Unicode characters to be employed in identifiers,
+provided that each such character has a Unicode general category of Lu,
+Ll, Lt, Lm, Lo, Mn, Mc, Me, Nd, Nl, No, Pd, Pc, Po, Sc, Sm, Sk, So,
+or Co, or is U+200C or U+200D (the zero-width non-joiner and joiner,
+respectively, which are needed for correct spelling in Persian, Hindi,
+and other languages).
+However, it is an error for the first character to have a general category
+of Nd, Mc, or Me.  It is also an error to use a non-Unicode character
+in symbols or identifiers.
+
+All Scheme implementations must permit the escape sequence
+{\tt \backwhack{}x<hexdigits>;}
+to appear in Scheme identifiers that are enclosed in vertical lines. If the character
+with the given Unicode scalar value is supported by the implementation,
+identifiers containing such a sequence are equivalent to identifiers
+containing the corresponding character. 
+
+\begin{grammar}%
+\meta{token} \: \meta{identifier} \| \meta{boolean} \| \meta{number}\index{identifier}
+\>  \| \meta{character} \| \meta{string}
+\>  \| ( \| ) \| \sharpsign( \| \sharpsign u8( \| \singlequote{} \| \backquote{} \| , \| ,@ \| {\bf.}
+\meta{delimiter} \: \meta{whitespace} \| \meta{vertical line}
+\> \| ( \| ) \| " \| ;
+\meta{intraline whitespace} \: \meta{space or tab}
+\meta{whitespace} \: \meta{intraline whitespace} \| \meta{line ending}
+\meta{vertical line} \: |
+\meta{line ending} \: \meta{newline} \| \meta{return} \meta{newline}
+\> \| \meta{return}
+\meta{comment} \: ; \= $\langle$\rm all subsequent characters up to a
+		    \>\ \rm line ending$\rangle$\index{comment}
+\> \| \meta{nested comment}
+\> \| \#; \meta{intertoken space} \meta{datum}
+\meta{nested comment} \: \#| \= \meta{comment text}
+\> \arbno{\meta{comment cont}} |\#
+\meta{comment text} \: \= $\langle$\rm character sequence not containing
+\>\ \rm {\tt \#|} or {\tt |\#}$\rangle$
+\meta{comment cont} \: \meta{nested comment} \meta{comment text}
+\meta{directive} \: \#!fold-case \| \#!no-fold-case%
+\end{grammar}
+
+Note that it is ungrammatical to follow a \meta{directive} with anything
+but a \meta{delimiter} or the end of file.
+
+\begin{grammar}%
+\meta{atmosphere} \: \meta{whitespace} \| \meta{comment} \| \meta{directive}
+\meta{intertoken space} \: \arbno{\meta{atmosphere}}%
+\end{grammar}
+
+\label{extendedalphas}
+\label{identifiersyntax}
+
+% This is a kludge, but \multicolumn doesn't work in tabbing environments.
+\setbox0\hbox{\cf\meta{identifier} \goesto{} $\langle$}
+
+Note that {\cf +i}, {\cf -i} and \meta{infnan} below are exceptions to the
+\meta{peculiar identifier} rule; they are parsed as numbers, not
+identifiers.
+
+\begin{grammar}%
+\meta{identifier} \: \meta{initial} \arbno{\meta{subsequent}}
+ \>  \| \meta{vertical line} \arbno{\meta{symbol element}} \meta{vertical line}
+ \>  \| \meta{peculiar identifier}
+\meta{initial} \: \meta{letter} \| \meta{special initial}
+\meta{letter} \: a \| b \| c \| ... \| z
+\> \| A \| B \| C \| ... \| Z
+\meta{special initial} \: ! \| \$ \| \% \| \verb"&" \| * \| / \| : \| < \| =
+ \>  \| > \| ? \| \verb"^" \| \verb"_" \| \verb"~"
+\meta{subsequent} \: \meta{initial} \| \meta{digit}
+ \>  \| \meta{special subsequent}
+\meta{digit} \: 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 7 \| 8 \| 9
+\meta{hex digit} \: \meta{digit} \| a \| b \| c \| d \| e \| f
+\meta{explicit sign} \: + \| -
+\meta{special subsequent} \: \meta{explicit sign} \| . \| @
+\meta{inline hex escape} \: \backwhack{}x\meta{hex scalar value};
+\meta{hex scalar value} \: \atleastone{\meta{hex digit}}
+\meta{mnemonic escape} \: \backwhack{}a \| \backwhack{}b \| \backwhack{}t \| \backwhack{}n \| \backwhack{}r
+\meta{peculiar identifier} \: \meta{explicit sign}
+ \> \| \meta{explicit sign} \meta{sign subsequent} \arbno{\meta{subsequent}}
+ \> \| \meta{explicit sign} . \meta{dot subsequent} \arbno{\meta{subsequent}}
+ \> \| . \meta{dot subsequent} \arbno{\meta{subsequent}}
+ %\| 1+ \| -1+
+\meta{dot subsequent} \: \meta{sign subsequent} \| .
+\meta{sign subsequent} \: \meta{initial} \| \meta{explicit sign} \| @
+\meta{symbol element} \:
+ \> \meta{any character other than \meta{vertical line} or \backwhack}
+ \> \| \meta{inline hex escape} \| \meta{mnemonic escape} \| \backwhack{}|
+
+\meta{boolean} \: \schtrue{} \| \schfalse{} \| \sharptrue{} \| \sharpfalse{}
+\label{charactersyntax}
+\meta{character} \: \#\backwhack{} \meta{any character}
+ \>  \| \#\backwhack{} \meta{character name}
+ \>  \| \#\backwhack{}x\meta{hex scalar value}
+\meta{character name} \: alarm \| backspace \| delete 
+\> \| escape \| newline \| null \| return \| space \| tab
+\todo{Explain what happens in the ambiguous case.}
+\meta{string} \: " \arbno{\meta{string element}} "
+\meta{string element} \: \meta{any character other than \doublequote{} or \backwhack}
+ \> \| \meta{mnemonic escape} \| \backwhack\doublequote{} \| \backwhack\backwhack 
+ \>  \| \backwhack{}\arbno{\meta{intraline whitespace}}\meta{line ending}
+ \>  \> \arbno{\meta{intraline whitespace}}
+ \>  \| \meta{inline hex escape}
+\meta{bytevector} \: \#u8(\arbno{\meta{byte}})
+\meta{byte} \: \meta{any exact integer between 0 and 255}%
+\end{grammar}
+
+
+\label{numbersyntax}
+
+\begin{grammar}%
+\meta{number} \: \meta{num $2$} \| \meta{num $8$}
+   \>  \| \meta{num $10$} \| \meta{num $16$}
+\end{grammar}
+
+The following rules for \meta{num $R$}, \meta{complex $R$}, \meta{real
+$R$}, \meta{ureal $R$}, \meta{uinteger $R$}, and \meta{prefix $R$}
+are implicitly replicated for \hbox{$R = 2, 8, 10,$}
+and $16$.  There are no rules for \meta{decimal $2$}, \meta{decimal
+$8$}, and \meta{decimal $16$}, which means that numbers containing
+decimal points or exponents are always in decimal radix.
+Although not shown below, all alphabetic characters used in the grammar
+of numbers can appear in either upper or lower case.
+\begin{grammar}%
+\meta{num $R$} \: \meta{prefix $R$} \meta{complex $R$}
+\meta{complex $R$} \: %
+         \meta{real $R$} %
+      \| \meta{real $R$} @ \meta{real $R$}
+   \> \| \meta{real $R$} + \meta{ureal $R$} i %
+      \| \meta{real $R$} - \meta{ureal $R$} i
+   \> \| \meta{real $R$} + i %
+      \| \meta{real $R$} - i %
+      \| \meta{real $R$} \meta{infnan} i 
+   \> \| + \meta{ureal $R$} i %
+      \| - \meta{ureal $R$} i
+   \> \| \meta{infnan} i %
+      \| + i %
+      \| - i
+\meta{real $R$} \: \meta{sign} \meta{ureal $R$}
+   \> \| \meta{infnan}
+\meta{ureal $R$} \: %
+         \meta{uinteger $R$}
+   \> \| \meta{uinteger $R$} / \meta{uinteger $R$}
+   \> \| \meta{decimal $R$}
+\meta{decimal $10$} \: %
+         \meta{uinteger $10$} \meta{suffix}
+   \> \| . \atleastone{\meta{digit $10$}} \meta{suffix}
+   \> \| \atleastone{\meta{digit $10$}} . \arbno{\meta{digit $10$}} \meta{suffix}
+\meta{uinteger $R$} \: \atleastone{\meta{digit $R$}}
+\meta{prefix $R$} \: %
+         \meta{radix $R$} \meta{exactness}
+   \> \| \meta{exactness} \meta{radix $R$}
+\meta{infnan} \: +inf.0 \| -inf.0 \| +nan.0 \| -nan.0
+\end{grammar}
+
+\begin{grammar}%
+\meta{suffix} \: \meta{empty} 
+   \> \| \meta{exponent marker} \meta{sign} \atleastone{\meta{digit $10$}}
+\meta{exponent marker} \: e
+\meta{sign} \: \meta{empty}  \| + \|  -
+\meta{exactness} \: \meta{empty} \| \#i\sharpindex{i} \| \#e\sharpindex{e}
+\meta{radix 2} \: \#b\sharpindex{b}
+\meta{radix 8} \: \#o\sharpindex{o}
+\meta{radix 10} \: \meta{empty} \| \#d
+\meta{radix 16} \: \#x\sharpindex{x}
+\meta{digit 2} \: 0 \| 1
+\meta{digit 8} \: 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 7
+\meta{digit 10} \: \meta{digit}
+\meta{digit 16} \: \meta{digit $10$} \| a \| b \| c \| d \| e \| f %
+\end{grammar}
+
+
+\subsection{External representations}
+\label{datumsyntax}
+
+\meta{Datum} is what the \ide{read} procedure (section~\ref{read})
+successfully parses.  Note that any string that parses as an
+\meta{ex\-pres\-sion} will also parse as a \meta{datum}.  \label{datum}
+
+\begin{grammar}%
+\meta{datum} \: \meta{simple datum} \| \meta{compound datum}
+\>  \| \meta{label} = \meta{datum} \| \meta{label} \#
+\meta{simple datum} \: \meta{boolean} \| \meta{number}
+\>  \| \meta{character} \| \meta{string} \|  \meta{symbol} \| \meta{bytevector}
+\meta{symbol} \: \meta{identifier}
+\meta{compound datum} \: \meta{list} \| \meta{vector} \| \meta{abbreviation}
+\meta{list} \: (\arbno{\meta{datum}}) \| (\atleastone{\meta{datum}} .\ \meta{datum})
+\meta{abbreviation} \: \meta{abbrev prefix} \meta{datum}
+\meta{abbrev prefix} \: ' \| ` \| , \| ,@
+\meta{vector} \: \#(\arbno{\meta{datum}})
+\meta{label} \: \# \meta{uinteger 10}%
+\end{grammar}
+
+
+\subsection{Expressions}
+
+The definitions in this and the following subsections assume that all
+the syntax keywords defined in this report have been properly imported
+from their libraries, and that none of them have been redefined or shadowed.
+
+\begin{grammar}%
+\meta{expression} \: \meta{identifier}
+\>  \| \meta{literal}
+\>  \| \meta{procedure call}
+\>  \| \meta{lambda expression}
+\>  \| \meta{conditional}
+\>  \| \meta{assignment}
+\>  \| \meta{derived expression}
+\>  \| \meta{macro use}
+\>  \| \meta{macro block}
+\>  \| \meta{includer}
+
+\meta{literal} \: \meta{quotation} \| \meta{self-evaluating}
+\meta{self-evaluating} \: \meta{boolean} \| \meta{number} \| \meta{vector}
+\>  \| \meta{character} \| \meta{string} \| \meta{bytevector}
+\meta{quotation} \: '\meta{datum} \| (quote \meta{datum})
+\meta{procedure call} \: (\meta{operator} \arbno{\meta{operand}})
+\meta{operator} \: \meta{expression}
+\meta{operand} \: \meta{expression}
+
+\meta{lambda expression} \: (lambda \meta{formals} \meta{body})
+\meta{formals} \: (\arbno{\meta{identifier}}) \| \meta{identifier}
+\>  \| (\atleastone{\meta{identifier}} .\ \meta{identifier})
+\meta{body} \:  \arbno{\meta{definition}} \meta{sequence}
+\meta{sequence} \: \arbno{\meta{command}} \meta{expression}
+\meta{command} \: \meta{expression}
+
+\meta{conditional} \: (if \meta{test} \meta{consequent} \meta{alternate})
+\meta{test} \: \meta{expression}
+\meta{consequent} \: \meta{expression}
+\meta{alternate} \: \meta{expression} \| \meta{empty}
+
+\meta{assignment} \: (set! \meta{identifier} \meta{expression})
+
+\meta{derived expression} \:
+\>  \> (cond \atleastone{\meta{cond clause}})
+\>  \| (cond \arbno{\meta{cond clause}} (else \meta{sequence}))
+\>  \| (c\=ase \meta{expression}
+\>       \>\atleastone{\meta{case clause}})
+\>  \| (c\=ase \meta{expression}
+\>       \>\arbno{\meta{case clause}}
+\>       \>(else \meta{sequence}))
+\>  \| (c\=ase \meta{expression}
+\>       \>\arbno{\meta{case clause}}
+\>       \>(else => \meta{recipient}))
+\>  \| (and \arbno{\meta{test}})
+\>  \| (or \arbno{\meta{test}})
+\>  \| (when \meta{test} \meta{sequence})
+\>  \| (unless \meta{test} \meta{sequence})
+\>  \| (let (\arbno{\meta{binding spec}}) \meta{body})
+\>  \| (let \meta{identifier} (\arbno{\meta{binding spec}}) \meta{body})
+\>  \| (let* (\arbno{\meta{binding spec}}) \meta{body})
+\>  \| (letrec (\arbno{\meta{binding spec}}) \meta{body})
+\>  \| (letrec* (\arbno{\meta{binding spec}}) \meta{body})
+\>  \| (let-values (\arbno{\meta{mv binding spec}}) \meta{body})
+\>  \| (let*-values (\arbno{\meta{mv binding spec}}) \meta{body})
+\>  \| (begin \meta{sequence})
+\>  \| (d\=o \=(\arbno{\meta{iteration spec}})
+\>       \>  \>(\meta{test} \meta{do result})
+\>       \>\arbno{\meta{command}})
+\>  \| (delay \meta{expression})
+\>  \| (delay-force \meta{expression})
+\>  \| (p\=arameterize (\arbno{(\meta{expression} \meta{expression})})
+\>       \> \meta{body})
+\>  \| (guard (\meta{identifier} \arbno{\meta{cond clause}}) \meta{body})
+\>  \| \meta{quasiquotation}
+\>  \| (c\=ase-lambda \arbno{\meta{case-lambda clause}})
+
+\meta{cond clause} \: (\meta{test} \meta{sequence})
+\>   \| (\meta{test})
+\>   \| (\meta{test} => \meta{recipient})
+\meta{recipient} \: \meta{expression}
+\meta{case clause} \: ((\arbno{\meta{datum}}) \meta{sequence})
+\>   \| ((\arbno{\meta{datum}}) => \meta{recipient})
+\meta{binding spec} \: (\meta{identifier} \meta{expression})
+\meta{mv binding spec} \: (\meta{formals} \meta{expression})
+\meta{iteration spec} \: (\meta{identifier} \meta{init} \meta{step})
+\> \| (\meta{identifier} \meta{init})
+\meta{case-lambda clause} \: (\meta{formals} \meta{body})
+\meta{init} \: \meta{expression}
+\meta{step} \: \meta{expression}
+\meta{do result} \: \meta{sequence} \| \meta{empty}
+
+\meta{macro use} \: (\meta{keyword} \arbno{\meta{datum}})
+\meta{keyword} \: \meta{identifier}
+
+\meta{macro block} \:
+\>  (let-syntax (\arbno{\meta{syntax spec}}) \meta{body})
+\>  \| (letrec-syntax (\arbno{\meta{syntax spec}}) \meta{body})
+\meta{syntax spec} \: (\meta{keyword} \meta{transformer spec})
+
+\meta{includer} \:
+\> \| (include \atleastone{\meta{string}})
+\> \| (include-ci \atleastone{\meta{string}})
+\end{grammar}
+
+\subsection{Quasiquotations}
+
+The following grammar for quasiquote expressions is not context-free.
+It is presented as a recipe for generating an infinite number of
+production rules.  Imagine a copy of the following rules for $D = 1, 2,
+3, \ldots$, where $D$ is the nesting depth.
+
+\begin{grammar}%
+\meta{quasiquotation} \: \meta{quasiquotation 1}
+\meta{qq template 0} \: \meta{expression}
+\meta{quasiquotation $D$} \: `\meta{qq template $D$}
+\>    \| (quasiquote \meta{qq template $D$})
+\meta{qq template $D$} \: \meta{simple datum}
+\>    \| \meta{list qq template $D$}
+\>    \| \meta{vector qq template $D$}
+\>    \| \meta{unquotation $D$}
+\meta{list qq template $D$} \: (\arbno{\meta{qq template or splice $D$}})
+\>    \| (\atleastone{\meta{qq template or splice $D$}} .\ \meta{qq template $D$})
+\>    \| '\meta{qq template $D$}
+\>    \| \meta{quasiquotation $D+1$}
+\meta{vector qq template $D$} \: \#(\arbno{\meta{qq template or splice $D$}})
+\meta{unquotation $D$} \: ,\meta{qq template $D-1$}
+\>    \| (unquote \meta{qq template $D-1$})
+\meta{qq template or splice $D$} \: \meta{qq template $D$}
+\>    \| \meta{splicing unquotation $D$}
+\meta{splicing unquotation $D$} \: ,@\meta{qq template $D-1$}
+\>    \| (unquote-splicing \meta{qq template $D-1$}) %
+\end{grammar}
+
+In \meta{quasiquotation}s, a \meta{list qq template $D$} can sometimes
+be confused with either an \meta{un\-quota\-tion $D$} or a \meta{splicing
+un\-quo\-ta\-tion $D$}.  The interpretation as an
+\meta{un\-quo\-ta\-tion} or \meta{splicing
+un\-quo\-ta\-tion $D$} takes precedence.
+
+\subsection{Transformers}
+
+\begin{grammar}%
+\meta{transformer spec} \:
+\> (syntax-rules (\arbno{\meta{identifier}}) \arbno{\meta{syntax rule}})
+\> \| (syntax-rules \meta{identifier} (\arbno{\meta{identifier}})
+\> \> \ \ \arbno{\meta{syntax rule}})
+\meta{syntax rule} \: (\meta{pattern} \meta{template})
+\meta{pattern} \: \meta{pattern identifier}
+\>  \| \meta{underscore}
+\>  \| (\arbno{\meta{pattern}})
+\>  \| (\atleastone{\meta{pattern}} . \meta{pattern})
+\>  \| (\arbno{\meta{pattern}} \meta{pattern} \meta{ellipsis} \arbno{\meta{pattern}})
+\>  \| (\arbno{\meta{pattern}} \meta{pattern} \meta{ellipsis} \arbno{\meta{pattern}}
+\> \> \ \ . \meta{pattern})
+\>  \| \#(\arbno{\meta{pattern}})
+\>  \| \#(\arbno{\meta{pattern}} \meta{pattern} \meta{ellipsis} \arbno{\meta{pattern}})
+\>  \| \meta{pattern datum}
+\meta{pattern datum} \: \meta{string}
+\>  \| \meta{character}
+\>  \| \meta{boolean}
+\>  \| \meta{number}
+\meta{template} \: \meta{pattern identifier}
+\>  \| (\arbno{\meta{template element}})
+\>  \| (\atleastone{\meta{template element}} .\ \meta{template})
+\>  \| \#(\arbno{\meta{template element}})
+\>  \| \meta{template datum}
+\meta{template element} \: \meta{template}
+\>  \| \meta{template} \meta{ellipsis}
+\meta{template datum} \: \meta{pattern datum}
+\meta{pattern identifier} \: \meta{any identifier except {\cf ...}}
+\meta{ellipsis} \: \meta{an identifier defaulting to {\cf ...}}
+\meta{underscore} \: \meta{the identifier {\cf \_}}
+\end{grammar}
+
+\subsection{Programs and definitions}
+
+\begin{grammar}%
+\meta{program} \:
+\> \atleastone{\meta{import declaration}}
+\> \atleastone{\meta{command or definition}}
+\meta{command or definition} \: \meta{command}
+\> \| \meta{definition}
+\> \| (begin \atleastone{\meta{command or definition}})
+\meta{definition} \: (define \meta{identifier} \meta{expression})
+\>   \| (define (\meta{identifier} \meta{def formals}) \meta{body})
+\>   \| \meta{syntax definition}
+\>   \| (define-values \meta{formals} \meta{body})
+\>   \| (define-record-type \meta{identifier}
+\> \> \ \ \meta{constructor} \meta{identifier} \arbno{\meta{field spec}})
+\>   \| (begin \arbno{\meta{definition}})
+\meta{def formals} \: \arbno{\meta{identifier}}
+\>   \| \arbno{\meta{identifier}} .\ \meta{identifier}
+\meta{constructor} \: (\meta{identifier} \arbno{\meta{field name}})
+\meta{field spec} \: (\meta{field name} \meta{accessor})
+\>   \| (\meta{field name} \meta{accessor} \meta{mutator})
+\meta{field name} \: \meta{identifier}
+\meta{accessor} \: \meta{identifier}
+\meta{mutator} \: \meta{identifier}
+\meta{syntax definition} \:
+\>  (define-syntax \meta{keyword} \meta{transformer spec})
+\end{grammar}
+
+\subsection{Libraries}
+
+\begin{grammar}%
+\meta{library} \:
+\> (d\=efine-library \meta{library name}
+\>   \> \arbno{\meta{library declaration}})
+\meta{library name} \: (\atleastone{\meta{library name part}})
+\meta{library name part} \: \meta{identifier} \| \meta{uinteger 10}
+\meta{library declaration} \: (export \arbno{\meta{export spec}})
+\> \| \meta{import declaration}
+\> \| (begin \arbno{\meta{command or definition}})
+\> \| \meta{includer}
+\> \| (include-library-declarations \atleastone{\meta{string}})
+\> \| (cond-expand \atleastone{\meta{cond-expand clause}})
+\> \| (cond-expand \atleastone{\meta{cond-expand clause}}
+\hbox to 1\wd0{\hfill}\ (else \arbno{\meta{library declaration}}))
+\meta{import declaration} \: (import \atleastone{\meta{import set}})
+\meta{export spec} \: \meta{identifier}
+\> \| (rename \meta{identifier} \meta{identifier})
+\meta{import set} \: \meta{library name}
+\> \| (only \meta{import set} \atleastone{\meta{identifier}})
+\> \| (except \meta{import set} \atleastone{\meta{identifier}})
+\> \| (prefix \meta{import set} \meta{identifier})
+\> \| (rename \meta{import set} \atleastone{(\meta{identifier} \meta{identifier})})
+\meta{cond-expand clause} \:
+\> (\meta{feature requirement} \arbno{\meta{library declaration}})
+\meta{feature requirement} \: \meta{identifier}
+\> \| \meta{library name}
+\> \| (and \arbno{\meta{feature requirement}})
+\> \| (or \arbno{\meta{feature requirement}})
+\> \| (not \meta{feature requirement})
+\end{grammar}

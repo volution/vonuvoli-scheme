@@ -1,0 +1,116 @@
+% First page
+
+\thispagestyle{empty}
+
+
+\topnewpage[{
+\begin{center}   {\huge\bf
+	Revised{\Huge$^{\mathbf{7}}$} Report on the Algorithmic Language \\
+			      \vskip 3pt
+				Scheme}
+
+\vskip 1ex
+$$
+\begin{tabular}{l@{\extracolsep{.5in}}l@{\extracolsep{.5in}}l}
+\multicolumn{3}{c}{A\authorsc{LEX} S\authorsc{HINN},
+J\authorsc{OHN} C\authorsc{OWAN}, \authorsc{AND}
+A\authorsc{RTHUR} A. G\authorsc{LECKLER} (\textit{Editors})} \\
+\\
+S\authorsc{TEVEN} G\authorsc{ANZ} &
+A\authorsc{LEXEY} R\authorsc{ADUL} &
+O\authorsc{LIN} S\authorsc{HIVERS} \\
+
+A\authorsc{ARON} W. H\authorsc{SU} &
+J\authorsc{EFFREY} T. R\authorsc{EAD} &
+A\authorsc{LARIC} S\authorsc{NELL}-P\authorsc{YM} \\
+
+B\authorsc{RADLEY} L\authorsc{UCIER} &
+D\authorsc{AVID} R\authorsc{USH} &
+G\authorsc{ERALD} J. S\authorsc{USSMAN} \\
+
+E\authorsc{MMANUEL} M\authorsc{EDERNACH} &
+B\authorsc{ENJAMIN} L. R\authorsc{USSEL} &
+\\
+\\
+\multicolumn{3}{c}{R\authorsc{ICHARD} K\authorsc{ELSEY},
+W\authorsc{ILLIAM} C\authorsc{LINGER},
+\authorsc{AND} J\authorsc{ONATHAN} R\authorsc{EES}} \\
+\multicolumn{3}{c}{\textit{(Editors, Revised$^{\mathit{5}}$ Report on the Algorithmic Language Scheme)}} \\
+\\
+\multicolumn{3}{c}{M\authorsc{ICHAEL} S\authorsc{PERBER},
+R. K\authorsc{ENT} D\authorsc{YBVIG}, M\authorsc{ATTHEW} F\authorsc{LATT},
+\authorsc{AND} A\authorsc{NTON} \authorsc{VAN} S\authorsc{TRAATEN}} \\
+\multicolumn{3}{c}{\textit{(Editors, Revised$^{\mathit{6}}$ Report on the Algorithmic Language Scheme)}} \\
+\end{tabular}
+$$
+\vskip 2ex
+{\it Dedicated to the memory of John McCarthy and Daniel Weinreb}
+\vskip 2.6ex
+{\large \bf \today}             % *** DRAFT ***
+\end{center}
+}]
+
+\clearpage
+
+\chapter*{Summary}
+
+The report gives a defining description of the programming language
+Scheme.  Scheme is a statically scoped and properly tail recursive
+dialect of the Lisp programming language~\cite{McCarthy} invented by Guy Lewis
+Steele~Jr.\ and Gerald Jay~Sussman.  It was designed to have
+exceptionally clear and simple semantics and few different ways to
+form expressions.  A wide variety of programming paradigms, including
+imperative, functional, and object-oriented styles, find convenient
+expression in Scheme.
+
+\vest The introduction offers a brief history of the language and of
+the report.
+
+\vest The first three chapters present the fundamental ideas of the
+language and describe the notational conventions used for describing the
+language and for writing programs in the language.
+
+\vest Chapters~\ref{expressionchapter} and~\ref{programchapter} describe
+the syntax and semantics of expressions, definitions, programs, and libraries.
+
+\vest Chapter~\ref{builtinchapter} describes Scheme's built-in
+procedures, which include all of the language's data manipulation and
+input/output primitives.
+
+\vest Chapter~\ref{formalchapter} provides a formal syntax for Scheme
+written in extended BNF, along with a formal denotational semantics.
+An example of the use of the language follows the formal syntax and
+semantics.
+
+\vest Appendix~\ref{stdlibraries} provides a list of the standard libraries
+and the identifiers that they export.
+
+\vest Appendix~\ref{stdfeatures} provides a list of optional but standardized
+implementation feature names.
+
+
+\vest The report concludes with a list of references and an
+alphabetic index.
+
+\begin{note}
+The editors of the \rfivers\ and \rsixrs\ reports are
+listed as authors of this report in recognition of the substantial
+portions of this report that are copied directly from \rfivers\ and \rsixrs.
+There is no intended implication that those editors, individually or
+collectively, support or do not support this report.
+\end{note}
+
+\todo{expand the summary so that it fills up the column.}
+
+\vfill
+\eject
+
+\chapter*{Contents}
+\addvspace{3.5pt}                  % don't shrink this gap
+\renewcommand{\tocshrink}{-3.5pt}  % value determined experimentally
+{\footnotesize
+\tableofcontents
+}
+
+\vfill
+\eject
