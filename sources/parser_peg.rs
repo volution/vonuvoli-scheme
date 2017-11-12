@@ -665,166 +665,6 @@ fn __parse_boolean_false<'input>(
     }
 }
 
-fn __parse_symbol<'input>(
-    __input: &'input str,
-    __state: &mut ParseState<'input>,
-    __pos: usize,
-) -> RuleResult<values::Value> {# ! [ allow ( non_snake_case , unused ) ]    {
-        let __choice_res = __parse_symbol_multiple_characters(__input, __state, __pos);
-        match __choice_res {
-            Matched(__pos, __value) => Matched(__pos, __value),
-            Failed => __parse_symbol_single_character(__input, __state, __pos),
-        }
-    }
-}
-
-fn __parse_symbol_single_character<'input>(
-    __input: &'input str,
-    __state: &mut ParseState<'input>,
-    __pos: usize,
-) -> RuleResult<values::Value> {# ! [ allow ( non_snake_case , unused ) ]    {
-        let __seq_res = {
-            __state.suppress_fail += 1;
-            let __assert_res = slice_eq(__input, __state, __pos, ".");
-            __state.suppress_fail -= 1;
-            match __assert_res {
-                Failed => Matched(__pos, ()),
-                Matched(..) => Failed,
-            }
-        };
-        match __seq_res {
-            Matched(__pos, _) => {
-                let __seq_res = {
-                    let str_start = __pos;
-                    match __parse_symbol_character(__input, __state, __pos) {
-                        Matched(__newpos, _) => Matched(__newpos, &__input[str_start..__newpos]),
-                        Failed => Failed,
-                    }
-                };
-                match __seq_res {
-                    Matched(__pos, value) => {
-                        Matched(__pos, {
-                            values::symbol_from_slice(value).into()
-                        })
-                    }
-                    Failed => Failed,
-                }
-            }
-            Failed => Failed,
-        }
-    }
-}
-
-fn __parse_symbol_multiple_characters<'input>(
-    __input: &'input str,
-    __state: &mut ParseState<'input>,
-    __pos: usize,
-) -> RuleResult<values::Value> {# ! [ allow ( non_snake_case , unused ) ]    {
-        let __seq_res = {
-            let str_start = __pos;
-            match {
-                let __seq_res = __parse_symbol_character(__input, __state, __pos);
-                match __seq_res {
-                    Matched(__pos, _) => {
-                        let mut __repeat_pos = __pos;
-                        let mut __repeat_value = vec![];
-                        loop {
-                            let __pos = __repeat_pos;
-                            let __step_res = __parse_symbol_character(__input, __state, __pos);
-                            match __step_res {
-                                Matched(__newpos, __value) => {
-                                    __repeat_pos = __newpos;
-                                    __repeat_value.push(__value);
-                                }
-                                Failed => {
-                                    break;
-                                }
-                            }
-                        }
-                        if __repeat_value.len() >= 1 {
-                            Matched(__repeat_pos, ())
-                        } else {
-                            Failed
-                        }
-                    }
-                    Failed => Failed,
-                }
-            } {
-                Matched(__newpos, _) => Matched(__newpos, &__input[str_start..__newpos]),
-                Failed => Failed,
-            }
-        };
-        match __seq_res {
-            Matched(__pos, value) => {
-                Matched(__pos, {
-                    values::symbol_from_slice(value).into()
-                })
-            }
-            Failed => Failed,
-        }
-    }
-}
-
-fn __parse_symbol_character<'input>(
-    __input: &'input str,
-    __state: &mut ParseState<'input>,
-    __pos: usize,
-) -> RuleResult<()> {# ! [ allow ( non_snake_case , unused ) ]    {
-        let __choice_res = if __input.len() > __pos {
-            let (__ch, __next) = char_range_at(__input, __pos);
-            match __ch {
-                'a'...'z' | 'A'...'Z' => Matched(__next, ()),
-                _ => __state.mark_failure(__pos, "[a-zA-Z]"),
-            }
-        } else {
-            __state.mark_failure(__pos, "[a-zA-Z]")
-        };
-        match __choice_res {
-            Matched(__pos, __value) => Matched(__pos, __value),
-            Failed => {
-                let __choice_res = if __input.len() > __pos {
-                    let (__ch, __next) = char_range_at(__input, __pos);
-                    match __ch {
-                        '!' | '$' | '%' | '&' | '*' | '/' | ':' | '<' | '=' | '>' | '?' | '^' |
-                        '_' | '~' => Matched(__next, ()),
-                        _ => __state.mark_failure(__pos, "[!$%&*/:<=>?^_~]"),
-                    }
-                } else {
-                    __state.mark_failure(__pos, "[!$%&*/:<=>?^_~]")
-                };
-                match __choice_res {
-                    Matched(__pos, __value) => Matched(__pos, __value),
-                    Failed => {
-                        let __choice_res = if __input.len() > __pos {
-                            let (__ch, __next) = char_range_at(__input, __pos);
-                            match __ch {
-                                '0'...'9' => Matched(__next, ()),
-                                _ => __state.mark_failure(__pos, "[0-9]"),
-                            }
-                        } else {
-                            __state.mark_failure(__pos, "[0-9]")
-                        };
-                        match __choice_res {
-                            Matched(__pos, __value) => Matched(__pos, __value),
-                            Failed => {
-                                if __input.len() > __pos {
-                                    let (__ch, __next) = char_range_at(__input, __pos);
-                                    match __ch {
-                                        '@' | '.' | '+' | '-' => Matched(__next, ()),
-                                        _ => __state.mark_failure(__pos, "[@.+-]"),
-                                    }
-                                } else {
-                                    __state.mark_failure(__pos, "[@.+-]")
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
 fn __parse_number<'input>(
     __input: &'input str,
     __state: &mut ParseState<'input>,
@@ -841,7 +681,7 @@ fn __parse_number<'input>(
             Matched(__pos, value) => {
                 let __seq_res = {
                     __state.suppress_fail += 1;
-                    let __assert_res = __parse_symbol_character(__input, __state, __pos);
+                    let __assert_res = __parse_symbol_character_glyph(__input, __state, __pos);
                     __state.suppress_fail -= 1;
                     match __assert_res {
                         Failed => Matched(__pos, ()),
@@ -858,6 +698,19 @@ fn __parse_number<'input>(
                 }
             }
             Failed => Failed,
+        }
+    }
+}
+
+fn __parse_number_sign<'input>(
+    __input: &'input str,
+    __state: &mut ParseState<'input>,
+    __pos: usize,
+) -> RuleResult<()> {# ! [ allow ( non_snake_case , unused ) ]    {
+        let __choice_res = slice_eq(__input, __state, __pos, "+");
+        match __choice_res {
+            Matched(__pos, __value) => Matched(__pos, __value),
+            Failed => slice_eq(__input, __state, __pos, "-"),
         }
     }
 }
@@ -1940,39 +1793,26 @@ fn __parse_number_real_exponent<'input>(
     }
 }
 
-fn __parse_number_sign<'input>(
-    __input: &'input str,
-    __state: &mut ParseState<'input>,
-    __pos: usize,
-) -> RuleResult<()> {# ! [ allow ( non_snake_case , unused ) ]    {
-        let __choice_res = slice_eq(__input, __state, __pos, "+");
-        match __choice_res {
-            Matched(__pos, __value) => Matched(__pos, __value),
-            Failed => slice_eq(__input, __state, __pos, "-"),
-        }
-    }
-}
-
 fn __parse_character<'input>(
     __input: &'input str,
     __state: &mut ParseState<'input>,
     __pos: usize,
 ) -> RuleResult<values::Value> {# ! [ allow ( non_snake_case , unused ) ]    {
-        let __choice_res = __parse_character_value(__input, __state, __pos);
+        let __choice_res = __parse_character_glyph(__input, __state, __pos);
         match __choice_res {
             Matched(__pos, __value) => Matched(__pos, __value),
             Failed => {
-                let __choice_res = __parse_character_symbol(__input, __state, __pos);
+                let __choice_res = __parse_character_escaped(__input, __state, __pos);
                 match __choice_res {
                     Matched(__pos, __value) => Matched(__pos, __value),
-                    Failed => __parse_character_raw(__input, __state, __pos),
+                    Failed => __parse_character_named(__input, __state, __pos),
                 }
             }
         }
     }
 }
 
-fn __parse_character_raw<'input>(
+fn __parse_character_glyph<'input>(
     __input: &'input str,
     __state: &mut ParseState<'input>,
     __pos: usize,
@@ -2019,7 +1859,7 @@ fn __parse_character_raw<'input>(
     }
 }
 
-fn __parse_character_value<'input>(
+fn __parse_character_escaped<'input>(
     __input: &'input str,
     __state: &mut ParseState<'input>,
     __pos: usize,
@@ -2129,7 +1969,7 @@ fn __parse_character_value<'input>(
     }
 }
 
-fn __parse_character_symbol<'input>(
+fn __parse_character_named<'input>(
     __input: &'input str,
     __state: &mut ParseState<'input>,
     __pos: usize,
@@ -2248,6 +2088,269 @@ fn __parse_character_symbol<'input>(
     }
 }
 
+fn __parse_symbol<'input>(
+    __input: &'input str,
+    __state: &mut ParseState<'input>,
+    __pos: usize,
+) -> RuleResult<values::Value> {# ! [ allow ( non_snake_case , unused ) ]    {
+        let __choice_res = __parse_symbol_multiple_characters(__input, __state, __pos);
+        match __choice_res {
+            Matched(__pos, __value) => Matched(__pos, __value),
+            Failed => {
+                let __choice_res = __parse_symbol_single_character(__input, __state, __pos);
+                match __choice_res {
+                    Matched(__pos, __value) => Matched(__pos, __value),
+                    Failed => __parse_symbol_string(__input, __state, __pos),
+                }
+            }
+        }
+    }
+}
+
+fn __parse_symbol_single_character<'input>(
+    __input: &'input str,
+    __state: &mut ParseState<'input>,
+    __pos: usize,
+) -> RuleResult<values::Value> {# ! [ allow ( non_snake_case , unused ) ]    {
+        let __seq_res = {
+            __state.suppress_fail += 1;
+            let __assert_res = slice_eq(__input, __state, __pos, ".");
+            __state.suppress_fail -= 1;
+            match __assert_res {
+                Failed => Matched(__pos, ()),
+                Matched(..) => Failed,
+            }
+        };
+        match __seq_res {
+            Matched(__pos, _) => {
+                let __seq_res = {
+                    let str_start = __pos;
+                    match __parse_symbol_character_glyph(__input, __state, __pos) {
+                        Matched(__newpos, _) => Matched(__newpos, &__input[str_start..__newpos]),
+                        Failed => Failed,
+                    }
+                };
+                match __seq_res {
+                    Matched(__pos, value) => {
+                        Matched(__pos, {
+                            values::symbol_from_slice(value).into()
+                        })
+                    }
+                    Failed => Failed,
+                }
+            }
+            Failed => Failed,
+        }
+    }
+}
+
+fn __parse_symbol_multiple_characters<'input>(
+    __input: &'input str,
+    __state: &mut ParseState<'input>,
+    __pos: usize,
+) -> RuleResult<values::Value> {# ! [ allow ( non_snake_case , unused ) ]    {
+        let __seq_res = {
+            let str_start = __pos;
+            match {
+                let __seq_res = __parse_symbol_character_glyph(__input, __state, __pos);
+                match __seq_res {
+                    Matched(__pos, _) => {
+                        let mut __repeat_pos = __pos;
+                        let mut __repeat_value = vec![];
+                        loop {
+                            let __pos = __repeat_pos;
+                            let __step_res =
+                                __parse_symbol_character_glyph(__input, __state, __pos);
+                            match __step_res {
+                                Matched(__newpos, __value) => {
+                                    __repeat_pos = __newpos;
+                                    __repeat_value.push(__value);
+                                }
+                                Failed => {
+                                    break;
+                                }
+                            }
+                        }
+                        if __repeat_value.len() >= 1 {
+                            Matched(__repeat_pos, ())
+                        } else {
+                            Failed
+                        }
+                    }
+                    Failed => Failed,
+                }
+            } {
+                Matched(__newpos, _) => Matched(__newpos, &__input[str_start..__newpos]),
+                Failed => Failed,
+            }
+        };
+        match __seq_res {
+            Matched(__pos, value) => {
+                Matched(__pos, {
+                    values::symbol_from_slice(value).into()
+                })
+            }
+            Failed => Failed,
+        }
+    }
+}
+
+fn __parse_symbol_character_glyph<'input>(
+    __input: &'input str,
+    __state: &mut ParseState<'input>,
+    __pos: usize,
+) -> RuleResult<()> {# ! [ allow ( non_snake_case , unused ) ]    {
+        let __choice_res = if __input.len() > __pos {
+            let (__ch, __next) = char_range_at(__input, __pos);
+            match __ch {
+                'a'...'z' | 'A'...'Z' => Matched(__next, ()),
+                _ => __state.mark_failure(__pos, "[a-zA-Z]"),
+            }
+        } else {
+            __state.mark_failure(__pos, "[a-zA-Z]")
+        };
+        match __choice_res {
+            Matched(__pos, __value) => Matched(__pos, __value),
+            Failed => {
+                let __choice_res = if __input.len() > __pos {
+                    let (__ch, __next) = char_range_at(__input, __pos);
+                    match __ch {
+                        '!' | '$' | '%' | '&' | '*' | '/' | ':' | '<' | '=' | '>' | '?' | '^' |
+                        '_' | '~' => Matched(__next, ()),
+                        _ => __state.mark_failure(__pos, "[!$%&*/:<=>?^_~]"),
+                    }
+                } else {
+                    __state.mark_failure(__pos, "[!$%&*/:<=>?^_~]")
+                };
+                match __choice_res {
+                    Matched(__pos, __value) => Matched(__pos, __value),
+                    Failed => {
+                        let __choice_res = if __input.len() > __pos {
+                            let (__ch, __next) = char_range_at(__input, __pos);
+                            match __ch {
+                                '0'...'9' => Matched(__next, ()),
+                                _ => __state.mark_failure(__pos, "[0-9]"),
+                            }
+                        } else {
+                            __state.mark_failure(__pos, "[0-9]")
+                        };
+                        match __choice_res {
+                            Matched(__pos, __value) => Matched(__pos, __value),
+                            Failed => {
+                                if __input.len() > __pos {
+                                    let (__ch, __next) = char_range_at(__input, __pos);
+                                    match __ch {
+                                        '@' | '.' | '+' | '-' => Matched(__next, ()),
+                                        _ => __state.mark_failure(__pos, "[@.+-]"),
+                                    }
+                                } else {
+                                    __state.mark_failure(__pos, "[@.+-]")
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+fn __parse_symbol_string<'input>(
+    __input: &'input str,
+    __state: &mut ParseState<'input>,
+    __pos: usize,
+) -> RuleResult<values::Value> {# ! [ allow ( non_snake_case , unused ) ]    {
+        let __seq_res = slice_eq(__input, __state, __pos, "|");
+        match __seq_res {
+            Matched(__pos, _) => {
+                let __seq_res = {
+                    let mut __repeat_pos = __pos;
+                    let mut __repeat_value = vec![];
+                    loop {
+                        let __pos = __repeat_pos;
+                        let __step_res = __parse_symbol_string_character(__input, __state, __pos);
+                        match __step_res {
+                            Matched(__newpos, __value) => {
+                                __repeat_pos = __newpos;
+                                __repeat_value.push(__value);
+                            }
+                            Failed => {
+                                break;
+                            }
+                        }
+                    }
+                    Matched(__repeat_pos, __repeat_value)
+                };
+                match __seq_res {
+                    Matched(__pos, elements) => {
+                        let __seq_res = slice_eq(__input, __state, __pos, "|");
+                        match __seq_res {
+                            Matched(__pos, _) => {
+                                Matched(__pos, {
+                                    values::symbol_from_characters(elements.as_slice()).into()
+                                })
+                            }
+                            Failed => Failed,
+                        }
+                    }
+                    Failed => Failed,
+                }
+            }
+            Failed => Failed,
+        }
+    }
+}
+
+fn __parse_symbol_string_character<'input>(
+    __input: &'input str,
+    __state: &mut ParseState<'input>,
+    __pos: usize,
+) -> RuleResult<char> {# ! [ allow ( non_snake_case , unused ) ]    {
+        let __choice_res = __parse_symbol_string_character_glyph(__input, __state, __pos);
+        match __choice_res {
+            Matched(__pos, __value) => Matched(__pos, __value),
+            Failed => {
+                let __choice_res = __parse_string_character_escaped(__input, __state, __pos);
+                match __choice_res {
+                    Matched(__pos, __value) => Matched(__pos, __value),
+                    Failed => __parse_string_character_named(__input, __state, __pos),
+                }
+            }
+        }
+    }
+}
+
+fn __parse_symbol_string_character_glyph<'input>(
+    __input: &'input str,
+    __state: &mut ParseState<'input>,
+    __pos: usize,
+) -> RuleResult<char> {# ! [ allow ( non_snake_case , unused ) ]    {
+        let __seq_res = {
+            let str_start = __pos;
+            match if __input.len() > __pos {
+                let (__ch, __next) = char_range_at(__input, __pos);
+                match __ch {
+                    '|' | '\\' => __state.mark_failure(__pos, "[^|\\]"),
+                    _ => Matched(__next, ()),
+                }
+            } else {
+                __state.mark_failure(__pos, "[^|\\]")
+            } {
+                Matched(__newpos, _) => Matched(__newpos, &__input[str_start..__newpos]),
+                Failed => Failed,
+            }
+        };
+        match __seq_res {
+            Matched(__pos, glyph) => {
+                Matched(__pos, {
+                    glyph.chars().next().expect("56031166")
+                })
+            }
+            Failed => Failed,
+        }
+    }
+}
+
 fn __parse_string<'input>(
     __input: &'input str,
     __state: &mut ParseState<'input>,
@@ -2299,66 +2402,52 @@ fn __parse_string_character<'input>(
     __state: &mut ParseState<'input>,
     __pos: usize,
 ) -> RuleResult<char> {# ! [ allow ( non_snake_case , unused ) ]    {
-        let __choice_res = __parse_string_character_raw(__input, __state, __pos);
+        let __choice_res = __parse_string_character_glyph(__input, __state, __pos);
         match __choice_res {
             Matched(__pos, __value) => Matched(__pos, __value),
             Failed => {
-                let __choice_res = __parse_string_character_value(__input, __state, __pos);
+                let __choice_res = __parse_string_character_escaped(__input, __state, __pos);
                 match __choice_res {
                     Matched(__pos, __value) => Matched(__pos, __value),
-                    Failed => __parse_string_character_symbol(__input, __state, __pos),
+                    Failed => __parse_string_character_named(__input, __state, __pos),
                 }
             }
         }
     }
 }
 
-fn __parse_string_character_raw<'input>(
+fn __parse_string_character_glyph<'input>(
     __input: &'input str,
     __state: &mut ParseState<'input>,
     __pos: usize,
 ) -> RuleResult<char> {# ! [ allow ( non_snake_case , unused ) ]    {
         let __seq_res = {
-            __state.suppress_fail += 1;
-            let __assert_res = if __input.len() > __pos {
+            let str_start = __pos;
+            match if __input.len() > __pos {
                 let (__ch, __next) = char_range_at(__input, __pos);
                 match __ch {
-                    '"' | '\\' => Matched(__next, ()),
-                    _ => __state.mark_failure(__pos, "[\"\\]"),
+                    '"' | '\\' => __state.mark_failure(__pos, "[^\"\\]"),
+                    _ => Matched(__next, ()),
                 }
             } else {
-                __state.mark_failure(__pos, "[\"\\]")
-            };
-            __state.suppress_fail -= 1;
-            match __assert_res {
-                Failed => Matched(__pos, ()),
-                Matched(..) => Failed,
+                __state.mark_failure(__pos, "[^\"\\]")
+            } {
+                Matched(__newpos, _) => Matched(__newpos, &__input[str_start..__newpos]),
+                Failed => Failed,
             }
         };
         match __seq_res {
-            Matched(__pos, _) => {
-                let __seq_res = {
-                    let str_start = __pos;
-                    match any_char(__input, __state, __pos) {
-                        Matched(__newpos, _) => Matched(__newpos, &__input[str_start..__newpos]),
-                        Failed => Failed,
-                    }
-                };
-                match __seq_res {
-                    Matched(__pos, glyph) => {
-                        Matched(__pos, {
-                            glyph.chars().next().expect("61d18567")
-                        })
-                    }
-                    Failed => Failed,
-                }
+            Matched(__pos, glyph) => {
+                Matched(__pos, {
+                    glyph.chars().next().expect("61d18567")
+                })
             }
             Failed => Failed,
         }
     }
 }
 
-fn __parse_string_character_value<'input>(
+fn __parse_string_character_escaped<'input>(
     __input: &'input str,
     __state: &mut ParseState<'input>,
     __pos: usize,
@@ -2473,7 +2562,7 @@ fn __parse_string_character_value<'input>(
     }
 }
 
-fn __parse_string_character_symbol<'input>(
+fn __parse_string_character_named<'input>(
     __input: &'input str,
     __state: &mut ParseState<'input>,
     __pos: usize,

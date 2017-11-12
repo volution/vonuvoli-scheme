@@ -319,7 +319,22 @@ pub struct Symbol ( StdRc<StdString> );
 
 impl fmt::Display for Symbol {
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		formatter.write_str (self.0.as_str ())
+		if self.0.is_empty () {
+			return formatter.write_str ("||");
+		} else {
+			// return formatter.write_str (self.0.as_str ());
+			use std::fmt::Write;
+			try! (formatter.write_char ('|'));
+			for character in self.0.chars () {
+				match character {
+					'|' | '\\' => { try! (formatter.write_char ('\\')); try! (formatter.write_char (character)); },
+					' ' ... '~' => try! (formatter.write_char (character)),
+					_ => try! (write! (formatter, "#\\x{:02x};", character as u32)),
+				}
+			}
+			try! (formatter.write_char ('|'));
+			return Ok(());
+		}
 	}
 }
 
