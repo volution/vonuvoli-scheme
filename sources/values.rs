@@ -342,6 +342,7 @@ impl fmt::Display for Symbol {
 
 
 #[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
+// FIXME:  Add immutability flag!
 pub struct String ( StdRc<StdString> );
 
 
@@ -365,6 +366,7 @@ impl fmt::Display for String {
 
 
 #[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
+// FIXME:  Add immutability flag!
 pub struct Bytes ( StdRc<StdVec<u8>> );
 
 
@@ -390,6 +392,7 @@ impl fmt::Display for Bytes {
 
 
 #[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
+// FIXME:  Add immutability flag!
 pub struct Pair ( StdRc<(Value, Value)> );
 
 
@@ -424,6 +427,7 @@ impl fmt::Display for Pair {
 
 
 #[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
+// FIXME:  Add immutability flag!
 pub struct Array ( StdRc<StdVec<Value>> );
 
 
