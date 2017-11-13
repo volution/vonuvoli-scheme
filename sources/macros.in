@@ -3,14 +3,14 @@
 #[ allow (unused_macros) ]
 macro_rules! failed {
 	( $code : expr ) => (
-		::std::result::Result::Err (::errors::error_generic ($code))
+		::std::result::Result::Err ($crate::errors::error_generic ($code))
 	);
 }
 
 #[ allow (unused_macros) ]
 macro_rules! failed_unimplemented {
 	( $code : expr ) => (
-		::std::result::Result::Err (::errors::error_unimplemented ($code))
+		::std::result::Result::Err ($crate::errors::error_unimplemented ($code))
 	);
 }
 
@@ -18,6 +18,13 @@ macro_rules! failed_unimplemented {
 macro_rules! fail {
 	( $code : expr ) => (
 		return failed! ($code)
+	);
+}
+
+#[ allow (unused_macros) ]
+macro_rules! fail_unimplemented {
+	( $code : expr ) => (
+		return failed_unimplemented! ($code)
 	);
 }
 

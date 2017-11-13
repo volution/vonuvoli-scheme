@@ -2,12 +2,12 @@
 
 pub mod exports {
 	
-	pub use super::super::primitives_arithmetic::*;
-	pub use super::super::primitives_bitwise::*;
-	pub use super::super::primitives_boolean::*;
-	pub use super::super::primitives_procedures::*;
-	pub use super::super::primitives_syntaxes::*;
-	pub use super::super::primitives_types::*;
+	pub use super::super::primitives_arithmetic::exports::*;
+	pub use super::super::primitives_bitwise::exports::*;
+	pub use super::super::primitives_boolean::exports::*;
+	pub use super::super::primitives_procedures::exports::*;
+	pub use super::super::primitives_syntaxes::exports::*;
+	pub use super::super::primitives_types::exports::*;
 	
 }
 

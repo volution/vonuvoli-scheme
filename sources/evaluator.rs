@@ -44,7 +44,7 @@ impl Evaluator {
 	
 	#[ inline (always) ]
 	pub fn evaluate_top (&self, context : &Context, input : &Expression) -> (Outcome<Value>) {
-		let mut registers = Registers::new (0);
+		let registers = Registers::new (0);
 		let mut evaluation = EvaluationContext {
 				evaluator : self,
 				context : context,
@@ -123,7 +123,7 @@ impl Evaluator {
 	
 	#[ inline (always) ]
 	pub fn evaluate_context_define (&self, evaluation : &mut EvaluationContext, identifier : &Symbol, expression : &Expression) -> (Outcome<Value>) {
-		let mut binding = try! (evaluation.context.define (identifier));
+		let binding = try! (evaluation.context.define (identifier));
 		let value_new = try! (self.evaluate (evaluation, expression));
 		let value_old = try! (binding.set (value_new));
 		return Ok (value_old);
@@ -131,7 +131,7 @@ impl Evaluator {
 	
 	#[ inline (always) ]
 	pub fn evaluate_context_update (&self, evaluation : &mut EvaluationContext, identifier : &Symbol, expression : &Expression) -> (Outcome<Value>) {
-		let mut binding = try! (evaluation.context.resolve (identifier));
+		let binding = try! (evaluation.context.resolve (identifier));
 		let value_new = try! (self.evaluate (evaluation, expression));
 		let value_old = try! (binding.set (value_new));
 		return Ok (value_old);
@@ -149,7 +149,7 @@ impl Evaluator {
 	
 	#[ inline (always) ]
 	pub fn evaluate_register_set (&self, evaluation : &mut EvaluationContext, index : usize, expression : &Expression) -> (Outcome<Value>) {
-		let mut binding = try! (evaluation.registers.resolve (index));
+		let binding = try! (evaluation.registers.resolve (index));
 		let value_new = try! (self.evaluate (evaluation, expression));
 		let value_old = try! (binding.set (value_new));
 		return Ok (value_old);
@@ -173,7 +173,7 @@ impl Evaluator {
 	}
 	
 	#[ inline (always) ]
-	pub fn evaluate_binding_get (&self, evaluation : &mut EvaluationContext, binding : &Binding) -> (Outcome<Value>) {
+	pub fn evaluate_binding_get (&self, _evaluation : &mut EvaluationContext, binding : &Binding) -> (Outcome<Value>) {
 		let value = try! (binding.get ());
 		return Ok (value);
 	}
@@ -182,7 +182,7 @@ impl Evaluator {
 	
 	
 	#[ inline (always) ]
-	pub fn evaluate_procedure_call (&self, evaluation : &mut EvaluationContext, callable : &Expression, inputs : &[Expression]) -> (Outcome<Value>) {
+	pub fn evaluate_procedure_call (&self, _evaluation : &mut EvaluationContext, _callable : &Expression, _inputs : &[Expression]) -> (Outcome<Value>) {
 		return failed! (0xe5b2fe88);
 	}
 	
