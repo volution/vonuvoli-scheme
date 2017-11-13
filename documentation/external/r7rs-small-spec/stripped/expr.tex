@@ -629,9 +629,8 @@ See also ``named {\cf let},'' section \ref{namedlet}.
 
 
 \begin{entry}{
-\proto{let*}{ \hyper{bindings} \hyper{body}}{\exprtype}}\nobreak
+\proto{let*}{ \hyper{bindings} \hyper{body}}{\exprtype}}
 
-\nobreak
 \syntax
 \hyper{Bindings} has the form
 \begin{scheme}
@@ -795,9 +794,8 @@ values returned by the corresponding \hyper{init}.
 
 
 \begin{entry}{
-\proto{let*-values}{ \hyper{mv binding spec} \hyper{body}}{\exprtype}}\nobreak
+\proto{let*-values}{ \hyper{mv binding spec} \hyper{body}}{\exprtype}}
 
-\nobreak
 \syntax
 \hyper{Mv binding spec} has the form
 \begin{scheme}
@@ -879,7 +877,6 @@ see section~\ref{librarydeclarations}.
 
 \subsection{Iteration}
 
-\noindent
 \pproto{(do ((\hyperi{variable} \hyperi{init} \hyperi{step})}{\exprtype}
 \mainschindex{do}{\tt\obeyspaces
      \dotsfoo)\\
@@ -1171,7 +1168,7 @@ implementation-dependent.
 \begin{entry}{
 \pproto{(parameterize ((\hyperi{param} \hyperi{value}) \dotsfoo)}{syntax}
 {\tt\obeyspaces
-\hspace*{1em}\hyper{body})}}
+\hyper{body})}}
 \mainschindex{parameterize}
 
 \syntax
@@ -1238,8 +1235,8 @@ procedure in the call chain explicitly.
 \begin{entry}{
 \pproto{(guard (\hyper{variable}}{\exprtype}
 {\tt\obeyspaces
-\hspace*{4em}\hyperi{cond clause} \hyperii{cond clause} \dotsfoo)\\
-\hspace*{2em}\hyper{body})}\\
+\hyperi{cond clause} \hyperii{cond clause} \dotsfoo)\\
+\hyper{body})}\\
 }
 \mainschindex{guard}
 
@@ -1284,7 +1281,7 @@ exceptions.
 \label{quasiquotesection}
 
 \begin{entry}{
-\proto{quasiquote}{ \hyper{qq template}}{\exprtype} \nopagebreak
+\proto{quasiquote}{ \hyper{qq template}}{\exprtype}
 \pproto{\backquote\hyper{qq template}}{\exprtype}
 \pproto{unquote}{\auxiliarytype}
 \pproto{\comma}{\auxiliarytype}
@@ -1590,11 +1587,11 @@ A \hyper{transformer spec} has one of the following forms:
 \begin{entry}{
 \pproto{(syntax-rules (\hyper{literal} \dotsfoo)}{\exprtype}
 {\tt\obeyspaces
-\hspace*{1em}\hyper{syntax rule} \dotsfoo)\\
+\hyper{syntax rule} \dotsfoo)\\
 }
 \pproto{(syntax-rules \hyper{ellipsis} (\hyper{literal} \dotsfoo)}{\exprtype}
 {\tt\obeyspaces
-\hspace*{1em}\hyper{syntax rule} \dotsfoo)}\\
+\hyper{syntax rule} \dotsfoo)}\\
 \pproto{\_}{\auxiliarytype}
 \pproto{\dotsfoo}{\auxiliarytype}}
 \mainschindex{_}

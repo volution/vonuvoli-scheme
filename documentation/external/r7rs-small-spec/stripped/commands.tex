@@ -142,7 +142,7 @@
   \small \cf \obeytabs \obeyspaces \myobeycr
   \begin{tabbing}%
 \qquad\=\hspace*{5em}\=\hspace*{9em}\=\kill%   was 16em
-\gobblecr}{\unskip\end{tabbing}}
+\gobblecr}{\end{tabbing}}
 
 \newenvironment{scheme}{
   % Commands for scheme examples
@@ -155,7 +155,7 @@
   \small \cf \obeyspaces \myobeycr
   \begin{tabbing}%
 \qquad\=\hspace*{5em}\=\hspace*{9em}\=\+\kill%   was 16em
-\gobblecr}{\unskip\end{tabbing}}
+\gobblecr}{\end{tabbing}}
 
 \newcommand{\evalsto}{$\Longrightarrow$}
 
@@ -182,7 +182,7 @@
 \newcommand{\auxiliarytype}{auxiliary syntax}
 
 % Primitive prototype
-\newcommand{\pproto}[2]{\unskip%
+\newcommand{\pproto}[2]{%
 \hbox{\cf\spaceskip=0.5em#1}\hfill\penalty 0%
 \hbox{ }\nobreak\hfill\hbox{\rm #2}\break}
 
@@ -204,7 +204,7 @@
   \begin{tabbing}
     %\qquad\quad \=
     \qquad \= $\vert$ \= \kill
-  }{\unskip\end{tabbing}}
+  }{\end{tabbing}}
 
 \newcommand{\unsection}{{\vskip -2ex}}
 

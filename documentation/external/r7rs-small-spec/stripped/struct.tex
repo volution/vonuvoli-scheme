@@ -188,11 +188,11 @@ into entries.  Each entry describes one language feature or a group of
 related features, where a feature is either a syntactic construct or a
 procedure.  An entry begins with one or more header lines of the form
 
-\noindent\pproto{\var{template}}{\var{category}}\unpenalty
+\pproto{\var{template}}{\var{category}}
 
 for identifiers in the base library, or
 
-\noindent\pproto{\var{template}}{\var{name} library \var{category}}\unpenalty
+\pproto{\var{template}}{\var{name} library \var{category}}
 
 where \var{name} is the short name of a library
 as defined in Appendix~\ref{stdlibraries}.
@@ -222,15 +222,14 @@ If \var{category} is ``procedure,'' then the entry describes a procedure, and
 the header line gives a template for a call to the procedure.  Argument
 names in the template are \var{italicized}.  Thus the header line
 
-\noindent\pproto{(vector-ref \var{vector} \var{k})}{procedure}\unpenalty
+\pproto{(vector-ref \var{vector} \var{k})}{procedure}
 
 indicates that the procedure bound to the {\tt vector-ref} variable takes
 two arguments, a vector \var{vector} and an exact non-negative integer
 \var{k} (see below).  The header lines
 
-\noindent
 \pproto{(make-vector \var{k})}{procedure}
-\pproto{(make-vector \var{k} \var{fill})}{procedure}\unpenalty
+\pproto{(make-vector \var{k} \var{fill})}{procedure}
 
 indicate that the {\tt make-vector} procedure must be defined to take
 either one or two arguments.
