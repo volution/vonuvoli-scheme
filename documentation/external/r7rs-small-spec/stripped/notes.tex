@@ -1,3 +1,4 @@
+
 \extrapart{Language changes}
 
 
@@ -19,7 +20,7 @@ can either be changed, be marked with the new {\cf \#!fold-case} directive,
 or be included in a library using the {\cf include-ci} library declaration.
 All standard identifiers are entirely in lower case.
 
-\item The {\cf syntax-rules} construct now recognizes {\em \_} (underscore) 
+\item The {\cf syntax-rules} construct now recognizes {\em \_} (underscore)
 as a wildcard, which means it cannot be used as a syntax variable.
 It can still be used as a literal.
 
@@ -30,7 +31,7 @@ The former names are still available in the \rfivers\ library.
 
 \item The guarantee that string comparison (with {\cf string<?} and the
 related predicates) is a lexicographical extension of character comparison
-(with {\cf char<?} and the related predicates) has been removed.  
+(with {\cf char<?} and the related predicates) has been removed.
 
 \item Support for the \# character in numeric literals is no longer required.
 
@@ -134,7 +135,7 @@ allows tail patterns to follow an ellipsis pattern.
 \item The {\cf syntax-error} syntax has been added as a way to signal immediate
 and more informative errors when a macro is expanded.
 
-\item The {\cf letrec*} binding construct has been added, and internal {\cf define} 
+\item The {\cf letrec*} binding construct has been added, and internal {\cf define}
 is specified in terms of it.
 
 \item Support for capturing multiple values has been enhanced with {\cf
@@ -187,9 +188,9 @@ predicates are now required to support more than two arguments.
 as well as \schtrue{} and \schfalse{}.
 
 \item The procedures {\cf make-list}, {\cf list-copy}, {\cf list-set!},
-{\cf string-map}, {\cf string-for-each}, {\cf string->vector}, 
+{\cf string-map}, {\cf string-for-each}, {\cf string->vector},
 {\cf vector-append},
-{\cf vector-copy}, {\cf vector-map}, {\cf vector-for-each}, 
+{\cf vector-copy}, {\cf vector-map}, {\cf vector-for-each},
 {\cf vector->string}, {\cf vector-copy!}, and {\cf string-copy!}
 have been added to round out the sequence operations.
 
@@ -269,7 +270,7 @@ approach. In particular, procedures which are optional in \rfivers\, either expr
 or by implication, have been removed from the base library.
 Only the base library itself is an absolute requirement.
 
-\item No form of identifier syntax is provided. 
+\item No form of identifier syntax is provided.
 
 \item Internal syntax definitions are allowed, but uses of a syntax form
 cannot appear before its definition; the {\cf even}/{\cf odd} example given in
@@ -289,7 +290,7 @@ Non-Unicode characters are permitted.
 \item The full numeric tower is optional as in \rfivers, but optional support for IEEE
 infinities, NaN, and {\mbox -0.0} was adopted from \rsixrs. Most clarifications on
 numeric results were also adopted, but the \rsixrs\ procedures {\cf real-valued?},
-{\cf rational-valued?}, and {\cf integer-valued}? were not. 
+{\cf rational-valued?}, and {\cf integer-valued}? were not.
 The \rsixrs\ division operators {\cf div}, {\cf mod}, {\cf div-and-mod}, {\cf
 div0}, {\cf mod0} and {\cf div0-and-mod0} are not provided.
 
@@ -310,12 +311,12 @@ exception of multiple-argument {\cf unquote} and
 
 \item String ports are compatible with SRFI 6~\cite{srfi6} rather than \rsixrs.
 
-\item \rsixrs{}-style bytevectors are included, but 
+\item \rsixrs{}-style bytevectors are included, but
 only the unsigned byte ({\cf u8}) procedures have been provided.
 The lexical syntax uses {\cf \#u8} for compatibility
 with SRFI 4~\cite{srfi4}, rather than the \rsixrs~{\cf \#vu8} style.
 
-\item The utility macros {\cf when} and {\cf unless} are provided, but 
+\item The utility macros {\cf when} and {\cf unless} are provided, but
 their result is left unspecified.
 
 \item The remaining features of the Standard Libraries document were

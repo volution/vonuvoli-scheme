@@ -1,3 +1,4 @@
+
 \section{Derived expression types}
 \label{derivedsection}
 
@@ -178,7 +179,7 @@ This could also be accomplished by using an auxiliary macro.
      (let ((var1 <undefined>) ...)
        (set! var1 init1)
        ...
-       (let () body1 body2 ...)))))%
+       (let () body1 body2 ...)))))
 \end{scheme}
 
 \begin{scheme}
@@ -187,28 +188,28 @@ This could also be accomplished by using an auxiliary macro.
     ((let-values (binding ...) body0 body1 ...)
      (let-values "bind"
          (binding ...) () (begin body0 body1 ...)))
-    
+
     ((let-values "bind" () tmps body)
      (let tmps body))
-    
+
     ((let-values "bind" ((b0 e0)
          binding ...) tmps body)
      (let-values "mktmp" b0 e0 ()
          (binding ...) tmps body))
-    
+
     ((let-values "mktmp" () e0 args
          bindings tmps body)
-     (call-with-values 
+     (call-with-values
        (lambda () e0)
        (lambda args
          (let-values "bind"
              bindings tmps body))))
-    
+
     ((let-values "mktmp" (a . b) e0 (arg ...)
          bindings (tmp ...) body)
      (let-values "mktmp" b e0 (arg ... x)
          bindings (tmp ... (a x)) body))
-    
+
     ((let-values "mktmp" a e0 (arg ...)
         bindings (tmp ...) body)
      (call-with-values
@@ -331,13 +332,13 @@ Here is a possible implementation of {\cf delay}, {\cf force} and {\cf
   delay-force}.  We define the expression
 
 \begin{scheme}
-(delay-force \hyper{expression})%
+(delay-force \hyper{expression})
 \end{scheme}
 
 to have the same meaning as the procedure call
 
 \begin{scheme}
-(make-promise \schfalse{} (lambda () \hyper{expression}))%
+(make-promise \schfalse{} (lambda () \hyper{expression}))
 \end{scheme}
 
 as follows
@@ -345,20 +346,20 @@ as follows
 \begin{scheme}
 (define-syntax delay-force
   (syntax-rules ()
-    ((delay-force expression) 
-     (make-promise \schfalse{} (lambda () expression)))))%
+    ((delay-force expression)
+     (make-promise \schfalse{} (lambda () expression)))))
 \end{scheme}
 
 and we define the expression
 
 \begin{scheme}
-(delay \hyper{expression})%
+(delay \hyper{expression})
 \end{scheme}
 
 to have the same meaning as:
 
 \begin{scheme}
-(delay-force (make-promise \schtrue{} \hyper{expression}))%
+(delay-force (make-promise \schtrue{} \hyper{expression}))
 \end{scheme}
 
 as follows
@@ -367,7 +368,7 @@ as follows
 (define-syntax delay
   (syntax-rules ()
     ((delay expression)
-     (delay-force (make-promise \schtrue{} expression)))))%
+     (delay-force (make-promise \schtrue{} expression)))))
 \end{scheme}
 
 where {\cf make-promise} is defined as follows:
@@ -375,7 +376,7 @@ where {\cf make-promise} is defined as follows:
 \begin{scheme}
 (define make-promise
   (lambda (done? proc)
-    (list (cons done? proc))))%
+    (list (cons done? proc))))
 \end{scheme}
 
 Finally, we define {\cf force} to call the procedure expressions in
@@ -390,7 +391,7 @@ promises iteratively using a trampoline technique following
       (let ((promise* ((promise-value promise))))
         (unless (promise-done? promise)
           (promise-update! promise* promise))
-        (force promise))))%
+        (force promise))))
 \end{scheme}
 
 with the following promise accessors:
@@ -404,7 +405,7 @@ with the following promise accessors:
   (lambda (new old)
     (set-car! (car old) (promise-done? new))
     (set-cdr! (car old) (promise-value new))
-    (set-car! new (car old))))%
+    (set-car! new (car old))))
 \end{scheme}
 
 The following implementation of {\cf make-parameter} and {\cf
@@ -427,7 +428,7 @@ arbitrary unique objects \texttt{<param-set!>} and
        ((eq? (car args) <param-convert>)
         converter)
        (else
-        (error "bad parameter syntax"))))))%
+        (error "bad parameter syntax"))))))
 \end{scheme}
 
 Then {\cf parameterize} uses {\cf dynamic-wind} to dynamically rebind
@@ -497,7 +498,7 @@ macro, here called {\cf guard-aux}.
      (begin result1 result2 ...))
     ((guard-aux reraise (test => result))
      (let ((temp test))
-       (if temp 
+       (if temp
            (result temp)
            reraise)))
     ((guard-aux reraise (test => result)
@@ -553,7 +554,7 @@ macro, here called {\cf guard-aux}.
 
 \end{scheme}
 
-This definition of {\cf cond-expand} does not interact with the 
+This definition of {\cf cond-expand} does not interact with the
 {\cf features} procedure.  It requires that each feature identifier provided
 by the implementation be explicitly mentioned.
 
@@ -618,3 +619,4 @@ by the implementation be explicitly mentioned.
        (cond-expand more-clauses ...))))
 
 \end{scheme}
+

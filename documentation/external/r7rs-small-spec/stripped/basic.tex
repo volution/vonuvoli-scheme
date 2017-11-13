@@ -1,4 +1,4 @@
-%\vfill\eject
+
 \chapter{Basic concepts}
 \label{basicchapter}
 
@@ -33,8 +33,6 @@ variable binding constructs are {\cf let}, {\cf let*}, {\cf letrec},
 and {\cf do} expressions (see sections~\ref{lambda}, \ref{letrec}, and
 \ref{do}).
 
-%Note: internal definitions not mentioned here.
-
 \vest Scheme is a language with
 block structure.  To each place where an identifier is bound in a program
 there corresponds a \defining{region} of the program text within which
@@ -67,7 +65,7 @@ symbol?           vector?
 
 and all predicates created by {\cf define-record-type}.
 
-These predicates define the types 
+These predicates define the types
 {\em boolean, bytevector, character}, the empty list object,
 {\em eof-object, number, pair, port, procedure, string, symbol, vector},
 and all record types.
@@ -132,7 +130,7 @@ objects in the appropriate sections of chapter~\ref{initialenv}.
 
 Variables and objects such as pairs, strings, vectors, and bytevectors implicitly
 denote locations\mainindex{location} or sequences of locations.  A string, for
-example, denotes as many locations as there are characters in the string. 
+example, denotes as many locations as there are characters in the string.
 A new value can be
 stored into one of these locations using the {\tt string-set!} procedure, but
 the string continues to denote the same locations as before.
@@ -157,7 +155,7 @@ it is a unique object.  It is also understood that empty strings, empty
 vectors, and empty bytevectors, which contain no locations, may or may
 not be newly allocated.
 
-Every object that denotes locations is 
+Every object that denotes locations is
 either mutable\index{mutable} or
 immutable\index{immutable}.  Literal constants, the strings
 returned by \ide{symbol->string},
@@ -167,11 +165,6 @@ created by the other procedures listed in this report are mutable.
 It is an
 error to attempt to store a new value into a location that is denoted by an
 immutable object.
-
-%% If an implementation makes it impossible for any program to alter an
-%% immutable object, it may treat the object as a value (similar to a
-%% number, boolean, symbol, or the empty list) rather than as a container
-%% for immutable locations.
 
 These locations are to be understood as conceptual, not physical.
 Hence, they do not necessarily correspond to memory addresses,
@@ -235,12 +228,12 @@ expression.
 \item The last expression within the body of a lambda expression,
   shown as \hyper{tail expression} below, occurs in a tail context.
   The same is true of all the bodies of {\cf case-lambda} expressions.
-\begin{grammar}%
+\begin{grammar}
 (l\=ambda \meta{formals}
   \>\arbno{\meta{definition}} \arbno{\meta{expression}} \meta{tail expression})
 
 (case-lambda \arbno{(\meta{formals} \meta{tail body})})
-\end{grammar}%
+\end{grammar}
 
 \item If one of the following expressions is in a tail context,
 then the subexpressions shown as \meta{tail expression} are in a tail context.
@@ -251,7 +244,7 @@ with \meta{tail expression},  and some occurrences of \meta{sequence}
 with \meta{tail sequence}.  Only those rules that contain tail contexts
 are shown here.
 
-\begin{grammar}%
+\begin{grammar}
 (if \meta{expression} \meta{tail expression} \meta{tail expression})
 (if \meta{expression} \meta{tail expression})
 
@@ -294,7 +287,7 @@ are shown here.
 
 \meta{tail body} \: \arbno{\meta{definition}} \meta{tail sequence}
 \meta{tail sequence} \: \arbno{\meta{expression}} \meta{tail expression}
-\end{grammar}%
+\end{grammar}
 
 \item
 If a {\cf cond} or {\cf case} expression is in a tail context, and has
@@ -317,13 +310,13 @@ In the following example the only tail call is the call to {\cf f}.
 None of the calls to {\cf g} or {\cf h} are tail calls.  The reference to
 {\cf x} is in a tail context, but it is not a call and thus is not a
 tail call.
-\begin{scheme}%
+\begin{scheme}
 (lambda ()
   (if (g)
       (let ((x (h)))
         x)
       (and (g) (f))))
-\end{scheme}%
+\end{scheme}
 
 \begin{note}
 Implementations may

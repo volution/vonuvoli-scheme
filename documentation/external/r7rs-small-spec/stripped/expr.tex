@@ -1,3 +1,4 @@
+
 \chapter{Expressions}
 \label{expressionchapter}
 
@@ -20,7 +21,7 @@ with the {\cf delay}, {\cf delay-force}, and {\cf parameterize} expression types
 
 \subsection{Variable references}\unsection
 
-\begin{entry}{%
+\begin{entry}{
 \pproto{\hyper{variable}}{\exprtype}}
 
 An expression consisting of a variable\index{variable}
@@ -31,14 +32,14 @@ unbound\index{unbound} variable.
 
 \begin{scheme}
 (define x 28)
-x   \ev  28%
+x   \ev  28
 \end{scheme}
 \end{entry}
 
 \subsection{Literal expressions}\unsection
 \label{literalsection}
 
-\begin{entry}{%
+\begin{entry}{
 \proto{quote}{ \hyper{datum}}{\exprtype}
 \pproto{\singlequote\hyper{datum}}{\exprtype}
 \pproto{\hyper{constant}}{\exprtype}}
@@ -49,10 +50,10 @@ can be any external representation of a Scheme object (see
 section~\ref{externalreps}).  This notation is used to include literal
 constants in Scheme code.
 
-\begin{scheme}%
+\begin{scheme}
 (quote a)                     \ev  a
 (quote \sharpsign(a b c))     \ev  \#(a b c)
-(quote (+ 1 2))               \ev  (+ 1 2)%
+(quote (+ 1 2))               \ev  (+ 1 2)
 \end{scheme}
 
 {\cf (quote \hyper{datum})} can be abbreviated as
@@ -65,7 +66,7 @@ respects.
 '()                  \ev  ()
 '(+ 1 2)             \ev  (+ 1 2)
 '(quote a)           \ev  (quote a)
-''a                  \ev  (quote a)%
+''a                  \ev  (quote a)
 \end{scheme}
 
 Numerical constants, string constants, character constants, vector
@@ -84,7 +85,7 @@ themselves; they need not be quoted.
 '\#u8(64 65)  \ev  \#u8(64 65)
 \#u8(64 65)  \ev  \#u8(64 65)
 '\schtrue  \ev  \schtrue
-\schtrue   \ev  \schtrue%
+\schtrue   \ev  \schtrue
 \end{scheme}
 
 As noted in section~\ref{storagemodel}, it is an error to attempt to alter a constant
@@ -95,7 +96,7 @@ As noted in section~\ref{storagemodel}, it is an error to attempt to alter a con
 
 \subsection{Procedure calls}\unsection
 
-\begin{entry}{%
+\begin{entry}{
 \pproto{(\hyper{operator} \hyperi{operand} \dotsfoo)}{\exprtype}}
 
 A procedure call is written by enclosing in parentheses an
@@ -103,9 +104,9 @@ expression for the procedure to be called followed by expressions for the argume
 passed to it.  The operator and operand expressions are evaluated (in an
 unspecified order) and the resulting procedure is passed the resulting
 arguments.\mainindex{call}\mainindex{procedure call}
-\begin{scheme}%
+\begin{scheme}
 (+ 3 4)                          \ev  7
-((if \schfalse + *) 3 4)         \ev  12%
+((if \schfalse + *) 3 4)         \ev  12
 \end{scheme}
 
 The procedures in this document are available as the values of variables exported by the
@@ -144,7 +145,7 @@ The order of evaluation may be chosen differently for each procedure call.
 \subsection{Procedures}\unsection
 \label{lamba}
 
-\begin{entry}{%
+\begin{entry}{
 \proto{lambda}{ \hyper{formals} \hyper{body}}{\exprtype}}
 
 \syntax
@@ -180,7 +181,7 @@ the results of the procedure call.
 (define add4
   (let ((x 4))
     (lambda (y) (+ x y))))
-(add4 6)                        \ev  10%
+(add4 6)                        \ev  10
 \end{scheme}
 
 \hyper{Formals} have one of the following forms:
@@ -216,7 +217,7 @@ It is an error for a \hyper{variable} to appear more than once in
 \begin{scheme}
 ((lambda x x) 3 4 5 6)          \ev  (3 4 5 6)
 ((lambda (x y . z) z)
- 3 4 5 6)                       \ev  (5 6)%
+ 3 4 5 6)                       \ev  (5 6)
 \end{scheme}
 
 \end{entry}
@@ -229,9 +230,9 @@ with a storage location, in order to make \ide{eqv?} and
 
 \subsection{Conditionals}\unsection
 
-\begin{entry}{%
+\begin{entry}{
 \proto{if}{ \hyper{test} \hyper{consequent} \hyper{alternate}}{\exprtype}
-\rproto{if}{ \hyper{test} \hyper{consequent}}{\exprtype}}  %\/ if hyper = italic
+\rproto{if}{ \hyper{test} \hyper{consequent}}{\exprtype}}
 
 \syntax
 \hyper{Test}, \hyper{consequent}, and \hyper{alternate} are
@@ -251,7 +252,7 @@ unspecified.
 (if (> 2 3) 'yes 'no)           \ev  no
 (if (> 3 2)
     (- 3 2)
-    (+ 3 2))                    \ev  1%
+    (+ 3 2))                    \ev  1
 \end{scheme}
 
 \end{entry}
@@ -260,7 +261,7 @@ unspecified.
 \subsection{Assignments}\unsection
 \label{assignment}
 
-\begin{entry}{%
+\begin{entry}{
 \proto{set!}{ \hyper{variable} \hyper{expression}}{\exprtype}}
 
 \semantics
@@ -275,14 +276,14 @@ unspecified.
 (define x 2)
 (+ x 1)                 \ev  3
 (set! x 4)              \ev  \unspecified
-(+ x 1)                 \ev  5%
+(+ x 1)                 \ev  5
 \end{scheme}
 
 \end{entry}
 
 \subsection{Inclusion}\unsection
 \label{inclusion}
-\begin{entry}{%
+\begin{entry}{
 \proto{include}{ \hyperi{string} \hyperii{string} \dotsfoo}{\exprtype}
 \rproto{include-ci}{ \hyperi{string} \hyperii{string} \dotsfoo}{\exprtype}}
 
@@ -318,7 +319,7 @@ into the primitive constructs described in the previous section.
 
 \subsection{Conditionals}\unsection
 
-\begin{entry}{%
+\begin{entry}{
 \proto{cond}{ \hyperi{clause} \hyperii{clause} \dotsfoo}{\exprtype}
 \pproto{else}{\auxiliarytype}
 \pproto{=>}{\auxiliarytype}}
@@ -326,16 +327,16 @@ into the primitive constructs described in the previous section.
 \syntax
 \hyper{Clauses} take one of two forms, either
 \begin{scheme}
-(\hyper{test} \hyperi{expression} \dotsfoo)%
+(\hyper{test} \hyperi{expression} \dotsfoo)
 \end{scheme}
 where \hyper{test} is any expression, or
 \begin{scheme}
-(\hyper{test} => \hyper{expression})%
+(\hyper{test} => \hyper{expression})
 \end{scheme}
 The last \hyper{clause} can be
 an ``else clause,'' which has the form
 \begin{scheme}
-(else \hyperi{expression} \hyperii{expression} \dotsfoo)\rm.%
+(else \hyperi{expression} \hyperii{expression} \dotsfoo)\rm.
 \end{scheme}
 \mainschindex{else}
 \mainschindex{=>}
@@ -366,34 +367,34 @@ the last one are returned.
 
 \begin{scheme}
 (cond ((> 3 2) 'greater)
-      ((< 3 2) 'less))         \ev  greater%
+      ((< 3 2) 'less))         \ev  greater
 
 (cond ((> 3 3) 'greater)
       ((< 3 3) 'less)
-      (else 'equal))            \ev  equal%
+      (else 'equal))            \ev  equal
 
 (cond ((assv 'b '((a 1) (b 2))) => cadr)
-      (else \schfalse{}))         \ev  2%
+      (else \schfalse{}))         \ev  2
 \end{scheme}
 
 
 \end{entry}
 
 
-\begin{entry}{%
+\begin{entry}{
 \proto{case}{ \hyper{key} \hyperi{clause} \hyperii{clause} \dotsfoo}{\exprtype}}
 
 \syntax
 \hyper{Key} can be any expression.  Each \hyper{clause} has
 the form
 \begin{scheme}
-((\hyperi{datum} \dotsfoo) \hyperi{expression} \hyperii{expression} \dotsfoo)\rm,%
+((\hyperi{datum} \dotsfoo) \hyperi{expression} \hyperii{expression} \dotsfoo)\rm,
 \end{scheme}
 where each \hyper{datum} is an external representation of some object.
 It is an error if any of the \hyper{datum}s are the same anywhere in the expression.
 Alternatively, a \hyper{clause} can be of the form
 \begin{scheme}
-((\hyperi{datum} \dotsfoo) => \hyper{expression})%
+((\hyperi{datum} \dotsfoo) => \hyper{expression})
 \end{scheme}
 The last \hyper{clause} can be an ``else clause,'' which has one of the forms
 \begin{scheme}
@@ -401,7 +402,7 @@ The last \hyper{clause} can be an ``else clause,'' which has one of the forms
 \end{scheme}
 or
 \begin{scheme}
-(else => \hyper{expression})\rm.%
+(else => \hyper{expression})\rm.
 \end{scheme}
 \schindex{else}
 
@@ -437,13 +438,13 @@ procedure are returned by the {\cf case} expression.
 (case (car '(c d))
   ((a e i o u) 'vowel)
   ((w y) 'semivowel)
-  (else => (lambda (x) x)))     \ev  c%
+  (else => (lambda (x) x)))     \ev  c
 \end{scheme}
 
 \end{entry}
 
 
-\begin{entry}{%
+\begin{entry}{
 \proto{and}{ \hyperi{test} \dotsfoo}{\exprtype}}
 
 \semantics
@@ -458,13 +459,13 @@ are no expressions, then \schtrue{} is returned.
 (and (= 2 2) (> 2 1))           \ev  \schtrue
 (and (= 2 2) (< 2 1))           \ev  \schfalse
 (and 1 2 'c '(f g))             \ev  (f g)
-(and)                           \ev  \schtrue%
+(and)                           \ev  \schtrue
 \end{scheme}
 
 \end{entry}
 
 
-\begin{entry}{%
+\begin{entry}{
 \proto{or}{ \hyperi{test} \dotsfoo}{\exprtype}}
 
 \semantics
@@ -479,12 +480,12 @@ or if there are no expressions, then \schfalse{} is returned.
 (or (= 2 2) (< 2 1))            \ev  \schtrue
 (or \schfalse \schfalse \schfalse) \ev  \schfalse
 (or (memq 'b '(a b c))
-    (/ 3 0))                    \ev  (b c)%
+    (/ 3 0))                    \ev  (b c)
 \end{scheme}
 
 \end{entry}
 
-\begin{entry}{%
+\begin{entry}{
 \proto{when}{ \hyper{test} \hyperi{expression} \hyperii{expression} \dotsfoo}{\exprtype}}
 
 \syntax
@@ -499,11 +500,11 @@ expression is unspecified.
 (when (= 1 1.0)
   (display "1")
   (display "2"))  \ev  \unspecified
- \>{\em and prints}  12%
+ \>{\em and prints}  12
 \end{scheme}
 \end{entry}
 
-\begin{entry}{%
+\begin{entry}{
 \proto{unless}{ \hyper{test} \hyperi{expression} \hyperii{expression} \dotsfoo}{\exprtype}}
 
 \syntax
@@ -518,11 +519,11 @@ expression is unspecified.
 (unless (= 1 1.0)
   (display "1")
   (display "2"))  \ev  \unspecified
- \>{\em and prints nothing}%
+ \>{\em and prints nothing}
 \end{scheme}
 \end{entry}
 
-\begin{entry}{%
+\begin{entry}{
 \proto{cond-expand}{ \hyperi{ce-clause} \hyperii{ce-clause} \dotsfoo}{\exprtype}}
 
 \syntax
@@ -593,13 +594,13 @@ The {\cf let-values} and {\cf let*-values} constructs are analogous to {\cf let}
 respectively, but are designed to handle multiple-valued expressions, binding
 different identifiers to the returned values.
 
-\begin{entry}{%
+\begin{entry}{
 \proto{let}{ \hyper{bindings} \hyper{body}}{\exprtype}}
 
 \syntax
 \hyper{Bindings} has the form
 \begin{scheme}
-((\hyperi{variable} \hyperi{init}) \dotsfoo)\rm,%
+((\hyperi{variable} \hyperi{init}) \dotsfoo)\rm,
 \end{scheme}
 where each \hyper{init} is an expression, and \hyper{body} is a
 sequence of zero or more definitions followed by a
@@ -622,7 +623,7 @@ region.\index{region}
 (let ((x 2) (y 3))
   (let ((x 7)
         (z (+ x y)))
-    (* z x)))                   \ev  35%
+    (* z x)))                   \ev  35
 \end{scheme}
 
 See also ``named {\cf let},'' section \ref{namedlet}.
@@ -630,14 +631,14 @@ See also ``named {\cf let},'' section \ref{namedlet}.
 \end{entry}
 
 
-\begin{entry}{%
+\begin{entry}{
 \proto{let*}{ \hyper{bindings} \hyper{body}}{\exprtype}}\nobreak
 
 \nobreak
 \syntax
 \hyper{Bindings} has the form
 \begin{scheme}
-((\hyperi{variable} \hyperi{init}) \dotsfoo)\rm,%
+((\hyperi{variable} \hyperi{init}) \dotsfoo)\rm,
 \end{scheme}
 and \hyper{body} is a sequence of
 zero or more definitions followed by
@@ -655,19 +656,19 @@ The \hyper{variable}s need not be distinct.
 (let ((x 2) (y 3))
   (let* ((x 7)
          (z (+ x y)))
-    (* z x)))             \ev  70%
+    (* z x)))             \ev  70
 \end{scheme}
 
 \end{entry}
 
 
-\begin{entry}{%
+\begin{entry}{
 \proto{letrec}{ \hyper{bindings} \hyper{body}}{\exprtype}}
 
 \syntax
 \hyper{Bindings} has the form
 \begin{scheme}
-((\hyperi{variable} \hyperi{init}) \dotsfoo)\rm,%
+((\hyperi{variable} \hyperi{init}) \dotsfoo)\rm,
 \end{scheme}
 and \hyper{body} is a sequence of
 zero or more definitions followed by
@@ -696,13 +697,13 @@ define mutually recursive procedures.
                 \schfalse
                 (even? (- n 1))))))
   (even? 88))
-		\ev  \schtrue%
+            \ev  \schtrue
 \end{scheme}
 
 One restriction on {\cf letrec} is very important: if it is not possible
 to evaluate each \hyper{init} without assigning or referring to the value of any
 \hyper{variable}, it is an error.  The
-restriction is necessary because 
+restriction is necessary because
 {\cf letrec} is defined in terms of a procedure
 call where a {\cf lambda} expression binds the \hyper{variable}s to the values
 of the \hyper{init}s.
@@ -712,14 +713,14 @@ In the most common uses of {\cf letrec}, all the \hyper{init}s are
 \end{entry}
 
 
-\begin{entry}{%
+\begin{entry}{
 \proto{letrec*}{ \hyper{bindings} \hyper{body}}{\exprtype}}
 \label{letrecstar}
 
 \syntax
 \hyper{Bindings} has the form
 \begin{scheme}
-((\hyperi{variable} \hyperi{init}) \dotsfoo)\rm,%
+((\hyperi{variable} \hyperi{init}) \dotsfoo)\rm,
 \end{scheme}
 and \hyper{body}\index{body} is a sequence of
 zero or more definitions followed by
@@ -756,16 +757,16 @@ of an \hyper{init} more than once.
           (x (p 5))
           (y x))
   y)
-                \ev  5%
+                \ev  5
 \end{scheme}
 
-\begin{entry}{%
+\begin{entry}{
 \proto{let-values}{ \hyper{mv binding spec} \hyper{body}}{\exprtype}}
 
 \syntax
 \hyper{Mv binding spec} has the form
 \begin{scheme}
-((\hyperi{formals} \hyperi{init}) \dotsfoo)\rm,%
+((\hyperi{formals} \hyperi{init}) \dotsfoo)\rm,
 \end{scheme}
 
 where each \hyper{init} is an expression, and \hyper{body} is
@@ -790,20 +791,20 @@ values returned by the corresponding \hyper{init}.
 
 \begin{scheme}
 (let-values (((root rem) (exact-integer-sqrt 32)))
-  (* root rem))                \ev  35%
+  (* root rem))                \ev  35
 \end{scheme}
 
 \end{entry}
 
 
-\begin{entry}{%
+\begin{entry}{
 \proto{let*-values}{ \hyper{mv binding spec} \hyper{body}}{\exprtype}}\nobreak
 
 \nobreak
 \syntax
 \hyper{Mv binding spec} has the form
 \begin{scheme}
-((\hyper{formals} \hyper{init}) \dotsfoo)\rm,%
+((\hyper{formals} \hyper{init}) \dotsfoo)\rm,
 \end{scheme}
 and \hyper{body} is a sequence of zero or more
 definitions followed by one or more expressions as described in section~\ref{lambda}.  In each \hyper{formals},
@@ -821,7 +822,7 @@ set of bindings is visible and initialized, and so on.
 (let ((a 'a) (b 'b) (x 'x) (y 'y))
   (let*-values (((a b) (values x y))
                 ((x y) (values a b)))
-    (list a b x y)))     \ev (x y x y)%
+    (list a b x y)))     \ev (x y x y)
 \end{scheme}
 
 \end{entry}
@@ -835,7 +836,7 @@ set of bindings is visible and initialized, and so on.
 Both of Scheme's sequencing constructs are named {\cf begin}, but the two
 have slightly different forms and uses:
 
-\begin{entry}{%
+\begin{entry}{
 \proto{begin}{ \hyper{expression or definition} \dotsfoo}{\exprtype}}
 
 This form of {\cf begin} can appear as part of a \hyper{body}, or at the
@@ -853,7 +854,7 @@ splice them into the context in which they are expanded.
 
 \end{entry}
 
-\begin{entry}{%
+\begin{entry}{
 \rproto{begin}{ \hyperi{expression} \hyperii{expression} \dotsfoo}{\exprtype}}
 
 This form of {\cf begin} can be used as an ordinary expression.
@@ -871,7 +872,7 @@ or input and output.
 
 (begin (display "4 plus 1 equals ")
        (display (+ 4 1)))      \ev  \unspecified
- \>{\em and prints}  4 plus 1 equals 5%
+ \>{\em and prints}  4 plus 1 equals 5
 \end{scheme}
 
 \end{entry}
@@ -879,11 +880,11 @@ or input and output.
 Note that there is a third form of {\cf begin} used as a library declaration:
 see section~\ref{librarydeclarations}.
 
-\subsection{Iteration}%\unsection
+\subsection{Iteration}
 
-\noindent%
+\noindent
 \pproto{(do ((\hyperi{variable} \hyperi{init} \hyperi{step})}{\exprtype}
-\mainschindex{do}{\tt\obeyspaces%
+\mainschindex{do}{\tt\obeyspaces
      \dotsfoo)\\
     (\hyper{test} \hyper{expression} \dotsfoo)\\
   \hyper{command} \dotsfoo)}
@@ -935,12 +936,12 @@ been written instead of {\cf(\hyper{variable} \hyper{init})}.
 (let ((x '(1 3 5 7 9)))
   (do ((x x (cdr x))
        (sum 0 (+ sum (car x))))
-      ((null? x) sum)))             \ev  25%
+      ((null? x) sum)))             \ev  25
 \end{scheme}
 
 
 
-\begin{entry}{%
+\begin{entry}{
 \rproto{let}{ \hyper{variable} \hyper{bindings} \hyper{body}}{\exprtype}}
 
 \label{namedlet}
@@ -954,7 +955,6 @@ whose formal arguments are the bound variables and whose body is
 \hyper{body}.  Thus the execution of \hyper{body} can be repeated by
 invoking the procedure named by \hyper{variable}.
 
-%                                              |  <-- right margin
 \begin{scheme}
 (let loop ((numbers '(3 -2 1 6 -5))
            (nonneg '())
@@ -967,8 +967,8 @@ invoking the procedure named by \hyper{variable}.
         ((< (car numbers) 0)
          (loop (cdr numbers)
                nonneg
-               (cons (car numbers) neg))))) %
-  \lev  ((6 1 3) (-5 -2))%
+               (cons (car numbers) neg)))))
+  \lev  ((6 1 3) (-5 -2))
 \end{scheme}
 
 \end{entry}
@@ -976,7 +976,7 @@ invoking the procedure named by \hyper{variable}.
 
 \subsection{Delayed evaluation}\unsection
 
-\begin{entry}{%
+\begin{entry}{
 \proto{delay}{ \hyper{expression}}{lazy library syntax}}
 
 \semantics
@@ -991,14 +991,14 @@ is unspecified.
 
 \end{entry}
 
-\begin{entry}{%
+\begin{entry}{
 \proto{delay-force}{ \hyper{expression}}{lazy library syntax}}
 
 \semantics
-The expression {\cf (delay-force \var{expression})} is conceptually similar to 
+The expression {\cf (delay-force \var{expression})} is conceptually similar to
 {\cf (delay (force \var{expression}))},
 with the difference that forcing the result
-of {\cf delay-force} will in effect result in a tail call to 
+of {\cf delay-force} will in effect result in a tail call to
 {\cf (force \var{expression})},
 while forcing the result of
 {\cf (delay (force \var{expression}))}
@@ -1010,7 +1010,7 @@ unbounded space during evaluation.
 
 \end{entry}
 
-\begin{entry}{%
+\begin{entry}{
 \proto{force}{ promise}{lazy library procedure}}
 
 The {\cf force} procedure forces the value of a \var{promise} created
@@ -1027,7 +1027,7 @@ If \var{promise} is not a promise, it may be returned unchanged.
 \begin{scheme}
 (force (delay (+ 1 2)))   \ev  3
 (let ((p (delay (+ 1 2))))
-  (list (force p) (force p)))  
+  (list (force p) (force p)))
                                \ev  (3 3)
 
 (define integers
@@ -1040,8 +1040,8 @@ If \var{promise} is not a promise, it may be returned unchanged.
 (define tail
   (lambda (stream) (cdr (force stream))))
 
-(head (tail (tail integers)))  
-                               \ev  2%
+(head (tail (tail integers)))
+                               \ev  2
 \end{scheme}
 
 The following example is a mechanical transformation of a lazy
@@ -1049,14 +1049,14 @@ stream-filtering algorithm into Scheme.  Each call to a constructor is
 wrapped in {\cf delay}, and each argument passed to a deconstructor is
 wrapped in {\cf force}.  The use of {\cf (delay-force ...)} instead of {\cf
 (delay (force ...))} around the body of the procedure ensures that an
-ever-growing sequence of pending promises does not 
+ever-growing sequence of pending promises does not
 exhaust available storage,
 because {\cf force} will in effect force such sequences iteratively.
 
 \begin{scheme}
 (define (stream-filter p? s)
   (delay-force
-   (if (null? (force s)) 
+   (if (null? (force s))
        (delay '())
        (let ((h (car (force s)))
              (t (cdr (force s))))
@@ -1065,7 +1065,7 @@ because {\cf force} will in effect force such sequences iteratively.
              (stream-filter p? t))))))
 
 (head (tail (tail (stream-filter odd? integers))))
-                               \ev 5%
+                               \ev 5
 \end{scheme}
 
 The following examples are not intended to illustrate good programming
@@ -1086,7 +1086,7 @@ p                     \ev  {\it{}a promise}
 (force p)             \ev  6
 p                     \ev  {\it{}a promise, still}
 (begin (set! x 10)
-       (force p))     \ev  6%
+       (force p))     \ev  6
 \end{scheme}
 
 Various extensions to this semantics of {\cf delay}, {\cf force} and
@@ -1103,7 +1103,7 @@ depending on the implementation:
 
 \begin{scheme}
 (eqv? (delay 1) 1)          \ev  \unspecified
-(pair? (delay (cons 1 2)))  \ev  \unspecified%
+(pair? (delay (cons 1 2)))  \ev  \unspecified
 \end{scheme}
 
 \item Implementations may implement ``implicit forcing,'' where
@@ -1115,22 +1115,22 @@ arguments, like {\cf list}, must not force them.
 \begin{scheme}
 (+ (delay (* 3 7)) 13)  \ev  \unspecified
 (car
-  (list (delay (* 3 7)) 13))    \ev {\it{}a promise}%
+  (list (delay (* 3 7)) 13))    \ev {\it{}a promise}
 \end{scheme}
 \end{itemize}
 \end{entry}
 
-\begin{entry}{%
+\begin{entry}{
 \proto{promise?} { \var{obj}}{lazy library procedure}}
 
-The {\cf promise?} procedure returns 
+The {\cf promise?} procedure returns
 \schtrue{} if its argument is a promise, and \schfalse{} otherwise.  Note
 that promises are not necessarily disjoint from other Scheme types such
 as procedures.
 
 \end{entry}
 
-\begin{entry}{%
+\begin{entry}{
 \proto{make-promise} { \var{obj}}{lazy library procedure}}
 
 The {\cf make-promise} procedure returns a promise which, when forced, will return
@@ -1154,7 +1154,7 @@ bound to new values for the duration of a dynamic extent.  The set of
 all parameter bindings at a given time is called the \defining{dynamic
   environment}.
 
-\begin{entry}{%
+\begin{entry}{
 \proto{make-parameter}{ init}{procedure}
 \rproto{make-parameter}{ init converter}{procedure}}
 
@@ -1171,9 +1171,9 @@ The effect of passing arguments to a parameter object is
 implementation-dependent.
 \end{entry}
 
-\begin{entry}{%
+\begin{entry}{
 \pproto{(parameterize ((\hyperi{param} \hyperi{value}) \dotsfoo)}{syntax}
-{\tt\obeyspaces%
+{\tt\obeyspaces
 \hspace*{1em}\hyper{body})}}
 \mainschindex{parameterize}
 
@@ -1231,16 +1231,16 @@ procedure in the call chain explicitly.
 (radix 16)                                   \ev \unspecified
 
 (parameterize ((radix 0))
-  (f 12))                                    \ev \scherror%
+  (f 12))                                    \ev \scherror
 \end{scheme}
 \end{entry}
 
 
 \subsection{Exception handling}\unsection
 
-\begin{entry}{%
+\begin{entry}{
 \pproto{(guard (\hyper{variable}}{\exprtype}
-{\tt\obeyspaces%
+{\tt\obeyspaces
 \hspace*{4em}\hyperi{cond clause} \hyperii{cond clause} \dotsfoo)\\
 \hspace*{2em}\hyper{body})}\\
 }
@@ -1278,7 +1278,7 @@ exceptions.
          ((assq 'a condition) => cdr)
          ((assq 'b condition)))
   (raise (list (cons 'b 23))))
-\ev (b . 23)%
+\ev (b . 23)
 \end{scheme}
 \end{entry}
 
@@ -1286,7 +1286,7 @@ exceptions.
 \subsection{Quasiquotation}\unsection
 \label{quasiquotesection}
 
-\begin{entry}{%
+\begin{entry}{
 \proto{quasiquote}{ \hyper{qq template}}{\exprtype} \nopagebreak
 \pproto{\backquote\hyper{qq template}}{\exprtype}
 \pproto{unquote}{\auxiliarytype}
@@ -1318,17 +1318,17 @@ to avoid colliding with the comma at-sign sequence.
 
 \begin{scheme}
 `(list ,(+ 1 2) 4)  \ev  (list 3 4)
-(let ((name 'a)) `(list ,name ',name)) %
+(let ((name 'a)) `(list ,name ',name))
           \lev  (list a (quote a))
-`(a ,(+ 1 2) ,@(map abs '(4 -5 6)) b) %
+`(a ,(+ 1 2) ,@(map abs '(4 -5 6)) b)
           \lev  (a 3 4 5 6 b)
-`(({\cf foo} ,(- 10 3)) ,@(cdr '(c)) . ,(car '(cons))) %
+`(({\cf foo} ,(- 10 3)) ,@(cdr '(c)) . ,(car '(cons)))
           \lev  ((foo 7) . cons)
-`\#(10 5 ,(sqrt 4) ,@(map sqrt '(16 9)) 8) %
+`\#(10 5 ,(sqrt 4) ,@(map sqrt '(16 9)) 8)
           \lev  \#(10 5 2 4 3 8)
 (let ((foo '(foo bar)) (@baz 'baz))
-  `(list ,@foo , @baz))%
-          \lev  (list foo bar baz)%
+  `(list ,@foo , @baz))
+          \lev  (list foo bar baz)
 \end{scheme}
 
 Quasiquote expressions can be nested.  Substitutions are made only for
@@ -1338,12 +1338,12 @@ each successive quasiquotation, and decreases by one inside each
 unquotation.
 
 \begin{scheme}
-`(a `(b ,(+ 1 2) ,(foo ,(+ 1 3) d) e) f) %
+`(a `(b ,(+ 1 2) ,(foo ,(+ 1 3) d) e) f)
           \lev  (a `(b ,(+ 1 2) ,(foo 4 d) e) f)
 (let ((name1 'x)
       (name2 'y))
-  `(a `(b ,,name1 ,',name2 d) e)) %
-          \lev  (a `(b ,x ,'y d) e)%
+  `(a `(b ,,name1 ,',name2 d) e))
+          \lev  (a `(b ,x ,'y d) e)
 \end{scheme}
 
 A quasiquote expression may return either newly allocated, mutable objects or
@@ -1352,7 +1352,7 @@ during the evaluation of the expression. Portions that do not need to
 be rebuilt are always literal. Thus,
 
 \begin{scheme}
-(let ((a 3)) `((1 2) ,a ,4 ,'five 6))%
+(let ((a 3)) `((1 2) ,a ,4 ,'five 6))
 \end{scheme}
 
 may be treated as equivalent to either of the following expressions:
@@ -1362,13 +1362,13 @@ may be treated as equivalent to either of the following expressions:
 
 (let ((a 3))
   (cons '(1 2)
-        (cons a (cons 4 (cons 'five '(6))))))%
+        (cons a (cons 4 (cons 'five '(6))))))
 \end{scheme}
 
 However, it is not equivalent to this expression:
 
 \begin{scheme}
-(let ((a 3)) (list (list 1 2) a 4 'five 6))%
+(let ((a 3)) (list (list 1 2) a 4 'five 6))
 \end{scheme}
 
 The two notations
@@ -1381,11 +1381,11 @@ The \ide{write} procedure may output either format.
 \mainschindex{`}
 
 \begin{scheme}
-(quasiquote (list (unquote (+ 1 2)) 4)) %
+(quasiquote (list (unquote (+ 1 2)) 4))
           \lev  (list 3 4)
-'(quasiquote (list (unquote (+ 1 2)) 4)) %
+'(quasiquote (list (unquote (+ 1 2)) 4))
           \lev  `(list ,(+ 1 2) 4)
-     {\em{}i.e.,} (quasiquote (list (unquote (+ 1 2)) 4))%
+     {\em{}i.e.,} (quasiquote (list (unquote (+ 1 2)) 4))
 \end{scheme}
 
 
@@ -1397,7 +1397,7 @@ otherwise than as described above.
 
 \subsection{Case-lambda}\unsection
 \label{caselambdasection}
-\begin{entry}{%
+\begin{entry}{
 \proto{case-lambda}{ \hyper{clause} \dotsfoo}{case-lambda library syntax}}
 
 \syntax
@@ -1430,7 +1430,7 @@ the \hyper{formals} of any \hyper{clause}.
               ((< e b) r)))))
 
 (range 3)    \ev (0 1 2)
-(range 3 5)  \ev (3 4)%
+(range 3 5)  \ev (3 4)
 \end{scheme}
 
 \end{entry}
@@ -1442,8 +1442,8 @@ Scheme programs can define and use new derived expression types,
  called {\em macros}.\mainindex{macro}
 Program-defined expression types have the syntax
 \begin{scheme}
-(\hyper{keyword} {\hyper{datum}} ...)%
-\end{scheme}%
+(\hyper{keyword} {\hyper{datum}} ...)
+\end{scheme}
 where \hyper{keyword} is an identifier that uniquely determines the
 expression type.  This identifier is called the {\em syntactic
 keyword}\index{syntactic keyword}, or simply {\em
@@ -1469,7 +1469,7 @@ the scope within which a macro is defined, and
 \end{itemize}
 
 The syntactic keyword of a macro can shadow variable bindings, and local
-variable bindings can shadow syntactic bindings.  \index{keyword}  
+variable bindings can shadow syntactic bindings.  \index{keyword}
 Two mechanisms are provided to prevent unintended conflicts:
 
 \begin{itemize}
@@ -1505,13 +1505,13 @@ to locations that contain values.  Syntactic keywords can also be
 bound globally or locally with {\cf define-syntax};
 see section~\ref{define-syntax}.
 
-\begin{entry}{%
+\begin{entry}{
 \proto{let-syntax}{ \hyper{bindings} \hyper{body}}{\exprtype}}
 
 \syntax
 \hyper{Bindings} has the form
 \begin{scheme}
-((\hyper{keyword} \hyper{transformer spec}) \dotsfoo)%
+((\hyper{keyword} \hyper{transformer spec}) \dotsfoo)
 \end{scheme}
 Each \hyper{keyword} is an identifier,
 each \hyper{transformer spec} is an instance of {\cf syntax-rules}, and
@@ -1540,12 +1540,12 @@ Each binding of a \hyper{keyword} has \hyper{body} as its region.
 (let ((x 'outer))
   (let-syntax ((m (syntax-rules () ((m) x))))
     (let ((x 'inner))
-      (m))))                       \ev  outer%
+      (m))))                       \ev  outer
 \end{scheme}
 
 \end{entry}
 
-\begin{entry}{%
+\begin{entry}{
 \proto{letrec-syntax}{ \hyper{bindings} \hyper{body}}{\exprtype}}
 
 \syntax
@@ -1580,7 +1580,7 @@ introduced by the {\cf letrec-syntax} expression.
     (my-or x
            (let temp)
            (if y)
-           y)))        \ev  7%
+           y)))        \ev  7
 \end{scheme}
 
 \end{entry}
@@ -1590,13 +1590,13 @@ introduced by the {\cf letrec-syntax} expression.
 
 A \hyper{transformer spec} has one of the following forms:
 
-\begin{entry}{%
+\begin{entry}{
 \pproto{(syntax-rules (\hyper{literal} \dotsfoo)}{\exprtype}
-{\tt\obeyspaces%
+{\tt\obeyspaces
 \hspace*{1em}\hyper{syntax rule} \dotsfoo)\\
 }
 \pproto{(syntax-rules \hyper{ellipsis} (\hyper{literal} \dotsfoo)}{\exprtype}
-{\tt\obeyspaces%
+{\tt\obeyspaces
 \hspace*{1em}\hyper{syntax rule} \dotsfoo)}\\
 \pproto{\_}{\auxiliarytype}
 \pproto{\dotsfoo}{\auxiliarytype}}
@@ -1608,7 +1608,7 @@ is not an identifier.
 It is also an error if
 \hyper{syntax rule} is not of the form
 \begin{scheme}
-(\hyper{pattern} \hyper{template})%
+(\hyper{pattern} \hyper{template})
 \end{scheme}
 The \hyper{pattern} in a \hyper{syntax rule} is a list \hyper{pattern}
 whose first element is an identifier.
@@ -1622,14 +1622,14 @@ following
 (\hyper{pattern} \ldots \hyper{pattern} \hyper{ellipsis} \hyper{pattern} \ldots
   . \hyper{pattern})
 \#(\hyper{pattern} \ldots)
-\#(\hyper{pattern} \ldots \hyper{pattern} \hyper{ellipsis} \hyper{pattern} \ldots)%
+\#(\hyper{pattern} \ldots \hyper{pattern} \hyper{ellipsis} \hyper{pattern} \ldots)
 \end{scheme}
 and a \hyper{template} is either an identifier, a constant, or one of the following
 \begin{scheme}
 (\hyper{element} \ldots)
 (\hyper{element} \hyper{element} \ldots . \hyper{template})
 (\hyper{ellipsis} \hyper{template})
-\#(\hyper{element} \ldots)%
+\#(\hyper{element} \ldots)
 \end{scheme}
 where an \hyper{element} is a \hyper{template} optionally
 followed by an \hyper{ellipsis}.
@@ -1745,9 +1745,6 @@ output by all of the elements they match in the input, distributed as
 indicated.  It is an error if the output cannot be built up as
 specified.
 
-%%% This description of output construction is very vague.  It should
-%%% probably be formalized, but that is not easy...
-
 Identifiers that appear in the template but are not pattern variables
 or the identifier
 \hyper{ellipsis} are inserted into the output as literal identifiers.  If a
@@ -1778,7 +1775,7 @@ ellipses.
           (begin expr (... ...))))))))
 
 (be-like-begin sequence)
-(sequence 1 2 3 4) \ev 4%
+(sequence 1 2 3 4) \ev 4
 \end{scheme}
 
 As an example, if \ide{let} and \ide{cond} are defined as in
@@ -1787,7 +1784,7 @@ the following is not an error.
 
 \begin{scheme}
 (let ((=> \schfalse))
-  (cond (\schtrue => 'ok)))           \ev ok%
+  (cond (\schtrue => 'ok)))           \ev ok
 \end{scheme}
 
 The macro transformer for {\cf cond} recognizes {\cf =>}
@@ -1797,7 +1794,7 @@ as a syntactic keyword.  Thus the example expands into
 
 \begin{scheme}
 (let ((=> \schfalse))
-  (if \schtrue (begin => 'ok)))%
+  (if \schtrue (begin => 'ok)))
 \end{scheme}
 
 instead of
@@ -1805,7 +1802,7 @@ instead of
 \begin{scheme}
 (let ((=> \schfalse))
   (let ((temp \schtrue))
-    (if temp ('ok temp))))%
+    (if temp ('ok temp))))
 \end{scheme}
 
 which would result in an invalid procedure call.
@@ -1815,7 +1812,7 @@ which would result in an invalid procedure call.
 \subsection{Signaling errors in macro transformers}
 
 
-\begin{entry}{%
+\begin{entry}{
 \pproto{(syntax-error \hyper{message} \hyper{args} \dotsfoo)}{\exprtype}}
 \mainschindex{syntax-error}
 
@@ -1839,7 +1836,7 @@ exception handlers or guards.
       (x . y)))
     ((\_ ((name val) ...) body1 body2 ...)
      ((lambda (name ...) body1 body2 ...)
-       val ...))))%
+       val ...))))
 \end{scheme}
 
 \end{entry}

@@ -1,9 +1,10 @@
+
 \chapter{Program structure}
 \label{programchapter}
 
 \section{Programs}
 
-A Scheme program consists of  
+A Scheme program consists of
 one or more import declarations followed by a sequence of
 expressions and definitions.
 Import declarations specify the libraries on which a program or library depends;
@@ -19,7 +20,7 @@ and at the beginning of a \hyper{body}.
 
 At the outermost level of a program, {\tt(begin \hyperi{expression or definition} \dotsfoo)} is
 equivalent to the sequence of expressions and definitions
-in the \ide{begin}.   
+in the \ide{begin}.
 Similarly, in a \hyper{body}, {\tt(begin \hyperi{definition} \dotsfoo)} is equivalent
 to the sequence \hyperi{definition} \dotsfoo.
 Macros can expand into such {\cf begin} forms.
@@ -62,7 +63,7 @@ imported bindings. It takes one of the following forms:
 \item {\tt(except \hyper{import set} \hyper{identifier} \dotsfoo)}
 \item {\tt(prefix \hyper{import set} \hyper{identifier})}
 \item {\tt(rename \hyper{import set}\\
-{\obeyspaces%
+{\obeyspaces
 \hspace*{4em}(\hyperi{identifier} \hyperii{identifier}) \dotsfoo)}}
 \end{itemize}
 
@@ -121,7 +122,7 @@ variables followed by a space-delimited period and another variable (as
 in a lambda expression).  This form is equivalent to
 \begin{scheme}
 (define \hyper{variable}
-  (lambda (\hyper{formals}) \hyper{body}))\rm.%
+  (lambda (\hyper{formals}) \hyper{body}))\rm.
 \end{scheme}
 
 \item{\tt(define (\hyper{variable} .\ \hyper{formal}) \hyper{body})}
@@ -130,7 +131,7 @@ in a lambda expression).  This form is equivalent to
 variable.  This form is equivalent to
 \begin{scheme}
 (define \hyper{variable}
-  (lambda \hyper{formal} \hyper{body}))\rm.%
+  (lambda \hyper{formal} \hyper{body}))\rm.
 \end{scheme}
 
 \end{itemize}
@@ -139,14 +140,14 @@ variable.  This form is equivalent to
 
 At the outermost level of a program, a definition
 \begin{scheme}
-(define \hyper{variable} \hyper{expression})%
+(define \hyper{variable} \hyper{expression})
 \end{scheme}
 has essentially the same effect as the assignment expression
 \begin{scheme}
-(\ide{set!}\ \hyper{variable} \hyper{expression})%
+(\ide{set!}\ \hyper{variable} \hyper{expression})
 \end{scheme}
 if \hyper{variable} is bound to a non-syntax value.  However, if
-\hyper{variable} is not bound, 
+\hyper{variable} is not bound,
 or is a syntactic keyword,
 then the definition will bind
 \hyper{variable} to a new location before performing the assignment,
@@ -158,7 +159,7 @@ unbound\index{unbound} variable.
   (lambda (x) (+ x 3)))
 (add3 3)                            \ev  6
 (define first car)
-(first '(1 2))                      \ev  1%
+(first '(1 2))                      \ev  1
 \end{scheme}
 
 \subsection{Internal definitions}
@@ -180,7 +181,7 @@ and the region of the binding is the entire \hyper{body}.  For example,
 (let ((x 5))
   (define foo (lambda (y) (bar x y)))
   (define bar (lambda (a b) (+ (* a b) a)))
-  (foo (+ x 3)))                \ev  45%
+  (foo (+ x 3)))                \ev  45
 \end{scheme}
 
 An expanded \hyper{body} containing internal definitions
@@ -193,7 +194,7 @@ to
 (let ((x 5))
   (letrec* ((foo (lambda (y) (bar x y)))
             (bar (lambda (a b) (+ (* a b) a))))
-    (foo (+ x 3))))%
+    (foo (+ x 3))))
 \end{scheme}
 
 Just as for the equivalent {\cf letrec*} expression, it is an error if it is not
@@ -212,12 +213,12 @@ that form the body of the \ide{begin}.
 
 \subsection{Multiple-value definitions}
 
-Another kind of definition is provided by {\cf define-values}, 
+Another kind of definition is provided by {\cf define-values},
 which creates multiple definitions from a single
 expression returning multiple values.
 It is allowed wherever {\cf define} is allowed.
 
-\begin{entry}{%
+\begin{entry}{
 \proto{define-values}{ \hyper{formals} \hyper{expression}}{\exprtype}}\nobreak
 
 It is an error if a variable appears more than once in the set of \hyper{formals}.
@@ -234,7 +235,7 @@ call.
 
 (let ()
   (define-values (x y) (values 1 2))
-  (+ x y))     \ev 3%
+  (+ x y))     \ev 3
 \end{scheme}
 
 \end{entry}
@@ -270,7 +271,7 @@ definition.
          (set! a b)
          (set! b tmp)))))
   (swap! x y)
-  (list x y))                \ev (2 1)%
+  (list x y))                \ev (2 1)
 \end{scheme}
 
 Macros can expand into definitions in any context that permits
@@ -298,7 +299,7 @@ errors:
   (let ((x 3))
     (foo (plus x y) (+ x y))
     (define foo x)
-    (plus foo x)))%
+    (plus foo x)))
 \end{scheme}
 
 \section{Record-type definitions}
@@ -312,7 +313,7 @@ aggregations of zero or more \defining{fields}, each of which holds a single loc
 A predicate, a constructor, and field accessors and
 mutators are defined for each record type.
 
-\begin{entry}{%
+\begin{entry}{
 \mainschindex{define-record-type}
 \pproto{(define-record-type \hyper{name}}{syntax}
 \hspace*{4em}{\tt \hyper{constructor} \hyper{pred} \hyper{field} \dotsfoo})}
@@ -321,15 +322,15 @@ mutators are defined for each record type.
 \hyper{name} and \hyper{pred} are identifiers.
 The \hyper{constructor} is of the form
 \begin{scheme}
-(\hyper{constructor name} \hyper{field name} \dotsfoo)%
+(\hyper{constructor name} \hyper{field name} \dotsfoo)
 \end{scheme}
 and each \hyper{field} is either of the form
 \begin{scheme}
-(\hyper{field name} \hyper{accessor name})%
+(\hyper{field name} \hyper{accessor name})
 \end{scheme}
 or of the form
 \begin{scheme}
-(\hyper{field name} \hyper{accessor name} \hyper{modifier name})%
+(\hyper{field name} \hyper{accessor name} \hyper{modifier name})
 \end{scheme}
 
 It is an error for the same identifier to occur more than once as a
@@ -467,7 +468,7 @@ An \hyper{export spec} takes one of the following forms:
 In an \hyper{export spec}, an \hyper{identifier} names a single
 binding defined within or imported into the library, where the
 external name for the export is the same as the name of the binding
-within the library. A \ide{rename} spec exports the binding 
+within the library. A \ide{rename} spec exports the binding
 defined within or imported into the library and named by
 \hyperi{identifier} in each
 {\tt(\hyperi{identifier} \hyperii{identifier})} pairing,
@@ -640,7 +641,7 @@ number, and the variable {\cf +} is bound to a procedure that computes
 sums.  The full list of {\cf(scheme base)} bindings can be found in
 Appendix~\ref{stdlibraries}.
 
-Implementations may provide an initial REPL environment 
+Implementations may provide an initial REPL environment
 which behaves as if all possible variables are bound to locations, most of
 which contain unspecified values.  Top level REPL definitions in
 such an implementation are truly equivalent to assignments,

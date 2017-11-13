@@ -1,4 +1,4 @@
-%\vfill\eject
+
 \section{Formal semantics}
 \label{formalsemanticssection}
 
@@ -89,12 +89,6 @@ in \P{} by an assignment, \hyper{undefined} is an expression that evaluates
 to \fun{undefined}, and
 $\Esem$ is the semantic function that assigns meaning to expressions.
 
-%The semantics in this section was translated by machine from an
-%executable version of the semantics written in Scheme itself.
-%[This was once true, but then I modified the semantics without
-%going back to the executable version.  -- Will]
-
-
 \subsection{Abstract syntax}
 
 \def\K{\hbox{\rm K}}
@@ -114,7 +108,7 @@ $\Esem$ is the semantic function that assigns meaning to expressions.
 \C & \elem & \Com{} $=$ \Exp & commands
 \end{tabular}
 
-\setbox0=\hbox{\texttt{\Exp \goesto{}}}  %\tt for spacing
+\setbox0=\hbox{\texttt{\Exp \goesto{}}}
 \setbox1=\hbox to 1\wd0{\hfil \|}
 \begin{grammar}
 \Exp{} \goesto{} \K{} \| \I{} \| (\E$_0$ \arbno{\E})
@@ -137,14 +131,13 @@ $\nu$      & \elem & \NAT & &          & natural numbers \\
            &       & \PAI &=& $\LOC \times \LOC \times \TRU$  & pairs \\
            &       & \VEC &=& $\arbno{\LOC} \times \TRU$ & vectors \\
            &       & \STR &=& $\arbno{\LOC} \times \TRU$ & strings \\
-           &       & \MSC &=& \makebox[0pt][l]{$\{$\it false, true, 
+           &       & \MSC &=& \makebox[0pt][l]{$\{$\it false, true,
                                 null, undefined, unspecified$\}$} \\
            &       &      & &          & miscellaneous \\
 $\phi$     & \elem & \FUN &=& $\LOC\times(\arbno{\EXP} \to \DP \to \EC \to \CC)$
                                        & procedure values \\
 $\epsilon$ & \elem & \EXP &=& \makebox[0pt][l]{$\SYM+\CHR+\NUM+\PAI+\VEC+\STR+\MSC+\FUN$}\\
            &       &      & &          & expressed values \\
-%          &       & \STV &=& \EXP     & stored values \\
 $\sigma$   & \elem & \STO &=& $\LOC\to(\STV\times\TRU)$ & stores \\
 $\rho$     & \elem & \ENV &=& $\Ide\to\LOC$  & environments \\
 $\theta$   & \elem & \CC  &=& $\STO\to\ANS$  & command conts \\
@@ -179,7 +172,7 @@ Definition of \Ksem{} deliberately omitted.
 \end{semfun}
 
 \begin{semfun}
-\Esem\sembrack{\I} = 
+\Esem\sembrack{\I} =
   \lambda\rho\omega\kappa\:.\:\fun{hold}\:
     $\=$(\fun{lookup}\:\rho\:\I)$\\
      \>$(\fun{single}(\lambda\epsilon\:.\:
@@ -310,7 +303,7 @@ be used in place of {\it unspecified}.
    \Csem\sembrack{\arbno{\C}}\rho\omega\theta)
 \end{semfun}
 
-\egroup  % end smallish
+\egroup
 
 \subsection{Auxiliary functions}
 
@@ -412,7 +405,6 @@ be used in place of {\it unspecified}.
 \fun{truish}        :  \EXP \to \TRU$\\$
 \fun{truish} =
   \lambda\epsilon\:.\:
-%    (\epsilon = \fun{false}\vee\epsilon = \fun{null})\rightarrow
      \epsilon = \fun{false}\rightarrow
           \fun{false},
           \fun{true}
@@ -475,7 +467,7 @@ be used in place of {\it unspecified}.
 \fun{cons} =$\\
  \go{1}$\fun{twoarg}\,(\lambda\epsilon_1\epsilon_2\kappa\omega\sigma\:.\:
    $\=$\fun{new}\:\sigma\:\elem\:\LOC\rightarrow$\\
-    \> 
+    \>
         \=$(\lambda\sigma^\prime\:.\:
            $\=$\fun{new}\:\sigma^\prime\:\elem\:\LOC\rightarrow$\\
     \>  \>$\go{1}\fun{send}\,
@@ -537,12 +529,12 @@ be used in place of {\it unspecified}.
 \end{semfun}
 
 \begin{semfun}
-\fun{cdr}          :  \arbno{\EXP} \to \DP \to \EC \to \CC %$\\$
+\fun{cdr}          :  \arbno{\EXP} \to \DP \to \EC \to \CC
 \hbox{\qquad [similar to \fun{car}]}
 \end{semfun}
 
 \begin{semfun}
-\fun{cdr-internal} :  \EXP \to \EC \to \CC %$\\$
+\fun{cdr-internal} :  \EXP \to \EC \to \CC
 \hbox{\qquad [similar to \fun{car-internal}]}
 \end{semfun}
 
@@ -592,26 +584,8 @@ be used in place of {\it unspecified}.
     \>  \>   \>$(\epsilon_2\:\vert\:\PAI))$\\
     \>  \>$\kappa,$\\
     \>$(\epsilon_1\:\elem\:\VEC\wedge\epsilon_2\:\elem\:\VEC)\rightarrow
-%\fun{send}\,
-%       $\=$((\#(\epsilon_1\:\vert\:\VEC)=\#(\epsilon_2\:\vert\:\VEC)
-%         \wedge\hbox{\rm Y}(\lambda\fun{loop}\:.\:\lambda\fun{v1}\fun{v2}\:.\:
-%       $\=$\#\fun{v1}=0\rightarrow\fun{true},$\\
-%    \>  \>  \>$(\fun{v1}\elt 1) = (\fun{v2}\elt 1)\rightarrow
-%       \fun{loop}(\fun{v1}\drop 1)(\fun{v2}\drop 1),$\\
-%    \>  \>  \>$\go{1}\fun{false})(\epsilon_1\:\vert\:\VEC)(\epsilon_2\:\vert\:\VEC))
-%          \rightarrow\fun{true},$\\
-%    \>  \>$\go{1}\fun{false})\kappa
 \ldots,$\\
     \>$(\epsilon_1\:\elem\:\STR\wedge\epsilon_2\:\elem\:\STR)\rightarrow
-%\fun{send}\,
-%       $\=$((\#(\epsilon_1\:\vert\:\STR)=\#(\epsilon_2\:\vert\:\STR)\wedge
-%    \hbox{\rm Y}(\lambda\fun{loop}\:.\:\lambda\fun{v1}\fun{v2}\:.\:
-%       $\=$\#\fun{v1}=0\rightarrow\fun{true},$\\
-%    \>  \>  \>$(\fun{v1}\elt 1) = (\fun{v2}\elt 1)\rightarrow
-%     \fun{loop}(\fun{v1}\drop 1)(\fun{v2}\drop 1),$\\
-%    \>  \>  \>$\go{1}\fun{false})(\epsilon_1\:\vert\:\STR)(\epsilon_2\:\vert\:\STR))
-%      \rightarrow\fun{true},$\\
-%    \>  \>$\go{1}\fun{false})\kappa
 \ldots,$\\
     \>$(\epsilon_1\:\elem\:\FUN\wedge\epsilon_2\:\elem\:\FUN)\rightarrow$\\
     \>$\go{1}\fun{send}\,
@@ -768,6 +742,7 @@ be used in place of {\it unspecified}.
 (\lambda\arbno{\epsilon}\:.\:\fun{applicate}\:\epsilon_2\:\arbno{\epsilon}\omega))
 \end{semfun}
 
-\egroup  % end smallish
+\egroup
 
 \egroup
+

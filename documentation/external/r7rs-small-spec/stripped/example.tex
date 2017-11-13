@@ -1,8 +1,8 @@
 
-\extrapart{Example} % -*- Mode: Lisp; Package: SCHEME; Syntax: Common-lisp -*-
+\extrapart{Example}
 
 \nobreak
-The procedure {\cf integrate-system} integrates the system 
+The procedure {\cf integrate-system} integrates the system
 $$y_k^\prime = f_k(y_1, y_2, \ldots, y_n), \; k = 1, \ldots, n$$
 of differential equations with the method of Runge-Kutta.
 
@@ -25,7 +25,7 @@ system states.
               (cons initial-state
                     (delay (map-streams next
                                         states)))))
-      states)))%
+      states)))
 \end{schemenoindent}
 
 The procedure {\cf runge-kutta-4} takes a function, {\tt f}, that produces a
@@ -73,7 +73,7 @@ produces a new system state.
 (define add-vectors (elementwise +))
 
 (define (scale-vector s)
-  (elementwise (lambda (x) (* x s))))%
+  (elementwise (lambda (x) (* x s))))
 \end{schemenoindent}
 
 The {\cf map-streams} procedure is analogous to {\cf map}: it applies its first
@@ -83,7 +83,7 @@ stream).
 \begin{schemenoindent}
 (define (map-streams f s)
   (cons (f (head s))
-        (delay (map-streams f (tail s)))))%
+        (delay (map-streams f (tail s)))))
 \end{schemenoindent}
 
 Infinite streams are implemented as pairs whose car holds the first
@@ -93,7 +93,7 @@ of the stream.
 \begin{schemenoindent}
 (define head car)
 (define (tail stream)
-  (force (cdr stream)))%
+  (force (cdr stream)))
 \end{schemenoindent}
 
 \bigskip
@@ -115,6 +115,6 @@ which models a damped oscillator.
   (integrate-system
      (damped-oscillator 10000 1000 .001)
      '\#(1 0)
-     .01))%
+     .01))
 \end{schemenoindent}
 
