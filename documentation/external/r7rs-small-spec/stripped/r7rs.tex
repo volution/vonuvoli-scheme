@@ -102,11 +102,8 @@ There is no intended implication that those editors, individually or
 collectively, support or do not support this report.
 \end{note}
 
-\chapter*{Contents}
-\addvspace{3.5pt}
-{\footnotesize
+
 \tableofcontents
-}
 
 
 
@@ -116,7 +113,7 @@ collectively, support or do not support this report.
 
 
 
-\clearextrapart{Introduction}
+\chapter*{Introduction}
 
 \label{historysection}
 
@@ -198,10 +195,6 @@ The present report describes the ``small'' language of that effort:
 therefore it cannot be considered in isolation as the successor
 to \rsixrs.
 
-
-
-\medskip
-
 We intend this report to belong to the entire Scheme community, and so
 we grant permission to copy it in whole or in part without fee.  In
 particular, we encourage implementers of Scheme to use this report as
@@ -260,7 +253,7 @@ all of which are available at {\cf http://srfi.schemers.org}.
 
 
 
-\clearchapterstar{Description of the language}
+\part{Description of the language}
 
 
 
@@ -826,7 +819,7 @@ These are used for labeling and referencing other literal data (section~\ref{lab
 
 \end{description}
 
-\section{Datum labels}\unsection
+\section{Datum labels}
 \label{labelsection}
 
 \begin{entry}{
@@ -1234,7 +1227,7 @@ with the {\cf delay}, {\cf delay-force}, and {\cf parameterize} expression types
 \section{Primitive expression types}
 \label{primitivexps}
 
-\subsection{Variable references}\unsection
+\subsection{Variable references}
 
 \begin{entry}{
 \pproto{\hyper{variable}}{\exprtype}}
@@ -1251,7 +1244,7 @@ x   \ev  28
 \end{scheme}
 \end{entry}
 
-\subsection{Literal expressions}\unsection
+\subsection{Literal expressions}
 \label{literalsection}
 
 \begin{entry}{
@@ -1309,7 +1302,7 @@ As noted in section~\ref{storagemodel}, it is an error to attempt to alter a con
 
 \end{entry}
 
-\subsection{Procedure calls}\unsection
+\subsection{Procedure calls}
 
 \begin{entry}{
 \pproto{(\hyper{operator} \hyperi{operand} \dotsfoo)}{\exprtype}}
@@ -1357,7 +1350,7 @@ The order of evaluation may be chosen differently for each procedure call.
 \end{entry}
 
 
-\subsection{Procedures}\unsection
+\subsection{Procedures}
 \label{lamba}
 
 \begin{entry}{
@@ -1443,7 +1436,7 @@ with a storage location, in order to make \ide{eqv?} and
 \ide{eq?} work on procedures (see section~\ref{equivalencesection}).
 
 
-\subsection{Conditionals}\unsection
+\subsection{Conditionals}
 
 \begin{entry}{
 \proto{if}{ \hyper{test} \hyper{consequent} \hyper{alternate}}{\exprtype}
@@ -1473,7 +1466,7 @@ unspecified.
 \end{entry}
 
 
-\subsection{Assignments}\unsection
+\subsection{Assignments}
 \label{assignment}
 
 \begin{entry}{
@@ -1496,7 +1489,7 @@ unspecified.
 
 \end{entry}
 
-\subsection{Inclusion}\unsection
+\subsection{Inclusion}
 \label{inclusion}
 \begin{entry}{
 \proto{include}{ \hyperi{string} \hyperii{string} \dotsfoo}{\exprtype}
@@ -1532,7 +1525,7 @@ that will convert most of the constructs described in this section
 into the primitive constructs described in the previous section.
 
 
-\subsection{Conditionals}\unsection
+\subsection{Conditionals}
 
 \begin{entry}{
 \proto{cond}{ \hyperi{clause} \hyperii{clause} \dotsfoo}{\exprtype}
@@ -2043,7 +2036,7 @@ set of bindings is visible and initialized, and so on.
 \end{entry}
 
 
-\subsection{Sequencing}\unsection
+\subsection{Sequencing}
 \label{sequencing}
 
 Both of Scheme's sequencing constructs are named {\cf begin}, but the two
@@ -2186,7 +2179,7 @@ invoking the procedure named by \hyper{variable}.
 \end{entry}
 
 
-\subsection{Delayed evaluation}\unsection
+\subsection{Delayed evaluation}
 
 \begin{entry}{
 \proto{delay}{ \hyper{expression}}{lazy library syntax}}
@@ -2352,7 +2345,7 @@ If \var{obj} is already a promise, it is returned.
 
 \end{entry}
 
-\subsection{Dynamic bindings}\unsection
+\subsection{Dynamic bindings}
 
 The \defining{dynamic extent} of a procedure call is the time between
 when it is initiated and when it returns.  In Scheme, {\cf
@@ -2448,7 +2441,7 @@ procedure in the call chain explicitly.
 \end{entry}
 
 
-\subsection{Exception handling}\unsection
+\subsection{Exception handling}
 
 \begin{entry}{
 \pproto{(guard (\hyper{variable}}{\exprtype}
@@ -2495,7 +2488,7 @@ exceptions.
 \end{entry}
 
 
-\subsection{Quasiquotation}\unsection
+\subsection{Quasiquotation}
 \label{quasiquotesection}
 
 \begin{entry}{
@@ -2607,7 +2600,7 @@ otherwise than as described above.
 
 \end{entry}
 
-\subsection{Case-lambda}\unsection
+\subsection{Case-lambda}
 \label{caselambdasection}
 \begin{entry}{
 \proto{case-lambda}{ \hyper{clause} \dotsfoo}{case-lambda library syntax}}
@@ -5025,8 +5018,6 @@ as well as being compatible with \rsixrs.
 \end{note}
 
 \end{entry}
-
-\medskip
 
 \subsection{Numerical input and output}
 
@@ -10506,7 +10497,11 @@ provide the corresponding feature.
 
 
 
-\extrapart{Language changes}
+\part{Miscellaneous}
+
+
+
+\chapter*{Language changes}
 
 
 \subsection*{Incompatibilities with \rfivers}
@@ -10839,7 +10834,7 @@ left to future standardization efforts.
 
 
 
-\extrapart{Additional material}
+\chapter*{Additional material}
 
 The Scheme community website at
 {\cf http://schemers.org}
@@ -10863,7 +10858,7 @@ and on the Usenet discussion group {\cf comp.lang.scheme}.
 
 
 
-\extrapart{Example}
+\chapter*{Example}
 
 The procedure {\cf integrate-system} integrates the system
 $$y_k^\prime = f_k(y_1, y_2, \ldots, y_n), \; k = 1, \ldots, n$$
@@ -10959,7 +10954,6 @@ of the stream.
   (force (cdr stream)))
 \end{schemenoindent}
 
-\bigskip
 The following illustrates the use of {\cf integrate-system} in
 integrating the system
 $$ C {dv_C \over dt} = -i_L - {v_C \over R}$$
