@@ -38,7 +38,6 @@ impl fmt::Display for Lambda {
 
 impl fmt::Debug for Lambda {
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		
 		self.0.fmt (formatter)
 	}
 }
