@@ -76,6 +76,14 @@ impl Evaluator {
 			Expression::RegisterSet (index, ref expression) =>
 				self.evaluate_register_set (evaluation, index, expression),
 			
+			Expression::BindingGet (ref binding) =>
+				self.evaluate_binding_get (evaluation, binding),
+			Expression::BindingSet (ref binding, ref expression) =>
+				self.evaluate_binding_set (evaluation, binding, expression),
+			
+			Expression::ProcedureCall (ref callable, ref inputs) =>
+				self.evaluate_procedure_call (evaluation, callable, inputs.as_ref ()),
+			
 			Expression::ProcedurePrimitiveCall0 (primitive) =>
 				self.evaluate_procedure_primitive_0 (evaluation, primitive),
 			Expression::ProcedurePrimitiveCall1 (primitive, ref input) =>
@@ -87,8 +95,15 @@ impl Evaluator {
 			Expression::ProcedurePrimitiveCall (primitive, ref inputs) =>
 				self.evaluate_procedure_primitive (evaluation, primitive, inputs.as_ref ()),
 			
-			_ =>
-				failed_unimplemented! (0xc1942075),
+			Expression::SyntaxPrimitiveCall1 (primitive, ref input) =>
+				self.evaluate_syntax_primitive_1 (evaluation, primitive, input),
+			Expression::SyntaxPrimitiveCall2 (primitive, ref input_1, ref input_2) =>
+				self.evaluate_syntax_primitive_2 (evaluation, primitive, input_1, input_2),
+			Expression::SyntaxPrimitiveCallN (primitive, ref inputs) =>
+				self.evaluate_syntax_primitive_n (evaluation, primitive, inputs.as_ref ()),
+			Expression::SyntaxPrimitiveCall (primitive, ref inputs) =>
+				self.evaluate_syntax_primitive (evaluation, primitive, inputs.as_ref ()),
+			
 		}
 		
 	}
@@ -151,6 +166,30 @@ impl Evaluator {
 	
 	
 	#[ inline (always) ]
+	pub fn evaluate_binding_set (&self, evaluation : &mut EvaluationContext, binding : &Binding, expression : &Expression) -> (Outcome<Value>) {
+		let value_new = try! (self.evaluate (evaluation, expression));
+		let value_old = try! (binding.set (value_new));
+		return Ok (value_old);
+	}
+	
+	#[ inline (always) ]
+	pub fn evaluate_binding_get (&self, evaluation : &mut EvaluationContext, binding : &Binding) -> (Outcome<Value>) {
+		let value = try! (binding.get ());
+		return Ok (value);
+	}
+	
+	
+	
+	
+	#[ inline (always) ]
+	pub fn evaluate_procedure_call (&self, evaluation : &mut EvaluationContext, callable : &Expression, inputs : &[Expression]) -> (Outcome<Value>) {
+		return failed! (0xe5b2fe88);
+	}
+	
+	
+	
+	
+	#[ inline (always) ]
 	pub fn evaluate_procedure_primitive_0 (&self, evaluation : &mut EvaluationContext, primitive : ProcedurePrimitive0) -> (Outcome<Value>) {
 		let output = procedure_primitive_0_evaluate (primitive, evaluation);
 		return output;
@@ -182,6 +221,33 @@ impl Evaluator {
 	pub fn evaluate_procedure_primitive (&self, evaluation : &mut EvaluationContext, primitive : ProcedurePrimitive, inputs : &[Expression]) -> (Outcome<Value>) {
 		let inputs = try! (self.evaluate_slice (evaluation, inputs));
 		let output = procedure_primitive_evaluate (primitive, inputs.as_ref (), evaluation);
+		return output;
+	}
+	
+	
+	
+	
+	#[ inline (always) ]
+	pub fn evaluate_syntax_primitive_1 (&self, evaluation : &mut EvaluationContext, primitive : SyntaxPrimitive1, input : &Expression) -> (Outcome<Value>) {
+		let output = syntax_primitive_1_evaluate (primitive, &input, evaluation);
+		return output;
+	}
+	
+	#[ inline (always) ]
+	pub fn evaluate_syntax_primitive_2 (&self, evaluation : &mut EvaluationContext, primitive : SyntaxPrimitive2, input_1 : &Expression, input_2 : &Expression) -> (Outcome<Value>) {
+		let output = syntax_primitive_2_evaluate (primitive, &input_1, &input_2, evaluation);
+		return output;
+	}
+	
+	#[ inline (always) ]
+	pub fn evaluate_syntax_primitive_n (&self, evaluation : &mut EvaluationContext, primitive : SyntaxPrimitiveN, inputs : &[Expression]) -> (Outcome<Value>) {
+		let output = syntax_primitive_n_evaluate (primitive, inputs.as_ref (), evaluation);
+		return output;
+	}
+	
+	#[ inline (always) ]
+	pub fn evaluate_syntax_primitive (&self, evaluation : &mut EvaluationContext, primitive : SyntaxPrimitive, inputs : &[Expression]) -> (Outcome<Value>) {
+		let output = syntax_primitive_evaluate (primitive, inputs.as_ref (), evaluation);
 		return output;
 	}
 	
