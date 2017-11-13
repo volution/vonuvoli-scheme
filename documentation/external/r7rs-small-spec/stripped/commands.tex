@@ -279,3 +279,41 @@
 
 \newenvironment{DIFnomarkup}{}{}
 
+
+\newcommand{\syntax}{{\em Syntax: }}
+\newcommand{\semantics}{{\em Semantics: }}
+\newcommand{\type}[1]{{\it#1}}
+\newcommand{\tupe}[1]{{#1}}
+\newcommand{\foo}[1]{\vr{#1}, \vri{#1}, $\ldots$ \vrj{#1}, $\ldots$}
+
+
+\newcommand{\sembrack}[1]{[\![#1]\!]}
+\newcommand{\fun}[1]{\hbox{\it #1}}
+\newenvironment{semfun}{\begin{tabbing}$}{$\end{tabbing}}
+\newcommand\LOC{{\tt{}L}}
+\newcommand\NAT{{\tt{}N}}
+\newcommand\TRU{{\tt{}T}}
+\newcommand\SYM{{\tt{}Q}}
+\newcommand\CHR{{\tt{}H}}
+\newcommand\NUM{{\tt{}R}}
+\newcommand\FUN{{\tt{}F}}
+\newcommand\EXP{{\tt{}E}}
+\newcommand\STV{{\tt{}E}}
+\newcommand\STO{{\tt{}S}}
+\newcommand\ENV{{\tt{}U}}
+\newcommand\ANS{{\tt{}A}}
+\newcommand\ERR{{\tt{}X}}
+\newcommand\DP{\tt{P}}
+\newcommand\EC{{\tt{}K}}
+\newcommand\CC{{\tt{}C}}
+\newcommand\MSC{{\tt{}M}}
+\newcommand\PAI{\hbox{\EXP$_{\rm p}$}}
+\newcommand\VEC{\hbox{\EXP$_{\rm v}$}}
+\newcommand\STR{\hbox{\EXP$_{\rm s}$}}
+
+\newcommand\elt{\downarrow}
+\newcommand\drop{\dagger}
+
+\newcommand{\wrong}[1]{\fun{wrong }\hbox{\rm``#1''}}
+\newcommand{\go}[1]{\hbox{\hspace*{#1em}}}
+
