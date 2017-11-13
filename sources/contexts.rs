@@ -30,8 +30,9 @@ pub struct Context ( StdRc<StdRefCell<ContextInternals>> );
 
 #[ derive (Debug) ]
 struct ContextInternals {
-	parent : Option<Context>,
 	bindings : StdMap<Symbol, Binding>,
+	parent : Option<Context>,
+	immutable : bool,
 	handle : u32,
 }
 
@@ -42,8 +43,9 @@ impl Context {
 	#[ inline (always) ]
 	pub fn new (parent : Option<Context>) -> (Context) {
 		let internals = ContextInternals {
-				parent : parent,
 				bindings : StdMap::new (),
+				parent : parent,
+				immutable : false,
 				handle : globals::context_handles_next (),
 			};
 		return Context (StdRc::new (StdRefCell::new (internals)));
@@ -54,7 +56,7 @@ impl Context {
 	pub fn resolve_expect<SymbolFrom> (&self, identifier : &SymbolFrom) -> (Binding)
 			where Symbol : StdFrom<SymbolFrom>, SymbolFrom : Clone
 	{
-		return self.resolve (identifier) .expect ("d6dcf293");
+		return self.resolve (identifier) .unwrap ();
 	}
 	
 	#[ inline (always) ]
@@ -74,7 +76,7 @@ impl Context {
 	pub fn define_expect<SymbolFrom> (&mut self, identifier : &SymbolFrom) -> (Binding)
 			where Symbol : StdFrom<SymbolFrom>, SymbolFrom : Clone
 	{
-		return self.define (identifier) .expect ("16ccb995");
+		return self.define (identifier) .unwrap ();
 	}
 	
 	#[ inline (always) ]
@@ -82,17 +84,28 @@ impl Context {
 			where Symbol : StdFrom<SymbolFrom>, SymbolFrom : Clone
 	{
 		use std::collections::hash_map::Entry;
-		let identifier = Symbol::from (identifier.clone ());
 		let mut self_0 = self.internals_ref_mut ();
+		if self_0.immutable {
+			return failed! (0x4814c74f);
+		}
+		let identifier = Symbol::from (identifier.clone ());
 		let bindings_entry = self_0.bindings.entry (identifier.clone ());
 		return match bindings_entry {
 			Entry::Occupied (_) => failed! (0x5b8e8d57),
 			Entry::Vacant (_) => {
-				let binding = Binding::new (identifier.clone (), UNDEFINED);
+				let binding = Binding::new (identifier.clone (), UNDEFINED, false);
 				bindings_entry.or_insert (binding.clone ());
 				Ok (binding)
 			},
 		};
+	}
+	
+	
+	#[ inline (always) ]
+	pub fn set_immutable (&mut self) -> (Outcome<()>) {
+		let mut self_0 = self.internals_ref_mut ();
+		self_0.immutable = true;
+		return Ok (());
 	}
 	
 	
@@ -170,7 +183,7 @@ impl Registers {
 	
 	#[ inline (always) ]
 	pub fn resolve_expect (&self, index : usize) -> (Binding) {
-		return self.resolve (index) .expect ("b653f0a0");
+		return self.resolve (index) .unwrap ();
 	}
 	
 	#[ inline (always) ]
@@ -221,6 +234,7 @@ pub struct Binding ( StdRc<StdRefCell<BindingInternals>> );
 struct BindingInternals {
 	identifier : Symbol,
 	value : Value,
+	immutable : bool,
 	handle : u32,
 }
 
@@ -229,10 +243,11 @@ impl Binding {
 	
 	
 	#[ inline (always) ]
-	pub fn new (identifier : Symbol, value : Value) -> (Binding) {
+	pub fn new (identifier : Symbol, value : Value, immutable : bool) -> (Binding) {
 		let internals = BindingInternals {
 				identifier : identifier,
 				value : value,
+				immutable : immutable,
 				handle : globals::bindings_handles_next (),
 			};
 		return Binding (StdRc::new (StdRefCell::new (internals)));
@@ -240,19 +255,30 @@ impl Binding {
 	
 	
 	#[ inline (always) ]
-	pub fn get (&self) -> (Value) {
+	pub fn get (&self) -> (Outcome<Value>) {
 		let self_0 = self.internals_ref ();
-		return self_0.value.clone ();
+		return Ok (self_0.value.clone ());
 	}
 	
 	#[ inline (always) ]
-	pub fn set<ValueFrom> (&mut self, value : ValueFrom) -> (Value)
+	pub fn set<ValueFrom> (&mut self, value : ValueFrom) -> (Outcome<Value>)
 			where Value : StdFrom<ValueFrom>
 	{
-		let mut value = Value::from (value);
 		let mut self_0 = self.internals_ref_mut ();
+		if self_0.immutable {
+			return failed! (0x11c77731);
+		}
+		let mut value = Value::from (value);
 		mem::swap (&mut self_0.value, &mut value);
-		return value;
+		return Ok (value);
+	}
+	
+	
+	#[ inline (always) ]
+	pub fn set_immutable (&mut self) -> (Outcome<()>) {
+		let mut self_0 = self.internals_ref_mut ();
+		self_0.immutable = true;
+		return Ok (());
 	}
 	
 	

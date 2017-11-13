@@ -107,7 +107,7 @@ impl Evaluator {
 	pub fn evaluate_context_define (&self, evaluation : &mut EvaluationContext, identifier : &Symbol, expression : &Expression) -> (Outcome<Value>) {
 		let mut binding = try! (evaluation.context.define (identifier));
 		let value_new = try! (self.evaluate (evaluation, expression));
-		let value_old = binding.set (value_new);
+		let value_old = try! (binding.set (value_new));
 		return Ok (value_old);
 	}
 	
@@ -115,14 +115,14 @@ impl Evaluator {
 	pub fn evaluate_context_update (&self, evaluation : &mut EvaluationContext, identifier : &Symbol, expression : &Expression) -> (Outcome<Value>) {
 		let mut binding = try! (evaluation.context.resolve (identifier));
 		let value_new = try! (self.evaluate (evaluation, expression));
-		let value_old = binding.set (value_new);
+		let value_old = try! (binding.set (value_new));
 		return Ok (value_old);
 	}
 	
 	#[ inline (always) ]
 	pub fn evaluate_context_select (&self, evaluation : &mut EvaluationContext, identifier : &Symbol) -> (Outcome<Value>) {
 		let binding = try! (evaluation.context.resolve (identifier));
-		let value = binding.get ();
+		let value = try! (binding.get ());
 		return Ok (value);
 	}
 	
@@ -133,14 +133,14 @@ impl Evaluator {
 	pub fn evaluate_register_set (&self, evaluation : &mut EvaluationContext, index : usize, expression : &Expression) -> (Outcome<Value>) {
 		let mut binding = try! (evaluation.registers.resolve (index));
 		let value_new = try! (self.evaluate (evaluation, expression));
-		let value_old = binding.set (value_new);
+		let value_old = try! (binding.set (value_new));
 		return Ok (value_old);
 	}
 	
 	#[ inline (always) ]
 	pub fn evaluate_register_get (&self, evaluation : &mut EvaluationContext, index : usize) -> (Outcome<Value>) {
 		let binding = try! (evaluation.registers.resolve (index));
-		let value = binding.get ();
+		let value = try! (binding.get ());
 		return Ok (value);
 	}
 	

@@ -21,7 +21,8 @@ pub fn initialize_context (context : &mut Context) -> (Outcome<()>) {
 	let definitions = try! (generate_definitions ());
 	for (_library, identifier, value) in definitions {
 		let mut binding = try! (context.define (&identifier));
-		binding.set (value);
+		try! (binding.set (value));
+		try! (binding.set_immutable ());
 	}
 	return Ok (());
 }
