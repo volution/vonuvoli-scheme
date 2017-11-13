@@ -13,6 +13,9 @@ use super::values::exports::*;
 
 pub mod exports {
 	pub use super::*;
+	pub use super::vec_into;
+	pub use super::vec_from_slice;
+	pub use super::vec_from_list;
 }
 
 
@@ -39,7 +42,7 @@ macro_rules! impl_from_for_Expression_2 {
 }
 
 #[ allow (unused_macros) ]
-macro_rules! impl_from_for_Value_1 {
+macro_rules! impl_from_for_Value_0 {
 	( $from : ty, $tag : ident ) => (
 		impl_from_for_Expression_1! ($from, Value);
 		impl_from_for_enum_wrapper! (Value, $from, $tag);
@@ -50,9 +53,50 @@ macro_rules! impl_from_for_Value_1 {
 }
 
 #[ allow (unused_macros) ]
+macro_rules! impl_from_for_Value_1 {
+	( $from : ident, $tag : ident ) => (
+		impl_from_for_Value_0! ($from, $tag);
+		impl StdTryFrom<Value> for $from {
+			type Error = super::errors::Error;
+			#[ inline (always) ]
+			fn try_from (value : Value) -> (Outcome<Self>) {
+				if let Value::$tag (value) = value {
+					Ok (value)
+				} else {
+					failed! (0x64d097b5)
+				}
+			}
+		}
+		impl StdFrom<Value> for $from {
+			#[ inline (always) ]
+			fn from (value : Value) -> (Self) {
+				StdTryFrom::try_from (value) .unwrap ()
+			}
+		}
+		impl<'a> StdTryAsRef<$from> for Value {
+			type Error = super::errors::Error;
+			#[ inline (always) ]
+			fn try_as_ref (&self) -> (Outcome<&$from>) {
+				if let Value::$tag (ref value) = *self {
+					Ok (value)
+				} else {
+					failed! (0x19768613)
+				}
+			}
+		}
+		impl<'a> StdAsRef<$from> for Value {
+			#[ inline (always) ]
+			fn as_ref (&self) -> (&$from) {
+				StdTryAsRef::try_as_ref (self) .unwrap ()
+			}
+		}
+	);
+}
+
+#[ allow (unused_macros) ]
 macro_rules! impl_from_for_Value_2 {
 	( $from : ty, $to : ty, $tag : ident, $value : ident, $expression : expr ) => (
-		impl_from_for_Value_1! ($from, $tag);
+		impl_from_for_Value_0! ($from, $tag);
 		impl_from_for_type! ($to, $from, $value, $expression);
 	);
 }
@@ -104,7 +148,7 @@ impl_from_for_type! (Symbol, &'static str, value, symbol_from_slice (value));
 #[ allow (unused_macros) ]
 macro_rules! impl_from_for_primitive_procedure {
 	( $from : ty, $tag_1 : ident, $tag_2 : ident, $tag_3 : ident ) => (
-		impl_from_for_Value_1! ($from, ProcedurePrimitive);
+		impl_from_for_Value_0! ($from, ProcedurePrimitive);
 		impl_from_for_enum_wrapper! (ProcedurePrimitive, $from, $tag_2);
 		impl_from_for_enum_wrapper! ($tag_1, $from, $tag_3);
 	);
@@ -130,7 +174,7 @@ impl_from_for_primitive_procedure! (BitwisePrimitiveN, ProcedurePrimitiveN, Prim
 #[ allow (unused_macros) ]
 macro_rules! impl_from_for_primitive_syntax {
 	( $from : ty, $tag : ident ) => (
-		impl_from_for_Value_1! ($from, SyntaxPrimitive);
+		impl_from_for_Value_0! ($from, SyntaxPrimitive);
 		impl_from_for_enum_wrapper! (SyntaxPrimitive, $from, $tag);
 	);
 }
@@ -286,5 +330,18 @@ pub fn vec_into <From, To : StdFrom<From>> (from : Vec<From>) -> (Vec<To>) {
 #[ inline (always) ]
 pub fn vec_from_slice <From : Clone, To : StdFrom<From>> (from : &[From]) -> (Vec<To>) {
 	from.iter () .cloned () .map (|value| value.into ()) .collect ()
+}
+
+
+#[ inline (always) ]
+pub fn vec_from_list (list : &Value) -> (Outcome<ValueVec>) {
+	let mut vector = Vec::new ();
+	let mut head = list;
+	while *head != Value::Null {
+		let pair : &Pair = try! (StdTryAsRef::try_as_ref (head));
+		vector.push (pair.left () .clone ());
+		head = pair.right ();
+	}
+	return Ok (vector);
 }
 

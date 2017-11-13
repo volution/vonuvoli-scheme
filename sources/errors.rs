@@ -25,7 +25,7 @@ pub type Outcome<T> = StdResult<T, Error>;
 
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Clone, Eq, PartialEq, Hash) ]
 pub struct Error {
 	pub code : u32,
 }
@@ -33,7 +33,14 @@ pub struct Error {
 
 impl fmt::Display for Error {
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		write! (formatter, "#<error : {:08x}>", self.code)
+		write! (formatter, "#<error:{:08x}>", self.code)
+	}
+}
+
+
+impl fmt::Debug for Error {
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		write! (formatter, "#<error:{:08x}>", self.code)
 	}
 }
 

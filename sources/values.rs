@@ -274,12 +274,14 @@ pub struct NumberReal ( pub f64 );
 impl cmp::Eq for NumberReal {}
 
 impl cmp::PartialEq for NumberReal {
+	#[ inline (always) ]
 	fn eq (&self, other : &NumberReal) -> (bool) {
 		self.0.to_bits () == other.0.to_bits ()
 	}
 }
 
 impl hash::Hash for NumberReal {
+	#[ inline (always) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		hasher.write_u64 (self.0.to_bits ());
 	}
@@ -394,6 +396,20 @@ impl fmt::Display for Bytes {
 #[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
 // FIXME:  Add immutability flag!
 pub struct Pair ( StdRc<(Value, Value)> );
+
+
+impl Pair {
+	
+	#[ inline (always) ]
+	pub fn left (&self) -> (&Value) {
+		return &(self.0).0;
+	}
+	
+	#[ inline (always) ]
+	pub fn right (&self) -> (&Value) {
+		return &(self.0).1;
+	}
+}
 
 
 impl fmt::Display for Pair {
