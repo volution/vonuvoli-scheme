@@ -24,8 +24,8 @@ pub struct Evaluator {
 
 pub struct EvaluationContext <'a> {
 	pub evaluator : &'a Evaluator,
-	pub context : &'a mut Context,
-	pub registers : &'a mut Registers,
+	pub context : &'a Context,
+	pub registers : &'a Registers,
 }
 
 
@@ -43,12 +43,12 @@ impl Evaluator {
 	
 	
 	#[ inline (always) ]
-	pub fn evaluate_top (&self, context : &mut Context, input : &Expression) -> (Outcome<Value>) {
+	pub fn evaluate_top (&self, context : &Context, input : &Expression) -> (Outcome<Value>) {
 		let mut registers = Registers::new (0);
 		let mut evaluation = EvaluationContext {
 				evaluator : self,
 				context : context,
-				registers : &mut registers,
+				registers : &registers,
 			};
 		return self.evaluate (&mut evaluation, input);
 	}

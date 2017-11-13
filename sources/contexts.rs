@@ -73,14 +73,14 @@ impl Context {
 	
 	
 	#[ inline (always) ]
-	pub fn define_expect<SymbolFrom> (&mut self, identifier : &SymbolFrom) -> (Binding)
+	pub fn define_expect<SymbolFrom> (&self, identifier : &SymbolFrom) -> (Binding)
 			where Symbol : StdFrom<SymbolFrom>, SymbolFrom : Clone
 	{
 		return self.define (identifier) .unwrap ();
 	}
 	
 	#[ inline (always) ]
-	pub fn define<SymbolFrom> (&mut self, identifier : &SymbolFrom) -> (Outcome<Binding>)
+	pub fn define<SymbolFrom> (&self, identifier : &SymbolFrom) -> (Outcome<Binding>)
 			where Symbol : StdFrom<SymbolFrom>, SymbolFrom : Clone
 	{
 		use std::collections::hash_map::Entry;
@@ -102,7 +102,7 @@ impl Context {
 	
 	
 	#[ inline (always) ]
-	pub fn set_immutable (&mut self) -> (Outcome<()>) {
+	pub fn set_immutable (&self) -> (Outcome<()>) {
 		let mut self_0 = self.internals_ref_mut ();
 		self_0.immutable = true;
 		return Ok (());
@@ -115,7 +115,7 @@ impl Context {
 	}
 	
 	#[ inline (always) ]
-	fn internals_ref_mut (&mut self) -> (StdRefMut<ContextInternals>) {
+	fn internals_ref_mut (&self) -> (StdRefMut<ContextInternals>) {
 		return StdRefCell::borrow_mut (StdRc::as_ref (&self.0));
 	}
 }
@@ -203,7 +203,7 @@ impl Registers {
 	
 	#[ allow (dead_code) ]
 	#[ inline (always) ]
-	fn internals_ref_mut (&mut self) -> (StdRefMut<RegistersInternals>) {
+	fn internals_ref_mut (&self) -> (StdRefMut<RegistersInternals>) {
 		return StdRefCell::borrow_mut (StdRc::as_ref (&self.0));
 	}
 }
@@ -261,7 +261,7 @@ impl Binding {
 	}
 	
 	#[ inline (always) ]
-	pub fn set<ValueFrom> (&mut self, value : ValueFrom) -> (Outcome<Value>)
+	pub fn set<ValueFrom> (&self, value : ValueFrom) -> (Outcome<Value>)
 			where Value : StdFrom<ValueFrom>
 	{
 		let mut self_0 = self.internals_ref_mut ();
@@ -275,7 +275,7 @@ impl Binding {
 	
 	
 	#[ inline (always) ]
-	pub fn set_immutable (&mut self) -> (Outcome<()>) {
+	pub fn set_immutable (&self) -> (Outcome<()>) {
 		let mut self_0 = self.internals_ref_mut ();
 		self_0.immutable = true;
 		return Ok (());
@@ -288,7 +288,7 @@ impl Binding {
 	}
 	
 	#[ inline (always) ]
-	fn internals_ref_mut (&mut self) -> (StdRefMut<BindingInternals>) {
+	fn internals_ref_mut (&self) -> (StdRefMut<BindingInternals>) {
 		return StdRefCell::borrow_mut (StdRc::as_ref (&self.0));
 	}
 }

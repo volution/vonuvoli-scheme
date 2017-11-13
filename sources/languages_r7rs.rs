@@ -20,14 +20,14 @@ pub mod exports {
 
 pub fn generate_context () -> (Outcome<Context>) {
 	let mut context = Context::new (None);
-	try! (initialize_context (&mut context));
+	try! (initialize_context (&context));
 	return Ok (context);
 }
 
 
 
 
-pub fn initialize_context (context : &mut Context) -> (Outcome<()>) {
+pub fn initialize_context (context : &Context) -> (Outcome<()>) {
 	let definitions = try! (generate_definitions ());
 	for (_library, identifier, value) in definitions {
 		let mut binding = try! (context.define (&identifier));
