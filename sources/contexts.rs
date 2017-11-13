@@ -297,6 +297,7 @@ impl Binding {
 impl cmp::Eq for Binding {}
 
 impl cmp::PartialEq for Binding {
+	#[ inline (always) ]
 	fn eq (&self, other : &Self) -> (bool) {
 		let self_0 = self.internals_ref ();
 		let other_0 = other.internals_ref ();
@@ -306,6 +307,7 @@ impl cmp::PartialEq for Binding {
 
 
 impl hash::Hash for Binding {
+	#[ inline (always) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		let self_0 = self.internals_ref ();
 		hasher.write_u32 (self_0.handle);

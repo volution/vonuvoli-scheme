@@ -10,8 +10,18 @@ use super::values::exports::*;
 
 
 pub mod exports {
-	pub use super::initialize_context as language_r7rs_initialize_context;
+	pub use super::generate_context as language_r7rs_generate_context;
 	pub use super::generate_definitions as language_r7rs_generate_definitions;
+	pub use super::initialize_context as language_r7rs_initialize_context;
+}
+
+
+
+
+pub fn generate_context () -> (Outcome<Context>) {
+	let mut context = Context::new (None);
+	try! (initialize_context (&mut context));
+	return Ok (context);
 }
 
 
@@ -658,7 +668,8 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			// (scheme repl)
 			//     --> verified
 			
-			("repl", "interaction-environment", ProcedurePrimitive::Unimplemented.into ()),
+			// !! duplicate
+			// ("repl", "interaction-environment", ProcedurePrimitive::Unimplemented.into ()),
 			
 			
 			

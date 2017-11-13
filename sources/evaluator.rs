@@ -34,6 +34,7 @@ pub struct EvaluationContext <'a> {
 impl Evaluator {
 	
 	
+	#[ inline (always) ]
 	pub fn new () -> (Evaluator) {
 		Evaluator {}
 	}
@@ -41,6 +42,7 @@ impl Evaluator {
 	
 	
 	
+	#[ inline (always) ]
 	pub fn evaluate_top (&self, context : &mut Context, input : &Expression) -> (Outcome<Value>) {
 		let mut registers = Registers::new (0);
 		let mut evaluation = EvaluationContext {
@@ -54,6 +56,7 @@ impl Evaluator {
 	
 	
 	
+	#[ inline (always) ]
 	pub fn evaluate (&self, evaluation : &mut EvaluationContext, input : &Expression) -> (Outcome<Value>) {
 		
 		match *input {
