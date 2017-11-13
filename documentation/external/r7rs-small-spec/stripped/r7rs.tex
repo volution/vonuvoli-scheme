@@ -40,13 +40,11 @@
 
 \makeatletter
 
-\newcommand{\topnewpage}{\@topnewpage}
 \newcommand{\authorsc}[1]{{\scriptsize\scshape #1}}
 
 % Chapters, sections, etc.
 
 \newcommand{\vest}{}
-\newcommand{\dotsfoo}{$\ldots\,$}
 
 \newcommand{\sharpfoo}[1]{{\tt\##1}}
 \newcommand{\schfalse}{\sharpfoo{f}}
@@ -54,7 +52,7 @@
 \newcommand{\sharpfalse}{\sharpfoo{false}}
 \newcommand{\sharptrue}{\sharpfoo{true}}
 
-\newcommand{\singlequote}{{\tt'}}  %\char19
+\newcommand{\singlequote}{{\tt'}}
 \newcommand{\doublequote}{{\tt"}}
 \newcommand{\backquote}{{\tt\char18}}
 \newcommand{\backwhack}{{\tt\char`\\}}
@@ -101,10 +99,6 @@
 
 \newcommand{\callcc}{{\tt call-with-current-continuation}}
 
-% \reallyindex{SORTKEY}{HEADCS}{TYPE}
-% writes (index-entry "SORTKEY" "HEADCS" TYPE PAGENUMBER)
-% which becomes  \item \HEADCS{SORTKEY} mainpagenumber ; auxpagenumber ...
-
 \global\def\reallyindex#1#2#3{%
 \write\@indexfile{"#1" "#2" #3 \thepage}}
 
@@ -118,7 +112,6 @@
 \newcommand{\domain}[1]{{\small\noindent #1}
 
 }
-\newcommand{\nodomain}[1]{}
 
 % \frobq will make quote and backquote look nicer.
 \def\frobqcats{%\catcode`\'=13
@@ -145,24 +138,7 @@
 
 \def\setupcode{\@makeother\^}
 
-% Scheme example environment
-% At 11 points, one column, these are about 56 characters wide.
-% That's 32 characters to the left of the => and about 20 to the right.
-
-\newenvironment{schemenoindent}{
-  % Commands for scheme examples
-  \newcommand{\ev}{\>\>\evalsto}
-  \newcommand{\lev}{\\\>\evalsto}
-  \newcommand{\unspecified}{{\em{}unspecified}}
-  \newcommand{\scherror}{{\em{}error}}
-  \setupcode
-  \small \cf \obeytabs \obeyspaces \myobeycr
-  \begin{tabbing}%
-\qquad\=\hspace*{5em}\=\hspace*{9em}\=\kill%   was 16em
-\gobblecr}{\end{tabbing}}
-
 \newenvironment{scheme}{
-  % Commands for scheme examples
   \newcommand{\ev}{\>\>\evalsto}
   \newcommand{\lev}{\\\>\evalsto}
   \renewcommand{\em}{\rmfamily\itshape}
@@ -171,7 +147,7 @@
   \setupcode
   \small \cf \obeyspaces \myobeycr
   \begin{tabbing}%
-\qquad\=\hspace*{5em}\=\hspace*{9em}\=\+\kill%   was 16em
+\qquad\=\hspace*{5em}\=\hspace*{9em}\=\+\kill
 \gobblecr}{\end{tabbing}}
 
 \newcommand{\evalsto}{$\Longrightarrow$}

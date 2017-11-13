@@ -751,7 +751,7 @@ the character that immediately follows it:
 
 \item[\schtrue{} \schfalse{}]
 These are the boolean constants (section~\ref{booleansection}),
-along with the alternatives \sharpfoo{true} and \sharpfoo{false}.
+along with the alternatives \sharptrue and \sharpfalse.
 
 \item[\sharpsign\backwhack]
 This introduces a character constant (section~\ref{charactersection}).
@@ -1258,7 +1258,7 @@ As noted in section~\ref{storagemodel}, it is an error to attempt to alter a con
 \subsection{Procedure calls}
 
 \begin{entry}{
-\pproto{(\hyper{operator} \hyperi{operand} \dotsfoo)}{\exprtype}}
+\pproto{(\hyper{operator} \hyperi{operand} \ldots)}{\exprtype}}
 
 A procedure call is written by enclosing in parentheses an
 expression for the procedure to be called followed by expressions for the arguments to be
@@ -1348,7 +1348,7 @@ the results of the procedure call.
 \hyper{Formals} have one of the following forms:
 
 \begin{itemize}
-\item {\tt(\hyperi{variable} \dotsfoo)}:
+\item {\tt(\hyperi{variable} \ldots)}:
 The procedure takes a fixed number of arguments; when the procedure is
 called, the arguments will be stored in fresh locations
 that are bound to the corresponding variables.
@@ -1360,7 +1360,7 @@ allocated list, and the list is stored in a fresh location
 that is bound to
 \hyper{variable}.
 
-\item {\tt(\hyperi{variable} \dotsfoo{} \hyper{variable$_{n}$}\ {\bf.}\
+\item {\tt(\hyperi{variable} \ldots \hyper{variable$_{n}$}\ {\bf.}\
 \hyper{variable$_{n+1}$})}:
 If a space-delimited period precedes the last variable, then
 the procedure takes $n$ or more arguments, where $n$ is the
@@ -1445,8 +1445,8 @@ unspecified.
 \subsection{Inclusion}
 \label{inclusion}
 \begin{entry}{
-\proto{include}{ \hyperi{string} \hyperii{string} \dotsfoo}{\exprtype}
-\rproto{include-ci}{ \hyperi{string} \hyperii{string} \dotsfoo}{\exprtype}}
+\proto{include}{ \hyperi{string} \hyperii{string} \ldots}{\exprtype}
+\rproto{include-ci}{ \hyperi{string} \hyperii{string} \ldots}{\exprtype}}
 
 \semantics
 Both \ide{include} and
@@ -1481,14 +1481,14 @@ into the primitive constructs described in the previous section.
 \subsection{Conditionals}
 
 \begin{entry}{
-\proto{cond}{ \hyperi{clause} \hyperii{clause} \dotsfoo}{\exprtype}
+\proto{cond}{ \hyperi{clause} \hyperii{clause} \ldots}{\exprtype}
 \pproto{else}{\auxiliarytype}
 \pproto{=>}{\auxiliarytype}}
 
 \syntax
 \hyper{Clauses} take one of two forms, either
 \begin{scheme}
-(\hyper{test} \hyperi{expression} \dotsfoo)
+(\hyper{test} \hyperi{expression} \ldots)
 \end{scheme}
 where \hyper{test} is any expression, or
 \begin{scheme}
@@ -1497,7 +1497,7 @@ where \hyper{test} is any expression, or
 The last \hyper{clause} can be
 an ``else clause,'' which has the form
 \begin{scheme}
-(else \hyperi{expression} \hyperii{expression} \dotsfoo)\rm.
+(else \hyperi{expression} \hyperii{expression} \ldots)\rm.
 \end{scheme}
 \mainschindex{else}
 \mainschindex{=>}
@@ -1543,23 +1543,23 @@ the last one are returned.
 
 
 \begin{entry}{
-\proto{case}{ \hyper{key} \hyperi{clause} \hyperii{clause} \dotsfoo}{\exprtype}}
+\proto{case}{ \hyper{key} \hyperi{clause} \hyperii{clause} \ldots}{\exprtype}}
 
 \syntax
 \hyper{Key} can be any expression.  Each \hyper{clause} has
 the form
 \begin{scheme}
-((\hyperi{datum} \dotsfoo) \hyperi{expression} \hyperii{expression} \dotsfoo)\rm,
+((\hyperi{datum} \ldots) \hyperi{expression} \hyperii{expression} \ldots)\rm,
 \end{scheme}
 where each \hyper{datum} is an external representation of some object.
 It is an error if any of the \hyper{datum}s are the same anywhere in the expression.
 Alternatively, a \hyper{clause} can be of the form
 \begin{scheme}
-((\hyperi{datum} \dotsfoo) => \hyper{expression})
+((\hyperi{datum} \ldots) => \hyper{expression})
 \end{scheme}
 The last \hyper{clause} can be an ``else clause,'' which has one of the forms
 \begin{scheme}
-(else \hyperi{expression} \hyperii{expression} \dotsfoo)
+(else \hyperi{expression} \hyperii{expression} \ldots)
 \end{scheme}
 or
 \begin{scheme}
@@ -1606,7 +1606,7 @@ procedure are returned by the {\cf case} expression.
 
 
 \begin{entry}{
-\proto{and}{ \hyperi{test} \dotsfoo}{\exprtype}}
+\proto{and}{ \hyperi{test} \ldots}{\exprtype}}
 
 \semantics
 The \hyper{test} expressions are evaluated from left to right, and if
@@ -1627,7 +1627,7 @@ are no expressions, then \schtrue{} is returned.
 
 
 \begin{entry}{
-\proto{or}{ \hyperi{test} \dotsfoo}{\exprtype}}
+\proto{or}{ \hyperi{test} \ldots}{\exprtype}}
 
 \semantics
 The \hyper{test} expressions are evaluated from left to right, and the value of the
@@ -1647,7 +1647,7 @@ or if there are no expressions, then \schfalse{} is returned.
 \end{entry}
 
 \begin{entry}{
-\proto{when}{ \hyper{test} \hyperi{expression} \hyperii{expression} \dotsfoo}{\exprtype}}
+\proto{when}{ \hyper{test} \hyperi{expression} \hyperii{expression} \ldots}{\exprtype}}
 
 \syntax
 The \hyper{test} is an expression.
@@ -1666,7 +1666,7 @@ expression is unspecified.
 \end{entry}
 
 \begin{entry}{
-\proto{unless}{ \hyper{test} \hyperi{expression} \hyperii{expression} \dotsfoo}{\exprtype}}
+\proto{unless}{ \hyper{test} \hyperi{expression} \hyperii{expression} \ldots}{\exprtype}}
 
 \syntax
 The \hyper{test} is an expression.
@@ -1685,7 +1685,7 @@ expression is unspecified.
 \end{entry}
 
 \begin{entry}{
-\proto{cond-expand}{ \hyperi{ce-clause} \hyperii{ce-clause} \dotsfoo}{\exprtype}}
+\proto{cond-expand}{ \hyperi{ce-clause} \hyperii{ce-clause} \ldots}{\exprtype}}
 
 \syntax
 The \ide{cond-expand} expression type
@@ -1694,19 +1694,19 @@ expand different expressions depending on the
 implementation.  A
 \hyper{ce-clause} takes the following form:
 
-{\tt(\hyper{feature requirement} \hyper{expression} \dotsfoo)}
+{\tt(\hyper{feature requirement} \hyper{expression} \ldots)}
 
 The last clause can be an ``else clause,'' which has the form
 
-{\tt(else \hyper{expression} \dotsfoo)}
+{\tt(else \hyper{expression} \ldots)}
 
 A \hyper{feature requirement} takes one of the following forms:
 
 \begin{itemize}
 \item {\tt\hyper{feature identifier}}
 \item {\tt(library \hyper{library name})}
-\item {\tt(and \hyper{feature requirement} \dotsfoo)}
-\item {\tt(or \hyper{feature requirement} \dotsfoo)}
+\item {\tt(and \hyper{feature requirement} \ldots)}
+\item {\tt(or \hyper{feature requirement} \ldots)}
 \item {\tt(not \hyper{feature requirement})}
 \end{itemize}
 
@@ -1761,7 +1761,7 @@ different identifiers to the returned values.
 \syntax
 \hyper{Bindings} has the form
 \begin{scheme}
-((\hyperi{variable} \hyperi{init}) \dotsfoo)\rm,
+((\hyperi{variable} \hyperi{init}) \ldots)\rm,
 \end{scheme}
 where each \hyper{init} is an expression, and \hyper{body} is a
 sequence of zero or more definitions followed by a
@@ -1798,7 +1798,7 @@ See also ``named {\cf let},'' section \ref{namedlet}.
 \syntax
 \hyper{Bindings} has the form
 \begin{scheme}
-((\hyperi{variable} \hyperi{init}) \dotsfoo)\rm,
+((\hyperi{variable} \hyperi{init}) \ldots)\rm,
 \end{scheme}
 and \hyper{body} is a sequence of
 zero or more definitions followed by
@@ -1828,7 +1828,7 @@ The \hyper{variable}s need not be distinct.
 \syntax
 \hyper{Bindings} has the form
 \begin{scheme}
-((\hyperi{variable} \hyperi{init}) \dotsfoo)\rm,
+((\hyperi{variable} \hyperi{init}) \ldots)\rm,
 \end{scheme}
 and \hyper{body} is a sequence of
 zero or more definitions followed by
@@ -1880,7 +1880,7 @@ In the most common uses of {\cf letrec}, all the \hyper{init}s are
 \syntax
 \hyper{Bindings} has the form
 \begin{scheme}
-((\hyperi{variable} \hyperi{init}) \dotsfoo)\rm,
+((\hyperi{variable} \hyperi{init}) \ldots)\rm,
 \end{scheme}
 and \hyper{body}\index{body} is a sequence of
 zero or more definitions followed by
@@ -1926,7 +1926,7 @@ of an \hyper{init} more than once.
 \syntax
 \hyper{Mv binding spec} has the form
 \begin{scheme}
-((\hyperi{formals} \hyperi{init}) \dotsfoo)\rm,
+((\hyperi{formals} \hyperi{init}) \ldots)\rm,
 \end{scheme}
 
 where each \hyper{init} is an expression, and \hyper{body} is
@@ -1963,7 +1963,7 @@ values returned by the corresponding \hyper{init}.
 \syntax
 \hyper{Mv binding spec} has the form
 \begin{scheme}
-((\hyper{formals} \hyper{init}) \dotsfoo)\rm,
+((\hyper{formals} \hyper{init}) \ldots)\rm,
 \end{scheme}
 and \hyper{body} is a sequence of zero or more
 definitions followed by one or more expressions as described in section~\ref{lambda}.  In each \hyper{formals},
@@ -1996,7 +1996,7 @@ Both of Scheme's sequencing constructs are named {\cf begin}, but the two
 have slightly different forms and uses:
 
 \begin{entry}{
-\proto{begin}{ \hyper{expression or definition} \dotsfoo}{\exprtype}}
+\proto{begin}{ \hyper{expression or definition} \ldots}{\exprtype}}
 
 This form of {\cf begin} can appear as part of a \hyper{body}, or at the
 outermost level of a \hyper{program}, or at the REPL, or directly nested
@@ -2014,7 +2014,7 @@ splice them into the context in which they are expanded.
 \end{entry}
 
 \begin{entry}{
-\rproto{begin}{ \hyperi{expression} \hyperii{expression} \dotsfoo}{\exprtype}}
+\rproto{begin}{ \hyperi{expression} \hyperii{expression} \ldots}{\exprtype}}
 
 This form of {\cf begin} can be used as an ordinary expression.
 The \hyper{expression}s are evaluated sequentially from left to right,
@@ -2043,9 +2043,9 @@ see section~\ref{librarydeclarations}.
 
 \pproto{(do ((\hyperi{variable} \hyperi{init} \hyperi{step})}{\exprtype}
 \mainschindex{do}{\tt\obeyspaces
-     \dotsfoo)\\
-    (\hyper{test} \hyper{expression} \dotsfoo)\\
-  \hyper{command} \dotsfoo)}
+     \ldots)\\
+    (\hyper{test} \hyper{expression} \ldots)\\
+  \hyper{command} \ldots)}
 
 \syntax
 All of \hyper{init}, \hyper{step}, \hyper{test}, and \hyper{command}
@@ -2330,7 +2330,7 @@ implementation-dependent.
 \end{entry}
 
 \begin{entry}{
-\pproto{(parameterize ((\hyperi{param} \hyperi{value}) \dotsfoo)}{syntax}
+\pproto{(parameterize ((\hyperi{param} \hyperi{value}) \ldots)}{syntax}
 {\tt\obeyspaces
 \hyper{body})}}
 \mainschindex{parameterize}
@@ -2399,7 +2399,7 @@ procedure in the call chain explicitly.
 \begin{entry}{
 \pproto{(guard (\hyper{variable}}{\exprtype}
 {\tt\obeyspaces
-\hyperi{cond clause} \hyperii{cond clause} \dotsfoo)\\
+\hyperi{cond clause} \hyperii{cond clause} \ldots)\\
 \hyper{body})}\\
 }
 \mainschindex{guard}
@@ -2556,7 +2556,7 @@ otherwise than as described above.
 \subsection{Case-lambda}
 \label{caselambdasection}
 \begin{entry}{
-\proto{case-lambda}{ \hyper{clause} \dotsfoo}{case-lambda library syntax}}
+\proto{case-lambda}{ \hyper{clause} \ldots}{case-lambda library syntax}}
 
 \syntax
 Each \hyper{clause} is of the form
@@ -2669,7 +2669,7 @@ see section~\ref{define-syntax}.
 \syntax
 \hyper{Bindings} has the form
 \begin{scheme}
-((\hyper{keyword} \hyper{transformer spec}) \dotsfoo)
+((\hyper{keyword} \hyper{transformer spec}) \ldots)
 \end{scheme}
 Each \hyper{keyword} is an identifier,
 each \hyper{transformer spec} is an instance of {\cf syntax-rules}, and
@@ -2749,15 +2749,15 @@ introduced by the {\cf letrec-syntax} expression.
 A \hyper{transformer spec} has one of the following forms:
 
 \begin{entry}{
-\pproto{(syntax-rules (\hyper{literal} \dotsfoo)}{\exprtype}
+\pproto{(syntax-rules (\hyper{literal} \ldots)}{\exprtype}
 {\tt\obeyspaces
-\hyper{syntax rule} \dotsfoo)\\
+\hyper{syntax rule} \ldots)\\
 }
-\pproto{(syntax-rules \hyper{ellipsis} (\hyper{literal} \dotsfoo)}{\exprtype}
+\pproto{(syntax-rules \hyper{ellipsis} (\hyper{literal} \ldots)}{\exprtype}
 {\tt\obeyspaces
-\hyper{syntax rule} \dotsfoo)}\\
+\hyper{syntax rule} \ldots)}\\
 \pproto{\_}{\auxiliarytype}
-\pproto{\dotsfoo}{\auxiliarytype}}
+\pproto{\ldots}{\auxiliarytype}}
 \mainschindex{_}
 
 \syntax
@@ -2824,7 +2824,7 @@ in the \hyper{literal}s list, then that takes precedence and
 underscores in the \hyper{pattern} match as literals.
 Multiple underscores can appear in a \hyper{pattern}.
 
-Identifiers that appear in \texttt{(\hyper{literal} \dotsfoo)} are
+Identifiers that appear in \texttt{(\hyper{literal} \ldots)} are
 interpreted as literal
 identifiers to be matched against corresponding elements of the input.
 An element in the input matches a literal identifier if and only if it is an
@@ -2857,7 +2857,7 @@ More formally, an input expression $E$ matches a pattern $P$ if and only if:
       respectively, and whose $n$th tail matches $P_{n+1}$; or
 
 \item $P$ is of the form
-      {\cf ($P_1$ $\dots$ $P_k$ $P_e$ \meta{ellipsis} $P_{m+1}$ \dotsfoo{} $P_n$)}
+      {\cf ($P_1$ $\dots$ $P_k$ $P_e$ \meta{ellipsis} $P_{m+1}$ \ldots{} $P_n$)}
       where $E$ is
       a proper list of $n$ elements, the first $k$ of which match
       $P_1$ through $P_k$, respectively,
@@ -2865,7 +2865,7 @@ More formally, an input expression $E$ matches a pattern $P$ if and only if:
       whose remaining $n-m$ elements match $P_{m+1}$ through $P_n$; or
 
 \item $P$ is of the form
-      {\cf ($P_1$ $\dots$ $P_k$ $P_{e}$ \meta{ellipsis} $P_{m+1}$ \dotsfoo{} $P_n$ . $P_x$)}
+      {\cf ($P_1$ $\dots$ $P_k$ $P_{e}$ \meta{ellipsis} $P_{m+1}$ \ldots{} $P_n$ . $P_x$)}
       where $E$ is
       a list or improper list of $n$ elements, the first $k$ of which match
       $P_1$ through $P_k$,
@@ -2878,7 +2878,7 @@ More formally, an input expression $E$ matches a pattern $P$ if and only if:
       of $n$ elements that match $P_1$ through $P_n$; or
 
 \item $P$ is of the form
-      {\cf \#($P_1$ $\dots$ $P_k$ $P_{e}$ \meta{ellipsis} $P_{m+1}$ \dotsfoo $P_n$)}
+      {\cf \#($P_1$ $\dots$ $P_k$ $P_{e}$ \meta{ellipsis} $P_{m+1}$ \ldots $P_n$)}
       where $E$ is a vector of $n$
       elements the first $k$ of which match $P_1$ through $P_k$,
       whose next $m-k$ elements each match $P_e$,
@@ -2971,7 +2971,7 @@ which would result in an invalid procedure call.
 
 
 \begin{entry}{
-\pproto{(syntax-error \hyper{message} \hyper{args} \dotsfoo)}{\exprtype}}
+\pproto{(syntax-error \hyper{message} \hyper{args} \ldots)}{\exprtype}}
 \mainschindex{syntax-error}
 
 {\cf syntax-error} behaves similarly to {\cf error} (\ref{exceptionsection}) except that implementations
@@ -3026,11 +3026,11 @@ are allowed, specifically at the outermost level of a \hyper{program}
 and at the beginning of a \hyper{body}.
 \mainindex{definition}
 
-At the outermost level of a program, {\tt(begin \hyperi{expression or definition} \dotsfoo)} is
+At the outermost level of a program, {\tt(begin \hyperi{expression or definition} \ldots)} is
 equivalent to the sequence of expressions and definitions
 in the \ide{begin}.
-Similarly, in a \hyper{body}, {\tt(begin \hyperi{definition} \dotsfoo)} is equivalent
-to the sequence \hyperi{definition} \dotsfoo.
+Similarly, in a \hyper{body}, {\tt(begin \hyperi{definition} \ldots)} is equivalent
+to the sequence \hyperi{definition} \ldots.
 Macros can expand into such {\cf begin} forms.
 For the formal definition, see~\ref{sequencing}.
 
@@ -3057,7 +3057,7 @@ mapping from the name of a library to its location in the file system.
 
 An import declaration takes the following form:
 \begin{scheme}
-(import \hyper{import-set} \dotsfoo)
+(import \hyper{import-set} \ldots)
 \end{scheme}
 
 An import declaration provides a way to import identifiers
@@ -3067,12 +3067,12 @@ imported bindings. It takes one of the following forms:
 
 \begin{itemize}
 \item {\tt\hyper{library name}}
-\item {\tt(only \hyper{import set} \hyper{identifier} \dotsfoo)}
-\item {\tt(except \hyper{import set} \hyper{identifier} \dotsfoo)}
+\item {\tt(only \hyper{import set} \hyper{identifier} \ldots)}
+\item {\tt(except \hyper{import set} \hyper{identifier} \ldots)}
 \item {\tt(prefix \hyper{import set} \hyper{identifier})}
 \item {\tt(rename \hyper{import set}\\
 {\obeyspaces
-\hspace*{4em}(\hyperi{identifier} \hyperii{identifier}) \dotsfoo)}}
+\hspace*{4em}(\hyperi{identifier} \hyperii{identifier}) \ldots)}}
 \end{itemize}
 
 In the first form, all of the identifiers in the named library's export
@@ -3215,7 +3215,7 @@ It is an error to define the same identifier more than once in the
 same \hyper{body}.
 
 Wherever an internal definition can occur,
-{\tt(begin \hyperi{definition} \dotsfoo)}
+{\tt(begin \hyperi{definition} \ldots)}
 is equivalent to the sequence of definitions
 that form the body of the \ide{begin}.
 
@@ -3324,13 +3324,13 @@ mutators are defined for each record type.
 \begin{entry}{
 \mainschindex{define-record-type}
 \pproto{(define-record-type \hyper{name}}{syntax}
-\hspace*{4em}{\tt \hyper{constructor} \hyper{pred} \hyper{field} \dotsfoo})}
+\hspace*{4em}{\tt \hyper{constructor} \hyper{pred} \hyper{field} \ldots})}
 
 \syntax
 \hyper{name} and \hyper{pred} are identifiers.
 The \hyper{constructor} is of the form
 \begin{scheme}
-(\hyper{constructor name} \hyper{field name} \dotsfoo)
+(\hyper{constructor name} \hyper{field name} \ldots)
 \end{scheme}
 and each \hyper{field} is either of the form
 \begin{scheme}
@@ -3363,7 +3363,7 @@ means to identify the record type for use by further language extensions.
 
 \item \hyper{constructor name} is bound to a procedure that takes as
   many arguments as there are \hyper{field name}s in the
-  \texttt{(\hyper{constructor name} \dotsfoo)} subexpression and returns a
+  \texttt{(\hyper{constructor name} \ldots)} subexpression and returns a
   new record of type \hyper{name}.  Fields whose names are listed with
   \hyper{constructor name} have the corresponding argument as their
   initial value.  The initial values of all other fields are
@@ -3429,7 +3429,7 @@ A library definition takes the following form:
 
 \begin{scheme}
 (define-library \hyper{library name}
-  \hyper{library declaration} \dotsfoo)
+  \hyper{library declaration} \ldots)
 \end{scheme}
 
 \hyper{library name} is a list whose members are identifiers and exact non-negative integers.  It is used to
@@ -3448,19 +3448,19 @@ A \hyper{library declaration} is any of:
 
 \begin{itemize}
 
-\item{\tt(export \hyper{export spec} \dotsfoo)}
+\item{\tt(export \hyper{export spec} \ldots)}
 
-\item{\tt(import \hyper{import set} \dotsfoo)}
+\item{\tt(import \hyper{import set} \ldots)}
 
-\item{\tt(begin \hyper{command or definition} \dotsfoo)}
+\item{\tt(begin \hyper{command or definition} \ldots)}
 
-\item{\tt(include \hyperi{filename} \hyperii{filename} \dotsfoo)}
+\item{\tt(include \hyperi{filename} \hyperii{filename} \ldots)}
 
-\item{\tt(include-ci \hyperi{filename} \hyperii{filename} \dotsfoo)}
+\item{\tt(include-ci \hyperi{filename} \hyperii{filename} \ldots)}
 
-\item{\tt(include-library-declarations \hyperi{filename} \hyperii{filename} \dotsfoo)}
+\item{\tt(include-library-declarations \hyperi{filename} \hyperii{filename} \ldots)}
 
-\item{\tt(cond-expand \hyperi{ce-clause} \hyperii{ce-clause} \dotsfoo)}
+\item{\tt(cond-expand \hyperi{ce-clause} \hyperii{ce-clause} \ldots)}
 
 \end{itemize}
 
@@ -4461,11 +4461,11 @@ Otherwise it returns \schfalse{}.
 
 
 \begin{entry}{
-\proto{=}{ \vri{z} \vrii{z} \vriii{z} \dotsfoo}{procedure}
-\proto{<}{ \vri{x} \vrii{x} \vriii{x} \dotsfoo}{procedure}
-\proto{>}{ \vri{x} \vrii{x} \vriii{x} \dotsfoo}{procedure}
-\proto{<=}{ \vri{x} \vrii{x} \vriii{x} \dotsfoo}{procedure}
-\proto{>=}{ \vri{x} \vrii{x} \vriii{x} \dotsfoo}{procedure}}
+\proto{=}{ \vri{z} \vrii{z} \vriii{z} \ldots}{procedure}
+\proto{<}{ \vri{x} \vrii{x} \vriii{x} \ldots}{procedure}
+\proto{>}{ \vri{x} \vrii{x} \vriii{x} \ldots}{procedure}
+\proto{<=}{ \vri{x} \vrii{x} \vriii{x} \ldots}{procedure}
+\proto{>=}{ \vri{x} \vrii{x} \vriii{x} \ldots}{procedure}}
 
 These procedures return \schtrue{} if their arguments are (respectively):
 equal, monotonically increasing, monotonically decreasing,
@@ -4512,8 +4512,8 @@ returning \schtrue{} or \schfalse.  See note above.
 \end{entry}
 
 \begin{entry}{
-\proto{max}{ \vri{x} \vrii{x} \dotsfoo}{procedure}
-\proto{min}{ \vri{x} \vrii{x} \dotsfoo}{procedure}}
+\proto{max}{ \vri{x} \vrii{x} \ldots}{procedure}
+\proto{min}{ \vri{x} \vrii{x} \ldots}{procedure}}
 
 These procedures return the maximum or minimum of their arguments.
 
@@ -4536,8 +4536,8 @@ restriction.
 
 
 \begin{entry}{
-\proto{+}{ \vri{z} \dotsfoo}{procedure}
-\proto{*}{ \vri{z} \dotsfoo}{procedure}}
+\proto{+}{ \vri{z} \ldots}{procedure}
+\proto{*}{ \vri{z} \ldots}{procedure}}
 
 These procedures return the sum or product of their arguments.
 
@@ -4554,9 +4554,9 @@ These procedures return the sum or product of their arguments.
 
 \begin{entry}{
 \proto{-}{ \vr{z}}{procedure}
-\rproto{-}{ \vri{z} \vrii{z} \dotsfoo}{procedure}
+\rproto{-}{ \vri{z} \vrii{z} \ldots}{procedure}
 \proto{/}{ \vr{z}}{procedure}
-\rproto{/}{ \vri{z} \vrii{z} \dotsfoo}{procedure}}
+\rproto{/}{ \vri{z} \vrii{z} \ldots}{procedure}}
 
 With two or more arguments, these procedures return the difference or
 quotient of their arguments, associating to the left.  With one argument,
@@ -4660,8 +4660,8 @@ versions of this report.
 \end{entry}
 
 \begin{entry}{
-\proto{gcd}{ \vri{n} \dotsfoo}{procedure}
-\proto{lcm}{ \vri{n} \dotsfoo}{procedure}}
+\proto{gcd}{ \vri{n} \ldots}{procedure}
+\proto{lcm}{ \vri{n} \ldots}{procedure}}
 
 These procedures return the greatest common divisor or least common
 multiple of their arguments.  The result is always non-negative.
@@ -5136,7 +5136,7 @@ The {\cf boolean?} predicate returns \schtrue{} if \var{obj} is either \schtrue{
 \end{entry}
 
 \begin{entry}{
-\proto{boolean=?}{ \vari{boolean} \varii{boolean} \variii{boolean} \dotsfoo}{procedure}}
+\proto{boolean=?}{ \vari{boolean} \varii{boolean} \variii{boolean} \ldots}{procedure}}
 
 Returns \schtrue{} if all the arguments are booleans and all
 are \schtrue{} or all are \schfalse{}.
@@ -5422,7 +5422,7 @@ Otherwise the initial contents of each element is unspecified.
 
 
 \begin{entry}{
-\proto{list}{ \var{obj} \dotsfoo}{procedure}}
+\proto{list}{ \var{obj} \ldots}{procedure}}
 
 Returns a newly allocated list of its arguments.
 
@@ -5449,7 +5449,7 @@ Returns the length of \var{list}.
 
 
 \begin{entry}{
-\proto{append}{ list \dotsfoo}{procedure}}
+\proto{append}{ list \ldots}{procedure}}
 
 \domain{The last argument, if there is one, can be of any type.}
 Returns a list consisting of the elements of the first \var{list}
@@ -5675,7 +5675,7 @@ Returns \schtrue{} if \var{obj} is a symbol, otherwise returns \schfalse.
 \end{entry}
 
 \begin{entry}{
-\proto{symbol=?}{ \vari{symbol} \varii{symbol} \variii{symbol} \dotsfoo}{procedure}}
+\proto{symbol=?}{ \vari{symbol} \varii{symbol} \variii{symbol} \ldots}{procedure}}
 
 Returns \schtrue{} if all the arguments are symbols and all have the same
 names in the sense of {\cf string=?}.
@@ -5806,11 +5806,11 @@ Returns \schtrue{} if \var{obj} is a character, otherwise returns \schfalse.
 
 
 \begin{entry}{
-\proto{char=?}{ \vri{char} \vrii{char} \vriii{char} \dotsfoo}{procedure}
-\proto{char<?}{ \vri{char} \vrii{char} \vriii{char} \dotsfoo}{procedure}
-\proto{char>?}{ \vri{char} \vrii{char} \vriii{char} \dotsfoo}{procedure}
-\proto{char<=?}{ \vri{char} \vrii{char} \vriii{char} \dotsfoo}{procedure}
-\proto{char>=?}{ \vri{char} \vrii{char} \vriii{char} \dotsfoo}{procedure}}
+\proto{char=?}{ \vri{char} \vrii{char} \vriii{char} \ldots}{procedure}
+\proto{char<?}{ \vri{char} \vrii{char} \vriii{char} \ldots}{procedure}
+\proto{char>?}{ \vri{char} \vrii{char} \vriii{char} \ldots}{procedure}
+\proto{char<=?}{ \vri{char} \vrii{char} \vriii{char} \ldots}{procedure}
+\proto{char>=?}{ \vri{char} \vrii{char} \vriii{char} \ldots}{procedure}}
 
 \label{characterequality}
 
@@ -5826,11 +5826,11 @@ These predicates are required to be transitive.
 
 
 \begin{entry}{
-\proto{char-ci=?}{ \vri{char} \vrii{char} \vriii{char} \dotsfoo}{char library procedure}
-\proto{char-ci<?}{ \vri{char} \vrii{char} \vriii{char} \dotsfoo}{char library procedure}
-\proto{char-ci>?}{ \vri{char} \vrii{char} \vriii{char} \dotsfoo}{char library procedure}
-\proto{char-ci<=?}{ \vri{char} \vrii{char} \vriii{char} \dotsfoo}{char library procedure}
-\proto{char-ci>=?}{ \vri{char} \vrii{char} \vriii{char} \dotsfoo}{char library procedure}}
+\proto{char-ci=?}{ \vri{char} \vrii{char} \vriii{char} \ldots}{char library procedure}
+\proto{char-ci<?}{ \vri{char} \vrii{char} \vriii{char} \ldots}{char library procedure}
+\proto{char-ci>?}{ \vri{char} \vrii{char} \vriii{char} \ldots}{char library procedure}
+\proto{char-ci<=?}{ \vri{char} \vrii{char} \vriii{char} \ldots}{char library procedure}
+\proto{char-ci>=?}{ \vri{char} \vrii{char} \vriii{char} \ldots}{char library procedure}}
 
 These procedures are similar to {\cf char=?}\ et cetera, but they treat
 upper case and lower case letters as the same.  For example, {\cf
@@ -6024,7 +6024,7 @@ string are unspecified.
 \end{entry}
 
 \begin{entry}{
-\proto{string}{ char \dotsfoo}{procedure}}
+\proto{string}{ char \ldots}{procedure}}
 
 Returns a newly allocated string composed of the arguments.
 It is analogous to {\cf list}.
@@ -6068,7 +6068,7 @@ There is no requirement for this procedure to execute in constant time.
 
 
 \begin{entry}{
-\proto{string=?}{ \vri{string} \vrii{string} \vriii{string} \dotsfoo}{procedure}}
+\proto{string=?}{ \vri{string} \vrii{string} \vriii{string} \ldots}{procedure}}
 
 Returns \schtrue{} if all the strings are the same length and contain
 exactly the same characters in the same positions, otherwise returns
@@ -6077,7 +6077,7 @@ exactly the same characters in the same positions, otherwise returns
 \end{entry}
 
 \begin{entry}{
-\proto{string-ci=?}{ \vri{string} \vrii{string} \vriii{string} \dotsfoo}{char library procedure}}
+\proto{string-ci=?}{ \vri{string} \vrii{string} \vriii{string} \ldots}{char library procedure}}
 
 Returns \schtrue{} if, after case-folding, all the strings are the same
 length and contain the same characters in the same positions, otherwise
@@ -6088,14 +6088,14 @@ returns \schfalse.  Specifically, these procedures behave as if
 
 
 \begin{entry}{
-\proto{string<?}{ \vri{string} \vrii{string} \vriii{string} \dotsfoo}{procedure}
-\proto{string-ci<?}{ \vri{string} \vrii{string} \vriii{string} \dotsfoo}{char library procedure}
-\proto{string>?}{ \vri{string} \vrii{string} \vriii{string} \dotsfoo}{procedure}
-\proto{string-ci>?}{ \vri{string} \vrii{string} \vriii{string} \dotsfoo}{char library procedure}
-\proto{string<=?}{ \vri{string} \vrii{string} \vriii{string} \dotsfoo}{procedure}
-\proto{string-ci<=?}{ \vri{string} \vrii{string} \vriii{string} \dotsfoo}{char library procedure}
-\proto{string>=?}{ \vri{string} \vrii{string} \vriii{string} \dotsfoo}{procedure}
-\proto{string-ci>=?}{ \vri{string} \vrii{string} \vriii{string} \dotsfoo}{char library procedure}}
+\proto{string<?}{ \vri{string} \vrii{string} \vriii{string} \ldots}{procedure}
+\proto{string-ci<?}{ \vri{string} \vrii{string} \vriii{string} \ldots}{char library procedure}
+\proto{string>?}{ \vri{string} \vrii{string} \vriii{string} \ldots}{procedure}
+\proto{string-ci>?}{ \vri{string} \vrii{string} \vriii{string} \ldots}{char library procedure}
+\proto{string<=?}{ \vri{string} \vrii{string} \vriii{string} \ldots}{procedure}
+\proto{string-ci<=?}{ \vri{string} \vrii{string} \vriii{string} \ldots}{char library procedure}
+\proto{string>=?}{ \vri{string} \vrii{string} \vriii{string} \ldots}{procedure}
+\proto{string-ci>=?}{ \vri{string} \vrii{string} \vriii{string} \ldots}{char library procedure}}
 
 These procedures return \schtrue{} if their arguments are (respectively):
 monotonically increasing, monotonically decreasing,
@@ -6161,7 +6161,7 @@ stylistic flexibility.
 
 
 \begin{entry}{
-\proto{string-append}{ \var{string} \dotsfoo}{procedure}}
+\proto{string-append}{ \var{string} \ldots}{procedure}}
 
 Returns a newly allocated string whose characters are the concatenation of the
 characters in the given strings.
@@ -6255,7 +6255,7 @@ vector are the exact non-negative integers less than the length of the
 vector.  The first element in a vector is indexed by zero, and the last
 element is indexed by one less than the length of the vector.
 
-Vectors are written using the notation {\tt\#(\var{obj} \dotsfoo)}.
+Vectors are written using the notation {\tt\#(\var{obj} \ldots)}.
 For example, a vector of length 3 containing the number zero in element
 0, the list {\cf(2 2 2 2)} in element 1, and the string {\cf "Anna"} in
 element 2 can be written as follows:
@@ -6285,7 +6285,7 @@ Otherwise the initial contents of each element is unspecified.
 
 
 \begin{entry}{
-\proto{vector}{ obj \dotsfoo}{procedure}}
+\proto{vector}{ obj \ldots}{procedure}}
 
 Returns a newly allocated vector whose elements contain the given
 arguments.  It is analogous to {\cf list}.
@@ -6431,7 +6431,7 @@ b \ev \#(10 1 2 40 50)
 \end{entry}
 
 \begin{entry}{
-\proto{vector-append}{ \var{vector} \dotsfoo}{procedure}}
+\proto{vector-append}{ \var{vector} \ldots}{procedure}}
 
 Returns a newly allocated vector whose elements are the concatenation
 of the elements of the given vectors.
@@ -6475,7 +6475,7 @@ the bytevector is created.  The {\em valid indexes}\index{valid indexes} of
 a bytevector are the exact non-negative integers less than the length of the
 bytevector, starting at index zero as with vectors.
 
-Bytevectors are written using the notation {\tt\#u8(\var{byte} \dotsfoo)}.
+Bytevectors are written using the notation {\tt\#u8(\var{byte} \ldots)}.
 For example, a bytevector of length 3 containing the byte 0 in element
 0, the byte 10 in element 1, and the byte 5 in
 element 2 can be written as follows:
@@ -6510,7 +6510,7 @@ element are unspecified.
 \end{entry}
 
 \begin{entry}{
-\proto{bytevector}{ \var{byte} \dotsfoo}{procedure}}
+\proto{bytevector}{ \var{byte} \ldots}{procedure}}
 
 Returns a newly allocated bytevector containing its arguments.
 
@@ -6596,7 +6596,7 @@ contrary to other such procedures in Scheme.
 \end{entry}
 
 \begin{entry}{
-\proto{bytevector-append}{ \var{bytevector} \dotsfoo}{procedure}}
+\proto{bytevector-append}{ \var{bytevector} \ldots}{procedure}}
 
 Returns a newly allocated bytevector whose elements are the concatenation
 of the elements in the given bytevectors.
@@ -6666,7 +6666,7 @@ Returns \schtrue{} if \var{obj} is a procedure, otherwise returns \schfalse.
 \proto{apply}{ proc \vari{arg} $\ldots$ args}{procedure}}
 
 The {\cf apply} procedure calls \var{proc} with the elements of the list
-{\cf(append (list \vari{arg} \dotsfoo) \var{args})} as the actual
+{\cf(append (list \vari{arg} \ldots) \var{args})} as the actual
 arguments.
 
 \begin{scheme}
@@ -6683,7 +6683,7 @@ arguments.
 
 
 \begin{entry}{
-\proto{map}{ proc \vari{list} \varii{list} \dotsfoo}{procedure}}
+\proto{map}{ proc \vari{list} \varii{list} \ldots}{procedure}}
 
 \domain{It is an error if \var{proc} does not
 accept as many arguments as there are {\it list}s
@@ -6716,7 +6716,7 @@ the values returned by earlier returns are not mutated.
 \end{entry}
 
 \begin{entry}{
-\proto{string-map}{ proc \vari{string} \varii{string} \dotsfoo}{procedure}}
+\proto{string-map}{ proc \vari{string} \varii{string} \ldots}{procedure}}
 \label{stringmap}
 
 \domain{It is an error if \var{proc} does not
@@ -6750,7 +6750,7 @@ the values returned by earlier returns are not mutated.
 \end{entry}
 
 \begin{entry}{
-\proto{vector-map}{ proc \vari{vector} \varii{vector} \dotsfoo}{procedure}}
+\proto{vector-map}{ proc \vari{vector} \varii{vector} \ldots}{procedure}}
 
 \domain{It is an error if \var{proc} does not
 accept as many arguments as there are {\it vector}s
@@ -6784,7 +6784,7 @@ the values returned by earlier returns are not mutated.
 
 
 \begin{entry}{
-\proto{for-each}{ proc \vari{list} \varii{list} \dotsfoo}{procedure}}
+\proto{for-each}{ proc \vari{list} \varii{list} \ldots}{procedure}}
 
 \domain{It is an error if \var{proc} does not
 accept as many arguments as there are {\it list}s.}
@@ -6810,7 +6810,7 @@ It is an error for \var{proc} to mutate any of the lists.
 \end{entry}
 
 \begin{entry}{
-\proto{string-for-each}{ proc \vari{string} \varii{string} \dotsfoo}{procedure}}
+\proto{string-for-each}{ proc \vari{string} \varii{string} \ldots}{procedure}}
 
 \domain{It is an error if \var{proc} does not
 accept as many arguments as there are {\it string}s.}
@@ -6835,7 +6835,7 @@ It is an error for \var{proc} to mutate any of the strings.
 \end{entry}
 
 \begin{entry}{
-\proto{vector-for-each}{ proc \vari{vector} \varii{vector} \dotsfoo}{procedure}}
+\proto{vector-for-each}{ proc \vari{vector} \varii{vector} \ldots}{procedure}}
 
 \domain{It is an error if \var{proc} does not
 accept as many arguments as there are {\it vector}s.}
@@ -7225,7 +7225,7 @@ returns \schfalse.
 \section{Environments and evaluation}
 
 \begin{entry}{
-\proto{environment}{ \vri{list} \dotsfoo}{eval library procedure}}
+\proto{environment}{ \vri{list} \ldots}{eval library procedure}}
 \label{environments}
 
 This procedure returns a specifier for the environment that results by
@@ -8654,7 +8654,7 @@ $\Ksem$ would complicate the semantics without being very interesting.
 If \P{} is a program in which all variables are defined before being
 referenced or assigned, then the meaning of \P{} is
 $$\Esem\sembrack{\hbox{\texttt{((lambda (\arbno{\I}) \P')
-\hyper{undefined} \dotsfoo)}}}$$
+\hyper{undefined} \ldots)}}}$$
 where \arbno{\I} is the sequence of variables defined in \P, $\P'$
 is the sequence of expressions obtained by replacing every definition
 in \P{} by an assignment, \hyper{undefined} is an expression that evaluates
@@ -9399,16 +9399,16 @@ Conditional derived syntax types:
 \begin{scheme}
 (define-syntax \ide{and}
   (syntax-rules ()
-    ((and) \sharpfoo{t})
+    ((and) \schtrue)
     ((and test) test)
     ((and test1 test2 ...)
-     (if test1 (and test2 ...) \sharpfoo{f}))))
+     (if test1 (and test2 ...) \schfalse))))
 \end{scheme}
 
 \begin{scheme}
 (define-syntax \ide{or}
   (syntax-rules ()
-    ((or) \sharpfoo{f})
+    ((or) \schfalse)
     ((or test) test)
     ((or test1 test2 ...)
      (let ((x test1))
@@ -10827,7 +10827,7 @@ integration step.
 The value returned by {\cf integrate-system} is an infinite stream of
 system states.
 
-\begin{schemenoindent}
+\begin{scheme}
 (define (integrate-system system-derivative
                           initial-state
                           h)
@@ -10837,14 +10837,14 @@ system states.
                     (delay (map-streams next
                                         states)))))
       states)))
-\end{schemenoindent}
+\end{scheme}
 
 The procedure {\cf runge-kutta-4} takes a function, {\tt f}, that produces a
 system derivative from a system state.  It
 produces a function that takes a system state and
 produces a new system state.
 
-\begin{schemenoindent}
+\begin{scheme}
 (define (runge-kutta-4 f h)
   (let ((*h (scale-vector h))
         (*2 (scale-vector 2))
@@ -10885,27 +10885,27 @@ produces a new system state.
 
 (define (scale-vector s)
   (elementwise (lambda (x) (* x s))))
-\end{schemenoindent}
+\end{scheme}
 
 The {\cf map-streams} procedure is analogous to {\cf map}: it applies its first
 argument (a procedure) to all the elements of its second argument (a
 stream).
 
-\begin{schemenoindent}
+\begin{scheme}
 (define (map-streams f s)
   (cons (f (head s))
         (delay (map-streams f (tail s)))))
-\end{schemenoindent}
+\end{scheme}
 
 Infinite streams are implemented as pairs whose car holds the first
 element of the stream and whose cdr holds a promise to deliver the rest
 of the stream.
 
-\begin{schemenoindent}
+\begin{scheme}
 (define head car)
 (define (tail stream)
   (force (cdr stream)))
-\end{schemenoindent}
+\end{scheme}
 
 The following illustrates the use of {\cf integrate-system} in
 integrating the system
@@ -10913,7 +10913,7 @@ $$ C {dv_C \over dt} = -i_L - {v_C \over R}$$
 $$ L {di_L \over dt} = v_C$$
 which models a damped oscillator.
 
-\begin{schemenoindent}
+\begin{scheme}
 (define (damped-oscillator R L C)
   (lambda (state)
     (let ((Vc (vector-ref state 0))
@@ -10926,7 +10926,7 @@ which models a damped oscillator.
      (damped-oscillator 10000 1000 .001)
      '\#(1 0)
      .01))
-\end{schemenoindent}
+\end{scheme}
 
 
 
