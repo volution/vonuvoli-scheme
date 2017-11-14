@@ -10,18 +10,23 @@ cat <<'EOS'
 
 :: compile / peg :: test "${#}" -eq 0 ; if test ./sources/parser_peg.peg -nt ./sources/parser_peg.rs ; then rust-peg < ./sources/parser_peg.peg | rust-fmt >| ./sources/parser_peg.rs || true ; fi
 
-:: compile / bin / debug :: x-run ':: compile / peg' ; exec -- less-exec cargo build "${@}"
-:: compile / bin / release :: x-run ':: compile / peg' ; exec -- less-exec cargo build --release "${@}"
+:: compile / bin / debug :: x-run ':: compile / peg' ; exec -- less-exec cargo build --all-features "${@}"
+:: compile / bin / release :: x-run ':: compile / peg' ; exec -- less-exec cargo build --all-features --release "${@}"
+
+:: compile / doc / debug :: x-run ':: compile / peg' ; exec -- less-exec cargo doc --all-features "${@}"
+:: compile / doc / release :: x-run ':: compile / peg' ; exec -- less-exec cargo doc --all-features --release "${@}"
 
 :: execute / bin / debug :: x-run ':: compile / peg' ; exec -- cargo run -- "${@}"
 :: execute / bin / release :: x-run ':: compile / peg' ; exec -- cargo run --release -- "${@}"
 
 :: execute / test / all :: x-run ':: compile / peg' ; export -- RUSTFLAGS=-Awarnings ; exec -- less-exec cargo test -- "${@}"
 
+:: browse / doc :: exec -- x-www open file://"$( readlink -e -- ./target/doc/rust_scheme/index.html )"
+
 EOS
 
 
-for _test in sizes parser contexts expressions evaluator counters r7rs compiler ; do
+for _test in sizes values parser expressions contexts compiler evaluator r7rs counters ; do
 sed -r -e 's#@\{TEST\}#'"${_test}"'#g' <<'EOS'
 :: execute / test / @{TEST} :: x-run ':: compile / peg' ; export -- RUSTFLAGS=-Awarnings RUST_BACKTRACE=1 ; exec -- less-exec cargo test --test @{TEST} -- --nocapture "${@}"
 EOS
