@@ -24,6 +24,11 @@ pub const FALSE : Boolean = Boolean (false);
 pub const ZERO : NumberInteger = NumberInteger (0);
 pub const ONE : NumberInteger = NumberInteger (1);
 
+pub const ZERO_REAL_POSITIVE : NumberReal = NumberReal (0.0);
+pub const ZERO_REAL_NEGATIVE : NumberReal = NumberReal (-0.0);
+pub const ONE_REAL_POSITIVE : NumberReal = NumberReal (1.0);
+pub const ONE_REAL_NEGATIVE : NumberReal = NumberReal (-1.0);
+
 pub const INF_POSITIVE : NumberReal = NumberReal (f64::INFINITY);
 pub const INF_NEGATIVE : NumberReal = NumberReal (f64::NEG_INFINITY);
 pub const NAN_POSITIVE : NumberReal = NumberReal (f64::NAN);

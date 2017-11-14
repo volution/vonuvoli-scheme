@@ -182,8 +182,14 @@ impl Evaluator {
 	
 	
 	#[ inline (always) ]
-	pub fn evaluate_procedure_call (&self, _evaluation : &mut EvaluationContext, _callable : &Expression, _inputs : &[Expression]) -> (Outcome<Value>) {
-		return failed! (0xe5b2fe88);
+	pub fn evaluate_procedure_call (&self, evaluation : &mut EvaluationContext, callable : &Expression, inputs : &[Expression]) -> (Outcome<Value>) {
+		let callable = try! (self.evaluate (evaluation, callable));
+		match callable {
+			Value::ProcedurePrimitive (primitive) =>
+				return self.evaluate_procedure_primitive (evaluation, primitive, inputs),
+			_ =>
+				return failed! (0xe5b2fe88),
+		}
 	}
 	
 	

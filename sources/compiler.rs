@@ -47,7 +47,7 @@ pub fn compile (context : &Context, value : Value) -> (Outcome<Expression>) {
 		ValueClass::Context =>
 			failed! (0x5f0d7003),
 		
-		ValueClass::Number | ValueClass::List | ValueClass::Procedure | ValueClass::Syntax =>
+		ValueClass::Number | ValueClass::List | ValueClass::ListProper | ValueClass::ListDotted | ValueClass::Procedure | ValueClass::Syntax =>
 			failed! (0x841d4d00),
 		
 	}
