@@ -76,42 +76,63 @@ fn test () -> () {
 			
 			
 			
+			#[ cfg (feature = "conversions-all") ]
 			(TypePrimitive1::IsNull, VOID) .into (),
+			#[ cfg (feature = "conversions-all") ]
 			(TypePrimitive1::IsBoolean, VOID) .into (),
 			
 			
 			
 			
+			#[ cfg (feature = "conversions-all") ]
 			(BooleanPrimitive1::Not, TRUE) .into (),
+			#[ cfg (feature = "conversions-all") ]
 			(BooleanPrimitive1::Not, FALSE) .into (),
 			
+			#[ cfg (feature = "conversions-all") ]
 			(BooleanPrimitiveN::And,) .into (),
+			#[ cfg (feature = "conversions-all") ]
 			(BooleanPrimitiveN::And, (NULL,)) .into (),
+			#[ cfg (feature = "conversions-all") ]
 			(BooleanPrimitiveN::And, (true, true)) .into (),
+			#[ cfg (feature = "conversions-all") ]
 			(BooleanPrimitiveN::And, (false, false)) .into (),
+			#[ cfg (feature = "conversions-all") ]
 			(BooleanPrimitiveN::And, [true, true, true, true]) .into (),
+			#[ cfg (feature = "conversions-all") ]
 			(BooleanPrimitiveN::And, [false, false, false, false]) .into (),
 			
 			
 			
 			
+			#[ cfg (feature = "conversions-all") ]
 			(ArithmeticPrimitive1::Negate, 0) .into (),
 			
+			#[ cfg (feature = "conversions-all") ]
 			(ArithmeticPrimitive2::Power, 2, 4) .into (),
 			
+			#[ cfg (feature = "conversions-all") ]
 			(ArithmeticPrimitiveN::Addition,) .into (),
+			#[ cfg (feature = "conversions-all") ]
 			(ArithmeticPrimitiveN::Addition, (0, 1)) .into (),
+			#[ cfg (feature = "conversions-all") ]
 			(ArithmeticPrimitiveN::Addition, [0, 1, 2]) .into (),
+			#[ cfg (feature = "conversions-all") ]
 			(ArithmeticPrimitiveN::Addition, [0, 1, 2, 3]) .into (),
 			
 			
 			
 			
+			#[ cfg (feature = "conversions-all") ]
 			(BitwisePrimitive1::Complement, 0) .into (),
 			
+			#[ cfg (feature = "conversions-all") ]
 			(BitwisePrimitiveN::Nxor,) .into (),
+			#[ cfg (feature = "conversions-all") ]
 			(BitwisePrimitiveN::Nxor, (0, 1)) .into (),
+			#[ cfg (feature = "conversions-all") ]
 			(BitwisePrimitiveN::Nxor, [0, 1, 2]) .into (),
+			#[ cfg (feature = "conversions-all") ]
 			(BitwisePrimitiveN::Nxor, [0, 1, 2, 3]) .into (),
 			
 			

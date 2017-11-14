@@ -13,11 +13,75 @@ fn test () -> () {
 	
 	let tests = vec! [
 			
-			"()", "#null", "#t", "#f", "0",
+			("()", Ok (NULL.into ())),
+			("#null", Ok (NULL.into ())),
+			("#t", Ok (TRUE.into ())),
+			("#f", Ok (FALSE.into ())),
+			("0", Ok (ZERO.into ())),
 			
-			"a", "+",
+			("null?", Ok (TypePrimitive1::IsNull.into ())),
+			("(null? #null)", Ok (TRUE.into ())),
+			("(null? 0)", Ok (FALSE.into ())),
 			
-			"(+ 1 2)",
+			("boolean?", Ok (TypePrimitive1::IsBoolean.into ())),
+			("(boolean? #t)", Ok (TRUE.into ())),
+			("(boolean? 0)", Ok (FALSE.into ())),
+			
+			("number?", Ok (TypePrimitive1::IsNumber.into ())),
+			("(number? 0)", Ok (TRUE.into ())),
+			("(number? #null)", Ok (FALSE.into ())),
+			
+			("procedure?", Ok (TypePrimitive1::IsProcedure.into ())),
+			("(procedure? +)", Ok (TRUE.into ())),
+			("(procedure? 0)", Ok (FALSE.into ())),
+			
+			("not", Ok (BooleanPrimitive1::Not.into ())),
+			("(not #t)", Ok (FALSE.into ())),
+			("(not #f)", Ok (TRUE.into ())),
+			("(not 0)", Err (error_generic (0x19768613))),
+			
+			("(zero? 0)", Ok (TRUE.into ())),
+			("(zero? 1)", Ok (FALSE.into ())),
+			("(positive? 1)", Ok (TRUE.into ())),
+			("(positive? 0)", Ok (FALSE.into ())),
+			("(positive? -1)", Ok (FALSE.into ())),
+			("(negative? -1)", Ok (TRUE.into ())),
+			("(negative? 0)", Ok (FALSE.into ())),
+			("(negative? 1)", Ok (FALSE.into ())),
+			("(even? 2)", Ok (TRUE.into ())),
+			("(even? 1)", Ok (FALSE.into ())),
+			("(odd? 1)", Ok (TRUE.into ())),
+			("(odd? 2)", Ok (FALSE.into ())),
+			
+			("(zero? 0.0)", Ok (TRUE.into ())),
+			("(zero? 1.0)", Ok (FALSE.into ())),
+			("(positive? 1.0)", Ok (TRUE.into ())),
+			("(positive? 0.0)", Ok (FALSE.into ())),
+			("(positive? -1.0)", Ok (FALSE.into ())),
+			("(negative? -1.0)", Ok (TRUE.into ())),
+			("(negative? 0.0)", Ok (FALSE.into ())),
+			("(negative? 1.0)", Ok (FALSE.into ())),
+			("(even? 2.0)", Ok (TRUE.into ())),
+			("(even? 1.0)", Ok (FALSE.into ())),
+			("(odd? 1.0)", Ok (TRUE.into ())),
+			("(odd? 2.0)", Ok (FALSE.into ())),
+			
+			("(zero? #f)", Err (error_generic (0x947fb339))),
+			("(even? #f)", Err (error_generic (0x947fb339))),
+			("(odd? #f)", Err (error_generic (0x947fb339))),
+			("(positive? #f)", Err (error_generic (0x947fb339))),
+			("(negative? #f)", Err (error_generic (0x947fb339))),
+			
+			("(min 0 1)", Ok (ZERO.into ())),
+			("(max 0 1)", Ok (ONE.into ())),
+			
+			("+", Ok (ArithmeticPrimitiveN::Addition.into ())),
+			("(+ 0 0)", Ok (ZERO.into ())),
+			("(+ 0 1)", Ok (ONE.into ())),
+			("(+ 1 0)", Ok (ONE.into ())),
+			("(+ 0.0 0.0)", Ok (ZERO_REAL_POSITIVE.into ())),
+			("(+ 0.0 0)", Ok (ZERO_REAL_POSITIVE.into ())),
+			("(+ 0 0.0)", Ok (ZERO_REAL_POSITIVE.into ())),
 			
 		];
 	
@@ -26,7 +90,7 @@ fn test () -> () {
 	let mut evaluator = Evaluator::new ();
 	
 	
-	for source in tests {
+	for (source, expected) in tests {
 		
 		println! ();
 		println! (">> {}", source);
@@ -37,10 +101,12 @@ fn test () -> () {
 		let expression = compile (&context, data) .unwrap ();
 		println! ("## compile ##\n{:#?}", expression);
 		
-		let outcome = evaluator.evaluate_top (&mut context, &expression) .map_err (|error| Value::from (error));
+		let outcome = evaluator.evaluate_top (&mut context, &expression);
 		println! ("## evaluate ##\n{:#?}", outcome);
 		
 		println! ();
+		
+		assert_eq! (outcome, expected);
 	}
 	
 }
