@@ -115,7 +115,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			
 			("base", "features", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("base", "null?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "null?", TypePrimitive1::IsNull.into ()),
 			
 			
 			
@@ -131,36 +131,36 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			
 			// math
 			
-			("base", "number?", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "integer?", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "real?", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "rational?", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "complex?", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "exact?", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "inexact?", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "exact-integer?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "number?", TypePrimitive1::IsNumber.into ()),
+			("base", "integer?", ArithmeticPrimitive1::IsInteger.into ()),
+			("base", "real?", ArithmeticPrimitive1::IsReal.into ()),
+			("base", "rational?", ArithmeticPrimitive1::IsRational.into ()),
+			("base", "complex?", ArithmeticPrimitive1::IsComplex.into ()),
+			("base", "exact?", ArithmeticPrimitive1::IsExact.into ()),
+			("base", "exact-integer?", ArithmeticPrimitive1::IsExactInteger.into ()),
+			("base", "inexact?", ArithmeticPrimitive1::IsInexact.into ()),
 			
-			("base", "zero?", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "positive?", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "negative?", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "odd?", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "even?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "zero?", ArithmeticPrimitive1::IsZero.into ()),
+			("base", "positive?", ArithmeticPrimitive1::IsPositive.into ()),
+			("base", "negative?", ArithmeticPrimitive1::IsNegative.into ()),
+			("base", "odd?", ArithmeticPrimitive1::IsOdd.into ()),
+			("base", "even?", ArithmeticPrimitive1::IsEven.into ()),
 			
-			("base", "+", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "*", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "-", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "/", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "+", ArithmeticPrimitiveN::Addition.into ()),
+			("base", "-", ArithmeticPrimitiveN::Subtraction.into ()),
+			("base", "*", ArithmeticPrimitiveN::Multiplication.into ()),
+			("base", "/", ArithmeticPrimitiveN::Division.into ()),
 			
-			("base", "abs", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "abs", ArithmeticPrimitive1::Absolute.into ()),
 			
 			("base", "quotient", ProcedurePrimitive::Unimplemented.into ()),
 			("base", "remainder", ProcedurePrimitive::Unimplemented.into ()),
 			("base", "modulo", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("base", "floor", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "ceiling", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "truncate", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "round", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "floor", ArithmeticPrimitive1::Floor.into ()),
+			("base", "ceiling", ArithmeticPrimitive1::Ceiling.into ()),
+			("base", "truncate", ArithmeticPrimitive1::Truncate.into ()),
+			("base", "round", ArithmeticPrimitive1::Round.into ()),
 			
 			("base", "rationalize", ProcedurePrimitive::Unimplemented.into ()),
 			("base", "numerator", ProcedurePrimitive::Unimplemented.into ()),
@@ -174,14 +174,14 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			("base", "truncate-quotient", ProcedurePrimitive::Unimplemented.into ()),
 			("base", "truncate-remainder", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("base", "min", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "max", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "min", ArithmeticPrimitiveN::Minimum.into ()),
+			("base", "max", ArithmeticPrimitiveN::Maximum.into ()),
 			
 			("base", "gcd", ProcedurePrimitive::Unimplemented.into ()),
 			("base", "lcm", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("base", "expt", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "square", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "expt", ArithmeticPrimitive2::Power.into ()),
+			("base", "square", ArithmeticPrimitive1::Square.into ()),
 			("base", "exact-integer-sqrt", ProcedurePrimitive::Unimplemented.into ()),
 			
 			("base", "=", ProcedurePrimitive::Unimplemented.into ()),
@@ -198,17 +198,17 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			
 			// boolean
 			
-			("base", "boolean?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "boolean?", TypePrimitive1::IsBoolean.into ()),
 			("base", "boolean=?", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("base", "not", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "not", BooleanPrimitive1::Not.into ()),
 			
 			
 			
 			
 			// characters
 			
-			("base", "char?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "char?", TypePrimitive1::IsCharacter.into ()),
 			
 			("base", "char=?", ProcedurePrimitive::Unimplemented.into ()),
 			("base", "char<?", ProcedurePrimitive::Unimplemented.into ()),
@@ -221,7 +221,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			
 			// symbols
 			
-			("base", "symbol?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "symbol?", TypePrimitive1::IsSymbol.into ()),
 			("base", "symbol=?", ProcedurePrimitive::Unimplemented.into ()),
 			
 			
@@ -229,7 +229,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			
 			// pairs
 			
-			("base", "pair?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "pair?", TypePrimitive1::IsPair.into ()),
 			
 			("base", "cons", ProcedurePrimitive::Unimplemented.into ()),
 			
@@ -249,7 +249,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			
 			// lists
 			
-			("base", "list?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "list?", TypePrimitive1::IsListProper.into ()),
 			
 			("base", "list", ProcedurePrimitive::Unimplemented.into ()),
 			("base", "make-list", ProcedurePrimitive::Unimplemented.into ()),
@@ -276,7 +276,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			
 			// vectors
 			
-			("base", "vector?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "vector?", TypePrimitive1::IsArray.into ()),
 			
 			("base", "vector", ProcedurePrimitive::Unimplemented.into ()),
 			("base", "make-vector", ProcedurePrimitive::Unimplemented.into ()),
@@ -295,7 +295,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			
 			// bytevectors
 			
-			("base", "bytevector?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "bytevector?", TypePrimitive1::IsBytes.into ()),
 			
 			("base", "bytevector", ProcedurePrimitive::Unimplemented.into ()),
 			("base", "make-bytevector", ProcedurePrimitive::Unimplemented.into ()),
@@ -313,7 +313,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			
 			// strings
 			
-			("base", "string?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "string?", TypePrimitive1::IsString.into ()),
 			
 			("base", "string", ProcedurePrimitive::Unimplemented.into ()),
 			("base", "substring", ProcedurePrimitive::Unimplemented.into ()),
@@ -370,7 +370,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			
 			// ???
 			
-			("base", "procedure?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "procedure?", TypePrimitive1::IsProcedure.into ()),
 			
 			("base", "apply", ProcedurePrimitive::Unimplemented.into ()),
 			
@@ -594,21 +594,21 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			// (scheme inexact)
 			//     --> verified
 			
-			("inexact", "sqrt", ProcedurePrimitive::Unimplemented.into ()),
-			("inexact", "exp", ProcedurePrimitive::Unimplemented.into ()),
-			("inexact", "log", ProcedurePrimitive::Unimplemented.into ()),
+			("inexact", "sqrt", ArithmeticPrimitive1::SquareRoot.into ()),
+			("inexact", "exp", ArithmeticPrimitive1::Exponential.into ()),
+			("inexact", "log", ArithmeticPrimitive1::Logarithm.into ()),
 			
-			("inexact", "sin", ProcedurePrimitive::Unimplemented.into ()),
-			("inexact", "cos", ProcedurePrimitive::Unimplemented.into ()),
-			("inexact", "tan", ProcedurePrimitive::Unimplemented.into ()),
+			("inexact", "sin", ArithmeticPrimitive1::Sin.into ()),
+			("inexact", "cos", ArithmeticPrimitive1::Cos.into ()),
+			("inexact", "tan", ArithmeticPrimitive1::Tan.into ()),
 			
-			("inexact", "asin", ProcedurePrimitive::Unimplemented.into ()),
-			("inexact", "acos", ProcedurePrimitive::Unimplemented.into ()),
-			("inexact", "atan", ProcedurePrimitive::Unimplemented.into ()),
+			("inexact", "asin", ArithmeticPrimitive1::Asin.into ()),
+			("inexact", "acos", ArithmeticPrimitive1::Acos.into ()),
+			("inexact", "atan", ArithmeticPrimitive1::Atan.into ()),
 			
-			("inexact", "finite?", ProcedurePrimitive::Unimplemented.into ()),
-			("inexact", "infinite?", ProcedurePrimitive::Unimplemented.into ()),
-			("inexact", "nan?", ProcedurePrimitive::Unimplemented.into ()),
+			("inexact", "finite?", ArithmeticPrimitive1::IsFinite.into ()),
+			("inexact", "infinite?", ArithmeticPrimitive1::IsInfinite.into ()),
+			("inexact", "nan?", ArithmeticPrimitive1::IsNan.into ()),
 			
 			
 			

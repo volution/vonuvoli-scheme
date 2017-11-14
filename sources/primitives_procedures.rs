@@ -44,8 +44,7 @@ pub enum ProcedurePrimitive {
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
-pub enum ProcedurePrimitive0 {
-}
+pub enum ProcedurePrimitive0 {}
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
@@ -59,6 +58,7 @@ pub enum ProcedurePrimitive1 {
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
 pub enum ProcedurePrimitive2 {
+	Boolean ( BooleanPrimitive2 ),
 	Arithmetic ( ArithmeticPrimitive2 ),
 	Bitwise ( BitwisePrimitive2 ),
 }
@@ -80,30 +80,61 @@ pub fn procedure_primitive_0_evaluate (_primitive : ProcedurePrimitive0, _contex
 }
 
 
+
+
 #[ inline (always) ]
 pub fn procedure_primitive_1_evaluate (primitive : ProcedurePrimitive1, input : &Value, _context : &mut EvaluationContext) -> (Outcome<Value>) {
 	match primitive {
+		
+		ProcedurePrimitive1::Type (primitive) =>
+			type_primitive_1_evaluate (primitive, input),
+		
 		ProcedurePrimitive1::Boolean (primitive) =>
-			return boolean_primitive_1_evaluate (primitive, input),
-		_ =>
-			return failed_unimplemented! (0x85e495c7)
+			boolean_primitive_1_evaluate (primitive, input),
+		
+		ProcedurePrimitive1::Arithmetic (primitive) =>
+			arithmetic_primitive_1_evaluate (primitive, input),
+		
+		ProcedurePrimitive1::Bitwise (primitive) =>
+			bitwise_primitive_1_evaluate (primitive, input),
+		
 	}
 }
 
 
+
+
 #[ inline (always) ]
-pub fn procedure_primitive_2_evaluate (_primitive : ProcedurePrimitive2, _input_1 : &Value, _input_2 : &Value, _context : &mut EvaluationContext) -> (Outcome<Value>) {
-	failed_unimplemented! (0x9ed223e5)
+pub fn procedure_primitive_2_evaluate (primitive : ProcedurePrimitive2, input_1 : &Value, input_2 : &Value, _context : &mut EvaluationContext) -> (Outcome<Value>) {
+	match primitive {
+		
+		ProcedurePrimitive2::Boolean (primitive) =>
+			boolean_primitive_2_evaluate (primitive, input_1, input_2),
+		
+		ProcedurePrimitive2::Arithmetic (primitive) =>
+			arithmetic_primitive_2_evaluate (primitive, input_1, input_2),
+		
+		ProcedurePrimitive2::Bitwise (primitive) =>
+			bitwise_primitive_2_evaluate (primitive, input_1, input_2),
+	}
 }
+
+
 
 
 #[ inline (always) ]
 pub fn procedure_primitive_n_evaluate (primitive : ProcedurePrimitiveN, inputs : &[Value], _context : &mut EvaluationContext) -> (Outcome<Value>) {
 	match primitive {
+		
 		ProcedurePrimitiveN::Boolean (primitive) =>
-			return boolean_primitive_n_evaluate (primitive, inputs),
-		_ =>
-			return failed_unimplemented! (0xa1bd3a06)
+			boolean_primitive_n_evaluate (primitive, inputs),
+		
+		ProcedurePrimitiveN::Arithmetic (primitive) =>
+			arithmetic_primitive_n_evaluate (primitive, inputs),
+		
+		ProcedurePrimitiveN::Bitwise (primitive) =>
+			bitwise_primitive_n_evaluate (primitive, inputs),
+		
 	}
 }
 
@@ -114,28 +145,34 @@ pub fn procedure_primitive_n_evaluate (primitive : ProcedurePrimitiveN, inputs :
 pub fn procedure_primitive_evaluate (primitive : ProcedurePrimitive, inputs : &[Value], context : &mut EvaluationContext) -> (Outcome<Value>) {
 	let inputs_count = inputs.len ();
 	match primitive {
+		
 		ProcedurePrimitive::Primitive0 (primitive) =>
-			if inputs_count != 0 {
-				return failed! (0xabfe1f25);
+			if inputs_count == 0 {
+				procedure_primitive_0_evaluate (primitive, context)
 			} else {
-				return procedure_primitive_0_evaluate (primitive, context);
+				failed! (0xabfe1f25)
 			},
+		
 		ProcedurePrimitive::Primitive1 (primitive) =>
-			if inputs_count != 1 {
-				return failed! (0x5bc94cf2);
+			if inputs_count == 1 {
+				procedure_primitive_1_evaluate (primitive, &inputs[0], context)
 			} else {
-				return procedure_primitive_1_evaluate (primitive, &inputs[0], context);
+				failed! (0x5bc94cf2)
 			},
+		
 		ProcedurePrimitive::Primitive2 (primitive) =>
-			if inputs_count != 2 {
-				return failed! (0xb1c56ed3);
+			if inputs_count == 2 {
+				procedure_primitive_2_evaluate (primitive, &inputs[0], &inputs[1], context)
 			} else {
-				return procedure_primitive_2_evaluate (primitive, &inputs[0], &inputs[1], context);
+				failed! (0xb1c56ed3)
 			},
+		
 		ProcedurePrimitive::PrimitiveN (primitive) =>
-			return procedure_primitive_n_evaluate (primitive, inputs, context),
+			procedure_primitive_n_evaluate (primitive, inputs, context),
+		
 		ProcedurePrimitive::Unimplemented =>
-			return failed_unimplemented! (0x10d3710f),
+			failed_unimplemented! (0x10d3710f),
+		
 	}
 }
 

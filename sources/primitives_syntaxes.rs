@@ -101,16 +101,22 @@ pub fn syntax_primitive_1_evaluate (_primitive : SyntaxPrimitive1, _input : &Exp
 }
 
 
+
+
 #[ inline (always) ]
 pub fn syntax_primitive_2_evaluate (_primitive : SyntaxPrimitive2, _input_1 : &Expression, _input_2 : &Expression, _context : &mut EvaluationContext) -> (Outcome<Value>) {
 	return failed_unimplemented! (0xc0c18893);
 }
 
 
+
+
 #[ inline (always) ]
 pub fn syntax_primitive_3_evaluate (_primitive : SyntaxPrimitive3, _input_1 : &Expression, _input_2 : &Expression, _input_3 : &Expression, _context : &mut EvaluationContext) -> (Outcome<Value>) {
 	return failed_unimplemented! (0xc0c18893);
 }
+
+
 
 
 #[ inline (always) ]
@@ -125,32 +131,40 @@ pub fn syntax_primitive_n_evaluate (_primitive : SyntaxPrimitiveN, _input : &[Ex
 pub fn syntax_primitive_evaluate (primitive : SyntaxPrimitive, inputs : &[Expression], context : &mut EvaluationContext) -> (Outcome<Value>) {
 	let inputs_count = inputs.len ();
 	match primitive {
+		
 		SyntaxPrimitive::Primitive1 (primitive) =>
-			if inputs_count != 1 {
-				return failed! (0xc7837cc4);
-			} else {
+			if inputs_count == 1 {
 				return syntax_primitive_1_evaluate (primitive, &inputs[0], context);
+			} else {
+				return failed! (0xc7837cc4);
 			},
+		
 		SyntaxPrimitive::Primitive2 (primitive) =>
-			if inputs_count != 2 {
-				return failed! (0xb92232f2);
-			} else {
+			if inputs_count == 2 {
 				return syntax_primitive_2_evaluate (primitive, &inputs[0], &inputs[1], context);
-			},
-		SyntaxPrimitive::Primitive3 (primitive) =>
-			if inputs_count != 3 {
-				return failed! (0x18d7a5f8);
 			} else {
-				return syntax_primitive_3_evaluate (primitive, &inputs[0], &inputs[1], &inputs[2], context);
+				return failed! (0xb92232f2);
 			},
+		
+		SyntaxPrimitive::Primitive3 (primitive) =>
+			if inputs_count == 3 {
+				return syntax_primitive_3_evaluate (primitive, &inputs[0], &inputs[1], &inputs[2], context);
+			} else {
+				return failed! (0x18d7a5f8);
+			},
+		
 		SyntaxPrimitive::PrimitiveN (primitive) =>
 			return syntax_primitive_n_evaluate (primitive, inputs, context),
+		
 		SyntaxPrimitive::Unimplemented =>
 			return failed_unimplemented! (0x303dde78),
+		
 		SyntaxPrimitive::Auxiliary =>
 			return failed_unimplemented! (0x050a390b),
+		
 		SyntaxPrimitive::Reserved =>
 			return failed_unimplemented! (0x20a9c095),
+		
 	}
 }
 
