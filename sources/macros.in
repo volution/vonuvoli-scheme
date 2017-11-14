@@ -67,6 +67,24 @@ macro_rules! enforce_is_boolean {
 	( $value : expr ) => ( enforce_value_is_boolean! ($value, 0xd45dac18) );
 }
 
+#[ allow (unused_macros) ]
+macro_rules! enforce_is_number {
+	( $value : expr, $code : expr ) => ( enforce_value_class! (Number, $value, $code) );
+	( $value : expr ) => ( enforce_value_is_number! ($value, 0x7040b2a3) );
+}
+
+#[ allow (unused_macros) ]
+macro_rules! enforce_is_number_integer {
+	( $value : expr, $code : expr ) => ( enforce_value_class! (NumberInteger, $value, $code) );
+	( $value : expr ) => ( enforce_value_is_number_integer! ($value, 0x97a15322) );
+}
+
+#[ allow (unused_macros) ]
+macro_rules! enforce_is_number_real {
+	( $value : expr, $code : expr ) => ( enforce_value_class! (NumberReal, $value, $code) );
+	( $value : expr ) => ( enforce_value_is_number_real! ($value, 0x1e7b56aa) );
+}
+
 
 
 
@@ -89,56 +107,127 @@ macro_rules! enforce_boolean_unwrap {
 	( $value : expr ) => ( enforce_boolean_unwrap! ($value, 0xdce0860d) );
 }
 
-
-
-
 #[ allow (unused_macros) ]
-macro_rules! impl_from_for_enum {
-	( $to : ident, $from : ty, $tag : ident, $value : ident, $expression : expr ) => (
-		impl StdFrom<$from> for $to {
-			#[ inline ( always ) ]
-			fn from ($value : $from) -> (Self) { $to::$tag ($expression) }
-		}
-	);
+macro_rules! enforce_number_integer_unwrap {
+	( $value : expr, $code : expr ) => ( enforce_value_unwrap! (NumberInteger, $value, $code) );
+	( $value : expr ) => ( enforce_number_integer_unwrap! ($value, 0x57bb1805) );
 }
 
 #[ allow (unused_macros) ]
-macro_rules! impl_from_for_enum_wrapper {
-	( $to : ident, $from : ty, $tag : ident ) => (
-		impl StdFrom<$from> for $to {
-			#[ inline ( always ) ]
-			fn from (value : $from) -> (Self) { $to::$tag (value.into ()) }
-		}
-	);
+macro_rules! enforce_number_real_unwrap {
+	( $value : expr, $code : expr ) => ( enforce_value_unwrap! (NumberReal, $value, $code) );
+	( $value : expr ) => ( enforce_number_real_unwrap! ($value, 0x83a1ca24) );
 }
+
+
 
 
 #[ allow (unused_macros) ]
 macro_rules! impl_from_for_type {
+	( $to : ident, $from : ty ) => (
+		impl_from_for_type! ($to, $from, value, $to (value.into ()));
+	);
 	( $to : ty, $from : ty, $value : ident, $expression : expr ) => (
 		impl StdFrom<$from> for $to {
 			#[ inline ( always ) ]
-			fn from ($value : $from) -> (Self) { $expression }
+			fn from ($value : $from) -> ($to) { <$to>::into ($expression) }
 		}
 	);
 }
 
 #[ allow (unused_macros) ]
-macro_rules! impl_from_for_type_wrapper {
-	( $to : ty, $from : ty, $value : ident, $expression : expr ) => (
-		impl StdFrom<$from> for $to {
-			#[ inline ( always ) ]
-			fn from ($value : $from) -> (Self) { $to ($expression.into ()) }
-		}
+macro_rules! impl_from_for_enum {
+	( $to : ident, $tag : ident, $from : ty ) => (
+		impl_from_for_type! ($to, $from, value, $to::$tag (value.into ()));
+	);
+	( $to : ident, $tag : ident, $from : ty, $value : ident, $expression : expr ) => (
+		impl_from_for_type! ($to, $from, $value, $to::$tag ($expression.into ()));
 	);
 }
+
+
+
 
 #[ allow (unused_macros) ]
 macro_rules! impl_into_for_type {
+	( $to : ident, $from : ty ) => (
+		impl_into_for_type! ($to, $from, value, $to (value.into ()));
+	);
 	( $to : ty, $from : ty, $value : ident, $expression : expr ) => (
 		impl StdInto<$to> for $from {
 			#[ inline ( always ) ]
-			fn into ($value : $from) -> ($to) { $expression }
+			fn into ($value : $from) -> ($to) { <$to>::into ($expression) }
+		}
+	);
+}
+
+#[ allow (unused_macros) ]
+macro_rules! impl_into_for_enum {
+	( $to : ident, $tag : ident, $from : ty ) => (
+		impl_into_for_type! ($to, $tag, $from, value, $to::$tag (value.into ()));
+	);
+	( $to : ident, $tag : ident, $from : ty, $value : ident, $expression : expr ) => (
+		impl_into_for_type! ($to, $tag, $from, $value, $to::$tag ($expression.into ()));
+	);
+}
+
+
+
+
+#[ allow (unused_macros) ]
+macro_rules! impl_unwrappers_for_type_wrapper {
+	( $from : ty, $to : ty) => (
+		impl StdFrom<$from> for $to {
+			#[ inline (always) ]
+			fn from (value : $from) -> ($to) {
+				value.0
+			}
+		}
+		impl<'a> StdAsRef<$to> for $from {
+			#[ inline (always) ]
+			fn as_ref (&self) -> (&$to) {
+				&self.0
+			}
+		}
+	);
+}
+
+#[ allow (unused_macros) ]
+macro_rules! impl_unwrappers_for_enum_wrapper {
+	( $from : ident, $tag : ident, $to : ty) => (
+		impl StdTryFrom<$from> for $to {
+			type Error = super::errors::Error;
+			#[ inline (always) ]
+			fn try_from (value : $from) -> (Outcome<$to>) {
+				if let $from::$tag (value) = value {
+					Ok (value)
+				} else {
+					failed! (0x64d097b5)
+				}
+			}
+		}
+		impl StdFrom<$from> for $to {
+			#[ inline (always) ]
+			fn from (value : $from) -> ($to) {
+				StdTryFrom::try_from (value) .unwrap ()
+			}
+		}
+		impl<'a> StdTryAsRef<$to> for $from {
+			type Error = super::errors::Error;
+			#[ inline (always) ]
+			fn try_as_ref (&self) -> (Outcome<&$to>) {
+				if let $from::$tag (ref value) = *self {
+					Ok (value)
+				} else {
+					failed! (0x19768613)
+				}
+			}
+		}
+		impl<'a> StdAsRef<$to> for $from {
+			#[ inline (always) ]
+			fn as_ref (&self) -> (&$to) {
+				StdTryAsRef::try_as_ref (self) .unwrap ()
+			}
 		}
 	);
 }
