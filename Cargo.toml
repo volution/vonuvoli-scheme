@@ -5,11 +5,17 @@ version = "0.1.0"
 authors = ["Ciprian Dorin Craciun <ciprian@volution.ro>"]
 publish = false
 
+[features]
+default = []
+conversions-all = []
+
 [[bin]]
 name = "rust-scheme"
 path = "./sources/bin.rs"
+doc = false
 
 [lib]
 name = "rust_scheme"
 path = "./sources/lib.rs"
+doc = true
 

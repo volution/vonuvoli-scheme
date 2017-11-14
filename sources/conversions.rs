@@ -13,91 +13,73 @@ use super::values::exports::*;
 
 pub mod exports {
 	pub use super::*;
-	pub use super::vec_into;
-	pub use super::vec_from_slice;
-	pub use super::vec_from_list;
 }
 
 
 
 
 #[ allow (unused_macros) ]
-macro_rules! impl_from_for_Expression_1 {
-	( $from : ty, $tag : ident ) => (
-		impl_from_for_enum_wrapper! (Expression, $from, $tag);
+macro_rules! impl_from_for_Expression_0 {
+	( $tag : ident, $from : ty ) => (
 		impl_from_for_type! (Expression, &'static $from, value, value.clone () .into ());
 		impl_from_for_type! (ExpressionBox, $from, value, StdBox::new (value.into ()));
 		impl_from_for_type! (ExpressionBox, &'static $from, value, StdBox::new (value.into ()));
+	);
+}
+
+#[ allow (unused_macros) ]
+macro_rules! impl_from_for_Expression_1 {
+	( $tag : ident, $from : ty ) => (
+		impl_from_for_enum! (Expression, $tag, $from);
+		impl_from_for_Expression_0! ($tag, $from);
+		// impl_unwrappers_for_enum_wrapper! (Expression, $tag, $from);
 	);
 }
 
 #[ allow (unused_macros) ]
 macro_rules! impl_from_for_Expression_2 {
-	( $from : ty, $value : ident, $expression : expr ) => (
-		impl_from_for_type! (Expression, $from, $value, $expression);
-		impl_from_for_type! (Expression, &'static $from, value, value.clone () .into ());
-		impl_from_for_type! (ExpressionBox, $from, value, StdBox::new (value.into ()));
-		impl_from_for_type! (ExpressionBox, &'static $from, value, StdBox::new (value.into ()));
+	( $tag : ident, $from : ty, $value : ident, $expression : tt ) => (
+		impl_from_for_type! (Expression, $from, $value, Expression::$tag $expression);
+		impl_from_for_Expression_0! ($tag, $from);
 	);
 }
 
+
+
+
 #[ allow (unused_macros) ]
 macro_rules! impl_from_for_Value_0 {
-	( $from : ty, $tag : ident ) => (
-		impl_from_for_Expression_1! ($from, Value);
-		impl_from_for_enum_wrapper! (Value, $from, $tag);
+	( $tag : ident, $from : ty ) => (
+		impl_from_for_enum! (Value, $tag, $from);
 		impl_from_for_type! (Value, &'static $from, value, value.clone () .into ());
 		impl_from_for_type! (ValueBox, $from, value, StdBox::new (value.into ()));
 		impl_from_for_type! (ValueBox, &'static $from, value, StdBox::new (value.into ()));
+		impl_from_for_Expression_1! (Value, $from);
 	);
 }
 
 #[ allow (unused_macros) ]
 macro_rules! impl_from_for_Value_1 {
-	( $from : ident, $tag : ident ) => (
-		impl_from_for_Value_0! ($from, $tag);
-		impl StdTryFrom<Value> for $from {
-			type Error = super::errors::Error;
-			#[ inline (always) ]
-			fn try_from (value : Value) -> (Outcome<Self>) {
-				if let Value::$tag (value) = value {
-					Ok (value)
-				} else {
-					failed! (0x64d097b5)
-				}
-			}
-		}
-		impl StdFrom<Value> for $from {
-			#[ inline (always) ]
-			fn from (value : Value) -> (Self) {
-				StdTryFrom::try_from (value) .unwrap ()
-			}
-		}
-		impl<'a> StdTryAsRef<$from> for Value {
-			type Error = super::errors::Error;
-			#[ inline (always) ]
-			fn try_as_ref (&self) -> (Outcome<&$from>) {
-				if let Value::$tag (ref value) = *self {
-					Ok (value)
-				} else {
-					failed! (0x19768613)
-				}
-			}
-		}
-		impl<'a> StdAsRef<$from> for Value {
-			#[ inline (always) ]
-			fn as_ref (&self) -> (&$from) {
-				StdTryAsRef::try_as_ref (self) .unwrap ()
-			}
-		}
+	( $tag : ident, $from : ty ) => (
+		impl_from_for_Value_0! ($tag, $from);
+		impl_unwrappers_for_enum_wrapper! (Value, $tag, $from);
 	);
 }
 
 #[ allow (unused_macros) ]
 macro_rules! impl_from_for_Value_2 {
-	( $from : ty, $to : ty, $tag : ident, $value : ident, $expression : expr ) => (
-		impl_from_for_Value_0! ($from, $tag);
+	( $tag : ident, $to : ident, $from : ty ) => (
+		impl_from_for_type! ($to, $from);
+		impl_from_for_Value_0! ($tag, $from);
+		impl_unwrappers_for_type_wrapper! ($to, $from);
+	);
+}
+
+#[ allow (unused_macros) ]
+macro_rules! impl_from_for_Value_3 {
+	( $tag : ident, $to : ty, $from : ty, $value : ident, $expression : expr ) => (
 		impl_from_for_type! ($to, $from, $value, $expression);
+		impl_from_for_Value_0! ($tag, $from);
 	);
 }
 
@@ -122,22 +104,31 @@ impl_from_for_Value_1! (SyntaxPrimitive, SyntaxPrimitive);
 impl_from_for_Value_1! (Context, Context);
 impl_from_for_Value_1! (Binding, Binding);
 
-impl_from_for_Value_2! (bool, Boolean, Boolean, value, boolean (value));
-impl_from_for_Value_2! (char, Character, Character, value, character (value));
+impl_from_for_Value_2! (Boolean, Boolean, bool);
+impl_from_for_Value_2! (Character, Character, char);
 
-impl_from_for_Value_2! (i8, NumberInteger, NumberInteger, value, number_i64 (value as i64));
-impl_from_for_Value_2! (u8, NumberInteger, NumberInteger, value, number_i64 (value as i64));
-impl_from_for_Value_2! (i16, NumberInteger, NumberInteger, value, number_i64 (value as i64));
-impl_from_for_Value_2! (u16, NumberInteger, NumberInteger, value, number_i64 (value as i64));
-impl_from_for_Value_2! (i32, NumberInteger, NumberInteger, value, number_i64 (value as i64));
-impl_from_for_Value_2! (u32, NumberInteger, NumberInteger, value, number_i64 (value as i64));
-impl_from_for_Value_2! (i64, NumberInteger, NumberInteger, value, number_i64 (value));
+impl_from_for_Value_2! (NumberInteger, NumberInteger, i64);
+impl_from_for_Value_3! (NumberInteger, NumberInteger, i8, value, number_i64 (value as i64));
+impl_from_for_Value_3! (NumberInteger, NumberInteger, u8, value, number_i64 (value as i64));
+impl_from_for_Value_3! (NumberInteger, NumberInteger, i16, value, number_i64 (value as i64));
+impl_from_for_Value_3! (NumberInteger, NumberInteger, u16, value, number_i64 (value as i64));
+impl_from_for_Value_3! (NumberInteger, NumberInteger, i32, value, number_i64 (value as i64));
+impl_from_for_Value_3! (NumberInteger, NumberInteger, u32, value, number_i64 (value as i64));
 
-impl_from_for_Value_2! (f32, NumberReal, NumberReal, value, number_f64 (value as f64));
-impl_from_for_Value_2! (f64, NumberReal, NumberReal, value, number_f64 (value));
+impl_from_for_Value_2! (NumberReal, NumberReal, f64);
+impl_from_for_type! (NumberReal, NumberInteger, value, <i64>::from (value) .into ());
+impl_from_for_type! (NumberReal, f32, value, number_f64 (value as f64));
+impl_from_for_type! (NumberReal, i8, value, number_f64 (value as f64));
+impl_from_for_type! (NumberReal, u8, value, number_f64 (value as f64));
+impl_from_for_type! (NumberReal, i16, value, number_f64 (value as f64));
+impl_from_for_type! (NumberReal, u16, value, number_f64 (value as f64));
+impl_from_for_type! (NumberReal, i32, value, number_f64 (value as f64));
+impl_from_for_type! (NumberReal, u32, value, number_f64 (value as f64));
+impl_from_for_type! (NumberReal, i64, value, number_f64 (value as f64));
+impl_from_for_type! (NumberReal, u64, value, number_f64 (value as f64));
 
-impl_from_for_Value_2! (StdString, String, String, value, string (value));
-impl_from_for_Value_2! (&'static str, String, String, value, string_from_slice (value));
+impl_from_for_Value_3! (String, String, StdString, value, string (value));
+impl_from_for_Value_3! (String, String, &'static str, value, string_from_slice (value));
 
 impl_from_for_type! (Symbol, StdString, value, symbol (value));
 impl_from_for_type! (Symbol, &'static str, value, symbol_from_slice (value));
@@ -148,9 +139,9 @@ impl_from_for_type! (Symbol, &'static str, value, symbol_from_slice (value));
 #[ allow (unused_macros) ]
 macro_rules! impl_from_for_primitive_procedure {
 	( $from : ty, $tag_1 : ident, $tag_2 : ident, $tag_3 : ident ) => (
-		impl_from_for_Value_0! ($from, ProcedurePrimitive);
-		impl_from_for_enum_wrapper! (ProcedurePrimitive, $from, $tag_2);
-		impl_from_for_enum_wrapper! ($tag_1, $from, $tag_3);
+		impl_from_for_Value_0! (ProcedurePrimitive, $from);
+		impl_from_for_enum! (ProcedurePrimitive, $tag_2, $from);
+		impl_from_for_enum! ($tag_1, $tag_3, $from);
 	);
 }
 
@@ -174,8 +165,8 @@ impl_from_for_primitive_procedure! (BitwisePrimitiveN, ProcedurePrimitiveN, Prim
 #[ allow (unused_macros) ]
 macro_rules! impl_from_for_primitive_syntax {
 	( $from : ty, $tag : ident ) => (
-		impl_from_for_Value_0! ($from, SyntaxPrimitive);
-		impl_from_for_enum_wrapper! (SyntaxPrimitive, $from, $tag);
+		impl_from_for_Value_0! (SyntaxPrimitive, $from);
+		impl_from_for_enum! (SyntaxPrimitive, $tag, $from);
 	);
 }
 
@@ -190,6 +181,7 @@ impl_from_for_primitive_syntax! (SyntaxPrimitiveN, PrimitiveN);
 #[ allow (unused_macros) ]
 macro_rules! impl_from_for_ProcedurePrimitiveCall1 {
 	( $primitive : ty ) => (
+		#[ cfg (feature = "conversions-all") ]
 		impl_from_for_ProcedurePrimitiveCall1! ($primitive, [
 				Expression,
 				Value,
@@ -208,13 +200,14 @@ macro_rules! impl_from_for_ProcedurePrimitiveCall1 {
 		$( impl_from_for_ProcedurePrimitiveCall1! ($primitive, $value); )*
 	);
 	( $primitive : ty, $value : ty ) => (
-		impl_from_for_Expression_2! (($primitive, $value), value, Expression::ProcedurePrimitiveCall1 (value.0.into (), value.1.into ()));
+		impl_from_for_Expression_2! (ProcedurePrimitiveCall1, ($primitive, $value), value, (value.0.into (), value.1.into ()));
 	);
 }
 
 #[ allow (unused_macros) ]
 macro_rules! impl_from_for_ProcedurePrimitiveCall2 {
 	( $primitive : ty ) => (
+		#[ cfg (feature = "conversions-all") ]
 		impl_from_for_ProcedurePrimitiveCall2! ($primitive, [
 				Expression,
 				Value,
@@ -233,14 +226,15 @@ macro_rules! impl_from_for_ProcedurePrimitiveCall2 {
 		$( impl_from_for_ProcedurePrimitiveCall2! ($primitive, $value); )*
 	);
 	( $primitive : ty, $value : ty ) => (
-		impl_from_for_Expression_2! (($primitive, $value, $value), value, Expression::ProcedurePrimitiveCall2 (value.0.into (), value.1.into (), value.2.into ()));
-		impl_from_for_Expression_2! (($primitive, [$value; 2]), value, Expression::ProcedurePrimitiveCall2 (value.0.into (), (value.1)[0].clone () .into (), (value.1)[1].clone ().into ()));
+		impl_from_for_Expression_2! (ProcedurePrimitiveCall2, ($primitive, $value, $value), value, (value.0.into (), value.1.into (), value.2.into ()));
+		impl_from_for_Expression_2! (ProcedurePrimitiveCall2, ($primitive, [$value; 2]), value, (value.0.into (), (value.1)[0].clone () .into (), (value.1)[1].clone ().into ()));
 	);
 }
 
 #[ allow (unused_macros) ]
 macro_rules! impl_from_for_ProcedurePrimitiveCall3 {
 	( $primitive : ty ) => (
+		#[ cfg (feature = "conversions-all") ]
 		impl_from_for_ProcedurePrimitiveCall3! ($primitive, [
 				Expression,
 				Value,
@@ -259,15 +253,17 @@ macro_rules! impl_from_for_ProcedurePrimitiveCall3 {
 		$( impl_from_for_ProcedurePrimitiveCall3! ($primitive, $value); )*
 	);
 	( $primitive : ty, $value : ty ) => (
-		impl_from_for_Expression_2! (($primitive, $value, $value, $value), value, Expression::ProcedurePrimitiveCall3 (value.0.into (), vec! [value.1.into (), value.2.into (), value.3.into ()]));
-		impl_from_for_Expression_2! (($primitive, [$value; 3]), value, Expression::ProcedurePrimitiveCall3 (value.0.into (), vec_into (value.1[..].to_owned ())));
+		impl_from_for_Expression_2! (ProcedurePrimitiveCall3, ($primitive, $value, $value, $value), value, (value.0.into (), vec! [value.1.into (), value.2.into (), value.3.into ()]));
+		impl_from_for_Expression_2! (ProcedurePrimitiveCall3, ($primitive, [$value; 3]), value, (value.0.into (), vec_into (value.1[..].to_owned ())));
 	);
 }
 
 #[ allow (unused_macros) ]
 macro_rules! impl_from_for_ProcedurePrimitiveCallN {
 	( $primitive : ty ) => (
-		impl_from_for_Expression_2! (($primitive,), value, Expression::ProcedurePrimitiveCallN (value.0.into (), vec! []));
+		#[ cfg (feature = "conversions-all") ]
+		impl_from_for_Expression_2! (ProcedurePrimitiveCallN, ($primitive,), value, (value.0.into (), vec! []));
+		#[ cfg (feature = "conversions-all") ]
 		impl_from_for_ProcedurePrimitiveCallN! ($primitive, [
 				Expression,
 				Value,
@@ -287,24 +283,24 @@ macro_rules! impl_from_for_ProcedurePrimitiveCallN {
 	);
 	( $primitive : ty, $value : ty ) => (
 		
-		impl_from_for_Expression_2! (($primitive, StdVec<$value>), value, Expression::ProcedurePrimitiveCallN (value.0.into (), vec_into (value.1)));
-		impl_from_for_Expression_2! (($primitive, &'static [$value]), value, Expression::ProcedurePrimitiveCallN (value.0.into (), vec_into (value.1.to_owned ())));
+		impl_from_for_Expression_2! (ProcedurePrimitiveCallN, ($primitive, StdVec<$value>), value, (value.0.into (), vec_into (value.1)));
+		impl_from_for_Expression_2! (ProcedurePrimitiveCallN, ($primitive, &'static [$value]), value, (value.0.into (), vec_into (value.1.to_owned ())));
 		
-		impl_from_for_Expression_2! (($primitive, ($value,)), value, Expression::ProcedurePrimitiveCallN (value.0.into (), vec! [(value.1).0.into ()]));
-		impl_from_for_Expression_2! (($primitive, ($value, $value)), value, Expression::ProcedurePrimitiveCallN (value.0.into (), vec! [(value.1).0.into (), (value.1).1.into ()]));
-		impl_from_for_Expression_2! (($primitive, ($value, $value, $value)), value, Expression::ProcedurePrimitiveCallN (value.0.into (), vec! [(value.1).0.into (), (value.1).1.into (), (value.1).2.into ()]));
-		impl_from_for_Expression_2! (($primitive, ($value, $value, $value, $value)), value, Expression::ProcedurePrimitiveCallN (value.0.into (), vec! [(value.1).0.into (), (value.1).1.into (), (value.1).2.into (), (value.1).3.into ()]));
+		impl_from_for_Expression_2! (ProcedurePrimitiveCallN, ($primitive, ($value,)), value, (value.0.into (), vec! [(value.1).0.into ()]));
+		impl_from_for_Expression_2! (ProcedurePrimitiveCallN, ($primitive, ($value, $value)), value, (value.0.into (), vec! [(value.1).0.into (), (value.1).1.into ()]));
+		impl_from_for_Expression_2! (ProcedurePrimitiveCallN, ($primitive, ($value, $value, $value)), value, (value.0.into (), vec! [(value.1).0.into (), (value.1).1.into (), (value.1).2.into ()]));
+		impl_from_for_Expression_2! (ProcedurePrimitiveCallN, ($primitive, ($value, $value, $value, $value)), value, (value.0.into (), vec! [(value.1).0.into (), (value.1).1.into (), (value.1).2.into (), (value.1).3.into ()]));
 		
-		impl_from_for_Expression_2! (($primitive, [$value; 1]), value, Expression::ProcedurePrimitiveCallN (value.0.into (), vec_into (value.1[..].to_owned ())));
-		impl_from_for_Expression_2! (($primitive, [$value; 2]), value, Expression::ProcedurePrimitiveCallN (value.0.into (), vec_into (value.1[..].to_owned ())));
-		impl_from_for_Expression_2! (($primitive, [$value; 3]), value, Expression::ProcedurePrimitiveCallN (value.0.into (), vec_into (value.1[..].to_owned ())));
-		impl_from_for_Expression_2! (($primitive, [$value; 4]), value, Expression::ProcedurePrimitiveCallN (value.0.into (), vec_into (value.1[..].to_owned ())));
+		impl_from_for_Expression_2! (ProcedurePrimitiveCallN, ($primitive, [$value; 1]), value, (value.0.into (), vec_into (value.1[..].to_owned ())));
+		impl_from_for_Expression_2! (ProcedurePrimitiveCallN, ($primitive, [$value; 2]), value, (value.0.into (), vec_into (value.1[..].to_owned ())));
+		impl_from_for_Expression_2! (ProcedurePrimitiveCallN, ($primitive, [$value; 3]), value, (value.0.into (), vec_into (value.1[..].to_owned ())));
+		impl_from_for_Expression_2! (ProcedurePrimitiveCallN, ($primitive, [$value; 4]), value, (value.0.into (), vec_into (value.1[..].to_owned ())));
 		
 	);
 }
 
 
-/* * /
+/** /
 impl_from_for_ProcedurePrimitiveCall1! (TypePrimitive1);
 
 impl_from_for_ProcedurePrimitiveCall1! (BooleanPrimitive1);
@@ -317,7 +313,7 @@ impl_from_for_ProcedurePrimitiveCallN! (ArithmeticPrimitiveN);
 impl_from_for_ProcedurePrimitiveCall1! (BitwisePrimitive1);
 impl_from_for_ProcedurePrimitiveCall2! (BitwisePrimitive2);
 impl_from_for_ProcedurePrimitiveCallN! (BitwisePrimitiveN);
-/ * */
+/ **/
 
 
 
@@ -343,5 +339,62 @@ pub fn vec_from_list (list : &Value) -> (Outcome<ValueVec>) {
 		head = pair.right ();
 	}
 	return Ok (vector);
+}
+
+
+
+
+pub enum NumberCoercion1 {
+	Integer ( NumberInteger ),
+	Real ( NumberReal ),
+}
+
+pub enum NumberCoercion2 {
+	Integer ( NumberInteger, NumberInteger ),
+	Real ( NumberReal, NumberReal ),
+}
+
+#[ inline (always) ]
+pub fn number_coerce_1 (right : &Value) -> (Outcome<NumberCoercion1>) {
+	match right {
+		&Value::NumberInteger (ref right) =>
+			Ok (NumberCoercion1::Integer (*right)),
+		&Value::NumberReal (ref right) =>
+			Ok (NumberCoercion1::Real (*right)),
+		_ =>
+			failed! (0x947fb339),
+	}
+}
+
+#[ inline (always) ]
+pub fn number_coerce_2a (left : &Value, right : &Value) -> (Outcome<NumberCoercion2>) {
+	match (left, right) {
+		(&Value::NumberInteger (ref left), &Value::NumberInteger (ref right)) =>
+			Ok (NumberCoercion2::Integer (*left, *right)),
+		(&Value::NumberReal (ref left), &Value::NumberReal (ref right)) =>
+			Ok (NumberCoercion2::Real (*left, *right)),
+		(&Value::NumberReal (ref left), &Value::NumberInteger (ref right)) =>
+			Ok (NumberCoercion2::Real (*left, (*right).into ())),
+		(&Value::NumberInteger (ref left), &Value::NumberReal (ref right)) =>
+			Ok (NumberCoercion2::Real ((*left).into (), *right)),
+		_ =>
+			failed! (0x6cfbdd37),
+	}
+}
+
+#[ inline (always) ]
+pub fn number_coerce_2b (left : &NumberCoercion1, right : &Value) -> (Outcome<NumberCoercion2>) {
+	match (left, right) {
+		(&NumberCoercion1::Integer (ref left), &Value::NumberInteger (ref right)) =>
+			Ok (NumberCoercion2::Integer (*left, *right)),
+		(&NumberCoercion1::Real (ref left), &Value::NumberReal (ref right)) =>
+			Ok (NumberCoercion2::Real (*left, *right)),
+		(&NumberCoercion1::Real (ref left), &Value::NumberInteger (ref right)) =>
+			Ok (NumberCoercion2::Real (*left, (*right).into ())),
+		(&NumberCoercion1::Integer (ref left), &Value::NumberReal (ref right)) =>
+			Ok (NumberCoercion2::Real ((*left).into (), *right)),
+		_ =>
+			failed! (0xc3883ceb),
+	}
 }
 
