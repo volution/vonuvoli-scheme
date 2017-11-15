@@ -83,6 +83,17 @@ fn test () -> () {
 			("(+ 0.0 0)", Ok (ZERO_REAL_POSITIVE.into ())),
 			("(+ 0 0.0)", Ok (ZERO_REAL_POSITIVE.into ())),
 			
+			("'+", Ok (Symbol::from ("+").into ())),
+			("'()", Ok (NULL.into ())),
+			("'#t", Ok (TRUE.into ())),
+			("'1", Ok (ONE.into ())),
+			
+			("`1", Ok (ONE.into ())),
+			("`,1", Ok (ONE.into ())),
+			("`(1)", Ok (pair_new (ONE.into (), NULL.into ()).into ())),
+			("`(,1)", Ok (pair_new (ONE.into (), NULL.into ()).into ())),
+			("`(,@1)", Ok (ONE.into ())),
+			
 		];
 	
 	
@@ -98,15 +109,15 @@ fn test () -> () {
 		let data = parse (source) .unwrap ();
 		println! ("## parse >> `{}`", data);
 		
-		let expression = compile (&context, data) .unwrap ();
+		let expression = compile (&context, &data) .unwrap ();
 		println! ("## compile ##\n{:#?}", expression);
 		
 		let outcome = evaluator.evaluate_top (&mut context, &expression);
 		println! ("## evaluate ##\n{:#?}", outcome);
 		
-		println! ();
-		
 		assert_eq! (outcome, expected);
+		
+		println! ();
 	}
 	
 }

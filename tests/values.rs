@@ -67,11 +67,11 @@ fn test () -> () {
 	
 	
 	
-	assert_eq! (symbol ("".into ()), Symbol::from (""));
-	assert_eq! (symbol ("".into ()), "".into ());
+	assert_eq! (symbol_clone_str (""), Symbol::from (""));
+	assert_eq! (symbol_clone_str (""), "".into ());
 	
-	assert_eq! (string ("".into ()), String::from (""));
-	assert_eq! (string ("".into ()), "".into ());
+	assert_eq! (string_clone_str (""), String::from (""));
+	assert_eq! (string_clone_str (""), "".into ());
 	
 	
 	

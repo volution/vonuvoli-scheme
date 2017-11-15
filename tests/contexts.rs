@@ -14,7 +14,7 @@ fn test () -> () {
 	println! ("context -> {:#?}", context);
 	
 	let a_identifier = &"a";
-	let b_identifier = &symbol_from_slice ("b");
+	let b_identifier = &symbol_clone_str ("b");
 	
 	let mut a_binding_1 = context.define_expect (a_identifier);
 	let mut a_binding_2 = context.resolve_expect (a_identifier);
