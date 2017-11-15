@@ -88,6 +88,7 @@ macro_rules! impl_from_for_Value_3 {
 
 impl_from_for_Expression_1! (Value, Value);
 
+
 impl_from_for_Value_1! (Boolean, Boolean);
 impl_from_for_Value_1! (NumberInteger, NumberInteger);
 impl_from_for_Value_1! (NumberReal, NumberReal);
@@ -103,6 +104,7 @@ impl_from_for_Value_1! (ProcedurePrimitive, ProcedurePrimitive);
 impl_from_for_Value_1! (SyntaxPrimitive, SyntaxPrimitive);
 impl_from_for_Value_1! (Context, Context);
 impl_from_for_Value_1! (Binding, Binding);
+
 
 impl_from_for_Value_2! (Boolean, Boolean, bool);
 impl_from_for_Value_2! (Character, Character, char);
@@ -128,10 +130,12 @@ impl_from_for_type! (NumberReal, i64, value, number_f64 (value as f64));
 impl_from_for_type! (NumberReal, u64, value, number_f64 (value as f64));
 
 impl_from_for_Value_3! (String, String, StdString, value, string (value));
-impl_from_for_Value_3! (String, String, &'static str, value, string_from_slice (value));
+impl_from_for_Value_3! (String, String, &'static str, value, string_from_str (value));
 
 impl_from_for_type! (Symbol, StdString, value, symbol (value));
-impl_from_for_type! (Symbol, &'static str, value, symbol_from_slice (value));
+impl_from_for_type! (Symbol, &'static str, value, symbol_from_str (value));
+
+impl_from_for_type! (Pair, (Value, Value), value, { let (left, right) = value; pair (left, right) });
 
 
 
@@ -149,6 +153,7 @@ macro_rules! impl_from_for_primitive_procedure {
 impl_from_for_primitive_procedure! (TypePrimitive1, ProcedurePrimitive1, Primitive1, Type);
 
 impl_from_for_primitive_procedure! (BooleanPrimitive1, ProcedurePrimitive1, Primitive1, Boolean);
+impl_from_for_primitive_procedure! (BooleanPrimitive2, ProcedurePrimitive2, Primitive2, Boolean);
 impl_from_for_primitive_procedure! (BooleanPrimitiveN, ProcedurePrimitiveN, PrimitiveN, Boolean);
 
 impl_from_for_primitive_procedure! (ArithmeticPrimitive1, ProcedurePrimitive1, Primitive1, Arithmetic);
@@ -158,6 +163,10 @@ impl_from_for_primitive_procedure! (ArithmeticPrimitiveN, ProcedurePrimitiveN, P
 impl_from_for_primitive_procedure! (BitwisePrimitive1, ProcedurePrimitive1, Primitive1, Bitwise);
 impl_from_for_primitive_procedure! (BitwisePrimitive2, ProcedurePrimitive2, Primitive2, Bitwise);
 impl_from_for_primitive_procedure! (BitwisePrimitiveN, ProcedurePrimitiveN, PrimitiveN, Bitwise);
+
+impl_from_for_primitive_procedure! (ListPrimitive1, ProcedurePrimitive1, Primitive1, List);
+impl_from_for_primitive_procedure! (ListPrimitive2, ProcedurePrimitive2, Primitive2, List);
+impl_from_for_primitive_procedure! (ListPrimitiveN, ProcedurePrimitiveN, PrimitiveN, List);
 
 
 
@@ -304,6 +313,7 @@ macro_rules! impl_from_for_ProcedurePrimitiveCallN {
 impl_from_for_ProcedurePrimitiveCall1! (TypePrimitive1);
 
 impl_from_for_ProcedurePrimitiveCall1! (BooleanPrimitive1);
+impl_from_for_ProcedurePrimitiveCall1! (BooleanPrimitive2);
 impl_from_for_ProcedurePrimitiveCallN! (BooleanPrimitiveN);
 
 impl_from_for_ProcedurePrimitiveCall1! (ArithmeticPrimitive1);
@@ -319,24 +329,47 @@ impl_from_for_ProcedurePrimitiveCallN! (BitwisePrimitiveN);
 
 
 #[ inline (always) ]
+pub fn list_1 (value_1 : Value) -> (Value) {
+	pair (value_1, Value::Null) .into ()
+}
+
+#[ inline (always) ]
+pub fn list_2 (value_1 : Value, value_2 : Value) -> (Value) {
+	pair (value_1, pair (value_2, Value::Null).into ()) .into ()
+}
+
+#[ inline (always) ]
+pub fn list_3 (value_1 : Value, value_2 : Value, value_3 : Value) -> (Value) {
+	pair (value_1, pair (value_2, pair (value_3, Value::Null) .into ()) .into ()) .into ()
+}
+
+#[ inline (always) ]
+pub fn list_4 (value_1 : Value, value_2 : Value, value_3 : Value, value_4 : Value) -> (Value) {
+	pair (value_1, pair (value_2, pair (value_3, pair (value_4, Value::Null) .into ()) .into ()) .into ()) .into ()
+}
+
+
+
+
+#[ inline (always) ]
 pub fn vec_into <From, To : StdFrom<From>> (from : Vec<From>) -> (Vec<To>) {
 	from.into_iter () .map (|value| value.into ()) .collect ()
 }
 
 #[ inline (always) ]
-pub fn vec_from_slice <From : Clone, To : StdFrom<From>> (from : &[From]) -> (Vec<To>) {
+pub fn vec_clone_slice <From : Clone, To : StdFrom<From>> (from : &[From]) -> (Vec<To>) {
 	from.iter () .cloned () .map (|value| value.into ()) .collect ()
 }
 
 
 #[ inline (always) ]
-pub fn vec_from_list (list : &Value) -> (Outcome<ValueVec>) {
-	let mut vector = Vec::new ();
-	let mut head = list;
-	while *head != Value::Null {
-		let pair : &Pair = try! (StdTryAsRef::try_as_ref (head));
+pub fn vec_clone_list (list : &Value) -> (Outcome<ValueVec>) {
+	let mut vector = ValueVec::new ();
+	let mut cursor = list;
+	while *cursor != Value::Null {
+		let pair = try! (StdTryAsRef::<Pair>::try_as_ref (cursor));
 		vector.push (pair.left () .clone ());
-		head = pair.right ();
+		cursor = pair.right ();
 	}
 	return Ok (vector);
 }
