@@ -8,7 +8,15 @@ export -- LC_ALL=C
 
 cat <<'EOS'
 
-:: compile / peg :: test "${#}" -eq 0 ; if test ./sources/parser_peg.peg -nt ./sources/parser_peg.rs ; then rust-peg < ./sources/parser_peg.peg | rust-fmt >| ./sources/parser_peg.rs || true ; fi
+<< compile / peg
+	test "${#}" -eq 0
+	if test ./sources/parser_peg.peg -nt ./sources/parser_peg.rs ; then
+		rust-peg < ./sources/parser_peg.peg >| ./sources/.parser_peg.rs.tmp1
+		rust-fmt < ./sources/.parser_peg.rs.tmp1 >| ./sources/.parser_peg.rs.tmp2 || test "${?}" -eq 3
+		mv -T -- ./sources/.parser_peg.rs.tmp2 ./sources/parser_peg.rs
+		rm -- ./sources/.parser_peg.rs.tmp1
+	fi
+!!
 
 :: compile / bin / debug :: x-run ':: compile / peg' ; exec -- less-exec cargo build --all-features "${@}"
 :: compile / bin / release :: x-run ':: compile / peg' ; exec -- less-exec cargo build --all-features --release "${@}"
@@ -22,6 +30,8 @@ cat <<'EOS'
 :: execute / test / all :: x-run ':: compile / peg' ; export -- RUSTFLAGS=-Awarnings ; exec -- less-exec cargo test -- "${@}"
 
 :: browse / doc :: exec -- x-www open file://"$( readlink -e -- ./target/doc/rust_scheme/index.html )"
+
+:: clean :: exec -- rm -R -f ./target/
 
 EOS
 
