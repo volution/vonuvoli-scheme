@@ -129,13 +129,13 @@ impl_from_for_type! (NumberReal, u32, value, number_f64 (value as f64));
 impl_from_for_type! (NumberReal, i64, value, number_f64 (value as f64));
 impl_from_for_type! (NumberReal, u64, value, number_f64 (value as f64));
 
-impl_from_for_Value_3! (String, String, StdString, value, string (value));
-impl_from_for_Value_3! (String, String, &'static str, value, string_from_str (value));
+impl_from_for_Value_3! (String, String, StdString, value, string_new (value));
+impl_from_for_Value_3! (String, String, &'static str, value, string_clone_str (value));
 
-impl_from_for_type! (Symbol, StdString, value, symbol (value));
-impl_from_for_type! (Symbol, &'static str, value, symbol_from_str (value));
+impl_from_for_type! (Symbol, StdString, value, symbol_new (value));
+impl_from_for_type! (Symbol, &'static str, value, symbol_clone_str (value));
 
-impl_from_for_type! (Pair, (Value, Value), value, { let (left, right) = value; pair (left, right) });
+impl_from_for_type! (Pair, (Value, Value), value, { let (left, right) = value; pair_new (left, right) });
 
 
 
@@ -329,29 +329,6 @@ impl_from_for_ProcedurePrimitiveCallN! (BitwisePrimitiveN);
 
 
 #[ inline (always) ]
-pub fn list_1 (value_1 : Value) -> (Value) {
-	pair (value_1, Value::Null) .into ()
-}
-
-#[ inline (always) ]
-pub fn list_2 (value_1 : Value, value_2 : Value) -> (Value) {
-	pair (value_1, pair (value_2, Value::Null).into ()) .into ()
-}
-
-#[ inline (always) ]
-pub fn list_3 (value_1 : Value, value_2 : Value, value_3 : Value) -> (Value) {
-	pair (value_1, pair (value_2, pair (value_3, Value::Null) .into ()) .into ()) .into ()
-}
-
-#[ inline (always) ]
-pub fn list_4 (value_1 : Value, value_2 : Value, value_3 : Value, value_4 : Value) -> (Value) {
-	pair (value_1, pair (value_2, pair (value_3, pair (value_4, Value::Null) .into ()) .into ()) .into ()) .into ()
-}
-
-
-
-
-#[ inline (always) ]
 pub fn vec_into <From, To : StdFrom<From>> (from : Vec<From>) -> (Vec<To>) {
 	from.into_iter () .map (|value| value.into ()) .collect ()
 }
@@ -359,19 +336,6 @@ pub fn vec_into <From, To : StdFrom<From>> (from : Vec<From>) -> (Vec<To>) {
 #[ inline (always) ]
 pub fn vec_clone_slice <From : Clone, To : StdFrom<From>> (from : &[From]) -> (Vec<To>) {
 	from.iter () .cloned () .map (|value| value.into ()) .collect ()
-}
-
-
-#[ inline (always) ]
-pub fn vec_clone_list (list : &Value) -> (Outcome<ValueVec>) {
-	let mut vector = ValueVec::new ();
-	let mut cursor = list;
-	while *cursor != Value::Null {
-		let pair = try! (StdTryAsRef::<Pair>::try_as_ref (cursor));
-		vector.push (pair.left () .clone ());
-		cursor = pair.right ();
-	}
-	return Ok (vector);
 }
 
 

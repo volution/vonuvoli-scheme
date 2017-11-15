@@ -30,11 +30,11 @@ pub mod exports {
 	pub use super::{Array, ArrayBox, ArrayVec};
 	
 	pub use super::{boolean, number_i64, number_f64, character};
-	pub use super::{symbol, symbol_from_str, symbol_from_characters};
-	pub use super::{string, string_from_str, string_from_characters};
-	pub use super::{bytes, bytes_from_slice};
-	pub use super::{array, array_from_slice};
-	pub use super::{pair, list, list_dotted};
+	pub use super::{symbol_new, symbol_clone_str, symbol_clone_characters};
+	pub use super::{string_new, string_clone_str, string_clone_characters};
+	pub use super::{bytes_new, bytes_clone_slice};
+	pub use super::{array_new, array_clone_slice};
+	pub use super::{pair_new, list_new, list_dotted_new};
 	
 }
 
@@ -1141,12 +1141,12 @@ pub fn character (value : char) -> (Character) {
 
 
 #[ inline (always) ]
-pub fn symbol (value : StdString) -> (Symbol) {
+pub fn symbol_new (value : StdString) -> (Symbol) {
 	Symbol (StdRc::new (value))
 }
 
 #[ inline (always) ]
-pub fn string (value : StdString) -> (String) {
+pub fn string_new (value : StdString) -> (String) {
 	String (StdRc::new (value))
 }
 
@@ -1154,77 +1154,77 @@ pub fn string (value : StdString) -> (String) {
 
 
 #[ inline (always) ]
-pub fn symbol_from_str (value : &str) -> (Symbol) {
-	symbol (StdString::from (value))
+pub fn symbol_clone_str (value : &str) -> (Symbol) {
+	symbol_new (StdString::from (value))
 }
 
 #[ inline (always) ]
-pub fn string_from_str (value : &str) -> (String) {
-	string (StdString::from (value))
+pub fn string_clone_str (value : &str) -> (String) {
+	string_new (StdString::from (value))
 }
 
 
 
 
 #[ inline (always) ]
-pub fn symbol_from_characters (characters : &[char]) -> (Symbol) {
+pub fn symbol_clone_characters (characters : &[char]) -> (Symbol) {
 	let mut value = StdString::with_capacity (characters.len ());
 	for character in characters {
 		value.push (*character);
 	}
-	return symbol (StdString::from (value));
+	return symbol_new (StdString::from (value));
 }
 
 #[ inline (always) ]
-pub fn string_from_characters (characters : &[char]) -> (String) {
+pub fn string_clone_characters (characters : &[char]) -> (String) {
 	let mut value = StdString::with_capacity (characters.len ());
 	for character in characters {
 		value.push (*character);
 	}
-	return string (StdString::from (value));
+	return string_new (StdString::from (value));
 }
 
 
 
 
 #[ inline (always) ]
-pub fn bytes (values : Vec<u8>) -> (Bytes) {
+pub fn bytes_new (values : Vec<u8>) -> (Bytes) {
 	Bytes (StdRc::new (values))
 }
 
 #[ inline (always) ]
-pub fn bytes_from_slice (values : &[u8]) -> (Bytes) {
-	bytes (values.to_vec ())
+pub fn bytes_clone_slice (values : &[u8]) -> (Bytes) {
+	bytes_new (values.to_vec ())
 }
 
 
 
 
 #[ inline (always) ]
-pub fn array (values : ValueVec) -> (Array) {
+pub fn array_new (values : ValueVec) -> (Array) {
 	Array (StdRc::new (values))
 }
 
 #[ inline (always) ]
-pub fn array_from_slice (values : &[Value]) -> (Array) {
-	array (values.to_vec ())
+pub fn array_clone_slice (values : &[Value]) -> (Array) {
+	array_new (values.to_vec ())
 }
 
 
 
 
 #[ inline (always) ]
-pub fn pair (left : Value, right : Value) -> (Pair) {
+pub fn pair_new (left : Value, right : Value) -> (Pair) {
 	Pair (StdRc::new ((left, right)))
 }
 
 #[ inline (always) ]
-pub fn list (values : ValueVec) -> (Value) {
-	list_dotted (values, Value::Null)
+pub fn list_new (values : ValueVec) -> (Value) {
+	list_dotted_new (values, Value::Null)
 }
 
 #[ inline (always) ]
-pub fn list_dotted (values : ValueVec, last : Value) -> (Value) {
-	values.into_iter () .rev () .fold (last, |last, value| Value::Pair (pair (value, last)))
+pub fn list_dotted_new (values : ValueVec, last : Value) -> (Value) {
+	values.into_iter () .rev () .fold (last, |last, value| Value::Pair (pair_new (value, last)))
 }
 

@@ -277,7 +277,7 @@ fn __parse_list_proper<'input>(
                                         match __seq_res {
                                             Matched(__pos, _) => {
                                                 Matched(__pos, {
-                                                    values::list(elements)
+                                                    values::list_new(elements)
                                                 })
                                             }
                                             Failed => Failed,
@@ -382,7 +382,7 @@ fn __parse_list_dotted<'input>(
                                                                         match __seq_res {
                                                                             Matched(__pos, _) => {
                                                                                 Matched(__pos, {
-                                                                                    values::list_dotted (elements, last)
+                                                                                    values::list_dotted_new (elements, last)
                                                                                 })
                                                                             }
                                                                             Failed => Failed,
@@ -505,7 +505,7 @@ fn __parse_array<'input>(
                                         match __seq_res {
                                             Matched(__pos, _) => {
                                                 Matched(__pos, {
-                                                    values::array(elements).into()
+                                                    values::array_new(elements).into()
                                                 })
                                             }
                                             Failed => Failed,
@@ -543,7 +543,7 @@ fn __parse_abbreviation<'input>(
                         match __seq_res {
                             Matched(__pos, value) => {
                                 Matched(__pos, {
-                                    values::list(vec![abbreviation, value])
+                                    values::list_new(vec![abbreviation, value])
                                 })
                             }
                             Failed => Failed,
@@ -2157,7 +2157,7 @@ fn __parse_symbol_single_character<'input>(
                 match __seq_res {
                     Matched(__pos, value) => {
                         Matched(__pos, {
-                            values::symbol_from_str(value).into()
+                            values::symbol_clone_str(value).into()
                         })
                     }
                     Failed => Failed,
@@ -2211,7 +2211,7 @@ fn __parse_symbol_multiple_characters<'input>(
         match __seq_res {
             Matched(__pos, value) => {
                 Matched(__pos, {
-                    values::symbol_from_str(value).into()
+                    values::symbol_clone_str(value).into()
                 })
             }
             Failed => Failed,
@@ -2311,7 +2311,7 @@ fn __parse_symbol_string<'input>(
                         match __seq_res {
                             Matched(__pos, _) => {
                                 Matched(__pos, {
-                                    values::symbol_from_characters(elements.as_slice()).into()
+                                    values::symbol_clone_characters(elements.as_slice()).into()
                                 })
                             }
                             Failed => Failed,
@@ -2407,7 +2407,7 @@ fn __parse_string<'input>(
                         match __seq_res {
                             Matched(__pos, _) => {
                                 Matched(__pos, {
-                                    values::string_from_characters(elements.as_slice()).into()
+                                    values::string_clone_characters(elements.as_slice()).into()
                                 })
                             }
                             Failed => Failed,
@@ -2722,7 +2722,7 @@ fn __parse_bytes<'input>(
                                                 match __seq_res {
                                                     Matched(__pos, _) => {
                                                         Matched(__pos, {
-                                                            values::bytes(elements).into()
+                                                            values::bytes_new(elements).into()
                                                         })
                                                     }
                                                     Failed => Failed,
