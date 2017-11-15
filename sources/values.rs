@@ -15,14 +15,27 @@ use std::ops;
 
 
 pub mod exports {
+	
 	pub use super::{ValueClass};
+	
 	pub use super::{Value, ValueBox, ValueVec};
-	pub use super::{Boolean, NumberInteger, NumberReal, Character, Symbol, String, Bytes, Pair, Array};
+	pub use super::{Boolean, BooleanBox, BooleanVec};
+	pub use super::{NumberInteger, NumberIntegerBox, NumberIntegerVec};
+	pub use super::{NumberReal, NumberRealBox, NumberRealVec};
+	pub use super::{Character, CharacterBox, CharacterVec};
+	pub use super::{Symbol, SymbolBox, SymbolVec};
+	pub use super::{String, StringBox, StringVec};
+	pub use super::{Bytes, BytesBox, BytesVec};
+	pub use super::{Pair, PairBox, PairVec};
+	pub use super::{Array, ArrayBox, ArrayVec};
+	
 	pub use super::{boolean, number_i64, number_f64, character};
-	pub use super::{symbol, symbol_from_slice, symbol_from_characters};
-	pub use super::{string, string_from_slice, string_from_characters};
-	pub use super::{bytes_from_slice, array_from_slice};
-	pub use super::{list_from_slice, list_from_slice_2};
+	pub use super::{symbol, symbol_from_str, symbol_from_characters};
+	pub use super::{string, string_from_str, string_from_characters};
+	pub use super::{bytes, bytes_from_slice};
+	pub use super::{array, array_from_slice};
+	pub use super::{pair, list, list_dotted};
+	
 }
 
 
@@ -198,6 +211,10 @@ impl fmt::Display for Value {
 pub struct Boolean ( pub bool );
 
 
+pub type BooleanBox = StdBox<Boolean>;
+pub type BooleanVec = StdVec<Boolean>;
+
+
 impl Boolean {
 	
 	#[ inline (always) ]
@@ -260,6 +277,10 @@ impl fmt::Display for Boolean {
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
 pub struct NumberInteger ( pub i64 );
+
+
+pub type NumberIntegerBox = StdBox<NumberInteger>;
+pub type NumberIntegerVec = StdVec<NumberInteger>;
 
 
 macro_rules! NumberInteger_fn_predicate {
@@ -573,42 +594,42 @@ impl ops::Neg for NumberInteger {
 	}
 }
 
-impl <IntoNumberInteger : StdInto<NumberInteger>> ops::Add<IntoNumberInteger> for NumberInteger {
+impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Add<NumberIntegerInto> for NumberInteger {
 	type Output = Outcome<NumberInteger>;
 	#[ inline (always) ]
-	fn add (self, other : IntoNumberInteger) -> (Outcome<NumberInteger>) {
+	fn add (self, other : NumberIntegerInto) -> (Outcome<NumberInteger>) {
 		NumberInteger::add (&self, &other.into ())
 	}
 }
 
-impl <IntoNumberInteger : StdInto<NumberInteger>> ops::Sub<IntoNumberInteger> for NumberInteger {
+impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Sub<NumberIntegerInto> for NumberInteger {
 	type Output = Outcome<NumberInteger>;
 	#[ inline (always) ]
-	fn sub (self, other : IntoNumberInteger) -> (Outcome<NumberInteger>) {
+	fn sub (self, other : NumberIntegerInto) -> (Outcome<NumberInteger>) {
 		NumberInteger::sub (&self, &other.into ())
 	}
 }
 
-impl <IntoNumberInteger : StdInto<NumberInteger>> ops::Mul<IntoNumberInteger> for NumberInteger {
+impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Mul<NumberIntegerInto> for NumberInteger {
 	type Output = Outcome<NumberInteger>;
 	#[ inline (always) ]
-	fn mul (self, other : IntoNumberInteger) -> (Outcome<NumberInteger>) {
+	fn mul (self, other : NumberIntegerInto) -> (Outcome<NumberInteger>) {
 		NumberInteger::mul (&self, &other.into ())
 	}
 }
 
-impl <IntoNumberInteger : StdInto<NumberInteger>> ops::Div<IntoNumberInteger> for NumberInteger {
+impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Div<NumberIntegerInto> for NumberInteger {
 	type Output = Outcome<NumberInteger>;
 	#[ inline (always) ]
-	fn div (self, other : IntoNumberInteger) -> (Outcome<NumberInteger>) {
+	fn div (self, other : NumberIntegerInto) -> (Outcome<NumberInteger>) {
 		NumberInteger::div (&self, &other.into ())
 	}
 }
 
-impl <IntoNumberInteger : StdInto<NumberInteger>> ops::Rem<IntoNumberInteger> for NumberInteger {
+impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Rem<NumberIntegerInto> for NumberInteger {
 	type Output = Outcome<NumberInteger>;
 	#[ inline (always) ]
-	fn rem (self, other : IntoNumberInteger) -> (Outcome<NumberInteger>) {
+	fn rem (self, other : NumberIntegerInto) -> (Outcome<NumberInteger>) {
 		NumberInteger::rem (&self, &other.into ())
 	}
 }
@@ -622,42 +643,42 @@ impl ops::Not for NumberInteger {
 	}
 }
 
-impl <IntoNumberInteger : StdInto<NumberInteger>> ops::BitAnd<IntoNumberInteger> for NumberInteger {
+impl <NumberIntegerInto : StdInto<NumberInteger>> ops::BitAnd<NumberIntegerInto> for NumberInteger {
 	type Output = NumberInteger;
 	#[ inline (always) ]
-	fn bitand (self, other : IntoNumberInteger) -> (NumberInteger) {
+	fn bitand (self, other : NumberIntegerInto) -> (NumberInteger) {
 		NumberInteger::bitand (&self, &other.into ())
 	}
 }
 
-impl <IntoNumberInteger : StdInto<NumberInteger>> ops::BitOr<IntoNumberInteger> for NumberInteger {
+impl <NumberIntegerInto : StdInto<NumberInteger>> ops::BitOr<NumberIntegerInto> for NumberInteger {
 	type Output = NumberInteger;
 	#[ inline (always) ]
-	fn bitor (self, other : IntoNumberInteger) -> (NumberInteger) {
+	fn bitor (self, other : NumberIntegerInto) -> (NumberInteger) {
 		NumberInteger::bitor (&self, &other.into ())
 	}
 }
 
-impl <IntoNumberInteger : StdInto<NumberInteger>> ops::BitXor<IntoNumberInteger> for NumberInteger {
+impl <NumberIntegerInto : StdInto<NumberInteger>> ops::BitXor<NumberIntegerInto> for NumberInteger {
 	type Output = NumberInteger;
 	#[ inline (always) ]
-	fn bitxor (self, other : IntoNumberInteger) -> (NumberInteger) {
+	fn bitxor (self, other : NumberIntegerInto) -> (NumberInteger) {
 		NumberInteger::bitxor (&self, &other.into ())
 	}
 }
 
-impl <IntoNumberInteger : StdInto<NumberInteger>> ops::Shl<IntoNumberInteger> for NumberInteger {
+impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Shl<NumberIntegerInto> for NumberInteger {
 	type Output = Outcome<NumberInteger>;
 	#[ inline (always) ]
-	fn shl (self, other : IntoNumberInteger) -> (Outcome<NumberInteger>) {
+	fn shl (self, other : NumberIntegerInto) -> (Outcome<NumberInteger>) {
 		NumberInteger::shl (&self, &other.into ())
 	}
 }
 
-impl <IntoNumberInteger : StdInto<NumberInteger>> ops::Shr<IntoNumberInteger> for NumberInteger {
+impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Shr<NumberIntegerInto> for NumberInteger {
 	type Output = Outcome<NumberInteger>;
 	#[ inline (always) ]
-	fn shr (self, other : IntoNumberInteger) -> (Outcome<NumberInteger>) {
+	fn shr (self, other : NumberIntegerInto) -> (Outcome<NumberInteger>) {
 		NumberInteger::shr (&self, &other.into ())
 	}
 }
@@ -674,6 +695,10 @@ impl fmt::Display for NumberInteger {
 
 #[ derive (Copy, Clone, Debug) ]
 pub struct NumberReal ( pub f64 );
+
+
+pub type NumberRealBox = StdBox<NumberReal>;
+pub type NumberRealVec = StdVec<NumberReal>;
 
 
 macro_rules! NumberReal_fn_predicate {
@@ -828,42 +853,42 @@ impl ops::Neg for NumberReal {
 	}
 }
 
-impl <IntoNumberReal : StdInto<NumberReal>> ops::Add<IntoNumberReal> for NumberReal {
+impl <NumberRealInto : StdInto<NumberReal>> ops::Add<NumberRealInto> for NumberReal {
 	type Output = NumberReal;
 	#[ inline (always) ]
-	fn add (self, other : IntoNumberReal) -> (NumberReal) {
+	fn add (self, other : NumberRealInto) -> (NumberReal) {
 		NumberReal::add (&self, &other.into ())
 	}
 }
 
-impl <IntoNumberReal : StdInto<NumberReal>> ops::Sub<IntoNumberReal> for NumberReal {
+impl <NumberRealInto : StdInto<NumberReal>> ops::Sub<NumberRealInto> for NumberReal {
 	type Output = NumberReal;
 	#[ inline (always) ]
-	fn sub (self, other : IntoNumberReal) -> (NumberReal) {
+	fn sub (self, other : NumberRealInto) -> (NumberReal) {
 		NumberReal::sub (&self, &other.into ())
 	}
 }
 
-impl <IntoNumberReal : StdInto<NumberReal>> ops::Mul<IntoNumberReal> for NumberReal {
+impl <NumberRealInto : StdInto<NumberReal>> ops::Mul<NumberRealInto> for NumberReal {
 	type Output = NumberReal;
 	#[ inline (always) ]
-	fn mul (self, other : IntoNumberReal) -> (NumberReal) {
+	fn mul (self, other : NumberRealInto) -> (NumberReal) {
 		NumberReal::mul (&self, &other.into ())
 	}
 }
 
-impl <IntoNumberReal : StdInto<NumberReal>> ops::Div<IntoNumberReal> for NumberReal {
+impl <NumberRealInto : StdInto<NumberReal>> ops::Div<NumberRealInto> for NumberReal {
 	type Output = NumberReal;
 	#[ inline (always) ]
-	fn div (self, other : IntoNumberReal) -> (NumberReal) {
+	fn div (self, other : NumberRealInto) -> (NumberReal) {
 		NumberReal::div (&self, &other.into ())
 	}
 }
 
-impl <IntoNumberReal : StdInto<NumberReal>> ops::Rem<IntoNumberReal> for NumberReal {
+impl <NumberRealInto : StdInto<NumberReal>> ops::Rem<NumberRealInto> for NumberReal {
 	type Output = NumberReal;
 	#[ inline (always) ]
-	fn rem (self, other : IntoNumberReal) -> (NumberReal) {
+	fn rem (self, other : NumberRealInto) -> (NumberReal) {
 		NumberReal::rem (&self, &other.into ())
 	}
 }
@@ -898,6 +923,10 @@ impl fmt::Display for NumberReal {
 pub struct Character ( pub char );
 
 
+pub type CharacterBox = StdBox<Character>;
+pub type CharacterVec = StdVec<Character>;
+
+
 impl fmt::Display for Character {
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		use std::fmt::Write;
@@ -906,7 +935,7 @@ impl fmt::Display for Character {
 			'!' ... '~' => { try! (formatter.write_str ("#\\")); try! (formatter.write_char (character)); },
 			_ => try! (write! (formatter, "#\\x{:02x}", character as u32)),
 		}
-		return Ok(());
+		return Ok (());
 	}
 }
 
@@ -915,6 +944,10 @@ impl fmt::Display for Character {
 
 #[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
 pub struct Symbol ( StdRc<StdString> );
+
+
+pub type SymbolBox = StdBox<Symbol>;
+pub type SymbolVec = StdVec<Symbol>;
 
 
 impl fmt::Display for Symbol {
@@ -933,7 +966,7 @@ impl fmt::Display for Symbol {
 				}
 			}
 			try! (formatter.write_char ('|'));
-			return Ok(());
+			return Ok (());
 		}
 	}
 }
@@ -944,6 +977,10 @@ impl fmt::Display for Symbol {
 #[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
 // FIXME:  Add immutability flag!
 pub struct String ( StdRc<StdString> );
+
+
+pub type StringBox = StdBox<String>;
+pub type StringVec = StdVec<String>;
 
 
 impl fmt::Display for String {
@@ -958,7 +995,7 @@ impl fmt::Display for String {
 			}
 		}
 		try! (formatter.write_char ('"'));
-		return Ok(());
+		return Ok (());
 	}
 }
 
@@ -968,6 +1005,10 @@ impl fmt::Display for String {
 #[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
 // FIXME:  Add immutability flag!
 pub struct Bytes ( StdRc<StdVec<u8>> );
+
+
+pub type BytesBox = StdBox<Bytes>;
+pub type BytesVec = StdVec<Bytes>;
 
 
 impl fmt::Display for Bytes {
@@ -984,7 +1025,7 @@ impl fmt::Display for Bytes {
 			try! (write! (formatter, "{}", byte));
 		}
 		try! (formatter.write_char (')'));
-		return Ok(());
+		return Ok (());
 	}
 }
 
@@ -994,6 +1035,10 @@ impl fmt::Display for Bytes {
 #[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
 // FIXME:  Add immutability flag!
 pub struct Pair ( StdRc<(Value, Value)> );
+
+
+pub type PairBox = StdBox<Pair>;
+pub type PairVec = StdVec<Pair>;
 
 
 impl Pair {
@@ -1014,26 +1059,28 @@ impl fmt::Display for Pair {
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		use std::fmt::Write;
 		try! (formatter.write_char ('('));
-		let mut head = self;
+		let mut cursor = self;
 		loop {
-			try! ((head.0).0.fmt (formatter));
-			match (head.0).1 {
+			let left = cursor.left ();
+			let right = cursor.right ();
+			try! (left.fmt (formatter));
+			match *right {
 				Value::Null => break,
-				Value::Pair (ref tail) => {
+				Value::Pair (ref right) => {
 					try! (formatter.write_char (' '));
-					head = tail;
+					cursor = right;
 				},
 				_ => {
 					try! (formatter.write_char (' '));
 					try! (formatter.write_char ('.'));
 					try! (formatter.write_char (' '));
-					try! ((head.0).1.fmt (formatter));
+					try! (right.fmt (formatter));
 					break;
 				},
 			}
 		}
 		try! (formatter.write_char (')'));
-		return Ok(());
+		return Ok (());
 	}
 }
 
@@ -1043,6 +1090,10 @@ impl fmt::Display for Pair {
 #[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
 // FIXME:  Add immutability flag!
 pub struct Array ( StdRc<StdVec<Value>> );
+
+
+pub type ArrayBox = StdBox<Array>;
+pub type ArrayVec = StdVec<Array>;
 
 
 impl fmt::Display for Array {
@@ -1059,7 +1110,7 @@ impl fmt::Display for Array {
 			try! (element.fmt (formatter));
 		}
 		try! (formatter.write_char (')'));
-		return Ok(());
+		return Ok (());
 	}
 }
 
@@ -1103,12 +1154,12 @@ pub fn string (value : StdString) -> (String) {
 
 
 #[ inline (always) ]
-pub fn symbol_from_slice (value : &str) -> (Symbol) {
+pub fn symbol_from_str (value : &str) -> (Symbol) {
 	symbol (StdString::from (value))
 }
 
 #[ inline (always) ]
-pub fn string_from_slice (value : &str) -> (String) {
+pub fn string_from_str (value : &str) -> (String) {
 	string (StdString::from (value))
 }
 
@@ -1116,18 +1167,18 @@ pub fn string_from_slice (value : &str) -> (String) {
 
 
 #[ inline (always) ]
-pub fn symbol_from_characters (slice : &[char]) -> (Symbol) {
-	let mut value = StdString::with_capacity (slice.len ());
-	for character in slice {
+pub fn symbol_from_characters (characters : &[char]) -> (Symbol) {
+	let mut value = StdString::with_capacity (characters.len ());
+	for character in characters {
 		value.push (*character);
 	}
 	return symbol (StdString::from (value));
 }
 
 #[ inline (always) ]
-pub fn string_from_characters (slice : &[char]) -> (String) {
-	let mut value = StdString::with_capacity (slice.len ());
-	for character in slice {
+pub fn string_from_characters (characters : &[char]) -> (String) {
+	let mut value = StdString::with_capacity (characters.len ());
+	for character in characters {
 		value.push (*character);
 	}
 	return string (StdString::from (value));
@@ -1137,29 +1188,43 @@ pub fn string_from_characters (slice : &[char]) -> (String) {
 
 
 #[ inline (always) ]
-pub fn bytes_from_slice (slice : &[u8]) -> (Bytes) {
-	Bytes (StdRc::new (slice.to_vec ()))
+pub fn bytes (values : Vec<u8>) -> (Bytes) {
+	Bytes (StdRc::new (values))
 }
 
 #[ inline (always) ]
-pub fn array_from_slice (slice : &[Value]) -> (Array) {
-	Array (StdRc::new (slice.to_vec ()))
+pub fn bytes_from_slice (values : &[u8]) -> (Bytes) {
+	bytes (values.to_vec ())
 }
 
 
 
 
 #[ inline (always) ]
-pub fn list_from_slice (slice : &[Value]) -> (Value) {
-	list_from_slice_2 (slice, Value::Null)
+pub fn array (values : ValueVec) -> (Array) {
+	Array (StdRc::new (values))
 }
 
 #[ inline (always) ]
-pub fn list_from_slice_2 (slice : &[Value], continuation : Value) -> (Value) {
-	let mut head = continuation;
-	for value in slice.iter () .rev () {
-		head = Value::Pair (Pair (StdRc::new ((value.clone (), head))));
-	}
-	return head;
+pub fn array_from_slice (values : &[Value]) -> (Array) {
+	array (values.to_vec ())
+}
+
+
+
+
+#[ inline (always) ]
+pub fn pair (left : Value, right : Value) -> (Pair) {
+	Pair (StdRc::new ((left, right)))
+}
+
+#[ inline (always) ]
+pub fn list (values : ValueVec) -> (Value) {
+	list_dotted (values, Value::Null)
+}
+
+#[ inline (always) ]
+pub fn list_dotted (values : ValueVec, last : Value) -> (Value) {
+	values.into_iter () .rev () .fold (last, |last, value| Value::Pair (pair (value, last)))
 }
 
