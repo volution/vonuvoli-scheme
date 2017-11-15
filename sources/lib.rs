@@ -20,6 +20,7 @@ pub mod primitives;
 pub mod primitives_arithmetic;
 pub mod primitives_bitwise;
 pub mod primitives_boolean;
+pub mod primitives_lists;
 pub mod primitives_procedures;
 pub mod primitives_syntaxes;
 pub mod primitives_types;

@@ -7,6 +7,7 @@ use super::values::exports::*;
 use super::primitives_arithmetic::*;
 use super::primitives_bitwise::*;
 use super::primitives_boolean::*;
+use super::primitives_lists::*;
 use super::primitives_types::*;
 
 
@@ -53,6 +54,7 @@ pub enum ProcedurePrimitive1 {
 	Boolean ( BooleanPrimitive1 ),
 	Arithmetic ( ArithmeticPrimitive1 ),
 	Bitwise ( BitwisePrimitive1 ),
+	List ( ListPrimitive1 ),
 }
 
 
@@ -61,6 +63,7 @@ pub enum ProcedurePrimitive2 {
 	Boolean ( BooleanPrimitive2 ),
 	Arithmetic ( ArithmeticPrimitive2 ),
 	Bitwise ( BitwisePrimitive2 ),
+	List ( ListPrimitive2 ),
 }
 
 
@@ -69,6 +72,7 @@ pub enum ProcedurePrimitiveN {
 	Boolean ( BooleanPrimitiveN ),
 	Arithmetic ( ArithmeticPrimitiveN ),
 	Bitwise ( BitwisePrimitiveN ),
+	List ( ListPrimitiveN ),
 }
 
 
@@ -98,6 +102,9 @@ pub fn procedure_primitive_1_evaluate (primitive : ProcedurePrimitive1, input : 
 		ProcedurePrimitive1::Bitwise (primitive) =>
 			bitwise_primitive_1_evaluate (primitive, input),
 		
+		ProcedurePrimitive1::List (_primitive) =>
+			fail_unimplemented! (0xdec94b52),
+		
 	}
 }
 
@@ -116,6 +123,9 @@ pub fn procedure_primitive_2_evaluate (primitive : ProcedurePrimitive2, input_1 
 		
 		ProcedurePrimitive2::Bitwise (primitive) =>
 			bitwise_primitive_2_evaluate (primitive, input_1, input_2),
+		
+		ProcedurePrimitive2::List (_primitive) =>
+			fail_unimplemented! (0x3afdf83d),
 	}
 }
 
@@ -134,6 +144,9 @@ pub fn procedure_primitive_n_evaluate (primitive : ProcedurePrimitiveN, inputs :
 		
 		ProcedurePrimitiveN::Bitwise (primitive) =>
 			bitwise_primitive_n_evaluate (primitive, inputs),
+		
+		ProcedurePrimitiveN::List (_primitive) =>
+			fail_unimplemented! (0xc2188644),
 		
 	}
 }
