@@ -251,10 +251,10 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			
 			("base", "list?", TypePrimitive1::IsListProper.into ()),
 			
-			("base", "list", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "list", ListPrimitiveN::List.into ()),
 			("base", "make-list", ProcedurePrimitive::Unimplemented.into ()),
 			("base", "list-copy", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "append", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "append", ListPrimitiveN::Append.into ()),
 			("base", "length", ProcedurePrimitive::Unimplemented.into ()),
 			
 			("base", "list-ref", ProcedurePrimitive::Unimplemented.into ()),

@@ -102,8 +102,8 @@ pub fn procedure_primitive_1_evaluate (primitive : ProcedurePrimitive1, input : 
 		ProcedurePrimitive1::Bitwise (primitive) =>
 			bitwise_primitive_1_evaluate (primitive, input),
 		
-		ProcedurePrimitive1::List (_primitive) =>
-			fail_unimplemented! (0xdec94b52),
+		ProcedurePrimitive1::List (primitive) =>
+			list_primitive_1_evaluate (primitive, input),
 		
 	}
 }
@@ -124,8 +124,8 @@ pub fn procedure_primitive_2_evaluate (primitive : ProcedurePrimitive2, input_1 
 		ProcedurePrimitive2::Bitwise (primitive) =>
 			bitwise_primitive_2_evaluate (primitive, input_1, input_2),
 		
-		ProcedurePrimitive2::List (_primitive) =>
-			fail_unimplemented! (0x3afdf83d),
+		ProcedurePrimitive2::List (primitive) =>
+			list_primitive_2_evaluate (primitive, input_1, input_2),
 	}
 }
 
@@ -145,8 +145,8 @@ pub fn procedure_primitive_n_evaluate (primitive : ProcedurePrimitiveN, inputs :
 		ProcedurePrimitiveN::Bitwise (primitive) =>
 			bitwise_primitive_n_evaluate (primitive, inputs),
 		
-		ProcedurePrimitiveN::List (_primitive) =>
-			fail_unimplemented! (0xc2188644),
+		ProcedurePrimitiveN::List (primitive) =>
+			list_primitive_n_evaluate (primitive, inputs),
 		
 	}
 }

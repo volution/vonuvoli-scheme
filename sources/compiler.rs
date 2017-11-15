@@ -1,9 +1,9 @@
 
 
 use super::contexts::exports::*;
-use super::conversions::exports::*;
 use super::errors::exports::*;
 use super::expressions::exports::*;
+use super::operators::exports::*;
 use super::primitives::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
@@ -211,7 +211,7 @@ pub fn compile_syntax_quasy_quote_value (context : &Context, value : &Value, spl
 	fn splice <ExpressionInto : StdInto<Expression>> (expression : ExpressionInto, spliceable : bool) -> (Expression) {
 		let expression = expression.into ();
 		if spliceable {
-			Expression::ProcedureCall (ListPrimitive1::List1.into (), vec! [expression])
+			Expression::ProcedureCall (ListPrimitive1::List.into (), vec! [expression])
 		} else {
 			expression
 		}
@@ -304,7 +304,7 @@ pub fn compile_syntax_quasy_quote_value (context : &Context, value : &Value, spl
 				}
 			}
 			
-			succeed! (Expression::ProcedureCall (ListPrimitiveN::AppendN.into (), elements));
+			succeed! (Expression::ProcedureCall (ListPrimitiveN::Append.into (), elements));
 		},
 		
 	}
