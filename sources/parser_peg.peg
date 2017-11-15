@@ -1,7 +1,7 @@
 
 
 use super::constants::exports as constants;
-use super::errors::exports as errors;
+use super::primitives::exports as primitives;
 use super::values::exports as values;
 
 use std::char;
@@ -11,19 +11,27 @@ use std::str::FromStr;
 pub value_full -> values::Value = value
 
 
-value -> values::Value = list / array / abbreviation / atom
+value -> values::Value = abbreviation / list / array / atom
 
 atom -> values::Value = boolean / number / symbol / character / string / bytes
 
 list -> values::Value = list_empty / list_proper / list_dotted
-list_proper -> values::Value = "(" space? elements : value ++ space space? ")" { values::list_from_slice (elements.as_slice ()) }
-list_dotted -> values::Value = "(" space? elements : value ++ space space "." space last : value space? ")" { values::list_from_slice_2 (elements.as_slice (), last) }
+list_proper -> values::Value = "(" space? elements : value ++ space space? ")" { values::list (elements) }
+list_dotted -> values::Value = "(" space? elements : value ++ space space "." space last : value space? ")" { values::list_dotted (elements, last) }
 list_empty -> values::Value = ( "(" space? ")" / "#null" ) { constants::NULL.into () }
 
-array -> values::Value = "#(" space? elements : value ** space space? ")" {  values::array_from_slice (elements.as_slice ()) .into () }
+array -> values::Value = "#(" space? elements : value ** space space? ")" {  values::array (elements) .into () }
 
-abbreviation -> values::Value = abbreviation_prefix whitespace? value { errors::error_unimplemented (0x07804a3b) .into () }
-abbreviation_prefix = "'" / "`" / "," / ",@"
+abbreviation -> values::Value = abbreviation : abbreviation_prefix whitespace? value : value { values::list (vec! [abbreviation, value]) }
+abbreviation_prefix -> values::Value = value : $( "'" / "`" / ",@" / "," ) {?
+		match value {
+			"'" => Ok (primitives::SyntaxPrimitive1::Quote.into ()),
+			"`" => Ok (primitives::SyntaxPrimitive1::QuasiQuote.into ()),
+			"," => Ok (primitives::SyntaxPrimitive1::UnQuote.into ()),
+			",@" => Ok (primitives::SyntaxPrimitive1::UnQuoteSplicing.into ()),
+			_ => Err ("a2007ac4"),
+		}
+	}
 
 boolean -> values::Value = boolean_true / boolean_false
 boolean_true -> values::Value = "#true" { constants::TRUE.into () } / "#t" { constants::TRUE.into () }
@@ -42,13 +50,13 @@ number_real -> values::Value = number_real_variant_1 / number_real_variant_2 / n
 number_real_variant_1 -> values::Value = value : $( number_sign? [0-9]+ "." [0-9]+ number_real_exponent? ) {? f64::from_str (value) .map (|value| values::number_f64 (value) .into ()) .map_err (|_| "invalid real syntax") }
 number_real_variant_2 -> values::Value = value : $( number_sign? [0-9]+ "." number_real_exponent? ) {? f64::from_str (value) .map (|value| values::number_f64 (value) .into ()) .map_err (|_| "invalid real syntax") }
 number_real_variant_3 -> values::Value = value : $( number_sign? "." [0-9]+ number_real_exponent? ) {? f64::from_str (value) .map (|value| values::number_f64 (value) .into ()) .map_err (|_| "invalid real syntax") }
-number_real_variant_4 -> values::Value = value : $( number_sign? [0-9]+ number_real_exponent ) {? f64::from_str (value) .map (|value| values::number_f64 (value). into ()) .map_err (|_| "invalid real syntax") }
+number_real_variant_4 -> values::Value = value : $( number_sign? [0-9]+ number_real_exponent ) {? f64::from_str (value) .map (|value| values::number_f64 (value) .into ()) .map_err (|_| "invalid real syntax") }
 number_real_inf -> values::Value = number_real_inf_positive / number_real_inf_negative
-number_real_inf_positive -> values::Value = &"+" number_sign "inf" ".0"? { constants::INF_POSITIVE .into () }
-number_real_inf_negative -> values::Value = &"-" number_sign "inf" ".0"? { constants::INF_NEGATIVE .into () }
+number_real_inf_positive -> values::Value = &"+" number_sign "inf" ".0"? { constants::INF_POSITIVE.into () }
+number_real_inf_negative -> values::Value = &"-" number_sign "inf" ".0"? { constants::INF_NEGATIVE.into () }
 number_real_nan -> values::Value = number_real_nan_positive / number_real_nan_negative
-number_real_nan_positive -> values::Value = &"+" number_sign "nan" ".0"? { constants::NAN_POSITIVE .into () }
-number_real_nan_negative -> values::Value = &"-" number_sign "nan" ".0"? { constants::NAN_NEGATIVE .into () }
+number_real_nan_positive -> values::Value = &"+" number_sign "nan" ".0"? { constants::NAN_POSITIVE.into () }
+number_real_nan_negative -> values::Value = &"-" number_sign "nan" ".0"? { constants::NAN_NEGATIVE.into () }
 number_real_exponent = ( "e" / "E" ) number_sign? [0-9]+
 
 character -> values::Value = character_glyph / character_escaped / character_named
@@ -70,8 +78,8 @@ character_named -> values::Value = "#\\" value : $( "alarm" / "backspace" / "del
 	}
 
 symbol -> values::Value = symbol_multiple_characters / symbol_single_character / symbol_string
-symbol_single_character -> values::Value = !"." value : $( symbol_character_glyph ) { values::symbol_from_slice (value) .into () }
-symbol_multiple_characters -> values::Value = value : $( symbol_character_glyph symbol_character_glyph+ ) { values::symbol_from_slice (value) .into () }
+symbol_single_character -> values::Value = !"." value : $( symbol_character_glyph ) { values::symbol_from_str (value) .into () }
+symbol_multiple_characters -> values::Value = value : $( symbol_character_glyph symbol_character_glyph+ ) { values::symbol_from_str (value) .into () }
 symbol_character_glyph = [a-zA-Z] / [!$%&*/:<=>?^_~] / [0-9] / [@.+-]
 
 symbol_string -> values::Value = "|" elements : symbol_string_character* "|" { values::symbol_from_characters (elements.as_slice ()) .into () }
@@ -93,7 +101,7 @@ string_character_named -> char = "\\" value : $( "a" / "b" / "t" / "n" / "r" ) {
 		}
 	}
 
-bytes -> values::Value = ( "#u8" / "#U8" ) "(" space? elements : bytes_byte ** space space?  ")" { values::bytes_from_slice (elements.as_slice ()) .into () }
+bytes -> values::Value = ( "#u8" / "#U8" ) "(" space? elements : bytes_byte ** space space?  ")" { values::bytes (elements) .into () }
 bytes_byte -> u8 = value : $( [0-9]+ ) {? u8::from_str (value) .map_err (|_| "invalid byte syntax") }
 
 comment = comment_line / comment_nested / comment_value
