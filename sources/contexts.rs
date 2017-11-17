@@ -273,6 +273,19 @@ impl Binding {
 		return Ok (value);
 	}
 	
+	#[ inline (always) ]
+	pub fn initialize<ValueFrom> (&self, value : ValueFrom) -> (Outcome<Value>)
+			where Value : StdFrom<ValueFrom>
+	{
+		let mut self_0 = self.internals_ref_mut ();
+		if self_0.immutable {
+			return failed! (0x11c77731);
+		}
+		let mut value = Value::from (value);
+		self_0.value = value.clone ();
+		return Ok (value);
+	}
+	
 	
 	#[ inline (always) ]
 	pub fn set_immutable (&self) -> (Outcome<()>) {

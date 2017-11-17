@@ -27,11 +27,13 @@ pub enum Expression {
 	ContextUpdate ( Symbol, ExpressionBox ),
 	ContextSelect ( Symbol ),
 	
-	RegisterGet ( usize ),
+	RegisterInitialize ( usize, ExpressionBox ),
 	RegisterSet ( usize, ExpressionBox ),
+	RegisterGet ( usize ),
 	
-	BindingGet ( Binding ),
+	BindingInitialize ( Binding, ExpressionBox ),
 	BindingSet ( Binding, ExpressionBox ),
+	BindingGet ( Binding ),
 	
 	ProcedureCall ( ExpressionBox, ExpressionVec ),
 	

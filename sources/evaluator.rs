@@ -71,15 +71,19 @@ impl Evaluator {
 			Expression::ContextSelect (ref identifier) =>
 				self.evaluate_context_select (evaluation, identifier),
 			
-			Expression::RegisterGet (index) =>
-				self.evaluate_register_get (evaluation, index),
+			Expression::RegisterInitialize (index, ref expression) =>
+				self.evaluate_register_initialize (evaluation, index, expression),
 			Expression::RegisterSet (index, ref expression) =>
 				self.evaluate_register_set (evaluation, index, expression),
+			Expression::RegisterGet (index) =>
+				self.evaluate_register_get (evaluation, index),
 			
-			Expression::BindingGet (ref binding) =>
-				self.evaluate_binding_get (evaluation, binding),
+			Expression::BindingInitialize (ref binding, ref expression) =>
+				self.evaluate_binding_initialize (evaluation, binding, expression),
 			Expression::BindingSet (ref binding, ref expression) =>
 				self.evaluate_binding_set (evaluation, binding, expression),
+			Expression::BindingGet (ref binding) =>
+				self.evaluate_binding_get (evaluation, binding),
 			
 			Expression::ProcedureCall (ref callable, ref inputs) =>
 				self.evaluate_procedure_call (evaluation, callable, inputs.as_ref ()),
@@ -125,8 +129,8 @@ impl Evaluator {
 	pub fn evaluate_context_define (&self, evaluation : &mut EvaluationContext, identifier : &Symbol, expression : &Expression) -> (Outcome<Value>) {
 		let binding = try! (evaluation.context.define (identifier));
 		let value_new = try! (self.evaluate (evaluation, expression));
-		let value_old = try! (binding.set (value_new));
-		return Ok (value_old);
+		let value_new = try! (binding.initialize (value_new));
+		return Ok (value_new);
 	}
 	
 	#[ inline (always) ]
@@ -148,6 +152,14 @@ impl Evaluator {
 	
 	
 	#[ inline (always) ]
+	pub fn evaluate_register_initialize (&self, evaluation : &mut EvaluationContext, index : usize, expression : &Expression) -> (Outcome<Value>) {
+		let binding = try! (evaluation.registers.resolve (index));
+		let value_new = try! (self.evaluate (evaluation, expression));
+		let value_new = try! (binding.initialize (value_new));
+		return Ok (value_new);
+	}
+	
+	#[ inline (always) ]
 	pub fn evaluate_register_set (&self, evaluation : &mut EvaluationContext, index : usize, expression : &Expression) -> (Outcome<Value>) {
 		let binding = try! (evaluation.registers.resolve (index));
 		let value_new = try! (self.evaluate (evaluation, expression));
@@ -164,6 +176,13 @@ impl Evaluator {
 	
 	
 	
+	
+	#[ inline (always) ]
+	pub fn evaluate_binding_initialize (&self, evaluation : &mut EvaluationContext, binding : &Binding, expression : &Expression) -> (Outcome<Value>) {
+		let value_new = try! (self.evaluate (evaluation, expression));
+		let value_new = try! (binding.initialize (value_new));
+		return Ok (value_new);
+	}
 	
 	#[ inline (always) ]
 	pub fn evaluate_binding_set (&self, evaluation : &mut EvaluationContext, binding : &Binding, expression : &Expression) -> (Outcome<Value>) {
