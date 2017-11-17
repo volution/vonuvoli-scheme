@@ -8,15 +8,16 @@ use std::char;
 use std::str::FromStr;
 
 
-pub value_full -> values::Value = value
 
+
+pub value_full -> values::Value = space? value : value space? { value }
 
 value -> values::Value = abbreviation / list / array / atom
 
-atom -> values::Value = boolean / number / symbol / character / string / bytes
+atom -> values::Value = boolean / number / symbol / character / string / bytes / constant
 
 list -> values::Value = list_empty / list_proper / list_dotted
-list_proper -> values::Value = "(" space? elements : value ++ space space? ")" { values::list_new (elements) }
+list_proper -> values::Value = "(" space? elements : value ** space space? ")" { values::list_new (elements) }
 list_dotted -> values::Value = "(" space? elements : value ++ space space "." space last : value space? ")" { values::list_dotted_new (elements, last) }
 list_empty -> values::Value = ( "(" space? ")" / "#null" ) { constants::NULL.into () }
 
@@ -104,11 +105,20 @@ string_character_named -> char = "\\" value : $( "a" / "b" / "t" / "n" / "r" ) {
 bytes -> values::Value = ( "#u8" / "#U8" ) "(" space? elements : bytes_byte ** space space?  ")" { values::bytes_new (elements) .into () }
 bytes_byte -> u8 = value : $( [0-9]+ ) {? u8::from_str (value) .map_err (|_| "invalid byte syntax") }
 
-comment = comment_line / comment_nested / comment_value
+constant -> values::Value = "#void" { constants::VOID.into () } / "#undefined" { constants::UNDEFINED.into () }
+
+comment = #quiet< comment_line / comment_nested / comment_value >
 comment_line = #quiet< ";" .* "\n" >
 comment_nested = #quiet< "#|" ( !("#|" / "|#") . . )* comment_nested* ( !("#|" / "|#") . . )* >
 comment_value = "#;" whitespace value
 
 whitespace = #quiet< [ \t\n]+ >
 space = ( whitespace / comment )+
+
+
+
+
+pub tests -> Vec<(values::Value, values::Value)> = space? tests : test* space? { tests }
+
+pub test -> (values::Value, values::Value) = space? input : value space? "=>" space? output : value space? ( "//" space? value space? )? ";" space? { (input, output) }
 

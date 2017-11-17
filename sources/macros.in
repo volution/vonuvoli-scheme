@@ -258,3 +258,66 @@ macro_rules! vec_into {
 	);
 }
 
+
+
+
+#[ allow (unused_macros) ]
+macro_rules! try_as_ref {
+	( $type : ty, $value : expr ) => (
+		try! ($crate::runtime::exports::StdTryAsRef::<$type>::try_as_ref ($value));
+	);
+}
+
+#[ allow (unused_macros) ]
+macro_rules! def_try_as_ref {
+	( $identifier : ident, $type : ty) => (
+		macro_rules! $identifier {
+			( $value : expr ) => (
+				try_as_ref! ($type, $value);
+			);
+		}
+	);
+}
+
+def_try_as_ref! (try_as_symbol_ref, Symbol);
+
+
+
+
+#[ macro_export ]
+#[ allow (unused_macros) ]
+macro_rules! def_tests {
+	( $identifier : ident, $source : expr ) => (
+		
+		#[ test ]
+		fn $identifier () -> () {
+			
+			use $crate::exports::*;
+			
+			let source = $source;
+			let tests = parse_tests (source) .unwrap ();
+			
+			let mut context = language_r7rs_generate_context () .unwrap ();
+			let mut evaluator = Evaluator::new ();
+			
+			for (input_syntax, output_syntax) in tests {
+				
+				println! ();
+				println! (">> {} => {} ;", input_syntax, output_syntax);
+				
+				let input_expression = compile (&context, &input_syntax) .unwrap ();
+				let output_expression = compile (&context, &output_syntax) .unwrap ();
+				
+				println! ("## {:?}", input_expression);
+				
+				let input_value = evaluator.evaluate_top (&context, &input_expression) .unwrap ();
+				let output_value = evaluator.evaluate_top (&context, &output_expression) .unwrap ();
+				
+				assert_eq! (input_value, output_value);
+				
+				println! ();
+			}
+		}
+	);
+}
+
