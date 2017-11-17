@@ -94,11 +94,21 @@ fn test () -> () {
 			("`(,1)", Ok (pair_new (ONE.into (), NULL.into ()).into ())),
 			("`(,@1)", Ok (ONE.into ())),
 			
+			("(if #t 1 0)", Ok (ONE.into ())),
+			("(if #f 1 0)", Ok (ZERO.into ())),
+			("(if 1 1 0)", Ok (ONE.into ())),
+			("(if 0 1 0)", Ok (ONE.into ())),
+			("(if #null 1 0)", Ok (ONE.into ())),
+			
+			("(begin)", Ok (VOID.into ())),
+			("(begin 0)", Ok (ZERO.into ())),
+			("(begin 0 1)", Ok (ONE.into ())),
+			
 		];
 	
 	
-	let mut context = language_r7rs_generate_context () .unwrap ();
-	let mut evaluator = Evaluator::new ();
+	let context = language_r7rs_generate_context () .unwrap ();
+	let evaluator = Evaluator::new ();
 	
 	
 	for (source, expected) in tests {
@@ -106,13 +116,13 @@ fn test () -> () {
 		println! ();
 		println! (">> {}", source);
 		
-		let data = parse (source) .unwrap ();
+		let data = parse_value (source) .unwrap ();
 		println! ("## parse >> `{}`", data);
 		
 		let expression = compile (&context, &data) .unwrap ();
 		println! ("## compile ##\n{:#?}", expression);
 		
-		let outcome = evaluator.evaluate_top (&mut context, &expression);
+		let outcome = evaluator.evaluate_top (&context, &expression);
 		println! ("## evaluate ##\n{:#?}", outcome);
 		
 		assert_eq! (outcome, expected);

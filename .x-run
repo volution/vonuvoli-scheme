@@ -12,7 +12,7 @@ cat <<'EOS'
 	test "${#}" -eq 0
 	if test ./sources/parser_peg.peg -nt ./sources/parser_peg.rs ; then
 		rust-peg < ./sources/parser_peg.peg >| ./sources/.parser_peg.rs.tmp1
-		rust-fmt < ./sources/.parser_peg.rs.tmp1 >| ./sources/.parser_peg.rs.tmp2 || test "${?}" -eq 3
+		rust-fmt < ./sources/.parser_peg.rs.tmp1 >| ./sources/.parser_peg.rs.tmp2 || test "${?}" -eq 3 || exit -- 1
 		mv -T -- ./sources/.parser_peg.rs.tmp2 ./sources/parser_peg.rs
 		rm -- ./sources/.parser_peg.rs.tmp1
 	fi
@@ -27,16 +27,18 @@ cat <<'EOS'
 :: execute / bin / debug :: x-run ':: compile / peg' ; exec -- cargo run -- "${@}"
 :: execute / bin / release :: x-run ':: compile / peg' ; exec -- cargo run --release -- "${@}"
 
-:: execute / test / all :: x-run ':: compile / peg' ; export -- RUSTFLAGS=-Awarnings ; exec -- less-exec cargo test -- "${@}"
+:: execute / test / all :: x-run ':: compile / peg' ; exec -- less-exec cargo test -- "${@}"
 
 :: browse / doc :: exec -- x-www open file://"$( readlink -e -- ./target/doc/rust_scheme/index.html )"
 
 :: clean :: exec -- rm -R -f ./target/
 
+:: grep / sources / x-selection / primary :: exec -- git grep -C10 -F -e "$( exec -- x-selection primary output )" -- ./sources
+
 EOS
 
 
-for _test in sizes values parser expressions contexts compiler evaluator r7rs counters ; do
+for _test in sizes values parser expressions contexts compiler evaluator r7rs counters tests ; do
 sed -r -e 's#@\{TEST\}#'"${_test}"'#g' <<'EOS'
 :: execute / test / @{TEST} :: x-run ':: compile / peg' ; export -- RUSTFLAGS=-Awarnings RUST_BACKTRACE=1 ; exec -- less-exec cargo test --test @{TEST} -- --nocapture "${@}"
 EOS

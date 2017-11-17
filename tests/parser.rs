@@ -66,9 +66,9 @@ fn test () -> () {
 		
 		println! (">> `{}`", input_1);
 		
-		let output_1 = parse (input_1) .unwrap ();
+		let output_1 = parse_value (input_1) .unwrap ();
 		let input_2 = output_1.to_string ();
-		let output_2 = parse (input_2.as_ref ()) .unwrap ();
+		let output_2 = parse_value (input_2.as_ref ()) .unwrap ();
 		
 		println! ("== `{}` -> `{}` -> `{}`", input_1, output_1, output_2);
 		println! ("## {:#?}", output_1);

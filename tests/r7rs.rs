@@ -11,8 +11,8 @@ fn test () -> () {
 	
 	if false {
 		
-		let mut context = Context::new (None);
-		language_r7rs_initialize_context (&mut context) .unwrap ();
+		let context = Context::new (None);
+		language_r7rs_initialize_context (&context) .unwrap ();
 		
 		println! ("{:#?}", context);
 		

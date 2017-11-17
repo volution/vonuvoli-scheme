@@ -9,18 +9,18 @@ use rust_scheme::exports::*;
 #[ test ]
 fn test () -> () {
 	
-	let mut context = Context::new (None);
+	let context = Context::new (None);
 	
 	println! ("context -> {:#?}", context);
 	
 	let a_identifier = &"a";
 	let b_identifier = &symbol_clone_str ("b");
 	
-	let mut a_binding_1 = context.define_expect (a_identifier);
-	let mut a_binding_2 = context.resolve_expect (a_identifier);
+	let a_binding_1 = context.define_expect (a_identifier);
+	let a_binding_2 = context.resolve_expect (a_identifier);
 	
-	let mut b_binding_1 = context.define_expect (b_identifier);
-	let mut b_binding_2 = context.resolve_expect (b_identifier);
+	let b_binding_1 = context.define_expect (b_identifier);
+	let b_binding_2 = context.resolve_expect (b_identifier);
 	
 	println! ("a:1 -> {}", a_binding_1);
 	println! ("a:2 -> {}", a_binding_2);

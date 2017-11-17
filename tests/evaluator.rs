@@ -35,12 +35,12 @@ fn test () -> () {
 			
 		];
 	
-	let mut context = Context::new (None);
-	let mut evaluator = Evaluator::new ();
+	let context = Context::new (None);
+	let evaluator = Evaluator::new ();
 	
 	for expression in expressions {
 		println! (">> {:?}", expression);
-		let outcome = evaluator.evaluate_top (&mut context, &expression);
+		let outcome = evaluator.evaluate_top (&context, &expression);
 		match outcome {
 			Ok (value) =>
 				println! ("== {:?} {}", expression, value),
