@@ -164,32 +164,72 @@ pub fn compile_syntax_call (context : &Context, syntax : &SyntaxPrimitive, argum
 					SyntaxPrimitive1::UnQuote | SyntaxPrimitive1::UnQuoteSplicing =>
 						fail! (0x99b4857b),
 					
-					/*
-					_ =>
-						fail_unimplemented! (0xa1437a16),
-					*/
-					
 				}
 			} else {
 				fail! (0x421da1f1);
 			},
 		
-		SyntaxPrimitive::Primitive2 (_syntax) =>
+		SyntaxPrimitive::Primitive2 (syntax) =>
 			if arguments_count == 2 {
-				fail_unimplemented! (0x23f98ca2);
+				match syntax {
+					
+					SyntaxPrimitive2::Define => {
+						let identifier = &arguments[0];
+						let value = &arguments[1];
+						match identifier.class () {
+							ValueClass::Symbol => {
+								let identifier = try_as_symbol_ref! (identifier);
+								let binding = try! (context.define (identifier));
+								let value = try! (compile (context, value));
+								succeed! (Expression::BindingInitialize (binding, value.into ()));
+							},
+							ValueClass::Pair =>
+								fail_unimplemented! (0xfc72467c),
+							_ =>
+								fail! (0x404d24c7),
+						}
+					},
+					
+					SyntaxPrimitive2::DefineValues =>
+						fail_unimplemented! (0x2f87acf0),
+					
+					SyntaxPrimitive2::Set =>
+						fail_unimplemented! (0x19d7ebad),
+					
+					SyntaxPrimitive2::SetValues =>
+						fail_unimplemented! (0xeea43320),
+					
+				}
 			} else {
 				fail! (0x9d9b6a94);
 			},
 		
-		SyntaxPrimitive::Primitive3 (_syntax) =>
+		SyntaxPrimitive::Primitive3 (syntax) =>
 			if arguments_count == 3 {
-				fail_unimplemented! (0x1aedee96);
+				match syntax {
+					
+					SyntaxPrimitive3::If => {
+						let arguments = try! (compile_vec (context, arguments));
+						succeed! (Expression::SyntaxPrimitiveCall (SyntaxPrimitive3::If.into (), arguments));
+					},
+					
+				}
 			} else {
 				fail! (0xd76f0ad2);
 			},
 		
-		SyntaxPrimitive::PrimitiveN (_syntax) =>
-			fail_unimplemented! (0x73d95eb5),
+		SyntaxPrimitive::PrimitiveN (syntax) =>
+			match syntax {
+				
+				SyntaxPrimitiveN::Begin => {
+					let arguments = try! (compile_vec (context, arguments));
+					succeed! (Expression::SyntaxPrimitiveCall (SyntaxPrimitiveN::Begin.into (), arguments));
+				},
+				
+				_ =>
+					fail_unimplemented! (0x73d95eb5),
+				
+			},
 		
 		SyntaxPrimitive::Auxiliary =>
 			fail! (0x1aed14f3),

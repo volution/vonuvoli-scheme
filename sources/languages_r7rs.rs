@@ -58,38 +58,37 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			("base", "=>", SyntaxPrimitive::Auxiliary.into ()),
 			("base", "else", SyntaxPrimitive::Auxiliary.into ()),
 			
-			("base", "quote", SyntaxPrimitive::Unimplemented.into ()),
-			("base", "quasiquote", SyntaxPrimitive::Unimplemented.into ()),
-			("base", "unquote", SyntaxPrimitive::Unimplemented.into ()),
-			("base", "unquote-splicing", SyntaxPrimitive::Unimplemented.into ()),
+			("base", "quote", SyntaxPrimitive1::Quote.into ()),
+			("base", "quasiquote", SyntaxPrimitive1::QuasiQuote.into ()),
+			("base", "unquote", SyntaxPrimitive1::UnQuote.into ()),
+			("base", "unquote-splicing", SyntaxPrimitive1::UnQuoteSplicing.into ()),
 			
-			("base", "begin", SyntaxPrimitive::Unimplemented.into ()),
-			("base", "if", SyntaxPrimitive::Unimplemented.into ()),
-			("base", "unless", SyntaxPrimitive::Unimplemented.into ()),
-			("base", "when", SyntaxPrimitive::Unimplemented.into ()),
-			("base", "cond", SyntaxPrimitive::Unimplemented.into ()),
-			("base", "do", SyntaxPrimitive::Unimplemented.into ()),
-			
-			("base", "lambda", SyntaxPrimitive::Unimplemented.into ()),
-			
-			("base", "case", SyntaxPrimitive::Unimplemented.into ()),
+			("base", "begin", SyntaxPrimitiveN::Begin.into ()),
+			("base", "if", SyntaxPrimitive3::If.into ()),
+			("base", "unless", SyntaxPrimitiveN::Unless.into ()),
+			("base", "when", SyntaxPrimitiveN::When.into ()),
+			("base", "cond", SyntaxPrimitiveN::Cond.into ()),
+			("base", "case", SyntaxPrimitiveN::Case.into ()),
+			("base", "do", SyntaxPrimitiveN::Do.into ()),
 			("base", "guard", SyntaxPrimitive::Unimplemented.into ()),
 			
-			("base", "or", SyntaxPrimitive::Unimplemented.into ()),
-			("base", "and", SyntaxPrimitive::Unimplemented.into ()),
+			("base", "lambda", SyntaxPrimitiveN::Lambda.into ()),
 			
-			("base", "define", SyntaxPrimitive::Unimplemented.into ()),
-			("base", "define-values", SyntaxPrimitive::Unimplemented.into ()),
+			("base", "and", SyntaxPrimitiveN::And.into ()),
+			("base", "or", SyntaxPrimitiveN::Or.into ()),
+			
+			("base", "define", SyntaxPrimitive2::Define.into ()),
+			("base", "define-values", SyntaxPrimitive2::DefineValues.into ()),
 			("base", "define-syntax", SyntaxPrimitive::Unimplemented.into ()),
 			("base", "define-record-type", SyntaxPrimitive::Unimplemented.into ()),
 			
-			("base", "let", SyntaxPrimitive::Unimplemented.into ()),
+			("base", "let", SyntaxPrimitiveN::Let.into ()),
 			("base", "let*", SyntaxPrimitive::Unimplemented.into ()),
 			
 			("base", "letrec", SyntaxPrimitive::Unimplemented.into ()),
 			("base", "letrec*", SyntaxPrimitive::Unimplemented.into ()),
 			
-			("base", "let-values", SyntaxPrimitive::Unimplemented.into ()),
+			("base", "let-values", SyntaxPrimitiveN::LetValues.into ()),
 			("base", "let*-values", SyntaxPrimitive::Unimplemented.into ()),
 			
 			("base", "let-syntax", SyntaxPrimitive::Unimplemented.into ()),

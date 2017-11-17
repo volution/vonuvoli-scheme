@@ -278,3 +278,13 @@ impl Evaluator {
 	
 }
 
+
+
+
+impl <'a> EvaluationContext<'a> {
+	
+	pub fn evaluate (&mut self, input : &Expression) -> (Outcome<Value>) {
+		return self.evaluator.evaluate (self, input);
+	}
+}
+
