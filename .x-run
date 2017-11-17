@@ -38,7 +38,7 @@ cat <<'EOS'
 EOS
 
 
-for _test in sizes values parser expressions contexts compiler evaluator r7rs counters tests ; do
+for _test in scheme r7rs conversions parser sizes ; do
 sed -r -e 's#@\{TEST\}#'"${_test}"'#g' <<'EOS'
 :: execute / test / @{TEST} :: x-run ':: compile / peg' ; export -- RUSTFLAGS=-Awarnings RUST_BACKTRACE=1 ; exec -- less-exec cargo test --test @{TEST} -- --nocapture "${@}"
 EOS
