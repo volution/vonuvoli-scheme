@@ -1,0 +1,11 @@
+
+#t => #true;
+#f => #false;
+
+#void => #void;
+#undefined => #undefined;
+
+0 => 0;
+1 => 1;
+2 => 2;
+

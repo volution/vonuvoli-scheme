@@ -321,3 +321,11 @@ macro_rules! def_tests {
 	);
 }
 
+#[ macro_export ]
+#[ allow (unused_macros) ]
+macro_rules! def_tests_from_file {
+	( $identifier : ident, $source : expr ) => (
+		def_tests! ($identifier, include_str! ($source));
+	);
+}
+
