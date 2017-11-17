@@ -13,6 +13,7 @@ pub mod exports {
 	pub use super::{list_build_1, list_build_2, list_build_3, list_build_4, list_build_n};
 	pub use super::{list_append_2, list_append_3, list_append_4, list_append_n};
 	pub use super::{vec_clone_list, vec_drain_list, vec_drain_list_dotted};
+	pub use super::{is_true, is_false, is_not_false, is_true_or_equivalent, is_false_or_equivalent};
 }
 
 
@@ -165,6 +166,43 @@ pub fn vec_drain_list_dotted (vector : &mut ValueVec, list : &Value) -> (Outcome
 			ref value =>
 				succeed! (Some ((*value).clone ())),
 		}
+	}
+}
+
+
+
+
+#[ inline (always) ]
+pub fn is_true (value : &Value) -> (bool) {
+	*value == TRUE.into ()
+}
+
+#[ inline (always) ]
+pub fn is_false (value : &Value) -> (bool) {
+	*value == FALSE.into ()
+}
+
+#[ inline (always) ]
+pub fn is_not_false (value : &Value) -> (bool) {
+	*value != FALSE.into ()
+}
+
+#[ inline (always) ]
+pub fn is_true_or_equivalent (value : &Value) -> (bool) {
+	!is_false_or_equivalent (value)
+}
+
+#[ inline (always) ]
+pub fn is_false_or_equivalent (value : &Value) -> (bool) {
+	match *value {
+		Value::Null | Value::Void | Value::Undefined =>
+			true,
+		Value::Boolean (FALSE) =>
+			true,
+		Value::Error (_) =>
+			true,
+		_ =>
+			false,
 	}
 }
 
