@@ -27,8 +27,8 @@ fn test () -> () {
 	println! ("b:1 -> {}", b_binding_1);
 	println! ("b:2 -> {}", b_binding_2);
 	
-	a_binding_1.set (ZERO);
-	b_binding_1.set (ONE);
+	a_binding_1.set (ZERO) .unwrap ();
+	b_binding_1.set (ONE) .unwrap ();
 	
 	println! ("a:1 -> {}", a_binding_1);
 	println! ("a:2 -> {}", a_binding_2);

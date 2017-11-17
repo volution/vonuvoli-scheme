@@ -297,8 +297,8 @@ macro_rules! def_tests {
 			let source = $source;
 			let tests = parse_tests (source) .unwrap ();
 			
-			let mut context = language_r7rs_generate_context () .unwrap ();
-			let mut evaluator = Evaluator::new ();
+			let context = language_r7rs_generate_context () .unwrap ();
+			let evaluator = Evaluator::new ();
 			
 			for (input_syntax, output_syntax) in tests {
 				

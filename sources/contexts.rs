@@ -281,7 +281,7 @@ impl Binding {
 		if self_0.immutable {
 			return failed! (0x11c77731);
 		}
-		let mut value = Value::from (value);
+		let value = Value::from (value);
 		self_0.value = value.clone ();
 		return Ok (value);
 	}
