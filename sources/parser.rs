@@ -31,7 +31,6 @@ pub fn parse_value (input : &str) -> Outcome<Value> {
 
 #[ inline (always) ]
 pub fn parse_tests (input : &str) -> Outcome<StdVec<(Value, Value)>> {
-	peg::tests (input) .unwrap ();
 	if let Ok (output) = peg::tests (input) {
 		succeed! (output);
 	} else {

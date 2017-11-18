@@ -15,6 +15,7 @@ pub mod evaluator;
 pub mod expressions;
 pub mod globals;
 pub mod languages;
+pub mod languages_builtins;
 pub mod languages_r7rs;
 pub mod operators;
 pub mod primitives;

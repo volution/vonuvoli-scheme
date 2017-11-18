@@ -41,10 +41,10 @@ impl Context {
 	
 	
 	#[ inline (always) ]
-	pub fn new (parent : Option<Context>) -> (Context) {
+	pub fn new (parent : Option<&Context>) -> (Context) {
 		let internals = ContextInternals {
 				bindings : StdMap::new (),
-				parent : parent,
+				parent : parent.map (|parent| parent.clone ()),
 				immutable : false,
 				handle : globals::context_handles_next (),
 			};

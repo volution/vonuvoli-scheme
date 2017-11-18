@@ -226,8 +226,7 @@ pub fn compile_syntax_call (context : &Context, syntax : &SyntaxPrimitive, argum
 					succeed! (Expression::SyntaxPrimitiveCall (SyntaxPrimitiveN::Begin.into (), arguments));
 				},
 				
-				SyntaxPrimitiveN::And | SyntaxPrimitiveN::Or | SyntaxPrimitiveN::Xor |
-				SyntaxPrimitiveN::Nand | SyntaxPrimitiveN::Nor | SyntaxPrimitiveN::Nxor => {
+				SyntaxPrimitiveN::And | SyntaxPrimitiveN::Or => {
 					let arguments = try! (compile_vec (context, arguments));
 					succeed! (Expression::SyntaxPrimitiveCall (syntax.into (), arguments));
 				},
@@ -239,6 +238,12 @@ pub fn compile_syntax_call (context : &Context, syntax : &SyntaxPrimitive, argum
 					} else {
 						fail! (0x3c364a9f);
 					},
+				
+				SyntaxPrimitiveN::Local => {
+					let context = Context::new (Some (context));
+					let arguments = try! (compile_vec (&context, arguments));
+					succeed! (Expression::SyntaxPrimitiveCall (SyntaxPrimitiveN::Begin.into (), arguments));
+				},
 				
 				_ =>
 					fail_unimplemented! (0x73d95eb5),

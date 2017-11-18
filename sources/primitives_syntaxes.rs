@@ -85,6 +85,7 @@ pub enum SyntaxPrimitiveN {
 	Cond,
 	Case,
 	
+	Local,
 	Let,
 	LetValues,
 	
@@ -92,11 +93,6 @@ pub enum SyntaxPrimitiveN {
 	
 	And,
 	Or,
-	Xor,
-	
-	Nand,
-	Nor,
-	Nxor,
 	
 }
 

@@ -315,28 +315,36 @@ macro_rules! def_tests {
 			
 			use $crate::exports::*;
 			
+			let print = false;
 			let source = $source;
-			let tests = parse_tests (source) .unwrap ();
+			let tests = parse_tests (source) .expect ("434d2a0c");
 			
-			let context = language_r7rs_generate_context () .unwrap ();
+			let context = language_r7rs_generate_context () .expect ("5039c42d");
+			language_builtins_initialize_context (&context) .expect ("30635936");
 			let evaluator = Evaluator::new ();
 			
 			for (input_syntax, output_syntax) in tests {
 				
-				eprintln! ();
-				eprintln! (">> {} => {} ;", input_syntax, output_syntax);
+				if print {
+					eprintln! ();
+					eprintln! (">> {} => {} ;", input_syntax, output_syntax);
+				}
 				
-				let input_expression = compile (&context, &input_syntax) .unwrap ();
-				let output_expression = compile (&context, &output_syntax) .unwrap ();
+				let input_expression = compile (&context, &input_syntax) .expect ("688d5914");
+				let output_expression = compile (&context, &output_syntax) .expect ("a0c9bbd3");
 				
-				eprintln! ("## {:?}", input_expression);
+				if print {
+					eprintln! ("## {:?}", input_expression);
+				}
 				
-				let input_value = evaluator.evaluate_top (&context, &input_expression) .unwrap ();
-				let output_value = evaluator.evaluate_top (&context, &output_expression) .unwrap ();
+				let input_value = evaluator.evaluate_top (&context, &input_expression) .expect ("c824095a");
+				let output_value = evaluator.evaluate_top (&context, &output_expression) .expect ("13a4fe58");
 				
 				assert_eq! (input_value, output_value);
 				
-				eprintln! ();
+				if print {
+					eprintln! ();
+				}
 			}
 		}
 	);
