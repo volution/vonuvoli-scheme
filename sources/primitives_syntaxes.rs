@@ -188,7 +188,7 @@ pub fn syntax_primitive_n_evaluate (primitive : SyntaxPrimitiveN, inputs : &[Exp
 		
 		SyntaxPrimitiveN::When | SyntaxPrimitiveN::Unless =>
 			if inputs_count >= 2 {
-				let (condition, statements) = inputs.split_first () .unwrap ();
+				let (condition, inputs) = inputs.split_first () .expect ("3a3fabf1");
 				let condition = try! (context.evaluate (condition));
 				let condition = match primitive {
 					SyntaxPrimitiveN::When => is_not_false (&condition),

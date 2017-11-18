@@ -56,7 +56,7 @@ impl Context {
 	pub fn resolve_expect<SymbolFrom> (&self, identifier : &SymbolFrom) -> (Binding)
 			where Symbol : StdFrom<SymbolFrom>, SymbolFrom : Clone
 	{
-		return self.resolve (identifier) .unwrap ();
+		return self.resolve (identifier) .expect ("6ab141e4") .expect ("a3e4e132");
 	}
 	
 	#[ inline (always) ]
@@ -82,7 +82,7 @@ impl Context {
 	pub fn define_expect<SymbolFrom> (&self, identifier : &SymbolFrom) -> (Binding)
 			where Symbol : StdFrom<SymbolFrom>, SymbolFrom : Clone
 	{
-		return self.define (identifier) .unwrap ();
+		return self.define (identifier) .expect ("96495520");
 	}
 	
 	#[ inline (always) ]
@@ -189,7 +189,7 @@ impl Registers {
 	
 	#[ inline (always) ]
 	pub fn resolve_expect (&self, index : usize) -> (Binding) {
-		return self.resolve (index) .unwrap ();
+		return self.resolve (index) .expect ("204a835e");
 	}
 	
 	#[ inline (always) ]

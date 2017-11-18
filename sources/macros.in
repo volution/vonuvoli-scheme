@@ -245,7 +245,7 @@ macro_rules! impl_unwrappers_for_enum_wrapper {
 		impl StdFrom<$from> for $to {
 			#[ inline (always) ]
 			fn from (value : $from) -> ($to) {
-				StdTryFrom::try_from (value) .unwrap ()
+				StdTryFrom::try_from (value) .expect ("686ef2f9")
 			}
 		}
 		impl<'a> StdTryAsRef<$to> for $from {
@@ -262,7 +262,7 @@ macro_rules! impl_unwrappers_for_enum_wrapper {
 		impl<'a> StdAsRef<$to> for $from {
 			#[ inline (always) ]
 			fn as_ref (&self) -> (&$to) {
-				StdTryAsRef::try_as_ref (self) .unwrap ()
+				StdTryAsRef::try_as_ref (self) .expect ("8dee9989")
 			}
 		}
 	);
