@@ -1,0 +1,29 @@
+
+(not #t) => #f;
+(not #f) => #t;
+(not 0) => #f;
+(not 1) => #f;
+(not #null) => #f;
+(not #void) => #f;
+(not #undefined) => #f;
+
+
+(and) => #t;
+(and #t) => #t;
+(and #f) => #f;
+(and 0) => 0;
+(and 1) => 1;
+(and 0 1 2) => 2;
+(and #f 0 1) => #f;
+(and 0 #f 1) => #f;
+
+
+(or) => #f;
+(or #f) => #f;
+(or #t) => #t;
+(or 0) => 0;
+(or 1) => 1;
+(or 0 1 2) => 0;
+(or #f 0 1) => 0;
+(or 0 #f 1) => 0;
+

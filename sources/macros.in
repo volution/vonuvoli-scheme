@@ -302,20 +302,20 @@ macro_rules! def_tests {
 			
 			for (input_syntax, output_syntax) in tests {
 				
-				println! ();
-				println! (">> {} => {} ;", input_syntax, output_syntax);
+				eprintln! ();
+				eprintln! (">> {} => {} ;", input_syntax, output_syntax);
 				
 				let input_expression = compile (&context, &input_syntax) .unwrap ();
 				let output_expression = compile (&context, &output_syntax) .unwrap ();
 				
-				println! ("## {:?}", input_expression);
+				eprintln! ("## {:?}", input_expression);
 				
 				let input_value = evaluator.evaluate_top (&context, &input_expression) .unwrap ();
 				let output_value = evaluator.evaluate_top (&context, &output_expression) .unwrap ();
 				
 				assert_eq! (input_value, output_value);
 				
-				println! ();
+				eprintln! ();
 			}
 		}
 	);
@@ -324,6 +324,9 @@ macro_rules! def_tests {
 #[ macro_export ]
 #[ allow (unused_macros) ]
 macro_rules! def_tests_from_file {
+	( $( $identifier : ident => $source : expr, )* ) => (
+		$( def_tests_from_file! ($identifier, $source); )*
+	);
 	( $identifier : ident, $source : expr ) => (
 		def_tests! ($identifier, include_str! ($source));
 	);
