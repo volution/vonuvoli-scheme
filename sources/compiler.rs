@@ -47,7 +47,7 @@ pub fn compile (context : &Context, value : &Value) -> (Outcome<Expression>) {
 		ValueClass::Binding | ValueClass::Context =>
 			fail! (0x5f0d7003),
 		
-		ValueClass::Number | ValueClass::List | ValueClass::ListProper | ValueClass::ListDotted | ValueClass::Procedure | ValueClass::Syntax =>
+		ValueClass::Number | ValueClass::List | ValueClass::ListProper | ValueClass::ListDotted | ValueClass::True | ValueClass::False | ValueClass::Procedure | ValueClass::Syntax =>
 			fail! (0x841d4d00),
 		
 	}
@@ -226,6 +226,20 @@ pub fn compile_syntax_call (context : &Context, syntax : &SyntaxPrimitive, argum
 					succeed! (Expression::SyntaxPrimitiveCall (SyntaxPrimitiveN::Begin.into (), arguments));
 				},
 				
+				SyntaxPrimitiveN::And | SyntaxPrimitiveN::Or | SyntaxPrimitiveN::Xor |
+				SyntaxPrimitiveN::Nand | SyntaxPrimitiveN::Nor | SyntaxPrimitiveN::Nxor => {
+					let arguments = try! (compile_vec (context, arguments));
+					succeed! (Expression::SyntaxPrimitiveCall (syntax.into (), arguments));
+				},
+				
+				SyntaxPrimitiveN::When | SyntaxPrimitiveN::Unless =>
+					if arguments_count >= 2 {
+						let arguments = try! (compile_vec (context, arguments));
+						succeed! (Expression::SyntaxPrimitiveCall (syntax.into (), arguments));
+					} else {
+						fail! (0x3c364a9f);
+					},
+				
 				_ =>
 					fail_unimplemented! (0x73d95eb5),
 				
@@ -279,7 +293,7 @@ pub fn compile_syntax_quasy_quote_value (context : &Context, value : &Value, spl
 		ValueClass::Binding | ValueClass::Context =>
 			fail! (0xfa7ef6f6),
 		
-		ValueClass::Number | ValueClass::List | ValueClass::ListProper | ValueClass::ListDotted | ValueClass::Procedure | ValueClass::Syntax =>
+		ValueClass::Number | ValueClass::List | ValueClass::ListProper | ValueClass::ListDotted | ValueClass::True | ValueClass::False | ValueClass::Procedure | ValueClass::Syntax =>
 			fail! (0x841d4d00),
 		
 		ValueClass::Pair => {

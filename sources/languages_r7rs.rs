@@ -200,7 +200,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			("base", "boolean?", TypePrimitive1::IsBoolean.into ()),
 			("base", "boolean=?", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("base", "not", BooleanPrimitive1::Not.into ()),
+			("base", "not", TypePrimitive1::IsFalse.into ()),
 			
 			
 			

@@ -40,6 +40,9 @@ pub enum TypePrimitive1 {
 	IsProcedure,
 	IsSyntax,
 	
+	IsTrue,
+	IsFalse,
+	
 }
 
 
@@ -106,6 +109,12 @@ pub fn type_primitive_1_evaluate (primitive : TypePrimitive1, input : &Value) ->
 		
 		TypePrimitive1::IsSyntax =>
 			input.is (ValueClass::Syntax),
+		
+		TypePrimitive1::IsTrue =>
+			input.is (ValueClass::True),
+		
+		TypePrimitive1::IsFalse =>
+			input.is (ValueClass::False),
 		
 	};
 	

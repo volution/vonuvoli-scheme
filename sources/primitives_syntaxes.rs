@@ -79,10 +79,11 @@ pub enum SyntaxPrimitiveN {
 	
 	Begin,
 	
-	Cond,
-	Case,
 	When,
 	Unless,
+	
+	Cond,
+	Case,
 	
 	Let,
 	LetValues,
@@ -91,6 +92,11 @@ pub enum SyntaxPrimitiveN {
 	
 	And,
 	Or,
+	Xor,
+	
+	Nand,
+	Nor,
+	Nxor,
 	
 }
 
@@ -147,6 +153,7 @@ pub fn syntax_primitive_3_evaluate (primitive : SyntaxPrimitive3, input_1 : &Exp
 
 #[ inline (always) ]
 pub fn syntax_primitive_n_evaluate (primitive : SyntaxPrimitiveN, inputs : &[Expression], context : &mut EvaluationContext) -> (Outcome<Value>) {
+	let inputs_count = inputs.len ();
 	match primitive {
 		
 		SyntaxPrimitiveN::Begin => {
@@ -156,6 +163,48 @@ pub fn syntax_primitive_n_evaluate (primitive : SyntaxPrimitiveN, inputs : &[Exp
 			}
 			succeed! (output);
 		},
+		
+		SyntaxPrimitiveN::And => {
+			let mut output = TRUE.into ();
+			for input in inputs {
+				output = try! (context.evaluate (input));
+				if is_false (&output) {
+					succeed! (output);
+				}
+			}
+			succeed! (output);
+		},
+		
+		SyntaxPrimitiveN::Or => {
+			let mut output = FALSE.into ();
+			for input in inputs {
+				output = try! (context.evaluate (input));
+				if is_not_false (&output) {
+					succeed! (output);
+				}
+			}
+			succeed! (output);
+		},
+		
+		SyntaxPrimitiveN::When | SyntaxPrimitiveN::Unless =>
+			if inputs_count >= 2 {
+				let (condition, statements) = inputs.split_first () .unwrap ();
+				let condition = try! (context.evaluate (condition));
+				let condition = match primitive {
+					SyntaxPrimitiveN::When => is_not_false (&condition),
+					SyntaxPrimitiveN::Unless => is_false (&condition),
+					_ => fail! (0xf218a89f),
+				};
+				let mut output = VOID.into ();
+				if condition {
+					for input in inputs {
+						output = try! (context.evaluate (input));
+					}
+				}
+				succeed! (output);
+			} else {
+				fail! (0xa260065f);
+			},
 		
 		_ =>
 			fail_unimplemented! (0xc0c18893),

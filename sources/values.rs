@@ -77,6 +77,9 @@ pub enum ValueClass {
 	ListProper,
 	ListDotted,
 	
+	True,
+	False,
+	
 }
 
 
@@ -164,6 +167,10 @@ impl Value {
 					return (class_actual == ValueClass::Null) || (class_actual == ValueClass::Pair),
 				ValueClass::ListProper | ValueClass::ListDotted =>
 					return (class_actual == ValueClass::Null) || ((class_actual == ValueClass::Pair) && StdAsRef::<Pair>::as_ref (self) .right () .is (class)),
+				ValueClass::True =>
+					return (class_actual == ValueClass::Boolean) && *StdAsRef::<Boolean>::as_ref (self) == Boolean (true),
+				ValueClass::False =>
+					return (class_actual == ValueClass::Boolean) && *StdAsRef::<Boolean>::as_ref (self) == Boolean (false),
 				ValueClass::Procedure =>
 					return (class_actual == ValueClass::ProcedurePrimitive) || (class_actual == ValueClass::Lambda),
 				ValueClass::Syntax =>
