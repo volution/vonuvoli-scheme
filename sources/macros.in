@@ -47,6 +47,27 @@ macro_rules! fail_unimplemented {
 
 
 #[ allow (unused_macros) ]
+macro_rules! try_some {
+	( $option : expr, $code : expr ) => {
+		if let Some ( value ) = $option {
+			value
+		} else {
+			fail! ($code);
+		}
+	};
+}
+
+#[ allow (unused_macros) ]
+macro_rules! try_some_2 {
+	( $result : expr, $code : expr ) => {
+		try_some! (try! ($result), $code)
+	};
+}
+
+
+
+
+#[ allow (unused_macros) ]
 macro_rules! enforce_value_class {
 	( $class : ident, $value : expr, $code : expr ) => (
 		if !$value.is (ValueClass::$class) {

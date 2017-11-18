@@ -135,7 +135,7 @@ impl Evaluator {
 	
 	#[ inline (always) ]
 	pub fn evaluate_context_update (&self, evaluation : &mut EvaluationContext, identifier : &Symbol, expression : &Expression) -> (Outcome<Value>) {
-		let binding = try! (evaluation.context.resolve (identifier));
+		let binding = try_some_2! (evaluation.context.resolve (identifier), 0x8c4717b1);
 		let value_new = try! (self.evaluate (evaluation, expression));
 		let value_old = try! (binding.set (value_new));
 		return Ok (value_old);
@@ -143,7 +143,7 @@ impl Evaluator {
 	
 	#[ inline (always) ]
 	pub fn evaluate_context_select (&self, evaluation : &mut EvaluationContext, identifier : &Symbol) -> (Outcome<Value>) {
-		let binding = try! (evaluation.context.resolve (identifier));
+		let binding = try_some_2! (evaluation.context.resolve (identifier), 0x8790e81e);
 		let value = try! (binding.get ());
 		return Ok (value);
 	}

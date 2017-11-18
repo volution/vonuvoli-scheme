@@ -60,14 +60,20 @@ impl Context {
 	}
 	
 	#[ inline (always) ]
-	pub fn resolve<SymbolFrom> (&self, identifier : &SymbolFrom) -> (Outcome<Binding>)
+	pub fn resolve<SymbolFrom> (&self, identifier : &SymbolFrom) -> (Outcome<Option<Binding>>)
 			where Symbol : StdFrom<SymbolFrom>, SymbolFrom : Clone
 	{
 		let identifier = Symbol::from (identifier.clone ());
 		let self_0 = self.internals_ref ();
 		return match self_0.bindings.get (&identifier) {
-			Some (binding) => Ok (binding.clone ()),
-			None => failed! (0x7fa02d50),
+			Some (binding) =>
+				Ok (Some (binding.clone ())),
+			None =>
+				if let Some (ref parent) = self_0.parent {
+					parent.resolve::<Symbol> (&identifier)
+				} else {
+					Ok (None)
+				},
 		};
 	}
 	

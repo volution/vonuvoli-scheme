@@ -72,7 +72,7 @@ pub fn compile_slice (context : &Context, values : &[Value]) -> (Outcome<Express
 #[ inline (always) ]
 pub fn compile_symbol (context : &Context, identifier : &Symbol) -> (Outcome<Expression>) {
 	
-	if let Ok (binding) = context.resolve (identifier) {
+	if let Ok (Some (binding)) = context.resolve (identifier) {
 		succeed! (Expression::BindingGet (binding));
 	} else {
 		succeed! (Expression::ContextSelect (identifier.clone ()));
@@ -104,7 +104,7 @@ fn compile_form_1 (context : &Context, value : &Pair) -> (Outcome<Option<(Syntax
 	match callable.class () {
 		
 		ValueClass::Symbol =>
-			if let Ok (binding) = context.resolve (callable.clone () .as_ref () as &Symbol) {
+			if let Ok (Some (binding)) = context.resolve (callable.clone () .as_ref () as &Symbol) {
 				let callable = try! (binding.get ());
 				match callable.class () {
 					ValueClass::SyntaxPrimitive =>
