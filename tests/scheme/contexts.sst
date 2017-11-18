@@ -1,0 +1,17 @@
+
+(define a 1) => 1;
+a => 1;
+
+
+(local) => #void;
+(local 0) => 0;
+(local (define a 2) a) => 2;
+a => 1;
+
+
+(begin (define b 1) b) => 1;
+b => 1;
+
+
+(define x (if x x x)) => #undefined // FIXME;
+

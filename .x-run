@@ -18,16 +18,19 @@ cat <<'EOS'
 	fi
 !!
 
-:: compile / bin / debug :: x-run ':: compile / peg' ; exec -- less-exec cargo build --all-features "${@}"
-:: compile / bin / release :: x-run ':: compile / peg' ; exec -- less-exec cargo build --all-features --release "${@}"
+:: compile / bin / debug :: x-run ':: compile / peg' ; exec -- less-exec cargo build --bin rust-scheme "${@}"
+:: compile / bin / release :: x-run ':: compile / peg' ; exec -- less-exec cargo build --bin rust-scheme --release --all-features "${@}"
+
+:: compile / lib / debug :: x-run ':: compile / peg' ; exec -- less-exec cargo build --lib "${@}"
+:: compile / lib / release :: x-run ':: compile / peg' ; exec -- less-exec cargo build --lib --release --all-features "${@}"
 
 :: compile / doc / debug :: x-run ':: compile / peg' ; exec -- less-exec cargo doc --all-features "${@}"
-:: compile / doc / release :: x-run ':: compile / peg' ; exec -- less-exec cargo doc --all-features --release "${@}"
+:: compile / doc / release :: x-run ':: compile / peg' ; exec -- less-exec cargo doc --release --all-features "${@}"
 
 :: execute / bin / debug :: x-run ':: compile / peg' ; exec -- cargo run -- "${@}"
 :: execute / bin / release :: x-run ':: compile / peg' ; exec -- cargo run --release -- "${@}"
 
-:: execute / test / all :: x-run ':: compile / peg' ; exec -- less-exec cargo test -- "${@}"
+:: execute / test / all :: x-run ':: compile / peg' ; exec -- less-exec cargo test --all-features -- "${@}"
 
 :: browse / doc :: exec -- x-www open file://"$( readlink -e -- ./target/doc/rust_scheme/index.html )"
 
@@ -40,7 +43,7 @@ EOS
 
 for _test in scheme r7rs conversions parser sizes ; do
 sed -r -e 's#@\{TEST\}#'"${_test}"'#g' <<'EOS'
-:: execute / test / @{TEST} :: x-run ':: compile / peg' ; export -- RUSTFLAGS=-Awarnings RUST_BACKTRACE=1 ; exec -- cargo test --test @{TEST} -- --nocapture --color always "${@}"
+:: execute / test / @{TEST} :: x-run ':: compile / peg' ; export -- RUST_BACKTRACE=1 ; exec -- cargo test --test @{TEST} --all-features -- --nocapture "${@}"
 EOS
 done
 

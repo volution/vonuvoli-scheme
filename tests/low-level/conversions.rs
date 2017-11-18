@@ -140,9 +140,9 @@ fn test () -> () {
 	
 	
 	for expression in expressions {
-		println! ();
-		println! (">> {:#?}", expression);
-		println! ();
+		eprintln! ();
+		eprintln! (">> {:#?}", expression);
+		eprintln! ();
 	}
 	
 }

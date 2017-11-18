@@ -27,9 +27,3 @@
 (unless #t 0 1) => #void;
 (unless 0 1 2) => #void;
 
-(define a 1) => 1;
-a => 1;
-(begin (define b 2) b) => 2;
-
-(define x (if x x x)) => #undefined // FIXME;
-
