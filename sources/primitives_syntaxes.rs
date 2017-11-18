@@ -100,7 +100,7 @@ pub enum SyntaxPrimitiveN {
 
 
 #[ inline (always) ]
-pub fn syntax_primitive_1_evaluate (primitive : SyntaxPrimitive1, _input : &Expression, _context : &mut EvaluationContext) -> (Outcome<Value>) {
+pub fn syntax_primitive_1_evaluate (primitive : SyntaxPrimitive1, _input : &Expression, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		_ =>
@@ -113,7 +113,7 @@ pub fn syntax_primitive_1_evaluate (primitive : SyntaxPrimitive1, _input : &Expr
 
 
 #[ inline (always) ]
-pub fn syntax_primitive_2_evaluate (primitive : SyntaxPrimitive2, _input_1 : &Expression, _input_2 : &Expression, _context : &mut EvaluationContext) -> (Outcome<Value>) {
+pub fn syntax_primitive_2_evaluate (primitive : SyntaxPrimitive2, _input_1 : &Expression, _input_2 : &Expression, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		SyntaxPrimitive2::Define | SyntaxPrimitive2::DefineValues =>
@@ -129,15 +129,15 @@ pub fn syntax_primitive_2_evaluate (primitive : SyntaxPrimitive2, _input_1 : &Ex
 
 
 #[ inline (always) ]
-pub fn syntax_primitive_3_evaluate (primitive : SyntaxPrimitive3, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression, context : &mut EvaluationContext) -> (Outcome<Value>) {
+pub fn syntax_primitive_3_evaluate (primitive : SyntaxPrimitive3, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		SyntaxPrimitive3::If => {
-			let condition = try! (context.evaluate (input_1));
+			let condition = try! (evaluator.evaluate (input_1));
 			if is_not_false (&condition) {
-				return context.evaluate (input_2);
+				return evaluator.evaluate (input_2);
 			} else {
-				return context.evaluate (input_3);
+				return evaluator.evaluate (input_3);
 			}
 		},
 		
@@ -148,14 +148,14 @@ pub fn syntax_primitive_3_evaluate (primitive : SyntaxPrimitive3, input_1 : &Exp
 
 
 #[ inline (always) ]
-pub fn syntax_primitive_n_evaluate (primitive : SyntaxPrimitiveN, inputs : &[Expression], context : &mut EvaluationContext) -> (Outcome<Value>) {
+pub fn syntax_primitive_n_evaluate (primitive : SyntaxPrimitiveN, inputs : &[Expression], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let inputs_count = inputs.len ();
 	match primitive {
 		
 		SyntaxPrimitiveN::Begin => {
 			let mut output = VOID.into ();
 			for input in inputs {
-				output = try! (context.evaluate (input));
+				output = try! (evaluator.evaluate (input));
 			}
 			succeed! (output);
 		},
@@ -163,7 +163,7 @@ pub fn syntax_primitive_n_evaluate (primitive : SyntaxPrimitiveN, inputs : &[Exp
 		SyntaxPrimitiveN::And => {
 			let mut output = TRUE.into ();
 			for input in inputs {
-				output = try! (context.evaluate (input));
+				output = try! (evaluator.evaluate (input));
 				if is_false (&output) {
 					succeed! (output);
 				}
@@ -174,7 +174,7 @@ pub fn syntax_primitive_n_evaluate (primitive : SyntaxPrimitiveN, inputs : &[Exp
 		SyntaxPrimitiveN::Or => {
 			let mut output = FALSE.into ();
 			for input in inputs {
-				output = try! (context.evaluate (input));
+				output = try! (evaluator.evaluate (input));
 				if is_not_false (&output) {
 					succeed! (output);
 				}
@@ -185,7 +185,7 @@ pub fn syntax_primitive_n_evaluate (primitive : SyntaxPrimitiveN, inputs : &[Exp
 		SyntaxPrimitiveN::When | SyntaxPrimitiveN::Unless =>
 			if inputs_count >= 2 {
 				let (condition, inputs) = inputs.split_first () .expect ("3a3fabf1");
-				let condition = try! (context.evaluate (condition));
+				let condition = try! (evaluator.evaluate (condition));
 				let condition = match primitive {
 					SyntaxPrimitiveN::When => is_not_false (&condition),
 					SyntaxPrimitiveN::Unless => is_false (&condition),
@@ -194,7 +194,7 @@ pub fn syntax_primitive_n_evaluate (primitive : SyntaxPrimitiveN, inputs : &[Exp
 				let mut output = VOID.into ();
 				if condition {
 					for input in inputs {
-						output = try! (context.evaluate (input));
+						output = try! (evaluator.evaluate (input));
 					}
 				}
 				succeed! (output);
@@ -211,33 +211,33 @@ pub fn syntax_primitive_n_evaluate (primitive : SyntaxPrimitiveN, inputs : &[Exp
 
 
 #[ inline (always) ]
-pub fn syntax_primitive_evaluate (primitive : SyntaxPrimitive, inputs : &[Expression], context : &mut EvaluationContext) -> (Outcome<Value>) {
+pub fn syntax_primitive_evaluate (primitive : SyntaxPrimitive, inputs : &[Expression], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let inputs_count = inputs.len ();
 	match primitive {
 		
 		SyntaxPrimitive::Primitive1 (primitive) =>
 			if inputs_count == 1 {
-				return syntax_primitive_1_evaluate (primitive, &inputs[0], context);
+				return syntax_primitive_1_evaluate (primitive, &inputs[0], evaluator);
 			} else {
 				fail! (0xc7837cc4);
 			},
 		
 		SyntaxPrimitive::Primitive2 (primitive) =>
 			if inputs_count == 2 {
-				return syntax_primitive_2_evaluate (primitive, &inputs[0], &inputs[1], context);
+				return syntax_primitive_2_evaluate (primitive, &inputs[0], &inputs[1], evaluator);
 			} else {
 				fail! (0xb92232f2);
 			},
 		
 		SyntaxPrimitive::Primitive3 (primitive) =>
 			if inputs_count == 3 {
-				return syntax_primitive_3_evaluate (primitive, &inputs[0], &inputs[1], &inputs[2], context);
+				return syntax_primitive_3_evaluate (primitive, &inputs[0], &inputs[1], &inputs[2], evaluator);
 			} else {
 				fail! (0x18d7a5f8);
 			},
 		
 		SyntaxPrimitive::PrimitiveN (primitive) =>
-			return syntax_primitive_n_evaluate (primitive, inputs, context),
+			return syntax_primitive_n_evaluate (primitive, inputs, evaluator),
 		
 		SyntaxPrimitive::Unimplemented =>
 			fail_unimplemented! (0x303dde78),

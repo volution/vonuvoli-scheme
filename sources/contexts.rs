@@ -51,6 +51,11 @@ impl Context {
 		return Context (StdRc::new (StdRefCell::new (internals)));
 	}
 	
+	#[ inline (always) ]
+	pub fn fork (&self) -> (Context) {
+		return Context::new (Some (self));
+	}
+	
 	
 	#[ inline (always) ]
 	pub fn resolve_expect<SymbolFrom> (&self, identifier : &SymbolFrom) -> (Binding)

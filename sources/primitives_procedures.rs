@@ -79,7 +79,7 @@ pub enum ProcedurePrimitiveN {
 
 
 #[ inline (always) ]
-pub fn procedure_primitive_0_evaluate (_primitive : ProcedurePrimitive0, _context : &mut EvaluationContext) -> (Outcome<Value>) {
+pub fn procedure_primitive_0_evaluate (_primitive : ProcedurePrimitive0, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	failed_unimplemented! (0xf5c28466)
 }
 
@@ -87,7 +87,7 @@ pub fn procedure_primitive_0_evaluate (_primitive : ProcedurePrimitive0, _contex
 
 
 #[ inline (always) ]
-pub fn procedure_primitive_1_evaluate (primitive : ProcedurePrimitive1, input : &Value, _context : &mut EvaluationContext) -> (Outcome<Value>) {
+pub fn procedure_primitive_1_evaluate (primitive : ProcedurePrimitive1, input : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		ProcedurePrimitive1::Type (primitive) =>
@@ -112,7 +112,7 @@ pub fn procedure_primitive_1_evaluate (primitive : ProcedurePrimitive1, input : 
 
 
 #[ inline (always) ]
-pub fn procedure_primitive_2_evaluate (primitive : ProcedurePrimitive2, input_1 : &Value, input_2 : &Value, _context : &mut EvaluationContext) -> (Outcome<Value>) {
+pub fn procedure_primitive_2_evaluate (primitive : ProcedurePrimitive2, input_1 : &Value, input_2 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		ProcedurePrimitive2::Boolean (primitive) =>
@@ -133,7 +133,7 @@ pub fn procedure_primitive_2_evaluate (primitive : ProcedurePrimitive2, input_1 
 
 
 #[ inline (always) ]
-pub fn procedure_primitive_n_evaluate (primitive : ProcedurePrimitiveN, inputs : &[Value], _context : &mut EvaluationContext) -> (Outcome<Value>) {
+pub fn procedure_primitive_n_evaluate (primitive : ProcedurePrimitiveN, inputs : &[Value], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		ProcedurePrimitiveN::Boolean (primitive) =>
@@ -155,33 +155,33 @@ pub fn procedure_primitive_n_evaluate (primitive : ProcedurePrimitiveN, inputs :
 
 
 #[ inline (always) ]
-pub fn procedure_primitive_evaluate (primitive : ProcedurePrimitive, inputs : &[Value], context : &mut EvaluationContext) -> (Outcome<Value>) {
+pub fn procedure_primitive_evaluate (primitive : ProcedurePrimitive, inputs : &[Value], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let inputs_count = inputs.len ();
 	match primitive {
 		
 		ProcedurePrimitive::Primitive0 (primitive) =>
 			if inputs_count == 0 {
-				procedure_primitive_0_evaluate (primitive, context)
+				procedure_primitive_0_evaluate (primitive, evaluator)
 			} else {
 				failed! (0xabfe1f25)
 			},
 		
 		ProcedurePrimitive::Primitive1 (primitive) =>
 			if inputs_count == 1 {
-				procedure_primitive_1_evaluate (primitive, &inputs[0], context)
+				procedure_primitive_1_evaluate (primitive, &inputs[0], evaluator)
 			} else {
 				failed! (0x5bc94cf2)
 			},
 		
 		ProcedurePrimitive::Primitive2 (primitive) =>
 			if inputs_count == 2 {
-				procedure_primitive_2_evaluate (primitive, &inputs[0], &inputs[1], context)
+				procedure_primitive_2_evaluate (primitive, &inputs[0], &inputs[1], evaluator)
 			} else {
 				failed! (0xb1c56ed3)
 			},
 		
 		ProcedurePrimitive::PrimitiveN (primitive) =>
-			procedure_primitive_n_evaluate (primitive, inputs, context),
+			procedure_primitive_n_evaluate (primitive, inputs, evaluator),
 		
 		ProcedurePrimitive::Unimplemented =>
 			failed_unimplemented! (0x10d3710f),

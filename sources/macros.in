@@ -58,6 +58,17 @@ macro_rules! try_some {
 }
 
 #[ allow (unused_macros) ]
+macro_rules! try_some_ref {
+	( $option : expr, $code : expr ) => {
+		if let Some ( ref value ) = $option {
+			value
+		} else {
+			fail! ($code);
+		}
+	};
+}
+
+#[ allow (unused_macros) ]
 macro_rules! try_some_2 {
 	( $result : expr, $code : expr ) => {
 		try_some! (try! ($result), $code)
@@ -319,9 +330,15 @@ macro_rules! def_tests {
 			let source = $source;
 			let tests = parse_tests (source) .expect ("434d2a0c");
 			
-			let context = language_r7rs_generate_context () .expect ("5039c42d");
+			let context = Context::new (None);
+			language_r7rs_initialize_context (&context) .expect ("5039c42d");
 			language_builtins_initialize_context (&context) .expect ("30635936");
+			
+			let compiler = Compiler::new ();
+			let mut compiler = compiler.fork (&context);
+			
 			let evaluator = Evaluator::new ();
+			let mut evaluator = evaluator.fork (&context);
 			
 			for (input_syntax, output_syntax) in tests {
 				
@@ -330,15 +347,15 @@ macro_rules! def_tests {
 					eprintln! (">> {} => {} ;", input_syntax, output_syntax);
 				}
 				
-				let input_expression = compile (&context, &input_syntax) .expect ("688d5914");
-				let output_expression = compile (&context, &output_syntax) .expect ("a0c9bbd3");
+				let input_expression = compiler.compile (&input_syntax) .expect ("688d5914");
+				let output_expression = compiler.compile (&output_syntax) .expect ("a0c9bbd3");
 				
 				if print {
 					eprintln! ("## {:?}", input_expression);
 				}
 				
-				let input_value = evaluator.evaluate_top (&context, &input_expression) .expect ("c824095a");
-				let output_value = evaluator.evaluate_top (&context, &output_expression) .expect ("13a4fe58");
+				let input_value = evaluator.evaluate (&input_expression) .expect ("c824095a");
+				let output_value = evaluator.evaluate (&output_expression) .expect ("13a4fe58");
 				
 				assert_eq! (input_value, output_value);
 				
