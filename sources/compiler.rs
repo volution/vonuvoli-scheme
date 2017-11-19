@@ -13,7 +13,7 @@ use super::values::exports::*;
 
 pub mod exports {
 	pub use super::Compiler;
-	pub use super::CompilerContext;
+	pub use super::{CompilerContext, CompilerBindings, CompilerBinding};
 }
 
 
@@ -21,21 +21,103 @@ pub mod exports {
 
 pub struct CompilerContext <'a> {
 	compiler : &'a Compiler,
-	context : Option<&'a Context>,
+	bindings : CompilerBindings,
+}
+
+pub enum CompilerBindings {
+	None,
+	Globals (Context),
+	Locals (Context, StdMap<Symbol, CompilerBinding>),
+}
+
+#[ derive (Clone) ]
+pub enum CompilerBinding {
+	Undefined,
+	Binding (Binding),
+	Register (usize),
 }
 
 
 impl <'a> CompilerContext<'a> {
 	
-	pub fn new (compiler : &'a Compiler, context : Option<&'a Context>) -> (CompilerContext<'a>) {
+	
+	#[ inline (always) ]
+	pub fn new (compiler : &'a Compiler, bindings : CompilerBindings) -> (CompilerContext<'a>) {
 		return CompilerContext {
 				compiler : compiler,
-				context : context,
+				bindings : bindings,
 			};
 	}
 	
+	#[ inline (always) ]
+	pub fn fork_locals (&mut self) -> (Outcome<CompilerContext<'a>>) {
+		match self.bindings {
+			CompilerBindings::None =>
+				fail! (0xad3e033b),
+			CompilerBindings::Globals (ref context) => {
+				let context = Context::new (Some (context));
+				succeed! (CompilerContext::new (self.compiler, CompilerBindings::Globals (context)));
+			},
+			CompilerBindings::Locals (ref _context, ref _bindings) =>
+				fail_unimplemented! (0x07c1434c),
+		}
+	}
+	
+	
+	#[ inline (always) ]
 	pub fn compile (&mut self, value : &Value) -> (Outcome<Expression>) {
 		return self.compiler.compile (self, value);
+	}
+	
+	
+	#[ inline (always) ]
+	fn resolve (&mut self, identifier : &Symbol) -> (Outcome<CompilerBinding>) {
+		match self.bindings {
+			CompilerBindings::None =>
+				succeed! (CompilerBinding::Undefined),
+			CompilerBindings::Globals (ref context) =>
+				if let Some (binding) = try! (context.resolve (identifier)) {
+					succeed! (CompilerBinding::Binding (binding));
+				} else {
+					succeed! (CompilerBinding::Undefined);
+				},
+			CompilerBindings::Locals (ref context, ref bindings) =>
+				if let Some (binding) = bindings.get (identifier) {
+					succeed! (binding.clone ());
+				} else if let Some (binding) = try! (context.resolve (identifier)) {
+					succeed! (CompilerBinding::Binding (binding));
+				} else {
+					succeed! (CompilerBinding::Undefined);
+				},
+		}
+	}
+	
+	
+	#[ inline (always) ]
+	fn define (&mut self, identifier : &Symbol) -> (Outcome<CompilerBinding>) {
+		match self.bindings {
+			CompilerBindings::None =>
+				fail! (0xd943456d),
+			CompilerBindings::Globals (ref context) => {
+				let binding = try! (context.define (identifier));
+				succeed! (CompilerBinding::Binding (binding));
+			},
+			CompilerBindings::Locals (ref _context, ref _bindings) =>
+				fail_unimplemented! (0xb121dadf),
+		}
+	}
+	
+	
+	#[ inline (always) ]
+	fn resolve_value (&mut self, identifier : &Symbol) -> (Outcome<Option<Value>>) {
+		match try! (self.resolve (identifier)) {
+			CompilerBinding::Undefined =>
+				succeed! (None),
+			CompilerBinding::Binding (binding) =>
+				succeed! (Some (try! (binding.get ()))),
+			CompilerBinding::Register (_index) =>
+				succeed! (None),
+		}
 	}
 }
 
@@ -54,8 +136,8 @@ impl Compiler {
 	}
 	
 	#[ inline (always) ]
-	pub fn fork <'a> (&'a self, context : &'a Context) -> CompilerContext<'a> {
-		return CompilerContext::new (self, Some (context));
+	pub fn fork <'a> (&'a self, context : &Context) -> CompilerContext<'a> {
+		return CompilerContext::new (self, CompilerBindings::Globals (context.clone ()));
 	}
 	
 	
@@ -112,11 +194,13 @@ impl Compiler {
 	
 	#[ inline (always) ]
 	pub fn compile_symbol (&self, compilation : &mut CompilerContext, identifier : &Symbol) -> (Outcome<Expression>) {
-		let context = try_some! (compilation.context, 0xb3fc1ab7);
-		if let Ok (Some (binding)) = context.resolve (identifier) {
-			succeed! (Expression::BindingGet (binding));
-		} else {
-			succeed! (Expression::ContextSelect (identifier.clone ()));
+		match try! (compilation.resolve (identifier)) {
+			CompilerBinding::Undefined =>
+				fail! (0xc6825cfd),
+			CompilerBinding::Binding (binding) =>
+				succeed! (Expression::BindingGet (binding)),
+			CompilerBinding::Register (index) =>
+				succeed! (Expression::RegisterGet (index)),
 		}
 	}
 	
@@ -145,9 +229,7 @@ impl Compiler {
 		match callable.class () {
 			
 			ValueClass::Symbol => {
-				let context = try_some! (compilation.context, 0x8762f88e);
-				if let Ok (Some (binding)) = context.resolve (callable.clone () .as_ref () as &Symbol) {
-					let callable = try! (binding.get ());
+				if let Some (callable) = try! (compilation.resolve_value (callable.as_ref () as &Symbol)) {
 					match callable.class () {
 						ValueClass::SyntaxPrimitive =>
 							succeed! (Some ((callable.into (), arguments.clone ()))),
@@ -220,13 +302,19 @@ impl Compiler {
 							let identifier = &arguments[0];
 							let value = &arguments[1];
 							match identifier.class () {
-								ValueClass::Symbol => {
-									let identifier = try_as_symbol_ref! (identifier);
-									let context = try_some! (compilation.context, 0xa247f52d);
-									let binding = try! (context.define (identifier));
-									let value = try! (self.compile (compilation, value));
-									succeed! (Expression::BindingInitialize (binding, value.into ()));
-								},
+								ValueClass::Symbol =>
+									match try! (compilation.define (try_as_symbol_ref! (identifier))) {
+										CompilerBinding::Undefined =>
+											fail! (0x1e75333d),
+										CompilerBinding::Binding (binding) => {
+											let value = try! (self.compile (compilation, value));
+											succeed! (Expression::BindingInitialize (binding, value.into ()));
+										},
+										CompilerBinding::Register (index) => {
+											let value = try! (self.compile (compilation, value));
+											succeed! (Expression::RegisterInitialize (index, value.into ()));
+										},
+									},
 								ValueClass::Pair =>
 									fail_unimplemented! (0xfc72467c),
 								_ =>
@@ -284,8 +372,7 @@ impl Compiler {
 						},
 					
 					SyntaxPrimitiveN::Local => {
-						let context = Context::new (compilation.context);
-						let mut compilation = CompilerContext::new (compilation.compiler, Some (&context));
+						let mut compilation = try! (compilation.fork_locals ());
 						let arguments = try! (self.compile_vec (&mut compilation, arguments));
 						succeed! (Expression::SyntaxPrimitiveCall (SyntaxPrimitiveN::Begin.into (), arguments));
 					},
