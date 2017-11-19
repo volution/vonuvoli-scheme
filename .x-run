@@ -18,19 +18,19 @@ cat <<'EOS'
 	fi
 !!
 
-:: compile / bin / debug :: x-run ':: compile / peg' ; exec -- less-exec cargo build --bin rust-scheme "${@}"
-:: compile / bin / release :: x-run ':: compile / peg' ; exec -- less-exec cargo build --bin rust-scheme --release --all-features "${@}"
+:: compile / bin / debug :: x-run ':: compile / peg' ; exec -- less-exec env PATH="${RUST_PATH}" cargo build --bin rust-scheme "${@}"
+:: compile / bin / release :: x-run ':: compile / peg' ; exec -- less-exec env PATH="${RUST_PATH}" cargo build --bin rust-scheme --release --all-features "${@}"
 
-:: compile / lib / debug :: x-run ':: compile / peg' ; exec -- less-exec cargo build --lib "${@}"
-:: compile / lib / release :: x-run ':: compile / peg' ; exec -- less-exec cargo build --lib --release --all-features "${@}"
+:: compile / lib / debug :: x-run ':: compile / peg' ; exec -- less-exec env PATH="${RUST_PATH}" cargo build --lib "${@}"
+:: compile / lib / release :: x-run ':: compile / peg' ; exec -- less-exec env PATH="${RUST_PATH}" cargo build --lib --release --all-features "${@}"
 
-:: compile / doc / debug :: x-run ':: compile / peg' ; exec -- less-exec cargo doc --all-features "${@}"
-:: compile / doc / release :: x-run ':: compile / peg' ; exec -- less-exec cargo doc --release --all-features "${@}"
+:: compile / doc / debug :: x-run ':: compile / peg' ; exec -- less-exec env PATH="${RUST_PATH}" cargo doc --all-features "${@}"
+:: compile / doc / release :: x-run ':: compile / peg' ; exec -- less-exec env PATH="${RUST_PATH}" cargo doc --release --all-features "${@}"
 
-:: execute / bin / debug :: x-run ':: compile / peg' ; exec -- cargo run -- "${@}"
-:: execute / bin / release :: x-run ':: compile / peg' ; exec -- cargo run --release -- "${@}"
+:: execute / bin / debug :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" cargo run -- "${@}"
+:: execute / bin / release :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" cargo run --release -- "${@}"
 
-:: execute / test / all :: x-run ':: compile / peg' ; exec -- less-exec cargo test --all-features -- "${@}"
+:: execute / test / all :: x-run ':: compile / peg' ; exec -- less-exec env PATH="${RUST_PATH}" cargo test --all-features -- "${@}"
 
 :: browse / doc :: exec -- x-www open file://"$( readlink -e -- ./target/doc/rust_scheme/index.html )"
 
@@ -38,12 +38,50 @@ cat <<'EOS'
 
 :: grep / sources / x-selection / primary :: exec -- git grep -C10 -F -e "$( exec -- x-selection primary output )" -- ./sources
 
+<< rust-up / initialize
+	test "${#}" -eq 0
+	if test ! -e ./.rust ; then
+		mkdir -- ./.rust
+		mkdir -- ./.rust/rustup
+		mkdir -- ./.rust/cargo
+		curl -s -o ./.rust/rustup-init.tmp -- https://static.rust-lang.org/rustup/dist/x86_64-unknown-linux-gnu/rustup-init
+		chmod +x -- ./.rust/rustup-init.tmp
+		mv -n -T -- ./.rust/rustup-init.tmp ./.rust/rustup-init
+		export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
+		export -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"
+		./.rust/rustup-init -v -y --no-modify-path
+	fi
+!!
+
+<< rust-up / install
+	test "${#}" -eq 0
+	test -e ./.rust
+	export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
+	export -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"
+	exec -- ./.rust/cargo/bin/rustup install stable
+	exec -- ./.rust/cargo/bin/rustup install nightly
+!!
+
+<< rust-up / update
+	test "${#}" -eq 0
+	test -e ./.rust
+	export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
+	export -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"
+	exec -- ./.rust/cargo/bin/rustup update
+!!
+
+:: rust-up / use / stable :: export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin ):${PATH}"
+:: rust-up / use / nightly :: export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):${PATH}"
+
+:: cargo / enable / incremental :: export -- CARGO_INCREMENTAL=1
+:: cargo / disable / incremental :: export -- CARGO_INCREMENTAL=0
+
 EOS
 
 
 for _test in scheme r7rs conversions parser sizes ; do
 sed -r -e 's#@\{TEST\}#'"${_test}"'#g' <<'EOS'
-:: execute / test / @{TEST} :: x-run ':: compile / peg' ; export -- RUST_BACKTRACE=1 ; exec -- cargo test --test @{TEST} --all-features -- --nocapture "${@}"
+:: execute / test / @{TEST} :: x-run ':: compile / peg' ; export -- RUST_BACKTRACE=1 ; exec -- env PATH="${RUST_PATH}" cargo test --test @{TEST} --all-features -- --nocapture "${@}"
 EOS
 done
 
