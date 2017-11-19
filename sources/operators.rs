@@ -19,7 +19,6 @@ pub mod exports {
 
 
 
-#[ inline (always) ]
 pub fn pair (left : &Value, right : &Value) -> (Value) {
 	pair_new (left.clone (), right.clone ()) .into ()
 }
@@ -27,27 +26,22 @@ pub fn pair (left : &Value, right : &Value) -> (Value) {
 
 
 
-#[ inline (always) ]
 pub fn list_build_1 (value_1 : &Value) -> (Value) {
 	pair_new (value_1.clone (), NULL) .into ()
 }
 
-#[ inline (always) ]
 pub fn list_build_2 (value_1 : &Value, value_2 : &Value) -> (Value) {
 	pair_new (value_1.clone (), pair_new (value_2.clone (), NULL) .into ()) .into ()
 }
 
-#[ inline (always) ]
 pub fn list_build_3 (value_1 : &Value, value_2 : &Value, value_3 : &Value) -> (Value) {
 	pair_new (value_1.clone (), pair_new (value_2.clone (), pair_new (value_3.clone (), NULL) .into ()) .into ()) .into ()
 }
 
-#[ inline (always) ]
 pub fn list_build_4 (value_1 : &Value, value_2 : &Value, value_3 : &Value, value_4 : &Value) -> (Value) {
 	pair_new (value_1.clone (), pair_new (value_2.clone (), pair_new (value_3.clone (), pair_new (value_4.clone (), NULL) .into ()) .into ()) .into ()) .into ()
 }
 
-#[ inline (always) ]
 pub fn list_build_n (values : &[Value]) -> (Value) {
 	if values.is_empty () {
 		NULL
@@ -59,7 +53,6 @@ pub fn list_build_n (values : &[Value]) -> (Value) {
 
 
 
-#[ inline (always) ]
 pub fn list_append_2 (list_1 : &Value, list_2 : &Value) -> (Outcome<Value>) {
 	if (*list_1 == NULL) && (*list_2 == NULL) {
 		succeed! (NULL);
@@ -74,7 +67,6 @@ pub fn list_append_2 (list_1 : &Value, list_2 : &Value) -> (Outcome<Value>) {
 	}
 }
 
-#[ inline (always) ]
 pub fn list_append_3 (list_1 : &Value, list_2 : &Value, list_3 : &Value) -> (Outcome<Value>) {
 	if (*list_1 == NULL) && (*list_2 == NULL) && (*list_3 == NULL) {
 		succeed! (NULL);
@@ -90,7 +82,6 @@ pub fn list_append_3 (list_1 : &Value, list_2 : &Value, list_3 : &Value) -> (Out
 	}
 }
 
-#[ inline (always) ]
 pub fn list_append_4 (list_1 : &Value, list_2 : &Value, list_3 : &Value, list_4 : &Value) -> (Outcome<Value>) {
 	if (*list_1 == NULL) && (*list_2 == NULL) && (*list_3 == NULL) && (*list_4 == NULL) {
 		succeed! (NULL);
@@ -107,7 +98,6 @@ pub fn list_append_4 (list_1 : &Value, list_2 : &Value, list_3 : &Value, list_4 
 	}
 }
 
-#[ inline (always) ]
 pub fn list_append_n (lists : &[Value]) -> (Outcome<Value>) {
 	match lists.split_last () {
 		Some ((list_last, lists_first)) =>
@@ -133,7 +123,6 @@ pub fn list_append_n (lists : &[Value]) -> (Outcome<Value>) {
 
 
 
-#[ inline (always) ]
 pub fn vec_clone_list (list : &Value) -> (Outcome<ValueVec>) {
 	let mut vector = ValueVec::new ();
 	try! (vec_drain_list (&mut vector, list));
@@ -141,7 +130,6 @@ pub fn vec_clone_list (list : &Value) -> (Outcome<ValueVec>) {
 }
 
 
-#[ inline (always) ]
 pub fn vec_drain_list (vector : &mut ValueVec, list : &Value) -> (Outcome<()>) {
 	match try! (vec_drain_list_dotted (vector, list)) {
 		Some (_value) =>
@@ -152,7 +140,6 @@ pub fn vec_drain_list (vector : &mut ValueVec, list : &Value) -> (Outcome<()>) {
 }
 
 
-#[ inline (always) ]
 pub fn vec_drain_list_dotted (vector : &mut ValueVec, list : &Value) -> (Outcome<Option<Value>>) {
 	let mut cursor = list;
 	loop {
@@ -172,27 +159,22 @@ pub fn vec_drain_list_dotted (vector : &mut ValueVec, list : &Value) -> (Outcome
 
 
 
-#[ inline (always) ]
 pub fn is_true (value : &Value) -> (bool) {
 	*value == TRUE.into ()
 }
 
-#[ inline (always) ]
 pub fn is_false (value : &Value) -> (bool) {
 	*value == FALSE.into ()
 }
 
-#[ inline (always) ]
 pub fn is_not_false (value : &Value) -> (bool) {
 	*value != FALSE.into ()
 }
 
-#[ inline (always) ]
 pub fn is_true_or_equivalent (value : &Value) -> (bool) {
 	!is_false_or_equivalent (value)
 }
 
-#[ inline (always) ]
 pub fn is_false_or_equivalent (value : &Value) -> (bool) {
 	match *value {
 		Value::Null | Value::Void | Value::Undefined =>

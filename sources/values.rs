@@ -122,7 +122,6 @@ pub type ValueVec = StdVec<Value>;
 
 impl Value {
 	
-	#[ inline (always) ]
 	pub fn class (&self) -> (ValueClass) {
 		match *self {
 			
@@ -154,7 +153,6 @@ impl Value {
 		}
 	}
 	
-	#[ inline (always) ]
 	pub fn is (&self, class : ValueClass) -> (bool) {
 		let class_actual = self.class ();
 		if class_actual == class {
@@ -224,37 +222,30 @@ pub type BooleanVec = StdVec<Boolean>;
 
 impl Boolean {
 	
-	#[ inline (always) ]
 	pub fn not (&self) -> (Boolean) {
 		(!self.0) .into ()
 	}
 	
-	#[ inline (always) ]
 	pub fn and (&self, other : &Boolean) -> (Boolean) {
 		(self.0 && other.0) .into ()
 	}
 	
-	#[ inline (always) ]
 	pub fn or (&self, other : &Boolean) -> (Boolean) {
 		(self.0 || other.0) .into ()
 	}
 	
-	#[ inline (always) ]
 	pub fn xor (&self, other : &Boolean) -> (Boolean) {
 		(self.0 ^ other.0) .into ()
 	}
 	
-	#[ inline (always) ]
 	pub fn nand (&self, other : &Boolean) -> (Boolean) {
 		self.and (other) .not ()
 	}
 	
-	#[ inline (always) ]
 	pub fn nor (&self, other : &Boolean) -> (Boolean) {
 		self.or (other) .not ()
 	}
 	
-	#[ inline (always) ]
 	pub fn nxor (&self, other : &Boolean) -> (Boolean) {
 		self.xor (other) .not ()
 	}
@@ -263,7 +254,6 @@ impl Boolean {
 
 impl ops::Not for Boolean {
 	type Output = Boolean;
-	#[ inline (always) ]
 	fn not (self) -> (Boolean) {
 		Boolean::not (&self)
 	}
@@ -295,7 +285,6 @@ macro_rules! NumberInteger_fn_predicate {
 		NumberInteger_fn_predicate! ($delegate, $delegate);
 	);
 	($export : ident, $delegate : ident) => (
-		#[ inline (always) ]
 		pub fn $export (&self) -> (bool) {
 			<i64>::$delegate (self.0)
 		}
@@ -308,7 +297,6 @@ macro_rules! NumberInteger_fn_delegate_1 {
 		NumberInteger_fn_delegate_1! ($delegate, $delegate);
 	);
 	($export : ident, $delegate : ident) => (
-		#[ inline (always) ]
 		pub fn $export (&self) -> (NumberInteger) {
 			<i64>::$delegate (self.0) .into ()
 		}
@@ -320,7 +308,6 @@ macro_rules! NumberInteger_fn_delegate_2 {
 		NumberInteger_fn_delegate_2! ($delegate, $delegate);
 	);
 	($export : ident, $delegate : ident) => (
-		#[ inline (always) ]
 		pub fn $export (&self, other : &NumberInteger) -> (NumberInteger) {
 			<i64>::$delegate (self.0, other.0) .into ()
 		}
@@ -333,7 +320,6 @@ macro_rules! NumberInteger_fn_delegate_1_real {
 		NumberInteger_fn_delegate_1_real! ($delegate, $delegate);
 	);
 	($export : ident, $delegate : ident) => (
-		#[ inline (always) ]
 		pub fn $export (&self) -> (NumberReal) {
 			<f64>::$delegate (self.0 as f64) .into ()
 		}
@@ -345,7 +331,6 @@ macro_rules! NumberInteger_fn_delegate_2_real {
 		NumberInteger_fn_delegate_2_real! ($delegate, $delegate);
 	);
 	($export : ident, $delegate : ident) => (
-		#[ inline (always) ]
 		pub fn $export (&self, other : &NumberReal) -> (NumberReal) {
 			<f64>::$delegate (self.0 as f64, other.0) .into ()
 		}
@@ -356,7 +341,6 @@ macro_rules! NumberInteger_fn_delegate_2_real {
 impl NumberInteger {
 	
 	
-	#[ inline (always) ]
 	pub fn neg (&self) -> (Outcome<NumberInteger>) {
 		if let Some (outcome) = <i64>::checked_neg (self.0) {
 			return Ok (outcome.into ());
@@ -365,7 +349,6 @@ impl NumberInteger {
 		}
 	}
 	
-	#[ inline (always) ]
 	pub fn abs (&self) -> (Outcome<NumberInteger>) {
 		if let Some (outcome) = <i64>::checked_abs (self.0) {
 			return Ok (outcome.into ());
@@ -374,7 +357,6 @@ impl NumberInteger {
 		}
 	}
 	
-	#[ inline (always) ]
 	pub fn add (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		if let Some (outcome) = <i64>::checked_add (self.0, other.0) {
 			return Ok (outcome.into ());
@@ -383,7 +365,6 @@ impl NumberInteger {
 		}
 	}
 	
-	#[ inline (always) ]
 	pub fn sub (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		if let Some (outcome) = <i64>::checked_sub (self.0, other.0) {
 			return Ok (outcome.into ());
@@ -392,7 +373,6 @@ impl NumberInteger {
 		}
 	}
 	
-	#[ inline (always) ]
 	pub fn mul (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		if let Some (outcome) = <i64>::checked_mul (self.0, other.0) {
 			return Ok (outcome.into ());
@@ -401,7 +381,6 @@ impl NumberInteger {
 		}
 	}
 	
-	#[ inline (always) ]
 	pub fn div (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		if let Some (outcome) = <i64>::checked_div (self.0, other.0) {
 			return Ok (outcome.into ());
@@ -410,7 +389,6 @@ impl NumberInteger {
 		}
 	}
 	
-	#[ inline (always) ]
 	pub fn rem (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		if let Some (outcome) = <i64>::checked_rem (self.0, other.0) {
 			return Ok (outcome.into ());
@@ -419,7 +397,6 @@ impl NumberInteger {
 		}
 	}
 	
-	#[ inline (always) ]
 	pub fn pow (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		let other = other.0;
 		if (other < 0) || (other > (<u32>::max_value () as i64)) {
@@ -429,59 +406,48 @@ impl NumberInteger {
 	}
 	
 	
-	#[ inline (always) ]
 	pub fn is_zero (&self) -> (bool) {
 		(self.0 == 0)
 	}
 	
-	#[ inline (always) ]
 	pub fn is_even (&self) -> (bool) {
 		((self.0 & 1) == 0)
 	}
 	
-	#[ inline (always) ]
 	pub fn is_odd (&self) -> (bool) {
 		((self.0 & 1) != 0)
 	}
 	
 	
-	#[ inline (always) ]
 	pub fn bitnot (&self) -> (NumberInteger) {
 		(!self.0) .into ()
 	}
 	
-	#[ inline (always) ]
 	pub fn bitand (&self, other : &NumberInteger) -> (NumberInteger) {
 		(self.0 & other.0) .into ()
 	}
 	
-	#[ inline (always) ]
 	pub fn bitor (&self, other : &NumberInteger) -> (NumberInteger) {
 		(self.0 | other.0) .into ()
 	}
 	
-	#[ inline (always) ]
 	pub fn bitxor (&self, other : &NumberInteger) -> (NumberInteger) {
 		(self.0 ^ other.0) .into ()
 	}
 	
-	#[ inline (always) ]
 	pub fn bitnand (&self, other : &NumberInteger) -> (NumberInteger) {
 		self.bitand (other) .bitnot ()
 	}
 	
-	#[ inline (always) ]
 	pub fn bitnor (&self, other : &NumberInteger) -> (NumberInteger) {
 		self.bitor (other) .bitnot ()
 	}
 	
-	#[ inline (always) ]
 	pub fn bitnxor (&self, other : &NumberInteger) -> (NumberInteger) {
 		self.bitxor (other) .bitnot ()
 	}
 	
 	
-	#[ inline (always) ]
 	pub fn shl (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		let other = other.0;
 		if (other < 0) || (other > (<u32>::max_value () as i64)) {
@@ -494,7 +460,6 @@ impl NumberInteger {
 		}
 	}
 	
-	#[ inline (always) ]
 	pub fn shr (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		let other = other.0;
 		if (other < 0) || (other > (<u32>::max_value () as i64)) {
@@ -507,7 +472,6 @@ impl NumberInteger {
 		}
 	}
 	
-	#[ inline (always) ]
 	pub fn rotate_left (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		let other = other.0;
 		if (other < 0) || (other > (<u32>::max_value () as i64)) {
@@ -516,7 +480,6 @@ impl NumberInteger {
 		return Ok ((<i64>::rotate_left (self.0, other as u32)) .into ());
 	}
 	
-	#[ inline (always) ]
 	pub fn rotate_right (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		let other = other.0;
 		if (other < 0) || (other > (<u32>::max_value () as i64)) {
@@ -595,7 +558,6 @@ impl NumberInteger {
 
 impl ops::Neg for NumberInteger {
 	type Output = Outcome<NumberInteger>;
-	#[ inline (always) ]
 	fn neg (self) -> (Outcome<NumberInteger>) {
 		NumberInteger::neg (&self)
 	}
@@ -603,7 +565,6 @@ impl ops::Neg for NumberInteger {
 
 impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Add<NumberIntegerInto> for NumberInteger {
 	type Output = Outcome<NumberInteger>;
-	#[ inline (always) ]
 	fn add (self, other : NumberIntegerInto) -> (Outcome<NumberInteger>) {
 		NumberInteger::add (&self, &other.into ())
 	}
@@ -611,7 +572,6 @@ impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Add<NumberIntegerInto> fo
 
 impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Sub<NumberIntegerInto> for NumberInteger {
 	type Output = Outcome<NumberInteger>;
-	#[ inline (always) ]
 	fn sub (self, other : NumberIntegerInto) -> (Outcome<NumberInteger>) {
 		NumberInteger::sub (&self, &other.into ())
 	}
@@ -619,7 +579,6 @@ impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Sub<NumberIntegerInto> fo
 
 impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Mul<NumberIntegerInto> for NumberInteger {
 	type Output = Outcome<NumberInteger>;
-	#[ inline (always) ]
 	fn mul (self, other : NumberIntegerInto) -> (Outcome<NumberInteger>) {
 		NumberInteger::mul (&self, &other.into ())
 	}
@@ -627,7 +586,6 @@ impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Mul<NumberIntegerInto> fo
 
 impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Div<NumberIntegerInto> for NumberInteger {
 	type Output = Outcome<NumberInteger>;
-	#[ inline (always) ]
 	fn div (self, other : NumberIntegerInto) -> (Outcome<NumberInteger>) {
 		NumberInteger::div (&self, &other.into ())
 	}
@@ -635,7 +593,6 @@ impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Div<NumberIntegerInto> fo
 
 impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Rem<NumberIntegerInto> for NumberInteger {
 	type Output = Outcome<NumberInteger>;
-	#[ inline (always) ]
 	fn rem (self, other : NumberIntegerInto) -> (Outcome<NumberInteger>) {
 		NumberInteger::rem (&self, &other.into ())
 	}
@@ -644,7 +601,6 @@ impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Rem<NumberIntegerInto> fo
 
 impl ops::Not for NumberInteger {
 	type Output = NumberInteger;
-	#[ inline (always) ]
 	fn not (self) -> (NumberInteger) {
 		NumberInteger::bitnot (&self)
 	}
@@ -652,7 +608,6 @@ impl ops::Not for NumberInteger {
 
 impl <NumberIntegerInto : StdInto<NumberInteger>> ops::BitAnd<NumberIntegerInto> for NumberInteger {
 	type Output = NumberInteger;
-	#[ inline (always) ]
 	fn bitand (self, other : NumberIntegerInto) -> (NumberInteger) {
 		NumberInteger::bitand (&self, &other.into ())
 	}
@@ -660,7 +615,6 @@ impl <NumberIntegerInto : StdInto<NumberInteger>> ops::BitAnd<NumberIntegerInto>
 
 impl <NumberIntegerInto : StdInto<NumberInteger>> ops::BitOr<NumberIntegerInto> for NumberInteger {
 	type Output = NumberInteger;
-	#[ inline (always) ]
 	fn bitor (self, other : NumberIntegerInto) -> (NumberInteger) {
 		NumberInteger::bitor (&self, &other.into ())
 	}
@@ -668,7 +622,6 @@ impl <NumberIntegerInto : StdInto<NumberInteger>> ops::BitOr<NumberIntegerInto> 
 
 impl <NumberIntegerInto : StdInto<NumberInteger>> ops::BitXor<NumberIntegerInto> for NumberInteger {
 	type Output = NumberInteger;
-	#[ inline (always) ]
 	fn bitxor (self, other : NumberIntegerInto) -> (NumberInteger) {
 		NumberInteger::bitxor (&self, &other.into ())
 	}
@@ -676,7 +629,6 @@ impl <NumberIntegerInto : StdInto<NumberInteger>> ops::BitXor<NumberIntegerInto>
 
 impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Shl<NumberIntegerInto> for NumberInteger {
 	type Output = Outcome<NumberInteger>;
-	#[ inline (always) ]
 	fn shl (self, other : NumberIntegerInto) -> (Outcome<NumberInteger>) {
 		NumberInteger::shl (&self, &other.into ())
 	}
@@ -684,7 +636,6 @@ impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Shl<NumberIntegerInto> fo
 
 impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Shr<NumberIntegerInto> for NumberInteger {
 	type Output = Outcome<NumberInteger>;
-	#[ inline (always) ]
 	fn shr (self, other : NumberIntegerInto) -> (Outcome<NumberInteger>) {
 		NumberInteger::shr (&self, &other.into ())
 	}
@@ -713,7 +664,6 @@ macro_rules! NumberReal_fn_predicate {
 		NumberReal_fn_predicate! ($delegate, $delegate);
 	);
 	($export : ident, $delegate : ident) => (
-		#[ inline (always) ]
 		pub fn $export (&self) -> (bool) {
 			<f64>::$delegate (self.0)
 		}
@@ -726,7 +676,6 @@ macro_rules! NumberReal_fn_delegate_1 {
 		NumberReal_fn_delegate_1! ($delegate, $delegate);
 	);
 	($export : ident, $delegate : ident) => (
-		#[ inline (always) ]
 		pub fn $export (&self) -> (NumberReal) {
 			<f64>::$delegate (self.0) .into ()
 		}
@@ -738,7 +687,6 @@ macro_rules! NumberReal_fn_delegate_2 {
 		NumberReal_fn_delegate_2! ($delegate, $delegate);
 	);
 	($export : ident, $delegate : ident) => (
-		#[ inline (always) ]
 		pub fn $export (&self, other : &NumberReal) -> (NumberReal) {
 			<f64>::$delegate (self.0, other.0) .into ()
 		}
@@ -749,48 +697,39 @@ macro_rules! NumberReal_fn_delegate_2 {
 impl NumberReal {
 	
 	
-	#[ inline (always) ]
 	pub fn neg (&self) -> (NumberReal) {
 		(-self.0).into ()
 	}
 	
-	#[ inline (always) ]
 	pub fn add (&self, other : &NumberReal) -> (NumberReal) {
 		(self.0 + other.0).into ()
 	}
 	
-	#[ inline (always) ]
 	pub fn sub (&self, other : &NumberReal) -> (NumberReal) {
 		(self.0 - other.0).into ()
 	}
 	
-	#[ inline (always) ]
 	pub fn mul (&self, other : &NumberReal) -> (NumberReal) {
 		(self.0 * other.0).into ()
 	}
 	
-	#[ inline (always) ]
 	pub fn div (&self, other : &NumberReal) -> (NumberReal) {
 		(self.0 / other.0).into ()
 	}
 	
-	#[ inline (always) ]
 	pub fn rem (&self, other : &NumberReal) -> (NumberReal) {
 		(self.0 % other.0).into ()
 	}
 	
 	
-	#[ inline (always) ]
 	pub fn is_zero (&self) -> (bool) {
 		(self.0 == 0.0)
 	}
 	
-	#[ inline (always) ]
 	pub fn is_even (&self) -> (bool) {
 		((self.0 % 2.0) == 0.0)
 	}
 	
-	#[ inline (always) ]
 	pub fn is_odd (&self) -> (bool) {
 		((self.0 % 2.0) != 0.0)
 	}
@@ -854,7 +793,6 @@ impl NumberReal {
 
 impl ops::Neg for NumberReal {
 	type Output = NumberReal;
-	#[ inline (always) ]
 	fn neg (self) -> (NumberReal) {
 		NumberReal::neg (&self)
 	}
@@ -862,7 +800,6 @@ impl ops::Neg for NumberReal {
 
 impl <NumberRealInto : StdInto<NumberReal>> ops::Add<NumberRealInto> for NumberReal {
 	type Output = NumberReal;
-	#[ inline (always) ]
 	fn add (self, other : NumberRealInto) -> (NumberReal) {
 		NumberReal::add (&self, &other.into ())
 	}
@@ -870,7 +807,6 @@ impl <NumberRealInto : StdInto<NumberReal>> ops::Add<NumberRealInto> for NumberR
 
 impl <NumberRealInto : StdInto<NumberReal>> ops::Sub<NumberRealInto> for NumberReal {
 	type Output = NumberReal;
-	#[ inline (always) ]
 	fn sub (self, other : NumberRealInto) -> (NumberReal) {
 		NumberReal::sub (&self, &other.into ())
 	}
@@ -878,7 +814,6 @@ impl <NumberRealInto : StdInto<NumberReal>> ops::Sub<NumberRealInto> for NumberR
 
 impl <NumberRealInto : StdInto<NumberReal>> ops::Mul<NumberRealInto> for NumberReal {
 	type Output = NumberReal;
-	#[ inline (always) ]
 	fn mul (self, other : NumberRealInto) -> (NumberReal) {
 		NumberReal::mul (&self, &other.into ())
 	}
@@ -886,7 +821,6 @@ impl <NumberRealInto : StdInto<NumberReal>> ops::Mul<NumberRealInto> for NumberR
 
 impl <NumberRealInto : StdInto<NumberReal>> ops::Div<NumberRealInto> for NumberReal {
 	type Output = NumberReal;
-	#[ inline (always) ]
 	fn div (self, other : NumberRealInto) -> (NumberReal) {
 		NumberReal::div (&self, &other.into ())
 	}
@@ -894,7 +828,6 @@ impl <NumberRealInto : StdInto<NumberReal>> ops::Div<NumberRealInto> for NumberR
 
 impl <NumberRealInto : StdInto<NumberReal>> ops::Rem<NumberRealInto> for NumberReal {
 	type Output = NumberReal;
-	#[ inline (always) ]
 	fn rem (self, other : NumberRealInto) -> (NumberReal) {
 		NumberReal::rem (&self, &other.into ())
 	}
@@ -904,14 +837,12 @@ impl <NumberRealInto : StdInto<NumberReal>> ops::Rem<NumberRealInto> for NumberR
 impl cmp::Eq for NumberReal {}
 
 impl cmp::PartialEq for NumberReal {
-	#[ inline (always) ]
 	fn eq (&self, other : &NumberReal) -> (bool) {
 		self.0.to_bits () == other.0.to_bits ()
 	}
 }
 
 impl hash::Hash for NumberReal {
-	#[ inline (always) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		hasher.write_u64 (self.0.to_bits ());
 	}
@@ -1050,12 +981,10 @@ pub type PairVec = StdVec<Pair>;
 
 impl Pair {
 	
-	#[ inline (always) ]
 	pub fn left (&self) -> (&Value) {
 		return &(self.0).0;
 	}
 	
-	#[ inline (always) ]
 	pub fn right (&self) -> (&Value) {
 		return &(self.0).1;
 	}
@@ -1124,22 +1053,18 @@ impl fmt::Display for Array {
 
 
 
-#[ inline (always) ]
 pub fn boolean (value : bool) -> (Boolean) {
 	Boolean (value)
 }
 
-#[ inline (always) ]
 pub fn number_i64 (value : i64) -> (NumberInteger) {
 	NumberInteger (value)
 }
 
-#[ inline (always) ]
 pub fn number_f64 (value : f64) -> (NumberReal) {
 	NumberReal (value)
 }
 
-#[ inline (always) ]
 pub fn character (value : char) -> (Character) {
 	Character (value)
 }
@@ -1147,12 +1072,10 @@ pub fn character (value : char) -> (Character) {
 
 
 
-#[ inline (always) ]
 pub fn symbol_new (value : StdString) -> (Symbol) {
 	Symbol (StdRc::new (value))
 }
 
-#[ inline (always) ]
 pub fn string_new (value : StdString) -> (String) {
 	String (StdRc::new (value))
 }
@@ -1160,12 +1083,10 @@ pub fn string_new (value : StdString) -> (String) {
 
 
 
-#[ inline (always) ]
 pub fn symbol_clone_str (value : &str) -> (Symbol) {
 	symbol_new (StdString::from (value))
 }
 
-#[ inline (always) ]
 pub fn string_clone_str (value : &str) -> (String) {
 	string_new (StdString::from (value))
 }
@@ -1173,7 +1094,6 @@ pub fn string_clone_str (value : &str) -> (String) {
 
 
 
-#[ inline (always) ]
 pub fn symbol_clone_characters (characters : &[char]) -> (Symbol) {
 	let mut value = StdString::with_capacity (characters.len ());
 	for character in characters {
@@ -1182,7 +1102,6 @@ pub fn symbol_clone_characters (characters : &[char]) -> (Symbol) {
 	return symbol_new (StdString::from (value));
 }
 
-#[ inline (always) ]
 pub fn string_clone_characters (characters : &[char]) -> (String) {
 	let mut value = StdString::with_capacity (characters.len ());
 	for character in characters {
@@ -1194,12 +1113,10 @@ pub fn string_clone_characters (characters : &[char]) -> (String) {
 
 
 
-#[ inline (always) ]
 pub fn bytes_new (values : Vec<u8>) -> (Bytes) {
 	Bytes (StdRc::new (values))
 }
 
-#[ inline (always) ]
 pub fn bytes_clone_slice (values : &[u8]) -> (Bytes) {
 	bytes_new (values.to_vec ())
 }
@@ -1207,12 +1124,10 @@ pub fn bytes_clone_slice (values : &[u8]) -> (Bytes) {
 
 
 
-#[ inline (always) ]
 pub fn array_new (values : ValueVec) -> (Array) {
 	Array (StdRc::new (values))
 }
 
-#[ inline (always) ]
 pub fn array_clone_slice (values : &[Value]) -> (Array) {
 	array_new (values.to_vec ())
 }
@@ -1220,17 +1135,14 @@ pub fn array_clone_slice (values : &[Value]) -> (Array) {
 
 
 
-#[ inline (always) ]
 pub fn pair_new (left : Value, right : Value) -> (Pair) {
 	Pair (StdRc::new ((left, right)))
 }
 
-#[ inline (always) ]
 pub fn list_new (values : ValueVec) -> (Value) {
 	list_dotted_new (values, Value::Null)
 }
 
-#[ inline (always) ]
 pub fn list_dotted_new (values : ValueVec, last : Value) -> (Value) {
 	values.into_iter () .rev () .fold (last, |last, value| Value::Pair (pair_new (value, last)))
 }

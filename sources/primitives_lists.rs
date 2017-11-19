@@ -54,7 +54,6 @@ pub enum ListPrimitiveN {
 
 
 
-#[ inline (always) ]
 pub fn list_primitive_1_evaluate (primitive : ListPrimitive1, input : &Value) -> (Outcome<Value>) {
 	
 	let output = match primitive {
@@ -79,7 +78,6 @@ pub fn list_primitive_1_evaluate (primitive : ListPrimitive1, input : &Value) ->
 
 
 
-#[ inline (always) ]
 pub fn list_primitive_2_evaluate (primitive : ListPrimitive2, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
 	
 	let output = match primitive {
@@ -107,7 +105,6 @@ pub fn list_primitive_2_evaluate (primitive : ListPrimitive2, input_1 : &Value, 
 
 
 
-#[ inline (always) ]
 pub fn list_primitive_n_evaluate (primitive : ListPrimitiveN, inputs : &[Value]) -> (Outcome<Value>) {
 	
 	let output = match primitive {

@@ -78,7 +78,6 @@ pub enum ProcedurePrimitiveN {
 
 
 
-#[ inline (always) ]
 pub fn procedure_primitive_0_evaluate (_primitive : ProcedurePrimitive0, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	failed_unimplemented! (0xf5c28466)
 }
@@ -86,7 +85,6 @@ pub fn procedure_primitive_0_evaluate (_primitive : ProcedurePrimitive0, _evalua
 
 
 
-#[ inline (always) ]
 pub fn procedure_primitive_1_evaluate (primitive : ProcedurePrimitive1, input : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -111,7 +109,6 @@ pub fn procedure_primitive_1_evaluate (primitive : ProcedurePrimitive1, input : 
 
 
 
-#[ inline (always) ]
 pub fn procedure_primitive_2_evaluate (primitive : ProcedurePrimitive2, input_1 : &Value, input_2 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -132,7 +129,6 @@ pub fn procedure_primitive_2_evaluate (primitive : ProcedurePrimitive2, input_1 
 
 
 
-#[ inline (always) ]
 pub fn procedure_primitive_n_evaluate (primitive : ProcedurePrimitiveN, inputs : &[Value], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -154,7 +150,6 @@ pub fn procedure_primitive_n_evaluate (primitive : ProcedurePrimitiveN, inputs :
 
 
 
-#[ inline (always) ]
 pub fn procedure_primitive_evaluate (primitive : ProcedurePrimitive, inputs : &[Value], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let inputs_count = inputs.len ();
 	match primitive {

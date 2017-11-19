@@ -45,12 +45,10 @@ impl fmt::Debug for Error {
 }
 
 
-#[ inline (always) ]
 pub fn error_generic (code : u32) -> (Error) {
 	Error {code : code}
 }
 
-#[ inline (always) ]
 pub fn error_unimplemented (code : u32) -> (Error) {
 	Error {code : code}
 }

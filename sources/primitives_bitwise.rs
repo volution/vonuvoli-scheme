@@ -59,7 +59,6 @@ pub enum BitwisePrimitiveN {
 
 
 
-#[ inline (always) ]
 pub fn bitwise_primitive_1_evaluate (primitive : BitwisePrimitive1, input : &Value) -> (Outcome<Value>) {
 	
 	let input = try! (StdTryAsRef::<NumberInteger>::try_as_ref (input));
@@ -74,7 +73,6 @@ pub fn bitwise_primitive_1_evaluate (primitive : BitwisePrimitive1, input : &Val
 
 
 
-#[ inline (always) ]
 pub fn bitwise_primitive_2_evaluate (primitive : BitwisePrimitive2, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
 	
 	let input_1 = try! (StdTryAsRef::<NumberInteger>::try_as_ref (input_1));
@@ -120,7 +118,6 @@ pub fn bitwise_primitive_2_evaluate (primitive : BitwisePrimitive2, input_1 : &V
 
 
 
-#[ inline (always) ]
 pub fn bitwise_primitive_n_evaluate (primitive : BitwisePrimitiveN, inputs : &[Value]) -> (Outcome<Value>) {
 	
 	let mut output = match primitive {

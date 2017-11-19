@@ -48,7 +48,6 @@ pub enum TypePrimitive1 {
 
 
 
-#[ inline (always) ]
 pub fn type_primitive_1_evaluate (primitive : TypePrimitive1, input : &Value) -> (Outcome<Value>) {
 	
 	let output = match primitive {

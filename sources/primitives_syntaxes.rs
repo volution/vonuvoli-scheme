@@ -99,7 +99,6 @@ pub enum SyntaxPrimitiveN {
 
 
 
-#[ inline (always) ]
 pub fn syntax_primitive_1_evaluate (primitive : SyntaxPrimitive1, _input : &Expression, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -112,7 +111,6 @@ pub fn syntax_primitive_1_evaluate (primitive : SyntaxPrimitive1, _input : &Expr
 
 
 
-#[ inline (always) ]
 pub fn syntax_primitive_2_evaluate (primitive : SyntaxPrimitive2, _input_1 : &Expression, _input_2 : &Expression, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -128,7 +126,6 @@ pub fn syntax_primitive_2_evaluate (primitive : SyntaxPrimitive2, _input_1 : &Ex
 
 
 
-#[ inline (always) ]
 pub fn syntax_primitive_3_evaluate (primitive : SyntaxPrimitive3, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -147,7 +144,6 @@ pub fn syntax_primitive_3_evaluate (primitive : SyntaxPrimitive3, input_1 : &Exp
 
 
 
-#[ inline (always) ]
 pub fn syntax_primitive_n_evaluate (primitive : SyntaxPrimitiveN, inputs : &[Expression], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let inputs_count = inputs.len ();
 	match primitive {
@@ -210,7 +206,6 @@ pub fn syntax_primitive_n_evaluate (primitive : SyntaxPrimitiveN, inputs : &[Exp
 
 
 
-#[ inline (always) ]
 pub fn syntax_primitive_evaluate (primitive : SyntaxPrimitive, inputs : &[Expression], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let inputs_count = inputs.len ();
 	match primitive {

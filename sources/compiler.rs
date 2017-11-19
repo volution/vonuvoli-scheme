@@ -41,7 +41,6 @@ pub enum CompilerBinding {
 impl <'a> CompilerContext<'a> {
 	
 	
-	#[ inline (always) ]
 	pub fn new (compiler : &'a Compiler, bindings : CompilerBindings) -> (CompilerContext<'a>) {
 		return CompilerContext {
 				compiler : compiler,
@@ -49,7 +48,6 @@ impl <'a> CompilerContext<'a> {
 			};
 	}
 	
-	#[ inline (always) ]
 	pub fn fork_locals (&mut self) -> (Outcome<CompilerContext<'a>>) {
 		match self.bindings {
 			CompilerBindings::None =>
@@ -64,13 +62,11 @@ impl <'a> CompilerContext<'a> {
 	}
 	
 	
-	#[ inline (always) ]
 	pub fn compile (&mut self, value : &Value) -> (Outcome<Expression>) {
 		return self.compiler.compile (self, value);
 	}
 	
 	
-	#[ inline (always) ]
 	fn resolve (&mut self, identifier : &Symbol) -> (Outcome<CompilerBinding>) {
 		match self.bindings {
 			CompilerBindings::None =>
@@ -93,7 +89,6 @@ impl <'a> CompilerContext<'a> {
 	}
 	
 	
-	#[ inline (always) ]
 	fn define (&mut self, identifier : &Symbol) -> (Outcome<CompilerBinding>) {
 		match self.bindings {
 			CompilerBindings::None =>
@@ -108,7 +103,6 @@ impl <'a> CompilerContext<'a> {
 	}
 	
 	
-	#[ inline (always) ]
 	fn resolve_value (&mut self, identifier : &Symbol) -> (Outcome<Option<Value>>) {
 		match try! (self.resolve (identifier)) {
 			CompilerBinding::Undefined =>
@@ -130,12 +124,10 @@ pub struct Compiler {}
 impl Compiler {
 	
 	
-	#[ inline (always) ]
 	pub fn new () -> (Compiler) {
 		return Compiler {};
 	}
 	
-	#[ inline (always) ]
 	pub fn fork <'a> (&'a self, context : &Context) -> CompilerContext<'a> {
 		return CompilerContext::new (self, CompilerBindings::Globals (context.clone ()));
 	}
@@ -143,7 +135,6 @@ impl Compiler {
 	
 	
 	
-	#[ inline (always) ]
 	pub fn compile (&self, compilation : &mut CompilerContext, value : &Value) -> (Outcome<Expression>) {
 		
 		match value.class () {
@@ -179,12 +170,10 @@ impl Compiler {
 	
 	
 	
-	#[ inline (always) ]
 	pub fn compile_vec (&self, compilation : &mut CompilerContext, values : ValueVec) -> (Outcome<ExpressionVec>) {
 		values.into_iter () .map (|ref value| self.compile (compilation, value)) .collect ()
 	}
 	
-	#[ inline (always) ]
 	pub fn compile_slice (&self, compilation : &mut CompilerContext, values : &[Value]) -> (Outcome<ExpressionVec>) {
 		values.iter () .map (|ref value| self.compile (compilation, value)) .collect ()
 	}
@@ -192,7 +181,6 @@ impl Compiler {
 	
 	
 	
-	#[ inline (always) ]
 	pub fn compile_symbol (&self, compilation : &mut CompilerContext, identifier : &Symbol) -> (Outcome<Expression>) {
 		match try! (compilation.resolve (identifier)) {
 			CompilerBinding::Undefined =>
@@ -207,7 +195,6 @@ impl Compiler {
 	
 	
 	
-	#[ inline (always) ]
 	pub fn compile_form (&self, compilation : &mut CompilerContext, form : &Pair) -> (Outcome<Expression>) {
 		
 		match try! (self.compile_form_1 (compilation, &form)) {
@@ -220,7 +207,6 @@ impl Compiler {
 	}
 	
 	
-	#[ inline (always) ]
 	fn compile_form_1 (&self, compilation : &mut CompilerContext, value : &Pair) -> (Outcome<Option<(SyntaxPrimitive, Value)>>) {
 		
 		let callable = value.left ();
@@ -253,7 +239,6 @@ impl Compiler {
 	
 	
 	
-	#[ inline (always) ]
 	pub fn compile_procedure_call (&self, compilation : &mut CompilerContext, procedure : &Value, arguments : &Value) -> (Outcome<Expression>) {
 		
 		let procedure = try! (self.compile (compilation, procedure));
@@ -267,7 +252,6 @@ impl Compiler {
 	
 	
 	
-	#[ inline (always) ]
 	pub fn compile_syntax_call (&self, compilation : &mut CompilerContext, syntax : &SyntaxPrimitive, arguments : &Value) -> (Outcome<Expression>) {
 		
 		let arguments = try! (vec_clone_list (arguments));
@@ -397,10 +381,8 @@ impl Compiler {
 	
 	
 	
-	#[ inline (always) ]
 	pub fn compile_syntax_quasy_quote_value (&self, compilation : &mut CompilerContext, value : &Value, spliceable : bool) -> (Outcome<Expression>) {
 		
-		#[ inline (always) ]
 		fn splice <ExpressionInto : StdInto<Expression>> (expression : ExpressionInto, spliceable : bool) -> (Expression) {
 			let expression = expression.into ();
 			if spliceable {

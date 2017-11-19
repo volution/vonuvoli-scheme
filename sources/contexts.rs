@@ -40,7 +40,6 @@ struct ContextInternals {
 impl Context {
 	
 	
-	#[ inline (always) ]
 	pub fn new (parent : Option<&Context>) -> (Context) {
 		let internals = ContextInternals {
 				bindings : StdMap::new (),
@@ -51,20 +50,17 @@ impl Context {
 		return Context (StdRc::new (StdRefCell::new (internals)));
 	}
 	
-	#[ inline (always) ]
 	pub fn fork (&self) -> (Context) {
 		return Context::new (Some (self));
 	}
 	
 	
-	#[ inline (always) ]
 	pub fn resolve_expect<SymbolFrom> (&self, identifier : &SymbolFrom) -> (Binding)
 			where Symbol : StdFrom<SymbolFrom>, SymbolFrom : Clone
 	{
 		return self.resolve (identifier) .expect ("6ab141e4") .expect ("a3e4e132");
 	}
 	
-	#[ inline (always) ]
 	pub fn resolve<SymbolFrom> (&self, identifier : &SymbolFrom) -> (Outcome<Option<Binding>>)
 			where Symbol : StdFrom<SymbolFrom>, SymbolFrom : Clone
 	{
@@ -83,14 +79,12 @@ impl Context {
 	}
 	
 	
-	#[ inline (always) ]
 	pub fn define_expect<SymbolFrom> (&self, identifier : &SymbolFrom) -> (Binding)
 			where Symbol : StdFrom<SymbolFrom>, SymbolFrom : Clone
 	{
 		return self.define (identifier) .expect ("96495520");
 	}
 	
-	#[ inline (always) ]
 	pub fn define<SymbolFrom> (&self, identifier : &SymbolFrom) -> (Outcome<Binding>)
 			where Symbol : StdFrom<SymbolFrom>, SymbolFrom : Clone
 	{
@@ -112,7 +106,6 @@ impl Context {
 	}
 	
 	
-	#[ inline (always) ]
 	pub fn set_immutable (&self) -> (Outcome<()>) {
 		let mut self_0 = self.internals_ref_mut ();
 		self_0.immutable = true;
@@ -120,12 +113,10 @@ impl Context {
 	}
 	
 	
-	#[ inline (always) ]
 	fn internals_ref (&self) -> (StdRef<ContextInternals>) {
 		return StdRefCell::borrow (StdRc::as_ref (&self.0));
 	}
 	
-	#[ inline (always) ]
 	fn internals_ref_mut (&self) -> (StdRefMut<ContextInternals>) {
 		return StdRefCell::borrow_mut (StdRc::as_ref (&self.0));
 	}
@@ -182,7 +173,6 @@ struct RegistersInternals {
 impl Registers {
 	
 	
-	#[ inline (always) ]
 	pub fn new (count : usize) -> (Registers) {
 		let internals = RegistersInternals {
 				bindings : StdVec::with_capacity (count),
@@ -192,12 +182,10 @@ impl Registers {
 	}
 	
 	
-	#[ inline (always) ]
 	pub fn resolve_expect (&self, index : usize) -> (Binding) {
 		return self.resolve (index) .expect ("204a835e");
 	}
 	
-	#[ inline (always) ]
 	pub fn resolve (&self, index : usize) -> (Outcome<Binding>) {
 		let self_0 = self.internals_ref ();
 		return match self_0.bindings.get (index) {
@@ -207,13 +195,11 @@ impl Registers {
 	}
 	
 	
-	#[ inline (always) ]
 	fn internals_ref (&self) -> (StdRef<RegistersInternals>) {
 		return StdRefCell::borrow (StdRc::as_ref (&self.0));
 	}
 	
 	#[ allow (dead_code) ]
-	#[ inline (always) ]
 	fn internals_ref_mut (&self) -> (StdRefMut<RegistersInternals>) {
 		return StdRefCell::borrow_mut (StdRc::as_ref (&self.0));
 	}
@@ -253,7 +239,6 @@ struct BindingInternals {
 impl Binding {
 	
 	
-	#[ inline (always) ]
 	pub fn new (identifier : Symbol, value : Value, immutable : bool) -> (Binding) {
 		let internals = BindingInternals {
 				identifier : identifier,
@@ -265,13 +250,11 @@ impl Binding {
 	}
 	
 	
-	#[ inline (always) ]
 	pub fn get (&self) -> (Outcome<Value>) {
 		let self_0 = self.internals_ref ();
 		return Ok (self_0.value.clone ());
 	}
 	
-	#[ inline (always) ]
 	pub fn set<ValueFrom> (&self, value : ValueFrom) -> (Outcome<Value>)
 			where Value : StdFrom<ValueFrom>
 	{
@@ -284,7 +267,6 @@ impl Binding {
 		return Ok (value);
 	}
 	
-	#[ inline (always) ]
 	pub fn initialize<ValueFrom> (&self, value : ValueFrom) -> (Outcome<Value>)
 			where Value : StdFrom<ValueFrom>
 	{
@@ -298,7 +280,6 @@ impl Binding {
 	}
 	
 	
-	#[ inline (always) ]
 	pub fn set_immutable (&self) -> (Outcome<()>) {
 		let mut self_0 = self.internals_ref_mut ();
 		self_0.immutable = true;
@@ -306,12 +287,10 @@ impl Binding {
 	}
 	
 	
-	#[ inline (always) ]
 	fn internals_ref (&self) -> (StdRef<BindingInternals>) {
 		return StdRefCell::borrow (StdRc::as_ref (&self.0));
 	}
 	
-	#[ inline (always) ]
 	fn internals_ref_mut (&self) -> (StdRefMut<BindingInternals>) {
 		return StdRefCell::borrow_mut (StdRc::as_ref (&self.0));
 	}
@@ -321,7 +300,6 @@ impl Binding {
 impl cmp::Eq for Binding {}
 
 impl cmp::PartialEq for Binding {
-	#[ inline (always) ]
 	fn eq (&self, other : &Self) -> (bool) {
 		let self_0 = self.internals_ref ();
 		let other_0 = other.internals_ref ();
@@ -331,7 +309,6 @@ impl cmp::PartialEq for Binding {
 
 
 impl hash::Hash for Binding {
-	#[ inline (always) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		let self_0 = self.internals_ref ();
 		hasher.write_u32 (self_0.handle);

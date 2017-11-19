@@ -18,7 +18,6 @@ pub mod exports {
 
 
 
-#[ allow (unused_macros) ]
 macro_rules! impl_from_for_Expression_0 {
 	( $tag : ident, $from : ty ) => (
 		impl_from_for_type! (Expression, &'static $from, value, value.clone () .into ());
@@ -27,7 +26,6 @@ macro_rules! impl_from_for_Expression_0 {
 	);
 }
 
-#[ allow (unused_macros) ]
 macro_rules! impl_from_for_Expression_1 {
 	( $tag : ident, $from : ty ) => (
 		impl_from_for_enum! (Expression, $tag, $from);
@@ -47,7 +45,6 @@ macro_rules! impl_from_for_Expression_2 {
 
 
 
-#[ allow (unused_macros) ]
 macro_rules! impl_from_for_Value_0 {
 	( $tag : ident, $from : ty ) => (
 		impl_from_for_enum! (Value, $tag, $from);
@@ -58,7 +55,6 @@ macro_rules! impl_from_for_Value_0 {
 	);
 }
 
-#[ allow (unused_macros) ]
 macro_rules! impl_from_for_Value_1 {
 	( $tag : ident, $from : ty ) => (
 		impl_from_for_Value_0! ($tag, $from);
@@ -66,7 +62,6 @@ macro_rules! impl_from_for_Value_1 {
 	);
 }
 
-#[ allow (unused_macros) ]
 macro_rules! impl_from_for_Value_2 {
 	( $tag : ident, $to : ident, $from : ty ) => (
 		impl_from_for_type! ($to, $from);
@@ -75,7 +70,6 @@ macro_rules! impl_from_for_Value_2 {
 	);
 }
 
-#[ allow (unused_macros) ]
 macro_rules! impl_from_for_Value_3 {
 	( $tag : ident, $to : ty, $from : ty, $value : ident, $expression : expr ) => (
 		impl_from_for_type! ($to, $from, $value, $expression);
@@ -140,7 +134,6 @@ impl_from_for_type! (Pair, (Value, Value), value, { let (left, right) = value; p
 
 
 
-#[ allow (unused_macros) ]
 macro_rules! impl_from_for_primitive_procedure {
 	( $from : ty, $tag_1 : ident, $tag_2 : ident, $tag_3 : ident ) => (
 		impl_from_for_Value_0! (ProcedurePrimitive, $from);
@@ -171,7 +164,6 @@ impl_from_for_primitive_procedure! (ListPrimitiveN, ProcedurePrimitiveN, Primiti
 
 
 
-#[ allow (unused_macros) ]
 macro_rules! impl_from_for_primitive_syntax {
 	( $from : ty, $tag : ident ) => (
 		impl_from_for_Value_0! (SyntaxPrimitive, $from);
@@ -328,12 +320,10 @@ impl_from_for_ProcedurePrimitiveCallN! (BitwisePrimitiveN);
 
 
 
-#[ inline (always) ]
 pub fn vec_into <From, To : StdFrom<From>> (from : Vec<From>) -> (Vec<To>) {
 	from.into_iter () .map (|value| value.into ()) .collect ()
 }
 
-#[ inline (always) ]
 pub fn vec_clone_slice <From : Clone, To : StdFrom<From>> (from : &[From]) -> (Vec<To>) {
 	from.iter () .cloned () .map (|value| value.into ()) .collect ()
 }
@@ -351,7 +341,6 @@ pub enum NumberCoercion2 {
 	Real ( NumberReal, NumberReal ),
 }
 
-#[ inline (always) ]
 pub fn number_coerce_1 (right : &Value) -> (Outcome<NumberCoercion1>) {
 	match right {
 		&Value::NumberInteger (ref right) =>
@@ -363,7 +352,6 @@ pub fn number_coerce_1 (right : &Value) -> (Outcome<NumberCoercion1>) {
 	}
 }
 
-#[ inline (always) ]
 pub fn number_coerce_2a (left : &Value, right : &Value) -> (Outcome<NumberCoercion2>) {
 	match (left, right) {
 		(&Value::NumberInteger (ref left), &Value::NumberInteger (ref right)) =>
@@ -379,7 +367,6 @@ pub fn number_coerce_2a (left : &Value, right : &Value) -> (Outcome<NumberCoerci
 	}
 }
 
-#[ inline (always) ]
 pub fn number_coerce_2b (left : &NumberCoercion1, right : &Value) -> (Outcome<NumberCoercion2>) {
 	match (left, right) {
 		(&NumberCoercion1::Integer (ref left), &Value::NumberInteger (ref right)) =>

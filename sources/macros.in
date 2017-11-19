@@ -1,20 +1,17 @@
 
 
-#[ allow (unused_macros) ]
 macro_rules! succeeded {
 	( $outcome : expr ) => (
 		::std::result::Result::Ok ($outcome.into ())
 	);
 }
 
-#[ allow (unused_macros) ]
 macro_rules! failed {
 	( $code : expr ) => (
 		::std::result::Result::Err ($crate::errors::error_generic ($code))
 	);
 }
 
-#[ allow (unused_macros) ]
 macro_rules! failed_unimplemented {
 	( $code : expr ) => (
 		::std::result::Result::Err ($crate::errors::error_unimplemented ($code))
@@ -22,21 +19,18 @@ macro_rules! failed_unimplemented {
 }
 
 
-#[ allow (unused_macros) ]
 macro_rules! succeed {
 	( $outcome : expr ) => (
 		return succeeded! ($outcome)
 	);
 }
 
-#[ allow (unused_macros) ]
 macro_rules! fail {
 	( $code : expr ) => (
 		return failed! ($code)
 	);
 }
 
-#[ allow (unused_macros) ]
 macro_rules! fail_unimplemented {
 	( $code : expr ) => (
 		return failed_unimplemented! ($code)
@@ -176,7 +170,6 @@ macro_rules! impl_from_for_type {
 	);
 	( $to : ty, $from : ty, $value : ident, $expression : expr ) => (
 		impl StdFrom<$from> for $to {
-			#[ inline ( always ) ]
 			fn from ($value : $from) -> ($to) { <$to>::into ($expression) }
 		}
 	);
@@ -202,7 +195,6 @@ macro_rules! impl_into_for_type {
 	);
 	( $to : ty, $from : ty, $value : ident, $expression : expr ) => (
 		impl StdInto<$to> for $from {
-			#[ inline ( always ) ]
 			fn into ($value : $from) -> ($to) { <$to>::into ($expression) }
 		}
 	);
@@ -225,13 +217,11 @@ macro_rules! impl_into_for_enum {
 macro_rules! impl_unwrappers_for_type_wrapper {
 	( $from : ty, $to : ty) => (
 		impl StdFrom<$from> for $to {
-			#[ inline (always) ]
 			fn from (value : $from) -> ($to) {
 				value.0
 			}
 		}
 		impl<'a> StdAsRef<$to> for $from {
-			#[ inline (always) ]
 			fn as_ref (&self) -> (&$to) {
 				&self.0
 			}
@@ -244,7 +234,6 @@ macro_rules! impl_unwrappers_for_enum_wrapper {
 	( $from : ident, $tag : ident, $to : ty) => (
 		impl StdTryFrom<$from> for $to {
 			type Error = super::errors::Error;
-			#[ inline (always) ]
 			fn try_from (value : $from) -> (Outcome<$to>) {
 				if let $from::$tag (value) = value {
 					Ok (value)
@@ -254,14 +243,12 @@ macro_rules! impl_unwrappers_for_enum_wrapper {
 			}
 		}
 		impl StdFrom<$from> for $to {
-			#[ inline (always) ]
 			fn from (value : $from) -> ($to) {
 				StdTryFrom::try_from (value) .expect ("686ef2f9")
 			}
 		}
 		impl<'a> StdTryAsRef<$to> for $from {
 			type Error = super::errors::Error;
-			#[ inline (always) ]
 			fn try_as_ref (&self) -> (Outcome<&$to>) {
 				if let $from::$tag (ref value) = *self {
 					Ok (value)
@@ -271,7 +258,6 @@ macro_rules! impl_unwrappers_for_enum_wrapper {
 			}
 		}
 		impl<'a> StdAsRef<$to> for $from {
-			#[ inline (always) ]
 			fn as_ref (&self) -> (&$to) {
 				StdTryAsRef::try_as_ref (self) .expect ("8dee9989")
 			}
@@ -303,6 +289,7 @@ macro_rules! try_as_ref {
 #[ allow (unused_macros) ]
 macro_rules! def_try_as_ref {
 	( $identifier : ident, $type : ty) => (
+		#[ allow (unused_macros) ]
 		macro_rules! $identifier {
 			( $value : expr ) => (
 				try_as_ref! ($type, $value);

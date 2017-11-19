@@ -11,7 +11,6 @@ static mut CONTEXT_HANDLES : PermutationCounter = PermutationCounter {
 		initialized : false,
 	};
 
-#[ inline (always) ]
 pub fn context_handles_next () -> (u32) {
 	unsafe {
 		CONTEXT_HANDLES.next ()
@@ -25,11 +24,9 @@ static mut BINDINGS_HANDLES : PermutationCounter = PermutationCounter {
 		initialized : false,
 	};
 
-#[ inline (always) ]
 pub fn bindings_handles_next () -> (u32) {
 	unsafe {
 		BINDINGS_HANDLES.next ()
 	}
 }
-
 

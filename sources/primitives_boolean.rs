@@ -55,7 +55,6 @@ pub enum BooleanPrimitiveN {
 
 
 
-#[ inline (always) ]
 pub fn boolean_primitive_1_evaluate (primitive : BooleanPrimitive1, input : &Value) -> (Outcome<Value>) {
 	
 	let input = try! (StdTryAsRef::<Boolean>::try_as_ref (input));
@@ -73,7 +72,6 @@ pub fn boolean_primitive_1_evaluate (primitive : BooleanPrimitive1, input : &Val
 
 
 
-#[ inline (always) ]
 pub fn boolean_primitive_2_evaluate (primitive : BooleanPrimitive2, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
 	
 	let input_1 = try! (StdTryAsRef::<Boolean>::try_as_ref (input_1));
@@ -107,7 +105,6 @@ pub fn boolean_primitive_2_evaluate (primitive : BooleanPrimitive2, input_1 : &V
 
 
 
-#[ inline (always) ]
 pub fn boolean_primitive_n_evaluate (primitive : BooleanPrimitiveN, inputs : &[Value]) -> (Outcome<Value>) {
 	
 	let mut output = match primitive {

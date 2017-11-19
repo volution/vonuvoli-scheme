@@ -135,7 +135,6 @@ macro_rules! arithmetic_primitive_2_delegate_call {
 
 
 
-#[ inline (always) ]
 pub fn arithmetic_primitive_1_evaluate (primitive : ArithmeticPrimitive1, input : &Value) -> (Outcome<Value>) {
 	
 	let output : Value = match primitive {
@@ -281,7 +280,6 @@ pub fn arithmetic_primitive_1_evaluate (primitive : ArithmeticPrimitive1, input 
 
 
 
-#[ inline (always) ]
 pub fn arithmetic_primitive_2_evaluate (primitive : ArithmeticPrimitive2, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
 	
 	let output : Value = match primitive {
@@ -335,7 +333,6 @@ pub fn arithmetic_primitive_2_evaluate (primitive : ArithmeticPrimitive2, input_
 
 
 
-#[ inline (always) ]
 pub fn arithmetic_primitive_n_evaluate (primitive : ArithmeticPrimitiveN, inputs : &[Value]) -> (Outcome<Value>) {
 	
 	let inputs_count = inputs.len ();
