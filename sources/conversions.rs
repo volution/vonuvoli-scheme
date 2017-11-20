@@ -30,7 +30,6 @@ macro_rules! impl_from_for_Expression_1 {
 	( $tag : ident, $from : ty ) => (
 		impl_from_for_enum! (Expression, $tag, $from);
 		impl_from_for_Expression_0! ($tag, $from);
-		// impl_unwrappers_for_enum_wrapper! (Expression, $tag, $from);
 	);
 }
 

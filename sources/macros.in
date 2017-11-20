@@ -276,6 +276,31 @@ macro_rules! vec_into {
 	);
 }
 
+#[ macro_export ]
+#[ allow (unused_macros) ]
+macro_rules! vec_explode_1 {
+	( $value : expr ) => (
+		{
+			let mut iterator = $value.into_iter ();
+			iterator.next () .expect ("a116f5d2")
+		}
+	);
+}
+
+#[ macro_export ]
+#[ allow (unused_macros) ]
+macro_rules! vec_explode_2 {
+	( $value : expr ) => (
+		{
+			let mut iterator = $value.into_iter ();
+			(
+				iterator.next () .expect ("bab94a35"),
+				iterator.next () .expect ("0eba5eb6"),
+			)
+		}
+	);
+}
+
 
 
 
@@ -298,7 +323,30 @@ macro_rules! def_try_as_ref {
 	);
 }
 
+
+#[ allow (unused_macros) ]
+macro_rules! try_into {
+	( $type : ty, $value : expr ) => (
+		// try! ($crate::runtime::exports::StdTryInto::<$type>::try_into ($value));
+		try! ($crate::runtime::exports::StdTryFrom::try_from ($value));
+	);
+}
+
+#[ allow (unused_macros) ]
+macro_rules! def_try_into {
+	( $identifier : ident, $type : ty) => (
+		#[ allow (unused_macros) ]
+		macro_rules! $identifier {
+			( $value : expr ) => (
+				try_into! ($type, $value);
+			);
+		}
+	);
+}
+
+
 def_try_as_ref! (try_as_symbol_ref, Symbol);
+def_try_into! (try_into_symbol, Symbol);
 
 
 
@@ -321,12 +369,6 @@ macro_rules! def_tests {
 			language_r7rs_initialize_context (&context) .expect ("5039c42d");
 			language_builtins_initialize_context (&context) .expect ("30635936");
 			
-			let compiler = Compiler::new ();
-			let mut compiler = compiler.fork (&context);
-			
-			let evaluator = Evaluator::new ();
-			let mut evaluator = evaluator.fork (&context);
-			
 			for (input_syntax, output_syntax) in tests {
 				
 				if print {
@@ -334,15 +376,15 @@ macro_rules! def_tests {
 					eprintln! (">> {} => {} ;", input_syntax, output_syntax);
 				}
 				
-				let input_expression = compiler.compile (&input_syntax) .expect ("688d5914");
-				let output_expression = compiler.compile (&output_syntax) .expect ("a0c9bbd3");
+				let input_expression = compile (&context, &input_syntax) .expect ("688d5914");
+				let output_expression = compile (&context, &output_syntax) .expect ("a0c9bbd3");
 				
 				if print {
 					eprintln! ("## {:?}", input_expression);
 				}
 				
-				let input_value = evaluator.evaluate (&input_expression) .expect ("c824095a");
-				let output_value = evaluator.evaluate (&output_expression) .expect ("13a4fe58");
+				let input_value = evaluate (&context, &input_expression) .expect ("c824095a");
+				let output_value = evaluate (&context, &output_expression) .expect ("13a4fe58");
 				
 				assert_eq! (input_value, output_value);
 				
