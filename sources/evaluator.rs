@@ -9,36 +9,19 @@ use super::runtime::exports::*;
 use super::values::exports::*;
 
 
+
+
 pub mod exports {
-	
+	pub use super::evaluate;
 	pub use super::Evaluator;
 	pub use super::EvaluatorContext;
-	
 }
 
 
 
 
-pub struct EvaluatorContext <'a> {
-	pub evaluator : &'a Evaluator,
-	pub context : Option<&'a Context>,
-	pub registers : Option<&'a Registers>,
-}
-
-
-impl <'a> EvaluatorContext<'a> {
-	
-	pub fn new (evaluator : &'a Evaluator, context : Option<&'a Context>) -> (EvaluatorContext<'a>) {
-		return EvaluatorContext {
-				evaluator : evaluator,
-				context : context,
-				registers : None,
-			}
-	}
-	
-	pub fn evaluate (&mut self, input : &Expression) -> (Outcome<Value>) {
-		return self.evaluator.evaluate (self, input);
-	}
+pub fn evaluate (context : &Context, expression : &Expression) -> (Outcome<Value>) {
+	return Evaluator::new () .evaluate (context, expression);
 }
 
 
@@ -50,8 +33,14 @@ pub struct Evaluator {}
 impl Evaluator {
 	
 	
+	
+	
 	pub fn new () -> (Evaluator) {
 		return Evaluator {};
+	}
+	
+	pub fn evaluate (&self, context : &Context, expression : &Expression) -> (Outcome<Value>) {
+		return self.fork (context) .evaluate (expression);
 	}
 	
 	pub fn fork <'a> (&'a self, context : &'a Context) -> EvaluatorContext<'a> {
@@ -61,7 +50,7 @@ impl Evaluator {
 	
 	
 	
-	pub fn evaluate (&self, evaluation : &mut EvaluatorContext, input : &Expression) -> (Outcome<Value>) {
+	pub fn evaluate_0 (&self, evaluation : &mut EvaluatorContext, input : &Expression) -> (Outcome<Value>) {
 		
 		match *input {
 			
@@ -119,7 +108,7 @@ impl Evaluator {
 	pub fn evaluate_slice (&self, evaluation : &mut EvaluatorContext, inputs : &[Expression]) -> (Outcome<Vec<Value>>) {
 		let mut outputs = Vec::with_capacity (inputs.len ());
 		for input in inputs {
-			let output = try! (self.evaluate (evaluation, input));
+			let output = try! (evaluation.evaluate (input));
 			outputs.push (output);
 		}
 		return Ok (outputs);
@@ -131,7 +120,7 @@ impl Evaluator {
 	pub fn evaluate_context_define (&self, evaluation : &mut EvaluatorContext, identifier : &Symbol, expression : &Expression) -> (Outcome<Value>) {
 		let context = try_some! (evaluation.context, 0xfe053ac6);
 		let binding = try! (context.define (identifier));
-		let value_new = try! (self.evaluate (evaluation, expression));
+		let value_new = try! (evaluation.evaluate (expression));
 		let value_new = try! (binding.initialize (value_new));
 		return Ok (value_new);
 	}
@@ -139,7 +128,7 @@ impl Evaluator {
 	pub fn evaluate_context_update (&self, evaluation : &mut EvaluatorContext, identifier : &Symbol, expression : &Expression) -> (Outcome<Value>) {
 		let context = try_some! (evaluation.context, 0x4be15062);
 		let binding = try_some_2! (context.resolve (identifier), 0x8c4717b1);
-		let value_new = try! (self.evaluate (evaluation, expression));
+		let value_new = try! (evaluation.evaluate (expression));
 		let value_old = try! (binding.set (value_new));
 		return Ok (value_old);
 	}
@@ -157,7 +146,7 @@ impl Evaluator {
 	pub fn evaluate_register_initialize (&self, evaluation : &mut EvaluatorContext, index : usize, expression : &Expression) -> (Outcome<Value>) {
 		let registers = try_some! (evaluation.registers, 0x4f5f5ffc);
 		let binding = try! (registers.resolve (index));
-		let value_new = try! (self.evaluate (evaluation, expression));
+		let value_new = try! (evaluation.evaluate (expression));
 		let value_new = try! (binding.initialize (value_new));
 		return Ok (value_new);
 	}
@@ -165,7 +154,7 @@ impl Evaluator {
 	pub fn evaluate_register_set (&self, evaluation : &mut EvaluatorContext, index : usize, expression : &Expression) -> (Outcome<Value>) {
 		let registers = try_some! (evaluation.registers, 0x9e3f943b);
 		let binding = try! (registers.resolve (index));
-		let value_new = try! (self.evaluate (evaluation, expression));
+		let value_new = try! (evaluation.evaluate (expression));
 		let value_old = try! (binding.set (value_new));
 		return Ok (value_old);
 	}
@@ -181,13 +170,13 @@ impl Evaluator {
 	
 	
 	pub fn evaluate_binding_initialize (&self, evaluation : &mut EvaluatorContext, binding : &Binding, expression : &Expression) -> (Outcome<Value>) {
-		let value_new = try! (self.evaluate (evaluation, expression));
+		let value_new = try! (evaluation.evaluate (expression));
 		let value_new = try! (binding.initialize (value_new));
 		return Ok (value_new);
 	}
 	
 	pub fn evaluate_binding_set (&self, evaluation : &mut EvaluatorContext, binding : &Binding, expression : &Expression) -> (Outcome<Value>) {
-		let value_new = try! (self.evaluate (evaluation, expression));
+		let value_new = try! (evaluation.evaluate (expression));
 		let value_old = try! (binding.set (value_new));
 		return Ok (value_old);
 	}
@@ -201,7 +190,7 @@ impl Evaluator {
 	
 	
 	pub fn evaluate_procedure_call (&self, evaluation : &mut EvaluatorContext, callable : &Expression, inputs : &[Expression]) -> (Outcome<Value>) {
-		let callable = try! (self.evaluate (evaluation, callable));
+		let callable = try! (evaluation.evaluate (callable));
 		match callable {
 			Value::ProcedurePrimitive (primitive) =>
 				return self.evaluate_procedure_primitive (evaluation, primitive, inputs),
@@ -219,14 +208,14 @@ impl Evaluator {
 	}
 	
 	pub fn evaluate_procedure_primitive_1 (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive1, input : &Expression) -> (Outcome<Value>) {
-		let input = try! (self.evaluate (evaluation, input));
+		let input = try! (evaluation.evaluate (input));
 		let output = procedure_primitive_1_evaluate (primitive, &input, evaluation);
 		return output;
 	}
 	
 	pub fn evaluate_procedure_primitive_2 (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive2, input_1 : &Expression, input_2 : &Expression) -> (Outcome<Value>) {
-		let input_1 = try! (self.evaluate (evaluation, input_1));
-		let input_2 = try! (self.evaluate (evaluation, input_2));
+		let input_1 = try! (evaluation.evaluate (input_1));
+		let input_2 = try! (evaluation.evaluate (input_2));
 		let output = procedure_primitive_2_evaluate (primitive, &input_1, &input_2, evaluation);
 		return output;
 	}
@@ -267,5 +256,30 @@ impl Evaluator {
 	}
 	
 	
+}
+
+
+
+
+pub struct EvaluatorContext <'a> {
+	pub evaluator : &'a Evaluator,
+	pub context : Option<&'a Context>,
+	pub registers : Option<&'a Registers>,
+}
+
+
+impl <'a> EvaluatorContext<'a> {
+	
+	pub fn new (evaluator : &'a Evaluator, context : Option<&'a Context>) -> (EvaluatorContext<'a>) {
+		return EvaluatorContext {
+				evaluator : evaluator,
+				context : context,
+				registers : None,
+			}
+	}
+	
+	pub fn evaluate (&mut self, input : &Expression) -> (Outcome<Value>) {
+		return self.evaluator.evaluate_0 (self, input);
+	}
 }
 
