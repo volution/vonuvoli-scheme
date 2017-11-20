@@ -19,8 +19,8 @@ pub mod exports {
 
 
 
-pub fn compile (context : &Context, value : &Value) -> (Outcome<Expression>) {
-	return Compiler::new () .compile (context, value);
+pub fn compile (context : &Context, token : &Value) -> (Outcome<Expression>) {
+	return Compiler::new () .compile (context, token);
 }
 
 
@@ -38,30 +38,30 @@ impl Compiler {
 		return Compiler {};
 	}
 	
-	pub fn compile (&self, context : &Context, value : &Value) -> (Outcome<Expression>) {
+	pub fn compile (&self, context : &Context, token : &Value) -> (Outcome<Expression>) {
 		let compilation = CompilerContext::new (CompilerBindings::Globals1 (context.clone ()));
-		let (_compilation, expression) = try! (self.compile_0 (compilation, value.clone ()));
+		let (_compilation, expression) = try! (self.compile_0 (compilation, token.clone ()));
 		succeed! (expression);
 	}
 	
 	
 	
 	
-	fn compile_0 (&self, compilation : CompilerContext, value : Value) -> (Outcome<(CompilerContext, Expression)>) {
+	fn compile_0 (&self, compilation : CompilerContext, token : Value) -> (Outcome<(CompilerContext, Expression)>) {
 		
-		match value.class () {
+		match token.class () {
 			
 			ValueClass::Null | ValueClass::Void | ValueClass::Undefined =>
-				succeed! ((compilation, value.into ())),
+				succeed! ((compilation, token.into ())),
 			ValueClass::Boolean | ValueClass::NumberInteger | ValueClass::NumberReal | ValueClass::Character =>
-				succeed! ((compilation, value.into ())),
+				succeed! ((compilation, token.into ())),
 			ValueClass::String | ValueClass::Bytes =>
-				succeed! ((compilation, value.into ())),
+				succeed! ((compilation, token.into ())),
 			
 			ValueClass::Symbol =>
-				return self.compile_symbol (compilation, value.into ()),
+				return self.compile_symbol (compilation, token.into ()),
 			ValueClass::Pair =>
-				return self.compile_form (compilation, value.into ()),
+				return self.compile_form (compilation, token.into ()),
 			ValueClass::Array =>
 				fail_unimplemented! (0xe7db25d8),
 			
@@ -82,11 +82,11 @@ impl Compiler {
 	
 	
 	
-	fn compile_vec (&self, compilation : CompilerContext, values : ValueVec) -> (Outcome<(CompilerContext, ExpressionVec)>) {
-		let mut expressions = ExpressionVec::with_capacity (values.len ());
+	fn compile_vec (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, ExpressionVec)>) {
+		let mut expressions = ExpressionVec::with_capacity (tokens.len ());
 		let mut compilation = compilation;
-		for value in values.into_iter () {
-			let (compilation_1, expression) = try! (self.compile_0 (compilation, value));
+		for token in tokens.into_iter () {
+			let (compilation_1, expression) = try! (self.compile_0 (compilation, token));
 			compilation = compilation_1;
 			expressions.push (expression);
 		}
@@ -115,8 +115,8 @@ impl Compiler {
 		
 		match try! (self.compile_form_1 (compilation, form.clone ())) {
 			
-			(compilation, Some ((primitive, arguments))) =>
-				return self.compile_syntax_call (compilation, primitive, arguments),
+			(compilation, Some ((primitive, tokens))) =>
+				return self.compile_syntax_call (compilation, primitive, tokens),
 			
 			(compilation, None) =>
 				return self.compile_procedure_call (compilation, form.left () .clone (), form.right () .clone ()),
@@ -124,11 +124,11 @@ impl Compiler {
 	}
 	
 	
-	fn compile_form_1 (&self, compilation : CompilerContext, value : Pair) -> (Outcome<(CompilerContext, Option<(SyntaxPrimitive, Value)>)>) {
+	fn compile_form_1 (&self, compilation : CompilerContext, token : Pair) -> (Outcome<(CompilerContext, Option<(SyntaxPrimitive, Value)>)>) {
 		
 		let mut compilation = compilation;
-		let callable = value.left () .clone ();
-		let arguments = value.right () .clone ();
+		let callable = token.left () .clone ();
+		let arguments = token.right () .clone ();
 		
 		match callable.class () {
 			
@@ -166,24 +166,24 @@ impl Compiler {
 	
 	
 	
-	fn compile_syntax_call (&self, compilation : CompilerContext, syntax : SyntaxPrimitive, arguments : Value) -> (Outcome<(CompilerContext, Expression)>) {
+	fn compile_syntax_call (&self, compilation : CompilerContext, syntax : SyntaxPrimitive, tokens : Value) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		let mut compilation = compilation;
-		let arguments = try! (vec_clone_list (&arguments));
-		let arguments_count = arguments.len ();
+		let tokens = try! (vec_clone_list (&tokens));
+		let tokens_count = tokens.len ();
 		
 		match syntax {
 			
 			SyntaxPrimitive::Primitive1 (syntax) =>
-				if arguments_count == 1 {
-					let arguments = vec_explode_1! (arguments);
+				if tokens_count == 1 {
+					let tokens = vec_explode_1! (tokens);
 					match syntax {
 						
 						SyntaxPrimitive1::Quote =>
-							succeed! ((compilation, Expression::Value (arguments.clone ()))),
+							succeed! ((compilation, Expression::Value (tokens.clone ()))),
 						
 						SyntaxPrimitive1::QuasiQuote =>
-							return self.compile_syntax_quasy_quote_value (compilation, arguments, false),
+							return self.compile_syntax_quasy_quote (compilation, tokens, false),
 						
 						SyntaxPrimitive1::UnQuote | SyntaxPrimitive1::UnQuoteSplicing =>
 							fail! (0x99b4857b),
@@ -194,11 +194,11 @@ impl Compiler {
 				},
 			
 			SyntaxPrimitive::Primitive2 (syntax) =>
-				if arguments_count == 2 {
+				if tokens_count == 2 {
 					match syntax {
 						
 						SyntaxPrimitive2::Define => {
-							let (identifier, value) = vec_explode_2! (arguments);
+							let (identifier, value) = vec_explode_2! (tokens);
 							match identifier.class () {
 								ValueClass::Symbol =>
 									match try! (compilation.bindings.define (try_into_symbol! (identifier))) {
@@ -235,12 +235,12 @@ impl Compiler {
 				},
 			
 			SyntaxPrimitive::Primitive3 (syntax) =>
-				if arguments_count == 3 {
+				if tokens_count == 3 {
 					match syntax {
 						
 						SyntaxPrimitive3::If => {
-							let (compilation, arguments) = try! (self.compile_vec (compilation, arguments));
-							succeed! ((compilation, Expression::SyntaxPrimitiveCall (SyntaxPrimitive3::If.into (), arguments)));
+							let (compilation, statements) = try! (self.compile_vec (compilation, tokens));
+							succeed! ((compilation, Expression::SyntaxPrimitiveCall (SyntaxPrimitive3::If.into (), statements)));
 						},
 						
 					}
@@ -251,26 +251,29 @@ impl Compiler {
 			SyntaxPrimitive::PrimitiveN (syntax) =>
 				match syntax {
 					
+					SyntaxPrimitiveN::Lambda =>
+						return self.compile_syntax_lambda (compilation, tokens),
+					
+					SyntaxPrimitiveN::Locals =>
+						return self.compile_syntax_locals (compilation, tokens),
+					
 					SyntaxPrimitiveN::Begin => {
-						let (compilation, arguments) = try! (self.compile_vec (compilation, arguments));
-						succeed! ((compilation, Expression::Sequence (arguments)));
+						let (compilation, statements) = try! (self.compile_vec (compilation, tokens));
+						succeed! ((compilation, Expression::Sequence (statements)));
 					},
 					
 					SyntaxPrimitiveN::And | SyntaxPrimitiveN::Or => {
-						let (compilation, arguments) = try! (self.compile_vec (compilation, arguments));
-						succeed! ((compilation, Expression::SyntaxPrimitiveCall (syntax.into (), arguments)));
+						let (compilation, statements) = try! (self.compile_vec (compilation, tokens));
+						succeed! ((compilation, Expression::SyntaxPrimitiveCall (syntax.into (), statements)));
 					},
 					
 					SyntaxPrimitiveN::When | SyntaxPrimitiveN::Unless =>
-						if arguments_count >= 2 {
-							let (compilation, arguments) = try! (self.compile_vec (compilation, arguments));
-							succeed! ((compilation, Expression::SyntaxPrimitiveCall (syntax.into (), arguments)));
+						if tokens_count >= 2 {
+							let (compilation, statements) = try! (self.compile_vec (compilation, tokens));
+							succeed! ((compilation, Expression::SyntaxPrimitiveCall (syntax.into (), statements)));
 						} else {
 							fail! (0x3c364a9f);
 						},
-					
-					SyntaxPrimitiveN::Locals =>
-						return self.compile_syntax_locals (compilation, arguments),
 					
 					_ =>
 						fail_unimplemented! (0x73d95eb5),
@@ -292,6 +295,13 @@ impl Compiler {
 	
 	
 	
+	fn compile_syntax_lambda (&self, _compilation : CompilerContext, _tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+		fail_unimplemented! (0x3157c61a);
+	}
+	
+	
+	
+	
 	fn compile_syntax_locals (&self, compilation : CompilerContext, statements : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		let compilation = try! (compilation.fork_locals (true));
 		let (compilation, statements) = try! (self.compile_vec (compilation, statements));
@@ -308,7 +318,7 @@ impl Compiler {
 	
 	
 	
-	fn compile_syntax_quasy_quote_value (&self, compilation : CompilerContext, value : Value, spliceable : bool) -> (Outcome<(CompilerContext, Expression)>) {
+	fn compile_syntax_quasy_quote (&self, compilation : CompilerContext, token : Value, spliceable : bool) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		fn splice <ExpressionInto : StdInto<Expression>> (expression : ExpressionInto, spliceable : bool) -> (Expression) {
 			let expression = expression.into ();
@@ -319,17 +329,17 @@ impl Compiler {
 			}
 		}
 		
-		match value.class () {
+		match token.class () {
 			
 			ValueClass::Null | ValueClass::Void | ValueClass::Undefined =>
-				succeed! ((compilation, splice (value, spliceable))),
+				succeed! ((compilation, splice (token, spliceable))),
 			ValueClass::Boolean | ValueClass::NumberInteger | ValueClass::NumberReal | ValueClass::Character =>
-				succeed! ((compilation, splice (value, spliceable))),
+				succeed! ((compilation, splice (token, spliceable))),
 			ValueClass::String | ValueClass::Bytes =>
-				succeed! ((compilation, splice (value, spliceable))),
+				succeed! ((compilation, splice (token, spliceable))),
 			
 			ValueClass::Symbol =>
-				succeed! ((compilation, splice (value, spliceable))),
+				succeed! ((compilation, splice (token, spliceable))),
 			ValueClass::Array =>
 				fail_unimplemented! (0x0d99c57b),
 			
@@ -345,27 +355,27 @@ impl Compiler {
 				fail! (0x841d4d00),
 			
 			ValueClass::Pair => {
-				let compilation = match try! (self.compile_form_1 (compilation, value.clone () .into ())) {
+				let compilation = match try! (self.compile_form_1 (compilation, token.clone () .into ())) {
 					
-					(compilation, Some ((primitive, arguments))) => {
-						let arguments = try! (vec_clone_list (&arguments));
-						let arguments_count = arguments.len ();
+					(compilation, Some ((primitive, tokens))) => {
+						let tokens = try! (vec_clone_list (&tokens));
+						let tokens_count = tokens.len ();
 						match primitive {
 							
 							SyntaxPrimitive::Primitive1 (SyntaxPrimitive1::UnQuote) =>
-								if arguments_count == 1 {
-									let arguments = vec_explode_1! (arguments);
-									let (compilation, element) = try! (self.compile_syntax_quasy_quote_value (compilation, arguments, false));
+								if tokens_count == 1 {
+									let tokens = vec_explode_1! (tokens);
+									let (compilation, element) = try! (self.compile_syntax_quasy_quote (compilation, tokens, false));
 									succeed! ((compilation, splice (element, spliceable)));
 								} else {
 									fail! (0x9dc44267);
 								},
 							
 							SyntaxPrimitive::Primitive1 (SyntaxPrimitive1::UnQuoteSplicing) =>
-								if arguments_count == 1 {
+								if tokens_count == 1 {
 									if spliceable {
-										let arguments = vec_explode_1! (arguments);
-										let (compilation, element) = try! (self.compile_syntax_quasy_quote_value (compilation, arguments, false));
+										let tokens = vec_explode_1! (tokens);
+										let (compilation, element) = try! (self.compile_syntax_quasy_quote (compilation, tokens, false));
 										succeed! ((compilation, element));
 									} else {
 										fail! (0x47356961);
@@ -386,13 +396,13 @@ impl Compiler {
 				
 				let mut compilation = compilation;
 				let mut elements = ExpressionVec::new ();
-				let mut cursor = &value;
+				let mut cursor = &token;
 				loop {
 					match cursor.class () {
 						
 						ValueClass::Pair => {
 							let pair = cursor.as_ref () as &Pair;
-							let (compilation_1, element) = try! (self.compile_syntax_quasy_quote_value (compilation, pair.left () .clone (), true));
+							let (compilation_1, element) = try! (self.compile_syntax_quasy_quote (compilation, pair.left () .clone (), true));
 							compilation = compilation_1;
 							elements.push (element);
 							cursor = pair.right ();
@@ -402,7 +412,7 @@ impl Compiler {
 							break,
 						
 						_ => {
-							let (compilation_1, element) = try! (self.compile_syntax_quasy_quote_value (compilation, cursor.clone (), true));
+							let (compilation_1, element) = try! (self.compile_syntax_quasy_quote (compilation, cursor.clone (), true));
 							compilation = compilation_1;
 							elements.push (element);
 							break;
