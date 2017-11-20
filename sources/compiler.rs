@@ -441,7 +441,7 @@ impl CompilerContext {
 		succeed! (CompilerContext::new (bindings));
 	}
 	
-	fn unfork_locals (self) -> (Outcome<(CompilerContext, StdVec<Option<usize>>)>) {
+	fn unfork_locals (self) -> (Outcome<(CompilerContext, StdVec<RegistersBindingTemplate>)>) {
 		let (bindings, registers) = try! (self.bindings.unfork_locals ());
 		succeed! ((CompilerContext::new (bindings), registers));
 	}
@@ -455,7 +455,7 @@ enum CompilerBindings {
 	None,
 	Globals1 (Context),
 	Globals2 (StdBox<CompilerBindings>, Context),
-	Locals (StdBox<CompilerBindings>, StdMap<Symbol, CompilerBinding>, StdVec<Option<usize>>, usize),
+	Locals (StdBox<CompilerBindings>, StdMap<Symbol, CompilerBinding>, StdVec<RegistersBindingTemplate>, usize),
 }
 
 
@@ -488,7 +488,7 @@ impl CompilerBindings {
 		}
 	}
 	
-	fn unfork_locals (self) -> (Outcome<(CompilerBindings, StdVec<Option<usize>>)>) {
+	fn unfork_locals (self) -> (Outcome<(CompilerBindings, StdVec<RegistersBindingTemplate>)>) {
 		match self {
 			CompilerBindings::None =>
 				fail! (0x98657e5a),
@@ -518,8 +518,8 @@ impl CompilerBindings {
 				} else {
 					return parent.resolve (identifier);
 				},
-			CompilerBindings::Locals (ref mut parent, ref mut locals, ref mut registers, _depth) => {
-				if let Some (binding) = locals.get (&identifier) {
+			CompilerBindings::Locals (ref mut parent, ref mut cached, ref mut registers, _depth) => {
+				if let Some (binding) = cached.get (&identifier) {
 					succeed! (binding.clone ());
 				} /*else*/ {
 					match try! (parent.resolve (identifier.clone ())) {
@@ -530,8 +530,14 @@ impl CompilerBindings {
 						CompilerBinding::Register (parent_index) => {
 							let self_index = registers.len ();
 							let self_binding = CompilerBinding::Register (self_index);
-							registers.push (Some (parent_index));
-							locals.insert (identifier, self_binding.clone ());
+							let template = RegistersBindingTemplate {
+									identifier : Some (identifier.clone ()),
+									borrow : Some (parent_index),
+									value : None,
+									immutable : false,
+								};
+							registers.push (template);
+							cached.insert (identifier, self_binding.clone ());
 							succeed! (self_binding);
 						}
 					}
@@ -544,19 +550,26 @@ impl CompilerBindings {
 		match *self {
 			CompilerBindings::None =>
 				fail! (0xd943456d),
-			CompilerBindings::Globals1 (ref context) => {
-				let binding = try! (context.define (&identifier));
+			CompilerBindings::Globals1 (ref context) | CompilerBindings::Globals2 (_, ref context) => {
+				let template = ContextBindingTemplate {
+						identifier : identifier,
+						value : None,
+						immutable : false,
+					};
+				let binding = try! (context.define (&template));
 				succeed! (CompilerBinding::Binding (binding));
 			},
-			CompilerBindings::Globals2 (ref _parent, ref context) => {
-				let binding = try! (context.define (&identifier));
-				succeed! (CompilerBinding::Binding (binding));
-			},
-			CompilerBindings::Locals (ref _parent, ref mut locals, ref mut registers, _depth) => {
+			CompilerBindings::Locals (ref _parent, ref mut cached, ref mut registers, _depth) => {
 				let index = registers.len ();
 				let binding = CompilerBinding::Register (index);
-				registers.push (None);
-				locals.insert (identifier, binding.clone ());
+				let template = RegistersBindingTemplate {
+						identifier : Some (identifier.clone ()),
+						borrow : None,
+						value : None,
+						immutable : false,
+					};
+				registers.push (template);
+				cached.insert (identifier, binding.clone ());
 				succeed! (binding);
 			},
 		}

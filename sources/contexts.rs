@@ -16,8 +16,8 @@ use std::mem;
 
 
 pub mod exports {
-	pub use super::Context;
-	pub use super::Registers;
+	pub use super::{Context, ContextBindingTemplate};
+	pub use super::{Registers, RegistersBindingTemplate};
 	pub use super::Binding;
 }
 
@@ -34,6 +34,14 @@ struct ContextInternals {
 	parent : Option<Context>,
 	immutable : bool,
 	handle : u32,
+}
+
+
+#[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
+pub struct ContextBindingTemplate {
+	pub identifier : Symbol,
+	pub value : Option<Value>,
+	pub immutable : bool,
 }
 
 
@@ -79,30 +87,32 @@ impl Context {
 	}
 	
 	
-	pub fn define_expect<SymbolFrom> (&self, identifier : &SymbolFrom) -> (Binding)
-			where Symbol : StdFrom<SymbolFrom>, SymbolFrom : Clone
-	{
-		return self.define (identifier) .expect ("96495520");
-	}
-	
-	pub fn define<SymbolFrom> (&self, identifier : &SymbolFrom) -> (Outcome<Binding>)
-			where Symbol : StdFrom<SymbolFrom>, SymbolFrom : Clone
-	{
+	pub fn define (&self, template : &ContextBindingTemplate) -> (Outcome<Binding>) {
 		use std::collections::hash_map::Entry;
 		let mut self_0 = self.internals_ref_mut ();
 		if self_0.immutable {
 			return failed! (0x4814c74f);
 		}
-		let identifier = Symbol::from (identifier.clone ());
-		let bindings_entry = self_0.bindings.entry (identifier.clone ());
+		let bindings_entry = self_0.bindings.entry (template.identifier.clone ());
 		return match bindings_entry {
 			Entry::Occupied (_) => failed! (0x5b8e8d57),
 			Entry::Vacant (_) => {
-				let binding = Binding::new (Some (identifier.clone ()), UNDEFINED, false);
+				let binding = try! (self.new_binding (template));
 				bindings_entry.or_insert (binding.clone ());
 				Ok (binding)
 			},
 		};
+	}
+	
+	pub fn define_all (&self, templates : &[ContextBindingTemplate]) -> (Outcome<StdVec<Binding>>) {
+		{
+			let mut self_0 = self.internals_ref_mut ();
+			if self_0.immutable {
+				return failed! (0x36b1eddd);
+			}
+			self_0.bindings.reserve (templates.len ());
+		}
+		templates.iter () .map (|ref template| self.define (template)) .collect ()
 	}
 	
 	
@@ -119,6 +129,16 @@ impl Context {
 	
 	fn internals_ref_mut (&self) -> (StdRefMut<ContextInternals>) {
 		return StdRefCell::borrow_mut (StdRc::as_ref (&self.0));
+	}
+	
+	
+	fn new_binding (&self, template : &ContextBindingTemplate) -> (Outcome<Binding>) {
+		let binding = Binding::new (
+				Some (template.identifier.clone ()),
+				template.value.clone (),
+				template.immutable
+			);
+		return Ok (binding);
 	}
 }
 
@@ -166,55 +186,37 @@ pub struct Registers ( StdRc<StdRefCell<RegistersInternals>> );
 #[ derive (Debug) ]
 struct RegistersInternals {
 	bindings : StdVec<Binding>,
+	immutable : bool,
 	handle : u32,
+}
+
+
+#[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
+pub struct RegistersBindingTemplate {
+	pub identifier : Option<Symbol>,
+	pub borrow : Option<usize>,
+	pub value : Option<Value>,
+	pub immutable : bool,
 }
 
 
 impl Registers {
 	
 	
-	pub fn new (count : usize) -> (Registers) {
-		let mut bindings = StdVec::with_capacity (count);
-		for _index in 0..count {
-			bindings.push (Binding::new (None, UNDEFINED.into (), false));
-		}
+	pub fn new () -> (Registers) {
 		let internals = RegistersInternals {
-				bindings : bindings,
+				bindings : StdVec::new (),
+				immutable : false,
 				handle : globals::context_handles_next (),
 			};
 		return Registers (StdRc::new (StdRefCell::new (internals)));
 	}
 	
 	
-	// FIXME:  Optimize!
-	pub fn new_and_copy (source : Option<&Registers>, indices : &StdVec<Option<usize>>) -> (Outcome<Registers>) {
-		let mut registers = Registers::new (indices.len ());
-		try! (registers.copy (source, indices));
+	pub fn new_and_define (templates : &[RegistersBindingTemplate], borrow : Option<&Registers>) -> (Outcome<Registers>) {
+		let mut registers = Registers::new ();
+		try! (registers.define_all (templates, borrow));
 		succeed! (registers);
-	}
-	
-	
-	pub fn copy (&mut self, source : Option<&Registers>, indices : &StdVec<Option<usize>>) -> (Outcome<()>) {
-		if let Some (source) = source {
-			let mut self_0 = self.internals_ref_mut ();
-			let source_0 = source.internals_ref ();
-			for (self_index, source_index) in indices.iter () .enumerate () {
-				if let Some (source_index) = *source_index {
-					if let Some (source_binding) = source_0.bindings.get (source_index) {
-						self_0.bindings[self_index] = source_binding.clone ();
-					} else {
-						fail! (0x1da8972c);
-					}
-				}
-			}
-		} else {
-			for source_index in indices {
-				if let Some (_source_index) = *source_index {
-					fail! (0xf6a58015);
-				}
-			}
-		}
-		succeed! (());
 	}
 	
 	
@@ -231,12 +233,60 @@ impl Registers {
 	}
 	
 	
+	pub fn define (&self, template : &RegistersBindingTemplate, borrow : Option<&Registers>) -> (Outcome<(usize, Binding)>) {
+		let binding = try! (self.new_binding (template, borrow));
+		let mut self_0 = self.internals_ref_mut ();
+		if self_0.immutable {
+			return failed! (0xd7cbcdd8);
+		}
+		self_0.bindings.push (binding.clone ());
+		let index = self_0.bindings.len () - 1;
+		succeed! ((index, binding));
+	}
+	
+	pub fn define_all (&mut self, templates : &[RegistersBindingTemplate], borrow : Option<&Registers>) -> (Outcome<StdVec<(usize, Binding)>>) {
+		{
+			let mut self_0 = self.internals_ref_mut ();
+			if self_0.immutable {
+				return failed! (0x74189c0f);
+			}
+			self_0.bindings.reserve (templates.len ());
+		}
+		templates.iter () .map (|ref template| self.define (template, borrow)) .collect ()
+	}
+	
+	
+	pub fn set_immutable (&self) -> (Outcome<()>) {
+		let mut self_0 = self.internals_ref_mut ();
+		self_0.immutable = true;
+		return Ok (());
+	}
+	
+	
 	fn internals_ref (&self) -> (StdRef<RegistersInternals>) {
 		return StdRefCell::borrow (StdRc::as_ref (&self.0));
 	}
 	
 	fn internals_ref_mut (&self) -> (StdRefMut<RegistersInternals>) {
 		return StdRefCell::borrow_mut (StdRc::as_ref (&self.0));
+	}
+	
+	
+	fn new_binding (&self, template : &RegistersBindingTemplate, borrow : Option<&Registers>) -> (Outcome<Binding>) {
+		if let Some (index) = template.borrow {
+			if let Some (borrow) = borrow {
+				let borrow_0 = borrow.internals_ref ();
+				if let Some (binding) = borrow_0.bindings.get (index) {
+					succeed! (binding.clone ());
+				} else {
+					fail! (0x114bb1df);
+				}
+			} else {
+				fail! (0x0ff6a3a7);
+			}
+		} else {
+			succeed! (Binding::new (template.identifier.clone (), template.value.clone (), template.immutable));
+		}
 	}
 }
 
@@ -263,6 +313,7 @@ pub struct Binding ( StdRc<StdRefCell<BindingInternals>> );
 
 
 #[ derive (Debug) ]
+// FIXME:  Add support for initialized flag!
 struct BindingInternals {
 	identifier : Option<Symbol>,
 	value : Value,
@@ -274,7 +325,8 @@ struct BindingInternals {
 impl Binding {
 	
 	
-	pub fn new (identifier : Option<Symbol>, value : Value, immutable : bool) -> (Binding) {
+	pub fn new (identifier : Option<Symbol>, value : Option<Value>, immutable : bool) -> (Binding) {
+		let value = value.unwrap_or (UNDEFINED);
 		let internals = BindingInternals {
 				identifier : identifier,
 				value : value,

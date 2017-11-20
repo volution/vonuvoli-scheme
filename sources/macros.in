@@ -366,8 +366,8 @@ macro_rules! def_tests {
 			let tests = parse_tests (source) .expect ("434d2a0c");
 			
 			let context = Context::new (None);
-			language_r7rs_initialize_context (&context) .expect ("5039c42d");
-			language_builtins_initialize_context (&context) .expect ("30635936");
+			context.define_all (language_r7rs_generate_binding_templates () .expect ("956a718b") .as_ref ()) .expect ("dedce922");
+			context.define_all (language_builtins_generate_binding_templates () .expect ("242fdc5a") .as_ref ()) .expect ("2e274a94");
 			
 			for (input_syntax, output_syntax) in tests {
 				

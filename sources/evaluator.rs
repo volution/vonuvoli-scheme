@@ -69,8 +69,8 @@ impl Evaluator {
 			Expression::ContextSelect (ref identifier) =>
 				self.evaluate_context_select (evaluation, identifier),
 			
-			Expression::RegisterClosure (ref expression, ref borrows) =>
-				self.evaluate_register_closure (evaluation, expression, borrows),
+			Expression::RegisterClosure (ref expression, ref templates) =>
+				self.evaluate_register_closure (evaluation, expression, templates),
 			Expression::RegisterInitialize (index, ref expression) =>
 				self.evaluate_register_initialize (evaluation, index, expression),
 			Expression::RegisterSet (index, ref expression) =>
@@ -128,7 +128,12 @@ impl Evaluator {
 	
 	pub fn evaluate_context_define (&self, evaluation : &mut EvaluatorContext, identifier : &Symbol, expression : &Expression) -> (Outcome<Value>) {
 		let context = try_some! (evaluation.context, 0xfe053ac6);
-		let binding = try! (context.define (identifier));
+		let template = ContextBindingTemplate {
+				identifier : identifier.clone (),
+				value : None,
+				immutable : false,
+			};
+		let binding = try! (context.define (&template));
 		let value_new = try! (evaluation.evaluate (expression));
 		let value_new = try! (binding.initialize (value_new));
 		return Ok (value_new);
@@ -152,8 +157,8 @@ impl Evaluator {
 	
 	
 	
-	pub fn evaluate_register_closure (&self, evaluation : &mut EvaluatorContext, expression : &Expression, borrows : &StdVec<Option<usize>>) -> (Outcome<Value>) {
-		let registers = try! (Registers::new_and_copy (evaluation.registers, borrows));
+	pub fn evaluate_register_closure (&self, evaluation : &mut EvaluatorContext, expression : &Expression, templates : &[RegistersBindingTemplate]) -> (Outcome<Value>) {
+		let registers = try! (Registers::new_and_define (templates, evaluation.registers));
 		let mut evaluation = EvaluatorContext::new (self, evaluation.context, Some (&registers));
 		return evaluation.evaluate (expression);
 	}

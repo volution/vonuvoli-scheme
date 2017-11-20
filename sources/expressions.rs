@@ -29,7 +29,7 @@ pub enum Expression {
 	ContextUpdate ( Symbol, ExpressionBox ),
 	ContextSelect ( Symbol ),
 	
-	RegisterClosure ( ExpressionBox, StdVec<Option<usize>> ),
+	RegisterClosure ( ExpressionBox, StdVec<RegistersBindingTemplate> ),
 	RegisterInitialize ( usize, ExpressionBox ),
 	RegisterSet ( usize, ExpressionBox ),
 	RegisterGet ( usize ),

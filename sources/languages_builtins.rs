@@ -10,21 +10,26 @@ use super::values::exports::*;
 
 
 pub mod exports {
+	pub use super::generate_binding_templates as language_builtins_generate_binding_templates;
 	pub use super::generate_definitions as language_builtins_generate_definitions;
-	pub use super::initialize_context as language_builtins_initialize_context;
 }
 
 
 
 
-pub fn initialize_context (context : &Context) -> (Outcome<()>) {
+pub fn generate_binding_templates () -> (Outcome<StdVec<ContextBindingTemplate>>) {
 	let definitions = try! (generate_definitions ());
-	for (identifier, value) in definitions {
-		let binding = try! (context.define (&identifier));
-		try! (binding.set (value));
-		try! (binding.set_immutable ());
-	}
-	return Ok (());
+	let templates : StdVec<ContextBindingTemplate> =
+			definitions
+			.into_iter ()
+			.map (|(identifier, value)|
+					ContextBindingTemplate {
+							identifier : identifier,
+							value : Some (value),
+							immutable : true,
+						})
+			.collect ();
+	succeed! (templates);
 }
 
 
