@@ -44,7 +44,7 @@ impl Evaluator {
 	}
 	
 	pub fn fork <'a> (&'a self, context : &'a Context) -> EvaluatorContext<'a> {
-		return EvaluatorContext::new (self, Some (context));
+		return EvaluatorContext::new (self, Some (context), None);
 	}
 	
 	
@@ -54,8 +54,13 @@ impl Evaluator {
 		
 		match *input {
 			
-			Expression::Void => Ok (NULL.into ()),
-			Expression::Value (ref value) => Ok (value.clone ()),
+			Expression::Void =>
+				Ok (NULL.into ()),
+			Expression::Value (ref value) =>
+				Ok (value.clone ()),
+			
+			Expression::Sequence (ref expressions) =>
+				self.evaluate_sequence (evaluation, expressions),
 			
 			Expression::ContextDefine (ref identifier, ref expression) =>
 				self.evaluate_context_define (evaluation, identifier, expression),
@@ -64,6 +69,8 @@ impl Evaluator {
 			Expression::ContextSelect (ref identifier) =>
 				self.evaluate_context_select (evaluation, identifier),
 			
+			Expression::RegisterClosure (ref expression, ref borrows) =>
+				self.evaluate_register_closure (evaluation, expression, borrows),
 			Expression::RegisterInitialize (index, ref expression) =>
 				self.evaluate_register_initialize (evaluation, index, expression),
 			Expression::RegisterSet (index, ref expression) =>
@@ -105,13 +112,15 @@ impl Evaluator {
 		
 	}
 	
-	pub fn evaluate_slice (&self, evaluation : &mut EvaluatorContext, inputs : &[Expression]) -> (Outcome<Vec<Value>>) {
-		let mut outputs = Vec::with_capacity (inputs.len ());
-		for input in inputs {
-			let output = try! (evaluation.evaluate (input));
-			outputs.push (output);
+	
+	
+	
+	pub fn evaluate_sequence (&self, evaluation : &mut EvaluatorContext, expressions : &ExpressionVec) -> (Outcome<Value>) {
+		let mut output = VOID.into ();
+		for expression in expressions {
+			output = try! (evaluation.evaluate (expression));
 		}
-		return Ok (outputs);
+		return Ok (output);
 	}
 	
 	
@@ -142,6 +151,12 @@ impl Evaluator {
 	
 	
 	
+	
+	pub fn evaluate_register_closure (&self, evaluation : &mut EvaluatorContext, expression : &Expression, borrows : &StdVec<Option<usize>>) -> (Outcome<Value>) {
+		let registers = try! (Registers::new_and_copy (evaluation.registers, borrows));
+		let mut evaluation = EvaluatorContext::new (self, evaluation.context, Some (&registers));
+		return evaluation.evaluate (expression);
+	}
 	
 	pub fn evaluate_register_initialize (&self, evaluation : &mut EvaluatorContext, index : usize, expression : &Expression) -> (Outcome<Value>) {
 		let registers = try_some! (evaluation.registers, 0x4f5f5ffc);
@@ -221,13 +236,13 @@ impl Evaluator {
 	}
 	
 	pub fn evaluate_procedure_primitive_n (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitiveN, inputs : &[Expression]) -> (Outcome<Value>) {
-		let inputs = try! (self.evaluate_slice (evaluation, inputs));
+		let inputs = try! (evaluation.evaluate_slice (inputs));
 		let output = procedure_primitive_n_evaluate (primitive, inputs.as_ref (), evaluation);
 		return output;
 	}
 	
 	pub fn evaluate_procedure_primitive (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive, inputs : &[Expression]) -> (Outcome<Value>) {
-		let inputs = try! (self.evaluate_slice (evaluation, inputs));
+		let inputs = try! (evaluation.evaluate_slice (inputs));
 		let output = procedure_primitive_evaluate (primitive, inputs.as_ref (), evaluation);
 		return output;
 	}
@@ -270,16 +285,25 @@ pub struct EvaluatorContext <'a> {
 
 impl <'a> EvaluatorContext<'a> {
 	
-	pub fn new (evaluator : &'a Evaluator, context : Option<&'a Context>) -> (EvaluatorContext<'a>) {
+	pub fn new (evaluator : &'a Evaluator, context : Option<&'a Context>, registers : Option<&'a Registers>) -> (EvaluatorContext<'a>) {
 		return EvaluatorContext {
 				evaluator : evaluator,
 				context : context,
-				registers : None,
+				registers : registers,
 			}
 	}
 	
 	pub fn evaluate (&mut self, input : &Expression) -> (Outcome<Value>) {
 		return self.evaluator.evaluate_0 (self, input);
+	}
+	
+	pub fn evaluate_slice (&mut self, inputs : &[Expression]) -> (Outcome<Vec<Value>>) {
+		let mut outputs = Vec::with_capacity (inputs.len ());
+		for input in inputs {
+			let output = try! (self.evaluate (input));
+			outputs.push (output);
+		}
+		return Ok (outputs);
 	}
 }
 

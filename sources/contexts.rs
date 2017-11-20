@@ -98,7 +98,7 @@ impl Context {
 		return match bindings_entry {
 			Entry::Occupied (_) => failed! (0x5b8e8d57),
 			Entry::Vacant (_) => {
-				let binding = Binding::new (identifier.clone (), UNDEFINED, false);
+				let binding = Binding::new (Some (identifier.clone ()), UNDEFINED, false);
 				bindings_entry.or_insert (binding.clone ());
 				Ok (binding)
 			},
@@ -174,11 +174,47 @@ impl Registers {
 	
 	
 	pub fn new (count : usize) -> (Registers) {
+		let mut bindings = StdVec::with_capacity (count);
+		for _index in 0..count {
+			bindings.push (Binding::new (None, UNDEFINED.into (), false));
+		}
 		let internals = RegistersInternals {
-				bindings : StdVec::with_capacity (count),
+				bindings : bindings,
 				handle : globals::context_handles_next (),
 			};
 		return Registers (StdRc::new (StdRefCell::new (internals)));
+	}
+	
+	
+	// FIXME:  Optimize!
+	pub fn new_and_copy (source : Option<&Registers>, indices : &StdVec<Option<usize>>) -> (Outcome<Registers>) {
+		let mut registers = Registers::new (indices.len ());
+		try! (registers.copy (source, indices));
+		succeed! (registers);
+	}
+	
+	
+	pub fn copy (&mut self, source : Option<&Registers>, indices : &StdVec<Option<usize>>) -> (Outcome<()>) {
+		if let Some (source) = source {
+			let mut self_0 = self.internals_ref_mut ();
+			let source_0 = source.internals_ref ();
+			for (self_index, source_index) in indices.iter () .enumerate () {
+				if let Some (source_index) = *source_index {
+					if let Some (source_binding) = source_0.bindings.get (source_index) {
+						self_0.bindings[self_index] = source_binding.clone ();
+					} else {
+						fail! (0x1da8972c);
+					}
+				}
+			}
+		} else {
+			for source_index in indices {
+				if let Some (_source_index) = *source_index {
+					fail! (0xf6a58015);
+				}
+			}
+		}
+		succeed! (());
 	}
 	
 	
@@ -199,7 +235,6 @@ impl Registers {
 		return StdRefCell::borrow (StdRc::as_ref (&self.0));
 	}
 	
-	#[ allow (dead_code) ]
 	fn internals_ref_mut (&self) -> (StdRefMut<RegistersInternals>) {
 		return StdRefCell::borrow_mut (StdRc::as_ref (&self.0));
 	}
@@ -229,7 +264,7 @@ pub struct Binding ( StdRc<StdRefCell<BindingInternals>> );
 
 #[ derive (Debug) ]
 struct BindingInternals {
-	identifier : Symbol,
+	identifier : Option<Symbol>,
 	value : Value,
 	immutable : bool,
 	handle : u32,
@@ -239,7 +274,7 @@ struct BindingInternals {
 impl Binding {
 	
 	
-	pub fn new (identifier : Symbol, value : Value, immutable : bool) -> (Binding) {
+	pub fn new (identifier : Option<Symbol>, value : Value, immutable : bool) -> (Binding) {
 		let internals = BindingInternals {
 				identifier : identifier,
 				value : value,
@@ -319,7 +354,11 @@ impl hash::Hash for Binding {
 impl fmt::Display for Binding {
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = self.internals_ref ();
-		return write! (formatter, "#<binding:{:08x} {} {}>", self_0.handle, self_0.identifier, self_0.value);
+		if let Some (ref identifier) = self_0.identifier {
+			return write! (formatter, "#<binding:{:08x} {} {}>", self_0.handle, identifier, self_0.value);
+		} else {
+			return write! (formatter, "#<binding:{:08x} {}>", self_0.handle, self_0.value);
+		}
 	}
 }
 

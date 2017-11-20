@@ -35,7 +35,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 	let definitions = vec! [
 			
 			
-			("local", SyntaxPrimitiveN::Local.into ()), // https://docs.racket-lang.org/reference/local.html
+			("locals", SyntaxPrimitiveN::Locals.into ()), // https://docs.racket-lang.org/reference/local.html
 			
 			("and*", BooleanPrimitiveN::And.into ()),
 			("or*", BooleanPrimitiveN::Or.into ()),

@@ -85,7 +85,7 @@ pub enum SyntaxPrimitiveN {
 	Cond,
 	Case,
 	
-	Local,
+	Locals,
 	Let,
 	LetValues,
 	

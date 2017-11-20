@@ -3,9 +3,15 @@
 a => 1;
 
 
-(local) => #void;
-(local 0) => 0;
-(local (define a 2) a) => 2;
+(locals) => #void;
+(locals 0) => 0;
+(locals a) => 1;
+(locals (locals (locals (locals a)))) => 1;
+(locals (define a 2) a) => 2;
+(locals (define a 2) (locals (locals (locals a)))) => 2;
+(locals (define a 2) (define b a) b) => 2;
+(locals (define a 2) (locals (define b a) b)) => 2;
+(locals (define a 2) (locals (define a 3) (locals (define b a) b))) => 3;
 a => 1;
 
 

@@ -253,7 +253,7 @@ impl Compiler {
 					
 					SyntaxPrimitiveN::Begin => {
 						let (compilation, arguments) = try! (self.compile_vec (compilation, arguments));
-						succeed! ((compilation, Expression::SyntaxPrimitiveCall (SyntaxPrimitiveN::Begin.into (), arguments)));
+						succeed! ((compilation, Expression::Sequence (arguments)));
 					},
 					
 					SyntaxPrimitiveN::And | SyntaxPrimitiveN::Or => {
@@ -269,7 +269,7 @@ impl Compiler {
 							fail! (0x3c364a9f);
 						},
 					
-					SyntaxPrimitiveN::Local =>
+					SyntaxPrimitiveN::Locals =>
 						return self.compile_syntax_locals (compilation, arguments),
 					
 					_ =>
@@ -293,10 +293,16 @@ impl Compiler {
 	
 	
 	fn compile_syntax_locals (&self, compilation : CompilerContext, statements : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
-		let bindings = try! (compilation.bindings.fork_locals ());
-		let compilation = CompilerContext::new (bindings);
+		let compilation = try! (compilation.fork_locals (true));
 		let (compilation, statements) = try! (self.compile_vec (compilation, statements));
-		succeed! ((compilation, Expression::SyntaxPrimitiveCall (SyntaxPrimitiveN::Begin.into (), statements)));
+		let (compilation, registers) = try! (compilation.unfork_locals ());
+		let registers_count = registers.len ();
+		let statements = Expression::Sequence (statements);
+		if registers_count == 0 {
+			succeed! ((compilation, statements));
+		} else {
+			succeed! ((compilation, Expression::RegisterClosure (statements.into (), registers)));
+		}
 	}
 	
 	
@@ -429,6 +435,16 @@ impl CompilerContext {
 				bindings : bindings,
 			};
 	}
+	
+	fn fork_locals (self, force : bool) -> (Outcome<CompilerContext>) {
+		let bindings = try! (self.bindings.fork_locals (force));
+		succeed! (CompilerContext::new (bindings));
+	}
+	
+	fn unfork_locals (self) -> (Outcome<(CompilerContext, StdVec<Option<usize>>)>) {
+		let (bindings, registers) = try! (self.bindings.unfork_locals ());
+		succeed! ((CompilerContext::new (bindings), registers));
+	}
 }
 
 
@@ -439,7 +455,7 @@ enum CompilerBindings {
 	None,
 	Globals1 (Context),
 	Globals2 (StdBox<CompilerBindings>, Context),
-	Locals (StdBox<CompilerBindings>, StdMap<Symbol, CompilerBinding>, usize),
+	Locals (StdBox<CompilerBindings>, StdMap<Symbol, CompilerBinding>, StdVec<Option<usize>>, usize),
 }
 
 
@@ -454,18 +470,37 @@ enum CompilerBinding {
 
 impl CompilerBindings {
 	
-	fn fork_locals (self) -> (Outcome<CompilerBindings>) {
-		match self {
-			CompilerBindings::None =>
-				fail! (0xad3e033b),
-			CompilerBindings::Globals1 (_) =>
-				succeed! (CompilerBindings::Globals2 (StdBox::new (self), Context::new (None))),
-			CompilerBindings::Globals2 (_, _) =>
-				succeed! (CompilerBindings::Globals2 (StdBox::new (self), Context::new (None))),
-			CompilerBindings::Locals (_, _, depth) =>
-				succeed! (CompilerBindings::Locals (StdBox::new (self), StdMap::new (), depth + 1)),
+	
+	fn fork_locals (self, force : bool) -> (Outcome<CompilerBindings>) {
+		if force {
+			succeed! (CompilerBindings::Locals (StdBox::new (self), StdMap::new (), StdVec::new (), 1));
+		} else {
+			match self {
+				CompilerBindings::None =>
+					fail! (0xad3e033b),
+				CompilerBindings::Globals1 (_) =>
+					succeed! (CompilerBindings::Globals2 (StdBox::new (self), Context::new (None))),
+				CompilerBindings::Globals2 (_, _) =>
+					succeed! (CompilerBindings::Globals2 (StdBox::new (self), Context::new (None))),
+				CompilerBindings::Locals (_, _, _, depth) =>
+					succeed! (CompilerBindings::Locals (StdBox::new (self), StdMap::new (), StdVec::new (), depth + 1)),
+			}
 		}
 	}
+	
+	fn unfork_locals (self) -> (Outcome<(CompilerBindings, StdVec<Option<usize>>)>) {
+		match self {
+			CompilerBindings::None =>
+				fail! (0x98657e5a),
+			CompilerBindings::Globals1 (_) =>
+				fail! (0xdd470d36),
+			CompilerBindings::Globals2 (parent, _) =>
+				succeed! ((*parent, StdVec::new ())),
+			CompilerBindings::Locals (parent, _, registers, _) =>
+				succeed! ((*parent, registers)),
+		}
+	}
+	
 	
 	fn resolve (&mut self, identifier : Symbol) -> (Outcome<CompilerBinding>) {
 		match *self {
@@ -483,11 +518,23 @@ impl CompilerBindings {
 				} else {
 					return parent.resolve (identifier);
 				},
-			CompilerBindings::Locals (ref mut parent, ref locals, _depth) => {
+			CompilerBindings::Locals (ref mut parent, ref mut locals, ref mut registers, _depth) => {
 				if let Some (binding) = locals.get (&identifier) {
 					succeed! (binding.clone ());
-				} else {
-					return parent.resolve (identifier);
+				} /*else*/ {
+					match try! (parent.resolve (identifier.clone ())) {
+						CompilerBinding::Undefined =>
+							succeed! (CompilerBinding::Undefined),
+						binding @ CompilerBinding::Binding (_) =>
+							succeed! (binding),
+						CompilerBinding::Register (parent_index) => {
+							let self_index = registers.len ();
+							let self_binding = CompilerBinding::Register (self_index);
+							registers.push (Some (parent_index));
+							locals.insert (identifier, self_binding.clone ());
+							succeed! (self_binding);
+						}
+					}
 				}
 			},
 		}
@@ -505,10 +552,16 @@ impl CompilerBindings {
 				let binding = try! (context.define (&identifier));
 				succeed! (CompilerBinding::Binding (binding));
 			},
-			CompilerBindings::Locals (ref _parent, ref _locals, _depth) =>
-				fail_unimplemented! (0xb121dadf),
+			CompilerBindings::Locals (ref _parent, ref mut locals, ref mut registers, _depth) => {
+				let index = registers.len ();
+				let binding = CompilerBinding::Register (index);
+				registers.push (None);
+				locals.insert (identifier, binding.clone ());
+				succeed! (binding);
+			},
 		}
 	}
+	
 	
 	fn resolve_value (&mut self, identifier : Symbol) -> (Outcome<Option<Value>>) {
 		match try! (self.resolve (identifier)) {

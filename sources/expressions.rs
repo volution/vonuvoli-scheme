@@ -23,10 +23,13 @@ pub enum Expression {
 	Void,
 	Value ( Value ),
 	
+	Sequence ( ExpressionVec ),
+	
 	ContextDefine ( Symbol, ExpressionBox ),
 	ContextUpdate ( Symbol, ExpressionBox ),
 	ContextSelect ( Symbol ),
 	
+	RegisterClosure ( ExpressionBox, StdVec<Option<usize>> ),
 	RegisterInitialize ( usize, ExpressionBox ),
 	RegisterSet ( usize, ExpressionBox ),
 	RegisterGet ( usize ),
