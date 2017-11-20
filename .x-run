@@ -76,6 +76,9 @@ cat <<'EOS'
 :: cargo / enable / incremental :: export -- CARGO_INCREMENTAL=1
 :: cargo / disable / incremental :: export -- CARGO_INCREMENTAL=0
 
+:: tests / enable / print :: export -- RUST_SCHEME_TESTS_PRINT=true
+:: tests / disable / print :: export -- RUST_SCHEME_TESTS_PRINT=false
+
 EOS
 
 

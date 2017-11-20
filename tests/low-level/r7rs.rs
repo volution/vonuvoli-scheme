@@ -14,7 +14,7 @@ fn test () -> () {
 		let context = Context::new (None);
 		language_r7rs_initialize_context (&context) .expect ("2f7e5513");
 		
-		eprintln! ("{:#?}", context);
+		println! ("{:#?}", context);
 		
 	} else {
 		
@@ -23,13 +23,13 @@ fn test () -> () {
 		for (library, identifier, value) in definitions {
 			match value {
 				Value::ProcedurePrimitive (_) =>
-					eprintln! ("|| {} || procedure || {} || {:?} ||", library, identifier, value),
+					println! ("|| {} || procedure || {} || {:?} ||", library, identifier, value),
 				Value::SyntaxPrimitive (SyntaxPrimitive::Auxiliary) =>
-					eprintln! ("|| {} || auxiliary-syntax || {} || {:?} ||", library, identifier, value),
+					println! ("|| {} || auxiliary-syntax || {} || {:?} ||", library, identifier, value),
 				Value::SyntaxPrimitive (_) =>
-					eprintln! ("|| {} || syntax || {} || {:?} ||", library, identifier, value),
+					println! ("|| {} || syntax || {} || {:?} ||", library, identifier, value),
 				_ =>
-					eprintln! ("|| {} || unknown || {} || {:?} ||", library, identifier, value),
+					println! ("|| {} || unknown || {} || {:?} ||", library, identifier, value),
 			}
 		}
 		

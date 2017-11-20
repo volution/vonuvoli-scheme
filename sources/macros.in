@@ -361,7 +361,7 @@ macro_rules! def_tests {
 			
 			use $crate::exports::*;
 			
-			let print = false;
+			let print = env! ("RUST_SCHEME_TESTS_PRINT") == "true";
 			let source = $source;
 			let tests = parse_tests (source) .expect ("434d2a0c");
 			
@@ -372,15 +372,15 @@ macro_rules! def_tests {
 			for (input_syntax, output_syntax) in tests {
 				
 				if print {
-					eprintln! ();
-					eprintln! (">> {} => {} ;", input_syntax, output_syntax);
+					println! ();
+					println! (">> {} => {} ;", input_syntax, output_syntax);
 				}
 				
 				let input_expression = compile (&context, &input_syntax) .expect ("688d5914");
 				let output_expression = compile (&context, &output_syntax) .expect ("a0c9bbd3");
 				
 				if print {
-					eprintln! ("## {:?}", input_expression);
+					println! ("## {:#?}", input_expression);
 				}
 				
 				let input_value = evaluate (&context, &input_expression) .expect ("c824095a");
@@ -389,7 +389,7 @@ macro_rules! def_tests {
 				assert_eq! (input_value, output_value);
 				
 				if print {
-					eprintln! ();
+					println! ();
 				}
 			}
 		}
