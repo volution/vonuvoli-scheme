@@ -1,5 +1,6 @@
 
 
+use super::contexts::exports::*;
 use super::expressions::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
@@ -11,6 +12,7 @@ use std::fmt;
 
 pub mod exports {
 	pub use super::Lambda;
+	pub use super::LambdaTemplate;
 }
 
 
@@ -22,10 +24,38 @@ pub struct Lambda ( StdRc<LambdaInternals> );
 
 #[ derive (Debug, Eq, PartialEq, Hash) ]
 pub struct LambdaInternals {
-	pub identifier : Symbol,
-	pub argument_count : usize,
-	pub argument_identifiers : StdVec<Symbol>,
+	pub identifier : Option<Symbol>,
+	pub arguments_positional : StdVec<Symbol>,
+	pub argument_rest : Option<Symbol>,
 	pub expression : Expression,
+	pub closure : Registers,
+}
+
+
+#[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
+pub struct LambdaTemplate {
+	pub identifier : Option<Symbol>,
+	pub arguments_positional : StdVec<Symbol>,
+	pub argument_rest : Option<Symbol>,
+}
+
+
+impl Lambda {
+	
+	pub fn new (template : LambdaTemplate, expression : Expression, closure : Registers) -> (Lambda) {
+		let internals = LambdaInternals {
+				identifier : template.identifier,
+				arguments_positional : template.arguments_positional,
+				argument_rest : template.argument_rest,
+				expression : expression,
+				closure : closure,
+			};
+		return Lambda (StdRc::new (internals));
+	}
+	
+	pub fn internals (&self) -> (&LambdaInternals) {
+		return StdRc::as_ref (&self.0);
+	}
 }
 
 

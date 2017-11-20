@@ -2,6 +2,7 @@
 
 use super::contexts::exports::*;
 use super::primitives::exports::*;
+use super::procedures::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
 
@@ -50,6 +51,8 @@ pub enum Expression {
 	SyntaxPrimitiveCall2 ( SyntaxPrimitive2, ExpressionBox, ExpressionBox ),
 	SyntaxPrimitiveCallN ( SyntaxPrimitiveN, ExpressionVec ),
 	SyntaxPrimitiveCall ( SyntaxPrimitive, ExpressionVec ),
+	
+	Lambda ( StdBox<LambdaTemplate>, ExpressionBox, StdVec<RegistersBindingTemplate> ),
 	
 }
 

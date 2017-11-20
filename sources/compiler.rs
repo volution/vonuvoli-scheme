@@ -5,6 +5,7 @@ use super::errors::exports::*;
 use super::expressions::exports::*;
 use super::operators::exports::*;
 use super::primitives::exports::*;
+use super::procedures::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
 
@@ -252,7 +253,7 @@ impl Compiler {
 				match syntax {
 					
 					SyntaxPrimitiveN::Lambda =>
-						return self.compile_syntax_lambda (compilation, tokens),
+						return self.compile_syntax_lambda (compilation, None, tokens),
 					
 					SyntaxPrimitiveN::Locals =>
 						return self.compile_syntax_locals (compilation, tokens),
@@ -295,19 +296,60 @@ impl Compiler {
 	
 	
 	
-	fn compile_syntax_lambda (&self, _compilation : CompilerContext, _tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
-		fail_unimplemented! (0x3157c61a);
+	fn compile_syntax_lambda (&self, compilation : CompilerContext, identifier : Option<Symbol>, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+		
+		if tokens.len () < 2 {
+			fail! (0x2dfd91d1);
+		}
+		
+		let (arguments, statements) = vec_explode_1n! (tokens);
+		let (arguments_positional, argument_rest) = match arguments.class () {
+			ValueClass::Symbol =>
+				(StdVec::new (), Some (Symbol::from (arguments))),
+			ValueClass::Pair | ValueClass::Null =>
+				(try! (try! (vec_clone_list (&arguments)) .into_iter () .map (|argument| Symbol::try_from (argument)) .collect ()), None),
+			_ =>
+				fail! (0x70773cab),
+		};
+		
+		let compilation = try! (compilation.fork_locals (true));
+		
+		let mut compilation = try! (compilation.fork_locals (true));
+		for identifier in &arguments_positional {
+			try! (compilation.bindings.define (identifier.clone ()));
+		}
+		if let Some (ref identifier) = argument_rest {
+			try! (compilation.bindings.define (identifier.clone ()));
+		}
+		
+		let (compilation, statements) = try! (self.compile_vec (compilation, statements));
+		
+		let (compilation, _) = try! (compilation.unfork_locals ());
+		let (compilation, registers) = try! (compilation.unfork_locals ());
+		
+		let statements = Expression::Sequence (statements);
+		
+		let template = LambdaTemplate {
+				identifier : identifier,
+				arguments_positional : arguments_positional,
+				argument_rest : argument_rest,
+			};
+		
+		succeed! ((compilation, Expression::Lambda (StdBox::new (template), statements.into (), registers)));
 	}
 	
 	
 	
 	
 	fn compile_syntax_locals (&self, compilation : CompilerContext, statements : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+		
 		let compilation = try! (compilation.fork_locals (true));
 		let (compilation, statements) = try! (self.compile_vec (compilation, statements));
 		let (compilation, registers) = try! (compilation.unfork_locals ());
-		let registers_count = registers.len ();
+		
 		let statements = Expression::Sequence (statements);
+		
+		let registers_count = registers.len ();
 		if registers_count == 0 {
 			succeed! ((compilation, statements));
 		} else {

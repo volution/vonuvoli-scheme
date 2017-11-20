@@ -11,5 +11,6 @@ def_tests_from_file! (
 		booleans => "scheme/booleans.sst",
 		control => "scheme/control.sst",
 		contexts => "scheme/contexts.sst",
+		lambdas => "scheme/lambdas.sst",
 	);
 

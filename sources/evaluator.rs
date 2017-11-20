@@ -4,7 +4,9 @@ use super::constants::exports::*;
 use super::contexts::exports::*;
 use super::errors::exports::*;
 use super::expressions::exports::*;
+use super::operators::exports::*;
 use super::primitives::exports::*;
+use super::procedures::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
 
@@ -69,8 +71,8 @@ impl Evaluator {
 			Expression::ContextSelect (ref identifier) =>
 				self.evaluate_context_select (evaluation, identifier),
 			
-			Expression::RegisterClosure (ref expression, ref templates) =>
-				self.evaluate_register_closure (evaluation, expression, templates),
+			Expression::RegisterClosure (ref expression, ref borrows) =>
+				self.evaluate_register_closure (evaluation, expression, borrows),
 			Expression::RegisterInitialize (index, ref expression) =>
 				self.evaluate_register_initialize (evaluation, index, expression),
 			Expression::RegisterSet (index, ref expression) =>
@@ -84,6 +86,9 @@ impl Evaluator {
 				self.evaluate_binding_set (evaluation, binding, expression),
 			Expression::BindingGet (ref binding) =>
 				self.evaluate_binding_get (evaluation, binding),
+			
+			Expression::Lambda (ref lambda, ref expression, ref borrows) =>
+				self.evaluate_lambda_create (evaluation, lambda, expression, borrows),
 			
 			Expression::ProcedureCall (ref callable, ref inputs) =>
 				self.evaluate_procedure_call (evaluation, callable, inputs.as_ref ()),
@@ -157,8 +162,8 @@ impl Evaluator {
 	
 	
 	
-	pub fn evaluate_register_closure (&self, evaluation : &mut EvaluatorContext, expression : &Expression, templates : &[RegistersBindingTemplate]) -> (Outcome<Value>) {
-		let registers = try! (Registers::new_and_define (templates, evaluation.registers));
+	pub fn evaluate_register_closure (&self, evaluation : &mut EvaluatorContext, expression : &Expression, borrows : &[RegistersBindingTemplate]) -> (Outcome<Value>) {
+		let registers = try! (Registers::new_and_define (borrows, evaluation.registers));
 		let mut evaluation = EvaluatorContext::new (self, evaluation.context, Some (&registers));
 		return evaluation.evaluate (expression);
 	}
@@ -209,13 +214,76 @@ impl Evaluator {
 	
 	
 	
+	pub fn evaluate_lambda_create (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaTemplate, expressions : &Expression, borrows : &StdVec<RegistersBindingTemplate>) -> (Outcome<Value>) {
+		let registers = try! (Registers::new_and_define (borrows, evaluation.registers));
+		let lambda = Lambda::new (lambda.clone (), expressions.clone (), registers);
+		succeed! (lambda);
+	}
+	
+	
+	
+	
+	pub fn evaluate_lambda_call (&self, evaluation : &mut EvaluatorContext, lambda : &Lambda, inputs : &[Expression]) -> (Outcome<Value>) {
+		
+		let inputs = try! (evaluation.evaluate_slice (inputs));
+		
+		let expression;
+		let mut registers = Registers::new ();
+		
+		{
+			let lambda = lambda.internals ();
+			
+			expression = lambda.expression.clone ();
+			
+			let inputs_count = inputs.len ();
+			let mut inputs_offset = 0;
+			for identifier in &lambda.arguments_positional {
+				if inputs_offset >= inputs_count {
+					fail! (0x1fbd1c55);
+				}
+				let register = RegistersBindingTemplate {
+						identifier : Some (identifier.clone ()),
+						value : Some (inputs[inputs_offset].clone ()),
+						borrow : None,
+						immutable : false,
+					};
+				try! (registers.define (&register, None));
+				inputs_offset += 1;
+			}
+			if let Some (ref identifier) = lambda.argument_rest {
+				let inputs = list_build_n (&inputs[inputs_offset..]);
+				let register = RegistersBindingTemplate {
+						identifier : Some (identifier.clone ()),
+						value : Some (inputs),
+						borrow : None,
+						immutable : false,
+					};
+				try! (registers.define (&register, None));
+			} else {
+				if inputs_offset < inputs_count {
+					fail! (0x6c9a5289);
+				}
+			}
+			
+			try! (registers.extend_from (&lambda.closure));
+		}
+		
+		let mut evaluation = EvaluatorContext::new (self, None, Some (&registers));
+		return evaluation.evaluate (&expression);
+	}
+	
+	
+	
+	
 	pub fn evaluate_procedure_call (&self, evaluation : &mut EvaluatorContext, callable : &Expression, inputs : &[Expression]) -> (Outcome<Value>) {
 		let callable = try! (evaluation.evaluate (callable));
 		match callable {
 			Value::ProcedurePrimitive (primitive) =>
 				return self.evaluate_procedure_primitive (evaluation, primitive, inputs),
+			Value::Lambda (lambda) =>
+				return self.evaluate_lambda_call (evaluation, &lambda, inputs),
 			_ =>
-				return failed! (0xe5b2fe88),
+				fail! (0x88be334b),
 		}
 	}
 	

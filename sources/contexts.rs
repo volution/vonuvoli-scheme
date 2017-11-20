@@ -255,6 +255,16 @@ impl Registers {
 		templates.iter () .map (|ref template| self.define (template, borrow)) .collect ()
 	}
 	
+	pub fn extend_from (&mut self, borrow : &Registers) -> (Outcome<()>) {
+		let mut self_0 = self.internals_ref_mut ();
+		if self_0.immutable {
+			return failed! (0x74189c0f);
+		}
+		let borrow_0 = borrow.internals_ref ();
+		self_0.bindings.extend_from_slice (&borrow_0.bindings);
+		succeed! (());
+	}
+	
 	
 	pub fn set_immutable (&self) -> (Outcome<()>) {
 		let mut self_0 = self.internals_ref_mut ();
@@ -287,6 +297,25 @@ impl Registers {
 		} else {
 			succeed! (Binding::new (template.identifier.clone (), template.value.clone (), template.immutable));
 		}
+	}
+}
+
+
+impl cmp::Eq for Registers {}
+
+impl cmp::PartialEq for Registers {
+	fn eq (&self, other : &Self) -> (bool) {
+		let self_0 = self.internals_ref ();
+		let other_0 = other.internals_ref ();
+		return self_0.handle == other_0.handle;
+	}
+}
+
+
+impl hash::Hash for Registers {
+	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
+		let self_0 = self.internals_ref ();
+		hasher.write_u32 (self_0.handle);
 	}
 }
 
