@@ -12,107 +12,15 @@ use super::values::exports::*;
 
 
 pub mod exports {
+	pub use super::compile;
 	pub use super::Compiler;
-	pub use super::{CompilerContext, CompilerBindings, CompilerBinding};
 }
 
 
 
 
-pub struct CompilerContext <'a> {
-	compiler : &'a Compiler,
-	bindings : CompilerBindings,
-}
-
-pub enum CompilerBindings {
-	None,
-	Globals (Context),
-	Locals (Context, StdMap<Symbol, CompilerBinding>),
-}
-
-#[ derive (Clone) ]
-pub enum CompilerBinding {
-	Undefined,
-	Binding (Binding),
-	Register (usize),
-}
-
-
-impl <'a> CompilerContext<'a> {
-	
-	
-	pub fn new (compiler : &'a Compiler, bindings : CompilerBindings) -> (CompilerContext<'a>) {
-		return CompilerContext {
-				compiler : compiler,
-				bindings : bindings,
-			};
-	}
-	
-	pub fn fork_locals (&mut self) -> (Outcome<CompilerContext<'a>>) {
-		match self.bindings {
-			CompilerBindings::None =>
-				fail! (0xad3e033b),
-			CompilerBindings::Globals (ref context) => {
-				let context = Context::new (Some (context));
-				succeed! (CompilerContext::new (self.compiler, CompilerBindings::Globals (context)));
-			},
-			CompilerBindings::Locals (ref _context, ref _bindings) =>
-				fail_unimplemented! (0x07c1434c),
-		}
-	}
-	
-	
-	pub fn compile (&mut self, value : &Value) -> (Outcome<Expression>) {
-		return self.compiler.compile (self, value);
-	}
-	
-	
-	fn resolve (&mut self, identifier : &Symbol) -> (Outcome<CompilerBinding>) {
-		match self.bindings {
-			CompilerBindings::None =>
-				succeed! (CompilerBinding::Undefined),
-			CompilerBindings::Globals (ref context) =>
-				if let Some (binding) = try! (context.resolve (identifier)) {
-					succeed! (CompilerBinding::Binding (binding));
-				} else {
-					succeed! (CompilerBinding::Undefined);
-				},
-			CompilerBindings::Locals (ref context, ref bindings) =>
-				if let Some (binding) = bindings.get (identifier) {
-					succeed! (binding.clone ());
-				} else if let Some (binding) = try! (context.resolve (identifier)) {
-					succeed! (CompilerBinding::Binding (binding));
-				} else {
-					succeed! (CompilerBinding::Undefined);
-				},
-		}
-	}
-	
-	
-	fn define (&mut self, identifier : &Symbol) -> (Outcome<CompilerBinding>) {
-		match self.bindings {
-			CompilerBindings::None =>
-				fail! (0xd943456d),
-			CompilerBindings::Globals (ref context) => {
-				let binding = try! (context.define (identifier));
-				succeed! (CompilerBinding::Binding (binding));
-			},
-			CompilerBindings::Locals (ref _context, ref _bindings) =>
-				fail_unimplemented! (0xb121dadf),
-		}
-	}
-	
-	
-	fn resolve_value (&mut self, identifier : &Symbol) -> (Outcome<Option<Value>>) {
-		match try! (self.resolve (identifier)) {
-			CompilerBinding::Undefined =>
-				succeed! (None),
-			CompilerBinding::Binding (binding) =>
-				succeed! (Some (try! (binding.get ()))),
-			CompilerBinding::Register (_index) =>
-				succeed! (None),
-		}
-	}
+pub fn compile (context : &Context, value : &Value) -> (Outcome<Expression>) {
+	return Compiler::new () .compile (context, value);
 }
 
 
@@ -124,32 +32,36 @@ pub struct Compiler {}
 impl Compiler {
 	
 	
+	
+	
 	pub fn new () -> (Compiler) {
 		return Compiler {};
 	}
 	
-	pub fn fork <'a> (&'a self, context : &Context) -> CompilerContext<'a> {
-		return CompilerContext::new (self, CompilerBindings::Globals (context.clone ()));
+	pub fn compile (&self, context : &Context, value : &Value) -> (Outcome<Expression>) {
+		let compilation = CompilerContext::new (CompilerBindings::Globals1 (context.clone ()));
+		let (_compilation, expression) = try! (self.compile_0 (compilation, value.clone ()));
+		succeed! (expression);
 	}
 	
 	
 	
 	
-	pub fn compile (&self, compilation : &mut CompilerContext, value : &Value) -> (Outcome<Expression>) {
+	fn compile_0 (&self, compilation : CompilerContext, value : Value) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		match value.class () {
 			
 			ValueClass::Null | ValueClass::Void | ValueClass::Undefined =>
-				succeed! (value.clone ()),
+				succeed! ((compilation, value.into ())),
 			ValueClass::Boolean | ValueClass::NumberInteger | ValueClass::NumberReal | ValueClass::Character =>
-				succeed! (value.clone ()),
+				succeed! ((compilation, value.into ())),
 			ValueClass::String | ValueClass::Bytes =>
-				succeed! (value.clone ()),
+				succeed! ((compilation, value.into ())),
 			
 			ValueClass::Symbol =>
-				return self.compile_symbol (compilation, value.as_ref ()),
+				return self.compile_symbol (compilation, value.into ()),
 			ValueClass::Pair =>
-				return self.compile_form (compilation, value.as_ref ()),
+				return self.compile_form (compilation, value.into ()),
 			ValueClass::Array =>
 				fail_unimplemented! (0xe7db25d8),
 			
@@ -170,68 +82,74 @@ impl Compiler {
 	
 	
 	
-	pub fn compile_vec (&self, compilation : &mut CompilerContext, values : ValueVec) -> (Outcome<ExpressionVec>) {
-		values.into_iter () .map (|ref value| self.compile (compilation, value)) .collect ()
+	fn compile_vec (&self, compilation : CompilerContext, values : ValueVec) -> (Outcome<(CompilerContext, ExpressionVec)>) {
+		let mut expressions = ExpressionVec::with_capacity (values.len ());
+		let mut compilation = compilation;
+		for value in values.into_iter () {
+			let (compilation_1, expression) = try! (self.compile_0 (compilation, value));
+			compilation = compilation_1;
+			expressions.push (expression);
+		}
+		succeed! ((compilation, expressions));
 	}
 	
-	pub fn compile_slice (&self, compilation : &mut CompilerContext, values : &[Value]) -> (Outcome<ExpressionVec>) {
-		values.iter () .map (|ref value| self.compile (compilation, value)) .collect ()
-	}
 	
 	
 	
-	
-	pub fn compile_symbol (&self, compilation : &mut CompilerContext, identifier : &Symbol) -> (Outcome<Expression>) {
-		match try! (compilation.resolve (identifier)) {
+	fn compile_symbol (&self, compilation : CompilerContext, identifier : Symbol) -> (Outcome<(CompilerContext, Expression)>) {
+		let mut compilation = compilation;
+		match try! (compilation.bindings.resolve (identifier)) {
 			CompilerBinding::Undefined =>
 				fail! (0xc6825cfd),
 			CompilerBinding::Binding (binding) =>
-				succeed! (Expression::BindingGet (binding)),
+				succeed! ((compilation, Expression::BindingGet (binding))),
 			CompilerBinding::Register (index) =>
-				succeed! (Expression::RegisterGet (index)),
+				succeed! ((compilation, Expression::RegisterGet (index))),
 		}
 	}
 	
 	
 	
 	
-	pub fn compile_form (&self, compilation : &mut CompilerContext, form : &Pair) -> (Outcome<Expression>) {
+	fn compile_form (&self, compilation : CompilerContext, form : Pair) -> (Outcome<(CompilerContext, Expression)>) {
 		
-		match try! (self.compile_form_1 (compilation, &form)) {
+		match try! (self.compile_form_1 (compilation, form.clone ())) {
 			
-			Some ((ref primitive, ref arguments)) =>
+			(compilation, Some ((primitive, arguments))) =>
 				return self.compile_syntax_call (compilation, primitive, arguments),
-			None =>
-				return self.compile_procedure_call (compilation, form.left (), form.right ()),
+			
+			(compilation, None) =>
+				return self.compile_procedure_call (compilation, form.left () .clone (), form.right () .clone ()),
 		}
 	}
 	
 	
-	fn compile_form_1 (&self, compilation : &mut CompilerContext, value : &Pair) -> (Outcome<Option<(SyntaxPrimitive, Value)>>) {
+	fn compile_form_1 (&self, compilation : CompilerContext, value : Pair) -> (Outcome<(CompilerContext, Option<(SyntaxPrimitive, Value)>)>) {
 		
-		let callable = value.left ();
-		let arguments = value.right ();
+		let mut compilation = compilation;
+		let callable = value.left () .clone ();
+		let arguments = value.right () .clone ();
 		
 		match callable.class () {
 			
 			ValueClass::Symbol => {
-				if let Some (callable) = try! (compilation.resolve_value (callable.as_ref () as &Symbol)) {
+				if let Some (callable) = try! (compilation.bindings.resolve_value (callable.into ())) {
 					match callable.class () {
 						ValueClass::SyntaxPrimitive =>
-							succeed! (Some ((callable.into (), arguments.clone ()))),
+							succeed! ((compilation, Some ((callable.into (), arguments.clone ())))),
 						_ =>
-							succeed! (None),
+							succeed! ((compilation, None)),
 					}
 				} else {
-					succeed! (None);
+					succeed! ((compilation, None));
 				}
 			},
 			
 			ValueClass::SyntaxPrimitive =>
-				succeed! (Some ((callable.clone () .into (), arguments.clone ()))),
+				succeed! ((compilation, Some ((callable.clone () .into (), arguments.clone ())))),
 			
 			_ =>
-				succeed! (None),
+				succeed! ((compilation, None)),
 			
 		}
 	}
@@ -239,33 +157,30 @@ impl Compiler {
 	
 	
 	
-	pub fn compile_procedure_call (&self, compilation : &mut CompilerContext, procedure : &Value, arguments : &Value) -> (Outcome<Expression>) {
-		
-		let procedure = try! (self.compile (compilation, procedure));
-		
-		let arguments = try! (vec_clone_list (arguments));
-		let arguments = try! (self.compile_vec (compilation, arguments));
-		
-		succeed! (Expression::ProcedureCall (procedure.into (), arguments));
+	fn compile_procedure_call (&self, compilation : CompilerContext, procedure : Value, arguments : Value) -> (Outcome<(CompilerContext, Expression)>) {
+		let (compilation, procedure) = try! (self.compile_0 (compilation, procedure));
+		let (compilation, arguments) = try! (self.compile_vec (compilation, try! (vec_clone_list (&arguments))));
+		succeed! ((compilation, Expression::ProcedureCall (procedure.into (), arguments)));
 	}
 	
 	
 	
 	
-	pub fn compile_syntax_call (&self, compilation : &mut CompilerContext, syntax : &SyntaxPrimitive, arguments : &Value) -> (Outcome<Expression>) {
+	fn compile_syntax_call (&self, compilation : CompilerContext, syntax : SyntaxPrimitive, arguments : Value) -> (Outcome<(CompilerContext, Expression)>) {
 		
-		let arguments = try! (vec_clone_list (arguments));
+		let mut compilation = compilation;
+		let arguments = try! (vec_clone_list (&arguments));
 		let arguments_count = arguments.len ();
 		
-		match *syntax {
+		match syntax {
 			
 			SyntaxPrimitive::Primitive1 (syntax) =>
 				if arguments_count == 1 {
-					let arguments = &arguments[0];
+					let arguments = vec_explode_1! (arguments);
 					match syntax {
 						
 						SyntaxPrimitive1::Quote =>
-							succeed! (Expression::Value (arguments.clone ())),
+							succeed! ((compilation, Expression::Value (arguments.clone ()))),
 						
 						SyntaxPrimitive1::QuasiQuote =>
 							return self.compile_syntax_quasy_quote_value (compilation, arguments, false),
@@ -283,20 +198,19 @@ impl Compiler {
 					match syntax {
 						
 						SyntaxPrimitive2::Define => {
-							let identifier = &arguments[0];
-							let value = &arguments[1];
+							let (identifier, value) = vec_explode_2! (arguments);
 							match identifier.class () {
 								ValueClass::Symbol =>
-									match try! (compilation.define (try_as_symbol_ref! (identifier))) {
+									match try! (compilation.bindings.define (try_into_symbol! (identifier))) {
 										CompilerBinding::Undefined =>
 											fail! (0x1e75333d),
 										CompilerBinding::Binding (binding) => {
-											let value = try! (self.compile (compilation, value));
-											succeed! (Expression::BindingInitialize (binding, value.into ()));
+											let (compilation, value) = try! (self.compile_0 (compilation, value));
+											succeed! ((compilation, Expression::BindingInitialize (binding, value.into ())));
 										},
 										CompilerBinding::Register (index) => {
-											let value = try! (self.compile (compilation, value));
-											succeed! (Expression::RegisterInitialize (index, value.into ()));
+											let (compilation, value) = try! (self.compile_0 (compilation, value));
+											succeed! ((compilation, Expression::RegisterInitialize (index, value.into ())));
 										},
 									},
 								ValueClass::Pair =>
@@ -325,8 +239,8 @@ impl Compiler {
 					match syntax {
 						
 						SyntaxPrimitive3::If => {
-							let arguments = try! (self.compile_vec (compilation, arguments));
-							succeed! (Expression::SyntaxPrimitiveCall (SyntaxPrimitive3::If.into (), arguments));
+							let (compilation, arguments) = try! (self.compile_vec (compilation, arguments));
+							succeed! ((compilation, Expression::SyntaxPrimitiveCall (SyntaxPrimitive3::If.into (), arguments)));
 						},
 						
 					}
@@ -338,28 +252,25 @@ impl Compiler {
 				match syntax {
 					
 					SyntaxPrimitiveN::Begin => {
-						let arguments = try! (self.compile_vec (compilation, arguments));
-						succeed! (Expression::SyntaxPrimitiveCall (SyntaxPrimitiveN::Begin.into (), arguments));
+						let (compilation, arguments) = try! (self.compile_vec (compilation, arguments));
+						succeed! ((compilation, Expression::SyntaxPrimitiveCall (SyntaxPrimitiveN::Begin.into (), arguments)));
 					},
 					
 					SyntaxPrimitiveN::And | SyntaxPrimitiveN::Or => {
-						let arguments = try! (self.compile_vec (compilation, arguments));
-						succeed! (Expression::SyntaxPrimitiveCall (syntax.into (), arguments));
+						let (compilation, arguments) = try! (self.compile_vec (compilation, arguments));
+						succeed! ((compilation, Expression::SyntaxPrimitiveCall (syntax.into (), arguments)));
 					},
 					
 					SyntaxPrimitiveN::When | SyntaxPrimitiveN::Unless =>
 						if arguments_count >= 2 {
-							let arguments = try! (self.compile_vec (compilation, arguments));
-							succeed! (Expression::SyntaxPrimitiveCall (syntax.into (), arguments));
+							let (compilation, arguments) = try! (self.compile_vec (compilation, arguments));
+							succeed! ((compilation, Expression::SyntaxPrimitiveCall (syntax.into (), arguments)));
 						} else {
 							fail! (0x3c364a9f);
 						},
 					
-					SyntaxPrimitiveN::Local => {
-						let mut compilation = try! (compilation.fork_locals ());
-						let arguments = try! (self.compile_vec (&mut compilation, arguments));
-						succeed! (Expression::SyntaxPrimitiveCall (SyntaxPrimitiveN::Begin.into (), arguments));
-					},
+					SyntaxPrimitiveN::Local =>
+						return self.compile_syntax_locals (compilation, arguments),
 					
 					_ =>
 						fail_unimplemented! (0x73d95eb5),
@@ -381,7 +292,17 @@ impl Compiler {
 	
 	
 	
-	pub fn compile_syntax_quasy_quote_value (&self, compilation : &mut CompilerContext, value : &Value, spliceable : bool) -> (Outcome<Expression>) {
+	fn compile_syntax_locals (&self, compilation : CompilerContext, statements : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+		let bindings = try! (compilation.bindings.fork_locals ());
+		let compilation = CompilerContext::new (bindings);
+		let (compilation, statements) = try! (self.compile_vec (compilation, statements));
+		succeed! ((compilation, Expression::SyntaxPrimitiveCall (SyntaxPrimitiveN::Begin.into (), statements)));
+	}
+	
+	
+	
+	
+	fn compile_syntax_quasy_quote_value (&self, compilation : CompilerContext, value : Value, spliceable : bool) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		fn splice <ExpressionInto : StdInto<Expression>> (expression : ExpressionInto, spliceable : bool) -> (Expression) {
 			let expression = expression.into ();
@@ -395,14 +316,14 @@ impl Compiler {
 		match value.class () {
 			
 			ValueClass::Null | ValueClass::Void | ValueClass::Undefined =>
-				succeed! (splice (value.clone (), spliceable)),
+				succeed! ((compilation, splice (value, spliceable))),
 			ValueClass::Boolean | ValueClass::NumberInteger | ValueClass::NumberReal | ValueClass::Character =>
-				succeed! (splice (value.clone (), spliceable)),
+				succeed! ((compilation, splice (value, spliceable))),
 			ValueClass::String | ValueClass::Bytes =>
-				succeed! (splice (value.clone (), spliceable)),
+				succeed! ((compilation, splice (value, spliceable))),
 			
 			ValueClass::Symbol =>
-				succeed! (splice (value.clone (), spliceable)),
+				succeed! ((compilation, splice (value, spliceable))),
 			ValueClass::Array =>
 				fail_unimplemented! (0x0d99c57b),
 			
@@ -418,17 +339,18 @@ impl Compiler {
 				fail! (0x841d4d00),
 			
 			ValueClass::Pair => {
-				match try! (self.compile_form_1 (compilation, value.as_ref ())) {
+				let compilation = match try! (self.compile_form_1 (compilation, value.clone () .into ())) {
 					
-					Some ((ref primitive, ref arguments)) => {
-						let arguments = try! (vec_clone_list (arguments));
+					(compilation, Some ((primitive, arguments))) => {
+						let arguments = try! (vec_clone_list (&arguments));
 						let arguments_count = arguments.len ();
-						match *primitive {
+						match primitive {
 							
 							SyntaxPrimitive::Primitive1 (SyntaxPrimitive1::UnQuote) =>
 								if arguments_count == 1 {
-									let element = try! (self.compile_syntax_quasy_quote_value (compilation, &arguments[0], false));
-									succeed! (splice (element, spliceable));
+									let arguments = vec_explode_1! (arguments);
+									let (compilation, element) = try! (self.compile_syntax_quasy_quote_value (compilation, arguments, false));
+									succeed! ((compilation, splice (element, spliceable)));
 								} else {
 									fail! (0x9dc44267);
 								},
@@ -436,8 +358,9 @@ impl Compiler {
 							SyntaxPrimitive::Primitive1 (SyntaxPrimitive1::UnQuoteSplicing) =>
 								if arguments_count == 1 {
 									if spliceable {
-										let element = try! (self.compile_syntax_quasy_quote_value (compilation, &arguments[0], false));
-										succeed! (element);
+										let arguments = vec_explode_1! (arguments);
+										let (compilation, element) = try! (self.compile_syntax_quasy_quote_value (compilation, arguments, false));
+										succeed! ((compilation, element));
 									} else {
 										fail! (0x47356961);
 									}
@@ -446,23 +369,25 @@ impl Compiler {
 								},
 							
 							_ =>
-								{},
+								compilation,
 						}
 					},
 					
-					None =>
-						{},
+					(compilation, None) =>
+						compilation,
 					
-				}
+				};
 				
+				let mut compilation = compilation;
 				let mut elements = ExpressionVec::new ();
-				let mut cursor = value;
+				let mut cursor = &value;
 				loop {
 					match cursor.class () {
 						
 						ValueClass::Pair => {
 							let pair = cursor.as_ref () as &Pair;
-							let element = try! (self.compile_syntax_quasy_quote_value (compilation, pair.left (), true));
+							let (compilation_1, element) = try! (self.compile_syntax_quasy_quote_value (compilation, pair.left () .clone (), true));
+							compilation = compilation_1;
 							elements.push (element);
 							cursor = pair.right ();
 						},
@@ -471,7 +396,8 @@ impl Compiler {
 							break,
 						
 						_ => {
-							let element = try! (self.compile_syntax_quasy_quote_value (compilation, cursor, true));
+							let (compilation_1, element) = try! (self.compile_syntax_quasy_quote_value (compilation, cursor.clone (), true));
+							compilation = compilation_1;
 							elements.push (element);
 							break;
 						},
@@ -479,12 +405,120 @@ impl Compiler {
 					}
 				}
 				
-				succeed! (Expression::ProcedureCall (ListPrimitiveN::Append.into (), elements));
+				succeed! ((compilation, Expression::ProcedureCall (ListPrimitiveN::Append.into (), elements)));
 			},
 			
 		}
 	}
 	
 	
+}
+
+
+
+
+struct CompilerContext {
+	bindings : CompilerBindings,
+}
+
+
+impl CompilerContext {
+	
+	fn new (bindings : CompilerBindings) -> (CompilerContext) {
+		return CompilerContext {
+				bindings : bindings,
+			};
+	}
+}
+
+
+
+
+#[ allow (dead_code) ]
+enum CompilerBindings {
+	None,
+	Globals1 (Context),
+	Globals2 (StdBox<CompilerBindings>, Context),
+	Locals (StdBox<CompilerBindings>, StdMap<Symbol, CompilerBinding>, usize),
+}
+
+
+#[ derive (Clone) ]
+#[ allow (dead_code) ]
+enum CompilerBinding {
+	Undefined,
+	Binding (Binding),
+	Register (usize),
+}
+
+
+impl CompilerBindings {
+	
+	fn fork_locals (self) -> (Outcome<CompilerBindings>) {
+		match self {
+			CompilerBindings::None =>
+				fail! (0xad3e033b),
+			CompilerBindings::Globals1 (_) =>
+				succeed! (CompilerBindings::Globals2 (StdBox::new (self), Context::new (None))),
+			CompilerBindings::Globals2 (_, _) =>
+				succeed! (CompilerBindings::Globals2 (StdBox::new (self), Context::new (None))),
+			CompilerBindings::Locals (_, _, depth) =>
+				succeed! (CompilerBindings::Locals (StdBox::new (self), StdMap::new (), depth + 1)),
+		}
+	}
+	
+	fn resolve (&mut self, identifier : Symbol) -> (Outcome<CompilerBinding>) {
+		match *self {
+			CompilerBindings::None =>
+				succeed! (CompilerBinding::Undefined),
+			CompilerBindings::Globals1 (ref context) =>
+				if let Some (binding) = try! (context.resolve (&identifier)) {
+					succeed! (CompilerBinding::Binding (binding));
+				} else {
+					succeed! (CompilerBinding::Undefined);
+				},
+			CompilerBindings::Globals2 (ref mut parent, ref context) =>
+				if let Some (binding) = try! (context.resolve (&identifier)) {
+					succeed! (CompilerBinding::Binding (binding));
+				} else {
+					return parent.resolve (identifier);
+				},
+			CompilerBindings::Locals (ref mut parent, ref locals, _depth) => {
+				if let Some (binding) = locals.get (&identifier) {
+					succeed! (binding.clone ());
+				} else {
+					return parent.resolve (identifier);
+				}
+			},
+		}
+	}
+	
+	fn define (&mut self, identifier : Symbol) -> (Outcome<CompilerBinding>) {
+		match *self {
+			CompilerBindings::None =>
+				fail! (0xd943456d),
+			CompilerBindings::Globals1 (ref context) => {
+				let binding = try! (context.define (&identifier));
+				succeed! (CompilerBinding::Binding (binding));
+			},
+			CompilerBindings::Globals2 (ref _parent, ref context) => {
+				let binding = try! (context.define (&identifier));
+				succeed! (CompilerBinding::Binding (binding));
+			},
+			CompilerBindings::Locals (ref _parent, ref _locals, _depth) =>
+				fail_unimplemented! (0xb121dadf),
+		}
+	}
+	
+	fn resolve_value (&mut self, identifier : Symbol) -> (Outcome<Option<Value>>) {
+		match try! (self.resolve (identifier)) {
+			CompilerBinding::Undefined =>
+				succeed! (None),
+			CompilerBinding::Binding (binding) =>
+				succeed! (Some (try! (binding.get ()))),
+			CompilerBinding::Register (_index) =>
+				succeed! (None),
+		}
+	}
 }
 
