@@ -12,5 +12,6 @@ def_tests_from_file! (
 		control => "scheme/control.sst",
 		contexts => "scheme/contexts.sst",
 		lambdas => "scheme/lambdas.sst",
+		functions => "scheme/functions.sst",
 	);
 
