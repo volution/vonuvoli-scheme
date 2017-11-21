@@ -172,7 +172,13 @@ impl fmt::Display for Context {
 impl fmt::Debug for Context {
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = self.internals_ref ();
-		return self_0.fmt (formatter);
+		return formatter
+				.debug_struct ("Context")
+				.field ("immutable", &self_0.immutable)
+				.field ("handle", &self_0.handle)
+				.field ("bindings", &self_0.bindings)
+				.field ("parent", &self_0.parent)
+				.finish ();
 	}
 }
 
@@ -330,7 +336,12 @@ impl fmt::Display for Registers {
 impl fmt::Debug for Registers {
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = self.internals_ref ();
-		return self_0.fmt (formatter);
+		return formatter
+				.debug_struct ("Registers")
+				.field ("immutable", &self_0.immutable)
+				.field ("handle", &self_0.handle)
+				.field ("bindings", &self_0.bindings)
+				.finish ();
 	}
 }
 
@@ -446,7 +457,12 @@ impl fmt::Display for Binding {
 impl fmt::Debug for Binding {
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = self.internals_ref ();
-		return self_0.fmt (formatter);
+		return formatter
+				.debug_struct ("Binding")
+				.field ("identifier", &self_0.identifier)
+				.field ("immutable", &self_0.immutable)
+				.field ("handle", &self_0.handle)
+				.finish ()
 	}
 }
 
