@@ -1,31 +1,86 @@
 
+
 ((lambda x x) 0) => '(0);
 ((lambda () 0)) => 0;
 ((lambda (x) x) 0) => 0;
-
 ((lambda (x) x) +) => +;
 
-(begin (define l1 (locals (define x 0) (lambda a x))) 0) => 0;
-(l1 0) => 0;
-(l1 1) => 0;
-(l1 2) => 0;
+
+
+
+(define f1
+	(locals
+		(define y 0)
+		(lambda (x) (+ x y))
+	))
+=> #ignore;
+
+(f1 0) => 0;
+(f1 1) => 1;
+(f1 2) => 2;
+
+
 
 
 (begin
-	(define l2
+	(define f2
 		(locals
-			(define z1 1)
-			(define z2 2)
+			(define q1 1)
+			(define q2 2)
 			(define z 0)
-			(lambda (x)
-				(lambda (y) (+ x y z)))))
-	(define l2+0 (l2 0))
-	(define l2+1 (l2 1))
-	((l2 0) 0))
-=> 0;
+			(lambda (y)
+				(lambda (x) (+ x y z)))))
+	(define f2+0 (f2 0))
+	(define f2+1 (f2 1))
+)
+=> #ignore;
 
-(l2+0 0) => 0;
-(l2+0 1) => 1;
-(l2+1 0) => 1;
-(l2+1 1) => 2;
+(f2+0 0) => 0;
+(f2+0 1) => 1;
+(f2+1 0) => 1;
+(f2+1 1) => 2;
+
+
+
+
+(define f3 (lambda (x) (define y x) y)) => #ignore;
+(f3 0) => 0;
+
+
+
+
+(define f4a
+	(lambda (m)
+		(define r
+			(lambda (n a)
+				(if (zero? n)
+					a
+					(r (- n 1) (+ a m)))
+			))
+		(lambda (n) (r n 0))
+	))
+=> #ignore;
+
+(define f4b
+	(locals
+		(define r
+			(lambda (m n a)
+				(if (zero? n)
+					a
+					(r m (- n 1) (+ a m)))
+			))
+		(lambda (m)
+			(lambda (n) (r m n 0)))
+	))
+=> #ignore;
+
+((f4a 0) 0) => ((f4b 0) 0);
+((f4a 0) 1) => ((f4b 0) 1);
+((f4a 0) 2) => ((f4b 0) 2);
+((f4a 1) 0) => ((f4b 1) 0);
+((f4a 1) 1) => ((f4b 1) 1);
+((f4a 1) 2) => ((f4b 1) 2);
+((f4a 2) 0) => ((f4b 2) 0);
+((f4a 2) 1) => ((f4b 2) 1);
+((f4a 2) 2) => ((f4b 2) 2);
 
