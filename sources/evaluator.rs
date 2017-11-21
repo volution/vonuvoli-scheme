@@ -87,8 +87,8 @@ impl Evaluator {
 			Expression::BindingGet (ref binding) =>
 				self.evaluate_binding_get (evaluation, binding),
 			
-			Expression::Lambda (ref lambda, ref expression, ref borrows) =>
-				self.evaluate_lambda_create (evaluation, lambda, expression, borrows),
+			Expression::Lambda (ref lambda, ref expression, ref registers_closure, ref registers_local) =>
+				self.evaluate_lambda_create (evaluation, lambda, expression, registers_closure, registers_local),
 			
 			Expression::ProcedureCall (ref callable, ref inputs) =>
 				self.evaluate_procedure_call (evaluation, callable, inputs.as_ref ()),
@@ -214,9 +214,9 @@ impl Evaluator {
 	
 	
 	
-	pub fn evaluate_lambda_create (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaTemplate, expressions : &Expression, borrows : &StdVec<RegistersBindingTemplate>) -> (Outcome<Value>) {
-		let registers = try! (Registers::new_and_define (borrows, evaluation.registers));
-		let lambda = Lambda::new (lambda.clone (), expressions.clone (), registers);
+	pub fn evaluate_lambda_create (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaTemplate, expressions : &Expression, registers_closure : &StdVec<RegistersBindingTemplate>, registers_local : &StdVec<RegistersBindingTemplate>) -> (Outcome<Value>) {
+		let registers_closure = try! (Registers::new_and_define (registers_closure, evaluation.registers));
+		let lambda = Lambda::new (lambda.clone (), expressions.clone (), registers_closure, registers_local.clone ());
 		succeed! (lambda);
 	}
 	
@@ -265,7 +265,7 @@ impl Evaluator {
 				}
 			}
 			
-			try! (registers.extend_from (&lambda.closure));
+			try! (registers.define_all (&lambda.registers_local, Some (&lambda.registers_closure)));
 		}
 		
 		let mut evaluation = EvaluatorContext::new (self, None, Some (&registers));

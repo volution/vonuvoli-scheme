@@ -52,7 +52,7 @@ pub enum Expression {
 	SyntaxPrimitiveCallN ( SyntaxPrimitiveN, ExpressionVec ),
 	SyntaxPrimitiveCall ( SyntaxPrimitive, ExpressionVec ),
 	
-	Lambda ( StdBox<LambdaTemplate>, ExpressionBox, StdVec<RegistersBindingTemplate> ),
+	Lambda ( StdBox<LambdaTemplate>, ExpressionBox, StdVec<RegistersBindingTemplate>, StdVec<RegistersBindingTemplate> ),
 	
 }
 

@@ -28,7 +28,9 @@ pub struct LambdaInternals {
 	pub arguments_positional : StdVec<Symbol>,
 	pub argument_rest : Option<Symbol>,
 	pub expression : Expression,
-	pub closure : Registers,
+	// FIXME:  Recursive functions might leak;  investigate!
+	pub registers_closure : Registers,
+	pub registers_local : StdVec<RegistersBindingTemplate>,
 }
 
 
@@ -42,13 +44,14 @@ pub struct LambdaTemplate {
 
 impl Lambda {
 	
-	pub fn new (template : LambdaTemplate, expression : Expression, closure : Registers) -> (Lambda) {
+	pub fn new (template : LambdaTemplate, expression : Expression, registers_closure : Registers, registers_local : StdVec<RegistersBindingTemplate>) -> (Lambda) {
 		let internals = LambdaInternals {
 				identifier : template.identifier,
 				arguments_positional : template.arguments_positional,
 				argument_rest : template.argument_rest,
 				expression : expression,
-				closure : closure,
+				registers_closure : registers_closure,
+				registers_local : registers_local,
 			};
 		return Lambda (StdRc::new (internals));
 	}

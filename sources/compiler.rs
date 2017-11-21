@@ -311,6 +311,7 @@ impl Compiler {
 			_ =>
 				fail! (0x70773cab),
 		};
+		let arguments_count = arguments_positional.len () + if argument_rest.is_some () { 1 } else { 0 };
 		
 		let compilation = try! (compilation.fork_locals (true));
 		
@@ -324,8 +325,10 @@ impl Compiler {
 		
 		let (compilation, statements) = try! (self.compile_vec (compilation, statements));
 		
-		let (compilation, _) = try! (compilation.unfork_locals ());
-		let (compilation, registers) = try! (compilation.unfork_locals ());
+		let (compilation, mut registers_local) = try! (compilation.unfork_locals ());
+		let (compilation, registers_closure) = try! (compilation.unfork_locals ());
+		
+		let registers_local = registers_local.split_off (arguments_count);
 		
 		let statements = Expression::Sequence (statements);
 		
@@ -335,7 +338,7 @@ impl Compiler {
 				argument_rest : argument_rest,
 			};
 		
-		succeed! ((compilation, Expression::Lambda (StdBox::new (template), statements.into (), registers)));
+		succeed! ((compilation, Expression::Lambda (StdBox::new (template), statements.into (), registers_closure, registers_local)));
 	}
 	
 	
