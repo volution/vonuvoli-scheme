@@ -31,13 +31,16 @@ pub mod exports {
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
 pub enum SyntaxPrimitive {
+	
 	Unimplemented,
 	Auxiliary,
 	Reserved,
+	
 	Primitive1 ( SyntaxPrimitive1 ),
 	Primitive2 ( SyntaxPrimitive2 ),
 	Primitive3 ( SyntaxPrimitive3 ),
 	PrimitiveN ( SyntaxPrimitiveN ),
+	
 }
 
 
@@ -75,7 +78,8 @@ pub enum SyntaxPrimitive3 {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
 pub enum SyntaxPrimitiveN {
 	
-	Lambda,
+	And,
+	Or,
 	
 	Begin,
 	
@@ -85,14 +89,13 @@ pub enum SyntaxPrimitiveN {
 	Cond,
 	Case,
 	
+	Do,
+	
 	Locals,
 	Let,
 	LetValues,
 	
-	Do,
-	
-	And,
-	Or,
+	Lambda,
 	
 }
 
@@ -102,8 +105,8 @@ pub enum SyntaxPrimitiveN {
 pub fn syntax_primitive_1_evaluate (primitive : SyntaxPrimitive1, _input : &Expression, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
-		_ =>
-			fail_unimplemented! (0xe7fceaf5),
+		SyntaxPrimitive1::Quote | SyntaxPrimitive1::QuasiQuote | SyntaxPrimitive1::UnQuote | SyntaxPrimitive1::UnQuoteSplicing =>
+			fail! (0xe7fceaf5),
 		
 	}
 }
@@ -118,7 +121,7 @@ pub fn syntax_primitive_2_evaluate (primitive : SyntaxPrimitive2, _input_1 : &Ex
 			fail! (0xf72ef0ed),
 		
 		SyntaxPrimitive2::Set | SyntaxPrimitive2::SetValues =>
-			fail_unimplemented! (0xe6843905),
+			fail! (0xe6843905),
 		
 	}
 }
@@ -126,17 +129,11 @@ pub fn syntax_primitive_2_evaluate (primitive : SyntaxPrimitive2, _input_1 : &Ex
 
 
 
-pub fn syntax_primitive_3_evaluate (primitive : SyntaxPrimitive3, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn syntax_primitive_3_evaluate (primitive : SyntaxPrimitive3, _input_1 : &Expression, _input_2 : &Expression, _input_3 : &Expression, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
-		SyntaxPrimitive3::If => {
-			let condition = try! (evaluator.evaluate (input_1));
-			if is_not_false (&condition) {
-				return evaluator.evaluate (input_2);
-			} else {
-				return evaluator.evaluate (input_3);
-			}
-		},
+		SyntaxPrimitive3::If =>
+			fail! (0x9eb5f5a1),
 		
 	}
 }
@@ -145,16 +142,7 @@ pub fn syntax_primitive_3_evaluate (primitive : SyntaxPrimitive3, input_1 : &Exp
 
 
 pub fn syntax_primitive_n_evaluate (primitive : SyntaxPrimitiveN, inputs : &[Expression], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
-	let inputs_count = inputs.len ();
 	match primitive {
-		
-		SyntaxPrimitiveN::Begin => {
-			let mut output = VOID.into ();
-			for input in inputs {
-				output = try! (evaluator.evaluate (input));
-			}
-			succeed! (output);
-		},
 		
 		SyntaxPrimitiveN::And => {
 			let mut output = TRUE.into ();
@@ -178,28 +166,24 @@ pub fn syntax_primitive_n_evaluate (primitive : SyntaxPrimitiveN, inputs : &[Exp
 			succeed! (output);
 		},
 		
-		SyntaxPrimitiveN::When | SyntaxPrimitiveN::Unless =>
-			if inputs_count >= 2 {
-				let (condition, inputs) = inputs.split_first () .expect ("3a3fabf1");
-				let condition = try! (evaluator.evaluate (condition));
-				let condition = match primitive {
-					SyntaxPrimitiveN::When => is_not_false (&condition),
-					SyntaxPrimitiveN::Unless => is_false (&condition),
-					_ => fail! (0xf218a89f),
-				};
-				let mut output = VOID.into ();
-				if condition {
-					for input in inputs {
-						output = try! (evaluator.evaluate (input));
-					}
-				}
-				succeed! (output);
-			} else {
-				fail! (0xa260065f);
-			},
+		SyntaxPrimitiveN::Begin =>
+			fail! (0x5d19e13b),
 		
-		_ =>
-			fail_unimplemented! (0xc0c18893),
+		SyntaxPrimitiveN::When | SyntaxPrimitiveN::Unless =>
+			fail! (0x169ec95d),
+		
+		SyntaxPrimitiveN::Cond | SyntaxPrimitiveN::Case =>
+			fail! (0x39b925db),
+		
+		SyntaxPrimitiveN::Do =>
+			fail! (0xf5bd287f),
+		
+		SyntaxPrimitiveN::Locals | SyntaxPrimitiveN::Let | SyntaxPrimitiveN::LetValues =>
+			fail! (0xc956c743),
+		
+		SyntaxPrimitiveN::Lambda =>
+			fail! (0xd45f4e3b),
+		
 	}
 }
 
@@ -235,13 +219,13 @@ pub fn syntax_primitive_evaluate (primitive : SyntaxPrimitive, inputs : &[Expres
 			return syntax_primitive_n_evaluate (primitive, inputs, evaluator),
 		
 		SyntaxPrimitive::Unimplemented =>
-			fail_unimplemented! (0x303dde78),
+			fail! (0x303dde78),
 		
 		SyntaxPrimitive::Auxiliary =>
-			fail_unimplemented! (0x050a390b),
+			fail! (0x050a390b),
 		
 		SyntaxPrimitive::Reserved =>
-			fail_unimplemented! (0x20a9c095),
+			fail! (0x20a9c095),
 		
 	}
 }

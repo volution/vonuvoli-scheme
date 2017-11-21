@@ -63,6 +63,8 @@ impl Evaluator {
 			
 			Expression::Sequence (ref expressions) =>
 				self.evaluate_sequence (evaluation, expressions),
+			Expression::Conditional (ref conditions) =>
+				self.evaluate_conditional (evaluation, conditions),
 			
 			Expression::ContextDefine (ref identifier, ref expression) =>
 				self.evaluate_context_define (evaluation, identifier, expression),
@@ -126,6 +128,24 @@ impl Evaluator {
 			output = try! (evaluation.evaluate (expression));
 		}
 		return Ok (output);
+	}
+	
+	
+	
+	
+	pub fn evaluate_conditional (&self, evaluation : &mut EvaluatorContext, conditions : &StdVec<(bool, Expression, Expression)>) -> (Outcome<Value>) {
+		for &(negated, ref guard, ref output) in conditions {
+			let guard = try! (evaluation.evaluate (guard));
+			let guard = if negated {
+				is_false (&guard)
+			} else {
+				is_not_false (&guard)
+			};
+			if guard {
+				return evaluation.evaluate (output);
+			}
+		}
+		return Ok (VOID.into ());
 	}
 	
 	

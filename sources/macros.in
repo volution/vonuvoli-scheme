@@ -326,6 +326,21 @@ macro_rules! vec_explode_2 {
 	);
 }
 
+#[ macro_export ]
+#[ allow (unused_macros) ]
+macro_rules! vec_explode_3 {
+	( $value : expr ) => (
+		{
+			let mut iterator = $value.into_iter ();
+			(
+				iterator.next () .expect ("b22d3e1e"),
+				iterator.next () .expect ("efbd5ae0"),
+				iterator.next () .expect ("28b9120d"),
+			)
+		}
+	);
+}
+
 
 
 

@@ -1,5 +1,6 @@
 
 
+use super::constants::exports::*;
 use super::contexts::exports::*;
 use super::errors::exports::*;
 use super::expressions::exports::*;
@@ -241,7 +242,12 @@ impl Compiler {
 						
 						SyntaxPrimitive3::If => {
 							let (compilation, statements) = try! (self.compile_vec (compilation, tokens));
-							succeed! ((compilation, Expression::SyntaxPrimitiveCall (SyntaxPrimitive3::If.into (), statements)));
+							let (guard, if_true, if_false) = vec_explode_3! (statements);
+							let conditions = vec! [
+									(false, guard, if_true),
+									(false, TRUE.into (), if_false),
+								];
+							succeed! ((compilation, Expression::Conditional (conditions)));
 						},
 						
 					}
@@ -271,7 +277,17 @@ impl Compiler {
 					SyntaxPrimitiveN::When | SyntaxPrimitiveN::Unless =>
 						if tokens_count >= 2 {
 							let (compilation, statements) = try! (self.compile_vec (compilation, tokens));
-							succeed! ((compilation, Expression::SyntaxPrimitiveCall (syntax.into (), statements)));
+							let (guard, statements) = vec_explode_1n! (statements);
+							let statements = Expression::Sequence (statements);
+							let negated = match syntax {
+								SyntaxPrimitiveN::When => false,
+								SyntaxPrimitiveN::Unless => true,
+								_ => fail! (0x500d298f),
+							};
+							let conditions = vec! [
+									(negated, guard, statements),
+								];
+							succeed! ((compilation, Expression::Conditional (conditions)));
 						} else {
 							fail! (0x3c364a9f);
 						},
