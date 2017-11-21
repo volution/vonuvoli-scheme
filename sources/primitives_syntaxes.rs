@@ -219,7 +219,7 @@ pub fn syntax_primitive_evaluate (primitive : SyntaxPrimitive, inputs : &[Expres
 			return syntax_primitive_n_evaluate (primitive, inputs, evaluator),
 		
 		SyntaxPrimitive::Unimplemented =>
-			fail! (0x303dde78),
+			fail_unimplemented! (0x303dde78),
 		
 		SyntaxPrimitive::Auxiliary =>
 			fail! (0x050a390b),

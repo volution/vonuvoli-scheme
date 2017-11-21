@@ -39,6 +39,7 @@ cat <<'EOS'
 :: execute / test / all :: x-run ':: compile / peg' ; exec -- less-exec env PATH="${RUST_PATH}" cargo test -- "${@}"
 
 :: browse / doc :: exec -- x-www open file://"$( readlink -e -- ./target/doc/rust_scheme/index.html )"
+:: browse / r7rs :: exec -- x-www open file://"$( readlink -e -- ./documentation/external/r7rs-small-spec/stripped/r7rs.pdf )"
 
 :: clean :: exec -- rm -R -f ./target/
 
