@@ -362,7 +362,7 @@ impl Compiler {
 	
 	fn compile_syntax_locals (&self, compilation : CompilerContext, statements : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
-		let compilation = try! (compilation.fork_locals (true));
+		let compilation = try! (compilation.fork_locals (false));
 		let (compilation, statements) = try! (self.compile_vec (compilation, statements));
 		let (compilation, registers) = try! (compilation.unfork_locals ());
 		
