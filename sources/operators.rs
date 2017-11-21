@@ -2,6 +2,7 @@
 
 use super::constants::exports::*;
 use super::errors::exports::*;
+use super::evaluator::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
 
@@ -12,8 +13,10 @@ pub mod exports {
 	pub use super::{pair};
 	pub use super::{list_build_1, list_build_2, list_build_3, list_build_4, list_build_n};
 	pub use super::{list_append_2, list_append_3, list_append_4, list_append_n};
+	pub use super::{values_build_1, values_build_2, values_build_3, values_build_4, values_build_n};
 	pub use super::{vec_clone_list, vec_clone_list_dotted, vec_drain_list, vec_drain_list_dotted};
 	pub use super::{is_true, is_false, is_not_false, is_true_or_equivalent, is_false_or_equivalent};
+	pub use super::{apply_n, lists_map_n, lists_iterate_n};
 }
 
 
@@ -123,6 +126,29 @@ pub fn list_append_n (lists : &[Value]) -> (Outcome<Value>) {
 
 
 
+pub fn values_build_1 (_value_1 : &Value) -> (Value) {
+	panic! ("bb8da879");
+}
+
+pub fn values_build_2 (_value_1 : &Value, _value_2 : &Value) -> (Value) {
+	panic! ("1bb069bf");
+}
+
+pub fn values_build_3 (_value_1 : &Value, _value_2 : &Value, _value_3 : &Value) -> (Value) {
+	panic! ("a60e100f");
+}
+
+pub fn values_build_4 (_value_1 : &Value, _value_2 : &Value, _value_3 : &Value, _value_4 : &Value) -> (Value) {
+	panic! ("2474f5ff");
+}
+
+pub fn values_build_n (_values : &[Value]) -> (Value) {
+	panic! ("cea42387");
+}
+
+
+
+
 pub fn vec_clone_list (list : &Value) -> (Outcome<ValueVec>) {
 	let (vector, last) = try! (vec_clone_list_dotted (list));
 	match last {
@@ -198,5 +224,20 @@ pub fn is_false_or_equivalent (value : &Value) -> (bool) {
 		_ =>
 			false,
 	}
+}
+
+
+
+
+pub fn apply_n (_evaluator : &mut EvaluatorContext, _callable : &Value, _inputs : &[Value]) -> (Outcome<Value>) {
+	fail_unimplemented! (0x047ea2ac);
+}
+
+pub fn lists_map_n (_evaluator : &mut EvaluatorContext, _callable : &Value, _inputs : &[Value]) -> (Outcome<Value>) {
+	fail_unimplemented! (0x047ea2ac);
+}
+
+pub fn lists_iterate_n (_evaluator : &mut EvaluatorContext, _callable : &Value, _inputs : &[Value]) -> (Outcome<Value>) {
+	fail_unimplemented! (0x0c34ebcb);
 }
 

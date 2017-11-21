@@ -364,13 +364,15 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			
 			("base", "procedure?", TypePrimitive1::IsProcedure.into ()),
 			
-			("base", "apply", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "apply", FunctionsPrimitiveN::Apply.into ()),
 			
-			("base", "map", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "map", FunctionsPrimitiveN::ListsMap.into ()),
+			("base", "for-each", FunctionsPrimitiveN::ListsIterate.into ()),
+			
 			("base", "vector-map", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "string-map", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "for-each", ProcedurePrimitive::Unimplemented.into ()),
 			("base", "vector-for-each", ProcedurePrimitive::Unimplemented.into ()),
+			
+			("base", "string-map", ProcedurePrimitive::Unimplemented.into ()),
 			("base", "string-for-each", ProcedurePrimitive::Unimplemented.into ()),
 			
 			("base", "values", ProcedurePrimitive::Unimplemented.into ()),
