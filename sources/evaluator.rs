@@ -244,8 +244,11 @@ impl Evaluator {
 	
 	
 	pub fn evaluate_lambda_call (&self, evaluation : &mut EvaluatorContext, lambda : &Lambda, inputs : &[Expression]) -> (Outcome<Value>) {
-		
 		let inputs = try! (evaluation.evaluate_slice (inputs));
+		return self.evaluate_lambda_call_with_values (evaluation, lambda, &inputs);
+	}
+	
+	pub fn evaluate_lambda_call_with_values (&self, _evaluation : &mut EvaluatorContext, lambda : &Lambda, inputs : &[Value]) -> (Outcome<Value>) {
 		
 		let expression;
 		let mut registers = Registers::new ();
@@ -297,11 +300,16 @@ impl Evaluator {
 	
 	pub fn evaluate_procedure_call (&self, evaluation : &mut EvaluatorContext, callable : &Expression, inputs : &[Expression]) -> (Outcome<Value>) {
 		let callable = try! (evaluation.evaluate (callable));
-		match callable {
+		let inputs = try! (evaluation.evaluate_slice (inputs));
+		return self.evaluate_procedure_call_with_values (evaluation, &callable, &inputs);
+	}
+	
+	pub fn evaluate_procedure_call_with_values (&self, evaluation : &mut EvaluatorContext, callable : &Value, inputs : &[Value]) -> (Outcome<Value>) {
+		match *callable {
 			Value::ProcedurePrimitive (primitive) =>
-				return self.evaluate_procedure_primitive (evaluation, primitive, inputs),
-			Value::Lambda (lambda) =>
-				return self.evaluate_lambda_call (evaluation, &lambda, inputs),
+				return self.evaluate_procedure_primitive_with_values (evaluation, primitive, inputs),
+			Value::Lambda (ref lambda) =>
+				return self.evaluate_lambda_call_with_values (evaluation, lambda, inputs),
 			_ =>
 				fail! (0x88be334b),
 		}
@@ -311,33 +319,48 @@ impl Evaluator {
 	
 	
 	pub fn evaluate_procedure_primitive_0 (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive0) -> (Outcome<Value>) {
-		let output = procedure_primitive_0_evaluate (primitive, evaluation);
-		return output;
+		return procedure_primitive_0_evaluate (primitive, evaluation);
 	}
+	
 	
 	pub fn evaluate_procedure_primitive_1 (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive1, input : &Expression) -> (Outcome<Value>) {
 		let input = try! (evaluation.evaluate (input));
-		let output = procedure_primitive_1_evaluate (primitive, &input, evaluation);
-		return output;
+		return procedure_primitive_1_evaluate (primitive, &input, evaluation);
 	}
+	
+	pub fn evaluate_procedure_primitive_1_with_values (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive1, input : &Value) -> (Outcome<Value>) {
+		return procedure_primitive_1_evaluate (primitive, &input, evaluation);
+	}
+	
 	
 	pub fn evaluate_procedure_primitive_2 (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive2, input_1 : &Expression, input_2 : &Expression) -> (Outcome<Value>) {
 		let input_1 = try! (evaluation.evaluate (input_1));
 		let input_2 = try! (evaluation.evaluate (input_2));
-		let output = procedure_primitive_2_evaluate (primitive, &input_1, &input_2, evaluation);
-		return output;
+		return procedure_primitive_2_evaluate (primitive, &input_1, &input_2, evaluation);
 	}
+	
+	pub fn evaluate_procedure_primitive_2_with_values (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive2, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
+		return procedure_primitive_2_evaluate (primitive, &input_1, &input_2, evaluation);
+	}
+	
 	
 	pub fn evaluate_procedure_primitive_n (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitiveN, inputs : &[Expression]) -> (Outcome<Value>) {
 		let inputs = try! (evaluation.evaluate_slice (inputs));
-		let output = procedure_primitive_n_evaluate (primitive, inputs.as_ref (), evaluation);
-		return output;
+		return procedure_primitive_n_evaluate (primitive, &inputs, evaluation);
 	}
+	
+	pub fn evaluate_procedure_primitive_n_with_values (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitiveN, inputs : &[Value]) -> (Outcome<Value>) {
+		return procedure_primitive_n_evaluate (primitive, inputs, evaluation);
+	}
+	
 	
 	pub fn evaluate_procedure_primitive (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive, inputs : &[Expression]) -> (Outcome<Value>) {
 		let inputs = try! (evaluation.evaluate_slice (inputs));
-		let output = procedure_primitive_evaluate (primitive, inputs.as_ref (), evaluation);
-		return output;
+		return procedure_primitive_evaluate (primitive, inputs.as_ref (), evaluation);
+	}
+	
+	pub fn evaluate_procedure_primitive_with_values (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive, inputs : &[Value]) -> (Outcome<Value>) {
+		return procedure_primitive_evaluate (primitive, inputs.as_ref (), evaluation);
 	}
 	
 	
