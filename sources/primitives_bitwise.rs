@@ -61,13 +61,13 @@ pub enum BitwisePrimitiveN {
 
 pub fn bitwise_primitive_1_evaluate (primitive : BitwisePrimitive1, input : &Value) -> (Outcome<Value>) {
 	
-	let input = try! (StdTryAsRef::<NumberInteger>::try_as_ref (input));
+	let input = try_as_number_integer_ref! (input);
 	
 	let output = match primitive {
 		BitwisePrimitive1::Complement => input.bitnot (),
 	};
 	
-	return Ok (output.into ());
+	succeed! (output);
 }
 
 
@@ -75,8 +75,8 @@ pub fn bitwise_primitive_1_evaluate (primitive : BitwisePrimitive1, input : &Val
 
 pub fn bitwise_primitive_2_evaluate (primitive : BitwisePrimitive2, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
 	
-	let input_1 = try! (StdTryAsRef::<NumberInteger>::try_as_ref (input_1));
-	let input_2 = try! (StdTryAsRef::<NumberInteger>::try_as_ref (input_2));
+	let input_1 = try_as_number_integer_ref! (input_1);
+	let input_2 = try_as_number_integer_ref! (input_2);
 	
 	let output = match primitive {
 		
@@ -112,7 +112,7 @@ pub fn bitwise_primitive_2_evaluate (primitive : BitwisePrimitive2, input_1 : &V
 		
 	};
 	
-	return Ok (output.into ());
+	succeed! (output);
 }
 
 
@@ -134,7 +134,7 @@ pub fn bitwise_primitive_n_evaluate (primitive : BitwisePrimitiveN, inputs : &[V
 	};
 	
 	for input in inputs {
-		let input = try! (StdTryAsRef::<NumberInteger>::try_as_ref (input));
+		let input = try_as_number_integer_ref! (input);
 		
 		output = match primitive {
 			
@@ -166,6 +166,6 @@ pub fn bitwise_primitive_n_evaluate (primitive : BitwisePrimitiveN, inputs : &[V
 		
 	};
 	
-	return Ok (output.into ());
+	succeed! (output);
 }
 

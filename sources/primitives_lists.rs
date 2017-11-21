@@ -55,35 +55,31 @@ pub enum ListPrimitiveN {
 
 
 pub fn list_primitive_1_evaluate (primitive : ListPrimitive1, input : &Value) -> (Outcome<Value>) {
-	
-	let output = match primitive {
+	match primitive {
 		
 		ListPrimitive1::GetLeft =>
-			(try! (input.try_as_ref ()) as &Pair) .left () .clone (),
+			succeed! ((try! (input.try_as_ref ()) as &Pair) .left () .clone ()),
 		
 		ListPrimitive1::GetRight =>
-			(try! (input.try_as_ref ()) as &Pair) .right () .clone (),
+			succeed! ((try! (input.try_as_ref ()) as &Pair) .right () .clone ()),
 		
 		ListPrimitive1::List =>
-			list_build_1 (input),
+			succeed! (list_build_1 (input)),
 		
 		ListPrimitive1::Append =>
-			input.clone (),
+			succeed! (input.clone ()),
 		
-	};
-	
-	return Ok (output.into ());
+	}
 }
 
 
 
 
 pub fn list_primitive_2_evaluate (primitive : ListPrimitive2, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
-	
-	let output = match primitive {
+	match primitive {
 		
 		ListPrimitive2::Pair =>
-			pair (input_1, input_2),
+			succeed! (pair (input_1, input_2)),
 		
 		ListPrimitive2::SetLeft =>
 			fail_unimplemented! (0xa2ba6335),
@@ -92,32 +88,27 @@ pub fn list_primitive_2_evaluate (primitive : ListPrimitive2, input_1 : &Value, 
 			fail_unimplemented! (0xadf82f55),
 		
 		ListPrimitive2::List2 =>
-			list_build_2 (input_1, input_2),
+			succeed! (list_build_2 (input_1, input_2)),
 		
 		ListPrimitive2::Append2 =>
-			try! (list_append_2 (input_1, input_2)),
+			return list_append_2 (input_1, input_2),
 		
-	};
-	
-	return Ok (output.into ());
+	}
 }
 
 
 
 
 pub fn list_primitive_n_evaluate (primitive : ListPrimitiveN, inputs : &[Value]) -> (Outcome<Value>) {
-	
-	let output = match primitive {
+	match primitive {
 		
 		ListPrimitiveN::List =>
-			list_build_n (inputs),
+			succeed! (list_build_n (inputs)),
 		
 		ListPrimitiveN::Append =>
-			try! (list_append_n (inputs)),
+			return list_append_n (inputs),
 		
-	};
-	
-	return Ok (output.into ());
+	}
 }
 
 

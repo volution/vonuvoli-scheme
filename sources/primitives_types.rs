@@ -117,6 +117,6 @@ pub fn type_primitive_1_evaluate (primitive : TypePrimitive1, input : &Value) ->
 		
 	};
 	
-	Ok (output.into ())
+	succeed! (output);
 }
 

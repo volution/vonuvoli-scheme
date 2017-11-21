@@ -274,7 +274,7 @@ pub fn arithmetic_primitive_1_evaluate (primitive : ArithmeticPrimitive1, input 
 		
 	};
 	
-	return Ok (output);
+	succeed! (output);
 }
 
 
@@ -327,7 +327,7 @@ pub fn arithmetic_primitive_2_evaluate (primitive : ArithmeticPrimitive2, input_
 		
 	};
 	
-	return Ok (output.into ());
+	succeed! (output);
 }
 
 
@@ -339,16 +339,16 @@ pub fn arithmetic_primitive_n_evaluate (primitive : ArithmeticPrimitiveN, inputs
 	
 	if inputs_count == 1 {
 		
-		return Ok (inputs[0].clone ());
+		succeed! (inputs[0].clone ());
 		
 	} else if inputs_count == 0 {
 		match primitive {
 			
 			ArithmeticPrimitiveN::Addition =>
-				return Ok (ZERO.into ()),
+				succeed! (ZERO),
 			
 			ArithmeticPrimitiveN::Multiplication =>
-				return Ok (ONE.into ()),
+				succeed! (ONE),
 			
 			_ =>
 				fail! (0x69d3b6cc),
@@ -398,6 +398,6 @@ pub fn arithmetic_primitive_n_evaluate (primitive : ArithmeticPrimitiveN, inputs
 		};
 	}
 	
-	return Ok (output.into ());
+	succeed! (output);
 }
 

@@ -57,7 +57,7 @@ pub enum BooleanPrimitiveN {
 
 pub fn boolean_primitive_1_evaluate (primitive : BooleanPrimitive1, input : &Value) -> (Outcome<Value>) {
 	
-	let input = try! (StdTryAsRef::<Boolean>::try_as_ref (input));
+	let input = try_as_boolean_ref! (input);
 	
 	let output = match primitive {
 		
@@ -66,7 +66,7 @@ pub fn boolean_primitive_1_evaluate (primitive : BooleanPrimitive1, input : &Val
 		
 	};
 	
-	return Ok (output.into ());
+	succeed! (output);
 }
 
 
@@ -74,8 +74,8 @@ pub fn boolean_primitive_1_evaluate (primitive : BooleanPrimitive1, input : &Val
 
 pub fn boolean_primitive_2_evaluate (primitive : BooleanPrimitive2, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
 	
-	let input_1 = try! (StdTryAsRef::<Boolean>::try_as_ref (input_1));
-	let input_2 = try! (StdTryAsRef::<Boolean>::try_as_ref (input_2));
+	let input_1 = try_as_boolean_ref! (input_1);
+	let input_2 = try_as_boolean_ref! (input_2);
 	
 	let output = match primitive {
 		
@@ -99,7 +99,7 @@ pub fn boolean_primitive_2_evaluate (primitive : BooleanPrimitive2, input_1 : &V
 		
 	};
 	
-	return Ok (output.into ());
+	succeed! (output);
 }
 
 
@@ -121,7 +121,7 @@ pub fn boolean_primitive_n_evaluate (primitive : BooleanPrimitiveN, inputs : &[V
 	};
 	
 	for input in inputs {
-		let input = try! (StdTryAsRef::<Boolean>::try_as_ref (input));
+		let input = try_as_boolean_ref! (input);
 		output = match primitive {
 			
 			BooleanPrimitiveN::And | BooleanPrimitiveN::Nand =>
@@ -152,6 +152,6 @@ pub fn boolean_primitive_n_evaluate (primitive : BooleanPrimitiveN, inputs : &[V
 		
 	};
 	
-	return Ok (output.into ());
+	succeed! (output);
 }
 
