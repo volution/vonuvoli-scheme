@@ -18,7 +18,7 @@ pub mod exports {
 
 
 
-pub fn parse_value (input : &str) -> Outcome<Value> {
+pub fn parse_value (input : &str) -> (Outcome<Value>) {
 	if let Ok (output) = peg::value_full (input) {
 		succeed! (output);
 	} else {

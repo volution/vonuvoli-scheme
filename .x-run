@@ -11,8 +11,14 @@ cat <<'EOS'
 << compile / peg
 	test "${#}" -eq 0
 	if test ./sources/parser_peg.peg -nt ./sources/parser_peg.rs ; then
+		if test -e ./sources/parser_peg.rs ; then
+			rm -- ./sources/parser_peg.rs
+		fi
 		rust-peg < ./sources/parser_peg.peg >| ./sources/.parser_peg.rs.tmp1
-		rust-fmt < ./sources/.parser_peg.rs.tmp1 >| ./sources/.parser_peg.rs.tmp2 || test "${?}" -eq 3 || exit -- 1
+		rust-fmt < ./sources/.parser_peg.rs.tmp1 >| ./sources/.parser_peg.rs.tmp2 && _outcome=0 || _outcome="${?}"
+		if test "${_outcome}" -ne 3 ; then
+			exit -- "${_outcome}"
+		fi
 		mv -T -- ./sources/.parser_peg.rs.tmp2 ./sources/parser_peg.rs
 		rm -- ./sources/.parser_peg.rs.tmp1
 	fi
@@ -76,15 +82,15 @@ cat <<'EOS'
 :: cargo / enable / incremental :: export -- CARGO_INCREMENTAL=1
 :: cargo / disable / incremental :: export -- CARGO_INCREMENTAL=0
 
-:: tests / enable / print :: export -- RUST_SCHEME_TESTS_PRINT=true
-:: tests / disable / print :: export -- RUST_SCHEME_TESTS_PRINT=false
+:: tests / enable / debug :: export -- RUST_SCHEME_TESTS_DEBUG=true
+:: tests / disable / debug :: export -- RUST_SCHEME_TESTS_DEBUG=false
 
 EOS
 
 
 for _test in scheme r7rs conversions parser sizes ; do
 sed -r -e 's#@\{TEST\}#'"${_test}"'#g' <<'EOS'
-:: execute / test / @{TEST} :: x-run ':: compile / peg' ; export -- RUST_BACKTRACE=1 ; exec -- env PATH="${RUST_PATH}" cargo test --test @{TEST} --all-features -- --nocapture "${@}"
+:: execute / test / @{TEST} :: x-run ':: compile / peg' ; export -- RUST_TEST_TASKS=1 RUST_BACKTRACE=1 ; exec -- env PATH="${RUST_PATH}" cargo test --test @{TEST} --all-features -- --nocapture "${@}"
 EOS
 done
 

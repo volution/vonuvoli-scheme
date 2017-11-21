@@ -43,7 +43,7 @@ macro_rules! fail_unimplemented {
 #[ allow (unused_macros) ]
 macro_rules! try_some {
 	( $option : expr, $code : expr ) => {
-		if let Some ( value ) = $option {
+		if let ::std::option::Option::Some ( value ) = $option {
 			value
 		} else {
 			fail! ($code);
@@ -54,7 +54,7 @@ macro_rules! try_some {
 #[ allow (unused_macros) ]
 macro_rules! try_some_ref {
 	( $option : expr, $code : expr ) => {
-		if let Some ( ref value ) = $option {
+		if let ::std::option::Option::Some ( ref value ) = $option {
 			value
 		} else {
 			fail! ($code);
@@ -66,6 +66,17 @@ macro_rules! try_some_ref {
 macro_rules! try_some_2 {
 	( $result : expr, $code : expr ) => {
 		try_some! (try! ($result), $code)
+	};
+}
+
+#[ allow (unused_macros) ]
+macro_rules! try_or_fail {
+	( $result : expr, $code : expr ) => {
+		if let ::std::result::Result::Ok ( value ) = $result {
+			value
+		} else {
+			fail! ($code);
+		}
 	};
 }
 
