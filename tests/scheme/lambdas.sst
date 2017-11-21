@@ -1,5 +1,4 @@
 
-
 ((lambda x x) 0) => '(0);
 ((lambda () 0)) => 0;
 ((lambda (x) x) 0) => 0;
