@@ -16,8 +16,10 @@ pub mod exports {
 	pub use super::{vec_append_2, vec_append_3, vec_append_4, vec_append_n};
 	pub use super::{vec_append_2_dotted, vec_append_3_dotted, vec_append_4_dotted, vec_append_n_dotted};
 	pub use super::{vec_clone_list, vec_clone_list_dotted, vec_drain_list, vec_drain_list_dotted};
+	pub use super::{ListIterator, ListsIterator};
 	pub use super::{is_true, is_false, is_not_false, is_true_or_equivalent, is_false_or_equivalent};
-	pub use super::{apply_n, lists_map_n, lists_iterate_n};
+	pub use super::{apply_n};
+	pub use super::{lists_map_n, lists_iterate_n};
 	pub use super::{values_build_1, values_build_2, values_build_3, values_build_4, values_build_n};
 }
 
@@ -224,6 +226,76 @@ pub fn vec_drain_list_dotted (vector : &mut ValueVec, list : &Value) -> (Outcome
 
 
 
+pub struct ListIterator <'a> ( &'a Value );
+
+
+impl <'a> ListIterator <'a> {
+	
+	pub fn new (value : &'a Value) -> (ListIterator<'a>) {
+		return ListIterator (value);
+	}
+}
+
+
+impl <'a> Iterator for ListIterator <'a> {
+	
+	type Item = Outcome<&'a Value>;
+	
+	fn next (&mut self) -> (Option<Outcome<&'a Value>>) {
+		let (cursor, value) = match self.0 {
+			&Value::Pair (ref pair) =>
+				(
+					pair.right (),
+					pair.left (),
+				),
+			&Value::Null =>
+				return None,
+			_ =>
+				return Some (failed! (0xed511f9c)),
+		};
+		self.0 = cursor;
+		return Some (succeeded! (value));
+	}
+}
+
+
+
+
+pub struct ListsIterator <'a> ( StdVec<ListIterator<'a>> );
+
+
+impl <'a> ListsIterator <'a> {
+	
+	pub fn new (values : &'a [Value]) -> (ListsIterator<'a>) {
+		let iterators = values.iter () .map (|value| ListIterator::new (value)) .collect ();
+		return ListsIterator (iterators);
+	}
+}
+
+
+impl <'a> Iterator for ListsIterator <'a> {
+	
+	type Item = Outcome<StdVec<&'a Value>>;
+	
+	fn next (&mut self) -> (Option<Outcome<StdVec<&'a Value>>>) {
+		let mut outcomes = StdVec::with_capacity (self.0.len ());
+		for mut iterator in self.0.iter_mut () {
+			match iterator.next () {
+				Some (Ok (outcome)) =>
+					outcomes.push (outcome),
+				Some (Err (error)) =>
+					return Some (Err (error)),
+				None =>
+					return None,
+			}
+		}
+		return Some (succeeded! (outcomes));
+	}
+}
+
+
+
+
 pub fn is_true (value : &Value) -> (bool) {
 	*value == TRUE.into ()
 }
@@ -261,12 +333,31 @@ pub fn apply_n (evaluator : &mut EvaluatorContext, callable : &Value, inputs : &
 	return evaluator.evaluator.evaluate_procedure_call_with_values (evaluator, callable, &inputs);
 }
 
-pub fn lists_map_n (_evaluator : &mut EvaluatorContext, _callable : &Value, _inputs : &[Value]) -> (Outcome<Value>) {
-	fail_unimplemented! (0x047ea2ac);
+
+
+
+pub fn lists_map_n (evaluator : &mut EvaluatorContext, callable : &Value, inputs : &[Value]) -> (Outcome<Value>) {
+	let lists_iterator = ListsIterator::new (inputs);
+	let mut outputs = StdVec::new ();
+	for inputs in lists_iterator {
+		let inputs_ref = try! (inputs);
+		let mut inputs = StdVec::with_capacity (inputs_ref.len ());
+		inputs.extend (inputs_ref.into_iter () .cloned ());
+		let output = try! (evaluator.evaluator.evaluate_procedure_call_with_values (evaluator, callable, inputs.as_ref ()));
+		outputs.push (output);
+	}
+	succeed! (list_new (outputs));
 }
 
-pub fn lists_iterate_n (_evaluator : &mut EvaluatorContext, _callable : &Value, _inputs : &[Value]) -> (Outcome<Value>) {
-	fail_unimplemented! (0x0c34ebcb);
+pub fn lists_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, inputs : &[Value]) -> (Outcome<Value>) {
+	let lists_iterator = ListsIterator::new (inputs);
+	for inputs in lists_iterator {
+		let inputs_ref = try! (inputs);
+		let mut inputs = StdVec::with_capacity (inputs_ref.len ());
+		inputs.extend (inputs_ref.into_iter () .cloned ());
+		try! (evaluator.evaluator.evaluate_procedure_call_with_values (evaluator, callable, inputs.as_ref ()));
+	}
+	succeed! (VOID.into ());
 }
 
 
