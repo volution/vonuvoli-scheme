@@ -369,43 +369,13 @@ def_try_into! (try_into_symbol, Symbol);
 #[ allow (unused_macros) ]
 macro_rules! def_tests {
 	( $identifier : ident, $source : expr ) => (
-		
 		#[ test ]
 		fn $identifier () -> () {
-			
 			use $crate::exports::*;
-			
-			let print = env! ("RUST_SCHEME_TESTS_PRINT") == "true";
 			let source = $source;
-			let tests = parse_tests (source) .expect ("434d2a0c");
-			
-			let context = Context::new (None);
-			context.define_all (language_r7rs_generate_binding_templates () .expect ("956a718b") .as_ref ()) .expect ("dedce922");
-			context.define_all (language_builtins_generate_binding_templates () .expect ("242fdc5a") .as_ref ()) .expect ("2e274a94");
-			
-			for (input_syntax, output_syntax) in tests {
-				
-				if print {
-					println! ();
-					println! (">> {} => {} ;", input_syntax, output_syntax);
-				}
-				
-				let input_expression = compile (&context, &input_syntax) .expect ("688d5914");
-				let output_expression = compile (&context, &output_syntax) .expect ("a0c9bbd3");
-				
-				if print {
-					println! ("## {:#?}", input_expression);
-				}
-				
-				let input_value = evaluate (&context, &input_expression) .expect ("c824095a");
-				let output_value = evaluate (&context, &output_expression) .expect ("13a4fe58");
-				
-				assert_eq! (input_value, output_value);
-				
-				if print {
-					println! ();
-				}
-			}
+			let mut transcript = std::io::stdout ();
+			let verbosity = if env! ("RUST_SCHEME_TESTS_DEBUG") == "true" { TestVerbosity::Debug } else { TestVerbosity::Quiet };
+			parse_and_execute_tests (source, &mut transcript, verbosity) .expect ("d03750c4");
 		}
 	);
 }

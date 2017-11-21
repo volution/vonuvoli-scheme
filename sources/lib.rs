@@ -30,6 +30,7 @@ pub mod procedures;
 pub mod parser;
 pub mod runtime;
 pub mod values;
+pub mod tests;
 
 mod parser_peg;
 
@@ -50,5 +51,6 @@ pub mod exports {
 	pub use super::parser::exports::*;
 	pub use super::procedures::exports::*;
 	pub use super::values::exports::*;
+	pub use super::tests::exports::*;
 }
 

@@ -3,6 +3,7 @@
 use super::errors::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
+use super::tests::exports::*;
 
 use super::parser_peg as peg;
 
@@ -28,7 +29,7 @@ pub fn parse_value (input : &str) -> Outcome<Value> {
 
 
 
-pub fn parse_tests (input : &str) -> Outcome<StdVec<(Value, Value)>> {
+pub fn parse_tests (input : &str) -> (Outcome<StdVec<TestCase>>) {
 	if let Ok (output) = peg::tests (input) {
 		succeed! (output);
 	} else {
@@ -36,7 +37,7 @@ pub fn parse_tests (input : &str) -> Outcome<StdVec<(Value, Value)>> {
 	}
 }
 
-pub fn parse_test (input : &str) -> Outcome<(Value, Value)> {
+pub fn parse_test (input : &str) -> (Outcome<TestCase>) {
 	if let Ok (output) = peg::test (input) {
 		succeed! (output);
 	} else {
