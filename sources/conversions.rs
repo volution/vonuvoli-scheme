@@ -320,11 +320,11 @@ impl_from_for_ProcedurePrimitiveCallN! (BitwisePrimitiveN);
 
 
 pub fn vec_into <From, To : StdFrom<From>> (from : Vec<From>) -> (Vec<To>) {
-	from.into_iter () .map (|value| value.into ()) .collect ()
+	vec_map! (from, value, value.into ())
 }
 
 pub fn vec_clone_slice <From : Clone, To : StdFrom<From>> (from : &[From]) -> (Vec<To>) {
-	from.iter () .cloned () .map (|value| value.into ()) .collect ()
+	vec_map! (from.to_vec (), value, value.into ())
 }
 
 

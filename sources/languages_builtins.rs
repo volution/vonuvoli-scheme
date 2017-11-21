@@ -19,16 +19,14 @@ pub mod exports {
 
 pub fn generate_binding_templates () -> (Outcome<StdVec<ContextBindingTemplate>>) {
 	let definitions = try! (generate_definitions ());
-	let templates : StdVec<ContextBindingTemplate> =
-			definitions
-			.into_iter ()
-			.map (|(identifier, value)|
-					ContextBindingTemplate {
-							identifier : identifier,
-							value : Some (value),
-							immutable : true,
-						})
-			.collect ();
+	let templates = vec_map! (
+			definitions,
+			(identifier, value),
+			ContextBindingTemplate {
+					identifier : identifier,
+					value : Some (value),
+					immutable : true,
+				});
 	succeed! (templates);
 }
 
@@ -50,10 +48,12 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("nxor*", BooleanPrimitiveN::Nxor.into ()),
 			
 			
-		]
-		.into_iter ()
-		.map (|(identifier, value)| (Symbol::from (identifier), value))
-		.collect ();
+		];
+	
+	let definitions = vec_map! (
+			definitions,
+			(identifier, value),
+			(Symbol::from (identifier), value));
 	
 	return Ok (definitions);
 }

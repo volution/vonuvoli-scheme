@@ -322,8 +322,12 @@ impl Compiler {
 		let (arguments_positional, argument_rest) = match arguments.class () {
 			ValueClass::Symbol =>
 				(StdVec::new (), Some (Symbol::from (arguments))),
-			ValueClass::Pair | ValueClass::Null =>
-				(try! (try! (vec_clone_list (&arguments)) .into_iter () .map (|argument| Symbol::try_from (argument)) .collect ()), None),
+			ValueClass::Pair | ValueClass::Null => {
+				let (arguments_positional, argument_rest) = try! (vec_clone_list_dotted (&arguments));
+				let arguments_positional = try_vec_map! (arguments_positional, value, Symbol::try_from (value));
+				let argument_rest = try_option_map! (argument_rest, Symbol::try_from (argument_rest));
+				(arguments_positional, argument_rest)
+			},
 			_ =>
 				fail! (0x70773cab),
 		};

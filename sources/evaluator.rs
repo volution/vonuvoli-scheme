@@ -237,7 +237,7 @@ impl Evaluator {
 	pub fn evaluate_lambda_create (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaTemplate, expressions : &Expression, registers_closure : &StdVec<RegistersBindingTemplate>, registers_local : &StdVec<RegistersBindingTemplate>) -> (Outcome<Value>) {
 		let registers_closure = try! (Registers::new_and_define (registers_closure, evaluation.registers));
 		let lambda = Lambda::new (lambda.clone (), expressions.clone (), registers_closure, registers_local.clone ());
-		succeed! (lambda);
+		succeed! (lambda.into ());
 	}
 	
 	

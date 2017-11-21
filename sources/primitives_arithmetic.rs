@@ -345,10 +345,10 @@ pub fn arithmetic_primitive_n_evaluate (primitive : ArithmeticPrimitiveN, inputs
 		match primitive {
 			
 			ArithmeticPrimitiveN::Addition =>
-				succeed! (ZERO),
+				succeed! (ZERO.into ()),
 			
 			ArithmeticPrimitiveN::Multiplication =>
-				succeed! (ONE),
+				succeed! (ONE.into ()),
 			
 			_ =>
 				fail! (0x69d3b6cc),

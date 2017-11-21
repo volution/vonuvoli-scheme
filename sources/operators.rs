@@ -12,7 +12,7 @@ pub mod exports {
 	pub use super::{pair};
 	pub use super::{list_build_1, list_build_2, list_build_3, list_build_4, list_build_n};
 	pub use super::{list_append_2, list_append_3, list_append_4, list_append_n};
-	pub use super::{vec_clone_list, vec_drain_list, vec_drain_list_dotted};
+	pub use super::{vec_clone_list, vec_clone_list_dotted, vec_drain_list, vec_drain_list_dotted};
 	pub use super::{is_true, is_false, is_not_false, is_true_or_equivalent, is_false_or_equivalent};
 }
 
@@ -124,15 +124,27 @@ pub fn list_append_n (lists : &[Value]) -> (Outcome<Value>) {
 
 
 pub fn vec_clone_list (list : &Value) -> (Outcome<ValueVec>) {
+	let (vector, last) = try! (vec_clone_list_dotted (list));
+	match last {
+		Some (_) =>
+			fail! (0x096d7253),
+		None =>
+			succeed! (vector),
+	}
+}
+
+
+pub fn vec_clone_list_dotted (list : &Value) -> (Outcome<(ValueVec, Option<Value>)>) {
 	let mut vector = ValueVec::new ();
-	try! (vec_drain_list (&mut vector, list));
-	succeed! (vector);
+	let last = try! (vec_drain_list_dotted (&mut vector, list));
+	succeed! ((vector, last));
 }
 
 
 pub fn vec_drain_list (vector : &mut ValueVec, list : &Value) -> (Outcome<()>) {
-	match try! (vec_drain_list_dotted (vector, list)) {
-		Some (_value) =>
+	let last = try! (vec_drain_list_dotted (vector, list));
+	match last {
+		Some (_) =>
 			fail! (0x57ebb8de),
 		None =>
 			succeed! (()),

@@ -1,7 +1,6 @@
 
 
 use super::errors::exports::*;
-use super::runtime::exports::*;
 use super::values::exports::*;
 
 
@@ -117,6 +116,6 @@ pub fn type_primitive_1_evaluate (primitive : TypePrimitive1, input : &Value) ->
 		
 	};
 	
-	succeed! (output);
+	succeed! (output.into ());
 }
 

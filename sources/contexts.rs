@@ -51,7 +51,7 @@ impl Context {
 	pub fn new (parent : Option<&Context>) -> (Context) {
 		let internals = ContextInternals {
 				bindings : StdMap::new (),
-				parent : parent.map (|parent| parent.clone ()),
+				parent : option_map! (parent, parent.clone ()),
 				immutable : false,
 				handle : globals::context_handles_next (),
 			};

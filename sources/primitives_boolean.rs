@@ -2,7 +2,6 @@
 
 use super::constants::exports::*;
 use super::errors::exports::*;
-use super::runtime::exports::*;
 use super::values::exports::*;
 
 
@@ -66,7 +65,7 @@ pub fn boolean_primitive_1_evaluate (primitive : BooleanPrimitive1, input : &Val
 		
 	};
 	
-	succeed! (output);
+	succeed! (output.into ());
 }
 
 
@@ -99,7 +98,7 @@ pub fn boolean_primitive_2_evaluate (primitive : BooleanPrimitive2, input_1 : &V
 		
 	};
 	
-	succeed! (output);
+	succeed! (output.into ());
 }
 
 
@@ -152,6 +151,6 @@ pub fn boolean_primitive_n_evaluate (primitive : BooleanPrimitiveN, inputs : &[V
 		
 	};
 	
-	succeed! (output);
+	succeed! (output.into ());
 }
 

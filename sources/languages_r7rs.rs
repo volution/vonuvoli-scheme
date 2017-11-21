@@ -19,16 +19,14 @@ pub mod exports {
 
 pub fn generate_binding_templates () -> (Outcome<StdVec<ContextBindingTemplate>>) {
 	let definitions = try! (generate_definitions ());
-	let templates : StdVec<ContextBindingTemplate> =
-			definitions
-			.into_iter ()
-			.map (|(_library, identifier, value)|
-					ContextBindingTemplate {
-							identifier : identifier,
-							value : Some (value),
-							immutable : true,
-						})
-			.collect ();
+	let templates = vec_map! (
+			definitions,
+			(_library, identifier, value),
+			ContextBindingTemplate {
+					identifier : identifier,
+					value : Some (value),
+					immutable : true,
+				});
 	succeed! (templates);
 }
 
@@ -689,10 +687,12 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			
 			
 			
-		]
-		.into_iter ()
-		.map (|(library, identifier, value)| (Symbol::from (library), Symbol::from (identifier), value))
-		.collect ();
+		];
+	
+	let definitions = vec_map! (
+			definitions,
+			(library, identifier, value),
+			(Symbol::from (library), Symbol::from (identifier), value));
 	
 	return Ok (definitions);
 }

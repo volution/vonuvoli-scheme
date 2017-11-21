@@ -2,7 +2,7 @@
 
 macro_rules! succeeded {
 	( $outcome : expr ) => (
-		::std::result::Result::Ok ($outcome.into ())
+		::std::result::Result::Ok ($outcome)
 	);
 }
 
@@ -198,6 +198,22 @@ macro_rules! vec_into {
 
 #[ macro_export ]
 #[ allow (unused_macros) ]
+macro_rules! vec_map {
+	( $vector : expr, $argument : pat, $expression : expr ) => (
+		$vector.into_iter () .map (|$argument| $expression) .collect ()
+	);
+}
+
+#[ macro_export ]
+#[ allow (unused_macros) ]
+macro_rules! try_vec_map {
+	( $vector : expr, $argument : pat, $expression : expr ) => (
+		try! (vec_map! ($vector, $argument, $expression))
+	);
+}
+
+#[ macro_export ]
+#[ allow (unused_macros) ]
 macro_rules! vec_explode_1 {
 	( $value : expr ) => (
 		{
@@ -246,6 +262,41 @@ macro_rules! vec_explode_3 {
 				iterator.next () .expect ("efbd5ae0"),
 				iterator.next () .expect ("28b9120d"),
 			)
+		}
+	);
+}
+
+
+
+
+#[ macro_export ]
+#[ allow (unused_macros) ]
+macro_rules! option_map {
+	( $option : ident, $expression : expr ) => {
+		option_map! ($option, $option, $expression)
+	};
+	( $option : expr, $argument : pat, $expression : expr ) => (
+		match $option {
+			Some ($argument) =>
+				Some ($expression),
+			None =>
+				None
+		}
+	);
+}
+
+#[ macro_export ]
+#[ allow (unused_macros) ]
+macro_rules! try_option_map {
+	( $option : ident, $expression : expr ) => {
+		try_option_map! ($option, $option, $expression)
+	};
+	( $option : expr, $argument : pat, $expression : expr ) => (
+		match $option {
+			Some ($argument) =>
+				Some (try! ($expression)),
+			None =>
+				None
 		}
 	);
 }

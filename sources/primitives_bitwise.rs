@@ -67,7 +67,7 @@ pub fn bitwise_primitive_1_evaluate (primitive : BitwisePrimitive1, input : &Val
 		BitwisePrimitive1::Complement => input.bitnot (),
 	};
 	
-	succeed! (output);
+	succeed! (output.into ());
 }
 
 
@@ -112,7 +112,7 @@ pub fn bitwise_primitive_2_evaluate (primitive : BitwisePrimitive2, input_1 : &V
 		
 	};
 	
-	succeed! (output);
+	succeed! (output.into ());
 }
 
 
@@ -166,6 +166,6 @@ pub fn bitwise_primitive_n_evaluate (primitive : BitwisePrimitiveN, inputs : &[V
 		
 	};
 	
-	succeed! (output);
+	succeed! (output.into ());
 }
 
