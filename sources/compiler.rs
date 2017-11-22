@@ -196,7 +196,7 @@ impl Compiler {
 							return self.compile_syntax_quote (compilation, tokens),
 						
 						SyntaxPrimitive1::QuasiQuote =>
-							return self.compile_syntax_quasy_quote (compilation, tokens, false),
+							return self.compile_syntax_quasi_quote (compilation, tokens),
 						
 						SyntaxPrimitive1::UnQuote | SyntaxPrimitive1::UnQuoteSplicing =>
 							fail! (0x99b4857b),
@@ -553,7 +553,12 @@ impl Compiler {
 	
 	
 	
-	pub fn compile_syntax_quasy_quote (&self, compilation : CompilerContext, token : Value, spliceable : bool) -> (Outcome<(CompilerContext, Expression)>) {
+	pub fn compile_syntax_quasi_quote (&self, compilation : CompilerContext, token : Value) -> (Outcome<(CompilerContext, Expression)>) {
+		return self.compile_syntax_quasi_quote_0 (compilation, token, true, false);
+	}
+	
+	
+	pub fn compile_syntax_quasi_quote_0 (&self, compilation : CompilerContext, token : Value, top : bool, spliceable : bool) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		fn splice <ExpressionInto : StdInto<Expression>> (expression : ExpressionInto, spliceable : bool) -> (Expression) {
 			let expression = expression.into ();
@@ -590,6 +595,7 @@ impl Compiler {
 				fail! (0x841d4d00),
 			
 			ValueClass::Pair => {
+				
 				let compilation = match try! (self.compile_form_0 (compilation, token.clone () .into ())) {
 					
 					(compilation, Some ((syntax, tokens))) => {
@@ -599,8 +605,8 @@ impl Compiler {
 							
 							SyntaxPrimitive::Primitive1 (SyntaxPrimitive1::UnQuote) =>
 								if tokens_count == 1 {
-									let tokens = vec_explode_1! (tokens);
-									let (compilation, element) = try! (self.compile_syntax_quasy_quote (compilation, tokens, false));
+									let token = vec_explode_1! (tokens);
+									let (compilation, element) = try! (self.compile_0 (compilation, token));
 									succeed! ((compilation, splice (element, spliceable)));
 								} else {
 									fail! (0x9dc44267);
@@ -609,8 +615,8 @@ impl Compiler {
 							SyntaxPrimitive::Primitive1 (SyntaxPrimitive1::UnQuoteSplicing) =>
 								if tokens_count == 1 {
 									if spliceable {
-										let tokens = vec_explode_1! (tokens);
-										let (compilation, element) = try! (self.compile_syntax_quasy_quote (compilation, tokens, false));
+										let token = vec_explode_1! (tokens);
+										let (compilation, element) = try! (self.compile_0 (compilation, token));
 										succeed! ((compilation, element));
 									} else {
 										fail! (0x47356961);
@@ -637,7 +643,7 @@ impl Compiler {
 						
 						ValueClass::Pair => {
 							let pair = cursor.as_ref () as &Pair;
-							let (compilation_1, element) = try! (self.compile_syntax_quasy_quote (compilation, pair.left () .clone (), true));
+							let (compilation_1, element) = try! (self.compile_syntax_quasi_quote_0 (compilation, pair.left () .clone (), false, true));
 							compilation = compilation_1;
 							elements.push (element);
 							cursor = pair.right ();
@@ -647,7 +653,7 @@ impl Compiler {
 							break,
 						
 						_ => {
-							let (compilation_1, element) = try! (self.compile_syntax_quasy_quote (compilation, cursor.clone (), true));
+							let (compilation_1, element) = try! (self.compile_syntax_quasi_quote_0 (compilation, cursor.clone (), false, true));
 							compilation = compilation_1;
 							elements.push (element);
 							break;
@@ -657,6 +663,12 @@ impl Compiler {
 				}
 				
 				let expression = Expression::ProcedureCall (ListPrimitiveN::Append.into (), elements);
+				
+				let expression = if top {
+					expression
+				} else {
+					Expression::ProcedureCall (ListPrimitive2::Pair.into (), vec! [ expression, NULL.into () ])
+				};
 				
 				succeed! ((compilation, expression));
 			},
