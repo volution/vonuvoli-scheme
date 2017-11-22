@@ -70,7 +70,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			("base", "and", SyntaxPrimitiveN::And.into ()),
 			("base", "or", SyntaxPrimitiveN::Or.into ()),
 			
-			("base", "define", SyntaxPrimitive2::Define.into ()),
+			("base", "define", SyntaxPrimitiveN::Define.into ()),
 			("base", "define-values", SyntaxPrimitive2::DefineValues.into ()),
 			("base", "define-syntax", SyntaxPrimitive::Unimplemented.into ()),
 			("base", "define-record-type", SyntaxPrimitive::Unimplemented.into ()),

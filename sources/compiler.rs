@@ -175,7 +175,6 @@ impl Compiler {
 	
 	fn compile_syntax_call (&self, compilation : CompilerContext, syntax : SyntaxPrimitive, tokens : Value) -> (Outcome<(CompilerContext, Expression)>) {
 		
-		let mut compilation = compilation;
 		let tokens = try! (vec_clone_list (&tokens));
 		let tokens_count = tokens.len ();
 		
@@ -204,28 +203,8 @@ impl Compiler {
 				if tokens_count == 2 {
 					match syntax {
 						
-						SyntaxPrimitive2::Define => {
-							let (identifier, value) = vec_explode_2! (tokens);
-							match identifier.class () {
-								ValueClass::Symbol =>
-									match try! (compilation.bindings.define (try_into_symbol! (identifier))) {
-										CompilerBinding::Undefined =>
-											fail! (0x1e75333d),
-										CompilerBinding::Binding (binding) => {
-											let (compilation, value) = try! (self.compile_0 (compilation, value));
-											succeed! ((compilation, Expression::BindingInitialize (binding, value.into ())));
-										},
-										CompilerBinding::Register (index) => {
-											let (compilation, value) = try! (self.compile_0 (compilation, value));
-											succeed! ((compilation, Expression::RegisterInitialize (index, value.into ())));
-										},
-									},
-								ValueClass::Pair =>
-									fail_unimplemented! (0xfc72467c),
-								_ =>
-									fail! (0x404d24c7),
-							}
-						},
+						SyntaxPrimitive2::Define =>
+							return self.compile_syntax_define (compilation, tokens),
 						
 						SyntaxPrimitive2::DefineValues =>
 							fail_unimplemented! (0x2f87acf0),
@@ -306,6 +285,9 @@ impl Compiler {
 					SyntaxPrimitiveN::Let | SyntaxPrimitiveN::LetValues =>
 						fail_unimplemented! (0x5f0e99b2),
 					
+					SyntaxPrimitiveN::Define =>
+						return self.compile_syntax_define (compilation, tokens),
+					
 					SyntaxPrimitiveN::Lambda =>
 						return self.compile_syntax_lambda (compilation, None, tokens),
 					
@@ -319,6 +301,73 @@ impl Compiler {
 			
 			SyntaxPrimitive::Unimplemented =>
 				fail_unimplemented! (0xa4e41f62),
+			
+		}
+	}
+	
+	
+	
+	
+	fn compile_syntax_define (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+		let mut compilation = compilation;
+		
+		if tokens.len () < 2 {
+			fail! (0x4481879c);
+		}
+		let (signature, statements) = vec_explode_1n! (tokens);
+		
+		let (compilation, binding, expression) = match signature.class () {
+			
+			ValueClass::Symbol => {
+				
+				if statements.len () != 1 {
+					fail! (0xc364edf8);
+				}
+				
+				let identifier = try_into_symbol! (signature);
+				let statement = vec_explode_1! (statements);
+				
+				let binding = try! (compilation.bindings.define (identifier));
+				let (compilation, expression) = try! (self.compile_0 (compilation, statement));
+				
+				(compilation, binding, expression)
+			},
+			
+			ValueClass::Pair => {
+				
+				if statements.len () < 1 {
+					fail! (0x48c70de5);
+				}
+				
+				let (signature, argument_rest) = try! (vec_clone_list_dotted (&signature));
+				let (identifier, arguments_positional) = vec_explode_1n! (signature);
+				
+				let identifier = try_into_symbol! (identifier);
+				let arguments_positional = try_vec_map! (arguments_positional, value, Symbol::try_from (value));
+				let argument_rest = try_option_map! (argument_rest, Symbol::try_from (argument_rest));
+				
+				let binding = try! (compilation.bindings.define (identifier.clone ()));
+				let (compilation, expression) = try! (self.compile_syntax_lambda_0 (compilation, Some (identifier), arguments_positional, argument_rest, statements));
+				
+				(compilation, binding, expression)
+			},
+			
+			_ =>
+				fail! (0x0f0edc26),
+		};
+		
+		match binding {
+			
+			CompilerBinding::Undefined =>
+				fail! (0x42370d15),
+			
+			CompilerBinding::Binding (binding) => {
+				succeed! ((compilation, Expression::BindingInitialize (binding, expression.into ())));
+			},
+			
+			CompilerBinding::Register (index) => {
+				succeed! ((compilation, Expression::RegisterInitialize (index, expression.into ())));
+			},
 			
 		}
 	}
@@ -345,6 +394,13 @@ impl Compiler {
 			_ =>
 				fail! (0x70773cab),
 		};
+		
+		return self.compile_syntax_lambda_0 (compilation, identifier, arguments_positional, argument_rest, statements);
+	}
+	
+	
+	fn compile_syntax_lambda_0 (&self, compilation : CompilerContext, identifier : Option<Symbol>, arguments_positional : StdVec<Symbol>, argument_rest : Option<Symbol>, statements : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+		
 		let arguments_count = arguments_positional.len () + if argument_rest.is_some () { 1 } else { 0 };
 		
 		let compilation = try! (compilation.fork_locals (true));

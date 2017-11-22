@@ -96,6 +96,8 @@ pub enum SyntaxPrimitiveN {
 	Let,
 	LetValues,
 	
+	Define,
+	
 	Lambda,
 	
 }
@@ -181,6 +183,9 @@ pub fn syntax_primitive_n_evaluate (primitive : SyntaxPrimitiveN, inputs : &[Exp
 		
 		SyntaxPrimitiveN::Locals | SyntaxPrimitiveN::Let | SyntaxPrimitiveN::LetValues =>
 			fail! (0xc956c743),
+		
+		SyntaxPrimitiveN::Define =>
+			fail! (0x33ec681e),
 		
 		SyntaxPrimitiveN::Lambda =>
 			fail! (0xd45f4e3b),
