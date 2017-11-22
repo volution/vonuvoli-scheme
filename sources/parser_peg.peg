@@ -1,7 +1,6 @@
 
 
 use super::constants::exports as constants;
-use super::primitives::exports as primitives;
 use super::values::exports as values;
 use super::tests::exports as tests;
 
@@ -27,10 +26,10 @@ array -> values::Value = "#(" space? elements : value ** space space? ")" {  val
 abbreviation -> values::Value = abbreviation : abbreviation_prefix whitespace? value : value { values::list_new (vec! [abbreviation, value]) }
 abbreviation_prefix -> values::Value = value : $( "'" / "`" / ",@" / "," ) {?
 		match value {
-			"'" => Ok (primitives::SyntaxPrimitive1::Quote.into ()),
-			"`" => Ok (primitives::SyntaxPrimitive1::QuasiQuote.into ()),
-			"," => Ok (primitives::SyntaxPrimitive1::UnQuote.into ()),
-			",@" => Ok (primitives::SyntaxPrimitive1::UnQuoteSplicing.into ()),
+			"'" => Ok (values::symbol_clone_str ("quote").into ()),
+			"`" => Ok (values::symbol_clone_str ("quasiquote").into ()),
+			"," => Ok (values::symbol_clone_str ("unquote").into ()),
+			",@" => Ok (values::symbol_clone_str ("unquote-splicing").into ()),
 			_ => Err ("a2007ac4"),
 		}
 	}
