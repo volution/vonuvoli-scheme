@@ -57,26 +57,31 @@ impl Compiler {
 				succeed! ((compilation, token.into ())),
 			ValueClass::Boolean | ValueClass::NumberInteger | ValueClass::NumberReal | ValueClass::Character =>
 				succeed! ((compilation, token.into ())),
-			ValueClass::String | ValueClass::Bytes =>
+			ValueClass::String =>
 				succeed! ((compilation, token.into ())),
 			
 			ValueClass::Symbol =>
 				return self.compile_symbol (compilation, token.into ()),
+			
 			ValueClass::Pair =>
 				return self.compile_form (compilation, token.into ()),
+			
+			ValueClass::Bytes =>
+				fail_unimplemented! (0xe7db25d8),
 			ValueClass::Array =>
 				fail_unimplemented! (0xe7db25d8),
 			
 			ValueClass::Error =>
-				fail! (0x2aa7bc60),
+				fail_panic! (0x2aa7bc60),
+			
 			ValueClass::Lambda | ValueClass::ProcedurePrimitive | ValueClass::SyntaxPrimitive =>
-				fail! (0xaf6f1288),
+				fail_panic! (0xaf6f1288),
 			
 			ValueClass::Binding | ValueClass::Context =>
-				fail! (0x5f0d7003),
+				fail_panic! (0x5f0d7003),
 			
 			ValueClass::Number | ValueClass::List | ValueClass::ListProper | ValueClass::ListDotted | ValueClass::True | ValueClass::False | ValueClass::Procedure | ValueClass::Syntax =>
-				fail! (0x841d4d00),
+				fail_panic! (0x841d4d00),
 			
 		}
 	}
@@ -258,20 +263,14 @@ impl Compiler {
 			SyntaxPrimitive::PrimitiveN (syntax) =>
 				match syntax {
 					
-					SyntaxPrimitiveN::Lambda =>
-						return self.compile_syntax_lambda (compilation, None, tokens),
-					
-					SyntaxPrimitiveN::Locals =>
-						return self.compile_syntax_locals (compilation, tokens),
+					SyntaxPrimitiveN::And | SyntaxPrimitiveN::Or => {
+						let (compilation, statements) = try! (self.compile_vec (compilation, tokens));
+						succeed! ((compilation, Expression::SyntaxPrimitiveCall (syntax.into (), statements)));
+					},
 					
 					SyntaxPrimitiveN::Begin => {
 						let (compilation, statements) = try! (self.compile_vec (compilation, tokens));
 						succeed! ((compilation, Expression::Sequence (statements)));
-					},
-					
-					SyntaxPrimitiveN::And | SyntaxPrimitiveN::Or => {
-						let (compilation, statements) = try! (self.compile_vec (compilation, tokens));
-						succeed! ((compilation, Expression::SyntaxPrimitiveCall (syntax.into (), statements)));
 					},
 					
 					SyntaxPrimitiveN::When | SyntaxPrimitiveN::Unless =>
@@ -280,9 +279,12 @@ impl Compiler {
 							let (guard, statements) = vec_explode_1n! (statements);
 							let statements = Expression::Sequence (statements);
 							let negated = match syntax {
-								SyntaxPrimitiveN::When => false,
-								SyntaxPrimitiveN::Unless => true,
-								_ => fail! (0x500d298f),
+								SyntaxPrimitiveN::When =>
+									false,
+								SyntaxPrimitiveN::Unless =>
+									true,
+								_ =>
+									fail_panic! (0x500d298f),
 							};
 							let conditions = vec! [
 									(negated, guard, statements),
@@ -292,8 +294,20 @@ impl Compiler {
 							fail! (0x3c364a9f);
 						},
 					
-					_ =>
-						fail_unimplemented! (0x73d95eb5),
+					SyntaxPrimitiveN::Cond | SyntaxPrimitiveN::Case =>
+						fail_unimplemented! (0xb5cee551),
+					
+					SyntaxPrimitiveN::Do =>
+						fail_unimplemented! (0x07f16b50),
+					
+					SyntaxPrimitiveN::Locals =>
+						return self.compile_syntax_locals (compilation, tokens),
+					
+					SyntaxPrimitiveN::Let | SyntaxPrimitiveN::LetValues =>
+						fail_unimplemented! (0x5f0e99b2),
+					
+					SyntaxPrimitiveN::Lambda =>
+						return self.compile_syntax_lambda (compilation, None, tokens),
 					
 				},
 			

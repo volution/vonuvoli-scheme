@@ -14,6 +14,7 @@ pub mod exports {
 	
 	pub use super::error_generic;
 	pub use super::error_unimplemented;
+	pub use super::error_panic;
 	
 }
 
@@ -50,6 +51,10 @@ pub fn error_generic (code : u32) -> (Error) {
 }
 
 pub fn error_unimplemented (code : u32) -> (Error) {
+	Error {code : code}
+}
+
+pub fn error_panic (code : u32) -> (Error) {
 	Error {code : code}
 }
 

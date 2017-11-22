@@ -18,6 +18,12 @@ macro_rules! failed_unimplemented {
 	);
 }
 
+macro_rules! failed_panic {
+	( $code : expr ) => (
+		::std::result::Result::Err (::errors::exports::error_panic ($code))
+	);
+}
+
 
 macro_rules! succeed {
 	( $outcome : expr ) => (
@@ -34,6 +40,12 @@ macro_rules! fail {
 macro_rules! fail_unimplemented {
 	( $code : expr ) => (
 		return failed_unimplemented! ($code)
+	);
+}
+
+macro_rules! fail_panic {
+	( $code : expr ) => (
+		return failed_panic! ($code)
 	);
 }
 
