@@ -97,6 +97,8 @@ done
 
 
 find . -xdev -type f -name '*.rs' -printf ':: edit / %P :: exec -- sce %p\n' | sort
+find . -xdev -type f -name '*.rs' -printf ':: view / %P :: exec -- less %p\n' | sort
 
 
 exit -- 0
+
