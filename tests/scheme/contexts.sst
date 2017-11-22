@@ -2,22 +2,56 @@
 (define a 1) => 1;
 a => 1;
 
+(define x x) => #undefined // FIXME;
+
+
+
+
+(begin) => #void;
+(begin 0) => 0;
+(begin 0 1 2) => 2;
+
+(begin (define b 2) b) => 2;
+b => 2;
+
+(begin (begin (define c 3) (begin (begin c)))) => 3;
+c => 3;
+
+(begin (begin (begin a))) => 1;
+(begin (begin (begin b))) => 2;
+(begin (begin (begin c))) => 3;
+
+
+
 
 (locals) => #void;
 (locals 0) => 0;
-(locals a) => 1;
-(locals (locals (locals (locals a)))) => 1;
-(locals (define a 2) a) => 2;
-(locals (define a 2) (locals (locals (locals a)))) => 2;
-(locals (define a 2) (define b a) b) => 2;
-(locals (define a 2) (locals (define b a) b)) => 2;
-(locals (define a 2) (locals (define a 3) (locals (define b a) b))) => 3;
+(locals 0 1 2) => 2;
+
+(locals (define a 0) a) => 0;
 a => 1;
 
+(locals (locals (locals a))) => 1;
+(locals (locals (locals b))) => 2;
+(locals (locals (locals c))) => 3;
 
-(begin (define b 1) b) => 1;
-b => 1;
+(locals (begin (locals a))) => 1;
+(locals (begin (locals b))) => 2;
+(locals (begin (locals c))) => 3;
 
+(locals (locals (define a 0) (locals (locals a)))) => 0;
+(locals (begin (define a 0) (locals (locals a)))) => 0;
+(begin (locals (define a 0) (locals (locals a)))) => 0;
+(locals (locals (define a 0) (locals (begin a)))) => 0;
+(locals (locals (define a 0) (begin (locals a)))) => 0;
+(locals (begin (define a 0) (locals (begin a)))) => 0;
+(begin (locals (define a 0) (begin (locals a)))) => 0;
 
-(define x (if x x x)) => #undefined // FIXME;
+(locals (define a 0) (define b a) b) => 0;
+(locals (define a 0) (locals (define b a) b)) => 0;
+(locals (define a -1) (locals (define a -2) (locals (define b a) b))) => -2;
+
+a => 1;
+b => 2;
+c => 3;
 
