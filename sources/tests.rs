@@ -170,6 +170,7 @@ pub fn execute_test (context : &Context, test : &TestCase, transcript : &mut Wri
 	if let Some (output_value) = output_value {
 		if input_value != output_value {
 			header_emitted = try! (header_emit (test, transcript, verbosity, header_emitted, true));
+			try_or_fail! (write! (transcript, "!! assertion !! {} => {}\n", &input_value, &output_value), 0xb66640e5);
 			try_or_fail! (write! (transcript, "!! assertion !!\n{:#?}\n!! => !!\n{:#?}\n", &input_value, &output_value), 0xe650c868);
 			try_or_fail! (write! (transcript, "!! failed\n"), 0xf7d88757);
 			fail! (0xe52ddb4f);

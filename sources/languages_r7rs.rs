@@ -223,7 +223,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			
 			("base", "pair?", TypePrimitive1::IsPair.into ()),
 			
-			("base", "cons", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "cons", ListPrimitive2::Pair.into ()),
 			
 			("base", "car", ProcedurePrimitive::Unimplemented.into ()),
 			("base", "cdr", ProcedurePrimitive::Unimplemented.into ()),

@@ -92,7 +92,7 @@ impl Compiler {
 	
 	
 	
-	pub fn compile_vec (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, ExpressionVec)>) {
+	pub fn compile_vec_0 (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, ExpressionVec)>) {
 		let mut expressions = ExpressionVec::with_capacity (tokens.len ());
 		let mut compilation = compilation;
 		for token in tokens.into_iter () {
@@ -170,7 +170,7 @@ impl Compiler {
 	pub fn compile_procedure_call (&self, compilation : CompilerContext, procedure : Value, arguments : Value) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		let (compilation, procedure) = try! (self.compile_0 (compilation, procedure));
-		let (compilation, arguments) = try! (self.compile_vec (compilation, try! (vec_clone_list (&arguments))));
+		let (compilation, arguments) = try! (self.compile_vec_0 (compilation, try! (vec_clone_list (&arguments))));
 		
 		let expression = Expression::ProcedureCall (procedure.into (), arguments);
 		
@@ -294,7 +294,7 @@ impl Compiler {
 	
 	pub fn compile_syntax_and_or (&self, compilation : CompilerContext, syntax : SyntaxPrimitiveN, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
-		let (compilation, statements) = try! (self.compile_vec (compilation, tokens));
+		let (compilation, statements) = try! (self.compile_vec_0 (compilation, tokens));
 		
 		let expression = Expression::SyntaxPrimitiveCall (syntax.into (), statements);
 		
@@ -306,7 +306,7 @@ impl Compiler {
 	
 	pub fn compile_syntax_begin (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
-		let (compilation, statements) = try! (self.compile_vec (compilation, tokens));
+		let (compilation, statements) = try! (self.compile_vec_0 (compilation, tokens));
 		
 		let expression = Expression::Sequence (statements);
 		
@@ -318,7 +318,7 @@ impl Compiler {
 	
 	pub fn compile_syntax_if (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
-		let (compilation, statements) = try! (self.compile_vec (compilation, tokens));
+		let (compilation, statements) = try! (self.compile_vec_0 (compilation, tokens));
 		let (guard, if_true, if_false) = vec_explode_3! (statements);
 		
 		let conditions = vec! [
@@ -340,7 +340,7 @@ impl Compiler {
 			fail! (0x3c364a9f);
 		}
 		
-		let (compilation, statements) = try! (self.compile_vec (compilation, tokens));
+		let (compilation, statements) = try! (self.compile_vec_0 (compilation, tokens));
 		let (guard, statements) = vec_explode_1n! (statements);
 		let statements = Expression::Sequence (statements);
 		
@@ -391,7 +391,7 @@ impl Compiler {
 	pub fn compile_syntax_locals (&self, compilation : CompilerContext, statements : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		let compilation = try! (compilation.fork_locals (false));
-		let (compilation, statements) = try! (self.compile_vec (compilation, statements));
+		let (compilation, statements) = try! (self.compile_vec_0 (compilation, statements));
 		let (compilation, registers) = try! (compilation.unfork_locals ());
 		
 		let statements = Expression::Sequence (statements);
@@ -523,7 +523,7 @@ impl Compiler {
 			try! (compilation.bindings.define (identifier.clone ()));
 		}
 		
-		let (compilation, statements) = try! (self.compile_vec (compilation, statements));
+		let (compilation, statements) = try! (self.compile_vec_0 (compilation, statements));
 		
 		let (compilation, mut registers_local) = try! (compilation.unfork_locals ());
 		let (compilation, registers_closure) = try! (compilation.unfork_locals ());

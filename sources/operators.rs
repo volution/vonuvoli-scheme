@@ -161,7 +161,7 @@ pub fn vec_append_n_dotted (lists : &[Value]) -> (Outcome<(ValueVec, Option<Valu
 	match lists.split_last () {
 		Some ((list_last, lists_first)) =>
 			if lists_first.is_empty () {
-				succeed! ((StdVec::new (), None));
+				return vec_clone_list_dotted (list_last);
 			} else {
 				let mut values = ValueVec::new ();
 				for list in lists_first {
