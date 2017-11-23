@@ -63,23 +63,19 @@ impl Context {
 	}
 	
 	
-	pub fn resolve_expect<SymbolFrom> (&self, identifier : &SymbolFrom) -> (Binding)
-			where Symbol : StdFrom<SymbolFrom>, SymbolFrom : Clone
-	{
+	pub fn resolve_expect (&self, identifier : &Symbol) -> (Binding) {
 		return self.resolve (identifier) .expect ("6ab141e4") .expect ("a3e4e132");
 	}
 	
-	pub fn resolve<SymbolFrom> (&self, identifier : &SymbolFrom) -> (Outcome<Option<Binding>>)
-			where Symbol : StdFrom<SymbolFrom>, SymbolFrom : Clone
-	{
-		let identifier = Symbol::from (identifier.clone ());
+	pub fn resolve (&self, identifier : &Symbol) -> (Outcome<Option<Binding>>) {
+		let identifier = identifier.clone ();
 		let self_0 = self.internals_ref ();
 		return match self_0.bindings.get (&identifier) {
 			Some (binding) =>
 				Ok (Some (binding.clone ())),
 			None =>
 				if let Some (ref parent) = self_0.parent {
-					parent.resolve::<Symbol> (&identifier)
+					parent.resolve (&identifier)
 				} else {
 					Ok (None)
 				},
@@ -382,26 +378,21 @@ impl Binding {
 		return Ok (self_0.value.clone ());
 	}
 	
-	pub fn set<ValueFrom> (&self, value : ValueFrom) -> (Outcome<Value>)
-			where Value : StdFrom<ValueFrom>
-	{
+	pub fn set (&self, value : Value) -> (Outcome<Value>) {
 		let mut self_0 = self.internals_ref_mut ();
 		if self_0.immutable {
 			return failed! (0x11c77731);
 		}
-		let mut value = Value::from (value);
+		let mut value = value;
 		mem::swap (&mut self_0.value, &mut value);
 		return Ok (value);
 	}
 	
-	pub fn initialize<ValueFrom> (&self, value : ValueFrom) -> (Outcome<Value>)
-			where Value : StdFrom<ValueFrom>
-	{
+	pub fn initialize (&self, value : Value) -> (Outcome<Value>) {
 		let mut self_0 = self.internals_ref_mut ();
 		if self_0.immutable {
 			return failed! (0x11c77731);
 		}
-		let value = Value::from (value);
 		self_0.value = value.clone ();
 		return Ok (value);
 	}
