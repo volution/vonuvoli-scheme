@@ -25,7 +25,7 @@ pub enum Expression {
 	Value ( Value ),
 	
 	Sequence ( ExpressionVec ),
-	Conditional ( StdVec<(bool, Expression, Expression)> ),
+	Conditional ( StdVec<(bool, Expression, Option<Expression>)> ),
 	
 	ContextDefine ( Symbol, ExpressionBox ),
 	ContextUpdate ( Symbol, ExpressionBox ),

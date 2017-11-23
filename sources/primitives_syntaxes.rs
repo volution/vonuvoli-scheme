@@ -58,6 +58,8 @@ pub enum SyntaxPrimitive1 {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
 pub enum SyntaxPrimitive2 {
 	
+	If,
+	
 	Define,
 	DefineValues,
 	
@@ -82,6 +84,8 @@ pub enum SyntaxPrimitiveN {
 	Or,
 	
 	Begin,
+	
+	If,
 	
 	When,
 	Unless,
@@ -119,6 +123,9 @@ pub fn syntax_primitive_1_evaluate (primitive : SyntaxPrimitive1, _input : &Expr
 
 pub fn syntax_primitive_2_evaluate (primitive : SyntaxPrimitive2, _input_1 : &Expression, _input_2 : &Expression, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
+		
+		SyntaxPrimitive2::If =>
+			fail! (0x9581f453),
 		
 		SyntaxPrimitive2::Define | SyntaxPrimitive2::DefineValues =>
 			fail! (0xf72ef0ed),
@@ -171,6 +178,9 @@ pub fn syntax_primitive_n_evaluate (primitive : SyntaxPrimitiveN, inputs : &[Exp
 		
 		SyntaxPrimitiveN::Begin =>
 			fail! (0x5d19e13b),
+		
+		SyntaxPrimitiveN::If =>
+			fail! (0x6fb1857a),
 		
 		SyntaxPrimitiveN::When | SyntaxPrimitiveN::Unless =>
 			fail! (0x169ec95d),

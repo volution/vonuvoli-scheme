@@ -210,6 +210,9 @@ impl Compiler {
 				if tokens_count == 2 {
 					match syntax {
 						
+						SyntaxPrimitive2::If =>
+							return self.compile_syntax_if (compilation, tokens),
+						
 						SyntaxPrimitive2::Define =>
 							return self.compile_syntax_define (compilation, tokens),
 						
@@ -247,6 +250,9 @@ impl Compiler {
 					
 					SyntaxPrimitiveN::Begin =>
 						return self.compile_syntax_begin (compilation, tokens),
+					
+					SyntaxPrimitiveN::If =>
+						return self.compile_syntax_if (compilation, tokens),
 					
 					SyntaxPrimitiveN::When | SyntaxPrimitiveN::Unless =>
 						return self.compile_syntax_when_unless (compilation, syntax, tokens),
@@ -318,14 +324,29 @@ impl Compiler {
 	
 	pub fn compile_syntax_if (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
-		let (compilation, statements) = try! (self.compile_vec_0 (compilation, tokens));
-		let (guard, if_true, if_false) = vec_explode_3! (statements);
+		let tokens_count = tokens.len ();
+		if (tokens_count != 2) && (tokens_count != 3) {
+			fail! (0xe34389a7);
+		}
 		
-		let conditions = vec! [
-				(false, guard, if_true),
-				(false, TRUE.into (), if_false),
-			];
-		let expression = Expression::Conditional (conditions);
+		let (compilation, statements) = try! (self.compile_vec_0 (compilation, tokens));
+		
+		let clauses = if tokens_count == 3 {
+			let (guard, if_true, if_false) = vec_explode_3! (statements);
+			vec! [
+					(false, guard, Some (if_true)),
+					(false, TRUE.into (), Some (if_false)),
+				]
+		} else if tokens_count == 2 {
+			let (guard, if_true) = vec_explode_2! (statements);
+			vec! [
+					(false, guard, Some (if_true)),
+				]
+		} else {
+			fail_panic! (0xbc801c5d);
+		};
+		
+		let expression = Expression::Conditional (clauses);
 		
 		succeed! ((compilation, expression));
 	}
@@ -353,10 +374,10 @@ impl Compiler {
 				fail_panic! (0x500d298f),
 		};
 		
-		let conditions = vec! [
-				(negated, guard, statements),
+		let clauses = vec! [
+				(negated, guard, Some (statements)),
 			];
-		let expression = Expression::Conditional (conditions);
+		let expression = Expression::Conditional (clauses);
 		
 		succeed! ((compilation, expression));
 	}
@@ -366,7 +387,46 @@ impl Compiler {
 	
 	#[ allow ( unused_variables )]
 	pub fn compile_syntax_cond (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
-		fail_unimplemented! (0xccfe6c4e);
+		
+		let mut clauses = StdVec::new ();
+		let mut compilation = compilation;
+		
+		for tokens in tokens.into_iter () {
+			
+			try_is_pair! (tokens);
+			let tokens = try! (vec_clone_list (&tokens));
+			if tokens.is_empty () {
+				fail! (0x86331f4b);
+			}
+			let (guard, statements) = vec_explode_1n! (tokens);
+			
+			// FIXME:  Remove the symbol creation!
+			let (compilation_1, guard) = if guard != symbol_clone_str ("else") .into () {
+				try! (self.compile_0 (compilation, guard))
+			} else {
+				(compilation, TRUE.into ())
+			};
+			
+			// FIXME:  Remove the symbol creation!
+			if (statements.len () == 2) && (statements[0] == symbol_clone_str ("=>") .into ()) {
+				fail_unimplemented! (0xfa332991);
+			}
+			let (compilation_1, statements) = try! (self.compile_vec_0 (compilation_1, statements));
+			
+			let clause = if !statements.is_empty () {
+				let statements = Expression::Sequence (statements);
+				(false, guard, Some (statements))
+			} else {
+				(false, guard, None)
+			};
+			
+			clauses.push (clause);
+			compilation = compilation_1;
+		}
+		
+		let expression = Expression::Conditional (clauses);
+		
+		succeed! ((compilation, expression));
 	}
 	
 	

@@ -57,7 +57,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			("base", "unquote-splicing", SyntaxPrimitive1::UnQuoteSplicing.into ()),
 			
 			("base", "begin", SyntaxPrimitiveN::Begin.into ()),
-			("base", "if", SyntaxPrimitive3::If.into ()),
+			("base", "if", SyntaxPrimitiveN::If.into ()),
 			("base", "unless", SyntaxPrimitiveN::Unless.into ()),
 			("base", "when", SyntaxPrimitiveN::When.into ()),
 			("base", "cond", SyntaxPrimitiveN::Cond.into ()),
