@@ -55,3 +55,39 @@ a => 1;
 b => 2;
 c => 3;
 
+
+
+
+(let () 0) => 0;
+(let ((x 0)) x) => 0;
+(let ((x a)) x) => a;
+(let ((x a) (y b)) (+ x y)) => (+ a b);
+
+(let* () 0) => 0;
+(let* ((x 0)) x) => 0;
+(let* ((x a)) x) => a;
+(let* ((x a) (y b)) (+ x y)) => (+ a b);
+
+(letrec () 0) => 0;
+(letrec ((x 0)) x) => 0;
+(letrec ((x a)) x) => a;
+(letrec ((x a) (y b)) (+ x y)) => (+ a b);
+
+(letrec* () 0) => 0;
+(letrec* ((x 0)) x) => 0;
+(letrec* ((x a)) x) => a;
+(letrec* ((x a) (y b)) (+ x y)) => (+ a b);
+
+
+(let ((a b) (b a)) (cons a b)) => (cons b a);
+(let* ((a b) (b a)) (cons a b)) => (cons b b);
+
+(letrec ((a b) (b a)) (cons a b)) => !fixme (cons #undefined #undefined);
+(letrec* ((a b) (b a)) (cons a b)) => !fixme (cons #undefined #undefined);
+
+(letrec ((x a) (y x)) (cons x y)) => !fixme (cons a #undefined);
+(letrec* ((x a) (y x)) (cons x y)) => !fixme (cons a a);
+
+(letrec ((x y) (y a)) (cons x y)) => !fixme (cons #undefined a);
+(letrec* ((x y) (y a)) (cons x y)) => !fixme (cons #undefined a);
+

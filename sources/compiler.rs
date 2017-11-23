@@ -463,9 +463,108 @@ impl Compiler {
 	
 	
 	
-	#[ allow ( unused_variables )]
 	pub fn compile_syntax_let (&self, compilation : CompilerContext, syntax : SyntaxPrimitiveN, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
-		fail_unimplemented! (0x9cd48665);
+		
+		if tokens.len () < 2 {
+			fail! (0x633b3ed8);
+		}
+		let (definitions, statements) = try! (vec_explode_1n (tokens));
+		
+		match definitions.class () {
+			ValueClass::Null =>
+				return self.compile_syntax_locals (compilation, statements),
+			ValueClass::Pair =>
+				(),
+			_ =>
+				fail! (0x825cb457),
+		}
+		
+		let definitions = try! (vec_list_clone (&definitions));
+		
+		let mut identifiers = StdVec::with_capacity (definitions.len ());
+		let mut initializers = StdVec::with_capacity (definitions.len ());
+		for definition in definitions.into_iter () {
+			let definition = try! (vec_list_clone (&definition));
+			if definition.len () != 2 {
+				fail! (0x190d57f8);
+			}
+			let (identifier, initializer) = try! (vec_explode_2 (definition));
+			let identifier = try_into_symbol! (identifier);
+			identifiers.push (identifier);
+			initializers.push (initializer);
+		}
+		
+		let mut compilation = try! (compilation.fork_locals (false));
+		let mut binding_templates = StdVec::new ();
+		let mut binding_initializers = StdVec::new ();
+		
+		match syntax {
+			
+			SyntaxPrimitiveN::LetParallel => {
+				for initializer in initializers.into_iter () {
+					let (compilation_1, initializer) = try! (self.compile_0 (compilation, initializer));
+					compilation = compilation_1;
+					binding_initializers.push (initializer);
+				}
+				for identifier in identifiers.into_iter () {
+					let binding = try! (compilation.bindings.define (identifier));
+					binding_templates.push (binding);
+				}
+			},
+			
+			SyntaxPrimitiveN::LetSequential => {
+				for (initializer, identifier) in initializers.into_iter ().zip (identifiers.into_iter ()) {
+					let (compilation_1, initializer) = try! (self.compile_0 (compilation, initializer));
+					compilation = compilation_1;
+					let binding = try! (compilation.bindings.define (identifier));
+					binding_initializers.push (initializer);
+					binding_templates.push (binding);
+				}
+			},
+			
+			SyntaxPrimitiveN::LetRecursiveParallel | SyntaxPrimitiveN::LetRecursiveSequential => {
+				for identifier in identifiers.into_iter () {
+					let binding = try! (compilation.bindings.define (identifier));
+					binding_templates.push (binding);
+				}
+				for initializer in initializers.into_iter () {
+					let (compilation_1, initializer) = try! (self.compile_0 (compilation, initializer));
+					compilation = compilation_1;
+					binding_initializers.push (initializer);
+				}
+			},
+			
+			_ =>
+				fail_panic! (0xa1c3e4ac),
+			
+		}
+		
+		let parallel = match syntax {
+			SyntaxPrimitiveN::LetParallel =>
+				true,
+			SyntaxPrimitiveN::LetSequential =>
+				false,
+			SyntaxPrimitiveN::LetRecursiveParallel =>
+				true,
+			SyntaxPrimitiveN::LetRecursiveSequential =>
+				false,
+			_ =>
+				fail_panic! (0xa615e40c),
+		};
+		
+		let binding_initializers = try! (self.compile_syntax_binding_initialize_n (binding_templates, binding_initializers, parallel));
+		let binding_initializers = vec! [ binding_initializers ];
+		
+		let (compilation, statements) = try! (self.compile_vec_0 (compilation, statements));
+		
+		let statements = vec_append_2 (binding_initializers, statements);
+		
+		let (compilation, registers) = try! (compilation.unfork_locals ());
+		
+		let statements = Expression::Sequence (statements);
+		let expression = Expression::RegisterClosure (statements.into (), registers);
+		
+		succeed! ((compilation, expression));
 	}
 	
 	
