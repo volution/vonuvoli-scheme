@@ -158,6 +158,7 @@ impl_from_for_primitive_procedure! (BitwisePrimitiveN, ProcedurePrimitiveN, Prim
 
 impl_from_for_primitive_procedure! (ListPrimitive1, ProcedurePrimitive1, Primitive1, List);
 impl_from_for_primitive_procedure! (ListPrimitive2, ProcedurePrimitive2, Primitive2, List);
+impl_from_for_primitive_procedure! (ListPrimitive3, ProcedurePrimitive3, Primitive3, List);
 impl_from_for_primitive_procedure! (ListPrimitiveN, ProcedurePrimitiveN, PrimitiveN, List);
 
 impl_from_for_primitive_procedure! (FunctionsPrimitive1, ProcedurePrimitive1, Primitive1, Functions);
@@ -321,6 +322,7 @@ impl_from_for_ProcedurePrimitiveCallN! (BitwisePrimitiveN);
 
 impl_from_for_ProcedurePrimitiveCall1! (ListPrimitive1);
 impl_from_for_ProcedurePrimitiveCall2! (ListPrimitive2);
+impl_from_for_ProcedurePrimitiveCall2! (ListPrimitive3);
 impl_from_for_ProcedurePrimitiveCallN! (ListPrimitiveN);
 
 impl_from_for_ProcedurePrimitiveCall1! (FunctionsPrimitive1);

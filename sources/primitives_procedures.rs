@@ -19,12 +19,14 @@ pub mod exports {
 	pub use super::ProcedurePrimitive0;
 	pub use super::ProcedurePrimitive1;
 	pub use super::ProcedurePrimitive2;
+	pub use super::ProcedurePrimitive3;
 	pub use super::ProcedurePrimitiveN;
 	pub use super::ProcedurePrimitive;
 	
 	pub use super::procedure_primitive_0_evaluate;
 	pub use super::procedure_primitive_1_evaluate;
 	pub use super::procedure_primitive_2_evaluate;
+	pub use super::procedure_primitive_3_evaluate;
 	pub use super::procedure_primitive_n_evaluate;
 	pub use super::procedure_primitive_evaluate;
 	
@@ -41,6 +43,7 @@ pub enum ProcedurePrimitive {
 	Primitive0 ( ProcedurePrimitive0 ),
 	Primitive1 ( ProcedurePrimitive1 ),
 	Primitive2 ( ProcedurePrimitive2 ),
+	Primitive3 ( ProcedurePrimitive3 ),
 	PrimitiveN ( ProcedurePrimitiveN ),
 	
 }
@@ -73,6 +76,14 @@ pub enum ProcedurePrimitive2 {
 	Bitwise ( BitwisePrimitive2 ),
 	List ( ListPrimitive2 ),
 	Functions ( FunctionsPrimitive2 ),
+	
+}
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+pub enum ProcedurePrimitive3 {
+	
+	List ( ListPrimitive3 ),
 	
 }
 
@@ -149,6 +160,18 @@ pub fn procedure_primitive_2_evaluate (primitive : ProcedurePrimitive2, input_1 
 
 
 
+pub fn procedure_primitive_3_evaluate (primitive : ProcedurePrimitive3, input_1 : &Value, input_2 : &Value, input_3 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	match primitive {
+		
+		ProcedurePrimitive3::List (primitive) =>
+			return list_primitive_3_evaluate (primitive, input_1, input_2, input_3),
+		
+	}
+}
+
+
+
+
 pub fn procedure_primitive_n_evaluate (primitive : ProcedurePrimitiveN, inputs : &[Value], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -196,6 +219,13 @@ pub fn procedure_primitive_evaluate (primitive : ProcedurePrimitive, inputs : &[
 				return procedure_primitive_2_evaluate (primitive, &inputs[0], &inputs[1], evaluator)
 			} else {
 				fail! (0xb1c56ed3)
+			},
+		
+		ProcedurePrimitive::Primitive3 (primitive) =>
+			if inputs_count == 3 {
+				return procedure_primitive_3_evaluate (primitive, &inputs[0], &inputs[1], &inputs[2], evaluator)
+			} else {
+				fail! (0x990f006e)
 			},
 		
 		ProcedurePrimitive::PrimitiveN (primitive) =>

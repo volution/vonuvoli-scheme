@@ -225,16 +225,16 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			
 			("base", "cons", ListPrimitive2::Pair.into ()),
 			
-			("base", "car", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "cdr", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "car", ListPrimitive1::PairLeft.into ()),
+			("base", "cdr", ListPrimitive1::PairRight.into ()),
 			
-			("base", "caar", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "cadr", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "cdar", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "cddr", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "caar", ListPrimitive1::ListFirstOfFirst.into ()),
+			("base", "cadr", ListPrimitive1::ListFirstAt2.into ()),
+			("base", "cdar", ListPrimitive1::ListRestOfFirst.into ()),
+			("base", "cddr", ListPrimitive1::ListRestAt2.into ()),
 			
-			("base", "set-car!", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "set-cdr!", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "set-car!", ListPrimitive2::PairLeftSet.into ()),
+			("base", "set-cdr!", ListPrimitive2::PairRightSet.into ()),
 			
 			
 			
@@ -247,14 +247,14 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			("base", "make-list", ProcedurePrimitive::Unimplemented.into ()),
 			("base", "list-copy", ProcedurePrimitive::Unimplemented.into ()),
 			("base", "append", ListPrimitiveN::Append.into ()),
-			("base", "length", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "length", ListPrimitive1::Length.into ()),
 			
-			("base", "list-ref", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "list-tail", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "list-ref", ListPrimitive2::ListFirstAt.into ()),
+			("base", "list-tail", ListPrimitive2::ListRestAt.into ()),
 			
-			("base", "list-set!", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "list-set!", ListPrimitive3::ListFirstAtSet.into ()),
 			
-			("base", "reverse", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "reverse", ListPrimitive1::Reverse.into ()),
 			
 			("base", "memq", ProcedurePrimitive::Unimplemented.into ()),
 			("base", "memv", ProcedurePrimitive::Unimplemented.into ()),
