@@ -31,7 +31,7 @@
 (map - '(1 2 0) '(4 3)) => '(-3 -1);
 (map - '(1 2) '(4 3 0)) => '(-3 -1);
 
-(map not '() '()) => '() // FIXME;
+(map not '() '()) => !fixme '();
 
 
 
@@ -46,5 +46,5 @@
 (for-each - '(1 2 0) '(4 3)) => #void;
 (for-each - '(1 2) '(4 3 0)) => #void;
 
-(for-each not '() '()) => #void // FIXME;
+(for-each not '() '()) => !fixme #void;
 

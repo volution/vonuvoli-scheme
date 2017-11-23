@@ -2,7 +2,7 @@
 (define a 1) => 1;
 a => 1;
 
-(define x x) => #undefined // FIXME;
+(define x x) => !fixme #undefined;
 
 
 

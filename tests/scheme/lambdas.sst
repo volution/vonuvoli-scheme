@@ -13,7 +13,7 @@
 		(define y 0)
 		(lambda (x) (+ x y))
 	))
-=> #ignore;
+=> !ignore;
 
 (f1 0) => 0;
 (f1 1) => 1;
@@ -33,7 +33,7 @@
 	(define f2+0 (f2 0))
 	(define f2+1 (f2 1))
 )
-=> #ignore;
+=> !ignore;
 
 (f2+0 0) => 0;
 (f2+0 1) => 1;
@@ -43,7 +43,7 @@
 
 
 
-(define f3 (lambda (x) (define y x) y)) => #ignore;
+(define f3 (lambda (x) (define y x) y)) => !ignore;
 (f3 0) => 0;
 
 
@@ -59,7 +59,7 @@
 			))
 		(lambda (n) (r n 0))
 	))
-=> #ignore;
+=> !ignore;
 
 (define (f4a2 m)
 	(define (r n a)
@@ -69,7 +69,7 @@
 	(define (q n)
 		(r n 0))
 	q)
-=> #ignore;
+=> !ignore;
 
 (define f4b
 	(locals
@@ -82,7 +82,7 @@
 		(lambda (m)
 			(lambda (n) (r m n 0)))
 	))
-=> #ignore;
+=> !ignore;
 
 ((f4a1 0) 0) => ((f4b 0) 0);
 ((f4a1 0) 1) => ((f4b 0) 1);
