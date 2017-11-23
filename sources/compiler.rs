@@ -189,7 +189,7 @@ impl Compiler {
 			
 			SyntaxPrimitive::Primitive1 (syntax) =>
 				if tokens_count == 1 {
-					let tokens = vec_explode_1! (tokens);
+					let tokens = try! (vec_explode_1 (tokens));
 					match syntax {
 						
 						SyntaxPrimitive1::Quote =>
@@ -332,13 +332,13 @@ impl Compiler {
 		let (compilation, statements) = try! (self.compile_vec_0 (compilation, tokens));
 		
 		let clauses = if tokens_count == 3 {
-			let (guard, if_true, if_false) = vec_explode_3! (statements);
+			let (guard, if_true, if_false) = try! (vec_explode_3 (statements));
 			vec! [
 					(false, guard, Some (if_true)),
 					(false, TRUE.into (), Some (if_false)),
 				]
 		} else if tokens_count == 2 {
-			let (guard, if_true) = vec_explode_2! (statements);
+			let (guard, if_true) = try! (vec_explode_2 (statements));
 			vec! [
 					(false, guard, Some (if_true)),
 				]
@@ -362,7 +362,7 @@ impl Compiler {
 		}
 		
 		let (compilation, statements) = try! (self.compile_vec_0 (compilation, tokens));
-		let (guard, statements) = vec_explode_1n! (statements);
+		let (guard, statements) = try! (vec_explode_1n (statements));
 		let statements = Expression::Sequence (statements);
 		
 		let negated = match syntax {
@@ -398,7 +398,7 @@ impl Compiler {
 			if tokens.is_empty () {
 				fail! (0x86331f4b);
 			}
-			let (guard, statements) = vec_explode_1n! (tokens);
+			let (guard, statements) = try! (vec_explode_1n (tokens));
 			
 			// FIXME:  Remove the symbol creation!
 			let (compilation_1, guard) = if guard != symbol_clone_str ("else") .into () {
@@ -489,7 +489,7 @@ impl Compiler {
 		if tokens.len () < 2 {
 			fail! (0x4481879c);
 		}
-		let (signature, statements) = vec_explode_1n! (tokens);
+		let (signature, statements) = try! (vec_explode_1n (tokens));
 		let mut compilation = compilation;
 		
 		let (compilation, binding, expression) = match signature.class () {
@@ -501,7 +501,7 @@ impl Compiler {
 				}
 				
 				let identifier = try_into_symbol! (signature);
-				let statement = vec_explode_1! (statements);
+				let statement = try! (vec_explode_1 (statements));
 				
 				let binding = try! (compilation.bindings.define (identifier));
 				let (compilation, expression) = try! (self.compile_0 (compilation, statement));
@@ -516,7 +516,7 @@ impl Compiler {
 				}
 				
 				let (signature, argument_rest) = try! (vec_clone_list_dotted (&signature));
-				let (identifier, arguments_positional) = vec_explode_1n! (signature);
+				let (identifier, arguments_positional) = try! (vec_explode_1n (signature));
 				
 				let identifier = try_into_symbol! (identifier);
 				let arguments_positional = try_vec_map! (arguments_positional, value, Symbol::try_from (value));
@@ -559,7 +559,7 @@ impl Compiler {
 			fail! (0x2dfd91d1);
 		}
 		
-		let (arguments, statements) = vec_explode_1n! (tokens);
+		let (arguments, statements) = try! (vec_explode_1n (tokens));
 		let (arguments_positional, argument_rest) = match arguments.class () {
 			ValueClass::Symbol =>
 				(StdVec::new (), Some (Symbol::from (arguments))),
@@ -673,7 +673,7 @@ impl Compiler {
 							
 							SyntaxPrimitive::Primitive1 (SyntaxPrimitive1::UnQuote) =>
 								if tokens_count == 1 {
-									let token = vec_explode_1! (tokens);
+									let token = try! (vec_explode_1 (tokens));
 									let (compilation, element) = if quote_depth == unquote_depth {
 										try! (self.compile_0 (compilation, token))
 									} else {
@@ -690,7 +690,7 @@ impl Compiler {
 							SyntaxPrimitive::Primitive1 (SyntaxPrimitive1::UnQuoteSplicing) =>
 								if tokens_count == 1 {
 									if spliceable {
-										let token = vec_explode_1! (tokens);
+										let token = try! (vec_explode_1 (tokens));
 										let (compilation, element) = if quote_depth == unquote_depth {
 											try! (self.compile_0 (compilation, token))
 										} else {
@@ -709,7 +709,7 @@ impl Compiler {
 							
 							SyntaxPrimitive::Primitive1 (SyntaxPrimitive1::QuasiQuote) =>
 								if tokens_count == 1 {
-									let token = vec_explode_1! (tokens);
+									let token = try! (vec_explode_1 (tokens));
 									let (compilation, element) = try! (self.compile_syntax_quasi_quote_0 (compilation, token, true, false, quote_depth + 1, unquote_depth));
 									// FIXME:  Eliminate dynamic creation of symbol!
 									let element = Expression::ProcedureCall (ListPrimitiveN::List.into (), vec! [ Expression::Value (symbol_clone_str ("quasiquote") .into ()), element ]);

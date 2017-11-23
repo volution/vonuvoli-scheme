@@ -1,5 +1,12 @@
 
 
+use super::errors::exports::*;
+
+use std::convert::From;
+
+
+
+
 pub mod exports {
 	
 	pub use std::borrow::Borrow as StdBorrow;
@@ -21,6 +28,9 @@ pub mod exports {
 	pub use super::StdTryInto;
 	pub use super::StdTryAsRef;
 	
+	pub use super::{vec_into, vec_clone_slice};
+	pub use super::{vec_explode_1, vec_explode_1n, vec_explode_2, vec_explode_2n, vec_explode_3, vec_explode_3n};
+	
 }
 
 
@@ -39,5 +49,88 @@ pub trait StdTryInto <T> : Sized {
 pub trait StdTryAsRef <T> {
 	type Error;
 	fn try_as_ref (&self) -> (Result<&T, Self::Error>);
+}
+
+
+
+
+pub fn vec_into <FromT, To : From<FromT>> (from : Vec<FromT>) -> (Vec<To>) {
+	vec_map! (from, value, value.into ())
+}
+
+pub fn vec_clone_slice <FromT : Clone, To : From<FromT>> (from : &[FromT]) -> (Vec<To>) {
+	vec_map! (from.to_vec (), value, value.into ())
+}
+
+
+
+
+pub fn vec_explode_1 <Element> (vector : Vec<Element>) -> (Outcome<Element>) {
+	if vector.len () != 1 {
+		fail! (0x0828936d);
+	}
+	let mut iterator = vector.into_iter ();
+	succeed! (iterator.next () .expect ("a116f5d2"));
+}
+
+pub fn vec_explode_1n <Element> (vector : Vec<Element>) -> (Outcome<(Element, Vec<Element>)>) {
+	if vector.len () < 1 {
+		fail! (0x2b9bdaf2);
+	}
+	let mut iterator = vector.into_iter ();
+	succeed! ((
+				iterator.next () .expect ("a116f5d2"),
+				iterator.collect (),
+		));
+}
+
+
+pub fn vec_explode_2 <Element> (vector : Vec<Element>) -> (Outcome<(Element, Element)>) {
+	if vector.len () != 2 {
+		fail! (0x6865c09d);
+	}
+	let mut iterator = vector.into_iter ();
+	succeed! ((
+			iterator.next () .expect ("39cac0bc"),
+			iterator.next () .expect ("f48578e8"),
+		));
+}
+
+pub fn vec_explode_2n <Element> (vector : Vec<Element>) -> (Outcome<(Element, Element, Vec<Element>)>) {
+	if vector.len () < 2 {
+		fail! (0x3dde9cf1);
+	}
+	let mut iterator = vector.into_iter ();
+	succeed! ((
+				iterator.next () .expect ("18112f60"),
+				iterator.next () .expect ("ca645e46"),
+				iterator.collect (),
+		));
+}
+
+
+pub fn vec_explode_3 <Element> (vector : Vec<Element>) -> (Outcome<(Element, Element, Element)>) {
+	if vector.len () != 3 {
+		fail! (0xb6510cf5);
+	}
+	let mut iterator = vector.into_iter ();
+	succeed! ((
+			iterator.next () .expect ("f54cf984"),
+			iterator.next () .expect ("d535aa19"),
+			iterator.next () .expect ("5331af52"),
+		));
+}
+
+pub fn vec_explode_3n <Element> (vector : Vec<Element>) -> (Outcome<(Element, Element, Element, Vec<Element>)>) {
+	if vector.len () < 3 {
+		fail! (0x2d2644c7);
+	}
+	let mut iterator = vector.into_iter ();
+	succeed! ((
+				iterator.next () .expect ("f7012d8a"),
+				iterator.next () .expect ("a4f1d7ae"),
+				iterator.next () .expect ("8d161b2e"),
+				iterator.collect (),
+		));
 }
 

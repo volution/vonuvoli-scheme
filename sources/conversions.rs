@@ -331,17 +331,6 @@ impl_from_for_ProcedurePrimitiveCallN! (FunctionsPrimitiveN);
 
 
 
-pub fn vec_into <From, To : StdFrom<From>> (from : Vec<From>) -> (Vec<To>) {
-	vec_map! (from, value, value.into ())
-}
-
-pub fn vec_clone_slice <From : Clone, To : StdFrom<From>> (from : &[From]) -> (Vec<To>) {
-	vec_map! (from.to_vec (), value, value.into ())
-}
-
-
-
-
 pub enum NumberCoercion1 {
 	Integer ( NumberInteger ),
 	Real ( NumberReal ),
