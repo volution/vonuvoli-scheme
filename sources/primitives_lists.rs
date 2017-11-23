@@ -2,7 +2,6 @@
 
 use super::errors::exports::*;
 use super::operators::exports::*;
-use super::runtime::exports::*;
 use super::values::exports::*;
 
 
@@ -85,10 +84,10 @@ pub fn list_primitive_1_evaluate (primitive : ListPrimitive1, input : &Value) ->
 	match primitive {
 		
 		ListPrimitive1::PairLeft =>
-			succeed! ((try! (input.try_as_ref ()) as &Pair) .left () .clone ()),
+			succeed! (try_as_pair_ref! (input) .left () .clone ()),
 		
 		ListPrimitive1::PairRight =>
-			succeed! ((try! (input.try_as_ref ()) as &Pair) .right () .clone ()),
+			succeed! (try_as_pair_ref! (input) .right () .clone ()),
 		
 		ListPrimitive1::ListFirst =>
 			fail_unimplemented! (0x15b5099a),

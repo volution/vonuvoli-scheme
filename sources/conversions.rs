@@ -58,6 +58,17 @@ macro_rules! impl_from_for_Value_1 {
 	( $tag : ident, $from : ty ) => (
 		impl_from_for_Value_0! ($tag, $from);
 		impl_unwrappers_1_for_enum_2_wrapper! (Value, $tag, $from);
+		impl $from {
+			pub fn try_from (value : Value) -> (Outcome<$from>) {
+				return StdTryInto::<$from>::try_into (value)
+			}
+			pub fn as_ref (value : &Value) -> (&$from) {
+				return StdAsRef::<$from>::as_ref (value)
+			}
+			pub fn try_as_ref (value : &Value) -> (Outcome<&$from>) {
+				return StdTryAsRef::<$from>::try_as_ref (value)
+			}
+		}
 	);
 }
 

@@ -169,11 +169,11 @@ impl Value {
 				ValueClass::List =>
 					return (class_actual == ValueClass::Null) || (class_actual == ValueClass::Pair),
 				ValueClass::ListProper | ValueClass::ListDotted =>
-					return (class_actual == ValueClass::Null) || ((class_actual == ValueClass::Pair) && StdAsRef::<Pair>::as_ref (self) .right () .is (class)),
+					return (class_actual == ValueClass::Null) || ((class_actual == ValueClass::Pair) && Pair::as_ref (self) .right () .is (class)),
 				ValueClass::True =>
-					return (class_actual == ValueClass::Boolean) && *StdAsRef::<Boolean>::as_ref (self) == Boolean (true),
+					return (class_actual == ValueClass::Boolean) && (Boolean::as_ref (self) .0 == true),
 				ValueClass::False =>
-					return (class_actual == ValueClass::Boolean) && *StdAsRef::<Boolean>::as_ref (self) == Boolean (false),
+					return (class_actual == ValueClass::Boolean) && (Boolean::as_ref (self) .0 == false),
 				ValueClass::Procedure =>
 					return (class_actual == ValueClass::ProcedurePrimitive) || (class_actual == ValueClass::Lambda),
 				ValueClass::Syntax =>
@@ -993,6 +993,10 @@ impl Pair {
 	pub fn right (&self) -> (&Value) {
 		return &(self.0).1;
 	}
+	
+	pub fn left_and_right (&self) -> (&Value, &Value) {
+		return (&(self.0).0, &(self.0).1);
+	}
 }
 
 
@@ -1002,8 +1006,7 @@ impl fmt::Display for Pair {
 		try! (formatter.write_char ('('));
 		let mut cursor = self;
 		loop {
-			let left = cursor.left ();
-			let right = cursor.right ();
+			let (left, right) = cursor.left_and_right ();
 			try! (left.fmt (formatter));
 			match *right {
 				Value::Null (_) => break,

@@ -343,11 +343,11 @@ impl Evaluator {
 	}
 	
 	pub fn evaluate_procedure_call_with_values (&self, evaluation : &mut EvaluatorContext, callable : &Value, inputs : &[Value]) -> (Outcome<Value>) {
-		match *callable {
-			Value::ProcedurePrimitive (primitive, _) =>
-				return self.evaluate_procedure_primitive_with_values (evaluation, primitive, inputs),
-			Value::Lambda (ref lambda, _) =>
-				return self.evaluate_lambda_call_with_values (evaluation, lambda, inputs),
+		match callable.class () {
+			ValueClass::ProcedurePrimitive =>
+				return self.evaluate_procedure_primitive_with_values (evaluation, *callable.as_ref (), inputs),
+			ValueClass::Lambda =>
+				return self.evaluate_lambda_call_with_values (evaluation, callable.as_ref (), inputs),
 			_ =>
 				fail! (0x88be334b),
 		}
