@@ -18,6 +18,9 @@ pub mod exports {
 	pub use super::{vec_list_clone, vec_list_clone_dotted, vec_list_drain, vec_list_drain_dotted};
 	pub use super::{ListIterator, ListsIterator};
 	pub use super::{is_true, is_false, is_not_false, is_true_or_equivalent, is_false_or_equivalent};
+	pub use super::{is_null, is_void, is_undefined};
+	pub use super::{is_null_all_2, is_null_all_3, is_null_all_4};
+	pub use super::{is_null_any_2, is_null_any_3, is_null_any_4};
 	pub use super::{apply_n};
 	pub use super::{lists_map_n, lists_iterate_n};
 	pub use super::{values_build_1, values_build_2, values_build_3, values_build_4, values_build_n};
@@ -27,33 +30,33 @@ pub mod exports {
 
 
 pub fn pair (left : &Value, right : &Value) -> (Value) {
-	pair_new (left.clone (), right.clone ()) .into ()
+	return pair_new (left.clone (), right.clone ()) .into ();
 }
 
 
 
 
 pub fn list_build_1 (value_1 : &Value) -> (Value) {
-	pair_new (value_1.clone (), NULL) .into ()
+	return pair_new (value_1.clone (), NULL) .into ();
 }
 
 pub fn list_build_2 (value_1 : &Value, value_2 : &Value) -> (Value) {
-	pair_new (value_1.clone (), pair_new (value_2.clone (), NULL) .into ()) .into ()
+	return pair_new (value_1.clone (), pair_new (value_2.clone (), NULL) .into ()) .into ();
 }
 
 pub fn list_build_3 (value_1 : &Value, value_2 : &Value, value_3 : &Value) -> (Value) {
-	pair_new (value_1.clone (), pair_new (value_2.clone (), pair_new (value_3.clone (), NULL) .into ()) .into ()) .into ()
+	return pair_new (value_1.clone (), pair_new (value_2.clone (), pair_new (value_3.clone (), NULL) .into ()) .into ()) .into ();
 }
 
 pub fn list_build_4 (value_1 : &Value, value_2 : &Value, value_3 : &Value, value_4 : &Value) -> (Value) {
-	pair_new (value_1.clone (), pair_new (value_2.clone (), pair_new (value_3.clone (), pair_new (value_4.clone (), NULL) .into ()) .into ()) .into ()) .into ()
+	return pair_new (value_1.clone (), pair_new (value_2.clone (), pair_new (value_3.clone (), pair_new (value_4.clone (), NULL) .into ()) .into ()) .into ()) .into ();
 }
 
 pub fn list_build_n (values : &[Value]) -> (Value) {
 	if values.is_empty () {
-		NULL
+		return NULL;
 	} else {
-		values.iter () .rev () .fold (NULL, |last, value| pair_new (value.clone (), last) .into ())
+		return values.iter () .rev () .fold (NULL, |last, value| pair_new (value.clone (), last) .into ());
 	}
 }
 
@@ -125,7 +128,7 @@ fn vec_list_append_return ((values, last) : (ValueVec, Option<Value>)) -> (Outco
 
 
 pub fn vec_list_append_2_dotted (list_1 : &Value, list_2 : &Value) -> (Outcome<(ValueVec, Option<Value>)>) {
-	if (*list_1 == NULL) && (*list_2 == NULL) {
+	if is_null_all_2 (list_1, list_2) {
 		succeed! ((StdVec::new (), None));
 	}
 	let mut values = ValueVec::new ();
@@ -135,7 +138,7 @@ pub fn vec_list_append_2_dotted (list_1 : &Value, list_2 : &Value) -> (Outcome<(
 }
 
 pub fn vec_list_append_3_dotted (list_1 : &Value, list_2 : &Value, list_3 : &Value) -> (Outcome<(ValueVec, Option<Value>)>) {
-	if (*list_1 == NULL) && (*list_2 == NULL) && (*list_3 == NULL) {
+	if is_null_all_3 (list_1, list_2, list_3) {
 		succeed! ((StdVec::new (), None));
 	}
 	let mut values = ValueVec::new ();
@@ -146,7 +149,7 @@ pub fn vec_list_append_3_dotted (list_1 : &Value, list_2 : &Value, list_3 : &Val
 }
 
 pub fn vec_list_append_4_dotted (list_1 : &Value, list_2 : &Value, list_3 : &Value, list_4 : &Value) -> (Outcome<(ValueVec, Option<Value>)>) {
-	if (*list_1 == NULL) && (*list_2 == NULL) && (*list_3 == NULL) && (*list_4 == NULL) {
+	if is_null_all_4 (list_1, list_2, list_3, list_4) {
 		succeed! ((StdVec::new (), None));
 	}
 	let mut values = ValueVec::new ();
@@ -210,15 +213,16 @@ pub fn vec_list_drain (vector : &mut ValueVec, list : &Value) -> (Outcome<()>) {
 pub fn vec_list_drain_dotted (vector : &mut ValueVec, list : &Value) -> (Outcome<Option<Value>>) {
 	let mut cursor = list;
 	loop {
-		match cursor {
-			&Value::Pair (ref pair, _) => {
-				vector.push (pair.left () .clone ());
-				cursor = pair.right ();
+		match cursor.class () {
+			ValueClass::Pair => {
+				let (left, right) = Pair::as_ref (cursor) .left_and_right ();
+				vector.push (left.clone ());
+				cursor = right;
 			},
-			&Value::Null (_) =>
+			ValueClass::Null =>
 				succeed! (None),
-			ref value =>
-				succeed! (Some ((*value).clone ())),
+			_ =>
+				succeed! (Some (cursor.clone ())),
 		}
 	}
 }
@@ -242,13 +246,11 @@ impl <'a> Iterator for ListIterator <'a> {
 	type Item = Outcome<&'a Value>;
 	
 	fn next (&mut self) -> (Option<Outcome<&'a Value>>) {
-		let (cursor, value) = match self.0 {
-			&Value::Pair (ref pair, _) =>
-				(
-					pair.right (),
-					pair.left (),
-				),
-			&Value::Null (_) =>
+		let cursor = self.0;
+		let (cursor, value) = match cursor.class () {
+			ValueClass::Pair =>
+				Pair::as_ref (cursor) .left_and_right (),
+			ValueClass::Null =>
 				return None,
 			_ =>
 				return Some (failed! (0xed511f9c)),
@@ -297,15 +299,23 @@ impl <'a> Iterator for ListsIterator <'a> {
 
 
 pub fn is_true (value : &Value) -> (bool) {
-	*value == TRUE.into ()
+	if let Ok (value) = Boolean::try_as_ref (value) {
+		return value.0 == true;
+	} else {
+		return false;
+	}
 }
 
 pub fn is_false (value : &Value) -> (bool) {
-	*value == FALSE.into ()
+	if let Ok (value) = Boolean::try_as_ref (value) {
+		return value.0 == false;
+	} else {
+		return false;
+	}
 }
 
 pub fn is_not_false (value : &Value) -> (bool) {
-	*value != FALSE.into ()
+	return !is_false (value);
 }
 
 pub fn is_true_or_equivalent (value : &Value) -> (bool) {
@@ -313,16 +323,59 @@ pub fn is_true_or_equivalent (value : &Value) -> (bool) {
 }
 
 pub fn is_false_or_equivalent (value : &Value) -> (bool) {
-	match *value {
-		Value::Null (_) | Value::Void (_) | Value::Undefined (_) =>
-			true,
-		Value::Boolean (FALSE, _) =>
-			true,
-		Value::Error (_, _) =>
-			true,
+	match value.class () {
+		ValueClass::Null | ValueClass::Void | ValueClass::Undefined =>
+			return true,
+		ValueClass::Boolean =>
+			return Boolean::as_ref (value) .0 == false,
+		ValueClass::Error =>
+			return true,
 		_ =>
-			false,
+			return false,
 	}
+}
+
+
+
+
+pub fn is_null (value : &Value) -> (bool) {
+	return value.is (ValueClass::Null);
+}
+
+pub fn is_void (value : &Value) -> (bool) {
+	return value.is (ValueClass::Void);
+}
+
+pub fn is_undefined (value : &Value) -> (bool) {
+	return value.is (ValueClass::Undefined);
+}
+
+
+
+
+pub fn is_null_all_2 (value_1 : &Value, value_2 : &Value) -> (bool) {
+	return is_null (value_1) && is_null (value_2)
+}
+
+pub fn is_null_all_3 (value_1 : &Value, value_2 : &Value, value_3 : &Value) -> (bool) {
+	return is_null (value_1) && is_null (value_2) && is_null (value_3)
+}
+
+pub fn is_null_all_4 (value_1 : &Value, value_2 : &Value, value_3 : &Value, value_4 : &Value) -> (bool) {
+	return is_null (value_1) && is_null (value_2) && is_null (value_3) && is_null (value_4)
+}
+
+
+pub fn is_null_any_2 (value_1 : &Value, value_2 : &Value) -> (bool) {
+	return is_null (value_1) || is_null (value_2)
+}
+
+pub fn is_null_any_3 (value_1 : &Value, value_2 : &Value, value_3 : &Value) -> (bool) {
+	return is_null (value_1) || is_null (value_2) || is_null (value_3)
+}
+
+pub fn is_null_any_4 (value_1 : &Value, value_2 : &Value, value_3 : &Value, value_4 : &Value) -> (bool) {
+	return is_null (value_1) || is_null (value_2) || is_null (value_3) || is_null (value_4)
 }
 
 
