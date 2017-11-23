@@ -68,7 +68,6 @@ impl Context {
 	}
 	
 	pub fn resolve (&self, identifier : &Symbol) -> (Outcome<Option<Binding>>) {
-		let identifier = identifier.clone ();
 		let self_0 = self.internals_ref ();
 		return match self_0.bindings.get (&identifier) {
 			Some (binding) =>

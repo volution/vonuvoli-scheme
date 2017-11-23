@@ -247,7 +247,7 @@ impl <'a> Iterator for ListIterator <'a> {
 	
 	fn next (&mut self) -> (Option<Outcome<&'a Value>>) {
 		let cursor = self.0;
-		let (cursor, value) = match cursor.class () {
+		let (value, cursor) = match cursor.class () {
 			ValueClass::Pair =>
 				Pair::as_ref (cursor) .left_and_right (),
 			ValueClass::Null =>
