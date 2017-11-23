@@ -75,15 +75,19 @@ impl Evaluator {
 			
 			Expression::RegisterClosure (ref expression, ref borrows) =>
 				self.evaluate_register_closure (evaluation, expression, borrows),
-			Expression::RegisterInitialize (index, ref expression) =>
-				self.evaluate_register_initialize (evaluation, index, expression),
+			Expression::RegisterInitialize1 (index, ref expression) =>
+				self.evaluate_register_initialize_1 (evaluation, index, expression),
+			Expression::RegisterInitializeN (ref initializers, parallel) =>
+				self.evaluate_register_initialize_n (evaluation, initializers, parallel),
 			Expression::RegisterSet (index, ref expression) =>
 				self.evaluate_register_set (evaluation, index, expression),
 			Expression::RegisterGet (index) =>
 				self.evaluate_register_get (evaluation, index),
 			
-			Expression::BindingInitialize (ref binding, ref expression) =>
-				self.evaluate_binding_initialize (evaluation, binding, expression),
+			Expression::BindingInitialize1 (ref binding, ref expression) =>
+				self.evaluate_binding_initialize_1 (evaluation, binding, expression),
+			Expression::BindingInitializeN (ref initializers, parallel) =>
+				self.evaluate_binding_initialize_n (evaluation, initializers, parallel),
 			Expression::BindingSet (ref binding, ref expression) =>
 				self.evaluate_binding_set (evaluation, binding, expression),
 			Expression::BindingGet (ref binding) =>
@@ -192,36 +196,66 @@ impl Evaluator {
 		return evaluation.evaluate (expression);
 	}
 	
-	pub fn evaluate_register_initialize (&self, evaluation : &mut EvaluatorContext, index : usize, expression : &Expression) -> (Outcome<Value>) {
+	pub fn evaluate_register_initialize_1 (&self, evaluation : &mut EvaluatorContext, index : usize, expression : &Expression) -> (Outcome<Value>) {
 		let registers = try_some! (evaluation.registers, 0x4f5f5ffc);
 		let binding = try! (registers.resolve (index));
-		let value_new = try! (evaluation.evaluate (expression));
-		let value_new = try! (binding.initialize (value_new));
-		return Ok (value_new);
+		return self.evaluate_binding_initialize_1 (evaluation, &binding, expression);
+	}
+	
+	pub fn evaluate_register_initialize_n (&self, evaluation : &mut EvaluatorContext, initializers : &StdVec<(usize, Expression)>, parallel : bool) -> (Outcome<Value>) {
+		let registers = try_some! (evaluation.registers, 0x4f5f5ffc);
+		let indices = initializers.iter () .map (|&(index, _)| index) .collect::<StdVec<_>> ();
+		let expressions = initializers.iter () .map (|&(_, ref expression)| expression) .collect::<StdVec<_>> ();
+		let bindings = try_vec_map! (indices, index, registers.resolve (index));
+		let bindings = bindings.iter () .collect ();
+		let initializers = vec_zip_2 (bindings, expressions);
+		return self.evaluate_binding_initialize_n_0 (evaluation, &initializers, parallel);
 	}
 	
 	pub fn evaluate_register_set (&self, evaluation : &mut EvaluatorContext, index : usize, expression : &Expression) -> (Outcome<Value>) {
 		let registers = try_some! (evaluation.registers, 0x9e3f943b);
 		let binding = try! (registers.resolve (index));
-		let value_new = try! (evaluation.evaluate (expression));
-		let value_old = try! (binding.set (value_new));
-		return Ok (value_old);
+		return self.evaluate_binding_set (evaluation, &binding, expression);
 	}
 	
 	pub fn evaluate_register_get (&self, evaluation : &mut EvaluatorContext, index : usize) -> (Outcome<Value>) {
 		let registers = try_some! (evaluation.registers, 0x89f09b48);
 		let binding = try! (registers.resolve (index));
-		let value = try! (binding.get ());
-		return Ok (value);
+		return self.evaluate_binding_get (evaluation, &binding);
 	}
 	
 	
 	
 	
-	pub fn evaluate_binding_initialize (&self, evaluation : &mut EvaluatorContext, binding : &Binding, expression : &Expression) -> (Outcome<Value>) {
+	pub fn evaluate_binding_initialize_1 (&self, evaluation : &mut EvaluatorContext, binding : &Binding, expression : &Expression) -> (Outcome<Value>) {
 		let value_new = try! (evaluation.evaluate (expression));
 		let value_new = try! (binding.initialize (value_new));
 		return Ok (value_new);
+	}
+	
+	pub fn evaluate_binding_initialize_n (&self, evaluation : &mut EvaluatorContext, initializers : &StdVec<(Binding, Expression)>, parallel : bool) -> (Outcome<Value>) {
+		let initializers = initializers.iter () .map (|&(ref binding, ref expression)| (binding, expression)) .collect ();
+		return self.evaluate_binding_initialize_n_0 (evaluation, &initializers, parallel);
+	}
+	
+	pub fn evaluate_binding_initialize_n_0 (&self, evaluation : &mut EvaluatorContext, initializers : &StdVec<(&Binding, &Expression)>, parallel : bool) -> (Outcome<Value>) {
+		
+		let expressions = initializers.iter () .map (|&(_, expression)| expression) .collect::<StdVec<_>> ();
+		let bindings = initializers.iter () .map (|&(binding, _)| binding) .collect::<StdVec<_>> ();
+		
+		if parallel {
+			let values_new = try_vec_map! (expressions, expression, evaluation.evaluate (expression));
+			for (binding, value_new) in vec_zip_2 (bindings, values_new) {
+				try! (binding.initialize (value_new));
+			}
+		} else {
+			for (binding, expression) in vec_zip_2 (bindings, expressions) {
+				let value_new = try! (evaluation.evaluate (expression));
+				try! (binding.initialize (value_new));
+			}
+		}
+		
+		return Ok (VOID);
 	}
 	
 	pub fn evaluate_binding_set (&self, evaluation : &mut EvaluatorContext, binding : &Binding, expression : &Expression) -> (Outcome<Value>) {

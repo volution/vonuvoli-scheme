@@ -455,14 +455,9 @@ impl Compiler {
 		let (compilation, registers) = try! (compilation.unfork_locals ());
 		
 		let statements = Expression::Sequence (statements);
+		let expression = Expression::RegisterClosure (statements.into (), registers);
 		
-		let registers_count = registers.len ();
-		if registers_count == 0 {
-			succeed! ((compilation, statements));
-		} else {
-			let expression = Expression::RegisterClosure (statements.into (), registers);
-			succeed! ((compilation, expression));
-		}
+		succeed! ((compilation, expression));
 	}
 	
 	
@@ -532,19 +527,76 @@ impl Compiler {
 				fail! (0x0f0edc26),
 		};
 		
+		let expression = try! (self.compile_syntax_binding_initialize_1 (binding, expression));
+		
+		succeed! ((compilation, expression));
+	}
+	
+	
+	
+	
+	pub fn compile_syntax_binding_initialize_1 (&self, binding : CompilerBinding, expression : Expression) -> (Outcome<Expression>) {
 		match binding {
 			
 			CompilerBinding::Undefined =>
 				fail! (0x42370d15),
 			
 			CompilerBinding::Binding (binding) => {
-				let expression = Expression::BindingInitialize (binding, expression.into ());
-				succeed! ((compilation, expression));
+				let expression = Expression::BindingInitialize1 (binding, expression.into ());
+				succeed! (expression);
 			},
 			
 			CompilerBinding::Register (index) => {
-				let expression = Expression::RegisterInitialize (index, expression.into ());
-				succeed! ((compilation, expression));
+				let expression = Expression::RegisterInitialize1 (index, expression.into ());
+				succeed! (expression);
+			},
+			
+		}
+	}
+	
+	
+	pub fn compile_syntax_binding_initialize_n (&self, bindings : StdVec<CompilerBinding>, expressions : StdVec<Expression>, parallel : bool) -> (Outcome<Expression>) {
+		
+		if bindings.len () == 0 {
+			fail! (0xf99d15e7);
+		}
+		if bindings.len () != expressions.len () {
+			fail! (0x4a2cb09a);
+		}
+		
+		let initializers = vec_zip_2 (bindings, expressions);
+		
+		match initializers[0].0 {
+			
+			CompilerBinding::Undefined =>
+				fail! (0xac48836a),
+			
+			CompilerBinding::Binding (_) => {
+				let initializers = try_vec_map! (
+						initializers,
+						(binding, expression),
+						match binding {
+							CompilerBinding::Binding (binding) =>
+								succeed! ((binding, expression)),
+							_ =>
+								fail! (0x31f5b387),
+						});
+				let expression = Expression::BindingInitializeN (initializers, parallel);
+				succeed! (expression);
+			},
+			
+			CompilerBinding::Register (_) => {
+				let initializers = try_vec_map! (
+						initializers,
+						(binding, expression),
+						match binding {
+							CompilerBinding::Register (index) =>
+								succeed! ((index, expression)),
+							_ =>
+								fail! (0x5627731f),
+						});
+				let expression = Expression::RegisterInitializeN (initializers, parallel);
+				succeed! (expression);
 			},
 			
 		}

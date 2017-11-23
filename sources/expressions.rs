@@ -32,11 +32,13 @@ pub enum Expression {
 	ContextSelect ( Symbol ),
 	
 	RegisterClosure ( ExpressionBox, StdVec<RegistersBindingTemplate> ),
-	RegisterInitialize ( usize, ExpressionBox ),
+	RegisterInitialize1 ( usize, ExpressionBox ),
+	RegisterInitializeN ( StdVec<(usize, Expression)>, bool ),
 	RegisterSet ( usize, ExpressionBox ),
 	RegisterGet ( usize ),
 	
-	BindingInitialize ( Binding, ExpressionBox ),
+	BindingInitialize1 ( Binding, ExpressionBox ),
+	BindingInitializeN ( StdVec<(Binding, Expression)>, bool ),
 	BindingSet ( Binding, ExpressionBox ),
 	BindingGet ( Binding ),
 	
