@@ -70,9 +70,9 @@ impl Compiler {
 				return self.compile_form (compilation, token.into ()),
 			
 			ValueClass::Bytes =>
-				fail_unimplemented! (0xe7db25d8),
+				return self.compile_syntax_quote (compilation, token),
 			ValueClass::Array =>
-				fail_unimplemented! (0xe7db25d8),
+				return self.compile_syntax_quote (compilation, token),
 			
 			ValueClass::Error =>
 				fail_panic! (0x2aa7bc60),
