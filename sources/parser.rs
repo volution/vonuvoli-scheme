@@ -19,10 +19,13 @@ pub mod exports {
 
 
 pub fn parse_value (input : &str) -> (Outcome<Value>) {
-	if let Ok (output) = peg::value_full (input) {
-		succeed! (output);
-	} else {
-		fail! (0x2af5f184);
+	match peg::value_full (input) {
+		Ok (output) =>
+			succeed! (output),
+		Err (error) => {
+			eprintln! ("[ee]  {:?}", error);
+			fail! (0x2af5f184);
+		},
 	}
 }
 
@@ -30,18 +33,26 @@ pub fn parse_value (input : &str) -> (Outcome<Value>) {
 
 
 pub fn parse_tests (input : &str) -> (Outcome<StdVec<TestCase>>) {
-	if let Ok (output) = peg::tests (input) {
-		succeed! (output);
-	} else {
-		fail! (0x86ee143a);
+	match peg::tests (input) {
+		Ok (output) =>
+			succeed! (output),
+		Err (error) => {
+			// FIXME:  Wrap and return this error instead of printing!
+			eprintln! ("[ee]  {:?}", error);
+			fail! (0x86ee143a);
+		},
 	}
 }
 
 pub fn parse_test (input : &str) -> (Outcome<TestCase>) {
-	if let Ok (output) = peg::test (input) {
-		succeed! (output);
-	} else {
-		fail! (0x46eb5847);
+	match peg::test (input) {
+		Ok (output) =>
+			succeed! (output),
+		Err (error) => {
+			// FIXME:  Wrap and return this error instead of printing!
+			eprintln! ("[ee]  {:?}", error);
+			fail! (0x46eb5847);
+		},
 	}
 }
 
