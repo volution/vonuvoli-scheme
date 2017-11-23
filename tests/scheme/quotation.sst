@@ -72,3 +72,9 @@
 `((1 (x) 2)) => '((1 (x) 2));
 `((1 (,(+ 0 3)) 2)) => (list (list 1 (list (+ 0 3)) 2));
 
+
+``,1 => '(quasiquote (unquote 1));
+``,,1 => '(quasiquote (unquote 1));
+``(,,1) => '(quasiquote ((unquote 1)));
+`(`(,(,1))) => '((quasiquote ((unquote (1)))));
+

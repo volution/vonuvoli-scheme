@@ -614,16 +614,16 @@ impl Compiler {
 	
 	
 	pub fn compile_syntax_quasi_quote (&self, compilation : CompilerContext, token : Value) -> (Outcome<(CompilerContext, Expression)>) {
-		return self.compile_syntax_quasi_quote_0 (compilation, token, true, false);
+		return self.compile_syntax_quasi_quote_0 (compilation, token, true, false, 0, 0);
 	}
 	
 	
-	pub fn compile_syntax_quasi_quote_0 (&self, compilation : CompilerContext, token : Value, top : bool, spliceable : bool) -> (Outcome<(CompilerContext, Expression)>) {
+	pub fn compile_syntax_quasi_quote_0 (&self, compilation : CompilerContext, token : Value, top : bool, spliceable : bool, quote_depth : usize, unquote_depth : usize) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		fn splice <ExpressionInto : StdInto<Expression>> (expression : ExpressionInto, spliceable : bool) -> (Expression) {
 			let expression = expression.into ();
 			if spliceable {
-				Expression::ProcedureCall (ListPrimitive1::List.into (), vec! [expression])
+				Expression::ProcedureCall (ListPrimitiveN::List.into (), vec! [ expression ])
 			} else {
 				expression
 			}
@@ -666,7 +666,14 @@ impl Compiler {
 							SyntaxPrimitive::Primitive1 (SyntaxPrimitive1::UnQuote) =>
 								if tokens_count == 1 {
 									let token = vec_explode_1! (tokens);
-									let (compilation, element) = try! (self.compile_0 (compilation, token));
+									let (compilation, element) = if quote_depth == unquote_depth {
+										try! (self.compile_0 (compilation, token))
+									} else {
+										let (compilation, element) = try! (self.compile_syntax_quasi_quote_0 (compilation, token, true, false, quote_depth, unquote_depth + 1));
+										// FIXME:  Eliminate dynamic creation of symbol!
+										let element = Expression::ProcedureCall (ListPrimitiveN::List.into (), vec! [ Expression::Value (symbol_clone_str ("unquote") .into ()), element ]);
+										(compilation, element)
+									};
 									succeed! ((compilation, splice (element, spliceable)));
 								} else {
 									fail! (0x9dc44267);
@@ -676,13 +683,31 @@ impl Compiler {
 								if tokens_count == 1 {
 									if spliceable {
 										let token = vec_explode_1! (tokens);
-										let (compilation, element) = try! (self.compile_0 (compilation, token));
+										let (compilation, element) = if quote_depth == unquote_depth {
+											try! (self.compile_0 (compilation, token))
+										} else {
+											let (compilation, element) = try! (self.compile_syntax_quasi_quote_0 (compilation, token, true, false, quote_depth, unquote_depth + 1));
+											// FIXME:  Eliminate dynamic creation of symbol!
+											let element = Expression::ProcedureCall (ListPrimitiveN::List.into (), vec! [ Expression::Value (symbol_clone_str ("unquote-splicing") .into ()), element ]);
+											(compilation, element)
+										};
 										succeed! ((compilation, element));
 									} else {
 										fail! (0x47356961);
 									}
 								} else {
 									fail! (0xe0c45124);
+								},
+							
+							SyntaxPrimitive::Primitive1 (SyntaxPrimitive1::QuasiQuote) =>
+								if tokens_count == 1 {
+									let token = vec_explode_1! (tokens);
+									let (compilation, element) = try! (self.compile_syntax_quasi_quote_0 (compilation, token, true, false, quote_depth + 1, unquote_depth));
+									// FIXME:  Eliminate dynamic creation of symbol!
+									let element = Expression::ProcedureCall (ListPrimitiveN::List.into (), vec! [ Expression::Value (symbol_clone_str ("quasiquote") .into ()), element ]);
+									succeed! ((compilation, splice (element, spliceable)));
+								} else {
+									fail! (0x95565615);
 								},
 							
 							_ =>
@@ -703,7 +728,7 @@ impl Compiler {
 						
 						ValueClass::Pair => {
 							let pair = cursor.as_ref () as &Pair;
-							let (compilation_1, element) = try! (self.compile_syntax_quasi_quote_0 (compilation, pair.left () .clone (), false, true));
+							let (compilation_1, element) = try! (self.compile_syntax_quasi_quote_0 (compilation, pair.left () .clone (), false, true, quote_depth, unquote_depth));
 							compilation = compilation_1;
 							elements.push (element);
 							cursor = pair.right ();
@@ -713,7 +738,7 @@ impl Compiler {
 							break,
 						
 						_ => {
-							let (compilation_1, element) = try! (self.compile_syntax_quasi_quote_0 (compilation, cursor.clone (), false, true));
+							let (compilation_1, element) = try! (self.compile_syntax_quasi_quote_0 (compilation, cursor.clone (), false, true, quote_depth, unquote_depth));
 							compilation = compilation_1;
 							elements.push (element);
 							break;
