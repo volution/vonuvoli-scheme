@@ -269,11 +269,11 @@ impl Compiler {
 					SyntaxPrimitiveN::Locals =>
 						return self.compile_syntax_locals (compilation, tokens),
 					
-					SyntaxPrimitiveN::Let =>
-						return self.compile_syntax_let (compilation, tokens),
+					SyntaxPrimitiveN::LetParallel | SyntaxPrimitiveN::LetSequential | SyntaxPrimitiveN::LetRecursiveParallel | SyntaxPrimitiveN::LetRecursiveSequential =>
+						return self.compile_syntax_let (compilation, syntax, tokens),
 					
-					SyntaxPrimitiveN::LetValues =>
-						fail_unimplemented! (0x5f0e99b2),
+					SyntaxPrimitiveN::LetValuesParallel | SyntaxPrimitiveN::LetValuesSequential =>
+						return self.compile_syntax_let_values (compilation, syntax, tokens),
 					
 					SyntaxPrimitiveN::Define =>
 						return self.compile_syntax_define (compilation, tokens),
@@ -469,8 +469,16 @@ impl Compiler {
 	
 	
 	#[ allow ( unused_variables )]
-	pub fn compile_syntax_let (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+	pub fn compile_syntax_let (&self, compilation : CompilerContext, syntax : SyntaxPrimitiveN, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		fail_unimplemented! (0x9cd48665);
+	}
+	
+	
+	
+	
+	#[ allow ( unused_variables )]
+	pub fn compile_syntax_let_values (&self, compilation : CompilerContext, syntax : SyntaxPrimitiveN, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+		fail_unimplemented! (0xaba32a69);
 	}
 	
 	

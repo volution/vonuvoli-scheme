@@ -97,8 +97,13 @@ pub enum SyntaxPrimitiveN {
 	
 	Locals,
 	
-	Let,
-	LetValues,
+	LetParallel,
+	LetSequential,
+	LetRecursiveParallel,
+	LetRecursiveSequential,
+	
+	LetValuesParallel,
+	LetValuesSequential,
 	
 	Define,
 	
@@ -191,8 +196,14 @@ pub fn syntax_primitive_n_evaluate (primitive : SyntaxPrimitiveN, inputs : &[Exp
 		SyntaxPrimitiveN::Do =>
 			fail! (0xf5bd287f),
 		
-		SyntaxPrimitiveN::Locals | SyntaxPrimitiveN::Let | SyntaxPrimitiveN::LetValues =>
+		SyntaxPrimitiveN::Locals =>
 			fail! (0xc956c743),
+		
+		SyntaxPrimitiveN::LetParallel | SyntaxPrimitiveN::LetSequential | SyntaxPrimitiveN::LetRecursiveParallel | SyntaxPrimitiveN::LetRecursiveSequential =>
+			fail! (0x136922d0),
+		
+		SyntaxPrimitiveN::LetValuesParallel | SyntaxPrimitiveN::LetValuesSequential =>
+			fail! (0x7b3a21ac),
 		
 		SyntaxPrimitiveN::Define =>
 			fail! (0x33ec681e),

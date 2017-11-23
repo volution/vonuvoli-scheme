@@ -75,14 +75,14 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			("base", "define-syntax", SyntaxPrimitive::Unimplemented.into ()),
 			("base", "define-record-type", SyntaxPrimitive::Unimplemented.into ()),
 			
-			("base", "let", SyntaxPrimitiveN::Let.into ()),
-			("base", "let*", SyntaxPrimitive::Unimplemented.into ()),
+			("base", "let", SyntaxPrimitiveN::LetParallel.into ()),
+			("base", "let*", SyntaxPrimitiveN::LetSequential.into ()),
 			
-			("base", "letrec", SyntaxPrimitive::Unimplemented.into ()),
-			("base", "letrec*", SyntaxPrimitive::Unimplemented.into ()),
+			("base", "letrec", SyntaxPrimitiveN::LetRecursiveParallel.into ()),
+			("base", "letrec*", SyntaxPrimitiveN::LetRecursiveSequential.into ()),
 			
-			("base", "let-values", SyntaxPrimitiveN::LetValues.into ()),
-			("base", "let*-values", SyntaxPrimitive::Unimplemented.into ()),
+			("base", "let-values", SyntaxPrimitiveN::LetValuesParallel.into ()),
+			("base", "let*-values", SyntaxPrimitiveN::LetValuesSequential.into ()),
 			
 			("base", "let-syntax", SyntaxPrimitive::Unimplemented.into ()),
 			("base", "letrec-syntax", SyntaxPrimitive::Unimplemented.into ()),
