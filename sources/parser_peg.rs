@@ -3373,7 +3373,24 @@ fn __parse_test_action<'input>(
     __pos: usize,
 ) -> RuleResult<tests::TestAction> {# ! [ allow ( non_snake_case , unused ) ]    {
         let __choice_res = {
-            let __seq_res = slice_eq(__input, __state, __pos, "!debug");
+            let __seq_res = {
+                let __seq_res = slice_eq(__input, __state, __pos, "!debug");
+                match __seq_res {
+                    Matched(__pos, _) => {
+                        let __seq_res = __parse_space(__input, __state, __pos);
+                        match __seq_res {
+                            Matched(__pos, _) => {
+                                match __parse_value(__input, __state, __pos) {
+                                    Matched(pos, _) => Matched(pos, ()),
+                                    Failed => Failed,
+                                }
+                            }
+                            Failed => Failed,
+                        }
+                    }
+                    Failed => Failed,
+                }
+            };
             match __seq_res {
                 Matched(__pos, _) => {
                     Matched(__pos, {
@@ -3387,28 +3404,11 @@ fn __parse_test_action<'input>(
             Matched(__pos, __value) => Matched(__pos, __value),
             Failed => {
                 let __choice_res = {
-                    let __seq_res = {
-                        let __seq_res = slice_eq(__input, __state, __pos, "!ignore");
-                        match __seq_res {
-                            Matched(__pos, _) => {
-                                let __seq_res = __parse_space(__input, __state, __pos);
-                                match __seq_res {
-                                    Matched(__pos, _) => {
-                                        match __parse_value(__input, __state, __pos) {
-                                            Matched(pos, _) => Matched(pos, ()),
-                                            Failed => Failed,
-                                        }
-                                    }
-                                    Failed => Failed,
-                                }
-                            }
-                            Failed => Failed,
-                        }
-                    };
+                    let __seq_res = slice_eq(__input, __state, __pos, "!debug");
                     match __seq_res {
                         Matched(__pos, _) => {
                             Matched(__pos, {
-                                tests::TestAction::Ignore
+                                tests::TestAction::Debug
                             })
                         }
                         Failed => Failed,
@@ -3418,7 +3418,24 @@ fn __parse_test_action<'input>(
                     Matched(__pos, __value) => Matched(__pos, __value),
                     Failed => {
                         let __choice_res = {
-                            let __seq_res = slice_eq(__input, __state, __pos, "!ignore");
+                            let __seq_res = {
+                                let __seq_res = slice_eq(__input, __state, __pos, "!ignore");
+                                match __seq_res {
+                                    Matched(__pos, _) => {
+                                        let __seq_res = __parse_space(__input, __state, __pos);
+                                        match __seq_res {
+                                            Matched(__pos, _) => {
+                                                match __parse_value(__input, __state, __pos) {
+                                                    Matched(pos, _) => Matched(pos, ()),
+                                                    Failed => Failed,
+                                                }
+                                            }
+                                            Failed => Failed,
+                                        }
+                                    }
+                                    Failed => Failed,
+                                }
+                            };
                             match __seq_res {
                                 Matched(__pos, _) => {
                                     Matched(__pos, {
@@ -3432,33 +3449,11 @@ fn __parse_test_action<'input>(
                             Matched(__pos, __value) => Matched(__pos, __value),
                             Failed => {
                                 let __choice_res = {
-                                    let __seq_res = {
-                                        let __seq_res = slice_eq(__input, __state, __pos, "!fixme");
-                                        match __seq_res {
-                                            Matched(__pos, _) => {
-                                                let __seq_res =
-                                                    __parse_space(__input, __state, __pos);
-                                                match __seq_res {
-                                                    Matched(__pos, _) => {
-                                                        match __parse_value(
-                                                            __input,
-                                                            __state,
-                                                            __pos,
-                                                        ) {
-                                                            Matched(pos, _) => Matched(pos, ()),
-                                                            Failed => Failed,
-                                                        }
-                                                    }
-                                                    Failed => Failed,
-                                                }
-                                            }
-                                            Failed => Failed,
-                                        }
-                                    };
+                                    let __seq_res = slice_eq(__input, __state, __pos, "!ignore");
                                     match __seq_res {
                                         Matched(__pos, _) => {
                                             Matched(__pos, {
-                                                tests::TestAction::Skip
+                                                tests::TestAction::Ignore
                                             })
                                         }
                                         Failed => Failed,
@@ -3468,8 +3463,32 @@ fn __parse_test_action<'input>(
                                     Matched(__pos, __value) => Matched(__pos, __value),
                                     Failed => {
                                         let __choice_res = {
-                                            let __seq_res =
-                                                slice_eq(__input, __state, __pos, "!fixme");
+                                            let __seq_res = {
+                                                let __seq_res =
+                                                    slice_eq(__input, __state, __pos, "!fixme");
+                                                match __seq_res {
+                                                    Matched(__pos, _) => {
+                                                        let __seq_res =
+                                                            __parse_space(__input, __state, __pos);
+                                                        match __seq_res {
+                                                            Matched(__pos, _) => {
+                                                                match __parse_value(
+                                                                    __input,
+                                                                    __state,
+                                                                    __pos,
+                                                                ) {
+                                                                    Matched(pos, _) => {
+                                                                        Matched(pos, ())
+                                                                    }
+                                                                    Failed => Failed,
+                                                                }
+                                                            }
+                                                            Failed => Failed,
+                                                        }
+                                                    }
+                                                    Failed => Failed,
+                                                }
+                                            };
                                             match __seq_res {
                                                 Matched(__pos, _) => {
                                                     Matched(__pos, {
@@ -3482,10 +3501,25 @@ fn __parse_test_action<'input>(
                                         match __choice_res {
                                             Matched(__pos, __value) => Matched(__pos, __value),
                                             Failed => {
-                                                let __choice_res =
-                                                    {
-                                                        let __seq_res =
-                                                            {
+                                                let __choice_res = {
+                                                    let __seq_res =
+                                                        slice_eq(__input, __state, __pos, "!fixme");
+                                                    match __seq_res {
+                                                        Matched(__pos, _) => {
+                                                            Matched(__pos, {
+                                                                tests::TestAction::Skip
+                                                            })
+                                                        }
+                                                        Failed => Failed,
+                                                    }
+                                                };
+                                                match __choice_res {
+                                                    Matched(__pos, __value) => {
+                                                        Matched(__pos, __value)
+                                                    }
+                                                    Failed => {
+                                                        let __choice_res = {
+                                                            let __seq_res = {
                                                                 let __seq_res = slice_eq(
                                                                     __input,
                                                                     __state,
@@ -3508,27 +3542,6 @@ fn __parse_test_action<'input>(
                                                                     Failed => Failed,
                                                                 }
                                                             };
-                                                        match __seq_res {
-                                                            Matched(__pos, _) => {
-                                                                Matched(__pos, {
-                                                                    tests::TestAction::Skip
-                                                                })
-                                                            }
-                                                            Failed => Failed,
-                                                        }
-                                                    };
-                                                match __choice_res {
-                                                    Matched(__pos, __value) => {
-                                                        Matched(__pos, __value)
-                                                    }
-                                                    Failed => {
-                                                        let __choice_res = {
-                                                            let __seq_res = slice_eq(
-                                                                __input,
-                                                                __state,
-                                                                __pos,
-                                                                "!skip",
-                                                            );
                                                             match __seq_res {
                                                                 Matched(__pos, _) => {
                                                                     Matched(__pos, {
@@ -3543,18 +3556,43 @@ fn __parse_test_action<'input>(
                                                                 Matched(__pos, __value)
                                                             }
                                                             Failed => {
-                                                                let __seq_res = __parse_value(
-                                                                    __input,
-                                                                    __state,
-                                                                    __pos,
-                                                                );
-                                                                match __seq_res {
-                                                                    Matched(__pos, value) => {
-                                                                        Matched(__pos, {
-                                                                            tests::TestAction::Expect (value)
-                                                                        })
+                                                                let __choice_res = {
+                                                                    let __seq_res = slice_eq(
+                                                                        __input,
+                                                                        __state,
+                                                                        __pos,
+                                                                        "!skip",
+                                                                    );
+                                                                    match __seq_res {
+                                                                        Matched(__pos, _) => {
+                                                                            Matched(__pos, {
+                                                                                tests::TestAction::Skip
+                                                                            })
+                                                                        }
+                                                                        Failed => Failed,
                                                                     }
-                                                                    Failed => Failed,
+                                                                };
+                                                                match __choice_res {
+                                                                    Matched(__pos, __value) => {
+                                                                        Matched(__pos, __value)
+                                                                    }
+                                                                    Failed => {
+                                                                        let __seq_res =
+                                                                            __parse_value(
+                                                                                __input,
+                                                                                __state,
+                                                                                __pos,
+                                                                            );
+                                                                        match __seq_res {
+                                                                            Matched(__pos,
+                                                                                    value) => {
+                                                                                Matched(__pos, {
+                                                                                    tests::TestAction::Expect (value)
+                                                                                })
+                                                                            }
+                                                                            Failed => Failed,
+                                                                        }
+                                                                    }
                                                                 }
                                                             }
                                                         }

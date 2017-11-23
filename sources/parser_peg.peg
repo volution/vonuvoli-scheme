@@ -123,6 +123,7 @@ pub tests -> Vec<tests::TestCase> = space? tests : test* space? { tests }
 pub test -> tests::TestCase = space? test : test_case ( "//" space? value space? )? ";" space? { test }
 test_case -> tests::TestCase = value : value space? "=>" space? action : test_action space? { tests::TestCase { value : value, action : action } }
 test_action -> tests::TestAction =
+		( "!debug" space value ) { tests::TestAction::Debug } /
 		"!debug" { tests::TestAction::Debug } /
 		( "!ignore" space value ) { tests::TestAction::Ignore } /
 		"!ignore" { tests::TestAction::Ignore } /
