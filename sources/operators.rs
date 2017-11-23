@@ -53,7 +53,7 @@ pub fn list_build_n (values : &[Value]) -> (Value) {
 	if values.is_empty () {
 		NULL
 	} else {
-		values.iter () .rev () .fold (NULL, |last, value| Value::Pair (pair_new (value.clone (), last)))
+		values.iter () .rev () .fold (NULL, |last, value| pair_new (value.clone (), last) .into ())
 	}
 }
 
@@ -211,11 +211,11 @@ pub fn vec_list_drain_dotted (vector : &mut ValueVec, list : &Value) -> (Outcome
 	let mut cursor = list;
 	loop {
 		match cursor {
-			&Value::Pair (ref pair) => {
+			&Value::Pair (ref pair, _) => {
 				vector.push (pair.left () .clone ());
 				cursor = pair.right ();
 			},
-			&Value::Null =>
+			&Value::Null (_) =>
 				succeed! (None),
 			ref value =>
 				succeed! (Some ((*value).clone ())),
@@ -243,12 +243,12 @@ impl <'a> Iterator for ListIterator <'a> {
 	
 	fn next (&mut self) -> (Option<Outcome<&'a Value>>) {
 		let (cursor, value) = match self.0 {
-			&Value::Pair (ref pair) =>
+			&Value::Pair (ref pair, _) =>
 				(
 					pair.right (),
 					pair.left (),
 				),
-			&Value::Null =>
+			&Value::Null (_) =>
 				return None,
 			_ =>
 				return Some (failed! (0xed511f9c)),
@@ -314,11 +314,11 @@ pub fn is_true_or_equivalent (value : &Value) -> (bool) {
 
 pub fn is_false_or_equivalent (value : &Value) -> (bool) {
 	match *value {
-		Value::Null | Value::Void | Value::Undefined =>
+		Value::Null (_) | Value::Void (_) | Value::Undefined (_) =>
 			true,
-		Value::Boolean (FALSE) =>
+		Value::Boolean (FALSE, _) =>
 			true,
-		Value::Error (_) =>
+		Value::Error (_, _) =>
 			true,
 		_ =>
 			false,

@@ -13,11 +13,11 @@ fn test () -> () {
 	
 	for (library, identifier, value) in definitions {
 		match value {
-			Value::ProcedurePrimitive (_) =>
+			Value::ProcedurePrimitive (_, _) =>
 				println! ("|| {} || procedure || {} || {:?} ||", library, identifier, value),
-			Value::SyntaxPrimitive (SyntaxPrimitive::Auxiliary) =>
+			Value::SyntaxPrimitive (SyntaxPrimitive::Auxiliary, _) =>
 				println! ("|| {} || auxiliary-syntax || {} || {:?} ||", library, identifier, value),
-			Value::SyntaxPrimitive (_) =>
+			Value::SyntaxPrimitive (_, _) =>
 				println! ("|| {} || syntax || {} || {:?} ||", library, identifier, value),
 			_ =>
 				println! ("|| {} || unknown || {} || {:?} ||", library, identifier, value),

@@ -214,6 +214,59 @@ macro_rules! impl_unwrappers_for_enum_wrapper {
 	);
 }
 
+#[ allow (unused_macros) ]
+macro_rules! impl_unwrappers_1_for_enum_2_wrapper {
+	( $from : ident, $tag : ident, $to : ty) => (
+		impl StdTryFrom<$from> for $to {
+			type Error = super::errors::Error;
+			fn try_from (value : $from) -> (Outcome<$to>) {
+				if let $from::$tag (value, _) = value {
+					Ok (value)
+				} else {
+					failed! (0x7ac7cc9c)
+				}
+			}
+		}
+		impl StdFrom<$from> for $to {
+			fn from (value : $from) -> ($to) {
+				StdTryFrom::try_from (value) .expect ("328db7d1")
+			}
+		}
+		impl StdTryInto<$to> for $from {
+			type Error = super::errors::Error;
+			fn try_into (self) -> (Outcome<$to>) {
+				if let $from::$tag (value, _) = self {
+					Ok (value)
+				} else {
+					failed! (0x4e255f54)
+				}
+			}
+		}
+		/*
+		impl StdInto<$to> for $from {
+			fn into (self) -> ($to) {
+				StdTryInto::try_into (self) .expect ("bb1180d5")
+			}
+		}
+		*/
+		impl<'a> StdTryAsRef<$to> for $from {
+			type Error = super::errors::Error;
+			fn try_as_ref (&self) -> (Outcome<&$to>) {
+				if let $from::$tag (ref value, _) = *self {
+					Ok (value)
+				} else {
+					failed! (0x1e588e5f)
+				}
+			}
+		}
+		impl<'a> StdAsRef<$to> for $from {
+			fn as_ref (&self) -> (&$to) {
+				StdTryAsRef::try_as_ref (self) .expect ("7d5095ee")
+			}
+		}
+	);
+}
+
 
 
 

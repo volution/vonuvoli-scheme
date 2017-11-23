@@ -46,7 +46,7 @@ macro_rules! impl_from_for_Expression_2 {
 
 macro_rules! impl_from_for_Value_0 {
 	( $tag : ident, $from : ty ) => (
-		impl_from_for_enum! (Value, $tag, $from);
+		impl_from_for_type! (Value, $from, value, Value::$tag (value.into (), ValueMeta (0)));
 		impl_from_for_type! (Value, &'static $from, value, value.clone () .into ());
 		impl_from_for_type! (ValueBox, $from, value, StdBox::new (value.into ()));
 		impl_from_for_type! (ValueBox, &'static $from, value, StdBox::new (value.into ()));
@@ -57,7 +57,7 @@ macro_rules! impl_from_for_Value_0 {
 macro_rules! impl_from_for_Value_1 {
 	( $tag : ident, $from : ty ) => (
 		impl_from_for_Value_0! ($tag, $from);
-		impl_unwrappers_for_enum_wrapper! (Value, $tag, $from);
+		impl_unwrappers_1_for_enum_2_wrapper! (Value, $tag, $from);
 	);
 }
 
@@ -345,9 +345,9 @@ pub enum NumberCoercion2 {
 
 pub fn number_coerce_1 (right : &Value) -> (Outcome<NumberCoercion1>) {
 	match right {
-		&Value::NumberInteger (ref right) =>
+		&Value::NumberInteger (ref right, _) =>
 			Ok (NumberCoercion1::Integer (*right)),
-		&Value::NumberReal (ref right) =>
+		&Value::NumberReal (ref right, _) =>
 			Ok (NumberCoercion1::Real (*right)),
 		_ =>
 			failed! (0x947fb339),
@@ -356,13 +356,13 @@ pub fn number_coerce_1 (right : &Value) -> (Outcome<NumberCoercion1>) {
 
 pub fn number_coerce_2a (left : &Value, right : &Value) -> (Outcome<NumberCoercion2>) {
 	match (left, right) {
-		(&Value::NumberInteger (ref left), &Value::NumberInteger (ref right)) =>
+		(&Value::NumberInteger (ref left, _), &Value::NumberInteger (ref right, _)) =>
 			Ok (NumberCoercion2::Integer (*left, *right)),
-		(&Value::NumberReal (ref left), &Value::NumberReal (ref right)) =>
+		(&Value::NumberReal (ref left, _), &Value::NumberReal (ref right, _)) =>
 			Ok (NumberCoercion2::Real (*left, *right)),
-		(&Value::NumberReal (ref left), &Value::NumberInteger (ref right)) =>
+		(&Value::NumberReal (ref left, _), &Value::NumberInteger (ref right, _)) =>
 			Ok (NumberCoercion2::Real (*left, (*right).into ())),
-		(&Value::NumberInteger (ref left), &Value::NumberReal (ref right)) =>
+		(&Value::NumberInteger (ref left, _), &Value::NumberReal (ref right, _)) =>
 			Ok (NumberCoercion2::Real ((*left).into (), *right)),
 		_ =>
 			failed! (0x6cfbdd37),
@@ -371,13 +371,13 @@ pub fn number_coerce_2a (left : &Value, right : &Value) -> (Outcome<NumberCoerci
 
 pub fn number_coerce_2b (left : &NumberCoercion1, right : &Value) -> (Outcome<NumberCoercion2>) {
 	match (left, right) {
-		(&NumberCoercion1::Integer (ref left), &Value::NumberInteger (ref right)) =>
+		(&NumberCoercion1::Integer (ref left), &Value::NumberInteger (ref right, _)) =>
 			Ok (NumberCoercion2::Integer (*left, *right)),
-		(&NumberCoercion1::Real (ref left), &Value::NumberReal (ref right)) =>
+		(&NumberCoercion1::Real (ref left), &Value::NumberReal (ref right, _)) =>
 			Ok (NumberCoercion2::Real (*left, *right)),
-		(&NumberCoercion1::Real (ref left), &Value::NumberInteger (ref right)) =>
+		(&NumberCoercion1::Real (ref left), &Value::NumberInteger (ref right, _)) =>
 			Ok (NumberCoercion2::Real (*left, (*right).into ())),
-		(&NumberCoercion1::Integer (ref left), &Value::NumberReal (ref right)) =>
+		(&NumberCoercion1::Integer (ref left), &Value::NumberReal (ref right, _)) =>
 			Ok (NumberCoercion2::Real ((*left).into (), *right)),
 		_ =>
 			failed! (0xc3883ceb),

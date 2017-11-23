@@ -1,5 +1,6 @@
 
 
+use super::constants::exports::*;
 use super::contexts::exports::*;
 use super::errors::exports::*;
 use super::primitives::exports::*;
@@ -16,7 +17,7 @@ use std::ops;
 
 pub mod exports {
 	
-	pub use super::{ValueClass};
+	pub use super::{ValueClass, ValueMeta};
 	
 	pub use super::{Value, ValueBox, ValueVec};
 	pub use super::{Boolean, BooleanBox, BooleanVec};
@@ -88,32 +89,36 @@ pub enum ValueClass {
 #[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
 pub enum Value {
 	
-	Null,
-	Void,
-	Undefined,
+	Null ( ValueMeta ),
+	Void ( ValueMeta ),
+	Undefined ( ValueMeta ),
 	
-	Boolean ( Boolean ),
-	NumberInteger ( NumberInteger ),
-	NumberReal ( NumberReal ),
-	Character ( Character ),
+	Boolean ( Boolean, ValueMeta ),
+	NumberInteger ( NumberInteger, ValueMeta ),
+	NumberReal ( NumberReal, ValueMeta ),
+	Character ( Character, ValueMeta ),
 	
-	Symbol ( Symbol ),
-	String ( String ),
-	Bytes ( Bytes ),
+	Symbol ( Symbol, ValueMeta ),
+	String ( String, ValueMeta ),
+	Bytes ( Bytes, ValueMeta ),
 	
-	Pair ( Pair ),
-	Array ( Array ),
+	Pair ( Pair, ValueMeta ),
+	Array ( Array, ValueMeta ),
 	
-	Error ( Error ),
+	Error ( Error, ValueMeta ),
 	
-	Lambda ( Lambda ),
-	ProcedurePrimitive ( ProcedurePrimitive ),
-	SyntaxPrimitive ( SyntaxPrimitive ),
+	Lambda ( Lambda, ValueMeta ),
+	ProcedurePrimitive ( ProcedurePrimitive, ValueMeta ),
+	SyntaxPrimitive ( SyntaxPrimitive, ValueMeta ),
 	
-	Context ( Context ),
-	Binding ( Binding ),
+	Context ( Context, ValueMeta ),
+	Binding ( Binding, ValueMeta ),
 	
 }
+
+
+#[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
+pub struct ValueMeta ( pub u32 );
 
 
 pub type ValueBox = StdBox<Value>;
@@ -125,30 +130,30 @@ impl Value {
 	pub fn class (&self) -> (ValueClass) {
 		match *self {
 			
-			Value::Null => ValueClass::Null,
-			Value::Void => ValueClass::Void,
-			Value::Undefined => ValueClass::Undefined,
+			Value::Null (_) => ValueClass::Null,
+			Value::Void (_) => ValueClass::Void,
+			Value::Undefined (_) => ValueClass::Undefined,
 			
-			Value::Boolean (_) => ValueClass::Boolean,
-			Value::NumberInteger (_) => ValueClass::NumberInteger,
-			Value::NumberReal (_) => ValueClass::NumberReal,
-			Value::Character (_) => ValueClass::Character,
+			Value::Boolean (_, _) => ValueClass::Boolean,
+			Value::NumberInteger (_, _) => ValueClass::NumberInteger,
+			Value::NumberReal (_, _) => ValueClass::NumberReal,
+			Value::Character (_, _) => ValueClass::Character,
 			
-			Value::Symbol (_) => ValueClass::Symbol,
-			Value::String (_) => ValueClass::String,
-			Value::Bytes (_) => ValueClass::Bytes,
+			Value::Symbol (_, _) => ValueClass::Symbol,
+			Value::String (_, _) => ValueClass::String,
+			Value::Bytes (_, _) => ValueClass::Bytes,
 			
-			Value::Pair (_) => ValueClass::Pair,
-			Value::Array (_) => ValueClass::Array,
+			Value::Pair (_, _) => ValueClass::Pair,
+			Value::Array (_, _) => ValueClass::Array,
 			
-			Value::Error (_) => ValueClass::Error,
+			Value::Error (_, _) => ValueClass::Error,
 			
-			Value::Lambda (_) => ValueClass::Lambda,
-			Value::ProcedurePrimitive (_) => ValueClass::ProcedurePrimitive,
-			Value::SyntaxPrimitive (_) => ValueClass::SyntaxPrimitive,
+			Value::Lambda (_, _) => ValueClass::Lambda,
+			Value::ProcedurePrimitive (_, _) => ValueClass::ProcedurePrimitive,
+			Value::SyntaxPrimitive (_, _) => ValueClass::SyntaxPrimitive,
 			
-			Value::Context (_) => ValueClass::Context,
-			Value::Binding (_) => ValueClass::Binding,
+			Value::Context (_, _) => ValueClass::Context,
+			Value::Binding (_, _) => ValueClass::Binding,
 			
 		}
 	}
@@ -187,24 +192,24 @@ impl Value {
 impl fmt::Display for Value {
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		match *self {
-			Value::Null => formatter.write_str ("#null"),
-			Value::Void => formatter.write_str ("#void"),
-			Value::Undefined => formatter.write_str ("#undefined"),
-			Value::Boolean (ref value) => value.fmt (formatter),
-			Value::NumberInteger (ref value) => value.fmt (formatter),
-			Value::NumberReal (ref value) => value.fmt (formatter),
-			Value::Character (ref value) => value.fmt (formatter),
-			Value::Symbol (ref value) => value.fmt (formatter),
-			Value::String (ref value) => value.fmt (formatter),
-			Value::Bytes (ref value) => value.fmt (formatter),
-			Value::Pair (ref value) => value.fmt (formatter),
-			Value::Array (ref value) => value.fmt (formatter),
-			Value::Error (ref value) => value.fmt (formatter),
-			Value::Lambda (ref value) => value.fmt (formatter),
-			Value::ProcedurePrimitive (ref value) => write! (formatter, "#<procedure:{:?}>", value),
-			Value::SyntaxPrimitive (ref value) => write! (formatter, "#<syntax:{:?}>", value),
-			Value::Context (ref value) => value.fmt (formatter),
-			Value::Binding (ref value) => value.fmt (formatter),
+			Value::Null (_) => formatter.write_str ("#null"),
+			Value::Void (_) => formatter.write_str ("#void"),
+			Value::Undefined (_) => formatter.write_str ("#undefined"),
+			Value::Boolean (ref value, _) => value.fmt (formatter),
+			Value::NumberInteger (ref value, _) => value.fmt (formatter),
+			Value::NumberReal (ref value, _) => value.fmt (formatter),
+			Value::Character (ref value, _) => value.fmt (formatter),
+			Value::Symbol (ref value, _) => value.fmt (formatter),
+			Value::String (ref value, _) => value.fmt (formatter),
+			Value::Bytes (ref value, _) => value.fmt (formatter),
+			Value::Pair (ref value, _) => value.fmt (formatter),
+			Value::Array (ref value, _) => value.fmt (formatter),
+			Value::Error (ref value, _) => value.fmt (formatter),
+			Value::Lambda (ref value, _) => value.fmt (formatter),
+			Value::ProcedurePrimitive (ref value, _) => write! (formatter, "#<procedure:{:?}>", value),
+			Value::SyntaxPrimitive (ref value, _) => write! (formatter, "#<syntax:{:?}>", value),
+			Value::Context (ref value, _) => value.fmt (formatter),
+			Value::Binding (ref value, _) => value.fmt (formatter),
 		}
 	}
 }
@@ -1001,8 +1006,8 @@ impl fmt::Display for Pair {
 			let right = cursor.right ();
 			try! (left.fmt (formatter));
 			match *right {
-				Value::Null => break,
-				Value::Pair (ref right) => {
+				Value::Null (_) => break,
+				Value::Pair (ref right, _) => {
 					try! (formatter.write_char (' '));
 					cursor = right;
 				},
@@ -1140,10 +1145,10 @@ pub fn pair_new (left : Value, right : Value) -> (Pair) {
 }
 
 pub fn list_new (values : ValueVec) -> (Value) {
-	list_dotted_new (values, Value::Null)
+	list_dotted_new (values, NULL)
 }
 
 pub fn list_dotted_new (values : ValueVec, last : Value) -> (Value) {
-	values.into_iter () .rev () .fold (last, |last, value| Value::Pair (pair_new (value, last)))
+	values.into_iter () .rev () .fold (last, |last, value| pair_new (value, last) .into ())
 }
 

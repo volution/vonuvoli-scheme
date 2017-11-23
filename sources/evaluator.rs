@@ -344,9 +344,9 @@ impl Evaluator {
 	
 	pub fn evaluate_procedure_call_with_values (&self, evaluation : &mut EvaluatorContext, callable : &Value, inputs : &[Value]) -> (Outcome<Value>) {
 		match *callable {
-			Value::ProcedurePrimitive (primitive) =>
+			Value::ProcedurePrimitive (primitive, _) =>
 				return self.evaluate_procedure_primitive_with_values (evaluation, primitive, inputs),
-			Value::Lambda (ref lambda) =>
+			Value::Lambda (ref lambda, _) =>
 				return self.evaluate_lambda_call_with_values (evaluation, lambda, inputs),
 			_ =>
 				fail! (0x88be334b),
