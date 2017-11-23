@@ -31,6 +31,7 @@ pub mod exports {
 	pub use super::{vec_into, vec_clone_slice};
 	pub use super::{vec_append_2};
 	pub use super::{vec_explode_1, vec_explode_1n, vec_explode_2, vec_explode_2n, vec_explode_3, vec_explode_3n};
+	pub use super::{vec_zip_2};
 	
 }
 
@@ -143,5 +144,12 @@ pub fn vec_explode_3n <Element> (vector : Vec<Element>) -> (Outcome<(Element, El
 				iterator.next () .expect ("8d161b2e"),
 				iterator.collect (),
 		));
+}
+
+
+
+
+pub fn vec_zip_2 <Element1, Element2> (vector_1 : Vec<Element1>, vector_2 : Vec<Element2>) -> (Vec<(Element1, Element2)>) {
+	return vector_1.into_iter () .zip (vector_2.into_iter ()) .collect ();
 }
 
