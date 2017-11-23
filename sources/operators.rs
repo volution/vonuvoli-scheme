@@ -13,9 +13,9 @@ pub mod exports {
 	pub use super::{pair};
 	pub use super::{list_build_1, list_build_2, list_build_3, list_build_4, list_build_n};
 	pub use super::{list_append_2, list_append_3, list_append_4, list_append_n};
-	pub use super::{vec_append_2, vec_append_3, vec_append_4, vec_append_n};
-	pub use super::{vec_append_2_dotted, vec_append_3_dotted, vec_append_4_dotted, vec_append_n_dotted};
-	pub use super::{vec_clone_list, vec_clone_list_dotted, vec_drain_list, vec_drain_list_dotted};
+	pub use super::{vec_list_append_2, vec_list_append_3, vec_list_append_4, vec_list_append_n};
+	pub use super::{vec_list_append_2_dotted, vec_list_append_3_dotted, vec_list_append_4_dotted, vec_list_append_n_dotted};
+	pub use super::{vec_list_clone, vec_list_clone_dotted, vec_list_drain, vec_list_drain_dotted};
 	pub use super::{ListIterator, ListsIterator};
 	pub use super::{is_true, is_false, is_not_false, is_true_or_equivalent, is_false_or_equivalent};
 	pub use super::{apply_n};
@@ -61,22 +61,22 @@ pub fn list_build_n (values : &[Value]) -> (Value) {
 
 
 pub fn list_append_2 (list_1 : &Value, list_2 : &Value) -> (Outcome<Value>) {
-	let output = try! (vec_append_2_dotted (list_1, list_2));
+	let output = try! (vec_list_append_2_dotted (list_1, list_2));
 	return list_append_return (output);
 }
 
 pub fn list_append_3 (list_1 : &Value, list_2 : &Value, list_3 : &Value) -> (Outcome<Value>) {
-	let output = try! (vec_append_3_dotted (list_1, list_2, list_3));
+	let output = try! (vec_list_append_3_dotted (list_1, list_2, list_3));
 	return list_append_return (output);
 }
 
 pub fn list_append_4 (list_1 : &Value, list_2 : &Value, list_3 : &Value, list_4 : &Value) -> (Outcome<Value>) {
-	let output = try! (vec_append_4_dotted (list_1, list_2, list_3, list_4));
+	let output = try! (vec_list_append_4_dotted (list_1, list_2, list_3, list_4));
 	return list_append_return (output);
 }
 
 pub fn list_append_n (lists : &[Value]) -> (Outcome<Value>) {
-	let output = try! (vec_append_n_dotted (lists));
+	let output = try! (vec_list_append_n_dotted (lists));
 	return list_append_return (output);
 }
 
@@ -92,27 +92,27 @@ fn list_append_return ((values, last) : (ValueVec, Option<Value>)) -> (Outcome<V
 
 
 
-pub fn vec_append_2 (list_1 : &Value, list_2 : &Value) -> (Outcome<ValueVec>) {
-	let output = try! (vec_append_2_dotted (list_1, list_2));
-	return vec_append_return (output);
+pub fn vec_list_append_2 (list_1 : &Value, list_2 : &Value) -> (Outcome<ValueVec>) {
+	let output = try! (vec_list_append_2_dotted (list_1, list_2));
+	return vec_list_append_return (output);
 }
 
-pub fn vec_append_3 (list_1 : &Value, list_2 : &Value, list_3 : &Value) -> (Outcome<ValueVec>) {
-	let output = try! (vec_append_3_dotted (list_1, list_2, list_3));
-	return vec_append_return (output);
+pub fn vec_list_append_3 (list_1 : &Value, list_2 : &Value, list_3 : &Value) -> (Outcome<ValueVec>) {
+	let output = try! (vec_list_append_3_dotted (list_1, list_2, list_3));
+	return vec_list_append_return (output);
 }
 
-pub fn vec_append_4 (list_1 : &Value, list_2 : &Value, list_3 : &Value, list_4 : &Value) -> (Outcome<ValueVec>) {
-	let output = try! (vec_append_4_dotted (list_1, list_2, list_3, list_4));
-	return vec_append_return (output);
+pub fn vec_list_append_4 (list_1 : &Value, list_2 : &Value, list_3 : &Value, list_4 : &Value) -> (Outcome<ValueVec>) {
+	let output = try! (vec_list_append_4_dotted (list_1, list_2, list_3, list_4));
+	return vec_list_append_return (output);
 }
 
-pub fn vec_append_n (lists : &[Value]) -> (Outcome<ValueVec>) {
-	let output = try! (vec_append_n_dotted (lists));
-	return vec_append_return (output);
+pub fn vec_list_append_n (lists : &[Value]) -> (Outcome<ValueVec>) {
+	let output = try! (vec_list_append_n_dotted (lists));
+	return vec_list_append_return (output);
 }
 
-fn vec_append_return ((values, last) : (ValueVec, Option<Value>)) -> (Outcome<ValueVec>) {
+fn vec_list_append_return ((values, last) : (ValueVec, Option<Value>)) -> (Outcome<ValueVec>) {
 	match last {
 		Some (_) =>
 			fail! (0x48f9af8f),
@@ -124,50 +124,50 @@ fn vec_append_return ((values, last) : (ValueVec, Option<Value>)) -> (Outcome<Va
 
 
 
-pub fn vec_append_2_dotted (list_1 : &Value, list_2 : &Value) -> (Outcome<(ValueVec, Option<Value>)>) {
+pub fn vec_list_append_2_dotted (list_1 : &Value, list_2 : &Value) -> (Outcome<(ValueVec, Option<Value>)>) {
 	if (*list_1 == NULL) && (*list_2 == NULL) {
 		succeed! ((StdVec::new (), None));
 	}
 	let mut values = ValueVec::new ();
-	try! (vec_drain_list (&mut values, &list_1));
-	let last = try! (vec_drain_list_dotted (&mut values, &list_2));
+	try! (vec_list_drain (&mut values, &list_1));
+	let last = try! (vec_list_drain_dotted (&mut values, &list_2));
 	succeed! ((values, last));
 }
 
-pub fn vec_append_3_dotted (list_1 : &Value, list_2 : &Value, list_3 : &Value) -> (Outcome<(ValueVec, Option<Value>)>) {
+pub fn vec_list_append_3_dotted (list_1 : &Value, list_2 : &Value, list_3 : &Value) -> (Outcome<(ValueVec, Option<Value>)>) {
 	if (*list_1 == NULL) && (*list_2 == NULL) && (*list_3 == NULL) {
 		succeed! ((StdVec::new (), None));
 	}
 	let mut values = ValueVec::new ();
-	try! (vec_drain_list (&mut values, &list_1));
-	try! (vec_drain_list (&mut values, &list_2));
-	let last = try! (vec_drain_list_dotted (&mut values, &list_3));
+	try! (vec_list_drain (&mut values, &list_1));
+	try! (vec_list_drain (&mut values, &list_2));
+	let last = try! (vec_list_drain_dotted (&mut values, &list_3));
 	succeed! ((values, last));
 }
 
-pub fn vec_append_4_dotted (list_1 : &Value, list_2 : &Value, list_3 : &Value, list_4 : &Value) -> (Outcome<(ValueVec, Option<Value>)>) {
+pub fn vec_list_append_4_dotted (list_1 : &Value, list_2 : &Value, list_3 : &Value, list_4 : &Value) -> (Outcome<(ValueVec, Option<Value>)>) {
 	if (*list_1 == NULL) && (*list_2 == NULL) && (*list_3 == NULL) && (*list_4 == NULL) {
 		succeed! ((StdVec::new (), None));
 	}
 	let mut values = ValueVec::new ();
-	try! (vec_drain_list (&mut values, &list_1));
-	try! (vec_drain_list (&mut values, &list_2));
-	try! (vec_drain_list (&mut values, &list_3));
-	let last = try! (vec_drain_list_dotted (&mut values, &list_4));
+	try! (vec_list_drain (&mut values, &list_1));
+	try! (vec_list_drain (&mut values, &list_2));
+	try! (vec_list_drain (&mut values, &list_3));
+	let last = try! (vec_list_drain_dotted (&mut values, &list_4));
 	succeed! ((values, last));
 }
 
-pub fn vec_append_n_dotted (lists : &[Value]) -> (Outcome<(ValueVec, Option<Value>)>) {
+pub fn vec_list_append_n_dotted (lists : &[Value]) -> (Outcome<(ValueVec, Option<Value>)>) {
 	match lists.split_last () {
 		Some ((list_last, lists_first)) =>
 			if lists_first.is_empty () {
-				return vec_clone_list_dotted (list_last);
+				return vec_list_clone_dotted (list_last);
 			} else {
 				let mut values = ValueVec::new ();
 				for list in lists_first {
-					try! (vec_drain_list (&mut values, &list));
+					try! (vec_list_drain (&mut values, &list));
 				}
-				let last = try! (vec_drain_list_dotted (&mut values, &list_last));
+				let last = try! (vec_list_drain_dotted (&mut values, &list_last));
 				succeed! ((values, last));
 			},
 		None =>
@@ -178,8 +178,8 @@ pub fn vec_append_n_dotted (lists : &[Value]) -> (Outcome<(ValueVec, Option<Valu
 
 
 
-pub fn vec_clone_list (list : &Value) -> (Outcome<ValueVec>) {
-	let (vector, last) = try! (vec_clone_list_dotted (list));
+pub fn vec_list_clone (list : &Value) -> (Outcome<ValueVec>) {
+	let (vector, last) = try! (vec_list_clone_dotted (list));
 	match last {
 		Some (_) =>
 			fail! (0x096d7253),
@@ -189,15 +189,15 @@ pub fn vec_clone_list (list : &Value) -> (Outcome<ValueVec>) {
 }
 
 
-pub fn vec_clone_list_dotted (list : &Value) -> (Outcome<(ValueVec, Option<Value>)>) {
+pub fn vec_list_clone_dotted (list : &Value) -> (Outcome<(ValueVec, Option<Value>)>) {
 	let mut vector = ValueVec::new ();
-	let last = try! (vec_drain_list_dotted (&mut vector, list));
+	let last = try! (vec_list_drain_dotted (&mut vector, list));
 	succeed! ((vector, last));
 }
 
 
-pub fn vec_drain_list (vector : &mut ValueVec, list : &Value) -> (Outcome<()>) {
-	let last = try! (vec_drain_list_dotted (vector, list));
+pub fn vec_list_drain (vector : &mut ValueVec, list : &Value) -> (Outcome<()>) {
+	let last = try! (vec_list_drain_dotted (vector, list));
 	match last {
 		Some (_) =>
 			fail! (0x57ebb8de),
@@ -207,7 +207,7 @@ pub fn vec_drain_list (vector : &mut ValueVec, list : &Value) -> (Outcome<()>) {
 }
 
 
-pub fn vec_drain_list_dotted (vector : &mut ValueVec, list : &Value) -> (Outcome<Option<Value>>) {
+pub fn vec_list_drain_dotted (vector : &mut ValueVec, list : &Value) -> (Outcome<Option<Value>>) {
 	let mut cursor = list;
 	loop {
 		match cursor {
@@ -329,7 +329,7 @@ pub fn is_false_or_equivalent (value : &Value) -> (bool) {
 
 
 pub fn apply_n (evaluator : &mut EvaluatorContext, callable : &Value, inputs : &[Value]) -> (Outcome<Value>) {
-	let inputs = try! (vec_append_n (inputs));
+	let inputs = try! (vec_list_append_n (inputs));
 	return evaluator.evaluator.evaluate_procedure_call_with_values (evaluator, callable, &inputs);
 }
 

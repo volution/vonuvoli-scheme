@@ -228,16 +228,40 @@ macro_rules! vec_into {
 #[ macro_export ]
 #[ allow (unused_macros) ]
 macro_rules! vec_map {
-	( $vector : expr, $argument : pat, $expression : expr ) => (
-		$vector.into_iter () .map (|$argument| $expression) .collect::<::std::vec::Vec<_>> ()
+	( $vector : expr, $element : pat, $expression : expr ) => (
+		$vector.into_iter () .map (|$element| $expression) .collect::<::std::vec::Vec<_>> ()
 	);
 }
 
 #[ macro_export ]
 #[ allow (unused_macros) ]
 macro_rules! try_vec_map {
-	( $vector : expr, $argument : pat, $expression : expr ) => (
-		try! ($vector.into_iter () .map (|$argument| $expression) .collect::<::std::result::Result<::std::vec::Vec<_>, _>> ())
+	( $vector : expr, $element : pat, $expression : expr ) => (
+		try! ($vector.into_iter () .map (|$element| $expression) .collect::<::std::result::Result<::std::vec::Vec<_>, _>> ())
+	);
+}
+
+#[ macro_export ]
+#[ allow (unused_macros) ]
+macro_rules! vec_fold {
+	( $vector : expr, $initial : expr, ($accumulator : pat, $element : pat), $expression : block ) => (
+		$vector.into_iter () .fold ($initial, |$accumulator, $element| $expression)
+	);
+}
+
+#[ macro_export ]
+#[ allow (unused_macros) ]
+macro_rules! try_vec_fold {
+	( $vector : expr, $initial : expr, ($accumulator : pat, $element : pat), $expression : block ) => (
+		// FIXME:  Try to elide the `::errors::exports::Error`!
+		try! ($vector.into_iter () .fold::<::std::result::Result<_, ::errors::exports::Error>, _> (::std::result::Result::Ok ($initial), |accumulator, $element| {
+			match accumulator {
+				::std::result::Result::Ok ($accumulator) =>
+					$expression,
+				error =>
+					error,
+			}
+		}))
 	);
 }
 
@@ -250,9 +274,9 @@ macro_rules! option_map {
 	( $option : ident, $expression : expr ) => {
 		option_map! ($option, $option, $expression)
 	};
-	( $option : expr, $argument : pat, $expression : expr ) => (
+	( $option : expr, $value : pat, $expression : expr ) => (
 		match $option {
-			Some ($argument) =>
+			Some ($value) =>
 				Some ($expression),
 			None =>
 				None
@@ -266,9 +290,9 @@ macro_rules! try_option_map {
 	( $option : ident, $expression : expr ) => {
 		try_option_map! ($option, $option, $expression)
 	};
-	( $option : expr, $argument : pat, $expression : expr ) => (
+	( $option : expr, $value : pat, $expression : expr ) => (
 		match $option {
-			Some ($argument) =>
+			Some ($value) =>
 				Some (try! ($expression)),
 			None =>
 				None

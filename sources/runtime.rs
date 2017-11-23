@@ -29,6 +29,7 @@ pub mod exports {
 	pub use super::StdTryAsRef;
 	
 	pub use super::{vec_into, vec_clone_slice};
+	pub use super::{vec_append_2};
 	pub use super::{vec_explode_1, vec_explode_1n, vec_explode_2, vec_explode_2n, vec_explode_3, vec_explode_3n};
 	
 }
@@ -54,12 +55,22 @@ pub trait StdTryAsRef <T> {
 
 
 
-pub fn vec_into <FromT, To : From<FromT>> (from : Vec<FromT>) -> (Vec<To>) {
+pub fn vec_into <Element, To : From<Element>> (from : Vec<Element>) -> (Vec<To>) {
 	vec_map! (from, value, value.into ())
 }
 
-pub fn vec_clone_slice <FromT : Clone, To : From<FromT>> (from : &[FromT]) -> (Vec<To>) {
+pub fn vec_clone_slice <Element : Clone, To : From<Element>> (from : &[Element]) -> (Vec<To>) {
 	vec_map! (from.to_vec (), value, value.into ())
+}
+
+
+
+
+pub fn vec_append_2 <Element> (vector_1 : Vec<Element>, vector_2 : Vec<Element>) -> (Vec<Element>) {
+	let mut vector = Vec::with_capacity (vector_1.len () + vector_2.len ());
+	vector.extend (vector_1.into_iter ());
+	vector.extend (vector_2.into_iter ());
+	return vector;
 }
 
 

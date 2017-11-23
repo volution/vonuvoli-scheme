@@ -170,7 +170,7 @@ impl Compiler {
 	pub fn compile_procedure_call (&self, compilation : CompilerContext, procedure : Value, arguments : Value) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		let (compilation, procedure) = try! (self.compile_0 (compilation, procedure));
-		let (compilation, arguments) = try! (self.compile_vec_0 (compilation, try! (vec_clone_list (&arguments))));
+		let (compilation, arguments) = try! (self.compile_vec_0 (compilation, try! (vec_list_clone (&arguments))));
 		
 		let expression = Expression::ProcedureCall (procedure.into (), arguments);
 		
@@ -182,7 +182,7 @@ impl Compiler {
 	
 	pub fn compile_syntax_call (&self, compilation : CompilerContext, syntax : SyntaxPrimitive, tokens : Value) -> (Outcome<(CompilerContext, Expression)>) {
 		
-		let tokens = try! (vec_clone_list (&tokens));
+		let tokens = try! (vec_list_clone (&tokens));
 		let tokens_count = tokens.len ();
 		
 		match syntax {
@@ -394,7 +394,7 @@ impl Compiler {
 		for tokens in tokens.into_iter () {
 			
 			try_is_pair! (tokens);
-			let tokens = try! (vec_clone_list (&tokens));
+			let tokens = try! (vec_list_clone (&tokens));
 			if tokens.is_empty () {
 				fail! (0x86331f4b);
 			}
@@ -515,7 +515,7 @@ impl Compiler {
 					fail! (0x48c70de5);
 				}
 				
-				let (signature, argument_rest) = try! (vec_clone_list_dotted (&signature));
+				let (signature, argument_rest) = try! (vec_list_clone_dotted (&signature));
 				let (identifier, arguments_positional) = try! (vec_explode_1n (signature));
 				
 				let identifier = try_into_symbol! (identifier);
@@ -564,7 +564,7 @@ impl Compiler {
 			ValueClass::Symbol =>
 				(StdVec::new (), Some (Symbol::from (arguments))),
 			ValueClass::Pair | ValueClass::Null => {
-				let (arguments_positional, argument_rest) = try! (vec_clone_list_dotted (&arguments));
+				let (arguments_positional, argument_rest) = try! (vec_list_clone_dotted (&arguments));
 				let arguments_positional = try_vec_map! (arguments_positional, value, Symbol::try_from (value));
 				let argument_rest = try_option_map! (argument_rest, Symbol::try_from (argument_rest));
 				(arguments_positional, argument_rest)
@@ -667,7 +667,7 @@ impl Compiler {
 				let compilation = match try! (self.compile_form_0 (compilation, token.clone () .into ())) {
 					
 					(compilation, Some ((syntax, tokens))) => {
-						let tokens = try! (vec_clone_list (&tokens));
+						let tokens = try! (vec_list_clone (&tokens));
 						let tokens_count = tokens.len ();
 						match syntax {
 							
