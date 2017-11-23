@@ -11,19 +11,27 @@
 (and) => #t;
 (and #t) => #t;
 (and #f) => #f;
+(and #null) => #null;
+(and #null 0) => 0;
+(and 0 #null) => #null;
 (and 0) => 0;
 (and 1) => 1;
 (and 0 1 2) => 2;
 (and #f 0 1) => #f;
 (and 0 #f 1) => #f;
+(and #f #f 1) => #f;
 
 
 (or) => #f;
 (or #f) => #f;
 (or #t) => #t;
+(or #null) => #null;
+(or #null 0) => #null;
+(or 0 #null) => 0;
 (or 0) => 0;
 (or 1) => 1;
 (or 0 1 2) => 0;
 (or #f 0 1) => 0;
 (or 0 #f 1) => 0;
+(or #f #f 1) => 1;
 
