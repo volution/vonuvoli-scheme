@@ -1,0 +1,198 @@
+
+(null? #null) => #t;
+(null? #void) => #f;
+(null? #undefined) => #f;
+(null? #t) => #f;
+(null? #f) => #f;
+(null? 0) => #f;
+(null? 0.0) => #f;
+(null? #\c) => #f;
+(null? 'symbol) => #f;
+(null? "string") => #f;
+(null? #u8()) => #f;
+(null? #()) => #f;
+(null? '(0 . 1)) => #f;
+(null? '(0 1)) => #f;
+(null? +) => #f;
+(null? (lambda _ _)) => #f;
+
+
+(boolean? #null) => #f;
+(boolean? #void) => #f;
+(boolean? #undefined) => #f;
+(boolean? #t) => #t;
+(boolean? #f) => #t;
+(boolean? 0) => #f;
+(boolean? 0.0) => #f;
+(boolean? #\c) => #f;
+(boolean? 'symbol) => #f;
+(boolean? "string") => #f;
+(boolean? #u8()) => #f;
+(boolean? #()) => #f;
+(boolean? '(0 . 1)) => #f;
+(boolean? '(0 1)) => #f;
+(boolean? +) => #f;
+(boolean? (lambda _ _)) => #f;
+
+
+(number? #null) => #f;
+(number? #void) => #f;
+(number? #undefined) => #f;
+(number? #t) => #f;
+(number? #f) => #f;
+(number? 0) => #t;
+(number? 0.0) => #t;
+(number? #\c) => #f;
+(number? 'symbol) => #f;
+(number? "string") => #f;
+(number? #u8()) => #f;
+(number? #()) => #f;
+(number? '(0 . 1)) => #f;
+(number? '(0 1)) => #f;
+(number? +) => #f;
+(number? (lambda _ _)) => #f;
+
+
+(char? #null) => #f;
+(char? #void) => #f;
+(char? #undefined) => #f;
+(char? #t) => #f;
+(char? #f) => #f;
+(char? 0) => #f;
+(char? 0.0) => #f;
+(char? #\c) => #t;
+(char? 'symbol) => #f;
+(char? "string") => #f;
+(char? #u8()) => #f;
+(char? #()) => #f;
+(char? '(0 . 1)) => #f;
+(char? '(0 1)) => #f;
+(char? +) => #f;
+(char? (lambda _ _)) => #f;
+
+
+(symbol? #null) => #f;
+(symbol? #void) => #f;
+(symbol? #undefined) => #f;
+(symbol? #t) => #f;
+(symbol? #f) => #f;
+(symbol? 0) => #f;
+(symbol? 0.0) => #f;
+(symbol? #\c) => #f;
+(symbol? 'symbol) => #t;
+(symbol? "string") => #f;
+(symbol? #u8()) => #f;
+(symbol? #()) => #f;
+(symbol? '(0 . 1)) => #f;
+(symbol? '(0 1)) => #f;
+(symbol? +) => #f;
+(symbol? (lambda _ _)) => #f;
+
+
+(string? #null) => #f;
+(string? #void) => #f;
+(string? #undefined) => #f;
+(string? #t) => #f;
+(string? #f) => #f;
+(string? 0) => #f;
+(string? 0.0) => #f;
+(string? #\c) => #f;
+(string? 'symbol) => #f;
+(string? "string") => #t;
+(string? #u8()) => #f;
+(string? #()) => #f;
+(string? '(0 . 1)) => #f;
+(string? '(0 1)) => #f;
+(string? +) => #f;
+(string? (lambda _ _)) => #f;
+
+
+(bytevector? #null) => #f;
+(bytevector? #void) => #f;
+(bytevector? #undefined) => #f;
+(bytevector? #t) => #f;
+(bytevector? #f) => #f;
+(bytevector? 0) => #f;
+(bytevector? 0.0) => #f;
+(bytevector? #\c) => #f;
+(bytevector? 'symbol) => #f;
+(bytevector? "string") => #f;
+(bytevector? #u8()) => #t;
+(bytevector? #()) => #f;
+(bytevector? '(0 . 1)) => #f;
+(bytevector? '(0 1)) => #f;
+(bytevector? +) => #f;
+(bytevector? (lambda _ _)) => #f;
+
+
+(pair? #null) => #f;
+(pair? #void) => #f;
+(pair? #undefined) => #f;
+(pair? #t) => #f;
+(pair? #f) => #f;
+(pair? 0) => #f;
+(pair? 0.0) => #f;
+(pair? #\c) => #f;
+(pair? 'symbol) => #f;
+(pair? "string") => #f;
+(pair? #u8()) => #f;
+(pair? #()) => #f;
+(pair? '(0 . 1)) => #t;
+(pair? '(0 1)) => #t;
+(pair? +) => #f;
+(pair? (lambda _ _)) => #f;
+
+
+(vector? #null) => #f;
+(vector? #void) => #f;
+(vector? #undefined) => #f;
+(vector? #t) => #f;
+(vector? #f) => #f;
+(vector? 0) => #f;
+(vector? 0.0) => #f;
+(vector? #\c) => #f;
+(vector? 'symbol) => #f;
+(vector? "string") => #f;
+(vector? #u8()) => #f;
+(vector? #()) => #t;
+(vector? '(0 . 1)) => #f;
+(vector? '(0 1)) => #f;
+(vector? +) => #f;
+(vector? (lambda _ _)) => #f;
+
+
+(list? #null) => #t;
+(list? #void) => #f;
+(list? #undefined) => #f;
+(list? #t) => #f;
+(list? #f) => #f;
+(list? 0) => #f;
+(list? 0.0) => #f;
+(list? #\c) => #f;
+(list? 'symbol) => #f;
+(list? "string") => #f;
+(list? #u8()) => #f;
+(list? #()) => #f;
+(list? '(0 . 1)) => #f;
+(list? '(0 1)) => #t;
+(list? +) => #f;
+(list? (lambda _ _)) => #f;
+
+
+(procedure? #null) => #f;
+(procedure? #void) => #f;
+(procedure? #undefined) => #f;
+(procedure? #t) => #f;
+(procedure? #f) => #f;
+(procedure? 0) => #f;
+(procedure? 0.0) => #f;
+(procedure? #\c) => #f;
+(procedure? 'symbol) => #f;
+(procedure? "string") => #f;
+(procedure? #u8()) => #f;
+(procedure? #()) => #f;
+(procedure? '(0 . 1)) => #f;
+(procedure? '(0 1)) => #f;
+(procedure? +) => #t;
+(procedure? (lambda _ _)) => #t;
+

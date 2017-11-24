@@ -1,4 +1,66 @@
 
+(list) => #null;
+
+(list 0) => '(0);
+(list 0 1) => '(0 1);
+(list 0 1 2) => '(0 1 2);
+(list '(0) 1 2) => '((0) 1 2);
+(list 0 1 '(2)) => '(0 1 (2));
+(list '(0) '(1) '(2)) => '((0) (1) (2));
+(list '(0 1 2)) => '((0 1 2));
+
+
+
+
+(make-list 0) => #null;
+(make-list 1) => '(#undefined);
+(make-list 2) => '(#undefined #undefined);
+(make-list 3) => '(#undefined #undefined #undefined);
+
+(make-list 0 0) => #null;
+(make-list 1 0) => '(0);
+(make-list 2 0) => '(0 0);
+(make-list 3 0) => '(0 0 0);
+
+
+
+
+(list-copy #null) => #null;
+
+(list-copy '(0)) => '(0);
+(list-copy '(0 1)) => '(0 1);
+(list-copy '(0 1 2)) => '(0 1 2);
+(list-copy '((0) 1 2)) => '((0) 1 2);
+(list-copy '(0 1 (2))) => '(0 1 (2));
+(list-copy '((0) (1) (2))) => '((0) (1) (2));
+(list-copy '((0 1 2))) => '((0 1 2));
+
+(list-copy '(0 . a)) => '(0 . a);
+(list-copy '(0 1 . a)) => '(0 1 . a);
+(list-copy '(0 1 2 . a)) => '(0 1 2 . a);
+(list-copy '((0) 1 2 . a)) => '((0) 1 2 . a);
+(list-copy '(0 1 (2) . a)) => '(0 1 (2) . a);
+(list-copy '((0) (1) (2) . a)) => '((0) (1) (2) . a);
+(list-copy '((0 1 2) . a)) => '((0 1 2) . a);
+
+(list-copy 0) => 0;
+
+
+
+
+(length #null) => 0;
+
+(length '(0)) => 1;
+(length '(0 1)) => 2;
+(length '(0 1 2)) => 3;
+(length '((0) 1 2)) => 3;
+(length '(0 1 (2))) => 3;
+(length '((0) (1) (2))) => 3;
+(length '((0 1 2))) => 1;
+
+
+
+
 (append) => #null;
 (append #null) => #null;
 (append #null #null) => #null;
@@ -20,4 +82,49 @@
 (append '(0 1 2)) => '(0 1 2);
 (append '(0 1) '(2)) => '(0 1 2);
 (append '(0) '(1) '(2)) => '(0 1 2);
+
+
+
+
+(reverse #null) => #null;
+(reverse '(0)) => '(0);
+(reverse '(0 1)) => '(1 0);
+(reverse '(0 1 2)) => '(2 1 0);
+(reverse '(0 1 2 3)) => '(3 2 1 0);
+
+
+
+
+(cons 0 1) => '(0 . 1);
+(cons '(0) 1) => '((0) . 1);
+(cons '(0) '(1)) => '((0) . (1));
+(cons '(0) '(1)) => '((0) 1);
+
+
+
+
+(car '(0 . 1)) => 0;
+(cdr '(0 . 1)) => 1;
+
+(car '(0 1 2)) => 0;
+(cdr '(0 1 2)) => '(1 2);
+
+(caar '((0 . a) (1 . b) (2 . c))) => 0;
+(cdar '((0 . a) (1 . b) (2 . c))) => 'a;
+(cadr '((0 . a) (1 . b) (2 . c))) => '(1 . b);
+(cddr '((0 . a) (1 . b) (2 . c))) => '((2 . c));
+
+
+
+
+(list-ref '(a) 0) => 'a;
+(list-ref '(a b) 1) => 'b;
+(list-ref '(a b c) 2) => 'c;
+
+(list-tail '(a) 0) => '(a);
+(list-tail '(a b) 0) => '(a b);
+(list-tail '(a b c) 0) => '(a b c);
+(list-tail '(a b c) 1) => '(b c);
+(list-tail '(a b c) 2) => '(c);
+(list-tail '(a b c) 3) => #null;
 

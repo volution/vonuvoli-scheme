@@ -8,6 +8,7 @@ extern crate rust_scheme;
 
 def_tests_from_file! (
 		values => "scheme/values.sst",
+		types => "scheme/types.sst",
 		lists => "scheme/lists.sst",
 		quotation => "scheme/quotation.sst",
 		booleans => "scheme/booleans.sst",
