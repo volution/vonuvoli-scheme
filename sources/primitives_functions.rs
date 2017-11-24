@@ -40,7 +40,7 @@ pub enum FunctionsPrimitiveN {
 
 
 
-pub fn functions_primitive_1_evaluate (primitive : FunctionsPrimitive1, _input : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn functions_primitive_1_evaluate (primitive : FunctionsPrimitive1, _input_1 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
 

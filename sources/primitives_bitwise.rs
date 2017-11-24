@@ -59,12 +59,12 @@ pub enum BitwisePrimitiveN {
 
 
 
-pub fn bitwise_primitive_1_evaluate (primitive : BitwisePrimitive1, input : &Value) -> (Outcome<Value>) {
+pub fn bitwise_primitive_1_evaluate (primitive : BitwisePrimitive1, input_1 : &Value) -> (Outcome<Value>) {
 	
-	let input = try_as_number_integer_ref! (input);
+	let input_1 = try_as_number_integer_ref! (input_1);
 	
 	let output = match primitive {
-		BitwisePrimitive1::Complement => input.bitnot (),
+		BitwisePrimitive1::Complement => input_1.bitnot (),
 	};
 	
 	succeed! (output.into ());

@@ -124,47 +124,47 @@ pub fn list_primitive_0_evaluate (primitive : ListPrimitive0) -> (Outcome<Value>
 
 
 
-pub fn list_primitive_1_evaluate (primitive : ListPrimitive1, input : &Value) -> (Outcome<Value>) {
+pub fn list_primitive_1_evaluate (primitive : ListPrimitive1, input_1 : &Value) -> (Outcome<Value>) {
 	match primitive {
 		
 		ListPrimitive1::PairLeft =>
-			return list_first (input),
+			return list_first (input_1),
 		
 		ListPrimitive1::PairRight =>
-			return list_rest (input),
+			return list_rest (input_1),
 		
 		ListPrimitive1::ListFirstAt2 =>
-			return list_first_at (input, 1),
+			return list_first_at (input_1, 1),
 		
 		ListPrimitive1::ListRestAt2 =>
-			return list_rest_at (input, 1),
+			return list_rest_at (input_1, 1),
 		
 		ListPrimitive1::ListFirstOfFirst =>
-			return list_first (try! (list_first_ref (input))),
+			return list_first (try! (list_first_ref (input_1))),
 		
 		ListPrimitive1::ListRestOfFirst =>
-			return list_rest (try! (list_first_ref (input))),
+			return list_rest (try! (list_first_ref (input_1))),
 		
 		ListPrimitive1::ListLength => {
-			let length = try! (list_length (input));
+			let length = try! (list_length (input_1));
 			let length : NumberInteger = try! (StdTryFrom::try_from (length));
 			succeed! (length.into ());
 		},
 		
 		ListPrimitive1::ListClone =>
-			return list_clone (input),
+			return list_clone (input_1),
 		
 		ListPrimitive1::ListReverse =>
-			return list_reverse (input),
+			return list_reverse (input_1),
 		
 		ListPrimitive1::ListMake =>
-			return list_make (try! (try_as_number_integer_ref! (input) .try_to_usize ()), &UNDEFINED.into ()),
+			return list_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), &UNDEFINED.into ()),
 		
 		ListPrimitive1::ListBuild =>
-			succeed! (list_build_1 (input)),
+			succeed! (list_build_1 (input_1)),
 		
 		ListPrimitive1::ListAppend =>
-			succeed! (input.clone ()),
+			succeed! (input_1.clone ()),
 		
 	}
 }

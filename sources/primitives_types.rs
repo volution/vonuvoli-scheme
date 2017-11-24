@@ -56,93 +56,93 @@ pub enum TypePrimitive1 {
 
 
 
-pub fn type_primitive_1_evaluate (primitive : TypePrimitive1, input : &Value) -> (Outcome<Value>) {
+pub fn type_primitive_1_evaluate (primitive : TypePrimitive1, input_1 : &Value) -> (Outcome<Value>) {
 	
 	let output = match primitive {
 		
 		TypePrimitive1::IsNull =>
-			input.is (ValueClass::Null),
+			input_1.is (ValueClass::Null),
 		
 		TypePrimitive1::IsVoid =>
-			input.is (ValueClass::Void),
+			input_1.is (ValueClass::Void),
 		
 		TypePrimitive1::IsUndefined =>
-			input.is (ValueClass::Undefined),
+			input_1.is (ValueClass::Undefined),
 		
 		TypePrimitive1::IsBoolean =>
-			input.is (ValueClass::Boolean),
+			input_1.is (ValueClass::Boolean),
 		
 		TypePrimitive1::IsNumberInteger =>
-			input.is (ValueClass::NumberInteger),
+			input_1.is (ValueClass::NumberInteger),
 		
 		TypePrimitive1::IsNumberReal =>
-			input.is (ValueClass::NumberReal),
+			input_1.is (ValueClass::NumberReal),
 		
 		TypePrimitive1::IsCharacter =>
-			input.is (ValueClass::Character),
+			input_1.is (ValueClass::Character),
 		
 		TypePrimitive1::IsSymbol =>
-			input.is (ValueClass::Symbol),
+			input_1.is (ValueClass::Symbol),
 		
 		TypePrimitive1::IsString =>
-			input.is (ValueClass::String),
+			input_1.is (ValueClass::String),
 		
 		TypePrimitive1::IsBytes =>
-			input.is (ValueClass::Bytes),
+			input_1.is (ValueClass::Bytes),
 		
 		TypePrimitive1::IsPair =>
-			input.is (ValueClass::Pair),
+			input_1.is (ValueClass::Pair),
 		
 		TypePrimitive1::IsArray =>
-			input.is (ValueClass::Array),
+			input_1.is (ValueClass::Array),
 		
 		TypePrimitive1::IsError =>
-			input.is (ValueClass::Error),
+			input_1.is (ValueClass::Error),
 		
 		TypePrimitive1::IsNumber =>
-			is_number (input),
+			is_number (input_1),
 		
 		TypePrimitive1::IsList =>
-			is_list (input),
+			is_list (input_1),
 		
 		TypePrimitive1::IsListProper =>
-			is_list_proper (input),
+			is_list_proper (input_1),
 		
 		TypePrimitive1::IsListProperOrEmpty =>
-			is_list_proper_or_empty (input),
+			is_list_proper_or_empty (input_1),
 		
 		TypePrimitive1::IsListDotted =>
-			is_list_dotted (input),
+			is_list_dotted (input_1),
 		
 		TypePrimitive1::IsListDottedOrEmpty =>
-			is_list_dotted_or_empty (input),
+			is_list_dotted_or_empty (input_1),
 		
 		TypePrimitive1::IsListCyclic =>
-			is_list_cyclic (input),
+			is_list_cyclic (input_1),
 		
 		TypePrimitive1::IsListCyclicOrEmpty =>
-			is_list_cyclic_or_empty (input),
+			is_list_cyclic_or_empty (input_1),
 		
 		TypePrimitive1::IsProcedure =>
-			is_procedure (input),
+			is_procedure (input_1),
 		
 		TypePrimitive1::IsSyntax =>
-			is_syntax (input),
+			is_syntax (input_1),
 		
 		TypePrimitive1::IsTrue =>
-			is_true (input),
+			is_true (input_1),
 		
 		TypePrimitive1::IsFalse =>
-			is_false (input),
+			is_false (input_1),
 		
 		TypePrimitive1::IsNotFalse =>
-			is_not_false (input),
+			is_not_false (input_1),
 		
 		TypePrimitive1::IsTrueOrEquivalent =>
-			is_true_or_equivalent (input),
+			is_true_or_equivalent (input_1),
 		
 		TypePrimitive1::IsFalseOrEquivalent =>
-			is_false_or_equivalent (input),
+			is_false_or_equivalent (input_1),
 		
 	};
 	

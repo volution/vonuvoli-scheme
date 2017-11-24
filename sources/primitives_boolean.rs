@@ -54,14 +54,14 @@ pub enum BooleanPrimitiveN {
 
 
 
-pub fn boolean_primitive_1_evaluate (primitive : BooleanPrimitive1, input : &Value) -> (Outcome<Value>) {
+pub fn boolean_primitive_1_evaluate (primitive : BooleanPrimitive1, input_1 : &Value) -> (Outcome<Value>) {
 	
-	let input = try_as_boolean_ref! (input);
+	let input_1 = try_as_boolean_ref! (input_1);
 	
 	let output = match primitive {
 		
 		BooleanPrimitive1::Not =>
-			input.not (),
+			input_1.not (),
 		
 	};
 	

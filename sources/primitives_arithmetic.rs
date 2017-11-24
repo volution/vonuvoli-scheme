@@ -135,7 +135,7 @@ macro_rules! arithmetic_primitive_2_delegate_call {
 
 
 
-pub fn arithmetic_primitive_1_evaluate (primitive : ArithmeticPrimitive1, input : &Value) -> (Outcome<Value>) {
+pub fn arithmetic_primitive_1_evaluate (primitive : ArithmeticPrimitive1, input_1 : &Value) -> (Outcome<Value>) {
 	
 	let output : Value = match primitive {
 		
@@ -146,131 +146,131 @@ pub fn arithmetic_primitive_1_evaluate (primitive : ArithmeticPrimitive1, input 
 			TRUE.into (),
 		
 		ArithmeticPrimitive1::IsRational =>
-			arithmetic_primitive_1_delegate_call! (input,
+			arithmetic_primitive_1_delegate_call! (input_1,
 					_value, TRUE,
 					_value, FALSE),
 		
 		ArithmeticPrimitive1::IsInteger =>
-			arithmetic_primitive_1_delegate_call! (input,
+			arithmetic_primitive_1_delegate_call! (input_1,
 					_value, TRUE,
 					_value, FALSE),
 		
 		ArithmeticPrimitive1::IsExact =>
-			arithmetic_primitive_1_delegate_call! (input,
+			arithmetic_primitive_1_delegate_call! (input_1,
 					_value, TRUE,
 					_value, FALSE),
 		
 		ArithmeticPrimitive1::IsExactInteger =>
-			arithmetic_primitive_1_delegate_call! (input,
+			arithmetic_primitive_1_delegate_call! (input_1,
 					_value, TRUE,
 					_value, FALSE),
 		
 		ArithmeticPrimitive1::IsInexact =>
-			arithmetic_primitive_1_delegate_call! (input,
+			arithmetic_primitive_1_delegate_call! (input_1,
 					_value, FALSE,
 					_value, TRUE),
 		
 		ArithmeticPrimitive1::IsZero =>
-			arithmetic_primitive_1_delegate_call! (is_zero, input),
+			arithmetic_primitive_1_delegate_call! (is_zero, input_1),
 		
 		ArithmeticPrimitive1::IsPositive =>
-			arithmetic_primitive_1_delegate_call! (input,
+			arithmetic_primitive_1_delegate_call! (input_1,
 					value, !value.is_zero () && value.is_positive (),
 					value, !value.is_zero () && value.is_positive ()),
 		
 		ArithmeticPrimitive1::IsNegative =>
-			arithmetic_primitive_1_delegate_call! (is_negative, input),
+			arithmetic_primitive_1_delegate_call! (is_negative, input_1),
 		
 		ArithmeticPrimitive1::IsFinite =>
-			arithmetic_primitive_1_delegate_call! (input,
+			arithmetic_primitive_1_delegate_call! (input_1,
 					_value, TRUE,
 					value, value.is_finite ()),
 		
 		ArithmeticPrimitive1::IsInfinite =>
-			arithmetic_primitive_1_delegate_call! (input,
+			arithmetic_primitive_1_delegate_call! (input_1,
 					_value, FALSE,
 					value, value.is_infinite ()),
 		
 		ArithmeticPrimitive1::IsNan =>
-			arithmetic_primitive_1_delegate_call! (input,
+			arithmetic_primitive_1_delegate_call! (input_1,
 					_value, FALSE,
 					value, value.is_nan ()),
 		
 		ArithmeticPrimitive1::IsEven =>
-			arithmetic_primitive_1_delegate_call! (is_even, input),
+			arithmetic_primitive_1_delegate_call! (is_even, input_1),
 		
 		ArithmeticPrimitive1::IsOdd =>
-			arithmetic_primitive_1_delegate_call! (is_odd, input),
+			arithmetic_primitive_1_delegate_call! (is_odd, input_1),
 		
 		ArithmeticPrimitive1::Negate =>
-			arithmetic_primitive_1_delegate_call! (input,
+			arithmetic_primitive_1_delegate_call! (input_1,
 					value, try! (value.neg ()),
 					value, value.neg ()),
 		
 		ArithmeticPrimitive1::Absolute =>
-			arithmetic_primitive_1_delegate_call! (input,
+			arithmetic_primitive_1_delegate_call! (input_1,
 					value, try! (value.abs ()),
 					value, value.abs ()),
 		
 		ArithmeticPrimitive1::Signum =>
-			arithmetic_primitive_1_delegate_call! (signum, input),
+			arithmetic_primitive_1_delegate_call! (signum, input_1),
 		
 		ArithmeticPrimitive1::Floor =>
-			arithmetic_primitive_1_delegate_call! (input,
+			arithmetic_primitive_1_delegate_call! (input_1,
 					value, value.clone (),
 					value, value.floor ()),
 		
 		ArithmeticPrimitive1::Ceiling =>
-			arithmetic_primitive_1_delegate_call! (input,
+			arithmetic_primitive_1_delegate_call! (input_1,
 					value, value.clone (),
 					value, value.ceil ()),
 		
 		ArithmeticPrimitive1::Round =>
-			arithmetic_primitive_1_delegate_call! (input,
+			arithmetic_primitive_1_delegate_call! (input_1,
 					value, value.clone (),
 					value, value.round ()),
 		
 		ArithmeticPrimitive1::Truncate =>
-			arithmetic_primitive_1_delegate_call! (input,
+			arithmetic_primitive_1_delegate_call! (input_1,
 					value, value.clone (),
 					value, value.trunc ()),
 		
 		ArithmeticPrimitive1::Fractional =>
-			arithmetic_primitive_1_delegate_call! (input,
+			arithmetic_primitive_1_delegate_call! (input_1,
 					_value, ZERO,
 					value, value.fract ()),
 		
 		ArithmeticPrimitive1::Square =>
-			arithmetic_primitive_1_delegate_call! (input,
+			arithmetic_primitive_1_delegate_call! (input_1,
 					value, value.power (&2.into ()),
 					value, value.power (&2.into ())),
 		
 		ArithmeticPrimitive1::SquareRoot =>
-			arithmetic_primitive_1_delegate_call! (sqrt, input),
+			arithmetic_primitive_1_delegate_call! (sqrt, input_1),
 		
 		ArithmeticPrimitive1::Exponential =>
-			arithmetic_primitive_1_delegate_call! (exp, input),
+			arithmetic_primitive_1_delegate_call! (exp, input_1),
 		
 		ArithmeticPrimitive1::Logarithm =>
-			arithmetic_primitive_1_delegate_call! (ln, input),
+			arithmetic_primitive_1_delegate_call! (ln, input_1),
 		
 		ArithmeticPrimitive1::Sin =>
-			arithmetic_primitive_1_delegate_call! (sin, input),
+			arithmetic_primitive_1_delegate_call! (sin, input_1),
 		
 		ArithmeticPrimitive1::Cos =>
-			arithmetic_primitive_1_delegate_call! (cos, input),
+			arithmetic_primitive_1_delegate_call! (cos, input_1),
 		
 		ArithmeticPrimitive1::Tan =>
-			arithmetic_primitive_1_delegate_call! (tan, input),
+			arithmetic_primitive_1_delegate_call! (tan, input_1),
 		
 		ArithmeticPrimitive1::Asin =>
-			arithmetic_primitive_1_delegate_call! (asin, input),
+			arithmetic_primitive_1_delegate_call! (asin, input_1),
 		
 		ArithmeticPrimitive1::Acos =>
-			arithmetic_primitive_1_delegate_call! (acos, input),
+			arithmetic_primitive_1_delegate_call! (acos, input_1),
 		
 		ArithmeticPrimitive1::Atan =>
-			arithmetic_primitive_1_delegate_call! (atan, input),
+			arithmetic_primitive_1_delegate_call! (atan, input_1),
 		
 	};
 	
