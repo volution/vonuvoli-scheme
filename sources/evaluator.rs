@@ -57,7 +57,7 @@ impl Evaluator {
 		match *input {
 			
 			Expression::Void =>
-				Ok (NULL.into ()),
+				Ok (VOID.into ()),
 			Expression::Value (ref value) =>
 				Ok (value.clone ()),
 			

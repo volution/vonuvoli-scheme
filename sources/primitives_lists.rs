@@ -113,10 +113,10 @@ pub fn list_primitive_0_evaluate (primitive : ListPrimitive0) -> (Outcome<Value>
 	match primitive {
 		
 		ListPrimitive0::ListBuild =>
-			succeed! (NULL.into ()),
+			succeed! (list_empty ()),
 		
 		ListPrimitive0::ListAppend =>
-			succeed! (NULL.into ()),
+			succeed! (list_empty ()),
 		
 	}
 }

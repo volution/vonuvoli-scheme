@@ -480,7 +480,7 @@ fn __parse_list_empty<'input>(
         match __seq_res {
             Matched(__pos, _) => {
                 Matched(__pos, {
-                    constants::NULL.into()
+                    builtins::list_empty()
                 })
             }
             Failed => Failed,
