@@ -884,6 +884,9 @@ impl Compiler {
 							compilation = compilation_1;
 							elements.push (element);
 							cursor = pair.right ();
+							if token.is_self (cursor) {
+								fail! (0x150ac5b5);
+							}
 						},
 						
 						ValueClass::Null =>

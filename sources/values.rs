@@ -11,6 +11,7 @@ use std::cmp;
 use std::fmt;
 use std::hash;
 use std::ops;
+use std::ptr;
 
 
 
@@ -155,6 +156,12 @@ impl Value {
 	pub fn is (&self, class : ValueClass) -> (bool) {
 		return self.class () == class;
 	}
+	
+	
+	pub fn is_self (&self, other : &Value) -> (bool) {
+		return ptr::eq (self, other);
+	}
+	
 	
 }
 
@@ -1047,6 +1054,7 @@ pub type PairVec = StdVec<Pair>;
 
 impl Pair {
 	
+	
 	pub fn left (&self) -> (&Value) {
 		return &(self.0).0;
 	}
@@ -1058,6 +1066,12 @@ impl Pair {
 	pub fn left_and_right (&self) -> (&Value, &Value) {
 		return (&(self.0).0, &(self.0).1);
 	}
+	
+	
+	pub fn is_self (&self, other : &Pair) -> (bool) {
+		return ptr::eq (self, other);
+	}
+	
 }
 
 
@@ -1082,6 +1096,12 @@ impl fmt::Display for Pair {
 					try! (right.fmt (formatter));
 					break;
 				},
+			}
+			if self.is_self (cursor) {
+				try! (formatter.write_char ('.'));
+				try! (formatter.write_char (' '));
+				try! (formatter.write_str ("#cyclic"));
+				break;
 			}
 		}
 		try! (formatter.write_char (')'));

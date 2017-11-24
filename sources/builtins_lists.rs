@@ -106,6 +106,9 @@ pub fn list_pair_at_ref (list : &Value, index : usize) -> (Outcome<&Pair>) {
 			_ =>
 				fail! (0x4cf78d93),
 		}
+		if list.is_self (cursor) {
+			fail! (0x4c242ac5);
+		}
 	}
 	return Pair::try_as_ref (cursor);
 }
@@ -193,7 +196,7 @@ pub fn list_length (list : &Value) -> (Outcome<usize>) {
 			_ =>
 				fail! (0x573e319c),
 		}
-		if cursor == list {
+		if list.is_self (cursor) {
 			fail! (0xc0c2b870);
 		}
 	}
@@ -331,6 +334,9 @@ pub fn vec_list_drain_dotted (vector : &mut ValueVec, list : &Value) -> (Outcome
 			_ =>
 				succeed! (Some (cursor.clone ())),
 		}
+		if list.is_self (cursor) {
+			fail! (0x7b9aae29);
+		}
 	}
 }
 
@@ -362,6 +368,9 @@ impl <'a> Iterator for ListIterator <'a> {
 			_ =>
 				return Some (failed! (0xed511f9c)),
 		};
+		if self.0.is_self (cursor) {
+			return Some (failed! (0x2f6495d9));
+		}
 		self.0 = cursor;
 		return Some (succeeded! (value));
 	}
