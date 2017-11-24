@@ -21,7 +21,7 @@ pub mod exports {
 	pub use super::{list_first_at, list_rest_at};
 	pub use super::{list_first_at_ref, list_rest_at_ref};
 	pub use super::{list_first_at_set, list_rest_at_set};
-	pub use super::{list_pair_at_ref};
+	pub use super::{list_pair_at, list_pair_at_ref};
 	
 	pub use super::{list_build_1, list_build_2, list_build_3, list_build_4, list_build_n};
 	pub use super::{list_append_2, list_append_3, list_append_4, list_append_n};
@@ -80,11 +80,21 @@ pub fn list_rest_at (list : &Value, index : usize) -> (Outcome<Value>) {
 
 
 pub fn list_first_at_ref (list : &Value, index : usize) -> (Outcome<&Value>) {
-	succeed! (try! (list_pair_at_ref (list, index)) .left ());
+	let pair = try! (list_pair_at_ref (list, index));
+	if let Some (pair) = pair {
+		succeed! (pair.left ());
+	} else {
+		fail! (0xf3b2488a);
+	}
 }
 
 pub fn list_rest_at_ref (list : &Value, index : usize) -> (Outcome<&Value>) {
-	succeed! (try! (list_pair_at_ref (list, index)) .right ());
+	let pair = try! (list_pair_at_ref (list, index));
+	if let Some (pair) = pair {
+		succeed! (pair.right ());
+	} else {
+		fail! (0x9ea1c42c);
+	}
 }
 
 pub fn list_first_at_set (_list : &Value, _index : usize, _value : &Value) -> (Outcome<Value>) {
@@ -95,14 +105,31 @@ pub fn list_rest_at_set (_list : &Value, _index : usize, _value : &Value) -> (Ou
 	fail_unimplemented! (0x2ef281ce);
 }
 
-pub fn list_pair_at_ref (list : &Value, index : usize) -> (Outcome<&Pair>) {
+pub fn list_pair_at (list : &Value, index : usize) -> (Outcome<Value>) {
+	let pair = try! (list_pair_at_ref (list, index));
+	if let Some (pair) = pair {
+		succeed! (pair.clone () .into ());
+	} else {
+		succeed! (NULL.into ());
+	}
+}
+
+pub fn list_pair_at_ref (list : &Value, index : usize) -> (Outcome<Option<&Pair>>) {
 	let mut cursor = list;
-	for _index in 0..index {
+	for index_actual in 0..(index + 1) {
 		match cursor.class () {
 			ValueClass::Pair =>
-				cursor = Pair::as_ref (cursor) .right (),
+				if index_actual == index {
+					succeed! (Some (Pair::as_ref (cursor)));
+				} else {
+					cursor = Pair::as_ref (cursor) .right ();
+				},
 			ValueClass::Null =>
-				fail! (0xeb7ddd79),
+				if index_actual == index {
+					succeed! (None);
+				} else {
+					fail! (0xeb7ddd79);
+				},
 			_ =>
 				fail! (0x4cf78d93),
 		}
@@ -110,7 +137,7 @@ pub fn list_pair_at_ref (list : &Value, index : usize) -> (Outcome<&Pair>) {
 			fail! (0x4c242ac5);
 		}
 	}
-	return Pair::try_as_ref (cursor);
+	fail_panic! (0x27592741);
 }
 
 
