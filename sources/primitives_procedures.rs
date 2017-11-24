@@ -19,6 +19,7 @@ pub mod exports {
 	pub use super::ProcedurePrimitive1;
 	pub use super::ProcedurePrimitive2;
 	pub use super::ProcedurePrimitive3;
+	pub use super::ProcedurePrimitive4;
 	pub use super::ProcedurePrimitiveN;
 	pub use super::ProcedurePrimitive;
 	
@@ -26,6 +27,7 @@ pub mod exports {
 	pub use super::procedure_primitive_1_evaluate;
 	pub use super::procedure_primitive_2_evaluate;
 	pub use super::procedure_primitive_3_evaluate;
+	pub use super::procedure_primitive_4_evaluate;
 	pub use super::procedure_primitive_n_evaluate;
 	pub use super::procedure_primitive_evaluate;
 	
@@ -43,6 +45,7 @@ pub enum ProcedurePrimitive {
 	Primitive1 ( ProcedurePrimitive1 ),
 	Primitive2 ( ProcedurePrimitive2 ),
 	Primitive3 ( ProcedurePrimitive3 ),
+	Primitive4 ( ProcedurePrimitive4 ),
 	PrimitiveN ( ProcedurePrimitiveN ),
 	
 }
@@ -88,6 +91,10 @@ pub enum ProcedurePrimitive3 {
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+pub enum ProcedurePrimitive4 {}
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
 pub enum ProcedurePrimitiveN {
 	
 	Boolean ( BooleanPrimitiveN ),
@@ -108,26 +115,26 @@ pub fn procedure_primitive_0_evaluate (primitive : ProcedurePrimitive0, _evaluat
 
 
 
-pub fn procedure_primitive_1_evaluate (primitive : ProcedurePrimitive1, input : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn procedure_primitive_1_evaluate (primitive : ProcedurePrimitive1, input_1 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		ProcedurePrimitive1::Type (primitive) =>
-			return type_primitive_1_evaluate (primitive, input),
+			return type_primitive_1_evaluate (primitive, input_1),
 		
 		ProcedurePrimitive1::Boolean (primitive) =>
-			return boolean_primitive_1_evaluate (primitive, input),
+			return boolean_primitive_1_evaluate (primitive, input_1),
 		
 		ProcedurePrimitive1::Arithmetic (primitive) =>
-			return arithmetic_primitive_1_evaluate (primitive, input),
+			return arithmetic_primitive_1_evaluate (primitive, input_1),
 		
 		ProcedurePrimitive1::Bitwise (primitive) =>
-			return bitwise_primitive_1_evaluate (primitive, input),
+			return bitwise_primitive_1_evaluate (primitive, input_1),
 		
 		ProcedurePrimitive1::List (primitive) =>
-			return list_primitive_1_evaluate (primitive, input),
+			return list_primitive_1_evaluate (primitive, input_1),
 		
 		ProcedurePrimitive1::Functions (primitive) =>
-			return functions_primitive_1_evaluate (primitive, input, evaluator),
+			return functions_primitive_1_evaluate (primitive, input_1, evaluator),
 		
 	}
 }
@@ -166,6 +173,13 @@ pub fn procedure_primitive_3_evaluate (primitive : ProcedurePrimitive3, input_1 
 			return list_primitive_3_evaluate (primitive, input_1, input_2, input_3),
 		
 	}
+}
+
+
+
+
+pub fn procedure_primitive_4_evaluate (primitive : ProcedurePrimitive4, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	match primitive {}
 }
 
 
@@ -225,6 +239,13 @@ pub fn procedure_primitive_evaluate (primitive : ProcedurePrimitive, inputs : &[
 				return procedure_primitive_3_evaluate (primitive, &inputs[0], &inputs[1], &inputs[2], evaluator)
 			} else {
 				fail! (0x990f006e)
+			},
+		
+		ProcedurePrimitive::Primitive4 (primitive) =>
+			if inputs_count == 4 {
+				return procedure_primitive_4_evaluate (primitive, &inputs[0], &inputs[1], &inputs[2], &inputs[3], evaluator)
+			} else {
+				fail! (0x62f33d3e)
 			},
 		
 		ProcedurePrimitive::PrimitiveN (primitive) =>

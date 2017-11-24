@@ -47,11 +47,16 @@ pub enum Expression {
 	ProcedurePrimitiveCall0 ( ProcedurePrimitive0 ),
 	ProcedurePrimitiveCall1 ( ProcedurePrimitive1, ExpressionBox ),
 	ProcedurePrimitiveCall2 ( ProcedurePrimitive2, ExpressionBox, ExpressionBox ),
+	ProcedurePrimitiveCall3 ( ProcedurePrimitive3, ExpressionBox, ExpressionBox, ExpressionBox ),
+	ProcedurePrimitiveCall4 ( ProcedurePrimitive4, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
 	ProcedurePrimitiveCallN ( ProcedurePrimitiveN, ExpressionVec ),
 	ProcedurePrimitiveCall ( ProcedurePrimitive, ExpressionVec ),
 	
+	SyntaxPrimitiveCall0 ( SyntaxPrimitive0 ),
 	SyntaxPrimitiveCall1 ( SyntaxPrimitive1, ExpressionBox ),
 	SyntaxPrimitiveCall2 ( SyntaxPrimitive2, ExpressionBox, ExpressionBox ),
+	SyntaxPrimitiveCall3 ( SyntaxPrimitive3, ExpressionBox, ExpressionBox, ExpressionBox ),
+	SyntaxPrimitiveCall4 ( SyntaxPrimitive4, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
 	SyntaxPrimitiveCallN ( SyntaxPrimitiveN, ExpressionVec ),
 	SyntaxPrimitiveCall ( SyntaxPrimitive, ExpressionVec ),
 	

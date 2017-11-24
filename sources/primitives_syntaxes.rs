@@ -12,15 +12,19 @@ use super::values::exports::*;
 
 pub mod exports {
 	
+	pub use super::SyntaxPrimitive0;
 	pub use super::SyntaxPrimitive1;
 	pub use super::SyntaxPrimitive2;
 	pub use super::SyntaxPrimitive3;
+	pub use super::SyntaxPrimitive4;
 	pub use super::SyntaxPrimitiveN;
 	pub use super::SyntaxPrimitive;
 	
+	pub use super::syntax_primitive_0_evaluate;
 	pub use super::syntax_primitive_1_evaluate;
 	pub use super::syntax_primitive_2_evaluate;
 	pub use super::syntax_primitive_3_evaluate;
+	pub use super::syntax_primitive_4_evaluate;
 	pub use super::syntax_primitive_n_evaluate;
 	pub use super::syntax_primitive_evaluate;
 	
@@ -36,12 +40,18 @@ pub enum SyntaxPrimitive {
 	Auxiliary,
 	Reserved,
 	
+	Primitive0 ( SyntaxPrimitive0 ),
 	Primitive1 ( SyntaxPrimitive1 ),
 	Primitive2 ( SyntaxPrimitive2 ),
 	Primitive3 ( SyntaxPrimitive3 ),
+	Primitive4 ( SyntaxPrimitive4 ),
 	PrimitiveN ( SyntaxPrimitiveN ),
 	
 }
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+pub enum SyntaxPrimitive0 {}
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
@@ -75,6 +85,10 @@ pub enum SyntaxPrimitive3 {
 	If,
 	
 }
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+pub enum SyntaxPrimitive4 {}
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
@@ -114,7 +128,14 @@ pub enum SyntaxPrimitiveN {
 
 
 
-pub fn syntax_primitive_1_evaluate (primitive : SyntaxPrimitive1, _input : &Expression, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn syntax_primitive_0_evaluate (primitive : SyntaxPrimitive0, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	match primitive {}
+}
+
+
+
+
+pub fn syntax_primitive_1_evaluate (primitive : SyntaxPrimitive1, _input_1 : &Expression, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		SyntaxPrimitive1::Quote | SyntaxPrimitive1::QuasiQuote | SyntaxPrimitive1::UnQuote | SyntaxPrimitive1::UnQuoteSplicing =>
@@ -151,6 +172,13 @@ pub fn syntax_primitive_3_evaluate (primitive : SyntaxPrimitive3, _input_1 : &Ex
 			fail! (0x9eb5f5a1),
 		
 	}
+}
+
+
+
+
+pub fn syntax_primitive_4_evaluate (primitive : SyntaxPrimitive4, _input_1 : &Expression, _input_2 : &Expression, _input_3 : &Expression, _input_4 : &Expression, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	match primitive {}
 }
 
 
@@ -221,6 +249,13 @@ pub fn syntax_primitive_evaluate (primitive : SyntaxPrimitive, inputs : &[Expres
 	let inputs_count = inputs.len ();
 	match primitive {
 		
+		SyntaxPrimitive::Primitive0 (primitive) =>
+			if inputs_count == 0 {
+				return syntax_primitive_0_evaluate (primitive, evaluator);
+			} else {
+				fail! (0x79d14403);
+			},
+		
 		SyntaxPrimitive::Primitive1 (primitive) =>
 			if inputs_count == 1 {
 				return syntax_primitive_1_evaluate (primitive, &inputs[0], evaluator);
@@ -240,6 +275,13 @@ pub fn syntax_primitive_evaluate (primitive : SyntaxPrimitive, inputs : &[Expres
 				return syntax_primitive_3_evaluate (primitive, &inputs[0], &inputs[1], &inputs[2], evaluator);
 			} else {
 				fail! (0x18d7a5f8);
+			},
+		
+		SyntaxPrimitive::Primitive4 (primitive) =>
+			if inputs_count == 4 {
+				return syntax_primitive_4_evaluate (primitive, &inputs[0], &inputs[1], &inputs[2], &inputs[3], evaluator);
+			} else {
+				fail! (0xef34a67c);
 			},
 		
 		SyntaxPrimitive::PrimitiveN (primitive) =>

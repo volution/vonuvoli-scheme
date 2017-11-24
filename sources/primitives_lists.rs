@@ -10,10 +10,23 @@ use super::values::exports::*;
 
 
 pub mod exports {
+	pub use super::ListPrimitive0;
 	pub use super::ListPrimitive1;
 	pub use super::ListPrimitive2;
 	pub use super::ListPrimitive3;
+	pub use super::ListPrimitive4;
 	pub use super::ListPrimitiveN;
+}
+
+
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+pub enum ListPrimitive0 {
+	
+	ListBuild,
+	ListAppend,
+	
 }
 
 
@@ -36,6 +49,7 @@ pub enum ListPrimitive1 {
 	ListReverse,
 	
 	ListMake,
+	
 	ListBuild,
 	ListAppend,
 	
@@ -55,6 +69,7 @@ pub enum ListPrimitive2 {
 	ListRestAt,
 	
 	ListMake,
+	
 	ListBuild,
 	ListAppend,
 	
@@ -74,12 +89,36 @@ pub enum ListPrimitive3 {
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+pub enum ListPrimitive4 {
+	
+	ListBuild,
+	ListAppend,
+	
+}
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
 pub enum ListPrimitiveN {
 	
 	ListMake,
 	ListBuild,
 	ListAppend,
 	
+}
+
+
+
+
+pub fn list_primitive_0_evaluate (primitive : ListPrimitive0) -> (Outcome<Value>) {
+	match primitive {
+		
+		ListPrimitive0::ListBuild =>
+			succeed! (NULL.into ()),
+		
+		ListPrimitive0::ListAppend =>
+			succeed! (NULL.into ()),
+		
+	}
 }
 
 
@@ -190,46 +229,67 @@ pub fn list_primitive_3_evaluate (primitive : ListPrimitive3, input_1 : &Value, 
 
 
 
+pub fn list_primitive_4_evaluate (primitive : ListPrimitive4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value) -> (Outcome<Value>) {
+	match primitive {
+		
+		ListPrimitive4::ListBuild =>
+			succeed! (list_build_4 (input_1, input_2, input_3, input_4)),
+		
+		ListPrimitive4::ListAppend =>
+			return list_append_4 (input_1, input_2, input_3, input_4),
+		
+	}
+}
+
+
+
+
 pub fn list_primitive_n_evaluate (primitive : ListPrimitiveN, inputs : &[Value]) -> (Outcome<Value>) {
 	let inputs_count = inputs.len ();
 	match primitive {
 		
 		ListPrimitiveN::ListMake =>
-			if inputs_count == 1 {
-				return list_primitive_1_evaluate (ListPrimitive1::ListMake, &inputs[0]);
-			} else if inputs_count == 2 {
-				return list_primitive_2_evaluate (ListPrimitive2::ListMake, &inputs[0], &inputs[1]);
-			} else {
-				fail! (0xdd5940d5);
+			match inputs_count {
+				1 =>
+					return list_primitive_1_evaluate (ListPrimitive1::ListMake, &inputs[0]),
+				2 =>
+					return list_primitive_2_evaluate (ListPrimitive2::ListMake, &inputs[0], &inputs[1]),
+				_ =>
+					fail! (0xdd5940d5),
 			},
 		
 		ListPrimitiveN::ListBuild =>
-			if inputs_count == 0 {
-				succeed! (NULL.into ());
-			} else if inputs_count == 1 {
-				return list_primitive_1_evaluate (ListPrimitive1::ListBuild, &inputs[0]);
-			} else if inputs_count == 2 {
-				return list_primitive_2_evaluate (ListPrimitive2::ListBuild, &inputs[0], &inputs[1]);
-			} else if inputs_count == 3 {
-				return list_primitive_3_evaluate (ListPrimitive3::ListBuild, &inputs[0], &inputs[1], &inputs[2]);
-			} else {
-				succeed! (list_build_n (inputs));
+			match inputs_count {
+				0 =>
+					return list_primitive_0_evaluate (ListPrimitive0::ListBuild),
+				1 =>
+					return list_primitive_1_evaluate (ListPrimitive1::ListBuild, &inputs[0]),
+				2 =>
+					return list_primitive_2_evaluate (ListPrimitive2::ListBuild, &inputs[0], &inputs[1]),
+				3 =>
+					return list_primitive_3_evaluate (ListPrimitive3::ListBuild, &inputs[0], &inputs[1], &inputs[2]),
+				4 =>
+					return list_primitive_4_evaluate (ListPrimitive4::ListBuild, &inputs[0], &inputs[1], &inputs[2], &inputs[3]),
+				_ =>
+					succeed! (list_build_n (inputs)),
 			},
 		
 		ListPrimitiveN::ListAppend =>
-			if inputs_count == 0 {
-				succeed! (NULL.into ());
-			} else if inputs_count == 1 {
-				return list_primitive_1_evaluate (ListPrimitive1::ListAppend, &inputs[0]);
-			} else if inputs_count == 2 {
-				return list_primitive_2_evaluate (ListPrimitive2::ListAppend, &inputs[0], &inputs[1]);
-			} else if inputs_count == 3 {
-				return list_primitive_3_evaluate (ListPrimitive3::ListAppend, &inputs[0], &inputs[1], &inputs[2]);
-			} else {
-				succeed! (list_build_n (inputs));
+			match inputs_count {
+				0 =>
+					return list_primitive_0_evaluate (ListPrimitive0::ListAppend),
+				1 =>
+					return list_primitive_1_evaluate (ListPrimitive1::ListAppend, &inputs[0]),
+				2 =>
+					return list_primitive_2_evaluate (ListPrimitive2::ListAppend, &inputs[0], &inputs[1]),
+				3 =>
+					return list_primitive_3_evaluate (ListPrimitive3::ListAppend, &inputs[0], &inputs[1], &inputs[2]),
+				4 =>
+					return list_primitive_4_evaluate (ListPrimitive4::ListAppend, &inputs[0], &inputs[1], &inputs[2], &inputs[3]),
+				_ =>
+					return list_append_n (inputs),
 			},
 		
 	}
 }
-
 

@@ -184,6 +184,13 @@ impl Compiler {
 		
 		match syntax {
 			
+			SyntaxPrimitive::Primitive0 (syntax) =>
+				if tokens_count == 0 {
+					match syntax {}
+				} else {
+					fail! (0x39c09215);
+				},
+			
 			SyntaxPrimitive::Primitive1 (syntax) =>
 				if tokens_count == 1 {
 					let tokens = try! (vec_explode_1 (tokens));
@@ -237,6 +244,13 @@ impl Compiler {
 					}
 				} else {
 					fail! (0xd76f0ad2);
+				},
+			
+			SyntaxPrimitive::Primitive4 (syntax) =>
+				if tokens_count == 4 {
+					match syntax {}
+				} else {
+					fail! (0x1d3d26b9);
 				},
 			
 			SyntaxPrimitive::PrimitiveN (syntax) =>
