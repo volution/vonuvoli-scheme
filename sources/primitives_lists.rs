@@ -47,6 +47,7 @@ pub enum ListPrimitive2 {
 	PairLeftSet,
 	PairRightSet,
 	
+	ListPairAt,
 	ListFirstAt,
 	ListRestAt,
 	
@@ -132,6 +133,9 @@ pub fn list_primitive_2_evaluate (primitive : ListPrimitive2, input_1 : &Value, 
 		
 		ListPrimitive2::PairRightSet =>
 			return pair_right_set (input_1, input_2),
+		
+		ListPrimitive2::ListPairAt =>
+			return list_pair_at (input_1, try! (try_as_number_integer_ref! (input_2) .try_to_usize ())),
 		
 		ListPrimitive2::ListFirstAt =>
 			return list_first_at (input_1, try! (try_as_number_integer_ref! (input_2) .try_to_usize ())),

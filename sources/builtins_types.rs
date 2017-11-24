@@ -16,7 +16,7 @@ pub mod exports {
 	
 	pub use super::{is_number};
 	
-	pub use super::{is_list, is_list_proper, is_list_dotted, is_list_cyclic};
+	pub use super::{is_list, is_list_proper, is_list_proper_or_empty, is_list_dotted, is_list_dotted_or_empty, is_list_cyclic, is_list_cyclic_or_empty};
 	
 	pub use super::{is_procedure, is_syntax};
 	
@@ -127,17 +127,62 @@ pub fn is_list (value : &Value) -> (bool) {
 
 pub fn is_list_proper (value : &Value) -> (bool) {
 	let class = list_class (value);
-	return class.is_ok () && (class.unwrap () == ListClass::Proper);
+	if class.is_ok () {
+		let class = class.unwrap ();
+		return class == ListClass::Proper;
+	} else {
+		return false;
+	}
+}
+
+pub fn is_list_proper_or_empty (value : &Value) -> (bool) {
+	let class = list_class (value);
+	if class.is_ok () {
+		let class = class.unwrap ();
+		return (class == ListClass::Proper) || (class == ListClass::Empty);
+	} else {
+		return false;
+	}
 }
 
 pub fn is_list_dotted (value : &Value) -> (bool) {
 	let class = list_class (value);
-	return class.is_ok () && (class.unwrap () == ListClass::Dotted);
+	if class.is_ok () {
+		let class = class.unwrap ();
+		return class == ListClass::Dotted;
+	} else {
+		return false;
+	}
+}
+
+pub fn is_list_dotted_or_empty (value : &Value) -> (bool) {
+	let class = list_class (value);
+	if class.is_ok () {
+		let class = class.unwrap ();
+		return (class == ListClass::Dotted) || (class == ListClass::Empty);
+	} else {
+		return false;
+	}
 }
 
 pub fn is_list_cyclic (value : &Value) -> (bool) {
 	let class = list_class (value);
-	return class.is_ok () && (class.unwrap () == ListClass::Cyclic);
+	if class.is_ok () {
+		let class = class.unwrap ();
+		return class == ListClass::Cyclic;
+	} else {
+		return false;
+	}
+}
+
+pub fn is_list_cyclic_or_empty (value : &Value) -> (bool) {
+	let class = list_class (value);
+	if class.is_ok () {
+		let class = class.unwrap ();
+		return (class == ListClass::Cyclic) || (class == ListClass::Empty);
+	} else {
+		return false;
+	}
 }
 
 

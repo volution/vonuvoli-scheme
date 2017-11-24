@@ -35,8 +35,11 @@ pub enum TypePrimitive1 {
 	IsNumber,
 	IsList,
 	IsListProper,
+	IsListProperOrEmpty,
 	IsListDotted,
+	IsListDottedOrEmpty,
 	IsListCyclic,
+	IsListCyclicOrEmpty,
 	
 	IsProcedure,
 	IsSyntax,
@@ -105,11 +108,20 @@ pub fn type_primitive_1_evaluate (primitive : TypePrimitive1, input : &Value) ->
 		TypePrimitive1::IsListProper =>
 			is_list_proper (input),
 		
+		TypePrimitive1::IsListProperOrEmpty =>
+			is_list_proper_or_empty (input),
+		
 		TypePrimitive1::IsListDotted =>
 			is_list_dotted (input),
 		
+		TypePrimitive1::IsListDottedOrEmpty =>
+			is_list_dotted_or_empty (input),
+		
 		TypePrimitive1::IsListCyclic =>
 			is_list_cyclic (input),
+		
+		TypePrimitive1::IsListCyclicOrEmpty =>
+			is_list_cyclic_or_empty (input),
 		
 		TypePrimitive1::IsProcedure =>
 			is_procedure (input),

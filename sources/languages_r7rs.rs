@@ -241,7 +241,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			
 			// lists
 			
-			("base", "list?", TypePrimitive1::IsListProper.into ()),
+			("base", "list?", TypePrimitive1::IsListProperOrEmpty.into ()),
 			
 			("base", "list", ListPrimitiveN::List.into ()),
 			("base", "make-list", ProcedurePrimitive::Unimplemented.into ()),
@@ -250,7 +250,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			("base", "length", ListPrimitive1::Length.into ()),
 			
 			("base", "list-ref", ListPrimitive2::ListFirstAt.into ()),
-			("base", "list-tail", ListPrimitive2::ListRestAt.into ()),
+			("base", "list-tail", ListPrimitive2::ListPairAt.into ()),
 			
 			("base", "list-set!", ListPrimitive3::ListFirstAtSet.into ()),
 			
