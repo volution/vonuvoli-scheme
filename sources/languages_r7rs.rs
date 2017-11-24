@@ -270,17 +270,17 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			
 			("base", "vector?", TypePrimitive1::IsArray.into ()),
 			
-			("base", "vector", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "make-vector", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "vector-copy", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "vector-append", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "vector-length", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "vector", ArrayPrimitiveN::ArrayBuild.into ()),
+			("base", "make-vector", ArrayPrimitiveN::ArrayMake.into ()),
+			("base", "vector-copy", ArrayPrimitive1::ArrayClone.into ()),
+			("base", "vector-append", ArrayPrimitiveN::ArrayAppend.into ()),
+			("base", "vector-length", ArrayPrimitive1::ArrayLength.into ()),
 			
-			("base", "vector-ref", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "vector-ref", ArrayPrimitive2::ArrayAt.into ()),
 			
-			("base", "vector-set!", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "vector-fill!", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "vector-copy!", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "vector-set!", ArrayPrimitive3::ArrayAtSet.into ()),
+			("base", "vector-fill!", ArrayPrimitiveN::ArraySliceFill.into ()),
+			("base", "vector-copy!", ArrayPrimitiveN::ArraySliceCopy.into ()),
 			
 			
 			

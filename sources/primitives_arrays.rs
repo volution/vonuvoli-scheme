@@ -87,6 +87,9 @@ pub enum ArrayPrimitiveN {
 	ArrayBuild,
 	ArrayAppend,
 	
+	ArraySliceFill,
+	ArraySliceCopy,
+	
 }
 
 
@@ -236,6 +239,12 @@ pub fn array_primitive_n_evaluate (primitive : ArrayPrimitiveN, inputs : &[Value
 				_ =>
 					return array_append_n (inputs),
 			},
+		
+		ArrayPrimitiveN::ArraySliceFill =>
+			fail_unimplemented! (0xe9fd172d),
+		
+		ArrayPrimitiveN::ArraySliceCopy =>
+			fail_unimplemented! (0xa591cae9),
 		
 	}
 }

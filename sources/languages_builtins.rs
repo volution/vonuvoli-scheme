@@ -47,6 +47,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("nor", BooleanPrimitiveN::Nor.into ()),
 			("nxor", BooleanPrimitiveN::Nxor.into ()),
 			
+			("vector-reverse", ArrayPrimitive1::ArrayReverse.into ()),
 			
 		];
 	
