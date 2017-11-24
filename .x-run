@@ -33,6 +33,22 @@ cat <<'EOS'
 :: compile / doc / debug :: x-run ':: compile / peg' ; exec -- less-exec env PATH="${RUST_PATH}" cargo doc --all-features "${@}"
 :: compile / doc / release :: x-run ':: compile / peg' ; exec -- less-exec env PATH="${RUST_PATH}" cargo doc --release --all-features "${@}"
 
+<< compile / lib / source
+	x-run ':: compile / peg'
+	env PATH="${RUST_PATH}" rustc -Z unstable-options --pretty=expanded -- ./sources/lib.rs \
+	| ( rust-fmt 2> /dev/null || true ) \
+	| sed -r -n \
+			-e ': b' \
+			-e '/^$/ d' \
+			-e '/^\#\[macro_export\]$/ d' \
+			-e '/^\#\[allow\(unused_macros\)\]$/ d' \
+			-e '/^macro_rules!/ b d' \
+			-e 'p' \
+			-e 'b' \
+			-e ': d' -e 'n' -e '/^ +/! b b' -e 'b d' \
+	#
+!!
+
 :: execute / bin / debug :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" cargo run -- "${@}"
 :: execute / bin / release :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" cargo run --release -- "${@}"
 
