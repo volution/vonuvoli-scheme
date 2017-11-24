@@ -778,7 +778,7 @@ impl Compiler {
 		fn splice <ExpressionInto : StdInto<Expression>> (expression : ExpressionInto, spliceable : bool) -> (Expression) {
 			let expression = expression.into ();
 			if spliceable {
-				Expression::ProcedureCall (ListPrimitiveN::List.into (), vec! [ expression ])
+				Expression::ProcedureCall (ListPrimitiveN::ListBuild.into (), vec! [ expression ])
 			} else {
 				expression
 			}
@@ -823,7 +823,7 @@ impl Compiler {
 									} else {
 										let (compilation, element) = try! (self.compile_syntax_quasi_quote_0 (compilation, token, true, false, quote_depth, unquote_depth + 1));
 										// FIXME:  Eliminate dynamic creation of symbol!
-										let element = Expression::ProcedureCall (ListPrimitiveN::List.into (), vec! [ Expression::Value (symbol_clone_str ("unquote") .into ()), element ]);
+										let element = Expression::ProcedureCall (ListPrimitiveN::ListBuild.into (), vec! [ Expression::Value (symbol_clone_str ("unquote") .into ()), element ]);
 										(compilation, element)
 									};
 									succeed! ((compilation, splice (element, spliceable)));
@@ -840,7 +840,7 @@ impl Compiler {
 										} else {
 											let (compilation, element) = try! (self.compile_syntax_quasi_quote_0 (compilation, token, true, false, quote_depth, unquote_depth + 1));
 											// FIXME:  Eliminate dynamic creation of symbol!
-											let element = Expression::ProcedureCall (ListPrimitiveN::List.into (), vec! [ Expression::Value (symbol_clone_str ("unquote-splicing") .into ()), element ]);
+											let element = Expression::ProcedureCall (ListPrimitiveN::ListBuild.into (), vec! [ Expression::Value (symbol_clone_str ("unquote-splicing") .into ()), element ]);
 											(compilation, element)
 										};
 										succeed! ((compilation, element));
@@ -856,7 +856,7 @@ impl Compiler {
 									let token = try! (vec_explode_1 (tokens));
 									let (compilation, element) = try! (self.compile_syntax_quasi_quote_0 (compilation, token, true, false, quote_depth + 1, unquote_depth));
 									// FIXME:  Eliminate dynamic creation of symbol!
-									let element = Expression::ProcedureCall (ListPrimitiveN::List.into (), vec! [ Expression::Value (symbol_clone_str ("quasiquote") .into ()), element ]);
+									let element = Expression::ProcedureCall (ListPrimitiveN::ListBuild.into (), vec! [ Expression::Value (symbol_clone_str ("quasiquote") .into ()), element ]);
 									succeed! ((compilation, splice (element, spliceable)));
 								} else {
 									fail! (0x95565615);
@@ -902,7 +902,7 @@ impl Compiler {
 					}
 				}
 				
-				let expression = Expression::ProcedureCall (ListPrimitiveN::Append.into (), elements);
+				let expression = Expression::ProcedureCall (ListPrimitiveN::ListAppend.into (), elements);
 				
 				let expression = if top {
 					expression

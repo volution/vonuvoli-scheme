@@ -1,5 +1,6 @@
 
 
+use super::builtins::exports as builtins;
 use super::constants::exports as constants;
 use super::tests::exports as tests;
 use super::values::exports as values;
@@ -18,13 +19,13 @@ value -> values::Value = abbreviation / list / array / atom
 atom -> values::Value = boolean / number / symbol / character / string / bytes / constant
 
 list -> values::Value = list_empty / list_proper / list_dotted
-list_proper -> values::Value = "(" space? elements : value ** space space? ")" { values::list_new (elements) }
-list_dotted -> values::Value = "(" space? elements : value ++ space space "." space last : value space? ")" { values::list_dotted_new (elements, last) }
+list_proper -> values::Value = "(" space? elements : value ** space space? ")" { builtins::list_new (elements) }
+list_dotted -> values::Value = "(" space? elements : value ++ space space "." space last : value space? ")" { builtins::list_dotted_new (elements, Some (last)) }
 list_empty -> values::Value = ( "(" space? ")" / "#null" ) { constants::NULL.into () }
 
 array -> values::Value = "#(" space? elements : value ** space space? ")" {  values::array_new (elements) .into () }
 
-abbreviation -> values::Value = abbreviation : abbreviation_prefix whitespace? value : value { values::list_new (vec! [abbreviation, value]) }
+abbreviation -> values::Value = abbreviation : abbreviation_prefix whitespace? value : value { builtins::list_new (vec! [abbreviation, value]) }
 abbreviation_prefix -> values::Value = value : $( "'" / "`" / ",@" / "," ) {?
 		match value {
 			"'" => Ok (values::symbol_clone_str ("quote").into ()),

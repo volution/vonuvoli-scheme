@@ -6,6 +6,8 @@ use super::errors::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
 
+use std::iter;
+
 
 
 
@@ -23,9 +25,10 @@ pub mod exports {
 	pub use super::{list_first_at_set, list_rest_at_set};
 	pub use super::{list_pair_at, list_pair_at_ref};
 	
+	pub use super::{list_new, list_dotted_new};
 	pub use super::{list_build_1, list_build_2, list_build_3, list_build_4, list_build_n};
 	pub use super::{list_append_2, list_append_3, list_append_4, list_append_n};
-	pub use super::{list_reverse};
+	pub use super::{list_make, list_clone, list_reverse};
 	pub use super::{list_length};
 	
 	pub use super::{vec_list_append_2, vec_list_append_3, vec_list_append_4, vec_list_append_n};
@@ -143,6 +146,26 @@ pub fn list_pair_at_ref (list : &Value, index : usize) -> (Outcome<Option<&Pair>
 
 
 
+pub fn list_new <Source> (values : Source) -> (Value)
+		where Source : iter::IntoIterator<Item = Value>, Source::IntoIter : iter::DoubleEndedIterator
+{
+	return list_dotted_new (values, None);
+}
+
+pub fn list_dotted_new <Source> (values : Source, last : Option<Value>) -> (Value)
+		where Source : iter::IntoIterator<Item = Value>, Source::IntoIter : iter::DoubleEndedIterator
+{
+	let last = if let Some (last) = last {
+		last
+	} else {
+		NULL.into ()
+	};
+	return values.into_iter () .rev () .fold (last, |last, value| pair_new (value, last) .into ());
+}
+
+
+
+
 pub fn list_build_1 (value_1 : &Value) -> (Value) {
 	return pair_new (value_1.clone (), NULL) .into ();
 }
@@ -172,45 +195,50 @@ pub fn list_build_n (values : &[Value]) -> (Value) {
 
 pub fn list_append_2 (list_1 : &Value, list_2 : &Value) -> (Outcome<Value>) {
 	// FIXME:  Optimize the vector allocation!
-	let output = try! (vec_list_append_2_dotted (list_1, list_2));
-	return list_append_return (output);
+	let (values, last) = try! (vec_list_append_2_dotted (list_1, list_2));
+	succeed! (list_dotted_new (values, last));
 }
 
 pub fn list_append_3 (list_1 : &Value, list_2 : &Value, list_3 : &Value) -> (Outcome<Value>) {
 	// FIXME:  Optimize the vector allocation!
-	let output = try! (vec_list_append_3_dotted (list_1, list_2, list_3));
-	return list_append_return (output);
+	let (values, last) = try! (vec_list_append_3_dotted (list_1, list_2, list_3));
+	succeed! (list_dotted_new (values, last));
 }
 
 pub fn list_append_4 (list_1 : &Value, list_2 : &Value, list_3 : &Value, list_4 : &Value) -> (Outcome<Value>) {
 	// FIXME:  Optimize the vector allocation!
-	let output = try! (vec_list_append_4_dotted (list_1, list_2, list_3, list_4));
-	return list_append_return (output);
+	let (values, last) = try! (vec_list_append_4_dotted (list_1, list_2, list_3, list_4));
+	succeed! (list_dotted_new (values, last));
 }
 
 pub fn list_append_n (lists : &[Value]) -> (Outcome<Value>) {
 	// FIXME:  Optimize the vector allocation!
-	let output = try! (vec_list_append_n_dotted (lists));
-	return list_append_return (output);
+	let (values, last) = try! (vec_list_append_n_dotted (lists));
+	succeed! (list_dotted_new (values, last));
 }
 
-fn list_append_return ((values, last) : (ValueVec, Option<Value>)) -> (Outcome<Value>) {
-	match last {
-		Some (last) =>
-			succeed! (list_dotted_new (values, last)),
-		None =>
-			succeed! (list_new (values)),
+
+
+
+pub fn list_make (length : usize, fill : &Value) -> (Outcome<Value>) {
+	// FIXME:  Optimize the vector allocation!
+	let mut output = StdVec::with_capacity (length);
+	for _index in 0..length {
+		output.push (fill.clone ());
 	}
+	succeed! (list_new (output));
 }
 
-
-
+pub fn list_clone (list : &Value) -> (Outcome<Value>) {
+	// FIXME:  Optimize the vector allocation!
+	let (output, last) = try! (vec_list_clone_dotted (list));
+	succeed! (list_dotted_new (output, last));
+}
 
 pub fn list_reverse (list : &Value) -> (Outcome<Value>) {
 	// FIXME:  Optimize the vector allocation!
 	let output = try! (vec_list_clone (list));
-	let output = list_new (output.into_iter () .rev ());
-	succeed! (output);
+	succeed! (list_new (output.into_iter () .rev ()));
 }
 
 

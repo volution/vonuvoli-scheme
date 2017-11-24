@@ -1,6 +1,5 @@
 
 
-use super::constants::exports::*;
 use super::contexts::exports::*;
 use super::errors::exports::*;
 use super::primitives::exports::*;
@@ -35,7 +34,7 @@ pub mod exports {
 	pub use super::{string_new, string_clone_str, string_clone_characters};
 	pub use super::{bytes_new, bytes_clone_slice};
 	pub use super::{array_new, array_clone_slice};
-	pub use super::{pair_new, list_new, list_dotted_new};
+	pub use super::{pair_new};
 	
 	pub use super::{ValueMeta1, ValueMeta2, VALUE_META_1, VALUE_META_2};
 	
@@ -1255,17 +1254,5 @@ pub fn array_clone_slice (values : &[Value]) -> (Array) {
 
 pub fn pair_new (left : Value, right : Value) -> (Pair) {
 	Pair (StdRc::new ((left, right)))
-}
-
-pub fn list_new <Source> (values : Source) -> (Value)
-		where Source : iter::IntoIterator<Item = Value>, Source::IntoIter : iter::DoubleEndedIterator
-{
-	list_dotted_new (values, NULL)
-}
-
-pub fn list_dotted_new <Source> (values : Source, last : Value) -> (Value)
-		where Source : iter::IntoIterator<Item = Value>, Source::IntoIter : iter::DoubleEndedIterator
-{
-	values.into_iter () .rev () .fold (last, |last, value| pair_new (value, last) .into ())
 }
 

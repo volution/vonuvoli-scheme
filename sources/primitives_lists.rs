@@ -1,5 +1,6 @@
 
 
+use super::constants::exports::*;
 use super::builtins::exports::*;
 use super::errors::exports::*;
 use super::runtime::exports::*;
@@ -24,17 +25,19 @@ pub enum ListPrimitive1 {
 	PairLeft,
 	PairRight,
 	
-	Length,
-	Reverse,
-	
 	ListFirstOfFirst,
 	ListRestOfFirst,
 	
 	ListFirstAt2,
 	ListRestAt2,
 	
-	List,
-	Append,
+	ListLength,
+	ListClone,
+	ListReverse,
+	
+	ListMake,
+	ListBuild,
+	ListAppend,
 	
 }
 
@@ -51,8 +54,9 @@ pub enum ListPrimitive2 {
 	ListFirstAt,
 	ListRestAt,
 	
-	List,
-	Append,
+	ListMake,
+	ListBuild,
+	ListAppend,
 	
 }
 
@@ -63,8 +67,8 @@ pub enum ListPrimitive3 {
 	ListFirstAtSet,
 	ListRestAtSet,
 	
-	List,
-	Append,
+	ListBuild,
+	ListAppend,
 	
 }
 
@@ -72,8 +76,9 @@ pub enum ListPrimitive3 {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
 pub enum ListPrimitiveN {
 	
-	List,
-	Append,
+	ListMake,
+	ListBuild,
+	ListAppend,
 	
 }
 
@@ -101,19 +106,25 @@ pub fn list_primitive_1_evaluate (primitive : ListPrimitive1, input : &Value) ->
 		ListPrimitive1::ListRestOfFirst =>
 			return list_rest (try! (list_first_ref (input))),
 		
-		ListPrimitive1::Length => {
+		ListPrimitive1::ListLength => {
 			let length = try! (list_length (input));
 			let length : NumberInteger = try! (StdTryFrom::try_from (length));
 			succeed! (length.into ());
 		},
 		
-		ListPrimitive1::Reverse =>
+		ListPrimitive1::ListClone =>
+			return list_clone (input),
+		
+		ListPrimitive1::ListReverse =>
 			return list_reverse (input),
 		
-		ListPrimitive1::List =>
+		ListPrimitive1::ListMake =>
+			return list_make (try! (try_as_number_integer_ref! (input) .try_to_usize ()), &UNDEFINED.into ()),
+		
+		ListPrimitive1::ListBuild =>
 			succeed! (list_build_1 (input)),
 		
-		ListPrimitive1::Append =>
+		ListPrimitive1::ListAppend =>
 			succeed! (input.clone ()),
 		
 	}
@@ -143,10 +154,13 @@ pub fn list_primitive_2_evaluate (primitive : ListPrimitive2, input_1 : &Value, 
 		ListPrimitive2::ListRestAt =>
 			return list_rest_at (input_1, try! (try_as_number_integer_ref! (input_2) .try_to_usize ())),
 		
-		ListPrimitive2::List =>
+		ListPrimitive2::ListMake =>
+			return list_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), input_2),
+		
+		ListPrimitive2::ListBuild =>
 			succeed! (list_build_2 (input_1, input_2)),
 		
-		ListPrimitive2::Append =>
+		ListPrimitive2::ListAppend =>
 			return list_append_2 (input_1, input_2),
 		
 	}
@@ -164,10 +178,10 @@ pub fn list_primitive_3_evaluate (primitive : ListPrimitive3, input_1 : &Value, 
 		ListPrimitive3::ListRestAtSet =>
 			return list_rest_at_set (input_1, try! (try_as_number_integer_ref! (input_2) .try_to_usize ()), input_3),
 		
-		ListPrimitive3::List =>
+		ListPrimitive3::ListBuild =>
 			succeed! (list_build_3 (input_1, input_2, input_3)),
 		
-		ListPrimitive3::Append =>
+		ListPrimitive3::ListAppend =>
 			return list_append_3 (input_1, input_2, input_3),
 		
 	}
@@ -177,13 +191,43 @@ pub fn list_primitive_3_evaluate (primitive : ListPrimitive3, input_1 : &Value, 
 
 
 pub fn list_primitive_n_evaluate (primitive : ListPrimitiveN, inputs : &[Value]) -> (Outcome<Value>) {
+	let inputs_count = inputs.len ();
 	match primitive {
 		
-		ListPrimitiveN::List =>
-			succeed! (list_build_n (inputs)),
+		ListPrimitiveN::ListMake =>
+			if inputs_count == 1 {
+				return list_primitive_1_evaluate (ListPrimitive1::ListMake, &inputs[0]);
+			} else if inputs_count == 2 {
+				return list_primitive_2_evaluate (ListPrimitive2::ListMake, &inputs[0], &inputs[1]);
+			} else {
+				fail! (0xdd5940d5);
+			},
 		
-		ListPrimitiveN::Append =>
-			return list_append_n (inputs),
+		ListPrimitiveN::ListBuild =>
+			if inputs_count == 0 {
+				succeed! (NULL.into ());
+			} else if inputs_count == 1 {
+				return list_primitive_1_evaluate (ListPrimitive1::ListBuild, &inputs[0]);
+			} else if inputs_count == 2 {
+				return list_primitive_2_evaluate (ListPrimitive2::ListBuild, &inputs[0], &inputs[1]);
+			} else if inputs_count == 3 {
+				return list_primitive_3_evaluate (ListPrimitive3::ListBuild, &inputs[0], &inputs[1], &inputs[2]);
+			} else {
+				succeed! (list_build_n (inputs));
+			},
+		
+		ListPrimitiveN::ListAppend =>
+			if inputs_count == 0 {
+				succeed! (NULL.into ());
+			} else if inputs_count == 1 {
+				return list_primitive_1_evaluate (ListPrimitive1::ListAppend, &inputs[0]);
+			} else if inputs_count == 2 {
+				return list_primitive_2_evaluate (ListPrimitive2::ListAppend, &inputs[0], &inputs[1]);
+			} else if inputs_count == 3 {
+				return list_primitive_3_evaluate (ListPrimitive3::ListAppend, &inputs[0], &inputs[1], &inputs[2]);
+			} else {
+				succeed! (list_build_n (inputs));
+			},
 		
 	}
 }
