@@ -14,7 +14,8 @@ fn test () -> () {
 	
 	println! ("----------");
 	println! ("## size-of `Value`: {}", size_of::<Value> ());
-	println! ("## size-of `ValueMeta`: {}", size_of::<ValueMeta> ());
+	println! ("## size-of `ValueMeta1`: {}", size_of::<ValueMeta1> ());
+	println! ("## size-of `ValueMeta2`: {}", size_of::<ValueMeta2> ());
 	println! ("## size-of `ValueClass`: {}", size_of::<ValueClass> ());
 	
 	println! ("----------");

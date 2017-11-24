@@ -17,9 +17,7 @@ use std::ops;
 
 pub mod exports {
 	
-	pub use super::{ValueClass, ValueMeta};
-	
-	pub use super::{Value, ValueBox, ValueVec};
+	pub use super::{Value, ValueBox, ValueVec, ValueClass};
 	pub use super::{Boolean, BooleanBox, BooleanVec};
 	pub use super::{NumberInteger, NumberIntegerBox, NumberIntegerVec};
 	pub use super::{NumberReal, NumberRealBox, NumberRealVec};
@@ -36,6 +34,8 @@ pub mod exports {
 	pub use super::{bytes_new, bytes_clone_slice};
 	pub use super::{array_new, array_clone_slice};
 	pub use super::{pair_new, list_new, list_dotted_new};
+	
+	pub use super::{ValueMeta1, ValueMeta2, VALUE_META_1, VALUE_META_2};
 	
 }
 
@@ -78,40 +78,45 @@ pub enum ValueClass {
 #[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
 pub enum Value {
 	
-	Null ( ValueMeta ),
-	Void ( ValueMeta ),
-	Undefined ( ValueMeta ),
+	Null ( ValueMeta1, ValueMeta2 ),
+	Void ( ValueMeta1, ValueMeta2 ),
+	Undefined ( ValueMeta1, ValueMeta2 ),
 	
-	Boolean ( Boolean, ValueMeta ),
-	NumberInteger ( NumberInteger, ValueMeta ),
-	NumberReal ( NumberReal, ValueMeta ),
-	Character ( Character, ValueMeta ),
+	Boolean ( ValueMeta1, Boolean, ValueMeta2 ),
+	NumberInteger ( ValueMeta1, NumberInteger, ValueMeta2 ),
+	NumberReal ( ValueMeta1, NumberReal, ValueMeta2 ),
+	Character ( ValueMeta1, Character, ValueMeta2 ),
 	
-	Symbol ( Symbol, ValueMeta ),
-	String ( String, ValueMeta ),
-	Bytes ( Bytes, ValueMeta ),
+	Symbol ( ValueMeta1, Symbol, ValueMeta2 ),
+	String ( ValueMeta1, String, ValueMeta2 ),
+	Bytes ( ValueMeta1, Bytes, ValueMeta2 ),
 	
-	Pair ( Pair, ValueMeta ),
-	Array ( Array, ValueMeta ),
+	Pair ( ValueMeta1, Pair, ValueMeta2 ),
+	Array ( ValueMeta1, Array, ValueMeta2 ),
 	
-	Error ( Error, ValueMeta ),
+	Error ( ValueMeta1, Error, ValueMeta2 ),
 	
-	Lambda ( Lambda, ValueMeta ),
-	ProcedurePrimitive ( ProcedurePrimitive, ValueMeta ),
-	SyntaxPrimitive ( SyntaxPrimitive, ValueMeta ),
+	Lambda ( ValueMeta1, Lambda, ValueMeta2 ),
+	ProcedurePrimitive ( ValueMeta1, ProcedurePrimitive, ValueMeta2 ),
+	SyntaxPrimitive ( ValueMeta1, SyntaxPrimitive, ValueMeta2, ),
 	
-	Context ( Context, ValueMeta ),
-	Binding ( Binding, ValueMeta ),
+	Context ( ValueMeta1, Context, ValueMeta2 ),
+	Binding ( ValueMeta1, Binding, ValueMeta2 ),
 	
 }
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
-pub struct ValueMeta ( pub u32 );
-
-
 pub type ValueBox = StdBox<Value>;
 pub type ValueVec = StdVec<Value>;
+
+
+#[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
+pub struct ValueMeta1 ( u8, u8, u8 );
+pub const VALUE_META_1 : ValueMeta1 = ValueMeta1 (0, 0, 0);
+
+#[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
+pub struct ValueMeta2 ( u8, u8, u8, u8 );
+pub const VALUE_META_2 : ValueMeta2 = ValueMeta2 (0, 0, 0, 0);
 
 
 impl Value {
@@ -119,30 +124,30 @@ impl Value {
 	pub fn class (&self) -> (ValueClass) {
 		match *self {
 			
-			Value::Null (_) => ValueClass::Null,
-			Value::Void (_) => ValueClass::Void,
-			Value::Undefined (_) => ValueClass::Undefined,
+			Value::Null (_, _) => ValueClass::Null,
+			Value::Void (_, _) => ValueClass::Void,
+			Value::Undefined (_, _) => ValueClass::Undefined,
 			
-			Value::Boolean (_, _) => ValueClass::Boolean,
-			Value::NumberInteger (_, _) => ValueClass::NumberInteger,
-			Value::NumberReal (_, _) => ValueClass::NumberReal,
-			Value::Character (_, _) => ValueClass::Character,
+			Value::Boolean (_, _, _) => ValueClass::Boolean,
+			Value::NumberInteger (_, _, _) => ValueClass::NumberInteger,
+			Value::NumberReal (_, _, _) => ValueClass::NumberReal,
+			Value::Character (_, _, _) => ValueClass::Character,
 			
-			Value::Symbol (_, _) => ValueClass::Symbol,
-			Value::String (_, _) => ValueClass::String,
-			Value::Bytes (_, _) => ValueClass::Bytes,
+			Value::Symbol (_, _, _) => ValueClass::Symbol,
+			Value::String (_, _, _) => ValueClass::String,
+			Value::Bytes (_, _, _) => ValueClass::Bytes,
 			
-			Value::Pair (_, _) => ValueClass::Pair,
-			Value::Array (_, _) => ValueClass::Array,
+			Value::Pair (_, _, _) => ValueClass::Pair,
+			Value::Array (_, _, _) => ValueClass::Array,
 			
-			Value::Error (_, _) => ValueClass::Error,
+			Value::Error (_, _, _) => ValueClass::Error,
 			
-			Value::Lambda (_, _) => ValueClass::Lambda,
-			Value::ProcedurePrimitive (_, _) => ValueClass::ProcedurePrimitive,
-			Value::SyntaxPrimitive (_, _) => ValueClass::SyntaxPrimitive,
+			Value::Lambda (_, _, _) => ValueClass::Lambda,
+			Value::ProcedurePrimitive (_, _, _) => ValueClass::ProcedurePrimitive,
+			Value::SyntaxPrimitive (_, _, _) => ValueClass::SyntaxPrimitive,
 			
-			Value::Context (_, _) => ValueClass::Context,
-			Value::Binding (_, _) => ValueClass::Binding,
+			Value::Context (_, _, _) => ValueClass::Context,
+			Value::Binding (_, _, _) => ValueClass::Binding,
 			
 		}
 	}
@@ -159,24 +164,24 @@ impl Value {
 impl fmt::Display for Value {
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		match *self {
-			Value::Null (_) => formatter.write_str ("#null"),
-			Value::Void (_) => formatter.write_str ("#void"),
-			Value::Undefined (_) => formatter.write_str ("#undefined"),
-			Value::Boolean (ref value, _) => value.fmt (formatter),
-			Value::NumberInteger (ref value, _) => value.fmt (formatter),
-			Value::NumberReal (ref value, _) => value.fmt (formatter),
-			Value::Character (ref value, _) => value.fmt (formatter),
-			Value::Symbol (ref value, _) => value.fmt (formatter),
-			Value::String (ref value, _) => value.fmt (formatter),
-			Value::Bytes (ref value, _) => value.fmt (formatter),
-			Value::Pair (ref value, _) => value.fmt (formatter),
-			Value::Array (ref value, _) => value.fmt (formatter),
-			Value::Error (ref value, _) => value.fmt (formatter),
-			Value::Lambda (ref value, _) => value.fmt (formatter),
-			Value::ProcedurePrimitive (ref value, _) => write! (formatter, "#<procedure:{:?}>", value),
-			Value::SyntaxPrimitive (ref value, _) => write! (formatter, "#<syntax:{:?}>", value),
-			Value::Context (ref value, _) => value.fmt (formatter),
-			Value::Binding (ref value, _) => value.fmt (formatter),
+			Value::Null (_, _) => formatter.write_str ("#null"),
+			Value::Void (_, _) => formatter.write_str ("#void"),
+			Value::Undefined (_, _) => formatter.write_str ("#undefined"),
+			Value::Boolean (_, ref value, _) => value.fmt (formatter),
+			Value::NumberInteger (_, ref value, _) => value.fmt (formatter),
+			Value::NumberReal (_, ref value, _) => value.fmt (formatter),
+			Value::Character (_, ref value, _) => value.fmt (formatter),
+			Value::Symbol (_, ref value, _) => value.fmt (formatter),
+			Value::String (_, ref value, _) => value.fmt (formatter),
+			Value::Bytes (_, ref value, _) => value.fmt (formatter),
+			Value::Pair (_, ref value, _) => value.fmt (formatter),
+			Value::Array (_, ref value, _) => value.fmt (formatter),
+			Value::Error (_, ref value, _) => value.fmt (formatter),
+			Value::Lambda (_, ref value, _) => value.fmt (formatter),
+			Value::ProcedurePrimitive (_, ref value, _) => write! (formatter, "#<procedure:{:?}>", value),
+			Value::SyntaxPrimitive (_, ref value, _) => write! (formatter, "#<syntax:{:?}>", value),
+			Value::Context (_, ref value, _) => value.fmt (formatter),
+			Value::Binding (_, ref value, _) => value.fmt (formatter),
 		}
 	}
 }
@@ -1065,8 +1070,8 @@ impl fmt::Display for Pair {
 			let (left, right) = cursor.left_and_right ();
 			try! (left.fmt (formatter));
 			match *right {
-				Value::Null (_) => break,
-				Value::Pair (ref right, _) => {
+				Value::Null (_, _) => break,
+				Value::Pair (_, ref right, _) => {
 					try! (formatter.write_char (' '));
 					cursor = right;
 				},

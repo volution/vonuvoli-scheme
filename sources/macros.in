@@ -282,12 +282,12 @@ macro_rules! impl_unwrappers_for_enum_wrapper {
 
 
 #[ allow (unused_macros) ]
-macro_rules! impl_unwrappers_1_for_enum_2_wrapper {
+macro_rules! impl_unwrappers_2_for_enum_3_wrapper {
 	( $from : ident, $tag : ident, $to : ty) => (
 		impl StdTryFrom<$from> for $to {
 			type Error = ::errors::exports::Error;
 			fn try_from (value : $from) -> (::std::result::Result<$to, ::errors::exports::Error>) {
-				if let $from::$tag (value, _) = value {
+				if let $from::$tag (_, value, _) = value {
 					succeed! (value);
 				} else {
 					fail! (0x7ac7cc9c);
@@ -302,7 +302,7 @@ macro_rules! impl_unwrappers_1_for_enum_2_wrapper {
 		impl StdTryInto<$to> for $from {
 			type Error = ::errors::exports::Error;
 			fn try_into (self) -> (::std::result::Result<$to, ::errors::exports::Error>) {
-				if let $from::$tag (value, _) = self {
+				if let $from::$tag (_, value, _) = self {
 					succeed! (value);
 				} else {
 					fail! (0x4e255f54);
@@ -319,7 +319,7 @@ macro_rules! impl_unwrappers_1_for_enum_2_wrapper {
 		impl <'a> StdTryAsRef<$to> for $from {
 			type Error = ::errors::exports::Error;
 			fn try_as_ref (&self) -> (::std::result::Result<&$to, ::errors::exports::Error>) {
-				if let $from::$tag (ref value, _) = *self {
+				if let $from::$tag (_, ref value, _) = *self {
 					succeed! (value);
 				} else {
 					fail! (0x1e588e5f);
