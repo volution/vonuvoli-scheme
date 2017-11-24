@@ -32,6 +32,7 @@ pub fn apply_n (evaluator : &mut EvaluatorContext, callable : &Value, inputs : &
 
 pub fn lists_map_n (evaluator : &mut EvaluatorContext, callable : &Value, inputs : &[Value]) -> (Outcome<Value>) {
 	let lists_iterator = ListsIterator::new (inputs);
+	// FIXME:  Transform this into an iterator map!
 	let mut outputs = StdVec::new ();
 	for inputs in lists_iterator {
 		let inputs_ref = try! (inputs);
@@ -40,7 +41,7 @@ pub fn lists_map_n (evaluator : &mut EvaluatorContext, callable : &Value, inputs
 		let output = try! (evaluator.evaluator.evaluate_procedure_call_with_values (evaluator, callable, inputs.as_ref ()));
 		outputs.push (output);
 	}
-	succeed! (list_new (outputs));
+	succeed! (list_collect (outputs));
 }
 
 pub fn lists_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, inputs : &[Value]) -> (Outcome<Value>) {

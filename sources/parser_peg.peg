@@ -19,13 +19,13 @@ value -> values::Value = abbreviation / list / array / atom
 atom -> values::Value = boolean / number / symbol / character / string / bytes / constant
 
 list -> values::Value = list_empty / list_proper / list_dotted
-list_proper -> values::Value = "(" space? elements : value ** space space? ")" { builtins::list_new (elements) }
-list_dotted -> values::Value = "(" space? elements : value ++ space space "." space last : value space? ")" { builtins::list_dotted_new (elements, Some (last)) }
+list_proper -> values::Value = "(" space? elements : value ** space space? ")" { builtins::list_collect (elements) }
+list_dotted -> values::Value = "(" space? elements : value ++ space space "." space last : value space? ")" { builtins::list_collect_dotted (elements, Some (last)) }
 list_empty -> values::Value = ( "(" space? ")" / "#null" ) { builtins::list_empty () }
 
 array -> values::Value = "#(" space? elements : value ** space space? ")" {  values::array_new (elements) .into () }
 
-abbreviation -> values::Value = abbreviation : abbreviation_prefix whitespace? value : value { builtins::list_new (vec! [abbreviation, value]) }
+abbreviation -> values::Value = abbreviation : abbreviation_prefix whitespace? value : value { builtins::list_collect (vec! [abbreviation, value]) }
 abbreviation_prefix -> values::Value = value : $( "'" / "`" / ",@" / "," ) {?
 		match value {
 			"'" => Ok (values::symbol_clone_str ("quote").into ()),

@@ -313,7 +313,7 @@ fn __parse_list_proper<'input>(
                                         match __seq_res {
                                             Matched(__pos, _) => {
                                                 Matched(__pos, {
-                                                    builtins::list_new(elements)
+                                                    builtins::list_collect(elements)
                                                 })
                                             }
                                             Failed => Failed,
@@ -418,7 +418,7 @@ fn __parse_list_dotted<'input>(
                                                                         match __seq_res {
                                                                             Matched(__pos, _) => {
                                                                                 Matched(__pos, {
-                                                                                    builtins::list_dotted_new (elements, Some (last))
+                                                                                    builtins::list_collect_dotted (elements, Some (last))
                                                                                 })
                                                                             }
                                                                             Failed => Failed,
@@ -579,7 +579,7 @@ fn __parse_abbreviation<'input>(
                         match __seq_res {
                             Matched(__pos, value) => {
                                 Matched(__pos, {
-                                    builtins::list_new(vec![abbreviation, value])
+                                    builtins::list_collect(vec![abbreviation, value])
                                 })
                             }
                             Failed => Failed,

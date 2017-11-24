@@ -90,13 +90,14 @@ impl Context {
 		if self_0.immutable {
 			return failed! (0x4814c74f);
 		}
+		let template_identifier = template.identifier.string_as_str ();
 		let identifier = if let Some (prefix) = prefix {
-			let mut identifier = StdString::with_capacity (template.identifier.as_str () .len () + prefix.len ());
+			let mut identifier = StdString::with_capacity (template_identifier.len () + prefix.len ());
 			identifier.push_str (prefix);
-			identifier.push_str (template.identifier.as_str ());
+			identifier.push_str (template_identifier);
 			identifier
 		} else {
-			template.identifier.string_clone ()
+			StdString::from (template_identifier)
 		};
 		let bindings_entry = self_0.bindings.entry (identifier);
 		return match bindings_entry {

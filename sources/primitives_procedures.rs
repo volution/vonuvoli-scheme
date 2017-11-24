@@ -54,7 +54,11 @@ pub enum ProcedurePrimitive {
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
-pub enum ProcedurePrimitive0 {}
+pub enum ProcedurePrimitive0 {
+	
+	List ( ListPrimitive0 ),
+	
+}
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
@@ -91,7 +95,11 @@ pub enum ProcedurePrimitive3 {
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
-pub enum ProcedurePrimitive4 {}
+pub enum ProcedurePrimitive4 {
+	
+	List ( ListPrimitive4 ),
+	
+}
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
@@ -109,7 +117,12 @@ pub enum ProcedurePrimitiveN {
 
 
 pub fn procedure_primitive_0_evaluate (primitive : ProcedurePrimitive0, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
-	match primitive {}
+	match primitive {
+		
+		ProcedurePrimitive0::List (primitive) =>
+			return list_primitive_0_evaluate (primitive),
+		
+	}
 }
 
 
@@ -178,8 +191,13 @@ pub fn procedure_primitive_3_evaluate (primitive : ProcedurePrimitive3, input_1 
 
 
 
-pub fn procedure_primitive_4_evaluate (primitive : ProcedurePrimitive4, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
-	match primitive {}
+pub fn procedure_primitive_4_evaluate (primitive : ProcedurePrimitive4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	match primitive {
+		
+		ProcedurePrimitive4::List (primitive) =>
+			return list_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4),
+		
+	}
 }
 
 
