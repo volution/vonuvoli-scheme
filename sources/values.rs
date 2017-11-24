@@ -77,7 +77,7 @@ pub enum ValueClass {
 
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Clone, Eq, PartialEq, Hash) ]
 pub enum Value {
 	
 	Null ( ValueMeta1, ValueMeta2 ),
@@ -188,6 +188,32 @@ impl fmt::Display for Value {
 			Value::Lambda (_, ref value, _) => value.fmt (formatter),
 			Value::ProcedurePrimitive (_, ref value, _) => write! (formatter, "#<procedure:{:?}>", value),
 			Value::SyntaxPrimitive (_, ref value, _) => write! (formatter, "#<syntax:{:?}>", value),
+			Value::Context (_, ref value, _) => value.fmt (formatter),
+			Value::Binding (_, ref value, _) => value.fmt (formatter),
+		}
+	}
+}
+
+
+impl fmt::Debug for Value {
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		match *self {
+			Value::Null (_, _) => formatter.debug_struct ("Null") .finish (),
+			Value::Void (_, _) => formatter.debug_struct ("Undefined") .finish (),
+			Value::Undefined (_, _) => formatter.debug_struct ("Undefined") .finish (),
+			Value::Boolean (_, ref value, _) => value.fmt (formatter),
+			Value::NumberInteger (_, ref value, _) => value.fmt (formatter),
+			Value::NumberReal (_, ref value, _) => value.fmt (formatter),
+			Value::Character (_, ref value, _) => value.fmt (formatter),
+			Value::Symbol (_, ref value, _) => value.fmt (formatter),
+			Value::String (_, ref value, _) => value.fmt (formatter),
+			Value::Bytes (_, ref value, _) => value.fmt (formatter),
+			Value::Pair (_, ref value, _) => value.fmt (formatter),
+			Value::Array (_, ref value, _) => value.fmt (formatter),
+			Value::Error (_, ref value, _) => value.fmt (formatter),
+			Value::Lambda (_, ref value, _) => value.fmt (formatter),
+			Value::ProcedurePrimitive (_, ref value, _) => value.fmt (formatter),
+			Value::SyntaxPrimitive (_, ref value, _) => value.fmt (formatter),
 			Value::Context (_, ref value, _) => value.fmt (formatter),
 			Value::Binding (_, ref value, _) => value.fmt (formatter),
 		}
