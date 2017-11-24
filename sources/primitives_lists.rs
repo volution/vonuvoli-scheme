@@ -2,6 +2,7 @@
 
 use super::errors::exports::*;
 use super::operators::exports::*;
+use super::runtime::exports::*;
 use super::values::exports::*;
 
 
@@ -26,10 +27,7 @@ pub enum ListPrimitive1 {
 	Length,
 	Reverse,
 	
-	ListFirst,
 	ListFirstOfFirst,
-	
-	ListRest,
 	ListRestOfFirst,
 	
 	ListFirstAt2,
@@ -62,6 +60,7 @@ pub enum ListPrimitive2 {
 pub enum ListPrimitive3 {
 	
 	ListFirstAtSet,
+	ListRestAtSet,
 	
 	List,
 	Append,
@@ -84,34 +83,31 @@ pub fn list_primitive_1_evaluate (primitive : ListPrimitive1, input : &Value) ->
 	match primitive {
 		
 		ListPrimitive1::PairLeft =>
-			succeed! (try_as_pair_ref! (input) .left () .clone ()),
+			return list_first (input),
 		
 		ListPrimitive1::PairRight =>
-			succeed! (try_as_pair_ref! (input) .right () .clone ()),
-		
-		ListPrimitive1::ListFirst =>
-			fail_unimplemented! (0x15b5099a),
+			return list_rest (input),
 		
 		ListPrimitive1::ListFirstAt2 =>
-			fail_unimplemented! (0xffdaecc7),
-		
-		ListPrimitive1::ListRest =>
-			fail_unimplemented! (0x87b73c9a),
+			return list_first_at (input, 1),
 		
 		ListPrimitive1::ListRestAt2 =>
-			fail_unimplemented! (0x14584ee7),
+			return list_rest_at (input, 1),
 		
 		ListPrimitive1::ListFirstOfFirst =>
-			fail_unimplemented! (0x3bd9af62),
+			return list_first (try! (list_first_ref (input))),
 		
 		ListPrimitive1::ListRestOfFirst =>
-			fail_unimplemented! (0xe37e31a9),
+			return list_rest (try! (list_first_ref (input))),
 		
-		ListPrimitive1::Length =>
-			fail_unimplemented! (0x73feb843),
+		ListPrimitive1::Length => {
+			let length = try! (list_length (input));
+			let length : NumberInteger = try! (StdTryFrom::try_from (length));
+			succeed! (length.into ());
+		},
 		
 		ListPrimitive1::Reverse =>
-			fail_unimplemented! (0x398ecefa),
+			return list_reverse (input),
 		
 		ListPrimitive1::List =>
 			succeed! (list_build_1 (input)),
@@ -132,16 +128,16 @@ pub fn list_primitive_2_evaluate (primitive : ListPrimitive2, input_1 : &Value, 
 			succeed! (pair (input_1, input_2)),
 		
 		ListPrimitive2::PairLeftSet =>
-			fail_unimplemented! (0xa2ba6335),
+			return pair_left_set (input_1, input_2),
 		
 		ListPrimitive2::PairRightSet =>
-			fail_unimplemented! (0xadf82f55),
+			return pair_right_set (input_1, input_2),
 		
 		ListPrimitive2::ListFirstAt =>
-			fail_unimplemented! (0x3437ff0a),
+			return list_first_at (input_1, try! (try_as_number_integer_ref! (input_2) .try_to_usize ())),
 		
 		ListPrimitive2::ListRestAt =>
-			fail_unimplemented! (0x1260c5d7),
+			return list_rest_at (input_1, try! (try_as_number_integer_ref! (input_2) .try_to_usize ())),
 		
 		ListPrimitive2::List =>
 			succeed! (list_build_2 (input_1, input_2)),
@@ -159,7 +155,10 @@ pub fn list_primitive_3_evaluate (primitive : ListPrimitive3, input_1 : &Value, 
 	match primitive {
 		
 		ListPrimitive3::ListFirstAtSet =>
-			fail_unimplemented! (0x52b3e12d),
+			return list_first_at_set (input_1, try! (try_as_number_integer_ref! (input_2) .try_to_usize ()), input_3),
+		
+		ListPrimitive3::ListRestAtSet =>
+			return list_rest_at_set (input_1, try! (try_as_number_integer_ref! (input_2) .try_to_usize ()), input_3),
 		
 		ListPrimitive3::List =>
 			succeed! (list_build_3 (input_1, input_2, input_3)),

@@ -224,17 +224,17 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			("base", "pair?", TypePrimitive1::IsPair.into ()),
 			
 			("base", "cons", ListPrimitive2::Pair.into ()),
-			
 			("base", "car", ListPrimitive1::PairLeft.into ()),
 			("base", "cdr", ListPrimitive1::PairRight.into ()),
 			
-			("base", "caar", ListPrimitive1::ListFirstOfFirst.into ()),
-			("base", "cadr", ListPrimitive1::ListFirstAt2.into ()),
-			("base", "cdar", ListPrimitive1::ListRestOfFirst.into ()),
-			("base", "cddr", ListPrimitive1::ListRestAt2.into ()),
-			
 			("base", "set-car!", ListPrimitive2::PairLeftSet.into ()),
 			("base", "set-cdr!", ListPrimitive2::PairRightSet.into ()),
+			
+			("base", "caar", ListPrimitive1::ListFirstOfFirst.into ()),
+			("base", "cdar", ListPrimitive1::ListRestOfFirst.into ()),
+			
+			("base", "cadr", ListPrimitive1::ListFirstAt2.into ()),
+			("base", "cddr", ListPrimitive1::ListRestAt2.into ()),
 			
 			
 			
