@@ -171,21 +171,25 @@ pub fn list_build_n (values : &[Value]) -> (Value) {
 
 
 pub fn list_append_2 (list_1 : &Value, list_2 : &Value) -> (Outcome<Value>) {
+	// FIXME:  Optimize the vector allocation!
 	let output = try! (vec_list_append_2_dotted (list_1, list_2));
 	return list_append_return (output);
 }
 
 pub fn list_append_3 (list_1 : &Value, list_2 : &Value, list_3 : &Value) -> (Outcome<Value>) {
+	// FIXME:  Optimize the vector allocation!
 	let output = try! (vec_list_append_3_dotted (list_1, list_2, list_3));
 	return list_append_return (output);
 }
 
 pub fn list_append_4 (list_1 : &Value, list_2 : &Value, list_3 : &Value, list_4 : &Value) -> (Outcome<Value>) {
+	// FIXME:  Optimize the vector allocation!
 	let output = try! (vec_list_append_4_dotted (list_1, list_2, list_3, list_4));
 	return list_append_return (output);
 }
 
 pub fn list_append_n (lists : &[Value]) -> (Outcome<Value>) {
+	// FIXME:  Optimize the vector allocation!
 	let output = try! (vec_list_append_n_dotted (lists));
 	return list_append_return (output);
 }
@@ -202,8 +206,11 @@ fn list_append_return ((values, last) : (ValueVec, Option<Value>)) -> (Outcome<V
 
 
 
-pub fn list_reverse (_list : &Value) -> (Outcome<Value>) {
-	fail_unimplemented! (0x410a9463);
+pub fn list_reverse (list : &Value) -> (Outcome<Value>) {
+	// FIXME:  Optimize the vector allocation!
+	let output = try! (vec_list_clone (list));
+	let output = list_new (output.into_iter () .rev ());
+	succeed! (output);
 }
 
 
