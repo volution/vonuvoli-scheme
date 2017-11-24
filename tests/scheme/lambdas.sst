@@ -9,7 +9,7 @@
 
 
 (define f1
-	(locals
+	(~locals
 		(define y 0)
 		(lambda (x) (+ x y))
 	))
@@ -24,7 +24,7 @@
 
 (begin
 	(define f2
-		(locals
+		(~locals
 			(define q1 1)
 			(define q2 2)
 			(define z 0)
@@ -72,7 +72,7 @@
 => !ignore;
 
 (define f4b
-	(locals
+	(~locals
 		(define r
 			(lambda (m n a)
 				(if (zero? n)
@@ -111,16 +111,16 @@
 ((lambda (x . y) y) 0 1) => '(1);
 
 
-(locals (define (f) 0) (f)) => 0;
-(locals (define (f . r) r) (f)) => '();
-(locals (define (f . r) r) (f 0)) => '(0);
-(locals (define (f . r) r) (f 0 1)) => '(0 1);
-(locals (define (f a . r) a) (f 0)) => 0;
-(locals (define (f a . r) a) (f 0 1)) => 0;
-(locals (define (f a . r) r) (f 0)) => '();
-(locals (define (f a . r) r) (f 0 1)) => '(1);
-(locals (define (f a b . r) b) (f 0 1)) => 1;
-(locals (define (f a b . r) b) (f 0 1 2)) => 1;
-(locals (define (f a b . r) r) (f 0 1)) => '();
-(locals (define (f a b . r) r) (f 0 1 2)) => '(2);
+(~locals (define (f) 0) (f)) => 0;
+(~locals (define (f . r) r) (f)) => '();
+(~locals (define (f . r) r) (f 0)) => '(0);
+(~locals (define (f . r) r) (f 0 1)) => '(0 1);
+(~locals (define (f a . r) a) (f 0)) => 0;
+(~locals (define (f a . r) a) (f 0 1)) => 0;
+(~locals (define (f a . r) r) (f 0)) => '();
+(~locals (define (f a . r) r) (f 0 1)) => '(1);
+(~locals (define (f a b . r) b) (f 0 1)) => 1;
+(~locals (define (f a b . r) b) (f 0 1 2)) => 1;
+(~locals (define (f a b . r) r) (f 0 1)) => '();
+(~locals (define (f a b . r) r) (f 0 1 2)) => '(2);
 

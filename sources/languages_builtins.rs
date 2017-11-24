@@ -40,12 +40,12 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			
 			("locals", SyntaxPrimitiveN::Locals.into ()), // https://docs.racket-lang.org/reference/local.html
 			
-			("and*", BooleanPrimitiveN::And.into ()),
-			("or*", BooleanPrimitiveN::Or.into ()),
-			("xor*", BooleanPrimitiveN::Xor.into ()),
-			("nand*", BooleanPrimitiveN::Nand.into ()),
-			("nor*", BooleanPrimitiveN::Nor.into ()),
-			("nxor*", BooleanPrimitiveN::Nxor.into ()),
+			("and", BooleanPrimitiveN::And.into ()),
+			("or", BooleanPrimitiveN::Or.into ()),
+			("xor", BooleanPrimitiveN::Xor.into ()),
+			("nand", BooleanPrimitiveN::Nand.into ()),
+			("nor", BooleanPrimitiveN::Nor.into ()),
+			("nxor", BooleanPrimitiveN::Nxor.into ()),
 			
 			
 		];

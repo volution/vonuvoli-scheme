@@ -58,7 +58,7 @@ pub fn execute_tests (tests : &StdVec<TestCase>, transcript : &mut io::Write, ve
 	
 	let context = Context::new (None);
 	try! (context.define_all (try! (language_r7rs_generate_binding_templates ()) .as_ref ()));
-	try! (context.define_all (try! (language_builtins_generate_binding_templates ()) .as_ref ()));
+	try! (context.define_all_with_prefix (try! (language_builtins_generate_binding_templates ()) .as_ref (), Some ("~")));
 	
 	for test in tests {
 		try! (execute_test (&context, test, transcript, verbosity));
