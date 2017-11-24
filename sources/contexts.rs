@@ -28,7 +28,7 @@ pub struct Context ( StdRc<StdRefCell<ContextInternals>> );
 
 #[ derive (Debug) ]
 struct ContextInternals {
-	bindings : StdMap<Symbol, Binding>,
+	bindings : StdMap<StdString, Binding>,
 	parent : Option<Context>,
 	immutable : bool,
 	handle : u32,
@@ -67,7 +67,7 @@ impl Context {
 	
 	pub fn resolve (&self, identifier : &Symbol) -> (Outcome<Option<Binding>>) {
 		let self_0 = self.internals_ref ();
-		return match self_0.bindings.get (&identifier) {
+		return match self_0.bindings.get (identifier.string_ref ()) {
 			Some (binding) =>
 				Ok (Some (binding.clone ())),
 			None =>
@@ -81,12 +81,24 @@ impl Context {
 	
 	
 	pub fn define (&self, template : &ContextBindingTemplate) -> (Outcome<Binding>) {
+		return self.define_with_prefix (template, None);
+	}
+	
+	pub fn define_with_prefix (&self, template : &ContextBindingTemplate, prefix : Option<&str>) -> (Outcome<Binding>) {
 		use std::collections::hash_map::Entry;
 		let mut self_0 = self.internals_ref_mut ();
 		if self_0.immutable {
 			return failed! (0x4814c74f);
 		}
-		let bindings_entry = self_0.bindings.entry (template.identifier.clone ());
+		let identifier = if let Some (prefix) = prefix {
+			let mut identifier = StdString::with_capacity (template.identifier.as_str () .len () + prefix.len ());
+			identifier.push_str (prefix);
+			identifier.push_str (template.identifier.as_str ());
+			identifier
+		} else {
+			template.identifier.string_clone ()
+		};
+		let bindings_entry = self_0.bindings.entry (identifier);
 		return match bindings_entry {
 			Entry::Occupied (_) => failed! (0x5b8e8d57),
 			Entry::Vacant (_) => {
@@ -97,7 +109,12 @@ impl Context {
 		};
 	}
 	
+	
 	pub fn define_all (&self, templates : &[ContextBindingTemplate]) -> (Outcome<StdVec<Binding>>) {
+		return self.define_all_with_prefix (templates, None);
+	}
+	
+	pub fn define_all_with_prefix (&self, templates : &[ContextBindingTemplate], prefix : Option<&str>) -> (Outcome<StdVec<Binding>>) {
 		{
 			let mut self_0 = self.internals_ref_mut ();
 			if self_0.immutable {
@@ -105,7 +122,7 @@ impl Context {
 			}
 			self_0.bindings.reserve (templates.len ());
 		}
-		templates.iter () .map (|ref template| self.define (template)) .collect ()
+		templates.iter () .map (|ref template| self.define_with_prefix (template, prefix)) .collect ()
 	}
 	
 	
