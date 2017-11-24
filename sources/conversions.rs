@@ -120,6 +120,9 @@ impl_from_for_Value_3! (NumberInteger, NumberInteger, i16, value, number_i64 (va
 impl_from_for_Value_3! (NumberInteger, NumberInteger, u16, value, number_i64 (value as i64));
 impl_from_for_Value_3! (NumberInteger, NumberInteger, i32, value, number_i64 (value as i64));
 impl_from_for_Value_3! (NumberInteger, NumberInteger, u32, value, number_i64 (value as i64));
+impl_from_for_Value_3! (NumberInteger, NumberInteger, isize, value, number_i64 (value as i64));
+impl_try_from_for_type! (NumberInteger, u64, value, if value <= <i64>::max_value () as u64 { succeeded! (number_i64 (value as i64)) } else { failed! (0x78f55fb6) });
+impl_try_from_for_type! (NumberInteger, usize, value, if value <= <i64>::max_value () as usize { succeeded! (number_i64 (value as i64)) } else { failed! (0xe99641f7) });
 
 impl_from_for_Value_2! (NumberReal, NumberReal, f64);
 impl_from_for_type! (NumberReal, NumberInteger, value, <i64>::from (value) .into ());
@@ -132,6 +135,8 @@ impl_from_for_type! (NumberReal, i32, value, number_f64 (value as f64));
 impl_from_for_type! (NumberReal, u32, value, number_f64 (value as f64));
 impl_from_for_type! (NumberReal, i64, value, number_f64 (value as f64));
 impl_from_for_type! (NumberReal, u64, value, number_f64 (value as f64));
+impl_from_for_type! (NumberReal, isize, value, number_f64 (value as f64));
+impl_from_for_type! (NumberReal, usize, value, number_f64 (value as f64));
 
 impl_from_for_Value_3! (String, String, StdString, value, string_new (value));
 impl_from_for_Value_3! (String, String, &'static str, value, string_clone_str (value));

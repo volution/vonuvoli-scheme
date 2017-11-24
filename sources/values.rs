@@ -285,6 +285,47 @@ pub type NumberIntegerBox = StdBox<NumberInteger>;
 pub type NumberIntegerVec = StdVec<NumberInteger>;
 
 
+macro_rules! NumberInteger_fn_try_to_signed_integer {
+	($export : ident, $type : ty) => (
+		pub fn $export (&self) -> (Outcome<$type>) {
+			let value = self.0;
+			if ::std::mem::size_of::<i64> () <= ::std::mem::size_of::<$type> () {
+				succeed! (value as $type);
+			}
+			let min = <$type>::min_value () as i64;
+			if value < min {
+				fail! (0xe1deffc5);
+			}
+			let max = <$type>::max_value () as i64;
+			if value > max {
+				fail! (0x3d9c7881);
+			}
+			succeed! (value as $type);
+		}
+	);
+}
+
+
+macro_rules! NumberInteger_fn_try_to_unsigned_integer {
+	($export : ident, $type : ty) => (
+		pub fn $export (&self) -> (Outcome<$type>) {
+			let value = self.0;
+			if value < 0 {
+				fail! (0xe4d76587);
+			}
+			if ::std::mem::size_of::<i64> () <= ::std::mem::size_of::<$type> () {
+				succeed! (value as $type);
+			}
+			let max = <$type>::max_value () as i64;
+			if value > max {
+				fail! (0x4212bbb7);
+			}
+			succeed! (value as $type);
+		}
+	);
+}
+
+
 macro_rules! NumberInteger_fn_predicate {
 	($delegate : ident) => (
 		NumberInteger_fn_predicate! ($delegate, $delegate);
@@ -344,6 +385,19 @@ macro_rules! NumberInteger_fn_delegate_2_real {
 
 
 impl NumberInteger {
+	
+	
+	NumberInteger_fn_try_to_signed_integer! (try_to_i8, i8);
+	NumberInteger_fn_try_to_signed_integer! (try_to_i16, i16);
+	NumberInteger_fn_try_to_signed_integer! (try_to_i32, i32);
+	NumberInteger_fn_try_to_signed_integer! (try_to_i64, i64);
+	NumberInteger_fn_try_to_signed_integer! (try_to_isize, isize);
+	
+	NumberInteger_fn_try_to_unsigned_integer! (try_to_u8, u8);
+	NumberInteger_fn_try_to_unsigned_integer! (try_to_u16, u16);
+	NumberInteger_fn_try_to_unsigned_integer! (try_to_u32, u32);
+	NumberInteger_fn_try_to_unsigned_integer! (try_to_u64, u64);
+	NumberInteger_fn_try_to_unsigned_integer! (try_to_usize, usize);
 	
 	
 	pub fn neg (&self) -> (Outcome<NumberInteger>) {
@@ -558,6 +612,7 @@ impl NumberInteger {
 	
 	NumberInteger_fn_delegate_1_real! (to_degrees);
 	NumberInteger_fn_delegate_1_real! (to_radians);
+	
 }
 
 
