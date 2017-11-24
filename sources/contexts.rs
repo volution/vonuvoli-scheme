@@ -1,9 +1,7 @@
 
-
-use super::globals;
-
 use super::constants::exports::*;
 use super::errors::exports::*;
+use super::globals::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
 
@@ -53,7 +51,7 @@ impl Context {
 				bindings : StdMap::new (),
 				parent : option_map! (parent, parent.clone ()),
 				immutable : false,
-				handle : globals::context_handles_next (),
+				handle : context_handles_next (),
 			};
 		return Context (StdRc::new (StdRefCell::new (internals)));
 	}
@@ -208,7 +206,7 @@ impl Registers {
 		let internals = RegistersInternals {
 				bindings : StdVec::new (),
 				immutable : false,
-				handle : globals::context_handles_next (),
+				handle : context_handles_next (),
 			};
 		return Registers (StdRc::new (StdRefCell::new (internals)));
 	}
@@ -366,7 +364,7 @@ impl Binding {
 				identifier : identifier,
 				value : value,
 				immutable : immutable,
-				handle : globals::bindings_handles_next (),
+				handle : bindings_handles_next (),
 			};
 		return Binding (StdRc::new (StdRefCell::new (internals)));
 	}

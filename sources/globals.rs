@@ -5,6 +5,14 @@ use super::counters::PermutationCounter;
 
 
 
+pub mod exports {
+	pub use super::context_handles_next;
+	pub use super::bindings_handles_next;
+}
+
+
+
+
 static mut CONTEXT_HANDLES : PermutationCounter = PermutationCounter {
 		index : 0x514765cd,
 		offset : 0x4d564bb6,

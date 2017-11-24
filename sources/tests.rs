@@ -9,7 +9,7 @@ use super::parser::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
 
-use std::io::Write;
+use std::io;
 
 
 
@@ -46,7 +46,7 @@ pub enum TestVerbosity {
 
 
 
-pub fn parse_and_execute_tests (source : &str, transcript : &mut Write, verbosity : TestVerbosity) -> (Outcome<()>) {
+pub fn parse_and_execute_tests (source : &str, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
 	let tests = try! (parse_tests (source));
 	return execute_tests (&tests, transcript, verbosity);
 }
@@ -54,7 +54,7 @@ pub fn parse_and_execute_tests (source : &str, transcript : &mut Write, verbosit
 
 
 
-pub fn execute_tests (tests : &StdVec<TestCase>, transcript : &mut Write, verbosity : TestVerbosity) -> (Outcome<()>) {
+pub fn execute_tests (tests : &StdVec<TestCase>, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
 	
 	let context = Context::new (None);
 	try! (context.define_all (try! (language_r7rs_generate_binding_templates ()) .as_ref ()));
@@ -69,10 +69,10 @@ pub fn execute_tests (tests : &StdVec<TestCase>, transcript : &mut Write, verbos
 
 
 #[ allow (unused_assignments) ]
-pub fn execute_test (context : &Context, test : &TestCase, transcript : &mut Write, verbosity : TestVerbosity) -> (Outcome<()>) {
+pub fn execute_test (context : &Context, test : &TestCase, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
 	
 	
-	fn header_emit (test : &TestCase, transcript : &mut Write, verbosity : TestVerbosity, emitted : bool, forced : bool) -> (Outcome<bool>) {
+	fn header_emit (test : &TestCase, transcript : &mut io::Write, verbosity : TestVerbosity, emitted : bool, forced : bool) -> (Outcome<bool>) {
 		if emitted {
 			succeed! (true);
 		}
