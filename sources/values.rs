@@ -10,6 +10,7 @@ use super::runtime::exports::*;
 use std::cmp;
 use std::fmt;
 use std::hash;
+use std::iter;
 use std::ops;
 use std::ptr;
 
@@ -1213,8 +1214,10 @@ pub fn bytes_clone_slice (values : &[u8]) -> (Bytes) {
 
 
 
-pub fn array_new (values : ValueVec) -> (Array) {
-	Array (StdRc::new (values))
+pub fn array_new <Source> (values : Source) -> (Array)
+		where Source : iter::IntoIterator<Item = Value>
+{
+	Array (StdRc::new (values.into_iter () .collect ()))
 }
 
 pub fn array_clone_slice (values : &[Value]) -> (Array) {
@@ -1228,11 +1231,15 @@ pub fn pair_new (left : Value, right : Value) -> (Pair) {
 	Pair (StdRc::new ((left, right)))
 }
 
-pub fn list_new (values : ValueVec) -> (Value) {
+pub fn list_new <Source> (values : Source) -> (Value)
+		where Source : iter::IntoIterator<Item = Value>, Source::IntoIter : iter::DoubleEndedIterator
+{
 	list_dotted_new (values, NULL)
 }
 
-pub fn list_dotted_new (values : ValueVec, last : Value) -> (Value) {
+pub fn list_dotted_new <Source> (values : Source, last : Value) -> (Value)
+		where Source : iter::IntoIterator<Item = Value>, Source::IntoIter : iter::DoubleEndedIterator
+{
 	values.into_iter () .rev () .fold (last, |last, value| pair_new (value, last) .into ())
 }
 
