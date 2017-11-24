@@ -6,6 +6,7 @@ include! ("macros.in");
 
 
 pub mod builtins;
+pub mod builtins_arrays;
 pub mod builtins_functions;
 pub mod builtins_lists;
 pub mod builtins_types;
@@ -24,6 +25,7 @@ pub mod languages_r7rs;
 pub mod parser;
 pub mod primitives;
 pub mod primitives_arithmetic;
+pub mod primitives_arrays;
 pub mod primitives_bitwise;
 pub mod primitives_boolean;
 pub mod primitives_functions;

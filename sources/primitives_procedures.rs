@@ -3,6 +3,7 @@
 use super::errors::exports::*;
 use super::evaluator::exports::*;
 use super::primitives_arithmetic::*;
+use super::primitives_arrays::*;
 use super::primitives_bitwise::*;
 use super::primitives_boolean::*;
 use super::primitives_functions::*;
@@ -57,6 +58,7 @@ pub enum ProcedurePrimitive {
 pub enum ProcedurePrimitive0 {
 	
 	List ( ListPrimitive0 ),
+	Array ( ArrayPrimitive0 ),
 	
 }
 
@@ -69,6 +71,7 @@ pub enum ProcedurePrimitive1 {
 	Arithmetic ( ArithmeticPrimitive1 ),
 	Bitwise ( BitwisePrimitive1 ),
 	List ( ListPrimitive1 ),
+	Array ( ArrayPrimitive1 ),
 	Functions ( FunctionsPrimitive1 ),
 	
 }
@@ -81,6 +84,7 @@ pub enum ProcedurePrimitive2 {
 	Arithmetic ( ArithmeticPrimitive2 ),
 	Bitwise ( BitwisePrimitive2 ),
 	List ( ListPrimitive2 ),
+	Array ( ArrayPrimitive2 ),
 	Functions ( FunctionsPrimitive2 ),
 	
 }
@@ -90,6 +94,7 @@ pub enum ProcedurePrimitive2 {
 pub enum ProcedurePrimitive3 {
 	
 	List ( ListPrimitive3 ),
+	Array ( ArrayPrimitive3 ),
 	
 }
 
@@ -98,6 +103,7 @@ pub enum ProcedurePrimitive3 {
 pub enum ProcedurePrimitive4 {
 	
 	List ( ListPrimitive4 ),
+	Array ( ArrayPrimitive4 ),
 	
 }
 
@@ -109,6 +115,7 @@ pub enum ProcedurePrimitiveN {
 	Arithmetic ( ArithmeticPrimitiveN ),
 	Bitwise ( BitwisePrimitiveN ),
 	List ( ListPrimitiveN ),
+	Array ( ArrayPrimitiveN ),
 	Functions ( FunctionsPrimitiveN ),
 	
 }
@@ -121,6 +128,9 @@ pub fn procedure_primitive_0_evaluate (primitive : ProcedurePrimitive0, _evaluat
 		
 		ProcedurePrimitive0::List (primitive) =>
 			return list_primitive_0_evaluate (primitive),
+		
+		ProcedurePrimitive0::Array (primitive) =>
+			return array_primitive_0_evaluate (primitive),
 		
 	}
 }
@@ -146,6 +156,9 @@ pub fn procedure_primitive_1_evaluate (primitive : ProcedurePrimitive1, input_1 
 		ProcedurePrimitive1::List (primitive) =>
 			return list_primitive_1_evaluate (primitive, input_1),
 		
+		ProcedurePrimitive1::Array (primitive) =>
+			return array_primitive_1_evaluate (primitive, input_1),
+		
 		ProcedurePrimitive1::Functions (primitive) =>
 			return functions_primitive_1_evaluate (primitive, input_1, evaluator),
 		
@@ -170,6 +183,9 @@ pub fn procedure_primitive_2_evaluate (primitive : ProcedurePrimitive2, input_1 
 		ProcedurePrimitive2::List (primitive) =>
 			return list_primitive_2_evaluate (primitive, input_1, input_2),
 		
+		ProcedurePrimitive2::Array (primitive) =>
+			return array_primitive_2_evaluate (primitive, input_1, input_2),
+		
 		ProcedurePrimitive2::Functions (primitive) =>
 			return functions_primitive_2_evaluate (primitive, input_1, input_2, evaluator),
 		
@@ -185,6 +201,9 @@ pub fn procedure_primitive_3_evaluate (primitive : ProcedurePrimitive3, input_1 
 		ProcedurePrimitive3::List (primitive) =>
 			return list_primitive_3_evaluate (primitive, input_1, input_2, input_3),
 		
+		ProcedurePrimitive3::Array (primitive) =>
+			return array_primitive_3_evaluate (primitive, input_1, input_2, input_3),
+		
 	}
 }
 
@@ -196,6 +215,9 @@ pub fn procedure_primitive_4_evaluate (primitive : ProcedurePrimitive4, input_1 
 		
 		ProcedurePrimitive4::List (primitive) =>
 			return list_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4),
+		
+		ProcedurePrimitive4::Array (primitive) =>
+			return array_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4),
 		
 	}
 }
@@ -217,6 +239,9 @@ pub fn procedure_primitive_n_evaluate (primitive : ProcedurePrimitiveN, inputs :
 		
 		ProcedurePrimitiveN::List (primitive) =>
 			return list_primitive_n_evaluate (primitive, inputs),
+		
+		ProcedurePrimitiveN::Array (primitive) =>
+			return array_primitive_n_evaluate (primitive, inputs),
 		
 		ProcedurePrimitiveN::Functions (primitive) =>
 			return functions_primitive_n_evaluate (primitive, inputs, evaluator),

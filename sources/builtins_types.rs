@@ -18,6 +18,8 @@ pub mod exports {
 	
 	pub use super::{is_list, is_list_proper, is_list_proper_or_empty, is_list_dotted, is_list_dotted_or_empty, is_list_cyclic, is_list_cyclic_or_empty};
 	
+	pub use super::{is_array, is_array_empty, is_array_not_empty};
+	
 	pub use super::{is_procedure, is_syntax};
 	
 	pub use super::{number_class, list_class, procedure_class, syntax_class};
@@ -183,6 +185,21 @@ pub fn is_list_cyclic_or_empty (value : &Value) -> (bool) {
 	} else {
 		return false;
 	}
+}
+
+
+
+
+pub fn is_array (value : &Value) -> (bool) {
+	return value.is (ValueClass::Array);
+}
+
+pub fn is_array_empty (value : &Value) -> (bool) {
+	return value.is (ValueClass::Array) && Array::as_ref (value) .values_is_empty ();
+}
+
+pub fn is_array_not_empty (value : &Value) -> (bool) {
+	return value.is (ValueClass::Array) && !Array::as_ref (value) .values_is_not_empty ();
 }
 
 
