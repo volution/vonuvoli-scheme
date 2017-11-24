@@ -915,12 +915,29 @@ pub type SymbolBox = StdBox<Symbol>;
 pub type SymbolVec = StdVec<Symbol>;
 
 
+impl Symbol {
+	
+	pub fn as_str (&self) -> (&str) {
+		return self.0.as_ref () .as_str ();
+	}
+	
+	pub fn string_ref (&self) -> (&StdString) {
+		return &self.0.as_ref ();
+	}
+	
+	pub fn string_clone (&self) -> (StdString) {
+		return self.0.as_ref () .clone ();
+	}
+	
+}
+
+
 impl fmt::Display for Symbol {
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		if self.0.is_empty () {
 			return formatter.write_str ("||");
 		} else {
-			// return formatter.write_str (self.0.as_str ());
+			// return formatter.write_str (self.as_str ());
 			use std::fmt::Write;
 			try! (formatter.write_char ('|'));
 			for character in self.0.chars () {
@@ -946,6 +963,23 @@ pub struct String ( StdRc<StdString> );
 
 pub type StringBox = StdBox<String>;
 pub type StringVec = StdVec<String>;
+
+
+impl String {
+	
+	pub fn as_str (&self) -> (&str) {
+		return self.0.as_ref () .as_str ();
+	}
+	
+	pub fn string_ref (&self) -> (&StdString) {
+		return &self.0.as_ref ();
+	}
+	
+	pub fn string_clone (&self) -> (StdString) {
+		return self.0.as_ref () .clone ();
+	}
+	
+}
 
 
 impl fmt::Display for String {
