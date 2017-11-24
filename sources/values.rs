@@ -9,7 +9,6 @@ use super::runtime::exports::*;
 use std::cmp;
 use std::fmt;
 use std::hash;
-use std::iter;
 use std::ops;
 use std::ptr;
 
@@ -154,12 +153,12 @@ impl Value {
 	}
 	
 	pub fn is (&self, class : ValueClass) -> (bool) {
-		return self.class () == class;
+		self.class () == class
 	}
 	
 	
 	pub fn is_self (&self, other : &Value) -> (bool) {
-		return ptr::eq (self, other);
+		ptr::eq (self, other)
 	}
 	
 	
@@ -171,24 +170,33 @@ impl Value {
 impl fmt::Display for Value {
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		match *self {
+			
 			Value::Null (_, _) => formatter.write_str ("#null"),
 			Value::Void (_, _) => formatter.write_str ("#void"),
 			Value::Undefined (_, _) => formatter.write_str ("#undefined"),
+			
 			Value::Boolean (_, ref value, _) => value.fmt (formatter),
 			Value::NumberInteger (_, ref value, _) => value.fmt (formatter),
 			Value::NumberReal (_, ref value, _) => value.fmt (formatter),
 			Value::Character (_, ref value, _) => value.fmt (formatter),
+			
 			Value::Symbol (_, ref value, _) => value.fmt (formatter),
 			Value::String (_, ref value, _) => value.fmt (formatter),
 			Value::Bytes (_, ref value, _) => value.fmt (formatter),
+			
 			Value::Pair (_, ref value, _) => value.fmt (formatter),
 			Value::Array (_, ref value, _) => value.fmt (formatter),
+			
 			Value::Error (_, ref value, _) => value.fmt (formatter),
+			
 			Value::Lambda (_, ref value, _) => value.fmt (formatter),
+			
 			Value::ProcedurePrimitive (_, ref value, _) => write! (formatter, "#<procedure:{:?}>", value),
 			Value::SyntaxPrimitive (_, ref value, _) => write! (formatter, "#<syntax:{:?}>", value),
+			
 			Value::Context (_, ref value, _) => value.fmt (formatter),
 			Value::Binding (_, ref value, _) => value.fmt (formatter),
+			
 		}
 	}
 }
@@ -197,24 +205,33 @@ impl fmt::Display for Value {
 impl fmt::Debug for Value {
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		match *self {
+			
 			Value::Null (_, _) => formatter.debug_struct ("Null") .finish (),
 			Value::Void (_, _) => formatter.debug_struct ("Undefined") .finish (),
 			Value::Undefined (_, _) => formatter.debug_struct ("Undefined") .finish (),
+			
 			Value::Boolean (_, ref value, _) => value.fmt (formatter),
 			Value::NumberInteger (_, ref value, _) => value.fmt (formatter),
 			Value::NumberReal (_, ref value, _) => value.fmt (formatter),
 			Value::Character (_, ref value, _) => value.fmt (formatter),
+			
 			Value::Symbol (_, ref value, _) => value.fmt (formatter),
 			Value::String (_, ref value, _) => value.fmt (formatter),
 			Value::Bytes (_, ref value, _) => value.fmt (formatter),
+			
 			Value::Pair (_, ref value, _) => value.fmt (formatter),
 			Value::Array (_, ref value, _) => value.fmt (formatter),
+			
 			Value::Error (_, ref value, _) => value.fmt (formatter),
+			
 			Value::Lambda (_, ref value, _) => value.fmt (formatter),
+			
 			Value::ProcedurePrimitive (_, ref value, _) => value.fmt (formatter),
 			Value::SyntaxPrimitive (_, ref value, _) => value.fmt (formatter),
+			
 			Value::Context (_, ref value, _) => value.fmt (formatter),
 			Value::Binding (_, ref value, _) => value.fmt (formatter),
+			
 		}
 	}
 }
@@ -273,8 +290,10 @@ impl ops::Not for Boolean {
 impl fmt::Display for Boolean {
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		match self.0 {
-			true => formatter.write_str ("#true"),
-			false => formatter.write_str ("#false"),
+			true =>
+				formatter.write_str ("#true"),
+			false =>
+				formatter.write_str ("#false"),
 		}
 	}
 }
@@ -407,7 +426,7 @@ impl NumberInteger {
 	
 	pub fn neg (&self) -> (Outcome<NumberInteger>) {
 		if let Some (outcome) = <i64>::checked_neg (self.0) {
-			return Ok (outcome.into ());
+			succeed! (outcome.into ());
 		} else {
 			fail! (0xd93d04db);
 		}
@@ -415,7 +434,7 @@ impl NumberInteger {
 	
 	pub fn abs (&self) -> (Outcome<NumberInteger>) {
 		if let Some (outcome) = <i64>::checked_abs (self.0) {
-			return Ok (outcome.into ());
+			succeed! (outcome.into ());
 		} else {
 			fail! (0x997daa2a);
 		}
@@ -423,7 +442,7 @@ impl NumberInteger {
 	
 	pub fn add (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		if let Some (outcome) = <i64>::checked_add (self.0, other.0) {
-			return Ok (outcome.into ());
+			succeed! (outcome.into ());
 		} else {
 			fail! (0xd61736b6);
 		}
@@ -431,7 +450,7 @@ impl NumberInteger {
 	
 	pub fn sub (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		if let Some (outcome) = <i64>::checked_sub (self.0, other.0) {
-			return Ok (outcome.into ());
+			succeed! (outcome.into ());
 		} else {
 			fail! (0x1e036be9);
 		}
@@ -439,7 +458,7 @@ impl NumberInteger {
 	
 	pub fn mul (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		if let Some (outcome) = <i64>::checked_mul (self.0, other.0) {
-			return Ok (outcome.into ());
+			succeed! (outcome.into ());
 		} else {
 			fail! (0x32c5b516);
 		}
@@ -447,7 +466,7 @@ impl NumberInteger {
 	
 	pub fn div (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		if let Some (outcome) = <i64>::checked_div (self.0, other.0) {
-			return Ok (outcome.into ());
+			succeed! (outcome.into ());
 		} else {
 			fail! (0xce26bc76);
 		}
@@ -455,7 +474,7 @@ impl NumberInteger {
 	
 	pub fn rem (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		if let Some (outcome) = <i64>::checked_rem (self.0, other.0) {
-			return Ok (outcome.into ());
+			succeed! (outcome.into ());
 		} else {
 			fail! (0xce26bc76);
 		}
@@ -466,20 +485,20 @@ impl NumberInteger {
 		if (other < 0) || (other > (<u32>::max_value () as i64)) {
 			fail! (0xdcca20dd);
 		}
-		return Ok (<i64>::pow (self.0, other as u32) .into ());
+		succeed! (<i64>::pow (self.0, other as u32) .into ());
 	}
 	
 	
 	pub fn is_zero (&self) -> (bool) {
-		(self.0 == 0)
+		self.0 == 0
 	}
 	
 	pub fn is_even (&self) -> (bool) {
-		((self.0 & 1) == 0)
+		(self.0 & 1) == 0
 	}
 	
 	pub fn is_odd (&self) -> (bool) {
-		((self.0 & 1) != 0)
+		(self.0 & 1) != 0
 	}
 	
 	
@@ -518,7 +537,7 @@ impl NumberInteger {
 			fail! (0xb84272a0);
 		}
 		if let Some (outcome) = <i64>::checked_shl (self.0, other as u32) {
-			return Ok (outcome.into ());
+			succeed! (outcome.into ());
 		} else {
 			fail! (0x734e69d8);
 		}
@@ -530,7 +549,7 @@ impl NumberInteger {
 			fail! (0x26d90f55);
 		}
 		if let Some (outcome) = <i64>::checked_shr (self.0, other as u32) {
-			return Ok (outcome.into ());
+			succeed! (outcome.into ());
 		} else {
 			fail! (0xc3bb81a9);
 		}
@@ -541,7 +560,7 @@ impl NumberInteger {
 		if (other < 0) || (other > (<u32>::max_value () as i64)) {
 			fail! (0xe2038e82);
 		}
-		return Ok ((<i64>::rotate_left (self.0, other as u32)) .into ());
+		succeed! ((<i64>::rotate_left (self.0, other as u32)) .into ());
 	}
 	
 	pub fn rotate_right (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
@@ -549,7 +568,7 @@ impl NumberInteger {
 		if (other < 0) || (other > (<u32>::max_value () as i64)) {
 			fail! (0x1d868231);
 		}
-		return Ok ((<i64>::rotate_right (self.0, other as u32)) .into ());
+		succeed! ((<i64>::rotate_right (self.0, other as u32)) .into ());
 	}
 	
 	
@@ -763,40 +782,40 @@ impl NumberReal {
 	
 	
 	pub fn neg (&self) -> (NumberReal) {
-		(-self.0).into ()
+		(-self.0) .into ()
 	}
 	
 	pub fn add (&self, other : &NumberReal) -> (NumberReal) {
-		(self.0 + other.0).into ()
+		(self.0 + other.0) .into ()
 	}
 	
 	pub fn sub (&self, other : &NumberReal) -> (NumberReal) {
-		(self.0 - other.0).into ()
+		(self.0 - other.0) .into ()
 	}
 	
 	pub fn mul (&self, other : &NumberReal) -> (NumberReal) {
-		(self.0 * other.0).into ()
+		(self.0 * other.0) .into ()
 	}
 	
 	pub fn div (&self, other : &NumberReal) -> (NumberReal) {
-		(self.0 / other.0).into ()
+		(self.0 / other.0) .into ()
 	}
 	
 	pub fn rem (&self, other : &NumberReal) -> (NumberReal) {
-		(self.0 % other.0).into ()
+		(self.0 % other.0) .into ()
 	}
 	
 	
 	pub fn is_zero (&self) -> (bool) {
-		(self.0 == 0.0)
+		self.0 == 0.0
 	}
 	
 	pub fn is_even (&self) -> (bool) {
-		((self.0 % 2.0) == 0.0)
+		(self.0 % 2.0) == 0.0
 	}
 	
 	pub fn is_odd (&self) -> (bool) {
-		((self.0 % 2.0) != 0.0)
+		(self.0 % 2.0) != 0.0
 	}
 	
 	
@@ -935,10 +954,14 @@ impl fmt::Display for Character {
 		use std::fmt::Write;
 		let character = self.0;
 		match character {
-			'!' ... '~' => { try! (formatter.write_str ("#\\")); try! (formatter.write_char (character)); },
-			_ => try! (write! (formatter, "#\\x{:02x}", character as u32)),
+			'!' ... '~' => {
+				try! (formatter.write_str ("#\\"));
+				try! (formatter.write_char (character));
+			},
+			_ =>
+				try! (write! (formatter, "#\\x{:02x}", character as u32)),
 		}
-		return Ok (());
+		succeed! (());
 	}
 }
 
@@ -955,16 +978,28 @@ pub type SymbolVec = StdVec<Symbol>;
 
 impl Symbol {
 	
-	pub fn as_str (&self) -> (&str) {
-		return self.0.as_ref () .as_str ();
+	pub fn string_as_str (&self) -> (&str) {
+		self.0.as_ref () .as_str ()
 	}
 	
 	pub fn string_ref (&self) -> (&StdString) {
-		return &self.0.as_ref ();
+		&self.0.as_ref ()
 	}
 	
 	pub fn string_clone (&self) -> (StdString) {
-		return self.0.as_ref () .clone ();
+		self.0.as_ref () .clone ()
+	}
+	
+	pub fn string_is_empty (&self) -> (bool) {
+		self.string_ref () .is_empty ()
+	}
+	
+	pub fn string_is_not_empty (&self) -> (bool) {
+		!self.string_ref () .is_empty ()
+	}
+	
+	pub fn string_length (&self) -> (usize) {
+		self.string_ref () .len ()
 	}
 	
 }
@@ -973,21 +1008,25 @@ impl Symbol {
 impl fmt::Display for Symbol {
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		if self.0.is_empty () {
-			return formatter.write_str ("||");
+			try! (formatter.write_str ("||"));
 		} else {
-			// return formatter.write_str (self.as_str ());
 			use std::fmt::Write;
 			try! (formatter.write_char ('|'));
 			for character in self.0.chars () {
 				match character {
-					'|' | '\\' => { try! (formatter.write_char ('\\')); try! (formatter.write_char (character)); },
-					' ' ... '~' => try! (formatter.write_char (character)),
-					_ => try! (write! (formatter, "#\\x{:02x};", character as u32)),
+					'|' | '\\' => {
+						try! (formatter.write_char ('\\'));
+						try! (formatter.write_char (character));
+					},
+					' ' ... '~' =>
+						try! (formatter.write_char (character)),
+					_ =>
+						try! (write! (formatter, "#\\x{:02x};", character as u32)),
 				}
 			}
 			try! (formatter.write_char ('|'));
-			return Ok (());
 		}
+		succeed! (());
 	}
 }
 
@@ -1005,16 +1044,28 @@ pub type StringVec = StdVec<String>;
 
 impl String {
 	
-	pub fn as_str (&self) -> (&str) {
-		return self.0.as_ref () .as_str ();
+	pub fn string_as_str (&self) -> (&str) {
+		self.0.as_ref () .as_str ()
 	}
 	
 	pub fn string_ref (&self) -> (&StdString) {
-		return &self.0.as_ref ();
+		&self.0.as_ref ()
 	}
 	
 	pub fn string_clone (&self) -> (StdString) {
-		return self.0.as_ref () .clone ();
+		self.0.as_ref () .clone ()
+	}
+	
+	pub fn string_is_empty (&self) -> (bool) {
+		self.string_ref () .is_empty ()
+	}
+	
+	pub fn string_is_not_empty (&self) -> (bool) {
+		!self.string_ref () .is_empty ()
+	}
+	
+	pub fn string_length (&self) -> (usize) {
+		self.string_ref () .len ()
 	}
 	
 }
@@ -1026,13 +1077,18 @@ impl fmt::Display for String {
 		try! (formatter.write_char ('"'));
 		for character in self.0.chars () {
 			match character {
-				'"' | '\\' => { try! (formatter.write_char ('\\')); try! (formatter.write_char (character)); },
-				' ' ... '~' => try! (formatter.write_char (character)),
-				_ => try! (write! (formatter, "#\\x{:02x};", character as u32)),
+				'"' | '\\' => {
+					try! (formatter.write_char ('\\'));
+					try! (formatter.write_char (character));
+				},
+				' ' ... '~' =>
+					try! (formatter.write_char (character)),
+				_ =>
+					try! (write! (formatter, "#\\x{:02x};", character as u32)),
 			}
 		}
 		try! (formatter.write_char ('"'));
-		return Ok (());
+		succeed! (());
 	}
 }
 
@@ -1062,7 +1118,7 @@ impl fmt::Display for Bytes {
 			try! (write! (formatter, "{}", byte));
 		}
 		try! (formatter.write_char (')'));
-		return Ok (());
+		succeed! (());
 	}
 }
 
@@ -1082,20 +1138,20 @@ impl Pair {
 	
 	
 	pub fn left (&self) -> (&Value) {
-		return &(self.0).0;
+		&(self.0).0
 	}
 	
 	pub fn right (&self) -> (&Value) {
-		return &(self.0).1;
+		&(self.0).1
 	}
 	
 	pub fn left_and_right (&self) -> (&Value, &Value) {
-		return (&(self.0).0, &(self.0).1);
+		(&(self.0).0, &(self.0).1)
 	}
 	
 	
 	pub fn is_self (&self, other : &Pair) -> (bool) {
-		return ptr::eq (self, other);
+		ptr::eq (self, other)
 	}
 	
 }
@@ -1110,7 +1166,8 @@ impl fmt::Display for Pair {
 			let (left, right) = cursor.left_and_right ();
 			try! (left.fmt (formatter));
 			match *right {
-				Value::Null (_, _) => break,
+				Value::Null (_, _) =>
+					break,
 				Value::Pair (_, ref right, _) => {
 					try! (formatter.write_char (' '));
 					cursor = right;
@@ -1131,7 +1188,7 @@ impl fmt::Display for Pair {
 			}
 		}
 		try! (formatter.write_char (')'));
-		return Ok (());
+		succeed! (());
 	}
 }
 
@@ -1145,6 +1202,35 @@ pub struct Array ( StdRc<StdVec<Value>> );
 
 pub type ArrayBox = StdBox<Array>;
 pub type ArrayVec = StdVec<Array>;
+
+
+impl Array {
+	
+	pub fn values_as_slice (&self) -> (&[Value]) {
+		self.0.as_ref () .as_slice ()
+	}
+	
+	pub fn values_ref (&self) -> (&StdVec<Value>) {
+		self.0.as_ref ()
+	}
+	
+	pub fn values_clone (&self) -> (StdVec<Value>) {
+		self.0.as_ref () .clone ()
+	}
+	
+	pub fn values_is_empty (&self) -> (bool) {
+		self.values_ref () .is_empty ()
+	}
+	
+	pub fn values_is_not_empty (&self) -> (bool) {
+		!self.values_ref () .is_empty ()
+	}
+	
+	pub fn values_length (&self) -> (usize) {
+		self.values_ref () .len ()
+	}
+	
+}
 
 
 impl fmt::Display for Array {
@@ -1161,7 +1247,7 @@ impl fmt::Display for Array {
 			try! (element.fmt (formatter));
 		}
 		try! (formatter.write_char (')'));
-		return Ok (());
+		succeed! (());
 	}
 }
 
@@ -1210,19 +1296,19 @@ pub fn string_clone_str (value : &str) -> (String) {
 
 
 pub fn symbol_clone_characters (characters : &[char]) -> (Symbol) {
-	let mut value = StdString::with_capacity (characters.len ());
-	for character in characters {
-		value.push (*character);
-	}
-	return symbol_new (StdString::from (value));
+	symbol_new (characters_clone (characters))
 }
 
 pub fn string_clone_characters (characters : &[char]) -> (String) {
+	string_new (characters_clone (characters))
+}
+
+fn characters_clone (characters : &[char]) -> (StdString) {
 	let mut value = StdString::with_capacity (characters.len ());
 	for character in characters {
 		value.push (*character);
 	}
-	return string_new (StdString::from (value));
+	StdString::from (value)
 }
 
 
@@ -1239,10 +1325,8 @@ pub fn bytes_clone_slice (values : &[u8]) -> (Bytes) {
 
 
 
-pub fn array_new <Source> (values : Source) -> (Array)
-		where Source : iter::IntoIterator<Item = Value>
-{
-	Array (StdRc::new (values.into_iter () .collect ()))
+pub fn array_new (values : ValueVec) -> (Array) {
+	Array (StdRc::new (values))
 }
 
 pub fn array_clone_slice (values : &[Value]) -> (Array) {
