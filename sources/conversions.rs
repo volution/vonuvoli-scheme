@@ -149,37 +149,20 @@ impl_from_for_type! (Pair, (Value, Value), value, { let (left, right) = value; p
 
 
 
-macro_rules! impl_from_for_primitive_procedure {
-	( $from : ty, $tag_1 : ident, $tag_2 : ident, $tag_3 : ident ) => (
+macro_rules! impl_from_for_primitive_procedure_1 {
+	( $from : ty, $tag : ident ) => (
 		impl_from_for_Value_0! (ProcedurePrimitive, $from);
-		impl_from_for_enum! (ProcedurePrimitive, $tag_2, $from);
-		impl_from_for_enum! ($tag_1, $tag_3, $from);
+		impl_from_for_enum! (ProcedurePrimitive, $tag, $from);
 	);
 }
 
 
-impl_from_for_primitive_procedure! (TypePrimitive1, ProcedurePrimitive1, Primitive1, Type);
-
-impl_from_for_primitive_procedure! (BooleanPrimitive1, ProcedurePrimitive1, Primitive1, Boolean);
-impl_from_for_primitive_procedure! (BooleanPrimitive2, ProcedurePrimitive2, Primitive2, Boolean);
-impl_from_for_primitive_procedure! (BooleanPrimitiveN, ProcedurePrimitiveN, PrimitiveN, Boolean);
-
-impl_from_for_primitive_procedure! (ArithmeticPrimitive1, ProcedurePrimitive1, Primitive1, Arithmetic);
-impl_from_for_primitive_procedure! (ArithmeticPrimitive2, ProcedurePrimitive2, Primitive2, Arithmetic);
-impl_from_for_primitive_procedure! (ArithmeticPrimitiveN, ProcedurePrimitiveN, PrimitiveN, Arithmetic);
-
-impl_from_for_primitive_procedure! (BitwisePrimitive1, ProcedurePrimitive1, Primitive1, Bitwise);
-impl_from_for_primitive_procedure! (BitwisePrimitive2, ProcedurePrimitive2, Primitive2, Bitwise);
-impl_from_for_primitive_procedure! (BitwisePrimitiveN, ProcedurePrimitiveN, PrimitiveN, Bitwise);
-
-impl_from_for_primitive_procedure! (ListPrimitive1, ProcedurePrimitive1, Primitive1, List);
-impl_from_for_primitive_procedure! (ListPrimitive2, ProcedurePrimitive2, Primitive2, List);
-impl_from_for_primitive_procedure! (ListPrimitive3, ProcedurePrimitive3, Primitive3, List);
-impl_from_for_primitive_procedure! (ListPrimitiveN, ProcedurePrimitiveN, PrimitiveN, List);
-
-impl_from_for_primitive_procedure! (FunctionsPrimitive1, ProcedurePrimitive1, Primitive1, Functions);
-impl_from_for_primitive_procedure! (FunctionsPrimitive2, ProcedurePrimitive2, Primitive2, Functions);
-impl_from_for_primitive_procedure! (FunctionsPrimitiveN, ProcedurePrimitiveN, PrimitiveN, Functions);
+impl_from_for_primitive_procedure_1! (ProcedurePrimitive0, Primitive0);
+impl_from_for_primitive_procedure_1! (ProcedurePrimitive1, Primitive1);
+impl_from_for_primitive_procedure_1! (ProcedurePrimitive2, Primitive2);
+impl_from_for_primitive_procedure_1! (ProcedurePrimitive3, Primitive3);
+impl_from_for_primitive_procedure_1! (ProcedurePrimitive4, Primitive4);
+impl_from_for_primitive_procedure_1! (ProcedurePrimitiveN, PrimitiveN);
 
 
 
@@ -191,13 +174,67 @@ macro_rules! impl_from_for_primitive_syntax {
 	);
 }
 
+impl_from_for_primitive_syntax! (SyntaxPrimitive0, Primitive0);
 impl_from_for_primitive_syntax! (SyntaxPrimitive1, Primitive1);
 impl_from_for_primitive_syntax! (SyntaxPrimitive2, Primitive2);
 impl_from_for_primitive_syntax! (SyntaxPrimitive3, Primitive3);
+impl_from_for_primitive_syntax! (SyntaxPrimitive4, Primitive4);
 impl_from_for_primitive_syntax! (SyntaxPrimitiveN, PrimitiveN);
 
 
 
+
+macro_rules! impl_from_for_primitive_procedure_2 {
+	( $from : ty, $tag_1 : ident, $tag_2 : ident, $tag_3 : ident ) => (
+		impl_from_for_Value_0! (ProcedurePrimitive, $from);
+		impl_from_for_enum! (ProcedurePrimitive, $tag_2, $from);
+		impl_from_for_enum! ($tag_1, $tag_3, $from);
+	);
+}
+
+impl_from_for_primitive_procedure_2! (TypePrimitive1, ProcedurePrimitive1, Primitive1, Type);
+
+impl_from_for_primitive_procedure_2! (BooleanPrimitive1, ProcedurePrimitive1, Primitive1, Boolean);
+impl_from_for_primitive_procedure_2! (BooleanPrimitive2, ProcedurePrimitive2, Primitive2, Boolean);
+impl_from_for_primitive_procedure_2! (BooleanPrimitiveN, ProcedurePrimitiveN, PrimitiveN, Boolean);
+
+impl_from_for_primitive_procedure_2! (ArithmeticPrimitive1, ProcedurePrimitive1, Primitive1, Arithmetic);
+impl_from_for_primitive_procedure_2! (ArithmeticPrimitive2, ProcedurePrimitive2, Primitive2, Arithmetic);
+impl_from_for_primitive_procedure_2! (ArithmeticPrimitiveN, ProcedurePrimitiveN, PrimitiveN, Arithmetic);
+
+impl_from_for_primitive_procedure_2! (BitwisePrimitive1, ProcedurePrimitive1, Primitive1, Bitwise);
+impl_from_for_primitive_procedure_2! (BitwisePrimitive2, ProcedurePrimitive2, Primitive2, Bitwise);
+impl_from_for_primitive_procedure_2! (BitwisePrimitiveN, ProcedurePrimitiveN, PrimitiveN, Bitwise);
+
+impl_from_for_primitive_procedure_2! (ListPrimitive0, ProcedurePrimitive0, Primitive0, List);
+impl_from_for_primitive_procedure_2! (ListPrimitive1, ProcedurePrimitive1, Primitive1, List);
+impl_from_for_primitive_procedure_2! (ListPrimitive2, ProcedurePrimitive2, Primitive2, List);
+impl_from_for_primitive_procedure_2! (ListPrimitive3, ProcedurePrimitive3, Primitive3, List);
+impl_from_for_primitive_procedure_2! (ListPrimitive4, ProcedurePrimitive4, Primitive4, List);
+impl_from_for_primitive_procedure_2! (ListPrimitiveN, ProcedurePrimitiveN, PrimitiveN, List);
+
+impl_from_for_primitive_procedure_2! (ArrayPrimitive0, ProcedurePrimitive0, Primitive0, Array);
+impl_from_for_primitive_procedure_2! (ArrayPrimitive1, ProcedurePrimitive1, Primitive1, Array);
+impl_from_for_primitive_procedure_2! (ArrayPrimitive2, ProcedurePrimitive2, Primitive2, Array);
+impl_from_for_primitive_procedure_2! (ArrayPrimitive3, ProcedurePrimitive3, Primitive3, Array);
+impl_from_for_primitive_procedure_2! (ArrayPrimitive4, ProcedurePrimitive4, Primitive4, Array);
+impl_from_for_primitive_procedure_2! (ArrayPrimitiveN, ProcedurePrimitiveN, PrimitiveN, Array);
+
+impl_from_for_primitive_procedure_2! (FunctionsPrimitive1, ProcedurePrimitive1, Primitive1, Functions);
+impl_from_for_primitive_procedure_2! (FunctionsPrimitive2, ProcedurePrimitive2, Primitive2, Functions);
+impl_from_for_primitive_procedure_2! (FunctionsPrimitiveN, ProcedurePrimitiveN, PrimitiveN, Functions);
+
+
+
+
+/* ----- * /
+
+#[ allow (unused_macros) ]
+macro_rules! impl_from_for_ProcedurePrimitiveCall0 {
+	( $primitive : ty ) => (
+		impl_from_for_Expression_2! (ProcedurePrimitiveCall0, ($primitive,), value, (value.0.into (),));
+	);
+}
 
 #[ allow (unused_macros) ]
 macro_rules! impl_from_for_ProcedurePrimitiveCall1 {
@@ -280,6 +317,33 @@ macro_rules! impl_from_for_ProcedurePrimitiveCall3 {
 }
 
 #[ allow (unused_macros) ]
+macro_rules! impl_from_for_ProcedurePrimitiveCall4 {
+	( $primitive : ty ) => (
+		#[ cfg (feature = "conversions-all") ]
+		impl_from_for_ProcedurePrimitiveCall4! ($primitive, [
+				Expression,
+				Value,
+				Boolean, NumberInteger, NumberReal, Character,
+				Symbol, String, Bytes,
+				Pair, Array,
+				Error,
+				Lambda,
+				ProcedurePrimitive, SyntaxPrimitive,
+				Context, Binding,
+				bool, i64, f64, char,
+				StdString, &'static str
+			]);
+	);
+	( $primitive : ty, [ $( $value : ty ),* ] ) => (
+		$( impl_from_for_ProcedurePrimitiveCall4! ($primitive, $value); )*
+	);
+	( $primitive : ty, $value : ty ) => (
+		impl_from_for_Expression_2! (ProcedurePrimitiveCall4, ($primitive, $value, $value, $value, $value), value, (value.0.into (), vec! [value.1.into (), value.2.into (), value.3.into (), value.4.into ()]));
+		impl_from_for_Expression_2! (ProcedurePrimitiveCall4, ($primitive, [$value; 4]), value, (value.0.into (), vec_into (value.1[..].to_owned ())));
+	);
+}
+
+#[ allow (unused_macros) ]
 macro_rules! impl_from_for_ProcedurePrimitiveCallN {
 	( $primitive : ty ) => (
 		#[ cfg (feature = "conversions-all") ]
@@ -321,11 +385,10 @@ macro_rules! impl_from_for_ProcedurePrimitiveCallN {
 }
 
 
-/** /
 impl_from_for_ProcedurePrimitiveCall1! (TypePrimitive1);
 
 impl_from_for_ProcedurePrimitiveCall1! (BooleanPrimitive1);
-impl_from_for_ProcedurePrimitiveCall1! (BooleanPrimitive2);
+impl_from_for_ProcedurePrimitiveCall2! (BooleanPrimitive2);
 impl_from_for_ProcedurePrimitiveCallN! (BooleanPrimitiveN);
 
 impl_from_for_ProcedurePrimitiveCall1! (ArithmeticPrimitive1);
@@ -336,15 +399,25 @@ impl_from_for_ProcedurePrimitiveCall1! (BitwisePrimitive1);
 impl_from_for_ProcedurePrimitiveCall2! (BitwisePrimitive2);
 impl_from_for_ProcedurePrimitiveCallN! (BitwisePrimitiveN);
 
+impl_from_for_ProcedurePrimitiveCall0! (ListPrimitive0);
 impl_from_for_ProcedurePrimitiveCall1! (ListPrimitive1);
 impl_from_for_ProcedurePrimitiveCall2! (ListPrimitive2);
-impl_from_for_ProcedurePrimitiveCall2! (ListPrimitive3);
+impl_from_for_ProcedurePrimitiveCall3! (ListPrimitive3);
+impl_from_for_ProcedurePrimitiveCall4! (ListPrimitive4);
 impl_from_for_ProcedurePrimitiveCallN! (ListPrimitiveN);
+
+impl_from_for_ProcedurePrimitiveCall0! (ArrayPrimitive0);
+impl_from_for_ProcedurePrimitiveCall1! (ArrayPrimitive1);
+impl_from_for_ProcedurePrimitiveCall2! (ArrayPrimitive2);
+impl_from_for_ProcedurePrimitiveCall3! (ArrayPrimitive3);
+impl_from_for_ProcedurePrimitiveCall4! (ArrayPrimitive4);
+impl_from_for_ProcedurePrimitiveCallN! (ArrayPrimitiveN);
 
 impl_from_for_ProcedurePrimitiveCall1! (FunctionsPrimitive1);
 impl_from_for_ProcedurePrimitiveCall2! (FunctionsPrimitive2);
 impl_from_for_ProcedurePrimitiveCallN! (FunctionsPrimitiveN);
-/ **/
+
+/ * ----- */
 
 
 
