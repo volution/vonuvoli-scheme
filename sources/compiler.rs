@@ -83,9 +83,6 @@ impl Compiler {
 			ValueClass::Binding | ValueClass::Context =>
 				fail_panic! (0x5f0d7003),
 			
-			ValueClass::Number | ValueClass::List | ValueClass::ListProper | ValueClass::ListDotted | ValueClass::True | ValueClass::False | ValueClass::Procedure | ValueClass::Syntax =>
-				fail_panic! (0x841d4d00),
-			
 		}
 	}
 	
@@ -393,7 +390,6 @@ impl Compiler {
 		
 		for tokens in tokens.into_iter () {
 			
-			try_is_pair! (tokens);
 			let tokens = try! (vec_list_clone (&tokens));
 			if tokens.is_empty () {
 				fail! (0x86331f4b);
@@ -809,9 +805,6 @@ impl Compiler {
 			
 			ValueClass::Binding | ValueClass::Context =>
 				fail! (0xfa7ef6f6),
-			
-			ValueClass::Number | ValueClass::List | ValueClass::ListProper | ValueClass::ListDotted | ValueClass::True | ValueClass::False | ValueClass::Procedure | ValueClass::Syntax =>
-				fail! (0x841d4d00),
 			
 			ValueClass::Pair => {
 				

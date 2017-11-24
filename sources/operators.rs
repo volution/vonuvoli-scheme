@@ -3,6 +3,7 @@
 use super::constants::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
+use super::predicates::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
 
@@ -25,19 +26,14 @@ pub mod exports {
 	
 	pub use super::{list_build_1, list_build_2, list_build_3, list_build_4, list_build_n};
 	pub use super::{list_append_2, list_append_3, list_append_4, list_append_n};
-	pub use super::{is_list, list_length, list_reverse};
+	pub use super::{list_reverse};
+	pub use super::{list_length};
 	
 	pub use super::{vec_list_append_2, vec_list_append_3, vec_list_append_4, vec_list_append_n};
 	pub use super::{vec_list_append_2_dotted, vec_list_append_3_dotted, vec_list_append_4_dotted, vec_list_append_n_dotted};
 	pub use super::{vec_list_clone, vec_list_clone_dotted, vec_list_drain, vec_list_drain_dotted};
 	
 	pub use super::{ListIterator, ListsIterator};
-	
-	pub use super::{is_true, is_false, is_not_false, is_true_or_equivalent, is_false_or_equivalent};
-	
-	pub use super::{is_null, is_void, is_undefined};
-	pub use super::{is_null_all_2, is_null_all_3, is_null_all_4};
-	pub use super::{is_null_any_2, is_null_any_3, is_null_any_4};
 	
 	pub use super::{apply_n};
 	pub use super::{lists_map_n, lists_iterate_n};
@@ -122,37 +118,6 @@ pub fn list_pair_at_ref (list : &Value, index : usize) -> (Outcome<&Pair>) {
 
 
 
-pub fn is_list (_list : &Value) -> (bool) {
-	panic! ("fc437960");
-}
-
-pub fn list_length (list : &Value) -> (Outcome<usize>) {
-	let mut cursor = list;
-	let mut length : usize = 0;
-	loop {
-		match cursor.class () {
-			ValueClass::Pair => {
-				length += 1;
-				cursor = Pair::as_ref (cursor) .right ();
-			},
-			ValueClass::Null =>
-				succeed! (length),
-			_ =>
-				fail! (0x573e319c),
-		}
-		if cursor == list {
-			fail! (0xc0c2b870);
-		}
-	}
-}
-
-pub fn list_reverse (_list : &Value) -> (Outcome<Value>) {
-	fail_unimplemented! (0x410a9463);
-}
-
-
-
-
 pub fn list_build_1 (value_1 : &Value) -> (Value) {
 	return pair_new (value_1.clone (), NULL) .into ();
 }
@@ -206,6 +171,36 @@ fn list_append_return ((values, last) : (ValueVec, Option<Value>)) -> (Outcome<V
 			succeed! (list_dotted_new (values, last)),
 		None =>
 			succeed! (list_new (values)),
+	}
+}
+
+
+
+
+pub fn list_reverse (_list : &Value) -> (Outcome<Value>) {
+	fail_unimplemented! (0x410a9463);
+}
+
+
+
+
+pub fn list_length (list : &Value) -> (Outcome<usize>) {
+	let mut cursor = list;
+	let mut length : usize = 0;
+	loop {
+		match cursor.class () {
+			ValueClass::Pair => {
+				length += 1;
+				cursor = Pair::as_ref (cursor) .right ();
+			},
+			ValueClass::Null =>
+				succeed! (length),
+			_ =>
+				fail! (0x573e319c),
+		}
+		if cursor == list {
+			fail! (0xc0c2b870);
+		}
 	}
 }
 
@@ -410,89 +405,6 @@ impl <'a> Iterator for ListsIterator <'a> {
 		}
 		return Some (succeeded! (outcomes));
 	}
-}
-
-
-
-
-pub fn is_true (value : &Value) -> (bool) {
-	if let Ok (value) = Boolean::try_as_ref (value) {
-		return value.0 == true;
-	} else {
-		return false;
-	}
-}
-
-pub fn is_false (value : &Value) -> (bool) {
-	if let Ok (value) = Boolean::try_as_ref (value) {
-		return value.0 == false;
-	} else {
-		return false;
-	}
-}
-
-pub fn is_not_false (value : &Value) -> (bool) {
-	return !is_false (value);
-}
-
-pub fn is_true_or_equivalent (value : &Value) -> (bool) {
-	!is_false_or_equivalent (value)
-}
-
-pub fn is_false_or_equivalent (value : &Value) -> (bool) {
-	match value.class () {
-		ValueClass::Null | ValueClass::Void | ValueClass::Undefined =>
-			return true,
-		ValueClass::Boolean =>
-			return Boolean::as_ref (value) .0 == false,
-		ValueClass::Error =>
-			return true,
-		_ =>
-			return false,
-	}
-}
-
-
-
-
-pub fn is_null (value : &Value) -> (bool) {
-	return value.is (ValueClass::Null);
-}
-
-pub fn is_void (value : &Value) -> (bool) {
-	return value.is (ValueClass::Void);
-}
-
-pub fn is_undefined (value : &Value) -> (bool) {
-	return value.is (ValueClass::Undefined);
-}
-
-
-
-
-pub fn is_null_all_2 (value_1 : &Value, value_2 : &Value) -> (bool) {
-	return is_null (value_1) && is_null (value_2)
-}
-
-pub fn is_null_all_3 (value_1 : &Value, value_2 : &Value, value_3 : &Value) -> (bool) {
-	return is_null (value_1) && is_null (value_2) && is_null (value_3)
-}
-
-pub fn is_null_all_4 (value_1 : &Value, value_2 : &Value, value_3 : &Value, value_4 : &Value) -> (bool) {
-	return is_null (value_1) && is_null (value_2) && is_null (value_3) && is_null (value_4)
-}
-
-
-pub fn is_null_any_2 (value_1 : &Value, value_2 : &Value) -> (bool) {
-	return is_null (value_1) || is_null (value_2)
-}
-
-pub fn is_null_any_3 (value_1 : &Value, value_2 : &Value, value_3 : &Value) -> (bool) {
-	return is_null (value_1) || is_null (value_2) || is_null (value_3)
-}
-
-pub fn is_null_any_4 (value_1 : &Value, value_2 : &Value, value_3 : &Value, value_4 : &Value) -> (bool) {
-	return is_null (value_1) || is_null (value_2) || is_null (value_3) || is_null (value_4)
 }
 
 

@@ -1,6 +1,7 @@
 
 
 use super::errors::exports::*;
+use super::predicates::exports::*;
 use super::values::exports::*;
 
 
@@ -35,12 +36,17 @@ pub enum TypePrimitive1 {
 	IsList,
 	IsListProper,
 	IsListDotted,
+	IsListCyclic,
 	
 	IsProcedure,
 	IsSyntax,
 	
 	IsTrue,
 	IsFalse,
+	
+	IsNotFalse,
+	IsTrueOrEquivalent,
+	IsFalseOrEquivalent,
 	
 }
 
@@ -91,28 +97,40 @@ pub fn type_primitive_1_evaluate (primitive : TypePrimitive1, input : &Value) ->
 			input.is (ValueClass::Error),
 		
 		TypePrimitive1::IsNumber =>
-			input.is (ValueClass::Number),
+			is_number (input),
 		
 		TypePrimitive1::IsList =>
-			input.is (ValueClass::List),
+			is_list (input),
 		
 		TypePrimitive1::IsListProper =>
-			input.is (ValueClass::ListProper),
+			is_list_proper (input),
 		
 		TypePrimitive1::IsListDotted =>
-			input.is (ValueClass::ListDotted),
+			is_list_dotted (input),
+		
+		TypePrimitive1::IsListCyclic =>
+			is_list_cyclic (input),
 		
 		TypePrimitive1::IsProcedure =>
-			input.is (ValueClass::Procedure),
+			is_procedure (input),
 		
 		TypePrimitive1::IsSyntax =>
-			input.is (ValueClass::Syntax),
+			is_syntax (input),
 		
 		TypePrimitive1::IsTrue =>
-			input.is (ValueClass::True),
+			is_true (input),
 		
 		TypePrimitive1::IsFalse =>
-			input.is (ValueClass::False),
+			is_false (input),
+		
+		TypePrimitive1::IsNotFalse =>
+			is_not_false (input),
+		
+		TypePrimitive1::IsTrueOrEquivalent =>
+			is_true_or_equivalent (input),
+		
+		TypePrimitive1::IsFalseOrEquivalent =>
+			is_false_or_equivalent (input),
 		
 	};
 	

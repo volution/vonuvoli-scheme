@@ -18,6 +18,7 @@ pub mod languages;
 pub mod languages_builtins;
 pub mod languages_r7rs;
 pub mod operators;
+pub mod predicates;
 pub mod primitives;
 pub mod primitives_arithmetic;
 pub mod primitives_bitwise;
@@ -48,6 +49,7 @@ pub mod exports {
 	pub use super::expressions::exports::*;
 	pub use super::languages::exports::*;
 	pub use super::operators::exports::*;
+	pub use super::predicates::exports::*;
 	pub use super::primitives::exports::*;
 	pub use super::parser::exports::*;
 	pub use super::procedures::exports::*;

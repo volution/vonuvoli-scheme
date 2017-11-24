@@ -42,7 +42,7 @@ pub mod exports {
 
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
 pub enum ValueClass {
 	
 	Null,
@@ -69,17 +69,6 @@ pub enum ValueClass {
 	
 	Context,
 	Binding,
-	
-	Number,
-	Procedure,
-	Syntax,
-	
-	List,
-	ListProper,
-	ListDotted,
-	
-	True,
-	False,
 	
 }
 
@@ -159,29 +148,7 @@ impl Value {
 	}
 	
 	pub fn is (&self, class : ValueClass) -> (bool) {
-		let class_actual = self.class ();
-		if class_actual == class {
-			return true;
-		} else {
-			match class {
-				ValueClass::Number =>
-					return (class_actual == ValueClass::NumberInteger) || (class_actual == ValueClass::NumberReal),
-				ValueClass::List =>
-					return (class_actual == ValueClass::Null) || (class_actual == ValueClass::Pair),
-				ValueClass::ListProper | ValueClass::ListDotted =>
-					return (class_actual == ValueClass::Null) || ((class_actual == ValueClass::Pair) && Pair::as_ref (self) .right () .is (class)),
-				ValueClass::True =>
-					return (class_actual == ValueClass::Boolean) && (Boolean::as_ref (self) .0 == true),
-				ValueClass::False =>
-					return (class_actual == ValueClass::Boolean) && (Boolean::as_ref (self) .0 == false),
-				ValueClass::Procedure =>
-					return (class_actual == ValueClass::ProcedurePrimitive) || (class_actual == ValueClass::Lambda),
-				ValueClass::Syntax =>
-					return (class_actual == ValueClass::SyntaxPrimitive) || false,
-				_ =>
-					return false,
-			}
-		}
+		return self.class () == class;
 	}
 	
 }
