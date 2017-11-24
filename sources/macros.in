@@ -54,42 +54,42 @@ macro_rules! fail_panic {
 
 #[ allow (unused_macros) ]
 macro_rules! try_some {
-	( $option : expr, $code : expr ) => {
+	( $option : expr, $code : expr ) => (
 		if let ::std::option::Option::Some (value) = $option {
 			value
 		} else {
 			fail! ($code);
 		}
-	};
+	);
 }
 
 #[ allow (unused_macros) ]
 macro_rules! try_some_ref {
-	( $option : expr, $code : expr ) => {
+	( $option : expr, $code : expr ) => (
 		if let ::std::option::Option::Some (ref value) = $option {
 			value
 		} else {
 			fail! ($code);
 		}
-	};
+	);
 }
 
 #[ allow (unused_macros) ]
 macro_rules! try_some_2 {
-	( $result : expr, $code : expr ) => {
+	( $result : expr, $code : expr ) => (
 		try_some! (try! ($result), $code)
-	};
+	);
 }
 
 #[ allow (unused_macros) ]
 macro_rules! try_or_fail {
-	( $result : expr, $code : expr ) => {
+	( $result : expr, $code : expr ) => (
 		if let ::std::result::Result::Ok (value) = $result {
 			value
 		} else {
 			fail! ($code);
 		}
-	};
+	);
 }
 
 
@@ -102,18 +102,63 @@ macro_rules! impl_from_for_type {
 	);
 	( $to : ty, $from : ty, $value : ident, $expression : expr ) => (
 		impl StdFrom<$from> for $to {
-			fn from ($value : $from) -> ($to) { <$to>::into ($expression) }
+			fn from ($value : $from) -> ($to) {
+				return <$to>::into ($expression);
+			}
 		}
 	);
 }
 
+
+#[ allow (unused_macros) ]
+macro_rules! impl_try_from_for_type {
+	( $to : ty, $from : ty, $value : ident, $expression : expr ) => (
+		impl StdTryFrom<$from> for $to {
+			type Error = ::errors::exports::Error;
+			fn try_from ($value : $from) -> (::std::result::Result<$to, ::errors::exports::Error>) {
+				succeed! (<$to>::into (try! ($expression)));
+			}
+		}
+		impl StdFrom<$from> for $to {
+			fn from (value : $from) -> ($to) {
+				return StdTryFrom::try_from (value) .expect ("d747d1de");
+			}
+		}
+	);
+}
+
+
+
+
 #[ allow (unused_macros) ]
 macro_rules! impl_from_for_enum {
 	( $to : ident, $tag : ident, $from : ty ) => (
-		impl_from_for_type! ($to, $from, value, $to::$tag (value.into ()));
+		impl_from_for_enum! ($to, $tag, $from, value, value.into ());
 	);
 	( $to : ident, $tag : ident, $from : ty, $value : ident, $expression : expr ) => (
-		impl_from_for_type! ($to, $from, $value, $to::$tag ($expression.into ()));
+		impl StdFrom<$from> for $to {
+			fn from ($value : $from) -> ($to) {
+				return $to::$tag ($expression);
+			}
+		}
+	);
+}
+
+
+#[ allow (unused_macros) ]
+macro_rules! impl_try_from_for_enum {
+	( $to : ident, $tag : ident, $from : ty, $value : ident, $expression : expr ) => (
+		impl StdTryFrom<$from> for $to {
+			type Error = ::errors::exports::Error;
+			fn try_from ($value : $from) -> (::std::result::Result<$to, ::errors::exports::Error>) {
+				succeed! ($to::tag (try! ($expression)));
+			}
+		}
+		impl StdFrom<$from> for $to {
+			fn from (value : $from) -> ($to) {
+				return StdTryFrom::try_from (value) .expect ("86d35665");
+			}
+		}
 	);
 }
 
@@ -127,7 +172,9 @@ macro_rules! impl_into_for_type {
 	);
 	( $to : ty, $from : ty, $value : ident, $expression : expr ) => (
 		impl StdInto<$to> for $from {
-			fn into ($value : $from) -> ($to) { <$to>::into ($expression) }
+			fn into ($value : $from) -> ($to) {
+				return <$to>::into ($expression);
+			}
 		}
 	);
 }
@@ -150,118 +197,120 @@ macro_rules! impl_unwrappers_for_type_wrapper {
 	( $from : ty, $to : ty) => (
 		impl StdFrom<$from> for $to {
 			fn from (value : $from) -> ($to) {
-				value.0
+				return value.0;
 			}
 		}
-		impl<'a> StdAsRef<$to> for $from {
+		impl <'a> StdAsRef<$to> for $from {
 			fn as_ref (&self) -> (&$to) {
-				&self.0
+				return &self.0;
 			}
 		}
 	);
 }
+
 
 #[ allow (unused_macros) ]
 macro_rules! impl_unwrappers_for_enum_wrapper {
 	( $from : ident, $tag : ident, $to : ty) => (
 		impl StdTryFrom<$from> for $to {
-			type Error = super::errors::Error;
-			fn try_from (value : $from) -> (Outcome<$to>) {
+			type Error = ::errors::exports::Error;
+			fn try_from (value : $from) -> (::std::result::Result<$to, ::errors::exports::Error>) {
 				if let $from::$tag (value) = value {
-					Ok (value)
+					succeed! (value);
 				} else {
-					failed! (0x64d097b5)
+					fail! (0x64d097b5);
 				}
 			}
 		}
 		impl StdFrom<$from> for $to {
 			fn from (value : $from) -> ($to) {
-				StdTryFrom::try_from (value) .expect ("686ef2f9")
+				return StdTryFrom::try_from (value) .expect ("686ef2f9");
 			}
 		}
 		impl StdTryInto<$to> for $from {
-			type Error = super::errors::Error;
-			fn try_into (self) -> (Outcome<$to>) {
+			type Error = ::errors::exports::Error;
+			fn try_into (self) -> (::std::result::Result<$to, ::errors::exports::Error>) {
 				if let $from::$tag (value) = self {
-					Ok (value)
+					succeed! (value);
 				} else {
-					failed! (0x64d097b5)
+					fail! (0x64d097b5);
 				}
 			}
 		}
 		/*
 		impl StdInto<$to> for $from {
 			fn into (self) -> ($to) {
-				StdTryInto::try_into (self) .expect ("9244d155")
+				return StdTryInto::try_into (self) .expect ("9244d155");
 			}
 		}
 		*/
-		impl<'a> StdTryAsRef<$to> for $from {
-			type Error = super::errors::Error;
-			fn try_as_ref (&self) -> (Outcome<&$to>) {
+		impl <'a> StdTryAsRef<$to> for $from {
+			type Error = ::errors::exports::Error;
+			fn try_as_ref (&self) -> (::std::result::Result<$to, ::errors::exports::Error>) {
 				if let $from::$tag (ref value) = *self {
-					Ok (value)
+					Succeed! (value);
 				} else {
-					failed! (0x19768613)
+					fail! (0x19768613);
 				}
 			}
 		}
-		impl<'a> StdAsRef<$to> for $from {
+		impl <'a> StdAsRef<$to> for $from {
 			fn as_ref (&self) -> (&$to) {
-				StdTryAsRef::try_as_ref (self) .expect ("8dee9989")
+				return StdTryAsRef::try_as_ref (self) .expect ("8dee9989");
 			}
 		}
 	);
 }
 
+
 #[ allow (unused_macros) ]
 macro_rules! impl_unwrappers_1_for_enum_2_wrapper {
 	( $from : ident, $tag : ident, $to : ty) => (
 		impl StdTryFrom<$from> for $to {
-			type Error = super::errors::Error;
-			fn try_from (value : $from) -> (Outcome<$to>) {
+			type Error = ::errors::exports::Error;
+			fn try_from (value : $from) -> (::std::result::Result<$to, ::errors::exports::Error>) {
 				if let $from::$tag (value, _) = value {
-					Ok (value)
+					succeed! (value);
 				} else {
-					failed! (0x7ac7cc9c)
+					fail! (0x7ac7cc9c);
 				}
 			}
 		}
 		impl StdFrom<$from> for $to {
 			fn from (value : $from) -> ($to) {
-				StdTryFrom::try_from (value) .expect ("328db7d1")
+				return StdTryFrom::try_from (value) .expect ("328db7d1");
 			}
 		}
 		impl StdTryInto<$to> for $from {
-			type Error = super::errors::Error;
-			fn try_into (self) -> (Outcome<$to>) {
+			type Error = ::errors::exports::Error;
+			fn try_into (self) -> (::std::result::Result<$to, ::errors::exports::Error>) {
 				if let $from::$tag (value, _) = self {
-					Ok (value)
+					succeed! (value);
 				} else {
-					failed! (0x4e255f54)
+					fail! (0x4e255f54);
 				}
 			}
 		}
 		/*
 		impl StdInto<$to> for $from {
 			fn into (self) -> ($to) {
-				StdTryInto::try_into (self) .expect ("bb1180d5")
+				return StdTryInto::try_into (self) .expect ("bb1180d5");
 			}
 		}
 		*/
-		impl<'a> StdTryAsRef<$to> for $from {
-			type Error = super::errors::Error;
-			fn try_as_ref (&self) -> (Outcome<&$to>) {
+		impl <'a> StdTryAsRef<$to> for $from {
+			type Error = ::errors::exports::Error;
+			fn try_as_ref (&self) -> (::std::result::Result<&$to, ::errors::exports::Error>) {
 				if let $from::$tag (ref value, _) = *self {
-					Ok (value)
+					succeed! (value);
 				} else {
-					failed! (0x1e588e5f)
+					fail! (0x1e588e5f);
 				}
 			}
 		}
-		impl<'a> StdAsRef<$to> for $from {
+		impl <'a> StdAsRef<$to> for $from {
 			fn as_ref (&self) -> (&$to) {
-				StdTryAsRef::try_as_ref (self) .expect ("7d5095ee")
+				return StdTryAsRef::try_as_ref (self) .expect ("7d5095ee");
 			}
 		}
 	);
@@ -324,9 +373,9 @@ macro_rules! try_vec_fold {
 #[ macro_export ]
 #[ allow (unused_macros) ]
 macro_rules! option_map {
-	( $option : ident, $expression : expr ) => {
+	( $option : ident, $expression : expr ) => (
 		option_map! ($option, $option, $expression)
-	};
+	);
 	( $option : expr, $value : pat, $expression : expr ) => (
 		match $option {
 			Some ($value) =>
@@ -340,9 +389,9 @@ macro_rules! option_map {
 #[ macro_export ]
 #[ allow (unused_macros) ]
 macro_rules! try_option_map {
-	( $option : ident, $expression : expr ) => {
+	( $option : ident, $expression : expr ) => (
 		try_option_map! ($option, $option, $expression)
-	};
+	);
 	( $option : expr, $value : pat, $expression : expr ) => (
 		match $option {
 			Some ($value) =>
@@ -448,7 +497,7 @@ def_try_into! (try_into_binding, ::values::exports::Binding);
 macro_rules! try_value_class {
 	( $class : ident, $value : expr, $code : expr ) => (
 		if !$value.is (::values::exports::ValueClass::$class) {
-			return failed! ($code);
+			fail! ($code);
 		}
 	);
 	( $class : ident, $value : expr ) => (
@@ -619,8 +668,10 @@ macro_rules! try_is_false {
 macro_rules! try_value_unwrap {
 	( $class : ident, $value : expr, $code : expr ) => (
 		match $value {
-			::values::exports::Value::$class (ref value) => value,
-			_ => return failed! ($code),
+			::values::exports::Value::$class (ref value) =>
+				value,
+			_ =>
+				fail! ($code),
 		}
 	);
 	( $class : ident, $value : expr ) => (
