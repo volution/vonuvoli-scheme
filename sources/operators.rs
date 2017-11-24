@@ -10,20 +10,39 @@ use super::values::exports::*;
 
 
 pub mod exports {
+	
 	pub use super::{pair};
+	pub use super::{pair_left, pair_right};
+	pub use super::{pair_left_ref, pair_right_ref};
+	pub use super::{pair_left_set, pair_right_set};
+	
+	pub use super::{pair_left as list_first, pair_right as list_rest};
+	pub use super::{pair_left_ref as list_first_ref, pair_right_ref as list_rest_ref};
+	pub use super::{list_first_at, list_rest_at};
+	pub use super::{list_first_at_ref, list_rest_at_ref};
+	pub use super::{list_first_at_set, list_rest_at_set};
+	pub use super::{list_pair_at_ref};
+	
 	pub use super::{list_build_1, list_build_2, list_build_3, list_build_4, list_build_n};
 	pub use super::{list_append_2, list_append_3, list_append_4, list_append_n};
+	pub use super::{is_list, list_length, list_reverse};
+	
 	pub use super::{vec_list_append_2, vec_list_append_3, vec_list_append_4, vec_list_append_n};
 	pub use super::{vec_list_append_2_dotted, vec_list_append_3_dotted, vec_list_append_4_dotted, vec_list_append_n_dotted};
 	pub use super::{vec_list_clone, vec_list_clone_dotted, vec_list_drain, vec_list_drain_dotted};
+	
 	pub use super::{ListIterator, ListsIterator};
+	
 	pub use super::{is_true, is_false, is_not_false, is_true_or_equivalent, is_false_or_equivalent};
+	
 	pub use super::{is_null, is_void, is_undefined};
 	pub use super::{is_null_all_2, is_null_all_3, is_null_all_4};
 	pub use super::{is_null_any_2, is_null_any_3, is_null_any_4};
+	
 	pub use super::{apply_n};
 	pub use super::{lists_map_n, lists_iterate_n};
 	pub use super::{values_build_1, values_build_2, values_build_3, values_build_4, values_build_n};
+	
 }
 
 
@@ -31,6 +50,104 @@ pub mod exports {
 
 pub fn pair (left : &Value, right : &Value) -> (Value) {
 	return pair_new (left.clone (), right.clone ()) .into ();
+}
+
+pub fn pair_left (pair : &Value) -> (Outcome<Value>) {
+	succeed! (try! (pair_left_ref (pair)) .clone ());
+}
+
+pub fn pair_right (pair : &Value) -> (Outcome<Value>) {
+	succeed! (try! (pair_right_ref (pair)) .clone ());
+}
+
+pub fn pair_left_ref (pair : &Value) -> (Outcome<&Value>) {
+	succeed! (try_as_pair_ref! (pair) .left ());
+}
+
+pub fn pair_right_ref (pair : &Value) -> (Outcome<&Value>) {
+	succeed! (try_as_pair_ref! (pair) .right ());
+}
+
+pub fn pair_left_set (_pair : &Value, _left : &Value) -> (Outcome<Value>) {
+	fail_unimplemented! (0x2073d5a3);
+}
+
+pub fn pair_right_set (_pair : &Value, _right : &Value) -> (Outcome<Value>) {
+	fail_unimplemented! (0xa223165c);
+}
+
+
+
+
+pub fn list_first_at (list : &Value, index : usize) -> (Outcome<Value>) {
+	succeed! (try! (list_first_at_ref (list, index)) .clone ());
+}
+
+pub fn list_rest_at (list : &Value, index : usize) -> (Outcome<Value>) {
+	succeed! (try! (list_rest_at_ref (list, index)) .clone ());
+}
+
+
+pub fn list_first_at_ref (list : &Value, index : usize) -> (Outcome<&Value>) {
+	succeed! (try! (list_pair_at_ref (list, index)) .left ());
+}
+
+pub fn list_rest_at_ref (list : &Value, index : usize) -> (Outcome<&Value>) {
+	succeed! (try! (list_pair_at_ref (list, index)) .right ());
+}
+
+pub fn list_first_at_set (_list : &Value, _index : usize, _value : &Value) -> (Outcome<Value>) {
+	fail_unimplemented! (0x562f049a);
+}
+
+pub fn list_rest_at_set (_list : &Value, _index : usize, _value : &Value) -> (Outcome<Value>) {
+	fail_unimplemented! (0x2ef281ce);
+}
+
+pub fn list_pair_at_ref (list : &Value, index : usize) -> (Outcome<&Pair>) {
+	let mut cursor = list;
+	for _index in 0..index {
+		match cursor.class () {
+			ValueClass::Pair =>
+				cursor = Pair::as_ref (cursor) .right (),
+			ValueClass::Null =>
+				fail! (0xeb7ddd79),
+			_ =>
+				fail! (0x4cf78d93),
+		}
+	}
+	return Pair::try_as_ref (cursor);
+}
+
+
+
+
+pub fn is_list (_list : &Value) -> (bool) {
+	panic! ("fc437960");
+}
+
+pub fn list_length (list : &Value) -> (Outcome<usize>) {
+	let mut cursor = list;
+	let mut length : usize = 0;
+	loop {
+		match cursor.class () {
+			ValueClass::Pair => {
+				length += 1;
+				cursor = Pair::as_ref (cursor) .right ();
+			},
+			ValueClass::Null =>
+				succeed! (length),
+			_ =>
+				fail! (0x573e319c),
+		}
+		if cursor == list {
+			fail! (0xc0c2b870);
+		}
+	}
+}
+
+pub fn list_reverse (_list : &Value) -> (Outcome<Value>) {
+	fail_unimplemented! (0x410a9463);
 }
 
 
