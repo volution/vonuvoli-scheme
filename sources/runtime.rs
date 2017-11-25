@@ -14,6 +14,7 @@ pub mod exports {
 	pub use std::cell::RefCell as StdRefCell;
 	pub use std::cell::RefMut as StdRefMut;
 	pub use std::collections::HashMap as StdMap;
+	pub use std::collections::HashSet as StdSet;
 	pub use std::convert::AsRef as StdAsRef;
 	pub use std::convert::From as StdFrom;
 	pub use std::convert::Into as StdInto;

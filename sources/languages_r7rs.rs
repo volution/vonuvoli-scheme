@@ -12,28 +12,43 @@ use super::values::exports::*;
 pub mod exports {
 	pub use super::generate_binding_templates as language_r7rs_generate_binding_templates;
 	pub use super::generate_definitions as language_r7rs_generate_definitions;
+	pub use super::verify_definitions as language_r7rs_verify_definitions;
 }
 
 
 
 
 pub fn generate_binding_templates () -> (Outcome<StdVec<ContextBindingTemplate>>) {
+	
 	let definitions = try! (generate_definitions ());
+	
+	let definitions = vec_map! (
+			definitions,
+			(_library, _category, identifier, value),
+			(identifier, value));
+	
+	let definitions =
+			definitions
+			.into_iter ()
+			.collect::<StdMap<_, _>> ();
+	
 	let templates = vec_map! (
 			definitions,
-			(_library, identifier, value),
+			(identifier, value),
 			ContextBindingTemplate {
 					identifier : identifier,
 					value : Some (value),
 					immutable : true,
-				});
+				}
+		);
+	
 	succeed! (templates);
 }
 
 
 
 
-pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
+pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value)>>) {
 	
 	let definitions = vec! [
 			
@@ -46,432 +61,436 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			
 			// !!!
 			
-			("base", "_", SyntaxPrimitive::Auxiliary.into ()),
-			("base", "...", SyntaxPrimitive::Auxiliary.into ()),
-			("base", "=>", SyntaxPrimitive::Auxiliary.into ()),
-			("base", "else", SyntaxPrimitive::Auxiliary.into ()),
+			("base", "syntaxes", "_", SyntaxPrimitive::Auxiliary.into ()),
+			("base", "syntaxes", "...", SyntaxPrimitive::Auxiliary.into ()),
+			("base", "syntaxes", "=>", SyntaxPrimitive::Auxiliary.into ()),
+			("base", "syntaxes", "else", SyntaxPrimitive::Auxiliary.into ()),
 			
-			("base", "quote", SyntaxPrimitive1::Quote.into ()),
-			("base", "quasiquote", SyntaxPrimitive1::QuasiQuote.into ()),
-			("base", "unquote", SyntaxPrimitive1::UnQuote.into ()),
-			("base", "unquote-splicing", SyntaxPrimitive1::UnQuoteSplicing.into ()),
+			("base", "quotation", "quote", SyntaxPrimitive1::Quote.into ()),
+			("base", "quotation", "quasiquote", SyntaxPrimitive1::QuasiQuote.into ()),
+			("base", "quotation", "unquote", SyntaxPrimitive1::UnQuote.into ()),
+			("base", "quotation", "unquote-splicing", SyntaxPrimitive1::UnQuoteSplicing.into ()),
 			
-			("base", "begin", SyntaxPrimitiveN::Begin.into ()),
-			("base", "if", SyntaxPrimitiveN::If.into ()),
-			("base", "unless", SyntaxPrimitiveN::Unless.into ()),
-			("base", "when", SyntaxPrimitiveN::When.into ()),
-			("base", "cond", SyntaxPrimitiveN::Cond.into ()),
-			("base", "case", SyntaxPrimitiveN::Case.into ()),
-			("base", "do", SyntaxPrimitiveN::Do.into ()),
-			("base", "guard", SyntaxPrimitive::Unimplemented.into ()),
+			("base", "control", "begin", SyntaxPrimitiveN::Begin.into ()),
 			
-			("base", "lambda", SyntaxPrimitiveN::Lambda.into ()),
+			("base", "control", "if", SyntaxPrimitiveN::If.into ()),
+			("base", "control", "unless", SyntaxPrimitiveN::Unless.into ()),
+			("base", "control", "when", SyntaxPrimitiveN::When.into ()),
+			("base", "control", "cond", SyntaxPrimitiveN::Cond.into ()),
+			("base", "control", "case", SyntaxPrimitiveN::Case.into ()),
+			("base", "control", "do", SyntaxPrimitiveN::Do.into ()),
 			
-			("base", "and", SyntaxPrimitiveN::And.into ()),
-			("base", "or", SyntaxPrimitiveN::Or.into ()),
+			("base", "control", "and", SyntaxPrimitiveN::And.into ()),
+			("base", "control", "or", SyntaxPrimitiveN::Or.into ()),
 			
-			("base", "define", SyntaxPrimitiveN::Define.into ()),
-			("base", "define-values", SyntaxPrimitive2::DefineValues.into ()),
-			("base", "define-syntax", SyntaxPrimitive::Unimplemented.into ()),
-			("base", "define-record-type", SyntaxPrimitive::Unimplemented.into ()),
+			("base", "lambda", "lambda", SyntaxPrimitiveN::Lambda.into ()),
 			
-			("base", "let", SyntaxPrimitiveN::LetParallel.into ()),
-			("base", "let*", SyntaxPrimitiveN::LetSequential.into ()),
+			("base", "contexts", "define", SyntaxPrimitiveN::Define.into ()),
+			("base", "values", "define-values", SyntaxPrimitive2::DefineValues.into ()),
+			("base", "syntaxes", "define-syntax", SyntaxPrimitive::Unsupported.into ()),
+			("base", "records", "define-record-type", SyntaxPrimitive::Unimplemented.into ()),
 			
-			("base", "letrec", SyntaxPrimitiveN::LetRecursiveParallel.into ()),
-			("base", "letrec*", SyntaxPrimitiveN::LetRecursiveSequential.into ()),
+			("base", "contexts", "let", SyntaxPrimitiveN::LetParallel.into ()),
+			("base", "contexts", "let*", SyntaxPrimitiveN::LetSequential.into ()),
+			("base", "contexts", "letrec", SyntaxPrimitiveN::LetRecursiveParallel.into ()),
+			("base", "contexts", "letrec*", SyntaxPrimitiveN::LetRecursiveSequential.into ()),
+			("base", "values", "let-values", SyntaxPrimitiveN::LetValuesParallel.into ()),
+			("base", "values", "let*-values", SyntaxPrimitiveN::LetValuesSequential.into ()),
+			("base", "syntaxes", "let-syntax", SyntaxPrimitive::Unsupported.into ()),
+			("base", "syntaxes", "letrec-syntax", SyntaxPrimitive::Unsupported.into ()),
 			
-			("base", "let-values", SyntaxPrimitiveN::LetValuesParallel.into ()),
-			("base", "let*-values", SyntaxPrimitiveN::LetValuesSequential.into ()),
+			("base", "contexts", "set!", SyntaxPrimitive2::Set.into ()),
 			
-			("base", "let-syntax", SyntaxPrimitive::Unimplemented.into ()),
-			("base", "letrec-syntax", SyntaxPrimitive::Unimplemented.into ()),
+			("base", "modules", "import", SyntaxPrimitive::Unsupported.into ()),
+			("base", "modules", "include", SyntaxPrimitive::Unsupported.into ()),
+			("base", "modules", "include-ci", SyntaxPrimitive::Unsupported.into ()),
+			("base", "modules", "cond-expand", SyntaxPrimitive::Unsupported.into ()),
 			
-			("base", "set!", SyntaxPrimitive::Unimplemented.into ()),
+			("base", "parameters", "parameterize", SyntaxPrimitive::Unsupported.into ()),
+			("base", "parameters", "make-parameter", ProcedurePrimitive::Unsupported.into ()),
 			
-			("base", "import", SyntaxPrimitive::Unimplemented.into ()),
-			("base", "include", SyntaxPrimitive::Unimplemented.into ()),
-			("base", "include-ci", SyntaxPrimitive::Unimplemented.into ()),
-			("base", "cond-expand", SyntaxPrimitive::Unimplemented.into ()),
+			("base", "syntaxes", "syntax-error", SyntaxPrimitive::Unsupported.into ()),
+			("base", "syntaxes", "syntax-rules", SyntaxPrimitive::Unsupported.into ()),
 			
-			("base", "parameterize", SyntaxPrimitive::Unimplemented.into ()),
-			("base", "make-parameter", ProcedurePrimitive::Unimplemented.into ()),
-			
-			("base", "syntax-error", SyntaxPrimitive::Unimplemented.into ()),
-			("base", "syntax-rules", SyntaxPrimitive::Unimplemented.into ()),
+			("base", "evaluator", "guard", SyntaxPrimitive::Unsupported.into ()),
 			
 			
 			
 			
 			// ???
 			
-			("base", "features", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "modules", "features", ProcedurePrimitive::Unsupported.into ()),
 			
-			("base", "null?", TypePrimitive1::IsNull.into ()),
+			("base", "types", "null?", TypePrimitive1::IsNull.into ()),
 			
 			
 			
 			
 			// equivalences
 			
-			("base", "eq?", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "eqv?", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "equal?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "equivalence", "eq?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "equivalence", "eqv?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "equivalence", "equal?", ProcedurePrimitive::Unimplemented.into ()),
 			
 			
 			
 			
 			// math
 			
-			("base", "number?", TypePrimitive1::IsNumber.into ()),
-			("base", "integer?", ArithmeticPrimitive1::IsInteger.into ()),
-			("base", "real?", ArithmeticPrimitive1::IsReal.into ()),
-			("base", "rational?", ArithmeticPrimitive1::IsRational.into ()),
-			("base", "complex?", ArithmeticPrimitive1::IsComplex.into ()),
-			("base", "exact?", ArithmeticPrimitive1::IsExact.into ()),
-			("base", "exact-integer?", ArithmeticPrimitive1::IsExactInteger.into ()),
-			("base", "inexact?", ArithmeticPrimitive1::IsInexact.into ()),
+			("base", "types", "number?", TypePrimitive1::IsNumber.into ()),
+			("base", "types", "integer?", ArithmeticPrimitive1::IsInteger.into ()),
+			("base", "types", "real?", ArithmeticPrimitive1::IsReal.into ()),
+			("base", "types", "rational?", ArithmeticPrimitive1::IsRational.into ()),
+			("base", "types", "complex?", ArithmeticPrimitive1::IsComplex.into ()),
+			("base", "types", "exact?", ArithmeticPrimitive1::IsExact.into ()),
+			("base", "types", "exact-integer?", ArithmeticPrimitive1::IsExactInteger.into ()),
+			("base", "types", "inexact?", ArithmeticPrimitive1::IsInexact.into ()),
 			
-			("base", "zero?", ArithmeticPrimitive1::IsZero.into ()),
-			("base", "positive?", ArithmeticPrimitive1::IsPositive.into ()),
-			("base", "negative?", ArithmeticPrimitive1::IsNegative.into ()),
-			("base", "odd?", ArithmeticPrimitive1::IsOdd.into ()),
-			("base", "even?", ArithmeticPrimitive1::IsEven.into ()),
+			("base", "arithmetic", "zero?", ArithmeticPrimitive1::IsZero.into ()),
+			("base", "arithmetic", "positive?", ArithmeticPrimitive1::IsPositive.into ()),
+			("base", "arithmetic", "negative?", ArithmeticPrimitive1::IsNegative.into ()),
+			("base", "arithmetic", "odd?", ArithmeticPrimitive1::IsOdd.into ()),
+			("base", "arithmetic", "even?", ArithmeticPrimitive1::IsEven.into ()),
 			
-			("base", "+", ArithmeticPrimitiveN::Addition.into ()),
-			("base", "-", ArithmeticPrimitiveN::Subtraction.into ()),
-			("base", "*", ArithmeticPrimitiveN::Multiplication.into ()),
-			("base", "/", ArithmeticPrimitiveN::Division.into ()),
+			("base", "arithmetic", "+", ArithmeticPrimitiveN::Addition.into ()),
+			("base", "arithmetic", "-", ArithmeticPrimitiveN::Subtraction.into ()),
+			("base", "arithmetic", "*", ArithmeticPrimitiveN::Multiplication.into ()),
+			("base", "arithmetic", "/", ArithmeticPrimitiveN::Division.into ()),
 			
-			("base", "abs", ArithmeticPrimitive1::Absolute.into ()),
+			("base", "arithmetic", "abs", ArithmeticPrimitive1::Absolute.into ()),
 			
-			("base", "quotient", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "remainder", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "modulo", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "arithmetic", "quotient", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "arithmetic", "remainder", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "arithmetic", "modulo", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("base", "floor", ArithmeticPrimitive1::Floor.into ()),
-			("base", "ceiling", ArithmeticPrimitive1::Ceiling.into ()),
-			("base", "truncate", ArithmeticPrimitive1::Truncate.into ()),
-			("base", "round", ArithmeticPrimitive1::Round.into ()),
+			("base", "arithmetic", "floor", ArithmeticPrimitive1::Floor.into ()),
+			("base", "arithmetic", "ceiling", ArithmeticPrimitive1::Ceiling.into ()),
+			("base", "arithmetic", "truncate", ArithmeticPrimitive1::Truncate.into ()),
+			("base", "arithmetic", "round", ArithmeticPrimitive1::Round.into ()),
 			
-			("base", "rationalize", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "numerator", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "denominator", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "arithmetic", "rationalize", ProcedurePrimitive::Unsupported.into ()),
+			("base", "arithmetic", "numerator", ProcedurePrimitive::Unsupported.into ()),
+			("base", "arithmetic", "denominator", ProcedurePrimitive::Unsupported.into ()),
 			
-			("base", "floor/", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "floor-quotient", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "floor-remainder", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "arithmetic", "floor/", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "arithmetic", "floor-quotient", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "arithmetic", "floor-remainder", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("base", "truncate/", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "truncate-quotient", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "truncate-remainder", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "arithmetic", "truncate/", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "arithmetic", "truncate-quotient", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "arithmetic", "truncate-remainder", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("base", "min", ArithmeticPrimitiveN::Minimum.into ()),
-			("base", "max", ArithmeticPrimitiveN::Maximum.into ()),
+			("base", "arithmetic", "min", ArithmeticPrimitiveN::Minimum.into ()),
+			("base", "arithmetic", "max", ArithmeticPrimitiveN::Maximum.into ()),
 			
-			("base", "gcd", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "lcm", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "arithmetic", "gcd", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "arithmetic", "lcm", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("base", "expt", ArithmeticPrimitive2::Power.into ()),
-			("base", "square", ArithmeticPrimitive1::Square.into ()),
-			("base", "exact-integer-sqrt", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "arithmetic", "expt", ArithmeticPrimitive2::Power.into ()),
+			("base", "arithmetic", "square", ArithmeticPrimitive1::Square.into ()),
+			("base", "arithmetic", "exact-integer-sqrt", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("base", "=", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "<", ProcedurePrimitive::Unimplemented.into ()),
-			("base", ">", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "<=", ProcedurePrimitive::Unimplemented.into ()),
-			("base", ">=", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "arithmetic", "=", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "arithmetic", "<", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "arithmetic", ">", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "arithmetic", "<=", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "arithmetic", ">=", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("base", "inexact", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "exact", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "arithmetic", "inexact", ProcedurePrimitive::Unsupported.into ()),
+			("base", "arithmetic", "exact", ProcedurePrimitive::Unsupported.into ()),
 			
 			
 			
 			
 			// boolean
 			
-			("base", "boolean?", TypePrimitive1::IsBoolean.into ()),
-			("base", "boolean=?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "types", "boolean?", TypePrimitive1::IsBoolean.into ()),
 			
-			("base", "not", TypePrimitive1::IsFalse.into ()),
+			("base", "equivalence", "boolean=?", ProcedurePrimitive::Unimplemented.into ()),
+			
+			("base", "equivalence", "not", TypePrimitive1::IsFalse.into ()),
 			
 			
 			
 			
 			// characters
 			
-			("base", "char?", TypePrimitive1::IsCharacter.into ()),
+			("base", "types", "char?", TypePrimitive1::IsCharacter.into ()),
 			
-			("base", "char=?", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "char<?", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "char>?", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "char<=?", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "char>=?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "characters", "char=?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "characters", "char<?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "characters", "char>?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "characters", "char<=?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "characters", "char>=?", ProcedurePrimitive::Unimplemented.into ()),
 			
 			
 			
 			
 			// symbols
 			
-			("base", "symbol?", TypePrimitive1::IsSymbol.into ()),
-			("base", "symbol=?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "types", "symbol?", TypePrimitive1::IsSymbol.into ()),
+			
+			("base", "equivalence", "symbol=?", ProcedurePrimitive::Unimplemented.into ()),
 			
 			
 			
 			
 			// pairs
 			
-			("base", "pair?", TypePrimitive1::IsPair.into ()),
+			("base", "types", "pair?", TypePrimitive1::IsPair.into ()),
 			
-			("base", "cons", ListPrimitive2::Pair.into ()),
-			("base", "car", ListPrimitive1::PairLeft.into ()),
-			("base", "cdr", ListPrimitive1::PairRight.into ()),
+			("base", "pairs", "cons", ListPrimitive2::Pair.into ()),
+			("base", "pairs", "car", ListPrimitive1::PairLeft.into ()),
+			("base", "pairs", "cdr", ListPrimitive1::PairRight.into ()),
 			
-			("base", "set-car!", ListPrimitive2::PairLeftSet.into ()),
-			("base", "set-cdr!", ListPrimitive2::PairRightSet.into ()),
+			("base", "pairs", "set-car!", ListPrimitive2::PairLeftSet.into ()),
+			("base", "pairs", "set-cdr!", ListPrimitive2::PairRightSet.into ()),
 			
-			("base", "caar", ListPrimitive1::ListFirstOfFirst.into ()),
-			("base", "cdar", ListPrimitive1::ListRestOfFirst.into ()),
+			("base", "pairs", "caar", ListPrimitive1::ListFirstOfFirst.into ()),
+			("base", "pairs", "cdar", ListPrimitive1::ListRestOfFirst.into ()),
 			
-			("base", "cadr", ListPrimitive1::ListFirstAt2.into ()),
-			("base", "cddr", ListPrimitive1::ListRestAt2.into ()),
+			("base", "pairs", "cadr", ListPrimitive1::ListFirstAt2.into ()),
+			("base", "pairs", "cddr", ListPrimitive1::ListRestAt2.into ()),
 			
 			
 			
 			
 			// lists
 			
-			("base", "list?", TypePrimitive1::IsListProperOrEmpty.into ()),
+			("base", "types", "list?", TypePrimitive1::IsListProperOrEmpty.into ()),
 			
-			("base", "list", ListPrimitiveN::ListBuild.into ()),
-			("base", "make-list", ListPrimitiveN::ListMake.into ()),
-			("base", "list-copy", ListPrimitive1::ListClone.into ()),
-			("base", "append", ListPrimitiveN::ListAppend.into ()),
-			("base", "length", ListPrimitive1::ListLength.into ()),
+			("base", "lists", "list", ListPrimitiveN::ListBuild.into ()),
+			("base", "lists", "make-list", ListPrimitiveN::ListMake.into ()),
+			("base", "lists", "list-copy", ListPrimitive1::ListClone.into ()),
+			("base", "lists", "append", ListPrimitiveN::ListAppend.into ()),
+			("base", "lists", "length", ListPrimitive1::ListLength.into ()),
 			
-			("base", "list-ref", ListPrimitive2::ListFirstAt.into ()),
-			("base", "list-tail", ListPrimitive2::ListPairAt.into ()),
+			("base", "lists", "list-ref", ListPrimitive2::ListFirstAt.into ()),
+			("base", "lists", "list-tail", ListPrimitive2::ListPairAt.into ()),
 			
-			("base", "list-set!", ListPrimitive3::ListFirstAtSet.into ()),
+			("base", "lists", "list-set!", ListPrimitive3::ListFirstAtSet.into ()),
 			
-			("base", "reverse", ListPrimitive1::ListReverse.into ()),
+			("base", "lists", "reverse", ListPrimitive1::ListReverse.into ()),
 			
-			("base", "memq", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "memv", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "member", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "lists", "memq", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "lists", "memv", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "lists", "member", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("base", "assq", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "assv", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "assoc", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "lists", "assq", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "lists", "assv", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "lists", "assoc", ProcedurePrimitive::Unimplemented.into ()),
+			
 			
 			
 			
 			// vectors
 			
-			("base", "vector?", TypePrimitive1::IsArray.into ()),
+			("base", "types", "vector?", TypePrimitive1::IsArray.into ()),
 			
-			("base", "vector", ArrayPrimitiveN::ArrayBuild.into ()),
-			("base", "make-vector", ArrayPrimitiveN::ArrayMake.into ()),
-			("base", "vector-copy", ArrayPrimitive1::ArrayClone.into ()),
-			("base", "vector-append", ArrayPrimitiveN::ArrayAppend.into ()),
-			("base", "vector-length", ArrayPrimitive1::ArrayLength.into ()),
+			("base", "vectors", "vector", ArrayPrimitiveN::ArrayBuild.into ()),
+			("base", "vectors", "make-vector", ArrayPrimitiveN::ArrayMake.into ()),
+			("base", "vectors", "vector-copy", ArrayPrimitive1::ArrayClone.into ()),
+			("base", "vectors", "vector-append", ArrayPrimitiveN::ArrayAppend.into ()),
+			("base", "vectors", "vector-length", ArrayPrimitive1::ArrayLength.into ()),
 			
-			("base", "vector-ref", ArrayPrimitive2::ArrayAt.into ()),
+			("base", "vectors", "vector-ref", ArrayPrimitive2::ArrayAt.into ()),
 			
-			("base", "vector-set!", ArrayPrimitive3::ArrayAtSet.into ()),
-			("base", "vector-fill!", ArrayPrimitiveN::ArraySliceFill.into ()),
-			("base", "vector-copy!", ArrayPrimitiveN::ArraySliceCopy.into ()),
+			("base", "vectors", "vector-set!", ArrayPrimitive3::ArrayAtSet.into ()),
+			("base", "vectors", "vector-fill!", ArrayPrimitiveN::ArraySliceFill.into ()),
+			("base", "vectors", "vector-copy!", ArrayPrimitiveN::ArraySliceCopy.into ()),
 			
 			
 			
 			
 			// bytevectors
 			
-			("base", "bytevector?", TypePrimitive1::IsBytes.into ()),
+			("base", "types", "bytevector?", TypePrimitive1::IsBytes.into ()),
 			
-			("base", "bytevector", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "make-bytevector", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "bytevector-copy", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "bytevector-append", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "bytevector-length", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "bytes", "bytevector", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "bytes", "make-bytevector", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "bytes", "bytevector-copy", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "bytes", "bytevector-append", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "bytes", "bytevector-length", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("base", "bytevector-u8-ref", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "bytes", "bytevector-u8-ref", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("base", "bytevector-u8-set!", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "bytevector-copy!", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "bytes", "bytevector-u8-set!", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "bytes", "bytevector-copy!", ProcedurePrimitive::Unimplemented.into ()),
 			
 			
 			
 			
 			// strings
 			
-			("base", "string?", TypePrimitive1::IsString.into ()),
+			("base", "types", "string?", TypePrimitive1::IsString.into ()),
 			
-			("base", "string", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "substring", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "make-string", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "string-copy", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "string-append", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "string-length", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "strings", "string", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "strings", "substring", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "strings", "make-string", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "strings", "string-copy", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "strings", "string-append", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "strings", "string-length", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("base", "string-ref", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "strings", "string-ref", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("base", "string-set!", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "string-fill!", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "string-copy!", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "strings", "string-set!", ProcedurePrimitive::Unsupported.into ()),
+			("base", "strings", "string-fill!", ProcedurePrimitive::Unsupported.into ()),
+			("base", "strings", "string-copy!", ProcedurePrimitive::Unsupported.into ()),
 			
-			("base", "string=?", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "string<?", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "string>?", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "string<=?", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "string>=?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "strings", "string=?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "strings", "string<?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "strings", "string>?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "strings", "string<=?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "strings", "string>=?", ProcedurePrimitive::Unimplemented.into ()),
 			
 			
 			
 			
 			// converters to and from strings
 			
-			("base", "number->string", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "string->number", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "strings", "number->string", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "strings", "string->number", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("base", "symbol->string", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "string->symbol", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "strings", "symbol->string", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "strings", "string->symbol", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("base", "list->string", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "string->list", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "strings", "list->string", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "strings", "string->list", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("base", "utf8->string", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "string->utf8", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "strings", "utf8->string", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "strings", "string->utf8", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("base", "vector->string", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "string->vector", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "strings", "vector->string", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "strings", "string->vector", ProcedurePrimitive::Unimplemented.into ()),
 			
 			
 			
 			
 			// converters miscellaneous
 			
-			("base", "char->integer", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "integer->char", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "characters", "char->integer", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "characters", "integer->char", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("base", "vector->list", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "list->vector", ProcedurePrimitive::Unimplemented.into ()),
-			
-			
-			
-			
-			// ???
-			
-			("base", "procedure?", TypePrimitive1::IsProcedure.into ()),
-			
-			("base", "apply", FunctionsPrimitiveN::Apply.into ()),
-			
-			("base", "map", FunctionsPrimitiveN::ListsMap.into ()),
-			("base", "for-each", FunctionsPrimitiveN::ListsIterate.into ()),
-			
-			("base", "vector-map", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "vector-for-each", ProcedurePrimitive::Unimplemented.into ()),
-			
-			("base", "string-map", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "string-for-each", ProcedurePrimitive::Unimplemented.into ()),
-			
-			("base", "values", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "call-with-values", ProcedurePrimitive::Unimplemented.into ()),
-			
-			("base", "call-with-current-continuation", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "call/cc", ProcedurePrimitive::Unimplemented.into ()),
-			
-			("base", "dynamic-wind", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "vectors", "vector->list", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "vectors", "list->vector", ProcedurePrimitive::Unimplemented.into ()),
 			
 			
 			
 			
 			// ???
 			
-			("base", "raise", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "raise-continuable", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "types", "procedure?", TypePrimitive1::IsProcedure.into ()),
 			
-			("base", "error", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "error-object?", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "error-object-message", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "error-object-irritants", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "read-error?", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "file-error?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "functions", "apply", FunctionsPrimitiveN::Apply.into ()),
 			
-			("base", "with-exception-handler", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "functions", "map", FunctionsPrimitiveN::ListsMap.into ()),
+			("base", "functions", "for-each", FunctionsPrimitiveN::ListsIterate.into ()),
+			
+			("base", "functions", "vector-map", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "functions", "vector-for-each", ProcedurePrimitive::Unimplemented.into ()),
+			
+			("base", "functions", "string-map", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "functions", "string-for-each", ProcedurePrimitive::Unimplemented.into ()),
+			
+			("base", "values", "values", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "values", "call-with-values", ProcedurePrimitive::Unimplemented.into ()),
+			
+			("base", "evaluator", "call-with-current-continuation", ProcedurePrimitive::Unsupported.into ()),
+			("base", "evaluator", "call/cc", ProcedurePrimitive::Unsupported.into ()),
+			
+			("base", "evaluator", "dynamic-wind", ProcedurePrimitive::Unsupported.into ()),
+			
+			
+			
+			
+			// ???
+			
+			("base", "evaluator", "raise", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "evaluator", "raise-continuable", ProcedurePrimitive::Unsupported.into ()),
+			
+			("base", "errors", "error", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "errors", "error-object?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "errors", "error-object-message", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "errors", "error-object-irritants", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "errors", "read-error?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "errors", "file-error?", ProcedurePrimitive::Unimplemented.into ()),
+			
+			("base", "evaluator", "with-exception-handler", ProcedurePrimitive::Unimplemented.into ()),
 			
 			
 			
 			
 			// ports
 			
-			("base", "call-with-port", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "current-input-port", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "current-output-port", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "current-error-port", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "call-with-port", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("base", "port?", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "input-port?", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "input-port-open?", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "output-port?", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "output-port-open?", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "textual-port?", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "binary-port?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "parameters", "current-input-port", ProcedurePrimitive::Unsupported.into ()),
+			("base", "parameters", "current-output-port", ProcedurePrimitive::Unsupported.into ()),
+			("base", "parameters", "current-error-port", ProcedurePrimitive::Unsupported.into ()),
 			
-			("base", "open-input-string", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "open-output-string", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "get-output-string", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "port?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "input-port?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "input-port-open?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "output-port?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "output-port-open?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "textual-port?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "binary-port?", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("base", "open-input-bytevector", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "open-output-bytevector", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "get-output-bytevector", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "open-input-string", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "open-output-string", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "get-output-string", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("base", "close-port", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "close-input-port", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "close-output-port", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "open-input-bytevector", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "open-output-bytevector", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "get-output-bytevector", ProcedurePrimitive::Unimplemented.into ()),
+			
+			("base", "ports", "close-port", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "close-input-port", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "close-output-port", ProcedurePrimitive::Unimplemented.into ()),
 			
 			
 			
 			
 			// ports input
 			
-			("base", "char-ready?", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "peek-char", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "read-char", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "read-string", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "char-ready?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "peek-char", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "read-char", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "read-string", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("base", "u8-ready?", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "peek-u8", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "read-u8", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "read-bytevector", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "read-bytevector!", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "u8-ready?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "peek-u8", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "read-u8", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "read-bytevector", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "read-bytevector!", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("base", "read-line", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "read-line", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("base", "eof-object", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "eof-object?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "eof-object", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "eof-object?", ProcedurePrimitive::Unimplemented.into ()),
 			
 			
 			
 			
 			// ports output
 			
-			("base", "write-char", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "write-string", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "write-char", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "write-string", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("base", "write-u8", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "write-bytevector", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "write-u8", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "write-bytevector", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("base", "newline", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "newline", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("base", "flush-output-port", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "flush-output-port", ProcedurePrimitive::Unimplemented.into ()),
 			
 			
 			
 			
 			// (scheme case-lambda)
 			//     --> verified
-			("case-lambda", "case-lambda", SyntaxPrimitive::Unimplemented.into ()),
+			
+			("case-lambda", "lambda", "case-lambda", SyntaxPrimitive::Unsupported.into ()),
 			
 			
 			
@@ -479,33 +498,33 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			// (scheme char)
 			//     --> verified
 			
-			("char", "string-upcase", ProcedurePrimitive::Unimplemented.into ()),
-			("char", "string-downcase", ProcedurePrimitive::Unimplemented.into ()),
-			("char", "string-foldcase", ProcedurePrimitive::Unimplemented.into ()),
+			("char", "strings", "string-upcase", ProcedurePrimitive::Unimplemented.into ()),
+			("char", "strings", "string-downcase", ProcedurePrimitive::Unimplemented.into ()),
+			("char", "strings", "string-foldcase", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("char", "string-ci=?", ProcedurePrimitive::Unimplemented.into ()),
-			("char", "string-ci<?", ProcedurePrimitive::Unimplemented.into ()),
-			("char", "string-ci>?", ProcedurePrimitive::Unimplemented.into ()),
-			("char", "string-ci<=?", ProcedurePrimitive::Unimplemented.into ()),
-			("char", "string-ci>=?", ProcedurePrimitive::Unimplemented.into ()),
+			("char", "strings", "string-ci=?", ProcedurePrimitive::Unimplemented.into ()),
+			("char", "strings", "string-ci<?", ProcedurePrimitive::Unimplemented.into ()),
+			("char", "strings", "string-ci>?", ProcedurePrimitive::Unimplemented.into ()),
+			("char", "strings", "string-ci<=?", ProcedurePrimitive::Unimplemented.into ()),
+			("char", "strings", "string-ci>=?", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("char", "char-alphabetic?", ProcedurePrimitive::Unimplemented.into ()),
-			("char", "char-upper-case?", ProcedurePrimitive::Unimplemented.into ()),
-			("char", "char-lower-case?", ProcedurePrimitive::Unimplemented.into ()),
-			("char", "char-numeric?", ProcedurePrimitive::Unimplemented.into ()),
-			("char", "char-whitespace?", ProcedurePrimitive::Unimplemented.into ()),
+			("char", "characters", "char-alphabetic?", ProcedurePrimitive::Unimplemented.into ()),
+			("char", "characters", "char-upper-case?", ProcedurePrimitive::Unimplemented.into ()),
+			("char", "characters", "char-lower-case?", ProcedurePrimitive::Unimplemented.into ()),
+			("char", "characters", "char-numeric?", ProcedurePrimitive::Unimplemented.into ()),
+			("char", "characters", "char-whitespace?", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("char", "char-upcase", ProcedurePrimitive::Unimplemented.into ()),
-			("char", "char-downcase", ProcedurePrimitive::Unimplemented.into ()),
-			("char", "char-foldcase", ProcedurePrimitive::Unimplemented.into ()),
+			("char", "characters", "char-upcase", ProcedurePrimitive::Unimplemented.into ()),
+			("char", "characters", "char-downcase", ProcedurePrimitive::Unimplemented.into ()),
+			("char", "characters", "char-foldcase", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("char", "char-ci=?", ProcedurePrimitive::Unimplemented.into ()),
-			("char", "char-ci<?", ProcedurePrimitive::Unimplemented.into ()),
-			("char", "char-ci>?", ProcedurePrimitive::Unimplemented.into ()),
-			("char", "char-ci<=?", ProcedurePrimitive::Unimplemented.into ()),
-			("char", "char-ci>=?", ProcedurePrimitive::Unimplemented.into ()),
+			("char", "characters", "char-ci=?", ProcedurePrimitive::Unimplemented.into ()),
+			("char", "characters", "char-ci<?", ProcedurePrimitive::Unimplemented.into ()),
+			("char", "characters", "char-ci>?", ProcedurePrimitive::Unimplemented.into ()),
+			("char", "characters", "char-ci<=?", ProcedurePrimitive::Unimplemented.into ()),
+			("char", "characters", "char-ci>=?", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("char", "digit-value", ProcedurePrimitive::Unimplemented.into ()),
+			("char", "characters", "digit-value", ProcedurePrimitive::Unimplemented.into ()),
 			
 			
 			
@@ -513,13 +532,13 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			// (scheme complex)
 			//     --> verified
 			
-			("complex", "make-rectangular", ProcedurePrimitive::Unimplemented.into ()),
-			("complex", "real-part", ProcedurePrimitive::Unimplemented.into ()),
-			("complex", "imag-part", ProcedurePrimitive::Unimplemented.into ()),
+			("complex", "arithmetic", "make-rectangular", ProcedurePrimitive::Unsupported.into ()),
+			("complex", "arithmetic", "real-part", ProcedurePrimitive::Unsupported.into ()),
+			("complex", "arithmetic", "imag-part", ProcedurePrimitive::Unsupported.into ()),
 			
-			("complex", "make-polar", ProcedurePrimitive::Unimplemented.into ()),
-			("complex", "magnitude", ProcedurePrimitive::Unimplemented.into ()),
-			("complex", "angle", ProcedurePrimitive::Unimplemented.into ()),
+			("complex", "arithmetic", "make-polar", ProcedurePrimitive::Unsupported.into ()),
+			("complex", "arithmetic", "magnitude", ProcedurePrimitive::Unsupported.into ()),
+			("complex", "arithmetic", "angle", ProcedurePrimitive::Unsupported.into ()),
 			
 			
 			
@@ -527,30 +546,30 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			// (scheme cxr)
 			//     --> verified
 			
-			("cxr", "caaaar", ProcedurePrimitive::Unimplemented.into ()),
-			("cxr", "caaadr", ProcedurePrimitive::Unimplemented.into ()),
-			("cxr", "caaar", ProcedurePrimitive::Unimplemented.into ()),
-			("cxr", "caadar", ProcedurePrimitive::Unimplemented.into ()),
-			("cxr", "caaddr", ProcedurePrimitive::Unimplemented.into ()),
-			("cxr", "caadr", ProcedurePrimitive::Unimplemented.into ()),
-			("cxr", "cadaar", ProcedurePrimitive::Unimplemented.into ()),
-			("cxr", "cadadr", ProcedurePrimitive::Unimplemented.into ()),
-			("cxr", "cadar", ProcedurePrimitive::Unimplemented.into ()),
-			("cxr", "caddar", ProcedurePrimitive::Unimplemented.into ()),
-			("cxr", "cadddr", ProcedurePrimitive::Unimplemented.into ()),
-			("cxr", "caddr", ProcedurePrimitive::Unimplemented.into ()),
-			("cxr", "cdaaar", ProcedurePrimitive::Unimplemented.into ()),
-			("cxr", "cdaadr", ProcedurePrimitive::Unimplemented.into ()),
-			("cxr", "cdaar", ProcedurePrimitive::Unimplemented.into ()),
-			("cxr", "cdadar", ProcedurePrimitive::Unimplemented.into ()),
-			("cxr", "cdaddr", ProcedurePrimitive::Unimplemented.into ()),
-			("cxr", "cdadr", ProcedurePrimitive::Unimplemented.into ()),
-			("cxr", "cddaar", ProcedurePrimitive::Unimplemented.into ()),
-			("cxr", "cddadr", ProcedurePrimitive::Unimplemented.into ()),
-			("cxr", "cddar", ProcedurePrimitive::Unimplemented.into ()),
-			("cxr", "cdddar", ProcedurePrimitive::Unimplemented.into ()),
-			("cxr", "cddddr", ProcedurePrimitive::Unimplemented.into ()),
-			("cxr", "cdddr", ProcedurePrimitive::Unimplemented.into ()),
+			("cxr", "pairs", "caaaar", ProcedurePrimitive::Unsupported.into ()),
+			("cxr", "pairs", "caaadr", ProcedurePrimitive::Unsupported.into ()),
+			("cxr", "pairs", "caaar", ProcedurePrimitive::Unsupported.into ()),
+			("cxr", "pairs", "caadar", ProcedurePrimitive::Unsupported.into ()),
+			("cxr", "pairs", "caaddr", ProcedurePrimitive::Unsupported.into ()),
+			("cxr", "pairs", "caadr", ProcedurePrimitive::Unsupported.into ()),
+			("cxr", "pairs", "cadaar", ProcedurePrimitive::Unsupported.into ()),
+			("cxr", "pairs", "cadadr", ProcedurePrimitive::Unsupported.into ()),
+			("cxr", "pairs", "cadar", ProcedurePrimitive::Unsupported.into ()),
+			("cxr", "pairs", "caddar", ProcedurePrimitive::Unsupported.into ()),
+			("cxr", "pairs", "cadddr", ProcedurePrimitive::Unsupported.into ()),
+			("cxr", "pairs", "caddr", ProcedurePrimitive::Unsupported.into ()),
+			("cxr", "pairs", "cdaaar", ProcedurePrimitive::Unsupported.into ()),
+			("cxr", "pairs", "cdaadr", ProcedurePrimitive::Unsupported.into ()),
+			("cxr", "pairs", "cdaar", ProcedurePrimitive::Unsupported.into ()),
+			("cxr", "pairs", "cdadar", ProcedurePrimitive::Unsupported.into ()),
+			("cxr", "pairs", "cdaddr", ProcedurePrimitive::Unsupported.into ()),
+			("cxr", "pairs", "cdadr", ProcedurePrimitive::Unsupported.into ()),
+			("cxr", "pairs", "cddaar", ProcedurePrimitive::Unsupported.into ()),
+			("cxr", "pairs", "cddadr", ProcedurePrimitive::Unsupported.into ()),
+			("cxr", "pairs", "cddar", ProcedurePrimitive::Unsupported.into ()),
+			("cxr", "pairs", "cdddar", ProcedurePrimitive::Unsupported.into ()),
+			("cxr", "pairs", "cddddr", ProcedurePrimitive::Unsupported.into ()),
+			("cxr", "pairs", "cdddr", ProcedurePrimitive::Unsupported.into ()),
 			
 			
 			
@@ -558,8 +577,8 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			// (scheme eval)
 			//     --> verified
 			
-			("eval", "environment", ProcedurePrimitive::Unimplemented.into ()),
-			("eval", "eval", ProcedurePrimitive::Unimplemented.into ()),
+			("eval", "evaluator", "environment", ProcedurePrimitive::Unsupported.into ()),
+			("eval", "evaluator", "eval", ProcedurePrimitive::Unsupported.into ()),
 			
 			
 			
@@ -567,20 +586,20 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			// (scheme file)
 			//     --> verified
 			
-			("file", "open-input-file", ProcedurePrimitive::Unimplemented.into ()),
-			("file", "open-binary-input-file", ProcedurePrimitive::Unimplemented.into ()),
+			("file", "ports", "open-input-file", ProcedurePrimitive::Unimplemented.into ()),
+			("file", "ports", "open-binary-input-file", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("file", "open-output-file", ProcedurePrimitive::Unimplemented.into ()),
-			("file", "open-binary-output-file", ProcedurePrimitive::Unimplemented.into ()),
+			("file", "ports", "open-output-file", ProcedurePrimitive::Unimplemented.into ()),
+			("file", "ports", "open-binary-output-file", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("file", "call-with-input-file", ProcedurePrimitive::Unimplemented.into ()),
-			("file", "call-with-output-file", ProcedurePrimitive::Unimplemented.into ()),
+			("file", "ports", "call-with-input-file", ProcedurePrimitive::Unimplemented.into ()),
+			("file", "ports", "call-with-output-file", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("file", "with-input-from-file", ProcedurePrimitive::Unimplemented.into ()),
-			("file", "with-output-to-file", ProcedurePrimitive::Unimplemented.into ()),
+			("file", "parameters", "with-input-from-file", ProcedurePrimitive::Unsupported.into ()),
+			("file", "parameters", "with-output-to-file", ProcedurePrimitive::Unsupported.into ()),
 			
-			("file", "file-exists?", ProcedurePrimitive::Unimplemented.into ()),
-			("file", "delete-file", ProcedurePrimitive::Unimplemented.into ()),
+			("file", "system", "file-exists?", ProcedurePrimitive::Unimplemented.into ()),
+			("file", "system", "delete-file", ProcedurePrimitive::Unimplemented.into ()),
 			
 			
 			
@@ -588,21 +607,21 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			// (scheme inexact)
 			//     --> verified
 			
-			("inexact", "sqrt", ArithmeticPrimitive1::SquareRoot.into ()),
-			("inexact", "exp", ArithmeticPrimitive1::Exponential.into ()),
-			("inexact", "log", ArithmeticPrimitive1::Logarithm.into ()),
+			("inexact", "arithmetic", "sqrt", ArithmeticPrimitive1::SquareRoot.into ()),
+			("inexact", "arithmetic", "exp", ArithmeticPrimitive1::Exponential.into ()),
+			("inexact", "arithmetic", "log", ArithmeticPrimitive1::Logarithm.into ()),
 			
-			("inexact", "sin", ArithmeticPrimitive1::Sin.into ()),
-			("inexact", "cos", ArithmeticPrimitive1::Cos.into ()),
-			("inexact", "tan", ArithmeticPrimitive1::Tan.into ()),
+			("inexact", "arithmetic", "sin", ArithmeticPrimitive1::Sin.into ()),
+			("inexact", "arithmetic", "cos", ArithmeticPrimitive1::Cos.into ()),
+			("inexact", "arithmetic", "tan", ArithmeticPrimitive1::Tan.into ()),
 			
-			("inexact", "asin", ArithmeticPrimitive1::Asin.into ()),
-			("inexact", "acos", ArithmeticPrimitive1::Acos.into ()),
-			("inexact", "atan", ArithmeticPrimitive1::Atan.into ()),
+			("inexact", "arithmetic", "asin", ArithmeticPrimitive1::Asin.into ()),
+			("inexact", "arithmetic", "acos", ArithmeticPrimitive1::Acos.into ()),
+			("inexact", "arithmetic", "atan", ArithmeticPrimitive1::Atan.into ()),
 			
-			("inexact", "finite?", ArithmeticPrimitive1::IsFinite.into ()),
-			("inexact", "infinite?", ArithmeticPrimitive1::IsInfinite.into ()),
-			("inexact", "nan?", ArithmeticPrimitive1::IsNan.into ()),
+			("inexact", "arithmetic", "finite?", ArithmeticPrimitive1::IsFinite.into ()),
+			("inexact", "arithmetic", "infinite?", ArithmeticPrimitive1::IsInfinite.into ()),
+			("inexact", "arithmetic", "nan?", ArithmeticPrimitive1::IsNan.into ()),
 			
 			
 			
@@ -610,12 +629,12 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			// (scheme lazy)
 			//     --> verified
 			
-			("lazy", "delay", SyntaxPrimitive::Unimplemented.into ()),
-			("lazy", "delay-force", SyntaxPrimitive::Unimplemented.into ()),
+			("lazy", "promises", "delay", SyntaxPrimitive::Unsupported.into ()),
+			("lazy", "promises", "delay-force", SyntaxPrimitive::Unsupported.into ()),
 			
-			("lazy", "promise?", ProcedurePrimitive::Unimplemented.into ()),
-			("lazy", "make-promise", ProcedurePrimitive::Unimplemented.into ()),
-			("lazy", "force", ProcedurePrimitive::Unimplemented.into ()),
+			("lazy", "promises", "promise?", ProcedurePrimitive::Unsupported.into ()),
+			("lazy", "promises", "make-promise", ProcedurePrimitive::Unsupported.into ()),
+			("lazy", "promises", "force", ProcedurePrimitive::Unsupported.into ()),
 			
 			
 			
@@ -623,7 +642,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			// (scheme load)
 			//     --> verified
 			
-			("load", "load", ProcedurePrimitive::Unimplemented.into ()),
+			("load", "modules", "load", ProcedurePrimitive::Unsupported.into ()),
 			
 			
 			
@@ -631,12 +650,12 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			// (scheme process-context)
 			//     --> verified
 			
-			("process-context", "command-line", ProcedurePrimitive::Unimplemented.into ()),
-			("process-context", "get-environment-variable", ProcedurePrimitive::Unimplemented.into ()),
-			("process-context", "get-environment-variables", ProcedurePrimitive::Unimplemented.into ()),
+			("process-context", "system", "command-line", ProcedurePrimitive::Unimplemented.into ()),
+			("process-context", "system", "get-environment-variable", ProcedurePrimitive::Unimplemented.into ()),
+			("process-context", "system", "get-environment-variables", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("process-context", "exit", ProcedurePrimitive::Unimplemented.into ()),
-			("process-context", "emergency-exit", ProcedurePrimitive::Unimplemented.into ()),
+			("process-context", "system", "exit", ProcedurePrimitive::Unimplemented.into ()),
+			("process-context", "system", "emergency-exit", ProcedurePrimitive::Unsupported.into ()),
 			
 			
 			
@@ -644,9 +663,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			// (scheme r5rs)
 			//     --> verified
 			
-			("r5rs", "interaction-environment", ProcedurePrimitive::Unimplemented.into ()),
-			("r5rs", "scheme-report-environment", ProcedurePrimitive::Unimplemented.into ()),
-			("r5rs", "null-environment", ProcedurePrimitive::Unimplemented.into ()),
+			("r5rs", "evaluator", "interaction-environment", ProcedurePrimitive::Unsupported.into ()),
+			("r5rs", "evaluator", "scheme-report-environment", ProcedurePrimitive::Unsupported.into ()),
+			("r5rs", "evaluator", "null-environment", ProcedurePrimitive::Unsupported.into ()),
 			
 			
 			
@@ -654,7 +673,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			// (scheme read)
 			//     --> verified
 			
-			("read", "read", ProcedurePrimitive::Unimplemented.into ()),
+			("read", "ports", "read", ProcedurePrimitive::Unimplemented.into ()),
 			
 			
 			
@@ -662,8 +681,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			// (scheme repl)
 			//     --> verified
 			
-			// !! duplicate
-			// ("repl", "interaction-environment", ProcedurePrimitive::Unimplemented.into ()),
+			("repl", "evaluator", "interaction-environment", ProcedurePrimitive::Unsupported.into ()),
 			
 			
 			
@@ -671,9 +689,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			// (scheme time)
 			//     --> verified
 			
-			("time", "current-second", ProcedurePrimitive::Unimplemented.into ()),
-			("time", "current-jiffy", ProcedurePrimitive::Unimplemented.into ()),
-			("time", "jiffies-per-second", ProcedurePrimitive::Unimplemented.into ()),
+			("time", "system", "current-second", ProcedurePrimitive::Unimplemented.into ()),
+			("time", "system", "current-jiffy", ProcedurePrimitive::Unsupported.into ()),
+			("time", "system", "jiffies-per-second", ProcedurePrimitive::Unsupported.into ()),
 			
 			
 			
@@ -681,10 +699,10 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 			// (scheme write)
 			//     --> verified
 			
-			("write", "write", ProcedurePrimitive::Unimplemented.into ()),
-			("write", "write-shared", ProcedurePrimitive::Unimplemented.into ()),
-			("write", "write-simple", ProcedurePrimitive::Unimplemented.into ()),
-			("write", "display", ProcedurePrimitive::Unimplemented.into ()),
+			("write", "ports", "write", ProcedurePrimitive::Unimplemented.into ()),
+			("write", "ports", "write-shared", ProcedurePrimitive::Unimplemented.into ()),
+			("write", "ports", "write-simple", ProcedurePrimitive::Unimplemented.into ()),
+			("write", "ports", "display", ProcedurePrimitive::Unimplemented.into ()),
 			
 			
 			
@@ -693,9 +711,119 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Value)>>) {
 	
 	let definitions = vec_map! (
 			definitions,
-			(library, identifier, value),
-			(Symbol::from (library), Symbol::from (identifier), value));
+			(library, category, identifier, value),
+			(Symbol::from (library), Symbol::from (category), Symbol::from (identifier), value));
 	
-	return Ok (definitions);
+	succeed! (definitions);
+}
+
+
+
+
+pub fn verify_definitions (definitions : &StdVec<(Symbol, Symbol, Symbol, Value)>) -> (Outcome<()>) {
+	
+	
+	let mut libraries = vec! [
+			"base",
+			"case-lambda",
+			"char",
+			"complex",
+			"cxr",
+			"eval",
+			"file",
+			"inexact",
+			"lazy",
+			"load",
+			"process-context",
+			"r5rs",
+			"read",
+			"repl",
+			"time",
+			"write",
+		]
+		.into_iter ()
+		.map (|library| (Symbol::from (library), 0))
+		.collect::<StdMap<_, _>> ();
+	
+	
+	let mut categories = vec! [
+			"arithmetic",
+			"bytes",
+			"characters",
+			"contexts",
+			"control",
+			"equivalence",
+			"errors",
+			"evaluator",
+			"functions",
+			"lambda",
+			"lists",
+			"modules",
+			"pairs",
+			"parameters",
+			"ports",
+			"promises",
+			"quotation",
+			"records",
+			"strings",
+			"syntaxes",
+			"system",
+			"types",
+			"values",
+			"vectors",
+		]
+		.into_iter ()
+		.map (|category| (Symbol::from (category), 0))
+		.collect::<StdMap<_, _>> ();
+	
+	
+	let mut mappings = StdMap::new ();
+	let mut errors = false;
+	
+	
+	for &(_, _, ref identifier, ref value) in definitions {
+		if let Some (existing) = mappings.insert (identifier.clone (), value) {
+			if existing != value {
+				eprintln! ("[ee]  duplicate missmatched mapping for `{}`!", identifier.string_as_str ());
+				errors = true;
+			}
+		}
+	}
+	
+	for &(ref library, ref category, _, _) in definitions {
+		if let Some (count) = libraries.get_mut (library) {
+			*count += 1;
+		} else {
+			eprintln! ("[ee]  unknown library `{}`!", library.string_as_str ());
+			errors = true;
+		}
+		if let Some (count) = categories.get_mut (category) {
+			*count += 1;
+		} else {
+			eprintln! ("[ee]  unknown category `{}`!", category.string_as_str ());
+			errors = true;
+		}
+	}
+	
+	for (library, count) in libraries {
+		if count == 0 {
+			eprintln! ("[ee]  unused library `{}`!", library.string_as_str ());
+			errors = true;
+		}
+	}
+	for (category, count) in categories {
+		if count == 0 {
+			eprintln! ("[ee]  unused category `{}`!", category.string_as_str ());
+			errors = true;
+		}
+	}
+	
+	
+	if !errors {
+		succeed! (());
+	} else {
+		fail! (0x24ce2821);
+	}
+	
 }
 

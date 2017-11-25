@@ -18,7 +18,9 @@ pub mod exports {
 
 
 pub fn generate_binding_templates () -> (Outcome<StdVec<ContextBindingTemplate>>) {
+	
 	let definitions = try! (generate_definitions ());
+	
 	let templates = vec_map! (
 			definitions,
 			(identifier, value),
@@ -26,7 +28,9 @@ pub fn generate_binding_templates () -> (Outcome<StdVec<ContextBindingTemplate>>
 					identifier : identifier,
 					value : Some (value),
 					immutable : true,
-				});
+				}
+		);
+	
 	succeed! (templates);
 }
 
@@ -56,6 +60,6 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			(identifier, value),
 			(Symbol::from (identifier), value));
 	
-	return Ok (definitions);
+	succeed! (definitions);
 }
 
