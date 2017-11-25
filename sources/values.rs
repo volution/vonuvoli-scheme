@@ -239,7 +239,7 @@ impl fmt::Debug for Value {
 
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub struct Boolean ( pub bool );
 
 
@@ -301,7 +301,7 @@ impl fmt::Display for Boolean {
 
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub struct NumberInteger ( pub i64 );
 
 
@@ -926,6 +926,23 @@ impl cmp::PartialEq for NumberReal {
 	}
 }
 
+impl cmp::Ord for NumberReal {
+	fn cmp (&self, other : &NumberReal) -> (cmp::Ordering) {
+		if let Some (ordering) = self.0.partial_cmp (&other.0) {
+			ordering
+		} else {
+			// FIXME:  Correctly handle this!
+			cmp::Ordering::Equal
+		}
+	}
+}
+
+impl cmp::PartialOrd for NumberReal {
+	fn partial_cmp (&self, other : &NumberReal) -> (Option<cmp::Ordering>) {
+		self.0.partial_cmp (&other.0)
+	}
+}
+
 impl hash::Hash for NumberReal {
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		hasher.write_u64 (self.0.to_bits ());
@@ -941,7 +958,7 @@ impl fmt::Display for NumberReal {
 
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub struct Character ( pub char );
 
 
@@ -968,7 +985,7 @@ impl fmt::Display for Character {
 
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub struct Symbol ( StdRc<StdString> );
 
 
@@ -1002,6 +1019,10 @@ impl Symbol {
 		self.string_ref () .len ()
 	}
 	
+	pub fn string_eq (&self, other : &str) -> (bool) {
+		self.string_ref () .eq (other)
+	}
+	
 }
 
 
@@ -1033,7 +1054,7 @@ impl fmt::Display for Symbol {
 
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 // FIXME:  Add immutability flag!
 pub struct String ( StdRc<StdString> );
 
@@ -1068,6 +1089,10 @@ impl String {
 		self.string_ref () .len ()
 	}
 	
+	pub fn string_eq (&self, other : &str) -> (bool) {
+		self.string_ref () .eq (other)
+	}
+	
 }
 
 
@@ -1095,7 +1120,7 @@ impl fmt::Display for String {
 
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 // FIXME:  Add immutability flag!
 pub struct Bytes ( StdRc<StdVec<u8>> );
 
