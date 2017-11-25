@@ -36,16 +36,18 @@ pub mod exports {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
 pub enum SyntaxPrimitive {
 	
-	Unimplemented,
-	Auxiliary,
-	Reserved,
-	
 	Primitive0 ( SyntaxPrimitive0 ),
 	Primitive1 ( SyntaxPrimitive1 ),
 	Primitive2 ( SyntaxPrimitive2 ),
 	Primitive3 ( SyntaxPrimitive3 ),
 	Primitive4 ( SyntaxPrimitive4 ),
 	PrimitiveN ( SyntaxPrimitiveN ),
+	
+	Auxiliary,
+	
+	Unimplemented,
+	Unsupported,
+	Reserved,
 	
 }
 
@@ -287,11 +289,14 @@ pub fn syntax_primitive_evaluate (primitive : SyntaxPrimitive, inputs : &[Expres
 		SyntaxPrimitive::PrimitiveN (primitive) =>
 			return syntax_primitive_n_evaluate (primitive, inputs, evaluator),
 		
+		SyntaxPrimitive::Auxiliary =>
+			fail! (0x050a390b),
+		
 		SyntaxPrimitive::Unimplemented =>
 			fail_unimplemented! (0x303dde78),
 		
-		SyntaxPrimitive::Auxiliary =>
-			fail! (0x050a390b),
+		SyntaxPrimitive::Unsupported =>
+			fail_unimplemented! (0x70ac4438),
 		
 		SyntaxPrimitive::Reserved =>
 			fail! (0x20a9c095),

@@ -297,11 +297,14 @@ impl Compiler {
 			SyntaxPrimitive::Auxiliary =>
 				fail! (0x1aed14f3),
 			
-			SyntaxPrimitive::Reserved =>
-				fail! (0x1aed14f3),
-			
 			SyntaxPrimitive::Unimplemented =>
 				fail_unimplemented! (0xa4e41f62),
+			
+			SyntaxPrimitive::Unsupported =>
+				fail_unimplemented! (0x175a7f9e),
+			
+			SyntaxPrimitive::Reserved =>
+				fail! (0x1aed14f3),
 			
 		}
 	}
