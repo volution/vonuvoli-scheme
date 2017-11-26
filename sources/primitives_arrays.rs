@@ -132,7 +132,7 @@ pub fn array_primitive_1_evaluate (primitive : ArrayPrimitive1, input_1 : &Value
 			succeed! (array_build_1 (input_1)),
 		
 		ArrayPrimitive1::ArrayAppend =>
-			succeed! (input_1.clone ()),
+			return array_clone (input_1),
 		
 	}
 }

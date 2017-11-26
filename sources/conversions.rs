@@ -220,6 +220,13 @@ impl_from_for_primitive_procedure_2! (ArrayPrimitive3, ProcedurePrimitive3, Prim
 impl_from_for_primitive_procedure_2! (ArrayPrimitive4, ProcedurePrimitive4, Primitive4, Array);
 impl_from_for_primitive_procedure_2! (ArrayPrimitiveN, ProcedurePrimitiveN, PrimitiveN, Array);
 
+impl_from_for_primitive_procedure_2! (BytesPrimitive0, ProcedurePrimitive0, Primitive0, Bytes);
+impl_from_for_primitive_procedure_2! (BytesPrimitive1, ProcedurePrimitive1, Primitive1, Bytes);
+impl_from_for_primitive_procedure_2! (BytesPrimitive2, ProcedurePrimitive2, Primitive2, Bytes);
+impl_from_for_primitive_procedure_2! (BytesPrimitive3, ProcedurePrimitive3, Primitive3, Bytes);
+impl_from_for_primitive_procedure_2! (BytesPrimitive4, ProcedurePrimitive4, Primitive4, Bytes);
+impl_from_for_primitive_procedure_2! (BytesPrimitiveN, ProcedurePrimitiveN, PrimitiveN, Bytes);
+
 impl_from_for_primitive_procedure_2! (FunctionsPrimitive1, ProcedurePrimitive1, Primitive1, Functions);
 impl_from_for_primitive_procedure_2! (FunctionsPrimitive2, ProcedurePrimitive2, Primitive2, Functions);
 impl_from_for_primitive_procedure_2! (FunctionsPrimitiveN, ProcedurePrimitiveN, PrimitiveN, Functions);
@@ -412,6 +419,13 @@ impl_from_for_ProcedurePrimitiveCall2! (ArrayPrimitive2);
 impl_from_for_ProcedurePrimitiveCall3! (ArrayPrimitive3);
 impl_from_for_ProcedurePrimitiveCall4! (ArrayPrimitive4);
 impl_from_for_ProcedurePrimitiveCallN! (ArrayPrimitiveN);
+
+impl_from_for_ProcedurePrimitiveCall0! (BytesPrimitive0);
+impl_from_for_ProcedurePrimitiveCall1! (BytesPrimitive1);
+impl_from_for_ProcedurePrimitiveCall2! (BytesPrimitive2);
+impl_from_for_ProcedurePrimitiveCall3! (BytesPrimitive3);
+impl_from_for_ProcedurePrimitiveCall4! (BytesPrimitive4);
+impl_from_for_ProcedurePrimitiveCallN! (BytesPrimitiveN);
 
 impl_from_for_ProcedurePrimitiveCall1! (FunctionsPrimitive1);
 impl_from_for_ProcedurePrimitiveCall2! (FunctionsPrimitive2);

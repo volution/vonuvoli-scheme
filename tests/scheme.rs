@@ -18,5 +18,6 @@ def_tests_from_file! (
 		lambdas => "scheme/lambdas.sst",
 		functions => "scheme/functions.sst",
 		arrays => "scheme/arrays.sst",
+		bytes => "scheme/bytes.sst",
 	);
 

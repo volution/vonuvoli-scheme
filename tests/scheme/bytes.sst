@@ -1,0 +1,91 @@
+
+(bytevector) => #u8();
+
+(bytevector 0) => #u8(0);
+(bytevector 0 1) => #u8(0 1);
+(bytevector 0 1 2) => #u8(0 1 2);
+(bytevector 0 1 2 3) => #u8(0 1 2 3);
+(bytevector 0 1 2 3 4) => #u8(0 1 2 3 4);
+(bytevector 0 1 2 3 4 5) => #u8(0 1 2 3 4 5);
+(bytevector 0 1 2 3 4 5 6) => #u8(0 1 2 3 4 5 6);
+
+
+
+
+(make-bytevector 0) => #u8();
+(make-bytevector 1) => #u8(0);
+(make-bytevector 2) => #u8(0 0);
+(make-bytevector 3) => #u8(0 0 0);
+
+(make-bytevector 0 0) => #u8();
+(make-bytevector 1 0) => #u8(0);
+(make-bytevector 2 0) => #u8(0 0);
+(make-bytevector 3 0) => #u8(0 0 0);
+
+
+
+
+(bytevector-copy #u8()) => #u8();
+
+(bytevector-copy #u8(0)) => #u8(0);
+(bytevector-copy #u8(0 1)) => #u8(0 1);
+(bytevector-copy #u8(0 1 2)) => #u8(0 1 2);
+
+
+
+
+(bytevector-length #u8()) => 0;
+
+(bytevector-length #u8(0)) => 1;
+(bytevector-length #u8(0 1)) => 2;
+(bytevector-length #u8(0 1 2)) => 3;
+
+
+
+
+(bytevector-append) => #u8();
+(bytevector-append #u8()) => #u8();
+(bytevector-append #u8() #u8()) => #u8();
+
+(bytevector-append #u8(0)) => #u8(0);
+(bytevector-append #u8() #u8(0)) => #u8(0);
+(bytevector-append #u8() #u8() #u8(0)) => #u8(0);
+
+(bytevector-append #u8(0 1)) => #u8(0 1);
+(bytevector-append #u8(0) #u8(1)) => #u8(0 1);
+
+(bytevector-append #u8(0 1)) => #u8(0 1);
+(bytevector-append #u8(0) #u8(1)) => #u8(0 1);
+
+(bytevector-append #u8(0 1 2)) => #u8(0 1 2);
+(bytevector-append #u8(0 1) #u8(2)) => #u8(0 1 2);
+(bytevector-append #u8(0) #u8(1) #u8(2)) => #u8(0 1 2);
+
+(bytevector-append #u8(0 1 2)) => #u8(0 1 2);
+(bytevector-append #u8(0 1) #u8(2)) => #u8(0 1 2);
+(bytevector-append #u8(0) #u8(1) #u8(2)) => #u8(0 1 2);
+
+(bytevector-append #u8(0)) => #u8(0);
+(bytevector-append #u8(0) #u8(1)) => #u8(0 1);
+(bytevector-append #u8(0) #u8(1) #u8(2)) => #u8(0 1 2);
+(bytevector-append #u8(0) #u8(1) #u8(2) #u8(3)) => #u8(0 1 2 3);
+(bytevector-append #u8(0) #u8(1) #u8(2) #u8(3) #u8(4)) => #u8(0 1 2 3 4);
+(bytevector-append #u8(0) #u8(1) #u8(2) #u8(3) #u8(4) #u8(5)) => #u8(0 1 2 3 4 5);
+(bytevector-append #u8(0) #u8(1) #u8(2) #u8(3) #u8(4) #u8(5) #u8(6)) => #u8(0 1 2 3 4 5 6);
+
+
+
+
+(~bytevector-reverse #u8()) => #u8();
+(~bytevector-reverse #u8(0)) => #u8(0);
+(~bytevector-reverse #u8(0 1)) => #u8(1 0);
+(~bytevector-reverse #u8(0 1 2)) => #u8(2 1 0);
+(~bytevector-reverse #u8(0 1 2 3)) => #u8(3 2 1 0);
+
+
+
+
+(bytevector-u8-ref #u8(0) 0) => 0;
+(bytevector-u8-ref #u8(0 1) 1) => 1;
+(bytevector-u8-ref #u8(0 1 2) 2) => 2;
+

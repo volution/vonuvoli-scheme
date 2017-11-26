@@ -1129,6 +1129,36 @@ pub type BytesBox = StdBox<Bytes>;
 pub type BytesVec = StdVec<Bytes>;
 
 
+impl Bytes {
+	
+	pub fn values_as_slice (&self) -> (&[u8]) {
+		self.0.as_ref () .as_slice ()
+	}
+	
+	pub fn values_ref (&self) -> (&StdVec<u8>) {
+		self.0.as_ref ()
+	}
+	
+	pub fn values_clone (&self) -> (StdVec<u8>) {
+		self.0.as_ref () .clone ()
+	}
+	
+	pub fn values_is_empty (&self) -> (bool) {
+		self.values_ref () .is_empty ()
+	}
+	
+	pub fn values_is_not_empty (&self) -> (bool) {
+		!self.values_ref () .is_empty ()
+	}
+	
+	pub fn values_length (&self) -> (usize) {
+		self.values_ref () .len ()
+	}
+	
+}
+
+
+
 impl fmt::Display for Bytes {
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		use std::fmt::Write;

@@ -306,16 +306,16 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			("base", "types", "bytevector?", TypePrimitive1::IsBytes.into ()),
 			
-			("base", "bytes", "bytevector", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "bytes", "make-bytevector", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "bytes", "bytevector-copy", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "bytes", "bytevector-append", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "bytes", "bytevector-length", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "bytes", "bytevector", BytesPrimitiveN::BytesBuild.into ()),
+			("base", "bytes", "make-bytevector", BytesPrimitiveN::BytesMake.into ()),
+			("base", "bytes", "bytevector-copy", BytesPrimitive1::BytesClone.into ()),
+			("base", "bytes", "bytevector-append", BytesPrimitiveN::BytesAppend.into ()),
+			("base", "bytes", "bytevector-length", BytesPrimitive1::BytesLength.into ()),
 			
-			("base", "bytes", "bytevector-u8-ref", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "bytes", "bytevector-u8-ref", BytesPrimitive2::BytesAt.into ()),
 			
-			("base", "bytes", "bytevector-u8-set!", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "bytes", "bytevector-copy!", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "bytes", "bytevector-u8-set!", BytesPrimitive3::BytesAtSet.into ()),
+			("base", "bytes", "bytevector-copy!", BytesPrimitiveN::BytesSliceFill.into ()),
 			
 			
 			

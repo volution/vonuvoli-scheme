@@ -19,6 +19,7 @@ pub mod exports {
 	pub use super::{is_list, is_list_proper, is_list_proper_or_empty, is_list_dotted, is_list_dotted_or_empty, is_list_cyclic, is_list_cyclic_or_empty};
 	
 	pub use super::{is_array, is_array_empty, is_array_not_empty};
+	pub use super::{is_bytes, is_bytes_empty, is_bytes_not_empty};
 	
 	pub use super::{is_procedure, is_syntax};
 	
@@ -200,6 +201,21 @@ pub fn is_array_empty (value : &Value) -> (bool) {
 
 pub fn is_array_not_empty (value : &Value) -> (bool) {
 	return value.is (ValueClass::Array) && !Array::as_ref (value) .values_is_not_empty ();
+}
+
+
+
+
+pub fn is_bytes (value : &Value) -> (bool) {
+	return value.is (ValueClass::Bytes);
+}
+
+pub fn is_bytes_empty (value : &Value) -> (bool) {
+	return value.is (ValueClass::Bytes) && Bytes::as_ref (value) .values_is_empty ();
+}
+
+pub fn is_bytes_not_empty (value : &Value) -> (bool) {
+	return value.is (ValueClass::Bytes) && !Bytes::as_ref (value) .values_is_not_empty ();
 }
 
 
