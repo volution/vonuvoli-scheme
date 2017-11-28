@@ -337,11 +337,7 @@ pub fn arithmetic_primitive_n_evaluate (primitive : ArithmeticPrimitiveN, inputs
 	
 	let inputs_count = inputs.len ();
 	
-	if inputs_count == 1 {
-		
-		succeed! (inputs[0].clone ());
-		
-	} else if inputs_count == 0 {
+	if inputs_count == 0 {
 		match primitive {
 			
 			ArithmeticPrimitiveN::Addition =>
@@ -361,6 +357,28 @@ pub fn arithmetic_primitive_n_evaluate (primitive : ArithmeticPrimitiveN, inputs
 		NumberCoercion1::Real (value) =>
 			value.clone () .into (),
 	};
+	
+	if inputs_count == 1 {
+		output = match primitive {
+			
+			ArithmeticPrimitiveN::Subtraction =>
+				arithmetic_primitive_2_delegate_call! (
+						(&ZERO.into (), &output),
+						(value_1, value_2), try! (NumberInteger::sub (value_1, value_2)),
+						(value_1, value_2), NumberReal::sub (value_1, value_2)),
+			
+			ArithmeticPrimitiveN::Division =>
+				arithmetic_primitive_2_delegate_call! (
+						(&ONE.into (), &output),
+						(value_1, value_2), try! (NumberInteger::div (value_1, value_2)),
+						(value_1, value_2), NumberReal::div (value_1, value_2)),
+			
+			_ =>
+				output,
+			
+		};
+		succeed! (output);
+	}
 	
 	for input in &inputs[1..] {
 		output = match primitive {
