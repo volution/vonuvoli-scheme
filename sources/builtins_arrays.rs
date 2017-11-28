@@ -1,6 +1,7 @@
 
 
 use super::builtins::exports::*;
+use super::constants::exports::*;
 use super::errors::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
@@ -157,7 +158,12 @@ pub fn array_append_n (arrays : &[Value]) -> (Outcome<Value>) {
 
 
 
-pub fn array_make (length : usize, fill : &Value) -> (Outcome<Value>) {
+pub fn array_make (length : usize, fill : Option<&Value>) -> (Outcome<Value>) {
+	let fill = if let Some (fill) = fill {
+		fill.clone ()
+	} else {
+		UNDEFINED.into ()
+	};
 	let mut buffer = StdVec::with_capacity (length);
 	for _index in 0..length {
 		buffer.push (fill.clone ());

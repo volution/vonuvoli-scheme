@@ -157,8 +157,12 @@ pub fn bytes_append_n (bytes : &[Value]) -> (Outcome<Value>) {
 
 
 
-pub fn bytes_make (length : usize, fill : &Value) -> (Outcome<Value>) {
-	let fill = try! (try_as_number_integer_ref! (fill) .try_to_u8 ());
+pub fn bytes_make (length : usize, fill : Option<&Value>) -> (Outcome<Value>) {
+	let fill = if let Some (fill) = fill {
+		try! (try_as_number_integer_ref! (fill) .try_to_u8 ())
+	} else {
+		0 as u8
+	};
 	let mut buffer = StdVec::with_capacity (length);
 	for _index in 0..length {
 		buffer.push (fill);

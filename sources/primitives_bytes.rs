@@ -1,6 +1,5 @@
 
 
-use super::constants::exports::*;
 use super::builtins::exports::*;
 use super::errors::exports::*;
 use super::runtime::exports::*;
@@ -127,7 +126,7 @@ pub fn bytes_primitive_1_evaluate (primitive : BytesPrimitive1, input_1 : &Value
 			return bytes_reverse (input_1),
 		
 		BytesPrimitive1::BytesMake =>
-			return bytes_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), &ZERO.into ()),
+			return bytes_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), None),
 		
 		BytesPrimitive1::BytesBuild =>
 			return bytes_build_1 (input_1),
@@ -148,7 +147,7 @@ pub fn bytes_primitive_2_evaluate (primitive : BytesPrimitive2, input_1 : &Value
 			return bytes_at (input_1, try! (try_as_number_integer_ref! (input_2) .try_to_usize ())),
 		
 		BytesPrimitive2::BytesMake =>
-			return bytes_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), input_2),
+			return bytes_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), Some (input_2)),
 		
 		BytesPrimitive2::BytesBuild =>
 			return bytes_build_2 (input_1, input_2),

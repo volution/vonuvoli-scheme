@@ -1,6 +1,5 @@
 
 
-use super::constants::exports::*;
 use super::builtins::exports::*;
 use super::errors::exports::*;
 use super::runtime::exports::*;
@@ -127,7 +126,7 @@ pub fn array_primitive_1_evaluate (primitive : ArrayPrimitive1, input_1 : &Value
 			return array_reverse (input_1),
 		
 		ArrayPrimitive1::ArrayMake =>
-			return array_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), &UNDEFINED.into ()),
+			return array_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), None),
 		
 		ArrayPrimitive1::ArrayBuild =>
 			succeed! (array_build_1 (input_1)),
@@ -148,7 +147,7 @@ pub fn array_primitive_2_evaluate (primitive : ArrayPrimitive2, input_1 : &Value
 			return array_at (input_1, try! (try_as_number_integer_ref! (input_2) .try_to_usize ())),
 		
 		ArrayPrimitive2::ArrayMake =>
-			return array_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), input_2),
+			return array_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), Some (input_2)),
 		
 		ArrayPrimitive2::ArrayBuild =>
 			succeed! (array_build_2 (input_1, input_2)),

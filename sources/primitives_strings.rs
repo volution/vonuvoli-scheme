@@ -1,6 +1,5 @@
 
 
-use super::constants::exports::*;
 use super::builtins::exports::*;
 use super::errors::exports::*;
 use super::runtime::exports::*;
@@ -127,7 +126,7 @@ pub fn string_primitive_1_evaluate (primitive : StringPrimitive1, input_1 : &Val
 			return string_reverse (input_1),
 		
 		StringPrimitive1::StringMake =>
-			return string_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), &ZERO.into ()),
+			return string_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), None),
 		
 		StringPrimitive1::StringBuild =>
 			return string_build_1 (input_1),
@@ -148,7 +147,7 @@ pub fn string_primitive_2_evaluate (primitive : StringPrimitive2, input_1 : &Val
 			return string_at (input_1, try! (try_as_number_integer_ref! (input_2) .try_to_usize ())),
 		
 		StringPrimitive2::StringMake =>
-			return string_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), input_2),
+			return string_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), Some (input_2)),
 		
 		StringPrimitive2::StringBuild =>
 			return string_build_2 (input_1, input_2),
