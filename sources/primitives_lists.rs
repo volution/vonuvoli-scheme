@@ -86,6 +86,10 @@ pub enum ListPrimitive2 {
 	ListBuild,
 	ListAppend,
 	
+	ListFill,
+	ListCopy,
+	ListSliceClone,
+	
 }
 
 
@@ -98,6 +102,10 @@ pub enum ListPrimitive3 {
 	ListBuild,
 	ListAppend,
 	
+	ListSliceFill,
+	ListSliceCopy,
+	ListSliceClone,
+	
 }
 
 
@@ -106,6 +114,9 @@ pub enum ListPrimitive4 {
 	
 	ListBuild,
 	ListAppend,
+	
+	ListSliceFill,
+	ListSliceCopy,
 	
 }
 
@@ -116,6 +127,10 @@ pub enum ListPrimitiveN {
 	ListMake,
 	ListBuild,
 	ListAppend,
+	
+	ListSliceFill,
+	ListSliceCopy,
+	ListSliceClone,
 	
 }
 
@@ -215,6 +230,15 @@ pub fn list_primitive_2_evaluate (primitive : ListPrimitive2, input_1 : &Value, 
 		ListPrimitive2::ListAppend =>
 			return list_append_2 (input_1, input_2),
 		
+		ListPrimitive2::ListFill =>
+			fail_unimplemented! (0x2965ad12),
+		
+		ListPrimitive2::ListCopy =>
+			fail_unimplemented! (0xf080ccca),
+		
+		ListPrimitive2::ListSliceClone =>
+			fail_unimplemented! (0x39e5d06d),
+		
 	}
 }
 
@@ -236,6 +260,15 @@ pub fn list_primitive_3_evaluate (primitive : ListPrimitive3, input_1 : &Value, 
 		ListPrimitive3::ListAppend =>
 			return list_append_3 (input_1, input_2, input_3),
 		
+		ListPrimitive3::ListSliceFill =>
+			fail_unimplemented! (0x9c91c5a5),
+		
+		ListPrimitive3::ListSliceCopy =>
+			fail_unimplemented! (0x1abfc985),
+		
+		ListPrimitive3::ListSliceClone =>
+			fail_unimplemented! (0xc0e58dd3),
+		
 	}
 }
 
@@ -250,6 +283,12 @@ pub fn list_primitive_4_evaluate (primitive : ListPrimitive4, input_1 : &Value, 
 		
 		ListPrimitive4::ListAppend =>
 			return list_append_4 (input_1, input_2, input_3, input_4),
+		
+		ListPrimitive4::ListSliceFill =>
+			fail_unimplemented! (0x1ecfba7b),
+		
+		ListPrimitive4::ListSliceCopy =>
+			fail_unimplemented! (0xb2f0a4e6),
 		
 	}
 }
@@ -303,6 +342,15 @@ pub fn list_primitive_n_evaluate (primitive : ListPrimitiveN, inputs : &[Value])
 					return list_append_n (inputs),
 			},
 		
+		ListPrimitiveN::ListSliceFill =>
+			fail_unimplemented! (0xecc6c127),
+		
+		ListPrimitiveN::ListSliceCopy =>
+			fail_unimplemented! (0xd8a76758),
+		
+		ListPrimitiveN::ListSliceClone =>
+			fail_unimplemented! (0x36bb3eaf),
+		
 	}
 }
 
@@ -311,36 +359,90 @@ pub fn list_primitive_n_evaluate (primitive : ListPrimitiveN, inputs : &[Value])
 
 pub fn list_primitive_n_alternative_0 (primitive : ListPrimitiveN) -> (Option<ListPrimitive0>) {
 	match primitive {
-		_ => None,
+		ListPrimitiveN::ListMake =>
+			None,
+		ListPrimitiveN::ListBuild =>
+			Some (ListPrimitive0::ListBuild),
+		ListPrimitiveN::ListAppend =>
+			Some (ListPrimitive0::ListAppend),
+		ListPrimitiveN::ListSliceFill =>
+			None,
+		ListPrimitiveN::ListSliceCopy =>
+			None,
+		ListPrimitiveN::ListSliceClone =>
+			None,
 	}
 }
 
 
 pub fn list_primitive_n_alternative_1 (primitive : ListPrimitiveN) -> (Option<ListPrimitive1>) {
 	match primitive {
-		_ => None,
+		ListPrimitiveN::ListMake =>
+			Some (ListPrimitive1::ListMake),
+		ListPrimitiveN::ListBuild =>
+			Some (ListPrimitive1::ListBuild),
+		ListPrimitiveN::ListAppend =>
+			Some (ListPrimitive1::ListAppend),
+		ListPrimitiveN::ListSliceFill =>
+			None,
+		ListPrimitiveN::ListSliceCopy =>
+			None,
+		ListPrimitiveN::ListSliceClone =>
+			Some (ListPrimitive1::ListClone),
 	}
 }
 
 
 pub fn list_primitive_n_alternative_2 (primitive : ListPrimitiveN) -> (Option<ListPrimitive2>) {
 	match primitive {
-		_ => None,
+		ListPrimitiveN::ListMake =>
+			Some (ListPrimitive2::ListMake),
+		ListPrimitiveN::ListBuild =>
+			Some (ListPrimitive2::ListBuild),
+		ListPrimitiveN::ListAppend =>
+			Some (ListPrimitive2::ListAppend),
+		ListPrimitiveN::ListSliceFill =>
+			Some (ListPrimitive2::ListFill),
+		ListPrimitiveN::ListSliceCopy =>
+			Some (ListPrimitive2::ListCopy),
+		ListPrimitiveN::ListSliceClone =>
+			Some (ListPrimitive2::ListSliceClone),
 	}
 }
 
 
 pub fn list_primitive_n_alternative_3 (primitive : ListPrimitiveN) -> (Option<ListPrimitive3>) {
 	match primitive {
-		_ => None,
+		ListPrimitiveN::ListMake =>
+			None,
+		ListPrimitiveN::ListBuild =>
+			Some (ListPrimitive3::ListBuild),
+		ListPrimitiveN::ListAppend =>
+			Some (ListPrimitive3::ListAppend),
+		ListPrimitiveN::ListSliceFill =>
+			Some (ListPrimitive3::ListSliceFill),
+		ListPrimitiveN::ListSliceCopy =>
+			Some (ListPrimitive3::ListSliceCopy),
+		ListPrimitiveN::ListSliceClone =>
+			Some (ListPrimitive3::ListSliceClone),
 	}
 }
 
 
 pub fn list_primitive_n_alternative_4 (primitive : ListPrimitiveN) -> (Option<ListPrimitive4>) {
 	match primitive {
-		_ => None,
+		ListPrimitiveN::ListMake =>
+			None,
+		ListPrimitiveN::ListBuild =>
+			Some (ListPrimitive4::ListBuild),
+		ListPrimitiveN::ListAppend =>
+			Some (ListPrimitive4::ListAppend),
+		ListPrimitiveN::ListSliceFill =>
+			Some (ListPrimitive4::ListSliceFill),
+		ListPrimitiveN::ListSliceCopy =>
+			Some (ListPrimitive4::ListSliceCopy),
+		ListPrimitiveN::ListSliceClone =>
+			None,
 	}
 }
-
 

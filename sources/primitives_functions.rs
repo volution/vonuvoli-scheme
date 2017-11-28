@@ -205,4 +205,3 @@ pub fn functions_primitive_n_alternative_4 (primitive : FunctionsPrimitiveN) -> 
 	}
 }
 
-

@@ -321,4 +321,3 @@ pub fn bitwise_primitive_n_alternative_4 (primitive : BitwisePrimitiveN) -> (Opt
 	}
 }
 
-

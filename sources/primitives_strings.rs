@@ -69,6 +69,10 @@ pub enum StringPrimitive2 {
 	StringBuild,
 	StringAppend,
 	
+	StringFill,
+	StringCopy,
+	StringSliceClone,
+	
 }
 
 
@@ -80,6 +84,10 @@ pub enum StringPrimitive3 {
 	StringBuild,
 	StringAppend,
 	
+	StringSliceFill,
+	StringSliceCopy,
+	StringSliceClone,
+	
 }
 
 
@@ -88,6 +96,9 @@ pub enum StringPrimitive4 {
 	
 	StringBuild,
 	StringAppend,
+	
+	StringSliceFill,
+	StringSliceCopy,
 	
 }
 
@@ -168,6 +179,15 @@ pub fn string_primitive_2_evaluate (primitive : StringPrimitive2, input_1 : &Val
 		StringPrimitive2::StringAppend =>
 			return string_append_2 (input_1, input_2),
 		
+		StringPrimitive2::StringFill =>
+			fail_unimplemented! (0xf85a907b),
+		
+		StringPrimitive2::StringCopy =>
+			fail_unimplemented! (0x1b072e62),
+		
+		StringPrimitive2::StringSliceClone =>
+			fail_unimplemented! (0x2a434dd7),
+		
 	}
 }
 
@@ -186,6 +206,15 @@ pub fn string_primitive_3_evaluate (primitive : StringPrimitive3, input_1 : &Val
 		StringPrimitive3::StringAppend =>
 			return string_append_3 (input_1, input_2, input_3),
 		
+		StringPrimitive3::StringSliceFill =>
+			fail_unimplemented! (0xca5f8433),
+		
+		StringPrimitive3::StringSliceCopy =>
+			fail_unimplemented! (0x0cf648e1),
+		
+		StringPrimitive3::StringSliceClone =>
+			fail_unimplemented! (0x720e7369),
+		
 	}
 }
 
@@ -200,6 +229,12 @@ pub fn string_primitive_4_evaluate (primitive : StringPrimitive4, input_1 : &Val
 		
 		StringPrimitive4::StringAppend =>
 			return string_append_4 (input_1, input_2, input_3, input_4),
+		
+		StringPrimitive4::StringSliceFill =>
+			fail_unimplemented! (0xe334fdbd),
+		
+		StringPrimitive4::StringSliceCopy =>
+			fail_unimplemented! (0xc7aeb8c4),
 		
 	}
 }
@@ -274,36 +309,90 @@ pub fn string_primitive_n_evaluate (primitive : StringPrimitiveN, inputs : &[Val
 
 pub fn string_primitive_n_alternative_0 (primitive : StringPrimitiveN) -> (Option<StringPrimitive0>) {
 	match primitive {
-		_ => None,
+		StringPrimitiveN::StringMake =>
+			None,
+		StringPrimitiveN::StringBuild =>
+			Some (StringPrimitive0::StringBuild),
+		StringPrimitiveN::StringAppend =>
+			Some (StringPrimitive0::StringAppend),
+		StringPrimitiveN::StringSliceFill =>
+			None,
+		StringPrimitiveN::StringSliceCopy =>
+			None,
+		StringPrimitiveN::StringSliceClone =>
+			None,
 	}
 }
 
 
 pub fn string_primitive_n_alternative_1 (primitive : StringPrimitiveN) -> (Option<StringPrimitive1>) {
 	match primitive {
-		_ => None,
+		StringPrimitiveN::StringMake =>
+			Some (StringPrimitive1::StringMake),
+		StringPrimitiveN::StringBuild =>
+			Some (StringPrimitive1::StringBuild),
+		StringPrimitiveN::StringAppend =>
+			Some (StringPrimitive1::StringAppend),
+		StringPrimitiveN::StringSliceFill =>
+			None,
+		StringPrimitiveN::StringSliceCopy =>
+			None,
+		StringPrimitiveN::StringSliceClone =>
+			Some (StringPrimitive1::StringClone),
 	}
 }
 
 
 pub fn string_primitive_n_alternative_2 (primitive : StringPrimitiveN) -> (Option<StringPrimitive2>) {
 	match primitive {
-		_ => None,
+		StringPrimitiveN::StringMake =>
+			Some (StringPrimitive2::StringMake),
+		StringPrimitiveN::StringBuild =>
+			Some (StringPrimitive2::StringBuild),
+		StringPrimitiveN::StringAppend =>
+			Some (StringPrimitive2::StringAppend),
+		StringPrimitiveN::StringSliceFill =>
+			Some (StringPrimitive2::StringFill),
+		StringPrimitiveN::StringSliceCopy =>
+			Some (StringPrimitive2::StringCopy),
+		StringPrimitiveN::StringSliceClone =>
+			Some (StringPrimitive2::StringSliceClone),
 	}
 }
 
 
 pub fn string_primitive_n_alternative_3 (primitive : StringPrimitiveN) -> (Option<StringPrimitive3>) {
 	match primitive {
-		_ => None,
+		StringPrimitiveN::StringMake =>
+			None,
+		StringPrimitiveN::StringBuild =>
+			Some (StringPrimitive3::StringBuild),
+		StringPrimitiveN::StringAppend =>
+			Some (StringPrimitive3::StringAppend),
+		StringPrimitiveN::StringSliceFill =>
+			Some (StringPrimitive3::StringSliceFill),
+		StringPrimitiveN::StringSliceCopy =>
+			Some (StringPrimitive3::StringSliceCopy),
+		StringPrimitiveN::StringSliceClone =>
+			Some (StringPrimitive3::StringSliceClone),
 	}
 }
 
 
 pub fn string_primitive_n_alternative_4 (primitive : StringPrimitiveN) -> (Option<StringPrimitive4>) {
 	match primitive {
-		_ => None,
+		StringPrimitiveN::StringMake =>
+			None,
+		StringPrimitiveN::StringBuild =>
+			Some (StringPrimitive4::StringBuild),
+		StringPrimitiveN::StringAppend =>
+			Some (StringPrimitive4::StringAppend),
+		StringPrimitiveN::StringSliceFill =>
+			Some (StringPrimitive4::StringSliceFill),
+		StringPrimitiveN::StringSliceCopy =>
+			Some (StringPrimitive4::StringSliceCopy),
+		StringPrimitiveN::StringSliceClone =>
+			None,
 	}
 }
-
 

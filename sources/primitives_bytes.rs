@@ -69,6 +69,10 @@ pub enum BytesPrimitive2 {
 	BytesBuild,
 	BytesAppend,
 	
+	BytesFill,
+	BytesCopy,
+	BytesSliceClone,
+	
 }
 
 
@@ -80,6 +84,10 @@ pub enum BytesPrimitive3 {
 	BytesBuild,
 	BytesAppend,
 	
+	BytesSliceFill,
+	BytesSliceCopy,
+	BytesSliceClone,
+	
 }
 
 
@@ -88,6 +96,9 @@ pub enum BytesPrimitive4 {
 	
 	BytesBuild,
 	BytesAppend,
+	
+	BytesSliceFill,
+	BytesSliceCopy,
 	
 }
 
@@ -168,6 +179,15 @@ pub fn bytes_primitive_2_evaluate (primitive : BytesPrimitive2, input_1 : &Value
 		BytesPrimitive2::BytesAppend =>
 			return bytes_append_2 (input_1, input_2),
 		
+		BytesPrimitive2::BytesFill =>
+			fail_unimplemented! (0x4528afb1),
+		
+		BytesPrimitive2::BytesCopy =>
+			fail_unimplemented! (0xac59b811),
+		
+		BytesPrimitive2::BytesSliceClone =>
+			fail_unimplemented! (0xcd4a7888),
+		
 	}
 }
 
@@ -186,6 +206,15 @@ pub fn bytes_primitive_3_evaluate (primitive : BytesPrimitive3, input_1 : &Value
 		BytesPrimitive3::BytesAppend =>
 			return bytes_append_3 (input_1, input_2, input_3),
 		
+		BytesPrimitive3::BytesSliceFill =>
+			fail_unimplemented! (0x20bbd19a),
+		
+		BytesPrimitive3::BytesSliceCopy =>
+			fail_unimplemented! (0x105cc749),
+		
+		BytesPrimitive3::BytesSliceClone =>
+			fail_unimplemented! (0x8b767508),
+		
 	}
 }
 
@@ -200,6 +229,12 @@ pub fn bytes_primitive_4_evaluate (primitive : BytesPrimitive4, input_1 : &Value
 		
 		BytesPrimitive4::BytesAppend =>
 			return bytes_append_4 (input_1, input_2, input_3, input_4),
+		
+		BytesPrimitive4::BytesSliceFill =>
+			fail_unimplemented! (0xb1cb6d46),
+		
+		BytesPrimitive4::BytesSliceCopy =>
+			fail_unimplemented! (0x27459191),
 		
 	}
 }
@@ -274,36 +309,90 @@ pub fn bytes_primitive_n_evaluate (primitive : BytesPrimitiveN, inputs : &[Value
 
 pub fn bytes_primitive_n_alternative_0 (primitive : BytesPrimitiveN) -> (Option<BytesPrimitive0>) {
 	match primitive {
-		_ => None,
+		BytesPrimitiveN::BytesMake =>
+			None,
+		BytesPrimitiveN::BytesBuild =>
+			Some (BytesPrimitive0::BytesBuild),
+		BytesPrimitiveN::BytesAppend =>
+			Some (BytesPrimitive0::BytesAppend),
+		BytesPrimitiveN::BytesSliceFill =>
+			None,
+		BytesPrimitiveN::BytesSliceCopy =>
+			None,
+		BytesPrimitiveN::BytesSliceClone =>
+			None,
 	}
 }
 
 
 pub fn bytes_primitive_n_alternative_1 (primitive : BytesPrimitiveN) -> (Option<BytesPrimitive1>) {
 	match primitive {
-		_ => None,
+		BytesPrimitiveN::BytesMake =>
+			Some (BytesPrimitive1::BytesMake),
+		BytesPrimitiveN::BytesBuild =>
+			Some (BytesPrimitive1::BytesBuild),
+		BytesPrimitiveN::BytesAppend =>
+			Some (BytesPrimitive1::BytesAppend),
+		BytesPrimitiveN::BytesSliceFill =>
+			None,
+		BytesPrimitiveN::BytesSliceCopy =>
+			None,
+		BytesPrimitiveN::BytesSliceClone =>
+			Some (BytesPrimitive1::BytesClone),
 	}
 }
 
 
 pub fn bytes_primitive_n_alternative_2 (primitive : BytesPrimitiveN) -> (Option<BytesPrimitive2>) {
 	match primitive {
-		_ => None,
+		BytesPrimitiveN::BytesMake =>
+			Some (BytesPrimitive2::BytesMake),
+		BytesPrimitiveN::BytesBuild =>
+			Some (BytesPrimitive2::BytesBuild),
+		BytesPrimitiveN::BytesAppend =>
+			Some (BytesPrimitive2::BytesAppend),
+		BytesPrimitiveN::BytesSliceFill =>
+			Some (BytesPrimitive2::BytesFill),
+		BytesPrimitiveN::BytesSliceCopy =>
+			Some (BytesPrimitive2::BytesCopy),
+		BytesPrimitiveN::BytesSliceClone =>
+			Some (BytesPrimitive2::BytesSliceClone),
 	}
 }
 
 
 pub fn bytes_primitive_n_alternative_3 (primitive : BytesPrimitiveN) -> (Option<BytesPrimitive3>) {
 	match primitive {
-		_ => None,
+		BytesPrimitiveN::BytesMake =>
+			None,
+		BytesPrimitiveN::BytesBuild =>
+			Some (BytesPrimitive3::BytesBuild),
+		BytesPrimitiveN::BytesAppend =>
+			Some (BytesPrimitive3::BytesAppend),
+		BytesPrimitiveN::BytesSliceFill =>
+			Some (BytesPrimitive3::BytesSliceFill),
+		BytesPrimitiveN::BytesSliceCopy =>
+			Some (BytesPrimitive3::BytesSliceCopy),
+		BytesPrimitiveN::BytesSliceClone =>
+			Some (BytesPrimitive3::BytesSliceClone),
 	}
 }
 
 
 pub fn bytes_primitive_n_alternative_4 (primitive : BytesPrimitiveN) -> (Option<BytesPrimitive4>) {
 	match primitive {
-		_ => None,
+		BytesPrimitiveN::BytesMake =>
+			None,
+		BytesPrimitiveN::BytesBuild =>
+			Some (BytesPrimitive4::BytesBuild),
+		BytesPrimitiveN::BytesAppend =>
+			Some (BytesPrimitive4::BytesAppend),
+		BytesPrimitiveN::BytesSliceFill =>
+			Some (BytesPrimitive4::BytesSliceFill),
+		BytesPrimitiveN::BytesSliceCopy =>
+			Some (BytesPrimitive4::BytesSliceCopy),
+		BytesPrimitiveN::BytesSliceClone =>
+			None,
 	}
 }
-
 

@@ -69,6 +69,10 @@ pub enum ArrayPrimitive2 {
 	ArrayBuild,
 	ArrayAppend,
 	
+	ArrayFill,
+	ArrayCopy,
+	ArraySliceClone,
+	
 }
 
 
@@ -80,6 +84,10 @@ pub enum ArrayPrimitive3 {
 	ArrayBuild,
 	ArrayAppend,
 	
+	ArraySliceFill,
+	ArraySliceCopy,
+	ArraySliceClone,
+	
 }
 
 
@@ -88,6 +96,9 @@ pub enum ArrayPrimitive4 {
 	
 	ArrayBuild,
 	ArrayAppend,
+	
+	ArraySliceFill,
+	ArraySliceCopy,
 	
 }
 
@@ -168,6 +179,15 @@ pub fn array_primitive_2_evaluate (primitive : ArrayPrimitive2, input_1 : &Value
 		ArrayPrimitive2::ArrayAppend =>
 			return array_append_2 (input_1, input_2),
 		
+		ArrayPrimitive2::ArrayFill =>
+			fail_unimplemented! (0xda8e037a),
+		
+		ArrayPrimitive2::ArrayCopy =>
+			fail_unimplemented! (0x8ac08433),
+		
+		ArrayPrimitive2::ArraySliceClone =>
+			fail_unimplemented! (0x091fd07f),
+		
 	}
 }
 
@@ -186,6 +206,15 @@ pub fn array_primitive_3_evaluate (primitive : ArrayPrimitive3, input_1 : &Value
 		ArrayPrimitive3::ArrayAppend =>
 			return array_append_3 (input_1, input_2, input_3),
 		
+		ArrayPrimitive3::ArraySliceFill =>
+			fail_unimplemented! (0xb2562068),
+		
+		ArrayPrimitive3::ArraySliceCopy =>
+			fail_unimplemented! (0x956afb85),
+		
+		ArrayPrimitive3::ArraySliceClone =>
+			fail_unimplemented! (0x543abc34),
+		
 	}
 }
 
@@ -200,6 +229,12 @@ pub fn array_primitive_4_evaluate (primitive : ArrayPrimitive4, input_1 : &Value
 		
 		ArrayPrimitive4::ArrayAppend =>
 			return array_append_4 (input_1, input_2, input_3, input_4),
+		
+		ArrayPrimitive4::ArraySliceFill =>
+			fail_unimplemented! (0x0ee45a9c),
+		
+		ArrayPrimitive4::ArraySliceCopy =>
+			fail_unimplemented! (0x6c892fe2),
 		
 	}
 }
@@ -274,35 +309,90 @@ pub fn array_primitive_n_evaluate (primitive : ArrayPrimitiveN, inputs : &[Value
 
 pub fn array_primitive_n_alternative_0 (primitive : ArrayPrimitiveN) -> (Option<ArrayPrimitive0>) {
 	match primitive {
-		_ => None,
+		ArrayPrimitiveN::ArrayMake =>
+			None,
+		ArrayPrimitiveN::ArrayBuild =>
+			Some (ArrayPrimitive0::ArrayBuild),
+		ArrayPrimitiveN::ArrayAppend =>
+			Some (ArrayPrimitive0::ArrayAppend),
+		ArrayPrimitiveN::ArraySliceFill =>
+			None,
+		ArrayPrimitiveN::ArraySliceCopy =>
+			None,
+		ArrayPrimitiveN::ArraySliceClone =>
+			None,
 	}
 }
 
 
 pub fn array_primitive_n_alternative_1 (primitive : ArrayPrimitiveN) -> (Option<ArrayPrimitive1>) {
 	match primitive {
-		_ => None,
+		ArrayPrimitiveN::ArrayMake =>
+			Some (ArrayPrimitive1::ArrayMake),
+		ArrayPrimitiveN::ArrayBuild =>
+			Some (ArrayPrimitive1::ArrayBuild),
+		ArrayPrimitiveN::ArrayAppend =>
+			Some (ArrayPrimitive1::ArrayAppend),
+		ArrayPrimitiveN::ArraySliceFill =>
+			None,
+		ArrayPrimitiveN::ArraySliceCopy =>
+			None,
+		ArrayPrimitiveN::ArraySliceClone =>
+			Some (ArrayPrimitive1::ArrayClone),
 	}
 }
 
 
 pub fn array_primitive_n_alternative_2 (primitive : ArrayPrimitiveN) -> (Option<ArrayPrimitive2>) {
 	match primitive {
-		_ => None,
+		ArrayPrimitiveN::ArrayMake =>
+			Some (ArrayPrimitive2::ArrayMake),
+		ArrayPrimitiveN::ArrayBuild =>
+			Some (ArrayPrimitive2::ArrayBuild),
+		ArrayPrimitiveN::ArrayAppend =>
+			Some (ArrayPrimitive2::ArrayAppend),
+		ArrayPrimitiveN::ArraySliceFill =>
+			Some (ArrayPrimitive2::ArrayFill),
+		ArrayPrimitiveN::ArraySliceCopy =>
+			Some (ArrayPrimitive2::ArrayCopy),
+		ArrayPrimitiveN::ArraySliceClone =>
+			Some (ArrayPrimitive2::ArraySliceClone),
 	}
 }
 
 
 pub fn array_primitive_n_alternative_3 (primitive : ArrayPrimitiveN) -> (Option<ArrayPrimitive3>) {
 	match primitive {
-		_ => None,
+		ArrayPrimitiveN::ArrayMake =>
+			None,
+		ArrayPrimitiveN::ArrayBuild =>
+			Some (ArrayPrimitive3::ArrayBuild),
+		ArrayPrimitiveN::ArrayAppend =>
+			Some (ArrayPrimitive3::ArrayAppend),
+		ArrayPrimitiveN::ArraySliceFill =>
+			Some (ArrayPrimitive3::ArraySliceFill),
+		ArrayPrimitiveN::ArraySliceCopy =>
+			Some (ArrayPrimitive3::ArraySliceCopy),
+		ArrayPrimitiveN::ArraySliceClone =>
+			Some (ArrayPrimitive3::ArraySliceClone),
 	}
 }
 
 
 pub fn array_primitive_n_alternative_4 (primitive : ArrayPrimitiveN) -> (Option<ArrayPrimitive4>) {
 	match primitive {
-		_ => None,
+		ArrayPrimitiveN::ArrayMake =>
+			None,
+		ArrayPrimitiveN::ArrayBuild =>
+			Some (ArrayPrimitive4::ArrayBuild),
+		ArrayPrimitiveN::ArrayAppend =>
+			Some (ArrayPrimitive4::ArrayAppend),
+		ArrayPrimitiveN::ArraySliceFill =>
+			Some (ArrayPrimitive4::ArraySliceFill),
+		ArrayPrimitiveN::ArraySliceCopy =>
+			Some (ArrayPrimitive4::ArraySliceCopy),
+		ArrayPrimitiveN::ArraySliceClone =>
+			None,
 	}
 }
 

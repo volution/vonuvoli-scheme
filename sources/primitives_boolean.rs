@@ -301,4 +301,3 @@ pub fn boolean_primitive_n_alternative_4 (primitive : BooleanPrimitiveN) -> (Opt
 	}
 }
 
-
