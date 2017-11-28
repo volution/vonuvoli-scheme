@@ -6,11 +6,13 @@ use super::primitives::exports::*;
 use super::procedures::exports::*;
 use super::runtime::exports::*;
 
+use std::char;
 use std::cmp;
 use std::fmt;
 use std::hash;
 use std::ops;
 use std::ptr;
+use std::str;
 
 
 
@@ -422,6 +424,15 @@ impl NumberInteger {
 	NumberInteger_fn_try_to_unsigned_integer! (try_to_u32, u32);
 	NumberInteger_fn_try_to_unsigned_integer! (try_to_u64, u64);
 	NumberInteger_fn_try_to_unsigned_integer! (try_to_usize, usize);
+	
+	pub fn try_to_char (&self) -> (Outcome<char>) {
+		let value = try! (self.try_to_u32 ());
+		if let Some (value) = char::from_u32 (value) {
+			succeed! (value);
+		} else {
+			fail! (0x36d5ef86);
+		}
+	}
 	
 	
 	pub fn neg (&self) -> (Outcome<NumberInteger>) {
@@ -1015,12 +1026,24 @@ impl Symbol {
 		!self.string_ref () .is_empty ()
 	}
 	
-	pub fn string_length (&self) -> (usize) {
+	pub fn string_eq (&self, other : &str) -> (bool) {
+		self.string_ref () .eq (other)
+	}
+	
+	pub fn string_utf8_bytes_count (&self) -> (usize) {
 		self.string_ref () .len ()
 	}
 	
-	pub fn string_eq (&self, other : &str) -> (bool) {
-		self.string_ref () .eq (other)
+	pub fn string_chars (&self) -> (str::Chars) {
+		self.string_ref () .chars ()
+	}
+	
+	pub fn string_chars_count_compute (&self) -> (usize) {
+		self.string_chars () .count ()
+	}
+	
+	pub fn string_char_at_compute (&self, index : usize) -> (Option<char>) {
+		self.string_chars () .nth (index)
 	}
 	
 }
@@ -1085,12 +1108,24 @@ impl String {
 		!self.string_ref () .is_empty ()
 	}
 	
-	pub fn string_length (&self) -> (usize) {
+	pub fn string_eq (&self, other : &str) -> (bool) {
+		self.string_ref () .eq (other)
+	}
+	
+	pub fn string_utf8_bytes_count (&self) -> (usize) {
 		self.string_ref () .len ()
 	}
 	
-	pub fn string_eq (&self, other : &str) -> (bool) {
-		self.string_ref () .eq (other)
+	pub fn string_chars (&self) -> (str::Chars) {
+		self.string_ref () .chars ()
+	}
+	
+	pub fn string_chars_count_compute (&self) -> (usize) {
+		self.string_chars () .count ()
+	}
+	
+	pub fn string_char_at_compute (&self, index : usize) -> (Option<char>) {
+		self.string_chars () .nth (index)
 	}
 	
 }
