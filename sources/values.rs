@@ -251,6 +251,14 @@ pub type BooleanVec = StdVec<Boolean>;
 
 impl Boolean {
 	
+	pub fn value (&self) -> (bool) {
+		self.0
+	}
+}
+
+
+impl Boolean {
+	
 	pub fn not (&self) -> (Boolean) {
 		(!self.0) .into ()
 	}
@@ -311,6 +319,14 @@ pub type NumberIntegerBox = StdBox<NumberInteger>;
 pub type NumberIntegerVec = StdVec<NumberInteger>;
 
 
+impl NumberInteger {
+	
+	pub fn value (&self) -> (i64) {
+		self.0
+	}
+}
+
+
 macro_rules! NumberInteger_fn_try_to_signed_integer {
 	($export : ident, $type : ty) => (
 		pub fn $export (&self) -> (Outcome<$type>) {
@@ -330,7 +346,6 @@ macro_rules! NumberInteger_fn_try_to_signed_integer {
 		}
 	);
 }
-
 
 macro_rules! NumberInteger_fn_try_to_unsigned_integer {
 	($export : ident, $type : ty) => (
@@ -754,6 +769,14 @@ pub type NumberRealBox = StdBox<NumberReal>;
 pub type NumberRealVec = StdVec<NumberReal>;
 
 
+impl NumberReal {
+	
+	pub fn value (&self) -> (f64) {
+		self.0
+	}
+}
+
+
 macro_rules! NumberReal_fn_predicate {
 	($delegate : ident) => (
 		NumberReal_fn_predicate! ($delegate, $delegate);
@@ -975,6 +998,14 @@ pub struct Character ( pub char );
 
 pub type CharacterBox = StdBox<Character>;
 pub type CharacterVec = StdVec<Character>;
+
+
+impl Character {
+	
+	pub fn value (&self) -> (char) {
+		self.0
+	}
+}
 
 
 impl fmt::Display for Character {
