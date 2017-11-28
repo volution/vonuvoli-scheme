@@ -1,0 +1,20 @@
+
+(vector-map + #()) => #();
+
+(vector-map + #(1 2) #(3 4)) => #(4 6);
+(vector-map + #(1 2 0) #(3 4)) => #(4 6);
+(vector-map + #(1 2) #(3 4 0)) => #(4 6);
+
+(vector-map not #() #()) => !fixme #();
+
+
+
+
+(vector-for-each + #()) => #void;
+
+(vector-for-each + #(1 2) #(3 4)) => #void;
+(vector-for-each + #(1 2 0) #(3 4)) => #void;
+(vector-for-each + #(1 2) #(3 4 0)) => #void;
+
+(vector-for-each not #() #()) => !fixme #void;
+

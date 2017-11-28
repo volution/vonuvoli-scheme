@@ -1,0 +1,26 @@
+
+
+(define (+-char char_1 char_2)
+	char_1)
+=> !ignore;
+
+
+(string-map +-char #string()) => #string();
+
+(string-map +-char #string(1 2) #string(3 4)) => #string(1 2);
+(string-map +-char #string(1 2 0) #string(3 4)) => #string(1 2);
+(string-map +-char #string(1 2) #string(3 4 0)) => #string(1 2);
+
+(string-map not #string() #string()) => !fixme #string();
+
+
+
+
+(string-for-each +-char #string()) => #void;
+
+(string-for-each +-char #string(1 2) #string(3 4)) => #void;
+(string-for-each +-char #string(1 2 0) #string(3 4)) => #void;
+(string-for-each +-char #string(1 2) #string(3 4 0)) => #void;
+
+(string-for-each not #string() #string()) => !fixme #void;
+

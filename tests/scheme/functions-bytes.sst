@@ -1,0 +1,20 @@
+
+(~bytevector-u8-map + #u8()) => #u8();
+
+(~bytevector-u8-map + #u8(1 2) #u8(3 4)) => #u8(4 6);
+(~bytevector-u8-map + #u8(1 2 0) #u8(3 4)) => #u8(4 6);
+(~bytevector-u8-map + #u8(1 2) #u8(3 4 0)) => #u8(4 6);
+
+(~bytevector-u8-map not #u8() #u8()) => !fixme #u8();
+
+
+
+
+(~bytevector-u8-for-each + #u8()) => #void;
+
+(~bytevector-u8-for-each + #u8(1 2) #u8(3 4)) => #void;
+(~bytevector-u8-for-each + #u8(1 2 0) #u8(3 4)) => #void;
+(~bytevector-u8-for-each + #u8(1 2) #u8(3 4 0)) => #void;
+
+(~bytevector-u8-for-each not #u8() #u8()) => !fixme #void;
+
