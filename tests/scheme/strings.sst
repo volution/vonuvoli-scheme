@@ -1,0 +1,91 @@
+
+(string) => #string();
+
+(string #\x0) => #string(0);
+(string #\x0 #\x1) => #string(0 1);
+(string #\x0 #\x1 #\x2) => #string(0 1 2);
+(string #\x0 #\x1 #\x2 #\x3) => #string(0 1 2 3);
+(string #\x0 #\x1 #\x2 #\x3 #\x4) => #string(0 1 2 3 4);
+(string #\x0 #\x1 #\x2 #\x3 #\x4 #\x5) => #string(0 1 2 3 4 5);
+(string #\x0 #\x1 #\x2 #\x3 #\x4 #\x5 #\x6) => #string(0 1 2 3 4 5 6);
+
+
+
+
+(make-string 0) => #string();
+(make-string 1) => #string(0);
+(make-string 2) => #string(0 0);
+(make-string 3) => #string(0 0 0);
+
+(make-string 0 #\x0) => #string();
+(make-string 1 #\x0) => #string(0);
+(make-string 2 #\x0) => #string(0 0);
+(make-string 3 #\x0) => #string(0 0 0);
+
+
+
+
+(string-copy #string()) => #string();
+
+(string-copy #string(0)) => #string(0);
+(string-copy #string(0 1)) => #string(0 1);
+(string-copy #string(0 1 2)) => #string(0 1 2);
+
+
+
+
+(string-length #string()) => 0;
+
+(string-length #string(0)) => 1;
+(string-length #string(0 1)) => 2;
+(string-length #string(0 1 2)) => 3;
+
+
+
+
+(string-append) => #string();
+(string-append #string()) => #string();
+(string-append #string() #string()) => #string();
+
+(string-append #string(0)) => #string(0);
+(string-append #string() #string(0)) => #string(0);
+(string-append #string() #string() #string(0)) => #string(0);
+
+(string-append #string(0 1)) => #string(0 1);
+(string-append #string(0) #string(1)) => #string(0 1);
+
+(string-append #string(0 1)) => #string(0 1);
+(string-append #string(0) #string(1)) => #string(0 1);
+
+(string-append #string(0 1 2)) => #string(0 1 2);
+(string-append #string(0 1) #string(2)) => #string(0 1 2);
+(string-append #string(0) #string(1) #string(2)) => #string(0 1 2);
+
+(string-append #string(0 1 2)) => #string(0 1 2);
+(string-append #string(0 1) #string(2)) => #string(0 1 2);
+(string-append #string(0) #string(1) #string(2)) => #string(0 1 2);
+
+(string-append #string(0)) => #string(0);
+(string-append #string(0) #string(1)) => #string(0 1);
+(string-append #string(0) #string(1) #string(2)) => #string(0 1 2);
+(string-append #string(0) #string(1) #string(2) #string(3)) => #string(0 1 2 3);
+(string-append #string(0) #string(1) #string(2) #string(3) #string(4)) => #string(0 1 2 3 4);
+(string-append #string(0) #string(1) #string(2) #string(3) #string(4) #string(5)) => #string(0 1 2 3 4 5);
+(string-append #string(0) #string(1) #string(2) #string(3) #string(4) #string(5) #string(6)) => #string(0 1 2 3 4 5 6);
+
+
+
+
+(~string-reverse #string()) => #string();
+(~string-reverse #string(0)) => #string(0);
+(~string-reverse #string(0 1)) => #string(1 0);
+(~string-reverse #string(0 1 2)) => #string(2 1 0);
+(~string-reverse #string(0 1 2 3)) => #string(3 2 1 0);
+
+
+
+
+(string-ref #string(0) 0) => #\x0;
+(string-ref #string(0 1) 1) => #\x1;
+(string-ref #string(0 1 2) 2) => #\x2;
+

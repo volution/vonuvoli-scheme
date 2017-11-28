@@ -51,6 +51,8 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("nor", BooleanPrimitiveN::Nor.into ()),
 			("nxor", BooleanPrimitiveN::Nxor.into ()),
 			
+			("string-reverse", StringPrimitive1::StringReverse.into ()),
+			
 			("bytevector-reverse", BytesPrimitive1::BytesReverse.into ()),
 			("bytevector-u8-fill", BytesPrimitiveN::BytesSliceFill.into ()),
 			

@@ -19,5 +19,6 @@ def_tests_from_file! (
 		functions => "scheme/functions.sst",
 		arrays => "scheme/arrays.sst",
 		bytes => "scheme/bytes.sst",
+		strings => "scheme/strings.sst",
 	);
 
