@@ -1,28 +1,47 @@
 
-(map + '()) => '();
-
-(map + '(1 2) '(3 4)) => '(4 6);
-(map + '(1 2 0) '(3 4)) => '(4 6);
-(map + '(1 2) '(3 4 0)) => '(4 6);
-
-(map - '(1 2) '(4 3)) => '(-3 -1);
-(map - '(1 2 0) '(4 3)) => '(-3 -1);
-(map - '(1 2) '(4 3 0)) => '(-3 -1);
-
-(map not '() '()) => !fixme '();
+(define (fn-1 value_1) (+ value_1)) => !ignore;
+(define (fn-2 value_1 value_2) (+ value_1 value_2)) => !ignore;
 
 
 
 
-(for-each + '()) => #void;
+(map fn-1 '()) => '();
+(map fn-1 '() '()) => !fixme '();
 
-(for-each + '(1 2) '(3 4)) => #void;
-(for-each + '(1 2 0) '(3 4)) => #void;
-(for-each + '(1 2) '(3 4 0)) => #void;
+(map fn-2 '()) => !fixme '();
+(map fn-2 '() '()) => '();
 
-(for-each - '(1 2) '(4 3)) => #void;
-(for-each - '(1 2 0) '(4 3)) => #void;
-(for-each - '(1 2) '(4 3 0)) => #void;
+(map fn-2 '(1 2) '(3 4)) => '(4 6);
+(map fn-2 '(1 2 0) '(3 4)) => '(4 6);
+(map fn-2 '(1 2) '(3 4 0)) => '(4 6);
 
-(for-each not '() '()) => !fixme #void;
+
+
+
+(for-each fn-1 '()) => #void;
+(for-each fn-1 '() '()) => !fixme #void;
+
+(for-each fn-2 '()) => !fixme #void;
+(for-each fn-2 '() '()) => #void;
+
+(for-each fn-2 '(1 2) '(3 4)) => #void;
+(for-each fn-2 '(1 2 0) '(3 4)) => #void;
+(for-each fn-2 '(1 2) '(3 4 0)) => #void;
+
+
+
+
+(map fn-1 '()) => '();
+(map fn-1 '(0)) => '(0);
+(map fn-1 '(0 1)) => '(0 1);
+(map fn-1 '(0 1 2)) => '(0 1 2);
+(map fn-1 '(0 1 2 3)) => '(0 1 2 3);
+(map fn-1 '(0 1 2 3 4)) => '(0 1 2 3 4);
+
+(for-each fn-1 '()) => #void;
+(for-each fn-1 '(0)) => #void;
+(for-each fn-1 '(0 1)) => #void;
+(for-each fn-1 '(0 1 2)) => #void;
+(for-each fn-1 '(0 1 2 3)) => #void;
+(for-each fn-1 '(0 1 2 3 4)) => #void;
 

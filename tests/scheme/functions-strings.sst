@@ -1,26 +1,47 @@
 
-
-(define (+-char char_1 char_2)
-	char_1)
-=> !ignore;
-
-
-(string-map +-char #string()) => #string();
-
-(string-map +-char #string(1 2) #string(3 4)) => #string(1 2);
-(string-map +-char #string(1 2 0) #string(3 4)) => #string(1 2);
-(string-map +-char #string(1 2) #string(3 4 0)) => #string(1 2);
-
-(string-map not #string() #string()) => !fixme #string();
+(define (fn-1 value_1) value_1) => !ignore;
+(define (fn-2 value_1 value_2) value_1) => !ignore;
 
 
 
 
-(string-for-each +-char #string()) => #void;
+(string-map fn-1 #string()) => #string();
+(string-map fn-1 #string() #string()) => !fixme #string();
 
-(string-for-each +-char #string(1 2) #string(3 4)) => #void;
-(string-for-each +-char #string(1 2 0) #string(3 4)) => #void;
-(string-for-each +-char #string(1 2) #string(3 4 0)) => #void;
+(string-map fn-2 #string()) => !fixme #string();
+(string-map fn-2 #string() #string()) => #string();
 
-(string-for-each not #string() #string()) => !fixme #void;
+(string-map fn-2 #string(1 2) #string(3 4)) => #string(1 2);
+(string-map fn-2 #string(1 2 0) #string(3 4)) => #string(1 2);
+(string-map fn-2 #string(1 2) #string(3 4 0)) => #string(1 2);
+
+
+
+
+(string-for-each fn-1 #string()) => #void;
+(string-for-each fn-1 #string() #string()) => !fixme #void;
+
+(string-for-each fn-2 #string()) => !fixme #void;
+(string-for-each fn-2 #string() #string()) => #void;
+
+(string-for-each fn-2 #string(1 2) #string(3 4)) => #void;
+(string-for-each fn-2 #string(1 2 0) #string(3 4)) => #void;
+(string-for-each fn-2 #string(1 2) #string(3 4 0)) => #void;
+
+
+
+
+(string-map fn-1 #string()) => #string();
+(string-map fn-1 #string(0)) => #string(0);
+(string-map fn-1 #string(0 1)) => #string(0 1);
+(string-map fn-1 #string(0 1 2)) => #string(0 1 2);
+(string-map fn-1 #string(0 1 2 3)) => #string(0 1 2 3);
+(string-map fn-1 #string(0 1 2 3 4)) => #string(0 1 2 3 4);
+
+(string-for-each fn-1 #string()) => #void;
+(string-for-each fn-1 #string(0)) => #void;
+(string-for-each fn-1 #string(0 1)) => #void;
+(string-for-each fn-1 #string(0 1 2)) => #void;
+(string-for-each fn-1 #string(0 1 2 3)) => #void;
+(string-for-each fn-1 #string(0 1 2 3 4)) => #void;
 

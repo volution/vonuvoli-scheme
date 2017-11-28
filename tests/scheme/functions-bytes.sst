@@ -1,20 +1,47 @@
 
-(~bytevector-u8-map + #u8()) => #u8();
-
-(~bytevector-u8-map + #u8(1 2) #u8(3 4)) => #u8(4 6);
-(~bytevector-u8-map + #u8(1 2 0) #u8(3 4)) => #u8(4 6);
-(~bytevector-u8-map + #u8(1 2) #u8(3 4 0)) => #u8(4 6);
-
-(~bytevector-u8-map not #u8() #u8()) => !fixme #u8();
+(define (fn-1 value_1) (+ value_1)) => !ignore;
+(define (fn-2 value_1 value_2) (+ value_1 value_2)) => !ignore;
 
 
 
 
-(~bytevector-u8-for-each + #u8()) => #void;
+(~bytevector-u8-map fn-1 #u8()) => #u8();
+(~bytevector-u8-map fn-1 #u8() #u8()) => !fixme #u8();
 
-(~bytevector-u8-for-each + #u8(1 2) #u8(3 4)) => #void;
-(~bytevector-u8-for-each + #u8(1 2 0) #u8(3 4)) => #void;
-(~bytevector-u8-for-each + #u8(1 2) #u8(3 4 0)) => #void;
+(~bytevector-u8-map fn-2 #u8()) => !fixme #u8();
+(~bytevector-u8-map fn-2 #u8() #u8()) => #u8();
 
-(~bytevector-u8-for-each not #u8() #u8()) => !fixme #void;
+(~bytevector-u8-map fn-2 #u8(1 2) #u8(3 4)) => #u8(4 6);
+(~bytevector-u8-map fn-2 #u8(1 2 0) #u8(3 4)) => #u8(4 6);
+(~bytevector-u8-map fn-2 #u8(1 2) #u8(3 4 0)) => #u8(4 6);
+
+
+
+
+(~bytevector-u8-for-each fn-1 #u8()) => #void;
+(~bytevector-u8-for-each fn-1 #u8() #u8()) => !fixme #void;
+
+(~bytevector-u8-for-each fn-2 #u8()) => !fixme #void;
+(~bytevector-u8-for-each fn-2 #u8() #u8()) => #void;
+
+(~bytevector-u8-for-each fn-2 #u8(1 2) #u8(3 4)) => #void;
+(~bytevector-u8-for-each fn-2 #u8(1 2 0) #u8(3 4)) => #void;
+(~bytevector-u8-for-each fn-2 #u8(1 2) #u8(3 4 0)) => #void;
+
+
+
+
+(~bytevector-u8-map fn-1 #u8()) => #u8();
+(~bytevector-u8-map fn-1 #u8(0)) => #u8(0);
+(~bytevector-u8-map fn-1 #u8(0 1)) => #u8(0 1);
+(~bytevector-u8-map fn-1 #u8(0 1 2)) => #u8(0 1 2);
+(~bytevector-u8-map fn-1 #u8(0 1 2 3)) => #u8(0 1 2 3);
+(~bytevector-u8-map fn-1 #u8(0 1 2 3 4)) => #u8(0 1 2 3 4);
+
+(~bytevector-u8-for-each fn-1 #u8()) => #void;
+(~bytevector-u8-for-each fn-1 #u8(0)) => #void;
+(~bytevector-u8-for-each fn-1 #u8(0 1)) => #void;
+(~bytevector-u8-for-each fn-1 #u8(0 1 2)) => #void;
+(~bytevector-u8-for-each fn-1 #u8(0 1 2 3)) => #void;
+(~bytevector-u8-for-each fn-1 #u8(0 1 2 3 4)) => #void;
 
