@@ -195,14 +195,17 @@ macro_rules! impl_from_for_primitive_procedure_2 {
 
 impl_from_for_primitive_procedure_2! (TypePrimitive1, ProcedurePrimitive1, Primitive1, Type);
 
+impl_from_for_primitive_procedure_2! (BooleanPrimitive0, ProcedurePrimitive0, Primitive0, Boolean);
 impl_from_for_primitive_procedure_2! (BooleanPrimitive1, ProcedurePrimitive1, Primitive1, Boolean);
 impl_from_for_primitive_procedure_2! (BooleanPrimitive2, ProcedurePrimitive2, Primitive2, Boolean);
 impl_from_for_primitive_procedure_2! (BooleanPrimitiveN, ProcedurePrimitiveN, PrimitiveN, Boolean);
 
+impl_from_for_primitive_procedure_2! (ArithmeticPrimitive0, ProcedurePrimitive0, Primitive0, Arithmetic);
 impl_from_for_primitive_procedure_2! (ArithmeticPrimitive1, ProcedurePrimitive1, Primitive1, Arithmetic);
 impl_from_for_primitive_procedure_2! (ArithmeticPrimitive2, ProcedurePrimitive2, Primitive2, Arithmetic);
 impl_from_for_primitive_procedure_2! (ArithmeticPrimitiveN, ProcedurePrimitiveN, PrimitiveN, Arithmetic);
 
+impl_from_for_primitive_procedure_2! (BitwisePrimitive0, ProcedurePrimitive0, Primitive0, Bitwise);
 impl_from_for_primitive_procedure_2! (BitwisePrimitive1, ProcedurePrimitive1, Primitive1, Bitwise);
 impl_from_for_primitive_procedure_2! (BitwisePrimitive2, ProcedurePrimitive2, Primitive2, Bitwise);
 impl_from_for_primitive_procedure_2! (BitwisePrimitiveN, ProcedurePrimitiveN, PrimitiveN, Bitwise);
@@ -460,6 +463,33 @@ pub enum NumberCoercion2 {
 	Integer ( NumberInteger, NumberInteger ),
 	Real ( NumberReal, NumberReal ),
 }
+
+
+impl NumberCoercion1 {
+	
+	pub fn into_value (self) -> (Value) {
+		match self {
+			NumberCoercion1::Integer (number) =>
+				number.into (),
+			NumberCoercion1::Real (number) =>
+				number.into (),
+		}
+	}
+}
+
+
+impl NumberCoercion2 {
+	
+	pub fn into_values (self) -> ((Value, Value)) {
+		match self {
+			NumberCoercion2::Integer (number_1, number_2) =>
+				(number_1.into (), number_2.into ()),
+			NumberCoercion2::Real (number_1, number_2) =>
+				(number_1.into (), number_2.into ()),
+		}
+	}
+}
+
 
 pub fn number_coerce_1 (right : &Value) -> (Outcome<NumberCoercion1>) {
 	match right {

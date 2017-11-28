@@ -8,18 +8,48 @@ use super::values::exports::*;
 
 
 pub mod exports {
+	
+	pub use super::BooleanPrimitive0;
 	pub use super::BooleanPrimitive1;
 	pub use super::BooleanPrimitive2;
 	pub use super::BooleanPrimitiveN;
+	
+	pub use super::boolean_primitive_0_evaluate;
+	pub use super::boolean_primitive_1_evaluate;
+	pub use super::boolean_primitive_2_evaluate;
+	pub use super::boolean_primitive_n_evaluate;
+	
 }
 
 
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+pub enum BooleanPrimitive0 {
+	
+	And,
+	Or,
+	Xor,
+	
+	Nand,
+	Nor,
+	Nxor,
+	
+}
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
 pub enum BooleanPrimitive1 {
 	
 	Not,
+	
+	And,
+	Or,
+	Xor,
+	
+	Nand,
+	Nor,
+	Nxor,
 	
 }
 
@@ -54,6 +84,36 @@ pub enum BooleanPrimitiveN {
 
 
 
+pub fn boolean_primitive_0_evaluate (primitive : BooleanPrimitive0) -> (Outcome<Value>) {
+	
+	let output = match primitive {
+		
+		BooleanPrimitive0::And =>
+			TRUE,
+		
+		BooleanPrimitive0::Or =>
+			FALSE,
+		
+		BooleanPrimitive0::Xor =>
+			TRUE,
+		
+		BooleanPrimitive0::Nand =>
+			FALSE,
+		
+		BooleanPrimitive0::Nor =>
+			TRUE,
+		
+		BooleanPrimitive0::Nxor =>
+			FALSE,
+		
+	};
+	
+	succeed! (output.into ());
+}
+
+
+
+
 pub fn boolean_primitive_1_evaluate (primitive : BooleanPrimitive1, input_1 : &Value) -> (Outcome<Value>) {
 	
 	let input_1 = try_as_boolean_ref! (input_1);
@@ -62,6 +122,24 @@ pub fn boolean_primitive_1_evaluate (primitive : BooleanPrimitive1, input_1 : &V
 		
 		BooleanPrimitive1::Not =>
 			input_1.not (),
+		
+		BooleanPrimitive1::And =>
+			input_1.clone (),
+		
+		BooleanPrimitive1::Or =>
+			input_1.clone (),
+		
+		BooleanPrimitive1::Xor =>
+			FALSE.into (),
+		
+		BooleanPrimitive1::Nand =>
+			input_1.not (),
+		
+		BooleanPrimitive1::Nor =>
+			input_1.not (),
+		
+		BooleanPrimitive1::Nxor =>
+			TRUE.into (),
 		
 	};
 	

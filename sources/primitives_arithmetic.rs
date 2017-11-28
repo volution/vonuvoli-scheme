@@ -9,12 +9,33 @@ use super::values::exports::*;
 
 
 pub mod exports {
+	
+	pub use super::ArithmeticPrimitive0;
 	pub use super::ArithmeticPrimitive1;
 	pub use super::ArithmeticPrimitive2;
 	pub use super::ArithmeticPrimitiveN;
+	
+	pub use super::arithmetic_primitive_0_evaluate;
+	pub use super::arithmetic_primitive_1_evaluate;
+	pub use super::arithmetic_primitive_2_evaluate;
+	pub use super::arithmetic_primitive_n_evaluate;
+	
+	pub use super::arithmetic_primitive_n_alternative_0;
+	pub use super::arithmetic_primitive_n_alternative_1;
+	pub use super::arithmetic_primitive_n_alternative_2;
+	
 }
 
 
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+pub enum ArithmeticPrimitive0 {
+	
+	Addition,
+	Multiplication,
+	
+}
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
@@ -58,6 +79,14 @@ pub enum ArithmeticPrimitive1 {
 	Asin,
 	Acos,
 	Atan,
+	
+	Addition,
+	Subtraction,
+	Multiplication,
+	Division,
+	
+	Minimum,
+	Maximum,
 	
 }
 
@@ -135,15 +164,37 @@ macro_rules! arithmetic_primitive_2_delegate_call {
 
 
 
+pub fn arithmetic_primitive_0_evaluate (primitive : ArithmeticPrimitive0) -> (Outcome<Value>) {
+	
+	let output : Value = match primitive {
+		
+		ArithmeticPrimitive0::Addition =>
+			ZERO.into (),
+		
+		ArithmeticPrimitive0::Multiplication =>
+			ONE.into (),
+		
+	};
+	
+	succeed! (output);
+}
+
+
+
+
 pub fn arithmetic_primitive_1_evaluate (primitive : ArithmeticPrimitive1, input_1 : &Value) -> (Outcome<Value>) {
 	
 	let output : Value = match primitive {
 		
 		ArithmeticPrimitive1::IsComplex =>
-			TRUE.into (),
+			arithmetic_primitive_1_delegate_call! (input_1,
+					_value, TRUE,
+					_value, TRUE),
 		
 		ArithmeticPrimitive1::IsReal =>
-			TRUE.into (),
+			arithmetic_primitive_1_delegate_call! (input_1,
+					_value, TRUE,
+					_value, TRUE),
 		
 		ArithmeticPrimitive1::IsRational =>
 			arithmetic_primitive_1_delegate_call! (input_1,
@@ -272,6 +323,30 @@ pub fn arithmetic_primitive_1_evaluate (primitive : ArithmeticPrimitive1, input_
 		ArithmeticPrimitive1::Atan =>
 			arithmetic_primitive_1_delegate_call! (atan, input_1),
 		
+		ArithmeticPrimitive1::Addition =>
+			try! (number_coerce_1 (input_1)) .into_value (),
+		
+		ArithmeticPrimitive1::Subtraction =>
+			arithmetic_primitive_2_delegate_call! (
+					(&ZERO.into (), &input_1),
+					(value_1, value_2), try! (NumberInteger::sub (value_1, value_2)),
+					(value_1, value_2), NumberReal::sub (value_1, value_2)),
+		
+		ArithmeticPrimitive1::Multiplication =>
+			try! (number_coerce_1 (input_1)) .into_value (),
+		
+		ArithmeticPrimitive1::Division =>
+			arithmetic_primitive_2_delegate_call! (
+					(&ONE.into (), &input_1),
+					(value_1, value_2), try! (NumberInteger::div (value_1, value_2)),
+					(value_1, value_2), NumberReal::div (value_1, value_2)),
+		
+		ArithmeticPrimitive1::Minimum =>
+			try! (number_coerce_1 (input_1)) .into_value (),
+		
+		ArithmeticPrimitive1::Maximum =>
+			try! (number_coerce_1 (input_1)) .into_value (),
+		
 	};
 	
 	succeed! (output);
@@ -351,12 +426,7 @@ pub fn arithmetic_primitive_n_evaluate (primitive : ArithmeticPrimitiveN, inputs
 		}
 	}
 	
-	let mut output : Value = match try! (number_coerce_1 (&inputs[0])) {
-		NumberCoercion1::Integer (value) =>
-			value.clone () .into (),
-		NumberCoercion1::Real (value) =>
-			value.clone () .into (),
-	};
+	let mut output : Value = try! (number_coerce_1 (&inputs[0])) .into_value ();
 	
 	if inputs_count == 1 {
 		output = match primitive {

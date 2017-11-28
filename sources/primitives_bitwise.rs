@@ -9,10 +9,13 @@ use super::values::exports::*;
 
 
 pub mod exports {
+	
+	pub use super::BitwisePrimitive0;
 	pub use super::BitwisePrimitive1;
 	pub use super::BitwisePrimitive2;
 	pub use super::BitwisePrimitiveN;
 	
+	pub use super::bitwise_primitive_0_evaluate;
 	pub use super::bitwise_primitive_1_evaluate;
 	pub use super::bitwise_primitive_2_evaluate;
 	pub use super::bitwise_primitive_n_evaluate;
@@ -23,9 +26,31 @@ pub mod exports {
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+pub enum BitwisePrimitive0 {
+	
+	And,
+	Or,
+	Xor,
+	
+	Nand,
+	Nor,
+	Nxor,
+	
+}
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
 pub enum BitwisePrimitive1 {
 	
 	Complement,
+	
+	And,
+	Or,
+	Xor,
+	
+	Nand,
+	Nor,
+	Nxor,
 	
 }
 
@@ -66,12 +91,63 @@ pub enum BitwisePrimitiveN {
 
 
 
+pub fn bitwise_primitive_0_evaluate (primitive : BitwisePrimitive0) -> (Outcome<Value>) {
+	
+	let output = match primitive {
+		
+		BitwisePrimitive0::And =>
+			ZERO.bitnot (),
+		
+		BitwisePrimitive0::Or =>
+			ZERO.into (),
+		
+		BitwisePrimitive0::Xor =>
+			ZERO.bitnot (),
+		
+		BitwisePrimitive0::Nand =>
+			ZERO.into (),
+		
+		BitwisePrimitive0::Nor =>
+			ZERO.bitnot (),
+		
+		BitwisePrimitive0::Nxor =>
+			ZERO.into (),
+		
+	};
+	
+	succeed! (output.into ());
+}
+
+
+
+
 pub fn bitwise_primitive_1_evaluate (primitive : BitwisePrimitive1, input_1 : &Value) -> (Outcome<Value>) {
 	
 	let input_1 = try_as_number_integer_ref! (input_1);
 	
 	let output = match primitive {
-		BitwisePrimitive1::Complement => input_1.bitnot (),
+		
+		BitwisePrimitive1::Complement =>
+			input_1.bitnot (),
+		
+		BitwisePrimitive1::And =>
+			input_1.clone (),
+		
+		BitwisePrimitive1::Or =>
+			input_1.clone (),
+		
+		BitwisePrimitive1::Xor =>
+			ZERO.into (),
+		
+		BitwisePrimitive1::Nand =>
+			input_1.bitnot (),
+		
+		BitwisePrimitive1::Nor =>
+			input_1.bitnot (),
+		
+		BitwisePrimitive1::Nxor =>
+			ZERO.bitnot (),
+		
 	};
 	
 	succeed! (output.into ());

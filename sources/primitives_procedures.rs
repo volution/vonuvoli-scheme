@@ -56,11 +56,12 @@ pub enum ProcedurePrimitive {
 }
 
 
-
-
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
 pub enum ProcedurePrimitive0 {
 	
+	Boolean ( BooleanPrimitive0 ),
+	Arithmetic ( ArithmeticPrimitive0 ),
+	Bitwise ( BitwisePrimitive0 ),
 	List ( ListPrimitive0 ),
 	Array ( ArrayPrimitive0 ),
 	Bytes ( BytesPrimitive0 ),
@@ -141,6 +142,15 @@ pub enum ProcedurePrimitiveN {
 
 pub fn procedure_primitive_0_evaluate (primitive : ProcedurePrimitive0, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
+		
+		ProcedurePrimitive0::Boolean (primitive) =>
+			return boolean_primitive_0_evaluate (primitive),
+		
+		ProcedurePrimitive0::Arithmetic (primitive) =>
+			return arithmetic_primitive_0_evaluate (primitive),
+		
+		ProcedurePrimitive0::Bitwise (primitive) =>
+			return bitwise_primitive_0_evaluate (primitive),
 		
 		ProcedurePrimitive0::List (primitive) =>
 			return list_primitive_0_evaluate (primitive),
