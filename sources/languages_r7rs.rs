@@ -289,7 +289,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			("base", "vectors", "vector", ArrayPrimitiveN::ArrayBuild.into ()),
 			("base", "vectors", "make-vector", ArrayPrimitiveN::ArrayMake.into ()),
-			("base", "vectors", "vector-copy", ArrayPrimitive1::ArrayClone.into ()),
+			("base", "vectors", "vector-copy", ArrayPrimitiveN::ArraySliceClone.into ()),
 			("base", "vectors", "vector-append", ArrayPrimitiveN::ArrayAppend.into ()),
 			("base", "vectors", "vector-length", ArrayPrimitive1::ArrayLength.into ()),
 			
@@ -308,7 +308,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			("base", "bytes", "bytevector", BytesPrimitiveN::BytesBuild.into ()),
 			("base", "bytes", "make-bytevector", BytesPrimitiveN::BytesMake.into ()),
-			("base", "bytes", "bytevector-copy", BytesPrimitive1::BytesClone.into ()),
+			("base", "bytes", "bytevector-copy", BytesPrimitiveN::BytesSliceClone.into ()),
 			("base", "bytes", "bytevector-append", BytesPrimitiveN::BytesAppend.into ()),
 			("base", "bytes", "bytevector-length", BytesPrimitive1::BytesLength.into ()),
 			

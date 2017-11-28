@@ -89,6 +89,7 @@ pub enum BytesPrimitiveN {
 	
 	BytesSliceFill,
 	BytesSliceCopy,
+	BytesSliceClone,
 	
 }
 
@@ -245,6 +246,13 @@ pub fn bytes_primitive_n_evaluate (primitive : BytesPrimitiveN, inputs : &[Value
 		
 		BytesPrimitiveN::BytesSliceCopy =>
 			fail_unimplemented! (0xe7a2e534),
+		
+		BytesPrimitiveN::BytesSliceClone =>
+			if inputs_count == 1 {
+				return bytes_primitive_1_evaluate (BytesPrimitive1::BytesClone, &inputs[0]);
+			} else {
+				fail_unimplemented! (0x2e876257);
+			},
 		
 	}
 }

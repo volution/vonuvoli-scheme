@@ -89,6 +89,7 @@ pub enum ArrayPrimitiveN {
 	
 	ArraySliceFill,
 	ArraySliceCopy,
+	ArraySliceClone,
 	
 }
 
@@ -245,6 +246,13 @@ pub fn array_primitive_n_evaluate (primitive : ArrayPrimitiveN, inputs : &[Value
 		
 		ArrayPrimitiveN::ArraySliceCopy =>
 			fail_unimplemented! (0xa591cae9),
+		
+		ArrayPrimitiveN::ArraySliceClone =>
+			if inputs_count == 1 {
+				return array_primitive_1_evaluate (ArrayPrimitive1::ArrayClone, &inputs[0]);
+			} else {
+				fail_unimplemented! (0x4fbc2e34);
+			},
 		
 	}
 }
