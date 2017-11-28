@@ -33,6 +33,15 @@ pub enum FunctionsPrimitiveN {
 	ListsMap,
 	ListsIterate,
 	
+	ArraysMap,
+	ArraysIterate,
+	
+	BytesMap,
+	BytesIterate,
+	
+	StringsMap,
+	StringsIterate,
+	
 	Values,
 	
 }
@@ -70,6 +79,36 @@ pub fn functions_primitive_n_evaluate (primitive : FunctionsPrimitiveN, inputs :
 		FunctionsPrimitiveN::ListsIterate => {
 			let (callable, inputs) = try_some! (inputs.split_first (), 0xc9671a04);
 			return lists_iterate_n (evaluator, callable, inputs);
+		},
+		
+		FunctionsPrimitiveN::ArraysMap => {
+			let (callable, inputs) = try_some! (inputs.split_first (), 0xe284e2bf);
+			return arrays_map_n (evaluator, callable, inputs);
+		},
+		
+		FunctionsPrimitiveN::ArraysIterate => {
+			let (callable, inputs) = try_some! (inputs.split_first (), 0xc7077329);
+			return arrays_iterate_n (evaluator, callable, inputs);
+		},
+		
+		FunctionsPrimitiveN::BytesMap => {
+			let (callable, inputs) = try_some! (inputs.split_first (), 0x01e0c89f);
+			return bytes_map_n (evaluator, callable, inputs);
+		},
+		
+		FunctionsPrimitiveN::BytesIterate => {
+			let (callable, inputs) = try_some! (inputs.split_first (), 0xca0f78c1);
+			return bytes_iterate_n (evaluator, callable, inputs);
+		},
+		
+		FunctionsPrimitiveN::StringsMap => {
+			let (callable, inputs) = try_some! (inputs.split_first (), 0xd751b843);
+			return strings_map_n (evaluator, callable, inputs);
+		},
+		
+		FunctionsPrimitiveN::StringsIterate => {
+			let (callable, inputs) = try_some! (inputs.split_first (), 0x5ca9746e);
+			return strings_iterate_n (evaluator, callable, inputs);
 		},
 		
 		FunctionsPrimitiveN::Values =>

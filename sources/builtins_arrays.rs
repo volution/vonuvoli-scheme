@@ -7,6 +7,7 @@ use super::runtime::exports::*;
 use super::values::exports::*;
 
 use std::iter;
+use std::slice;
 
 
 
@@ -25,7 +26,7 @@ pub mod exports {
 	pub use super::{vec_array_append_2, vec_array_append_3, vec_array_append_4, vec_array_append_n};
 	pub use super::{vec_array_clone, vec_array_drain};
 	
-	pub use super::{ArrayIterator, ArraysIterator};
+	pub use super::{ArrayIterator, ArrayIterators};
 	
 }
 
@@ -267,46 +268,51 @@ pub fn vec_array_drain (buffer : &mut ValueVec, array : &Value) -> (Outcome<()>)
 
 
 
-pub struct ArrayIterator <'a> ( &'a Value );
+pub struct ArrayIterator <'a> ( &'a Array, slice::Iter<'a, Value> );
 
 
 impl <'a> ArrayIterator <'a> {
 	
-	pub fn new (array : &'a Value) -> (ArrayIterator<'a>) {
-		return ArrayIterator (array);
+	pub fn new (array : &'a Value) -> (Outcome<ArrayIterator<'a>>) {
+		let array = try_as_array_ref! (array);
+		succeed! (ArrayIterator (array, array.values_ref () .iter ()));
 	}
 }
 
 
 impl <'a> Iterator for ArrayIterator <'a> {
 	
-	type Item = Outcome<&'a Value>;
+	type Item = Outcome<Value>;
 	
-	fn next (&mut self) -> (Option<Outcome<&'a Value>>) {
-		return Some (failed_unimplemented! (0x408f72b0));
+	fn next (&mut self) -> (Option<Outcome<Value>>) {
+		if let Some (value) = self.1.next () {
+			return Some (succeeded! (value.clone ()));
+		} else {
+			return None;
+		}
 	}
 }
 
 
 
 
-pub struct ArraysIterator <'a> ( StdVec<ArrayIterator<'a>> );
+pub struct ArrayIterators <'a> ( StdVec<ArrayIterator<'a>> );
 
 
-impl <'a> ArraysIterator <'a> {
+impl <'a> ArrayIterators <'a> {
 	
-	pub fn new (arrays : &'a [Value]) -> (ArraysIterator<'a>) {
-		let iterators = arrays.iter () .map (|array| ArrayIterator::new (array)) .collect ();
-		return ArraysIterator (iterators);
+	pub fn new (arrays : &'a [Value]) -> (Outcome<ArrayIterators<'a>>) {
+		let iterators = try! (arrays.iter () .map (|array| ArrayIterator::new (array)) .collect ());
+		succeed! (ArrayIterators (iterators));
 	}
 }
 
 
-impl <'a> Iterator for ArraysIterator <'a> {
+impl <'a> Iterator for ArrayIterators <'a> {
 	
-	type Item = Outcome<StdVec<&'a Value>>;
+	type Item = Outcome<StdVec<Value>>;
 	
-	fn next (&mut self) -> (Option<Outcome<StdVec<&'a Value>>>) {
+	fn next (&mut self) -> (Option<Outcome<StdVec<Value>>>) {
 		let mut outcomes = StdVec::with_capacity (self.0.len ());
 		for mut iterator in self.0.iter_mut () {
 			match iterator.next () {

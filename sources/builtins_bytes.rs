@@ -6,6 +6,7 @@ use super::runtime::exports::*;
 use super::values::exports::*;
 
 use std::iter;
+use std::slice;
 
 
 
@@ -15,7 +16,7 @@ pub mod exports {
 	pub use super::{bytes_at, bytes_at_ref, bytes_at_set};
 	
 	pub use super::{bytes_empty};
-	pub use super::{bytes_collect};
+	pub use super::{bytes_collect_bytes, bytes_collect_values};
 	pub use super::{bytes_build_1, bytes_build_2, bytes_build_3, bytes_build_4, bytes_build_n};
 	pub use super::{bytes_append_2, bytes_append_3, bytes_append_4, bytes_append_n};
 	pub use super::{bytes_make, bytes_clone, bytes_reverse};
@@ -24,7 +25,7 @@ pub mod exports {
 	pub use super::{vec_bytes_append_2, vec_bytes_append_3, vec_bytes_append_4, vec_bytes_append_n};
 	pub use super::{vec_bytes_clone, vec_bytes_drain};
 	
-	pub use super::{BytesIterator, BytessIterator};
+	pub use super::{BytesIterator, BytesIterators};
 	
 }
 
@@ -51,11 +52,22 @@ pub fn bytes_at_set (_bytes : &Value, _index : usize, _byte : &Value) -> (Outcom
 
 
 
-pub fn bytes_collect <Source> (bytes : Source) -> (Value)
+pub fn bytes_collect_bytes <Source> (bytes : Source) -> (Value)
 		where Source : iter::IntoIterator<Item = u8>, Source::IntoIter : iter::DoubleEndedIterator
 {
 	use std::iter::FromIterator;
 	return bytes_new (FromIterator::from_iter (bytes)) .into ();
+}
+
+pub fn bytes_collect_values <Source> (bytes : Source) -> (Outcome<Value>)
+		where Source : iter::IntoIterator<Item = Value>, Source::IntoIter : iter::DoubleEndedIterator, Source::IntoIter : iter::ExactSizeIterator
+{
+	let bytes = bytes.into_iter ();
+	let mut buffer = StdVec::with_capacity (bytes.len ());
+	for byte in bytes {
+		buffer.push (try! (try_into_number_integer! (byte) .try_to_u8 ()));
+	}
+	succeed! (bytes_new (buffer) .into ());
 }
 
 
@@ -178,7 +190,7 @@ pub fn bytes_clone (bytes : &Value) -> (Outcome<Value>) {
 pub fn bytes_reverse (bytes : &Value) -> (Outcome<Value>) {
 	// FIXME:  Optimize the vector allocation!
 	let buffer = try! (vec_bytes_clone (bytes));
-	succeed! (bytes_collect (buffer.into_iter () .rev ()));
+	succeed! (bytes_collect_bytes (buffer.into_iter () .rev ()));
 }
 
 
@@ -266,46 +278,51 @@ pub fn vec_bytes_drain (buffer : &mut StdVec<u8>, bytes : &Value) -> (Outcome<()
 
 
 
-pub struct BytesIterator <'a> ( &'a Value );
+pub struct BytesIterator <'a> ( &'a Bytes, slice::Iter<'a, u8> );
 
 
 impl <'a> BytesIterator <'a> {
 	
-	pub fn new (bytes : &'a Value) -> (BytesIterator<'a>) {
-		return BytesIterator (bytes);
+	pub fn new (bytes : &'a Value) -> (Outcome<BytesIterator<'a>>) {
+		let bytes = try_as_bytes_ref! (bytes);
+		succeed! (BytesIterator (bytes, bytes.values_ref () .iter ()));
 	}
 }
 
 
 impl <'a> Iterator for BytesIterator <'a> {
 	
-	type Item = Outcome<&'a Value>;
+	type Item = Outcome<Value>;
 	
-	fn next (&mut self) -> (Option<Outcome<&'a Value>>) {
-		return Some (failed_unimplemented! (0x8379f462));
+	fn next (&mut self) -> (Option<Outcome<Value>>) {
+		if let Some (value) = self.1.next () {
+			return Some (succeeded! (number_i64 (*value as i64) .into ()));
+		} else {
+			return None;
+		}
 	}
 }
 
 
 
 
-pub struct BytessIterator <'a> ( StdVec<BytesIterator<'a>> );
+pub struct BytesIterators <'a> ( StdVec<BytesIterator<'a>> );
 
 
-impl <'a> BytessIterator <'a> {
+impl <'a> BytesIterators <'a> {
 	
-	pub fn new (bytes : &'a [Value]) -> (BytessIterator<'a>) {
-		let iterators = bytes.iter () .map (|bytes| BytesIterator::new (bytes)) .collect ();
-		return BytessIterator (iterators);
+	pub fn new (bytes : &'a [Value]) -> (Outcome<BytesIterators<'a>>) {
+		let iterators = try! (bytes.iter () .map (|bytes| BytesIterator::new (bytes)) .collect ());
+		succeed! (BytesIterators (iterators));
 	}
 }
 
 
-impl <'a> Iterator for BytessIterator <'a> {
+impl <'a> Iterator for BytesIterators <'a> {
 	
-	type Item = Outcome<StdVec<&'a Value>>;
+	type Item = Outcome<StdVec<Value>>;
 	
-	fn next (&mut self) -> (Option<Outcome<StdVec<&'a Value>>>) {
+	fn next (&mut self) -> (Option<Outcome<StdVec<Value>>>) {
 		let mut outcomes = StdVec::with_capacity (self.0.len ());
 		for mut iterator in self.0.iter_mut () {
 			match iterator.next () {

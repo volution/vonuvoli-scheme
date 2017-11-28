@@ -387,11 +387,11 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "functions", "map", FunctionsPrimitiveN::ListsMap.into ()),
 			("base", "functions", "for-each", FunctionsPrimitiveN::ListsIterate.into ()),
 			
-			("base", "functions", "vector-map", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "functions", "vector-for-each", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "functions", "vector-map", FunctionsPrimitiveN::ArraysMap.into ()),
+			("base", "functions", "vector-for-each", FunctionsPrimitiveN::ArraysIterate.into ()),
 			
-			("base", "functions", "string-map", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "functions", "string-for-each", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "functions", "string-map", FunctionsPrimitiveN::StringsMap.into ()),
+			("base", "functions", "string-for-each", FunctionsPrimitiveN::StringsIterate.into ()),
 			
 			("base", "values", "values", ProcedurePrimitive::Unimplemented.into ()),
 			("base", "values", "call-with-values", ProcedurePrimitive::Unimplemented.into ()),

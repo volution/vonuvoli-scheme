@@ -55,6 +55,8 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			
 			("bytevector-reverse", BytesPrimitive1::BytesReverse.into ()),
 			("bytevector-u8-fill", BytesPrimitiveN::BytesSliceFill.into ()),
+			("bytevector-u8-map", FunctionsPrimitiveN::BytesMap.into ()),
+			("bytevector-u8-for-each", FunctionsPrimitiveN::BytesIterate.into ()),
 			
 			("vector-reverse", ArrayPrimitive1::ArrayReverse.into ()),
 			

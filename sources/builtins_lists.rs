@@ -36,7 +36,7 @@ pub mod exports {
 	pub use super::{vec_list_append_2_dotted, vec_list_append_3_dotted, vec_list_append_4_dotted, vec_list_append_n_dotted};
 	pub use super::{vec_list_clone, vec_list_clone_dotted, vec_list_drain, vec_list_drain_dotted};
 	
-	pub use super::{ListIterator, ListsIterator};
+	pub use super::{ListIterator, ListIterators};
 	
 }
 
@@ -467,17 +467,17 @@ pub struct ListIterator <'a> ( &'a Value );
 
 impl <'a> ListIterator <'a> {
 	
-	pub fn new (value : &'a Value) -> (ListIterator<'a>) {
-		return ListIterator (value);
+	pub fn new (value : &'a Value) -> (Outcome<ListIterator<'a>>) {
+		succeed! (ListIterator (value));
 	}
 }
 
 
 impl <'a> Iterator for ListIterator <'a> {
 	
-	type Item = Outcome<&'a Value>;
+	type Item = Outcome<Value>;
 	
-	fn next (&mut self) -> (Option<Outcome<&'a Value>>) {
+	fn next (&mut self) -> (Option<Outcome<Value>>) {
 		let cursor = self.0;
 		let (value, cursor) = match cursor.class () {
 			ValueClass::Pair =>
@@ -491,30 +491,30 @@ impl <'a> Iterator for ListIterator <'a> {
 			return Some (failed! (0x2f6495d9));
 		}
 		self.0 = cursor;
-		return Some (succeeded! (value));
+		return Some (succeeded! (value.clone ()));
 	}
 }
 
 
 
 
-pub struct ListsIterator <'a> ( StdVec<ListIterator<'a>> );
+pub struct ListIterators <'a> ( StdVec<ListIterator<'a>> );
 
 
-impl <'a> ListsIterator <'a> {
+impl <'a> ListIterators <'a> {
 	
-	pub fn new (lists : &'a [Value]) -> (ListsIterator<'a>) {
-		let iterators = lists.iter () .map (|list| ListIterator::new (list)) .collect ();
-		return ListsIterator (iterators);
+	pub fn new (lists : &'a [Value]) -> (Outcome<ListIterators<'a>>) {
+		let iterators = try! (lists.iter () .map (|list| ListIterator::new (list)) .collect ());
+		succeed! (ListIterators (iterators));
 	}
 }
 
 
-impl <'a> Iterator for ListsIterator <'a> {
+impl <'a> Iterator for ListIterators <'a> {
 	
-	type Item = Outcome<StdVec<&'a Value>>;
+	type Item = Outcome<StdVec<Value>>;
 	
-	fn next (&mut self) -> (Option<Outcome<StdVec<&'a Value>>>) {
+	fn next (&mut self) -> (Option<Outcome<StdVec<Value>>>) {
 		let mut outcomes = StdVec::with_capacity (self.0.len ());
 		for mut iterator in self.0.iter_mut () {
 			match iterator.next () {
