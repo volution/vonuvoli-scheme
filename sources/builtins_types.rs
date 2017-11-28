@@ -10,13 +10,17 @@ pub mod exports {
 	
 	pub use super::{is_true, is_false, is_not_false, is_true_or_equivalent, is_false_or_equivalent};
 	
-	pub use super::{is_null, is_void, is_undefined};
+	pub use super::{is_null, is_not_null};
 	pub use super::{is_null_all_2, is_null_all_3, is_null_all_4};
 	pub use super::{is_null_any_2, is_null_any_3, is_null_any_4};
 	
+	pub use super::{is_void, is_not_void};
+	pub use super::{is_undefined, is_not_undefined};
+	
 	pub use super::{is_number};
 	
-	pub use super::{is_list, is_list_proper, is_list_proper_or_empty, is_list_dotted, is_list_dotted_or_empty, is_list_cyclic, is_list_cyclic_or_empty};
+	pub use super::{is_list, is_null as is_list_empty, is_not_null as is_list_not_empty};
+	pub use super::{is_list_proper, is_list_proper_or_empty, is_list_dotted, is_list_dotted_or_empty, is_list_cyclic, is_list_cyclic_or_empty};
 	
 	pub use super::{is_array, is_array_empty, is_array_not_empty};
 	pub use super::{is_bytes, is_bytes_empty, is_bytes_not_empty};
@@ -85,6 +89,19 @@ pub fn is_void (value : &Value) -> (bool) {
 
 pub fn is_undefined (value : &Value) -> (bool) {
 	return value.is (ValueClass::Undefined);
+}
+
+
+pub fn is_not_null (value : &Value) -> (bool) {
+	return !is_null (value);
+}
+
+pub fn is_not_void (value : &Value) -> (bool) {
+	return !is_void (value);
+}
+
+pub fn is_not_undefined (value : &Value) -> (bool) {
+	return !is_undefined (value);
 }
 
 
