@@ -324,18 +324,19 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			("base", "types", "string?", TypePrimitive1::IsString.into ()),
 			
-			("base", "strings", "string", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "strings", "substring", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "strings", "make-string", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "strings", "string-copy", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "strings", "string-append", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "strings", "string-length", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "strings", "string", StringPrimitiveN::StringBuild.into ()),
+			("base", "strings", "make-string", StringPrimitiveN::StringMake.into ()),
+			("base", "strings", "string-copy", StringPrimitiveN::StringSliceClone.into ()),
+			("base", "strings", "string-append", StringPrimitiveN::StringAppend.into ()),
+			("base", "strings", "string-length", StringPrimitive1::StringLength.into ()),
 			
-			("base", "strings", "string-ref", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "strings", "string-ref", StringPrimitive2::StringAt.into ()),
 			
-			("base", "strings", "string-set!", ProcedurePrimitive::Unsupported.into ()),
-			("base", "strings", "string-fill!", ProcedurePrimitive::Unsupported.into ()),
-			("base", "strings", "string-copy!", ProcedurePrimitive::Unsupported.into ()),
+			("base", "strings", "string-set!", StringPrimitive3::StringAtSet.into ()),
+			("base", "strings", "string-fill!", StringPrimitiveN::StringSliceFill.into ()),
+			("base", "strings", "string-copy!", StringPrimitiveN::StringSliceCopy.into ()),
+			
+			("base", "strings", "substring", StringPrimitiveN::StringSliceClone.into ()),
 			
 			("base", "strings", "string=?", ProcedurePrimitive::Unimplemented.into ()),
 			("base", "strings", "string<?", ProcedurePrimitive::Unimplemented.into ()),

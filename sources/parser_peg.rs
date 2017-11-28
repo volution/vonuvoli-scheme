@@ -493,56 +493,70 @@ fn __parse_array<'input>(
     __state: &mut ParseState<'input>,
     __pos: usize,
 ) -> RuleResult<values::Value> {# ! [ allow ( non_snake_case , unused ) ]    {
-        let __seq_res = slice_eq(__input, __state, __pos, "#(");
+        let __seq_res = {
+            let __choice_res = slice_eq(__input, __state, __pos, "#array");
+            match __choice_res {
+                Matched(__pos, __value) => Matched(__pos, __value),
+                Failed => slice_eq(__input, __state, __pos, "#"),
+            }
+        };
         match __seq_res {
             Matched(__pos, _) => {
-                let __seq_res = match __parse_space(__input, __state, __pos) {
-                    Matched(__newpos, _) => Matched(__newpos, ()),
-                    Failed => Matched(__pos, ()),
-                };
+                let __seq_res = slice_eq(__input, __state, __pos, "(");
                 match __seq_res {
                     Matched(__pos, _) => {
-                        let __seq_res = {
-                            let mut __repeat_pos = __pos;
-                            let mut __repeat_value = vec![];
-                            loop {
-                                let __pos = __repeat_pos;
-                                let __pos = if __repeat_value.len() > 0 {
-                                    let __sep_res = __parse_space(__input, __state, __pos);
-                                    match __sep_res {
-                                        Matched(__newpos, _) => __newpos,
-                                        Failed => break,
-                                    }
-                                } else {
-                                    __pos
-                                };
-                                let __step_res = __parse_value(__input, __state, __pos);
-                                match __step_res {
-                                    Matched(__newpos, __value) => {
-                                        __repeat_pos = __newpos;
-                                        __repeat_value.push(__value);
-                                    }
-                                    Failed => {
-                                        break;
-                                    }
-                                }
-                            }
-                            Matched(__repeat_pos, __repeat_value)
+                        let __seq_res = match __parse_space(__input, __state, __pos) {
+                            Matched(__newpos, _) => Matched(__newpos, ()),
+                            Failed => Matched(__pos, ()),
                         };
                         match __seq_res {
-                            Matched(__pos, elements) => {
-                                let __seq_res = match __parse_space(__input, __state, __pos) {
-                                    Matched(__newpos, _) => Matched(__newpos, ()),
-                                    Failed => Matched(__pos, ()),
+                            Matched(__pos, _) => {
+                                let __seq_res = {
+                                    let mut __repeat_pos = __pos;
+                                    let mut __repeat_value = vec![];
+                                    loop {
+                                        let __pos = __repeat_pos;
+                                        let __pos = if __repeat_value.len() > 0 {
+                                            let __sep_res = __parse_space(__input, __state, __pos);
+                                            match __sep_res {
+                                                Matched(__newpos, _) => __newpos,
+                                                Failed => break,
+                                            }
+                                        } else {
+                                            __pos
+                                        };
+                                        let __step_res = __parse_value(__input, __state, __pos);
+                                        match __step_res {
+                                            Matched(__newpos, __value) => {
+                                                __repeat_pos = __newpos;
+                                                __repeat_value.push(__value);
+                                            }
+                                            Failed => {
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    Matched(__repeat_pos, __repeat_value)
                                 };
                                 match __seq_res {
-                                    Matched(__pos, _) => {
-                                        let __seq_res = slice_eq(__input, __state, __pos, ")");
+                                    Matched(__pos, elements) => {
+                                        let __seq_res =
+                                            match __parse_space(__input, __state, __pos) {
+                                                Matched(__newpos, _) => Matched(__newpos, ()),
+                                                Failed => Matched(__pos, ()),
+                                            };
                                         match __seq_res {
                                             Matched(__pos, _) => {
-                                                Matched(__pos, {
-                                                    values::array_new(elements).into()
-                                                })
+                                                let __seq_res =
+                                                    slice_eq(__input, __state, __pos, ")");
+                                                match __seq_res {
+                                                    Matched(__pos, _) => {
+                                                        Matched(__pos, {
+                                                            values::array_new(elements).into()
+                                                        })
+                                                    }
+                                                    Failed => Failed,
+                                                }
                                             }
                                             Failed => Failed,
                                         }
@@ -2416,6 +2430,19 @@ fn __parse_string<'input>(
     __state: &mut ParseState<'input>,
     __pos: usize,
 ) -> RuleResult<values::Value> {# ! [ allow ( non_snake_case , unused ) ]    {
+        let __choice_res = __parse_string_quoted(__input, __state, __pos);
+        match __choice_res {
+            Matched(__pos, __value) => Matched(__pos, __value),
+            Failed => __parse_string_array(__input, __state, __pos),
+        }
+    }
+}
+
+fn __parse_string_quoted<'input>(
+    __input: &'input str,
+    __state: &mut ParseState<'input>,
+    __pos: usize,
+) -> RuleResult<values::Value> {# ! [ allow ( non_snake_case , unused ) ]    {
         let __seq_res = slice_eq(__input, __state, __pos, "\"");
         match __seq_res {
             Matched(__pos, _) => {
@@ -2693,6 +2720,152 @@ fn __parse_string_character_named<'input>(
     }
 }
 
+fn __parse_string_array<'input>(
+    __input: &'input str,
+    __state: &mut ParseState<'input>,
+    __pos: usize,
+) -> RuleResult<values::Value> {# ! [ allow ( non_snake_case , unused ) ]    {
+        let __seq_res = slice_eq(__input, __state, __pos, "#string");
+        match __seq_res {
+            Matched(__pos, _) => {
+                let __seq_res = slice_eq(__input, __state, __pos, "(");
+                match __seq_res {
+                    Matched(__pos, _) => {
+                        let __seq_res = match __parse_space(__input, __state, __pos) {
+                            Matched(__newpos, _) => Matched(__newpos, ()),
+                            Failed => Matched(__pos, ()),
+                        };
+                        match __seq_res {
+                            Matched(__pos, _) => {
+                                let __seq_res = {
+                                    let mut __repeat_pos = __pos;
+                                    let mut __repeat_value = vec![];
+                                    loop {
+                                        let __pos = __repeat_pos;
+                                        let __pos = if __repeat_value.len() > 0 {
+                                            let __sep_res = __parse_space(__input, __state, __pos);
+                                            match __sep_res {
+                                                Matched(__newpos, _) => __newpos,
+                                                Failed => break,
+                                            }
+                                        } else {
+                                            __pos
+                                        };
+                                        let __step_res =
+                                            __parse_string_array_character(__input, __state, __pos);
+                                        match __step_res {
+                                            Matched(__newpos, __value) => {
+                                                __repeat_pos = __newpos;
+                                                __repeat_value.push(__value);
+                                            }
+                                            Failed => {
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    Matched(__repeat_pos, __repeat_value)
+                                };
+                                match __seq_res {
+                                    Matched(__pos, elements) => {
+                                        let __seq_res =
+                                            match __parse_space(__input, __state, __pos) {
+                                                Matched(__newpos, _) => Matched(__newpos, ()),
+                                                Failed => Matched(__pos, ()),
+                                            };
+                                        match __seq_res {
+                                            Matched(__pos, _) => {
+                                                let __seq_res =
+                                                    slice_eq(__input, __state, __pos, ")");
+                                                match __seq_res {
+                                                    Matched(__pos, _) => {
+                                                        Matched(__pos, {
+                                                            values::string_clone_characters(
+                                                                elements.as_slice(),
+                                                            ).into()
+                                                        })
+                                                    }
+                                                    Failed => Failed,
+                                                }
+                                            }
+                                            Failed => Failed,
+                                        }
+                                    }
+                                    Failed => Failed,
+                                }
+                            }
+                            Failed => Failed,
+                        }
+                    }
+                    Failed => Failed,
+                }
+            }
+            Failed => Failed,
+        }
+    }
+}
+
+fn __parse_string_array_character<'input>(
+    __input: &'input str,
+    __state: &mut ParseState<'input>,
+    __pos: usize,
+) -> RuleResult<char> {# ! [ allow ( non_snake_case , unused ) ]    {
+        let __seq_res = {
+            let str_start = __pos;
+            match {
+                let mut __repeat_pos = __pos;
+                let mut __repeat_value = vec![];
+                loop {
+                    let __pos = __repeat_pos;
+                    let __step_res = if __input.len() > __pos {
+                        let (__ch, __next) = char_range_at(__input, __pos);
+                        match __ch {
+                            '0'...'9' => Matched(__next, ()),
+                            _ => __state.mark_failure(__pos, "[0-9]"),
+                        }
+                    } else {
+                        __state.mark_failure(__pos, "[0-9]")
+                    };
+                    match __step_res {
+                        Matched(__newpos, __value) => {
+                            __repeat_pos = __newpos;
+                            __repeat_value.push(__value);
+                        }
+                        Failed => {
+                            break;
+                        }
+                    }
+                }
+                if __repeat_value.len() >= 1 {
+                    Matched(__repeat_pos, ())
+                } else {
+                    Failed
+                }
+            } {
+                Matched(__newpos, _) => Matched(__newpos, &__input[str_start..__newpos]),
+                Failed => Failed,
+            }
+        };
+        match __seq_res {
+            Matched(__pos, value) => {
+                match {
+                    u32::from_str(value)
+                        .map_err(|_| "invalid character syntax")
+                        .and_then(|value| {
+                            char::from_u32(value).ok_or("invalid character value")
+                        })
+                } {
+                    Ok(res) => Matched(__pos, res),
+                    Err(expected) => {
+                        __state.mark_failure(__pos, expected);
+                        Failed
+                    }
+                }
+            }
+            Failed => Failed,
+        }
+    }
+}
+
 fn __parse_bytes<'input>(
     __input: &'input str,
     __state: &mut ParseState<'input>,
@@ -2702,7 +2875,13 @@ fn __parse_bytes<'input>(
             let __choice_res = slice_eq(__input, __state, __pos, "#u8");
             match __choice_res {
                 Matched(__pos, __value) => Matched(__pos, __value),
-                Failed => slice_eq(__input, __state, __pos, "#U8"),
+                Failed => {
+                    let __choice_res = slice_eq(__input, __state, __pos, "#U8");
+                    match __choice_res {
+                        Matched(__pos, __value) => Matched(__pos, __value),
+                        Failed => slice_eq(__input, __state, __pos, "#bytes"),
+                    }
+                }
             }
         };
         match __seq_res {

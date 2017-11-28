@@ -123,6 +123,7 @@ impl_from_for_Value_3! (NumberInteger, NumberInteger, u32, value, number_i64 (va
 impl_from_for_Value_3! (NumberInteger, NumberInteger, isize, value, number_i64 (value as i64));
 impl_try_from_for_type! (NumberInteger, u64, value, if value <= <i64>::max_value () as u64 { succeeded! (number_i64 (value as i64)) } else { failed! (0x78f55fb6) });
 impl_try_from_for_type! (NumberInteger, usize, value, if value <= <i64>::max_value () as usize { succeeded! (number_i64 (value as i64)) } else { failed! (0xe99641f7) });
+impl_from_for_type! (NumberInteger, char, value, number_i64 (value as i64));
 
 impl_from_for_Value_2! (NumberReal, NumberReal, f64);
 impl_from_for_type! (NumberReal, NumberInteger, value, <i64>::from (value) .into ());
@@ -226,6 +227,13 @@ impl_from_for_primitive_procedure_2! (BytesPrimitive2, ProcedurePrimitive2, Prim
 impl_from_for_primitive_procedure_2! (BytesPrimitive3, ProcedurePrimitive3, Primitive3, Bytes);
 impl_from_for_primitive_procedure_2! (BytesPrimitive4, ProcedurePrimitive4, Primitive4, Bytes);
 impl_from_for_primitive_procedure_2! (BytesPrimitiveN, ProcedurePrimitiveN, PrimitiveN, Bytes);
+
+impl_from_for_primitive_procedure_2! (StringPrimitive0, ProcedurePrimitive0, Primitive0, String);
+impl_from_for_primitive_procedure_2! (StringPrimitive1, ProcedurePrimitive1, Primitive1, String);
+impl_from_for_primitive_procedure_2! (StringPrimitive2, ProcedurePrimitive2, Primitive2, String);
+impl_from_for_primitive_procedure_2! (StringPrimitive3, ProcedurePrimitive3, Primitive3, String);
+impl_from_for_primitive_procedure_2! (StringPrimitive4, ProcedurePrimitive4, Primitive4, String);
+impl_from_for_primitive_procedure_2! (StringPrimitiveN, ProcedurePrimitiveN, PrimitiveN, String);
 
 impl_from_for_primitive_procedure_2! (FunctionsPrimitive1, ProcedurePrimitive1, Primitive1, Functions);
 impl_from_for_primitive_procedure_2! (FunctionsPrimitive2, ProcedurePrimitive2, Primitive2, Functions);
@@ -426,6 +434,13 @@ impl_from_for_ProcedurePrimitiveCall2! (BytesPrimitive2);
 impl_from_for_ProcedurePrimitiveCall3! (BytesPrimitive3);
 impl_from_for_ProcedurePrimitiveCall4! (BytesPrimitive4);
 impl_from_for_ProcedurePrimitiveCallN! (BytesPrimitiveN);
+
+impl_from_for_ProcedurePrimitiveCall0! (StringPrimitive0);
+impl_from_for_ProcedurePrimitiveCall1! (StringPrimitive1);
+impl_from_for_ProcedurePrimitiveCall2! (StringPrimitive2);
+impl_from_for_ProcedurePrimitiveCall3! (StringPrimitive3);
+impl_from_for_ProcedurePrimitiveCall4! (StringPrimitive4);
+impl_from_for_ProcedurePrimitiveCallN! (StringPrimitiveN);
 
 impl_from_for_ProcedurePrimitiveCall1! (FunctionsPrimitive1);
 impl_from_for_ProcedurePrimitiveCall2! (FunctionsPrimitive2);

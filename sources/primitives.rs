@@ -9,6 +9,7 @@ pub mod exports {
 	pub use super::super::primitives_functions::exports::*;
 	pub use super::super::primitives_lists::exports::*;
 	pub use super::super::primitives_procedures::exports::*;
+	pub use super::super::primitives_strings::exports::*;
 	pub use super::super::primitives_syntaxes::exports::*;
 	pub use super::super::primitives_types::exports::*;
 	

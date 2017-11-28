@@ -20,6 +20,7 @@ pub mod exports {
 	
 	pub use super::{is_array, is_array_empty, is_array_not_empty};
 	pub use super::{is_bytes, is_bytes_empty, is_bytes_not_empty};
+	pub use super::{is_string, is_string_empty, is_string_not_empty};
 	
 	pub use super::{is_procedure, is_syntax};
 	
@@ -216,6 +217,21 @@ pub fn is_bytes_empty (value : &Value) -> (bool) {
 
 pub fn is_bytes_not_empty (value : &Value) -> (bool) {
 	return value.is (ValueClass::Bytes) && !Bytes::as_ref (value) .values_is_not_empty ();
+}
+
+
+
+
+pub fn is_string (value : &Value) -> (bool) {
+	return value.is (ValueClass::String);
+}
+
+pub fn is_string_empty (value : &Value) -> (bool) {
+	return value.is (ValueClass::String) && String::as_ref (value) .string_is_empty ();
+}
+
+pub fn is_string_not_empty (value : &Value) -> (bool) {
+	return value.is (ValueClass::String) && !String::as_ref (value) .string_is_not_empty ();
 }
 
 

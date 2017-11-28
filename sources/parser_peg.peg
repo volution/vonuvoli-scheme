@@ -23,7 +23,7 @@ list_proper -> values::Value = "(" space? elements : value ** space space? ")" {
 list_dotted -> values::Value = "(" space? elements : value ++ space space "." space last : value space? ")" { builtins::list_collect_dotted (elements, Some (last)) }
 list_empty -> values::Value = ( "(" space? ")" / "#null" ) { builtins::list_empty () }
 
-array -> values::Value = "#(" space? elements : value ** space space? ")" {  values::array_new (elements) .into () }
+array -> values::Value = ( "#array" / "#" ) "(" space? elements : value ** space space? ")" {  values::array_new (elements) .into () }
 
 abbreviation -> values::Value = abbreviation : abbreviation_prefix whitespace? value : value { builtins::list_collect (vec! [abbreviation, value]) }
 abbreviation_prefix -> values::Value = value : $( "'" / "`" / ",@" / "," ) {?
@@ -89,7 +89,8 @@ symbol_string -> values::Value = "|" elements : symbol_string_character* "|" { v
 symbol_string_character -> char = symbol_string_character_glyph / string_character_escaped / string_character_named
 symbol_string_character_glyph -> char = glyph : $( [^|\\] ) { glyph.chars () .next () .expect ("56031166") }
 
-string -> values::Value = "\"" elements : string_character* "\"" { values::string_clone_characters (elements.as_slice ()) .into () }
+string -> values::Value = string_quoted / string_array
+string_quoted -> values::Value = "\"" elements : string_character* "\"" { values::string_clone_characters (elements.as_slice ()) .into () }
 string_character -> char = string_character_glyph / string_character_escaped / string_character_named
 string_character_glyph -> char = glyph : $( [^"\\] ) { glyph.chars () .next () .expect ("61d18567") }
 string_character_escaped -> char = ( "\\x" / "\\X" ) value : $( [0-9a-f]+ / [0-9A-F]+ ) ";" {? u32::from_str_radix (value, 16) .map_err (|_| "invalid character syntax") .and_then (|value| char::from_u32 (value) .ok_or ("invalid character value")) }
@@ -103,8 +104,10 @@ string_character_named -> char = "\\" value : $( "a" / "b" / "t" / "n" / "r" ) {
 			_ => Err ("285687fe"),
 		}
 	}
+string_array -> values::Value = "#string" "(" space? elements : string_array_character ** space space?  ")" { values::string_clone_characters (elements.as_slice ()) .into () }
+string_array_character -> char = value : $( [0-9]+ ) {? u32::from_str (value) .map_err (|_| "invalid character syntax") .and_then (|value| char::from_u32 (value) .ok_or ("invalid character value")) }
 
-bytes -> values::Value = ( "#u8" / "#U8" ) "(" space? elements : bytes_byte ** space space?  ")" { values::bytes_new (elements) .into () }
+bytes -> values::Value = ( "#u8" / "#U8" / "#bytes" ) "(" space? elements : bytes_byte ** space space?  ")" { values::bytes_new (elements) .into () }
 bytes_byte -> u8 = value : $( [0-9]+ ) {? u8::from_str (value) .map_err (|_| "invalid byte syntax") }
 
 constant -> values::Value = "#void" { constants::VOID.into () } / "#undefined" { constants::UNDEFINED.into () }
