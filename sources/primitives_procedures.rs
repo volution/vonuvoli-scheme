@@ -34,6 +34,14 @@ pub mod exports {
 	pub use super::procedure_primitive_n_evaluate;
 	pub use super::procedure_primitive_evaluate;
 	
+	/*
+	pub use super::procedure_primitive_n_alternative_0;
+	pub use super::procedure_primitive_n_alternative_1;
+	pub use super::procedure_primitive_n_alternative_2;
+	pub use super::procedure_primitive_n_alternative_3;
+	pub use super::procedure_primitive_n_alternative_4;
+	*/
+	
 }
 
 
@@ -62,10 +70,13 @@ pub enum ProcedurePrimitive0 {
 	Boolean ( BooleanPrimitive0 ),
 	Arithmetic ( ArithmeticPrimitive0 ),
 	Bitwise ( BitwisePrimitive0 ),
+	
 	List ( ListPrimitive0 ),
 	Array ( ArrayPrimitive0 ),
 	Bytes ( BytesPrimitive0 ),
 	String ( StringPrimitive0 ),
+	
+	Functions ( FunctionsPrimitive0 ),
 	
 }
 
@@ -74,13 +85,16 @@ pub enum ProcedurePrimitive0 {
 pub enum ProcedurePrimitive1 {
 	
 	Type ( TypePrimitive1 ),
+	
 	Boolean ( BooleanPrimitive1 ),
 	Arithmetic ( ArithmeticPrimitive1 ),
 	Bitwise ( BitwisePrimitive1 ),
+	
 	List ( ListPrimitive1 ),
 	Array ( ArrayPrimitive1 ),
 	Bytes ( BytesPrimitive1 ),
 	String ( StringPrimitive1 ),
+	
 	Functions ( FunctionsPrimitive1 ),
 	
 }
@@ -92,10 +106,12 @@ pub enum ProcedurePrimitive2 {
 	Boolean ( BooleanPrimitive2 ),
 	Arithmetic ( ArithmeticPrimitive2 ),
 	Bitwise ( BitwisePrimitive2 ),
+	
 	List ( ListPrimitive2 ),
 	Array ( ArrayPrimitive2 ),
 	Bytes ( BytesPrimitive2 ),
 	String ( StringPrimitive2 ),
+	
 	Functions ( FunctionsPrimitive2 ),
 	
 }
@@ -104,10 +120,16 @@ pub enum ProcedurePrimitive2 {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
 pub enum ProcedurePrimitive3 {
 	
+	Boolean ( BooleanPrimitive3 ),
+	Arithmetic ( ArithmeticPrimitive3 ),
+	Bitwise ( BitwisePrimitive3 ),
+	
 	List ( ListPrimitive3 ),
 	Array ( ArrayPrimitive3 ),
 	Bytes ( BytesPrimitive3 ),
 	String ( StringPrimitive3 ),
+	
+	Functions ( FunctionsPrimitive3 ),
 	
 }
 
@@ -115,10 +137,16 @@ pub enum ProcedurePrimitive3 {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
 pub enum ProcedurePrimitive4 {
 	
+	Boolean ( BooleanPrimitive4 ),
+	Arithmetic ( ArithmeticPrimitive4 ),
+	Bitwise ( BitwisePrimitive4 ),
+	
 	List ( ListPrimitive4 ),
 	Array ( ArrayPrimitive4 ),
 	Bytes ( BytesPrimitive4 ),
 	String ( StringPrimitive4 ),
+	
+	Functions ( FunctionsPrimitive4 ),
 	
 }
 
@@ -140,7 +168,7 @@ pub enum ProcedurePrimitiveN {
 
 
 
-pub fn procedure_primitive_0_evaluate (primitive : ProcedurePrimitive0, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn procedure_primitive_0_evaluate (primitive : ProcedurePrimitive0, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		ProcedurePrimitive0::Boolean (primitive) =>
@@ -163,6 +191,9 @@ pub fn procedure_primitive_0_evaluate (primitive : ProcedurePrimitive0, _evaluat
 		
 		ProcedurePrimitive0::String (primitive) =>
 			return string_primitive_0_evaluate (primitive),
+		
+		ProcedurePrimitive0::Functions (primitive) =>
+			return functions_primitive_0_evaluate (primitive, evaluator),
 		
 	}
 }
@@ -239,8 +270,17 @@ pub fn procedure_primitive_2_evaluate (primitive : ProcedurePrimitive2, input_1 
 
 
 
-pub fn procedure_primitive_3_evaluate (primitive : ProcedurePrimitive3, input_1 : &Value, input_2 : &Value, input_3 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn procedure_primitive_3_evaluate (primitive : ProcedurePrimitive3, input_1 : &Value, input_2 : &Value, input_3 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
+		
+		ProcedurePrimitive3::Boolean (primitive) =>
+			return boolean_primitive_3_evaluate (primitive, input_1, input_2, input_3),
+		
+		ProcedurePrimitive3::Arithmetic (primitive) =>
+			return arithmetic_primitive_3_evaluate (primitive, input_1, input_2, input_3),
+		
+		ProcedurePrimitive3::Bitwise (primitive) =>
+			return bitwise_primitive_3_evaluate (primitive, input_1, input_2, input_3),
 		
 		ProcedurePrimitive3::List (primitive) =>
 			return list_primitive_3_evaluate (primitive, input_1, input_2, input_3),
@@ -254,14 +294,26 @@ pub fn procedure_primitive_3_evaluate (primitive : ProcedurePrimitive3, input_1 
 		ProcedurePrimitive3::String (primitive) =>
 			return string_primitive_3_evaluate (primitive, input_1, input_2, input_3),
 		
+		ProcedurePrimitive3::Functions (primitive) =>
+			return functions_primitive_3_evaluate (primitive, input_1, input_2, input_3, evaluator),
+		
 	}
 }
 
 
 
 
-pub fn procedure_primitive_4_evaluate (primitive : ProcedurePrimitive4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn procedure_primitive_4_evaluate (primitive : ProcedurePrimitive4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
+		
+		ProcedurePrimitive4::Boolean (primitive) =>
+			return boolean_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4),
+		
+		ProcedurePrimitive4::Arithmetic (primitive) =>
+			return arithmetic_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4),
+		
+		ProcedurePrimitive4::Bitwise (primitive) =>
+			return bitwise_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4),
 		
 		ProcedurePrimitive4::List (primitive) =>
 			return list_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4),
@@ -274,6 +326,9 @@ pub fn procedure_primitive_4_evaluate (primitive : ProcedurePrimitive4, input_1 
 		
 		ProcedurePrimitive4::String (primitive) =>
 			return string_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4),
+		
+		ProcedurePrimitive4::Functions (primitive) =>
+			return functions_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4, evaluator),
 		
 	}
 }
@@ -364,6 +419,331 @@ pub fn procedure_primitive_evaluate (primitive : ProcedurePrimitive, inputs : &[
 		
 		ProcedurePrimitive::Reserved =>
 			fail! (0xb687a39c),
+		
+	}
+}
+
+
+
+
+pub fn procedure_primitive_n_alternative_0 (primitive : ProcedurePrimitiveN) -> (Option<ProcedurePrimitive0>) {
+	match primitive {
+		
+		ProcedurePrimitiveN::Boolean (primitive) =>
+			if let Some (primitive) = boolean_primitive_n_alternative_0 (primitive) {
+				Some (ProcedurePrimitive0::Boolean (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Arithmetic (primitive) =>
+			if let Some (primitive) = arithmetic_primitive_n_alternative_0 (primitive) {
+				Some (ProcedurePrimitive0::Arithmetic (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Bitwise (primitive) =>
+			if let Some (primitive) = bitwise_primitive_n_alternative_0 (primitive) {
+				Some (ProcedurePrimitive0::Bitwise (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::List (primitive) =>
+			if let Some (primitive) = list_primitive_n_alternative_0 (primitive) {
+				Some (ProcedurePrimitive0::List (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Array (primitive) =>
+			if let Some (primitive) = array_primitive_n_alternative_0 (primitive) {
+				Some (ProcedurePrimitive0::Array (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Bytes (primitive) =>
+			if let Some (primitive) = bytes_primitive_n_alternative_0 (primitive) {
+				Some (ProcedurePrimitive0::Bytes (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::String (primitive) =>
+			if let Some (primitive) = string_primitive_n_alternative_0 (primitive) {
+				Some (ProcedurePrimitive0::String (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Functions (primitive) =>
+			if let Some (primitive) = functions_primitive_n_alternative_0 (primitive) {
+				Some (ProcedurePrimitive0::Functions (primitive))
+			} else {
+				None
+			},
+		
+	}
+}
+
+
+
+
+pub fn procedure_primitive_n_alternative_1 (primitive : ProcedurePrimitiveN) -> (Option<ProcedurePrimitive1>) {
+	match primitive {
+		
+		ProcedurePrimitiveN::Boolean (primitive) =>
+			if let Some (primitive) = boolean_primitive_n_alternative_1 (primitive) {
+				Some (ProcedurePrimitive1::Boolean (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Arithmetic (primitive) =>
+			if let Some (primitive) = arithmetic_primitive_n_alternative_1 (primitive) {
+				Some (ProcedurePrimitive1::Arithmetic (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Bitwise (primitive) =>
+			if let Some (primitive) = bitwise_primitive_n_alternative_1 (primitive) {
+				Some (ProcedurePrimitive1::Bitwise (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::List (primitive) =>
+			if let Some (primitive) = list_primitive_n_alternative_1 (primitive) {
+				Some (ProcedurePrimitive1::List (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Array (primitive) =>
+			if let Some (primitive) = array_primitive_n_alternative_1 (primitive) {
+				Some (ProcedurePrimitive1::Array (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Bytes (primitive) =>
+			if let Some (primitive) = bytes_primitive_n_alternative_1 (primitive) {
+				Some (ProcedurePrimitive1::Bytes (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::String (primitive) =>
+			if let Some (primitive) = string_primitive_n_alternative_1 (primitive) {
+				Some (ProcedurePrimitive1::String (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Functions (primitive) =>
+			if let Some (primitive) = functions_primitive_n_alternative_1 (primitive) {
+				Some (ProcedurePrimitive1::Functions (primitive))
+			} else {
+				None
+			},
+		
+	}
+}
+
+
+
+
+pub fn procedure_primitive_n_alternative_2 (primitive : ProcedurePrimitiveN) -> (Option<ProcedurePrimitive2>) {
+	match primitive {
+		
+		ProcedurePrimitiveN::Boolean (primitive) =>
+			if let Some (primitive) = boolean_primitive_n_alternative_2 (primitive) {
+				Some (ProcedurePrimitive2::Boolean (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Arithmetic (primitive) =>
+			if let Some (primitive) = arithmetic_primitive_n_alternative_2 (primitive) {
+				Some (ProcedurePrimitive2::Arithmetic (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Bitwise (primitive) =>
+			if let Some (primitive) = bitwise_primitive_n_alternative_2 (primitive) {
+				Some (ProcedurePrimitive2::Bitwise (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::List (primitive) =>
+			if let Some (primitive) = list_primitive_n_alternative_2 (primitive) {
+				Some (ProcedurePrimitive2::List (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Array (primitive) =>
+			if let Some (primitive) = array_primitive_n_alternative_2 (primitive) {
+				Some (ProcedurePrimitive2::Array (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Bytes (primitive) =>
+			if let Some (primitive) = bytes_primitive_n_alternative_2 (primitive) {
+				Some (ProcedurePrimitive2::Bytes (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::String (primitive) =>
+			if let Some (primitive) = string_primitive_n_alternative_2 (primitive) {
+				Some (ProcedurePrimitive2::String (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Functions (primitive) =>
+			if let Some (primitive) = functions_primitive_n_alternative_2 (primitive) {
+				Some (ProcedurePrimitive2::Functions (primitive))
+			} else {
+				None
+			},
+		
+	}
+}
+
+
+
+
+pub fn procedure_primitive_n_alternative_3 (primitive : ProcedurePrimitiveN) -> (Option<ProcedurePrimitive3>) {
+	match primitive {
+		
+		ProcedurePrimitiveN::Boolean (primitive) =>
+			if let Some (primitive) = boolean_primitive_n_alternative_3 (primitive) {
+				Some (ProcedurePrimitive3::Boolean (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Arithmetic (primitive) =>
+			if let Some (primitive) = arithmetic_primitive_n_alternative_3 (primitive) {
+				Some (ProcedurePrimitive3::Arithmetic (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Bitwise (primitive) =>
+			if let Some (primitive) = bitwise_primitive_n_alternative_3 (primitive) {
+				Some (ProcedurePrimitive3::Bitwise (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::List (primitive) =>
+			if let Some (primitive) = list_primitive_n_alternative_3 (primitive) {
+				Some (ProcedurePrimitive3::List (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Array (primitive) =>
+			if let Some (primitive) = array_primitive_n_alternative_3 (primitive) {
+				Some (ProcedurePrimitive3::Array (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Bytes (primitive) =>
+			if let Some (primitive) = bytes_primitive_n_alternative_3 (primitive) {
+				Some (ProcedurePrimitive3::Bytes (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::String (primitive) =>
+			if let Some (primitive) = string_primitive_n_alternative_3 (primitive) {
+				Some (ProcedurePrimitive3::String (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Functions (primitive) =>
+			if let Some (primitive) = functions_primitive_n_alternative_3 (primitive) {
+				Some (ProcedurePrimitive3::Functions (primitive))
+			} else {
+				None
+			},
+		
+	}
+}
+
+
+
+
+pub fn procedure_primitive_n_alternative_4 (primitive : ProcedurePrimitiveN) -> (Option<ProcedurePrimitive4>) {
+	match primitive {
+		
+		ProcedurePrimitiveN::Boolean (primitive) =>
+			if let Some (primitive) = boolean_primitive_n_alternative_4 (primitive) {
+				Some (ProcedurePrimitive4::Boolean (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Arithmetic (primitive) =>
+			if let Some (primitive) = arithmetic_primitive_n_alternative_4 (primitive) {
+				Some (ProcedurePrimitive4::Arithmetic (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Bitwise (primitive) =>
+			if let Some (primitive) = bitwise_primitive_n_alternative_4 (primitive) {
+				Some (ProcedurePrimitive4::Bitwise (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::List (primitive) =>
+			if let Some (primitive) = list_primitive_n_alternative_4 (primitive) {
+				Some (ProcedurePrimitive4::List (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Array (primitive) =>
+			if let Some (primitive) = array_primitive_n_alternative_4 (primitive) {
+				Some (ProcedurePrimitive4::Array (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Bytes (primitive) =>
+			if let Some (primitive) = bytes_primitive_n_alternative_4 (primitive) {
+				Some (ProcedurePrimitive4::Bytes (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::String (primitive) =>
+			if let Some (primitive) = string_primitive_n_alternative_4 (primitive) {
+				Some (ProcedurePrimitive4::String (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Functions (primitive) =>
+			if let Some (primitive) = functions_primitive_n_alternative_4 (primitive) {
+				Some (ProcedurePrimitive4::Functions (primitive))
+			} else {
+				None
+			},
 		
 	}
 }

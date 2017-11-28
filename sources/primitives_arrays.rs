@@ -24,6 +24,12 @@ pub mod exports {
 	pub use super::array_primitive_4_evaluate;
 	pub use super::array_primitive_n_evaluate;
 	
+	pub use super::array_primitive_n_alternative_0;
+	pub use super::array_primitive_n_alternative_1;
+	pub use super::array_primitive_n_alternative_2;
+	pub use super::array_primitive_n_alternative_3;
+	pub use super::array_primitive_n_alternative_4;
+	
 }
 
 
@@ -260,6 +266,43 @@ pub fn array_primitive_n_evaluate (primitive : ArrayPrimitiveN, inputs : &[Value
 				fail_unimplemented! (0x4fbc2e34);
 			},
 		
+	}
+}
+
+
+
+
+pub fn array_primitive_n_alternative_0 (primitive : ArrayPrimitiveN) -> (Option<ArrayPrimitive0>) {
+	match primitive {
+		_ => None,
+	}
+}
+
+
+pub fn array_primitive_n_alternative_1 (primitive : ArrayPrimitiveN) -> (Option<ArrayPrimitive1>) {
+	match primitive {
+		_ => None,
+	}
+}
+
+
+pub fn array_primitive_n_alternative_2 (primitive : ArrayPrimitiveN) -> (Option<ArrayPrimitive2>) {
+	match primitive {
+		_ => None,
+	}
+}
+
+
+pub fn array_primitive_n_alternative_3 (primitive : ArrayPrimitiveN) -> (Option<ArrayPrimitive3>) {
+	match primitive {
+		_ => None,
+	}
+}
+
+
+pub fn array_primitive_n_alternative_4 (primitive : ArrayPrimitiveN) -> (Option<ArrayPrimitive4>) {
+	match primitive {
+		_ => None,
 	}
 }
 

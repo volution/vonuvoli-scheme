@@ -25,6 +25,12 @@ pub mod exports {
 	pub use super::list_primitive_4_evaluate;
 	pub use super::list_primitive_n_evaluate;
 	
+	pub use super::list_primitive_n_alternative_0;
+	pub use super::list_primitive_n_alternative_1;
+	pub use super::list_primitive_n_alternative_2;
+	pub use super::list_primitive_n_alternative_3;
+	pub use super::list_primitive_n_alternative_4;
+	
 }
 
 
@@ -299,4 +305,42 @@ pub fn list_primitive_n_evaluate (primitive : ListPrimitiveN, inputs : &[Value])
 		
 	}
 }
+
+
+
+
+pub fn list_primitive_n_alternative_0 (primitive : ListPrimitiveN) -> (Option<ListPrimitive0>) {
+	match primitive {
+		_ => None,
+	}
+}
+
+
+pub fn list_primitive_n_alternative_1 (primitive : ListPrimitiveN) -> (Option<ListPrimitive1>) {
+	match primitive {
+		_ => None,
+	}
+}
+
+
+pub fn list_primitive_n_alternative_2 (primitive : ListPrimitiveN) -> (Option<ListPrimitive2>) {
+	match primitive {
+		_ => None,
+	}
+}
+
+
+pub fn list_primitive_n_alternative_3 (primitive : ListPrimitiveN) -> (Option<ListPrimitive3>) {
+	match primitive {
+		_ => None,
+	}
+}
+
+
+pub fn list_primitive_n_alternative_4 (primitive : ListPrimitiveN) -> (Option<ListPrimitive4>) {
+	match primitive {
+		_ => None,
+	}
+}
+
 

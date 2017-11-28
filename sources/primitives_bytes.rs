@@ -24,6 +24,12 @@ pub mod exports {
 	pub use super::bytes_primitive_4_evaluate;
 	pub use super::bytes_primitive_n_evaluate;
 	
+	pub use super::bytes_primitive_n_alternative_0;
+	pub use super::bytes_primitive_n_alternative_1;
+	pub use super::bytes_primitive_n_alternative_2;
+	pub use super::bytes_primitive_n_alternative_3;
+	pub use super::bytes_primitive_n_alternative_4;
+	
 }
 
 
@@ -262,4 +268,42 @@ pub fn bytes_primitive_n_evaluate (primitive : BytesPrimitiveN, inputs : &[Value
 		
 	}
 }
+
+
+
+
+pub fn bytes_primitive_n_alternative_0 (primitive : BytesPrimitiveN) -> (Option<BytesPrimitive0>) {
+	match primitive {
+		_ => None,
+	}
+}
+
+
+pub fn bytes_primitive_n_alternative_1 (primitive : BytesPrimitiveN) -> (Option<BytesPrimitive1>) {
+	match primitive {
+		_ => None,
+	}
+}
+
+
+pub fn bytes_primitive_n_alternative_2 (primitive : BytesPrimitiveN) -> (Option<BytesPrimitive2>) {
+	match primitive {
+		_ => None,
+	}
+}
+
+
+pub fn bytes_primitive_n_alternative_3 (primitive : BytesPrimitiveN) -> (Option<BytesPrimitive3>) {
+	match primitive {
+		_ => None,
+	}
+}
+
+
+pub fn bytes_primitive_n_alternative_4 (primitive : BytesPrimitiveN) -> (Option<BytesPrimitive4>) {
+	match primitive {
+		_ => None,
+	}
+}
+
 

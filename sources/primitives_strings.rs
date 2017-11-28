@@ -24,6 +24,12 @@ pub mod exports {
 	pub use super::string_primitive_4_evaluate;
 	pub use super::string_primitive_n_evaluate;
 	
+	pub use super::string_primitive_n_alternative_0;
+	pub use super::string_primitive_n_alternative_1;
+	pub use super::string_primitive_n_alternative_2;
+	pub use super::string_primitive_n_alternative_3;
+	pub use super::string_primitive_n_alternative_4;
+	
 }
 
 
@@ -262,4 +268,42 @@ pub fn string_primitive_n_evaluate (primitive : StringPrimitiveN, inputs : &[Val
 		
 	}
 }
+
+
+
+
+pub fn string_primitive_n_alternative_0 (primitive : StringPrimitiveN) -> (Option<StringPrimitive0>) {
+	match primitive {
+		_ => None,
+	}
+}
+
+
+pub fn string_primitive_n_alternative_1 (primitive : StringPrimitiveN) -> (Option<StringPrimitive1>) {
+	match primitive {
+		_ => None,
+	}
+}
+
+
+pub fn string_primitive_n_alternative_2 (primitive : StringPrimitiveN) -> (Option<StringPrimitive2>) {
+	match primitive {
+		_ => None,
+	}
+}
+
+
+pub fn string_primitive_n_alternative_3 (primitive : StringPrimitiveN) -> (Option<StringPrimitive3>) {
+	match primitive {
+		_ => None,
+	}
+}
+
+
+pub fn string_primitive_n_alternative_4 (primitive : StringPrimitiveN) -> (Option<StringPrimitive4>) {
+	match primitive {
+		_ => None,
+	}
+}
+
 

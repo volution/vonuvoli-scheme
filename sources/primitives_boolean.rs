@@ -12,12 +12,22 @@ pub mod exports {
 	pub use super::BooleanPrimitive0;
 	pub use super::BooleanPrimitive1;
 	pub use super::BooleanPrimitive2;
+	pub use super::BooleanPrimitive3;
+	pub use super::BooleanPrimitive4;
 	pub use super::BooleanPrimitiveN;
 	
 	pub use super::boolean_primitive_0_evaluate;
 	pub use super::boolean_primitive_1_evaluate;
 	pub use super::boolean_primitive_2_evaluate;
+	pub use super::boolean_primitive_3_evaluate;
+	pub use super::boolean_primitive_4_evaluate;
 	pub use super::boolean_primitive_n_evaluate;
+	
+	pub use super::boolean_primitive_n_alternative_0;
+	pub use super::boolean_primitive_n_alternative_1;
+	pub use super::boolean_primitive_n_alternative_2;
+	pub use super::boolean_primitive_n_alternative_3;
+	pub use super::boolean_primitive_n_alternative_4;
 	
 }
 
@@ -66,6 +76,14 @@ pub enum BooleanPrimitive2 {
 	Nxor,
 	
 }
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+pub enum BooleanPrimitive3 {}
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+pub enum BooleanPrimitive4 {}
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
@@ -182,6 +200,20 @@ pub fn boolean_primitive_2_evaluate (primitive : BooleanPrimitive2, input_1 : &V
 
 
 
+pub fn boolean_primitive_3_evaluate (primitive : BooleanPrimitive3, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value) -> (Outcome<Value>) {
+	match primitive {}
+}
+
+
+
+
+pub fn boolean_primitive_4_evaluate (primitive : BooleanPrimitive4, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value) -> (Outcome<Value>) {
+	match primitive {}
+}
+
+
+
+
 pub fn boolean_primitive_n_evaluate (primitive : BooleanPrimitiveN, inputs : &[Value]) -> (Outcome<Value>) {
 	
 	let mut output = match primitive {
@@ -231,4 +263,42 @@ pub fn boolean_primitive_n_evaluate (primitive : BooleanPrimitiveN, inputs : &[V
 	
 	succeed! (output.into ());
 }
+
+
+
+
+pub fn boolean_primitive_n_alternative_0 (primitive : BooleanPrimitiveN) -> (Option<BooleanPrimitive0>) {
+	match primitive {
+		_ => None,
+	}
+}
+
+
+pub fn boolean_primitive_n_alternative_1 (primitive : BooleanPrimitiveN) -> (Option<BooleanPrimitive1>) {
+	match primitive {
+		_ => None,
+	}
+}
+
+
+pub fn boolean_primitive_n_alternative_2 (primitive : BooleanPrimitiveN) -> (Option<BooleanPrimitive2>) {
+	match primitive {
+		_ => None,
+	}
+}
+
+
+pub fn boolean_primitive_n_alternative_3 (primitive : BooleanPrimitiveN) -> (Option<BooleanPrimitive3>) {
+	match primitive {
+		_ => None,
+	}
+}
+
+
+pub fn boolean_primitive_n_alternative_4 (primitive : BooleanPrimitiveN) -> (Option<BooleanPrimitive4>) {
+	match primitive {
+		_ => None,
+	}
+}
+
 
