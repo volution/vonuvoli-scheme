@@ -210,20 +210,20 @@ pub fn list_build_n (values : &[Value]) -> (Value) {
 
 pub fn list_append_2 (list_1 : &Value, list_2 : &Value) -> (Outcome<Value>) {
 	// FIXME:  Optimize the vector allocation!
-	let (values, last) = try! (vec_list_append_2_dotted (list_1, list_2));
-	succeed! (list_collect_dotted (values, last));
+	let (buffer, last) = try! (vec_list_append_2_dotted (list_1, list_2));
+	succeed! (list_collect_dotted (buffer, last));
 }
 
 pub fn list_append_3 (list_1 : &Value, list_2 : &Value, list_3 : &Value) -> (Outcome<Value>) {
 	// FIXME:  Optimize the vector allocation!
-	let (values, last) = try! (vec_list_append_3_dotted (list_1, list_2, list_3));
-	succeed! (list_collect_dotted (values, last));
+	let (buffer, last) = try! (vec_list_append_3_dotted (list_1, list_2, list_3));
+	succeed! (list_collect_dotted (buffer, last));
 }
 
 pub fn list_append_4 (list_1 : &Value, list_2 : &Value, list_3 : &Value, list_4 : &Value) -> (Outcome<Value>) {
 	// FIXME:  Optimize the vector allocation!
-	let (values, last) = try! (vec_list_append_4_dotted (list_1, list_2, list_3, list_4));
-	succeed! (list_collect_dotted (values, last));
+	let (buffer, last) = try! (vec_list_append_4_dotted (list_1, list_2, list_3, list_4));
+	succeed! (list_collect_dotted (buffer, last));
 }
 
 pub fn list_append_n (lists : &[Value]) -> (Outcome<Value>) {
@@ -242,8 +242,8 @@ pub fn list_append_n (lists : &[Value]) -> (Outcome<Value>) {
 			(),
 	}
 	// FIXME:  Optimize the vector allocation!
-	let (values, last) = try! (vec_list_append_n_dotted (lists));
-	succeed! (list_collect_dotted (values, last));
+	let (buffer, last) = try! (vec_list_append_n_dotted (lists));
+	succeed! (list_collect_dotted (buffer, last));
 }
 
 
@@ -251,23 +251,23 @@ pub fn list_append_n (lists : &[Value]) -> (Outcome<Value>) {
 
 pub fn list_make (length : usize, fill : &Value) -> (Outcome<Value>) {
 	// FIXME:  Optimize the vector allocation!
-	let mut values = ValueVec::with_capacity (length);
+	let mut buffer = StdVec::with_capacity (length);
 	for _index in 0..length {
-		values.push (fill.clone ());
+		buffer.push (fill.clone ());
 	}
-	succeed! (list_collect (values));
+	succeed! (list_collect (buffer));
 }
 
 pub fn list_clone (list : &Value) -> (Outcome<Value>) {
 	// FIXME:  Optimize the vector allocation!
-	let (values, last) = try! (vec_list_clone_dotted (list));
-	succeed! (list_collect_dotted (values, last));
+	let (buffer, last) = try! (vec_list_clone_dotted (list));
+	succeed! (list_collect_dotted (buffer, last));
 }
 
 pub fn list_reverse (list : &Value) -> (Outcome<Value>) {
 	// FIXME:  Optimize the vector allocation!
-	let values = try! (vec_list_clone (list));
-	succeed! (list_collect (values.into_iter () .rev ()));
+	let buffer = try! (vec_list_clone (list));
+	succeed! (list_collect (buffer.into_iter () .rev ()));
 }
 
 
@@ -297,24 +297,24 @@ pub fn list_length (list : &Value) -> (Outcome<usize>) {
 
 
 pub fn vec_list_append_2 (list_1 : &Value, list_2 : &Value) -> (Outcome<ValueVec>) {
-	let values = try! (vec_list_append_2_dotted (list_1, list_2));
-	return vec_list_append_return (values);
+	let buffer = try! (vec_list_append_2_dotted (list_1, list_2));
+	return vec_list_append_return (buffer);
 }
 
 pub fn vec_list_append_3 (list_1 : &Value, list_2 : &Value, list_3 : &Value) -> (Outcome<ValueVec>) {
-	let values = try! (vec_list_append_3_dotted (list_1, list_2, list_3));
-	return vec_list_append_return (values);
+	let buffer = try! (vec_list_append_3_dotted (list_1, list_2, list_3));
+	return vec_list_append_return (buffer);
 }
 
 pub fn vec_list_append_4 (list_1 : &Value, list_2 : &Value, list_3 : &Value, list_4 : &Value) -> (Outcome<ValueVec>) {
-	let values = try! (vec_list_append_4_dotted (list_1, list_2, list_3, list_4));
-	return vec_list_append_return (values);
+	let buffer = try! (vec_list_append_4_dotted (list_1, list_2, list_3, list_4));
+	return vec_list_append_return (buffer);
 }
 
 pub fn vec_list_append_n (lists : &[Value]) -> (Outcome<ValueVec>) {
 	match lists.len () {
 		0 =>
-			succeed! (ValueVec::new ()),
+			succeed! (StdVec::new ()),
 		1 =>
 			return vec_list_clone (&lists[0]),
 		2 =>
@@ -326,16 +326,16 @@ pub fn vec_list_append_n (lists : &[Value]) -> (Outcome<ValueVec>) {
 		_ =>
 			(),
 	}
-	let values = try! (vec_list_append_n_dotted (lists));
-	return vec_list_append_return (values);
+	let buffer = try! (vec_list_append_n_dotted (lists));
+	return vec_list_append_return (buffer);
 }
 
-fn vec_list_append_return ((values, last) : (ValueVec, Option<Value>)) -> (Outcome<ValueVec>) {
+fn vec_list_append_return ((buffer, last) : (ValueVec, Option<Value>)) -> (Outcome<ValueVec>) {
 	match last {
 		Some (_) =>
 			fail! (0x48f9af8f),
 		None =>
-			succeed! (values),
+			succeed! (buffer),
 	}
 }
 
@@ -344,41 +344,41 @@ fn vec_list_append_return ((values, last) : (ValueVec, Option<Value>)) -> (Outco
 
 pub fn vec_list_append_2_dotted (list_1 : &Value, list_2 : &Value) -> (Outcome<(ValueVec, Option<Value>)>) {
 	if is_null_all_2 (list_1, list_2) {
-		succeed! ((ValueVec::new (), None));
+		succeed! ((StdVec::new (), None));
 	}
-	let mut values = ValueVec::new ();
-	try! (vec_list_drain (&mut values, &list_1));
-	let last = try! (vec_list_drain_dotted (&mut values, &list_2));
-	succeed! ((values, last));
+	let mut buffer = StdVec::new ();
+	try! (vec_list_drain (&mut buffer, &list_1));
+	let last = try! (vec_list_drain_dotted (&mut buffer, &list_2));
+	succeed! ((buffer, last));
 }
 
 pub fn vec_list_append_3_dotted (list_1 : &Value, list_2 : &Value, list_3 : &Value) -> (Outcome<(ValueVec, Option<Value>)>) {
 	if is_null_all_3 (list_1, list_2, list_3) {
-		succeed! ((ValueVec::new (), None));
+		succeed! ((StdVec::new (), None));
 	}
-	let mut values = ValueVec::new ();
-	try! (vec_list_drain (&mut values, &list_1));
-	try! (vec_list_drain (&mut values, &list_2));
-	let last = try! (vec_list_drain_dotted (&mut values, &list_3));
-	succeed! ((values, last));
+	let mut buffer = StdVec::new ();
+	try! (vec_list_drain (&mut buffer, &list_1));
+	try! (vec_list_drain (&mut buffer, &list_2));
+	let last = try! (vec_list_drain_dotted (&mut buffer, &list_3));
+	succeed! ((buffer, last));
 }
 
 pub fn vec_list_append_4_dotted (list_1 : &Value, list_2 : &Value, list_3 : &Value, list_4 : &Value) -> (Outcome<(ValueVec, Option<Value>)>) {
 	if is_null_all_4 (list_1, list_2, list_3, list_4) {
-		succeed! ((ValueVec::new (), None));
+		succeed! ((StdVec::new (), None));
 	}
-	let mut values = ValueVec::new ();
-	try! (vec_list_drain (&mut values, &list_1));
-	try! (vec_list_drain (&mut values, &list_2));
-	try! (vec_list_drain (&mut values, &list_3));
-	let last = try! (vec_list_drain_dotted (&mut values, &list_4));
-	succeed! ((values, last));
+	let mut buffer = StdVec::new ();
+	try! (vec_list_drain (&mut buffer, &list_1));
+	try! (vec_list_drain (&mut buffer, &list_2));
+	try! (vec_list_drain (&mut buffer, &list_3));
+	let last = try! (vec_list_drain_dotted (&mut buffer, &list_4));
+	succeed! ((buffer, last));
 }
 
 pub fn vec_list_append_n_dotted (lists : &[Value]) -> (Outcome<(ValueVec, Option<Value>)>) {
 	match lists.len () {
 		0 =>
-			succeed! ((ValueVec::new (), None)),
+			succeed! ((StdVec::new (), None)),
 		1 =>
 			return vec_list_clone_dotted (&lists[0]),
 		2 =>
@@ -395,15 +395,15 @@ pub fn vec_list_append_n_dotted (lists : &[Value]) -> (Outcome<(ValueVec, Option
 			if lists_first.is_empty () {
 				return vec_list_clone_dotted (list_last);
 			} else {
-				let mut values = ValueVec::new ();
+				let mut buffer = StdVec::new ();
 				for list in lists_first {
-					try! (vec_list_drain (&mut values, &list));
+					try! (vec_list_drain (&mut buffer, &list));
 				}
-				let last = try! (vec_list_drain_dotted (&mut values, &list_last));
-				succeed! ((values, last));
+				let last = try! (vec_list_drain_dotted (&mut buffer, &list_last));
+				succeed! ((buffer, last));
 			},
 		None =>
-			succeed! ((ValueVec::new (), None)),
+			succeed! ((StdVec::new (), None)),
 	}
 }
 
@@ -411,25 +411,25 @@ pub fn vec_list_append_n_dotted (lists : &[Value]) -> (Outcome<(ValueVec, Option
 
 
 pub fn vec_list_clone (list : &Value) -> (Outcome<ValueVec>) {
-	let (values, last) = try! (vec_list_clone_dotted (list));
+	let (buffer, last) = try! (vec_list_clone_dotted (list));
 	match last {
 		Some (_) =>
 			fail! (0x096d7253),
 		None =>
-			succeed! (values),
+			succeed! (buffer),
 	}
 }
 
 
 pub fn vec_list_clone_dotted (list : &Value) -> (Outcome<(ValueVec, Option<Value>)>) {
-	let mut values = ValueVec::new ();
-	let last = try! (vec_list_drain_dotted (&mut values, list));
-	succeed! ((values, last));
+	let mut buffer = StdVec::new ();
+	let last = try! (vec_list_drain_dotted (&mut buffer, list));
+	succeed! ((buffer, last));
 }
 
 
-pub fn vec_list_drain (values : &mut ValueVec, list : &Value) -> (Outcome<()>) {
-	let last = try! (vec_list_drain_dotted (values, list));
+pub fn vec_list_drain (buffer : &mut ValueVec, list : &Value) -> (Outcome<()>) {
+	let last = try! (vec_list_drain_dotted (buffer, list));
 	match last {
 		Some (_) =>
 			fail! (0x57ebb8de),
@@ -439,13 +439,13 @@ pub fn vec_list_drain (values : &mut ValueVec, list : &Value) -> (Outcome<()>) {
 }
 
 
-pub fn vec_list_drain_dotted (values : &mut ValueVec, list : &Value) -> (Outcome<Option<Value>>) {
+pub fn vec_list_drain_dotted (buffer : &mut ValueVec, list : &Value) -> (Outcome<Option<Value>>) {
 	let mut cursor = list;
 	loop {
 		match cursor.class () {
 			ValueClass::Pair => {
 				let (left, right) = Pair::as_ref (cursor) .left_and_right ();
-				values.push (left.clone ());
+				buffer.push (left.clone ());
 				cursor = right;
 			},
 			ValueClass::Null =>
@@ -503,8 +503,8 @@ pub struct ListsIterator <'a> ( StdVec<ListIterator<'a>> );
 
 impl <'a> ListsIterator <'a> {
 	
-	pub fn new (values : &'a [Value]) -> (ListsIterator<'a>) {
-		let iterators = values.iter () .map (|value| ListIterator::new (value)) .collect ();
+	pub fn new (lists : &'a [Value]) -> (ListsIterator<'a>) {
+		let iterators = lists.iter () .map (|list| ListIterator::new (list)) .collect ();
 		return ListsIterator (iterators);
 	}
 }

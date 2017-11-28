@@ -54,46 +54,45 @@ pub fn array_at_set (_array : &Value, _index : usize, _value : &Value) -> (Outco
 pub fn array_collect <Source> (values : Source) -> (Value)
 		where Source : iter::IntoIterator<Item = Value>, Source::IntoIter : iter::DoubleEndedIterator
 {
-	let values = values.into_iter () .collect::<ValueVec> ();
-	return array_new (values) .into ();
+	use std::iter::FromIterator;
+	return array_new (FromIterator::from_iter (values)) .into ();
 }
 
 
 
 
 pub fn array_empty () -> (Value) {
-	let values = ValueVec::new ();
-	return array_new (values) .into ();
+	return array_new (StdVec::new ()) .into ();
 }
 
 pub fn array_build_1 (value_1 : &Value) -> (Value) {
-	let mut values = ValueVec::with_capacity (1);
-	values.push (value_1.clone ());
-	return array_new (values) .into ();
+	let mut buffer = StdVec::with_capacity (1);
+	buffer.push (value_1.clone ());
+	return array_new (buffer) .into ();
 }
 
 pub fn array_build_2 (value_1 : &Value, value_2 : &Value) -> (Value) {
-	let mut values = ValueVec::with_capacity (2);
-	values.push (value_1.clone ());
-	values.push (value_2.clone ());
-	return array_new (values) .into ();
+	let mut buffer = StdVec::with_capacity (2);
+	buffer.push (value_1.clone ());
+	buffer.push (value_2.clone ());
+	return array_new (buffer) .into ();
 }
 
 pub fn array_build_3 (value_1 : &Value, value_2 : &Value, value_3 : &Value) -> (Value) {
-	let mut values = ValueVec::with_capacity (3);
-	values.push (value_1.clone ());
-	values.push (value_2.clone ());
-	values.push (value_3.clone ());
-	return array_new (values) .into ();
+	let mut buffer = StdVec::with_capacity (3);
+	buffer.push (value_1.clone ());
+	buffer.push (value_2.clone ());
+	buffer.push (value_3.clone ());
+	return array_new (buffer) .into ();
 }
 
 pub fn array_build_4 (value_1 : &Value, value_2 : &Value, value_3 : &Value, value_4 : &Value) -> (Value) {
-	let mut values = ValueVec::with_capacity (4);
-	values.push (value_1.clone ());
-	values.push (value_2.clone ());
-	values.push (value_3.clone ());
-	values.push (value_4.clone ());
-	return array_new (values) .into ();
+	let mut buffer = StdVec::with_capacity (4);
+	buffer.push (value_1.clone ());
+	buffer.push (value_2.clone ());
+	buffer.push (value_3.clone ());
+	buffer.push (value_4.clone ());
+	return array_new (buffer) .into ();
 }
 
 pub fn array_build_n (values : &[Value]) -> (Value) {
@@ -111,25 +110,29 @@ pub fn array_build_n (values : &[Value]) -> (Value) {
 		_ =>
 			(),
 	}
-	return array_new (values.to_vec ()) .into ();
+	let mut buffer = StdVec::with_capacity (values.len ());
+	for value in values {
+		buffer.push (value.clone ());
+	}
+	return array_new (buffer) .into ();
 }
 
 
 
 
 pub fn array_append_2 (array_1 : &Value, array_2 : &Value) -> (Outcome<Value>) {
-	let values = try! (vec_array_append_2 (array_1, array_2));
-	succeed! (array_new (values) .into ());
+	let buffer = try! (vec_array_append_2 (array_1, array_2));
+	succeed! (array_new (buffer) .into ());
 }
 
 pub fn array_append_3 (array_1 : &Value, array_2 : &Value, array_3 : &Value) -> (Outcome<Value>) {
-	let values = try! (vec_array_append_3 (array_1, array_2, array_3));
-	succeed! (array_new (values) .into ());
+	let buffer = try! (vec_array_append_3 (array_1, array_2, array_3));
+	succeed! (array_new (buffer) .into ());
 }
 
 pub fn array_append_4 (array_1 : &Value, array_2 : &Value, array_3 : &Value, array_4 : &Value) -> (Outcome<Value>) {
-	let values = try! (vec_array_append_4 (array_1, array_2, array_3, array_4));
-	succeed! (array_new (values) .into ());
+	let buffer = try! (vec_array_append_4 (array_1, array_2, array_3, array_4));
+	succeed! (array_new (buffer) .into ());
 }
 
 pub fn array_append_n (arrays : &[Value]) -> (Outcome<Value>) {
@@ -147,30 +150,30 @@ pub fn array_append_n (arrays : &[Value]) -> (Outcome<Value>) {
 		_ =>
 			(),
 	}
-	let values = try! (vec_array_append_n (arrays));
-	succeed! (array_new (values) .into ());
+	let buffer = try! (vec_array_append_n (arrays));
+	succeed! (array_new (buffer) .into ());
 }
 
 
 
 
 pub fn array_make (length : usize, fill : &Value) -> (Outcome<Value>) {
-	let mut values = ValueVec::with_capacity (length);
+	let mut buffer = StdVec::with_capacity (length);
 	for _index in 0..length {
-		values.push (fill.clone ());
+		buffer.push (fill.clone ());
 	}
-	succeed! (array_new (values) .into ());
+	succeed! (array_new (buffer) .into ());
 }
 
 pub fn array_clone (array : &Value) -> (Outcome<Value>) {
-	let values = try! (vec_array_clone (array));
-	succeed! (array_new (values) .into ());
+	let buffer = try! (vec_array_clone (array));
+	succeed! (array_new (buffer) .into ());
 }
 
 pub fn array_reverse (array : &Value) -> (Outcome<Value>) {
 	// FIXME:  Optimize the vector allocation!
-	let values = try! (vec_array_clone (array));
-	succeed! (array_collect (values.into_iter () .rev ()));
+	let buffer = try! (vec_array_clone (array));
+	succeed! (array_collect (buffer.into_iter () .rev ()));
 }
 
 
@@ -186,41 +189,41 @@ pub fn array_length (array : &Value) -> (Outcome<usize>) {
 
 pub fn vec_array_append_2 (array_1 : &Value, array_2 : &Value) -> (Outcome<ValueVec>) {
 	if is_array_empty (array_1) && is_array_empty (array_2) {
-		succeed! (ValueVec::new ());
+		succeed! (StdVec::new ());
 	}
-	let mut values = ValueVec::new ();
-	try! (vec_array_drain (&mut values, &array_1));
-	try! (vec_array_drain (&mut values, &array_2));
-	succeed! (values);
+	let mut buffer = StdVec::new ();
+	try! (vec_array_drain (&mut buffer, &array_1));
+	try! (vec_array_drain (&mut buffer, &array_2));
+	succeed! (buffer);
 }
 
 pub fn vec_array_append_3 (array_1 : &Value, array_2 : &Value, array_3 : &Value) -> (Outcome<ValueVec>) {
 	if is_array_empty (array_1) && is_array_empty (array_2) && is_array_empty (array_3) {
-		succeed! (ValueVec::new ());
+		succeed! (StdVec::new ());
 	}
-	let mut values = ValueVec::new ();
-	try! (vec_array_drain (&mut values, &array_1));
-	try! (vec_array_drain (&mut values, &array_2));
-	try! (vec_array_drain (&mut values, &array_3));
-	succeed! (values);
+	let mut buffer = StdVec::new ();
+	try! (vec_array_drain (&mut buffer, &array_1));
+	try! (vec_array_drain (&mut buffer, &array_2));
+	try! (vec_array_drain (&mut buffer, &array_3));
+	succeed! (buffer);
 }
 
 pub fn vec_array_append_4 (array_1 : &Value, array_2 : &Value, array_3 : &Value, array_4 : &Value) -> (Outcome<ValueVec>) {
 	if is_array_empty (array_1) && is_array_empty (array_2) && is_array_empty (array_3) && is_array_empty (array_4) {
-		succeed! (ValueVec::new ());
+		succeed! (StdVec::new ());
 	}
-	let mut values = ValueVec::new ();
-	try! (vec_array_drain (&mut values, &array_1));
-	try! (vec_array_drain (&mut values, &array_2));
-	try! (vec_array_drain (&mut values, &array_3));
-	try! (vec_array_drain (&mut values, &array_4));
-	succeed! (values);
+	let mut buffer = StdVec::new ();
+	try! (vec_array_drain (&mut buffer, &array_1));
+	try! (vec_array_drain (&mut buffer, &array_2));
+	try! (vec_array_drain (&mut buffer, &array_3));
+	try! (vec_array_drain (&mut buffer, &array_4));
+	succeed! (buffer);
 }
 
 pub fn vec_array_append_n (arrays : &[Value]) -> (Outcome<ValueVec>) {
 	match arrays.len () {
 		0 =>
-			succeed! (ValueVec::new ()),
+			succeed! (StdVec::new ()),
 		1 =>
 			return vec_array_clone (&arrays[0]),
 		2 =>
@@ -232,26 +235,26 @@ pub fn vec_array_append_n (arrays : &[Value]) -> (Outcome<ValueVec>) {
 		_ =>
 			(),
 	}
-	let mut values = ValueVec::new ();
+	let mut buffer = StdVec::new ();
 	for array in arrays {
-		try! (vec_array_drain (&mut values, &array));
+		try! (vec_array_drain (&mut buffer, &array));
 	}
-	succeed! (values);
+	succeed! (buffer);
 }
 
 
 
 
 pub fn vec_array_clone (array : &Value) -> (Outcome<ValueVec>) {
-	let mut values = ValueVec::new ();
-	try! (vec_array_drain (&mut values, array));
-	succeed! (values);
+	let mut buffer = StdVec::new ();
+	try! (vec_array_drain (&mut buffer, array));
+	succeed! (buffer);
 }
 
 
-pub fn vec_array_drain (values : &mut ValueVec, array : &Value) -> (Outcome<()>) {
+pub fn vec_array_drain (buffer : &mut ValueVec, array : &Value) -> (Outcome<()>) {
 	let array = try_as_array_ref! (array);
-	values.extend_from_slice (array.values_as_slice ());
+	buffer.extend_from_slice (array.values_as_slice ());
 	succeed! (());
 }
 
@@ -263,8 +266,8 @@ pub struct ArrayIterator <'a> ( &'a Value );
 
 impl <'a> ArrayIterator <'a> {
 	
-	pub fn new (value : &'a Value) -> (ArrayIterator<'a>) {
-		return ArrayIterator (value);
+	pub fn new (array : &'a Value) -> (ArrayIterator<'a>) {
+		return ArrayIterator (array);
 	}
 }
 
@@ -286,8 +289,8 @@ pub struct ArraysIterator <'a> ( StdVec<ArrayIterator<'a>> );
 
 impl <'a> ArraysIterator <'a> {
 	
-	pub fn new (values : &'a [Value]) -> (ArraysIterator<'a>) {
-		let iterators = values.iter () .map (|value| ArrayIterator::new (value)) .collect ();
+	pub fn new (arrays : &'a [Value]) -> (ArraysIterator<'a>) {
+		let iterators = arrays.iter () .map (|array| ArrayIterator::new (array)) .collect ();
 		return ArraysIterator (iterators);
 	}
 }
