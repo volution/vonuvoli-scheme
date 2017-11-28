@@ -12,6 +12,11 @@ pub mod exports {
 	pub use super::BitwisePrimitive1;
 	pub use super::BitwisePrimitive2;
 	pub use super::BitwisePrimitiveN;
+	
+	pub use super::bitwise_primitive_1_evaluate;
+	pub use super::bitwise_primitive_2_evaluate;
+	pub use super::bitwise_primitive_n_evaluate;
+	
 }
 
 
@@ -23,6 +28,7 @@ pub enum BitwisePrimitive1 {
 	Complement,
 	
 }
+
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
 pub enum BitwisePrimitive2 {
@@ -42,6 +48,7 @@ pub enum BitwisePrimitive2 {
 	RotateRight,
 	
 }
+
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
 pub enum BitwisePrimitiveN {

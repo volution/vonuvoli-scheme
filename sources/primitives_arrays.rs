@@ -9,12 +9,21 @@ use super::values::exports::*;
 
 
 pub mod exports {
+	
 	pub use super::ArrayPrimitive0;
 	pub use super::ArrayPrimitive1;
 	pub use super::ArrayPrimitive2;
 	pub use super::ArrayPrimitive3;
 	pub use super::ArrayPrimitive4;
 	pub use super::ArrayPrimitiveN;
+	
+	pub use super::array_primitive_0_evaluate;
+	pub use super::array_primitive_1_evaluate;
+	pub use super::array_primitive_2_evaluate;
+	pub use super::array_primitive_3_evaluate;
+	pub use super::array_primitive_4_evaluate;
+	pub use super::array_primitive_n_evaluate;
+	
 }
 
 
@@ -27,8 +36,6 @@ pub enum ArrayPrimitive0 {
 	ArrayAppend,
 	
 }
-
-
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]

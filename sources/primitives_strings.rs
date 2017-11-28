@@ -9,12 +9,21 @@ use super::values::exports::*;
 
 
 pub mod exports {
+	
 	pub use super::StringPrimitive0;
 	pub use super::StringPrimitive1;
 	pub use super::StringPrimitive2;
 	pub use super::StringPrimitive3;
 	pub use super::StringPrimitive4;
 	pub use super::StringPrimitiveN;
+	
+	pub use super::string_primitive_0_evaluate;
+	pub use super::string_primitive_1_evaluate;
+	pub use super::string_primitive_2_evaluate;
+	pub use super::string_primitive_3_evaluate;
+	pub use super::string_primitive_4_evaluate;
+	pub use super::string_primitive_n_evaluate;
+	
 }
 
 
@@ -27,8 +36,6 @@ pub enum StringPrimitive0 {
 	StringAppend,
 	
 }
-
-
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]

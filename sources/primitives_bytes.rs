@@ -9,12 +9,21 @@ use super::values::exports::*;
 
 
 pub mod exports {
+	
 	pub use super::BytesPrimitive0;
 	pub use super::BytesPrimitive1;
 	pub use super::BytesPrimitive2;
 	pub use super::BytesPrimitive3;
 	pub use super::BytesPrimitive4;
 	pub use super::BytesPrimitiveN;
+	
+	pub use super::bytes_primitive_0_evaluate;
+	pub use super::bytes_primitive_1_evaluate;
+	pub use super::bytes_primitive_2_evaluate;
+	pub use super::bytes_primitive_3_evaluate;
+	pub use super::bytes_primitive_4_evaluate;
+	pub use super::bytes_primitive_n_evaluate;
+	
 }
 
 
@@ -27,8 +36,6 @@ pub enum BytesPrimitive0 {
 	BytesAppend,
 	
 }
-
-
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]

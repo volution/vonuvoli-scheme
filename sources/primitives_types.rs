@@ -8,7 +8,11 @@ use super::values::exports::*;
 
 
 pub mod exports {
+	
 	pub use super::TypePrimitive1;
+	
+	pub use super::type_primitive_1_evaluate;
+	
 }
 
 

@@ -9,9 +9,15 @@ use super::values::exports::*;
 
 
 pub mod exports {
+	
 	pub use super::FunctionsPrimitive1;
 	pub use super::FunctionsPrimitive2;
 	pub use super::FunctionsPrimitiveN;
+	
+	pub use super::functions_primitive_1_evaluate;
+	pub use super::functions_primitive_2_evaluate;
+	pub use super::functions_primitive_n_evaluate;
+	
 }
 
 

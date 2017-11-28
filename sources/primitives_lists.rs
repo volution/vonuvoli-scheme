@@ -10,12 +10,21 @@ use super::values::exports::*;
 
 
 pub mod exports {
+	
 	pub use super::ListPrimitive0;
 	pub use super::ListPrimitive1;
 	pub use super::ListPrimitive2;
 	pub use super::ListPrimitive3;
 	pub use super::ListPrimitive4;
 	pub use super::ListPrimitiveN;
+	
+	pub use super::list_primitive_0_evaluate;
+	pub use super::list_primitive_1_evaluate;
+	pub use super::list_primitive_2_evaluate;
+	pub use super::list_primitive_3_evaluate;
+	pub use super::list_primitive_4_evaluate;
+	pub use super::list_primitive_n_evaluate;
+	
 }
 
 
@@ -28,8 +37,6 @@ pub enum ListPrimitive0 {
 	ListAppend,
 	
 }
-
-
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
