@@ -63,31 +63,31 @@ pub fn string_empty () -> (Value) {
 
 pub fn string_build_1 (char_1 : &Value) -> (Outcome<Value>) {
 	let mut buffer = StdString::with_capacity (1);
-	buffer.push (try! (try_as_number_integer_ref! (char_1) .try_to_char ()));
+	buffer.push (try_as_character_ref! (char_1) .value ());
 	succeed! (string_new (buffer) .into ());
 }
 
 pub fn string_build_2 (char_1 : &Value, char_2 : &Value) -> (Outcome<Value>) {
 	let mut buffer = StdString::with_capacity (2);
-	buffer.push (try! (try_as_number_integer_ref! (char_1) .try_to_char ()));
-	buffer.push (try! (try_as_number_integer_ref! (char_2) .try_to_char ()));
+	buffer.push (try_as_character_ref! (char_1) .value ());
+	buffer.push (try_as_character_ref! (char_2) .value ());
 	succeed! (string_new (buffer) .into ());
 }
 
 pub fn string_build_3 (char_1 : &Value, char_2 : &Value, char_3 : &Value) -> (Outcome<Value>) {
 	let mut buffer = StdString::with_capacity (3);
-	buffer.push (try! (try_as_number_integer_ref! (char_1) .try_to_char ()));
-	buffer.push (try! (try_as_number_integer_ref! (char_2) .try_to_char ()));
-	buffer.push (try! (try_as_number_integer_ref! (char_3) .try_to_char ()));
+	buffer.push (try_as_character_ref! (char_1) .value ());
+	buffer.push (try_as_character_ref! (char_2) .value ());
+	buffer.push (try_as_character_ref! (char_3) .value ());
 	succeed! (string_new (buffer) .into ());
 }
 
 pub fn string_build_4 (char_1 : &Value, char_2 : &Value, char_3 : &Value, char_4 : &Value) -> (Outcome<Value>) {
 	let mut buffer = StdString::with_capacity (4);
-	buffer.push (try! (try_as_number_integer_ref! (char_1) .try_to_char ()));
-	buffer.push (try! (try_as_number_integer_ref! (char_2) .try_to_char ()));
-	buffer.push (try! (try_as_number_integer_ref! (char_3) .try_to_char ()));
-	buffer.push (try! (try_as_number_integer_ref! (char_4) .try_to_char ()));
+	buffer.push (try_as_character_ref! (char_1) .value ());
+	buffer.push (try_as_character_ref! (char_2) .value ());
+	buffer.push (try_as_character_ref! (char_3) .value ());
+	buffer.push (try_as_character_ref! (char_4) .value ());
 	succeed! (string_new (buffer) .into ());
 }
 
@@ -108,7 +108,7 @@ pub fn string_build_n (chars : &[Value]) -> (Outcome<Value>) {
 	}
 	let mut buffer = StdString::with_capacity (chars.len ());
 	for char in chars {
-		buffer.push (try! (try_as_number_integer_ref! (char) .try_to_char ()));
+		buffer.push (try_as_character_ref! (char) .value ());
 	}
 	succeed! (string_new (buffer) .into ());
 }
@@ -153,8 +153,12 @@ pub fn string_append_n (strings : &[Value]) -> (Outcome<Value>) {
 
 
 
-pub fn string_make (length : usize, fill : &Value) -> (Outcome<Value>) {
-	let fill = try! (try_as_number_integer_ref! (fill) .try_to_char ());
+pub fn string_make (length : usize, fill : Option<&Value>) -> (Outcome<Value>) {
+	let fill = if let Some (fill) = fill {
+		try_as_character_ref! (fill) .value ()
+	} else {
+		0 as char
+	};
 	let mut buffer = StdString::with_capacity (length);
 	for _index in 0..length {
 		buffer.push (fill);
