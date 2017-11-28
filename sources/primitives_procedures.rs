@@ -32,15 +32,14 @@ pub mod exports {
 	pub use super::procedure_primitive_3_evaluate;
 	pub use super::procedure_primitive_4_evaluate;
 	pub use super::procedure_primitive_n_evaluate;
+	pub use super::procedure_primitive_n_evaluate_without_alternatives;
 	pub use super::procedure_primitive_evaluate;
 	
-	/*
 	pub use super::procedure_primitive_n_alternative_0;
 	pub use super::procedure_primitive_n_alternative_1;
 	pub use super::procedure_primitive_n_alternative_2;
 	pub use super::procedure_primitive_n_alternative_3;
 	pub use super::procedure_primitive_n_alternative_4;
-	*/
 	
 }
 
@@ -337,6 +336,46 @@ pub fn procedure_primitive_4_evaluate (primitive : ProcedurePrimitive4, input_1 
 
 
 pub fn procedure_primitive_n_evaluate (primitive : ProcedurePrimitiveN, inputs : &[Value], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	
+	match inputs.len () {
+		
+		0 =>
+			if let Some (primitive) = procedure_primitive_n_alternative_0 (primitive) {
+				return procedure_primitive_0_evaluate (primitive, evaluator);
+			},
+		
+		1 =>
+			if let Some (primitive) = procedure_primitive_n_alternative_1 (primitive) {
+				return procedure_primitive_1_evaluate (primitive, &inputs[0], evaluator);
+			},
+		
+		2 =>
+			if let Some (primitive) = procedure_primitive_n_alternative_2 (primitive) {
+				return procedure_primitive_2_evaluate (primitive, &inputs[0], &inputs[1], evaluator);
+			},
+		
+		3 =>
+			if let Some (primitive) = procedure_primitive_n_alternative_3 (primitive) {
+				return procedure_primitive_3_evaluate (primitive, &inputs[0], &inputs[1], &inputs[2], evaluator);
+			},
+		
+		4 =>
+			if let Some (primitive) = procedure_primitive_n_alternative_4 (primitive) {
+				return procedure_primitive_4_evaluate (primitive, &inputs[0], &inputs[1], &inputs[2], &inputs[3], evaluator);
+			},
+		
+		_ =>
+			(),
+		
+	}
+	
+	return procedure_primitive_n_evaluate_without_alternatives (primitive, inputs, evaluator);
+}
+
+
+
+
+pub fn procedure_primitive_n_evaluate_without_alternatives (primitive : ProcedurePrimitiveN, inputs : &[Value], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		ProcedurePrimitiveN::Boolean (primitive) =>
