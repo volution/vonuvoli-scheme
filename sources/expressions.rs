@@ -42,6 +42,12 @@ pub enum Expression {
 	BindingSet ( Binding, ExpressionBox ),
 	BindingGet ( Binding ),
 	
+	ProcedureCall0 ( ExpressionBox ),
+	ProcedureCall1 ( ExpressionBox, ExpressionBox ),
+	ProcedureCall2 ( ExpressionBox, ExpressionBox, ExpressionBox ),
+	ProcedureCall3 ( ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
+	ProcedureCall4 ( ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
+	ProcedureCallN ( ExpressionBox, ExpressionVec ),
 	ProcedureCall ( ExpressionBox, ExpressionVec ),
 	
 	ProcedurePrimitiveCall0 ( ProcedurePrimitive0 ),
