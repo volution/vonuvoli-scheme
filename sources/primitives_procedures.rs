@@ -7,8 +7,11 @@ use super::primitives_arrays::exports::*;
 use super::primitives_bitwise::exports::*;
 use super::primitives_boolean::exports::*;
 use super::primitives_bytes::exports::*;
+use super::primitives_comparisons::exports::*;
 use super::primitives_functions::exports::*;
 use super::primitives_lists::exports::*;
+use super::primitives_ports::exports::*;
+use super::primitives_runtime::exports::*;
 use super::primitives_strings::exports::*;
 use super::primitives_types::exports::*;
 use super::values::exports::*;
@@ -73,6 +76,7 @@ pub enum ProcedurePrimitive0 {
 	Boolean ( BooleanPrimitive0 ),
 	Arithmetic ( ArithmeticPrimitive0 ),
 	Bitwise ( BitwisePrimitive0 ),
+	Comparison ( ComparisonPrimitive0 ),
 	
 	List ( ListPrimitive0 ),
 	Array ( ArrayPrimitive0 ),
@@ -80,6 +84,8 @@ pub enum ProcedurePrimitive0 {
 	String ( StringPrimitive0 ),
 	
 	Functions ( FunctionsPrimitive0 ),
+	Runtime ( RuntimePrimitive0 ),
+	Port ( PortPrimitive0 ),
 	
 }
 
@@ -92,6 +98,7 @@ pub enum ProcedurePrimitive1 {
 	Boolean ( BooleanPrimitive1 ),
 	Arithmetic ( ArithmeticPrimitive1 ),
 	Bitwise ( BitwisePrimitive1 ),
+	Comparison ( ComparisonPrimitive1 ),
 	
 	List ( ListPrimitive1 ),
 	Array ( ArrayPrimitive1 ),
@@ -99,6 +106,8 @@ pub enum ProcedurePrimitive1 {
 	String ( StringPrimitive1 ),
 	
 	Functions ( FunctionsPrimitive1 ),
+	Runtime ( RuntimePrimitive1 ),
+	Port ( PortPrimitive1 ),
 	
 }
 
@@ -109,6 +118,7 @@ pub enum ProcedurePrimitive2 {
 	Boolean ( BooleanPrimitive2 ),
 	Arithmetic ( ArithmeticPrimitive2 ),
 	Bitwise ( BitwisePrimitive2 ),
+	Comparison ( ComparisonPrimitive2 ),
 	
 	List ( ListPrimitive2 ),
 	Array ( ArrayPrimitive2 ),
@@ -116,6 +126,8 @@ pub enum ProcedurePrimitive2 {
 	String ( StringPrimitive2 ),
 	
 	Functions ( FunctionsPrimitive2 ),
+	Runtime ( RuntimePrimitive2 ),
+	Port ( PortPrimitive2 ),
 	
 }
 
@@ -126,6 +138,7 @@ pub enum ProcedurePrimitive3 {
 	Boolean ( BooleanPrimitive3 ),
 	Arithmetic ( ArithmeticPrimitive3 ),
 	Bitwise ( BitwisePrimitive3 ),
+	Comparison ( ComparisonPrimitive3 ),
 	
 	List ( ListPrimitive3 ),
 	Array ( ArrayPrimitive3 ),
@@ -133,6 +146,8 @@ pub enum ProcedurePrimitive3 {
 	String ( StringPrimitive3 ),
 	
 	Functions ( FunctionsPrimitive3 ),
+	Runtime ( RuntimePrimitive3 ),
+	Port ( PortPrimitive3 ),
 	
 }
 
@@ -143,6 +158,7 @@ pub enum ProcedurePrimitive4 {
 	Boolean ( BooleanPrimitive4 ),
 	Arithmetic ( ArithmeticPrimitive4 ),
 	Bitwise ( BitwisePrimitive4 ),
+	Comparison ( ComparisonPrimitive4 ),
 	
 	List ( ListPrimitive4 ),
 	Array ( ArrayPrimitive4 ),
@@ -150,6 +166,8 @@ pub enum ProcedurePrimitive4 {
 	String ( StringPrimitive4 ),
 	
 	Functions ( FunctionsPrimitive4 ),
+	Runtime ( RuntimePrimitive4 ),
+	Port ( PortPrimitive4 ),
 	
 }
 
@@ -160,6 +178,7 @@ pub enum ProcedurePrimitive5 {
 	Boolean ( BooleanPrimitive5 ),
 	Arithmetic ( ArithmeticPrimitive5 ),
 	Bitwise ( BitwisePrimitive5 ),
+	Comparison ( ComparisonPrimitive5 ),
 	
 	List ( ListPrimitive5 ),
 	Array ( ArrayPrimitive5 ),
@@ -167,6 +186,8 @@ pub enum ProcedurePrimitive5 {
 	String ( StringPrimitive5 ),
 	
 	Functions ( FunctionsPrimitive5 ),
+	Runtime ( RuntimePrimitive5 ),
+	Port ( PortPrimitive5 ),
 	
 }
 
@@ -177,11 +198,16 @@ pub enum ProcedurePrimitiveN {
 	Boolean ( BooleanPrimitiveN ),
 	Arithmetic ( ArithmeticPrimitiveN ),
 	Bitwise ( BitwisePrimitiveN ),
+	Comparison ( ComparisonPrimitiveN ),
+	
 	List ( ListPrimitiveN ),
 	Array ( ArrayPrimitiveN ),
 	Bytes ( BytesPrimitiveN ),
 	String ( StringPrimitiveN ),
+	
 	Functions ( FunctionsPrimitiveN ),
+	Runtime ( RuntimePrimitiveN ),
+	Port ( PortPrimitiveN ),
 	
 }
 
@@ -200,6 +226,9 @@ pub fn procedure_primitive_0_evaluate (primitive : ProcedurePrimitive0, evaluato
 		ProcedurePrimitive0::Bitwise (primitive) =>
 			return bitwise_primitive_0_evaluate (primitive),
 		
+		ProcedurePrimitive0::Comparison (primitive) =>
+			return comparison_primitive_0_evaluate (primitive),
+		
 		ProcedurePrimitive0::List (primitive) =>
 			return list_primitive_0_evaluate (primitive),
 		
@@ -214,6 +243,12 @@ pub fn procedure_primitive_0_evaluate (primitive : ProcedurePrimitive0, evaluato
 		
 		ProcedurePrimitive0::Functions (primitive) =>
 			return functions_primitive_0_evaluate (primitive, evaluator),
+		
+		ProcedurePrimitive0::Runtime (primitive) =>
+			return runtime_primitive_0_evaluate (primitive, evaluator),
+		
+		ProcedurePrimitive0::Port (primitive) =>
+			return port_primitive_0_evaluate (primitive),
 		
 	}
 }
@@ -236,6 +271,9 @@ pub fn procedure_primitive_1_evaluate (primitive : ProcedurePrimitive1, input_1 
 		ProcedurePrimitive1::Bitwise (primitive) =>
 			return bitwise_primitive_1_evaluate (primitive, input_1),
 		
+		ProcedurePrimitive1::Comparison (primitive) =>
+			return comparison_primitive_1_evaluate (primitive, input_1),
+		
 		ProcedurePrimitive1::List (primitive) =>
 			return list_primitive_1_evaluate (primitive, input_1),
 		
@@ -250,6 +288,12 @@ pub fn procedure_primitive_1_evaluate (primitive : ProcedurePrimitive1, input_1 
 		
 		ProcedurePrimitive1::Functions (primitive) =>
 			return functions_primitive_1_evaluate (primitive, input_1, evaluator),
+		
+		ProcedurePrimitive1::Runtime (primitive) =>
+			return runtime_primitive_1_evaluate (primitive, input_1, evaluator),
+		
+		ProcedurePrimitive1::Port (primitive) =>
+			return port_primitive_1_evaluate (primitive, input_1),
 		
 	}
 }
@@ -269,6 +313,9 @@ pub fn procedure_primitive_2_evaluate (primitive : ProcedurePrimitive2, input_1 
 		ProcedurePrimitive2::Bitwise (primitive) =>
 			return bitwise_primitive_2_evaluate (primitive, input_1, input_2),
 		
+		ProcedurePrimitive2::Comparison (primitive) =>
+			return comparison_primitive_2_evaluate (primitive, input_1, input_2),
+		
 		ProcedurePrimitive2::List (primitive) =>
 			return list_primitive_2_evaluate (primitive, input_1, input_2),
 		
@@ -283,6 +330,12 @@ pub fn procedure_primitive_2_evaluate (primitive : ProcedurePrimitive2, input_1 
 		
 		ProcedurePrimitive2::Functions (primitive) =>
 			return functions_primitive_2_evaluate (primitive, input_1, input_2, evaluator),
+		
+		ProcedurePrimitive2::Runtime (primitive) =>
+			return runtime_primitive_2_evaluate (primitive, input_1, input_2, evaluator),
+		
+		ProcedurePrimitive2::Port (primitive) =>
+			return port_primitive_2_evaluate (primitive, input_1, input_2),
 		
 	}
 }
@@ -302,6 +355,9 @@ pub fn procedure_primitive_3_evaluate (primitive : ProcedurePrimitive3, input_1 
 		ProcedurePrimitive3::Bitwise (primitive) =>
 			return bitwise_primitive_3_evaluate (primitive, input_1, input_2, input_3),
 		
+		ProcedurePrimitive3::Comparison (primitive) =>
+			return comparison_primitive_3_evaluate (primitive, input_1, input_2, input_3),
+		
 		ProcedurePrimitive3::List (primitive) =>
 			return list_primitive_3_evaluate (primitive, input_1, input_2, input_3),
 		
@@ -316,6 +372,12 @@ pub fn procedure_primitive_3_evaluate (primitive : ProcedurePrimitive3, input_1 
 		
 		ProcedurePrimitive3::Functions (primitive) =>
 			return functions_primitive_3_evaluate (primitive, input_1, input_2, input_3, evaluator),
+		
+		ProcedurePrimitive3::Runtime (primitive) =>
+			return runtime_primitive_3_evaluate (primitive, input_1, input_2, input_3, evaluator),
+		
+		ProcedurePrimitive3::Port (primitive) =>
+			return port_primitive_3_evaluate (primitive, input_1, input_2, input_3),
 		
 	}
 }
@@ -335,6 +397,9 @@ pub fn procedure_primitive_4_evaluate (primitive : ProcedurePrimitive4, input_1 
 		ProcedurePrimitive4::Bitwise (primitive) =>
 			return bitwise_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4),
 		
+		ProcedurePrimitive4::Comparison (primitive) =>
+			return comparison_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4),
+		
 		ProcedurePrimitive4::List (primitive) =>
 			return list_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4),
 		
@@ -349,6 +414,12 @@ pub fn procedure_primitive_4_evaluate (primitive : ProcedurePrimitive4, input_1 
 		
 		ProcedurePrimitive4::Functions (primitive) =>
 			return functions_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4, evaluator),
+		
+		ProcedurePrimitive4::Runtime (primitive) =>
+			return runtime_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4, evaluator),
+		
+		ProcedurePrimitive4::Port (primitive) =>
+			return port_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4),
 		
 	}
 }
@@ -368,6 +439,9 @@ pub fn procedure_primitive_5_evaluate (primitive : ProcedurePrimitive5, input_1 
 		ProcedurePrimitive5::Bitwise (primitive) =>
 			return bitwise_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5),
 		
+		ProcedurePrimitive5::Comparison (primitive) =>
+			return comparison_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5),
+		
 		ProcedurePrimitive5::List (primitive) =>
 			return list_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5),
 		
@@ -382,6 +456,12 @@ pub fn procedure_primitive_5_evaluate (primitive : ProcedurePrimitive5, input_1 
 		
 		ProcedurePrimitive5::Functions (primitive) =>
 			return functions_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, evaluator),
+		
+		ProcedurePrimitive5::Runtime (primitive) =>
+			return runtime_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, evaluator),
+		
+		ProcedurePrimitive5::Port (primitive) =>
+			return port_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5),
 		
 	}
 }
@@ -446,6 +526,9 @@ pub fn procedure_primitive_n_evaluate_without_alternatives (primitive : Procedur
 		ProcedurePrimitiveN::Bitwise (primitive) =>
 			return bitwise_primitive_n_evaluate (primitive, inputs),
 		
+		ProcedurePrimitiveN::Comparison (primitive) =>
+			return comparison_primitive_n_evaluate (primitive, inputs),
+		
 		ProcedurePrimitiveN::List (primitive) =>
 			return list_primitive_n_evaluate (primitive, inputs),
 		
@@ -460,6 +543,12 @@ pub fn procedure_primitive_n_evaluate_without_alternatives (primitive : Procedur
 		
 		ProcedurePrimitiveN::Functions (primitive) =>
 			return functions_primitive_n_evaluate (primitive, inputs, evaluator),
+		
+		ProcedurePrimitiveN::Runtime (primitive) =>
+			return runtime_primitive_n_evaluate (primitive, inputs, evaluator),
+		
+		ProcedurePrimitiveN::Port (primitive) =>
+			return port_primitive_n_evaluate (primitive, inputs),
 		
 	}
 }
@@ -555,6 +644,13 @@ pub fn procedure_primitive_n_alternative_0 (primitive : ProcedurePrimitiveN) -> 
 				None
 			},
 		
+		ProcedurePrimitiveN::Comparison (primitive) =>
+			if let Some (primitive) = comparison_primitive_n_alternative_0 (primitive) {
+				Some (ProcedurePrimitive0::Comparison (primitive))
+			} else {
+				None
+			},
+		
 		ProcedurePrimitiveN::List (primitive) =>
 			if let Some (primitive) = list_primitive_n_alternative_0 (primitive) {
 				Some (ProcedurePrimitive0::List (primitive))
@@ -590,6 +686,20 @@ pub fn procedure_primitive_n_alternative_0 (primitive : ProcedurePrimitiveN) -> 
 				None
 			},
 		
+		ProcedurePrimitiveN::Runtime (primitive) =>
+			if let Some (primitive) = runtime_primitive_n_alternative_0 (primitive) {
+				Some (ProcedurePrimitive0::Runtime (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Port (primitive) =>
+			if let Some (primitive) = port_primitive_n_alternative_0 (primitive) {
+				Some (ProcedurePrimitive0::Port (primitive))
+			} else {
+				None
+			},
+		
 	}
 }
 
@@ -616,6 +726,13 @@ pub fn procedure_primitive_n_alternative_1 (primitive : ProcedurePrimitiveN) -> 
 		ProcedurePrimitiveN::Bitwise (primitive) =>
 			if let Some (primitive) = bitwise_primitive_n_alternative_1 (primitive) {
 				Some (ProcedurePrimitive1::Bitwise (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Comparison (primitive) =>
+			if let Some (primitive) = comparison_primitive_n_alternative_1 (primitive) {
+				Some (ProcedurePrimitive1::Comparison (primitive))
 			} else {
 				None
 			},
@@ -655,6 +772,20 @@ pub fn procedure_primitive_n_alternative_1 (primitive : ProcedurePrimitiveN) -> 
 				None
 			},
 		
+		ProcedurePrimitiveN::Runtime (primitive) =>
+			if let Some (primitive) = runtime_primitive_n_alternative_1 (primitive) {
+				Some (ProcedurePrimitive1::Runtime (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Port (primitive) =>
+			if let Some (primitive) = port_primitive_n_alternative_1 (primitive) {
+				Some (ProcedurePrimitive1::Port (primitive))
+			} else {
+				None
+			},
+		
 	}
 }
 
@@ -681,6 +812,13 @@ pub fn procedure_primitive_n_alternative_2 (primitive : ProcedurePrimitiveN) -> 
 		ProcedurePrimitiveN::Bitwise (primitive) =>
 			if let Some (primitive) = bitwise_primitive_n_alternative_2 (primitive) {
 				Some (ProcedurePrimitive2::Bitwise (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Comparison (primitive) =>
+			if let Some (primitive) = comparison_primitive_n_alternative_2 (primitive) {
+				Some (ProcedurePrimitive2::Comparison (primitive))
 			} else {
 				None
 			},
@@ -720,6 +858,20 @@ pub fn procedure_primitive_n_alternative_2 (primitive : ProcedurePrimitiveN) -> 
 				None
 			},
 		
+		ProcedurePrimitiveN::Runtime (primitive) =>
+			if let Some (primitive) = runtime_primitive_n_alternative_2 (primitive) {
+				Some (ProcedurePrimitive2::Runtime (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Port (primitive) =>
+			if let Some (primitive) = port_primitive_n_alternative_2 (primitive) {
+				Some (ProcedurePrimitive2::Port (primitive))
+			} else {
+				None
+			},
+		
 	}
 }
 
@@ -746,6 +898,13 @@ pub fn procedure_primitive_n_alternative_3 (primitive : ProcedurePrimitiveN) -> 
 		ProcedurePrimitiveN::Bitwise (primitive) =>
 			if let Some (primitive) = bitwise_primitive_n_alternative_3 (primitive) {
 				Some (ProcedurePrimitive3::Bitwise (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Comparison (primitive) =>
+			if let Some (primitive) = comparison_primitive_n_alternative_3 (primitive) {
+				Some (ProcedurePrimitive3::Comparison (primitive))
 			} else {
 				None
 			},
@@ -785,6 +944,20 @@ pub fn procedure_primitive_n_alternative_3 (primitive : ProcedurePrimitiveN) -> 
 				None
 			},
 		
+		ProcedurePrimitiveN::Runtime (primitive) =>
+			if let Some (primitive) = runtime_primitive_n_alternative_3 (primitive) {
+				Some (ProcedurePrimitive3::Runtime (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Port (primitive) =>
+			if let Some (primitive) = port_primitive_n_alternative_3 (primitive) {
+				Some (ProcedurePrimitive3::Port (primitive))
+			} else {
+				None
+			},
+		
 	}
 }
 
@@ -811,6 +984,13 @@ pub fn procedure_primitive_n_alternative_4 (primitive : ProcedurePrimitiveN) -> 
 		ProcedurePrimitiveN::Bitwise (primitive) =>
 			if let Some (primitive) = bitwise_primitive_n_alternative_4 (primitive) {
 				Some (ProcedurePrimitive4::Bitwise (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Comparison (primitive) =>
+			if let Some (primitive) = comparison_primitive_n_alternative_4 (primitive) {
+				Some (ProcedurePrimitive4::Comparison (primitive))
 			} else {
 				None
 			},
@@ -850,6 +1030,20 @@ pub fn procedure_primitive_n_alternative_4 (primitive : ProcedurePrimitiveN) -> 
 				None
 			},
 		
+		ProcedurePrimitiveN::Runtime (primitive) =>
+			if let Some (primitive) = runtime_primitive_n_alternative_4 (primitive) {
+				Some (ProcedurePrimitive4::Runtime (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Port (primitive) =>
+			if let Some (primitive) = port_primitive_n_alternative_4 (primitive) {
+				Some (ProcedurePrimitive4::Port (primitive))
+			} else {
+				None
+			},
+		
 	}
 }
 
@@ -876,6 +1070,13 @@ pub fn procedure_primitive_n_alternative_5 (primitive : ProcedurePrimitiveN) -> 
 		ProcedurePrimitiveN::Bitwise (primitive) =>
 			if let Some (primitive) = bitwise_primitive_n_alternative_5 (primitive) {
 				Some (ProcedurePrimitive5::Bitwise (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Comparison (primitive) =>
+			if let Some (primitive) = comparison_primitive_n_alternative_5 (primitive) {
+				Some (ProcedurePrimitive5::Comparison (primitive))
 			} else {
 				None
 			},
@@ -911,6 +1112,20 @@ pub fn procedure_primitive_n_alternative_5 (primitive : ProcedurePrimitiveN) -> 
 		ProcedurePrimitiveN::Functions (primitive) =>
 			if let Some (primitive) = functions_primitive_n_alternative_5 (primitive) {
 				Some (ProcedurePrimitive5::Functions (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Runtime (primitive) =>
+			if let Some (primitive) = runtime_primitive_n_alternative_5 (primitive) {
+				Some (ProcedurePrimitive5::Runtime (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Port (primitive) =>
+			if let Some (primitive) = port_primitive_n_alternative_5 (primitive) {
+				Some (ProcedurePrimitive5::Port (primitive))
 			} else {
 				None
 			},
