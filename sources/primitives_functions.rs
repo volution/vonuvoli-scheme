@@ -36,28 +36,99 @@ pub mod exports {
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
-pub enum FunctionsPrimitive0 {}
+pub enum FunctionsPrimitive0 {
+	
+	Values,
+	
+}
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
-pub enum FunctionsPrimitive1 {}
+pub enum FunctionsPrimitive1 {
+	
+	Call,
+	Apply,
+	
+	Values,
+	
+}
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
-pub enum FunctionsPrimitive2 {}
+pub enum FunctionsPrimitive2 {
+	
+	CallWithValues,
+	
+	Call,
+	Apply,
+	
+	ListsMap,
+	ListsIterate,
+	
+	ArraysMap,
+	ArraysIterate,
+	
+	BytesMap,
+	BytesIterate,
+	
+	StringsMap,
+	StringsIterate,
+	
+	Values,
+	
+}
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
-pub enum FunctionsPrimitive3 {}
+pub enum FunctionsPrimitive3 {
+	
+	Call,
+	Apply,
+	
+	ListsMap,
+	ListsIterate,
+	
+	ArraysMap,
+	ArraysIterate,
+	
+	BytesMap,
+	BytesIterate,
+	
+	StringsMap,
+	StringsIterate,
+	
+	Values,
+	
+}
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
-pub enum FunctionsPrimitive4 {}
+pub enum FunctionsPrimitive4 {
+	
+	Call,
+	Apply,
+	
+	ListsMap,
+	ListsIterate,
+	
+	ArraysMap,
+	ArraysIterate,
+	
+	BytesMap,
+	BytesIterate,
+	
+	StringsMap,
+	StringsIterate,
+	
+	Values,
+	
+}
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
 pub enum FunctionsPrimitiveN {
 	
+	Call,
 	Apply,
 	
 	ListsMap,
@@ -80,35 +151,159 @@ pub enum FunctionsPrimitiveN {
 
 
 pub fn functions_primitive_0_evaluate (primitive : FunctionsPrimitive0, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
-	match primitive {}
+	match primitive {
+		
+		FunctionsPrimitive0::Values =>
+			succeed! (values_build_0 ()),
+		
+	}
 }
 
 
 
 
-pub fn functions_primitive_1_evaluate (primitive : FunctionsPrimitive1, _input_1 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
-	match primitive {}
+pub fn functions_primitive_1_evaluate (primitive : FunctionsPrimitive1, input_1 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	match primitive {
+		
+		FunctionsPrimitive1::Call =>
+			return call_0 (evaluator, input_1),
+		
+		FunctionsPrimitive1::Apply =>
+			return apply_0 (evaluator, input_1),
+		
+		FunctionsPrimitive1::Values =>
+			succeed! (values_build_1 (input_1)),
+		
+	}
 }
 
 
 
 
-pub fn functions_primitive_2_evaluate (primitive : FunctionsPrimitive2, _input_1 : &Value, _input_2 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
-	match primitive {}
+pub fn functions_primitive_2_evaluate (primitive : FunctionsPrimitive2, input_1 : &Value, input_2 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	match primitive {
+		
+		FunctionsPrimitive2::CallWithValues =>
+			return call_with_values (evaluator, input_1, input_2),
+		
+		FunctionsPrimitive2::Call =>
+			return call_1 (evaluator, input_1, input_2),
+		
+		FunctionsPrimitive2::Apply =>
+			return apply_1 (evaluator, input_1, input_2),
+		
+		FunctionsPrimitive2::ListsMap =>
+			return lists_map_1 (evaluator, input_1, input_2),
+		
+		FunctionsPrimitive2::ListsIterate =>
+			return lists_iterate_1 (evaluator, input_1, input_2),
+		
+		FunctionsPrimitive2::ArraysMap =>
+			return arrays_map_1 (evaluator, input_1, input_2),
+		
+		FunctionsPrimitive2::ArraysIterate =>
+			return arrays_iterate_1 (evaluator, input_1, input_2),
+		
+		FunctionsPrimitive2::BytesMap =>
+			return bytes_map_1 (evaluator, input_1, input_2),
+		
+		FunctionsPrimitive2::BytesIterate =>
+			return bytes_iterate_1 (evaluator, input_1, input_2),
+		
+		FunctionsPrimitive2::StringsMap =>
+			return strings_map_1 (evaluator, input_1, input_2),
+		
+		FunctionsPrimitive2::StringsIterate =>
+			return strings_iterate_1 (evaluator, input_1, input_2),
+		
+		FunctionsPrimitive2::Values =>
+			succeed! (values_build_2 (input_1, input_2)),
+		
+	}
 }
 
 
 
 
-pub fn functions_primitive_3_evaluate (primitive : FunctionsPrimitive3, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
-	match primitive {}
+pub fn functions_primitive_3_evaluate (primitive : FunctionsPrimitive3, input_1 : &Value, input_2 : &Value, input_3 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	match primitive {
+		
+		FunctionsPrimitive3::Call =>
+			return call_2 (evaluator, input_1, input_2, input_3),
+		
+		FunctionsPrimitive3::Apply =>
+			return apply_2 (evaluator, input_1, input_2, input_3),
+		
+		FunctionsPrimitive3::ListsMap =>
+			return lists_map_2 (evaluator, input_1, input_2, input_3),
+		
+		FunctionsPrimitive3::ListsIterate =>
+			return lists_iterate_2 (evaluator, input_1, input_2, input_3),
+		
+		FunctionsPrimitive3::ArraysMap =>
+			return arrays_map_2 (evaluator, input_1, input_2, input_3),
+		
+		FunctionsPrimitive3::ArraysIterate =>
+			return arrays_iterate_2 (evaluator, input_1, input_2, input_3),
+		
+		FunctionsPrimitive3::BytesMap =>
+			return bytes_map_2 (evaluator, input_1, input_2, input_3),
+		
+		FunctionsPrimitive3::BytesIterate =>
+			return bytes_iterate_2 (evaluator, input_1, input_2, input_3),
+		
+		FunctionsPrimitive3::StringsMap =>
+			return strings_map_2 (evaluator, input_1, input_2, input_3),
+		
+		FunctionsPrimitive3::StringsIterate =>
+			return strings_iterate_2 (evaluator, input_1, input_2, input_3),
+		
+		FunctionsPrimitive3::Values =>
+			succeed! (values_build_3 (input_1, input_2, input_3)),
+		
+	}
 }
 
 
 
 
-pub fn functions_primitive_4_evaluate (primitive : FunctionsPrimitive4, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
-	match primitive {}
+pub fn functions_primitive_4_evaluate (primitive : FunctionsPrimitive4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	match primitive {
+		
+		FunctionsPrimitive4::Call =>
+			return call_3 (evaluator, input_1, input_2, input_3, input_4),
+		
+		FunctionsPrimitive4::Apply =>
+			return apply_3 (evaluator, input_1, input_2, input_3, input_4),
+		
+		FunctionsPrimitive4::ListsMap =>
+			return lists_map_3 (evaluator, input_1, input_2, input_3, input_4),
+		
+		FunctionsPrimitive4::ListsIterate =>
+			return lists_iterate_3 (evaluator, input_1, input_2, input_3, input_4),
+		
+		FunctionsPrimitive4::ArraysMap =>
+			return arrays_map_3 (evaluator, input_1, input_2, input_3, input_4),
+		
+		FunctionsPrimitive4::ArraysIterate =>
+			return arrays_iterate_3 (evaluator, input_1, input_2, input_3, input_4),
+		
+		FunctionsPrimitive4::BytesMap =>
+			return bytes_map_3 (evaluator, input_1, input_2, input_3, input_4),
+		
+		FunctionsPrimitive4::BytesIterate =>
+			return bytes_iterate_3 (evaluator, input_1, input_2, input_3, input_4),
+		
+		FunctionsPrimitive4::StringsMap =>
+			return strings_map_3 (evaluator, input_1, input_2, input_3, input_4),
+		
+		FunctionsPrimitive4::StringsIterate =>
+			return strings_iterate_3 (evaluator, input_1, input_2, input_3, input_4),
+		
+		FunctionsPrimitive4::Values =>
+			succeed! (values_build_4 (input_1, input_2, input_3, input_4)),
+		
+	}
 }
 
 
@@ -116,6 +311,11 @@ pub fn functions_primitive_4_evaluate (primitive : FunctionsPrimitive4, _input_1
 
 pub fn functions_primitive_n_evaluate (primitive : FunctionsPrimitiveN, inputs : &[Value], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
+		
+		FunctionsPrimitiveN::Call => {
+			let (callable, inputs) = try_some! (inputs.split_first (), 0xf2ed3ec8);
+			return call_n (evaluator, callable, inputs);
+		},
 		
 		FunctionsPrimitiveN::Apply => {
 			let (callable, inputs) = try_some! (inputs.split_first (), 0xa03c75aa);
@@ -173,35 +373,140 @@ pub fn functions_primitive_n_evaluate (primitive : FunctionsPrimitiveN, inputs :
 
 pub fn functions_primitive_n_alternative_0 (primitive : FunctionsPrimitiveN) -> (Option<FunctionsPrimitive0>) {
 	match primitive {
-		_ => None,
+		FunctionsPrimitiveN::Call =>
+			None,
+		FunctionsPrimitiveN::Apply =>
+			None,
+		FunctionsPrimitiveN::ListsMap =>
+			None,
+		FunctionsPrimitiveN::ListsIterate =>
+			None,
+		FunctionsPrimitiveN::ArraysMap =>
+			None,
+		FunctionsPrimitiveN::ArraysIterate =>
+			None,
+		FunctionsPrimitiveN::BytesMap =>
+			None,
+		FunctionsPrimitiveN::BytesIterate =>
+			None,
+		FunctionsPrimitiveN::StringsMap =>
+			None,
+		FunctionsPrimitiveN::StringsIterate =>
+			None,
+		FunctionsPrimitiveN::Values =>
+			Some (FunctionsPrimitive0::Values),
 	}
 }
 
 
 pub fn functions_primitive_n_alternative_1 (primitive : FunctionsPrimitiveN) -> (Option<FunctionsPrimitive1>) {
 	match primitive {
-		_ => None,
+		FunctionsPrimitiveN::Call =>
+			Some (FunctionsPrimitive1::Call),
+		FunctionsPrimitiveN::Apply =>
+			Some (FunctionsPrimitive1::Apply),
+		FunctionsPrimitiveN::ListsMap =>
+			None,
+		FunctionsPrimitiveN::ListsIterate =>
+			None,
+		FunctionsPrimitiveN::ArraysMap =>
+			None,
+		FunctionsPrimitiveN::ArraysIterate =>
+			None,
+		FunctionsPrimitiveN::BytesMap =>
+			None,
+		FunctionsPrimitiveN::BytesIterate =>
+			None,
+		FunctionsPrimitiveN::StringsMap =>
+			None,
+		FunctionsPrimitiveN::StringsIterate =>
+			None,
+		FunctionsPrimitiveN::Values =>
+			Some (FunctionsPrimitive1::Values),
 	}
 }
 
 
 pub fn functions_primitive_n_alternative_2 (primitive : FunctionsPrimitiveN) -> (Option<FunctionsPrimitive2>) {
 	match primitive {
-		_ => None,
+		FunctionsPrimitiveN::Call =>
+			Some (FunctionsPrimitive2::Call),
+		FunctionsPrimitiveN::Apply =>
+			Some (FunctionsPrimitive2::Apply),
+		FunctionsPrimitiveN::ListsMap =>
+			Some (FunctionsPrimitive2::ListsMap),
+		FunctionsPrimitiveN::ListsIterate =>
+			Some (FunctionsPrimitive2::ListsIterate),
+		FunctionsPrimitiveN::ArraysMap =>
+			Some (FunctionsPrimitive2::ArraysMap),
+		FunctionsPrimitiveN::ArraysIterate =>
+			Some (FunctionsPrimitive2::ArraysIterate),
+		FunctionsPrimitiveN::BytesMap =>
+			Some (FunctionsPrimitive2::BytesMap),
+		FunctionsPrimitiveN::BytesIterate =>
+			Some (FunctionsPrimitive2::BytesIterate),
+		FunctionsPrimitiveN::StringsMap =>
+			Some (FunctionsPrimitive2::StringsMap),
+		FunctionsPrimitiveN::StringsIterate =>
+			Some (FunctionsPrimitive2::StringsIterate),
+		FunctionsPrimitiveN::Values =>
+			Some (FunctionsPrimitive2::Values),
 	}
 }
 
 
 pub fn functions_primitive_n_alternative_3 (primitive : FunctionsPrimitiveN) -> (Option<FunctionsPrimitive3>) {
 	match primitive {
-		_ => None,
+		FunctionsPrimitiveN::Call =>
+			Some (FunctionsPrimitive3::Call),
+		FunctionsPrimitiveN::Apply =>
+			Some (FunctionsPrimitive3::Apply),
+		FunctionsPrimitiveN::ListsMap =>
+			Some (FunctionsPrimitive3::ListsMap),
+		FunctionsPrimitiveN::ListsIterate =>
+			Some (FunctionsPrimitive3::ListsIterate),
+		FunctionsPrimitiveN::ArraysMap =>
+			Some (FunctionsPrimitive3::ArraysMap),
+		FunctionsPrimitiveN::ArraysIterate =>
+			Some (FunctionsPrimitive3::ArraysIterate),
+		FunctionsPrimitiveN::BytesMap =>
+			Some (FunctionsPrimitive3::BytesMap),
+		FunctionsPrimitiveN::BytesIterate =>
+			Some (FunctionsPrimitive3::BytesIterate),
+		FunctionsPrimitiveN::StringsMap =>
+			Some (FunctionsPrimitive3::StringsMap),
+		FunctionsPrimitiveN::StringsIterate =>
+			Some (FunctionsPrimitive3::StringsIterate),
+		FunctionsPrimitiveN::Values =>
+			Some (FunctionsPrimitive3::Values),
 	}
 }
 
 
 pub fn functions_primitive_n_alternative_4 (primitive : FunctionsPrimitiveN) -> (Option<FunctionsPrimitive4>) {
 	match primitive {
-		_ => None,
+		FunctionsPrimitiveN::Call =>
+			Some (FunctionsPrimitive4::Call),
+		FunctionsPrimitiveN::Apply =>
+			Some (FunctionsPrimitive4::Apply),
+		FunctionsPrimitiveN::ListsMap =>
+			Some (FunctionsPrimitive4::ListsMap),
+		FunctionsPrimitiveN::ListsIterate =>
+			Some (FunctionsPrimitive4::ListsIterate),
+		FunctionsPrimitiveN::ArraysMap =>
+			Some (FunctionsPrimitive4::ArraysMap),
+		FunctionsPrimitiveN::ArraysIterate =>
+			Some (FunctionsPrimitive4::ArraysIterate),
+		FunctionsPrimitiveN::BytesMap =>
+			Some (FunctionsPrimitive4::BytesMap),
+		FunctionsPrimitiveN::BytesIterate =>
+			Some (FunctionsPrimitive4::BytesIterate),
+		FunctionsPrimitiveN::StringsMap =>
+			Some (FunctionsPrimitive4::StringsMap),
+		FunctionsPrimitiveN::StringsIterate =>
+			Some (FunctionsPrimitive4::StringsIterate),
+		FunctionsPrimitiveN::Values =>
+			Some (FunctionsPrimitive4::Values),
 	}
 }
 
