@@ -12,20 +12,116 @@ use super::values::exports::*;
 
 pub mod exports {
 	
-	pub use super::{apply_n};
-	pub use super::{lists_map_1, lists_iterate_1, lists_map_n, lists_iterate_n};
-	pub use super::{arrays_map_1, arrays_iterate_1, arrays_map_n, arrays_iterate_n};
-	pub use super::{bytes_map_1, bytes_iterate_1, bytes_map_n, bytes_iterate_n};
-	pub use super::{strings_map_1, strings_iterate_1, strings_map_n, strings_iterate_n};
+	pub use super::{call_with_values};
+	pub use super::{call_0, call_1, call_2, call_3, call_4, call_n};
+	pub use super::{apply_0, apply_1, apply_2, apply_3, apply_4, apply_n};
 	
-	pub use super::{values_build_1, values_build_2, values_build_3, values_build_4, values_build_n};
+	pub use super::{lists_map_1, lists_map_2, lists_map_3, lists_map_4, lists_map_n};
+	pub use super::{lists_iterate_1, lists_iterate_2, lists_iterate_3, lists_iterate_4, lists_iterate_n};
+	
+	pub use super::{arrays_map_1, arrays_map_2, arrays_map_3, arrays_map_4, arrays_map_n};
+	pub use super::{arrays_iterate_1, arrays_iterate_2, arrays_iterate_3, arrays_iterate_4, arrays_iterate_n};
+	
+	pub use super::{bytes_map_1, bytes_map_2, bytes_map_3, bytes_map_4, bytes_map_n};
+	pub use super::{bytes_iterate_1, bytes_iterate_2, bytes_iterate_3, bytes_iterate_4, bytes_iterate_n};
+	
+	pub use super::{strings_map_1, strings_map_2, strings_map_3, strings_map_4, strings_map_n};
+	pub use super::{strings_iterate_1, strings_iterate_2, strings_iterate_3, strings_iterate_4, strings_iterate_n};
+	
+	pub use super::{values_build_0, values_build_1, values_build_2, values_build_3, values_build_4, values_build_n};
 	
 }
 
 
 
 
+pub fn call_with_values (_evaluator : &mut EvaluatorContext, _callable : &Value, _values : &Value) -> (Outcome<Value>) {
+	fail_unimplemented! (0xa0b76d73);
+}
+
+
+
+
+pub fn call_0 (evaluator : &mut EvaluatorContext, callable : &Value) -> (Outcome<Value>) {
+	return evaluator.evaluator.evaluate_procedure_call_0_with_values (evaluator, callable);
+}
+
+pub fn call_1 (evaluator : &mut EvaluatorContext, callable : &Value, input_1 : &Value) -> (Outcome<Value>) {
+	return evaluator.evaluator.evaluate_procedure_call_1_with_values (evaluator, callable, input_1);
+}
+
+pub fn call_2 (evaluator : &mut EvaluatorContext, callable : &Value, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
+	return evaluator.evaluator.evaluate_procedure_call_2_with_values (evaluator, callable, input_1, input_2);
+}
+
+pub fn call_3 (evaluator : &mut EvaluatorContext, callable : &Value, input_1 : &Value, input_2 : &Value, input_3 : &Value) -> (Outcome<Value>) {
+	return evaluator.evaluator.evaluate_procedure_call_3_with_values (evaluator, callable, input_1, input_2, input_3);
+}
+
+pub fn call_4 (evaluator : &mut EvaluatorContext, callable : &Value, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value) -> (Outcome<Value>) {
+	return evaluator.evaluator.evaluate_procedure_call_4_with_values (evaluator, callable, input_1, input_2, input_3, input_4);
+}
+
+pub fn call_n (evaluator : &mut EvaluatorContext, callable : &Value, inputs : &[Value]) -> (Outcome<Value>) {
+	match inputs.len () {
+		0 =>
+			return call_0 (evaluator, callable),
+		1 =>
+			return call_1 (evaluator, callable, &inputs[0]),
+		2 =>
+			return call_2 (evaluator, callable, &inputs[0], &inputs[1]),
+		3 =>
+			return call_3 (evaluator, callable, &inputs[0], &inputs[1], &inputs[2]),
+		4 =>
+			return call_4 (evaluator, callable, &inputs[0], &inputs[1], &inputs[2], &inputs[3]),
+		_ =>
+			(),
+	}
+	return evaluator.evaluator.evaluate_procedure_call_with_values (evaluator, callable, inputs);
+}
+
+
+
+
+pub fn apply_0 (evaluator : &mut EvaluatorContext, callable : &Value) -> (Outcome<Value>) {
+	return evaluator.evaluator.evaluate_procedure_call_0_with_values (evaluator, callable);
+}
+
+pub fn apply_1 (evaluator : &mut EvaluatorContext, callable : &Value, input_1 : &Value) -> (Outcome<Value>) {
+	let inputs = try! (vec_list_clone (input_1));
+	return evaluator.evaluator.evaluate_procedure_call_with_values (evaluator, callable, &inputs);
+}
+
+pub fn apply_2 (evaluator : &mut EvaluatorContext, callable : &Value, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
+	let inputs = try! (vec_list_append_2 (input_1, input_2));
+	return evaluator.evaluator.evaluate_procedure_call_with_values (evaluator, callable, &inputs);
+}
+
+pub fn apply_3 (evaluator : &mut EvaluatorContext, callable : &Value, input_1 : &Value, input_2 : &Value, input_3 : &Value) -> (Outcome<Value>) {
+	let inputs = try! (vec_list_append_3 (input_1, input_2, input_3));
+	return evaluator.evaluator.evaluate_procedure_call_with_values (evaluator, callable, &inputs);
+}
+
+pub fn apply_4 (evaluator : &mut EvaluatorContext, callable : &Value, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value) -> (Outcome<Value>) {
+	let inputs = try! (vec_list_append_4 (input_1, input_2, input_3, input_4));
+	return evaluator.evaluator.evaluate_procedure_call_with_values (evaluator, callable, &inputs);
+}
+
 pub fn apply_n (evaluator : &mut EvaluatorContext, callable : &Value, inputs : &[Value]) -> (Outcome<Value>) {
+	match inputs.len () {
+		0 =>
+			return apply_0 (evaluator, callable),
+		1 =>
+			return apply_1 (evaluator, callable, &inputs[0]),
+		2 =>
+			return apply_2 (evaluator, callable, &inputs[0], &inputs[1]),
+		3 =>
+			return apply_3 (evaluator, callable, &inputs[0], &inputs[1], &inputs[2]),
+		4 =>
+			return apply_4 (evaluator, callable, &inputs[0], &inputs[1], &inputs[2], &inputs[3]),
+		_ =>
+			(),
+	}
 	let inputs = try! (vec_list_append_n (inputs));
 	return evaluator.evaluator.evaluate_procedure_call_with_values (evaluator, callable, &inputs);
 }
@@ -33,21 +129,90 @@ pub fn apply_n (evaluator : &mut EvaluatorContext, callable : &Value, inputs : &
 
 
 
-pub fn lists_map_1 (evaluator : &mut EvaluatorContext, callable : &Value, list : &Value) -> (Outcome<Value>) {
-	if is_list_empty (list) {
+pub fn lists_map_1 (evaluator : &mut EvaluatorContext, callable : &Value, list_1 : &Value) -> (Outcome<Value>) {
+	if is_list_empty (list_1) {
 		succeed! (list_empty ());
 	}
-	let iterator = try! (ListIterator::new (list));
-	let outputs = try! (iterators_map_1 (evaluator, callable, iterator));
+	let iterator_1 = try! (ListIterator::new (list_1));
+	let outputs = try! (iterators_map_1 (evaluator, callable, iterator_1));
 	succeed! (list_collect (outputs));
 }
 
-pub fn lists_iterate_1 (evaluator : &mut EvaluatorContext, callable : &Value, list : &Value) -> (Outcome<Value>) {
-	if is_list_empty (list) {
+pub fn lists_iterate_1 (evaluator : &mut EvaluatorContext, callable : &Value, list_1 : &Value) -> (Outcome<Value>) {
+	if is_list_empty (list_1) {
 		succeed! (VOID.into ());
 	}
-	let iterator = try! (ListIterator::new (list));
-	try! (iterators_iterate_1 (evaluator, callable, iterator));
+	let iterator_1 = try! (ListIterator::new (list_1));
+	try! (iterators_iterate_1 (evaluator, callable, iterator_1));
+	succeed! (VOID.into ());
+}
+
+
+pub fn lists_map_2 (evaluator : &mut EvaluatorContext, callable : &Value, list_1 : &Value, list_2 : &Value) -> (Outcome<Value>) {
+	if is_list_empty_all_2 (list_1, list_2) {
+		succeed! (list_empty ());
+	}
+	let iterator_1 = try! (ListIterator::new (list_1));
+	let iterator_2 = try! (ListIterator::new (list_2));
+	let outputs = try! (iterators_map_2 (evaluator, callable, iterator_1, iterator_2));
+	succeed! (list_collect (outputs));
+}
+
+pub fn lists_iterate_2 (evaluator : &mut EvaluatorContext, callable : &Value, list_1 : &Value, list_2 : &Value) -> (Outcome<Value>) {
+	if is_list_empty_all_2 (list_1, list_2) {
+		succeed! (VOID.into ());
+	}
+	let iterator_1 = try! (ListIterator::new (list_1));
+	let iterator_2 = try! (ListIterator::new (list_2));
+	try! (iterators_iterate_2 (evaluator, callable, iterator_1, iterator_2));
+	succeed! (VOID.into ());
+}
+
+
+pub fn lists_map_3 (evaluator : &mut EvaluatorContext, callable : &Value, list_1 : &Value, list_2 : &Value, list_3 : &Value) -> (Outcome<Value>) {
+	if is_list_empty_all_3 (list_1, list_2, list_3) {
+		succeed! (list_empty ());
+	}
+	let iterator_1 = try! (ListIterator::new (list_1));
+	let iterator_2 = try! (ListIterator::new (list_2));
+	let iterator_3 = try! (ListIterator::new (list_3));
+	let outputs = try! (iterators_map_3 (evaluator, callable, iterator_1, iterator_2, iterator_3));
+	succeed! (list_collect (outputs));
+}
+
+pub fn lists_iterate_3 (evaluator : &mut EvaluatorContext, callable : &Value, list_1 : &Value, list_2 : &Value, list_3 : &Value) -> (Outcome<Value>) {
+	if is_list_empty_all_3 (list_1, list_2, list_3) {
+		succeed! (VOID.into ());
+	}
+	let iterator_1 = try! (ListIterator::new (list_1));
+	let iterator_2 = try! (ListIterator::new (list_2));
+	let iterator_3 = try! (ListIterator::new (list_3));
+	try! (iterators_iterate_3 (evaluator, callable, iterator_1, iterator_2, iterator_3));
+	succeed! (VOID.into ());
+}
+
+
+pub fn lists_map_4 (evaluator : &mut EvaluatorContext, callable : &Value, list_1 : &Value, list_2 : &Value, list_3 : &Value, list_4 : &Value) -> (Outcome<Value>) {
+	if is_list_empty_all_4 (list_1, list_2, list_3, list_4) {
+		succeed! (list_empty ());
+	}
+	let iterator_1 = try! (ListIterator::new (list_1));
+	let iterator_2 = try! (ListIterator::new (list_2));
+	let iterator_3 = try! (ListIterator::new (list_3));
+	let iterator_4 = try! (ListIterator::new (list_4));
+	let outputs = try! (iterators_map_4 (evaluator, callable, iterator_1, iterator_2, iterator_3, iterator_4));
+	succeed! (list_collect (outputs));
+}
+
+pub fn lists_iterate_4 (evaluator : &mut EvaluatorContext, callable : &Value, list_1 : &Value, list_2 : &Value, list_3 : &Value, list_4 : &Value) -> (Outcome<Value>) {
+	if is_list_empty_all_4 (list_1, list_2, list_3, list_4) {
+		succeed! (VOID.into ());
+	}
+	let iterator_1 = try! (ListIterator::new (list_1));
+	let iterator_2 = try! (ListIterator::new (list_2));
+	let iterator_3 = try! (ListIterator::new (list_3));
+	let iterator_4 = try! (ListIterator::new (list_4));
+	try! (iterators_iterate_4 (evaluator, callable, iterator_1, iterator_2, iterator_3, iterator_4));
 	succeed! (VOID.into ());
 }
 
@@ -56,6 +221,12 @@ pub fn lists_map_n (evaluator : &mut EvaluatorContext, callable : &Value, lists 
 	match lists.len () {
 		1 =>
 			return lists_map_1 (evaluator, callable, &lists[0]),
+		2 =>
+			return lists_map_2 (evaluator, callable, &lists[0], &lists[1]),
+		3 =>
+			return lists_map_3 (evaluator, callable, &lists[0], &lists[1], &lists[2]),
+		4 =>
+			return lists_map_4 (evaluator, callable, &lists[0], &lists[1], &lists[2], &lists[3]),
 		0 =>
 			fail! (0x00de54c0),
 		_ =>
@@ -70,6 +241,12 @@ pub fn lists_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, li
 	match lists.len () {
 		1 =>
 			return lists_iterate_1 (evaluator, callable, &lists[0]),
+		2 =>
+			return lists_iterate_2 (evaluator, callable, &lists[0], &lists[1]),
+		3 =>
+			return lists_iterate_3 (evaluator, callable, &lists[0], &lists[1], &lists[2]),
+		4 =>
+			return lists_iterate_4 (evaluator, callable, &lists[0], &lists[1], &lists[2], &lists[3]),
 		0 =>
 			fail! (0x1022d804),
 		_ =>
@@ -84,7 +261,7 @@ pub fn lists_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, li
 
 
 pub fn arrays_map_1 (evaluator : &mut EvaluatorContext, callable : &Value, array : &Value) -> (Outcome<Value>) {
-	if is_array_empty (array) {
+	if try! (is_array_empty (array)) {
 		succeed! (array_empty ());
 	}
 	let iterator = try! (ArrayIterator::new (array));
@@ -93,7 +270,7 @@ pub fn arrays_map_1 (evaluator : &mut EvaluatorContext, callable : &Value, array
 }
 
 pub fn arrays_iterate_1 (evaluator : &mut EvaluatorContext, callable : &Value, array : &Value) -> (Outcome<Value>) {
-	if is_array_empty (array) {
+	if try! (is_array_empty (array)) {
 		succeed! (VOID.into ());
 	}
 	let iterator = try! (ArrayIterator::new (array));
@@ -102,10 +279,85 @@ pub fn arrays_iterate_1 (evaluator : &mut EvaluatorContext, callable : &Value, a
 }
 
 
+pub fn arrays_map_2 (evaluator : &mut EvaluatorContext, callable : &Value, array_1 : &Value, array_2 : &Value) -> (Outcome<Value>) {
+	if try! (is_array_empty_all_2 (array_1, array_2)) {
+		succeed! (array_empty ());
+	}
+	let iterator_1 = try! (ArrayIterator::new (array_1));
+	let iterator_2 = try! (ArrayIterator::new (array_2));
+	let outputs = try! (iterators_map_2 (evaluator, callable, iterator_1, iterator_2));
+	succeed! (array_collect (outputs));
+}
+
+pub fn arrays_iterate_2 (evaluator : &mut EvaluatorContext, callable : &Value, array_1 : &Value, array_2 : &Value) -> (Outcome<Value>) {
+	if try! (is_array_empty_all_2 (array_1, array_2)) {
+		succeed! (VOID.into ());
+	}
+	let iterator_1 = try! (ArrayIterator::new (array_1));
+	let iterator_2 = try! (ArrayIterator::new (array_2));
+	try! (iterators_iterate_2 (evaluator, callable, iterator_1, iterator_2));
+	succeed! (VOID.into ());
+}
+
+
+pub fn arrays_map_3 (evaluator : &mut EvaluatorContext, callable : &Value, array_1 : &Value, array_2 : &Value, array_3 : &Value) -> (Outcome<Value>) {
+	if try! (is_array_empty_all_3 (array_1, array_2, array_3)) {
+		succeed! (array_empty ());
+	}
+	let iterator_1 = try! (ArrayIterator::new (array_1));
+	let iterator_2 = try! (ArrayIterator::new (array_2));
+	let iterator_3 = try! (ArrayIterator::new (array_3));
+	let outputs = try! (iterators_map_3 (evaluator, callable, iterator_1, iterator_2, iterator_3));
+	succeed! (array_collect (outputs));
+}
+
+pub fn arrays_iterate_3 (evaluator : &mut EvaluatorContext, callable : &Value, array_1 : &Value, array_2 : &Value, array_3 : &Value) -> (Outcome<Value>) {
+	if try! (is_array_empty_all_3 (array_1, array_2, array_3)) {
+		succeed! (VOID.into ());
+	}
+	let iterator_1 = try! (ArrayIterator::new (array_1));
+	let iterator_2 = try! (ArrayIterator::new (array_2));
+	let iterator_3 = try! (ArrayIterator::new (array_3));
+	try! (iterators_iterate_3 (evaluator, callable, iterator_1, iterator_2, iterator_3));
+	succeed! (VOID.into ());
+}
+
+
+pub fn arrays_map_4 (evaluator : &mut EvaluatorContext, callable : &Value, array_1 : &Value, array_2 : &Value, array_3 : &Value, array_4 : &Value) -> (Outcome<Value>) {
+	if try! (is_array_empty_all_4 (array_1, array_2, array_3, array_4)) {
+		succeed! (array_empty ());
+	}
+	let iterator_1 = try! (ArrayIterator::new (array_1));
+	let iterator_2 = try! (ArrayIterator::new (array_2));
+	let iterator_3 = try! (ArrayIterator::new (array_3));
+	let iterator_4 = try! (ArrayIterator::new (array_4));
+	let outputs = try! (iterators_map_4 (evaluator, callable, iterator_1, iterator_2, iterator_3, iterator_4));
+	succeed! (array_collect (outputs));
+}
+
+pub fn arrays_iterate_4 (evaluator : &mut EvaluatorContext, callable : &Value, array_1 : &Value, array_2 : &Value, array_3 : &Value, array_4 : &Value) -> (Outcome<Value>) {
+	if try! (is_array_empty_all_4 (array_1, array_2, array_3, array_4)) {
+		succeed! (VOID.into ());
+	}
+	let iterator_1 = try! (ArrayIterator::new (array_1));
+	let iterator_2 = try! (ArrayIterator::new (array_2));
+	let iterator_3 = try! (ArrayIterator::new (array_3));
+	let iterator_4 = try! (ArrayIterator::new (array_4));
+	try! (iterators_iterate_4 (evaluator, callable, iterator_1, iterator_2, iterator_3, iterator_4));
+	succeed! (VOID.into ());
+}
+
+
 pub fn arrays_map_n (evaluator : &mut EvaluatorContext, callable : &Value, arrays : &[Value]) -> (Outcome<Value>) {
 	match arrays.len () {
 		1 =>
 			return arrays_map_1 (evaluator, callable, &arrays[0]),
+		2 =>
+			return arrays_map_2 (evaluator, callable, &arrays[0], &arrays[1]),
+		3 =>
+			return arrays_map_3 (evaluator, callable, &arrays[0], &arrays[1], &arrays[2]),
+		4 =>
+			return arrays_map_4 (evaluator, callable, &arrays[0], &arrays[1], &arrays[2], &arrays[3]),
 		0 =>
 			fail! (0x0122b23a),
 		_ =>
@@ -120,6 +372,12 @@ pub fn arrays_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, a
 	match arrays.len () {
 		1 =>
 			return arrays_iterate_1 (evaluator, callable, &arrays[0]),
+		2 =>
+			return arrays_iterate_2 (evaluator, callable, &arrays[0], &arrays[1]),
+		3 =>
+			return arrays_iterate_3 (evaluator, callable, &arrays[0], &arrays[1], &arrays[2]),
+		4 =>
+			return arrays_iterate_4 (evaluator, callable, &arrays[0], &arrays[1], &arrays[2], &arrays[3]),
 		0 =>
 			fail! (0xe2d9384a),
 		_ =>
@@ -134,7 +392,7 @@ pub fn arrays_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, a
 
 
 pub fn bytes_map_1 (evaluator : &mut EvaluatorContext, callable : &Value, bytes : &Value) -> (Outcome<Value>) {
-	if is_bytes_empty (bytes) {
+	if try! (is_bytes_empty (bytes)) {
 		succeed! (bytes_empty ());
 	}
 	let iterator = try! (BytesIterator::new (bytes));
@@ -143,7 +401,7 @@ pub fn bytes_map_1 (evaluator : &mut EvaluatorContext, callable : &Value, bytes 
 }
 
 pub fn bytes_iterate_1 (evaluator : &mut EvaluatorContext, callable : &Value, bytes : &Value) -> (Outcome<Value>) {
-	if is_bytes_empty (bytes) {
+	if try! (is_bytes_empty (bytes)) {
 		succeed! (VOID.into ());
 	}
 	let iterator = try! (BytesIterator::new (bytes));
@@ -152,10 +410,85 @@ pub fn bytes_iterate_1 (evaluator : &mut EvaluatorContext, callable : &Value, by
 }
 
 
+pub fn bytes_map_2 (evaluator : &mut EvaluatorContext, callable : &Value, bytes_1 : &Value, bytes_2 : &Value) -> (Outcome<Value>) {
+	if try! (is_bytes_empty_all_2 (bytes_1, bytes_2)) {
+		succeed! (bytes_empty ());
+	}
+	let iterator_1 = try! (BytesIterator::new (bytes_1));
+	let iterator_2 = try! (BytesIterator::new (bytes_2));
+	let outputs = try! (iterators_map_2 (evaluator, callable, iterator_1, iterator_2));
+	return bytes_collect_values (outputs);
+}
+
+pub fn bytes_iterate_2 (evaluator : &mut EvaluatorContext, callable : &Value, bytes_1 : &Value, bytes_2 : &Value) -> (Outcome<Value>) {
+	if try! (is_bytes_empty_all_2 (bytes_1, bytes_2)) {
+		succeed! (VOID.into ());
+	}
+	let iterator_1 = try! (BytesIterator::new (bytes_1));
+	let iterator_2 = try! (BytesIterator::new (bytes_2));
+	try! (iterators_iterate_2 (evaluator, callable, iterator_1, iterator_2));
+	succeed! (VOID.into ());
+}
+
+
+pub fn bytes_map_3 (evaluator : &mut EvaluatorContext, callable : &Value, bytes_1 : &Value, bytes_2 : &Value, bytes_3 : &Value) -> (Outcome<Value>) {
+	if try! (is_bytes_empty_all_3 (bytes_1, bytes_2, bytes_3)) {
+		succeed! (bytes_empty ());
+	}
+	let iterator_1 = try! (BytesIterator::new (bytes_1));
+	let iterator_2 = try! (BytesIterator::new (bytes_2));
+	let iterator_3 = try! (BytesIterator::new (bytes_3));
+	let outputs = try! (iterators_map_3 (evaluator, callable, iterator_1, iterator_2, iterator_3));
+	return bytes_collect_values (outputs);
+}
+
+pub fn bytes_iterate_3 (evaluator : &mut EvaluatorContext, callable : &Value, bytes_1 : &Value, bytes_2 : &Value, bytes_3 : &Value) -> (Outcome<Value>) {
+	if try! (is_bytes_empty_all_3 (bytes_1, bytes_2, bytes_3)) {
+		succeed! (VOID.into ());
+	}
+	let iterator_1 = try! (BytesIterator::new (bytes_1));
+	let iterator_2 = try! (BytesIterator::new (bytes_2));
+	let iterator_3 = try! (BytesIterator::new (bytes_3));
+	try! (iterators_iterate_3 (evaluator, callable, iterator_1, iterator_2, iterator_3));
+	succeed! (VOID.into ());
+}
+
+
+pub fn bytes_map_4 (evaluator : &mut EvaluatorContext, callable : &Value, bytes_1 : &Value, bytes_2 : &Value, bytes_3 : &Value, bytes_4 : &Value) -> (Outcome<Value>) {
+	if try! (is_bytes_empty_all_4 (bytes_1, bytes_2, bytes_3, bytes_4)) {
+		succeed! (bytes_empty ());
+	}
+	let iterator_1 = try! (BytesIterator::new (bytes_1));
+	let iterator_2 = try! (BytesIterator::new (bytes_2));
+	let iterator_3 = try! (BytesIterator::new (bytes_3));
+	let iterator_4 = try! (BytesIterator::new (bytes_4));
+	let outputs = try! (iterators_map_4 (evaluator, callable, iterator_1, iterator_2, iterator_3, iterator_4));
+	return bytes_collect_values (outputs);
+}
+
+pub fn bytes_iterate_4 (evaluator : &mut EvaluatorContext, callable : &Value, bytes_1 : &Value, bytes_2 : &Value, bytes_3 : &Value, bytes_4 : &Value) -> (Outcome<Value>) {
+	if try! (is_bytes_empty_all_4 (bytes_1, bytes_2, bytes_3, bytes_4)) {
+		succeed! (VOID.into ());
+	}
+	let iterator_1 = try! (BytesIterator::new (bytes_1));
+	let iterator_2 = try! (BytesIterator::new (bytes_2));
+	let iterator_3 = try! (BytesIterator::new (bytes_3));
+	let iterator_4 = try! (BytesIterator::new (bytes_4));
+	try! (iterators_iterate_4 (evaluator, callable, iterator_1, iterator_2, iterator_3, iterator_4));
+	succeed! (VOID.into ());
+}
+
+
 pub fn bytes_map_n (evaluator : &mut EvaluatorContext, callable : &Value, bytes : &[Value]) -> (Outcome<Value>) {
 	match bytes.len () {
 		1 =>
 			return bytes_map_1 (evaluator, callable, &bytes[0]),
+		2 =>
+			return bytes_map_2 (evaluator, callable, &bytes[0], &bytes[1]),
+		3 =>
+			return bytes_map_3 (evaluator, callable, &bytes[0], &bytes[1], &bytes[2]),
+		4 =>
+			return bytes_map_4 (evaluator, callable, &bytes[0], &bytes[1], &bytes[2], &bytes[3]),
 		0 =>
 			fail! (0xfa789f5a),
 		_ =>
@@ -170,6 +503,12 @@ pub fn bytes_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, by
 	match bytes.len () {
 		1 =>
 			return bytes_iterate_1 (evaluator, callable, &bytes[0]),
+		2 =>
+			return bytes_iterate_2 (evaluator, callable, &bytes[0], &bytes[1]),
+		3 =>
+			return bytes_iterate_3 (evaluator, callable, &bytes[0], &bytes[1], &bytes[2]),
+		4 =>
+			return bytes_iterate_4 (evaluator, callable, &bytes[0], &bytes[1], &bytes[2], &bytes[3]),
 		0 =>
 			fail! (0xfff5829b),
 		_ =>
@@ -184,7 +523,7 @@ pub fn bytes_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, by
 
 
 pub fn strings_map_1 (evaluator : &mut EvaluatorContext, callable : &Value, string : &Value) -> (Outcome<Value>) {
-	if is_string_empty (string) {
+	if try! (is_string_empty (string)) {
 		succeed! (string_empty ());
 	}
 	let iterator = try! (StringIterator::new (string));
@@ -193,7 +532,7 @@ pub fn strings_map_1 (evaluator : &mut EvaluatorContext, callable : &Value, stri
 }
 
 pub fn strings_iterate_1 (evaluator : &mut EvaluatorContext, callable : &Value, string : &Value) -> (Outcome<Value>) {
-	if is_string_empty (string) {
+	if try! (is_string_empty (string)) {
 		succeed! (VOID.into ());
 	}
 	let iterator = try! (StringIterator::new (string));
@@ -202,10 +541,85 @@ pub fn strings_iterate_1 (evaluator : &mut EvaluatorContext, callable : &Value, 
 }
 
 
+pub fn strings_map_2 (evaluator : &mut EvaluatorContext, callable : &Value, string_1 : &Value, string_2 : &Value) -> (Outcome<Value>) {
+	if try! (is_string_empty_all_2 (string_1, string_2)) {
+		succeed! (string_empty ());
+	}
+	let iterator_1 = try! (StringIterator::new (string_1));
+	let iterator_2 = try! (StringIterator::new (string_2));
+	let outputs = try! (iterators_map_2 (evaluator, callable, iterator_1, iterator_2));
+	return string_collect_values (outputs);
+}
+
+pub fn strings_iterate_2 (evaluator : &mut EvaluatorContext, callable : &Value, string_1 : &Value, string_2 : &Value) -> (Outcome<Value>) {
+	if try! (is_string_empty_all_2 (string_1, string_2)) {
+		succeed! (VOID.into ());
+	}
+	let iterator_1 = try! (StringIterator::new (string_1));
+	let iterator_2 = try! (StringIterator::new (string_2));
+	try! (iterators_iterate_2 (evaluator, callable, iterator_1, iterator_2));
+	succeed! (VOID.into ());
+}
+
+
+pub fn strings_map_3 (evaluator : &mut EvaluatorContext, callable : &Value, string_1 : &Value, string_2 : &Value, string_3 : &Value) -> (Outcome<Value>) {
+	if try! (is_string_empty_all_3 (string_1, string_2, string_3)) {
+		succeed! (string_empty ());
+	}
+	let iterator_1 = try! (StringIterator::new (string_1));
+	let iterator_2 = try! (StringIterator::new (string_2));
+	let iterator_3 = try! (StringIterator::new (string_3));
+	let outputs = try! (iterators_map_3 (evaluator, callable, iterator_1, iterator_2, iterator_3));
+	return string_collect_values (outputs);
+}
+
+pub fn strings_iterate_3 (evaluator : &mut EvaluatorContext, callable : &Value, string_1 : &Value, string_2 : &Value, string_3 : &Value) -> (Outcome<Value>) {
+	if try! (is_string_empty_all_3 (string_1, string_2, string_3)) {
+		succeed! (VOID.into ());
+	}
+	let iterator_1 = try! (StringIterator::new (string_1));
+	let iterator_2 = try! (StringIterator::new (string_2));
+	let iterator_3 = try! (StringIterator::new (string_3));
+	try! (iterators_iterate_3 (evaluator, callable, iterator_1, iterator_2, iterator_3));
+	succeed! (VOID.into ());
+}
+
+
+pub fn strings_map_4 (evaluator : &mut EvaluatorContext, callable : &Value, string_1 : &Value, string_2 : &Value, string_3 : &Value, string_4 : &Value) -> (Outcome<Value>) {
+	if try! (is_string_empty_all_4 (string_1, string_2, string_3, string_4)) {
+		succeed! (string_empty ());
+	}
+	let iterator_1 = try! (StringIterator::new (string_1));
+	let iterator_2 = try! (StringIterator::new (string_2));
+	let iterator_3 = try! (StringIterator::new (string_3));
+	let iterator_4 = try! (StringIterator::new (string_4));
+	let outputs = try! (iterators_map_4 (evaluator, callable, iterator_1, iterator_2, iterator_3, iterator_4));
+	return string_collect_values (outputs);
+}
+
+pub fn strings_iterate_4 (evaluator : &mut EvaluatorContext, callable : &Value, string_1 : &Value, string_2 : &Value, string_3 : &Value, string_4 : &Value) -> (Outcome<Value>) {
+	if try! (is_string_empty_all_4 (string_1, string_2, string_3, string_4)) {
+		succeed! (VOID.into ());
+	}
+	let iterator_1 = try! (StringIterator::new (string_1));
+	let iterator_2 = try! (StringIterator::new (string_2));
+	let iterator_3 = try! (StringIterator::new (string_3));
+	let iterator_4 = try! (StringIterator::new (string_4));
+	try! (iterators_iterate_4 (evaluator, callable, iterator_1, iterator_2, iterator_3, iterator_4));
+	succeed! (VOID.into ());
+}
+
+
 pub fn strings_map_n (evaluator : &mut EvaluatorContext, callable : &Value, strings : &[Value]) -> (Outcome<Value>) {
 	match strings.len () {
 		1 =>
 			return strings_map_1 (evaluator, callable, &strings[0]),
+		2 =>
+			return strings_map_2 (evaluator, callable, &strings[0], &strings[1]),
+		3 =>
+			return strings_map_3 (evaluator, callable, &strings[0], &strings[1], &strings[2]),
+		4 =>
+			return strings_map_4 (evaluator, callable, &strings[0], &strings[1], &strings[2], &strings[3]),
 		0 =>
 			fail! (0x75dac57b),
 		_ =>
@@ -220,6 +634,12 @@ pub fn strings_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, 
 	match strings.len () {
 		1 =>
 			return strings_iterate_1 (evaluator, callable, &strings[0]),
+		2 =>
+			return strings_iterate_2 (evaluator, callable, &strings[0], &strings[1]),
+		3 =>
+			return strings_iterate_3 (evaluator, callable, &strings[0], &strings[1], &strings[2]),
+		4 =>
+			return strings_iterate_4 (evaluator, callable, &strings[0], &strings[1], &strings[2], &strings[3]),
 		0 =>
 			fail! (0x278c8e6c),
 		_ =>
@@ -233,24 +653,147 @@ pub fn strings_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, 
 
 
 
-pub fn iterators_map_1 <Iterator1> (evaluator : &mut EvaluatorContext, callable : &Value, iterator : Iterator1) -> (Outcome<ValueVec>)
+pub fn iterators_map_1 <Iterator1> (evaluator : &mut EvaluatorContext, callable : &Value, iterator_1 : Iterator1) -> (Outcome<ValueVec>)
 		where Iterator1 : Iterator<Item = Outcome<Value>>
 {
 	let mut outputs = StdVec::new ();
-	for input in iterator {
-		let input = try! (input);
-		let output = try! (evaluator.evaluator.evaluate_procedure_call_1_with_values (evaluator, callable, &input));
+	for input_1 in iterator_1 {
+		let input_1 = try! (input_1);
+		let output = try! (evaluator.evaluator.evaluate_procedure_call_1_with_values (evaluator, callable, &input_1));
 		outputs.push (output);
 	}
 	succeed! (outputs);
 }
 
-pub fn iterators_iterate_1 <Iterator1> (evaluator : &mut EvaluatorContext, callable : &Value, iterator : Iterator1) -> (Outcome<()>)
+pub fn iterators_iterate_1 <Iterator1> (evaluator : &mut EvaluatorContext, callable : &Value, iterator_1 : Iterator1) -> (Outcome<()>)
 		where Iterator1 : Iterator<Item = Outcome<Value>>
 {
-	for input in iterator {
-		let input = try! (input);
-		try! (evaluator.evaluator.evaluate_procedure_call_1_with_values (evaluator, callable, &input));
+	for input_1 in iterator_1 {
+		let input_1 = try! (input_1);
+		try! (evaluator.evaluator.evaluate_procedure_call_1_with_values (evaluator, callable, &input_1));
+	}
+	succeed! (());
+}
+
+
+
+
+pub fn iterators_map_2 <Iterator1, Iterator2> (evaluator : &mut EvaluatorContext, callable : &Value, iterator_1 : Iterator1, iterator_2 : Iterator2) -> (Outcome<ValueVec>)
+		where Iterator1 : Iterator<Item = Outcome<Value>>, Iterator2 : Iterator<Item = Outcome<Value>>
+{
+	let mut outputs = StdVec::new ();
+	let mut iterator_1 = iterator_1;
+	let mut iterator_2 = iterator_2;
+	loop {
+		let input_1 = iterator_1.next (); if input_1.is_none () { break; }
+		let input_2 = iterator_2.next (); if input_2.is_none () { break; }
+		let input_1 = try! (input_1.unwrap ());
+		let input_2 = try! (input_2.unwrap ());
+		let output = try! (evaluator.evaluator.evaluate_procedure_call_2_with_values (evaluator, callable, &input_1, &input_2));
+		outputs.push (output);
+	}
+	succeed! (outputs);
+}
+
+pub fn iterators_iterate_2 <Iterator1, Iterator2> (evaluator : &mut EvaluatorContext, callable : &Value, iterator_1 : Iterator1, iterator_2 : Iterator2) -> (Outcome<()>)
+		where Iterator1 : Iterator<Item = Outcome<Value>>, Iterator2 : Iterator<Item = Outcome<Value>>
+{
+	let mut iterator_1 = iterator_1;
+	let mut iterator_2 = iterator_2;
+	loop {
+		let input_1 = iterator_1.next (); if input_1.is_none () { break; }
+		let input_2 = iterator_2.next (); if input_2.is_none () { break; }
+		let input_1 = try! (input_1.unwrap ());
+		let input_2 = try! (input_2.unwrap ());
+		try! (evaluator.evaluator.evaluate_procedure_call_2_with_values (evaluator, callable, &input_1, &input_2));
+	}
+	succeed! (());
+}
+
+
+
+
+pub fn iterators_map_3 <Iterator1, Iterator2, Iterator3> (evaluator : &mut EvaluatorContext, callable : &Value, iterator_1 : Iterator1, iterator_2 : Iterator2, iterator_3 : Iterator3) -> (Outcome<ValueVec>)
+		where Iterator1 : Iterator<Item = Outcome<Value>>, Iterator2 : Iterator<Item = Outcome<Value>>, Iterator3 : Iterator<Item = Outcome<Value>>
+{
+	let mut outputs = StdVec::new ();
+	let mut iterator_1 = iterator_1;
+	let mut iterator_2 = iterator_2;
+	let mut iterator_3 = iterator_3;
+	loop {
+		let input_1 = iterator_1.next (); if input_1.is_none () { break; }
+		let input_2 = iterator_2.next (); if input_2.is_none () { break; }
+		let input_3 = iterator_3.next (); if input_3.is_none () { break; }
+		let input_1 = try! (input_1.unwrap ());
+		let input_2 = try! (input_2.unwrap ());
+		let input_3 = try! (input_3.unwrap ());
+		let output = try! (evaluator.evaluator.evaluate_procedure_call_3_with_values (evaluator, callable, &input_1, &input_2, &input_3));
+		outputs.push (output);
+	}
+	succeed! (outputs);
+}
+
+pub fn iterators_iterate_3 <Iterator1, Iterator2, Iterator3> (evaluator : &mut EvaluatorContext, callable : &Value, iterator_1 : Iterator1, iterator_2 : Iterator2, iterator_3 : Iterator3) -> (Outcome<()>)
+		where Iterator1 : Iterator<Item = Outcome<Value>>, Iterator2 : Iterator<Item = Outcome<Value>>, Iterator3 : Iterator<Item = Outcome<Value>>
+{
+	let mut iterator_1 = iterator_1;
+	let mut iterator_2 = iterator_2;
+	let mut iterator_3 = iterator_3;
+	loop {
+		let input_1 = iterator_1.next (); if input_1.is_none () { break; }
+		let input_2 = iterator_2.next (); if input_2.is_none () { break; }
+		let input_3 = iterator_3.next (); if input_3.is_none () { break; }
+		let input_1 = try! (input_1.unwrap ());
+		let input_2 = try! (input_2.unwrap ());
+		let input_3 = try! (input_3.unwrap ());
+		try! (evaluator.evaluator.evaluate_procedure_call_3_with_values (evaluator, callable, &input_1, &input_2, &input_3));
+	}
+	succeed! (());
+}
+
+
+
+
+pub fn iterators_map_4 <Iterator1, Iterator2, Iterator3, Iterator4> (evaluator : &mut EvaluatorContext, callable : &Value, iterator_1 : Iterator1, iterator_2 : Iterator2, iterator_3 : Iterator3, iterator_4 : Iterator4) -> (Outcome<ValueVec>)
+		where Iterator1 : Iterator<Item = Outcome<Value>>, Iterator2 : Iterator<Item = Outcome<Value>>, Iterator3 : Iterator<Item = Outcome<Value>>, Iterator4 : Iterator<Item = Outcome<Value>>
+{
+	let mut outputs = StdVec::new ();
+	let mut iterator_1 = iterator_1;
+	let mut iterator_2 = iterator_2;
+	let mut iterator_3 = iterator_3;
+	let mut iterator_4 = iterator_4;
+	loop {
+		let input_1 = iterator_1.next (); if input_1.is_none () { break; }
+		let input_2 = iterator_2.next (); if input_2.is_none () { break; }
+		let input_3 = iterator_3.next (); if input_3.is_none () { break; }
+		let input_4 = iterator_4.next (); if input_4.is_none () { break; }
+		let input_1 = try! (input_1.unwrap ());
+		let input_2 = try! (input_2.unwrap ());
+		let input_3 = try! (input_3.unwrap ());
+		let input_4 = try! (input_4.unwrap ());
+		let output = try! (evaluator.evaluator.evaluate_procedure_call_4_with_values (evaluator, callable, &input_1, &input_2, &input_3, &input_4));
+		outputs.push (output);
+	}
+	succeed! (outputs);
+}
+
+pub fn iterators_iterate_4 <Iterator1, Iterator2, Iterator3, Iterator4> (evaluator : &mut EvaluatorContext, callable : &Value, iterator_1 : Iterator1, iterator_2 : Iterator2, iterator_3 : Iterator3, iterator_4 : Iterator4) -> (Outcome<()>)
+		where Iterator1 : Iterator<Item = Outcome<Value>>, Iterator2 : Iterator<Item = Outcome<Value>>, Iterator3 : Iterator<Item = Outcome<Value>>, Iterator4 : Iterator<Item = Outcome<Value>>
+{
+	let mut iterator_1 = iterator_1;
+	let mut iterator_2 = iterator_2;
+	let mut iterator_3 = iterator_3;
+	let mut iterator_4 = iterator_4;
+	loop {
+		let input_1 = iterator_1.next (); if input_1.is_none () { break; }
+		let input_2 = iterator_2.next (); if input_2.is_none () { break; }
+		let input_3 = iterator_3.next (); if input_3.is_none () { break; }
+		let input_4 = iterator_4.next (); if input_4.is_none () { break; }
+		let input_1 = try! (input_1.unwrap ());
+		let input_2 = try! (input_2.unwrap ());
+		let input_3 = try! (input_3.unwrap ());
+		let input_4 = try! (input_4.unwrap ());
+		try! (evaluator.evaluator.evaluate_procedure_call_4_with_values (evaluator, callable, &input_1, &input_2, &input_3, &input_4));
 	}
 	succeed! (());
 }
@@ -282,6 +825,10 @@ pub fn iterators_iterate_n <Iterators> (evaluator : &mut EvaluatorContext, calla
 
 
 
+
+pub fn values_build_0 () -> (Value) {
+	panic! ("3e2cd31b");
+}
 
 pub fn values_build_1 (_value_1 : &Value) -> (Value) {
 	panic! ("bb8da879");
