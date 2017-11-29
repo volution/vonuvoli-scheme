@@ -172,7 +172,7 @@ impl Compiler {
 		let (compilation, procedure) = try! (self.compile_0 (compilation, procedure));
 		let (compilation, arguments) = try! (self.compile_vec_0 (compilation, try! (vec_list_clone (&arguments))));
 		
-		let expression = Expression::ProcedureCall (procedure.into (), arguments);
+		let expression = Expression::ProcedureCall (procedure.into (), arguments.into_boxed_slice ());
 		
 		succeed! ((compilation, expression));
 	}
@@ -326,7 +326,7 @@ impl Compiler {
 		
 		let (compilation, statements) = try! (self.compile_vec_0 (compilation, tokens));
 		
-		let expression = Expression::SyntaxPrimitiveCall (syntax.into (), statements);
+		let expression = Expression::SyntaxPrimitiveCall (syntax.into (), statements.into_boxed_slice ());
 		
 		succeed! ((compilation, expression));
 	}
@@ -338,7 +338,7 @@ impl Compiler {
 		
 		let (compilation, statements) = try! (self.compile_vec_0 (compilation, tokens));
 		
-		let expression = Expression::Sequence (statements);
+		let expression = Expression::Sequence (statements.into_boxed_slice ());
 		
 		succeed! ((compilation, expression));
 	}
@@ -370,7 +370,7 @@ impl Compiler {
 			fail_panic! (0xbc801c5d);
 		};
 		
-		let expression = Expression::Conditional (clauses);
+		let expression = Expression::Conditional (clauses.into_boxed_slice ());
 		
 		succeed! ((compilation, expression));
 	}
@@ -387,7 +387,7 @@ impl Compiler {
 		
 		let (compilation, statements) = try! (self.compile_vec_0 (compilation, tokens));
 		let (guard, statements) = try! (vec_explode_1n (statements));
-		let statements = Expression::Sequence (statements);
+		let statements = Expression::Sequence (statements.into_boxed_slice ());
 		
 		let negated = match syntax {
 			SyntaxPrimitiveN::When =>
@@ -401,7 +401,7 @@ impl Compiler {
 		let clauses = vec! [
 				(negated, guard, Some (statements)),
 			];
-		let expression = Expression::Conditional (clauses);
+		let expression = Expression::Conditional (clauses.into_boxed_slice ());
 		
 		succeed! ((compilation, expression));
 	}
@@ -436,7 +436,7 @@ impl Compiler {
 			let (compilation_1, statements) = try! (self.compile_vec_0 (compilation_1, statements));
 			
 			let clause = if !statements.is_empty () {
-				let statements = Expression::Sequence (statements);
+				let statements = Expression::Sequence (statements.into_boxed_slice ());
 				(false, guard, Some (statements))
 			} else {
 				(false, guard, None)
@@ -446,7 +446,7 @@ impl Compiler {
 			compilation = compilation_1;
 		}
 		
-		let expression = Expression::Conditional (clauses);
+		let expression = Expression::Conditional (clauses.into_boxed_slice ());
 		
 		succeed! ((compilation, expression));
 	}
@@ -474,8 +474,8 @@ impl Compiler {
 		let (compilation, statements) = try! (self.compile_vec_0 (compilation, statements));
 		let (compilation, registers) = try! (compilation.unfork_locals ());
 		
-		let statements = Expression::Sequence (statements);
-		let expression = Expression::RegisterClosure (statements.into (), registers);
+		let statements = Expression::Sequence (statements.into_boxed_slice ());
+		let expression = Expression::RegisterClosure (statements.into (), registers.into_boxed_slice ());
 		
 		succeed! ((compilation, expression));
 	}
@@ -581,8 +581,8 @@ impl Compiler {
 		
 		let (compilation, registers) = try! (compilation.unfork_locals ());
 		
-		let statements = Expression::Sequence (statements);
-		let expression = Expression::RegisterClosure (statements.into (), registers);
+		let statements = Expression::Sequence (statements.into_boxed_slice ());
+		let expression = Expression::RegisterClosure (statements.into (), registers.into_boxed_slice ());
 		
 		succeed! ((compilation, expression));
 	}
@@ -699,7 +699,7 @@ impl Compiler {
 							_ =>
 								fail! (0x31f5b387),
 						});
-				let expression = Expression::BindingInitializeN (initializers, parallel);
+				let expression = Expression::BindingInitializeN (initializers.into_boxed_slice (), parallel);
 				succeed! (expression);
 			},
 			
@@ -713,7 +713,7 @@ impl Compiler {
 							_ =>
 								fail! (0x5627731f),
 						});
-				let expression = Expression::RegisterInitializeN (initializers, parallel);
+				let expression = Expression::RegisterInitializeN (initializers.into_boxed_slice (), parallel);
 				succeed! (expression);
 			},
 			
@@ -768,7 +768,7 @@ impl Compiler {
 		
 		let registers_local = registers_local.split_off (arguments_count);
 		
-		let statements = Expression::Sequence (statements);
+		let statements = Expression::Sequence (statements.into_boxed_slice ());
 		
 		let template = LambdaTemplate {
 				identifier : identifier,
@@ -776,7 +776,7 @@ impl Compiler {
 				argument_rest : argument_rest,
 			};
 		
-		let expression = Expression::Lambda (StdBox::new (template), statements.into (), registers_closure, registers_local);
+		let expression = Expression::Lambda (StdBox::new (template), statements.into (), registers_closure.into_boxed_slice (), registers_local.into_boxed_slice ());
 		
 		succeed! ((compilation, expression));
 	}
@@ -801,7 +801,7 @@ impl Compiler {
 		fn splice <ExpressionInto : StdInto<Expression>> (expression : ExpressionInto, spliceable : bool) -> (Expression) {
 			let expression = expression.into ();
 			if spliceable {
-				Expression::ProcedureCall (ListPrimitiveN::ListBuild.into (), vec! [ expression ])
+				Expression::ProcedureCall (ListPrimitiveN::ListBuild.into (), StdBox::new ([expression]))
 			} else {
 				expression
 			}
@@ -848,7 +848,7 @@ impl Compiler {
 									} else {
 										let (compilation, element) = try! (self.compile_syntax_quasi_quote_0 (compilation, token, true, false, quote_depth, unquote_depth + 1));
 										// FIXME:  Eliminate dynamic creation of symbol!
-										let element = Expression::ProcedureCall (ListPrimitiveN::ListBuild.into (), vec! [ Expression::Value (symbol_clone_str ("unquote") .into ()), element ]);
+										let element = Expression::ProcedureCall (ListPrimitiveN::ListBuild.into (), StdBox::new ([Expression::Value (symbol_clone_str ("unquote") .into ()), element]));
 										(compilation, element)
 									};
 									succeed! ((compilation, splice (element, spliceable)));
@@ -865,7 +865,7 @@ impl Compiler {
 										} else {
 											let (compilation, element) = try! (self.compile_syntax_quasi_quote_0 (compilation, token, true, false, quote_depth, unquote_depth + 1));
 											// FIXME:  Eliminate dynamic creation of symbol!
-											let element = Expression::ProcedureCall (ListPrimitiveN::ListBuild.into (), vec! [ Expression::Value (symbol_clone_str ("unquote-splicing") .into ()), element ]);
+											let element = Expression::ProcedureCall (ListPrimitiveN::ListBuild.into (), StdBox::new ([Expression::Value (symbol_clone_str ("unquote-splicing") .into ()), element]));
 											(compilation, element)
 										};
 										succeed! ((compilation, element));
@@ -881,7 +881,7 @@ impl Compiler {
 									let token = try! (vec_explode_1 (tokens));
 									let (compilation, element) = try! (self.compile_syntax_quasi_quote_0 (compilation, token, true, false, quote_depth + 1, unquote_depth));
 									// FIXME:  Eliminate dynamic creation of symbol!
-									let element = Expression::ProcedureCall (ListPrimitiveN::ListBuild.into (), vec! [ Expression::Value (symbol_clone_str ("quasiquote") .into ()), element ]);
+									let element = Expression::ProcedureCall (ListPrimitiveN::ListBuild.into (), StdBox::new ([Expression::Value (symbol_clone_str ("quasiquote") .into ()), element]));
 									succeed! ((compilation, splice (element, spliceable)));
 								} else {
 									fail! (0x95565615);
@@ -927,12 +927,12 @@ impl Compiler {
 					}
 				}
 				
-				let expression = Expression::ProcedureCall (ListPrimitiveN::ListAppend.into (), elements);
+				let expression = Expression::ProcedureCall (ListPrimitiveN::ListAppend.into (), elements.into_boxed_slice ());
 				
 				let expression = if top {
 					expression
 				} else {
-					Expression::ProcedureCall (ListPrimitive2::Pair.into (), vec! [ expression, NULL.into () ])
+					Expression::ProcedureCall (ListPrimitive2::Pair.into (), StdBox::new ([expression, NULL.into ()]))
 				};
 				
 				succeed! ((compilation, expression));

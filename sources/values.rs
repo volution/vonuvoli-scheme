@@ -19,7 +19,7 @@ use std::str;
 
 pub mod exports {
 	
-	pub use super::{Value, ValueBox, ValueVec, ValueSliceBox, ValueClass};
+	pub use super::{Value, ValueBox, ValueVec, ValueClass};
 	pub use super::{Boolean, BooleanBox, BooleanVec};
 	pub use super::{NumberInteger, NumberIntegerBox, NumberIntegerVec};
 	pub use super::{NumberReal, NumberRealBox, NumberRealVec};
@@ -114,7 +114,6 @@ pub enum Value {
 
 pub type ValueBox = StdBox<Value>;
 pub type ValueVec = StdVec<Value>;
-pub type ValueSliceBox = StdBox<[Value]>;
 
 
 #[ derive (Clone, Debug, Eq, PartialEq, Hash) ]

@@ -24,21 +24,21 @@ pub enum Expression {
 	Void,
 	Value ( Value ),
 	
-	Sequence ( ExpressionVec ),
-	Conditional ( StdVec<(bool, Expression, Option<Expression>)> ),
+	Sequence ( StdBox<[Expression]> ),
+	Conditional ( StdBox<[(bool, Expression, Option<Expression>)]> ),
 	
 	ContextDefine ( Symbol, ExpressionBox ),
 	ContextUpdate ( Symbol, ExpressionBox ),
 	ContextSelect ( Symbol ),
 	
-	RegisterClosure ( ExpressionBox, StdVec<RegistersBindingTemplate> ),
+	RegisterClosure ( ExpressionBox, StdBox<[RegistersBindingTemplate]> ),
 	RegisterInitialize1 ( usize, ExpressionBox ),
-	RegisterInitializeN ( StdVec<(usize, Expression)>, bool ),
+	RegisterInitializeN ( StdBox<[(usize, Expression)]>, bool ),
 	RegisterSet ( usize, ExpressionBox ),
 	RegisterGet ( usize ),
 	
 	BindingInitialize1 ( Binding, ExpressionBox ),
-	BindingInitializeN ( StdVec<(Binding, Expression)>, bool ),
+	BindingInitializeN ( StdBox<[(Binding, Expression)]>, bool ),
 	BindingSet ( Binding, ExpressionBox ),
 	BindingGet ( Binding ),
 	
@@ -48,8 +48,8 @@ pub enum Expression {
 	ProcedureCall3 ( ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
 	ProcedureCall4 ( ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
 	ProcedureCall5 ( ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
-	ProcedureCallN ( ExpressionBox, ExpressionVec ),
-	ProcedureCall ( ExpressionBox, ExpressionVec ),
+	ProcedureCallN ( ExpressionBox, StdBox<[Expression]> ),
+	ProcedureCall ( ExpressionBox, StdBox<[Expression]> ),
 	
 	ProcedurePrimitiveCall0 ( ProcedurePrimitive0 ),
 	ProcedurePrimitiveCall1 ( ProcedurePrimitive1, ExpressionBox ),
@@ -57,8 +57,8 @@ pub enum Expression {
 	ProcedurePrimitiveCall3 ( ProcedurePrimitive3, ExpressionBox, ExpressionBox, ExpressionBox ),
 	ProcedurePrimitiveCall4 ( ProcedurePrimitive4, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
 	ProcedurePrimitiveCall5 ( ProcedurePrimitive5, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
-	ProcedurePrimitiveCallN ( ProcedurePrimitiveN, ExpressionVec ),
-	ProcedurePrimitiveCall ( ProcedurePrimitive, ExpressionVec ),
+	ProcedurePrimitiveCallN ( ProcedurePrimitiveN, StdBox<[Expression]> ),
+	ProcedurePrimitiveCall ( ProcedurePrimitive, StdBox<[Expression]> ),
 	
 	SyntaxPrimitiveCall0 ( SyntaxPrimitive0 ),
 	SyntaxPrimitiveCall1 ( SyntaxPrimitive1, ExpressionBox ),
@@ -66,10 +66,10 @@ pub enum Expression {
 	SyntaxPrimitiveCall3 ( SyntaxPrimitive3, ExpressionBox, ExpressionBox, ExpressionBox ),
 	SyntaxPrimitiveCall4 ( SyntaxPrimitive4, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
 	SyntaxPrimitiveCall5 ( SyntaxPrimitive5, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
-	SyntaxPrimitiveCallN ( SyntaxPrimitiveN, ExpressionVec ),
-	SyntaxPrimitiveCall ( SyntaxPrimitive, ExpressionVec ),
+	SyntaxPrimitiveCallN ( SyntaxPrimitiveN, StdBox<[Expression]> ),
+	SyntaxPrimitiveCall ( SyntaxPrimitive, StdBox<[Expression]> ),
 	
-	Lambda ( StdBox<LambdaTemplate>, ExpressionBox, StdVec<RegistersBindingTemplate>, StdVec<RegistersBindingTemplate> ),
+	Lambda ( StdBox<LambdaTemplate>, ExpressionBox, StdBox<[RegistersBindingTemplate]>, StdBox<[RegistersBindingTemplate]> ),
 	
 }
 

@@ -155,7 +155,7 @@ impl Evaluator {
 	
 	
 	
-	pub fn evaluate_sequence (&self, evaluation : &mut EvaluatorContext, expressions : &ExpressionVec) -> (Outcome<Value>) {
+	pub fn evaluate_sequence (&self, evaluation : &mut EvaluatorContext, expressions : &[Expression]) -> (Outcome<Value>) {
 		let mut output = VOID.into ();
 		for expression in expressions {
 			output = try! (evaluation.evaluate (expression));
@@ -166,7 +166,7 @@ impl Evaluator {
 	
 	
 	
-	pub fn evaluate_conditional (&self, evaluation : &mut EvaluatorContext, clauses : &StdVec<(bool, Expression, Option<Expression>)>) -> (Outcome<Value>) {
+	pub fn evaluate_conditional (&self, evaluation : &mut EvaluatorContext, clauses : &[(bool, Expression, Option<Expression>)]) -> (Outcome<Value>) {
 		for &(negated, ref guard, ref expression) in clauses {
 			let guard = try! (evaluation.evaluate (guard));
 			let matched = if negated {
@@ -231,7 +231,7 @@ impl Evaluator {
 		return self.evaluate_binding_initialize_1 (evaluation, &binding, expression);
 	}
 	
-	pub fn evaluate_register_initialize_n (&self, evaluation : &mut EvaluatorContext, initializers : &StdVec<(usize, Expression)>, parallel : bool) -> (Outcome<Value>) {
+	pub fn evaluate_register_initialize_n (&self, evaluation : &mut EvaluatorContext, initializers : &[(usize, Expression)], parallel : bool) -> (Outcome<Value>) {
 		let registers = try_some! (evaluation.registers, 0x4f5f5ffc);
 		let indices = initializers.iter () .map (|&(index, _)| index) .collect::<StdVec<_>> ();
 		let expressions = initializers.iter () .map (|&(_, ref expression)| expression) .collect::<StdVec<_>> ();
@@ -262,12 +262,12 @@ impl Evaluator {
 		return Ok (value_new);
 	}
 	
-	pub fn evaluate_binding_initialize_n (&self, evaluation : &mut EvaluatorContext, initializers : &StdVec<(Binding, Expression)>, parallel : bool) -> (Outcome<Value>) {
-		let initializers = initializers.iter () .map (|&(ref binding, ref expression)| (binding, expression)) .collect ();
+	pub fn evaluate_binding_initialize_n (&self, evaluation : &mut EvaluatorContext, initializers : &[(Binding, Expression)], parallel : bool) -> (Outcome<Value>) {
+		let initializers = initializers.iter () .map (|&(ref binding, ref expression)| (binding, expression)) .collect::<StdVec<_>> ();
 		return self.evaluate_binding_initialize_n_0 (evaluation, &initializers, parallel);
 	}
 	
-	pub fn evaluate_binding_initialize_n_0 (&self, evaluation : &mut EvaluatorContext, initializers : &StdVec<(&Binding, &Expression)>, parallel : bool) -> (Outcome<Value>) {
+	pub fn evaluate_binding_initialize_n_0 (&self, evaluation : &mut EvaluatorContext, initializers : &[(&Binding, &Expression)], parallel : bool) -> (Outcome<Value>) {
 		
 		let expressions = initializers.iter () .map (|&(_, expression)| expression) .collect::<StdVec<_>> ();
 		let bindings = initializers.iter () .map (|&(binding, _)| binding) .collect::<StdVec<_>> ();
@@ -301,9 +301,9 @@ impl Evaluator {
 	
 	
 	
-	pub fn evaluate_lambda_create (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaTemplate, expressions : &Expression, registers_closure : &StdVec<RegistersBindingTemplate>, registers_local : &StdVec<RegistersBindingTemplate>) -> (Outcome<Value>) {
+	pub fn evaluate_lambda_create (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaTemplate, expressions : &Expression, registers_closure : &[RegistersBindingTemplate], registers_local : &[RegistersBindingTemplate]) -> (Outcome<Value>) {
 		let registers_closure = try! (Registers::new_and_define (registers_closure, evaluation.registers));
-		let lambda = Lambda::new (lambda.clone (), expressions.clone (), registers_closure, registers_local.clone ());
+		let lambda = Lambda::new (lambda.clone (), expressions.clone (), registers_closure, registers_local.to_vec ());
 		succeed! (lambda.into ());
 	}
 	
