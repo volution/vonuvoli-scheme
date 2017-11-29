@@ -68,7 +68,7 @@ pub fn execute_tests (tests : &StdVec<TestCase>, transcript : &mut io::Write, ve
 }
 
 
-#[ allow (unused_assignments) ]
+#[ allow (unused_assignments) ] // FIXME:  Why does the compile think we are not using `header_emitted`?
 pub fn execute_test (context : &Context, test : &TestCase, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
 	
 	

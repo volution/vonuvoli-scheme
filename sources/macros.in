@@ -1,27 +1,23 @@
 
 
-#[ allow (unused_macros) ]
 macro_rules! succeeded {
 	( $outcome : expr ) => (
 		::std::result::Result::Ok ($outcome)
 	);
 }
 
-#[ allow (unused_macros) ]
 macro_rules! failed {
 	( $code : expr ) => (
 		::std::result::Result::Err (::errors::exports::error_generic ($code))
 	);
 }
 
-#[ allow (unused_macros) ]
 macro_rules! failed_unimplemented {
 	( $code : expr ) => (
 		::std::result::Result::Err (::errors::exports::error_unimplemented ($code))
 	);
 }
 
-#[ allow (unused_macros) ]
 macro_rules! failed_panic {
 	( $code : expr ) => (
 		::std::result::Result::Err (::errors::exports::error_panic ($code))
@@ -29,28 +25,24 @@ macro_rules! failed_panic {
 }
 
 
-#[ allow (unused_macros) ]
 macro_rules! succeed {
 	( $outcome : expr ) => (
 		return succeeded! ($outcome);
 	);
 }
 
-#[ allow (unused_macros) ]
 macro_rules! fail {
 	( $code : expr ) => (
 		return failed! ($code);
 	);
 }
 
-#[ allow (unused_macros) ]
 macro_rules! fail_unimplemented {
 	( $code : expr ) => (
 		return failed_unimplemented! ($code);
 	);
 }
 
-#[ allow (unused_macros) ]
 macro_rules! fail_panic {
 	( $code : expr ) => (
 		return failed_panic! ($code)
@@ -70,7 +62,6 @@ macro_rules! enforce {
 
 
 
-#[ allow (unused_macros) ]
 macro_rules! try_some {
 	( $option : expr, $code : expr ) => (
 		if let ::std::option::Option::Some (value) = $option {
@@ -92,7 +83,6 @@ macro_rules! try_some_ref {
 	);
 }
 
-#[ allow (unused_macros) ]
 macro_rules! try_some_2 {
 	( $result : expr, $code : expr ) => (
 		try_some! (try! ($result), $code)
@@ -100,6 +90,12 @@ macro_rules! try_some_2 {
 }
 
 #[ allow (unused_macros) ]
+macro_rules! try_some_ref_2 {
+	( $result : expr, $code : expr ) => (
+		try_some_ref! (try! ($result), $code)
+	);
+}
+
 macro_rules! try_or_fail {
 	( $result : expr, $code : expr ) => (
 		if let ::std::result::Result::Ok (value) = $result {
@@ -113,7 +109,6 @@ macro_rules! try_or_fail {
 
 
 
-#[ allow (unused_macros) ]
 macro_rules! impl_from_for_type {
 	( $to : ident, $from : ty ) => (
 		impl_from_for_type! ($to, $from, value, $to (value.into ()));
@@ -128,7 +123,6 @@ macro_rules! impl_from_for_type {
 }
 
 
-#[ allow (unused_macros) ]
 macro_rules! impl_try_from_for_type {
 	( $to : ty, $from : ty, $value : ident, $expression : expr ) => (
 		impl StdTryFrom<$from> for $to {
@@ -148,7 +142,6 @@ macro_rules! impl_try_from_for_type {
 
 
 
-#[ allow (unused_macros) ]
 macro_rules! impl_from_for_enum {
 	( $to : ident, $tag : ident, $from : ty ) => (
 		impl_from_for_enum! ($to, $tag, $from, value, value.into ());
@@ -210,7 +203,6 @@ macro_rules! impl_into_for_enum {
 
 
 
-#[ allow (unused_macros) ]
 macro_rules! impl_unwrappers_for_type_wrapper {
 	( $from : ty, $to : ty) => (
 		impl StdFrom<$from> for $to {
@@ -281,7 +273,6 @@ macro_rules! impl_unwrappers_for_enum_wrapper {
 }
 
 
-#[ allow (unused_macros) ]
 macro_rules! impl_unwrappers_2_for_enum_3_wrapper {
 	( $from : ident, $tag : ident, $to : ty) => (
 		impl StdTryFrom<$from> for $to {
@@ -338,7 +329,6 @@ macro_rules! impl_unwrappers_2_for_enum_3_wrapper {
 
 
 #[ macro_export ]
-#[ allow (unused_macros) ]
 macro_rules! vec_into {
 	( $( $value : expr ),* ) => (
 		vec! [ $( $value, )* ] .into_iter () .map (|value| value.into ()) .collect::<::std::vec::Vec<_>> ()
@@ -346,7 +336,6 @@ macro_rules! vec_into {
 }
 
 #[ macro_export ]
-#[ allow (unused_macros) ]
 macro_rules! vec_map {
 	( $vector : expr, $element : pat, $expression : expr ) => (
 		$vector.into_iter () .map (|$element| $expression) .collect::<::std::vec::Vec<_>> ()
@@ -354,7 +343,6 @@ macro_rules! vec_map {
 }
 
 #[ macro_export ]
-#[ allow (unused_macros) ]
 macro_rules! try_vec_map {
 	( $vector : expr, $element : pat, $expression : expr ) => (
 		try! ($vector.into_iter () .map (|$element| $expression) .collect::<::std::result::Result<::std::vec::Vec<_>, _>> ())
@@ -362,7 +350,6 @@ macro_rules! try_vec_map {
 }
 
 #[ macro_export ]
-#[ allow (unused_macros) ]
 macro_rules! vec_fold {
 	( $vector : expr, $initial : expr, ($accumulator : pat, $element : pat), $expression : block ) => (
 		$vector.into_iter () .fold ($initial, |$accumulator, $element| $expression)
@@ -370,7 +357,6 @@ macro_rules! vec_fold {
 }
 
 #[ macro_export ]
-#[ allow (unused_macros) ]
 macro_rules! try_vec_fold {
 	( $vector : expr, $initial : expr, ($accumulator : pat, $element : pat), $expression : block ) => (
 		// FIXME:  Try to elide the `::errors::exports::Error`!
@@ -389,7 +375,6 @@ macro_rules! try_vec_fold {
 
 
 #[ macro_export ]
-#[ allow (unused_macros) ]
 macro_rules! option_map {
 	( $option : ident, $expression : expr ) => (
 		option_map! ($option, $option, $expression)
@@ -405,7 +390,6 @@ macro_rules! option_map {
 }
 
 #[ macro_export ]
-#[ allow (unused_macros) ]
 macro_rules! try_option_map {
 	( $option : ident, $expression : expr ) => (
 		try_option_map! ($option, $option, $expression)
@@ -423,14 +407,12 @@ macro_rules! try_option_map {
 
 
 
-#[ allow (unused_macros) ]
 macro_rules! try_as_ref {
 	( $type : ty, $value : expr ) => (
 		try! (::runtime::exports::StdTryAsRef::<$type>::try_as_ref ($value))
 	);
 }
 
-#[ allow (unused_macros) ]
 macro_rules! def_try_as_ref {
 	( $identifier : ident, $type : ty) => (
 		#[ allow (unused_macros) ]
@@ -443,14 +425,12 @@ macro_rules! def_try_as_ref {
 }
 
 
-#[ allow (unused_macros) ]
 macro_rules! try_into {
 	( $type : ty, $value : expr ) => (
 		try! (::runtime::exports::StdTryInto::<$type>::try_into ($value))
 	);
 }
 
-#[ allow (unused_macros) ]
 macro_rules! def_try_into {
 	( $identifier : ident, $type : ty) => (
 		#[ allow (unused_macros) ]
@@ -511,313 +491,7 @@ def_try_into! (try_into_binding, ::values::exports::Binding);
 
 
 
-#[ allow (unused_macros) ]
-macro_rules! enforce_value_class {
-	( $class : ident, $value : expr, $code : expr ) => (
-		enforce! ($value.is (::values::exports::ValueClass::$class), $code);
-	);
-	( $class : ident, $value : expr ) => (
-		enforce_value_class! ($value, 0xacc9dfc7);
-	);
-}
-
-#[ allow (unused_macros) ]
-macro_rules! enforce_is_null {
-	( $value : expr, $code : expr ) => ( enforce_value_class! (Null, $value, $code); );
-	( $value : expr ) => ( enforce_is_null! ($value, 0x85d6deef); );
-}
-
-#[ allow (unused_macros) ]
-macro_rules! enforce_is_void {
-	( $value : expr, $code : expr ) => ( enforce_value_class! (Void, $value, $code); );
-	( $value : expr ) => ( enforce_is_void! ($value, 0xe2116f5f); );
-}
-
-#[ allow (unused_macros) ]
-macro_rules! enforce_is_undefined {
-	( $value : expr, $code : expr ) => ( enforce_value_class! (Undefined, $value, $code); );
-	( $value : expr ) => ( enforce_is_undefined! ($value, 0x11c91a64); );
-}
-
-#[ allow (unused_macros) ]
-macro_rules! enforce_is_boolean {
-	( $value : expr, $code : expr ) => ( enforce_value_class! (Boolean, $value, $code); );
-	( $value : expr ) => ( enforce_is_boolean! ($value, 0xd45dac18); );
-}
-
-#[ allow (unused_macros) ]
-macro_rules! enforce_is_number_integer {
-	( $value : expr, $code : expr ) => ( enforce_value_class! (NumberInteger, $value, $code); );
-	( $value : expr ) => ( enforce_is_number_integer! ($value, 0x97a15322); );
-}
-
-#[ allow (unused_macros) ]
-macro_rules! enforce_is_number_real {
-	( $value : expr, $code : expr ) => ( enforce_value_class! (NumberReal, $value, $code); );
-	( $value : expr ) => ( enforce_is_number_real! ($value, 0x1e7b56aa); );
-}
-
-#[ allow (unused_macros) ]
-macro_rules! enforce_is_character {
-	( $value : expr, $code : expr ) => ( enforce_value_class! (character, $value, $code); );
-	( $value : expr ) => ( enforce_is_character! ($value, 0xe7f6d13b); );
-}
-
-#[ allow (unused_macros) ]
-macro_rules! enforce_is_symbol {
-	( $value : expr, $code : expr ) => ( enforce_value_class! (Symbol, $value, $code); );
-	( $value : expr ) => ( enforce_is_symbol! ($value, 0x5c8f41b8); );
-}
-
-#[ allow (unused_macros) ]
-macro_rules! enforce_is_string {
-	( $value : expr, $code : expr ) => ( enforce_value_class! (String, $value, $code); );
-	( $value : expr ) => ( enforce_is_string! ($value, 0x5acd74e0); );
-}
-
-#[ allow (unused_macros) ]
-macro_rules! enforce_is_bytes {
-	( $value : expr, $code : expr ) => ( enforce_value_class! (Bytes, $value, $code); );
-	( $value : expr ) => ( enforce_is_bytes! ($value, 0x8703209b); );
-}
-
-#[ allow (unused_macros) ]
-macro_rules! enforce_is_pair {
-	( $value : expr, $code : expr ) => ( enforce_value_class! (Pair, $value, $code); );
-	( $value : expr ) => ( enforce_is_pair! ($value, 0xbf210c89); );
-}
-
-#[ allow (unused_macros) ]
-macro_rules! enforce_is_array {
-	( $value : expr, $code : expr ) => ( enforce_value_class! (Array, $value, $code); );
-	( $value : expr ) => ( enforce_is_array! ($value, 0xa9ec7081); );
-}
-
-#[ allow (unused_macros) ]
-macro_rules! enforce_is_error {
-	( $value : expr, $code : expr ) => ( enforce_value_class! (Error, $value, $code); );
-	( $value : expr ) => ( enforce_is_error! ($value, 0xc038f777); );
-}
-
-#[ allow (unused_macros) ]
-macro_rules! enforce_is_lambda {
-	( $value : expr, $code : expr ) => ( enforce_value_class! (Lambda, $value, $code); );
-	( $value : expr ) => ( enforce_is_lambda! ($value, 0x2a9af606); );
-}
-
-#[ allow (unused_macros) ]
-macro_rules! enforce_is_procedure_primitive {
-	( $value : expr, $code : expr ) => ( enforce_value_class! (ProcedurePrimitive, $value, $code); );
-	( $value : expr ) => ( enforce_is_procedure_primitive! ($value, 0x8b5ac2e9); );
-}
-
-#[ allow (unused_macros) ]
-macro_rules! enforce_is_syntax_primitive {
-	( $value : expr, $code : expr ) => ( enforce_value_class! (SyntaxPrimitive, $value, $code); );
-	( $value : expr ) => ( enforce_is_syntax_primitive! ($value, 0xef5243ed); );
-}
-
-#[ allow (unused_macros) ]
-macro_rules! enforce_is_context {
-	( $value : expr, $code : expr ) => ( enforce_value_class! (Context, $value, $code); );
-	( $value : expr ) => ( enforce_is_context! ($value, 0xbefec7ef); );
-}
-
-#[ allow (unused_macros) ]
-macro_rules! enforce_is_binding {
-	( $value : expr, $code : expr ) => ( enforce_value_class! (Binding, $value, $code); );
-	( $value : expr ) => ( enforce_is_binding! ($value, 0xd2160d09); );
-}
-
-
-#[ allow (unused_macros) ]
-macro_rules! enforce_is_number {
-	( $value : expr, $code : expr ) => ( enforce! (is_number ($value), $code); );
-	( $value : expr ) => ( enforce_is_number! ($value, 0x7040b2a3); );
-}
-
-
-#[ allow (unused_macros) ]
-macro_rules! enforce_is_list {
-	( $value : expr, $code : expr ) => ( enforce! (super::predicates::exports::is_list ($value), $code); );
-	( $value : expr ) => ( enforce_is_list! ($value, 0x1dcc2b1a); );
-}
-
-#[ allow (unused_macros) ]
-macro_rules! enforce_is_list_proper {
-	( $value : expr, $code : expr ) => ( enforce! (super::predicates::exports::is_list_proper ($value), $code); );
-	( $value : expr ) => ( enforce_is_list_proper! ($value, 0x4d73e0e4); );
-}
-
-#[ allow (unused_macros) ]
-macro_rules! enforce_is_list_dotted {
-	( $value : expr, $code : expr ) => ( enforce! (super::predicates::exports::is_list_dotted ($value), $code); );
-	( $value : expr ) => ( enforce_is_list_dotted! ($value, 0xfd6e9601); );
-}
-
-#[ allow (unused_macros) ]
-macro_rules! enforce_is_list_cyclic {
-	( $value : expr, $code : expr ) => ( enforce! (super::predicates::exports::is_list_cyclic ($value), $code); );
-	( $value : expr ) => ( enforce_is_list_cyclic! ($value, 0x121d3b63); );
-}
-
-
-#[ allow (unused_macros) ]
-macro_rules! enforce_is_procedure {
-	( $value : expr, $code : expr ) => ( enforce! (is_procedure ($value), $code); );
-	( $value : expr ) => ( enforce_is_procedure! ($value, 0x58102530); );
-}
-
-#[ allow (unused_macros) ]
-macro_rules! enforce_is_syntax {
-	( $value : expr, $code : expr ) => ( enforce! (is_syntax ($value), $code); );
-	( $value : expr ) => ( enforce_is_syntax! ($value, 0x7809075e); );
-}
-
-
-#[ allow (unused_macros) ]
-macro_rules! enforce_is_true {
-	( $value : expr, $code : expr ) => ( enforce! (is_true ($value), $code); );
-	( $value : expr ) => ( enforce_is_true! ($value, 0x5597d85d); );
-}
-
-#[ allow (unused_macros) ]
-macro_rules! enforce_is_false {
-	( $value : expr, $code : expr ) => ( enforce! (is_false ($value), $code); );
-	( $value : expr ) => ( enforce_is_false! ($value, 0x1e489383); );
-}
-
-#[ allow (unused_macros) ]
-macro_rules! enforce_is_not_false {
-	( $value : expr, $code : expr ) => ( enforce! (is_not_false ($value), $code); );
-	( $value : expr ) => ( enforce_is_not_false! ($value, 0x57e5abad); );
-}
-
-#[ allow (unused_macros) ]
-macro_rules! enforce_is_true_or_equivalent {
-	( $value : expr, $code : expr ) => ( enforce! (is_true_or_equivalent ($value), $code); );
-	( $value : expr ) => ( enforce_is_true_or_equivalent! ($value, 0xcbfc2590); );
-}
-
-#[ allow (unused_macros) ]
-macro_rules! enforce_is_false_or_equivalent {
-	( $value : expr, $code : expr ) => ( enforce! (is_false_or_equivalent ($value), $code); );
-	( $value : expr ) => ( enforce_is_false_or_equivalent! ($value, 0xd6db6ce3); );
-}
-
-
-
-
-#[ allow (unused_macros) ]
-macro_rules! try_value_unwrap {
-	( $class : ident, $value : expr, $code : expr ) => (
-		match $value {
-			::values::exports::Value::$class (ref value) =>
-				value,
-			_ =>
-				fail! ($code),
-		}
-	);
-	( $class : ident, $value : expr ) => (
-		try_value_unwrap ($value, 0xf5b2b46e)
-	);
-}
-
-#[ allow (unused_macros) ]
-macro_rules! try_boolean_unwrap {
-	( $value : expr, $code : expr ) => ( try_value_unwrap! (Boolean, $value, $code) );
-	( $value : expr ) => ( try_boolean_unwrap! ($value, 0xdce0860d) );
-}
-
-#[ allow (unused_macros) ]
-macro_rules! try_number_integer_unwrap {
-	( $value : expr, $code : expr ) => ( try_value_unwrap! (NumberInteger, $value, $code) );
-	( $value : expr ) => ( try_number_integer_unwrap! ($value, 0x57bb1805) );
-}
-
-#[ allow (unused_macros) ]
-macro_rules! try_number_real_unwrap {
-	( $value : expr, $code : expr ) => ( try_value_unwrap! (NumberReal, $value, $code) );
-	( $value : expr ) => ( try_number_real_unwrap! ($value, 0x83a1ca24) );
-}
-
-#[ allow (unused_macros) ]
-macro_rules! try_character_unwrap {
-	( $value : expr, $code : expr ) => ( try_value_unwrap! (Character, $value, $code) );
-	( $value : expr ) => ( try_character_unwrap! ($value, 0xb51ca622) );
-}
-
-#[ allow (unused_macros) ]
-macro_rules! try_symbol_unwrap {
-	( $value : expr, $code : expr ) => ( try_value_unwrap! (Symbol, $value, $code) );
-	( $value : expr ) => ( try_symbol_unwrap! ($value, 0xe08be475) );
-}
-
-#[ allow (unused_macros) ]
-macro_rules! try_string_unwrap {
-	( $value : expr, $code : expr ) => ( try_value_unwrap! (String, $value, $code) );
-	( $value : expr ) => ( try_string_unwrap! ($value, 0x3c593e77) );
-}
-
-#[ allow (unused_macros) ]
-macro_rules! try_bytes_unwrap {
-	( $value : expr, $code : expr ) => ( try_value_unwrap! (Bytes, $value, $code) );
-	( $value : expr ) => ( try_bytes_unwrap! ($value, 0x39244c64) );
-}
-
-#[ allow (unused_macros) ]
-macro_rules! try_pair_unwrap {
-	( $value : expr, $code : expr ) => ( try_value_unwrap! (Pair, $value, $code) );
-	( $value : expr ) => ( try_pair_unwrap! ($value, 0xcab8a37e) );
-}
-
-#[ allow (unused_macros) ]
-macro_rules! try_array_unwrap {
-	( $value : expr, $code : expr ) => ( try_value_unwrap! (Array, $value, $code) );
-	( $value : expr ) => ( try_array_unwrap! ($value, 0xeb6a444b) );
-}
-
-#[ allow (unused_macros) ]
-macro_rules! try_error_unwrap {
-	( $value : expr, $code : expr ) => ( try_value_unwrap! (Error, $value, $code) );
-	( $value : expr ) => ( try_error_unwrap! ($value, 0xc2e8b299) );
-}
-
-#[ allow (unused_macros) ]
-macro_rules! try_lambda_unwrap {
-	( $value : expr, $code : expr ) => ( try_value_unwrap! (Lambda, $value, $code) );
-	( $value : expr ) => ( try_lambda_unwrap! ($value, 0x3c4daddb) );
-}
-
-#[ allow (unused_macros) ]
-macro_rules! try_procedure_primitive_unwrap {
-	( $value : expr, $code : expr ) => ( try_value_unwrap! (ProcedurePrimitive, $value, $code) );
-	( $value : expr ) => ( try_procedure_primitive_unwrap! ($value, 0xae46db71) );
-}
-
-#[ allow (unused_macros) ]
-macro_rules! try_syntax_primitive_unwrap {
-	( $value : expr, $code : expr ) => ( try_value_unwrap! (SyntaxPrimitive, $value, $code) );
-	( $value : expr ) => ( try_syntax_primitive_unwrap! ($value, 0x6276e1ff) );
-}
-
-#[ allow (unused_macros) ]
-macro_rules! try_context_unwrap {
-	( $value : expr, $code : expr ) => ( try_value_unwrap! (Context, $value, $code) );
-	( $value : expr ) => ( try_context_unwrap! ($value, 0x7a118815) );
-}
-
-#[ allow (unused_macros) ]
-macro_rules! try_binding_unwrap {
-	( $value : expr, $code : expr ) => ( try_value_unwrap! (Binding, $value, $code) );
-	( $value : expr ) => ( try_binding_unwrap! ($value, 0x8fbf5ef8) );
-}
-
-
-
-
 #[ macro_export ]
-#[ allow (unused_macros) ]
 macro_rules! def_tests {
 	( $identifier : ident, $source : expr ) => (
 		#[ test ]
@@ -832,7 +506,6 @@ macro_rules! def_tests {
 }
 
 #[ macro_export ]
-#[ allow (unused_macros) ]
 macro_rules! def_tests_from_file {
 	( $( $identifier : ident => $source : expr, )* ) => (
 		$( def_tests_from_file! ($identifier, $source); )*

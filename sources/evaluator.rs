@@ -29,6 +29,7 @@ pub fn evaluate (context : &Context, expression : &Expression) -> (Outcome<Value
 
 
 
+#[ derive (Clone, Debug) ]
 pub struct Evaluator {}
 
 
@@ -753,6 +754,7 @@ impl Evaluator {
 
 
 
+#[ derive (Clone, Debug) ]
 pub struct EvaluatorContext <'a> {
 	pub evaluator : &'a Evaluator,
 	pub context : Option<&'a Context>,

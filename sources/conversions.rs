@@ -508,11 +508,13 @@ impl_from_for_ProcedurePrimitiveCallN! (FunctionsPrimitiveN);
 
 
 
+#[ derive (Clone, Debug) ]
 pub enum NumberCoercion1 {
 	Integer ( NumberInteger ),
 	Real ( NumberReal ),
 }
 
+#[ derive (Clone, Debug) ]
 pub enum NumberCoercion2 {
 	Integer ( NumberInteger, NumberInteger ),
 	Real ( NumberReal, NumberReal ),

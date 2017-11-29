@@ -29,6 +29,7 @@ pub fn compile (context : &Context, token : &Value) -> (Outcome<Expression>) {
 
 
 
+#[ derive (Clone, Debug) ]
 pub struct Compiler {}
 
 
@@ -406,7 +407,6 @@ impl Compiler {
 	
 	
 	
-	#[ allow ( unused_variables )]
 	pub fn compile_syntax_cond (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		let mut clauses = StdVec::new ();
@@ -452,16 +452,14 @@ impl Compiler {
 	
 	
 	
-	#[ allow ( unused_variables )]
-	pub fn compile_syntax_case (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+	pub fn compile_syntax_case (&self, _compilation : CompilerContext, _tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		fail_unimplemented! (0x2b2c2718);
 	}
 	
 	
 	
 	
-	#[ allow ( unused_variables )]
-	pub fn compile_syntax_do (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+	pub fn compile_syntax_do (&self, _compilation : CompilerContext, _tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		fail_unimplemented! (0x4ff860c1);
 	}
 	
@@ -590,8 +588,7 @@ impl Compiler {
 	
 	
 	
-	#[ allow ( unused_variables )]
-	pub fn compile_syntax_let_values (&self, compilation : CompilerContext, syntax : SyntaxPrimitiveN, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+	pub fn compile_syntax_let_values (&self, _compilation : CompilerContext, _syntax : SyntaxPrimitiveN, _tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		fail_unimplemented! (0xaba32a69);
 	}
 	
@@ -948,6 +945,7 @@ impl Compiler {
 
 
 
+#[ derive (Clone, Debug) ]
 pub struct CompilerContext {
 	bindings : CompilerBindings,
 }
@@ -975,7 +973,7 @@ impl CompilerContext {
 
 
 
-#[ allow (dead_code) ]
+#[ derive (Clone, Debug) ]
 pub enum CompilerBindings {
 	None,
 	Globals1 (Context),
@@ -984,8 +982,7 @@ pub enum CompilerBindings {
 }
 
 
-#[ derive (Clone) ]
-#[ allow (dead_code) ]
+#[ derive (Clone, Debug) ]
 pub enum CompilerBinding {
 	Undefined,
 	Binding (Binding),
