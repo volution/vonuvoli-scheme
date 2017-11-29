@@ -106,6 +106,8 @@ impl Evaluator {
 				self.evaluate_procedure_call_3 (evaluation, callable, input_1, input_2, input_3),
 			Expression::ProcedureCall4 (ref callable, ref input_1, ref input_2, ref input_3, ref input_4) =>
 				self.evaluate_procedure_call_4 (evaluation, callable, input_1, input_2, input_3, input_4),
+			Expression::ProcedureCall5 (ref callable, ref input_1, ref input_2, ref input_3, ref input_4, ref input_5) =>
+				self.evaluate_procedure_call_5 (evaluation, callable, input_1, input_2, input_3, input_4, input_5),
 			Expression::ProcedureCallN (ref callable, ref inputs) =>
 				self.evaluate_procedure_call_n (evaluation, callable, inputs),
 			Expression::ProcedureCall (ref callable, ref inputs) =>
@@ -121,6 +123,8 @@ impl Evaluator {
 				self.evaluate_procedure_primitive_3 (evaluation, primitive, input_1, input_2, input_3),
 			Expression::ProcedurePrimitiveCall4 (primitive, ref input_1, ref input_2, ref input_3, ref input_4) =>
 				self.evaluate_procedure_primitive_4 (evaluation, primitive, input_1, input_2, input_3, input_4),
+			Expression::ProcedurePrimitiveCall5 (primitive, ref input_1, ref input_2, ref input_3, ref input_4, ref input_5) =>
+				self.evaluate_procedure_primitive_5 (evaluation, primitive, input_1, input_2, input_3, input_4, input_5),
 			Expression::ProcedurePrimitiveCallN (primitive, ref inputs) =>
 				self.evaluate_procedure_primitive_n (evaluation, primitive, inputs.as_ref ()),
 			Expression::ProcedurePrimitiveCall (primitive, ref inputs) =>
@@ -136,6 +140,8 @@ impl Evaluator {
 				self.evaluate_syntax_primitive_3 (evaluation, primitive, input_1, input_2, input_3),
 			Expression::SyntaxPrimitiveCall4 (primitive, ref input_1, ref input_2, ref input_3, ref input_4) =>
 				self.evaluate_syntax_primitive_4 (evaluation, primitive, input_1, input_2, input_3, input_4),
+			Expression::SyntaxPrimitiveCall5 (primitive, ref input_1, ref input_2, ref input_3, ref input_4, ref input_5) =>
+				self.evaluate_syntax_primitive_5 (evaluation, primitive, input_1, input_2, input_3, input_4, input_5),
 			Expression::SyntaxPrimitiveCallN (primitive, ref inputs) =>
 				self.evaluate_syntax_primitive_n (evaluation, primitive, inputs.as_ref ()),
 			Expression::SyntaxPrimitiveCall (primitive, ref inputs) =>
@@ -375,6 +381,10 @@ impl Evaluator {
 		return self.evaluate_lambda_call_with_values (evaluation, lambda, &[input_1.clone (), input_2.clone (), input_3.clone (), input_4.clone ()][..]);
 	}
 	
+	pub fn evaluate_lambda_call_5_with_values (&self, evaluation : &mut EvaluatorContext, lambda : &Lambda, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value) -> (Outcome<Value>) {
+		return self.evaluate_lambda_call_with_values (evaluation, lambda, &[input_1.clone (), input_2.clone (), input_3.clone (), input_4.clone (), input_5.clone ()][..]);
+	}
+	
 	pub fn evaluate_lambda_call_n_with_values (&self, evaluation : &mut EvaluatorContext, lambda : &Lambda, inputs : &[Value]) -> (Outcome<Value>) {
 		return self.evaluate_lambda_call_with_values (evaluation, lambda, inputs);
 	}
@@ -537,6 +547,40 @@ impl Evaluator {
 	}
 	
 	
+	pub fn evaluate_procedure_call_5 (&self, evaluation : &mut EvaluatorContext, callable : &Expression, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression, input_4 : &Expression, input_5 : &Expression) -> (Outcome<Value>) {
+		let callable = try! (evaluation.evaluate (callable));
+		let input_1 = try! (evaluation.evaluate (input_1));
+		let input_2 = try! (evaluation.evaluate (input_2));
+		let input_3 = try! (evaluation.evaluate (input_3));
+		let input_4 = try! (evaluation.evaluate (input_4));
+		let input_5 = try! (evaluation.evaluate (input_5));
+		return self.evaluate_procedure_call_5_with_values (evaluation, &callable, &input_1, &input_2, &input_3, &input_4, &input_5);
+	}
+	
+	pub fn evaluate_procedure_call_5_with_values (&self, evaluation : &mut EvaluatorContext, callable : &Value, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value) -> (Outcome<Value>) {
+		match callable.class () {
+			ValueClass::ProcedurePrimitive =>
+				match *callable.as_ref () {
+					ProcedurePrimitive::Primitive5 (primitive) =>
+						return self.evaluate_procedure_primitive_5_with_values (evaluation, primitive, input_1, input_2, input_3, input_4, input_5),
+					ProcedurePrimitive::PrimitiveN (primitive) =>
+						match procedure_primitive_n_alternative_5 (primitive) {
+							Some (primitive) =>
+								return self.evaluate_procedure_primitive_5_with_values (evaluation, primitive, input_1, input_2, input_3, input_4, input_5),
+							None =>
+								return self.evaluate_procedure_primitive_n_with_values_without_alternatives (evaluation, primitive, &[input_1.clone (), input_2.clone (), input_3.clone (), input_4.clone (), input_5.clone ()][..]),
+						},
+					_ =>
+						fail! (0xdf89aaf6),
+				},
+			ValueClass::Lambda =>
+				return self.evaluate_lambda_call_5_with_values (evaluation, callable.as_ref (), input_1, input_2, input_3, input_4, input_5),
+			_ =>
+				fail! (0x62e8aef5),
+		}
+	}
+	
+	
 	pub fn evaluate_procedure_call_n (&self, evaluation : &mut EvaluatorContext, callable : &Expression, inputs : &[Expression]) -> (Outcome<Value>) {
 		let callable = try! (evaluation.evaluate (callable));
 		let inputs = try! (evaluation.evaluate_slice (inputs));
@@ -631,6 +675,20 @@ impl Evaluator {
 	}
 	
 	
+	pub fn evaluate_procedure_primitive_5 (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive5, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression, input_4 : &Expression, input_5 : &Expression) -> (Outcome<Value>) {
+		let input_1 = try! (evaluation.evaluate (input_1));
+		let input_2 = try! (evaluation.evaluate (input_2));
+		let input_3 = try! (evaluation.evaluate (input_3));
+		let input_4 = try! (evaluation.evaluate (input_4));
+		let input_5 = try! (evaluation.evaluate (input_5));
+		return procedure_primitive_5_evaluate (primitive, &input_1, &input_2, &input_3, &input_4, &input_5, evaluation);
+	}
+	
+	pub fn evaluate_procedure_primitive_5_with_values (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value) -> (Outcome<Value>) {
+		return procedure_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, evaluation);
+	}
+	
+	
 	pub fn evaluate_procedure_primitive_n (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitiveN, inputs : &[Expression]) -> (Outcome<Value>) {
 		let inputs = try! (evaluation.evaluate_slice (inputs));
 		return procedure_primitive_n_evaluate (primitive, &inputs, evaluation);
@@ -675,6 +733,10 @@ impl Evaluator {
 	
 	pub fn evaluate_syntax_primitive_4 (&self, evaluation : &mut EvaluatorContext, primitive : SyntaxPrimitive4, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression, input_4 : &Expression) -> (Outcome<Value>) {
 		return syntax_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4, evaluation);
+	}
+	
+	pub fn evaluate_syntax_primitive_5 (&self, evaluation : &mut EvaluatorContext, primitive : SyntaxPrimitive5, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression, input_4 : &Expression, input_5 : &Expression) -> (Outcome<Value>) {
+		return syntax_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, evaluation);
 	}
 	
 	pub fn evaluate_syntax_primitive_n (&self, evaluation : &mut EvaluatorContext, primitive : SyntaxPrimitiveN, inputs : &[Expression]) -> (Outcome<Value>) {

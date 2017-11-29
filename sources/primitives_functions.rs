@@ -15,6 +15,7 @@ pub mod exports {
 	pub use super::FunctionsPrimitive2;
 	pub use super::FunctionsPrimitive3;
 	pub use super::FunctionsPrimitive4;
+	pub use super::FunctionsPrimitive5;
 	pub use super::FunctionsPrimitiveN;
 	
 	pub use super::functions_primitive_0_evaluate;
@@ -22,6 +23,7 @@ pub mod exports {
 	pub use super::functions_primitive_2_evaluate;
 	pub use super::functions_primitive_3_evaluate;
 	pub use super::functions_primitive_4_evaluate;
+	pub use super::functions_primitive_5_evaluate;
 	pub use super::functions_primitive_n_evaluate;
 	
 	pub use super::functions_primitive_n_alternative_0;
@@ -29,6 +31,7 @@ pub mod exports {
 	pub use super::functions_primitive_n_alternative_2;
 	pub use super::functions_primitive_n_alternative_3;
 	pub use super::functions_primitive_n_alternative_4;
+	pub use super::functions_primitive_n_alternative_5;
 	
 }
 
@@ -121,6 +124,27 @@ pub enum FunctionsPrimitive4 {
 	StringsIterate,
 	
 	Values,
+	
+}
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+pub enum FunctionsPrimitive5 {
+	
+	Call,
+	Apply,
+	
+	ListsMap,
+	ListsIterate,
+	
+	ArraysMap,
+	ArraysIterate,
+	
+	BytesMap,
+	BytesIterate,
+	
+	StringsMap,
+	StringsIterate,
 	
 }
 
@@ -302,6 +326,45 @@ pub fn functions_primitive_4_evaluate (primitive : FunctionsPrimitive4, input_1 
 		
 		FunctionsPrimitive4::Values =>
 			succeed! (values_build_4 (input_1, input_2, input_3, input_4)),
+		
+	}
+}
+
+
+
+
+pub fn functions_primitive_5_evaluate (primitive : FunctionsPrimitive5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	match primitive {
+		
+		FunctionsPrimitive5::Call =>
+			return call_4 (evaluator, input_1, input_2, input_3, input_4, input_5),
+		
+		FunctionsPrimitive5::Apply =>
+			return apply_4 (evaluator, input_1, input_2, input_3, input_4, input_5),
+		
+		FunctionsPrimitive5::ListsMap =>
+			return lists_map_4 (evaluator, input_1, input_2, input_3, input_4, input_5),
+		
+		FunctionsPrimitive5::ListsIterate =>
+			return lists_iterate_4 (evaluator, input_1, input_2, input_3, input_4, input_5),
+		
+		FunctionsPrimitive5::ArraysMap =>
+			return arrays_map_4 (evaluator, input_1, input_2, input_3, input_4, input_5),
+		
+		FunctionsPrimitive5::ArraysIterate =>
+			return arrays_iterate_4 (evaluator, input_1, input_2, input_3, input_4, input_5),
+		
+		FunctionsPrimitive5::BytesMap =>
+			return bytes_map_4 (evaluator, input_1, input_2, input_3, input_4, input_5),
+		
+		FunctionsPrimitive5::BytesIterate =>
+			return bytes_iterate_4 (evaluator, input_1, input_2, input_3, input_4, input_5),
+		
+		FunctionsPrimitive5::StringsMap =>
+			return strings_map_4 (evaluator, input_1, input_2, input_3, input_4, input_5),
+		
+		FunctionsPrimitive5::StringsIterate =>
+			return strings_iterate_4 (evaluator, input_1, input_2, input_3, input_4, input_5),
 		
 	}
 }
@@ -507,6 +570,34 @@ pub fn functions_primitive_n_alternative_4 (primitive : FunctionsPrimitiveN) -> 
 			Some (FunctionsPrimitive4::StringsIterate),
 		FunctionsPrimitiveN::Values =>
 			Some (FunctionsPrimitive4::Values),
+	}
+}
+
+
+pub fn functions_primitive_n_alternative_5 (primitive : FunctionsPrimitiveN) -> (Option<FunctionsPrimitive5>) {
+	match primitive {
+		FunctionsPrimitiveN::Call =>
+			Some (FunctionsPrimitive5::Call),
+		FunctionsPrimitiveN::Apply =>
+			Some (FunctionsPrimitive5::Apply),
+		FunctionsPrimitiveN::ListsMap =>
+			Some (FunctionsPrimitive5::ListsMap),
+		FunctionsPrimitiveN::ListsIterate =>
+			Some (FunctionsPrimitive5::ListsIterate),
+		FunctionsPrimitiveN::ArraysMap =>
+			Some (FunctionsPrimitive5::ArraysMap),
+		FunctionsPrimitiveN::ArraysIterate =>
+			Some (FunctionsPrimitive5::ArraysIterate),
+		FunctionsPrimitiveN::BytesMap =>
+			Some (FunctionsPrimitive5::BytesMap),
+		FunctionsPrimitiveN::BytesIterate =>
+			Some (FunctionsPrimitive5::BytesIterate),
+		FunctionsPrimitiveN::StringsMap =>
+			Some (FunctionsPrimitive5::StringsMap),
+		FunctionsPrimitiveN::StringsIterate =>
+			Some (FunctionsPrimitive5::StringsIterate),
+		FunctionsPrimitiveN::Values =>
+			None,
 	}
 }
 

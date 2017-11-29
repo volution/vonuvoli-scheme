@@ -47,6 +47,7 @@ pub enum Expression {
 	ProcedureCall2 ( ExpressionBox, ExpressionBox, ExpressionBox ),
 	ProcedureCall3 ( ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
 	ProcedureCall4 ( ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
+	ProcedureCall5 ( ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
 	ProcedureCallN ( ExpressionBox, ExpressionVec ),
 	ProcedureCall ( ExpressionBox, ExpressionVec ),
 	
@@ -55,6 +56,7 @@ pub enum Expression {
 	ProcedurePrimitiveCall2 ( ProcedurePrimitive2, ExpressionBox, ExpressionBox ),
 	ProcedurePrimitiveCall3 ( ProcedurePrimitive3, ExpressionBox, ExpressionBox, ExpressionBox ),
 	ProcedurePrimitiveCall4 ( ProcedurePrimitive4, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
+	ProcedurePrimitiveCall5 ( ProcedurePrimitive5, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
 	ProcedurePrimitiveCallN ( ProcedurePrimitiveN, ExpressionVec ),
 	ProcedurePrimitiveCall ( ProcedurePrimitive, ExpressionVec ),
 	
@@ -63,6 +65,7 @@ pub enum Expression {
 	SyntaxPrimitiveCall2 ( SyntaxPrimitive2, ExpressionBox, ExpressionBox ),
 	SyntaxPrimitiveCall3 ( SyntaxPrimitive3, ExpressionBox, ExpressionBox, ExpressionBox ),
 	SyntaxPrimitiveCall4 ( SyntaxPrimitive4, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
+	SyntaxPrimitiveCall5 ( SyntaxPrimitive5, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
 	SyntaxPrimitiveCallN ( SyntaxPrimitiveN, ExpressionVec ),
 	SyntaxPrimitiveCall ( SyntaxPrimitive, ExpressionVec ),
 	

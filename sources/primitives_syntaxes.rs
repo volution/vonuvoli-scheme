@@ -17,6 +17,7 @@ pub mod exports {
 	pub use super::SyntaxPrimitive2;
 	pub use super::SyntaxPrimitive3;
 	pub use super::SyntaxPrimitive4;
+	pub use super::SyntaxPrimitive5;
 	pub use super::SyntaxPrimitiveN;
 	pub use super::SyntaxPrimitive;
 	
@@ -25,6 +26,7 @@ pub mod exports {
 	pub use super::syntax_primitive_2_evaluate;
 	pub use super::syntax_primitive_3_evaluate;
 	pub use super::syntax_primitive_4_evaluate;
+	pub use super::syntax_primitive_5_evaluate;
 	pub use super::syntax_primitive_n_evaluate;
 	pub use super::syntax_primitive_evaluate;
 	
@@ -41,6 +43,7 @@ pub enum SyntaxPrimitive {
 	Primitive2 ( SyntaxPrimitive2 ),
 	Primitive3 ( SyntaxPrimitive3 ),
 	Primitive4 ( SyntaxPrimitive4 ),
+	Primitive5 ( SyntaxPrimitive5 ),
 	PrimitiveN ( SyntaxPrimitiveN ),
 	
 	Auxiliary,
@@ -91,6 +94,10 @@ pub enum SyntaxPrimitive3 {
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
 pub enum SyntaxPrimitive4 {}
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+pub enum SyntaxPrimitive5 {}
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
@@ -180,6 +187,13 @@ pub fn syntax_primitive_3_evaluate (primitive : SyntaxPrimitive3, _input_1 : &Ex
 
 
 pub fn syntax_primitive_4_evaluate (primitive : SyntaxPrimitive4, _input_1 : &Expression, _input_2 : &Expression, _input_3 : &Expression, _input_4 : &Expression, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	match primitive {}
+}
+
+
+
+
+pub fn syntax_primitive_5_evaluate (primitive : SyntaxPrimitive5, _input_1 : &Expression, _input_2 : &Expression, _input_3 : &Expression, _input_4 : &Expression, _input_5 : &Expression, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
 
@@ -284,6 +298,13 @@ pub fn syntax_primitive_evaluate (primitive : SyntaxPrimitive, inputs : &[Expres
 				return syntax_primitive_4_evaluate (primitive, &inputs[0], &inputs[1], &inputs[2], &inputs[3], evaluator);
 			} else {
 				fail! (0xef34a67c);
+			},
+		
+		SyntaxPrimitive::Primitive5 (primitive) =>
+			if inputs_count == 5 {
+				return syntax_primitive_5_evaluate (primitive, &inputs[0], &inputs[1], &inputs[2], &inputs[3], &inputs[4], evaluator);
+			} else {
+				fail! (0xe095946f);
 			},
 		
 		SyntaxPrimitive::PrimitiveN (primitive) =>

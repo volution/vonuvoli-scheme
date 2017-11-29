@@ -15,6 +15,7 @@ pub mod exports {
 	pub use super::StringPrimitive2;
 	pub use super::StringPrimitive3;
 	pub use super::StringPrimitive4;
+	pub use super::StringPrimitive5;
 	pub use super::StringPrimitiveN;
 	
 	pub use super::string_primitive_0_evaluate;
@@ -22,6 +23,7 @@ pub mod exports {
 	pub use super::string_primitive_2_evaluate;
 	pub use super::string_primitive_3_evaluate;
 	pub use super::string_primitive_4_evaluate;
+	pub use super::string_primitive_5_evaluate;
 	pub use super::string_primitive_n_evaluate;
 	
 	pub use super::string_primitive_n_alternative_0;
@@ -29,6 +31,7 @@ pub mod exports {
 	pub use super::string_primitive_n_alternative_2;
 	pub use super::string_primitive_n_alternative_3;
 	pub use super::string_primitive_n_alternative_4;
+	pub use super::string_primitive_n_alternative_5;
 	
 }
 
@@ -98,6 +101,14 @@ pub enum StringPrimitive4 {
 	StringAppend,
 	
 	StringSliceFill,
+	StringSliceCopy,
+	
+}
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+pub enum StringPrimitive5 {
+	
 	StringSliceCopy,
 	
 }
@@ -235,6 +246,18 @@ pub fn string_primitive_4_evaluate (primitive : StringPrimitive4, input_1 : &Val
 		
 		StringPrimitive4::StringSliceCopy =>
 			fail_unimplemented! (0xc7aeb8c4),
+		
+	}
+}
+
+
+
+
+pub fn string_primitive_5_evaluate (primitive : StringPrimitive5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value) -> (Outcome<Value>) {
+	match primitive {
+		
+		StringPrimitive5::StringSliceCopy =>
+			fail_unimplemented! (0xdf82416a),
 		
 	}
 }
@@ -391,6 +414,24 @@ pub fn string_primitive_n_alternative_4 (primitive : StringPrimitiveN) -> (Optio
 			Some (StringPrimitive4::StringSliceFill),
 		StringPrimitiveN::StringSliceCopy =>
 			Some (StringPrimitive4::StringSliceCopy),
+		StringPrimitiveN::StringSliceClone =>
+			None,
+	}
+}
+
+
+pub fn string_primitive_n_alternative_5 (primitive : StringPrimitiveN) -> (Option<StringPrimitive5>) {
+	match primitive {
+		StringPrimitiveN::StringMake =>
+			None,
+		StringPrimitiveN::StringBuild =>
+			None,
+		StringPrimitiveN::StringAppend =>
+			None,
+		StringPrimitiveN::StringSliceFill =>
+			None,
+		StringPrimitiveN::StringSliceCopy =>
+			Some (StringPrimitive5::StringSliceCopy),
 		StringPrimitiveN::StringSliceClone =>
 			None,
 	}

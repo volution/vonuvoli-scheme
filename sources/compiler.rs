@@ -253,6 +253,13 @@ impl Compiler {
 					fail! (0x1d3d26b9);
 				},
 			
+			SyntaxPrimitive::Primitive5 (syntax) =>
+				if tokens_count == 5 {
+					match syntax {}
+				} else {
+					fail! (0x6c5f8f94);
+				},
+			
 			SyntaxPrimitive::PrimitiveN (syntax) =>
 				match syntax {
 					

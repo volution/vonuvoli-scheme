@@ -16,6 +16,7 @@ pub mod exports {
 	pub use super::ListPrimitive2;
 	pub use super::ListPrimitive3;
 	pub use super::ListPrimitive4;
+	pub use super::ListPrimitive5;
 	pub use super::ListPrimitiveN;
 	
 	pub use super::list_primitive_0_evaluate;
@@ -23,6 +24,7 @@ pub mod exports {
 	pub use super::list_primitive_2_evaluate;
 	pub use super::list_primitive_3_evaluate;
 	pub use super::list_primitive_4_evaluate;
+	pub use super::list_primitive_5_evaluate;
 	pub use super::list_primitive_n_evaluate;
 	
 	pub use super::list_primitive_n_alternative_0;
@@ -30,6 +32,7 @@ pub mod exports {
 	pub use super::list_primitive_n_alternative_2;
 	pub use super::list_primitive_n_alternative_3;
 	pub use super::list_primitive_n_alternative_4;
+	pub use super::list_primitive_n_alternative_5;
 	
 }
 
@@ -116,6 +119,14 @@ pub enum ListPrimitive4 {
 	ListAppend,
 	
 	ListSliceFill,
+	ListSliceCopy,
+	
+}
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+pub enum ListPrimitive5 {
+	
 	ListSliceCopy,
 	
 }
@@ -296,6 +307,18 @@ pub fn list_primitive_4_evaluate (primitive : ListPrimitive4, input_1 : &Value, 
 
 
 
+pub fn list_primitive_5_evaluate (primitive : ListPrimitive5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value) -> (Outcome<Value>) {
+	match primitive {
+		
+		ListPrimitive5::ListSliceCopy =>
+			fail_unimplemented! (0x85585d9c),
+		
+	}
+}
+
+
+
+
 pub fn list_primitive_n_evaluate (primitive : ListPrimitiveN, inputs : &[Value]) -> (Outcome<Value>) {
 	let inputs_count = inputs.len ();
 	match primitive {
@@ -441,6 +464,24 @@ pub fn list_primitive_n_alternative_4 (primitive : ListPrimitiveN) -> (Option<Li
 			Some (ListPrimitive4::ListSliceFill),
 		ListPrimitiveN::ListSliceCopy =>
 			Some (ListPrimitive4::ListSliceCopy),
+		ListPrimitiveN::ListSliceClone =>
+			None,
+	}
+}
+
+
+pub fn list_primitive_n_alternative_5 (primitive : ListPrimitiveN) -> (Option<ListPrimitive5>) {
+	match primitive {
+		ListPrimitiveN::ListMake =>
+			None,
+		ListPrimitiveN::ListBuild =>
+			None,
+		ListPrimitiveN::ListAppend =>
+			None,
+		ListPrimitiveN::ListSliceFill =>
+			None,
+		ListPrimitiveN::ListSliceCopy =>
+			Some (ListPrimitive5::ListSliceCopy),
 		ListPrimitiveN::ListSliceClone =>
 			None,
 	}

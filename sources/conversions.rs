@@ -163,6 +163,7 @@ impl_from_for_primitive_procedure_1! (ProcedurePrimitive1, Primitive1);
 impl_from_for_primitive_procedure_1! (ProcedurePrimitive2, Primitive2);
 impl_from_for_primitive_procedure_1! (ProcedurePrimitive3, Primitive3);
 impl_from_for_primitive_procedure_1! (ProcedurePrimitive4, Primitive4);
+impl_from_for_primitive_procedure_1! (ProcedurePrimitive5, Primitive5);
 impl_from_for_primitive_procedure_1! (ProcedurePrimitiveN, PrimitiveN);
 
 
@@ -180,6 +181,7 @@ impl_from_for_primitive_syntax! (SyntaxPrimitive1, Primitive1);
 impl_from_for_primitive_syntax! (SyntaxPrimitive2, Primitive2);
 impl_from_for_primitive_syntax! (SyntaxPrimitive3, Primitive3);
 impl_from_for_primitive_syntax! (SyntaxPrimitive4, Primitive4);
+impl_from_for_primitive_syntax! (SyntaxPrimitive5, Primitive5);
 impl_from_for_primitive_syntax! (SyntaxPrimitiveN, PrimitiveN);
 
 
@@ -198,16 +200,25 @@ impl_from_for_primitive_procedure_2! (TypePrimitive1, ProcedurePrimitive1, Primi
 impl_from_for_primitive_procedure_2! (BooleanPrimitive0, ProcedurePrimitive0, Primitive0, Boolean);
 impl_from_for_primitive_procedure_2! (BooleanPrimitive1, ProcedurePrimitive1, Primitive1, Boolean);
 impl_from_for_primitive_procedure_2! (BooleanPrimitive2, ProcedurePrimitive2, Primitive2, Boolean);
+impl_from_for_primitive_procedure_2! (BooleanPrimitive3, ProcedurePrimitive3, Primitive3, Boolean);
+impl_from_for_primitive_procedure_2! (BooleanPrimitive4, ProcedurePrimitive4, Primitive4, Boolean);
+impl_from_for_primitive_procedure_2! (BooleanPrimitive5, ProcedurePrimitive5, Primitive5, Boolean);
 impl_from_for_primitive_procedure_2! (BooleanPrimitiveN, ProcedurePrimitiveN, PrimitiveN, Boolean);
 
 impl_from_for_primitive_procedure_2! (ArithmeticPrimitive0, ProcedurePrimitive0, Primitive0, Arithmetic);
 impl_from_for_primitive_procedure_2! (ArithmeticPrimitive1, ProcedurePrimitive1, Primitive1, Arithmetic);
 impl_from_for_primitive_procedure_2! (ArithmeticPrimitive2, ProcedurePrimitive2, Primitive2, Arithmetic);
+impl_from_for_primitive_procedure_2! (ArithmeticPrimitive3, ProcedurePrimitive3, Primitive3, Arithmetic);
+impl_from_for_primitive_procedure_2! (ArithmeticPrimitive4, ProcedurePrimitive4, Primitive4, Arithmetic);
+impl_from_for_primitive_procedure_2! (ArithmeticPrimitive5, ProcedurePrimitive5, Primitive5, Arithmetic);
 impl_from_for_primitive_procedure_2! (ArithmeticPrimitiveN, ProcedurePrimitiveN, PrimitiveN, Arithmetic);
 
 impl_from_for_primitive_procedure_2! (BitwisePrimitive0, ProcedurePrimitive0, Primitive0, Bitwise);
 impl_from_for_primitive_procedure_2! (BitwisePrimitive1, ProcedurePrimitive1, Primitive1, Bitwise);
 impl_from_for_primitive_procedure_2! (BitwisePrimitive2, ProcedurePrimitive2, Primitive2, Bitwise);
+impl_from_for_primitive_procedure_2! (BitwisePrimitive3, ProcedurePrimitive3, Primitive3, Bitwise);
+impl_from_for_primitive_procedure_2! (BitwisePrimitive4, ProcedurePrimitive4, Primitive4, Bitwise);
+impl_from_for_primitive_procedure_2! (BitwisePrimitive5, ProcedurePrimitive5, Primitive5, Bitwise);
 impl_from_for_primitive_procedure_2! (BitwisePrimitiveN, ProcedurePrimitiveN, PrimitiveN, Bitwise);
 
 impl_from_for_primitive_procedure_2! (ListPrimitive0, ProcedurePrimitive0, Primitive0, List);
@@ -215,6 +226,7 @@ impl_from_for_primitive_procedure_2! (ListPrimitive1, ProcedurePrimitive1, Primi
 impl_from_for_primitive_procedure_2! (ListPrimitive2, ProcedurePrimitive2, Primitive2, List);
 impl_from_for_primitive_procedure_2! (ListPrimitive3, ProcedurePrimitive3, Primitive3, List);
 impl_from_for_primitive_procedure_2! (ListPrimitive4, ProcedurePrimitive4, Primitive4, List);
+impl_from_for_primitive_procedure_2! (ListPrimitive5, ProcedurePrimitive5, Primitive5, List);
 impl_from_for_primitive_procedure_2! (ListPrimitiveN, ProcedurePrimitiveN, PrimitiveN, List);
 
 impl_from_for_primitive_procedure_2! (ArrayPrimitive0, ProcedurePrimitive0, Primitive0, Array);
@@ -222,6 +234,7 @@ impl_from_for_primitive_procedure_2! (ArrayPrimitive1, ProcedurePrimitive1, Prim
 impl_from_for_primitive_procedure_2! (ArrayPrimitive2, ProcedurePrimitive2, Primitive2, Array);
 impl_from_for_primitive_procedure_2! (ArrayPrimitive3, ProcedurePrimitive3, Primitive3, Array);
 impl_from_for_primitive_procedure_2! (ArrayPrimitive4, ProcedurePrimitive4, Primitive4, Array);
+impl_from_for_primitive_procedure_2! (ArrayPrimitive5, ProcedurePrimitive5, Primitive5, Array);
 impl_from_for_primitive_procedure_2! (ArrayPrimitiveN, ProcedurePrimitiveN, PrimitiveN, Array);
 
 impl_from_for_primitive_procedure_2! (BytesPrimitive0, ProcedurePrimitive0, Primitive0, Bytes);
@@ -229,6 +242,7 @@ impl_from_for_primitive_procedure_2! (BytesPrimitive1, ProcedurePrimitive1, Prim
 impl_from_for_primitive_procedure_2! (BytesPrimitive2, ProcedurePrimitive2, Primitive2, Bytes);
 impl_from_for_primitive_procedure_2! (BytesPrimitive3, ProcedurePrimitive3, Primitive3, Bytes);
 impl_from_for_primitive_procedure_2! (BytesPrimitive4, ProcedurePrimitive4, Primitive4, Bytes);
+impl_from_for_primitive_procedure_2! (BytesPrimitive5, ProcedurePrimitive5, Primitive5, Bytes);
 impl_from_for_primitive_procedure_2! (BytesPrimitiveN, ProcedurePrimitiveN, PrimitiveN, Bytes);
 
 impl_from_for_primitive_procedure_2! (StringPrimitive0, ProcedurePrimitive0, Primitive0, String);
@@ -236,10 +250,15 @@ impl_from_for_primitive_procedure_2! (StringPrimitive1, ProcedurePrimitive1, Pri
 impl_from_for_primitive_procedure_2! (StringPrimitive2, ProcedurePrimitive2, Primitive2, String);
 impl_from_for_primitive_procedure_2! (StringPrimitive3, ProcedurePrimitive3, Primitive3, String);
 impl_from_for_primitive_procedure_2! (StringPrimitive4, ProcedurePrimitive4, Primitive4, String);
+impl_from_for_primitive_procedure_2! (StringPrimitive5, ProcedurePrimitive5, Primitive5, String);
 impl_from_for_primitive_procedure_2! (StringPrimitiveN, ProcedurePrimitiveN, PrimitiveN, String);
 
+impl_from_for_primitive_procedure_2! (FunctionsPrimitive0, ProcedurePrimitive0, Primitive0, Functions);
 impl_from_for_primitive_procedure_2! (FunctionsPrimitive1, ProcedurePrimitive1, Primitive1, Functions);
 impl_from_for_primitive_procedure_2! (FunctionsPrimitive2, ProcedurePrimitive2, Primitive2, Functions);
+impl_from_for_primitive_procedure_2! (FunctionsPrimitive3, ProcedurePrimitive3, Primitive3, Functions);
+impl_from_for_primitive_procedure_2! (FunctionsPrimitive4, ProcedurePrimitive4, Primitive4, Functions);
+impl_from_for_primitive_procedure_2! (FunctionsPrimitive5, ProcedurePrimitive5, Primitive5, Functions);
 impl_from_for_primitive_procedure_2! (FunctionsPrimitiveN, ProcedurePrimitiveN, PrimitiveN, Functions);
 
 
@@ -247,17 +266,14 @@ impl_from_for_primitive_procedure_2! (FunctionsPrimitiveN, ProcedurePrimitiveN, 
 
 /* ----- * /
 
-#[ allow (unused_macros) ]
 macro_rules! impl_from_for_ProcedurePrimitiveCall0 {
 	( $primitive : ty ) => (
 		impl_from_for_Expression_2! (ProcedurePrimitiveCall0, ($primitive,), value, (value.0.into (),));
 	);
 }
 
-#[ allow (unused_macros) ]
 macro_rules! impl_from_for_ProcedurePrimitiveCall1 {
 	( $primitive : ty ) => (
-		#[ cfg (feature = "conversions-all") ]
 		impl_from_for_ProcedurePrimitiveCall1! ($primitive, [
 				Expression,
 				Value,
@@ -280,10 +296,8 @@ macro_rules! impl_from_for_ProcedurePrimitiveCall1 {
 	);
 }
 
-#[ allow (unused_macros) ]
 macro_rules! impl_from_for_ProcedurePrimitiveCall2 {
 	( $primitive : ty ) => (
-		#[ cfg (feature = "conversions-all") ]
 		impl_from_for_ProcedurePrimitiveCall2! ($primitive, [
 				Expression,
 				Value,
@@ -307,10 +321,8 @@ macro_rules! impl_from_for_ProcedurePrimitiveCall2 {
 	);
 }
 
-#[ allow (unused_macros) ]
 macro_rules! impl_from_for_ProcedurePrimitiveCall3 {
 	( $primitive : ty ) => (
-		#[ cfg (feature = "conversions-all") ]
 		impl_from_for_ProcedurePrimitiveCall3! ($primitive, [
 				Expression,
 				Value,
@@ -334,10 +346,8 @@ macro_rules! impl_from_for_ProcedurePrimitiveCall3 {
 	);
 }
 
-#[ allow (unused_macros) ]
 macro_rules! impl_from_for_ProcedurePrimitiveCall4 {
 	( $primitive : ty ) => (
-		#[ cfg (feature = "conversions-all") ]
 		impl_from_for_ProcedurePrimitiveCall4! ($primitive, [
 				Expression,
 				Value,
@@ -361,12 +371,34 @@ macro_rules! impl_from_for_ProcedurePrimitiveCall4 {
 	);
 }
 
-#[ allow (unused_macros) ]
+macro_rules! impl_from_for_ProcedurePrimitiveCall5 {
+	( $primitive : ty ) => (
+		impl_from_for_ProcedurePrimitiveCall5! ($primitive, [
+				Expression,
+				Value,
+				Boolean, NumberInteger, NumberReal, Character,
+				Symbol, String, Bytes,
+				Pair, Array,
+				Error,
+				Lambda,
+				ProcedurePrimitive, SyntaxPrimitive,
+				Context, Binding,
+				bool, i64, f64, char,
+				StdString, &'static str
+			]);
+	);
+	( $primitive : ty, [ $( $value : ty ),* ] ) => (
+		$( impl_from_for_ProcedurePrimitiveCall5! ($primitive, $value); )*
+	);
+	( $primitive : ty, $value : ty ) => (
+		impl_from_for_Expression_2! (ProcedurePrimitiveCall5, ($primitive, $value, $value, $value, $value, $value), value, (value.0.into (), vec! [value.1.into (), value.2.into (), value.3.into (), value.4.into (), value.5.into ()]));
+		impl_from_for_Expression_2! (ProcedurePrimitiveCall5, ($primitive, [$value; 5]), value, (value.0.into (), vec_into (value.1[..].to_owned ())));
+	);
+}
+
 macro_rules! impl_from_for_ProcedurePrimitiveCallN {
 	( $primitive : ty ) => (
-		#[ cfg (feature = "conversions-all") ]
 		impl_from_for_Expression_2! (ProcedurePrimitiveCallN, ($primitive,), value, (value.0.into (), vec! []));
-		#[ cfg (feature = "conversions-all") ]
 		impl_from_for_ProcedurePrimitiveCallN! ($primitive, [
 				Expression,
 				Value,
@@ -393,11 +425,13 @@ macro_rules! impl_from_for_ProcedurePrimitiveCallN {
 		impl_from_for_Expression_2! (ProcedurePrimitiveCallN, ($primitive, ($value, $value)), value, (value.0.into (), vec! [(value.1).0.into (), (value.1).1.into ()]));
 		impl_from_for_Expression_2! (ProcedurePrimitiveCallN, ($primitive, ($value, $value, $value)), value, (value.0.into (), vec! [(value.1).0.into (), (value.1).1.into (), (value.1).2.into ()]));
 		impl_from_for_Expression_2! (ProcedurePrimitiveCallN, ($primitive, ($value, $value, $value, $value)), value, (value.0.into (), vec! [(value.1).0.into (), (value.1).1.into (), (value.1).2.into (), (value.1).3.into ()]));
+		impl_from_for_Expression_2! (ProcedurePrimitiveCallN, ($primitive, ($value, $value, $value, $value, $value)), value, (value.0.into (), vec! [(value.1).0.into (), (value.1).1.into (), (value.1).2.into (), (value.1).3.into (), (value.1).4.into ()]));
 		
 		impl_from_for_Expression_2! (ProcedurePrimitiveCallN, ($primitive, [$value; 1]), value, (value.0.into (), vec_into (value.1[..].to_owned ())));
 		impl_from_for_Expression_2! (ProcedurePrimitiveCallN, ($primitive, [$value; 2]), value, (value.0.into (), vec_into (value.1[..].to_owned ())));
 		impl_from_for_Expression_2! (ProcedurePrimitiveCallN, ($primitive, [$value; 3]), value, (value.0.into (), vec_into (value.1[..].to_owned ())));
 		impl_from_for_Expression_2! (ProcedurePrimitiveCallN, ($primitive, [$value; 4]), value, (value.0.into (), vec_into (value.1[..].to_owned ())));
+		impl_from_for_Expression_2! (ProcedurePrimitiveCallN, ($primitive, [$value; 5]), value, (value.0.into (), vec_into (value.1[..].to_owned ())));
 		
 	);
 }
@@ -405,16 +439,28 @@ macro_rules! impl_from_for_ProcedurePrimitiveCallN {
 
 impl_from_for_ProcedurePrimitiveCall1! (TypePrimitive1);
 
+impl_from_for_ProcedurePrimitiveCall0! (BooleanPrimitive0);
 impl_from_for_ProcedurePrimitiveCall1! (BooleanPrimitive1);
 impl_from_for_ProcedurePrimitiveCall2! (BooleanPrimitive2);
+impl_from_for_ProcedurePrimitiveCall3! (BooleanPrimitive3);
+impl_from_for_ProcedurePrimitiveCall4! (BooleanPrimitive4);
+impl_from_for_ProcedurePrimitiveCall5! (BooleanPrimitive5);
 impl_from_for_ProcedurePrimitiveCallN! (BooleanPrimitiveN);
 
+impl_from_for_ProcedurePrimitiveCall0! (ArithmeticPrimitive0);
 impl_from_for_ProcedurePrimitiveCall1! (ArithmeticPrimitive1);
 impl_from_for_ProcedurePrimitiveCall2! (ArithmeticPrimitive2);
+impl_from_for_ProcedurePrimitiveCall3! (ArithmeticPrimitive3);
+impl_from_for_ProcedurePrimitiveCall4! (ArithmeticPrimitive4);
+impl_from_for_ProcedurePrimitiveCall5! (ArithmeticPrimitive5);
 impl_from_for_ProcedurePrimitiveCallN! (ArithmeticPrimitiveN);
 
+impl_from_for_ProcedurePrimitiveCall0! (BitwisePrimitive0);
 impl_from_for_ProcedurePrimitiveCall1! (BitwisePrimitive1);
 impl_from_for_ProcedurePrimitiveCall2! (BitwisePrimitive2);
+impl_from_for_ProcedurePrimitiveCall3! (BitwisePrimitive3);
+impl_from_for_ProcedurePrimitiveCall4! (BitwisePrimitive4);
+impl_from_for_ProcedurePrimitiveCall5! (BitwisePrimitive5);
 impl_from_for_ProcedurePrimitiveCallN! (BitwisePrimitiveN);
 
 impl_from_for_ProcedurePrimitiveCall0! (ListPrimitive0);
@@ -422,6 +468,7 @@ impl_from_for_ProcedurePrimitiveCall1! (ListPrimitive1);
 impl_from_for_ProcedurePrimitiveCall2! (ListPrimitive2);
 impl_from_for_ProcedurePrimitiveCall3! (ListPrimitive3);
 impl_from_for_ProcedurePrimitiveCall4! (ListPrimitive4);
+impl_from_for_ProcedurePrimitiveCall5! (ListPrimitive5);
 impl_from_for_ProcedurePrimitiveCallN! (ListPrimitiveN);
 
 impl_from_for_ProcedurePrimitiveCall0! (ArrayPrimitive0);
@@ -429,6 +476,7 @@ impl_from_for_ProcedurePrimitiveCall1! (ArrayPrimitive1);
 impl_from_for_ProcedurePrimitiveCall2! (ArrayPrimitive2);
 impl_from_for_ProcedurePrimitiveCall3! (ArrayPrimitive3);
 impl_from_for_ProcedurePrimitiveCall4! (ArrayPrimitive4);
+impl_from_for_ProcedurePrimitiveCall5! (ArrayPrimitive5);
 impl_from_for_ProcedurePrimitiveCallN! (ArrayPrimitiveN);
 
 impl_from_for_ProcedurePrimitiveCall0! (BytesPrimitive0);
@@ -436,6 +484,7 @@ impl_from_for_ProcedurePrimitiveCall1! (BytesPrimitive1);
 impl_from_for_ProcedurePrimitiveCall2! (BytesPrimitive2);
 impl_from_for_ProcedurePrimitiveCall3! (BytesPrimitive3);
 impl_from_for_ProcedurePrimitiveCall4! (BytesPrimitive4);
+impl_from_for_ProcedurePrimitiveCall5! (BytesPrimitive5);
 impl_from_for_ProcedurePrimitiveCallN! (BytesPrimitiveN);
 
 impl_from_for_ProcedurePrimitiveCall0! (StringPrimitive0);
@@ -443,10 +492,15 @@ impl_from_for_ProcedurePrimitiveCall1! (StringPrimitive1);
 impl_from_for_ProcedurePrimitiveCall2! (StringPrimitive2);
 impl_from_for_ProcedurePrimitiveCall3! (StringPrimitive3);
 impl_from_for_ProcedurePrimitiveCall4! (StringPrimitive4);
+impl_from_for_ProcedurePrimitiveCall5! (StringPrimitive5);
 impl_from_for_ProcedurePrimitiveCallN! (StringPrimitiveN);
 
+impl_from_for_ProcedurePrimitiveCall0! (FunctionsPrimitive0);
 impl_from_for_ProcedurePrimitiveCall1! (FunctionsPrimitive1);
 impl_from_for_ProcedurePrimitiveCall2! (FunctionsPrimitive2);
+impl_from_for_ProcedurePrimitiveCall3! (FunctionsPrimitive3);
+impl_from_for_ProcedurePrimitiveCall4! (FunctionsPrimitive4);
+impl_from_for_ProcedurePrimitiveCall5! (FunctionsPrimitive5);
 impl_from_for_ProcedurePrimitiveCallN! (FunctionsPrimitiveN);
 
 / * ----- */

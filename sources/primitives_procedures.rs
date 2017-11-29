@@ -23,6 +23,7 @@ pub mod exports {
 	pub use super::ProcedurePrimitive2;
 	pub use super::ProcedurePrimitive3;
 	pub use super::ProcedurePrimitive4;
+	pub use super::ProcedurePrimitive5;
 	pub use super::ProcedurePrimitiveN;
 	pub use super::ProcedurePrimitive;
 	
@@ -31,6 +32,7 @@ pub mod exports {
 	pub use super::procedure_primitive_2_evaluate;
 	pub use super::procedure_primitive_3_evaluate;
 	pub use super::procedure_primitive_4_evaluate;
+	pub use super::procedure_primitive_5_evaluate;
 	pub use super::procedure_primitive_n_evaluate;
 	pub use super::procedure_primitive_n_evaluate_without_alternatives;
 	pub use super::procedure_primitive_evaluate;
@@ -40,6 +42,7 @@ pub mod exports {
 	pub use super::procedure_primitive_n_alternative_2;
 	pub use super::procedure_primitive_n_alternative_3;
 	pub use super::procedure_primitive_n_alternative_4;
+	pub use super::procedure_primitive_n_alternative_5;
 	
 }
 
@@ -54,6 +57,7 @@ pub enum ProcedurePrimitive {
 	Primitive2 ( ProcedurePrimitive2 ),
 	Primitive3 ( ProcedurePrimitive3 ),
 	Primitive4 ( ProcedurePrimitive4 ),
+	Primitive5 ( ProcedurePrimitive5 ),
 	PrimitiveN ( ProcedurePrimitiveN ),
 	
 	Unimplemented,
@@ -146,6 +150,23 @@ pub enum ProcedurePrimitive4 {
 	String ( StringPrimitive4 ),
 	
 	Functions ( FunctionsPrimitive4 ),
+	
+}
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+pub enum ProcedurePrimitive5 {
+	
+	Boolean ( BooleanPrimitive5 ),
+	Arithmetic ( ArithmeticPrimitive5 ),
+	Bitwise ( BitwisePrimitive5 ),
+	
+	List ( ListPrimitive5 ),
+	Array ( ArrayPrimitive5 ),
+	Bytes ( BytesPrimitive5 ),
+	String ( StringPrimitive5 ),
+	
+	Functions ( FunctionsPrimitive5 ),
 	
 }
 
@@ -335,6 +356,39 @@ pub fn procedure_primitive_4_evaluate (primitive : ProcedurePrimitive4, input_1 
 
 
 
+pub fn procedure_primitive_5_evaluate (primitive : ProcedurePrimitive5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	match primitive {
+		
+		ProcedurePrimitive5::Boolean (primitive) =>
+			return boolean_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5),
+		
+		ProcedurePrimitive5::Arithmetic (primitive) =>
+			return arithmetic_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5),
+		
+		ProcedurePrimitive5::Bitwise (primitive) =>
+			return bitwise_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5),
+		
+		ProcedurePrimitive5::List (primitive) =>
+			return list_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5),
+		
+		ProcedurePrimitive5::Array (primitive) =>
+			return array_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5),
+		
+		ProcedurePrimitive5::Bytes (primitive) =>
+			return bytes_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5),
+		
+		ProcedurePrimitive5::String (primitive) =>
+			return string_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5),
+		
+		ProcedurePrimitive5::Functions (primitive) =>
+			return functions_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, evaluator),
+		
+	}
+}
+
+
+
+
 pub fn procedure_primitive_n_evaluate (primitive : ProcedurePrimitiveN, inputs : &[Value], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	match inputs.len () {
@@ -362,6 +416,11 @@ pub fn procedure_primitive_n_evaluate (primitive : ProcedurePrimitiveN, inputs :
 		4 =>
 			if let Some (primitive) = procedure_primitive_n_alternative_4 (primitive) {
 				return procedure_primitive_4_evaluate (primitive, &inputs[0], &inputs[1], &inputs[2], &inputs[3], evaluator);
+			},
+		
+		5 =>
+			if let Some (primitive) = procedure_primitive_n_alternative_5 (primitive) {
+				return procedure_primitive_5_evaluate (primitive, &inputs[0], &inputs[1], &inputs[2], &inputs[3], &inputs[4], evaluator);
 			},
 		
 		_ =>
@@ -445,6 +504,13 @@ pub fn procedure_primitive_evaluate (primitive : ProcedurePrimitive, inputs : &[
 				return procedure_primitive_4_evaluate (primitive, &inputs[0], &inputs[1], &inputs[2], &inputs[3], evaluator)
 			} else {
 				fail! (0x62f33d3e)
+			},
+		
+		ProcedurePrimitive::Primitive5 (primitive) =>
+			if inputs_count == 5 {
+				return procedure_primitive_5_evaluate (primitive, &inputs[0], &inputs[1], &inputs[2], &inputs[3], &inputs[4], evaluator)
+			} else {
+				fail! (0x2e877045)
 			},
 		
 		ProcedurePrimitive::PrimitiveN (primitive) =>
@@ -780,6 +846,71 @@ pub fn procedure_primitive_n_alternative_4 (primitive : ProcedurePrimitiveN) -> 
 		ProcedurePrimitiveN::Functions (primitive) =>
 			if let Some (primitive) = functions_primitive_n_alternative_4 (primitive) {
 				Some (ProcedurePrimitive4::Functions (primitive))
+			} else {
+				None
+			},
+		
+	}
+}
+
+
+
+
+pub fn procedure_primitive_n_alternative_5 (primitive : ProcedurePrimitiveN) -> (Option<ProcedurePrimitive5>) {
+	match primitive {
+		
+		ProcedurePrimitiveN::Boolean (primitive) =>
+			if let Some (primitive) = boolean_primitive_n_alternative_5 (primitive) {
+				Some (ProcedurePrimitive5::Boolean (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Arithmetic (primitive) =>
+			if let Some (primitive) = arithmetic_primitive_n_alternative_5 (primitive) {
+				Some (ProcedurePrimitive5::Arithmetic (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Bitwise (primitive) =>
+			if let Some (primitive) = bitwise_primitive_n_alternative_5 (primitive) {
+				Some (ProcedurePrimitive5::Bitwise (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::List (primitive) =>
+			if let Some (primitive) = list_primitive_n_alternative_5 (primitive) {
+				Some (ProcedurePrimitive5::List (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Array (primitive) =>
+			if let Some (primitive) = array_primitive_n_alternative_5 (primitive) {
+				Some (ProcedurePrimitive5::Array (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Bytes (primitive) =>
+			if let Some (primitive) = bytes_primitive_n_alternative_5 (primitive) {
+				Some (ProcedurePrimitive5::Bytes (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::String (primitive) =>
+			if let Some (primitive) = string_primitive_n_alternative_5 (primitive) {
+				Some (ProcedurePrimitive5::String (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveN::Functions (primitive) =>
+			if let Some (primitive) = functions_primitive_n_alternative_5 (primitive) {
+				Some (ProcedurePrimitive5::Functions (primitive))
 			} else {
 				None
 			},

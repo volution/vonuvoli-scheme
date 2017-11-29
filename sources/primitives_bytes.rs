@@ -15,6 +15,7 @@ pub mod exports {
 	pub use super::BytesPrimitive2;
 	pub use super::BytesPrimitive3;
 	pub use super::BytesPrimitive4;
+	pub use super::BytesPrimitive5;
 	pub use super::BytesPrimitiveN;
 	
 	pub use super::bytes_primitive_0_evaluate;
@@ -22,6 +23,7 @@ pub mod exports {
 	pub use super::bytes_primitive_2_evaluate;
 	pub use super::bytes_primitive_3_evaluate;
 	pub use super::bytes_primitive_4_evaluate;
+	pub use super::bytes_primitive_5_evaluate;
 	pub use super::bytes_primitive_n_evaluate;
 	
 	pub use super::bytes_primitive_n_alternative_0;
@@ -29,6 +31,7 @@ pub mod exports {
 	pub use super::bytes_primitive_n_alternative_2;
 	pub use super::bytes_primitive_n_alternative_3;
 	pub use super::bytes_primitive_n_alternative_4;
+	pub use super::bytes_primitive_n_alternative_5;
 	
 }
 
@@ -98,6 +101,14 @@ pub enum BytesPrimitive4 {
 	BytesAppend,
 	
 	BytesSliceFill,
+	BytesSliceCopy,
+	
+}
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+pub enum BytesPrimitive5 {
+	
 	BytesSliceCopy,
 	
 }
@@ -235,6 +246,18 @@ pub fn bytes_primitive_4_evaluate (primitive : BytesPrimitive4, input_1 : &Value
 		
 		BytesPrimitive4::BytesSliceCopy =>
 			fail_unimplemented! (0x27459191),
+		
+	}
+}
+
+
+
+
+pub fn bytes_primitive_5_evaluate (primitive : BytesPrimitive5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value) -> (Outcome<Value>) {
+	match primitive {
+		
+		BytesPrimitive5::BytesSliceCopy =>
+			fail_unimplemented! (0xc92234a6),
 		
 	}
 }
@@ -391,6 +414,24 @@ pub fn bytes_primitive_n_alternative_4 (primitive : BytesPrimitiveN) -> (Option<
 			Some (BytesPrimitive4::BytesSliceFill),
 		BytesPrimitiveN::BytesSliceCopy =>
 			Some (BytesPrimitive4::BytesSliceCopy),
+		BytesPrimitiveN::BytesSliceClone =>
+			None,
+	}
+}
+
+
+pub fn bytes_primitive_n_alternative_5 (primitive : BytesPrimitiveN) -> (Option<BytesPrimitive5>) {
+	match primitive {
+		BytesPrimitiveN::BytesMake =>
+			None,
+		BytesPrimitiveN::BytesBuild =>
+			None,
+		BytesPrimitiveN::BytesAppend =>
+			None,
+		BytesPrimitiveN::BytesSliceFill =>
+			None,
+		BytesPrimitiveN::BytesSliceCopy =>
+			Some (BytesPrimitive5::BytesSliceCopy),
 		BytesPrimitiveN::BytesSliceClone =>
 			None,
 	}

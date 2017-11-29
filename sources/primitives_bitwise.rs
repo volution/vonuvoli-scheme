@@ -15,6 +15,7 @@ pub mod exports {
 	pub use super::BitwisePrimitive2;
 	pub use super::BitwisePrimitive3;
 	pub use super::BitwisePrimitive4;
+	pub use super::BitwisePrimitive5;
 	pub use super::BitwisePrimitiveN;
 	
 	pub use super::bitwise_primitive_0_evaluate;
@@ -22,6 +23,7 @@ pub mod exports {
 	pub use super::bitwise_primitive_2_evaluate;
 	pub use super::bitwise_primitive_3_evaluate;
 	pub use super::bitwise_primitive_4_evaluate;
+	pub use super::bitwise_primitive_5_evaluate;
 	pub use super::bitwise_primitive_n_evaluate;
 	
 	pub use super::bitwise_primitive_n_alternative_0;
@@ -29,6 +31,7 @@ pub mod exports {
 	pub use super::bitwise_primitive_n_alternative_2;
 	pub use super::bitwise_primitive_n_alternative_3;
 	pub use super::bitwise_primitive_n_alternative_4;
+	pub use super::bitwise_primitive_n_alternative_5;
 	
 }
 
@@ -91,6 +94,10 @@ pub enum BitwisePrimitive3 {}
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
 pub enum BitwisePrimitive4 {}
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+pub enum BitwisePrimitive5 {}
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
@@ -233,6 +240,13 @@ pub fn bitwise_primitive_4_evaluate (primitive : BitwisePrimitive4, _input_1 : &
 
 
 
+pub fn bitwise_primitive_5_evaluate (primitive : BitwisePrimitive5, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _input_5 : &Value) -> (Outcome<Value>) {
+	match primitive {}
+}
+
+
+
+
 pub fn bitwise_primitive_n_evaluate (primitive : BitwisePrimitiveN, inputs : &[Value]) -> (Outcome<Value>) {
 	
 	let mut output = match primitive {
@@ -350,6 +364,14 @@ pub fn bitwise_primitive_n_alternative_3 (primitive : BitwisePrimitiveN) -> (Opt
 
 
 pub fn bitwise_primitive_n_alternative_4 (primitive : BitwisePrimitiveN) -> (Option<BitwisePrimitive4>) {
+	match primitive {
+		_ =>
+			None,
+	}
+}
+
+
+pub fn bitwise_primitive_n_alternative_5 (primitive : BitwisePrimitiveN) -> (Option<BitwisePrimitive5>) {
 	match primitive {
 		_ =>
 			None,
