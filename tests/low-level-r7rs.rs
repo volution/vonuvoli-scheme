@@ -22,6 +22,7 @@ fn test () -> () {
 	let print_definitions_symbols_list = !print_all_forced && !print_all_missing;
 	
 	let print_procedures = print_all_forced || print_all_missing;
+	let print_procedure_alternatives = print_all_forced || print_all_missing;
 	let print_syntaxes = print_all_forced || print_all_missing;
 	let print_values = print_all_forced || print_all_missing;
 	
@@ -84,9 +85,57 @@ fn test () -> () {
 					ProcedurePrimitive::Primitive2 (_) |
 					ProcedurePrimitive::Primitive3 (_) |
 					ProcedurePrimitive::Primitive4 (_) |
-					ProcedurePrimitive::PrimitiveN (_) => {
+					ProcedurePrimitive::Primitive5 (_) => {
+						let arity = match primitive {
+							ProcedurePrimitive::Primitive0 (_) => 0,
+							ProcedurePrimitive::Primitive1 (_) => 1,
+							ProcedurePrimitive::Primitive2 (_) => 2,
+							ProcedurePrimitive::Primitive3 (_) => 3,
+							ProcedurePrimitive::Primitive4 (_) => 4,
+							_ => panic! ("7e5d3d15"),
+						};
 						if print_procedures && print_implemented {
-							print_definition! (library, category, "procedure", identifier, primitive);
+							print_definition! (library, category, format! ("procedure-{}", arity), identifier, primitive);
+						}
+						implemented_symbols.insert (identifier);
+					},
+					
+					ProcedurePrimitive::PrimitiveN (primitive_n) => {
+						if print_procedures && print_implemented && print_procedure_alternatives {
+							let mut has_alternatives = false;
+							if let Some (primitive) = procedure_primitive_n_alternative_0 (primitive_n) {
+								print_definition! (library, category, "procedure-0*", identifier, ProcedurePrimitive::Primitive0 (primitive));
+								has_alternatives = true;
+							}
+							if let Some (primitive) = procedure_primitive_n_alternative_1 (primitive_n) {
+								print_definition! (library, category, "procedure-1*", identifier, ProcedurePrimitive::Primitive1 (primitive));
+								has_alternatives = true;
+							}
+							if let Some (primitive) = procedure_primitive_n_alternative_2 (primitive_n) {
+								print_definition! (library, category, "procedure-2*", identifier, ProcedurePrimitive::Primitive2 (primitive));
+								has_alternatives = true;
+							}
+							if let Some (primitive) = procedure_primitive_n_alternative_3 (primitive_n) {
+								print_definition! (library, category, "procedure-3*", identifier, ProcedurePrimitive::Primitive3 (primitive));
+								has_alternatives = true;
+							}
+							if let Some (primitive) = procedure_primitive_n_alternative_4 (primitive_n) {
+								print_definition! (library, category, "procedure-4*", identifier, ProcedurePrimitive::Primitive4 (primitive));
+								has_alternatives = true;
+							}
+							if let Some (primitive) = procedure_primitive_n_alternative_5 (primitive_n) {
+								print_definition! (library, category, "procedure-5*", identifier, ProcedurePrimitive::Primitive5 (primitive));
+								has_alternatives = true;
+							}
+							if has_alternatives {
+								print_definition! (library, category, "procedure-n*", identifier, primitive);
+							} else {
+								print_definition! (library, category, "procedure-n", identifier, primitive);
+							}
+						} else {
+							if print_procedures && print_implemented {
+								print_definition! (library, category, "procedure-n", identifier, primitive);
+							}
 						}
 						implemented_symbols.insert (identifier);
 					}
@@ -124,6 +173,7 @@ fn test () -> () {
 					SyntaxPrimitive::Primitive2 (_) |
 					SyntaxPrimitive::Primitive3 (_) |
 					SyntaxPrimitive::Primitive4 (_) |
+					SyntaxPrimitive::Primitive5 (_) |
 					SyntaxPrimitive::PrimitiveN (_) => {
 						if print_syntaxes && print_implemented {
 							print_definition! (library, category, "syntax", identifier, primitive);
