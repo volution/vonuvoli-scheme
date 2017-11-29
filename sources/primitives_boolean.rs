@@ -269,35 +269,70 @@ pub fn boolean_primitive_n_evaluate (primitive : BooleanPrimitiveN, inputs : &[V
 
 pub fn boolean_primitive_n_alternative_0 (primitive : BooleanPrimitiveN) -> (Option<BooleanPrimitive0>) {
 	match primitive {
-		_ => None,
+		BooleanPrimitiveN::And =>
+			Some (BooleanPrimitive0::And),
+		BooleanPrimitiveN::Or =>
+			Some (BooleanPrimitive0::Or),
+		BooleanPrimitiveN::Xor =>
+			Some (BooleanPrimitive0::Xor),
+		BooleanPrimitiveN::Nand =>
+			Some (BooleanPrimitive0::Nand),
+		BooleanPrimitiveN::Nor =>
+			Some (BooleanPrimitive0::Nor),
+		BooleanPrimitiveN::Nxor =>
+			Some (BooleanPrimitive0::Nxor),
 	}
 }
 
 
 pub fn boolean_primitive_n_alternative_1 (primitive : BooleanPrimitiveN) -> (Option<BooleanPrimitive1>) {
 	match primitive {
-		_ => None,
+		BooleanPrimitiveN::And =>
+			Some (BooleanPrimitive1::And),
+		BooleanPrimitiveN::Or =>
+			Some (BooleanPrimitive1::Or),
+		BooleanPrimitiveN::Xor =>
+			Some (BooleanPrimitive1::Xor),
+		BooleanPrimitiveN::Nand =>
+			Some (BooleanPrimitive1::Nand),
+		BooleanPrimitiveN::Nor =>
+			Some (BooleanPrimitive1::Nor),
+		BooleanPrimitiveN::Nxor =>
+			Some (BooleanPrimitive1::Nxor),
 	}
 }
 
 
 pub fn boolean_primitive_n_alternative_2 (primitive : BooleanPrimitiveN) -> (Option<BooleanPrimitive2>) {
 	match primitive {
-		_ => None,
+		BooleanPrimitiveN::And =>
+			Some (BooleanPrimitive2::And),
+		BooleanPrimitiveN::Or =>
+			Some (BooleanPrimitive2::Or),
+		BooleanPrimitiveN::Xor =>
+			Some (BooleanPrimitive2::Xor),
+		BooleanPrimitiveN::Nand =>
+			Some (BooleanPrimitive2::Nand),
+		BooleanPrimitiveN::Nor =>
+			Some (BooleanPrimitive2::Nor),
+		BooleanPrimitiveN::Nxor =>
+			Some (BooleanPrimitive2::Nxor),
 	}
 }
 
 
 pub fn boolean_primitive_n_alternative_3 (primitive : BooleanPrimitiveN) -> (Option<BooleanPrimitive3>) {
 	match primitive {
-		_ => None,
+		_ =>
+			None,
 	}
 }
 
 
 pub fn boolean_primitive_n_alternative_4 (primitive : BooleanPrimitiveN) -> (Option<BooleanPrimitive4>) {
 	match primitive {
-		_ => None,
+		_ =>
+			None,
 	}
 }
 

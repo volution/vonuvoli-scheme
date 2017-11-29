@@ -289,21 +289,54 @@ pub fn bitwise_primitive_n_evaluate (primitive : BitwisePrimitiveN, inputs : &[V
 
 pub fn bitwise_primitive_n_alternative_0 (primitive : BitwisePrimitiveN) -> (Option<BitwisePrimitive0>) {
 	match primitive {
-		_ => None,
+		BitwisePrimitiveN::And =>
+			Some (BitwisePrimitive0::And),
+		BitwisePrimitiveN::Or =>
+			Some (BitwisePrimitive0::Or),
+		BitwisePrimitiveN::Xor =>
+			Some (BitwisePrimitive0::Xor),
+		BitwisePrimitiveN::Nand =>
+			Some (BitwisePrimitive0::Nand),
+		BitwisePrimitiveN::Nor =>
+			Some (BitwisePrimitive0::Nor),
+		BitwisePrimitiveN::Nxor =>
+			Some (BitwisePrimitive0::Nxor),
 	}
 }
 
 
 pub fn bitwise_primitive_n_alternative_1 (primitive : BitwisePrimitiveN) -> (Option<BitwisePrimitive1>) {
 	match primitive {
-		_ => None,
+		BitwisePrimitiveN::And =>
+			Some (BitwisePrimitive1::And),
+		BitwisePrimitiveN::Or =>
+			Some (BitwisePrimitive1::Or),
+		BitwisePrimitiveN::Xor =>
+			Some (BitwisePrimitive1::Xor),
+		BitwisePrimitiveN::Nand =>
+			Some (BitwisePrimitive1::Nand),
+		BitwisePrimitiveN::Nor =>
+			Some (BitwisePrimitive1::Nor),
+		BitwisePrimitiveN::Nxor =>
+			Some (BitwisePrimitive1::Nxor),
 	}
 }
 
 
 pub fn bitwise_primitive_n_alternative_2 (primitive : BitwisePrimitiveN) -> (Option<BitwisePrimitive2>) {
 	match primitive {
-		_ => None,
+		BitwisePrimitiveN::And =>
+			Some (BitwisePrimitive2::And),
+		BitwisePrimitiveN::Or =>
+			Some (BitwisePrimitive2::Or),
+		BitwisePrimitiveN::Xor =>
+			Some (BitwisePrimitive2::Xor),
+		BitwisePrimitiveN::Nand =>
+			Some (BitwisePrimitive2::Nand),
+		BitwisePrimitiveN::Nor =>
+			Some (BitwisePrimitive2::Nor),
+		BitwisePrimitiveN::Nxor =>
+			Some (BitwisePrimitive2::Nxor),
 	}
 }
 
