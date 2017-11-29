@@ -1,6 +1,9 @@
 
 (define (fn-1 value_1) (+ value_1)) => !ignore;
 (define (fn-2 value_1 value_2) (+ value_1 value_2)) => !ignore;
+(define (fn-3 value_1 value_2 value_3) (+ value_1 value_2 value_3)) => !ignore;
+(define (fn-4 value_1 value_2 value_3 value_4) (+ value_1 value_2 value_3 value_4)) => !ignore;
+(define (fn-5 value_1 value_2 value_3 value_4 value_5) (+ value_1 value_2 value_3 value_4 value_5)) => !ignore;
 
 
 
@@ -11,9 +14,31 @@
 (~bytevector-u8-map fn-2 #u8()) => !fixme #u8();
 (~bytevector-u8-map fn-2 #u8() #u8()) => #u8();
 
+
+(~bytevector-u8-map fn-1 #u8()) => #u8();
+(~bytevector-u8-map fn-1 #u8(0)) => #u8(0);
+(~bytevector-u8-map fn-1 #u8(0 1)) => #u8(0 1);
+(~bytevector-u8-map fn-1 #u8(0 1 2)) => #u8(0 1 2);
+(~bytevector-u8-map fn-1 #u8(0 1 2 3)) => #u8(0 1 2 3);
+(~bytevector-u8-map fn-1 #u8(0 1 2 3 4)) => #u8(0 1 2 3 4);
+(~bytevector-u8-map fn-1 #u8(0 1 2 3 4 5)) => #u8(0 1 2 3 4 5);
+
+
 (~bytevector-u8-map fn-2 #u8(1 2) #u8(3 4)) => #u8(4 6);
 (~bytevector-u8-map fn-2 #u8(1 2 0) #u8(3 4)) => #u8(4 6);
 (~bytevector-u8-map fn-2 #u8(1 2) #u8(3 4 0)) => #u8(4 6);
+
+(~bytevector-u8-map fn-3 #u8(1 2) #u8(3 4) #u8(5 6)) => #u8(9 12);
+(~bytevector-u8-map fn-3 #u8(1 2 0) #u8(3 4) #u8(5 6)) => #u8(9 12);
+(~bytevector-u8-map fn-3 #u8(1 2) #u8(3 4 0) #u8(5 6)) => #u8(9 12);
+
+(~bytevector-u8-map fn-4 #u8(1 2) #u8(3 4) #u8(5 6) #u8(7 8)) => #u8(16 20);
+(~bytevector-u8-map fn-4 #u8(1 2 0) #u8(3 4) #u8(5 6) #u8(7 8)) => #u8(16 20);
+(~bytevector-u8-map fn-4 #u8(1 2) #u8(3 4 0) #u8(5 6) #u8(7 8)) => #u8(16 20);
+
+(~bytevector-u8-map fn-5 #u8(1 2) #u8(3 4) #u8(5 6) #u8(7 8) #u8(9 10)) => #u8(25 30);
+(~bytevector-u8-map fn-5 #u8(1 2 0) #u8(3 4) #u8(5 6) #u8(7 8) #u8(9 10)) => #u8(25 30);
+(~bytevector-u8-map fn-5 #u8(1 2) #u8(3 4 0) #u8(5 6) #u8(7 8) #u8(9 10)) => #u8(25 30);
 
 
 
@@ -24,19 +49,6 @@
 (~bytevector-u8-for-each fn-2 #u8()) => !fixme #void;
 (~bytevector-u8-for-each fn-2 #u8() #u8()) => #void;
 
-(~bytevector-u8-for-each fn-2 #u8(1 2) #u8(3 4)) => #void;
-(~bytevector-u8-for-each fn-2 #u8(1 2 0) #u8(3 4)) => #void;
-(~bytevector-u8-for-each fn-2 #u8(1 2) #u8(3 4 0)) => #void;
-
-
-
-
-(~bytevector-u8-map fn-1 #u8()) => #u8();
-(~bytevector-u8-map fn-1 #u8(0)) => #u8(0);
-(~bytevector-u8-map fn-1 #u8(0 1)) => #u8(0 1);
-(~bytevector-u8-map fn-1 #u8(0 1 2)) => #u8(0 1 2);
-(~bytevector-u8-map fn-1 #u8(0 1 2 3)) => #u8(0 1 2 3);
-(~bytevector-u8-map fn-1 #u8(0 1 2 3 4)) => #u8(0 1 2 3 4);
 
 (~bytevector-u8-for-each fn-1 #u8()) => #void;
 (~bytevector-u8-for-each fn-1 #u8(0)) => #void;
@@ -44,4 +56,22 @@
 (~bytevector-u8-for-each fn-1 #u8(0 1 2)) => #void;
 (~bytevector-u8-for-each fn-1 #u8(0 1 2 3)) => #void;
 (~bytevector-u8-for-each fn-1 #u8(0 1 2 3 4)) => #void;
+(~bytevector-u8-for-each fn-1 #u8(0 1 2 3 4 5)) => #void;
+
+
+(~bytevector-u8-for-each fn-2 #u8(1 2) #u8(3 4)) => #void;
+(~bytevector-u8-for-each fn-2 #u8(1 2 0) #u8(3 4)) => #void;
+(~bytevector-u8-for-each fn-2 #u8(1 2) #u8(3 4 0)) => #void;
+
+(~bytevector-u8-for-each fn-3 #u8(1 2) #u8(3 4) #u8(5 6)) => #void;
+(~bytevector-u8-for-each fn-3 #u8(1 2 0) #u8(3 4) #u8(5 6)) => #void;
+(~bytevector-u8-for-each fn-3 #u8(1 2) #u8(3 4 0) #u8(5 6)) => #void;
+
+(~bytevector-u8-for-each fn-4 #u8(1 2) #u8(3 4) #u8(5 6) #u8(7 8)) => #void;
+(~bytevector-u8-for-each fn-4 #u8(1 2 0) #u8(3 4) #u8(5 6) #u8(7 8)) => #void;
+(~bytevector-u8-for-each fn-4 #u8(1 2) #u8(3 4 0) #u8(5 6) #u8(7 8)) => #void;
+
+(~bytevector-u8-for-each fn-5 #u8(1 2) #u8(3 4) #u8(5 6) #u8(7 8) #u8(9 10)) => #void;
+(~bytevector-u8-for-each fn-5 #u8(1 2 0) #u8(3 4) #u8(5 6) #u8(7 8) #u8(9 10)) => #void;
+(~bytevector-u8-for-each fn-5 #u8(1 2) #u8(3 4 0) #u8(5 6) #u8(7 8) #u8(9 10)) => #void;
 

@@ -1,6 +1,9 @@
 
 (define (fn-1 value_1) value_1) => !ignore;
-(define (fn-2 value_1 value_2) value_1) => !ignore;
+(define (fn-2 value_1 value_2) value_2) => !ignore;
+(define (fn-3 value_1 value_2 value_3) value_3) => !ignore;
+(define (fn-4 value_1 value_2 value_3 value_4) value_4) => !ignore;
+(define (fn-5 value_1 value_2 value_3 value_4 value_5) value_5) => !ignore;
 
 
 
@@ -11,9 +14,31 @@
 (string-map fn-2 #string()) => !fixme #string();
 (string-map fn-2 #string() #string()) => #string();
 
-(string-map fn-2 #string(1 2) #string(3 4)) => #string(1 2);
-(string-map fn-2 #string(1 2 0) #string(3 4)) => #string(1 2);
-(string-map fn-2 #string(1 2) #string(3 4 0)) => #string(1 2);
+
+(string-map fn-1 #string()) => #string();
+(string-map fn-1 #string(0)) => #string(0);
+(string-map fn-1 #string(0 1)) => #string(0 1);
+(string-map fn-1 #string(0 1 2)) => #string(0 1 2);
+(string-map fn-1 #string(0 1 2 3)) => #string(0 1 2 3);
+(string-map fn-1 #string(0 1 2 3 4)) => #string(0 1 2 3 4);
+(string-map fn-1 #string(0 1 2 3 4 5)) => #string(0 1 2 3 4 5);
+
+
+(string-map fn-2 #string(1 2) #string(3 4)) => #string(3 4);
+(string-map fn-2 #string(1 2 0) #string(3 4)) => #string(3 4);
+(string-map fn-2 #string(1 2) #string(3 4 0)) => #string(3 4);
+
+(string-map fn-3 #string(1 2) #string(3 4) #string(5 6)) => #string(5 6);
+(string-map fn-3 #string(1 2 0) #string(3 4) #string(5 6)) => #string(5 6);
+(string-map fn-3 #string(1 2) #string(3 4 0) #string(5 6)) => #string(5 6);
+
+(string-map fn-4 #string(1 2) #string(3 4) #string(5 6) #string(7 8)) => #string(7 8);
+(string-map fn-4 #string(1 2 0) #string(3 4) #string(5 6) #string(7 8)) => #string(7 8);
+(string-map fn-4 #string(1 2) #string(3 4 0) #string(5 6) #string(7 8)) => #string(7 8);
+
+(string-map fn-5 #string(1 2) #string(3 4) #string(5 6) #string(7 8) #string(9 10)) => #string(9 10);
+(string-map fn-5 #string(1 2 0) #string(3 4) #string(5 6) #string(7 8) #string(9 10)) => #string(9 10);
+(string-map fn-5 #string(1 2) #string(3 4 0) #string(5 6) #string(7 8) #string(9 10)) => #string(9 10);
 
 
 
@@ -24,19 +49,6 @@
 (string-for-each fn-2 #string()) => !fixme #void;
 (string-for-each fn-2 #string() #string()) => #void;
 
-(string-for-each fn-2 #string(1 2) #string(3 4)) => #void;
-(string-for-each fn-2 #string(1 2 0) #string(3 4)) => #void;
-(string-for-each fn-2 #string(1 2) #string(3 4 0)) => #void;
-
-
-
-
-(string-map fn-1 #string()) => #string();
-(string-map fn-1 #string(0)) => #string(0);
-(string-map fn-1 #string(0 1)) => #string(0 1);
-(string-map fn-1 #string(0 1 2)) => #string(0 1 2);
-(string-map fn-1 #string(0 1 2 3)) => #string(0 1 2 3);
-(string-map fn-1 #string(0 1 2 3 4)) => #string(0 1 2 3 4);
 
 (string-for-each fn-1 #string()) => #void;
 (string-for-each fn-1 #string(0)) => #void;
@@ -44,4 +56,22 @@
 (string-for-each fn-1 #string(0 1 2)) => #void;
 (string-for-each fn-1 #string(0 1 2 3)) => #void;
 (string-for-each fn-1 #string(0 1 2 3 4)) => #void;
+(string-for-each fn-1 #string(0 1 2 3 4 5)) => #void;
+
+
+(string-for-each fn-2 #string(1 2) #string(3 4)) => #void;
+(string-for-each fn-2 #string(1 2 0) #string(3 4)) => #void;
+(string-for-each fn-2 #string(1 2) #string(3 4 0)) => #void;
+
+(string-for-each fn-3 #string(1 2) #string(3 4) #string(5 6)) => #void;
+(string-for-each fn-3 #string(1 2 0) #string(3 4) #string(5 6)) => #void;
+(string-for-each fn-3 #string(1 2) #string(3 4 0) #string(5 6)) => #void;
+
+(string-for-each fn-4 #string(1 2) #string(3 4) #string(5 6) #string(7 8)) => #void;
+(string-for-each fn-4 #string(1 2 0) #string(3 4) #string(5 6) #string(7 8)) => #void;
+(string-for-each fn-4 #string(1 2) #string(3 4 0) #string(5 6) #string(7 8)) => #void;
+
+(string-for-each fn-5 #string(1 2) #string(3 4) #string(5 6) #string(7 8) #string(9 10)) => #void;
+(string-for-each fn-5 #string(1 2 0) #string(3 4) #string(5 6) #string(7 8) #string(9 10)) => #void;
+(string-for-each fn-5 #string(1 2) #string(3 4 0) #string(5 6) #string(7 8) #string(9 10)) => #void;
 

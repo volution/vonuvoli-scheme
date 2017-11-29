@@ -1,6 +1,9 @@
 
 (define (fn-1 value_1) (+ value_1)) => !ignore;
 (define (fn-2 value_1 value_2) (+ value_1 value_2)) => !ignore;
+(define (fn-3 value_1 value_2 value_3) (+ value_1 value_2 value_3)) => !ignore;
+(define (fn-4 value_1 value_2 value_3 value_4) (+ value_1 value_2 value_3 value_4)) => !ignore;
+(define (fn-5 value_1 value_2 value_3 value_4 value_5) (+ value_1 value_2 value_3 value_4 value_5)) => !ignore;
 
 
 
@@ -11,9 +14,31 @@
 (vector-map fn-2 #()) => !fixme #();
 (vector-map fn-2 #() #()) => #();
 
+
+(vector-map fn-1 #()) => #();
+(vector-map fn-1 #(0)) => #(0);
+(vector-map fn-1 #(0 1)) => #(0 1);
+(vector-map fn-1 #(0 1 2)) => #(0 1 2);
+(vector-map fn-1 #(0 1 2 3)) => #(0 1 2 3);
+(vector-map fn-1 #(0 1 2 3 4)) => #(0 1 2 3 4);
+(vector-map fn-1 #(0 1 2 3 4 5)) => #(0 1 2 3 4 5);
+
+
 (vector-map fn-2 #(1 2) #(3 4)) => #(4 6);
 (vector-map fn-2 #(1 2 0) #(3 4)) => #(4 6);
 (vector-map fn-2 #(1 2) #(3 4 0)) => #(4 6);
+
+(vector-map fn-3 #(1 2) #(3 4) #(5 6)) => #(9 12);
+(vector-map fn-3 #(1 2 0) #(3 4) #(5 6)) => #(9 12);
+(vector-map fn-3 #(1 2) #(3 4 0) #(5 6)) => #(9 12);
+
+(vector-map fn-4 #(1 2) #(3 4) #(5 6) #(7 8)) => #(16 20);
+(vector-map fn-4 #(1 2 0) #(3 4) #(5 6) #(7 8)) => #(16 20);
+(vector-map fn-4 #(1 2) #(3 4 0) #(5 6) #(7 8)) => #(16 20);
+
+(vector-map fn-5 #(1 2) #(3 4) #(5 6) #(7 8) #(9 10)) => #(25 30);
+(vector-map fn-5 #(1 2 0) #(3 4) #(5 6) #(7 8) #(9 10)) => #(25 30);
+(vector-map fn-5 #(1 2) #(3 4 0) #(5 6) #(7 8) #(9 10)) => #(25 30);
 
 
 
@@ -24,19 +49,6 @@
 (vector-for-each fn-2 #()) => !fixme #void;
 (vector-for-each fn-2 #() #()) => #void;
 
-(vector-for-each fn-2 #(1 2) #(3 4)) => #void;
-(vector-for-each fn-2 #(1 2 0) #(3 4)) => #void;
-(vector-for-each fn-2 #(1 2) #(3 4 0)) => #void;
-
-
-
-
-(vector-map fn-1 #()) => #();
-(vector-map fn-1 #(0)) => #(0);
-(vector-map fn-1 #(0 1)) => #(0 1);
-(vector-map fn-1 #(0 1 2)) => #(0 1 2);
-(vector-map fn-1 #(0 1 2 3)) => #(0 1 2 3);
-(vector-map fn-1 #(0 1 2 3 4)) => #(0 1 2 3 4);
 
 (vector-for-each fn-1 #()) => #void;
 (vector-for-each fn-1 #(0)) => #void;
@@ -44,4 +56,22 @@
 (vector-for-each fn-1 #(0 1 2)) => #void;
 (vector-for-each fn-1 #(0 1 2 3)) => #void;
 (vector-for-each fn-1 #(0 1 2 3 4)) => #void;
+(vector-for-each fn-1 #(0 1 2 3 4 5)) => #void;
+
+
+(vector-for-each fn-2 #(1 2) #(3 4)) => #void;
+(vector-for-each fn-2 #(1 2 0) #(3 4)) => #void;
+(vector-for-each fn-2 #(1 2) #(3 4 0)) => #void;
+
+(vector-for-each fn-3 #(1 2) #(3 4) #(5 6)) => #void;
+(vector-for-each fn-3 #(1 2 0) #(3 4) #(5 6)) => #void;
+(vector-for-each fn-3 #(1 2) #(3 4 0) #(5 6)) => #void;
+
+(vector-for-each fn-4 #(1 2) #(3 4) #(5 6) #(7 8)) => #void;
+(vector-for-each fn-4 #(1 2 0) #(3 4) #(5 6) #(7 8)) => #void;
+(vector-for-each fn-4 #(1 2) #(3 4 0) #(5 6) #(7 8)) => #void;
+
+(vector-for-each fn-5 #(1 2) #(3 4) #(5 6) #(7 8) #(9 10)) => #void;
+(vector-for-each fn-5 #(1 2 0) #(3 4) #(5 6) #(7 8) #(9 10)) => #void;
+(vector-for-each fn-5 #(1 2) #(3 4 0) #(5 6) #(7 8) #(9 10)) => #void;
 
