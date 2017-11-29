@@ -328,35 +328,33 @@ macro_rules! impl_unwrappers_2_for_enum_3_wrapper {
 
 
 
-#[ macro_export ]
+#[ allow (unused_macros) ]
 macro_rules! vec_into {
 	( $( $value : expr ),* ) => (
 		vec! [ $( $value, )* ] .into_iter () .map (|value| value.into ()) .collect::<::std::vec::Vec<_>> ()
 	);
 }
 
-#[ macro_export ]
 macro_rules! vec_map {
 	( $vector : expr, $element : pat, $expression : expr ) => (
 		$vector.into_iter () .map (|$element| $expression) .collect::<::std::vec::Vec<_>> ()
 	);
 }
 
-#[ macro_export ]
 macro_rules! try_vec_map {
 	( $vector : expr, $element : pat, $expression : expr ) => (
 		try! ($vector.into_iter () .map (|$element| $expression) .collect::<::std::result::Result<::std::vec::Vec<_>, _>> ())
 	);
 }
 
-#[ macro_export ]
+#[ allow (unused_macros) ]
 macro_rules! vec_fold {
 	( $vector : expr, $initial : expr, ($accumulator : pat, $element : pat), $expression : block ) => (
 		$vector.into_iter () .fold ($initial, |$accumulator, $element| $expression)
 	);
 }
 
-#[ macro_export ]
+#[ allow (unused_macros) ]
 macro_rules! try_vec_fold {
 	( $vector : expr, $initial : expr, ($accumulator : pat, $element : pat), $expression : block ) => (
 		// FIXME:  Try to elide the `::errors::exports::Error`!
@@ -374,7 +372,6 @@ macro_rules! try_vec_fold {
 
 
 
-#[ macro_export ]
 macro_rules! option_map {
 	( $option : ident, $expression : expr ) => (
 		option_map! ($option, $option, $expression)
@@ -389,7 +386,6 @@ macro_rules! option_map {
 	);
 }
 
-#[ macro_export ]
 macro_rules! try_option_map {
 	( $option : ident, $expression : expr ) => (
 		try_option_map! ($option, $option, $expression)
