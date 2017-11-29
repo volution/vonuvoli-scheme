@@ -195,7 +195,7 @@ pub fn array_length (array : &Value) -> (Outcome<usize>) {
 
 
 pub fn vec_array_append_2 (array_1 : &Value, array_2 : &Value) -> (Outcome<ValueVec>) {
-	if is_array_empty (array_1) && is_array_empty (array_2) {
+	if try! (is_array_empty_all_2 (array_1, array_2)) {
 		succeed! (StdVec::new ());
 	}
 	let mut buffer = StdVec::new ();
@@ -205,7 +205,7 @@ pub fn vec_array_append_2 (array_1 : &Value, array_2 : &Value) -> (Outcome<Value
 }
 
 pub fn vec_array_append_3 (array_1 : &Value, array_2 : &Value, array_3 : &Value) -> (Outcome<ValueVec>) {
-	if is_array_empty (array_1) && is_array_empty (array_2) && is_array_empty (array_3) {
+	if try! (is_array_empty_all_3 (array_1, array_2, array_3)) {
 		succeed! (StdVec::new ());
 	}
 	let mut buffer = StdVec::new ();
@@ -216,7 +216,7 @@ pub fn vec_array_append_3 (array_1 : &Value, array_2 : &Value, array_3 : &Value)
 }
 
 pub fn vec_array_append_4 (array_1 : &Value, array_2 : &Value, array_3 : &Value, array_4 : &Value) -> (Outcome<ValueVec>) {
-	if is_array_empty (array_1) && is_array_empty (array_2) && is_array_empty (array_3) && is_array_empty (array_4) {
+	if try! (is_array_empty_all_4 (array_1, array_2, array_3, array_4)) {
 		succeed! (StdVec::new ());
 	}
 	let mut buffer = StdVec::new ();

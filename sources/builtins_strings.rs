@@ -201,7 +201,7 @@ pub fn string_length (string : &Value) -> (Outcome<usize>) {
 
 
 pub fn vec_string_append_2 (string_1 : &Value, string_2 : &Value) -> (Outcome<StdVec<char>>) {
-	if is_string_empty (string_1) && is_string_empty (string_2) {
+	if try! (is_string_empty_all_2 (string_1, string_2)) {
 		succeed! (StdVec::new ());
 	}
 	let mut buffer = StdVec::new ();
@@ -211,7 +211,7 @@ pub fn vec_string_append_2 (string_1 : &Value, string_2 : &Value) -> (Outcome<St
 }
 
 pub fn vec_string_append_3 (string_1 : &Value, string_2 : &Value, string_3 : &Value) -> (Outcome<StdVec<char>>) {
-	if is_string_empty (string_1) && is_string_empty (string_2) && is_string_empty (string_3) {
+	if try! (is_string_empty_all_3 (string_1, string_2, string_3)) {
 		succeed! (StdVec::new ());
 	}
 	let mut buffer = StdVec::new ();
@@ -222,7 +222,7 @@ pub fn vec_string_append_3 (string_1 : &Value, string_2 : &Value, string_3 : &Va
 }
 
 pub fn vec_string_append_4 (string_1 : &Value, string_2 : &Value, string_3 : &Value, string_4 : &Value) -> (Outcome<StdVec<char>>) {
-	if is_string_empty (string_1) && is_string_empty (string_2) && is_string_empty (string_3) && is_string_empty (string_4) {
+	if try! (is_string_empty_all_4 (string_1, string_2, string_3, string_4)) {
 		succeed! (StdVec::new ());
 	}
 	let mut buffer = StdVec::new ();

@@ -205,7 +205,7 @@ pub fn bytes_length (bytes : &Value) -> (Outcome<usize>) {
 
 
 pub fn vec_bytes_append_2 (bytes_1 : &Value, bytes_2 : &Value) -> (Outcome<StdVec<u8>>) {
-	if is_bytes_empty (bytes_1) && is_bytes_empty (bytes_2) {
+	if try! (is_bytes_empty_all_2 (bytes_1, bytes_2)) {
 		succeed! (StdVec::new ());
 	}
 	let mut buffer = StdVec::new ();
@@ -215,7 +215,7 @@ pub fn vec_bytes_append_2 (bytes_1 : &Value, bytes_2 : &Value) -> (Outcome<StdVe
 }
 
 pub fn vec_bytes_append_3 (bytes_1 : &Value, bytes_2 : &Value, bytes_3 : &Value) -> (Outcome<StdVec<u8>>) {
-	if is_bytes_empty (bytes_1) && is_bytes_empty (bytes_2) && is_bytes_empty (bytes_3) {
+	if try! (is_bytes_empty_all_3 (bytes_1, bytes_2, bytes_3)) {
 		succeed! (StdVec::new ());
 	}
 	let mut buffer = StdVec::new ();
@@ -226,7 +226,7 @@ pub fn vec_bytes_append_3 (bytes_1 : &Value, bytes_2 : &Value, bytes_3 : &Value)
 }
 
 pub fn vec_bytes_append_4 (bytes_1 : &Value, bytes_2 : &Value, bytes_3 : &Value, bytes_4 : &Value) -> (Outcome<StdVec<u8>>) {
-	if is_bytes_empty (bytes_1) && is_bytes_empty (bytes_2) && is_bytes_empty (bytes_3) && is_bytes_empty (bytes_4) {
+	if try! (is_bytes_empty_all_4 (bytes_1, bytes_2, bytes_3, bytes_4)) {
 		succeed! (StdVec::new ());
 	}
 	let mut buffer = StdVec::new ();
