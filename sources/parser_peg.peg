@@ -14,7 +14,7 @@ use std::str::FromStr;
 
 pub value_full -> values::Value = space? value : value space? { value }
 
-value -> values::Value = abbreviation / list / array / atom
+value -> values::Value = abbreviation / list / array / values / atom
 
 atom -> values::Value = boolean / number / symbol / character / string / bytes / constant
 
@@ -24,6 +24,8 @@ list_dotted -> values::Value = "(" space? elements : value ++ space space "." sp
 list_empty -> values::Value = ( "(" space? ")" / "#null" ) { builtins::list_empty () }
 
 array -> values::Value = ( "#array" / "#" ) "(" space? elements : value ** space space? ")" {  values::array_new (elements) .into () }
+
+values -> values::Value = ( "#values" / "#" ) "(" space? elements : value ** space space? ")" {  values::values_new_from_vec (elements) .into () }
 
 abbreviation -> values::Value = abbreviation : abbreviation_prefix whitespace? value : value { builtins::list_collect (vec! [abbreviation, value]) }
 abbreviation_prefix -> values::Value = value : $( "'" / "`" / ",@" / "," ) {?

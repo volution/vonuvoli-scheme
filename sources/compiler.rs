@@ -74,6 +74,8 @@ impl Compiler {
 				return self.compile_syntax_quote (compilation, token),
 			ValueClass::Array =>
 				return self.compile_syntax_quote (compilation, token),
+			ValueClass::Values =>
+				return self.compile_syntax_quote (compilation, token),
 			
 			ValueClass::Error =>
 				fail_panic! (0x2aa7bc60),
@@ -818,6 +820,8 @@ impl Compiler {
 				succeed! ((compilation, splice (token, spliceable))),
 			ValueClass::Array =>
 				fail_unimplemented! (0x0d99c57b),
+			ValueClass::Values =>
+				fail_unimplemented! (0x0da960b2),
 			
 			ValueClass::Error =>
 				fail! (0x9681733a),

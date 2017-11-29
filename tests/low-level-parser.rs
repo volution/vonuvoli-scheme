@@ -62,6 +62,9 @@ fn test () -> () {
 			"#()", "#( )", "#(0)", "#( 0 )", "#(0 1)", "#(0 1 2)", "#(0 1 2 3)",
 			"#array()", "#array( )", "#array(0)", "#array( 0 )", "#array(0 1)", "#array(0 1 2)", "#array(0 1 2 3)",
 			
+			/*== values ==*/
+			"#values()", "#values( )", "#values(0)", "#values( 0 )", "#values(0 1)", "#values(0 1 2)", "#values(0 1 2 3)",
+			
 		];
 	
 	

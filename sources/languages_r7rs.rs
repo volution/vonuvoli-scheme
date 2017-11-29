@@ -393,8 +393,8 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "functions", "string-map", FunctionsPrimitiveN::StringsMap.into ()),
 			("base", "functions", "string-for-each", FunctionsPrimitiveN::StringsIterate.into ()),
 			
-			("base", "values", "values", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "values", "call-with-values", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "values", "values", FunctionsPrimitiveN::Values.into ()),
+			("base", "values", "call-with-values", FunctionsPrimitive2::CallWithValuesBuilder.into ()),
 			
 			("base", "evaluator", "call-with-current-continuation", ProcedurePrimitive::Unsupported.into ()),
 			("base", "evaluator", "call/cc", ProcedurePrimitive::Unsupported.into ()),

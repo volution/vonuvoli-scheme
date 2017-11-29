@@ -470,6 +470,9 @@ def_try_into! (try_into_pair, ::values::exports::Pair);
 def_try_as_ref! (try_as_array_ref, ::values::exports::Array);
 def_try_into! (try_into_array, ::values::exports::Array);
 
+def_try_as_ref! (try_as_values_ref, ::values::exports::Values);
+def_try_into! (try_into_values, ::values::exports::Values);
+
 def_try_as_ref! (try_as_error_ref, ::values::exports::Error);
 def_try_into! (try_into_error, ::values::exports::Error);
 

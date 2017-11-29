@@ -102,6 +102,7 @@ impl_from_for_Value_1! (String, String);
 impl_from_for_Value_1! (Bytes, Bytes);
 impl_from_for_Value_1! (Pair, Pair);
 impl_from_for_Value_1! (Array, Array);
+impl_from_for_Value_1! (Values, Values);
 impl_from_for_Value_1! (Error, Error);
 impl_from_for_Value_1! (Lambda, Lambda);
 impl_from_for_Value_1! (ProcedurePrimitive, ProcedurePrimitive);
@@ -279,7 +280,7 @@ macro_rules! impl_from_for_ProcedurePrimitiveCall1 {
 				Value,
 				Boolean, NumberInteger, NumberReal, Character,
 				Symbol, String, Bytes,
-				Pair, Array,
+				Pair, Array, Values,
 				Error,
 				Lambda,
 				ProcedurePrimitive, SyntaxPrimitive,
@@ -303,7 +304,7 @@ macro_rules! impl_from_for_ProcedurePrimitiveCall2 {
 				Value,
 				Boolean, NumberInteger, NumberReal, Character,
 				Symbol, String, Bytes,
-				Pair, Array,
+				Pair, Array, Values,
 				Error,
 				Lambda,
 				ProcedurePrimitive, SyntaxPrimitive,
@@ -328,7 +329,7 @@ macro_rules! impl_from_for_ProcedurePrimitiveCall3 {
 				Value,
 				Boolean, NumberInteger, NumberReal, Character,
 				Symbol, String, Bytes,
-				Pair, Array,
+				Pair, Array, Values,
 				Error,
 				Lambda,
 				ProcedurePrimitive, SyntaxPrimitive,
@@ -353,7 +354,7 @@ macro_rules! impl_from_for_ProcedurePrimitiveCall4 {
 				Value,
 				Boolean, NumberInteger, NumberReal, Character,
 				Symbol, String, Bytes,
-				Pair, Array,
+				Pair, Array, Values,
 				Error,
 				Lambda,
 				ProcedurePrimitive, SyntaxPrimitive,
@@ -378,7 +379,7 @@ macro_rules! impl_from_for_ProcedurePrimitiveCall5 {
 				Value,
 				Boolean, NumberInteger, NumberReal, Character,
 				Symbol, String, Bytes,
-				Pair, Array,
+				Pair, Array, Values,
 				Error,
 				Lambda,
 				ProcedurePrimitive, SyntaxPrimitive,
@@ -404,7 +405,7 @@ macro_rules! impl_from_for_ProcedurePrimitiveCallN {
 				Value,
 				Boolean, NumberInteger, NumberReal, Character,
 				Symbol, String, Bytes,
-				Pair, Array,
+				Pair, Array, Values,
 				Error,
 				Lambda,
 				ProcedurePrimitive, SyntaxPrimitive,

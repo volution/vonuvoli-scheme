@@ -12,7 +12,7 @@ use super::values::exports::*;
 
 pub mod exports {
 	
-	pub use super::{call_with_values};
+	pub use super::{call_with_values, call_with_values_builder};
 	pub use super::{call_0, call_1, call_2, call_3, call_4, call_n};
 	pub use super::{apply_0, apply_1, apply_2, apply_3, apply_4, apply_n};
 	
@@ -35,8 +35,15 @@ pub mod exports {
 
 
 
-pub fn call_with_values (_evaluator : &mut EvaluatorContext, _callable : &Value, _values : &Value) -> (Outcome<Value>) {
-	fail_unimplemented! (0xa0b76d73);
+pub fn call_with_values (evaluator : &mut EvaluatorContext, callable : &Value, values : &Value) -> (Outcome<Value>) {
+	let values = try_as_values_ref! (values);
+	return evaluator.evaluator.evaluate_procedure_call_n_with_values (evaluator, callable, values.values_as_slice ());
+}
+
+
+pub fn call_with_values_builder (evaluator : &mut EvaluatorContext, callable : &Value, builder : &Value) -> (Outcome<Value>) {
+	let values = try! (evaluator.evaluator.evaluate_procedure_call_0_with_values (evaluator, builder));
+	return call_with_values (evaluator, callable, &values);
 }
 
 
@@ -827,26 +834,26 @@ pub fn iterators_iterate_n <Iterators> (evaluator : &mut EvaluatorContext, calla
 
 
 pub fn values_build_0 () -> (Value) {
-	panic! ("3e2cd31b");
+	return values_new (StdBox::new ([])) .into ();
 }
 
-pub fn values_build_1 (_value_1 : &Value) -> (Value) {
-	panic! ("bb8da879");
+pub fn values_build_1 (value_1 : &Value) -> (Value) {
+	return values_new (StdBox::new ([value_1.clone ()])) .into ();
 }
 
-pub fn values_build_2 (_value_1 : &Value, _value_2 : &Value) -> (Value) {
-	panic! ("1bb069bf");
+pub fn values_build_2 (value_1 : &Value, value_2 : &Value) -> (Value) {
+	return values_new (StdBox::new ([value_1.clone (), value_2.clone ()])) .into ();
 }
 
-pub fn values_build_3 (_value_1 : &Value, _value_2 : &Value, _value_3 : &Value) -> (Value) {
-	panic! ("a60e100f");
+pub fn values_build_3 (value_1 : &Value, value_2 : &Value, value_3 : &Value) -> (Value) {
+	return values_new (StdBox::new ([value_1.clone (), value_2.clone (), value_3.clone ()])) .into ();
 }
 
-pub fn values_build_4 (_value_1 : &Value, _value_2 : &Value, _value_3 : &Value, _value_4 : &Value) -> (Value) {
-	panic! ("2474f5ff");
+pub fn values_build_4 (value_1 : &Value, value_2 : &Value, value_3 : &Value, value_4 : &Value) -> (Value) {
+	return values_new (StdBox::new ([value_1.clone (), value_2.clone (), value_3.clone (), value_4.clone ()])) .into ();
 }
 
-pub fn values_build_n (_values : &[Value]) -> (Value) {
-	panic! ("cea42387");
+pub fn values_build_n (values : &[Value]) -> (Value) {
+	return values_clone_slice (values) .into ();
 }
 

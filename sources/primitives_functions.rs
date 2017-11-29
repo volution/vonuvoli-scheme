@@ -61,6 +61,7 @@ pub enum FunctionsPrimitive1 {
 pub enum FunctionsPrimitive2 {
 	
 	CallWithValues,
+	CallWithValuesBuilder,
 	
 	Call,
 	Apply,
@@ -209,6 +210,9 @@ pub fn functions_primitive_2_evaluate (primitive : FunctionsPrimitive2, input_1 
 		
 		FunctionsPrimitive2::CallWithValues =>
 			return call_with_values (evaluator, input_1, input_2),
+		
+		FunctionsPrimitive2::CallWithValuesBuilder =>
+			return call_with_values_builder (evaluator, input_2, input_1),
 		
 		FunctionsPrimitive2::Call =>
 			return call_1 (evaluator, input_1, input_2),

@@ -112,6 +112,16 @@ pub mod exports {
 	
 	pub use super::{
 			
+			is_values, is_values_empty, is_values_not_empty,
+			
+			is_values_empty_all_2, is_values_empty_all_3, is_values_empty_all_4,
+			is_values_empty_any_2, is_values_empty_any_3, is_values_empty_any_4,
+			
+	};
+	
+	
+	pub use super::{
+			
 			is_procedure,
 			
 			is_procedure_all_2, is_procedure_all_3, is_procedure_all_4, is_procedure_all_n,
@@ -584,6 +594,31 @@ def_fn_try_predicate_any! (is_string_empty, is_string_empty_any_2, is_string_emp
 
 def_fn_try_predicate_all! (is_string_not_empty, is_string_not_empty_all_2, is_string_not_empty_all_3, is_string_not_empty_all_4, is_string_not_empty_all_n);
 def_fn_try_predicate_any! (is_string_not_empty, is_string_not_empty_any_2, is_string_not_empty_any_3, is_string_not_empty_any_4, is_string_not_empty_any_n);
+
+
+
+
+pub fn is_values (value : &Value) -> (bool) {
+	return value.is (ValueClass::Values);
+}
+
+def_fn_predicate_all! (is_values, is_values_all_2, is_values_all_3, is_values_all_4, is_values_all_n);
+def_fn_predicate_any! (is_values, is_values_any_2, is_values_any_3, is_values_any_4, is_values_any_n);
+
+
+pub fn is_values_empty (value : &Value) -> (Outcome<bool>) {
+	succeed! (try_as_values_ref! (value) .values_is_empty ());
+}
+
+pub fn is_values_not_empty (value : &Value) -> (Outcome<bool>) {
+	succeed! (try_as_values_ref! (value) .values_is_not_empty ());
+}
+
+def_fn_try_predicate_all! (is_values_empty, is_values_empty_all_2, is_values_empty_all_3, is_values_empty_all_4, is_values_empty_all_n);
+def_fn_try_predicate_any! (is_values_empty, is_values_empty_any_2, is_values_empty_any_3, is_values_empty_any_4, is_values_empty_any_n);
+
+def_fn_try_predicate_all! (is_values_not_empty, is_values_not_empty_all_2, is_values_not_empty_all_3, is_values_not_empty_all_4, is_values_not_empty_all_n);
+def_fn_try_predicate_any! (is_values_not_empty, is_values_not_empty_any_2, is_values_not_empty_any_3, is_values_not_empty_any_4, is_values_not_empty_any_n);
 
 
 

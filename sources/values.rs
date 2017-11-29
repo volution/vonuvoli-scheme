@@ -19,7 +19,7 @@ use std::str;
 
 pub mod exports {
 	
-	pub use super::{Value, ValueBox, ValueVec, ValueClass};
+	pub use super::{Value, ValueBox, ValueVec, ValueSliceBox, ValueClass};
 	pub use super::{Boolean, BooleanBox, BooleanVec};
 	pub use super::{NumberInteger, NumberIntegerBox, NumberIntegerVec};
 	pub use super::{NumberReal, NumberRealBox, NumberRealVec};
@@ -29,12 +29,14 @@ pub mod exports {
 	pub use super::{Bytes, BytesBox, BytesVec};
 	pub use super::{Pair, PairBox, PairVec};
 	pub use super::{Array, ArrayBox, ArrayVec};
+	pub use super::{Values, ValuesBox, ValuesVec};
 	
 	pub use super::{boolean, number_i64, number_f64, character};
 	pub use super::{symbol_new, symbol_clone_str, symbol_clone_characters};
 	pub use super::{string_new, string_clone_str, string_clone_characters};
 	pub use super::{bytes_new, bytes_clone_slice};
 	pub use super::{array_new, array_clone_slice};
+	pub use super::{values_new, values_new_from_vec, values_clone_slice};
 	pub use super::{pair_new};
 	
 	pub use super::{ValueMeta1, ValueMeta2, VALUE_META_1, VALUE_META_2};
@@ -62,6 +64,7 @@ pub enum ValueClass {
 	
 	Pair,
 	Array,
+	Values,
 	
 	Error,
 	
@@ -95,6 +98,7 @@ pub enum Value {
 	
 	Pair ( ValueMeta1, Pair, ValueMeta2 ),
 	Array ( ValueMeta1, Array, ValueMeta2 ),
+	Values ( ValueMeta1, Values, ValueMeta2 ),
 	
 	Error ( ValueMeta1, Error, ValueMeta2 ),
 	
@@ -110,6 +114,7 @@ pub enum Value {
 
 pub type ValueBox = StdBox<Value>;
 pub type ValueVec = StdVec<Value>;
+pub type ValueSliceBox = StdBox<[Value]>;
 
 
 #[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
@@ -141,6 +146,7 @@ impl Value {
 			
 			Value::Pair (_, _, _) => ValueClass::Pair,
 			Value::Array (_, _, _) => ValueClass::Array,
+			Value::Values (_, _, _) => ValueClass::Values,
 			
 			Value::Error (_, _, _) => ValueClass::Error,
 			
@@ -188,6 +194,7 @@ impl fmt::Display for Value {
 			
 			Value::Pair (_, ref value, _) => value.fmt (formatter),
 			Value::Array (_, ref value, _) => value.fmt (formatter),
+			Value::Values (_, ref value, _) => value.fmt (formatter),
 			
 			Value::Error (_, ref value, _) => value.fmt (formatter),
 			
@@ -223,6 +230,7 @@ impl fmt::Debug for Value {
 			
 			Value::Pair (_, ref value, _) => value.fmt (formatter),
 			Value::Array (_, ref value, _) => value.fmt (formatter),
+			Value::Values (_, ref value, _) => value.fmt (formatter),
 			
 			Value::Error (_, ref value, _) => value.fmt (formatter),
 			
@@ -1375,6 +1383,64 @@ impl fmt::Display for Array {
 
 
 
+#[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
+pub struct Values ( StdRc<StdBox<[Value]>> );
+
+
+pub type ValuesBox = StdBox<Values>;
+pub type ValuesVec = StdVec<Values>;
+
+
+impl Values {
+	
+	pub fn values_as_slice (&self) -> (&[Value]) {
+		self.0.as_ref ()
+	}
+	
+	pub fn values_ref (&self) -> (&StdBox<[Value]>) {
+		self.0.as_ref ()
+	}
+	
+	pub fn values_clone (&self) -> (StdBox<[Value]>) {
+		self.0.as_ref () .clone ()
+	}
+	
+	pub fn values_is_empty (&self) -> (bool) {
+		self.values_as_slice () .is_empty ()
+	}
+	
+	pub fn values_is_not_empty (&self) -> (bool) {
+		!self.values_as_slice () .is_empty ()
+	}
+	
+	pub fn values_length (&self) -> (usize) {
+		self.values_as_slice () .len ()
+	}
+	
+}
+
+
+impl fmt::Display for Values {
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		use std::fmt::Write;
+		try! (formatter.write_str ("#values("));
+		let mut is_first = true;
+		for element in self.0.iter () {
+			if !is_first {
+				try! (formatter.write_char (' '));
+			} else {
+				is_first = false;
+			}
+			try! (element.fmt (formatter));
+		}
+		try! (formatter.write_char (')'));
+		succeed! (());
+	}
+}
+
+
+
+
 pub fn boolean (value : bool) -> (Boolean) {
 	Boolean (value)
 }
@@ -1435,7 +1501,7 @@ fn characters_clone (characters : &[char]) -> (StdString) {
 
 
 
-pub fn bytes_new (values : Vec<u8>) -> (Bytes) {
+pub fn bytes_new (values : StdVec<u8>) -> (Bytes) {
 	Bytes (StdRc::new (values))
 }
 
@@ -1446,12 +1512,27 @@ pub fn bytes_clone_slice (values : &[u8]) -> (Bytes) {
 
 
 
-pub fn array_new (values : ValueVec) -> (Array) {
+pub fn array_new (values : StdVec<Value>) -> (Array) {
 	Array (StdRc::new (values))
 }
 
 pub fn array_clone_slice (values : &[Value]) -> (Array) {
 	array_new (values.to_vec ())
+}
+
+
+
+
+pub fn values_new (values : StdBox<[Value]>) -> (Values) {
+	Values (StdRc::new (values))
+}
+
+pub fn values_new_from_vec (values : StdVec<Value>) -> (Values) {
+	values_new (values.into_boxed_slice ())
+}
+
+pub fn values_clone_slice (values : &[Value]) -> (Values) {
+	values_new_from_vec (values.to_vec ())
 }
 
 
