@@ -1,6 +1,7 @@
 
 
 use super::builtins::exports::*;
+use super::conversions::exports::*;
 use super::errors::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
@@ -20,6 +21,7 @@ pub mod exports {
 	pub use super::{bytes_build_1, bytes_build_2, bytes_build_3, bytes_build_4, bytes_build_n};
 	pub use super::{bytes_append_2, bytes_append_3, bytes_append_4, bytes_append_n};
 	pub use super::{bytes_make, bytes_clone, bytes_reverse};
+	pub use super::{bytes_fill_range, bytes_reverse_range, bytes_copy_range, bytes_clone_range};
 	pub use super::{bytes_length};
 	
 	pub use super::{vec_bytes_append_2, vec_bytes_append_3, vec_bytes_append_4, vec_bytes_append_n};
@@ -191,6 +193,46 @@ pub fn bytes_reverse (bytes : &Value) -> (Outcome<Value>) {
 	// FIXME:  Optimize the vector allocation!
 	let buffer = try! (vec_bytes_clone (bytes));
 	succeed! (bytes_collect_bytes (buffer.into_iter () .rev ()));
+}
+
+
+
+
+pub fn bytes_fill_range (bytes : &Value, fill : Option<&Value>, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+	let bytes = try_as_bytes_ref! (bytes);
+	let _fill = if let Some (fill) = fill {
+		try! (try_as_number_integer_ref! (fill) .try_to_u8 ())
+	} else {
+		0 as u8
+	};
+	let (_start, _end) = try! (range_coerce (start, end, bytes.values_length ()));
+	fail_unimplemented! (0xfc14ec8b);
+}
+
+
+pub fn bytes_reverse_range (bytes : &Value, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+	let bytes = try_as_bytes_ref! (bytes);
+	let (_start, _end) = try! (range_coerce (start, end, bytes.values_length ()));
+	fail_unimplemented! (0xff6acb00);
+}
+
+
+pub fn bytes_copy_range (target_bytes : &Value, start : Option<&Value>, source_bytes : &Value, source_start : Option<&Value>, source_end : Option<&Value>) -> (Outcome<Value>) {
+	let target_bytes = try_as_bytes_ref! (target_bytes);
+	let source_bytes = try_as_bytes_ref! (source_bytes);
+	let (source_start, source_end) = try! (range_coerce (source_start, source_end, source_bytes.values_length ()));
+	let (target_start, target_end) = try! (range_coerce (start, None, target_bytes.values_length ()));
+	if (target_end - target_start) < (source_end - source_start) {
+		fail! (0x7033eb20);
+	}
+	fail_unimplemented! (0x00cfa730);
+}
+
+
+pub fn bytes_clone_range (bytes : &Value, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+	let bytes = try_as_bytes_ref! (bytes);
+	let (start, end) = try! (range_coerce (start, end, bytes.values_length ()));
+	succeed! (bytes_clone_slice (& bytes.values_as_slice () [start..end]) .into ());
 }
 
 

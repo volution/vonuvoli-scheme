@@ -2,6 +2,7 @@
 
 use super::builtins::exports::*;
 use super::constants::exports::*;
+use super::conversions::exports::*;
 use super::errors::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
@@ -30,6 +31,7 @@ pub mod exports {
 	pub use super::{list_build_1, list_build_2, list_build_3, list_build_4, list_build_n};
 	pub use super::{list_append_2, list_append_3, list_append_4, list_append_n};
 	pub use super::{list_make, list_clone, list_reverse};
+	pub use super::{list_fill_range, list_reverse_range, list_copy_range, list_clone_range};
 	pub use super::{list_length};
 	
 	pub use super::{vec_list_append_2, vec_list_append_3, vec_list_append_4, vec_list_append_n};
@@ -268,6 +270,38 @@ pub fn list_reverse (list : &Value) -> (Outcome<Value>) {
 	// FIXME:  Optimize the vector allocation!
 	let buffer = try! (vec_list_clone (list));
 	succeed! (list_collect (buffer.into_iter () .rev ()));
+}
+
+
+
+
+pub fn list_fill_range (_list : &Value, fill : Option<&Value>, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+	let _fill = if let Some (fill) = fill {
+		fill.clone ()
+	} else {
+		UNDEFINED.into ()
+	};
+	let (_start, _end) = try! (range_coerce_unbounded (start, end));
+	fail_unimplemented! (0x2abbe2f5);
+}
+
+
+pub fn list_reverse_range (_list : &Value, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+	let (_start, _end) = try! (range_coerce_unbounded (start, end));
+	fail_unimplemented! (0x562a1252);
+}
+
+
+pub fn list_copy_range (_target_list : &Value, start : Option<&Value>, _source_list : &Value, source_start : Option<&Value>, source_end : Option<&Value>) -> (Outcome<Value>) {
+	let (_source_start, _source_end) = try! (range_coerce_unbounded (source_start, source_end));
+	let (_target_start, _target_end) = try! (range_coerce_unbounded (start, None));
+	fail_unimplemented! (0xb5cd48df);
+}
+
+
+pub fn list_clone_range (_list : &Value, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+	let (_start, _end) = try! (range_coerce_unbounded (start, end));
+	fail_unimplemented! (0xac380c0c);
 }
 
 

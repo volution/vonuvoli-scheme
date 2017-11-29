@@ -1,6 +1,7 @@
 
 
 use super::builtins::exports::*;
+use super::conversions::exports::*;
 use super::errors::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
@@ -20,6 +21,7 @@ pub mod exports {
 	pub use super::{string_build_1, string_build_2, string_build_3, string_build_4, string_build_n};
 	pub use super::{string_append_2, string_append_3, string_append_4, string_append_n};
 	pub use super::{string_make, string_clone, string_reverse};
+	pub use super::{string_fill_range, string_reverse_range, string_copy_range, string_clone_range};
 	pub use super::{string_length};
 	
 	pub use super::{vec_string_append_2, vec_string_append_3, vec_string_append_4, vec_string_append_n};
@@ -187,6 +189,46 @@ pub fn string_reverse (string : &Value) -> (Outcome<Value>) {
 	// FIXME:  Optimize the vector allocation!
 	let buffer = try! (vec_string_clone (string));
 	succeed! (string_collect_chars (buffer.into_iter () .rev ()));
+}
+
+
+
+
+pub fn string_fill_range (string : &Value, fill : Option<&Value>, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+	let string = try_as_string_ref! (string);
+	let _fill = if let Some (fill) = fill {
+		try_as_character_ref! (fill) .value ()
+	} else {
+		0 as char
+	};
+	let (_start, _end) = try! (range_coerce (start, end, string.string_chars_count_compute ()));
+	fail_unimplemented! (0x7eaac146);
+}
+
+
+pub fn string_reverse_range (string : &Value, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+	let string = try_as_string_ref! (string);
+	let (_start, _end) = try! (range_coerce (start, end, string.string_chars_count_compute ()));
+	fail_unimplemented! (0x46884d97);
+}
+
+
+pub fn string_copy_range (target_string : &Value, start : Option<&Value>, source_string : &Value, source_start : Option<&Value>, source_end : Option<&Value>) -> (Outcome<Value>) {
+	let target_string = try_as_string_ref! (target_string);
+	let source_string = try_as_string_ref! (source_string);
+	let (source_start, source_end) = try! (range_coerce (source_start, source_end, source_string.string_chars_count_compute ()));
+	let (target_start, target_end) = try! (range_coerce (start, None, target_string.string_chars_count_compute ()));
+	if (target_end - target_start) < (source_end - source_start) {
+		fail! (0x7033eb20);
+	}
+	fail_unimplemented! (0xf216023f);
+}
+
+
+pub fn string_clone_range (string : &Value, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+	let string = try_as_string_ref! (string);
+	let (_start, _end) = try! (range_coerce (start, end, string.string_chars_count_compute ()));
+	fail_unimplemented! (0x78c93665);
 }
 
 

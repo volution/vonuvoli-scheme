@@ -59,6 +59,8 @@ pub enum StringPrimitive1 {
 	StringBuild,
 	StringAppend,
 	
+	StringFill,
+	
 }
 
 
@@ -169,6 +171,9 @@ pub fn string_primitive_1_evaluate (primitive : StringPrimitive1, input_1 : &Val
 		StringPrimitive1::StringAppend =>
 			return string_clone (input_1),
 		
+		StringPrimitive1::StringFill =>
+			return string_fill_range (input_1, None, None, None),
+		
 	}
 }
 
@@ -191,13 +196,13 @@ pub fn string_primitive_2_evaluate (primitive : StringPrimitive2, input_1 : &Val
 			return string_append_2 (input_1, input_2),
 		
 		StringPrimitive2::StringFill =>
-			fail_unimplemented! (0xf85a907b),
+			return string_fill_range (input_1, Some (input_2), None, None),
 		
 		StringPrimitive2::StringCopy =>
-			fail_unimplemented! (0x1b072e62),
+			return string_copy_range (input_1, None, input_2, None, None),
 		
 		StringPrimitive2::StringRangeClone =>
-			fail_unimplemented! (0x2a434dd7),
+			return string_clone_range (input_1, Some (input_2), None),
 		
 	}
 }
@@ -218,13 +223,13 @@ pub fn string_primitive_3_evaluate (primitive : StringPrimitive3, input_1 : &Val
 			return string_append_3 (input_1, input_2, input_3),
 		
 		StringPrimitive3::StringRangeFill =>
-			fail_unimplemented! (0xca5f8433),
+			return string_fill_range (input_1, Some (input_2), Some (input_3), None),
 		
 		StringPrimitive3::StringRangeCopy =>
-			fail_unimplemented! (0x0cf648e1),
+			return string_copy_range (input_1, Some (input_2), input_3, None, None),
 		
 		StringPrimitive3::StringRangeClone =>
-			fail_unimplemented! (0x720e7369),
+			return string_clone_range (input_1, Some (input_2), Some (input_3)),
 		
 	}
 }
@@ -242,10 +247,10 @@ pub fn string_primitive_4_evaluate (primitive : StringPrimitive4, input_1 : &Val
 			return string_append_4 (input_1, input_2, input_3, input_4),
 		
 		StringPrimitive4::StringRangeFill =>
-			fail_unimplemented! (0xe334fdbd),
+			return string_fill_range (input_1, Some (input_2), Some (input_3), Some (input_4)),
 		
 		StringPrimitive4::StringRangeCopy =>
-			fail_unimplemented! (0xc7aeb8c4),
+			return string_copy_range (input_1, Some (input_2), input_3, Some (input_4), None),
 		
 	}
 }
@@ -253,11 +258,11 @@ pub fn string_primitive_4_evaluate (primitive : StringPrimitive4, input_1 : &Val
 
 
 
-pub fn string_primitive_5_evaluate (primitive : StringPrimitive5, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _input_5 : &Value) -> (Outcome<Value>) {
+pub fn string_primitive_5_evaluate (primitive : StringPrimitive5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value) -> (Outcome<Value>) {
 	match primitive {
 		
 		StringPrimitive5::StringRangeCopy =>
-			fail_unimplemented! (0xdf82416a),
+			return string_copy_range (input_1, Some (input_2), input_3, Some (input_4), Some (input_5)),
 		
 	}
 }
@@ -312,16 +317,43 @@ pub fn string_primitive_n_evaluate (primitive : StringPrimitiveN, inputs : &[Val
 			},
 		
 		StringPrimitiveN::StringRangeFill =>
-			fail_unimplemented! (0xac7a8a81),
+			match inputs_count {
+				1 =>
+					return string_primitive_1_evaluate (StringPrimitive1::StringFill, &inputs[0]),
+				2 =>
+					return string_primitive_2_evaluate (StringPrimitive2::StringFill, &inputs[0], &inputs[1]),
+				3 =>
+					return string_primitive_3_evaluate (StringPrimitive3::StringRangeFill, &inputs[0], &inputs[1], &inputs[2]),
+				4 =>
+					return string_primitive_4_evaluate (StringPrimitive4::StringRangeFill, &inputs[0], &inputs[1], &inputs[2], &inputs[3]),
+				_ =>
+					fail! (0x04d2afc0),
+			},
 		
 		StringPrimitiveN::StringRangeCopy =>
-			fail_unimplemented! (0xfa7dd889),
+			match inputs_count {
+				2 =>
+					return string_primitive_2_evaluate (StringPrimitive2::StringCopy, &inputs[0], &inputs[1]),
+				3 =>
+					return string_primitive_3_evaluate (StringPrimitive3::StringRangeCopy, &inputs[0], &inputs[1], &inputs[2]),
+				4 =>
+					return string_primitive_4_evaluate (StringPrimitive4::StringRangeCopy, &inputs[0], &inputs[1], &inputs[2], &inputs[3]),
+				5 =>
+					return string_primitive_5_evaluate (StringPrimitive5::StringRangeCopy, &inputs[0], &inputs[1], &inputs[2], &inputs[3], &inputs[4]),
+				_ =>
+					fail! (0x8c5e5181),
+			},
 		
 		StringPrimitiveN::StringRangeClone =>
-			if inputs_count == 1 {
-				return string_primitive_1_evaluate (StringPrimitive1::StringClone, &inputs[0]);
-			} else {
-				fail_unimplemented! (0xfa7dd889);
+			match inputs_count {
+				1 =>
+					return string_primitive_1_evaluate (StringPrimitive1::StringClone, &inputs[0]),
+				2 =>
+					return string_primitive_2_evaluate (StringPrimitive2::StringRangeClone, &inputs[0], &inputs[1]),
+				3 =>
+					return string_primitive_3_evaluate (StringPrimitive3::StringRangeClone, &inputs[0], &inputs[1], &inputs[2]),
+				_ =>
+					fail! (0x0d49ddab),
 			},
 		
 	}
@@ -357,7 +389,7 @@ pub fn string_primitive_n_alternative_1 (primitive : StringPrimitiveN) -> (Optio
 		StringPrimitiveN::StringAppend =>
 			Some (StringPrimitive1::StringAppend),
 		StringPrimitiveN::StringRangeFill =>
-			None,
+			Some (StringPrimitive1::StringFill),
 		StringPrimitiveN::StringRangeCopy =>
 			None,
 		StringPrimitiveN::StringRangeClone =>

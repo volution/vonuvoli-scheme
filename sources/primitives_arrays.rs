@@ -59,6 +59,8 @@ pub enum ArrayPrimitive1 {
 	ArrayBuild,
 	ArrayAppend,
 	
+	ArrayFill,
+	
 }
 
 
@@ -169,6 +171,9 @@ pub fn array_primitive_1_evaluate (primitive : ArrayPrimitive1, input_1 : &Value
 		ArrayPrimitive1::ArrayAppend =>
 			return array_clone (input_1),
 		
+		ArrayPrimitive1::ArrayFill =>
+			return array_fill_range (input_1, None, None, None),
+		
 	}
 }
 
@@ -191,13 +196,13 @@ pub fn array_primitive_2_evaluate (primitive : ArrayPrimitive2, input_1 : &Value
 			return array_append_2 (input_1, input_2),
 		
 		ArrayPrimitive2::ArrayFill =>
-			fail_unimplemented! (0xda8e037a),
+			return array_fill_range (input_1, Some (input_2), None, None),
 		
 		ArrayPrimitive2::ArrayCopy =>
-			fail_unimplemented! (0x8ac08433),
+			return array_copy_range (input_1, None, input_2, None, None),
 		
 		ArrayPrimitive2::ArrayRangeClone =>
-			fail_unimplemented! (0x091fd07f),
+			return array_clone_range (input_1, Some (input_2), None),
 		
 	}
 }
@@ -218,13 +223,13 @@ pub fn array_primitive_3_evaluate (primitive : ArrayPrimitive3, input_1 : &Value
 			return array_append_3 (input_1, input_2, input_3),
 		
 		ArrayPrimitive3::ArrayRangeFill =>
-			fail_unimplemented! (0xb2562068),
+			return array_fill_range (input_1, Some (input_2), Some (input_3), None),
 		
 		ArrayPrimitive3::ArrayRangeCopy =>
-			fail_unimplemented! (0x956afb85),
+			return array_copy_range (input_1, Some (input_2), input_3, None, None),
 		
 		ArrayPrimitive3::ArrayRangeClone =>
-			fail_unimplemented! (0x543abc34),
+			return array_clone_range (input_1, Some (input_2), Some (input_3)),
 		
 	}
 }
@@ -242,10 +247,10 @@ pub fn array_primitive_4_evaluate (primitive : ArrayPrimitive4, input_1 : &Value
 			return array_append_4 (input_1, input_2, input_3, input_4),
 		
 		ArrayPrimitive4::ArrayRangeFill =>
-			fail_unimplemented! (0x0ee45a9c),
+			return array_fill_range (input_1, Some (input_2), Some (input_3), Some (input_4)),
 		
 		ArrayPrimitive4::ArrayRangeCopy =>
-			fail_unimplemented! (0x6c892fe2),
+			return array_copy_range (input_1, Some (input_2), input_3, Some (input_4), None),
 		
 	}
 }
@@ -253,11 +258,11 @@ pub fn array_primitive_4_evaluate (primitive : ArrayPrimitive4, input_1 : &Value
 
 
 
-pub fn array_primitive_5_evaluate (primitive : ArrayPrimitive5, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _input_5 : &Value) -> (Outcome<Value>) {
+pub fn array_primitive_5_evaluate (primitive : ArrayPrimitive5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value) -> (Outcome<Value>) {
 	match primitive {
 		
 		ArrayPrimitive5::ArrayRangeCopy =>
-			fail_unimplemented! (0x0cf03a9c),
+			return array_copy_range (input_1, Some (input_2), input_3, Some (input_4), Some (input_5)),
 		
 	}
 }
@@ -312,16 +317,43 @@ pub fn array_primitive_n_evaluate (primitive : ArrayPrimitiveN, inputs : &[Value
 			},
 		
 		ArrayPrimitiveN::ArrayRangeFill =>
-			fail_unimplemented! (0xe9fd172d),
+			match inputs_count {
+				1 =>
+					return array_primitive_1_evaluate (ArrayPrimitive1::ArrayFill, &inputs[0]),
+				2 =>
+					return array_primitive_2_evaluate (ArrayPrimitive2::ArrayFill, &inputs[0], &inputs[1]),
+				3 =>
+					return array_primitive_3_evaluate (ArrayPrimitive3::ArrayRangeFill, &inputs[0], &inputs[1], &inputs[2]),
+				4 =>
+					return array_primitive_4_evaluate (ArrayPrimitive4::ArrayRangeFill, &inputs[0], &inputs[1], &inputs[2], &inputs[3]),
+				_ =>
+					fail! (0xe9fd172d),
+			},
 		
 		ArrayPrimitiveN::ArrayRangeCopy =>
-			fail_unimplemented! (0xa591cae9),
+			match inputs_count {
+				2 =>
+					return array_primitive_2_evaluate (ArrayPrimitive2::ArrayCopy, &inputs[0], &inputs[1]),
+				3 =>
+					return array_primitive_3_evaluate (ArrayPrimitive3::ArrayRangeCopy, &inputs[0], &inputs[1], &inputs[2]),
+				4 =>
+					return array_primitive_4_evaluate (ArrayPrimitive4::ArrayRangeCopy, &inputs[0], &inputs[1], &inputs[2], &inputs[3]),
+				5 =>
+					return array_primitive_5_evaluate (ArrayPrimitive5::ArrayRangeCopy, &inputs[0], &inputs[1], &inputs[2], &inputs[3], &inputs[4]),
+				_ =>
+					fail! (0xa591cae9),
+			},
 		
 		ArrayPrimitiveN::ArrayRangeClone =>
-			if inputs_count == 1 {
-				return array_primitive_1_evaluate (ArrayPrimitive1::ArrayClone, &inputs[0]);
-			} else {
-				fail_unimplemented! (0x4fbc2e34);
+			match inputs_count {
+				1 =>
+					return array_primitive_1_evaluate (ArrayPrimitive1::ArrayClone, &inputs[0]),
+				2 =>
+					return array_primitive_2_evaluate (ArrayPrimitive2::ArrayRangeClone, &inputs[0], &inputs[1]),
+				3 =>
+					return array_primitive_3_evaluate (ArrayPrimitive3::ArrayRangeClone, &inputs[0], &inputs[1], &inputs[2]),
+				_ =>
+					fail! (0x4fbc2e34),
 			},
 		
 	}
@@ -357,7 +389,7 @@ pub fn array_primitive_n_alternative_1 (primitive : ArrayPrimitiveN) -> (Option<
 		ArrayPrimitiveN::ArrayAppend =>
 			Some (ArrayPrimitive1::ArrayAppend),
 		ArrayPrimitiveN::ArrayRangeFill =>
-			None,
+			Some (ArrayPrimitive1::ArrayFill),
 		ArrayPrimitiveN::ArrayRangeCopy =>
 			None,
 		ArrayPrimitiveN::ArrayRangeClone =>

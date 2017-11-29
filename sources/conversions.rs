@@ -589,3 +589,37 @@ pub fn number_coerce_2b (left : &NumberCoercion1, right : &Value) -> (Outcome<Nu
 	}
 }
 
+
+
+
+pub fn range_coerce (start : Option<&Value>, end : Option<&Value>, length : usize) -> (Outcome<(usize, usize)>) {
+	let (start, end) = try! (range_coerce_unbounded (start, end));
+	let end = end.unwrap_or (length);
+	if start > length {
+		fail! (0x16e64120);
+	}
+	if end > length {
+		fail! (0x440b8499);
+	}
+	succeed! ((start, end));
+}
+
+
+pub fn range_coerce_unbounded (start : Option<&Value>, end : Option<&Value>) -> (Outcome<(usize, Option<usize>)>) {
+	let start = if let Some (start) = start {
+		try! (try_as_number_integer_ref! (start) .try_to_usize ())
+	} else {
+		0 as usize
+	};
+	let end = if let Some (end) = end {
+		let end = try! (try_as_number_integer_ref! (end) .try_to_usize ());
+		if start > end {
+			fail! (0x49a6ab02);
+		}
+		Some (end)
+	} else {
+		None
+	};
+	succeed! ((start, end));
+}
+

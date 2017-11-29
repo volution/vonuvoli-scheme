@@ -69,6 +69,8 @@ pub enum ListPrimitive1 {
 	ListBuild,
 	ListAppend,
 	
+	ListFill,
+	
 }
 
 
@@ -205,6 +207,9 @@ pub fn list_primitive_1_evaluate (primitive : ListPrimitive1, input_1 : &Value) 
 		ListPrimitive1::ListAppend =>
 			succeed! (input_1.clone ()),
 		
+		ListPrimitive1::ListFill =>
+			return list_fill_range (input_1, None, None, None),
+		
 	}
 }
 
@@ -242,13 +247,13 @@ pub fn list_primitive_2_evaluate (primitive : ListPrimitive2, input_1 : &Value, 
 			return list_append_2 (input_1, input_2),
 		
 		ListPrimitive2::ListFill =>
-			fail_unimplemented! (0x2965ad12),
+			return list_fill_range (input_1, Some (input_2), None, None),
 		
 		ListPrimitive2::ListCopy =>
-			fail_unimplemented! (0xf080ccca),
+			return list_copy_range (input_1, None, input_2, None, None),
 		
 		ListPrimitive2::ListRangeClone =>
-			fail_unimplemented! (0x39e5d06d),
+			return list_clone_range (input_1, Some (input_2), None),
 		
 	}
 }
@@ -272,13 +277,13 @@ pub fn list_primitive_3_evaluate (primitive : ListPrimitive3, input_1 : &Value, 
 			return list_append_3 (input_1, input_2, input_3),
 		
 		ListPrimitive3::ListRangeFill =>
-			fail_unimplemented! (0x9c91c5a5),
+			return list_fill_range (input_1, Some (input_2), Some (input_3), None),
 		
 		ListPrimitive3::ListRangeCopy =>
-			fail_unimplemented! (0x1abfc985),
+			return list_copy_range (input_1, Some (input_2), input_3, None, None),
 		
 		ListPrimitive3::ListRangeClone =>
-			fail_unimplemented! (0xc0e58dd3),
+			return list_clone_range (input_1, Some (input_2), Some (input_3)),
 		
 	}
 }
@@ -296,10 +301,10 @@ pub fn list_primitive_4_evaluate (primitive : ListPrimitive4, input_1 : &Value, 
 			return list_append_4 (input_1, input_2, input_3, input_4),
 		
 		ListPrimitive4::ListRangeFill =>
-			fail_unimplemented! (0x1ecfba7b),
+			return list_fill_range (input_1, Some (input_2), Some (input_3), Some (input_4)),
 		
 		ListPrimitive4::ListRangeCopy =>
-			fail_unimplemented! (0xb2f0a4e6),
+			return list_copy_range (input_1, Some (input_2), input_3, Some (input_4), None),
 		
 	}
 }
@@ -307,11 +312,11 @@ pub fn list_primitive_4_evaluate (primitive : ListPrimitive4, input_1 : &Value, 
 
 
 
-pub fn list_primitive_5_evaluate (primitive : ListPrimitive5, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _input_5 : &Value) -> (Outcome<Value>) {
+pub fn list_primitive_5_evaluate (primitive : ListPrimitive5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value) -> (Outcome<Value>) {
 	match primitive {
 		
 		ListPrimitive5::ListRangeCopy =>
-			fail_unimplemented! (0x85585d9c),
+			return list_copy_range (input_1, Some (input_2), input_3, Some (input_4), Some (input_5)),
 		
 	}
 }
@@ -366,13 +371,44 @@ pub fn list_primitive_n_evaluate (primitive : ListPrimitiveN, inputs : &[Value])
 			},
 		
 		ListPrimitiveN::ListRangeFill =>
-			fail_unimplemented! (0xecc6c127),
+			match inputs_count {
+				1 =>
+					return list_primitive_1_evaluate (ListPrimitive1::ListFill, &inputs[0]),
+				2 =>
+					return list_primitive_2_evaluate (ListPrimitive2::ListFill, &inputs[0], &inputs[1]),
+				3 =>
+					return list_primitive_3_evaluate (ListPrimitive3::ListRangeFill, &inputs[0], &inputs[1], &inputs[2]),
+				4 =>
+					return list_primitive_4_evaluate (ListPrimitive4::ListRangeFill, &inputs[0], &inputs[1], &inputs[2], &inputs[3]),
+				_ =>
+					fail! (0x0634b1d5),
+			},
 		
 		ListPrimitiveN::ListRangeCopy =>
-			fail_unimplemented! (0xd8a76758),
+			match inputs_count {
+				2 =>
+					return list_primitive_2_evaluate (ListPrimitive2::ListCopy, &inputs[0], &inputs[1]),
+				3 =>
+					return list_primitive_3_evaluate (ListPrimitive3::ListRangeCopy, &inputs[0], &inputs[1], &inputs[2]),
+				4 =>
+					return list_primitive_4_evaluate (ListPrimitive4::ListRangeCopy, &inputs[0], &inputs[1], &inputs[2], &inputs[3]),
+				5 =>
+					return list_primitive_5_evaluate (ListPrimitive5::ListRangeCopy, &inputs[0], &inputs[1], &inputs[2], &inputs[3], &inputs[4]),
+				_ =>
+					fail! (0x749c9d57),
+			},
 		
 		ListPrimitiveN::ListRangeClone =>
-			fail_unimplemented! (0x36bb3eaf),
+			match inputs_count {
+				1 =>
+					return list_primitive_1_evaluate (ListPrimitive1::ListClone, &inputs[0]),
+				2 =>
+					return list_primitive_2_evaluate (ListPrimitive2::ListRangeClone, &inputs[0], &inputs[1]),
+				3 =>
+					return list_primitive_3_evaluate (ListPrimitive3::ListRangeClone, &inputs[0], &inputs[1], &inputs[2]),
+				_ =>
+					fail! (0xf28cef92),
+			},
 		
 	}
 }
@@ -407,7 +443,7 @@ pub fn list_primitive_n_alternative_1 (primitive : ListPrimitiveN) -> (Option<Li
 		ListPrimitiveN::ListAppend =>
 			Some (ListPrimitive1::ListAppend),
 		ListPrimitiveN::ListRangeFill =>
-			None,
+			Some (ListPrimitive1::ListFill),
 		ListPrimitiveN::ListRangeCopy =>
 			None,
 		ListPrimitiveN::ListRangeClone =>

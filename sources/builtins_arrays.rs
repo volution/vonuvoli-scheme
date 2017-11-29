@@ -2,6 +2,7 @@
 
 use super::builtins::exports::*;
 use super::constants::exports::*;
+use super::conversions::exports::*;
 use super::errors::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
@@ -21,6 +22,7 @@ pub mod exports {
 	pub use super::{array_build_1, array_build_2, array_build_3, array_build_4, array_build_n};
 	pub use super::{array_append_2, array_append_3, array_append_4, array_append_n};
 	pub use super::{array_make, array_clone, array_reverse};
+	pub use super::{array_fill_range, array_reverse_range, array_copy_range, array_clone_range};
 	pub use super::{array_length};
 	
 	pub use super::{vec_array_append_2, vec_array_append_3, vec_array_append_4, vec_array_append_n};
@@ -181,6 +183,46 @@ pub fn array_reverse (array : &Value) -> (Outcome<Value>) {
 	// FIXME:  Optimize the vector allocation!
 	let buffer = try! (vec_array_clone (array));
 	succeed! (array_collect (buffer.into_iter () .rev ()));
+}
+
+
+
+
+pub fn array_fill_range (array : &Value, fill : Option<&Value>, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+	let array = try_as_array_ref! (array);
+	let _fill = if let Some (fill) = fill {
+		fill.clone ()
+	} else {
+		UNDEFINED.into ()
+	};
+	let (_start, _end) = try! (range_coerce (start, end, array.values_length ()));
+	fail_unimplemented! (0x3c6f81b9);
+}
+
+
+pub fn array_reverse_range (array : &Value, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+	let array = try_as_array_ref! (array);
+	let (_start, _end) = try! (range_coerce (start, end, array.values_length ()));
+	fail_unimplemented! (0xfd9c4a54);
+}
+
+
+pub fn array_copy_range (target_array : &Value, start : Option<&Value>, source_array : &Value, source_start : Option<&Value>, source_end : Option<&Value>) -> (Outcome<Value>) {
+	let target_array = try_as_array_ref! (target_array);
+	let source_array = try_as_array_ref! (source_array);
+	let (source_start, source_end) = try! (range_coerce (source_start, source_end, source_array.values_length ()));
+	let (target_start, target_end) = try! (range_coerce (start, None, target_array.values_length ()));
+	if (target_end - target_start) < (source_end - source_start) {
+		fail! (0x7033eb20);
+	}
+	fail_unimplemented! (0x3c6f81b9);
+}
+
+
+pub fn array_clone_range (array : &Value, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+	let array = try_as_array_ref! (array);
+	let (start, end) = try! (range_coerce (start, end, array.values_length ()));
+	succeed! (array_clone_slice (& array.values_as_slice () [start..end]) .into ());
 }
 
 
