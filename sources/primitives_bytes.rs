@@ -74,7 +74,7 @@ pub enum BytesPrimitive2 {
 	
 	BytesFill,
 	BytesCopy,
-	BytesSliceClone,
+	BytesRangeClone,
 	
 }
 
@@ -87,9 +87,9 @@ pub enum BytesPrimitive3 {
 	BytesBuild,
 	BytesAppend,
 	
-	BytesSliceFill,
-	BytesSliceCopy,
-	BytesSliceClone,
+	BytesRangeFill,
+	BytesRangeCopy,
+	BytesRangeClone,
 	
 }
 
@@ -100,8 +100,8 @@ pub enum BytesPrimitive4 {
 	BytesBuild,
 	BytesAppend,
 	
-	BytesSliceFill,
-	BytesSliceCopy,
+	BytesRangeFill,
+	BytesRangeCopy,
 	
 }
 
@@ -109,7 +109,7 @@ pub enum BytesPrimitive4 {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
 pub enum BytesPrimitive5 {
 	
-	BytesSliceCopy,
+	BytesRangeCopy,
 	
 }
 
@@ -121,9 +121,9 @@ pub enum BytesPrimitiveN {
 	BytesBuild,
 	BytesAppend,
 	
-	BytesSliceFill,
-	BytesSliceCopy,
-	BytesSliceClone,
+	BytesRangeFill,
+	BytesRangeCopy,
+	BytesRangeClone,
 	
 }
 
@@ -196,7 +196,7 @@ pub fn bytes_primitive_2_evaluate (primitive : BytesPrimitive2, input_1 : &Value
 		BytesPrimitive2::BytesCopy =>
 			fail_unimplemented! (0xac59b811),
 		
-		BytesPrimitive2::BytesSliceClone =>
+		BytesPrimitive2::BytesRangeClone =>
 			fail_unimplemented! (0xcd4a7888),
 		
 	}
@@ -217,13 +217,13 @@ pub fn bytes_primitive_3_evaluate (primitive : BytesPrimitive3, input_1 : &Value
 		BytesPrimitive3::BytesAppend =>
 			return bytes_append_3 (input_1, input_2, input_3),
 		
-		BytesPrimitive3::BytesSliceFill =>
+		BytesPrimitive3::BytesRangeFill =>
 			fail_unimplemented! (0x20bbd19a),
 		
-		BytesPrimitive3::BytesSliceCopy =>
+		BytesPrimitive3::BytesRangeCopy =>
 			fail_unimplemented! (0x105cc749),
 		
-		BytesPrimitive3::BytesSliceClone =>
+		BytesPrimitive3::BytesRangeClone =>
 			fail_unimplemented! (0x8b767508),
 		
 	}
@@ -241,10 +241,10 @@ pub fn bytes_primitive_4_evaluate (primitive : BytesPrimitive4, input_1 : &Value
 		BytesPrimitive4::BytesAppend =>
 			return bytes_append_4 (input_1, input_2, input_3, input_4),
 		
-		BytesPrimitive4::BytesSliceFill =>
+		BytesPrimitive4::BytesRangeFill =>
 			fail_unimplemented! (0xb1cb6d46),
 		
-		BytesPrimitive4::BytesSliceCopy =>
+		BytesPrimitive4::BytesRangeCopy =>
 			fail_unimplemented! (0x27459191),
 		
 	}
@@ -256,7 +256,7 @@ pub fn bytes_primitive_4_evaluate (primitive : BytesPrimitive4, input_1 : &Value
 pub fn bytes_primitive_5_evaluate (primitive : BytesPrimitive5, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _input_5 : &Value) -> (Outcome<Value>) {
 	match primitive {
 		
-		BytesPrimitive5::BytesSliceCopy =>
+		BytesPrimitive5::BytesRangeCopy =>
 			fail_unimplemented! (0xc92234a6),
 		
 	}
@@ -311,13 +311,13 @@ pub fn bytes_primitive_n_evaluate (primitive : BytesPrimitiveN, inputs : &[Value
 					return bytes_append_n (inputs),
 			},
 		
-		BytesPrimitiveN::BytesSliceFill =>
+		BytesPrimitiveN::BytesRangeFill =>
 			fail_unimplemented! (0xdb534eb6),
 		
-		BytesPrimitiveN::BytesSliceCopy =>
+		BytesPrimitiveN::BytesRangeCopy =>
 			fail_unimplemented! (0xe7a2e534),
 		
-		BytesPrimitiveN::BytesSliceClone =>
+		BytesPrimitiveN::BytesRangeClone =>
 			if inputs_count == 1 {
 				return bytes_primitive_1_evaluate (BytesPrimitive1::BytesClone, &inputs[0]);
 			} else {
@@ -338,11 +338,11 @@ pub fn bytes_primitive_n_alternative_0 (primitive : BytesPrimitiveN) -> (Option<
 			Some (BytesPrimitive0::BytesBuild),
 		BytesPrimitiveN::BytesAppend =>
 			Some (BytesPrimitive0::BytesAppend),
-		BytesPrimitiveN::BytesSliceFill =>
+		BytesPrimitiveN::BytesRangeFill =>
 			None,
-		BytesPrimitiveN::BytesSliceCopy =>
+		BytesPrimitiveN::BytesRangeCopy =>
 			None,
-		BytesPrimitiveN::BytesSliceClone =>
+		BytesPrimitiveN::BytesRangeClone =>
 			None,
 	}
 }
@@ -356,11 +356,11 @@ pub fn bytes_primitive_n_alternative_1 (primitive : BytesPrimitiveN) -> (Option<
 			Some (BytesPrimitive1::BytesBuild),
 		BytesPrimitiveN::BytesAppend =>
 			Some (BytesPrimitive1::BytesAppend),
-		BytesPrimitiveN::BytesSliceFill =>
+		BytesPrimitiveN::BytesRangeFill =>
 			None,
-		BytesPrimitiveN::BytesSliceCopy =>
+		BytesPrimitiveN::BytesRangeCopy =>
 			None,
-		BytesPrimitiveN::BytesSliceClone =>
+		BytesPrimitiveN::BytesRangeClone =>
 			Some (BytesPrimitive1::BytesClone),
 	}
 }
@@ -374,12 +374,12 @@ pub fn bytes_primitive_n_alternative_2 (primitive : BytesPrimitiveN) -> (Option<
 			Some (BytesPrimitive2::BytesBuild),
 		BytesPrimitiveN::BytesAppend =>
 			Some (BytesPrimitive2::BytesAppend),
-		BytesPrimitiveN::BytesSliceFill =>
+		BytesPrimitiveN::BytesRangeFill =>
 			Some (BytesPrimitive2::BytesFill),
-		BytesPrimitiveN::BytesSliceCopy =>
+		BytesPrimitiveN::BytesRangeCopy =>
 			Some (BytesPrimitive2::BytesCopy),
-		BytesPrimitiveN::BytesSliceClone =>
-			Some (BytesPrimitive2::BytesSliceClone),
+		BytesPrimitiveN::BytesRangeClone =>
+			Some (BytesPrimitive2::BytesRangeClone),
 	}
 }
 
@@ -392,12 +392,12 @@ pub fn bytes_primitive_n_alternative_3 (primitive : BytesPrimitiveN) -> (Option<
 			Some (BytesPrimitive3::BytesBuild),
 		BytesPrimitiveN::BytesAppend =>
 			Some (BytesPrimitive3::BytesAppend),
-		BytesPrimitiveN::BytesSliceFill =>
-			Some (BytesPrimitive3::BytesSliceFill),
-		BytesPrimitiveN::BytesSliceCopy =>
-			Some (BytesPrimitive3::BytesSliceCopy),
-		BytesPrimitiveN::BytesSliceClone =>
-			Some (BytesPrimitive3::BytesSliceClone),
+		BytesPrimitiveN::BytesRangeFill =>
+			Some (BytesPrimitive3::BytesRangeFill),
+		BytesPrimitiveN::BytesRangeCopy =>
+			Some (BytesPrimitive3::BytesRangeCopy),
+		BytesPrimitiveN::BytesRangeClone =>
+			Some (BytesPrimitive3::BytesRangeClone),
 	}
 }
 
@@ -410,11 +410,11 @@ pub fn bytes_primitive_n_alternative_4 (primitive : BytesPrimitiveN) -> (Option<
 			Some (BytesPrimitive4::BytesBuild),
 		BytesPrimitiveN::BytesAppend =>
 			Some (BytesPrimitive4::BytesAppend),
-		BytesPrimitiveN::BytesSliceFill =>
-			Some (BytesPrimitive4::BytesSliceFill),
-		BytesPrimitiveN::BytesSliceCopy =>
-			Some (BytesPrimitive4::BytesSliceCopy),
-		BytesPrimitiveN::BytesSliceClone =>
+		BytesPrimitiveN::BytesRangeFill =>
+			Some (BytesPrimitive4::BytesRangeFill),
+		BytesPrimitiveN::BytesRangeCopy =>
+			Some (BytesPrimitive4::BytesRangeCopy),
+		BytesPrimitiveN::BytesRangeClone =>
 			None,
 	}
 }
@@ -428,11 +428,11 @@ pub fn bytes_primitive_n_alternative_5 (primitive : BytesPrimitiveN) -> (Option<
 			None,
 		BytesPrimitiveN::BytesAppend =>
 			None,
-		BytesPrimitiveN::BytesSliceFill =>
+		BytesPrimitiveN::BytesRangeFill =>
 			None,
-		BytesPrimitiveN::BytesSliceCopy =>
-			Some (BytesPrimitive5::BytesSliceCopy),
-		BytesPrimitiveN::BytesSliceClone =>
+		BytesPrimitiveN::BytesRangeCopy =>
+			Some (BytesPrimitive5::BytesRangeCopy),
+		BytesPrimitiveN::BytesRangeClone =>
 			None,
 	}
 }

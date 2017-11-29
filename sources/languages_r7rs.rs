@@ -289,15 +289,15 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			("base", "vectors", "vector", ArrayPrimitiveN::ArrayBuild.into ()),
 			("base", "vectors", "make-vector", ArrayPrimitiveN::ArrayMake.into ()),
-			("base", "vectors", "vector-copy", ArrayPrimitiveN::ArraySliceClone.into ()),
+			("base", "vectors", "vector-copy", ArrayPrimitiveN::ArrayRangeClone.into ()),
 			("base", "vectors", "vector-append", ArrayPrimitiveN::ArrayAppend.into ()),
 			("base", "vectors", "vector-length", ArrayPrimitive1::ArrayLength.into ()),
 			
 			("base", "vectors", "vector-ref", ArrayPrimitive2::ArrayAt.into ()),
 			
 			("base", "vectors", "vector-set!", ArrayPrimitive3::ArrayAtSet.into ()),
-			("base", "vectors", "vector-fill!", ArrayPrimitiveN::ArraySliceFill.into ()),
-			("base", "vectors", "vector-copy!", ArrayPrimitiveN::ArraySliceCopy.into ()),
+			("base", "vectors", "vector-fill!", ArrayPrimitiveN::ArrayRangeFill.into ()),
+			("base", "vectors", "vector-copy!", ArrayPrimitiveN::ArrayRangeCopy.into ()),
 			
 			
 			
@@ -308,14 +308,14 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			("base", "bytes", "bytevector", BytesPrimitiveN::BytesBuild.into ()),
 			("base", "bytes", "make-bytevector", BytesPrimitiveN::BytesMake.into ()),
-			("base", "bytes", "bytevector-copy", BytesPrimitiveN::BytesSliceClone.into ()),
+			("base", "bytes", "bytevector-copy", BytesPrimitiveN::BytesRangeClone.into ()),
 			("base", "bytes", "bytevector-append", BytesPrimitiveN::BytesAppend.into ()),
 			("base", "bytes", "bytevector-length", BytesPrimitive1::BytesLength.into ()),
 			
 			("base", "bytes", "bytevector-u8-ref", BytesPrimitive2::BytesAt.into ()),
 			
 			("base", "bytes", "bytevector-u8-set!", BytesPrimitive3::BytesAtSet.into ()),
-			("base", "bytes", "bytevector-copy!", BytesPrimitiveN::BytesSliceFill.into ()),
+			("base", "bytes", "bytevector-copy!", BytesPrimitiveN::BytesRangeFill.into ()),
 			
 			
 			
@@ -326,17 +326,17 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			("base", "strings", "string", StringPrimitiveN::StringBuild.into ()),
 			("base", "strings", "make-string", StringPrimitiveN::StringMake.into ()),
-			("base", "strings", "string-copy", StringPrimitiveN::StringSliceClone.into ()),
+			("base", "strings", "string-copy", StringPrimitiveN::StringRangeClone.into ()),
 			("base", "strings", "string-append", StringPrimitiveN::StringAppend.into ()),
 			("base", "strings", "string-length", StringPrimitive1::StringLength.into ()),
 			
 			("base", "strings", "string-ref", StringPrimitive2::StringAt.into ()),
 			
 			("base", "strings", "string-set!", StringPrimitive3::StringAtSet.into ()),
-			("base", "strings", "string-fill!", StringPrimitiveN::StringSliceFill.into ()),
-			("base", "strings", "string-copy!", StringPrimitiveN::StringSliceCopy.into ()),
+			("base", "strings", "string-fill!", StringPrimitiveN::StringRangeFill.into ()),
+			("base", "strings", "string-copy!", StringPrimitiveN::StringRangeCopy.into ()),
 			
-			("base", "strings", "substring", StringPrimitiveN::StringSliceClone.into ()),
+			("base", "strings", "substring", StringPrimitiveN::StringRangeClone.into ()),
 			
 			("base", "strings", "string=?", ProcedurePrimitive::Unimplemented.into ()),
 			("base", "strings", "string<?", ProcedurePrimitive::Unimplemented.into ()),
