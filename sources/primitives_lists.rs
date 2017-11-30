@@ -95,6 +95,13 @@ pub enum ListPrimitive2 {
 	ListCopy,
 	ListRangeClone,
 	
+	ListMemberByIdentity,
+	ListMemberByValue,
+	ListMemberByValueRecursive,
+	AssocMemberByIdentity,
+	AssocMemberByValue,
+	AssocMemberByValueRecursive,
+	
 }
 
 
@@ -110,6 +117,9 @@ pub enum ListPrimitive3 {
 	ListRangeFill,
 	ListRangeCopy,
 	ListRangeClone,
+	
+	ListMemberByComparator,
+	AssocMemberByComparator,
 	
 }
 
@@ -144,6 +154,9 @@ pub enum ListPrimitiveN {
 	ListRangeFill,
 	ListRangeCopy,
 	ListRangeClone,
+	
+	ListMember,
+	AssocMember,
 	
 }
 
@@ -255,6 +268,24 @@ pub fn list_primitive_2_evaluate (primitive : ListPrimitive2, input_1 : &Value, 
 		ListPrimitive2::ListRangeClone =>
 			return list_clone_range (input_1, Some (input_2), None),
 		
+		ListPrimitive2::ListMemberByIdentity =>
+			fail_unimplemented! (0xc4b64472),
+		
+		ListPrimitive2::ListMemberByValue =>
+			fail_unimplemented! (0x5fd65244),
+		
+		ListPrimitive2::ListMemberByValueRecursive =>
+			fail_unimplemented! (0xb851b3b3),
+		
+		ListPrimitive2::AssocMemberByIdentity =>
+			fail_unimplemented! (0x8032a7fa),
+		
+		ListPrimitive2::AssocMemberByValue =>
+			fail_unimplemented! (0xa7e22b96),
+		
+		ListPrimitive2::AssocMemberByValueRecursive =>
+			fail_unimplemented! (0x9924fdbb),
+		
 	}
 }
 
@@ -284,6 +315,12 @@ pub fn list_primitive_3_evaluate (primitive : ListPrimitive3, input_1 : &Value, 
 		
 		ListPrimitive3::ListRangeClone =>
 			return list_clone_range (input_1, Some (input_2), Some (input_3)),
+		
+		ListPrimitive3::ListMemberByComparator =>
+			fail_unimplemented! (0xeadea2b4),
+		
+		ListPrimitive3::AssocMemberByComparator =>
+			fail_unimplemented! (0x77e97e56),
 		
 	}
 }
@@ -410,6 +447,26 @@ pub fn list_primitive_n_evaluate (primitive : ListPrimitiveN, inputs : &[Value])
 					fail! (0xf28cef92),
 			},
 		
+		ListPrimitiveN::ListMember =>
+			match inputs_count {
+				2 =>
+					return list_primitive_2_evaluate (ListPrimitive2::ListMemberByValueRecursive, &inputs[0], &inputs[1]),
+				3 =>
+					return list_primitive_3_evaluate (ListPrimitive3::ListMemberByComparator, &inputs[0], &inputs[1], &inputs[2]),
+				_ =>
+					fail! (0x0bac53c1),
+			},
+		
+		ListPrimitiveN::AssocMember =>
+			match inputs_count {
+				2 =>
+					return list_primitive_2_evaluate (ListPrimitive2::AssocMemberByValueRecursive, &inputs[0], &inputs[1]),
+				3 =>
+					return list_primitive_3_evaluate (ListPrimitive3::AssocMemberByComparator, &inputs[0], &inputs[1], &inputs[2]),
+				_ =>
+					fail! (0x69aaa417),
+			},
+		
 	}
 }
 
@@ -430,6 +487,10 @@ pub fn list_primitive_n_alternative_0 (primitive : ListPrimitiveN) -> (Option<Li
 			None,
 		ListPrimitiveN::ListRangeClone =>
 			None,
+		ListPrimitiveN::ListMember =>
+			None,
+		ListPrimitiveN::AssocMember =>
+			None,
 	}
 }
 
@@ -448,6 +509,10 @@ pub fn list_primitive_n_alternative_1 (primitive : ListPrimitiveN) -> (Option<Li
 			None,
 		ListPrimitiveN::ListRangeClone =>
 			Some (ListPrimitive1::ListClone),
+		ListPrimitiveN::ListMember =>
+			None,
+		ListPrimitiveN::AssocMember =>
+			None,
 	}
 }
 
@@ -466,6 +531,10 @@ pub fn list_primitive_n_alternative_2 (primitive : ListPrimitiveN) -> (Option<Li
 			Some (ListPrimitive2::ListCopy),
 		ListPrimitiveN::ListRangeClone =>
 			Some (ListPrimitive2::ListRangeClone),
+		ListPrimitiveN::ListMember =>
+			Some (ListPrimitive2::ListMemberByValueRecursive),
+		ListPrimitiveN::AssocMember =>
+			Some (ListPrimitive2::AssocMemberByValueRecursive),
 	}
 }
 
@@ -484,6 +553,10 @@ pub fn list_primitive_n_alternative_3 (primitive : ListPrimitiveN) -> (Option<Li
 			Some (ListPrimitive3::ListRangeCopy),
 		ListPrimitiveN::ListRangeClone =>
 			Some (ListPrimitive3::ListRangeClone),
+		ListPrimitiveN::ListMember =>
+			Some (ListPrimitive3::ListMemberByComparator),
+		ListPrimitiveN::AssocMember =>
+			Some (ListPrimitive3::AssocMemberByComparator),
 	}
 }
 
@@ -502,6 +575,10 @@ pub fn list_primitive_n_alternative_4 (primitive : ListPrimitiveN) -> (Option<Li
 			Some (ListPrimitive4::ListRangeCopy),
 		ListPrimitiveN::ListRangeClone =>
 			None,
+		ListPrimitiveN::ListMember =>
+			None,
+		ListPrimitiveN::AssocMember =>
+			None,
 	}
 }
 
@@ -519,6 +596,10 @@ pub fn list_primitive_n_alternative_5 (primitive : ListPrimitiveN) -> (Option<Li
 		ListPrimitiveN::ListRangeCopy =>
 			Some (ListPrimitive5::ListRangeCopy),
 		ListPrimitiveN::ListRangeClone =>
+			None,
+		ListPrimitiveN::ListMember =>
+			None,
+		ListPrimitiveN::AssocMember =>
 			None,
 	}
 }

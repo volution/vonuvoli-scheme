@@ -61,6 +61,11 @@ pub enum BytesPrimitive1 {
 	
 	BytesFill,
 	
+	BytesToList,
+	ListToBytes,
+	BytesToArray,
+	ArrayToBytes,
+	
 }
 
 
@@ -78,6 +83,11 @@ pub enum BytesPrimitive2 {
 	BytesCopy,
 	BytesRangeClone,
 	
+	BytesRangeToList,
+	ListRangeToBytes,
+	BytesRangeToArray,
+	ArrayRangeToBytes,
+	
 }
 
 
@@ -92,6 +102,11 @@ pub enum BytesPrimitive3 {
 	BytesRangeFill,
 	BytesRangeCopy,
 	BytesRangeClone,
+	
+	BytesRangeToList,
+	ListRangeToBytes,
+	BytesRangeToArray,
+	ArrayRangeToBytes,
 	
 }
 
@@ -126,6 +141,11 @@ pub enum BytesPrimitiveN {
 	BytesRangeFill,
 	BytesRangeCopy,
 	BytesRangeClone,
+	
+	BytesRangeToList,
+	ListRangeToBytes,
+	BytesRangeToArray,
+	ArrayRangeToBytes,
 	
 }
 
@@ -174,6 +194,18 @@ pub fn bytes_primitive_1_evaluate (primitive : BytesPrimitive1, input_1 : &Value
 		BytesPrimitive1::BytesFill =>
 			return bytes_fill_range (input_1, None, None, None),
 		
+		BytesPrimitive1::BytesToList =>
+			fail_unimplemented! (0x80c25ce5),
+		
+		BytesPrimitive1::ListToBytes =>
+			fail_unimplemented! (0xa6a0bffe),
+		
+		BytesPrimitive1::BytesToArray =>
+			fail_unimplemented! (0x5f03ef78),
+		
+		BytesPrimitive1::ArrayToBytes =>
+			fail_unimplemented! (0xa554ede3),
+		
 	}
 }
 
@@ -204,6 +236,18 @@ pub fn bytes_primitive_2_evaluate (primitive : BytesPrimitive2, input_1 : &Value
 		BytesPrimitive2::BytesRangeClone =>
 			return bytes_clone_range (input_1, Some (input_2), None),
 		
+		BytesPrimitive2::BytesRangeToList =>
+			fail_unimplemented! (0x9dd4c575),
+		
+		BytesPrimitive2::ListRangeToBytes =>
+			fail_unimplemented! (0xb698c5e8),
+		
+		BytesPrimitive2::BytesRangeToArray =>
+			fail_unimplemented! (0x30910c70),
+		
+		BytesPrimitive2::ArrayRangeToBytes =>
+			fail_unimplemented! (0xac2e5c1c),
+		
 	}
 }
 
@@ -230,6 +274,18 @@ pub fn bytes_primitive_3_evaluate (primitive : BytesPrimitive3, input_1 : &Value
 		
 		BytesPrimitive3::BytesRangeClone =>
 			return bytes_clone_range (input_1, Some (input_2), Some (input_3)),
+		
+		BytesPrimitive3::BytesRangeToList =>
+			fail_unimplemented! (0xd155ed3b),
+		
+		BytesPrimitive3::ListRangeToBytes =>
+			fail_unimplemented! (0x7b99c44f),
+		
+		BytesPrimitive3::BytesRangeToArray =>
+			fail_unimplemented! (0x9c84f53a),
+		
+		BytesPrimitive3::ArrayRangeToBytes =>
+			fail_unimplemented! (0x4bcf5b5c),
 		
 	}
 }
@@ -356,6 +412,54 @@ pub fn bytes_primitive_n_evaluate (primitive : BytesPrimitiveN, inputs : &[Value
 					fail! (0xf54b2943),
 			},
 		
+		BytesPrimitiveN::BytesRangeToList =>
+			match inputs_count {
+				1 =>
+					return bytes_primitive_1_evaluate (BytesPrimitive1::BytesToList, &inputs[0]),
+				2 =>
+					return bytes_primitive_2_evaluate (BytesPrimitive2::BytesRangeToList, &inputs[0], &inputs[1]),
+				3 =>
+					return bytes_primitive_3_evaluate (BytesPrimitive3::BytesRangeToList, &inputs[0], &inputs[1], &inputs[2]),
+				_ =>
+					fail! (0xc1b7658d),
+			},
+		
+		BytesPrimitiveN::ListRangeToBytes =>
+			match inputs_count {
+				1 =>
+					return bytes_primitive_1_evaluate (BytesPrimitive1::ListToBytes, &inputs[0]),
+				2 =>
+					return bytes_primitive_2_evaluate (BytesPrimitive2::ListRangeToBytes, &inputs[0], &inputs[1]),
+				3 =>
+					return bytes_primitive_3_evaluate (BytesPrimitive3::ListRangeToBytes, &inputs[0], &inputs[1], &inputs[2]),
+				_ =>
+					fail! (0x6de74659),
+			},
+		
+		BytesPrimitiveN::BytesRangeToArray =>
+			match inputs_count {
+				1 =>
+					return bytes_primitive_1_evaluate (BytesPrimitive1::BytesToArray, &inputs[0]),
+				2 =>
+					return bytes_primitive_2_evaluate (BytesPrimitive2::BytesRangeToArray, &inputs[0], &inputs[1]),
+				3 =>
+					return bytes_primitive_3_evaluate (BytesPrimitive3::BytesRangeToArray, &inputs[0], &inputs[1], &inputs[2]),
+				_ =>
+					fail! (0xb3fee627),
+			},
+		
+		BytesPrimitiveN::ArrayRangeToBytes =>
+			match inputs_count {
+				1 =>
+					return bytes_primitive_1_evaluate (BytesPrimitive1::ArrayToBytes, &inputs[0]),
+				2 =>
+					return bytes_primitive_2_evaluate (BytesPrimitive2::ArrayRangeToBytes, &inputs[0], &inputs[1]),
+				3 =>
+					return bytes_primitive_3_evaluate (BytesPrimitive3::ArrayRangeToBytes, &inputs[0], &inputs[1], &inputs[2]),
+				_ =>
+					fail! (0xf8126771),
+			},
+		
 	}
 }
 
@@ -376,6 +480,14 @@ pub fn bytes_primitive_n_alternative_0 (primitive : BytesPrimitiveN) -> (Option<
 			None,
 		BytesPrimitiveN::BytesRangeClone =>
 			None,
+		BytesPrimitiveN::BytesRangeToList =>
+			None,
+		BytesPrimitiveN::ListRangeToBytes =>
+			None,
+		BytesPrimitiveN::BytesRangeToArray =>
+			None,
+		BytesPrimitiveN::ArrayRangeToBytes =>
+			None,
 	}
 }
 
@@ -394,6 +506,14 @@ pub fn bytes_primitive_n_alternative_1 (primitive : BytesPrimitiveN) -> (Option<
 			None,
 		BytesPrimitiveN::BytesRangeClone =>
 			Some (BytesPrimitive1::BytesClone),
+		BytesPrimitiveN::BytesRangeToList =>
+			Some (BytesPrimitive1::BytesToList),
+		BytesPrimitiveN::ListRangeToBytes =>
+			Some (BytesPrimitive1::ListToBytes),
+		BytesPrimitiveN::BytesRangeToArray =>
+			Some (BytesPrimitive1::BytesToArray),
+		BytesPrimitiveN::ArrayRangeToBytes =>
+			Some (BytesPrimitive1::ArrayToBytes),
 	}
 }
 
@@ -412,6 +532,14 @@ pub fn bytes_primitive_n_alternative_2 (primitive : BytesPrimitiveN) -> (Option<
 			Some (BytesPrimitive2::BytesCopy),
 		BytesPrimitiveN::BytesRangeClone =>
 			Some (BytesPrimitive2::BytesRangeClone),
+		BytesPrimitiveN::BytesRangeToList =>
+			Some (BytesPrimitive2::BytesRangeToList),
+		BytesPrimitiveN::ListRangeToBytes =>
+			Some (BytesPrimitive2::ListRangeToBytes),
+		BytesPrimitiveN::BytesRangeToArray =>
+			Some (BytesPrimitive2::BytesRangeToArray),
+		BytesPrimitiveN::ArrayRangeToBytes =>
+			Some (BytesPrimitive2::ArrayRangeToBytes),
 	}
 }
 
@@ -430,6 +558,14 @@ pub fn bytes_primitive_n_alternative_3 (primitive : BytesPrimitiveN) -> (Option<
 			Some (BytesPrimitive3::BytesRangeCopy),
 		BytesPrimitiveN::BytesRangeClone =>
 			Some (BytesPrimitive3::BytesRangeClone),
+		BytesPrimitiveN::BytesRangeToList =>
+			Some (BytesPrimitive3::BytesRangeToList),
+		BytesPrimitiveN::ListRangeToBytes =>
+			Some (BytesPrimitive3::ListRangeToBytes),
+		BytesPrimitiveN::BytesRangeToArray =>
+			Some (BytesPrimitive3::BytesRangeToArray),
+		BytesPrimitiveN::ArrayRangeToBytes =>
+			Some (BytesPrimitive3::ArrayRangeToBytes),
 	}
 }
 
@@ -448,6 +584,14 @@ pub fn bytes_primitive_n_alternative_4 (primitive : BytesPrimitiveN) -> (Option<
 			Some (BytesPrimitive4::BytesRangeCopy),
 		BytesPrimitiveN::BytesRangeClone =>
 			None,
+		BytesPrimitiveN::BytesRangeToList =>
+			None,
+		BytesPrimitiveN::ListRangeToBytes =>
+			None,
+		BytesPrimitiveN::BytesRangeToArray =>
+			None,
+		BytesPrimitiveN::ArrayRangeToBytes =>
+			None,
 	}
 }
 
@@ -465,6 +609,14 @@ pub fn bytes_primitive_n_alternative_5 (primitive : BytesPrimitiveN) -> (Option<
 		BytesPrimitiveN::BytesRangeCopy =>
 			Some (BytesPrimitive5::BytesRangeCopy),
 		BytesPrimitiveN::BytesRangeClone =>
+			None,
+		BytesPrimitiveN::BytesRangeToList =>
+			None,
+		BytesPrimitiveN::ListRangeToBytes =>
+			None,
+		BytesPrimitiveN::BytesRangeToArray =>
+			None,
+		BytesPrimitiveN::ArrayRangeToBytes =>
 			None,
 	}
 }

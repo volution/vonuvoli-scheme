@@ -222,6 +222,14 @@ impl_from_for_primitive_procedure_2! (BitwisePrimitive4, ProcedurePrimitive4, Pr
 impl_from_for_primitive_procedure_2! (BitwisePrimitive5, ProcedurePrimitive5, Primitive5, Bitwise);
 impl_from_for_primitive_procedure_2! (BitwisePrimitiveN, ProcedurePrimitiveN, PrimitiveN, Bitwise);
 
+impl_from_for_primitive_procedure_2! (ComparisonPrimitive0, ProcedurePrimitive0, Primitive0, Comparison);
+impl_from_for_primitive_procedure_2! (ComparisonPrimitive1, ProcedurePrimitive1, Primitive1, Comparison);
+impl_from_for_primitive_procedure_2! (ComparisonPrimitive2, ProcedurePrimitive2, Primitive2, Comparison);
+impl_from_for_primitive_procedure_2! (ComparisonPrimitive3, ProcedurePrimitive3, Primitive3, Comparison);
+impl_from_for_primitive_procedure_2! (ComparisonPrimitive4, ProcedurePrimitive4, Primitive4, Comparison);
+impl_from_for_primitive_procedure_2! (ComparisonPrimitive5, ProcedurePrimitive5, Primitive5, Comparison);
+impl_from_for_primitive_procedure_2! (ComparisonPrimitiveN, ProcedurePrimitiveN, PrimitiveN, Comparison);
+
 impl_from_for_primitive_procedure_2! (ListPrimitive0, ProcedurePrimitive0, Primitive0, List);
 impl_from_for_primitive_procedure_2! (ListPrimitive1, ProcedurePrimitive1, Primitive1, List);
 impl_from_for_primitive_procedure_2! (ListPrimitive2, ProcedurePrimitive2, Primitive2, List);
@@ -261,6 +269,22 @@ impl_from_for_primitive_procedure_2! (FunctionsPrimitive3, ProcedurePrimitive3, 
 impl_from_for_primitive_procedure_2! (FunctionsPrimitive4, ProcedurePrimitive4, Primitive4, Functions);
 impl_from_for_primitive_procedure_2! (FunctionsPrimitive5, ProcedurePrimitive5, Primitive5, Functions);
 impl_from_for_primitive_procedure_2! (FunctionsPrimitiveN, ProcedurePrimitiveN, PrimitiveN, Functions);
+
+impl_from_for_primitive_procedure_2! (RuntimePrimitive0, ProcedurePrimitive0, Primitive0, Runtime);
+impl_from_for_primitive_procedure_2! (RuntimePrimitive1, ProcedurePrimitive1, Primitive1, Runtime);
+impl_from_for_primitive_procedure_2! (RuntimePrimitive2, ProcedurePrimitive2, Primitive2, Runtime);
+impl_from_for_primitive_procedure_2! (RuntimePrimitive3, ProcedurePrimitive3, Primitive3, Runtime);
+impl_from_for_primitive_procedure_2! (RuntimePrimitive4, ProcedurePrimitive4, Primitive4, Runtime);
+impl_from_for_primitive_procedure_2! (RuntimePrimitive5, ProcedurePrimitive5, Primitive5, Runtime);
+impl_from_for_primitive_procedure_2! (RuntimePrimitiveN, ProcedurePrimitiveN, PrimitiveN, Runtime);
+
+impl_from_for_primitive_procedure_2! (PortPrimitive0, ProcedurePrimitive0, Primitive0, Port);
+impl_from_for_primitive_procedure_2! (PortPrimitive1, ProcedurePrimitive1, Primitive1, Port);
+impl_from_for_primitive_procedure_2! (PortPrimitive2, ProcedurePrimitive2, Primitive2, Port);
+impl_from_for_primitive_procedure_2! (PortPrimitive3, ProcedurePrimitive3, Primitive3, Port);
+impl_from_for_primitive_procedure_2! (PortPrimitive4, ProcedurePrimitive4, Primitive4, Port);
+impl_from_for_primitive_procedure_2! (PortPrimitive5, ProcedurePrimitive5, Primitive5, Port);
+impl_from_for_primitive_procedure_2! (PortPrimitiveN, ProcedurePrimitiveN, PrimitiveN, Port);
 
 
 
@@ -464,6 +488,14 @@ impl_from_for_ProcedurePrimitiveCall4! (BitwisePrimitive4);
 impl_from_for_ProcedurePrimitiveCall5! (BitwisePrimitive5);
 impl_from_for_ProcedurePrimitiveCallN! (BitwisePrimitiveN);
 
+impl_from_for_ProcedurePrimitiveCall0! (ComparisonPrimitive0);
+impl_from_for_ProcedurePrimitiveCall1! (ComparisonPrimitive1);
+impl_from_for_ProcedurePrimitiveCall2! (ComparisonPrimitive2);
+impl_from_for_ProcedurePrimitiveCall3! (ComparisonPrimitive3);
+impl_from_for_ProcedurePrimitiveCall4! (ComparisonPrimitive4);
+impl_from_for_ProcedurePrimitiveCall5! (ComparisonPrimitive5);
+impl_from_for_ProcedurePrimitiveCallN! (ComparisonPrimitiveN);
+
 impl_from_for_ProcedurePrimitiveCall0! (ListPrimitive0);
 impl_from_for_ProcedurePrimitiveCall1! (ListPrimitive1);
 impl_from_for_ProcedurePrimitiveCall2! (ListPrimitive2);
@@ -503,6 +535,22 @@ impl_from_for_ProcedurePrimitiveCall3! (FunctionsPrimitive3);
 impl_from_for_ProcedurePrimitiveCall4! (FunctionsPrimitive4);
 impl_from_for_ProcedurePrimitiveCall5! (FunctionsPrimitive5);
 impl_from_for_ProcedurePrimitiveCallN! (FunctionsPrimitiveN);
+
+impl_from_for_ProcedurePrimitiveCall0! (RuntimePrimitive0);
+impl_from_for_ProcedurePrimitiveCall1! (RuntimePrimitive1);
+impl_from_for_ProcedurePrimitiveCall2! (RuntimePrimitive2);
+impl_from_for_ProcedurePrimitiveCall3! (RuntimePrimitive3);
+impl_from_for_ProcedurePrimitiveCall4! (RuntimePrimitive4);
+impl_from_for_ProcedurePrimitiveCall5! (RuntimePrimitive5);
+impl_from_for_ProcedurePrimitiveCallN! (RuntimePrimitiveN);
+
+impl_from_for_ProcedurePrimitiveCall0! (PortPrimitive0);
+impl_from_for_ProcedurePrimitiveCall1! (PortPrimitive1);
+impl_from_for_ProcedurePrimitiveCall2! (PortPrimitive2);
+impl_from_for_ProcedurePrimitiveCall3! (PortPrimitive3);
+impl_from_for_ProcedurePrimitiveCall4! (PortPrimitive4);
+impl_from_for_ProcedurePrimitiveCall5! (PortPrimitive5);
+impl_from_for_ProcedurePrimitiveCallN! (PortPrimitiveN);
 
 / * ----- */
 

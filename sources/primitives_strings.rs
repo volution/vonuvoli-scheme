@@ -61,6 +61,28 @@ pub enum StringPrimitive1 {
 	
 	StringFill,
 	
+	StringToList,
+	ListToString,
+	StringToArray,
+	ArrayToString,
+	StringToBytes,
+	BytesToString,
+	
+	StringToSymbol,
+	SymbolToString,
+	StringToNumber,
+	NumberToString,
+	CharacterToNumber,
+	NumberToCharacter,
+	
+	StringToUpperCase,
+	StringToLowerCase,
+	StringToFoldCase,
+	CharacterToUpperCase,
+	CharacterToLowerCase,
+	CharacterToFoldCase,
+	CharacterToDigitNumber,
+	
 }
 
 
@@ -78,6 +100,16 @@ pub enum StringPrimitive2 {
 	StringCopy,
 	StringRangeClone,
 	
+	StringRangeToList,
+	ListRangeToString,
+	StringRangeToArray,
+	ArrayRangeToString,
+	StringRangeToBytes,
+	BytesRangeToString,
+	
+	StringToNumber,
+	NumberToString,
+	
 }
 
 
@@ -92,6 +124,13 @@ pub enum StringPrimitive3 {
 	StringRangeFill,
 	StringRangeCopy,
 	StringRangeClone,
+	
+	StringRangeToList,
+	ListRangeToString,
+	StringRangeToArray,
+	ArrayRangeToString,
+	StringRangeToBytes,
+	BytesRangeToString,
 	
 }
 
@@ -126,6 +165,16 @@ pub enum StringPrimitiveN {
 	StringRangeFill,
 	StringRangeCopy,
 	StringRangeClone,
+	
+	StringRangeToList,
+	ListRangeToString,
+	StringRangeToArray,
+	ArrayRangeToString,
+	StringRangeToBytes,
+	BytesRangeToString,
+	
+	StringToNumber,
+	NumberToString,
 	
 }
 
@@ -174,6 +223,63 @@ pub fn string_primitive_1_evaluate (primitive : StringPrimitive1, input_1 : &Val
 		StringPrimitive1::StringFill =>
 			return string_fill_range (input_1, None, None, None),
 		
+		StringPrimitive1::StringToList =>
+			fail_unimplemented! (0x81afb139),
+		
+		StringPrimitive1::ListToString =>
+			fail_unimplemented! (0xe9dbc104),
+		
+		StringPrimitive1::StringToArray =>
+			fail_unimplemented! (0xe272c6c2),
+		
+		StringPrimitive1::ArrayToString =>
+			fail_unimplemented! (0x6e158df7),
+		
+		StringPrimitive1::StringToBytes =>
+			fail_unimplemented! (0x32253984),
+		
+		StringPrimitive1::BytesToString =>
+			fail_unimplemented! (0xc16320b0),
+		
+		StringPrimitive1::StringToSymbol =>
+			fail_unimplemented! (0xcaa83ec8),
+		
+		StringPrimitive1::SymbolToString =>
+			fail_unimplemented! (0x5f02c217),
+		
+		StringPrimitive1::StringToNumber =>
+			fail_unimplemented! (0xd9ad0333),
+		
+		StringPrimitive1::NumberToString =>
+			fail_unimplemented! (0xca839684),
+		
+		StringPrimitive1::CharacterToNumber =>
+			fail_unimplemented! (0xbe6f7fa0),
+		
+		StringPrimitive1::NumberToCharacter =>
+			fail_unimplemented! (0xa8324f70),
+		
+		StringPrimitive1::StringToUpperCase =>
+			fail_unimplemented! (0x96a2e291),
+		
+		StringPrimitive1::StringToLowerCase =>
+			fail_unimplemented! (0x64c7a464),
+		
+		StringPrimitive1::StringToFoldCase =>
+			fail_unimplemented! (0x9da0a037),
+		
+		StringPrimitive1::CharacterToUpperCase =>
+			fail_unimplemented! (0x3d8a8873),
+		
+		StringPrimitive1::CharacterToLowerCase =>
+			fail_unimplemented! (0xea366979),
+		
+		StringPrimitive1::CharacterToFoldCase =>
+			fail_unimplemented! (0x1765ad34),
+		
+		StringPrimitive1::CharacterToDigitNumber =>
+			fail_unimplemented! (0x1f8ec08b),
+		
 	}
 }
 
@@ -204,6 +310,30 @@ pub fn string_primitive_2_evaluate (primitive : StringPrimitive2, input_1 : &Val
 		StringPrimitive2::StringRangeClone =>
 			return string_clone_range (input_1, Some (input_2), None),
 		
+		StringPrimitive2::StringRangeToList =>
+			fail_unimplemented! (0xaf6a7b8e),
+		
+		StringPrimitive2::ListRangeToString =>
+			fail_unimplemented! (0xe7619db0),
+		
+		StringPrimitive2::StringRangeToArray =>
+			fail_unimplemented! (0x505f380c),
+		
+		StringPrimitive2::ArrayRangeToString =>
+			fail_unimplemented! (0xe5f21cc8),
+		
+		StringPrimitive2::StringRangeToBytes =>
+			fail_unimplemented! (0xb656e702),
+		
+		StringPrimitive2::BytesRangeToString =>
+			fail_unimplemented! (0xce06724a),
+		
+		StringPrimitive2::StringToNumber =>
+			fail_unimplemented! (0xf320d703),
+		
+		StringPrimitive2::NumberToString =>
+			fail_unimplemented! (0xbcc32614),
+		
 	}
 }
 
@@ -230,6 +360,24 @@ pub fn string_primitive_3_evaluate (primitive : StringPrimitive3, input_1 : &Val
 		
 		StringPrimitive3::StringRangeClone =>
 			return string_clone_range (input_1, Some (input_2), Some (input_3)),
+		
+		StringPrimitive3::StringRangeToList =>
+			fail_unimplemented! (0xac1f9aab),
+		
+		StringPrimitive3::ListRangeToString =>
+			fail_unimplemented! (0x79bcc4d9),
+		
+		StringPrimitive3::StringRangeToArray =>
+			fail_unimplemented! (0x1643ccbf),
+		
+		StringPrimitive3::ArrayRangeToString =>
+			fail_unimplemented! (0x17e980df),
+		
+		StringPrimitive3::StringRangeToBytes =>
+			fail_unimplemented! (0x583f39da),
+		
+		StringPrimitive3::BytesRangeToString =>
+			fail_unimplemented! (0xb455c3bd),
 		
 	}
 }
@@ -356,6 +504,99 @@ pub fn string_primitive_n_evaluate (primitive : StringPrimitiveN, inputs : &[Val
 					fail! (0x0d49ddab),
 			},
 		
+		StringPrimitiveN::StringRangeToList =>
+			match inputs_count {
+				1 =>
+					return string_primitive_1_evaluate (StringPrimitive1::StringToList, &inputs[0]),
+				2 =>
+					return string_primitive_2_evaluate (StringPrimitive2::StringRangeToList, &inputs[0], &inputs[1]),
+				3 =>
+					return string_primitive_3_evaluate (StringPrimitive3::StringRangeToList, &inputs[0], &inputs[1], &inputs[2]),
+				_ =>
+					fail! (0x273584ff),
+			},
+		
+		StringPrimitiveN::ListRangeToString =>
+			match inputs_count {
+				1 =>
+					return string_primitive_1_evaluate (StringPrimitive1::ListToString, &inputs[0]),
+				2 =>
+					return string_primitive_2_evaluate (StringPrimitive2::ListRangeToString, &inputs[0], &inputs[1]),
+				3 =>
+					return string_primitive_3_evaluate (StringPrimitive3::ListRangeToString, &inputs[0], &inputs[1], &inputs[2]),
+				_ =>
+					fail! (0xd0a9123a),
+			},
+		
+		StringPrimitiveN::StringRangeToArray =>
+			match inputs_count {
+				1 =>
+					return string_primitive_1_evaluate (StringPrimitive1::StringToArray, &inputs[0]),
+				2 =>
+					return string_primitive_2_evaluate (StringPrimitive2::StringRangeToArray, &inputs[0], &inputs[1]),
+				3 =>
+					return string_primitive_3_evaluate (StringPrimitive3::StringRangeToArray, &inputs[0], &inputs[1], &inputs[2]),
+				_ =>
+					fail! (0x091d3683),
+			},
+		
+		StringPrimitiveN::ArrayRangeToString =>
+			match inputs_count {
+				1 =>
+					return string_primitive_1_evaluate (StringPrimitive1::ArrayToString, &inputs[0]),
+				2 =>
+					return string_primitive_2_evaluate (StringPrimitive2::ArrayRangeToString, &inputs[0], &inputs[1]),
+				3 =>
+					return string_primitive_3_evaluate (StringPrimitive3::ArrayRangeToString, &inputs[0], &inputs[1], &inputs[2]),
+				_ =>
+					fail! (0x5d6d69b0),
+			},
+		
+		StringPrimitiveN::StringRangeToBytes =>
+			match inputs_count {
+				1 =>
+					return string_primitive_1_evaluate (StringPrimitive1::StringToBytes, &inputs[0]),
+				2 =>
+					return string_primitive_2_evaluate (StringPrimitive2::StringRangeToBytes, &inputs[0], &inputs[1]),
+				3 =>
+					return string_primitive_3_evaluate (StringPrimitive3::StringRangeToBytes, &inputs[0], &inputs[1], &inputs[2]),
+				_ =>
+					fail! (0xe7f5f988),
+			},
+		
+		StringPrimitiveN::BytesRangeToString =>
+			match inputs_count {
+				1 =>
+					return string_primitive_1_evaluate (StringPrimitive1::BytesToString, &inputs[0]),
+				2 =>
+					return string_primitive_2_evaluate (StringPrimitive2::BytesRangeToString, &inputs[0], &inputs[1]),
+				3 =>
+					return string_primitive_3_evaluate (StringPrimitive3::BytesRangeToString, &inputs[0], &inputs[1], &inputs[2]),
+				_ =>
+					fail! (0xa4900e52),
+			},
+		
+		StringPrimitiveN::StringToNumber =>
+			match inputs_count {
+				1 =>
+					return string_primitive_1_evaluate (StringPrimitive1::StringToNumber, &inputs[0]),
+				2 =>
+					return string_primitive_2_evaluate (StringPrimitive2::StringToNumber, &inputs[0], &inputs[1]),
+				_ =>
+					fail! (0x3fefec61),
+			},
+		
+		StringPrimitiveN::NumberToString =>
+			match inputs_count {
+				1 =>
+					return string_primitive_1_evaluate (StringPrimitive1::NumberToString, &inputs[0]),
+				2 =>
+					return string_primitive_2_evaluate (StringPrimitive2::NumberToString, &inputs[0], &inputs[1]),
+				_ =>
+					fail! (0x8c1917bf),
+			},
+			
+		
 	}
 }
 
@@ -376,6 +617,22 @@ pub fn string_primitive_n_alternative_0 (primitive : StringPrimitiveN) -> (Optio
 			None,
 		StringPrimitiveN::StringRangeClone =>
 			None,
+		StringPrimitiveN::StringRangeToList =>
+			None,
+		StringPrimitiveN::ListRangeToString =>
+			None,
+		StringPrimitiveN::StringRangeToArray =>
+			None,
+		StringPrimitiveN::ArrayRangeToString =>
+			None,
+		StringPrimitiveN::StringRangeToBytes =>
+			None,
+		StringPrimitiveN::BytesRangeToString =>
+			None,
+		StringPrimitiveN::StringToNumber =>
+			None,
+		StringPrimitiveN::NumberToString =>
+			None,
 	}
 }
 
@@ -394,6 +651,22 @@ pub fn string_primitive_n_alternative_1 (primitive : StringPrimitiveN) -> (Optio
 			None,
 		StringPrimitiveN::StringRangeClone =>
 			Some (StringPrimitive1::StringClone),
+		StringPrimitiveN::StringRangeToList =>
+			Some (StringPrimitive1::StringToList),
+		StringPrimitiveN::ListRangeToString =>
+			Some (StringPrimitive1::ListToString),
+		StringPrimitiveN::StringRangeToArray =>
+			Some (StringPrimitive1::StringToArray),
+		StringPrimitiveN::ArrayRangeToString =>
+			Some (StringPrimitive1::ArrayToString),
+		StringPrimitiveN::StringRangeToBytes =>
+			Some (StringPrimitive1::StringToBytes),
+		StringPrimitiveN::BytesRangeToString =>
+			Some (StringPrimitive1::BytesToString),
+		StringPrimitiveN::StringToNumber =>
+			Some (StringPrimitive1::StringToNumber),
+		StringPrimitiveN::NumberToString =>
+			Some (StringPrimitive1::NumberToString),
 	}
 }
 
@@ -412,6 +685,22 @@ pub fn string_primitive_n_alternative_2 (primitive : StringPrimitiveN) -> (Optio
 			Some (StringPrimitive2::StringCopy),
 		StringPrimitiveN::StringRangeClone =>
 			Some (StringPrimitive2::StringRangeClone),
+		StringPrimitiveN::StringRangeToList =>
+			Some (StringPrimitive2::StringRangeToList),
+		StringPrimitiveN::ListRangeToString =>
+			Some (StringPrimitive2::ListRangeToString),
+		StringPrimitiveN::StringRangeToArray =>
+			Some (StringPrimitive2::StringRangeToArray),
+		StringPrimitiveN::ArrayRangeToString =>
+			Some (StringPrimitive2::ArrayRangeToString),
+		StringPrimitiveN::StringRangeToBytes =>
+			Some (StringPrimitive2::StringRangeToBytes),
+		StringPrimitiveN::BytesRangeToString =>
+			Some (StringPrimitive2::BytesRangeToString),
+		StringPrimitiveN::StringToNumber =>
+			Some (StringPrimitive2::StringToNumber),
+		StringPrimitiveN::NumberToString =>
+			Some (StringPrimitive2::NumberToString),
 	}
 }
 
@@ -430,6 +719,22 @@ pub fn string_primitive_n_alternative_3 (primitive : StringPrimitiveN) -> (Optio
 			Some (StringPrimitive3::StringRangeCopy),
 		StringPrimitiveN::StringRangeClone =>
 			Some (StringPrimitive3::StringRangeClone),
+		StringPrimitiveN::StringRangeToList =>
+			Some (StringPrimitive3::StringRangeToList),
+		StringPrimitiveN::ListRangeToString =>
+			Some (StringPrimitive3::ListRangeToString),
+		StringPrimitiveN::StringRangeToArray =>
+			Some (StringPrimitive3::StringRangeToArray),
+		StringPrimitiveN::ArrayRangeToString =>
+			Some (StringPrimitive3::ArrayRangeToString),
+		StringPrimitiveN::StringRangeToBytes =>
+			Some (StringPrimitive3::StringRangeToBytes),
+		StringPrimitiveN::BytesRangeToString =>
+			Some (StringPrimitive3::BytesRangeToString),
+		StringPrimitiveN::StringToNumber =>
+			None,
+		StringPrimitiveN::NumberToString =>
+			None,
 	}
 }
 
@@ -448,6 +753,22 @@ pub fn string_primitive_n_alternative_4 (primitive : StringPrimitiveN) -> (Optio
 			Some (StringPrimitive4::StringRangeCopy),
 		StringPrimitiveN::StringRangeClone =>
 			None,
+		StringPrimitiveN::StringRangeToList =>
+			None,
+		StringPrimitiveN::ListRangeToString =>
+			None,
+		StringPrimitiveN::StringRangeToArray =>
+			None,
+		StringPrimitiveN::ArrayRangeToString =>
+			None,
+		StringPrimitiveN::StringRangeToBytes =>
+			None,
+		StringPrimitiveN::BytesRangeToString =>
+			None,
+		StringPrimitiveN::StringToNumber =>
+			None,
+		StringPrimitiveN::NumberToString =>
+			None,
 	}
 }
 
@@ -465,6 +786,22 @@ pub fn string_primitive_n_alternative_5 (primitive : StringPrimitiveN) -> (Optio
 		StringPrimitiveN::StringRangeCopy =>
 			Some (StringPrimitive5::StringRangeCopy),
 		StringPrimitiveN::StringRangeClone =>
+			None,
+		StringPrimitiveN::StringRangeToList =>
+			None,
+		StringPrimitiveN::ListRangeToString =>
+			None,
+		StringPrimitiveN::StringRangeToArray =>
+			None,
+		StringPrimitiveN::ArrayRangeToString =>
+			None,
+		StringPrimitiveN::StringRangeToBytes =>
+			None,
+		StringPrimitiveN::BytesRangeToString =>
+			None,
+		StringPrimitiveN::StringToNumber =>
+			None,
+		StringPrimitiveN::NumberToString =>
 			None,
 	}
 }

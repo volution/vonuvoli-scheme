@@ -27,6 +27,7 @@ fn test () -> () {
 	let print_values = print_all_forced || print_all_missing;
 	
 	let print_library_base = print_all_forced || print_all_missing;
+	let print_library_ports = print_all_forced || print_all_missing;
 	let print_library_miscellaneous = print_all_forced || print_all_missing;
 	
 	let print_implemented = print_all_forced || !print_all_missing;
@@ -66,10 +67,13 @@ fn test () -> () {
 	
 	for (library, category, identifier, value) in definitions.into_iter () {
 		
-		let library_is_base = library.string_eq ("base");
+		let library_is_ports = category.string_eq ("ports");
+		let library_is_base = library.string_eq ("base") && !library_is_ports;
+		let library_is_miscellaneous = !library_is_base && !library_is_ports;
 		if !(
 				(print_library_base && library_is_base) ||
-				(print_library_miscellaneous && !library_is_base)
+				(print_library_ports && library_is_ports) ||
+				(print_library_miscellaneous && library_is_miscellaneous)
 		) {
 			continue;
 		}

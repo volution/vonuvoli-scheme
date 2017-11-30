@@ -94,6 +94,9 @@ pub enum ArithmeticPrimitive1 {
 	Multiplication,
 	Division,
 	
+	GreatestCommonDivisor,
+	LeastCommonMultiple,
+	
 	Minimum,
 	Maximum,
 	
@@ -108,6 +111,17 @@ pub enum ArithmeticPrimitive2 {
 	Multiplication,
 	Division,
 	Remainder,
+	
+	DivisionFloor,
+	DivisionFloorQuotient,
+	DivisionFloorRemainder,
+	
+	DivisionTruncate,
+	DivisionTruncateQuotient,
+	DivisionTruncateRemainder,
+	
+	GreatestCommonDivisor,
+	LeastCommonMultiple,
 	
 	Minimum,
 	Maximum,
@@ -137,6 +151,9 @@ pub enum ArithmeticPrimitiveN {
 	Subtraction,
 	Multiplication,
 	Division,
+	
+	GreatestCommonDivisor,
+	LeastCommonMultiple,
 	
 	Minimum,
 	Maximum,
@@ -363,6 +380,12 @@ pub fn arithmetic_primitive_1_evaluate (primitive : ArithmeticPrimitive1, input_
 					(value_1, value_2), try! (NumberInteger::div (value_1, value_2)),
 					(value_1, value_2), NumberReal::div (value_1, value_2)),
 		
+		ArithmeticPrimitive1::GreatestCommonDivisor =>
+			try! (number_coerce_1 (input_1)) .into_value (),
+		
+		ArithmeticPrimitive1::LeastCommonMultiple =>
+			try! (number_coerce_1 (input_1)) .into_value (),
+		
 		ArithmeticPrimitive1::Minimum =>
 			try! (number_coerce_1 (input_1)) .into_value (),
 		
@@ -411,10 +434,34 @@ pub fn arithmetic_primitive_2_evaluate (primitive : ArithmeticPrimitive2, input_
 					(value_1, value_2), try! (NumberInteger::rem (value_1, value_2)),
 					(value_1, value_2), NumberReal::rem (value_1, value_2)),
 		
+		ArithmeticPrimitive2::DivisionFloor =>
+			fail_unimplemented! (0x738acdd6),
+		
+		ArithmeticPrimitive2::DivisionFloorQuotient =>
+			fail_unimplemented! (0x2f425d22),
+		
+		ArithmeticPrimitive2::DivisionFloorRemainder =>
+			fail_unimplemented! (0x8b709e6a),
+		
+		ArithmeticPrimitive2::DivisionTruncate =>
+			fail_unimplemented! (0xbbf7f471),
+			
+		ArithmeticPrimitive2::DivisionTruncateQuotient =>
+			fail_unimplemented! (0xd6bb8165),
+		
+		ArithmeticPrimitive2::DivisionTruncateRemainder =>
+			fail_unimplemented! (0xfba74cd9),
+		
 		ArithmeticPrimitive2::Power =>
 			arithmetic_primitive_2_delegate_call! ((input_1, input_2),
 					(value_1, value_2), NumberReal::power (&<NumberReal>::from (*value_1), &<NumberReal>::from (*value_2)),
 					(value_1, value_2), NumberReal::power (value_1, value_2)),
+		
+		ArithmeticPrimitive2::GreatestCommonDivisor =>
+			fail_unimplemented! (0x79f53d20),
+		
+		ArithmeticPrimitive2::LeastCommonMultiple =>
+			fail_unimplemented! (0x79f53d20),
 		
 		ArithmeticPrimitive2::Minimum =>
 			arithmetic_primitive_2_delegate_call! (min, (input_1, input_2)),
@@ -452,6 +499,19 @@ pub fn arithmetic_primitive_5_evaluate (primitive : ArithmeticPrimitive5, _input
 
 
 pub fn arithmetic_primitive_n_evaluate (primitive : ArithmeticPrimitiveN, inputs : &[Value]) -> (Outcome<Value>) {
+	
+	match primitive {
+		
+		ArithmeticPrimitiveN::GreatestCommonDivisor =>
+			fail_unimplemented! (0xeefd593c),
+		
+		ArithmeticPrimitiveN::LeastCommonMultiple =>
+			fail_unimplemented! (0x4bc0a9ad),
+		
+		_ =>
+			(),
+		
+	}
 	
 	let inputs_count = inputs.len ();
 	
@@ -520,6 +580,12 @@ pub fn arithmetic_primitive_n_evaluate (primitive : ArithmeticPrimitiveN, inputs
 						(value_1, value_2), try! (NumberInteger::div (value_1, value_2)),
 						(value_1, value_2), NumberReal::div (value_1, value_2)),
 			
+			ArithmeticPrimitiveN::GreatestCommonDivisor =>
+				fail_panic! (0x38fce646),
+			
+			ArithmeticPrimitiveN::LeastCommonMultiple =>
+				fail_panic! (0x5c07f7c2),
+			
 			ArithmeticPrimitiveN::Minimum =>
 				arithmetic_primitive_2_delegate_call! (min, (&output, input)),
 			
@@ -545,6 +611,10 @@ pub fn arithmetic_primitive_n_alternative_0 (primitive : ArithmeticPrimitiveN) -
 			Some (ArithmeticPrimitive0::Multiplication),
 		ArithmeticPrimitiveN::Division =>
 			None,
+		ArithmeticPrimitiveN::GreatestCommonDivisor =>
+			None,
+		ArithmeticPrimitiveN::LeastCommonMultiple =>
+			None,
 		ArithmeticPrimitiveN::Minimum =>
 			None,
 		ArithmeticPrimitiveN::Maximum =>
@@ -563,6 +633,10 @@ pub fn arithmetic_primitive_n_alternative_1 (primitive : ArithmeticPrimitiveN) -
 			Some (ArithmeticPrimitive1::Multiplication),
 		ArithmeticPrimitiveN::Division =>
 			Some (ArithmeticPrimitive1::Division),
+		ArithmeticPrimitiveN::GreatestCommonDivisor =>
+			Some (ArithmeticPrimitive1::GreatestCommonDivisor),
+		ArithmeticPrimitiveN::LeastCommonMultiple =>
+			Some (ArithmeticPrimitive1::LeastCommonMultiple),
 		ArithmeticPrimitiveN::Minimum =>
 			Some (ArithmeticPrimitive1::Minimum),
 		ArithmeticPrimitiveN::Maximum =>
@@ -581,6 +655,10 @@ pub fn arithmetic_primitive_n_alternative_2 (primitive : ArithmeticPrimitiveN) -
 			Some (ArithmeticPrimitive2::Multiplication),
 		ArithmeticPrimitiveN::Division =>
 			Some (ArithmeticPrimitive2::Division),
+		ArithmeticPrimitiveN::GreatestCommonDivisor =>
+			Some (ArithmeticPrimitive2::GreatestCommonDivisor),
+		ArithmeticPrimitiveN::LeastCommonMultiple =>
+			Some (ArithmeticPrimitive2::LeastCommonMultiple),
 		ArithmeticPrimitiveN::Minimum =>
 			Some (ArithmeticPrimitive2::Minimum),
 		ArithmeticPrimitiveN::Maximum =>
@@ -598,6 +676,10 @@ pub fn arithmetic_primitive_n_alternative_3 (primitive : ArithmeticPrimitiveN) -
 		ArithmeticPrimitiveN::Multiplication =>
 			None,
 		ArithmeticPrimitiveN::Division =>
+			None,
+		ArithmeticPrimitiveN::GreatestCommonDivisor =>
+			None,
+		ArithmeticPrimitiveN::LeastCommonMultiple =>
 			None,
 		ArithmeticPrimitiveN::Minimum =>
 			None,
@@ -617,6 +699,10 @@ pub fn arithmetic_primitive_n_alternative_4 (primitive : ArithmeticPrimitiveN) -
 			None,
 		ArithmeticPrimitiveN::Division =>
 			None,
+		ArithmeticPrimitiveN::GreatestCommonDivisor =>
+			None,
+		ArithmeticPrimitiveN::LeastCommonMultiple =>
+			None,
 		ArithmeticPrimitiveN::Minimum =>
 			None,
 		ArithmeticPrimitiveN::Maximum =>
@@ -634,6 +720,10 @@ pub fn arithmetic_primitive_n_alternative_5 (primitive : ArithmeticPrimitiveN) -
 		ArithmeticPrimitiveN::Multiplication =>
 			None,
 		ArithmeticPrimitiveN::Division =>
+			None,
+		ArithmeticPrimitiveN::GreatestCommonDivisor =>
+			None,
+		ArithmeticPrimitiveN::LeastCommonMultiple =>
 			None,
 		ArithmeticPrimitiveN::Minimum =>
 			None,

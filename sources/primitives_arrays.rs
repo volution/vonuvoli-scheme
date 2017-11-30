@@ -61,6 +61,9 @@ pub enum ArrayPrimitive1 {
 	
 	ArrayFill,
 	
+	ArrayToList,
+	ListToArray,
+	
 }
 
 
@@ -78,6 +81,9 @@ pub enum ArrayPrimitive2 {
 	ArrayCopy,
 	ArrayRangeClone,
 	
+	ArrayRangeToList,
+	ListRangeToArray,
+	
 }
 
 
@@ -92,6 +98,9 @@ pub enum ArrayPrimitive3 {
 	ArrayRangeFill,
 	ArrayRangeCopy,
 	ArrayRangeClone,
+	
+	ArrayRangeToList,
+	ListRangeToArray,
 	
 }
 
@@ -126,6 +135,9 @@ pub enum ArrayPrimitiveN {
 	ArrayRangeFill,
 	ArrayRangeCopy,
 	ArrayRangeClone,
+	
+	ArrayRangeToList,
+	ListRangeToArray,
 	
 }
 
@@ -174,6 +186,12 @@ pub fn array_primitive_1_evaluate (primitive : ArrayPrimitive1, input_1 : &Value
 		ArrayPrimitive1::ArrayFill =>
 			return array_fill_range (input_1, None, None, None),
 		
+		ArrayPrimitive1::ArrayToList =>
+			fail_unimplemented! (0xae63e3cf),
+		
+		ArrayPrimitive1::ListToArray =>
+			fail_unimplemented! (0x46a768e2),
+		
 	}
 }
 
@@ -204,6 +222,12 @@ pub fn array_primitive_2_evaluate (primitive : ArrayPrimitive2, input_1 : &Value
 		ArrayPrimitive2::ArrayRangeClone =>
 			return array_clone_range (input_1, Some (input_2), None),
 		
+		ArrayPrimitive2::ArrayRangeToList =>
+			fail_unimplemented! (0x365950a5),
+		
+		ArrayPrimitive2::ListRangeToArray =>
+			fail_unimplemented! (0x32ba03bc),
+		
 	}
 }
 
@@ -230,6 +254,12 @@ pub fn array_primitive_3_evaluate (primitive : ArrayPrimitive3, input_1 : &Value
 		
 		ArrayPrimitive3::ArrayRangeClone =>
 			return array_clone_range (input_1, Some (input_2), Some (input_3)),
+		
+		ArrayPrimitive3::ArrayRangeToList =>
+			fail_unimplemented! (0x75bf1eb3),
+		
+		ArrayPrimitive3::ListRangeToArray =>
+			fail_unimplemented! (0x58d38dc4),
 		
 	}
 }
@@ -356,6 +386,30 @@ pub fn array_primitive_n_evaluate (primitive : ArrayPrimitiveN, inputs : &[Value
 					fail! (0x4fbc2e34),
 			},
 		
+		ArrayPrimitiveN::ArrayRangeToList =>
+			match inputs_count {
+				1 =>
+					return array_primitive_1_evaluate (ArrayPrimitive1::ArrayToList, &inputs[0]),
+				2 =>
+					return array_primitive_2_evaluate (ArrayPrimitive2::ArrayRangeToList, &inputs[0], &inputs[1]),
+				3 =>
+					return array_primitive_3_evaluate (ArrayPrimitive3::ArrayRangeToList, &inputs[0], &inputs[1], &inputs[2]),
+				_ =>
+					fail! (0xf111e405),
+			},
+		
+		ArrayPrimitiveN::ListRangeToArray =>
+			match inputs_count {
+				1 =>
+					return array_primitive_1_evaluate (ArrayPrimitive1::ListToArray, &inputs[0]),
+				2 =>
+					return array_primitive_2_evaluate (ArrayPrimitive2::ListRangeToArray, &inputs[0], &inputs[1]),
+				3 =>
+					return array_primitive_3_evaluate (ArrayPrimitive3::ListRangeToArray, &inputs[0], &inputs[1], &inputs[2]),
+				_ =>
+					fail! (0xdc1719ad),
+			},
+		
 	}
 }
 
@@ -376,6 +430,10 @@ pub fn array_primitive_n_alternative_0 (primitive : ArrayPrimitiveN) -> (Option<
 			None,
 		ArrayPrimitiveN::ArrayRangeClone =>
 			None,
+		ArrayPrimitiveN::ArrayRangeToList =>
+			None,
+		ArrayPrimitiveN::ListRangeToArray =>
+			None,
 	}
 }
 
@@ -394,6 +452,10 @@ pub fn array_primitive_n_alternative_1 (primitive : ArrayPrimitiveN) -> (Option<
 			None,
 		ArrayPrimitiveN::ArrayRangeClone =>
 			Some (ArrayPrimitive1::ArrayClone),
+		ArrayPrimitiveN::ArrayRangeToList =>
+			Some (ArrayPrimitive1::ArrayToList),
+		ArrayPrimitiveN::ListRangeToArray =>
+			Some (ArrayPrimitive1::ListToArray),
 	}
 }
 
@@ -412,6 +474,10 @@ pub fn array_primitive_n_alternative_2 (primitive : ArrayPrimitiveN) -> (Option<
 			Some (ArrayPrimitive2::ArrayCopy),
 		ArrayPrimitiveN::ArrayRangeClone =>
 			Some (ArrayPrimitive2::ArrayRangeClone),
+		ArrayPrimitiveN::ArrayRangeToList =>
+			Some (ArrayPrimitive2::ArrayRangeToList),
+		ArrayPrimitiveN::ListRangeToArray =>
+			Some (ArrayPrimitive2::ListRangeToArray),
 	}
 }
 
@@ -430,6 +496,10 @@ pub fn array_primitive_n_alternative_3 (primitive : ArrayPrimitiveN) -> (Option<
 			Some (ArrayPrimitive3::ArrayRangeCopy),
 		ArrayPrimitiveN::ArrayRangeClone =>
 			Some (ArrayPrimitive3::ArrayRangeClone),
+		ArrayPrimitiveN::ArrayRangeToList =>
+			Some (ArrayPrimitive3::ArrayRangeToList),
+		ArrayPrimitiveN::ListRangeToArray =>
+			Some (ArrayPrimitive3::ListRangeToArray),
 	}
 }
 
@@ -448,6 +518,10 @@ pub fn array_primitive_n_alternative_4 (primitive : ArrayPrimitiveN) -> (Option<
 			Some (ArrayPrimitive4::ArrayRangeCopy),
 		ArrayPrimitiveN::ArrayRangeClone =>
 			None,
+		ArrayPrimitiveN::ArrayRangeToList =>
+			None,
+		ArrayPrimitiveN::ListRangeToArray =>
+			None,
 	}
 }
 
@@ -465,6 +539,10 @@ pub fn array_primitive_n_alternative_5 (primitive : ArrayPrimitiveN) -> (Option<
 		ArrayPrimitiveN::ArrayRangeCopy =>
 			Some (ArrayPrimitive5::ArrayRangeCopy),
 		ArrayPrimitiveN::ArrayRangeClone =>
+			None,
+		ArrayPrimitiveN::ArrayRangeToList =>
+			None,
+		ArrayPrimitiveN::ListRangeToArray =>
 			None,
 	}
 }
