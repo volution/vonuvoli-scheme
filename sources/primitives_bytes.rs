@@ -195,16 +195,16 @@ pub fn bytes_primitive_1_evaluate (primitive : BytesPrimitive1, input_1 : &Value
 			return bytes_fill_range (input_1, None, None, None),
 		
 		BytesPrimitive1::BytesToList =>
-			fail_unimplemented! (0x80c25ce5),
+			return bytes_range_to_list (input_1, None, None),
 		
 		BytesPrimitive1::ListToBytes =>
-			fail_unimplemented! (0xa6a0bffe),
+			return list_range_to_bytes (input_1, None, None),
 		
 		BytesPrimitive1::BytesToArray =>
-			fail_unimplemented! (0x5f03ef78),
+			return bytes_range_to_array (input_1, None, None),
 		
 		BytesPrimitive1::ArrayToBytes =>
-			fail_unimplemented! (0xa554ede3),
+			return array_range_to_bytes (input_1, None, None),
 		
 	}
 }
@@ -237,16 +237,16 @@ pub fn bytes_primitive_2_evaluate (primitive : BytesPrimitive2, input_1 : &Value
 			return bytes_clone_range (input_1, Some (input_2), None),
 		
 		BytesPrimitive2::BytesRangeToList =>
-			fail_unimplemented! (0x9dd4c575),
+			return bytes_range_to_list (input_1, Some (input_2), None),
 		
 		BytesPrimitive2::ListRangeToBytes =>
-			fail_unimplemented! (0xb698c5e8),
+			return list_range_to_bytes (input_1, Some (input_2), None),
 		
 		BytesPrimitive2::BytesRangeToArray =>
-			fail_unimplemented! (0x30910c70),
+			return bytes_range_to_array (input_1, Some (input_2), None),
 		
 		BytesPrimitive2::ArrayRangeToBytes =>
-			fail_unimplemented! (0xac2e5c1c),
+			return array_range_to_bytes (input_1, Some (input_2), None),
 		
 	}
 }
@@ -276,16 +276,16 @@ pub fn bytes_primitive_3_evaluate (primitive : BytesPrimitive3, input_1 : &Value
 			return bytes_clone_range (input_1, Some (input_2), Some (input_3)),
 		
 		BytesPrimitive3::BytesRangeToList =>
-			fail_unimplemented! (0xd155ed3b),
+			return bytes_range_to_list (input_1, Some (input_2), Some (input_3)),
 		
 		BytesPrimitive3::ListRangeToBytes =>
-			fail_unimplemented! (0x7b99c44f),
+			return list_range_to_bytes (input_1, Some (input_2), Some (input_3)),
 		
 		BytesPrimitive3::BytesRangeToArray =>
-			fail_unimplemented! (0x9c84f53a),
+			return bytes_range_to_array (input_1, Some (input_2), Some (input_3)),
 		
 		BytesPrimitive3::ArrayRangeToBytes =>
-			fail_unimplemented! (0x4bcf5b5c),
+			return array_range_to_bytes (input_1, Some (input_2), Some (input_3)),
 		
 	}
 }

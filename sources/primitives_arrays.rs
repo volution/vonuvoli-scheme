@@ -187,10 +187,10 @@ pub fn array_primitive_1_evaluate (primitive : ArrayPrimitive1, input_1 : &Value
 			return array_fill_range (input_1, None, None, None),
 		
 		ArrayPrimitive1::ArrayToList =>
-			fail_unimplemented! (0xae63e3cf),
+			return array_range_to_list (input_1, None, None),
 		
 		ArrayPrimitive1::ListToArray =>
-			fail_unimplemented! (0x46a768e2),
+			return list_range_to_array (input_1, None, None),
 		
 	}
 }
@@ -223,10 +223,10 @@ pub fn array_primitive_2_evaluate (primitive : ArrayPrimitive2, input_1 : &Value
 			return array_clone_range (input_1, Some (input_2), None),
 		
 		ArrayPrimitive2::ArrayRangeToList =>
-			fail_unimplemented! (0x365950a5),
+			return array_range_to_list (input_1, Some (input_2), None),
 		
 		ArrayPrimitive2::ListRangeToArray =>
-			fail_unimplemented! (0x32ba03bc),
+			return list_range_to_array (input_1, Some (input_2), None),
 		
 	}
 }
@@ -256,10 +256,10 @@ pub fn array_primitive_3_evaluate (primitive : ArrayPrimitive3, input_1 : &Value
 			return array_clone_range (input_1, Some (input_2), Some (input_3)),
 		
 		ArrayPrimitive3::ArrayRangeToList =>
-			fail_unimplemented! (0x75bf1eb3),
+			return array_range_to_list (input_1, Some (input_2), Some (input_3)),
 		
 		ArrayPrimitive3::ListRangeToArray =>
-			fail_unimplemented! (0x58d38dc4),
+			return list_range_to_array (input_1, Some (input_2), Some (input_3)),
 		
 	}
 }

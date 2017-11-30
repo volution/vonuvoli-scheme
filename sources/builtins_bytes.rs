@@ -22,6 +22,8 @@ pub mod exports {
 	pub use super::{bytes_append_2, bytes_append_3, bytes_append_4, bytes_append_n};
 	pub use super::{bytes_make, bytes_clone, bytes_reverse};
 	pub use super::{bytes_fill_range, bytes_reverse_range, bytes_copy_range, bytes_clone_range};
+	pub use super::{bytes_range_to_list, list_range_to_bytes};
+	pub use super::{bytes_range_to_array, array_range_to_bytes};
 	pub use super::{bytes_length};
 	
 	pub use super::{vec_bytes_append_2, vec_bytes_append_3, vec_bytes_append_4, vec_bytes_append_n};
@@ -233,6 +235,32 @@ pub fn bytes_clone_range (bytes : &Value, start : Option<&Value>, end : Option<&
 	let bytes = try_as_bytes_ref! (bytes);
 	let (start, end) = try! (range_coerce (start, end, bytes.values_length ()));
 	succeed! (bytes_clone_slice (& bytes.values_as_slice () [start..end]) .into ());
+}
+
+
+
+
+pub fn bytes_range_to_list (bytes : &Value, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+	let bytes = try_as_bytes_ref! (bytes);
+	let (_start, _end) = try! (range_coerce (start, end, bytes.values_length ()));
+	fail_unimplemented! (0x618f61e8);
+}
+
+pub fn list_range_to_bytes (_list : &Value, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+	let (_start, _end) = try! (range_coerce_unbounded (start, end));
+	fail_unimplemented! (0x5acf20ce);
+}
+
+pub fn bytes_range_to_array (bytes : &Value, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+	let bytes = try_as_bytes_ref! (bytes);
+	let (_start, _end) = try! (range_coerce (start, end, bytes.values_length ()));
+	fail_unimplemented! (0x35368fb3);
+}
+
+pub fn array_range_to_bytes (array : &Value, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+	let array = try_as_array_ref! (array);
+	let (_start, _end) = try! (range_coerce (start, end, array.values_length ()));
+	fail_unimplemented! (0xdf9af57d);
 }
 
 

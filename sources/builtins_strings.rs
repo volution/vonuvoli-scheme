@@ -22,12 +22,41 @@ pub mod exports {
 	pub use super::{string_append_2, string_append_3, string_append_4, string_append_n};
 	pub use super::{string_make, string_clone, string_reverse};
 	pub use super::{string_fill_range, string_reverse_range, string_copy_range, string_clone_range};
+	pub use super::{string_range_to_list, list_range_to_string};
+	pub use super::{string_range_to_array, array_range_to_string};
+	pub use super::{string_range_to_bytes, bytes_range_to_string};
 	pub use super::{string_length};
 	
 	pub use super::{vec_string_append_2, vec_string_append_3, vec_string_append_4, vec_string_append_n};
 	pub use super::{vec_string_clone, vec_string_drain};
 	
 	pub use super::{StringIterator, StringIterators};
+	
+	pub use super::{
+			string_to_upper_case, string_to_lower_case, string_to_fold_case,
+			character_to_upper_case, character_to_lower_case, character_to_fold_case,
+	};
+	
+	pub use super::{
+			string_to_symbol, symbol_to_string,
+			string_to_number, number_to_string,
+			character_to_number, number_to_character, character_to_digit_number,
+	};
+	
+	pub use super::{
+			character_is_numeric,
+			character_is_alphabetic, character_is_alphabetic_upper_case, character_is_alphabetic_lower_case,
+			character_is_alphabetic_or_numeric,
+			character_is_whitespace, character_is_control,
+	};
+	
+	pub use super::{
+			character_is_ascii,
+			character_is_ascii_numeric, character_is_ascii_numeric_base_8, character_is_ascii_numeric_base_16,
+			character_is_ascii_alphabetic, character_is_ascii_alphabetic_upper_case, character_is_ascii_alphabetic_lower_case,
+			character_is_ascii_alphabetic_or_numeric,
+			character_is_ascii_whitespace, character_is_ascii_control, character_is_ascii_punctuation, character_is_ascii_graphic,
+	};
 	
 }
 
@@ -234,6 +263,44 @@ pub fn string_clone_range (string : &Value, start : Option<&Value>, end : Option
 
 
 
+pub fn string_range_to_list (string : &Value, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+	let string = try_as_string_ref! (string);
+	let (_start, _end) = try! (range_coerce (start, end, string.string_chars_count_compute ()));
+	fail_unimplemented! (0x95c1574a);
+}
+
+pub fn list_range_to_string (_list : &Value, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+	let (_start, _end) = try! (range_coerce_unbounded (start, end));
+	fail_unimplemented! (0xa96c4d82);
+}
+
+pub fn string_range_to_array (string : &Value, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+	let string = try_as_string_ref! (string);
+	let (_start, _end) = try! (range_coerce (start, end, string.string_chars_count_compute ()));
+	fail_unimplemented! (0x84a38ef4);
+}
+
+pub fn array_range_to_string (array : &Value, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+	let array = try_as_array_ref! (array);
+	let (_start, _end) = try! (range_coerce (start, end, array.values_length ()));
+	fail_unimplemented! (0x20352b9b);
+}
+
+pub fn string_range_to_bytes (string : &Value, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+	let string = try_as_string_ref! (string);
+	let (_start, _end) = try! (range_coerce (start, end, string.string_chars_count_compute ()));
+	fail_unimplemented! (0xbfa8814d);
+}
+
+pub fn bytes_range_to_string (bytes : &Value, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+	let bytes = try_as_bytes_ref! (bytes);
+	let (_start, _end) = try! (range_coerce (start, end, bytes.values_length ()));
+	fail_unimplemented! (0xea7e108d);
+}
+
+
+
+
 pub fn string_length (string : &Value) -> (Outcome<usize>) {
 	let string = try_as_string_ref! (string);
 	succeed! (string.string_chars_count_compute ());
@@ -376,4 +443,130 @@ impl <'a> Iterator for StringIterators <'a> {
 	}
 }
 
+
+
+
+pub fn string_to_upper_case (string : &Value) -> (Outcome<Value>) {
+	let _string = try_as_string_ref! (string);
+	fail_unimplemented! (0x51ccda28);
+}
+
+pub fn string_to_lower_case (string : &Value) -> (Outcome<Value>) {
+	let _string = try_as_string_ref! (string);
+	fail_unimplemented! (0x5b3b6996);
+}
+
+pub fn string_to_fold_case (string : &Value) -> (Outcome<Value>) {
+	let _string = try_as_string_ref! (string);
+	fail_unimplemented! (0x36a59db6);
+}
+
+
+pub fn character_to_upper_case (character : &Value) -> (Outcome<Value>) {
+	let _character = try_as_character_ref! (character);
+	fail_unimplemented! (0x6968e39d);
+}
+
+pub fn character_to_lower_case (character : &Value) -> (Outcome<Value>) {
+	let _character = try_as_character_ref! (character);
+	fail_unimplemented! (0xca91f18c);
+}
+
+pub fn character_to_fold_case (character : &Value) -> (Outcome<Value>) {
+	let _character = try_as_character_ref! (character);
+	fail_unimplemented! (0xd2078d69);
+}
+
+
+
+
+pub fn string_to_symbol (string : &Value) -> (Outcome<Value>) {
+	let _string = try_as_string_ref! (string);
+	fail_unimplemented! (0xb78d6401);
+}
+
+pub fn symbol_to_string (symbol : &Value) -> (Outcome<Value>) {
+	let _symbol = try_as_symbol_ref! (symbol);
+	fail_unimplemented! (0xb5a87eac);
+}
+
+
+pub fn string_to_number (string : &Value, _radix : Option<&Value>) -> (Outcome<Value>) {
+	let _string = try_as_string_ref! (string);
+	fail_unimplemented! (0xa3355083);
+}
+
+pub fn number_to_string (_number : &Value, _radix : Option<&Value>) -> (Outcome<Value>) {
+	fail_unimplemented! (0x7c0a159b);
+}
+
+
+pub fn character_to_number (character : &Value) -> (Outcome<Value>) {
+	let _character = try_as_character_ref! (character);
+	fail_unimplemented! (0xf5bad034);
+}
+
+pub fn number_to_character (_number : &Value) -> (Outcome<Value>) {
+	fail_unimplemented! (0x6b74be04);
+}
+
+
+
+
+pub fn character_to_digit_number (character : &Value) -> (Outcome<Value>) {
+	let _character = try_as_character_ref! (character);
+	fail_unimplemented! (0xcfc998d4);
+}
+
+
+
+
+macro_rules! def_fn_character_predicate_delegate {
+	( $predicate : ident, $delegate : ident ) => (
+		pub fn $predicate (character : &Value) -> (Outcome<bool>) {
+			let character = try_as_character_ref! (character) .value ();
+			succeed! (character.$delegate () .into ());
+		}
+	);
+}
+
+
+def_fn_character_predicate_delegate! (character_is_numeric, is_numeric);
+def_fn_character_predicate_delegate! (character_is_alphabetic, is_alphabetic);
+def_fn_character_predicate_delegate! (character_is_alphabetic_upper_case, is_uppercase);
+def_fn_character_predicate_delegate! (character_is_alphabetic_lower_case, is_lowercase);
+def_fn_character_predicate_delegate! (character_is_alphabetic_or_numeric, is_alphanumeric);
+def_fn_character_predicate_delegate! (character_is_whitespace, is_whitespace);
+def_fn_character_predicate_delegate! (character_is_control, is_control);
+
+def_fn_character_predicate_delegate! (character_is_ascii, is_ascii);
+def_fn_character_predicate_delegate! (character_is_ascii_numeric, is_ascii_digit);
+def_fn_character_predicate_delegate! (character_is_ascii_alphabetic, is_ascii_alphabetic);
+def_fn_character_predicate_delegate! (character_is_ascii_alphabetic_upper_case, is_ascii_uppercase);
+def_fn_character_predicate_delegate! (character_is_ascii_alphabetic_lower_case, is_ascii_lowercase);
+def_fn_character_predicate_delegate! (character_is_ascii_alphabetic_or_numeric, is_ascii_alphanumeric);
+def_fn_character_predicate_delegate! (character_is_ascii_whitespace, is_ascii_whitespace);
+def_fn_character_predicate_delegate! (character_is_ascii_control, is_ascii_control);
+def_fn_character_predicate_delegate! (character_is_ascii_punctuation, is_ascii_punctuation);
+def_fn_character_predicate_delegate! (character_is_ascii_graphic, is_ascii_graphic);
+
+pub fn character_is_ascii_numeric_base_8 (character : &Value) -> (Outcome<bool>) {
+	let character = try_as_character_ref! (character) .value ();
+	match character {
+		'0' ... '7' =>
+			succeed! (true),
+		_ =>
+			succeed! (false),
+	}
+}
+
+pub fn character_is_ascii_numeric_base_16 (character : &Value) -> (Outcome<bool>) {
+	let character = try_as_character_ref! (character) .value ();
+	match character {
+		'0' ... '9' | 'a' ... 'f' | 'A' ... 'F' =>
+			succeed! (true),
+		_ =>
+			succeed! (false),
+	}
+}
 

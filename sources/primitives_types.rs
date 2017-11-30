@@ -195,61 +195,61 @@ pub fn type_primitive_1_evaluate (primitive : TypePrimitive1, input_1 : &Value) 
 			is_false_or_equivalent (input_1),
 		
 		TypePrimitive1::IsCharacterNumeric =>
-			fail_unimplemented! (0x369a2267),
+			try! (character_is_numeric (input_1)),
 		
 		TypePrimitive1::IsCharacterAlphabetic =>
-			fail_unimplemented! (0xa74af316),
+			try! (character_is_alphabetic (input_1)),
 		
 		TypePrimitive1::IsCharacterAlphabeticUpperCase =>
-			fail_unimplemented! (0x2e44dce2),
+			try! (character_is_alphabetic_upper_case (input_1)),
 		
 		TypePrimitive1::IsCharacterAlphabeticLowerCase =>
-			fail_unimplemented! (0x18a55f25),
+			try! (character_is_alphabetic_lower_case (input_1)),
 		
 		TypePrimitive1::IsCharacterAlphabeticOrNumeric =>
-			fail_unimplemented! (0x592dcd5d),
+			try! (character_is_alphabetic_or_numeric (input_1)),
 		
 		TypePrimitive1::IsCharacterWhitespace =>
-			fail_unimplemented! (0xa66e8d9c),
+			try! (character_is_whitespace (input_1)),
 		
 		TypePrimitive1::IsCharacterControl =>
-			fail_unimplemented! (0x502c6e07),
+			try! (character_is_control (input_1)),
 		
 		TypePrimitive1::IsCharacterAscii =>
-			fail_unimplemented! (0xf18721e8),
+			try! (character_is_ascii (input_1)),
 		
 		TypePrimitive1::IsCharacterAsciiNumeric =>
-			fail_unimplemented! (0x975a21a6),
+			try! (character_is_ascii_numeric (input_1)),
 		
 		TypePrimitive1::IsCharacterAsciiNumericBase8 =>
-			fail_unimplemented! (0xefddca04),
+			try! (character_is_ascii_numeric_base_8 (input_1)),
 		
 		TypePrimitive1::IsCharacterAsciiNumericBase16 =>
-			fail_unimplemented! (0x9849c1c5),
+			try! (character_is_ascii_numeric_base_16 (input_1)),
 		
 		TypePrimitive1::IsCharacterAsciiAlphabetic =>
-			fail_unimplemented! (0xe5e4cd71),
+			try! (character_is_ascii_alphabetic (input_1)),
 		
 		TypePrimitive1::IsCharacterAsciiAlphabeticUpperCase =>
-			fail_unimplemented! (0x9229646e),
+			try! (character_is_ascii_alphabetic_upper_case (input_1)),
 		
 		TypePrimitive1::IsCharacterAsciiAlphabeticLowerCase =>
-			fail_unimplemented! (0xf552b50f),
+			try! (character_is_ascii_alphabetic_lower_case (input_1)),
 		
 		TypePrimitive1::IsCharacterAsciiAlphabeticOrNumeric =>
-			fail_unimplemented! (0x34a71556),
+			try! (character_is_ascii_alphabetic_or_numeric (input_1)),
 		
 		TypePrimitive1::IsCharacterAsciiWhitespace =>
-			fail_unimplemented! (0x18cdd61f),
+			try! (character_is_ascii_whitespace (input_1)),
 		
 		TypePrimitive1::IsCharacterAsciiControl =>
-			fail_unimplemented! (0x5572e51b),
+			try! (character_is_ascii_control (input_1)),
 		
 		TypePrimitive1::IsCharacterAsciiPunctuation =>
-			fail_unimplemented! (0x576a2df0),
+			try! (character_is_ascii_punctuation (input_1)),
 		
 		TypePrimitive1::IsCharacterAsciiGraphic =>
-			fail_unimplemented! (0x70b94759),
+			try! (character_is_ascii_graphic (input_1)),
 		
 	};
 	

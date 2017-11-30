@@ -23,6 +23,7 @@ pub mod exports {
 	pub use super::{array_append_2, array_append_3, array_append_4, array_append_n};
 	pub use super::{array_make, array_clone, array_reverse};
 	pub use super::{array_fill_range, array_reverse_range, array_copy_range, array_clone_range};
+	pub use super::{array_range_to_list, list_range_to_array};
 	pub use super::{array_length};
 	
 	pub use super::{vec_array_append_2, vec_array_append_3, vec_array_append_4, vec_array_append_n};
@@ -223,6 +224,20 @@ pub fn array_clone_range (array : &Value, start : Option<&Value>, end : Option<&
 	let array = try_as_array_ref! (array);
 	let (start, end) = try! (range_coerce (start, end, array.values_length ()));
 	succeed! (array_clone_slice (& array.values_as_slice () [start..end]) .into ());
+}
+
+
+
+
+pub fn array_range_to_list (array : &Value, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+	let array = try_as_array_ref! (array);
+	let (_start, _end) = try! (range_coerce (start, end, array.values_length ()));
+	fail_unimplemented! (0x61c53653);
+}
+
+pub fn list_range_to_array (_list : &Value, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+	let (_start, _end) = try! (range_coerce_unbounded (start, end));
+	fail_unimplemented! (0x7d8a4ce6);
 }
 
 

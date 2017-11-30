@@ -224,61 +224,61 @@ pub fn string_primitive_1_evaluate (primitive : StringPrimitive1, input_1 : &Val
 			return string_fill_range (input_1, None, None, None),
 		
 		StringPrimitive1::StringToList =>
-			fail_unimplemented! (0x81afb139),
+			return string_range_to_list (input_1, None, None),
 		
 		StringPrimitive1::ListToString =>
-			fail_unimplemented! (0xe9dbc104),
+			return list_range_to_string (input_1, None, None),
 		
 		StringPrimitive1::StringToArray =>
-			fail_unimplemented! (0xe272c6c2),
+			return string_range_to_array (input_1, None, None),
 		
 		StringPrimitive1::ArrayToString =>
-			fail_unimplemented! (0x6e158df7),
+			return array_range_to_string (input_1, None, None),
 		
 		StringPrimitive1::StringToBytes =>
-			fail_unimplemented! (0x32253984),
+			return string_range_to_bytes (input_1, None, None),
 		
 		StringPrimitive1::BytesToString =>
-			fail_unimplemented! (0xc16320b0),
+			return bytes_range_to_string (input_1, None, None),
 		
 		StringPrimitive1::StringToSymbol =>
-			fail_unimplemented! (0xcaa83ec8),
+			return string_to_symbol (input_1),
 		
 		StringPrimitive1::SymbolToString =>
-			fail_unimplemented! (0x5f02c217),
+			return symbol_to_string (input_1),
 		
 		StringPrimitive1::StringToNumber =>
-			fail_unimplemented! (0xd9ad0333),
+			return string_to_number (input_1, None),
 		
 		StringPrimitive1::NumberToString =>
-			fail_unimplemented! (0xca839684),
+			return number_to_string (input_1, None),
 		
 		StringPrimitive1::CharacterToNumber =>
-			fail_unimplemented! (0xbe6f7fa0),
+			return character_to_number (input_1),
 		
 		StringPrimitive1::NumberToCharacter =>
-			fail_unimplemented! (0xa8324f70),
+			return number_to_character (input_1),
 		
 		StringPrimitive1::StringToUpperCase =>
-			fail_unimplemented! (0x96a2e291),
+			return string_to_upper_case (input_1),
 		
 		StringPrimitive1::StringToLowerCase =>
-			fail_unimplemented! (0x64c7a464),
+			return string_to_lower_case (input_1),
 		
 		StringPrimitive1::StringToFoldCase =>
-			fail_unimplemented! (0x9da0a037),
+			return string_to_fold_case (input_1),
 		
 		StringPrimitive1::CharacterToUpperCase =>
-			fail_unimplemented! (0x3d8a8873),
+			return character_to_upper_case (input_1),
 		
 		StringPrimitive1::CharacterToLowerCase =>
-			fail_unimplemented! (0xea366979),
+			return character_to_lower_case (input_1),
 		
 		StringPrimitive1::CharacterToFoldCase =>
-			fail_unimplemented! (0x1765ad34),
+			return character_to_fold_case (input_1),
 		
 		StringPrimitive1::CharacterToDigitNumber =>
-			fail_unimplemented! (0x1f8ec08b),
+			return character_to_digit_number (input_1),
 		
 	}
 }
@@ -311,28 +311,28 @@ pub fn string_primitive_2_evaluate (primitive : StringPrimitive2, input_1 : &Val
 			return string_clone_range (input_1, Some (input_2), None),
 		
 		StringPrimitive2::StringRangeToList =>
-			fail_unimplemented! (0xaf6a7b8e),
+			return string_range_to_list (input_1, Some (input_2), None),
 		
 		StringPrimitive2::ListRangeToString =>
-			fail_unimplemented! (0xe7619db0),
+			return list_range_to_string (input_1, Some (input_2), None),
 		
 		StringPrimitive2::StringRangeToArray =>
-			fail_unimplemented! (0x505f380c),
+			return string_range_to_array (input_1, Some (input_2), None),
 		
 		StringPrimitive2::ArrayRangeToString =>
-			fail_unimplemented! (0xe5f21cc8),
+			return array_range_to_string (input_1, Some (input_2), None),
 		
 		StringPrimitive2::StringRangeToBytes =>
-			fail_unimplemented! (0xb656e702),
+			return string_range_to_bytes (input_1, Some (input_2), None),
 		
 		StringPrimitive2::BytesRangeToString =>
-			fail_unimplemented! (0xce06724a),
+			return bytes_range_to_string (input_1, Some (input_2), None),
 		
 		StringPrimitive2::StringToNumber =>
-			fail_unimplemented! (0xf320d703),
+			return string_to_number (input_1, Some (input_2)),
 		
 		StringPrimitive2::NumberToString =>
-			fail_unimplemented! (0xbcc32614),
+			return number_to_string (input_1, Some (input_2)),
 		
 	}
 }
@@ -362,22 +362,22 @@ pub fn string_primitive_3_evaluate (primitive : StringPrimitive3, input_1 : &Val
 			return string_clone_range (input_1, Some (input_2), Some (input_3)),
 		
 		StringPrimitive3::StringRangeToList =>
-			fail_unimplemented! (0xac1f9aab),
+			return string_range_to_list (input_1, Some (input_2), Some (input_3)),
 		
 		StringPrimitive3::ListRangeToString =>
-			fail_unimplemented! (0x79bcc4d9),
+			return list_range_to_string (input_1, Some (input_2), Some (input_3)),
 		
 		StringPrimitive3::StringRangeToArray =>
-			fail_unimplemented! (0x1643ccbf),
+			return string_range_to_array (input_1, Some (input_2), Some (input_3)),
 		
 		StringPrimitive3::ArrayRangeToString =>
-			fail_unimplemented! (0x17e980df),
+			return array_range_to_string (input_1, Some (input_2), Some (input_3)),
 		
 		StringPrimitive3::StringRangeToBytes =>
-			fail_unimplemented! (0x583f39da),
+			return string_range_to_bytes (input_1, Some (input_2), Some (input_3)),
 		
 		StringPrimitive3::BytesRangeToString =>
-			fail_unimplemented! (0xb455c3bd),
+			return bytes_range_to_string (input_1, Some (input_2), Some (input_3)),
 		
 	}
 }
