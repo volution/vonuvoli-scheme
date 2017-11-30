@@ -36,11 +36,11 @@ pub mod exports {
 
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ComparisonPrimitive0 {}
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ComparisonPrimitive1 {
 	
 	EquivalentByIdentity,
@@ -128,7 +128,7 @@ pub enum ComparisonPrimitive1 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ComparisonPrimitive2 {
 	
 	EquivalentByIdentity,
@@ -216,19 +216,19 @@ pub enum ComparisonPrimitive2 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ComparisonPrimitive3 {}
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ComparisonPrimitive4 {}
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ComparisonPrimitive5 {}
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ComparisonPrimitiveN {
 	
 	EquivalentByIdentity,

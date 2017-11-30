@@ -37,7 +37,7 @@ pub mod exports {
 
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum RuntimePrimitive0 {
 	
 	ProcessArguments,
@@ -51,7 +51,7 @@ pub enum RuntimePrimitive0 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum RuntimePrimitive1 {
 	
 	ProcessEnvironment,
@@ -62,23 +62,23 @@ pub enum RuntimePrimitive1 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum RuntimePrimitive2 {}
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum RuntimePrimitive3 {}
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum RuntimePrimitive4 {}
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum RuntimePrimitive5 {}
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum RuntimePrimitiveN {
 	
 	ProcessExit,

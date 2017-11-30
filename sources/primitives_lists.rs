@@ -39,7 +39,7 @@ pub mod exports {
 
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ListPrimitive0 {
 	
 	ListBuild,
@@ -48,7 +48,7 @@ pub enum ListPrimitive0 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ListPrimitive1 {
 	
 	PairLeft,
@@ -74,7 +74,7 @@ pub enum ListPrimitive1 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ListPrimitive2 {
 	
 	Pair,
@@ -105,7 +105,7 @@ pub enum ListPrimitive2 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ListPrimitive3 {
 	
 	ListFirstAtSet,
@@ -124,7 +124,7 @@ pub enum ListPrimitive3 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ListPrimitive4 {
 	
 	ListBuild,
@@ -136,7 +136,7 @@ pub enum ListPrimitive4 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ListPrimitive5 {
 	
 	ListRangeCopy,
@@ -144,7 +144,7 @@ pub enum ListPrimitive5 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ListPrimitiveN {
 	
 	ListMake,

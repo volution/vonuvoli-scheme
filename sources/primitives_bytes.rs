@@ -38,7 +38,7 @@ pub mod exports {
 
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum BytesPrimitive0 {
 	
 	BytesBuild,
@@ -47,7 +47,7 @@ pub enum BytesPrimitive0 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum BytesPrimitive1 {
 	
 	BytesLength,
@@ -69,7 +69,7 @@ pub enum BytesPrimitive1 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum BytesPrimitive2 {
 	
 	BytesAt,
@@ -91,7 +91,7 @@ pub enum BytesPrimitive2 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum BytesPrimitive3 {
 	
 	BytesAtSet,
@@ -111,7 +111,7 @@ pub enum BytesPrimitive3 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum BytesPrimitive4 {
 	
 	BytesBuild,
@@ -123,7 +123,7 @@ pub enum BytesPrimitive4 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum BytesPrimitive5 {
 	
 	BytesRangeCopy,
@@ -131,7 +131,7 @@ pub enum BytesPrimitive5 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum BytesPrimitiveN {
 	
 	BytesMake,

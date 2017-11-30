@@ -35,7 +35,7 @@ pub mod exports {
 
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum SyntaxPrimitive {
 	
 	Primitive0 ( SyntaxPrimitive0 ),
@@ -55,11 +55,11 @@ pub enum SyntaxPrimitive {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum SyntaxPrimitive0 {}
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum SyntaxPrimitive1 {
 	
 	Quote,
@@ -70,7 +70,7 @@ pub enum SyntaxPrimitive1 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum SyntaxPrimitive2 {
 	
 	If,
@@ -84,7 +84,7 @@ pub enum SyntaxPrimitive2 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum SyntaxPrimitive3 {
 	
 	If,
@@ -92,15 +92,15 @@ pub enum SyntaxPrimitive3 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum SyntaxPrimitive4 {}
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum SyntaxPrimitive5 {}
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum SyntaxPrimitiveN {
 	
 	And,

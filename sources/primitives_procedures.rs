@@ -52,7 +52,7 @@ pub mod exports {
 
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ProcedurePrimitive {
 	
 	Primitive0 ( ProcedurePrimitive0 ),
@@ -70,7 +70,7 @@ pub enum ProcedurePrimitive {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ProcedurePrimitive0 {
 	
 	Boolean ( BooleanPrimitive0 ),
@@ -90,7 +90,7 @@ pub enum ProcedurePrimitive0 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ProcedurePrimitive1 {
 	
 	Type ( TypePrimitive1 ),
@@ -112,7 +112,7 @@ pub enum ProcedurePrimitive1 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ProcedurePrimitive2 {
 	
 	Boolean ( BooleanPrimitive2 ),
@@ -132,7 +132,7 @@ pub enum ProcedurePrimitive2 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ProcedurePrimitive3 {
 	
 	Boolean ( BooleanPrimitive3 ),
@@ -152,7 +152,7 @@ pub enum ProcedurePrimitive3 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ProcedurePrimitive4 {
 	
 	Boolean ( BooleanPrimitive4 ),
@@ -172,7 +172,7 @@ pub enum ProcedurePrimitive4 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ProcedurePrimitive5 {
 	
 	Boolean ( BooleanPrimitive5 ),
@@ -192,7 +192,7 @@ pub enum ProcedurePrimitive5 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ProcedurePrimitiveN {
 	
 	Boolean ( BooleanPrimitiveN ),

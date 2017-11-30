@@ -38,7 +38,7 @@ pub mod exports {
 
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum FunctionsPrimitive0 {
 	
 	Values,
@@ -46,7 +46,7 @@ pub enum FunctionsPrimitive0 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum FunctionsPrimitive1 {
 	
 	Call,
@@ -57,7 +57,7 @@ pub enum FunctionsPrimitive1 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum FunctionsPrimitive2 {
 	
 	CallWithValues,
@@ -83,7 +83,7 @@ pub enum FunctionsPrimitive2 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum FunctionsPrimitive3 {
 	
 	Call,
@@ -106,7 +106,7 @@ pub enum FunctionsPrimitive3 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum FunctionsPrimitive4 {
 	
 	Call,
@@ -129,7 +129,7 @@ pub enum FunctionsPrimitive4 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum FunctionsPrimitive5 {
 	
 	Call,
@@ -150,7 +150,7 @@ pub enum FunctionsPrimitive5 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum FunctionsPrimitiveN {
 	
 	Call,

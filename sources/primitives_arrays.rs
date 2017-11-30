@@ -38,7 +38,7 @@ pub mod exports {
 
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ArrayPrimitive0 {
 	
 	ArrayBuild,
@@ -47,7 +47,7 @@ pub enum ArrayPrimitive0 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ArrayPrimitive1 {
 	
 	ArrayLength,
@@ -67,7 +67,7 @@ pub enum ArrayPrimitive1 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ArrayPrimitive2 {
 	
 	ArrayAt,
@@ -87,7 +87,7 @@ pub enum ArrayPrimitive2 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ArrayPrimitive3 {
 	
 	ArrayAtSet,
@@ -105,7 +105,7 @@ pub enum ArrayPrimitive3 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ArrayPrimitive4 {
 	
 	ArrayBuild,
@@ -117,7 +117,7 @@ pub enum ArrayPrimitive4 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ArrayPrimitive5 {
 	
 	ArrayRangeCopy,
@@ -125,7 +125,7 @@ pub enum ArrayPrimitive5 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ArrayPrimitiveN {
 	
 	ArrayMake,
