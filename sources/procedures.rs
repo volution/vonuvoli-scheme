@@ -18,11 +18,11 @@ pub mod exports {
 
 
 
-#[ derive (Clone, Eq, PartialEq, Hash) ]
+#[ derive (Clone, Hash) ]
 pub struct Lambda ( StdRc<LambdaInternals> );
 
 
-#[ derive (Debug, Eq, PartialEq, Hash) ]
+#[ derive (Debug, Hash) ]
 pub struct LambdaInternals {
 	pub identifier : Option<Symbol>,
 	pub arguments_positional : StdVec<Symbol>,

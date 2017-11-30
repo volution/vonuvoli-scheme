@@ -1,5 +1,6 @@
 
 
+use super::builtins::exports::*;
 use super::compiler::exports::*;
 use super::contexts::exports::*;
 use super::errors::exports::*;
@@ -22,13 +23,13 @@ pub mod exports {
 
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Clone, Debug, Hash) ]
 pub struct TestCase {
 	pub value : Value,
 	pub action : TestAction,
 }
 
-#[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Clone, Debug, Hash) ]
 pub enum TestAction {
 	Expect ( Value ),
 	Debug,
@@ -36,7 +37,7 @@ pub enum TestAction {
 	Skip,
 }
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Hash) ]
 pub enum TestVerbosity {
 	Quiet,
 	Verbose,
@@ -168,7 +169,10 @@ pub fn execute_test (context : &Context, test : &TestCase, transcript : &mut io:
 	
 	
 	if let Some (output_value) = output_value {
-		if input_value != output_value {
+		let input_output_matched =
+				try! (equivalent_by_value_strict_recursive_2 (&input_value, &output_value))
+				|| (input_value.is (ValueClass::Undefined) && output_value.is (ValueClass::Undefined));
+		if input_output_matched {
 			header_emitted = try! (header_emit (test, transcript, verbosity, header_emitted, true));
 			try_or_fail! (write! (transcript, "!! assertion !! {} => {}\n", &input_value, &output_value), 0xb66640e5);
 			try_or_fail! (write! (transcript, "!! assertion !!\n{:#?}\n!! => !!\n{:#?}\n", &input_value, &output_value), 0xe650c868);

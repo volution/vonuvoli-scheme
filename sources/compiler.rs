@@ -422,15 +422,13 @@ impl Compiler {
 			}
 			let (guard, statements) = try! (vec_explode_1n (tokens));
 			
-			// FIXME:  Remove the symbol creation!
-			let (compilation_1, guard) = if guard != symbol_clone_str ("else") .into () {
+			let (compilation_1, guard) = if guard.is (ValueClass::Symbol) && Symbol::as_ref (&guard) .string_eq ("else") {
 				try! (self.compile_0 (compilation, guard))
 			} else {
 				(compilation, TRUE.into ())
 			};
 			
-			// FIXME:  Remove the symbol creation!
-			if (statements.len () == 2) && (statements[0] == symbol_clone_str ("=>") .into ()) {
+			if (statements.len () == 2) && (statements[0].is (ValueClass::Symbol) && Symbol::as_ref (&statements[0]) .string_eq ("=>")) {
 				fail_unimplemented! (0xfa332991);
 			}
 			let (compilation_1, statements) = try! (self.compile_vec_0 (compilation_1, statements));

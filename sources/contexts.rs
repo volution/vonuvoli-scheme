@@ -35,7 +35,7 @@ struct ContextInternals {
 }
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Clone, Debug, Hash) ]
 pub struct ContextBindingTemplate {
 	pub identifier : Symbol,
 	pub value : Option<Value>,
@@ -208,7 +208,7 @@ struct RegistersInternals {
 }
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Clone, Debug, Hash) ]
 pub struct RegistersBindingTemplate {
 	pub identifier : Option<Symbol>,
 	pub borrow : Option<usize>,

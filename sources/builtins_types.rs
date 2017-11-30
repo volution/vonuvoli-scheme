@@ -711,7 +711,7 @@ pub fn list_class_on (value : &Value) -> (Outcome<ListClass>) {
 					_ =>
 						succeed! (ListClass::Dotted),
 				}
-				if cursor == value {
+				if value.is_self (cursor) {
 					succeed! (ListClass::Cyclic);
 				}
 			}

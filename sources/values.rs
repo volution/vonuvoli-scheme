@@ -46,7 +46,7 @@ pub mod exports {
 
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ValueClass {
 	
 	Null,
@@ -80,7 +80,7 @@ pub enum ValueClass {
 
 
 
-#[ derive (Clone, Eq, PartialEq, Hash) ]
+#[ derive (Clone, Hash) ]
 pub enum Value {
 	
 	Null ( ValueMeta1, ValueMeta2 ),
@@ -116,11 +116,11 @@ pub type ValueBox = StdBox<Value>;
 pub type ValueVec = StdVec<Value>;
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Clone, Debug, Hash) ]
 pub struct ValueMeta1 ( u8, u8, u8 );
 pub const VALUE_META_1 : ValueMeta1 = ValueMeta1 (0, 0, 0);
 
-#[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Clone, Debug, Hash) ]
 pub struct ValueMeta2 ( u8, u8, u8, u8 );
 pub const VALUE_META_2 : ValueMeta2 = ValueMeta2 (0, 0, 0, 0);
 
@@ -958,8 +958,10 @@ impl <NumberRealInto : StdInto<NumberReal>> ops::Rem<NumberRealInto> for NumberR
 	}
 }
 
-
+/*
+// NOTE:  Investigate if this is needed!
 impl cmp::Eq for NumberReal {}
+*/
 
 impl cmp::PartialEq for NumberReal {
 	fn eq (&self, other : &NumberReal) -> (bool) {
@@ -967,6 +969,8 @@ impl cmp::PartialEq for NumberReal {
 	}
 }
 
+/*
+// NOTE:  Investigate if this is needed!
 impl cmp::Ord for NumberReal {
 	fn cmp (&self, other : &NumberReal) -> (cmp::Ordering) {
 		if let Some (ordering) = self.0.partial_cmp (&other.0) {
@@ -977,6 +981,7 @@ impl cmp::Ord for NumberReal {
 		}
 	}
 }
+*/
 
 impl cmp::PartialOrd for NumberReal {
 	fn partial_cmp (&self, other : &NumberReal) -> (Option<cmp::Ordering>) {
@@ -1253,7 +1258,7 @@ impl fmt::Display for Bytes {
 
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Clone, Debug, Hash) ]
 // FIXME:  Add immutability flag!
 pub struct Pair ( StdRc<(Value, Value)> );
 
@@ -1263,7 +1268,6 @@ pub type PairVec = StdVec<Pair>;
 
 
 impl Pair {
-	
 	
 	pub fn left (&self) -> (&Value) {
 		&(self.0).0
@@ -1323,7 +1327,7 @@ impl fmt::Display for Pair {
 
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Clone, Debug, Hash) ]
 // FIXME:  Add immutability flag!
 pub struct Array ( StdRc<StdVec<Value>> );
 
@@ -1358,6 +1362,10 @@ impl Array {
 		self.values_ref () .len ()
 	}
 	
+	pub fn is_self (&self, other : &Array) -> (bool) {
+		ptr::eq (self, other)
+	}
+	
 }
 
 
@@ -1382,7 +1390,7 @@ impl fmt::Display for Array {
 
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Clone, Debug, Hash) ]
 pub struct Values ( StdRc<StdBox<[Value]>> );
 
 
@@ -1414,6 +1422,10 @@ impl Values {
 	
 	pub fn values_length (&self) -> (usize) {
 		self.values_as_slice () .len ()
+	}
+	
+	pub fn is_self (&self, other : &Values) -> (bool) {
+		ptr::eq (self, other)
 	}
 	
 }

@@ -784,7 +784,15 @@ pub fn verify_definitions (definitions : &StdVec<(Symbol, Symbol, Symbol, Value)
 	
 	for &(_, _, ref identifier, ref value) in definitions {
 		if let Some (existing) = mappings.insert (identifier.clone (), value) {
-			if existing != value {
+			let existing_is_value = match (existing.class (), value.class ()) {
+				(ValueClass::ProcedurePrimitive, ValueClass::ProcedurePrimitive) =>
+					ProcedurePrimitive::as_ref (existing) == ProcedurePrimitive::as_ref (value),
+				(ValueClass::SyntaxPrimitive, ValueClass::SyntaxPrimitive) =>
+					SyntaxPrimitive::as_ref (existing) == SyntaxPrimitive::as_ref (value),
+				_ =>
+					false
+			};
+			if !existing_is_value {
 				eprintln! ("[ee]  duplicate missmatched mapping for `{}`!", identifier.string_as_str ());
 				errors = true;
 			}

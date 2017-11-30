@@ -18,7 +18,7 @@ pub mod exports {
 
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Clone, Debug, Hash) ]
 pub enum Expression {
 	
 	Void,
