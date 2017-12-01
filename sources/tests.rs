@@ -117,6 +117,16 @@ pub fn execute_test (context : &Context, test : &TestCase, transcript : &mut io:
 	let mut header_emitted = try! (header_emit (test, transcript, verbosity, false, false));
 	
 	
+	match verbosity {
+		TestVerbosity::Debug => {
+			header_emitted = try! (header_emit (test, transcript, verbosity, header_emitted, true));
+			try_or_fail! (write! (transcript, "-- parse --\n{:#?}\n", &test.value), 0xa70973e0);
+		},
+		_ =>
+			(),
+	}
+	
+	
 	let input_expression = match compile (&context, &test.value) {
 		Ok (input_expression) =>
 			input_expression,
@@ -169,10 +179,8 @@ pub fn execute_test (context : &Context, test : &TestCase, transcript : &mut io:
 	
 	
 	if let Some (output_value) = output_value {
-		let input_output_matched =
-				try! (equivalent_by_value_strict_recursive_2 (&input_value, &output_value))
-				|| (input_value.is (ValueClass::Undefined) && output_value.is (ValueClass::Undefined));
-		if input_output_matched {
+		let input_output_matched = try! (equivalent_by_value_strict_recursive_2 (&input_value, &output_value));
+		if !input_output_matched {
 			header_emitted = try! (header_emit (test, transcript, verbosity, header_emitted, true));
 			try_or_fail! (write! (transcript, "!! assertion !! {} => {}\n", &input_value, &output_value), 0xb66640e5);
 			try_or_fail! (write! (transcript, "!! assertion !!\n{:#?}\n!! => !!\n{:#?}\n", &input_value, &output_value), 0xe650c868);

@@ -13,6 +13,7 @@ include! ("macros.in");
 pub mod builtins;
 pub mod builtins_arrays;
 pub mod builtins_bytes;
+pub mod builtins_comparisons;
 pub mod builtins_functions;
 pub mod builtins_lists;
 pub mod builtins_strings;
