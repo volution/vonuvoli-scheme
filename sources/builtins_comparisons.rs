@@ -602,7 +602,7 @@ pub fn vec_compare_2 (left : &[Value], right : &[Value], comparison : Comparison
 			(None, Some (_)) =>
 				match comparison {
 					Comparison::Equivalence (_, _, _) =>
-						fail_panic! (0xee6ad119),
+						fail_unreachable! (0xee6ad119),
 					Comparison::Ordering (ordering, _, _) =>
 						match ordering {
 							Ordering::Lesser | Ordering::LesserOrEqual =>
@@ -615,7 +615,7 @@ pub fn vec_compare_2 (left : &[Value], right : &[Value], comparison : Comparison
 			(Some (_), None) =>
 				match comparison {
 					Comparison::Equivalence (_, _, _) =>
-						fail_panic! (0xee6ad119),
+						fail_unreachable! (0xee6ad119),
 					Comparison::Ordering (ordering, _, _) =>
 						match ordering {
 							Ordering::Greater | Ordering::GreaterOrEqual =>

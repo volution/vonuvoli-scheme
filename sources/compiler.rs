@@ -367,7 +367,7 @@ impl Compiler {
 					(false, guard, Some (if_true)),
 				]
 		} else {
-			fail_panic! (0xbc801c5d);
+			fail_unreachable! (0xbc801c5d);
 		};
 		
 		let expression = Expression::Conditional (clauses.into_boxed_slice ());
@@ -395,7 +395,7 @@ impl Compiler {
 			SyntaxPrimitiveN::Unless =>
 				true,
 			_ =>
-				fail_panic! (0x500d298f),
+				fail_unreachable! (0x500d298f),
 		};
 		
 		let clauses = vec! [
@@ -553,7 +553,7 @@ impl Compiler {
 			},
 			
 			_ =>
-				fail_panic! (0xa1c3e4ac),
+				fail_unreachable! (0xa1c3e4ac),
 			
 		}
 		
@@ -567,7 +567,7 @@ impl Compiler {
 			SyntaxPrimitiveN::LetRecursiveSequential =>
 				false,
 			_ =>
-				fail_panic! (0xa615e40c),
+				fail_unreachable! (0xa615e40c),
 		};
 		
 		let binding_initializers = try! (self.compile_syntax_binding_initialize_n (binding_templates, binding_initializers, parallel));

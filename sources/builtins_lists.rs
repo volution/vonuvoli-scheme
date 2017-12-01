@@ -143,7 +143,7 @@ pub fn list_pair_at_ref (list : &Value, index : usize) -> (Outcome<Option<&Pair>
 			fail! (0x4c242ac5);
 		}
 	}
-	fail_panic! (0x27592741);
+	fail_unreachable! (0x27592741);
 }
 
 

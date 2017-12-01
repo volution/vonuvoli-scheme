@@ -49,6 +49,12 @@ macro_rules! fail_panic {
 	);
 }
 
+macro_rules! fail_unreachable {
+	( $code : expr ) => (
+		return failed_panic! ($code)
+	);
+}
+
 
 #[ allow (unused_macros) ]
 macro_rules! enforce {

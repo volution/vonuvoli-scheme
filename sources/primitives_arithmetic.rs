@@ -581,10 +581,10 @@ pub fn arithmetic_primitive_n_evaluate (primitive : ArithmeticPrimitiveN, inputs
 						(value_1, value_2), NumberReal::div (value_1, value_2)),
 			
 			ArithmeticPrimitiveN::GreatestCommonDivisor =>
-				fail_panic! (0x38fce646),
+				fail_unreachable! (0x38fce646),
 			
 			ArithmeticPrimitiveN::LeastCommonMultiple =>
-				fail_panic! (0x5c07f7c2),
+				fail_unreachable! (0x5c07f7c2),
 			
 			ArithmeticPrimitiveN::Minimum =>
 				arithmetic_primitive_2_delegate_call! (min, (&output, input)),
