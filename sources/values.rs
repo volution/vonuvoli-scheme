@@ -163,11 +163,39 @@ impl Value {
 		self.class () == class
 	}
 	
-	
 	pub fn is_self (&self, other : &Value) -> (bool) {
-		ptr::eq (self, other)
+		match (self, other) {
+			
+			(&Value::Null (_, _), &Value::Null (_, _)) => true,
+			(&Value::Void (_, _), &Value::Void (_, _)) => true,
+			(&Value::Undefined (_, _), &Value::Undefined (_, _)) => true,
+			
+			(&Value::Boolean (_, ref self_0, _), &Value::Boolean (_, ref other_0, _)) => self_0 == other_0,
+			(&Value::NumberInteger (_, ref self_0, _), &Value::NumberInteger (_, ref other_0, _)) => self_0 == other_0,
+			(&Value::NumberReal (_, ref self_0, _), &Value::NumberReal (_, ref other_0, _)) => self_0 == other_0,
+			(&Value::Character (_, ref self_0, _), &Value::Character (_, ref other_0, _)) => self_0 == other_0,
+			
+			(&Value::Symbol (_, ref self_0, _), &Value::Symbol (_, ref other_0, _)) => self_0 == other_0,
+			(&Value::String (_, ref self_0, _), &Value::String (_, ref other_0, _)) => String::is_self (self_0, other_0),
+			(&Value::Bytes (_, ref self_0, _), &Value::Bytes (_, ref other_0, _)) => Bytes::is_self (self_0, other_0),
+			
+			(&Value::Pair (_, ref self_0, _), &Value::Pair (_, ref other_0, _)) => Pair::is_self (self_0, other_0),
+			(&Value::Array (_, ref self_0, _), &Value::Array (_, ref other_0, _)) => Array::is_self (self_0, other_0),
+			(&Value::Values (_, ref self_0, _), &Value::Values (_, ref other_0, _)) => Values::is_self (self_0, other_0),
+			
+			(&Value::Error (_, ref self_0, _), &Value::Error (_, ref other_0, _)) => Error::is_self (self_0, other_0),
+			
+			(&Value::Lambda (_, ref self_0, _), &Value::Lambda (_, ref other_0, _)) => Lambda::is_self (self_0, other_0),
+			(&Value::ProcedurePrimitive (_, ref self_0, _), &Value::ProcedurePrimitive (_, ref other_0, _)) => self_0 == other_0,
+			(&Value::SyntaxPrimitive (_, ref self_0, _), &Value::SyntaxPrimitive (_, ref other_0, _)) => self_0 == other_0,
+			
+			(&Value::Context (_, ref self_0, _), &Value::Context (_, ref other_0, _)) => Context::is_self (self_0, other_0),
+			(&Value::Binding (_, ref self_0, _), &Value::Binding (_, ref other_0, _)) => Binding::is_self (self_0, other_0),
+			
+			(_, _) => false,
+			
+		}
 	}
-	
 	
 }
 
@@ -1171,6 +1199,10 @@ impl String {
 		self.string_chars () .nth (index)
 	}
 	
+	pub fn is_self (&self, other : &String) -> (bool) {
+		ptr::eq (self.0.as_ref (), other.0.as_ref ())
+	}
+	
 }
 
 
@@ -1233,6 +1265,10 @@ impl Bytes {
 		self.values_ref () .len ()
 	}
 	
+	pub fn is_self (&self, other : &Bytes) -> (bool) {
+		ptr::eq (self.0.as_ref (), other.0.as_ref ())
+	}
+	
 }
 
 
@@ -1281,9 +1317,8 @@ impl Pair {
 		(&(self.0).0, &(self.0).1)
 	}
 	
-	
 	pub fn is_self (&self, other : &Pair) -> (bool) {
-		ptr::eq (self, other)
+		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
 	
 }
@@ -1363,7 +1398,7 @@ impl Array {
 	}
 	
 	pub fn is_self (&self, other : &Array) -> (bool) {
-		ptr::eq (self, other)
+		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
 	
 }
@@ -1425,7 +1460,7 @@ impl Values {
 	}
 	
 	pub fn is_self (&self, other : &Values) -> (bool) {
-		ptr::eq (self, other)
+		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
 	
 }

@@ -32,6 +32,14 @@ pub struct Error {
 }
 
 
+impl Error {
+	
+	pub fn is_self (&self, other : &Error) -> (bool) {
+		self.code == other.code
+	}
+}
+
+
 impl fmt::Display for Error {
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		write! (formatter, "#<error:{:08x}>", self.code)
@@ -44,6 +52,8 @@ impl fmt::Debug for Error {
 		write! (formatter, "#<error:{:08x}>", self.code)
 	}
 }
+
+
 
 
 pub fn error_generic (code : u32) -> (Error) {

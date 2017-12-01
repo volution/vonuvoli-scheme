@@ -6,6 +6,7 @@ use super::runtime::exports::*;
 use super::values::exports::*;
 
 use std::fmt;
+use std::ptr;
 
 
 
@@ -58,6 +59,10 @@ impl Lambda {
 	
 	pub fn internals (&self) -> (&LambdaInternals) {
 		return StdRc::as_ref (&self.0);
+	}
+	
+	pub fn is_self (&self, other : &Lambda) -> (bool) {
+		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
 }
 

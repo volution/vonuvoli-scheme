@@ -9,6 +9,7 @@ use std::cmp;
 use std::fmt;
 use std::hash;
 use std::mem;
+use std::ptr;
 
 
 
@@ -150,6 +151,11 @@ impl Context {
 				template.immutable
 			);
 		return Ok (binding);
+	}
+	
+	
+	pub fn is_self (&self, other : &Context) -> (bool) {
+		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
 }
 
@@ -315,6 +321,11 @@ impl Registers {
 			succeed! (Binding::new (template.identifier.clone (), template.value.clone (), template.immutable));
 		}
 	}
+	
+	
+	pub fn is_self (&self, other : &Registers) -> (bool) {
+		ptr::eq (self.0.as_ref (), other.0.as_ref ())
+	}
 }
 
 
@@ -426,6 +437,11 @@ impl Binding {
 	
 	fn internals_ref_mut (&self) -> (StdRefMut<BindingInternals>) {
 		return StdRefCell::borrow_mut (StdRc::as_ref (&self.0));
+	}
+	
+	
+	pub fn is_self (&self, other : &Binding) -> (bool) {
+		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
 }
 
