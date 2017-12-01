@@ -1,0 +1,39 @@
+
+(boolean=? #t) => #t;
+(boolean=? #t #t) => #t;
+(boolean=? #f) => #t;
+(boolean=? #f #f) => #t;
+(boolean=? #t #f) => #f;
+
+
+(symbol=? 'a 'a) => #t;
+(symbol=? 'a 'b) => #f;
+
+
+(string=? "" "") => #t;
+(string=? "abc" "abc") => #t;
+(string=? "abc" "def") => #f;
+
+
+(~bytevector=? #u8() #u8()) => #t;
+(~bytevector=? #u8(0 1 2) #u8(0 1 2)) => #t;
+(~bytevector=? #u8(0 1 2) #u8(3 4 5)) => #f;
+
+
+(~pair=? '(0 . 1) '(0 . 1)) => #t;
+(~pair=? '(0 . 1) '(2 . 3)) => #f;
+(~pair=? '((0) . 1) '((0) . 1)) => #t;
+(~pair=? '(0 . (1)) '(0 . (1))) => #t;
+
+
+(~vector=? #() #()) => #t;
+(~vector=? #(0 1 2) #(0 1 2)) => #t;
+(~vector=? #(0 1 2) #(3 4 5)) => #f;
+(~vector=? #((0) (1) (2)) #((0) (1) (2))) => #t;
+
+
+(~values=? #values() #values()) => #t;
+(~values=? #values(0 1 2) #values(0 1 2)) => #t;
+(~values=? #values(0 1 2) #values(3 4 5)) => #f;
+(~values=? #values((0) (1) (2)) #values((0) (1) (2))) => #t;
+

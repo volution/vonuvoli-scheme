@@ -36,7 +36,7 @@
 
 (cmp 0.0 0.0) => #t;
 (cmp 0.0 +0.0) => #t;
-(cmp 0.0 -0.0) => #f;
+(cmp 0.0 -0.0) => #t;
 
 (cmp 0.0 0) => #f;
 (cmp -0.0 0) => #f;
@@ -61,8 +61,8 @@
 (cmp +nan +nan.0) => #t;
 (cmp -nan -nan) => #t;
 (cmp -nan -nan.0) => #t;
-(cmp +nan -nan) => !fixme #t;
-(cmp -nan +nan) => !fixme #t;
+(cmp +nan -nan) => #t;
+(cmp -nan +nan) => #t;
 (cmp +nan 0) => #f;
 (cmp -nan 0) => #f;
 (cmp +nan 0.0) => #f;

@@ -105,7 +105,7 @@ cat <<'EOS'
 EOS
 
 
-for _test in scheme low-level-r7rs low-level-comparisons low-level-conversions low-level-parser low-level-sizes ; do
+for _test in scheme low-level-r7rs low-level-comparisons low-level-conversions low-level-parser low-level-sizes low-level-assertions ; do
 sed -r -e 's#@\{TEST\}#'"${_test}"'#g' <<'EOS'
 :: execute / test / @{TEST} :: x-run ':: compile / peg' ; export -- RUST_TEST_TASKS=1 RUST_BACKTRACE=1 ; exec -- env PATH="${RUST_PATH}" cargo test --test @{TEST} --all-features -- --nocapture "${@}"
 EOS

@@ -1,0 +1,180 @@
+
+(define (compare . values)
+	(vector
+		(apply < values)
+		(apply <= values)
+		(apply = values)
+		(apply >= values)
+		(apply > values)))
+=> !ignore;
+
+
+
+
+(compare 0) => #(#t #t #t #t #t);
+(compare +1) => #(#t #t #t #t #t);
+(compare -1) => #(#t #t #t #t #t);
+
+(compare +0.0) => #(#t #t #t #t #t);
+(compare -0.0) => #(#t #t #t #t #t);
+(compare +1.0) => #(#t #t #t #t #t);
+(compare -1.0) => #(#t #t #t #t #t);
+
+(compare +inf) => #(#t #t #t #t #t);
+(compare -inf) => #(#t #t #t #t #t);
+
+(compare +nan) => #(#f #f #f #f #f);
+(compare -nan) => #(#f #f #f #f #f);
+
+(compare +epsilon) => #(#t #t #t #t #t);
+(compare -epsilon) => #(#t #t #t #t #t);
+
+
+
+
+(compare 0 0) => #(#f #t #t #t #f);
+(compare 0 +1) => #(#t #t #f #f #f);
+(compare +1 0) => #(#f #f #f #t #t);
+(compare 0 -1) => #(#f #f #f #t #t);
+(compare -1 0) => #(#t #t #f #f #f);
+
+
+
+
+(compare +0.0 +1.0) => #(#t #t #f #f #f);
+(compare +1.0 +0.0) => #(#f #f #f #t #t);
+(compare +0.0 -1.0) => #(#f #f #f #t #t);
+(compare -1.0 +0.0) => #(#t #t #f #f #f);
+
+(compare -0.0 +1.0) => #(#t #t #f #f #f);
+(compare +1.0 -0.0) => #(#f #f #f #t #t);
+(compare -0.0 -1.0) => #(#f #f #f #t #t);
+(compare -1.0 -0.0) => #(#t #t #f #f #f);
+
+
+(compare +1.0 +1.0) => #(#f #t #t #t #f);
+(compare -1.0 -1.0) => #(#f #t #t #t #f);
+
+(compare +0.1 -0.1) => #(#f #f #f #t #t);
+(compare -0.1 +0.1) => #(#t #t #f #f #f);
+
+(compare +0.0 -0.0) => #(#f #t #t #t #f);
+(compare -0.0 +0.0) => #(#f #t #t #t #f);
+
+
+
+
+(compare 0 +1.0) => #(#t #t #f #f #f);
+(compare 0 -1.0) => #(#f #f #f #t #t);
+(compare +1 +0.0) => #(#f #f #f #t #t);
+(compare +1 -0.0) => #(#f #f #f #t #t);
+(compare -1 +0.0) => #(#t #t #f #f #f);
+(compare -1 -0.0) => #(#t #t #f #f #f);
+
+(compare +1.0 0) => #(#f #f #f #t #t);
+(compare -1.0 0) => #(#t #t #f #f #f);
+(compare +0.0 +1) => #(#t #t #f #f #f);
+(compare -0.0 +1) => #(#t #t #f #f #f);
+(compare +0.0 -1) => #(#f #f #f #t #t);
+(compare -0.0 -1) => #(#f #f #f #t #t);
+
+
+(compare +1 +1.0) => #(#f #t #t #t #f);
+(compare +1.0 +1) => #(#f #t #t #t #f);
+
+(compare -1 -1.0) => #(#f #t #t #t #f);
+(compare -1.0 -1) => #(#f #t #t #t #f);
+
+
+(compare 0 +0.0) => #(#f #t #t #t #f);
+(compare +0.0 0) => #(#f #t #t #t #f);
+
+(compare 0 -0.0) => #(#f #t #t #t #f);
+(compare -0.0 0) => #(#f #t #t #t #f);
+
+
+
+
+(compare +inf +0.0) => #(#f #f #f #t #t);
+(compare +0.0 +inf) => #(#t #t #f #f #f);
+
+(compare -inf -0.0) => #(#t #t #f #f #f);
+(compare -0.0 -inf) => #(#f #f #f #t #t);
+
+(compare +inf +inf) => #(#f #t #t #t #f);
+(compare -inf -inf) => #(#f #t #t #t #f);
+
+(compare +inf -inf) => #(#f #f #f #t #t);
+(compare -inf +inf) => #(#t #t #f #f #f);
+
+
+(compare +inf 0) => #(#f #f #f #t #t);
+(compare 0 +inf) => #(#t #t #f #f #f);
+
+(compare -inf 0) => #(#t #t #f #f #f);
+(compare 0 -inf) => #(#f #f #f #t #t);
+
+
+
+
+(compare +nan +0.0) => #(#f #f #f #f #f);
+(compare +nan -0.0) => #(#f #f #f #f #f);
+(compare +0.0 +nan) => #(#f #f #f #f #f);
+(compare -0.0 +nan) => #(#f #f #f #f #f);
+
+(compare -nan +0.0) => #(#f #f #f #f #f);
+(compare -nan -0.0) => #(#f #f #f #f #f);
+(compare +0.0 -nan) => #(#f #f #f #f #f);
+(compare -0.0 -nan) => #(#f #f #f #f #f);
+
+
+(compare +nan +inf) => #(#f #f #f #f #f);
+(compare +nan -inf) => #(#f #f #f #f #f);
+(compare +inf +nan) => #(#f #f #f #f #f);
+(compare -inf +nan) => #(#f #f #f #f #f);
+
+(compare -nan +inf) => #(#f #f #f #f #f);
+(compare -nan -inf) => #(#f #f #f #f #f);
+(compare +inf -nan) => #(#f #f #f #f #f);
+(compare -inf -nan) => #(#f #f #f #f #f);
+
+
+(compare +nan -nan) => #(#f #f #f #f #f);
+(compare -nan +nan) => #(#f #f #f #f #f);
+
+
+(compare +nan 0) => #(#f #f #f #f #f);
+(compare 0 +nan) => #(#f #f #f #f #f);
+
+(compare -nan 0) => #(#f #f #f #f #f);
+(compare 0 -nan) => #(#f #f #f #f #f);
+
+
+
+
+(compare +epsilon +0.0) => #(#f #f #f #t #t);
+(compare +0.0 +epsilon) => #(#t #t #f #f #f);
+
+(compare -epsilon -0.0) => #(#t #t #f #f #f);
+(compare -0.0 -epsilon) => #(#f #f #f #t #t);
+
+(compare +epsilon +epsilon) => #(#f #t #t #t #f);
+(compare -epsilon -epsilon) => #(#f #t #t #t #f);
+
+(compare +epsilon -epsilon) => #(#f #f #f #t #t);
+(compare -epsilon +epsilon) => #(#t #t #f #f #f);
+
+
+(compare +epsilon +0.0001) => #(#t #t #f #f #f);
+(compare +0.0001 +epsilon) => #(#f #f #f #t #t);
+
+(compare -epsilon -0.0001) => #(#f #f #f #t #t);
+(compare -0.0001 -epsilon) => #(#t #t #f #f #f);
+
+
+(compare +epsilon 0) => #(#f #f #f #t #t);
+(compare 0 +epsilon) => #(#t #t #f #f #f);
+
+(compare -epsilon 0) => #(#t #t #f #f #f);
+(compare 0 -epsilon) => #(#f #f #f #t #t);
+

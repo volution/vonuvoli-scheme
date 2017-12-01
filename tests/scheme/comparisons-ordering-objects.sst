@@ -1,0 +1,423 @@
+
+(define (compare-boolean . values)
+	(vector
+		(apply ~boolean<? values)
+		(apply ~boolean<=? values)
+		(apply boolean=? values)
+		(apply ~boolean>=? values)
+		(apply ~boolean>? values)))
+=> !ignore;
+
+(define (compare-char . values)
+	(vector
+		(apply char<? values)
+		(apply char<=? values)
+		(apply char=? values)
+		(apply char>=? values)
+		(apply char>? values)))
+=> !ignore;
+
+(define (compare-symbol . values)
+	(vector
+		(apply ~symbol<? values)
+		(apply ~symbol<=? values)
+		(apply symbol=? values)
+		(apply ~symbol>=? values)
+		(apply ~symbol>? values)))
+=> !ignore;
+
+(define (compare-string . values)
+	(vector
+		(apply string<? values)
+		(apply string<=? values)
+		(apply string=? values)
+		(apply string>=? values)
+		(apply string>? values)))
+=> !ignore;
+
+(define (compare-bytevector . values)
+	(vector
+		(apply ~bytevector<? values)
+		(apply ~bytevector<=? values)
+		(apply ~bytevector=? values)
+		(apply ~bytevector>=? values)
+		(apply ~bytevector>? values)))
+=> !ignore;
+
+(define (compare-pair . values)
+	(vector
+		(apply ~pair<? values)
+		(apply ~pair<=? values)
+		(apply ~pair=? values)
+		(apply ~pair>=? values)
+		(apply ~pair>? values)))
+=> !ignore;
+
+(define (compare-vector . values)
+	(vector
+		(apply ~vector<? values)
+		(apply ~vector<=? values)
+		(apply ~vector=? values)
+		(apply ~vector>=? values)
+		(apply ~vector>? values)))
+=> !ignore;
+
+(define (compare-values . values)
+	(vector
+		(apply ~values<? values)
+		(apply ~values<=? values)
+		(apply ~values=? values)
+		(apply ~values>=? values)
+		(apply ~values>? values)))
+=> !ignore;
+
+(define (compare-generic . values)
+	(vector
+		(apply ~generic<? values)
+		(apply ~generic<=? values)
+		(apply ~generic=? values)
+		(apply ~generic>=? values)
+		(apply ~generic>? values)))
+=> !ignore;
+
+
+
+
+(compare-boolean #t) => #(#t #t #t #t #t);
+(compare-boolean #f) => #(#t #t #t #t #t);
+
+(compare-boolean #t #t) => #(#f #t #t #t #f);
+(compare-boolean #f #f) => #(#f #t #t #t #f);
+
+(compare-boolean #f #t) => #(#t #t #f #f #f);
+(compare-boolean #t #f) => #(#f #f #f #t #t);
+
+
+
+
+(compare-char #\x0) => #(#t #t #t #t #t);
+(compare-char #\x1) => #(#t #t #t #t #t);
+
+(compare-char #\x1 #\x1) => #(#f #t #t #t #f);
+(compare-char #\x0 #\x0) => #(#f #t #t #t #f);
+
+(compare-char #\x0 #\x1) => #(#t #t #f #f #f);
+(compare-char #\x1 #\x0) => #(#f #f #f #t #t);
+
+(compare-char #\0 #\9) => #(#t #t #f #f #f);
+(compare-char #\9 #\0) => #(#f #f #f #t #t);
+
+(compare-char #\a #\z) => #(#t #t #f #f #f);
+(compare-char #\z #\a) => #(#f #f #f #t #t);
+
+(compare-char #\A #\Z) => #(#t #t #f #f #f);
+(compare-char #\Z #\A) => #(#f #f #f #t #t);
+
+(compare-char #\A #\a) => #(#t #t #f #f #f);
+(compare-char #\a #\A) => #(#f #f #f #t #t);
+
+
+
+
+(compare-symbol '||) => #(#t #t #t #t #t);
+(compare-symbol '|a|) => #(#t #t #t #t #t);
+(compare-symbol '|aa|) => #(#t #t #t #t #t);
+
+(compare-symbol '|a| '|a|) => #(#f #t #t #t #f);
+(compare-symbol '|aa| '|aa|) => #(#f #t #t #t #f);
+
+(compare-symbol '|0| '|9|) => #(#t #t #f #f #f);
+(compare-symbol '|9| '|0|) => #(#f #f #f #t #t);
+
+(compare-symbol '|a| '|z|) => #(#t #t #f #f #f);
+(compare-symbol '|z| '|a|) => #(#f #f #f #t #t);
+
+(compare-symbol '|A| '|Z|) => #(#t #t #f #f #f);
+(compare-symbol '|Z| '|A|) => #(#f #f #f #t #t);
+
+(compare-symbol '|A| '|a|) => #(#t #t #f #f #f);
+(compare-symbol '|a| '|A|) => #(#f #f #f #t #t);
+
+(compare-symbol '|| '|a|) => #(#t #t #f #f #f);
+(compare-symbol '|a| '||) => #(#f #f #f #t #t);
+
+(compare-symbol '|a| '|ab|) => #(#t #t #f #f #f);
+(compare-symbol '|ab| '|a|) => #(#f #f #f #t #t);
+
+(compare-symbol '|ab| '|ac|) => #(#t #t #f #f #f);
+(compare-symbol '|ac| '|ab|) => #(#f #f #f #t #t);
+
+(compare-symbol '|a0| '|z0|) => #(#t #t #f #f #f);
+(compare-symbol '|z0| '|a0|) => #(#f #f #f #t #t);
+
+
+
+
+(compare-string "") => #(#t #t #t #t #t);
+(compare-string "a") => #(#t #t #t #t #t);
+(compare-string "aa") => #(#t #t #t #t #t);
+
+(compare-string "a" "a") => #(#f #t #t #t #f);
+(compare-string "b" "b") => #(#f #t #t #t #f);
+
+(compare-string "0" "9") => #(#t #t #f #f #f);
+(compare-string "9" "0") => #(#f #f #f #t #t);
+
+(compare-string "a" "z") => #(#t #t #f #f #f);
+(compare-string "z" "a") => #(#f #f #f #t #t);
+
+(compare-string "A" "Z") => #(#t #t #f #f #f);
+(compare-string "Z" "A") => #(#f #f #f #t #t);
+
+(compare-string "A" "a") => #(#t #t #f #f #f);
+(compare-string "a" "A") => #(#f #f #f #t #t);
+
+(compare-string "" "a") => #(#t #t #f #f #f);
+(compare-string "a" "") => #(#f #f #f #t #t);
+
+(compare-string "a" "ab") => #(#t #t #f #f #f);
+(compare-string "ab" "a") => #(#f #f #f #t #t);
+
+(compare-string "ab" "ac") => #(#t #t #f #f #f);
+(compare-string "ac" "ab") => #(#f #f #f #t #t);
+
+(compare-string "ab" "acd") => #(#t #t #f #f #f);
+(compare-string "acd" "ab") => #(#f #f #f #t #t);
+
+(compare-string "abd" "acd") => #(#t #t #f #f #f);
+(compare-string "ac" "abd") => #(#f #f #f #t #t);
+
+(compare-string "a0" "z0") => #(#t #t #f #f #f);
+(compare-string "z0" "a0") => #(#f #f #f #t #t);
+
+(compare-string "a00" "z0") => #(#t #t #f #f #f);
+(compare-string "z0" "a00") => #(#f #f #f #t #t);
+
+(compare-string "a0" "z00") => #(#t #t #f #f #f);
+(compare-string "z00" "a0") => #(#f #f #f #t #t);
+
+
+
+
+
+(compare-bytevector #u8()) => #(#t #t #t #t #t);
+(compare-bytevector #u8(0)) => #(#t #t #t #t #t);
+(compare-bytevector #u8(0 1)) => #(#t #t #t #t #t);
+
+(compare-bytevector #u8(0) #u8(0)) => #(#f #t #t #t #f);
+(compare-bytevector #u8(1) #u8(1)) => #(#f #t #t #t #f);
+
+(compare-bytevector #u8(0) #u8(255)) => #(#t #t #f #f #f);
+(compare-bytevector #u8(255) #u8(0)) => #(#f #f #f #t #t);
+
+(compare-bytevector #u8() #u8(0)) => #(#t #t #f #f #f);
+(compare-bytevector #u8(0) #u8()) => #(#f #f #f #t #t);
+
+(compare-bytevector #u8(0) #u8(0 1)) => #(#t #t #f #f #f);
+(compare-bytevector #u8(0 1) #u8(0)) => #(#f #f #f #t #t);
+
+(compare-bytevector #u8(0 1) #u8(0 2)) => #(#t #t #f #f #f);
+(compare-bytevector #u8(0 2) #u8(0 1)) => #(#f #f #f #t #t);
+
+(compare-bytevector #u8(0 1 3) #u8(0 2)) => #(#t #t #f #f #f);
+(compare-bytevector #u8(0 2) #u8(0 1 3)) => #(#f #f #f #t #t);
+
+(compare-bytevector #u8(0 1) #u8(0 2 3)) => #(#t #t #f #f #f);
+(compare-bytevector #u8(0 2 3) #u8(0 1)) => #(#f #f #f #t #t);
+
+(compare-bytevector #u8(0 1) #u8(255 1)) => #(#t #t #f #f #f);
+(compare-bytevector #u8(255 1) #u8(0 1)) => #(#f #f #f #t #t);
+
+(compare-bytevector #u8(0 1 1) #u8(255 1)) => #(#t #t #f #f #f);
+(compare-bytevector #u8(255 1) #u8(0 1 1)) => #(#f #f #f #t #t);
+
+(compare-bytevector #u8(0 1) #u8(255 1 1)) => #(#t #t #f #f #f);
+(compare-bytevector #u8(255 1 1) #u8(0 1)) => #(#f #f #f #t #t);
+
+
+
+
+(compare-vector #()) => #(#t #t #t #t #t);
+(compare-vector #(0)) => #(#t #t #t #t #t);
+(compare-vector #(0 1)) => #(#t #t #t #t #t);
+
+(compare-vector #(0) #(0)) => #(#f #t #t #t #f);
+(compare-vector #(1) #(1)) => #(#f #t #t #t #f);
+
+(compare-vector #(0) #(255)) => #(#t #t #f #f #f);
+(compare-vector #(255) #(0)) => #(#f #f #f #t #t);
+
+(compare-vector #() #(0)) => #(#t #t #f #f #f);
+(compare-vector #(0) #()) => #(#f #f #f #t #t);
+
+(compare-vector #(0) #(0 1)) => #(#t #t #f #f #f);
+(compare-vector #(0 1) #(0)) => #(#f #f #f #t #t);
+
+(compare-vector #(0 1) #(0 2)) => #(#t #t #f #f #f);
+(compare-vector #(0 2) #(0 1)) => #(#f #f #f #t #t);
+
+(compare-vector #(0 1 3) #(0 2)) => #(#t #t #f #f #f);
+(compare-vector #(0 2) #(0 1 3)) => #(#f #f #f #t #t);
+
+(compare-vector #(0 1) #(0 2 3)) => #(#t #t #f #f #f);
+(compare-vector #(0 2 3) #(0 1)) => #(#f #f #f #t #t);
+
+(compare-vector #(0 1) #(255 1)) => #(#t #t #f #f #f);
+(compare-vector #(255 1) #(0 1)) => #(#f #f #f #t #t);
+
+(compare-vector #(0 1 1) #(255 1)) => #(#t #t #f #f #f);
+(compare-vector #(255 1) #(0 1 1)) => #(#f #f #f #t #t);
+
+(compare-vector #(0 1) #(255 1 1)) => #(#t #t #f #f #f);
+(compare-vector #(255 1 1) #(0 1)) => #(#f #f #f #t #t);
+
+
+
+
+(compare-values #values()) => #(#t #t #t #t #t);
+(compare-values #values(0)) => #(#t #t #t #t #t);
+(compare-values #values(0 1)) => #(#t #t #t #t #t);
+
+(compare-values #values(0) #values(0)) => #(#f #t #t #t #f);
+(compare-values #values(1) #values(1)) => #(#f #t #t #t #f);
+
+(compare-values #values(0) #values(255)) => #(#t #t #f #f #f);
+(compare-values #values(255) #values(0)) => #(#f #f #f #t #t);
+
+(compare-values #values() #values(0)) => #(#t #t #f #f #f);
+(compare-values #values(0) #values()) => #(#f #f #f #t #t);
+
+(compare-values #values(0) #values(0 1)) => #(#t #t #f #f #f);
+(compare-values #values(0 1) #values(0)) => #(#f #f #f #t #t);
+
+(compare-values #values(0 1) #values(0 2)) => #(#t #t #f #f #f);
+(compare-values #values(0 2) #values(0 1)) => #(#f #f #f #t #t);
+
+(compare-values #values(0 1 3) #values(0 2)) => #(#t #t #f #f #f);
+(compare-values #values(0 2) #values(0 1 3)) => #(#f #f #f #t #t);
+
+(compare-values #values(0 1) #values(0 2 3)) => #(#t #t #f #f #f);
+(compare-values #values(0 2 3) #values(0 1)) => #(#f #f #f #t #t);
+
+(compare-values #values(0 1) #values(255 1)) => #(#t #t #f #f #f);
+(compare-values #values(255 1) #values(0 1)) => #(#f #f #f #t #t);
+
+(compare-values #values(0 1 1) #values(255 1)) => #(#t #t #f #f #f);
+(compare-values #values(255 1) #values(0 1 1)) => #(#f #f #f #t #t);
+
+(compare-values #values(0 1) #values(255 1 1)) => #(#t #t #f #f #f);
+(compare-values #values(255 1 1) #values(0 1)) => #(#f #f #f #t #t);
+
+
+
+
+(compare-pair '(0 . 0)) => #(#t #t #t #t #t);
+
+(compare-pair '(0 . 0) '(0 . 0)) => #(#f #t #t #t #f);
+(compare-pair '(1 . 1) '(1 . 1)) => #(#f #t #t #t #f);
+
+(compare-pair '(0 . 1) '(0 . 2)) => #(#t #t #f #f #f);
+(compare-pair '(0 . 2) '(0 . 1)) => #(#f #f #f #t #t);
+
+(compare-pair '(0 . 1) '(255 . 1)) => #(#t #t #f #f #f);
+(compare-pair '(255 . 1) '(0 . 1)) => #(#f #f #f #t #t);
+
+
+
+
+(compare-pair '(0)) => #(#t #t #t #t #t);
+(compare-pair '(0 1)) => #(#t #t #t #t #t);
+
+(compare-pair '(0) '(0)) => #(#f #t #t #t #f);
+(compare-pair '(1) '(1)) => #(#f #t #t #t #f);
+
+(compare-pair '(0) '(255)) => #(#t #t #f #f #f);
+(compare-pair '(255) '(0)) => #(#f #f #f #t #t);
+
+(compare-pair '(0) '(0 1)) => #(#t #t #f #f #f);
+(compare-pair '(0 1) '(0)) => #(#f #f #f #t #t);
+
+(compare-pair '(0 1) '(0 2)) => #(#t #t #f #f #f);
+(compare-pair '(0 2) '(0 1)) => #(#f #f #f #t #t);
+
+(compare-pair '(0 1 3) '(0 2)) => #(#t #t #f #f #f);
+(compare-pair '(0 2) '(0 1 3)) => #(#f #f #f #t #t);
+
+(compare-pair '(0 1) '(0 2 3)) => #(#t #t #f #f #f);
+(compare-pair '(0 2 3) '(0 1)) => #(#f #f #f #t #t);
+
+(compare-pair '(0 1) '(255 1)) => #(#t #t #f #f #f);
+(compare-pair '(255 1) '(0 1)) => #(#f #f #f #t #t);
+
+(compare-pair '(0 1 1) '(255 1)) => #(#t #t #f #f #f);
+(compare-pair '(255 1) '(0 1 1)) => #(#f #f #f #t #t);
+
+(compare-pair '(0 1) '(255 1 1)) => #(#t #t #f #f #f);
+(compare-pair '(255 1 1) '(0 1)) => #(#f #f #f #t #t);
+
+
+
+
+(compare-generic #null #null) => #(#f #t #t #t #f);
+(compare-generic #void #void) => #(#f #t #t #t #f);
+
+(compare-generic #null #void) => #(#t #t #f #f #f);
+(compare-generic #void #null) => #(#f #f #f #t #t);
+
+(compare-generic #void #f) => #(#t #t #f #f #f);
+(compare-generic #f #void) => #(#f #f #f #t #t);
+
+(compare-generic #void #t) => #(#t #t #f #f #f);
+(compare-generic #t #void) => #(#f #f #f #t #t);
+
+(compare-generic #f #t) => #(#t #t #f #f #f);
+(compare-generic #t #f) => #(#f #f #f #t #t);
+
+(compare-generic #f 0) => #(#t #t #f #f #f);
+(compare-generic 0 #f) => #(#f #f #f #t #t);
+
+(compare-generic #t 0) => #(#t #t #f #f #f);
+(compare-generic 0 #t) => #(#f #f #f #t #t);
+
+(compare-generic #f 0.0) => #(#t #t #f #f #f);
+(compare-generic 0.0 #f) => #(#f #f #f #t #t);
+
+(compare-generic #t 0.0) => #(#t #t #f #f #f);
+(compare-generic 0.0 #t) => #(#f #f #f #t #t);
+
+(compare-generic 0 0.0) => #(#f #t #t #t #f);
+(compare-generic 0.0 0) => #(#f #t #t #t #f);
+
+(compare-generic 0 #\0) => #(#t #t #f #f #f);
+(compare-generic #\0 0) => #(#f #f #f #t #t);
+
+(compare-generic #\0 '|0|) => #(#t #t #f #f #f);
+(compare-generic '|0| #\0) => #(#f #f #f #t #t);
+
+(compare-generic #\0 "0") => #(#t #t #f #f #f);
+(compare-generic "0" #\0) => #(#f #f #f #t #t);
+
+(compare-generic '|0| "0") => #(#t #t #f #f #f);
+(compare-generic "0" '|0|) => #(#f #f #f #t #t);
+
+(compare-generic "0" #u8(0)) => #(#t #t #f #f #f);
+(compare-generic #u8(0) "0") => #(#f #f #f #t #t);
+
+(compare-generic #u8(0) '(0 . 0)) => #(#t #t #f #f #f);
+(compare-generic '(0 . 0) #u8(0)) => #(#f #f #f #t #t);
+
+(compare-generic '(0 . 0) #(0)) => #(#t #t #f #f #f);
+(compare-generic #(0) '(0 . 0)) => #(#f #f #f #t #t);
+
+(compare-generic #(0) #values(0)) => #(#t #t #f #f #f);
+(compare-generic #values(0) #(0)) => #(#f #f #f #t #t);
+
+(compare-generic #values(0) +) => #(#t #t #f #f #f);
+(compare-generic + #values(0)) => #(#f #f #f #t #t);
+
+(compare-generic #values(0) (lambda x x)) => #(#t #t #f #f #f);
+(compare-generic (lambda x x) #(values)) => #(#f #f #f #t #t);
+
+(compare-generic (lambda x x) +) => #(#t #t #f #f #f);
+(compare-generic + #(values)) => #(#f #f #f #t #t);
+
