@@ -7,6 +7,29 @@
 
 
 
+(cmp) => #t;
+(cmp #null) => #t;
+(cmp #null #null) => #t;
+(cmp #null #null #null) => #t;
+(cmp #null #null #null #null) => #t;
+(cmp #null #null #null #null #null) => #t;
+
+(cmp #null #t) => #f;
+(cmp #null #null #t) => #f;
+(cmp #null #null #t #null) => #f;
+(cmp #null #null #t #null #null) => #f;
+
+(cmp #null #t #t) => #f;
+(cmp #null #t #t #null) => #f;
+(cmp #null #t #t #null #null) => #f;
+
+(cmp #null #t #t) => #f;
+(cmp #null #t #t #null) => #f;
+(cmp #null #t #t #t #null) => #f;
+
+
+
+
 (cmp #null #null) => #t;
 (cmp #null #void) => #f;
 (cmp #null #undefined) => #f;
