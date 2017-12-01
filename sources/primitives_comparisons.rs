@@ -45,8 +45,10 @@ pub enum ComparisonPrimitive0 {}
 pub enum ComparisonPrimitive1 {
 	
 	EquivalentByIdentity,
-	EquivalentByValue,
-	EquivalentByValueRecursive,
+	EquivalentByValueStrict,
+	EquivalentByValueStrictRecursive,
+	EquivalentByValueCoerced,
+	EquivalentByValueCoercedRecursive,
 	
 	GenericLesser,
 	GenericLesserOrEqual,
@@ -133,8 +135,10 @@ pub enum ComparisonPrimitive1 {
 pub enum ComparisonPrimitive2 {
 	
 	EquivalentByIdentity,
-	EquivalentByValue,
-	EquivalentByValueRecursive,
+	EquivalentByValueStrict,
+	EquivalentByValueStrictRecursive,
+	EquivalentByValueCoerced,
+	EquivalentByValueCoercedRecursive,
 	
 	GenericLesser,
 	GenericLesserOrEqual,
@@ -233,8 +237,10 @@ pub enum ComparisonPrimitive5 {}
 pub enum ComparisonPrimitiveN {
 	
 	EquivalentByIdentity,
-	EquivalentByValue,
-	EquivalentByValueRecursive,
+	EquivalentByValueStrict,
+	EquivalentByValueStrictRecursive,
+	EquivalentByValueCoerced,
+	EquivalentByValueCoercedRecursive,
 	
 	GenericLesser,
 	GenericLesserOrEqual,
@@ -332,8 +338,10 @@ pub fn comparison_primitive_1_evaluate (primitive : ComparisonPrimitive1, input_
 	let output = output && match primitive {
 		
 		ComparisonPrimitive1::EquivalentByIdentity |
-		ComparisonPrimitive1::EquivalentByValue |
-		ComparisonPrimitive1::EquivalentByValueRecursive =>
+		ComparisonPrimitive1::EquivalentByValueStrict |
+		ComparisonPrimitive1::EquivalentByValueStrictRecursive |
+		ComparisonPrimitive1::EquivalentByValueCoerced |
+		ComparisonPrimitive1::EquivalentByValueCoercedRecursive =>
 			true,
 		
 		ComparisonPrimitive1::GenericLesser |
@@ -471,11 +479,17 @@ pub fn comparison_primitive_2_evaluate (primitive : ComparisonPrimitive2, input_
 		ComparisonPrimitive2::EquivalentByIdentity =>
 			try! (compare_2 (input_1, input_2, Comparison::Equivalence (Equivalence::ByIdentity, None, None))),
 		
-		ComparisonPrimitive2::EquivalentByValue =>
-			try! (compare_2 (input_1, input_2, Comparison::Equivalence (Equivalence::ByValue, None, None))),
+		ComparisonPrimitive2::EquivalentByValueStrict =>
+			try! (compare_2 (input_1, input_2, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (false)))),
 		
-		ComparisonPrimitive2::EquivalentByValueRecursive =>
-			try! (compare_2 (input_1, input_2, Comparison::Equivalence (Equivalence::ByValue, None, None))),
+		ComparisonPrimitive2::EquivalentByValueStrictRecursive =>
+			try! (compare_2 (input_1, input_2, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (true)))),
+		
+		ComparisonPrimitive2::EquivalentByValueCoerced =>
+			try! (compare_2 (input_1, input_2, Comparison::Equivalence (Equivalence::ByValue, Some (true), Some (false)))),
+		
+		ComparisonPrimitive2::EquivalentByValueCoercedRecursive =>
+			try! (compare_2 (input_1, input_2, Comparison::Equivalence (Equivalence::ByValue, Some (true), Some (true)))),
 		
 		ComparisonPrimitive2::GenericLesser =>
 			try! (compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, None))),
@@ -723,10 +737,14 @@ pub fn comparison_primitive_n_alternative_1 (primitive : ComparisonPrimitiveN) -
 	match primitive {
 		ComparisonPrimitiveN::EquivalentByIdentity =>
 			Some (ComparisonPrimitive1::EquivalentByIdentity),
-		ComparisonPrimitiveN::EquivalentByValue =>
-			Some (ComparisonPrimitive1::EquivalentByValue),
-		ComparisonPrimitiveN::EquivalentByValueRecursive =>
-			Some (ComparisonPrimitive1::EquivalentByValueRecursive),
+		ComparisonPrimitiveN::EquivalentByValueStrict =>
+			Some (ComparisonPrimitive1::EquivalentByValueStrict),
+		ComparisonPrimitiveN::EquivalentByValueStrictRecursive =>
+			Some (ComparisonPrimitive1::EquivalentByValueStrictRecursive),
+		ComparisonPrimitiveN::EquivalentByValueCoerced =>
+			Some (ComparisonPrimitive1::EquivalentByValueCoerced),
+		ComparisonPrimitiveN::EquivalentByValueCoercedRecursive =>
+			Some (ComparisonPrimitive1::EquivalentByValueCoercedRecursive),
 		ComparisonPrimitiveN::GenericLesser =>
 			Some (ComparisonPrimitive1::GenericLesser),
 		ComparisonPrimitiveN::GenericLesserOrEqual =>
@@ -865,10 +883,14 @@ pub fn comparison_primitive_n_alternative_2 (primitive : ComparisonPrimitiveN) -
 	match primitive {
 		ComparisonPrimitiveN::EquivalentByIdentity =>
 			Some (ComparisonPrimitive2::EquivalentByIdentity),
-		ComparisonPrimitiveN::EquivalentByValue =>
-			Some (ComparisonPrimitive2::EquivalentByValue),
-		ComparisonPrimitiveN::EquivalentByValueRecursive =>
-			Some (ComparisonPrimitive2::EquivalentByValueRecursive),
+		ComparisonPrimitiveN::EquivalentByValueStrict =>
+			Some (ComparisonPrimitive2::EquivalentByValueStrict),
+		ComparisonPrimitiveN::EquivalentByValueStrictRecursive =>
+			Some (ComparisonPrimitive2::EquivalentByValueStrictRecursive),
+		ComparisonPrimitiveN::EquivalentByValueCoerced =>
+			Some (ComparisonPrimitive2::EquivalentByValueCoerced),
+		ComparisonPrimitiveN::EquivalentByValueCoercedRecursive =>
+			Some (ComparisonPrimitive2::EquivalentByValueCoercedRecursive),
 		ComparisonPrimitiveN::GenericLesser =>
 			Some (ComparisonPrimitive2::GenericLesser),
 		ComparisonPrimitiveN::GenericLesserOrEqual =>

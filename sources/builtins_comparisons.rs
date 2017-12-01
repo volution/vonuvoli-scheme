@@ -1,6 +1,7 @@
 
 
 use super::contexts::exports::*;
+use super::conversions::exports::*;
 use super::errors::exports::*;
 use super::procedures::exports::*;
 use super::primitives::exports::*;
@@ -83,6 +84,37 @@ pub enum Comparison {
 }
 
 
+impl Comparison {
+	
+	pub fn for_aggregated (&self) -> (Comparison) {
+		match *self {
+			
+			Comparison::Equivalence (equivalence, coercion, recursive) =>
+				match equivalence {
+					Equivalence::ByIdentity =>
+						Comparison::Equivalence (Equivalence::ByIdentity, coercion, Some (false)),
+					Equivalence::ByValue =>
+						match recursive {
+							None | Some (false) =>
+								Comparison::Equivalence (Equivalence::ByIdentity, coercion, Some (false)),
+							Some (true) =>
+								Comparison::Equivalence (Equivalence::ByValue, coercion, Some (true)),
+						},
+				},
+			
+			Comparison::Ordering (ordering, case_sensitivity, recursive) =>
+				match recursive {
+					None | Some (false) =>
+						Comparison::Ordering (ordering, case_sensitivity, Some (false)),
+					Some (true) =>
+						Comparison::Ordering (ordering, case_sensitivity, Some (true)),
+				},
+			
+		}
+	}
+}
+
+
 
 
 pub fn equivalent_by_identity_2 (left : &Value, right : &Value) -> (Outcome<bool>) {
@@ -142,31 +174,24 @@ pub fn compare_2 (left : &Value, right : &Value, comparison : Comparison) -> (Ou
 			return symbol_compare_2 (left.as_ref (), right.as_ref (), comparison),
 		
 		(ValueClass::String, ValueClass::String) =>
-			// FIXME:  Comparing for non-recursive equivalence should fail if not comparing to self!
 			return string_compare_2 (left.as_ref (), right.as_ref (), comparison),
 		
 		(ValueClass::Bytes, ValueClass::Bytes) =>
-			// FIXME:  Comparing for non-recursive equivalence should fail if not comparing to self!
 			return bytes_compare_2 (left.as_ref (), right.as_ref (), comparison),
 		
 		(ValueClass::Pair, ValueClass::Pair) =>
-			// FIXME:  Comparing for non-recursive equivalence should fail if not comparing to self!
 			return pair_compare_2 (left.as_ref (), right.as_ref (), comparison),
 		
 		(ValueClass::Array, ValueClass::Array) =>
-			// FIXME:  Comparing for non-recursive equivalence should fail if not comparing to self!
 			return array_compare_2 (left.as_ref (), right.as_ref (), comparison),
 		
 		(ValueClass::Values, ValueClass::Values) =>
-			// FIXME:  Comparing for non-recursive equivalence should fail if not comparing to self!
 			return values_compare_2 (left.as_ref (), right.as_ref (), comparison),
 		
 		(ValueClass::Error, ValueClass::Error) =>
-			// FIXME:  Comparing for non-recursive equivalence should fail if not comparing to self!
 			return error_compare_2 (left.as_ref (), right.as_ref (), comparison),
 		
 		(ValueClass::Lambda, ValueClass::Lambda) =>
-			// FIXME:  Comparing for non-recursive equivalence should fail if not comparing to self!
 			return lambda_compare_2 (left.as_ref (), right.as_ref (), comparison),
 		
 		(ValueClass::ProcedurePrimitive, ValueClass::ProcedurePrimitive) =>
@@ -218,6 +243,7 @@ pub fn compare_2 (left : &Value, right : &Value, comparison : Comparison) -> (Ou
 				Comparison::Ordering (ordering, _, _) =>
 					return value_class_compare_2_ordering (left_class, right_class, ordering),
 			},
+		
 	}
 }
 
@@ -236,21 +262,68 @@ pub fn number_real_compare_2 (left : &NumberReal, right : &NumberReal, compariso
 	return std_ord_compare_2 (left, right, comparison);
 }
 
+
 pub fn character_compare_2 (left : &Character, right : &Character, comparison : Comparison) -> (Outcome<bool>) {
-	return std_ord_compare_2 (left, right, comparison);
+	match comparison {
+		Comparison::Equivalence (_, _, _) =>
+			succeed! (left == right),
+		Comparison::Ordering (ordering, case_sensitivity, _) =>
+			match case_sensitivity {
+				None | Some (true) =>
+					return std_ord_compare_2_ordering (left, right, ordering),
+				_ =>
+					fail_unimplemented! (0xea3c51f1),
+			},
+	}
 }
 
 pub fn symbol_compare_2 (left : &Symbol, right : &Symbol, comparison : Comparison) -> (Outcome<bool>) {
-	return std_ord_compare_2 (left, right, comparison);
+	match comparison {
+		Comparison::Equivalence (_, _, _) =>
+			succeed! (left == right),
+		Comparison::Ordering (ordering, case_sensitivity, _) =>
+			match case_sensitivity {
+				None | Some (true) =>
+					return std_ord_compare_2_ordering (left, right, ordering),
+				_ =>
+					fail_unimplemented! (0xc4ef7065),
+			},
+	}
 }
 
 pub fn string_compare_2 (left : &String, right : &String, comparison : Comparison) -> (Outcome<bool>) {
-	return std_ord_compare_2 (left, right, comparison);
+	match comparison {
+		Comparison::Equivalence (equivalence, _, _) =>
+			match equivalence {
+				Equivalence::ByIdentity =>
+					succeed! (String::is_self (left, right)),
+				Equivalence::ByValue =>
+					succeed! (left == right),
+			},
+		Comparison::Ordering (ordering, case_sensitivity, _) =>
+			match case_sensitivity {
+				None | Some (true) =>
+					return std_ord_compare_2_ordering (left, right, ordering),
+				_ =>
+					fail_unimplemented! (0x2736b1f6),
+			},
+	}
 }
 
 pub fn bytes_compare_2 (left : &Bytes, right : &Bytes, comparison : Comparison) -> (Outcome<bool>) {
-	return std_ord_compare_2 (left, right, comparison);
+	match comparison {
+		Comparison::Equivalence (equivalence, _, _) =>
+			match equivalence {
+				Equivalence::ByIdentity =>
+					succeed! (Bytes::is_self (left, right)),
+				Equivalence::ByValue =>
+					succeed! (left == right),
+			},
+		Comparison::Ordering (ordering, _, _) =>
+			return std_ord_compare_2_ordering (left, right, ordering),
+	}
 }
+
 
 pub fn pair_compare_2 (left : &Pair, right : &Pair, comparison : Comparison) -> (Outcome<bool>) {
 	match comparison {
@@ -258,15 +331,19 @@ pub fn pair_compare_2 (left : &Pair, right : &Pair, comparison : Comparison) -> 
 			match equivalence {
 				Equivalence::ByIdentity =>
 					succeed! (Pair::is_self (left, right)),
-				Equivalence::ByValue =>
+				Equivalence::ByValue => {
+					let comparison = comparison.for_aggregated ();
 					succeed! (
 							try! (compare_2 (left.left (), right.left (), comparison)) &&
-							try! (compare_2 (left.right (), right.right (), comparison))),
+							try! (compare_2 (left.right (), right.right (), comparison)));
+				},
 			},
-		Comparison::Ordering (_, _, _) =>
+		Comparison::Ordering (_, _, _) => {
+			let comparison = comparison.for_aggregated ();
 			succeed! (
 					try! (compare_2 (left.left (), right.left (), comparison)) &&
-					try! (compare_2 (left.right (), right.right (), comparison))),
+					try! (compare_2 (left.right (), right.right (), comparison)));
+		},
 	}
 }
 
@@ -277,10 +354,10 @@ pub fn array_compare_2 (left : &Array, right : &Array, comparison : Comparison) 
 				Equivalence::ByIdentity =>
 					succeed! (Array::is_self (left, right)),
 				Equivalence::ByValue =>
-					return vec_compare_2 (left.values_as_slice (), right.values_as_slice (), comparison),
+					return vec_compare_2 (left.values_as_slice (), right.values_as_slice (), comparison.for_aggregated ()),
 			},
 		Comparison::Ordering (_, _, _) =>
-			return vec_compare_2 (left.values_as_slice (), right.values_as_slice (), comparison),
+			return vec_compare_2 (left.values_as_slice (), right.values_as_slice (), comparison.for_aggregated ()),
 	}
 }
 
@@ -291,21 +368,30 @@ pub fn values_compare_2 (left : &Values, right : &Values, comparison : Compariso
 				Equivalence::ByIdentity =>
 					succeed! (Values::is_self (left, right)),
 				Equivalence::ByValue =>
-					return vec_compare_2 (left.values_as_slice (), right.values_as_slice (), comparison),
+					return vec_compare_2 (left.values_as_slice (), right.values_as_slice (), comparison.for_aggregated ()),
 			},
 		Comparison::Ordering (_, _, _) =>
-			return vec_compare_2 (left.values_as_slice (), right.values_as_slice (), comparison),
+			return vec_compare_2 (left.values_as_slice (), right.values_as_slice (), comparison.for_aggregated ()),
 	}
 }
 
-#[ allow (unused_variables) ]
+
 pub fn error_compare_2 (left : &Error, right : &Error, comparison : Comparison) -> (Outcome<bool>) {
-	fail_unimplemented! (0xf2275647);
+	match comparison {
+		Comparison::Equivalence (_, _, _) =>
+			succeed! (Error::is_self (left, right)),
+		Comparison::Ordering (ordering, _, _) =>
+			return std_ord_compare_2_ordering (&left.code, &right.code, ordering),
+	}
 }
 
-#[ allow (unused_variables) ]
 pub fn lambda_compare_2 (left : &Lambda, right : &Lambda, comparison : Comparison) -> (Outcome<bool>) {
-	fail_unimplemented! (0x53fd2c24);
+	match comparison {
+		Comparison::Equivalence (_, _, _) =>
+			succeed! (Lambda::is_self (left, right)),
+		Comparison::Ordering (_, _, _) =>
+			fail_unimplemented! (0x53fd2c24),
+	}
 }
 
 pub fn procedure_primitive_compare_2 (left : &ProcedurePrimitive, right : &ProcedurePrimitive, comparison : Comparison) -> (Outcome<bool>) {
@@ -316,22 +402,74 @@ pub fn syntax_primitive_compare_2 (left : &SyntaxPrimitive, right : &SyntaxPrimi
 	return std_ord_compare_2 (left, right, comparison);
 }
 
-#[ allow (unused_variables) ]
 pub fn context_compare_2 (left : &Context, right : &Context, comparison : Comparison) -> (Outcome<bool>) {
-	fail_unimplemented! (0x9296c028);
+	match comparison {
+		Comparison::Equivalence (_, _, _) =>
+			succeed! (Context::is_self (left, right)),
+		Comparison::Ordering (_, _, _) =>
+			fail_unimplemented! (0x9296c028),
+	}
 }
 
-#[ allow (unused_variables) ]
 pub fn binding_compare_2 (left : &Binding, right : &Binding, comparison : Comparison) -> (Outcome<bool>) {
-	fail_unimplemented! (0x4466d4a7);
+	match comparison {
+		Comparison::Equivalence (_, _, _) =>
+			succeed! (Binding::is_self (left, right)),
+		Comparison::Ordering (_, _, _) =>
+			fail_unimplemented! (0x4466d4a7),
+	}
 }
 
 
 
 
-#[ allow (unused_variables) ]
 pub fn number_compare_2 (left : &Value, right : &Value, comparison : Comparison) -> (Outcome<bool>) {
-	fail_unimplemented! (0xfaf0eeee);
+	match comparison {
+		
+		Comparison::Equivalence (_, coercion, _) =>
+			match coercion {
+				
+				None | Some (false) =>
+					match (left.class (), right.class ()) {
+						(ValueClass::NumberInteger, ValueClass::NumberInteger) =>
+							succeed! (NumberInteger::as_ref (left) == NumberInteger::as_ref (right)),
+						(ValueClass::NumberReal, ValueClass::NumberReal) =>
+							succeed! (NumberReal::as_ref (left) == NumberReal::as_ref (right)),
+						(ValueClass::NumberInteger, ValueClass::NumberReal) =>
+							succeed! (false),
+						(ValueClass::NumberReal, ValueClass::NumberInteger) =>
+							succeed! (false),
+						(ValueClass::NumberInteger, _) =>
+							fail! (0x4878e871),
+						(ValueClass::NumberReal, _) =>
+							fail! (0xf6401a54),
+						(_, ValueClass::NumberInteger) =>
+							fail! (0xb73515b9),
+						(_, ValueClass::NumberReal) =>
+							fail! (0xbbdcc17a),
+						(_, _) =>
+							fail! (0xfc1f9e8b),
+					},
+				
+				Some (true) =>
+					match try! (number_coerce_2a (left, right)) {
+						NumberCoercion2::Integer (left, right) =>
+							succeed! (left == right),
+						NumberCoercion2::Real (left, right) =>
+							succeed! (left == right),
+					},
+				
+			},
+		
+		Comparison::Ordering (ordering, _, _) =>
+			match try! (number_coerce_2a (left, right)) {
+				NumberCoercion2::Integer (left, right) =>
+					return std_ord_compare_2_ordering (&left, &right, ordering),
+				NumberCoercion2::Real (left, right) =>
+					return std_ord_compare_2_ordering (&left, &right, ordering),
+			},
+		
+	}
 }
 
 

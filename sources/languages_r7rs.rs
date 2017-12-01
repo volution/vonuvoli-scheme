@@ -129,8 +129,8 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			// equivalences
 			
 			("base", "equivalence", "eq?", ComparisonPrimitiveN::EquivalentByIdentity.into ()),
-			("base", "equivalence", "eqv?", ComparisonPrimitiveN::EquivalentByValue.into ()),
-			("base", "equivalence", "equal?", ComparisonPrimitiveN::EquivalentByValueRecursive.into ()),
+			("base", "equivalence", "eqv?", ComparisonPrimitiveN::EquivalentByValueStrict.into ()),
+			("base", "equivalence", "equal?", ComparisonPrimitiveN::EquivalentByValueStrictRecursive.into ()),
 			
 			
 			

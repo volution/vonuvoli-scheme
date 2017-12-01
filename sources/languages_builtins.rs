@@ -63,6 +63,12 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			
 			("vector-reverse", ArrayPrimitive1::ArrayReverse.into ()),
 			
+			("equivalent-by-identity?", ComparisonPrimitiveN::EquivalentByIdentity.into ()),
+			("equivalent-by-value-strict?", ComparisonPrimitiveN::EquivalentByValueStrict.into ()),
+			("equivalent-by-value-strict-recursive?", ComparisonPrimitiveN::EquivalentByValueStrictRecursive.into ()),
+			("equivalent-by-value-coerced?", ComparisonPrimitiveN::EquivalentByValueCoerced.into ()),
+			("equivalent-by-value-coerced-recursive?", ComparisonPrimitiveN::EquivalentByValueCoercedRecursive.into ()),
+			
 		];
 	
 	let definitions = vec_map! (
