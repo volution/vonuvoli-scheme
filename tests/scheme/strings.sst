@@ -89,3 +89,35 @@
 (string-ref #string(0 1) 1) => #\x1;
 (string-ref #string(0 1 2) 2) => #\x2;
 
+
+
+
+(string-upcase "") => "";
+(string-upcase "a") => "A";
+(string-upcase "A") => "A";
+(string-upcase "0") => "0";
+(string-upcase "abc") => "ABC";
+(string-upcase "ABC") => "ABC";
+(string-upcase "aAbBcC") => "AABBCC";
+
+(string-downcase "") => "";
+(string-downcase "a") => "a";
+(string-downcase "A") => "a";
+(string-downcase "0") => "0";
+(string-downcase "abc") => "abc";
+(string-downcase "ABC") => "abc";
+(string-downcase "aAbBcC") => "aabbcc";
+
+
+
+
+(string->symbol "") => '||;
+(string->symbol "a") => '|a|;
+(string->symbol "abc") => '|abc|;
+(string->symbol "0") => '|0|;
+
+(symbol->string '||) => "";
+(symbol->string '|a|) => "a";
+(symbol->string '|abc|) => "abc";
+(symbol->string '|0|) => "0";
+

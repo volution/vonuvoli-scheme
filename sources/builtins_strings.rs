@@ -447,13 +447,15 @@ impl <'a> Iterator for StringIterators <'a> {
 
 
 pub fn string_to_upper_case (string : &Value) -> (Outcome<Value>) {
-	let _string = try_as_string_ref! (string);
-	fail_unimplemented! (0x51ccda28);
+	let string = try_as_string_ref! (string) .string_as_str ();
+	let string = string.to_uppercase ();
+	succeed! (string_new (string) .into ());
 }
 
 pub fn string_to_lower_case (string : &Value) -> (Outcome<Value>) {
-	let _string = try_as_string_ref! (string);
-	fail_unimplemented! (0x5b3b6996);
+	let string = try_as_string_ref! (string) .string_as_str ();
+	let string = string.to_lowercase ();
+	succeed! (string_new (string) .into ());
 }
 
 pub fn string_to_fold_case (string : &Value) -> (Outcome<Value>) {
@@ -481,13 +483,13 @@ pub fn character_to_fold_case (character : &Value) -> (Outcome<Value>) {
 
 
 pub fn string_to_symbol (string : &Value) -> (Outcome<Value>) {
-	let _string = try_as_string_ref! (string);
-	fail_unimplemented! (0xb78d6401);
+	let string = try_as_string_ref! (string) .string_as_str ();
+	succeed! (symbol_clone_str (string) .into ());
 }
 
 pub fn symbol_to_string (symbol : &Value) -> (Outcome<Value>) {
-	let _symbol = try_as_symbol_ref! (symbol);
-	fail_unimplemented! (0xb5a87eac);
+	let string = try_as_symbol_ref! (symbol) .string_as_str ();
+	succeed! (string_clone_str (string) .into ());
 }
 
 
