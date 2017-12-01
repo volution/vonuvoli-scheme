@@ -51,7 +51,7 @@ number_integer_8 -> values::Value = ( "#o" / "#O" ) value : $( number_sign? [0-7
 number_integer_10 -> values::Value = ( "#d" / "#D" )? value : $( number_sign? [0-9]+ ) {? i64::from_str_radix (value, 10) .map (|value| values::number_i64 (value) .into ()) .map_err (|_| "invalid real syntax") }
 number_integer_16 -> values::Value = ( "#x" / "#X" ) value : $( number_sign? ( [0-9a-f]+ / [0-9A-F]+ ) ) {? i64::from_str_radix (value, 16) .map (|value| values::number_i64 (value) .into ()) .map_err (|_| "invalid real syntax") }
 
-number_real -> values::Value = number_real_variant_1 / number_real_variant_2 / number_real_variant_3 / number_real_variant_4 / number_real_inf / number_real_nan
+number_real -> values::Value = number_real_variant_1 / number_real_variant_2 / number_real_variant_3 / number_real_variant_4 / number_real_inf / number_real_nan / number_real_epsilon
 number_real_variant_1 -> values::Value = value : $( number_sign? [0-9]+ "." [0-9]+ number_real_exponent? ) {? f64::from_str (value) .map (|value| values::number_f64 (value) .into ()) .map_err (|_| "invalid real syntax") }
 number_real_variant_2 -> values::Value = value : $( number_sign? [0-9]+ "." number_real_exponent? ) {? f64::from_str (value) .map (|value| values::number_f64 (value) .into ()) .map_err (|_| "invalid real syntax") }
 number_real_variant_3 -> values::Value = value : $( number_sign? "." [0-9]+ number_real_exponent? ) {? f64::from_str (value) .map (|value| values::number_f64 (value) .into ()) .map_err (|_| "invalid real syntax") }
@@ -62,6 +62,9 @@ number_real_inf_negative -> values::Value = &"-" number_sign "inf" ".0"? { const
 number_real_nan -> values::Value = number_real_nan_positive / number_real_nan_negative
 number_real_nan_positive -> values::Value = &"+" number_sign "nan" ".0"? { constants::NAN_POSITIVE.into () }
 number_real_nan_negative -> values::Value = &"-" number_sign "nan" ".0"? { constants::NAN_NEGATIVE.into () }
+number_real_epsilon -> values::Value = number_real_epsilon_positive / number_real_epsilon_negative
+number_real_epsilon_positive -> values::Value = &"+" number_sign "epsilon" ".0"? { constants::EPSILON_POSITIVE.into () }
+number_real_epsilon_negative -> values::Value = &"-" number_sign "epsilon" ".0"? { constants::EPSILON_NEGATIVE.into () }
 number_real_exponent = ( "e" / "E" ) number_sign? [0-9]+
 
 character -> values::Value = character_glyph / character_escaped / character_named

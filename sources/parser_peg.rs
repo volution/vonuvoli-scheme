@@ -1297,7 +1297,23 @@ fn __parse_number_real<'input>(
                                         match __choice_res {
                                             Matched(__pos, __value) => Matched(__pos, __value),
                                             Failed => {
-                                                __parse_number_real_nan(__input, __state, __pos)
+                                                let __choice_res = __parse_number_real_nan(
+                                                    __input,
+                                                    __state,
+                                                    __pos,
+                                                );
+                                                match __choice_res {
+                                                    Matched(__pos, __value) => {
+                                                        Matched(__pos, __value)
+                                                    }
+                                                    Failed => {
+                                                        __parse_number_real_epsilon(
+                                                            __input,
+                                                            __state,
+                                                            __pos,
+                                                        )
+                                                    }
+                                                }
                                             }
                                         }
                                     }
@@ -1888,6 +1904,111 @@ fn __parse_number_real_nan_negative<'input>(
                                     Matched(__pos, _) => {
                                         Matched(__pos, {
                                             constants::NAN_NEGATIVE.into()
+                                        })
+                                    }
+                                    Failed => Failed,
+                                }
+                            }
+                            Failed => Failed,
+                        }
+                    }
+                    Failed => Failed,
+                }
+            }
+            Failed => Failed,
+        }
+    }
+}
+
+fn __parse_number_real_epsilon<'input>(
+    __input: &'input str,
+    __state: &mut ParseState<'input>,
+    __pos: usize,
+) -> RuleResult<values::Value> {# ! [ allow ( non_snake_case , unused ) ]    {
+        let __choice_res = __parse_number_real_epsilon_positive(__input, __state, __pos);
+        match __choice_res {
+            Matched(__pos, __value) => Matched(__pos, __value),
+            Failed => __parse_number_real_epsilon_negative(__input, __state, __pos),
+        }
+    }
+}
+
+fn __parse_number_real_epsilon_positive<'input>(
+    __input: &'input str,
+    __state: &mut ParseState<'input>,
+    __pos: usize,
+) -> RuleResult<values::Value> {# ! [ allow ( non_snake_case , unused ) ]    {
+        let __seq_res = {
+            __state.suppress_fail += 1;
+            let __assert_res = slice_eq(__input, __state, __pos, "+");
+            __state.suppress_fail -= 1;
+            match __assert_res {
+                Matched(_, __value) => Matched(__pos, __value),
+                Failed => Failed,
+            }
+        };
+        match __seq_res {
+            Matched(__pos, _) => {
+                let __seq_res = __parse_number_sign(__input, __state, __pos);
+                match __seq_res {
+                    Matched(__pos, _) => {
+                        let __seq_res = slice_eq(__input, __state, __pos, "epsilon");
+                        match __seq_res {
+                            Matched(__pos, _) => {
+                                let __seq_res = match slice_eq(__input, __state, __pos, ".0") {
+                                    Matched(__newpos, _) => Matched(__newpos, ()),
+                                    Failed => Matched(__pos, ()),
+                                };
+                                match __seq_res {
+                                    Matched(__pos, _) => {
+                                        Matched(__pos, {
+                                            constants::EPSILON_POSITIVE.into()
+                                        })
+                                    }
+                                    Failed => Failed,
+                                }
+                            }
+                            Failed => Failed,
+                        }
+                    }
+                    Failed => Failed,
+                }
+            }
+            Failed => Failed,
+        }
+    }
+}
+
+fn __parse_number_real_epsilon_negative<'input>(
+    __input: &'input str,
+    __state: &mut ParseState<'input>,
+    __pos: usize,
+) -> RuleResult<values::Value> {# ! [ allow ( non_snake_case , unused ) ]    {
+        let __seq_res = {
+            __state.suppress_fail += 1;
+            let __assert_res = slice_eq(__input, __state, __pos, "-");
+            __state.suppress_fail -= 1;
+            match __assert_res {
+                Matched(_, __value) => Matched(__pos, __value),
+                Failed => Failed,
+            }
+        };
+        match __seq_res {
+            Matched(__pos, _) => {
+                let __seq_res = __parse_number_sign(__input, __state, __pos);
+                match __seq_res {
+                    Matched(__pos, _) => {
+                        let __seq_res = slice_eq(__input, __state, __pos, "epsilon");
+                        match __seq_res {
+                            Matched(__pos, _) => {
+                                let __seq_res = match slice_eq(__input, __state, __pos, ".0") {
+                                    Matched(__newpos, _) => Matched(__newpos, ()),
+                                    Failed => Matched(__pos, ()),
+                                };
+                                match __seq_res {
+                                    Matched(__pos, _) => {
+                                        Matched(__pos, {
+                                            constants::EPSILON_NEGATIVE.into()
                                         })
                                     }
                                     Failed => Failed,
