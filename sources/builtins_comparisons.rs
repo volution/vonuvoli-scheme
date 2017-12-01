@@ -259,7 +259,20 @@ pub fn number_integer_compare_2 (left : &NumberInteger, right : &NumberInteger, 
 }
 
 pub fn number_real_compare_2 (left : &NumberReal, right : &NumberReal, comparison : Comparison) -> (Outcome<bool>) {
-	return std_ord_compare_2 (left, right, comparison);
+	match comparison {
+		Comparison::Equivalence (_, _, _) =>
+			if left.is_nan () && right.is_nan () {
+				succeed! (true);
+			} else {
+				succeed! (left == right);
+			},
+		Comparison::Ordering (ordering, _, _) =>
+			if left.is_nan () || right.is_nan () {
+				succeed! (false);
+			} else {
+				return std_ord_compare_2_ordering (left, right, ordering);
+			},
+	}
 }
 
 
@@ -433,8 +446,15 @@ pub fn number_compare_2 (left : &Value, right : &Value, comparison : Comparison)
 					match (left.class (), right.class ()) {
 						(ValueClass::NumberInteger, ValueClass::NumberInteger) =>
 							succeed! (NumberInteger::as_ref (left) == NumberInteger::as_ref (right)),
-						(ValueClass::NumberReal, ValueClass::NumberReal) =>
-							succeed! (NumberReal::as_ref (left) == NumberReal::as_ref (right)),
+						(ValueClass::NumberReal, ValueClass::NumberReal) => {
+							let left = NumberReal::as_ref (left);
+							let right = NumberReal::as_ref (right);
+							if left.is_nan () && right.is_nan () {
+								succeed! (true);
+							} else {
+								succeed! (left == right);
+							}
+						},
 						(ValueClass::NumberInteger, ValueClass::NumberReal) =>
 							succeed! (false),
 						(ValueClass::NumberReal, ValueClass::NumberInteger) =>
@@ -456,7 +476,11 @@ pub fn number_compare_2 (left : &Value, right : &Value, comparison : Comparison)
 						NumberCoercion2::Integer (left, right) =>
 							succeed! (left == right),
 						NumberCoercion2::Real (left, right) =>
-							succeed! (left == right),
+							if left.is_nan () && right.is_nan () {
+								succeed! (true);
+							} else {
+								succeed! (left == right);
+							},
 					},
 				
 			},
@@ -466,7 +490,11 @@ pub fn number_compare_2 (left : &Value, right : &Value, comparison : Comparison)
 				NumberCoercion2::Integer (left, right) =>
 					return std_ord_compare_2_ordering (&left, &right, ordering),
 				NumberCoercion2::Real (left, right) =>
-					return std_ord_compare_2_ordering (&left, &right, ordering),
+					if left.is_nan () || right.is_nan () {
+						succeed! (false);
+					} else {
+						return std_ord_compare_2_ordering (&left, &right, ordering);
+					},
 			},
 		
 	}

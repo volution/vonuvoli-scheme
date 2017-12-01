@@ -367,8 +367,14 @@ pub fn comparison_primitive_1_evaluate (primitive : ComparisonPrimitive1, input_
 		ComparisonPrimitive1::NumberEqual |
 		ComparisonPrimitive1::NumberGreaterOrEqual |
 		ComparisonPrimitive1::NumberGreater =>
-			if (input_class == ValueClass::NumberInteger) || (input_class == ValueClass::NumberReal) {
+			if input_class == ValueClass::NumberInteger {
 				true
+			} else if input_class == ValueClass::NumberReal {
+				if NumberReal::as_ref (input_1) .is_nan () {
+					false
+				} else {
+					true
+				}
 			} else {
 				fail! (0x0e6bfc4b);
 			},
