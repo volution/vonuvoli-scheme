@@ -7,7 +7,6 @@ use super::procedures::exports::*;
 use super::runtime::exports::*;
 
 use std::char;
-use std::cmp;
 use std::fmt;
 use std::hash;
 use std::ops;
@@ -789,14 +788,14 @@ impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Shr<NumberIntegerInto> fo
 
 impl fmt::Display for NumberInteger {
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		write! (formatter, "{}", self.0)
+		write! (formatter, "{:+}", self.0)
 	}
 }
 
 
 
 
-#[ derive (Copy, Clone, Debug) ]
+#[ derive (Copy, Clone, PartialEq, PartialOrd, Debug) ]
 pub struct NumberReal ( pub f64 );
 
 
@@ -986,37 +985,6 @@ impl <NumberRealInto : StdInto<NumberReal>> ops::Rem<NumberRealInto> for NumberR
 	}
 }
 
-/*
-// NOTE:  Investigate if this is needed!
-impl cmp::Eq for NumberReal {}
-*/
-
-impl cmp::PartialEq for NumberReal {
-	fn eq (&self, other : &NumberReal) -> (bool) {
-		self.0.to_bits () == other.0.to_bits ()
-	}
-}
-
-/*
-// NOTE:  Investigate if this is needed!
-impl cmp::Ord for NumberReal {
-	fn cmp (&self, other : &NumberReal) -> (cmp::Ordering) {
-		if let Some (ordering) = self.0.partial_cmp (&other.0) {
-			ordering
-		} else {
-			// FIXME:  Correctly handle this!
-			cmp::Ordering::Equal
-		}
-	}
-}
-*/
-
-impl cmp::PartialOrd for NumberReal {
-	fn partial_cmp (&self, other : &NumberReal) -> (Option<cmp::Ordering>) {
-		self.0.partial_cmp (&other.0)
-	}
-}
-
 impl hash::Hash for NumberReal {
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		hasher.write_u64 (self.0.to_bits ());
@@ -1025,7 +993,7 @@ impl hash::Hash for NumberReal {
 
 impl fmt::Display for NumberReal {
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		write! (formatter, "{}", self.0)
+		write! (formatter, "{:+e}", self.0)
 	}
 }
 
