@@ -86,7 +86,7 @@ pub enum Comparison {
 
 impl Comparison {
 	
-	pub fn for_aggregated (&self) -> (Comparison) {
+	pub fn for_aggregated (&self, last : bool) -> (Comparison) {
 		match *self {
 			
 			Comparison::Equivalence (equivalence, coercion, recursive) =>
@@ -102,13 +102,19 @@ impl Comparison {
 						},
 				},
 			
-			Comparison::Ordering (ordering, case_sensitivity, recursive) =>
+			Comparison::Ordering (ordering, case_sensitivity, recursive) => {
+				let ordering = if ! last {
+					Ordering::Equal
+				} else {
+					ordering
+				};
 				match recursive {
 					None | Some (false) =>
 						Comparison::Ordering (ordering, case_sensitivity, Some (false)),
 					Some (true) =>
 						Comparison::Ordering (ordering, case_sensitivity, Some (true)),
-				},
+				}
+			},
 			
 		}
 	}
@@ -340,23 +346,43 @@ pub fn bytes_compare_2 (left : &Bytes, right : &Bytes, comparison : Comparison) 
 
 pub fn pair_compare_2 (left : &Pair, right : &Pair, comparison : Comparison) -> (Outcome<bool>) {
 	match comparison {
+		
 		Comparison::Equivalence (equivalence, _, _) =>
 			match equivalence {
 				Equivalence::ByIdentity =>
 					succeed! (Pair::is_self (left, right)),
 				Equivalence::ByValue => {
-					let comparison = comparison.for_aggregated ();
+					let comparison = comparison.for_aggregated (false);
 					succeed! (
 							try! (compare_2 (left.left (), right.left (), comparison)) &&
 							try! (compare_2 (left.right (), right.right (), comparison)));
 				},
 			},
+		
 		Comparison::Ordering (_, _, _) => {
-			let comparison = comparison.for_aggregated ();
-			succeed! (
-					try! (compare_2 (left.left (), right.left (), comparison)) &&
-					try! (compare_2 (left.right (), right.right (), comparison)));
+			let comparison_for_last = comparison.for_aggregated (true);
+			let comparison_for_non_last = comparison.for_aggregated (false);
+			
+			if ! try! (compare_2 (left.left (), right.left (), comparison_for_non_last)) {
+				if comparison_for_non_last == comparison_for_last {
+					succeed! (false);
+				} else {
+					if try! (compare_2 (left.left (), right.left (), comparison_for_last)) {
+						succeed! (true);
+					} else {
+						succeed! (false);
+					}
+				}
+			}
+			
+			if try! (compare_2 (left.right (), right.right (), comparison_for_last)) {
+				succeed! (true);
+			} else {
+				succeed! (false);
+			}
+			
 		},
+		
 	}
 }
 
@@ -367,10 +393,10 @@ pub fn array_compare_2 (left : &Array, right : &Array, comparison : Comparison) 
 				Equivalence::ByIdentity =>
 					succeed! (Array::is_self (left, right)),
 				Equivalence::ByValue =>
-					return vec_compare_2 (left.values_as_slice (), right.values_as_slice (), comparison.for_aggregated ()),
+					return vec_compare_2 (left.values_as_slice (), right.values_as_slice (), comparison),
 			},
 		Comparison::Ordering (_, _, _) =>
-			return vec_compare_2 (left.values_as_slice (), right.values_as_slice (), comparison.for_aggregated ()),
+			return vec_compare_2 (left.values_as_slice (), right.values_as_slice (), comparison),
 	}
 }
 
@@ -381,10 +407,10 @@ pub fn values_compare_2 (left : &Values, right : &Values, comparison : Compariso
 				Equivalence::ByIdentity =>
 					succeed! (Values::is_self (left, right)),
 				Equivalence::ByValue =>
-					return vec_compare_2 (left.values_as_slice (), right.values_as_slice (), comparison.for_aggregated ()),
+					return vec_compare_2 (left.values_as_slice (), right.values_as_slice (), comparison),
 			},
 		Comparison::Ordering (_, _, _) =>
-			return vec_compare_2 (left.values_as_slice (), right.values_as_slice (), comparison.for_aggregated ()),
+			return vec_compare_2 (left.values_as_slice (), right.values_as_slice (), comparison),
 	}
 }
 
@@ -516,37 +542,61 @@ pub fn vec_compare_2 (left : &[Value], right : &[Value], comparison : Comparison
 	let right_length = right.len ();
 	
 	match comparison {
+		
 		Comparison::Equivalence (_, _, _) =>
 			if left_length != right_length {
 				succeed! (false);
+			} else if (left_length == 0) && (right_length == 0) {
+				succeed! (true);
 			},
-		Comparison::Ordering (_, _, _) =>
-			(),
+		
+		Comparison::Ordering (ordering, _, _) =>
+			if (left_length == 0) && (right_length == 0) {
+				match ordering {
+					Ordering::LesserOrEqual | Ordering::Equal | Ordering::GreaterOrEqual =>
+						succeed! (true),
+					Ordering::Lesser | Ordering::Greater =>
+						succeed! (false),
+				}
+			},
+		
 	}
 	
 	let mut left_iterator = left.iter ();
 	let mut right_iterator = right.iter ();
+	let comparison_for_last = comparison.for_aggregated (true);
+	let comparison_for_non_last = comparison.for_aggregated (false);
+	let index_last = usize::max (left_length, right_length) - 1;
+	let mut index_next = 0;
 	loop {
 		let left_next = left_iterator.next ();
 		let right_next = right_iterator.next ();
 		match (left_next, right_next) {
 			
 			(Some (left_next), Some (right_next)) =>
-				if ! try! (compare_2 (left_next, right_next, comparison)) {
-					succeed! (false);
+				if index_next == index_last {
+					if ! try! (compare_2 (left_next, right_next, comparison_for_last)) {
+						succeed! (false);
+					}
+				} else {
+					if ! try! (compare_2 (left_next, right_next, comparison_for_non_last)) {
+						if comparison_for_non_last == comparison_for_last {
+							succeed! (false);
+						}
+						if try! (compare_2 (left_next, right_next, comparison_for_last)) {
+							succeed! (true);
+						} else {
+							succeed! (false);
+						}
+					}
 				},
 			
 			(None, None) =>
 				match comparison {
 					Comparison::Equivalence (_, _, _) =>
 						succeed! (true),
-					Comparison::Ordering (ordering, _, _) =>
-						match ordering {
-							Ordering::Lesser | Ordering::Greater =>
-								succeed! (false),
-							Ordering::Equal | Ordering::LesserOrEqual | Ordering::GreaterOrEqual =>
-								succeed! (true),
-						}
+					Comparison::Ordering (_, _, _) =>
+						succeed! (true),
 				},
 			
 			(None, Some (_)) =>
@@ -559,7 +609,7 @@ pub fn vec_compare_2 (left : &[Value], right : &[Value], comparison : Comparison
 								succeed! (true),
 							Ordering::Equal | Ordering::GreaterOrEqual | Ordering::Greater =>
 								succeed! (false),
-						}
+						},
 				},
 			
 			(Some (_), None) =>
@@ -572,10 +622,12 @@ pub fn vec_compare_2 (left : &[Value], right : &[Value], comparison : Comparison
 								succeed! (true),
 							Ordering::Equal | Ordering::LesserOrEqual | Ordering::Lesser =>
 								succeed! (false),
-						}
+						},
 				},
 			
 		}
+		
+		index_next += 1;
 	}
 }
 
