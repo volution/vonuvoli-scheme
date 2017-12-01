@@ -276,9 +276,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "lists", "memv", ListPrimitive2::ListMemberByValue.into ()),
 			("base", "lists", "member", ListPrimitiveN::ListMember.into ()),
 			
-			("base", "lists", "assq", ListPrimitive2::AssocMemberByIdentity.into ()),
-			("base", "lists", "assv", ListPrimitive2::AssocMemberByValue.into ()),
-			("base", "lists", "assoc", ListPrimitiveN::AssocMember.into ()),
+			("base", "lists", "assq", ListPrimitive2::ListAssocByIdentity.into ()),
+			("base", "lists", "assv", ListPrimitive2::ListAssocByValue.into ()),
+			("base", "lists", "assoc", ListPrimitiveN::ListAssoc.into ()),
 			
 			
 			

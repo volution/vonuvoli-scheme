@@ -34,6 +34,9 @@ pub mod exports {
 	pub use super::{list_fill_range, list_reverse_range, list_copy_range, list_clone_range};
 	pub use super::{list_length};
 	
+	pub use super::{list_member_by_comparison, list_member_by_comparator};
+	pub use super::{list_assoc_by_comparison, list_assoc_by_comparator};
+	
 	pub use super::{vec_list_append_2, vec_list_append_3, vec_list_append_4, vec_list_append_n};
 	pub use super::{vec_list_append_2_dotted, vec_list_append_3_dotted, vec_list_append_4_dotted, vec_list_append_n_dotted};
 	pub use super::{vec_list_clone, vec_list_clone_dotted, vec_list_drain, vec_list_drain_dotted};
@@ -325,6 +328,25 @@ pub fn list_length (list : &Value) -> (Outcome<usize>) {
 			fail! (0xc0c2b870);
 		}
 	}
+}
+
+
+
+
+pub fn list_member_by_comparison (_list : &Value, _comparison : Comparison) -> (Outcome<Value>) {
+	fail_unimplemented! (0x50762ad5);
+}
+
+pub fn list_member_by_comparator (_list : &Value, _comparator : &Value) -> (Outcome<Value>) {
+	fail_unimplemented! (0xd34ac3ce);
+}
+
+pub fn list_assoc_by_comparison (_list : &Value, _comparison : Comparison) -> (Outcome<Value>) {
+	fail_unimplemented! (0xeda4598d);
+}
+
+pub fn list_assoc_by_comparator (_list : &Value, _comparator : &Value) -> (Outcome<Value>) {
+	fail_unimplemented! (0x9ba8b61d);
 }
 
 

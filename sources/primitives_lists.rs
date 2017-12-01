@@ -1,7 +1,7 @@
 
 
-use super::constants::exports::*;
 use super::builtins::exports::*;
+use super::constants::exports::*;
 use super::errors::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
@@ -98,9 +98,9 @@ pub enum ListPrimitive2 {
 	ListMemberByIdentity,
 	ListMemberByValue,
 	ListMemberByValueRecursive,
-	AssocMemberByIdentity,
-	AssocMemberByValue,
-	AssocMemberByValueRecursive,
+	ListAssocByIdentity,
+	ListAssocByValue,
+	ListAssocByValueRecursive,
 	
 }
 
@@ -119,7 +119,7 @@ pub enum ListPrimitive3 {
 	ListRangeClone,
 	
 	ListMemberByComparator,
-	AssocMemberByComparator,
+	ListAssocByComparator,
 	
 }
 
@@ -156,7 +156,7 @@ pub enum ListPrimitiveN {
 	ListRangeClone,
 	
 	ListMember,
-	AssocMember,
+	ListAssoc,
 	
 }
 
@@ -269,22 +269,22 @@ pub fn list_primitive_2_evaluate (primitive : ListPrimitive2, input_1 : &Value, 
 			return list_clone_range (input_1, Some (input_2), None),
 		
 		ListPrimitive2::ListMemberByIdentity =>
-			fail_unimplemented! (0xc4b64472),
+			return list_member_by_comparison (input_1, Comparison::Equivalence (Equivalence::ByIdentity, Some (false), Some (false))),
 		
 		ListPrimitive2::ListMemberByValue =>
-			fail_unimplemented! (0x5fd65244),
+			return list_member_by_comparison (input_1, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (false))),
 		
 		ListPrimitive2::ListMemberByValueRecursive =>
-			fail_unimplemented! (0xb851b3b3),
+			return list_member_by_comparison (input_1, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (true))),
 		
-		ListPrimitive2::AssocMemberByIdentity =>
-			fail_unimplemented! (0x8032a7fa),
+		ListPrimitive2::ListAssocByIdentity =>
+			return list_assoc_by_comparison (input_1, Comparison::Equivalence (Equivalence::ByIdentity, Some (false), Some (false))),
 		
-		ListPrimitive2::AssocMemberByValue =>
-			fail_unimplemented! (0xa7e22b96),
+		ListPrimitive2::ListAssocByValue =>
+			return list_assoc_by_comparison (input_1, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (false))),
 		
-		ListPrimitive2::AssocMemberByValueRecursive =>
-			fail_unimplemented! (0x9924fdbb),
+		ListPrimitive2::ListAssocByValueRecursive =>
+			return list_assoc_by_comparison (input_1, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (true))),
 		
 	}
 }
@@ -317,10 +317,10 @@ pub fn list_primitive_3_evaluate (primitive : ListPrimitive3, input_1 : &Value, 
 			return list_clone_range (input_1, Some (input_2), Some (input_3)),
 		
 		ListPrimitive3::ListMemberByComparator =>
-			fail_unimplemented! (0xeadea2b4),
+			return list_member_by_comparator (input_1, input_2),
 		
-		ListPrimitive3::AssocMemberByComparator =>
-			fail_unimplemented! (0x77e97e56),
+		ListPrimitive3::ListAssocByComparator =>
+			return list_assoc_by_comparator (input_1, input_2),
 		
 	}
 }
@@ -457,12 +457,12 @@ pub fn list_primitive_n_evaluate (primitive : ListPrimitiveN, inputs : &[Value])
 					fail! (0x0bac53c1),
 			},
 		
-		ListPrimitiveN::AssocMember =>
+		ListPrimitiveN::ListAssoc =>
 			match inputs_count {
 				2 =>
-					return list_primitive_2_evaluate (ListPrimitive2::AssocMemberByValueRecursive, &inputs[0], &inputs[1]),
+					return list_primitive_2_evaluate (ListPrimitive2::ListAssocByValueRecursive, &inputs[0], &inputs[1]),
 				3 =>
-					return list_primitive_3_evaluate (ListPrimitive3::AssocMemberByComparator, &inputs[0], &inputs[1], &inputs[2]),
+					return list_primitive_3_evaluate (ListPrimitive3::ListAssocByComparator, &inputs[0], &inputs[1], &inputs[2]),
 				_ =>
 					fail! (0x69aaa417),
 			},
@@ -489,7 +489,7 @@ pub fn list_primitive_n_alternative_0 (primitive : ListPrimitiveN) -> (Option<Li
 			None,
 		ListPrimitiveN::ListMember =>
 			None,
-		ListPrimitiveN::AssocMember =>
+		ListPrimitiveN::ListAssoc =>
 			None,
 	}
 }
@@ -511,7 +511,7 @@ pub fn list_primitive_n_alternative_1 (primitive : ListPrimitiveN) -> (Option<Li
 			Some (ListPrimitive1::ListClone),
 		ListPrimitiveN::ListMember =>
 			None,
-		ListPrimitiveN::AssocMember =>
+		ListPrimitiveN::ListAssoc =>
 			None,
 	}
 }
@@ -533,8 +533,8 @@ pub fn list_primitive_n_alternative_2 (primitive : ListPrimitiveN) -> (Option<Li
 			Some (ListPrimitive2::ListRangeClone),
 		ListPrimitiveN::ListMember =>
 			Some (ListPrimitive2::ListMemberByValueRecursive),
-		ListPrimitiveN::AssocMember =>
-			Some (ListPrimitive2::AssocMemberByValueRecursive),
+		ListPrimitiveN::ListAssoc =>
+			Some (ListPrimitive2::ListAssocByValueRecursive),
 	}
 }
 
@@ -555,8 +555,8 @@ pub fn list_primitive_n_alternative_3 (primitive : ListPrimitiveN) -> (Option<Li
 			Some (ListPrimitive3::ListRangeClone),
 		ListPrimitiveN::ListMember =>
 			Some (ListPrimitive3::ListMemberByComparator),
-		ListPrimitiveN::AssocMember =>
-			Some (ListPrimitive3::AssocMemberByComparator),
+		ListPrimitiveN::ListAssoc =>
+			Some (ListPrimitive3::ListAssocByComparator),
 	}
 }
 
@@ -577,7 +577,7 @@ pub fn list_primitive_n_alternative_4 (primitive : ListPrimitiveN) -> (Option<Li
 			None,
 		ListPrimitiveN::ListMember =>
 			None,
-		ListPrimitiveN::AssocMember =>
+		ListPrimitiveN::ListAssoc =>
 			None,
 	}
 }
@@ -599,7 +599,7 @@ pub fn list_primitive_n_alternative_5 (primitive : ListPrimitiveN) -> (Option<Li
 			None,
 		ListPrimitiveN::ListMember =>
 			None,
-		ListPrimitiveN::AssocMember =>
+		ListPrimitiveN::ListAssoc =>
 			None,
 	}
 }
