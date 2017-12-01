@@ -69,6 +69,52 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("equivalent-by-value-coerced?", ComparisonPrimitiveN::EquivalentByValueCoerced.into ()),
 			("equivalent-by-value-coerced-recursive?", ComparisonPrimitiveN::EquivalentByValueCoercedRecursive.into ()),
 			
+			("boolean<?", ComparisonPrimitiveN::BooleanLesser.into ()),
+			("boolean>?", ComparisonPrimitiveN::BooleanGreater.into ()),
+			("boolean<=?", ComparisonPrimitiveN::BooleanLesserOrEqual.into ()),
+			("boolean>=?", ComparisonPrimitiveN::BooleanGreaterOrEqual.into ()),
+			
+			("symbol<?", ComparisonPrimitiveN::SymbolCaseSensitiveLesser.into ()),
+			("symbol>?", ComparisonPrimitiveN::SymbolCaseSensitiveGreater.into ()),
+			("symbol<=?", ComparisonPrimitiveN::SymbolCaseSensitiveLesserOrEqual.into ()),
+			("symbol>=?", ComparisonPrimitiveN::SymbolCaseSensitiveGreaterOrEqual.into ()),
+			
+			("symbol-ci=?", ComparisonPrimitiveN::SymbolCaseInsensitiveEqual.into ()),
+			("symbol-ci<?", ComparisonPrimitiveN::SymbolCaseInsensitiveLesser.into ()),
+			("symbol-ci>?", ComparisonPrimitiveN::SymbolCaseInsensitiveGreater.into ()),
+			("symbol-ci<=?", ComparisonPrimitiveN::SymbolCaseInsensitiveLesserOrEqual.into ()),
+			("symbol-ci>=?", ComparisonPrimitiveN::SymbolCaseInsensitiveGreaterOrEqual.into ()),
+			
+			("bytevector=?", ComparisonPrimitiveN::BytesEqual.into ()),
+			("bytevector<?", ComparisonPrimitiveN::BytesLesser.into ()),
+			("bytevector>?", ComparisonPrimitiveN::BytesGreater.into ()),
+			("bytevector<=?", ComparisonPrimitiveN::BytesLesserOrEqual.into ()),
+			("bytevector>=?", ComparisonPrimitiveN::BytesGreaterOrEqual.into ()),
+			
+			("pair=?", ComparisonPrimitiveN::PairEqual.into ()),
+			("pair<?", ComparisonPrimitiveN::PairLesser.into ()),
+			("pair>?", ComparisonPrimitiveN::PairGreater.into ()),
+			("pair<=?", ComparisonPrimitiveN::PairLesserOrEqual.into ()),
+			("pair>=?", ComparisonPrimitiveN::PairGreaterOrEqual.into ()),
+			
+			("vector=?", ComparisonPrimitiveN::ArrayEqual.into ()),
+			("vector<?", ComparisonPrimitiveN::ArrayLesser.into ()),
+			("vector>?", ComparisonPrimitiveN::ArrayGreater.into ()),
+			("vector<=?", ComparisonPrimitiveN::ArrayLesserOrEqual.into ()),
+			("vector>=?", ComparisonPrimitiveN::ArrayGreaterOrEqual.into ()),
+			
+			("values=?", ComparisonPrimitiveN::ValuesEqual.into ()),
+			("values<?", ComparisonPrimitiveN::ValuesLesser.into ()),
+			("values>?", ComparisonPrimitiveN::ValuesGreater.into ()),
+			("values<=?", ComparisonPrimitiveN::ValuesLesserOrEqual.into ()),
+			("values>=?", ComparisonPrimitiveN::ValuesGreaterOrEqual.into ()),
+			
+			("generic=?", ComparisonPrimitiveN::GenericEqual.into ()),
+			("generic<?", ComparisonPrimitiveN::GenericLesser.into ()),
+			("generic>?", ComparisonPrimitiveN::GenericGreater.into ()),
+			("generic<=?", ComparisonPrimitiveN::GenericLesserOrEqual.into ()),
+			("generic>=?", ComparisonPrimitiveN::GenericGreaterOrEqual.into ()),
+			
 		];
 	
 	let definitions = vec_map! (
