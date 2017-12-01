@@ -196,6 +196,9 @@ impl Value {
 		}
 	}
 	
+	pub fn try_as_ref (&self) -> (Outcome<&Value>) {
+		succeed! (self);
+	}
 }
 
 
