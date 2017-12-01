@@ -422,7 +422,7 @@ impl Compiler {
 			}
 			let (guard, statements) = try! (vec_explode_1n (tokens));
 			
-			let (compilation_1, guard) = if guard.is (ValueClass::Symbol) && Symbol::as_ref (&guard) .string_eq ("else") {
+			let (compilation_1, guard) = if ! (guard.is (ValueClass::Symbol) && Symbol::as_ref (&guard) .string_eq ("else")) {
 				try! (self.compile_0 (compilation, guard))
 			} else {
 				(compilation, TRUE.into ())
