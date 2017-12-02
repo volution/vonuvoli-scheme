@@ -207,19 +207,19 @@ pub fn equivalent_by_identity_2 (left : &Value, right : &Value) -> (Outcome<bool
 }
 
 pub fn equivalent_by_value_strict_2 (left : &Value, right : &Value) -> (Outcome<bool>) {
-	return compare_2a (left, right, Comparison::Equivalence (Equivalence::ByValue, Some (true), Some (false)));
-}
-
-pub fn equivalent_by_value_strict_recursive_2 (left : &Value, right : &Value) -> (Outcome<bool>) {
-	return compare_2a (left, right, Comparison::Equivalence (Equivalence::ByValue, Some (true), Some (true)));
-}
-
-pub fn equivalent_by_value_coerced_2 (left : &Value, right : &Value) -> (Outcome<bool>) {
 	return compare_2a (left, right, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (false)));
 }
 
-pub fn equivalent_by_value_coerced_recursive_2 (left : &Value, right : &Value) -> (Outcome<bool>) {
+pub fn equivalent_by_value_strict_recursive_2 (left : &Value, right : &Value) -> (Outcome<bool>) {
 	return compare_2a (left, right, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (true)));
+}
+
+pub fn equivalent_by_value_coerced_2 (left : &Value, right : &Value) -> (Outcome<bool>) {
+	return compare_2a (left, right, Comparison::Equivalence (Equivalence::ByValue, Some (true), Some (false)));
+}
+
+pub fn equivalent_by_value_coerced_recursive_2 (left : &Value, right : &Value) -> (Outcome<bool>) {
+	return compare_2a (left, right, Comparison::Equivalence (Equivalence::ByValue, Some (true), Some (true)));
 }
 
 
