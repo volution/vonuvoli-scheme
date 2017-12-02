@@ -18,6 +18,7 @@ pub mod exports {
 	
 	pub use super::{string_empty};
 	pub use super::{string_collect_chars, string_collect_values};
+	pub use super::{string_collect_chars_from_generator, string_collect_values_from_generator};
 	pub use super::{string_build_1, string_build_2, string_build_3, string_build_4, string_build_n};
 	pub use super::{string_append_2, string_append_3, string_append_4, string_append_n};
 	pub use super::{string_make, string_clone, string_reverse};
@@ -25,6 +26,7 @@ pub mod exports {
 	pub use super::{string_range_to_list, list_range_to_string};
 	pub use super::{string_range_to_array, array_range_to_string};
 	pub use super::{string_range_to_bytes, bytes_range_to_string};
+	pub use super::{string_range_iterator};
 	pub use super::{string_length};
 	
 	pub use super::{vec_string_append_2, vec_string_append_3, vec_string_append_4, vec_string_append_n};
@@ -95,6 +97,23 @@ pub fn string_collect_values <Source> (chars : Source) -> (Outcome<Value>)
 		buffer.push (try_into_character! (char) .value ());
 	}
 	succeed! (string_collect_chars (buffer) .into ());
+}
+
+
+
+
+pub fn string_collect_chars_from_generator <Source> (chars : Source) -> (Outcome<Value>)
+		where Source : iter::Iterator<Item = Outcome<char>>
+{
+	let chars = try! (chars.collect::<Outcome<StdVec<_>>> ());
+	succeed! (string_collect_chars (chars));
+}
+
+pub fn string_collect_values_from_generator <Source> (chars : Source) -> (Outcome<Value>)
+		where Source : iter::Iterator<Item = Outcome<Value>>
+{
+	let chars = try! (chars.collect::<Outcome<StdVec<_>>> ());
+	return string_collect_values (chars);
 }
 
 
@@ -224,33 +243,30 @@ pub fn string_reverse (string : &Value) -> (Outcome<Value>) {
 
 
 pub fn string_fill_range (string : &Value, fill : Option<&Value>, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
-	let string = try_as_string_ref! (string);
+	let _string = try_as_string_ref! (string);
 	let _fill = if let Some (fill) = fill {
 		try_as_character_ref! (fill) .value ()
 	} else {
 		0 as char
 	};
-	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, string.string_chars_count_compute ()));
-	fail_unimplemented! (0x7eaac146);
+	let (_range_start, _range_end) = try! (range_coerce_unbounded (range_start, range_end));
+	fail_unimplemented! (0x7eaac146); // deferred
 }
 
 
 pub fn string_reverse_range (string : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
-	let string = try_as_string_ref! (string);
-	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, string.string_chars_count_compute ()));
-	fail_unimplemented! (0x46884d97);
+	let _string = try_as_string_ref! (string);
+	let (_range_start, _range_end) = try! (range_coerce_unbounded (range_start, range_end));
+	fail_unimplemented! (0x46884d97); // deferred
 }
 
 
 pub fn string_copy_range (target_string : &Value, target_start : Option<&Value>, source_string : &Value, source_start : Option<&Value>, source_end : Option<&Value>) -> (Outcome<Value>) {
-	let target_string = try_as_string_ref! (target_string);
-	let source_string = try_as_string_ref! (source_string);
-	let (source_start, source_end) = try! (range_coerce (source_start, source_end, source_string.string_chars_count_compute ()));
-	let (target_start, target_end) = try! (range_coerce (target_start, None, target_string.string_chars_count_compute ()));
-	if (target_end - target_start) < (source_end - source_start) {
-		fail! (0x7033eb20);
-	}
-	fail_unimplemented! (0xf216023f);
+	let _target_string = try_as_string_ref! (target_string);
+	let _source_string = try_as_string_ref! (source_string);
+	let (_source_start, _source_end) = try! (range_coerce_unbounded (source_start, source_end));
+	let (_target_start, _target_end) = try! (range_coerce_unbounded (target_start, None));
+	fail_unimplemented! (0xf216023f); // deferred
 }
 
 
@@ -269,38 +285,57 @@ pub fn string_clone_range (string : &Value, range_start : Option<&Value>, range_
 
 
 pub fn string_range_to_list (string : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
-	let string = try_as_string_ref! (string);
-	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, string.string_chars_count_compute ()));
-	fail_unimplemented! (0x95c1574a);
+	let characters = try! (string_range_iterator (string, range_start, range_end));
+	return list_collect_from_generator (characters);
 }
 
-pub fn list_range_to_string (_list : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
-	let (_range_start, _range_end) = try! (range_coerce_unbounded (range_start, range_end));
-	fail_unimplemented! (0xa96c4d82);
+pub fn list_range_to_string (list : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
+	let characters = try! (list_range_iterator (list, range_start, range_end));
+	return string_collect_values_from_generator (characters);
 }
+
 
 pub fn string_range_to_array (string : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
-	let string = try_as_string_ref! (string);
-	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, string.string_chars_count_compute ()));
-	fail_unimplemented! (0x84a38ef4);
+	let characters = try! (string_range_iterator (string, range_start, range_end));
+	return array_collect_from_generator (characters);
 }
 
 pub fn array_range_to_string (array : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
-	let array = try_as_array_ref! (array);
-	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, array.values_length ()));
-	fail_unimplemented! (0x20352b9b);
+	let characters = try! (array_range_iterator (array, range_start, range_end));
+	return string_collect_values_from_generator (characters);
 }
+
 
 pub fn string_range_to_bytes (string : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let string = try_as_string_ref! (string);
-	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, string.string_chars_count_compute ()));
-	fail_unimplemented! (0xbfa8814d);
+	let (range_start, range_end) = try! (range_coerce_unbounded (range_start, range_end));
+	let mut buffer = StdString::with_capacity (string.string_utf8_bytes_count ());
+	for character in try! (RangeIterator::new (string.string_chars (), range_start, range_end)) {
+		let character = try! (character);
+		buffer.push (character);
+	}
+	succeed! (bytes_new (buffer.into_bytes ()) .into ());
 }
 
 pub fn bytes_range_to_string (bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_ref! (bytes);
-	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, bytes.values_length ()));
-	fail_unimplemented! (0xea7e108d);
+	let (range_start, range_end) = try! (range_coerce (range_start, range_end, bytes.values_length ()));
+	if let Ok (string) = str::from_utf8 (& bytes.values_as_slice () [range_start..range_end]) {
+		succeed! (string_clone_str (string) .into ());
+	} else {
+		fail! (0xbc4b3840);
+	}
+}
+
+
+
+
+pub fn string_range_iterator <'a> (string : &'a Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<RangeIteratorForOutcome<Value, StringIterator<'a>>>) {
+	let string = try_as_string_ref! (string);
+	let (range_start, range_end) = try! (range_coerce_unbounded (range_start, range_end));
+	let iterator = try! (StringIterator::new_a (string));
+	let iterator = try! (RangeIteratorForOutcome::new (iterator, range_start, range_end));
+	succeed! (iterator);
 }
 
 
@@ -395,6 +430,10 @@ impl <'a> StringIterator <'a> {
 	
 	pub fn new (string : &'a Value) -> (Outcome<StringIterator<'a>>) {
 		let string = try_as_string_ref! (string);
+		return StringIterator::new_a (string);
+	}
+	
+	pub fn new_a (string : &'a String) -> (Outcome<StringIterator<'a>>) {
 		succeed! (StringIterator (string, string.string_chars ()));
 	}
 }
@@ -516,6 +555,8 @@ pub fn symbol_to_string (symbol : &Value) -> (Outcome<Value>) {
 }
 
 
+
+
 pub fn string_to_number (string : &Value, radix : Option<&Value>) -> (Outcome<Value>) {
 	use std::str::FromStr;
 	let string = try_as_string_ref! (string) .string_as_str ();
@@ -629,6 +670,8 @@ pub fn number_radix_coerce (radix : Option<&Value>) -> (Outcome<Option<u32>>) {
 }
 
 
+
+
 pub fn character_to_number (character : &Value) -> (Outcome<Value>) {
 	let character = try_as_character_ref! (character) .value ();
 	let number = NumberInteger::from (character);
@@ -644,9 +687,14 @@ pub fn number_to_character (number : &Value) -> (Outcome<Value>) {
 
 
 
-pub fn character_to_digit_number (character : &Value) -> (Outcome<Value>) {
-	let _character = try_as_character_ref! (character);
-	fail_unimplemented! (0xcfc998d4);
+pub fn character_to_digit_number (character : &Value, radix : Option<&Value>) -> (Outcome<Value>) {
+	let character = try_as_character_ref! (character) .value ();
+	let radix = try! (number_radix_coerce (radix)) .unwrap_or (10);
+	if let Some (value) = character.to_digit (radix) {
+		succeed! (value.into ());
+	} else {
+		succeed! (false.into ());
+	}
 }
 
 

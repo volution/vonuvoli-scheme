@@ -19,11 +19,13 @@ pub mod exports {
 	
 	pub use super::{array_empty};
 	pub use super::{array_collect};
+	pub use super::{array_collect_from_generator};
 	pub use super::{array_build_1, array_build_2, array_build_3, array_build_4, array_build_n};
 	pub use super::{array_append_2, array_append_3, array_append_4, array_append_n};
 	pub use super::{array_make, array_clone, array_reverse};
 	pub use super::{array_fill_range, array_reverse_range, array_copy_range, array_clone_range};
 	pub use super::{array_range_to_list, list_range_to_array};
+	pub use super::{array_range_iterator};
 	pub use super::{array_length};
 	
 	pub use super::{vec_array_append_2, vec_array_append_3, vec_array_append_4, vec_array_append_n};
@@ -61,6 +63,13 @@ pub fn array_collect <Source> (values : Source) -> (Value)
 {
 	use std::iter::FromIterator;
 	return array_new (FromIterator::from_iter (values)) .into ();
+}
+
+pub fn array_collect_from_generator <Source> (values : Source) -> (Outcome<Value>)
+		where Source : iter::Iterator<Item = Outcome<Value>>
+{
+	let values = try! (values.collect::<Outcome<StdVec<_>>> ());
+	succeed! (array_new (values) .into ());
 }
 
 
@@ -230,14 +239,24 @@ pub fn array_clone_range (array : &Value, range_start : Option<&Value>, range_en
 
 
 pub fn array_range_to_list (array : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
-	let array = try_as_array_ref! (array);
-	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, array.values_length ()));
-	fail_unimplemented! (0x61c53653);
+	let iterator = try! (array_range_iterator (array, range_start, range_end));
+	return list_collect_from_generator (iterator);
 }
 
-pub fn list_range_to_array (_list : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
-	let (_range_start, _range_end) = try! (range_coerce_unbounded (range_start, range_end));
-	fail_unimplemented! (0x7d8a4ce6);
+pub fn list_range_to_array (list : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
+	let iterator = try! (list_range_iterator (list, range_start, range_end));
+	return array_collect_from_generator (iterator);
+}
+
+
+
+
+pub fn array_range_iterator <'a> (array : &'a Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<RangeIteratorForOutcome<Value, ArrayIterator<'a>>>) {
+	let array = try_as_array_ref! (array);
+	let (range_start, range_end) = try! (range_coerce (range_start, range_end, array.values_length ()));
+	let iterator = try! (ArrayIterator::new_a (array));
+	let iterator = try! (RangeIteratorForOutcome::new (iterator, range_start, Some (range_end)));
+	succeed! (iterator);
 }
 
 
@@ -332,6 +351,10 @@ impl <'a> ArrayIterator <'a> {
 	
 	pub fn new (array : &'a Value) -> (Outcome<ArrayIterator<'a>>) {
 		let array = try_as_array_ref! (array);
+		return ArrayIterator::new_a (array);
+	}
+	
+	pub fn new_a (array : &'a Array) -> (Outcome<ArrayIterator<'a>>) {
 		succeed! (ArrayIterator (array, array.values_ref () .iter ()));
 	}
 }

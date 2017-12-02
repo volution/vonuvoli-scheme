@@ -109,6 +109,7 @@ pub enum StringPrimitive2 {
 	
 	StringToNumber,
 	NumberToString,
+	CharacterToDigitNumber,
 	
 }
 
@@ -177,6 +178,7 @@ pub enum StringPrimitiveN {
 	
 	StringToNumber,
 	NumberToString,
+	CharacterToDigitNumber,
 	
 }
 
@@ -280,7 +282,7 @@ pub fn string_primitive_1_evaluate (primitive : StringPrimitive1, input_1 : &Val
 			return character_to_fold_case (input_1),
 		
 		StringPrimitive1::CharacterToDigitNumber =>
-			return character_to_digit_number (input_1),
+			return character_to_digit_number (input_1, None),
 		
 	}
 }
@@ -335,6 +337,9 @@ pub fn string_primitive_2_evaluate (primitive : StringPrimitive2, input_1 : &Val
 		
 		StringPrimitive2::NumberToString =>
 			return number_to_string (input_1, Some (input_2), None),
+		
+		StringPrimitive2::CharacterToDigitNumber =>
+			return character_to_digit_number (input_1, Some (input_2)),
 		
 	}
 }
@@ -602,7 +607,16 @@ pub fn string_primitive_n_evaluate (primitive : StringPrimitiveN, inputs : &[Val
 				_ =>
 					fail! (0x8c1917bf),
 			},
-			
+		
+		StringPrimitiveN::CharacterToDigitNumber =>
+			match inputs_count {
+				1 =>
+					return string_primitive_1_evaluate (StringPrimitive1::CharacterToDigitNumber, &inputs[0]),
+				2 =>
+					return string_primitive_2_evaluate (StringPrimitive2::CharacterToDigitNumber, &inputs[0], &inputs[1]),
+				_ =>
+					fail! (0x49dc7b05),
+			},
 		
 	}
 }
@@ -640,6 +654,8 @@ pub fn string_primitive_n_alternative_0 (primitive : StringPrimitiveN) -> (Optio
 			None,
 		StringPrimitiveN::NumberToString =>
 			None,
+		StringPrimitiveN::CharacterToDigitNumber =>
+			None,
 	}
 }
 
@@ -674,6 +690,8 @@ pub fn string_primitive_n_alternative_1 (primitive : StringPrimitiveN) -> (Optio
 			Some (StringPrimitive1::StringToNumber),
 		StringPrimitiveN::NumberToString =>
 			Some (StringPrimitive1::NumberToString),
+		StringPrimitiveN::CharacterToDigitNumber =>
+			Some (StringPrimitive1::CharacterToDigitNumber),
 	}
 }
 
@@ -708,6 +726,8 @@ pub fn string_primitive_n_alternative_2 (primitive : StringPrimitiveN) -> (Optio
 			Some (StringPrimitive2::StringToNumber),
 		StringPrimitiveN::NumberToString =>
 			Some (StringPrimitive2::NumberToString),
+		StringPrimitiveN::CharacterToDigitNumber =>
+			Some (StringPrimitive2::CharacterToDigitNumber),
 	}
 }
 
@@ -742,6 +762,8 @@ pub fn string_primitive_n_alternative_3 (primitive : StringPrimitiveN) -> (Optio
 			None,
 		StringPrimitiveN::NumberToString =>
 			Some (StringPrimitive3::NumberToString),
+		StringPrimitiveN::CharacterToDigitNumber =>
+			None,
 	}
 }
 
@@ -776,6 +798,8 @@ pub fn string_primitive_n_alternative_4 (primitive : StringPrimitiveN) -> (Optio
 			None,
 		StringPrimitiveN::NumberToString =>
 			None,
+		StringPrimitiveN::CharacterToDigitNumber =>
+			None,
 	}
 }
 
@@ -809,6 +833,8 @@ pub fn string_primitive_n_alternative_5 (primitive : StringPrimitiveN) -> (Optio
 		StringPrimitiveN::StringToNumber =>
 			None,
 		StringPrimitiveN::NumberToString =>
+			None,
+		StringPrimitiveN::CharacterToDigitNumber =>
 			None,
 	}
 }

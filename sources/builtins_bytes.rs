@@ -18,12 +18,14 @@ pub mod exports {
 	
 	pub use super::{bytes_empty};
 	pub use super::{bytes_collect_bytes, bytes_collect_values};
+	pub use super::{bytes_collect_bytes_from_generator, bytes_collect_values_from_generator};
 	pub use super::{bytes_build_1, bytes_build_2, bytes_build_3, bytes_build_4, bytes_build_n};
 	pub use super::{bytes_append_2, bytes_append_3, bytes_append_4, bytes_append_n};
 	pub use super::{bytes_make, bytes_clone, bytes_reverse};
 	pub use super::{bytes_fill_range, bytes_reverse_range, bytes_copy_range, bytes_clone_range};
 	pub use super::{bytes_range_to_list, list_range_to_bytes};
 	pub use super::{bytes_range_to_array, array_range_to_bytes};
+	pub use super::{bytes_range_iterator};
 	pub use super::{bytes_length};
 	
 	pub use super::{vec_bytes_append_2, vec_bytes_append_3, vec_bytes_append_4, vec_bytes_append_n};
@@ -72,6 +74,23 @@ pub fn bytes_collect_values <Source> (bytes : Source) -> (Outcome<Value>)
 		buffer.push (try! (try_into_number_integer! (byte) .try_to_u8 ()));
 	}
 	succeed! (bytes_new (buffer) .into ());
+}
+
+
+
+
+pub fn bytes_collect_bytes_from_generator <Source> (bytes : Source) -> (Outcome<Value>)
+		where Source : iter::Iterator<Item = Outcome<u8>>
+{
+	let bytes = try! (bytes.collect::<Outcome<StdVec<_>>> ());
+	succeed! (bytes_collect_bytes (bytes));
+}
+
+pub fn bytes_collect_values_from_generator <Source> (bytes : Source) -> (Outcome<Value>)
+		where Source : iter::Iterator<Item = Outcome<Value>>
+{
+	let bytes = try! (bytes.collect::<Outcome<StdVec<_>>> ());
+	return bytes_collect_values (bytes);
 }
 
 
@@ -241,27 +260,35 @@ pub fn bytes_clone_range (bytes : &Value, range_start : Option<&Value>, range_en
 
 
 pub fn bytes_range_to_list (bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
-	let bytes = try_as_bytes_ref! (bytes);
-	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, bytes.values_length ()));
-	fail_unimplemented! (0x618f61e8);
+	let iterator = try! (bytes_range_iterator (bytes, range_start, range_end));
+	return list_collect_from_generator (iterator);
 }
 
-pub fn list_range_to_bytes (_list : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
-	let (_range_start, _range_end) = try! (range_coerce_unbounded (range_start, range_end));
-	fail_unimplemented! (0x5acf20ce);
+pub fn list_range_to_bytes (list : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
+	let iterator = try! (list_range_iterator (list, range_start, range_end));
+	return bytes_collect_values_from_generator (iterator);
 }
 
 
 pub fn bytes_range_to_array (bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
-	let bytes = try_as_bytes_ref! (bytes);
-	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, bytes.values_length ()));
-	fail_unimplemented! (0x35368fb3);
+	let iterator = try! (bytes_range_iterator (bytes, range_start, range_end));
+	return array_collect_from_generator (iterator);
 }
 
 pub fn array_range_to_bytes (array : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
-	let array = try_as_array_ref! (array);
-	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, array.values_length ()));
-	fail_unimplemented! (0xdf9af57d);
+	let iterator = try! (array_range_iterator (array, range_start, range_end));
+	return bytes_collect_values_from_generator (iterator);
+}
+
+
+
+
+pub fn bytes_range_iterator <'a> (bytes : &'a Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<RangeIteratorForOutcome<Value, BytesIterator<'a>>>) {
+	let bytes = try_as_bytes_ref! (bytes);
+	let (range_start, range_end) = try! (range_coerce (range_start, range_end, bytes.values_length ()));
+	let iterator = try! (BytesIterator::new_a (bytes));
+	let iterator = try! (RangeIteratorForOutcome::new (iterator, range_start, Some (range_end)));
+	succeed! (iterator);
 }
 
 
@@ -356,6 +383,10 @@ impl <'a> BytesIterator <'a> {
 	
 	pub fn new (bytes : &'a Value) -> (Outcome<BytesIterator<'a>>) {
 		let bytes = try_as_bytes_ref! (bytes);
+		return BytesIterator::new_a (bytes);
+	}
+	
+	pub fn new_a (bytes : &'a Bytes) -> (Outcome<BytesIterator<'a>>) {
 		succeed! (BytesIterator (bytes, bytes.values_ref () .iter ()));
 	}
 }

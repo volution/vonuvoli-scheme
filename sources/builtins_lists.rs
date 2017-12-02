@@ -28,10 +28,12 @@ pub mod exports {
 	
 	pub use super::{list_empty};
 	pub use super::{list_collect, list_collect_dotted};
+	pub use super::{list_collect_from_generator, list_collect_dotted_from_generator};
 	pub use super::{list_build_1, list_build_2, list_build_3, list_build_4, list_build_n};
 	pub use super::{list_append_2, list_append_3, list_append_4, list_append_n};
 	pub use super::{list_make, list_clone, list_reverse};
 	pub use super::{list_fill_range, list_reverse_range, list_copy_range, list_clone_range};
+	pub use super::{list_range_iterator};
 	pub use super::{list_length};
 	
 	pub use super::{list_member_by_comparison, list_member_by_comparator};
@@ -172,6 +174,23 @@ pub fn list_collect_dotted <Source> (values : Source, last : Option<Value>) -> (
 
 
 
+pub fn list_collect_from_generator <Source> (values : Source) -> (Outcome<Value>)
+		where Source : iter::Iterator<Item = Outcome<Value>>
+{
+	return list_collect_dotted_from_generator (values, None);
+}
+
+pub fn list_collect_dotted_from_generator <Source> (values : Source, last : Option<Value>) -> (Outcome<Value>)
+		where Source : iter::Iterator<Item = Outcome<Value>>
+{
+	// FIXME:  Remove vector allocation!
+	let values = try! (values.collect::<Outcome<StdVec<_>>> ());
+	succeed! (list_collect_dotted (values, last));
+}
+
+
+
+
 pub fn list_empty () -> (Value) {
 	return NULL.into ();
 }
@@ -302,9 +321,19 @@ pub fn list_copy_range (_target_list : &Value, target_start : Option<&Value>, _s
 }
 
 
-pub fn list_clone_range (_list : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
-	let (_range_start, _range_end) = try! (range_coerce_unbounded (range_start, range_end));
-	fail_unimplemented! (0xac380c0c);
+pub fn list_clone_range (list : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
+	let iterator = try! (list_range_iterator (list, range_start, range_end));
+	return list_collect_from_generator (iterator);
+}
+
+
+
+
+pub fn list_range_iterator <'a> (list : &'a Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<RangeIteratorForOutcome<Value, ListIterator<'a>>>) {
+	let (range_start, range_end) = try! (range_coerce_unbounded (range_start, range_end));
+	let iterator = try! (ListIterator::new (list));
+	let iterator = try! (RangeIteratorForOutcome::new (iterator, range_start, range_end));
+	succeed! (iterator);
 }
 
 

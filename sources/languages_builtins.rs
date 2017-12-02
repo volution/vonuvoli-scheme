@@ -60,6 +60,10 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("bytevector-u8-fill", BytesPrimitiveN::BytesRangeFill.into ()),
 			("bytevector-u8-map", FunctionsPrimitiveN::BytesMap.into ()),
 			("bytevector-u8-for-each", FunctionsPrimitiveN::BytesIterate.into ()),
+			("bytevector->vector", BytesPrimitiveN::BytesRangeToArray.into ()),
+			("vector->bytevector", BytesPrimitiveN::ArrayRangeToBytes.into ()),
+			("bytevector->list", BytesPrimitiveN::BytesRangeToList.into ()),
+			("list->bytevector", BytesPrimitiveN::ListRangeToBytes.into ()),
 			
 			("vector-reverse", ArrayPrimitive1::ArrayReverse.into ()),
 			

@@ -261,7 +261,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			("base", "lists", "list", ListPrimitiveN::ListBuild.into ()),
 			("base", "lists", "make-list", ListPrimitiveN::ListMake.into ()),
-			("base", "lists", "list-copy", ListPrimitive1::ListClone.into ()),
+			("base", "lists", "list-copy", ListPrimitiveN::ListRangeClone.into ()),
 			("base", "lists", "append", ListPrimitiveN::ListAppend.into ()),
 			("base", "lists", "length", ListPrimitive1::ListLength.into ()),
 			
@@ -525,7 +525,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("char", "characters", "char-ci<=?", ComparisonPrimitiveN::CharacterCaseInsensitiveLesserOrEqual.into ()),
 			("char", "characters", "char-ci>=?", ComparisonPrimitiveN::CharacterCaseInsensitiveGreaterOrEqual.into ()),
 			
-			("char", "characters", "digit-value", StringPrimitive1::CharacterToDigitNumber.into ()),
+			("char", "characters", "digit-value", StringPrimitiveN::CharacterToDigitNumber.into ()),
 			
 			
 			
