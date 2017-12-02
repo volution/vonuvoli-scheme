@@ -580,7 +580,7 @@ pub fn character_compare_2a (left : &Character, right : &Character, comparison :
 				None | Some (true) =>
 					return std_ord_compare_2_ordering (left, right, ordering),
 				_ =>
-					fail_unimplemented! (0xea3c51f1),
+					fail_unimplemented! (0xea3c51f1), // deferred
 			},
 	}
 }
@@ -603,7 +603,7 @@ pub fn symbol_compare_2a (left : &Symbol, right : &Symbol, comparison : Comparis
 				None | Some (true) =>
 					return std_ord_compare_2_ordering (left, right, ordering),
 				_ =>
-					fail_unimplemented! (0xc4ef7065),
+					fail_unimplemented! (0xc4ef7065), // deferred
 			},
 	}
 }
@@ -631,7 +631,7 @@ pub fn string_compare_2a (left : &String, right : &String, comparison : Comparis
 				None | Some (true) =>
 					return std_ord_compare_2_ordering (left, right, ordering),
 				_ =>
-					fail_unimplemented! (0x2736b1f6),
+					fail_unimplemented! (0x2736b1f6), // deferred
 			},
 	}
 }
@@ -788,7 +788,7 @@ pub fn lambda_compare_2a (left : &Lambda, right : &Lambda, comparison : Comparis
 		Comparison::Equivalence (_, _, _) =>
 			succeed! (Lambda::is_self (left, right)),
 		Comparison::Ordering (_, _, _) =>
-			fail_unimplemented! (0x53fd2c24),
+			fail_unimplemented! (0x53fd2c24), // deferred
 	}
 }
 
@@ -832,7 +832,7 @@ pub fn context_compare_2a (left : &Context, right : &Context, comparison : Compa
 		Comparison::Equivalence (_, _, _) =>
 			succeed! (Context::is_self (left, right)),
 		Comparison::Ordering (_, _, _) =>
-			fail_unimplemented! (0x9296c028),
+			fail_unimplemented! (0x9296c028), // deferred
 	}
 }
 
@@ -850,7 +850,7 @@ pub fn binding_compare_2a (left : &Binding, right : &Binding, comparison : Compa
 		Comparison::Equivalence (_, _, _) =>
 			succeed! (Binding::is_self (left, right)),
 		Comparison::Ordering (_, _, _) =>
-			fail_unimplemented! (0x4466d4a7),
+			fail_unimplemented! (0x4466d4a7), // deferred
 	}
 }
 

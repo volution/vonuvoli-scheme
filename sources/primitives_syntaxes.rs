@@ -314,10 +314,10 @@ pub fn syntax_primitive_evaluate (primitive : SyntaxPrimitive, inputs : &[Expres
 			fail! (0x050a390b),
 		
 		SyntaxPrimitive::Unimplemented =>
-			fail_unimplemented! (0x303dde78),
+			fail_unimplemented! (0x303dde78), // OK
 		
 		SyntaxPrimitive::Unsupported =>
-			fail_unimplemented! (0x70ac4438),
+			fail_unimplemented! (0x70ac4438), // OK
 		
 		SyntaxPrimitive::Reserved =>
 			fail! (0x20a9c095),

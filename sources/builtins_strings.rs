@@ -73,7 +73,7 @@ pub fn string_at (string : &Value, index : usize) -> (Outcome<Value>) {
 }
 
 pub fn string_at_set (_string : &Value, _index : usize, _char : &Value) -> (Outcome<Value>) {
-	fail_unimplemented! (0xc8a46002);
+	fail_unimplemented! (0xc8a46002); // deferred
 }
 
 
@@ -465,7 +465,7 @@ pub fn string_to_lower_case (string : &Value) -> (Outcome<Value>) {
 
 pub fn string_to_fold_case (string : &Value) -> (Outcome<Value>) {
 	let _string = try_as_string_ref! (string);
-	fail_unimplemented! (0x36a59db6);
+	fail_unimplemented! (0x36a59db6); // deferred
 }
 
 
@@ -499,7 +499,7 @@ pub fn character_to_lower_case (character : &Value) -> (Outcome<Value>) {
 
 pub fn character_to_fold_case (character : &Value) -> (Outcome<Value>) {
 	let _character = try_as_character_ref! (character);
-	fail_unimplemented! (0xd2078d69);
+	fail_unimplemented! (0xd2078d69); // deferred
 }
 
 
@@ -554,7 +554,7 @@ pub fn number_to_string (number : &Value, radix : Option<&Value>, sign : Option<
 					if let Some (number) = number.checked_abs () {
 						(number, "-")
 					} else {
-						fail_unimplemented! (0x231c95ca);
+						fail_unimplemented! (0x231c95ca); // deferred
 					}
 				};
 				match radix {
@@ -567,7 +567,7 @@ pub fn number_to_string (number : &Value, radix : Option<&Value>, sign : Option<
 					Some (16) =>
 						format! ("{}{:x}", prefix, number),
 					_ =>
-						fail_unimplemented! (0x3bd46548),
+						fail_unimplemented! (0x3bd46548), // deferred
 				}
 			} else {
 				match sign {

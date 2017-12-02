@@ -69,11 +69,11 @@ pub fn pair_right_ref (pair : &Value) -> (Outcome<&Value>) {
 }
 
 pub fn pair_left_set (_pair : &Value, _left : &Value) -> (Outcome<Value>) {
-	fail_unimplemented! (0x2073d5a3);
+	fail_unimplemented! (0x2073d5a3); // deferred
 }
 
 pub fn pair_right_set (_pair : &Value, _right : &Value) -> (Outcome<Value>) {
-	fail_unimplemented! (0xa223165c);
+	fail_unimplemented! (0xa223165c); // deferred
 }
 
 
@@ -107,11 +107,11 @@ pub fn list_rest_at_ref (list : &Value, index : usize) -> (Outcome<&Value>) {
 }
 
 pub fn list_first_at_set (_list : &Value, _index : usize, _value : &Value) -> (Outcome<Value>) {
-	fail_unimplemented! (0x562f049a);
+	fail_unimplemented! (0x562f049a); // deferred
 }
 
 pub fn list_rest_at_set (_list : &Value, _index : usize, _value : &Value) -> (Outcome<Value>) {
-	fail_unimplemented! (0x2ef281ce);
+	fail_unimplemented! (0x2ef281ce); // deferred
 }
 
 pub fn list_pair_at (list : &Value, index : usize) -> (Outcome<Value>) {
@@ -285,20 +285,20 @@ pub fn list_fill_range (_list : &Value, fill : Option<&Value>, range_start : Opt
 		UNDEFINED.into ()
 	};
 	let (_range_start, _range_end) = try! (range_coerce_unbounded (range_start, range_end));
-	fail_unimplemented! (0x2abbe2f5);
+	fail_unimplemented! (0x2abbe2f5); // deferred
 }
 
 
 pub fn list_reverse_range (_list : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let (_range_start, _range_end) = try! (range_coerce_unbounded (range_start, range_end));
-	fail_unimplemented! (0x562a1252);
+	fail_unimplemented! (0x562a1252); // deferred
 }
 
 
 pub fn list_copy_range (_target_list : &Value, target_start : Option<&Value>, _source_list : &Value, source_start : Option<&Value>, source_end : Option<&Value>) -> (Outcome<Value>) {
 	let (_source_start, _source_end) = try! (range_coerce_unbounded (source_start, source_end));
 	let (_target_start, _target_end) = try! (range_coerce_unbounded (target_start, None));
-	fail_unimplemented! (0xb5cd48df);
+	fail_unimplemented! (0xb5cd48df); // deferred
 }
 
 

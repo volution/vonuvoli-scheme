@@ -135,19 +135,19 @@ pub fn type_primitive_1_evaluate (primitive : TypePrimitive1, input_1 : &Value) 
 			input_1.is (ValueClass::Error),
 		
 		TypePrimitive1::IsErrorSyntax =>
-			fail_unimplemented! (0x6519f984),
+			fail_unimplemented! (0x6519f984), // deferred
 		
 		TypePrimitive1::IsErrorFile =>
-			fail_unimplemented! (0xa2f85ee0),
+			fail_unimplemented! (0xa2f85ee0), // deferred
 		
 		TypePrimitive1::IsErrorPort =>
-			fail_unimplemented! (0x758847be),
+			fail_unimplemented! (0x758847be), // deferred
 		
 		TypePrimitive1::IsErrorPortInput =>
-			fail_unimplemented! (0x5da25665),
+			fail_unimplemented! (0x5da25665), // deferred
 		
 		TypePrimitive1::IsErrorPortOutput =>
-			fail_unimplemented! (0x03b1e64b),
+			fail_unimplemented! (0x03b1e64b), // deferred
 		
 		TypePrimitive1::IsNumber =>
 			is_number (input_1),

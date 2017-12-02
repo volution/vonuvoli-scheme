@@ -50,7 +50,7 @@ pub fn array_at_ref (array : &Value, index : usize) -> (Outcome<&Value>) {
 }
 
 pub fn array_at_set (_array : &Value, _index : usize, _value : &Value) -> (Outcome<Value>) {
-	fail_unimplemented! (0x562f049a);
+	fail_unimplemented! (0x562f049a); // deferred
 }
 
 
@@ -197,14 +197,14 @@ pub fn array_fill_range (array : &Value, fill : Option<&Value>, range_start : Op
 		UNDEFINED.into ()
 	};
 	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, array.values_length ()));
-	fail_unimplemented! (0x3c6f81b9);
+	fail_unimplemented! (0x3c6f81b9); // deferred
 }
 
 
 pub fn array_reverse_range (array : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let array = try_as_array_ref! (array);
 	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, array.values_length ()));
-	fail_unimplemented! (0xfd9c4a54);
+	fail_unimplemented! (0xfd9c4a54); // deferred
 }
 
 
@@ -216,7 +216,7 @@ pub fn array_copy_range (target_array : &Value, target_start : Option<&Value>, s
 	if (target_end - target_start) < (source_end - source_start) {
 		fail! (0x7033eb20);
 	}
-	fail_unimplemented! (0x3c6f81b9);
+	fail_unimplemented! (0x3c6f81b9); // deferred
 }
 
 

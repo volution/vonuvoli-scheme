@@ -606,10 +606,10 @@ pub fn procedure_primitive_evaluate (primitive : ProcedurePrimitive, inputs : &[
 			return procedure_primitive_n_evaluate (primitive, inputs, evaluator),
 		
 		ProcedurePrimitive::Unimplemented =>
-			fail_unimplemented! (0x10d3710f),
+			fail_unimplemented! (0x10d3710f), // OK
 		
 		ProcedurePrimitive::Unsupported =>
-			fail_unimplemented! (0x8baac30b),
+			fail_unimplemented! (0x8baac30b), // OK
 		
 		ProcedurePrimitive::Reserved =>
 			fail! (0xb687a39c),
