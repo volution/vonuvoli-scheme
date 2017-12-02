@@ -48,6 +48,7 @@ pub mod primitives_syntaxes;
 pub mod primitives_types;
 pub mod procedures;
 pub mod runtime;
+pub mod runtime_iterators;
 pub mod tests;
 pub mod values;
 

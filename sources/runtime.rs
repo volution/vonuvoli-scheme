@@ -32,6 +32,8 @@ pub mod exports {
 	pub use super::{vec_explode_1, vec_explode_1n, vec_explode_2, vec_explode_2n, vec_explode_3, vec_explode_3n};
 	pub use super::{vec_zip_2};
 	
+	pub use super::super::runtime_iterators::exports::*;
+	
 }
 
 
