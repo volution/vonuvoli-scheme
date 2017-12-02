@@ -26,6 +26,8 @@
 
 
 (bytevector-copy #u8()) => #u8();
+(bytevector-copy #u8() 0) => #u8();
+(bytevector-copy #u8() 0 0) => #u8();
 
 (bytevector-copy #u8(0)) => #u8(0);
 (bytevector-copy #u8(0 1)) => #u8(0 1);
@@ -41,6 +43,90 @@
 (bytevector-copy #u8(0 1 2 3 4 5) 2 6) => #u8(2 3 4 5);
 (bytevector-copy #u8(0 1 2 3 4 5) 5 6) => #u8(5);
 (bytevector-copy #u8(0 1 2 3 4 5) 6 6) => #u8();
+
+
+
+
+(~bytevector->vector #u8()) => #();
+(~bytevector->vector #u8() 0) => #();
+(~bytevector->vector #u8() 0 0) => #();
+
+(~bytevector->vector #u8(0)) => #(0);
+(~bytevector->vector #u8(0 1)) => #(0 1);
+(~bytevector->vector #u8(0 1 2)) => #(0 1 2);
+
+(~bytevector->vector #u8(0 1 2 3 4 5) 0) => #(0 1 2 3 4 5);
+(~bytevector->vector #u8(0 1 2 3 4 5) 2) => #(2 3 4 5);
+(~bytevector->vector #u8(0 1 2 3 4 5) 5) => #(5);
+(~bytevector->vector #u8(0 1 2 3 4 5) 6) => #();
+
+(~bytevector->vector #u8(0 1 2 3 4 5) 0 6) => #(0 1 2 3 4 5);
+(~bytevector->vector #u8(0 1 2 3 4 5) 2 5) => #(2 3 4);
+(~bytevector->vector #u8(0 1 2 3 4 5) 2 6) => #(2 3 4 5);
+(~bytevector->vector #u8(0 1 2 3 4 5) 5 6) => #(5);
+(~bytevector->vector #u8(0 1 2 3 4 5) 6 6) => #();
+
+
+(~vector->bytevector #()) => #u8();
+(~vector->bytevector #() 0) => #u8();
+(~vector->bytevector #() 0 0) => #u8();
+
+(~vector->bytevector #(0)) => #u8(0);
+(~vector->bytevector #(0 1)) => #u8(0 1);
+(~vector->bytevector #(0 1 2)) => #u8(0 1 2);
+
+(~vector->bytevector #(0 1 2 3 4 5) 0) => #u8(0 1 2 3 4 5);
+(~vector->bytevector #(0 1 2 3 4 5) 2) => #u8(2 3 4 5);
+(~vector->bytevector #(0 1 2 3 4 5) 5) => #u8(5);
+(~vector->bytevector #(0 1 2 3 4 5) 6) => #u8();
+
+(~vector->bytevector #(0 1 2 3 4 5) 0 6) => #u8(0 1 2 3 4 5);
+(~vector->bytevector #(0 1 2 3 4 5) 2 5) => #u8(2 3 4);
+(~vector->bytevector #(0 1 2 3 4 5) 2 6) => #u8(2 3 4 5);
+(~vector->bytevector #(0 1 2 3 4 5) 5 6) => #u8(5);
+(~vector->bytevector #(0 1 2 3 4 5) 6 6) => #u8();
+
+
+
+
+(~bytevector->list #u8()) => '();
+(~bytevector->list #u8() 0) => '();
+(~bytevector->list #u8() 0 0) => '();
+
+(~bytevector->list #u8(0)) => '(0);
+(~bytevector->list #u8(0 1)) => '(0 1);
+(~bytevector->list #u8(0 1 2)) => '(0 1 2);
+
+(~bytevector->list #u8(0 1 2 3 4 5) 0) => '(0 1 2 3 4 5);
+(~bytevector->list #u8(0 1 2 3 4 5) 2) => '(2 3 4 5);
+(~bytevector->list #u8(0 1 2 3 4 5) 5) => '(5);
+(~bytevector->list #u8(0 1 2 3 4 5) 6) => '();
+
+(~bytevector->list #u8(0 1 2 3 4 5) 0 6) => '(0 1 2 3 4 5);
+(~bytevector->list #u8(0 1 2 3 4 5) 2 5) => '(2 3 4);
+(~bytevector->list #u8(0 1 2 3 4 5) 2 6) => '(2 3 4 5);
+(~bytevector->list #u8(0 1 2 3 4 5) 5 6) => '(5);
+(~bytevector->list #u8(0 1 2 3 4 5) 6 6) => '();
+
+
+(~list->bytevector '()) => #u8();
+(~list->bytevector '() 0) => #u8();
+(~list->bytevector '() 0 0) => #u8();
+
+(~list->bytevector '(0)) => #u8(0);
+(~list->bytevector '(0 1)) => #u8(0 1);
+(~list->bytevector '(0 1 2)) => #u8(0 1 2);
+
+(~list->bytevector '(0 1 2 3 4 5) 0) => #u8(0 1 2 3 4 5);
+(~list->bytevector '(0 1 2 3 4 5) 2) => #u8(2 3 4 5);
+(~list->bytevector '(0 1 2 3 4 5) 5) => #u8(5);
+(~list->bytevector '(0 1 2 3 4 5) 6) => #u8();
+
+(~list->bytevector '(0 1 2 3 4 5) 0 6) => #u8(0 1 2 3 4 5);
+(~list->bytevector '(0 1 2 3 4 5) 2 5) => #u8(2 3 4);
+(~list->bytevector '(0 1 2 3 4 5) 2 6) => #u8(2 3 4 5);
+(~list->bytevector '(0 1 2 3 4 5) 5 6) => #u8(5);
+(~list->bytevector '(0 1 2 3 4 5) 6 6) => #u8();
 
 
 

@@ -26,6 +26,8 @@
 
 
 (string-copy #string()) => #string();
+(string-copy #string() 0) => #string();
+(string-copy #string() 0 0) => #string();
 
 (string-copy #string(0)) => #string(0);
 (string-copy #string(0 1)) => #string(0 1);
@@ -41,6 +43,132 @@
 (string-copy #string(0 1 2 3 4 5) 2 6) => #string(2 3 4 5);
 (string-copy #string(0 1 2 3 4 5) 5 6) => #string(5);
 (string-copy #string(0 1 2 3 4 5) 6 6) => #string();
+
+
+
+
+(string->vector #string()) => #();
+(string->vector #string() 0) => #();
+(string->vector #string() 0 0) => #();
+
+(string->vector #string(0)) => #(#\x0);
+(string->vector #string(0 1)) => #(#\x0 #\x1);
+(string->vector #string(0 1 2)) => #(#\x0 #\x1 #\x2);
+
+(string->vector #string(0 1 2 3 4 5) 0) => #(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5);
+(string->vector #string(0 1 2 3 4 5) 2) => #(#\x2 #\x3 #\x4 #\x5);
+(string->vector #string(0 1 2 3 4 5) 5) => #(#\x5);
+(string->vector #string(0 1 2 3 4 5) 6) => #();
+
+(string->vector #string(0 1 2 3 4 5) 0 6) => #(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5);
+(string->vector #string(0 1 2 3 4 5) 2 5) => #(#\x2 #\x3 #\x4);
+(string->vector #string(0 1 2 3 4 5) 2 6) => #(#\x2 #\x3 #\x4 #\x5);
+(string->vector #string(0 1 2 3 4 5) 5 6) => #(#\x5);
+(string->vector #string(0 1 2 3 4 5) 6 6) => #();
+
+
+(vector->string #()) => #string();
+(vector->string #() 0) => #string();
+(vector->string #() 0 0) => #string();
+
+(vector->string #(#\x0)) => #string(0);
+(vector->string #(#\x0 #\x1)) => #string(0 1);
+(vector->string #(#\x0 #\x1 #\x2)) => #string(0 1 2);
+
+(vector->string #(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 0) => #string(0 1 2 3 4 5);
+(vector->string #(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 2) => #string(2 3 4 5);
+(vector->string #(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 5) => #string(5);
+(vector->string #(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 6) => #string();
+
+(vector->string #(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 0 6) => #string(0 1 2 3 4 5);
+(vector->string #(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 2 5) => #string(2 3 4);
+(vector->string #(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 2 6) => #string(2 3 4 5);
+(vector->string #(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 5 6) => #string(5);
+(vector->string #(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 6 6) => #string();
+
+
+
+
+(string->list #string()) => '();
+(string->list #string() 0) => '();
+(string->list #string() 0 0) => '();
+
+(string->list #string(0)) => '(#\x0);
+(string->list #string(0 1)) => '(#\x0 #\x1);
+(string->list #string(0 1 2)) => '(#\x0 #\x1 #\x2);
+
+(string->list #string(0 1 2 3 4 5) 0) => '(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5);
+(string->list #string(0 1 2 3 4 5) 2) => '(#\x2 #\x3 #\x4 #\x5);
+(string->list #string(0 1 2 3 4 5) 5) => '(#\x5);
+(string->list #string(0 1 2 3 4 5) 6) => '();
+
+(string->list #string(0 1 2 3 4 5) 0 6) => '(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5);
+(string->list #string(0 1 2 3 4 5) 2 5) => '(#\x2 #\x3 #\x4);
+(string->list #string(0 1 2 3 4 5) 2 6) => '(#\x2 #\x3 #\x4 #\x5);
+(string->list #string(0 1 2 3 4 5) 5 6) => '(#\x5);
+(string->list #string(0 1 2 3 4 5) 6 6) => '();
+
+
+(list->string '()) => #string();
+(list->string '() 0) => #string();
+(list->string '() 0 0) => #string();
+
+(list->string '(#\x0)) => #string(0);
+(list->string '(#\x0 #\x1)) => #string(0 1);
+(list->string '(#\x0 #\x1 #\x2)) => #string(0 1 2);
+
+(list->string '(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 0) => #string(0 1 2 3 4 5);
+(list->string '(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 2) => #string(2 3 4 5);
+(list->string '(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 5) => #string(5);
+(list->string '(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 6) => #string();
+
+(list->string '(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 0 6) => #string(0 1 2 3 4 5);
+(list->string '(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 2 5) => #string(2 3 4);
+(list->string '(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 2 6) => #string(2 3 4 5);
+(list->string '(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 5 6) => #string(5);
+(list->string '(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 6 6) => #string();
+
+
+
+
+(utf8->string #u8()) => #string();
+(utf8->string #u8() 0) => #string();
+(utf8->string #u8() 0 0) => #string();
+
+(utf8->string #u8(0)) => #string(0);
+(utf8->string #u8(0 1)) => #string(0 1);
+(utf8->string #u8(0 1 2)) => #string(0 1 2);
+
+(utf8->string #u8(0 1 2 3 4 5) 0) => #string(0 1 2 3 4 5);
+(utf8->string #u8(0 1 2 3 4 5) 2) => #string(2 3 4 5);
+(utf8->string #u8(0 1 2 3 4 5) 5) => #string(5);
+(utf8->string #u8(0 1 2 3 4 5) 6) => #string();
+
+(utf8->string #u8(0 1 2 3 4 5) 0 6) => #string(0 1 2 3 4 5);
+(utf8->string #u8(0 1 2 3 4 5) 2 5) => #string(2 3 4);
+(utf8->string #u8(0 1 2 3 4 5) 2 6) => #string(2 3 4 5);
+(utf8->string #u8(0 1 2 3 4 5) 5 6) => #string(5);
+(utf8->string #u8(0 1 2 3 4 5) 6 6) => #string();
+
+
+(string->utf8 #string()) => #u8();
+(string->utf8 #string() 0) => #u8();
+(string->utf8 #string() 0 0) => #u8();
+
+(string->utf8 #string(0)) => #u8(0);
+(string->utf8 #string(0 1)) => #u8(0 1);
+(string->utf8 #string(0 1 2)) => #u8(0 1 2);
+
+(string->utf8 #string(0 1 2 3 4 5) 0) => #u8(0 1 2 3 4 5);
+(string->utf8 #string(0 1 2 3 4 5) 2) => #u8(2 3 4 5);
+(string->utf8 #string(0 1 2 3 4 5) 5) => #u8(5);
+(string->utf8 #string(0 1 2 3 4 5) 6) => #u8();
+
+(string->utf8 #string(0 1 2 3 4 5) 0 6) => #u8(0 1 2 3 4 5);
+(string->utf8 #string(0 1 2 3 4 5) 2 5) => #u8(2 3 4);
+(string->utf8 #string(0 1 2 3 4 5) 2 6) => #u8(2 3 4 5);
+(string->utf8 #string(0 1 2 3 4 5) 5 6) => #u8(5);
+(string->utf8 #string(0 1 2 3 4 5) 6 6) => #u8();
 
 
 
@@ -289,4 +417,59 @@
 
 (char->integer #\xed64) => #xed64;
 (integer->char #xed64) => #\xed64;
+
+
+
+
+(digit-value #\0) => 0;
+(digit-value #\1) => 1;
+(digit-value #\2) => 2;
+(digit-value #\7) => 7;
+(digit-value #\8) => 8;
+(digit-value #\9) => 9;
+(digit-value #\a) => #f;
+(digit-value #\b) => #f;
+(digit-value #\e) => #f;
+(digit-value #\f) => #f;
+(digit-value #\h) => #f;
+(digit-value #\z) => #f;
+
+(digit-value #\0 10) => 0;
+(digit-value #\1 10) => 1;
+(digit-value #\2 10) => 2;
+(digit-value #\7 10) => 7;
+(digit-value #\8 10) => 8;
+(digit-value #\9 10) => 9;
+(digit-value #\a 10) => #f;
+(digit-value #\b 10) => #f;
+(digit-value #\e 10) => #f;
+(digit-value #\f 10) => #f;
+(digit-value #\h 10) => #f;
+(digit-value #\z 10) => #f;
+
+(digit-value #\0 16) => 0;
+(digit-value #\1 16) => 1;
+(digit-value #\2 16) => 2;
+(digit-value #\7 16) => 7;
+(digit-value #\8 16) => 8;
+(digit-value #\9 16) => 9;
+(digit-value #\a 16) => 10;
+(digit-value #\b 16) => 11;
+(digit-value #\e 16) => 14;
+(digit-value #\f 16) => 15;
+(digit-value #\h 16) => #f;
+(digit-value #\z 16) => #f;
+
+(digit-value #\0 8) => 0;
+(digit-value #\1 8) => 1;
+(digit-value #\2 8) => 2;
+(digit-value #\7 8) => 7;
+(digit-value #\8 8) => #f;
+(digit-value #\9 8) => #f;
+(digit-value #\a 8) => #f;
+(digit-value #\b 8) => #f;
+(digit-value #\e 8) => #f;
+(digit-value #\f 8) => #f;
+(digit-value #\h 8) => #f;
+(digit-value #\z 8) => #f;
 
