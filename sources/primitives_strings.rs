@@ -132,6 +132,8 @@ pub enum StringPrimitive3 {
 	StringRangeToBytes,
 	BytesRangeToString,
 	
+	NumberToString,
+	
 }
 
 
@@ -251,7 +253,7 @@ pub fn string_primitive_1_evaluate (primitive : StringPrimitive1, input_1 : &Val
 			return string_to_number (input_1, None),
 		
 		StringPrimitive1::NumberToString =>
-			return number_to_string (input_1, None),
+			return number_to_string (input_1, None, None),
 		
 		StringPrimitive1::CharacterToNumber =>
 			return character_to_number (input_1),
@@ -332,7 +334,7 @@ pub fn string_primitive_2_evaluate (primitive : StringPrimitive2, input_1 : &Val
 			return string_to_number (input_1, Some (input_2)),
 		
 		StringPrimitive2::NumberToString =>
-			return number_to_string (input_1, Some (input_2)),
+			return number_to_string (input_1, Some (input_2), None),
 		
 	}
 }
@@ -378,6 +380,9 @@ pub fn string_primitive_3_evaluate (primitive : StringPrimitive3, input_1 : &Val
 		
 		StringPrimitive3::BytesRangeToString =>
 			return bytes_range_to_string (input_1, Some (input_2), Some (input_3)),
+		
+		StringPrimitive3::NumberToString =>
+			return number_to_string (input_1, Some (input_2), Some (try_as_boolean_ref! (input_3) .value ())),
 		
 	}
 }
@@ -592,6 +597,8 @@ pub fn string_primitive_n_evaluate (primitive : StringPrimitiveN, inputs : &[Val
 					return string_primitive_1_evaluate (StringPrimitive1::NumberToString, &inputs[0]),
 				2 =>
 					return string_primitive_2_evaluate (StringPrimitive2::NumberToString, &inputs[0], &inputs[1]),
+				3 =>
+					return string_primitive_3_evaluate (StringPrimitive3::NumberToString, &inputs[0], &inputs[1], &inputs[2]),
 				_ =>
 					fail! (0x8c1917bf),
 			},
@@ -734,7 +741,7 @@ pub fn string_primitive_n_alternative_3 (primitive : StringPrimitiveN) -> (Optio
 		StringPrimitiveN::StringToNumber =>
 			None,
 		StringPrimitiveN::NumberToString =>
-			None,
+			Some (StringPrimitive3::NumberToString),
 	}
 }
 

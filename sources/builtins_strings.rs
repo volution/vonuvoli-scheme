@@ -531,40 +531,71 @@ pub fn string_to_number (string : &Value, radix : Option<&Value>) -> (Outcome<Va
 	}
 }
 
-pub fn number_to_string (number : &Value, radix : Option<&Value>) -> (Outcome<Value>) {
+pub fn number_to_string (number : &Value, radix : Option<&Value>, sign : Option<bool>) -> (Outcome<Value>) {
 	let radix = try! (number_radix_coerce (radix));
 	match number.class () {
+		
 		ValueClass::NumberInteger => {
 			let number = NumberInteger::as_ref (number) .value ();
 			let string = if number != 0 {
+				let (number, prefix) = if number > 0 {
+					match sign {
+						None | Some (false) =>
+							(number, ""),
+						Some (true) =>
+							(number, "+"),
+					}
+				} else {
+					if let Some (number) = number.checked_abs () {
+						(number, "-")
+					} else {
+						fail_unimplemented! (0x231c95ca);
+					}
+				};
 				match radix {
 					None | Some (10) =>
-						format! ("{:+}", number),
+						format! ("{}{:}", prefix, number),
 					Some (2) =>
-						format! ("{:+b}", number),
-					Some (7) =>
-						format! ("{:+o}", number),
+						format! ("{}{:b}", prefix, number),
+					Some (8) =>
+						format! ("{}{:o}", prefix, number),
 					Some (16) =>
-						format! ("{:+x}", number),
+						format! ("{}{:x}", prefix, number),
 					_ =>
 						fail_unimplemented! (0x3bd46548),
 				}
 			} else {
-				StdString::from ("0")
+				match sign {
+					None | Some (false) =>
+						StdString::from ("0"),
+					Some (true) =>
+						StdString::from ("+0"),
+				}
 			};
 			succeed! (string.into ());
 		},
+		
 		ValueClass::NumberReal => {
 			let number = NumberReal::as_ref (number) .value ();
 			let string = if (number != 0.0) && !number.is_nan () {
 				match radix {
 					None | Some (10) =>
-						format! ("{:+}", number),
+						match sign {
+							None | Some (false) =>
+								format! ("{:}", number),
+							Some (true) =>
+								format! ("{:+}", number),
+						},
 					_ =>
 						fail! (0x4ab1bbce),
 				}
 			} else if number == 0.0 {
-				StdString::from ("0")
+				match sign {
+					None | Some (false) =>
+						StdString::from ("0"),
+					Some (true) =>
+						StdString::from ("+0"),
+				}
 			} else if number.is_nan () {
 				StdString::from ("nan")
 			} else {
@@ -572,8 +603,10 @@ pub fn number_to_string (number : &Value, radix : Option<&Value>) -> (Outcome<Va
 			};
 			succeed! (string.into ());
 		},
+		
 		_ =>
 			fail! (0xd2ebac17),
+		
 	}
 }
 
