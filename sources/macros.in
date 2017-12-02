@@ -502,10 +502,14 @@ macro_rules! def_tests {
 		#[ test ]
 		fn $identifier () -> () {
 			use $crate::exports::*;
+			use std::io::Write;
 			let source = $source;
+			let verbosity = if option_env! ("RUST_SCHEME_TESTS_DEBUG") == Some ("true") { TestVerbosity::Debug } else { TestVerbosity::Quiet };
 			let mut transcript = std::io::stdout ();
-			let verbosity = if env! ("RUST_SCHEME_TESTS_DEBUG") == "true" { TestVerbosity::Debug } else { TestVerbosity::Quiet };
-			parse_and_execute_tests (source, &mut transcript, verbosity) .expect ("d03750c4");
+			write! (transcript, "\n\n") .expect ("5afde5da");
+			parse_and_execute_tests (stringify! ($identifier), source, &mut transcript, verbosity) .expect ("d03750c4");
+			write! (transcript, "\n") .expect ("216bb5ee");
+			transcript.flush () .expect ("a05200ec");
 		}
 	);
 }

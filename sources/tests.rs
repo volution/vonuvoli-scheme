@@ -47,23 +47,35 @@ pub enum TestVerbosity {
 
 
 
-pub fn parse_and_execute_tests (source : &str, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
+pub fn parse_and_execute_tests (identifier : &str, source : &str, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
 	let tests = try! (parse_tests (source));
-	return execute_tests (&tests, transcript, verbosity);
+	return execute_tests (identifier, &tests, transcript, verbosity);
 }
 
 
 
 
-pub fn execute_tests (tests : &StdVec<TestCase>, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
+pub fn execute_tests (identifier : &str, tests : &StdVec<TestCase>, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
+	
+	try_or_fail! (write! (transcript, "## executing `{}`...\n", identifier), 0x450c3e03);
 	
 	let context = Context::new (None);
 	try! (context.define_all (try! (language_r7rs_generate_binding_templates ()) .as_ref ()));
 	try! (context.define_all_with_prefix (try! (language_builtins_generate_binding_templates ()) .as_ref (), Some ("~")));
 	
+	let mut tests_succeeded = 0;
+	let mut tests_failed = 0;
+	
 	for test in tests {
-		try! (execute_test (&context, test, transcript, verbosity));
+		match execute_test (&context, test, transcript, verbosity) {
+			Ok (()) =>
+				tests_succeeded += 1,
+			_ =>
+				tests_failed += 1,
+		}
 	}
+	
+	try_or_fail! (write! (transcript, "## executed `{}`: succeeded {} / failed {}!\n", identifier, tests_succeeded, tests_failed), 0xbf6a7cd1);
 	
 	succeed! (());
 }
