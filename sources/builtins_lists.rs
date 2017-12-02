@@ -278,32 +278,32 @@ pub fn list_reverse (list : &Value) -> (Outcome<Value>) {
 
 
 
-pub fn list_fill_range (_list : &Value, fill : Option<&Value>, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+pub fn list_fill_range (_list : &Value, fill : Option<&Value>, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let _fill = if let Some (fill) = fill {
 		fill.clone ()
 	} else {
 		UNDEFINED.into ()
 	};
-	let (_start, _end) = try! (range_coerce_unbounded (start, end));
+	let (_range_start, _range_end) = try! (range_coerce_unbounded (range_start, range_end));
 	fail_unimplemented! (0x2abbe2f5);
 }
 
 
-pub fn list_reverse_range (_list : &Value, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
-	let (_start, _end) = try! (range_coerce_unbounded (start, end));
+pub fn list_reverse_range (_list : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
+	let (_range_start, _range_end) = try! (range_coerce_unbounded (range_start, range_end));
 	fail_unimplemented! (0x562a1252);
 }
 
 
-pub fn list_copy_range (_target_list : &Value, start : Option<&Value>, _source_list : &Value, source_start : Option<&Value>, source_end : Option<&Value>) -> (Outcome<Value>) {
+pub fn list_copy_range (_target_list : &Value, target_start : Option<&Value>, _source_list : &Value, source_start : Option<&Value>, source_end : Option<&Value>) -> (Outcome<Value>) {
 	let (_source_start, _source_end) = try! (range_coerce_unbounded (source_start, source_end));
-	let (_target_start, _target_end) = try! (range_coerce_unbounded (start, None));
+	let (_target_start, _target_end) = try! (range_coerce_unbounded (target_start, None));
 	fail_unimplemented! (0xb5cd48df);
 }
 
 
-pub fn list_clone_range (_list : &Value, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
-	let (_start, _end) = try! (range_coerce_unbounded (start, end));
+pub fn list_clone_range (_list : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
+	let (_range_start, _range_end) = try! (range_coerce_unbounded (range_start, range_end));
 	fail_unimplemented! (0xac380c0c);
 }
 

@@ -223,30 +223,30 @@ pub fn string_reverse (string : &Value) -> (Outcome<Value>) {
 
 
 
-pub fn string_fill_range (string : &Value, fill : Option<&Value>, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+pub fn string_fill_range (string : &Value, fill : Option<&Value>, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let string = try_as_string_ref! (string);
 	let _fill = if let Some (fill) = fill {
 		try_as_character_ref! (fill) .value ()
 	} else {
 		0 as char
 	};
-	let (_start, _end) = try! (range_coerce (start, end, string.string_chars_count_compute ()));
+	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, string.string_chars_count_compute ()));
 	fail_unimplemented! (0x7eaac146);
 }
 
 
-pub fn string_reverse_range (string : &Value, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+pub fn string_reverse_range (string : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let string = try_as_string_ref! (string);
-	let (_start, _end) = try! (range_coerce (start, end, string.string_chars_count_compute ()));
+	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, string.string_chars_count_compute ()));
 	fail_unimplemented! (0x46884d97);
 }
 
 
-pub fn string_copy_range (target_string : &Value, start : Option<&Value>, source_string : &Value, source_start : Option<&Value>, source_end : Option<&Value>) -> (Outcome<Value>) {
+pub fn string_copy_range (target_string : &Value, target_start : Option<&Value>, source_string : &Value, source_start : Option<&Value>, source_end : Option<&Value>) -> (Outcome<Value>) {
 	let target_string = try_as_string_ref! (target_string);
 	let source_string = try_as_string_ref! (source_string);
 	let (source_start, source_end) = try! (range_coerce (source_start, source_end, source_string.string_chars_count_compute ()));
-	let (target_start, target_end) = try! (range_coerce (start, None, target_string.string_chars_count_compute ()));
+	let (target_start, target_end) = try! (range_coerce (target_start, None, target_string.string_chars_count_compute ()));
 	if (target_end - target_start) < (source_end - source_start) {
 		fail! (0x7033eb20);
 	}
@@ -254,7 +254,7 @@ pub fn string_copy_range (target_string : &Value, start : Option<&Value>, source
 }
 
 
-pub fn string_clone_range (string : &Value, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+pub fn string_clone_range (string : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let string = try_as_string_ref! (string);
 	let (_start, _end) = try! (range_coerce (start, end, string.string_chars_count_compute ()));
 	fail_unimplemented! (0x78c93665);
@@ -263,38 +263,38 @@ pub fn string_clone_range (string : &Value, start : Option<&Value>, end : Option
 
 
 
-pub fn string_range_to_list (string : &Value, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+pub fn string_range_to_list (string : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let string = try_as_string_ref! (string);
-	let (_start, _end) = try! (range_coerce (start, end, string.string_chars_count_compute ()));
+	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, string.string_chars_count_compute ()));
 	fail_unimplemented! (0x95c1574a);
 }
 
-pub fn list_range_to_string (_list : &Value, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
-	let (_start, _end) = try! (range_coerce_unbounded (start, end));
+pub fn list_range_to_string (_list : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
+	let (_range_start, _range_end) = try! (range_coerce_unbounded (range_start, range_end));
 	fail_unimplemented! (0xa96c4d82);
 }
 
-pub fn string_range_to_array (string : &Value, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+pub fn string_range_to_array (string : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let string = try_as_string_ref! (string);
-	let (_start, _end) = try! (range_coerce (start, end, string.string_chars_count_compute ()));
+	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, string.string_chars_count_compute ()));
 	fail_unimplemented! (0x84a38ef4);
 }
 
-pub fn array_range_to_string (array : &Value, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+pub fn array_range_to_string (array : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let array = try_as_array_ref! (array);
-	let (_start, _end) = try! (range_coerce (start, end, array.values_length ()));
+	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, array.values_length ()));
 	fail_unimplemented! (0x20352b9b);
 }
 
-pub fn string_range_to_bytes (string : &Value, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+pub fn string_range_to_bytes (string : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let string = try_as_string_ref! (string);
-	let (_start, _end) = try! (range_coerce (start, end, string.string_chars_count_compute ()));
+	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, string.string_chars_count_compute ()));
 	fail_unimplemented! (0xbfa8814d);
 }
 
-pub fn bytes_range_to_string (bytes : &Value, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+pub fn bytes_range_to_string (bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_ref! (bytes);
-	let (_start, _end) = try! (range_coerce (start, end, bytes.values_length ()));
+	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, bytes.values_length ()));
 	fail_unimplemented! (0xea7e108d);
 }
 

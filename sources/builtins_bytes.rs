@@ -200,30 +200,30 @@ pub fn bytes_reverse (bytes : &Value) -> (Outcome<Value>) {
 
 
 
-pub fn bytes_fill_range (bytes : &Value, fill : Option<&Value>, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+pub fn bytes_fill_range (bytes : &Value, fill : Option<&Value>, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_ref! (bytes);
 	let _fill = if let Some (fill) = fill {
 		try! (try_as_number_integer_ref! (fill) .try_to_u8 ())
 	} else {
 		0 as u8
 	};
-	let (_start, _end) = try! (range_coerce (start, end, bytes.values_length ()));
+	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, bytes.values_length ()));
 	fail_unimplemented! (0xfc14ec8b);
 }
 
 
-pub fn bytes_reverse_range (bytes : &Value, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+pub fn bytes_reverse_range (bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_ref! (bytes);
-	let (_start, _end) = try! (range_coerce (start, end, bytes.values_length ()));
+	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, bytes.values_length ()));
 	fail_unimplemented! (0xff6acb00);
 }
 
 
-pub fn bytes_copy_range (target_bytes : &Value, start : Option<&Value>, source_bytes : &Value, source_start : Option<&Value>, source_end : Option<&Value>) -> (Outcome<Value>) {
+pub fn bytes_copy_range (target_bytes : &Value, target_start : Option<&Value>, source_bytes : &Value, source_start : Option<&Value>, source_end : Option<&Value>) -> (Outcome<Value>) {
 	let target_bytes = try_as_bytes_ref! (target_bytes);
 	let source_bytes = try_as_bytes_ref! (source_bytes);
 	let (source_start, source_end) = try! (range_coerce (source_start, source_end, source_bytes.values_length ()));
-	let (target_start, target_end) = try! (range_coerce (start, None, target_bytes.values_length ()));
+	let (target_start, target_end) = try! (range_coerce (target_start, None, target_bytes.values_length ()));
 	if (target_end - target_start) < (source_end - source_start) {
 		fail! (0x7033eb20);
 	}
@@ -231,35 +231,35 @@ pub fn bytes_copy_range (target_bytes : &Value, start : Option<&Value>, source_b
 }
 
 
-pub fn bytes_clone_range (bytes : &Value, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+pub fn bytes_clone_range (bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_ref! (bytes);
-	let (start, end) = try! (range_coerce (start, end, bytes.values_length ()));
-	succeed! (bytes_clone_slice (& bytes.values_as_slice () [start..end]) .into ());
+	let (range_start, range_end) = try! (range_coerce (range_start, range_end, bytes.values_length ()));
+	succeed! (bytes_clone_slice (& bytes.values_as_slice () [range_start..range_end]) .into ());
 }
 
 
 
 
-pub fn bytes_range_to_list (bytes : &Value, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+pub fn bytes_range_to_list (bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_ref! (bytes);
-	let (_start, _end) = try! (range_coerce (start, end, bytes.values_length ()));
+	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, bytes.values_length ()));
 	fail_unimplemented! (0x618f61e8);
 }
 
-pub fn list_range_to_bytes (_list : &Value, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
-	let (_start, _end) = try! (range_coerce_unbounded (start, end));
+pub fn list_range_to_bytes (_list : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
+	let (_range_start, _range_end) = try! (range_coerce_unbounded (range_start, range_end));
 	fail_unimplemented! (0x5acf20ce);
 }
 
-pub fn bytes_range_to_array (bytes : &Value, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+pub fn bytes_range_to_array (bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_ref! (bytes);
-	let (_start, _end) = try! (range_coerce (start, end, bytes.values_length ()));
+	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, bytes.values_length ()));
 	fail_unimplemented! (0x35368fb3);
 }
 
-pub fn array_range_to_bytes (array : &Value, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+pub fn array_range_to_bytes (array : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let array = try_as_array_ref! (array);
-	let (_start, _end) = try! (range_coerce (start, end, array.values_length ()));
+	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, array.values_length ()));
 	fail_unimplemented! (0xdf9af57d);
 }
 

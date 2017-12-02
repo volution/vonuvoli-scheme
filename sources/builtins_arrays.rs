@@ -189,30 +189,30 @@ pub fn array_reverse (array : &Value) -> (Outcome<Value>) {
 
 
 
-pub fn array_fill_range (array : &Value, fill : Option<&Value>, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+pub fn array_fill_range (array : &Value, fill : Option<&Value>, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let array = try_as_array_ref! (array);
 	let _fill = if let Some (fill) = fill {
 		fill.clone ()
 	} else {
 		UNDEFINED.into ()
 	};
-	let (_start, _end) = try! (range_coerce (start, end, array.values_length ()));
+	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, array.values_length ()));
 	fail_unimplemented! (0x3c6f81b9);
 }
 
 
-pub fn array_reverse_range (array : &Value, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+pub fn array_reverse_range (array : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let array = try_as_array_ref! (array);
-	let (_start, _end) = try! (range_coerce (start, end, array.values_length ()));
+	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, array.values_length ()));
 	fail_unimplemented! (0xfd9c4a54);
 }
 
 
-pub fn array_copy_range (target_array : &Value, start : Option<&Value>, source_array : &Value, source_start : Option<&Value>, source_end : Option<&Value>) -> (Outcome<Value>) {
+pub fn array_copy_range (target_array : &Value, target_start : Option<&Value>, source_array : &Value, source_start : Option<&Value>, source_end : Option<&Value>) -> (Outcome<Value>) {
 	let target_array = try_as_array_ref! (target_array);
 	let source_array = try_as_array_ref! (source_array);
 	let (source_start, source_end) = try! (range_coerce (source_start, source_end, source_array.values_length ()));
-	let (target_start, target_end) = try! (range_coerce (start, None, target_array.values_length ()));
+	let (target_start, target_end) = try! (range_coerce (target_start, None, target_array.values_length ()));
 	if (target_end - target_start) < (source_end - source_start) {
 		fail! (0x7033eb20);
 	}
@@ -220,23 +220,23 @@ pub fn array_copy_range (target_array : &Value, start : Option<&Value>, source_a
 }
 
 
-pub fn array_clone_range (array : &Value, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+pub fn array_clone_range (array : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let array = try_as_array_ref! (array);
-	let (start, end) = try! (range_coerce (start, end, array.values_length ()));
-	succeed! (array_clone_slice (& array.values_as_slice () [start..end]) .into ());
+	let (range_start, range_end) = try! (range_coerce (range_start, range_end, array.values_length ()));
+	succeed! (array_clone_slice (& array.values_as_slice () [range_start..range_end]) .into ());
 }
 
 
 
 
-pub fn array_range_to_list (array : &Value, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
+pub fn array_range_to_list (array : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let array = try_as_array_ref! (array);
-	let (_start, _end) = try! (range_coerce (start, end, array.values_length ()));
+	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, array.values_length ()));
 	fail_unimplemented! (0x61c53653);
 }
 
-pub fn list_range_to_array (_list : &Value, start : Option<&Value>, end : Option<&Value>) -> (Outcome<Value>) {
-	let (_start, _end) = try! (range_coerce_unbounded (start, end));
+pub fn list_range_to_array (_list : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
+	let (_range_start, _range_end) = try! (range_coerce_unbounded (range_start, range_end));
 	fail_unimplemented! (0x7d8a4ce6);
 }
 
