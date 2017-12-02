@@ -109,6 +109,15 @@
 (string-downcase "aAbBcC") => "aabbcc";
 
 
+(char-upcase #\a) => #\A;
+(char-upcase #\A) => #\A;
+(char-upcase #\0) => #\0;
+
+(char-downcase #\a) => #\a;
+(char-downcase #\A) => #\a;
+(char-downcase #\0) => #\0;
+
+
 
 
 (string->symbol "") => '||;
@@ -120,4 +129,44 @@
 (symbol->string '|a|) => "a";
 (symbol->string '|abc|) => "abc";
 (symbol->string '|0|) => "0";
+
+
+
+
+(number->string 0) => "0";
+(number->string +0) => "0";
+(number->string -0) => "0";
+(number->string +1) => "+1";
+(number->string -1) => "-1";
+
+(number->string 0.0) => "0";
+(number->string +0.0) => "0";
+(number->string -0.0) => "0";
+(number->string +1.0) => "+1";
+(number->string -1.0) => "-1";
+
+(number->string +0.1) => "+0.1";
+(number->string -0.1) => "-0.1";
+(number->string +1.1) => "+1.1";
+(number->string -1.1) => "-1.1";
+
+(number->string +inf) => "+inf";
+(number->string -inf) => "-inf";
+
+(number->string +nan) => "nan";
+(number->string -nan) => "nan";
+
+
+(string->number "0") => 0;
+(string->number "+0") => 0;
+(string->number "-0") => 0;
+(string->number "+1") => +1;
+(string->number "-1") => -1;
+
+(string->number "0.0") => 0.0;
+(string->number "+0.0") => 0.0;
+(string->number "-0.0") => 0.0;
+(string->number "1.0") => +1.0;
+(string->number "+1.0") => +1.0;
+(string->number "-1.0") => -1.0;
 

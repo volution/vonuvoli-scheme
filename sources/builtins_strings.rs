@@ -465,13 +465,31 @@ pub fn string_to_fold_case (string : &Value) -> (Outcome<Value>) {
 
 
 pub fn character_to_upper_case (character : &Value) -> (Outcome<Value>) {
-	let _character = try_as_character_ref! (character);
-	fail_unimplemented! (0x6968e39d);
+	let character = try_as_character_ref! (character) .value ();
+	let mut iterator = character.to_uppercase ();
+	if let Some (character_upper) = iterator.next () {
+		if iterator.next () == None {
+			succeed! (character_upper.into ());
+		} else {
+			succeed! (character.into ());
+		}
+	} else {
+		succeed! (character.into ());
+	}
 }
 
 pub fn character_to_lower_case (character : &Value) -> (Outcome<Value>) {
-	let _character = try_as_character_ref! (character);
-	fail_unimplemented! (0xca91f18c);
+	let character = try_as_character_ref! (character) .value ();
+	let mut iterator = character.to_lowercase ();
+	if let Some (character_lower) = iterator.next () {
+		if iterator.next () == None {
+			succeed! (character_lower.into ());
+		} else {
+			succeed! (character.into ());
+		}
+	} else {
+		succeed! (character.into ());
+	}
 }
 
 pub fn character_to_fold_case (character : &Value) -> (Outcome<Value>) {
@@ -493,13 +511,83 @@ pub fn symbol_to_string (symbol : &Value) -> (Outcome<Value>) {
 }
 
 
-pub fn string_to_number (string : &Value, _radix : Option<&Value>) -> (Outcome<Value>) {
-	let _string = try_as_string_ref! (string);
-	fail_unimplemented! (0xa3355083);
+pub fn string_to_number (string : &Value, radix : Option<&Value>) -> (Outcome<Value>) {
+	use std::str::FromStr;
+	let string = try_as_string_ref! (string) .string_as_str ();
+	let radix = try! (number_radix_coerce (radix));
+	if let Ok (number) = i64::from_str_radix (string, radix.unwrap_or (10)) {
+		succeed! (number.into ());
+	} else {
+		match radix {
+			None | Some (10) =>
+				if let Ok (number) = f64::from_str (string) {
+					succeed! (number.into ());
+				} else {
+					fail! (0xff199a71);
+				},
+			_ =>
+				fail! (0x6a121e46),
+		}
+	}
 }
 
-pub fn number_to_string (_number : &Value, _radix : Option<&Value>) -> (Outcome<Value>) {
-	fail_unimplemented! (0x7c0a159b);
+pub fn number_to_string (number : &Value, radix : Option<&Value>) -> (Outcome<Value>) {
+	let radix = try! (number_radix_coerce (radix));
+	match number.class () {
+		ValueClass::NumberInteger => {
+			let number = NumberInteger::as_ref (number) .value ();
+			let string = if number != 0 {
+				match radix {
+					None | Some (10) =>
+						format! ("{:+}", number),
+					Some (2) =>
+						format! ("{:+b}", number),
+					Some (7) =>
+						format! ("{:+o}", number),
+					Some (16) =>
+						format! ("{:+x}", number),
+					_ =>
+						fail_unimplemented! (0x3bd46548),
+				}
+			} else {
+				StdString::from ("0")
+			};
+			succeed! (string.into ());
+		},
+		ValueClass::NumberReal => {
+			let number = NumberReal::as_ref (number) .value ();
+			let string = if (number != 0.0) && !number.is_nan () {
+				match radix {
+					None | Some (10) =>
+						format! ("{:+}", number),
+					_ =>
+						fail! (0x4ab1bbce),
+				}
+			} else if number == 0.0 {
+				StdString::from ("0")
+			} else if number.is_nan () {
+				StdString::from ("nan")
+			} else {
+				fail_unreachable! (0xf8a1f4d5);
+			};
+			succeed! (string.into ());
+		},
+		_ =>
+			fail! (0xd2ebac17),
+	}
+}
+
+pub fn number_radix_coerce (radix : Option<&Value>) -> (Outcome<Option<u32>>) {
+	if let Some (radix) = radix {
+		let radix = try_as_number_integer_ref! (radix) .value ();
+		if (radix >= 2) && (radix <= 36) {
+			succeed! (Some (radix as u32));
+		} else {
+			fail! (0x32fc5ef5);
+		}
+	} else {
+		succeed! (None);
+	}
 }
 
 
