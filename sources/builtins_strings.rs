@@ -625,12 +625,15 @@ pub fn number_radix_coerce (radix : Option<&Value>) -> (Outcome<Option<u32>>) {
 
 
 pub fn character_to_number (character : &Value) -> (Outcome<Value>) {
-	let _character = try_as_character_ref! (character);
-	fail_unimplemented! (0xf5bad034);
+	let character = try_as_character_ref! (character) .value ();
+	let number = NumberInteger::from (character);
+	succeed! (number.into ());
 }
 
-pub fn number_to_character (_number : &Value) -> (Outcome<Value>) {
-	fail_unimplemented! (0x6b74be04);
+pub fn number_to_character (number : &Value) -> (Outcome<Value>) {
+	let number = try_as_number_integer_ref! (number);
+	let character = try! (number.try_to_char ());
+	succeed! (character.into ());
 }
 
 
