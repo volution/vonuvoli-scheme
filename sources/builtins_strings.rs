@@ -256,8 +256,13 @@ pub fn string_copy_range (target_string : &Value, target_start : Option<&Value>,
 
 pub fn string_clone_range (string : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let string = try_as_string_ref! (string);
-	let (_start, _end) = try! (range_coerce (start, end, string.string_chars_count_compute ()));
-	fail_unimplemented! (0x78c93665);
+	let (range_start, range_end) = try! (range_coerce_unbounded (range_start, range_end));
+	let mut buffer = StdString::with_capacity (string.string_utf8_bytes_count ());
+	for character in try! (RangeIterator::new (string.string_chars (), range_start, range_end)) {
+		let character = try! (character);
+		buffer.push (character);
+	}
+	succeed! (string_new (buffer) .into ());
 }
 
 

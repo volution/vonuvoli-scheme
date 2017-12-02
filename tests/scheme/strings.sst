@@ -31,6 +31,17 @@
 (string-copy #string(0 1)) => #string(0 1);
 (string-copy #string(0 1 2)) => #string(0 1 2);
 
+(string-copy #string(0 1 2 3 4 5) 0) => #string(0 1 2 3 4 5);
+(string-copy #string(0 1 2 3 4 5) 2) => #string(2 3 4 5);
+(string-copy #string(0 1 2 3 4 5) 5) => #string(5);
+(string-copy #string(0 1 2 3 4 5) 6) => #string();
+
+(string-copy #string(0 1 2 3 4 5) 0 6) => #string(0 1 2 3 4 5);
+(string-copy #string(0 1 2 3 4 5) 2 5) => #string(2 3 4);
+(string-copy #string(0 1 2 3 4 5) 2 6) => #string(2 3 4 5);
+(string-copy #string(0 1 2 3 4 5) 5 6) => #string(5);
+(string-copy #string(0 1 2 3 4 5) 6 6) => #string();
+
 
 
 
