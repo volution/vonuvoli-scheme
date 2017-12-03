@@ -34,11 +34,13 @@ pub enum Expression {
 	RegisterClosure ( ExpressionBox, StdBox<[RegistersBindingTemplate]> ),
 	RegisterInitialize1 ( usize, ExpressionBox ),
 	RegisterInitializeN ( StdBox<[(usize, Expression)]>, bool ),
+	RegisterInitializeValues ( StdBox<[usize]>, ExpressionBox ),
 	RegisterSet ( usize, ExpressionBox ),
 	RegisterGet ( usize ),
 	
 	BindingInitialize1 ( Binding, ExpressionBox ),
 	BindingInitializeN ( StdBox<[(Binding, Expression)]>, bool ),
+	BindingInitializeValues ( StdBox<[Binding]>, ExpressionBox ),
 	BindingSet ( Binding, ExpressionBox ),
 	BindingGet ( Binding ),
 	

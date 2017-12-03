@@ -224,7 +224,7 @@ impl Compiler {
 							return self.compile_syntax_define (compilation, tokens),
 						
 						SyntaxPrimitive2::DefineValues =>
-							fail_unimplemented! (0x2f87acf0),
+							return self.compile_syntax_define_values (compilation, tokens),
 						
 						SyntaxPrimitive2::Set =>
 							fail_unimplemented! (0x19d7ebad),
@@ -588,8 +588,91 @@ impl Compiler {
 	
 	
 	
-	pub fn compile_syntax_let_values (&self, _compilation : CompilerContext, _syntax : SyntaxPrimitiveN, _tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
-		fail_unimplemented! (0xaba32a69);
+	pub fn compile_syntax_let_values (&self, compilation : CompilerContext, syntax : SyntaxPrimitiveN, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+		
+		if tokens.len () < 2 {
+			fail! (0x10672a0d);
+		}
+		let (definitions, statements) = try! (vec_explode_1n (tokens));
+		
+		match definitions.class () {
+			ValueClass::Null =>
+				return self.compile_syntax_locals (compilation, statements),
+			ValueClass::Pair =>
+				(),
+			_ =>
+				fail! (0x60cfd87a),
+		}
+		
+		let definitions = try! (vec_list_clone (&definitions));
+		
+		let mut identifiers_n = StdVec::with_capacity (definitions.len ());
+		let mut initializers = StdVec::with_capacity (definitions.len ());
+		for definition in definitions.into_iter () {
+			let definition = try! (vec_list_clone (&definition));
+			if definition.len () != 2 {
+				fail! (0x6cbd574f);
+			}
+			let (identifiers, initializer) = try! (vec_explode_2 (definition));
+			let identifiers = try! (vec_list_clone (&identifiers));
+			let identifiers = try_vec_map! (identifiers, identifier, Symbol::try_from (identifier));
+			identifiers_n.push (identifiers);
+			initializers.push (initializer);
+		}
+		
+		let mut compilation = try! (compilation.fork_locals (false));
+		let mut binding_templates_n = StdVec::new ();
+		let mut binding_initializers = StdVec::new ();
+		
+		match syntax {
+			
+			SyntaxPrimitiveN::LetValuesParallel => {
+				for initializer in initializers.into_iter () {
+					let (compilation_1, initializer) = try! (self.compile_0 (compilation, initializer));
+					compilation = compilation_1;
+					binding_initializers.push (initializer);
+				}
+				for identifiers in identifiers_n.into_iter () {
+					let mut binding_templates = StdVec::new ();
+					for identifier in identifiers.into_iter () {
+						let binding = try! (compilation.bindings.define (identifier));
+						binding_templates.push (binding);
+					}
+					binding_templates_n.push (binding_templates);
+				}
+			},
+			
+			SyntaxPrimitiveN::LetValuesSequential => {
+				for (initializer, identifiers) in initializers.into_iter ().zip (identifiers_n.into_iter ()) {
+					let (compilation_1, initializer) = try! (self.compile_0 (compilation, initializer));
+					compilation = compilation_1;
+					let mut binding_templates = StdVec::new ();
+					for identifier in identifiers.into_iter () {
+						let binding = try! (compilation.bindings.define (identifier));
+						binding_templates.push (binding);
+					}
+					binding_templates_n.push (binding_templates);
+					binding_initializers.push (initializer);
+				}
+			},
+			
+			_ =>
+				fail_unreachable! (0x7498ded2),
+			
+		}
+		
+		let binding_initializers = try! (self.compile_syntax_binding_initialize_values_n (binding_templates_n, binding_initializers));
+		
+		let (compilation, statements) = try! (self.compile_vec_0 (compilation, statements));
+		
+		let statements = vec_append_2 (binding_initializers, statements);
+		
+		let (compilation, registers) = try! (compilation.unfork_locals ());
+		
+		let statements = Expression::Sequence (statements.into_boxed_slice ());
+		let expression = Expression::RegisterClosure (statements.into (), registers.into_boxed_slice ());
+		
+		succeed! ((compilation, expression));
 	}
 	
 	
@@ -644,6 +727,33 @@ impl Compiler {
 		};
 		
 		let expression = try! (self.compile_syntax_binding_initialize_1 (binding, expression));
+		
+		succeed! ((compilation, expression));
+	}
+	
+	
+	
+	
+	pub fn compile_syntax_define_values (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+		
+		if tokens.len () != 2 {
+			fail! (0x5d801f2e);
+		}
+		
+		let (identifiers, initializer) = try! (vec_explode_2 (tokens));
+		let identifiers = try! (vec_list_clone (&identifiers));
+		let identifiers = try_vec_map! (identifiers, identifier, Symbol::try_from (identifier));
+		
+		let mut compilation = compilation;
+		let mut binding_templates = StdVec::new ();
+		for identifier in identifiers.into_iter () {
+			let binding = try! (compilation.bindings.define (identifier));
+			binding_templates.push (binding);
+		}
+		
+		let (compilation, binding_initializer) = try! (self.compile_0 (compilation, initializer));
+		
+		let expression = try! (self.compile_syntax_binding_initialize_values_1 (binding_templates, binding_initializer));
 		
 		succeed! ((compilation, expression));
 	}
@@ -716,6 +826,69 @@ impl Compiler {
 			},
 			
 		}
+	}
+	
+	
+	pub fn compile_syntax_binding_initialize_values_1 (&self, bindings : StdVec<CompilerBinding>, expression : Expression) -> (Outcome<Expression>) {
+		
+		if bindings.len () == 0 {
+			fail! (0xe6c10f17);
+		}
+		
+		match bindings[0] {
+			
+			CompilerBinding::Undefined =>
+				fail! (0x2d8c07dd),
+			
+			CompilerBinding::Binding (_) => {
+				let bindings = try_vec_map! (
+						bindings,
+						binding,
+						match binding {
+							CompilerBinding::Binding (binding) =>
+								succeed! (binding),
+							_ =>
+								fail! (0xe59c62c6),
+						});
+				let expression = Expression::BindingInitializeValues (bindings.into_boxed_slice (), expression.into ());
+				succeed! (expression);
+			},
+			
+			CompilerBinding::Register (_) => {
+				let bindings = try_vec_map! (
+						bindings,
+						binding,
+						match binding {
+							CompilerBinding::Register (index) =>
+								succeed! (index),
+							_ =>
+								fail! (0x5627731f),
+						});
+				let expression = Expression::RegisterInitializeValues (bindings.into_boxed_slice (), expression.into ());
+				succeed! (expression);
+			},
+		
+		}
+	}
+	
+	
+	pub fn compile_syntax_binding_initialize_values_n (&self, bindings : StdVec<StdVec<CompilerBinding>>, expressions : StdVec<Expression>) -> (Outcome<StdVec<Expression>>) {
+		
+		if bindings.len () == 0 {
+			fail! (0x28e6a67b);
+		}
+		if bindings.len () != expressions.len () {
+			fail! (0x3ab734fa);
+		}
+		
+		let mut initializers = StdVec::with_capacity (bindings.len ());
+		
+		for (bindings, expression) in vec_zip_2 (bindings, expressions) {
+			let initializer = try! (self.compile_syntax_binding_initialize_values_1 (bindings, expression));
+			initializers.push (initializer);
+		}
+		
+		succeed! (initializers);
 	}
 	
 	

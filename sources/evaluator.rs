@@ -80,6 +80,8 @@ impl Evaluator {
 				self.evaluate_register_initialize_1 (evaluation, index, expression),
 			Expression::RegisterInitializeN (ref initializers, parallel) =>
 				self.evaluate_register_initialize_n (evaluation, initializers, parallel),
+			Expression::RegisterInitializeValues (ref indices, ref expression) =>
+				self.evaluate_register_initialize_values (evaluation, indices, expression),
 			Expression::RegisterSet (index, ref expression) =>
 				self.evaluate_register_set (evaluation, index, expression),
 			Expression::RegisterGet (index) =>
@@ -89,6 +91,8 @@ impl Evaluator {
 				self.evaluate_binding_initialize_1 (evaluation, binding, expression),
 			Expression::BindingInitializeN (ref initializers, parallel) =>
 				self.evaluate_binding_initialize_n (evaluation, initializers, parallel),
+			Expression::BindingInitializeValues (ref bindings, ref expression) =>
+				self.evaluate_binding_initialize_values (evaluation, bindings, expression),
 			Expression::BindingSet (ref binding, ref expression) =>
 				self.evaluate_binding_set (evaluation, binding, expression),
 			Expression::BindingGet (ref binding) =>
@@ -241,6 +245,12 @@ impl Evaluator {
 		return self.evaluate_binding_initialize_n_0 (evaluation, &initializers, parallel);
 	}
 	
+	pub fn evaluate_register_initialize_values (&self, evaluation : &mut EvaluatorContext, indices : &[usize], expression : &Expression) -> (Outcome<Value>) {
+		let registers = try_some! (evaluation.registers, 0x64f31042);
+		let bindings = try_vec_map! (indices, index, registers.resolve (*index));
+		return self.evaluate_binding_initialize_values (evaluation, &bindings, expression);
+	}
+	
 	pub fn evaluate_register_set (&self, evaluation : &mut EvaluatorContext, index : usize, expression : &Expression) -> (Outcome<Value>) {
 		let registers = try_some! (evaluation.registers, 0x9e3f943b);
 		let binding = try! (registers.resolve (index));
@@ -285,6 +295,18 @@ impl Evaluator {
 		}
 		
 		return Ok (VOID);
+	}
+	
+	pub fn evaluate_binding_initialize_values (&self, evaluation : &mut EvaluatorContext, bindings : &[Binding], expression : &Expression) -> (Outcome<Value>) {
+		let values = try! (evaluation.evaluate (expression));
+		let values = try_into_values! (values);
+		if values.values_length () != bindings.len () {
+			fail! (0x34cd5a9a);
+		}
+		for (binding, value_new) in bindings.iter () .zip (values.values_ref () .iter ()) {
+			try! (binding.initialize (value_new.clone ()));
+		}
+		return Ok (values.into ());
 	}
 	
 	pub fn evaluate_binding_set (&self, evaluation : &mut EvaluatorContext, binding : &Binding, expression : &Expression) -> (Outcome<Value>) {
