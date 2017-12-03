@@ -1,6 +1,7 @@
 
 
 use super::errors::exports::*;
+use super::evaluator::exports::*;
 use super::values::exports::*;
 
 
@@ -66,49 +67,49 @@ pub enum PortPrimitiveN {}
 
 
 
-pub fn port_primitive_0_evaluate (primitive : PortPrimitive0) -> (Outcome<Value>) {
+pub fn port_primitive_0_evaluate (primitive : PortPrimitive0, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
 
 
 
 
-pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, _input_1 : &Value) -> (Outcome<Value>) {
+pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, _input_1 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
 
 
 
 
-pub fn port_primitive_2_evaluate (primitive : PortPrimitive2, _input_1 : &Value, _input_2 : &Value) -> (Outcome<Value>) {
+pub fn port_primitive_2_evaluate (primitive : PortPrimitive2, _input_1 : &Value, _input_2 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
 
 
 
 
-pub fn port_primitive_3_evaluate (primitive : PortPrimitive3, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value) -> (Outcome<Value>) {
+pub fn port_primitive_3_evaluate (primitive : PortPrimitive3, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
 
 
 
 
-pub fn port_primitive_4_evaluate (primitive : PortPrimitive4, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value) -> (Outcome<Value>) {
+pub fn port_primitive_4_evaluate (primitive : PortPrimitive4, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
 
 
 
 
-pub fn port_primitive_5_evaluate (primitive : PortPrimitive5, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _input_5 : &Value) -> (Outcome<Value>) {
+pub fn port_primitive_5_evaluate (primitive : PortPrimitive5, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _input_5 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
 
 
 
 
-pub fn port_primitive_n_evaluate (primitive : PortPrimitiveN, _inputs : &[Value]) -> (Outcome<Value>) {
+pub fn port_primitive_n_evaluate (primitive : PortPrimitiveN, _inputs : &[Value], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
 

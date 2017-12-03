@@ -3,6 +3,7 @@
 use super::constants::exports::*;
 use super::conversions::exports::*;
 use super::errors::exports::*;
+use super::evaluator::exports::*;
 use super::values::exports::*;
 
 
@@ -203,7 +204,7 @@ macro_rules! arithmetic_primitive_2_delegate_call {
 
 
 
-pub fn arithmetic_primitive_0_evaluate (primitive : ArithmeticPrimitive0) -> (Outcome<Value>) {
+pub fn arithmetic_primitive_0_evaluate (primitive : ArithmeticPrimitive0, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	let output : Value = match primitive {
 		
@@ -221,7 +222,7 @@ pub fn arithmetic_primitive_0_evaluate (primitive : ArithmeticPrimitive0) -> (Ou
 
 
 
-pub fn arithmetic_primitive_1_evaluate (primitive : ArithmeticPrimitive1, input_1 : &Value) -> (Outcome<Value>) {
+pub fn arithmetic_primitive_1_evaluate (primitive : ArithmeticPrimitive1, input_1 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	let output : Value = match primitive {
 		
@@ -400,7 +401,7 @@ pub fn arithmetic_primitive_1_evaluate (primitive : ArithmeticPrimitive1, input_
 
 
 
-pub fn arithmetic_primitive_2_evaluate (primitive : ArithmeticPrimitive2, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
+pub fn arithmetic_primitive_2_evaluate (primitive : ArithmeticPrimitive2, input_1 : &Value, input_2 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	let output : Value = match primitive {
 		
@@ -477,28 +478,28 @@ pub fn arithmetic_primitive_2_evaluate (primitive : ArithmeticPrimitive2, input_
 
 
 
-pub fn arithmetic_primitive_3_evaluate (primitive : ArithmeticPrimitive3, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value) -> (Outcome<Value>) {
+pub fn arithmetic_primitive_3_evaluate (primitive : ArithmeticPrimitive3, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
 
 
 
 
-pub fn arithmetic_primitive_4_evaluate (primitive : ArithmeticPrimitive4, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value) -> (Outcome<Value>) {
+pub fn arithmetic_primitive_4_evaluate (primitive : ArithmeticPrimitive4, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
 
 
 
 
-pub fn arithmetic_primitive_5_evaluate (primitive : ArithmeticPrimitive5, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _input_5 : &Value) -> (Outcome<Value>) {
+pub fn arithmetic_primitive_5_evaluate (primitive : ArithmeticPrimitive5, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _input_5 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
 
 
 
 
-pub fn arithmetic_primitive_n_evaluate (primitive : ArithmeticPrimitiveN, inputs : &[Value]) -> (Outcome<Value>) {
+pub fn arithmetic_primitive_n_evaluate (primitive : ArithmeticPrimitiveN, inputs : &[Value], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	match primitive {
 		

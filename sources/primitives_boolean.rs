@@ -2,6 +2,7 @@
 
 use super::constants::exports::*;
 use super::errors::exports::*;
+use super::evaluator::exports::*;
 use super::values::exports::*;
 
 
@@ -109,7 +110,7 @@ pub enum BooleanPrimitiveN {
 
 
 
-pub fn boolean_primitive_0_evaluate (primitive : BooleanPrimitive0) -> (Outcome<Value>) {
+pub fn boolean_primitive_0_evaluate (primitive : BooleanPrimitive0, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	let output = match primitive {
 		
@@ -139,7 +140,7 @@ pub fn boolean_primitive_0_evaluate (primitive : BooleanPrimitive0) -> (Outcome<
 
 
 
-pub fn boolean_primitive_1_evaluate (primitive : BooleanPrimitive1, input_1 : &Value) -> (Outcome<Value>) {
+pub fn boolean_primitive_1_evaluate (primitive : BooleanPrimitive1, input_1 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	let input_1 = try_as_boolean_ref! (input_1);
 	
@@ -174,7 +175,7 @@ pub fn boolean_primitive_1_evaluate (primitive : BooleanPrimitive1, input_1 : &V
 
 
 
-pub fn boolean_primitive_2_evaluate (primitive : BooleanPrimitive2, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
+pub fn boolean_primitive_2_evaluate (primitive : BooleanPrimitive2, input_1 : &Value, input_2 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	let input_1 = try_as_boolean_ref! (input_1);
 	let input_2 = try_as_boolean_ref! (input_2);
@@ -207,28 +208,28 @@ pub fn boolean_primitive_2_evaluate (primitive : BooleanPrimitive2, input_1 : &V
 
 
 
-pub fn boolean_primitive_3_evaluate (primitive : BooleanPrimitive3, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value) -> (Outcome<Value>) {
+pub fn boolean_primitive_3_evaluate (primitive : BooleanPrimitive3, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
 
 
 
 
-pub fn boolean_primitive_4_evaluate (primitive : BooleanPrimitive4, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value) -> (Outcome<Value>) {
+pub fn boolean_primitive_4_evaluate (primitive : BooleanPrimitive4, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
 
 
 
 
-pub fn boolean_primitive_5_evaluate (primitive : BooleanPrimitive5, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _input_5 : &Value) -> (Outcome<Value>) {
+pub fn boolean_primitive_5_evaluate (primitive : BooleanPrimitive5, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _input_5 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
 
 
 
 
-pub fn boolean_primitive_n_evaluate (primitive : BooleanPrimitiveN, inputs : &[Value]) -> (Outcome<Value>) {
+pub fn boolean_primitive_n_evaluate (primitive : BooleanPrimitiveN, inputs : &[Value], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	let mut output = match primitive {
 		

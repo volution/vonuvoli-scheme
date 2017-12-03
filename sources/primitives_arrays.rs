@@ -2,6 +2,7 @@
 
 use super::builtins::exports::*;
 use super::errors::exports::*;
+use super::evaluator::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
 
@@ -144,7 +145,7 @@ pub enum ArrayPrimitiveN {
 
 
 
-pub fn array_primitive_0_evaluate (primitive : ArrayPrimitive0) -> (Outcome<Value>) {
+pub fn array_primitive_0_evaluate (primitive : ArrayPrimitive0, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		ArrayPrimitive0::ArrayBuild =>
@@ -159,7 +160,7 @@ pub fn array_primitive_0_evaluate (primitive : ArrayPrimitive0) -> (Outcome<Valu
 
 
 
-pub fn array_primitive_1_evaluate (primitive : ArrayPrimitive1, input_1 : &Value) -> (Outcome<Value>) {
+pub fn array_primitive_1_evaluate (primitive : ArrayPrimitive1, input_1 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		ArrayPrimitive1::ArrayLength => {
@@ -198,7 +199,7 @@ pub fn array_primitive_1_evaluate (primitive : ArrayPrimitive1, input_1 : &Value
 
 
 
-pub fn array_primitive_2_evaluate (primitive : ArrayPrimitive2, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
+pub fn array_primitive_2_evaluate (primitive : ArrayPrimitive2, input_1 : &Value, input_2 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		ArrayPrimitive2::ArrayAt =>
@@ -234,7 +235,7 @@ pub fn array_primitive_2_evaluate (primitive : ArrayPrimitive2, input_1 : &Value
 
 
 
-pub fn array_primitive_3_evaluate (primitive : ArrayPrimitive3, input_1 : &Value, input_2 : &Value, input_3 : &Value) -> (Outcome<Value>) {
+pub fn array_primitive_3_evaluate (primitive : ArrayPrimitive3, input_1 : &Value, input_2 : &Value, input_3 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		ArrayPrimitive3::ArrayAtSet =>
@@ -267,7 +268,7 @@ pub fn array_primitive_3_evaluate (primitive : ArrayPrimitive3, input_1 : &Value
 
 
 
-pub fn array_primitive_4_evaluate (primitive : ArrayPrimitive4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value) -> (Outcome<Value>) {
+pub fn array_primitive_4_evaluate (primitive : ArrayPrimitive4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		ArrayPrimitive4::ArrayBuild =>
@@ -288,7 +289,7 @@ pub fn array_primitive_4_evaluate (primitive : ArrayPrimitive4, input_1 : &Value
 
 
 
-pub fn array_primitive_5_evaluate (primitive : ArrayPrimitive5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value) -> (Outcome<Value>) {
+pub fn array_primitive_5_evaluate (primitive : ArrayPrimitive5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		ArrayPrimitive5::ArrayRangeCopy =>
@@ -300,16 +301,16 @@ pub fn array_primitive_5_evaluate (primitive : ArrayPrimitive5, input_1 : &Value
 
 
 
-pub fn array_primitive_n_evaluate (primitive : ArrayPrimitiveN, inputs : &[Value]) -> (Outcome<Value>) {
+pub fn array_primitive_n_evaluate (primitive : ArrayPrimitiveN, inputs : &[Value], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let inputs_count = inputs.len ();
 	match primitive {
 		
 		ArrayPrimitiveN::ArrayMake =>
 			match inputs_count {
 				1 =>
-					return array_primitive_1_evaluate (ArrayPrimitive1::ArrayMake, &inputs[0]),
+					return array_primitive_1_evaluate (ArrayPrimitive1::ArrayMake, &inputs[0], evaluator),
 				2 =>
-					return array_primitive_2_evaluate (ArrayPrimitive2::ArrayMake, &inputs[0], &inputs[1]),
+					return array_primitive_2_evaluate (ArrayPrimitive2::ArrayMake, &inputs[0], &inputs[1], evaluator),
 				_ =>
 					fail! (0xdd5940d5),
 			},
@@ -317,15 +318,15 @@ pub fn array_primitive_n_evaluate (primitive : ArrayPrimitiveN, inputs : &[Value
 		ArrayPrimitiveN::ArrayBuild =>
 			match inputs_count {
 				0 =>
-					return array_primitive_0_evaluate (ArrayPrimitive0::ArrayBuild),
+					return array_primitive_0_evaluate (ArrayPrimitive0::ArrayBuild, evaluator),
 				1 =>
-					return array_primitive_1_evaluate (ArrayPrimitive1::ArrayBuild, &inputs[0]),
+					return array_primitive_1_evaluate (ArrayPrimitive1::ArrayBuild, &inputs[0], evaluator),
 				2 =>
-					return array_primitive_2_evaluate (ArrayPrimitive2::ArrayBuild, &inputs[0], &inputs[1]),
+					return array_primitive_2_evaluate (ArrayPrimitive2::ArrayBuild, &inputs[0], &inputs[1], evaluator),
 				3 =>
-					return array_primitive_3_evaluate (ArrayPrimitive3::ArrayBuild, &inputs[0], &inputs[1], &inputs[2]),
+					return array_primitive_3_evaluate (ArrayPrimitive3::ArrayBuild, &inputs[0], &inputs[1], &inputs[2], evaluator),
 				4 =>
-					return array_primitive_4_evaluate (ArrayPrimitive4::ArrayBuild, &inputs[0], &inputs[1], &inputs[2], &inputs[3]),
+					return array_primitive_4_evaluate (ArrayPrimitive4::ArrayBuild, &inputs[0], &inputs[1], &inputs[2], &inputs[3], evaluator),
 				_ =>
 					succeed! (array_build_n (inputs)),
 			},
@@ -333,15 +334,15 @@ pub fn array_primitive_n_evaluate (primitive : ArrayPrimitiveN, inputs : &[Value
 		ArrayPrimitiveN::ArrayAppend =>
 			match inputs_count {
 				0 =>
-					return array_primitive_0_evaluate (ArrayPrimitive0::ArrayAppend),
+					return array_primitive_0_evaluate (ArrayPrimitive0::ArrayAppend, evaluator),
 				1 =>
-					return array_primitive_1_evaluate (ArrayPrimitive1::ArrayAppend, &inputs[0]),
+					return array_primitive_1_evaluate (ArrayPrimitive1::ArrayAppend, &inputs[0], evaluator),
 				2 =>
-					return array_primitive_2_evaluate (ArrayPrimitive2::ArrayAppend, &inputs[0], &inputs[1]),
+					return array_primitive_2_evaluate (ArrayPrimitive2::ArrayAppend, &inputs[0], &inputs[1], evaluator),
 				3 =>
-					return array_primitive_3_evaluate (ArrayPrimitive3::ArrayAppend, &inputs[0], &inputs[1], &inputs[2]),
+					return array_primitive_3_evaluate (ArrayPrimitive3::ArrayAppend, &inputs[0], &inputs[1], &inputs[2], evaluator),
 				4 =>
-					return array_primitive_4_evaluate (ArrayPrimitive4::ArrayAppend, &inputs[0], &inputs[1], &inputs[2], &inputs[3]),
+					return array_primitive_4_evaluate (ArrayPrimitive4::ArrayAppend, &inputs[0], &inputs[1], &inputs[2], &inputs[3], evaluator),
 				_ =>
 					return array_append_n (inputs),
 			},
@@ -349,13 +350,13 @@ pub fn array_primitive_n_evaluate (primitive : ArrayPrimitiveN, inputs : &[Value
 		ArrayPrimitiveN::ArrayRangeFill =>
 			match inputs_count {
 				1 =>
-					return array_primitive_1_evaluate (ArrayPrimitive1::ArrayFill, &inputs[0]),
+					return array_primitive_1_evaluate (ArrayPrimitive1::ArrayFill, &inputs[0], evaluator),
 				2 =>
-					return array_primitive_2_evaluate (ArrayPrimitive2::ArrayFill, &inputs[0], &inputs[1]),
+					return array_primitive_2_evaluate (ArrayPrimitive2::ArrayFill, &inputs[0], &inputs[1], evaluator),
 				3 =>
-					return array_primitive_3_evaluate (ArrayPrimitive3::ArrayRangeFill, &inputs[0], &inputs[1], &inputs[2]),
+					return array_primitive_3_evaluate (ArrayPrimitive3::ArrayRangeFill, &inputs[0], &inputs[1], &inputs[2], evaluator),
 				4 =>
-					return array_primitive_4_evaluate (ArrayPrimitive4::ArrayRangeFill, &inputs[0], &inputs[1], &inputs[2], &inputs[3]),
+					return array_primitive_4_evaluate (ArrayPrimitive4::ArrayRangeFill, &inputs[0], &inputs[1], &inputs[2], &inputs[3], evaluator),
 				_ =>
 					fail! (0xe9fd172d),
 			},
@@ -363,13 +364,13 @@ pub fn array_primitive_n_evaluate (primitive : ArrayPrimitiveN, inputs : &[Value
 		ArrayPrimitiveN::ArrayRangeCopy =>
 			match inputs_count {
 				2 =>
-					return array_primitive_2_evaluate (ArrayPrimitive2::ArrayCopy, &inputs[0], &inputs[1]),
+					return array_primitive_2_evaluate (ArrayPrimitive2::ArrayCopy, &inputs[0], &inputs[1], evaluator),
 				3 =>
-					return array_primitive_3_evaluate (ArrayPrimitive3::ArrayRangeCopy, &inputs[0], &inputs[1], &inputs[2]),
+					return array_primitive_3_evaluate (ArrayPrimitive3::ArrayRangeCopy, &inputs[0], &inputs[1], &inputs[2], evaluator),
 				4 =>
-					return array_primitive_4_evaluate (ArrayPrimitive4::ArrayRangeCopy, &inputs[0], &inputs[1], &inputs[2], &inputs[3]),
+					return array_primitive_4_evaluate (ArrayPrimitive4::ArrayRangeCopy, &inputs[0], &inputs[1], &inputs[2], &inputs[3], evaluator),
 				5 =>
-					return array_primitive_5_evaluate (ArrayPrimitive5::ArrayRangeCopy, &inputs[0], &inputs[1], &inputs[2], &inputs[3], &inputs[4]),
+					return array_primitive_5_evaluate (ArrayPrimitive5::ArrayRangeCopy, &inputs[0], &inputs[1], &inputs[2], &inputs[3], &inputs[4], evaluator),
 				_ =>
 					fail! (0xa591cae9),
 			},
@@ -377,11 +378,11 @@ pub fn array_primitive_n_evaluate (primitive : ArrayPrimitiveN, inputs : &[Value
 		ArrayPrimitiveN::ArrayRangeClone =>
 			match inputs_count {
 				1 =>
-					return array_primitive_1_evaluate (ArrayPrimitive1::ArrayClone, &inputs[0]),
+					return array_primitive_1_evaluate (ArrayPrimitive1::ArrayClone, &inputs[0], evaluator),
 				2 =>
-					return array_primitive_2_evaluate (ArrayPrimitive2::ArrayRangeClone, &inputs[0], &inputs[1]),
+					return array_primitive_2_evaluate (ArrayPrimitive2::ArrayRangeClone, &inputs[0], &inputs[1], evaluator),
 				3 =>
-					return array_primitive_3_evaluate (ArrayPrimitive3::ArrayRangeClone, &inputs[0], &inputs[1], &inputs[2]),
+					return array_primitive_3_evaluate (ArrayPrimitive3::ArrayRangeClone, &inputs[0], &inputs[1], &inputs[2], evaluator),
 				_ =>
 					fail! (0x4fbc2e34),
 			},
@@ -389,11 +390,11 @@ pub fn array_primitive_n_evaluate (primitive : ArrayPrimitiveN, inputs : &[Value
 		ArrayPrimitiveN::ArrayRangeToList =>
 			match inputs_count {
 				1 =>
-					return array_primitive_1_evaluate (ArrayPrimitive1::ArrayToList, &inputs[0]),
+					return array_primitive_1_evaluate (ArrayPrimitive1::ArrayToList, &inputs[0], evaluator),
 				2 =>
-					return array_primitive_2_evaluate (ArrayPrimitive2::ArrayRangeToList, &inputs[0], &inputs[1]),
+					return array_primitive_2_evaluate (ArrayPrimitive2::ArrayRangeToList, &inputs[0], &inputs[1], evaluator),
 				3 =>
-					return array_primitive_3_evaluate (ArrayPrimitive3::ArrayRangeToList, &inputs[0], &inputs[1], &inputs[2]),
+					return array_primitive_3_evaluate (ArrayPrimitive3::ArrayRangeToList, &inputs[0], &inputs[1], &inputs[2], evaluator),
 				_ =>
 					fail! (0xf111e405),
 			},
@@ -401,11 +402,11 @@ pub fn array_primitive_n_evaluate (primitive : ArrayPrimitiveN, inputs : &[Value
 		ArrayPrimitiveN::ListRangeToArray =>
 			match inputs_count {
 				1 =>
-					return array_primitive_1_evaluate (ArrayPrimitive1::ListToArray, &inputs[0]),
+					return array_primitive_1_evaluate (ArrayPrimitive1::ListToArray, &inputs[0], evaluator),
 				2 =>
-					return array_primitive_2_evaluate (ArrayPrimitive2::ListRangeToArray, &inputs[0], &inputs[1]),
+					return array_primitive_2_evaluate (ArrayPrimitive2::ListRangeToArray, &inputs[0], &inputs[1], evaluator),
 				3 =>
-					return array_primitive_3_evaluate (ArrayPrimitive3::ListRangeToArray, &inputs[0], &inputs[1], &inputs[2]),
+					return array_primitive_3_evaluate (ArrayPrimitive3::ListRangeToArray, &inputs[0], &inputs[1], &inputs[2], evaluator),
 				_ =>
 					fail! (0xdc1719ad),
 			},

@@ -2,6 +2,7 @@
 
 use super::constants::exports::*;
 use super::errors::exports::*;
+use super::evaluator::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
 
@@ -116,7 +117,7 @@ pub enum BitwisePrimitiveN {
 
 
 
-pub fn bitwise_primitive_0_evaluate (primitive : BitwisePrimitive0) -> (Outcome<Value>) {
+pub fn bitwise_primitive_0_evaluate (primitive : BitwisePrimitive0, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	let output = match primitive {
 		
@@ -146,7 +147,7 @@ pub fn bitwise_primitive_0_evaluate (primitive : BitwisePrimitive0) -> (Outcome<
 
 
 
-pub fn bitwise_primitive_1_evaluate (primitive : BitwisePrimitive1, input_1 : &Value) -> (Outcome<Value>) {
+pub fn bitwise_primitive_1_evaluate (primitive : BitwisePrimitive1, input_1 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	let input_1 = try_as_number_integer_ref! (input_1);
 	
@@ -181,7 +182,7 @@ pub fn bitwise_primitive_1_evaluate (primitive : BitwisePrimitive1, input_1 : &V
 
 
 
-pub fn bitwise_primitive_2_evaluate (primitive : BitwisePrimitive2, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
+pub fn bitwise_primitive_2_evaluate (primitive : BitwisePrimitive2, input_1 : &Value, input_2 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	let input_1 = try_as_number_integer_ref! (input_1);
 	let input_2 = try_as_number_integer_ref! (input_2);
@@ -226,28 +227,28 @@ pub fn bitwise_primitive_2_evaluate (primitive : BitwisePrimitive2, input_1 : &V
 
 
 
-pub fn bitwise_primitive_3_evaluate (primitive : BitwisePrimitive3, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value) -> (Outcome<Value>) {
+pub fn bitwise_primitive_3_evaluate (primitive : BitwisePrimitive3, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
 
 
 
 
-pub fn bitwise_primitive_4_evaluate (primitive : BitwisePrimitive4, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value) -> (Outcome<Value>) {
+pub fn bitwise_primitive_4_evaluate (primitive : BitwisePrimitive4, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
 
 
 
 
-pub fn bitwise_primitive_5_evaluate (primitive : BitwisePrimitive5, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _input_5 : &Value) -> (Outcome<Value>) {
+pub fn bitwise_primitive_5_evaluate (primitive : BitwisePrimitive5, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _input_5 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
 
 
 
 
-pub fn bitwise_primitive_n_evaluate (primitive : BitwisePrimitiveN, inputs : &[Value]) -> (Outcome<Value>) {
+pub fn bitwise_primitive_n_evaluate (primitive : BitwisePrimitiveN, inputs : &[Value], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	let mut output = match primitive {
 		

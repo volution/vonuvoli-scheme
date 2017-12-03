@@ -218,28 +218,28 @@ pub fn procedure_primitive_0_evaluate (primitive : ProcedurePrimitive0, evaluato
 	match primitive {
 		
 		ProcedurePrimitive0::Boolean (primitive) =>
-			return boolean_primitive_0_evaluate (primitive),
+			return boolean_primitive_0_evaluate (primitive, evaluator),
 		
 		ProcedurePrimitive0::Arithmetic (primitive) =>
-			return arithmetic_primitive_0_evaluate (primitive),
+			return arithmetic_primitive_0_evaluate (primitive, evaluator),
 		
 		ProcedurePrimitive0::Bitwise (primitive) =>
-			return bitwise_primitive_0_evaluate (primitive),
+			return bitwise_primitive_0_evaluate (primitive, evaluator),
 		
 		ProcedurePrimitive0::Comparison (primitive) =>
-			return comparison_primitive_0_evaluate (primitive),
+			return comparison_primitive_0_evaluate (primitive, evaluator),
 		
 		ProcedurePrimitive0::List (primitive) =>
 			return list_primitive_0_evaluate (primitive, evaluator),
 		
 		ProcedurePrimitive0::Array (primitive) =>
-			return array_primitive_0_evaluate (primitive),
+			return array_primitive_0_evaluate (primitive, evaluator),
 		
 		ProcedurePrimitive0::Bytes (primitive) =>
-			return bytes_primitive_0_evaluate (primitive),
+			return bytes_primitive_0_evaluate (primitive, evaluator),
 		
 		ProcedurePrimitive0::String (primitive) =>
-			return string_primitive_0_evaluate (primitive),
+			return string_primitive_0_evaluate (primitive, evaluator),
 		
 		ProcedurePrimitive0::Functions (primitive) =>
 			return functions_primitive_0_evaluate (primitive, evaluator),
@@ -248,7 +248,7 @@ pub fn procedure_primitive_0_evaluate (primitive : ProcedurePrimitive0, evaluato
 			return runtime_primitive_0_evaluate (primitive, evaluator),
 		
 		ProcedurePrimitive0::Port (primitive) =>
-			return port_primitive_0_evaluate (primitive),
+			return port_primitive_0_evaluate (primitive, evaluator),
 		
 	}
 }
@@ -260,31 +260,31 @@ pub fn procedure_primitive_1_evaluate (primitive : ProcedurePrimitive1, input_1 
 	match primitive {
 		
 		ProcedurePrimitive1::Type (primitive) =>
-			return type_primitive_1_evaluate (primitive, input_1),
+			return type_primitive_1_evaluate (primitive, input_1, evaluator),
 		
 		ProcedurePrimitive1::Boolean (primitive) =>
-			return boolean_primitive_1_evaluate (primitive, input_1),
+			return boolean_primitive_1_evaluate (primitive, input_1, evaluator),
 		
 		ProcedurePrimitive1::Arithmetic (primitive) =>
-			return arithmetic_primitive_1_evaluate (primitive, input_1),
+			return arithmetic_primitive_1_evaluate (primitive, input_1, evaluator),
 		
 		ProcedurePrimitive1::Bitwise (primitive) =>
-			return bitwise_primitive_1_evaluate (primitive, input_1),
+			return bitwise_primitive_1_evaluate (primitive, input_1, evaluator),
 		
 		ProcedurePrimitive1::Comparison (primitive) =>
-			return comparison_primitive_1_evaluate (primitive, input_1),
+			return comparison_primitive_1_evaluate (primitive, input_1, evaluator),
 		
 		ProcedurePrimitive1::List (primitive) =>
 			return list_primitive_1_evaluate (primitive, input_1, evaluator),
 		
 		ProcedurePrimitive1::Array (primitive) =>
-			return array_primitive_1_evaluate (primitive, input_1),
+			return array_primitive_1_evaluate (primitive, input_1, evaluator),
 		
 		ProcedurePrimitive1::Bytes (primitive) =>
-			return bytes_primitive_1_evaluate (primitive, input_1),
+			return bytes_primitive_1_evaluate (primitive, input_1, evaluator),
 		
 		ProcedurePrimitive1::String (primitive) =>
-			return string_primitive_1_evaluate (primitive, input_1),
+			return string_primitive_1_evaluate (primitive, input_1, evaluator),
 		
 		ProcedurePrimitive1::Functions (primitive) =>
 			return functions_primitive_1_evaluate (primitive, input_1, evaluator),
@@ -293,7 +293,7 @@ pub fn procedure_primitive_1_evaluate (primitive : ProcedurePrimitive1, input_1 
 			return runtime_primitive_1_evaluate (primitive, input_1, evaluator),
 		
 		ProcedurePrimitive1::Port (primitive) =>
-			return port_primitive_1_evaluate (primitive, input_1),
+			return port_primitive_1_evaluate (primitive, input_1, evaluator),
 		
 	}
 }
@@ -305,28 +305,28 @@ pub fn procedure_primitive_2_evaluate (primitive : ProcedurePrimitive2, input_1 
 	match primitive {
 		
 		ProcedurePrimitive2::Boolean (primitive) =>
-			return boolean_primitive_2_evaluate (primitive, input_1, input_2),
+			return boolean_primitive_2_evaluate (primitive, input_1, input_2, evaluator),
 		
 		ProcedurePrimitive2::Arithmetic (primitive) =>
-			return arithmetic_primitive_2_evaluate (primitive, input_1, input_2),
+			return arithmetic_primitive_2_evaluate (primitive, input_1, input_2, evaluator),
 		
 		ProcedurePrimitive2::Bitwise (primitive) =>
-			return bitwise_primitive_2_evaluate (primitive, input_1, input_2),
+			return bitwise_primitive_2_evaluate (primitive, input_1, input_2, evaluator),
 		
 		ProcedurePrimitive2::Comparison (primitive) =>
-			return comparison_primitive_2_evaluate (primitive, input_1, input_2),
+			return comparison_primitive_2_evaluate (primitive, input_1, input_2, evaluator),
 		
 		ProcedurePrimitive2::List (primitive) =>
 			return list_primitive_2_evaluate (primitive, input_1, input_2, evaluator),
 		
 		ProcedurePrimitive2::Array (primitive) =>
-			return array_primitive_2_evaluate (primitive, input_1, input_2),
+			return array_primitive_2_evaluate (primitive, input_1, input_2, evaluator),
 		
 		ProcedurePrimitive2::Bytes (primitive) =>
-			return bytes_primitive_2_evaluate (primitive, input_1, input_2),
+			return bytes_primitive_2_evaluate (primitive, input_1, input_2, evaluator),
 		
 		ProcedurePrimitive2::String (primitive) =>
-			return string_primitive_2_evaluate (primitive, input_1, input_2),
+			return string_primitive_2_evaluate (primitive, input_1, input_2, evaluator),
 		
 		ProcedurePrimitive2::Functions (primitive) =>
 			return functions_primitive_2_evaluate (primitive, input_1, input_2, evaluator),
@@ -335,7 +335,7 @@ pub fn procedure_primitive_2_evaluate (primitive : ProcedurePrimitive2, input_1 
 			return runtime_primitive_2_evaluate (primitive, input_1, input_2, evaluator),
 		
 		ProcedurePrimitive2::Port (primitive) =>
-			return port_primitive_2_evaluate (primitive, input_1, input_2),
+			return port_primitive_2_evaluate (primitive, input_1, input_2, evaluator),
 		
 	}
 }
@@ -347,28 +347,28 @@ pub fn procedure_primitive_3_evaluate (primitive : ProcedurePrimitive3, input_1 
 	match primitive {
 		
 		ProcedurePrimitive3::Boolean (primitive) =>
-			return boolean_primitive_3_evaluate (primitive, input_1, input_2, input_3),
+			return boolean_primitive_3_evaluate (primitive, input_1, input_2, input_3, evaluator),
 		
 		ProcedurePrimitive3::Arithmetic (primitive) =>
-			return arithmetic_primitive_3_evaluate (primitive, input_1, input_2, input_3),
+			return arithmetic_primitive_3_evaluate (primitive, input_1, input_2, input_3, evaluator),
 		
 		ProcedurePrimitive3::Bitwise (primitive) =>
-			return bitwise_primitive_3_evaluate (primitive, input_1, input_2, input_3),
+			return bitwise_primitive_3_evaluate (primitive, input_1, input_2, input_3, evaluator),
 		
 		ProcedurePrimitive3::Comparison (primitive) =>
-			return comparison_primitive_3_evaluate (primitive, input_1, input_2, input_3),
+			return comparison_primitive_3_evaluate (primitive, input_1, input_2, input_3, evaluator),
 		
 		ProcedurePrimitive3::List (primitive) =>
 			return list_primitive_3_evaluate (primitive, input_1, input_2, input_3, evaluator),
 		
 		ProcedurePrimitive3::Array (primitive) =>
-			return array_primitive_3_evaluate (primitive, input_1, input_2, input_3),
+			return array_primitive_3_evaluate (primitive, input_1, input_2, input_3, evaluator),
 		
 		ProcedurePrimitive3::Bytes (primitive) =>
-			return bytes_primitive_3_evaluate (primitive, input_1, input_2, input_3),
+			return bytes_primitive_3_evaluate (primitive, input_1, input_2, input_3, evaluator),
 		
 		ProcedurePrimitive3::String (primitive) =>
-			return string_primitive_3_evaluate (primitive, input_1, input_2, input_3),
+			return string_primitive_3_evaluate (primitive, input_1, input_2, input_3, evaluator),
 		
 		ProcedurePrimitive3::Functions (primitive) =>
 			return functions_primitive_3_evaluate (primitive, input_1, input_2, input_3, evaluator),
@@ -377,7 +377,7 @@ pub fn procedure_primitive_3_evaluate (primitive : ProcedurePrimitive3, input_1 
 			return runtime_primitive_3_evaluate (primitive, input_1, input_2, input_3, evaluator),
 		
 		ProcedurePrimitive3::Port (primitive) =>
-			return port_primitive_3_evaluate (primitive, input_1, input_2, input_3),
+			return port_primitive_3_evaluate (primitive, input_1, input_2, input_3, evaluator),
 		
 	}
 }
@@ -389,28 +389,28 @@ pub fn procedure_primitive_4_evaluate (primitive : ProcedurePrimitive4, input_1 
 	match primitive {
 		
 		ProcedurePrimitive4::Boolean (primitive) =>
-			return boolean_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4),
+			return boolean_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4, evaluator),
 		
 		ProcedurePrimitive4::Arithmetic (primitive) =>
-			return arithmetic_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4),
+			return arithmetic_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4, evaluator),
 		
 		ProcedurePrimitive4::Bitwise (primitive) =>
-			return bitwise_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4),
+			return bitwise_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4, evaluator),
 		
 		ProcedurePrimitive4::Comparison (primitive) =>
-			return comparison_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4),
+			return comparison_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4, evaluator),
 		
 		ProcedurePrimitive4::List (primitive) =>
 			return list_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4, evaluator),
 		
 		ProcedurePrimitive4::Array (primitive) =>
-			return array_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4),
+			return array_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4, evaluator),
 		
 		ProcedurePrimitive4::Bytes (primitive) =>
-			return bytes_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4),
+			return bytes_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4, evaluator),
 		
 		ProcedurePrimitive4::String (primitive) =>
-			return string_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4),
+			return string_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4, evaluator),
 		
 		ProcedurePrimitive4::Functions (primitive) =>
 			return functions_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4, evaluator),
@@ -419,7 +419,7 @@ pub fn procedure_primitive_4_evaluate (primitive : ProcedurePrimitive4, input_1 
 			return runtime_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4, evaluator),
 		
 		ProcedurePrimitive4::Port (primitive) =>
-			return port_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4),
+			return port_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4, evaluator),
 		
 	}
 }
@@ -431,28 +431,28 @@ pub fn procedure_primitive_5_evaluate (primitive : ProcedurePrimitive5, input_1 
 	match primitive {
 		
 		ProcedurePrimitive5::Boolean (primitive) =>
-			return boolean_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5),
+			return boolean_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, evaluator),
 		
 		ProcedurePrimitive5::Arithmetic (primitive) =>
-			return arithmetic_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5),
+			return arithmetic_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, evaluator),
 		
 		ProcedurePrimitive5::Bitwise (primitive) =>
-			return bitwise_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5),
+			return bitwise_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, evaluator),
 		
 		ProcedurePrimitive5::Comparison (primitive) =>
-			return comparison_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5),
+			return comparison_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, evaluator),
 		
 		ProcedurePrimitive5::List (primitive) =>
 			return list_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, evaluator),
 		
 		ProcedurePrimitive5::Array (primitive) =>
-			return array_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5),
+			return array_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, evaluator),
 		
 		ProcedurePrimitive5::Bytes (primitive) =>
-			return bytes_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5),
+			return bytes_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, evaluator),
 		
 		ProcedurePrimitive5::String (primitive) =>
-			return string_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5),
+			return string_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, evaluator),
 		
 		ProcedurePrimitive5::Functions (primitive) =>
 			return functions_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, evaluator),
@@ -461,7 +461,7 @@ pub fn procedure_primitive_5_evaluate (primitive : ProcedurePrimitive5, input_1 
 			return runtime_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, evaluator),
 		
 		ProcedurePrimitive5::Port (primitive) =>
-			return port_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5),
+			return port_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, evaluator),
 		
 	}
 }
@@ -518,28 +518,28 @@ pub fn procedure_primitive_n_evaluate_without_alternatives (primitive : Procedur
 	match primitive {
 		
 		ProcedurePrimitiveN::Boolean (primitive) =>
-			return boolean_primitive_n_evaluate (primitive, inputs),
+			return boolean_primitive_n_evaluate (primitive, inputs, evaluator),
 		
 		ProcedurePrimitiveN::Arithmetic (primitive) =>
-			return arithmetic_primitive_n_evaluate (primitive, inputs),
+			return arithmetic_primitive_n_evaluate (primitive, inputs, evaluator),
 		
 		ProcedurePrimitiveN::Bitwise (primitive) =>
-			return bitwise_primitive_n_evaluate (primitive, inputs),
+			return bitwise_primitive_n_evaluate (primitive, inputs, evaluator),
 		
 		ProcedurePrimitiveN::Comparison (primitive) =>
-			return comparison_primitive_n_evaluate (primitive, inputs),
+			return comparison_primitive_n_evaluate (primitive, inputs, evaluator),
 		
 		ProcedurePrimitiveN::List (primitive) =>
 			return list_primitive_n_evaluate (primitive, inputs, evaluator),
 		
 		ProcedurePrimitiveN::Array (primitive) =>
-			return array_primitive_n_evaluate (primitive, inputs),
+			return array_primitive_n_evaluate (primitive, inputs, evaluator),
 		
 		ProcedurePrimitiveN::Bytes (primitive) =>
-			return bytes_primitive_n_evaluate (primitive, inputs),
+			return bytes_primitive_n_evaluate (primitive, inputs, evaluator),
 		
 		ProcedurePrimitiveN::String (primitive) =>
-			return string_primitive_n_evaluate (primitive, inputs),
+			return string_primitive_n_evaluate (primitive, inputs, evaluator),
 		
 		ProcedurePrimitiveN::Functions (primitive) =>
 			return functions_primitive_n_evaluate (primitive, inputs, evaluator),
@@ -548,7 +548,7 @@ pub fn procedure_primitive_n_evaluate_without_alternatives (primitive : Procedur
 			return runtime_primitive_n_evaluate (primitive, inputs, evaluator),
 		
 		ProcedurePrimitiveN::Port (primitive) =>
-			return port_primitive_n_evaluate (primitive, inputs),
+			return port_primitive_n_evaluate (primitive, inputs, evaluator),
 		
 	}
 }

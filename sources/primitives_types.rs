@@ -2,6 +2,7 @@
 
 use super::builtins::exports::*;
 use super::errors::exports::*;
+use super::evaluator::exports::*;
 use super::values::exports::*;
 
 
@@ -88,7 +89,7 @@ pub enum TypePrimitive1 {
 
 
 
-pub fn type_primitive_1_evaluate (primitive : TypePrimitive1, input_1 : &Value) -> (Outcome<Value>) {
+pub fn type_primitive_1_evaluate (primitive : TypePrimitive1, input_1 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	let output = match primitive {
 		

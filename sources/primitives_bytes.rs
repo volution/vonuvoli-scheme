@@ -2,6 +2,7 @@
 
 use super::builtins::exports::*;
 use super::errors::exports::*;
+use super::evaluator::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
 
@@ -152,7 +153,7 @@ pub enum BytesPrimitiveN {
 
 
 
-pub fn bytes_primitive_0_evaluate (primitive : BytesPrimitive0) -> (Outcome<Value>) {
+pub fn bytes_primitive_0_evaluate (primitive : BytesPrimitive0, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		BytesPrimitive0::BytesBuild =>
@@ -167,7 +168,7 @@ pub fn bytes_primitive_0_evaluate (primitive : BytesPrimitive0) -> (Outcome<Valu
 
 
 
-pub fn bytes_primitive_1_evaluate (primitive : BytesPrimitive1, input_1 : &Value) -> (Outcome<Value>) {
+pub fn bytes_primitive_1_evaluate (primitive : BytesPrimitive1, input_1 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		BytesPrimitive1::BytesLength => {
@@ -212,7 +213,7 @@ pub fn bytes_primitive_1_evaluate (primitive : BytesPrimitive1, input_1 : &Value
 
 
 
-pub fn bytes_primitive_2_evaluate (primitive : BytesPrimitive2, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
+pub fn bytes_primitive_2_evaluate (primitive : BytesPrimitive2, input_1 : &Value, input_2 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		BytesPrimitive2::BytesAt =>
@@ -254,7 +255,7 @@ pub fn bytes_primitive_2_evaluate (primitive : BytesPrimitive2, input_1 : &Value
 
 
 
-pub fn bytes_primitive_3_evaluate (primitive : BytesPrimitive3, input_1 : &Value, input_2 : &Value, input_3 : &Value) -> (Outcome<Value>) {
+pub fn bytes_primitive_3_evaluate (primitive : BytesPrimitive3, input_1 : &Value, input_2 : &Value, input_3 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		BytesPrimitive3::BytesAtSet =>
@@ -293,7 +294,7 @@ pub fn bytes_primitive_3_evaluate (primitive : BytesPrimitive3, input_1 : &Value
 
 
 
-pub fn bytes_primitive_4_evaluate (primitive : BytesPrimitive4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value) -> (Outcome<Value>) {
+pub fn bytes_primitive_4_evaluate (primitive : BytesPrimitive4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		BytesPrimitive4::BytesBuild =>
@@ -314,7 +315,7 @@ pub fn bytes_primitive_4_evaluate (primitive : BytesPrimitive4, input_1 : &Value
 
 
 
-pub fn bytes_primitive_5_evaluate (primitive : BytesPrimitive5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value) -> (Outcome<Value>) {
+pub fn bytes_primitive_5_evaluate (primitive : BytesPrimitive5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		BytesPrimitive5::BytesRangeCopy =>
@@ -326,16 +327,16 @@ pub fn bytes_primitive_5_evaluate (primitive : BytesPrimitive5, input_1 : &Value
 
 
 
-pub fn bytes_primitive_n_evaluate (primitive : BytesPrimitiveN, inputs : &[Value]) -> (Outcome<Value>) {
+pub fn bytes_primitive_n_evaluate (primitive : BytesPrimitiveN, inputs : &[Value], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let inputs_count = inputs.len ();
 	match primitive {
 		
 		BytesPrimitiveN::BytesMake =>
 			match inputs_count {
 				1 =>
-					return bytes_primitive_1_evaluate (BytesPrimitive1::BytesMake, &inputs[0]),
+					return bytes_primitive_1_evaluate (BytesPrimitive1::BytesMake, &inputs[0], evaluator),
 				2 =>
-					return bytes_primitive_2_evaluate (BytesPrimitive2::BytesMake, &inputs[0], &inputs[1]),
+					return bytes_primitive_2_evaluate (BytesPrimitive2::BytesMake, &inputs[0], &inputs[1], evaluator),
 				_ =>
 					fail! (0x670a044a),
 			},
@@ -343,15 +344,15 @@ pub fn bytes_primitive_n_evaluate (primitive : BytesPrimitiveN, inputs : &[Value
 		BytesPrimitiveN::BytesBuild =>
 			match inputs_count {
 				0 =>
-					return bytes_primitive_0_evaluate (BytesPrimitive0::BytesBuild),
+					return bytes_primitive_0_evaluate (BytesPrimitive0::BytesBuild, evaluator),
 				1 =>
-					return bytes_primitive_1_evaluate (BytesPrimitive1::BytesBuild, &inputs[0]),
+					return bytes_primitive_1_evaluate (BytesPrimitive1::BytesBuild, &inputs[0], evaluator),
 				2 =>
-					return bytes_primitive_2_evaluate (BytesPrimitive2::BytesBuild, &inputs[0], &inputs[1]),
+					return bytes_primitive_2_evaluate (BytesPrimitive2::BytesBuild, &inputs[0], &inputs[1], evaluator),
 				3 =>
-					return bytes_primitive_3_evaluate (BytesPrimitive3::BytesBuild, &inputs[0], &inputs[1], &inputs[2]),
+					return bytes_primitive_3_evaluate (BytesPrimitive3::BytesBuild, &inputs[0], &inputs[1], &inputs[2], evaluator),
 				4 =>
-					return bytes_primitive_4_evaluate (BytesPrimitive4::BytesBuild, &inputs[0], &inputs[1], &inputs[2], &inputs[3]),
+					return bytes_primitive_4_evaluate (BytesPrimitive4::BytesBuild, &inputs[0], &inputs[1], &inputs[2], &inputs[3], evaluator),
 				_ =>
 					return bytes_build_n (inputs),
 			},
@@ -359,15 +360,15 @@ pub fn bytes_primitive_n_evaluate (primitive : BytesPrimitiveN, inputs : &[Value
 		BytesPrimitiveN::BytesAppend =>
 			match inputs_count {
 				0 =>
-					return bytes_primitive_0_evaluate (BytesPrimitive0::BytesAppend),
+					return bytes_primitive_0_evaluate (BytesPrimitive0::BytesAppend, evaluator),
 				1 =>
-					return bytes_primitive_1_evaluate (BytesPrimitive1::BytesAppend, &inputs[0]),
+					return bytes_primitive_1_evaluate (BytesPrimitive1::BytesAppend, &inputs[0], evaluator),
 				2 =>
-					return bytes_primitive_2_evaluate (BytesPrimitive2::BytesAppend, &inputs[0], &inputs[1]),
+					return bytes_primitive_2_evaluate (BytesPrimitive2::BytesAppend, &inputs[0], &inputs[1], evaluator),
 				3 =>
-					return bytes_primitive_3_evaluate (BytesPrimitive3::BytesAppend, &inputs[0], &inputs[1], &inputs[2]),
+					return bytes_primitive_3_evaluate (BytesPrimitive3::BytesAppend, &inputs[0], &inputs[1], &inputs[2], evaluator),
 				4 =>
-					return bytes_primitive_4_evaluate (BytesPrimitive4::BytesAppend, &inputs[0], &inputs[1], &inputs[2], &inputs[3]),
+					return bytes_primitive_4_evaluate (BytesPrimitive4::BytesAppend, &inputs[0], &inputs[1], &inputs[2], &inputs[3], evaluator),
 				_ =>
 					return bytes_append_n (inputs),
 			},
@@ -375,13 +376,13 @@ pub fn bytes_primitive_n_evaluate (primitive : BytesPrimitiveN, inputs : &[Value
 		BytesPrimitiveN::BytesRangeFill =>
 			match inputs_count {
 				1 =>
-					return bytes_primitive_1_evaluate (BytesPrimitive1::BytesFill, &inputs[0]),
+					return bytes_primitive_1_evaluate (BytesPrimitive1::BytesFill, &inputs[0], evaluator),
 				2 =>
-					return bytes_primitive_2_evaluate (BytesPrimitive2::BytesFill, &inputs[0], &inputs[1]),
+					return bytes_primitive_2_evaluate (BytesPrimitive2::BytesFill, &inputs[0], &inputs[1], evaluator),
 				3 =>
-					return bytes_primitive_3_evaluate (BytesPrimitive3::BytesRangeFill, &inputs[0], &inputs[1], &inputs[2]),
+					return bytes_primitive_3_evaluate (BytesPrimitive3::BytesRangeFill, &inputs[0], &inputs[1], &inputs[2], evaluator),
 				4 =>
-					return bytes_primitive_4_evaluate (BytesPrimitive4::BytesRangeFill, &inputs[0], &inputs[1], &inputs[2], &inputs[3]),
+					return bytes_primitive_4_evaluate (BytesPrimitive4::BytesRangeFill, &inputs[0], &inputs[1], &inputs[2], &inputs[3], evaluator),
 				_ =>
 					fail! (0x2837269d),
 			},
@@ -389,13 +390,13 @@ pub fn bytes_primitive_n_evaluate (primitive : BytesPrimitiveN, inputs : &[Value
 		BytesPrimitiveN::BytesRangeCopy =>
 			match inputs_count {
 				2 =>
-					return bytes_primitive_2_evaluate (BytesPrimitive2::BytesCopy, &inputs[0], &inputs[1]),
+					return bytes_primitive_2_evaluate (BytesPrimitive2::BytesCopy, &inputs[0], &inputs[1], evaluator),
 				3 =>
-					return bytes_primitive_3_evaluate (BytesPrimitive3::BytesRangeCopy, &inputs[0], &inputs[1], &inputs[2]),
+					return bytes_primitive_3_evaluate (BytesPrimitive3::BytesRangeCopy, &inputs[0], &inputs[1], &inputs[2], evaluator),
 				4 =>
-					return bytes_primitive_4_evaluate (BytesPrimitive4::BytesRangeCopy, &inputs[0], &inputs[1], &inputs[2], &inputs[3]),
+					return bytes_primitive_4_evaluate (BytesPrimitive4::BytesRangeCopy, &inputs[0], &inputs[1], &inputs[2], &inputs[3], evaluator),
 				5 =>
-					return bytes_primitive_5_evaluate (BytesPrimitive5::BytesRangeCopy, &inputs[0], &inputs[1], &inputs[2], &inputs[3], &inputs[4]),
+					return bytes_primitive_5_evaluate (BytesPrimitive5::BytesRangeCopy, &inputs[0], &inputs[1], &inputs[2], &inputs[3], &inputs[4], evaluator),
 				_ =>
 					fail! (0xc1e611dd),
 			},
@@ -403,11 +404,11 @@ pub fn bytes_primitive_n_evaluate (primitive : BytesPrimitiveN, inputs : &[Value
 		BytesPrimitiveN::BytesRangeClone =>
 			match inputs_count {
 				1 =>
-					return bytes_primitive_1_evaluate (BytesPrimitive1::BytesClone, &inputs[0]),
+					return bytes_primitive_1_evaluate (BytesPrimitive1::BytesClone, &inputs[0], evaluator),
 				2 =>
-					return bytes_primitive_2_evaluate (BytesPrimitive2::BytesRangeClone, &inputs[0], &inputs[1]),
+					return bytes_primitive_2_evaluate (BytesPrimitive2::BytesRangeClone, &inputs[0], &inputs[1], evaluator),
 				3 =>
-					return bytes_primitive_3_evaluate (BytesPrimitive3::BytesRangeClone, &inputs[0], &inputs[1], &inputs[2]),
+					return bytes_primitive_3_evaluate (BytesPrimitive3::BytesRangeClone, &inputs[0], &inputs[1], &inputs[2], evaluator),
 				_ =>
 					fail! (0xf54b2943),
 			},
@@ -415,11 +416,11 @@ pub fn bytes_primitive_n_evaluate (primitive : BytesPrimitiveN, inputs : &[Value
 		BytesPrimitiveN::BytesRangeToList =>
 			match inputs_count {
 				1 =>
-					return bytes_primitive_1_evaluate (BytesPrimitive1::BytesToList, &inputs[0]),
+					return bytes_primitive_1_evaluate (BytesPrimitive1::BytesToList, &inputs[0], evaluator),
 				2 =>
-					return bytes_primitive_2_evaluate (BytesPrimitive2::BytesRangeToList, &inputs[0], &inputs[1]),
+					return bytes_primitive_2_evaluate (BytesPrimitive2::BytesRangeToList, &inputs[0], &inputs[1], evaluator),
 				3 =>
-					return bytes_primitive_3_evaluate (BytesPrimitive3::BytesRangeToList, &inputs[0], &inputs[1], &inputs[2]),
+					return bytes_primitive_3_evaluate (BytesPrimitive3::BytesRangeToList, &inputs[0], &inputs[1], &inputs[2], evaluator),
 				_ =>
 					fail! (0xc1b7658d),
 			},
@@ -427,11 +428,11 @@ pub fn bytes_primitive_n_evaluate (primitive : BytesPrimitiveN, inputs : &[Value
 		BytesPrimitiveN::ListRangeToBytes =>
 			match inputs_count {
 				1 =>
-					return bytes_primitive_1_evaluate (BytesPrimitive1::ListToBytes, &inputs[0]),
+					return bytes_primitive_1_evaluate (BytesPrimitive1::ListToBytes, &inputs[0], evaluator),
 				2 =>
-					return bytes_primitive_2_evaluate (BytesPrimitive2::ListRangeToBytes, &inputs[0], &inputs[1]),
+					return bytes_primitive_2_evaluate (BytesPrimitive2::ListRangeToBytes, &inputs[0], &inputs[1], evaluator),
 				3 =>
-					return bytes_primitive_3_evaluate (BytesPrimitive3::ListRangeToBytes, &inputs[0], &inputs[1], &inputs[2]),
+					return bytes_primitive_3_evaluate (BytesPrimitive3::ListRangeToBytes, &inputs[0], &inputs[1], &inputs[2], evaluator),
 				_ =>
 					fail! (0x6de74659),
 			},
@@ -439,11 +440,11 @@ pub fn bytes_primitive_n_evaluate (primitive : BytesPrimitiveN, inputs : &[Value
 		BytesPrimitiveN::BytesRangeToArray =>
 			match inputs_count {
 				1 =>
-					return bytes_primitive_1_evaluate (BytesPrimitive1::BytesToArray, &inputs[0]),
+					return bytes_primitive_1_evaluate (BytesPrimitive1::BytesToArray, &inputs[0], evaluator),
 				2 =>
-					return bytes_primitive_2_evaluate (BytesPrimitive2::BytesRangeToArray, &inputs[0], &inputs[1]),
+					return bytes_primitive_2_evaluate (BytesPrimitive2::BytesRangeToArray, &inputs[0], &inputs[1], evaluator),
 				3 =>
-					return bytes_primitive_3_evaluate (BytesPrimitive3::BytesRangeToArray, &inputs[0], &inputs[1], &inputs[2]),
+					return bytes_primitive_3_evaluate (BytesPrimitive3::BytesRangeToArray, &inputs[0], &inputs[1], &inputs[2], evaluator),
 				_ =>
 					fail! (0xb3fee627),
 			},
@@ -451,11 +452,11 @@ pub fn bytes_primitive_n_evaluate (primitive : BytesPrimitiveN, inputs : &[Value
 		BytesPrimitiveN::ArrayRangeToBytes =>
 			match inputs_count {
 				1 =>
-					return bytes_primitive_1_evaluate (BytesPrimitive1::ArrayToBytes, &inputs[0]),
+					return bytes_primitive_1_evaluate (BytesPrimitive1::ArrayToBytes, &inputs[0], evaluator),
 				2 =>
-					return bytes_primitive_2_evaluate (BytesPrimitive2::ArrayRangeToBytes, &inputs[0], &inputs[1]),
+					return bytes_primitive_2_evaluate (BytesPrimitive2::ArrayRangeToBytes, &inputs[0], &inputs[1], evaluator),
 				3 =>
-					return bytes_primitive_3_evaluate (BytesPrimitive3::ArrayRangeToBytes, &inputs[0], &inputs[1], &inputs[2]),
+					return bytes_primitive_3_evaluate (BytesPrimitive3::ArrayRangeToBytes, &inputs[0], &inputs[1], &inputs[2], evaluator),
 				_ =>
 					fail! (0xf8126771),
 			},

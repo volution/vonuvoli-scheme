@@ -2,6 +2,7 @@
 
 use super::builtins::exports::*;
 use super::errors::exports::*;
+use super::evaluator::exports::*;
 use super::values::exports::*;
 
 
@@ -497,14 +498,14 @@ pub enum ComparisonPrimitiveN {
 
 
 
-pub fn comparison_primitive_0_evaluate (primitive : ComparisonPrimitive0) -> (Outcome<Value>) {
+pub fn comparison_primitive_0_evaluate (primitive : ComparisonPrimitive0, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
 
 
 
 
-pub fn comparison_primitive_1_evaluate (primitive : ComparisonPrimitive1, input_1 : &Value) -> (Outcome<Value>) {
+pub fn comparison_primitive_1_evaluate (primitive : ComparisonPrimitive1, input_1 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let output = match primitive {
 		
 		ComparisonPrimitive1::EquivalentByIdentity =>
@@ -725,7 +726,7 @@ pub fn comparison_primitive_1_evaluate (primitive : ComparisonPrimitive1, input_
 
 
 
-pub fn comparison_primitive_2_evaluate (primitive : ComparisonPrimitive2, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
+pub fn comparison_primitive_2_evaluate (primitive : ComparisonPrimitive2, input_1 : &Value, input_2 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let output = match primitive {
 		
 		ComparisonPrimitive2::EquivalentByIdentity =>
@@ -946,7 +947,7 @@ pub fn comparison_primitive_2_evaluate (primitive : ComparisonPrimitive2, input_
 
 
 
-pub fn comparison_primitive_3_evaluate (primitive : ComparisonPrimitive3, input_1 : &Value, input_2 : &Value, input_3 : &Value) -> (Outcome<Value>) {
+pub fn comparison_primitive_3_evaluate (primitive : ComparisonPrimitive3, input_1 : &Value, input_2 : &Value, input_3 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let output = match primitive {
 		
 		ComparisonPrimitive3::EquivalentByIdentity =>
@@ -1167,7 +1168,7 @@ pub fn comparison_primitive_3_evaluate (primitive : ComparisonPrimitive3, input_
 
 
 
-pub fn comparison_primitive_4_evaluate (primitive : ComparisonPrimitive4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value) -> (Outcome<Value>) {
+pub fn comparison_primitive_4_evaluate (primitive : ComparisonPrimitive4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let output = match primitive {
 		
 		ComparisonPrimitive4::EquivalentByIdentity =>
@@ -1388,14 +1389,14 @@ pub fn comparison_primitive_4_evaluate (primitive : ComparisonPrimitive4, input_
 
 
 
-pub fn comparison_primitive_5_evaluate (primitive : ComparisonPrimitive5, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _input_5 : &Value) -> (Outcome<Value>) {
+pub fn comparison_primitive_5_evaluate (primitive : ComparisonPrimitive5, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _input_5 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
 
 
 
 
-pub fn comparison_primitive_n_evaluate (primitive : ComparisonPrimitiveN, inputs : &[Value]) -> (Outcome<Value>) {
+pub fn comparison_primitive_n_evaluate (primitive : ComparisonPrimitiveN, inputs : &[Value], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let output = match primitive {
 		
 		ComparisonPrimitiveN::EquivalentByIdentity =>
