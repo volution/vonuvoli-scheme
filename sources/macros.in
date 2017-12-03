@@ -501,17 +501,24 @@ macro_rules! def_tests {
 	( $identifier : ident, $source : expr ) => (
 		#[ test ]
 		fn $identifier () -> () {
-			use $crate::exports::*;
-			use std::io::Write;
-			let source = $source;
-			let verbosity = if option_env! ("RUST_SCHEME_TESTS_DEBUG") == Some ("true") { TestVerbosity::Debug } else { TestVerbosity::Quiet };
-			let mut transcript = std::io::stdout ();
-			write! (transcript, "\n\n") .expect ("5afde5da");
-			parse_and_execute_tests (stringify! ($identifier), source, &mut transcript, verbosity) .expect ("d03750c4");
-			write! (transcript, "\n") .expect ("216bb5ee");
-			transcript.flush () .expect ("a05200ec");
+			def_tests_block! ($identifier, $source, std::io::stdout ());
 		}
 	);
+}
+
+#[ macro_export ]
+macro_rules! def_tests_block {
+	( $identifier : ident, $source : expr, $transcript : expr ) => ({
+		use $crate::exports::*;
+		use std::io::Write;
+		let source = $source;
+		let verbosity = if option_env! ("RUST_SCHEME_TESTS_DEBUG") == Some ("true") { TestVerbosity::Debug } else { TestVerbosity::Quiet };
+		let mut transcript = $transcript;
+		write! (transcript, "\n\n") .expect ("5afde5da");
+		parse_and_execute_tests (stringify! ($identifier), source, &mut transcript, verbosity) .expect ("d03750c4");
+		write! (transcript, "\n") .expect ("216bb5ee");
+		transcript.flush () .expect ("a05200ec");
+	});
 }
 
 #[ macro_export ]
@@ -521,6 +528,29 @@ macro_rules! def_tests_from_file {
 	);
 	( $identifier : ident, $source : expr ) => (
 		def_tests! ($identifier, include_str! ($source));
+	);
+}
+
+
+
+
+#[ macro_export ]
+macro_rules! def_benchmarks {
+	( $identifier : ident, $source : expr ) => (
+		#[ bench ]
+		fn $identifier (bencher : &mut test::Bencher) -> () {
+			bencher.iter (|| def_tests_block! ($identifier, $source, std::io::sink ()));
+		}
+	);
+}
+
+#[ macro_export ]
+macro_rules! def_benchmarks_from_file {
+	( $( $identifier : ident => $source : expr, )* ) => (
+		$( def_benchmarks_from_file! ($identifier, $source); )*
+	);
+	( $identifier : ident, $source : expr ) => (
+		def_benchmarks! ($identifier, include_str! ($source));
 	);
 }
 

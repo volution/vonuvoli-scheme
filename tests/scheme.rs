@@ -1,7 +1,11 @@
 
 
+#![ feature (test) ]
+
 #[ macro_use ]
 extern crate rust_scheme;
+
+extern crate test;
 
 
 
@@ -39,6 +43,15 @@ def_tests_from_file! (
 		
 		comparisons_ordering_numbers => "scheme/comparisons-ordering-numbers.sst",
 		comparisons_ordering_objects => "scheme/comparisons-ordering-objects.sst",
+		
+	);
+
+
+
+
+def_benchmarks_from_file! (
+		
+		values_benchmark => "scheme/values.sst",
 		
 	);
 
