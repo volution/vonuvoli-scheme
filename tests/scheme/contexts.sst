@@ -91,3 +91,37 @@ c => 3;
 (letrec ((x y) (y a)) (cons x y)) => !fixme (cons #undefined a);
 (letrec* ((x y) (y a)) (cons x y)) => !fixme (cons #undefined a);
 
+
+
+
+(let-values () 0) => 0;
+(let*-values () 0) => 0;
+
+(let-values (((x1) (values 0))) x1) => 0;
+(let-values (((x1 x2) (values 0 1))) (values x2 x1)) => #values(1 0);
+(let-values (((x1 x2 x3) (values 0 1 2))) (values x3 x2 x1)) => #values(2 1 0);
+(let-values (((x1) (values 0)) ((y1) (values 1))) (values x1 y1)) => #values(0 1);
+
+(let*-values (((x1) (values 0))) x1) => 0;
+(let*-values (((x1 x2) (values 0 1))) (values x2 x1)) => #values(1 0);
+(let*-values (((x1 x2 x3) (values 0 1 2))) (values x3 x2 x1)) => #values(2 1 0);
+(let*-values (((x1) (values 0)) ((y1) (values 1))) (values x1 y1)) => #values(0 1);
+
+(let-values (((a b) (values a b))) (values a b)) => #values(1 2);
+(let-values (((a b) (values 3 4)) ((x y) (values a b))) (values x y)) => #values(1 2);
+
+(let*-values (((a b) (values a b))) (values a b)) => #values(1 2);
+(let*-values (((a b) (values 3 4)) ((x y) (values a b))) (values x y)) => #values(3 4);
+
+
+
+
+(define-values (va vb vc) (values a b c)) => #values(1 2 3);
+va => 1;
+vb => 2;
+vc => 3;
+
+(~locals (define-values (va vb vc) (values 4 5 6)) (values va vb vc)) => #values(4 5 6);
+
+(define-values (vx) (values vx)) => !fixme #values(#undefined);
+
