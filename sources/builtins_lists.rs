@@ -126,29 +126,26 @@ pub fn list_pair_at (list : &Value, index : usize) -> (Outcome<Value>) {
 }
 
 pub fn list_pair_at_ref (list : &Value, index : usize) -> (Outcome<Option<&Pair>>) {
-	let mut cursor = list;
-	for index_actual in 0..(index + 1) {
-		match cursor.class () {
-			ValueClass::Pair =>
-				if index_actual == index {
-					succeed! (Some (Pair::as_ref (cursor)));
+	let mut iterator = try! (ListPairIterator::new (list));
+	let mut offset = 0;
+	loop {
+		match iterator.next () {
+			Some (Ok (pair)) =>
+				if offset == index {
+					succeed! (Some (pair));
 				} else {
-					cursor = Pair::as_ref (cursor) .right ();
+					offset += 1;
 				},
-			ValueClass::Null =>
-				if index_actual == index {
+			Some (Err (error)) =>
+				return Err (error),
+			None =>
+				if offset == index {
 					succeed! (None);
 				} else {
 					fail! (0xeb7ddd79);
 				},
-			_ =>
-				fail! (0x4cf78d93),
-		}
-		if list.is_self (cursor) {
-			fail! (0x4c242ac5);
 		}
 	}
-	fail_unreachable! (0x27592741);
 }
 
 
@@ -340,21 +337,16 @@ pub fn list_range_iterator <'a> (list : &'a Value, range_start : Option<&Value>,
 
 
 pub fn list_length (list : &Value) -> (Outcome<usize>) {
-	let mut cursor = list;
 	let mut length : usize = 0;
+	let mut iterator = try! (ListPairIterator::new (list));
 	loop {
-		match cursor.class () {
-			ValueClass::Pair => {
-				length += 1;
-				cursor = Pair::as_ref (cursor) .right ();
-			},
-			ValueClass::Null =>
+		match iterator.next () {
+			Some (Ok (_)) =>
+				length += 1,
+			Some (Err (error)) =>
+				return Err (error),
+			None =>
 				succeed! (length),
-			_ =>
-				fail! (0x573e319c),
-		}
-		if list.is_self (cursor) {
-			fail! (0xc0c2b870);
 		}
 	}
 }
@@ -577,6 +569,46 @@ impl <'a> Iterator for ListIterator <'a> {
 		}
 		self.0 = cursor;
 		return Some (succeeded! (value.clone ()));
+	}
+}
+
+
+
+
+pub struct ListPairIterator <'a> ( &'a Value );
+
+
+impl <'a> ListPairIterator <'a> {
+	
+	pub fn new (value : &'a Value) -> (Outcome<ListPairIterator<'a>>) {
+		succeed! (ListPairIterator (value));
+	}
+}
+
+
+impl <'a> Iterator for ListPairIterator <'a> {
+	
+	type Item = Outcome<&'a Pair>;
+	
+	fn next (&mut self) -> (Option<Outcome<&'a Pair>>) {
+		
+		let cursor = self.0;
+		let (pair, cursor) = match cursor.class () {
+			ValueClass::Pair => {
+				let pair = Pair::as_ref (cursor);
+				let cursor = pair.right ();
+				(pair, cursor)
+			},
+			ValueClass::Null =>
+				return None,
+			_ =>
+				return Some (failed! (0x1f8fea4c)),
+		};
+		if self.0.is_self (cursor) {
+			return Some (failed! (0xa8ab23fb));
+		}
+		self.0 = cursor;
+		return Some (succeeded! (pair));
 	}
 }
 
