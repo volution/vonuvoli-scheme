@@ -354,19 +354,19 @@ pub fn list_length (list : &Value) -> (Outcome<usize>) {
 
 
 
-pub fn list_member_by_comparison (_list : &Value, _comparison : Comparison) -> (Outcome<Value>) {
+pub fn list_member_by_comparison (_list : &Value, _value : &Value, _comparison : Comparison) -> (Outcome<Value>) {
 	fail_unimplemented! (0x50762ad5);
 }
 
-pub fn list_member_by_comparator (_list : &Value, _comparator : &Value) -> (Outcome<Value>) {
+pub fn list_member_by_comparator (_list : &Value, _value : &Value, _comparator : &Value) -> (Outcome<Value>) {
 	fail_unimplemented! (0xd34ac3ce);
 }
 
-pub fn list_assoc_by_comparison (_list : &Value, _comparison : Comparison) -> (Outcome<Value>) {
+pub fn list_assoc_by_comparison (_list : &Value, _value : &Value, _comparison : Comparison) -> (Outcome<Value>) {
 	fail_unimplemented! (0xeda4598d);
 }
 
-pub fn list_assoc_by_comparator (_list : &Value, _comparator : &Value) -> (Outcome<Value>) {
+pub fn list_assoc_by_comparator (_list : &Value, _value : &Value, _comparator : &Value) -> (Outcome<Value>) {
 	fail_unimplemented! (0x9ba8b61d);
 }
 

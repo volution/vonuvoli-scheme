@@ -269,22 +269,22 @@ pub fn list_primitive_2_evaluate (primitive : ListPrimitive2, input_1 : &Value, 
 			return list_clone_range (input_1, Some (input_2), None),
 		
 		ListPrimitive2::ListMemberByIdentity =>
-			return list_member_by_comparison (input_1, Comparison::Equivalence (Equivalence::ByIdentity, Some (false), Some (false))),
+			return list_member_by_comparison (input_2, input_1, Comparison::Equivalence (Equivalence::ByIdentity, Some (false), Some (false))),
 		
 		ListPrimitive2::ListMemberByValue =>
-			return list_member_by_comparison (input_1, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (false))),
+			return list_member_by_comparison (input_2, input_1, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (false))),
 		
 		ListPrimitive2::ListMemberByValueRecursive =>
-			return list_member_by_comparison (input_1, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (true))),
+			return list_member_by_comparison (input_2, input_1, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (true))),
 		
 		ListPrimitive2::ListAssocByIdentity =>
-			return list_assoc_by_comparison (input_1, Comparison::Equivalence (Equivalence::ByIdentity, Some (false), Some (false))),
+			return list_assoc_by_comparison (input_2, input_1, Comparison::Equivalence (Equivalence::ByIdentity, Some (false), Some (false))),
 		
 		ListPrimitive2::ListAssocByValue =>
-			return list_assoc_by_comparison (input_1, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (false))),
+			return list_assoc_by_comparison (input_2, input_1, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (false))),
 		
 		ListPrimitive2::ListAssocByValueRecursive =>
-			return list_assoc_by_comparison (input_1, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (true))),
+			return list_assoc_by_comparison (input_2, input_1, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (true))),
 		
 	}
 }
@@ -317,10 +317,10 @@ pub fn list_primitive_3_evaluate (primitive : ListPrimitive3, input_1 : &Value, 
 			return list_clone_range (input_1, Some (input_2), Some (input_3)),
 		
 		ListPrimitive3::ListMemberByComparator =>
-			return list_member_by_comparator (input_1, input_2),
+			return list_member_by_comparator (input_2, input_1, input_3),
 		
 		ListPrimitive3::ListAssocByComparator =>
-			return list_assoc_by_comparator (input_1, input_2),
+			return list_assoc_by_comparator (input_2, input_1, input_3),
 		
 	}
 }
