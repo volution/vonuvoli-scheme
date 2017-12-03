@@ -226,34 +226,34 @@ pub fn syntax_primitive_n_evaluate (primitive : SyntaxPrimitiveN, inputs : &[Exp
 		},
 		
 		SyntaxPrimitiveN::Begin =>
-			fail! (0x5d19e13b),
+			fail_panic! (0x5d19e13b),
 		
 		SyntaxPrimitiveN::If =>
-			fail! (0x6fb1857a),
+			fail_panic! (0x6fb1857a),
 		
 		SyntaxPrimitiveN::When | SyntaxPrimitiveN::Unless =>
-			fail! (0x169ec95d),
+			fail_panic! (0x169ec95d),
 		
 		SyntaxPrimitiveN::Cond | SyntaxPrimitiveN::Case =>
-			fail! (0x39b925db),
+			fail_panic! (0x39b925db),
 		
 		SyntaxPrimitiveN::Do =>
-			fail! (0xf5bd287f),
+			fail_panic! (0xf5bd287f),
 		
 		SyntaxPrimitiveN::Locals =>
-			fail! (0xc956c743),
+			fail_panic! (0xc956c743),
 		
 		SyntaxPrimitiveN::LetParallel | SyntaxPrimitiveN::LetSequential | SyntaxPrimitiveN::LetRecursiveParallel | SyntaxPrimitiveN::LetRecursiveSequential =>
-			fail! (0x136922d0),
+			fail_panic! (0x136922d0),
 		
 		SyntaxPrimitiveN::LetValuesParallel | SyntaxPrimitiveN::LetValuesSequential =>
-			fail! (0x7b3a21ac),
+			fail_panic! (0x7b3a21ac),
 		
 		SyntaxPrimitiveN::Define =>
-			fail! (0x33ec681e),
+			fail_panic! (0x33ec681e),
 		
 		SyntaxPrimitiveN::Lambda =>
-			fail! (0xd45f4e3b),
+			fail_panic! (0xd45f4e3b),
 		
 	}
 }

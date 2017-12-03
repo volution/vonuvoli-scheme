@@ -158,29 +158,14 @@ pub fn runtime_primitive_5_evaluate (primitive : RuntimePrimitive5, _input_1 : &
 
 
 
-pub fn runtime_primitive_n_evaluate (primitive : RuntimePrimitiveN, inputs : &[Value], evaluator : &EvaluatorContext) -> (Outcome<Value>) {
-	let inputs_count = inputs.len ();
+pub fn runtime_primitive_n_evaluate (primitive : RuntimePrimitiveN, _inputs : &[Value], _evaluator : &EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		RuntimePrimitiveN::ProcessExit =>
-			match inputs_count {
-				0 =>
-					return runtime_primitive_0_evaluate (RuntimePrimitive0::ProcessExit, evaluator),
-				1 =>
-					return runtime_primitive_1_evaluate (RuntimePrimitive1::ProcessExit, &inputs[0], evaluator),
-				_ =>
-					fail! (0xcb935dec),
-			},
+			fail_panic! (0xcb935dec),
 		
 		RuntimePrimitiveN::ProcessExitEmergency =>
-			match inputs_count {
-				0 =>
-					return runtime_primitive_0_evaluate (RuntimePrimitive0::ProcessExitEmergency, evaluator),
-				1 =>
-					return runtime_primitive_1_evaluate (RuntimePrimitive1::ProcessExitEmergency, &inputs[0], evaluator),
-				_ =>
-					fail! (0xbde2b2cf),
-			},
+			fail_panic! (0xbde2b2cf),
 		
 	}
 }

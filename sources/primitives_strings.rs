@@ -429,195 +429,53 @@ pub fn string_primitive_5_evaluate (primitive : StringPrimitive5, input_1 : &Val
 
 
 
-pub fn string_primitive_n_evaluate (primitive : StringPrimitiveN, inputs : &[Value], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
-	let inputs_count = inputs.len ();
+pub fn string_primitive_n_evaluate (primitive : StringPrimitiveN, inputs : &[Value], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		StringPrimitiveN::StringMake =>
-			match inputs_count {
-				1 =>
-					return string_primitive_1_evaluate (StringPrimitive1::StringMake, &inputs[0], evaluator),
-				2 =>
-					return string_primitive_2_evaluate (StringPrimitive2::StringMake, &inputs[0], &inputs[1], evaluator),
-				_ =>
-					fail! (0x81290cad),
-			},
+			fail_panic! (0x81290cad),
 		
 		StringPrimitiveN::StringBuild =>
-			match inputs_count {
-				0 =>
-					return string_primitive_0_evaluate (StringPrimitive0::StringBuild, evaluator),
-				1 =>
-					return string_primitive_1_evaluate (StringPrimitive1::StringBuild, &inputs[0], evaluator),
-				2 =>
-					return string_primitive_2_evaluate (StringPrimitive2::StringBuild, &inputs[0], &inputs[1], evaluator),
-				3 =>
-					return string_primitive_3_evaluate (StringPrimitive3::StringBuild, &inputs[0], &inputs[1], &inputs[2], evaluator),
-				4 =>
-					return string_primitive_4_evaluate (StringPrimitive4::StringBuild, &inputs[0], &inputs[1], &inputs[2], &inputs[3], evaluator),
-				_ =>
-					return string_build_n (inputs),
-			},
+			return string_build_n (inputs),
 		
 		StringPrimitiveN::StringAppend =>
-			match inputs_count {
-				0 =>
-					return string_primitive_0_evaluate (StringPrimitive0::StringAppend, evaluator),
-				1 =>
-					return string_primitive_1_evaluate (StringPrimitive1::StringAppend, &inputs[0], evaluator),
-				2 =>
-					return string_primitive_2_evaluate (StringPrimitive2::StringAppend, &inputs[0], &inputs[1], evaluator),
-				3 =>
-					return string_primitive_3_evaluate (StringPrimitive3::StringAppend, &inputs[0], &inputs[1], &inputs[2], evaluator),
-				4 =>
-					return string_primitive_4_evaluate (StringPrimitive4::StringAppend, &inputs[0], &inputs[1], &inputs[2], &inputs[3], evaluator),
-				_ =>
-					return string_append_n (inputs),
-			},
+			return string_append_n (inputs),
 		
 		StringPrimitiveN::StringRangeFill =>
-			match inputs_count {
-				1 =>
-					return string_primitive_1_evaluate (StringPrimitive1::StringFill, &inputs[0], evaluator),
-				2 =>
-					return string_primitive_2_evaluate (StringPrimitive2::StringFill, &inputs[0], &inputs[1], evaluator),
-				3 =>
-					return string_primitive_3_evaluate (StringPrimitive3::StringRangeFill, &inputs[0], &inputs[1], &inputs[2], evaluator),
-				4 =>
-					return string_primitive_4_evaluate (StringPrimitive4::StringRangeFill, &inputs[0], &inputs[1], &inputs[2], &inputs[3], evaluator),
-				_ =>
-					fail! (0x04d2afc0),
-			},
+			fail_panic! (0x04d2afc0),
 		
 		StringPrimitiveN::StringRangeCopy =>
-			match inputs_count {
-				2 =>
-					return string_primitive_2_evaluate (StringPrimitive2::StringCopy, &inputs[0], &inputs[1], evaluator),
-				3 =>
-					return string_primitive_3_evaluate (StringPrimitive3::StringRangeCopy, &inputs[0], &inputs[1], &inputs[2], evaluator),
-				4 =>
-					return string_primitive_4_evaluate (StringPrimitive4::StringRangeCopy, &inputs[0], &inputs[1], &inputs[2], &inputs[3], evaluator),
-				5 =>
-					return string_primitive_5_evaluate (StringPrimitive5::StringRangeCopy, &inputs[0], &inputs[1], &inputs[2], &inputs[3], &inputs[4], evaluator),
-				_ =>
-					fail! (0x8c5e5181),
-			},
+			fail_panic! (0x8c5e5181),
 		
 		StringPrimitiveN::StringRangeClone =>
-			match inputs_count {
-				1 =>
-					return string_primitive_1_evaluate (StringPrimitive1::StringClone, &inputs[0], evaluator),
-				2 =>
-					return string_primitive_2_evaluate (StringPrimitive2::StringRangeClone, &inputs[0], &inputs[1], evaluator),
-				3 =>
-					return string_primitive_3_evaluate (StringPrimitive3::StringRangeClone, &inputs[0], &inputs[1], &inputs[2], evaluator),
-				_ =>
-					fail! (0x0d49ddab),
-			},
+			fail_panic! (0x0d49ddab),
 		
 		StringPrimitiveN::StringRangeToList =>
-			match inputs_count {
-				1 =>
-					return string_primitive_1_evaluate (StringPrimitive1::StringToList, &inputs[0], evaluator),
-				2 =>
-					return string_primitive_2_evaluate (StringPrimitive2::StringRangeToList, &inputs[0], &inputs[1], evaluator),
-				3 =>
-					return string_primitive_3_evaluate (StringPrimitive3::StringRangeToList, &inputs[0], &inputs[1], &inputs[2], evaluator),
-				_ =>
-					fail! (0x273584ff),
-			},
+			fail_panic! (0x273584ff),
 		
 		StringPrimitiveN::ListRangeToString =>
-			match inputs_count {
-				1 =>
-					return string_primitive_1_evaluate (StringPrimitive1::ListToString, &inputs[0], evaluator),
-				2 =>
-					return string_primitive_2_evaluate (StringPrimitive2::ListRangeToString, &inputs[0], &inputs[1], evaluator),
-				3 =>
-					return string_primitive_3_evaluate (StringPrimitive3::ListRangeToString, &inputs[0], &inputs[1], &inputs[2], evaluator),
-				_ =>
-					fail! (0xd0a9123a),
-			},
+			fail_panic! (0xd0a9123a),
 		
 		StringPrimitiveN::StringRangeToArray =>
-			match inputs_count {
-				1 =>
-					return string_primitive_1_evaluate (StringPrimitive1::StringToArray, &inputs[0], evaluator),
-				2 =>
-					return string_primitive_2_evaluate (StringPrimitive2::StringRangeToArray, &inputs[0], &inputs[1], evaluator),
-				3 =>
-					return string_primitive_3_evaluate (StringPrimitive3::StringRangeToArray, &inputs[0], &inputs[1], &inputs[2], evaluator),
-				_ =>
-					fail! (0x091d3683),
-			},
+			fail_panic! (0x091d3683),
 		
 		StringPrimitiveN::ArrayRangeToString =>
-			match inputs_count {
-				1 =>
-					return string_primitive_1_evaluate (StringPrimitive1::ArrayToString, &inputs[0], evaluator),
-				2 =>
-					return string_primitive_2_evaluate (StringPrimitive2::ArrayRangeToString, &inputs[0], &inputs[1], evaluator),
-				3 =>
-					return string_primitive_3_evaluate (StringPrimitive3::ArrayRangeToString, &inputs[0], &inputs[1], &inputs[2], evaluator),
-				_ =>
-					fail! (0x5d6d69b0),
-			},
+			fail_panic! (0x5d6d69b0),
 		
 		StringPrimitiveN::StringRangeToBytes =>
-			match inputs_count {
-				1 =>
-					return string_primitive_1_evaluate (StringPrimitive1::StringToBytes, &inputs[0], evaluator),
-				2 =>
-					return string_primitive_2_evaluate (StringPrimitive2::StringRangeToBytes, &inputs[0], &inputs[1], evaluator),
-				3 =>
-					return string_primitive_3_evaluate (StringPrimitive3::StringRangeToBytes, &inputs[0], &inputs[1], &inputs[2], evaluator),
-				_ =>
-					fail! (0xe7f5f988),
-			},
+			fail_panic! (0xe7f5f988),
 		
 		StringPrimitiveN::BytesRangeToString =>
-			match inputs_count {
-				1 =>
-					return string_primitive_1_evaluate (StringPrimitive1::BytesToString, &inputs[0], evaluator),
-				2 =>
-					return string_primitive_2_evaluate (StringPrimitive2::BytesRangeToString, &inputs[0], &inputs[1], evaluator),
-				3 =>
-					return string_primitive_3_evaluate (StringPrimitive3::BytesRangeToString, &inputs[0], &inputs[1], &inputs[2], evaluator),
-				_ =>
-					fail! (0xa4900e52),
-			},
+			fail_panic! (0xa4900e52),
 		
 		StringPrimitiveN::StringToNumber =>
-			match inputs_count {
-				1 =>
-					return string_primitive_1_evaluate (StringPrimitive1::StringToNumber, &inputs[0], evaluator),
-				2 =>
-					return string_primitive_2_evaluate (StringPrimitive2::StringToNumber, &inputs[0], &inputs[1], evaluator),
-				_ =>
-					fail! (0x3fefec61),
-			},
+			fail_panic! (0x3fefec61),
 		
 		StringPrimitiveN::NumberToString =>
-			match inputs_count {
-				1 =>
-					return string_primitive_1_evaluate (StringPrimitive1::NumberToString, &inputs[0], evaluator),
-				2 =>
-					return string_primitive_2_evaluate (StringPrimitive2::NumberToString, &inputs[0], &inputs[1], evaluator),
-				3 =>
-					return string_primitive_3_evaluate (StringPrimitive3::NumberToString, &inputs[0], &inputs[1], &inputs[2], evaluator),
-				_ =>
-					fail! (0x8c1917bf),
-			},
+			fail_panic! (0x8c1917bf),
 		
 		StringPrimitiveN::CharacterToDigitNumber =>
-			match inputs_count {
-				1 =>
-					return string_primitive_1_evaluate (StringPrimitive1::CharacterToDigitNumber, &inputs[0], evaluator),
-				2 =>
-					return string_primitive_2_evaluate (StringPrimitive2::CharacterToDigitNumber, &inputs[0], &inputs[1], evaluator),
-				_ =>
-					fail! (0x49dc7b05),
-			},
+			fail_panic! (0x49dc7b05),
 		
 	}
 }
