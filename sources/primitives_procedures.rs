@@ -230,7 +230,7 @@ pub fn procedure_primitive_0_evaluate (primitive : ProcedurePrimitive0, evaluato
 			return comparison_primitive_0_evaluate (primitive),
 		
 		ProcedurePrimitive0::List (primitive) =>
-			return list_primitive_0_evaluate (primitive),
+			return list_primitive_0_evaluate (primitive, evaluator),
 		
 		ProcedurePrimitive0::Array (primitive) =>
 			return array_primitive_0_evaluate (primitive),
@@ -275,7 +275,7 @@ pub fn procedure_primitive_1_evaluate (primitive : ProcedurePrimitive1, input_1 
 			return comparison_primitive_1_evaluate (primitive, input_1),
 		
 		ProcedurePrimitive1::List (primitive) =>
-			return list_primitive_1_evaluate (primitive, input_1),
+			return list_primitive_1_evaluate (primitive, input_1, evaluator),
 		
 		ProcedurePrimitive1::Array (primitive) =>
 			return array_primitive_1_evaluate (primitive, input_1),
@@ -317,7 +317,7 @@ pub fn procedure_primitive_2_evaluate (primitive : ProcedurePrimitive2, input_1 
 			return comparison_primitive_2_evaluate (primitive, input_1, input_2),
 		
 		ProcedurePrimitive2::List (primitive) =>
-			return list_primitive_2_evaluate (primitive, input_1, input_2),
+			return list_primitive_2_evaluate (primitive, input_1, input_2, evaluator),
 		
 		ProcedurePrimitive2::Array (primitive) =>
 			return array_primitive_2_evaluate (primitive, input_1, input_2),
@@ -359,7 +359,7 @@ pub fn procedure_primitive_3_evaluate (primitive : ProcedurePrimitive3, input_1 
 			return comparison_primitive_3_evaluate (primitive, input_1, input_2, input_3),
 		
 		ProcedurePrimitive3::List (primitive) =>
-			return list_primitive_3_evaluate (primitive, input_1, input_2, input_3),
+			return list_primitive_3_evaluate (primitive, input_1, input_2, input_3, evaluator),
 		
 		ProcedurePrimitive3::Array (primitive) =>
 			return array_primitive_3_evaluate (primitive, input_1, input_2, input_3),
@@ -401,7 +401,7 @@ pub fn procedure_primitive_4_evaluate (primitive : ProcedurePrimitive4, input_1 
 			return comparison_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4),
 		
 		ProcedurePrimitive4::List (primitive) =>
-			return list_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4),
+			return list_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4, evaluator),
 		
 		ProcedurePrimitive4::Array (primitive) =>
 			return array_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4),
@@ -443,7 +443,7 @@ pub fn procedure_primitive_5_evaluate (primitive : ProcedurePrimitive5, input_1 
 			return comparison_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5),
 		
 		ProcedurePrimitive5::List (primitive) =>
-			return list_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5),
+			return list_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, evaluator),
 		
 		ProcedurePrimitive5::Array (primitive) =>
 			return array_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5),
@@ -530,7 +530,7 @@ pub fn procedure_primitive_n_evaluate_without_alternatives (primitive : Procedur
 			return comparison_primitive_n_evaluate (primitive, inputs),
 		
 		ProcedurePrimitiveN::List (primitive) =>
-			return list_primitive_n_evaluate (primitive, inputs),
+			return list_primitive_n_evaluate (primitive, inputs, evaluator),
 		
 		ProcedurePrimitiveN::Array (primitive) =>
 			return array_primitive_n_evaluate (primitive, inputs),

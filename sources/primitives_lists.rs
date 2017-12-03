@@ -3,6 +3,7 @@
 use super::builtins::exports::*;
 use super::constants::exports::*;
 use super::errors::exports::*;
+use super::evaluator::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
 
@@ -163,7 +164,7 @@ pub enum ListPrimitiveN {
 
 
 
-pub fn list_primitive_0_evaluate (primitive : ListPrimitive0) -> (Outcome<Value>) {
+pub fn list_primitive_0_evaluate (primitive : ListPrimitive0, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		ListPrimitive0::ListBuild =>
@@ -178,7 +179,7 @@ pub fn list_primitive_0_evaluate (primitive : ListPrimitive0) -> (Outcome<Value>
 
 
 
-pub fn list_primitive_1_evaluate (primitive : ListPrimitive1, input_1 : &Value) -> (Outcome<Value>) {
+pub fn list_primitive_1_evaluate (primitive : ListPrimitive1, input_1 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		ListPrimitive1::PairLeft =>
@@ -229,7 +230,7 @@ pub fn list_primitive_1_evaluate (primitive : ListPrimitive1, input_1 : &Value) 
 
 
 
-pub fn list_primitive_2_evaluate (primitive : ListPrimitive2, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
+pub fn list_primitive_2_evaluate (primitive : ListPrimitive2, input_1 : &Value, input_2 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		ListPrimitive2::Pair =>
@@ -292,7 +293,7 @@ pub fn list_primitive_2_evaluate (primitive : ListPrimitive2, input_1 : &Value, 
 
 
 
-pub fn list_primitive_3_evaluate (primitive : ListPrimitive3, input_1 : &Value, input_2 : &Value, input_3 : &Value) -> (Outcome<Value>) {
+pub fn list_primitive_3_evaluate (primitive : ListPrimitive3, input_1 : &Value, input_2 : &Value, input_3 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		ListPrimitive3::ListFirstAtSet =>
@@ -317,10 +318,10 @@ pub fn list_primitive_3_evaluate (primitive : ListPrimitive3, input_1 : &Value, 
 			return list_clone_range (input_1, Some (input_2), Some (input_3)),
 		
 		ListPrimitive3::ListMemberByComparator =>
-			return list_member_by_comparator (input_2, input_1, input_3),
+			return list_member_by_comparator (input_2, input_1, input_3, evaluator),
 		
 		ListPrimitive3::ListAssocByComparator =>
-			return list_assoc_by_comparator (input_2, input_1, input_3),
+			return list_assoc_by_comparator (input_2, input_1, input_3, evaluator),
 		
 	}
 }
@@ -328,7 +329,7 @@ pub fn list_primitive_3_evaluate (primitive : ListPrimitive3, input_1 : &Value, 
 
 
 
-pub fn list_primitive_4_evaluate (primitive : ListPrimitive4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value) -> (Outcome<Value>) {
+pub fn list_primitive_4_evaluate (primitive : ListPrimitive4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		ListPrimitive4::ListBuild =>
@@ -349,7 +350,7 @@ pub fn list_primitive_4_evaluate (primitive : ListPrimitive4, input_1 : &Value, 
 
 
 
-pub fn list_primitive_5_evaluate (primitive : ListPrimitive5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value) -> (Outcome<Value>) {
+pub fn list_primitive_5_evaluate (primitive : ListPrimitive5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		ListPrimitive5::ListRangeCopy =>
@@ -361,16 +362,16 @@ pub fn list_primitive_5_evaluate (primitive : ListPrimitive5, input_1 : &Value, 
 
 
 
-pub fn list_primitive_n_evaluate (primitive : ListPrimitiveN, inputs : &[Value]) -> (Outcome<Value>) {
+pub fn list_primitive_n_evaluate (primitive : ListPrimitiveN, inputs : &[Value], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let inputs_count = inputs.len ();
 	match primitive {
 		
 		ListPrimitiveN::ListMake =>
 			match inputs_count {
 				1 =>
-					return list_primitive_1_evaluate (ListPrimitive1::ListMake, &inputs[0]),
+					return list_primitive_1_evaluate (ListPrimitive1::ListMake, &inputs[0], evaluator),
 				2 =>
-					return list_primitive_2_evaluate (ListPrimitive2::ListMake, &inputs[0], &inputs[1]),
+					return list_primitive_2_evaluate (ListPrimitive2::ListMake, &inputs[0], &inputs[1], evaluator),
 				_ =>
 					fail! (0xdd5940d5),
 			},
@@ -378,15 +379,15 @@ pub fn list_primitive_n_evaluate (primitive : ListPrimitiveN, inputs : &[Value])
 		ListPrimitiveN::ListBuild =>
 			match inputs_count {
 				0 =>
-					return list_primitive_0_evaluate (ListPrimitive0::ListBuild),
+					return list_primitive_0_evaluate (ListPrimitive0::ListBuild, evaluator),
 				1 =>
-					return list_primitive_1_evaluate (ListPrimitive1::ListBuild, &inputs[0]),
+					return list_primitive_1_evaluate (ListPrimitive1::ListBuild, &inputs[0], evaluator),
 				2 =>
-					return list_primitive_2_evaluate (ListPrimitive2::ListBuild, &inputs[0], &inputs[1]),
+					return list_primitive_2_evaluate (ListPrimitive2::ListBuild, &inputs[0], &inputs[1], evaluator),
 				3 =>
-					return list_primitive_3_evaluate (ListPrimitive3::ListBuild, &inputs[0], &inputs[1], &inputs[2]),
+					return list_primitive_3_evaluate (ListPrimitive3::ListBuild, &inputs[0], &inputs[1], &inputs[2], evaluator),
 				4 =>
-					return list_primitive_4_evaluate (ListPrimitive4::ListBuild, &inputs[0], &inputs[1], &inputs[2], &inputs[3]),
+					return list_primitive_4_evaluate (ListPrimitive4::ListBuild, &inputs[0], &inputs[1], &inputs[2], &inputs[3], evaluator),
 				_ =>
 					succeed! (list_build_n (inputs)),
 			},
@@ -394,15 +395,15 @@ pub fn list_primitive_n_evaluate (primitive : ListPrimitiveN, inputs : &[Value])
 		ListPrimitiveN::ListAppend =>
 			match inputs_count {
 				0 =>
-					return list_primitive_0_evaluate (ListPrimitive0::ListAppend),
+					return list_primitive_0_evaluate (ListPrimitive0::ListAppend, evaluator),
 				1 =>
-					return list_primitive_1_evaluate (ListPrimitive1::ListAppend, &inputs[0]),
+					return list_primitive_1_evaluate (ListPrimitive1::ListAppend, &inputs[0], evaluator),
 				2 =>
-					return list_primitive_2_evaluate (ListPrimitive2::ListAppend, &inputs[0], &inputs[1]),
+					return list_primitive_2_evaluate (ListPrimitive2::ListAppend, &inputs[0], &inputs[1], evaluator),
 				3 =>
-					return list_primitive_3_evaluate (ListPrimitive3::ListAppend, &inputs[0], &inputs[1], &inputs[2]),
+					return list_primitive_3_evaluate (ListPrimitive3::ListAppend, &inputs[0], &inputs[1], &inputs[2], evaluator),
 				4 =>
-					return list_primitive_4_evaluate (ListPrimitive4::ListAppend, &inputs[0], &inputs[1], &inputs[2], &inputs[3]),
+					return list_primitive_4_evaluate (ListPrimitive4::ListAppend, &inputs[0], &inputs[1], &inputs[2], &inputs[3], evaluator),
 				_ =>
 					return list_append_n (inputs),
 			},
@@ -410,13 +411,13 @@ pub fn list_primitive_n_evaluate (primitive : ListPrimitiveN, inputs : &[Value])
 		ListPrimitiveN::ListRangeFill =>
 			match inputs_count {
 				1 =>
-					return list_primitive_1_evaluate (ListPrimitive1::ListFill, &inputs[0]),
+					return list_primitive_1_evaluate (ListPrimitive1::ListFill, &inputs[0], evaluator),
 				2 =>
-					return list_primitive_2_evaluate (ListPrimitive2::ListFill, &inputs[0], &inputs[1]),
+					return list_primitive_2_evaluate (ListPrimitive2::ListFill, &inputs[0], &inputs[1], evaluator),
 				3 =>
-					return list_primitive_3_evaluate (ListPrimitive3::ListRangeFill, &inputs[0], &inputs[1], &inputs[2]),
+					return list_primitive_3_evaluate (ListPrimitive3::ListRangeFill, &inputs[0], &inputs[1], &inputs[2], evaluator),
 				4 =>
-					return list_primitive_4_evaluate (ListPrimitive4::ListRangeFill, &inputs[0], &inputs[1], &inputs[2], &inputs[3]),
+					return list_primitive_4_evaluate (ListPrimitive4::ListRangeFill, &inputs[0], &inputs[1], &inputs[2], &inputs[3], evaluator),
 				_ =>
 					fail! (0x0634b1d5),
 			},
@@ -424,13 +425,13 @@ pub fn list_primitive_n_evaluate (primitive : ListPrimitiveN, inputs : &[Value])
 		ListPrimitiveN::ListRangeCopy =>
 			match inputs_count {
 				2 =>
-					return list_primitive_2_evaluate (ListPrimitive2::ListCopy, &inputs[0], &inputs[1]),
+					return list_primitive_2_evaluate (ListPrimitive2::ListCopy, &inputs[0], &inputs[1], evaluator),
 				3 =>
-					return list_primitive_3_evaluate (ListPrimitive3::ListRangeCopy, &inputs[0], &inputs[1], &inputs[2]),
+					return list_primitive_3_evaluate (ListPrimitive3::ListRangeCopy, &inputs[0], &inputs[1], &inputs[2], evaluator),
 				4 =>
-					return list_primitive_4_evaluate (ListPrimitive4::ListRangeCopy, &inputs[0], &inputs[1], &inputs[2], &inputs[3]),
+					return list_primitive_4_evaluate (ListPrimitive4::ListRangeCopy, &inputs[0], &inputs[1], &inputs[2], &inputs[3], evaluator),
 				5 =>
-					return list_primitive_5_evaluate (ListPrimitive5::ListRangeCopy, &inputs[0], &inputs[1], &inputs[2], &inputs[3], &inputs[4]),
+					return list_primitive_5_evaluate (ListPrimitive5::ListRangeCopy, &inputs[0], &inputs[1], &inputs[2], &inputs[3], &inputs[4], evaluator),
 				_ =>
 					fail! (0x749c9d57),
 			},
@@ -438,11 +439,11 @@ pub fn list_primitive_n_evaluate (primitive : ListPrimitiveN, inputs : &[Value])
 		ListPrimitiveN::ListRangeClone =>
 			match inputs_count {
 				1 =>
-					return list_primitive_1_evaluate (ListPrimitive1::ListClone, &inputs[0]),
+					return list_primitive_1_evaluate (ListPrimitive1::ListClone, &inputs[0], evaluator),
 				2 =>
-					return list_primitive_2_evaluate (ListPrimitive2::ListRangeClone, &inputs[0], &inputs[1]),
+					return list_primitive_2_evaluate (ListPrimitive2::ListRangeClone, &inputs[0], &inputs[1], evaluator),
 				3 =>
-					return list_primitive_3_evaluate (ListPrimitive3::ListRangeClone, &inputs[0], &inputs[1], &inputs[2]),
+					return list_primitive_3_evaluate (ListPrimitive3::ListRangeClone, &inputs[0], &inputs[1], &inputs[2], evaluator),
 				_ =>
 					fail! (0xf28cef92),
 			},
@@ -450,9 +451,9 @@ pub fn list_primitive_n_evaluate (primitive : ListPrimitiveN, inputs : &[Value])
 		ListPrimitiveN::ListMember =>
 			match inputs_count {
 				2 =>
-					return list_primitive_2_evaluate (ListPrimitive2::ListMemberByValueRecursive, &inputs[0], &inputs[1]),
+					return list_primitive_2_evaluate (ListPrimitive2::ListMemberByValueRecursive, &inputs[0], &inputs[1], evaluator),
 				3 =>
-					return list_primitive_3_evaluate (ListPrimitive3::ListMemberByComparator, &inputs[0], &inputs[1], &inputs[2]),
+					return list_primitive_3_evaluate (ListPrimitive3::ListMemberByComparator, &inputs[0], &inputs[1], &inputs[2], evaluator),
 				_ =>
 					fail! (0x0bac53c1),
 			},
@@ -460,9 +461,9 @@ pub fn list_primitive_n_evaluate (primitive : ListPrimitiveN, inputs : &[Value])
 		ListPrimitiveN::ListAssoc =>
 			match inputs_count {
 				2 =>
-					return list_primitive_2_evaluate (ListPrimitive2::ListAssocByValueRecursive, &inputs[0], &inputs[1]),
+					return list_primitive_2_evaluate (ListPrimitive2::ListAssocByValueRecursive, &inputs[0], &inputs[1], evaluator),
 				3 =>
-					return list_primitive_3_evaluate (ListPrimitive3::ListAssocByComparator, &inputs[0], &inputs[1], &inputs[2]),
+					return list_primitive_3_evaluate (ListPrimitive3::ListAssocByComparator, &inputs[0], &inputs[1], &inputs[2], evaluator),
 				_ =>
 					fail! (0x69aaa417),
 			},

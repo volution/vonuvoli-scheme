@@ -4,6 +4,7 @@ use super::builtins::exports::*;
 use super::constants::exports::*;
 use super::conversions::exports::*;
 use super::errors::exports::*;
+use super::evaluator::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
 
@@ -354,20 +355,76 @@ pub fn list_length (list : &Value) -> (Outcome<usize>) {
 
 
 
-pub fn list_member_by_comparison (_list : &Value, _value : &Value, _comparison : Comparison) -> (Outcome<Value>) {
-	fail_unimplemented! (0x50762ad5);
+pub fn list_member_by_comparison (list : &Value, value : &Value, comparison : Comparison) -> (Outcome<Value>) {
+	let mut iterator = try! (ListPairIterator::new (list));
+	loop {
+		match iterator.next () {
+			Some (Ok (pair)) =>
+				if try! (compare_2 (value, pair.left (), comparison)) {
+					succeed! (pair.clone () .into ());
+				}
+			Some (Err (error)) =>
+				return Err (error),
+			None =>
+				succeed! (false.into ()),
+		}
+	}
 }
 
-pub fn list_member_by_comparator (_list : &Value, _value : &Value, _comparator : &Value) -> (Outcome<Value>) {
-	fail_unimplemented! (0xd34ac3ce);
+pub fn list_member_by_comparator (list : &Value, value : &Value, comparator : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	let mut iterator = try! (ListPairIterator::new (list));
+	loop {
+		match iterator.next () {
+			Some (Ok (pair)) => {
+				let comparison = try! (evaluator.evaluator.evaluate_procedure_call_2_with_values (evaluator, comparator, value, pair.left ()));
+				if is_not_false (&comparison) {
+					succeed! (pair.clone () .into ());
+				}
+			},
+			Some (Err (error)) =>
+				return Err (error),
+			None =>
+				succeed! (false.into ()),
+		}
+	}
 }
 
-pub fn list_assoc_by_comparison (_list : &Value, _value : &Value, _comparison : Comparison) -> (Outcome<Value>) {
-	fail_unimplemented! (0xeda4598d);
+
+pub fn list_assoc_by_comparison (list : &Value, value : &Value, comparison : Comparison) -> (Outcome<Value>) {
+	let mut iterator = try! (ListPairIterator::new (list));
+	loop {
+		match iterator.next () {
+			Some (Ok (pair)) => {
+				let pair = try_as_pair_ref! (pair.left ());
+				if try! (compare_2 (value, pair.left (), comparison)) {
+					succeed! (pair.clone () .into ());
+				}
+			},
+			Some (Err (error)) =>
+				return Err (error),
+			None =>
+				succeed! (false.into ()),
+		}
+	}
 }
 
-pub fn list_assoc_by_comparator (_list : &Value, _value : &Value, _comparator : &Value) -> (Outcome<Value>) {
-	fail_unimplemented! (0x9ba8b61d);
+pub fn list_assoc_by_comparator (list : &Value, value : &Value, comparator : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	let mut iterator = try! (ListPairIterator::new (list));
+	loop {
+		match iterator.next () {
+			Some (Ok (pair)) => {
+				let pair = try_as_pair_ref! (pair.left ());
+				let comparison = try! (evaluator.evaluator.evaluate_procedure_call_2_with_values (evaluator, comparator, value, pair.left ()));
+				if is_not_false (&comparison) {
+					succeed! (pair.clone () .into ());
+				}
+			},
+			Some (Err (error)) =>
+				return Err (error),
+			None =>
+				succeed! (false.into ()),
+		}
+	}
 }
 
 
