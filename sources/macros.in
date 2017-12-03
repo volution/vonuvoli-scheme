@@ -39,7 +39,7 @@ macro_rules! fail {
 
 macro_rules! fail_unimplemented {
 	( $code : expr ) => (
-		return failed_unimplemented! ($code);
+		return failed_unimplemented! ($code); // OK
 	);
 }
 

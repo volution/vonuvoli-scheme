@@ -82,7 +82,7 @@ cat <<'EOS'
 :: clean :: exec -- rm -R -f ./target/
 
 :: grep / sources / x-selection / primary :: exec -- git grep -C10 -F -e "$( exec -- x-selection primary output )" -- ./sources
-:: grep / sources / unimplemented :: exec -- git grep -C10 -F -e 'fail_unimplemented!' -e 'failed_unimplemented!' -e 'unimplemented!' -- ./sources
+:: grep / sources / unimplemented :: exec -- git grep -C10 -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- ./sources
 :: grep / sources / primitives / unimplemented :: exec -- git grep -C10 -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- './sources/primitives*.rs'
 :: grep / sources / builtins / unimplemented :: exec -- git grep -C10 -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- './sources/builtins*.rs'
 

@@ -308,10 +308,10 @@ impl Compiler {
 				fail! (0x1aed14f3),
 			
 			SyntaxPrimitive::Unimplemented =>
-				fail_unimplemented! (0xa4e41f62),
+				fail_unimplemented! (0xa4e41f62), // OK
 			
 			SyntaxPrimitive::Unsupported =>
-				fail_unimplemented! (0x175a7f9e),
+				fail_unimplemented! (0x175a7f9e), // OK
 			
 			SyntaxPrimitive::Reserved =>
 				fail! (0x1aed14f3),
