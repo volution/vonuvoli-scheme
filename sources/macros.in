@@ -501,7 +501,9 @@ macro_rules! def_tests {
 	( $identifier : ident, $source : expr ) => (
 		#[ test ]
 		fn $identifier () -> () {
-			def_tests_block! ($identifier, $source, std::io::stdout ());
+			let transcript_backend = std::io::stdout ();
+			let transcript_locked = transcript_backend.lock ();
+			def_tests_block! ($identifier, $source, transcript_locked);
 		}
 	);
 }

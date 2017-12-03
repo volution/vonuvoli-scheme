@@ -24,22 +24,43 @@ cat <<'EOS'
 	fi
 !!
 
-:: compile / bin / debug :: x-run ':: compile / peg' ; exec -- less-exec env PATH="${RUST_PATH}" cargo build --bin rust-scheme "${@}"
-:: compile / bin / release :: x-run ':: compile / peg' ; exec -- less-exec env PATH="${RUST_PATH}" cargo build --bin rust-scheme --release --all-features "${@}"
+:: compile / bin / debug :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" cargo build --bin rust-scheme "${@}"
+:: compile / bin / release :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" cargo build --bin rust-scheme --release --all-features "${@}"
 
-:: compile / lib / debug :: x-run ':: compile / peg' ; exec -- less-exec env PATH="${RUST_PATH}" cargo build --lib "${@}"
-:: compile / lib / release :: x-run ':: compile / peg' ; exec -- less-exec env PATH="${RUST_PATH}" cargo build --lib --release --all-features "${@}"
+:: compile / lib / debug :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" cargo build --lib "${@}"
+:: compile / lib / release :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" cargo build --lib --release --all-features "${@}"
 
-:: compile / doc / debug :: x-run ':: compile / peg' ; exec -- less-exec env PATH="${RUST_PATH}" cargo doc --all-features "${@}"
-:: compile / doc / release :: x-run ':: compile / peg' ; exec -- less-exec env PATH="${RUST_PATH}" cargo doc --release --all-features "${@}"
+:: compile / doc / debug :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" cargo doc --all-features "${@}"
+:: compile / doc / release :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" cargo doc --release --all-features "${@}"
 
 << compile / lib / source
 	x-run ':: compile / peg'
-	env PATH="${RUST_PATH}" rustc -Z unstable-options --pretty=expanded -- ./sources/lib.rs \
-	| ( rust-fmt 2> /dev/null || true ) \
+	env PATH="${RUST_PATH}" \
+			rustc \
+					-Z unstable-options \
+					--pretty=expanded \
+					-- ./sources/lib.rs \
+	| x-run ':: execute / rust-fmt'
+!!
+
+<< compile / test / scheme / source
+	x-run ':: compile / lib / debug'
+	env PATH="${RUST_PATH}" \
+			rustc \
+					--test \
+					--extern rust_scheme=./target/debug/librust_scheme.rlib \
+					-Z unstable-options \
+					--pretty=expanded \
+					-- ./tests/scheme.rs \
+	| x-run ':: execute / rust-fmt'
+!!
+
+<< execute / rust-fmt
+	( rust-fmt "${@}" 2> /dev/null || true ) \
 	| sed -r -n \
 			-e ': b' \
 			-e '/^$/ d' \
+			-e '/^\#\[macro_use\]$/ d' \
 			-e '/^\#\[macro_export\]$/ d' \
 			-e '/^\#\[allow\(unused_macros\)\]$/ d' \
 			-e '/^macro_rules!/ b d' \
