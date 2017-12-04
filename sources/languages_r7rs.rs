@@ -548,30 +548,41 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			// (scheme cxr)
 			//     --> verified
 			
-			("cxr", "pairs", "caaaar", ProcedurePrimitive::Unsupported.into ()),
-			("cxr", "pairs", "caaadr", ProcedurePrimitive::Unsupported.into ()),
-			("cxr", "pairs", "caaar", ProcedurePrimitive::Unsupported.into ()),
-			("cxr", "pairs", "caadar", ProcedurePrimitive::Unsupported.into ()),
-			("cxr", "pairs", "caaddr", ProcedurePrimitive::Unsupported.into ()),
-			("cxr", "pairs", "caadr", ProcedurePrimitive::Unsupported.into ()),
-			("cxr", "pairs", "cadaar", ProcedurePrimitive::Unsupported.into ()),
-			("cxr", "pairs", "cadadr", ProcedurePrimitive::Unsupported.into ()),
-			("cxr", "pairs", "cadar", ProcedurePrimitive::Unsupported.into ()),
-			("cxr", "pairs", "caddar", ProcedurePrimitive::Unsupported.into ()),
-			("cxr", "pairs", "cadddr", ProcedurePrimitive::Unsupported.into ()),
-			("cxr", "pairs", "caddr", ProcedurePrimitive::Unsupported.into ()),
-			("cxr", "pairs", "cdaaar", ProcedurePrimitive::Unsupported.into ()),
-			("cxr", "pairs", "cdaadr", ProcedurePrimitive::Unsupported.into ()),
-			("cxr", "pairs", "cdaar", ProcedurePrimitive::Unsupported.into ()),
-			("cxr", "pairs", "cdadar", ProcedurePrimitive::Unsupported.into ()),
-			("cxr", "pairs", "cdaddr", ProcedurePrimitive::Unsupported.into ()),
-			("cxr", "pairs", "cdadr", ProcedurePrimitive::Unsupported.into ()),
-			("cxr", "pairs", "cddaar", ProcedurePrimitive::Unsupported.into ()),
-			("cxr", "pairs", "cddadr", ProcedurePrimitive::Unsupported.into ()),
-			("cxr", "pairs", "cddar", ProcedurePrimitive::Unsupported.into ()),
-			("cxr", "pairs", "cdddar", ProcedurePrimitive::Unsupported.into ()),
-			("cxr", "pairs", "cddddr", ProcedurePrimitive::Unsupported.into ()),
-			("cxr", "pairs", "cdddr", ProcedurePrimitive::Unsupported.into ()),
+			("cxr", "pairs", "caaar", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairLeft.into (), ListPrimitive1::PairLeft.into (), ListPrimitive1::PairLeft.into ()])) .into ()),
+			("cxr", "pairs", "caadr", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairLeft.into (), ListPrimitive1::PairLeft.into (), ListPrimitive1::PairRight.into ()])) .into ()),
+			
+			("cxr", "pairs", "cadar", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairLeft.into (), ListPrimitive1::PairRight.into (), ListPrimitive1::PairLeft.into ()])) .into ()),
+			("cxr", "pairs", "caddr", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairLeft.into (), ListPrimitive1::PairRight.into (), ListPrimitive1::PairRight.into ()])) .into ()),
+			
+			("cxr", "pairs", "cdaar", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairRight.into (), ListPrimitive1::PairLeft.into (), ListPrimitive1::PairLeft.into ()])) .into ()),
+			("cxr", "pairs", "cdadr", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairRight.into (), ListPrimitive1::PairLeft.into (), ListPrimitive1::PairRight.into ()])) .into ()),
+			
+			("cxr", "pairs", "cddar", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairRight.into (), ListPrimitive1::PairRight.into (), ListPrimitive1::PairLeft.into ()])) .into ()),
+			("cxr", "pairs", "cdddr", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairRight.into (), ListPrimitive1::PairRight.into (), ListPrimitive1::PairRight.into ()])) .into ()),
+			
+			("cxr", "pairs", "caaaar", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairLeft.into (), ListPrimitive1::PairLeft.into (), ListPrimitive1::PairLeft.into (), ListPrimitive1::PairLeft.into ()])) .into ()),
+			("cxr", "pairs", "caaadr", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairLeft.into (), ListPrimitive1::PairLeft.into (), ListPrimitive1::PairLeft.into (), ListPrimitive1::PairRight.into ()])) .into ()),
+			
+			("cxr", "pairs", "caadar", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairLeft.into (), ListPrimitive1::PairLeft.into (), ListPrimitive1::PairRight.into (), ListPrimitive1::PairLeft.into ()])) .into ()),
+			("cxr", "pairs", "caaddr", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairLeft.into (), ListPrimitive1::PairLeft.into (), ListPrimitive1::PairRight.into (), ListPrimitive1::PairRight.into ()])) .into ()),
+			
+			("cxr", "pairs", "cadaar", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairLeft.into (), ListPrimitive1::PairRight.into (), ListPrimitive1::PairLeft.into (), ListPrimitive1::PairLeft.into ()])) .into ()),
+			("cxr", "pairs", "cadadr", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairLeft.into (), ListPrimitive1::PairRight.into (), ListPrimitive1::PairLeft.into (), ListPrimitive1::PairRight.into ()])) .into ()),
+			
+			("cxr", "pairs", "caddar", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairLeft.into (), ListPrimitive1::PairRight.into (), ListPrimitive1::PairRight.into (), ListPrimitive1::PairLeft.into ()])) .into ()),
+			("cxr", "pairs", "cadddr", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairLeft.into (), ListPrimitive1::PairRight.into (), ListPrimitive1::PairRight.into (), ListPrimitive1::PairRight.into ()])) .into ()),
+			
+			("cxr", "pairs", "cdaaar", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairRight.into (), ListPrimitive1::PairLeft.into (), ListPrimitive1::PairLeft.into (), ListPrimitive1::PairLeft.into ()])) .into ()),
+			("cxr", "pairs", "cdaadr", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairRight.into (), ListPrimitive1::PairLeft.into (), ListPrimitive1::PairLeft.into (), ListPrimitive1::PairRight.into ()])) .into ()),
+			
+			("cxr", "pairs", "cdadar", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairRight.into (), ListPrimitive1::PairLeft.into (), ListPrimitive1::PairRight.into (), ListPrimitive1::PairLeft.into ()])) .into ()),
+			("cxr", "pairs", "cdaddr", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairRight.into (), ListPrimitive1::PairLeft.into (), ListPrimitive1::PairRight.into (), ListPrimitive1::PairRight.into ()])) .into ()),
+			
+			("cxr", "pairs", "cddaar", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairRight.into (), ListPrimitive1::PairRight.into (), ListPrimitive1::PairLeft.into (), ListPrimitive1::PairLeft.into ()])) .into ()),
+			("cxr", "pairs", "cddadr", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairRight.into (), ListPrimitive1::PairRight.into (), ListPrimitive1::PairLeft.into (), ListPrimitive1::PairRight.into ()])) .into ()),
+			
+			("cxr", "pairs", "cdddar", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairRight.into (), ListPrimitive1::PairRight.into (), ListPrimitive1::PairRight.into (), ListPrimitive1::PairLeft.into ()])) .into ()),
+			("cxr", "pairs", "cddddr", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairRight.into (), ListPrimitive1::PairRight.into (), ListPrimitive1::PairRight.into (), ListPrimitive1::PairRight.into ()])) .into ()),
 			
 			
 			

@@ -418,6 +418,6 @@
 (compare-generic #values(0) (lambda x x)) => #(#t #t #f #f #f);
 (compare-generic (lambda x x) #(values)) => #(#f #f #f #t #t);
 
-(compare-generic (lambda x x) +) => #(#t #t #f #f #f);
-(compare-generic + #(values)) => #(#f #f #f #t #t);
+(compare-generic + (lambda x x)) => #(#t #t #f #f #f);
+(compare-generic (lambda x x) +) => #(#f #f #f #t #t);
 
