@@ -691,8 +691,8 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			//     --> verified
 			
 			("time", "system", "current-second", RuntimePrimitive0::PosixTimestamp.into ()),
-			("time", "system", "current-jiffy", ProcedurePrimitive::Unsupported.into ()),
-			("time", "system", "jiffies-per-second", ProcedurePrimitive::Unsupported.into ()),
+			("time", "system", "current-jiffy", RuntimePrimitive0::JiffiesTimestamp.into ()),
+			("time", "system", "jiffies-per-second", RuntimePrimitive0::JiffiesPerSecond.into ()),
 			
 			
 			

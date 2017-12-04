@@ -1,5 +1,6 @@
 
 
+use super::builtins::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
 use super::values::exports::*;
@@ -47,6 +48,9 @@ pub enum RuntimePrimitive0 {
 	ProcessExitEmergency,
 	
 	PosixTimestamp,
+	
+	JiffiesTimestamp,
+	JiffiesPerSecond,
 	
 }
 
@@ -105,7 +109,13 @@ pub fn runtime_primitive_0_evaluate (primitive : RuntimePrimitive0, _evaluator :
 			fail_unimplemented! (0xe1a2c04e), // deferred
 		
 		RuntimePrimitive0::PosixTimestamp =>
-			fail_unimplemented! (0x3b85005d), // deferred
+			succeed! (posix_timestamp () .into ()),
+		
+		RuntimePrimitive0::JiffiesTimestamp =>
+			succeed! (jiffies_timestamp () .into ()),
+		
+		RuntimePrimitive0::JiffiesPerSecond =>
+			succeed! (jiffies_per_second () .into ()),
 		
 	}
 }

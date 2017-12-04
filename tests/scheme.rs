@@ -44,6 +44,8 @@ def_tests_from_file! (
 		comparisons_ordering_numbers => "scheme/comparisons-ordering-numbers.sst",
 		comparisons_ordering_objects => "scheme/comparisons-ordering-objects.sst",
 		
+		runtime => "scheme/runtime.sst",
+		
 	);
 
 

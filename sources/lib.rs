@@ -16,6 +16,7 @@ pub mod builtins_bytes;
 pub mod builtins_comparisons;
 pub mod builtins_functions;
 pub mod builtins_lists;
+pub mod builtins_runtime;
 pub mod builtins_strings;
 pub mod builtins_types;
 pub mod compiler;
