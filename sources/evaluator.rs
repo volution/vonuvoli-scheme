@@ -84,6 +84,8 @@ impl Evaluator {
 				self.evaluate_register_initialize_values (evaluation, indices, expression),
 			Expression::RegisterSet1 (index, ref expression) =>
 				self.evaluate_register_set_1 (evaluation, index, expression),
+			Expression::RegisterSetValues (ref indices, ref expression) =>
+				self.evaluate_register_set_values (evaluation, indices, expression),
 			Expression::RegisterGet1 (index) =>
 				self.evaluate_register_get_1 (evaluation, index),
 			
@@ -95,6 +97,8 @@ impl Evaluator {
 				self.evaluate_binding_initialize_values (evaluation, bindings, expression),
 			Expression::BindingSet1 (ref binding, ref expression) =>
 				self.evaluate_binding_set_1 (evaluation, binding, expression),
+			Expression::BindingSetValues (ref bindings, ref expression) =>
+				self.evaluate_binding_set_values (evaluation, bindings, expression),
 			Expression::BindingGet1 (ref binding) =>
 				self.evaluate_binding_get_1 (evaluation, binding),
 			
@@ -257,6 +261,12 @@ impl Evaluator {
 		return self.evaluate_binding_set_1 (evaluation, &binding, expression);
 	}
 	
+	pub fn evaluate_register_set_values (&self, evaluation : &mut EvaluatorContext, indices : &[usize], expression : &Expression) -> (Outcome<Value>) {
+		let registers = try_some! (evaluation.registers, 0x2137dc1e);
+		let bindings = try_vec_map! (indices, index, registers.resolve (*index));
+		return self.evaluate_binding_set_values (evaluation, &bindings, expression);
+	}
+	
 	pub fn evaluate_register_get_1 (&self, evaluation : &mut EvaluatorContext, index : usize) -> (Outcome<Value>) {
 		let registers = try_some! (evaluation.registers, 0x89f09b48);
 		let binding = try! (registers.resolve (index));
@@ -298,21 +308,36 @@ impl Evaluator {
 	}
 	
 	pub fn evaluate_binding_initialize_values (&self, evaluation : &mut EvaluatorContext, bindings : &[Binding], expression : &Expression) -> (Outcome<Value>) {
-		let values = try! (evaluation.evaluate (expression));
-		let values = try_into_values! (values);
-		if values.values_length () != bindings.len () {
+		let values_new = try! (evaluation.evaluate (expression));
+		let values_new = try_into_values! (values_new);
+		if values_new.values_length () != bindings.len () {
 			fail! (0x34cd5a9a);
 		}
-		for (binding, value_new) in bindings.iter () .zip (values.values_ref () .iter ()) {
+		for (binding, value_new) in bindings.iter () .zip (values_new.values_ref () .iter ()) {
 			try! (binding.initialize (value_new.clone ()));
 		}
-		return Ok (values.into ());
+		return Ok (values_new.into ());
 	}
 	
 	pub fn evaluate_binding_set_1 (&self, evaluation : &mut EvaluatorContext, binding : &Binding, expression : &Expression) -> (Outcome<Value>) {
 		let value_new = try! (evaluation.evaluate (expression));
 		let value_old = try! (binding.set (value_new));
 		return Ok (value_old);
+	}
+	
+	
+	pub fn evaluate_binding_set_values (&self, evaluation : &mut EvaluatorContext, bindings : &[Binding], expression : &Expression) -> (Outcome<Value>) {
+		let values_new_ = try! (evaluation.evaluate (expression));
+		let values_new_ = try_into_values! (values_new_);
+		if values_new_.values_length () != bindings.len () {
+			fail! (0xd47ae677);
+		}
+		let mut values_old = StdVec::with_capacity (values_new_.values_length ());
+		for (binding, value_new) in bindings.iter () .zip (values_new_.values_ref () .iter ()) {
+			let value_old = try! (binding.set (value_new.clone ()));
+			values_old.push (value_old);
+		}
+		return Ok (values_new (values_old.into_boxed_slice ()) .into ());
 	}
 	
 	pub fn evaluate_binding_get_1 (&self, _evaluation : &mut EvaluatorContext, binding : &Binding) -> (Outcome<Value>) {
