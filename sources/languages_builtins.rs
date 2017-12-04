@@ -56,6 +56,10 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			
 			("string-reverse", StringPrimitive1::StringReverse.into ()),
 			
+			("symbol-upcase", StringPrimitive1::SymbolToUpperCase.into ()),
+			("symbol-downcase", StringPrimitive1::SymbolToLowerCase.into ()),
+			("symbol-foldcase", StringPrimitive1::SymbolToFoldCase.into ()),
+			
 			("bytevector-reverse", BytesPrimitive1::BytesReverse.into ()),
 			("bytevector-u8-fill", BytesPrimitiveN::BytesRangeFill.into ()),
 			("bytevector-u8-map", FunctionsPrimitiveN::BytesMap.into ()),

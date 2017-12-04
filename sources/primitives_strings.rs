@@ -79,6 +79,9 @@ pub enum StringPrimitive1 {
 	StringToUpperCase,
 	StringToLowerCase,
 	StringToFoldCase,
+	SymbolToUpperCase,
+	SymbolToLowerCase,
+	SymbolToFoldCase,
 	CharacterToUpperCase,
 	CharacterToLowerCase,
 	CharacterToFoldCase,
@@ -272,6 +275,15 @@ pub fn string_primitive_1_evaluate (primitive : StringPrimitive1, input_1 : &Val
 		
 		StringPrimitive1::StringToFoldCase =>
 			return string_to_fold_case (input_1),
+		
+		StringPrimitive1::SymbolToUpperCase =>
+			return symbol_to_upper_case (input_1),
+		
+		StringPrimitive1::SymbolToLowerCase =>
+			return symbol_to_lower_case (input_1),
+		
+		StringPrimitive1::SymbolToFoldCase =>
+			return symbol_to_fold_case (input_1),
 		
 		StringPrimitive1::CharacterToUpperCase =>
 			return character_to_upper_case (input_1),

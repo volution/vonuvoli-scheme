@@ -247,6 +247,27 @@
 (string-downcase "ABC") => "abc";
 (string-downcase "aAbBcC") => "aabbcc";
 
+(string-foldcase "aAbBcC") => "aabbcc";
+
+
+(~symbol-upcase '||) => '||;
+(~symbol-upcase '|a|) => |A|;
+(~symbol-upcase '|A|) => '|A|;
+(~symbol-upcase '|0|) => '|0|;
+(~symbol-upcase '|abc|) => '|ABC|;
+(~symbol-upcase '|ABC|) => '|ABC|;
+(~symbol-upcase '|aAbBcC|) => '|AABBCC|;
+
+(~symbol-downcase '||) => '||;
+(~symbol-downcase '|a|) => '|a|;
+(~symbol-downcase '|A|) => '|a|;
+(~symbol-downcase '|0|) => '|0|;
+(~symbol-downcase '|abc|) => '|abc|;
+(~symbol-downcase '|ABC|) => '|abc|;
+(~symbol-downcase '|aAbBcC|) => '|aabbcc|;
+
+(~symbol-foldcase '|aAbBcC|) => '|aabbcc|;
+
 
 (char-upcase #\a) => #\A;
 (char-upcase #\A) => #\A;
@@ -255,6 +276,8 @@
 (char-downcase #\a) => #\a;
 (char-downcase #\A) => #\a;
 (char-downcase #\0) => #\0;
+
+(char-foldcase #\A) => #\a;
 
 
 

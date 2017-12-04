@@ -36,6 +36,7 @@ pub mod exports {
 	
 	pub use super::{
 			string_to_upper_case, string_to_lower_case, string_to_fold_case,
+			symbol_to_upper_case, symbol_to_lower_case, symbol_to_fold_case,
 			character_to_upper_case, character_to_lower_case, character_to_fold_case,
 	};
 	
@@ -503,8 +504,26 @@ pub fn string_to_lower_case (string : &Value) -> (Outcome<Value>) {
 }
 
 pub fn string_to_fold_case (string : &Value) -> (Outcome<Value>) {
-	let _string = try_as_string_ref! (string);
-	fail_unimplemented! (0x36a59db6); // deferred
+	// FIXME:  Actually implement Unicode case-folding instead of delegating to lower-case!
+	return string_to_lower_case (string);
+}
+
+
+pub fn symbol_to_upper_case (symbol : &Value) -> (Outcome<Value>) {
+	let string = try_as_symbol_ref! (symbol) .string_as_str ();
+	let string = string.to_uppercase ();
+	succeed! (symbol_new (string) .into ());
+}
+
+pub fn symbol_to_lower_case (symbol : &Value) -> (Outcome<Value>) {
+	let string = try_as_symbol_ref! (symbol) .string_as_str ();
+	let string = string.to_lowercase ();
+	succeed! (symbol_new (string) .into ());
+}
+
+pub fn symbol_to_fold_case (symbol : &Value) -> (Outcome<Value>) {
+	// FIXME:  Actually implement Unicode case-folding instead of delegating to lower-case!
+	return symbol_to_lower_case (symbol);
 }
 
 
@@ -537,8 +556,8 @@ pub fn character_to_lower_case (character : &Value) -> (Outcome<Value>) {
 }
 
 pub fn character_to_fold_case (character : &Value) -> (Outcome<Value>) {
-	let _character = try_as_character_ref! (character);
-	fail_unimplemented! (0xd2078d69); // deferred
+	// FIXME:  Actually implement Unicode case-folding instead of delegating to lower-case!
+	return character_to_lower_case (character);
 }
 
 
