@@ -64,8 +64,10 @@ impl Evaluator {
 			
 			Expression::Sequence (ref expressions) =>
 				self.evaluate_sequence (evaluation, expressions),
-			Expression::Conditional (ref clauses) =>
-				self.evaluate_conditional (evaluation, clauses),
+			Expression::ConditionalIf (ref clauses) =>
+				self.evaluate_conditional_if (evaluation, clauses),
+			Expression::ConditionalMatch (ref actual, ref clauses) =>
+				self.evaluate_conditional_match (evaluation, actual, clauses),
 			
 			Expression::ContextDefine (ref identifier, ref expression) =>
 				self.evaluate_context_define (evaluation, identifier, expression),
@@ -174,19 +176,57 @@ impl Evaluator {
 	
 	
 	
-	pub fn evaluate_conditional (&self, evaluation : &mut EvaluatorContext, clauses : &[(bool, Expression, Option<Expression>)]) -> (Outcome<Value>) {
-		for &(negated, ref guard, ref expression) in clauses {
-			let guard = try! (evaluation.evaluate (guard));
-			let matched = if negated {
-				is_false (&guard)
-			} else {
-				is_not_false (&guard)
+	pub fn evaluate_conditional_if (&self, evaluation : &mut EvaluatorContext, clauses : &[(Option<(Expression, bool)>, Option<Expression>)]) -> (Outcome<Value>) {
+		for &(ref guard, ref expression) in clauses {
+			let (matched, guard) = match *guard {
+				Some ((ref guard, negated)) => {
+					let guard = try! (evaluation.evaluate (guard));
+					let matched = if negated {
+						is_false (&guard)
+					} else {
+						is_not_false (&guard)
+					};
+					(matched, guard)
+				},
+				None =>
+					(true, TRUE.into ()),
 			};
 			if matched {
 				if let Some (ref expression) = *expression {
 					return evaluation.evaluate (expression);
 				} else {
 					succeed! (guard);
+				}
+			}
+		}
+		return Ok (VOID.into ());
+	}
+	
+	
+	pub fn evaluate_conditional_match (&self, evaluation : &mut EvaluatorContext, actual : &Expression, clauses : &[(Option<(StdBox<[Value]>, bool)>, Option<Expression>)]) -> (Outcome<Value>) {
+		let actual = try! (evaluation.evaluate (actual));
+		for &(ref expected, ref expression) in clauses {
+			let matched = match *expected {
+				Some ((ref expected, negated)) => {
+					let mut matched = false;
+					for expected in expected.iter () {
+						if try! (equivalent_by_value_strict_2 (&actual, expected)) {
+							if !negated {
+								matched = true;
+							}
+							break;
+						}
+					}
+					matched
+				},
+				None =>
+					true,
+			};
+			if matched {
+				if let Some (ref expression) = *expression {
+					return evaluation.evaluate (expression);
+				} else {
+					succeed! (actual);
 				}
 			}
 		}

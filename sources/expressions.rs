@@ -25,7 +25,8 @@ pub enum Expression {
 	Value ( Value ),
 	
 	Sequence ( StdBox<[Expression]> ),
-	Conditional ( StdBox<[(bool, Expression, Option<Expression>)]> ),
+	ConditionalIf ( StdBox<[(Option<(Expression, bool)>, Option<Expression>)]> ),
+	ConditionalMatch ( StdBox<Expression>, StdBox<[(Option<(StdBox<[Value]>, bool)>, Option<Expression>)]> ),
 	
 	ContextDefine ( Symbol, ExpressionBox ),
 	ContextUpdate ( Symbol, ExpressionBox ),
