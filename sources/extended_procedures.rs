@@ -26,6 +26,8 @@ pub mod exports {
 	pub use super::procedure_extended_n_evaluate;
 	pub use super::procedure_extended_evaluate;
 	
+	pub use super::procedure_extended_accepts_arity;
+	
 }
 
 
@@ -175,5 +177,17 @@ pub fn procedure_extended_n_evaluate (extended : &ProcedureExtended, inputs : &[
 
 pub fn procedure_extended_evaluate (extended : &ProcedureExtended, inputs : &[Value], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	return procedure_extended_n_evaluate (extended, inputs, evaluator);
+}
+
+
+
+
+pub fn procedure_extended_accepts_arity (extended : &ProcedureExtended, arity : usize) -> (bool) {
+	match *extended.internals () {
+		
+		ProcedureExtendedInternals::ComposedPrimitive1 (_) =>
+			return arity == 1,
+		
+	}
 }
 
