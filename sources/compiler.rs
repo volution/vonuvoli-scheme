@@ -112,9 +112,9 @@ impl Compiler {
 			CompilerBinding::Undefined =>
 				fail! (0xc6825cfd),
 			CompilerBinding::Binding (binding) =>
-				succeed! ((compilation, Expression::BindingGet (binding))),
+				succeed! ((compilation, Expression::BindingGet1 (binding))),
 			CompilerBinding::Register (index) =>
-				succeed! ((compilation, Expression::RegisterGet (index))),
+				succeed! ((compilation, Expression::RegisterGet1 (index))),
 		}
 	}
 	

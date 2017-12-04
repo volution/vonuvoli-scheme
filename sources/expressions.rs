@@ -35,14 +35,14 @@ pub enum Expression {
 	RegisterInitialize1 ( usize, ExpressionBox ),
 	RegisterInitializeN ( StdBox<[(usize, Expression)]>, bool ),
 	RegisterInitializeValues ( StdBox<[usize]>, ExpressionBox ),
-	RegisterSet ( usize, ExpressionBox ),
-	RegisterGet ( usize ),
+	RegisterSet1 ( usize, ExpressionBox ),
+	RegisterGet1 ( usize ),
 	
 	BindingInitialize1 ( Binding, ExpressionBox ),
 	BindingInitializeN ( StdBox<[(Binding, Expression)]>, bool ),
 	BindingInitializeValues ( StdBox<[Binding]>, ExpressionBox ),
-	BindingSet ( Binding, ExpressionBox ),
-	BindingGet ( Binding ),
+	BindingSet1 ( Binding, ExpressionBox ),
+	BindingGet1 ( Binding ),
 	
 	ProcedureCall0 ( ExpressionBox ),
 	ProcedureCall1 ( ExpressionBox, ExpressionBox ),

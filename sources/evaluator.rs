@@ -82,10 +82,10 @@ impl Evaluator {
 				self.evaluate_register_initialize_n (evaluation, initializers, parallel),
 			Expression::RegisterInitializeValues (ref indices, ref expression) =>
 				self.evaluate_register_initialize_values (evaluation, indices, expression),
-			Expression::RegisterSet (index, ref expression) =>
-				self.evaluate_register_set (evaluation, index, expression),
-			Expression::RegisterGet (index) =>
-				self.evaluate_register_get (evaluation, index),
+			Expression::RegisterSet1 (index, ref expression) =>
+				self.evaluate_register_set_1 (evaluation, index, expression),
+			Expression::RegisterGet1 (index) =>
+				self.evaluate_register_get_1 (evaluation, index),
 			
 			Expression::BindingInitialize1 (ref binding, ref expression) =>
 				self.evaluate_binding_initialize_1 (evaluation, binding, expression),
@@ -93,10 +93,10 @@ impl Evaluator {
 				self.evaluate_binding_initialize_n (evaluation, initializers, parallel),
 			Expression::BindingInitializeValues (ref bindings, ref expression) =>
 				self.evaluate_binding_initialize_values (evaluation, bindings, expression),
-			Expression::BindingSet (ref binding, ref expression) =>
-				self.evaluate_binding_set (evaluation, binding, expression),
-			Expression::BindingGet (ref binding) =>
-				self.evaluate_binding_get (evaluation, binding),
+			Expression::BindingSet1 (ref binding, ref expression) =>
+				self.evaluate_binding_set_1 (evaluation, binding, expression),
+			Expression::BindingGet1 (ref binding) =>
+				self.evaluate_binding_get_1 (evaluation, binding),
 			
 			Expression::Lambda (ref lambda, ref expression, ref registers_closure, ref registers_local) =>
 				self.evaluate_lambda_create (evaluation, lambda, expression, registers_closure, registers_local),
@@ -251,16 +251,16 @@ impl Evaluator {
 		return self.evaluate_binding_initialize_values (evaluation, &bindings, expression);
 	}
 	
-	pub fn evaluate_register_set (&self, evaluation : &mut EvaluatorContext, index : usize, expression : &Expression) -> (Outcome<Value>) {
+	pub fn evaluate_register_set_1 (&self, evaluation : &mut EvaluatorContext, index : usize, expression : &Expression) -> (Outcome<Value>) {
 		let registers = try_some! (evaluation.registers, 0x9e3f943b);
 		let binding = try! (registers.resolve (index));
-		return self.evaluate_binding_set (evaluation, &binding, expression);
+		return self.evaluate_binding_set_1 (evaluation, &binding, expression);
 	}
 	
-	pub fn evaluate_register_get (&self, evaluation : &mut EvaluatorContext, index : usize) -> (Outcome<Value>) {
+	pub fn evaluate_register_get_1 (&self, evaluation : &mut EvaluatorContext, index : usize) -> (Outcome<Value>) {
 		let registers = try_some! (evaluation.registers, 0x89f09b48);
 		let binding = try! (registers.resolve (index));
-		return self.evaluate_binding_get (evaluation, &binding);
+		return self.evaluate_binding_get_1 (evaluation, &binding);
 	}
 	
 	
@@ -309,13 +309,13 @@ impl Evaluator {
 		return Ok (values.into ());
 	}
 	
-	pub fn evaluate_binding_set (&self, evaluation : &mut EvaluatorContext, binding : &Binding, expression : &Expression) -> (Outcome<Value>) {
+	pub fn evaluate_binding_set_1 (&self, evaluation : &mut EvaluatorContext, binding : &Binding, expression : &Expression) -> (Outcome<Value>) {
 		let value_new = try! (evaluation.evaluate (expression));
 		let value_old = try! (binding.set (value_new));
 		return Ok (value_old);
 	}
 	
-	pub fn evaluate_binding_get (&self, _evaluation : &mut EvaluatorContext, binding : &Binding) -> (Outcome<Value>) {
+	pub fn evaluate_binding_get_1 (&self, _evaluation : &mut EvaluatorContext, binding : &Binding) -> (Outcome<Value>) {
 		let value = try! (binding.get ());
 		return Ok (value);
 	}
