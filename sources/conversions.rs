@@ -3,8 +3,10 @@
 use super::contexts::exports::*;
 use super::errors::exports::*;
 use super::expressions::exports::*;
+use super::extended_procedures::exports::*;
+use super::extended_syntaxes::exports::*;
+use super::lambdas::exports::*;
 use super::primitives::exports::*;
-use super::procedures::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
 
@@ -104,9 +106,12 @@ impl_from_for_Value_1! (Pair, Pair);
 impl_from_for_Value_1! (Array, Array);
 impl_from_for_Value_1! (Values, Values);
 impl_from_for_Value_1! (Error, Error);
-impl_from_for_Value_1! (Lambda, Lambda);
 impl_from_for_Value_1! (ProcedurePrimitive, ProcedurePrimitive);
+impl_from_for_Value_1! (ProcedureExtended, ProcedureExtended);
+impl_from_for_Value_1! (ProcedureLambda, ProcedureLambda);
 impl_from_for_Value_1! (SyntaxPrimitive, SyntaxPrimitive);
+impl_from_for_Value_1! (SyntaxExtended, SyntaxExtended);
+impl_from_for_Value_1! (SyntaxLambda, SyntaxLambda);
 impl_from_for_Value_1! (Context, Context);
 impl_from_for_Value_1! (Binding, Binding);
 
@@ -147,6 +152,9 @@ impl_from_for_type! (Symbol, StdString, value, symbol_new (value));
 impl_from_for_type! (Symbol, &'static str, value, symbol_clone_str (value));
 
 impl_from_for_type! (Pair, (Value, Value), value, { let (left, right) = value; pair_new (left, right) });
+
+impl_from_for_Value_3! (ProcedureExtended, ProcedureExtended, ProcedureExtendedInternals, internals, ProcedureExtended::new (internals));
+impl_from_for_Value_3! (SyntaxExtended, SyntaxExtended, SyntaxExtendedInternals, internals, SyntaxExtended::new (internals));
 
 
 
@@ -305,10 +313,6 @@ macro_rules! impl_from_for_ProcedurePrimitiveCall1 {
 				Boolean, NumberInteger, NumberReal, Character,
 				Symbol, String, Bytes,
 				Pair, Array, Values,
-				Error,
-				Lambda,
-				ProcedurePrimitive, SyntaxPrimitive,
-				Context, Binding,
 				bool, i64, f64, char,
 				StdString, &'static str
 			]);
@@ -329,10 +333,6 @@ macro_rules! impl_from_for_ProcedurePrimitiveCall2 {
 				Boolean, NumberInteger, NumberReal, Character,
 				Symbol, String, Bytes,
 				Pair, Array, Values,
-				Error,
-				Lambda,
-				ProcedurePrimitive, SyntaxPrimitive,
-				Context, Binding,
 				bool, i64, f64, char,
 				StdString, &'static str
 			]);
@@ -354,10 +354,6 @@ macro_rules! impl_from_for_ProcedurePrimitiveCall3 {
 				Boolean, NumberInteger, NumberReal, Character,
 				Symbol, String, Bytes,
 				Pair, Array, Values,
-				Error,
-				Lambda,
-				ProcedurePrimitive, SyntaxPrimitive,
-				Context, Binding,
 				bool, i64, f64, char,
 				StdString, &'static str
 			]);
@@ -379,10 +375,6 @@ macro_rules! impl_from_for_ProcedurePrimitiveCall4 {
 				Boolean, NumberInteger, NumberReal, Character,
 				Symbol, String, Bytes,
 				Pair, Array, Values,
-				Error,
-				Lambda,
-				ProcedurePrimitive, SyntaxPrimitive,
-				Context, Binding,
 				bool, i64, f64, char,
 				StdString, &'static str
 			]);
@@ -404,10 +396,6 @@ macro_rules! impl_from_for_ProcedurePrimitiveCall5 {
 				Boolean, NumberInteger, NumberReal, Character,
 				Symbol, String, Bytes,
 				Pair, Array, Values,
-				Error,
-				Lambda,
-				ProcedurePrimitive, SyntaxPrimitive,
-				Context, Binding,
 				bool, i64, f64, char,
 				StdString, &'static str
 			]);
@@ -430,10 +418,6 @@ macro_rules! impl_from_for_ProcedurePrimitiveCallN {
 				Boolean, NumberInteger, NumberReal, Character,
 				Symbol, String, Bytes,
 				Pair, Array, Values,
-				Error,
-				Lambda,
-				ProcedurePrimitive, SyntaxPrimitive,
-				Context, Binding,
 				bool, i64, f64, char,
 				StdString, &'static str
 			]);

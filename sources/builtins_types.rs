@@ -728,17 +728,20 @@ pub fn list_class_on (value : &Value) -> (Outcome<ListClass>) {
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
 pub enum ProcedureClass {
-	Lambda,
 	Primitive,
+	Extended,
+	Lambda,
 }
 
 
 pub fn procedure_class (value : &Value) -> (Outcome<ProcedureClass>) {
 	match value.class () {
-		ValueClass::Lambda =>
-			succeed! (ProcedureClass::Lambda),
 		ValueClass::ProcedurePrimitive =>
 			succeed! (ProcedureClass::Primitive),
+		ValueClass::ProcedureExtended =>
+			succeed! (ProcedureClass::Extended),
+		ValueClass::ProcedureLambda =>
+			succeed! (ProcedureClass::Lambda),
 		_ =>
 			fail! (0xef418db1),
 	}
@@ -750,6 +753,8 @@ pub fn procedure_class (value : &Value) -> (Outcome<ProcedureClass>) {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
 pub enum SyntaxClass {
 	Primitive,
+	Extended,
+	Lambda,
 }
 
 
@@ -757,6 +762,10 @@ pub fn syntax_class (value : &Value) -> (Outcome<SyntaxClass>) {
 	match value.class () {
 		ValueClass::SyntaxPrimitive =>
 			succeed! (SyntaxClass::Primitive),
+		ValueClass::SyntaxExtended =>
+			succeed! (SyntaxClass::Extended),
+		ValueClass::SyntaxLambda =>
+			succeed! (SyntaxClass::Lambda),
 		_ =>
 			fail! (0x97144c3b),
 	}

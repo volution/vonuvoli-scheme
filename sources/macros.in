@@ -478,14 +478,23 @@ def_try_into! (try_into_values, ::values::exports::Values);
 def_try_as_ref! (try_as_error_ref, ::values::exports::Error);
 def_try_into! (try_into_error, ::values::exports::Error);
 
-def_try_as_ref! (try_as_lambda_ref, ::procedures::exports::Lambda);
-def_try_into! (try_into_lambda, ::procedures::exports::Lambda);
-
 def_try_as_ref! (try_as_procedure_primitive_ref, ::primitives::exports::ProcedurePrimitive);
 def_try_into! (try_into_procedure_primitive, ::primitives::exports::ProcedurePrimitive);
 
+def_try_as_ref! (try_as_procedure_extended_ref, ::primitives::exports::ProcedureExtended);
+def_try_into! (try_into_procedure_extended, ::primitives::exports::ProcedureExtended);
+
+def_try_as_ref! (try_as_procedure_lambda_ref, ::procedures::exports::ProcedureLambda);
+def_try_into! (try_into_procedure_lambda, ::procedures::exports::ProcedureLambda);
+
 def_try_as_ref! (try_as_syntax_primitive_ref, ::primitives::exports::SyntaxPrimitive);
 def_try_into! (try_into_syntax_primitive, ::primitives::exports::SyntaxPrimitive);
+
+def_try_as_ref! (try_as_syntax_extended_ref, ::primitives::exports::SyntaxExtended);
+def_try_into! (try_into_syntax_extended, ::primitives::exports::SyntaxExtended);
+
+def_try_as_ref! (try_as_syntax_lambda_ref, ::primitives::exports::SyntaxLambda);
+def_try_into! (try_into_syntax_lambda, ::primitives::exports::SyntaxLambda);
 
 def_try_as_ref! (try_as_context_ref, ::values::exports::Context);
 def_try_into! (try_into_context, ::values::exports::Context);

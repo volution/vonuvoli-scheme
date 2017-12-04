@@ -2,6 +2,7 @@
 
 use super::contexts::exports::*;
 use super::errors::exports::*;
+use super::extended_procedures::exports::*;
 use super::primitives::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;

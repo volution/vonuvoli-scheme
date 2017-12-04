@@ -2,8 +2,10 @@
 
 use super::contexts::exports::*;
 use super::errors::exports::*;
+use super::extended_procedures::exports::*;
+use super::extended_syntaxes::exports::*;
+use super::lambdas::exports::*;
 use super::primitives::exports::*;
-use super::procedures::exports::*;
 use super::runtime::exports::*;
 
 use std::char;
@@ -67,9 +69,12 @@ pub enum ValueClass {
 	
 	Error,
 	
-	Lambda,
 	ProcedurePrimitive,
+	ProcedureExtended,
+	ProcedureLambda,
 	SyntaxPrimitive,
+	SyntaxExtended,
+	SyntaxLambda,
 	
 	Context,
 	Binding,
@@ -101,9 +106,12 @@ pub enum Value {
 	
 	Error ( ValueMeta1, Error, ValueMeta2 ),
 	
-	Lambda ( ValueMeta1, Lambda, ValueMeta2 ),
 	ProcedurePrimitive ( ValueMeta1, ProcedurePrimitive, ValueMeta2 ),
+	ProcedureExtended ( ValueMeta1, ProcedureExtended, ValueMeta2 ),
+	ProcedureLambda ( ValueMeta1, ProcedureLambda, ValueMeta2 ),
 	SyntaxPrimitive ( ValueMeta1, SyntaxPrimitive, ValueMeta2, ),
+	SyntaxExtended ( ValueMeta1, SyntaxExtended, ValueMeta2, ),
+	SyntaxLambda ( ValueMeta1, SyntaxLambda, ValueMeta2, ),
 	
 	Context ( ValueMeta1, Context, ValueMeta2 ),
 	Binding ( ValueMeta1, Binding, ValueMeta2 ),
@@ -148,9 +156,12 @@ impl Value {
 			
 			Value::Error (_, _, _) => ValueClass::Error,
 			
-			Value::Lambda (_, _, _) => ValueClass::Lambda,
 			Value::ProcedurePrimitive (_, _, _) => ValueClass::ProcedurePrimitive,
+			Value::ProcedureExtended (_, _, _) => ValueClass::ProcedureExtended,
+			Value::ProcedureLambda (_, _, _) => ValueClass::ProcedureLambda,
 			Value::SyntaxPrimitive (_, _, _) => ValueClass::SyntaxPrimitive,
+			Value::SyntaxExtended (_, _, _) => ValueClass::SyntaxExtended,
+			Value::SyntaxLambda (_, _, _) => ValueClass::SyntaxLambda,
 			
 			Value::Context (_, _, _) => ValueClass::Context,
 			Value::Binding (_, _, _) => ValueClass::Binding,
@@ -184,9 +195,12 @@ impl Value {
 			
 			(&Value::Error (_, ref self_0, _), &Value::Error (_, ref other_0, _)) => Error::is_self (self_0, other_0),
 			
-			(&Value::Lambda (_, ref self_0, _), &Value::Lambda (_, ref other_0, _)) => Lambda::is_self (self_0, other_0),
 			(&Value::ProcedurePrimitive (_, ref self_0, _), &Value::ProcedurePrimitive (_, ref other_0, _)) => self_0 == other_0,
+			(&Value::ProcedureExtended (_, ref self_0, _), &Value::ProcedureExtended (_, ref other_0, _)) => ProcedureExtended::is_self (self_0, other_0),
+			(&Value::ProcedureLambda (_, ref self_0, _), &Value::ProcedureLambda (_, ref other_0, _)) => ProcedureLambda::is_self (self_0, other_0),
 			(&Value::SyntaxPrimitive (_, ref self_0, _), &Value::SyntaxPrimitive (_, ref other_0, _)) => self_0 == other_0,
+			(&Value::SyntaxExtended (_, ref self_0, _), &Value::SyntaxExtended (_, ref other_0, _)) => SyntaxExtended::is_self (self_0, other_0),
+			(&Value::SyntaxLambda (_, ref self_0, _), &Value::SyntaxLambda (_, ref other_0, _)) => SyntaxLambda::is_self (self_0, other_0),
 			
 			(&Value::Context (_, ref self_0, _), &Value::Context (_, ref other_0, _)) => Context::is_self (self_0, other_0),
 			(&Value::Binding (_, ref self_0, _), &Value::Binding (_, ref other_0, _)) => Binding::is_self (self_0, other_0),
@@ -227,10 +241,12 @@ impl fmt::Display for Value {
 			
 			Value::Error (_, ref value, _) => value.fmt (formatter),
 			
-			Value::Lambda (_, ref value, _) => value.fmt (formatter),
-			
 			Value::ProcedurePrimitive (_, ref value, _) => write! (formatter, "#<procedure:{:?}>", value),
+			Value::ProcedureExtended (_, ref value, _) => value.fmt (formatter),
+			Value::ProcedureLambda (_, ref value, _) => value.fmt (formatter),
 			Value::SyntaxPrimitive (_, ref value, _) => write! (formatter, "#<syntax:{:?}>", value),
+			Value::SyntaxExtended (_, ref value, _) => value.fmt (formatter),
+			Value::SyntaxLambda (_, ref value, _) => value.fmt (formatter),
 			
 			Value::Context (_, ref value, _) => value.fmt (formatter),
 			Value::Binding (_, ref value, _) => value.fmt (formatter),
@@ -263,10 +279,12 @@ impl fmt::Debug for Value {
 			
 			Value::Error (_, ref value, _) => value.fmt (formatter),
 			
-			Value::Lambda (_, ref value, _) => value.fmt (formatter),
-			
 			Value::ProcedurePrimitive (_, ref value, _) => value.fmt (formatter),
+			Value::ProcedureExtended (_, ref value, _) => value.fmt (formatter),
+			Value::ProcedureLambda (_, ref value, _) => value.fmt (formatter),
 			Value::SyntaxPrimitive (_, ref value, _) => value.fmt (formatter),
+			Value::SyntaxExtended (_, ref value, _) => value.fmt (formatter),
+			Value::SyntaxLambda (_, ref value, _) => value.fmt (formatter),
 			
 			Value::Context (_, ref value, _) => value.fmt (formatter),
 			Value::Binding (_, ref value, _) => value.fmt (formatter),

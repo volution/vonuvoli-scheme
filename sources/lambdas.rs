@@ -12,8 +12,13 @@ use std::ptr;
 
 
 pub mod exports {
+	
 	pub use super::Lambda;
 	pub use super::LambdaTemplate;
+	
+	pub use super::ProcedureLambda;
+	pub use super::SyntaxLambda;
+	
 }
 
 
@@ -77,6 +82,64 @@ impl fmt::Display for Lambda {
 impl fmt::Debug for Lambda {
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		self.0.fmt (formatter)
+	}
+}
+
+
+
+
+#[ derive (Clone, Debug, Hash) ]
+pub struct ProcedureLambda ( StdRc<Lambda> );
+
+
+impl ProcedureLambda {
+	
+	pub fn new (lambda : Lambda) -> (ProcedureLambda) {
+		return ProcedureLambda (StdRc::new (lambda));
+	}
+	
+	pub fn lambda (&self) -> (&Lambda) {
+		return StdRc::as_ref (&self.0);
+	}
+	
+	pub fn is_self (&self, other : &ProcedureLambda) -> (bool) {
+		ptr::eq (self.0.as_ref (), other.0.as_ref ())
+	}
+}
+
+
+impl fmt::Display for ProcedureLambda {
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		formatter.write_str ("#<procedure-lambda>")
+	}
+}
+
+
+
+
+#[ derive (Clone, Debug, Hash) ]
+pub struct SyntaxLambda ( StdRc<Lambda> );
+
+
+impl SyntaxLambda {
+	
+	pub fn new (lambda : Lambda) -> (SyntaxLambda) {
+		return SyntaxLambda (StdRc::new (lambda));
+	}
+	
+	pub fn lambda (&self) -> (&Lambda) {
+		return StdRc::as_ref (&self.0);
+	}
+	
+	pub fn is_self (&self, other : &SyntaxLambda) -> (bool) {
+		ptr::eq (self.0.as_ref (), other.0.as_ref ())
+	}
+}
+
+
+impl fmt::Display for SyntaxLambda {
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		formatter.write_str ("#<syntax-lambda>")
 	}
 }
 

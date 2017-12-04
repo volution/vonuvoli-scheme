@@ -1,8 +1,8 @@
 
 
 use super::contexts::exports::*;
+use super::lambdas::exports::*;
 use super::primitives::exports::*;
-use super::procedures::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
 

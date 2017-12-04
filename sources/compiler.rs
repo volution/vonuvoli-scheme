@@ -5,8 +5,8 @@ use super::constants::exports::*;
 use super::contexts::exports::*;
 use super::errors::exports::*;
 use super::expressions::exports::*;
+use super::lambdas::exports::*;
 use super::primitives::exports::*;
-use super::procedures::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
 
@@ -55,10 +55,15 @@ impl Compiler {
 		
 		match token.class () {
 			
-			ValueClass::Null | ValueClass::Void | ValueClass::Undefined =>
+			ValueClass::Null |
+			ValueClass::Void |
+			ValueClass::Undefined =>
 				return self.compile_syntax_quote (compilation, token),
 			
-			ValueClass::Boolean | ValueClass::NumberInteger | ValueClass::NumberReal | ValueClass::Character =>
+			ValueClass::Boolean |
+			ValueClass::NumberInteger |
+			ValueClass::NumberReal |
+			ValueClass::Character =>
 				return self.compile_syntax_quote (compilation, token),
 			
 			ValueClass::String =>
@@ -80,10 +85,22 @@ impl Compiler {
 			ValueClass::Error =>
 				fail_panic! (0x2aa7bc60),
 			
-			ValueClass::Lambda | ValueClass::ProcedurePrimitive | ValueClass::SyntaxPrimitive =>
+			ValueClass::ProcedurePrimitive =>
+				fail_panic! (0xa9e5d4ca),
+			ValueClass::ProcedureExtended =>
 				fail_panic! (0xaf6f1288),
+			ValueClass::ProcedureLambda =>
+				fail_panic! (0x2c4bb21a),
+			ValueClass::SyntaxPrimitive =>
+				fail_panic! (0x09e47c84),
+			ValueClass::SyntaxExtended =>
+				fail_panic! (0xe781b659),
+			ValueClass::SyntaxLambda =>
+				fail_panic! (0x7f9c4bb4),
 			
-			ValueClass::Binding | ValueClass::Context =>
+			ValueClass::Binding =>
+				fail_panic! (0x7172b055),
+			ValueClass::Context =>
 				fail_panic! (0x5f0d7003),
 			
 		}
@@ -1111,11 +1128,19 @@ impl Compiler {
 		
 		match token.class () {
 			
-			ValueClass::Null | ValueClass::Void | ValueClass::Undefined =>
+			ValueClass::Null |
+			ValueClass::Void |
+			ValueClass::Undefined =>
 				succeed! ((compilation, splice (token, spliceable))),
-			ValueClass::Boolean | ValueClass::NumberInteger | ValueClass::NumberReal | ValueClass::Character =>
+			
+			ValueClass::Boolean |
+			ValueClass::NumberInteger |
+			ValueClass::NumberReal |
+			ValueClass::Character =>
 				succeed! ((compilation, splice (token, spliceable))),
-			ValueClass::String | ValueClass::Bytes =>
+			
+			ValueClass::String |
+			ValueClass::Bytes =>
 				succeed! ((compilation, splice (token, spliceable))),
 			
 			ValueClass::Symbol =>
@@ -1127,10 +1152,23 @@ impl Compiler {
 			
 			ValueClass::Error =>
 				fail! (0x9681733a),
-			ValueClass::Lambda | ValueClass::ProcedurePrimitive | ValueClass::SyntaxPrimitive =>
-				fail! (0x251a7fd0),
 			
-			ValueClass::Binding | ValueClass::Context =>
+			ValueClass::ProcedurePrimitive =>
+				fail! (0x89c49854),
+			ValueClass::ProcedureExtended =>
+				fail! (0xc3fb9b61),
+			ValueClass::ProcedureLambda =>
+				fail! (0xf3b07bb7),
+			ValueClass::SyntaxPrimitive =>
+				fail! (0x251a7fd0),
+			ValueClass::SyntaxExtended =>
+				fail! (0x567a02a2),
+			ValueClass::SyntaxLambda =>
+				fail! (0xbe7157a3),
+			
+			ValueClass::Binding =>
+				fail! (0xdf21f737),
+			ValueClass::Context =>
 				fail! (0xfa7ef6f6),
 			
 			ValueClass::Pair => {
