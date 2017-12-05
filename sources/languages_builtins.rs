@@ -43,7 +43,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			
 			
 			("locals", SyntaxPrimitiveN::Locals.into ()), // https://docs.racket-lang.org/reference/local.html
-			("set-values!", SyntaxPrimitive2::SetValues.into ()),
+			("set!-values", SyntaxPrimitive2::SetValues.into ()),
 			
 			("call", FunctionsPrimitiveN::Call.into ()),
 			("call-with-values", FunctionsPrimitive2::CallWithValues.into ()),

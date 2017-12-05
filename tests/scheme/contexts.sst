@@ -136,14 +136,14 @@ vc => 3;
 
 (values a b c) => #values(4 5 6);
 
-(~set-values! (a b c) (values 7 8 9)) => #values(4 5 6);
+(~set!-values (a b c) (values 7 8 9)) => #values(4 5 6);
 
 (values a b c) => #values(7 8 9);
 
 (~locals
 	(define-values (a b c) (values 1 2 3))
 	(values
-		(~set-values! (a b c) (values 4 5 6))
+		(~set!-values (a b c) (values 4 5 6))
 		(values 4 5 6)))
 => #values(#values(1 2 3) #values(4 5 6));
 
