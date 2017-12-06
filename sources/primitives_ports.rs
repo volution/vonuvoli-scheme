@@ -39,14 +39,17 @@ pub mod exports {
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
-pub enum PortPrimitive0 {}
+pub enum PortPrimitive0 {
+	
+	RsNewLine,
+	
+}
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum PortPrimitive1 {
 	
 	RsDisplay,
-	RsNewLine,
 	
 }
 
@@ -74,7 +77,30 @@ pub enum PortPrimitiveN {}
 
 
 pub fn port_primitive_0_evaluate (primitive : PortPrimitive0, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
-	match primitive {}
+	match primitive {
+		
+		PortPrimitive0::RsNewLine => {
+			// FIXME:  Replace this stub implementation!
+			use std::io;
+			use std::io::Write;
+			let mut stream = io::stdout ();
+			let mut stream = stream.lock ();
+			match write! (stream, "\n") {
+				Ok (()) =>
+					(),
+				Err (_) =>
+					fail! (0xe2f91118),
+			}
+			match stream.flush () {
+				Ok (()) =>
+					(),
+				Err (_) =>
+					fail! (0x35130507),
+			}
+			succeed! (VOID.into ());
+		},
+		
+	}
 }
 
 
@@ -94,27 +120,6 @@ pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, input_1 : &Value, 
 					(),
 				Err (_) =>
 					fail! (0x7aab6cc6),
-			}
-			succeed! (VOID.into ());
-		},
-		
-		PortPrimitive1::RsNewLine => {
-			// FIXME:  Replace this stub implementation!
-			use std::io;
-			use std::io::Write;
-			let mut stream = io::stdout ();
-			let mut stream = stream.lock ();
-			match write! (stream, "\n") {
-				Ok (()) =>
-					(),
-				Err (_) =>
-					fail! (0xe2f91118),
-			}
-			match stream.flush () {
-				Ok (()) =>
-					(),
-				Err (_) =>
-					fail! (0x35130507),
 			}
 			succeed! (VOID.into ());
 		},
