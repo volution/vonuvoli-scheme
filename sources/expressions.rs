@@ -28,6 +28,8 @@ pub enum Expression {
 	ConditionalIf ( StdBox<[(Option<(Expression, bool)>, Option<Expression>)]> ),
 	ConditionalMatch ( StdBox<Expression>, StdBox<[(Option<(StdBox<[Value]>, bool)>, Option<Expression>)]> ),
 	
+	Loop ( Option<ExpressionBox>, Option<ExpressionBox>, Option<ExpressionBox>, StdBox<[(Option<(Expression, bool)>, Option<Expression>)]> ),
+	
 	ContextDefine ( Symbol, ExpressionBox ),
 	ContextUpdate ( Symbol, ExpressionBox ),
 	ContextSelect ( Symbol ),
@@ -37,6 +39,7 @@ pub enum Expression {
 	RegisterInitializeN ( StdBox<[(usize, Expression)]>, bool ),
 	RegisterInitializeValues ( StdBox<[usize]>, ExpressionBox ),
 	RegisterSet1 ( usize, ExpressionBox ),
+	RegisterSetN ( StdBox<[(usize, Expression)]>, bool ),
 	RegisterSetValues ( StdBox<[usize]>, ExpressionBox ),
 	RegisterGet1 ( usize ),
 	
@@ -44,6 +47,7 @@ pub enum Expression {
 	BindingInitializeN ( StdBox<[(Binding, Expression)]>, bool ),
 	BindingInitializeValues ( StdBox<[Binding]>, ExpressionBox ),
 	BindingSet1 ( Binding, ExpressionBox ),
+	BindingSetN ( StdBox<[(Binding, Expression)]>, bool ),
 	BindingSetValues ( StdBox<[Binding]>, ExpressionBox ),
 	BindingGet1 ( Binding ),
 	

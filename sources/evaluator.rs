@@ -3,6 +3,7 @@
 use super::builtins::exports::*;
 use super::constants::exports::*;
 use super::contexts::exports::*;
+use super::conversions::exports::*;
 use super::errors::exports::*;
 use super::expressions::exports::*;
 use super::extended_procedures::exports::*;
@@ -69,6 +70,8 @@ impl Evaluator {
 				self.evaluate_conditional_if (evaluation, clauses),
 			Expression::ConditionalMatch (ref actual, ref clauses) =>
 				self.evaluate_conditional_match (evaluation, actual, clauses),
+			Expression::Loop (ref initialize, ref update, ref body, ref clauses) =>
+				self.evaluate_loop (evaluation, option_box_as_ref (initialize), option_box_as_ref (update), option_box_as_ref (body), clauses),
 			
 			Expression::ContextDefine (ref identifier, ref expression) =>
 				self.evaluate_context_define (evaluation, identifier, expression),
@@ -87,6 +90,8 @@ impl Evaluator {
 				self.evaluate_register_initialize_values (evaluation, indices, expression),
 			Expression::RegisterSet1 (index, ref expression) =>
 				self.evaluate_register_set_1 (evaluation, index, expression),
+			Expression::RegisterSetN (ref initializers, parallel) =>
+				self.evaluate_register_set_n (evaluation, initializers, parallel),
 			Expression::RegisterSetValues (ref indices, ref expression) =>
 				self.evaluate_register_set_values (evaluation, indices, expression),
 			Expression::RegisterGet1 (index) =>
@@ -100,6 +105,8 @@ impl Evaluator {
 				self.evaluate_binding_initialize_values (evaluation, bindings, expression),
 			Expression::BindingSet1 (ref binding, ref expression) =>
 				self.evaluate_binding_set_1 (evaluation, binding, expression),
+			Expression::BindingSetN (ref initializers, parallel) =>
+				self.evaluate_binding_set_n (evaluation, initializers, parallel),
 			Expression::BindingSetValues (ref bindings, ref expression) =>
 				self.evaluate_binding_set_values (evaluation, bindings, expression),
 			Expression::BindingGet1 (ref binding) =>
@@ -178,6 +185,14 @@ impl Evaluator {
 	
 	
 	pub fn evaluate_conditional_if (&self, evaluation : &mut EvaluatorContext, clauses : &[(Option<(Expression, bool)>, Option<Expression>)]) -> (Outcome<Value>) {
+		if let Some (output) = try! (self.evaluate_conditional_if_clauses (evaluation, clauses)) {
+			succeed! (output);
+		} else {
+			succeed! (VOID.into ());
+		}
+	}
+	
+	pub fn evaluate_conditional_if_clauses (&self, evaluation : &mut EvaluatorContext, clauses : &[(Option<(Expression, bool)>, Option<Expression>)]) -> (Outcome<Option<Value>>) {
 		for &(ref guard, ref expression) in clauses {
 			let (matched, guard) = match *guard {
 				Some ((ref guard, negated)) => {
@@ -194,17 +209,26 @@ impl Evaluator {
 			};
 			if matched {
 				if let Some (ref expression) = *expression {
-					return evaluation.evaluate (expression);
+					let output = try! (evaluation.evaluate (expression));
+					succeed! (Some (output));
 				} else {
-					succeed! (guard);
+					succeed! (Some (guard));
 				}
 			}
 		}
-		return Ok (VOID.into ());
+		succeed! (None);
 	}
 	
 	
 	pub fn evaluate_conditional_match (&self, evaluation : &mut EvaluatorContext, actual : &Expression, clauses : &[(Option<(StdBox<[Value]>, bool)>, Option<Expression>)]) -> (Outcome<Value>) {
+		if let Some (output) = try! (self.evaluate_conditional_match_clauses (evaluation, actual, clauses)) {
+			succeed! (output);
+		} else {
+			succeed! (VOID.into ());
+		}
+	}
+	
+	pub fn evaluate_conditional_match_clauses (&self, evaluation : &mut EvaluatorContext, actual : &Expression, clauses : &[(Option<(StdBox<[Value]>, bool)>, Option<Expression>)]) -> (Outcome<Option<Value>>) {
 		let actual = try! (evaluation.evaluate (actual));
 		for &(ref expected, ref expression) in clauses {
 			let matched = match *expected {
@@ -225,13 +249,39 @@ impl Evaluator {
 			};
 			if matched {
 				if let Some (ref expression) = *expression {
-					return evaluation.evaluate (expression);
+					let output = try! (evaluation.evaluate (expression));
+					succeed! (Some (output));
 				} else {
-					succeed! (actual);
+					succeed! (Some (actual));
 				}
 			}
 		}
-		return Ok (VOID.into ());
+		succeed! (None);
+	}
+	
+	
+	
+	
+	pub fn evaluate_loop (&self, evaluation : &mut EvaluatorContext, initialize : Option<&Expression>, update : Option<&Expression>, body : Option<&Expression>, clauses : &[(Option<(Expression, bool)>, Option<Expression>)]) -> (Outcome<Value>) {
+		
+		if let Some (initialize) = initialize {
+			try! (evaluation.evaluate (initialize));
+		}
+		
+		loop {
+			
+			if let Some (output) = try! (self.evaluate_conditional_if_clauses (evaluation, clauses)) {
+				succeed! (output);
+			}
+			
+			if let Some (body) = body {
+				try! (evaluation.evaluate (body));
+			}
+			
+			if let Some (update) = update {
+				try! (evaluation.evaluate (update));
+			}
+		}
 	}
 	
 	
@@ -302,6 +352,16 @@ impl Evaluator {
 		return self.evaluate_binding_set_1 (evaluation, &binding, expression);
 	}
 	
+	pub fn evaluate_register_set_n (&self, evaluation : &mut EvaluatorContext, initializers : &[(usize, Expression)], parallel : bool) -> (Outcome<Value>) {
+		let registers = try_some! (evaluation.registers, 0xf6492a67);
+		let indices = initializers.iter () .map (|&(index, _)| index) .collect::<StdVec<_>> ();
+		let expressions = initializers.iter () .map (|&(_, ref expression)| expression) .collect::<StdVec<_>> ();
+		let bindings = try_vec_map! (indices, index, registers.resolve (index));
+		let bindings = bindings.iter () .collect ();
+		let initializers = vec_zip_2 (bindings, expressions);
+		return self.evaluate_binding_set_n_0 (evaluation, &initializers, parallel);
+	}
+	
 	pub fn evaluate_register_set_values (&self, evaluation : &mut EvaluatorContext, indices : &[usize], expression : &Expression) -> (Outcome<Value>) {
 		let registers = try_some! (evaluation.registers, 0x2137dc1e);
 		let bindings = try_vec_map! (indices, index, registers.resolve (*index));
@@ -364,6 +424,32 @@ impl Evaluator {
 		let value_new = try! (evaluation.evaluate (expression));
 		let value_old = try! (binding.set (value_new));
 		return Ok (value_old);
+	}
+	
+	
+	pub fn evaluate_binding_set_n (&self, evaluation : &mut EvaluatorContext, initializers : &[(Binding, Expression)], parallel : bool) -> (Outcome<Value>) {
+		let initializers = initializers.iter () .map (|&(ref binding, ref expression)| (binding, expression)) .collect::<StdVec<_>> ();
+		return self.evaluate_binding_set_n_0 (evaluation, &initializers, parallel);
+	}
+	
+	pub fn evaluate_binding_set_n_0 (&self, evaluation : &mut EvaluatorContext, initializers : &[(&Binding, &Expression)], parallel : bool) -> (Outcome<Value>) {
+		
+		let expressions = initializers.iter () .map (|&(_, expression)| expression) .collect::<StdVec<_>> ();
+		let bindings = initializers.iter () .map (|&(binding, _)| binding) .collect::<StdVec<_>> ();
+		
+		if parallel {
+			let values_new = try_vec_map! (expressions, expression, evaluation.evaluate (expression));
+			for (binding, value_new) in vec_zip_2 (bindings, values_new) {
+				try! (binding.set (value_new));
+			}
+		} else {
+			for (binding, expression) in vec_zip_2 (bindings, expressions) {
+				let value_new = try! (evaluation.evaluate (expression));
+				try! (binding.set (value_new));
+			}
+		}
+		
+		return Ok (VOID);
 	}
 	
 	

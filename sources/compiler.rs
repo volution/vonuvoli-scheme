@@ -304,6 +304,17 @@ impl Compiler {
 					SyntaxPrimitiveN::Do =>
 						return self.compile_syntax_do (compilation, tokens),
 					
+					SyntaxPrimitiveN::DoCond =>
+						fail_unimplemented! (0x2e2b0079),
+					
+					SyntaxPrimitiveN::While |
+					SyntaxPrimitiveN::Until =>
+						fail_unimplemented! (0xdae6d716),
+					
+					SyntaxPrimitiveN::WhileCond |
+					SyntaxPrimitiveN::UntilCond =>
+						fail_unimplemented! (0x9e9861c0),
+					
 					SyntaxPrimitiveN::Locals =>
 						return self.compile_syntax_locals (compilation, tokens),
 					
@@ -522,8 +533,97 @@ impl Compiler {
 	
 	
 	
-	pub fn compile_syntax_do (&self, _compilation : CompilerContext, _tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
-		fail_unimplemented! (0x4ff860c1);
+	pub fn compile_syntax_do (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+		
+		let (definitions, break_statements, loop_statements) = try! (vec_explode_2n (tokens));
+		
+		let definitions = try! (vec_list_clone (&definitions));
+		
+		let mut identifiers = StdVec::with_capacity (definitions.len ());
+		let mut initializers = StdVec::with_capacity (definitions.len ());
+		let mut updaters = StdVec::with_capacity (definitions.len ());
+		for definition in definitions.into_iter () {
+			let definition = try! (vec_list_clone (&definition));
+			let (identifier, initializer, updater) = try! (vec_explode_3 (definition));
+			let identifier = try_into_symbol! (identifier);
+			identifiers.push (identifier);
+			initializers.push (initializer);
+			updaters.push (updater);
+		}
+		
+		let (compilation, has_definitions) = if identifiers.is_empty () {
+			(compilation, false)
+		} else {
+			let compilation = try! (compilation.fork_locals (false));
+			(compilation, true)
+		};
+		
+		let (compilation, binding_initializers, binding_updaters) = if has_definitions {
+			
+			let mut binding_templates = StdVec::new ();
+			let mut binding_initializers = StdVec::new ();
+			let mut binding_updaters = StdVec::new ();
+			let mut compilation = compilation;
+			
+			for initializer in initializers.into_iter () {
+				let (compilation_1, initializer) = try! (self.compile_0 (compilation, initializer));
+				compilation = compilation_1;
+				binding_initializers.push (initializer);
+			}
+			
+			for identifier in identifiers.into_iter () {
+				let binding = try! (compilation.bindings.define (identifier));
+				binding_templates.push (binding);
+			}
+			
+			for updater in updaters.into_iter () {
+				let (compilation_1, updater) = try! (self.compile_0 (compilation, updater));
+				compilation = compilation_1;
+				binding_updaters.push (updater);
+			}
+			
+			let binding_initializers = try! (self.compile_syntax_binding_set_n (binding_templates.clone (), binding_initializers, true, true));
+			let binding_updaters = try! (self.compile_syntax_binding_set_n (binding_templates.clone (), binding_updaters, true, false));
+			
+			(compilation, Some (binding_initializers.into ()), Some (binding_updaters.into ()))
+			
+		} else {
+			
+			(compilation, None, None)
+		};
+		
+		
+		let break_statements = try! (vec_list_clone (&break_statements));
+		let (break_guard, break_statements) = try! (vec_explode_1n (break_statements));
+		let (compilation, break_guard) = try! (self.compile_0 (compilation, break_guard));
+		let (compilation, break_statements) = if break_statements.is_empty () {
+			(compilation, None)
+		} else {
+			let (compilation, break_statements) = try! (self.compile_vec_0 (compilation, break_statements));
+			let break_statements = Expression::Sequence (break_statements.into_boxed_slice ());
+			(compilation, Some (break_statements))
+		};
+		let break_clauses = StdBox::new ([(Some ((break_guard, false)), break_statements)]);
+		
+		let (compilation, loop_statement) = if loop_statements.is_empty () {
+			(compilation, None)
+		} else {
+			let (compilation, loop_statements) = try! (self.compile_vec_0 (compilation, loop_statements));
+			let loop_statements = Expression::Sequence (loop_statements.into_boxed_slice ());
+			(compilation, Some (loop_statements.into ()))
+		};
+		
+		let expression = Expression::Loop (binding_initializers, binding_updaters, loop_statement, break_clauses);
+		
+		let (compilation, expression) = if has_definitions {
+			let (compilation, registers) = try! (compilation.unfork_locals ());
+			let expression = Expression::RegisterClosure (expression.into (), registers.into_boxed_slice ());
+			(compilation, expression)
+		} else {
+			(compilation, expression)
+		};
+		
+		succeed! ((compilation, expression));
 	}
 	
 	
@@ -633,7 +733,7 @@ impl Compiler {
 				fail_unreachable! (0xa615e40c),
 		};
 		
-		let binding_initializers = try! (self.compile_syntax_binding_initialize_n (binding_templates, binding_initializers, parallel));
+		let binding_initializers = try! (self.compile_syntax_binding_set_n (binding_templates, binding_initializers, parallel, true));
 		let binding_initializers = vec! [ binding_initializers ];
 		
 		let (compilation, statements) = try! (self.compile_vec_0 (compilation, statements));
@@ -724,7 +824,7 @@ impl Compiler {
 			
 		}
 		
-		let binding_initializers = try! (self.compile_syntax_binding_initialize_values_n (binding_templates_n, binding_initializers));
+		let binding_initializers = try! (self.compile_syntax_binding_set_values_n (binding_templates_n, binding_initializers, true));
 		
 		let (compilation, statements) = try! (self.compile_vec_0 (compilation, statements));
 		
@@ -789,7 +889,7 @@ impl Compiler {
 				fail! (0x0f0edc26),
 		};
 		
-		let expression = try! (self.compile_syntax_binding_initialize_1 (binding, expression));
+		let expression = try! (self.compile_syntax_binding_set_1 (binding, expression, true));
 		
 		succeed! ((compilation, expression));
 	}
@@ -816,7 +916,7 @@ impl Compiler {
 		
 		let (compilation, binding_initializer) = try! (self.compile_0 (compilation, initializer));
 		
-		let expression = try! (self.compile_syntax_binding_initialize_values_1 (binding_templates, binding_initializer));
+		let expression = try! (self.compile_syntax_binding_set_values_1 (binding_templates, binding_initializer, true));
 		
 		succeed! ((compilation, expression));
 	}
@@ -834,18 +934,13 @@ impl Compiler {
 		let identifier = try_into_symbol! (identifier);
 		
 		let mut compilation = compilation;
-		let binding = compilation.bindings.resolve (identifier);
+		let binding = try! (compilation.bindings.resolve (identifier));
 		
 		let (compilation, initializer) = try! (self.compile_0 (compilation, initializer));
 		
-		match try! (binding) {
-			CompilerBinding::Undefined =>
-				fail! (0x9d6d1a15),
-			CompilerBinding::Binding (binding) =>
-				succeed! ((compilation, Expression::BindingSet1 (binding, initializer.into ()))),
-			CompilerBinding::Register (index) =>
-				succeed! ((compilation, Expression::RegisterSet1 (index, initializer.into ()))),
-		}
+		let initializer = try! (self.compile_syntax_binding_set_1 (binding, initializer, false));
+		
+		succeed! ((compilation, initializer));
 	}
 	
 	
@@ -870,58 +965,35 @@ impl Compiler {
 		
 		let (compilation, initializer) = try! (self.compile_0 (compilation, initializer));
 		
-		match bindings[0] {
-			
-			CompilerBinding::Undefined =>
-				fail! (0x59645a5b),
-			
-			CompilerBinding::Binding (_) => {
-				let bindings = try_vec_map! (
-						bindings,
-						binding,
-						match binding {
-							CompilerBinding::Binding (binding) =>
-								succeed! (binding),
-							_ =>
-								fail! (0x0259eacd),
-						});
-				let expression = Expression::BindingSetValues (bindings.into_boxed_slice (), initializer.into ());
-				succeed! ((compilation, expression));
-			},
-			
-			CompilerBinding::Register (_) => {
-				let bindings = try_vec_map! (
-						bindings,
-						binding,
-						match binding {
-							CompilerBinding::Register (index) =>
-								succeed! (index),
-							_ =>
-								fail! (0x3b76e59c),
-						});
-				let expression = Expression::RegisterSetValues (bindings.into_boxed_slice (), initializer.into ());
-				succeed! ((compilation, expression));
-			},
-			
-		}
+		let initializer = try! (self.compile_syntax_binding_set_values_1 (bindings, initializer, false));
+		
+		succeed! ((compilation, initializer));
 	}
 	
 	
 	
 	
-	pub fn compile_syntax_binding_initialize_1 (&self, binding : CompilerBinding, expression : Expression) -> (Outcome<Expression>) {
+	pub fn compile_syntax_binding_set_1 (&self, binding : CompilerBinding, expression : Expression, initialize : bool) -> (Outcome<Expression>) {
 		match binding {
 			
 			CompilerBinding::Undefined =>
 				fail! (0x42370d15),
 			
 			CompilerBinding::Binding (binding) => {
-				let expression = Expression::BindingInitialize1 (binding, expression.into ());
+				let expression = if initialize {
+					Expression::BindingInitialize1 (binding, expression.into ())
+				} else {
+					Expression::BindingSet1 (binding, expression.into ())
+				};
 				succeed! (expression);
 			},
 			
 			CompilerBinding::Register (index) => {
-				let expression = Expression::RegisterInitialize1 (index, expression.into ());
+				let expression = if initialize {
+					Expression::RegisterInitialize1 (index, expression.into ())
+				} else {
+					Expression::RegisterSet1 (index, expression.into ())
+				};
 				succeed! (expression);
 			},
 			
@@ -929,7 +1001,7 @@ impl Compiler {
 	}
 	
 	
-	pub fn compile_syntax_binding_initialize_n (&self, bindings : StdVec<CompilerBinding>, expressions : StdVec<Expression>, parallel : bool) -> (Outcome<Expression>) {
+	pub fn compile_syntax_binding_set_n (&self, bindings : StdVec<CompilerBinding>, expressions : StdVec<Expression>, parallel : bool, initialize : bool) -> (Outcome<Expression>) {
 		
 		if bindings.len () == 0 {
 			fail! (0xf99d15e7);
@@ -955,7 +1027,11 @@ impl Compiler {
 							_ =>
 								fail! (0x31f5b387),
 						});
-				let expression = Expression::BindingInitializeN (initializers.into_boxed_slice (), parallel);
+				let expression = if initialize {
+					Expression::BindingInitializeN (initializers.into_boxed_slice (), parallel)
+				} else {
+					Expression::BindingSetN (initializers.into_boxed_slice (), parallel)
+				};
 				succeed! (expression);
 			},
 			
@@ -969,7 +1045,11 @@ impl Compiler {
 							_ =>
 								fail! (0x5627731f),
 						});
-				let expression = Expression::RegisterInitializeN (initializers.into_boxed_slice (), parallel);
+				let expression = if initialize {
+					Expression::RegisterInitializeN (initializers.into_boxed_slice (), parallel)
+				} else {
+					Expression::RegisterSetN (initializers.into_boxed_slice (), parallel)
+				};
 				succeed! (expression);
 			},
 			
@@ -977,7 +1057,9 @@ impl Compiler {
 	}
 	
 	
-	pub fn compile_syntax_binding_initialize_values_1 (&self, bindings : StdVec<CompilerBinding>, expression : Expression) -> (Outcome<Expression>) {
+	
+	
+	pub fn compile_syntax_binding_set_values_1 (&self, bindings : StdVec<CompilerBinding>, expression : Expression, initialize : bool) -> (Outcome<Expression>) {
 		
 		if bindings.len () == 0 {
 			fail! (0xe6c10f17);
@@ -998,7 +1080,11 @@ impl Compiler {
 							_ =>
 								fail! (0xe59c62c6),
 						});
-				let expression = Expression::BindingInitializeValues (bindings.into_boxed_slice (), expression.into ());
+				let expression = if initialize {
+					Expression::BindingInitializeValues (bindings.into_boxed_slice (), expression.into ())
+				} else {
+					Expression::BindingSetValues (bindings.into_boxed_slice (), expression.into ())
+				};
 				succeed! (expression);
 			},
 			
@@ -1012,7 +1098,11 @@ impl Compiler {
 							_ =>
 								fail! (0x5627731f),
 						});
-				let expression = Expression::RegisterInitializeValues (bindings.into_boxed_slice (), expression.into ());
+				let expression = if initialize {
+					Expression::RegisterInitializeValues (bindings.into_boxed_slice (), expression.into ())
+				} else {
+					Expression::RegisterSetValues (bindings.into_boxed_slice (), expression.into ())
+				};
 				succeed! (expression);
 			},
 		
@@ -1020,7 +1110,7 @@ impl Compiler {
 	}
 	
 	
-	pub fn compile_syntax_binding_initialize_values_n (&self, bindings : StdVec<StdVec<CompilerBinding>>, expressions : StdVec<Expression>) -> (Outcome<StdVec<Expression>>) {
+	pub fn compile_syntax_binding_set_values_n (&self, bindings : StdVec<StdVec<CompilerBinding>>, expressions : StdVec<Expression>, initialize : bool) -> (Outcome<StdVec<Expression>>) {
 		
 		if bindings.len () == 0 {
 			fail! (0x28e6a67b);
@@ -1032,7 +1122,7 @@ impl Compiler {
 		let mut initializers = StdVec::with_capacity (bindings.len ());
 		
 		for (bindings, expression) in vec_zip_2 (bindings, expressions) {
-			let initializer = try! (self.compile_syntax_binding_initialize_values_1 (bindings, expression));
+			let initializer = try! (self.compile_syntax_binding_set_values_1 (bindings, expression, initialize));
 			initializers.push (initializer);
 		}
 		

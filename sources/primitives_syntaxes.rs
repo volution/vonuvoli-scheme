@@ -117,6 +117,11 @@ pub enum SyntaxPrimitiveN {
 	Case,
 	
 	Do,
+	DoCond,
+	While,
+	Until,
+	WhileCond,
+	UntilCond,
 	
 	Locals,
 	
@@ -237,8 +242,15 @@ pub fn syntax_primitive_n_evaluate (primitive : SyntaxPrimitiveN, inputs : &[Exp
 		SyntaxPrimitiveN::Cond | SyntaxPrimitiveN::Case =>
 			fail_panic! (0x39b925db),
 		
-		SyntaxPrimitiveN::Do =>
+		SyntaxPrimitiveN::Do |
+		SyntaxPrimitiveN::DoCond =>
 			fail_panic! (0xf5bd287f),
+		
+		SyntaxPrimitiveN::While |
+		SyntaxPrimitiveN::Until |
+		SyntaxPrimitiveN::WhileCond |
+		SyntaxPrimitiveN::UntilCond =>
+			fail_panic! (0xc8cf2801),
 		
 		SyntaxPrimitiveN::Locals =>
 			fail_panic! (0xc956c743),

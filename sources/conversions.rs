@@ -655,3 +655,14 @@ pub fn range_coerce_unbounded (start : Option<&Value>, end : Option<&Value>) -> 
 	succeed! ((start, end));
 }
 
+
+
+
+pub fn option_box_as_ref <T> (option : &Option<Box<T>>) -> (Option<&T>) {
+	if let Some (ref boxed) = *option {
+		return Some (boxed.as_ref ());
+	} else {
+		return None;
+	}
+}
+
