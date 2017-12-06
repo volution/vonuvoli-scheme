@@ -1,54 +1,63 @@
 
 
+#[ macro_export ]
 macro_rules! succeeded {
 	( $outcome : expr ) => (
 		::std::result::Result::Ok ($outcome)
 	);
 }
 
+#[ macro_export ]
 macro_rules! failed {
 	( $code : expr ) => (
-		::std::result::Result::Err (::errors::exports::error_generic ($code))
+		::std::result::Result::Err ($crate::errors::exports::error_generic ($code))
 	);
 }
 
+#[ macro_export ]
 macro_rules! failed_unimplemented {
 	( $code : expr ) => (
-		::std::result::Result::Err (::errors::exports::error_unimplemented ($code))
+		::std::result::Result::Err ($crate::errors::exports::error_unimplemented ($code))
 	);
 }
 
+#[ macro_export ]
 macro_rules! failed_panic {
 	( $code : expr ) => (
-		::std::result::Result::Err (::errors::exports::error_panic ($code))
+		::std::result::Result::Err ($crate::errors::exports::error_panic ($code))
 	);
 }
 
 
+#[ macro_export ]
 macro_rules! succeed {
 	( $outcome : expr ) => (
 		return succeeded! ($outcome);
 	);
 }
 
+#[ macro_export ]
 macro_rules! fail {
 	( $code : expr ) => (
 		return failed! ($code);
 	);
 }
 
+#[ macro_export ]
 macro_rules! fail_unimplemented {
 	( $code : expr ) => (
 		return failed_unimplemented! ($code); // OK
 	);
 }
 
+#[ macro_export ]
 macro_rules! fail_panic {
 	( $code : expr ) => (
 		return failed_panic! ($code)
 	);
 }
 
+#[ macro_export ]
 macro_rules! fail_unreachable {
 	( $code : expr ) => (
 		return failed_panic! ($code)
@@ -56,7 +65,23 @@ macro_rules! fail_unreachable {
 }
 
 
-#[ allow (unused_macros) ]
+
+
+#[ macro_export ]
+macro_rules! try_or_fail {
+	( $result : expr, $code : expr ) => (
+		if let ::std::result::Result::Ok (value) = $result {
+			value
+		} else {
+			fail! ($code);
+		}
+	);
+}
+
+
+
+
+#[ macro_export ]
 macro_rules! enforce {
 	( $expression : expr, $code : expr ) => (
 		if !$expression {
@@ -102,16 +127,6 @@ macro_rules! try_some_ref_2 {
 	);
 }
 
-macro_rules! try_or_fail {
-	( $result : expr, $code : expr ) => (
-		if let ::std::result::Result::Ok (value) = $result {
-			value
-		} else {
-			fail! ($code);
-		}
-	);
-}
-
 
 
 
@@ -132,7 +147,7 @@ macro_rules! impl_from_for_type {
 macro_rules! impl_try_from_for_type {
 	( $to : ty, $from : ty, $value : ident, $expression : expr ) => (
 		impl StdTryFrom<$from> for $to {
-			type Error = ::errors::exports::Error;
+			type Error = $crate::errors::exports::Error;
 			fn try_from ($value : $from) -> (::std::result::Result<$to, ::errors::exports::Error>) {
 				succeed! (<$to>::into (try! ($expression)));
 			}
@@ -166,8 +181,8 @@ macro_rules! impl_from_for_enum {
 macro_rules! impl_try_from_for_enum {
 	( $to : ident, $tag : ident, $from : ty, $value : ident, $expression : expr ) => (
 		impl StdTryFrom<$from> for $to {
-			type Error = ::errors::exports::Error;
-			fn try_from ($value : $from) -> (::std::result::Result<$to, ::errors::exports::Error>) {
+			type Error = $crate::errors::exports::Error;
+			fn try_from ($value : $from) -> (::std::result::Result<$to, $crate::errors::exports::Error>) {
 				succeed! ($to::tag (try! ($expression)));
 			}
 		}
@@ -229,8 +244,8 @@ macro_rules! impl_unwrappers_for_type_wrapper {
 macro_rules! impl_unwrappers_for_enum_wrapper {
 	( $from : ident, $tag : ident, $to : ty) => (
 		impl StdTryFrom<$from> for $to {
-			type Error = ::errors::exports::Error;
-			fn try_from (value : $from) -> (::std::result::Result<$to, ::errors::exports::Error>) {
+			type Error = $crate::errors::exports::Error;
+			fn try_from (value : $from) -> (::std::result::Result<$to, $crate::errors::exports::Error>) {
 				if let $from::$tag (value) = value {
 					succeed! (value);
 				} else {
@@ -244,8 +259,8 @@ macro_rules! impl_unwrappers_for_enum_wrapper {
 			}
 		}
 		impl StdTryInto<$to> for $from {
-			type Error = ::errors::exports::Error;
-			fn try_into (self) -> (::std::result::Result<$to, ::errors::exports::Error>) {
+			type Error = $crate::errors::exports::Error;
+			fn try_into (self) -> (::std::result::Result<$to, $crate::errors::exports::Error>) {
 				if let $from::$tag (value) = self {
 					succeed! (value);
 				} else {
@@ -261,8 +276,8 @@ macro_rules! impl_unwrappers_for_enum_wrapper {
 		}
 		*/
 		impl <'a> StdTryAsRef<$to> for $from {
-			type Error = ::errors::exports::Error;
-			fn try_as_ref (&self) -> (::std::result::Result<$to, ::errors::exports::Error>) {
+			type Error = $crate::errors::exports::Error;
+			fn try_as_ref (&self) -> (::std::result::Result<$to, $crate::errors::exports::Error>) {
 				if let $from::$tag (ref value) = *self {
 					Succeed! (value);
 				} else {
@@ -282,8 +297,8 @@ macro_rules! impl_unwrappers_for_enum_wrapper {
 macro_rules! impl_unwrappers_2_for_enum_3_wrapper {
 	( $from : ident, $tag : ident, $to : ty) => (
 		impl StdTryFrom<$from> for $to {
-			type Error = ::errors::exports::Error;
-			fn try_from (value : $from) -> (::std::result::Result<$to, ::errors::exports::Error>) {
+			type Error = $crate::errors::exports::Error;
+			fn try_from (value : $from) -> (::std::result::Result<$to, $crate::errors::exports::Error>) {
 				if let $from::$tag (_, value, _) = value {
 					succeed! (value);
 				} else {
@@ -297,8 +312,8 @@ macro_rules! impl_unwrappers_2_for_enum_3_wrapper {
 			}
 		}
 		impl StdTryInto<$to> for $from {
-			type Error = ::errors::exports::Error;
-			fn try_into (self) -> (::std::result::Result<$to, ::errors::exports::Error>) {
+			type Error = $crate::errors::exports::Error;
+			fn try_into (self) -> (::std::result::Result<$to, $crate::errors::exports::Error>) {
 				if let $from::$tag (_, value, _) = self {
 					succeed! (value);
 				} else {
@@ -314,8 +329,8 @@ macro_rules! impl_unwrappers_2_for_enum_3_wrapper {
 		}
 		*/
 		impl <'a> StdTryAsRef<$to> for $from {
-			type Error = ::errors::exports::Error;
-			fn try_as_ref (&self) -> (::std::result::Result<&$to, ::errors::exports::Error>) {
+			type Error = $crate::errors::exports::Error;
+			fn try_as_ref (&self) -> (::std::result::Result<&$to, $crate::errors::exports::Error>) {
 				if let $from::$tag (_, ref value, _) = *self {
 					succeed! (value);
 				} else {
@@ -363,8 +378,8 @@ macro_rules! vec_fold {
 #[ allow (unused_macros) ]
 macro_rules! try_vec_fold {
 	( $vector : expr, $initial : expr, ($accumulator : pat, $element : pat), $expression : block ) => (
-		// FIXME:  Try to elide the `::errors::exports::Error`!
-		try! ($vector.into_iter () .fold::<::std::result::Result<_, ::errors::exports::Error>, _> (::std::result::Result::Ok ($initial), |accumulator, $element| {
+		// FIXME:  Try to elide the `$crate::errors::exports::Error`!
+		try! ($vector.into_iter () .fold::<::std::result::Result<_, $crate::errors::exports::Error>, _> (::std::result::Result::Ok ($initial), |accumulator, $element| {
 			match accumulator {
 				::std::result::Result::Ok ($accumulator) =>
 					$expression,
@@ -411,7 +426,7 @@ macro_rules! try_option_map {
 
 macro_rules! try_as_ref {
 	( $type : ty, $value : expr ) => (
-		try! (::runtime::exports::StdTryAsRef::<$type>::try_as_ref ($value))
+		try! ($crate::runtime::exports::StdTryAsRef::<$type>::try_as_ref ($value))
 	);
 }
 
@@ -429,7 +444,7 @@ macro_rules! def_try_as_ref {
 
 macro_rules! try_into {
 	( $type : ty, $value : expr ) => (
-		try! (::runtime::exports::StdTryInto::<$type>::try_into ($value))
+		try! ($crate::runtime::exports::StdTryInto::<$type>::try_into ($value))
 	);
 }
 
