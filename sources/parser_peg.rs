@@ -133,41 +133,6 @@ impl<'input> ParseState<'input> {
     }
 }
 
-fn __parse_value_full<'input>(
-    __input: &'input str,
-    __state: &mut ParseState<'input>,
-    __pos: usize,
-) -> RuleResult<values::Value> {# ! [ allow ( non_snake_case , unused ) ]    {
-        let __seq_res = match __parse_space(__input, __state, __pos) {
-            Matched(__newpos, _) => Matched(__newpos, ()),
-            Failed => Matched(__pos, ()),
-        };
-        match __seq_res {
-            Matched(__pos, _) => {
-                let __seq_res = __parse_value(__input, __state, __pos);
-                match __seq_res {
-                    Matched(__pos, value) => {
-                        let __seq_res = match __parse_space(__input, __state, __pos) {
-                            Matched(__newpos, _) => Matched(__newpos, ()),
-                            Failed => Matched(__pos, ()),
-                        };
-                        match __seq_res {
-                            Matched(__pos, _) => {
-                                Matched(__pos, {
-                                    value
-                                })
-                            }
-                            Failed => Failed,
-                        }
-                    }
-                    Failed => Failed,
-                }
-            }
-            Failed => Failed,
-        }
-    }
-}
-
 fn __parse_value<'input>(
     __input: &'input str,
     __state: &mut ParseState<'input>,
@@ -3304,7 +3269,15 @@ fn __parse_comment_line<'input>(
                         let mut __repeat_pos = __pos;
                         loop {
                             let __pos = __repeat_pos;
-                            let __step_res = any_char(__input, __state, __pos);
+                            let __step_res = if __input.len() > __pos {
+                                let (__ch, __next) = char_range_at(__input, __pos);
+                                match __ch {
+                                    '\n' => __state.mark_failure(__pos, "[^\n]"),
+                                    _ => Matched(__next, ()),
+                                }
+                            } else {
+                                __state.mark_failure(__pos, "[^\n]")
+                            };
                             match __step_res {
                                 Matched(__newpos, __value) => {
                                     __repeat_pos = __newpos;
@@ -3560,6 +3533,58 @@ fn __parse_space<'input>(
             Matched(__repeat_pos, ())
         } else {
             Failed
+        }
+    }
+}
+
+fn __parse_script<'input>(
+    __input: &'input str,
+    __state: &mut ParseState<'input>,
+    __pos: usize,
+) -> RuleResult<Vec<values::Value>> {# ! [ allow ( non_snake_case , unused ) ]    {
+        let __seq_res = match __parse_space(__input, __state, __pos) {
+            Matched(__newpos, _) => Matched(__newpos, ()),
+            Failed => Matched(__pos, ()),
+        };
+        match __seq_res {
+            Matched(__pos, _) => {
+                let __seq_res = {
+                    let mut __repeat_pos = __pos;
+                    let mut __repeat_value = vec![];
+                    loop {
+                        let __pos = __repeat_pos;
+                        let __step_res = __parse_value(__input, __state, __pos);
+                        match __step_res {
+                            Matched(__newpos, __value) => {
+                                __repeat_pos = __newpos;
+                                __repeat_value.push(__value);
+                            }
+                            Failed => {
+                                break;
+                            }
+                        }
+                    }
+                    Matched(__repeat_pos, __repeat_value)
+                };
+                match __seq_res {
+                    Matched(__pos, values) => {
+                        let __seq_res = match __parse_space(__input, __state, __pos) {
+                            Matched(__newpos, _) => Matched(__newpos, ()),
+                            Failed => Matched(__pos, ()),
+                        };
+                        match __seq_res {
+                            Matched(__pos, _) => {
+                                Matched(__pos, {
+                                    values
+                                })
+                            }
+                            Failed => Failed,
+                        }
+                    }
+                    Failed => Failed,
+                }
+            }
+            Failed => Failed,
         }
     }
 }
@@ -4006,8 +4031,26 @@ fn __parse_test_action<'input>(
     }
 }
 
-pub fn value_full<'input>(__input: &'input str) -> ParseResult<values::Value> {# ! [ allow ( non_snake_case , unused ) ]    let mut __state = ParseState::new();
-    match __parse_value_full(__input, &mut __state, 0) {
+pub fn value<'input>(__input: &'input str) -> ParseResult<values::Value> {# ! [ allow ( non_snake_case , unused ) ]    let mut __state = ParseState::new();
+    match __parse_value(__input, &mut __state, 0) {
+        Matched(__pos, __value) => {
+            if __pos == __input.len() {
+                return Ok(__value);
+            }
+        }
+        _ => {}
+    }
+    let (__line, __col) = pos_to_line(__input, __state.max_err_pos);
+    Err(ParseError {
+        line: __line,
+        column: __col,
+        offset: __state.max_err_pos,
+        expected: __state.expected,
+    })
+}
+
+pub fn script<'input>(__input: &'input str) -> ParseResult<Vec<values::Value>> {# ! [ allow ( non_snake_case , unused ) ]    let mut __state = ParseState::new();
+    match __parse_script(__input, &mut __state, 0) {
         Matched(__pos, __value) => {
             if __pos == __input.len() {
                 return Ok(__value);

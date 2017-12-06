@@ -12,9 +12,7 @@ use std::str::FromStr;
 
 
 
-pub value_full -> values::Value = space? value : value space? { value }
-
-value -> values::Value = abbreviation / list / array / values / atom
+pub value -> values::Value = abbreviation / list / array / values / atom
 
 atom -> values::Value = boolean / number / symbol / character / string / bytes / constant
 
@@ -118,12 +116,17 @@ bytes_byte -> u8 = value : $( [0-9]+ ) {? u8::from_str (value) .map_err (|_| "in
 constant -> values::Value = "#void" { constants::VOID.into () } / "#undefined" { constants::UNDEFINED.into () }
 
 comment = #quiet< comment_line / comment_nested / comment_value >
-comment_line = #quiet< ";" .* "\n" >
+comment_line = #quiet< ";" [^\n]* "\n" >
 comment_nested = #quiet< "#|" ( !("#|" / "|#") . . )* comment_nested* ( !("#|" / "|#") . . )* >
 comment_value = "#;" whitespace value
 
 whitespace = #quiet< [ \t\n]+ >
 space = ( whitespace / comment )+
+
+
+
+
+pub script -> Vec<values::Value> = space? values : value* space? { values }
 
 
 
