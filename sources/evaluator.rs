@@ -17,6 +17,7 @@ use super::values::exports::*;
 
 pub mod exports {
 	pub use super::evaluate;
+	pub use super::evaluate_script;
 	pub use super::Evaluator;
 	pub use super::EvaluatorContext;
 }
@@ -26,6 +27,17 @@ pub mod exports {
 
 pub fn evaluate (context : &Context, expression : &Expression) -> (Outcome<Value>) {
 	return Evaluator::new () .evaluate (context, expression);
+}
+
+
+
+
+pub fn evaluate_script (context : &Context, expressions : &[Expression]) -> (Outcome<()>) {
+	let evaluator = Evaluator::new ();
+	for expression in expressions {
+		try! (evaluator.evaluate (context, expression));
+	}
+	succeed! (());
 }
 
 

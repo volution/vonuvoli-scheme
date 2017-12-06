@@ -15,6 +15,7 @@ use super::values::exports::*;
 
 pub mod exports {
 	pub use super::compile;
+	pub use super::compile_script;
 	pub use super::Compiler;
 	pub use super::{CompilerContext, CompilerBindings, CompilerBinding};
 }
@@ -24,6 +25,19 @@ pub mod exports {
 
 pub fn compile (context : &Context, token : &Value) -> (Outcome<Expression>) {
 	return Compiler::new () .compile (context, token);
+}
+
+
+
+
+pub fn compile_script (context : &Context, tokens : &[Value]) -> (Outcome<ExpressionVec>) {
+	let compiler = Compiler::new ();
+	let mut expressions = StdVec::with_capacity (tokens.len ());
+	for token in tokens {
+		let expression = try! (compiler.compile (context, token));
+		expressions.push (expression);
+	}
+	succeed! (expressions);
 }
 
 
