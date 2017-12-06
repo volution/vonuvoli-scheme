@@ -24,8 +24,9 @@ def_tests_from_file! (
 		bytes => "scheme/bytes.sst",
 		strings => "scheme/strings.sst",
 		
-		control => "scheme/control.sst",
 		contexts => "scheme/contexts.sst",
+		control => "scheme/control.sst",
+		loops => "scheme/loops.sst",
 		
 		lambdas => "scheme/lambdas.sst",
 		functions => "scheme/functions.sst",
