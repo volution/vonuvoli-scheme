@@ -84,6 +84,13 @@ pub enum TypePrimitive1 {
 	IsCharacterAsciiPunctuation,
 	IsCharacterAsciiGraphic,
 	
+	IsPort,
+	IsPortInput,
+	IsPortOutput,
+	IsPortBinary,
+	IsPortTextual,
+	IsPortEof,
+	
 }
 
 
@@ -251,6 +258,24 @@ pub fn type_primitive_1_evaluate (primitive : TypePrimitive1, input_1 : &Value, 
 		
 		TypePrimitive1::IsCharacterAsciiGraphic =>
 			try! (character_is_ascii_graphic (input_1)),
+		
+		TypePrimitive1::IsPort =>
+			is_port (input_1),
+		
+		TypePrimitive1::IsPortInput =>
+			try! (is_port_input (input_1)),
+		
+		TypePrimitive1::IsPortOutput =>
+			try! (is_port_output (input_1)),
+		
+		TypePrimitive1::IsPortBinary =>
+			try! (is_port_binary (input_1)),
+		
+		TypePrimitive1::IsPortTextual =>
+			try! (is_port_textual (input_1)),
+		
+		TypePrimitive1::IsPortEof =>
+			is_port_eof (input_1),
 		
 	};
 	

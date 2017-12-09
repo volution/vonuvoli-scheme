@@ -430,61 +430,61 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "parameters", "current-output-port", ProcedurePrimitive::Unsupported.into ()),
 			("base", "parameters", "current-error-port", ProcedurePrimitive::Unsupported.into ()),
 			
-			("base", "ports", "port?", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "ports", "input-port?", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "ports", "input-port-open?", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "ports", "output-port?", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "ports", "output-port-open?", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "ports", "textual-port?", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "ports", "binary-port?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "port?", TypePrimitive1::IsPort.into ()),
+			("base", "ports", "input-port?", TypePrimitive1::IsPortInput.into ()),
+			("base", "ports", "input-port-open?", PortPrimitive1::IsInputOpen.into ()),
+			("base", "ports", "output-port?", TypePrimitive1::IsPortOutput.into ()),
+			("base", "ports", "output-port-open?", PortPrimitive1::IsOutputOpen.into ()),
+			("base", "ports", "binary-port?", TypePrimitive1::IsPortBinary.into ()),
+			("base", "ports", "textual-port?", TypePrimitive1::IsPortTextual.into ()),
 			
-			("base", "ports", "open-input-string", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "ports", "open-output-string", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "ports", "get-output-string", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "open-input-string", PortPrimitive1::InputFromString.into ()),
+			("base", "ports", "open-output-string", PortPrimitive0::OutputToString.into ()),
+			("base", "ports", "get-output-string", PortPrimitive1::OutputToStringCollect.into ()),
 			
-			("base", "ports", "open-input-bytevector", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "ports", "open-output-bytevector", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "ports", "get-output-bytevector", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "open-input-bytevector", PortPrimitive1::InputFromBytes.into ()),
+			("base", "ports", "open-output-bytevector", PortPrimitive0::OutputToBytes.into ()),
+			("base", "ports", "get-output-bytevector", PortPrimitive1::OutputToBytesCollect.into ()),
 			
-			("base", "ports", "close-port", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "ports", "close-input-port", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "ports", "close-output-port", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "close-port", PortPrimitive1::Close.into ()),
+			("base", "ports", "close-input-port", PortPrimitive1::CloseInput.into ()),
+			("base", "ports", "close-output-port", PortPrimitive1::CloseOutput.into ()),
 			
 			
 			
 			
 			// ports input
 			
-			("base", "ports", "char-ready?", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "ports", "peek-char", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "ports", "read-char", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "ports", "read-string", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "char-ready?", PortPrimitive1::CharReady.into ()),
+			("base", "ports", "peek-char", PortPrimitive1::CharPeek.into ()),
+			("base", "ports", "read-char", PortPrimitive1::CharRead.into ()),
+			("base", "ports", "read-string", PortPrimitive2::CharsReadCollect.into ()),
 			
-			("base", "ports", "u8-ready?", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "ports", "peek-u8", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "ports", "read-u8", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "ports", "read-bytevector", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "u8-ready?", PortPrimitive1::ByteReady.into ()),
+			("base", "ports", "peek-u8", PortPrimitive1::BytePeek.into ()),
+			("base", "ports", "read-u8", PortPrimitive1::ByteRead.into ()),
+			("base", "ports", "read-bytevector", PortPrimitive2::BytesReadCollect.into ()),
 			("base", "ports", "read-bytevector!", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("base", "ports", "read-line", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "read-line", PortPrimitive1::CharsReadLine.into ()),
 			
 			("base", "ports", "eof-object", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "ports", "eof-object?", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "eof-object?", TypePrimitive1::IsPortEof.into ()),
 			
 			
 			
 			
 			// ports output
 			
-			("base", "ports", "write-char", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "ports", "write-string", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "write-char", PortPrimitive2::CharWrite.into ()),
+			("base", "ports", "write-string", PortPrimitive2::CharsWrite.into ()),
 			
-			("base", "ports", "write-u8", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "ports", "write-bytevector", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "write-u8", PortPrimitive2::ByteWrite.into ()),
+			("base", "ports", "write-bytevector", PortPrimitive2::BytesWrite.into ()),
 			
 			("base", "ports", "newline", PortPrimitive0::RsNewLine.into ()),
 			
-			("base", "ports", "flush-output-port", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "ports", "flush-output-port", PortPrimitive1::FlushOutput.into ()),
 			
 			
 			
@@ -599,11 +599,11 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			// (scheme file)
 			//     --> verified
 			
-			("file", "ports", "open-input-file", ProcedurePrimitive::Unimplemented.into ()),
-			("file", "ports", "open-binary-input-file", ProcedurePrimitive::Unimplemented.into ()),
+			("file", "ports", "open-input-file", PortPrimitive1::OpenTextualInput.into ()),
+			("file", "ports", "open-binary-input-file", PortPrimitive1::OpenBinaryInput.into ()),
 			
-			("file", "ports", "open-output-file", ProcedurePrimitive::Unimplemented.into ()),
-			("file", "ports", "open-binary-output-file", ProcedurePrimitive::Unimplemented.into ()),
+			("file", "ports", "open-output-file", PortPrimitive1::OpenTextualOutput.into ()),
+			("file", "ports", "open-binary-output-file", PortPrimitive1::OpenBinaryOutput.into ()),
 			
 			("file", "ports", "call-with-input-file", ProcedurePrimitive::Unimplemented.into ()),
 			("file", "ports", "call-with-output-file", ProcedurePrimitive::Unimplemented.into ()),
@@ -686,7 +686,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			// (scheme read)
 			//     --> verified
 			
-			("read", "ports", "read", ProcedurePrimitive::Unimplemented.into ()),
+			("read", "ports", "read", PortPrimitive1::ValueRead.into ()),
 			
 			
 			
@@ -712,9 +712,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			// (scheme write)
 			//     --> verified
 			
-			("write", "ports", "write", ProcedurePrimitive::Unimplemented.into ()),
-			("write", "ports", "write-shared", ProcedurePrimitive::Unimplemented.into ()),
-			("write", "ports", "write-simple", ProcedurePrimitive::Unimplemented.into ()),
+			("write", "ports", "write", PortPrimitive2::ValueWrite.into ()),
+			("write", "ports", "write-shared", PortPrimitive2::ValueWriteShared.into ()),
+			("write", "ports", "write-simple", PortPrimitive2::ValueWriteSimple.into ()),
 			("write", "ports", "display", PortPrimitive1::RsDisplay.into ()),
 			
 			

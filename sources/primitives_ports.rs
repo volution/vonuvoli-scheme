@@ -1,5 +1,6 @@
 
 
+use super::builtins::exports::*;
 use super::constants::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
@@ -43,19 +44,71 @@ pub enum PortPrimitive0 {
 	
 	RsNewLine,
 	
+	OutputToBytes,
+	OutputToString,
+	
 }
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum PortPrimitive1 {
 	
+	IsInputOpen,
+	IsOutputOpen,
+	
+	Close,
+	CloseInput,
+	CloseOutput,
+	
+	FlushOutput,
+	
+	ByteReady,
+	BytePeek,
+	ByteRead,
+	
+	CharReady,
+	CharPeek,
+	CharRead,
+	
+	CharsReadLine,
+	
+	ValueRead,
+	
 	RsDisplay,
+	
+	InputFromBytes,
+	InputFromString,
+	
+	OutputToBytesCollect,
+	OutputToStringCollect,
+	
+	OpenBinaryInput,
+	OpenBinaryOutput,
+	
+	OpenTextualInput,
+	OpenTextualOutput,
 	
 }
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
-pub enum PortPrimitive2 {}
+pub enum PortPrimitive2 {
+	
+	BytesReadCollect,
+	
+	CharsReadCollect,
+	
+	ByteWrite,
+	BytesWrite,
+	
+	CharWrite,
+	CharsWrite,
+	
+	ValueWrite,
+	ValueWriteShared,
+	ValueWriteSimple,
+	
+}
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
@@ -100,6 +153,12 @@ pub fn port_primitive_0_evaluate (primitive : PortPrimitive0, _evaluator : &mut 
 			succeed! (VOID.into ());
 		},
 		
+		PortPrimitive0::OutputToBytes =>
+			fail_unimplemented! (0x502eda3e),
+		
+		PortPrimitive0::OutputToString =>
+			fail_unimplemented! (0x646d0bda),
+		
 	}
 }
 
@@ -124,6 +183,78 @@ pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, input_1 : &Value, 
 			succeed! (VOID.into ());
 		},
 		
+		PortPrimitive1::IsInputOpen =>
+			succeed! (try! (is_port_input_open (input_1)) .into ()),
+		
+		PortPrimitive1::IsOutputOpen =>
+			succeed! (try! (is_port_output_open (input_1)) .into ()),
+		
+		PortPrimitive1::Close => {
+			try! (port_close (input_1));
+			succeed! (VOID.into ());
+		},
+		
+		PortPrimitive1::CloseInput => {
+			try! (port_close_input (input_1));
+			succeed! (VOID.into ());
+		},
+		
+		PortPrimitive1::CloseOutput => {
+			try! (port_close_output (input_1));
+			succeed! (VOID.into ());
+		},
+		
+		PortPrimitive1::FlushOutput =>
+			fail_unimplemented! (0xa9890df6),
+		
+		PortPrimitive1::ByteReady =>
+			fail_unimplemented! (0x2cbf294d),
+		
+		PortPrimitive1::BytePeek =>
+			fail_unimplemented! (0x848317e1),
+		
+		PortPrimitive1::ByteRead =>
+			fail_unimplemented! (0x85777bd4),
+		
+		PortPrimitive1::CharReady =>
+			fail_unimplemented! (0x31980370),
+		
+		PortPrimitive1::CharPeek =>
+			fail_unimplemented! (0xace61b21),
+		
+		PortPrimitive1::CharRead =>
+			fail_unimplemented! (0x345ad587),
+		
+		PortPrimitive1::CharsReadLine =>
+			fail_unimplemented! (0x83c98559),
+		
+		PortPrimitive1::ValueRead =>
+			fail_unimplemented! (0xae3d8a9f),
+		
+		PortPrimitive1::InputFromBytes =>
+			fail_unimplemented! (0xd650991d),
+		
+		PortPrimitive1::InputFromString =>
+			fail_unimplemented! (0x992f783d),
+		
+		PortPrimitive1::OutputToBytesCollect =>
+			fail_unimplemented! (0x481b595e),
+		
+		PortPrimitive1::OutputToStringCollect =>
+			fail_unimplemented! (0xdac73f5c),
+		
+		PortPrimitive1::OpenBinaryInput =>
+			fail_unimplemented! (0xa3e9af81),
+		
+		PortPrimitive1::OpenBinaryOutput =>
+			fail_unimplemented! (0xa9fd190e),
+		
+		PortPrimitive1::OpenTextualInput =>
+			fail_unimplemented! (0x2166fd23),
+		
+		PortPrimitive1::OpenTextualOutput =>
+			fail_unimplemented! (0x677c2ccf),
+		
 	}
 }
 
@@ -131,7 +262,36 @@ pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, input_1 : &Value, 
 
 
 pub fn port_primitive_2_evaluate (primitive : PortPrimitive2, _input_1 : &Value, _input_2 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
-	match primitive {}
+	match primitive {
+		
+		PortPrimitive2::BytesReadCollect =>
+			fail_unimplemented! (0x544399ba),
+		
+		PortPrimitive2::CharsReadCollect =>
+			fail_unimplemented! (0x3df7a0bf),
+		
+		PortPrimitive2::ByteWrite =>
+			fail_unimplemented! (0x55a95369),
+		
+		PortPrimitive2::BytesWrite =>
+			fail_unimplemented! (0x718eacd2),
+		
+		PortPrimitive2::CharWrite =>
+			fail_unimplemented! (0x05ec1858),
+		
+		PortPrimitive2::CharsWrite =>
+			fail_unimplemented! (0x3745d7e6),
+		
+		PortPrimitive2::ValueWrite =>
+			fail_unimplemented! (0x696cb627),
+		
+		PortPrimitive2::ValueWriteShared =>
+			fail_unimplemented! (0xd82b6e11),
+		
+		PortPrimitive2::ValueWriteSimple =>
+			fail_unimplemented! (0x71e1d1d0),
+		
+	}
 }
 
 
