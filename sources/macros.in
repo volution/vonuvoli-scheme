@@ -511,6 +511,9 @@ def_try_into! (try_into_syntax_extended, ::primitives::exports::SyntaxExtended);
 def_try_as_ref! (try_as_syntax_lambda_ref, ::primitives::exports::SyntaxLambda);
 def_try_into! (try_into_syntax_lambda, ::primitives::exports::SyntaxLambda);
 
+def_try_as_ref! (try_as_port_ref, ::ports::exports::Port);
+def_try_into! (try_into_port, ::ports::exports::Port);
+
 def_try_as_ref! (try_as_context_ref, ::values::exports::Context);
 def_try_into! (try_into_context, ::values::exports::Context);
 

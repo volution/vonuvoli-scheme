@@ -6,6 +6,7 @@ use super::expressions::exports::*;
 use super::extended_procedures::exports::*;
 use super::extended_syntaxes::exports::*;
 use super::lambdas::exports::*;
+use super::ports::exports::*;
 use super::primitives::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
@@ -112,6 +113,7 @@ impl_from_for_Value_1! (ProcedureLambda, ProcedureLambda);
 impl_from_for_Value_1! (SyntaxPrimitive, SyntaxPrimitive);
 impl_from_for_Value_1! (SyntaxExtended, SyntaxExtended);
 impl_from_for_Value_1! (SyntaxLambda, SyntaxLambda);
+impl_from_for_Value_1! (Port, Port);
 impl_from_for_Value_1! (Context, Context);
 impl_from_for_Value_1! (Binding, Binding);
 

@@ -112,6 +112,9 @@ impl Compiler {
 			ValueClass::SyntaxLambda =>
 				fail_panic! (0x7f9c4bb4),
 			
+			ValueClass::Port =>
+				fail_panic! (0x05fe5b73),
+			
 			ValueClass::Binding =>
 				fail_panic! (0x7172b055),
 			ValueClass::Context =>
@@ -1269,6 +1272,9 @@ impl Compiler {
 				fail! (0x567a02a2),
 			ValueClass::SyntaxLambda =>
 				fail! (0xbe7157a3),
+			
+			ValueClass::Port =>
+				fail! (0x9c039a72),
 			
 			ValueClass::Binding =>
 				fail! (0xdf21f737),

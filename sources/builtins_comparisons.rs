@@ -6,6 +6,7 @@ use super::errors::exports::*;
 use super::extended_procedures::exports::*;
 use super::extended_syntaxes::exports::*;
 use super::lambdas::exports::*;
+use super::ports::exports::*;
 use super::primitives::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
@@ -47,6 +48,7 @@ pub mod exports {
 			syntax_primitive_compare_1, syntax_primitive_compare_1a,
 			syntax_extended_compare_1, syntax_extended_compare_1a,
 			syntax_lambda_compare_1, syntax_lambda_compare_1a,
+			port_compare_1, port_compare_1a,
 			context_compare_1, context_compare_1a,
 			binding_compare_1, binding_compare_1a,
 			number_compare_1, number_compare_1a,
@@ -69,6 +71,7 @@ pub mod exports {
 			syntax_primitive_compare_2, syntax_primitive_compare_2a,
 			syntax_extended_compare_2, syntax_extended_compare_2a,
 			syntax_lambda_compare_2, syntax_lambda_compare_2a,
+			port_compare_2, port_compare_2a,
 			context_compare_2, context_compare_2a,
 			binding_compare_2, binding_compare_2a,
 			number_compare_2, number_compare_2a,
@@ -91,6 +94,7 @@ pub mod exports {
 			syntax_primitive_compare_3, syntax_primitive_compare_3a,
 			syntax_extended_compare_3, syntax_extended_compare_3a,
 			syntax_lambda_compare_3, syntax_lambda_compare_3a,
+			port_compare_3, port_compare_3a,
 			context_compare_3, context_compare_3a,
 			binding_compare_3, binding_compare_3a,
 			number_compare_3, number_compare_3a,
@@ -113,6 +117,7 @@ pub mod exports {
 			syntax_primitive_compare_4, syntax_primitive_compare_4a,
 			syntax_extended_compare_4, syntax_extended_compare_4a,
 			syntax_lambda_compare_4, syntax_lambda_compare_4a,
+			port_compare_4, port_compare_4a,
 			context_compare_4, context_compare_4a,
 			binding_compare_4, binding_compare_4a,
 			number_compare_4, number_compare_4a,
@@ -135,6 +140,7 @@ pub mod exports {
 			syntax_primitive_compare_n, syntax_primitive_compare_na,
 			syntax_extended_compare_n, syntax_extended_compare_na,
 			syntax_lambda_compare_n, syntax_lambda_compare_na,
+			port_compare_n, port_compare_na,
 			context_compare_n, context_compare_na,
 			binding_compare_n, binding_compare_na,
 			number_compare_n, number_compare_na,
@@ -406,6 +412,9 @@ pub fn compare_1a (value : &Value, comparison : Comparison) -> (Outcome<bool>) {
 		ValueClass::SyntaxLambda =>
 			return syntax_lambda_compare_1a (value.as_ref (), comparison),
 		
+		ValueClass::Port =>
+			return port_compare_1a (value.as_ref (), comparison),
+		
 		ValueClass::Context =>
 			return context_compare_1a (value.as_ref (), comparison),
 		
@@ -491,6 +500,9 @@ pub fn compare_2a (left : &Value, right : &Value, comparison : Comparison) -> (O
 		
 		(ValueClass::SyntaxLambda, ValueClass::SyntaxLambda) =>
 			return syntax_lambda_compare_2a (left.as_ref (), right.as_ref (), comparison),
+		
+		(ValueClass::Port, ValueClass::Port) =>
+			return port_compare_2a (left.as_ref (), right.as_ref (), comparison),
 		
 		(ValueClass::Context, ValueClass::Context) =>
 			return context_compare_2a (left.as_ref (), right.as_ref (), comparison),
@@ -904,6 +916,24 @@ pub fn syntax_lambda_compare_2a (left : &SyntaxLambda, right : &SyntaxLambda, co
 			succeed! (Lambda::is_self (left.lambda (), right.lambda ())),
 		Comparison::Ordering (_, _, _) =>
 			fail_unimplemented! (0xbaf266d4), // deferred
+	}
+}
+
+
+def_fn_compare! (Port,
+		port_compare_1, port_compare_2, port_compare_3, port_compare_4, port_compare_n,
+		port_compare_1a, port_compare_2a, port_compare_3a, port_compare_4a, port_compare_na);
+
+pub fn port_compare_1a (_value : &Port, _comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true);
+}
+
+pub fn port_compare_2a (left : &Port, right : &Port, comparison : Comparison) -> (Outcome<bool>) {
+	match comparison {
+		Comparison::Equivalence (_, _, _) =>
+			succeed! (Port::is_self (left, right)),
+		Comparison::Ordering (_, _, _) =>
+			fail_unimplemented! (0xd492be08), // deferred
 	}
 }
 

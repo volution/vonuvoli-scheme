@@ -142,6 +142,16 @@ pub mod exports {
 	
 	pub use super::{
 			
+			is_port,
+			is_port_input, is_port_output,
+			is_port_binary, is_port_textual,
+			is_port_eof,
+			
+	};
+	
+	
+	pub use super::{
+			
 			NumberClass, number_class,
 			
 			ListClass, list_class_o1, list_class_on,
@@ -721,6 +731,37 @@ pub fn list_class_on (value : &Value) -> (Outcome<ListClass>) {
 			fail! (0xf9bfa236),
 		
 	}
+}
+
+
+
+
+pub fn is_port (value : &Value) -> (bool) {
+	return value.is (ValueClass::Port);
+}
+
+pub fn is_port_input (value : &Value) -> (Outcome<bool>) {
+	use super::ports::PortQueries;
+	succeed! (try_as_port_ref! (value) .is_read_implemented ());
+}
+
+pub fn is_port_output (value : &Value) -> (Outcome<bool>) {
+	use super::ports::PortQueries;
+	succeed! (try_as_port_ref! (value) .is_write_implemented ());
+}
+
+pub fn is_port_binary (value : &Value) -> (Outcome<bool>) {
+	use super::ports::PortQueries;
+	succeed! (try_as_port_ref! (value) .is_byte_implemented ());
+}
+
+pub fn is_port_textual (value : &Value) -> (Outcome<bool>) {
+	use super::ports::PortQueries;
+	succeed! (try_as_port_ref! (value) .is_char_implemented ());
+}
+
+pub fn is_port_eof (value : &Value) -> (bool) {
+	panic! ("5b2c496d");
 }
 
 

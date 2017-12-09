@@ -5,6 +5,7 @@ use super::errors::exports::*;
 use super::extended_procedures::exports::*;
 use super::extended_syntaxes::exports::*;
 use super::lambdas::exports::*;
+use super::ports::exports::*;
 use super::primitives::exports::*;
 use super::runtime::exports::*;
 
@@ -76,6 +77,8 @@ pub enum ValueClass {
 	SyntaxExtended,
 	SyntaxLambda,
 	
+	Port,
+	
 	Context,
 	Binding,
 	
@@ -112,6 +115,8 @@ pub enum Value {
 	SyntaxPrimitive ( ValueMeta1, SyntaxPrimitive, ValueMeta2, ),
 	SyntaxExtended ( ValueMeta1, SyntaxExtended, ValueMeta2, ),
 	SyntaxLambda ( ValueMeta1, SyntaxLambda, ValueMeta2, ),
+	
+	Port ( ValueMeta1, Port, ValueMeta2, ),
 	
 	Context ( ValueMeta1, Context, ValueMeta2 ),
 	Binding ( ValueMeta1, Binding, ValueMeta2 ),
@@ -163,6 +168,8 @@ impl Value {
 			Value::SyntaxExtended (_, _, _) => ValueClass::SyntaxExtended,
 			Value::SyntaxLambda (_, _, _) => ValueClass::SyntaxLambda,
 			
+			Value::Port (_, _, _) => ValueClass::Port,
+			
 			Value::Context (_, _, _) => ValueClass::Context,
 			Value::Binding (_, _, _) => ValueClass::Binding,
 			
@@ -201,6 +208,8 @@ impl Value {
 			(&Value::SyntaxPrimitive (_, ref self_0, _), &Value::SyntaxPrimitive (_, ref other_0, _)) => self_0 == other_0,
 			(&Value::SyntaxExtended (_, ref self_0, _), &Value::SyntaxExtended (_, ref other_0, _)) => SyntaxExtended::is_self (self_0, other_0),
 			(&Value::SyntaxLambda (_, ref self_0, _), &Value::SyntaxLambda (_, ref other_0, _)) => SyntaxLambda::is_self (self_0, other_0),
+			
+			(&Value::Port (_, ref self_0, _), &Value::Port (_, ref other_0, _)) => Port::is_self (self_0, other_0),
 			
 			(&Value::Context (_, ref self_0, _), &Value::Context (_, ref other_0, _)) => Context::is_self (self_0, other_0),
 			(&Value::Binding (_, ref self_0, _), &Value::Binding (_, ref other_0, _)) => Binding::is_self (self_0, other_0),
@@ -248,6 +257,8 @@ impl fmt::Display for Value {
 			Value::SyntaxExtended (_, ref value, _) => value.fmt (formatter),
 			Value::SyntaxLambda (_, ref value, _) => value.fmt (formatter),
 			
+			Value::Port (_, ref value, _) => value.fmt (formatter),
+			
 			Value::Context (_, ref value, _) => value.fmt (formatter),
 			Value::Binding (_, ref value, _) => value.fmt (formatter),
 			
@@ -285,6 +296,8 @@ impl fmt::Debug for Value {
 			Value::SyntaxPrimitive (_, ref value, _) => value.fmt (formatter),
 			Value::SyntaxExtended (_, ref value, _) => value.fmt (formatter),
 			Value::SyntaxLambda (_, ref value, _) => value.fmt (formatter),
+			
+			Value::Port (_, ref value, _) => value.fmt (formatter),
 			
 			Value::Context (_, ref value, _) => value.fmt (formatter),
 			Value::Binding (_, ref value, _) => value.fmt (formatter),
