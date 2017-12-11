@@ -45,6 +45,9 @@ def_tests_from_file! (
 		comparisons_ordering_numbers => "scheme/comparisons-ordering-numbers.sst",
 		comparisons_ordering_objects => "scheme/comparisons-ordering-objects.sst",
 		
+		ports => "scheme/ports.sst",
+		ports_memory => "scheme/ports-memory.sst",
+		
 		runtime => "scheme/runtime.sst",
 		
 	);

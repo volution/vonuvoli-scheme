@@ -1,0 +1,161 @@
+
+(port? (open-output-bytevector)) => #t
+(input-port? (open-output-bytevector)) => #f
+(input-port-open? (open-output-bytevector)) => #f
+(output-port? (open-output-bytevector)) => #t
+(output-port-open? (open-output-bytevector)) => #t
+(binary-port? (open-output-bytevector)) => #t
+(textual-port? (open-output-bytevector)) => #t
+
+(close-port (open-output-bytevector)) => #void
+(close-output-port (open-output-bytevector)) => #void
+
+(let ((port (open-output-bytevector)))
+	(values
+		(flush-output-port port)
+		(close-port port)
+		(close-output-port port)
+		(close-port port)
+		(close-output-port port)
+		(close-port port)
+		(flush-output-port port)
+		(close-port port)))
+=> #values(#void #void #void #void #void #void #void #void)
+
+
+
+
+(port? (open-output-string)) => #t
+(input-port? (open-output-string)) => #f
+(input-port-open? (open-output-string)) => #f
+(output-port? (open-output-string)) => #t
+(output-port-open? (open-output-string)) => #t
+(binary-port? (open-output-bytevector)) => #t
+(textual-port? (open-output-bytevector)) => #t
+
+(close-port (open-output-string)) => #void
+(close-output-port (open-output-string)) => #void
+
+(let ((port (open-output-string)))
+	(values
+		(flush-output-port port)
+		(close-port port)
+		(close-output-port port)
+		(close-port port)
+		(close-output-port port)
+		(close-port port)
+		(flush-output-port port)
+		(close-port port)))
+=> #values(#void #void #void #void #void #void #void #void)
+
+
+
+
+(port? (open-input-bytevector #u8())) => #t
+(input-port? (open-input-bytevector #u8())) => #t
+(input-port-open? (open-input-bytevector #u8())) => #t
+(output-port? (open-input-bytevector #u8())) => #f
+(output-port-open? (open-input-bytevector #u8())) => #f
+(binary-port? (open-input-bytevector #u8())) => #t
+(textual-port? (open-input-bytevector #u8())) => #t
+
+(close-port (open-input-bytevector #u8())) => #void
+(close-input-port (open-input-bytevector #u8())) => #void
+
+(let ((port (open-input-bytevector #u8())))
+	(values
+		(close-port port)
+		(close-input-port port)
+		(close-port port)
+		(close-input-port port)
+		(close-port port)))
+=> #values(#void #void #void #void #void)
+
+
+
+
+(port? (open-input-string #string())) => #t
+(input-port? (open-input-string #string())) => #t
+(input-port-open? (open-input-string #string())) => #t
+(output-port? (open-input-string #string())) => #f
+(output-port-open? (open-input-string #string())) => #f
+(binary-port? (open-input-string #string())) => #t
+(textual-port? (open-input-string #string())) => #t
+
+(close-port (open-input-string #string())) => #void
+(close-input-port (open-input-string #string())) => #void
+
+(let ((port (open-input-string #string())))
+	(values
+		(close-port port)
+		(close-input-port port)
+		(close-port port)
+		(close-input-port port)
+		(close-port port)))
+=> #values(#void #void #void #void #void)
+
+
+
+
+(let
+		((bytes-port (open-output-bytevector))
+		(chars-port (open-output-string)))
+	(values
+		(write-char #\a bytes-port)
+		(write-char #\a chars-port)
+		(write-u8 98 bytes-port)
+		(write-u8 98 chars-port)
+		(write-string "c" bytes-port)
+		(write-string "c" chars-port)
+		(write-bytevector #u8(100) bytes-port)
+		(write-bytevector #u8(100) chars-port)
+		(get-output-bytevector bytes-port)
+		(get-output-string chars-port)
+	))
+=> #values(
+	#void #void
+	#void #void
+	#void #void
+	#void #void
+	#u8(97 98 99 100)
+	#string(97 98 99 100)
+)
+
+
+
+
+(let
+		((bytes-port (open-input-bytevector #u8(97 98 99 100)))
+		(chars-port (open-input-string #string(97 98 99 100))))
+	(values
+		(char-ready? bytes-port)
+		(char-ready? chars-port)
+		(u8-ready? bytes-port)
+		(u8-ready? chars-port)
+		(read-char bytes-port)
+		(read-char chars-port)
+		(read-u8 bytes-port)
+		(read-u8 chars-port)
+		(read-string 1 bytes-port)
+		(read-string 1 chars-port)
+		(read-bytevector 1 bytes-port)
+		(read-bytevector 1 chars-port)
+		(char-ready? bytes-port)
+		(char-ready? chars-port)
+		(u8-ready? bytes-port)
+		(u8-ready? chars-port)
+		(eof-object? (read-u8 bytes-port))
+		(eof-object? (read-u8 chars-port))
+	))
+=> #values(
+	#t #t
+	#t #t
+	#\a #\a
+	98 98
+	"c" "c"
+	#u8(100) #u8(100)
+	#t #t
+	#t #t
+	#t #t
+)
+

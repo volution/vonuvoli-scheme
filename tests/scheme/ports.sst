@@ -1,0 +1,12 @@
+
+(eof-object? (eof-object)) => #t
+
+(eof-object? #null) => #f
+(eof-object? #void) => #f
+(eof-object? #undefined) => #f
+(eof-object? #f) => #f
+(eof-object? #t) => #f
+(eof-object? 0) => #f
+(eof-object? "") => #f
+(eof-object? '||) => #f
+
