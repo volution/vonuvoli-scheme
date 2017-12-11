@@ -1137,6 +1137,10 @@ impl Symbol {
 		self.string_chars () .nth (index)
 	}
 	
+	pub fn string_rc_clone (&self) -> (StdRc<StdString>) {
+		return self.0.clone ();
+	}
+	
 }
 
 
@@ -1223,6 +1227,10 @@ impl String {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
 	
+	pub fn string_rc_clone (&self) -> (StdRc<StdString>) {
+		return self.0.clone ();
+	}
+	
 }
 
 
@@ -1289,6 +1297,10 @@ impl Bytes {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
 	
+	pub fn values_rc_clone (&self) -> (StdRc<StdVec<u8>>) {
+		return self.0.clone ();
+	}
+	
 }
 
 
@@ -1339,6 +1351,10 @@ impl Pair {
 	
 	pub fn is_self (&self, other : &Pair) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
+	}
+	
+	pub fn values_rc_clone (&self) -> (StdRc<(Value, Value)>) {
+		return self.0.clone ();
 	}
 	
 }
@@ -1421,6 +1437,10 @@ impl Array {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
 	
+	pub fn values_rc_clone (&self) -> (StdRc<StdVec<Value>>) {
+		return self.0.clone ();
+	}
+	
 }
 
 
@@ -1481,6 +1501,10 @@ impl Values {
 	
 	pub fn is_self (&self, other : &Values) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
+	}
+	
+	pub fn values_rc_clone (&self) -> (StdRc<StdBox<[Value]>>) {
+		return self.0.clone ();
 	}
 	
 }
