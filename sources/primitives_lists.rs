@@ -19,6 +19,7 @@ pub mod exports {
 	pub use super::ListPrimitive4;
 	pub use super::ListPrimitive5;
 	pub use super::ListPrimitiveN;
+	pub use super::ListPrimitiveV;
 	
 	pub use super::list_primitive_0_evaluate;
 	pub use super::list_primitive_1_evaluate;
@@ -28,12 +29,13 @@ pub mod exports {
 	pub use super::list_primitive_5_evaluate;
 	pub use super::list_primitive_n_evaluate;
 	
-	pub use super::list_primitive_n_alternative_0;
-	pub use super::list_primitive_n_alternative_1;
-	pub use super::list_primitive_n_alternative_2;
-	pub use super::list_primitive_n_alternative_3;
-	pub use super::list_primitive_n_alternative_4;
-	pub use super::list_primitive_n_alternative_5;
+	pub use super::list_primitive_v_alternative_0;
+	pub use super::list_primitive_v_alternative_1;
+	pub use super::list_primitive_v_alternative_2;
+	pub use super::list_primitive_v_alternative_3;
+	pub use super::list_primitive_v_alternative_4;
+	pub use super::list_primitive_v_alternative_5;
+	pub use super::list_primitive_v_alternative_n;
 	
 }
 
@@ -147,6 +149,23 @@ pub enum ListPrimitive5 {
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ListPrimitiveN {
+	
+	ListMake,
+	ListBuild,
+	ListAppend,
+	
+	ListRangeFill,
+	ListRangeCopy,
+	ListRangeClone,
+	
+	ListMember,
+	ListAssoc,
+	
+}
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub enum ListPrimitiveV {
 	
 	ListMake,
 	ListBuild,
@@ -395,133 +414,141 @@ pub fn list_primitive_n_evaluate (primitive : ListPrimitiveN, inputs : &[Value],
 
 
 
-pub fn list_primitive_n_alternative_0 (primitive : ListPrimitiveN) -> (Option<ListPrimitive0>) {
+pub fn list_primitive_v_alternative_0 (primitive : ListPrimitiveV) -> (Option<ListPrimitive0>) {
 	match primitive {
-		ListPrimitiveN::ListMake =>
+		ListPrimitiveV::ListMake =>
 			None,
-		ListPrimitiveN::ListBuild =>
+		ListPrimitiveV::ListBuild =>
 			Some (ListPrimitive0::ListBuild),
-		ListPrimitiveN::ListAppend =>
+		ListPrimitiveV::ListAppend =>
 			Some (ListPrimitive0::ListAppend),
-		ListPrimitiveN::ListRangeFill =>
+		ListPrimitiveV::ListRangeFill =>
 			None,
-		ListPrimitiveN::ListRangeCopy =>
+		ListPrimitiveV::ListRangeCopy =>
 			None,
-		ListPrimitiveN::ListRangeClone =>
+		ListPrimitiveV::ListRangeClone =>
 			None,
-		ListPrimitiveN::ListMember =>
+		ListPrimitiveV::ListMember =>
 			None,
-		ListPrimitiveN::ListAssoc =>
+		ListPrimitiveV::ListAssoc =>
 			None,
 	}
 }
 
 
-pub fn list_primitive_n_alternative_1 (primitive : ListPrimitiveN) -> (Option<ListPrimitive1>) {
+pub fn list_primitive_v_alternative_1 (primitive : ListPrimitiveV) -> (Option<ListPrimitive1>) {
 	match primitive {
-		ListPrimitiveN::ListMake =>
+		ListPrimitiveV::ListMake =>
 			Some (ListPrimitive1::ListMake),
-		ListPrimitiveN::ListBuild =>
+		ListPrimitiveV::ListBuild =>
 			Some (ListPrimitive1::ListBuild),
-		ListPrimitiveN::ListAppend =>
+		ListPrimitiveV::ListAppend =>
 			Some (ListPrimitive1::ListAppend),
-		ListPrimitiveN::ListRangeFill =>
+		ListPrimitiveV::ListRangeFill =>
 			Some (ListPrimitive1::ListFill),
-		ListPrimitiveN::ListRangeCopy =>
+		ListPrimitiveV::ListRangeCopy =>
 			None,
-		ListPrimitiveN::ListRangeClone =>
+		ListPrimitiveV::ListRangeClone =>
 			Some (ListPrimitive1::ListClone),
-		ListPrimitiveN::ListMember =>
+		ListPrimitiveV::ListMember =>
 			None,
-		ListPrimitiveN::ListAssoc =>
+		ListPrimitiveV::ListAssoc =>
 			None,
 	}
 }
 
 
-pub fn list_primitive_n_alternative_2 (primitive : ListPrimitiveN) -> (Option<ListPrimitive2>) {
+pub fn list_primitive_v_alternative_2 (primitive : ListPrimitiveV) -> (Option<ListPrimitive2>) {
 	match primitive {
-		ListPrimitiveN::ListMake =>
+		ListPrimitiveV::ListMake =>
 			Some (ListPrimitive2::ListMake),
-		ListPrimitiveN::ListBuild =>
+		ListPrimitiveV::ListBuild =>
 			Some (ListPrimitive2::ListBuild),
-		ListPrimitiveN::ListAppend =>
+		ListPrimitiveV::ListAppend =>
 			Some (ListPrimitive2::ListAppend),
-		ListPrimitiveN::ListRangeFill =>
+		ListPrimitiveV::ListRangeFill =>
 			Some (ListPrimitive2::ListFill),
-		ListPrimitiveN::ListRangeCopy =>
+		ListPrimitiveV::ListRangeCopy =>
 			Some (ListPrimitive2::ListCopy),
-		ListPrimitiveN::ListRangeClone =>
+		ListPrimitiveV::ListRangeClone =>
 			Some (ListPrimitive2::ListRangeClone),
-		ListPrimitiveN::ListMember =>
+		ListPrimitiveV::ListMember =>
 			Some (ListPrimitive2::ListMemberByValueRecursive),
-		ListPrimitiveN::ListAssoc =>
+		ListPrimitiveV::ListAssoc =>
 			Some (ListPrimitive2::ListAssocByValueRecursive),
 	}
 }
 
 
-pub fn list_primitive_n_alternative_3 (primitive : ListPrimitiveN) -> (Option<ListPrimitive3>) {
+pub fn list_primitive_v_alternative_3 (primitive : ListPrimitiveV) -> (Option<ListPrimitive3>) {
 	match primitive {
-		ListPrimitiveN::ListMake =>
+		ListPrimitiveV::ListMake =>
 			None,
-		ListPrimitiveN::ListBuild =>
+		ListPrimitiveV::ListBuild =>
 			Some (ListPrimitive3::ListBuild),
-		ListPrimitiveN::ListAppend =>
+		ListPrimitiveV::ListAppend =>
 			Some (ListPrimitive3::ListAppend),
-		ListPrimitiveN::ListRangeFill =>
+		ListPrimitiveV::ListRangeFill =>
 			Some (ListPrimitive3::ListRangeFill),
-		ListPrimitiveN::ListRangeCopy =>
+		ListPrimitiveV::ListRangeCopy =>
 			Some (ListPrimitive3::ListRangeCopy),
-		ListPrimitiveN::ListRangeClone =>
+		ListPrimitiveV::ListRangeClone =>
 			Some (ListPrimitive3::ListRangeClone),
-		ListPrimitiveN::ListMember =>
+		ListPrimitiveV::ListMember =>
 			Some (ListPrimitive3::ListMemberByComparator),
-		ListPrimitiveN::ListAssoc =>
+		ListPrimitiveV::ListAssoc =>
 			Some (ListPrimitive3::ListAssocByComparator),
 	}
 }
 
 
-pub fn list_primitive_n_alternative_4 (primitive : ListPrimitiveN) -> (Option<ListPrimitive4>) {
+pub fn list_primitive_v_alternative_4 (primitive : ListPrimitiveV) -> (Option<ListPrimitive4>) {
 	match primitive {
-		ListPrimitiveN::ListMake =>
+		ListPrimitiveV::ListMake =>
 			None,
-		ListPrimitiveN::ListBuild =>
+		ListPrimitiveV::ListBuild =>
 			Some (ListPrimitive4::ListBuild),
-		ListPrimitiveN::ListAppend =>
+		ListPrimitiveV::ListAppend =>
 			Some (ListPrimitive4::ListAppend),
-		ListPrimitiveN::ListRangeFill =>
+		ListPrimitiveV::ListRangeFill =>
 			Some (ListPrimitive4::ListRangeFill),
-		ListPrimitiveN::ListRangeCopy =>
+		ListPrimitiveV::ListRangeCopy =>
 			Some (ListPrimitive4::ListRangeCopy),
-		ListPrimitiveN::ListRangeClone =>
+		ListPrimitiveV::ListRangeClone =>
 			None,
-		ListPrimitiveN::ListMember =>
+		ListPrimitiveV::ListMember =>
 			None,
-		ListPrimitiveN::ListAssoc =>
+		ListPrimitiveV::ListAssoc =>
 			None,
 	}
 }
 
 
-pub fn list_primitive_n_alternative_5 (primitive : ListPrimitiveN) -> (Option<ListPrimitive5>) {
+pub fn list_primitive_v_alternative_5 (primitive : ListPrimitiveV) -> (Option<ListPrimitive5>) {
 	match primitive {
-		ListPrimitiveN::ListMake =>
+		ListPrimitiveV::ListMake =>
 			None,
-		ListPrimitiveN::ListBuild =>
+		ListPrimitiveV::ListBuild =>
 			None,
-		ListPrimitiveN::ListAppend =>
+		ListPrimitiveV::ListAppend =>
 			None,
-		ListPrimitiveN::ListRangeFill =>
+		ListPrimitiveV::ListRangeFill =>
 			None,
-		ListPrimitiveN::ListRangeCopy =>
+		ListPrimitiveV::ListRangeCopy =>
 			Some (ListPrimitive5::ListRangeCopy),
-		ListPrimitiveN::ListRangeClone =>
+		ListPrimitiveV::ListRangeClone =>
 			None,
-		ListPrimitiveN::ListMember =>
+		ListPrimitiveV::ListMember =>
 			None,
-		ListPrimitiveN::ListAssoc =>
+		ListPrimitiveV::ListAssoc =>
+			None,
+	}
+}
+
+
+pub fn list_primitive_v_alternative_n (primitive : ListPrimitiveV) -> (Option<ListPrimitiveN>) {
+	match primitive {
+		_ =>
 			None,
 	}
 }

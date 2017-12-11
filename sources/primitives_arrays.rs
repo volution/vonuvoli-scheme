@@ -18,6 +18,7 @@ pub mod exports {
 	pub use super::ArrayPrimitive4;
 	pub use super::ArrayPrimitive5;
 	pub use super::ArrayPrimitiveN;
+	pub use super::ArrayPrimitiveV;
 	
 	pub use super::array_primitive_0_evaluate;
 	pub use super::array_primitive_1_evaluate;
@@ -27,12 +28,13 @@ pub mod exports {
 	pub use super::array_primitive_5_evaluate;
 	pub use super::array_primitive_n_evaluate;
 	
-	pub use super::array_primitive_n_alternative_0;
-	pub use super::array_primitive_n_alternative_1;
-	pub use super::array_primitive_n_alternative_2;
-	pub use super::array_primitive_n_alternative_3;
-	pub use super::array_primitive_n_alternative_4;
-	pub use super::array_primitive_n_alternative_5;
+	pub use super::array_primitive_v_alternative_0;
+	pub use super::array_primitive_v_alternative_1;
+	pub use super::array_primitive_v_alternative_2;
+	pub use super::array_primitive_v_alternative_3;
+	pub use super::array_primitive_v_alternative_4;
+	pub use super::array_primitive_v_alternative_5;
+	pub use super::array_primitive_v_alternative_n;
 	
 }
 
@@ -128,6 +130,23 @@ pub enum ArrayPrimitive5 {
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ArrayPrimitiveN {
+	
+	ArrayMake,
+	ArrayBuild,
+	ArrayAppend,
+	
+	ArrayRangeFill,
+	ArrayRangeCopy,
+	ArrayRangeClone,
+	
+	ArrayRangeToList,
+	ListRangeToArray,
+	
+}
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub enum ArrayPrimitiveV {
 	
 	ArrayMake,
 	ArrayBuild,
@@ -334,133 +353,141 @@ pub fn array_primitive_n_evaluate (primitive : ArrayPrimitiveN, inputs : &[Value
 
 
 
-pub fn array_primitive_n_alternative_0 (primitive : ArrayPrimitiveN) -> (Option<ArrayPrimitive0>) {
+pub fn array_primitive_v_alternative_0 (primitive : ArrayPrimitiveV) -> (Option<ArrayPrimitive0>) {
 	match primitive {
-		ArrayPrimitiveN::ArrayMake =>
+		ArrayPrimitiveV::ArrayMake =>
 			None,
-		ArrayPrimitiveN::ArrayBuild =>
+		ArrayPrimitiveV::ArrayBuild =>
 			Some (ArrayPrimitive0::ArrayBuild),
-		ArrayPrimitiveN::ArrayAppend =>
+		ArrayPrimitiveV::ArrayAppend =>
 			Some (ArrayPrimitive0::ArrayAppend),
-		ArrayPrimitiveN::ArrayRangeFill =>
+		ArrayPrimitiveV::ArrayRangeFill =>
 			None,
-		ArrayPrimitiveN::ArrayRangeCopy =>
+		ArrayPrimitiveV::ArrayRangeCopy =>
 			None,
-		ArrayPrimitiveN::ArrayRangeClone =>
+		ArrayPrimitiveV::ArrayRangeClone =>
 			None,
-		ArrayPrimitiveN::ArrayRangeToList =>
+		ArrayPrimitiveV::ArrayRangeToList =>
 			None,
-		ArrayPrimitiveN::ListRangeToArray =>
+		ArrayPrimitiveV::ListRangeToArray =>
 			None,
 	}
 }
 
 
-pub fn array_primitive_n_alternative_1 (primitive : ArrayPrimitiveN) -> (Option<ArrayPrimitive1>) {
+pub fn array_primitive_v_alternative_1 (primitive : ArrayPrimitiveV) -> (Option<ArrayPrimitive1>) {
 	match primitive {
-		ArrayPrimitiveN::ArrayMake =>
+		ArrayPrimitiveV::ArrayMake =>
 			Some (ArrayPrimitive1::ArrayMake),
-		ArrayPrimitiveN::ArrayBuild =>
+		ArrayPrimitiveV::ArrayBuild =>
 			Some (ArrayPrimitive1::ArrayBuild),
-		ArrayPrimitiveN::ArrayAppend =>
+		ArrayPrimitiveV::ArrayAppend =>
 			Some (ArrayPrimitive1::ArrayAppend),
-		ArrayPrimitiveN::ArrayRangeFill =>
+		ArrayPrimitiveV::ArrayRangeFill =>
 			Some (ArrayPrimitive1::ArrayFill),
-		ArrayPrimitiveN::ArrayRangeCopy =>
+		ArrayPrimitiveV::ArrayRangeCopy =>
 			None,
-		ArrayPrimitiveN::ArrayRangeClone =>
+		ArrayPrimitiveV::ArrayRangeClone =>
 			Some (ArrayPrimitive1::ArrayClone),
-		ArrayPrimitiveN::ArrayRangeToList =>
+		ArrayPrimitiveV::ArrayRangeToList =>
 			Some (ArrayPrimitive1::ArrayToList),
-		ArrayPrimitiveN::ListRangeToArray =>
+		ArrayPrimitiveV::ListRangeToArray =>
 			Some (ArrayPrimitive1::ListToArray),
 	}
 }
 
 
-pub fn array_primitive_n_alternative_2 (primitive : ArrayPrimitiveN) -> (Option<ArrayPrimitive2>) {
+pub fn array_primitive_v_alternative_2 (primitive : ArrayPrimitiveV) -> (Option<ArrayPrimitive2>) {
 	match primitive {
-		ArrayPrimitiveN::ArrayMake =>
+		ArrayPrimitiveV::ArrayMake =>
 			Some (ArrayPrimitive2::ArrayMake),
-		ArrayPrimitiveN::ArrayBuild =>
+		ArrayPrimitiveV::ArrayBuild =>
 			Some (ArrayPrimitive2::ArrayBuild),
-		ArrayPrimitiveN::ArrayAppend =>
+		ArrayPrimitiveV::ArrayAppend =>
 			Some (ArrayPrimitive2::ArrayAppend),
-		ArrayPrimitiveN::ArrayRangeFill =>
+		ArrayPrimitiveV::ArrayRangeFill =>
 			Some (ArrayPrimitive2::ArrayFill),
-		ArrayPrimitiveN::ArrayRangeCopy =>
+		ArrayPrimitiveV::ArrayRangeCopy =>
 			Some (ArrayPrimitive2::ArrayCopy),
-		ArrayPrimitiveN::ArrayRangeClone =>
+		ArrayPrimitiveV::ArrayRangeClone =>
 			Some (ArrayPrimitive2::ArrayRangeClone),
-		ArrayPrimitiveN::ArrayRangeToList =>
+		ArrayPrimitiveV::ArrayRangeToList =>
 			Some (ArrayPrimitive2::ArrayRangeToList),
-		ArrayPrimitiveN::ListRangeToArray =>
+		ArrayPrimitiveV::ListRangeToArray =>
 			Some (ArrayPrimitive2::ListRangeToArray),
 	}
 }
 
 
-pub fn array_primitive_n_alternative_3 (primitive : ArrayPrimitiveN) -> (Option<ArrayPrimitive3>) {
+pub fn array_primitive_v_alternative_3 (primitive : ArrayPrimitiveV) -> (Option<ArrayPrimitive3>) {
 	match primitive {
-		ArrayPrimitiveN::ArrayMake =>
+		ArrayPrimitiveV::ArrayMake =>
 			None,
-		ArrayPrimitiveN::ArrayBuild =>
+		ArrayPrimitiveV::ArrayBuild =>
 			Some (ArrayPrimitive3::ArrayBuild),
-		ArrayPrimitiveN::ArrayAppend =>
+		ArrayPrimitiveV::ArrayAppend =>
 			Some (ArrayPrimitive3::ArrayAppend),
-		ArrayPrimitiveN::ArrayRangeFill =>
+		ArrayPrimitiveV::ArrayRangeFill =>
 			Some (ArrayPrimitive3::ArrayRangeFill),
-		ArrayPrimitiveN::ArrayRangeCopy =>
+		ArrayPrimitiveV::ArrayRangeCopy =>
 			Some (ArrayPrimitive3::ArrayRangeCopy),
-		ArrayPrimitiveN::ArrayRangeClone =>
+		ArrayPrimitiveV::ArrayRangeClone =>
 			Some (ArrayPrimitive3::ArrayRangeClone),
-		ArrayPrimitiveN::ArrayRangeToList =>
+		ArrayPrimitiveV::ArrayRangeToList =>
 			Some (ArrayPrimitive3::ArrayRangeToList),
-		ArrayPrimitiveN::ListRangeToArray =>
+		ArrayPrimitiveV::ListRangeToArray =>
 			Some (ArrayPrimitive3::ListRangeToArray),
 	}
 }
 
 
-pub fn array_primitive_n_alternative_4 (primitive : ArrayPrimitiveN) -> (Option<ArrayPrimitive4>) {
+pub fn array_primitive_v_alternative_4 (primitive : ArrayPrimitiveV) -> (Option<ArrayPrimitive4>) {
 	match primitive {
-		ArrayPrimitiveN::ArrayMake =>
+		ArrayPrimitiveV::ArrayMake =>
 			None,
-		ArrayPrimitiveN::ArrayBuild =>
+		ArrayPrimitiveV::ArrayBuild =>
 			Some (ArrayPrimitive4::ArrayBuild),
-		ArrayPrimitiveN::ArrayAppend =>
+		ArrayPrimitiveV::ArrayAppend =>
 			Some (ArrayPrimitive4::ArrayAppend),
-		ArrayPrimitiveN::ArrayRangeFill =>
+		ArrayPrimitiveV::ArrayRangeFill =>
 			Some (ArrayPrimitive4::ArrayRangeFill),
-		ArrayPrimitiveN::ArrayRangeCopy =>
+		ArrayPrimitiveV::ArrayRangeCopy =>
 			Some (ArrayPrimitive4::ArrayRangeCopy),
-		ArrayPrimitiveN::ArrayRangeClone =>
+		ArrayPrimitiveV::ArrayRangeClone =>
 			None,
-		ArrayPrimitiveN::ArrayRangeToList =>
+		ArrayPrimitiveV::ArrayRangeToList =>
 			None,
-		ArrayPrimitiveN::ListRangeToArray =>
+		ArrayPrimitiveV::ListRangeToArray =>
 			None,
 	}
 }
 
 
-pub fn array_primitive_n_alternative_5 (primitive : ArrayPrimitiveN) -> (Option<ArrayPrimitive5>) {
+pub fn array_primitive_v_alternative_5 (primitive : ArrayPrimitiveV) -> (Option<ArrayPrimitive5>) {
 	match primitive {
-		ArrayPrimitiveN::ArrayMake =>
+		ArrayPrimitiveV::ArrayMake =>
 			None,
-		ArrayPrimitiveN::ArrayBuild =>
+		ArrayPrimitiveV::ArrayBuild =>
 			None,
-		ArrayPrimitiveN::ArrayAppend =>
+		ArrayPrimitiveV::ArrayAppend =>
 			None,
-		ArrayPrimitiveN::ArrayRangeFill =>
+		ArrayPrimitiveV::ArrayRangeFill =>
 			None,
-		ArrayPrimitiveN::ArrayRangeCopy =>
+		ArrayPrimitiveV::ArrayRangeCopy =>
 			Some (ArrayPrimitive5::ArrayRangeCopy),
-		ArrayPrimitiveN::ArrayRangeClone =>
+		ArrayPrimitiveV::ArrayRangeClone =>
 			None,
-		ArrayPrimitiveN::ArrayRangeToList =>
+		ArrayPrimitiveV::ArrayRangeToList =>
 			None,
-		ArrayPrimitiveN::ListRangeToArray =>
+		ArrayPrimitiveV::ListRangeToArray =>
+			None,
+	}
+}
+
+
+pub fn array_primitive_v_alternative_n (primitive : ArrayPrimitiveV) -> (Option<ArrayPrimitiveN>) {
+	match primitive {
+		_ =>
 			None,
 	}
 }

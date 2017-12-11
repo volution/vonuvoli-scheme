@@ -17,6 +17,7 @@ pub mod exports {
 	pub use super::RuntimePrimitive4;
 	pub use super::RuntimePrimitive5;
 	pub use super::RuntimePrimitiveN;
+	pub use super::RuntimePrimitiveV;
 	
 	pub use super::runtime_primitive_0_evaluate;
 	pub use super::runtime_primitive_1_evaluate;
@@ -26,12 +27,13 @@ pub mod exports {
 	pub use super::runtime_primitive_5_evaluate;
 	pub use super::runtime_primitive_n_evaluate;
 	
-	pub use super::runtime_primitive_n_alternative_0;
-	pub use super::runtime_primitive_n_alternative_1;
-	pub use super::runtime_primitive_n_alternative_2;
-	pub use super::runtime_primitive_n_alternative_3;
-	pub use super::runtime_primitive_n_alternative_4;
-	pub use super::runtime_primitive_n_alternative_5;
+	pub use super::runtime_primitive_v_alternative_0;
+	pub use super::runtime_primitive_v_alternative_1;
+	pub use super::runtime_primitive_v_alternative_2;
+	pub use super::runtime_primitive_v_alternative_3;
+	pub use super::runtime_primitive_v_alternative_4;
+	pub use super::runtime_primitive_v_alternative_5;
+	pub use super::runtime_primitive_v_alternative_n;
 	
 }
 
@@ -84,6 +86,15 @@ pub enum RuntimePrimitive5 {}
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum RuntimePrimitiveN {
+	
+	ProcessExit,
+	ProcessExitEmergency,
+	
+}
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub enum RuntimePrimitiveV {
 	
 	ProcessExit,
 	ProcessExitEmergency,
@@ -183,61 +194,69 @@ pub fn runtime_primitive_n_evaluate (primitive : RuntimePrimitiveN, _inputs : &[
 
 
 
-pub fn runtime_primitive_n_alternative_0 (primitive : RuntimePrimitiveN) -> (Option<RuntimePrimitive0>) {
+pub fn runtime_primitive_v_alternative_0 (primitive : RuntimePrimitiveV) -> (Option<RuntimePrimitive0>) {
 	match primitive {
-		RuntimePrimitiveN::ProcessExit =>
+		RuntimePrimitiveV::ProcessExit =>
 			Some (RuntimePrimitive0::ProcessExit),
-		RuntimePrimitiveN::ProcessExitEmergency =>
+		RuntimePrimitiveV::ProcessExitEmergency =>
 			Some (RuntimePrimitive0::ProcessExitEmergency),
 	}
 }
 
 
-pub fn runtime_primitive_n_alternative_1 (primitive : RuntimePrimitiveN) -> (Option<RuntimePrimitive1>) {
+pub fn runtime_primitive_v_alternative_1 (primitive : RuntimePrimitiveV) -> (Option<RuntimePrimitive1>) {
 	match primitive {
-		RuntimePrimitiveN::ProcessExit =>
+		RuntimePrimitiveV::ProcessExit =>
 			Some (RuntimePrimitive1::ProcessExit),
-		RuntimePrimitiveN::ProcessExitEmergency =>
+		RuntimePrimitiveV::ProcessExitEmergency =>
 			Some (RuntimePrimitive1::ProcessExitEmergency),
 	}
 }
 
 
-pub fn runtime_primitive_n_alternative_2 (primitive : RuntimePrimitiveN) -> (Option<RuntimePrimitive2>) {
+pub fn runtime_primitive_v_alternative_2 (primitive : RuntimePrimitiveV) -> (Option<RuntimePrimitive2>) {
 	match primitive {
-		RuntimePrimitiveN::ProcessExit =>
+		RuntimePrimitiveV::ProcessExit =>
 			None,
-		RuntimePrimitiveN::ProcessExitEmergency =>
+		RuntimePrimitiveV::ProcessExitEmergency =>
 			None,
 	}
 }
 
 
-pub fn runtime_primitive_n_alternative_3 (primitive : RuntimePrimitiveN) -> (Option<RuntimePrimitive3>) {
+pub fn runtime_primitive_v_alternative_3 (primitive : RuntimePrimitiveV) -> (Option<RuntimePrimitive3>) {
 	match primitive {
-		RuntimePrimitiveN::ProcessExit =>
+		RuntimePrimitiveV::ProcessExit =>
 			None,
-		RuntimePrimitiveN::ProcessExitEmergency =>
+		RuntimePrimitiveV::ProcessExitEmergency =>
 			None,
 	}
 }
 
 
-pub fn runtime_primitive_n_alternative_4 (primitive : RuntimePrimitiveN) -> (Option<RuntimePrimitive4>) {
+pub fn runtime_primitive_v_alternative_4 (primitive : RuntimePrimitiveV) -> (Option<RuntimePrimitive4>) {
 	match primitive {
-		RuntimePrimitiveN::ProcessExit =>
+		RuntimePrimitiveV::ProcessExit =>
 			None,
-		RuntimePrimitiveN::ProcessExitEmergency =>
+		RuntimePrimitiveV::ProcessExitEmergency =>
 			None,
 	}
 }
 
 
-pub fn runtime_primitive_n_alternative_5 (primitive : RuntimePrimitiveN) -> (Option<RuntimePrimitive5>) {
+pub fn runtime_primitive_v_alternative_5 (primitive : RuntimePrimitiveV) -> (Option<RuntimePrimitive5>) {
 	match primitive {
-		RuntimePrimitiveN::ProcessExit =>
+		RuntimePrimitiveV::ProcessExit =>
 			None,
-		RuntimePrimitiveN::ProcessExitEmergency =>
+		RuntimePrimitiveV::ProcessExitEmergency =>
+			None,
+	}
+}
+
+
+pub fn runtime_primitive_v_alternative_n (primitive : RuntimePrimitiveV) -> (Option<RuntimePrimitiveN>) {
+	match primitive {
+		_ =>
 			None,
 	}
 }

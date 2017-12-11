@@ -28,6 +28,7 @@ pub mod exports {
 	pub use super::ProcedurePrimitive4;
 	pub use super::ProcedurePrimitive5;
 	pub use super::ProcedurePrimitiveN;
+	pub use super::ProcedurePrimitiveV;
 	pub use super::ProcedurePrimitive;
 	
 	pub use super::procedure_primitive_0_evaluate;
@@ -37,15 +38,16 @@ pub mod exports {
 	pub use super::procedure_primitive_4_evaluate;
 	pub use super::procedure_primitive_5_evaluate;
 	pub use super::procedure_primitive_n_evaluate;
-	pub use super::procedure_primitive_n_evaluate_without_alternatives;
+	pub use super::procedure_primitive_v_evaluate;
 	pub use super::procedure_primitive_evaluate;
 	
-	pub use super::procedure_primitive_n_alternative_0;
-	pub use super::procedure_primitive_n_alternative_1;
-	pub use super::procedure_primitive_n_alternative_2;
-	pub use super::procedure_primitive_n_alternative_3;
-	pub use super::procedure_primitive_n_alternative_4;
-	pub use super::procedure_primitive_n_alternative_5;
+	pub use super::procedure_primitive_v_alternative_0;
+	pub use super::procedure_primitive_v_alternative_1;
+	pub use super::procedure_primitive_v_alternative_2;
+	pub use super::procedure_primitive_v_alternative_3;
+	pub use super::procedure_primitive_v_alternative_4;
+	pub use super::procedure_primitive_v_alternative_5;
+	pub use super::procedure_primitive_v_alternative_n;
 	
 }
 
@@ -62,6 +64,7 @@ pub enum ProcedurePrimitive {
 	Primitive4 ( ProcedurePrimitive4 ),
 	Primitive5 ( ProcedurePrimitive5 ),
 	PrimitiveN ( ProcedurePrimitiveN ),
+	PrimitiveV ( ProcedurePrimitiveV ),
 	
 	Unimplemented,
 	Unsupported,
@@ -208,6 +211,26 @@ pub enum ProcedurePrimitiveN {
 	Functions ( FunctionsPrimitiveN ),
 	Runtime ( RuntimePrimitiveN ),
 	Port ( PortPrimitiveN ),
+	
+}
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub enum ProcedurePrimitiveV {
+	
+	Boolean ( BooleanPrimitiveV ),
+	Arithmetic ( ArithmeticPrimitiveV ),
+	Bitwise ( BitwisePrimitiveV ),
+	Comparison ( ComparisonPrimitiveV ),
+	
+	List ( ListPrimitiveV ),
+	Array ( ArrayPrimitiveV ),
+	Bytes ( BytesPrimitiveV ),
+	String ( StringPrimitiveV ),
+	
+	Functions ( FunctionsPrimitiveV ),
+	Runtime ( RuntimePrimitiveV ),
+	Port ( PortPrimitiveV ),
 	
 }
 
@@ -470,51 +493,6 @@ pub fn procedure_primitive_5_evaluate (primitive : ProcedurePrimitive5, input_1 
 
 
 pub fn procedure_primitive_n_evaluate (primitive : ProcedurePrimitiveN, inputs : &[Value], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
-	
-	match inputs.len () {
-		
-		0 =>
-			if let Some (primitive) = procedure_primitive_n_alternative_0 (primitive) {
-				return procedure_primitive_0_evaluate (primitive, evaluator);
-			},
-		
-		1 =>
-			if let Some (primitive) = procedure_primitive_n_alternative_1 (primitive) {
-				return procedure_primitive_1_evaluate (primitive, &inputs[0], evaluator);
-			},
-		
-		2 =>
-			if let Some (primitive) = procedure_primitive_n_alternative_2 (primitive) {
-				return procedure_primitive_2_evaluate (primitive, &inputs[0], &inputs[1], evaluator);
-			},
-		
-		3 =>
-			if let Some (primitive) = procedure_primitive_n_alternative_3 (primitive) {
-				return procedure_primitive_3_evaluate (primitive, &inputs[0], &inputs[1], &inputs[2], evaluator);
-			},
-		
-		4 =>
-			if let Some (primitive) = procedure_primitive_n_alternative_4 (primitive) {
-				return procedure_primitive_4_evaluate (primitive, &inputs[0], &inputs[1], &inputs[2], &inputs[3], evaluator);
-			},
-		
-		5 =>
-			if let Some (primitive) = procedure_primitive_n_alternative_5 (primitive) {
-				return procedure_primitive_5_evaluate (primitive, &inputs[0], &inputs[1], &inputs[2], &inputs[3], &inputs[4], evaluator);
-			},
-		
-		_ =>
-			(),
-		
-	}
-	
-	return procedure_primitive_n_evaluate_without_alternatives (primitive, inputs, evaluator);
-}
-
-
-
-
-pub fn procedure_primitive_n_evaluate_without_alternatives (primitive : ProcedurePrimitiveN, inputs : &[Value], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		ProcedurePrimitiveN::Boolean (primitive) =>
@@ -551,6 +529,53 @@ pub fn procedure_primitive_n_evaluate_without_alternatives (primitive : Procedur
 			return port_primitive_n_evaluate (primitive, inputs, evaluator),
 		
 	}
+}
+
+
+
+
+pub fn procedure_primitive_v_evaluate (primitive : ProcedurePrimitiveV, inputs : &[Value], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	
+	match inputs.len () {
+		
+		0 =>
+			if let Some (primitive) = procedure_primitive_v_alternative_0 (primitive) {
+				return procedure_primitive_0_evaluate (primitive, evaluator);
+			},
+		
+		1 =>
+			if let Some (primitive) = procedure_primitive_v_alternative_1 (primitive) {
+				return procedure_primitive_1_evaluate (primitive, &inputs[0], evaluator);
+			},
+		
+		2 =>
+			if let Some (primitive) = procedure_primitive_v_alternative_2 (primitive) {
+				return procedure_primitive_2_evaluate (primitive, &inputs[0], &inputs[1], evaluator);
+			},
+		
+		3 =>
+			if let Some (primitive) = procedure_primitive_v_alternative_3 (primitive) {
+				return procedure_primitive_3_evaluate (primitive, &inputs[0], &inputs[1], &inputs[2], evaluator);
+			},
+		
+		4 =>
+			if let Some (primitive) = procedure_primitive_v_alternative_4 (primitive) {
+				return procedure_primitive_4_evaluate (primitive, &inputs[0], &inputs[1], &inputs[2], &inputs[3], evaluator);
+			},
+		
+		5 =>
+			if let Some (primitive) = procedure_primitive_v_alternative_5 (primitive) {
+				return procedure_primitive_5_evaluate (primitive, &inputs[0], &inputs[1], &inputs[2], &inputs[3], &inputs[4], evaluator);
+			},
+		
+		_ =>
+			if let Some (primitive) = procedure_primitive_v_alternative_n (primitive) {
+				return procedure_primitive_n_evaluate (primitive, inputs, evaluator);
+			},
+		
+	}
+	
+	fail! (0x270e1433);
 }
 
 
@@ -605,6 +630,9 @@ pub fn procedure_primitive_evaluate (primitive : ProcedurePrimitive, inputs : &[
 		ProcedurePrimitive::PrimitiveN (primitive) =>
 			return procedure_primitive_n_evaluate (primitive, inputs, evaluator),
 		
+		ProcedurePrimitive::PrimitiveV (primitive) =>
+			return procedure_primitive_v_evaluate (primitive, inputs, evaluator),
+		
 		ProcedurePrimitive::Unimplemented =>
 			fail_unimplemented! (0x10d3710f), // OK
 		
@@ -620,81 +648,81 @@ pub fn procedure_primitive_evaluate (primitive : ProcedurePrimitive, inputs : &[
 
 
 
-pub fn procedure_primitive_n_alternative_0 (primitive : ProcedurePrimitiveN) -> (Option<ProcedurePrimitive0>) {
+pub fn procedure_primitive_v_alternative_0 (primitive : ProcedurePrimitiveV) -> (Option<ProcedurePrimitive0>) {
 	match primitive {
 		
-		ProcedurePrimitiveN::Boolean (primitive) =>
-			if let Some (primitive) = boolean_primitive_n_alternative_0 (primitive) {
+		ProcedurePrimitiveV::Boolean (primitive) =>
+			if let Some (primitive) = boolean_primitive_v_alternative_0 (primitive) {
 				Some (ProcedurePrimitive0::Boolean (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Arithmetic (primitive) =>
-			if let Some (primitive) = arithmetic_primitive_n_alternative_0 (primitive) {
+		ProcedurePrimitiveV::Arithmetic (primitive) =>
+			if let Some (primitive) = arithmetic_primitive_v_alternative_0 (primitive) {
 				Some (ProcedurePrimitive0::Arithmetic (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Bitwise (primitive) =>
-			if let Some (primitive) = bitwise_primitive_n_alternative_0 (primitive) {
+		ProcedurePrimitiveV::Bitwise (primitive) =>
+			if let Some (primitive) = bitwise_primitive_v_alternative_0 (primitive) {
 				Some (ProcedurePrimitive0::Bitwise (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Comparison (primitive) =>
-			if let Some (primitive) = comparison_primitive_n_alternative_0 (primitive) {
+		ProcedurePrimitiveV::Comparison (primitive) =>
+			if let Some (primitive) = comparison_primitive_v_alternative_0 (primitive) {
 				Some (ProcedurePrimitive0::Comparison (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::List (primitive) =>
-			if let Some (primitive) = list_primitive_n_alternative_0 (primitive) {
+		ProcedurePrimitiveV::List (primitive) =>
+			if let Some (primitive) = list_primitive_v_alternative_0 (primitive) {
 				Some (ProcedurePrimitive0::List (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Array (primitive) =>
-			if let Some (primitive) = array_primitive_n_alternative_0 (primitive) {
+		ProcedurePrimitiveV::Array (primitive) =>
+			if let Some (primitive) = array_primitive_v_alternative_0 (primitive) {
 				Some (ProcedurePrimitive0::Array (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Bytes (primitive) =>
-			if let Some (primitive) = bytes_primitive_n_alternative_0 (primitive) {
+		ProcedurePrimitiveV::Bytes (primitive) =>
+			if let Some (primitive) = bytes_primitive_v_alternative_0 (primitive) {
 				Some (ProcedurePrimitive0::Bytes (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::String (primitive) =>
-			if let Some (primitive) = string_primitive_n_alternative_0 (primitive) {
+		ProcedurePrimitiveV::String (primitive) =>
+			if let Some (primitive) = string_primitive_v_alternative_0 (primitive) {
 				Some (ProcedurePrimitive0::String (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Functions (primitive) =>
-			if let Some (primitive) = functions_primitive_n_alternative_0 (primitive) {
+		ProcedurePrimitiveV::Functions (primitive) =>
+			if let Some (primitive) = functions_primitive_v_alternative_0 (primitive) {
 				Some (ProcedurePrimitive0::Functions (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Runtime (primitive) =>
-			if let Some (primitive) = runtime_primitive_n_alternative_0 (primitive) {
+		ProcedurePrimitiveV::Runtime (primitive) =>
+			if let Some (primitive) = runtime_primitive_v_alternative_0 (primitive) {
 				Some (ProcedurePrimitive0::Runtime (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Port (primitive) =>
-			if let Some (primitive) = port_primitive_n_alternative_0 (primitive) {
+		ProcedurePrimitiveV::Port (primitive) =>
+			if let Some (primitive) = port_primitive_v_alternative_0 (primitive) {
 				Some (ProcedurePrimitive0::Port (primitive))
 			} else {
 				None
@@ -706,81 +734,81 @@ pub fn procedure_primitive_n_alternative_0 (primitive : ProcedurePrimitiveN) -> 
 
 
 
-pub fn procedure_primitive_n_alternative_1 (primitive : ProcedurePrimitiveN) -> (Option<ProcedurePrimitive1>) {
+pub fn procedure_primitive_v_alternative_1 (primitive : ProcedurePrimitiveV) -> (Option<ProcedurePrimitive1>) {
 	match primitive {
 		
-		ProcedurePrimitiveN::Boolean (primitive) =>
-			if let Some (primitive) = boolean_primitive_n_alternative_1 (primitive) {
+		ProcedurePrimitiveV::Boolean (primitive) =>
+			if let Some (primitive) = boolean_primitive_v_alternative_1 (primitive) {
 				Some (ProcedurePrimitive1::Boolean (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Arithmetic (primitive) =>
-			if let Some (primitive) = arithmetic_primitive_n_alternative_1 (primitive) {
+		ProcedurePrimitiveV::Arithmetic (primitive) =>
+			if let Some (primitive) = arithmetic_primitive_v_alternative_1 (primitive) {
 				Some (ProcedurePrimitive1::Arithmetic (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Bitwise (primitive) =>
-			if let Some (primitive) = bitwise_primitive_n_alternative_1 (primitive) {
+		ProcedurePrimitiveV::Bitwise (primitive) =>
+			if let Some (primitive) = bitwise_primitive_v_alternative_1 (primitive) {
 				Some (ProcedurePrimitive1::Bitwise (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Comparison (primitive) =>
-			if let Some (primitive) = comparison_primitive_n_alternative_1 (primitive) {
+		ProcedurePrimitiveV::Comparison (primitive) =>
+			if let Some (primitive) = comparison_primitive_v_alternative_1 (primitive) {
 				Some (ProcedurePrimitive1::Comparison (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::List (primitive) =>
-			if let Some (primitive) = list_primitive_n_alternative_1 (primitive) {
+		ProcedurePrimitiveV::List (primitive) =>
+			if let Some (primitive) = list_primitive_v_alternative_1 (primitive) {
 				Some (ProcedurePrimitive1::List (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Array (primitive) =>
-			if let Some (primitive) = array_primitive_n_alternative_1 (primitive) {
+		ProcedurePrimitiveV::Array (primitive) =>
+			if let Some (primitive) = array_primitive_v_alternative_1 (primitive) {
 				Some (ProcedurePrimitive1::Array (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Bytes (primitive) =>
-			if let Some (primitive) = bytes_primitive_n_alternative_1 (primitive) {
+		ProcedurePrimitiveV::Bytes (primitive) =>
+			if let Some (primitive) = bytes_primitive_v_alternative_1 (primitive) {
 				Some (ProcedurePrimitive1::Bytes (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::String (primitive) =>
-			if let Some (primitive) = string_primitive_n_alternative_1 (primitive) {
+		ProcedurePrimitiveV::String (primitive) =>
+			if let Some (primitive) = string_primitive_v_alternative_1 (primitive) {
 				Some (ProcedurePrimitive1::String (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Functions (primitive) =>
-			if let Some (primitive) = functions_primitive_n_alternative_1 (primitive) {
+		ProcedurePrimitiveV::Functions (primitive) =>
+			if let Some (primitive) = functions_primitive_v_alternative_1 (primitive) {
 				Some (ProcedurePrimitive1::Functions (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Runtime (primitive) =>
-			if let Some (primitive) = runtime_primitive_n_alternative_1 (primitive) {
+		ProcedurePrimitiveV::Runtime (primitive) =>
+			if let Some (primitive) = runtime_primitive_v_alternative_1 (primitive) {
 				Some (ProcedurePrimitive1::Runtime (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Port (primitive) =>
-			if let Some (primitive) = port_primitive_n_alternative_1 (primitive) {
+		ProcedurePrimitiveV::Port (primitive) =>
+			if let Some (primitive) = port_primitive_v_alternative_1 (primitive) {
 				Some (ProcedurePrimitive1::Port (primitive))
 			} else {
 				None
@@ -792,81 +820,81 @@ pub fn procedure_primitive_n_alternative_1 (primitive : ProcedurePrimitiveN) -> 
 
 
 
-pub fn procedure_primitive_n_alternative_2 (primitive : ProcedurePrimitiveN) -> (Option<ProcedurePrimitive2>) {
+pub fn procedure_primitive_v_alternative_2 (primitive : ProcedurePrimitiveV) -> (Option<ProcedurePrimitive2>) {
 	match primitive {
 		
-		ProcedurePrimitiveN::Boolean (primitive) =>
-			if let Some (primitive) = boolean_primitive_n_alternative_2 (primitive) {
+		ProcedurePrimitiveV::Boolean (primitive) =>
+			if let Some (primitive) = boolean_primitive_v_alternative_2 (primitive) {
 				Some (ProcedurePrimitive2::Boolean (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Arithmetic (primitive) =>
-			if let Some (primitive) = arithmetic_primitive_n_alternative_2 (primitive) {
+		ProcedurePrimitiveV::Arithmetic (primitive) =>
+			if let Some (primitive) = arithmetic_primitive_v_alternative_2 (primitive) {
 				Some (ProcedurePrimitive2::Arithmetic (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Bitwise (primitive) =>
-			if let Some (primitive) = bitwise_primitive_n_alternative_2 (primitive) {
+		ProcedurePrimitiveV::Bitwise (primitive) =>
+			if let Some (primitive) = bitwise_primitive_v_alternative_2 (primitive) {
 				Some (ProcedurePrimitive2::Bitwise (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Comparison (primitive) =>
-			if let Some (primitive) = comparison_primitive_n_alternative_2 (primitive) {
+		ProcedurePrimitiveV::Comparison (primitive) =>
+			if let Some (primitive) = comparison_primitive_v_alternative_2 (primitive) {
 				Some (ProcedurePrimitive2::Comparison (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::List (primitive) =>
-			if let Some (primitive) = list_primitive_n_alternative_2 (primitive) {
+		ProcedurePrimitiveV::List (primitive) =>
+			if let Some (primitive) = list_primitive_v_alternative_2 (primitive) {
 				Some (ProcedurePrimitive2::List (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Array (primitive) =>
-			if let Some (primitive) = array_primitive_n_alternative_2 (primitive) {
+		ProcedurePrimitiveV::Array (primitive) =>
+			if let Some (primitive) = array_primitive_v_alternative_2 (primitive) {
 				Some (ProcedurePrimitive2::Array (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Bytes (primitive) =>
-			if let Some (primitive) = bytes_primitive_n_alternative_2 (primitive) {
+		ProcedurePrimitiveV::Bytes (primitive) =>
+			if let Some (primitive) = bytes_primitive_v_alternative_2 (primitive) {
 				Some (ProcedurePrimitive2::Bytes (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::String (primitive) =>
-			if let Some (primitive) = string_primitive_n_alternative_2 (primitive) {
+		ProcedurePrimitiveV::String (primitive) =>
+			if let Some (primitive) = string_primitive_v_alternative_2 (primitive) {
 				Some (ProcedurePrimitive2::String (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Functions (primitive) =>
-			if let Some (primitive) = functions_primitive_n_alternative_2 (primitive) {
+		ProcedurePrimitiveV::Functions (primitive) =>
+			if let Some (primitive) = functions_primitive_v_alternative_2 (primitive) {
 				Some (ProcedurePrimitive2::Functions (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Runtime (primitive) =>
-			if let Some (primitive) = runtime_primitive_n_alternative_2 (primitive) {
+		ProcedurePrimitiveV::Runtime (primitive) =>
+			if let Some (primitive) = runtime_primitive_v_alternative_2 (primitive) {
 				Some (ProcedurePrimitive2::Runtime (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Port (primitive) =>
-			if let Some (primitive) = port_primitive_n_alternative_2 (primitive) {
+		ProcedurePrimitiveV::Port (primitive) =>
+			if let Some (primitive) = port_primitive_v_alternative_2 (primitive) {
 				Some (ProcedurePrimitive2::Port (primitive))
 			} else {
 				None
@@ -878,81 +906,81 @@ pub fn procedure_primitive_n_alternative_2 (primitive : ProcedurePrimitiveN) -> 
 
 
 
-pub fn procedure_primitive_n_alternative_3 (primitive : ProcedurePrimitiveN) -> (Option<ProcedurePrimitive3>) {
+pub fn procedure_primitive_v_alternative_3 (primitive : ProcedurePrimitiveV) -> (Option<ProcedurePrimitive3>) {
 	match primitive {
 		
-		ProcedurePrimitiveN::Boolean (primitive) =>
-			if let Some (primitive) = boolean_primitive_n_alternative_3 (primitive) {
+		ProcedurePrimitiveV::Boolean (primitive) =>
+			if let Some (primitive) = boolean_primitive_v_alternative_3 (primitive) {
 				Some (ProcedurePrimitive3::Boolean (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Arithmetic (primitive) =>
-			if let Some (primitive) = arithmetic_primitive_n_alternative_3 (primitive) {
+		ProcedurePrimitiveV::Arithmetic (primitive) =>
+			if let Some (primitive) = arithmetic_primitive_v_alternative_3 (primitive) {
 				Some (ProcedurePrimitive3::Arithmetic (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Bitwise (primitive) =>
-			if let Some (primitive) = bitwise_primitive_n_alternative_3 (primitive) {
+		ProcedurePrimitiveV::Bitwise (primitive) =>
+			if let Some (primitive) = bitwise_primitive_v_alternative_3 (primitive) {
 				Some (ProcedurePrimitive3::Bitwise (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Comparison (primitive) =>
-			if let Some (primitive) = comparison_primitive_n_alternative_3 (primitive) {
+		ProcedurePrimitiveV::Comparison (primitive) =>
+			if let Some (primitive) = comparison_primitive_v_alternative_3 (primitive) {
 				Some (ProcedurePrimitive3::Comparison (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::List (primitive) =>
-			if let Some (primitive) = list_primitive_n_alternative_3 (primitive) {
+		ProcedurePrimitiveV::List (primitive) =>
+			if let Some (primitive) = list_primitive_v_alternative_3 (primitive) {
 				Some (ProcedurePrimitive3::List (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Array (primitive) =>
-			if let Some (primitive) = array_primitive_n_alternative_3 (primitive) {
+		ProcedurePrimitiveV::Array (primitive) =>
+			if let Some (primitive) = array_primitive_v_alternative_3 (primitive) {
 				Some (ProcedurePrimitive3::Array (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Bytes (primitive) =>
-			if let Some (primitive) = bytes_primitive_n_alternative_3 (primitive) {
+		ProcedurePrimitiveV::Bytes (primitive) =>
+			if let Some (primitive) = bytes_primitive_v_alternative_3 (primitive) {
 				Some (ProcedurePrimitive3::Bytes (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::String (primitive) =>
-			if let Some (primitive) = string_primitive_n_alternative_3 (primitive) {
+		ProcedurePrimitiveV::String (primitive) =>
+			if let Some (primitive) = string_primitive_v_alternative_3 (primitive) {
 				Some (ProcedurePrimitive3::String (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Functions (primitive) =>
-			if let Some (primitive) = functions_primitive_n_alternative_3 (primitive) {
+		ProcedurePrimitiveV::Functions (primitive) =>
+			if let Some (primitive) = functions_primitive_v_alternative_3 (primitive) {
 				Some (ProcedurePrimitive3::Functions (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Runtime (primitive) =>
-			if let Some (primitive) = runtime_primitive_n_alternative_3 (primitive) {
+		ProcedurePrimitiveV::Runtime (primitive) =>
+			if let Some (primitive) = runtime_primitive_v_alternative_3 (primitive) {
 				Some (ProcedurePrimitive3::Runtime (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Port (primitive) =>
-			if let Some (primitive) = port_primitive_n_alternative_3 (primitive) {
+		ProcedurePrimitiveV::Port (primitive) =>
+			if let Some (primitive) = port_primitive_v_alternative_3 (primitive) {
 				Some (ProcedurePrimitive3::Port (primitive))
 			} else {
 				None
@@ -964,81 +992,81 @@ pub fn procedure_primitive_n_alternative_3 (primitive : ProcedurePrimitiveN) -> 
 
 
 
-pub fn procedure_primitive_n_alternative_4 (primitive : ProcedurePrimitiveN) -> (Option<ProcedurePrimitive4>) {
+pub fn procedure_primitive_v_alternative_4 (primitive : ProcedurePrimitiveV) -> (Option<ProcedurePrimitive4>) {
 	match primitive {
 		
-		ProcedurePrimitiveN::Boolean (primitive) =>
-			if let Some (primitive) = boolean_primitive_n_alternative_4 (primitive) {
+		ProcedurePrimitiveV::Boolean (primitive) =>
+			if let Some (primitive) = boolean_primitive_v_alternative_4 (primitive) {
 				Some (ProcedurePrimitive4::Boolean (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Arithmetic (primitive) =>
-			if let Some (primitive) = arithmetic_primitive_n_alternative_4 (primitive) {
+		ProcedurePrimitiveV::Arithmetic (primitive) =>
+			if let Some (primitive) = arithmetic_primitive_v_alternative_4 (primitive) {
 				Some (ProcedurePrimitive4::Arithmetic (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Bitwise (primitive) =>
-			if let Some (primitive) = bitwise_primitive_n_alternative_4 (primitive) {
+		ProcedurePrimitiveV::Bitwise (primitive) =>
+			if let Some (primitive) = bitwise_primitive_v_alternative_4 (primitive) {
 				Some (ProcedurePrimitive4::Bitwise (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Comparison (primitive) =>
-			if let Some (primitive) = comparison_primitive_n_alternative_4 (primitive) {
+		ProcedurePrimitiveV::Comparison (primitive) =>
+			if let Some (primitive) = comparison_primitive_v_alternative_4 (primitive) {
 				Some (ProcedurePrimitive4::Comparison (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::List (primitive) =>
-			if let Some (primitive) = list_primitive_n_alternative_4 (primitive) {
+		ProcedurePrimitiveV::List (primitive) =>
+			if let Some (primitive) = list_primitive_v_alternative_4 (primitive) {
 				Some (ProcedurePrimitive4::List (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Array (primitive) =>
-			if let Some (primitive) = array_primitive_n_alternative_4 (primitive) {
+		ProcedurePrimitiveV::Array (primitive) =>
+			if let Some (primitive) = array_primitive_v_alternative_4 (primitive) {
 				Some (ProcedurePrimitive4::Array (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Bytes (primitive) =>
-			if let Some (primitive) = bytes_primitive_n_alternative_4 (primitive) {
+		ProcedurePrimitiveV::Bytes (primitive) =>
+			if let Some (primitive) = bytes_primitive_v_alternative_4 (primitive) {
 				Some (ProcedurePrimitive4::Bytes (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::String (primitive) =>
-			if let Some (primitive) = string_primitive_n_alternative_4 (primitive) {
+		ProcedurePrimitiveV::String (primitive) =>
+			if let Some (primitive) = string_primitive_v_alternative_4 (primitive) {
 				Some (ProcedurePrimitive4::String (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Functions (primitive) =>
-			if let Some (primitive) = functions_primitive_n_alternative_4 (primitive) {
+		ProcedurePrimitiveV::Functions (primitive) =>
+			if let Some (primitive) = functions_primitive_v_alternative_4 (primitive) {
 				Some (ProcedurePrimitive4::Functions (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Runtime (primitive) =>
-			if let Some (primitive) = runtime_primitive_n_alternative_4 (primitive) {
+		ProcedurePrimitiveV::Runtime (primitive) =>
+			if let Some (primitive) = runtime_primitive_v_alternative_4 (primitive) {
 				Some (ProcedurePrimitive4::Runtime (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Port (primitive) =>
-			if let Some (primitive) = port_primitive_n_alternative_4 (primitive) {
+		ProcedurePrimitiveV::Port (primitive) =>
+			if let Some (primitive) = port_primitive_v_alternative_4 (primitive) {
 				Some (ProcedurePrimitive4::Port (primitive))
 			} else {
 				None
@@ -1050,82 +1078,168 @@ pub fn procedure_primitive_n_alternative_4 (primitive : ProcedurePrimitiveN) -> 
 
 
 
-pub fn procedure_primitive_n_alternative_5 (primitive : ProcedurePrimitiveN) -> (Option<ProcedurePrimitive5>) {
+pub fn procedure_primitive_v_alternative_5 (primitive : ProcedurePrimitiveV) -> (Option<ProcedurePrimitive5>) {
 	match primitive {
 		
-		ProcedurePrimitiveN::Boolean (primitive) =>
-			if let Some (primitive) = boolean_primitive_n_alternative_5 (primitive) {
+		ProcedurePrimitiveV::Boolean (primitive) =>
+			if let Some (primitive) = boolean_primitive_v_alternative_5 (primitive) {
 				Some (ProcedurePrimitive5::Boolean (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Arithmetic (primitive) =>
-			if let Some (primitive) = arithmetic_primitive_n_alternative_5 (primitive) {
+		ProcedurePrimitiveV::Arithmetic (primitive) =>
+			if let Some (primitive) = arithmetic_primitive_v_alternative_5 (primitive) {
 				Some (ProcedurePrimitive5::Arithmetic (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Bitwise (primitive) =>
-			if let Some (primitive) = bitwise_primitive_n_alternative_5 (primitive) {
+		ProcedurePrimitiveV::Bitwise (primitive) =>
+			if let Some (primitive) = bitwise_primitive_v_alternative_5 (primitive) {
 				Some (ProcedurePrimitive5::Bitwise (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Comparison (primitive) =>
-			if let Some (primitive) = comparison_primitive_n_alternative_5 (primitive) {
+		ProcedurePrimitiveV::Comparison (primitive) =>
+			if let Some (primitive) = comparison_primitive_v_alternative_5 (primitive) {
 				Some (ProcedurePrimitive5::Comparison (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::List (primitive) =>
-			if let Some (primitive) = list_primitive_n_alternative_5 (primitive) {
+		ProcedurePrimitiveV::List (primitive) =>
+			if let Some (primitive) = list_primitive_v_alternative_5 (primitive) {
 				Some (ProcedurePrimitive5::List (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Array (primitive) =>
-			if let Some (primitive) = array_primitive_n_alternative_5 (primitive) {
+		ProcedurePrimitiveV::Array (primitive) =>
+			if let Some (primitive) = array_primitive_v_alternative_5 (primitive) {
 				Some (ProcedurePrimitive5::Array (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Bytes (primitive) =>
-			if let Some (primitive) = bytes_primitive_n_alternative_5 (primitive) {
+		ProcedurePrimitiveV::Bytes (primitive) =>
+			if let Some (primitive) = bytes_primitive_v_alternative_5 (primitive) {
 				Some (ProcedurePrimitive5::Bytes (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::String (primitive) =>
-			if let Some (primitive) = string_primitive_n_alternative_5 (primitive) {
+		ProcedurePrimitiveV::String (primitive) =>
+			if let Some (primitive) = string_primitive_v_alternative_5 (primitive) {
 				Some (ProcedurePrimitive5::String (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Functions (primitive) =>
-			if let Some (primitive) = functions_primitive_n_alternative_5 (primitive) {
+		ProcedurePrimitiveV::Functions (primitive) =>
+			if let Some (primitive) = functions_primitive_v_alternative_5 (primitive) {
 				Some (ProcedurePrimitive5::Functions (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Runtime (primitive) =>
-			if let Some (primitive) = runtime_primitive_n_alternative_5 (primitive) {
+		ProcedurePrimitiveV::Runtime (primitive) =>
+			if let Some (primitive) = runtime_primitive_v_alternative_5 (primitive) {
 				Some (ProcedurePrimitive5::Runtime (primitive))
 			} else {
 				None
 			},
 		
-		ProcedurePrimitiveN::Port (primitive) =>
-			if let Some (primitive) = port_primitive_n_alternative_5 (primitive) {
+		ProcedurePrimitiveV::Port (primitive) =>
+			if let Some (primitive) = port_primitive_v_alternative_5 (primitive) {
 				Some (ProcedurePrimitive5::Port (primitive))
+			} else {
+				None
+			},
+		
+	}
+}
+
+
+
+
+pub fn procedure_primitive_v_alternative_n (primitive : ProcedurePrimitiveV) -> (Option<ProcedurePrimitiveN>) {
+	match primitive {
+		
+		ProcedurePrimitiveV::Boolean (primitive) =>
+			if let Some (primitive) = boolean_primitive_v_alternative_n (primitive) {
+				Some (ProcedurePrimitiveN::Boolean (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveV::Arithmetic (primitive) =>
+			if let Some (primitive) = arithmetic_primitive_v_alternative_n (primitive) {
+				Some (ProcedurePrimitiveN::Arithmetic (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveV::Bitwise (primitive) =>
+			if let Some (primitive) = bitwise_primitive_v_alternative_n (primitive) {
+				Some (ProcedurePrimitiveN::Bitwise (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveV::Comparison (primitive) =>
+			if let Some (primitive) = comparison_primitive_v_alternative_n (primitive) {
+				Some (ProcedurePrimitiveN::Comparison (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveV::List (primitive) =>
+			if let Some (primitive) = list_primitive_v_alternative_n (primitive) {
+				Some (ProcedurePrimitiveN::List (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveV::Array (primitive) =>
+			if let Some (primitive) = array_primitive_v_alternative_n (primitive) {
+				Some (ProcedurePrimitiveN::Array (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveV::Bytes (primitive) =>
+			if let Some (primitive) = bytes_primitive_v_alternative_n (primitive) {
+				Some (ProcedurePrimitiveN::Bytes (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveV::String (primitive) =>
+			if let Some (primitive) = string_primitive_v_alternative_n (primitive) {
+				Some (ProcedurePrimitiveN::String (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveV::Functions (primitive) =>
+			if let Some (primitive) = functions_primitive_v_alternative_n (primitive) {
+				Some (ProcedurePrimitiveN::Functions (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveV::Runtime (primitive) =>
+			if let Some (primitive) = runtime_primitive_v_alternative_n (primitive) {
+				Some (ProcedurePrimitiveN::Runtime (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveV::Port (primitive) =>
+			if let Some (primitive) = port_primitive_v_alternative_n (primitive) {
+				Some (ProcedurePrimitiveN::Port (primitive))
 			} else {
 				None
 			},

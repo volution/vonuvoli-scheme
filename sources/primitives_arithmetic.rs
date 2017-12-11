@@ -18,6 +18,7 @@ pub mod exports {
 	pub use super::ArithmeticPrimitive4;
 	pub use super::ArithmeticPrimitive5;
 	pub use super::ArithmeticPrimitiveN;
+	pub use super::ArithmeticPrimitiveV;
 	
 	pub use super::arithmetic_primitive_0_evaluate;
 	pub use super::arithmetic_primitive_1_evaluate;
@@ -27,12 +28,13 @@ pub mod exports {
 	pub use super::arithmetic_primitive_5_evaluate;
 	pub use super::arithmetic_primitive_n_evaluate;
 	
-	pub use super::arithmetic_primitive_n_alternative_0;
-	pub use super::arithmetic_primitive_n_alternative_1;
-	pub use super::arithmetic_primitive_n_alternative_2;
-	pub use super::arithmetic_primitive_n_alternative_3;
-	pub use super::arithmetic_primitive_n_alternative_4;
-	pub use super::arithmetic_primitive_n_alternative_5;
+	pub use super::arithmetic_primitive_v_alternative_0;
+	pub use super::arithmetic_primitive_v_alternative_1;
+	pub use super::arithmetic_primitive_v_alternative_2;
+	pub use super::arithmetic_primitive_v_alternative_3;
+	pub use super::arithmetic_primitive_v_alternative_4;
+	pub use super::arithmetic_primitive_v_alternative_5;
+	pub use super::arithmetic_primitive_v_alternative_n;
 	
 }
 
@@ -147,6 +149,23 @@ pub enum ArithmeticPrimitive5 {}
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ArithmeticPrimitiveN {
+	
+	Addition,
+	Subtraction,
+	Multiplication,
+	Division,
+	
+	GreatestCommonDivisor,
+	LeastCommonMultiple,
+	
+	Minimum,
+	Maximum,
+	
+}
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub enum ArithmeticPrimitiveV {
 	
 	Addition,
 	Subtraction,
@@ -602,133 +621,141 @@ pub fn arithmetic_primitive_n_evaluate (primitive : ArithmeticPrimitiveN, inputs
 
 
 
-pub fn arithmetic_primitive_n_alternative_0 (primitive : ArithmeticPrimitiveN) -> (Option<ArithmeticPrimitive0>) {
+pub fn arithmetic_primitive_v_alternative_0 (primitive : ArithmeticPrimitiveV) -> (Option<ArithmeticPrimitive0>) {
 	match primitive {
-		ArithmeticPrimitiveN::Addition =>
+		ArithmeticPrimitiveV::Addition =>
 			Some (ArithmeticPrimitive0::Addition),
-		ArithmeticPrimitiveN::Subtraction =>
+		ArithmeticPrimitiveV::Subtraction =>
 			None,
-		ArithmeticPrimitiveN::Multiplication =>
+		ArithmeticPrimitiveV::Multiplication =>
 			Some (ArithmeticPrimitive0::Multiplication),
-		ArithmeticPrimitiveN::Division =>
+		ArithmeticPrimitiveV::Division =>
 			None,
-		ArithmeticPrimitiveN::GreatestCommonDivisor =>
+		ArithmeticPrimitiveV::GreatestCommonDivisor =>
 			None,
-		ArithmeticPrimitiveN::LeastCommonMultiple =>
+		ArithmeticPrimitiveV::LeastCommonMultiple =>
 			None,
-		ArithmeticPrimitiveN::Minimum =>
+		ArithmeticPrimitiveV::Minimum =>
 			None,
-		ArithmeticPrimitiveN::Maximum =>
+		ArithmeticPrimitiveV::Maximum =>
 			None,
 	}
 }
 
 
-pub fn arithmetic_primitive_n_alternative_1 (primitive : ArithmeticPrimitiveN) -> (Option<ArithmeticPrimitive1>) {
+pub fn arithmetic_primitive_v_alternative_1 (primitive : ArithmeticPrimitiveV) -> (Option<ArithmeticPrimitive1>) {
 	match primitive {
-		ArithmeticPrimitiveN::Addition =>
+		ArithmeticPrimitiveV::Addition =>
 			Some (ArithmeticPrimitive1::Addition),
-		ArithmeticPrimitiveN::Subtraction =>
+		ArithmeticPrimitiveV::Subtraction =>
 			Some (ArithmeticPrimitive1::Subtraction),
-		ArithmeticPrimitiveN::Multiplication =>
+		ArithmeticPrimitiveV::Multiplication =>
 			Some (ArithmeticPrimitive1::Multiplication),
-		ArithmeticPrimitiveN::Division =>
+		ArithmeticPrimitiveV::Division =>
 			Some (ArithmeticPrimitive1::Division),
-		ArithmeticPrimitiveN::GreatestCommonDivisor =>
+		ArithmeticPrimitiveV::GreatestCommonDivisor =>
 			Some (ArithmeticPrimitive1::GreatestCommonDivisor),
-		ArithmeticPrimitiveN::LeastCommonMultiple =>
+		ArithmeticPrimitiveV::LeastCommonMultiple =>
 			Some (ArithmeticPrimitive1::LeastCommonMultiple),
-		ArithmeticPrimitiveN::Minimum =>
+		ArithmeticPrimitiveV::Minimum =>
 			Some (ArithmeticPrimitive1::Minimum),
-		ArithmeticPrimitiveN::Maximum =>
+		ArithmeticPrimitiveV::Maximum =>
 			Some (ArithmeticPrimitive1::Maximum),
 	}
 }
 
 
-pub fn arithmetic_primitive_n_alternative_2 (primitive : ArithmeticPrimitiveN) -> (Option<ArithmeticPrimitive2>) {
+pub fn arithmetic_primitive_v_alternative_2 (primitive : ArithmeticPrimitiveV) -> (Option<ArithmeticPrimitive2>) {
 	match primitive {
-		ArithmeticPrimitiveN::Addition =>
+		ArithmeticPrimitiveV::Addition =>
 			Some (ArithmeticPrimitive2::Addition),
-		ArithmeticPrimitiveN::Subtraction =>
+		ArithmeticPrimitiveV::Subtraction =>
 			Some (ArithmeticPrimitive2::Subtraction),
-		ArithmeticPrimitiveN::Multiplication =>
+		ArithmeticPrimitiveV::Multiplication =>
 			Some (ArithmeticPrimitive2::Multiplication),
-		ArithmeticPrimitiveN::Division =>
+		ArithmeticPrimitiveV::Division =>
 			Some (ArithmeticPrimitive2::Division),
-		ArithmeticPrimitiveN::GreatestCommonDivisor =>
+		ArithmeticPrimitiveV::GreatestCommonDivisor =>
 			Some (ArithmeticPrimitive2::GreatestCommonDivisor),
-		ArithmeticPrimitiveN::LeastCommonMultiple =>
+		ArithmeticPrimitiveV::LeastCommonMultiple =>
 			Some (ArithmeticPrimitive2::LeastCommonMultiple),
-		ArithmeticPrimitiveN::Minimum =>
+		ArithmeticPrimitiveV::Minimum =>
 			Some (ArithmeticPrimitive2::Minimum),
-		ArithmeticPrimitiveN::Maximum =>
+		ArithmeticPrimitiveV::Maximum =>
 			Some (ArithmeticPrimitive2::Maximum),
 	}
 }
 
 
-pub fn arithmetic_primitive_n_alternative_3 (primitive : ArithmeticPrimitiveN) -> (Option<ArithmeticPrimitive3>) {
+pub fn arithmetic_primitive_v_alternative_3 (primitive : ArithmeticPrimitiveV) -> (Option<ArithmeticPrimitive3>) {
 	match primitive {
-		ArithmeticPrimitiveN::Addition =>
+		ArithmeticPrimitiveV::Addition =>
 			None,
-		ArithmeticPrimitiveN::Subtraction =>
+		ArithmeticPrimitiveV::Subtraction =>
 			None,
-		ArithmeticPrimitiveN::Multiplication =>
+		ArithmeticPrimitiveV::Multiplication =>
 			None,
-		ArithmeticPrimitiveN::Division =>
+		ArithmeticPrimitiveV::Division =>
 			None,
-		ArithmeticPrimitiveN::GreatestCommonDivisor =>
+		ArithmeticPrimitiveV::GreatestCommonDivisor =>
 			None,
-		ArithmeticPrimitiveN::LeastCommonMultiple =>
+		ArithmeticPrimitiveV::LeastCommonMultiple =>
 			None,
-		ArithmeticPrimitiveN::Minimum =>
+		ArithmeticPrimitiveV::Minimum =>
 			None,
-		ArithmeticPrimitiveN::Maximum =>
+		ArithmeticPrimitiveV::Maximum =>
 			None,
 	}
 }
 
 
-pub fn arithmetic_primitive_n_alternative_4 (primitive : ArithmeticPrimitiveN) -> (Option<ArithmeticPrimitive4>) {
+pub fn arithmetic_primitive_v_alternative_4 (primitive : ArithmeticPrimitiveV) -> (Option<ArithmeticPrimitive4>) {
 	match primitive {
-		ArithmeticPrimitiveN::Addition =>
+		ArithmeticPrimitiveV::Addition =>
 			None,
-		ArithmeticPrimitiveN::Subtraction =>
+		ArithmeticPrimitiveV::Subtraction =>
 			None,
-		ArithmeticPrimitiveN::Multiplication =>
+		ArithmeticPrimitiveV::Multiplication =>
 			None,
-		ArithmeticPrimitiveN::Division =>
+		ArithmeticPrimitiveV::Division =>
 			None,
-		ArithmeticPrimitiveN::GreatestCommonDivisor =>
+		ArithmeticPrimitiveV::GreatestCommonDivisor =>
 			None,
-		ArithmeticPrimitiveN::LeastCommonMultiple =>
+		ArithmeticPrimitiveV::LeastCommonMultiple =>
 			None,
-		ArithmeticPrimitiveN::Minimum =>
+		ArithmeticPrimitiveV::Minimum =>
 			None,
-		ArithmeticPrimitiveN::Maximum =>
+		ArithmeticPrimitiveV::Maximum =>
 			None,
 	}
 }
 
 
-pub fn arithmetic_primitive_n_alternative_5 (primitive : ArithmeticPrimitiveN) -> (Option<ArithmeticPrimitive5>) {
+pub fn arithmetic_primitive_v_alternative_5 (primitive : ArithmeticPrimitiveV) -> (Option<ArithmeticPrimitive5>) {
 	match primitive {
-		ArithmeticPrimitiveN::Addition =>
+		ArithmeticPrimitiveV::Addition =>
 			None,
-		ArithmeticPrimitiveN::Subtraction =>
+		ArithmeticPrimitiveV::Subtraction =>
 			None,
-		ArithmeticPrimitiveN::Multiplication =>
+		ArithmeticPrimitiveV::Multiplication =>
 			None,
-		ArithmeticPrimitiveN::Division =>
+		ArithmeticPrimitiveV::Division =>
 			None,
-		ArithmeticPrimitiveN::GreatestCommonDivisor =>
+		ArithmeticPrimitiveV::GreatestCommonDivisor =>
 			None,
-		ArithmeticPrimitiveN::LeastCommonMultiple =>
+		ArithmeticPrimitiveV::LeastCommonMultiple =>
 			None,
-		ArithmeticPrimitiveN::Minimum =>
+		ArithmeticPrimitiveV::Minimum =>
 			None,
-		ArithmeticPrimitiveN::Maximum =>
+		ArithmeticPrimitiveV::Maximum =>
+			None,
+	}
+}
+
+
+pub fn arithmetic_primitive_v_alternative_n (primitive : ArithmeticPrimitiveV) -> (Option<ArithmeticPrimitiveN>) {
+	match primitive {
+		_ =>
 			None,
 	}
 }

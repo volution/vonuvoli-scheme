@@ -17,6 +17,7 @@ pub mod exports {
 	pub use super::FunctionsPrimitive4;
 	pub use super::FunctionsPrimitive5;
 	pub use super::FunctionsPrimitiveN;
+	pub use super::FunctionsPrimitiveV;
 	
 	pub use super::functions_primitive_0_evaluate;
 	pub use super::functions_primitive_1_evaluate;
@@ -26,12 +27,13 @@ pub mod exports {
 	pub use super::functions_primitive_5_evaluate;
 	pub use super::functions_primitive_n_evaluate;
 	
-	pub use super::functions_primitive_n_alternative_0;
-	pub use super::functions_primitive_n_alternative_1;
-	pub use super::functions_primitive_n_alternative_2;
-	pub use super::functions_primitive_n_alternative_3;
-	pub use super::functions_primitive_n_alternative_4;
-	pub use super::functions_primitive_n_alternative_5;
+	pub use super::functions_primitive_v_alternative_0;
+	pub use super::functions_primitive_v_alternative_1;
+	pub use super::functions_primitive_v_alternative_2;
+	pub use super::functions_primitive_v_alternative_3;
+	pub use super::functions_primitive_v_alternative_4;
+	pub use super::functions_primitive_v_alternative_5;
+	pub use super::functions_primitive_v_alternative_n;
 	
 }
 
@@ -152,6 +154,29 @@ pub enum FunctionsPrimitive5 {
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum FunctionsPrimitiveN {
+	
+	Call,
+	Apply,
+	
+	ListsMap,
+	ListsIterate,
+	
+	ArraysMap,
+	ArraysIterate,
+	
+	BytesMap,
+	BytesIterate,
+	
+	StringsMap,
+	StringsIterate,
+	
+	Values,
+	
+}
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub enum FunctionsPrimitiveV {
 	
 	Call,
 	Apply,
@@ -438,169 +463,177 @@ pub fn functions_primitive_n_evaluate (primitive : FunctionsPrimitiveN, inputs :
 
 
 
-pub fn functions_primitive_n_alternative_0 (primitive : FunctionsPrimitiveN) -> (Option<FunctionsPrimitive0>) {
+pub fn functions_primitive_v_alternative_0 (primitive : FunctionsPrimitiveV) -> (Option<FunctionsPrimitive0>) {
 	match primitive {
-		FunctionsPrimitiveN::Call =>
+		FunctionsPrimitiveV::Call =>
 			None,
-		FunctionsPrimitiveN::Apply =>
+		FunctionsPrimitiveV::Apply =>
 			None,
-		FunctionsPrimitiveN::ListsMap =>
+		FunctionsPrimitiveV::ListsMap =>
 			None,
-		FunctionsPrimitiveN::ListsIterate =>
+		FunctionsPrimitiveV::ListsIterate =>
 			None,
-		FunctionsPrimitiveN::ArraysMap =>
+		FunctionsPrimitiveV::ArraysMap =>
 			None,
-		FunctionsPrimitiveN::ArraysIterate =>
+		FunctionsPrimitiveV::ArraysIterate =>
 			None,
-		FunctionsPrimitiveN::BytesMap =>
+		FunctionsPrimitiveV::BytesMap =>
 			None,
-		FunctionsPrimitiveN::BytesIterate =>
+		FunctionsPrimitiveV::BytesIterate =>
 			None,
-		FunctionsPrimitiveN::StringsMap =>
+		FunctionsPrimitiveV::StringsMap =>
 			None,
-		FunctionsPrimitiveN::StringsIterate =>
+		FunctionsPrimitiveV::StringsIterate =>
 			None,
-		FunctionsPrimitiveN::Values =>
+		FunctionsPrimitiveV::Values =>
 			Some (FunctionsPrimitive0::Values),
 	}
 }
 
 
-pub fn functions_primitive_n_alternative_1 (primitive : FunctionsPrimitiveN) -> (Option<FunctionsPrimitive1>) {
+pub fn functions_primitive_v_alternative_1 (primitive : FunctionsPrimitiveV) -> (Option<FunctionsPrimitive1>) {
 	match primitive {
-		FunctionsPrimitiveN::Call =>
+		FunctionsPrimitiveV::Call =>
 			Some (FunctionsPrimitive1::Call),
-		FunctionsPrimitiveN::Apply =>
+		FunctionsPrimitiveV::Apply =>
 			Some (FunctionsPrimitive1::Apply),
-		FunctionsPrimitiveN::ListsMap =>
+		FunctionsPrimitiveV::ListsMap =>
 			None,
-		FunctionsPrimitiveN::ListsIterate =>
+		FunctionsPrimitiveV::ListsIterate =>
 			None,
-		FunctionsPrimitiveN::ArraysMap =>
+		FunctionsPrimitiveV::ArraysMap =>
 			None,
-		FunctionsPrimitiveN::ArraysIterate =>
+		FunctionsPrimitiveV::ArraysIterate =>
 			None,
-		FunctionsPrimitiveN::BytesMap =>
+		FunctionsPrimitiveV::BytesMap =>
 			None,
-		FunctionsPrimitiveN::BytesIterate =>
+		FunctionsPrimitiveV::BytesIterate =>
 			None,
-		FunctionsPrimitiveN::StringsMap =>
+		FunctionsPrimitiveV::StringsMap =>
 			None,
-		FunctionsPrimitiveN::StringsIterate =>
+		FunctionsPrimitiveV::StringsIterate =>
 			None,
-		FunctionsPrimitiveN::Values =>
+		FunctionsPrimitiveV::Values =>
 			Some (FunctionsPrimitive1::Values),
 	}
 }
 
 
-pub fn functions_primitive_n_alternative_2 (primitive : FunctionsPrimitiveN) -> (Option<FunctionsPrimitive2>) {
+pub fn functions_primitive_v_alternative_2 (primitive : FunctionsPrimitiveV) -> (Option<FunctionsPrimitive2>) {
 	match primitive {
-		FunctionsPrimitiveN::Call =>
+		FunctionsPrimitiveV::Call =>
 			Some (FunctionsPrimitive2::Call),
-		FunctionsPrimitiveN::Apply =>
+		FunctionsPrimitiveV::Apply =>
 			Some (FunctionsPrimitive2::Apply),
-		FunctionsPrimitiveN::ListsMap =>
+		FunctionsPrimitiveV::ListsMap =>
 			Some (FunctionsPrimitive2::ListsMap),
-		FunctionsPrimitiveN::ListsIterate =>
+		FunctionsPrimitiveV::ListsIterate =>
 			Some (FunctionsPrimitive2::ListsIterate),
-		FunctionsPrimitiveN::ArraysMap =>
+		FunctionsPrimitiveV::ArraysMap =>
 			Some (FunctionsPrimitive2::ArraysMap),
-		FunctionsPrimitiveN::ArraysIterate =>
+		FunctionsPrimitiveV::ArraysIterate =>
 			Some (FunctionsPrimitive2::ArraysIterate),
-		FunctionsPrimitiveN::BytesMap =>
+		FunctionsPrimitiveV::BytesMap =>
 			Some (FunctionsPrimitive2::BytesMap),
-		FunctionsPrimitiveN::BytesIterate =>
+		FunctionsPrimitiveV::BytesIterate =>
 			Some (FunctionsPrimitive2::BytesIterate),
-		FunctionsPrimitiveN::StringsMap =>
+		FunctionsPrimitiveV::StringsMap =>
 			Some (FunctionsPrimitive2::StringsMap),
-		FunctionsPrimitiveN::StringsIterate =>
+		FunctionsPrimitiveV::StringsIterate =>
 			Some (FunctionsPrimitive2::StringsIterate),
-		FunctionsPrimitiveN::Values =>
+		FunctionsPrimitiveV::Values =>
 			Some (FunctionsPrimitive2::Values),
 	}
 }
 
 
-pub fn functions_primitive_n_alternative_3 (primitive : FunctionsPrimitiveN) -> (Option<FunctionsPrimitive3>) {
+pub fn functions_primitive_v_alternative_3 (primitive : FunctionsPrimitiveV) -> (Option<FunctionsPrimitive3>) {
 	match primitive {
-		FunctionsPrimitiveN::Call =>
+		FunctionsPrimitiveV::Call =>
 			Some (FunctionsPrimitive3::Call),
-		FunctionsPrimitiveN::Apply =>
+		FunctionsPrimitiveV::Apply =>
 			Some (FunctionsPrimitive3::Apply),
-		FunctionsPrimitiveN::ListsMap =>
+		FunctionsPrimitiveV::ListsMap =>
 			Some (FunctionsPrimitive3::ListsMap),
-		FunctionsPrimitiveN::ListsIterate =>
+		FunctionsPrimitiveV::ListsIterate =>
 			Some (FunctionsPrimitive3::ListsIterate),
-		FunctionsPrimitiveN::ArraysMap =>
+		FunctionsPrimitiveV::ArraysMap =>
 			Some (FunctionsPrimitive3::ArraysMap),
-		FunctionsPrimitiveN::ArraysIterate =>
+		FunctionsPrimitiveV::ArraysIterate =>
 			Some (FunctionsPrimitive3::ArraysIterate),
-		FunctionsPrimitiveN::BytesMap =>
+		FunctionsPrimitiveV::BytesMap =>
 			Some (FunctionsPrimitive3::BytesMap),
-		FunctionsPrimitiveN::BytesIterate =>
+		FunctionsPrimitiveV::BytesIterate =>
 			Some (FunctionsPrimitive3::BytesIterate),
-		FunctionsPrimitiveN::StringsMap =>
+		FunctionsPrimitiveV::StringsMap =>
 			Some (FunctionsPrimitive3::StringsMap),
-		FunctionsPrimitiveN::StringsIterate =>
+		FunctionsPrimitiveV::StringsIterate =>
 			Some (FunctionsPrimitive3::StringsIterate),
-		FunctionsPrimitiveN::Values =>
+		FunctionsPrimitiveV::Values =>
 			Some (FunctionsPrimitive3::Values),
 	}
 }
 
 
-pub fn functions_primitive_n_alternative_4 (primitive : FunctionsPrimitiveN) -> (Option<FunctionsPrimitive4>) {
+pub fn functions_primitive_v_alternative_4 (primitive : FunctionsPrimitiveV) -> (Option<FunctionsPrimitive4>) {
 	match primitive {
-		FunctionsPrimitiveN::Call =>
+		FunctionsPrimitiveV::Call =>
 			Some (FunctionsPrimitive4::Call),
-		FunctionsPrimitiveN::Apply =>
+		FunctionsPrimitiveV::Apply =>
 			Some (FunctionsPrimitive4::Apply),
-		FunctionsPrimitiveN::ListsMap =>
+		FunctionsPrimitiveV::ListsMap =>
 			Some (FunctionsPrimitive4::ListsMap),
-		FunctionsPrimitiveN::ListsIterate =>
+		FunctionsPrimitiveV::ListsIterate =>
 			Some (FunctionsPrimitive4::ListsIterate),
-		FunctionsPrimitiveN::ArraysMap =>
+		FunctionsPrimitiveV::ArraysMap =>
 			Some (FunctionsPrimitive4::ArraysMap),
-		FunctionsPrimitiveN::ArraysIterate =>
+		FunctionsPrimitiveV::ArraysIterate =>
 			Some (FunctionsPrimitive4::ArraysIterate),
-		FunctionsPrimitiveN::BytesMap =>
+		FunctionsPrimitiveV::BytesMap =>
 			Some (FunctionsPrimitive4::BytesMap),
-		FunctionsPrimitiveN::BytesIterate =>
+		FunctionsPrimitiveV::BytesIterate =>
 			Some (FunctionsPrimitive4::BytesIterate),
-		FunctionsPrimitiveN::StringsMap =>
+		FunctionsPrimitiveV::StringsMap =>
 			Some (FunctionsPrimitive4::StringsMap),
-		FunctionsPrimitiveN::StringsIterate =>
+		FunctionsPrimitiveV::StringsIterate =>
 			Some (FunctionsPrimitive4::StringsIterate),
-		FunctionsPrimitiveN::Values =>
+		FunctionsPrimitiveV::Values =>
 			Some (FunctionsPrimitive4::Values),
 	}
 }
 
 
-pub fn functions_primitive_n_alternative_5 (primitive : FunctionsPrimitiveN) -> (Option<FunctionsPrimitive5>) {
+pub fn functions_primitive_v_alternative_5 (primitive : FunctionsPrimitiveV) -> (Option<FunctionsPrimitive5>) {
 	match primitive {
-		FunctionsPrimitiveN::Call =>
+		FunctionsPrimitiveV::Call =>
 			Some (FunctionsPrimitive5::Call),
-		FunctionsPrimitiveN::Apply =>
+		FunctionsPrimitiveV::Apply =>
 			Some (FunctionsPrimitive5::Apply),
-		FunctionsPrimitiveN::ListsMap =>
+		FunctionsPrimitiveV::ListsMap =>
 			Some (FunctionsPrimitive5::ListsMap),
-		FunctionsPrimitiveN::ListsIterate =>
+		FunctionsPrimitiveV::ListsIterate =>
 			Some (FunctionsPrimitive5::ListsIterate),
-		FunctionsPrimitiveN::ArraysMap =>
+		FunctionsPrimitiveV::ArraysMap =>
 			Some (FunctionsPrimitive5::ArraysMap),
-		FunctionsPrimitiveN::ArraysIterate =>
+		FunctionsPrimitiveV::ArraysIterate =>
 			Some (FunctionsPrimitive5::ArraysIterate),
-		FunctionsPrimitiveN::BytesMap =>
+		FunctionsPrimitiveV::BytesMap =>
 			Some (FunctionsPrimitive5::BytesMap),
-		FunctionsPrimitiveN::BytesIterate =>
+		FunctionsPrimitiveV::BytesIterate =>
 			Some (FunctionsPrimitive5::BytesIterate),
-		FunctionsPrimitiveN::StringsMap =>
+		FunctionsPrimitiveV::StringsMap =>
 			Some (FunctionsPrimitive5::StringsMap),
-		FunctionsPrimitiveN::StringsIterate =>
+		FunctionsPrimitiveV::StringsIterate =>
 			Some (FunctionsPrimitive5::StringsIterate),
-		FunctionsPrimitiveN::Values =>
+		FunctionsPrimitiveV::Values =>
+			None,
+	}
+}
+
+
+pub fn functions_primitive_v_alternative_n (primitive : FunctionsPrimitiveV) -> (Option<FunctionsPrimitiveN>) {
+	match primitive {
+		_ =>
 			None,
 	}
 }

@@ -18,6 +18,7 @@ pub mod exports {
 	pub use super::PortPrimitive4;
 	pub use super::PortPrimitive5;
 	pub use super::PortPrimitiveN;
+	pub use super::PortPrimitiveV;
 	
 	pub use super::port_primitive_0_evaluate;
 	pub use super::port_primitive_1_evaluate;
@@ -27,12 +28,13 @@ pub mod exports {
 	pub use super::port_primitive_5_evaluate;
 	pub use super::port_primitive_n_evaluate;
 	
-	pub use super::port_primitive_n_alternative_0;
-	pub use super::port_primitive_n_alternative_1;
-	pub use super::port_primitive_n_alternative_2;
-	pub use super::port_primitive_n_alternative_3;
-	pub use super::port_primitive_n_alternative_4;
-	pub use super::port_primitive_n_alternative_5;
+	pub use super::port_primitive_v_alternative_0;
+	pub use super::port_primitive_v_alternative_1;
+	pub use super::port_primitive_v_alternative_2;
+	pub use super::port_primitive_v_alternative_3;
+	pub use super::port_primitive_v_alternative_4;
+	pub use super::port_primitive_v_alternative_5;
+	pub use super::port_primitive_v_alternative_n;
 	
 }
 
@@ -140,6 +142,10 @@ pub enum PortPrimitive5 {}
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum PortPrimitiveN {}
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub enum PortPrimitiveV {}
 
 
 
@@ -391,32 +397,37 @@ pub fn port_primitive_n_evaluate (primitive : PortPrimitiveN, _inputs : &[Value]
 
 
 
-pub fn port_primitive_n_alternative_0 (primitive : PortPrimitiveN) -> (Option<PortPrimitive0>) {
+pub fn port_primitive_v_alternative_0 (primitive : PortPrimitiveV) -> (Option<PortPrimitive0>) {
 	match primitive {}
 }
 
 
-pub fn port_primitive_n_alternative_1 (primitive : PortPrimitiveN) -> (Option<PortPrimitive1>) {
+pub fn port_primitive_v_alternative_1 (primitive : PortPrimitiveV) -> (Option<PortPrimitive1>) {
 	match primitive {}
 }
 
 
-pub fn port_primitive_n_alternative_2 (primitive : PortPrimitiveN) -> (Option<PortPrimitive2>) {
+pub fn port_primitive_v_alternative_2 (primitive : PortPrimitiveV) -> (Option<PortPrimitive2>) {
 	match primitive {}
 }
 
 
-pub fn port_primitive_n_alternative_3 (primitive : PortPrimitiveN) -> (Option<PortPrimitive3>) {
+pub fn port_primitive_v_alternative_3 (primitive : PortPrimitiveV) -> (Option<PortPrimitive3>) {
 	match primitive {}
 }
 
 
-pub fn port_primitive_n_alternative_4 (primitive : PortPrimitiveN) -> (Option<PortPrimitive4>) {
+pub fn port_primitive_v_alternative_4 (primitive : PortPrimitiveV) -> (Option<PortPrimitive4>) {
 	match primitive {}
 }
 
 
-pub fn port_primitive_n_alternative_5 (primitive : PortPrimitiveN) -> (Option<PortPrimitive5>) {
+pub fn port_primitive_v_alternative_5 (primitive : PortPrimitiveV) -> (Option<PortPrimitive5>) {
+	match primitive {}
+}
+
+
+pub fn port_primitive_v_alternative_n (primitive : PortPrimitiveV) -> (Option<PortPrimitiveN>) {
 	match primitive {}
 }
 

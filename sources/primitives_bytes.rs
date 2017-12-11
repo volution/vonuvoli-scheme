@@ -18,6 +18,7 @@ pub mod exports {
 	pub use super::BytesPrimitive4;
 	pub use super::BytesPrimitive5;
 	pub use super::BytesPrimitiveN;
+	pub use super::BytesPrimitiveV;
 	
 	pub use super::bytes_primitive_0_evaluate;
 	pub use super::bytes_primitive_1_evaluate;
@@ -27,12 +28,13 @@ pub mod exports {
 	pub use super::bytes_primitive_5_evaluate;
 	pub use super::bytes_primitive_n_evaluate;
 	
-	pub use super::bytes_primitive_n_alternative_0;
-	pub use super::bytes_primitive_n_alternative_1;
-	pub use super::bytes_primitive_n_alternative_2;
-	pub use super::bytes_primitive_n_alternative_3;
-	pub use super::bytes_primitive_n_alternative_4;
-	pub use super::bytes_primitive_n_alternative_5;
+	pub use super::bytes_primitive_v_alternative_0;
+	pub use super::bytes_primitive_v_alternative_1;
+	pub use super::bytes_primitive_v_alternative_2;
+	pub use super::bytes_primitive_v_alternative_3;
+	pub use super::bytes_primitive_v_alternative_4;
+	pub use super::bytes_primitive_v_alternative_5;
+	pub use super::bytes_primitive_v_alternative_n;
 	
 }
 
@@ -134,6 +136,25 @@ pub enum BytesPrimitive5 {
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum BytesPrimitiveN {
+	
+	BytesMake,
+	BytesBuild,
+	BytesAppend,
+	
+	BytesRangeFill,
+	BytesRangeCopy,
+	BytesRangeClone,
+	
+	BytesRangeToList,
+	ListRangeToBytes,
+	BytesRangeToArray,
+	ArrayRangeToBytes,
+	
+}
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub enum BytesPrimitiveV {
 	
 	BytesMake,
 	BytesBuild,
@@ -366,157 +387,165 @@ pub fn bytes_primitive_n_evaluate (primitive : BytesPrimitiveN, inputs : &[Value
 
 
 
-pub fn bytes_primitive_n_alternative_0 (primitive : BytesPrimitiveN) -> (Option<BytesPrimitive0>) {
+pub fn bytes_primitive_v_alternative_0 (primitive : BytesPrimitiveV) -> (Option<BytesPrimitive0>) {
 	match primitive {
-		BytesPrimitiveN::BytesMake =>
+		BytesPrimitiveV::BytesMake =>
 			None,
-		BytesPrimitiveN::BytesBuild =>
+		BytesPrimitiveV::BytesBuild =>
 			Some (BytesPrimitive0::BytesBuild),
-		BytesPrimitiveN::BytesAppend =>
+		BytesPrimitiveV::BytesAppend =>
 			Some (BytesPrimitive0::BytesAppend),
-		BytesPrimitiveN::BytesRangeFill =>
+		BytesPrimitiveV::BytesRangeFill =>
 			None,
-		BytesPrimitiveN::BytesRangeCopy =>
+		BytesPrimitiveV::BytesRangeCopy =>
 			None,
-		BytesPrimitiveN::BytesRangeClone =>
+		BytesPrimitiveV::BytesRangeClone =>
 			None,
-		BytesPrimitiveN::BytesRangeToList =>
+		BytesPrimitiveV::BytesRangeToList =>
 			None,
-		BytesPrimitiveN::ListRangeToBytes =>
+		BytesPrimitiveV::ListRangeToBytes =>
 			None,
-		BytesPrimitiveN::BytesRangeToArray =>
+		BytesPrimitiveV::BytesRangeToArray =>
 			None,
-		BytesPrimitiveN::ArrayRangeToBytes =>
+		BytesPrimitiveV::ArrayRangeToBytes =>
 			None,
 	}
 }
 
 
-pub fn bytes_primitive_n_alternative_1 (primitive : BytesPrimitiveN) -> (Option<BytesPrimitive1>) {
+pub fn bytes_primitive_v_alternative_1 (primitive : BytesPrimitiveV) -> (Option<BytesPrimitive1>) {
 	match primitive {
-		BytesPrimitiveN::BytesMake =>
+		BytesPrimitiveV::BytesMake =>
 			Some (BytesPrimitive1::BytesMake),
-		BytesPrimitiveN::BytesBuild =>
+		BytesPrimitiveV::BytesBuild =>
 			Some (BytesPrimitive1::BytesBuild),
-		BytesPrimitiveN::BytesAppend =>
+		BytesPrimitiveV::BytesAppend =>
 			Some (BytesPrimitive1::BytesAppend),
-		BytesPrimitiveN::BytesRangeFill =>
+		BytesPrimitiveV::BytesRangeFill =>
 			Some (BytesPrimitive1::BytesFill),
-		BytesPrimitiveN::BytesRangeCopy =>
+		BytesPrimitiveV::BytesRangeCopy =>
 			None,
-		BytesPrimitiveN::BytesRangeClone =>
+		BytesPrimitiveV::BytesRangeClone =>
 			Some (BytesPrimitive1::BytesClone),
-		BytesPrimitiveN::BytesRangeToList =>
+		BytesPrimitiveV::BytesRangeToList =>
 			Some (BytesPrimitive1::BytesToList),
-		BytesPrimitiveN::ListRangeToBytes =>
+		BytesPrimitiveV::ListRangeToBytes =>
 			Some (BytesPrimitive1::ListToBytes),
-		BytesPrimitiveN::BytesRangeToArray =>
+		BytesPrimitiveV::BytesRangeToArray =>
 			Some (BytesPrimitive1::BytesToArray),
-		BytesPrimitiveN::ArrayRangeToBytes =>
+		BytesPrimitiveV::ArrayRangeToBytes =>
 			Some (BytesPrimitive1::ArrayToBytes),
 	}
 }
 
 
-pub fn bytes_primitive_n_alternative_2 (primitive : BytesPrimitiveN) -> (Option<BytesPrimitive2>) {
+pub fn bytes_primitive_v_alternative_2 (primitive : BytesPrimitiveV) -> (Option<BytesPrimitive2>) {
 	match primitive {
-		BytesPrimitiveN::BytesMake =>
+		BytesPrimitiveV::BytesMake =>
 			Some (BytesPrimitive2::BytesMake),
-		BytesPrimitiveN::BytesBuild =>
+		BytesPrimitiveV::BytesBuild =>
 			Some (BytesPrimitive2::BytesBuild),
-		BytesPrimitiveN::BytesAppend =>
+		BytesPrimitiveV::BytesAppend =>
 			Some (BytesPrimitive2::BytesAppend),
-		BytesPrimitiveN::BytesRangeFill =>
+		BytesPrimitiveV::BytesRangeFill =>
 			Some (BytesPrimitive2::BytesFill),
-		BytesPrimitiveN::BytesRangeCopy =>
+		BytesPrimitiveV::BytesRangeCopy =>
 			Some (BytesPrimitive2::BytesCopy),
-		BytesPrimitiveN::BytesRangeClone =>
+		BytesPrimitiveV::BytesRangeClone =>
 			Some (BytesPrimitive2::BytesRangeClone),
-		BytesPrimitiveN::BytesRangeToList =>
+		BytesPrimitiveV::BytesRangeToList =>
 			Some (BytesPrimitive2::BytesRangeToList),
-		BytesPrimitiveN::ListRangeToBytes =>
+		BytesPrimitiveV::ListRangeToBytes =>
 			Some (BytesPrimitive2::ListRangeToBytes),
-		BytesPrimitiveN::BytesRangeToArray =>
+		BytesPrimitiveV::BytesRangeToArray =>
 			Some (BytesPrimitive2::BytesRangeToArray),
-		BytesPrimitiveN::ArrayRangeToBytes =>
+		BytesPrimitiveV::ArrayRangeToBytes =>
 			Some (BytesPrimitive2::ArrayRangeToBytes),
 	}
 }
 
 
-pub fn bytes_primitive_n_alternative_3 (primitive : BytesPrimitiveN) -> (Option<BytesPrimitive3>) {
+pub fn bytes_primitive_v_alternative_3 (primitive : BytesPrimitiveV) -> (Option<BytesPrimitive3>) {
 	match primitive {
-		BytesPrimitiveN::BytesMake =>
+		BytesPrimitiveV::BytesMake =>
 			None,
-		BytesPrimitiveN::BytesBuild =>
+		BytesPrimitiveV::BytesBuild =>
 			Some (BytesPrimitive3::BytesBuild),
-		BytesPrimitiveN::BytesAppend =>
+		BytesPrimitiveV::BytesAppend =>
 			Some (BytesPrimitive3::BytesAppend),
-		BytesPrimitiveN::BytesRangeFill =>
+		BytesPrimitiveV::BytesRangeFill =>
 			Some (BytesPrimitive3::BytesRangeFill),
-		BytesPrimitiveN::BytesRangeCopy =>
+		BytesPrimitiveV::BytesRangeCopy =>
 			Some (BytesPrimitive3::BytesRangeCopy),
-		BytesPrimitiveN::BytesRangeClone =>
+		BytesPrimitiveV::BytesRangeClone =>
 			Some (BytesPrimitive3::BytesRangeClone),
-		BytesPrimitiveN::BytesRangeToList =>
+		BytesPrimitiveV::BytesRangeToList =>
 			Some (BytesPrimitive3::BytesRangeToList),
-		BytesPrimitiveN::ListRangeToBytes =>
+		BytesPrimitiveV::ListRangeToBytes =>
 			Some (BytesPrimitive3::ListRangeToBytes),
-		BytesPrimitiveN::BytesRangeToArray =>
+		BytesPrimitiveV::BytesRangeToArray =>
 			Some (BytesPrimitive3::BytesRangeToArray),
-		BytesPrimitiveN::ArrayRangeToBytes =>
+		BytesPrimitiveV::ArrayRangeToBytes =>
 			Some (BytesPrimitive3::ArrayRangeToBytes),
 	}
 }
 
 
-pub fn bytes_primitive_n_alternative_4 (primitive : BytesPrimitiveN) -> (Option<BytesPrimitive4>) {
+pub fn bytes_primitive_v_alternative_4 (primitive : BytesPrimitiveV) -> (Option<BytesPrimitive4>) {
 	match primitive {
-		BytesPrimitiveN::BytesMake =>
+		BytesPrimitiveV::BytesMake =>
 			None,
-		BytesPrimitiveN::BytesBuild =>
+		BytesPrimitiveV::BytesBuild =>
 			Some (BytesPrimitive4::BytesBuild),
-		BytesPrimitiveN::BytesAppend =>
+		BytesPrimitiveV::BytesAppend =>
 			Some (BytesPrimitive4::BytesAppend),
-		BytesPrimitiveN::BytesRangeFill =>
+		BytesPrimitiveV::BytesRangeFill =>
 			Some (BytesPrimitive4::BytesRangeFill),
-		BytesPrimitiveN::BytesRangeCopy =>
+		BytesPrimitiveV::BytesRangeCopy =>
 			Some (BytesPrimitive4::BytesRangeCopy),
-		BytesPrimitiveN::BytesRangeClone =>
+		BytesPrimitiveV::BytesRangeClone =>
 			None,
-		BytesPrimitiveN::BytesRangeToList =>
+		BytesPrimitiveV::BytesRangeToList =>
 			None,
-		BytesPrimitiveN::ListRangeToBytes =>
+		BytesPrimitiveV::ListRangeToBytes =>
 			None,
-		BytesPrimitiveN::BytesRangeToArray =>
+		BytesPrimitiveV::BytesRangeToArray =>
 			None,
-		BytesPrimitiveN::ArrayRangeToBytes =>
+		BytesPrimitiveV::ArrayRangeToBytes =>
 			None,
 	}
 }
 
 
-pub fn bytes_primitive_n_alternative_5 (primitive : BytesPrimitiveN) -> (Option<BytesPrimitive5>) {
+pub fn bytes_primitive_v_alternative_5 (primitive : BytesPrimitiveV) -> (Option<BytesPrimitive5>) {
 	match primitive {
-		BytesPrimitiveN::BytesMake =>
+		BytesPrimitiveV::BytesMake =>
 			None,
-		BytesPrimitiveN::BytesBuild =>
+		BytesPrimitiveV::BytesBuild =>
 			None,
-		BytesPrimitiveN::BytesAppend =>
+		BytesPrimitiveV::BytesAppend =>
 			None,
-		BytesPrimitiveN::BytesRangeFill =>
+		BytesPrimitiveV::BytesRangeFill =>
 			None,
-		BytesPrimitiveN::BytesRangeCopy =>
+		BytesPrimitiveV::BytesRangeCopy =>
 			Some (BytesPrimitive5::BytesRangeCopy),
-		BytesPrimitiveN::BytesRangeClone =>
+		BytesPrimitiveV::BytesRangeClone =>
 			None,
-		BytesPrimitiveN::BytesRangeToList =>
+		BytesPrimitiveV::BytesRangeToList =>
 			None,
-		BytesPrimitiveN::ListRangeToBytes =>
+		BytesPrimitiveV::ListRangeToBytes =>
 			None,
-		BytesPrimitiveN::BytesRangeToArray =>
+		BytesPrimitiveV::BytesRangeToArray =>
 			None,
-		BytesPrimitiveN::ArrayRangeToBytes =>
+		BytesPrimitiveV::ArrayRangeToBytes =>
+			None,
+	}
+}
+
+
+pub fn bytes_primitive_v_alternative_n (primitive : BytesPrimitiveV) -> (Option<BytesPrimitiveN>) {
+	match primitive {
+		_ =>
 			None,
 	}
 }

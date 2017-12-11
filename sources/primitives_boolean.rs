@@ -17,6 +17,7 @@ pub mod exports {
 	pub use super::BooleanPrimitive4;
 	pub use super::BooleanPrimitive5;
 	pub use super::BooleanPrimitiveN;
+	pub use super::BooleanPrimitiveV;
 	
 	pub use super::boolean_primitive_0_evaluate;
 	pub use super::boolean_primitive_1_evaluate;
@@ -26,12 +27,13 @@ pub mod exports {
 	pub use super::boolean_primitive_5_evaluate;
 	pub use super::boolean_primitive_n_evaluate;
 	
-	pub use super::boolean_primitive_n_alternative_0;
-	pub use super::boolean_primitive_n_alternative_1;
-	pub use super::boolean_primitive_n_alternative_2;
-	pub use super::boolean_primitive_n_alternative_3;
-	pub use super::boolean_primitive_n_alternative_4;
-	pub use super::boolean_primitive_n_alternative_5;
+	pub use super::boolean_primitive_v_alternative_0;
+	pub use super::boolean_primitive_v_alternative_1;
+	pub use super::boolean_primitive_v_alternative_2;
+	pub use super::boolean_primitive_v_alternative_3;
+	pub use super::boolean_primitive_v_alternative_4;
+	pub use super::boolean_primitive_v_alternative_5;
+	pub use super::boolean_primitive_v_alternative_n;
 	
 }
 
@@ -96,6 +98,20 @@ pub enum BooleanPrimitive5 {}
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum BooleanPrimitiveN {
+	
+	And,
+	Or,
+	Xor,
+	
+	Nand,
+	Nor,
+	Nxor,
+	
+}
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub enum BooleanPrimitiveV {
 	
 	And,
 	Or,
@@ -282,61 +298,61 @@ pub fn boolean_primitive_n_evaluate (primitive : BooleanPrimitiveN, inputs : &[V
 
 
 
-pub fn boolean_primitive_n_alternative_0 (primitive : BooleanPrimitiveN) -> (Option<BooleanPrimitive0>) {
+pub fn boolean_primitive_v_alternative_0 (primitive : BooleanPrimitiveV) -> (Option<BooleanPrimitive0>) {
 	match primitive {
-		BooleanPrimitiveN::And =>
+		BooleanPrimitiveV::And =>
 			Some (BooleanPrimitive0::And),
-		BooleanPrimitiveN::Or =>
+		BooleanPrimitiveV::Or =>
 			Some (BooleanPrimitive0::Or),
-		BooleanPrimitiveN::Xor =>
+		BooleanPrimitiveV::Xor =>
 			Some (BooleanPrimitive0::Xor),
-		BooleanPrimitiveN::Nand =>
+		BooleanPrimitiveV::Nand =>
 			Some (BooleanPrimitive0::Nand),
-		BooleanPrimitiveN::Nor =>
+		BooleanPrimitiveV::Nor =>
 			Some (BooleanPrimitive0::Nor),
-		BooleanPrimitiveN::Nxor =>
+		BooleanPrimitiveV::Nxor =>
 			Some (BooleanPrimitive0::Nxor),
 	}
 }
 
 
-pub fn boolean_primitive_n_alternative_1 (primitive : BooleanPrimitiveN) -> (Option<BooleanPrimitive1>) {
+pub fn boolean_primitive_v_alternative_1 (primitive : BooleanPrimitiveV) -> (Option<BooleanPrimitive1>) {
 	match primitive {
-		BooleanPrimitiveN::And =>
+		BooleanPrimitiveV::And =>
 			Some (BooleanPrimitive1::And),
-		BooleanPrimitiveN::Or =>
+		BooleanPrimitiveV::Or =>
 			Some (BooleanPrimitive1::Or),
-		BooleanPrimitiveN::Xor =>
+		BooleanPrimitiveV::Xor =>
 			Some (BooleanPrimitive1::Xor),
-		BooleanPrimitiveN::Nand =>
+		BooleanPrimitiveV::Nand =>
 			Some (BooleanPrimitive1::Nand),
-		BooleanPrimitiveN::Nor =>
+		BooleanPrimitiveV::Nor =>
 			Some (BooleanPrimitive1::Nor),
-		BooleanPrimitiveN::Nxor =>
+		BooleanPrimitiveV::Nxor =>
 			Some (BooleanPrimitive1::Nxor),
 	}
 }
 
 
-pub fn boolean_primitive_n_alternative_2 (primitive : BooleanPrimitiveN) -> (Option<BooleanPrimitive2>) {
+pub fn boolean_primitive_v_alternative_2 (primitive : BooleanPrimitiveV) -> (Option<BooleanPrimitive2>) {
 	match primitive {
-		BooleanPrimitiveN::And =>
+		BooleanPrimitiveV::And =>
 			Some (BooleanPrimitive2::And),
-		BooleanPrimitiveN::Or =>
+		BooleanPrimitiveV::Or =>
 			Some (BooleanPrimitive2::Or),
-		BooleanPrimitiveN::Xor =>
+		BooleanPrimitiveV::Xor =>
 			Some (BooleanPrimitive2::Xor),
-		BooleanPrimitiveN::Nand =>
+		BooleanPrimitiveV::Nand =>
 			Some (BooleanPrimitive2::Nand),
-		BooleanPrimitiveN::Nor =>
+		BooleanPrimitiveV::Nor =>
 			Some (BooleanPrimitive2::Nor),
-		BooleanPrimitiveN::Nxor =>
+		BooleanPrimitiveV::Nxor =>
 			Some (BooleanPrimitive2::Nxor),
 	}
 }
 
 
-pub fn boolean_primitive_n_alternative_3 (primitive : BooleanPrimitiveN) -> (Option<BooleanPrimitive3>) {
+pub fn boolean_primitive_v_alternative_3 (primitive : BooleanPrimitiveV) -> (Option<BooleanPrimitive3>) {
 	match primitive {
 		_ =>
 			None,
@@ -344,7 +360,7 @@ pub fn boolean_primitive_n_alternative_3 (primitive : BooleanPrimitiveN) -> (Opt
 }
 
 
-pub fn boolean_primitive_n_alternative_4 (primitive : BooleanPrimitiveN) -> (Option<BooleanPrimitive4>) {
+pub fn boolean_primitive_v_alternative_4 (primitive : BooleanPrimitiveV) -> (Option<BooleanPrimitive4>) {
 	match primitive {
 		_ =>
 			None,
@@ -352,7 +368,15 @@ pub fn boolean_primitive_n_alternative_4 (primitive : BooleanPrimitiveN) -> (Opt
 }
 
 
-pub fn boolean_primitive_n_alternative_5 (primitive : BooleanPrimitiveN) -> (Option<BooleanPrimitive5>) {
+pub fn boolean_primitive_v_alternative_5 (primitive : BooleanPrimitiveV) -> (Option<BooleanPrimitive5>) {
+	match primitive {
+		_ =>
+			None,
+	}
+}
+
+
+pub fn boolean_primitive_v_alternative_n (primitive : BooleanPrimitiveV) -> (Option<BooleanPrimitiveN>) {
 	match primitive {
 		_ =>
 			None,

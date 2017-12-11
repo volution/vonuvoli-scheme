@@ -158,6 +158,8 @@ impl Evaluator {
 				self.evaluate_procedure_primitive_5 (evaluation, primitive, input_1, input_2, input_3, input_4, input_5),
 			Expression::ProcedurePrimitiveCallN (primitive, ref inputs) =>
 				self.evaluate_procedure_primitive_n (evaluation, primitive, inputs.as_ref ()),
+			Expression::ProcedurePrimitiveCallV (primitive, ref inputs) =>
+				self.evaluate_procedure_primitive_v (evaluation, primitive, inputs.as_ref ()),
 			Expression::ProcedurePrimitiveCall (primitive, ref inputs) =>
 				self.evaluate_procedure_primitive (evaluation, primitive, inputs.as_ref ()),
 			
@@ -591,11 +593,13 @@ impl Evaluator {
 					ProcedurePrimitive::Primitive0 (primitive) =>
 						return self.evaluate_procedure_primitive_0 (evaluation, primitive),
 					ProcedurePrimitive::PrimitiveN (primitive) =>
-						match procedure_primitive_n_alternative_0 (primitive) {
+						return self.evaluate_procedure_primitive_n_with_values (evaluation, primitive, &[][..]),
+					ProcedurePrimitive::PrimitiveV (primitive) =>
+						match procedure_primitive_v_alternative_0 (primitive) {
 							Some (primitive) =>
 								return self.evaluate_procedure_primitive_0 (evaluation, primitive),
 							None =>
-								return self.evaluate_procedure_primitive_n_with_values_without_alternatives (evaluation, primitive, &[][..]),
+								return self.evaluate_procedure_primitive_vn_with_values (evaluation, primitive, &[][..]),
 						},
 					_ =>
 						fail! (0xc773cca0),
@@ -623,11 +627,13 @@ impl Evaluator {
 					ProcedurePrimitive::Primitive1 (primitive) =>
 						return self.evaluate_procedure_primitive_1_with_values (evaluation, primitive, input_1),
 					ProcedurePrimitive::PrimitiveN (primitive) =>
-						match procedure_primitive_n_alternative_1 (primitive) {
+						return self.evaluate_procedure_primitive_n_with_values (evaluation, primitive, &[input_1.clone ()][..]),
+					ProcedurePrimitive::PrimitiveV (primitive) =>
+						match procedure_primitive_v_alternative_1 (primitive) {
 							Some (primitive) =>
 								return self.evaluate_procedure_primitive_1_with_values (evaluation, primitive, input_1),
 							None =>
-								return self.evaluate_procedure_primitive_n_with_values_without_alternatives (evaluation, primitive, &[input_1.clone ()][..]),
+								return self.evaluate_procedure_primitive_vn_with_values (evaluation, primitive, &[input_1.clone ()][..]),
 						},
 					_ =>
 						fail! (0x55ce48e1),
@@ -656,11 +662,13 @@ impl Evaluator {
 					ProcedurePrimitive::Primitive2 (primitive) =>
 						return self.evaluate_procedure_primitive_2_with_values (evaluation, primitive, input_1, input_2),
 					ProcedurePrimitive::PrimitiveN (primitive) =>
-						match procedure_primitive_n_alternative_2 (primitive) {
+						return self.evaluate_procedure_primitive_n_with_values (evaluation, primitive, &[input_1.clone (), input_2.clone ()][..]),
+					ProcedurePrimitive::PrimitiveV (primitive) =>
+						match procedure_primitive_v_alternative_2 (primitive) {
 							Some (primitive) =>
 								return self.evaluate_procedure_primitive_2_with_values (evaluation, primitive, input_1, input_2),
 							None =>
-								return self.evaluate_procedure_primitive_n_with_values_without_alternatives (evaluation, primitive, &[input_1.clone (), input_2.clone ()][..]),
+								return self.evaluate_procedure_primitive_vn_with_values (evaluation, primitive, &[input_1.clone (), input_2.clone ()][..]),
 						},
 					_ =>
 						fail! (0xc8018868),
@@ -690,11 +698,13 @@ impl Evaluator {
 					ProcedurePrimitive::Primitive3 (primitive) =>
 						return self.evaluate_procedure_primitive_3_with_values (evaluation, primitive, input_1, input_2, input_3),
 					ProcedurePrimitive::PrimitiveN (primitive) =>
-						match procedure_primitive_n_alternative_3 (primitive) {
+						return self.evaluate_procedure_primitive_n_with_values (evaluation, primitive, &[input_1.clone (), input_2.clone (), input_3.clone ()][..]),
+					ProcedurePrimitive::PrimitiveV (primitive) =>
+						match procedure_primitive_v_alternative_3 (primitive) {
 							Some (primitive) =>
 								return self.evaluate_procedure_primitive_3_with_values (evaluation, primitive, input_1, input_2, input_3),
 							None =>
-								return self.evaluate_procedure_primitive_n_with_values_without_alternatives (evaluation, primitive, &[input_1.clone (), input_2.clone (), input_3.clone ()][..]),
+								return self.evaluate_procedure_primitive_vn_with_values (evaluation, primitive, &[input_1.clone (), input_2.clone (), input_3.clone ()][..]),
 						},
 					_ =>
 						fail! (0xade03d0b),
@@ -725,11 +735,13 @@ impl Evaluator {
 					ProcedurePrimitive::Primitive4 (primitive) =>
 						return self.evaluate_procedure_primitive_4_with_values (evaluation, primitive, input_1, input_2, input_3, input_4),
 					ProcedurePrimitive::PrimitiveN (primitive) =>
-						match procedure_primitive_n_alternative_4 (primitive) {
+						return self.evaluate_procedure_primitive_n_with_values (evaluation, primitive, &[input_1.clone (), input_2.clone (), input_3.clone (), input_4.clone ()][..]),
+					ProcedurePrimitive::PrimitiveV (primitive) =>
+						match procedure_primitive_v_alternative_4 (primitive) {
 							Some (primitive) =>
 								return self.evaluate_procedure_primitive_4_with_values (evaluation, primitive, input_1, input_2, input_3, input_4),
 							None =>
-								return self.evaluate_procedure_primitive_n_with_values_without_alternatives (evaluation, primitive, &[input_1.clone (), input_2.clone (), input_3.clone (), input_4.clone ()][..]),
+								return self.evaluate_procedure_primitive_vn_with_values (evaluation, primitive, &[input_1.clone (), input_2.clone (), input_3.clone (), input_4.clone ()][..]),
 						},
 					_ =>
 						fail! (0x2cbf2824),
@@ -761,11 +773,13 @@ impl Evaluator {
 					ProcedurePrimitive::Primitive5 (primitive) =>
 						return self.evaluate_procedure_primitive_5_with_values (evaluation, primitive, input_1, input_2, input_3, input_4, input_5),
 					ProcedurePrimitive::PrimitiveN (primitive) =>
-						match procedure_primitive_n_alternative_5 (primitive) {
+						return self.evaluate_procedure_primitive_n_with_values (evaluation, primitive, &[input_1.clone (), input_2.clone (), input_3.clone (), input_4.clone (), input_5.clone ()][..]),
+					ProcedurePrimitive::PrimitiveV (primitive) =>
+						match procedure_primitive_v_alternative_5 (primitive) {
 							Some (primitive) =>
 								return self.evaluate_procedure_primitive_5_with_values (evaluation, primitive, input_1, input_2, input_3, input_4, input_5),
 							None =>
-								return self.evaluate_procedure_primitive_n_with_values_without_alternatives (evaluation, primitive, &[input_1.clone (), input_2.clone (), input_3.clone (), input_4.clone (), input_5.clone ()][..]),
+								return self.evaluate_procedure_primitive_vn_with_values (evaluation, primitive, &[input_1.clone (), input_2.clone (), input_3.clone (), input_4.clone (), input_5.clone ()][..]),
 						},
 					_ =>
 						fail! (0xdf89aaf6),
@@ -789,12 +803,7 @@ impl Evaluator {
 	pub fn evaluate_procedure_call_n_with_values (&self, evaluation : &mut EvaluatorContext, callable : &Value, inputs : &[Value]) -> (Outcome<Value>) {
 		match callable.class () {
 			ValueClass::ProcedurePrimitive =>
-				match *callable.as_ref () {
-					ProcedurePrimitive::PrimitiveN (primitive) =>
-						return self.evaluate_procedure_primitive_n_with_values (evaluation, primitive, inputs),
-					_ =>
-						fail! (0x77f3e789),
-				},
+				return self.evaluate_procedure_primitive_n_with_values (evaluation, callable.as_ref (), inputs),
 			ValueClass::ProcedureExtended =>
 				return self.evaluate_procedure_extended_n_with_values (evaluation, callable.as_ref (), inputs),
 			ValueClass::ProcedureLambda =>
@@ -901,8 +910,23 @@ impl Evaluator {
 		return procedure_primitive_n_evaluate (primitive, inputs, evaluation);
 	}
 	
-	pub fn evaluate_procedure_primitive_n_with_values_without_alternatives (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitiveN, inputs : &[Value]) -> (Outcome<Value>) {
-		return procedure_primitive_n_evaluate_without_alternatives (primitive, inputs, evaluation);
+	pub fn evaluate_procedure_primitive_vn_with_values (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitiveV, inputs : &[Value]) -> (Outcome<Value>) {
+		match procedure_primitive_v_alternative_n (primitive) {
+			Some (primitive) =>
+				return self.evaluate_procedure_primitive_n_with_values (evaluation, primitive, inputs),
+			None =>
+				fail! (0xa5ddb221),
+		}
+	}
+	
+	
+	pub fn evaluate_procedure_primitive_v (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitiveV, inputs : &[Expression]) -> (Outcome<Value>) {
+		let inputs = try! (evaluation.evaluate_slice (inputs));
+		return procedure_primitive_v_evaluate (primitive, &inputs, evaluation);
+	}
+	
+	pub fn evaluate_procedure_primitive_v_with_values (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitiveV, inputs : &[Value]) -> (Outcome<Value>) {
+		return procedure_primitive_v_evaluate (primitive, inputs, evaluation);
 	}
 	
 	

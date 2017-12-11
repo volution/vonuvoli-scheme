@@ -18,6 +18,7 @@ pub mod exports {
 	pub use super::StringPrimitive4;
 	pub use super::StringPrimitive5;
 	pub use super::StringPrimitiveN;
+	pub use super::StringPrimitiveV;
 	
 	pub use super::string_primitive_0_evaluate;
 	pub use super::string_primitive_1_evaluate;
@@ -27,12 +28,13 @@ pub mod exports {
 	pub use super::string_primitive_5_evaluate;
 	pub use super::string_primitive_n_evaluate;
 	
-	pub use super::string_primitive_n_alternative_0;
-	pub use super::string_primitive_n_alternative_1;
-	pub use super::string_primitive_n_alternative_2;
-	pub use super::string_primitive_n_alternative_3;
-	pub use super::string_primitive_n_alternative_4;
-	pub use super::string_primitive_n_alternative_5;
+	pub use super::string_primitive_v_alternative_0;
+	pub use super::string_primitive_v_alternative_1;
+	pub use super::string_primitive_v_alternative_2;
+	pub use super::string_primitive_v_alternative_3;
+	pub use super::string_primitive_v_alternative_4;
+	pub use super::string_primitive_v_alternative_5;
+	pub use super::string_primitive_v_alternative_n;
 	
 }
 
@@ -164,6 +166,31 @@ pub enum StringPrimitive5 {
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum StringPrimitiveN {
+	
+	StringMake,
+	StringBuild,
+	StringAppend,
+	
+	StringRangeFill,
+	StringRangeCopy,
+	StringRangeClone,
+	
+	StringRangeToList,
+	ListRangeToString,
+	StringRangeToArray,
+	ArrayRangeToString,
+	StringRangeToBytes,
+	BytesRangeToString,
+	
+	StringToNumber,
+	NumberToString,
+	CharacterToDigitNumber,
+	
+}
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub enum StringPrimitiveV {
 	
 	StringMake,
 	StringBuild,
@@ -495,217 +522,225 @@ pub fn string_primitive_n_evaluate (primitive : StringPrimitiveN, inputs : &[Val
 
 
 
-pub fn string_primitive_n_alternative_0 (primitive : StringPrimitiveN) -> (Option<StringPrimitive0>) {
+pub fn string_primitive_v_alternative_0 (primitive : StringPrimitiveV) -> (Option<StringPrimitive0>) {
 	match primitive {
-		StringPrimitiveN::StringMake =>
+		StringPrimitiveV::StringMake =>
 			None,
-		StringPrimitiveN::StringBuild =>
+		StringPrimitiveV::StringBuild =>
 			Some (StringPrimitive0::StringBuild),
-		StringPrimitiveN::StringAppend =>
+		StringPrimitiveV::StringAppend =>
 			Some (StringPrimitive0::StringAppend),
-		StringPrimitiveN::StringRangeFill =>
+		StringPrimitiveV::StringRangeFill =>
 			None,
-		StringPrimitiveN::StringRangeCopy =>
+		StringPrimitiveV::StringRangeCopy =>
 			None,
-		StringPrimitiveN::StringRangeClone =>
+		StringPrimitiveV::StringRangeClone =>
 			None,
-		StringPrimitiveN::StringRangeToList =>
+		StringPrimitiveV::StringRangeToList =>
 			None,
-		StringPrimitiveN::ListRangeToString =>
+		StringPrimitiveV::ListRangeToString =>
 			None,
-		StringPrimitiveN::StringRangeToArray =>
+		StringPrimitiveV::StringRangeToArray =>
 			None,
-		StringPrimitiveN::ArrayRangeToString =>
+		StringPrimitiveV::ArrayRangeToString =>
 			None,
-		StringPrimitiveN::StringRangeToBytes =>
+		StringPrimitiveV::StringRangeToBytes =>
 			None,
-		StringPrimitiveN::BytesRangeToString =>
+		StringPrimitiveV::BytesRangeToString =>
 			None,
-		StringPrimitiveN::StringToNumber =>
+		StringPrimitiveV::StringToNumber =>
 			None,
-		StringPrimitiveN::NumberToString =>
+		StringPrimitiveV::NumberToString =>
 			None,
-		StringPrimitiveN::CharacterToDigitNumber =>
+		StringPrimitiveV::CharacterToDigitNumber =>
 			None,
 	}
 }
 
 
-pub fn string_primitive_n_alternative_1 (primitive : StringPrimitiveN) -> (Option<StringPrimitive1>) {
+pub fn string_primitive_v_alternative_1 (primitive : StringPrimitiveV) -> (Option<StringPrimitive1>) {
 	match primitive {
-		StringPrimitiveN::StringMake =>
+		StringPrimitiveV::StringMake =>
 			Some (StringPrimitive1::StringMake),
-		StringPrimitiveN::StringBuild =>
+		StringPrimitiveV::StringBuild =>
 			Some (StringPrimitive1::StringBuild),
-		StringPrimitiveN::StringAppend =>
+		StringPrimitiveV::StringAppend =>
 			Some (StringPrimitive1::StringAppend),
-		StringPrimitiveN::StringRangeFill =>
+		StringPrimitiveV::StringRangeFill =>
 			Some (StringPrimitive1::StringFill),
-		StringPrimitiveN::StringRangeCopy =>
+		StringPrimitiveV::StringRangeCopy =>
 			None,
-		StringPrimitiveN::StringRangeClone =>
+		StringPrimitiveV::StringRangeClone =>
 			Some (StringPrimitive1::StringClone),
-		StringPrimitiveN::StringRangeToList =>
+		StringPrimitiveV::StringRangeToList =>
 			Some (StringPrimitive1::StringToList),
-		StringPrimitiveN::ListRangeToString =>
+		StringPrimitiveV::ListRangeToString =>
 			Some (StringPrimitive1::ListToString),
-		StringPrimitiveN::StringRangeToArray =>
+		StringPrimitiveV::StringRangeToArray =>
 			Some (StringPrimitive1::StringToArray),
-		StringPrimitiveN::ArrayRangeToString =>
+		StringPrimitiveV::ArrayRangeToString =>
 			Some (StringPrimitive1::ArrayToString),
-		StringPrimitiveN::StringRangeToBytes =>
+		StringPrimitiveV::StringRangeToBytes =>
 			Some (StringPrimitive1::StringToBytes),
-		StringPrimitiveN::BytesRangeToString =>
+		StringPrimitiveV::BytesRangeToString =>
 			Some (StringPrimitive1::BytesToString),
-		StringPrimitiveN::StringToNumber =>
+		StringPrimitiveV::StringToNumber =>
 			Some (StringPrimitive1::StringToNumber),
-		StringPrimitiveN::NumberToString =>
+		StringPrimitiveV::NumberToString =>
 			Some (StringPrimitive1::NumberToString),
-		StringPrimitiveN::CharacterToDigitNumber =>
+		StringPrimitiveV::CharacterToDigitNumber =>
 			Some (StringPrimitive1::CharacterToDigitNumber),
 	}
 }
 
 
-pub fn string_primitive_n_alternative_2 (primitive : StringPrimitiveN) -> (Option<StringPrimitive2>) {
+pub fn string_primitive_v_alternative_2 (primitive : StringPrimitiveV) -> (Option<StringPrimitive2>) {
 	match primitive {
-		StringPrimitiveN::StringMake =>
+		StringPrimitiveV::StringMake =>
 			Some (StringPrimitive2::StringMake),
-		StringPrimitiveN::StringBuild =>
+		StringPrimitiveV::StringBuild =>
 			Some (StringPrimitive2::StringBuild),
-		StringPrimitiveN::StringAppend =>
+		StringPrimitiveV::StringAppend =>
 			Some (StringPrimitive2::StringAppend),
-		StringPrimitiveN::StringRangeFill =>
+		StringPrimitiveV::StringRangeFill =>
 			Some (StringPrimitive2::StringFill),
-		StringPrimitiveN::StringRangeCopy =>
+		StringPrimitiveV::StringRangeCopy =>
 			Some (StringPrimitive2::StringCopy),
-		StringPrimitiveN::StringRangeClone =>
+		StringPrimitiveV::StringRangeClone =>
 			Some (StringPrimitive2::StringRangeClone),
-		StringPrimitiveN::StringRangeToList =>
+		StringPrimitiveV::StringRangeToList =>
 			Some (StringPrimitive2::StringRangeToList),
-		StringPrimitiveN::ListRangeToString =>
+		StringPrimitiveV::ListRangeToString =>
 			Some (StringPrimitive2::ListRangeToString),
-		StringPrimitiveN::StringRangeToArray =>
+		StringPrimitiveV::StringRangeToArray =>
 			Some (StringPrimitive2::StringRangeToArray),
-		StringPrimitiveN::ArrayRangeToString =>
+		StringPrimitiveV::ArrayRangeToString =>
 			Some (StringPrimitive2::ArrayRangeToString),
-		StringPrimitiveN::StringRangeToBytes =>
+		StringPrimitiveV::StringRangeToBytes =>
 			Some (StringPrimitive2::StringRangeToBytes),
-		StringPrimitiveN::BytesRangeToString =>
+		StringPrimitiveV::BytesRangeToString =>
 			Some (StringPrimitive2::BytesRangeToString),
-		StringPrimitiveN::StringToNumber =>
+		StringPrimitiveV::StringToNumber =>
 			Some (StringPrimitive2::StringToNumber),
-		StringPrimitiveN::NumberToString =>
+		StringPrimitiveV::NumberToString =>
 			Some (StringPrimitive2::NumberToString),
-		StringPrimitiveN::CharacterToDigitNumber =>
+		StringPrimitiveV::CharacterToDigitNumber =>
 			Some (StringPrimitive2::CharacterToDigitNumber),
 	}
 }
 
 
-pub fn string_primitive_n_alternative_3 (primitive : StringPrimitiveN) -> (Option<StringPrimitive3>) {
+pub fn string_primitive_v_alternative_3 (primitive : StringPrimitiveV) -> (Option<StringPrimitive3>) {
 	match primitive {
-		StringPrimitiveN::StringMake =>
+		StringPrimitiveV::StringMake =>
 			None,
-		StringPrimitiveN::StringBuild =>
+		StringPrimitiveV::StringBuild =>
 			Some (StringPrimitive3::StringBuild),
-		StringPrimitiveN::StringAppend =>
+		StringPrimitiveV::StringAppend =>
 			Some (StringPrimitive3::StringAppend),
-		StringPrimitiveN::StringRangeFill =>
+		StringPrimitiveV::StringRangeFill =>
 			Some (StringPrimitive3::StringRangeFill),
-		StringPrimitiveN::StringRangeCopy =>
+		StringPrimitiveV::StringRangeCopy =>
 			Some (StringPrimitive3::StringRangeCopy),
-		StringPrimitiveN::StringRangeClone =>
+		StringPrimitiveV::StringRangeClone =>
 			Some (StringPrimitive3::StringRangeClone),
-		StringPrimitiveN::StringRangeToList =>
+		StringPrimitiveV::StringRangeToList =>
 			Some (StringPrimitive3::StringRangeToList),
-		StringPrimitiveN::ListRangeToString =>
+		StringPrimitiveV::ListRangeToString =>
 			Some (StringPrimitive3::ListRangeToString),
-		StringPrimitiveN::StringRangeToArray =>
+		StringPrimitiveV::StringRangeToArray =>
 			Some (StringPrimitive3::StringRangeToArray),
-		StringPrimitiveN::ArrayRangeToString =>
+		StringPrimitiveV::ArrayRangeToString =>
 			Some (StringPrimitive3::ArrayRangeToString),
-		StringPrimitiveN::StringRangeToBytes =>
+		StringPrimitiveV::StringRangeToBytes =>
 			Some (StringPrimitive3::StringRangeToBytes),
-		StringPrimitiveN::BytesRangeToString =>
+		StringPrimitiveV::BytesRangeToString =>
 			Some (StringPrimitive3::BytesRangeToString),
-		StringPrimitiveN::StringToNumber =>
+		StringPrimitiveV::StringToNumber =>
 			None,
-		StringPrimitiveN::NumberToString =>
+		StringPrimitiveV::NumberToString =>
 			Some (StringPrimitive3::NumberToString),
-		StringPrimitiveN::CharacterToDigitNumber =>
+		StringPrimitiveV::CharacterToDigitNumber =>
 			None,
 	}
 }
 
 
-pub fn string_primitive_n_alternative_4 (primitive : StringPrimitiveN) -> (Option<StringPrimitive4>) {
+pub fn string_primitive_v_alternative_4 (primitive : StringPrimitiveV) -> (Option<StringPrimitive4>) {
 	match primitive {
-		StringPrimitiveN::StringMake =>
+		StringPrimitiveV::StringMake =>
 			None,
-		StringPrimitiveN::StringBuild =>
+		StringPrimitiveV::StringBuild =>
 			Some (StringPrimitive4::StringBuild),
-		StringPrimitiveN::StringAppend =>
+		StringPrimitiveV::StringAppend =>
 			Some (StringPrimitive4::StringAppend),
-		StringPrimitiveN::StringRangeFill =>
+		StringPrimitiveV::StringRangeFill =>
 			Some (StringPrimitive4::StringRangeFill),
-		StringPrimitiveN::StringRangeCopy =>
+		StringPrimitiveV::StringRangeCopy =>
 			Some (StringPrimitive4::StringRangeCopy),
-		StringPrimitiveN::StringRangeClone =>
+		StringPrimitiveV::StringRangeClone =>
 			None,
-		StringPrimitiveN::StringRangeToList =>
+		StringPrimitiveV::StringRangeToList =>
 			None,
-		StringPrimitiveN::ListRangeToString =>
+		StringPrimitiveV::ListRangeToString =>
 			None,
-		StringPrimitiveN::StringRangeToArray =>
+		StringPrimitiveV::StringRangeToArray =>
 			None,
-		StringPrimitiveN::ArrayRangeToString =>
+		StringPrimitiveV::ArrayRangeToString =>
 			None,
-		StringPrimitiveN::StringRangeToBytes =>
+		StringPrimitiveV::StringRangeToBytes =>
 			None,
-		StringPrimitiveN::BytesRangeToString =>
+		StringPrimitiveV::BytesRangeToString =>
 			None,
-		StringPrimitiveN::StringToNumber =>
+		StringPrimitiveV::StringToNumber =>
 			None,
-		StringPrimitiveN::NumberToString =>
+		StringPrimitiveV::NumberToString =>
 			None,
-		StringPrimitiveN::CharacterToDigitNumber =>
+		StringPrimitiveV::CharacterToDigitNumber =>
 			None,
 	}
 }
 
 
-pub fn string_primitive_n_alternative_5 (primitive : StringPrimitiveN) -> (Option<StringPrimitive5>) {
+pub fn string_primitive_v_alternative_5 (primitive : StringPrimitiveV) -> (Option<StringPrimitive5>) {
 	match primitive {
-		StringPrimitiveN::StringMake =>
+		StringPrimitiveV::StringMake =>
 			None,
-		StringPrimitiveN::StringBuild =>
+		StringPrimitiveV::StringBuild =>
 			None,
-		StringPrimitiveN::StringAppend =>
+		StringPrimitiveV::StringAppend =>
 			None,
-		StringPrimitiveN::StringRangeFill =>
+		StringPrimitiveV::StringRangeFill =>
 			None,
-		StringPrimitiveN::StringRangeCopy =>
+		StringPrimitiveV::StringRangeCopy =>
 			Some (StringPrimitive5::StringRangeCopy),
-		StringPrimitiveN::StringRangeClone =>
+		StringPrimitiveV::StringRangeClone =>
 			None,
-		StringPrimitiveN::StringRangeToList =>
+		StringPrimitiveV::StringRangeToList =>
 			None,
-		StringPrimitiveN::ListRangeToString =>
+		StringPrimitiveV::ListRangeToString =>
 			None,
-		StringPrimitiveN::StringRangeToArray =>
+		StringPrimitiveV::StringRangeToArray =>
 			None,
-		StringPrimitiveN::ArrayRangeToString =>
+		StringPrimitiveV::ArrayRangeToString =>
 			None,
-		StringPrimitiveN::StringRangeToBytes =>
+		StringPrimitiveV::StringRangeToBytes =>
 			None,
-		StringPrimitiveN::BytesRangeToString =>
+		StringPrimitiveV::BytesRangeToString =>
 			None,
-		StringPrimitiveN::StringToNumber =>
+		StringPrimitiveV::StringToNumber =>
 			None,
-		StringPrimitiveN::NumberToString =>
+		StringPrimitiveV::NumberToString =>
 			None,
-		StringPrimitiveN::CharacterToDigitNumber =>
+		StringPrimitiveV::CharacterToDigitNumber =>
+			None,
+	}
+}
+
+
+pub fn string_primitive_v_alternative_n (primitive : StringPrimitiveV) -> (Option<StringPrimitiveN>) {
+	match primitive {
+		_ =>
 			None,
 	}
 }

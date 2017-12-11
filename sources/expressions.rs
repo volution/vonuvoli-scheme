@@ -67,6 +67,7 @@ pub enum Expression {
 	ProcedurePrimitiveCall4 ( ProcedurePrimitive4, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
 	ProcedurePrimitiveCall5 ( ProcedurePrimitive5, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
 	ProcedurePrimitiveCallN ( ProcedurePrimitiveN, StdBox<[Expression]> ),
+	ProcedurePrimitiveCallV ( ProcedurePrimitiveV, StdBox<[Expression]> ),
 	ProcedurePrimitiveCall ( ProcedurePrimitive, StdBox<[Expression]> ),
 	
 	SyntaxPrimitiveCall0 ( SyntaxPrimitive0 ),
