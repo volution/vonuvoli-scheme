@@ -65,19 +65,28 @@ pub fn execute_tests (identifier : &str, tests : &StdVec<TestCase>, transcript :
 	
 	let mut tests_succeeded = 0;
 	let mut tests_failed = 0;
+	let mut tests_error = None;
 	
 	for test in tests {
 		match execute_test (&context, test, transcript, verbosity) {
 			Ok (()) =>
 				tests_succeeded += 1,
-			_ =>
-				tests_failed += 1,
+			Err (error) => {
+				tests_failed += 1;
+				if tests_error.is_none () {
+					tests_error = Some (error);
+				}
+			},
 		}
 	}
 	
 	try_or_fail! (write! (transcript, "## executed `{}`: succeeded {} / failed {}!\n", identifier, tests_succeeded, tests_failed), 0xbf6a7cd1);
 	
-	succeed! (());
+	if tests_error.is_none () {
+		succeed! (());
+	} else {
+		return Err (tests_error.unwrap ());
+	}
 }
 
 
@@ -181,6 +190,7 @@ pub fn execute_test (context : &Context, test : &TestCase, transcript : &mut io:
 	
 	let output_value = match test.action {
 		TestAction::Expect (ref output_syntax) => {
+			// FIXME:  Add error reporting for these!
 			let output_expression = try! (compile (&context, &output_syntax));
 			let output_value = try! (evaluate (&context, &output_expression));
 			Some (output_value)
