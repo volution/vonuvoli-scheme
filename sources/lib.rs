@@ -1,6 +1,13 @@
 
 
 #![ feature (ascii_ctype) ]
+#![ feature (str_internals) ]
+#![ feature (char_from_unchecked) ]
+
+
+
+
+extern crate core;
 
 
 
@@ -55,6 +62,7 @@ pub mod primitives_syntaxes;
 pub mod primitives_types;
 pub mod runtime;
 pub mod runtime_iterators;
+pub mod runtime_unicode;
 pub mod tests;
 pub mod values;
 

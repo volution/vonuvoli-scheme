@@ -33,6 +33,7 @@ pub mod exports {
 	pub use super::{vec_zip_2};
 	
 	pub use super::super::runtime_iterators::exports::*;
+	pub use super::super::runtime_unicode::exports::*;
 	
 }
 
