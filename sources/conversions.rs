@@ -661,6 +661,18 @@ pub fn range_coerce_unbounded (start : Option<&Value>, end : Option<&Value>) -> 
 
 
 
+pub fn count_coerce (count : Option<&Value>) -> (Outcome<Option<usize>>) {
+	let count = if let Some (count) = count {
+		Some (try! (try_as_number_integer_ref! (count) .try_to_usize ()))
+	} else {
+		None
+	};
+	succeed! (count);
+}
+
+
+
+
 pub fn option_box_as_ref <T> (option : &Option<Box<T>>) -> (Option<&T>) {
 	if let Some (ref boxed) = *option {
 		return Some (boxed.as_ref ());

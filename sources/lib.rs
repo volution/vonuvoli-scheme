@@ -37,6 +37,7 @@ pub mod languages_builtins;
 pub mod languages_r7rs;
 pub mod parser;
 pub mod ports;
+pub mod ports_memory;
 pub mod primitives;
 pub mod primitives_arithmetic;
 pub mod primitives_arrays;

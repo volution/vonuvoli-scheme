@@ -1,6 +1,7 @@
 
 
 use super::errors::exports::*;
+use super::ports::exports::*;
 use super::values::exports::*;
 
 
@@ -741,27 +742,23 @@ pub fn is_port (value : &Value) -> (bool) {
 }
 
 pub fn is_port_input (value : &Value) -> (Outcome<bool>) {
-	use super::ports::PortQueries;
 	succeed! (try_as_port_ref! (value) .is_read_implemented ());
 }
 
 pub fn is_port_output (value : &Value) -> (Outcome<bool>) {
-	use super::ports::PortQueries;
 	succeed! (try_as_port_ref! (value) .is_write_implemented ());
 }
 
 pub fn is_port_binary (value : &Value) -> (Outcome<bool>) {
-	use super::ports::PortQueries;
 	succeed! (try_as_port_ref! (value) .is_byte_implemented ());
 }
 
 pub fn is_port_textual (value : &Value) -> (Outcome<bool>) {
-	use super::ports::PortQueries;
 	succeed! (try_as_port_ref! (value) .is_char_implemented ());
 }
 
 pub fn is_port_eof (value : &Value) -> (bool) {
-	panic! ("5b2c496d");
+	return value.is (ValueClass::Singleton) && (*ValueSingleton::as_ref (value) == ValueSingleton::PortEof);
 }
 
 

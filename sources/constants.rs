@@ -17,6 +17,7 @@ pub mod exports {
 pub const NULL : ValueSingleton = ValueSingleton::Null;
 pub const VOID : ValueSingleton = ValueSingleton::Void;
 pub const UNDEFINED : ValueSingleton = ValueSingleton::Undefined;
+pub const PORT_EOF : ValueSingleton = ValueSingleton::PortEof;
 
 pub const TRUE : Boolean = Boolean (true);
 pub const FALSE : Boolean = Boolean (false);
