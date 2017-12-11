@@ -71,7 +71,8 @@ impl Compiler {
 			
 			ValueClass::Null |
 			ValueClass::Void |
-			ValueClass::Undefined =>
+			ValueClass::Undefined |
+			ValueClass::Singleton =>
 				return self.compile_syntax_quote (compilation, token),
 			
 			ValueClass::Boolean |
@@ -1237,7 +1238,8 @@ impl Compiler {
 			
 			ValueClass::Null |
 			ValueClass::Void |
-			ValueClass::Undefined =>
+			ValueClass::Undefined |
+			ValueClass::Singleton =>
 				succeed! ((compilation, splice (token, spliceable))),
 			
 			ValueClass::Boolean |

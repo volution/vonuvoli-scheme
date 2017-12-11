@@ -358,7 +358,8 @@ pub fn compare_1a (value : &Value, comparison : Comparison) -> (Outcome<bool>) {
 	match value.class () {
 		
 		ValueClass::Null |
-		ValueClass::Void =>
+		ValueClass::Void |
+		ValueClass::Singleton =>
 			succeed! (true),
 		
 		ValueClass::Boolean =>
@@ -449,6 +450,9 @@ pub fn compare_2a (left : &Value, right : &Value, comparison : Comparison) -> (O
 							succeed! (false),
 					},
 			},
+		
+		(ValueClass::Singleton, ValueClass::Singleton) =>
+			return std_ord_compare_2 (ValueSingleton::as_ref (left), ValueSingleton::as_ref (right), comparison),
 		
 		(ValueClass::Boolean, ValueClass::Boolean) =>
 			return boolean_compare_2a (left.as_ref (), right.as_ref (), comparison),

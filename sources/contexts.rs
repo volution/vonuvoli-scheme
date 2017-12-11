@@ -388,7 +388,7 @@ impl Binding {
 	
 	
 	pub fn new (identifier : Option<Symbol>, value : Option<Value>, immutable : bool) -> (Binding) {
-		let value = value.unwrap_or (UNDEFINED);
+		let value = value.unwrap_or (UNDEFINED.into ());
 		let internals = BindingInternals {
 				identifier : identifier,
 				value : value,

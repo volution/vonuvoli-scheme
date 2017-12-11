@@ -194,19 +194,19 @@ pub fn list_empty () -> (Value) {
 }
 
 pub fn list_build_1 (value_1 : &Value) -> (Value) {
-	return pair_new (value_1.clone (), NULL) .into ();
+	return pair_new (value_1.clone (), NULL.into ()) .into ();
 }
 
 pub fn list_build_2 (value_1 : &Value, value_2 : &Value) -> (Value) {
-	return pair_new (value_1.clone (), pair_new (value_2.clone (), NULL) .into ()) .into ();
+	return pair_new (value_1.clone (), pair_new (value_2.clone (), NULL.into ()) .into ()) .into ();
 }
 
 pub fn list_build_3 (value_1 : &Value, value_2 : &Value, value_3 : &Value) -> (Value) {
-	return pair_new (value_1.clone (), pair_new (value_2.clone (), pair_new (value_3.clone (), NULL) .into ()) .into ()) .into ();
+	return pair_new (value_1.clone (), pair_new (value_2.clone (), pair_new (value_3.clone (), NULL.into ()) .into ()) .into ()) .into ();
 }
 
 pub fn list_build_4 (value_1 : &Value, value_2 : &Value, value_3 : &Value, value_4 : &Value) -> (Value) {
-	return pair_new (value_1.clone (), pair_new (value_2.clone (), pair_new (value_3.clone (), pair_new (value_4.clone (), NULL) .into ()) .into ()) .into ()) .into ();
+	return pair_new (value_1.clone (), pair_new (value_2.clone (), pair_new (value_3.clone (), pair_new (value_4.clone (), NULL.into ()) .into ()) .into ()) .into ()) .into ();
 }
 
 pub fn list_build_n (values : &[Value]) -> (Value) {
@@ -224,7 +224,7 @@ pub fn list_build_n (values : &[Value]) -> (Value) {
 		_ =>
 			(),
 	}
-	return values.iter () .rev () .fold (NULL, |last, value| pair_new (value.clone (), last) .into ());
+	return values.iter () .rev () .fold (NULL.into (), |last, value| pair_new (value.clone (), last) .into ());
 }
 
 

@@ -14,9 +14,9 @@ pub mod exports {
 
 
 
-pub const NULL : Value = Value::Null (VALUE_META_1, VALUE_META_2);
-pub const VOID : Value = Value::Void (VALUE_META_1, VALUE_META_2);
-pub const UNDEFINED : Value = Value::Undefined (VALUE_META_1, VALUE_META_2);
+pub const NULL : ValueSingleton = ValueSingleton::Null;
+pub const VOID : ValueSingleton = ValueSingleton::Void;
+pub const UNDEFINED : ValueSingleton = ValueSingleton::Undefined;
 
 pub const TRUE : Boolean = Boolean (true);
 pub const FALSE : Boolean = Boolean (false);

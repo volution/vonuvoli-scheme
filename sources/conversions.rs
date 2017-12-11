@@ -96,6 +96,7 @@ macro_rules! impl_from_for_Value_3 {
 impl_from_for_Expression_1! (Value, Value);
 
 
+impl_from_for_Value_1! (Singleton, ValueSingleton);
 impl_from_for_Value_1! (Boolean, Boolean);
 impl_from_for_Value_1! (NumberInteger, NumberInteger);
 impl_from_for_Value_1! (NumberReal, NumberReal);

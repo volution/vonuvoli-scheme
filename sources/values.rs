@@ -21,7 +21,7 @@ use std::str;
 
 pub mod exports {
 	
-	pub use super::{Value, ValueBox, ValueVec, ValueClass};
+	pub use super::{Value, ValueBox, ValueVec, ValueClass, ValueSingleton};
 	pub use super::{Boolean, BooleanBox, BooleanVec};
 	pub use super::{NumberInteger, NumberIntegerBox, NumberIntegerVec};
 	pub use super::{NumberReal, NumberRealBox, NumberRealVec};
@@ -54,6 +54,7 @@ pub enum ValueClass {
 	Null,
 	Void,
 	Undefined,
+	Singleton,
 	
 	Boolean,
 	NumberInteger,
@@ -90,9 +91,7 @@ pub enum ValueClass {
 #[ derive (Clone, Hash) ]
 pub enum Value {
 	
-	Null ( ValueMeta1, ValueMeta2 ),
-	Void ( ValueMeta1, ValueMeta2 ),
-	Undefined ( ValueMeta1, ValueMeta2 ),
+	Singleton ( ValueMeta1, ValueSingleton, ValueMeta2 ),
 	
 	Boolean ( ValueMeta1, Boolean, ValueMeta2 ),
 	NumberInteger ( ValueMeta1, NumberInteger, ValueMeta2 ),
@@ -124,6 +123,15 @@ pub enum Value {
 }
 
 
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub enum ValueSingleton {
+	Null,
+	Undefined,
+	Void,
+	PortEof,
+}
+
+
 pub type ValueBox = StdBox<Value>;
 pub type ValueVec = StdVec<Value>;
 
@@ -142,9 +150,13 @@ impl Value {
 	pub fn class (&self) -> (ValueClass) {
 		match *self {
 			
-			Value::Null (_, _) => ValueClass::Null,
-			Value::Void (_, _) => ValueClass::Void,
-			Value::Undefined (_, _) => ValueClass::Undefined,
+			Value::Singleton (_, value, _) =>
+				match value {
+					ValueSingleton::Null => ValueClass::Null,
+					ValueSingleton::Void => ValueClass::Void,
+					ValueSingleton::Undefined => ValueClass::Undefined,
+					ValueSingleton::PortEof => ValueClass::Singleton,
+				},
 			
 			Value::Boolean (_, _, _) => ValueClass::Boolean,
 			Value::NumberInteger (_, _, _) => ValueClass::NumberInteger,
@@ -183,9 +195,7 @@ impl Value {
 	pub fn is_self (&self, other : &Value) -> (bool) {
 		match (self, other) {
 			
-			(&Value::Null (_, _), &Value::Null (_, _)) => true,
-			(&Value::Void (_, _), &Value::Void (_, _)) => true,
-			(&Value::Undefined (_, _), &Value::Undefined (_, _)) => true,
+			(&Value::Singleton (_, ref self_0, _), &Value::Singleton (_, ref other_0, _)) => self_0 == other_0,
 			
 			(&Value::Boolean (_, ref self_0, _), &Value::Boolean (_, ref other_0, _)) => self_0 == other_0,
 			(&Value::NumberInteger (_, ref self_0, _), &Value::NumberInteger (_, ref other_0, _)) => self_0 == other_0,
@@ -231,9 +241,13 @@ impl fmt::Display for Value {
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		match *self {
 			
-			Value::Null (_, _) => formatter.write_str ("#null"),
-			Value::Void (_, _) => formatter.write_str ("#void"),
-			Value::Undefined (_, _) => formatter.write_str ("#undefined"),
+			Value::Singleton (_, value, _) =>
+				match value {
+					ValueSingleton::Null => formatter.write_str ("#null"),
+					ValueSingleton::Void => formatter.write_str ("#void"),
+					ValueSingleton::Undefined => formatter.write_str ("#undefined"),
+					ValueSingleton::PortEof => formatter.write_str ("#enf-of-file"),
+				},
 			
 			Value::Boolean (_, ref value, _) => value.fmt (formatter),
 			Value::NumberInteger (_, ref value, _) => value.fmt (formatter),
@@ -271,9 +285,13 @@ impl fmt::Debug for Value {
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		match *self {
 			
-			Value::Null (_, _) => formatter.debug_struct ("Null") .finish (),
-			Value::Void (_, _) => formatter.debug_struct ("Undefined") .finish (),
-			Value::Undefined (_, _) => formatter.debug_struct ("Undefined") .finish (),
+			Value::Singleton (_, value, _) =>
+				match value {
+					ValueSingleton::Null => formatter.debug_struct ("Null") .finish (),
+					ValueSingleton::Void => formatter.debug_struct ("Void") .finish (),
+					ValueSingleton::Undefined => formatter.debug_struct ("Undefined") .finish (),
+					ValueSingleton::PortEof => formatter.debug_struct ("PortEof") .finish (),
+				},
 			
 			Value::Boolean (_, ref value, _) => value.fmt (formatter),
 			Value::NumberInteger (_, ref value, _) => value.fmt (formatter),
@@ -1335,7 +1353,7 @@ impl fmt::Display for Pair {
 			let (left, right) = cursor.left_and_right ();
 			try! (left.fmt (formatter));
 			match *right {
-				Value::Null (_, _) =>
+				Value::Singleton (_, ValueSingleton::Null, _) =>
 					break,
 				Value::Pair (_, ref right, _) => {
 					try! (formatter.write_char (' '));

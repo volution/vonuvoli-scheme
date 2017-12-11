@@ -417,7 +417,7 @@ impl Evaluator {
 			}
 		}
 		
-		return Ok (VOID);
+		return Ok (VOID.into ());
 	}
 	
 	pub fn evaluate_binding_initialize_values (&self, evaluation : &mut EvaluatorContext, bindings : &[Binding], expression : &Expression) -> (Outcome<Value>) {
@@ -461,7 +461,7 @@ impl Evaluator {
 			}
 		}
 		
-		return Ok (VOID);
+		return Ok (VOID.into ());
 	}
 	
 	
