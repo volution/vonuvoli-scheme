@@ -6,6 +6,17 @@ test "${#}" -eq 0
 export -- LC_ALL=C
 
 
+if test -e ./.x-run.options -a ./.x-run.options -nt ./.x-run ; then
+	exec -- cat -- ./.x-run.options
+	exit -- 1
+else
+	exec {_stdout_fd}<&1
+	exec >| ./.x-run.options.tmp
+fi
+
+
+
+
 cat <<'EOS'
 
 << compile / peg
@@ -138,10 +149,32 @@ sed -r -e 's#@\{TEST\}#'"${_test}"'#g' <<'EOS'
 EOS
 done
 
+find ./tests/scheme -type f -name '*.sst' -printf '%f\n' \
+| sed -r -e 's/\.sst$//' -e 's/-/_/g' \
+| sort -u \
+| while read _test ; do
+sed -r -e 's#@\{TEST\}#'"${_test}"'#g' <<'EOS'
+:: execute / test / scheme / @{TEST} / debug :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '\n(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test @{TEST} --exact "${@}"
+:: execute / test / scheme / @{TEST} / release :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '\n(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test @{TEST} --exact "${@}"
+EOS
+done
+
 
 find . -xdev -type f -name '*.rs' -printf ':: edit / %P :: exec -- sce %p\n' | sort
 find . -xdev -type f -name '*.rs' -printf ':: view / %P :: exec -- less %p\n' | sort
 
+find . -xdev -type f -name '*.sst' -printf ':: edit / %P :: exec -- sce %p\n' | sort
+find . -xdev -type f -name '*.sst' -printf ':: view / %P :: exec -- less %p\n' | sort
+
+
+
+
+if true ; then
+	mv -T -- ./.x-run.options.tmp ./.x-run.options
+	exec 1>&"${_stdout_fd}"-
+	exec cat -- ./.x-run.options
+	exit -- 1
+fi
 
 exit -- 0
 
