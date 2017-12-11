@@ -1,206 +1,206 @@
 
-(list) => #null;
+(list) => #null
 
-(list 0) => '(0);
-(list 0 1) => '(0 1);
-(list 0 1 2) => '(0 1 2);
-(list 0 1 2 3) => '(0 1 2 3);
-(list 0 1 2 3 4) => '(0 1 2 3 4);
-(list 0 1 2 3 4 5) => '(0 1 2 3 4 5);
-(list 0 1 2 3 4 5 6) => '(0 1 2 3 4 5 6);
+(list 0) => '(0)
+(list 0 1) => '(0 1)
+(list 0 1 2) => '(0 1 2)
+(list 0 1 2 3) => '(0 1 2 3)
+(list 0 1 2 3 4) => '(0 1 2 3 4)
+(list 0 1 2 3 4 5) => '(0 1 2 3 4 5)
+(list 0 1 2 3 4 5 6) => '(0 1 2 3 4 5 6)
 
-(list '(0) 1 2) => '((0) 1 2);
-(list 0 1 '(2)) => '(0 1 (2));
-(list '(0) '(1) '(2)) => '((0) (1) (2));
-(list '(0 1 2)) => '((0 1 2));
+(list '(0) 1 2) => '((0) 1 2)
+(list 0 1 '(2)) => '(0 1 (2))
+(list '(0) '(1) '(2)) => '((0) (1) (2))
+(list '(0 1 2)) => '((0 1 2))
 
 
 
 
-(make-list 0) => #null;
-(make-list 1) => '(#undefined);
-(make-list 2) => '(#undefined #undefined);
-(make-list 3) => '(#undefined #undefined #undefined);
+(make-list 0) => #null
+(make-list 1) => '(#undefined)
+(make-list 2) => '(#undefined #undefined)
+(make-list 3) => '(#undefined #undefined #undefined)
 
-(make-list 0 0) => #null;
-(make-list 1 0) => '(0);
-(make-list 2 0) => '(0 0);
-(make-list 3 0) => '(0 0 0);
+(make-list 0 0) => #null
+(make-list 1 0) => '(0)
+(make-list 2 0) => '(0 0)
+(make-list 3 0) => '(0 0 0)
 
 
 
 
-(list-copy '()) => '();
-(list-copy '() 0) => '();
-(list-copy '() 0 0) => '();
+(list-copy '()) => '()
+(list-copy '() 0) => '()
+(list-copy '() 0 0) => '()
 
-(list-copy '(0)) => '(0);
-(list-copy '(0 1)) => '(0 1);
-(list-copy '(0 1 2)) => '(0 1 2);
-(list-copy '((0) 1 2)) => '((0) 1 2);
-(list-copy '(0 1 (2))) => '(0 1 (2));
-(list-copy '((0) (1) (2))) => '((0) (1) (2));
-(list-copy '((0 1 2))) => '((0 1 2));
+(list-copy '(0)) => '(0)
+(list-copy '(0 1)) => '(0 1)
+(list-copy '(0 1 2)) => '(0 1 2)
+(list-copy '((0) 1 2)) => '((0) 1 2)
+(list-copy '(0 1 (2))) => '(0 1 (2))
+(list-copy '((0) (1) (2))) => '((0) (1) (2))
+(list-copy '((0 1 2))) => '((0 1 2))
 
-(list-copy '(0 . a)) => '(0 . a);
-(list-copy '(0 1 . a)) => '(0 1 . a);
-(list-copy '(0 1 2 . a)) => '(0 1 2 . a);
-(list-copy '((0) 1 2 . a)) => '((0) 1 2 . a);
-(list-copy '(0 1 (2) . a)) => '(0 1 (2) . a);
-(list-copy '((0) (1) (2) . a)) => '((0) (1) (2) . a);
-(list-copy '((0 1 2) . a)) => '((0 1 2) . a);
+(list-copy '(0 . a)) => '(0 . a)
+(list-copy '(0 1 . a)) => '(0 1 . a)
+(list-copy '(0 1 2 . a)) => '(0 1 2 . a)
+(list-copy '((0) 1 2 . a)) => '((0) 1 2 . a)
+(list-copy '(0 1 (2) . a)) => '(0 1 (2) . a)
+(list-copy '((0) (1) (2) . a)) => '((0) (1) (2) . a)
+(list-copy '((0 1 2) . a)) => '((0 1 2) . a)
 
-(list-copy '(0 1 2 3 4 5) 0) => '(0 1 2 3 4 5);
-(list-copy '(0 1 2 3 4 5) 2) => '(2 3 4 5);
-(list-copy '(0 1 2 3 4 5) 5) => '(5);
-(list-copy '(0 1 2 3 4 5) 6) => '();
+(list-copy '(0 1 2 3 4 5) 0) => '(0 1 2 3 4 5)
+(list-copy '(0 1 2 3 4 5) 2) => '(2 3 4 5)
+(list-copy '(0 1 2 3 4 5) 5) => '(5)
+(list-copy '(0 1 2 3 4 5) 6) => '()
 
-(list-copy '(0 1 2 3 4 5) 0 6) => '(0 1 2 3 4 5);
-(list-copy '(0 1 2 3 4 5) 2 5) => '(2 3 4);
-(list-copy '(0 1 2 3 4 5) 2 6) => '(2 3 4 5);
-(list-copy '(0 1 2 3 4 5) 5 6) => '(5);
-(list-copy '(0 1 2 3 4 5) 6 6) => '();
+(list-copy '(0 1 2 3 4 5) 0 6) => '(0 1 2 3 4 5)
+(list-copy '(0 1 2 3 4 5) 2 5) => '(2 3 4)
+(list-copy '(0 1 2 3 4 5) 2 6) => '(2 3 4 5)
+(list-copy '(0 1 2 3 4 5) 5 6) => '(5)
+(list-copy '(0 1 2 3 4 5) 6 6) => '()
 
-(list-copy 0) => 0;
+(list-copy 0) => 0
 
 
 
 
-(length #null) => 0;
+(length #null) => 0
 
-(length '(0)) => 1;
-(length '(0 1)) => 2;
-(length '(0 1 2)) => 3;
-(length '((0) 1 2)) => 3;
-(length '(0 1 (2))) => 3;
-(length '((0) (1) (2))) => 3;
-(length '((0 1 2))) => 1;
+(length '(0)) => 1
+(length '(0 1)) => 2
+(length '(0 1 2)) => 3
+(length '((0) 1 2)) => 3
+(length '(0 1 (2))) => 3
+(length '((0) (1) (2))) => 3
+(length '((0 1 2))) => 1
 
 
 
 
-(member 1 '()) => #f;
-(member 1 '(0)) => #f;
-(member 1 '(0 0)) => #f;
-(member 1 '(0 0 0)) => #f;
-(member '() '()) => #f;
+(member 1 '()) => #f
+(member 1 '(0)) => #f
+(member 1 '(0 0)) => #f
+(member 1 '(0 0 0)) => #f
+(member '() '()) => #f
 
-(member 0 '(0 1 2)) => '(0 1 2);
-(member 1 '(0 1 2)) => '(1 2);
-(member 2 '(0 1 2)) => '(2);
-(member 3 '(0 1 2)) => #f;
+(member 0 '(0 1 2)) => '(0 1 2)
+(member 1 '(0 1 2)) => '(1 2)
+(member 2 '(0 1 2)) => '(2)
+(member 3 '(0 1 2)) => #f
 
-(member 0 '(0)) => '(0);
-(member 0 '(0 0)) => '(0 0);
-(member 0 '(0 0 0)) => '(0 0 0);
+(member 0 '(0)) => '(0)
+(member 0 '(0 0)) => '(0 0)
+(member 0 '(0 0 0)) => '(0 0 0)
 
-(member 0 '(1 0)) => '(0);
-(member 0 '(1 0 2)) => '(0 2);
-(member 0 '(1 0 2 0)) => '(0 2 0);
+(member 0 '(1 0)) => '(0)
+(member 0 '(1 0 2)) => '(0 2)
+(member 0 '(1 0 2 0)) => '(0 2 0)
 
 
-(memq 0 '(1 0 2)) => '(0 2);
-(memv 0 '(1 0 2)) => '(0 2);
+(memq 0 '(1 0 2)) => '(0 2)
+(memv 0 '(1 0 2)) => '(0 2)
 
-(memq "" '(1 "" 2)) => #f;
-(memv "" '(1 "" 2)) => '("" 2);
-(member "" '(1 "" 2)) => '("" 2);
+(memq "" '(1 "" 2)) => #f
+(memv "" '(1 "" 2)) => '("" 2)
+(member "" '(1 "" 2)) => '("" 2)
 
 
-(member 1 '(0 1 2) <) => '(2);
-(member 1 '(0 1 2) <=) => '(1 2);
-(member 1 '(0 1 2) >=) => '(0 1 2);
-(member 1 '(0 1 2) >) => '(0 1 2);
+(member 1 '(0 1 2) <) => '(2)
+(member 1 '(0 1 2) <=) => '(1 2)
+(member 1 '(0 1 2) >=) => '(0 1 2)
+(member 1 '(0 1 2) >) => '(0 1 2)
 
 
 
 
-(assoc 1 '()) => #f;
-(assoc 1 '((0 a))) => #f;
-(assoc 1 '((0 a) (0 b))) => #f;
-(assoc 1 '((0 a) (0 b) (0 c))) => #f;
-(assoc '() '()) => #f;
+(assoc 1 '()) => #f
+(assoc 1 '((0 a))) => #f
+(assoc 1 '((0 a) (0 b))) => #f
+(assoc 1 '((0 a) (0 b) (0 c))) => #f
+(assoc '() '()) => #f
 
-(assoc 0 '((0 a) (1 b) (2 c))) => '(0 a);
-(assoc 1 '((0 a) (1 b) (2 c))) => '(1 b);
-(assoc 2 '((0 a) (1 b) (2 c))) => '(2 c);
-(assoc 3 '((0 a) (1 b) (2 c))) => #f;
+(assoc 0 '((0 a) (1 b) (2 c))) => '(0 a)
+(assoc 1 '((0 a) (1 b) (2 c))) => '(1 b)
+(assoc 2 '((0 a) (1 b) (2 c))) => '(2 c)
+(assoc 3 '((0 a) (1 b) (2 c))) => #f
 
-(assoc 0 '((0 a))) => '(0 a);
-(assoc 0 '((0 a) (0 b))) => '(0 a);
-(assoc 0 '((0 a) (0 b) (0 c))) => '(0 a);
+(assoc 0 '((0 a))) => '(0 a)
+(assoc 0 '((0 a) (0 b))) => '(0 a)
+(assoc 0 '((0 a) (0 b) (0 c))) => '(0 a)
 
-(assoc 0 '((1 a) (0 b))) => '(0 b);
-(assoc 0 '((1 a) (0 b) (2 c))) => '(0 b);
-(assoc 0 '((1 a) (0 b) (2 c) (0 d))) => '(0 b);
+(assoc 0 '((1 a) (0 b))) => '(0 b)
+(assoc 0 '((1 a) (0 b) (2 c))) => '(0 b)
+(assoc 0 '((1 a) (0 b) (2 c) (0 d))) => '(0 b)
 
 
-(assq 0 '((1 a) (0 b) (2 c))) => '(0 b);
-(assv 0 '((1 a) (0 b) (2 c))) => '(0 b);
+(assq 0 '((1 a) (0 b) (2 c))) => '(0 b)
+(assv 0 '((1 a) (0 b) (2 c))) => '(0 b)
 
-(assq "" '((1 a) ("" b) (2 c))) => #f;
-(assv "" '((1 a) ("" b) (2 c))) => '("" b);
-(assoc "" '((1 a) ("" b) (2 c))) => '("" b);
+(assq "" '((1 a) ("" b) (2 c))) => #f
+(assv "" '((1 a) ("" b) (2 c))) => '("" b)
+(assoc "" '((1 a) ("" b) (2 c))) => '("" b)
 
 
-(assoc 1 '((0 a) (1 b) (2 c)) <) => '(2 c);
-(assoc 1 '((0 a) (1 b) (2 c)) <=) => '(1 b);
-(assoc 1 '((0 a) (1 b) (2 c)) >=) => '(0 a);
-(assoc 1 '((0 a) (1 b) (2 c)) >) => '(0 a);
+(assoc 1 '((0 a) (1 b) (2 c)) <) => '(2 c)
+(assoc 1 '((0 a) (1 b) (2 c)) <=) => '(1 b)
+(assoc 1 '((0 a) (1 b) (2 c)) >=) => '(0 a)
+(assoc 1 '((0 a) (1 b) (2 c)) >) => '(0 a)
 
 
 
 
-(append) => #null;
-(append #null) => #null;
-(append #null #null) => #null;
+(append) => #null
+(append #null) => #null
+(append #null #null) => #null
 
-(append 0) => 0;
-(append #null 0) => 0;
-(append #null #null 0) => 0;
+(append 0) => 0
+(append #null 0) => 0
+(append #null #null 0) => 0
 
-(append '(0 . 1)) => '(0 . 1);
-(append '(0) 1) => '(0 . 1);
+(append '(0 . 1)) => '(0 . 1)
+(append '(0) 1) => '(0 . 1)
 
-(append '(0 1)) => '(0 1);
-(append '(0) '(1)) => '(0 1);
+(append '(0 1)) => '(0 1)
+(append '(0) '(1)) => '(0 1)
 
-(append '(0 1 . 2)) => '(0 1 . 2);
-(append '(0 1) 2) => '(0 1 . 2);
-(append '(0) '(1) 2) => '(0 1 . 2);
+(append '(0 1 . 2)) => '(0 1 . 2)
+(append '(0 1) 2) => '(0 1 . 2)
+(append '(0) '(1) 2) => '(0 1 . 2)
 
-(append '(0 1 2)) => '(0 1 2);
-(append '(0 1) '(2)) => '(0 1 2);
-(append '(0) '(1) '(2)) => '(0 1 2);
+(append '(0 1 2)) => '(0 1 2)
+(append '(0 1) '(2)) => '(0 1 2)
+(append '(0) '(1) '(2)) => '(0 1 2)
 
-(append '(0)) => '(0);
-(append '(0) '(1)) => '(0 1);
-(append '(0) '(1) '(2)) => '(0 1 2);
-(append '(0) '(1) '(2) '(3)) => '(0 1 2 3);
-(append '(0) '(1) '(2) '(3) '(4)) => '(0 1 2 3 4);
-(append '(0) '(1) '(2) '(3) '(4) '(5)) => '(0 1 2 3 4 5);
-(append '(0) '(1) '(2) '(3) '(4) '(5) '(6)) => '(0 1 2 3 4 5 6);
+(append '(0)) => '(0)
+(append '(0) '(1)) => '(0 1)
+(append '(0) '(1) '(2)) => '(0 1 2)
+(append '(0) '(1) '(2) '(3)) => '(0 1 2 3)
+(append '(0) '(1) '(2) '(3) '(4)) => '(0 1 2 3 4)
+(append '(0) '(1) '(2) '(3) '(4) '(5)) => '(0 1 2 3 4 5)
+(append '(0) '(1) '(2) '(3) '(4) '(5) '(6)) => '(0 1 2 3 4 5 6)
 
 
 
 
-(reverse #null) => #null;
-(reverse '(0)) => '(0);
-(reverse '(0 1)) => '(1 0);
-(reverse '(0 1 2)) => '(2 1 0);
-(reverse '(0 1 2 3)) => '(3 2 1 0);
+(reverse #null) => #null
+(reverse '(0)) => '(0)
+(reverse '(0 1)) => '(1 0)
+(reverse '(0 1 2)) => '(2 1 0)
+(reverse '(0 1 2 3)) => '(3 2 1 0)
 
 
 
 
-(list-ref '(a) 0) => 'a;
-(list-ref '(a b) 1) => 'b;
-(list-ref '(a b c) 2) => 'c;
+(list-ref '(a) 0) => 'a
+(list-ref '(a b) 1) => 'b
+(list-ref '(a b c) 2) => 'c
 
-(list-tail '(a) 0) => '(a);
-(list-tail '(a b) 0) => '(a b);
-(list-tail '(a b c) 0) => '(a b c);
-(list-tail '(a b c) 1) => '(b c);
-(list-tail '(a b c) 2) => '(c);
-(list-tail '(a b c) 3) => #null;
+(list-tail '(a) 0) => '(a)
+(list-tail '(a b) 0) => '(a b)
+(list-tail '(a b c) 0) => '(a b c)
+(list-tail '(a b c) 1) => '(b c)
+(list-tail '(a b c) 2) => '(c)
+(list-tail '(a b c) 3) => #null
 

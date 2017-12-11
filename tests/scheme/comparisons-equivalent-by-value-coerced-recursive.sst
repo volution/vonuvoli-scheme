@@ -1,215 +1,215 @@
 
-(define cmp ~equivalent-by-value-coerced-recursive?) => !ignore;
-(define (cmp-self x) (cmp x x)) => !ignore;
+(define cmp ~equivalent-by-value-coerced-recursive?) => !ignore
+(define (cmp-self x) (cmp x x)) => !ignore
 
 
 
 
-(cmp) => #t;
-(cmp #null) => #t;
-(cmp #null #null) => #t;
-(cmp #null #null #null) => #t;
-(cmp #null #null #null #null) => #t;
-(cmp #null #null #null #null #null) => #t;
+(cmp) => #t
+(cmp #null) => #t
+(cmp #null #null) => #t
+(cmp #null #null #null) => #t
+(cmp #null #null #null #null) => #t
+(cmp #null #null #null #null #null) => #t
 
-(cmp #null #t) => #f;
-(cmp #null #null #t) => #f;
-(cmp #null #null #t #null) => #f;
-(cmp #null #null #t #null #null) => #f;
+(cmp #null #t) => #f
+(cmp #null #null #t) => #f
+(cmp #null #null #t #null) => #f
+(cmp #null #null #t #null #null) => #f
 
-(cmp #null #t #t) => #f;
-(cmp #null #t #t #null) => #f;
-(cmp #null #t #t #null #null) => #f;
+(cmp #null #t #t) => #f
+(cmp #null #t #t #null) => #f
+(cmp #null #t #t #null #null) => #f
 
-(cmp #null #t #t) => #f;
-(cmp #null #t #t #null) => #f;
-(cmp #null #t #t #t #null) => #f;
+(cmp #null #t #t) => #f
+(cmp #null #t #t #null) => #f
+(cmp #null #t #t #t #null) => #f
 
 
 
 
-(cmp #null #null) => #t;
-(cmp #null #void) => #f;
-(cmp #null #undefined) => #f;
+(cmp #null #null) => #t
+(cmp #null #void) => #f
+(cmp #null #undefined) => #f
 
-(cmp #void #void) => #t;
-(cmp #void #null) => #f;
-(cmp #void #undefined) => #f;
+(cmp #void #void) => #t
+(cmp #void #null) => #f
+(cmp #void #undefined) => #f
 
-(cmp #undefined #undefined) => #t;
-(cmp #undefined #null) => #f;
-(cmp #undefined #void) => #f;
+(cmp #undefined #undefined) => #t
+(cmp #undefined #null) => #f
+(cmp #undefined #void) => #f
 
 
 
 
-(cmp #t #t) => #t;
-(cmp #f #f) => #t;
-(cmp #t #f) => #f;
-(cmp #f #t) => #f;
+(cmp #t #t) => #t
+(cmp #f #f) => #t
+(cmp #t #f) => #f
+(cmp #f #t) => #f
 
 
 
 
-(cmp 0 0) => #t;
-(cmp 0 +0) => #t;
-(cmp 0 -0) => #t;
+(cmp 0 0) => #t
+(cmp 0 +0) => #t
+(cmp 0 -0) => #t
 
-(cmp 0.0 0.0) => #t;
-(cmp 0.0 +0.0) => #t;
-(cmp 0.0 -0.0) => #t;
+(cmp 0.0 0.0) => #t
+(cmp 0.0 +0.0) => #t
+(cmp 0.0 -0.0) => #t
 
-(cmp 0.0 0) => #t;
-(cmp -0.0 0) => #t;
-(cmp +0.0 0) => #t;
+(cmp 0.0 0) => #t
+(cmp -0.0 0) => #t
+(cmp +0.0 0) => #t
 
-(cmp 1 1) => #t;
-(cmp 1 +1) => #t;
-(cmp 1 -1) => #f;
-(cmp -1 -1) => #t;
+(cmp 1 1) => #t
+(cmp 1 +1) => #t
+(cmp 1 -1) => #f
+(cmp -1 -1) => #t
 
-(cmp 1.0 1.0) => #t;
-(cmp 1.0 +1.0) => #t;
-(cmp 1.0 -1.0) => #f;
-(cmp -1.0 -1.0) => #t;
+(cmp 1.0 1.0) => #t
+(cmp 1.0 +1.0) => #t
+(cmp 1.0 -1.0) => #f
+(cmp -1.0 -1.0) => #t
 
-(cmp 1.0 1) => #t;
-(cmp -1.0 1) => #f;
-(cmp +1.0 1) => #t;
-(cmp -1.0 -1) => #t;
+(cmp 1.0 1) => #t
+(cmp -1.0 1) => #f
+(cmp +1.0 1) => #t
+(cmp -1.0 -1) => #t
 
-(cmp +nan +nan) => #t;
-(cmp +nan +nan.0) => #t;
-(cmp -nan -nan) => #t;
-(cmp -nan -nan.0) => #t;
-(cmp +nan -nan) => #t;
-(cmp -nan +nan) => #t;
-(cmp +nan 0) => #f;
-(cmp -nan 0) => #f;
-(cmp +nan 0.0) => #f;
-(cmp -nan 0.0) => #f;
+(cmp +nan +nan) => #t
+(cmp +nan +nan.0) => #t
+(cmp -nan -nan) => #t
+(cmp -nan -nan.0) => #t
+(cmp +nan -nan) => #t
+(cmp -nan +nan) => #t
+(cmp +nan 0) => #f
+(cmp -nan 0) => #f
+(cmp +nan 0.0) => #f
+(cmp -nan 0.0) => #f
 
-(cmp +inf +inf) => #t;
-(cmp +inf +inf.0) => #t;
-(cmp -inf -inf) => #t;
-(cmp -inf -inf.0) => #t;
-(cmp +inf -inf) => #f;
-(cmp -inf +inf) => #f;
-(cmp +inf 0) => #f;
-(cmp -inf 0) => #f;
-(cmp +inf 0.0) => #f;
-(cmp -inf 0.0) => #f;
+(cmp +inf +inf) => #t
+(cmp +inf +inf.0) => #t
+(cmp -inf -inf) => #t
+(cmp -inf -inf.0) => #t
+(cmp +inf -inf) => #f
+(cmp -inf +inf) => #f
+(cmp +inf 0) => #f
+(cmp -inf 0) => #f
+(cmp +inf 0.0) => #f
+(cmp -inf 0.0) => #f
 
 
 
 
-(cmp #\a #\a) => #t;
-(cmp #\a #\b) => #f;
+(cmp #\a #\a) => #t
+(cmp #\a #\b) => #f
 
 
 
 
-(cmp 'a 'a) => #t;
-(cmp 'abc 'abc) => #t;
-(cmp 'abc 'def) => #f;
-(cmp 'abc 'abcd) => #f;
-(cmp 'abcd 'abc) => #f;
+(cmp 'a 'a) => #t
+(cmp 'abc 'abc) => #t
+(cmp 'abc 'def) => #f
+(cmp 'abc 'abcd) => #f
+(cmp 'abcd 'abc) => #f
 
 
 
 
-(cmp "" "") => #t;
-(cmp "abc" "abc") => #t;
-(cmp "abc" "def") => #f;
-(cmp "abc" "abcd") => #f;
-(cmp "abcd" "abc") => #f;
+(cmp "" "") => #t
+(cmp "abc" "abc") => #t
+(cmp "abc" "def") => #f
+(cmp "abc" "abcd") => #f
+(cmp "abcd" "abc") => #f
 
 
 
 
-(cmp #u8() #u8()) => #t;
-(cmp #u8(0 1 2) #u8(0 1 2)) => #t;
-(cmp #u8(0 1 2) #u8(3 4 5)) => #f;
-(cmp #u8(0 1 2) #u8(0 1 2 3)) => #f;
-(cmp #u8(0 1 2 3) #u8(0 1 2)) => #f;
+(cmp #u8() #u8()) => #t
+(cmp #u8(0 1 2) #u8(0 1 2)) => #t
+(cmp #u8(0 1 2) #u8(3 4 5)) => #f
+(cmp #u8(0 1 2) #u8(0 1 2 3)) => #f
+(cmp #u8(0 1 2 3) #u8(0 1 2)) => #f
 
 
 
 
-(cmp '(0 . 1) '(0 . 1)) => #t;
-(cmp '(0 . 1) '(2 . 3)) => #f;
-(cmp '() '(0 . 1)) => #f;
-(cmp '() '(0 1 2)) => #f;
-(cmp '(0 1 2) '(0 1 2)) => #t;
-(cmp '(0 1 2) '(3 4 5)) => #f;
-(cmp '(0 1 2) '(0 1 2 3)) => #f;
-(cmp '(0 1 2 3) '(0 1 2)) => #f;
-(cmp '(0 (1)) '(0 (1))) => #t;
+(cmp '(0 . 1) '(0 . 1)) => #t
+(cmp '(0 . 1) '(2 . 3)) => #f
+(cmp '() '(0 . 1)) => #f
+(cmp '() '(0 1 2)) => #f
+(cmp '(0 1 2) '(0 1 2)) => #t
+(cmp '(0 1 2) '(3 4 5)) => #f
+(cmp '(0 1 2) '(0 1 2 3)) => #f
+(cmp '(0 1 2 3) '(0 1 2)) => #f
+(cmp '(0 (1)) '(0 (1))) => #t
 
-(cmp '(0 . 1) '(0.0 . 1.0)) => #t;
-(cmp '(0 (1)) '(0.0 (1.0))) => #t;
+(cmp '(0 . 1) '(0.0 . 1.0)) => #t
+(cmp '(0 (1)) '(0.0 (1.0))) => #t
 
 
 
 
-(cmp #() #()) => #t;
-(cmp #(0 1 2) #(0 1 2)) => #t;
-(cmp #(0 1 2) #(3 4 5)) => #f;
-(cmp #(0 1 2) #(0 1 2 3)) => #f;
-(cmp #(0 1 2 3) #(0 1 2)) => #f;
-(cmp #(0 (1)) #(0 (1))) => #t;
+(cmp #() #()) => #t
+(cmp #(0 1 2) #(0 1 2)) => #t
+(cmp #(0 1 2) #(3 4 5)) => #f
+(cmp #(0 1 2) #(0 1 2 3)) => #f
+(cmp #(0 1 2 3) #(0 1 2)) => #f
+(cmp #(0 (1)) #(0 (1))) => #t
 
-(cmp #(0 1 2) #(0.0 1.0 2.0)) => #t;
-(cmp #(0 (1)) #(0.0 (1.0))) => #t;
+(cmp #(0 1 2) #(0.0 1.0 2.0)) => #t
+(cmp #(0 (1)) #(0.0 (1.0))) => #t
 
 
 
 
-(cmp #values() #values()) => #t;
-(cmp #values(0 1 2) #values(0 1 2)) => #t;
-(cmp #values(0 1 2) #values(3 4 5)) => #f;
-(cmp #values(0 1 2) #values(0 1 2 3)) => #f;
-(cmp #values(0 1 2 3) #values(0 1 2)) => #f;
-(cmp #values(0 (1)) #values(0 (1))) => #t;
+(cmp #values() #values()) => #t
+(cmp #values(0 1 2) #values(0 1 2)) => #t
+(cmp #values(0 1 2) #values(3 4 5)) => #f
+(cmp #values(0 1 2) #values(0 1 2 3)) => #f
+(cmp #values(0 1 2 3) #values(0 1 2)) => #f
+(cmp #values(0 (1)) #values(0 (1))) => #t
 
-(cmp #values(0 1 2) #values(0.0 1.0 2.0)) => #t;
-(cmp #values(0 (1)) #values(0.0 (1.0))) => #t;
+(cmp #values(0 1 2) #values(0.0 1.0 2.0)) => #t
+(cmp #values(0 (1)) #values(0.0 (1.0))) => #t
 
 
 
 
-(cmp (lambda x x) (lambda x x)) => #f;
-(cmp (lambda x x) (lambda y y)) => #f;
-(cmp (lambda (x) x) (lambda x x)) => #f;
-(cmp (lambda x x) (lambda x (x))) => #f;
+(cmp (lambda x x) (lambda x x)) => #f
+(cmp (lambda x x) (lambda y y)) => #f
+(cmp (lambda (x) x) (lambda x x)) => #f
+(cmp (lambda x x) (lambda x (x))) => #f
 
 
 
 
-(cmp-self #null) => #t;
-(cmp-self #void) => #t;
-(cmp-self #undefined) => #t;
-(cmp-self #t) => #t;
-(cmp-self #f) => #t;
-(cmp-self +0) => #t;
-(cmp-self -0) => #t;
-(cmp-self +0.0) => #t;
-(cmp-self -0.0) => #t;
-(cmp-self +nan) => #t;
-(cmp-self -nan) => #t;
-(cmp-self +inf) => #t;
-(cmp-self -inf) => #t;
-(cmp-self #\a) => #t;
-(cmp-self 'a) => #t;
-(cmp-self "") => #t;
-(cmp-self "abc") => #t;
-(cmp-self #u8()) => #t;
-(cmp-self #u8(0 1 2)) => #t;
-(cmp-self '(0 . 1)) => #t;
-(cmp-self '(0 1 2)) => #t;
-(cmp-self #()) => #t;
-(cmp-self #(0 1 2)) => #t;
-(cmp-self #values()) => #t;
-(cmp-self #values(0 1 2)) => #t;
-(cmp-self (lambda x x)) => #t;
+(cmp-self #null) => #t
+(cmp-self #void) => #t
+(cmp-self #undefined) => #t
+(cmp-self #t) => #t
+(cmp-self #f) => #t
+(cmp-self +0) => #t
+(cmp-self -0) => #t
+(cmp-self +0.0) => #t
+(cmp-self -0.0) => #t
+(cmp-self +nan) => #t
+(cmp-self -nan) => #t
+(cmp-self +inf) => #t
+(cmp-self -inf) => #t
+(cmp-self #\a) => #t
+(cmp-self 'a) => #t
+(cmp-self "") => #t
+(cmp-self "abc") => #t
+(cmp-self #u8()) => #t
+(cmp-self #u8(0 1 2)) => #t
+(cmp-self '(0 . 1)) => #t
+(cmp-self '(0 1 2)) => #t
+(cmp-self #()) => #t
+(cmp-self #(0 1 2)) => #t
+(cmp-self #values()) => #t
+(cmp-self #values(0 1 2)) => #t
+(cmp-self (lambda x x)) => #t
 

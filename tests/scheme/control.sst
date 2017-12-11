@@ -1,110 +1,110 @@
 
-(begin) => #void;
-(begin 0) => 0;
-(begin 0 1) => 1;
-(begin 0 1 2) => 2;
+(begin) => #void
+(begin 0) => 0
+(begin 0 1) => 1
+(begin 0 1 2) => 2
 
 
 
 
-(if #t 1 2) => 1;
-(if #f 1 2) => 2;
+(if #t 1 2) => 1
+(if #f 1 2) => 2
 
-(if #t 1) => 1;
-(if #f 1) => #void;
+(if #t 1) => 1
+(if #f 1) => #void
 
-(if #null 1 2) => 1;
-(if 0 1 2) => 1;
-(if 1 2 3) => 2;
-
-
-
-
-(when #t 0) => 0;
-(when #t 0 1) => 1;
-(when #t 0 1 2) => 2;
-(when #f 0) => #void;
-(when #f 0 1) => #void;
-(when #f 0 1 2) => #void;
-
-(when #null 0 1) => 1;
-(when 0 1 2) => 2;
-(when 1 2 3) => 3;
-
-(unless #f 0) => 0;
-(unless #f 0 1) => 1;
-(unless #f 0 1 2) => 2;
-(unless #t 0) => #void;
-(unless #t 0 1) => #void;
-(unless #t 0 1 2) => #void;
-
-(unless #null 0 1) => #void;
-(unless 0 1 2) => #void;
-(unless 1 2 3) => #void;
+(if #null 1 2) => 1
+(if 0 1 2) => 1
+(if 1 2 3) => 2
 
 
 
 
-(cond) => #void;
-(cond (else #null)) => #null;
-(cond (else)) => #t;
+(when #t 0) => 0
+(when #t 0 1) => 1
+(when #t 0 1 2) => 2
+(when #f 0) => #void
+(when #f 0 1) => #void
+(when #f 0 1 2) => #void
 
-(cond (#t)) => #t;
-(cond (#t 0)) => 0;
-(cond (#t 0 1)) => 1;
-(cond (#t 0 1 2)) => 2;
-(cond (#f)) => #void;
-(cond (#f 0)) => #void;
-(cond (#f 0 1)) => #void;
-(cond (#f 0 1 2)) => #void;
+(when #null 0 1) => 1
+(when 0 1 2) => 2
+(when 1 2 3) => 3
 
-(cond (#t 0) (#t 1) (#t 2) (else 3)) => 0;
-(cond (#f 0) (#t 1) (#t 2) (else 3)) => 1;
-(cond (#f 0) (#f 1) (#t 2) (else 3)) => 2;
-(cond (#f 0) (#f 1) (#f 2) (else 3)) => 3;
+(unless #f 0) => 0
+(unless #f 0 1) => 1
+(unless #f 0 1 2) => 2
+(unless #t 0) => #void
+(unless #t 0 1) => #void
+(unless #t 0 1 2) => #void
 
-(cond (#null)) => #null;
-(cond (0)) => 0;
-(cond (1)) => 1;
-
-(cond (#null 1)) => 1;
-(cond (0 1 2)) => 2;
-(cond (1 2 3)) => 3;
+(unless #null 0 1) => #void
+(unless 0 1 2) => #void
+(unless 1 2 3) => #void
 
 
 
 
-(case 0) => #void;
-(case 0 (else #null)) => #null;
-(case 0 (else)) => 0;
+(cond) => #void
+(cond (else #null)) => #null
+(cond (else)) => #t
 
-(case 0 ((0) 'a)) => 'a;
-(case 1 ((0) 'a)) => #void;
+(cond (#t)) => #t
+(cond (#t 0)) => 0
+(cond (#t 0 1)) => 1
+(cond (#t 0 1 2)) => 2
+(cond (#f)) => #void
+(cond (#f 0)) => #void
+(cond (#f 0 1)) => #void
+(cond (#f 0 1 2)) => #void
 
-(case 0 ((0) 'a) ((0) 'b)) => 'a;
-(case 1 ((0) 'a) ((0) 'b)) => #void;
+(cond (#t 0) (#t 1) (#t 2) (else 3)) => 0
+(cond (#f 0) (#t 1) (#t 2) (else 3)) => 1
+(cond (#f 0) (#f 1) (#t 2) (else 3)) => 2
+(cond (#f 0) (#f 1) (#f 2) (else 3)) => 3
 
-(case 0 ((0) 'a) ((1) 'b) ((2) 'c)) => 'a;
-(case 1 ((0) 'a) ((1) 'b) ((2) 'c)) => 'b;
-(case 2 ((0) 'a) ((1) 'b) ((2) 'c)) => 'c;
-(case 3 ((0) 'a) ((1) 'b) ((2) 'c)) => #void;
-(case 3 ((0) 'a) ((1) 'b) ((2) 'c) (else 'd)) => 'd;
+(cond (#null)) => #null
+(cond (0)) => 0
+(cond (1)) => 1
 
-(case 0 ((0 1 2) 'a) ((0 1 2 3 4) 'b) (else 'c)) => 'a;
-(case 1 ((0 1 2) 'a) ((0 1 2 3 4) 'b) (else 'c)) => 'a;
-(case 2 ((0 1 2) 'a) ((0 1 2 3 4) 'b) (else 'c)) => 'a;
-(case 3 ((0 1 2) 'a) ((0 1 2 3 4) 'b) (else 'c)) => 'b;
-(case 4 ((0 1 2) 'a) ((0 1 2 3 4) 'b) (else 'c)) => 'b;
-(case 5 ((0 1 2) 'a) ((0 1 2 3 4) 'b) (else 'c)) => 'c;
+(cond (#null 1)) => 1
+(cond (0 1 2)) => 2
+(cond (1 2 3)) => 3
 
-(case 0 (())) => #void;
-(case 0 ((0))) => 0;
-(case 1 ((0))) => #void;
 
-(case 0 ((0 1)) ((2 3))) => 0;
-(case 1 ((0 1)) ((2 3))) => 1;
-(case 2 ((0 1)) ((2 3))) => 2;
-(case 3 ((0 1)) ((2 3))) => 3;
-(case 4 ((0 1)) ((2 3))) => #void;
-(case 4 ((0 1)) ((2 3)) (else)) => 4;
+
+
+(case 0) => #void
+(case 0 (else #null)) => #null
+(case 0 (else)) => 0
+
+(case 0 ((0) 'a)) => 'a
+(case 1 ((0) 'a)) => #void
+
+(case 0 ((0) 'a) ((0) 'b)) => 'a
+(case 1 ((0) 'a) ((0) 'b)) => #void
+
+(case 0 ((0) 'a) ((1) 'b) ((2) 'c)) => 'a
+(case 1 ((0) 'a) ((1) 'b) ((2) 'c)) => 'b
+(case 2 ((0) 'a) ((1) 'b) ((2) 'c)) => 'c
+(case 3 ((0) 'a) ((1) 'b) ((2) 'c)) => #void
+(case 3 ((0) 'a) ((1) 'b) ((2) 'c) (else 'd)) => 'd
+
+(case 0 ((0 1 2) 'a) ((0 1 2 3 4) 'b) (else 'c)) => 'a
+(case 1 ((0 1 2) 'a) ((0 1 2 3 4) 'b) (else 'c)) => 'a
+(case 2 ((0 1 2) 'a) ((0 1 2 3 4) 'b) (else 'c)) => 'a
+(case 3 ((0 1 2) 'a) ((0 1 2 3 4) 'b) (else 'c)) => 'b
+(case 4 ((0 1 2) 'a) ((0 1 2 3 4) 'b) (else 'c)) => 'b
+(case 5 ((0 1 2) 'a) ((0 1 2 3 4) 'b) (else 'c)) => 'c
+
+(case 0 (())) => #void
+(case 0 ((0))) => 0
+(case 1 ((0))) => #void
+
+(case 0 ((0 1)) ((2 3))) => 0
+(case 1 ((0 1)) ((2 3))) => 1
+(case 2 ((0 1)) ((2 3))) => 2
+(case 3 ((0 1)) ((2 3))) => 3
+(case 4 ((0 1)) ((2 3))) => #void
+(case 4 ((0 1)) ((2 3)) (else)) => 4
 

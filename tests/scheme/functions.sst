@@ -1,74 +1,74 @@
 
-(apply list) => '();
-(apply list '(0)) => '(0);
-(apply list '(0) '(1)) => '(0 1);
-(apply list '(0) '(1) '(2)) => '(0 1 2);
-(apply list '(0) '(1) '(2) '(3)) => '(0 1 2 3);
-(apply list '(0) '(1) '(2) '(3) '(4)) => '(0 1 2 3 4);
-(apply list '(0) '(1) '(2) '(3) '(4) '(5)) => '(0 1 2 3 4 5);
+(apply list) => '()
+(apply list '(0)) => '(0)
+(apply list '(0) '(1)) => '(0 1)
+(apply list '(0) '(1) '(2)) => '(0 1 2)
+(apply list '(0) '(1) '(2) '(3)) => '(0 1 2 3)
+(apply list '(0) '(1) '(2) '(3) '(4)) => '(0 1 2 3 4)
+(apply list '(0) '(1) '(2) '(3) '(4) '(5)) => '(0 1 2 3 4 5)
 
-(apply list '(1)) => '(1);
-(apply list '(1) '()) => '(1);
-(apply list '(1) '(4) '()) => '(1 4);
-(apply list '(1) '() '(4) '()) => '(1 4);
-(apply list '(1) '() '() '(4) '()) => '(1 4);
+(apply list '(1)) => '(1)
+(apply list '(1) '()) => '(1)
+(apply list '(1) '(4) '()) => '(1 4)
+(apply list '(1) '() '(4) '()) => '(1 4)
+(apply list '(1) '() '() '(4) '()) => '(1 4)
 
-(apply list '(1 2)) => '(1 2);
-(apply list '(1 2) '()) => '(1 2);
-(apply list '(1 2) '(4) '()) => '(1 2 4);
-(apply list '(1 2) '() '(4) '()) => '(1 2 4);
-(apply list '(1 2) '() '() '(4) '()) => '(1 2 4);
+(apply list '(1 2)) => '(1 2)
+(apply list '(1 2) '()) => '(1 2)
+(apply list '(1 2) '(4) '()) => '(1 2 4)
+(apply list '(1 2) '() '(4) '()) => '(1 2 4)
+(apply list '(1 2) '() '() '(4) '()) => '(1 2 4)
 
-(apply list '(1) '(2)) => '(1 2);
-(apply list '(1) '(2) '()) => '(1 2);
-(apply list '(1) '(2) '(4)) => '(1 2 4);
-(apply list '(1) '(2) '() '(4)) => '(1 2 4);
-(apply list '(1) '(2) '() '() '(4)) => '(1 2 4);
+(apply list '(1) '(2)) => '(1 2)
+(apply list '(1) '(2) '()) => '(1 2)
+(apply list '(1) '(2) '(4)) => '(1 2 4)
+(apply list '(1) '(2) '() '(4)) => '(1 2 4)
+(apply list '(1) '(2) '() '() '(4)) => '(1 2 4)
 
-(apply list '(1 2) '(3)) => '(1 2 3);
-(apply list '(1 2) '() '(3)) => '(1 2 3);
-(apply list '(1 2) '() '(3)) => '(1 2 3);
-(apply list '(1 2) '() '(3) '(4)) => '(1 2 3 4);
-(apply list '(1 2) '() '(3) '() '(4)) => '(1 2 3 4);
-
-
-
-
-(~call list) => '();
-(~call list 0) => '(0);
-(~call list 0 1) => '(0 1);
-(~call list 0 1 2) => '(0 1 2);
-(~call list 0 1 2 3) => '(0 1 2 3);
-(~call list 0 1 2 3 4) => '(0 1 2 3 4);
-(~call list 0 1 2 3 4 5) => '(0 1 2 3 4 5);
+(apply list '(1 2) '(3)) => '(1 2 3)
+(apply list '(1 2) '() '(3)) => '(1 2 3)
+(apply list '(1 2) '() '(3)) => '(1 2 3)
+(apply list '(1 2) '() '(3) '(4)) => '(1 2 3 4)
+(apply list '(1 2) '() '(3) '() '(4)) => '(1 2 3 4)
 
 
 
 
-(values) => #values();
-(values 0) => #values(0);
-(values 0 1) => #values(0 1);
-(values 0 1 2) => #values(0 1 2);
-(values 0 1 2 3) => #values(0 1 2 3);
-(values 0 1 2 3 4) => #values(0 1 2 3 4);
-(values 0 1 2 3 4 5) => #values(0 1 2 3 4 5);
+(~call list) => '()
+(~call list 0) => '(0)
+(~call list 0 1) => '(0 1)
+(~call list 0 1 2) => '(0 1 2)
+(~call list 0 1 2 3) => '(0 1 2 3)
+(~call list 0 1 2 3 4) => '(0 1 2 3 4)
+(~call list 0 1 2 3 4 5) => '(0 1 2 3 4 5)
 
 
 
 
-(~call-with-values list #values()) => '();
-(~call-with-values list #values(0)) => '(0);
-(~call-with-values list #values(0 1)) => '(0 1);
-(~call-with-values list #values(0 1 2)) => '(0 1 2);
-(~call-with-values list #values(0 1 2 3)) => '(0 1 2 3);
-(~call-with-values list #values(0 1 2 3 4)) => '(0 1 2 3 4);
-(~call-with-values list #values(0 1 2 3 4 5)) => '(0 1 2 3 4 5);
+(values) => #values()
+(values 0) => #values(0)
+(values 0 1) => #values(0 1)
+(values 0 1 2) => #values(0 1 2)
+(values 0 1 2 3) => #values(0 1 2 3)
+(values 0 1 2 3 4) => #values(0 1 2 3 4)
+(values 0 1 2 3 4 5) => #values(0 1 2 3 4 5)
 
 
 
 
-(define (values-builder . values_list) (lambda () (apply values values_list))) => !ignore;
+(~call-with-values list #values()) => '()
+(~call-with-values list #values(0)) => '(0)
+(~call-with-values list #values(0 1)) => '(0 1)
+(~call-with-values list #values(0 1 2)) => '(0 1 2)
+(~call-with-values list #values(0 1 2 3)) => '(0 1 2 3)
+(~call-with-values list #values(0 1 2 3 4)) => '(0 1 2 3 4)
+(~call-with-values list #values(0 1 2 3 4 5)) => '(0 1 2 3 4 5)
 
-(call-with-values (values-builder) list) => '();
-(call-with-values (values-builder 0) list) => '(0);
+
+
+
+(define (values-builder . values_list) (lambda () (apply values values_list))) => !ignore
+
+(call-with-values (values-builder) list) => '()
+(call-with-values (values-builder 0) list) => '(0)
 

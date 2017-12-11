@@ -133,16 +133,11 @@ pub script -> Vec<values::Value> = space? values : value* space? { values }
 
 pub tests -> Vec<tests::TestCase> = space? tests : test* space? { tests }
 
-pub test -> tests::TestCase = space? test : test_case ( "//" space? value space? )? ";" space? { test }
+pub test -> tests::TestCase = space? test : test_case ( "//" space? value space? )? space? { test }
 test_case -> tests::TestCase = value : value space? "=>" space? action : test_action space? { tests::TestCase { value : value, action : action } }
 test_action -> tests::TestAction =
 		( "!debug" space value ) { tests::TestAction::Debug } /
-		"!debug" { tests::TestAction::Debug } /
-		( "!ignore" space value ) { tests::TestAction::Ignore } /
-		"!ignore" { tests::TestAction::Ignore } /
 		( "!fixme" space value ) { tests::TestAction::Skip } /
-		"!fixme" { tests::TestAction::Skip } /
-		( "!skip" space value ) { tests::TestAction::Skip } /
-		"!skip" { tests::TestAction::Skip } /
+		"!ignore" { tests::TestAction::Ignore } /
 		value : value { tests::TestAction::Expect (value) }
 

@@ -1,151 +1,151 @@
 
-(vector) => #();
+(vector) => #()
 
-(vector 0) => #(0);
-(vector 0 1) => #(0 1);
-(vector 0 1 2) => #(0 1 2);
-(vector 0 1 2 3) => #(0 1 2 3);
-(vector 0 1 2 3 4) => #(0 1 2 3 4);
-(vector 0 1 2 3 4 5) => #(0 1 2 3 4 5);
-(vector 0 1 2 3 4 5 6) => #(0 1 2 3 4 5 6);
+(vector 0) => #(0)
+(vector 0 1) => #(0 1)
+(vector 0 1 2) => #(0 1 2)
+(vector 0 1 2 3) => #(0 1 2 3)
+(vector 0 1 2 3 4) => #(0 1 2 3 4)
+(vector 0 1 2 3 4 5) => #(0 1 2 3 4 5)
+(vector 0 1 2 3 4 5 6) => #(0 1 2 3 4 5 6)
 
-(vector '(0) 1 2) => #((0) 1 2);
-(vector 0 1 '(2)) => #(0 1 (2));
-(vector '(0) '(1) '(2)) => #((0) (1) (2));
-(vector '(0 1 2)) => #((0 1 2));
-
-
-
-
-(make-vector 0) => #();
-(make-vector 1) => #(#undefined);
-(make-vector 2) => #(#undefined #undefined);
-(make-vector 3) => #(#undefined #undefined #undefined);
-
-(make-vector 0 0) => #();
-(make-vector 1 0) => #(0);
-(make-vector 2 0) => #(0 0);
-(make-vector 3 0) => #(0 0 0);
+(vector '(0) 1 2) => #((0) 1 2)
+(vector 0 1 '(2)) => #(0 1 (2))
+(vector '(0) '(1) '(2)) => #((0) (1) (2))
+(vector '(0 1 2)) => #((0 1 2))
 
 
 
 
-(vector-copy #()) => #();
-(vector-copy #() 0) => #();
-(vector-copy #() 0 0) => #();
+(make-vector 0) => #()
+(make-vector 1) => #(#undefined)
+(make-vector 2) => #(#undefined #undefined)
+(make-vector 3) => #(#undefined #undefined #undefined)
 
-(vector-copy #(0)) => #(0);
-(vector-copy #(0 1)) => #(0 1);
-(vector-copy #(0 1 2)) => #(0 1 2);
-(vector-copy #((0) 1 2)) => #((0) 1 2);
-(vector-copy #(0 1 (2))) => #(0 1 (2));
-(vector-copy #((0) (1) (2))) => #((0) (1) (2));
-(vector-copy #((0 1 2))) => #((0 1 2));
-
-(vector-copy #(0 1 2 3 4 5) 0) => #(0 1 2 3 4 5);
-(vector-copy #(0 1 2 3 4 5) 2) => #(2 3 4 5);
-(vector-copy #(0 1 2 3 4 5) 5) => #(5);
-(vector-copy #(0 1 2 3 4 5) 6) => #();
-
-(vector-copy #(0 1 2 3 4 5) 0 6) => #(0 1 2 3 4 5);
-(vector-copy #(0 1 2 3 4 5) 2 5) => #(2 3 4);
-(vector-copy #(0 1 2 3 4 5) 2 6) => #(2 3 4 5);
-(vector-copy #(0 1 2 3 4 5) 5 6) => #(5);
-(vector-copy #(0 1 2 3 4 5) 6 6) => #();
+(make-vector 0 0) => #()
+(make-vector 1 0) => #(0)
+(make-vector 2 0) => #(0 0)
+(make-vector 3 0) => #(0 0 0)
 
 
 
 
-(vector->list #()) => '();
-(vector->list #() 0) => '();
-(vector->list #() 0 0) => '();
+(vector-copy #()) => #()
+(vector-copy #() 0) => #()
+(vector-copy #() 0 0) => #()
 
-(vector->list #(0 1 2 3 4 5) 0) => '(0 1 2 3 4 5);
-(vector->list #(0 1 2 3 4 5) 2) => '(2 3 4 5);
-(vector->list #(0 1 2 3 4 5) 5) => '(5);
-(vector->list #(0 1 2 3 4 5) 6) => '();
+(vector-copy #(0)) => #(0)
+(vector-copy #(0 1)) => #(0 1)
+(vector-copy #(0 1 2)) => #(0 1 2)
+(vector-copy #((0) 1 2)) => #((0) 1 2)
+(vector-copy #(0 1 (2))) => #(0 1 (2))
+(vector-copy #((0) (1) (2))) => #((0) (1) (2))
+(vector-copy #((0 1 2))) => #((0 1 2))
 
-(vector->list #(0 1 2 3 4 5) 0 6) => '(0 1 2 3 4 5);
-(vector->list #(0 1 2 3 4 5) 2 5) => '(2 3 4);
-(vector->list #(0 1 2 3 4 5) 2 6) => '(2 3 4 5);
-(vector->list #(0 1 2 3 4 5) 5 6) => '(5);
-(vector->list #(0 1 2 3 4 5) 6 6) => '();
+(vector-copy #(0 1 2 3 4 5) 0) => #(0 1 2 3 4 5)
+(vector-copy #(0 1 2 3 4 5) 2) => #(2 3 4 5)
+(vector-copy #(0 1 2 3 4 5) 5) => #(5)
+(vector-copy #(0 1 2 3 4 5) 6) => #()
 
-
-(list->vector '()) => #();
-(list->vector '() 0) => #();
-(list->vector '() 0 0) => #();
-
-(list->vector '(0 1 2 3 4 5) 0) => #(0 1 2 3 4 5);
-(list->vector '(0 1 2 3 4 5) 2) => #(2 3 4 5);
-(list->vector '(0 1 2 3 4 5) 5) => #(5);
-(list->vector '(0 1 2 3 4 5) 6) => #();
-
-(list->vector '(0 1 2 3 4 5) 0 6) => #(0 1 2 3 4 5);
-(list->vector '(0 1 2 3 4 5) 2 5) => #(2 3 4);
-(list->vector '(0 1 2 3 4 5) 2 6) => #(2 3 4 5);
-(list->vector '(0 1 2 3 4 5) 5 6) => #(5);
-(list->vector '(0 1 2 3 4 5) 6 6) => #();
+(vector-copy #(0 1 2 3 4 5) 0 6) => #(0 1 2 3 4 5)
+(vector-copy #(0 1 2 3 4 5) 2 5) => #(2 3 4)
+(vector-copy #(0 1 2 3 4 5) 2 6) => #(2 3 4 5)
+(vector-copy #(0 1 2 3 4 5) 5 6) => #(5)
+(vector-copy #(0 1 2 3 4 5) 6 6) => #()
 
 
 
 
-(vector-length #()) => 0;
+(vector->list #()) => '()
+(vector->list #() 0) => '()
+(vector->list #() 0 0) => '()
 
-(vector-length #(0)) => 1;
-(vector-length #(0 1)) => 2;
-(vector-length #(0 1 2)) => 3;
-(vector-length #((0) 1 2)) => 3;
-(vector-length #(0 1 (2))) => 3;
-(vector-length #((0) (1) (2))) => 3;
-(vector-length #((0 1 2))) => 1;
+(vector->list #(0 1 2 3 4 5) 0) => '(0 1 2 3 4 5)
+(vector->list #(0 1 2 3 4 5) 2) => '(2 3 4 5)
+(vector->list #(0 1 2 3 4 5) 5) => '(5)
+(vector->list #(0 1 2 3 4 5) 6) => '()
+
+(vector->list #(0 1 2 3 4 5) 0 6) => '(0 1 2 3 4 5)
+(vector->list #(0 1 2 3 4 5) 2 5) => '(2 3 4)
+(vector->list #(0 1 2 3 4 5) 2 6) => '(2 3 4 5)
+(vector->list #(0 1 2 3 4 5) 5 6) => '(5)
+(vector->list #(0 1 2 3 4 5) 6 6) => '()
 
 
+(list->vector '()) => #()
+(list->vector '() 0) => #()
+(list->vector '() 0 0) => #()
 
+(list->vector '(0 1 2 3 4 5) 0) => #(0 1 2 3 4 5)
+(list->vector '(0 1 2 3 4 5) 2) => #(2 3 4 5)
+(list->vector '(0 1 2 3 4 5) 5) => #(5)
+(list->vector '(0 1 2 3 4 5) 6) => #()
 
-(vector-append) => #();
-(vector-append #()) => #();
-(vector-append #() #()) => #();
-
-(vector-append #(0)) => #(0);
-(vector-append #() #(0)) => #(0);
-(vector-append #() #() #(0)) => #(0);
-
-(vector-append #(0 1)) => #(0 1);
-(vector-append #(0) #(1)) => #(0 1);
-
-(vector-append #(0 1)) => #(0 1);
-(vector-append #(0) #(1)) => #(0 1);
-
-(vector-append #(0 1 2)) => #(0 1 2);
-(vector-append #(0 1) #(2)) => #(0 1 2);
-(vector-append #(0) #(1) #(2)) => #(0 1 2);
-
-(vector-append #(0 1 2)) => #(0 1 2);
-(vector-append #(0 1) #(2)) => #(0 1 2);
-(vector-append #(0) #(1) #(2)) => #(0 1 2);
-
-(vector-append #(0)) => #(0);
-(vector-append #(0) #(1)) => #(0 1);
-(vector-append #(0) #(1) #(2)) => #(0 1 2);
-(vector-append #(0) #(1) #(2) #(3)) => #(0 1 2 3);
-(vector-append #(0) #(1) #(2) #(3) #(4)) => #(0 1 2 3 4);
-(vector-append #(0) #(1) #(2) #(3) #(4) #(5)) => #(0 1 2 3 4 5);
-(vector-append #(0) #(1) #(2) #(3) #(4) #(5) #(6)) => #(0 1 2 3 4 5 6);
+(list->vector '(0 1 2 3 4 5) 0 6) => #(0 1 2 3 4 5)
+(list->vector '(0 1 2 3 4 5) 2 5) => #(2 3 4)
+(list->vector '(0 1 2 3 4 5) 2 6) => #(2 3 4 5)
+(list->vector '(0 1 2 3 4 5) 5 6) => #(5)
+(list->vector '(0 1 2 3 4 5) 6 6) => #()
 
 
 
 
-(~vector-reverse #()) => #();
-(~vector-reverse #(0)) => #(0);
-(~vector-reverse #(0 1)) => #(1 0);
-(~vector-reverse #(0 1 2)) => #(2 1 0);
-(~vector-reverse #(0 1 2 3)) => #(3 2 1 0);
+(vector-length #()) => 0
+
+(vector-length #(0)) => 1
+(vector-length #(0 1)) => 2
+(vector-length #(0 1 2)) => 3
+(vector-length #((0) 1 2)) => 3
+(vector-length #(0 1 (2))) => 3
+(vector-length #((0) (1) (2))) => 3
+(vector-length #((0 1 2))) => 1
 
 
 
 
-(vector-ref #(a) 0) => 'a;
-(vector-ref #(a b) 1) => 'b;
-(vector-ref #(a b c) 2) => 'c;
+(vector-append) => #()
+(vector-append #()) => #()
+(vector-append #() #()) => #()
+
+(vector-append #(0)) => #(0)
+(vector-append #() #(0)) => #(0)
+(vector-append #() #() #(0)) => #(0)
+
+(vector-append #(0 1)) => #(0 1)
+(vector-append #(0) #(1)) => #(0 1)
+
+(vector-append #(0 1)) => #(0 1)
+(vector-append #(0) #(1)) => #(0 1)
+
+(vector-append #(0 1 2)) => #(0 1 2)
+(vector-append #(0 1) #(2)) => #(0 1 2)
+(vector-append #(0) #(1) #(2)) => #(0 1 2)
+
+(vector-append #(0 1 2)) => #(0 1 2)
+(vector-append #(0 1) #(2)) => #(0 1 2)
+(vector-append #(0) #(1) #(2)) => #(0 1 2)
+
+(vector-append #(0)) => #(0)
+(vector-append #(0) #(1)) => #(0 1)
+(vector-append #(0) #(1) #(2)) => #(0 1 2)
+(vector-append #(0) #(1) #(2) #(3)) => #(0 1 2 3)
+(vector-append #(0) #(1) #(2) #(3) #(4)) => #(0 1 2 3 4)
+(vector-append #(0) #(1) #(2) #(3) #(4) #(5)) => #(0 1 2 3 4 5)
+(vector-append #(0) #(1) #(2) #(3) #(4) #(5) #(6)) => #(0 1 2 3 4 5 6)
+
+
+
+
+(~vector-reverse #()) => #()
+(~vector-reverse #(0)) => #(0)
+(~vector-reverse #(0 1)) => #(1 0)
+(~vector-reverse #(0 1 2)) => #(2 1 0)
+(~vector-reverse #(0 1 2 3)) => #(3 2 1 0)
+
+
+
+
+(vector-ref #(a) 0) => 'a
+(vector-ref #(a b) 1) => 'b
+(vector-ref #(a b c) 2) => 'c
 

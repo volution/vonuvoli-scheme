@@ -1,9 +1,9 @@
 
-((lambda x x) 0) => '(0);
-((lambda () 0)) => 0;
-((lambda (x) x) 0) => 0;
-((lambda (x y) x) 0 1) => 0;
-((lambda (x y) y) 0 1) => 1;
+((lambda x x) 0) => '(0)
+((lambda () 0)) => 0
+((lambda (x) x) 0) => 0
+((lambda (x y) x) 0 1) => 0
+((lambda (x y) y) 0 1) => 1
 
 
 
@@ -13,11 +13,11 @@
 		(define y 0)
 		(lambda (x) (+ x y))
 	))
-=> !ignore;
+=> !ignore
 
-(f1 0) => 0;
-(f1 1) => 1;
-(f1 2) => 2;
+(f1 0) => 0
+(f1 1) => 1
+(f1 2) => 2
 
 
 
@@ -33,18 +33,18 @@
 	(define f2+0 (f2 0))
 	(define f2+1 (f2 1))
 )
-=> !ignore;
+=> !ignore
 
-(f2+0 0) => 0;
-(f2+0 1) => 1;
-(f2+1 0) => 1;
-(f2+1 1) => 2;
-
-
+(f2+0 0) => 0
+(f2+0 1) => 1
+(f2+1 0) => 1
+(f2+1 1) => 2
 
 
-(define f3 (lambda (x) (define y x) y)) => !ignore;
-(f3 0) => 0;
+
+
+(define f3 (lambda (x) (define y x) y)) => !ignore
+(f3 0) => 0
 
 
 
@@ -59,7 +59,7 @@
 			))
 		(lambda (n) (r n 0))
 	))
-=> !ignore;
+=> !ignore
 
 (define (f4a2 m)
 	(define (r n a)
@@ -69,7 +69,7 @@
 	(define (q n)
 		(r n 0))
 	q)
-=> !ignore;
+=> !ignore
 
 (define f4b
 	(~locals
@@ -82,45 +82,45 @@
 		(lambda (m)
 			(lambda (n) (r m n 0)))
 	))
-=> !ignore;
+=> !ignore
 
-((f4a1 0) 0) => ((f4b 0) 0);
-((f4a1 0) 1) => ((f4b 0) 1);
-((f4a1 0) 2) => ((f4b 0) 2);
-((f4a1 1) 0) => ((f4b 1) 0);
-((f4a1 1) 1) => ((f4b 1) 1);
-((f4a1 1) 2) => ((f4b 1) 2);
-((f4a1 2) 0) => ((f4b 2) 0);
-((f4a1 2) 1) => ((f4b 2) 1);
-((f4a1 2) 2) => ((f4b 2) 2);
+((f4a1 0) 0) => ((f4b 0) 0)
+((f4a1 0) 1) => ((f4b 0) 1)
+((f4a1 0) 2) => ((f4b 0) 2)
+((f4a1 1) 0) => ((f4b 1) 0)
+((f4a1 1) 1) => ((f4b 1) 1)
+((f4a1 1) 2) => ((f4b 1) 2)
+((f4a1 2) 0) => ((f4b 2) 0)
+((f4a1 2) 1) => ((f4b 2) 1)
+((f4a1 2) 2) => ((f4b 2) 2)
 
-((f4a2 0) 0) => ((f4b 0) 0);
-((f4a2 0) 1) => ((f4b 0) 1);
-((f4a2 0) 2) => ((f4b 0) 2);
-((f4a2 1) 0) => ((f4b 1) 0);
-((f4a2 1) 1) => ((f4b 1) 1);
-((f4a2 1) 2) => ((f4b 1) 2);
-((f4a2 2) 0) => ((f4b 2) 0);
-((f4a2 2) 1) => ((f4b 2) 1);
-((f4a2 2) 2) => ((f4b 2) 2);
-
-
+((f4a2 0) 0) => ((f4b 0) 0)
+((f4a2 0) 1) => ((f4b 0) 1)
+((f4a2 0) 2) => ((f4b 0) 2)
+((f4a2 1) 0) => ((f4b 1) 0)
+((f4a2 1) 1) => ((f4b 1) 1)
+((f4a2 1) 2) => ((f4b 1) 2)
+((f4a2 2) 0) => ((f4b 2) 0)
+((f4a2 2) 1) => ((f4b 2) 1)
+((f4a2 2) 2) => ((f4b 2) 2)
 
 
-((lambda (x . y) x) 0 1) => 0;
-((lambda (x . y) y) 0 1) => '(1);
 
 
-(~locals (define (f) 0) (f)) => 0;
-(~locals (define (f . r) r) (f)) => '();
-(~locals (define (f . r) r) (f 0)) => '(0);
-(~locals (define (f . r) r) (f 0 1)) => '(0 1);
-(~locals (define (f a . r) a) (f 0)) => 0;
-(~locals (define (f a . r) a) (f 0 1)) => 0;
-(~locals (define (f a . r) r) (f 0)) => '();
-(~locals (define (f a . r) r) (f 0 1)) => '(1);
-(~locals (define (f a b . r) b) (f 0 1)) => 1;
-(~locals (define (f a b . r) b) (f 0 1 2)) => 1;
-(~locals (define (f a b . r) r) (f 0 1)) => '();
-(~locals (define (f a b . r) r) (f 0 1 2)) => '(2);
+((lambda (x . y) x) 0 1) => 0
+((lambda (x . y) y) 0 1) => '(1)
+
+
+(~locals (define (f) 0) (f)) => 0
+(~locals (define (f . r) r) (f)) => '()
+(~locals (define (f . r) r) (f 0)) => '(0)
+(~locals (define (f . r) r) (f 0 1)) => '(0 1)
+(~locals (define (f a . r) a) (f 0)) => 0
+(~locals (define (f a . r) a) (f 0 1)) => 0
+(~locals (define (f a . r) r) (f 0)) => '()
+(~locals (define (f a . r) r) (f 0 1)) => '(1)
+(~locals (define (f a b . r) b) (f 0 1)) => 1
+(~locals (define (f a b . r) b) (f 0 1 2)) => 1
+(~locals (define (f a b . r) r) (f 0 1)) => '()
+(~locals (define (f a b . r) r) (f 0 1 2)) => '(2)
 

@@ -1,86 +1,86 @@
 
-(boolean=?) => #t;
+(boolean=?) => #t
 
-(boolean=? #t) => #t;
-(boolean=? #t #t) => #t;
-(boolean=? #t #t #t) => #t;
-(boolean=? #t #t #t #t) => #t;
-(boolean=? #t #t #t #t #t) => #t;
+(boolean=? #t) => #t
+(boolean=? #t #t) => #t
+(boolean=? #t #t #t) => #t
+(boolean=? #t #t #t #t) => #t
+(boolean=? #t #t #t #t #t) => #t
 
-(boolean=? #f) => #t;
-(boolean=? #f #f) => #t;
-(boolean=? #f #f #f) => #t;
-(boolean=? #f #f #f #f) => #t;
-(boolean=? #f #f #f #f #f) => #t;
+(boolean=? #f) => #t
+(boolean=? #f #f) => #t
+(boolean=? #f #f #f) => #t
+(boolean=? #f #f #f #f) => #t
+(boolean=? #f #f #f #f #f) => #t
 
-(boolean=? #t #f) => #f;
-
-
-(symbol=?) => #t;
-(symbol=? '||) => #t;
-(symbol=? '|| '||) => #t;
-(symbol=? '|| '|| '||) => #t;
-(symbol=? '|| '|| '|| '||) => #t;
-(symbol=? '|| '|| '|| '|| '||) => #t;
-
-(symbol=? 'abc 'abc) => #t;
-(symbol=? 'abc 'def) => #f;
+(boolean=? #t #f) => #f
 
 
-(string=?) => #t;
-(string=? "") => #t;
-(string=? "" "") => #t;
-(string=? "" "" "") => #t;
-(string=? "" "" "" "") => #t;
-(string=? "" "" "" "" "") => #t;
+(symbol=?) => #t
+(symbol=? '||) => #t
+(symbol=? '|| '||) => #t
+(symbol=? '|| '|| '||) => #t
+(symbol=? '|| '|| '|| '||) => #t
+(symbol=? '|| '|| '|| '|| '||) => #t
 
-(string=? "abc" "abc") => #t;
-(string=? "abc" "def") => #f;
-
-
-(~bytevector=?) => #t;
-(~bytevector=? #u8()) => #t;
-(~bytevector=? #u8() #u8()) => #t;
-(~bytevector=? #u8() #u8() #u8()) => #t;
-(~bytevector=? #u8() #u8() #u8() #u8()) => #t;
-(~bytevector=? #u8() #u8() #u8() #u8() #u8()) => #t;
-
-(~bytevector=? #u8(0 1 2) #u8(0 1 2)) => #t;
-(~bytevector=? #u8(0 1 2) #u8(3 4 5)) => #f;
+(symbol=? 'abc 'abc) => #t
+(symbol=? 'abc 'def) => #f
 
 
-(~pair=?) => #t;
-(~pair=? '(0 . 0)) => #t;
-(~pair=? '(0 . 0) '(0 . 0)) => #t;
-(~pair=? '(0 . 0) '(0 . 0) '(0 . 0)) => #t;
-(~pair=? '(0 . 0) '(0 . 0) '(0 . 0) '(0 . 0)) => #t;
-(~pair=? '(0 . 0) '(0 . 0) '(0 . 0) '(0 . 0) '(0 . 0)) => #t;
+(string=?) => #t
+(string=? "") => #t
+(string=? "" "") => #t
+(string=? "" "" "") => #t
+(string=? "" "" "" "") => #t
+(string=? "" "" "" "" "") => #t
 
-(~pair=? '(0 . 1) '(0 . 1)) => #t;
-(~pair=? '(0 . 1) '(2 . 3)) => #f;
-(~pair=? '((0) . 1) '((0) . 1)) => #t;
-(~pair=? '(0 . (1)) '(0 . (1))) => #t;
+(string=? "abc" "abc") => #t
+(string=? "abc" "def") => #f
 
 
-(~vector=?) => #t;
-(~vector=? #()) => #t;
-(~vector=? #() #()) => #t;
-(~vector=? #() #() #()) => #t;
-(~vector=? #() #() #() #()) => #t;
-(~vector=? #() #() #() #() #()) => #t;
+(~bytevector=?) => #t
+(~bytevector=? #u8()) => #t
+(~bytevector=? #u8() #u8()) => #t
+(~bytevector=? #u8() #u8() #u8()) => #t
+(~bytevector=? #u8() #u8() #u8() #u8()) => #t
+(~bytevector=? #u8() #u8() #u8() #u8() #u8()) => #t
 
-(~vector=? #(0 1 2) #(0 1 2)) => #t;
-(~vector=? #(0 1 2) #(3 4 5)) => #f;
-(~vector=? #((0) (1) (2)) #((0) (1) (2))) => #t;
+(~bytevector=? #u8(0 1 2) #u8(0 1 2)) => #t
+(~bytevector=? #u8(0 1 2) #u8(3 4 5)) => #f
 
 
-(~values=? #values()) => #t;
-(~values=? #values() #values()) => #t;
-(~values=? #values() #values() #values()) => #t;
-(~values=? #values() #values() #values() #values()) => #t;
-(~values=? #values() #values() #values() #values() #values()) => #t;
+(~pair=?) => #t
+(~pair=? '(0 . 0)) => #t
+(~pair=? '(0 . 0) '(0 . 0)) => #t
+(~pair=? '(0 . 0) '(0 . 0) '(0 . 0)) => #t
+(~pair=? '(0 . 0) '(0 . 0) '(0 . 0) '(0 . 0)) => #t
+(~pair=? '(0 . 0) '(0 . 0) '(0 . 0) '(0 . 0) '(0 . 0)) => #t
 
-(~values=? #values(0 1 2) #values(0 1 2)) => #t;
-(~values=? #values(0 1 2) #values(3 4 5)) => #f;
-(~values=? #values((0) (1) (2)) #values((0) (1) (2))) => #t;
+(~pair=? '(0 . 1) '(0 . 1)) => #t
+(~pair=? '(0 . 1) '(2 . 3)) => #f
+(~pair=? '((0) . 1) '((0) . 1)) => #t
+(~pair=? '(0 . (1)) '(0 . (1))) => #t
+
+
+(~vector=?) => #t
+(~vector=? #()) => #t
+(~vector=? #() #()) => #t
+(~vector=? #() #() #()) => #t
+(~vector=? #() #() #() #()) => #t
+(~vector=? #() #() #() #() #()) => #t
+
+(~vector=? #(0 1 2) #(0 1 2)) => #t
+(~vector=? #(0 1 2) #(3 4 5)) => #f
+(~vector=? #((0) (1) (2)) #((0) (1) (2))) => #t
+
+
+(~values=? #values()) => #t
+(~values=? #values() #values()) => #t
+(~values=? #values() #values() #values()) => #t
+(~values=? #values() #values() #values() #values()) => #t
+(~values=? #values() #values() #values() #values() #values()) => #t
+
+(~values=? #values(0 1 2) #values(0 1 2)) => #t
+(~values=? #values(0 1 2) #values(3 4 5)) => #f
+(~values=? #values((0) (1) (2)) #values((0) (1) (2))) => #t
 

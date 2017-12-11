@@ -1,498 +1,498 @@
 
-(string) => #string();
+(string) => #string()
 
-(string #\x0) => #string(0);
-(string #\x0 #\x1) => #string(0 1);
-(string #\x0 #\x1 #\x2) => #string(0 1 2);
-(string #\x0 #\x1 #\x2 #\x3) => #string(0 1 2 3);
-(string #\x0 #\x1 #\x2 #\x3 #\x4) => #string(0 1 2 3 4);
-(string #\x0 #\x1 #\x2 #\x3 #\x4 #\x5) => #string(0 1 2 3 4 5);
-(string #\x0 #\x1 #\x2 #\x3 #\x4 #\x5 #\x6) => #string(0 1 2 3 4 5 6);
+(string #\x0) => #string(0)
+(string #\x0 #\x1) => #string(0 1)
+(string #\x0 #\x1 #\x2) => #string(0 1 2)
+(string #\x0 #\x1 #\x2 #\x3) => #string(0 1 2 3)
+(string #\x0 #\x1 #\x2 #\x3 #\x4) => #string(0 1 2 3 4)
+(string #\x0 #\x1 #\x2 #\x3 #\x4 #\x5) => #string(0 1 2 3 4 5)
+(string #\x0 #\x1 #\x2 #\x3 #\x4 #\x5 #\x6) => #string(0 1 2 3 4 5 6)
 
 
 
 
-(make-string 0) => #string();
-(make-string 1) => #string(0);
-(make-string 2) => #string(0 0);
-(make-string 3) => #string(0 0 0);
+(make-string 0) => #string()
+(make-string 1) => #string(0)
+(make-string 2) => #string(0 0)
+(make-string 3) => #string(0 0 0)
 
-(make-string 0 #\x0) => #string();
-(make-string 1 #\x0) => #string(0);
-(make-string 2 #\x0) => #string(0 0);
-(make-string 3 #\x0) => #string(0 0 0);
+(make-string 0 #\x0) => #string()
+(make-string 1 #\x0) => #string(0)
+(make-string 2 #\x0) => #string(0 0)
+(make-string 3 #\x0) => #string(0 0 0)
 
 
 
 
-(string-copy #string()) => #string();
-(string-copy #string() 0) => #string();
-(string-copy #string() 0 0) => #string();
+(string-copy #string()) => #string()
+(string-copy #string() 0) => #string()
+(string-copy #string() 0 0) => #string()
 
-(string-copy #string(0)) => #string(0);
-(string-copy #string(0 1)) => #string(0 1);
-(string-copy #string(0 1 2)) => #string(0 1 2);
+(string-copy #string(0)) => #string(0)
+(string-copy #string(0 1)) => #string(0 1)
+(string-copy #string(0 1 2)) => #string(0 1 2)
 
-(string-copy #string(0 1 2 3 4 5) 0) => #string(0 1 2 3 4 5);
-(string-copy #string(0 1 2 3 4 5) 2) => #string(2 3 4 5);
-(string-copy #string(0 1 2 3 4 5) 5) => #string(5);
-(string-copy #string(0 1 2 3 4 5) 6) => #string();
+(string-copy #string(0 1 2 3 4 5) 0) => #string(0 1 2 3 4 5)
+(string-copy #string(0 1 2 3 4 5) 2) => #string(2 3 4 5)
+(string-copy #string(0 1 2 3 4 5) 5) => #string(5)
+(string-copy #string(0 1 2 3 4 5) 6) => #string()
 
-(string-copy #string(0 1 2 3 4 5) 0 6) => #string(0 1 2 3 4 5);
-(string-copy #string(0 1 2 3 4 5) 2 5) => #string(2 3 4);
-(string-copy #string(0 1 2 3 4 5) 2 6) => #string(2 3 4 5);
-(string-copy #string(0 1 2 3 4 5) 5 6) => #string(5);
-(string-copy #string(0 1 2 3 4 5) 6 6) => #string();
+(string-copy #string(0 1 2 3 4 5) 0 6) => #string(0 1 2 3 4 5)
+(string-copy #string(0 1 2 3 4 5) 2 5) => #string(2 3 4)
+(string-copy #string(0 1 2 3 4 5) 2 6) => #string(2 3 4 5)
+(string-copy #string(0 1 2 3 4 5) 5 6) => #string(5)
+(string-copy #string(0 1 2 3 4 5) 6 6) => #string()
 
 
 
 
-(string->vector #string()) => #();
-(string->vector #string() 0) => #();
-(string->vector #string() 0 0) => #();
+(string->vector #string()) => #()
+(string->vector #string() 0) => #()
+(string->vector #string() 0 0) => #()
 
-(string->vector #string(0)) => #(#\x0);
-(string->vector #string(0 1)) => #(#\x0 #\x1);
-(string->vector #string(0 1 2)) => #(#\x0 #\x1 #\x2);
+(string->vector #string(0)) => #(#\x0)
+(string->vector #string(0 1)) => #(#\x0 #\x1)
+(string->vector #string(0 1 2)) => #(#\x0 #\x1 #\x2)
 
-(string->vector #string(0 1 2 3 4 5) 0) => #(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5);
-(string->vector #string(0 1 2 3 4 5) 2) => #(#\x2 #\x3 #\x4 #\x5);
-(string->vector #string(0 1 2 3 4 5) 5) => #(#\x5);
-(string->vector #string(0 1 2 3 4 5) 6) => #();
+(string->vector #string(0 1 2 3 4 5) 0) => #(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5)
+(string->vector #string(0 1 2 3 4 5) 2) => #(#\x2 #\x3 #\x4 #\x5)
+(string->vector #string(0 1 2 3 4 5) 5) => #(#\x5)
+(string->vector #string(0 1 2 3 4 5) 6) => #()
 
-(string->vector #string(0 1 2 3 4 5) 0 6) => #(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5);
-(string->vector #string(0 1 2 3 4 5) 2 5) => #(#\x2 #\x3 #\x4);
-(string->vector #string(0 1 2 3 4 5) 2 6) => #(#\x2 #\x3 #\x4 #\x5);
-(string->vector #string(0 1 2 3 4 5) 5 6) => #(#\x5);
-(string->vector #string(0 1 2 3 4 5) 6 6) => #();
+(string->vector #string(0 1 2 3 4 5) 0 6) => #(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5)
+(string->vector #string(0 1 2 3 4 5) 2 5) => #(#\x2 #\x3 #\x4)
+(string->vector #string(0 1 2 3 4 5) 2 6) => #(#\x2 #\x3 #\x4 #\x5)
+(string->vector #string(0 1 2 3 4 5) 5 6) => #(#\x5)
+(string->vector #string(0 1 2 3 4 5) 6 6) => #()
 
 
-(vector->string #()) => #string();
-(vector->string #() 0) => #string();
-(vector->string #() 0 0) => #string();
+(vector->string #()) => #string()
+(vector->string #() 0) => #string()
+(vector->string #() 0 0) => #string()
 
-(vector->string #(#\x0)) => #string(0);
-(vector->string #(#\x0 #\x1)) => #string(0 1);
-(vector->string #(#\x0 #\x1 #\x2)) => #string(0 1 2);
+(vector->string #(#\x0)) => #string(0)
+(vector->string #(#\x0 #\x1)) => #string(0 1)
+(vector->string #(#\x0 #\x1 #\x2)) => #string(0 1 2)
 
-(vector->string #(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 0) => #string(0 1 2 3 4 5);
-(vector->string #(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 2) => #string(2 3 4 5);
-(vector->string #(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 5) => #string(5);
-(vector->string #(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 6) => #string();
+(vector->string #(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 0) => #string(0 1 2 3 4 5)
+(vector->string #(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 2) => #string(2 3 4 5)
+(vector->string #(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 5) => #string(5)
+(vector->string #(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 6) => #string()
 
-(vector->string #(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 0 6) => #string(0 1 2 3 4 5);
-(vector->string #(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 2 5) => #string(2 3 4);
-(vector->string #(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 2 6) => #string(2 3 4 5);
-(vector->string #(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 5 6) => #string(5);
-(vector->string #(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 6 6) => #string();
+(vector->string #(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 0 6) => #string(0 1 2 3 4 5)
+(vector->string #(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 2 5) => #string(2 3 4)
+(vector->string #(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 2 6) => #string(2 3 4 5)
+(vector->string #(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 5 6) => #string(5)
+(vector->string #(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 6 6) => #string()
 
 
 
 
-(string->list #string()) => '();
-(string->list #string() 0) => '();
-(string->list #string() 0 0) => '();
+(string->list #string()) => '()
+(string->list #string() 0) => '()
+(string->list #string() 0 0) => '()
 
-(string->list #string(0)) => '(#\x0);
-(string->list #string(0 1)) => '(#\x0 #\x1);
-(string->list #string(0 1 2)) => '(#\x0 #\x1 #\x2);
+(string->list #string(0)) => '(#\x0)
+(string->list #string(0 1)) => '(#\x0 #\x1)
+(string->list #string(0 1 2)) => '(#\x0 #\x1 #\x2)
 
-(string->list #string(0 1 2 3 4 5) 0) => '(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5);
-(string->list #string(0 1 2 3 4 5) 2) => '(#\x2 #\x3 #\x4 #\x5);
-(string->list #string(0 1 2 3 4 5) 5) => '(#\x5);
-(string->list #string(0 1 2 3 4 5) 6) => '();
+(string->list #string(0 1 2 3 4 5) 0) => '(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5)
+(string->list #string(0 1 2 3 4 5) 2) => '(#\x2 #\x3 #\x4 #\x5)
+(string->list #string(0 1 2 3 4 5) 5) => '(#\x5)
+(string->list #string(0 1 2 3 4 5) 6) => '()
 
-(string->list #string(0 1 2 3 4 5) 0 6) => '(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5);
-(string->list #string(0 1 2 3 4 5) 2 5) => '(#\x2 #\x3 #\x4);
-(string->list #string(0 1 2 3 4 5) 2 6) => '(#\x2 #\x3 #\x4 #\x5);
-(string->list #string(0 1 2 3 4 5) 5 6) => '(#\x5);
-(string->list #string(0 1 2 3 4 5) 6 6) => '();
+(string->list #string(0 1 2 3 4 5) 0 6) => '(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5)
+(string->list #string(0 1 2 3 4 5) 2 5) => '(#\x2 #\x3 #\x4)
+(string->list #string(0 1 2 3 4 5) 2 6) => '(#\x2 #\x3 #\x4 #\x5)
+(string->list #string(0 1 2 3 4 5) 5 6) => '(#\x5)
+(string->list #string(0 1 2 3 4 5) 6 6) => '()
 
 
-(list->string '()) => #string();
-(list->string '() 0) => #string();
-(list->string '() 0 0) => #string();
+(list->string '()) => #string()
+(list->string '() 0) => #string()
+(list->string '() 0 0) => #string()
 
-(list->string '(#\x0)) => #string(0);
-(list->string '(#\x0 #\x1)) => #string(0 1);
-(list->string '(#\x0 #\x1 #\x2)) => #string(0 1 2);
+(list->string '(#\x0)) => #string(0)
+(list->string '(#\x0 #\x1)) => #string(0 1)
+(list->string '(#\x0 #\x1 #\x2)) => #string(0 1 2)
 
-(list->string '(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 0) => #string(0 1 2 3 4 5);
-(list->string '(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 2) => #string(2 3 4 5);
-(list->string '(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 5) => #string(5);
-(list->string '(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 6) => #string();
+(list->string '(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 0) => #string(0 1 2 3 4 5)
+(list->string '(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 2) => #string(2 3 4 5)
+(list->string '(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 5) => #string(5)
+(list->string '(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 6) => #string()
 
-(list->string '(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 0 6) => #string(0 1 2 3 4 5);
-(list->string '(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 2 5) => #string(2 3 4);
-(list->string '(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 2 6) => #string(2 3 4 5);
-(list->string '(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 5 6) => #string(5);
-(list->string '(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 6 6) => #string();
+(list->string '(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 0 6) => #string(0 1 2 3 4 5)
+(list->string '(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 2 5) => #string(2 3 4)
+(list->string '(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 2 6) => #string(2 3 4 5)
+(list->string '(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 5 6) => #string(5)
+(list->string '(#\x0 #\x1 #\x2 #\x3 #\x4 #\x5) 6 6) => #string()
 
 
 
 
-(utf8->string #u8()) => #string();
-(utf8->string #u8() 0) => #string();
-(utf8->string #u8() 0 0) => #string();
+(utf8->string #u8()) => #string()
+(utf8->string #u8() 0) => #string()
+(utf8->string #u8() 0 0) => #string()
 
-(utf8->string #u8(0)) => #string(0);
-(utf8->string #u8(0 1)) => #string(0 1);
-(utf8->string #u8(0 1 2)) => #string(0 1 2);
+(utf8->string #u8(0)) => #string(0)
+(utf8->string #u8(0 1)) => #string(0 1)
+(utf8->string #u8(0 1 2)) => #string(0 1 2)
 
-(utf8->string #u8(0 1 2 3 4 5) 0) => #string(0 1 2 3 4 5);
-(utf8->string #u8(0 1 2 3 4 5) 2) => #string(2 3 4 5);
-(utf8->string #u8(0 1 2 3 4 5) 5) => #string(5);
-(utf8->string #u8(0 1 2 3 4 5) 6) => #string();
+(utf8->string #u8(0 1 2 3 4 5) 0) => #string(0 1 2 3 4 5)
+(utf8->string #u8(0 1 2 3 4 5) 2) => #string(2 3 4 5)
+(utf8->string #u8(0 1 2 3 4 5) 5) => #string(5)
+(utf8->string #u8(0 1 2 3 4 5) 6) => #string()
 
-(utf8->string #u8(0 1 2 3 4 5) 0 6) => #string(0 1 2 3 4 5);
-(utf8->string #u8(0 1 2 3 4 5) 2 5) => #string(2 3 4);
-(utf8->string #u8(0 1 2 3 4 5) 2 6) => #string(2 3 4 5);
-(utf8->string #u8(0 1 2 3 4 5) 5 6) => #string(5);
-(utf8->string #u8(0 1 2 3 4 5) 6 6) => #string();
+(utf8->string #u8(0 1 2 3 4 5) 0 6) => #string(0 1 2 3 4 5)
+(utf8->string #u8(0 1 2 3 4 5) 2 5) => #string(2 3 4)
+(utf8->string #u8(0 1 2 3 4 5) 2 6) => #string(2 3 4 5)
+(utf8->string #u8(0 1 2 3 4 5) 5 6) => #string(5)
+(utf8->string #u8(0 1 2 3 4 5) 6 6) => #string()
 
 
-(string->utf8 #string()) => #u8();
-(string->utf8 #string() 0) => #u8();
-(string->utf8 #string() 0 0) => #u8();
+(string->utf8 #string()) => #u8()
+(string->utf8 #string() 0) => #u8()
+(string->utf8 #string() 0 0) => #u8()
 
-(string->utf8 #string(0)) => #u8(0);
-(string->utf8 #string(0 1)) => #u8(0 1);
-(string->utf8 #string(0 1 2)) => #u8(0 1 2);
+(string->utf8 #string(0)) => #u8(0)
+(string->utf8 #string(0 1)) => #u8(0 1)
+(string->utf8 #string(0 1 2)) => #u8(0 1 2)
 
-(string->utf8 #string(0 1 2 3 4 5) 0) => #u8(0 1 2 3 4 5);
-(string->utf8 #string(0 1 2 3 4 5) 2) => #u8(2 3 4 5);
-(string->utf8 #string(0 1 2 3 4 5) 5) => #u8(5);
-(string->utf8 #string(0 1 2 3 4 5) 6) => #u8();
+(string->utf8 #string(0 1 2 3 4 5) 0) => #u8(0 1 2 3 4 5)
+(string->utf8 #string(0 1 2 3 4 5) 2) => #u8(2 3 4 5)
+(string->utf8 #string(0 1 2 3 4 5) 5) => #u8(5)
+(string->utf8 #string(0 1 2 3 4 5) 6) => #u8()
 
-(string->utf8 #string(0 1 2 3 4 5) 0 6) => #u8(0 1 2 3 4 5);
-(string->utf8 #string(0 1 2 3 4 5) 2 5) => #u8(2 3 4);
-(string->utf8 #string(0 1 2 3 4 5) 2 6) => #u8(2 3 4 5);
-(string->utf8 #string(0 1 2 3 4 5) 5 6) => #u8(5);
-(string->utf8 #string(0 1 2 3 4 5) 6 6) => #u8();
+(string->utf8 #string(0 1 2 3 4 5) 0 6) => #u8(0 1 2 3 4 5)
+(string->utf8 #string(0 1 2 3 4 5) 2 5) => #u8(2 3 4)
+(string->utf8 #string(0 1 2 3 4 5) 2 6) => #u8(2 3 4 5)
+(string->utf8 #string(0 1 2 3 4 5) 5 6) => #u8(5)
+(string->utf8 #string(0 1 2 3 4 5) 6 6) => #u8()
 
 
 
 
-(string-length #string()) => 0;
+(string-length #string()) => 0
 
-(string-length #string(0)) => 1;
-(string-length #string(0 1)) => 2;
-(string-length #string(0 1 2)) => 3;
+(string-length #string(0)) => 1
+(string-length #string(0 1)) => 2
+(string-length #string(0 1 2)) => 3
 
 
 
 
-(string-append) => #string();
-(string-append #string()) => #string();
-(string-append #string() #string()) => #string();
+(string-append) => #string()
+(string-append #string()) => #string()
+(string-append #string() #string()) => #string()
 
-(string-append #string(0)) => #string(0);
-(string-append #string() #string(0)) => #string(0);
-(string-append #string() #string() #string(0)) => #string(0);
+(string-append #string(0)) => #string(0)
+(string-append #string() #string(0)) => #string(0)
+(string-append #string() #string() #string(0)) => #string(0)
 
-(string-append #string(0 1)) => #string(0 1);
-(string-append #string(0) #string(1)) => #string(0 1);
+(string-append #string(0 1)) => #string(0 1)
+(string-append #string(0) #string(1)) => #string(0 1)
 
-(string-append #string(0 1)) => #string(0 1);
-(string-append #string(0) #string(1)) => #string(0 1);
+(string-append #string(0 1)) => #string(0 1)
+(string-append #string(0) #string(1)) => #string(0 1)
 
-(string-append #string(0 1 2)) => #string(0 1 2);
-(string-append #string(0 1) #string(2)) => #string(0 1 2);
-(string-append #string(0) #string(1) #string(2)) => #string(0 1 2);
+(string-append #string(0 1 2)) => #string(0 1 2)
+(string-append #string(0 1) #string(2)) => #string(0 1 2)
+(string-append #string(0) #string(1) #string(2)) => #string(0 1 2)
 
-(string-append #string(0 1 2)) => #string(0 1 2);
-(string-append #string(0 1) #string(2)) => #string(0 1 2);
-(string-append #string(0) #string(1) #string(2)) => #string(0 1 2);
+(string-append #string(0 1 2)) => #string(0 1 2)
+(string-append #string(0 1) #string(2)) => #string(0 1 2)
+(string-append #string(0) #string(1) #string(2)) => #string(0 1 2)
 
-(string-append #string(0)) => #string(0);
-(string-append #string(0) #string(1)) => #string(0 1);
-(string-append #string(0) #string(1) #string(2)) => #string(0 1 2);
-(string-append #string(0) #string(1) #string(2) #string(3)) => #string(0 1 2 3);
-(string-append #string(0) #string(1) #string(2) #string(3) #string(4)) => #string(0 1 2 3 4);
-(string-append #string(0) #string(1) #string(2) #string(3) #string(4) #string(5)) => #string(0 1 2 3 4 5);
-(string-append #string(0) #string(1) #string(2) #string(3) #string(4) #string(5) #string(6)) => #string(0 1 2 3 4 5 6);
+(string-append #string(0)) => #string(0)
+(string-append #string(0) #string(1)) => #string(0 1)
+(string-append #string(0) #string(1) #string(2)) => #string(0 1 2)
+(string-append #string(0) #string(1) #string(2) #string(3)) => #string(0 1 2 3)
+(string-append #string(0) #string(1) #string(2) #string(3) #string(4)) => #string(0 1 2 3 4)
+(string-append #string(0) #string(1) #string(2) #string(3) #string(4) #string(5)) => #string(0 1 2 3 4 5)
+(string-append #string(0) #string(1) #string(2) #string(3) #string(4) #string(5) #string(6)) => #string(0 1 2 3 4 5 6)
 
 
 
 
-(~string-reverse #string()) => #string();
-(~string-reverse #string(0)) => #string(0);
-(~string-reverse #string(0 1)) => #string(1 0);
-(~string-reverse #string(0 1 2)) => #string(2 1 0);
-(~string-reverse #string(0 1 2 3)) => #string(3 2 1 0);
+(~string-reverse #string()) => #string()
+(~string-reverse #string(0)) => #string(0)
+(~string-reverse #string(0 1)) => #string(1 0)
+(~string-reverse #string(0 1 2)) => #string(2 1 0)
+(~string-reverse #string(0 1 2 3)) => #string(3 2 1 0)
 
 
 
 
-(string-ref #string(0) 0) => #\x0;
-(string-ref #string(0 1) 1) => #\x1;
-(string-ref #string(0 1 2) 2) => #\x2;
+(string-ref #string(0) 0) => #\x0
+(string-ref #string(0 1) 1) => #\x1
+(string-ref #string(0 1 2) 2) => #\x2
 
 
 
 
-(string-upcase "") => "";
-(string-upcase "a") => "A";
-(string-upcase "A") => "A";
-(string-upcase "0") => "0";
-(string-upcase "abc") => "ABC";
-(string-upcase "ABC") => "ABC";
-(string-upcase "aAbBcC") => "AABBCC";
+(string-upcase "") => ""
+(string-upcase "a") => "A"
+(string-upcase "A") => "A"
+(string-upcase "0") => "0"
+(string-upcase "abc") => "ABC"
+(string-upcase "ABC") => "ABC"
+(string-upcase "aAbBcC") => "AABBCC"
 
-(string-downcase "") => "";
-(string-downcase "a") => "a";
-(string-downcase "A") => "a";
-(string-downcase "0") => "0";
-(string-downcase "abc") => "abc";
-(string-downcase "ABC") => "abc";
-(string-downcase "aAbBcC") => "aabbcc";
+(string-downcase "") => ""
+(string-downcase "a") => "a"
+(string-downcase "A") => "a"
+(string-downcase "0") => "0"
+(string-downcase "abc") => "abc"
+(string-downcase "ABC") => "abc"
+(string-downcase "aAbBcC") => "aabbcc"
 
-(string-foldcase "aAbBcC") => "aabbcc";
+(string-foldcase "aAbBcC") => "aabbcc"
 
 
-(~symbol-upcase '||) => '||;
-(~symbol-upcase '|a|) => |A|;
-(~symbol-upcase '|A|) => '|A|;
-(~symbol-upcase '|0|) => '|0|;
-(~symbol-upcase '|abc|) => '|ABC|;
-(~symbol-upcase '|ABC|) => '|ABC|;
-(~symbol-upcase '|aAbBcC|) => '|AABBCC|;
+(~symbol-upcase '||) => '||
+(~symbol-upcase '|a|) => '|A|
+(~symbol-upcase '|A|) => '|A|
+(~symbol-upcase '|0|) => '|0|
+(~symbol-upcase '|abc|) => '|ABC|
+(~symbol-upcase '|ABC|) => '|ABC|
+(~symbol-upcase '|aAbBcC|) => '|AABBCC|
 
-(~symbol-downcase '||) => '||;
-(~symbol-downcase '|a|) => '|a|;
-(~symbol-downcase '|A|) => '|a|;
-(~symbol-downcase '|0|) => '|0|;
-(~symbol-downcase '|abc|) => '|abc|;
-(~symbol-downcase '|ABC|) => '|abc|;
-(~symbol-downcase '|aAbBcC|) => '|aabbcc|;
+(~symbol-downcase '||) => '||
+(~symbol-downcase '|a|) => '|a|
+(~symbol-downcase '|A|) => '|a|
+(~symbol-downcase '|0|) => '|0|
+(~symbol-downcase '|abc|) => '|abc|
+(~symbol-downcase '|ABC|) => '|abc|
+(~symbol-downcase '|aAbBcC|) => '|aabbcc|
 
-(~symbol-foldcase '|aAbBcC|) => '|aabbcc|;
+(~symbol-foldcase '|aAbBcC|) => '|aabbcc|
 
 
-(char-upcase #\a) => #\A;
-(char-upcase #\A) => #\A;
-(char-upcase #\0) => #\0;
+(char-upcase #\a) => #\A
+(char-upcase #\A) => #\A
+(char-upcase #\0) => #\0
 
-(char-downcase #\a) => #\a;
-(char-downcase #\A) => #\a;
-(char-downcase #\0) => #\0;
+(char-downcase #\a) => #\a
+(char-downcase #\A) => #\a
+(char-downcase #\0) => #\0
 
-(char-foldcase #\A) => #\a;
+(char-foldcase #\A) => #\a
 
 
 
 
-(string->symbol "") => '||;
-(string->symbol "a") => '|a|;
-(string->symbol "abc") => '|abc|;
-(string->symbol "0") => '|0|;
+(string->symbol "") => '||
+(string->symbol "a") => '|a|
+(string->symbol "abc") => '|abc|
+(string->symbol "0") => '|0|
 
-(symbol->string '||) => "";
-(symbol->string '|a|) => "a";
-(symbol->string '|abc|) => "abc";
-(symbol->string '|0|) => "0";
+(symbol->string '||) => ""
+(symbol->string '|a|) => "a"
+(symbol->string '|abc|) => "abc"
+(symbol->string '|0|) => "0"
 
 
 
 
-(number->string 0) => "0";
-(number->string +0) => "0";
-(number->string -0) => "0";
-(number->string +1) => "1";
-(number->string -1) => "-1";
+(number->string 0) => "0"
+(number->string +0) => "0"
+(number->string -0) => "0"
+(number->string +1) => "1"
+(number->string -1) => "-1"
 
-(number->string 0.0) => "0";
-(number->string +0.0) => "0";
-(number->string -0.0) => "0";
-(number->string +1.0) => "1";
-(number->string -1.0) => "-1";
+(number->string 0.0) => "0"
+(number->string +0.0) => "0"
+(number->string -0.0) => "0"
+(number->string +1.0) => "1"
+(number->string -1.0) => "-1"
 
-(number->string +0.1) => "0.1";
-(number->string -0.1) => "-0.1";
-(number->string +1.1) => "1.1";
-(number->string -1.1) => "-1.1";
+(number->string +0.1) => "0.1"
+(number->string -0.1) => "-0.1"
+(number->string +1.1) => "1.1"
+(number->string -1.1) => "-1.1"
 
-(number->string +inf) => "inf";
-(number->string -inf) => "-inf";
+(number->string +inf) => "inf"
+(number->string -inf) => "-inf"
 
-(number->string +nan) => "nan";
-(number->string -nan) => "nan";
+(number->string +nan) => "nan"
+(number->string -nan) => "nan"
 
 
-(string->number "0") => 0;
-(string->number "+0") => 0;
-(string->number "-0") => 0;
-(string->number "1") => +1;
-(string->number "+1") => +1;
-(string->number "-1") => -1;
+(string->number "0") => 0
+(string->number "+0") => 0
+(string->number "-0") => 0
+(string->number "1") => +1
+(string->number "+1") => +1
+(string->number "-1") => -1
 
-(string->number "0.0") => 0.0;
-(string->number "+0.0") => 0.0;
-(string->number "-0.0") => 0.0;
-(string->number "1.0") => +1.0;
-(string->number "+1.0") => +1.0;
-(string->number "-1.0") => -1.0;
+(string->number "0.0") => 0.0
+(string->number "+0.0") => 0.0
+(string->number "-0.0") => 0.0
+(string->number "1.0") => +1.0
+(string->number "+1.0") => +1.0
+(string->number "-1.0") => -1.0
 
 
 
 
-(number->string 0 10) => "0";
-(number->string +0 10) => "0";
-(number->string -0 10) => "0";
-(number->string +1 10) => "1";
-(number->string -1 10) => "-1";
+(number->string 0 10) => "0"
+(number->string +0 10) => "0"
+(number->string -0 10) => "0"
+(number->string +1 10) => "1"
+(number->string -1 10) => "-1"
 
-(number->string 0.0 10) => "0";
-(number->string +0.0 10) => "0";
-(number->string -0.0 10) => "0";
-(number->string +1.0 10) => "1";
-(number->string -1.0 10) => "-1";
+(number->string 0.0 10) => "0"
+(number->string +0.0 10) => "0"
+(number->string -0.0 10) => "0"
+(number->string +1.0 10) => "1"
+(number->string -1.0 10) => "-1"
 
-(number->string +0.1 10) => "0.1";
-(number->string -0.1 10) => "-0.1";
-(number->string +1.1 10) => "1.1";
-(number->string -1.1 10) => "-1.1";
+(number->string +0.1 10) => "0.1"
+(number->string -0.1 10) => "-0.1"
+(number->string +1.1 10) => "1.1"
+(number->string -1.1 10) => "-1.1"
 
-(number->string +inf 10) => "inf";
-(number->string -inf 10) => "-inf";
+(number->string +inf 10) => "inf"
+(number->string -inf 10) => "-inf"
 
-(number->string +nan 10) => "nan";
-(number->string -nan 10) => "nan";
+(number->string +nan 10) => "nan"
+(number->string -nan 10) => "nan"
 
 
-(number->string 0 10 #t) => "+0";
-(number->string +0 10 #t) => "+0";
-(number->string -0 10 #t) => "+0";
-(number->string +1 10 #t) => "+1";
-(number->string -1 10 #t) => "-1";
+(number->string 0 10 #t) => "+0"
+(number->string +0 10 #t) => "+0"
+(number->string -0 10 #t) => "+0"
+(number->string +1 10 #t) => "+1"
+(number->string -1 10 #t) => "-1"
 
-(number->string 0.0 10 #t) => "+0";
-(number->string +0.0 10 #t) => "+0";
-(number->string -0.0 10 #t) => "+0";
-(number->string +1.0 10 #t) => "+1";
-(number->string -1.0 10 #t) => "-1";
+(number->string 0.0 10 #t) => "+0"
+(number->string +0.0 10 #t) => "+0"
+(number->string -0.0 10 #t) => "+0"
+(number->string +1.0 10 #t) => "+1"
+(number->string -1.0 10 #t) => "-1"
 
-(number->string +0.1 10 #t) => "+0.1";
-(number->string -0.1 10 #t) => "-0.1";
-(number->string +1.1 10 #t) => "+1.1";
-(number->string -1.1 10 #t) => "-1.1";
+(number->string +0.1 10 #t) => "+0.1"
+(number->string -0.1 10 #t) => "-0.1"
+(number->string +1.1 10 #t) => "+1.1"
+(number->string -1.1 10 #t) => "-1.1"
 
-(number->string +inf 10 #t) => "+inf";
-(number->string -inf 10 #t) => "-inf";
+(number->string +inf 10 #t) => "+inf"
+(number->string -inf 10 #t) => "-inf"
 
-(number->string +nan 10 #t) => "nan";
-(number->string -nan 10 #t) => "nan";
+(number->string +nan 10 #t) => "nan"
+(number->string -nan 10 #t) => "nan"
 
 
-(string->number "0" 10) => 0;
-(string->number "+0" 10) => 0;
-(string->number "-0" 10) => 0;
-(string->number "1" 10) => +1;
-(string->number "+1" 10) => +1;
-(string->number "-1" 10) => -1;
+(string->number "0" 10) => 0
+(string->number "+0" 10) => 0
+(string->number "-0" 10) => 0
+(string->number "1" 10) => +1
+(string->number "+1" 10) => +1
+(string->number "-1" 10) => -1
 
-(string->number "0.0" 10) => 0.0;
-(string->number "+0.0" 10) => 0.0;
-(string->number "-0.0" 10) => 0.0;
-(string->number "1.0" 10) => +1.0;
-(string->number "+1.0" 10) => +1.0;
-(string->number "-1.0" 10) => -1.0;
+(string->number "0.0" 10) => 0.0
+(string->number "+0.0" 10) => 0.0
+(string->number "-0.0" 10) => 0.0
+(string->number "1.0" 10) => +1.0
+(string->number "+1.0" 10) => +1.0
+(string->number "-1.0" 10) => -1.0
 
 
 
 
-(string->number "fa0eff52" 16) => #x+fa0eff52;
-(string->number "+fa0eff52" 16) => #x+fa0eff52;
-(string->number "-fa0eff52" 16) => #x-fa0eff52;
+(string->number "fa0eff52" 16) => #x+fa0eff52
+(string->number "+fa0eff52" 16) => #x+fa0eff52
+(string->number "-fa0eff52" 16) => #x-fa0eff52
 
-(number->string #x+fa0eff52 16) => "fa0eff52";
-(number->string #x-fa0eff52 16) => "-fa0eff52";
-(number->string #x+fa0eff52 16 #t) => "+fa0eff52";
-(number->string #x-fa0eff52 16 #t) => "-fa0eff52";
+(number->string #x+fa0eff52 16) => "fa0eff52"
+(number->string #x-fa0eff52 16) => "-fa0eff52"
+(number->string #x+fa0eff52 16 #t) => "+fa0eff52"
+(number->string #x-fa0eff52 16 #t) => "-fa0eff52"
 
 
-(string->number "37203577522" 8) => #o+37203577522;
-(string->number "+37203577522" 8) => #o+37203577522;
-(string->number "-37203577522" 8) => #o-37203577522;
+(string->number "37203577522" 8) => #o+37203577522
+(string->number "+37203577522" 8) => #o+37203577522
+(string->number "-37203577522" 8) => #o-37203577522
 
-(number->string #o+37203577522 8) => "37203577522";
-(number->string #o-37203577522 8) => "-37203577522";
-(number->string #o+37203577522 8 #t) => "+37203577522";
-(number->string #o-37203577522 8 #t) => "-37203577522";
+(number->string #o+37203577522 8) => "37203577522"
+(number->string #o-37203577522 8) => "-37203577522"
+(number->string #o+37203577522 8 #t) => "+37203577522"
+(number->string #o-37203577522 8 #t) => "-37203577522"
 
-(string->number "11111010000011101111111101010010" 2) => #b+11111010000011101111111101010010;
-(string->number "+11111010000011101111111101010010" 2) => #b+11111010000011101111111101010010;
-(string->number "-11111010000011101111111101010010" 2) => #b-11111010000011101111111101010010;
+(string->number "11111010000011101111111101010010" 2) => #b+11111010000011101111111101010010
+(string->number "+11111010000011101111111101010010" 2) => #b+11111010000011101111111101010010
+(string->number "-11111010000011101111111101010010" 2) => #b-11111010000011101111111101010010
 
-(number->string #b+11111010000011101111111101010010 2) => "11111010000011101111111101010010";
-(number->string #b-11111010000011101111111101010010 2) => "-11111010000011101111111101010010";
-(number->string #b+11111010000011101111111101010010 2 #t) => "+11111010000011101111111101010010";
-(number->string #b-11111010000011101111111101010010 2 #t) => "-11111010000011101111111101010010";
+(number->string #b+11111010000011101111111101010010 2) => "11111010000011101111111101010010"
+(number->string #b-11111010000011101111111101010010 2) => "-11111010000011101111111101010010"
+(number->string #b+11111010000011101111111101010010 2 #t) => "+11111010000011101111111101010010"
+(number->string #b-11111010000011101111111101010010 2 #t) => "-11111010000011101111111101010010"
 
 
 
 
-(char->integer #\x0) => 0;
-(integer->char 0) => #\x0;
+(char->integer #\x0) => 0
+(integer->char 0) => #\x0
 
-(char->integer #\a) => 97;
-(integer->char 97) => #\a;
+(char->integer #\a) => 97
+(integer->char 97) => #\a
 
-(char->integer #\xed64) => #xed64;
-(integer->char #xed64) => #\xed64;
+(char->integer #\xed64) => #xed64
+(integer->char #xed64) => #\xed64
 
 
 
 
-(digit-value #\0) => 0;
-(digit-value #\1) => 1;
-(digit-value #\2) => 2;
-(digit-value #\7) => 7;
-(digit-value #\8) => 8;
-(digit-value #\9) => 9;
-(digit-value #\a) => #f;
-(digit-value #\b) => #f;
-(digit-value #\e) => #f;
-(digit-value #\f) => #f;
-(digit-value #\h) => #f;
-(digit-value #\z) => #f;
+(digit-value #\0) => 0
+(digit-value #\1) => 1
+(digit-value #\2) => 2
+(digit-value #\7) => 7
+(digit-value #\8) => 8
+(digit-value #\9) => 9
+(digit-value #\a) => #f
+(digit-value #\b) => #f
+(digit-value #\e) => #f
+(digit-value #\f) => #f
+(digit-value #\h) => #f
+(digit-value #\z) => #f
 
-(digit-value #\0 10) => 0;
-(digit-value #\1 10) => 1;
-(digit-value #\2 10) => 2;
-(digit-value #\7 10) => 7;
-(digit-value #\8 10) => 8;
-(digit-value #\9 10) => 9;
-(digit-value #\a 10) => #f;
-(digit-value #\b 10) => #f;
-(digit-value #\e 10) => #f;
-(digit-value #\f 10) => #f;
-(digit-value #\h 10) => #f;
-(digit-value #\z 10) => #f;
+(digit-value #\0 10) => 0
+(digit-value #\1 10) => 1
+(digit-value #\2 10) => 2
+(digit-value #\7 10) => 7
+(digit-value #\8 10) => 8
+(digit-value #\9 10) => 9
+(digit-value #\a 10) => #f
+(digit-value #\b 10) => #f
+(digit-value #\e 10) => #f
+(digit-value #\f 10) => #f
+(digit-value #\h 10) => #f
+(digit-value #\z 10) => #f
 
-(digit-value #\0 16) => 0;
-(digit-value #\1 16) => 1;
-(digit-value #\2 16) => 2;
-(digit-value #\7 16) => 7;
-(digit-value #\8 16) => 8;
-(digit-value #\9 16) => 9;
-(digit-value #\a 16) => 10;
-(digit-value #\b 16) => 11;
-(digit-value #\e 16) => 14;
-(digit-value #\f 16) => 15;
-(digit-value #\h 16) => #f;
-(digit-value #\z 16) => #f;
+(digit-value #\0 16) => 0
+(digit-value #\1 16) => 1
+(digit-value #\2 16) => 2
+(digit-value #\7 16) => 7
+(digit-value #\8 16) => 8
+(digit-value #\9 16) => 9
+(digit-value #\a 16) => 10
+(digit-value #\b 16) => 11
+(digit-value #\e 16) => 14
+(digit-value #\f 16) => 15
+(digit-value #\h 16) => #f
+(digit-value #\z 16) => #f
 
-(digit-value #\0 8) => 0;
-(digit-value #\1 8) => 1;
-(digit-value #\2 8) => 2;
-(digit-value #\7 8) => 7;
-(digit-value #\8 8) => #f;
-(digit-value #\9 8) => #f;
-(digit-value #\a 8) => #f;
-(digit-value #\b 8) => #f;
-(digit-value #\e 8) => #f;
-(digit-value #\f 8) => #f;
-(digit-value #\h 8) => #f;
-(digit-value #\z 8) => #f;
+(digit-value #\0 8) => 0
+(digit-value #\1 8) => 1
+(digit-value #\2 8) => 2
+(digit-value #\7 8) => 7
+(digit-value #\8 8) => #f
+(digit-value #\9 8) => #f
+(digit-value #\a 8) => #f
+(digit-value #\b 8) => #f
+(digit-value #\e 8) => #f
+(digit-value #\f 8) => #f
+(digit-value #\h 8) => #f
+(digit-value #\z 8) => #f
 

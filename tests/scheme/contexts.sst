@@ -1,151 +1,151 @@
 
-(define a 1) => 1;
-a => 1;
+(define a 1) => 1
+a => 1
 
-(define x x) => !fixme #undefined;
-
-
-
-
-(begin) => #void;
-(begin 0) => 0;
-(begin 0 1 2) => 2;
-
-(begin (define b 2) b) => 2;
-b => 2;
-
-(begin (begin (define c 3) (begin (begin c)))) => 3;
-c => 3;
-
-(begin (begin (begin a))) => 1;
-(begin (begin (begin b))) => 2;
-(begin (begin (begin c))) => 3;
+(define x x) => !fixme #undefined
 
 
 
 
-(~locals) => #void;
-(~locals 0) => 0;
-(~locals 0 1 2) => 2;
+(begin) => #void
+(begin 0) => 0
+(begin 0 1 2) => 2
 
-(~locals (define a 0) a) => 0;
-a => 1;
+(begin (define b 2) b) => 2
+b => 2
 
-(~locals (~locals (~locals a))) => 1;
-(~locals (~locals (~locals b))) => 2;
-(~locals (~locals (~locals c))) => 3;
+(begin (begin (define c 3) (begin (begin c)))) => 3
+c => 3
 
-(~locals (begin (~locals a))) => 1;
-(~locals (begin (~locals b))) => 2;
-(~locals (begin (~locals c))) => 3;
-
-(~locals (~locals (define a 0) (~locals (~locals a)))) => 0;
-(~locals (begin (define a 0) (~locals (~locals a)))) => 0;
-(begin (~locals (define a 0) (~locals (~locals a)))) => 0;
-(~locals (~locals (define a 0) (~locals (begin a)))) => 0;
-(~locals (~locals (define a 0) (begin (~locals a)))) => 0;
-(~locals (begin (define a 0) (~locals (begin a)))) => 0;
-(begin (~locals (define a 0) (begin (~locals a)))) => 0;
-
-(~locals (define a 0) (define b a) b) => 0;
-(~locals (define a 0) (~locals (define b a) b)) => 0;
-(~locals (define a -1) (~locals (define a -2) (~locals (define b a) b))) => -2;
-
-a => 1;
-b => 2;
-c => 3;
+(begin (begin (begin a))) => 1
+(begin (begin (begin b))) => 2
+(begin (begin (begin c))) => 3
 
 
 
 
-(let () 0) => 0;
-(let ((x 0)) x) => 0;
-(let ((x a)) x) => a;
-(let ((x a) (y b)) (+ x y)) => (+ a b);
+(~locals) => #void
+(~locals 0) => 0
+(~locals 0 1 2) => 2
 
-(let* () 0) => 0;
-(let* ((x 0)) x) => 0;
-(let* ((x a)) x) => a;
-(let* ((x a) (y b)) (+ x y)) => (+ a b);
+(~locals (define a 0) a) => 0
+a => 1
 
-(letrec () 0) => 0;
-(letrec ((x 0)) x) => 0;
-(letrec ((x a)) x) => a;
-(letrec ((x a) (y b)) (+ x y)) => (+ a b);
+(~locals (~locals (~locals a))) => 1
+(~locals (~locals (~locals b))) => 2
+(~locals (~locals (~locals c))) => 3
 
-(letrec* () 0) => 0;
-(letrec* ((x 0)) x) => 0;
-(letrec* ((x a)) x) => a;
-(letrec* ((x a) (y b)) (+ x y)) => (+ a b);
+(~locals (begin (~locals a))) => 1
+(~locals (begin (~locals b))) => 2
+(~locals (begin (~locals c))) => 3
 
+(~locals (~locals (define a 0) (~locals (~locals a)))) => 0
+(~locals (begin (define a 0) (~locals (~locals a)))) => 0
+(begin (~locals (define a 0) (~locals (~locals a)))) => 0
+(~locals (~locals (define a 0) (~locals (begin a)))) => 0
+(~locals (~locals (define a 0) (begin (~locals a)))) => 0
+(~locals (begin (define a 0) (~locals (begin a)))) => 0
+(begin (~locals (define a 0) (begin (~locals a)))) => 0
 
-(let ((a b) (b a)) (cons a b)) => (cons b a);
-(let* ((a b) (b a)) (cons a b)) => (cons b b);
+(~locals (define a 0) (define b a) b) => 0
+(~locals (define a 0) (~locals (define b a) b)) => 0
+(~locals (define a -1) (~locals (define a -2) (~locals (define b a) b))) => -2
 
-(letrec ((a b) (b a)) (cons a b)) => !fixme (cons #undefined #undefined);
-(letrec* ((a b) (b a)) (cons a b)) => !fixme (cons #undefined #undefined);
-
-(letrec ((x a) (y x)) (cons x y)) => !fixme (cons a #undefined);
-(letrec* ((x a) (y x)) (cons x y)) => !fixme (cons a a);
-
-(letrec ((x y) (y a)) (cons x y)) => !fixme (cons #undefined a);
-(letrec* ((x y) (y a)) (cons x y)) => !fixme (cons #undefined a);
+a => 1
+b => 2
+c => 3
 
 
 
 
-(let-values () 0) => 0;
-(let*-values () 0) => 0;
+(let () 0) => 0
+(let ((x 0)) x) => 0
+(let ((x a)) x) => a
+(let ((x a) (y b)) (+ x y)) => (+ a b)
 
-(let-values (((x1) (values 0))) x1) => 0;
-(let-values (((x1 x2) (values 0 1))) (values x2 x1)) => #values(1 0);
-(let-values (((x1 x2 x3) (values 0 1 2))) (values x3 x2 x1)) => #values(2 1 0);
-(let-values (((x1) (values 0)) ((y1) (values 1))) (values x1 y1)) => #values(0 1);
+(let* () 0) => 0
+(let* ((x 0)) x) => 0
+(let* ((x a)) x) => a
+(let* ((x a) (y b)) (+ x y)) => (+ a b)
 
-(let*-values (((x1) (values 0))) x1) => 0;
-(let*-values (((x1 x2) (values 0 1))) (values x2 x1)) => #values(1 0);
-(let*-values (((x1 x2 x3) (values 0 1 2))) (values x3 x2 x1)) => #values(2 1 0);
-(let*-values (((x1) (values 0)) ((y1) (values 1))) (values x1 y1)) => #values(0 1);
+(letrec () 0) => 0
+(letrec ((x 0)) x) => 0
+(letrec ((x a)) x) => a
+(letrec ((x a) (y b)) (+ x y)) => (+ a b)
 
-(let-values (((a b) (values a b))) (values a b)) => #values(1 2);
-(let-values (((a b) (values 3 4)) ((x y) (values a b))) (values x y)) => #values(1 2);
-
-(let*-values (((a b) (values a b))) (values a b)) => #values(1 2);
-(let*-values (((a b) (values 3 4)) ((x y) (values a b))) (values x y)) => #values(3 4);
-
-
-
-
-(define-values (va vb vc) (values a b c)) => #values(1 2 3);
-va => 1;
-vb => 2;
-vc => 3;
-
-(~locals (define-values (va vb vc) (values 4 5 6)) (values va vb vc)) => #values(4 5 6);
-
-(define-values (vx) (values vx)) => !fixme #values(#undefined);
+(letrec* () 0) => 0
+(letrec* ((x 0)) x) => 0
+(letrec* ((x a)) x) => a
+(letrec* ((x a) (y b)) (+ x y)) => (+ a b)
 
 
+(let ((a b) (b a)) (cons a b)) => (cons b a)
+(let* ((a b) (b a)) (cons a b)) => (cons b b)
+
+(letrec ((a b) (b a)) (cons a b)) => !fixme (cons #undefined #undefined)
+(letrec* ((a b) (b a)) (cons a b)) => !fixme (cons #undefined #undefined)
+
+(letrec ((x a) (y x)) (cons x y)) => !fixme (cons a #undefined)
+(letrec* ((x a) (y x)) (cons x y)) => !fixme (cons a a)
+
+(letrec ((x y) (y a)) (cons x y)) => !fixme (cons #undefined a)
+(letrec* ((x y) (y a)) (cons x y)) => !fixme (cons #undefined a)
 
 
-(values a b c) => #values(1 2 3);
 
-(set! a 4) => 1;
-(set! b 5) => 2;
-(set! c 6) => 3;
 
-(values a b c) => #values(4 5 6);
+(let-values () 0) => 0
+(let*-values () 0) => 0
 
-(~set!-values (a b c) (values 7 8 9)) => #values(4 5 6);
+(let-values (((x1) (values 0))) x1) => 0
+(let-values (((x1 x2) (values 0 1))) (values x2 x1)) => #values(1 0)
+(let-values (((x1 x2 x3) (values 0 1 2))) (values x3 x2 x1)) => #values(2 1 0)
+(let-values (((x1) (values 0)) ((y1) (values 1))) (values x1 y1)) => #values(0 1)
 
-(values a b c) => #values(7 8 9);
+(let*-values (((x1) (values 0))) x1) => 0
+(let*-values (((x1 x2) (values 0 1))) (values x2 x1)) => #values(1 0)
+(let*-values (((x1 x2 x3) (values 0 1 2))) (values x3 x2 x1)) => #values(2 1 0)
+(let*-values (((x1) (values 0)) ((y1) (values 1))) (values x1 y1)) => #values(0 1)
+
+(let-values (((a b) (values a b))) (values a b)) => #values(1 2)
+(let-values (((a b) (values 3 4)) ((x y) (values a b))) (values x y)) => #values(1 2)
+
+(let*-values (((a b) (values a b))) (values a b)) => #values(1 2)
+(let*-values (((a b) (values 3 4)) ((x y) (values a b))) (values x y)) => #values(3 4)
+
+
+
+
+(define-values (va vb vc) (values a b c)) => #values(1 2 3)
+va => 1
+vb => 2
+vc => 3
+
+(~locals (define-values (va vb vc) (values 4 5 6)) (values va vb vc)) => #values(4 5 6)
+
+(define-values (vx) (values vx)) => !fixme #values(#undefined)
+
+
+
+
+(values a b c) => #values(1 2 3)
+
+(set! a 4) => 1
+(set! b 5) => 2
+(set! c 6) => 3
+
+(values a b c) => #values(4 5 6)
+
+(~set!-values (a b c) (values 7 8 9)) => #values(4 5 6)
+
+(values a b c) => #values(7 8 9)
 
 (~locals
 	(define-values (a b c) (values 1 2 3))
 	(values
 		(~set!-values (a b c) (values 4 5 6))
 		(values 4 5 6)))
-=> #values(#values(1 2 3) #values(4 5 6));
+=> #values(#values(1 2 3) #values(4 5 6))
 
-(values a b c) => #values(7 8 9);
+(values a b c) => #values(7 8 9)
 
