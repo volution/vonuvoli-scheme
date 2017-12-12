@@ -89,13 +89,15 @@ fn test () -> () {
 					ProcedurePrimitive::Primitive2 (_) |
 					ProcedurePrimitive::Primitive3 (_) |
 					ProcedurePrimitive::Primitive4 (_) |
-					ProcedurePrimitive::Primitive5 (_) => {
+					ProcedurePrimitive::Primitive5 (_) |
+					ProcedurePrimitive::PrimitiveN (_) => {
 						let arity = match primitive {
-							ProcedurePrimitive::Primitive0 (_) => 0,
-							ProcedurePrimitive::Primitive1 (_) => 1,
-							ProcedurePrimitive::Primitive2 (_) => 2,
-							ProcedurePrimitive::Primitive3 (_) => 3,
-							ProcedurePrimitive::Primitive4 (_) => 4,
+							ProcedurePrimitive::Primitive0 (_) => '0',
+							ProcedurePrimitive::Primitive1 (_) => '1',
+							ProcedurePrimitive::Primitive2 (_) => '2',
+							ProcedurePrimitive::Primitive3 (_) => '3',
+							ProcedurePrimitive::Primitive4 (_) => '4',
+							ProcedurePrimitive::PrimitiveN (_) => 'n',
 							_ => panic! ("7e5d3d15"),
 						};
 						if print_procedures && print_implemented {
@@ -104,41 +106,45 @@ fn test () -> () {
 						implemented_symbols.insert (identifier);
 					},
 					
-					ProcedurePrimitive::PrimitiveN (primitive_n) => {
+					ProcedurePrimitive::PrimitiveV (primitive_v) => {
 						if print_procedures && print_implemented && print_procedure_alternatives {
 							let mut has_alternatives = false;
-							if let Some (primitive) = procedure_primitive_n_alternative_0 (primitive_n) {
+							if let Some (primitive) = procedure_primitive_v_alternative_0 (primitive_v) {
 								print_definition! (library, category, "procedure-0*", identifier, ProcedurePrimitive::Primitive0 (primitive));
 								has_alternatives = true;
 							}
-							if let Some (primitive) = procedure_primitive_n_alternative_1 (primitive_n) {
+							if let Some (primitive) = procedure_primitive_v_alternative_1 (primitive_v) {
 								print_definition! (library, category, "procedure-1*", identifier, ProcedurePrimitive::Primitive1 (primitive));
 								has_alternatives = true;
 							}
-							if let Some (primitive) = procedure_primitive_n_alternative_2 (primitive_n) {
+							if let Some (primitive) = procedure_primitive_v_alternative_2 (primitive_v) {
 								print_definition! (library, category, "procedure-2*", identifier, ProcedurePrimitive::Primitive2 (primitive));
 								has_alternatives = true;
 							}
-							if let Some (primitive) = procedure_primitive_n_alternative_3 (primitive_n) {
+							if let Some (primitive) = procedure_primitive_v_alternative_3 (primitive_v) {
 								print_definition! (library, category, "procedure-3*", identifier, ProcedurePrimitive::Primitive3 (primitive));
 								has_alternatives = true;
 							}
-							if let Some (primitive) = procedure_primitive_n_alternative_4 (primitive_n) {
+							if let Some (primitive) = procedure_primitive_v_alternative_4 (primitive_v) {
 								print_definition! (library, category, "procedure-4*", identifier, ProcedurePrimitive::Primitive4 (primitive));
 								has_alternatives = true;
 							}
-							if let Some (primitive) = procedure_primitive_n_alternative_5 (primitive_n) {
+							if let Some (primitive) = procedure_primitive_v_alternative_5 (primitive_v) {
 								print_definition! (library, category, "procedure-5*", identifier, ProcedurePrimitive::Primitive5 (primitive));
 								has_alternatives = true;
 							}
+							if let Some (primitive) = procedure_primitive_v_alternative_n (primitive_v) {
+								print_definition! (library, category, "procedure-n*", identifier, ProcedurePrimitive::PrimitiveN (primitive));
+								has_alternatives = true;
+							}
 							if has_alternatives {
-								print_definition! (library, category, "procedure-n*", identifier, primitive);
+								print_definition! (library, category, "procedure-v*", identifier, primitive);
 							} else {
-								print_definition! (library, category, "procedure-n", identifier, primitive);
+								panic! ("ed9c74b7");
 							}
 						} else {
 							if print_procedures && print_implemented {
-								print_definition! (library, category, "procedure-n", identifier, primitive);
+								print_definition! (library, category, "procedure-v", identifier, primitive);
 							}
 						}
 						implemented_symbols.insert (identifier);

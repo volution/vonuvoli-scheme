@@ -23,7 +23,7 @@ pub fn generate_binding_templates () -> (Outcome<StdVec<ContextBindingTemplate>>
 	
 	let definitions = try! (generate_definitions ());
 	
-	let definitions = vec_map! (
+	let definitions = vec_map_into! (
 			definitions,
 			(_library, _category, identifier, value),
 			(identifier, value));
@@ -33,7 +33,7 @@ pub fn generate_binding_templates () -> (Outcome<StdVec<ContextBindingTemplate>>
 			.into_iter ()
 			.collect::<StdMap<_, _>> ();
 	
-	let templates = vec_map! (
+	let templates = vec_map_into! (
 			definitions,
 			(identifier, value),
 			ContextBindingTemplate {
@@ -129,9 +129,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			// equivalences
 			
-			("base", "equivalence", "eq?", ComparisonPrimitiveN::EquivalentByIdentity.into ()),
-			("base", "equivalence", "eqv?", ComparisonPrimitiveN::EquivalentByValueStrict.into ()),
-			("base", "equivalence", "equal?", ComparisonPrimitiveN::EquivalentByValueStrictRecursive.into ()),
+			("base", "equivalence", "eq?", ComparisonPrimitiveV::EquivalentByIdentity.into ()),
+			("base", "equivalence", "eqv?", ComparisonPrimitiveV::EquivalentByValueStrict.into ()),
+			("base", "equivalence", "equal?", ComparisonPrimitiveV::EquivalentByValueStrictRecursive.into ()),
 			
 			
 			
@@ -153,10 +153,10 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "arithmetic", "odd?", ArithmeticPrimitive1::IsOdd.into ()),
 			("base", "arithmetic", "even?", ArithmeticPrimitive1::IsEven.into ()),
 			
-			("base", "arithmetic", "+", ArithmeticPrimitiveN::Addition.into ()),
-			("base", "arithmetic", "-", ArithmeticPrimitiveN::Subtraction.into ()),
-			("base", "arithmetic", "*", ArithmeticPrimitiveN::Multiplication.into ()),
-			("base", "arithmetic", "/", ArithmeticPrimitiveN::Division.into ()),
+			("base", "arithmetic", "+", ArithmeticPrimitiveV::Addition.into ()),
+			("base", "arithmetic", "-", ArithmeticPrimitiveV::Subtraction.into ()),
+			("base", "arithmetic", "*", ArithmeticPrimitiveV::Multiplication.into ()),
+			("base", "arithmetic", "/", ArithmeticPrimitiveV::Division.into ()),
 			
 			("base", "arithmetic", "abs", ArithmeticPrimitive1::Absolute.into ()),
 			
@@ -181,21 +181,21 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "arithmetic", "truncate-quotient", ArithmeticPrimitive2::DivisionTruncateQuotient.into ()),
 			("base", "arithmetic", "truncate-remainder", ArithmeticPrimitive2::DivisionTruncateRemainder.into ()),
 			
-			("base", "arithmetic", "min", ArithmeticPrimitiveN::Minimum.into ()),
-			("base", "arithmetic", "max", ArithmeticPrimitiveN::Maximum.into ()),
+			("base", "arithmetic", "min", ArithmeticPrimitiveV::Minimum.into ()),
+			("base", "arithmetic", "max", ArithmeticPrimitiveV::Maximum.into ()),
 			
-			("base", "arithmetic", "gcd", ArithmeticPrimitiveN::GreatestCommonDivisor.into ()),
-			("base", "arithmetic", "lcm", ArithmeticPrimitiveN::LeastCommonMultiple.into ()),
+			("base", "arithmetic", "gcd", ArithmeticPrimitiveV::GreatestCommonDivisor.into ()),
+			("base", "arithmetic", "lcm", ArithmeticPrimitiveV::LeastCommonMultiple.into ()),
 			
 			("base", "arithmetic", "expt", ArithmeticPrimitive2::Power.into ()),
 			("base", "arithmetic", "square", ArithmeticPrimitive1::Square.into ()),
 			("base", "arithmetic", "exact-integer-sqrt", ProcedurePrimitive::Unimplemented.into ()),
 			
-			("base", "arithmetic", "=", ComparisonPrimitiveN::NumberEqual.into ()),
-			("base", "arithmetic", "<", ComparisonPrimitiveN::NumberLesser.into ()),
-			("base", "arithmetic", ">", ComparisonPrimitiveN::NumberGreater.into ()),
-			("base", "arithmetic", "<=", ComparisonPrimitiveN::NumberLesserOrEqual.into ()),
-			("base", "arithmetic", ">=", ComparisonPrimitiveN::NumberGreaterOrEqual.into ()),
+			("base", "arithmetic", "=", ComparisonPrimitiveV::NumberEqual.into ()),
+			("base", "arithmetic", "<", ComparisonPrimitiveV::NumberLesser.into ()),
+			("base", "arithmetic", ">", ComparisonPrimitiveV::NumberGreater.into ()),
+			("base", "arithmetic", "<=", ComparisonPrimitiveV::NumberLesserOrEqual.into ()),
+			("base", "arithmetic", ">=", ComparisonPrimitiveV::NumberGreaterOrEqual.into ()),
 			
 			("base", "arithmetic", "inexact", ProcedurePrimitive::Unsupported.into ()),
 			("base", "arithmetic", "exact", ProcedurePrimitive::Unsupported.into ()),
@@ -207,7 +207,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			("base", "types", "boolean?", TypePrimitive1::IsBoolean.into ()),
 			
-			("base", "equivalence", "boolean=?", ComparisonPrimitiveN::BooleanEqual.into ()),
+			("base", "equivalence", "boolean=?", ComparisonPrimitiveV::BooleanEqual.into ()),
 			
 			("base", "equivalence", "not", TypePrimitive1::IsFalse.into ()),
 			
@@ -218,11 +218,11 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			("base", "types", "char?", TypePrimitive1::IsCharacter.into ()),
 			
-			("base", "characters", "char=?", ComparisonPrimitiveN::CharacterCaseSensitiveEqual.into ()),
-			("base", "characters", "char<?", ComparisonPrimitiveN::CharacterCaseSensitiveLesser.into ()),
-			("base", "characters", "char>?", ComparisonPrimitiveN::CharacterCaseSensitiveGreater.into ()),
-			("base", "characters", "char<=?", ComparisonPrimitiveN::CharacterCaseSensitiveLesserOrEqual.into ()),
-			("base", "characters", "char>=?", ComparisonPrimitiveN::CharacterCaseSensitiveGreaterOrEqual.into ()),
+			("base", "characters", "char=?", ComparisonPrimitiveV::CharacterCaseSensitiveEqual.into ()),
+			("base", "characters", "char<?", ComparisonPrimitiveV::CharacterCaseSensitiveLesser.into ()),
+			("base", "characters", "char>?", ComparisonPrimitiveV::CharacterCaseSensitiveGreater.into ()),
+			("base", "characters", "char<=?", ComparisonPrimitiveV::CharacterCaseSensitiveLesserOrEqual.into ()),
+			("base", "characters", "char>=?", ComparisonPrimitiveV::CharacterCaseSensitiveGreaterOrEqual.into ()),
 			
 			
 			
@@ -231,7 +231,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			("base", "types", "symbol?", TypePrimitive1::IsSymbol.into ()),
 			
-			("base", "equivalence", "symbol=?", ComparisonPrimitiveN::SymbolCaseSensitiveEqual.into ()),
+			("base", "equivalence", "symbol=?", ComparisonPrimitiveV::SymbolCaseSensitiveEqual.into ()),
 			
 			
 			
@@ -260,10 +260,10 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			("base", "types", "list?", TypePrimitive1::IsListProperOrEmpty.into ()),
 			
-			("base", "lists", "list", ListPrimitiveN::ListBuild.into ()),
-			("base", "lists", "make-list", ListPrimitiveN::ListMake.into ()),
-			("base", "lists", "list-copy", ListPrimitiveN::ListRangeClone.into ()),
-			("base", "lists", "append", ListPrimitiveN::ListAppend.into ()),
+			("base", "lists", "list", ListPrimitiveV::ListBuild.into ()),
+			("base", "lists", "make-list", ListPrimitiveV::ListMake.into ()),
+			("base", "lists", "list-copy", ListPrimitiveV::ListRangeClone.into ()),
+			("base", "lists", "append", ListPrimitiveV::ListAppend.into ()),
 			("base", "lists", "length", ListPrimitive1::ListLength.into ()),
 			
 			("base", "lists", "list-ref", ListPrimitive2::ListFirstAt.into ()),
@@ -275,11 +275,11 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			("base", "lists", "memq", ListPrimitive2::ListMemberByIdentity.into ()),
 			("base", "lists", "memv", ListPrimitive2::ListMemberByValue.into ()),
-			("base", "lists", "member", ListPrimitiveN::ListMember.into ()),
+			("base", "lists", "member", ListPrimitiveV::ListMember.into ()),
 			
 			("base", "lists", "assq", ListPrimitive2::ListAssocByIdentity.into ()),
 			("base", "lists", "assv", ListPrimitive2::ListAssocByValue.into ()),
-			("base", "lists", "assoc", ListPrimitiveN::ListAssoc.into ()),
+			("base", "lists", "assoc", ListPrimitiveV::ListAssoc.into ()),
 			
 			
 			
@@ -288,17 +288,17 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			("base", "types", "vector?", TypePrimitive1::IsArray.into ()),
 			
-			("base", "vectors", "vector", ArrayPrimitiveN::ArrayBuild.into ()),
-			("base", "vectors", "make-vector", ArrayPrimitiveN::ArrayMake.into ()),
-			("base", "vectors", "vector-copy", ArrayPrimitiveN::ArrayRangeClone.into ()),
-			("base", "vectors", "vector-append", ArrayPrimitiveN::ArrayAppend.into ()),
+			("base", "vectors", "vector", ArrayPrimitiveV::ArrayBuild.into ()),
+			("base", "vectors", "make-vector", ArrayPrimitiveV::ArrayMake.into ()),
+			("base", "vectors", "vector-copy", ArrayPrimitiveV::ArrayRangeClone.into ()),
+			("base", "vectors", "vector-append", ArrayPrimitiveV::ArrayAppend.into ()),
 			("base", "vectors", "vector-length", ArrayPrimitive1::ArrayLength.into ()),
 			
 			("base", "vectors", "vector-ref", ArrayPrimitive2::ArrayAt.into ()),
 			
 			("base", "vectors", "vector-set!", ArrayPrimitive3::ArrayAtSet.into ()),
-			("base", "vectors", "vector-fill!", ArrayPrimitiveN::ArrayRangeFill.into ()),
-			("base", "vectors", "vector-copy!", ArrayPrimitiveN::ArrayRangeCopy.into ()),
+			("base", "vectors", "vector-fill!", ArrayPrimitiveV::ArrayRangeFill.into ()),
+			("base", "vectors", "vector-copy!", ArrayPrimitiveV::ArrayRangeCopy.into ()),
 			
 			
 			
@@ -307,16 +307,16 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			("base", "types", "bytevector?", TypePrimitive1::IsBytes.into ()),
 			
-			("base", "bytes", "bytevector", BytesPrimitiveN::BytesBuild.into ()),
-			("base", "bytes", "make-bytevector", BytesPrimitiveN::BytesMake.into ()),
-			("base", "bytes", "bytevector-copy", BytesPrimitiveN::BytesRangeClone.into ()),
-			("base", "bytes", "bytevector-append", BytesPrimitiveN::BytesAppend.into ()),
+			("base", "bytes", "bytevector", BytesPrimitiveV::BytesBuild.into ()),
+			("base", "bytes", "make-bytevector", BytesPrimitiveV::BytesMake.into ()),
+			("base", "bytes", "bytevector-copy", BytesPrimitiveV::BytesRangeClone.into ()),
+			("base", "bytes", "bytevector-append", BytesPrimitiveV::BytesAppend.into ()),
 			("base", "bytes", "bytevector-length", BytesPrimitive1::BytesLength.into ()),
 			
 			("base", "bytes", "bytevector-u8-ref", BytesPrimitive2::BytesAt.into ()),
 			
 			("base", "bytes", "bytevector-u8-set!", BytesPrimitive3::BytesAtSet.into ()),
-			("base", "bytes", "bytevector-copy!", BytesPrimitiveN::BytesRangeFill.into ()),
+			("base", "bytes", "bytevector-copy!", BytesPrimitiveV::BytesRangeFill.into ()),
 			
 			
 			
@@ -325,45 +325,45 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			("base", "types", "string?", TypePrimitive1::IsString.into ()),
 			
-			("base", "strings", "string", StringPrimitiveN::StringBuild.into ()),
-			("base", "strings", "make-string", StringPrimitiveN::StringMake.into ()),
-			("base", "strings", "string-copy", StringPrimitiveN::StringRangeClone.into ()),
-			("base", "strings", "string-append", StringPrimitiveN::StringAppend.into ()),
+			("base", "strings", "string", StringPrimitiveV::StringBuild.into ()),
+			("base", "strings", "make-string", StringPrimitiveV::StringMake.into ()),
+			("base", "strings", "string-copy", StringPrimitiveV::StringRangeClone.into ()),
+			("base", "strings", "string-append", StringPrimitiveV::StringAppend.into ()),
 			("base", "strings", "string-length", StringPrimitive1::StringLength.into ()),
 			
 			("base", "strings", "string-ref", StringPrimitive2::StringAt.into ()),
 			
 			("base", "strings", "string-set!", StringPrimitive3::StringAtSet.into ()),
-			("base", "strings", "string-fill!", StringPrimitiveN::StringRangeFill.into ()),
-			("base", "strings", "string-copy!", StringPrimitiveN::StringRangeCopy.into ()),
+			("base", "strings", "string-fill!", StringPrimitiveV::StringRangeFill.into ()),
+			("base", "strings", "string-copy!", StringPrimitiveV::StringRangeCopy.into ()),
 			
-			("base", "strings", "substring", StringPrimitiveN::StringRangeClone.into ()),
+			("base", "strings", "substring", StringPrimitiveV::StringRangeClone.into ()),
 			
-			("base", "strings", "string=?", ComparisonPrimitiveN::StringCaseSensitiveEqual.into ()),
-			("base", "strings", "string<?", ComparisonPrimitiveN::StringCaseSensitiveLesser.into ()),
-			("base", "strings", "string>?", ComparisonPrimitiveN::StringCaseSensitiveGreater.into ()),
-			("base", "strings", "string<=?", ComparisonPrimitiveN::StringCaseSensitiveLesserOrEqual.into ()),
-			("base", "strings", "string>=?", ComparisonPrimitiveN::StringCaseSensitiveGreaterOrEqual.into ()),
+			("base", "strings", "string=?", ComparisonPrimitiveV::StringCaseSensitiveEqual.into ()),
+			("base", "strings", "string<?", ComparisonPrimitiveV::StringCaseSensitiveLesser.into ()),
+			("base", "strings", "string>?", ComparisonPrimitiveV::StringCaseSensitiveGreater.into ()),
+			("base", "strings", "string<=?", ComparisonPrimitiveV::StringCaseSensitiveLesserOrEqual.into ()),
+			("base", "strings", "string>=?", ComparisonPrimitiveV::StringCaseSensitiveGreaterOrEqual.into ()),
 			
 			
 			
 			
 			// converters to and from strings
 			
-			("base", "strings", "number->string", StringPrimitiveN::NumberToString.into ()),
-			("base", "strings", "string->number", StringPrimitiveN::StringToNumber.into ()),
+			("base", "strings", "number->string", StringPrimitiveV::NumberToString.into ()),
+			("base", "strings", "string->number", StringPrimitiveV::StringToNumber.into ()),
 			
 			("base", "strings", "symbol->string", StringPrimitive1::SymbolToString.into ()),
 			("base", "strings", "string->symbol", StringPrimitive1::StringToSymbol.into ()),
 			
-			("base", "strings", "list->string", StringPrimitiveN::ListRangeToString.into ()),
-			("base", "strings", "string->list", StringPrimitiveN::StringRangeToList.into ()),
+			("base", "strings", "list->string", StringPrimitiveV::ListRangeToString.into ()),
+			("base", "strings", "string->list", StringPrimitiveV::StringRangeToList.into ()),
 			
-			("base", "strings", "utf8->string", StringPrimitiveN::BytesRangeToString.into ()),
-			("base", "strings", "string->utf8", StringPrimitiveN::StringRangeToBytes.into ()),
+			("base", "strings", "utf8->string", StringPrimitiveV::BytesRangeToString.into ()),
+			("base", "strings", "string->utf8", StringPrimitiveV::StringRangeToBytes.into ()),
 			
-			("base", "strings", "vector->string", StringPrimitiveN::ArrayRangeToString.into ()),
-			("base", "strings", "string->vector", StringPrimitiveN::StringRangeToArray.into ()),
+			("base", "strings", "vector->string", StringPrimitiveV::ArrayRangeToString.into ()),
+			("base", "strings", "string->vector", StringPrimitiveV::StringRangeToArray.into ()),
 			
 			
 			
@@ -373,8 +373,8 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "characters", "char->integer", StringPrimitive1::CharacterToNumber.into ()),
 			("base", "characters", "integer->char", StringPrimitive1::NumberToCharacter.into ()),
 			
-			("base", "vectors", "vector->list", ArrayPrimitiveN::ArrayRangeToList.into ()),
-			("base", "vectors", "list->vector", ArrayPrimitiveN::ListRangeToArray.into ()),
+			("base", "vectors", "vector->list", ArrayPrimitiveV::ArrayRangeToList.into ()),
+			("base", "vectors", "list->vector", ArrayPrimitiveV::ListRangeToArray.into ()),
 			
 			
 			
@@ -383,18 +383,18 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			("base", "types", "procedure?", TypePrimitive1::IsProcedure.into ()),
 			
-			("base", "functions", "apply", FunctionsPrimitiveN::Apply.into ()),
+			("base", "functions", "apply", FunctionsPrimitiveV::Apply.into ()),
 			
-			("base", "functions", "map", FunctionsPrimitiveN::ListsMap.into ()),
-			("base", "functions", "for-each", FunctionsPrimitiveN::ListsIterate.into ()),
+			("base", "functions", "map", FunctionsPrimitiveV::ListsMap.into ()),
+			("base", "functions", "for-each", FunctionsPrimitiveV::ListsIterate.into ()),
 			
-			("base", "functions", "vector-map", FunctionsPrimitiveN::ArraysMap.into ()),
-			("base", "functions", "vector-for-each", FunctionsPrimitiveN::ArraysIterate.into ()),
+			("base", "functions", "vector-map", FunctionsPrimitiveV::ArraysMap.into ()),
+			("base", "functions", "vector-for-each", FunctionsPrimitiveV::ArraysIterate.into ()),
 			
-			("base", "functions", "string-map", FunctionsPrimitiveN::StringsMap.into ()),
-			("base", "functions", "string-for-each", FunctionsPrimitiveN::StringsIterate.into ()),
+			("base", "functions", "string-map", FunctionsPrimitiveV::StringsMap.into ()),
+			("base", "functions", "string-for-each", FunctionsPrimitiveV::StringsIterate.into ()),
 			
-			("base", "values", "values", FunctionsPrimitiveN::Values.into ()),
+			("base", "values", "values", FunctionsPrimitiveV::Values.into ()),
 			("base", "values", "call-with-values", FunctionsPrimitive2::CallWithValuesBuilder.into ()),
 			
 			("base", "evaluator", "call-with-current-continuation", ProcedurePrimitive::Unsupported.into ()),
@@ -504,11 +504,11 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("char", "strings", "string-downcase", StringPrimitive1::StringToLowerCase.into ()),
 			("char", "strings", "string-foldcase", StringPrimitive1::StringToFoldCase.into ()),
 			
-			("char", "strings", "string-ci=?", ComparisonPrimitiveN::StringCaseInsensitiveEqual.into ()),
-			("char", "strings", "string-ci<?", ComparisonPrimitiveN::StringCaseInsensitiveLesser.into ()),
-			("char", "strings", "string-ci>?", ComparisonPrimitiveN::StringCaseInsensitiveGreater.into ()),
-			("char", "strings", "string-ci<=?", ComparisonPrimitiveN::StringCaseInsensitiveLesserOrEqual.into ()),
-			("char", "strings", "string-ci>=?", ComparisonPrimitiveN::StringCaseInsensitiveGreaterOrEqual.into ()),
+			("char", "strings", "string-ci=?", ComparisonPrimitiveV::StringCaseInsensitiveEqual.into ()),
+			("char", "strings", "string-ci<?", ComparisonPrimitiveV::StringCaseInsensitiveLesser.into ()),
+			("char", "strings", "string-ci>?", ComparisonPrimitiveV::StringCaseInsensitiveGreater.into ()),
+			("char", "strings", "string-ci<=?", ComparisonPrimitiveV::StringCaseInsensitiveLesserOrEqual.into ()),
+			("char", "strings", "string-ci>=?", ComparisonPrimitiveV::StringCaseInsensitiveGreaterOrEqual.into ()),
 			
 			("char", "characters", "char-alphabetic?", TypePrimitive1::IsCharacterAlphabetic.into ()),
 			("char", "characters", "char-upper-case?", TypePrimitive1::IsCharacterAlphabeticUpperCase.into ()),
@@ -520,13 +520,13 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("char", "characters", "char-downcase", StringPrimitive1::CharacterToLowerCase.into ()),
 			("char", "characters", "char-foldcase", StringPrimitive1::CharacterToFoldCase.into ()),
 			
-			("char", "characters", "char-ci=?", ComparisonPrimitiveN::CharacterCaseInsensitiveEqual.into ()),
-			("char", "characters", "char-ci<?", ComparisonPrimitiveN::CharacterCaseInsensitiveLesser.into ()),
-			("char", "characters", "char-ci>?", ComparisonPrimitiveN::CharacterCaseInsensitiveGreater.into ()),
-			("char", "characters", "char-ci<=?", ComparisonPrimitiveN::CharacterCaseInsensitiveLesserOrEqual.into ()),
-			("char", "characters", "char-ci>=?", ComparisonPrimitiveN::CharacterCaseInsensitiveGreaterOrEqual.into ()),
+			("char", "characters", "char-ci=?", ComparisonPrimitiveV::CharacterCaseInsensitiveEqual.into ()),
+			("char", "characters", "char-ci<?", ComparisonPrimitiveV::CharacterCaseInsensitiveLesser.into ()),
+			("char", "characters", "char-ci>?", ComparisonPrimitiveV::CharacterCaseInsensitiveGreater.into ()),
+			("char", "characters", "char-ci<=?", ComparisonPrimitiveV::CharacterCaseInsensitiveLesserOrEqual.into ()),
+			("char", "characters", "char-ci>=?", ComparisonPrimitiveV::CharacterCaseInsensitiveGreaterOrEqual.into ()),
 			
-			("char", "characters", "digit-value", StringPrimitiveN::CharacterToDigitNumber.into ()),
+			("char", "characters", "digit-value", StringPrimitiveV::CharacterToDigitNumber.into ()),
 			
 			
 			
@@ -667,8 +667,8 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("process-context", "system", "get-environment-variable", RuntimePrimitive1::ProcessEnvironment.into ()),
 			("process-context", "system", "get-environment-variables", RuntimePrimitive0::ProcessEnvironment.into ()),
 			
-			("process-context", "system", "exit", RuntimePrimitiveN::ProcessExit.into ()),
-			("process-context", "system", "emergency-exit", RuntimePrimitiveN::ProcessExitEmergency.into ()),
+			("process-context", "system", "exit", RuntimePrimitiveV::ProcessExit.into ()),
+			("process-context", "system", "emergency-exit", RuntimePrimitiveV::ProcessExitEmergency.into ()),
 			
 			
 			
@@ -722,7 +722,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 		];
 	
-	let definitions = vec_map! (
+	let definitions = vec_map_into! (
 			definitions,
 			(library, category, identifier, value),
 			(Symbol::from (library), Symbol::from (category), Symbol::from (identifier), value));
