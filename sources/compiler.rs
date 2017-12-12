@@ -796,7 +796,7 @@ impl Compiler {
 			}
 			let (identifiers, initializer) = try! (vec_explode_2 (definition));
 			let identifiers = try! (vec_list_clone (&identifiers));
-			let identifiers = try_vec_map! (identifiers, identifier, Symbol::try_from (identifier));
+			let identifiers = try_vec_map_into! (identifiers, identifier, Symbol::try_from (identifier));
 			identifiers_n.push (identifiers);
 			initializers.push (initializer);
 		}
@@ -894,7 +894,7 @@ impl Compiler {
 				let (identifier, arguments_positional) = try! (vec_explode_1n (signature));
 				
 				let identifier = try_into_symbol! (identifier);
-				let arguments_positional = try_vec_map! (arguments_positional, value, Symbol::try_from (value));
+				let arguments_positional = try_vec_map_into! (arguments_positional, value, Symbol::try_from (value));
 				let argument_rest = try_option_map! (argument_rest, Symbol::try_from (argument_rest));
 				
 				let binding = try! (compilation.bindings.define (identifier.clone ()));
@@ -923,7 +923,7 @@ impl Compiler {
 		
 		let (identifiers, initializer) = try! (vec_explode_2 (tokens));
 		let identifiers = try! (vec_list_clone (&identifiers));
-		let identifiers = try_vec_map! (identifiers, identifier, Symbol::try_from (identifier));
+		let identifiers = try_vec_map_into! (identifiers, identifier, Symbol::try_from (identifier));
 		
 		let mut compilation = compilation;
 		let mut binding_templates = StdVec::new ();
@@ -972,7 +972,7 @@ impl Compiler {
 		
 		let (identifiers, initializer) = try! (vec_explode_2 (tokens));
 		let identifiers = try! (vec_list_clone (&identifiers));
-		let identifiers = try_vec_map! (identifiers, identifier, Symbol::try_from (identifier));
+		let identifiers = try_vec_map_into! (identifiers, identifier, Symbol::try_from (identifier));
 		
 		let mut compilation = compilation;
 		let mut bindings = StdVec::new ();
@@ -1036,7 +1036,7 @@ impl Compiler {
 				fail! (0xac48836a),
 			
 			CompilerBinding::Binding (_) => {
-				let initializers = try_vec_map! (
+				let initializers = try_vec_map_into! (
 						initializers,
 						(binding, expression),
 						match binding {
@@ -1054,7 +1054,7 @@ impl Compiler {
 			},
 			
 			CompilerBinding::Register (_) => {
-				let initializers = try_vec_map! (
+				let initializers = try_vec_map_into! (
 						initializers,
 						(binding, expression),
 						match binding {
@@ -1089,7 +1089,7 @@ impl Compiler {
 				fail! (0x2d8c07dd),
 			
 			CompilerBinding::Binding (_) => {
-				let bindings = try_vec_map! (
+				let bindings = try_vec_map_into! (
 						bindings,
 						binding,
 						match binding {
@@ -1107,7 +1107,7 @@ impl Compiler {
 			},
 			
 			CompilerBinding::Register (_) => {
-				let bindings = try_vec_map! (
+				let bindings = try_vec_map_into! (
 						bindings,
 						binding,
 						match binding {
@@ -1162,7 +1162,7 @@ impl Compiler {
 				(StdVec::new (), Some (Symbol::from (arguments))),
 			ValueClass::Pair | ValueClass::Null => {
 				let (arguments_positional, argument_rest) = try! (vec_list_clone_dotted (&arguments));
-				let arguments_positional = try_vec_map! (arguments_positional, value, Symbol::try_from (value));
+				let arguments_positional = try_vec_map_into! (arguments_positional, value, Symbol::try_from (value));
 				let argument_rest = try_option_map! (argument_rest, Symbol::try_from (argument_rest));
 				(arguments_positional, argument_rest)
 			},
@@ -1228,7 +1228,7 @@ impl Compiler {
 		fn splice <ExpressionInto : StdInto<Expression>> (expression : ExpressionInto, spliceable : bool) -> (Expression) {
 			let expression = expression.into ();
 			if spliceable {
-				Expression::ProcedureCall (ListPrimitiveN::ListBuild.into (), StdBox::new ([expression]))
+				Expression::ProcedureCall (ListPrimitiveV::ListBuild.into (), StdBox::new ([expression]))
 			} else {
 				expression
 			}
@@ -1300,7 +1300,7 @@ impl Compiler {
 									} else {
 										let (compilation, element) = try! (self.compile_syntax_quasi_quote_0 (compilation, token, true, false, quote_depth, unquote_depth + 1));
 										// FIXME:  Eliminate dynamic creation of symbol!
-										let element = Expression::ProcedureCall (ListPrimitiveN::ListBuild.into (), StdBox::new ([Expression::Value (symbol_clone_str ("unquote") .into ()), element]));
+										let element = Expression::ProcedureCall (ListPrimitiveV::ListBuild.into (), StdBox::new ([Expression::Value (symbol_clone_str ("unquote") .into ()), element]));
 										(compilation, element)
 									};
 									succeed! ((compilation, splice (element, spliceable)));
@@ -1317,7 +1317,7 @@ impl Compiler {
 										} else {
 											let (compilation, element) = try! (self.compile_syntax_quasi_quote_0 (compilation, token, true, false, quote_depth, unquote_depth + 1));
 											// FIXME:  Eliminate dynamic creation of symbol!
-											let element = Expression::ProcedureCall (ListPrimitiveN::ListBuild.into (), StdBox::new ([Expression::Value (symbol_clone_str ("unquote-splicing") .into ()), element]));
+											let element = Expression::ProcedureCall (ListPrimitiveV::ListBuild.into (), StdBox::new ([Expression::Value (symbol_clone_str ("unquote-splicing") .into ()), element]));
 											(compilation, element)
 										};
 										succeed! ((compilation, element));
@@ -1333,7 +1333,7 @@ impl Compiler {
 									let token = try! (vec_explode_1 (tokens));
 									let (compilation, element) = try! (self.compile_syntax_quasi_quote_0 (compilation, token, true, false, quote_depth + 1, unquote_depth));
 									// FIXME:  Eliminate dynamic creation of symbol!
-									let element = Expression::ProcedureCall (ListPrimitiveN::ListBuild.into (), StdBox::new ([Expression::Value (symbol_clone_str ("quasiquote") .into ()), element]));
+									let element = Expression::ProcedureCall (ListPrimitiveV::ListBuild.into (), StdBox::new ([Expression::Value (symbol_clone_str ("quasiquote") .into ()), element]));
 									succeed! ((compilation, splice (element, spliceable)));
 								} else {
 									fail! (0x95565615);
@@ -1379,7 +1379,7 @@ impl Compiler {
 					}
 				}
 				
-				let expression = Expression::ProcedureCall (ListPrimitiveN::ListAppend.into (), elements.into_boxed_slice ());
+				let expression = Expression::ProcedureCall (ListPrimitiveV::ListAppend.into (), elements.into_boxed_slice ());
 				
 				let expression = if top {
 					expression
