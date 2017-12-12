@@ -189,13 +189,7 @@ macro_rules! impl_from_for_primitive_syntax {
 	);
 }
 
-impl_from_for_primitive_syntax! (SyntaxPrimitive0, Primitive0);
-impl_from_for_primitive_syntax! (SyntaxPrimitive1, Primitive1);
-impl_from_for_primitive_syntax! (SyntaxPrimitive2, Primitive2);
-impl_from_for_primitive_syntax! (SyntaxPrimitive3, Primitive3);
-impl_from_for_primitive_syntax! (SyntaxPrimitive4, Primitive4);
-impl_from_for_primitive_syntax! (SyntaxPrimitive5, Primitive5);
-impl_from_for_primitive_syntax! (SyntaxPrimitiveN, PrimitiveN);
+impl_from_for_primitive_syntax! (SyntaxPrimitiveV, PrimitiveV);
 
 
 

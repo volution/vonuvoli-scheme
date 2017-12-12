@@ -214,134 +214,84 @@ impl Compiler {
 	fn compile_syntax_call (&self, compilation : CompilerContext, syntax : SyntaxPrimitive, tokens : Value) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		let tokens = try! (vec_list_clone (&tokens));
-		let tokens_count = tokens.len ();
 		
 		match syntax {
 			
-			SyntaxPrimitive::Primitive0 (syntax) =>
-				if tokens_count == 0 {
-					match syntax {}
-				} else {
-					fail! (0x39c09215);
-				},
-			
-			SyntaxPrimitive::Primitive1 (syntax) =>
-				if tokens_count == 1 {
-					let tokens = try! (vec_explode_1 (tokens));
-					match syntax {
-						
-						SyntaxPrimitive1::Quote =>
-							return self.compile_syntax_quote (compilation, tokens),
-						
-						SyntaxPrimitive1::QuasiQuote =>
-							return self.compile_syntax_quasi_quote (compilation, tokens),
-						
-						SyntaxPrimitive1::UnQuote | SyntaxPrimitive1::UnQuoteSplicing =>
-							fail! (0x99b4857b),
-						
-					}
-				} else {
-					fail! (0x421da1f1);
-				},
-			
-			SyntaxPrimitive::Primitive2 (syntax) =>
-				if tokens_count == 2 {
-					match syntax {
-						
-						SyntaxPrimitive2::If =>
-							return self.compile_syntax_if (compilation, tokens),
-						
-						SyntaxPrimitive2::Define =>
-							return self.compile_syntax_define (compilation, tokens),
-						
-						SyntaxPrimitive2::DefineValues =>
-							return self.compile_syntax_define_values (compilation, tokens),
-						
-						SyntaxPrimitive2::Set =>
-							return self.compile_syntax_set (compilation, tokens),
-						
-						SyntaxPrimitive2::SetValues =>
-							return self.compile_syntax_set_values (compilation, tokens),
-						
-					}
-				} else {
-					fail! (0x9d9b6a94);
-				},
-			
-			SyntaxPrimitive::Primitive3 (syntax) =>
-				if tokens_count == 3 {
-					match syntax {
-						
-						SyntaxPrimitive3::If =>
-							return self.compile_syntax_if (compilation, tokens),
-						
-					}
-				} else {
-					fail! (0xd76f0ad2);
-				},
-			
-			SyntaxPrimitive::Primitive4 (syntax) =>
-				if tokens_count == 4 {
-					match syntax {}
-				} else {
-					fail! (0x1d3d26b9);
-				},
-			
-			SyntaxPrimitive::Primitive5 (syntax) =>
-				if tokens_count == 5 {
-					match syntax {}
-				} else {
-					fail! (0x6c5f8f94);
-				},
-			
-			SyntaxPrimitive::PrimitiveN (syntax) =>
+			SyntaxPrimitive::PrimitiveV (syntax) =>
 				match syntax {
 					
-					SyntaxPrimitiveN::And | SyntaxPrimitiveN::Or =>
-						return self.compile_syntax_and_or (compilation, syntax, tokens),
+					SyntaxPrimitiveV::Quote =>
+						return self.compile_syntax_quote (compilation, tokens),
 					
-					SyntaxPrimitiveN::Begin =>
-						return self.compile_syntax_begin (compilation, tokens),
+					SyntaxPrimitiveV::QuasiQuote =>
+						return self.compile_syntax_quasi_quote (compilation, tokens),
 					
-					SyntaxPrimitiveN::If =>
+					SyntaxPrimitiveV::UnQuote |
+					SyntaxPrimitiveV::UnQuoteSplicing =>
+						fail! (0x99b4857b),
+					
+					SyntaxPrimitiveV::Begin =>
+						return self.compile_syntax_sequence (compilation, ExpressionSequenceOperator::ReturnLast, tokens),
+					
+					SyntaxPrimitiveV::And =>
+						return self.compile_syntax_sequence (compilation, ExpressionSequenceOperator::And, tokens),
+					
+					SyntaxPrimitiveV::Or =>
+						return self.compile_syntax_sequence (compilation, ExpressionSequenceOperator::Or, tokens),
+					
+					SyntaxPrimitiveV::If =>
 						return self.compile_syntax_if (compilation, tokens),
 					
-					SyntaxPrimitiveN::When | SyntaxPrimitiveN::Unless =>
+					SyntaxPrimitiveV::When |
+					SyntaxPrimitiveV::Unless =>
 						return self.compile_syntax_when_unless (compilation, syntax, tokens),
 					
-					SyntaxPrimitiveN::Cond =>
+					SyntaxPrimitiveV::Cond =>
 						return self.compile_syntax_cond (compilation, tokens),
 					
-					SyntaxPrimitiveN::Case =>
+					SyntaxPrimitiveV::Case =>
 						return self.compile_syntax_case (compilation, tokens),
 					
-					SyntaxPrimitiveN::Do =>
+					SyntaxPrimitiveV::Do =>
 						return self.compile_syntax_do (compilation, tokens),
 					
-					SyntaxPrimitiveN::DoCond =>
+					SyntaxPrimitiveV::DoCond =>
 						fail_unimplemented! (0x2e2b0079),
 					
-					SyntaxPrimitiveN::While |
-					SyntaxPrimitiveN::Until =>
+					SyntaxPrimitiveV::While |
+					SyntaxPrimitiveV::Until =>
 						fail_unimplemented! (0xdae6d716),
 					
-					SyntaxPrimitiveN::WhileCond |
-					SyntaxPrimitiveN::UntilCond =>
+					SyntaxPrimitiveV::WhileCond |
+					SyntaxPrimitiveV::UntilCond =>
 						fail_unimplemented! (0x9e9861c0),
 					
-					SyntaxPrimitiveN::Locals =>
+					SyntaxPrimitiveV::Locals =>
 						return self.compile_syntax_locals (compilation, tokens),
 					
-					SyntaxPrimitiveN::LetParallel | SyntaxPrimitiveN::LetSequential | SyntaxPrimitiveN::LetRecursiveParallel | SyntaxPrimitiveN::LetRecursiveSequential =>
+					SyntaxPrimitiveV::LetParallel |
+					SyntaxPrimitiveV::LetSequential |
+					SyntaxPrimitiveV::LetRecursiveParallel |
+					SyntaxPrimitiveV::LetRecursiveSequential =>
 						return self.compile_syntax_let (compilation, syntax, tokens),
 					
-					SyntaxPrimitiveN::LetValuesParallel | SyntaxPrimitiveN::LetValuesSequential =>
+					SyntaxPrimitiveV::LetValuesParallel |
+					SyntaxPrimitiveV::LetValuesSequential =>
 						return self.compile_syntax_let_values (compilation, syntax, tokens),
 					
-					SyntaxPrimitiveN::Define =>
+					SyntaxPrimitiveV::Define =>
 						return self.compile_syntax_define (compilation, tokens),
 					
-					SyntaxPrimitiveN::Lambda =>
+					SyntaxPrimitiveV::DefineValues =>
+						return self.compile_syntax_define_values (compilation, tokens),
+					
+					SyntaxPrimitiveV::Set =>
+						return self.compile_syntax_set (compilation, tokens),
+					
+					SyntaxPrimitiveV::SetValues =>
+						return self.compile_syntax_set_values (compilation, tokens),
+					
+					SyntaxPrimitiveV::Lambda =>
 						return self.compile_syntax_lambda (compilation, None, tokens),
 					
 				},
@@ -432,9 +382,9 @@ impl Compiler {
 		let statements = Expression::Sequence (statements.into_boxed_slice ());
 		
 		let negated = match syntax {
-			SyntaxPrimitiveN::When =>
+			SyntaxPrimitiveV::When =>
 				false,
-			SyntaxPrimitiveN::Unless =>
+			SyntaxPrimitiveV::Unless =>
 				true,
 			_ =>
 				fail_unreachable! (0x500d298f),
@@ -658,7 +608,7 @@ impl Compiler {
 	
 	
 	
-	fn compile_syntax_let (&self, compilation : CompilerContext, syntax : SyntaxPrimitiveN, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+	fn compile_syntax_let (&self, compilation : CompilerContext, syntax : SyntaxPrimitiveV, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		if tokens.len () < 2 {
 			fail! (0x633b3ed8);
@@ -695,7 +645,7 @@ impl Compiler {
 		
 		match syntax {
 			
-			SyntaxPrimitiveN::LetParallel => {
+			SyntaxPrimitiveV::LetParallel => {
 				for initializer in initializers.into_iter () {
 					let (compilation_1, initializer) = try! (self.compile_0 (compilation, initializer));
 					compilation = compilation_1;
@@ -707,7 +657,7 @@ impl Compiler {
 				}
 			},
 			
-			SyntaxPrimitiveN::LetSequential => {
+			SyntaxPrimitiveV::LetSequential => {
 				for (initializer, identifier) in initializers.into_iter ().zip (identifiers.into_iter ()) {
 					let (compilation_1, initializer) = try! (self.compile_0 (compilation, initializer));
 					compilation = compilation_1;
@@ -717,7 +667,7 @@ impl Compiler {
 				}
 			},
 			
-			SyntaxPrimitiveN::LetRecursiveParallel | SyntaxPrimitiveN::LetRecursiveSequential => {
+			SyntaxPrimitiveV::LetRecursiveParallel | SyntaxPrimitiveV::LetRecursiveSequential => {
 				for identifier in identifiers.into_iter () {
 					let binding = try! (compilation.bindings.define (identifier));
 					binding_templates.push (binding);
@@ -735,13 +685,13 @@ impl Compiler {
 		}
 		
 		let parallel = match syntax {
-			SyntaxPrimitiveN::LetParallel =>
+			SyntaxPrimitiveV::LetParallel =>
 				true,
-			SyntaxPrimitiveN::LetSequential =>
+			SyntaxPrimitiveV::LetSequential =>
 				false,
-			SyntaxPrimitiveN::LetRecursiveParallel =>
+			SyntaxPrimitiveV::LetRecursiveParallel =>
 				true,
-			SyntaxPrimitiveN::LetRecursiveSequential =>
+			SyntaxPrimitiveV::LetRecursiveSequential =>
 				false,
 			_ =>
 				fail_unreachable! (0xa615e40c),
@@ -765,7 +715,7 @@ impl Compiler {
 	
 	
 	
-	fn compile_syntax_let_values (&self, compilation : CompilerContext, syntax : SyntaxPrimitiveN, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+	fn compile_syntax_let_values (&self, compilation : CompilerContext, syntax : SyntaxPrimitiveV, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		if tokens.len () < 2 {
 			fail! (0x10672a0d);
@@ -803,7 +753,7 @@ impl Compiler {
 		
 		match syntax {
 			
-			SyntaxPrimitiveN::LetValuesParallel => {
+			SyntaxPrimitiveV::LetValuesParallel => {
 				for initializer in initializers.into_iter () {
 					let (compilation_1, initializer) = try! (self.compile_0 (compilation, initializer));
 					compilation = compilation_1;
@@ -819,7 +769,7 @@ impl Compiler {
 				}
 			},
 			
-			SyntaxPrimitiveN::LetValuesSequential => {
+			SyntaxPrimitiveV::LetValuesSequential => {
 				for (initializer, identifiers) in initializers.into_iter ().zip (identifiers_n.into_iter ()) {
 					let (compilation_1, initializer) = try! (self.compile_0 (compilation, initializer));
 					compilation = compilation_1;
@@ -1288,7 +1238,7 @@ impl Compiler {
 						let tokens_count = tokens.len ();
 						match syntax {
 							
-							SyntaxPrimitive::Primitive1 (SyntaxPrimitive1::UnQuote) =>
+							SyntaxPrimitive::PrimitiveV (SyntaxPrimitiveV::UnQuote) =>
 								if tokens_count == 1 {
 									let token = try! (vec_explode_1 (tokens));
 									let (compilation, element) = if quote_depth == unquote_depth {
@@ -1304,7 +1254,7 @@ impl Compiler {
 									fail! (0x9dc44267);
 								},
 							
-							SyntaxPrimitive::Primitive1 (SyntaxPrimitive1::UnQuoteSplicing) =>
+							SyntaxPrimitive::PrimitiveV (SyntaxPrimitiveV::UnQuoteSplicing) =>
 								if tokens_count == 1 {
 									if spliceable {
 										let token = try! (vec_explode_1 (tokens));
@@ -1324,7 +1274,7 @@ impl Compiler {
 									fail! (0xe0c45124);
 								},
 							
-							SyntaxPrimitive::Primitive1 (SyntaxPrimitive1::QuasiQuote) =>
+							SyntaxPrimitive::PrimitiveV (SyntaxPrimitiveV::QuasiQuote) =>
 								if tokens_count == 1 {
 									let token = try! (vec_explode_1 (tokens));
 									let (compilation, element) = try! (self.compile_syntax_quasi_quote_0 (compilation, token, true, false, quote_depth + 1, unquote_depth));

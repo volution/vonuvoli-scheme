@@ -178,13 +178,7 @@ fn test () -> () {
 				let primitive = SyntaxPrimitive::from (value);
 				match primitive {
 					
-					SyntaxPrimitive::Primitive0 (_) |
-					SyntaxPrimitive::Primitive1 (_) |
-					SyntaxPrimitive::Primitive2 (_) |
-					SyntaxPrimitive::Primitive3 (_) |
-					SyntaxPrimitive::Primitive4 (_) |
-					SyntaxPrimitive::Primitive5 (_) |
-					SyntaxPrimitive::PrimitiveN (_) => {
+					SyntaxPrimitive::PrimitiveV (_) => {
 						if print_syntaxes && print_implemented {
 							print_definition! (library, category, "syntax", identifier, primitive);
 						}

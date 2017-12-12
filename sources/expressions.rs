@@ -71,15 +71,6 @@ pub enum Expression {
 	ProcedurePrimitiveCallN ( ProcedurePrimitiveN, StdBox<[Expression]> ),
 	ProcedurePrimitiveCallV ( ProcedurePrimitiveV, StdBox<[Expression]> ),
 	
-	SyntaxPrimitiveCall ( SyntaxPrimitive, StdBox<[Expression]> ),
-	SyntaxPrimitiveCall0 ( SyntaxPrimitive0 ),
-	SyntaxPrimitiveCall1 ( SyntaxPrimitive1, ExpressionBox ),
-	SyntaxPrimitiveCall2 ( SyntaxPrimitive2, ExpressionBox, ExpressionBox ),
-	SyntaxPrimitiveCall3 ( SyntaxPrimitive3, ExpressionBox, ExpressionBox, ExpressionBox ),
-	SyntaxPrimitiveCall4 ( SyntaxPrimitive4, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
-	SyntaxPrimitiveCall5 ( SyntaxPrimitive5, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
-	SyntaxPrimitiveCallN ( SyntaxPrimitiveN, StdBox<[Expression]> ),
-	
 	Lambda ( StdBox<LambdaTemplate>, ExpressionBox, StdBox<[RegistersBindingTemplate]>, StdBox<[RegistersBindingTemplate]> ),
 	
 }

@@ -160,23 +160,6 @@ impl Evaluator {
 			Expression::ProcedurePrimitiveCallV (primitive, ref inputs) =>
 				self.evaluate_procedure_primitive_v (evaluation, primitive, inputs),
 			
-			Expression::SyntaxPrimitiveCall (primitive, ref inputs) =>
-				self.evaluate_syntax_primitive (evaluation, primitive, inputs),
-			Expression::SyntaxPrimitiveCall0 (primitive) =>
-				self.evaluate_syntax_primitive_0 (evaluation, primitive),
-			Expression::SyntaxPrimitiveCall1 (primitive, ref input_1) =>
-				self.evaluate_syntax_primitive_1 (evaluation, primitive, input_1),
-			Expression::SyntaxPrimitiveCall2 (primitive, ref input_1, ref input_2) =>
-				self.evaluate_syntax_primitive_2 (evaluation, primitive, input_1, input_2),
-			Expression::SyntaxPrimitiveCall3 (primitive, ref input_1, ref input_2, ref input_3) =>
-				self.evaluate_syntax_primitive_3 (evaluation, primitive, input_1, input_2, input_3),
-			Expression::SyntaxPrimitiveCall4 (primitive, ref input_1, ref input_2, ref input_3, ref input_4) =>
-				self.evaluate_syntax_primitive_4 (evaluation, primitive, input_1, input_2, input_3, input_4),
-			Expression::SyntaxPrimitiveCall5 (primitive, ref input_1, ref input_2, ref input_3, ref input_4, ref input_5) =>
-				self.evaluate_syntax_primitive_5 (evaluation, primitive, input_1, input_2, input_3, input_4, input_5),
-			Expression::SyntaxPrimitiveCallN (primitive, ref inputs) =>
-				self.evaluate_syntax_primitive_n (evaluation, primitive, inputs),
-			
 		}
 		
 	}
@@ -993,39 +976,6 @@ impl Evaluator {
 	}
 	
 	
-	
-	
-	fn evaluate_syntax_primitive (&self, evaluation : &mut EvaluatorContext, primitive : SyntaxPrimitive, inputs : &[Expression]) -> (Outcome<Value>) {
-		return syntax_primitive_evaluate (primitive, inputs, evaluation);
-	}
-	
-	fn evaluate_syntax_primitive_0 (&self, evaluation : &mut EvaluatorContext, primitive : SyntaxPrimitive0) -> (Outcome<Value>) {
-		return syntax_primitive_0_evaluate (primitive, evaluation);
-	}
-	
-	fn evaluate_syntax_primitive_1 (&self, evaluation : &mut EvaluatorContext, primitive : SyntaxPrimitive1, input_1 : &Expression) -> (Outcome<Value>) {
-		return syntax_primitive_1_evaluate (primitive, input_1, evaluation);
-	}
-	
-	fn evaluate_syntax_primitive_2 (&self, evaluation : &mut EvaluatorContext, primitive : SyntaxPrimitive2, input_1 : &Expression, input_2 : &Expression) -> (Outcome<Value>) {
-		return syntax_primitive_2_evaluate (primitive, input_1, input_2, evaluation);
-	}
-	
-	fn evaluate_syntax_primitive_3 (&self, evaluation : &mut EvaluatorContext, primitive : SyntaxPrimitive3, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression) -> (Outcome<Value>) {
-		return syntax_primitive_3_evaluate (primitive, input_1, input_2, input_3, evaluation);
-	}
-	
-	fn evaluate_syntax_primitive_4 (&self, evaluation : &mut EvaluatorContext, primitive : SyntaxPrimitive4, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression, input_4 : &Expression) -> (Outcome<Value>) {
-		return syntax_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4, evaluation);
-	}
-	
-	fn evaluate_syntax_primitive_5 (&self, evaluation : &mut EvaluatorContext, primitive : SyntaxPrimitive5, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression, input_4 : &Expression, input_5 : &Expression) -> (Outcome<Value>) {
-		return syntax_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, evaluation);
-	}
-	
-	fn evaluate_syntax_primitive_n (&self, evaluation : &mut EvaluatorContext, primitive : SyntaxPrimitiveN, inputs : &[Expression]) -> (Outcome<Value>) {
-		return syntax_primitive_n_evaluate (primitive, inputs, evaluation);
-	}
 	
 	
 }
