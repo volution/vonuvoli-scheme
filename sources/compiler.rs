@@ -17,7 +17,6 @@ pub mod exports {
 	pub use super::compile;
 	pub use super::compile_script;
 	pub use super::Compiler;
-	pub use super::{CompilerContext, CompilerBindings, CompilerBinding};
 }
 
 
@@ -26,9 +25,6 @@ pub mod exports {
 pub fn compile (context : &Context, token : &Value) -> (Outcome<Expression>) {
 	return Compiler::new () .compile (context, token);
 }
-
-
-
 
 pub fn compile_script (context : &Context, tokens : &[Value]) -> (Outcome<ExpressionVec>) {
 	let compiler = Compiler::new ();
@@ -65,7 +61,7 @@ impl Compiler {
 	
 	
 	
-	pub fn compile_0 (&self, compilation : CompilerContext, token : Value) -> (Outcome<(CompilerContext, Expression)>) {
+	fn compile_0 (&self, compilation : CompilerContext, token : Value) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		match token.class () {
 			
@@ -127,7 +123,7 @@ impl Compiler {
 	
 	
 	
-	pub fn compile_vec_0 (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, ExpressionVec)>) {
+	fn compile_vec_0 (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, ExpressionVec)>) {
 		let mut expressions = ExpressionVec::with_capacity (tokens.len ());
 		let mut compilation = compilation;
 		for token in tokens.into_iter () {
@@ -141,7 +137,7 @@ impl Compiler {
 	
 	
 	
-	pub fn compile_symbol (&self, compilation : CompilerContext, identifier : Symbol) -> (Outcome<(CompilerContext, Expression)>) {
+	fn compile_symbol (&self, compilation : CompilerContext, identifier : Symbol) -> (Outcome<(CompilerContext, Expression)>) {
 		let mut compilation = compilation;
 		match try! (compilation.bindings.resolve (identifier)) {
 			CompilerBinding::Undefined =>
@@ -156,7 +152,7 @@ impl Compiler {
 	
 	
 	
-	pub fn compile_form (&self, compilation : CompilerContext, form : Pair) -> (Outcome<(CompilerContext, Expression)>) {
+	fn compile_form (&self, compilation : CompilerContext, form : Pair) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		match try! (self.compile_form_0 (compilation, form.clone ())) {
 			
@@ -169,7 +165,7 @@ impl Compiler {
 	}
 	
 	
-	pub fn compile_form_0 (&self, compilation : CompilerContext, token : Pair) -> (Outcome<(CompilerContext, Option<(SyntaxPrimitive, Value)>)>) {
+	fn compile_form_0 (&self, compilation : CompilerContext, token : Pair) -> (Outcome<(CompilerContext, Option<(SyntaxPrimitive, Value)>)>) {
 		
 		let mut compilation = compilation;
 		let callable = token.left () .clone ();
@@ -202,7 +198,7 @@ impl Compiler {
 	
 	
 	
-	pub fn compile_procedure_call (&self, compilation : CompilerContext, procedure : Value, arguments : Value) -> (Outcome<(CompilerContext, Expression)>) {
+	fn compile_procedure_call (&self, compilation : CompilerContext, procedure : Value, arguments : Value) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		let (compilation, procedure) = try! (self.compile_0 (compilation, procedure));
 		let (compilation, arguments) = try! (self.compile_vec_0 (compilation, try! (vec_list_clone (&arguments))));
@@ -215,7 +211,7 @@ impl Compiler {
 	
 	
 	
-	pub fn compile_syntax_call (&self, compilation : CompilerContext, syntax : SyntaxPrimitive, tokens : Value) -> (Outcome<(CompilerContext, Expression)>) {
+	fn compile_syntax_call (&self, compilation : CompilerContext, syntax : SyntaxPrimitive, tokens : Value) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		let tokens = try! (vec_list_clone (&tokens));
 		let tokens_count = tokens.len ();
@@ -368,7 +364,7 @@ impl Compiler {
 	
 	
 	
-	pub fn compile_syntax_and_or (&self, compilation : CompilerContext, syntax : SyntaxPrimitiveN, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+	fn compile_syntax_and_or (&self, compilation : CompilerContext, syntax : SyntaxPrimitiveN, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		let (compilation, statements) = try! (self.compile_vec_0 (compilation, tokens));
 		
@@ -380,7 +376,7 @@ impl Compiler {
 	
 	
 	
-	pub fn compile_syntax_begin (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+	fn compile_syntax_begin (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		let (compilation, statements) = try! (self.compile_vec_0 (compilation, tokens));
 		
@@ -392,7 +388,7 @@ impl Compiler {
 	
 	
 	
-	pub fn compile_syntax_if (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+	fn compile_syntax_if (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		let tokens_count = tokens.len ();
 		if (tokens_count != 2) && (tokens_count != 3) {
@@ -424,7 +420,7 @@ impl Compiler {
 	
 	
 	
-	pub fn compile_syntax_when_unless (&self, compilation : CompilerContext, syntax : SyntaxPrimitiveN, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+	fn compile_syntax_when_unless (&self, compilation : CompilerContext, syntax : SyntaxPrimitiveN, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		let tokens_count = tokens.len ();
 		if tokens_count < 2 {
@@ -455,7 +451,7 @@ impl Compiler {
 	
 	
 	
-	pub fn compile_syntax_cond (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+	fn compile_syntax_cond (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		let mut clauses = StdVec::new ();
 		let mut compilation = compilation;
@@ -499,7 +495,7 @@ impl Compiler {
 	
 	
 	
-	pub fn compile_syntax_case (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+	fn compile_syntax_case (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		if tokens.len () < 1 {
 			fail! (0xeb8569a2);
@@ -551,7 +547,7 @@ impl Compiler {
 	
 	
 	
-	pub fn compile_syntax_do (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+	fn compile_syntax_do (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		let (definitions, break_statements, loop_statements) = try! (vec_explode_2n (tokens));
 		
@@ -647,7 +643,7 @@ impl Compiler {
 	
 	
 	
-	pub fn compile_syntax_locals (&self, compilation : CompilerContext, statements : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+	fn compile_syntax_locals (&self, compilation : CompilerContext, statements : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		let compilation = try! (compilation.fork_locals (false));
 		let (compilation, statements) = try! (self.compile_vec_0 (compilation, statements));
@@ -662,7 +658,7 @@ impl Compiler {
 	
 	
 	
-	pub fn compile_syntax_let (&self, compilation : CompilerContext, syntax : SyntaxPrimitiveN, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+	fn compile_syntax_let (&self, compilation : CompilerContext, syntax : SyntaxPrimitiveN, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		if tokens.len () < 2 {
 			fail! (0x633b3ed8);
@@ -769,7 +765,7 @@ impl Compiler {
 	
 	
 	
-	pub fn compile_syntax_let_values (&self, compilation : CompilerContext, syntax : SyntaxPrimitiveN, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+	fn compile_syntax_let_values (&self, compilation : CompilerContext, syntax : SyntaxPrimitiveN, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		if tokens.len () < 2 {
 			fail! (0x10672a0d);
@@ -859,7 +855,7 @@ impl Compiler {
 	
 	
 	
-	pub fn compile_syntax_define (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+	fn compile_syntax_define (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		if tokens.len () < 2 {
 			fail! (0x4481879c);
@@ -915,7 +911,7 @@ impl Compiler {
 	
 	
 	
-	pub fn compile_syntax_define_values (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+	fn compile_syntax_define_values (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		if tokens.len () != 2 {
 			fail! (0x5d801f2e);
@@ -942,7 +938,7 @@ impl Compiler {
 	
 	
 	
-	pub fn compile_syntax_set (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+	fn compile_syntax_set (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		if tokens.len () != 2 {
 			fail! (0x2573a064);
@@ -964,7 +960,7 @@ impl Compiler {
 	
 	
 	
-	pub fn compile_syntax_set_values (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+	fn compile_syntax_set_values (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		if tokens.len () != 2 {
 			fail! (0xecf87cfa);
@@ -991,7 +987,7 @@ impl Compiler {
 	
 	
 	
-	pub fn compile_syntax_binding_set_1 (&self, binding : CompilerBinding, expression : Expression, initialize : bool) -> (Outcome<Expression>) {
+	fn compile_syntax_binding_set_1 (&self, binding : CompilerBinding, expression : Expression, initialize : bool) -> (Outcome<Expression>) {
 		match binding {
 			
 			CompilerBinding::Undefined =>
@@ -1019,7 +1015,7 @@ impl Compiler {
 	}
 	
 	
-	pub fn compile_syntax_binding_set_n (&self, bindings : StdVec<CompilerBinding>, expressions : StdVec<Expression>, parallel : bool, initialize : bool) -> (Outcome<Expression>) {
+	fn compile_syntax_binding_set_n (&self, bindings : StdVec<CompilerBinding>, expressions : StdVec<Expression>, parallel : bool, initialize : bool) -> (Outcome<Expression>) {
 		
 		if bindings.len () == 0 {
 			fail! (0xf99d15e7);
@@ -1077,7 +1073,7 @@ impl Compiler {
 	
 	
 	
-	pub fn compile_syntax_binding_set_values_1 (&self, bindings : StdVec<CompilerBinding>, expression : Expression, initialize : bool) -> (Outcome<Expression>) {
+	fn compile_syntax_binding_set_values_1 (&self, bindings : StdVec<CompilerBinding>, expression : Expression, initialize : bool) -> (Outcome<Expression>) {
 		
 		if bindings.len () == 0 {
 			fail! (0xe6c10f17);
@@ -1128,7 +1124,7 @@ impl Compiler {
 	}
 	
 	
-	pub fn compile_syntax_binding_set_values_n (&self, bindings : StdVec<StdVec<CompilerBinding>>, expressions : StdVec<Expression>, initialize : bool) -> (Outcome<StdVec<Expression>>) {
+	fn compile_syntax_binding_set_values_n (&self, bindings : StdVec<StdVec<CompilerBinding>>, expressions : StdVec<Expression>, initialize : bool) -> (Outcome<StdVec<Expression>>) {
 		
 		if bindings.len () == 0 {
 			fail! (0x28e6a67b);
@@ -1150,7 +1146,7 @@ impl Compiler {
 	
 	
 	
-	pub fn compile_syntax_lambda (&self, compilation : CompilerContext, identifier : Option<Symbol>, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+	fn compile_syntax_lambda (&self, compilation : CompilerContext, identifier : Option<Symbol>, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		if tokens.len () < 2 {
 			fail! (0x2dfd91d1);
@@ -1174,7 +1170,7 @@ impl Compiler {
 	}
 	
 	
-	pub fn compile_syntax_lambda_0 (&self, compilation : CompilerContext, identifier : Option<Symbol>, arguments_positional : StdVec<Symbol>, argument_rest : Option<Symbol>, statements : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+	fn compile_syntax_lambda_0 (&self, compilation : CompilerContext, identifier : Option<Symbol>, arguments_positional : StdVec<Symbol>, argument_rest : Option<Symbol>, statements : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		let arguments_count = arguments_positional.len () + if argument_rest.is_some () { 1 } else { 0 };
 		
@@ -1211,19 +1207,19 @@ impl Compiler {
 	
 	
 	
-	pub fn compile_syntax_quote (&self, compilation : CompilerContext, token : Value) -> (Outcome<(CompilerContext, Expression)>) {
+	fn compile_syntax_quote (&self, compilation : CompilerContext, token : Value) -> (Outcome<(CompilerContext, Expression)>) {
 		succeed! ((compilation, Expression::Value (token)));
 	}
 	
 	
 	
 	
-	pub fn compile_syntax_quasi_quote (&self, compilation : CompilerContext, token : Value) -> (Outcome<(CompilerContext, Expression)>) {
+	fn compile_syntax_quasi_quote (&self, compilation : CompilerContext, token : Value) -> (Outcome<(CompilerContext, Expression)>) {
 		return self.compile_syntax_quasi_quote_0 (compilation, token, true, false, 0, 0);
 	}
 	
 	
-	pub fn compile_syntax_quasi_quote_0 (&self, compilation : CompilerContext, token : Value, top : bool, spliceable : bool, quote_depth : usize, unquote_depth : usize) -> (Outcome<(CompilerContext, Expression)>) {
+	fn compile_syntax_quasi_quote_0 (&self, compilation : CompilerContext, token : Value, top : bool, spliceable : bool, quote_depth : usize, unquote_depth : usize) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		fn splice <ExpressionInto : StdInto<Expression>> (expression : ExpressionInto, spliceable : bool) -> (Expression) {
 			let expression = expression.into ();
@@ -1402,25 +1398,25 @@ impl Compiler {
 
 
 #[ derive (Clone, Debug) ]
-pub struct CompilerContext {
+struct CompilerContext {
 	bindings : CompilerBindings,
 }
 
 
 impl CompilerContext {
 	
-	pub fn new (bindings : CompilerBindings) -> (CompilerContext) {
+	fn new (bindings : CompilerBindings) -> (CompilerContext) {
 		return CompilerContext {
 				bindings : bindings,
 			};
 	}
 	
-	pub fn fork_locals (self, force : bool) -> (Outcome<CompilerContext>) {
+	fn fork_locals (self, force : bool) -> (Outcome<CompilerContext>) {
 		let bindings = try! (self.bindings.fork_locals (force));
 		succeed! (CompilerContext::new (bindings));
 	}
 	
-	pub fn unfork_locals (self) -> (Outcome<(CompilerContext, StdVec<RegistersBindingTemplate>)>) {
+	fn unfork_locals (self) -> (Outcome<(CompilerContext, StdVec<RegistersBindingTemplate>)>) {
 		let (bindings, registers) = try! (self.bindings.unfork_locals ());
 		succeed! ((CompilerContext::new (bindings), registers));
 	}
@@ -1430,7 +1426,7 @@ impl CompilerContext {
 
 
 #[ derive (Clone, Debug) ]
-pub enum CompilerBindings {
+enum CompilerBindings {
 	None,
 	Globals1 (Context),
 	Globals2 (StdBox<CompilerBindings>, Context),
@@ -1439,7 +1435,7 @@ pub enum CompilerBindings {
 
 
 #[ derive (Clone, Debug) ]
-pub enum CompilerBinding {
+enum CompilerBinding {
 	Undefined,
 	Binding (Binding),
 	Register (usize),
@@ -1449,7 +1445,7 @@ pub enum CompilerBinding {
 impl CompilerBindings {
 	
 	
-	pub fn fork_locals (self, force : bool) -> (Outcome<CompilerBindings>) {
+	fn fork_locals (self, force : bool) -> (Outcome<CompilerBindings>) {
 		if force {
 			succeed! (CompilerBindings::Locals (StdBox::new (self), StdMap::new (), StdVec::new (), 1));
 		} else {
@@ -1466,7 +1462,7 @@ impl CompilerBindings {
 		}
 	}
 	
-	pub fn unfork_locals (self) -> (Outcome<(CompilerBindings, StdVec<RegistersBindingTemplate>)>) {
+	fn unfork_locals (self) -> (Outcome<(CompilerBindings, StdVec<RegistersBindingTemplate>)>) {
 		match self {
 			CompilerBindings::None =>
 				fail! (0x98657e5a),
@@ -1480,7 +1476,7 @@ impl CompilerBindings {
 	}
 	
 	
-	pub fn resolve (&mut self, identifier : Symbol) -> (Outcome<CompilerBinding>) {
+	fn resolve (&mut self, identifier : Symbol) -> (Outcome<CompilerBinding>) {
 		match *self {
 			CompilerBindings::None =>
 				succeed! (CompilerBinding::Undefined),
@@ -1524,7 +1520,7 @@ impl CompilerBindings {
 		}
 	}
 	
-	pub fn define (&mut self, identifier : Symbol) -> (Outcome<CompilerBinding>) {
+	fn define (&mut self, identifier : Symbol) -> (Outcome<CompilerBinding>) {
 		match *self {
 			CompilerBindings::None =>
 				fail! (0xd943456d),
@@ -1554,7 +1550,7 @@ impl CompilerBindings {
 	}
 	
 	
-	pub fn resolve_value (&mut self, identifier : Symbol) -> (Outcome<Option<Value>>) {
+	fn resolve_value (&mut self, identifier : Symbol) -> (Outcome<Option<Value>>) {
 		match try! (self.resolve (identifier)) {
 			CompilerBinding::Undefined =>
 				succeed! (None),
