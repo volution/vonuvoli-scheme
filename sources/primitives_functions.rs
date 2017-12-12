@@ -491,6 +491,8 @@ pub fn functions_primitive_v_alternative_0 (primitive : FunctionsPrimitiveV) -> 
 }
 
 
+
+
 pub fn functions_primitive_v_alternative_1 (primitive : FunctionsPrimitiveV) -> (Option<FunctionsPrimitive1>) {
 	match primitive {
 		FunctionsPrimitiveV::Call =>
@@ -517,6 +519,8 @@ pub fn functions_primitive_v_alternative_1 (primitive : FunctionsPrimitiveV) -> 
 			Some (FunctionsPrimitive1::Values),
 	}
 }
+
+
 
 
 pub fn functions_primitive_v_alternative_2 (primitive : FunctionsPrimitiveV) -> (Option<FunctionsPrimitive2>) {
@@ -547,6 +551,8 @@ pub fn functions_primitive_v_alternative_2 (primitive : FunctionsPrimitiveV) -> 
 }
 
 
+
+
 pub fn functions_primitive_v_alternative_3 (primitive : FunctionsPrimitiveV) -> (Option<FunctionsPrimitive3>) {
 	match primitive {
 		FunctionsPrimitiveV::Call =>
@@ -573,6 +579,8 @@ pub fn functions_primitive_v_alternative_3 (primitive : FunctionsPrimitiveV) -> 
 			Some (FunctionsPrimitive3::Values),
 	}
 }
+
+
 
 
 pub fn functions_primitive_v_alternative_4 (primitive : FunctionsPrimitiveV) -> (Option<FunctionsPrimitive4>) {
@@ -603,6 +611,8 @@ pub fn functions_primitive_v_alternative_4 (primitive : FunctionsPrimitiveV) -> 
 }
 
 
+
+
 pub fn functions_primitive_v_alternative_5 (primitive : FunctionsPrimitiveV) -> (Option<FunctionsPrimitive5>) {
 	match primitive {
 		FunctionsPrimitiveV::Call =>
@@ -629,6 +639,8 @@ pub fn functions_primitive_v_alternative_5 (primitive : FunctionsPrimitiveV) -> 
 			None,
 	}
 }
+
+
 
 
 pub fn functions_primitive_v_alternative_n (primitive : FunctionsPrimitiveV) -> (Option<FunctionsPrimitiveN>) {

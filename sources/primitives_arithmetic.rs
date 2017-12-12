@@ -643,6 +643,8 @@ pub fn arithmetic_primitive_v_alternative_0 (primitive : ArithmeticPrimitiveV) -
 }
 
 
+
+
 pub fn arithmetic_primitive_v_alternative_1 (primitive : ArithmeticPrimitiveV) -> (Option<ArithmeticPrimitive1>) {
 	match primitive {
 		ArithmeticPrimitiveV::Addition =>
@@ -663,6 +665,8 @@ pub fn arithmetic_primitive_v_alternative_1 (primitive : ArithmeticPrimitiveV) -
 			Some (ArithmeticPrimitive1::Maximum),
 	}
 }
+
+
 
 
 pub fn arithmetic_primitive_v_alternative_2 (primitive : ArithmeticPrimitiveV) -> (Option<ArithmeticPrimitive2>) {
@@ -687,6 +691,8 @@ pub fn arithmetic_primitive_v_alternative_2 (primitive : ArithmeticPrimitiveV) -
 }
 
 
+
+
 pub fn arithmetic_primitive_v_alternative_3 (primitive : ArithmeticPrimitiveV) -> (Option<ArithmeticPrimitive3>) {
 	match primitive {
 		ArithmeticPrimitiveV::Addition =>
@@ -707,6 +713,8 @@ pub fn arithmetic_primitive_v_alternative_3 (primitive : ArithmeticPrimitiveV) -
 			None,
 	}
 }
+
+
 
 
 pub fn arithmetic_primitive_v_alternative_4 (primitive : ArithmeticPrimitiveV) -> (Option<ArithmeticPrimitive4>) {
@@ -731,6 +739,8 @@ pub fn arithmetic_primitive_v_alternative_4 (primitive : ArithmeticPrimitiveV) -
 }
 
 
+
+
 pub fn arithmetic_primitive_v_alternative_5 (primitive : ArithmeticPrimitiveV) -> (Option<ArithmeticPrimitive5>) {
 	match primitive {
 		ArithmeticPrimitiveV::Addition =>
@@ -751,6 +761,8 @@ pub fn arithmetic_primitive_v_alternative_5 (primitive : ArithmeticPrimitiveV) -
 			None,
 	}
 }
+
+
 
 
 pub fn arithmetic_primitive_v_alternative_n (primitive : ArithmeticPrimitiveV) -> (Option<ArithmeticPrimitiveN>) {

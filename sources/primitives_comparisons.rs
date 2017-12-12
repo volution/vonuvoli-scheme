@@ -1855,6 +1855,8 @@ pub fn comparison_primitive_v_alternative_0 (primitive : ComparisonPrimitiveV) -
 }
 
 
+
+
 pub fn comparison_primitive_v_alternative_1 (primitive : ComparisonPrimitiveV) -> (Option<ComparisonPrimitive1>) {
 	match primitive {
 		ComparisonPrimitiveV::EquivalentByIdentity =>
@@ -1999,6 +2001,8 @@ pub fn comparison_primitive_v_alternative_1 (primitive : ComparisonPrimitiveV) -
 			Some (ComparisonPrimitive1::ValuesGreater),
 	}
 }
+
+
 
 
 pub fn comparison_primitive_v_alternative_2 (primitive : ComparisonPrimitiveV) -> (Option<ComparisonPrimitive2>) {
@@ -2147,6 +2151,8 @@ pub fn comparison_primitive_v_alternative_2 (primitive : ComparisonPrimitiveV) -
 }
 
 
+
+
 pub fn comparison_primitive_v_alternative_3 (primitive : ComparisonPrimitiveV) -> (Option<ComparisonPrimitive3>) {
 	match primitive {
 		ComparisonPrimitiveV::EquivalentByIdentity =>
@@ -2291,6 +2297,8 @@ pub fn comparison_primitive_v_alternative_3 (primitive : ComparisonPrimitiveV) -
 			Some (ComparisonPrimitive3::ValuesGreater),
 	}
 }
+
+
 
 
 pub fn comparison_primitive_v_alternative_4 (primitive : ComparisonPrimitiveV) -> (Option<ComparisonPrimitive4>) {
@@ -2439,6 +2447,8 @@ pub fn comparison_primitive_v_alternative_4 (primitive : ComparisonPrimitiveV) -
 }
 
 
+
+
 pub fn comparison_primitive_v_alternative_5 (primitive : ComparisonPrimitiveV) -> (Option<ComparisonPrimitive5>) {
 	match primitive {
 		ComparisonPrimitiveV::EquivalentByIdentity =>
@@ -2583,6 +2593,8 @@ pub fn comparison_primitive_v_alternative_5 (primitive : ComparisonPrimitiveV) -
 			None,
 	}
 }
+
+
 
 
 pub fn comparison_primitive_v_alternative_n (primitive : ComparisonPrimitiveV) -> (Option<ComparisonPrimitiveN>) {

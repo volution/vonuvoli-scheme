@@ -402,9 +402,13 @@ pub fn port_primitive_v_alternative_0 (primitive : PortPrimitiveV) -> (Option<Po
 }
 
 
+
+
 pub fn port_primitive_v_alternative_1 (primitive : PortPrimitiveV) -> (Option<PortPrimitive1>) {
 	match primitive {}
 }
+
+
 
 
 pub fn port_primitive_v_alternative_2 (primitive : PortPrimitiveV) -> (Option<PortPrimitive2>) {
@@ -412,9 +416,13 @@ pub fn port_primitive_v_alternative_2 (primitive : PortPrimitiveV) -> (Option<Po
 }
 
 
+
+
 pub fn port_primitive_v_alternative_3 (primitive : PortPrimitiveV) -> (Option<PortPrimitive3>) {
 	match primitive {}
 }
+
+
 
 
 pub fn port_primitive_v_alternative_4 (primitive : PortPrimitiveV) -> (Option<PortPrimitive4>) {
@@ -422,9 +430,13 @@ pub fn port_primitive_v_alternative_4 (primitive : PortPrimitiveV) -> (Option<Po
 }
 
 
+
+
 pub fn port_primitive_v_alternative_5 (primitive : PortPrimitiveV) -> (Option<PortPrimitive5>) {
 	match primitive {}
 }
+
+
 
 
 pub fn port_primitive_v_alternative_n (primitive : PortPrimitiveV) -> (Option<PortPrimitiveN>) {

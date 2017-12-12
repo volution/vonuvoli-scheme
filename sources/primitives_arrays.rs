@@ -349,6 +349,8 @@ pub fn array_primitive_v_alternative_0 (primitive : ArrayPrimitiveV) -> (Option<
 }
 
 
+
+
 pub fn array_primitive_v_alternative_1 (primitive : ArrayPrimitiveV) -> (Option<ArrayPrimitive1>) {
 	match primitive {
 		ArrayPrimitiveV::ArrayMake =>
@@ -369,6 +371,8 @@ pub fn array_primitive_v_alternative_1 (primitive : ArrayPrimitiveV) -> (Option<
 			Some (ArrayPrimitive1::ListToArray),
 	}
 }
+
+
 
 
 pub fn array_primitive_v_alternative_2 (primitive : ArrayPrimitiveV) -> (Option<ArrayPrimitive2>) {
@@ -393,6 +397,8 @@ pub fn array_primitive_v_alternative_2 (primitive : ArrayPrimitiveV) -> (Option<
 }
 
 
+
+
 pub fn array_primitive_v_alternative_3 (primitive : ArrayPrimitiveV) -> (Option<ArrayPrimitive3>) {
 	match primitive {
 		ArrayPrimitiveV::ArrayMake =>
@@ -413,6 +419,8 @@ pub fn array_primitive_v_alternative_3 (primitive : ArrayPrimitiveV) -> (Option<
 			Some (ArrayPrimitive3::ListRangeToArray),
 	}
 }
+
+
 
 
 pub fn array_primitive_v_alternative_4 (primitive : ArrayPrimitiveV) -> (Option<ArrayPrimitive4>) {
@@ -437,6 +445,8 @@ pub fn array_primitive_v_alternative_4 (primitive : ArrayPrimitiveV) -> (Option<
 }
 
 
+
+
 pub fn array_primitive_v_alternative_5 (primitive : ArrayPrimitiveV) -> (Option<ArrayPrimitive5>) {
 	match primitive {
 		ArrayPrimitiveV::ArrayMake =>
@@ -457,6 +467,8 @@ pub fn array_primitive_v_alternative_5 (primitive : ArrayPrimitiveV) -> (Option<
 			None,
 	}
 }
+
+
 
 
 pub fn array_primitive_v_alternative_n (primitive : ArrayPrimitiveV) -> (Option<ArrayPrimitiveN>) {

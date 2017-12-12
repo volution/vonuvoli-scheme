@@ -191,6 +191,8 @@ pub fn runtime_primitive_v_alternative_0 (primitive : RuntimePrimitiveV) -> (Opt
 }
 
 
+
+
 pub fn runtime_primitive_v_alternative_1 (primitive : RuntimePrimitiveV) -> (Option<RuntimePrimitive1>) {
 	match primitive {
 		RuntimePrimitiveV::ProcessExit =>
@@ -199,6 +201,8 @@ pub fn runtime_primitive_v_alternative_1 (primitive : RuntimePrimitiveV) -> (Opt
 			Some (RuntimePrimitive1::ProcessExitEmergency),
 	}
 }
+
+
 
 
 pub fn runtime_primitive_v_alternative_2 (primitive : RuntimePrimitiveV) -> (Option<RuntimePrimitive2>) {
@@ -211,6 +215,8 @@ pub fn runtime_primitive_v_alternative_2 (primitive : RuntimePrimitiveV) -> (Opt
 }
 
 
+
+
 pub fn runtime_primitive_v_alternative_3 (primitive : RuntimePrimitiveV) -> (Option<RuntimePrimitive3>) {
 	match primitive {
 		RuntimePrimitiveV::ProcessExit =>
@@ -221,6 +227,8 @@ pub fn runtime_primitive_v_alternative_3 (primitive : RuntimePrimitiveV) -> (Opt
 }
 
 
+
+
 pub fn runtime_primitive_v_alternative_4 (primitive : RuntimePrimitiveV) -> (Option<RuntimePrimitive4>) {
 	match primitive {
 		RuntimePrimitiveV::ProcessExit =>
@@ -229,6 +237,8 @@ pub fn runtime_primitive_v_alternative_4 (primitive : RuntimePrimitiveV) -> (Opt
 			None,
 	}
 }
+
+
 
 
 pub fn runtime_primitive_v_alternative_5 (primitive : RuntimePrimitiveV) -> (Option<RuntimePrimitive5>) {

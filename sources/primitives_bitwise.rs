@@ -336,6 +336,8 @@ pub fn bitwise_primitive_v_alternative_0 (primitive : BitwisePrimitiveV) -> (Opt
 }
 
 
+
+
 pub fn bitwise_primitive_v_alternative_1 (primitive : BitwisePrimitiveV) -> (Option<BitwisePrimitive1>) {
 	match primitive {
 		BitwisePrimitiveV::And =>
@@ -352,6 +354,8 @@ pub fn bitwise_primitive_v_alternative_1 (primitive : BitwisePrimitiveV) -> (Opt
 			Some (BitwisePrimitive1::Nxor),
 	}
 }
+
+
 
 
 pub fn bitwise_primitive_v_alternative_2 (primitive : BitwisePrimitiveV) -> (Option<BitwisePrimitive2>) {
@@ -372,6 +376,8 @@ pub fn bitwise_primitive_v_alternative_2 (primitive : BitwisePrimitiveV) -> (Opt
 }
 
 
+
+
 pub fn bitwise_primitive_v_alternative_3 (primitive : BitwisePrimitiveV) -> (Option<BitwisePrimitive3>) {
 	match primitive {
 		BitwisePrimitiveV::And =>
@@ -388,6 +394,8 @@ pub fn bitwise_primitive_v_alternative_3 (primitive : BitwisePrimitiveV) -> (Opt
 			None,
 	}
 }
+
+
 
 
 pub fn bitwise_primitive_v_alternative_4 (primitive : BitwisePrimitiveV) -> (Option<BitwisePrimitive4>) {
@@ -408,6 +416,8 @@ pub fn bitwise_primitive_v_alternative_4 (primitive : BitwisePrimitiveV) -> (Opt
 }
 
 
+
+
 pub fn bitwise_primitive_v_alternative_5 (primitive : BitwisePrimitiveV) -> (Option<BitwisePrimitive5>) {
 	match primitive {
 		BitwisePrimitiveV::And =>
@@ -424,6 +434,8 @@ pub fn bitwise_primitive_v_alternative_5 (primitive : BitwisePrimitiveV) -> (Opt
 			None,
 	}
 }
+
+
 
 
 pub fn bitwise_primitive_v_alternative_n (primitive : BitwisePrimitiveV) -> (Option<BitwisePrimitiveN>) {

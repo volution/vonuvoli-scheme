@@ -316,6 +316,8 @@ pub fn boolean_primitive_v_alternative_0 (primitive : BooleanPrimitiveV) -> (Opt
 }
 
 
+
+
 pub fn boolean_primitive_v_alternative_1 (primitive : BooleanPrimitiveV) -> (Option<BooleanPrimitive1>) {
 	match primitive {
 		BooleanPrimitiveV::And =>
@@ -332,6 +334,8 @@ pub fn boolean_primitive_v_alternative_1 (primitive : BooleanPrimitiveV) -> (Opt
 			Some (BooleanPrimitive1::Nxor),
 	}
 }
+
+
 
 
 pub fn boolean_primitive_v_alternative_2 (primitive : BooleanPrimitiveV) -> (Option<BooleanPrimitive2>) {
@@ -352,6 +356,8 @@ pub fn boolean_primitive_v_alternative_2 (primitive : BooleanPrimitiveV) -> (Opt
 }
 
 
+
+
 pub fn boolean_primitive_v_alternative_3 (primitive : BooleanPrimitiveV) -> (Option<BooleanPrimitive3>) {
 	match primitive {
 		BooleanPrimitiveV::And =>
@@ -368,6 +374,8 @@ pub fn boolean_primitive_v_alternative_3 (primitive : BooleanPrimitiveV) -> (Opt
 			None,
 	}
 }
+
+
 
 
 pub fn boolean_primitive_v_alternative_4 (primitive : BooleanPrimitiveV) -> (Option<BooleanPrimitive4>) {
@@ -388,6 +396,8 @@ pub fn boolean_primitive_v_alternative_4 (primitive : BooleanPrimitiveV) -> (Opt
 }
 
 
+
+
 pub fn boolean_primitive_v_alternative_5 (primitive : BooleanPrimitiveV) -> (Option<BooleanPrimitive5>) {
 	match primitive {
 		BooleanPrimitiveV::And =>
@@ -404,6 +414,8 @@ pub fn boolean_primitive_v_alternative_5 (primitive : BooleanPrimitiveV) -> (Opt
 			None,
 	}
 }
+
+
 
 
 pub fn boolean_primitive_v_alternative_n (primitive : BooleanPrimitiveV) -> (Option<BooleanPrimitiveN>) {

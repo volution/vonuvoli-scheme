@@ -410,6 +410,8 @@ pub fn list_primitive_v_alternative_0 (primitive : ListPrimitiveV) -> (Option<Li
 }
 
 
+
+
 pub fn list_primitive_v_alternative_1 (primitive : ListPrimitiveV) -> (Option<ListPrimitive1>) {
 	match primitive {
 		ListPrimitiveV::ListMake =>
@@ -430,6 +432,8 @@ pub fn list_primitive_v_alternative_1 (primitive : ListPrimitiveV) -> (Option<Li
 			None,
 	}
 }
+
+
 
 
 pub fn list_primitive_v_alternative_2 (primitive : ListPrimitiveV) -> (Option<ListPrimitive2>) {
@@ -454,6 +458,8 @@ pub fn list_primitive_v_alternative_2 (primitive : ListPrimitiveV) -> (Option<Li
 }
 
 
+
+
 pub fn list_primitive_v_alternative_3 (primitive : ListPrimitiveV) -> (Option<ListPrimitive3>) {
 	match primitive {
 		ListPrimitiveV::ListMake =>
@@ -474,6 +480,8 @@ pub fn list_primitive_v_alternative_3 (primitive : ListPrimitiveV) -> (Option<Li
 			Some (ListPrimitive3::ListAssocByComparator),
 	}
 }
+
+
 
 
 pub fn list_primitive_v_alternative_4 (primitive : ListPrimitiveV) -> (Option<ListPrimitive4>) {
@@ -498,6 +506,8 @@ pub fn list_primitive_v_alternative_4 (primitive : ListPrimitiveV) -> (Option<Li
 }
 
 
+
+
 pub fn list_primitive_v_alternative_5 (primitive : ListPrimitiveV) -> (Option<ListPrimitive5>) {
 	match primitive {
 		ListPrimitiveV::ListMake =>
@@ -518,6 +528,8 @@ pub fn list_primitive_v_alternative_5 (primitive : ListPrimitiveV) -> (Option<Li
 			None,
 	}
 }
+
+
 
 
 pub fn list_primitive_v_alternative_n (primitive : ListPrimitiveV) -> (Option<ListPrimitiveN>) {

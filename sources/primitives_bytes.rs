@@ -379,6 +379,8 @@ pub fn bytes_primitive_v_alternative_0 (primitive : BytesPrimitiveV) -> (Option<
 }
 
 
+
+
 pub fn bytes_primitive_v_alternative_1 (primitive : BytesPrimitiveV) -> (Option<BytesPrimitive1>) {
 	match primitive {
 		BytesPrimitiveV::BytesMake =>
@@ -403,6 +405,8 @@ pub fn bytes_primitive_v_alternative_1 (primitive : BytesPrimitiveV) -> (Option<
 			Some (BytesPrimitive1::ArrayToBytes),
 	}
 }
+
+
 
 
 pub fn bytes_primitive_v_alternative_2 (primitive : BytesPrimitiveV) -> (Option<BytesPrimitive2>) {
@@ -431,6 +435,8 @@ pub fn bytes_primitive_v_alternative_2 (primitive : BytesPrimitiveV) -> (Option<
 }
 
 
+
+
 pub fn bytes_primitive_v_alternative_3 (primitive : BytesPrimitiveV) -> (Option<BytesPrimitive3>) {
 	match primitive {
 		BytesPrimitiveV::BytesMake =>
@@ -455,6 +461,8 @@ pub fn bytes_primitive_v_alternative_3 (primitive : BytesPrimitiveV) -> (Option<
 			Some (BytesPrimitive3::ArrayRangeToBytes),
 	}
 }
+
+
 
 
 pub fn bytes_primitive_v_alternative_4 (primitive : BytesPrimitiveV) -> (Option<BytesPrimitive4>) {
@@ -483,6 +491,8 @@ pub fn bytes_primitive_v_alternative_4 (primitive : BytesPrimitiveV) -> (Option<
 }
 
 
+
+
 pub fn bytes_primitive_v_alternative_5 (primitive : BytesPrimitiveV) -> (Option<BytesPrimitive5>) {
 	match primitive {
 		BytesPrimitiveV::BytesMake =>
@@ -507,6 +517,8 @@ pub fn bytes_primitive_v_alternative_5 (primitive : BytesPrimitiveV) -> (Option<
 			None,
 	}
 }
+
+
 
 
 pub fn bytes_primitive_v_alternative_n (primitive : BytesPrimitiveV) -> (Option<BytesPrimitiveN>) {
