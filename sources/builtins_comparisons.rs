@@ -291,7 +291,7 @@ macro_rules! def_fn_compare {
 			}
 			return $compare_2a (input_3, input_4, comparison);
 		}
-		pub fn $compare_n (inputs : &[Value], comparison : Comparison) -> (Outcome<bool>) {
+		pub fn $compare_n (inputs : &[&Value], comparison : Comparison) -> (Outcome<bool>) {
 			let inputs_count = inputs.len ();
 			match inputs_count {
 				0 =>

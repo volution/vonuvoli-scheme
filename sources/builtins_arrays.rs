@@ -19,7 +19,7 @@ pub mod exports {
 	
 	pub use super::{array_empty};
 	pub use super::{array_collect};
-	pub use super::{array_collect_from_generator};
+	pub use super::{array_collect_from_generator, array_collect_from_generator_ref};
 	pub use super::{array_build_1, array_build_2, array_build_3, array_build_4, array_build_n};
 	pub use super::{array_append_2, array_append_3, array_append_4, array_append_n};
 	pub use super::{array_make, array_clone, array_reverse};
@@ -72,6 +72,14 @@ pub fn array_collect_from_generator <Source> (values : Source) -> (Outcome<Value
 	succeed! (array_new (values) .into ());
 }
 
+pub fn array_collect_from_generator_ref <Source, ValueRef> (values : Source) -> (Outcome<Value>)
+		where Source : iter::Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
+{
+	let values = try! (values.collect::<Outcome<StdVec<_>>> ());
+	let values = vec_clone_vec_ref (&values);
+	succeed! (array_new (values) .into ());
+}
+
 
 
 
@@ -109,7 +117,7 @@ pub fn array_build_4 (value_1 : &Value, value_2 : &Value, value_3 : &Value, valu
 	return array_new (buffer) .into ();
 }
 
-pub fn array_build_n (values : &[Value]) -> (Value) {
+pub fn array_build_n (values : &[&Value]) -> (Value) {
 	match values.len () {
 		0 =>
 			return array_empty (),
@@ -126,7 +134,7 @@ pub fn array_build_n (values : &[Value]) -> (Value) {
 	}
 	let mut buffer = StdVec::with_capacity (values.len ());
 	for value in values {
-		buffer.push (value.clone ());
+		buffer.push ((*value).clone ());
 	}
 	return array_new (buffer) .into ();
 }
@@ -149,18 +157,18 @@ pub fn array_append_4 (array_1 : &Value, array_2 : &Value, array_3 : &Value, arr
 	succeed! (array_new (buffer) .into ());
 }
 
-pub fn array_append_n (arrays : &[Value]) -> (Outcome<Value>) {
+pub fn array_append_n (arrays : &[&Value]) -> (Outcome<Value>) {
 	match arrays.len () {
 		0 =>
 			succeed! (array_empty ()),
 		1 =>
 			succeed! (arrays[0].clone ()),
 		2 =>
-			return array_append_2 (&arrays[0], &arrays[1]),
+			return array_append_2 (arrays[0], arrays[1]),
 		3 =>
-			return array_append_3 (&arrays[0], &arrays[1], &arrays[2]),
+			return array_append_3 (arrays[0], arrays[1], arrays[2]),
 		4 =>
-			return array_append_4 (&arrays[0], &arrays[1], &arrays[2], &arrays[3]),
+			return array_append_4 (arrays[0], arrays[1], arrays[2], arrays[3]),
 		_ =>
 			(),
 	}
@@ -240,18 +248,18 @@ pub fn array_clone_range (array : &Value, range_start : Option<&Value>, range_en
 
 pub fn array_range_to_list (array : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let iterator = try! (array_range_iterator (array, range_start, range_end));
-	return list_collect_from_generator (iterator);
+	return list_collect_from_generator_ref (iterator);
 }
 
 pub fn list_range_to_array (list : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let iterator = try! (list_range_iterator (list, range_start, range_end));
-	return array_collect_from_generator (iterator);
+	return array_collect_from_generator_ref (iterator);
 }
 
 
 
 
-pub fn array_range_iterator <'a> (array : &'a Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<RangeIteratorForOutcome<Value, ArrayIterator<'a>>>) {
+pub fn array_range_iterator <'a> (array : &'a Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<RangeIteratorForOutcome<&'a Value, ArrayIterator<'a>>>) {
 	let array = try_as_array_ref! (array);
 	let (range_start, range_end) = try! (range_coerce (range_start, range_end, array.values_length ()));
 	let iterator = try! (ArrayIterator::new_a (array));
@@ -303,18 +311,18 @@ pub fn vec_array_append_4 (array_1 : &Value, array_2 : &Value, array_3 : &Value,
 	succeed! (buffer);
 }
 
-pub fn vec_array_append_n (arrays : &[Value]) -> (Outcome<ValueVec>) {
+pub fn vec_array_append_n (arrays : &[&Value]) -> (Outcome<ValueVec>) {
 	match arrays.len () {
 		0 =>
 			succeed! (StdVec::new ()),
 		1 =>
-			return vec_array_clone (&arrays[0]),
+			return vec_array_clone (arrays[0]),
 		2 =>
-			return vec_array_append_2 (&arrays[0], &arrays[1]),
+			return vec_array_append_2 (arrays[0], arrays[1]),
 		3 =>
-			return vec_array_append_3 (&arrays[0], &arrays[1], &arrays[2]),
+			return vec_array_append_3 (arrays[0], arrays[1], arrays[2]),
 		4 =>
-			return vec_array_append_4 (&arrays[0], &arrays[1], &arrays[2], &arrays[3]),
+			return vec_array_append_4 (arrays[0], arrays[1], arrays[2], arrays[3]),
 		_ =>
 			(),
 	}
@@ -362,11 +370,11 @@ impl <'a> ArrayIterator <'a> {
 
 impl <'a> Iterator for ArrayIterator <'a> {
 	
-	type Item = Outcome<Value>;
+	type Item = Outcome<&'a Value>;
 	
-	fn next (&mut self) -> (Option<Outcome<Value>>) {
+	fn next (&mut self) -> (Option<Outcome<&'a Value>>) {
 		if let Some (value) = self.1.next () {
-			return Some (succeeded! (value.clone ()));
+			return Some (succeeded! (value));
 		} else {
 			return None;
 		}
@@ -381,7 +389,7 @@ pub struct ArrayIterators <'a> ( StdVec<ArrayIterator<'a>> );
 
 impl <'a> ArrayIterators <'a> {
 	
-	pub fn new (arrays : &'a [Value]) -> (Outcome<ArrayIterators<'a>>) {
+	pub fn new (arrays : &'a [&'a Value]) -> (Outcome<ArrayIterators<'a>>) {
 		let iterators = try! (arrays.iter () .map (|array| ArrayIterator::new (array)) .collect ());
 		succeed! (ArrayIterators (iterators));
 	}
@@ -390,9 +398,9 @@ impl <'a> ArrayIterators <'a> {
 
 impl <'a> Iterator for ArrayIterators <'a> {
 	
-	type Item = Outcome<StdVec<Value>>;
+	type Item = Outcome<StdVec<&'a Value>>;
 	
-	fn next (&mut self) -> (Option<Outcome<StdVec<Value>>>) {
+	fn next (&mut self) -> (Option<Outcome<StdVec<&'a Value>>>) {
 		let mut outcomes = StdVec::with_capacity (self.0.len ());
 		for mut iterator in self.0.iter_mut () {
 			match iterator.next () {

@@ -223,7 +223,7 @@ pub fn port_output_flush (port : &Value) -> (Outcome<()>) {
 
 pub fn port_call_and_close (port : &Value, callable : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	try_as_port_ref! (port);
-	let outcome = evaluator.evaluator.evaluate_procedure_call_1_with_values (evaluator, callable, port);
+	let outcome = evaluator.evaluate_procedure_call_1 (callable, port);
 	let port = try_as_port_ref! (port);
 	try! (port.close ());
 	return outcome;

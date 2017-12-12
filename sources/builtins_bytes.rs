@@ -17,8 +17,8 @@ pub mod exports {
 	pub use super::{bytes_at, bytes_at_ref, bytes_at_set};
 	
 	pub use super::{bytes_empty};
-	pub use super::{bytes_collect_bytes, bytes_collect_values};
-	pub use super::{bytes_collect_bytes_from_generator, bytes_collect_values_from_generator};
+	pub use super::{bytes_collect_bytes, bytes_collect_values, bytes_collect_values_ref};
+	pub use super::{bytes_collect_bytes_from_generator, bytes_collect_values_from_generator, bytes_collect_values_from_generator_ref};
 	pub use super::{bytes_build_1, bytes_build_2, bytes_build_3, bytes_build_4, bytes_build_n};
 	pub use super::{bytes_append_2, bytes_append_3, bytes_append_4, bytes_append_n};
 	pub use super::{bytes_make, bytes_clone, bytes_reverse};
@@ -76,12 +76,24 @@ pub fn bytes_collect_values <Source> (bytes : Source) -> (Outcome<Value>)
 	succeed! (bytes_new (buffer) .into ());
 }
 
+pub fn bytes_collect_values_ref <Source, ValueRef> (bytes : Source) -> (Outcome<Value>)
+		where Source : iter::IntoIterator<Item = ValueRef>, Source::IntoIter : iter::DoubleEndedIterator, Source::IntoIter : iter::ExactSizeIterator, ValueRef : StdAsRef<Value>
+{
+	let bytes = bytes.into_iter ();
+	let mut buffer = StdVec::with_capacity (bytes.len ());
+	for byte in bytes {
+		buffer.push (try! (try_as_number_integer_ref! (byte.as_ref ()) .try_to_u8 ()));
+	}
+	succeed! (bytes_new (buffer) .into ());
+}
+
 
 
 
 pub fn bytes_collect_bytes_from_generator <Source> (bytes : Source) -> (Outcome<Value>)
 		where Source : iter::Iterator<Item = Outcome<u8>>
 {
+	// FIXME:  Eliminate vector allocation!
 	let bytes = try! (bytes.collect::<Outcome<StdVec<_>>> ());
 	succeed! (bytes_collect_bytes (bytes));
 }
@@ -89,8 +101,17 @@ pub fn bytes_collect_bytes_from_generator <Source> (bytes : Source) -> (Outcome<
 pub fn bytes_collect_values_from_generator <Source> (bytes : Source) -> (Outcome<Value>)
 		where Source : iter::Iterator<Item = Outcome<Value>>
 {
+	// FIXME:  Eliminate vector allocation!
 	let bytes = try! (bytes.collect::<Outcome<StdVec<_>>> ());
 	return bytes_collect_values (bytes);
+}
+
+pub fn bytes_collect_values_from_generator_ref <Source, ValueRef> (bytes : Source) -> (Outcome<Value>)
+		where Source : iter::Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
+{
+	// FIXME:  Eliminate vector allocation!
+	let bytes = try! (bytes.collect::<Outcome<StdVec<_>>> ());
+	return bytes_collect_values_ref (bytes);
 }
 
 
@@ -130,24 +151,24 @@ pub fn bytes_build_4 (byte_1 : &Value, byte_2 : &Value, byte_3 : &Value, byte_4 
 	succeed! (bytes_new (buffer) .into ());
 }
 
-pub fn bytes_build_n (bytes : &[Value]) -> (Outcome<Value>) {
+pub fn bytes_build_n (bytes : &[&Value]) -> (Outcome<Value>) {
 	match bytes.len () {
 		0 =>
 			succeed! (bytes_empty ()),
 		1 =>
-			return bytes_build_1 (&bytes[0]),
+			return bytes_build_1 (bytes[0]),
 		2 =>
-			return bytes_build_2 (&bytes[0], &bytes[1]),
+			return bytes_build_2 (bytes[0], bytes[1]),
 		3 =>
-			return bytes_build_3 (&bytes[0], &bytes[1], &bytes[2]),
+			return bytes_build_3 (bytes[0], bytes[1], bytes[2]),
 		4 =>
-			return bytes_build_4 (&bytes[0], &bytes[1], &bytes[2], &bytes[3]),
+			return bytes_build_4 (bytes[0], bytes[1], bytes[2], bytes[3]),
 		_ =>
 			(),
 	}
 	let mut buffer = StdVec::with_capacity (bytes.len ());
 	for byte in bytes {
-		buffer.push (try! (try_as_number_integer_ref! (byte) .try_to_u8 ()));
+		buffer.push (try! (try_as_number_integer_ref! (*byte) .try_to_u8 ()));
 	}
 	succeed! (bytes_new (buffer) .into ());
 }
@@ -170,18 +191,18 @@ pub fn bytes_append_4 (bytes_1 : &Value, bytes_2 : &Value, bytes_3 : &Value, byt
 	succeed! (bytes_new (buffer) .into ());
 }
 
-pub fn bytes_append_n (bytes : &[Value]) -> (Outcome<Value>) {
+pub fn bytes_append_n (bytes : &[&Value]) -> (Outcome<Value>) {
 	match bytes.len () {
 		0 =>
 			succeed! (bytes_empty ()),
 		1 =>
 			succeed! (bytes[0].clone ()),
 		2 =>
-			return bytes_append_2 (&bytes[0], &bytes[1]),
+			return bytes_append_2 (bytes[0], bytes[1]),
 		3 =>
-			return bytes_append_3 (&bytes[0], &bytes[1], &bytes[2]),
+			return bytes_append_3 (bytes[0], bytes[1], bytes[2]),
 		4 =>
-			return bytes_append_4 (&bytes[0], &bytes[1], &bytes[2], &bytes[3]),
+			return bytes_append_4 (bytes[0], bytes[1], bytes[2], bytes[3]),
 		_ =>
 			(),
 	}
@@ -266,7 +287,7 @@ pub fn bytes_range_to_list (bytes : &Value, range_start : Option<&Value>, range_
 
 pub fn list_range_to_bytes (list : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let iterator = try! (list_range_iterator (list, range_start, range_end));
-	return bytes_collect_values_from_generator (iterator);
+	return bytes_collect_values_from_generator_ref (iterator);
 }
 
 
@@ -277,7 +298,7 @@ pub fn bytes_range_to_array (bytes : &Value, range_start : Option<&Value>, range
 
 pub fn array_range_to_bytes (array : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let iterator = try! (array_range_iterator (array, range_start, range_end));
-	return bytes_collect_values_from_generator (iterator);
+	return bytes_collect_values_from_generator_ref (iterator);
 }
 
 
@@ -335,18 +356,18 @@ pub fn vec_bytes_append_4 (bytes_1 : &Value, bytes_2 : &Value, bytes_3 : &Value,
 	succeed! (buffer);
 }
 
-pub fn vec_bytes_append_n (bytes : &[Value]) -> (Outcome<StdVec<u8>>) {
+pub fn vec_bytes_append_n (bytes : &[&Value]) -> (Outcome<StdVec<u8>>) {
 	match bytes.len () {
 		0 =>
 			succeed! (StdVec::new ()),
 		1 =>
-			return vec_bytes_clone (&bytes[0]),
+			return vec_bytes_clone (bytes[0]),
 		2 =>
-			return vec_bytes_append_2 (&bytes[0], &bytes[1]),
+			return vec_bytes_append_2 (bytes[0], bytes[1]),
 		3 =>
-			return vec_bytes_append_3 (&bytes[0], &bytes[1], &bytes[2]),
+			return vec_bytes_append_3 (bytes[0], bytes[1], bytes[2]),
 		4 =>
-			return vec_bytes_append_4 (&bytes[0], &bytes[1], &bytes[2], &bytes[3]),
+			return vec_bytes_append_4 (bytes[0], bytes[1], bytes[2], bytes[3]),
 		_ =>
 			(),
 	}
@@ -413,7 +434,7 @@ pub struct BytesIterators <'a> ( StdVec<BytesIterator<'a>> );
 
 impl <'a> BytesIterators <'a> {
 	
-	pub fn new (bytes : &'a [Value]) -> (Outcome<BytesIterators<'a>>) {
+	pub fn new (bytes : &'a [&'a Value]) -> (Outcome<BytesIterators<'a>>) {
 		let iterators = try! (bytes.iter () .map (|bytes| BytesIterator::new (bytes)) .collect ());
 		succeed! (BytesIterators (iterators));
 	}

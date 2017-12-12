@@ -17,8 +17,8 @@ pub mod exports {
 	pub use super::{string_at, string_at_set};
 	
 	pub use super::{string_empty};
-	pub use super::{string_collect_chars, string_collect_values};
-	pub use super::{string_collect_chars_from_generator, string_collect_values_from_generator};
+	pub use super::{string_collect_chars, string_collect_values, string_collect_values_ref};
+	pub use super::{string_collect_chars_from_generator, string_collect_values_from_generator, string_collect_values_from_generator_ref};
 	pub use super::{string_build_1, string_build_2, string_build_3, string_build_4, string_build_n};
 	pub use super::{string_append_2, string_append_3, string_append_4, string_append_n};
 	pub use super::{string_make, string_clone, string_reverse};
@@ -100,12 +100,24 @@ pub fn string_collect_values <Source> (chars : Source) -> (Outcome<Value>)
 	succeed! (string_collect_chars (buffer) .into ());
 }
 
+pub fn string_collect_values_ref <Source, ValueRef> (chars : Source) -> (Outcome<Value>)
+		where Source : iter::IntoIterator<Item = ValueRef>, Source::IntoIter : iter::DoubleEndedIterator, Source::IntoIter : iter::ExactSizeIterator, ValueRef : StdAsRef<Value>
+{
+	let chars = chars.into_iter ();
+	let mut buffer = StdVec::with_capacity (chars.len ());
+	for char in chars {
+		buffer.push (try_as_character_ref! (char.as_ref ()) .value ());
+	}
+	succeed! (string_collect_chars (buffer) .into ());
+}
+
 
 
 
 pub fn string_collect_chars_from_generator <Source> (chars : Source) -> (Outcome<Value>)
 		where Source : iter::Iterator<Item = Outcome<char>>
 {
+	// FIXME:  Eliminate vector allocation!
 	let chars = try! (chars.collect::<Outcome<StdVec<_>>> ());
 	succeed! (string_collect_chars (chars));
 }
@@ -113,8 +125,17 @@ pub fn string_collect_chars_from_generator <Source> (chars : Source) -> (Outcome
 pub fn string_collect_values_from_generator <Source> (chars : Source) -> (Outcome<Value>)
 		where Source : iter::Iterator<Item = Outcome<Value>>
 {
+	// FIXME:  Eliminate vector allocation!
 	let chars = try! (chars.collect::<Outcome<StdVec<_>>> ());
 	return string_collect_values (chars);
+}
+
+pub fn string_collect_values_from_generator_ref <Source, ValueRef> (chars : Source) -> (Outcome<Value>)
+		where Source : iter::Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
+{
+	// FIXME:  Eliminate vector allocation!
+	let chars = try! (chars.collect::<Outcome<StdVec<_>>> ());
+	return string_collect_values_ref (chars);
 }
 
 
@@ -154,24 +175,24 @@ pub fn string_build_4 (char_1 : &Value, char_2 : &Value, char_3 : &Value, char_4
 	succeed! (string_new (buffer) .into ());
 }
 
-pub fn string_build_n (chars : &[Value]) -> (Outcome<Value>) {
+pub fn string_build_n (chars : &[&Value]) -> (Outcome<Value>) {
 	match chars.len () {
 		0 =>
 			succeed! (string_empty ()),
 		1 =>
-			return string_build_1 (&chars[0]),
+			return string_build_1 (chars[0]),
 		2 =>
-			return string_build_2 (&chars[0], &chars[1]),
+			return string_build_2 (chars[0], chars[1]),
 		3 =>
-			return string_build_3 (&chars[0], &chars[1], &chars[2]),
+			return string_build_3 (chars[0], chars[1], chars[2]),
 		4 =>
-			return string_build_4 (&chars[0], &chars[1], &chars[2], &chars[3]),
+			return string_build_4 (chars[0], chars[1], chars[2], chars[3]),
 		_ =>
 			(),
 	}
 	let mut buffer = StdString::with_capacity (chars.len ());
 	for char in chars {
-		buffer.push (try_as_character_ref! (char) .value ());
+		buffer.push (try_as_character_ref! (*char) .value ());
 	}
 	succeed! (string_new (buffer) .into ());
 }
@@ -194,18 +215,18 @@ pub fn string_append_4 (string_1 : &Value, string_2 : &Value, string_3 : &Value,
 	succeed! (string_collect_chars (buffer) .into ());
 }
 
-pub fn string_append_n (strings : &[Value]) -> (Outcome<Value>) {
+pub fn string_append_n (strings : &[&Value]) -> (Outcome<Value>) {
 	match strings.len () {
 		0 =>
 			succeed! (string_empty ()),
 		1 =>
 			succeed! (strings[0].clone ()),
 		2 =>
-			return string_append_2 (&strings[0], &strings[1]),
+			return string_append_2 (strings[0], strings[1]),
 		3 =>
-			return string_append_3 (&strings[0], &strings[1], &strings[2]),
+			return string_append_3 (strings[0], strings[1], strings[2]),
 		4 =>
-			return string_append_4 (&strings[0], &strings[1], &strings[2], &strings[3]),
+			return string_append_4 (strings[0], strings[1], strings[2], strings[3]),
 		_ =>
 			(),
 	}
@@ -292,7 +313,7 @@ pub fn string_range_to_list (string : &Value, range_start : Option<&Value>, rang
 
 pub fn list_range_to_string (list : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let characters = try! (list_range_iterator (list, range_start, range_end));
-	return string_collect_values_from_generator (characters);
+	return string_collect_values_from_generator_ref (characters);
 }
 
 
@@ -303,7 +324,7 @@ pub fn string_range_to_array (string : &Value, range_start : Option<&Value>, ran
 
 pub fn array_range_to_string (array : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let characters = try! (array_range_iterator (array, range_start, range_end));
-	return string_collect_values_from_generator (characters);
+	return string_collect_values_from_generator_ref (characters);
 }
 
 
@@ -383,18 +404,18 @@ pub fn vec_string_append_4 (string_1 : &Value, string_2 : &Value, string_3 : &Va
 	succeed! (buffer);
 }
 
-pub fn vec_string_append_n (strings : &[Value]) -> (Outcome<StdVec<char>>) {
+pub fn vec_string_append_n (strings : &[&Value]) -> (Outcome<StdVec<char>>) {
 	match strings.len () {
 		0 =>
 			succeed! (StdVec::new ()),
 		1 =>
-			return vec_string_clone (&strings[0]),
+			return vec_string_clone (strings[0]),
 		2 =>
-			return vec_string_append_2 (&strings[0], &strings[1]),
+			return vec_string_append_2 (strings[0], strings[1]),
 		3 =>
-			return vec_string_append_3 (&strings[0], &strings[1], &strings[2]),
+			return vec_string_append_3 (strings[0], strings[1], strings[2]),
 		4 =>
-			return vec_string_append_4 (&strings[0], &strings[1], &strings[2], &strings[3]),
+			return vec_string_append_4 (strings[0], strings[1], strings[2], strings[3]),
 		_ =>
 			(),
 	}
@@ -461,7 +482,7 @@ pub struct StringIterators <'a> ( StdVec<StringIterator<'a>> );
 
 impl <'a> StringIterators <'a> {
 	
-	pub fn new (strings : &'a [Value]) -> (Outcome<StringIterators<'a>>) {
+	pub fn new (strings : &'a [&'a Value]) -> (Outcome<StringIterators<'a>>) {
 		let iterators = try! (strings.iter () .map (|string| StringIterator::new (string)) .collect ());
 		succeed! (StringIterators (iterators));
 	}

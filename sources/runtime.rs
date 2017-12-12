@@ -170,16 +170,16 @@ pub fn vec_clone_slice <Element : Clone> (slice : &[Element]) -> (Vec<Element>) 
 
 
 
-pub fn vec_clone_vec_ref <Element : Clone> (vector : &Vec<&Element>) -> (Vec<Element>) {
-	return vec_map! (vector.iter (), value, (*value).clone ());
+pub fn vec_clone_vec_ref <Element : Clone, ElementRef : AsRef<Element>> (vector : &Vec<ElementRef>) -> (Vec<Element>) {
+	return vec_map! (vector.iter (), value, value.as_ref () .clone ());
 }
 
-pub fn vec_clone_slice_ref <Element : Clone> (slice : &[&Element]) -> (Vec<Element>) {
-	return vec_map! (slice.iter (), value, (*value).clone ());
+pub fn vec_clone_slice_ref <Element : Clone, ElementRef : AsRef<Element>> (slice : &[ElementRef]) -> (Vec<Element>) {
+	return vec_map! (slice.iter (), value, value.as_ref () .clone ());
 }
 
-pub fn vec_clone_iter_ref <'a, Element : Clone + 'a, Iterator : iter::Iterator<Item = &'a Element>> (iterator : Iterator) -> (Vec<Element>) {
-	return vec_map! (iterator, value, (*value).clone ());
+pub fn vec_clone_iter_ref <Element : Clone, ElementRef : AsRef<Element>, Iterator : iter::Iterator<Item = ElementRef>> (iterator : Iterator) -> (Vec<Element>) {
+	return vec_map! (iterator, value, value.as_ref () .clone ());
 }
 
 
@@ -189,11 +189,11 @@ pub fn vec_vec_to_ref <Element, ElementRef : AsRef<Element>> (vector : &Vec<Elem
 	return vec_map! (vector.iter (), value, value.as_ref ());
 }
 
-pub fn vec_slice_to_ref <Element> (slice : &[Element]) -> (Vec<&Element>) {
-	return vec_map! (slice.iter (), value, value);
+pub fn vec_slice_to_ref <Element, ElementRef : AsRef<Element>> (slice : &[ElementRef]) -> (Vec<&Element>) {
+	return vec_map! (slice.iter (), value, value.as_ref ());
 }
 
-pub fn vec_iter_to_ref <'a, Element : 'a, Iterator : iter::Iterator<Item = &'a Element>> (iterator : Iterator) -> (Vec<&'a Element>) {
-	return vec_map! (iterator, value, value);
+pub fn vec_iter_to_ref <'a, Element : 'a, ElementRef : AsRef<Element> + 'a, Iterator : iter::Iterator<Item = &'a ElementRef>> (iterator : Iterator) -> (Vec<&'a Element>) {
+	return vec_map! (iterator, value, value.as_ref ());
 }
 

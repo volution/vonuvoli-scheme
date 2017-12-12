@@ -29,7 +29,9 @@ pub mod exports {
 	
 	pub use super::{list_empty};
 	pub use super::{list_collect, list_collect_dotted};
+	pub use super::{list_collect_ref, list_collect_dotted_ref};
 	pub use super::{list_collect_from_generator, list_collect_dotted_from_generator};
+	pub use super::{list_collect_from_generator_ref, list_collect_dotted_from_generator_ref};
 	pub use super::{list_build_1, list_build_2, list_build_3, list_build_4, list_build_n};
 	pub use super::{list_append_2, list_append_3, list_append_4, list_append_n};
 	pub use super::{list_make, list_clone, list_reverse};
@@ -43,6 +45,10 @@ pub mod exports {
 	pub use super::{vec_list_append_2, vec_list_append_3, vec_list_append_4, vec_list_append_n};
 	pub use super::{vec_list_append_2_dotted, vec_list_append_3_dotted, vec_list_append_4_dotted, vec_list_append_n_dotted};
 	pub use super::{vec_list_clone, vec_list_clone_dotted, vec_list_drain, vec_list_drain_dotted};
+	
+	pub use super::{vec_list_ref_append_2, vec_list_ref_append_3, vec_list_ref_append_4, vec_list_ref_append_n};
+	pub use super::{vec_list_ref_append_2_dotted, vec_list_ref_append_3_dotted, vec_list_ref_append_4_dotted, vec_list_ref_append_n_dotted};
+	pub use super::{vec_list_ref_clone, vec_list_ref_clone_dotted, vec_list_ref_drain, vec_list_ref_drain_dotted};
 	
 	pub use super::{ListIterator, ListIterators};
 	
@@ -170,6 +176,24 @@ pub fn list_collect_dotted <Source> (values : Source, last : Option<Value>) -> (
 }
 
 
+pub fn list_collect_ref <Source, ValueRef> (values : Source) -> (Value)
+		where Source : iter::IntoIterator<Item = ValueRef>, Source::IntoIter : iter::DoubleEndedIterator, ValueRef : StdAsRef<Value>
+{
+	return list_collect_dotted_ref (values, None);
+}
+
+pub fn list_collect_dotted_ref <Source, ValueRef> (values : Source, last : Option<ValueRef>) -> (Value)
+		where Source : iter::IntoIterator<Item = ValueRef>, Source::IntoIter : iter::DoubleEndedIterator, ValueRef : StdAsRef<Value>
+{
+	let last = if let Some (last) = last {
+		last.as_ref () .clone ()
+	} else {
+		NULL.into ()
+	};
+	return values.into_iter () .rev () .fold (last, |last, value| pair_new (value.as_ref () .clone (), last) .into ());
+}
+
+
 
 
 pub fn list_collect_from_generator <Source> (values : Source) -> (Outcome<Value>)
@@ -184,6 +208,21 @@ pub fn list_collect_dotted_from_generator <Source> (values : Source, last : Opti
 	// FIXME:  Remove vector allocation!
 	let values = try! (values.collect::<Outcome<StdVec<_>>> ());
 	succeed! (list_collect_dotted (values, last));
+}
+
+
+pub fn list_collect_from_generator_ref <Source, ValueRef> (values : Source) -> (Outcome<Value>)
+		where Source : iter::Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
+{
+	return list_collect_dotted_from_generator_ref (values, None);
+}
+
+pub fn list_collect_dotted_from_generator_ref <Source, ValueRef> (values : Source, last : Option<ValueRef>) -> (Outcome<Value>)
+		where Source : iter::Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
+{
+	// FIXME:  Remove vector allocation!
+	let values = try! (values.collect::<Outcome<StdVec<_>>> ());
+	succeed! (list_collect_dotted_ref (values, last));
 }
 
 
@@ -209,7 +248,7 @@ pub fn list_build_4 (value_1 : &Value, value_2 : &Value, value_3 : &Value, value
 	return pair_new (value_1.clone (), pair_new (value_2.clone (), pair_new (value_3.clone (), pair_new (value_4.clone (), NULL.into ()) .into ()) .into ()) .into ()) .into ();
 }
 
-pub fn list_build_n (values : &[Value]) -> (Value) {
+pub fn list_build_n (values : &[&Value]) -> (Value) {
 	match values.len () {
 		0 =>
 			return list_empty (),
@@ -224,7 +263,7 @@ pub fn list_build_n (values : &[Value]) -> (Value) {
 		_ =>
 			(),
 	}
-	return values.iter () .rev () .fold (NULL.into (), |last, value| pair_new (value.clone (), last) .into ());
+	return values.iter () .rev () .fold (NULL.into (), |last, value| pair_new ((*value).clone (), last) .into ());
 }
 
 
@@ -248,18 +287,18 @@ pub fn list_append_4 (list_1 : &Value, list_2 : &Value, list_3 : &Value, list_4 
 	succeed! (list_collect_dotted (buffer, last));
 }
 
-pub fn list_append_n (lists : &[Value]) -> (Outcome<Value>) {
+pub fn list_append_n (lists : &[&Value]) -> (Outcome<Value>) {
 	match lists.len () {
 		0 =>
 			succeed! (list_empty ()),
 		1 =>
 			succeed! (lists[0].clone ()),
 		2 =>
-			return list_append_2 (&lists[0], &lists[1]),
+			return list_append_2 (lists[0], lists[1]),
 		3 =>
-			return list_append_3 (&lists[0], &lists[1], &lists[2]),
+			return list_append_3 (lists[0], lists[1], lists[2]),
 		4 =>
-			return list_append_4 (&lists[0], &lists[1], &lists[2], &lists[3]),
+			return list_append_4 (lists[0], lists[1], lists[2], lists[3]),
 		_ =>
 			(),
 	}
@@ -321,13 +360,13 @@ pub fn list_copy_range (_target_list : &Value, target_start : Option<&Value>, _s
 
 pub fn list_clone_range (list : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let iterator = try! (list_range_iterator (list, range_start, range_end));
-	return list_collect_from_generator (iterator);
+	return list_collect_from_generator_ref (iterator);
 }
 
 
 
 
-pub fn list_range_iterator <'a> (list : &'a Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<RangeIteratorForOutcome<Value, ListIterator<'a>>>) {
+pub fn list_range_iterator <'a> (list : &'a Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<RangeIteratorForOutcome<&'a Value, ListIterator<'a>>>) {
 	let (range_start, range_end) = try! (range_coerce_unbounded (range_start, range_end));
 	let iterator = try! (ListIterator::new (list));
 	let iterator = try! (RangeIteratorForOutcome::new (iterator, range_start, range_end));
@@ -376,7 +415,7 @@ pub fn list_member_by_comparator (list : &Value, value : &Value, comparator : &V
 	loop {
 		match iterator.next () {
 			Some (Ok (pair)) => {
-				let comparison = try! (evaluator.evaluator.evaluate_procedure_call_2_with_values (evaluator, comparator, value, pair.left ()));
+				let comparison = try! (evaluator.evaluate_procedure_call_2 (comparator, value, pair.left ()));
 				if is_not_false (&comparison) {
 					succeed! (pair.clone () .into ());
 				}
@@ -414,7 +453,7 @@ pub fn list_assoc_by_comparator (list : &Value, value : &Value, comparator : &Va
 		match iterator.next () {
 			Some (Ok (pair)) => {
 				let pair = try_as_pair_ref! (pair.left ());
-				let comparison = try! (evaluator.evaluator.evaluate_procedure_call_2_with_values (evaluator, comparator, value, pair.left ()));
+				let comparison = try! (evaluator.evaluate_procedure_call_2 (comparator, value, pair.left ()));
 				if is_not_false (&comparison) {
 					succeed! (pair.clone () .into ());
 				}
@@ -445,18 +484,18 @@ pub fn vec_list_append_4 (list_1 : &Value, list_2 : &Value, list_3 : &Value, lis
 	return vec_list_append_return (buffer);
 }
 
-pub fn vec_list_append_n (lists : &[Value]) -> (Outcome<ValueVec>) {
+pub fn vec_list_append_n (lists : &[&Value]) -> (Outcome<ValueVec>) {
 	match lists.len () {
 		0 =>
 			succeed! (StdVec::new ()),
 		1 =>
-			return vec_list_clone (&lists[0]),
+			return vec_list_clone (lists[0]),
 		2 =>
-			return vec_list_append_2 (&lists[0], &lists[1]),
+			return vec_list_append_2 (lists[0], lists[1]),
 		3 =>
-			return vec_list_append_3 (&lists[0], &lists[1], &lists[2]),
+			return vec_list_append_3 (lists[0], lists[1], lists[2]),
 		4 =>
-			return vec_list_append_4 (&lists[0], &lists[1], &lists[2], &lists[3]),
+			return vec_list_append_4 (lists[0], lists[1], lists[2], lists[3]),
 		_ =>
 			(),
 	}
@@ -509,18 +548,18 @@ pub fn vec_list_append_4_dotted (list_1 : &Value, list_2 : &Value, list_3 : &Val
 	succeed! ((buffer, last));
 }
 
-pub fn vec_list_append_n_dotted (lists : &[Value]) -> (Outcome<(ValueVec, Option<Value>)>) {
+pub fn vec_list_append_n_dotted (lists : &[&Value]) -> (Outcome<(ValueVec, Option<Value>)>) {
 	match lists.len () {
 		0 =>
 			succeed! ((StdVec::new (), None)),
 		1 =>
-			return vec_list_clone_dotted (&lists[0]),
+			return vec_list_clone_dotted (lists[0]),
 		2 =>
-			return vec_list_append_2_dotted (&lists[0], &lists[1]),
+			return vec_list_append_2_dotted (lists[0], lists[1]),
 		3 =>
-			return vec_list_append_3_dotted (&lists[0], &lists[1], &lists[2]),
+			return vec_list_append_3_dotted (lists[0], lists[1], lists[2]),
 		4 =>
-			return vec_list_append_4_dotted (&lists[0], &lists[1], &lists[2], &lists[3]),
+			return vec_list_append_4_dotted (lists[0], lists[1], lists[2], lists[3]),
 		_ =>
 			(),
 	}
@@ -596,6 +635,172 @@ pub fn vec_list_drain_dotted (buffer : &mut ValueVec, list : &Value) -> (Outcome
 
 
 
+pub fn vec_list_ref_append_2 <'a> (list_1 : &'a Value, list_2 : &'a Value) -> (Outcome<StdVec<&'a Value>>) {
+	let buffer = try! (vec_list_ref_append_2_dotted (list_1, list_2));
+	return vec_list_ref_append_return (buffer);
+}
+
+pub fn vec_list_ref_append_3 <'a> (list_1 : &'a Value, list_2 : &'a Value, list_3 : &'a Value) -> (Outcome<StdVec<&'a Value>>) {
+	let buffer = try! (vec_list_ref_append_3_dotted (list_1, list_2, list_3));
+	return vec_list_ref_append_return (buffer);
+}
+
+pub fn vec_list_ref_append_4 <'a> (list_1 : &'a Value, list_2 : &'a Value, list_3 : &'a Value, list_4 : &'a Value) -> (Outcome<StdVec<&'a Value>>) {
+	let buffer = try! (vec_list_ref_append_4_dotted (list_1, list_2, list_3, list_4));
+	return vec_list_ref_append_return (buffer);
+}
+
+pub fn vec_list_ref_append_n <'a> (lists : &'a [&'a Value]) -> (Outcome<StdVec<&'a Value>>) {
+	match lists.len () {
+		0 =>
+			succeed! (StdVec::new ()),
+		1 =>
+			return vec_list_ref_clone (lists[0]),
+		2 =>
+			return vec_list_ref_append_2 (lists[0], lists[1]),
+		3 =>
+			return vec_list_ref_append_3 (lists[0], lists[1], lists[2]),
+		4 =>
+			return vec_list_ref_append_4 (lists[0], lists[1], lists[2], lists[3]),
+		_ =>
+			(),
+	}
+	let buffer = try! (vec_list_ref_append_n_dotted (lists));
+	return vec_list_ref_append_return (buffer);
+}
+
+fn vec_list_ref_append_return <'a> ((buffer, last) : (StdVec<&'a Value>, Option<&'a Value>)) -> (Outcome<StdVec<&'a Value>>) {
+	match last {
+		Some (_) =>
+			fail! (0x48f9af8f),
+		None =>
+			succeed! (buffer),
+	}
+}
+
+
+
+
+pub fn vec_list_ref_append_2_dotted <'a> (list_1 : &'a Value, list_2 : &'a Value) -> (Outcome<(StdVec<&'a Value>, Option<&'a Value>)>) {
+	if is_null_all_2 (list_1, list_2) {
+		succeed! ((StdVec::new (), None));
+	}
+	let mut buffer = StdVec::new ();
+	try! (vec_list_ref_drain (&mut buffer, &list_1));
+	let last = try! (vec_list_ref_drain_dotted (&mut buffer, &list_2));
+	succeed! ((buffer, last));
+}
+
+pub fn vec_list_ref_append_3_dotted <'a> (list_1 : &'a Value, list_2 : &'a Value, list_3 : &'a Value) -> (Outcome<(StdVec<&'a Value>, Option<&'a Value>)>) {
+	if is_null_all_3 (list_1, list_2, list_3) {
+		succeed! ((StdVec::new (), None));
+	}
+	let mut buffer = StdVec::new ();
+	try! (vec_list_ref_drain (&mut buffer, &list_1));
+	try! (vec_list_ref_drain (&mut buffer, &list_2));
+	let last = try! (vec_list_ref_drain_dotted (&mut buffer, &list_3));
+	succeed! ((buffer, last));
+}
+
+pub fn vec_list_ref_append_4_dotted <'a> (list_1 : &'a Value, list_2 : &'a Value, list_3 : &'a Value, list_4 : &'a Value) -> (Outcome<(StdVec<&'a Value>, Option<&'a Value>)>) {
+	if is_null_all_4 (list_1, list_2, list_3, list_4) {
+		succeed! ((StdVec::new (), None));
+	}
+	let mut buffer = StdVec::new ();
+	try! (vec_list_ref_drain (&mut buffer, &list_1));
+	try! (vec_list_ref_drain (&mut buffer, &list_2));
+	try! (vec_list_ref_drain (&mut buffer, &list_3));
+	let last = try! (vec_list_ref_drain_dotted (&mut buffer, &list_4));
+	succeed! ((buffer, last));
+}
+
+pub fn vec_list_ref_append_n_dotted <'a> (lists : &'a [&'a Value]) -> (Outcome<(StdVec<&'a Value>, Option<&'a Value>)>) {
+	match lists.len () {
+		0 =>
+			succeed! ((StdVec::new (), None)),
+		1 =>
+			return vec_list_ref_clone_dotted (lists[0]),
+		2 =>
+			return vec_list_ref_append_2_dotted (lists[0], lists[1]),
+		3 =>
+			return vec_list_ref_append_3_dotted (lists[0], lists[1], lists[2]),
+		4 =>
+			return vec_list_ref_append_4_dotted (lists[0], lists[1], lists[2], lists[3]),
+		_ =>
+			(),
+	}
+	match lists.split_last () {
+		Some ((list_last, lists_first)) =>
+			if lists_first.is_empty () {
+				return vec_list_ref_clone_dotted (list_last);
+			} else {
+				let mut buffer = StdVec::new ();
+				for list in lists_first {
+					try! (vec_list_ref_drain (&mut buffer, &list));
+				}
+				let last = try! (vec_list_ref_drain_dotted (&mut buffer, &list_last));
+				succeed! ((buffer, last));
+			},
+		None =>
+			succeed! ((StdVec::new (), None)),
+	}
+}
+
+
+
+
+pub fn vec_list_ref_clone <'a> (list : &'a Value) -> (Outcome<StdVec<&'a Value>>) {
+	let (buffer, last) = try! (vec_list_ref_clone_dotted (list));
+	match last {
+		Some (_) =>
+			fail! (0x096d7253),
+		None =>
+			succeed! (buffer),
+	}
+}
+
+
+pub fn vec_list_ref_clone_dotted <'a> (list : &'a Value) -> (Outcome<(StdVec<&'a Value>, Option<&'a Value>)>) {
+	let mut buffer = StdVec::new ();
+	let last = try! (vec_list_ref_drain_dotted (&mut buffer, list));
+	succeed! ((buffer, last));
+}
+
+
+pub fn vec_list_ref_drain <'a : 'b, 'b> (buffer : &'b mut StdVec<&'a Value>, list : &'a Value) -> (Outcome<()>) {
+	let last = try! (vec_list_ref_drain_dotted (buffer, list));
+	match last {
+		Some (_) =>
+			fail! (0x57ebb8de),
+		None =>
+			succeed! (()),
+	}
+}
+
+
+pub fn vec_list_ref_drain_dotted <'a : 'b, 'b> (buffer : &'b mut StdVec<&'a Value>, list : &'a Value) -> (Outcome<Option<&'a Value>>) {
+	let mut cursor = list;
+	loop {
+		match cursor.class () {
+			ValueClass::Pair => {
+				let (left, right) = Pair::as_ref (cursor) .left_and_right ();
+				buffer.push (left);
+				cursor = right;
+			},
+			ValueClass::Null =>
+				succeed! (None),
+			_ =>
+				succeed! (Some (cursor)),
+		}
+		if list.is_self (cursor) {
+			fail! (0x7b9aae29);
+		}
+	}
+}
+
+
+
+
 pub struct ListIterator <'a> ( &'a Value );
 
 
@@ -609,9 +814,9 @@ impl <'a> ListIterator <'a> {
 
 impl <'a> Iterator for ListIterator <'a> {
 	
-	type Item = Outcome<Value>;
+	type Item = Outcome<&'a Value>;
 	
-	fn next (&mut self) -> (Option<Outcome<Value>>) {
+	fn next (&mut self) -> (Option<Outcome<&'a Value>>) {
 		let cursor = self.0;
 		let (value, cursor) = match cursor.class () {
 			ValueClass::Pair =>
@@ -625,7 +830,7 @@ impl <'a> Iterator for ListIterator <'a> {
 			return Some (failed! (0x2f6495d9));
 		}
 		self.0 = cursor;
-		return Some (succeeded! (value.clone ()));
+		return Some (succeeded! (value));
 	}
 }
 
@@ -677,7 +882,7 @@ pub struct ListIterators <'a> ( StdVec<ListIterator<'a>> );
 
 impl <'a> ListIterators <'a> {
 	
-	pub fn new (lists : &'a [Value]) -> (Outcome<ListIterators<'a>>) {
+	pub fn new (lists : &'a [&Value]) -> (Outcome<ListIterators<'a>>) {
 		let iterators = try! (lists.iter () .map (|list| ListIterator::new (list)) .collect ());
 		succeed! (ListIterators (iterators));
 	}
@@ -686,9 +891,9 @@ impl <'a> ListIterators <'a> {
 
 impl <'a> Iterator for ListIterators <'a> {
 	
-	type Item = Outcome<StdVec<Value>>;
+	type Item = Outcome<StdVec<&'a Value>>;
 	
-	fn next (&mut self) -> (Option<Outcome<StdVec<Value>>>) {
+	fn next (&mut self) -> (Option<Outcome<StdVec<&'a Value>>>) {
 		let mut outcomes = StdVec::with_capacity (self.0.len ());
 		for mut iterator in self.0.iter_mut () {
 			match iterator.next () {

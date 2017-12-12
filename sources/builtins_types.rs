@@ -180,7 +180,7 @@ macro_rules! def_fn_predicate_all {
 		pub fn $predicate_4 (value_1 : &Value, value_2 : &Value, value_3 : &Value, value_4 : &Value) -> (bool) {
 			return $predicate (value_1) && $predicate (value_2) && $predicate (value_3) && $predicate (value_4);
 		}
-		pub fn $predicate_n (values : &[Value]) -> (bool) {
+		pub fn $predicate_n (values : &[&Value]) -> (bool) {
 			for value_i in values {
 				if !$predicate (value_i) {
 					return false;
@@ -202,7 +202,7 @@ macro_rules! def_fn_predicate_any {
 		pub fn $predicate_4 (value_1 : &Value, value_2 : &Value, value_3 : &Value, value_4 : &Value) -> (bool) {
 			return $predicate (value_1) || $predicate (value_2) || $predicate (value_3) || $predicate (value_4);
 		}
-		pub fn $predicate_n (values : &[Value]) -> (bool) {
+		pub fn $predicate_n (values : &[&Value]) -> (bool) {
 			for value_i in values {
 				if $predicate (value_i) {
 					return false;
@@ -234,7 +234,7 @@ macro_rules! def_fn_try_predicate_all {
 			let outcome_4 = try! ($predicate (value_4));
 			succeed! (outcome_1 && outcome_2 && outcome_3 && outcome_4);
 		}
-		pub fn $predicate_n (values : &[Value]) -> (Outcome<bool>) {
+		pub fn $predicate_n (values : &[&Value]) -> (Outcome<bool>) {
 			let mut outcome = true;
 			for value_i in values {
 				let outcome_i = try! ($predicate (value_i));
@@ -265,7 +265,7 @@ macro_rules! def_fn_try_predicate_any {
 			let outcome_4 = try! ($predicate (value_4));
 			succeed! (outcome_1 || outcome_2 || outcome_3 || outcome_4);
 		}
-		pub fn $predicate_n (values : &[Value]) -> (Outcome<bool>) {
+		pub fn $predicate_n (values : &[&Value]) -> (Outcome<bool>) {
 			let mut outcome = true;
 			for value_i in values {
 				let outcome_i = try! ($predicate (value_i));
