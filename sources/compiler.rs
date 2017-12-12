@@ -23,17 +23,11 @@ pub mod exports {
 
 
 pub fn compile (context : &Context, token : &Value) -> (Outcome<Expression>) {
-	return Compiler::new () .compile (context, token);
+	return Compiler::new () .compile (Some (context), token);
 }
 
 pub fn compile_script (context : &Context, tokens : &[Value]) -> (Outcome<ExpressionVec>) {
-	let compiler = Compiler::new ();
-	let mut expressions = StdVec::with_capacity (tokens.len ());
-	for token in tokens {
-		let expression = try! (compiler.compile (context, token));
-		expressions.push (expression);
-	}
-	succeed! (expressions);
+	return Compiler::new () .compile_slice (Some (context), tokens);
 }
 
 
@@ -52,10 +46,21 @@ impl Compiler {
 		return Compiler {};
 	}
 	
-	pub fn compile (&self, context : &Context, token : &Value) -> (Outcome<Expression>) {
-		let compilation = CompilerContext::new (CompilerBindings::Globals1 (context.clone ()));
-		let (_compilation, expression) = try! (self.compile_0 (compilation, token.clone ()));
+	
+	
+	
+	pub fn compile (&self, context : Option<&Context>, token : &Value) -> (Outcome<Expression>) {
+		let token = token.clone ();
+		let compilation = CompilerContext::new_with_context (context);
+		let (_compilation, expression) = try! (self.compile_0 (compilation, token));
 		succeed! (expression);
+	}
+	
+	pub fn compile_slice (&self, context : Option<&Context>, tokens : &[Value]) -> (Outcome<ExpressionVec>) {
+		let tokens = vec_clone_slice (tokens);
+		let compilation = CompilerContext::new_with_context (context);
+		let (_compilation, expressions) = try! (self.compile_0_vec (compilation, tokens));
+		succeed! (expressions);
 	}
 	
 	
@@ -69,16 +74,16 @@ impl Compiler {
 			ValueClass::Void |
 			ValueClass::Undefined |
 			ValueClass::Singleton =>
-				return self.compile_syntax_quote (compilation, token),
+				return self.compile_syntax_quote_0 (compilation, token),
 			
 			ValueClass::Boolean |
 			ValueClass::NumberInteger |
 			ValueClass::NumberReal |
 			ValueClass::Character =>
-				return self.compile_syntax_quote (compilation, token),
+				return self.compile_syntax_quote_0 (compilation, token),
 			
 			ValueClass::String =>
-				return self.compile_syntax_quote (compilation, token),
+				return self.compile_syntax_quote_0 (compilation, token),
 			
 			ValueClass::Symbol =>
 				return self.compile_symbol (compilation, token.into ()),
@@ -87,11 +92,11 @@ impl Compiler {
 				return self.compile_form (compilation, token.into ()),
 			
 			ValueClass::Bytes =>
-				return self.compile_syntax_quote (compilation, token),
+				return self.compile_syntax_quote_0 (compilation, token),
 			ValueClass::Array =>
-				return self.compile_syntax_quote (compilation, token),
+				return self.compile_syntax_quote_0 (compilation, token),
 			ValueClass::Values =>
-				return self.compile_syntax_quote (compilation, token),
+				return self.compile_syntax_quote_0 (compilation, token),
 			
 			ValueClass::Error =>
 				fail_panic! (0x2aa7bc60),
@@ -123,7 +128,7 @@ impl Compiler {
 	
 	
 	
-	fn compile_vec_0 (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, ExpressionVec)>) {
+	fn compile_0_vec (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, ExpressionVec)>) {
 		let mut expressions = ExpressionVec::with_capacity (tokens.len ());
 		let mut compilation = compilation;
 		for token in tokens.into_iter () {
@@ -201,7 +206,7 @@ impl Compiler {
 	fn compile_procedure_call (&self, compilation : CompilerContext, procedure : Value, arguments : Value) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		let (compilation, procedure) = try! (self.compile_0 (compilation, procedure));
-		let (compilation, arguments) = try! (self.compile_vec_0 (compilation, try! (vec_list_clone (&arguments))));
+		let (compilation, arguments) = try! (self.compile_0_vec (compilation, try! (vec_list_clone (&arguments))));
 		
 		let expression = Expression::ProcedureCall (procedure.into (), arguments.into_boxed_slice ());
 		
@@ -314,23 +319,11 @@ impl Compiler {
 	
 	
 	
-	fn compile_syntax_and_or (&self, compilation : CompilerContext, syntax : SyntaxPrimitiveN, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+	fn compile_syntax_sequence (&self, compilation : CompilerContext, operator : ExpressionSequenceOperator, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
-		let (compilation, statements) = try! (self.compile_vec_0 (compilation, tokens));
+		let (compilation, statements) = try! (self.compile_0_vec (compilation, tokens));
 		
-		let expression = Expression::SyntaxPrimitiveCall (syntax.into (), statements.into_boxed_slice ());
-		
-		succeed! ((compilation, expression));
-	}
-	
-	
-	
-	
-	fn compile_syntax_begin (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
-		
-		let (compilation, statements) = try! (self.compile_vec_0 (compilation, tokens));
-		
-		let expression = Expression::Sequence (statements.into_boxed_slice ());
+		let expression = Expression::Sequence (operator, statements.into_boxed_slice ());
 		
 		succeed! ((compilation, expression));
 	}
@@ -345,7 +338,7 @@ impl Compiler {
 			fail! (0xe34389a7);
 		}
 		
-		let (compilation, statements) = try! (self.compile_vec_0 (compilation, tokens));
+		let (compilation, statements) = try! (self.compile_0_vec (compilation, tokens));
 		
 		let clauses = if tokens_count == 3 {
 			let (guard, if_true, if_false) = try! (vec_explode_3 (statements));
@@ -370,16 +363,16 @@ impl Compiler {
 	
 	
 	
-	fn compile_syntax_when_unless (&self, compilation : CompilerContext, syntax : SyntaxPrimitiveN, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+	fn compile_syntax_when_unless (&self, compilation : CompilerContext, syntax : SyntaxPrimitiveV, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		let tokens_count = tokens.len ();
 		if tokens_count < 2 {
 			fail! (0x3c364a9f);
 		}
 		
-		let (compilation, statements) = try! (self.compile_vec_0 (compilation, tokens));
+		let (compilation, statements) = try! (self.compile_0_vec (compilation, tokens));
 		let (guard, statements) = try! (vec_explode_1n (statements));
-		let statements = Expression::Sequence (statements.into_boxed_slice ());
+		let statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, statements.into_boxed_slice ());
 		
 		let negated = match syntax {
 			SyntaxPrimitiveV::When =>
@@ -424,10 +417,10 @@ impl Compiler {
 			if (statements.len () >= 1) && (statements[0].is (ValueClass::Symbol) && Symbol::as_ref (&statements[0]) .string_eq ("=>")) {
 				fail_unimplemented! (0xfa332991); // deferred
 			}
-			let (compilation_1, statements) = try! (self.compile_vec_0 (compilation_1, statements));
+			let (compilation_1, statements) = try! (self.compile_0_vec (compilation_1, statements));
 			
 			let clause = if !statements.is_empty () {
-				let statements = Expression::Sequence (statements.into_boxed_slice ());
+				let statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, statements.into_boxed_slice ());
 				(guard, Some (statements))
 			} else {
 				(guard, None)
@@ -476,10 +469,10 @@ impl Compiler {
 			if (statements.len () >= 1) && (statements[0].is (ValueClass::Symbol) && Symbol::as_ref (&statements[0]) .string_eq ("=>")) {
 				fail_unimplemented! (0xef5d468c); // deferred
 			}
-			let (compilation_1, statements) = try! (self.compile_vec_0 (compilation, statements));
+			let (compilation_1, statements) = try! (self.compile_0_vec (compilation, statements));
 			
 			let clause = if !statements.is_empty () {
-				let statements = Expression::Sequence (statements.into_boxed_slice ());
+				let statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, statements.into_boxed_slice ());
 				(expected, Some (statements))
 			} else {
 				(expected, None)
@@ -563,8 +556,8 @@ impl Compiler {
 		let (compilation, break_statements) = if break_statements.is_empty () {
 			(compilation, None)
 		} else {
-			let (compilation, break_statements) = try! (self.compile_vec_0 (compilation, break_statements));
-			let break_statements = Expression::Sequence (break_statements.into_boxed_slice ());
+			let (compilation, break_statements) = try! (self.compile_0_vec (compilation, break_statements));
+			let break_statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, break_statements.into_boxed_slice ());
 			(compilation, Some (break_statements))
 		};
 		let break_clauses = StdBox::new ([(Some ((break_guard, false)), break_statements)]);
@@ -572,8 +565,8 @@ impl Compiler {
 		let (compilation, loop_statement) = if loop_statements.is_empty () {
 			(compilation, None)
 		} else {
-			let (compilation, loop_statements) = try! (self.compile_vec_0 (compilation, loop_statements));
-			let loop_statements = Expression::Sequence (loop_statements.into_boxed_slice ());
+			let (compilation, loop_statements) = try! (self.compile_0_vec (compilation, loop_statements));
+			let loop_statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, loop_statements.into_boxed_slice ());
 			(compilation, Some (loop_statements.into ()))
 		};
 		
@@ -596,10 +589,10 @@ impl Compiler {
 	fn compile_syntax_locals (&self, compilation : CompilerContext, statements : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		let compilation = try! (compilation.fork_locals (false));
-		let (compilation, statements) = try! (self.compile_vec_0 (compilation, statements));
+		let (compilation, statements) = try! (self.compile_0_vec (compilation, statements));
 		let (compilation, registers) = try! (compilation.unfork_locals ());
 		
-		let statements = Expression::Sequence (statements.into_boxed_slice ());
+		let statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, statements.into_boxed_slice ());
 		let expression = Expression::RegisterClosure (statements.into (), registers.into_boxed_slice ());
 		
 		succeed! ((compilation, expression));
@@ -700,13 +693,13 @@ impl Compiler {
 		let binding_initializers = try! (self.compile_syntax_binding_set_n (binding_templates, binding_initializers, parallel, true));
 		let binding_initializers = vec! [ binding_initializers ];
 		
-		let (compilation, statements) = try! (self.compile_vec_0 (compilation, statements));
+		let (compilation, statements) = try! (self.compile_0_vec (compilation, statements));
 		
 		let statements = vec_append_2 (binding_initializers, statements);
 		
 		let (compilation, registers) = try! (compilation.unfork_locals ());
 		
-		let statements = Expression::Sequence (statements.into_boxed_slice ());
+		let statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, statements.into_boxed_slice ());
 		let expression = Expression::RegisterClosure (statements.into (), registers.into_boxed_slice ());
 		
 		succeed! ((compilation, expression));
@@ -790,13 +783,13 @@ impl Compiler {
 		
 		let binding_initializers = try! (self.compile_syntax_binding_set_values_n (binding_templates_n, binding_initializers, true));
 		
-		let (compilation, statements) = try! (self.compile_vec_0 (compilation, statements));
+		let (compilation, statements) = try! (self.compile_0_vec (compilation, statements));
 		
 		let statements = vec_append_2 (binding_initializers, statements);
 		
 		let (compilation, registers) = try! (compilation.unfork_locals ());
 		
-		let statements = Expression::Sequence (statements.into_boxed_slice ());
+		let statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, statements.into_boxed_slice ());
 		let expression = Expression::RegisterClosure (statements.into (), registers.into_boxed_slice ());
 		
 		succeed! ((compilation, expression));
@@ -1134,14 +1127,14 @@ impl Compiler {
 			try! (compilation.bindings.define (identifier.clone ()));
 		}
 		
-		let (compilation, statements) = try! (self.compile_vec_0 (compilation, statements));
+		let (compilation, statements) = try! (self.compile_0_vec (compilation, statements));
 		
 		let (compilation, mut registers_local) = try! (compilation.unfork_locals ());
 		let (compilation, registers_closure) = try! (compilation.unfork_locals ());
 		
 		let registers_local = registers_local.split_off (arguments_count);
 		
-		let statements = Expression::Sequence (statements.into_boxed_slice ());
+		let statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, statements.into_boxed_slice ());
 		
 		let template = LambdaTemplate {
 				identifier : identifier,
@@ -1157,14 +1150,20 @@ impl Compiler {
 	
 	
 	
-	fn compile_syntax_quote (&self, compilation : CompilerContext, token : Value) -> (Outcome<(CompilerContext, Expression)>) {
+	fn compile_syntax_quote (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+		let token = try! (vec_explode_1 (tokens));
+		return self.compile_syntax_quote_0 (compilation, token);
+	}
+	
+	fn compile_syntax_quote_0 (&self, compilation : CompilerContext, token : Value) -> (Outcome<(CompilerContext, Expression)>) {
 		succeed! ((compilation, Expression::Value (token)));
 	}
 	
 	
 	
 	
-	fn compile_syntax_quasi_quote (&self, compilation : CompilerContext, token : Value) -> (Outcome<(CompilerContext, Expression)>) {
+	fn compile_syntax_quasi_quote (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+		let token = try! (vec_explode_1 (tokens));
 		return self.compile_syntax_quasi_quote_0 (compilation, token, true, false, 0, 0);
 	}
 	
@@ -1355,7 +1354,15 @@ struct CompilerContext {
 
 impl CompilerContext {
 	
-	fn new (bindings : CompilerBindings) -> (CompilerContext) {
+	fn new_with_context (context : Option<&Context>) -> (CompilerContext) {
+		if let Some (context) = context {
+			return CompilerContext::new_with_bindings (CompilerBindings::Globals1 (context.clone ()));
+		} else {
+			return CompilerContext::new_with_bindings (CompilerBindings::None);
+		}
+	}
+	
+	fn new_with_bindings (bindings : CompilerBindings) -> (CompilerContext) {
 		return CompilerContext {
 				bindings : bindings,
 			};
@@ -1363,12 +1370,12 @@ impl CompilerContext {
 	
 	fn fork_locals (self, force : bool) -> (Outcome<CompilerContext>) {
 		let bindings = try! (self.bindings.fork_locals (force));
-		succeed! (CompilerContext::new (bindings));
+		succeed! (CompilerContext::new_with_bindings (bindings));
 	}
 	
 	fn unfork_locals (self) -> (Outcome<(CompilerContext, StdVec<RegistersBindingTemplate>)>) {
 		let (bindings, registers) = try! (self.bindings.unfork_locals ());
-		succeed! ((CompilerContext::new (bindings), registers));
+		succeed! ((CompilerContext::new_with_bindings (bindings), registers));
 	}
 }
 
