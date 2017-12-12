@@ -2,6 +2,8 @@
 
 use super::errors::exports::*;
 
+use std::iter;
+
 
 
 
@@ -27,10 +29,13 @@ pub mod exports {
 	pub use super::StdTryInto;
 	pub use super::StdTryAsRef;
 	
-	pub use super::{vec_into, vec_clone_slice};
+	pub use super::{vec_into};
 	pub use super::{vec_append_2};
 	pub use super::{vec_explode_1, vec_explode_1n, vec_explode_2, vec_explode_2n, vec_explode_3, vec_explode_3n};
 	pub use super::{vec_zip_2};
+	pub use super::{vec_clone_vec, vec_clone_slice};
+	pub use super::{vec_clone_vec_ref, vec_clone_slice_ref, vec_clone_iter_ref};
+	pub use super::{vec_vec_to_ref, vec_slice_to_ref, vec_iter_to_ref};
 	
 	pub use super::super::runtime_iterators::exports::*;
 	pub use super::super::runtime_unicode::exports::*;
@@ -59,11 +64,7 @@ pub trait StdTryAsRef <T> {
 
 
 pub fn vec_into <Element, To : From<Element>> (from : Vec<Element>) -> (Vec<To>) {
-	vec_map! (from, value, value.into ())
-}
-
-pub fn vec_clone_slice <Element : Clone, To : From<Element>> (from : &[Element]) -> (Vec<To>) {
-	vec_map! (from.to_vec (), value, value.into ())
+	return vec_map_into! (from, value, value.into ());
 }
 
 
@@ -153,5 +154,46 @@ pub fn vec_explode_3n <Element> (vector : Vec<Element>) -> (Outcome<(Element, El
 
 pub fn vec_zip_2 <Element1, Element2> (vector_1 : Vec<Element1>, vector_2 : Vec<Element2>) -> (Vec<(Element1, Element2)>) {
 	return vector_1.into_iter () .zip (vector_2.into_iter ()) .collect ();
+}
+
+
+
+
+pub fn vec_clone_vec <Element : Clone> (vector : &Vec<Element>) -> (Vec<Element>) {
+	return vec_map! (vector.iter (), value, value.clone ());
+}
+
+pub fn vec_clone_slice <Element : Clone> (slice : &[Element]) -> (Vec<Element>) {
+	return vec_map! (slice.iter (), value, (*value).clone ());
+}
+
+
+
+
+pub fn vec_clone_vec_ref <Element : Clone> (vector : &Vec<&Element>) -> (Vec<Element>) {
+	return vec_map! (vector.iter (), value, (*value).clone ());
+}
+
+pub fn vec_clone_slice_ref <Element : Clone> (slice : &[&Element]) -> (Vec<Element>) {
+	return vec_map! (slice.iter (), value, (*value).clone ());
+}
+
+pub fn vec_clone_iter_ref <'a, Element : Clone + 'a, Iterator : iter::Iterator<Item = &'a Element>> (iterator : Iterator) -> (Vec<Element>) {
+	return vec_map! (iterator, value, (*value).clone ());
+}
+
+
+
+
+pub fn vec_vec_to_ref <Element, ElementRef : AsRef<Element>> (vector : &Vec<ElementRef>) -> (Vec<&Element>) {
+	return vec_map! (vector.iter (), value, value.as_ref ());
+}
+
+pub fn vec_slice_to_ref <Element> (slice : &[Element]) -> (Vec<&Element>) {
+	return vec_map! (slice.iter (), value, value);
+}
+
+pub fn vec_iter_to_ref <'a, Element : 'a, Iterator : iter::Iterator<Item = &'a Element>> (iterator : Iterator) -> (Vec<&'a Element>) {
+	return vec_map! (iterator, value, value);
 }
 

@@ -37,8 +37,8 @@ pub mod exports {
 	pub use super::{symbol_new, symbol_clone_str, symbol_clone_characters};
 	pub use super::{string_new, string_clone_str, string_clone_characters};
 	pub use super::{bytes_new, bytes_clone_slice};
-	pub use super::{array_new, array_clone_slice};
-	pub use super::{values_new, values_new_from_vec, values_clone_slice};
+	pub use super::{array_new, array_clone_slice, array_clone_slice_ref};
+	pub use super::{values_new, values_new_from_vec, values_clone_slice, values_clone_slice_ref};
 	pub use super::{pair_new};
 	
 	pub use super::{ValueMeta1, ValueMeta2, VALUE_META_1, VALUE_META_2};
@@ -136,15 +136,6 @@ pub type ValueBox = StdBox<Value>;
 pub type ValueVec = StdVec<Value>;
 
 
-#[ derive (Clone, Debug, Hash) ]
-pub struct ValueMeta1 ( u8, u8, u8 );
-pub const VALUE_META_1 : ValueMeta1 = ValueMeta1 (0, 0, 0);
-
-#[ derive (Clone, Debug, Hash) ]
-pub struct ValueMeta2 ( u8, u8, u8, u8 );
-pub const VALUE_META_2 : ValueMeta2 = ValueMeta2 (0, 0, 0, 0);
-
-
 impl Value {
 	
 	pub fn class (&self) -> (ValueClass) {
@@ -228,13 +219,22 @@ impl Value {
 			
 		}
 	}
-	
-	pub fn try_as_ref (&self) -> (Outcome<&Value>) {
-		succeed! (self);
+}
+
+
+impl StdAsRef<Value> for Value {
+	fn as_ref (&self) -> (&Value) {
+		return self;
 	}
 }
 
 
+impl StdTryAsRef<Value> for Value {
+	type Error = Error;
+	fn try_as_ref (&self) -> (Outcome<&Value>) {
+		succeed! (self);
+	}
+}
 
 
 impl fmt::Display for Value {
@@ -323,6 +323,17 @@ impl fmt::Debug for Value {
 		}
 	}
 }
+
+
+
+
+#[ derive (Clone, Debug, Hash) ]
+pub struct ValueMeta1 ( u8, u8, u8 );
+pub const VALUE_META_1 : ValueMeta1 = ValueMeta1 (0, 0, 0);
+
+#[ derive (Clone, Debug, Hash) ]
+pub struct ValueMeta2 ( u8, u8, u8, u8 );
+pub const VALUE_META_2 : ValueMeta2 = ValueMeta2 (0, 0, 0, 0);
 
 
 
@@ -1596,7 +1607,7 @@ pub fn bytes_new (values : StdVec<u8>) -> (Bytes) {
 }
 
 pub fn bytes_clone_slice (values : &[u8]) -> (Bytes) {
-	bytes_new (values.to_vec ())
+	bytes_new (vec_clone_slice (values))
 }
 
 
@@ -1607,7 +1618,11 @@ pub fn array_new (values : StdVec<Value>) -> (Array) {
 }
 
 pub fn array_clone_slice (values : &[Value]) -> (Array) {
-	array_new (values.to_vec ())
+	array_new (vec_clone_slice (values))
+}
+
+pub fn array_clone_slice_ref (values : &[&Value]) -> (Array) {
+	array_new (vec_clone_slice_ref (values))
 }
 
 
@@ -1622,7 +1637,11 @@ pub fn values_new_from_vec (values : StdVec<Value>) -> (Values) {
 }
 
 pub fn values_clone_slice (values : &[Value]) -> (Values) {
-	values_new_from_vec (values.to_vec ())
+	values_new_from_vec (vec_clone_slice (values))
+}
+
+pub fn values_clone_slice_ref (values : &[&Value]) -> (Values) {
+	values_new_from_vec (vec_clone_slice_ref (values))
 }
 
 
