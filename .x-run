@@ -160,6 +160,28 @@ EOS
 done
 
 
+find ./tests/scripts -type f -name 'benchmark--*.ss' -printf '%f\n' \
+| sed -r -e 's/^benchmark--//' -e 's/\.ss$//' \
+| sort -u \
+| while read _benchmark ; do
+sed -r -e 's#@\{BENCHMARK\}#'"${_benchmark}"'#g' <<'EOS'
+:: execute / benchmark / scheme / @{BENCHMARK} / debug :: x-run ':: compile / bin / debug' --quiet ; exec -- time -f '\n(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme < ./tests/scripts/benchmark--@{BENCHMARK}.ss
+:: execute / benchmark / scheme / @{BENCHMARK} / release :: x-run ':: compile / bin / release' --quiet ; exec -- time -f '\n(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme < ./tests/scripts/benchmark--@{BENCHMARK}.ss
+:: execute / benchmark / chibi / @{BENCHMARK} :: exec -- time -f '\n(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- chibi-scheme -m scheme.base -m scheme.time -- ./tests/scripts/benchmark--@{BENCHMARK}.ss
+EOS
+done
+
+
+find ./tests/scripts -type f -name 'benchmark--*.py' -printf '%f\n' \
+| sed -r -e 's/^benchmark--//' -e 's/\.py$//' \
+| sort -u \
+| while read _benchmark ; do
+sed -r -e 's#@\{BENCHMARK\}#'"${_benchmark}"'#g' <<'EOS'
+:: execute / benchmark / python / @{BENCHMARK} :: exec -- time -f '\n(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- python2 -- ./tests/scripts/benchmark--@{BENCHMARK}.py
+EOS
+done
+
+
 find . -xdev -type f -name '*.rs' -printf ':: edit / %P :: exec -- sce %p\n' | sort
 find . -xdev -type f -name '*.rs' -printf ':: view / %P :: exec -- less %p\n' | sort
 
