@@ -1,6 +1,7 @@
 
 
 use super::contexts::exports::*;
+use super::errors::exports::*;
 use super::lambdas::exports::*;
 use super::primitives::exports::*;
 use super::runtime::exports::*;
@@ -34,6 +35,14 @@ pub enum Expression {
 	ContextUpdate ( Symbol, ExpressionBox ),
 	ContextSelect ( Symbol ),
 	
+	BindingInitialize1 ( Binding, ExpressionBox ),
+	BindingInitializeN ( StdBox<[(Binding, Expression)]>, bool ),
+	BindingInitializeValues ( StdBox<[Binding]>, ExpressionBox ),
+	BindingSet1 ( Binding, ExpressionBox ),
+	BindingSetN ( StdBox<[(Binding, Expression)]>, bool ),
+	BindingSetValues ( StdBox<[Binding]>, ExpressionBox ),
+	BindingGet1 ( Binding ),
+	
 	RegisterClosure ( ExpressionBox, StdBox<[RegistersBindingTemplate]> ),
 	RegisterInitialize1 ( usize, ExpressionBox ),
 	RegisterInitializeN ( StdBox<[(usize, Expression)]>, bool ),
@@ -43,14 +52,7 @@ pub enum Expression {
 	RegisterSetValues ( StdBox<[usize]>, ExpressionBox ),
 	RegisterGet1 ( usize ),
 	
-	BindingInitialize1 ( Binding, ExpressionBox ),
-	BindingInitializeN ( StdBox<[(Binding, Expression)]>, bool ),
-	BindingInitializeValues ( StdBox<[Binding]>, ExpressionBox ),
-	BindingSet1 ( Binding, ExpressionBox ),
-	BindingSetN ( StdBox<[(Binding, Expression)]>, bool ),
-	BindingSetValues ( StdBox<[Binding]>, ExpressionBox ),
-	BindingGet1 ( Binding ),
-	
+	ProcedureCall ( ExpressionBox, StdBox<[Expression]> ),
 	ProcedureCall0 ( ExpressionBox ),
 	ProcedureCall1 ( ExpressionBox, ExpressionBox ),
 	ProcedureCall2 ( ExpressionBox, ExpressionBox, ExpressionBox ),
@@ -58,8 +60,8 @@ pub enum Expression {
 	ProcedureCall4 ( ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
 	ProcedureCall5 ( ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
 	ProcedureCallN ( ExpressionBox, StdBox<[Expression]> ),
-	ProcedureCall ( ExpressionBox, StdBox<[Expression]> ),
 	
+	ProcedurePrimitiveCall ( ProcedurePrimitive, StdBox<[Expression]> ),
 	ProcedurePrimitiveCall0 ( ProcedurePrimitive0 ),
 	ProcedurePrimitiveCall1 ( ProcedurePrimitive1, ExpressionBox ),
 	ProcedurePrimitiveCall2 ( ProcedurePrimitive2, ExpressionBox, ExpressionBox ),
@@ -68,8 +70,8 @@ pub enum Expression {
 	ProcedurePrimitiveCall5 ( ProcedurePrimitive5, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
 	ProcedurePrimitiveCallN ( ProcedurePrimitiveN, StdBox<[Expression]> ),
 	ProcedurePrimitiveCallV ( ProcedurePrimitiveV, StdBox<[Expression]> ),
-	ProcedurePrimitiveCall ( ProcedurePrimitive, StdBox<[Expression]> ),
 	
+	SyntaxPrimitiveCall ( SyntaxPrimitive, StdBox<[Expression]> ),
 	SyntaxPrimitiveCall0 ( SyntaxPrimitive0 ),
 	SyntaxPrimitiveCall1 ( SyntaxPrimitive1, ExpressionBox ),
 	SyntaxPrimitiveCall2 ( SyntaxPrimitive2, ExpressionBox, ExpressionBox ),
@@ -77,7 +79,6 @@ pub enum Expression {
 	SyntaxPrimitiveCall4 ( SyntaxPrimitive4, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
 	SyntaxPrimitiveCall5 ( SyntaxPrimitive5, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
 	SyntaxPrimitiveCallN ( SyntaxPrimitiveN, StdBox<[Expression]> ),
-	SyntaxPrimitiveCall ( SyntaxPrimitive, StdBox<[Expression]> ),
 	
 	Lambda ( StdBox<LambdaTemplate>, ExpressionBox, StdBox<[RegistersBindingTemplate]>, StdBox<[RegistersBindingTemplate]> ),
 	
@@ -86,4 +87,19 @@ pub enum Expression {
 
 pub type ExpressionBox = StdBox<Expression>;
 pub type ExpressionVec = StdVec<Expression>;
+
+
+impl StdAsRef<Expression> for Expression {
+	fn as_ref (&self) -> (&Expression) {
+		return self;
+	}
+}
+
+
+impl StdTryAsRef<Expression> for Expression {
+	type Error = Error;
+	fn try_as_ref (&self) -> (Outcome<&Expression>) {
+		succeed! (self);
+	}
+}
 

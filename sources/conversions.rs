@@ -732,11 +732,30 @@ pub fn count_coerce (count : Option<&Value>) -> (Outcome<Option<usize>>) {
 
 
 
+pub fn outcome_as_ref <T> (outcome : &Outcome<T>) -> (Outcome<&T>) {
+	match *outcome {
+		Ok (ref value) =>
+			Ok (value),
+		Err (ref error) =>
+			Err (error.clone ()),
+	}
+}
+
+pub fn option_unwrap_ref <T> (option : &Option<T>) -> (&T) {
+	match *option {
+		Some (ref value) =>
+			value,
+		None =>
+			panic! ("75a8fcd5"),
+	}
+}
+
 pub fn option_box_as_ref <T> (option : &Option<Box<T>>) -> (Option<&T>) {
-	if let Some (ref boxed) = *option {
-		return Some (boxed.as_ref ());
-	} else {
-		return None;
+	match *option {
+		Some (ref value) =>
+			Some (value.as_ref ()),
+		None =>
+			None,
 	}
 }
 

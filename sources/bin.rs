@@ -56,7 +56,7 @@ fn main_0 () -> (Outcome<()>) {
 		},
 	};
 	
-	match evaluate_script (&context, &expressions) {
+	match evaluate_script (&context, expressions.into_iter ()) {
 		Ok (()) =>
 			return Ok (()),
 		Err (error) => {
