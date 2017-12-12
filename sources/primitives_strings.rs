@@ -468,7 +468,7 @@ pub fn string_primitive_5_evaluate (primitive : StringPrimitive5, input_1 : &Val
 
 
 
-pub fn string_primitive_n_evaluate (primitive : StringPrimitiveN, inputs : &[Value], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn string_primitive_n_evaluate (primitive : StringPrimitiveN, inputs : &[&Value], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		StringPrimitiveN::StringMake =>

@@ -1488,7 +1488,7 @@ pub fn comparison_primitive_5_evaluate (primitive : ComparisonPrimitive5, _input
 
 
 
-pub fn comparison_primitive_n_evaluate (primitive : ComparisonPrimitiveN, inputs : &[Value], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn comparison_primitive_n_evaluate (primitive : ComparisonPrimitiveN, inputs : &[&Value], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let output = match primitive {
 		
 		ComparisonPrimitiveN::EquivalentByIdentity =>

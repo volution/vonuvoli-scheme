@@ -387,7 +387,7 @@ pub fn arithmetic_primitive_1_evaluate (primitive : ArithmeticPrimitive1, input_
 		
 		ArithmeticPrimitive1::Subtraction =>
 			arithmetic_primitive_2_delegate_call! (
-					(&ZERO.into (), &input_1),
+					(&ZERO.into (), input_1),
 					(value_1, value_2), try! (NumberInteger::sub (value_1, value_2)),
 					(value_1, value_2), NumberReal::sub (value_1, value_2)),
 		
@@ -396,7 +396,7 @@ pub fn arithmetic_primitive_1_evaluate (primitive : ArithmeticPrimitive1, input_
 		
 		ArithmeticPrimitive1::Division =>
 			arithmetic_primitive_2_delegate_call! (
-					(&ONE.into (), &input_1),
+					(&ONE.into (), input_1),
 					(value_1, value_2), try! (NumberInteger::div (value_1, value_2)),
 					(value_1, value_2), NumberReal::div (value_1, value_2)),
 		
@@ -518,7 +518,7 @@ pub fn arithmetic_primitive_5_evaluate (primitive : ArithmeticPrimitive5, _input
 
 
 
-pub fn arithmetic_primitive_n_evaluate (primitive : ArithmeticPrimitiveN, inputs : &[Value], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn arithmetic_primitive_n_evaluate (primitive : ArithmeticPrimitiveN, inputs : &[&Value], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	match primitive {
 		
@@ -549,7 +549,7 @@ pub fn arithmetic_primitive_n_evaluate (primitive : ArithmeticPrimitiveN, inputs
 		}
 	}
 	
-	let mut output : Value = try! (number_coerce_1 (&inputs[0])) .into_value ();
+	let mut output : Value = try! (number_coerce_1 (inputs[0])) .into_value ();
 	
 	if inputs_count == 1 {
 		output = match primitive {
@@ -573,7 +573,7 @@ pub fn arithmetic_primitive_n_evaluate (primitive : ArithmeticPrimitiveN, inputs
 		succeed! (output);
 	}
 	
-	for input in &inputs[1..] {
+	for input in inputs[1..].iter () {
 		output = match primitive {
 			
 			ArithmeticPrimitiveN::Addition =>

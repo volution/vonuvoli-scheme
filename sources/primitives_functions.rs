@@ -401,7 +401,7 @@ pub fn functions_primitive_5_evaluate (primitive : FunctionsPrimitive5, input_1 
 
 
 
-pub fn functions_primitive_n_evaluate (primitive : FunctionsPrimitiveN, inputs : &[Value], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn functions_primitive_n_evaluate (primitive : FunctionsPrimitiveN, inputs : &[&Value], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		FunctionsPrimitiveN::Call => {

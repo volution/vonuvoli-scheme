@@ -381,7 +381,7 @@ pub fn list_primitive_5_evaluate (primitive : ListPrimitive5, input_1 : &Value, 
 
 
 
-pub fn list_primitive_n_evaluate (primitive : ListPrimitiveN, inputs : &[Value], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn list_primitive_n_evaluate (primitive : ListPrimitiveN, inputs : &[&Value], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		ListPrimitiveN::ListMake =>
