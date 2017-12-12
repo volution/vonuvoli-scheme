@@ -38,8 +38,22 @@ pub mod exports {
 	pub use super::procedure_primitive_4_evaluate;
 	pub use super::procedure_primitive_5_evaluate;
 	pub use super::procedure_primitive_n_evaluate;
-	pub use super::procedure_primitive_v_evaluate;
-	pub use super::procedure_primitive_evaluate;
+	
+	pub use super::procedure_primitive_v_evaluate_0;
+	pub use super::procedure_primitive_v_evaluate_1;
+	pub use super::procedure_primitive_v_evaluate_2;
+	pub use super::procedure_primitive_v_evaluate_3;
+	pub use super::procedure_primitive_v_evaluate_4;
+	pub use super::procedure_primitive_v_evaluate_5;
+	pub use super::procedure_primitive_v_evaluate_n;
+	
+	pub use super::procedure_primitive_g_evaluate_0;
+	pub use super::procedure_primitive_g_evaluate_1;
+	pub use super::procedure_primitive_g_evaluate_2;
+	pub use super::procedure_primitive_g_evaluate_3;
+	pub use super::procedure_primitive_g_evaluate_4;
+	pub use super::procedure_primitive_g_evaluate_5;
+	pub use super::procedure_primitive_g_evaluate_n;
 	
 	pub use super::procedure_primitive_v_alternative_0;
 	pub use super::procedure_primitive_v_alternative_1;
@@ -534,9 +548,106 @@ pub fn procedure_primitive_n_evaluate (primitive : ProcedurePrimitiveN, inputs :
 
 
 
-pub fn procedure_primitive_v_evaluate (primitive : ProcedurePrimitiveV, inputs : &[Value], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn procedure_primitive_v_evaluate_0 (primitive : ProcedurePrimitiveV, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
-	match inputs.len () {
+	if let Some (primitive) = procedure_primitive_v_alternative_0 (primitive) {
+		return procedure_primitive_0_evaluate (primitive, evaluator);
+	}
+	
+	if let Some (primitive) = procedure_primitive_v_alternative_n (primitive) {
+		return procedure_primitive_n_evaluate (primitive, &[], evaluator);
+	}
+	
+	fail! (0x45c55a28);
+}
+
+
+
+
+pub fn procedure_primitive_v_evaluate_1 (primitive : ProcedurePrimitiveV, input_1 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	
+	if let Some (primitive) = procedure_primitive_v_alternative_1 (primitive) {
+		return procedure_primitive_1_evaluate (primitive, input_1, evaluator);
+	}
+	
+	if let Some (primitive) = procedure_primitive_v_alternative_n (primitive) {
+		return procedure_primitive_n_evaluate (primitive, &[input_1], evaluator);
+	}
+	
+	fail! (0xef55f95e);
+}
+
+
+
+
+pub fn procedure_primitive_v_evaluate_2 (primitive : ProcedurePrimitiveV, input_1 : &Value, input_2 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	
+	if let Some (primitive) = procedure_primitive_v_alternative_2 (primitive) {
+		return procedure_primitive_2_evaluate (primitive, input_1, input_2, evaluator);
+	}
+	
+	if let Some (primitive) = procedure_primitive_v_alternative_n (primitive) {
+		return procedure_primitive_n_evaluate (primitive, &[input_1, input_2], evaluator);
+	}
+	
+	fail! (0x3f354a4d);
+}
+
+
+
+
+pub fn procedure_primitive_v_evaluate_3 (primitive : ProcedurePrimitiveV, input_1 : &Value, input_2 : &Value, input_3 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	
+	if let Some (primitive) = procedure_primitive_v_alternative_3 (primitive) {
+		return procedure_primitive_3_evaluate (primitive, input_1, input_2, input_3, evaluator);
+	}
+	
+	if let Some (primitive) = procedure_primitive_v_alternative_n (primitive) {
+		return procedure_primitive_n_evaluate (primitive, &[input_1, input_2, input_3], evaluator);
+	}
+	
+	fail! (0x315dd3f2);
+}
+
+
+
+
+pub fn procedure_primitive_v_evaluate_4 (primitive : ProcedurePrimitiveV, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	
+	if let Some (primitive) = procedure_primitive_v_alternative_4 (primitive) {
+		return procedure_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4, evaluator);
+	}
+	
+	if let Some (primitive) = procedure_primitive_v_alternative_n (primitive) {
+		return procedure_primitive_n_evaluate (primitive, &[input_1, input_2, input_3, input_4], evaluator);
+	}
+	
+	fail! (0x7ff0968c);
+}
+
+
+
+
+pub fn procedure_primitive_v_evaluate_5 (primitive : ProcedurePrimitiveV, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	
+	if let Some (primitive) = procedure_primitive_v_alternative_5 (primitive) {
+		return procedure_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, evaluator);
+	}
+	
+	if let Some (primitive) = procedure_primitive_v_alternative_n (primitive) {
+		return procedure_primitive_n_evaluate (primitive, &[input_1, input_2, input_3, input_4, input_5], evaluator);
+	}
+	
+	fail! (0x93a6cbdc);
+}
+
+
+
+
+pub fn procedure_primitive_v_evaluate_n (primitive : ProcedurePrimitiveV, inputs : &[&Value], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	let inputs_count = inputs.len ();
+	
+	match inputs_count {
 		
 		0 =>
 			if let Some (primitive) = procedure_primitive_v_alternative_0 (primitive) {
@@ -582,8 +693,183 @@ pub fn procedure_primitive_v_evaluate (primitive : ProcedurePrimitiveV, inputs :
 
 
 
-pub fn procedure_primitive_evaluate (primitive : ProcedurePrimitive, inputs : &[Value], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn procedure_primitive_g_evaluate_0 (primitive : ProcedurePrimitive, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	match primitive {
+		
+		ProcedurePrimitive::Primitive0 (primitive) =>
+			return procedure_primitive_0_evaluate (primitive, evaluator),
+		
+		ProcedurePrimitive::PrimitiveN (primitive) =>
+			return procedure_primitive_n_evaluate (primitive, &[], evaluator),
+		
+		ProcedurePrimitive::PrimitiveV (primitive) =>
+			return procedure_primitive_v_evaluate_0 (primitive, evaluator),
+		
+		ProcedurePrimitive::Unimplemented =>
+			fail_unimplemented! (0x10d3710f), // OK
+		
+		ProcedurePrimitive::Unsupported =>
+			fail_unimplemented! (0x8baac30b), // OK
+		
+		ProcedurePrimitive::Reserved =>
+			fail! (0xb687a39c),
+		
+		_ =>
+			fail! (0x38623a76),
+	}
+}
+
+
+
+
+pub fn procedure_primitive_g_evaluate_1 (primitive : ProcedurePrimitive, input_1 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	match primitive {
+		
+		ProcedurePrimitive::Primitive1 (primitive) =>
+			return procedure_primitive_1_evaluate (primitive, input_1, evaluator),
+		
+		ProcedurePrimitive::PrimitiveN (primitive) =>
+			return procedure_primitive_n_evaluate (primitive, &[input_1], evaluator),
+		
+		ProcedurePrimitive::PrimitiveV (primitive) =>
+			return procedure_primitive_v_evaluate_1 (primitive, input_1, evaluator),
+		
+		ProcedurePrimitive::Unimplemented =>
+			fail_unimplemented! (0x10d3710f), // OK
+		
+		ProcedurePrimitive::Unsupported =>
+			fail_unimplemented! (0x8baac30b), // OK
+		
+		ProcedurePrimitive::Reserved =>
+			fail! (0xb687a39c),
+		
+		_ =>
+			fail! (0x92f0f0ce),
+	}
+}
+
+
+
+
+pub fn procedure_primitive_g_evaluate_2 (primitive : ProcedurePrimitive, input_1 : &Value, input_2 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	match primitive {
+		
+		ProcedurePrimitive::Primitive2 (primitive) =>
+			return procedure_primitive_2_evaluate (primitive, input_1, input_2, evaluator),
+		
+		ProcedurePrimitive::PrimitiveN (primitive) =>
+			return procedure_primitive_n_evaluate (primitive, &[input_1, input_2], evaluator),
+		
+		ProcedurePrimitive::PrimitiveV (primitive) =>
+			return procedure_primitive_v_evaluate_2 (primitive, input_1, input_2, evaluator),
+		
+		ProcedurePrimitive::Unimplemented =>
+			fail_unimplemented! (0x10d3710f), // OK
+		
+		ProcedurePrimitive::Unsupported =>
+			fail_unimplemented! (0x8baac30b), // OK
+		
+		ProcedurePrimitive::Reserved =>
+			fail! (0xb687a39c),
+		
+		_ =>
+			fail! (0xdaa4c8f5),
+	}
+}
+
+
+
+
+pub fn procedure_primitive_g_evaluate_3 (primitive : ProcedurePrimitive, input_1 : &Value, input_2 : &Value, input_3 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	match primitive {
+		
+		ProcedurePrimitive::Primitive3 (primitive) =>
+			return procedure_primitive_3_evaluate (primitive, input_1, input_2, input_3, evaluator),
+		
+		ProcedurePrimitive::PrimitiveN (primitive) =>
+			return procedure_primitive_n_evaluate (primitive, &[input_1, input_2, input_3], evaluator),
+		
+		ProcedurePrimitive::PrimitiveV (primitive) =>
+			return procedure_primitive_v_evaluate_3 (primitive, input_1, input_2, input_3, evaluator),
+		
+		ProcedurePrimitive::Unimplemented =>
+			fail_unimplemented! (0x10d3710f), // OK
+		
+		ProcedurePrimitive::Unsupported =>
+			fail_unimplemented! (0x8baac30b), // OK
+		
+		ProcedurePrimitive::Reserved =>
+			fail! (0xb687a39c),
+		
+		_ =>
+			fail! (0x99473830),
+	}
+}
+
+
+
+
+pub fn procedure_primitive_g_evaluate_4 (primitive : ProcedurePrimitive, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	match primitive {
+		
+		ProcedurePrimitive::Primitive4 (primitive) =>
+			return procedure_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4, evaluator),
+		
+		ProcedurePrimitive::PrimitiveN (primitive) =>
+			return procedure_primitive_n_evaluate (primitive, &[input_1, input_2, input_3, input_4], evaluator),
+		
+		ProcedurePrimitive::PrimitiveV (primitive) =>
+			return procedure_primitive_v_evaluate_4 (primitive, input_1, input_2, input_3, input_4, evaluator),
+		
+		ProcedurePrimitive::Unimplemented =>
+			fail_unimplemented! (0x10d3710f), // OK
+		
+		ProcedurePrimitive::Unsupported =>
+			fail_unimplemented! (0x8baac30b), // OK
+		
+		ProcedurePrimitive::Reserved =>
+			fail! (0xb687a39c),
+		
+		_ =>
+			fail! (0xb01e600e),
+	}
+}
+
+
+
+
+pub fn procedure_primitive_g_evaluate_5 (primitive : ProcedurePrimitive, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	match primitive {
+		
+		ProcedurePrimitive::Primitive5 (primitive) =>
+			return procedure_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, evaluator),
+		
+		ProcedurePrimitive::PrimitiveN (primitive) =>
+			return procedure_primitive_n_evaluate (primitive, &[input_1, input_2, input_3, input_4, input_5], evaluator),
+		
+		ProcedurePrimitive::PrimitiveV (primitive) =>
+			return procedure_primitive_v_evaluate_5 (primitive, input_1, input_2, input_3, input_4, input_5, evaluator),
+		
+		ProcedurePrimitive::Unimplemented =>
+			fail_unimplemented! (0x10d3710f), // OK
+		
+		ProcedurePrimitive::Unsupported =>
+			fail_unimplemented! (0x8baac30b), // OK
+		
+		ProcedurePrimitive::Reserved =>
+			fail! (0xb687a39c),
+		
+		_ =>
+			fail! (0x5d861664),
+	}
+}
+
+
+
+
+pub fn procedure_primitive_g_evaluate_n (primitive : ProcedurePrimitive, inputs : &[&Value], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let inputs_count = inputs.len ();
+	
 	match primitive {
 		
 		ProcedurePrimitive::Primitive0 (primitive) =>
