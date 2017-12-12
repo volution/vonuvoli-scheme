@@ -131,16 +131,8 @@ pub enum ArrayPrimitive5 {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ArrayPrimitiveN {
 	
-	ArrayMake,
 	ArrayBuild,
 	ArrayAppend,
-	
-	ArrayRangeFill,
-	ArrayRangeCopy,
-	ArrayRangeClone,
-	
-	ArrayRangeToList,
-	ListRangeToArray,
 	
 }
 
@@ -323,29 +315,11 @@ pub fn array_primitive_5_evaluate (primitive : ArrayPrimitive5, input_1 : &Value
 pub fn array_primitive_n_evaluate (primitive : ArrayPrimitiveN, inputs : &[&Value], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
-		ArrayPrimitiveN::ArrayMake =>
-			fail_panic! (0xdd5940d5),
-		
 		ArrayPrimitiveN::ArrayBuild =>
 			succeed! (array_build_n (inputs)),
 		
 		ArrayPrimitiveN::ArrayAppend =>
 			return array_append_n (inputs),
-		
-		ArrayPrimitiveN::ArrayRangeFill =>
-			fail_panic! (0xe9fd172d),
-		
-		ArrayPrimitiveN::ArrayRangeCopy =>
-			fail_panic! (0xa591cae9),
-		
-		ArrayPrimitiveN::ArrayRangeClone =>
-			fail_panic! (0x4fbc2e34),
-		
-		ArrayPrimitiveN::ArrayRangeToList =>
-			fail_panic! (0xf111e405),
-		
-		ArrayPrimitiveN::ListRangeToArray =>
-			fail_panic! (0xdc1719ad),
 		
 	}
 }
@@ -487,7 +461,21 @@ pub fn array_primitive_v_alternative_5 (primitive : ArrayPrimitiveV) -> (Option<
 
 pub fn array_primitive_v_alternative_n (primitive : ArrayPrimitiveV) -> (Option<ArrayPrimitiveN>) {
 	match primitive {
-		_ =>
+		ArrayPrimitiveV::ArrayMake =>
+			None,
+		ArrayPrimitiveV::ArrayBuild =>
+			Some (ArrayPrimitiveN::ArrayBuild),
+		ArrayPrimitiveV::ArrayAppend =>
+			Some (ArrayPrimitiveN::ArrayAppend),
+		ArrayPrimitiveV::ArrayRangeFill =>
+			None,
+		ArrayPrimitiveV::ArrayRangeCopy =>
+			None,
+		ArrayPrimitiveV::ArrayRangeClone =>
+			None,
+		ArrayPrimitiveV::ArrayRangeToList =>
+			None,
+		ArrayPrimitiveV::ListRangeToArray =>
 			None,
 	}
 }

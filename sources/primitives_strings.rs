@@ -167,24 +167,8 @@ pub enum StringPrimitive5 {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum StringPrimitiveN {
 	
-	StringMake,
 	StringBuild,
 	StringAppend,
-	
-	StringRangeFill,
-	StringRangeCopy,
-	StringRangeClone,
-	
-	StringRangeToList,
-	ListRangeToString,
-	StringRangeToArray,
-	ArrayRangeToString,
-	StringRangeToBytes,
-	BytesRangeToString,
-	
-	StringToNumber,
-	NumberToString,
-	CharacterToDigitNumber,
 	
 }
 
@@ -471,50 +455,11 @@ pub fn string_primitive_5_evaluate (primitive : StringPrimitive5, input_1 : &Val
 pub fn string_primitive_n_evaluate (primitive : StringPrimitiveN, inputs : &[&Value], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
-		StringPrimitiveN::StringMake =>
-			fail_panic! (0x81290cad),
-		
 		StringPrimitiveN::StringBuild =>
 			return string_build_n (inputs),
 		
 		StringPrimitiveN::StringAppend =>
 			return string_append_n (inputs),
-		
-		StringPrimitiveN::StringRangeFill =>
-			fail_panic! (0x04d2afc0),
-		
-		StringPrimitiveN::StringRangeCopy =>
-			fail_panic! (0x8c5e5181),
-		
-		StringPrimitiveN::StringRangeClone =>
-			fail_panic! (0x0d49ddab),
-		
-		StringPrimitiveN::StringRangeToList =>
-			fail_panic! (0x273584ff),
-		
-		StringPrimitiveN::ListRangeToString =>
-			fail_panic! (0xd0a9123a),
-		
-		StringPrimitiveN::StringRangeToArray =>
-			fail_panic! (0x091d3683),
-		
-		StringPrimitiveN::ArrayRangeToString =>
-			fail_panic! (0x5d6d69b0),
-		
-		StringPrimitiveN::StringRangeToBytes =>
-			fail_panic! (0xe7f5f988),
-		
-		StringPrimitiveN::BytesRangeToString =>
-			fail_panic! (0xa4900e52),
-		
-		StringPrimitiveN::StringToNumber =>
-			fail_panic! (0x3fefec61),
-		
-		StringPrimitiveN::NumberToString =>
-			fail_panic! (0x8c1917bf),
-		
-		StringPrimitiveN::CharacterToDigitNumber =>
-			fail_panic! (0x49dc7b05),
 		
 	}
 }
@@ -740,7 +685,35 @@ pub fn string_primitive_v_alternative_5 (primitive : StringPrimitiveV) -> (Optio
 
 pub fn string_primitive_v_alternative_n (primitive : StringPrimitiveV) -> (Option<StringPrimitiveN>) {
 	match primitive {
-		_ =>
+		StringPrimitiveV::StringMake =>
+			None,
+		StringPrimitiveV::StringBuild =>
+			Some (StringPrimitiveN::StringBuild),
+		StringPrimitiveV::StringAppend =>
+			Some (StringPrimitiveN::StringAppend),
+		StringPrimitiveV::StringRangeFill =>
+			None,
+		StringPrimitiveV::StringRangeCopy =>
+			None,
+		StringPrimitiveV::StringRangeClone =>
+			None,
+		StringPrimitiveV::StringRangeToList =>
+			None,
+		StringPrimitiveV::ListRangeToString =>
+			None,
+		StringPrimitiveV::StringRangeToArray =>
+			None,
+		StringPrimitiveV::ArrayRangeToString =>
+			None,
+		StringPrimitiveV::StringRangeToBytes =>
+			None,
+		StringPrimitiveV::BytesRangeToString =>
+			None,
+		StringPrimitiveV::StringToNumber =>
+			None,
+		StringPrimitiveV::NumberToString =>
+			None,
+		StringPrimitiveV::CharacterToDigitNumber =>
 			None,
 	}
 }

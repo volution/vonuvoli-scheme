@@ -633,8 +633,28 @@ pub fn functions_primitive_v_alternative_5 (primitive : FunctionsPrimitiveV) -> 
 
 pub fn functions_primitive_v_alternative_n (primitive : FunctionsPrimitiveV) -> (Option<FunctionsPrimitiveN>) {
 	match primitive {
-		_ =>
-			None,
+		FunctionsPrimitiveV::Call =>
+			Some (FunctionsPrimitiveN::Call),
+		FunctionsPrimitiveV::Apply =>
+			Some (FunctionsPrimitiveN::Apply),
+		FunctionsPrimitiveV::ListsMap =>
+			Some (FunctionsPrimitiveN::ListsMap),
+		FunctionsPrimitiveV::ListsIterate =>
+			Some (FunctionsPrimitiveN::ListsIterate),
+		FunctionsPrimitiveV::ArraysMap =>
+			Some (FunctionsPrimitiveN::ArraysMap),
+		FunctionsPrimitiveV::ArraysIterate =>
+			Some (FunctionsPrimitiveN::ArraysIterate),
+		FunctionsPrimitiveV::BytesMap =>
+			Some (FunctionsPrimitiveN::BytesMap),
+		FunctionsPrimitiveV::BytesIterate =>
+			Some (FunctionsPrimitiveN::BytesIterate),
+		FunctionsPrimitiveV::StringsMap =>
+			Some (FunctionsPrimitiveN::StringsMap),
+		FunctionsPrimitiveV::StringsIterate =>
+			Some (FunctionsPrimitiveN::StringsIterate),
+		FunctionsPrimitiveV::Values =>
+			Some (FunctionsPrimitiveN::Values),
 	}
 }
 

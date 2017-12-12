@@ -137,18 +137,8 @@ pub enum BytesPrimitive5 {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum BytesPrimitiveN {
 	
-	BytesMake,
 	BytesBuild,
 	BytesAppend,
-	
-	BytesRangeFill,
-	BytesRangeCopy,
-	BytesRangeClone,
-	
-	BytesRangeToList,
-	ListRangeToBytes,
-	BytesRangeToArray,
-	ArrayRangeToBytes,
 	
 }
 
@@ -351,35 +341,11 @@ pub fn bytes_primitive_5_evaluate (primitive : BytesPrimitive5, input_1 : &Value
 pub fn bytes_primitive_n_evaluate (primitive : BytesPrimitiveN, inputs : &[&Value], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
-		BytesPrimitiveN::BytesMake =>
-			fail_panic! (0x670a044a),
-		
 		BytesPrimitiveN::BytesBuild =>
 			return bytes_build_n (inputs),
 		
 		BytesPrimitiveN::BytesAppend =>
 			return bytes_append_n (inputs),
-		
-		BytesPrimitiveN::BytesRangeFill =>
-			fail_panic! (0x2837269d),
-		
-		BytesPrimitiveN::BytesRangeCopy =>
-			fail_panic! (0xc1e611dd),
-		
-		BytesPrimitiveN::BytesRangeClone =>
-			fail_panic! (0xf54b2943),
-		
-		BytesPrimitiveN::BytesRangeToList =>
-			fail_panic! (0xc1b7658d),
-		
-		BytesPrimitiveN::ListRangeToBytes =>
-			fail_panic! (0x6de74659),
-		
-		BytesPrimitiveN::BytesRangeToArray =>
-			fail_panic! (0xb3fee627),
-		
-		BytesPrimitiveN::ArrayRangeToBytes =>
-			fail_panic! (0xf8126771),
 		
 	}
 }
@@ -545,7 +511,25 @@ pub fn bytes_primitive_v_alternative_5 (primitive : BytesPrimitiveV) -> (Option<
 
 pub fn bytes_primitive_v_alternative_n (primitive : BytesPrimitiveV) -> (Option<BytesPrimitiveN>) {
 	match primitive {
-		_ =>
+		BytesPrimitiveV::BytesMake =>
+			None,
+		BytesPrimitiveV::BytesBuild =>
+			Some (BytesPrimitiveN::BytesBuild),
+		BytesPrimitiveV::BytesAppend =>
+			Some (BytesPrimitiveN::BytesAppend),
+		BytesPrimitiveV::BytesRangeFill =>
+			None,
+		BytesPrimitiveV::BytesRangeCopy =>
+			None,
+		BytesPrimitiveV::BytesRangeClone =>
+			None,
+		BytesPrimitiveV::BytesRangeToList =>
+			None,
+		BytesPrimitiveV::ListRangeToBytes =>
+			None,
+		BytesPrimitiveV::BytesRangeToArray =>
+			None,
+		BytesPrimitiveV::ArrayRangeToBytes =>
 			None,
 	}
 }

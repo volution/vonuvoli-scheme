@@ -374,7 +374,17 @@ pub fn bitwise_primitive_v_alternative_2 (primitive : BitwisePrimitiveV) -> (Opt
 
 pub fn bitwise_primitive_v_alternative_3 (primitive : BitwisePrimitiveV) -> (Option<BitwisePrimitive3>) {
 	match primitive {
-		_ =>
+		BitwisePrimitiveV::And =>
+			None,
+		BitwisePrimitiveV::Or =>
+			None,
+		BitwisePrimitiveV::Xor =>
+			None,
+		BitwisePrimitiveV::Nand =>
+			None,
+		BitwisePrimitiveV::Nor =>
+			None,
+		BitwisePrimitiveV::Nxor =>
 			None,
 	}
 }
@@ -382,7 +392,17 @@ pub fn bitwise_primitive_v_alternative_3 (primitive : BitwisePrimitiveV) -> (Opt
 
 pub fn bitwise_primitive_v_alternative_4 (primitive : BitwisePrimitiveV) -> (Option<BitwisePrimitive4>) {
 	match primitive {
-		_ =>
+		BitwisePrimitiveV::And =>
+			None,
+		BitwisePrimitiveV::Or =>
+			None,
+		BitwisePrimitiveV::Xor =>
+			None,
+		BitwisePrimitiveV::Nand =>
+			None,
+		BitwisePrimitiveV::Nor =>
+			None,
+		BitwisePrimitiveV::Nxor =>
 			None,
 	}
 }
@@ -390,7 +410,17 @@ pub fn bitwise_primitive_v_alternative_4 (primitive : BitwisePrimitiveV) -> (Opt
 
 pub fn bitwise_primitive_v_alternative_5 (primitive : BitwisePrimitiveV) -> (Option<BitwisePrimitive5>) {
 	match primitive {
-		_ =>
+		BitwisePrimitiveV::And =>
+			None,
+		BitwisePrimitiveV::Or =>
+			None,
+		BitwisePrimitiveV::Xor =>
+			None,
+		BitwisePrimitiveV::Nand =>
+			None,
+		BitwisePrimitiveV::Nor =>
+			None,
+		BitwisePrimitiveV::Nxor =>
 			None,
 	}
 }
@@ -398,8 +428,18 @@ pub fn bitwise_primitive_v_alternative_5 (primitive : BitwisePrimitiveV) -> (Opt
 
 pub fn bitwise_primitive_v_alternative_n (primitive : BitwisePrimitiveV) -> (Option<BitwisePrimitiveN>) {
 	match primitive {
-		_ =>
-			None,
+		BitwisePrimitiveV::And =>
+			Some (BitwisePrimitiveN::And),
+		BitwisePrimitiveV::Or =>
+			Some (BitwisePrimitiveN::Or),
+		BitwisePrimitiveV::Xor =>
+			Some (BitwisePrimitiveN::Xor),
+		BitwisePrimitiveV::Nand =>
+			Some (BitwisePrimitiveN::Nand),
+		BitwisePrimitiveV::Nor =>
+			Some (BitwisePrimitiveN::Nor),
+		BitwisePrimitiveV::Nxor =>
+			Some (BitwisePrimitiveN::Nxor),
 	}
 }
 

@@ -354,7 +354,17 @@ pub fn boolean_primitive_v_alternative_2 (primitive : BooleanPrimitiveV) -> (Opt
 
 pub fn boolean_primitive_v_alternative_3 (primitive : BooleanPrimitiveV) -> (Option<BooleanPrimitive3>) {
 	match primitive {
-		_ =>
+		BooleanPrimitiveV::And =>
+			None,
+		BooleanPrimitiveV::Or =>
+			None,
+		BooleanPrimitiveV::Xor =>
+			None,
+		BooleanPrimitiveV::Nand =>
+			None,
+		BooleanPrimitiveV::Nor =>
+			None,
+		BooleanPrimitiveV::Nxor =>
 			None,
 	}
 }
@@ -362,7 +372,17 @@ pub fn boolean_primitive_v_alternative_3 (primitive : BooleanPrimitiveV) -> (Opt
 
 pub fn boolean_primitive_v_alternative_4 (primitive : BooleanPrimitiveV) -> (Option<BooleanPrimitive4>) {
 	match primitive {
-		_ =>
+		BooleanPrimitiveV::And =>
+			None,
+		BooleanPrimitiveV::Or =>
+			None,
+		BooleanPrimitiveV::Xor =>
+			None,
+		BooleanPrimitiveV::Nand =>
+			None,
+		BooleanPrimitiveV::Nor =>
+			None,
+		BooleanPrimitiveV::Nxor =>
 			None,
 	}
 }
@@ -370,7 +390,17 @@ pub fn boolean_primitive_v_alternative_4 (primitive : BooleanPrimitiveV) -> (Opt
 
 pub fn boolean_primitive_v_alternative_5 (primitive : BooleanPrimitiveV) -> (Option<BooleanPrimitive5>) {
 	match primitive {
-		_ =>
+		BooleanPrimitiveV::And =>
+			None,
+		BooleanPrimitiveV::Or =>
+			None,
+		BooleanPrimitiveV::Xor =>
+			None,
+		BooleanPrimitiveV::Nand =>
+			None,
+		BooleanPrimitiveV::Nor =>
+			None,
+		BooleanPrimitiveV::Nxor =>
 			None,
 	}
 }
@@ -378,8 +408,18 @@ pub fn boolean_primitive_v_alternative_5 (primitive : BooleanPrimitiveV) -> (Opt
 
 pub fn boolean_primitive_v_alternative_n (primitive : BooleanPrimitiveV) -> (Option<BooleanPrimitiveN>) {
 	match primitive {
-		_ =>
-			None,
+		BooleanPrimitiveV::And =>
+			Some (BooleanPrimitiveN::And),
+		BooleanPrimitiveV::Or =>
+			Some (BooleanPrimitiveN::Or),
+		BooleanPrimitiveV::Xor =>
+			Some (BooleanPrimitiveN::Xor),
+		BooleanPrimitiveV::Nand =>
+			Some (BooleanPrimitiveN::Nand),
+		BooleanPrimitiveV::Nor =>
+			Some (BooleanPrimitiveN::Nor),
+		BooleanPrimitiveV::Nxor =>
+			Some (BooleanPrimitiveN::Nxor),
 	}
 }
 

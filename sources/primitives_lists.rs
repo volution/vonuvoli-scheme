@@ -150,16 +150,8 @@ pub enum ListPrimitive5 {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ListPrimitiveN {
 	
-	ListMake,
 	ListBuild,
 	ListAppend,
-	
-	ListRangeFill,
-	ListRangeCopy,
-	ListRangeClone,
-	
-	ListMember,
-	ListAssoc,
 	
 }
 
@@ -384,29 +376,11 @@ pub fn list_primitive_5_evaluate (primitive : ListPrimitive5, input_1 : &Value, 
 pub fn list_primitive_n_evaluate (primitive : ListPrimitiveN, inputs : &[&Value], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
-		ListPrimitiveN::ListMake =>
-			fail_panic! (0xdd5940d5),
-		
 		ListPrimitiveN::ListBuild =>
 			succeed! (list_build_n (inputs)),
 		
 		ListPrimitiveN::ListAppend =>
 			return list_append_n (inputs),
-		
-		ListPrimitiveN::ListRangeFill =>
-			fail_panic! (0x0634b1d5),
-		
-		ListPrimitiveN::ListRangeCopy =>
-			fail_panic! (0x749c9d57),
-		
-		ListPrimitiveN::ListRangeClone =>
-			fail_panic! (0xf28cef92),
-		
-		ListPrimitiveN::ListMember =>
-			fail_panic! (0x0bac53c1),
-		
-		ListPrimitiveN::ListAssoc =>
-			fail_panic! (0x69aaa417),
 		
 	}
 }
@@ -548,7 +522,21 @@ pub fn list_primitive_v_alternative_5 (primitive : ListPrimitiveV) -> (Option<Li
 
 pub fn list_primitive_v_alternative_n (primitive : ListPrimitiveV) -> (Option<ListPrimitiveN>) {
 	match primitive {
-		_ =>
+		ListPrimitiveV::ListMake =>
+			None,
+		ListPrimitiveV::ListBuild =>
+			Some (ListPrimitiveN::ListBuild),
+		ListPrimitiveV::ListAppend =>
+			Some (ListPrimitiveN::ListAppend),
+		ListPrimitiveV::ListRangeFill =>
+			None,
+		ListPrimitiveV::ListRangeCopy =>
+			None,
+		ListPrimitiveV::ListRangeClone =>
+			None,
+		ListPrimitiveV::ListMember =>
+			None,
+		ListPrimitiveV::ListAssoc =>
 			None,
 	}
 }

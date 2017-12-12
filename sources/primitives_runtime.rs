@@ -85,12 +85,7 @@ pub enum RuntimePrimitive5 {}
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
-pub enum RuntimePrimitiveN {
-	
-	ProcessExit,
-	ProcessExitEmergency,
-	
-}
+pub enum RuntimePrimitiveN {}
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
@@ -179,16 +174,8 @@ pub fn runtime_primitive_5_evaluate (primitive : RuntimePrimitive5, _input_1 : &
 
 
 
-pub fn runtime_primitive_n_evaluate (primitive : RuntimePrimitiveN, _inputs : &[Value], _evaluator : &EvaluatorContext) -> (Outcome<Value>) {
-	match primitive {
-		
-		RuntimePrimitiveN::ProcessExit =>
-			fail_panic! (0xcb935dec),
-		
-		RuntimePrimitiveN::ProcessExitEmergency =>
-			fail_panic! (0xbde2b2cf),
-		
-	}
+pub fn runtime_primitive_n_evaluate (primitive : RuntimePrimitiveN, _inputs : &[&Value], _evaluator : &EvaluatorContext) -> (Outcome<Value>) {
+	match primitive {}
 }
 
 
@@ -254,9 +241,13 @@ pub fn runtime_primitive_v_alternative_5 (primitive : RuntimePrimitiveV) -> (Opt
 }
 
 
+
+
 pub fn runtime_primitive_v_alternative_n (primitive : RuntimePrimitiveV) -> (Option<RuntimePrimitiveN>) {
 	match primitive {
-		_ =>
+		RuntimePrimitiveV::ProcessExit =>
+			None,
+		RuntimePrimitiveV::ProcessExitEmergency =>
 			None,
 	}
 }

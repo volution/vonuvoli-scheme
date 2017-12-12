@@ -755,8 +755,22 @@ pub fn arithmetic_primitive_v_alternative_5 (primitive : ArithmeticPrimitiveV) -
 
 pub fn arithmetic_primitive_v_alternative_n (primitive : ArithmeticPrimitiveV) -> (Option<ArithmeticPrimitiveN>) {
 	match primitive {
-		_ =>
-			None,
+		ArithmeticPrimitiveV::Addition =>
+			Some (ArithmeticPrimitiveN::Addition),
+		ArithmeticPrimitiveV::Subtraction =>
+			Some (ArithmeticPrimitiveN::Subtraction),
+		ArithmeticPrimitiveV::Multiplication =>
+			Some (ArithmeticPrimitiveN::Multiplication),
+		ArithmeticPrimitiveV::Division =>
+			Some (ArithmeticPrimitiveN::Division),
+		ArithmeticPrimitiveV::GreatestCommonDivisor =>
+			Some (ArithmeticPrimitiveN::GreatestCommonDivisor),
+		ArithmeticPrimitiveV::LeastCommonMultiple =>
+			Some (ArithmeticPrimitiveN::LeastCommonMultiple),
+		ArithmeticPrimitiveV::Minimum =>
+			Some (ArithmeticPrimitiveN::Minimum),
+		ArithmeticPrimitiveV::Maximum =>
+			Some (ArithmeticPrimitiveN::Maximum),
 	}
 }
 
