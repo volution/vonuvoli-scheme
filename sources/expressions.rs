@@ -14,6 +14,7 @@ pub mod exports {
 	pub use super::Expression;
 	pub use super::ExpressionBox;
 	pub use super::ExpressionVec;
+	pub use super::ExpressionSequenceOperator;
 }
 
 
@@ -25,7 +26,8 @@ pub enum Expression {
 	Void,
 	Value ( Value ),
 	
-	Sequence ( StdBox<[Expression]> ),
+	Sequence ( ExpressionSequenceOperator, StdBox<[Expression]> ),
+	
 	ConditionalIf ( StdBox<[(Option<(Expression, bool)>, Option<Expression>)]> ),
 	ConditionalMatch ( StdBox<Expression>, StdBox<[(Option<(StdBox<[Value]>, bool)>, Option<Expression>)]> ),
 	
@@ -92,5 +94,16 @@ impl StdTryAsRef<Expression> for Expression {
 	fn try_as_ref (&self) -> (Outcome<&Expression>) {
 		succeed! (self);
 	}
+}
+
+
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub enum ExpressionSequenceOperator {
+	ReturnLast,
+	ReturnFirst,
+	And,
+	Or,
 }
 

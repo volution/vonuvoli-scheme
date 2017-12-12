@@ -73,8 +73,8 @@ impl Evaluator {
 			Expression::Value (ref value) =>
 				Ok (value.clone ()),
 			
-			Expression::Sequence (ref expressions) =>
-				self.evaluate_sequence (evaluation, expressions),
+			Expression::Sequence (operator, ref expressions) =>
+				self.evaluate_sequence (evaluation, operator, expressions),
 			Expression::ConditionalIf (ref clauses) =>
 				self.evaluate_conditional_if (evaluation, clauses),
 			Expression::ConditionalMatch (ref actual, ref clauses) =>
@@ -177,12 +177,69 @@ impl Evaluator {
 	
 	
 	
-	fn evaluate_sequence (&self, evaluation : &mut EvaluatorContext, expressions : &[Expression]) -> (Outcome<Value>) {
-		let mut output = VOID.into ();
-		for expression in expressions {
-			output = try! (self.evaluate (evaluation, expression));
+	fn evaluate_sequence (&self, evaluation : &mut EvaluatorContext, operator : ExpressionSequenceOperator, expressions : &[Expression]) -> (Outcome<Value>) {
+		match operator {
+			
+			ExpressionSequenceOperator::ReturnLast => {
+				let mut output = None;
+				for expression in expressions {
+					let output_1 = try! (self.evaluate (evaluation, expression));
+					output = Some (output_1);
+				}
+				if let Some (output) = output {
+					succeed! (output);
+				} else {
+					succeed! (VOID.into ());
+				}
+			},
+			
+			ExpressionSequenceOperator::ReturnFirst => {
+				let mut output = None;
+				for expression in expressions {
+					let output_1 = try! (self.evaluate (evaluation, expression));
+					if output.is_none () {
+						output = Some (output_1);
+					}
+				}
+				if let Some (output) = output {
+					succeed! (output);
+				} else {
+					succeed! (VOID.into ());
+				}
+			},
+			
+			ExpressionSequenceOperator::And => {
+				let mut output = None;
+				for expression in expressions {
+					let output_1 = try! (self.evaluate (evaluation, expression));
+					if is_false (&output_1) {
+						succeed! (output_1);
+					}
+					output = Some (output_1);
+				}
+				if let Some (output) = output {
+					succeed! (output);
+				} else {
+					succeed! (TRUE.into ());
+				}
+			},
+			
+			ExpressionSequenceOperator::Or => {
+				let mut output = None;
+				for expression in expressions {
+					let output_1 = try! (self.evaluate (evaluation, expression));
+					if is_not_false (&output_1) {
+						succeed! (output_1);
+					}
+					output = Some (output_1);
+				}
+				if let Some (output) = output {
+					succeed! (output);
+				} else {
+					succeed! (FALSE.into ());
+				}
+			}
 		}
-		return Ok (output);
 	}
 	
 	
