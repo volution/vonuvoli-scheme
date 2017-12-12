@@ -8,23 +8,34 @@ macro_rules! succeeded {
 }
 
 #[ macro_export ]
+macro_rules! failed_or_panic {
+	( $code : expr, $outcome : expr ) => (
+		if true {
+			$outcome
+		} else {
+			panic! ("{:08x}", $code as u32);
+		}
+	);
+}
+
+#[ macro_export ]
 macro_rules! failed {
 	( $code : expr ) => (
-		::std::result::Result::Err ($crate::errors::exports::error_generic ($code))
+		failed_or_panic! ($code, ::std::result::Result::Err ($crate::errors::exports::error_generic ($code)))
 	);
 }
 
 #[ macro_export ]
 macro_rules! failed_unimplemented {
 	( $code : expr ) => (
-		::std::result::Result::Err ($crate::errors::exports::error_unimplemented ($code))
+		failed_or_panic! ($code, ::std::result::Result::Err ($crate::errors::exports::error_unimplemented ($code)))
 	);
 }
 
 #[ macro_export ]
 macro_rules! failed_panic {
 	( $code : expr ) => (
-		::std::result::Result::Err ($crate::errors::exports::error_panic ($code))
+		failed_or_panic! ($code, ::std::result::Result::Err ($crate::errors::exports::error_panic ($code)))
 	);
 }
 
@@ -53,14 +64,14 @@ macro_rules! fail_unimplemented {
 #[ macro_export ]
 macro_rules! fail_panic {
 	( $code : expr ) => (
-		return failed_panic! ($code)
+		return failed_panic! ($code);
 	);
 }
 
 #[ macro_export ]
 macro_rules! fail_unreachable {
 	( $code : expr ) => (
-		return failed_panic! ($code)
+		return failed_panic! ($code);
 	);
 }
 
@@ -357,12 +368,25 @@ macro_rules! vec_into {
 }
 
 macro_rules! vec_map {
+	( $iterator : expr, $element : pat, $expression : expr ) => (
+		$iterator.map (|$element| $expression) .collect::<::std::vec::Vec<_>> ()
+	);
+}
+
+macro_rules! vec_map_into {
 	( $vector : expr, $element : pat, $expression : expr ) => (
 		$vector.into_iter () .map (|$element| $expression) .collect::<::std::vec::Vec<_>> ()
 	);
 }
 
+#[ allow (unused_macros) ]
 macro_rules! try_vec_map {
+	( $iterator : expr, $element : pat, $expression : expr ) => (
+		try! ($iterator.map (|$element| $expression) .collect::<::std::result::Result<::std::vec::Vec<_>, _>> ())
+	);
+}
+
+macro_rules! try_vec_map_into {
 	( $vector : expr, $element : pat, $expression : expr ) => (
 		try! ($vector.into_iter () .map (|$element| $expression) .collect::<::std::result::Result<::std::vec::Vec<_>, _>> ())
 	);
@@ -370,6 +394,13 @@ macro_rules! try_vec_map {
 
 #[ allow (unused_macros) ]
 macro_rules! vec_fold {
+	( $iterator : expr, $initial : expr, ($accumulator : pat, $element : pat), $expression : block ) => (
+		$iterator.fold ($initial, |$accumulator, $element| $expression)
+	);
+}
+
+#[ allow (unused_macros) ]
+macro_rules! vec_fold_into {
 	( $vector : expr, $initial : expr, ($accumulator : pat, $element : pat), $expression : block ) => (
 		$vector.into_iter () .fold ($initial, |$accumulator, $element| $expression)
 	);
@@ -377,6 +408,21 @@ macro_rules! vec_fold {
 
 #[ allow (unused_macros) ]
 macro_rules! try_vec_fold {
+	( $iterator : expr, $initial : expr, ($accumulator : pat, $element : pat), $expression : block ) => (
+		// FIXME:  Try to elide the `$crate::errors::exports::Error`!
+		try! ($iterator.fold::<::std::result::Result<_, $crate::errors::exports::Error>, _> (::std::result::Result::Ok ($initial), |accumulator, $element| {
+			match accumulator {
+				::std::result::Result::Ok ($accumulator) =>
+					$expression,
+				error =>
+					error,
+			}
+		}))
+	);
+}
+
+#[ allow (unused_macros) ]
+macro_rules! try_vec_fold_into {
 	( $vector : expr, $initial : expr, ($accumulator : pat, $element : pat), $expression : block ) => (
 		// FIXME:  Try to elide the `$crate::errors::exports::Error`!
 		try! ($vector.into_iter () .fold::<::std::result::Result<_, $crate::errors::exports::Error>, _> (::std::result::Result::Ok ($initial), |accumulator, $element| {
@@ -393,6 +439,39 @@ macro_rules! try_vec_fold {
 
 
 
+#[ allow (unused_macros) ]
+macro_rules! outcome_map {
+	( $outcome : ident, $expression : expr ) => (
+		outcome_map! ($outcome, $outcome, $expression)
+	);
+	( $outcome : expr, $value : pat, $expression : expr ) => (
+		match $outcome {
+			Ok ($value) =>
+				Ok ($expression),
+			Err (error) =>
+				Err (error),
+		}
+	);
+}
+
+#[ allow (unused_macros) ]
+macro_rules! try_outcome_map {
+	( $outcome : ident, $expression : expr ) => (
+		try_outcome_map! ($outcome, $outcome, $expression)
+	);
+	( $outcome : expr, $value : pat, $expression : expr ) => (
+		match $outcome {
+			Ok ($value) =>
+				Ok (try! ($expression)),
+			Err (error) =>
+				Err (error),
+		}
+	);
+}
+
+
+
+
 macro_rules! option_map {
 	( $option : ident, $expression : expr ) => (
 		option_map! ($option, $option, $expression)
@@ -402,7 +481,7 @@ macro_rules! option_map {
 			Some ($value) =>
 				Some ($expression),
 			None =>
-				None
+				None,
 		}
 	);
 }
@@ -416,7 +495,7 @@ macro_rules! try_option_map {
 			Some ($value) =>
 				Some (try! ($expression)),
 			None =>
-				None
+				None,
 		}
 	);
 }
