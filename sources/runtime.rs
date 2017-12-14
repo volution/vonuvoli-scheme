@@ -32,7 +32,7 @@ pub mod exports {
 	pub use super::{vec_into};
 	pub use super::{vec_append_2};
 	pub use super::{vec_explode_1, vec_explode_1n, vec_explode_2, vec_explode_2n, vec_explode_3, vec_explode_3n};
-	pub use super::{vec_zip_2};
+	pub use super::{vec_zip_2, vec_unzip_2};
 	pub use super::{vec_clone_vec, vec_clone_slice};
 	pub use super::{vec_clone_vec_ref, vec_clone_slice_ref, vec_clone_iter_ref};
 	pub use super::{vec_vec_to_ref, vec_slice_to_ref, vec_iter_to_ref};
@@ -153,7 +153,34 @@ pub fn vec_explode_3n <Element> (vector : Vec<Element>) -> (Outcome<(Element, El
 
 
 pub fn vec_zip_2 <Element1, Element2> (vector_1 : Vec<Element1>, vector_2 : Vec<Element2>) -> (Vec<(Element1, Element2)>) {
-	return vector_1.into_iter () .zip (vector_2.into_iter ()) .collect ();
+	if vector_1.len () != vector_2.len () {
+		panic! ("a8f6ee9e");
+	}
+	let mut vector = Vec::with_capacity (vector_1.len ());
+	let mut vector_1 = vector_1.into_iter ();
+	let mut vector_2 = vector_2.into_iter ();
+	loop {
+		match (vector_1.next (), vector_2.next ()) {
+			(Some (element_1), Some (element_2)) =>
+				vector.push ((element_1, element_2)),
+			(None, None) =>
+				return vector,
+			(Some (_), None) =>
+				panic! ("7c360c22"),
+			(None, Some (_)) =>
+				panic! ("aac907db"),
+		}
+	}
+}
+
+pub fn vec_unzip_2 <Element1, Element2> (vector : Vec<(Element1, Element2)>) -> ((Vec<Element1>, Vec<Element2>)) {
+	let mut vector_1 = Vec::with_capacity (vector.len ());
+	let mut vector_2 = Vec::with_capacity (vector.len ());
+	for (element_1, element_2) in vector.into_iter () {
+		vector_1.push (element_1);
+		vector_2.push (element_2);
+	}
+	return (vector_1, vector_2);
 }
 
 
