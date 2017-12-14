@@ -50,6 +50,8 @@ def_tests_from_file! (
 		
 		runtime => "scheme/runtime.sst",
 		
+		optimizations => "scheme/optimizations.sst",
+		
 	);
 
 
