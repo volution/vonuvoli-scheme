@@ -1,7 +1,7 @@
 
 
 use super::contexts::exports::*;
-use super::errors::exports::*;
+use super::extended_procedures::exports::*;
 use super::lambdas::exports::*;
 use super::primitives::exports::*;
 use super::runtime::exports::*;
@@ -29,7 +29,7 @@ pub enum Expression {
 	Sequence ( ExpressionSequenceOperator, StdBox<[Expression]> ),
 	
 	ConditionalIf ( StdBox<[(Option<(Expression, bool)>, Option<Expression>)]> ),
-	ConditionalMatch ( StdBox<Expression>, StdBox<[(Option<(StdBox<[Value]>, bool)>, Option<Expression>)]> ),
+	ConditionalMatch ( ExpressionBox, StdBox<[(Option<(StdBox<[Value]>, bool)>, Option<Expression>)]> ),
 	
 	Loop ( Option<ExpressionBox>, Option<ExpressionBox>, Option<ExpressionBox>, StdBox<[(Option<(Expression, bool)>, Option<Expression>)]> ),
 	
@@ -73,7 +73,25 @@ pub enum Expression {
 	ProcedurePrimitiveCallN ( ProcedurePrimitiveN, StdBox<[Expression]> ),
 	ProcedurePrimitiveCallV ( ProcedurePrimitiveV, StdBox<[Expression]> ),
 	
-	Lambda ( StdBox<LambdaTemplate>, ExpressionBox, StdBox<[RegistersBindingTemplate]>, StdBox<[RegistersBindingTemplate]> ),
+	ProcedureExtendedCall ( ProcedureExtended, StdBox<[Expression]> ),
+	ProcedureExtendedCall0 ( ProcedureExtended ),
+	ProcedureExtendedCall1 ( ProcedureExtended, ExpressionBox ),
+	ProcedureExtendedCall2 ( ProcedureExtended, ExpressionBox, ExpressionBox ),
+	ProcedureExtendedCall3 ( ProcedureExtended, ExpressionBox, ExpressionBox, ExpressionBox ),
+	ProcedureExtendedCall4 ( ProcedureExtended, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
+	ProcedureExtendedCall5 ( ProcedureExtended, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
+	ProcedureExtendedCallN ( ProcedureExtended, StdBox<[Expression]> ),
+	
+	ProcedureLambdaCall ( StdRc<LambdaInternals>, StdBox<[Expression]> ),
+	ProcedureLambdaCall0 ( StdRc<LambdaInternals> ),
+	ProcedureLambdaCall1 ( StdRc<LambdaInternals>, ExpressionBox ),
+	ProcedureLambdaCall2 ( StdRc<LambdaInternals>, ExpressionBox, ExpressionBox ),
+	ProcedureLambdaCall3 ( StdRc<LambdaInternals>, ExpressionBox, ExpressionBox, ExpressionBox ),
+	ProcedureLambdaCall4 ( StdRc<LambdaInternals>, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
+	ProcedureLambdaCall5 ( StdRc<LambdaInternals>, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
+	ProcedureLambdaCallN ( StdRc<LambdaInternals>, StdBox<[Expression]> ),
+	
+	Lambda ( LambdaTemplate, ExpressionBox, StdBox<[RegistersBindingTemplate]>, StdBox<[RegistersBindingTemplate]> ),
 	
 }
 

@@ -57,8 +57,12 @@ impl Evaluator {
 		return Evaluator {};
 	}
 	
-	pub fn fork <'a> (&'a self, context : &'a Context) -> EvaluatorContext<'a> {
+	pub fn fork <'a> (&'a self, context : &'a Context) -> (EvaluatorContext<'a>) {
 		return EvaluatorContext::new (self, Some (context), None);
+	}
+	
+	pub fn fork_0 <'a> (&'a self) -> (EvaluatorContext<'a>) {
+		return EvaluatorContext::new (self, None, None);
 	}
 	
 	
@@ -159,6 +163,40 @@ impl Evaluator {
 				self.evaluate_procedure_primitive_n (evaluation, primitive, inputs),
 			Expression::ProcedurePrimitiveCallV (primitive, ref inputs) =>
 				self.evaluate_procedure_primitive_v (evaluation, primitive, inputs),
+			
+			Expression::ProcedureExtendedCall (ref procedure, ref inputs) =>
+				self.evaluate_procedure_extended (evaluation, procedure, inputs),
+			Expression::ProcedureExtendedCall0 (ref procedure) =>
+				self.evaluate_procedure_extended_0 (evaluation, procedure),
+			Expression::ProcedureExtendedCall1 (ref procedure, ref input_1) =>
+				self.evaluate_procedure_extended_1 (evaluation, procedure, input_1),
+			Expression::ProcedureExtendedCall2 (ref procedure, ref input_1, ref input_2) =>
+				self.evaluate_procedure_extended_2 (evaluation, procedure, input_1, input_2),
+			Expression::ProcedureExtendedCall3 (ref procedure, ref input_1, ref input_2, ref input_3) =>
+				self.evaluate_procedure_extended_3 (evaluation, procedure, input_1, input_2, input_3),
+			Expression::ProcedureExtendedCall4 (ref procedure, ref input_1, ref input_2, ref input_3, ref input_4) =>
+				self.evaluate_procedure_extended_4 (evaluation, procedure, input_1, input_2, input_3, input_4),
+			Expression::ProcedureExtendedCall5 (ref procedure, ref input_1, ref input_2, ref input_3, ref input_4, ref input_5) =>
+				self.evaluate_procedure_extended_5 (evaluation, procedure, input_1, input_2, input_3, input_4, input_5),
+			Expression::ProcedureExtendedCallN (ref procedure, ref inputs) =>
+				self.evaluate_procedure_extended_n (evaluation, procedure, inputs),
+			
+			Expression::ProcedureLambdaCall (ref lambda, ref inputs) =>
+				self.evaluate_procedure_lambda (evaluation, lambda, inputs),
+			Expression::ProcedureLambdaCall0 (ref lambda) =>
+				self.evaluate_procedure_lambda_0 (evaluation, lambda),
+			Expression::ProcedureLambdaCall1 (ref lambda, ref input_1) =>
+				self.evaluate_procedure_lambda_1 (evaluation, lambda, input_1),
+			Expression::ProcedureLambdaCall2 (ref lambda, ref input_1, ref input_2) =>
+				self.evaluate_procedure_lambda_2 (evaluation, lambda, input_1, input_2),
+			Expression::ProcedureLambdaCall3 (ref lambda, ref input_1, ref input_2, ref input_3) =>
+				self.evaluate_procedure_lambda_3 (evaluation, lambda, input_1, input_2, input_3),
+			Expression::ProcedureLambdaCall4 (ref lambda, ref input_1, ref input_2, ref input_3, ref input_4) =>
+				self.evaluate_procedure_lambda_4 (evaluation, lambda, input_1, input_2, input_3, input_4),
+			Expression::ProcedureLambdaCall5 (ref lambda, ref input_1, ref input_2, ref input_3, ref input_4, ref input_5) =>
+				self.evaluate_procedure_lambda_5 (evaluation, lambda, input_1, input_2, input_3, input_4, input_5),
+			Expression::ProcedureLambdaCallN (ref lambda, ref inputs) =>
+				self.evaluate_procedure_lambda_n (evaluation, lambda, inputs),
 			
 		}
 		
@@ -545,21 +583,18 @@ impl Evaluator {
 	
 	
 	
-	#[ allow (dead_code) ]
-	fn evaluate_procedure_lambda (&self, evaluation : &mut EvaluatorContext, lambda : &Lambda, inputs : &[Expression]) -> (Outcome<Value>) {
+	fn evaluate_procedure_lambda (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, inputs : &[Expression]) -> (Outcome<Value>) {
 		let inputs = try! (self.evaluate_slice (evaluation, inputs));
 		let inputs = vec_vec_to_ref (&inputs);
 		return self.evaluate_procedure_lambda_with_values (evaluation, lambda, &inputs);
 	}
 	
-	fn evaluate_procedure_lambda_with_values (&self, _evaluation : &mut EvaluatorContext, lambda : &Lambda, inputs : &[&Value]) -> (Outcome<Value>) {
+	fn evaluate_procedure_lambda_with_values (&self, _evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, inputs : &[&Value]) -> (Outcome<Value>) {
 		
 		let expression;
 		let mut registers = Registers::new ();
 		
 		{
-			let lambda = lambda.internals ();
-			
 			expression = lambda.expression.clone ();
 			
 			let inputs_count = inputs.len ();
@@ -599,31 +634,79 @@ impl Evaluator {
 		return self.evaluate (&mut evaluation, &expression);
 	}
 	
-	fn evaluate_procedure_lambda_0 (&self, evaluation : &mut EvaluatorContext, lambda : &Lambda) -> (Outcome<Value>) {
+	
+	fn evaluate_procedure_lambda_0 (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals) -> (Outcome<Value>) {
 		return self.evaluate_procedure_lambda_with_values (evaluation, lambda, &[]);
 	}
 	
-	fn evaluate_procedure_lambda_1_with_values (&self, evaluation : &mut EvaluatorContext, lambda : &Lambda, input_1 : &Value) -> (Outcome<Value>) {
+	
+	fn evaluate_procedure_lambda_1 (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, input_1 : &Expression) -> (Outcome<Value>) {
+		let input_1 = try! (self.evaluate (evaluation, input_1));
+		return self.evaluate_procedure_lambda_1_with_values (evaluation, lambda, &input_1);
+	}
+	
+	fn evaluate_procedure_lambda_1_with_values (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, input_1 : &Value) -> (Outcome<Value>) {
 		return self.evaluate_procedure_lambda_with_values (evaluation, lambda, &[input_1]);
 	}
 	
-	fn evaluate_procedure_lambda_2_with_values (&self, evaluation : &mut EvaluatorContext, lambda : &Lambda, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
+	
+	fn evaluate_procedure_lambda_2 (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, input_1 : &Expression, input_2 : &Expression) -> (Outcome<Value>) {
+		let input_1 = try! (self.evaluate (evaluation, input_1));
+		let input_2 = try! (self.evaluate (evaluation, input_2));
+		return self.evaluate_procedure_lambda_2_with_values (evaluation, lambda, &input_1, &input_2);
+	}
+	
+	fn evaluate_procedure_lambda_2_with_values (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
 		return self.evaluate_procedure_lambda_with_values (evaluation, lambda, &[input_1, input_2]);
 	}
 	
-	fn evaluate_procedure_lambda_3_with_values (&self, evaluation : &mut EvaluatorContext, lambda : &Lambda, input_1 : &Value, input_2 : &Value, input_3 : &Value) -> (Outcome<Value>) {
+	
+	fn evaluate_procedure_lambda_3 (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression) -> (Outcome<Value>) {
+		let input_1 = try! (self.evaluate (evaluation, input_1));
+		let input_2 = try! (self.evaluate (evaluation, input_2));
+		let input_3 = try! (self.evaluate (evaluation, input_3));
+		return self.evaluate_procedure_lambda_3_with_values (evaluation, lambda, &input_1, &input_2, &input_3);
+	}
+	
+	fn evaluate_procedure_lambda_3_with_values (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, input_1 : &Value, input_2 : &Value, input_3 : &Value) -> (Outcome<Value>) {
 		return self.evaluate_procedure_lambda_with_values (evaluation, lambda, &[input_1, input_2, input_3]);
 	}
 	
-	fn evaluate_procedure_lambda_4_with_values (&self, evaluation : &mut EvaluatorContext, lambda : &Lambda, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value) -> (Outcome<Value>) {
+	
+	fn evaluate_procedure_lambda_4 (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression, input_4 : &Expression) -> (Outcome<Value>) {
+		let input_1 = try! (self.evaluate (evaluation, input_1));
+		let input_2 = try! (self.evaluate (evaluation, input_2));
+		let input_3 = try! (self.evaluate (evaluation, input_3));
+		let input_4 = try! (self.evaluate (evaluation, input_4));
+		return self.evaluate_procedure_lambda_4_with_values (evaluation, lambda, &input_1, &input_2, &input_3, &input_4);
+	}
+	
+	fn evaluate_procedure_lambda_4_with_values (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value) -> (Outcome<Value>) {
 		return self.evaluate_procedure_lambda_with_values (evaluation, lambda, &[input_1, input_2, input_3, input_4]);
 	}
 	
-	fn evaluate_procedure_lambda_5_with_values (&self, evaluation : &mut EvaluatorContext, lambda : &Lambda, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value) -> (Outcome<Value>) {
+	
+	fn evaluate_procedure_lambda_5 (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression, input_4 : &Expression, input_5 : &Expression) -> (Outcome<Value>) {
+		let input_1 = try! (self.evaluate (evaluation, input_1));
+		let input_2 = try! (self.evaluate (evaluation, input_2));
+		let input_3 = try! (self.evaluate (evaluation, input_3));
+		let input_4 = try! (self.evaluate (evaluation, input_4));
+		let input_5 = try! (self.evaluate (evaluation, input_5));
+		return self.evaluate_procedure_lambda_5_with_values (evaluation, lambda, &input_1, &input_2, &input_3, &input_4, &input_5);
+	}
+	
+	fn evaluate_procedure_lambda_5_with_values (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value) -> (Outcome<Value>) {
 		return self.evaluate_procedure_lambda_with_values (evaluation, lambda, &[input_1, input_2, input_3, input_4, input_5]);
 	}
 	
-	fn evaluate_procedure_lambda_n_with_values (&self, evaluation : &mut EvaluatorContext, lambda : &Lambda, inputs : &[&Value]) -> (Outcome<Value>) {
+	
+	fn evaluate_procedure_lambda_n (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, inputs : &[Expression]) -> (Outcome<Value>) {
+		let inputs = try! (self.evaluate_slice (evaluation, inputs));
+		let inputs = vec_vec_to_ref (&inputs);
+		return self.evaluate_procedure_lambda_n_with_values (evaluation, lambda, &inputs);
+	}
+	
+	fn evaluate_procedure_lambda_n_with_values (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, inputs : &[&Value]) -> (Outcome<Value>) {
 		return self.evaluate_procedure_lambda_with_values (evaluation, lambda, inputs);
 	}
 	
@@ -644,7 +727,7 @@ impl Evaluator {
 			ValueClass::ProcedureExtended =>
 				return self.evaluate_procedure_extended_with_values (evaluation, callable.as_ref (), inputs),
 			ValueClass::ProcedureLambda =>
-				return self.evaluate_procedure_lambda_with_values (evaluation, ProcedureLambda::as_ref (callable) .lambda (), inputs),
+				return self.evaluate_procedure_lambda_with_values (evaluation, StdAsRef::<ProcedureLambda>::as_ref (callable) .internals (), inputs),
 			_ =>
 				fail! (0x88be334b),
 		}
@@ -668,7 +751,7 @@ impl Evaluator {
 			ValueClass::ProcedureExtended =>
 				return self.evaluate_procedure_extended_0 (evaluation, callable.as_ref ()),
 			ValueClass::ProcedureLambda =>
-				return self.evaluate_procedure_lambda_0 (evaluation, ProcedureLambda::as_ref (callable) .lambda ()),
+				return self.evaluate_procedure_lambda_0 (evaluation, StdAsRef::<ProcedureLambda>::as_ref (callable) .internals ()),
 			_ =>
 				fail! (0xc58e190e),
 		}
@@ -693,7 +776,7 @@ impl Evaluator {
 			ValueClass::ProcedureExtended =>
 				return self.evaluate_procedure_extended_1_with_values (evaluation, callable.as_ref (), input_1),
 			ValueClass::ProcedureLambda =>
-				return self.evaluate_procedure_lambda_1_with_values (evaluation, ProcedureLambda::as_ref (callable) .lambda (), input_1),
+				return self.evaluate_procedure_lambda_1_with_values (evaluation, StdAsRef::<ProcedureLambda>::as_ref (callable) .internals (), input_1),
 			_ =>
 				fail! (0xe7f6dbfc),
 		}
@@ -719,7 +802,7 @@ impl Evaluator {
 			ValueClass::ProcedureExtended =>
 				return self.evaluate_procedure_extended_2_with_values (evaluation, callable.as_ref (), input_1, input_2),
 			ValueClass::ProcedureLambda =>
-				return self.evaluate_procedure_lambda_2_with_values (evaluation, ProcedureLambda::as_ref (callable) .lambda (), input_1, input_2),
+				return self.evaluate_procedure_lambda_2_with_values (evaluation, StdAsRef::<ProcedureLambda>::as_ref (callable) .internals (), input_1, input_2),
 			_ =>
 				fail! (0x856bf44d),
 		}
@@ -746,7 +829,7 @@ impl Evaluator {
 			ValueClass::ProcedureExtended =>
 				return self.evaluate_procedure_extended_3_with_values (evaluation, callable.as_ref (), input_1, input_2, input_3),
 			ValueClass::ProcedureLambda =>
-				return self.evaluate_procedure_lambda_3_with_values (evaluation, ProcedureLambda::as_ref (callable) .lambda (), input_1, input_2, input_3),
+				return self.evaluate_procedure_lambda_3_with_values (evaluation, StdAsRef::<ProcedureLambda>::as_ref (callable) .internals (), input_1, input_2, input_3),
 			_ =>
 				fail! (0xdb6b9bbc),
 		}
@@ -774,7 +857,7 @@ impl Evaluator {
 			ValueClass::ProcedureExtended =>
 				return self.evaluate_procedure_extended_4_with_values (evaluation, callable.as_ref (), input_1, input_2, input_3, input_4),
 			ValueClass::ProcedureLambda =>
-				return self.evaluate_procedure_lambda_4_with_values (evaluation, ProcedureLambda::as_ref (callable) .lambda (), input_1, input_2, input_3, input_4),
+				return self.evaluate_procedure_lambda_4_with_values (evaluation, StdAsRef::<ProcedureLambda>::as_ref (callable) .internals (), input_1, input_2, input_3, input_4),
 			_ =>
 				fail! (0xf0969d74),
 		}
@@ -803,7 +886,7 @@ impl Evaluator {
 			ValueClass::ProcedureExtended =>
 				return self.evaluate_procedure_extended_5_with_values (evaluation, callable.as_ref (), input_1, input_2, input_3, input_4, input_5),
 			ValueClass::ProcedureLambda =>
-				return self.evaluate_procedure_lambda_5_with_values (evaluation, ProcedureLambda::as_ref (callable) .lambda (), input_1, input_2, input_3, input_4, input_5),
+				return self.evaluate_procedure_lambda_5_with_values (evaluation, StdAsRef::<ProcedureLambda>::as_ref (callable) .internals (), input_1, input_2, input_3, input_4, input_5),
 			_ =>
 				fail! (0x62e8aef5),
 		}
@@ -829,7 +912,7 @@ impl Evaluator {
 			ValueClass::ProcedureExtended =>
 				return self.evaluate_procedure_extended_n_with_values (evaluation, callable.as_ref (), inputs),
 			ValueClass::ProcedureLambda =>
-				return self.evaluate_procedure_lambda_n_with_values (evaluation, ProcedureLambda::as_ref (callable) .lambda (), inputs),
+				return self.evaluate_procedure_lambda_n_with_values (evaluation, StdAsRef::<ProcedureLambda>::as_ref (callable) .internals (), inputs),
 			_ =>
 				fail! (0x906ebf03),
 		}
@@ -938,7 +1021,6 @@ impl Evaluator {
 	
 	
 	
-	#[ allow (dead_code) ]
 	fn evaluate_procedure_extended (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, inputs : &[Expression]) -> (Outcome<Value>) {
 		let inputs = try! (self.evaluate_slice (evaluation, inputs));
 		let inputs = vec_vec_to_ref (&inputs);
@@ -950,13 +1032,11 @@ impl Evaluator {
 	}
 	
 	
-	#[ allow (dead_code) ]
 	fn evaluate_procedure_extended_0 (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended) -> (Outcome<Value>) {
 		return procedure_extended_evaluate_0 (extended, evaluation);
 	}
 	
 	
-	#[ allow (dead_code) ]
 	fn evaluate_procedure_extended_1 (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, input_1 : &Expression) -> (Outcome<Value>) {
 		let input_1 = try! (self.evaluate (evaluation, input_1));
 		return self.evaluate_procedure_extended_1_with_values (evaluation, extended, &input_1);
@@ -967,7 +1047,6 @@ impl Evaluator {
 	}
 	
 	
-	#[ allow (dead_code) ]
 	fn evaluate_procedure_extended_2 (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, input_1 : &Expression, input_2 : &Expression) -> (Outcome<Value>) {
 		let input_1 = try! (self.evaluate (evaluation, input_1));
 		let input_2 = try! (self.evaluate (evaluation, input_2));
@@ -979,7 +1058,6 @@ impl Evaluator {
 	}
 	
 	
-	#[ allow (dead_code) ]
 	fn evaluate_procedure_extended_3 (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression) -> (Outcome<Value>) {
 		let input_1 = try! (self.evaluate (evaluation, input_1));
 		let input_2 = try! (self.evaluate (evaluation, input_2));
@@ -992,7 +1070,6 @@ impl Evaluator {
 	}
 	
 	
-	#[ allow (dead_code) ]
 	fn evaluate_procedure_extended_4 (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression, input_4 : &Expression) -> (Outcome<Value>) {
 		let input_1 = try! (self.evaluate (evaluation, input_1));
 		let input_2 = try! (self.evaluate (evaluation, input_2));
@@ -1006,7 +1083,6 @@ impl Evaluator {
 	}
 	
 	
-	#[ allow (dead_code) ]
 	fn evaluate_procedure_extended_5 (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression, input_4 : &Expression, input_5 : &Expression) -> (Outcome<Value>) {
 		let input_1 = try! (self.evaluate (evaluation, input_1));
 		let input_2 = try! (self.evaluate (evaluation, input_2));
@@ -1021,7 +1097,6 @@ impl Evaluator {
 	}
 	
 	
-	#[ allow (dead_code) ]
 	fn evaluate_procedure_extended_n (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, inputs : &[Expression]) -> (Outcome<Value>) {
 		let inputs = try! (self.evaluate_slice (evaluation, inputs));
 		let inputs = vec_vec_to_ref (&inputs);
