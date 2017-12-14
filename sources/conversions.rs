@@ -23,20 +23,17 @@ pub mod exports {
 
 macro_rules! impl_from_for_Expression_0 {
 	( $tag : ident, $from : ty ) => (
-		impl_from_for_type! (Expression, &'static $from, value, value.clone () .into ());
-		impl_from_for_type! (ExpressionBox, $from, value, StdBox::new (value.into ()));
-		impl_from_for_type! (ExpressionBox, &'static $from, value, StdBox::new (value.into ()));
+		impl_from_for_enum! (Expression, $tag, $from);
 	);
 }
 
 macro_rules! impl_from_for_Expression_1 {
 	( $tag : ident, $from : ty ) => (
-		impl_from_for_enum! (Expression, $tag, $from);
 		impl_from_for_Expression_0! ($tag, $from);
+		impl_unwrappers_for_enum_wrapper! (Expression, $tag, $from);
 	);
 }
 
-#[ allow (unused_macros) ]
 macro_rules! impl_from_for_Expression_2 {
 	( $tag : ident, $from : ty, $value : ident, $expression : tt ) => (
 		impl_from_for_type! (Expression, $from, $value, Expression::$tag $expression);
@@ -50,28 +47,16 @@ macro_rules! impl_from_for_Expression_2 {
 macro_rules! impl_from_for_Value_0 {
 	( $tag : ident, $from : ty ) => (
 		impl_from_for_type! (Value, $from, value, Value::$tag (VALUE_META_1, value.into (), VALUE_META_2));
-		impl_from_for_type! (Value, &'static $from, value, value.clone () .into ());
-		impl_from_for_type! (ValueBox, $from, value, StdBox::new (value.into ()));
-		impl_from_for_type! (ValueBox, &'static $from, value, StdBox::new (value.into ()));
-		impl_from_for_Expression_1! (Value, $from);
+		impl_from_for_Expression_0! (Value, $from);
 	);
 }
 
 macro_rules! impl_from_for_Value_1 {
 	( $tag : ident, $from : ty ) => (
+		impl_as_ref_for_type! ($from);
 		impl_from_for_Value_0! ($tag, $from);
 		impl_unwrappers_2_for_enum_3_wrapper! (Value, $tag, $from);
-		impl $from {
-			pub fn try_from (value : Value) -> (Outcome<$from>) {
-				return StdTryInto::<$from>::try_into (value)
-			}
-			pub fn as_ref (value : &Value) -> (&$from) {
-				return StdAsRef::<$from>::as_ref (value)
-			}
-			pub fn try_as_ref (value : &Value) -> (Outcome<&$from>) {
-				return StdTryAsRef::<$from>::try_as_ref (value)
-			}
-		}
+		impl_unwrappers_for_enum_wrapper! (Expression, Value, $from);
 	);
 }
 
@@ -93,8 +78,10 @@ macro_rules! impl_from_for_Value_3 {
 
 
 
-impl_from_for_Expression_1! (Value, Value);
+impl_as_ref_for_type! (Expression);
+impl_as_ref_for_type! (Value);
 
+impl_from_for_Expression_1! (Value, Value);
 
 impl_from_for_Value_1! (Singleton, ValueSingleton);
 impl_from_for_Value_1! (Boolean, Boolean);
@@ -164,8 +151,10 @@ impl_from_for_Value_3! (SyntaxExtended, SyntaxExtended, SyntaxExtendedInternals,
 
 macro_rules! impl_from_for_primitive_procedure_1 {
 	( $from : ty, $tag : ident ) => (
-		impl_from_for_Value_0! (ProcedurePrimitive, $from);
+		impl_as_ref_for_type! ($from);
 		impl_from_for_enum! (ProcedurePrimitive, $tag, $from);
+		impl_from_for_Value_0! (ProcedurePrimitive, $from);
+		impl_unwrappers_for_enum_wrapper! (ProcedurePrimitive, $tag, $from);
 	);
 }
 
@@ -184,8 +173,10 @@ impl_from_for_primitive_procedure_1! (ProcedurePrimitiveV, PrimitiveV);
 
 macro_rules! impl_from_for_primitive_syntax {
 	( $from : ty, $tag : ident ) => (
-		impl_from_for_Value_0! (SyntaxPrimitive, $from);
+		impl_as_ref_for_type! ($from);
 		impl_from_for_enum! (SyntaxPrimitive, $tag, $from);
+		impl_from_for_Value_0! (SyntaxPrimitive, $from);
+		impl_unwrappers_for_enum_wrapper! (SyntaxPrimitive, $tag, $from);
 	);
 }
 
@@ -196,9 +187,11 @@ impl_from_for_primitive_syntax! (SyntaxPrimitiveV, PrimitiveV);
 
 macro_rules! impl_from_for_primitive_procedure_2 {
 	( $from : ty, $tag_1 : ident, $tag_2 : ident, $tag_3 : ident ) => (
-		impl_from_for_Value_0! (ProcedurePrimitive, $from);
-		impl_from_for_enum! (ProcedurePrimitive, $tag_2, $from);
+		impl_as_ref_for_type! ($from);
 		impl_from_for_enum! ($tag_1, $tag_3, $from);
+		impl_from_for_enum! (ProcedurePrimitive, $tag_2, $from);
+		impl_from_for_Value_0! (ProcedurePrimitive, $from);
+		impl_unwrappers_for_enum_wrapper! ($tag_1, $tag_3, $from);
 	);
 }
 
@@ -735,6 +728,9 @@ pub fn outcome_as_ref <T> (outcome : &Outcome<T>) -> (Outcome<&T>) {
 	}
 }
 
+
+
+
 pub fn option_unwrap_ref <T> (option : &Option<T>) -> (&T) {
 	match *option {
 		Some (ref value) =>
@@ -744,10 +740,40 @@ pub fn option_unwrap_ref <T> (option : &Option<T>) -> (&T) {
 	}
 }
 
+
+
+
+pub fn option_box_new <T> (option : Option<T>) -> (Option<StdBox<T>>) {
+	match option {
+		Some (value) =>
+			Some (StdBox::new (value)),
+		None =>
+			None,
+	}
+}
+
+pub fn option_box_unwrap <T> (option : Option<StdBox<T>>) -> (T) {
+	match option {
+		Some (value) =>
+			*value,
+		None =>
+			panic! ("75a8fcd5"),
+	}
+}
+
 pub fn option_box_as_ref <T> (option : &Option<Box<T>>) -> (Option<&T>) {
 	match *option {
 		Some (ref value) =>
-			Some (value.as_ref ()),
+			Some (&value),
+		None =>
+			None,
+	}
+}
+
+pub fn option_box_into_owned <T> (value : Option<StdBox<T>>) -> (Option<T>) {
+	match value {
+		Some (value) =>
+			Some (*value),
 		None =>
 			None,
 	}
