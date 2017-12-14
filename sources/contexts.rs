@@ -424,6 +424,10 @@ impl Binding {
 	}
 	
 	
+	pub fn is_immutable (&self) -> (bool) {
+		return self.internals_ref () .immutable;
+	}
+	
 	pub fn set_immutable (&self) -> (Outcome<()>) {
 		let mut self_0 = self.internals_ref_mut ();
 		self_0.immutable = true;

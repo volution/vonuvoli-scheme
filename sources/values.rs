@@ -222,21 +222,6 @@ impl Value {
 }
 
 
-impl StdAsRef<Value> for Value {
-	fn as_ref (&self) -> (&Value) {
-		return self;
-	}
-}
-
-
-impl StdTryAsRef<Value> for Value {
-	type Error = Error;
-	fn try_as_ref (&self) -> (Outcome<&Value>) {
-		succeed! (self);
-	}
-}
-
-
 impl fmt::Display for Value {
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		match *self {

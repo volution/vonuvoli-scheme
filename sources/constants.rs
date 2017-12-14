@@ -22,6 +22,16 @@ pub const PORT_EOF : ValueSingleton = ValueSingleton::PortEof;
 pub const TRUE : Boolean = Boolean (true);
 pub const FALSE : Boolean = Boolean (false);
 
+
+pub const NULL_VALUE : Value = Value::Singleton (VALUE_META_1, NULL, VALUE_META_2);
+pub const VOID_VALUE : Value = Value::Singleton (VALUE_META_1, VOID, VALUE_META_2);
+pub const UNDEFINED_VALUE : Value = Value::Singleton (VALUE_META_1, UNDEFINED, VALUE_META_2);
+pub const PORT_EOF_VALUE : Value = Value::Singleton (VALUE_META_1, PORT_EOF, VALUE_META_2);
+
+pub const TRUE_VALUE : Value = Value::Boolean (VALUE_META_1, TRUE, VALUE_META_2);
+pub const FALSE_VALUE : Value = Value::Boolean (VALUE_META_1, FALSE, VALUE_META_2);
+
+
 pub const ZERO : NumberInteger = NumberInteger (0);
 pub const ONE : NumberInteger = NumberInteger (1);
 

@@ -2,6 +2,7 @@
 
 use super::errors::exports::*;
 use super::ports::exports::*;
+use super::runtime::exports::*;
 use super::values::exports::*;
 
 
@@ -290,7 +291,7 @@ def_fn_predicate_any! (is_boolean, is_boolean_any_2, is_boolean_any_3, is_boolea
 
 
 pub fn is_true (value : &Value) -> (bool) {
-	if let Ok (value) = Boolean::try_as_ref (value) {
+	if let Ok (value) = StdTryAsRef::<Boolean>::try_as_ref (value) {
 		return value.0 == true;
 	} else {
 		return false;
@@ -298,7 +299,7 @@ pub fn is_true (value : &Value) -> (bool) {
 }
 
 pub fn is_false (value : &Value) -> (bool) {
-	if let Ok (value) = Boolean::try_as_ref (value) {
+	if let Ok (value) = StdTryAsRef::<Boolean>::try_as_ref (value) {
 		return value.0 == false;
 	} else {
 		return false;
@@ -338,7 +339,7 @@ pub fn is_false_or_equivalent (value : &Value) -> (bool) {
 		ValueClass::Null | ValueClass::Void | ValueClass::Undefined =>
 			return true,
 		ValueClass::Boolean =>
-			return Boolean::as_ref (value) .0 == false,
+			return StdAsRef::<Boolean>::as_ref (value) .0 == false,
 		ValueClass::Error =>
 			return true,
 		_ =>
@@ -712,11 +713,11 @@ pub fn list_class_on (value : &Value) -> (Outcome<ListClass>) {
 			succeed! (ListClass::Empty),
 		
 		ValueClass::Pair => {
-			let mut cursor = Pair::as_ref (value) .right ();
+			let mut cursor = StdAsRef::<Pair>::as_ref (value) .right ();
 			loop {
 				match cursor.class () {
 					ValueClass::Pair =>
-						cursor = Pair::as_ref (cursor) .right (),
+						cursor = StdAsRef::<Pair>::as_ref (cursor) .right (),
 					ValueClass::Null =>
 						succeed! (ListClass::Proper),
 					_ =>
@@ -758,7 +759,11 @@ pub fn is_port_textual (value : &Value) -> (Outcome<bool>) {
 }
 
 pub fn is_port_eof (value : &Value) -> (bool) {
-	return value.is (ValueClass::Singleton) && (*ValueSingleton::as_ref (value) == ValueSingleton::PortEof);
+	if let Ok (value) = StdTryAsRef::<ValueSingleton>::try_as_ref (value) {
+		return *value == ValueSingleton::PortEof;
+	} else {
+		return false;
+	}
 }
 
 

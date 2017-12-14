@@ -14,6 +14,7 @@ use std::ptr;
 pub mod exports {
 	
 	pub use super::Lambda;
+	pub use super::LambdaInternals;
 	pub use super::LambdaTemplate;
 	
 	pub use super::ProcedureLambda;
@@ -66,6 +67,14 @@ impl Lambda {
 		return StdRc::as_ref (&self.0);
 	}
 	
+	pub fn internals_rc_clone (&self) -> (StdRc<LambdaInternals>) {
+		return self.0.clone ();
+	}
+	
+	pub fn internals_rc_into (self) -> (StdRc<LambdaInternals>) {
+		return self.0;
+	}
+	
 	pub fn is_self (&self, other : &Lambda) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
@@ -88,18 +97,26 @@ impl fmt::Debug for Lambda {
 
 
 
-#[ derive (Clone, Debug, Hash) ]
-pub struct ProcedureLambda ( StdRc<Lambda> );
+#[ derive (Clone, Hash) ]
+pub struct ProcedureLambda ( StdRc<LambdaInternals> );
 
 
 impl ProcedureLambda {
 	
 	pub fn new (lambda : Lambda) -> (ProcedureLambda) {
-		return ProcedureLambda (StdRc::new (lambda));
+		return ProcedureLambda (lambda.internals_rc_clone ());
 	}
 	
-	pub fn lambda (&self) -> (&Lambda) {
+	pub fn internals (&self) -> (&LambdaInternals) {
 		return StdRc::as_ref (&self.0);
+	}
+	
+	pub fn internals_rc_clone (&self) -> (StdRc<LambdaInternals>) {
+		return self.0.clone ();
+	}
+	
+	pub fn internals_rc_into (self) -> (StdRc<LambdaInternals>) {
+		return self.0;
 	}
 	
 	pub fn is_self (&self, other : &ProcedureLambda) -> (bool) {
@@ -114,21 +131,35 @@ impl fmt::Display for ProcedureLambda {
 	}
 }
 
+impl fmt::Debug for ProcedureLambda {
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		self.0.fmt (formatter)
+	}
+}
 
 
 
-#[ derive (Clone, Debug, Hash) ]
-pub struct SyntaxLambda ( StdRc<Lambda> );
+
+#[ derive (Clone, Hash) ]
+pub struct SyntaxLambda ( StdRc<LambdaInternals> );
 
 
 impl SyntaxLambda {
 	
 	pub fn new (lambda : Lambda) -> (SyntaxLambda) {
-		return SyntaxLambda (StdRc::new (lambda));
+		return SyntaxLambda (lambda.internals_rc_clone ());
 	}
 	
-	pub fn lambda (&self) -> (&Lambda) {
+	pub fn internals (&self) -> (&LambdaInternals) {
 		return StdRc::as_ref (&self.0);
+	}
+	
+	pub fn internals_rc_clone (&self) -> (StdRc<LambdaInternals>) {
+		return self.0.clone ();
+	}
+	
+	pub fn internals_rc_into (self) -> (StdRc<LambdaInternals>) {
+		return self.0;
 	}
 	
 	pub fn is_self (&self, other : &SyntaxLambda) -> (bool) {
@@ -140,6 +171,12 @@ impl SyntaxLambda {
 impl fmt::Display for SyntaxLambda {
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		formatter.write_str ("#<syntax-lambda>")
+	}
+}
+
+impl fmt::Debug for SyntaxLambda {
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		self.0.fmt (formatter)
 	}
 }
 

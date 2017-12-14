@@ -82,21 +82,6 @@ pub type ExpressionBox = StdBox<Expression>;
 pub type ExpressionVec = StdVec<Expression>;
 
 
-impl StdAsRef<Expression> for Expression {
-	fn as_ref (&self) -> (&Expression) {
-		return self;
-	}
-}
-
-
-impl StdTryAsRef<Expression> for Expression {
-	type Error = Error;
-	fn try_as_ref (&self) -> (Outcome<&Expression>) {
-		succeed! (self);
-	}
-}
-
-
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]

@@ -617,7 +617,7 @@ pub fn vec_list_drain_dotted (buffer : &mut ValueVec, list : &Value) -> (Outcome
 	loop {
 		match cursor.class () {
 			ValueClass::Pair => {
-				let (left, right) = Pair::as_ref (cursor) .left_and_right ();
+				let (left, right) = StdAsRef::<Pair>::as_ref (cursor) .left_and_right ();
 				buffer.push (left.clone ());
 				cursor = right;
 			},
@@ -783,7 +783,7 @@ pub fn vec_list_ref_drain_dotted <'a : 'b, 'b> (buffer : &'b mut StdVec<&'a Valu
 	loop {
 		match cursor.class () {
 			ValueClass::Pair => {
-				let (left, right) = Pair::as_ref (cursor) .left_and_right ();
+				let (left, right) = StdAsRef::<Pair>::as_ref (cursor) .left_and_right ();
 				buffer.push (left);
 				cursor = right;
 			},
@@ -820,7 +820,7 @@ impl <'a> Iterator for ListIterator <'a> {
 		let cursor = self.0;
 		let (value, cursor) = match cursor.class () {
 			ValueClass::Pair =>
-				Pair::as_ref (cursor) .left_and_right (),
+				StdAsRef::<Pair>::as_ref (cursor) .left_and_right (),
 			ValueClass::Null =>
 				return None,
 			_ =>
@@ -857,7 +857,7 @@ impl <'a> Iterator for ListPairIterator <'a> {
 		let cursor = self.0;
 		let (pair, cursor) = match cursor.class () {
 			ValueClass::Pair => {
-				let pair = Pair::as_ref (cursor);
+				let pair = StdAsRef::<Pair>::as_ref (cursor);
 				let cursor = pair.right ();
 				(pair, cursor)
 			},
