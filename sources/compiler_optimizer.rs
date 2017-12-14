@@ -1,10 +1,5 @@
 
 
-#![ allow (unused_imports, unused_variables, dead_code) ]
-
-
-
-
 use super::constants::exports::*;
 use super::contexts::exports::*;
 use super::conversions::exports::*;
@@ -221,12 +216,14 @@ impl Optimizer {
 	
 	
 	
+	#[ allow (dead_code) ]
 	fn optimize_0_box (&self, optimization : OptimizerContext, expression : StdBox<Expression>) -> (Outcome<(OptimizerContext, StdBox<Expression>)>) {
 		let (optimization, expression) = try! (self.optimize_0 (optimization, *expression));
 		let expression = StdBox::new (expression);
 		succeed! ((optimization, expression));
 	}
 	
+	#[ allow (dead_code) ]
 	fn optimize_0_box_to_owned (&self, optimization : OptimizerContext, expression : StdBox<Expression>) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, expression) = try! (self.optimize_0 (optimization, *expression));
 		succeed! ((optimization, expression));
@@ -1433,14 +1430,17 @@ impl Optimizer {
 		return expressions.iter () .any (|expression| self.expression_is (optimization, expression, class));
 	}
 	
+	#[ allow (dead_code) ]
 	fn expressions_are_any_not (&self, optimization : &OptimizerContext, expressions : &Vec<Expression>, class : ExpressionClass) -> (bool) {
 		return expressions.iter () .any (|expression| self.expression_is_not (optimization, expression, class));
 	}
 	
+	#[ allow (dead_code) ]
 	fn expressions_are_all (&self, optimization : &OptimizerContext, expressions : &Vec<Expression>, class : ExpressionClass) -> (bool) {
 		return expressions.iter () .all (|expression| self.expression_is (optimization, expression, class));
 	}
 	
+	#[ allow (dead_code) ]
 	fn expressions_are_all_not (&self, optimization : &OptimizerContext, expressions : &Vec<Expression>, class : ExpressionClass) -> (bool) {
 		return expressions.iter () .all (|expression| self.expression_is_not (optimization, expression, class));
 	}
@@ -1448,6 +1448,7 @@ impl Optimizer {
 	
 	
 	
+	#[ allow (dead_code) ]
 	fn expressions_retain_if_is (&self, optimization : &OptimizerContext, expressions : Vec<Expression>, class : ExpressionClass) -> (Vec<Expression>) {
 		let mut expressions = expressions;
 		expressions.retain (|expression| self.expression_is (optimization, expression, class));
@@ -1461,6 +1462,7 @@ impl Optimizer {
 	}
 	
 	
+	#[ allow (dead_code) ]
 	fn expressions_collect_if_is <Iterator> (&self, optimization : &OptimizerContext, expressions : Iterator, class : ExpressionClass) -> (Vec<Expression>)
 			where Iterator : iter::Iterator<Item = Expression>
 	{
