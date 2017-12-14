@@ -316,7 +316,7 @@ impl Optimizer {
 			ExpressionSequenceOperator::And => {
 				let mut expressions = expressions;
 				let expression = if let Some (last) = expressions.pop () {
-					let mut expressions = self.expressions_retain_if_is_not (&optimization, expressions, ExpressionClass::Type (TypePrimitive1::IsTrue));
+					let mut expressions = self.expressions_retain_if_is_not (&optimization, expressions, ExpressionClass::Type (TypePrimitive1::IsNotFalse));
 					if ! expressions.is_empty () {
 						expressions.push (last);
 						if self.expressions_are_any (&optimization, expressions.iter (), ExpressionClass::Type (TypePrimitive1::IsFalse)) {
@@ -336,16 +336,32 @@ impl Optimizer {
 			ExpressionSequenceOperator::Or => {
 				let mut expressions = expressions;
 				let expression = if let Some (last) = expressions.pop () {
+					expressions.push (last);
 					let mut expressions = self.expressions_retain_if_is_not (&optimization, expressions, ExpressionClass::Type (TypePrimitive1::IsFalse));
 					if ! expressions.is_empty () {
-						expressions.push (last);
-						if self.expressions_are_any (&optimization, expressions.iter (), ExpressionClass::Type (TypePrimitive1::IsTrue)) {
-							Expression::Value (TRUE_VALUE)
+						let expressions = if self.expressions_are_any (&optimization, expressions.iter (), ExpressionClass::Type (TypePrimitive1::IsNotFalse)) {
+							let expressions_0 = expressions;
+							let mut expressions = StdVec::new ();
+							for expression in expressions_0.into_iter () {
+								if self.expression_is (&optimization, &expression, ExpressionClass::Type (TypePrimitive1::IsNotFalse)) {
+									expressions.push (expression);
+									break;
+								} else {
+									expressions.push (expression);
+								}
+							}
+							expressions
+						} else {
+							expressions
+						};
+						if expressions.len () == 1 {
+							let mut expressions = expressions;
+							expressions.pop () .unwrap ()
 						} else {
 							Expression::Sequence (operator, expressions.into_boxed_slice ())
 						}
 					} else {
-						last
+						Expression::Value (FALSE_VALUE)
 					}
 				} else {
 					Expression::Value (FALSE_VALUE)
@@ -1496,6 +1512,23 @@ impl Optimizer {
 	{
 		let mut expressions = expressions;
 		return expressions.all (|expression| self.expression_is_not (optimization, expression, class));
+	}
+	
+	
+	#[ allow (dead_code) ]
+	fn expressions_first_that <Iterator, ExpressionRef> (&self, optimization : &OptimizerContext, expressions : Iterator, class : ExpressionClass) -> (Option<ExpressionRef>)
+			where Iterator : iter::Iterator<Item = ExpressionRef>, ExpressionRef : StdAsRef<Expression>
+	{
+		let mut expressions = expressions;
+		return expressions.find (|expression| self.expression_is (optimization, expression, class));
+	}
+	
+	#[ allow (dead_code) ]
+	fn expressions_first_that_not <Iterator, ExpressionRef> (&self, optimization : &OptimizerContext, expressions : Iterator, class : ExpressionClass) -> (Option<ExpressionRef>)
+			where Iterator : iter::Iterator<Item = ExpressionRef>, ExpressionRef : StdAsRef<Expression>
+	{
+		let mut expressions = expressions;
+		return expressions.find (|expression| self.expression_is_not (optimization, expression, class));
 	}
 	
 	
