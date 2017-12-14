@@ -17,6 +17,7 @@ pub mod exports {
 	pub use super::compile;
 	pub use super::compile_script;
 	pub use super::Compiler;
+	pub use super::super::compiler_optimizer::exports::*;
 }
 
 
@@ -407,14 +408,14 @@ impl Compiler {
 			}
 			let (guard, statements) = try! (vec_explode_1n (tokens));
 			
-			let (compilation_1, guard) = if ! (guard.is (ValueClass::Symbol) && Symbol::as_ref (&guard) .string_eq ("else")) {
+			let (compilation_1, guard) = if ! (guard.is (ValueClass::Symbol) && StdAsRef::<Symbol>::as_ref (&guard) .string_eq ("else")) {
 				let (compilation_1, guard) = try! (self.compile_0 (compilation, guard));
 				(compilation_1, Some ((guard, false)))
 			} else {
 				(compilation, None)
 			};
 			
-			if (statements.len () >= 1) && (statements[0].is (ValueClass::Symbol) && Symbol::as_ref (&statements[0]) .string_eq ("=>")) {
+			if (statements.len () >= 1) && (statements[0].is (ValueClass::Symbol) && StdAsRef::<Symbol>::as_ref (&statements[0]) .string_eq ("=>")) {
 				fail_unimplemented! (0xfa332991); // deferred
 			}
 			let (compilation_1, statements) = try! (self.compile_0_vec (compilation_1, statements));
@@ -459,14 +460,14 @@ impl Compiler {
 			}
 			let (expected, statements) = try! (vec_explode_1n (tokens));
 			
-			let expected = if ! (expected.is (ValueClass::Symbol) && Symbol::as_ref (&expected) .string_eq ("else")) {
+			let expected = if ! (expected.is (ValueClass::Symbol) && StdAsRef::<Symbol>::as_ref (&expected) .string_eq ("else")) {
 				let expected = try! (vec_list_clone (&expected));
 				Some ((expected.into_boxed_slice (), false))
 			} else {
 				None
 			};
 			
-			if (statements.len () >= 1) && (statements[0].is (ValueClass::Symbol) && Symbol::as_ref (&statements[0]) .string_eq ("=>")) {
+			if (statements.len () >= 1) && (statements[0].is (ValueClass::Symbol) && StdAsRef::<Symbol>::as_ref (&statements[0]) .string_eq ("=>")) {
 				fail_unimplemented! (0xef5d468c); // deferred
 			}
 			let (compilation_1, statements) = try! (self.compile_0_vec (compilation, statements));
@@ -1142,7 +1143,7 @@ impl Compiler {
 				argument_rest : argument_rest,
 			};
 		
-		let expression = Expression::Lambda (StdBox::new (template), statements.into (), registers_closure.into_boxed_slice (), registers_local.into_boxed_slice ());
+		let expression = Expression::Lambda (template, statements.into (), registers_closure.into_boxed_slice (), registers_local.into_boxed_slice ());
 		
 		succeed! ((compilation, expression));
 	}
