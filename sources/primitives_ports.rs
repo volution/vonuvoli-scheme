@@ -4,6 +4,7 @@ use super::builtins::exports::*;
 use super::constants::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
+use super::primitives_procedures::exports::*;
 use super::values::exports::*;
 
 
@@ -35,6 +36,14 @@ pub mod exports {
 	pub use super::port_primitive_v_alternative_4;
 	pub use super::port_primitive_v_alternative_5;
 	pub use super::port_primitive_v_alternative_n;
+	
+	pub use super::port_primitive_0_attributes;
+	pub use super::port_primitive_1_attributes;
+	pub use super::port_primitive_2_attributes;
+	pub use super::port_primitive_3_attributes;
+	pub use super::port_primitive_4_attributes;
+	pub use super::port_primitive_5_attributes;
+	pub use super::port_primitive_n_attributes;
 	
 }
 
@@ -441,5 +450,36 @@ pub fn port_primitive_v_alternative_5 (primitive : PortPrimitiveV) -> (Option<Po
 
 pub fn port_primitive_v_alternative_n (primitive : PortPrimitiveV) -> (Option<PortPrimitiveN>) {
 	match primitive {}
+}
+
+
+
+
+pub fn port_primitive_0_attributes (_primitive : PortPrimitive0) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn port_primitive_1_attributes (_primitive : PortPrimitive1) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn port_primitive_2_attributes (_primitive : PortPrimitive2) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn port_primitive_3_attributes (_primitive : PortPrimitive3) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn port_primitive_4_attributes (_primitive : PortPrimitive4) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn port_primitive_5_attributes (_primitive : PortPrimitive5) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn port_primitive_n_attributes (_primitive : PortPrimitiveN) -> (Option<ProcedureAttributes>) {
+	return None;
 }
 

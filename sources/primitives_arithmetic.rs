@@ -4,6 +4,7 @@ use super::constants::exports::*;
 use super::conversions::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
+use super::primitives_procedures::exports::*;
 use super::values::exports::*;
 
 
@@ -35,6 +36,14 @@ pub mod exports {
 	pub use super::arithmetic_primitive_v_alternative_4;
 	pub use super::arithmetic_primitive_v_alternative_5;
 	pub use super::arithmetic_primitive_v_alternative_n;
+	
+	pub use super::arithmetic_primitive_0_attributes;
+	pub use super::arithmetic_primitive_1_attributes;
+	pub use super::arithmetic_primitive_2_attributes;
+	pub use super::arithmetic_primitive_3_attributes;
+	pub use super::arithmetic_primitive_4_attributes;
+	pub use super::arithmetic_primitive_5_attributes;
+	pub use super::arithmetic_primitive_n_attributes;
 	
 }
 
@@ -784,5 +793,36 @@ pub fn arithmetic_primitive_v_alternative_n (primitive : ArithmeticPrimitiveV) -
 		ArithmeticPrimitiveV::Maximum =>
 			Some (ArithmeticPrimitiveN::Maximum),
 	}
+}
+
+
+
+
+pub fn arithmetic_primitive_0_attributes (_primitive : ArithmeticPrimitive0) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn arithmetic_primitive_1_attributes (_primitive : ArithmeticPrimitive1) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn arithmetic_primitive_2_attributes (_primitive : ArithmeticPrimitive2) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn arithmetic_primitive_3_attributes (_primitive : ArithmeticPrimitive3) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn arithmetic_primitive_4_attributes (_primitive : ArithmeticPrimitive4) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn arithmetic_primitive_5_attributes (_primitive : ArithmeticPrimitive5) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn arithmetic_primitive_n_attributes (_primitive : ArithmeticPrimitiveN) -> (Option<ProcedureAttributes>) {
+	return None;
 }
 

@@ -3,6 +3,7 @@
 use super::builtins::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
+use super::primitives_procedures::exports::*;
 use super::values::exports::*;
 
 
@@ -13,6 +14,8 @@ pub mod exports {
 	pub use super::TypePrimitive1;
 	
 	pub use super::type_primitive_1_evaluate;
+	
+	pub use super::type_primitive_1_attributes;
 	
 }
 
@@ -280,5 +283,12 @@ pub fn type_primitive_1_evaluate (primitive : TypePrimitive1, input_1 : &Value, 
 	};
 	
 	succeed! (output.into ());
+}
+
+
+
+
+pub fn type_primitive_1_attributes (_primitive : TypePrimitive1) -> (Option<ProcedureAttributes>) {
+	return None;
 }
 

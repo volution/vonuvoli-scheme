@@ -3,6 +3,7 @@
 use super::constants::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
+use super::primitives_procedures::exports::*;
 use super::values::exports::*;
 
 
@@ -34,6 +35,14 @@ pub mod exports {
 	pub use super::boolean_primitive_v_alternative_4;
 	pub use super::boolean_primitive_v_alternative_5;
 	pub use super::boolean_primitive_v_alternative_n;
+	
+	pub use super::boolean_primitive_0_attributes;
+	pub use super::boolean_primitive_1_attributes;
+	pub use super::boolean_primitive_2_attributes;
+	pub use super::boolean_primitive_3_attributes;
+	pub use super::boolean_primitive_4_attributes;
+	pub use super::boolean_primitive_5_attributes;
+	pub use super::boolean_primitive_n_attributes;
 	
 }
 
@@ -433,5 +442,36 @@ pub fn boolean_primitive_v_alternative_n (primitive : BooleanPrimitiveV) -> (Opt
 		BooleanPrimitiveV::Nxor =>
 			Some (BooleanPrimitiveN::Nxor),
 	}
+}
+
+
+
+
+pub fn boolean_primitive_0_attributes (_primitive : BooleanPrimitive0) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn boolean_primitive_1_attributes (_primitive : BooleanPrimitive1) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn boolean_primitive_2_attributes (_primitive : BooleanPrimitive2) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn boolean_primitive_3_attributes (_primitive : BooleanPrimitive3) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn boolean_primitive_4_attributes (_primitive : BooleanPrimitive4) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn boolean_primitive_5_attributes (_primitive : BooleanPrimitive5) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn boolean_primitive_n_attributes (_primitive : BooleanPrimitiveN) -> (Option<ProcedureAttributes>) {
+	return None;
 }
 

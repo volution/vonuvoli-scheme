@@ -3,6 +3,7 @@
 use super::builtins::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
+use super::primitives_procedures::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
 
@@ -35,6 +36,14 @@ pub mod exports {
 	pub use super::bytes_primitive_v_alternative_4;
 	pub use super::bytes_primitive_v_alternative_5;
 	pub use super::bytes_primitive_v_alternative_n;
+	
+	pub use super::bytes_primitive_0_attributes;
+	pub use super::bytes_primitive_1_attributes;
+	pub use super::bytes_primitive_2_attributes;
+	pub use super::bytes_primitive_3_attributes;
+	pub use super::bytes_primitive_4_attributes;
+	pub use super::bytes_primitive_5_attributes;
+	pub use super::bytes_primitive_n_attributes;
 	
 }
 
@@ -544,5 +553,36 @@ pub fn bytes_primitive_v_alternative_n (primitive : BytesPrimitiveV) -> (Option<
 		BytesPrimitiveV::ArrayRangeToBytes =>
 			None,
 	}
+}
+
+
+
+
+pub fn bytes_primitive_0_attributes (_primitive : BytesPrimitive0) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn bytes_primitive_1_attributes (_primitive : BytesPrimitive1) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn bytes_primitive_2_attributes (_primitive : BytesPrimitive2) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn bytes_primitive_3_attributes (_primitive : BytesPrimitive3) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn bytes_primitive_4_attributes (_primitive : BytesPrimitive4) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn bytes_primitive_5_attributes (_primitive : BytesPrimitive5) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn bytes_primitive_n_attributes (_primitive : BytesPrimitiveN) -> (Option<ProcedureAttributes>) {
+	return None;
 }
 

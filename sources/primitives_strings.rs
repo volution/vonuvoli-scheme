@@ -3,6 +3,7 @@
 use super::builtins::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
+use super::primitives_procedures::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
 
@@ -35,6 +36,14 @@ pub mod exports {
 	pub use super::string_primitive_v_alternative_4;
 	pub use super::string_primitive_v_alternative_5;
 	pub use super::string_primitive_v_alternative_n;
+	
+	pub use super::string_primitive_0_attributes;
+	pub use super::string_primitive_1_attributes;
+	pub use super::string_primitive_2_attributes;
+	pub use super::string_primitive_3_attributes;
+	pub use super::string_primitive_4_attributes;
+	pub use super::string_primitive_5_attributes;
+	pub use super::string_primitive_n_attributes;
 	
 }
 
@@ -716,5 +725,36 @@ pub fn string_primitive_v_alternative_n (primitive : StringPrimitiveV) -> (Optio
 		StringPrimitiveV::CharacterToDigitNumber =>
 			None,
 	}
+}
+
+
+
+
+pub fn string_primitive_0_attributes (_primitive : StringPrimitive0) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn string_primitive_1_attributes (_primitive : StringPrimitive1) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn string_primitive_2_attributes (_primitive : StringPrimitive2) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn string_primitive_3_attributes (_primitive : StringPrimitive3) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn string_primitive_4_attributes (_primitive : StringPrimitive4) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn string_primitive_5_attributes (_primitive : StringPrimitive5) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn string_primitive_n_attributes (_primitive : StringPrimitiveN) -> (Option<ProcedureAttributes>) {
+	return None;
 }
 

@@ -3,6 +3,7 @@
 use super::builtins::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
+use super::primitives_procedures::exports::*;
 use super::values::exports::*;
 
 
@@ -34,6 +35,14 @@ pub mod exports {
 	pub use super::runtime_primitive_v_alternative_4;
 	pub use super::runtime_primitive_v_alternative_5;
 	pub use super::runtime_primitive_v_alternative_n;
+	
+	pub use super::runtime_primitive_0_attributes;
+	pub use super::runtime_primitive_1_attributes;
+	pub use super::runtime_primitive_2_attributes;
+	pub use super::runtime_primitive_3_attributes;
+	pub use super::runtime_primitive_4_attributes;
+	pub use super::runtime_primitive_5_attributes;
+	pub use super::runtime_primitive_n_attributes;
 	
 }
 
@@ -260,5 +269,36 @@ pub fn runtime_primitive_v_alternative_n (primitive : RuntimePrimitiveV) -> (Opt
 		RuntimePrimitiveV::ProcessExitEmergency =>
 			None,
 	}
+}
+
+
+
+
+pub fn runtime_primitive_0_attributes (_primitive : RuntimePrimitive0) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn runtime_primitive_1_attributes (_primitive : RuntimePrimitive1) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn runtime_primitive_2_attributes (_primitive : RuntimePrimitive2) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn runtime_primitive_3_attributes (_primitive : RuntimePrimitive3) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn runtime_primitive_4_attributes (_primitive : RuntimePrimitive4) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn runtime_primitive_5_attributes (_primitive : RuntimePrimitive5) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn runtime_primitive_n_attributes (_primitive : RuntimePrimitiveN) -> (Option<ProcedureAttributes>) {
+	return None;
 }
 

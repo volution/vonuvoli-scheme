@@ -4,6 +4,7 @@ use super::builtins::exports::*;
 use super::constants::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
+use super::primitives_procedures::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
 
@@ -36,6 +37,14 @@ pub mod exports {
 	pub use super::list_primitive_v_alternative_4;
 	pub use super::list_primitive_v_alternative_5;
 	pub use super::list_primitive_v_alternative_n;
+	
+	pub use super::list_primitive_0_attributes;
+	pub use super::list_primitive_1_attributes;
+	pub use super::list_primitive_2_attributes;
+	pub use super::list_primitive_3_attributes;
+	pub use super::list_primitive_4_attributes;
+	pub use super::list_primitive_5_attributes;
+	pub use super::list_primitive_n_attributes;
 	
 }
 
@@ -551,5 +560,36 @@ pub fn list_primitive_v_alternative_n (primitive : ListPrimitiveV) -> (Option<Li
 		ListPrimitiveV::ListAssoc =>
 			None,
 	}
+}
+
+
+
+
+pub fn list_primitive_0_attributes (_primitive : ListPrimitive0) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn list_primitive_1_attributes (_primitive : ListPrimitive1) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn list_primitive_2_attributes (_primitive : ListPrimitive2) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn list_primitive_3_attributes (_primitive : ListPrimitive3) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn list_primitive_4_attributes (_primitive : ListPrimitive4) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn list_primitive_5_attributes (_primitive : ListPrimitive5) -> (Option<ProcedureAttributes>) {
+	return None;
+}
+
+pub fn list_primitive_n_attributes (_primitive : ListPrimitiveN) -> (Option<ProcedureAttributes>) {
+	return None;
 }
 

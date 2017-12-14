@@ -31,6 +31,8 @@ pub mod exports {
 	pub use super::ProcedurePrimitiveV;
 	pub use super::ProcedurePrimitive;
 	
+	pub use super::ProcedureAttributes;
+	
 	pub use super::procedure_primitive_0_evaluate;
 	pub use super::procedure_primitive_1_evaluate;
 	pub use super::procedure_primitive_2_evaluate;
@@ -62,6 +64,15 @@ pub mod exports {
 	pub use super::procedure_primitive_v_alternative_4;
 	pub use super::procedure_primitive_v_alternative_5;
 	pub use super::procedure_primitive_v_alternative_n;
+	
+	pub use super::procedure_primitive_0_attributes;
+	pub use super::procedure_primitive_1_attributes;
+	pub use super::procedure_primitive_2_attributes;
+	pub use super::procedure_primitive_3_attributes;
+	pub use super::procedure_primitive_4_attributes;
+	pub use super::procedure_primitive_5_attributes;
+	pub use super::procedure_primitive_n_attributes;
+	pub use super::procedure_primitive_g_attributes;
 	
 }
 
@@ -246,6 +257,14 @@ pub enum ProcedurePrimitiveV {
 	Runtime ( RuntimePrimitiveV ),
 	Port ( PortPrimitiveV ),
 	
+}
+
+
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub struct ProcedureAttributes {
+	pub deterministic : bool,
 }
 
 
@@ -1530,6 +1549,343 @@ pub fn procedure_primitive_v_alternative_n (primitive : ProcedurePrimitiveV) -> 
 			} else {
 				None
 			},
+		
+	}
+}
+
+
+
+
+pub fn procedure_primitive_0_attributes (primitive : ProcedurePrimitive0) -> (Option<ProcedureAttributes>) {
+	match primitive {
+		
+		ProcedurePrimitive0::Boolean (primitive) =>
+			return boolean_primitive_0_attributes (primitive),
+		
+		ProcedurePrimitive0::Arithmetic (primitive) =>
+			return arithmetic_primitive_0_attributes (primitive),
+		
+		ProcedurePrimitive0::Bitwise (primitive) =>
+			return bitwise_primitive_0_attributes (primitive),
+		
+		ProcedurePrimitive0::Comparison (primitive) =>
+			return comparison_primitive_0_attributes (primitive),
+		
+		ProcedurePrimitive0::List (primitive) =>
+			return list_primitive_0_attributes (primitive),
+		
+		ProcedurePrimitive0::Array (primitive) =>
+			return array_primitive_0_attributes (primitive),
+		
+		ProcedurePrimitive0::Bytes (primitive) =>
+			return bytes_primitive_0_attributes (primitive),
+		
+		ProcedurePrimitive0::String (primitive) =>
+			return string_primitive_0_attributes (primitive),
+		
+		ProcedurePrimitive0::Functions (primitive) =>
+			return functions_primitive_0_attributes (primitive),
+		
+		ProcedurePrimitive0::Runtime (primitive) =>
+			return runtime_primitive_0_attributes (primitive),
+		
+		ProcedurePrimitive0::Port (primitive) =>
+			return port_primitive_0_attributes (primitive),
+		
+	}
+}
+
+
+
+
+pub fn procedure_primitive_1_attributes (primitive : ProcedurePrimitive1) -> (Option<ProcedureAttributes>) {
+	match primitive {
+		
+		ProcedurePrimitive1::Type (primitive) =>
+			return type_primitive_1_attributes (primitive),
+		
+		ProcedurePrimitive1::Boolean (primitive) =>
+			return boolean_primitive_1_attributes (primitive),
+		
+		ProcedurePrimitive1::Arithmetic (primitive) =>
+			return arithmetic_primitive_1_attributes (primitive),
+		
+		ProcedurePrimitive1::Bitwise (primitive) =>
+			return bitwise_primitive_1_attributes (primitive),
+		
+		ProcedurePrimitive1::Comparison (primitive) =>
+			return comparison_primitive_1_attributes (primitive),
+		
+		ProcedurePrimitive1::List (primitive) =>
+			return list_primitive_1_attributes (primitive),
+		
+		ProcedurePrimitive1::Array (primitive) =>
+			return array_primitive_1_attributes (primitive),
+		
+		ProcedurePrimitive1::Bytes (primitive) =>
+			return bytes_primitive_1_attributes (primitive),
+		
+		ProcedurePrimitive1::String (primitive) =>
+			return string_primitive_1_attributes (primitive),
+		
+		ProcedurePrimitive1::Functions (primitive) =>
+			return functions_primitive_1_attributes (primitive),
+		
+		ProcedurePrimitive1::Runtime (primitive) =>
+			return runtime_primitive_1_attributes (primitive),
+		
+		ProcedurePrimitive1::Port (primitive) =>
+			return port_primitive_1_attributes (primitive),
+		
+	}
+}
+
+
+
+
+pub fn procedure_primitive_2_attributes (primitive : ProcedurePrimitive2) -> (Option<ProcedureAttributes>) {
+	match primitive {
+		
+		ProcedurePrimitive2::Boolean (primitive) =>
+			return boolean_primitive_2_attributes (primitive),
+		
+		ProcedurePrimitive2::Arithmetic (primitive) =>
+			return arithmetic_primitive_2_attributes (primitive),
+		
+		ProcedurePrimitive2::Bitwise (primitive) =>
+			return bitwise_primitive_2_attributes (primitive),
+		
+		ProcedurePrimitive2::Comparison (primitive) =>
+			return comparison_primitive_2_attributes (primitive),
+		
+		ProcedurePrimitive2::List (primitive) =>
+			return list_primitive_2_attributes (primitive),
+		
+		ProcedurePrimitive2::Array (primitive) =>
+			return array_primitive_2_attributes (primitive),
+		
+		ProcedurePrimitive2::Bytes (primitive) =>
+			return bytes_primitive_2_attributes (primitive),
+		
+		ProcedurePrimitive2::String (primitive) =>
+			return string_primitive_2_attributes (primitive),
+		
+		ProcedurePrimitive2::Functions (primitive) =>
+			return functions_primitive_2_attributes (primitive),
+		
+		ProcedurePrimitive2::Runtime (primitive) =>
+			return runtime_primitive_2_attributes (primitive),
+		
+		ProcedurePrimitive2::Port (primitive) =>
+			return port_primitive_2_attributes (primitive),
+		
+	}
+}
+
+
+
+
+pub fn procedure_primitive_3_attributes (primitive : ProcedurePrimitive3) -> (Option<ProcedureAttributes>) {
+	match primitive {
+		
+		ProcedurePrimitive3::Boolean (primitive) =>
+			return boolean_primitive_3_attributes (primitive),
+		
+		ProcedurePrimitive3::Arithmetic (primitive) =>
+			return arithmetic_primitive_3_attributes (primitive),
+		
+		ProcedurePrimitive3::Bitwise (primitive) =>
+			return bitwise_primitive_3_attributes (primitive),
+		
+		ProcedurePrimitive3::Comparison (primitive) =>
+			return comparison_primitive_3_attributes (primitive),
+		
+		ProcedurePrimitive3::List (primitive) =>
+			return list_primitive_3_attributes (primitive),
+		
+		ProcedurePrimitive3::Array (primitive) =>
+			return array_primitive_3_attributes (primitive),
+		
+		ProcedurePrimitive3::Bytes (primitive) =>
+			return bytes_primitive_3_attributes (primitive),
+		
+		ProcedurePrimitive3::String (primitive) =>
+			return string_primitive_3_attributes (primitive),
+		
+		ProcedurePrimitive3::Functions (primitive) =>
+			return functions_primitive_3_attributes (primitive),
+		
+		ProcedurePrimitive3::Runtime (primitive) =>
+			return runtime_primitive_3_attributes (primitive),
+		
+		ProcedurePrimitive3::Port (primitive) =>
+			return port_primitive_3_attributes (primitive),
+		
+	}
+}
+
+
+
+
+pub fn procedure_primitive_4_attributes (primitive : ProcedurePrimitive4) -> (Option<ProcedureAttributes>) {
+	match primitive {
+		
+		ProcedurePrimitive4::Boolean (primitive) =>
+			return boolean_primitive_4_attributes (primitive),
+		
+		ProcedurePrimitive4::Arithmetic (primitive) =>
+			return arithmetic_primitive_4_attributes (primitive),
+		
+		ProcedurePrimitive4::Bitwise (primitive) =>
+			return bitwise_primitive_4_attributes (primitive),
+		
+		ProcedurePrimitive4::Comparison (primitive) =>
+			return comparison_primitive_4_attributes (primitive),
+		
+		ProcedurePrimitive4::List (primitive) =>
+			return list_primitive_4_attributes (primitive),
+		
+		ProcedurePrimitive4::Array (primitive) =>
+			return array_primitive_4_attributes (primitive),
+		
+		ProcedurePrimitive4::Bytes (primitive) =>
+			return bytes_primitive_4_attributes (primitive),
+		
+		ProcedurePrimitive4::String (primitive) =>
+			return string_primitive_4_attributes (primitive),
+		
+		ProcedurePrimitive4::Functions (primitive) =>
+			return functions_primitive_4_attributes (primitive),
+		
+		ProcedurePrimitive4::Runtime (primitive) =>
+			return runtime_primitive_4_attributes (primitive),
+		
+		ProcedurePrimitive4::Port (primitive) =>
+			return port_primitive_4_attributes (primitive),
+		
+	}
+}
+
+
+
+
+pub fn procedure_primitive_5_attributes (primitive : ProcedurePrimitive5) -> (Option<ProcedureAttributes>) {
+	match primitive {
+		
+		ProcedurePrimitive5::Boolean (primitive) =>
+			return boolean_primitive_5_attributes (primitive),
+		
+		ProcedurePrimitive5::Arithmetic (primitive) =>
+			return arithmetic_primitive_5_attributes (primitive),
+		
+		ProcedurePrimitive5::Bitwise (primitive) =>
+			return bitwise_primitive_5_attributes (primitive),
+		
+		ProcedurePrimitive5::Comparison (primitive) =>
+			return comparison_primitive_5_attributes (primitive),
+		
+		ProcedurePrimitive5::List (primitive) =>
+			return list_primitive_5_attributes (primitive),
+		
+		ProcedurePrimitive5::Array (primitive) =>
+			return array_primitive_5_attributes (primitive),
+		
+		ProcedurePrimitive5::Bytes (primitive) =>
+			return bytes_primitive_5_attributes (primitive),
+		
+		ProcedurePrimitive5::String (primitive) =>
+			return string_primitive_5_attributes (primitive),
+		
+		ProcedurePrimitive5::Functions (primitive) =>
+			return functions_primitive_5_attributes (primitive),
+		
+		ProcedurePrimitive5::Runtime (primitive) =>
+			return runtime_primitive_5_attributes (primitive),
+		
+		ProcedurePrimitive5::Port (primitive) =>
+			return port_primitive_5_attributes (primitive),
+		
+	}
+}
+
+
+
+
+pub fn procedure_primitive_n_attributes (primitive : ProcedurePrimitiveN) -> (Option<ProcedureAttributes>) {
+	match primitive {
+		
+		ProcedurePrimitiveN::Boolean (primitive) =>
+			return boolean_primitive_n_attributes (primitive),
+		
+		ProcedurePrimitiveN::Arithmetic (primitive) =>
+			return arithmetic_primitive_n_attributes (primitive),
+		
+		ProcedurePrimitiveN::Bitwise (primitive) =>
+			return bitwise_primitive_n_attributes (primitive),
+		
+		ProcedurePrimitiveN::Comparison (primitive) =>
+			return comparison_primitive_n_attributes (primitive),
+		
+		ProcedurePrimitiveN::List (primitive) =>
+			return list_primitive_n_attributes (primitive),
+		
+		ProcedurePrimitiveN::Array (primitive) =>
+			return array_primitive_n_attributes (primitive),
+		
+		ProcedurePrimitiveN::Bytes (primitive) =>
+			return bytes_primitive_n_attributes (primitive),
+		
+		ProcedurePrimitiveN::String (primitive) =>
+			return string_primitive_n_attributes (primitive),
+		
+		ProcedurePrimitiveN::Functions (primitive) =>
+			return functions_primitive_n_attributes (primitive),
+		
+		ProcedurePrimitiveN::Runtime (primitive) =>
+			return runtime_primitive_n_attributes (primitive),
+		
+		ProcedurePrimitiveN::Port (primitive) =>
+			return port_primitive_n_attributes (primitive),
+		
+	}
+}
+
+
+pub fn procedure_primitive_g_attributes (primitive : ProcedurePrimitive) -> (Option<ProcedureAttributes>) {
+	match primitive {
+		
+		ProcedurePrimitive::Primitive0 (primitive) =>
+			return procedure_primitive_0_attributes (primitive),
+		
+		ProcedurePrimitive::Primitive1 (primitive) =>
+			return procedure_primitive_1_attributes (primitive),
+		
+		ProcedurePrimitive::Primitive2 (primitive) =>
+			return procedure_primitive_2_attributes (primitive),
+		
+		ProcedurePrimitive::Primitive3 (primitive) =>
+			return procedure_primitive_3_attributes (primitive),
+		
+		ProcedurePrimitive::Primitive4 (primitive) =>
+			return procedure_primitive_4_attributes (primitive),
+		
+		ProcedurePrimitive::Primitive5 (primitive) =>
+			return procedure_primitive_5_attributes (primitive),
+		
+		ProcedurePrimitive::PrimitiveN (primitive) =>
+			return procedure_primitive_n_attributes (primitive),
+		
+		ProcedurePrimitive::PrimitiveV (_) =>
+			return None,
+		
+		ProcedurePrimitive::Unimplemented =>
+			return None,
+		
+		ProcedurePrimitive::Unsupported =>
+			return None,
+		
+		ProcedurePrimitive::Reserved =>
+			return None,
 		
 	}
 }
