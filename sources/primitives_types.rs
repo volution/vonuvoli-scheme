@@ -14,6 +14,7 @@ pub mod exports {
 	pub use super::TypePrimitive1;
 	
 	pub use super::type_primitive_1_evaluate;
+	pub use super::type_primitive_1_evaluate_0;
 	
 	pub use super::type_primitive_1_attributes;
 	
@@ -62,7 +63,7 @@ pub enum TypePrimitive1 {
 	
 	IsTrue,
 	IsFalse,
-	
+	IsNotTrue,
 	IsNotFalse,
 	IsTrueOrEquivalent,
 	IsFalseOrEquivalent,
@@ -100,7 +101,14 @@ pub enum TypePrimitive1 {
 
 
 pub fn type_primitive_1_evaluate (primitive : TypePrimitive1, input_1 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
-	
+	let output = try! (type_primitive_1_evaluate_0 (primitive, input_1));
+	succeed! (output.into ());
+}
+
+
+
+
+pub fn type_primitive_1_evaluate_0 (primitive : TypePrimitive1, input_1 : &Value) -> (Outcome<bool>) {
 	let output = match primitive {
 		
 		TypePrimitive1::IsNull =>
@@ -196,6 +204,9 @@ pub fn type_primitive_1_evaluate (primitive : TypePrimitive1, input_1 : &Value, 
 		TypePrimitive1::IsFalse =>
 			is_false (input_1),
 		
+		TypePrimitive1::IsNotTrue =>
+			is_not_true (input_1),
+		
 		TypePrimitive1::IsNotFalse =>
 			is_not_false (input_1),
 		
@@ -281,8 +292,7 @@ pub fn type_primitive_1_evaluate (primitive : TypePrimitive1, input_1 : &Value, 
 			is_port_eof (input_1),
 		
 	};
-	
-	succeed! (output.into ());
+	succeed! (output);
 }
 
 
