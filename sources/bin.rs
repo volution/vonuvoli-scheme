@@ -56,6 +56,15 @@ fn main_0 () -> (Outcome<()>) {
 		},
 	};
 	
+	let expressions = match optimize_script (expressions) {
+		Ok (expression) =>
+			expression,
+		Err (error) => {
+			try_or_fail! (write! (transcript, "!! optimize !! => {:#?}\n", &error), 0x89f48a5b);
+			return Err (error);
+		},
+	};
+	
 	match evaluate_script (&context, expressions.into_iter ()) {
 		Ok (()) =>
 			return Ok (()),

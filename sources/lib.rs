@@ -4,6 +4,8 @@
 #![ feature (str_internals) ]
 #![ feature (char_from_unchecked) ]
 
+#![ allow (unused_macros) ]
+
 
 
 
@@ -28,6 +30,7 @@ pub mod builtins_runtime;
 pub mod builtins_strings;
 pub mod builtins_types;
 pub mod compiler;
+pub mod compiler_optimizer;
 pub mod constants;
 pub mod contexts;
 pub mod conversions;
@@ -75,6 +78,7 @@ pub mod exports {
 	
 	pub use super::builtins::exports::*;
 	pub use super::compiler::exports::*;
+	pub use super::compiler_optimizer::exports::*;
 	pub use super::constants::exports::*;
 	pub use super::contexts::exports::*;
 	pub use super::conversions::exports::*;
