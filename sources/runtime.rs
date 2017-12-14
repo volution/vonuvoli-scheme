@@ -37,6 +37,8 @@ pub mod exports {
 	pub use super::{vec_clone_vec_ref, vec_clone_slice_ref, vec_clone_iter_ref};
 	pub use super::{vec_vec_to_ref, vec_slice_to_ref, vec_iter_to_ref};
 	
+	pub use super::{boxed_slice_to_ref};
+	
 	pub use super::super::runtime_iterators::exports::*;
 	pub use super::super::runtime_unicode::exports::*;
 	
@@ -222,5 +224,12 @@ pub fn vec_slice_to_ref <Element, ElementRef : AsRef<Element>> (slice : &[Elemen
 
 pub fn vec_iter_to_ref <'a, Element : 'a, ElementRef : AsRef<Element> + 'a, Iterator : iter::Iterator<Item = &'a ElementRef>> (iterator : Iterator) -> (Vec<&'a Element>) {
 	return vec_map! (iterator, value, value.as_ref ());
+}
+
+
+
+
+pub fn boxed_slice_to_ref <'a, Element : 'a, ElementRef : AsRef<Element> + 'a> (slice : &'a Box<[ElementRef]>) -> (Box<[&'a Element]>) {
+	return vec_map! (slice.iter (), value, value.as_ref ()) .into_boxed_slice ();
 }
 
