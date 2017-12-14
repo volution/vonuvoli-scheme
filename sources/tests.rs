@@ -131,7 +131,7 @@ pub fn execute_test (context_without_optimizations : &Context, context_with_opti
 	};
 	
 	let verbosity_without_optimizations = verbosity_generic;
-	let verbosity_with_optimizations = TestVerbosity::Debug;
+	let verbosity_with_optimizations = verbosity_generic;
 	
 	
 	match test.action {
