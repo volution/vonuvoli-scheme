@@ -1,5 +1,6 @@
 
 
+use super::constants::exports::*;
 use super::builtins::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
@@ -274,12 +275,24 @@ pub fn runtime_primitive_v_alternative_n (primitive : RuntimePrimitiveV) -> (Opt
 
 
 
-pub fn runtime_primitive_0_attributes (_primitive : RuntimePrimitive0) -> (Option<ProcedureAttributes>) {
-	return None;
+pub fn runtime_primitive_0_attributes (primitive : RuntimePrimitive0) -> (Option<ProcedureAttributes>) {
+	match primitive {
+		RuntimePrimitive0::ProcessArguments |
+		RuntimePrimitive0::ProcessEnvironment |
+		RuntimePrimitive0::JiffiesPerSecond =>
+			Some (CONSTANT_PROCEDURE_ATTRIBUTES_0),
+		_ =>
+			None,
+	}
 }
 
-pub fn runtime_primitive_1_attributes (_primitive : RuntimePrimitive1) -> (Option<ProcedureAttributes>) {
-	return None;
+pub fn runtime_primitive_1_attributes (primitive : RuntimePrimitive1) -> (Option<ProcedureAttributes>) {
+	match primitive {
+		RuntimePrimitive1::ProcessEnvironment =>
+			Some (CONSTANT_PROCEDURE_ATTRIBUTES_1),
+		_ =>
+			None,
+	}
 }
 
 pub fn runtime_primitive_2_attributes (_primitive : RuntimePrimitive2) -> (Option<ProcedureAttributes>) {
