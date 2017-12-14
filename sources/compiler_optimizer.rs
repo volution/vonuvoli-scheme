@@ -66,20 +66,6 @@ impl Optimizer {
 	
 	
 	
-	/*
-	fn optimize_0 (&self, optimization : OptimizerContext, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		match self.optimize_0_0 (optimization.clone (), expression.clone ()) {
-			outcome @ Ok (_) =>
-				return outcome,
-			Err (error) =>
-				if error.code == 0x417a888c {
-					succeed! ((optimization, expression));
-				} else {
-					return Err (error);
-				},
-		}
-	}
-	*/
 	
 	fn optimize_0 (&self, optimization : OptimizerContext, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		match expression {
@@ -333,7 +319,7 @@ impl Optimizer {
 					let mut expressions = self.expressions_retain_if_is_not (&optimization, expressions, ExpressionClass::Type (TypePrimitive1::IsTrue));
 					if ! expressions.is_empty () {
 						expressions.push (last);
-						if self.expressions_are_any (&optimization, &expressions, ExpressionClass::Type (TypePrimitive1::IsFalse)) {
+						if self.expressions_are_any (&optimization, expressions.iter (), ExpressionClass::Type (TypePrimitive1::IsFalse)) {
 							Expression::Value (FALSE_VALUE)
 						} else {
 							Expression::Sequence (operator, expressions.into_boxed_slice ())
@@ -353,7 +339,7 @@ impl Optimizer {
 					let mut expressions = self.expressions_retain_if_is_not (&optimization, expressions, ExpressionClass::Type (TypePrimitive1::IsFalse));
 					if ! expressions.is_empty () {
 						expressions.push (last);
-						if self.expressions_are_any (&optimization, &expressions, ExpressionClass::Type (TypePrimitive1::IsTrue)) {
+						if self.expressions_are_any (&optimization, expressions.iter (), ExpressionClass::Type (TypePrimitive1::IsTrue)) {
 							Expression::Value (TRUE_VALUE)
 						} else {
 							Expression::Sequence (operator, expressions.into_boxed_slice ())
@@ -583,7 +569,8 @@ impl Optimizer {
 		}
 		let (optimization, inputs) = try! (self.optimize_0_slice (optimization, inputs));
 		let expression = Expression::ProcedureCall (callable.into (), inputs);
-		succeed! ((optimization, expression));
+		let attributes = None;
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
 	
@@ -617,7 +604,8 @@ impl Optimizer {
 			}
 		}
 		let expression = Expression::ProcedureCall0 (callable.into ());
-		succeed! ((optimization, expression));
+		let attributes = None;
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
 	
@@ -652,7 +640,8 @@ impl Optimizer {
 		}
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
 		let expression = Expression::ProcedureCall1 (callable.into (), input_1.into ());
-		succeed! ((optimization, expression));
+		let attributes = None;
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
 	
@@ -688,7 +677,8 @@ impl Optimizer {
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
 		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
 		let expression = Expression::ProcedureCall2 (callable.into (), input_1.into (), input_2.into ());
-		succeed! ((optimization, expression));
+		let attributes = None;
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
 	
@@ -725,7 +715,8 @@ impl Optimizer {
 		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
 		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
 		let expression = Expression::ProcedureCall3 (callable.into (), input_1.into (), input_2.into (), input_3.into ());
-		succeed! ((optimization, expression));
+		let attributes = None;
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
 	
@@ -763,7 +754,8 @@ impl Optimizer {
 		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
 		let (optimization, input_4) = try! (self.optimize_0 (optimization, input_4));
 		let expression = Expression::ProcedureCall4 (callable.into (), input_1.into (), input_2.into (), input_3.into (), input_4.into ());
-		succeed! ((optimization, expression));
+		let attributes = None;
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
 	
@@ -802,7 +794,8 @@ impl Optimizer {
 		let (optimization, input_4) = try! (self.optimize_0 (optimization, input_4));
 		let (optimization, input_5) = try! (self.optimize_0 (optimization, input_5));
 		let expression = Expression::ProcedureCall5 (callable.into (), input_1.into (), input_2.into (), input_3.into (), input_4.into (), input_5.into ());
-		succeed! ((optimization, expression));
+		let attributes = None;
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
 	
@@ -833,6 +826,31 @@ impl Optimizer {
 		}
 		let (optimization, inputs) = try! (self.optimize_0_slice (optimization, inputs));
 		let expression = Expression::ProcedureCallN (callable.into (), inputs);
+		let attributes = None;
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
+	}
+	
+	
+	
+	
+	fn optimize_procedure_call_with_attributes (&self, optimization : OptimizerContext, expression : Expression, attributes : Option<ProcedureAttributes>) -> (Outcome<(OptimizerContext, Expression)>) {
+		if let Some (attributes) = attributes {
+			if attributes.deterministic {
+				match attributes.output {
+					ProcedureOutputAttributes::Constant => {
+						let evaluate = {
+							let inputs = self.expression_procedure_call_inputs_ref (&optimization, &expression) .unwrap ();
+							self.expressions_are_all (&optimization, inputs.iter (), ExpressionClass::Constant)
+						};
+						if evaluate {
+							return self.evaluate_to_expression (optimization, expression);
+						}
+					},
+					_ =>
+						(),
+				}
+			}
+		}
 		succeed! ((optimization, expression));
 	}
 	
@@ -914,14 +932,16 @@ impl Optimizer {
 	
 	fn optimize_procedure_primitive_0 (&self, optimization : OptimizerContext, primitive : ProcedurePrimitive0) -> (Outcome<(OptimizerContext, Expression)>) {
 		let expression = Expression::ProcedurePrimitiveCall0 (primitive);
-		succeed! ((optimization, expression));
+		let attributes = procedure_primitive_0_attributes (primitive);
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
 	
 	fn optimize_procedure_primitive_1 (&self, optimization : OptimizerContext, primitive : ProcedurePrimitive1, input_1 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
 		let expression = Expression::ProcedurePrimitiveCall1 (primitive, input_1.into ());
-		succeed! ((optimization, expression));
+		let attributes = procedure_primitive_1_attributes (primitive);
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
 	
@@ -929,7 +949,8 @@ impl Optimizer {
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
 		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
 		let expression = Expression::ProcedurePrimitiveCall2 (primitive, input_1.into (), input_2.into ());
-		succeed! ((optimization, expression));
+		let attributes = procedure_primitive_2_attributes (primitive);
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
 	
@@ -938,7 +959,8 @@ impl Optimizer {
 		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
 		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
 		let expression = Expression::ProcedurePrimitiveCall3 (primitive, input_1.into (), input_2.into (), input_3.into ());
-		succeed! ((optimization, expression));
+		let attributes = procedure_primitive_3_attributes (primitive);
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
 	
@@ -948,7 +970,8 @@ impl Optimizer {
 		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
 		let (optimization, input_4) = try! (self.optimize_0 (optimization, input_4));
 		let expression = Expression::ProcedurePrimitiveCall4 (primitive, input_1.into (), input_2.into (), input_3.into (), input_4.into ());
-		succeed! ((optimization, expression));
+		let attributes = procedure_primitive_4_attributes (primitive);
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
 	
@@ -959,14 +982,16 @@ impl Optimizer {
 		let (optimization, input_4) = try! (self.optimize_0 (optimization, input_4));
 		let (optimization, input_5) = try! (self.optimize_0 (optimization, input_5));
 		let expression = Expression::ProcedurePrimitiveCall5 (primitive, input_1.into (), input_2.into (), input_3.into (), input_4.into (), input_5.into ());
-		succeed! ((optimization, expression));
+		let attributes = procedure_primitive_5_attributes (primitive);
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
 	
 	fn optimize_procedure_primitive_n (&self, optimization : OptimizerContext, primitive : ProcedurePrimitiveN, inputs : StdBox<[Expression]>) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, inputs) = try! (self.optimize_0_slice (optimization, inputs));
 		let expression = Expression::ProcedurePrimitiveCallN (primitive, inputs);
-		succeed! ((optimization, expression));
+		let attributes = procedure_primitive_n_attributes (primitive);
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
 	
@@ -1101,14 +1126,16 @@ impl Optimizer {
 	
 	fn optimize_procedure_extended_0 (&self, optimization : OptimizerContext, extended : ProcedureExtended) -> (Outcome<(OptimizerContext, Expression)>) {
 		let expression = Expression::ProcedureExtendedCall0 (extended);
-		succeed! ((optimization, expression));
+		let attributes = None;
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
 	
 	fn optimize_procedure_extended_1 (&self, optimization : OptimizerContext, extended : ProcedureExtended, input_1 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
 		let expression = Expression::ProcedureExtendedCall1 (extended, input_1.into ());
-		succeed! ((optimization, expression));
+		let attributes = None;
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
 	
@@ -1116,7 +1143,8 @@ impl Optimizer {
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
 		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
 		let expression = Expression::ProcedureExtendedCall2 (extended, input_1.into (), input_2.into ());
-		succeed! ((optimization, expression));
+		let attributes = None;
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
 	
@@ -1125,7 +1153,8 @@ impl Optimizer {
 		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
 		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
 		let expression = Expression::ProcedureExtendedCall3 (extended, input_1.into (), input_2.into (), input_3.into ());
-		succeed! ((optimization, expression));
+		let attributes = None;
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
 	
@@ -1135,7 +1164,8 @@ impl Optimizer {
 		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
 		let (optimization, input_4) = try! (self.optimize_0 (optimization, input_4));
 		let expression = Expression::ProcedureExtendedCall4 (extended, input_1.into (), input_2.into (), input_3.into (), input_4.into ());
-		succeed! ((optimization, expression));
+		let attributes = None;
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
 	
@@ -1146,14 +1176,16 @@ impl Optimizer {
 		let (optimization, input_4) = try! (self.optimize_0 (optimization, input_4));
 		let (optimization, input_5) = try! (self.optimize_0 (optimization, input_5));
 		let expression = Expression::ProcedureExtendedCall5 (extended, input_1.into (), input_2.into (), input_3.into (), input_4.into (), input_5.into ());
-		succeed! ((optimization, expression));
+		let attributes = None;
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
 	
 	fn optimize_procedure_extended_n (&self, optimization : OptimizerContext, extended : ProcedureExtended, inputs : StdBox<[Expression]>) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, inputs) = try! (self.optimize_0_slice (optimization, inputs));
 		let expression = Expression::ProcedureExtendedCallN (extended, inputs);
-		succeed! ((optimization, expression));
+		let attributes = None;
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
 	
@@ -1206,20 +1238,23 @@ impl Optimizer {
 	
 	fn optimize_procedure_lambda_0 (&self, optimization : OptimizerContext, lambda : StdRc<LambdaInternals>) -> (Outcome<(OptimizerContext, Expression)>) {
 		let expression = Expression::ProcedureLambdaCall0 (lambda);
-		succeed! ((optimization, expression));
+		let attributes = None;
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
 	fn optimize_procedure_lambda_1 (&self, optimization : OptimizerContext, lambda : StdRc<LambdaInternals>, input_1 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
 		let expression = Expression::ProcedureLambdaCall1 (lambda, input_1.into ());
-		succeed! ((optimization, expression));
+		let attributes = None;
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
 	fn optimize_procedure_lambda_2 (&self, optimization : OptimizerContext, lambda : StdRc<LambdaInternals>, input_1 : Expression, input_2 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
 		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
 		let expression = Expression::ProcedureLambdaCall2 (lambda, input_1.into (), input_2.into ());
-		succeed! ((optimization, expression));
+		let attributes = None;
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
 	fn optimize_procedure_lambda_3 (&self, optimization : OptimizerContext, lambda : StdRc<LambdaInternals>, input_1 : Expression, input_2 : Expression, input_3 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
@@ -1227,7 +1262,8 @@ impl Optimizer {
 		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
 		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
 		let expression = Expression::ProcedureLambdaCall3 (lambda, input_1.into (), input_2.into (), input_3.into ());
-		succeed! ((optimization, expression));
+		let attributes = None;
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
 	fn optimize_procedure_lambda_4 (&self, optimization : OptimizerContext, lambda : StdRc<LambdaInternals>, input_1 : Expression, input_2 : Expression, input_3 : Expression, input_4 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
@@ -1236,7 +1272,8 @@ impl Optimizer {
 		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
 		let (optimization, input_4) = try! (self.optimize_0 (optimization, input_4));
 		let expression = Expression::ProcedureLambdaCall4 (lambda, input_1.into (), input_2.into (), input_3.into (), input_4.into ());
-		succeed! ((optimization, expression));
+		let attributes = None;
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
 	fn optimize_procedure_lambda_5 (&self, optimization : OptimizerContext, lambda : StdRc<LambdaInternals>, input_1 : Expression, input_2 : Expression, input_3 : Expression, input_4 : Expression, input_5 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
@@ -1246,24 +1283,27 @@ impl Optimizer {
 		let (optimization, input_4) = try! (self.optimize_0 (optimization, input_4));
 		let (optimization, input_5) = try! (self.optimize_0 (optimization, input_5));
 		let expression = Expression::ProcedureLambdaCall5 (lambda, input_1.into (), input_2.into (), input_3.into (), input_4.into (), input_5.into ());
-		succeed! ((optimization, expression));
+		let attributes = None;
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
 	fn optimize_procedure_lambda_n (&self, optimization : OptimizerContext, lambda : StdRc<LambdaInternals>, inputs : StdBox<[Expression]>) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, inputs) = try! (self.optimize_0_slice (optimization, inputs));
 		let expression = Expression::ProcedureLambdaCallN (lambda, inputs);
-		succeed! ((optimization, expression));
+		let attributes = None;
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
 	
 	
 	
-	fn expression_is_not (&self, optimization : &OptimizerContext, expression : &Expression, class : ExpressionClass) -> (bool) {
+	fn expression_is_not <ExpressionRef : StdAsRef<Expression>> (&self, optimization : &OptimizerContext, expression : ExpressionRef, class : ExpressionClass) -> (bool) {
 		return ! self.expression_is (optimization, expression, class);
 	}
 	
 	
-	fn expression_is (&self, _optimization : &OptimizerContext, expression : &Expression, class : ExpressionClass) -> (bool) {
+	fn expression_is <ExpressionRef : StdAsRef<Expression>> (&self, _optimization : &OptimizerContext, expression : ExpressionRef, class : ExpressionClass) -> (bool) {
+		let expression = expression.as_ref ();
 		match *expression {
 			
 			Expression::Void =>
@@ -1412,7 +1452,8 @@ impl Optimizer {
 	
 	
 	
-	fn expression_value_class (&self, expression : &Expression) -> (Option<ValueClass>) {
+	fn expression_value_class <ExpressionRef : StdAsRef<Expression>> (&self, expression : ExpressionRef) -> (Option<ValueClass>) {
+		let expression = expression.as_ref ();
 		match *expression {
 			Expression::Void =>
 				Some (ValueClass::Void),
@@ -1426,23 +1467,35 @@ impl Optimizer {
 	
 	
 	
-	fn expressions_are_any (&self, optimization : &OptimizerContext, expressions : &Vec<Expression>, class : ExpressionClass) -> (bool) {
-		return expressions.iter () .any (|expression| self.expression_is (optimization, expression, class));
+	fn expressions_are_any <Iterator, ExpressionRef> (&self, optimization : &OptimizerContext, expressions : Iterator, class : ExpressionClass) -> (bool)
+			where Iterator : iter::Iterator<Item = ExpressionRef>, ExpressionRef : StdAsRef<Expression>
+	{
+		let mut expressions = expressions;
+		return expressions.any (|expression| self.expression_is (optimization, expression, class));
 	}
 	
 	#[ allow (dead_code) ]
-	fn expressions_are_any_not (&self, optimization : &OptimizerContext, expressions : &Vec<Expression>, class : ExpressionClass) -> (bool) {
-		return expressions.iter () .any (|expression| self.expression_is_not (optimization, expression, class));
+	fn expressions_are_any_not <Iterator, ExpressionRef> (&self, optimization : &OptimizerContext, expressions : Iterator, class : ExpressionClass) -> (bool)
+			where Iterator : iter::Iterator<Item = ExpressionRef>, ExpressionRef : StdAsRef<Expression>
+	{
+		let mut expressions = expressions;
+		return expressions.any (|expression| self.expression_is_not (optimization, expression, class));
 	}
 	
 	#[ allow (dead_code) ]
-	fn expressions_are_all (&self, optimization : &OptimizerContext, expressions : &Vec<Expression>, class : ExpressionClass) -> (bool) {
-		return expressions.iter () .all (|expression| self.expression_is (optimization, expression, class));
+	fn expressions_are_all <Iterator, ExpressionRef> (&self, optimization : &OptimizerContext, expressions : Iterator, class : ExpressionClass) -> (bool)
+			where Iterator : iter::Iterator<Item = ExpressionRef>, ExpressionRef : StdAsRef<Expression>
+	{
+		let mut expressions = expressions;
+		return expressions.all (|expression| self.expression_is (optimization, expression, class));
 	}
 	
 	#[ allow (dead_code) ]
-	fn expressions_are_all_not (&self, optimization : &OptimizerContext, expressions : &Vec<Expression>, class : ExpressionClass) -> (bool) {
-		return expressions.iter () .all (|expression| self.expression_is_not (optimization, expression, class));
+	fn expressions_are_all_not <Iterator, ExpressionRef> (&self, optimization : &OptimizerContext, expressions : Iterator, class : ExpressionClass) -> (bool)
+			where Iterator : iter::Iterator<Item = ExpressionRef>, ExpressionRef : StdAsRef<Expression>
+	{
+		let mut expressions = expressions;
+		return expressions.all (|expression| self.expression_is_not (optimization, expression, class));
 	}
 	
 	
@@ -1477,6 +1530,178 @@ impl Optimizer {
 		let expressions = expressions.filter (|expression| self.expression_is_not (optimization, expression, class));
 		let expressions = expressions.collect ();
 		return expressions;
+	}
+	
+	
+	
+	
+	fn expression_procedure_call_inputs_ref <'a, ExpressionRef : StdAsRef<Expression> + 'a> (&self, _optimization : &OptimizerContext, expression : &'a ExpressionRef) -> (Option<StdBox<[&'a Expression]>>) {
+		let expression = expression.as_ref ();
+		match *expression {
+			
+			Expression::Void =>
+				None,
+			Expression::Value (_) =>
+				None,
+			
+			Expression::Sequence (_, _) =>
+				None,
+			Expression::ConditionalIf (_) =>
+				None,
+			Expression::ConditionalMatch (_, _) =>
+				None,
+			Expression::Loop (_, _, _, _) =>
+				None,
+			
+			Expression::ContextDefine (_, _) =>
+				None,
+			Expression::ContextUpdate (_, _) =>
+				None,
+			Expression::ContextSelect (_) =>
+				None,
+			
+			Expression::BindingInitialize1 (_, _) =>
+				None,
+			Expression::BindingInitializeN (_, _) =>
+				None,
+			Expression::BindingInitializeValues (_, _) =>
+				None,
+			Expression::BindingSet1 (_, _) =>
+				None,
+			Expression::BindingSetN (_, _) =>
+				None,
+			Expression::BindingSetValues (_, _) =>
+				None,
+			Expression::BindingGet1 (_) =>
+				None,
+			Expression::RegisterClosure (_, _) =>
+				None,
+			Expression::RegisterInitialize1 (_, _) =>
+				None,
+			Expression::RegisterInitializeN (_, _) =>
+				None,
+			Expression::RegisterInitializeValues (_, _) =>
+				None,
+			Expression::RegisterSet1 (_, _) =>
+				None,
+			Expression::RegisterSetN (_, _) =>
+				None,
+			Expression::RegisterSetValues (_, _) =>
+				None,
+			Expression::RegisterGet1 (_) =>
+				None,
+			
+			Expression::Lambda (_, _, _, _) =>
+				None,
+			
+			Expression::ProcedureCall (ref _callable, ref inputs) =>
+				Some (boxed_slice_to_ref (inputs)),
+			Expression::ProcedureCall0 (ref _callable) =>
+				Some (StdBox::new ([])),
+			Expression::ProcedureCall1 (ref _callable, ref input_1) =>
+				Some (StdBox::new ([input_1])),
+			Expression::ProcedureCall2 (ref _callable, ref input_1, ref input_2) =>
+				Some (StdBox::new ([input_1, input_2])),
+			Expression::ProcedureCall3 (ref _callable, ref input_1, ref input_2, ref input_3) =>
+				Some (StdBox::new ([input_1, input_2, input_3])),
+			Expression::ProcedureCall4 (ref _callable, ref input_1, ref input_2, ref input_3, ref input_4) =>
+				Some (StdBox::new ([input_1, input_2, input_3, input_4])),
+			Expression::ProcedureCall5 (ref _callable, ref input_1, ref input_2, ref input_3, ref input_4, ref input_5) =>
+				Some (StdBox::new ([input_1, input_2, input_3, input_4, input_5])),
+			Expression::ProcedureCallN (ref _callable, ref inputs) =>
+				Some (boxed_slice_to_ref (inputs)),
+			
+			Expression::ProcedurePrimitiveCall (_primitive, ref inputs) =>
+				Some (boxed_slice_to_ref (inputs)),
+			Expression::ProcedurePrimitiveCall0 (_primitive) =>
+				Some (StdBox::new ([])),
+			Expression::ProcedurePrimitiveCall1 (_primitive, ref input_1) =>
+				Some (StdBox::new ([input_1])),
+			Expression::ProcedurePrimitiveCall2 (_primitive, ref input_1, ref input_2) =>
+				Some (StdBox::new ([input_1, input_2])),
+			Expression::ProcedurePrimitiveCall3 (_primitive, ref input_1, ref input_2, ref input_3) =>
+				Some (StdBox::new ([input_1, input_2, input_3])),
+			Expression::ProcedurePrimitiveCall4 (_primitive, ref input_1, ref input_2, ref input_3, ref input_4) =>
+				Some (StdBox::new ([input_1, input_2, input_3, input_4])),
+			Expression::ProcedurePrimitiveCall5 (_primitive, ref input_1, ref input_2, ref input_3, ref input_4, ref input_5) =>
+				Some (StdBox::new ([input_1, input_2, input_3, input_4, input_5])),
+			Expression::ProcedurePrimitiveCallN (_primitive, ref inputs) =>
+				Some (boxed_slice_to_ref (inputs)),
+			Expression::ProcedurePrimitiveCallV (_primitive, ref inputs) =>
+				Some (boxed_slice_to_ref (inputs)),
+			
+			Expression::ProcedureExtendedCall (ref _procedure, ref inputs) =>
+				Some (boxed_slice_to_ref (inputs)),
+			Expression::ProcedureExtendedCall0 (ref _procedure) =>
+				Some (StdBox::new ([])),
+			Expression::ProcedureExtendedCall1 (ref _procedure, ref input_1) =>
+				Some (StdBox::new ([input_1])),
+			Expression::ProcedureExtendedCall2 (ref _procedure, ref input_1, ref input_2) =>
+				Some (StdBox::new ([input_1, input_2])),
+			Expression::ProcedureExtendedCall3 (ref _procedure, ref input_1, ref input_2, ref input_3) =>
+				Some (StdBox::new ([input_1, input_2, input_3])),
+			Expression::ProcedureExtendedCall4 (ref _procedure, ref input_1, ref input_2, ref input_3, ref input_4) =>
+				Some (StdBox::new ([input_1, input_2, input_3, input_4])),
+			Expression::ProcedureExtendedCall5 (ref _procedure, ref input_1, ref input_2, ref input_3, ref input_4, ref input_5) =>
+				Some (StdBox::new ([input_1, input_2, input_3, input_4, input_5])),
+			Expression::ProcedureExtendedCallN (ref _procedure, ref inputs) =>
+				Some (boxed_slice_to_ref (inputs)),
+			
+			Expression::ProcedureLambdaCall (ref _lambda, ref inputs) =>
+				Some (boxed_slice_to_ref (inputs)),
+			Expression::ProcedureLambdaCall0 (ref _lambda) =>
+				Some (StdBox::new ([])),
+			Expression::ProcedureLambdaCall1 (ref _lambda, ref input_1) =>
+				Some (StdBox::new ([input_1])),
+			Expression::ProcedureLambdaCall2 (ref _lambda, ref input_1, ref input_2) =>
+				Some (StdBox::new ([input_1, input_2])),
+			Expression::ProcedureLambdaCall3 (ref _lambda, ref input_1, ref input_2, ref input_3) =>
+				Some (StdBox::new ([input_1, input_2, input_3])),
+			Expression::ProcedureLambdaCall4 (ref _lambda, ref input_1, ref input_2, ref input_3, ref input_4) =>
+				Some (StdBox::new ([input_1, input_2, input_3, input_4])),
+			Expression::ProcedureLambdaCall5 (ref _lambda, ref input_1, ref input_2, ref input_3, ref input_4, ref input_5) =>
+				Some (StdBox::new ([input_1, input_2, input_3, input_4, input_5])),
+			Expression::ProcedureLambdaCallN (ref _lambda, ref inputs) =>
+				Some (boxed_slice_to_ref (inputs)),
+			
+		}
+	}
+	
+	
+	
+	
+	#[ allow (dead_code) ]
+	fn expression_value_ref <'a, ExpressionRef : StdAsRef<Expression> + 'a> (&self, _optimization : &OptimizerContext, expression : &'a ExpressionRef) -> (Option<&'a Value>) {
+		let expression = expression.as_ref ();
+		match *expression {
+			Expression::Void =>
+				Some (&VOID_VALUE),
+			Expression::Value (ref value) =>
+				Some (value),
+			_ =>
+				None,
+		}
+	}
+	
+	#[ allow (dead_code) ]
+	fn expressions_values_ref <'a, ExpressionRef : StdAsRef<Expression> + 'a> (&self, optimization : &OptimizerContext, expressions : &'a [ExpressionRef]) -> (StdBox<[Option<&'a Value>]>) {
+		return vec_map! (expressions.iter (), expression, self.expression_value_ref (optimization, expression)) .into_boxed_slice ();
+	}
+	
+	
+	
+	
+	fn evaluate_to_value (&self, optimization : OptimizerContext, expression : Expression) -> (Outcome<(OptimizerContext, Value)>) {
+		let output = {
+			let mut evaluation = optimization.evaluator.fork_0 ();
+			try! (evaluation.evaluate (&expression))
+		};
+		succeed! ((optimization, output));
+	}
+	
+	fn evaluate_to_expression (&self, optimization : OptimizerContext, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
+		let (optimization, output) = try! (self.evaluate_to_value (optimization, expression));
+		return self.optimize_value (optimization, output);
 	}
 	
 	
