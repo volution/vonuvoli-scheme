@@ -35,8 +35,11 @@ cat <<'EOS'
 	fi
 !!
 
-:: compile / bin / debug :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" cargo build --bin rust-scheme "${@}"
-:: compile / bin / release :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" cargo build --bin rust-scheme --release --all-features "${@}"
+:: compile / bin / interpreter / debug :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" cargo build --bin rust-scheme-interpreter "${@}"
+:: compile / bin / interpreter / release :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" cargo build --bin rust-scheme-interpreter --release --all-features "${@}"
+
+:: compile / bin / compiler / debug :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" cargo build --bin rust-scheme-compiler "${@}"
+:: compile / bin / compiler / release :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" cargo build --bin rust-scheme-compiler --release --all-features "${@}"
 
 :: compile / lib / debug :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" cargo build --lib "${@}"
 :: compile / lib / release :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" cargo build --lib --release --all-features "${@}"
@@ -81,8 +84,11 @@ cat <<'EOS'
 	#
 !!
 
-:: execute / bin / debug :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" cargo run -- "${@}"
-:: execute / bin / release :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" cargo run --release -- "${@}"
+:: execute / bin / interpreter / debug :: x-run ':: compile / bin / interpreter / debug' ; exec -- ./target/debug/rust-scheme-interpreter "${@}"
+:: execute / bin / interpreter / release :: x-run ':: compile / bin / interpreter / release' ; exec -- ./target/release/rust-scheme-interpreter "${@}"
+
+:: execute / bin / compiler / debug :: x-run ':: compile / bin / compiler / debug' ; exec -- ./target/debug/rust-scheme-compiler "${@}"
+:: execute / bin / compiler / release :: x-run ':: compile / bin / compiler / release' ; exec -- ./target/release/rust-scheme-compiler "${@}"
 
 :: execute / test / all / debug :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --all-features --jobs 1 -- --test-threads 1 "${@}"
 :: execute / test / all / release :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --release --all-features --jobs 1 -- --test-threads 1 "${@}"
@@ -167,8 +173,8 @@ find ./tests/scripts -type f -name 'benchmark--*.ss' -printf '%f\n' \
 | sort -u \
 | while read _benchmark ; do
 sed -r -e 's#@\{BENCHMARK\}#'"${_benchmark}"'#g' <<'EOS'
-:: execute / benchmark / scheme / @{BENCHMARK} / debug :: x-run ':: compile / bin / debug' --quiet ; exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme < ./tests/scripts/benchmark--@{BENCHMARK}.ss
-:: execute / benchmark / scheme / @{BENCHMARK} / release :: x-run ':: compile / bin / release' --quiet ; exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme < ./tests/scripts/benchmark--@{BENCHMARK}.ss
+:: execute / benchmark / scheme / @{BENCHMARK} / debug :: x-run ':: compile / bin / interpreter / debug' --quiet ; exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-interpreter < ./tests/scripts/benchmark--@{BENCHMARK}.ss
+:: execute / benchmark / scheme / @{BENCHMARK} / release :: x-run ':: compile / bin / interpreter / release' --quiet ; exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-interpreter < ./tests/scripts/benchmark--@{BENCHMARK}.ss
 :: execute / benchmark / chibi / @{BENCHMARK} :: exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- chibi-scheme -m scheme.base -m scheme.time -- ./tests/scripts/benchmark--@{BENCHMARK}.ss
 EOS
 done

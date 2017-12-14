@@ -10,8 +10,13 @@ default = []
 conversions-all = []
 
 [[bin]]
-name = "rust-scheme"
-path = "./sources/bin.rs"
+name = "rust-scheme-interpreter"
+path = "./sources/bin_interpreter.rs"
+doc = false
+
+[[bin]]
+name = "rust-scheme-compiler"
+path = "./sources/bin_compiler.rs"
 doc = false
 
 [lib]

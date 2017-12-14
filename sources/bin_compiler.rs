@@ -26,7 +26,7 @@ fn main_0 () -> (Outcome<()>) {
 	
 	let context = Context::new (None);
 	try! (context.define_all (try! (language_r7rs_generate_binding_templates ()) .as_ref ()));
-	try! (context.define_all_with_prefix (try! (language_builtins_generate_binding_templates ()) .as_ref (), Some ("~")));
+	try! (context.define_all (try! (language_builtins_generate_binding_templates ()) .as_ref ()));
 	
 	let mut source = StdString::new ();
 	match source_stream.read_to_string (&mut source) {
@@ -65,14 +65,12 @@ fn main_0 () -> (Outcome<()>) {
 		},
 	};
 	
-	match evaluate_script (&context, expressions.into_iter ()) {
-		Ok (()) =>
-			return Ok (()),
-		Err (error) => {
-			try_or_fail! (write! (transcript, "!! evaluate !! => {:#?}\n", &error), 0xe74be5c8);
-			return Err (error);
-		},
+	for expression in expressions.into_iter () {
+		try_or_fail! (write! (transcript, "\n--------------------------------------------------------------------------------\n"), 0x25f931a1);
+		try_or_fail! (write! (transcript, "{:#?}\n", &expression), 0x829a2b78);
+		try_or_fail! (write! (transcript, "--------------------------------------------------------------------------------\n\n"), 0xbfaa9836);
 	}
 	
+	return Ok (());
 }
 
