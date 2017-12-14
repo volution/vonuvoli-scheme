@@ -448,30 +448,30 @@ pub fn boolean_primitive_v_alternative_n (primitive : BooleanPrimitiveV) -> (Opt
 
 
 pub fn boolean_primitive_0_attributes (_primitive : BooleanPrimitive0) -> (Option<ProcedureAttributes>) {
-	return None;
+	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_0);
 }
 
 pub fn boolean_primitive_1_attributes (_primitive : BooleanPrimitive1) -> (Option<ProcedureAttributes>) {
-	return None;
+	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_1);
 }
 
 pub fn boolean_primitive_2_attributes (_primitive : BooleanPrimitive2) -> (Option<ProcedureAttributes>) {
-	return None;
+	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_2);
 }
 
 pub fn boolean_primitive_3_attributes (_primitive : BooleanPrimitive3) -> (Option<ProcedureAttributes>) {
-	return None;
+	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_3);
 }
 
 pub fn boolean_primitive_4_attributes (_primitive : BooleanPrimitive4) -> (Option<ProcedureAttributes>) {
-	return None;
+	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_4);
 }
 
 pub fn boolean_primitive_5_attributes (_primitive : BooleanPrimitive5) -> (Option<ProcedureAttributes>) {
-	return None;
+	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_5);
 }
 
 pub fn boolean_primitive_n_attributes (_primitive : BooleanPrimitiveN) -> (Option<ProcedureAttributes>) {
-	return None;
+	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_N);
 }
 

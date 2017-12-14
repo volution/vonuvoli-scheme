@@ -799,30 +799,30 @@ pub fn arithmetic_primitive_v_alternative_n (primitive : ArithmeticPrimitiveV) -
 
 
 pub fn arithmetic_primitive_0_attributes (_primitive : ArithmeticPrimitive0) -> (Option<ProcedureAttributes>) {
-	return None;
+	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_0);
 }
 
 pub fn arithmetic_primitive_1_attributes (_primitive : ArithmeticPrimitive1) -> (Option<ProcedureAttributes>) {
-	return None;
+	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_1);
 }
 
 pub fn arithmetic_primitive_2_attributes (_primitive : ArithmeticPrimitive2) -> (Option<ProcedureAttributes>) {
-	return None;
+	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_2);
 }
 
 pub fn arithmetic_primitive_3_attributes (_primitive : ArithmeticPrimitive3) -> (Option<ProcedureAttributes>) {
-	return None;
+	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_2);
 }
 
 pub fn arithmetic_primitive_4_attributes (_primitive : ArithmeticPrimitive4) -> (Option<ProcedureAttributes>) {
-	return None;
+	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_4);
 }
 
 pub fn arithmetic_primitive_5_attributes (_primitive : ArithmeticPrimitive5) -> (Option<ProcedureAttributes>) {
-	return None;
+	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_5);
 }
 
 pub fn arithmetic_primitive_n_attributes (_primitive : ArithmeticPrimitiveN) -> (Option<ProcedureAttributes>) {
-	return None;
+	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_N);
 }
 

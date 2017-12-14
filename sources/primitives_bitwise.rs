@@ -468,30 +468,30 @@ pub fn bitwise_primitive_v_alternative_n (primitive : BitwisePrimitiveV) -> (Opt
 
 
 pub fn bitwise_primitive_0_attributes (_primitive : BitwisePrimitive0) -> (Option<ProcedureAttributes>) {
-	return None;
+	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_0);
 }
 
 pub fn bitwise_primitive_1_attributes (_primitive : BitwisePrimitive1) -> (Option<ProcedureAttributes>) {
-	return None;
+	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_1);
 }
 
 pub fn bitwise_primitive_2_attributes (_primitive : BitwisePrimitive2) -> (Option<ProcedureAttributes>) {
-	return None;
+	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_2);
 }
 
 pub fn bitwise_primitive_3_attributes (_primitive : BitwisePrimitive3) -> (Option<ProcedureAttributes>) {
-	return None;
+	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_3);
 }
 
 pub fn bitwise_primitive_4_attributes (_primitive : BitwisePrimitive4) -> (Option<ProcedureAttributes>) {
-	return None;
+	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_4);
 }
 
 pub fn bitwise_primitive_5_attributes (_primitive : BitwisePrimitive5) -> (Option<ProcedureAttributes>) {
-	return None;
+	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_5);
 }
 
 pub fn bitwise_primitive_n_attributes (_primitive : BitwisePrimitiveN) -> (Option<ProcedureAttributes>) {
-	return None;
+	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_N);
 }
 

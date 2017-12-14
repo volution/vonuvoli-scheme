@@ -1,6 +1,7 @@
 
 
 use super::builtins::exports::*;
+use super::constants::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
 use super::primitives_procedures::exports::*;
@@ -299,6 +300,6 @@ pub fn type_primitive_1_evaluate_0 (primitive : TypePrimitive1, input_1 : &Value
 
 
 pub fn type_primitive_1_attributes (_primitive : TypePrimitive1) -> (Option<ProcedureAttributes>) {
-	return None;
+	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_1);
 }
 

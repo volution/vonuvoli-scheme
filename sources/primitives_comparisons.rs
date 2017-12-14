@@ -1,6 +1,7 @@
 
 
 use super::builtins::exports::*;
+use super::constants::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
 use super::primitives_procedures::exports::*;
@@ -2753,30 +2754,30 @@ pub fn comparison_primitive_v_alternative_n (primitive : ComparisonPrimitiveV) -
 
 
 pub fn comparison_primitive_0_attributes (_primitive : ComparisonPrimitive0) -> (Option<ProcedureAttributes>) {
-	return None;
+	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_0);
 }
 
 pub fn comparison_primitive_1_attributes (_primitive : ComparisonPrimitive1) -> (Option<ProcedureAttributes>) {
-	return None;
+	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_1);
 }
 
 pub fn comparison_primitive_2_attributes (_primitive : ComparisonPrimitive2) -> (Option<ProcedureAttributes>) {
-	return None;
+	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_2);
 }
 
 pub fn comparison_primitive_3_attributes (_primitive : ComparisonPrimitive3) -> (Option<ProcedureAttributes>) {
-	return None;
+	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_3);
 }
 
 pub fn comparison_primitive_4_attributes (_primitive : ComparisonPrimitive4) -> (Option<ProcedureAttributes>) {
-	return None;
+	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_4);
 }
 
 pub fn comparison_primitive_5_attributes (_primitive : ComparisonPrimitive5) -> (Option<ProcedureAttributes>) {
-	return None;
+	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_5);
 }
 
 pub fn comparison_primitive_n_attributes (_primitive : ComparisonPrimitiveN) -> (Option<ProcedureAttributes>) {
-	return None;
+	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_N);
 }
 

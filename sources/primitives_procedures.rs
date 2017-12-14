@@ -31,7 +31,9 @@ pub mod exports {
 	pub use super::ProcedurePrimitiveV;
 	pub use super::ProcedurePrimitive;
 	
+	pub use super::ProcedureArity;
 	pub use super::ProcedureAttributes;
+	pub use super::ProcedureOutputAttributes;
 	
 	pub use super::procedure_primitive_0_evaluate;
 	pub use super::procedure_primitive_1_evaluate;
@@ -264,7 +266,25 @@ pub enum ProcedurePrimitiveV {
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub struct ProcedureAttributes {
+	
 	pub deterministic : bool,
+	pub arity : ProcedureArity,
+	pub output : ProcedureOutputAttributes,
+	
+}
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub enum ProcedureArity {
+	Undefined,
+	Exact ( usize ),
+	Bounded ( Option<usize>, Option<usize> ),
+	Unbounded,
+}
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub enum ProcedureOutputAttributes {
+	Undefined,
+	Constant,
 }
 
 
