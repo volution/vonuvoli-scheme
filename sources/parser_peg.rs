@@ -3553,6 +3553,18 @@ fn __parse_script<'input>(
                     let mut __repeat_value = vec![];
                     loop {
                         let __pos = __repeat_pos;
+                        let __pos = if __repeat_value.len() > 0 {
+                            let __sep_res = match __parse_space(__input, __state, __pos) {
+                                Matched(__newpos, _) => Matched(__newpos, ()),
+                                Failed => Matched(__pos, ()),
+                            };
+                            match __sep_res {
+                                Matched(__newpos, _) => __newpos,
+                                Failed => break,
+                            }
+                        } else {
+                            __pos
+                        };
                         let __step_res = __parse_value(__input, __state, __pos);
                         match __step_res {
                             Matched(__newpos, __value) => {

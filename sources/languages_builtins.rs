@@ -46,14 +46,14 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("set!-values", SyntaxPrimitiveV::SetValues.into ()),
 			
 			("call", FunctionsPrimitiveV::Call.into ()),
-			("call-with-values", FunctionsPrimitive2::CallWithValues.into ()),
+			("call-with-values*", FunctionsPrimitive2::CallWithValues.into ()),
 			
-			("and", BooleanPrimitiveV::And.into ()),
-			("or", BooleanPrimitiveV::Or.into ()),
-			("xor", BooleanPrimitiveV::Xor.into ()),
-			("nand", BooleanPrimitiveV::Nand.into ()),
-			("nor", BooleanPrimitiveV::Nor.into ()),
-			("nxor", BooleanPrimitiveV::Nxor.into ()),
+			("and*", BooleanPrimitiveV::And.into ()),
+			("or*", BooleanPrimitiveV::Or.into ()),
+			("xor*", BooleanPrimitiveV::Xor.into ()),
+			("nand*", BooleanPrimitiveV::Nand.into ()),
+			("nor*", BooleanPrimitiveV::Nor.into ()),
+			("nxor*", BooleanPrimitiveV::Nxor.into ()),
 			
 			("string-reverse", StringPrimitive1::StringReverse.into ()),
 			

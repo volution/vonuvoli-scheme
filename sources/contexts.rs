@@ -102,7 +102,8 @@ impl Context {
 		};
 		let bindings_entry = self_0.bindings.entry (identifier);
 		return match bindings_entry {
-			Entry::Occupied (_) => failed! (0x5b8e8d57),
+			Entry::Occupied (_) =>
+				failed! (0x5b8e8d57),
 			Entry::Vacant (_) => {
 				let binding = try! (self.new_binding (template));
 				bindings_entry.or_insert (binding.clone ());

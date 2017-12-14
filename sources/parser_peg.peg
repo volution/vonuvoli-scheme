@@ -126,7 +126,7 @@ space = ( whitespace / comment )+
 
 
 
-pub script -> Vec<values::Value> = space? values : value* space? { values }
+pub script -> Vec<values::Value> = space? values : value ** (space?) space? { values }
 
 
 
