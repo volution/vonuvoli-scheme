@@ -96,16 +96,16 @@ cat <<'EOS'
 :: browse / doc :: exec -- x-www open file://"$( readlink -e -- ./target/doc/rust_scheme/index.html )"
 :: browse / r7rs :: exec -- x-www open file://"$( readlink -e -- ./documentation/external/r7rs-small-spec/stripped/r7rs.pdf )"
 
-:: clean :: exec -- rm -R -f ./target/
+:: compile / clean :: exec -- rm -R -f ./target/
 
-:: grep / sources / x-selection / primary :: exec -- git grep --no-index -C10 -F -e "$( exec -- x-selection primary output )" -- ./sources
-:: grep / sources / unimplemented :: exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- ./sources
-:: grep / sources / primitives / unimplemented :: exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- './sources/primitives*.rs'
-:: grep / sources / builtins / unimplemented :: exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- './sources/builtins*.rs'
-:: grep / sources / string :: exec -- git grep --no-index -C10 -F "${@/#/-e}" -- ./sources
-:: grep / sources / regexp :: exec -- git grep --no-index -C10 -P "${@/#/-e}" -- ./sources
+:: files / grep / sources / x-selection / primary :: exec -- git grep --no-index -C10 -F -e "$( exec -- x-selection primary output )" -- ./sources
+:: files / grep / sources / unimplemented :: exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- ./sources
+:: files / grep / sources / primitives / unimplemented :: exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- './sources/primitives*.rs'
+:: files / grep / sources / builtins / unimplemented :: exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- './sources/builtins*.rs'
+:: files / grep / sources / string :: exec -- git grep --no-index -C10 -F "${@/#/-e}" -- ./sources
+:: files / grep / sources / regexp :: exec -- git grep --no-index -C10 -P "${@/#/-e}" -- ./sources
 
-<< rust-up / initialize
+<< execute / rust-up / initialize
 	test "${#}" -eq 0
 	if test ! -e ./.rust ; then
 		mkdir -- ./.rust
@@ -120,7 +120,7 @@ cat <<'EOS'
 	fi
 !!
 
-<< rust-up / install
+<< execute / rust-up / install
 	test "${#}" -eq 0
 	test -e ./.rust
 	export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
@@ -129,7 +129,7 @@ cat <<'EOS'
 	exec -- ./.rust/cargo/bin/rustup install nightly
 !!
 
-<< rust-up / update
+<< execute / rust-up / update
 	test "${#}" -eq 0
 	test -e ./.rust
 	export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
@@ -137,14 +137,14 @@ cat <<'EOS'
 	exec -- ./.rust/cargo/bin/rustup update
 !!
 
-:: rust-up / use / stable :: export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin ):${PATH}"
-:: rust-up / use / nightly :: export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):${PATH}"
+:: environment / rust-up / use / stable :: export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin ):${PATH}"
+:: environment / rust-up / use / nightly :: export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):${PATH}"
 
-:: cargo / enable / incremental :: export -- CARGO_INCREMENTAL=1
-:: cargo / disable / incremental :: export -- CARGO_INCREMENTAL=0
+:: environment / cargo / incremental / enable :: export -- CARGO_INCREMENTAL=1
+:: environment / cargo / incremental / disable :: export -- CARGO_INCREMENTAL=0
 
-:: tests / enable / debug :: export -- RUST_SCHEME_TESTS_DEBUG=true
-:: tests / disable / debug :: export -- RUST_SCHEME_TESTS_DEBUG=false
+:: environment / tests / debug / enable :: export -- RUST_SCHEME_TESTS_DEBUG=true
+:: environment / tests / debug / disable :: export -- RUST_SCHEME_TESTS_DEBUG=false
 
 EOS
 
@@ -153,7 +153,7 @@ for _test in scheme low-level-r7rs low-level-parser low-level-sizes low-level-as
 sed -r -e 's#@\{TEST\}#'"${_test}"'#g' <<'EOS'
 :: execute / test / @{TEST} / debug :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test @{TEST} --all-features --jobs 1 -- --nocapture --test-threads 1 "${@}"
 :: execute / test / @{TEST} / release :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test @{TEST} --release --all-features --jobs 1 -- --nocapture --test-threads 1 "${@}"
-:: execute / test / @{TEST} / benchmark :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo bench --test @{TEST} --all-features --jobs 1 -- --nocapture --test-threads 1 "${@}"
+:: execute / test / @{TEST} / benchmark :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo bench --test @{TEST} --all-features --jobs 1 -- --nocapture --test-threads 1 "${@}"
 EOS
 done
 
@@ -162,8 +162,9 @@ find ./tests/scheme -type f -name '*.sst' -printf '%f\n' \
 | sort -u \
 | while read _test ; do
 sed -r -e 's#@\{TEST\}#'"${_test}"'#g' <<'EOS'
-:: execute / test / scheme / @{TEST} / debug :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test @{TEST} --exact "${@}"
-:: execute / test / scheme / @{TEST} / release :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test @{TEST} --exact "${@}"
+:: execute / test / scheme / @{TEST} / debug :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test test__@{TEST} --exact "${@}"
+:: execute / test / scheme / @{TEST} / release :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test test__@{TEST} --exact "${@}"
+:: execute / test / scheme / @{TEST} / benchmark :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo bench --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test benchmark__@{TEST} --exact "${@}"
 EOS
 done
 
@@ -173,6 +174,8 @@ find ./tests/scripts -type f -name 'benchmark--*.ss' -printf '%f\n' \
 | sort -u \
 | while read _script ; do
 sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
+:: execute / bin / compiler / scheme / @{SCRIPT} / debug :: x-run ':: compile / bin / interpreter / debug' --quiet ; exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-compiler < ./tests/scripts/benchmark--@{SCRIPT}.ss | tee -- ./tests/scripts/_out/benchmark--@{SCRIPT}--compile.out
+:: execute / bin / compiler / scheme / @{SCRIPT} / release :: x-run ':: compile / bin / interpreter / release' --quiet ; exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-compiler < ./tests/scripts/benchmark--@{SCRIPT}.ss | tee -- ./tests/scripts/_out/benchmark--@{SCRIPT}--compile.out
 :: execute / benchmark / scheme / @{SCRIPT} / debug :: x-run ':: compile / bin / interpreter / debug' --quiet ; exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-interpreter < ./tests/scripts/benchmark--@{SCRIPT}.ss
 :: execute / benchmark / scheme / @{SCRIPT} / release :: x-run ':: compile / bin / interpreter / release' --quiet ; exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-interpreter < ./tests/scripts/benchmark--@{SCRIPT}.ss
 :: execute / benchmark / chibi / @{SCRIPT} :: exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- chibi-scheme -m scheme.base -m scheme.time -- ./tests/scripts/benchmark--@{SCRIPT}.ss
@@ -205,17 +208,17 @@ find ./tests/scripts -type f -name 'optimizer--*.ss' -printf '%f\n' \
 | sort -u \
 | while read _script ; do
 sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
-:: execute / optimizer / scheme / @{SCRIPT} / debug :: x-run ':: compile / bin / compiler / debug' --quiet ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-compiler < ./tests/scripts/optimizer--@{SCRIPT}.ss | tee -- ./tests/scripts/optimizer--@{SCRIPT}.out
-:: execute / optimizer / scheme / @{SCRIPT} / release :: x-run ':: compile / bin / compiler / release' --quiet ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-compiler < ./tests/scripts/optimizer--@{SCRIPT}.ss | tee -- ./tests/scripts/optimizer--@{SCRIPT}.out
+:: execute / optimizer / scheme / @{SCRIPT} / debug :: x-run ':: compile / bin / compiler / debug' --quiet ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-compiler < ./tests/scripts/optimizer--@{SCRIPT}.ss | tee -- ./tests/scripts/_out/optimizer--@{SCRIPT}--debug.out
+:: execute / optimizer / scheme / @{SCRIPT} / release :: x-run ':: compile / bin / compiler / release' --quiet ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-compiler < ./tests/scripts/optimizer--@{SCRIPT}.ss | tee -- ./tests/scripts/_out/optimizer--@{SCRIPT}--release.out
 EOS
 done
 
 
-find . -xdev -type f -name '*.rs' -printf ':: edit / %P :: exec -- sce %p\n' | sort
-find . -xdev -type f -name '*.rs' -printf ':: view / %P :: exec -- less %p\n' | sort
+find . -xdev -type f -name '*.rs' -printf ':: files / edit / %P :: exec -- sce %p\n' | sort
+find . -xdev -type f -name '*.rs' -printf ':: files / view / %P :: exec -- less %p\n' | sort
 
-find . -xdev -type f -name '*.sst' -printf ':: edit / %P :: exec -- sce %p\n' | sort
-find . -xdev -type f -name '*.sst' -printf ':: view / %P :: exec -- less %p\n' | sort
+find . -xdev -type f -name '*.sst' -printf ':: files / edit / %P :: exec -- sce %p\n' | sort
+find . -xdev -type f -name '*.sst' -printf ':: files / view / %P :: exec -- less %p\n' | sort
 
 
 
