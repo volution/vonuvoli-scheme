@@ -2,12 +2,12 @@
 ## benchmarking `benchmark__comparisons_equivalent_by_value_coerced_recursive`...
 ## benchmarked `benchmark__comparisons_equivalent_by_value_coerced_recursive`!
      without optimizations:
-       average   :     107339
-         stdev   :      14299 /  13.32%
-         median  :     103667 /   0.56%
-       min / max :      96548 / 103398 / 103667 / 104069 / 154852
+       average   :      77789
+         stdev   :       7262 /   9.34%
+         median  :      74766 /   0.83%
+       min / max :      74314 / 74447 / 74766 / 75865 / 97986
      with optimizations:
-       average   :      93064 / +13.30% / 1.15*
-         stdev   :      10385 /  11.16%
-         median  :      89561 /  11.45%
-       min / max :      82526 / 84010 / 89561 / 99197 / 117630
+       average   :      74077 / +4.77% / 1.05*
+         stdev   :       8695 /  11.74%
+         median  :      70646 /   0.86%
+       min / max :      70145 / 70276 / 70646 / 71672 / 102615

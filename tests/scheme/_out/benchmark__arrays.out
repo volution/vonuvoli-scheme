@@ -2,12 +2,12 @@
 ## benchmarking `benchmark__arrays`...
 ## benchmarked `benchmark__arrays`!
      without optimizations:
-       average   :      68181
-         stdev   :        653 /   0.96%
-         median  :      68329 /   0.54%
-       min / max :      66502 / 68073 / 68329 / 68519 / 69092
+       average   :      57204
+         stdev   :       4096 /   7.16%
+         median  :      59035 /   6.42%
+       min / max :      51170 / 53211 / 59035 / 60874 / 61606
      with optimizations:
-       average   :      44136 / +35.27% / 1.54*
-         stdev   :        910 /   2.06%
-         median  :      44432 /   0.41%
-       min / max :      41268 / 44321 / 44432 / 44600 / 44802
+       average   :      40272 / +29.60% / 1.42*
+         stdev   :        582 /   1.45%
+         median  :      40426 /   0.71%
+       min / max :      38846 / 40174 / 40426 / 40615 / 40986

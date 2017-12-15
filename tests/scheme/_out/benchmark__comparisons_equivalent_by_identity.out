@@ -2,12 +2,12 @@
 ## benchmarking `benchmark__comparisons_equivalent_by_identity`...
 ## benchmarked `benchmark__comparisons_equivalent_by_identity`!
      without optimizations:
-       average   :      76588
-         stdev   :       1357 /   1.77%
-         median  :      76041 /   0.75%
-       min / max :      75398 / 75698 / 76041 / 76752 / 79779
+       average   :      71444
+         stdev   :       1431 /   2.00%
+         median  :      70821 /   1.21%
+       min / max :      70180 / 70463 / 70821 / 71918 / 74943
      with optimizations:
-       average   :      72468 / +5.38% / 1.06*
-         stdev   :       1231 /   1.70%
-         median  :      72001 /   0.68%
-       min / max :      71518 / 71732 / 72001 / 72395 / 75575
+       average   :      69676 / +2.47% / 1.03*
+         stdev   :       6569 /   9.43%
+         median  :      67252 /   1.18%
+       min / max :      66503 / 66875 / 67252 / 67998 / 89708

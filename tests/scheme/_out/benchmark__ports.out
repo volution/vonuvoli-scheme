@@ -2,12 +2,12 @@
 ## benchmarking `benchmark__ports`...
 ## benchmarked `benchmark__ports`!
      without optimizations:
-       average   :       2022
-         stdev   :         31 /   1.55%
-         median  :       2009 /   0.69%
-       min / max :       1998 / 2002 / 2009 / 2029 / 2112
+       average   :       2217
+         stdev   :        143 /   6.46%
+         median  :       2286 /   1.52%
+       min / max :       1939 / 2237 / 2286 / 2296 / 2330
      with optimizations:
-       average   :        202 / +90.01% / 10.01*
-         stdev   :          4 /   1.76%
-         median  :        201 /   0.64%
-       min / max :        198 / 200 / 201 / 202 / 211
+       average   :        246 / +88.89% / 9.00*
+         stdev   :          8 /   3.09%
+         median  :        247 /   0.69%
+       min / max :        222 / 247 / 247 / 250 / 254
