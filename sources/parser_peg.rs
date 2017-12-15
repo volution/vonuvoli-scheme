@@ -3767,8 +3767,10 @@ fn __parse_test_case<'input>(
                                                     Matched(__pos, _) => {
                                                         Matched(__pos, {
                                                             tests::TestCase {
-                                                                value: value,
+                                                                expression: value,
                                                                 action: action,
+                                                                verbosity:
+                                                                    tests::TestVerbosity::Default,
                                                             }
                                                         })
                                                     }

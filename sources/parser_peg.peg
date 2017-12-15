@@ -134,7 +134,7 @@ pub script -> Vec<values::Value> = space? values : value ** (space?) space? { va
 pub tests -> Vec<tests::TestCase> = space? tests : test* space? { tests }
 
 pub test -> tests::TestCase = space? test : test_case ( "//" space? value space? )? space? { test }
-test_case -> tests::TestCase = value : value space? "=>" space? action : test_action space? { tests::TestCase { value : value, action : action } }
+test_case -> tests::TestCase = value : value space? "=>" space? action : test_action space? { tests::TestCase { expression : value, action : action, verbosity : tests::TestVerbosity::Default } }
 test_action -> tests::TestAction =
 		( "!debug" space value ) { tests::TestAction::Debug } /
 		( "!fixme" space value ) { tests::TestAction::Skip } /
