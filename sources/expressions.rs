@@ -11,10 +11,19 @@ use super::values::exports::*;
 
 
 pub mod exports {
+	
 	pub use super::Expression;
 	pub use super::ExpressionBox;
 	pub use super::ExpressionVec;
+	
+	pub use super::ExpressionForContexts;
+	pub use super::ExpressionForProcedureGenericCall;
+	pub use super::ExpressionForProcedurePrimitiveCall;
+	pub use super::ExpressionForProcedureExtendedCall;
+	pub use super::ExpressionForProcedureLambdaCall;
+	
 	pub use super::ExpressionSequenceOperator;
+	
 }
 
 
@@ -27,11 +36,24 @@ pub enum Expression {
 	Value ( Value ),
 	
 	Sequence ( ExpressionSequenceOperator, StdBox<[Expression]> ),
-	
 	ConditionalIf ( StdBox<[(Option<(Expression, bool)>, Option<Expression>)]> ),
 	ConditionalMatch ( ExpressionBox, StdBox<[(Option<(StdBox<[Value]>, bool)>, Option<Expression>)]> ),
-	
 	Loop ( Option<ExpressionBox>, Option<ExpressionBox>, Option<ExpressionBox>, StdBox<[(Option<(Expression, bool)>, Option<Expression>)]> ),
+	
+	Contexts ( ExpressionForContexts ),
+	
+	ProcedureGenericCall ( ExpressionForProcedureGenericCall ),
+	ProcedurePrimitiveCall ( ExpressionForProcedurePrimitiveCall ),
+	ProcedureExtendedCall ( ExpressionForProcedureExtendedCall ),
+	ProcedureLambdaCall ( ExpressionForProcedureLambdaCall ),
+	
+	Lambda ( LambdaTemplate, ExpressionBox, StdBox<[RegistersBindingTemplate]>, StdBox<[RegistersBindingTemplate]> ),
+	
+}
+
+
+#[ derive (Clone, Debug, Hash) ]
+pub enum ExpressionForContexts {
 	
 	ContextDefine ( Symbol, ExpressionBox ),
 	ContextUpdate ( Symbol, ExpressionBox ),
@@ -54,6 +76,12 @@ pub enum Expression {
 	RegisterSetValues ( StdBox<[usize]>, ExpressionBox ),
 	RegisterGet1 ( usize ),
 	
+}
+
+
+#[ derive (Clone, Debug, Hash) ]
+pub enum ExpressionForProcedureGenericCall {
+	
 	ProcedureCall ( ExpressionBox, StdBox<[Expression]> ),
 	ProcedureCall0 ( ExpressionBox ),
 	ProcedureCall1 ( ExpressionBox, ExpressionBox ),
@@ -62,6 +90,11 @@ pub enum Expression {
 	ProcedureCall4 ( ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
 	ProcedureCall5 ( ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
 	ProcedureCallN ( ExpressionBox, StdBox<[Expression]> ),
+	
+}
+
+#[ derive (Clone, Debug, Hash) ]
+pub enum ExpressionForProcedurePrimitiveCall {
 	
 	ProcedurePrimitiveCall ( ProcedurePrimitive, StdBox<[Expression]> ),
 	ProcedurePrimitiveCall0 ( ProcedurePrimitive0 ),
@@ -73,6 +106,11 @@ pub enum Expression {
 	ProcedurePrimitiveCallN ( ProcedurePrimitiveN, StdBox<[Expression]> ),
 	ProcedurePrimitiveCallV ( ProcedurePrimitiveV, StdBox<[Expression]> ),
 	
+}
+
+#[ derive (Clone, Debug, Hash) ]
+pub enum ExpressionForProcedureExtendedCall {
+	
 	ProcedureExtendedCall ( ProcedureExtended, StdBox<[Expression]> ),
 	ProcedureExtendedCall0 ( ProcedureExtended ),
 	ProcedureExtendedCall1 ( ProcedureExtended, ExpressionBox ),
@@ -82,6 +120,11 @@ pub enum Expression {
 	ProcedureExtendedCall5 ( ProcedureExtended, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
 	ProcedureExtendedCallN ( ProcedureExtended, StdBox<[Expression]> ),
 	
+}
+
+#[ derive (Clone, Debug, Hash) ]
+pub enum ExpressionForProcedureLambdaCall {
+	
 	ProcedureLambdaCall ( StdRc<LambdaInternals>, StdBox<[Expression]> ),
 	ProcedureLambdaCall0 ( StdRc<LambdaInternals> ),
 	ProcedureLambdaCall1 ( StdRc<LambdaInternals>, ExpressionBox ),
@@ -90,8 +133,6 @@ pub enum Expression {
 	ProcedureLambdaCall4 ( StdRc<LambdaInternals>, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
 	ProcedureLambdaCall5 ( StdRc<LambdaInternals>, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
 	ProcedureLambdaCallN ( StdRc<LambdaInternals>, StdBox<[Expression]> ),
-	
-	Lambda ( LambdaTemplate, ExpressionBox, StdBox<[RegistersBindingTemplate]>, StdBox<[RegistersBindingTemplate]> ),
 	
 }
 

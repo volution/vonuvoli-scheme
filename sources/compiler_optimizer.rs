@@ -84,119 +84,169 @@ impl Optimizer {
 			Expression::Loop (initialize, update, body, clauses) =>
 				return self.optimize_loop (optimization, option_box_into_owned (initialize), option_box_into_owned (update), option_box_into_owned (body), clauses),
 			
-			Expression::ContextDefine (identifier, expression) =>
-				return self.optimize_context_define (optimization, identifier, *expression),
-			Expression::ContextUpdate (identifier, expression) =>
-				return self.optimize_context_update (optimization, identifier, *expression),
-			Expression::ContextSelect (identifier) =>
-				return self.optimize_context_select (optimization, identifier),
+			Expression::Contexts (expression) =>
+				return self.optimize_for_contexts (optimization, expression),
 			
-			Expression::BindingInitialize1 (binding, expression) =>
-				return self.optimize_binding_initialize_1 (optimization, binding, *expression),
-			Expression::BindingInitializeN (initializers, parallel) =>
-				return self.optimize_binding_initialize_n (optimization, initializers, parallel),
-			Expression::BindingInitializeValues (bindings, expression) =>
-				return self.optimize_binding_initialize_values (optimization, bindings, *expression),
-			Expression::BindingSet1 (binding, expression) =>
-				return self.optimize_binding_set_1 (optimization, binding, *expression),
-			Expression::BindingSetN (initializers, parallel) =>
-				return self.optimize_binding_set_n (optimization, initializers, parallel),
-			Expression::BindingSetValues (bindings, expression) =>
-				return self.optimize_binding_set_values (optimization, bindings, *expression),
-			Expression::BindingGet1 (binding) =>
-				return self.optimize_binding_get_1 (optimization, binding),
-			
-			Expression::RegisterClosure (expression, borrows) =>
-				return self.optimize_register_closure (optimization, *expression, borrows),
-			Expression::RegisterInitialize1 (index, expression) =>
-				return self.optimize_register_initialize_1 (optimization, index, *expression),
-			Expression::RegisterInitializeN (initializers, parallel) =>
-				return self.optimize_register_initialize_n (optimization, initializers, parallel),
-			Expression::RegisterInitializeValues (indices, expression) =>
-				return self.optimize_register_initialize_values (optimization, indices, *expression),
-			Expression::RegisterSet1 (index, expression) =>
-				return self.optimize_register_set_1 (optimization, index, *expression),
-			Expression::RegisterSetN (initializers, parallel) =>
-				return self.optimize_register_set_n (optimization, initializers, parallel),
-			Expression::RegisterSetValues (indices, expression) =>
-				return self.optimize_register_set_values (optimization, indices, *expression),
-			Expression::RegisterGet1 (index) =>
-				return self.optimize_register_get_1 (optimization, index),
+			Expression::ProcedureGenericCall (expression) =>
+				return self.optimize_for_procedure_generic_call (optimization, expression),
+			Expression::ProcedurePrimitiveCall (expression) =>
+				return self.optimize_for_procedure_primitive_call (optimization, expression),
+			Expression::ProcedureExtendedCall (expression) =>
+				return self.optimize_for_procedure_extended_call (optimization, expression),
+			Expression::ProcedureLambdaCall (expression) =>
+				return self.optimize_for_procedure_lambda_call (optimization, expression),
 			
 			Expression::Lambda (lambda, expression, registers_closure, registers_local) =>
 				return self.optimize_lambda_create (optimization, lambda, *expression, registers_closure, registers_local),
 			
-			Expression::ProcedureCall (callable, inputs) =>
+		};
+	}
+	
+	
+	
+	
+	fn optimize_for_contexts (&self, optimization : OptimizerContext, expression : ExpressionForContexts) -> (Outcome<(OptimizerContext, Expression)>) {
+		match expression {
+			
+			ExpressionForContexts::ContextDefine (identifier, expression) =>
+				return self.optimize_context_define (optimization, identifier, *expression),
+			ExpressionForContexts::ContextUpdate (identifier, expression) =>
+				return self.optimize_context_update (optimization, identifier, *expression),
+			ExpressionForContexts::ContextSelect (identifier) =>
+				return self.optimize_context_select (optimization, identifier),
+			
+			ExpressionForContexts::BindingInitialize1 (binding, expression) =>
+				return self.optimize_binding_initialize_1 (optimization, binding, *expression),
+			ExpressionForContexts::BindingInitializeN (initializers, parallel) =>
+				return self.optimize_binding_initialize_n (optimization, initializers, parallel),
+			ExpressionForContexts::BindingInitializeValues (bindings, expression) =>
+				return self.optimize_binding_initialize_values (optimization, bindings, *expression),
+			ExpressionForContexts::BindingSet1 (binding, expression) =>
+				return self.optimize_binding_set_1 (optimization, binding, *expression),
+			ExpressionForContexts::BindingSetN (initializers, parallel) =>
+				return self.optimize_binding_set_n (optimization, initializers, parallel),
+			ExpressionForContexts::BindingSetValues (bindings, expression) =>
+				return self.optimize_binding_set_values (optimization, bindings, *expression),
+			ExpressionForContexts::BindingGet1 (binding) =>
+				return self.optimize_binding_get_1 (optimization, binding),
+			
+			ExpressionForContexts::RegisterClosure (expression, borrows) =>
+				return self.optimize_register_closure (optimization, *expression, borrows),
+			ExpressionForContexts::RegisterInitialize1 (index, expression) =>
+				return self.optimize_register_initialize_1 (optimization, index, *expression),
+			ExpressionForContexts::RegisterInitializeN (initializers, parallel) =>
+				return self.optimize_register_initialize_n (optimization, initializers, parallel),
+			ExpressionForContexts::RegisterInitializeValues (indices, expression) =>
+				return self.optimize_register_initialize_values (optimization, indices, *expression),
+			ExpressionForContexts::RegisterSet1 (index, expression) =>
+				return self.optimize_register_set_1 (optimization, index, *expression),
+			ExpressionForContexts::RegisterSetN (initializers, parallel) =>
+				return self.optimize_register_set_n (optimization, initializers, parallel),
+			ExpressionForContexts::RegisterSetValues (indices, expression) =>
+				return self.optimize_register_set_values (optimization, indices, *expression),
+			ExpressionForContexts::RegisterGet1 (index) =>
+				return self.optimize_register_get_1 (optimization, index),
+			
+		}
+	}
+	
+	
+	fn optimize_for_procedure_generic_call (&self, optimization : OptimizerContext, expression : ExpressionForProcedureGenericCall) -> (Outcome<(OptimizerContext, Expression)>) {
+		match expression {
+			
+			ExpressionForProcedureGenericCall::ProcedureCall (callable, inputs) =>
 				return self.optimize_procedure_call (optimization, *callable, inputs),
-			Expression::ProcedureCall0 (callable) =>
+			ExpressionForProcedureGenericCall::ProcedureCall0 (callable) =>
 				return self.optimize_procedure_call_0 (optimization, *callable),
-			Expression::ProcedureCall1 (callable, input_1) =>
+			ExpressionForProcedureGenericCall::ProcedureCall1 (callable, input_1) =>
 				return self.optimize_procedure_call_1 (optimization, *callable, *input_1),
-			Expression::ProcedureCall2 (callable, input_1, input_2) =>
+			ExpressionForProcedureGenericCall::ProcedureCall2 (callable, input_1, input_2) =>
 				return self.optimize_procedure_call_2 (optimization, *callable, *input_1, *input_2),
-			Expression::ProcedureCall3 (callable, input_1, input_2, input_3) =>
+			ExpressionForProcedureGenericCall::ProcedureCall3 (callable, input_1, input_2, input_3) =>
 				return self.optimize_procedure_call_3 (optimization, *callable, *input_1, *input_2, *input_3),
-			Expression::ProcedureCall4 (callable, input_1, input_2, input_3, input_4) =>
+			ExpressionForProcedureGenericCall::ProcedureCall4 (callable, input_1, input_2, input_3, input_4) =>
 				return self.optimize_procedure_call_4 (optimization, *callable, *input_1, *input_2, *input_3, *input_4),
-			Expression::ProcedureCall5 (callable, input_1, input_2, input_3, input_4, input_5) =>
+			ExpressionForProcedureGenericCall::ProcedureCall5 (callable, input_1, input_2, input_3, input_4, input_5) =>
 				return self.optimize_procedure_call_5 (optimization, *callable, *input_1, *input_2, *input_3, *input_4, *input_5),
-			Expression::ProcedureCallN (callable, inputs) =>
+			ExpressionForProcedureGenericCall::ProcedureCallN (callable, inputs) =>
 				return self.optimize_procedure_call_n (optimization, *callable, inputs),
 			
-			Expression::ProcedurePrimitiveCall (primitive, inputs) =>
+			
+		}
+	}
+	
+	
+	fn optimize_for_procedure_primitive_call (&self, optimization : OptimizerContext, expression : ExpressionForProcedurePrimitiveCall) -> (Outcome<(OptimizerContext, Expression)>) {
+		match expression {
+			
+			ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall (primitive, inputs) =>
 				return self.optimize_procedure_primitive (optimization, primitive, inputs),
-			Expression::ProcedurePrimitiveCall0 (primitive) =>
+			ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall0 (primitive) =>
 				return self.optimize_procedure_primitive_0 (optimization, primitive),
-			Expression::ProcedurePrimitiveCall1 (primitive, input_1) =>
+			ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall1 (primitive, input_1) =>
 				return self.optimize_procedure_primitive_1 (optimization, primitive, *input_1),
-			Expression::ProcedurePrimitiveCall2 (primitive, input_1, input_2) =>
+			ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall2 (primitive, input_1, input_2) =>
 				return self.optimize_procedure_primitive_2 (optimization, primitive, *input_1, *input_2),
-			Expression::ProcedurePrimitiveCall3 (primitive, input_1, input_2, input_3) =>
+			ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall3 (primitive, input_1, input_2, input_3) =>
 				return self.optimize_procedure_primitive_3 (optimization, primitive, *input_1, *input_2, *input_3),
-			Expression::ProcedurePrimitiveCall4 (primitive, input_1, input_2, input_3, input_4) =>
+			ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall4 (primitive, input_1, input_2, input_3, input_4) =>
 				return self.optimize_procedure_primitive_4 (optimization, primitive, *input_1, *input_2, *input_3, *input_4),
-			Expression::ProcedurePrimitiveCall5 (primitive, input_1, input_2, input_3, input_4, input_5) =>
+			ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall5 (primitive, input_1, input_2, input_3, input_4, input_5) =>
 				return self.optimize_procedure_primitive_5 (optimization, primitive, *input_1, *input_2, *input_3, *input_4, *input_5),
-			Expression::ProcedurePrimitiveCallN (primitive, inputs) =>
+			ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCallN (primitive, inputs) =>
 				return self.optimize_procedure_primitive_n (optimization, primitive, inputs),
-			Expression::ProcedurePrimitiveCallV (primitive, inputs) =>
+			ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCallV (primitive, inputs) =>
 				return self.optimize_procedure_primitive_v (optimization, primitive, inputs),
 			
-			Expression::ProcedureExtendedCall (extended, inputs) =>
+		}
+	}
+	
+	
+	fn optimize_for_procedure_extended_call (&self, optimization : OptimizerContext, expression : ExpressionForProcedureExtendedCall) -> (Outcome<(OptimizerContext, Expression)>) {
+		match expression {
+			
+			ExpressionForProcedureExtendedCall::ProcedureExtendedCall (extended, inputs) =>
 				return self.optimize_procedure_extended (optimization, extended, inputs),
-			Expression::ProcedureExtendedCall0 (extended) =>
+			ExpressionForProcedureExtendedCall::ProcedureExtendedCall0 (extended) =>
 				return self.optimize_procedure_extended_0 (optimization, extended),
-			Expression::ProcedureExtendedCall1 (extended, input_1) =>
+			ExpressionForProcedureExtendedCall::ProcedureExtendedCall1 (extended, input_1) =>
 				return self.optimize_procedure_extended_1 (optimization, extended, *input_1),
-			Expression::ProcedureExtendedCall2 (extended, input_1, input_2) =>
+			ExpressionForProcedureExtendedCall::ProcedureExtendedCall2 (extended, input_1, input_2) =>
 				return self.optimize_procedure_extended_2 (optimization, extended, *input_1, *input_2),
-			Expression::ProcedureExtendedCall3 (extended, input_1, input_2, input_3) =>
+			ExpressionForProcedureExtendedCall::ProcedureExtendedCall3 (extended, input_1, input_2, input_3) =>
 				return self.optimize_procedure_extended_3 (optimization, extended, *input_1, *input_2, *input_3),
-			Expression::ProcedureExtendedCall4 (extended, input_1, input_2, input_3, input_4) =>
+			ExpressionForProcedureExtendedCall::ProcedureExtendedCall4 (extended, input_1, input_2, input_3, input_4) =>
 				return self.optimize_procedure_extended_4 (optimization, extended, *input_1, *input_2, *input_3, *input_4),
-			Expression::ProcedureExtendedCall5 (extended, input_1, input_2, input_3, input_4, input_5) =>
+			ExpressionForProcedureExtendedCall::ProcedureExtendedCall5 (extended, input_1, input_2, input_3, input_4, input_5) =>
 				return self.optimize_procedure_extended_5 (optimization, extended, *input_1, *input_2, *input_3, *input_4, *input_5),
-			Expression::ProcedureExtendedCallN (extended, inputs) =>
+			ExpressionForProcedureExtendedCall::ProcedureExtendedCallN (extended, inputs) =>
 				return self.optimize_procedure_extended_n (optimization, extended, inputs),
 			
-			Expression::ProcedureLambdaCall (lambda, inputs) =>
+		}
+	}
+	
+	
+	fn optimize_for_procedure_lambda_call (&self, optimization : OptimizerContext, expression : ExpressionForProcedureLambdaCall) -> (Outcome<(OptimizerContext, Expression)>) {
+		match expression {
+			
+			ExpressionForProcedureLambdaCall::ProcedureLambdaCall (lambda, inputs) =>
 				return self.optimize_procedure_lambda (optimization, lambda, inputs),
-			Expression::ProcedureLambdaCall0 (lambda) =>
+			ExpressionForProcedureLambdaCall::ProcedureLambdaCall0 (lambda) =>
 				return self.optimize_procedure_lambda_0 (optimization, lambda),
-			Expression::ProcedureLambdaCall1 (lambda, input_1) =>
+			ExpressionForProcedureLambdaCall::ProcedureLambdaCall1 (lambda, input_1) =>
 				return self.optimize_procedure_lambda_1 (optimization, lambda, *input_1),
-			Expression::ProcedureLambdaCall2 (lambda, input_1, input_2) =>
+			ExpressionForProcedureLambdaCall::ProcedureLambdaCall2 (lambda, input_1, input_2) =>
 				return self.optimize_procedure_lambda_2 (optimization, lambda, *input_1, *input_2),
-			Expression::ProcedureLambdaCall3 (lambda, input_1, input_2, input_3) =>
+			ExpressionForProcedureLambdaCall::ProcedureLambdaCall3 (lambda, input_1, input_2, input_3) =>
 				return self.optimize_procedure_lambda_3 (optimization, lambda, *input_1, *input_2, *input_3),
-			Expression::ProcedureLambdaCall4 (lambda, input_1, input_2, input_3, input_4) =>
+			ExpressionForProcedureLambdaCall::ProcedureLambdaCall4 (lambda, input_1, input_2, input_3, input_4) =>
 				return self.optimize_procedure_lambda_4 (optimization, lambda, *input_1, *input_2, *input_3, *input_4),
-			Expression::ProcedureLambdaCall5 (lambda, input_1, input_2, input_3, input_4, input_5) =>
+			ExpressionForProcedureLambdaCall::ProcedureLambdaCall5 (lambda, input_1, input_2, input_3, input_4, input_5) =>
 				return self.optimize_procedure_lambda_5 (optimization, lambda, *input_1, *input_2, *input_3, *input_4, *input_5),
-			Expression::ProcedureLambdaCallN (lambda, inputs) =>
+			ExpressionForProcedureLambdaCall::ProcedureLambdaCallN (lambda, inputs) =>
 				return self.optimize_procedure_lambda_n (optimization, lambda, inputs),
 			
-		};
+		}
 	}
 	
 	
@@ -435,18 +485,18 @@ impl Optimizer {
 	
 	fn optimize_context_define (&self, optimization : OptimizerContext, identifier : Symbol, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
-		let expression = Expression::ContextDefine (identifier, expression.into ());
+		let expression = ExpressionForContexts::ContextDefine (identifier, expression.into ()) .into ();
 		succeed! ((optimization, expression));
 	}
 	
 	fn optimize_context_update (&self, optimization : OptimizerContext, identifier : Symbol, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
-		let expression = Expression::ContextUpdate (identifier, expression.into ());
+		let expression = ExpressionForContexts::ContextUpdate (identifier, expression.into ()) .into ();
 		succeed! ((optimization, expression));
 	}
 	
 	fn optimize_context_select (&self, optimization : OptimizerContext, identifier : Symbol) -> (Outcome<(OptimizerContext, Expression)>) {
-		let expression = Expression::ContextSelect (identifier);
+		let expression = ExpressionForContexts::ContextSelect (identifier) .into ();
 		succeed! ((optimization, expression));
 	}
 	
@@ -455,7 +505,7 @@ impl Optimizer {
 	
 	fn optimize_binding_initialize_1 (&self, optimization : OptimizerContext, binding : Binding, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
-		let expression = Expression::BindingInitialize1 (binding, expression.into ());
+		let expression = ExpressionForContexts::BindingInitialize1 (binding, expression.into ()) .into ();
 		succeed! ((optimization, expression));
 	}
 	
@@ -463,19 +513,19 @@ impl Optimizer {
 		let (bindings, expressions) = vec_unzip_2 (initializers.to_vec ());
 		let (optimization, expressions) = try! (self.optimize_0_vec (optimization, expressions));
 		let initializers = vec_zip_2 (bindings, expressions) .into_boxed_slice ();
-		let expression = Expression::BindingInitializeN (initializers, parallel);
+		let expression = ExpressionForContexts::BindingInitializeN (initializers, parallel) .into ();
 		succeed! ((optimization, expression));
 	}
 	
 	fn optimize_binding_initialize_values (&self, optimization : OptimizerContext, bindings : StdBox<[Binding]>, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
-		let expression = Expression::BindingInitializeValues (bindings, expression.into ());
+		let expression = ExpressionForContexts::BindingInitializeValues (bindings, expression.into ()) .into ();
 		succeed! ((optimization, expression));
 	}
 	
 	fn optimize_binding_set_1 (&self, optimization : OptimizerContext, binding : Binding, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
-		let expression = Expression::BindingSet1 (binding, expression.into ());
+		let expression = ExpressionForContexts::BindingSet1 (binding, expression.into ()) .into ();
 		succeed! ((optimization, expression));
 	}
 	
@@ -483,13 +533,13 @@ impl Optimizer {
 		let (bindings, expressions) = vec_unzip_2 (initializers.to_vec ());
 		let (optimization, expressions) = try! (self.optimize_0_vec (optimization, expressions));
 		let initializers = vec_zip_2 (bindings, expressions) .into_boxed_slice ();
-		let expression = Expression::BindingSetN (initializers, parallel);
+		let expression = ExpressionForContexts::BindingSetN (initializers, parallel) .into ();
 		succeed! ((optimization, expression));
 	}
 	
 	fn optimize_binding_set_values (&self, optimization : OptimizerContext, bindings : StdBox<[Binding]>, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
-		let expression = Expression::BindingSetValues (bindings, expression.into ());
+		let expression = ExpressionForContexts::BindingSetValues (bindings, expression.into ()) .into ();
 		succeed! ((optimization, expression));
 	}
 	
@@ -498,7 +548,7 @@ impl Optimizer {
 			let value = try! (binding.get ());
 			Expression::Value (value)
 		} else {
-			Expression::BindingGet1 (binding)
+			ExpressionForContexts::BindingGet1 (binding) .into ()
 		};
 		succeed! ((optimization, expression));
 	}
@@ -508,13 +558,13 @@ impl Optimizer {
 	
 	fn optimize_register_closure (&self, optimization : OptimizerContext, expression : Expression, borrows : StdBox<[RegistersBindingTemplate]>) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
-		let expression = Expression::RegisterClosure (expression.into (), borrows);
+		let expression = ExpressionForContexts::RegisterClosure (expression.into (), borrows) .into ();
 		succeed! ((optimization, expression));
 	}
 	
 	fn optimize_register_initialize_1 (&self, optimization : OptimizerContext, index : usize, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
-		let expression = Expression::RegisterInitialize1 (index, expression.into ());
+		let expression = ExpressionForContexts::RegisterInitialize1 (index, expression.into ()) .into ();
 		succeed! ((optimization, expression));
 	}
 	
@@ -522,19 +572,19 @@ impl Optimizer {
 		let (indices, expressions) = vec_unzip_2 (initializers.to_vec ());
 		let (optimization, expressions) = try! (self.optimize_0_vec (optimization, expressions));
 		let initializers = vec_zip_2 (indices, expressions) .into_boxed_slice ();
-		let expression = Expression::RegisterInitializeN (initializers, parallel);
+		let expression = ExpressionForContexts::RegisterInitializeN (initializers, parallel) .into ();
 		succeed! ((optimization, expression));
 	}
 	
 	fn optimize_register_initialize_values (&self, optimization : OptimizerContext, indices : StdBox<[usize]>, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
-		let expression = Expression::RegisterInitializeValues (indices, expression.into ());
+		let expression = ExpressionForContexts::RegisterInitializeValues (indices, expression.into ()) .into ();
 		succeed! ((optimization, expression));
 	}
 	
 	fn optimize_register_set_1 (&self, optimization : OptimizerContext, index : usize, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
-		let expression = Expression::RegisterSet1 (index, expression.into ());
+		let expression = ExpressionForContexts::RegisterSet1 (index, expression.into ()) .into ();
 		succeed! ((optimization, expression));
 	}
 	
@@ -542,18 +592,18 @@ impl Optimizer {
 		let (indices, expressions) = vec_unzip_2 (initializers.to_vec ());
 		let (optimization, expressions) = try! (self.optimize_0_vec (optimization, expressions));
 		let initializers = vec_zip_2 (indices, expressions) .into_boxed_slice ();
-		let expression = Expression::RegisterSetN (initializers, parallel);
+		let expression = ExpressionForContexts::RegisterSetN (initializers, parallel) .into ();
 		succeed! ((optimization, expression));
 	}
 	
 	fn optimize_register_set_values (&self, optimization : OptimizerContext, indices : StdBox<[usize]>, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
-		let expression = Expression::RegisterSetValues (indices, expression.into ());
+		let expression = ExpressionForContexts::RegisterSetValues (indices, expression.into ()) .into ();
 		succeed! ((optimization, expression));
 	}
 	
 	fn optimize_register_get_1 (&self, optimization : OptimizerContext, index : usize) -> (Outcome<(OptimizerContext, Expression)>) {
-		let expression = Expression::RegisterGet1 (index);
+		let expression = ExpressionForContexts::RegisterGet1 (index) .into ();
 		succeed! ((optimization, expression));
 	}
 	
@@ -584,7 +634,7 @@ impl Optimizer {
 			}
 		}
 		let (optimization, inputs) = try! (self.optimize_0_slice (optimization, inputs));
-		let expression = Expression::ProcedureCall (callable.into (), inputs);
+		let expression = ExpressionForProcedureGenericCall::ProcedureCall (callable.into (), inputs) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
@@ -619,7 +669,7 @@ impl Optimizer {
 					(),
 			}
 		}
-		let expression = Expression::ProcedureCall0 (callable.into ());
+		let expression = ExpressionForProcedureGenericCall::ProcedureCall0 (callable.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
@@ -655,7 +705,7 @@ impl Optimizer {
 			}
 		}
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
-		let expression = Expression::ProcedureCall1 (callable.into (), input_1.into ());
+		let expression = ExpressionForProcedureGenericCall::ProcedureCall1 (callable.into (), input_1.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
@@ -692,7 +742,7 @@ impl Optimizer {
 		}
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
 		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
-		let expression = Expression::ProcedureCall2 (callable.into (), input_1.into (), input_2.into ());
+		let expression = ExpressionForProcedureGenericCall::ProcedureCall2 (callable.into (), input_1.into (), input_2.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
@@ -730,7 +780,7 @@ impl Optimizer {
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
 		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
 		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
-		let expression = Expression::ProcedureCall3 (callable.into (), input_1.into (), input_2.into (), input_3.into ());
+		let expression = ExpressionForProcedureGenericCall::ProcedureCall3 (callable.into (), input_1.into (), input_2.into (), input_3.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
@@ -769,7 +819,7 @@ impl Optimizer {
 		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
 		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
 		let (optimization, input_4) = try! (self.optimize_0 (optimization, input_4));
-		let expression = Expression::ProcedureCall4 (callable.into (), input_1.into (), input_2.into (), input_3.into (), input_4.into ());
+		let expression = ExpressionForProcedureGenericCall::ProcedureCall4 (callable.into (), input_1.into (), input_2.into (), input_3.into (), input_4.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
@@ -809,7 +859,7 @@ impl Optimizer {
 		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
 		let (optimization, input_4) = try! (self.optimize_0 (optimization, input_4));
 		let (optimization, input_5) = try! (self.optimize_0 (optimization, input_5));
-		let expression = Expression::ProcedureCall5 (callable.into (), input_1.into (), input_2.into (), input_3.into (), input_4.into (), input_5.into ());
+		let expression = ExpressionForProcedureGenericCall::ProcedureCall5 (callable.into (), input_1.into (), input_2.into (), input_3.into (), input_4.into (), input_5.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
@@ -841,7 +891,7 @@ impl Optimizer {
 			}
 		}
 		let (optimization, inputs) = try! (self.optimize_0_slice (optimization, inputs));
-		let expression = Expression::ProcedureCallN (callable.into (), inputs);
+		let expression = ExpressionForProcedureGenericCall::ProcedureCallN (callable.into (), inputs) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
@@ -947,7 +997,7 @@ impl Optimizer {
 	
 	
 	fn optimize_procedure_primitive_0 (&self, optimization : OptimizerContext, primitive : ProcedurePrimitive0) -> (Outcome<(OptimizerContext, Expression)>) {
-		let expression = Expression::ProcedurePrimitiveCall0 (primitive);
+		let expression = ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall0 (primitive) .into ();
 		let attributes = procedure_primitive_0_attributes (primitive);
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
@@ -955,7 +1005,7 @@ impl Optimizer {
 	
 	fn optimize_procedure_primitive_1 (&self, optimization : OptimizerContext, primitive : ProcedurePrimitive1, input_1 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
-		let expression = Expression::ProcedurePrimitiveCall1 (primitive, input_1.into ());
+		let expression = ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall1 (primitive, input_1.into ()) .into ();
 		let attributes = procedure_primitive_1_attributes (primitive);
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
@@ -964,7 +1014,7 @@ impl Optimizer {
 	fn optimize_procedure_primitive_2 (&self, optimization : OptimizerContext, primitive : ProcedurePrimitive2, input_1 : Expression, input_2 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
 		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
-		let expression = Expression::ProcedurePrimitiveCall2 (primitive, input_1.into (), input_2.into ());
+		let expression = ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall2 (primitive, input_1.into (), input_2.into ()) .into ();
 		let attributes = procedure_primitive_2_attributes (primitive);
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
@@ -974,7 +1024,7 @@ impl Optimizer {
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
 		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
 		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
-		let expression = Expression::ProcedurePrimitiveCall3 (primitive, input_1.into (), input_2.into (), input_3.into ());
+		let expression = ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall3 (primitive, input_1.into (), input_2.into (), input_3.into ()) .into ();
 		let attributes = procedure_primitive_3_attributes (primitive);
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
@@ -985,7 +1035,7 @@ impl Optimizer {
 		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
 		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
 		let (optimization, input_4) = try! (self.optimize_0 (optimization, input_4));
-		let expression = Expression::ProcedurePrimitiveCall4 (primitive, input_1.into (), input_2.into (), input_3.into (), input_4.into ());
+		let expression = ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall4 (primitive, input_1.into (), input_2.into (), input_3.into (), input_4.into ()) .into ();
 		let attributes = procedure_primitive_4_attributes (primitive);
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
@@ -997,7 +1047,7 @@ impl Optimizer {
 		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
 		let (optimization, input_4) = try! (self.optimize_0 (optimization, input_4));
 		let (optimization, input_5) = try! (self.optimize_0 (optimization, input_5));
-		let expression = Expression::ProcedurePrimitiveCall5 (primitive, input_1.into (), input_2.into (), input_3.into (), input_4.into (), input_5.into ());
+		let expression = ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall5 (primitive, input_1.into (), input_2.into (), input_3.into (), input_4.into (), input_5.into ()) .into ();
 		let attributes = procedure_primitive_5_attributes (primitive);
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
@@ -1005,7 +1055,7 @@ impl Optimizer {
 	
 	fn optimize_procedure_primitive_n (&self, optimization : OptimizerContext, primitive : ProcedurePrimitiveN, inputs : StdBox<[Expression]>) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, inputs) = try! (self.optimize_0_slice (optimization, inputs));
-		let expression = Expression::ProcedurePrimitiveCallN (primitive, inputs);
+		let expression = ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCallN (primitive, inputs) .into ();
 		let attributes = procedure_primitive_n_attributes (primitive);
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
@@ -1141,7 +1191,7 @@ impl Optimizer {
 	
 	
 	fn optimize_procedure_extended_0 (&self, optimization : OptimizerContext, extended : ProcedureExtended) -> (Outcome<(OptimizerContext, Expression)>) {
-		let expression = Expression::ProcedureExtendedCall0 (extended);
+		let expression = ExpressionForProcedureExtendedCall::ProcedureExtendedCall0 (extended) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
@@ -1149,7 +1199,7 @@ impl Optimizer {
 	
 	fn optimize_procedure_extended_1 (&self, optimization : OptimizerContext, extended : ProcedureExtended, input_1 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
-		let expression = Expression::ProcedureExtendedCall1 (extended, input_1.into ());
+		let expression = ExpressionForProcedureExtendedCall::ProcedureExtendedCall1 (extended, input_1.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
@@ -1158,7 +1208,7 @@ impl Optimizer {
 	fn optimize_procedure_extended_2 (&self, optimization : OptimizerContext, extended : ProcedureExtended, input_1 : Expression, input_2 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
 		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
-		let expression = Expression::ProcedureExtendedCall2 (extended, input_1.into (), input_2.into ());
+		let expression = ExpressionForProcedureExtendedCall::ProcedureExtendedCall2 (extended, input_1.into (), input_2.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
@@ -1168,7 +1218,7 @@ impl Optimizer {
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
 		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
 		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
-		let expression = Expression::ProcedureExtendedCall3 (extended, input_1.into (), input_2.into (), input_3.into ());
+		let expression = ExpressionForProcedureExtendedCall::ProcedureExtendedCall3 (extended, input_1.into (), input_2.into (), input_3.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
@@ -1179,7 +1229,7 @@ impl Optimizer {
 		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
 		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
 		let (optimization, input_4) = try! (self.optimize_0 (optimization, input_4));
-		let expression = Expression::ProcedureExtendedCall4 (extended, input_1.into (), input_2.into (), input_3.into (), input_4.into ());
+		let expression = ExpressionForProcedureExtendedCall::ProcedureExtendedCall4 (extended, input_1.into (), input_2.into (), input_3.into (), input_4.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
@@ -1191,7 +1241,7 @@ impl Optimizer {
 		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
 		let (optimization, input_4) = try! (self.optimize_0 (optimization, input_4));
 		let (optimization, input_5) = try! (self.optimize_0 (optimization, input_5));
-		let expression = Expression::ProcedureExtendedCall5 (extended, input_1.into (), input_2.into (), input_3.into (), input_4.into (), input_5.into ());
+		let expression = ExpressionForProcedureExtendedCall::ProcedureExtendedCall5 (extended, input_1.into (), input_2.into (), input_3.into (), input_4.into (), input_5.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
@@ -1199,7 +1249,7 @@ impl Optimizer {
 	
 	fn optimize_procedure_extended_n (&self, optimization : OptimizerContext, extended : ProcedureExtended, inputs : StdBox<[Expression]>) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, inputs) = try! (self.optimize_0_slice (optimization, inputs));
-		let expression = Expression::ProcedureExtendedCallN (extended, inputs);
+		let expression = ExpressionForProcedureExtendedCall::ProcedureExtendedCallN (extended, inputs) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
@@ -1253,14 +1303,14 @@ impl Optimizer {
 	}
 	
 	fn optimize_procedure_lambda_0 (&self, optimization : OptimizerContext, lambda : StdRc<LambdaInternals>) -> (Outcome<(OptimizerContext, Expression)>) {
-		let expression = Expression::ProcedureLambdaCall0 (lambda);
+		let expression = ExpressionForProcedureLambdaCall::ProcedureLambdaCall0 (lambda) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
 	fn optimize_procedure_lambda_1 (&self, optimization : OptimizerContext, lambda : StdRc<LambdaInternals>, input_1 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
-		let expression = Expression::ProcedureLambdaCall1 (lambda, input_1.into ());
+		let expression = ExpressionForProcedureLambdaCall::ProcedureLambdaCall1 (lambda, input_1.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
@@ -1268,7 +1318,7 @@ impl Optimizer {
 	fn optimize_procedure_lambda_2 (&self, optimization : OptimizerContext, lambda : StdRc<LambdaInternals>, input_1 : Expression, input_2 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
 		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
-		let expression = Expression::ProcedureLambdaCall2 (lambda, input_1.into (), input_2.into ());
+		let expression = ExpressionForProcedureLambdaCall::ProcedureLambdaCall2 (lambda, input_1.into (), input_2.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
@@ -1277,7 +1327,7 @@ impl Optimizer {
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
 		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
 		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
-		let expression = Expression::ProcedureLambdaCall3 (lambda, input_1.into (), input_2.into (), input_3.into ());
+		let expression = ExpressionForProcedureLambdaCall::ProcedureLambdaCall3 (lambda, input_1.into (), input_2.into (), input_3.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
@@ -1287,7 +1337,7 @@ impl Optimizer {
 		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
 		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
 		let (optimization, input_4) = try! (self.optimize_0 (optimization, input_4));
-		let expression = Expression::ProcedureLambdaCall4 (lambda, input_1.into (), input_2.into (), input_3.into (), input_4.into ());
+		let expression = ExpressionForProcedureLambdaCall::ProcedureLambdaCall4 (lambda, input_1.into (), input_2.into (), input_3.into (), input_4.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
@@ -1298,14 +1348,14 @@ impl Optimizer {
 		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
 		let (optimization, input_4) = try! (self.optimize_0 (optimization, input_4));
 		let (optimization, input_5) = try! (self.optimize_0 (optimization, input_5));
-		let expression = Expression::ProcedureLambdaCall5 (lambda, input_1.into (), input_2.into (), input_3.into (), input_4.into (), input_5.into ());
+		let expression = ExpressionForProcedureLambdaCall::ProcedureLambdaCall5 (lambda, input_1.into (), input_2.into (), input_3.into (), input_4.into (), input_5.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
 	fn optimize_procedure_lambda_n (&self, optimization : OptimizerContext, lambda : StdRc<LambdaInternals>, inputs : StdBox<[Expression]>) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, inputs) = try! (self.optimize_0_slice (optimization, inputs));
-		let expression = Expression::ProcedureLambdaCallN (lambda, inputs);
+		let expression = ExpressionForProcedureLambdaCall::ProcedureLambdaCallN (lambda, inputs) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
@@ -1351,116 +1401,142 @@ impl Optimizer {
 			Expression::Loop (_, _, _, _) =>
 				false,
 			
-			Expression::ContextDefine (_, _) =>
-				false,
-			Expression::ContextUpdate (_, _) =>
-				false,
-			Expression::ContextSelect (_) =>
-				false,
-			
-			Expression::BindingInitialize1 (_, _) =>
-				false,
-			Expression::BindingInitializeN (_, _) =>
-				false,
-			Expression::BindingInitializeValues (_, _) =>
-				false,
-			Expression::BindingSet1 (_, _) =>
-				false,
-			Expression::BindingSetN (_, _) =>
-				false,
-			Expression::BindingSetValues (_, _) =>
-				false,
-			Expression::BindingGet1 (_) =>
-				false,
-			Expression::RegisterClosure (_, _) =>
-				false,
-			Expression::RegisterInitialize1 (_, _) =>
-				false,
-			Expression::RegisterInitializeN (_, _) =>
-				false,
-			Expression::RegisterInitializeValues (_, _) =>
-				false,
-			Expression::RegisterSet1 (_, _) =>
-				false,
-			Expression::RegisterSetN (_, _) =>
-				false,
-			Expression::RegisterSetValues (_, _) =>
-				false,
-			Expression::RegisterGet1 (_) =>
-				false,
-			
 			Expression::Lambda (_, _, _, _) =>
 				false,
 			
-			Expression::ProcedureCall (_, _) =>
-				false,
-			Expression::ProcedureCall0 (_) =>
-				false,
-			Expression::ProcedureCall1 (_, _) =>
-				false,
-			Expression::ProcedureCall2 (_, _, _) =>
-				false,
-			Expression::ProcedureCall3 (_, _, _, _) =>
-				false,
-			Expression::ProcedureCall4 (_, _, _, _, _) =>
-				false,
-			Expression::ProcedureCall5 (_, _, _, _, _, _) =>
-				false,
-			Expression::ProcedureCallN (_, _) =>
-				false,
+			Expression::Contexts (ref expression) =>
+				match *expression {
+					
+					ExpressionForContexts::ContextDefine (_, _) =>
+						false,
+					ExpressionForContexts::ContextUpdate (_, _) =>
+						false,
+					ExpressionForContexts::ContextSelect (_) =>
+						false,
+					
+					ExpressionForContexts::BindingInitialize1 (_, _) =>
+						false,
+					ExpressionForContexts::BindingInitializeN (_, _) =>
+						false,
+					ExpressionForContexts::BindingInitializeValues (_, _) =>
+						false,
+					ExpressionForContexts::BindingSet1 (_, _) =>
+						false,
+					ExpressionForContexts::BindingSetN (_, _) =>
+						false,
+					ExpressionForContexts::BindingSetValues (_, _) =>
+						false,
+					ExpressionForContexts::BindingGet1 (_) =>
+						false,
+					
+					ExpressionForContexts::RegisterClosure (_, _) =>
+						false,
+					ExpressionForContexts::RegisterInitialize1 (_, _) =>
+						false,
+					ExpressionForContexts::RegisterInitializeN (_, _) =>
+						false,
+					ExpressionForContexts::RegisterInitializeValues (_, _) =>
+						false,
+					ExpressionForContexts::RegisterSet1 (_, _) =>
+						false,
+					ExpressionForContexts::RegisterSetN (_, _) =>
+						false,
+					ExpressionForContexts::RegisterSetValues (_, _) =>
+						false,
+					ExpressionForContexts::RegisterGet1 (_) =>
+						false,
+					
+				},
 			
-			Expression::ProcedurePrimitiveCall (_, _) =>
-				false,
-			Expression::ProcedurePrimitiveCall0 (_) =>
-				false,
-			Expression::ProcedurePrimitiveCall1 (_, _) =>
-				false,
-			Expression::ProcedurePrimitiveCall2 (_, _, _) =>
-				false,
-			Expression::ProcedurePrimitiveCall3 (_, _, _, _) =>
-				false,
-			Expression::ProcedurePrimitiveCall4 (_, _, _, _, _) =>
-				false,
-			Expression::ProcedurePrimitiveCall5 (_, _, _, _, _, _) =>
-				false,
-			Expression::ProcedurePrimitiveCallN (_, _) =>
-				false,
-			Expression::ProcedurePrimitiveCallV (_, _) =>
-				false,
+			Expression::ProcedureGenericCall (ref expression) =>
+				match *expression {
+					
+					ExpressionForProcedureGenericCall::ProcedureCall (_, _) =>
+						false,
+					ExpressionForProcedureGenericCall::ProcedureCall0 (_) =>
+						false,
+					ExpressionForProcedureGenericCall::ProcedureCall1 (_, _) =>
+						false,
+					ExpressionForProcedureGenericCall::ProcedureCall2 (_, _, _) =>
+						false,
+					ExpressionForProcedureGenericCall::ProcedureCall3 (_, _, _, _) =>
+						false,
+					ExpressionForProcedureGenericCall::ProcedureCall4 (_, _, _, _, _) =>
+						false,
+					ExpressionForProcedureGenericCall::ProcedureCall5 (_, _, _, _, _, _) =>
+						false,
+					ExpressionForProcedureGenericCall::ProcedureCallN (_, _) =>
+						false,
+					
+				},
 			
-			Expression::ProcedureExtendedCall (_, _) =>
-				false,
-			Expression::ProcedureExtendedCall0 (_) =>
-				false,
-			Expression::ProcedureExtendedCall1 (_, _) =>
-				false,
-			Expression::ProcedureExtendedCall2 (_, _, _) =>
-				false,
-			Expression::ProcedureExtendedCall3 (_, _, _, _) =>
-				false,
-			Expression::ProcedureExtendedCall4 (_, _, _, _, _) =>
-				false,
-			Expression::ProcedureExtendedCall5 (_, _, _, _, _, _) =>
-				false,
-			Expression::ProcedureExtendedCallN (_, _) =>
-				false,
+			Expression::ProcedurePrimitiveCall (ref expression) =>
+				match *expression {
+					
+					ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall (_, _) =>
+						false,
+					ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall0 (_) =>
+						false,
+					ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall1 (_, _) =>
+						false,
+					ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall2 (_, _, _) =>
+						false,
+					ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall3 (_, _, _, _) =>
+						false,
+					ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall4 (_, _, _, _, _) =>
+						false,
+					ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall5 (_, _, _, _, _, _) =>
+						false,
+					ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCallN (_, _) =>
+						false,
+					ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCallV (_, _) =>
+						false,
+					
+				},
 			
-			Expression::ProcedureLambdaCall (_, _) =>
-				false,
-			Expression::ProcedureLambdaCall0 (_) =>
-				false,
-			Expression::ProcedureLambdaCall1 (_, _) =>
-				false,
-			Expression::ProcedureLambdaCall2 (_, _, _) =>
-				false,
-			Expression::ProcedureLambdaCall3 (_, _, _, _) =>
-				false,
-			Expression::ProcedureLambdaCall4 (_, _, _, _, _) =>
-				false,
-			Expression::ProcedureLambdaCall5 (_, _, _, _, _, _) =>
-				false,
-			Expression::ProcedureLambdaCallN (_, _) =>
-				false,
+			Expression::ProcedureExtendedCall (ref expression) =>
+				match *expression {
+					
+					ExpressionForProcedureExtendedCall::ProcedureExtendedCall (_, _) =>
+						false,
+					ExpressionForProcedureExtendedCall::ProcedureExtendedCall0 (_) =>
+						false,
+					ExpressionForProcedureExtendedCall::ProcedureExtendedCall1 (_, _) =>
+						false,
+					ExpressionForProcedureExtendedCall::ProcedureExtendedCall2 (_, _, _) =>
+						false,
+					ExpressionForProcedureExtendedCall::ProcedureExtendedCall3 (_, _, _, _) =>
+						false,
+					ExpressionForProcedureExtendedCall::ProcedureExtendedCall4 (_, _, _, _, _) =>
+						false,
+					ExpressionForProcedureExtendedCall::ProcedureExtendedCall5 (_, _, _, _, _, _) =>
+						false,
+					ExpressionForProcedureExtendedCall::ProcedureExtendedCallN (_, _) =>
+						false,
+					
+				},
+			
+			Expression::ProcedureLambdaCall (ref expression) =>
+				match *expression {
+					
+					ExpressionForProcedureLambdaCall::ProcedureLambdaCall (_, _) =>
+						false,
+					ExpressionForProcedureLambdaCall::ProcedureLambdaCall0 (_) =>
+						false,
+					ExpressionForProcedureLambdaCall::ProcedureLambdaCall1 (_, _) =>
+						false,
+					ExpressionForProcedureLambdaCall::ProcedureLambdaCall2 (_, _, _) =>
+						false,
+					ExpressionForProcedureLambdaCall::ProcedureLambdaCall3 (_, _, _, _) =>
+						false,
+					ExpressionForProcedureLambdaCall::ProcedureLambdaCall4 (_, _, _, _, _) =>
+						false,
+					ExpressionForProcedureLambdaCall::ProcedureLambdaCall5 (_, _, _, _, _, _) =>
+						false,
+					ExpressionForProcedureLambdaCall::ProcedureLambdaCallN (_, _) =>
+						false,
+					
+				},
 			
 		}
 	}
@@ -1586,116 +1662,142 @@ impl Optimizer {
 			Expression::Loop (_, _, _, _) =>
 				None,
 			
-			Expression::ContextDefine (_, _) =>
-				None,
-			Expression::ContextUpdate (_, _) =>
-				None,
-			Expression::ContextSelect (_) =>
-				None,
-			
-			Expression::BindingInitialize1 (_, _) =>
-				None,
-			Expression::BindingInitializeN (_, _) =>
-				None,
-			Expression::BindingInitializeValues (_, _) =>
-				None,
-			Expression::BindingSet1 (_, _) =>
-				None,
-			Expression::BindingSetN (_, _) =>
-				None,
-			Expression::BindingSetValues (_, _) =>
-				None,
-			Expression::BindingGet1 (_) =>
-				None,
-			Expression::RegisterClosure (_, _) =>
-				None,
-			Expression::RegisterInitialize1 (_, _) =>
-				None,
-			Expression::RegisterInitializeN (_, _) =>
-				None,
-			Expression::RegisterInitializeValues (_, _) =>
-				None,
-			Expression::RegisterSet1 (_, _) =>
-				None,
-			Expression::RegisterSetN (_, _) =>
-				None,
-			Expression::RegisterSetValues (_, _) =>
-				None,
-			Expression::RegisterGet1 (_) =>
-				None,
-			
 			Expression::Lambda (_, _, _, _) =>
 				None,
 			
-			Expression::ProcedureCall (ref _callable, ref inputs) =>
-				Some (boxed_slice_to_ref (inputs)),
-			Expression::ProcedureCall0 (ref _callable) =>
-				Some (StdBox::new ([])),
-			Expression::ProcedureCall1 (ref _callable, ref input_1) =>
-				Some (StdBox::new ([input_1])),
-			Expression::ProcedureCall2 (ref _callable, ref input_1, ref input_2) =>
-				Some (StdBox::new ([input_1, input_2])),
-			Expression::ProcedureCall3 (ref _callable, ref input_1, ref input_2, ref input_3) =>
-				Some (StdBox::new ([input_1, input_2, input_3])),
-			Expression::ProcedureCall4 (ref _callable, ref input_1, ref input_2, ref input_3, ref input_4) =>
-				Some (StdBox::new ([input_1, input_2, input_3, input_4])),
-			Expression::ProcedureCall5 (ref _callable, ref input_1, ref input_2, ref input_3, ref input_4, ref input_5) =>
-				Some (StdBox::new ([input_1, input_2, input_3, input_4, input_5])),
-			Expression::ProcedureCallN (ref _callable, ref inputs) =>
-				Some (boxed_slice_to_ref (inputs)),
+			Expression::Contexts (ref expression) =>
+				match *expression {
+					
+					ExpressionForContexts::ContextDefine (_, _) =>
+						None,
+					ExpressionForContexts::ContextUpdate (_, _) =>
+						None,
+					ExpressionForContexts::ContextSelect (_) =>
+						None,
+					
+					ExpressionForContexts::BindingInitialize1 (_, _) =>
+						None,
+					ExpressionForContexts::BindingInitializeN (_, _) =>
+						None,
+					ExpressionForContexts::BindingInitializeValues (_, _) =>
+						None,
+					ExpressionForContexts::BindingSet1 (_, _) =>
+						None,
+					ExpressionForContexts::BindingSetN (_, _) =>
+						None,
+					ExpressionForContexts::BindingSetValues (_, _) =>
+						None,
+					ExpressionForContexts::BindingGet1 (_) =>
+						None,
+					
+					ExpressionForContexts::RegisterClosure (_, _) =>
+						None,
+					ExpressionForContexts::RegisterInitialize1 (_, _) =>
+						None,
+					ExpressionForContexts::RegisterInitializeN (_, _) =>
+						None,
+					ExpressionForContexts::RegisterInitializeValues (_, _) =>
+						None,
+					ExpressionForContexts::RegisterSet1 (_, _) =>
+						None,
+					ExpressionForContexts::RegisterSetN (_, _) =>
+						None,
+					ExpressionForContexts::RegisterSetValues (_, _) =>
+						None,
+					ExpressionForContexts::RegisterGet1 (_) =>
+						None,
+					
+				},
 			
-			Expression::ProcedurePrimitiveCall (_primitive, ref inputs) =>
-				Some (boxed_slice_to_ref (inputs)),
-			Expression::ProcedurePrimitiveCall0 (_primitive) =>
-				Some (StdBox::new ([])),
-			Expression::ProcedurePrimitiveCall1 (_primitive, ref input_1) =>
-				Some (StdBox::new ([input_1])),
-			Expression::ProcedurePrimitiveCall2 (_primitive, ref input_1, ref input_2) =>
-				Some (StdBox::new ([input_1, input_2])),
-			Expression::ProcedurePrimitiveCall3 (_primitive, ref input_1, ref input_2, ref input_3) =>
-				Some (StdBox::new ([input_1, input_2, input_3])),
-			Expression::ProcedurePrimitiveCall4 (_primitive, ref input_1, ref input_2, ref input_3, ref input_4) =>
-				Some (StdBox::new ([input_1, input_2, input_3, input_4])),
-			Expression::ProcedurePrimitiveCall5 (_primitive, ref input_1, ref input_2, ref input_3, ref input_4, ref input_5) =>
-				Some (StdBox::new ([input_1, input_2, input_3, input_4, input_5])),
-			Expression::ProcedurePrimitiveCallN (_primitive, ref inputs) =>
-				Some (boxed_slice_to_ref (inputs)),
-			Expression::ProcedurePrimitiveCallV (_primitive, ref inputs) =>
-				Some (boxed_slice_to_ref (inputs)),
+			Expression::ProcedureGenericCall (ref expression) =>
+				match *expression {
+					
+					ExpressionForProcedureGenericCall::ProcedureCall (ref _callable, ref inputs) =>
+						Some (boxed_slice_to_ref (inputs)),
+					ExpressionForProcedureGenericCall::ProcedureCall0 (ref _callable) =>
+						Some (StdBox::new ([])),
+					ExpressionForProcedureGenericCall::ProcedureCall1 (ref _callable, ref input_1) =>
+						Some (StdBox::new ([input_1])),
+					ExpressionForProcedureGenericCall::ProcedureCall2 (ref _callable, ref input_1, ref input_2) =>
+						Some (StdBox::new ([input_1, input_2])),
+					ExpressionForProcedureGenericCall::ProcedureCall3 (ref _callable, ref input_1, ref input_2, ref input_3) =>
+						Some (StdBox::new ([input_1, input_2, input_3])),
+					ExpressionForProcedureGenericCall::ProcedureCall4 (ref _callable, ref input_1, ref input_2, ref input_3, ref input_4) =>
+						Some (StdBox::new ([input_1, input_2, input_3, input_4])),
+					ExpressionForProcedureGenericCall::ProcedureCall5 (ref _callable, ref input_1, ref input_2, ref input_3, ref input_4, ref input_5) =>
+						Some (StdBox::new ([input_1, input_2, input_3, input_4, input_5])),
+					ExpressionForProcedureGenericCall::ProcedureCallN (ref _callable, ref inputs) =>
+						Some (boxed_slice_to_ref (inputs)),
+					
+				},
 			
-			Expression::ProcedureExtendedCall (ref _procedure, ref inputs) =>
-				Some (boxed_slice_to_ref (inputs)),
-			Expression::ProcedureExtendedCall0 (ref _procedure) =>
-				Some (StdBox::new ([])),
-			Expression::ProcedureExtendedCall1 (ref _procedure, ref input_1) =>
-				Some (StdBox::new ([input_1])),
-			Expression::ProcedureExtendedCall2 (ref _procedure, ref input_1, ref input_2) =>
-				Some (StdBox::new ([input_1, input_2])),
-			Expression::ProcedureExtendedCall3 (ref _procedure, ref input_1, ref input_2, ref input_3) =>
-				Some (StdBox::new ([input_1, input_2, input_3])),
-			Expression::ProcedureExtendedCall4 (ref _procedure, ref input_1, ref input_2, ref input_3, ref input_4) =>
-				Some (StdBox::new ([input_1, input_2, input_3, input_4])),
-			Expression::ProcedureExtendedCall5 (ref _procedure, ref input_1, ref input_2, ref input_3, ref input_4, ref input_5) =>
-				Some (StdBox::new ([input_1, input_2, input_3, input_4, input_5])),
-			Expression::ProcedureExtendedCallN (ref _procedure, ref inputs) =>
-				Some (boxed_slice_to_ref (inputs)),
+			Expression::ProcedurePrimitiveCall (ref expression) =>
+				match *expression {
+					
+					ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall (_primitive, ref inputs) =>
+						Some (boxed_slice_to_ref (inputs)),
+					ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall0 (_primitive) =>
+						Some (StdBox::new ([])),
+					ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall1 (_primitive, ref input_1) =>
+						Some (StdBox::new ([input_1])),
+					ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall2 (_primitive, ref input_1, ref input_2) =>
+						Some (StdBox::new ([input_1, input_2])),
+					ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall3 (_primitive, ref input_1, ref input_2, ref input_3) =>
+						Some (StdBox::new ([input_1, input_2, input_3])),
+					ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall4 (_primitive, ref input_1, ref input_2, ref input_3, ref input_4) =>
+						Some (StdBox::new ([input_1, input_2, input_3, input_4])),
+					ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall5 (_primitive, ref input_1, ref input_2, ref input_3, ref input_4, ref input_5) =>
+						Some (StdBox::new ([input_1, input_2, input_3, input_4, input_5])),
+					ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCallN (_primitive, ref inputs) =>
+						Some (boxed_slice_to_ref (inputs)),
+					ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCallV (_primitive, ref inputs) =>
+						Some (boxed_slice_to_ref (inputs)),
+					
+				},
 			
-			Expression::ProcedureLambdaCall (ref _lambda, ref inputs) =>
-				Some (boxed_slice_to_ref (inputs)),
-			Expression::ProcedureLambdaCall0 (ref _lambda) =>
-				Some (StdBox::new ([])),
-			Expression::ProcedureLambdaCall1 (ref _lambda, ref input_1) =>
-				Some (StdBox::new ([input_1])),
-			Expression::ProcedureLambdaCall2 (ref _lambda, ref input_1, ref input_2) =>
-				Some (StdBox::new ([input_1, input_2])),
-			Expression::ProcedureLambdaCall3 (ref _lambda, ref input_1, ref input_2, ref input_3) =>
-				Some (StdBox::new ([input_1, input_2, input_3])),
-			Expression::ProcedureLambdaCall4 (ref _lambda, ref input_1, ref input_2, ref input_3, ref input_4) =>
-				Some (StdBox::new ([input_1, input_2, input_3, input_4])),
-			Expression::ProcedureLambdaCall5 (ref _lambda, ref input_1, ref input_2, ref input_3, ref input_4, ref input_5) =>
-				Some (StdBox::new ([input_1, input_2, input_3, input_4, input_5])),
-			Expression::ProcedureLambdaCallN (ref _lambda, ref inputs) =>
-				Some (boxed_slice_to_ref (inputs)),
+			Expression::ProcedureExtendedCall (ref expression) =>
+				match *expression {
+					
+					ExpressionForProcedureExtendedCall::ProcedureExtendedCall (ref _procedure, ref inputs) =>
+						Some (boxed_slice_to_ref (inputs)),
+					ExpressionForProcedureExtendedCall::ProcedureExtendedCall0 (ref _procedure) =>
+						Some (StdBox::new ([])),
+					ExpressionForProcedureExtendedCall::ProcedureExtendedCall1 (ref _procedure, ref input_1) =>
+						Some (StdBox::new ([input_1])),
+					ExpressionForProcedureExtendedCall::ProcedureExtendedCall2 (ref _procedure, ref input_1, ref input_2) =>
+						Some (StdBox::new ([input_1, input_2])),
+					ExpressionForProcedureExtendedCall::ProcedureExtendedCall3 (ref _procedure, ref input_1, ref input_2, ref input_3) =>
+						Some (StdBox::new ([input_1, input_2, input_3])),
+					ExpressionForProcedureExtendedCall::ProcedureExtendedCall4 (ref _procedure, ref input_1, ref input_2, ref input_3, ref input_4) =>
+						Some (StdBox::new ([input_1, input_2, input_3, input_4])),
+					ExpressionForProcedureExtendedCall::ProcedureExtendedCall5 (ref _procedure, ref input_1, ref input_2, ref input_3, ref input_4, ref input_5) =>
+						Some (StdBox::new ([input_1, input_2, input_3, input_4, input_5])),
+					ExpressionForProcedureExtendedCall::ProcedureExtendedCallN (ref _procedure, ref inputs) =>
+						Some (boxed_slice_to_ref (inputs)),
+					
+				},
+			
+			Expression::ProcedureLambdaCall (ref expression) =>
+				match *expression {
+					
+					ExpressionForProcedureLambdaCall::ProcedureLambdaCall (ref _lambda, ref inputs) =>
+						Some (boxed_slice_to_ref (inputs)),
+					ExpressionForProcedureLambdaCall::ProcedureLambdaCall0 (ref _lambda) =>
+						Some (StdBox::new ([])),
+					ExpressionForProcedureLambdaCall::ProcedureLambdaCall1 (ref _lambda, ref input_1) =>
+						Some (StdBox::new ([input_1])),
+					ExpressionForProcedureLambdaCall::ProcedureLambdaCall2 (ref _lambda, ref input_1, ref input_2) =>
+						Some (StdBox::new ([input_1, input_2])),
+					ExpressionForProcedureLambdaCall::ProcedureLambdaCall3 (ref _lambda, ref input_1, ref input_2, ref input_3) =>
+						Some (StdBox::new ([input_1, input_2, input_3])),
+					ExpressionForProcedureLambdaCall::ProcedureLambdaCall4 (ref _lambda, ref input_1, ref input_2, ref input_3, ref input_4) =>
+						Some (StdBox::new ([input_1, input_2, input_3, input_4])),
+					ExpressionForProcedureLambdaCall::ProcedureLambdaCall5 (ref _lambda, ref input_1, ref input_2, ref input_3, ref input_4, ref input_5) =>
+						Some (StdBox::new ([input_1, input_2, input_3, input_4, input_5])),
+					ExpressionForProcedureLambdaCall::ProcedureLambdaCallN (ref _lambda, ref inputs) =>
+						Some (boxed_slice_to_ref (inputs)),
+					
+				},
 			
 		}
 	}

@@ -149,9 +149,9 @@ impl Compiler {
 			CompilerBinding::Undefined =>
 				fail! (0xc6825cfd),
 			CompilerBinding::Binding (binding) =>
-				succeed! ((compilation, Expression::BindingGet1 (binding))),
+				succeed! ((compilation, ExpressionForContexts::BindingGet1 (binding) .into ())),
 			CompilerBinding::Register (index) =>
-				succeed! ((compilation, Expression::RegisterGet1 (index))),
+				succeed! ((compilation, ExpressionForContexts::RegisterGet1 (index) .into ())),
 		}
 	}
 	
@@ -209,7 +209,7 @@ impl Compiler {
 		let (compilation, procedure) = try! (self.compile_0 (compilation, procedure));
 		let (compilation, arguments) = try! (self.compile_0_vec (compilation, try! (vec_list_clone (&arguments))));
 		
-		let expression = Expression::ProcedureCall (procedure.into (), arguments.into_boxed_slice ());
+		let expression = ExpressionForProcedureGenericCall::ProcedureCall (procedure.into (), arguments.into_boxed_slice ()) .into ();
 		
 		succeed! ((compilation, expression));
 	}
@@ -575,7 +575,7 @@ impl Compiler {
 		
 		let (compilation, expression) = if has_definitions {
 			let (compilation, registers) = try! (compilation.unfork_locals ());
-			let expression = Expression::RegisterClosure (expression.into (), registers.into_boxed_slice ());
+			let expression = ExpressionForContexts::RegisterClosure (expression.into (), registers.into_boxed_slice ()) .into ();
 			(compilation, expression)
 		} else {
 			(compilation, expression)
@@ -594,7 +594,7 @@ impl Compiler {
 		let (compilation, registers) = try! (compilation.unfork_locals ());
 		
 		let statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, statements.into_boxed_slice ());
-		let expression = Expression::RegisterClosure (statements.into (), registers.into_boxed_slice ());
+		let expression = ExpressionForContexts::RegisterClosure (statements.into (), registers.into_boxed_slice ()) .into ();
 		
 		succeed! ((compilation, expression));
 	}
@@ -701,7 +701,7 @@ impl Compiler {
 		let (compilation, registers) = try! (compilation.unfork_locals ());
 		
 		let statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, statements.into_boxed_slice ());
-		let expression = Expression::RegisterClosure (statements.into (), registers.into_boxed_slice ());
+		let expression = ExpressionForContexts::RegisterClosure (statements.into (), registers.into_boxed_slice ()) .into ();
 		
 		succeed! ((compilation, expression));
 	}
@@ -791,7 +791,7 @@ impl Compiler {
 		let (compilation, registers) = try! (compilation.unfork_locals ());
 		
 		let statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, statements.into_boxed_slice ());
-		let expression = Expression::RegisterClosure (statements.into (), registers.into_boxed_slice ());
+		let expression = ExpressionForContexts::RegisterClosure (statements.into (), registers.into_boxed_slice ()) .into ();
 		
 		succeed! ((compilation, expression));
 	}
@@ -939,18 +939,18 @@ impl Compiler {
 			
 			CompilerBinding::Binding (binding) => {
 				let expression = if initialize {
-					Expression::BindingInitialize1 (binding, expression.into ())
+					ExpressionForContexts::BindingInitialize1 (binding, expression.into ()) .into ()
 				} else {
-					Expression::BindingSet1 (binding, expression.into ())
+					ExpressionForContexts::BindingSet1 (binding, expression.into ()) .into ()
 				};
 				succeed! (expression);
 			},
 			
 			CompilerBinding::Register (index) => {
 				let expression = if initialize {
-					Expression::RegisterInitialize1 (index, expression.into ())
+					ExpressionForContexts::RegisterInitialize1 (index, expression.into ()) .into ()
 				} else {
-					Expression::RegisterSet1 (index, expression.into ())
+					ExpressionForContexts::RegisterSet1 (index, expression.into ()) .into ()
 				};
 				succeed! (expression);
 			},
@@ -986,9 +986,9 @@ impl Compiler {
 								fail! (0x31f5b387),
 						});
 				let expression = if initialize {
-					Expression::BindingInitializeN (initializers.into_boxed_slice (), parallel)
+					ExpressionForContexts::BindingInitializeN (initializers.into_boxed_slice (), parallel) .into ()
 				} else {
-					Expression::BindingSetN (initializers.into_boxed_slice (), parallel)
+					ExpressionForContexts::BindingSetN (initializers.into_boxed_slice (), parallel) .into ()
 				};
 				succeed! (expression);
 			},
@@ -1004,9 +1004,9 @@ impl Compiler {
 								fail! (0x5627731f),
 						});
 				let expression = if initialize {
-					Expression::RegisterInitializeN (initializers.into_boxed_slice (), parallel)
+					ExpressionForContexts::RegisterInitializeN (initializers.into_boxed_slice (), parallel) .into ()
 				} else {
-					Expression::RegisterSetN (initializers.into_boxed_slice (), parallel)
+					ExpressionForContexts::RegisterSetN (initializers.into_boxed_slice (), parallel) .into ()
 				};
 				succeed! (expression);
 			},
@@ -1039,9 +1039,9 @@ impl Compiler {
 								fail! (0xe59c62c6),
 						});
 				let expression = if initialize {
-					Expression::BindingInitializeValues (bindings.into_boxed_slice (), expression.into ())
+					ExpressionForContexts::BindingInitializeValues (bindings.into_boxed_slice (), expression.into ()) .into ()
 				} else {
-					Expression::BindingSetValues (bindings.into_boxed_slice (), expression.into ())
+					ExpressionForContexts::BindingSetValues (bindings.into_boxed_slice (), expression.into ()) .into ()
 				};
 				succeed! (expression);
 			},
@@ -1057,9 +1057,9 @@ impl Compiler {
 								fail! (0x5627731f),
 						});
 				let expression = if initialize {
-					Expression::RegisterInitializeValues (bindings.into_boxed_slice (), expression.into ())
+					ExpressionForContexts::RegisterInitializeValues (bindings.into_boxed_slice (), expression.into ()) .into ()
 				} else {
-					Expression::RegisterSetValues (bindings.into_boxed_slice (), expression.into ())
+					ExpressionForContexts::RegisterSetValues (bindings.into_boxed_slice (), expression.into ()) .into ()
 				};
 				succeed! (expression);
 			},
@@ -1174,7 +1174,7 @@ impl Compiler {
 		fn splice <ExpressionInto : StdInto<Expression>> (expression : ExpressionInto, spliceable : bool) -> (Expression) {
 			let expression = expression.into ();
 			if spliceable {
-				Expression::ProcedureCall (ListPrimitiveV::ListBuild.into (), StdBox::new ([expression]))
+				ExpressionForProcedureGenericCall::ProcedureCall (ListPrimitiveV::ListBuild.into (), StdBox::new ([expression])) .into ()
 			} else {
 				expression
 			}
@@ -1246,7 +1246,7 @@ impl Compiler {
 									} else {
 										let (compilation, element) = try! (self.compile_syntax_quasi_quote_0 (compilation, token, true, false, quote_depth, unquote_depth + 1));
 										// FIXME:  Eliminate dynamic creation of symbol!
-										let element = Expression::ProcedureCall (ListPrimitiveV::ListBuild.into (), StdBox::new ([Expression::Value (symbol_clone_str ("unquote") .into ()), element]));
+										let element = ExpressionForProcedureGenericCall::ProcedureCall (ListPrimitiveV::ListBuild.into (), StdBox::new ([Expression::Value (symbol_clone_str ("unquote") .into ()), element])) .into ();
 										(compilation, element)
 									};
 									succeed! ((compilation, splice (element, spliceable)));
@@ -1263,7 +1263,7 @@ impl Compiler {
 										} else {
 											let (compilation, element) = try! (self.compile_syntax_quasi_quote_0 (compilation, token, true, false, quote_depth, unquote_depth + 1));
 											// FIXME:  Eliminate dynamic creation of symbol!
-											let element = Expression::ProcedureCall (ListPrimitiveV::ListBuild.into (), StdBox::new ([Expression::Value (symbol_clone_str ("unquote-splicing") .into ()), element]));
+											let element = ExpressionForProcedureGenericCall::ProcedureCall (ListPrimitiveV::ListBuild.into (), StdBox::new ([Expression::Value (symbol_clone_str ("unquote-splicing") .into ()), element])) .into ();
 											(compilation, element)
 										};
 										succeed! ((compilation, element));
@@ -1279,7 +1279,7 @@ impl Compiler {
 									let token = try! (vec_explode_1 (tokens));
 									let (compilation, element) = try! (self.compile_syntax_quasi_quote_0 (compilation, token, true, false, quote_depth + 1, unquote_depth));
 									// FIXME:  Eliminate dynamic creation of symbol!
-									let element = Expression::ProcedureCall (ListPrimitiveV::ListBuild.into (), StdBox::new ([Expression::Value (symbol_clone_str ("quasiquote") .into ()), element]));
+									let element : Expression = ExpressionForProcedureGenericCall::ProcedureCall (ListPrimitiveV::ListBuild.into (), StdBox::new ([Expression::Value (symbol_clone_str ("quasiquote") .into ()), element])) .into ();
 									succeed! ((compilation, splice (element, spliceable)));
 								} else {
 									fail! (0x95565615);
@@ -1325,12 +1325,12 @@ impl Compiler {
 					}
 				}
 				
-				let expression = Expression::ProcedureCall (ListPrimitiveV::ListAppend.into (), elements.into_boxed_slice ());
+				let expression = ExpressionForProcedureGenericCall::ProcedureCall (ListPrimitiveV::ListAppend.into (), elements.into_boxed_slice ()) .into ();
 				
 				let expression = if top {
 					expression
 				} else {
-					Expression::ProcedureCall (ListPrimitive2::Pair.into (), StdBox::new ([expression, NULL.into ()]))
+					ExpressionForProcedureGenericCall::ProcedureCall (ListPrimitive2::Pair.into (), StdBox::new ([expression, NULL.into ()])) .into ()
 				};
 				
 				succeed! ((compilation, expression));

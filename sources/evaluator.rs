@@ -86,120 +86,167 @@ impl Evaluator {
 			Expression::Loop (ref initialize, ref update, ref body, ref clauses) =>
 				self.evaluate_loop (evaluation, option_box_as_ref (initialize), option_box_as_ref (update), option_box_as_ref (body), clauses),
 			
-			Expression::ContextDefine (ref identifier, ref expression) =>
-				self.evaluate_context_define (evaluation, identifier, expression),
-			Expression::ContextUpdate (ref identifier, ref expression) =>
-				self.evaluate_context_update (evaluation, identifier, expression),
-			Expression::ContextSelect (ref identifier) =>
-				self.evaluate_context_select (evaluation, identifier),
+			Expression::Contexts (ref expression) =>
+				self.evaluate_for_contexts (evaluation, expression),
 			
-			Expression::BindingInitialize1 (ref binding, ref expression) =>
-				self.evaluate_binding_initialize_1 (evaluation, binding, expression),
-			Expression::BindingInitializeN (ref initializers, parallel) =>
-				self.evaluate_binding_initialize_n (evaluation, initializers, parallel),
-			Expression::BindingInitializeValues (ref bindings, ref expression) =>
-				self.evaluate_binding_initialize_values (evaluation, bindings, expression),
-			Expression::BindingSet1 (ref binding, ref expression) =>
-				self.evaluate_binding_set_1 (evaluation, binding, expression),
-			Expression::BindingSetN (ref initializers, parallel) =>
-				self.evaluate_binding_set_n (evaluation, initializers, parallel),
-			Expression::BindingSetValues (ref bindings, ref expression) =>
-				self.evaluate_binding_set_values (evaluation, bindings, expression),
-			Expression::BindingGet1 (ref binding) =>
-				self.evaluate_binding_get_1 (evaluation, binding),
-			
-			Expression::RegisterClosure (ref expression, ref borrows) =>
-				self.evaluate_register_closure (evaluation, expression, borrows),
-			Expression::RegisterInitialize1 (index, ref expression) =>
-				self.evaluate_register_initialize_1 (evaluation, index, expression),
-			Expression::RegisterInitializeN (ref initializers, parallel) =>
-				self.evaluate_register_initialize_n (evaluation, initializers, parallel),
-			Expression::RegisterInitializeValues (ref indices, ref expression) =>
-				self.evaluate_register_initialize_values (evaluation, indices, expression),
-			Expression::RegisterSet1 (index, ref expression) =>
-				self.evaluate_register_set_1 (evaluation, index, expression),
-			Expression::RegisterSetN (ref initializers, parallel) =>
-				self.evaluate_register_set_n (evaluation, initializers, parallel),
-			Expression::RegisterSetValues (ref indices, ref expression) =>
-				self.evaluate_register_set_values (evaluation, indices, expression),
-			Expression::RegisterGet1 (index) =>
-				self.evaluate_register_get_1 (evaluation, index),
+			Expression::ProcedureGenericCall (ref expression) =>
+				self.evaluate_for_procedure_generic_call (evaluation, expression),
+			Expression::ProcedurePrimitiveCall (ref expression) =>
+				self.evaluate_for_procedure_primitive_call (evaluation, expression),
+			Expression::ProcedureExtendedCall (ref expression) =>
+				self.evaluate_for_procedure_extended_call (evaluation, expression),
+			Expression::ProcedureLambdaCall (ref expression) =>
+				self.evaluate_for_procedure_lambda_call (evaluation, expression),
 			
 			Expression::Lambda (ref lambda, ref expression, ref registers_closure, ref registers_local) =>
 				self.evaluate_lambda_create (evaluation, lambda, expression, registers_closure, registers_local),
 			
-			Expression::ProcedureCall (ref callable, ref inputs) =>
+		}
+		
+	}
+	
+	
+	fn evaluate_for_contexts (&self, evaluation : &mut EvaluatorContext, input : &ExpressionForContexts) -> (Outcome<Value>) {
+		match *input {
+			
+			ExpressionForContexts::ContextDefine (ref identifier, ref expression) =>
+				self.evaluate_context_define (evaluation, identifier, expression),
+			ExpressionForContexts::ContextUpdate (ref identifier, ref expression) =>
+				self.evaluate_context_update (evaluation, identifier, expression),
+			ExpressionForContexts::ContextSelect (ref identifier) =>
+				self.evaluate_context_select (evaluation, identifier),
+			
+			ExpressionForContexts::BindingInitialize1 (ref binding, ref expression) =>
+				self.evaluate_binding_initialize_1 (evaluation, binding, expression),
+			ExpressionForContexts::BindingInitializeN (ref initializers, parallel) =>
+				self.evaluate_binding_initialize_n (evaluation, initializers, parallel),
+			ExpressionForContexts::BindingInitializeValues (ref bindings, ref expression) =>
+				self.evaluate_binding_initialize_values (evaluation, bindings, expression),
+			ExpressionForContexts::BindingSet1 (ref binding, ref expression) =>
+				self.evaluate_binding_set_1 (evaluation, binding, expression),
+			ExpressionForContexts::BindingSetN (ref initializers, parallel) =>
+				self.evaluate_binding_set_n (evaluation, initializers, parallel),
+			ExpressionForContexts::BindingSetValues (ref bindings, ref expression) =>
+				self.evaluate_binding_set_values (evaluation, bindings, expression),
+			ExpressionForContexts::BindingGet1 (ref binding) =>
+				self.evaluate_binding_get_1 (evaluation, binding),
+			
+			ExpressionForContexts::RegisterClosure (ref expression, ref borrows) =>
+				self.evaluate_register_closure (evaluation, expression, borrows),
+			ExpressionForContexts::RegisterInitialize1 (index, ref expression) =>
+				self.evaluate_register_initialize_1 (evaluation, index, expression),
+			ExpressionForContexts::RegisterInitializeN (ref initializers, parallel) =>
+				self.evaluate_register_initialize_n (evaluation, initializers, parallel),
+			ExpressionForContexts::RegisterInitializeValues (ref indices, ref expression) =>
+				self.evaluate_register_initialize_values (evaluation, indices, expression),
+			ExpressionForContexts::RegisterSet1 (index, ref expression) =>
+				self.evaluate_register_set_1 (evaluation, index, expression),
+			ExpressionForContexts::RegisterSetN (ref initializers, parallel) =>
+				self.evaluate_register_set_n (evaluation, initializers, parallel),
+			ExpressionForContexts::RegisterSetValues (ref indices, ref expression) =>
+				self.evaluate_register_set_values (evaluation, indices, expression),
+			ExpressionForContexts::RegisterGet1 (index) =>
+				self.evaluate_register_get_1 (evaluation, index),
+			
+		}
+	}
+	
+	
+	fn evaluate_for_procedure_generic_call (&self, evaluation : &mut EvaluatorContext, input : &ExpressionForProcedureGenericCall) -> (Outcome<Value>) {
+		match *input {
+			
+			ExpressionForProcedureGenericCall::ProcedureCall (ref callable, ref inputs) =>
 				self.evaluate_procedure_call (evaluation, callable, inputs),
-			Expression::ProcedureCall0 (ref callable) =>
+			ExpressionForProcedureGenericCall::ProcedureCall0 (ref callable) =>
 				self.evaluate_procedure_call_0 (evaluation, callable),
-			Expression::ProcedureCall1 (ref callable, ref input_1) =>
+			ExpressionForProcedureGenericCall::ProcedureCall1 (ref callable, ref input_1) =>
 				self.evaluate_procedure_call_1 (evaluation, callable, input_1),
-			Expression::ProcedureCall2 (ref callable, ref input_1, ref input_2) =>
+			ExpressionForProcedureGenericCall::ProcedureCall2 (ref callable, ref input_1, ref input_2) =>
 				self.evaluate_procedure_call_2 (evaluation, callable, input_1, input_2),
-			Expression::ProcedureCall3 (ref callable, ref input_1, ref input_2, ref input_3) =>
+			ExpressionForProcedureGenericCall::ProcedureCall3 (ref callable, ref input_1, ref input_2, ref input_3) =>
 				self.evaluate_procedure_call_3 (evaluation, callable, input_1, input_2, input_3),
-			Expression::ProcedureCall4 (ref callable, ref input_1, ref input_2, ref input_3, ref input_4) =>
+			ExpressionForProcedureGenericCall::ProcedureCall4 (ref callable, ref input_1, ref input_2, ref input_3, ref input_4) =>
 				self.evaluate_procedure_call_4 (evaluation, callable, input_1, input_2, input_3, input_4),
-			Expression::ProcedureCall5 (ref callable, ref input_1, ref input_2, ref input_3, ref input_4, ref input_5) =>
+			ExpressionForProcedureGenericCall::ProcedureCall5 (ref callable, ref input_1, ref input_2, ref input_3, ref input_4, ref input_5) =>
 				self.evaluate_procedure_call_5 (evaluation, callable, input_1, input_2, input_3, input_4, input_5),
-			Expression::ProcedureCallN (ref callable, ref inputs) =>
+			ExpressionForProcedureGenericCall::ProcedureCallN (ref callable, ref inputs) =>
 				self.evaluate_procedure_call_n (evaluation, callable, inputs),
 			
-			Expression::ProcedurePrimitiveCall (primitive, ref inputs) =>
+		}
+	}
+	
+	
+	fn evaluate_for_procedure_primitive_call (&self, evaluation : &mut EvaluatorContext, input : &ExpressionForProcedurePrimitiveCall) -> (Outcome<Value>) {
+		match *input {
+			
+			ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall (primitive, ref inputs) =>
 				self.evaluate_procedure_primitive (evaluation, primitive, inputs),
-			Expression::ProcedurePrimitiveCall0 (primitive) =>
+			ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall0 (primitive) =>
 				self.evaluate_procedure_primitive_0 (evaluation, primitive),
-			Expression::ProcedurePrimitiveCall1 (primitive, ref input_1) =>
+			ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall1 (primitive, ref input_1) =>
 				self.evaluate_procedure_primitive_1 (evaluation, primitive, input_1),
-			Expression::ProcedurePrimitiveCall2 (primitive, ref input_1, ref input_2) =>
+			ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall2 (primitive, ref input_1, ref input_2) =>
 				self.evaluate_procedure_primitive_2 (evaluation, primitive, input_1, input_2),
-			Expression::ProcedurePrimitiveCall3 (primitive, ref input_1, ref input_2, ref input_3) =>
+			ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall3 (primitive, ref input_1, ref input_2, ref input_3) =>
 				self.evaluate_procedure_primitive_3 (evaluation, primitive, input_1, input_2, input_3),
-			Expression::ProcedurePrimitiveCall4 (primitive, ref input_1, ref input_2, ref input_3, ref input_4) =>
+			ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall4 (primitive, ref input_1, ref input_2, ref input_3, ref input_4) =>
 				self.evaluate_procedure_primitive_4 (evaluation, primitive, input_1, input_2, input_3, input_4),
-			Expression::ProcedurePrimitiveCall5 (primitive, ref input_1, ref input_2, ref input_3, ref input_4, ref input_5) =>
+			ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall5 (primitive, ref input_1, ref input_2, ref input_3, ref input_4, ref input_5) =>
 				self.evaluate_procedure_primitive_5 (evaluation, primitive, input_1, input_2, input_3, input_4, input_5),
-			Expression::ProcedurePrimitiveCallN (primitive, ref inputs) =>
+			ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCallN (primitive, ref inputs) =>
 				self.evaluate_procedure_primitive_n (evaluation, primitive, inputs),
-			Expression::ProcedurePrimitiveCallV (primitive, ref inputs) =>
+			ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCallV (primitive, ref inputs) =>
 				self.evaluate_procedure_primitive_v (evaluation, primitive, inputs),
 			
-			Expression::ProcedureExtendedCall (ref procedure, ref inputs) =>
+		}
+	}
+	
+	
+	fn evaluate_for_procedure_extended_call (&self, evaluation : &mut EvaluatorContext, input : &ExpressionForProcedureExtendedCall) -> (Outcome<Value>) {
+		match *input {
+			
+			ExpressionForProcedureExtendedCall::ProcedureExtendedCall (ref procedure, ref inputs) =>
 				self.evaluate_procedure_extended (evaluation, procedure, inputs),
-			Expression::ProcedureExtendedCall0 (ref procedure) =>
+			ExpressionForProcedureExtendedCall::ProcedureExtendedCall0 (ref procedure) =>
 				self.evaluate_procedure_extended_0 (evaluation, procedure),
-			Expression::ProcedureExtendedCall1 (ref procedure, ref input_1) =>
+			ExpressionForProcedureExtendedCall::ProcedureExtendedCall1 (ref procedure, ref input_1) =>
 				self.evaluate_procedure_extended_1 (evaluation, procedure, input_1),
-			Expression::ProcedureExtendedCall2 (ref procedure, ref input_1, ref input_2) =>
+			ExpressionForProcedureExtendedCall::ProcedureExtendedCall2 (ref procedure, ref input_1, ref input_2) =>
 				self.evaluate_procedure_extended_2 (evaluation, procedure, input_1, input_2),
-			Expression::ProcedureExtendedCall3 (ref procedure, ref input_1, ref input_2, ref input_3) =>
+			ExpressionForProcedureExtendedCall::ProcedureExtendedCall3 (ref procedure, ref input_1, ref input_2, ref input_3) =>
 				self.evaluate_procedure_extended_3 (evaluation, procedure, input_1, input_2, input_3),
-			Expression::ProcedureExtendedCall4 (ref procedure, ref input_1, ref input_2, ref input_3, ref input_4) =>
+			ExpressionForProcedureExtendedCall::ProcedureExtendedCall4 (ref procedure, ref input_1, ref input_2, ref input_3, ref input_4) =>
 				self.evaluate_procedure_extended_4 (evaluation, procedure, input_1, input_2, input_3, input_4),
-			Expression::ProcedureExtendedCall5 (ref procedure, ref input_1, ref input_2, ref input_3, ref input_4, ref input_5) =>
+			ExpressionForProcedureExtendedCall::ProcedureExtendedCall5 (ref procedure, ref input_1, ref input_2, ref input_3, ref input_4, ref input_5) =>
 				self.evaluate_procedure_extended_5 (evaluation, procedure, input_1, input_2, input_3, input_4, input_5),
-			Expression::ProcedureExtendedCallN (ref procedure, ref inputs) =>
+			ExpressionForProcedureExtendedCall::ProcedureExtendedCallN (ref procedure, ref inputs) =>
 				self.evaluate_procedure_extended_n (evaluation, procedure, inputs),
 			
-			Expression::ProcedureLambdaCall (ref lambda, ref inputs) =>
+		}
+	}
+	
+	
+	fn evaluate_for_procedure_lambda_call (&self, evaluation : &mut EvaluatorContext, input : &ExpressionForProcedureLambdaCall) -> (Outcome<Value>) {
+		match *input {
+			
+			ExpressionForProcedureLambdaCall::ProcedureLambdaCall (ref lambda, ref inputs) =>
 				self.evaluate_procedure_lambda (evaluation, lambda, inputs),
-			Expression::ProcedureLambdaCall0 (ref lambda) =>
+			ExpressionForProcedureLambdaCall::ProcedureLambdaCall0 (ref lambda) =>
 				self.evaluate_procedure_lambda_0 (evaluation, lambda),
-			Expression::ProcedureLambdaCall1 (ref lambda, ref input_1) =>
+			ExpressionForProcedureLambdaCall::ProcedureLambdaCall1 (ref lambda, ref input_1) =>
 				self.evaluate_procedure_lambda_1 (evaluation, lambda, input_1),
-			Expression::ProcedureLambdaCall2 (ref lambda, ref input_1, ref input_2) =>
+			ExpressionForProcedureLambdaCall::ProcedureLambdaCall2 (ref lambda, ref input_1, ref input_2) =>
 				self.evaluate_procedure_lambda_2 (evaluation, lambda, input_1, input_2),
-			Expression::ProcedureLambdaCall3 (ref lambda, ref input_1, ref input_2, ref input_3) =>
+			ExpressionForProcedureLambdaCall::ProcedureLambdaCall3 (ref lambda, ref input_1, ref input_2, ref input_3) =>
 				self.evaluate_procedure_lambda_3 (evaluation, lambda, input_1, input_2, input_3),
-			Expression::ProcedureLambdaCall4 (ref lambda, ref input_1, ref input_2, ref input_3, ref input_4) =>
+			ExpressionForProcedureLambdaCall::ProcedureLambdaCall4 (ref lambda, ref input_1, ref input_2, ref input_3, ref input_4) =>
 				self.evaluate_procedure_lambda_4 (evaluation, lambda, input_1, input_2, input_3, input_4),
-			Expression::ProcedureLambdaCall5 (ref lambda, ref input_1, ref input_2, ref input_3, ref input_4, ref input_5) =>
+			ExpressionForProcedureLambdaCall::ProcedureLambdaCall5 (ref lambda, ref input_1, ref input_2, ref input_3, ref input_4, ref input_5) =>
 				self.evaluate_procedure_lambda_5 (evaluation, lambda, input_1, input_2, input_3, input_4, input_5),
-			Expression::ProcedureLambdaCallN (ref lambda, ref inputs) =>
+			ExpressionForProcedureLambdaCall::ProcedureLambdaCallN (ref lambda, ref inputs) =>
 				self.evaluate_procedure_lambda_n (evaluation, lambda, inputs),
 			
 		}
-		
 	}
 	
 	

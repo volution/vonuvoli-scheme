@@ -82,6 +82,11 @@ impl_as_ref_for_type! (Expression);
 impl_as_ref_for_type! (Value);
 
 impl_from_for_Expression_1! (Value, Value);
+impl_from_for_Expression_1! (Contexts, ExpressionForContexts);
+impl_from_for_Expression_1! (ProcedureGenericCall, ExpressionForProcedureGenericCall);
+impl_from_for_Expression_1! (ProcedurePrimitiveCall, ExpressionForProcedurePrimitiveCall);
+impl_from_for_Expression_1! (ProcedureExtendedCall, ExpressionForProcedureExtendedCall);
+impl_from_for_Expression_1! (ProcedureLambdaCall, ExpressionForProcedureLambdaCall);
 
 impl_from_for_Value_1! (Singleton, ValueSingleton);
 impl_from_for_Value_1! (Boolean, Boolean);
