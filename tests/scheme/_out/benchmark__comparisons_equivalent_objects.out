@@ -2,12 +2,12 @@
 ## benchmarking `benchmark__comparisons_equivalent_objects`...
 ## benchmarked `benchmark__comparisons_equivalent_objects`!
      without optimizations:
-       average   :      29112
-         stdev   :        698 /   2.40%
-         median  :      28778 /   0.98%
-       min / max :      28526 / 28660 / 28778 / 29141 / 30760
+       average   :      35057
+         stdev   :       2649 /   7.56%
+         median  :      36606 /   3.11%
+       min / max :      30928 / 31780 / 36606 / 37047 / 37931
      with optimizations:
-       average   :       1257 / +95.68% / 23.15*
-         stdev   :         31 /   2.50%
-         median  :       1242 /   0.86%
-       min / max :       1234 / 1235 / 1242 / 1266 / 1332
+       average   :       1547 / +95.59% / 22.66*
+         stdev   :         58 /   3.75%
+         median  :       1526 /   0.59%
+       min / max :       1450 / 1523 / 1526 / 1549 / 1698
