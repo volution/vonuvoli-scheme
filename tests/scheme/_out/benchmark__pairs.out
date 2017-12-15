@@ -1,0 +1,13 @@
+## compiling `benchmark__pairs`...
+## benchmarking `benchmark__pairs`...
+## benchmarked `benchmark__pairs`!
+     without optimizations:
+       average   :       8569
+         stdev   :        222 /   2.58%
+         median  :       8633 /   1.16%
+       min / max :       7990 / 8597 / 8633 / 8701 / 8817
+     with optimizations:
+       average   :       4364 / +49.07% / 1.96*
+         stdev   :        155 /   3.55%
+         median  :       4409 /   0.78%
+       min / max :       3917 / 4388 / 4409 / 4438 / 4509

@@ -1,0 +1,13 @@
+## compiling `benchmark__comparisons_equivalent_objects`...
+## benchmarking `benchmark__comparisons_equivalent_objects`...
+## benchmarked `benchmark__comparisons_equivalent_objects`!
+     without optimizations:
+       average   :      29465
+         stdev   :       3533 /  11.99%
+         median  :      28035 /   0.89%
+       min / max :      27829 / 27912 / 28035 / 28640 / 39302
+     with optimizations:
+       average   :       1548 / +94.75% / 19.04*
+         stdev   :         76 /   4.89%
+         median  :       1575 /   0.82%
+       min / max :       1341 / 1571 / 1575 / 1584 / 1606

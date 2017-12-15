@@ -1,0 +1,13 @@
+## compiling `benchmark__comparisons_equivalent_by_identity`...
+## benchmarking `benchmark__comparisons_equivalent_by_identity`...
+## benchmarked `benchmark__comparisons_equivalent_by_identity`!
+     without optimizations:
+       average   :      91234
+         stdev   :       6788 /   7.44%
+         median  :      95888 /   2.04%
+       min / max :      81341 / 82730 / 95888 / 96449 / 97536
+     with optimizations:
+       average   :      91391 / -0.17% / 1.00*
+         stdev   :       1011 /   1.11%
+         median  :      91671 /   0.63%
+       min / max :      89044 / 91216 / 91671 / 92018 / 92562

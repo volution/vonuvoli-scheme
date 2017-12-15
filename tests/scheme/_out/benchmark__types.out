@@ -1,0 +1,13 @@
+## compiling `benchmark__types`...
+## benchmarking `benchmark__types`...
+## benchmarked `benchmark__types`!
+     without optimizations:
+       average   :      54086
+         stdev   :       3402 /   6.29%
+         median  :      55944 /   2.36%
+       min / max :      47633 / 51625 / 55944 / 56508 / 57373
+     with optimizations:
+       average   :       9934 / +81.63% / 5.44*
+         stdev   :        116 /   1.16%
+         median  :       9967 /   0.91%
+       min / max :       9624 / 9889 / 9967 / 10019 / 10069

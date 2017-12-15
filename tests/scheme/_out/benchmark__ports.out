@@ -1,0 +1,13 @@
+## compiling `benchmark__ports`...
+## benchmarking `benchmark__ports`...
+## benchmarked `benchmark__ports`!
+     without optimizations:
+       average   :       2489
+         stdev   :        133 /   5.33%
+         median  :       2545 /   1.56%
+       min / max :       2159 / 2462 / 2545 / 2565 / 2606
+     with optimizations:
+       average   :        264 / +89.41% / 9.44*
+         stdev   :          8 /   2.88%
+         median  :        261 /   0.36%
+       min / max :        260 / 261 / 261 / 262 / 292

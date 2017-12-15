@@ -1,0 +1,13 @@
+## compiling `benchmark__lists`...
+## benchmarking `benchmark__lists`...
+## benchmarked `benchmark__lists`!
+     without optimizations:
+       average   :      88134
+         stdev   :      10041 /  11.39%
+         median  :      86482 /   1.38%
+       min / max :      75244 / 85749 / 86482 / 87205 / 110631
+     with optimizations:
+       average   :      54405 / +38.27% / 1.62*
+         stdev   :       6294 /  11.57%
+         median  :      55900 /  14.70%
+       min / max :      47140 / 47608 / 55900 / 57080 / 67344

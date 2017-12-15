@@ -1,0 +1,13 @@
+## compiling `benchmark__functions_strings`...
+## benchmarking `benchmark__functions_strings`...
+## benchmarked `benchmark__functions_strings`!
+     without optimizations:
+       average   :     155342
+         stdev   :      12597 /   8.11%
+         median  :     150076 /   0.66%
+       min / max :     149344 / 149679 / 150076 / 151301 / 190594
+     with optimizations:
+       average   :     132035 / +15.00% / 1.18*
+         stdev   :      10973 /   8.31%
+         median  :     126575 /   0.71%
+       min / max :     125106 / 126105 / 126575 / 128672 / 161197

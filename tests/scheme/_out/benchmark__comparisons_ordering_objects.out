@@ -1,0 +1,13 @@
+## compiling `benchmark__comparisons_ordering_objects`...
+## benchmarking `benchmark__comparisons_ordering_objects`...
+## benchmarked `benchmark__comparisons_ordering_objects`!
+     without optimizations:
+       average   :    1182885
+         stdev   :      26552 /   2.24%
+         median  :    1170251 /   0.81%
+       min / max :    1163010 / 1165024 / 1170251 / 1187085 / 1250615
+     with optimizations:
+       average   :     777507 / +34.27% / 1.52*
+         stdev   :      22255 /   2.86%
+         median  :     769513 /   0.92%
+       min / max :     762360 / 765403 / 769513 / 775026 / 841183

@@ -1,0 +1,13 @@
+## compiling `benchmark__arrays`...
+## benchmarking `benchmark__arrays`...
+## benchmarked `benchmark__arrays`!
+     without optimizations:
+       average   :      52849
+         stdev   :       1266 /   2.40%
+         median  :      52170 /   0.75%
+       min / max :      51877 / 51974 / 52170 / 53319 / 55653
+     with optimizations:
+       average   :      42194 / +20.16% / 1.25*
+         stdev   :       2976 /   7.05%
+         median  :      42925 /   8.87%
+       min / max :      37819 / 39260 / 42925 / 45050 / 45758

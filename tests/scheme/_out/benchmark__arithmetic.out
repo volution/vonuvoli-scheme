@@ -1,0 +1,13 @@
+## compiling `benchmark__arithmetic`...
+## benchmarking `benchmark__arithmetic`...
+## benchmarked `benchmark__arithmetic`!
+     without optimizations:
+       average   :       3402
+         stdev   :         73 /   2.14%
+         median  :       3377 /   2.03%
+       min / max :       3294 / 3358 / 3377 / 3472 / 3546
+     with optimizations:
+       average   :        227 / +93.34% / 15.01*
+         stdev   :          5 /   2.20%
+         median  :        229 /   0.61%
+       min / max :        214 / 226 / 229 / 230 / 231

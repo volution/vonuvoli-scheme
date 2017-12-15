@@ -1,0 +1,13 @@
+## compiling `benchmark__runtime`...
+## benchmarking `benchmark__runtime`...
+## benchmarked `benchmark__runtime`!
+     without optimizations:
+       average   :       3222
+         stdev   :        170 /   5.29%
+         median  :       3296 /   2.12%
+       min / max :       2878 / 3123 / 3296 / 3328 / 3427
+     with optimizations:
+       average   :        893 / +72.29% / 3.61*
+         stdev   :         35 /   3.86%
+         median  :        899 /   1.03%
+       min / max :        791 / 898 / 899 / 907 / 927

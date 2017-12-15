@@ -1,0 +1,13 @@
+## compiling `benchmark__lambdas`...
+## benchmarking `benchmark__lambdas`...
+## benchmarked `benchmark__lambdas`!
+     without optimizations:
+       average   :     315120
+         stdev   :       6147 /   1.95%
+         median  :     312881 /   1.11%
+       min / max :     309656 / 310681 / 312881 / 315866 / 329934
+     with optimizations:
+       average   :     275436 / +12.59% / 1.14*
+         stdev   :      19015 /   6.90%
+         median  :     277020 /   9.22%
+       min / max :     253877 / 256755 / 277020 / 286799 / 315229

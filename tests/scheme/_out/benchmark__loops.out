@@ -1,0 +1,13 @@
+## compiling `benchmark__loops`...
+## benchmarking `benchmark__loops`...
+## benchmarked `benchmark__loops`!
+     without optimizations:
+       average   :      23468
+         stdev   :        802 /   3.42%
+         median  :      23773 /   0.55%
+       min / max :      21207 / 23632 / 23773 / 23845 / 23915
+     with optimizations:
+       average   :      14226 / +39.38% / 1.65*
+         stdev   :        337 /   2.37%
+         median  :      14326 /   0.86%
+       min / max :      13268 / 14279 / 14326 / 14425 / 14518

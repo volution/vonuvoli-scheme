@@ -1,0 +1,13 @@
+## compiling `benchmark__bytes`...
+## benchmarking `benchmark__bytes`...
+## benchmarked `benchmark__bytes`!
+     without optimizations:
+       average   :      86306
+         stdev   :       2169 /   2.51%
+         median  :      86893 /   1.12%
+       min / max :      80489 / 86631 / 86893 / 87588 / 88679
+     with optimizations:
+       average   :      47809 / +44.61% / 1.81*
+         stdev   :        577 /   1.21%
+         median  :      47577 /   0.75%
+       min / max :      47220 / 47395 / 47577 / 47981 / 49091

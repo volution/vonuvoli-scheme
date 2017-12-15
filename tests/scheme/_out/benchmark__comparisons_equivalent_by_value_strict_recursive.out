@@ -1,0 +1,13 @@
+## compiling `benchmark__comparisons_equivalent_by_value_strict_recursive`...
+## benchmarking `benchmark__comparisons_equivalent_by_value_strict_recursive`...
+## benchmarked `benchmark__comparisons_equivalent_by_value_strict_recursive`!
+     without optimizations:
+       average   :      83955
+         stdev   :       9979 /  11.89%
+         median  :      80070 /   0.75%
+       min / max :      79429 / 79721 / 80070 / 80488 / 110887
+     with optimizations:
+       average   :      79876 / +4.86% / 1.05*
+         stdev   :       9620 /  12.04%
+         median  :      76081 /   0.93%
+       min / max :      75424 / 75788 / 76081 / 76901 / 108324
