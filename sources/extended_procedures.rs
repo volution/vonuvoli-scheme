@@ -44,14 +44,17 @@ pub enum ProcedureExtendedInternals {
 
 impl ProcedureExtended {
 	
+	#[ inline (always) ]
 	pub fn new (internals : ProcedureExtendedInternals) -> (ProcedureExtended) {
 		return ProcedureExtended (StdRc::new (internals));
 	}
 	
+	#[ inline (always) ]
 	pub fn internals (&self) -> (&ProcedureExtendedInternals) {
 		return StdRc::as_ref (&self.0);
 	}
 	
+	#[ inline (always) ]
 	pub fn is_self (&self, other : &ProcedureExtended) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
@@ -59,6 +62,8 @@ impl ProcedureExtended {
 
 
 impl fmt::Display for ProcedureExtended {
+	
+	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		formatter.write_str ("#<procedure-extended>")
 	}
@@ -66,6 +71,8 @@ impl fmt::Display for ProcedureExtended {
 
 
 impl fmt::Debug for ProcedureExtended {
+	
+	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		self.0.fmt (formatter)
 	}

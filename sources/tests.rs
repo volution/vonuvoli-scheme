@@ -72,12 +72,14 @@ pub struct TestCaseCompiled {
 
 
 
+#[ inline (always) ]
 pub fn parse_and_compile_tests (identifier : &str, source : &str, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<(StdVec<TestCaseCompiled>)>) {
 	let tests = try! (parse_tests (source));
 	return compile_tests (identifier, &tests, transcript, verbosity);
 }
 
 
+#[ inline (never) ]
 pub fn compile_tests (identifier : &str, tests : &StdVec<TestCase>, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<(StdVec<TestCaseCompiled>)>) {
 	
 	try_or_fail! (write! (transcript, "## compiling `{}`...\n", identifier), 0xb1d307bd);
@@ -104,12 +106,14 @@ pub fn compile_tests (identifier : &str, tests : &StdVec<TestCase>, transcript :
 
 
 
+#[ inline (always) ]
 pub fn parse_and_execute_tests (identifier : &str, source : &str, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
 	let tests = try! (parse_and_compile_tests (identifier, source, transcript, verbosity));
 	return execute_tests (identifier, &tests, transcript, verbosity);
 }
 
 
+#[ inline (never) ]
 pub fn execute_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
 	
 	try_or_fail! (write! (transcript, "## executing `{}`...\n", identifier), 0x450c3e03);
@@ -145,12 +149,14 @@ pub fn execute_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, tran
 
 
 
+#[ inline (always) ]
 pub fn parse_and_benchmark_tests (identifier : &str, source : &str, bencher : &mut test::Bencher, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
 	let tests = try! (parse_and_compile_tests (identifier, source, transcript, verbosity));
 	return benchmark_tests (identifier, &tests, bencher, transcript, verbosity);
 }
 
 
+#[ inline (never) ]
 pub fn benchmark_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, bencher : &mut test::Bencher, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
 	
 	try_or_fail! (write! (transcript, "## benchmarking `{}`...\n", identifier), 0x0930df0d);
@@ -236,6 +242,7 @@ pub fn benchmark_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, be
 	succeed! (());
 }
 
+#[ inline (always) ]
 fn benchmark_report (header : &str, prefix : &str, summary : &test::stats::Summary, reference : Option<&test::stats::Summary>, factor : f64, transcript : &mut io::Write, _verbosity : TestVerbosity) -> (Outcome<()>) {
 	let mut report = StdString::new ();
 	report.push_str (&format! ("{}{}\n", prefix, header));
@@ -256,6 +263,7 @@ fn benchmark_report (header : &str, prefix : &str, summary : &test::stats::Summa
 
 
 
+#[ inline (always) ]
 #[ allow (unused_assignments) ] // FIXME:  Why does the compiler think we are not using `header_emitted`?
 pub fn compile_test (context_without_optimizations : &Context, context_with_optimizations : &Context, test : &TestCase, transcript : &mut io::Write, verbosity_global : TestVerbosity) -> (Outcome<TestCaseCompiled>) {
 	
@@ -353,6 +361,7 @@ pub fn compile_test (context_without_optimizations : &Context, context_with_opti
 
 
 
+#[ inline (always) ]
 #[ allow (unused_assignments) ] // FIXME:  Why does the compiler think we are not using `header_emitted`?
 pub fn execute_test (test : &TestCaseCompiled, transcript : &mut io::Write, verbosity_global : TestVerbosity) -> (Outcome<()>) {
 	
@@ -470,6 +479,7 @@ pub fn benchmark_test_with_optimizations (test : &TestCaseCompiled) -> (Outcome<
 
 
 
+#[ inline (always) ]
 fn test_case_header_emit (test : &TestCase, transcript : &mut io::Write, verbosity : TestVerbosity, emitted : bool, forced : bool) -> (Outcome<bool>) {
 	if emitted {
 		succeed! (true);
@@ -495,6 +505,7 @@ fn test_case_header_emit (test : &TestCase, transcript : &mut io::Write, verbosi
 }
 
 
+#[ inline (always) ]
 fn test_case_footer_emit (test : &TestCase, transcript : &mut io::Write, verbosity : TestVerbosity, emitted : bool, forced : bool) -> (Outcome<bool>) {
 	let emitted = try! (test_case_header_emit (test, transcript, verbosity, emitted, forced));
 	if emitted {

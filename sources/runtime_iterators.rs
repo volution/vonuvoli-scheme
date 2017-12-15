@@ -27,6 +27,7 @@ impl <Value, IteratorDelegate> RangeIterator<Value, IteratorDelegate>
 		where IteratorDelegate : Iterator<Item = Value>
 {
 	
+	#[ inline (always) ]
 	pub fn new (iterator : IteratorDelegate, range_start : usize, range_end : Option<usize>) -> (Outcome<Self>) {
 		succeed! (RangeIterator {
 				iterator : iterator,
@@ -43,6 +44,7 @@ impl <Value, IteratorDelegate> Iterator for RangeIterator<Value, IteratorDelegat
 {
 	type Item = Outcome<Value>;
 	
+	#[ inline (always) ]
 	fn next (&mut self) -> (Option<Outcome<Value>>) {
 		
 		while self.index < self.range_start {
@@ -92,6 +94,7 @@ impl <Value, IteratorDelegate> RangeIteratorForOutcome<Value, IteratorDelegate>
 		where IteratorDelegate : Iterator<Item = Outcome<Value>>
 {
 	
+	#[ inline (always) ]
 	pub fn new (iterator : IteratorDelegate, range_start : usize, range_end : Option<usize>) -> (Outcome<Self>) {
 		succeed! (RangeIteratorForOutcome {
 				iterator : iterator,
@@ -108,6 +111,7 @@ impl <Value, IteratorDelegate> Iterator for RangeIteratorForOutcome<Value, Itera
 {
 	type Item = Outcome<Value>;
 	
+	#[ inline (always) ]
 	fn next (&mut self) -> (Option<Outcome<Value>>) {
 		
 		while self.index < self.range_start {

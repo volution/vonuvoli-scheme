@@ -138,6 +138,7 @@ pub type ValueVec = StdVec<Value>;
 
 impl Value {
 	
+	#[ inline (always) ]
 	pub fn class (&self) -> (ValueClass) {
 		match *self {
 			
@@ -179,10 +180,12 @@ impl Value {
 		}
 	}
 	
+	#[ inline (always) ]
 	pub fn is (&self, class : ValueClass) -> (bool) {
 		self.class () == class
 	}
 	
+	#[ inline (always) ]
 	pub fn is_self (&self, other : &Value) -> (bool) {
 		match (self, other) {
 			
@@ -223,6 +226,8 @@ impl Value {
 
 
 impl fmt::Display for Value {
+	
+	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		match *self {
 			
@@ -267,6 +272,8 @@ impl fmt::Display for Value {
 
 
 impl fmt::Debug for Value {
+	
+	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		match *self {
 			
@@ -333,6 +340,7 @@ pub type BooleanVec = StdVec<Boolean>;
 
 impl Boolean {
 	
+	#[ inline (always) ]
 	pub fn value (&self) -> (bool) {
 		self.0
 	}
@@ -341,30 +349,37 @@ impl Boolean {
 
 impl Boolean {
 	
+	#[ inline (always) ]
 	pub fn not (&self) -> (Boolean) {
 		(!self.0) .into ()
 	}
 	
+	#[ inline (always) ]
 	pub fn and (&self, other : &Boolean) -> (Boolean) {
 		(self.0 && other.0) .into ()
 	}
 	
+	#[ inline (always) ]
 	pub fn or (&self, other : &Boolean) -> (Boolean) {
 		(self.0 || other.0) .into ()
 	}
 	
+	#[ inline (always) ]
 	pub fn xor (&self, other : &Boolean) -> (Boolean) {
 		(self.0 ^ other.0) .into ()
 	}
 	
+	#[ inline (always) ]
 	pub fn nand (&self, other : &Boolean) -> (Boolean) {
 		self.and (other) .not ()
 	}
 	
+	#[ inline (always) ]
 	pub fn nor (&self, other : &Boolean) -> (Boolean) {
 		self.or (other) .not ()
 	}
 	
+	#[ inline (always) ]
 	pub fn nxor (&self, other : &Boolean) -> (Boolean) {
 		self.xor (other) .not ()
 	}
@@ -372,7 +387,10 @@ impl Boolean {
 
 
 impl ops::Not for Boolean {
+	
 	type Output = Boolean;
+	
+	#[ inline (always) ]
 	fn not (self) -> (Boolean) {
 		Boolean::not (&self)
 	}
@@ -380,6 +398,8 @@ impl ops::Not for Boolean {
 
 
 impl fmt::Display for Boolean {
+	
+	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		match self.0 {
 			true =>
@@ -403,6 +423,7 @@ pub type NumberIntegerVec = StdVec<NumberInteger>;
 
 impl NumberInteger {
 	
+	#[ inline (always) ]
 	pub fn value (&self) -> (i64) {
 		self.0
 	}
@@ -411,6 +432,7 @@ impl NumberInteger {
 
 macro_rules! NumberInteger_fn_try_to_signed_integer {
 	($export : ident, $type : ty) => (
+		#[ inline (always) ]
 		pub fn $export (&self) -> (Outcome<$type>) {
 			let value = self.0;
 			if ::std::mem::size_of::<i64> () <= ::std::mem::size_of::<$type> () {
@@ -431,6 +453,7 @@ macro_rules! NumberInteger_fn_try_to_signed_integer {
 
 macro_rules! NumberInteger_fn_try_to_unsigned_integer {
 	($export : ident, $type : ty) => (
+		#[ inline (always) ]
 		pub fn $export (&self) -> (Outcome<$type>) {
 			let value = self.0;
 			if value < 0 {
@@ -454,6 +477,7 @@ macro_rules! NumberInteger_fn_predicate {
 		NumberInteger_fn_predicate! ($delegate, $delegate);
 	);
 	($export : ident, $delegate : ident) => (
+		#[ inline (always) ]
 		pub fn $export (&self) -> (bool) {
 			<i64>::$delegate (self.0)
 		}
@@ -466,6 +490,7 @@ macro_rules! NumberInteger_fn_delegate_1 {
 		NumberInteger_fn_delegate_1! ($delegate, $delegate);
 	);
 	($export : ident, $delegate : ident) => (
+		#[ inline (always) ]
 		pub fn $export (&self) -> (NumberInteger) {
 			<i64>::$delegate (self.0) .into ()
 		}
@@ -477,6 +502,7 @@ macro_rules! NumberInteger_fn_delegate_2 {
 		NumberInteger_fn_delegate_2! ($delegate, $delegate);
 	);
 	($export : ident, $delegate : ident) => (
+		#[ inline (always) ]
 		pub fn $export (&self, other : &NumberInteger) -> (NumberInteger) {
 			<i64>::$delegate (self.0, other.0) .into ()
 		}
@@ -489,6 +515,7 @@ macro_rules! NumberInteger_fn_delegate_1_real {
 		NumberInteger_fn_delegate_1_real! ($delegate, $delegate);
 	);
 	($export : ident, $delegate : ident) => (
+		#[ inline (always) ]
 		pub fn $export (&self) -> (NumberReal) {
 			<f64>::$delegate (self.0 as f64) .into ()
 		}
@@ -500,6 +527,7 @@ macro_rules! NumberInteger_fn_delegate_2_real {
 		NumberInteger_fn_delegate_2_real! ($delegate, $delegate);
 	);
 	($export : ident, $delegate : ident) => (
+		#[ inline (always) ]
 		pub fn $export (&self, other : &NumberReal) -> (NumberReal) {
 			<f64>::$delegate (self.0 as f64, other.0) .into ()
 		}
@@ -522,6 +550,7 @@ impl NumberInteger {
 	NumberInteger_fn_try_to_unsigned_integer! (try_to_u64, u64);
 	NumberInteger_fn_try_to_unsigned_integer! (try_to_usize, usize);
 	
+	#[ inline (always) ]
 	pub fn try_to_char (&self) -> (Outcome<char>) {
 		let value = try! (self.try_to_u32 ());
 		if let Some (value) = char::from_u32 (value) {
@@ -532,6 +561,7 @@ impl NumberInteger {
 	}
 	
 	
+	#[ inline (always) ]
 	pub fn neg (&self) -> (Outcome<NumberInteger>) {
 		if let Some (outcome) = <i64>::checked_neg (self.0) {
 			succeed! (outcome.into ());
@@ -540,6 +570,7 @@ impl NumberInteger {
 		}
 	}
 	
+	#[ inline (always) ]
 	pub fn abs (&self) -> (Outcome<NumberInteger>) {
 		if let Some (outcome) = <i64>::checked_abs (self.0) {
 			succeed! (outcome.into ());
@@ -548,6 +579,7 @@ impl NumberInteger {
 		}
 	}
 	
+	#[ inline (always) ]
 	pub fn add (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		if let Some (outcome) = <i64>::checked_add (self.0, other.0) {
 			succeed! (outcome.into ());
@@ -556,6 +588,7 @@ impl NumberInteger {
 		}
 	}
 	
+	#[ inline (always) ]
 	pub fn sub (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		if let Some (outcome) = <i64>::checked_sub (self.0, other.0) {
 			succeed! (outcome.into ());
@@ -564,6 +597,7 @@ impl NumberInteger {
 		}
 	}
 	
+	#[ inline (always) ]
 	pub fn mul (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		if let Some (outcome) = <i64>::checked_mul (self.0, other.0) {
 			succeed! (outcome.into ());
@@ -572,6 +606,7 @@ impl NumberInteger {
 		}
 	}
 	
+	#[ inline (always) ]
 	pub fn div (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		if let Some (outcome) = <i64>::checked_div (self.0, other.0) {
 			succeed! (outcome.into ());
@@ -580,6 +615,7 @@ impl NumberInteger {
 		}
 	}
 	
+	#[ inline (always) ]
 	pub fn rem (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		if let Some (outcome) = <i64>::checked_rem (self.0, other.0) {
 			succeed! (outcome.into ());
@@ -588,6 +624,7 @@ impl NumberInteger {
 		}
 	}
 	
+	#[ inline (always) ]
 	pub fn pow (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		let other = other.0;
 		if (other < 0) || (other > (<u32>::max_value () as i64)) {
@@ -597,48 +634,59 @@ impl NumberInteger {
 	}
 	
 	
+	#[ inline (always) ]
 	pub fn is_zero (&self) -> (bool) {
 		self.0 == 0
 	}
 	
+	#[ inline (always) ]
 	pub fn is_even (&self) -> (bool) {
 		(self.0 & 1) == 0
 	}
 	
+	#[ inline (always) ]
 	pub fn is_odd (&self) -> (bool) {
 		(self.0 & 1) != 0
 	}
 	
 	
+	#[ inline (always) ]
 	pub fn bitnot (&self) -> (NumberInteger) {
 		(!self.0) .into ()
 	}
 	
+	#[ inline (always) ]
 	pub fn bitand (&self, other : &NumberInteger) -> (NumberInteger) {
 		(self.0 & other.0) .into ()
 	}
 	
+	#[ inline (always) ]
 	pub fn bitor (&self, other : &NumberInteger) -> (NumberInteger) {
 		(self.0 | other.0) .into ()
 	}
 	
+	#[ inline (always) ]
 	pub fn bitxor (&self, other : &NumberInteger) -> (NumberInteger) {
 		(self.0 ^ other.0) .into ()
 	}
 	
+	#[ inline (always) ]
 	pub fn bitnand (&self, other : &NumberInteger) -> (NumberInteger) {
 		self.bitand (other) .bitnot ()
 	}
 	
+	#[ inline (always) ]
 	pub fn bitnor (&self, other : &NumberInteger) -> (NumberInteger) {
 		self.bitor (other) .bitnot ()
 	}
 	
+	#[ inline (always) ]
 	pub fn bitnxor (&self, other : &NumberInteger) -> (NumberInteger) {
 		self.bitxor (other) .bitnot ()
 	}
 	
 	
+	#[ inline (always) ]
 	pub fn shl (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		let other = other.0;
 		if (other < 0) || (other > (<u32>::max_value () as i64)) {
@@ -651,6 +699,7 @@ impl NumberInteger {
 		}
 	}
 	
+	#[ inline (always) ]
 	pub fn shr (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		let other = other.0;
 		if (other < 0) || (other > (<u32>::max_value () as i64)) {
@@ -663,6 +712,7 @@ impl NumberInteger {
 		}
 	}
 	
+	#[ inline (always) ]
 	pub fn rotate_left (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		let other = other.0;
 		if (other < 0) || (other > (<u32>::max_value () as i64)) {
@@ -671,6 +721,7 @@ impl NumberInteger {
 		succeed! ((<i64>::rotate_left (self.0, other as u32)) .into ());
 	}
 	
+	#[ inline (always) ]
 	pub fn rotate_right (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		let other = other.0;
 		if (other < 0) || (other > (<u32>::max_value () as i64)) {
@@ -749,42 +800,60 @@ impl NumberInteger {
 
 
 impl ops::Neg for NumberInteger {
+	
 	type Output = Outcome<NumberInteger>;
+	
+	#[ inline (always) ]
 	fn neg (self) -> (Outcome<NumberInteger>) {
 		NumberInteger::neg (&self)
 	}
 }
 
 impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Add<NumberIntegerInto> for NumberInteger {
+	
 	type Output = Outcome<NumberInteger>;
+	
+	#[ inline (always) ]
 	fn add (self, other : NumberIntegerInto) -> (Outcome<NumberInteger>) {
 		NumberInteger::add (&self, &other.into ())
 	}
 }
 
 impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Sub<NumberIntegerInto> for NumberInteger {
+	
 	type Output = Outcome<NumberInteger>;
+	
+	#[ inline (always) ]
 	fn sub (self, other : NumberIntegerInto) -> (Outcome<NumberInteger>) {
 		NumberInteger::sub (&self, &other.into ())
 	}
 }
 
 impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Mul<NumberIntegerInto> for NumberInteger {
+	
 	type Output = Outcome<NumberInteger>;
+	
+	#[ inline (always) ]
 	fn mul (self, other : NumberIntegerInto) -> (Outcome<NumberInteger>) {
 		NumberInteger::mul (&self, &other.into ())
 	}
 }
 
 impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Div<NumberIntegerInto> for NumberInteger {
+	
 	type Output = Outcome<NumberInteger>;
+	
+	#[ inline (always) ]
 	fn div (self, other : NumberIntegerInto) -> (Outcome<NumberInteger>) {
 		NumberInteger::div (&self, &other.into ())
 	}
 }
 
 impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Rem<NumberIntegerInto> for NumberInteger {
+	
 	type Output = Outcome<NumberInteger>;
+	
+	#[ inline (always) ]
 	fn rem (self, other : NumberIntegerInto) -> (Outcome<NumberInteger>) {
 		NumberInteger::rem (&self, &other.into ())
 	}
@@ -792,42 +861,60 @@ impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Rem<NumberIntegerInto> fo
 
 
 impl ops::Not for NumberInteger {
+	
 	type Output = NumberInteger;
+	
+	#[ inline (always) ]
 	fn not (self) -> (NumberInteger) {
 		NumberInteger::bitnot (&self)
 	}
 }
 
 impl <NumberIntegerInto : StdInto<NumberInteger>> ops::BitAnd<NumberIntegerInto> for NumberInteger {
+	
 	type Output = NumberInteger;
+	
+	#[ inline (always) ]
 	fn bitand (self, other : NumberIntegerInto) -> (NumberInteger) {
 		NumberInteger::bitand (&self, &other.into ())
 	}
 }
 
 impl <NumberIntegerInto : StdInto<NumberInteger>> ops::BitOr<NumberIntegerInto> for NumberInteger {
+	
 	type Output = NumberInteger;
+	
+	#[ inline (always) ]
 	fn bitor (self, other : NumberIntegerInto) -> (NumberInteger) {
 		NumberInteger::bitor (&self, &other.into ())
 	}
 }
 
 impl <NumberIntegerInto : StdInto<NumberInteger>> ops::BitXor<NumberIntegerInto> for NumberInteger {
+	
 	type Output = NumberInteger;
+	
+	#[ inline (always) ]
 	fn bitxor (self, other : NumberIntegerInto) -> (NumberInteger) {
 		NumberInteger::bitxor (&self, &other.into ())
 	}
 }
 
 impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Shl<NumberIntegerInto> for NumberInteger {
+	
 	type Output = Outcome<NumberInteger>;
+	
+	#[ inline (always) ]
 	fn shl (self, other : NumberIntegerInto) -> (Outcome<NumberInteger>) {
 		NumberInteger::shl (&self, &other.into ())
 	}
 }
 
 impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Shr<NumberIntegerInto> for NumberInteger {
+	
 	type Output = Outcome<NumberInteger>;
+	
+	#[ inline (always) ]
 	fn shr (self, other : NumberIntegerInto) -> (Outcome<NumberInteger>) {
 		NumberInteger::shr (&self, &other.into ())
 	}
@@ -835,6 +922,8 @@ impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Shr<NumberIntegerInto> fo
 
 
 impl fmt::Display for NumberInteger {
+	
+	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		write! (formatter, "{:+}", self.0)
 	}
@@ -853,6 +942,7 @@ pub type NumberRealVec = StdVec<NumberReal>;
 
 impl NumberReal {
 	
+	#[ inline (always) ]
 	pub fn value (&self) -> (f64) {
 		self.0
 	}
@@ -864,6 +954,7 @@ macro_rules! NumberReal_fn_predicate {
 		NumberReal_fn_predicate! ($delegate, $delegate);
 	);
 	($export : ident, $delegate : ident) => (
+		#[ inline (always) ]
 		pub fn $export (&self) -> (bool) {
 			<f64>::$delegate (self.0)
 		}
@@ -876,6 +967,7 @@ macro_rules! NumberReal_fn_delegate_1 {
 		NumberReal_fn_delegate_1! ($delegate, $delegate);
 	);
 	($export : ident, $delegate : ident) => (
+		#[ inline (always) ]
 		pub fn $export (&self) -> (NumberReal) {
 			<f64>::$delegate (self.0) .into ()
 		}
@@ -887,6 +979,7 @@ macro_rules! NumberReal_fn_delegate_2 {
 		NumberReal_fn_delegate_2! ($delegate, $delegate);
 	);
 	($export : ident, $delegate : ident) => (
+		#[ inline (always) ]
 		pub fn $export (&self, other : &NumberReal) -> (NumberReal) {
 			<f64>::$delegate (self.0, other.0) .into ()
 		}
@@ -897,39 +990,48 @@ macro_rules! NumberReal_fn_delegate_2 {
 impl NumberReal {
 	
 	
+	#[ inline (always) ]
 	pub fn neg (&self) -> (NumberReal) {
 		(-self.0) .into ()
 	}
 	
+	#[ inline (always) ]
 	pub fn add (&self, other : &NumberReal) -> (NumberReal) {
 		(self.0 + other.0) .into ()
 	}
 	
+	#[ inline (always) ]
 	pub fn sub (&self, other : &NumberReal) -> (NumberReal) {
 		(self.0 - other.0) .into ()
 	}
 	
+	#[ inline (always) ]
 	pub fn mul (&self, other : &NumberReal) -> (NumberReal) {
 		(self.0 * other.0) .into ()
 	}
 	
+	#[ inline (always) ]
 	pub fn div (&self, other : &NumberReal) -> (NumberReal) {
 		(self.0 / other.0) .into ()
 	}
 	
+	#[ inline (always) ]
 	pub fn rem (&self, other : &NumberReal) -> (NumberReal) {
 		(self.0 % other.0) .into ()
 	}
 	
 	
+	#[ inline (always) ]
 	pub fn is_zero (&self) -> (bool) {
 		self.0 == 0.0
 	}
 	
+	#[ inline (always) ]
 	pub fn is_even (&self) -> (bool) {
 		(self.0 % 2.0) == 0.0
 	}
 	
+	#[ inline (always) ]
 	pub fn is_odd (&self) -> (bool) {
 		(self.0 % 2.0) != 0.0
 	}
@@ -992,54 +1094,76 @@ impl NumberReal {
 
 
 impl ops::Neg for NumberReal {
+	
 	type Output = NumberReal;
+	
+	#[ inline (always) ]
 	fn neg (self) -> (NumberReal) {
 		NumberReal::neg (&self)
 	}
 }
 
 impl <NumberRealInto : StdInto<NumberReal>> ops::Add<NumberRealInto> for NumberReal {
+	
 	type Output = NumberReal;
+	
+	#[ inline (always) ]
 	fn add (self, other : NumberRealInto) -> (NumberReal) {
 		NumberReal::add (&self, &other.into ())
 	}
 }
 
 impl <NumberRealInto : StdInto<NumberReal>> ops::Sub<NumberRealInto> for NumberReal {
+	
 	type Output = NumberReal;
+	
+	#[ inline (always) ]
 	fn sub (self, other : NumberRealInto) -> (NumberReal) {
 		NumberReal::sub (&self, &other.into ())
 	}
 }
 
 impl <NumberRealInto : StdInto<NumberReal>> ops::Mul<NumberRealInto> for NumberReal {
+	
 	type Output = NumberReal;
+	
+	#[ inline (always) ]
 	fn mul (self, other : NumberRealInto) -> (NumberReal) {
 		NumberReal::mul (&self, &other.into ())
 	}
 }
 
 impl <NumberRealInto : StdInto<NumberReal>> ops::Div<NumberRealInto> for NumberReal {
+	
 	type Output = NumberReal;
+	
+	#[ inline (always) ]
 	fn div (self, other : NumberRealInto) -> (NumberReal) {
 		NumberReal::div (&self, &other.into ())
 	}
 }
 
 impl <NumberRealInto : StdInto<NumberReal>> ops::Rem<NumberRealInto> for NumberReal {
+	
 	type Output = NumberReal;
+	
+	#[ inline (always) ]
 	fn rem (self, other : NumberRealInto) -> (NumberReal) {
 		NumberReal::rem (&self, &other.into ())
 	}
 }
 
 impl hash::Hash for NumberReal {
+	
+	#[ inline (always) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		hasher.write_u64 (self.0.to_bits ());
 	}
 }
 
 impl fmt::Display for NumberReal {
+	
+	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		write! (formatter, "{:+e}", self.0)
 	}
@@ -1058,6 +1182,7 @@ pub type CharacterVec = StdVec<Character>;
 
 impl Character {
 	
+	#[ inline (always) ]
 	pub fn value (&self) -> (char) {
 		self.0
 	}
@@ -1065,6 +1190,8 @@ impl Character {
 
 
 impl fmt::Display for Character {
+	
+	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		use std::fmt::Write;
 		let character = self.0;
@@ -1093,46 +1220,57 @@ pub type SymbolVec = StdVec<Symbol>;
 
 impl Symbol {
 	
+	#[ inline (always) ]
 	pub fn string_as_str (&self) -> (&str) {
 		self.0.as_ref () .as_str ()
 	}
 	
+	#[ inline (always) ]
 	pub fn string_ref (&self) -> (&StdString) {
 		&self.0.as_ref ()
 	}
 	
+	#[ inline (always) ]
 	pub fn string_clone (&self) -> (StdString) {
 		self.0.as_ref () .clone ()
 	}
 	
+	#[ inline (always) ]
 	pub fn string_is_empty (&self) -> (bool) {
 		self.string_ref () .is_empty ()
 	}
 	
+	#[ inline (always) ]
 	pub fn string_is_not_empty (&self) -> (bool) {
 		!self.string_ref () .is_empty ()
 	}
 	
+	#[ inline (always) ]
 	pub fn string_eq (&self, other : &str) -> (bool) {
 		self.string_ref () .eq (other)
 	}
 	
+	#[ inline (always) ]
 	pub fn string_utf8_bytes_count (&self) -> (usize) {
 		self.string_ref () .len ()
 	}
 	
+	#[ inline (always) ]
 	pub fn string_chars (&self) -> (str::Chars) {
 		self.string_ref () .chars ()
 	}
 	
+	#[ inline (always) ]
 	pub fn string_chars_count_compute (&self) -> (usize) {
 		self.string_chars () .count ()
 	}
 	
+	#[ inline (always) ]
 	pub fn string_char_at_compute (&self, index : usize) -> (Option<char>) {
 		self.string_chars () .nth (index)
 	}
 	
+	#[ inline (always) ]
 	pub fn string_rc_clone (&self) -> (StdRc<StdString>) {
 		return self.0.clone ();
 	}
@@ -1141,6 +1279,8 @@ impl Symbol {
 
 
 impl fmt::Display for Symbol {
+	
+	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		if self.0.is_empty () {
 			try! (formatter.write_str ("||"));
@@ -1179,50 +1319,62 @@ pub type StringVec = StdVec<String>;
 
 impl String {
 	
+	#[ inline (always) ]
 	pub fn string_as_str (&self) -> (&str) {
 		self.0.as_ref () .as_str ()
 	}
 	
+	#[ inline (always) ]
 	pub fn string_ref (&self) -> (&StdString) {
 		&self.0.as_ref ()
 	}
 	
+	#[ inline (always) ]
 	pub fn string_clone (&self) -> (StdString) {
 		self.0.as_ref () .clone ()
 	}
 	
+	#[ inline (always) ]
 	pub fn string_is_empty (&self) -> (bool) {
 		self.string_ref () .is_empty ()
 	}
 	
+	#[ inline (always) ]
 	pub fn string_is_not_empty (&self) -> (bool) {
 		!self.string_ref () .is_empty ()
 	}
 	
+	#[ inline (always) ]
 	pub fn string_eq (&self, other : &str) -> (bool) {
 		self.string_ref () .eq (other)
 	}
 	
+	#[ inline (always) ]
 	pub fn string_utf8_bytes_count (&self) -> (usize) {
 		self.string_ref () .len ()
 	}
 	
+	#[ inline (always) ]
 	pub fn string_chars (&self) -> (str::Chars) {
 		self.string_ref () .chars ()
 	}
 	
+	#[ inline (always) ]
 	pub fn string_chars_count_compute (&self) -> (usize) {
 		self.string_chars () .count ()
 	}
 	
+	#[ inline (always) ]
 	pub fn string_char_at_compute (&self, index : usize) -> (Option<char>) {
 		self.string_chars () .nth (index)
 	}
 	
+	#[ inline (always) ]
 	pub fn is_self (&self, other : &String) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
 	
+	#[ inline (always) ]
 	pub fn string_rc_clone (&self) -> (StdRc<StdString>) {
 		return self.0.clone ();
 	}
@@ -1231,6 +1383,8 @@ impl String {
 
 
 impl fmt::Display for String {
+	
+	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		use std::fmt::Write;
 		try! (formatter.write_char ('"'));
@@ -1265,34 +1419,42 @@ pub type BytesVec = StdVec<Bytes>;
 
 impl Bytes {
 	
+	#[ inline (always) ]
 	pub fn values_as_slice (&self) -> (&[u8]) {
 		self.0.as_ref () .as_slice ()
 	}
 	
+	#[ inline (always) ]
 	pub fn values_ref (&self) -> (&StdVec<u8>) {
 		self.0.as_ref ()
 	}
 	
+	#[ inline (always) ]
 	pub fn values_clone (&self) -> (StdVec<u8>) {
 		self.0.as_ref () .clone ()
 	}
 	
+	#[ inline (always) ]
 	pub fn values_is_empty (&self) -> (bool) {
 		self.values_ref () .is_empty ()
 	}
 	
+	#[ inline (always) ]
 	pub fn values_is_not_empty (&self) -> (bool) {
 		!self.values_ref () .is_empty ()
 	}
 	
+	#[ inline (always) ]
 	pub fn values_length (&self) -> (usize) {
 		self.values_ref () .len ()
 	}
 	
+	#[ inline (always) ]
 	pub fn is_self (&self, other : &Bytes) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
 	
+	#[ inline (always) ]
 	pub fn values_rc_clone (&self) -> (StdRc<StdVec<u8>>) {
 		return self.0.clone ();
 	}
@@ -1302,6 +1464,8 @@ impl Bytes {
 
 
 impl fmt::Display for Bytes {
+	
+	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		use std::fmt::Write;
 		try! (formatter.write_str ("#u8("));
@@ -1333,22 +1497,27 @@ pub type PairVec = StdVec<Pair>;
 
 impl Pair {
 	
+	#[ inline (always) ]
 	pub fn left (&self) -> (&Value) {
 		&(self.0).0
 	}
 	
+	#[ inline (always) ]
 	pub fn right (&self) -> (&Value) {
 		&(self.0).1
 	}
 	
+	#[ inline (always) ]
 	pub fn left_and_right (&self) -> (&Value, &Value) {
 		(&(self.0).0, &(self.0).1)
 	}
 	
+	#[ inline (always) ]
 	pub fn is_self (&self, other : &Pair) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
 	
+	#[ inline (always) ]
 	pub fn values_rc_clone (&self) -> (StdRc<(Value, Value)>) {
 		return self.0.clone ();
 	}
@@ -1357,6 +1526,8 @@ impl Pair {
 
 
 impl fmt::Display for Pair {
+	
+	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		use std::fmt::Write;
 		try! (formatter.write_char ('('));
@@ -1405,34 +1576,42 @@ pub type ArrayVec = StdVec<Array>;
 
 impl Array {
 	
+	#[ inline (always) ]
 	pub fn values_as_slice (&self) -> (&[Value]) {
 		self.0.as_ref () .as_slice ()
 	}
 	
+	#[ inline (always) ]
 	pub fn values_ref (&self) -> (&StdVec<Value>) {
 		self.0.as_ref ()
 	}
 	
+	#[ inline (always) ]
 	pub fn values_clone (&self) -> (StdVec<Value>) {
 		self.0.as_ref () .clone ()
 	}
 	
+	#[ inline (always) ]
 	pub fn values_is_empty (&self) -> (bool) {
 		self.values_ref () .is_empty ()
 	}
 	
+	#[ inline (always) ]
 	pub fn values_is_not_empty (&self) -> (bool) {
 		!self.values_ref () .is_empty ()
 	}
 	
+	#[ inline (always) ]
 	pub fn values_length (&self) -> (usize) {
 		self.values_ref () .len ()
 	}
 	
+	#[ inline (always) ]
 	pub fn is_self (&self, other : &Array) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
 	
+	#[ inline (always) ]
 	pub fn values_rc_clone (&self) -> (StdRc<StdVec<Value>>) {
 		return self.0.clone ();
 	}
@@ -1441,6 +1620,8 @@ impl Array {
 
 
 impl fmt::Display for Array {
+	
+	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		use std::fmt::Write;
 		try! (formatter.write_str ("#("));
@@ -1471,34 +1652,42 @@ pub type ValuesVec = StdVec<Values>;
 
 impl Values {
 	
+	#[ inline (always) ]
 	pub fn values_as_slice (&self) -> (&[Value]) {
 		self.0.as_ref ()
 	}
 	
+	#[ inline (always) ]
 	pub fn values_ref (&self) -> (&StdBox<[Value]>) {
 		self.0.as_ref ()
 	}
 	
+	#[ inline (always) ]
 	pub fn values_clone (&self) -> (StdBox<[Value]>) {
 		self.0.as_ref () .clone ()
 	}
 	
+	#[ inline (always) ]
 	pub fn values_is_empty (&self) -> (bool) {
 		self.values_as_slice () .is_empty ()
 	}
 	
+	#[ inline (always) ]
 	pub fn values_is_not_empty (&self) -> (bool) {
 		!self.values_as_slice () .is_empty ()
 	}
 	
+	#[ inline (always) ]
 	pub fn values_length (&self) -> (usize) {
 		self.values_as_slice () .len ()
 	}
 	
+	#[ inline (always) ]
 	pub fn is_self (&self, other : &Values) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
 	
+	#[ inline (always) ]
 	pub fn values_rc_clone (&self) -> (StdRc<StdBox<[Value]>>) {
 		return self.0.clone ();
 	}
@@ -1507,6 +1696,8 @@ impl Values {
 
 
 impl fmt::Display for Values {
+	
+	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		use std::fmt::Write;
 		try! (formatter.write_str ("#values("));
@@ -1527,18 +1718,22 @@ impl fmt::Display for Values {
 
 
 
+#[ inline (always) ]
 pub fn boolean (value : bool) -> (Boolean) {
 	Boolean (value)
 }
 
+#[ inline (always) ]
 pub fn number_i64 (value : i64) -> (NumberInteger) {
 	NumberInteger (value)
 }
 
+#[ inline (always) ]
 pub fn number_f64 (value : f64) -> (NumberReal) {
 	NumberReal (value)
 }
 
+#[ inline (always) ]
 pub fn character (value : char) -> (Character) {
 	Character (value)
 }
@@ -1546,10 +1741,12 @@ pub fn character (value : char) -> (Character) {
 
 
 
+#[ inline (always) ]
 pub fn symbol_new (value : StdString) -> (Symbol) {
 	Symbol (StdRc::new (value))
 }
 
+#[ inline (always) ]
 pub fn string_new (value : StdString) -> (String) {
 	String (StdRc::new (value))
 }
@@ -1557,10 +1754,12 @@ pub fn string_new (value : StdString) -> (String) {
 
 
 
+#[ inline (always) ]
 pub fn symbol_clone_str (value : &str) -> (Symbol) {
 	symbol_new (StdString::from (value))
 }
 
+#[ inline (always) ]
 pub fn string_clone_str (value : &str) -> (String) {
 	string_new (StdString::from (value))
 }
@@ -1568,14 +1767,17 @@ pub fn string_clone_str (value : &str) -> (String) {
 
 
 
+#[ inline (always) ]
 pub fn symbol_clone_characters (characters : &[char]) -> (Symbol) {
 	symbol_new (characters_clone (characters))
 }
 
+#[ inline (always) ]
 pub fn string_clone_characters (characters : &[char]) -> (String) {
 	string_new (characters_clone (characters))
 }
 
+#[ inline (always) ]
 fn characters_clone (characters : &[char]) -> (StdString) {
 	let mut value = StdString::with_capacity (characters.len ());
 	for character in characters {
@@ -1587,10 +1789,12 @@ fn characters_clone (characters : &[char]) -> (StdString) {
 
 
 
+#[ inline (always) ]
 pub fn bytes_new (values : StdVec<u8>) -> (Bytes) {
 	Bytes (StdRc::new (values))
 }
 
+#[ inline (always) ]
 pub fn bytes_clone_slice (values : &[u8]) -> (Bytes) {
 	bytes_new (vec_clone_slice (values))
 }
@@ -1598,14 +1802,17 @@ pub fn bytes_clone_slice (values : &[u8]) -> (Bytes) {
 
 
 
+#[ inline (always) ]
 pub fn array_new (values : StdVec<Value>) -> (Array) {
 	Array (StdRc::new (values))
 }
 
+#[ inline (always) ]
 pub fn array_clone_slice (values : &[Value]) -> (Array) {
 	array_new (vec_clone_slice (values))
 }
 
+#[ inline (always) ]
 pub fn array_clone_slice_ref (values : &[&Value]) -> (Array) {
 	array_new (vec_clone_slice_ref (values))
 }
@@ -1613,18 +1820,22 @@ pub fn array_clone_slice_ref (values : &[&Value]) -> (Array) {
 
 
 
+#[ inline (always) ]
 pub fn values_new (values : StdBox<[Value]>) -> (Values) {
 	Values (StdRc::new (values))
 }
 
+#[ inline (always) ]
 pub fn values_new_from_vec (values : StdVec<Value>) -> (Values) {
 	values_new (values.into_boxed_slice ())
 }
 
+#[ inline (always) ]
 pub fn values_clone_slice (values : &[Value]) -> (Values) {
 	values_new_from_vec (vec_clone_slice (values))
 }
 
+#[ inline (always) ]
 pub fn values_clone_slice_ref (values : &[&Value]) -> (Values) {
 	values_new_from_vec (vec_clone_slice_ref (values))
 }
@@ -1632,6 +1843,7 @@ pub fn values_clone_slice_ref (values : &[&Value]) -> (Values) {
 
 
 
+#[ inline (always) ]
 pub fn pair_new (left : Value, right : Value) -> (Pair) {
 	Pair (StdRc::new ((left, right)))
 }
