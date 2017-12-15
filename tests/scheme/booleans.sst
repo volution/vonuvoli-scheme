@@ -35,3 +35,47 @@
 (or 0 #f 1) => 0
 (or #f #f 1) => 1
 
+
+
+
+(and) => #t
+(and #t) => #t
+(and #f) => #f
+(and 1 2) => 2
+
+(and #t #f) => #f
+(and #f #t) => #f
+
+(and 1 2 #f) => #f
+(and #f 1 2) => #f
+
+(and #t (list)) => #null
+(and (list) #t) => #t
+
+(and #f (list)) => #f
+(and (list) #f) => #f
+
+(and 1 2 (list)) => #null
+(and (list) 1 2) => 2
+
+
+(or) => #f
+(or #t) => #t
+(or #f) => #f
+(or 1 2) => 1
+
+(or #t #f) => #t
+(or #f #t) => #t
+
+(or 1 2 #f) => 1
+(or #f 1 2) => 1
+
+(or #t (list)) => #t
+(or (list) #t) => #null
+
+(or #f (list)) => #null
+(or (list) #f) => #null
+
+(or 1 2 (list)) => 1
+(or (list) 1 2) => #null
+

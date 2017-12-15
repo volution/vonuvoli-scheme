@@ -31,7 +31,7 @@
 	(or)
 	(or #t)
 	(or #f)
-	(or 1 2) ; !!
+	(or 1 2)
 	
 	(or #t #f)
 	(or #f #t)
@@ -43,7 +43,7 @@
 	(or (list) #t)
 	
 	(or #f (list))
-	(or (list) #f) ; !!
+	(or (list) #f)
 	
 	(or 1 2 (list))
 	(or (list) 1 2)

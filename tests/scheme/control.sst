@@ -4,6 +4,13 @@
 (begin 0 1) => 1
 (begin 0 1 2) => 2
 
+(begin) => #void
+(begin #void) => #void
+(begin 0 1 2) => 2
+
+(begin (begin)) => #void
+(begin (begin 0 1 2)) => 2
+
 
 
 
