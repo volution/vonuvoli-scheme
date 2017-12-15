@@ -71,7 +71,7 @@ def_benchmarks_from_file! (
 		benchmark__control => "scheme/control.sst",
 		benchmark__loops => "scheme/loops.sst",
 		
-		benchmark__lambdas => "scheme/lambdas.sst",
+		// benchmark__lambdas => "scheme/lambdas.sst",
 		benchmark__functions => "scheme/functions.sst",
 		benchmark__functions_lists => "scheme/functions-lists.sst",
 		benchmark__functions_arrays => "scheme/functions-arrays.sst",
