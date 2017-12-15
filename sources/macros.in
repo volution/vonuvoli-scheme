@@ -569,6 +569,18 @@ macro_rules! try_vec_fold_into {
 	);
 }
 
+macro_rules! vec_filter {
+	( $iterator : expr, $element : pat, $expression : expr ) => (
+		$iterator.filter (|$element| $expression) .collect::<::std::vec::Vec<_>> ()
+	);
+}
+
+macro_rules! vec_filter_into {
+	( $vector : expr, $element : pat, $expression : expr ) => (
+		$vector.into_iter () .filter (|$element| $expression) .collect::<::std::vec::Vec<_>> ()
+	);
+}
+
 
 
 
