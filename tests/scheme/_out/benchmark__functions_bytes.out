@@ -2,12 +2,12 @@
 ## benchmarking `benchmark__functions_bytes`...
 ## benchmarked `benchmark__functions_bytes`!
      without optimizations:
-       average   :     169943
-         stdev   :       3091 /   1.82%
-         median  :     168978 /   0.85%
-       min / max :     167047 / 168139 / 168978 / 170067 / 177952
+       average   :     229088
+         stdev   :       5345 /   2.33%
+         median  :     230079 /   1.48%
+       min / max :     215885 / 229021 / 230079 / 232613 / 235030
      with optimizations:
-       average   :     160083 / +5.80% / 1.06*
-         stdev   :       3885 /   2.43%
-         median  :     160952 /   1.02%
-       min / max :     149695 / 160266 / 160952 / 162321 / 164743
+       average   :     166834 / +27.17% / 1.37*
+         stdev   :       2412 /   1.45%
+         median  :     166900 /   0.49%
+       min / max :     160727 / 166477 / 166900 / 168176 / 170340

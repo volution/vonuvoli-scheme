@@ -2,12 +2,12 @@
 ## benchmarking `benchmark__control`...
 ## benchmarked `benchmark__control`!
      without optimizations:
-       average   :       7603
-         stdev   :        134 /   1.76%
-         median  :       7545 /   0.76%
-       min / max :       7485 / 7516 / 7545 / 7669 / 7944
+       average   :       9333
+         stdev   :        751 /   8.05%
+         median  :       9553 /   2.03%
+       min / max :       8055 / 8839 / 9553 / 9662 / 10579
      with optimizations:
-       average   :       8090 / -6.41% / 0.94*
-         stdev   :        506 /   6.25%
-         median  :       8244 /   0.98%
-       min / max :       7104 / 7909 / 8244 / 8296 / 9171
+       average   :       8417 / +9.81% / 1.11*
+         stdev   :        442 /   5.25%
+         median  :       8247 /   0.49%
+       min / max :       8213 / 8224 / 8247 / 8327 / 9832

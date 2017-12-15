@@ -2,12 +2,12 @@
 ## benchmarking `benchmark__runtime`...
 ## benchmarked `benchmark__runtime`!
      without optimizations:
-       average   :       3222
-         stdev   :        170 /   5.29%
-         median  :       3296 /   2.12%
-       min / max :       2878 / 3123 / 3296 / 3328 / 3427
+       average   :       3338
+         stdev   :         62 /   1.87%
+         median  :       3349 /   0.64%
+       min / max :       3188 / 3342 / 3349 / 3368 / 3426
      with optimizations:
-       average   :        893 / +72.29% / 3.61*
-         stdev   :         35 /   3.86%
-         median  :        899 /   1.03%
-       min / max :        791 / 898 / 899 / 907 / 927
+       average   :        896 / +73.14% / 3.72*
+         stdev   :         67 /   7.53%
+         median  :        937 /   4.66%
+       min / max :        792 / 814 / 937 / 949 / 969
