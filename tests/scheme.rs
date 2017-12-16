@@ -51,6 +51,9 @@ def_tests_from_file! (
 		
 		test__runtime => "scheme/runtime.sst",
 		
+		test__scratchpad => "scheme/scratchpad.sst",
+		test__issues => "scheme/issues.sst",
+		
 	);
 
 
@@ -92,6 +95,9 @@ def_benchmarks_from_file! (
 		benchmark__ports_memory => "scheme/ports-memory.sst",
 		
 		benchmark__runtime => "scheme/runtime.sst",
+		
+		benchmark__scratchpad => "scheme/scratchpad.sst",
+		benchmark__issues => "scheme/issues.sst",
 		
 	);
 

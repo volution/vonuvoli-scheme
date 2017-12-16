@@ -1,0 +1,5 @@
+
+(let ((a 1) (b 2) (c 3)) ((lambda (c) (list a b c)) c)) => '(1 2 3)
+
+(((lambda (x) (lambda (y) (cons x y))) 1) 2) => '(1 . 2)
+
