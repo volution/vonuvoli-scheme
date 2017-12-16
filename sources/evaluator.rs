@@ -46,7 +46,7 @@ pub fn evaluate_script <Iterator, ExpressionRef> (context : &Context, expression
 
 
 
-#[ derive (Clone, Debug) ]
+#[ derive (Debug) ]
 pub struct Evaluator {}
 
 
@@ -62,12 +62,12 @@ impl Evaluator {
 	
 	#[ inline (always) ]
 	pub fn fork <'a> (&'a self, context : &'a Context) -> (EvaluatorContext<'a>) {
-		return EvaluatorContext::new (self, Some (context), None);
+		return EvaluatorContext::new (self, Some (context), Registers::new ());
 	}
 	
 	#[ inline (always) ]
 	pub fn fork_0 <'a> (&'a self) -> (EvaluatorContext<'a>) {
-		return EvaluatorContext::new (self, None, None);
+		return EvaluatorContext::new (self, None, Registers::new ());
 	}
 	
 	
@@ -463,7 +463,7 @@ impl Evaluator {
 			};
 		let binding = try! (context.define (&template));
 		let value_new = try! (self.evaluate (evaluation, expression));
-		let value_new = try! (binding.initialize (value_new));
+		try! (binding.initialize (value_new.clone ()));
 		return Ok (value_new);
 	}
 	
@@ -490,22 +490,14 @@ impl Evaluator {
 	#[ inline (always) ]
 	fn evaluate_binding_initialize_1 (&self, evaluation : &mut EvaluatorContext, binding : &Binding, expression : &Expression) -> (Outcome<Value>) {
 		let value_new = try! (self.evaluate (evaluation, expression));
-		let value_new = try! (binding.initialize (value_new));
+		try! (binding.initialize (value_new.clone ()));
 		return Ok (value_new);
 	}
 	
 	#[ inline (always) ]
 	fn evaluate_binding_initialize_n (&self, evaluation : &mut EvaluatorContext, initializers : &[(Binding, Expression)], parallel : bool) -> (Outcome<Value>) {
-		let initializers = initializers.iter () .map (|&(ref binding, ref expression)| (binding, expression)) .collect::<StdVec<_>> ();
-		return self.evaluate_binding_initialize_n_0 (evaluation, &initializers, parallel);
-	}
-	
-	#[ inline (always) ]
-	fn evaluate_binding_initialize_n_0 (&self, evaluation : &mut EvaluatorContext, initializers : &[(&Binding, &Expression)], parallel : bool) -> (Outcome<Value>) {
-		
-		let expressions = initializers.iter () .map (|&(_, expression)| expression) .collect::<StdVec<_>> ();
-		let bindings = initializers.iter () .map (|&(binding, _)| binding) .collect::<StdVec<_>> ();
-		
+		let bindings = initializers.iter () .map (|&(ref binding, _)| binding) .collect::<StdVec<_>> ();
+		let expressions = initializers.iter () .map (|&(_, ref expression)| expression) .collect::<StdVec<_>> ();
 		if parallel {
 			let values_new = try_vec_map_into! (expressions, expression, self.evaluate (evaluation, expression));
 			for (binding, value_new) in vec_zip_2 (bindings, values_new) {
@@ -517,7 +509,6 @@ impl Evaluator {
 				try! (binding.initialize (value_new));
 			}
 		}
-		
 		return Ok (VOID.into ());
 	}
 	
@@ -544,16 +535,8 @@ impl Evaluator {
 	
 	#[ inline (always) ]
 	fn evaluate_binding_set_n (&self, evaluation : &mut EvaluatorContext, initializers : &[(Binding, Expression)], parallel : bool) -> (Outcome<Value>) {
-		let initializers = initializers.iter () .map (|&(ref binding, ref expression)| (binding, expression)) .collect::<StdVec<_>> ();
-		return self.evaluate_binding_set_n_0 (evaluation, &initializers, parallel);
-	}
-	
-	#[ inline (always) ]
-	fn evaluate_binding_set_n_0 (&self, evaluation : &mut EvaluatorContext, initializers : &[(&Binding, &Expression)], parallel : bool) -> (Outcome<Value>) {
-		
-		let expressions = initializers.iter () .map (|&(_, expression)| expression) .collect::<StdVec<_>> ();
-		let bindings = initializers.iter () .map (|&(binding, _)| binding) .collect::<StdVec<_>> ();
-		
+		let bindings = initializers.iter () .map (|&(ref binding, _)| binding) .collect::<StdVec<_>> ();
+		let expressions = initializers.iter () .map (|&(_, ref expression)| expression) .collect::<StdVec<_>> ();
 		if parallel {
 			let values_new = try_vec_map_into! (expressions, expression, self.evaluate (evaluation, expression));
 			for (binding, value_new) in vec_zip_2 (bindings, values_new) {
@@ -565,7 +548,6 @@ impl Evaluator {
 				try! (binding.set (value_new));
 			}
 		}
-		
 		return Ok (VOID.into ());
 	}
 	
@@ -596,66 +578,93 @@ impl Evaluator {
 	
 	#[ inline (always) ]
 	fn evaluate_register_closure (&self, evaluation : &mut EvaluatorContext, expression : &Expression, borrows : &[RegistersBindingTemplate]) -> (Outcome<Value>) {
-		let registers = try! (Registers::new_and_define (borrows, evaluation.registers));
-		let mut evaluation = EvaluatorContext::new (self, evaluation.context, Some (&registers));
+		let registers = try! (Registers::new_and_define (borrows, &evaluation.registers));
+		let mut evaluation = EvaluatorContext::new (self, evaluation.context, registers);
 		return self.evaluate (&mut evaluation, expression);
 	}
 	
 	#[ inline (always) ]
 	fn evaluate_register_initialize_1 (&self, evaluation : &mut EvaluatorContext, index : usize, expression : &Expression) -> (Outcome<Value>) {
-		let registers = try_some! (evaluation.registers, 0x4f5f5ffc);
-		let binding = try! (registers.resolve (index));
-		return self.evaluate_binding_initialize_1 (evaluation, &binding, expression);
+		let value_new = try! (self.evaluate (evaluation, expression));
+		try! (evaluation.registers.initialize_value (index, value_new.clone ()));
+		succeed! (value_new);
 	}
 	
 	#[ inline (always) ]
 	fn evaluate_register_initialize_n (&self, evaluation : &mut EvaluatorContext, initializers : &[(usize, Expression)], parallel : bool) -> (Outcome<Value>) {
-		let registers = try_some! (evaluation.registers, 0x4f5f5ffc);
 		let indices = initializers.iter () .map (|&(index, _)| index) .collect::<StdVec<_>> ();
 		let expressions = initializers.iter () .map (|&(_, ref expression)| expression) .collect::<StdVec<_>> ();
-		let bindings = try_vec_map_into! (indices, index, registers.resolve (index));
-		let bindings = bindings.iter () .collect ();
-		let initializers = vec_zip_2 (bindings, expressions);
-		return self.evaluate_binding_initialize_n_0 (evaluation, &initializers, parallel);
+		if parallel {
+			let values_new = try_vec_map_into! (expressions, expression, self.evaluate (evaluation, expression));
+			for (index, value_new) in vec_zip_2 (indices, values_new) {
+				try! (evaluation.registers.initialize_value (index, value_new));
+			}
+		} else {
+			for (index, expression) in vec_zip_2 (indices, expressions) {
+				let value_new = try! (self.evaluate (evaluation, expression));
+				try! (evaluation.registers.initialize_value (index, value_new));
+			}
+		}
+		return Ok (VOID.into ());
 	}
 	
 	#[ inline (always) ]
 	fn evaluate_register_initialize_values (&self, evaluation : &mut EvaluatorContext, indices : &[usize], expression : &Expression) -> (Outcome<Value>) {
-		let registers = try_some! (evaluation.registers, 0x64f31042);
-		let bindings = try_vec_map_into! (indices, index, registers.resolve (*index));
-		return self.evaluate_binding_initialize_values (evaluation, &bindings, expression);
+		let values_new = try! (self.evaluate (evaluation, expression));
+		let values_new = try_into_values! (values_new);
+		if values_new.values_length () != indices.len () {
+			fail! (0xb1dce1a7);
+		}
+		for (index, value_new) in indices.iter () .zip (values_new.values_ref () .iter ()) {
+			try! (evaluation.registers.initialize_value (*index, value_new.clone ()));
+		}
+		return Ok (values_new.into ());
 	}
 	
 	#[ inline (always) ]
 	fn evaluate_register_set_1 (&self, evaluation : &mut EvaluatorContext, index : usize, expression : &Expression) -> (Outcome<Value>) {
-		let registers = try_some! (evaluation.registers, 0x9e3f943b);
-		let binding = try! (registers.resolve (index));
-		return self.evaluate_binding_set_1 (evaluation, &binding, expression);
+		let value_new = try! (self.evaluate (evaluation, expression));
+		let value_old = try! (evaluation.registers.update_value (index, value_new));
+		return Ok (value_old);
 	}
 	
 	#[ inline (always) ]
 	fn evaluate_register_set_n (&self, evaluation : &mut EvaluatorContext, initializers : &[(usize, Expression)], parallel : bool) -> (Outcome<Value>) {
-		let registers = try_some! (evaluation.registers, 0xf6492a67);
 		let indices = initializers.iter () .map (|&(index, _)| index) .collect::<StdVec<_>> ();
 		let expressions = initializers.iter () .map (|&(_, ref expression)| expression) .collect::<StdVec<_>> ();
-		let bindings = try_vec_map_into! (indices, index, registers.resolve (index));
-		let bindings = bindings.iter () .collect ();
-		let initializers = vec_zip_2 (bindings, expressions);
-		return self.evaluate_binding_set_n_0 (evaluation, &initializers, parallel);
+		if parallel {
+			let values_new = try_vec_map_into! (expressions, expression, self.evaluate (evaluation, expression));
+			for (index, value_new) in vec_zip_2 (indices, values_new) {
+				try! (evaluation.registers.update_value (index, value_new));
+			}
+		} else {
+			for (index, expression) in vec_zip_2 (indices, expressions) {
+				let value_new = try! (self.evaluate (evaluation, expression));
+				try! (evaluation.registers.update_value (index, value_new));
+			}
+		}
+		return Ok (VOID.into ());
 	}
 	
 	#[ inline (always) ]
 	fn evaluate_register_set_values (&self, evaluation : &mut EvaluatorContext, indices : &[usize], expression : &Expression) -> (Outcome<Value>) {
-		let registers = try_some! (evaluation.registers, 0x2137dc1e);
-		let bindings = try_vec_map_into! (indices, index, registers.resolve (*index));
-		return self.evaluate_binding_set_values (evaluation, &bindings, expression);
+		let values_new_ = try! (self.evaluate (evaluation, expression));
+		let values_new_ = try_into_values! (values_new_);
+		if values_new_.values_length () != indices.len () {
+			fail! (0x7257e042);
+		}
+		let mut values_old = StdVec::with_capacity (values_new_.values_length ());
+		for (index, value_new) in indices.iter () .zip (values_new_.values_ref () .iter ()) {
+			let value_old = try! (evaluation.registers.update_value (*index, value_new.clone ()));
+			values_old.push (value_old);
+		}
+		return Ok (values_new (values_old.into_boxed_slice ()) .into ());
 	}
 	
 	#[ inline (always) ]
 	fn evaluate_register_get_1 (&self, evaluation : &mut EvaluatorContext, index : usize) -> (Outcome<Value>) {
-		let registers = try_some! (evaluation.registers, 0x89f09b48);
-		let binding = try! (registers.resolve (index));
-		return self.evaluate_binding_get_1 (evaluation, &binding);
+		let value = try! (evaluation.registers.resolve_value (index));
+		return Ok (value);
 	}
 	
 	
@@ -663,7 +672,7 @@ impl Evaluator {
 	
 	#[ inline (always) ]
 	fn evaluate_lambda_create (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaTemplate, expressions : &Expression, registers_closure : &[RegistersBindingTemplate], registers_local : &[RegistersBindingTemplate]) -> (Outcome<Value>) {
-		let registers_closure = try! (Registers::new_and_define (registers_closure, evaluation.registers));
+		let registers_closure = try! (Registers::new_and_define (registers_closure, &evaluation.registers));
 		let lambda = Lambda::new (lambda.clone (), expressions.clone (), registers_closure, registers_local.to_vec ());
 		succeed! (ProcedureLambda::new (lambda) .into ());
 	}
@@ -681,47 +690,44 @@ impl Evaluator {
 	#[ inline (never) ]
 	fn evaluate_procedure_lambda_with_values (&self, _evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, inputs : &[&Value]) -> (Outcome<Value>) {
 		
-		let expression;
-		let mut registers = Registers::new ();
+		let mut registers = StdVec::with_capacity (lambda.arguments_positional.len () + 1 + lambda.registers_local.len ());
 		
-		{
-			expression = lambda.expression.clone ();
-			
-			let inputs_count = inputs.len ();
-			let mut inputs_offset = 0;
-			for identifier in &lambda.arguments_positional {
-				if inputs_offset >= inputs_count {
-					fail! (0x1fbd1c55);
-				}
-				let register = RegistersBindingTemplate {
-						identifier : Some (identifier.clone ()),
-						value : Some (inputs[inputs_offset].clone ()),
-						borrow : None,
-						immutable : false,
-					};
-				try! (registers.define (&register, None));
-				inputs_offset += 1;
+		let inputs_count = inputs.len ();
+		let mut inputs_offset = 0;
+		for identifier in &lambda.arguments_positional {
+			if inputs_offset >= inputs_count {
+				fail! (0x1fbd1c55);
 			}
-			if let Some (ref identifier) = lambda.argument_rest {
-				let inputs = list_build_n (&inputs[inputs_offset..]);
-				let register = RegistersBindingTemplate {
-						identifier : Some (identifier.clone ()),
-						value : Some (inputs),
-						borrow : None,
-						immutable : false,
-					};
-				try! (registers.define (&register, None));
-			} else {
-				if inputs_offset < inputs_count {
-					fail! (0x6c9a5289);
-				}
+			let register = RegistersBindingTemplate {
+					identifier : Some (identifier.clone ()),
+					value : Some (inputs[inputs_offset].clone ()),
+					borrow : None,
+					immutable : false,
+				};
+			registers.push (register);
+			inputs_offset += 1;
+		}
+		if let Some (ref identifier) = lambda.argument_rest {
+			let inputs = list_build_n (&inputs[inputs_offset..]);
+			let register = RegistersBindingTemplate {
+					identifier : Some (identifier.clone ()),
+					value : Some (inputs),
+					borrow : None,
+					immutable : false,
+				};
+			registers.push (register);
+		} else {
+			if inputs_offset < inputs_count {
+				fail! (0x6c9a5289);
 			}
-			
-			try! (registers.define_all (&lambda.registers_local, Some (&lambda.registers_closure)));
 		}
 		
-		let mut evaluation = EvaluatorContext::new (self, None, Some (&registers));
-		return self.evaluate (&mut evaluation, &expression);
+		registers.extend (lambda.registers_local.iter () .cloned ());
+		
+		let registers = try! (Registers::new_and_define (&registers, &lambda.registers_closure));
+		
+		let mut evaluation = EvaluatorContext::new (self, None, registers);
+		return self.evaluate (&mut evaluation, &lambda.expression);
 	}
 	
 	
@@ -1266,11 +1272,11 @@ impl Evaluator {
 
 
 
-#[ derive (Clone, Debug) ]
+#[ derive (Debug) ]
 pub struct EvaluatorContext <'a> {
 	evaluator : &'a Evaluator,
 	context : Option<&'a Context>,
-	registers : Option<&'a Registers>,
+	registers : Registers,
 }
 
 
@@ -1278,7 +1284,7 @@ impl <'a> EvaluatorContext<'a> {
 	
 	
 	#[ inline (always) ]
-	fn new (evaluator : &'a Evaluator, context : Option<&'a Context>, registers : Option<&'a Registers>) -> (EvaluatorContext<'a>) {
+	fn new (evaluator : &'a Evaluator, context : Option<&'a Context>, registers : Registers) -> (EvaluatorContext<'a>) {
 		return EvaluatorContext {
 				evaluator : evaluator,
 				context : context,
