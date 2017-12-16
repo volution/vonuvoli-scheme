@@ -141,6 +141,8 @@ cat <<'EOS'
 :: environment / rust-up / use / stable :: export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin ):${PATH}"
 :: environment / rust-up / use / nightly :: export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):${PATH}"
 
+:: environment / rust / stack / 128M :: export -- RUST_MIN_STACK=134217728
+
 :: environment / cargo / incremental / enable :: export -- CARGO_INCREMENTAL=1
 :: environment / cargo / incremental / disable :: export -- CARGO_INCREMENTAL=0
 
@@ -155,7 +157,7 @@ sed -r -e 's#@\{TEST\}#'"${_test}"'#g' <<'EOS'
 :: execute / test / @{TEST} / tests / all / debug :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test '@{TEST}' --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__' "${@}"
 :: execute / test / @{TEST} / tests / all / release :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test '@{TEST}' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__' "${@}"
 :: execute / test / @{TEST} / benchmarks / all / debug :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test '@{TEST}' --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'benchmark__' "${@}"
-:: execute / test / @{TEST} / benchmarks / all / release :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test '@{TEST}' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
+:: execute / test / @{TEST} / benchmarks / all / release :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test '@{TEST}' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
 EOS
 done
 
@@ -167,7 +169,7 @@ sed -r -e 's#@\{TEST\}#'"${_test}"'#g' <<'EOS'
 :: execute / test / scheme / tests / @{TEST} / debug :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__@{TEST}' --exact "${@}"
 :: execute / test / scheme / tests / @{TEST} / release :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__@{TEST}' --exact "${@}"
 :: execute / test / scheme / benchmarks / @{TEST} / debug :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'benchmark__@{TEST}' --exact "${@}"
-:: execute / test / scheme / benchmarks / @{TEST} / release :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__@{TEST}' --exact "${@}"
+:: execute / test / scheme / benchmarks / @{TEST} / release :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__@{TEST}' --exact "${@}"
 EOS
 done
 
@@ -179,9 +181,9 @@ find ./tests/scripts -type f -name 'benchmark--*.ss' -printf '%f\n' \
 sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
 :: execute / bin / compiler / scheme / @{SCRIPT} / debug :: x-run ':: compile / bin / compiler / debug' --quiet ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-compiler < './tests/scripts/benchmark--@{SCRIPT}.ss' >| './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-compile.out'
 :: execute / bin / compiler / scheme / @{SCRIPT} / release :: x-run ':: compile / bin / compiler / release' --quiet ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-compiler < ./tests/scripts/benchmark--@{SCRIPT}.ss' >| './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-compile.out'
-:: execute / benchmark / scheme / @{SCRIPT} / debug :: x-run ':: compile / bin / interpreter / debug' --quiet ; exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-interpreter < './tests/scripts/benchmark--@{SCRIPT}.ss' >| './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-debug.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-debug.out'
-:: execute / benchmark / scheme / @{SCRIPT} / release :: x-run ':: compile / bin / interpreter / release' --quiet ; exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-interpreter < './tests/scripts/benchmark--@{SCRIPT}.ss' >| './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-release.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-release.out'
-:: execute / benchmark / chibi / @{SCRIPT} :: exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- chibi-scheme -m scheme.base -m scheme.time -- './tests/scripts/benchmark--@{SCRIPT}.ss' >| './tests/scripts/_out/benchmark--@{SCRIPT}--chibi.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--chibi.out'
+:: execute / benchmark / scheme / @{SCRIPT} / debug :: x-run ':: compile / bin / interpreter / debug' --quiet ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-interpreter < './tests/scripts/benchmark--@{SCRIPT}.ss' >| './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-debug.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-debug.out'
+:: execute / benchmark / scheme / @{SCRIPT} / release :: x-run ':: compile / bin / interpreter / release' --quiet ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-interpreter < './tests/scripts/benchmark--@{SCRIPT}.ss' >| './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-release.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-release.out'
+:: execute / benchmark / chibi / @{SCRIPT} :: env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- chibi-scheme -m scheme.base -m scheme.time -- './tests/scripts/benchmark--@{SCRIPT}.ss' >| './tests/scripts/_out/benchmark--@{SCRIPT}--chibi.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--chibi.out'
 EOS
 done
 
@@ -191,7 +193,7 @@ find ./tests/scripts -type f -name 'benchmark--*.py' -printf '%f\n' \
 | sort -u \
 | while read _script ; do
 sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
-:: execute / benchmark / python / @{SCRIPT} :: exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- python2 -E -O -O -B -u -- './tests/scripts/benchmark--@{SCRIPT}.py' >| './tests/scripts/_out/benchmark--@{SCRIPT}--python.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--python.out'
+:: execute / benchmark / python / @{SCRIPT} :: env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- python2 -E -O -O -B -u -- './tests/scripts/benchmark--@{SCRIPT}.py' >| './tests/scripts/_out/benchmark--@{SCRIPT}--python.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--python.out'
 EOS
 done
 
@@ -202,12 +204,16 @@ find ./tests/scripts -type f \( -name 'benchmark--*.ss' -o -name 'benchmark--*.p
 | while read _script ; do
 sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
 << execute / benchmark / compare / @{SCRIPT}
-	printf -- '\n== scheme / release ==\n'
+	printf -- '\n--------------------------------------------------------------------------------\n'
+	printf -- '\n== %s / scheme / debug ==\n' '@{SCRIPT}'
+	x-run ':: execute / benchmark / scheme / @{SCRIPT} / debug'
+	printf -- '\n== %s / scheme / release ==\n' '@{SCRIPT}'
 	x-run ':: execute / benchmark / scheme / @{SCRIPT} / release'
-	printf -- '\n== chibi ==\n'
+	printf -- '\n== %s / chibi ==\n' '@{SCRIPT}'
 	x-run ':: execute / benchmark / chibi / @{SCRIPT}'
-	printf -- '\n== python ==\n'
+	printf -- '\n== %s / python ==\n' '@{SCRIPT}'
 	x-run ':: execute / benchmark / python / @{SCRIPT}'
+	printf -- '\n--------------------------------------------------------------------------------\n'
 !!
 EOS
 done
