@@ -36,7 +36,7 @@ pub fn optimize_script (expressions : ExpressionVec) -> (Outcome<ExpressionVec>)
 
 
 
-#[ derive (Clone, Debug) ]
+#[ derive (Debug) ]
 pub struct Optimizer {}
 
 
@@ -1847,7 +1847,7 @@ impl Optimizer {
 
 
 
-#[ derive (Clone, Debug) ]
+#[ derive (Debug) ]
 struct OptimizerContext {
 	evaluator : Evaluator,
 }

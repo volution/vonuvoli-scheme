@@ -34,7 +34,7 @@ pub fn compile_script (context : &Context, tokens : &[Value]) -> (Outcome<Expres
 
 
 
-#[ derive (Clone, Debug) ]
+#[ derive (Debug) ]
 pub struct Compiler {}
 
 
@@ -512,7 +512,7 @@ impl Compiler {
 		let (compilation, has_definitions) = if identifiers.is_empty () {
 			(compilation, false)
 		} else {
-			let compilation = try! (compilation.fork_locals (false));
+			let compilation = try! (compilation.fork_locals (true));
 			(compilation, true)
 		};
 		
@@ -1347,7 +1347,7 @@ impl Compiler {
 
 
 
-#[ derive (Clone, Debug) ]
+#[ derive (Debug) ]
 struct CompilerContext {
 	bindings : CompilerBindings,
 }
@@ -1383,7 +1383,7 @@ impl CompilerContext {
 
 
 
-#[ derive (Clone, Debug) ]
+#[ derive (Debug) ]
 enum CompilerBindings {
 	None,
 	Globals1 (Context),
@@ -1513,7 +1513,7 @@ impl CompilerBindings {
 			CompilerBinding::Undefined =>
 				succeed! (None),
 			CompilerBinding::Binding (binding) =>
-				succeed! (Some (try! (binding.get ()))),
+				succeed! (try! (binding.get_option ())),
 			CompilerBinding::Register (_index) =>
 				succeed! (None),
 		}
