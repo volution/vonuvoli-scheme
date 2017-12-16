@@ -2,12 +2,12 @@
 ## benchmarking `benchmark__booleans`...
 ## benchmarked `benchmark__booleans`!
      without optimizations:
-       average   :       5110
-         stdev   :        377 /   7.38%
-         median  :       4900 /   3.46%
-       min / max :       4758 / 4813 / 4900 / 5620 / 5652
+       average   :       6950
+         stdev   :        115 /   1.66%
+         median  :       6905 /   0.89%
+       min / max :       6855 / 6876 / 6905 / 6963 / 7248
      with optimizations:
-       average   :       1621 / +68.28% / 3.15*
-         stdev   :         34 /   2.12%
-         median  :       1625 /   0.60%
-       min / max :       1528 / 1619 / 1625 / 1632 / 1669
+       average   :       3117 / +55.14% / 2.23*
+         stdev   :         36 /   1.14%
+         median  :       3103 /   0.59%
+       min / max :       3087 / 3095 / 3103 / 3123 / 3203

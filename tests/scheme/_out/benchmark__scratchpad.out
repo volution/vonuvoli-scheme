@@ -1,0 +1,13 @@
+## compiling `benchmark__scratchpad`...
+## benchmarking `benchmark__scratchpad`...
+## benchmarked `benchmark__scratchpad`!
+     without optimizations:
+       average   :          7
+         stdev   :          0 /   1.11%
+         median  :          7 /   0.81%
+       min / max :          7 / 7 / 7 / 7 / 7
+     with optimizations:
+       average   :          6 / +9.12% / 1.10*
+         stdev   :          0 /   1.20%
+         median  :          6 /   0.48%
+       min / max :          6 / 6 / 6 / 6 / 7

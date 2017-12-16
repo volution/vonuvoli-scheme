@@ -1,0 +1,13 @@
+## compiling `benchmark__issues`...
+## benchmarking `benchmark__issues`...
+## benchmarked `benchmark__issues`!
+     without optimizations:
+       average   :       5535
+         stdev   :         75 /   1.35%
+         median  :       5514 /   0.85%
+       min / max :       5476 / 5485 / 5514 / 5547 / 5750
+     with optimizations:
+       average   :       4586 / +17.15% / 1.21*
+         stdev   :         95 /   2.07%
+         median  :       4557 /   0.87%
+       min / max :       4495 / 4536 / 4557 / 4597 / 4868

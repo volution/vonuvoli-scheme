@@ -2,12 +2,12 @@
 ## benchmarking `benchmark__lists`...
 ## benchmarked `benchmark__lists`!
      without optimizations:
-       average   :      81087
-         stdev   :       3883 /   4.79%
-         median  :      82122 /   0.89%
-       min / max :      70267 / 81919 / 82122 / 82822 / 84918
+       average   :      69642
+         stdev   :       1059 /   1.52%
+         median  :      69076 /   0.73%
+       min / max :      68648 / 68911 / 69076 / 69927 / 72100
      with optimizations:
-       average   :      51515 / +36.47% / 1.57*
-         stdev   :        971 /   1.89%
-         median  :      51691 /   0.64%
-       min / max :      48778 / 51514 / 51691 / 52029 / 52641
+       average   :      48139 / +30.88% / 1.45*
+         stdev   :        590 /   1.23%
+         median  :      47927 /   0.83%
+       min / max :      47547 / 47711 / 47927 / 48294 / 49584
