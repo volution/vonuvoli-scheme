@@ -109,6 +109,7 @@ pub enum RuntimePrimitiveV {
 
 
 
+#[ inline (always) ]
 pub fn runtime_primitive_0_evaluate (primitive : RuntimePrimitive0, _evaluator : &EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -139,6 +140,7 @@ pub fn runtime_primitive_0_evaluate (primitive : RuntimePrimitive0, _evaluator :
 
 
 
+#[ inline (always) ]
 pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, _input_1 : &Value, _evaluator : &EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -156,6 +158,7 @@ pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, _input_1 : &
 
 
 
+#[ inline (always) ]
 pub fn runtime_primitive_2_evaluate (primitive : RuntimePrimitive2, _input_1 : &Value, _input_2 : &Value, _evaluator : &EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
@@ -163,6 +166,7 @@ pub fn runtime_primitive_2_evaluate (primitive : RuntimePrimitive2, _input_1 : &
 
 
 
+#[ inline (always) ]
 pub fn runtime_primitive_3_evaluate (primitive : RuntimePrimitive3, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _evaluator : &EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
@@ -170,6 +174,7 @@ pub fn runtime_primitive_3_evaluate (primitive : RuntimePrimitive3, _input_1 : &
 
 
 
+#[ inline (always) ]
 pub fn runtime_primitive_4_evaluate (primitive : RuntimePrimitive4, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _evaluator : &EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
@@ -177,6 +182,7 @@ pub fn runtime_primitive_4_evaluate (primitive : RuntimePrimitive4, _input_1 : &
 
 
 
+#[ inline (always) ]
 pub fn runtime_primitive_5_evaluate (primitive : RuntimePrimitive5, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _input_5 : &Value, _evaluator : &EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
@@ -184,6 +190,7 @@ pub fn runtime_primitive_5_evaluate (primitive : RuntimePrimitive5, _input_1 : &
 
 
 
+#[ inline (always) ]
 pub fn runtime_primitive_n_evaluate (primitive : RuntimePrimitiveN, _inputs : &[&Value], _evaluator : &EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
@@ -191,6 +198,7 @@ pub fn runtime_primitive_n_evaluate (primitive : RuntimePrimitiveN, _inputs : &[
 
 
 
+#[ inline (always) ]
 pub fn runtime_primitive_v_alternative_0 (primitive : RuntimePrimitiveV) -> (Option<RuntimePrimitive0>) {
 	match primitive {
 		RuntimePrimitiveV::ProcessExit =>
@@ -203,6 +211,7 @@ pub fn runtime_primitive_v_alternative_0 (primitive : RuntimePrimitiveV) -> (Opt
 
 
 
+#[ inline (always) ]
 pub fn runtime_primitive_v_alternative_1 (primitive : RuntimePrimitiveV) -> (Option<RuntimePrimitive1>) {
 	match primitive {
 		RuntimePrimitiveV::ProcessExit =>
@@ -215,6 +224,7 @@ pub fn runtime_primitive_v_alternative_1 (primitive : RuntimePrimitiveV) -> (Opt
 
 
 
+#[ inline (always) ]
 pub fn runtime_primitive_v_alternative_2 (primitive : RuntimePrimitiveV) -> (Option<RuntimePrimitive2>) {
 	match primitive {
 		RuntimePrimitiveV::ProcessExit =>
@@ -227,6 +237,7 @@ pub fn runtime_primitive_v_alternative_2 (primitive : RuntimePrimitiveV) -> (Opt
 
 
 
+#[ inline (always) ]
 pub fn runtime_primitive_v_alternative_3 (primitive : RuntimePrimitiveV) -> (Option<RuntimePrimitive3>) {
 	match primitive {
 		RuntimePrimitiveV::ProcessExit =>
@@ -239,6 +250,7 @@ pub fn runtime_primitive_v_alternative_3 (primitive : RuntimePrimitiveV) -> (Opt
 
 
 
+#[ inline (always) ]
 pub fn runtime_primitive_v_alternative_4 (primitive : RuntimePrimitiveV) -> (Option<RuntimePrimitive4>) {
 	match primitive {
 		RuntimePrimitiveV::ProcessExit =>
@@ -251,6 +263,7 @@ pub fn runtime_primitive_v_alternative_4 (primitive : RuntimePrimitiveV) -> (Opt
 
 
 
+#[ inline (always) ]
 pub fn runtime_primitive_v_alternative_5 (primitive : RuntimePrimitiveV) -> (Option<RuntimePrimitive5>) {
 	match primitive {
 		RuntimePrimitiveV::ProcessExit =>
@@ -263,6 +276,7 @@ pub fn runtime_primitive_v_alternative_5 (primitive : RuntimePrimitiveV) -> (Opt
 
 
 
+#[ inline (always) ]
 pub fn runtime_primitive_v_alternative_n (primitive : RuntimePrimitiveV) -> (Option<RuntimePrimitiveN>) {
 	match primitive {
 		RuntimePrimitiveV::ProcessExit =>
@@ -275,6 +289,7 @@ pub fn runtime_primitive_v_alternative_n (primitive : RuntimePrimitiveV) -> (Opt
 
 
 
+#[ inline (always) ]
 pub fn runtime_primitive_0_attributes (primitive : RuntimePrimitive0) -> (Option<ProcedureAttributes>) {
 	match primitive {
 		RuntimePrimitive0::ProcessArguments |
@@ -286,6 +301,7 @@ pub fn runtime_primitive_0_attributes (primitive : RuntimePrimitive0) -> (Option
 	}
 }
 
+#[ inline (always) ]
 pub fn runtime_primitive_1_attributes (primitive : RuntimePrimitive1) -> (Option<ProcedureAttributes>) {
 	match primitive {
 		RuntimePrimitive1::ProcessEnvironment =>
@@ -295,22 +311,27 @@ pub fn runtime_primitive_1_attributes (primitive : RuntimePrimitive1) -> (Option
 	}
 }
 
+#[ inline (always) ]
 pub fn runtime_primitive_2_attributes (_primitive : RuntimePrimitive2) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
+#[ inline (always) ]
 pub fn runtime_primitive_3_attributes (_primitive : RuntimePrimitive3) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
+#[ inline (always) ]
 pub fn runtime_primitive_4_attributes (_primitive : RuntimePrimitive4) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
+#[ inline (always) ]
 pub fn runtime_primitive_5_attributes (_primitive : RuntimePrimitive5) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
+#[ inline (always) ]
 pub fn runtime_primitive_n_attributes (_primitive : RuntimePrimitiveN) -> (Option<ProcedureAttributes>) {
 	return None;
 }

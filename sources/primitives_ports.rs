@@ -159,6 +159,7 @@ pub enum PortPrimitiveV {}
 
 
 
+#[ inline (always) ]
 pub fn port_primitive_0_evaluate (primitive : PortPrimitive0, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -198,6 +199,7 @@ pub fn port_primitive_0_evaluate (primitive : PortPrimitive0, _evaluator : &mut 
 
 
 
+#[ inline (always) ]
 pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, input_1 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -302,6 +304,7 @@ pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, input_1 : &Value, 
 
 
 
+#[ inline (always) ]
 pub fn port_primitive_2_evaluate (primitive : PortPrimitive2, input_1 : &Value, input_2 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -378,6 +381,7 @@ pub fn port_primitive_2_evaluate (primitive : PortPrimitive2, input_1 : &Value, 
 
 
 
+#[ inline (always) ]
 pub fn port_primitive_3_evaluate (primitive : PortPrimitive3, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
@@ -385,6 +389,7 @@ pub fn port_primitive_3_evaluate (primitive : PortPrimitive3, _input_1 : &Value,
 
 
 
+#[ inline (always) ]
 pub fn port_primitive_4_evaluate (primitive : PortPrimitive4, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
@@ -392,6 +397,7 @@ pub fn port_primitive_4_evaluate (primitive : PortPrimitive4, _input_1 : &Value,
 
 
 
+#[ inline (always) ]
 pub fn port_primitive_5_evaluate (primitive : PortPrimitive5, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _input_5 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
@@ -399,6 +405,7 @@ pub fn port_primitive_5_evaluate (primitive : PortPrimitive5, _input_1 : &Value,
 
 
 
+#[ inline (always) ]
 pub fn port_primitive_n_evaluate (primitive : PortPrimitiveN, _inputs : &[&Value], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
@@ -406,6 +413,7 @@ pub fn port_primitive_n_evaluate (primitive : PortPrimitiveN, _inputs : &[&Value
 
 
 
+#[ inline (always) ]
 pub fn port_primitive_v_alternative_0 (primitive : PortPrimitiveV) -> (Option<PortPrimitive0>) {
 	match primitive {}
 }
@@ -413,6 +421,7 @@ pub fn port_primitive_v_alternative_0 (primitive : PortPrimitiveV) -> (Option<Po
 
 
 
+#[ inline (always) ]
 pub fn port_primitive_v_alternative_1 (primitive : PortPrimitiveV) -> (Option<PortPrimitive1>) {
 	match primitive {}
 }
@@ -420,6 +429,7 @@ pub fn port_primitive_v_alternative_1 (primitive : PortPrimitiveV) -> (Option<Po
 
 
 
+#[ inline (always) ]
 pub fn port_primitive_v_alternative_2 (primitive : PortPrimitiveV) -> (Option<PortPrimitive2>) {
 	match primitive {}
 }
@@ -427,6 +437,7 @@ pub fn port_primitive_v_alternative_2 (primitive : PortPrimitiveV) -> (Option<Po
 
 
 
+#[ inline (always) ]
 pub fn port_primitive_v_alternative_3 (primitive : PortPrimitiveV) -> (Option<PortPrimitive3>) {
 	match primitive {}
 }
@@ -434,6 +445,7 @@ pub fn port_primitive_v_alternative_3 (primitive : PortPrimitiveV) -> (Option<Po
 
 
 
+#[ inline (always) ]
 pub fn port_primitive_v_alternative_4 (primitive : PortPrimitiveV) -> (Option<PortPrimitive4>) {
 	match primitive {}
 }
@@ -441,6 +453,7 @@ pub fn port_primitive_v_alternative_4 (primitive : PortPrimitiveV) -> (Option<Po
 
 
 
+#[ inline (always) ]
 pub fn port_primitive_v_alternative_5 (primitive : PortPrimitiveV) -> (Option<PortPrimitive5>) {
 	match primitive {}
 }
@@ -448,6 +461,7 @@ pub fn port_primitive_v_alternative_5 (primitive : PortPrimitiveV) -> (Option<Po
 
 
 
+#[ inline (always) ]
 pub fn port_primitive_v_alternative_n (primitive : PortPrimitiveV) -> (Option<PortPrimitiveN>) {
 	match primitive {}
 }
@@ -455,30 +469,37 @@ pub fn port_primitive_v_alternative_n (primitive : PortPrimitiveV) -> (Option<Po
 
 
 
+#[ inline (always) ]
 pub fn port_primitive_0_attributes (_primitive : PortPrimitive0) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
+#[ inline (always) ]
 pub fn port_primitive_1_attributes (_primitive : PortPrimitive1) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
+#[ inline (always) ]
 pub fn port_primitive_2_attributes (_primitive : PortPrimitive2) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
+#[ inline (always) ]
 pub fn port_primitive_3_attributes (_primitive : PortPrimitive3) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
+#[ inline (always) ]
 pub fn port_primitive_4_attributes (_primitive : PortPrimitive4) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
+#[ inline (always) ]
 pub fn port_primitive_5_attributes (_primitive : PortPrimitive5) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
+#[ inline (always) ]
 pub fn port_primitive_n_attributes (_primitive : PortPrimitiveN) -> (Option<ProcedureAttributes>) {
 	return None;
 }

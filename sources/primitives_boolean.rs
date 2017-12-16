@@ -135,6 +135,7 @@ pub enum BooleanPrimitiveV {
 
 
 
+#[ inline (always) ]
 pub fn boolean_primitive_0_evaluate (primitive : BooleanPrimitive0, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	let output = match primitive {
@@ -165,6 +166,7 @@ pub fn boolean_primitive_0_evaluate (primitive : BooleanPrimitive0, _evaluator :
 
 
 
+#[ inline (always) ]
 pub fn boolean_primitive_1_evaluate (primitive : BooleanPrimitive1, input_1 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	let input_1 = try_as_boolean_ref! (input_1);
@@ -200,6 +202,7 @@ pub fn boolean_primitive_1_evaluate (primitive : BooleanPrimitive1, input_1 : &V
 
 
 
+#[ inline (always) ]
 pub fn boolean_primitive_2_evaluate (primitive : BooleanPrimitive2, input_1 : &Value, input_2 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	let input_1 = try_as_boolean_ref! (input_1);
@@ -233,6 +236,7 @@ pub fn boolean_primitive_2_evaluate (primitive : BooleanPrimitive2, input_1 : &V
 
 
 
+#[ inline (always) ]
 pub fn boolean_primitive_3_evaluate (primitive : BooleanPrimitive3, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
@@ -240,6 +244,7 @@ pub fn boolean_primitive_3_evaluate (primitive : BooleanPrimitive3, _input_1 : &
 
 
 
+#[ inline (always) ]
 pub fn boolean_primitive_4_evaluate (primitive : BooleanPrimitive4, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
@@ -247,6 +252,7 @@ pub fn boolean_primitive_4_evaluate (primitive : BooleanPrimitive4, _input_1 : &
 
 
 
+#[ inline (always) ]
 pub fn boolean_primitive_5_evaluate (primitive : BooleanPrimitive5, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _input_5 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
@@ -254,6 +260,7 @@ pub fn boolean_primitive_5_evaluate (primitive : BooleanPrimitive5, _input_1 : &
 
 
 
+#[ inline (always) ]
 pub fn boolean_primitive_n_evaluate (primitive : BooleanPrimitiveN, inputs : &[&Value], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	let mut output = match primitive {
@@ -307,6 +314,7 @@ pub fn boolean_primitive_n_evaluate (primitive : BooleanPrimitiveN, inputs : &[&
 
 
 
+#[ inline (always) ]
 pub fn boolean_primitive_v_alternative_0 (primitive : BooleanPrimitiveV) -> (Option<BooleanPrimitive0>) {
 	match primitive {
 		BooleanPrimitiveV::And =>
@@ -327,6 +335,7 @@ pub fn boolean_primitive_v_alternative_0 (primitive : BooleanPrimitiveV) -> (Opt
 
 
 
+#[ inline (always) ]
 pub fn boolean_primitive_v_alternative_1 (primitive : BooleanPrimitiveV) -> (Option<BooleanPrimitive1>) {
 	match primitive {
 		BooleanPrimitiveV::And =>
@@ -347,6 +356,7 @@ pub fn boolean_primitive_v_alternative_1 (primitive : BooleanPrimitiveV) -> (Opt
 
 
 
+#[ inline (always) ]
 pub fn boolean_primitive_v_alternative_2 (primitive : BooleanPrimitiveV) -> (Option<BooleanPrimitive2>) {
 	match primitive {
 		BooleanPrimitiveV::And =>
@@ -367,6 +377,7 @@ pub fn boolean_primitive_v_alternative_2 (primitive : BooleanPrimitiveV) -> (Opt
 
 
 
+#[ inline (always) ]
 pub fn boolean_primitive_v_alternative_3 (primitive : BooleanPrimitiveV) -> (Option<BooleanPrimitive3>) {
 	match primitive {
 		BooleanPrimitiveV::And =>
@@ -387,6 +398,7 @@ pub fn boolean_primitive_v_alternative_3 (primitive : BooleanPrimitiveV) -> (Opt
 
 
 
+#[ inline (always) ]
 pub fn boolean_primitive_v_alternative_4 (primitive : BooleanPrimitiveV) -> (Option<BooleanPrimitive4>) {
 	match primitive {
 		BooleanPrimitiveV::And =>
@@ -407,6 +419,7 @@ pub fn boolean_primitive_v_alternative_4 (primitive : BooleanPrimitiveV) -> (Opt
 
 
 
+#[ inline (always) ]
 pub fn boolean_primitive_v_alternative_5 (primitive : BooleanPrimitiveV) -> (Option<BooleanPrimitive5>) {
 	match primitive {
 		BooleanPrimitiveV::And =>
@@ -427,6 +440,7 @@ pub fn boolean_primitive_v_alternative_5 (primitive : BooleanPrimitiveV) -> (Opt
 
 
 
+#[ inline (always) ]
 pub fn boolean_primitive_v_alternative_n (primitive : BooleanPrimitiveV) -> (Option<BooleanPrimitiveN>) {
 	match primitive {
 		BooleanPrimitiveV::And =>
@@ -447,30 +461,37 @@ pub fn boolean_primitive_v_alternative_n (primitive : BooleanPrimitiveV) -> (Opt
 
 
 
+#[ inline (always) ]
 pub fn boolean_primitive_0_attributes (_primitive : BooleanPrimitive0) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_0);
 }
 
+#[ inline (always) ]
 pub fn boolean_primitive_1_attributes (_primitive : BooleanPrimitive1) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_1);
 }
 
+#[ inline (always) ]
 pub fn boolean_primitive_2_attributes (_primitive : BooleanPrimitive2) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_2);
 }
 
+#[ inline (always) ]
 pub fn boolean_primitive_3_attributes (_primitive : BooleanPrimitive3) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_3);
 }
 
+#[ inline (always) ]
 pub fn boolean_primitive_4_attributes (_primitive : BooleanPrimitive4) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_4);
 }
 
+#[ inline (always) ]
 pub fn boolean_primitive_5_attributes (_primitive : BooleanPrimitive5) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_5);
 }
 
+#[ inline (always) ]
 pub fn boolean_primitive_n_attributes (_primitive : BooleanPrimitiveN) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_N);
 }

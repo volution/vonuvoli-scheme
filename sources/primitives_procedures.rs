@@ -290,6 +290,7 @@ pub enum ProcedureOutputAttributes {
 
 
 
+#[ inline (always) ]
 pub fn procedure_primitive_0_evaluate (primitive : ProcedurePrimitive0, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -332,6 +333,7 @@ pub fn procedure_primitive_0_evaluate (primitive : ProcedurePrimitive0, evaluato
 
 
 
+#[ inline (always) ]
 pub fn procedure_primitive_1_evaluate (primitive : ProcedurePrimitive1, input_1 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -377,6 +379,7 @@ pub fn procedure_primitive_1_evaluate (primitive : ProcedurePrimitive1, input_1 
 
 
 
+#[ inline (always) ]
 pub fn procedure_primitive_2_evaluate (primitive : ProcedurePrimitive2, input_1 : &Value, input_2 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -419,6 +422,7 @@ pub fn procedure_primitive_2_evaluate (primitive : ProcedurePrimitive2, input_1 
 
 
 
+#[ inline (always) ]
 pub fn procedure_primitive_3_evaluate (primitive : ProcedurePrimitive3, input_1 : &Value, input_2 : &Value, input_3 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -461,6 +465,7 @@ pub fn procedure_primitive_3_evaluate (primitive : ProcedurePrimitive3, input_1 
 
 
 
+#[ inline (always) ]
 pub fn procedure_primitive_4_evaluate (primitive : ProcedurePrimitive4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -503,6 +508,7 @@ pub fn procedure_primitive_4_evaluate (primitive : ProcedurePrimitive4, input_1 
 
 
 
+#[ inline (always) ]
 pub fn procedure_primitive_5_evaluate (primitive : ProcedurePrimitive5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -545,6 +551,7 @@ pub fn procedure_primitive_5_evaluate (primitive : ProcedurePrimitive5, input_1 
 
 
 
+#[ inline (always) ]
 pub fn procedure_primitive_n_evaluate (primitive : ProcedurePrimitiveN, inputs : &[&Value], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -587,6 +594,7 @@ pub fn procedure_primitive_n_evaluate (primitive : ProcedurePrimitiveN, inputs :
 
 
 
+#[ inline (never) ]
 pub fn procedure_primitive_v_evaluate_0 (primitive : ProcedurePrimitiveV, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	if let Some (primitive) = procedure_primitive_v_alternative_0 (primitive) {
@@ -603,6 +611,7 @@ pub fn procedure_primitive_v_evaluate_0 (primitive : ProcedurePrimitiveV, evalua
 
 
 
+#[ inline (never) ]
 pub fn procedure_primitive_v_evaluate_1 (primitive : ProcedurePrimitiveV, input_1 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	if let Some (primitive) = procedure_primitive_v_alternative_1 (primitive) {
@@ -619,6 +628,7 @@ pub fn procedure_primitive_v_evaluate_1 (primitive : ProcedurePrimitiveV, input_
 
 
 
+#[ inline (never) ]
 pub fn procedure_primitive_v_evaluate_2 (primitive : ProcedurePrimitiveV, input_1 : &Value, input_2 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	if let Some (primitive) = procedure_primitive_v_alternative_2 (primitive) {
@@ -635,6 +645,7 @@ pub fn procedure_primitive_v_evaluate_2 (primitive : ProcedurePrimitiveV, input_
 
 
 
+#[ inline (never) ]
 pub fn procedure_primitive_v_evaluate_3 (primitive : ProcedurePrimitiveV, input_1 : &Value, input_2 : &Value, input_3 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	if let Some (primitive) = procedure_primitive_v_alternative_3 (primitive) {
@@ -651,6 +662,7 @@ pub fn procedure_primitive_v_evaluate_3 (primitive : ProcedurePrimitiveV, input_
 
 
 
+#[ inline (never) ]
 pub fn procedure_primitive_v_evaluate_4 (primitive : ProcedurePrimitiveV, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	if let Some (primitive) = procedure_primitive_v_alternative_4 (primitive) {
@@ -667,6 +679,7 @@ pub fn procedure_primitive_v_evaluate_4 (primitive : ProcedurePrimitiveV, input_
 
 
 
+#[ inline (never) ]
 pub fn procedure_primitive_v_evaluate_5 (primitive : ProcedurePrimitiveV, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	if let Some (primitive) = procedure_primitive_v_alternative_5 (primitive) {
@@ -683,6 +696,7 @@ pub fn procedure_primitive_v_evaluate_5 (primitive : ProcedurePrimitiveV, input_
 
 
 
+#[ inline (never) ]
 pub fn procedure_primitive_v_evaluate_n (primitive : ProcedurePrimitiveV, inputs : &[&Value], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let inputs_count = inputs.len ();
 	
@@ -732,6 +746,7 @@ pub fn procedure_primitive_v_evaluate_n (primitive : ProcedurePrimitiveV, inputs
 
 
 
+#[ inline (never) ]
 pub fn procedure_primitive_g_evaluate_0 (primitive : ProcedurePrimitive, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -761,6 +776,7 @@ pub fn procedure_primitive_g_evaluate_0 (primitive : ProcedurePrimitive, evaluat
 
 
 
+#[ inline (never) ]
 pub fn procedure_primitive_g_evaluate_1 (primitive : ProcedurePrimitive, input_1 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -790,6 +806,7 @@ pub fn procedure_primitive_g_evaluate_1 (primitive : ProcedurePrimitive, input_1
 
 
 
+#[ inline (never) ]
 pub fn procedure_primitive_g_evaluate_2 (primitive : ProcedurePrimitive, input_1 : &Value, input_2 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -819,6 +836,7 @@ pub fn procedure_primitive_g_evaluate_2 (primitive : ProcedurePrimitive, input_1
 
 
 
+#[ inline (never) ]
 pub fn procedure_primitive_g_evaluate_3 (primitive : ProcedurePrimitive, input_1 : &Value, input_2 : &Value, input_3 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -848,6 +866,7 @@ pub fn procedure_primitive_g_evaluate_3 (primitive : ProcedurePrimitive, input_1
 
 
 
+#[ inline (never) ]
 pub fn procedure_primitive_g_evaluate_4 (primitive : ProcedurePrimitive, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -877,6 +896,7 @@ pub fn procedure_primitive_g_evaluate_4 (primitive : ProcedurePrimitive, input_1
 
 
 
+#[ inline (never) ]
 pub fn procedure_primitive_g_evaluate_5 (primitive : ProcedurePrimitive, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -906,6 +926,7 @@ pub fn procedure_primitive_g_evaluate_5 (primitive : ProcedurePrimitive, input_1
 
 
 
+#[ inline (never) ]
 pub fn procedure_primitive_g_evaluate_n (primitive : ProcedurePrimitive, inputs : &[&Value], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let inputs_count = inputs.len ();
 	
@@ -974,6 +995,7 @@ pub fn procedure_primitive_g_evaluate_n (primitive : ProcedurePrimitive, inputs 
 
 
 
+#[ inline (always) ]
 pub fn procedure_primitive_v_alternative_0 (primitive : ProcedurePrimitiveV) -> (Option<ProcedurePrimitive0>) {
 	match primitive {
 		
@@ -1060,6 +1082,7 @@ pub fn procedure_primitive_v_alternative_0 (primitive : ProcedurePrimitiveV) -> 
 
 
 
+#[ inline (always) ]
 pub fn procedure_primitive_v_alternative_1 (primitive : ProcedurePrimitiveV) -> (Option<ProcedurePrimitive1>) {
 	match primitive {
 		
@@ -1146,6 +1169,7 @@ pub fn procedure_primitive_v_alternative_1 (primitive : ProcedurePrimitiveV) -> 
 
 
 
+#[ inline (always) ]
 pub fn procedure_primitive_v_alternative_2 (primitive : ProcedurePrimitiveV) -> (Option<ProcedurePrimitive2>) {
 	match primitive {
 		
@@ -1232,6 +1256,7 @@ pub fn procedure_primitive_v_alternative_2 (primitive : ProcedurePrimitiveV) -> 
 
 
 
+#[ inline (always) ]
 pub fn procedure_primitive_v_alternative_3 (primitive : ProcedurePrimitiveV) -> (Option<ProcedurePrimitive3>) {
 	match primitive {
 		
@@ -1318,6 +1343,7 @@ pub fn procedure_primitive_v_alternative_3 (primitive : ProcedurePrimitiveV) -> 
 
 
 
+#[ inline (always) ]
 pub fn procedure_primitive_v_alternative_4 (primitive : ProcedurePrimitiveV) -> (Option<ProcedurePrimitive4>) {
 	match primitive {
 		
@@ -1404,6 +1430,7 @@ pub fn procedure_primitive_v_alternative_4 (primitive : ProcedurePrimitiveV) -> 
 
 
 
+#[ inline (always) ]
 pub fn procedure_primitive_v_alternative_5 (primitive : ProcedurePrimitiveV) -> (Option<ProcedurePrimitive5>) {
 	match primitive {
 		
@@ -1490,6 +1517,7 @@ pub fn procedure_primitive_v_alternative_5 (primitive : ProcedurePrimitiveV) -> 
 
 
 
+#[ inline (always) ]
 pub fn procedure_primitive_v_alternative_n (primitive : ProcedurePrimitiveV) -> (Option<ProcedurePrimitiveN>) {
 	match primitive {
 		
@@ -1576,6 +1604,7 @@ pub fn procedure_primitive_v_alternative_n (primitive : ProcedurePrimitiveV) -> 
 
 
 
+#[ inline (always) ]
 pub fn procedure_primitive_0_attributes (primitive : ProcedurePrimitive0) -> (Option<ProcedureAttributes>) {
 	match primitive {
 		
@@ -1618,6 +1647,7 @@ pub fn procedure_primitive_0_attributes (primitive : ProcedurePrimitive0) -> (Op
 
 
 
+#[ inline (always) ]
 pub fn procedure_primitive_1_attributes (primitive : ProcedurePrimitive1) -> (Option<ProcedureAttributes>) {
 	match primitive {
 		
@@ -1663,6 +1693,7 @@ pub fn procedure_primitive_1_attributes (primitive : ProcedurePrimitive1) -> (Op
 
 
 
+#[ inline (always) ]
 pub fn procedure_primitive_2_attributes (primitive : ProcedurePrimitive2) -> (Option<ProcedureAttributes>) {
 	match primitive {
 		
@@ -1705,6 +1736,7 @@ pub fn procedure_primitive_2_attributes (primitive : ProcedurePrimitive2) -> (Op
 
 
 
+#[ inline (always) ]
 pub fn procedure_primitive_3_attributes (primitive : ProcedurePrimitive3) -> (Option<ProcedureAttributes>) {
 	match primitive {
 		
@@ -1747,6 +1779,7 @@ pub fn procedure_primitive_3_attributes (primitive : ProcedurePrimitive3) -> (Op
 
 
 
+#[ inline (always) ]
 pub fn procedure_primitive_4_attributes (primitive : ProcedurePrimitive4) -> (Option<ProcedureAttributes>) {
 	match primitive {
 		
@@ -1789,6 +1822,7 @@ pub fn procedure_primitive_4_attributes (primitive : ProcedurePrimitive4) -> (Op
 
 
 
+#[ inline (always) ]
 pub fn procedure_primitive_5_attributes (primitive : ProcedurePrimitive5) -> (Option<ProcedureAttributes>) {
 	match primitive {
 		
@@ -1831,6 +1865,7 @@ pub fn procedure_primitive_5_attributes (primitive : ProcedurePrimitive5) -> (Op
 
 
 
+#[ inline (always) ]
 pub fn procedure_primitive_n_attributes (primitive : ProcedurePrimitiveN) -> (Option<ProcedureAttributes>) {
 	match primitive {
 		
@@ -1871,6 +1906,7 @@ pub fn procedure_primitive_n_attributes (primitive : ProcedurePrimitiveN) -> (Op
 }
 
 
+#[ inline (always) ]
 pub fn procedure_primitive_g_attributes (primitive : ProcedurePrimitive) -> (Option<ProcedureAttributes>) {
 	match primitive {
 		
