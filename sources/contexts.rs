@@ -15,9 +15,9 @@ use std::ptr;
 
 
 pub mod exports {
-	pub use super::{Context, ContextBindingTemplate};
-	pub use super::{Registers, RegistersBindingTemplate};
-	pub use super::Binding;
+	pub use super::{Context};
+	pub use super::{Registers, RegisterTemplate};
+	pub use super::{Binding, BindingTemplate};
 }
 
 
@@ -33,14 +33,6 @@ struct ContextInternals {
 	parent : Option<Context>,
 	immutable : bool,
 	handle : u32,
-}
-
-
-#[ derive (Clone, Debug, Hash) ]
-pub struct ContextBindingTemplate {
-	pub identifier : Symbol,
-	pub value : Option<Value>,
-	pub immutable : bool,
 }
 
 
@@ -81,18 +73,18 @@ impl Context {
 	
 	
 	#[ inline (always) ]
-	pub fn define (&self, template : &ContextBindingTemplate) -> (Outcome<Binding>) {
+	pub fn define (&self, template : &BindingTemplate) -> (Outcome<Binding>) {
 		return self.define_with_prefix (template, None);
 	}
 	
 	#[ inline (always) ]
-	pub fn define_with_prefix (&self, template : &ContextBindingTemplate, prefix : Option<&str>) -> (Outcome<Binding>) {
+	pub fn define_with_prefix (&self, template : &BindingTemplate, prefix : Option<&str>) -> (Outcome<Binding>) {
 		use std::collections::hash_map::Entry;
 		let mut self_0 = self.internals_ref_mut ();
 		if self_0.immutable {
 			fail! (0x4814c74f);
 		}
-		let template_identifier = template.identifier.string_as_str ();
+		let template_identifier = try_some_ref! (template.identifier, 0x2cd13fb0) .string_as_str ();
 		let identifier = if let Some (prefix) = prefix {
 			let mut identifier = StdString::with_capacity (template_identifier.len () + prefix.len ());
 			identifier.push_str (prefix);
@@ -115,12 +107,12 @@ impl Context {
 	
 	
 	#[ inline (always) ]
-	pub fn define_all (&self, templates : &[ContextBindingTemplate]) -> (Outcome<()>) {
+	pub fn define_all (&self, templates : &[BindingTemplate]) -> (Outcome<()>) {
 		return self.define_all_with_prefix (templates, None);
 	}
 	
 	#[ inline (always) ]
-	pub fn define_all_with_prefix (&self, templates : &[ContextBindingTemplate], prefix : Option<&str>) -> (Outcome<()>) {
+	pub fn define_all_with_prefix (&self, templates : &[BindingTemplate], prefix : Option<&str>) -> (Outcome<()>) {
 		{
 			let mut self_0 = self.internals_ref_mut ();
 			if self_0.immutable {
@@ -157,9 +149,9 @@ impl Context {
 	
 	
 	#[ inline (always) ]
-	fn new_binding (&self, template : &ContextBindingTemplate) -> (Outcome<Binding>) {
+	fn new_binding (&self, template : &BindingTemplate) -> (Outcome<Binding>) {
 		let binding = Binding::new (
-				Some (template.identifier.clone ()),
+				template.identifier.clone (),
 				template.value.clone (),
 				template.immutable,
 			);
@@ -231,6 +223,7 @@ pub struct Registers {
 	handle : u32,
 }
 
+
 #[ allow (dead_code) ]
 enum Register {
 	Binding (Binding),
@@ -241,12 +234,13 @@ enum Register {
 
 
 #[ derive (Clone, Debug, Hash) ]
-pub struct RegistersBindingTemplate {
-	pub identifier : Option<Symbol>,
-	pub borrow : Option<usize>,
-	pub value : Option<Value>,
-	pub immutable : bool,
+pub enum RegisterTemplate {
+	Borrow (usize),
+	LocalBinding (BindingTemplate),
+	LocalValue (Option<Value>, bool),
 }
+
+
 
 
 impl Registers {
@@ -265,7 +259,7 @@ impl Registers {
 	
 	
 	#[ inline (always) ]
-	pub fn new_and_define (templates : &[RegistersBindingTemplate], borrow : &Registers) -> (Outcome<Registers>) {
+	pub fn new_and_define (templates : &[RegisterTemplate], borrow : &Registers) -> (Outcome<Registers>) {
 		let mut registers = Registers::new ();
 		try! (registers.define_all (templates, borrow));
 		succeed! (registers);
@@ -368,7 +362,7 @@ impl Registers {
 	
 	
 	#[ inline (always) ]
-	pub fn define (&mut self, template : &RegistersBindingTemplate, borrow : &Registers) -> (Outcome<usize>) {
+	pub fn define (&mut self, template : &RegisterTemplate, borrow : &Registers) -> (Outcome<usize>) {
 		if self.immutable {
 			fail! (0xd7cbcdd8);
 		}
@@ -380,7 +374,7 @@ impl Registers {
 	}
 	
 	#[ inline (always) ]
-	pub fn define_all (&mut self, templates : &[RegistersBindingTemplate], borrow : &Registers) -> (Outcome<()>) {
+	pub fn define_all (&mut self, templates : &[RegisterTemplate], borrow : &Registers) -> (Outcome<()>) {
 		{
 			if self.immutable {
 				fail! (0x74189c0f);
@@ -404,18 +398,31 @@ impl Registers {
 	
 	
 	#[ inline (always) ]
-	fn new_register (&mut self, template : &RegistersBindingTemplate, borrow : &Registers) -> (Outcome<Register>) {
-		if let Some (index) = template.borrow {
-			let binding = try! (borrow.resolve_binding_option (index));
-			let binding = try_some! (binding, 0x2f543c30);
-			let register = Register::Binding (binding);
-			succeed! (register);
-		} else if let Some (ref value) = template.value {
-			let register = Register::Value (value.clone (), template.immutable);
-			succeed! (register);
-		} else {
-			let register = Register::Uninitialized (template.immutable);
-			succeed! (register);
+	fn new_register (&mut self, template : &RegisterTemplate, borrow : &Registers) -> (Outcome<Register>) {
+		match *template {
+			RegisterTemplate::Borrow (index) => {
+				let binding = try! (borrow.resolve_binding_option (index));
+				let binding = try_some! (binding, 0x2f543c30);
+				let register = Register::Binding (binding);
+				succeed! (register);
+			},
+			RegisterTemplate::LocalBinding (ref template) => {
+				let binding = Binding::new (
+						template.identifier.clone (),
+						template.value.clone (),
+						template.immutable
+					);
+				let register = Register::Binding (binding);
+				succeed! (register);
+			},
+			RegisterTemplate::LocalValue (ref value, immutable) => {
+				let register = if let Some (ref value) = *value {
+					Register::Value (value.clone (), immutable)
+				} else {
+					Register::Uninitialized (immutable)
+				};
+				succeed! (register);
+			},
 		}
 	}
 	
@@ -519,6 +526,14 @@ struct BindingInternals {
 	initialized : bool,
 	immutable : bool,
 	handle : u32,
+}
+
+
+#[ derive (Clone, Debug, Hash) ]
+pub struct BindingTemplate {
+	pub identifier : Option<Symbol>,
+	pub value : Option<Value>,
+	pub immutable : bool,
 }
 
 

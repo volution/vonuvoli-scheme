@@ -61,7 +61,7 @@ pub enum Expression {
 	ProcedureLambdaCall ( ExpressionForProcedureLambdaCall ),
 	ProcedureNativeCall ( ExpressionForProcedureNativeCall ),
 	
-	Lambda ( LambdaTemplate, ExpressionBox, StdBox<[RegistersBindingTemplate]>, StdBox<[RegistersBindingTemplate]> ),
+	Lambda ( LambdaTemplate, ExpressionBox, StdBox<[RegisterTemplate]>, StdBox<[RegisterTemplate]> ),
 	
 }
 
@@ -81,7 +81,7 @@ pub enum ExpressionForContexts {
 	BindingSetValues ( StdBox<[Binding]>, ExpressionBox ),
 	BindingGet1 ( Binding ),
 	
-	RegisterClosure ( ExpressionBox, StdBox<[RegistersBindingTemplate]> ),
+	RegisterClosure ( ExpressionBox, StdBox<[RegisterTemplate]> ),
 	RegisterInitialize1 ( usize, ExpressionBox ),
 	RegisterInitializeN ( StdBox<[(usize, Expression)]>, bool ),
 	RegisterInitializeValues ( StdBox<[usize]>, ExpressionBox ),

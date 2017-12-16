@@ -18,15 +18,15 @@ pub mod exports {
 
 
 #[ inline (always) ]
-pub fn generate_binding_templates () -> (Outcome<StdVec<ContextBindingTemplate>>) {
+pub fn generate_binding_templates () -> (Outcome<StdVec<BindingTemplate>>) {
 	
 	let definitions = try! (generate_definitions ());
 	
 	let templates = vec_map_into! (
 			definitions,
 			(identifier, value),
-			ContextBindingTemplate {
-					identifier : identifier,
+			BindingTemplate {
+					identifier : Some (identifier),
 					value : Some (value),
 					immutable : true,
 				}

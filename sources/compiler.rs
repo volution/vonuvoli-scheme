@@ -145,13 +145,13 @@ impl Compiler {
 	
 	fn compile_symbol (&self, compilation : CompilerContext, identifier : Symbol) -> (Outcome<(CompilerContext, Expression)>) {
 		let mut compilation = compilation;
-		match try! (compilation.bindings.resolve (identifier)) {
+		match try! (compilation.resolve (identifier)) {
+			CompilerBinding::Binding (binding, _) =>
+				succeed! ((compilation, ExpressionForContexts::BindingGet1 (binding) .into ())),
+			CompilerBinding::Register (index, _) =>
+				succeed! ((compilation, ExpressionForContexts::RegisterGet1 (index) .into ())),
 			CompilerBinding::Undefined =>
 				fail! (0xc6825cfd),
-			CompilerBinding::Binding (binding) =>
-				succeed! ((compilation, ExpressionForContexts::BindingGet1 (binding) .into ())),
-			CompilerBinding::Register (index) =>
-				succeed! ((compilation, ExpressionForContexts::RegisterGet1 (index) .into ())),
 		}
 	}
 	
@@ -180,7 +180,7 @@ impl Compiler {
 		match callable.class () {
 			
 			ValueClass::Symbol => {
-				if let Some (callable) = try! (compilation.bindings.resolve_value (callable.into ())) {
+				if let Some (callable) = try! (compilation.resolve_value (callable.into ())) {
 					match callable.class () {
 						ValueClass::SyntaxPrimitive =>
 							succeed! ((compilation, Some ((callable.into (), arguments)))),
@@ -530,7 +530,7 @@ impl Compiler {
 			}
 			
 			for identifier in identifiers.into_iter () {
-				let binding = try! (compilation.bindings.define (identifier));
+				let binding = try! (compilation.define (identifier));
 				binding_templates.push (binding);
 			}
 			
@@ -589,7 +589,7 @@ impl Compiler {
 	
 	fn compile_syntax_locals (&self, compilation : CompilerContext, statements : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
-		let compilation = try! (compilation.fork_locals (false));
+		let compilation = try! (compilation.fork_locals (true));
 		let (compilation, statements) = try! (self.compile_0_vec (compilation, statements));
 		let (compilation, registers) = try! (compilation.unfork_locals ());
 		
@@ -633,7 +633,7 @@ impl Compiler {
 			initializers.push (initializer);
 		}
 		
-		let mut compilation = try! (compilation.fork_locals (false));
+		let mut compilation = try! (compilation.fork_locals (true));
 		let mut binding_templates = StdVec::new ();
 		let mut binding_initializers = StdVec::new ();
 		
@@ -646,7 +646,7 @@ impl Compiler {
 					binding_initializers.push (initializer);
 				}
 				for identifier in identifiers.into_iter () {
-					let binding = try! (compilation.bindings.define (identifier));
+					let binding = try! (compilation.define (identifier));
 					binding_templates.push (binding);
 				}
 			},
@@ -655,7 +655,7 @@ impl Compiler {
 				for (initializer, identifier) in initializers.into_iter ().zip (identifiers.into_iter ()) {
 					let (compilation_1, initializer) = try! (self.compile_0 (compilation, initializer));
 					compilation = compilation_1;
-					let binding = try! (compilation.bindings.define (identifier));
+					let binding = try! (compilation.define (identifier));
 					binding_initializers.push (initializer);
 					binding_templates.push (binding);
 				}
@@ -663,7 +663,7 @@ impl Compiler {
 			
 			SyntaxPrimitiveV::LetRecursiveParallel | SyntaxPrimitiveV::LetRecursiveSequential => {
 				for identifier in identifiers.into_iter () {
-					let binding = try! (compilation.bindings.define (identifier));
+					let binding = try! (compilation.define (identifier));
 					binding_templates.push (binding);
 				}
 				for initializer in initializers.into_iter () {
@@ -741,7 +741,7 @@ impl Compiler {
 			initializers.push (initializer);
 		}
 		
-		let mut compilation = try! (compilation.fork_locals (false));
+		let mut compilation = try! (compilation.fork_locals (true));
 		let mut binding_templates_n = StdVec::new ();
 		let mut binding_initializers = StdVec::new ();
 		
@@ -756,7 +756,7 @@ impl Compiler {
 				for identifiers in identifiers_n.into_iter () {
 					let mut binding_templates = StdVec::new ();
 					for identifier in identifiers.into_iter () {
-						let binding = try! (compilation.bindings.define (identifier));
+						let binding = try! (compilation.define (identifier));
 						binding_templates.push (binding);
 					}
 					binding_templates_n.push (binding_templates);
@@ -769,7 +769,7 @@ impl Compiler {
 					compilation = compilation_1;
 					let mut binding_templates = StdVec::new ();
 					for identifier in identifiers.into_iter () {
-						let binding = try! (compilation.bindings.define (identifier));
+						let binding = try! (compilation.define (identifier));
 						binding_templates.push (binding);
 					}
 					binding_templates_n.push (binding_templates);
@@ -818,7 +818,7 @@ impl Compiler {
 				let identifier = try_into_symbol! (signature);
 				let statement = try! (vec_explode_1 (statements));
 				
-				let binding = try! (compilation.bindings.define (identifier));
+				let binding = try! (compilation.define (identifier));
 				let (compilation, expression) = try! (self.compile_0 (compilation, statement));
 				
 				(compilation, binding, expression)
@@ -837,7 +837,7 @@ impl Compiler {
 				let arguments_positional = try_vec_map_into! (arguments_positional, value, Symbol::try_from (value));
 				let argument_rest = try_option_map! (argument_rest, Symbol::try_from (argument_rest));
 				
-				let binding = try! (compilation.bindings.define (identifier.clone ()));
+				let binding = try! (compilation.define (identifier.clone ()));
 				let (compilation, expression) = try! (self.compile_syntax_lambda_0 (compilation, Some (identifier), arguments_positional, argument_rest, statements));
 				
 				(compilation, binding, expression)
@@ -868,7 +868,7 @@ impl Compiler {
 		let mut compilation = compilation;
 		let mut binding_templates = StdVec::new ();
 		for identifier in identifiers.into_iter () {
-			let binding = try! (compilation.bindings.define (identifier));
+			let binding = try! (compilation.define (identifier));
 			binding_templates.push (binding);
 		}
 		
@@ -892,7 +892,7 @@ impl Compiler {
 		let identifier = try_into_symbol! (identifier);
 		
 		let mut compilation = compilation;
-		let binding = try! (compilation.bindings.resolve (identifier));
+		let binding = try! (compilation.resolve (identifier));
 		
 		let (compilation, initializer) = try! (self.compile_0 (compilation, initializer));
 		
@@ -917,7 +917,7 @@ impl Compiler {
 		let mut compilation = compilation;
 		let mut bindings = StdVec::new ();
 		for identifier in identifiers.into_iter () {
-			let binding = try! (compilation.bindings.resolve (identifier));
+			let binding = try! (compilation.resolve (identifier));
 			bindings.push (binding);
 		}
 		
@@ -934,10 +934,7 @@ impl Compiler {
 	fn compile_syntax_binding_set_1 (&self, binding : CompilerBinding, expression : Expression, initialize : bool) -> (Outcome<Expression>) {
 		match binding {
 			
-			CompilerBinding::Undefined =>
-				fail! (0x42370d15),
-			
-			CompilerBinding::Binding (binding) => {
+			CompilerBinding::Binding (binding, _) => {
 				let expression = if initialize {
 					ExpressionForContexts::BindingInitialize1 (binding, expression.into ()) .into ()
 				} else {
@@ -946,7 +943,7 @@ impl Compiler {
 				succeed! (expression);
 			},
 			
-			CompilerBinding::Register (index) => {
+			CompilerBinding::Register (index, _) => {
 				let expression = if initialize {
 					ExpressionForContexts::RegisterInitialize1 (index, expression.into ()) .into ()
 				} else {
@@ -954,6 +951,9 @@ impl Compiler {
 				};
 				succeed! (expression);
 			},
+			
+			CompilerBinding::Undefined =>
+				fail! (0x42370d15),
 			
 		}
 	}
@@ -972,15 +972,12 @@ impl Compiler {
 		
 		match initializers[0].0 {
 			
-			CompilerBinding::Undefined =>
-				fail! (0xac48836a),
-			
-			CompilerBinding::Binding (_) => {
+			CompilerBinding::Binding (_, _) => {
 				let initializers = try_vec_map_into! (
 						initializers,
 						(binding, expression),
 						match binding {
-							CompilerBinding::Binding (binding) =>
+							CompilerBinding::Binding (binding, _) =>
 								succeed! ((binding, expression)),
 							_ =>
 								fail! (0x31f5b387),
@@ -993,12 +990,12 @@ impl Compiler {
 				succeed! (expression);
 			},
 			
-			CompilerBinding::Register (_) => {
+			CompilerBinding::Register (_, _) => {
 				let initializers = try_vec_map_into! (
 						initializers,
 						(binding, expression),
 						match binding {
-							CompilerBinding::Register (index) =>
+							CompilerBinding::Register (index, _) =>
 								succeed! ((index, expression)),
 							_ =>
 								fail! (0x5627731f),
@@ -1010,6 +1007,9 @@ impl Compiler {
 				};
 				succeed! (expression);
 			},
+			
+			CompilerBinding::Undefined =>
+				fail! (0xac48836a),
 			
 		}
 	}
@@ -1025,15 +1025,12 @@ impl Compiler {
 		
 		match bindings[0] {
 			
-			CompilerBinding::Undefined =>
-				fail! (0x2d8c07dd),
-			
-			CompilerBinding::Binding (_) => {
+			CompilerBinding::Binding (_, _) => {
 				let bindings = try_vec_map_into! (
 						bindings,
 						binding,
 						match binding {
-							CompilerBinding::Binding (binding) =>
+							CompilerBinding::Binding (binding, _) =>
 								succeed! (binding),
 							_ =>
 								fail! (0xe59c62c6),
@@ -1046,12 +1043,12 @@ impl Compiler {
 				succeed! (expression);
 			},
 			
-			CompilerBinding::Register (_) => {
+			CompilerBinding::Register (_, _) => {
 				let bindings = try_vec_map_into! (
 						bindings,
 						binding,
 						match binding {
-							CompilerBinding::Register (index) =>
+							CompilerBinding::Register (index, _) =>
 								succeed! (index),
 							_ =>
 								fail! (0x5627731f),
@@ -1063,7 +1060,10 @@ impl Compiler {
 				};
 				succeed! (expression);
 			},
-		
+			
+			CompilerBinding::Undefined =>
+				fail! (0x2d8c07dd),
+			
 		}
 	}
 	
@@ -1116,30 +1116,26 @@ impl Compiler {
 	
 	fn compile_syntax_lambda_0 (&self, compilation : CompilerContext, identifier : Option<Symbol>, arguments_positional : StdVec<Symbol>, argument_rest : Option<Symbol>, statements : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
-		let arguments_count = arguments_positional.len () + if argument_rest.is_some () { 1 } else { 0 };
-		
-		let compilation = try! (compilation.fork_locals (true));
+		let compilation = try! (compilation.fork_locals_with_bindings ());
 		
 		let mut compilation = try! (compilation.fork_locals (true));
 		for identifier in &arguments_positional {
-			try! (compilation.bindings.define (identifier.clone ()));
+			try! (compilation.define (identifier.clone ()));
 		}
 		if let Some (ref identifier) = argument_rest {
-			try! (compilation.bindings.define (identifier.clone ()));
+			try! (compilation.define (identifier.clone ()));
 		}
 		
 		let (compilation, statements) = try! (self.compile_0_vec (compilation, statements));
 		
-		let (compilation, mut registers_local) = try! (compilation.unfork_locals ());
+		let (compilation, registers_local) = try! (compilation.unfork_locals ());
 		let (compilation, registers_closure) = try! (compilation.unfork_locals ());
-		
-		let registers_local = registers_local.split_off (arguments_count);
 		
 		let statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, statements.into_boxed_slice ());
 		
 		let template = LambdaTemplate {
 				identifier : identifier,
-				arguments_positional : arguments_positional,
+				arguments_positional : arguments_positional.into_boxed_slice (),
 				argument_rest : argument_rest,
 			};
 		
@@ -1355,6 +1351,7 @@ struct CompilerContext {
 
 impl CompilerContext {
 	
+	
 	fn new_with_context (context : Option<&Context>) -> (CompilerContext) {
 		if let Some (context) = context {
 			return CompilerContext::new_with_bindings (CompilerBindings::Globals1 (context.clone ()));
@@ -1369,14 +1366,33 @@ impl CompilerContext {
 			};
 	}
 	
+	
 	fn fork_locals (self, force : bool) -> (Outcome<CompilerContext>) {
 		let bindings = try! (self.bindings.fork_locals (force));
 		succeed! (CompilerContext::new_with_bindings (bindings));
 	}
 	
-	fn unfork_locals (self) -> (Outcome<(CompilerContext, StdVec<RegistersBindingTemplate>)>) {
+	fn fork_locals_with_bindings (self) -> (Outcome<CompilerContext>) {
+		let bindings = try! (self.bindings.fork_locals_with_bindings ());
+		succeed! (CompilerContext::new_with_bindings (bindings));
+	}
+	
+	fn unfork_locals (self) -> (Outcome<(CompilerContext, StdVec<RegisterTemplate>)>) {
 		let (bindings, registers) = try! (self.bindings.unfork_locals ());
 		succeed! ((CompilerContext::new_with_bindings (bindings), registers));
+	}
+	
+	
+	fn resolve (&mut self, identifier : Symbol) -> (Outcome<CompilerBinding>) {
+		return self.bindings.resolve (identifier);
+	}
+	
+	fn resolve_value (&mut self, identifier : Symbol) -> (Outcome<Option<Value>>) {
+		return self.bindings.resolve_value (identifier);
+	}
+	
+	fn define (&mut self, identifier : Symbol) -> (Outcome<CompilerBinding>) {
+		return self.bindings.define (identifier);
 	}
 }
 
@@ -1388,15 +1404,15 @@ enum CompilerBindings {
 	None,
 	Globals1 (Context),
 	Globals2 (StdBox<CompilerBindings>, Context),
-	Locals (StdBox<CompilerBindings>, StdMap<Symbol, CompilerBinding>, StdVec<RegistersBindingTemplate>, usize),
+	Locals (StdBox<CompilerBindings>, StdMap<Symbol, CompilerBinding>, StdVec<RegisterTemplate>, bool),
 }
 
 
 #[ derive (Clone, Debug) ]
 enum CompilerBinding {
 	Undefined,
-	Binding (Binding),
-	Register (usize),
+	Binding (Binding, Option<BindingTemplate>),
+	Register (usize, RegisterTemplate),
 }
 
 
@@ -1405,7 +1421,7 @@ impl CompilerBindings {
 	
 	fn fork_locals (self, force : bool) -> (Outcome<CompilerBindings>) {
 		if force {
-			succeed! (CompilerBindings::Locals (StdBox::new (self), StdMap::new (), StdVec::new (), 1));
+			succeed! (CompilerBindings::Locals (StdBox::new (self), StdMap::new (), StdVec::new (), false));
 		} else {
 			match self {
 				CompilerBindings::None =>
@@ -1414,13 +1430,18 @@ impl CompilerBindings {
 					succeed! (CompilerBindings::Globals2 (StdBox::new (self), Context::new (None))),
 				CompilerBindings::Globals2 (_, _) =>
 					succeed! (CompilerBindings::Globals2 (StdBox::new (self), Context::new (None))),
-				CompilerBindings::Locals (_, _, _, depth) =>
-					succeed! (CompilerBindings::Locals (StdBox::new (self), StdMap::new (), StdVec::new (), depth + 1)),
+				CompilerBindings::Locals (_, _, _, _) =>
+					succeed! (CompilerBindings::Locals (StdBox::new (self), StdMap::new (), StdVec::new (), false)),
 			}
 		}
 	}
 	
-	fn unfork_locals (self) -> (Outcome<(CompilerBindings, StdVec<RegistersBindingTemplate>)>) {
+	fn fork_locals_with_bindings (self) -> (Outcome<CompilerBindings>) {
+		succeed! (CompilerBindings::Locals (StdBox::new (self), StdMap::new (), StdVec::new (), true));
+	}
+	
+	
+	fn unfork_locals (self) -> (Outcome<(CompilerBindings, StdVec<RegisterTemplate>)>) {
 		match self {
 			CompilerBindings::None =>
 				fail! (0x98657e5a),
@@ -1435,39 +1456,60 @@ impl CompilerBindings {
 	
 	
 	fn resolve (&mut self, identifier : Symbol) -> (Outcome<CompilerBinding>) {
+		return self.resolve_0 (identifier, false);
+	}
+	
+	fn resolve_0 (&mut self, identifier : Symbol, force_binding : bool) -> (Outcome<CompilerBinding>) {
 		match *self {
 			CompilerBindings::None =>
 				succeed! (CompilerBinding::Undefined),
 			CompilerBindings::Globals1 (ref context) =>
 				if let Some (binding) = try! (context.resolve (&identifier)) {
-					succeed! (CompilerBinding::Binding (binding));
+					succeed! (CompilerBinding::Binding (binding, None));
 				} else {
 					succeed! (CompilerBinding::Undefined);
 				},
 			CompilerBindings::Globals2 (ref mut parent, ref context) =>
 				if let Some (binding) = try! (context.resolve (&identifier)) {
-					succeed! (CompilerBinding::Binding (binding));
+					succeed! (CompilerBinding::Binding (binding, None));
 				} else {
-					return parent.resolve (identifier);
+					return parent.resolve_0 (identifier, force_binding);
 				},
-			CompilerBindings::Locals (ref mut parent, ref mut cached, ref mut registers, _depth) => {
-				if let Some (binding) = cached.get (&identifier) {
-					succeed! (binding.clone ());
-				} /*else*/ {
-					match try! (parent.resolve (identifier.clone ())) {
+			CompilerBindings::Locals (ref mut parent, ref mut cached, ref mut registers, _) => {
+				let transform_into_binding = if let Some (binding) = cached.get (&identifier) {
+					match *binding {
+						ref binding @ CompilerBinding::Undefined |
+						ref binding @ CompilerBinding::Binding (_, _) |
+						ref binding @ CompilerBinding::Register (_, RegisterTemplate::Borrow (_)) |
+						ref binding @ CompilerBinding::Register (_, RegisterTemplate::LocalBinding (_)) =>
+							succeed! (binding.clone ()),
+						ref binding @ CompilerBinding::Register (_, RegisterTemplate::LocalValue (_, _)) if ! force_binding =>
+							succeed! (binding.clone ()),
+						CompilerBinding::Register (index, RegisterTemplate::LocalValue (ref value, immutable)) =>
+							Some ((index, BindingTemplate { identifier : None, value : value.clone (), immutable : immutable })),
+					}
+				} else {
+					None
+				};
+				if let Some ((index, template)) = transform_into_binding {
+					let template = RegisterTemplate::LocalBinding (template);
+					let binding = CompilerBinding::Register (index, template.clone ());
+					registers[index] = template;
+					cached.insert (identifier, binding.clone ());
+					succeed! (binding);
+				}
+				{
+					match try! (parent.resolve_0 (identifier.clone (), true)) {
 						CompilerBinding::Undefined =>
 							succeed! (CompilerBinding::Undefined),
-						binding @ CompilerBinding::Binding (_) =>
-							succeed! (binding),
-						CompilerBinding::Register (parent_index) => {
+						binding @ CompilerBinding::Binding (_, _) => {
+							cached.insert (identifier, binding.clone ());
+							succeed! (binding);
+						},
+						CompilerBinding::Register (parent_index, _) => {
 							let self_index = registers.len ();
-							let self_binding = CompilerBinding::Register (self_index);
-							let template = RegistersBindingTemplate {
-									identifier : Some (identifier.clone ()),
-									borrow : Some (parent_index),
-									value : None,
-									immutable : false,
-								};
+							let template = RegisterTemplate::Borrow (parent_index);
+							let self_binding = CompilerBinding::Register (self_index, template.clone ());
 							registers.push (template);
 							cached.insert (identifier, self_binding.clone ());
 							succeed! (self_binding);
@@ -1478,44 +1520,45 @@ impl CompilerBindings {
 		}
 	}
 	
+	
+	fn resolve_value (&mut self, identifier : Symbol) -> (Outcome<Option<Value>>) {
+		match try! (self.resolve (identifier)) {
+			CompilerBinding::Binding (binding, _) =>
+				succeed! (try! (binding.get_option ())),
+			CompilerBinding::Register (_index, _) =>
+				succeed! (None),
+			CompilerBinding::Undefined =>
+				succeed! (None),
+		}
+	}
+	
+	
 	fn define (&mut self, identifier : Symbol) -> (Outcome<CompilerBinding>) {
 		match *self {
 			CompilerBindings::None =>
 				fail! (0xd943456d),
 			CompilerBindings::Globals1 (ref context) | CompilerBindings::Globals2 (_, ref context) => {
-				let template = ContextBindingTemplate {
-						identifier : identifier,
+				let template = BindingTemplate {
+						identifier : Some (identifier),
 						value : None,
 						immutable : false,
 					};
 				let binding = try! (context.define (&template));
-				succeed! (CompilerBinding::Binding (binding));
+				succeed! (CompilerBinding::Binding (binding, Some (template)));
 			},
-			CompilerBindings::Locals (ref _parent, ref mut cached, ref mut registers, _depth) => {
+			CompilerBindings::Locals (ref _parent, ref mut cached, ref mut registers, force_binding) => {
 				let index = registers.len ();
-				let binding = CompilerBinding::Register (index);
-				let template = RegistersBindingTemplate {
-						identifier : Some (identifier.clone ()),
-						borrow : None,
-						value : None,
-						immutable : false,
-					};
+				let template = if force_binding {
+					let template = BindingTemplate { identifier : None, value : None, immutable : false };
+					RegisterTemplate::LocalBinding (template)
+				} else {
+					RegisterTemplate::LocalValue (None, false)
+				};
+				let binding = CompilerBinding::Register (index, template.clone ());
 				registers.push (template);
 				cached.insert (identifier, binding.clone ());
 				succeed! (binding);
 			},
-		}
-	}
-	
-	
-	fn resolve_value (&mut self, identifier : Symbol) -> (Outcome<Option<Value>>) {
-		match try! (self.resolve (identifier)) {
-			CompilerBinding::Undefined =>
-				succeed! (None),
-			CompilerBinding::Binding (binding) =>
-				succeed! (try! (binding.get_option ())),
-			CompilerBinding::Register (_index) =>
-				succeed! (None),
 		}
 	}
 }

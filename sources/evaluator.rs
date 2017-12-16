@@ -481,8 +481,8 @@ impl Evaluator {
 	#[ inline (always) ]
 	fn evaluate_context_define (&self, evaluation : &mut EvaluatorContext, identifier : &Symbol, expression : &Expression) -> (Outcome<Value>) {
 		let context = try_some! (evaluation.context, 0xfe053ac6);
-		let template = ContextBindingTemplate {
-				identifier : identifier.clone (),
+		let template = BindingTemplate {
+				identifier : Some (identifier.clone ()),
 				value : None,
 				immutable : false,
 			};
@@ -602,7 +602,7 @@ impl Evaluator {
 	
 	
 	#[ inline (always) ]
-	fn evaluate_register_closure (&self, evaluation : &mut EvaluatorContext, expression : &Expression, borrows : &[RegistersBindingTemplate]) -> (Outcome<Value>) {
+	fn evaluate_register_closure (&self, evaluation : &mut EvaluatorContext, expression : &Expression, borrows : &[RegisterTemplate]) -> (Outcome<Value>) {
 		let registers = try! (Registers::new_and_define (borrows, &evaluation.registers));
 		let mut evaluation = EvaluatorContext::new (self, evaluation.context, registers);
 		return self.evaluate (&mut evaluation, expression);
@@ -696,9 +696,10 @@ impl Evaluator {
 	
 	
 	#[ inline (always) ]
-	fn evaluate_lambda_create (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaTemplate, expressions : &Expression, registers_closure : &[RegistersBindingTemplate], registers_local : &[RegistersBindingTemplate]) -> (Outcome<Value>) {
+	fn evaluate_lambda_create (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaTemplate, expressions : &Expression, registers_closure : &[RegisterTemplate], registers_local : &[RegisterTemplate]) -> (Outcome<Value>) {
 		let registers_closure = try! (Registers::new_and_define (registers_closure, &evaluation.registers));
-		let lambda = Lambda::new (lambda.clone (), expressions.clone (), registers_closure, registers_local.to_vec ());
+		let registers_local = registers_local.to_vec () .into_boxed_slice ();
+		let lambda = Lambda::new (lambda.clone (), expressions.clone (), registers_closure, registers_local);
 		succeed! (ProcedureLambda::new (lambda) .into ());
 	}
 	
@@ -715,44 +716,42 @@ impl Evaluator {
 	#[ inline (never) ]
 	fn evaluate_procedure_lambda_with_values (&self, _evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, inputs : &[&Value]) -> (Outcome<Value>) {
 		
-		let mut registers = StdVec::with_capacity (lambda.arguments_positional.len () + 1 + lambda.registers_local.len ());
+		let lambda_arguments_positional = lambda.arguments_positional.as_ref ();
+		let lambda_argument_rest = &lambda.argument_rest;
+		let lambda_registers_local = lambda.registers_local.as_ref ();
+		let lambda_registers_closure = &lambda.registers_closure;
+		let lambda_expression = &lambda.expression;
 		
 		let inputs_count = inputs.len ();
-		let mut inputs_offset = 0;
-		for identifier in &lambda.arguments_positional {
-			if inputs_offset >= inputs_count {
-				fail! (0x1fbd1c55);
-			}
-			let register = RegistersBindingTemplate {
-					identifier : Some (identifier.clone ()),
-					value : Some (inputs[inputs_offset].clone ()),
-					borrow : None,
-					immutable : false,
-				};
-			registers.push (register);
-			inputs_offset += 1;
-		}
-		if let Some (ref identifier) = lambda.argument_rest {
-			let inputs = list_build_n (&inputs[inputs_offset..]);
-			let register = RegistersBindingTemplate {
-					identifier : Some (identifier.clone ()),
-					value : Some (inputs),
-					borrow : None,
-					immutable : false,
-				};
-			registers.push (register);
-		} else {
-			if inputs_offset < inputs_count {
+		if lambda_argument_rest.is_none () {
+			if inputs_count != lambda_arguments_positional.len () {
 				fail! (0x6c9a5289);
 			}
+		} else {
+			if inputs_count < lambda_arguments_positional.len () {
+				fail! (0xdbd70de8);
+			}
 		}
 		
-		registers.extend (lambda.registers_local.iter () .cloned ());
+		let mut registers = try! (Registers::new_and_define (&lambda_registers_local, lambda_registers_closure));
 		
-		let registers = try! (Registers::new_and_define (&registers, &lambda.registers_closure));
+		let mut inputs_offset = 0;
+		for _identifier in lambda_arguments_positional {
+			let input = inputs[inputs_offset].clone ();
+			try! (registers.initialize_value (inputs_offset, input));
+			inputs_offset += 1;
+		}
+		if let Some (ref _identifier) = *lambda_argument_rest {
+			let inputs = if inputs_offset < inputs_count {
+				list_build_n (&inputs[inputs_offset..])
+			} else {
+				NULL.into ()
+			};
+			try! (registers.initialize_value (inputs_offset, inputs));
+		}
 		
 		let mut evaluation = EvaluatorContext::new (self, None, registers);
-		return self.evaluate (&mut evaluation, &lambda.expression);
+		return self.evaluate (&mut evaluation, lambda_expression);
 	}
 	
 	

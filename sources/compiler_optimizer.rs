@@ -586,7 +586,7 @@ impl Optimizer {
 	
 	
 	
-	fn optimize_register_closure (&self, optimization : OptimizerContext, expression : Expression, borrows : StdBox<[RegistersBindingTemplate]>) -> (Outcome<(OptimizerContext, Expression)>) {
+	fn optimize_register_closure (&self, optimization : OptimizerContext, expression : Expression, borrows : StdBox<[RegisterTemplate]>) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
 		let expression = ExpressionForContexts::RegisterClosure (expression.into (), borrows) .into ();
 		succeed! ((optimization, expression));
@@ -640,7 +640,7 @@ impl Optimizer {
 	
 	
 	
-	fn optimize_lambda_create (&self, optimization : OptimizerContext, template : LambdaTemplate, expression : Expression, registers_closure : StdBox<[RegistersBindingTemplate]>, registers_local : StdBox<[RegistersBindingTemplate]>) -> (Outcome<(OptimizerContext, Expression)>) {
+	fn optimize_lambda_create (&self, optimization : OptimizerContext, template : LambdaTemplate, expression : Expression, registers_closure : StdBox<[RegisterTemplate]>, registers_local : StdBox<[RegisterTemplate]>) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
 		let expression = Expression::Lambda (template, expression.into (), registers_closure, registers_local);
 		succeed! ((optimization, expression));

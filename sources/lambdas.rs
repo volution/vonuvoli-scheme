@@ -32,19 +32,19 @@ pub struct Lambda ( StdRc<LambdaInternals> );
 #[ derive (Debug, Hash) ]
 pub struct LambdaInternals {
 	pub identifier : Option<Symbol>,
-	pub arguments_positional : StdVec<Symbol>,
+	pub arguments_positional : StdBox<[Symbol]>,
 	pub argument_rest : Option<Symbol>,
 	pub expression : Expression,
 	// FIXME:  Recursive functions might leak;  investigate!
 	pub registers_closure : Registers,
-	pub registers_local : StdVec<RegistersBindingTemplate>,
+	pub registers_local : StdBox<[RegisterTemplate]>,
 }
 
 
 #[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
 pub struct LambdaTemplate {
 	pub identifier : Option<Symbol>,
-	pub arguments_positional : StdVec<Symbol>,
+	pub arguments_positional : StdBox<[Symbol]>,
 	pub argument_rest : Option<Symbol>,
 }
 
@@ -52,7 +52,7 @@ pub struct LambdaTemplate {
 impl Lambda {
 	
 	#[ inline (always) ]
-	pub fn new (template : LambdaTemplate, expression : Expression, registers_closure : Registers, registers_local : StdVec<RegistersBindingTemplate>) -> (Lambda) {
+	pub fn new (template : LambdaTemplate, expression : Expression, registers_closure : Registers, registers_local : StdBox<[RegisterTemplate]>) -> (Lambda) {
 		let internals = LambdaInternals {
 				identifier : template.identifier,
 				arguments_positional : template.arguments_positional,
