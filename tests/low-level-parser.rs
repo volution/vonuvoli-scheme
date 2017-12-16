@@ -8,7 +8,8 @@ use rust_scheme::exports::*;
 
 
 #[ test ]
-fn test () -> () {
+#[ allow (non_snake_case) ]
+fn test__0 () -> () {
 	
 	let tests = vec! [
 			

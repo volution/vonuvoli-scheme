@@ -9,7 +9,8 @@ use rust_scheme::runtime::exports::*;
 
 
 #[ test ]
-fn test () -> () {
+#[ allow (non_snake_case) ]
+fn test__0 () -> () {
 	
 	
 	
