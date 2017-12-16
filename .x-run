@@ -11,7 +11,7 @@ if test -e ./.x-run.options -a ./.x-run.options -nt ./.x-run ; then
 	exit -- 1
 else
 	exec {_stdout_fd}<&1
-	exec >| ./.x-run.options.tmp
+	exec >| ./.x-run.options.tmp1
 fi
 
 
@@ -177,11 +177,11 @@ find ./tests/scripts -type f -name 'benchmark--*.ss' -printf '%f\n' \
 | sort -u \
 | while read _script ; do
 sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
-:: execute / bin / compiler / scheme / @{SCRIPT} / debug :: x-run ':: compile / bin / compiler / debug' --quiet ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-compiler < './tests/scripts/benchmark--@{SCRIPT}.ss' >| './tests/scripts/_out/benchmark--@{SCRIPT}--compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--@{SCRIPT}--compile.out'
-:: execute / bin / compiler / scheme / @{SCRIPT} / release :: x-run ':: compile / bin / compiler / release' --quiet ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-compiler < ./tests/scripts/benchmark--@{SCRIPT}.ss' >| './tests/scripts/_out/benchmark--@{SCRIPT}--compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--@{SCRIPT}--compile.out'
-:: execute / benchmark / scheme / @{SCRIPT} / debug :: x-run ':: compile / bin / interpreter / debug' --quiet ; exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-interpreter < './tests/scripts/benchmark--@{SCRIPT}.ss'
-:: execute / benchmark / scheme / @{SCRIPT} / release :: x-run ':: compile / bin / interpreter / release' --quiet ; exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-interpreter < './tests/scripts/benchmark--@{SCRIPT}.ss'
-:: execute / benchmark / chibi / @{SCRIPT} :: exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- chibi-scheme -m scheme.base -m scheme.time -- './tests/scripts/benchmark--@{SCRIPT}.ss'
+:: execute / bin / compiler / scheme / @{SCRIPT} / debug :: x-run ':: compile / bin / compiler / debug' --quiet ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-compiler < './tests/scripts/benchmark--@{SCRIPT}.ss' >| './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-compile.out'
+:: execute / bin / compiler / scheme / @{SCRIPT} / release :: x-run ':: compile / bin / compiler / release' --quiet ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-compiler < ./tests/scripts/benchmark--@{SCRIPT}.ss' >| './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-compile.out'
+:: execute / benchmark / scheme / @{SCRIPT} / debug :: x-run ':: compile / bin / interpreter / debug' --quiet ; exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-interpreter < './tests/scripts/benchmark--@{SCRIPT}.ss' >| './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-debug.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-debug.out'
+:: execute / benchmark / scheme / @{SCRIPT} / release :: x-run ':: compile / bin / interpreter / release' --quiet ; exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-interpreter < './tests/scripts/benchmark--@{SCRIPT}.ss' >| './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-release.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-release.out'
+:: execute / benchmark / chibi / @{SCRIPT} :: exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- chibi-scheme -m scheme.base -m scheme.time -- './tests/scripts/benchmark--@{SCRIPT}.ss' >| './tests/scripts/_out/benchmark--@{SCRIPT}--chibi.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--chibi.out'
 EOS
 done
 
@@ -191,7 +191,7 @@ find ./tests/scripts -type f -name 'benchmark--*.py' -printf '%f\n' \
 | sort -u \
 | while read _script ; do
 sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
-:: execute / benchmark / python / @{SCRIPT} :: exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- python2 -E -O -O -B -u -- './tests/scripts/benchmark--@{SCRIPT}.py'
+:: execute / benchmark / python / @{SCRIPT} :: exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- python2 -E -O -O -B -u -- './tests/scripts/benchmark--@{SCRIPT}.py' >| './tests/scripts/_out/benchmark--@{SCRIPT}--python.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--python.out'
 EOS
 done
 
@@ -212,16 +212,37 @@ sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
 EOS
 done
 
+printf -- '%s\n' '<< execute / benchmark / compare / all'
+find ./tests/scripts -type f -name 'benchmark--*.ss' -printf '%f\n' \
+| sed -r -e 's/^benchmark--//' -e 's/\.ss$//' \
+| sort -u \
+| while read _script ; do
+printf -- '%s\n' "x-run ':: execute / benchmark / compare / ${_script}'"
+done
+printf -- '%s\n' '!!'
 
-find ./tests/scripts -type f -name 'optimizer--*.ss' -printf '%f\n' \
-| sed -r -e 's/^optimizer--//' -e 's/\.ss$//' \
+
+find ./tests/scripts -type f \( -name 'optimizer--*.ss' -o -name 'benchmark--*.ss' \) -printf '%f\n' \
+| sed -r -e 's/^optimizer--//' -e 's/^benchmark--//' -e 's/\.ss$//' \
 | sort -u \
 | while read _script ; do
 sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
-:: execute / optimizer / scheme / @{SCRIPT} / debug :: x-run ':: compile / bin / compiler / debug' --quiet ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-compiler < ./tests/scripts/optimizer--@{SCRIPT}.ss >| './tests/scripts/_out/optimizer--@{SCRIPT}--debug.out' ; exec -- less -- './tests/scripts/_out/optimizer--@{SCRIPT}--debug.out'
-:: execute / optimizer / scheme / @{SCRIPT} / release :: x-run ':: compile / bin / compiler / release' --quiet ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-compiler < ./tests/scripts/optimizer--@{SCRIPT}.ss >| './tests/scripts/_out/optimizer--@{SCRIPT}--release.out' ; exec -- less -- './tests/scripts/_out/optimizer--@{SCRIPT}--release.out'
+:: execute / optimizer / scheme / @{SCRIPT} / debug :: x-run ':: compile / bin / compiler / debug' --quiet ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-compiler < './tests/scripts/optimizer--@{SCRIPT}.ss' >| './tests/scripts/_out/optimizer--@{SCRIPT}--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--@{SCRIPT}--scheme-compile.out'
+:: execute / optimizer / scheme / @{SCRIPT} / release :: x-run ':: compile / bin / compiler / release' --quiet ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-compiler < './tests/scripts/optimizer--@{SCRIPT}.ss' >| './tests/scripts/_out/optimizer--@{SCRIPT}--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--@{SCRIPT}--scheme-compile.out'
 EOS
 done
+
+printf -- '%s\n' '<< execute / optimizer / scheme / all / release'
+printf -- '%s\n' "x-run ':: compile / bin / compiler / release'"
+find ./tests/scripts -type f \( -name 'optimizer--*.ss' -o -name 'benchmark--*.ss' \) -printf '%f\n' \
+| sed -r -e 's/\.ss$//' \
+| sort -u \
+| while read _script ; do
+sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
+./target/release/rust-scheme-compiler < './tests/scripts/@{SCRIPT}.ss' >| './tests/scripts/_out/@{SCRIPT}--scheme-compile.out'
+EOS
+done
+printf -- '%s\n' '!!'
 
 
 find . -xdev -type f -name '*.rs' -printf ':: files / edit / %P :: exec -- sce %p\n' | sort
@@ -234,8 +255,10 @@ find . -xdev -type f -name '*.sst' -printf ':: files / view / %P :: exec -- less
 
 
 if true ; then
-	mv -T -- ./.x-run.options.tmp ./.x-run.options
 	exec 1>&"${_stdout_fd}"-
+	X_RUN_ACTION=parse x-run < ./.x-run.options.tmp1 >| ./.x-run.options.tmp2
+	mv -T -- ./.x-run.options.tmp2 ./.x-run.options
+	rm -- ./.x-run.options.tmp1
 	exec cat -- ./.x-run.options
 	exit -- 1
 fi

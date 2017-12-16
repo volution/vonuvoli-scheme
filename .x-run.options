@@ -1,0 +1,1650 @@
+
+<< compile / peg
+		test "${#}" -eq 0
+		if test ./sources/parser_peg.peg -nt ./sources/parser_peg.rs ; then
+			if test -e ./sources/parser_peg.rs ; then
+				rm -- ./sources/parser_peg.rs
+			fi
+			rust-peg < ./sources/parser_peg.peg >| ./sources/.parser_peg.rs.tmp1
+			rust-fmt < ./sources/.parser_peg.rs.tmp1 >| ./sources/.parser_peg.rs.tmp2 && _outcome=0 || _outcome="${?}"
+			if test "${_outcome}" -ne 3 ; then
+				exit -- "${_outcome}"
+			fi
+			mv -T -- ./sources/.parser_peg.rs.tmp2 ./sources/parser_peg.rs
+			rm -- ./sources/.parser_peg.rs.tmp1
+		fi
+!!
+
+<< compile / bin / interpreter / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" cargo build --bin rust-scheme-interpreter "${@}"
+!!
+
+<< compile / bin / interpreter / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" cargo build --bin rust-scheme-interpreter --release --all-features "${@}"
+!!
+
+<< compile / bin / compiler / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" cargo build --bin rust-scheme-compiler "${@}"
+!!
+
+<< compile / bin / compiler / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" cargo build --bin rust-scheme-compiler --release --all-features "${@}"
+!!
+
+<< compile / lib / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" cargo build --lib "${@}"
+!!
+
+<< compile / lib / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" cargo build --lib --release --all-features "${@}"
+!!
+
+<< compile / doc / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" cargo doc --all-features "${@}"
+!!
+
+<< compile / doc / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" cargo doc --release --all-features "${@}"
+!!
+
+<< compile / lib / source
+		x-run ':: compile / peg'
+		env PATH="${RUST_PATH}" \
+				rustc \
+						-Z unstable-options \
+						--pretty=expanded \
+						-- ./sources/lib.rs \
+		| x-run ':: execute / rust-fmt'
+!!
+
+<< compile / test / scheme / source
+		x-run ':: compile / lib / debug'
+		env PATH="${RUST_PATH}" \
+				rustc \
+						--test \
+						--extern rust_scheme=./target/debug/librust_scheme.rlib \
+						-Z unstable-options \
+						--pretty=expanded \
+						-- ./tests/scheme.rs \
+		| x-run ':: execute / rust-fmt'
+!!
+
+<< execute / rust-fmt
+		( rust-fmt "${@}" 2> /dev/null || true ) \
+		| sed -r -n \
+				-e ': b' \
+				-e '/^$/ d' \
+				-e '/^\#\[macro_use\]$/ d' \
+				-e '/^\#\[macro_export\]$/ d' \
+				-e '/^\#\[allow\(unused_macros\)\]$/ d' \
+				-e '/^macro_rules!/ b d' \
+				-e 'p' \
+				-e 'b' \
+				-e ': d' -e 'n' -e '/^ +/! b b' -e 'b d' \
+		#
+!!
+
+<< execute / bin / interpreter / debug
+	x-run ':: compile / bin / interpreter / debug' ; exec -- ./target/debug/rust-scheme-interpreter "${@}"
+!!
+
+<< execute / bin / interpreter / release
+	x-run ':: compile / bin / interpreter / release' ; exec -- ./target/release/rust-scheme-interpreter "${@}"
+!!
+
+<< execute / bin / compiler / debug
+	x-run ':: compile / bin / compiler / debug' ; exec -- ./target/debug/rust-scheme-compiler "${@}"
+!!
+
+<< execute / bin / compiler / release
+	x-run ':: compile / bin / compiler / release' ; exec -- ./target/release/rust-scheme-compiler "${@}"
+!!
+
+<< execute / test / all / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --all-features --jobs 1 -- --test-threads 1 --test 'test__' "${@}"
+!!
+
+<< execute / test / all / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --release --all-features --jobs 1 -- --test-threads 1 --test 'test__' "${@}"
+!!
+
+<< execute / test / all / benchmark
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --release --all-features --jobs 1 -- --test-threads 1 --bench 'benchmark__' "${@}"
+!!
+
+<< browse / doc
+	exec -- x-www open file://"$( readlink -e -- ./target/doc/rust_scheme/index.html )"
+!!
+
+<< browse / r7rs
+	exec -- x-www open file://"$( readlink -e -- ./documentation/external/r7rs-small-spec/stripped/r7rs.pdf )"
+!!
+
+<< compile / clean
+	exec -- rm -R -f ./target/
+!!
+
+<< files / grep / sources / x-selection / primary
+	exec -- git grep --no-index -C10 -F -e "$( exec -- x-selection primary output )" -- ./sources
+!!
+
+<< files / grep / sources / unimplemented
+	exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- ./sources
+!!
+
+<< files / grep / sources / primitives / unimplemented
+	exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- './sources/primitives*.rs'
+!!
+
+<< files / grep / sources / builtins / unimplemented
+	exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- './sources/builtins*.rs'
+!!
+
+<< files / grep / sources / string
+	exec -- git grep --no-index -C10 -F "${@/#/-e}" -- ./sources
+!!
+
+<< files / grep / sources / regexp
+	exec -- git grep --no-index -C10 -P "${@/#/-e}" -- ./sources
+!!
+
+<< execute / rust-up / initialize
+		test "${#}" -eq 0
+		if test ! -e ./.rust ; then
+			mkdir -- ./.rust
+			mkdir -- ./.rust/rustup
+			mkdir -- ./.rust/cargo
+			curl -s -o ./.rust/rustup-init.tmp -- https://static.rust-lang.org/rustup/dist/x86_64-unknown-linux-gnu/rustup-init
+			chmod +x -- ./.rust/rustup-init.tmp
+			mv -n -T -- ./.rust/rustup-init.tmp ./.rust/rustup-init
+			export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
+			export -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"
+			./.rust/rustup-init -v -y --no-modify-path
+		fi
+!!
+
+<< execute / rust-up / install
+		test "${#}" -eq 0
+		test -e ./.rust
+		export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
+		export -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"
+		exec -- ./.rust/cargo/bin/rustup install stable
+		exec -- ./.rust/cargo/bin/rustup install nightly
+!!
+
+<< execute / rust-up / update
+		test "${#}" -eq 0
+		test -e ./.rust
+		export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
+		export -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"
+		exec -- ./.rust/cargo/bin/rustup update
+!!
+
+<< environment / rust-up / use / stable
+	export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin ):${PATH}"
+!!
+
+<< environment / rust-up / use / nightly
+	export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):${PATH}"
+!!
+
+<< environment / cargo / incremental / enable
+	export -- CARGO_INCREMENTAL=1
+!!
+
+<< environment / cargo / incremental / disable
+	export -- CARGO_INCREMENTAL=0
+!!
+
+<< environment / tests / debug / enable
+	export -- RUST_SCHEME_TESTS_DEBUG=true
+!!
+
+<< environment / tests / debug / disable
+	export -- RUST_SCHEME_TESTS_DEBUG=false
+!!
+
+<< execute / test / scheme / tests / all / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test 'scheme' --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__' "${@}"
+!!
+
+<< execute / test / scheme / tests / all / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test 'scheme' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__' "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / all / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test 'scheme' --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'benchmark__' "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / all / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test 'scheme' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
+!!
+
+<< execute / test / low-level-r7rs / tests / all / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test 'low-level-r7rs' --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__' "${@}"
+!!
+
+<< execute / test / low-level-r7rs / tests / all / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test 'low-level-r7rs' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__' "${@}"
+!!
+
+<< execute / test / low-level-r7rs / benchmarks / all / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test 'low-level-r7rs' --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'benchmark__' "${@}"
+!!
+
+<< execute / test / low-level-r7rs / benchmarks / all / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test 'low-level-r7rs' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
+!!
+
+<< execute / test / low-level-parser / tests / all / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test 'low-level-parser' --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__' "${@}"
+!!
+
+<< execute / test / low-level-parser / tests / all / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test 'low-level-parser' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__' "${@}"
+!!
+
+<< execute / test / low-level-parser / benchmarks / all / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test 'low-level-parser' --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'benchmark__' "${@}"
+!!
+
+<< execute / test / low-level-parser / benchmarks / all / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test 'low-level-parser' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
+!!
+
+<< execute / test / low-level-sizes / tests / all / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test 'low-level-sizes' --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__' "${@}"
+!!
+
+<< execute / test / low-level-sizes / tests / all / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test 'low-level-sizes' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__' "${@}"
+!!
+
+<< execute / test / low-level-sizes / benchmarks / all / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test 'low-level-sizes' --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'benchmark__' "${@}"
+!!
+
+<< execute / test / low-level-sizes / benchmarks / all / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test 'low-level-sizes' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
+!!
+
+<< execute / test / low-level-assertions / tests / all / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test 'low-level-assertions' --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__' "${@}"
+!!
+
+<< execute / test / low-level-assertions / tests / all / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test 'low-level-assertions' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__' "${@}"
+!!
+
+<< execute / test / low-level-assertions / benchmarks / all / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test 'low-level-assertions' --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'benchmark__' "${@}"
+!!
+
+<< execute / test / low-level-assertions / benchmarks / all / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test 'low-level-assertions' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
+!!
+
+<< execute / test / scheme / tests / arithmetic / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__arithmetic' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / arithmetic / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__arithmetic' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / arithmetic / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'benchmark__arithmetic' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / arithmetic / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__arithmetic' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / arrays / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__arrays' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / arrays / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__arrays' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / arrays / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'benchmark__arrays' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / arrays / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__arrays' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / booleans / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__booleans' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / booleans / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__booleans' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / booleans / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'benchmark__booleans' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / booleans / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__booleans' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / bytes / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__bytes' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / bytes / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__bytes' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / bytes / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'benchmark__bytes' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / bytes / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__bytes' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / comparisons_equivalent_by_identity / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_equivalent_by_identity' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / comparisons_equivalent_by_identity / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_equivalent_by_identity' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / comparisons_equivalent_by_identity / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'benchmark__comparisons_equivalent_by_identity' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / comparisons_equivalent_by_identity / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_by_identity' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / comparisons_equivalent_by_value_coerced / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_equivalent_by_value_coerced' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / comparisons_equivalent_by_value_coerced / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_equivalent_by_value_coerced' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / comparisons_equivalent_by_value_coerced / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'benchmark__comparisons_equivalent_by_value_coerced' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / comparisons_equivalent_by_value_coerced / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_by_value_coerced' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / comparisons_equivalent_by_value_coerced_recursive / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_equivalent_by_value_coerced_recursive' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / comparisons_equivalent_by_value_coerced_recursive / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_equivalent_by_value_coerced_recursive' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / comparisons_equivalent_by_value_coerced_recursive / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'benchmark__comparisons_equivalent_by_value_coerced_recursive' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / comparisons_equivalent_by_value_coerced_recursive / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_by_value_coerced_recursive' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / comparisons_equivalent_by_value_strict / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_equivalent_by_value_strict' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / comparisons_equivalent_by_value_strict / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_equivalent_by_value_strict' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / comparisons_equivalent_by_value_strict / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'benchmark__comparisons_equivalent_by_value_strict' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / comparisons_equivalent_by_value_strict / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_by_value_strict' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / comparisons_equivalent_by_value_strict_recursive / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_equivalent_by_value_strict_recursive' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / comparisons_equivalent_by_value_strict_recursive / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_equivalent_by_value_strict_recursive' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / comparisons_equivalent_by_value_strict_recursive / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'benchmark__comparisons_equivalent_by_value_strict_recursive' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / comparisons_equivalent_by_value_strict_recursive / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_by_value_strict_recursive' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / comparisons_equivalent_objects / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_equivalent_objects' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / comparisons_equivalent_objects / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_equivalent_objects' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / comparisons_equivalent_objects / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'benchmark__comparisons_equivalent_objects' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / comparisons_equivalent_objects / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_objects' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / comparisons_ordering_numbers / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_ordering_numbers' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / comparisons_ordering_numbers / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_ordering_numbers' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / comparisons_ordering_numbers / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'benchmark__comparisons_ordering_numbers' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / comparisons_ordering_numbers / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_ordering_numbers' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / comparisons_ordering_objects / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_ordering_objects' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / comparisons_ordering_objects / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_ordering_objects' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / comparisons_ordering_objects / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'benchmark__comparisons_ordering_objects' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / comparisons_ordering_objects / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_ordering_objects' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / contexts / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__contexts' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / contexts / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__contexts' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / contexts / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'benchmark__contexts' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / contexts / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__contexts' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / control / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__control' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / control / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__control' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / control / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'benchmark__control' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / control / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__control' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / functions / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__functions' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / functions / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__functions' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / functions / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'benchmark__functions' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / functions / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__functions' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / functions_arrays / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__functions_arrays' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / functions_arrays / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__functions_arrays' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / functions_arrays / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'benchmark__functions_arrays' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / functions_arrays / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__functions_arrays' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / functions_bytes / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__functions_bytes' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / functions_bytes / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__functions_bytes' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / functions_bytes / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'benchmark__functions_bytes' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / functions_bytes / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__functions_bytes' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / functions_lists / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__functions_lists' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / functions_lists / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__functions_lists' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / functions_lists / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'benchmark__functions_lists' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / functions_lists / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__functions_lists' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / functions_strings / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__functions_strings' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / functions_strings / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__functions_strings' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / functions_strings / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'benchmark__functions_strings' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / functions_strings / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__functions_strings' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / lambdas / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__lambdas' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / lambdas / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__lambdas' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / lambdas / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'benchmark__lambdas' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / lambdas / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__lambdas' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / lists / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__lists' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / lists / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__lists' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / lists / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'benchmark__lists' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / lists / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__lists' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / loops / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__loops' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / loops / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__loops' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / loops / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'benchmark__loops' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / loops / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__loops' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / pairs / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__pairs' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / pairs / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__pairs' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / pairs / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'benchmark__pairs' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / pairs / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__pairs' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / ports / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__ports' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / ports / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__ports' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / ports / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'benchmark__ports' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / ports / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__ports' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / ports_memory / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__ports_memory' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / ports_memory / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__ports_memory' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / ports_memory / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'benchmark__ports_memory' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / ports_memory / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__ports_memory' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / quotation / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__quotation' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / quotation / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__quotation' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / quotation / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'benchmark__quotation' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / quotation / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__quotation' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / runtime / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__runtime' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / runtime / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__runtime' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / runtime / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'benchmark__runtime' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / runtime / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__runtime' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / strings / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__strings' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / strings / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__strings' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / strings / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'benchmark__strings' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / strings / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__strings' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / types / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__types' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / types / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__types' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / types / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'benchmark__types' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / types / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__types' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / values / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__values' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / values / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__values' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / values / debug
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'benchmark__values' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / values / release
+	x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" RUST_BACKTRACE=1 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__values' --exact "${@}"
+!!
+
+<< execute / bin / compiler / scheme / controls / debug
+	x-run ':: compile / bin / compiler / debug' --quiet ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-compiler < './tests/scripts/benchmark--controls.ss' >| './tests/scripts/_out/benchmark--controls--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--controls--scheme-compile.out'
+!!
+
+<< execute / bin / compiler / scheme / controls / release
+	x-run ':: compile / bin / compiler / release' --quiet ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-compiler < ./tests/scripts/benchmark--controls.ss' >| './tests/scripts/_out/benchmark--controls--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--controls--scheme-compile.out'
+!!
+
+<< execute / benchmark / scheme / controls / debug
+	x-run ':: compile / bin / interpreter / debug' --quiet ; exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-interpreter < './tests/scripts/benchmark--controls.ss' >| './tests/scripts/_out/benchmark--controls--scheme-debug.out' ; exec -- cat -- './tests/scripts/_out/benchmark--controls--scheme-debug.out'
+!!
+
+<< execute / benchmark / scheme / controls / release
+	x-run ':: compile / bin / interpreter / release' --quiet ; exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-interpreter < './tests/scripts/benchmark--controls.ss' >| './tests/scripts/_out/benchmark--controls--scheme-release.out' ; exec -- cat -- './tests/scripts/_out/benchmark--controls--scheme-release.out'
+!!
+
+<< execute / benchmark / chibi / controls
+	exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- chibi-scheme -m scheme.base -m scheme.time -- './tests/scripts/benchmark--controls.ss' >| './tests/scripts/_out/benchmark--controls--chibi.out' ; exec -- cat -- './tests/scripts/_out/benchmark--controls--chibi.out'
+!!
+
+<< execute / bin / compiler / scheme / loop / debug
+	x-run ':: compile / bin / compiler / debug' --quiet ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-compiler < './tests/scripts/benchmark--loop.ss' >| './tests/scripts/_out/benchmark--loop--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--loop--scheme-compile.out'
+!!
+
+<< execute / bin / compiler / scheme / loop / release
+	x-run ':: compile / bin / compiler / release' --quiet ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-compiler < ./tests/scripts/benchmark--loop.ss' >| './tests/scripts/_out/benchmark--loop--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--loop--scheme-compile.out'
+!!
+
+<< execute / benchmark / scheme / loop / debug
+	x-run ':: compile / bin / interpreter / debug' --quiet ; exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-interpreter < './tests/scripts/benchmark--loop.ss' >| './tests/scripts/_out/benchmark--loop--scheme-debug.out' ; exec -- cat -- './tests/scripts/_out/benchmark--loop--scheme-debug.out'
+!!
+
+<< execute / benchmark / scheme / loop / release
+	x-run ':: compile / bin / interpreter / release' --quiet ; exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-interpreter < './tests/scripts/benchmark--loop.ss' >| './tests/scripts/_out/benchmark--loop--scheme-release.out' ; exec -- cat -- './tests/scripts/_out/benchmark--loop--scheme-release.out'
+!!
+
+<< execute / benchmark / chibi / loop
+	exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- chibi-scheme -m scheme.base -m scheme.time -- './tests/scripts/benchmark--loop.ss' >| './tests/scripts/_out/benchmark--loop--chibi.out' ; exec -- cat -- './tests/scripts/_out/benchmark--loop--chibi.out'
+!!
+
+<< execute / bin / compiler / scheme / make-cons / debug
+	x-run ':: compile / bin / compiler / debug' --quiet ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-compiler < './tests/scripts/benchmark--make-cons.ss' >| './tests/scripts/_out/benchmark--make-cons--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--make-cons--scheme-compile.out'
+!!
+
+<< execute / bin / compiler / scheme / make-cons / release
+	x-run ':: compile / bin / compiler / release' --quiet ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-compiler < ./tests/scripts/benchmark--make-cons.ss' >| './tests/scripts/_out/benchmark--make-cons--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--make-cons--scheme-compile.out'
+!!
+
+<< execute / benchmark / scheme / make-cons / debug
+	x-run ':: compile / bin / interpreter / debug' --quiet ; exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-interpreter < './tests/scripts/benchmark--make-cons.ss' >| './tests/scripts/_out/benchmark--make-cons--scheme-debug.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-cons--scheme-debug.out'
+!!
+
+<< execute / benchmark / scheme / make-cons / release
+	x-run ':: compile / bin / interpreter / release' --quiet ; exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-interpreter < './tests/scripts/benchmark--make-cons.ss' >| './tests/scripts/_out/benchmark--make-cons--scheme-release.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-cons--scheme-release.out'
+!!
+
+<< execute / benchmark / chibi / make-cons
+	exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- chibi-scheme -m scheme.base -m scheme.time -- './tests/scripts/benchmark--make-cons.ss' >| './tests/scripts/_out/benchmark--make-cons--chibi.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-cons--chibi.out'
+!!
+
+<< execute / bin / compiler / scheme / make-vector / debug
+	x-run ':: compile / bin / compiler / debug' --quiet ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-compiler < './tests/scripts/benchmark--make-vector.ss' >| './tests/scripts/_out/benchmark--make-vector--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--make-vector--scheme-compile.out'
+!!
+
+<< execute / bin / compiler / scheme / make-vector / release
+	x-run ':: compile / bin / compiler / release' --quiet ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-compiler < ./tests/scripts/benchmark--make-vector.ss' >| './tests/scripts/_out/benchmark--make-vector--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--make-vector--scheme-compile.out'
+!!
+
+<< execute / benchmark / scheme / make-vector / debug
+	x-run ':: compile / bin / interpreter / debug' --quiet ; exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-interpreter < './tests/scripts/benchmark--make-vector.ss' >| './tests/scripts/_out/benchmark--make-vector--scheme-debug.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-vector--scheme-debug.out'
+!!
+
+<< execute / benchmark / scheme / make-vector / release
+	x-run ':: compile / bin / interpreter / release' --quiet ; exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-interpreter < './tests/scripts/benchmark--make-vector.ss' >| './tests/scripts/_out/benchmark--make-vector--scheme-release.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-vector--scheme-release.out'
+!!
+
+<< execute / benchmark / chibi / make-vector
+	exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- chibi-scheme -m scheme.base -m scheme.time -- './tests/scripts/benchmark--make-vector.ss' >| './tests/scripts/_out/benchmark--make-vector--chibi.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-vector--chibi.out'
+!!
+
+<< execute / benchmark / python / controls
+	exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- python2 -E -O -O -B -u -- './tests/scripts/benchmark--controls.py' >| './tests/scripts/_out/benchmark--controls--python.out' ; exec -- cat -- './tests/scripts/_out/benchmark--controls--python.out'
+!!
+
+<< execute / benchmark / python / loop
+	exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- python2 -E -O -O -B -u -- './tests/scripts/benchmark--loop.py' >| './tests/scripts/_out/benchmark--loop--python.out' ; exec -- cat -- './tests/scripts/_out/benchmark--loop--python.out'
+!!
+
+<< execute / benchmark / python / make-cons
+	exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- python2 -E -O -O -B -u -- './tests/scripts/benchmark--make-cons.py' >| './tests/scripts/_out/benchmark--make-cons--python.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-cons--python.out'
+!!
+
+<< execute / benchmark / python / make-vector
+	exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- python2 -E -O -O -B -u -- './tests/scripts/benchmark--make-vector.py' >| './tests/scripts/_out/benchmark--make-vector--python.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-vector--python.out'
+!!
+
+<< execute / benchmark / compare / controls
+		printf -- '\n== scheme / release ==\n'
+		x-run ':: execute / benchmark / scheme / controls / release'
+		printf -- '\n== chibi ==\n'
+		x-run ':: execute / benchmark / chibi / controls'
+		printf -- '\n== python ==\n'
+		x-run ':: execute / benchmark / python / controls'
+!!
+
+<< execute / benchmark / compare / loop
+		printf -- '\n== scheme / release ==\n'
+		x-run ':: execute / benchmark / scheme / loop / release'
+		printf -- '\n== chibi ==\n'
+		x-run ':: execute / benchmark / chibi / loop'
+		printf -- '\n== python ==\n'
+		x-run ':: execute / benchmark / python / loop'
+!!
+
+<< execute / benchmark / compare / make-cons
+		printf -- '\n== scheme / release ==\n'
+		x-run ':: execute / benchmark / scheme / make-cons / release'
+		printf -- '\n== chibi ==\n'
+		x-run ':: execute / benchmark / chibi / make-cons'
+		printf -- '\n== python ==\n'
+		x-run ':: execute / benchmark / python / make-cons'
+!!
+
+<< execute / benchmark / compare / make-vector
+		printf -- '\n== scheme / release ==\n'
+		x-run ':: execute / benchmark / scheme / make-vector / release'
+		printf -- '\n== chibi ==\n'
+		x-run ':: execute / benchmark / chibi / make-vector'
+		printf -- '\n== python ==\n'
+		x-run ':: execute / benchmark / python / make-vector'
+!!
+
+<< execute / benchmark / compare / all
+	x-run ':: execute / benchmark / compare / controls'
+	x-run ':: execute / benchmark / compare / loop'
+	x-run ':: execute / benchmark / compare / make-cons'
+	x-run ':: execute / benchmark / compare / make-vector'
+!!
+
+<< execute / optimizer / scheme / controls / debug
+	x-run ':: compile / bin / compiler / debug' --quiet ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-compiler < './tests/scripts/optimizer--controls.ss' >| './tests/scripts/_out/optimizer--controls--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--controls--scheme-compile.out'
+!!
+
+<< execute / optimizer / scheme / controls / release
+	x-run ':: compile / bin / compiler / release' --quiet ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-compiler < './tests/scripts/optimizer--controls.ss' >| './tests/scripts/_out/optimizer--controls--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--controls--scheme-compile.out'
+!!
+
+<< execute / optimizer / scheme / loop / debug
+	x-run ':: compile / bin / compiler / debug' --quiet ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-compiler < './tests/scripts/optimizer--loop.ss' >| './tests/scripts/_out/optimizer--loop--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--loop--scheme-compile.out'
+!!
+
+<< execute / optimizer / scheme / loop / release
+	x-run ':: compile / bin / compiler / release' --quiet ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-compiler < './tests/scripts/optimizer--loop.ss' >| './tests/scripts/_out/optimizer--loop--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--loop--scheme-compile.out'
+!!
+
+<< execute / optimizer / scheme / make-cons / debug
+	x-run ':: compile / bin / compiler / debug' --quiet ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-compiler < './tests/scripts/optimizer--make-cons.ss' >| './tests/scripts/_out/optimizer--make-cons--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--make-cons--scheme-compile.out'
+!!
+
+<< execute / optimizer / scheme / make-cons / release
+	x-run ':: compile / bin / compiler / release' --quiet ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-compiler < './tests/scripts/optimizer--make-cons.ss' >| './tests/scripts/_out/optimizer--make-cons--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--make-cons--scheme-compile.out'
+!!
+
+<< execute / optimizer / scheme / make-vector / debug
+	x-run ':: compile / bin / compiler / debug' --quiet ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-compiler < './tests/scripts/optimizer--make-vector.ss' >| './tests/scripts/_out/optimizer--make-vector--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--make-vector--scheme-compile.out'
+!!
+
+<< execute / optimizer / scheme / make-vector / release
+	x-run ':: compile / bin / compiler / release' --quiet ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-compiler < './tests/scripts/optimizer--make-vector.ss' >| './tests/scripts/_out/optimizer--make-vector--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--make-vector--scheme-compile.out'
+!!
+
+<< execute / optimizer / scheme / all / release
+	x-run ':: compile / bin / compiler / release'
+	./target/release/rust-scheme-compiler < './tests/scripts/benchmark--controls.ss' >| './tests/scripts/_out/benchmark--controls--scheme-compile.out'
+	./target/release/rust-scheme-compiler < './tests/scripts/benchmark--loop.ss' >| './tests/scripts/_out/benchmark--loop--scheme-compile.out'
+	./target/release/rust-scheme-compiler < './tests/scripts/benchmark--make-cons.ss' >| './tests/scripts/_out/benchmark--make-cons--scheme-compile.out'
+	./target/release/rust-scheme-compiler < './tests/scripts/benchmark--make-vector.ss' >| './tests/scripts/_out/benchmark--make-vector--scheme-compile.out'
+	./target/release/rust-scheme-compiler < './tests/scripts/optimizer--controls.ss' >| './tests/scripts/_out/optimizer--controls--scheme-compile.out'
+!!
+
+<< files / edit / sources/bin_compiler.rs
+	exec -- sce ./sources/bin_compiler.rs
+!!
+
+<< files / edit / sources/bin_interpreter.rs
+	exec -- sce ./sources/bin_interpreter.rs
+!!
+
+<< files / edit / sources/builtins.rs
+	exec -- sce ./sources/builtins.rs
+!!
+
+<< files / edit / sources/builtins_arrays.rs
+	exec -- sce ./sources/builtins_arrays.rs
+!!
+
+<< files / edit / sources/builtins_bytes.rs
+	exec -- sce ./sources/builtins_bytes.rs
+!!
+
+<< files / edit / sources/builtins_comparisons.rs
+	exec -- sce ./sources/builtins_comparisons.rs
+!!
+
+<< files / edit / sources/builtins_functions.rs
+	exec -- sce ./sources/builtins_functions.rs
+!!
+
+<< files / edit / sources/builtins_lists.rs
+	exec -- sce ./sources/builtins_lists.rs
+!!
+
+<< files / edit / sources/builtins_ports.rs
+	exec -- sce ./sources/builtins_ports.rs
+!!
+
+<< files / edit / sources/builtins_runtime.rs
+	exec -- sce ./sources/builtins_runtime.rs
+!!
+
+<< files / edit / sources/builtins_strings.rs
+	exec -- sce ./sources/builtins_strings.rs
+!!
+
+<< files / edit / sources/builtins_types.rs
+	exec -- sce ./sources/builtins_types.rs
+!!
+
+<< files / edit / sources/compiler.rs
+	exec -- sce ./sources/compiler.rs
+!!
+
+<< files / edit / sources/compiler_optimizer.rs
+	exec -- sce ./sources/compiler_optimizer.rs
+!!
+
+<< files / edit / sources/constants.rs
+	exec -- sce ./sources/constants.rs
+!!
+
+<< files / edit / sources/contexts.rs
+	exec -- sce ./sources/contexts.rs
+!!
+
+<< files / edit / sources/conversions.rs
+	exec -- sce ./sources/conversions.rs
+!!
+
+<< files / edit / sources/counters.rs
+	exec -- sce ./sources/counters.rs
+!!
+
+<< files / edit / sources/errors.rs
+	exec -- sce ./sources/errors.rs
+!!
+
+<< files / edit / sources/evaluator.rs
+	exec -- sce ./sources/evaluator.rs
+!!
+
+<< files / edit / sources/expressions.rs
+	exec -- sce ./sources/expressions.rs
+!!
+
+<< files / edit / sources/extended_procedures.rs
+	exec -- sce ./sources/extended_procedures.rs
+!!
+
+<< files / edit / sources/extended_syntaxes.rs
+	exec -- sce ./sources/extended_syntaxes.rs
+!!
+
+<< files / edit / sources/globals.rs
+	exec -- sce ./sources/globals.rs
+!!
+
+<< files / edit / sources/lambdas.rs
+	exec -- sce ./sources/lambdas.rs
+!!
+
+<< files / edit / sources/languages.rs
+	exec -- sce ./sources/languages.rs
+!!
+
+<< files / edit / sources/languages_builtins.rs
+	exec -- sce ./sources/languages_builtins.rs
+!!
+
+<< files / edit / sources/languages_r7rs.rs
+	exec -- sce ./sources/languages_r7rs.rs
+!!
+
+<< files / edit / sources/lib.rs
+	exec -- sce ./sources/lib.rs
+!!
+
+<< files / edit / sources/parser.rs
+	exec -- sce ./sources/parser.rs
+!!
+
+<< files / edit / sources/parser_peg.rs
+	exec -- sce ./sources/parser_peg.rs
+!!
+
+<< files / edit / sources/ports.rs
+	exec -- sce ./sources/ports.rs
+!!
+
+<< files / edit / sources/ports_memory.rs
+	exec -- sce ./sources/ports_memory.rs
+!!
+
+<< files / edit / sources/primitives.rs
+	exec -- sce ./sources/primitives.rs
+!!
+
+<< files / edit / sources/primitives_arithmetic.rs
+	exec -- sce ./sources/primitives_arithmetic.rs
+!!
+
+<< files / edit / sources/primitives_arrays.rs
+	exec -- sce ./sources/primitives_arrays.rs
+!!
+
+<< files / edit / sources/primitives_bitwise.rs
+	exec -- sce ./sources/primitives_bitwise.rs
+!!
+
+<< files / edit / sources/primitives_boolean.rs
+	exec -- sce ./sources/primitives_boolean.rs
+!!
+
+<< files / edit / sources/primitives_bytes.rs
+	exec -- sce ./sources/primitives_bytes.rs
+!!
+
+<< files / edit / sources/primitives_comparisons.rs
+	exec -- sce ./sources/primitives_comparisons.rs
+!!
+
+<< files / edit / sources/primitives_functions.rs
+	exec -- sce ./sources/primitives_functions.rs
+!!
+
+<< files / edit / sources/primitives_lists.rs
+	exec -- sce ./sources/primitives_lists.rs
+!!
+
+<< files / edit / sources/primitives_ports.rs
+	exec -- sce ./sources/primitives_ports.rs
+!!
+
+<< files / edit / sources/primitives_procedures.rs
+	exec -- sce ./sources/primitives_procedures.rs
+!!
+
+<< files / edit / sources/primitives_runtime.rs
+	exec -- sce ./sources/primitives_runtime.rs
+!!
+
+<< files / edit / sources/primitives_strings.rs
+	exec -- sce ./sources/primitives_strings.rs
+!!
+
+<< files / edit / sources/primitives_syntaxes.rs
+	exec -- sce ./sources/primitives_syntaxes.rs
+!!
+
+<< files / edit / sources/primitives_types.rs
+	exec -- sce ./sources/primitives_types.rs
+!!
+
+<< files / edit / sources/runtime.rs
+	exec -- sce ./sources/runtime.rs
+!!
+
+<< files / edit / sources/runtime_iterators.rs
+	exec -- sce ./sources/runtime_iterators.rs
+!!
+
+<< files / edit / sources/runtime_unicode.rs
+	exec -- sce ./sources/runtime_unicode.rs
+!!
+
+<< files / edit / sources/tests.rs
+	exec -- sce ./sources/tests.rs
+!!
+
+<< files / edit / sources/values.rs
+	exec -- sce ./sources/values.rs
+!!
+
+<< files / edit / tests/low-level-assertions.rs
+	exec -- sce ./tests/low-level-assertions.rs
+!!
+
+<< files / edit / tests/low-level-parser.rs
+	exec -- sce ./tests/low-level-parser.rs
+!!
+
+<< files / edit / tests/low-level-r7rs.rs
+	exec -- sce ./tests/low-level-r7rs.rs
+!!
+
+<< files / edit / tests/low-level-sizes.rs
+	exec -- sce ./tests/low-level-sizes.rs
+!!
+
+<< files / edit / tests/scheme.rs
+	exec -- sce ./tests/scheme.rs
+!!
+
+<< files / view / sources/bin_compiler.rs
+	exec -- less -- ./sources/bin_compiler.rs
+!!
+
+<< files / view / sources/bin_interpreter.rs
+	exec -- less -- ./sources/bin_interpreter.rs
+!!
+
+<< files / view / sources/builtins.rs
+	exec -- less -- ./sources/builtins.rs
+!!
+
+<< files / view / sources/builtins_arrays.rs
+	exec -- less -- ./sources/builtins_arrays.rs
+!!
+
+<< files / view / sources/builtins_bytes.rs
+	exec -- less -- ./sources/builtins_bytes.rs
+!!
+
+<< files / view / sources/builtins_comparisons.rs
+	exec -- less -- ./sources/builtins_comparisons.rs
+!!
+
+<< files / view / sources/builtins_functions.rs
+	exec -- less -- ./sources/builtins_functions.rs
+!!
+
+<< files / view / sources/builtins_lists.rs
+	exec -- less -- ./sources/builtins_lists.rs
+!!
+
+<< files / view / sources/builtins_ports.rs
+	exec -- less -- ./sources/builtins_ports.rs
+!!
+
+<< files / view / sources/builtins_runtime.rs
+	exec -- less -- ./sources/builtins_runtime.rs
+!!
+
+<< files / view / sources/builtins_strings.rs
+	exec -- less -- ./sources/builtins_strings.rs
+!!
+
+<< files / view / sources/builtins_types.rs
+	exec -- less -- ./sources/builtins_types.rs
+!!
+
+<< files / view / sources/compiler.rs
+	exec -- less -- ./sources/compiler.rs
+!!
+
+<< files / view / sources/compiler_optimizer.rs
+	exec -- less -- ./sources/compiler_optimizer.rs
+!!
+
+<< files / view / sources/constants.rs
+	exec -- less -- ./sources/constants.rs
+!!
+
+<< files / view / sources/contexts.rs
+	exec -- less -- ./sources/contexts.rs
+!!
+
+<< files / view / sources/conversions.rs
+	exec -- less -- ./sources/conversions.rs
+!!
+
+<< files / view / sources/counters.rs
+	exec -- less -- ./sources/counters.rs
+!!
+
+<< files / view / sources/errors.rs
+	exec -- less -- ./sources/errors.rs
+!!
+
+<< files / view / sources/evaluator.rs
+	exec -- less -- ./sources/evaluator.rs
+!!
+
+<< files / view / sources/expressions.rs
+	exec -- less -- ./sources/expressions.rs
+!!
+
+<< files / view / sources/extended_procedures.rs
+	exec -- less -- ./sources/extended_procedures.rs
+!!
+
+<< files / view / sources/extended_syntaxes.rs
+	exec -- less -- ./sources/extended_syntaxes.rs
+!!
+
+<< files / view / sources/globals.rs
+	exec -- less -- ./sources/globals.rs
+!!
+
+<< files / view / sources/lambdas.rs
+	exec -- less -- ./sources/lambdas.rs
+!!
+
+<< files / view / sources/languages.rs
+	exec -- less -- ./sources/languages.rs
+!!
+
+<< files / view / sources/languages_builtins.rs
+	exec -- less -- ./sources/languages_builtins.rs
+!!
+
+<< files / view / sources/languages_r7rs.rs
+	exec -- less -- ./sources/languages_r7rs.rs
+!!
+
+<< files / view / sources/lib.rs
+	exec -- less -- ./sources/lib.rs
+!!
+
+<< files / view / sources/parser.rs
+	exec -- less -- ./sources/parser.rs
+!!
+
+<< files / view / sources/parser_peg.rs
+	exec -- less -- ./sources/parser_peg.rs
+!!
+
+<< files / view / sources/ports.rs
+	exec -- less -- ./sources/ports.rs
+!!
+
+<< files / view / sources/ports_memory.rs
+	exec -- less -- ./sources/ports_memory.rs
+!!
+
+<< files / view / sources/primitives.rs
+	exec -- less -- ./sources/primitives.rs
+!!
+
+<< files / view / sources/primitives_arithmetic.rs
+	exec -- less -- ./sources/primitives_arithmetic.rs
+!!
+
+<< files / view / sources/primitives_arrays.rs
+	exec -- less -- ./sources/primitives_arrays.rs
+!!
+
+<< files / view / sources/primitives_bitwise.rs
+	exec -- less -- ./sources/primitives_bitwise.rs
+!!
+
+<< files / view / sources/primitives_boolean.rs
+	exec -- less -- ./sources/primitives_boolean.rs
+!!
+
+<< files / view / sources/primitives_bytes.rs
+	exec -- less -- ./sources/primitives_bytes.rs
+!!
+
+<< files / view / sources/primitives_comparisons.rs
+	exec -- less -- ./sources/primitives_comparisons.rs
+!!
+
+<< files / view / sources/primitives_functions.rs
+	exec -- less -- ./sources/primitives_functions.rs
+!!
+
+<< files / view / sources/primitives_lists.rs
+	exec -- less -- ./sources/primitives_lists.rs
+!!
+
+<< files / view / sources/primitives_ports.rs
+	exec -- less -- ./sources/primitives_ports.rs
+!!
+
+<< files / view / sources/primitives_procedures.rs
+	exec -- less -- ./sources/primitives_procedures.rs
+!!
+
+<< files / view / sources/primitives_runtime.rs
+	exec -- less -- ./sources/primitives_runtime.rs
+!!
+
+<< files / view / sources/primitives_strings.rs
+	exec -- less -- ./sources/primitives_strings.rs
+!!
+
+<< files / view / sources/primitives_syntaxes.rs
+	exec -- less -- ./sources/primitives_syntaxes.rs
+!!
+
+<< files / view / sources/primitives_types.rs
+	exec -- less -- ./sources/primitives_types.rs
+!!
+
+<< files / view / sources/runtime.rs
+	exec -- less -- ./sources/runtime.rs
+!!
+
+<< files / view / sources/runtime_iterators.rs
+	exec -- less -- ./sources/runtime_iterators.rs
+!!
+
+<< files / view / sources/runtime_unicode.rs
+	exec -- less -- ./sources/runtime_unicode.rs
+!!
+
+<< files / view / sources/tests.rs
+	exec -- less -- ./sources/tests.rs
+!!
+
+<< files / view / sources/values.rs
+	exec -- less -- ./sources/values.rs
+!!
+
+<< files / view / tests/low-level-assertions.rs
+	exec -- less -- ./tests/low-level-assertions.rs
+!!
+
+<< files / view / tests/low-level-parser.rs
+	exec -- less -- ./tests/low-level-parser.rs
+!!
+
+<< files / view / tests/low-level-r7rs.rs
+	exec -- less -- ./tests/low-level-r7rs.rs
+!!
+
+<< files / view / tests/low-level-sizes.rs
+	exec -- less -- ./tests/low-level-sizes.rs
+!!
+
+<< files / view / tests/scheme.rs
+	exec -- less -- ./tests/scheme.rs
+!!
+
+<< files / edit / tests/scheme/arithmetic.sst
+	exec -- sce ./tests/scheme/arithmetic.sst
+!!
+
+<< files / edit / tests/scheme/arrays.sst
+	exec -- sce ./tests/scheme/arrays.sst
+!!
+
+<< files / edit / tests/scheme/booleans.sst
+	exec -- sce ./tests/scheme/booleans.sst
+!!
+
+<< files / edit / tests/scheme/bytes.sst
+	exec -- sce ./tests/scheme/bytes.sst
+!!
+
+<< files / edit / tests/scheme/comparisons-equivalent-by-identity.sst
+	exec -- sce ./tests/scheme/comparisons-equivalent-by-identity.sst
+!!
+
+<< files / edit / tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst
+	exec -- sce ./tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst
+!!
+
+<< files / edit / tests/scheme/comparisons-equivalent-by-value-coerced.sst
+	exec -- sce ./tests/scheme/comparisons-equivalent-by-value-coerced.sst
+!!
+
+<< files / edit / tests/scheme/comparisons-equivalent-by-value-strict-recursive.sst
+	exec -- sce ./tests/scheme/comparisons-equivalent-by-value-strict-recursive.sst
+!!
+
+<< files / edit / tests/scheme/comparisons-equivalent-by-value-strict.sst
+	exec -- sce ./tests/scheme/comparisons-equivalent-by-value-strict.sst
+!!
+
+<< files / edit / tests/scheme/comparisons-equivalent-objects.sst
+	exec -- sce ./tests/scheme/comparisons-equivalent-objects.sst
+!!
+
+<< files / edit / tests/scheme/comparisons-ordering-numbers.sst
+	exec -- sce ./tests/scheme/comparisons-ordering-numbers.sst
+!!
+
+<< files / edit / tests/scheme/comparisons-ordering-objects.sst
+	exec -- sce ./tests/scheme/comparisons-ordering-objects.sst
+!!
+
+<< files / edit / tests/scheme/contexts.sst
+	exec -- sce ./tests/scheme/contexts.sst
+!!
+
+<< files / edit / tests/scheme/control.sst
+	exec -- sce ./tests/scheme/control.sst
+!!
+
+<< files / edit / tests/scheme/functions-arrays.sst
+	exec -- sce ./tests/scheme/functions-arrays.sst
+!!
+
+<< files / edit / tests/scheme/functions-bytes.sst
+	exec -- sce ./tests/scheme/functions-bytes.sst
+!!
+
+<< files / edit / tests/scheme/functions-lists.sst
+	exec -- sce ./tests/scheme/functions-lists.sst
+!!
+
+<< files / edit / tests/scheme/functions-strings.sst
+	exec -- sce ./tests/scheme/functions-strings.sst
+!!
+
+<< files / edit / tests/scheme/functions.sst
+	exec -- sce ./tests/scheme/functions.sst
+!!
+
+<< files / edit / tests/scheme/lambdas.sst
+	exec -- sce ./tests/scheme/lambdas.sst
+!!
+
+<< files / edit / tests/scheme/lists.sst
+	exec -- sce ./tests/scheme/lists.sst
+!!
+
+<< files / edit / tests/scheme/loops.sst
+	exec -- sce ./tests/scheme/loops.sst
+!!
+
+<< files / edit / tests/scheme/pairs.sst
+	exec -- sce ./tests/scheme/pairs.sst
+!!
+
+<< files / edit / tests/scheme/ports-memory.sst
+	exec -- sce ./tests/scheme/ports-memory.sst
+!!
+
+<< files / edit / tests/scheme/ports.sst
+	exec -- sce ./tests/scheme/ports.sst
+!!
+
+<< files / edit / tests/scheme/quotation.sst
+	exec -- sce ./tests/scheme/quotation.sst
+!!
+
+<< files / edit / tests/scheme/runtime.sst
+	exec -- sce ./tests/scheme/runtime.sst
+!!
+
+<< files / edit / tests/scheme/strings.sst
+	exec -- sce ./tests/scheme/strings.sst
+!!
+
+<< files / edit / tests/scheme/types.sst
+	exec -- sce ./tests/scheme/types.sst
+!!
+
+<< files / edit / tests/scheme/values.sst
+	exec -- sce ./tests/scheme/values.sst
+!!
+
+<< files / view / tests/scheme/arithmetic.sst
+	exec -- less -- ./tests/scheme/arithmetic.sst
+!!
+
+<< files / view / tests/scheme/arrays.sst
+	exec -- less -- ./tests/scheme/arrays.sst
+!!
+
+<< files / view / tests/scheme/booleans.sst
+	exec -- less -- ./tests/scheme/booleans.sst
+!!
+
+<< files / view / tests/scheme/bytes.sst
+	exec -- less -- ./tests/scheme/bytes.sst
+!!
+
+<< files / view / tests/scheme/comparisons-equivalent-by-identity.sst
+	exec -- less -- ./tests/scheme/comparisons-equivalent-by-identity.sst
+!!
+
+<< files / view / tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst
+	exec -- less -- ./tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst
+!!
+
+<< files / view / tests/scheme/comparisons-equivalent-by-value-coerced.sst
+	exec -- less -- ./tests/scheme/comparisons-equivalent-by-value-coerced.sst
+!!
+
+<< files / view / tests/scheme/comparisons-equivalent-by-value-strict-recursive.sst
+	exec -- less -- ./tests/scheme/comparisons-equivalent-by-value-strict-recursive.sst
+!!
+
+<< files / view / tests/scheme/comparisons-equivalent-by-value-strict.sst
+	exec -- less -- ./tests/scheme/comparisons-equivalent-by-value-strict.sst
+!!
+
+<< files / view / tests/scheme/comparisons-equivalent-objects.sst
+	exec -- less -- ./tests/scheme/comparisons-equivalent-objects.sst
+!!
+
+<< files / view / tests/scheme/comparisons-ordering-numbers.sst
+	exec -- less -- ./tests/scheme/comparisons-ordering-numbers.sst
+!!
+
+<< files / view / tests/scheme/comparisons-ordering-objects.sst
+	exec -- less -- ./tests/scheme/comparisons-ordering-objects.sst
+!!
+
+<< files / view / tests/scheme/contexts.sst
+	exec -- less -- ./tests/scheme/contexts.sst
+!!
+
+<< files / view / tests/scheme/control.sst
+	exec -- less -- ./tests/scheme/control.sst
+!!
+
+<< files / view / tests/scheme/functions-arrays.sst
+	exec -- less -- ./tests/scheme/functions-arrays.sst
+!!
+
+<< files / view / tests/scheme/functions-bytes.sst
+	exec -- less -- ./tests/scheme/functions-bytes.sst
+!!
+
+<< files / view / tests/scheme/functions-lists.sst
+	exec -- less -- ./tests/scheme/functions-lists.sst
+!!
+
+<< files / view / tests/scheme/functions-strings.sst
+	exec -- less -- ./tests/scheme/functions-strings.sst
+!!
+
+<< files / view / tests/scheme/functions.sst
+	exec -- less -- ./tests/scheme/functions.sst
+!!
+
+<< files / view / tests/scheme/lambdas.sst
+	exec -- less -- ./tests/scheme/lambdas.sst
+!!
+
+<< files / view / tests/scheme/lists.sst
+	exec -- less -- ./tests/scheme/lists.sst
+!!
+
+<< files / view / tests/scheme/loops.sst
+	exec -- less -- ./tests/scheme/loops.sst
+!!
+
+<< files / view / tests/scheme/pairs.sst
+	exec -- less -- ./tests/scheme/pairs.sst
+!!
+
+<< files / view / tests/scheme/ports-memory.sst
+	exec -- less -- ./tests/scheme/ports-memory.sst
+!!
+
+<< files / view / tests/scheme/ports.sst
+	exec -- less -- ./tests/scheme/ports.sst
+!!
+
+<< files / view / tests/scheme/quotation.sst
+	exec -- less -- ./tests/scheme/quotation.sst
+!!
+
+<< files / view / tests/scheme/runtime.sst
+	exec -- less -- ./tests/scheme/runtime.sst
+!!
+
+<< files / view / tests/scheme/strings.sst
+	exec -- less -- ./tests/scheme/strings.sst
+!!
+
+<< files / view / tests/scheme/types.sst
+	exec -- less -- ./tests/scheme/types.sst
+!!
+
+<< files / view / tests/scheme/values.sst
+	exec -- less -- ./tests/scheme/values.sst
+!!
+
