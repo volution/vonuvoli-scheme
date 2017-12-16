@@ -291,6 +291,15 @@ pub fn compile_test (context_without_optimizations : &Context, context_with_opti
 	}
 	
 	
+	match verbosity_generic {
+		TestVerbosity::Debug => {
+			header_emitted = try! (test_case_header_emit (test, transcript, verbosity_generic, header_emitted, true));
+			try_or_fail! (write! (transcript, "-- compile-without-optimizations ...\n"), 0x72ea2b99);
+		},
+		_ =>
+			(),
+	}
+	
 	let expression_without_optimizations = match compile (&context_without_optimizations, &test.expression) {
 		Ok (expression) =>
 			expression,
@@ -304,12 +313,21 @@ pub fn compile_test (context_without_optimizations : &Context, context_with_opti
 	match verbosity_without_optimizations {
 		TestVerbosity::Debug => {
 			header_emitted = try! (test_case_header_emit (test, transcript, verbosity_without_optimizations, header_emitted, true));
-			try_or_fail! (write! (transcript, "-- compile --\n{:#?}\n", &expression_without_optimizations), 0xebf8f59e);
+			try_or_fail! (write! (transcript, "-- compile-without-optimizations --\n{:#?}\n", &expression_without_optimizations), 0xebf8f59e);
 		},
 		_ =>
 			(),
 	}
 	
+	
+	match verbosity_generic {
+		TestVerbosity::Debug => {
+			header_emitted = try! (test_case_header_emit (test, transcript, verbosity_generic, header_emitted, true));
+			try_or_fail! (write! (transcript, "-- compile-with-optimizations ...\n"), 0xe66eecff);
+		},
+		_ =>
+			(),
+	}
 	
 	let expression_with_optimizations = match compile (&context_with_optimizations, &test.expression) {
 		Ok (expression) =>
@@ -378,6 +396,15 @@ pub fn execute_test (test : &TestCaseCompiled, transcript : &mut io::Write, verb
 	let mut header_emitted = try! (test_case_header_emit (&test.source, transcript, verbosity_generic, false, false));
 	
 	
+	match verbosity_generic {
+		TestVerbosity::Debug => {
+			header_emitted = try! (test_case_header_emit (&test.source, transcript, verbosity_generic, header_emitted, true));
+			try_or_fail! (write! (transcript, "-- evaluate-without-optimizations ...\n"), 0xad17507e);
+		},
+		_ =>
+			(),
+	}
+	
 	let output_value_without_optimizations = match evaluate (&test.context_without_optimizations, &test.expression_without_optimizations) {
 		Ok (output_value) =>
 			output_value,
@@ -397,6 +424,15 @@ pub fn execute_test (test : &TestCaseCompiled, transcript : &mut io::Write, verb
 			(),
 	}
 	
+	
+	match verbosity_generic {
+		TestVerbosity::Debug => {
+			header_emitted = try! (test_case_header_emit (&test.source, transcript, verbosity_generic, header_emitted, true));
+			try_or_fail! (write! (transcript, "-- evaluate-with-optimizations ...\n"), 0xecf07fc4);
+		},
+		_ =>
+			(),
+	}
 	
 	let output_value_with_optimizations = match evaluate (&test.context_with_optimizations, &test.expression_with_optimizations) {
 		Ok (output_value) =>
