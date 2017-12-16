@@ -95,6 +95,8 @@ impl Optimizer {
 				return self.optimize_for_procedure_extended_call (optimization, expression),
 			Expression::ProcedureLambdaCall (expression) =>
 				return self.optimize_for_procedure_lambda_call (optimization, expression),
+			Expression::ProcedureNativeCall (expression) =>
+				return self.optimize_for_procedure_native_call (optimization, expression),
 			
 			Expression::Lambda (lambda, expression, registers_closure, registers_local) =>
 				return self.optimize_lambda_create (optimization, lambda, *expression, registers_closure, registers_local),
@@ -247,6 +249,34 @@ impl Optimizer {
 				return self.optimize_procedure_lambda_n (optimization, lambda, inputs),
 			
 		}
+	}
+	
+	
+	fn optimize_for_procedure_native_call (&self, optimization : OptimizerContext, expression : ExpressionForProcedureNativeCall) -> (Outcome<(OptimizerContext, Expression)>) {
+		// FIXME:  Implement this!
+		succeed! ((optimization, expression.into ()));
+		/*
+		match expression {
+			
+			ExpressionForProcedureNativeCall::ProcedureNativeCall (native, inputs) =>
+				return self.optimize_procedure_native (optimization, native, inputs),
+			ExpressionForProcedureNativeCall::ProcedureNativeCall0 (native) =>
+				return self.optimize_procedure_native_0 (optimization, native),
+			ExpressionForProcedureNativeCall::ProcedureNativeCall1 (native, input_1) =>
+				return self.optimize_procedure_native_1 (optimization, native, *input_1),
+			ExpressionForProcedureNativeCall::ProcedureNativeCall2 (native, input_1, input_2) =>
+				return self.optimize_procedure_native_2 (optimization, native, *input_1, *input_2),
+			ExpressionForProcedureNativeCall::ProcedureNativeCall3 (native, input_1, input_2, input_3) =>
+				return self.optimize_procedure_native_3 (optimization, native, *input_1, *input_2, *input_3),
+			ExpressionForProcedureNativeCall::ProcedureNativeCall4 (native, input_1, input_2, input_3, input_4) =>
+				return self.optimize_procedure_native_4 (optimization, native, *input_1, *input_2, *input_3, *input_4),
+			ExpressionForProcedureNativeCall::ProcedureNativeCall5 (native, input_1, input_2, input_3, input_4, input_5) =>
+				return self.optimize_procedure_native_5 (optimization, native, *input_1, *input_2, *input_3, *input_4, *input_5),
+			ExpressionForProcedureNativeCall::ProcedureNativeCallN (native, inputs) =>
+				return self.optimize_procedure_native_n (optimization, native, inputs),
+			
+		}
+		*/
 	}
 	
 	
@@ -1538,6 +1568,26 @@ impl Optimizer {
 					
 				},
 			
+			Expression::ProcedureNativeCall (ref expression) =>
+				match *expression {
+					
+					ExpressionForProcedureNativeCall::ProcedureNativeCall0 (_) =>
+						false,
+					ExpressionForProcedureNativeCall::ProcedureNativeCall1 (_, _) =>
+						false,
+					ExpressionForProcedureNativeCall::ProcedureNativeCall2 (_, _, _) =>
+						false,
+					ExpressionForProcedureNativeCall::ProcedureNativeCall3 (_, _, _, _) =>
+						false,
+					ExpressionForProcedureNativeCall::ProcedureNativeCall4 (_, _, _, _, _) =>
+						false,
+					ExpressionForProcedureNativeCall::ProcedureNativeCall5 (_, _, _, _, _, _) =>
+						false,
+					ExpressionForProcedureNativeCall::ProcedureNativeCallN (_, _) =>
+						false,
+					
+				},
+			
 		}
 	}
 	
@@ -1758,21 +1808,21 @@ impl Optimizer {
 			Expression::ProcedureExtendedCall (ref expression) =>
 				match *expression {
 					
-					ExpressionForProcedureExtendedCall::ProcedureExtendedCall (ref _procedure, ref inputs) =>
+					ExpressionForProcedureExtendedCall::ProcedureExtendedCall (ref _extended, ref inputs) =>
 						Some (boxed_slice_to_ref (inputs)),
-					ExpressionForProcedureExtendedCall::ProcedureExtendedCall0 (ref _procedure) =>
+					ExpressionForProcedureExtendedCall::ProcedureExtendedCall0 (ref _extended) =>
 						Some (StdBox::new ([])),
-					ExpressionForProcedureExtendedCall::ProcedureExtendedCall1 (ref _procedure, ref input_1) =>
+					ExpressionForProcedureExtendedCall::ProcedureExtendedCall1 (ref _extended, ref input_1) =>
 						Some (StdBox::new ([input_1])),
-					ExpressionForProcedureExtendedCall::ProcedureExtendedCall2 (ref _procedure, ref input_1, ref input_2) =>
+					ExpressionForProcedureExtendedCall::ProcedureExtendedCall2 (ref _extended, ref input_1, ref input_2) =>
 						Some (StdBox::new ([input_1, input_2])),
-					ExpressionForProcedureExtendedCall::ProcedureExtendedCall3 (ref _procedure, ref input_1, ref input_2, ref input_3) =>
+					ExpressionForProcedureExtendedCall::ProcedureExtendedCall3 (ref _extended, ref input_1, ref input_2, ref input_3) =>
 						Some (StdBox::new ([input_1, input_2, input_3])),
-					ExpressionForProcedureExtendedCall::ProcedureExtendedCall4 (ref _procedure, ref input_1, ref input_2, ref input_3, ref input_4) =>
+					ExpressionForProcedureExtendedCall::ProcedureExtendedCall4 (ref _extended, ref input_1, ref input_2, ref input_3, ref input_4) =>
 						Some (StdBox::new ([input_1, input_2, input_3, input_4])),
-					ExpressionForProcedureExtendedCall::ProcedureExtendedCall5 (ref _procedure, ref input_1, ref input_2, ref input_3, ref input_4, ref input_5) =>
+					ExpressionForProcedureExtendedCall::ProcedureExtendedCall5 (ref _extended, ref input_1, ref input_2, ref input_3, ref input_4, ref input_5) =>
 						Some (StdBox::new ([input_1, input_2, input_3, input_4, input_5])),
-					ExpressionForProcedureExtendedCall::ProcedureExtendedCallN (ref _procedure, ref inputs) =>
+					ExpressionForProcedureExtendedCall::ProcedureExtendedCallN (ref _extended, ref inputs) =>
 						Some (boxed_slice_to_ref (inputs)),
 					
 				},
@@ -1795,6 +1845,26 @@ impl Optimizer {
 					ExpressionForProcedureLambdaCall::ProcedureLambdaCall5 (ref _lambda, ref input_1, ref input_2, ref input_3, ref input_4, ref input_5) =>
 						Some (StdBox::new ([input_1, input_2, input_3, input_4, input_5])),
 					ExpressionForProcedureLambdaCall::ProcedureLambdaCallN (ref _lambda, ref inputs) =>
+						Some (boxed_slice_to_ref (inputs)),
+					
+				},
+			
+			Expression::ProcedureNativeCall (ref expression) =>
+				match *expression {
+					
+					ExpressionForProcedureNativeCall::ProcedureNativeCall0 (ref _native) =>
+						Some (StdBox::new ([])),
+					ExpressionForProcedureNativeCall::ProcedureNativeCall1 (ref _native, ref input_1) =>
+						Some (StdBox::new ([input_1])),
+					ExpressionForProcedureNativeCall::ProcedureNativeCall2 (ref _native, ref input_1, ref input_2) =>
+						Some (StdBox::new ([input_1, input_2])),
+					ExpressionForProcedureNativeCall::ProcedureNativeCall3 (ref _native, ref input_1, ref input_2, ref input_3) =>
+						Some (StdBox::new ([input_1, input_2, input_3])),
+					ExpressionForProcedureNativeCall::ProcedureNativeCall4 (ref _native, ref input_1, ref input_2, ref input_3, ref input_4) =>
+						Some (StdBox::new ([input_1, input_2, input_3, input_4])),
+					ExpressionForProcedureNativeCall::ProcedureNativeCall5 (ref _native, ref input_1, ref input_2, ref input_3, ref input_4, ref input_5) =>
+						Some (StdBox::new ([input_1, input_2, input_3, input_4, input_5])),
+					ExpressionForProcedureNativeCall::ProcedureNativeCallN (ref _native, ref inputs) =>
 						Some (boxed_slice_to_ref (inputs)),
 					
 				},

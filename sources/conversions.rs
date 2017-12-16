@@ -87,6 +87,7 @@ impl_from_for_Expression_1! (ProcedureGenericCall, ExpressionForProcedureGeneric
 impl_from_for_Expression_1! (ProcedurePrimitiveCall, ExpressionForProcedurePrimitiveCall);
 impl_from_for_Expression_1! (ProcedureExtendedCall, ExpressionForProcedureExtendedCall);
 impl_from_for_Expression_1! (ProcedureLambdaCall, ExpressionForProcedureLambdaCall);
+impl_from_for_Expression_1! (ProcedureNativeCall, ExpressionForProcedureNativeCall);
 
 impl_from_for_Value_1! (Singleton, ValueSingleton);
 impl_from_for_Value_1! (Boolean, Boolean);

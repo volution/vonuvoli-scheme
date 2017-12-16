@@ -1,11 +1,15 @@
 
 
 use super::contexts::exports::*;
+use super::errors::exports::*;
 use super::extended_procedures::exports::*;
 use super::lambdas::exports::*;
 use super::primitives::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
+
+use std::fmt;
+use std::hash;
 
 
 
@@ -21,8 +25,17 @@ pub mod exports {
 	pub use super::ExpressionForProcedurePrimitiveCall;
 	pub use super::ExpressionForProcedureExtendedCall;
 	pub use super::ExpressionForProcedureLambdaCall;
+	pub use super::ExpressionForProcedureNativeCall;
 	
 	pub use super::ExpressionSequenceOperator;
+	
+	pub use super::ProcedureNative0;
+	pub use super::ProcedureNative1;
+	pub use super::ProcedureNative2;
+	pub use super::ProcedureNative3;
+	pub use super::ProcedureNative4;
+	pub use super::ProcedureNative5;
+	pub use super::ProcedureNativeN;
 	
 }
 
@@ -46,6 +59,7 @@ pub enum Expression {
 	ProcedurePrimitiveCall ( ExpressionForProcedurePrimitiveCall ),
 	ProcedureExtendedCall ( ExpressionForProcedureExtendedCall ),
 	ProcedureLambdaCall ( ExpressionForProcedureLambdaCall ),
+	ProcedureNativeCall ( ExpressionForProcedureNativeCall ),
 	
 	Lambda ( LambdaTemplate, ExpressionBox, StdBox<[RegistersBindingTemplate]>, StdBox<[RegistersBindingTemplate]> ),
 	
@@ -93,6 +107,7 @@ pub enum ExpressionForProcedureGenericCall {
 	
 }
 
+
 #[ derive (Clone, Debug, Hash) ]
 pub enum ExpressionForProcedurePrimitiveCall {
 	
@@ -108,6 +123,7 @@ pub enum ExpressionForProcedurePrimitiveCall {
 	
 }
 
+
 #[ derive (Clone, Debug, Hash) ]
 pub enum ExpressionForProcedureExtendedCall {
 	
@@ -121,6 +137,7 @@ pub enum ExpressionForProcedureExtendedCall {
 	ProcedureExtendedCallN ( ProcedureExtended, StdBox<[Expression]> ),
 	
 }
+
 
 #[ derive (Clone, Debug, Hash) ]
 pub enum ExpressionForProcedureLambdaCall {
@@ -137,17 +154,65 @@ pub enum ExpressionForProcedureLambdaCall {
 }
 
 
+#[ derive (Clone) ]
+pub enum ExpressionForProcedureNativeCall {
+	
+	ProcedureNativeCall0 ( ProcedureNative0 ),
+	ProcedureNativeCall1 ( ProcedureNative1, ExpressionBox ),
+	ProcedureNativeCall2 ( ProcedureNative2, ExpressionBox, ExpressionBox ),
+	ProcedureNativeCall3 ( ProcedureNative3, ExpressionBox, ExpressionBox, ExpressionBox ),
+	ProcedureNativeCall4 ( ProcedureNative4, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
+	ProcedureNativeCall5 ( ProcedureNative5, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
+	ProcedureNativeCallN ( ProcedureNativeN, StdBox<[Expression]> ),
+	
+}
+
+
+
+
 pub type ExpressionBox = StdBox<Expression>;
 pub type ExpressionVec = StdVec<Expression>;
 
 
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive (Copy, Clone, Debug, Hash, Eq, PartialEq, Ord, PartialOrd) ]
 pub enum ExpressionSequenceOperator {
 	ReturnLast,
 	ReturnFirst,
 	And,
 	Or,
+}
+
+
+
+
+pub type ProcedureNative0 = fn () -> (Outcome<Value>);
+pub type ProcedureNative1 = fn (&Value) -> (Outcome<Value>);
+pub type ProcedureNative2 = fn (&Value, &Value) -> (Outcome<Value>);
+pub type ProcedureNative3 = fn (&Value, &Value, &Value) -> (Outcome<Value>);
+pub type ProcedureNative4 = fn (&Value, &Value, &Value, &Value) -> (Outcome<Value>);
+pub type ProcedureNative5 = fn (&Value, &Value, &Value, &Value, &Value) -> (Outcome<Value>);
+pub type ProcedureNativeN = fn (&[&Value]) -> (Outcome<Value>);
+
+
+
+
+impl fmt::Debug for ExpressionForProcedureNativeCall {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		formatter.write_str ("ProcedureNativeCall")
+	}
+}
+
+
+impl hash::Hash for ExpressionForProcedureNativeCall {
+	
+	#[ inline (always) ]
+	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
+		// FIXME:  Implement this!
+		hasher.write_u32 (0);
+	}
 }
 

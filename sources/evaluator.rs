@@ -103,6 +103,8 @@ impl Evaluator {
 				self.evaluate_for_procedure_extended_call (evaluation, expression),
 			Expression::ProcedureLambdaCall (ref expression) =>
 				self.evaluate_for_procedure_lambda_call (evaluation, expression),
+			Expression::ProcedureNativeCall (ref expression) =>
+				self.evaluate_for_procedure_native_call (evaluation, expression),
 			
 			Expression::Lambda (ref lambda, ref expression, ref registers_closure, ref registers_local) =>
 				self.evaluate_lambda_create (evaluation, lambda, expression, registers_closure, registers_local),
@@ -256,6 +258,29 @@ impl Evaluator {
 				self.evaluate_procedure_lambda_5 (evaluation, lambda, input_1, input_2, input_3, input_4, input_5),
 			ExpressionForProcedureLambdaCall::ProcedureLambdaCallN (ref lambda, ref inputs) =>
 				self.evaluate_procedure_lambda_n (evaluation, lambda, inputs),
+			
+		}
+	}
+	
+	
+	#[ inline (always) ]
+	fn evaluate_for_procedure_native_call (&self, evaluation : &mut EvaluatorContext, input : &ExpressionForProcedureNativeCall) -> (Outcome<Value>) {
+		match *input {
+			
+			ExpressionForProcedureNativeCall::ProcedureNativeCall0 (ref procedure) =>
+				self.evaluate_procedure_native_0 (evaluation, procedure),
+			ExpressionForProcedureNativeCall::ProcedureNativeCall1 (ref procedure, ref input_1) =>
+				self.evaluate_procedure_native_1 (evaluation, procedure, input_1),
+			ExpressionForProcedureNativeCall::ProcedureNativeCall2 (ref procedure, ref input_1, ref input_2) =>
+				self.evaluate_procedure_native_2 (evaluation, procedure, input_1, input_2),
+			ExpressionForProcedureNativeCall::ProcedureNativeCall3 (ref procedure, ref input_1, ref input_2, ref input_3) =>
+				self.evaluate_procedure_native_3 (evaluation, procedure, input_1, input_2, input_3),
+			ExpressionForProcedureNativeCall::ProcedureNativeCall4 (ref procedure, ref input_1, ref input_2, ref input_3, ref input_4) =>
+				self.evaluate_procedure_native_4 (evaluation, procedure, input_1, input_2, input_3, input_4),
+			ExpressionForProcedureNativeCall::ProcedureNativeCall5 (ref procedure, ref input_1, ref input_2, ref input_3, ref input_4, ref input_5) =>
+				self.evaluate_procedure_native_5 (evaluation, procedure, input_1, input_2, input_3, input_4, input_5),
+			ExpressionForProcedureNativeCall::ProcedureNativeCallN (ref procedure, ref inputs) =>
+				self.evaluate_procedure_native_n (evaluation, procedure, inputs),
 			
 		}
 	}
@@ -1262,6 +1287,97 @@ impl Evaluator {
 	#[ inline (always) ]
 	fn evaluate_procedure_extended_n_with_values (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, inputs : &[&Value]) -> (Outcome<Value>) {
 		return procedure_extended_evaluate_n (extended, inputs, evaluation);
+	}
+	
+	
+	
+	
+	#[ inline (always) ]
+	fn evaluate_procedure_native_0 (&self, _evaluation : &mut EvaluatorContext, native : &ProcedureNative0) -> (Outcome<Value>) {
+		return native ();
+	}
+	
+	
+	#[ inline (always) ]
+	fn evaluate_procedure_native_1 (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative1, input_1 : &Expression) -> (Outcome<Value>) {
+		let input_1 = try! (self.evaluate (evaluation, input_1));
+		return self.evaluate_procedure_native_1_with_values (evaluation, native, &input_1);
+	}
+	
+	#[ inline (always) ]
+	fn evaluate_procedure_native_1_with_values (&self, _evaluation : &mut EvaluatorContext, native : &ProcedureNative1, input_1 : &Value) -> (Outcome<Value>) {
+		return native (input_1);
+	}
+	
+	
+	#[ inline (always) ]
+	fn evaluate_procedure_native_2 (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative2, input_1 : &Expression, input_2 : &Expression) -> (Outcome<Value>) {
+		let input_1 = try! (self.evaluate (evaluation, input_1));
+		let input_2 = try! (self.evaluate (evaluation, input_2));
+		return self.evaluate_procedure_native_2_with_values (evaluation, native, &input_1, &input_2);
+	}
+	
+	#[ inline (always) ]
+	fn evaluate_procedure_native_2_with_values (&self, _evaluation : &mut EvaluatorContext, native : &ProcedureNative2, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
+		return native (input_1, input_2);
+	}
+	
+	
+	#[ inline (always) ]
+	fn evaluate_procedure_native_3 (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative3, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression) -> (Outcome<Value>) {
+		let input_1 = try! (self.evaluate (evaluation, input_1));
+		let input_2 = try! (self.evaluate (evaluation, input_2));
+		let input_3 = try! (self.evaluate (evaluation, input_3));
+		return self.evaluate_procedure_native_3_with_values (evaluation, native, &input_1, &input_2, &input_3);
+	}
+	
+	#[ inline (always) ]
+	fn evaluate_procedure_native_3_with_values (&self, _evaluation : &mut EvaluatorContext, native : &ProcedureNative3, input_1 : &Value, input_2 : &Value, input_3 : &Value) -> (Outcome<Value>) {
+		return native (input_1, input_2, input_3);
+	}
+	
+	
+	#[ inline (always) ]
+	fn evaluate_procedure_native_4 (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative4, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression, input_4 : &Expression) -> (Outcome<Value>) {
+		let input_1 = try! (self.evaluate (evaluation, input_1));
+		let input_2 = try! (self.evaluate (evaluation, input_2));
+		let input_3 = try! (self.evaluate (evaluation, input_3));
+		let input_4 = try! (self.evaluate (evaluation, input_4));
+		return self.evaluate_procedure_native_4_with_values (evaluation, native, &input_1, &input_2, &input_3, &input_4);
+	}
+	
+	#[ inline (always) ]
+	fn evaluate_procedure_native_4_with_values (&self, _evaluation : &mut EvaluatorContext, native : &ProcedureNative4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value) -> (Outcome<Value>) {
+		return native (input_1, input_2, input_3, input_4);
+	}
+	
+	
+	#[ inline (always) ]
+	fn evaluate_procedure_native_5 (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative5, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression, input_4 : &Expression, input_5 : &Expression) -> (Outcome<Value>) {
+		let input_1 = try! (self.evaluate (evaluation, input_1));
+		let input_2 = try! (self.evaluate (evaluation, input_2));
+		let input_3 = try! (self.evaluate (evaluation, input_3));
+		let input_4 = try! (self.evaluate (evaluation, input_4));
+		let input_5 = try! (self.evaluate (evaluation, input_5));
+		return self.evaluate_procedure_native_5_with_values (evaluation, native, &input_1, &input_2, &input_3, &input_4, &input_5);
+	}
+	
+	#[ inline (always) ]
+	fn evaluate_procedure_native_5_with_values (&self, _evaluation : &mut EvaluatorContext, native : &ProcedureNative5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value) -> (Outcome<Value>) {
+		return native (input_1, input_2, input_3, input_4, input_5);
+	}
+	
+	
+	#[ inline (always) ]
+	fn evaluate_procedure_native_n (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeN, inputs : &[Expression]) -> (Outcome<Value>) {
+		let inputs = try! (self.evaluate_slice (evaluation, inputs));
+		let inputs = vec_vec_to_ref (&inputs);
+		return self.evaluate_procedure_native_n_with_values (evaluation, native, &inputs);
+	}
+	
+	#[ inline (always) ]
+	fn evaluate_procedure_native_n_with_values (&self, _evaluation : &mut EvaluatorContext, native : &ProcedureNativeN, inputs : &[&Value]) -> (Outcome<Value>) {
+		return native (inputs);
 	}
 	
 	
