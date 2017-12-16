@@ -231,11 +231,10 @@ pub struct Registers {
 	handle : u32,
 }
 
-#[ derive (Debug) ]
 #[ allow (dead_code) ]
 enum Register {
-	Value (Value, bool),
 	Binding (Binding),
+	Value (Value, bool),
 	Uninitialized (bool),
 	Undefined,
 }
@@ -330,10 +329,10 @@ impl Registers {
 	pub fn initialize_value (&mut self, index : usize, value : Value) -> (Outcome<()>) {
 		let register = try_some! (self.registers.get_mut (index), 0x7dabdbe0);
 		match *register {
-			Register::Value (_, _) =>
-				fail! (0x27589b63),
 			Register::Binding (ref mut binding) =>
 				return binding.initialize (value),
+			Register::Value (_, _) =>
+				fail! (0x27589b63),
 			Register::Uninitialized (immutable) => {
 				*register = Register::Value (value, immutable);
 				succeed! (());
@@ -350,6 +349,8 @@ impl Registers {
 		}
 		let register = &mut self.registers[index];
 		match *register {
+			Register::Binding (ref mut binding) =>
+				return binding.set (value),
 			Register::Value (ref mut value_for_register, immutable) => {
 				if immutable {
 					fail! (0x61871fc9);
@@ -358,8 +359,6 @@ impl Registers {
 				mem::swap (value_for_register, &mut value);
 				succeed! (value);
 			},
-			Register::Binding (ref mut binding) =>
-				return binding.set (value),
 			Register::Uninitialized (_) =>
 				fail! (0xa708a086),
 			Register::Undefined =>
@@ -466,6 +465,43 @@ impl fmt::Debug for Registers {
 				.field ("handle", &self.handle)
 				.field ("registers", &self.registers)
 				.finish ();
+	}
+}
+
+
+impl fmt::Display for Register {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		return write! (formatter, "#<register>");
+	}
+}
+
+impl fmt::Debug for Register {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		match *self {
+			Register::Binding (ref binding) =>
+				return formatter
+						.debug_tuple ("Binding")
+						.field (binding)
+						.finish (),
+			Register::Value (_, immutable) =>
+				return formatter
+						.debug_tuple ("Value")
+						.field (&immutable)
+						.finish (),
+			Register::Uninitialized (immutable) =>
+				return formatter
+						.debug_tuple ("Uninitialized")
+						.field (&immutable)
+						.finish (),
+			Register::Undefined =>
+				return formatter
+						.debug_tuple ("Undefined")
+						.finish (),
+		}
 	}
 }
 
