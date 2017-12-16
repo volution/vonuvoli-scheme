@@ -64,23 +64,19 @@ impl Context {
 	}
 	
 	
-	pub fn resolve_expect (&self, identifier : &Symbol) -> (Binding) {
-		return self.resolve (identifier) .expect ("6ab141e4") .expect ("a3e4e132");
-	}
-	
 	#[ inline (always) ]
 	pub fn resolve (&self, identifier : &Symbol) -> (Outcome<Option<Binding>>) {
 		let self_0 = self.internals_ref ();
-		return match self_0.bindings.get (identifier.string_ref ()) {
+		match self_0.bindings.get (identifier.string_ref ()) {
 			Some (binding) =>
-				Ok (Some (binding.clone ())),
+				succeed! (Some (binding.clone ())),
 			None =>
 				if let Some (ref parent) = self_0.parent {
-					parent.resolve (&identifier)
+					return parent.resolve (identifier);
 				} else {
-					Ok (None)
+					succeed! (None);
 				},
-		};
+		}
 	}
 	
 	
@@ -94,7 +90,7 @@ impl Context {
 		use std::collections::hash_map::Entry;
 		let mut self_0 = self.internals_ref_mut ();
 		if self_0.immutable {
-			return failed! (0x4814c74f);
+			fail! (0x4814c74f);
 		}
 		let template_identifier = template.identifier.string_as_str ();
 		let identifier = if let Some (prefix) = prefix {
@@ -106,33 +102,38 @@ impl Context {
 			StdString::from (template_identifier)
 		};
 		let bindings_entry = self_0.bindings.entry (identifier);
-		return match bindings_entry {
+		match bindings_entry {
 			Entry::Occupied (_) =>
-				failed! (0x5b8e8d57),
+				fail! (0x5b8e8d57),
 			Entry::Vacant (_) => {
 				let binding = try! (self.new_binding (template));
 				bindings_entry.or_insert (binding.clone ());
-				Ok (binding)
+				succeed! (binding);
 			},
-		};
+		}
 	}
 	
 	
 	#[ inline (always) ]
-	pub fn define_all (&self, templates : &[ContextBindingTemplate]) -> (Outcome<StdVec<Binding>>) {
+	pub fn define_all (&self, templates : &[ContextBindingTemplate]) -> (Outcome<()>) {
 		return self.define_all_with_prefix (templates, None);
 	}
 	
 	#[ inline (always) ]
-	pub fn define_all_with_prefix (&self, templates : &[ContextBindingTemplate], prefix : Option<&str>) -> (Outcome<StdVec<Binding>>) {
+	pub fn define_all_with_prefix (&self, templates : &[ContextBindingTemplate], prefix : Option<&str>) -> (Outcome<()>) {
 		{
 			let mut self_0 = self.internals_ref_mut ();
 			if self_0.immutable {
-				return failed! (0x36b1eddd);
+				fail! (0x36b1eddd);
 			}
 			self_0.bindings.reserve (templates.len ());
 		}
-		templates.iter () .map (|ref template| self.define_with_prefix (template, prefix)) .collect ()
+		{
+			for template in templates {
+				try! (self.define_with_prefix (template, prefix));
+			}
+			succeed! (());
+		}
 	}
 	
 	
@@ -140,7 +141,7 @@ impl Context {
 	pub fn set_immutable (&self) -> (Outcome<()>) {
 		let mut self_0 = self.internals_ref_mut ();
 		self_0.immutable = true;
-		return Ok (());
+		succeed! (());
 	}
 	
 	
@@ -160,15 +161,15 @@ impl Context {
 		let binding = Binding::new (
 				Some (template.identifier.clone ()),
 				template.value.clone (),
-				template.immutable
+				template.immutable,
 			);
-		return Ok (binding);
+		succeed! (binding);
 	}
 	
 	
 	#[ inline (always) ]
 	pub fn is_self (&self, other : &Context) -> (bool) {
-		ptr::eq (self.0.as_ref (), other.0.as_ref ())
+		return ptr::eq (self.0.as_ref (), other.0.as_ref ());
 	}
 }
 
@@ -223,15 +224,20 @@ impl fmt::Debug for Context {
 
 
 
-#[ derive (Clone) ]
-pub struct Registers ( StdRc<StdRefCell<RegistersInternals>> );
-
-
-#[ derive (Debug) ]
-struct RegistersInternals {
-	bindings : StdVec<Binding>,
+pub struct Registers {
+	registers : StdVec<Register>,
+	count : usize,
 	immutable : bool,
 	handle : u32,
+}
+
+#[ derive (Debug) ]
+#[ allow (dead_code) ]
+enum Register {
+	Value (Value, bool),
+	Binding (Binding),
+	Uninitialized (bool),
+	Undefined,
 }
 
 
@@ -249,107 +255,175 @@ impl Registers {
 	
 	#[ inline (always) ]
 	pub fn new () -> (Registers) {
-		let internals = RegistersInternals {
-				bindings : StdVec::new (),
+		let registers = Registers {
+				registers : StdVec::new (),
+				count : 0,
 				immutable : false,
 				handle : context_handles_next (),
 			};
-		return Registers (StdRc::new (StdRefCell::new (internals)));
+		return registers;
 	}
 	
 	
 	#[ inline (always) ]
-	pub fn new_and_define (templates : &[RegistersBindingTemplate], borrow : Option<&Registers>) -> (Outcome<Registers>) {
+	pub fn new_and_define (templates : &[RegistersBindingTemplate], borrow : &Registers) -> (Outcome<Registers>) {
 		let mut registers = Registers::new ();
 		try! (registers.define_all (templates, borrow));
 		succeed! (registers);
 	}
 	
 	
-	pub fn resolve_expect (&self, index : usize) -> (Binding) {
-		return self.resolve (index) .expect ("204a835e");
-	}
-	
-	pub fn resolve (&self, index : usize) -> (Outcome<Binding>) {
-		let self_0 = self.internals_ref ();
-		return match self_0.bindings.get (index) {
-			Some (binding) => Ok (binding.clone ()),
-			None => failed! (0x97ff34a1),
-		};
-	}
-	
-	
-	pub fn define (&self, template : &RegistersBindingTemplate, borrow : Option<&Registers>) -> (Outcome<(usize, Binding)>) {
-		let binding = try! (self.new_binding (template, borrow));
-		let mut self_0 = self.internals_ref_mut ();
-		if self_0.immutable {
-			return failed! (0xd7cbcdd8);
+	#[ inline (always) ]
+	pub fn resolve_value (&mut self, index : usize) -> (Outcome<Value>) {
+		let register = try_some! (self.registers.get (index), 0x89e68eab);
+		match *register {
+			Register::Binding (ref binding) =>
+				return binding.get (),
+			Register::Value (ref value, _) =>
+				succeed! (value.clone ()),
+			Register::Uninitialized (_) =>
+				fail! (0x3b976812),
+			Register::Undefined =>
+				fail! (0xef51ae76),
 		}
-		self_0.bindings.push (binding.clone ());
-		let index = self_0.bindings.len () - 1;
-		succeed! ((index, binding));
-	}
-	
-	pub fn define_all (&mut self, templates : &[RegistersBindingTemplate], borrow : Option<&Registers>) -> (Outcome<StdVec<(usize, Binding)>>) {
-		{
-			let mut self_0 = self.internals_ref_mut ();
-			if self_0.immutable {
-				return failed! (0x74189c0f);
-			}
-			self_0.bindings.reserve (templates.len ());
-		}
-		templates.iter () .map (|ref template| self.define (template, borrow)) .collect ()
-	}
-	
-	pub fn extend_from (&mut self, borrow : &Registers) -> (Outcome<()>) {
-		let mut self_0 = self.internals_ref_mut ();
-		if self_0.immutable {
-			return failed! (0x74189c0f);
-		}
-		let borrow_0 = borrow.internals_ref ();
-		self_0.bindings.extend_from_slice (&borrow_0.bindings);
-		succeed! (());
-	}
-	
-	
-	pub fn set_immutable (&self) -> (Outcome<()>) {
-		let mut self_0 = self.internals_ref_mut ();
-		self_0.immutable = true;
-		return Ok (());
-	}
-	
-	
-	fn internals_ref (&self) -> (StdRef<RegistersInternals>) {
-		return StdRefCell::borrow (StdRc::as_ref (&self.0));
-	}
-	
-	fn internals_ref_mut (&self) -> (StdRefMut<RegistersInternals>) {
-		return StdRefCell::borrow_mut (StdRc::as_ref (&self.0));
 	}
 	
 	
 	#[ inline (always) ]
-	fn new_binding (&self, template : &RegistersBindingTemplate, borrow : Option<&Registers>) -> (Outcome<Binding>) {
-		if let Some (index) = template.borrow {
-			if let Some (borrow) = borrow {
-				let borrow_0 = borrow.internals_ref ();
-				if let Some (binding) = borrow_0.bindings.get (index) {
-					succeed! (binding.clone ());
-				} else {
-					fail! (0x114bb1df);
-				}
-			} else {
-				fail! (0x0ff6a3a7);
+	pub fn resolve_binding_option (&self, index : usize) -> (Outcome<Option<Binding>>) {
+		let register = try_some! (self.registers.get (index), 0x371fc84b);
+		match *register {
+			Register::Binding (ref binding) =>
+				succeed! (Some (binding.clone ())),
+			Register::Value (_, _) =>
+				succeed! (None),
+			Register::Uninitialized (_) =>
+				succeed! (None),
+			Register::Undefined =>
+				fail! (0x1a30890c),
+		}
+	}
+	
+	#[ inline (always) ]
+	pub fn resolve_binding_create (&mut self, index : usize) -> (Outcome<Binding>) {
+		let register = try_some! (self.registers.get_mut (index), 0x79873ff6);
+		let binding = match *register {
+			Register::Binding (ref binding) =>
+				succeed! (binding.clone ()),
+			Register::Value (ref mut value_for_register, immutable) => {
+				let mut value_for_binding = UNDEFINED.into ();
+				mem::swap (value_for_register, &mut value_for_binding);
+				Binding::new (None, Some (value_for_binding), immutable)
+			},
+			Register::Uninitialized (immutable) => {
+				Binding::new (None, None, immutable)
+			},
+			Register::Undefined =>
+				fail! (0x7e2729e2),
+		};
+		*register = Register::Binding (binding.clone ());
+		succeed! (binding);
+	}
+	
+	
+	#[ inline (always) ]
+	pub fn initialize_value (&mut self, index : usize, value : Value) -> (Outcome<()>) {
+		let register = try_some! (self.registers.get_mut (index), 0x7dabdbe0);
+		match *register {
+			Register::Value (_, _) =>
+				fail! (0x27589b63),
+			Register::Binding (ref mut binding) =>
+				return binding.initialize (value),
+			Register::Uninitialized (immutable) => {
+				*register = Register::Value (value, immutable);
+				succeed! (());
 			}
+			Register::Undefined =>
+				fail! (0xce482df1),
+		}
+	}
+	
+	#[ inline (always) ]
+	pub fn update_value (&mut self, index : usize, value : Value) -> (Outcome<Value>) {
+		if self.immutable {
+			fail! (0xf97e0269);
+		}
+		let register = &mut self.registers[index];
+		match *register {
+			Register::Value (ref mut value_for_register, immutable) => {
+				if immutable {
+					fail! (0x61871fc9);
+				}
+				let mut value = value;
+				mem::swap (value_for_register, &mut value);
+				succeed! (value);
+			},
+			Register::Binding (ref mut binding) =>
+				return binding.set (value),
+			Register::Uninitialized (_) =>
+				fail! (0xa708a086),
+			Register::Undefined =>
+				fail! (0x274323f1),
+		}
+	}
+	
+	
+	#[ inline (always) ]
+	pub fn define (&mut self, template : &RegistersBindingTemplate, borrow : &Registers) -> (Outcome<usize>) {
+		if self.immutable {
+			fail! (0xd7cbcdd8);
+		}
+		let register = try! (self.new_register (template, borrow));
+		let index = self.count;
+		self.registers.push (register);
+		self.count += 1;
+		succeed! (index);
+	}
+	
+	#[ inline (always) ]
+	pub fn define_all (&mut self, templates : &[RegistersBindingTemplate], borrow : &Registers) -> (Outcome<()>) {
+		{
+			if self.immutable {
+				fail! (0x74189c0f);
+			}
+			self.registers.reserve (templates.len ());
+		}
+		{
+			for template in templates {
+				try! (self.define (template, borrow));
+			}
+			succeed! (());
+		}
+	}
+	
+	
+	#[ inline (always) ]
+	pub fn set_immutable (&mut self) -> (Outcome<()>) {
+		self.immutable = true;
+		succeed! (());
+	}
+	
+	
+	#[ inline (always) ]
+	fn new_register (&mut self, template : &RegistersBindingTemplate, borrow : &Registers) -> (Outcome<Register>) {
+		if let Some (index) = template.borrow {
+			let binding = try! (borrow.resolve_binding_option (index));
+			let binding = try_some! (binding, 0x2f543c30);
+			let register = Register::Binding (binding);
+			succeed! (register);
+		} else if let Some (ref value) = template.value {
+			let register = Register::Value (value.clone (), template.immutable);
+			succeed! (register);
 		} else {
-			succeed! (Binding::new (template.identifier.clone (), template.value.clone (), template.immutable));
+			let register = Register::Uninitialized (template.immutable);
+			succeed! (register);
 		}
 	}
 	
 	
 	#[ inline (always) ]
 	pub fn is_self (&self, other : &Registers) -> (bool) {
-		ptr::eq (self.0.as_ref (), other.0.as_ref ())
+		return ptr::eq (self, other);
 	}
 }
 
@@ -360,9 +434,7 @@ impl cmp::PartialEq for Registers {
 	
 	#[ inline (always) ]
 	fn eq (&self, other : &Self) -> (bool) {
-		let self_0 = self.internals_ref ();
-		let other_0 = other.internals_ref ();
-		return self_0.handle == other_0.handle;
+		return self.handle == other.handle;
 	}
 }
 
@@ -371,8 +443,7 @@ impl hash::Hash for Registers {
 	
 	#[ inline (always) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		let self_0 = self.internals_ref ();
-		hasher.write_u32 (self_0.handle);
+		hasher.write_u32 (self.handle);
 	}
 }
 
@@ -381,8 +452,7 @@ impl fmt::Display for Registers {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		let self_0 = self.internals_ref ();
-		return write! (formatter, "#<context:{:08x}>", self_0.handle);
+		return write! (formatter, "#<context:{:08x}>", self.handle);
 	}
 }
 
@@ -390,12 +460,11 @@ impl fmt::Debug for Registers {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		let self_0 = self.internals_ref ();
 		return formatter
 				.debug_struct ("Registers")
-				.field ("immutable", &self_0.immutable)
-				.field ("handle", &self_0.handle)
-				.field ("bindings", &self_0.bindings)
+				.field ("immutable", &self.immutable)
+				.field ("handle", &self.handle)
+				.field ("registers", &self.registers)
 				.finish ();
 	}
 }
@@ -408,10 +477,10 @@ pub struct Binding ( StdRc<StdRefCell<BindingInternals>> );
 
 
 #[ derive (Debug) ]
-// FIXME:  Add support for initialized flag!
 struct BindingInternals {
 	identifier : Option<Symbol>,
 	value : Value,
+	initialized : bool,
 	immutable : bool,
 	handle : u32,
 }
@@ -422,10 +491,15 @@ impl Binding {
 	
 	#[ inline (always) ]
 	pub fn new (identifier : Option<Symbol>, value : Option<Value>, immutable : bool) -> (Binding) {
-		let value = value.unwrap_or (UNDEFINED.into ());
+		let (value, initialized) = if let Some (value) = value {
+			(value, true)
+		} else {
+			(UNDEFINED.into (), false)
+		};
 		let internals = BindingInternals {
 				identifier : identifier,
 				value : value,
+				initialized : initialized,
 				immutable : immutable,
 				handle : bindings_handles_next (),
 			};
@@ -436,27 +510,53 @@ impl Binding {
 	#[ inline (always) ]
 	pub fn get (&self) -> (Outcome<Value>) {
 		let self_0 = self.internals_ref ();
-		return Ok (self_0.value.clone ());
+		if ! self_0.initialized {
+			fail! (0x3e185e26);
+		}
+		succeed! (self_0.value.clone ());
+	}
+	
+	#[ inline (always) ]
+	pub fn get_option (&self) -> (Outcome<Option<Value>>) {
+		let self_0 = self.internals_ref ();
+		if self_0.initialized {
+			succeed! (Some (self_0.value.clone ()));
+		} else {
+			succeed! (None);
+		}
+	}
+	
+	
+	#[ inline (always) ]
+	pub fn initialize (&self, value : Value) -> (Outcome<()>) {
+		let mut self_0 = self.internals_ref_mut ();
+		// FIXME:  This breaks bencmarks!
+		//if self_0.initialized {
+		//	fail! (0x10d54f09);
+		//}
+		self_0.value = value;
+		self_0.initialized = true;
+		succeed! (());
 	}
 	
 	#[ inline (always) ]
 	pub fn set (&self, value : Value) -> (Outcome<Value>) {
 		let mut self_0 = self.internals_ref_mut ();
 		if self_0.immutable {
-			return failed! (0x11c77731);
+			fail! (0x11c77731);
+		}
+		if ! self_0.initialized {
+			fail! (0xadd67276);
 		}
 		let mut value = value;
 		mem::swap (&mut self_0.value, &mut value);
-		return Ok (value);
+		succeed! (value);
 	}
 	
-	pub fn initialize (&self, value : Value) -> (Outcome<Value>) {
-		let mut self_0 = self.internals_ref_mut ();
-		if self_0.immutable {
-			return failed! (0x11c77731);
-		}
-		self_0.value = value.clone ();
-		return Ok (value);
+	
+	#[ inline (always) ]
+	pub fn is_initialized (&self) -> (bool) {
+		return self.internals_ref () .initialized;
 	}
 	
 	
@@ -469,7 +569,7 @@ impl Binding {
 	pub fn set_immutable (&self) -> (Outcome<()>) {
 		let mut self_0 = self.internals_ref_mut ();
 		self_0.immutable = true;
-		return Ok (());
+		succeed! (());
 	}
 	
 	
@@ -486,7 +586,7 @@ impl Binding {
 	
 	#[ inline (always) ]
 	pub fn is_self (&self, other : &Binding) -> (bool) {
-		ptr::eq (self.0.as_ref (), other.0.as_ref ())
+		return ptr::eq (self.0.as_ref (), other.0.as_ref ());
 	}
 }
 
@@ -535,9 +635,10 @@ impl fmt::Debug for Binding {
 		return formatter
 				.debug_struct ("Binding")
 				.field ("identifier", &self_0.identifier)
+				.field ("initialized", &self_0.initialized)
 				.field ("immutable", &self_0.immutable)
 				.field ("handle", &self_0.handle)
-				.finish ()
+				.finish ();
 	}
 }
 
