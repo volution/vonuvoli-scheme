@@ -81,6 +81,7 @@ impl fmt::Debug for ProcedureExtended {
 
 
 
+#[ inline (always) ]
 pub fn procedure_extended_evaluate_0 (extended : &ProcedureExtended, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match *extended.internals () {
 		
@@ -93,6 +94,7 @@ pub fn procedure_extended_evaluate_0 (extended : &ProcedureExtended, _evaluator 
 
 
 
+#[ inline (always) ]
 pub fn procedure_extended_evaluate_1 (extended : &ProcedureExtended, input_1 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match *extended.internals () {
 		
@@ -114,6 +116,7 @@ pub fn procedure_extended_evaluate_1 (extended : &ProcedureExtended, input_1 : &
 
 
 
+#[ inline (always) ]
 pub fn procedure_extended_evaluate_2 (extended : &ProcedureExtended, _input_1 : &Value, _input_2 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match *extended.internals () {
 		
@@ -126,6 +129,7 @@ pub fn procedure_extended_evaluate_2 (extended : &ProcedureExtended, _input_1 : 
 
 
 
+#[ inline (always) ]
 pub fn procedure_extended_evaluate_3 (extended : &ProcedureExtended, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match *extended.internals () {
 		
@@ -138,6 +142,7 @@ pub fn procedure_extended_evaluate_3 (extended : &ProcedureExtended, _input_1 : 
 
 
 
+#[ inline (always) ]
 pub fn procedure_extended_evaluate_4 (extended : &ProcedureExtended, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match *extended.internals () {
 		
@@ -150,6 +155,7 @@ pub fn procedure_extended_evaluate_4 (extended : &ProcedureExtended, _input_1 : 
 
 
 
+#[ inline (always) ]
 pub fn procedure_extended_evaluate_5 (extended : &ProcedureExtended, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _input_5 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match *extended.internals () {
 		
@@ -162,6 +168,7 @@ pub fn procedure_extended_evaluate_5 (extended : &ProcedureExtended, _input_1 : 
 
 
 
+#[ inline (always) ]
 pub fn procedure_extended_evaluate_n (extended : &ProcedureExtended, inputs : &[&Value], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let inputs_count = inputs.len ();
 	match *extended.internals () {

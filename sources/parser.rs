@@ -19,6 +19,7 @@ pub mod exports {
 
 
 
+#[ inline (never) ]
 pub fn parse_value (input : &str) -> (Outcome<Value>) {
 	match peg::value (input) {
 		Ok (output) =>
@@ -34,6 +35,7 @@ pub fn parse_value (input : &str) -> (Outcome<Value>) {
 
 
 
+#[ inline (never) ]
 pub fn parse_script (input : &str) -> (Outcome<ValueVec>) {
 	match peg::script (input) {
 		Ok (output) =>
@@ -49,6 +51,7 @@ pub fn parse_script (input : &str) -> (Outcome<ValueVec>) {
 
 
 
+#[ inline (never) ]
 pub fn parse_tests (input : &str) -> (Outcome<StdVec<TestCase>>) {
 	match peg::tests (input) {
 		Ok (output) =>
@@ -61,6 +64,7 @@ pub fn parse_tests (input : &str) -> (Outcome<StdVec<TestCase>>) {
 	}
 }
 
+#[ inline (never) ]
 pub fn parse_test (input : &str) -> (Outcome<TestCase>) {
 	match peg::test (input) {
 		Ok (output) =>

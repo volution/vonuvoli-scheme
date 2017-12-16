@@ -19,6 +19,7 @@ pub mod exports {
 
 
 
+#[ inline (always) ]
 pub fn generate_binding_templates () -> (Outcome<StdVec<ContextBindingTemplate>>) {
 	
 	let definitions = try! (generate_definitions ());
@@ -49,6 +50,7 @@ pub fn generate_binding_templates () -> (Outcome<StdVec<ContextBindingTemplate>>
 
 
 
+#[ inline (always) ]
 pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value)>>) {
 	
 	let definitions = vec! [
@@ -733,6 +735,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 
 
 
+#[ inline (never) ]
 pub fn verify_definitions (definitions : &StdVec<(Symbol, Symbol, Symbol, Value)>) -> (Outcome<()>) {
 	
 	

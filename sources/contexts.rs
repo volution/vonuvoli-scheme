@@ -47,6 +47,7 @@ pub struct ContextBindingTemplate {
 impl Context {
 	
 	
+	#[ inline (always) ]
 	pub fn new (parent : Option<&Context>) -> (Context) {
 		let internals = ContextInternals {
 				bindings : StdMap::new (),
@@ -57,6 +58,7 @@ impl Context {
 		return Context (StdRc::new (StdRefCell::new (internals)));
 	}
 	
+	#[ inline (always) ]
 	pub fn fork (&self) -> (Context) {
 		return Context::new (Some (self));
 	}
@@ -66,6 +68,7 @@ impl Context {
 		return self.resolve (identifier) .expect ("6ab141e4") .expect ("a3e4e132");
 	}
 	
+	#[ inline (always) ]
 	pub fn resolve (&self, identifier : &Symbol) -> (Outcome<Option<Binding>>) {
 		let self_0 = self.internals_ref ();
 		return match self_0.bindings.get (identifier.string_ref ()) {
@@ -81,10 +84,12 @@ impl Context {
 	}
 	
 	
+	#[ inline (always) ]
 	pub fn define (&self, template : &ContextBindingTemplate) -> (Outcome<Binding>) {
 		return self.define_with_prefix (template, None);
 	}
 	
+	#[ inline (always) ]
 	pub fn define_with_prefix (&self, template : &ContextBindingTemplate, prefix : Option<&str>) -> (Outcome<Binding>) {
 		use std::collections::hash_map::Entry;
 		let mut self_0 = self.internals_ref_mut ();
@@ -113,10 +118,12 @@ impl Context {
 	}
 	
 	
+	#[ inline (always) ]
 	pub fn define_all (&self, templates : &[ContextBindingTemplate]) -> (Outcome<StdVec<Binding>>) {
 		return self.define_all_with_prefix (templates, None);
 	}
 	
+	#[ inline (always) ]
 	pub fn define_all_with_prefix (&self, templates : &[ContextBindingTemplate], prefix : Option<&str>) -> (Outcome<StdVec<Binding>>) {
 		{
 			let mut self_0 = self.internals_ref_mut ();
@@ -129,6 +136,7 @@ impl Context {
 	}
 	
 	
+	#[ inline (always) ]
 	pub fn set_immutable (&self) -> (Outcome<()>) {
 		let mut self_0 = self.internals_ref_mut ();
 		self_0.immutable = true;
@@ -136,15 +144,18 @@ impl Context {
 	}
 	
 	
+	#[ inline (always) ]
 	fn internals_ref (&self) -> (StdRef<ContextInternals>) {
 		return StdRefCell::borrow (StdRc::as_ref (&self.0));
 	}
 	
+	#[ inline (always) ]
 	fn internals_ref_mut (&self) -> (StdRefMut<ContextInternals>) {
 		return StdRefCell::borrow_mut (StdRc::as_ref (&self.0));
 	}
 	
 	
+	#[ inline (always) ]
 	fn new_binding (&self, template : &ContextBindingTemplate) -> (Outcome<Binding>) {
 		let binding = Binding::new (
 				Some (template.identifier.clone ()),
@@ -155,6 +166,7 @@ impl Context {
 	}
 	
 	
+	#[ inline (always) ]
 	pub fn is_self (&self, other : &Context) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
@@ -164,6 +176,8 @@ impl Context {
 impl cmp::Eq for Context {}
 
 impl cmp::PartialEq for Context {
+	
+	#[ inline (always) ]
 	fn eq (&self, other : &Self) -> (bool) {
 		let self_0 = self.internals_ref ();
 		let other_0 = other.internals_ref ();
@@ -173,6 +187,8 @@ impl cmp::PartialEq for Context {
 
 
 impl hash::Hash for Context {
+	
+	#[ inline (always) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		let self_0 = self.internals_ref ();
 		hasher.write_u32 (self_0.handle);
@@ -181,6 +197,8 @@ impl hash::Hash for Context {
 
 
 impl fmt::Display for Context {
+	
+	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = self.internals_ref ();
 		return write! (formatter, "#<context:{:08x}>", self_0.handle);
@@ -188,6 +206,8 @@ impl fmt::Display for Context {
 }
 
 impl fmt::Debug for Context {
+	
+	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = self.internals_ref ();
 		return formatter
@@ -227,6 +247,7 @@ pub struct RegistersBindingTemplate {
 impl Registers {
 	
 	
+	#[ inline (always) ]
 	pub fn new () -> (Registers) {
 		let internals = RegistersInternals {
 				bindings : StdVec::new (),
@@ -237,6 +258,7 @@ impl Registers {
 	}
 	
 	
+	#[ inline (always) ]
 	pub fn new_and_define (templates : &[RegistersBindingTemplate], borrow : Option<&Registers>) -> (Outcome<Registers>) {
 		let mut registers = Registers::new ();
 		try! (registers.define_all (templates, borrow));
@@ -306,6 +328,7 @@ impl Registers {
 	}
 	
 	
+	#[ inline (always) ]
 	fn new_binding (&self, template : &RegistersBindingTemplate, borrow : Option<&Registers>) -> (Outcome<Binding>) {
 		if let Some (index) = template.borrow {
 			if let Some (borrow) = borrow {
@@ -324,6 +347,7 @@ impl Registers {
 	}
 	
 	
+	#[ inline (always) ]
 	pub fn is_self (&self, other : &Registers) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
@@ -333,6 +357,8 @@ impl Registers {
 impl cmp::Eq for Registers {}
 
 impl cmp::PartialEq for Registers {
+	
+	#[ inline (always) ]
 	fn eq (&self, other : &Self) -> (bool) {
 		let self_0 = self.internals_ref ();
 		let other_0 = other.internals_ref ();
@@ -342,6 +368,8 @@ impl cmp::PartialEq for Registers {
 
 
 impl hash::Hash for Registers {
+	
+	#[ inline (always) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		let self_0 = self.internals_ref ();
 		hasher.write_u32 (self_0.handle);
@@ -350,6 +378,8 @@ impl hash::Hash for Registers {
 
 
 impl fmt::Display for Registers {
+	
+	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = self.internals_ref ();
 		return write! (formatter, "#<context:{:08x}>", self_0.handle);
@@ -357,6 +387,8 @@ impl fmt::Display for Registers {
 }
 
 impl fmt::Debug for Registers {
+	
+	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = self.internals_ref ();
 		return formatter
@@ -388,6 +420,7 @@ struct BindingInternals {
 impl Binding {
 	
 	
+	#[ inline (always) ]
 	pub fn new (identifier : Option<Symbol>, value : Option<Value>, immutable : bool) -> (Binding) {
 		let value = value.unwrap_or (UNDEFINED.into ());
 		let internals = BindingInternals {
@@ -400,11 +433,13 @@ impl Binding {
 	}
 	
 	
+	#[ inline (always) ]
 	pub fn get (&self) -> (Outcome<Value>) {
 		let self_0 = self.internals_ref ();
 		return Ok (self_0.value.clone ());
 	}
 	
+	#[ inline (always) ]
 	pub fn set (&self, value : Value) -> (Outcome<Value>) {
 		let mut self_0 = self.internals_ref_mut ();
 		if self_0.immutable {
@@ -425,10 +460,12 @@ impl Binding {
 	}
 	
 	
+	#[ inline (always) ]
 	pub fn is_immutable (&self) -> (bool) {
 		return self.internals_ref () .immutable;
 	}
 	
+	#[ inline (always) ]
 	pub fn set_immutable (&self) -> (Outcome<()>) {
 		let mut self_0 = self.internals_ref_mut ();
 		self_0.immutable = true;
@@ -436,15 +473,18 @@ impl Binding {
 	}
 	
 	
+	#[ inline (always) ]
 	fn internals_ref (&self) -> (StdRef<BindingInternals>) {
 		return StdRefCell::borrow (StdRc::as_ref (&self.0));
 	}
 	
+	#[ inline (always) ]
 	fn internals_ref_mut (&self) -> (StdRefMut<BindingInternals>) {
 		return StdRefCell::borrow_mut (StdRc::as_ref (&self.0));
 	}
 	
 	
+	#[ inline (always) ]
 	pub fn is_self (&self, other : &Binding) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
@@ -454,6 +494,8 @@ impl Binding {
 impl cmp::Eq for Binding {}
 
 impl cmp::PartialEq for Binding {
+	
+	#[ inline (always) ]
 	fn eq (&self, other : &Self) -> (bool) {
 		let self_0 = self.internals_ref ();
 		let other_0 = other.internals_ref ();
@@ -463,6 +505,8 @@ impl cmp::PartialEq for Binding {
 
 
 impl hash::Hash for Binding {
+	
+	#[ inline (always) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		let self_0 = self.internals_ref ();
 		hasher.write_u32 (self_0.handle);
@@ -471,6 +515,8 @@ impl hash::Hash for Binding {
 
 
 impl fmt::Display for Binding {
+	
+	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = self.internals_ref ();
 		if let Some (ref identifier) = self_0.identifier {
@@ -482,6 +528,8 @@ impl fmt::Display for Binding {
 }
 
 impl fmt::Debug for Binding {
+	
+	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = self.internals_ref ();
 		return formatter
