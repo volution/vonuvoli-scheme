@@ -3238,14 +3238,59 @@ fn __parse_comment<'input>(
 ) -> RuleResult<()> {# ! [ allow ( non_snake_case , unused ) ]    {
         __state.suppress_fail += 1;
         let res = {
-            let __choice_res = __parse_comment_line(__input, __state, __pos);
+            let __choice_res = {
+                let mut __repeat_pos = __pos;
+                loop {
+                    let __pos = __repeat_pos;
+                    let __step_res = __parse_comment_line(__input, __state, __pos);
+                    match __step_res {
+                        Matched(__newpos, __value) => {
+                            __repeat_pos = __newpos;
+                        }
+                        Failed => {
+                            break;
+                        }
+                    }
+                }
+                Matched(__repeat_pos, ())
+            };
             match __choice_res {
                 Matched(__pos, __value) => Matched(__pos, __value),
                 Failed => {
-                    let __choice_res = __parse_comment_nested(__input, __state, __pos);
+                    let __choice_res = {
+                        let mut __repeat_pos = __pos;
+                        loop {
+                            let __pos = __repeat_pos;
+                            let __step_res = __parse_comment_nested(__input, __state, __pos);
+                            match __step_res {
+                                Matched(__newpos, __value) => {
+                                    __repeat_pos = __newpos;
+                                }
+                                Failed => {
+                                    break;
+                                }
+                            }
+                        }
+                        Matched(__repeat_pos, ())
+                    };
                     match __choice_res {
                         Matched(__pos, __value) => Matched(__pos, __value),
-                        Failed => __parse_comment_value(__input, __state, __pos),
+                        Failed => {
+                            let mut __repeat_pos = __pos;
+                            loop {
+                                let __pos = __repeat_pos;
+                                let __step_res = __parse_comment_value(__input, __state, __pos);
+                                match __step_res {
+                                    Matched(__newpos, __value) => {
+                                        __repeat_pos = __newpos;
+                                    }
+                                    Failed => {
+                                        break;
+                                    }
+                                }
+                            }
+                            Matched(__repeat_pos, ())
+                        }
                     }
                 }
             }

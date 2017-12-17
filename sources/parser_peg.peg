@@ -115,7 +115,7 @@ bytes_byte -> u8 = value : $( [0-9]+ ) {? u8::from_str (value) .map_err (|_| "in
 
 constant -> values::Value = "#void" { constants::VOID.into () } / "#undefined" { constants::UNDEFINED.into () }
 
-comment = #quiet< comment_line / comment_nested / comment_value >
+comment = #quiet< comment_line* / comment_nested* / comment_value* >
 comment_line = #quiet< ";" [^\n]* "\n" >
 comment_nested = #quiet< "#|" ( !("#|" / "|#") . . )* comment_nested* ( !("#|" / "|#") . . )* "|#" >
 comment_value = "#;" whitespace value
