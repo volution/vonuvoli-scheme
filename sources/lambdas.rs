@@ -2,6 +2,7 @@
 
 use super::contexts::exports::*;
 use super::expressions::exports::*;
+use super::globals::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
 
@@ -31,6 +32,7 @@ pub struct Lambda ( StdRc<LambdaInternals> );
 
 #[ derive (Debug, Hash) ]
 pub struct LambdaInternals {
+	pub handle : Handle,
 	pub identifier : Option<Symbol>,
 	pub arguments_positional : StdBox<[Symbol]>,
 	pub argument_rest : Option<Symbol>,
@@ -54,6 +56,7 @@ impl Lambda {
 	#[ inline (always) ]
 	pub fn new (template : LambdaTemplate, expression : Expression, registers_closure : Registers, registers_local : StdBox<[RegisterTemplate]>) -> (Lambda) {
 		let internals = LambdaInternals {
+				handle : lambdas_handles_next (),
 				identifier : template.identifier,
 				arguments_positional : template.arguments_positional,
 				argument_rest : template.argument_rest,
@@ -65,7 +68,7 @@ impl Lambda {
 	}
 	
 	#[ inline (always) ]
-	pub fn internals (&self) -> (&LambdaInternals) {
+	pub fn internals_ref (&self) -> (&LambdaInternals) {
 		return StdRc::as_ref (&self.0);
 	}
 	
@@ -80,6 +83,12 @@ impl Lambda {
 	}
 	
 	#[ inline (always) ]
+	pub fn handle (&self) -> (Handle) {
+		let self_0 = self.internals_ref ();
+		return self_0.handle;
+	}
+	
+	#[ inline (always) ]
 	pub fn is_self (&self, other : &Lambda) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
@@ -90,7 +99,8 @@ impl fmt::Display for Lambda {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		formatter.write_str ("#<lambda>")
+		let self_0 = self.internals_ref ();
+		return write! (formatter, "#<lambda:{:08x}>", self_0.handle.value ());
 	}
 }
 
@@ -118,7 +128,7 @@ impl ProcedureLambda {
 	}
 	
 	#[ inline (always) ]
-	pub fn internals (&self) -> (&LambdaInternals) {
+	pub fn internals_ref (&self) -> (&LambdaInternals) {
 		return StdRc::as_ref (&self.0);
 	}
 	
@@ -133,6 +143,12 @@ impl ProcedureLambda {
 	}
 	
 	#[ inline (always) ]
+	pub fn handle (&self) -> (Handle) {
+		let self_0 = self.internals_ref ();
+		return self_0.handle;
+	}
+	
+	#[ inline (always) ]
 	pub fn is_self (&self, other : &ProcedureLambda) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
@@ -143,7 +159,8 @@ impl fmt::Display for ProcedureLambda {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		formatter.write_str ("#<procedure-lambda>")
+		let self_0 = self.internals_ref ();
+		return write! (formatter, "#<procedure-lambda:{:08x}>", self_0.handle.value ());
 	}
 }
 
@@ -170,7 +187,7 @@ impl SyntaxLambda {
 	}
 	
 	#[ inline (always) ]
-	pub fn internals (&self) -> (&LambdaInternals) {
+	pub fn internals_ref (&self) -> (&LambdaInternals) {
 		return StdRc::as_ref (&self.0);
 	}
 	
@@ -185,6 +202,12 @@ impl SyntaxLambda {
 	}
 	
 	#[ inline (always) ]
+	pub fn handle (&self) -> (Handle) {
+		let self_0 = self.internals_ref ();
+		return self_0.handle;
+	}
+	
+	#[ inline (always) ]
 	pub fn is_self (&self, other : &SyntaxLambda) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
@@ -195,7 +218,8 @@ impl fmt::Display for SyntaxLambda {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		formatter.write_str ("#<syntax-lambda>")
+		let self_0 = self.internals_ref ();
+		return write! (formatter, "#<syntax-lambda:{:08x}>", self_0.handle.value ());
 	}
 }
 

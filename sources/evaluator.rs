@@ -862,7 +862,7 @@ impl Evaluator {
 			ValueClass::ProcedureExtended =>
 				return self.evaluate_procedure_extended_with_values (evaluation, callable.as_ref (), inputs),
 			ValueClass::ProcedureLambda =>
-				return self.evaluate_procedure_lambda_with_values (evaluation, StdAsRef::<ProcedureLambda>::as_ref (callable) .internals (), inputs),
+				return self.evaluate_procedure_lambda_with_values (evaluation, StdAsRef::<ProcedureLambda>::as_ref (callable) .internals_ref (), inputs),
 			_ =>
 				fail! (0x88be334b),
 		}
@@ -888,7 +888,7 @@ impl Evaluator {
 			ValueClass::ProcedureExtended =>
 				return self.evaluate_procedure_extended_0 (evaluation, callable.as_ref ()),
 			ValueClass::ProcedureLambda =>
-				return self.evaluate_procedure_lambda_0 (evaluation, StdAsRef::<ProcedureLambda>::as_ref (callable) .internals ()),
+				return self.evaluate_procedure_lambda_0 (evaluation, StdAsRef::<ProcedureLambda>::as_ref (callable) .internals_ref ()),
 			_ =>
 				fail! (0xc58e190e),
 		}
@@ -915,7 +915,7 @@ impl Evaluator {
 			ValueClass::ProcedureExtended =>
 				return self.evaluate_procedure_extended_1_with_values (evaluation, callable.as_ref (), input_1),
 			ValueClass::ProcedureLambda =>
-				return self.evaluate_procedure_lambda_1_with_values (evaluation, StdAsRef::<ProcedureLambda>::as_ref (callable) .internals (), input_1),
+				return self.evaluate_procedure_lambda_1_with_values (evaluation, StdAsRef::<ProcedureLambda>::as_ref (callable) .internals_ref (), input_1),
 			_ =>
 				fail! (0xe7f6dbfc),
 		}
@@ -943,7 +943,7 @@ impl Evaluator {
 			ValueClass::ProcedureExtended =>
 				return self.evaluate_procedure_extended_2_with_values (evaluation, callable.as_ref (), input_1, input_2),
 			ValueClass::ProcedureLambda =>
-				return self.evaluate_procedure_lambda_2_with_values (evaluation, StdAsRef::<ProcedureLambda>::as_ref (callable) .internals (), input_1, input_2),
+				return self.evaluate_procedure_lambda_2_with_values (evaluation, StdAsRef::<ProcedureLambda>::as_ref (callable) .internals_ref (), input_1, input_2),
 			_ =>
 				fail! (0x856bf44d),
 		}
@@ -972,7 +972,7 @@ impl Evaluator {
 			ValueClass::ProcedureExtended =>
 				return self.evaluate_procedure_extended_3_with_values (evaluation, callable.as_ref (), input_1, input_2, input_3),
 			ValueClass::ProcedureLambda =>
-				return self.evaluate_procedure_lambda_3_with_values (evaluation, StdAsRef::<ProcedureLambda>::as_ref (callable) .internals (), input_1, input_2, input_3),
+				return self.evaluate_procedure_lambda_3_with_values (evaluation, StdAsRef::<ProcedureLambda>::as_ref (callable) .internals_ref (), input_1, input_2, input_3),
 			_ =>
 				fail! (0xdb6b9bbc),
 		}
@@ -1002,7 +1002,7 @@ impl Evaluator {
 			ValueClass::ProcedureExtended =>
 				return self.evaluate_procedure_extended_4_with_values (evaluation, callable.as_ref (), input_1, input_2, input_3, input_4),
 			ValueClass::ProcedureLambda =>
-				return self.evaluate_procedure_lambda_4_with_values (evaluation, StdAsRef::<ProcedureLambda>::as_ref (callable) .internals (), input_1, input_2, input_3, input_4),
+				return self.evaluate_procedure_lambda_4_with_values (evaluation, StdAsRef::<ProcedureLambda>::as_ref (callable) .internals_ref (), input_1, input_2, input_3, input_4),
 			_ =>
 				fail! (0xf0969d74),
 		}
@@ -1033,7 +1033,7 @@ impl Evaluator {
 			ValueClass::ProcedureExtended =>
 				return self.evaluate_procedure_extended_5_with_values (evaluation, callable.as_ref (), input_1, input_2, input_3, input_4, input_5),
 			ValueClass::ProcedureLambda =>
-				return self.evaluate_procedure_lambda_5_with_values (evaluation, StdAsRef::<ProcedureLambda>::as_ref (callable) .internals (), input_1, input_2, input_3, input_4, input_5),
+				return self.evaluate_procedure_lambda_5_with_values (evaluation, StdAsRef::<ProcedureLambda>::as_ref (callable) .internals_ref (), input_1, input_2, input_3, input_4, input_5),
 			_ =>
 				fail! (0x62e8aef5),
 		}
@@ -1061,7 +1061,7 @@ impl Evaluator {
 			ValueClass::ProcedureExtended =>
 				return self.evaluate_procedure_extended_n_with_values (evaluation, callable.as_ref (), inputs),
 			ValueClass::ProcedureLambda =>
-				return self.evaluate_procedure_lambda_n_with_values (evaluation, StdAsRef::<ProcedureLambda>::as_ref (callable) .internals (), inputs),
+				return self.evaluate_procedure_lambda_n_with_values (evaluation, StdAsRef::<ProcedureLambda>::as_ref (callable) .internals_ref (), inputs),
 			_ =>
 				fail! (0x906ebf03),
 		}
