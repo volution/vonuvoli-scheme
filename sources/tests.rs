@@ -454,7 +454,7 @@ pub fn execute_test (test : &TestCaseCompiled, transcript : &mut io::Write, verb
 	}
 	
 	
-	let expected_value = match test.action {
+	let expected_value_without_optimizations = match test.action {
 		TestAction::Expect (ref expected_expression) => {
 			// FIXME:  Add error reporting for these!
 			let expected_expression = try! (compile (&test.context_without_optimizations, expected_expression));
@@ -465,7 +465,7 @@ pub fn execute_test (test : &TestCaseCompiled, transcript : &mut io::Write, verb
 			None,
 	};
 	
-	if let Some (ref expected_value) = expected_value {
+	if let Some (ref expected_value) = expected_value_without_optimizations {
 		let output_matched = try! (equivalent_by_value_strict_recursive_2 (&output_value_without_optimizations, expected_value));
 		if !output_matched {
 			header_emitted = try! (test_case_header_emit (&test.source, transcript, verbosity_without_optimizations, header_emitted, true));
@@ -476,15 +476,52 @@ pub fn execute_test (test : &TestCaseCompiled, transcript : &mut io::Write, verb
 		}
 	}
 	
-	if let Some (ref expected_value) = expected_value {
+	
+	let expected_value_with_optimizations = match test.action {
+		TestAction::Expect (ref expected_expression) => {
+			// FIXME:  Add error reporting for these!
+			let expected_expression = try! (compile (&test.context_with_optimizations, expected_expression));
+			let expected_value = try! (evaluate (&test.context_with_optimizations, &expected_expression));
+			Some (expected_value)
+		},
+		_ =>
+			None,
+	};
+	
+	if let Some (ref expected_value) = expected_value_with_optimizations {
 		let output_matched = try! (equivalent_by_value_strict_recursive_2 (&output_value_with_optimizations, expected_value));
 		if !output_matched {
 			header_emitted = try! (test_case_header_emit (&test.source, transcript, verbosity_with_optimizations, header_emitted, true));
-			try_or_fail! (write! (transcript, "!! assertion-without-optimizations !! {} => {}\n", &output_value_with_optimizations, expected_value), 0x1127a732);
-			try_or_fail! (write! (transcript, "!! assertion-without-optimizations !!\n{:#?}\n!! => !!\n{:#?}\n", &output_value_with_optimizations, &expected_value), 0x9257eac4);
-			try_or_fail! (write! (transcript, "!! failed\n"), 0x219b9145);
-			fail! (0xc5fe8443);
+			try_or_fail! (write! (transcript, "!! assertion-with-optimizations !! {} => {}\n", &output_value_with_optimizations, expected_value), 0xb66640e5);
+			try_or_fail! (write! (transcript, "!! assertion-with-optimizations !!\n{:#?}\n!! => !!\n{:#?}\n", &output_value_with_optimizations, &expected_value), 0xe650c868);
+			try_or_fail! (write! (transcript, "!! failed\n"), 0xf7d88757);
+			fail! (0xe52ddb4f);
 		}
+	}
+	
+	
+	match (expected_value_without_optimizations, expected_value_with_optimizations) {
+		(None, None) =>
+			(),
+		(Some (ref expected_value_without_optimizations), Some (ref expected_value_with_optimizations)) =>
+			match (expected_value_without_optimizations.class (), expected_value_with_optimizations.class ()) {
+				(ValueClass::ProcedureLambda, ValueClass::ProcedureLambda) |
+				(ValueClass::SyntaxLambda, ValueClass::SyntaxLambda) |
+				(ValueClass::Port, ValueClass::Port) =>
+					(),
+				(_, _) => {
+					let output_matched = try! (equivalent_by_value_strict_recursive_2 (expected_value_without_optimizations, expected_value_with_optimizations));
+					if !output_matched {
+						header_emitted = try! (test_case_header_emit (&test.source, transcript, verbosity_generic, header_emitted, true));
+						try_or_fail! (write! (transcript, "!! assertion-with/without-optimizations !! {} => {}\n", expected_value_without_optimizations, expected_value_with_optimizations), 0xe003610f);
+						try_or_fail! (write! (transcript, "!! assertion-with/without-optimizations !!\n{:#?}\n!! => !!\n{:#?}\n", expected_value_without_optimizations, expected_value_with_optimizations), 0x91335537);
+						try_or_fail! (write! (transcript, "!! failed\n"), 0x8459f31b);
+						fail! (0xc8a2813a);
+					}
+				},
+			},
+		(_, _) =>
+			fail_panic! (0x2f1f97f3),
 	}
 	
 	
