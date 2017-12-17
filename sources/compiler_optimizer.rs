@@ -461,7 +461,7 @@ impl Optimizer {
 	}
 	
 	fn optimize_conditional_if_clauses (&self, optimization : OptimizerContext, clauses : StdBox<[(Option<(Expression, bool)>, Option<Expression>)]>) -> (Outcome<(OptimizerContext, StdBox<[(Option<(Expression, bool)>, Option<Expression>)]>)>) {
-		let (guards, expressions) = vec_unzip_2 (clauses.to_vec ());
+		let (guards, expressions) = vec_unzip_2 (StdVec::from (clauses));
 		let (optimization, guards) = try! (self.optimize_0_vec_transform (optimization, guards,
 				|optimization, clause| {
 					if let Some ((guard, negated)) = clause {
@@ -489,7 +489,7 @@ impl Optimizer {
 	
 	fn optimize_conditional_match_clauses (&self, optimization : OptimizerContext, actual : Expression, clauses : StdBox<[(Option<(StdBox<[Value]>, bool)>, Option<Expression>)]>) -> (Outcome<(OptimizerContext, Expression, StdBox<[(Option<(StdBox<[Value]>, bool)>, Option<Expression>)]>)>) {
 		let (optimization, actual) = try! (self.optimize_0 (optimization, actual));
-		let (guards, expressions) = vec_unzip_2 (clauses.to_vec ());
+		let (guards, expressions) = vec_unzip_2 (StdVec::from (clauses));
 		let (optimization, expressions) = try! (self.optimize_0_vec_transform (optimization, expressions,
 				|optimization, expression| {
 					return self.optimize_0_option (optimization, expression)
@@ -540,7 +540,7 @@ impl Optimizer {
 	}
 	
 	fn optimize_binding_initialize_n (&self, optimization : OptimizerContext, initializers : StdBox<[(Binding, Expression)]>, parallel : bool) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (bindings, expressions) = vec_unzip_2 (initializers.to_vec ());
+		let (bindings, expressions) = vec_unzip_2 (StdVec::from (initializers));
 		let (optimization, expressions) = try! (self.optimize_0_vec (optimization, expressions));
 		let initializers = vec_zip_2 (bindings, expressions) .into_boxed_slice ();
 		let expression = ExpressionForContexts::BindingInitializeN (initializers, parallel) .into ();
@@ -560,7 +560,7 @@ impl Optimizer {
 	}
 	
 	fn optimize_binding_set_n (&self, optimization : OptimizerContext, initializers : StdBox<[(Binding, Expression)]>, parallel : bool) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (bindings, expressions) = vec_unzip_2 (initializers.to_vec ());
+		let (bindings, expressions) = vec_unzip_2 (StdVec::from (initializers));
 		let (optimization, expressions) = try! (self.optimize_0_vec (optimization, expressions));
 		let initializers = vec_zip_2 (bindings, expressions) .into_boxed_slice ();
 		let expression = ExpressionForContexts::BindingSetN (initializers, parallel) .into ();
@@ -599,7 +599,7 @@ impl Optimizer {
 	}
 	
 	fn optimize_register_initialize_n (&self, optimization : OptimizerContext, initializers : StdBox<[(usize, Expression)]>, parallel : bool) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (indices, expressions) = vec_unzip_2 (initializers.to_vec ());
+		let (indices, expressions) = vec_unzip_2 (StdVec::from (initializers));
 		let (optimization, expressions) = try! (self.optimize_0_vec (optimization, expressions));
 		let initializers = vec_zip_2 (indices, expressions) .into_boxed_slice ();
 		let expression = ExpressionForContexts::RegisterInitializeN (initializers, parallel) .into ();
@@ -619,7 +619,7 @@ impl Optimizer {
 	}
 	
 	fn optimize_register_set_n (&self, optimization : OptimizerContext, initializers : StdBox<[(usize, Expression)]>, parallel : bool) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (indices, expressions) = vec_unzip_2 (initializers.to_vec ());
+		let (indices, expressions) = vec_unzip_2 (StdVec::from (initializers));
 		let (optimization, expressions) = try! (self.optimize_0_vec (optimization, expressions));
 		let initializers = vec_zip_2 (indices, expressions) .into_boxed_slice ();
 		let expression = ExpressionForContexts::RegisterSetN (initializers, parallel) .into ();
@@ -966,7 +966,7 @@ impl Optimizer {
 				},
 			ProcedurePrimitive::Primitive1 (primitive) =>
 				if inputs_count == 1 {
-					let mut inputs = inputs.to_vec () .into_iter ();
+					let mut inputs = StdVec::from (inputs) .into_iter ();
 					let input_1 = inputs.next () .unwrap ();
 					return self.optimize_procedure_primitive_1 (optimization, primitive, input_1);
 				} else {
@@ -974,7 +974,7 @@ impl Optimizer {
 				},
 			ProcedurePrimitive::Primitive2 (primitive) =>
 				if inputs_count == 2 {
-					let mut inputs = inputs.to_vec () .into_iter ();
+					let mut inputs = StdVec::from (inputs) .into_iter ();
 					let input_1 = inputs.next () .unwrap ();
 					let input_2 = inputs.next () .unwrap ();
 					return self.optimize_procedure_primitive_2 (optimization, primitive, input_1, input_2);
@@ -983,7 +983,7 @@ impl Optimizer {
 				},
 			ProcedurePrimitive::Primitive3 (primitive) =>
 				if inputs_count == 3 {
-					let mut inputs = inputs.to_vec () .into_iter ();
+					let mut inputs = StdVec::from (inputs) .into_iter ();
 					let input_1 = inputs.next () .unwrap ();
 					let input_2 = inputs.next () .unwrap ();
 					let input_3 = inputs.next () .unwrap ();
@@ -993,7 +993,7 @@ impl Optimizer {
 				},
 			ProcedurePrimitive::Primitive4 (primitive) =>
 				if inputs_count == 4 {
-					let mut inputs = inputs.to_vec () .into_iter ();
+					let mut inputs = StdVec::from (inputs) .into_iter ();
 					let input_1 = inputs.next () .unwrap ();
 					let input_2 = inputs.next () .unwrap ();
 					let input_3 = inputs.next () .unwrap ();
@@ -1004,7 +1004,7 @@ impl Optimizer {
 				},
 			ProcedurePrimitive::Primitive5 (primitive) =>
 				if inputs_count == 5 {
-					let mut inputs = inputs.to_vec () .into_iter ();
+					let mut inputs = StdVec::from (inputs) .into_iter ();
 					let input_1 = inputs.next () .unwrap ();
 					let input_2 = inputs.next () .unwrap ();
 					let input_3 = inputs.next () .unwrap ();
@@ -1106,7 +1106,7 @@ impl Optimizer {
 				},
 			1 =>
 				if let Some (primitive) = procedure_primitive_v_alternative_1 (primitive) {
-					let mut inputs = inputs.to_vec () .into_iter ();
+					let mut inputs = StdVec::from (inputs) .into_iter ();
 					let input_1 = inputs.next () .unwrap ();
 					return self.optimize_procedure_primitive_1 (optimization, primitive, input_1);
 				} else if let Some (primitive) = procedure_primitive_v_alternative_n (primitive) {
@@ -1116,7 +1116,7 @@ impl Optimizer {
 				},
 			2 =>
 				if let Some (primitive) = procedure_primitive_v_alternative_2 (primitive) {
-					let mut inputs = inputs.to_vec () .into_iter ();
+					let mut inputs = StdVec::from (inputs) .into_iter ();
 					let input_1 = inputs.next () .unwrap ();
 					let input_2 = inputs.next () .unwrap ();
 					return self.optimize_procedure_primitive_2 (optimization, primitive, input_1, input_2);
@@ -1127,7 +1127,7 @@ impl Optimizer {
 				},
 			3 =>
 				if let Some (primitive) = procedure_primitive_v_alternative_3 (primitive) {
-					let mut inputs = inputs.to_vec () .into_iter ();
+					let mut inputs = StdVec::from (inputs) .into_iter ();
 					let input_1 = inputs.next () .unwrap ();
 					let input_2 = inputs.next () .unwrap ();
 					let input_3 = inputs.next () .unwrap ();
@@ -1139,7 +1139,7 @@ impl Optimizer {
 				},
 			4 =>
 				if let Some (primitive) = procedure_primitive_v_alternative_4 (primitive) {
-					let mut inputs = inputs.to_vec () .into_iter ();
+					let mut inputs = StdVec::from (inputs) .into_iter ();
 					let input_1 = inputs.next () .unwrap ();
 					let input_2 = inputs.next () .unwrap ();
 					let input_3 = inputs.next () .unwrap ();
@@ -1152,7 +1152,7 @@ impl Optimizer {
 				},
 			5 =>
 				if let Some (primitive) = procedure_primitive_v_alternative_5 (primitive) {
-					let mut inputs = inputs.to_vec () .into_iter ();
+					let mut inputs = StdVec::from (inputs) .into_iter ();
 					let input_1 = inputs.next () .unwrap ();
 					let input_2 = inputs.next () .unwrap ();
 					let input_3 = inputs.next () .unwrap ();
@@ -1182,25 +1182,25 @@ impl Optimizer {
 			0 =>
 				return self.optimize_procedure_extended_0 (optimization, extended),
 			1 => {
-				let mut inputs = inputs.to_vec () .into_iter ();
+				let mut inputs = StdVec::from (inputs) .into_iter ();
 				let input_1 = inputs.next () .unwrap ();
 				return self.optimize_procedure_extended_1 (optimization, extended, input_1);
 			},
 			2 => {
-				let mut inputs = inputs.to_vec () .into_iter ();
+				let mut inputs = StdVec::from (inputs) .into_iter ();
 				let input_1 = inputs.next () .unwrap ();
 				let input_2 = inputs.next () .unwrap ();
 				return self.optimize_procedure_extended_2 (optimization, extended, input_1, input_2);
 			},
 			3 => {
-				let mut inputs = inputs.to_vec () .into_iter ();
+				let mut inputs = StdVec::from (inputs) .into_iter ();
 				let input_1 = inputs.next () .unwrap ();
 				let input_2 = inputs.next () .unwrap ();
 				let input_3 = inputs.next () .unwrap ();
 				return self.optimize_procedure_extended_3 (optimization, extended, input_1, input_2, input_3);
 			},
 			4 => {
-				let mut inputs = inputs.to_vec () .into_iter ();
+				let mut inputs = StdVec::from (inputs) .into_iter ();
 				let input_1 = inputs.next () .unwrap ();
 				let input_2 = inputs.next () .unwrap ();
 				let input_3 = inputs.next () .unwrap ();
@@ -1208,7 +1208,7 @@ impl Optimizer {
 				return self.optimize_procedure_extended_4 (optimization, extended, input_1, input_2, input_3, input_4);
 			},
 			5 => {
-				let mut inputs = inputs.to_vec () .into_iter ();
+				let mut inputs = StdVec::from (inputs) .into_iter ();
 				let input_1 = inputs.next () .unwrap ();
 				let input_2 = inputs.next () .unwrap ();
 				let input_3 = inputs.next () .unwrap ();
@@ -1295,25 +1295,25 @@ impl Optimizer {
 			0 =>
 				return self.optimize_procedure_lambda_0 (optimization, lambda),
 			1 => {
-				let mut inputs = inputs.to_vec () .into_iter ();
+				let mut inputs = StdVec::from (inputs) .into_iter ();
 				let input_1 = inputs.next () .unwrap ();
 				return self.optimize_procedure_lambda_1 (optimization, lambda, input_1);
 			},
 			2 => {
-				let mut inputs = inputs.to_vec () .into_iter ();
+				let mut inputs = StdVec::from (inputs) .into_iter ();
 				let input_1 = inputs.next () .unwrap ();
 				let input_2 = inputs.next () .unwrap ();
 				return self.optimize_procedure_lambda_2 (optimization, lambda, input_1, input_2);
 			},
 			3 => {
-				let mut inputs = inputs.to_vec () .into_iter ();
+				let mut inputs = StdVec::from (inputs) .into_iter ();
 				let input_1 = inputs.next () .unwrap ();
 				let input_2 = inputs.next () .unwrap ();
 				let input_3 = inputs.next () .unwrap ();
 				return self.optimize_procedure_lambda_3 (optimization, lambda, input_1, input_2, input_3);
 			},
 			4 => {
-				let mut inputs = inputs.to_vec () .into_iter ();
+				let mut inputs = StdVec::from (inputs) .into_iter ();
 				let input_1 = inputs.next () .unwrap ();
 				let input_2 = inputs.next () .unwrap ();
 				let input_3 = inputs.next () .unwrap ();
@@ -1321,7 +1321,7 @@ impl Optimizer {
 				return self.optimize_procedure_lambda_4 (optimization, lambda, input_1, input_2, input_3, input_4);
 			},
 			5 => {
-				let mut inputs = inputs.to_vec () .into_iter ();
+				let mut inputs = StdVec::from (inputs) .into_iter ();
 				let input_1 = inputs.next () .unwrap ();
 				let input_2 = inputs.next () .unwrap ();
 				let input_3 = inputs.next () .unwrap ();

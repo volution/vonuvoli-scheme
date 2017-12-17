@@ -42,7 +42,7 @@ pub mod exports {
 
 
 
-#[ derive (Clone, Debug, Hash) ]
+#[ derive (Debug, Hash) ]
 pub enum Expression {
 	
 	Void,
@@ -66,7 +66,7 @@ pub enum Expression {
 }
 
 
-#[ derive (Clone, Debug, Hash) ]
+#[ derive (Debug, Hash) ]
 pub enum ExpressionForContexts {
 	
 	ContextDefine ( Symbol, ExpressionBox ),
@@ -93,7 +93,7 @@ pub enum ExpressionForContexts {
 }
 
 
-#[ derive (Clone, Debug, Hash) ]
+#[ derive (Debug, Hash) ]
 pub enum ExpressionForProcedureGenericCall {
 	
 	ProcedureCall ( ExpressionBox, StdBox<[Expression]> ),
@@ -108,7 +108,7 @@ pub enum ExpressionForProcedureGenericCall {
 }
 
 
-#[ derive (Clone, Debug, Hash) ]
+#[ derive (Debug, Hash) ]
 pub enum ExpressionForProcedurePrimitiveCall {
 	
 	ProcedurePrimitiveCall ( ProcedurePrimitive, StdBox<[Expression]> ),
@@ -124,7 +124,7 @@ pub enum ExpressionForProcedurePrimitiveCall {
 }
 
 
-#[ derive (Clone, Debug, Hash) ]
+#[ derive (Debug, Hash) ]
 pub enum ExpressionForProcedureExtendedCall {
 	
 	ProcedureExtendedCall ( ProcedureExtended, StdBox<[Expression]> ),
@@ -139,7 +139,7 @@ pub enum ExpressionForProcedureExtendedCall {
 }
 
 
-#[ derive (Clone, Debug, Hash) ]
+#[ derive (Debug, Hash) ]
 pub enum ExpressionForProcedureLambdaCall {
 	
 	ProcedureLambdaCall ( StdRc<LambdaInternals>, StdBox<[Expression]> ),
@@ -154,7 +154,6 @@ pub enum ExpressionForProcedureLambdaCall {
 }
 
 
-#[ derive (Clone) ]
 pub enum ExpressionForProcedureNativeCall {
 	
 	ProcedureNativeCall0 ( ProcedureNative0 ),

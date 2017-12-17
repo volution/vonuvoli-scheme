@@ -57,7 +57,7 @@ pub enum TestVerbosity {
 
 
 
-#[ derive (Clone, Debug, Hash) ]
+#[ derive (Debug, Hash) ]
 pub struct TestCaseCompiled {
 	expression_without_optimizations : Expression,
 	expression_with_optimizations : Expression,
