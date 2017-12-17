@@ -3,6 +3,8 @@
 #![ feature (ascii_ctype) ]
 #![ feature (str_internals) ]
 #![ feature (char_from_unchecked) ]
+
+#![ feature (libc) ]
 #![ feature (test) ]
 
 #![ allow (unused_macros) ]
@@ -11,6 +13,7 @@
 
 
 extern crate core;
+extern crate libc;
 extern crate test;
 
 

@@ -4,6 +4,9 @@ use super::errors::exports::*;
 
 use std::fmt;
 use std::iter;
+use std::mem;
+
+use libc;
 
 
 
@@ -41,6 +44,8 @@ pub mod exports {
 	pub use super::{vec_vec_to_ref, vec_slice_to_ref, vec_iter_to_ref};
 	
 	pub use super::{boxed_slice_to_ref};
+	
+	pub use super::{libc_getrusage_for_thread};
 	
 	pub use super::super::runtime_iterators::exports::*;
 	pub use super::super::runtime_unicode::exports::*;
@@ -287,5 +292,20 @@ pub fn vec_iter_to_ref <'a, Element : 'a, ElementRef : AsRef<Element> + 'a, Iter
 #[ inline (always) ]
 pub fn boxed_slice_to_ref <'a, Element : 'a, ElementRef : AsRef<Element> + 'a> (slice : &'a Box<[ElementRef]>) -> (Box<[&'a Element]>) {
 	return vec_map! (slice.iter (), value, value.as_ref ()) .into_boxed_slice ();
+}
+
+
+
+
+#[ inline (always) ]
+pub fn libc_getrusage_for_thread () -> (libc::rusage) {
+	unsafe {
+		let mut resources = mem::zeroed ();
+		if libc::getrusage (libc::RUSAGE_THREAD, &mut resources) == 0 {
+			resources
+		} else {
+			panic! ("fc7fa1cb");
+		}
+	}
 }
 

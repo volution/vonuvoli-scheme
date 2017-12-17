@@ -13,6 +13,7 @@ use super::values::exports::*;
 
 use std::f64;
 use std::io;
+
 use test;
 
 
@@ -166,6 +167,10 @@ pub fn benchmark_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, be
 	let iterations_bests_with_optimizations = 5;
 	let iterations_bests_without_optimizations = iterations_bests_with_optimizations * 5;
 	let summary_factor = 1.0 / iterations_bencher as f64;
+	let memory_leak_threshold = 128 * 1024;
+	
+	let resources_at_start = libc_getrusage_for_thread ();
+	let memory_at_start = resources_at_start.ru_maxrss;
 	
 	for test in tests {
 		for _iteration in 0 .. iterations_warmup {
@@ -173,9 +178,16 @@ pub fn benchmark_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, be
 		}
 	}
 	
+	let resources_after_warmup = libc_getrusage_for_thread ();
+	let memory_after_warmup = resources_after_warmup.ru_maxrss;
+	
 	let mut summary_without_optimizations = None;
 	let mut summary_without_optimizations_best = f64::MAX;
+	let mut memory_leaks_for_without_optimizations = false;
 	for _iteration in 0 .. iterations_bests_without_optimizations {
+		
+		let resources_before = libc_getrusage_for_thread ();
+		
 		let summary = bencher.bench (|ref mut bencher| bencher.iter (||
 			if iterations_bencher == 1 {
 				for test in tests {
@@ -189,6 +201,13 @@ pub fn benchmark_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, be
 				}
 			}
 		));
+		
+		let resources_after = libc_getrusage_for_thread ();
+		let memory_delta = resources_after.ru_maxrss - resources_before.ru_maxrss;
+		if memory_delta > memory_leak_threshold {
+			memory_leaks_for_without_optimizations = true;
+		}
+		
 		if let Some (summary) = summary {
 			if summary.median < summary_without_optimizations_best {
 				summary_without_optimizations_best = summary.median;
@@ -199,9 +218,20 @@ pub fn benchmark_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, be
 		}
 	}
 	
+	let resources_after_without_optimizations = libc_getrusage_for_thread ();
+	let memory_after_without_optimizations = resources_after_without_optimizations.ru_maxrss;
+	let memory_delta_for_without_optimizations = memory_after_without_optimizations - memory_after_warmup;
+	if memory_delta_for_without_optimizations > memory_leak_threshold {
+		memory_leaks_for_without_optimizations = true;
+	}
+	
 	let mut summary_with_optimizations = None;
 	let mut summary_with_optimizations_best = f64::MAX;
+	let mut memory_leaks_for_with_optimizations = false;
 	for _iteration in 0 .. iterations_bests_with_optimizations {
+		
+		let resources_before = libc_getrusage_for_thread ();
+		
 		let summary = bencher.bench (|ref mut bencher| bencher.iter (||
 			if iterations_bencher == 1 {
 				for test in tests {
@@ -215,6 +245,13 @@ pub fn benchmark_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, be
 				}
 			}
 		));
+		
+		let resources_after = libc_getrusage_for_thread ();
+		let memory_delta = resources_after.ru_maxrss - resources_before.ru_maxrss;
+		if memory_delta > memory_leak_threshold {
+			memory_leaks_for_with_optimizations = true;
+		}
+		
 		if let Some (summary) = summary {
 			if summary.median < summary_with_optimizations_best {
 				summary_with_optimizations_best = summary.median;
@@ -225,6 +262,17 @@ pub fn benchmark_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, be
 		}
 	}
 	
+	let resources_after_with_optimizations = libc_getrusage_for_thread ();
+	let memory_after_with_optimizations = resources_after_with_optimizations.ru_maxrss;
+	let memory_delta_for_with_optimizations = memory_after_with_optimizations - memory_after_without_optimizations;
+	if memory_delta_for_with_optimizations > memory_leak_threshold {
+		memory_leaks_for_with_optimizations = true;
+	}
+	
+	let _memory_delta_for_wamup = memory_after_warmup - memory_at_start;
+	let memory_delta_for_without_optimizations = memory_delta_for_without_optimizations as f64 / 1024.0;
+	let memory_delta_for_with_optimizations = memory_delta_for_with_optimizations as f64 / 1024.0;
+	
 	try_or_fail! (write! (transcript, "## benchmarked `{}`!\n", identifier), 0xedd3605c);
 	if let Some (summary_without_optimizations) = summary_without_optimizations {
 		try! (benchmark_report (
@@ -232,11 +280,21 @@ pub fn benchmark_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, be
 				&summary_without_optimizations, None, summary_factor,
 				transcript, verbosity));
 	}
+	if memory_leaks_for_without_optimizations {
+		try_or_fail! (write! (transcript, "       mem-leaks : {:10.0} KB (!!!! DETECTED !!!!)\n", memory_delta_for_without_optimizations), 0x5bbaa2ae);
+	} else {
+		try_or_fail! (write! (transcript, "       mem-leaks : {:10.0} KB\n", memory_delta_for_without_optimizations), 0x5bbaa2ae);
+	}
 	if let Some (summary_with_optimizations) = summary_with_optimizations {
 		try! (benchmark_report (
 				&format! ("with optimizations:"), "     ",
 				&summary_with_optimizations, summary_without_optimizations.as_ref (), summary_factor,
 				transcript, verbosity));
+	}
+	if memory_leaks_for_with_optimizations {
+		try_or_fail! (write! (transcript, "       mem-leaks : {:10.0} KB (!!!! DETECTED !!!!)\n", memory_delta_for_with_optimizations), 0x5bbaa2ae);
+	} else {
+		try_or_fail! (write! (transcript, "       mem-leaks : {:10.0} KB\n", memory_delta_for_with_optimizations), 0x5bbaa2ae);
 	}
 	
 	succeed! (());
