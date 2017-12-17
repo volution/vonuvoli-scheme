@@ -2,12 +2,14 @@
 ## benchmarking `benchmark__pairs`...
 ## benchmarked `benchmark__pairs`!
      without optimizations:
-       average   :       8251
-         stdev   :        122 /   1.48%
-         median  :       8210 /   0.93%
-       min / max :       8144 / 8169 / 8210 / 8280 / 8605
+       average   :       7597
+         stdev   :        149 /   1.96%
+         median  :       7547 /   0.66%
+       min / max :       7483 / 7516 / 7547 / 7580 / 8017
+       mem-leaks :          0 KB
      with optimizations:
-       average   :       4942 / +40.10% / 1.67*
-         stdev   :        122 /   2.48%
-         median  :       4923 /   1.56%
-       min / max :       4800 / 4865 / 4923 / 4958 / 5276
+       average   :       3931 / +48.26% / 1.93*
+         stdev   :         78 /   1.98%
+         median  :       3899 /   1.11%
+       min / max :       3862 / 3879 / 3899 / 3938 / 4132
+       mem-leaks :          0 KB
