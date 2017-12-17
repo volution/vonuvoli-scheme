@@ -38,7 +38,7 @@ pub struct Port ( StdRc<StdRefCell<PortInternals>> );
 pub struct PortInternals {
 	state : PortState,
 	backend : PortBackend,
-	handle : u32,
+	handle : Handle,
 }
 
 
@@ -197,6 +197,11 @@ impl Port {
 		return StdRefCell::borrow_mut (StdRc::as_ref (&self.0));
 	}
 	
+	pub fn handle (&self) -> (Handle) {
+		let self_0 = self.internals_ref ();
+		return self_0.handle;
+	}
+	
 	
 	pub fn internals_ref_if_open (&self) -> (Outcome<Option<StdRef<PortInternals>>>) {
 		let self_0 = self.internals_ref ();
@@ -284,14 +289,15 @@ impl PortInternals {
 impl hash::Hash for Port {
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		let self_0 = self.internals_ref ();
-		hasher.write_u32 (self_0.handle);
+		self_0.handle.hash (hasher);
 	}
 }
 
 
 impl fmt::Display for Port {
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		formatter.write_str ("#<port>")
+		let self_0 = self.internals_ref ();
+		return write! (formatter, "#<port:{:08x}>", self_0.handle.value ());
 	}
 }
 

@@ -32,7 +32,7 @@ struct ContextInternals {
 	bindings : StdMap<StdString, Binding>,
 	parent : Option<Context>,
 	immutable : bool,
-	handle : u32,
+	handle : Handle,
 }
 
 
@@ -147,6 +147,12 @@ impl Context {
 		return StdRefCell::borrow_mut (StdRc::as_ref (&self.0));
 	}
 	
+	#[ inline (always) ]
+	pub fn handle (&self) -> (Handle) {
+		let self_0 = self.internals_ref ();
+		return self_0.handle;
+	}
+	
 	
 	#[ inline (always) ]
 	fn new_binding (&self, template : &BindingTemplate) -> (Outcome<Binding>) {
@@ -184,7 +190,7 @@ impl hash::Hash for Context {
 	#[ inline (always) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		let self_0 = self.internals_ref ();
-		hasher.write_u32 (self_0.handle);
+		self_0.handle.hash (hasher);
 	}
 }
 
@@ -194,7 +200,7 @@ impl fmt::Display for Context {
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = self.internals_ref ();
-		return write! (formatter, "#<context:{:08x}>", self_0.handle);
+		return write! (formatter, "#<context:{:08x}>", self_0.handle.value ());
 	}
 }
 
@@ -220,7 +226,7 @@ pub struct Registers {
 	registers : StdVec<Register>,
 	count : usize,
 	immutable : bool,
-	handle : u32,
+	handle : Handle,
 }
 
 
@@ -428,6 +434,12 @@ impl Registers {
 	
 	
 	#[ inline (always) ]
+	pub fn handle (&self) -> (Handle) {
+		return self.handle;
+	}
+	
+	
+	#[ inline (always) ]
 	pub fn is_self (&self, other : &Registers) -> (bool) {
 		return ptr::eq (self, other);
 	}
@@ -449,7 +461,7 @@ impl hash::Hash for Registers {
 	
 	#[ inline (always) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		hasher.write_u32 (self.handle);
+		self.handle.hash (hasher);
 	}
 }
 
@@ -458,7 +470,7 @@ impl fmt::Display for Registers {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		return write! (formatter, "#<context:{:08x}>", self.handle);
+		return write! (formatter, "#<context:{:08x}>", self.handle.value ());
 	}
 }
 
@@ -525,7 +537,7 @@ struct BindingInternals {
 	value : Value,
 	initialized : bool,
 	immutable : bool,
-	handle : u32,
+	handle : Handle,
 }
 
 
@@ -634,6 +646,12 @@ impl Binding {
 		return StdRefCell::borrow_mut (StdRc::as_ref (&self.0));
 	}
 	
+	#[ inline (always) ]
+	pub fn handle (&self) -> (Handle) {
+		let self_0 = self.internals_ref ();
+		return self_0.handle;
+	}
+	
 	
 	#[ inline (always) ]
 	pub fn is_self (&self, other : &Binding) -> (bool) {
@@ -660,7 +678,7 @@ impl hash::Hash for Binding {
 	#[ inline (always) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		let self_0 = self.internals_ref ();
-		hasher.write_u32 (self_0.handle);
+		self_0.handle.hash (hasher);
 	}
 }
 
@@ -671,9 +689,9 @@ impl fmt::Display for Binding {
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = self.internals_ref ();
 		if let Some (ref identifier) = self_0.identifier {
-			return write! (formatter, "#<binding:{:08x} {} {}>", self_0.handle, identifier, self_0.value);
+			return write! (formatter, "#<binding:{:08x} {} {}>", self_0.handle.value (), identifier, self_0.value);
 		} else {
-			return write! (formatter, "#<binding:{:08x} {}>", self_0.handle, self_0.value);
+			return write! (formatter, "#<binding:{:08x} {}>", self_0.handle.value (), self_0.value);
 		}
 	}
 }

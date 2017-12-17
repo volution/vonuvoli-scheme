@@ -2,6 +2,7 @@
 
 use super::errors::exports::*;
 
+use std::fmt;
 use std::iter;
 
 
@@ -28,6 +29,8 @@ pub mod exports {
 	pub use super::StdTryFrom;
 	pub use super::StdTryInto;
 	pub use super::StdTryAsRef;
+	
+	pub use super::Handle;
 	
 	pub use super::{vec_into};
 	pub use super::{vec_append_2};
@@ -60,6 +63,40 @@ pub trait StdTryInto <T> : Sized {
 pub trait StdTryAsRef <T> {
 	type Error;
 	fn try_as_ref (&self) -> (Result<&T, Self::Error>);
+}
+
+
+
+
+#[ derive (Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub struct Handle ( u32 );
+
+
+impl Handle {
+	
+	#[ inline (always) ]
+	pub fn new (handle : u32) -> (Handle) {
+		return Handle ( handle );
+	}
+	
+	#[ inline (always) ]
+	pub fn value (&self) -> (u32) {
+		return self.0;
+	}
+}
+
+
+impl fmt::Display for Handle {
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		return write! (formatter, "#<handle:{:08x}>", self.0);
+	}
+}
+
+
+impl fmt::Debug for Handle {
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		return write! (formatter, "Handle({:08x})", self.0);
+	}
 }
 
 

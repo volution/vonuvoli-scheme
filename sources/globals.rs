@@ -1,6 +1,7 @@
 
 
 use super::counters::PermutationCounter;
+use super::runtime::Handle;
 
 
 
@@ -8,6 +9,7 @@ use super::counters::PermutationCounter;
 pub mod exports {
 	pub use super::context_handles_next;
 	pub use super::bindings_handles_next;
+	pub use super::lambdas_handles_next;
 	pub use super::ports_handles_next;
 }
 
@@ -21,9 +23,9 @@ static mut CONTEXT_HANDLES : PermutationCounter = PermutationCounter {
 	};
 
 #[ inline (always) ]
-pub fn context_handles_next () -> (u32) {
+pub fn context_handles_next () -> (Handle) {
 	unsafe {
-		CONTEXT_HANDLES.next ()
+		Handle::new (CONTEXT_HANDLES.next ())
 	}
 }
 
@@ -37,9 +39,25 @@ static mut BINDINGS_HANDLES : PermutationCounter = PermutationCounter {
 	};
 
 #[ inline (always) ]
-pub fn bindings_handles_next () -> (u32) {
+pub fn bindings_handles_next () -> (Handle) {
 	unsafe {
-		BINDINGS_HANDLES.next ()
+		Handle::new (BINDINGS_HANDLES.next ())
+	}
+}
+
+
+
+
+static mut LAMBDAS_HANDLES : PermutationCounter = PermutationCounter {
+		index : 0x33faad68,
+		offset : 0xe28c918f,
+		initialized : false,
+	};
+
+#[ inline (always) ]
+pub fn lambdas_handles_next () -> (Handle) {
+	unsafe {
+		Handle::new (LAMBDAS_HANDLES.next ())
 	}
 }
 
@@ -53,9 +71,9 @@ static mut PORTS_HANDLES : PermutationCounter = PermutationCounter {
 	};
 
 #[ inline (always) ]
-pub fn ports_handles_next () -> (u32) {
+pub fn ports_handles_next () -> (Handle) {
 	unsafe {
-		PORTS_HANDLES.next ()
+		Handle::new (PORTS_HANDLES.next ())
 	}
 }
 
