@@ -99,7 +99,7 @@ impl Optimizer {
 				return self.optimize_for_procedure_native_call (optimization, expression),
 			
 			Expression::Lambda (lambda, expression, registers_closure, registers_local) =>
-				return self.optimize_lambda_create (optimization, lambda, *expression, registers_closure, registers_local),
+				return self.optimize_lambda_create (optimization, lambda, expression, registers_closure, registers_local),
 			
 		};
 	}
@@ -640,9 +640,11 @@ impl Optimizer {
 	
 	
 	
-	fn optimize_lambda_create (&self, optimization : OptimizerContext, template : LambdaTemplate, expression : Expression, registers_closure : StdBox<[RegisterTemplate]>, registers_local : StdBox<[RegisterTemplate]>) -> (Outcome<(OptimizerContext, Expression)>) {
+	fn optimize_lambda_create (&self, optimization : OptimizerContext, template : StdRc<LambdaTemplate>, expression : StdRc<Expression>, registers_closure : StdBox<[RegisterTemplate]>, registers_local : StdRc<[RegisterTemplate]>) -> (Outcome<(OptimizerContext, Expression)>) {
+		let expression = try_or_fail! (StdRc::try_unwrap (expression), 0xbf91e753);
 		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
-		let expression = Expression::Lambda (template, expression.into (), registers_closure, registers_local);
+		let expression = StdRc::new (expression);
+		let expression = Expression::Lambda (template, expression, registers_closure, registers_local);
 		succeed! ((optimization, expression));
 	}
 	

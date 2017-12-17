@@ -61,7 +61,7 @@ pub enum Expression {
 	ProcedureLambdaCall ( ExpressionForProcedureLambdaCall ),
 	ProcedureNativeCall ( ExpressionForProcedureNativeCall ),
 	
-	Lambda ( LambdaTemplate, ExpressionBox, StdBox<[RegisterTemplate]>, StdBox<[RegisterTemplate]> ),
+	Lambda ( StdRc<LambdaTemplate>, StdRc<Expression>, StdBox<[RegisterTemplate]>, StdRc<[RegisterTemplate]> ),
 	
 }
 

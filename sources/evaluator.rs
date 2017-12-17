@@ -696,10 +696,12 @@ impl Evaluator {
 	
 	
 	#[ inline (always) ]
-	fn evaluate_lambda_create (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaTemplate, expressions : &Expression, registers_closure : &[RegisterTemplate], registers_local : &[RegisterTemplate]) -> (Outcome<Value>) {
+	fn evaluate_lambda_create (&self, evaluation : &mut EvaluatorContext, template : &StdRc<LambdaTemplate>, expression : &StdRc<Expression>, registers_closure : &[RegisterTemplate], registers_local : &StdRc<[RegisterTemplate]>) -> (Outcome<Value>) {
+		let expression = StdRc::clone (expression);
 		let registers_closure = try! (Registers::new_and_define (registers_closure, &evaluation.registers));
-		let registers_local = registers_local.to_vec () .into_boxed_slice ();
-		let lambda = Lambda::new (lambda.clone (), expressions.clone (), registers_closure, registers_local);
+		let registers_local = StdRc::clone (registers_local);
+		let template = StdRc::clone (template);
+		let lambda = Lambda::new (template, expression, registers_closure, registers_local);
 		succeed! (ProcedureLambda::new (lambda) .into ());
 	}
 	
@@ -716,19 +718,19 @@ impl Evaluator {
 	#[ inline (never) ]
 	fn evaluate_procedure_lambda_with_values (&self, _evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, inputs : &[&Value]) -> (Outcome<Value>) {
 		
-		let lambda_arguments_positional = lambda.arguments_positional.as_ref ();
-		let lambda_argument_rest = &lambda.argument_rest;
+		let lambda_arguments_positional = lambda.arguments_positional;
+		let lambda_argument_rest = lambda.argument_rest;
 		let lambda_registers_local = lambda.registers_local.as_ref ();
 		let lambda_registers_closure = &lambda.registers_closure;
 		let lambda_expression = &lambda.expression;
 		
 		let inputs_count = inputs.len ();
-		if lambda_argument_rest.is_none () {
-			if inputs_count != lambda_arguments_positional.len () {
+		if ! lambda_argument_rest {
+			if inputs_count != lambda_arguments_positional {
 				fail! (0x6c9a5289);
 			}
 		} else {
-			if inputs_count < lambda_arguments_positional.len () {
+			if inputs_count < lambda_arguments_positional {
 				fail! (0xdbd70de8);
 			}
 		}
@@ -736,12 +738,12 @@ impl Evaluator {
 		let mut registers = try! (Registers::new_and_define (&lambda_registers_local, lambda_registers_closure));
 		
 		let mut inputs_offset = 0;
-		for _identifier in lambda_arguments_positional {
+		for _ in 0..lambda_arguments_positional {
 			let input = inputs[inputs_offset].clone ();
 			try! (registers.initialize_value (inputs_offset, input));
 			inputs_offset += 1;
 		}
-		if let Some (ref _identifier) = *lambda_argument_rest {
+		if lambda_argument_rest {
 			let inputs = if inputs_offset < inputs_count {
 				list_build_n (&inputs[inputs_offset..])
 			} else {

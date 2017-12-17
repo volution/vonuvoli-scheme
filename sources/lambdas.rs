@@ -32,14 +32,13 @@ pub struct Lambda ( StdRc<LambdaInternals> );
 
 #[ derive (Debug, Hash) ]
 pub struct LambdaInternals {
-	pub handle : Handle,
-	pub identifier : Option<Symbol>,
-	pub arguments_positional : StdBox<[Symbol]>,
-	pub argument_rest : Option<Symbol>,
-	pub expression : Expression,
-	// FIXME:  Recursive functions might leak;  investigate!
+	pub handle_1 : Handle,
+	pub handle_2 : Handle,
+	pub arguments_positional : usize,
+	pub argument_rest : bool,
+	pub expression : StdRc<Expression>,
 	pub registers_closure : Registers,
-	pub registers_local : StdBox<[RegisterTemplate]>,
+	pub registers_local : StdRc<[RegisterTemplate]>,
 }
 
 
@@ -48,18 +47,33 @@ pub struct LambdaTemplate {
 	pub identifier : Option<Symbol>,
 	pub arguments_positional : StdBox<[Symbol]>,
 	pub argument_rest : Option<Symbol>,
+	pub handle : Handle,
+}
+
+
+impl LambdaTemplate {
+	
+	#[ inline (always) ]
+	pub fn new (identifier : Option<Symbol>, arguments_positional : StdBox<[Symbol]>, argument_rest : Option<Symbol>) -> (LambdaTemplate) {
+		return LambdaTemplate {
+				identifier : identifier,
+				arguments_positional : arguments_positional,
+				argument_rest : argument_rest,
+				handle : lambdas_handles_next (),
+			};
+	}
 }
 
 
 impl Lambda {
 	
 	#[ inline (always) ]
-	pub fn new (template : LambdaTemplate, expression : Expression, registers_closure : Registers, registers_local : StdBox<[RegisterTemplate]>) -> (Lambda) {
+	pub fn new (template : StdRc<LambdaTemplate>, expression : StdRc<Expression>, registers_closure : Registers, registers_local : StdRc<[RegisterTemplate]>) -> (Lambda) {
 		let internals = LambdaInternals {
-				handle : lambdas_handles_next (),
-				identifier : template.identifier,
-				arguments_positional : template.arguments_positional,
-				argument_rest : template.argument_rest,
+				handle_1 : template.handle,
+				handle_2 : lambdas_handles_next (),
+				arguments_positional : template.arguments_positional.len (),
+				argument_rest : template.argument_rest.is_some (),
 				expression : expression,
 				registers_closure : registers_closure,
 				registers_local : registers_local,
@@ -85,7 +99,7 @@ impl Lambda {
 	#[ inline (always) ]
 	pub fn handle (&self) -> (Handle) {
 		let self_0 = self.internals_ref ();
-		return self_0.handle;
+		return self_0.handle_2;
 	}
 	
 	#[ inline (always) ]
@@ -100,7 +114,7 @@ impl fmt::Display for Lambda {
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = self.internals_ref ();
-		return write! (formatter, "#<lambda:{:08x}>", self_0.handle.value ());
+		return write! (formatter, "#<lambda:{:08x}:{:08x}>", self_0.handle_1.value (), self_0.handle_2.value ());
 	}
 }
 
@@ -145,7 +159,7 @@ impl ProcedureLambda {
 	#[ inline (always) ]
 	pub fn handle (&self) -> (Handle) {
 		let self_0 = self.internals_ref ();
-		return self_0.handle;
+		return self_0.handle_2;
 	}
 	
 	#[ inline (always) ]
@@ -160,7 +174,7 @@ impl fmt::Display for ProcedureLambda {
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = self.internals_ref ();
-		return write! (formatter, "#<procedure-lambda:{:08x}>", self_0.handle.value ());
+		return write! (formatter, "#<lambda:{:08x}:{:08x}>", self_0.handle_1.value (), self_0.handle_2.value ());
 	}
 }
 
@@ -204,7 +218,7 @@ impl SyntaxLambda {
 	#[ inline (always) ]
 	pub fn handle (&self) -> (Handle) {
 		let self_0 = self.internals_ref ();
-		return self_0.handle;
+		return self_0.handle_2;
 	}
 	
 	#[ inline (always) ]
@@ -219,7 +233,7 @@ impl fmt::Display for SyntaxLambda {
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = self.internals_ref ();
-		return write! (formatter, "#<syntax-lambda:{:08x}>", self_0.handle.value ());
+		return write! (formatter, "#<lambda:{:08x}:{:08x}>", self_0.handle_1.value (), self_0.handle_2.value ());
 	}
 }
 

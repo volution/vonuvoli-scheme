@@ -1133,13 +1133,13 @@ impl Compiler {
 		
 		let statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, statements.into_boxed_slice ());
 		
-		let template = LambdaTemplate {
-				identifier : identifier,
-				arguments_positional : arguments_positional.into_boxed_slice (),
-				argument_rest : argument_rest,
-			};
+		let template = LambdaTemplate::new (identifier, arguments_positional.into_boxed_slice (), argument_rest);
 		
-		let expression = Expression::Lambda (template, statements.into (), registers_closure.into_boxed_slice (), registers_local.into_boxed_slice ());
+		let template = StdRc::new (template);
+		let statements = StdRc::new (statements);
+		let registers_closure = StdBox::from (registers_closure);
+		let registers_local = StdRc::from (registers_local);
+		let expression = Expression::Lambda (template, statements, registers_closure, registers_local);
 		
 		succeed! ((compilation, expression));
 	}
