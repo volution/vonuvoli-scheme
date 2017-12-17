@@ -3,3 +3,39 @@
 
 (((lambda (x) (lambda (y) (cons x y))) 1) 2) => '(1 . 2)
 
+
+
+
+(define t0-s (lambda () t0-s)) => t0-s
+(t0-s) => t0-s
+
+
+
+
+(define t1-l1
+	(lambda (x)
+		
+		;(lambda (y) (cons x y))
+		;(lambda (y) ((lambda (y) (cons x y)) y))
+		
+		(define l2 (lambda (y) (cons x y)))
+		(define l3 (lambda (y) (l2 y)))
+		l3
+		
+	))
+=> !ignore
+
+((t1-l1 1) 2) => '(1 . 2)
+
+
+
+
+(define t2-l1
+	(lambda ()
+		(define l2 (lambda () l2))
+		l2
+	))
+=> !ignore
+
+(t2-l1) => !ignore
+
