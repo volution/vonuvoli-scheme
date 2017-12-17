@@ -3240,56 +3240,74 @@ fn __parse_comment<'input>(
         let res = {
             let __choice_res = {
                 let mut __repeat_pos = __pos;
+                let mut __repeat_value = vec![];
                 loop {
                     let __pos = __repeat_pos;
                     let __step_res = __parse_comment_line(__input, __state, __pos);
                     match __step_res {
                         Matched(__newpos, __value) => {
                             __repeat_pos = __newpos;
+                            __repeat_value.push(__value);
                         }
                         Failed => {
                             break;
                         }
                     }
                 }
-                Matched(__repeat_pos, ())
+                if __repeat_value.len() >= 1 {
+                    Matched(__repeat_pos, ())
+                } else {
+                    Failed
+                }
             };
             match __choice_res {
                 Matched(__pos, __value) => Matched(__pos, __value),
                 Failed => {
                     let __choice_res = {
                         let mut __repeat_pos = __pos;
+                        let mut __repeat_value = vec![];
                         loop {
                             let __pos = __repeat_pos;
                             let __step_res = __parse_comment_nested(__input, __state, __pos);
                             match __step_res {
                                 Matched(__newpos, __value) => {
                                     __repeat_pos = __newpos;
+                                    __repeat_value.push(__value);
                                 }
                                 Failed => {
                                     break;
                                 }
                             }
                         }
-                        Matched(__repeat_pos, ())
+                        if __repeat_value.len() >= 1 {
+                            Matched(__repeat_pos, ())
+                        } else {
+                            Failed
+                        }
                     };
                     match __choice_res {
                         Matched(__pos, __value) => Matched(__pos, __value),
                         Failed => {
                             let mut __repeat_pos = __pos;
+                            let mut __repeat_value = vec![];
                             loop {
                                 let __pos = __repeat_pos;
                                 let __step_res = __parse_comment_value(__input, __state, __pos);
                                 match __step_res {
                                     Matched(__newpos, __value) => {
                                         __repeat_pos = __newpos;
+                                        __repeat_value.push(__value);
                                     }
                                     Failed => {
                                         break;
                                     }
                                 }
                             }
-                            Matched(__repeat_pos, ())
+                            if __repeat_value.len() >= 1 {
+                                Matched(__repeat_pos, ())
+                            } else {
+                                Failed
+                            }
                         }
                     }
                 }
