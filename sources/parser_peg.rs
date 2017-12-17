@@ -3375,54 +3375,67 @@ fn __parse_comment_nested<'input>(
                             };
                             match __seq_res {
                                 Matched(__pos, _) => {
-                                    let mut __repeat_pos = __pos;
-                                    loop {
-                                        let __pos = __repeat_pos;
-                                        let __step_res = {
-                                            let __seq_res = {
-                                                __state.suppress_fail += 1;
-                                                let __assert_res = {
-                                                    let __choice_res =
-                                                        slice_eq(__input, __state, __pos, "#|");
-                                                    match __choice_res {
-                                                        Matched(__pos, __value) => {
-                                                            Matched(__pos, __value)
+                                    let __seq_res = {
+                                        let mut __repeat_pos = __pos;
+                                        loop {
+                                            let __pos = __repeat_pos;
+                                            let __step_res = {
+                                                let __seq_res = {
+                                                    __state.suppress_fail += 1;
+                                                    let __assert_res = {
+                                                        let __choice_res =
+                                                            slice_eq(__input, __state, __pos, "#|");
+                                                        match __choice_res {
+                                                            Matched(__pos, __value) => {
+                                                                Matched(__pos, __value)
+                                                            }
+                                                            Failed => {
+                                                                slice_eq(
+                                                                    __input,
+                                                                    __state,
+                                                                    __pos,
+                                                                    "|#",
+                                                                )
+                                                            }
                                                         }
-                                                        Failed => {
-                                                            slice_eq(__input, __state, __pos, "|#")
-                                                        }
+                                                    };
+                                                    __state.suppress_fail -= 1;
+                                                    match __assert_res {
+                                                        Failed => Matched(__pos, ()),
+                                                        Matched(..) => Failed,
                                                     }
                                                 };
-                                                __state.suppress_fail -= 1;
-                                                match __assert_res {
-                                                    Failed => Matched(__pos, ()),
-                                                    Matched(..) => Failed,
+                                                match __seq_res {
+                                                    Matched(__pos, _) => {
+                                                        let __seq_res =
+                                                            any_char(__input, __state, __pos);
+                                                        match __seq_res {
+                                                            Matched(__pos, _) => {
+                                                                any_char(__input, __state, __pos)
+                                                            }
+                                                            Failed => Failed,
+                                                        }
+                                                    }
+                                                    Failed => Failed,
                                                 }
                                             };
-                                            match __seq_res {
-                                                Matched(__pos, _) => {
-                                                    let __seq_res =
-                                                        any_char(__input, __state, __pos);
-                                                    match __seq_res {
-                                                        Matched(__pos, _) => {
-                                                            any_char(__input, __state, __pos)
-                                                        }
-                                                        Failed => Failed,
-                                                    }
+                                            match __step_res {
+                                                Matched(__newpos, __value) => {
+                                                    __repeat_pos = __newpos;
                                                 }
-                                                Failed => Failed,
-                                            }
-                                        };
-                                        match __step_res {
-                                            Matched(__newpos, __value) => {
-                                                __repeat_pos = __newpos;
-                                            }
-                                            Failed => {
-                                                break;
+                                                Failed => {
+                                                    break;
+                                                }
                                             }
                                         }
+                                        Matched(__repeat_pos, ())
+                                    };
+                                    match __seq_res {
+                                        Matched(__pos, _) => {
+                                            slice_eq(__input, __state, __pos, "|#")
+                                        }
+                                        Failed => Failed,
                                     }
-                                    Matched(__repeat_pos, ())
                                 }
                                 Failed => Failed,
                             }

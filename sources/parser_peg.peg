@@ -117,7 +117,7 @@ constant -> values::Value = "#void" { constants::VOID.into () } / "#undefined" {
 
 comment = #quiet< comment_line / comment_nested / comment_value >
 comment_line = #quiet< ";" [^\n]* "\n" >
-comment_nested = #quiet< "#|" ( !("#|" / "|#") . . )* comment_nested* ( !("#|" / "|#") . . )* >
+comment_nested = #quiet< "#|" ( !("#|" / "|#") . . )* comment_nested* ( !("#|" / "|#") . . )* "|#" >
 comment_value = "#;" whitespace value
 
 whitespace = #quiet< [ \t\n]+ >
