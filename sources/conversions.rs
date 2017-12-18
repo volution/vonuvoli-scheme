@@ -112,6 +112,8 @@ impl_from_for_Value_1! (Context, Context);
 impl_from_for_Value_1! (Binding, Binding);
 
 
+impl_from_for_Value_3! (Singleton, ValueSingleton, (), _value, ValueSingleton::Void);
+
 impl_from_for_Value_2! (Boolean, Boolean, bool);
 impl_from_for_Value_2! (Character, Character, char);
 

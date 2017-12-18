@@ -10,6 +10,7 @@ use super::values::exports::*;
 
 use std::fs;
 use std::io;
+use std::path as fs_path;
 
 
 
@@ -62,6 +63,9 @@ pub mod exports {
 		
 		port_file_reader_open, port_file_reader_open_with_options,
 		port_file_writer_open, port_file_writer_open_with_options,
+		
+		port_file_exists,
+		port_file_delete,
 		
 	};
 }
@@ -329,7 +333,10 @@ pub fn port_file_reader_open (path : &Value) -> (Outcome<Value>) {
 pub fn port_file_writer_open (path : &Value) -> (Outcome<Value>) {
 	let mut options = fs::OpenOptions::new ();
 	options.write (true);
-	options.create_new (true);
+	options.create (true);
+	options.truncate (true);
+	// FIXME:  A safer default would be to make sure we are creating the file!
+	// options.create_new (true);
 	return port_file_writer_open_with_options (path, &options);
 }
 
@@ -349,9 +356,25 @@ pub fn port_file_writer_open_with_options (path : &Value, options : &fs::OpenOpt
 
 pub fn port_file_open_with_options (path : &Value, options : &fs::OpenOptions) -> (Outcome<fs::File>) {
 	let path = try_as_string_ref! (path);
-	let path = path.string_as_str ();
-	// FIXME:  Clearly indicate why the open failed!
+	let path = fs_path::Path::new (path.string_as_str ());
+	// FIXME:  Clearly indicate why the operation failed!
 	let file = try_or_fail! (options.open (path), 0xbe1989bd);
 	succeed! (file);
+}
+
+
+
+
+pub fn port_file_exists (path : &Value) -> (Outcome<bool>) {
+	let path = try_as_string_ref! (path);
+	let path = fs_path::Path::new (path.string_as_str ());
+	succeed! (path.exists ());
+}
+
+pub fn port_file_delete (path : &Value) -> (Outcome<()>) {
+	let path = try_as_string_ref! (path);
+	let path = fs_path::Path::new (path.string_as_str ());
+	// FIXME:  Clearly indicate why the operation failed!
+	succeed_or_fail! (fs::remove_file (path), 0xa1653696);
 }
 

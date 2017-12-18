@@ -613,8 +613,8 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("file", "parameters", "with-input-from-file", ProcedurePrimitive::Unsupported.into ()),
 			("file", "parameters", "with-output-to-file", ProcedurePrimitive::Unsupported.into ()),
 			
-			("file", "system", "file-exists?", ProcedurePrimitive::Unimplemented.into ()),
-			("file", "system", "delete-file", ProcedurePrimitive::Unimplemented.into ()),
+			("file", "system", "file-exists?", PortPrimitive1::FileExists.into ()),
+			("file", "system", "delete-file", PortPrimitive1::FileDelete.into ()),
 			
 			
 			

@@ -105,6 +105,9 @@ pub enum PortPrimitive1 {
 	OpenTextualInput,
 	OpenTextualOutput,
 	
+	FileExists,
+	FileDelete,
+	
 }
 
 
@@ -297,6 +300,12 @@ pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, input_1 : &Value, 
 		
 		PortPrimitive1::OpenTextualOutput =>
 			return port_file_writer_open (input_1),
+		
+		PortPrimitive1::FileExists =>
+			succeed! (try! (port_file_exists (input_1)) .into ()),
+		
+		PortPrimitive1::FileDelete =>
+			succeed! (try! (port_file_delete (input_1)) .into ()),
 		
 	}
 }
