@@ -89,8 +89,12 @@ pub enum ArithmeticPrimitive1 {
 	Truncate,
 	Fractional,
 	
+	CoerceToExact,
+	CoerceToInexact,
+	
 	Square,
 	SquareRoot,
+	SquareRootWithRemainder,
 	Exponential,
 	Logarithm,
 	
@@ -361,6 +365,16 @@ pub fn arithmetic_primitive_1_evaluate (primitive : ArithmeticPrimitive1, input_
 					_value, ZERO,
 					value, value.fract ()),
 		
+		ArithmeticPrimitive1::CoerceToExact =>
+			arithmetic_primitive_1_delegate_call! (input_1,
+					value, value.clone (),
+					value, try! (value.trunc () .try_to_integer ())),
+		
+		ArithmeticPrimitive1::CoerceToInexact =>
+			arithmetic_primitive_1_delegate_call! (input_1,
+					value, try! (value.try_to_real ()),
+					value, value.clone ()),
+		
 		ArithmeticPrimitive1::Square =>
 			arithmetic_primitive_1_delegate_call! (input_1,
 					value, value.power (&2.into ()),
@@ -368,6 +382,9 @@ pub fn arithmetic_primitive_1_evaluate (primitive : ArithmeticPrimitive1, input_
 		
 		ArithmeticPrimitive1::SquareRoot =>
 			arithmetic_primitive_1_delegate_call! (sqrt, input_1),
+		
+		ArithmeticPrimitive1::SquareRootWithRemainder =>
+			fail_unimplemented! (0x0aed9e07), // deferred
 		
 		ArithmeticPrimitive1::Exponential =>
 			arithmetic_primitive_1_delegate_call! (exp, input_1),

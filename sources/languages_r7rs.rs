@@ -191,7 +191,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			("base", "arithmetic", "expt", ArithmeticPrimitive2::Power.into ()),
 			("base", "arithmetic", "square", ArithmeticPrimitive1::Square.into ()),
-			("base", "arithmetic", "exact-integer-sqrt", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "arithmetic", "exact-integer-sqrt", ArithmeticPrimitive1::SquareRootWithRemainder.into ()),
 			
 			("base", "arithmetic", "=", ComparisonPrimitiveV::NumberEqual.into ()),
 			("base", "arithmetic", "<", ComparisonPrimitiveV::NumberLesser.into ()),
@@ -199,8 +199,8 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "arithmetic", "<=", ComparisonPrimitiveV::NumberLesserOrEqual.into ()),
 			("base", "arithmetic", ">=", ComparisonPrimitiveV::NumberGreaterOrEqual.into ()),
 			
-			("base", "arithmetic", "inexact", ProcedurePrimitive::Unsupported.into ()),
-			("base", "arithmetic", "exact", ProcedurePrimitive::Unsupported.into ()),
+			("base", "arithmetic", "inexact", ArithmeticPrimitive1::CoerceToInexact.into ()),
+			("base", "arithmetic", "exact", ArithmeticPrimitive1::CoerceToExact.into ()),
 			
 			
 			

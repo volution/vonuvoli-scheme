@@ -560,6 +560,11 @@ impl NumberInteger {
 		}
 	}
 	
+	#[ inline (always) ]
+	pub fn try_to_real (&self) -> (Outcome<NumberReal>) {
+		succeed! ((self.0 as f64) .into ());
+	}
+	
 	
 	#[ inline (always) ]
 	pub fn neg (&self) -> (Outcome<NumberInteger>) {
@@ -949,6 +954,54 @@ impl NumberReal {
 }
 
 
+macro_rules! NumberReal_fn_try_to_signed_integer {
+	($export : ident, $type : ty) => (
+		#[ inline (always) ]
+		pub fn $export (&self) -> (Outcome<$type>) {
+			let value = self.0;
+			if ! value.is_finite () {
+				fail! (0xd0fb8a28);
+			}
+			if value != value.trunc () {
+				fail! (0xdbe9740c);
+			}
+			let min = <$type>::min_value () as f64;
+			if value < min {
+				fail! (0x00d89f0a);
+			}
+			let max = <$type>::max_value () as f64;
+			if value > max {
+				fail! (0x0cafe950);
+			}
+			succeed! (value as $type);
+		}
+	);
+}
+
+macro_rules! NumberReal_fn_try_to_unsigned_integer {
+	($export : ident, $type : ty) => (
+		#[ inline (always) ]
+		pub fn $export (&self) -> (Outcome<$type>) {
+			let value = self.0;
+			if ! value.is_finite () {
+				fail! (0xb6d5d018);
+			}
+			if value != value.trunc () {
+				fail! (0xb1015ff1);
+			}
+			if value < 0.0 {
+				fail! (0x5a4b35a7);
+			}
+			let max = <$type>::max_value () as f64;
+			if value > max {
+				fail! (0x7d87bb56);
+			}
+			succeed! (value as $type);
+		}
+	);
+}
+
+
 macro_rules! NumberReal_fn_predicate {
 	($delegate : ident) => (
 		NumberReal_fn_predicate! ($delegate, $delegate);
@@ -988,6 +1041,52 @@ macro_rules! NumberReal_fn_delegate_2 {
 
 
 impl NumberReal {
+	
+	
+	NumberReal_fn_try_to_signed_integer! (try_to_i8, i8);
+	NumberReal_fn_try_to_signed_integer! (try_to_i16, i16);
+	NumberReal_fn_try_to_signed_integer! (try_to_i32, i32);
+	NumberReal_fn_try_to_signed_integer! (try_to_i64, i64);
+	NumberReal_fn_try_to_signed_integer! (try_to_isize, isize);
+	
+	NumberReal_fn_try_to_unsigned_integer! (try_to_u8, u8);
+	NumberReal_fn_try_to_unsigned_integer! (try_to_u16, u16);
+	NumberReal_fn_try_to_unsigned_integer! (try_to_u32, u32);
+	NumberReal_fn_try_to_unsigned_integer! (try_to_u64, u64);
+	NumberReal_fn_try_to_unsigned_integer! (try_to_usize, usize);
+	
+	
+	#[ inline (always) ]
+	pub fn try_to_f32 (&self) -> (Outcome<f32>) {
+		use std::f32;
+		use std::f64;
+		let value = self.0;
+		if value.is_finite () {
+			let min = f32::MIN as f64;
+			if value < min {
+				fail! (0x65eca18f);
+			}
+			let max = f32::MAX as f64;
+			if value > max {
+				fail! (0x219dba58);
+			}
+			succeed! (value as f32);
+		} else if value == f64::NAN {
+			succeed! (f32::NAN);
+		} else if value == f64::INFINITY {
+			succeed! (f32::INFINITY);
+		} else  if value == f64::NEG_INFINITY {
+			succeed! (f32::NEG_INFINITY);
+		} else {
+			fail_panic! (0xa371a722);
+		}
+	}
+	
+	
+	#[ inline (always) ]
+	pub fn try_to_integer (&self) -> (Outcome<NumberInteger>) {
+		succeed! (try! (self.try_to_i64 ()) .into ());
+	}
 	
 	
 	#[ inline (always) ]
