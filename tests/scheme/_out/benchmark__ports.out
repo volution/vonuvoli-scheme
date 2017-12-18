@@ -2,14 +2,14 @@
 ## benchmarking `benchmark__ports`...
 ## benchmarked `benchmark__ports`!
      without optimizations:
-       average   :       2064
-         stdev   :         36 /   1.76%
-         median  :       2047 /   0.70%
-       min / max :       2035 / 2043 / 2047 / 2067 / 2156
+       average   :       1324
+         stdev   :          7 /   0.50%
+         median  :       1323 /   0.53%
+       min / max :       1318 / 1318 / 1323 / 1328 / 1340
        mem-leaks :          0 KB
      with optimizations:
-       average   :        441 / +78.63% / 4.68*
-         stdev   :          6 /   1.39%
-         median  :        439 /   0.71%
-       min / max :        436 / 437 / 439 / 442 / 458
+       average   :        376 / +71.57% / 3.52*
+         stdev   :          2 /   0.59%
+         median  :        376 /   0.54%
+       min / max :        374 / 374 / 376 / 377 / 381
        mem-leaks :          0 KB

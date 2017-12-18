@@ -2,14 +2,14 @@
 ## benchmarking `benchmark__lambdas`...
 ## benchmarked `benchmark__lambdas`!
      without optimizations:
-       average   :      93521
-         stdev   :       5956 /   6.37%
-         median  :      90562 /   0.73%
-       min / max :      89931 / 90295 / 90562 / 94211 / 107831
-       mem-leaks :       2289 KB (!!!! DETECTED !!!!)
+       average   :      58701
+         stdev   :       2407 /   4.10%
+         median  :      57581 /   0.98%
+       min / max :      57029 / 57326 / 57581 / 58351 / 64489
+       mem-leaks :       3835 KB (!!!! DETECTED !!!!)
      with optimizations:
-       average   :      78986 / +15.54% / 1.18*
-         stdev   :       5261 /   6.66%
-         median  :      76300 /   0.93%
-       min / max :      75730 / 75953 / 76300 / 79299 / 90813
-       mem-leaks :        377 KB (!!!! DETECTED !!!!)
+       average   :      51657 / +12.00% / 1.14*
+         stdev   :       5109 /   9.89%
+         median  :      49091 /   1.25%
+       min / max :      48543 / 48726 / 49091 / 51047 / 61872
+       mem-leaks :        799 KB (!!!! DETECTED !!!!)

@@ -2,14 +2,14 @@
 ## benchmarking `benchmark__arithmetic`...
 ## benchmarked `benchmark__arithmetic`!
      without optimizations:
-       average   :       3012
-         stdev   :         45 /   1.49%
-         median  :       2994 /   0.68%
-       min / max :       2976 / 2987 / 2994 / 3014 / 3142
+       average   :       2111
+         stdev   :         12 /   0.55%
+         median  :       2109 /   0.63%
+       min / max :       2099 / 2100 / 2109 / 2122 / 2134
        mem-leaks :          0 KB
      with optimizations:
-       average   :        427 / +85.83% / 7.06*
-         stdev   :          8 /   1.78%
-         median  :        423 /   0.76%
-       min / max :        421 / 422 / 423 / 428 / 447
+       average   :        366 / +82.65% / 5.76*
+         stdev   :          3 /   0.70%
+         median  :        365 /   0.66%
+       min / max :        363 / 365 / 365 / 368 / 371
        mem-leaks :          0 KB

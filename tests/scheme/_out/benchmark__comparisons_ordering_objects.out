@@ -2,14 +2,14 @@
 ## benchmarking `benchmark__comparisons_ordering_objects`...
 ## benchmarked `benchmark__comparisons_ordering_objects`!
      without optimizations:
-       average   :     720071
-         stdev   :       5237 /   0.73%
-         median  :     718903 /   0.79%
-       min / max :     714416 / 715634 / 718903 / 722842 / 731606
+       average   :     395987
+         stdev   :       1627 /   0.41%
+         median  :     395920 /   0.39%
+       min / max :     394000 / 394348 / 395920 / 396740 / 399727
        mem-leaks :          0 KB
      with optimizations:
-       average   :     474656 / +34.08% / 1.52*
-         stdev   :       9292 /   1.96%
-         median  :     470956 /   0.66%
-       min / max :     467257 / 469248 / 470956 / 474624 / 499607
+       average   :     269805 / +31.87% / 1.47*
+         stdev   :       1438 /   0.53%
+         median  :     269280 /   0.41%
+       min / max :     268404 / 268601 / 269280 / 271017 / 272759
        mem-leaks :          0 KB

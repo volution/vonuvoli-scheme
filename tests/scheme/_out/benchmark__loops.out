@@ -2,14 +2,14 @@
 ## benchmarking `benchmark__loops`...
 ## benchmarked `benchmark__loops`!
      without optimizations:
-       average   :      15800
-         stdev   :        240 /   1.52%
-         median  :      15692 /   0.46%
-       min / max :      15609 / 15676 / 15692 / 15791 / 16477
+       average   :       9240
+         stdev   :         89 /   0.97%
+         median  :       9215 /   0.84%
+       min / max :       9134 / 9205 / 9215 / 9281 / 9445
        mem-leaks :          0 KB
      with optimizations:
-       average   :       9568 / +39.45% / 1.65*
-         stdev   :        177 /   1.85%
-         median  :       9488 /   0.51%
-       min / max :       9428 / 9469 / 9488 / 9566 / 10036
+       average   :       5893 / +36.22% / 1.57*
+         stdev   :         31 /   0.53%
+         median  :       5884 /   0.54%
+       min / max :       5859 / 5863 / 5884 / 5912 / 5958
        mem-leaks :          0 KB

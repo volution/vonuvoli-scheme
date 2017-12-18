@@ -2,14 +2,14 @@
 ## benchmarking `benchmark__runtime`...
 ## benchmarked `benchmark__runtime`!
      without optimizations:
-       average   :       2423
-         stdev   :         46 /   1.91%
-         median  :       2400 /   0.73%
-       min / max :       2387 / 2398 / 2400 / 2432 / 2544
+       average   :       1607
+         stdev   :         10 /   0.60%
+         median  :       1605 /   0.59%
+       min / max :       1598 / 1599 / 1605 / 1611 / 1634
        mem-leaks :          0 KB
      with optimizations:
-       average   :        771 / +68.20% / 3.14*
-         stdev   :         16 /   2.04%
-         median  :        765 /   0.68%
-       min / max :        760 / 764 / 765 / 769 / 816
+       average   :        658 / +59.08% / 2.44*
+         stdev   :          4 /   0.55%
+         median  :        657 /   0.57%
+       min / max :        653 / 655 / 657 / 660 / 666
        mem-leaks :          0 KB
