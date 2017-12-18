@@ -621,8 +621,25 @@ impl Optimizer {
 	fn optimize_register_set_n (&self, optimization : OptimizerContext, initializers : StdBox<[(usize, Expression)]>, parallel : bool) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (indices, expressions) = vec_unzip_2 (StdVec::from (initializers));
 		let (optimization, expressions) = try! (self.optimize_0_vec (optimization, expressions));
-		let initializers = vec_zip_2 (indices, expressions) .into_boxed_slice ();
-		let expression = ExpressionForContexts::RegisterSetN (initializers, parallel) .into ();
+		let initializers = vec_zip_2 (indices, expressions);
+		let initializers = vec_filter_into! (
+				initializers,
+				&(target_index, ref expression),
+				match *expression {
+					Expression::Contexts (ExpressionForContexts::RegisterGet1 (source_index)) =>
+						target_index != source_index,
+					_ =>
+						true,
+				});
+		let expression = if initializers.len () == 0 {
+			Expression::Void
+		} else if initializers.len () == 1 {
+			let (index, expression) = try! (vec_explode_1 (initializers));
+			ExpressionForContexts::RegisterSet1 (index, expression.into ()) .into ()
+		} else {
+			let initializers = initializers.into_boxed_slice ();
+			ExpressionForContexts::RegisterSetN (initializers, parallel) .into ()
+		};
 		succeed! ((optimization, expression));
 	}
 	
