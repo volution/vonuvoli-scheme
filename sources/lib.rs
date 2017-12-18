@@ -53,6 +53,7 @@ pub mod languages_r7rs;
 pub mod parser;
 pub mod ports;
 pub mod ports_memory;
+pub mod ports_native;
 pub mod primitives;
 pub mod primitives_arithmetic;
 pub mod primitives_arrays;

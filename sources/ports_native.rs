@@ -4,6 +4,7 @@ use super::errors::exports::*;
 use super::ports::exports::*;
 use super::runtime::exports::*;
 
+use std::io;
 use std::str;
 
 
@@ -11,32 +12,31 @@ use std::str;
 
 pub mod exports {
 	
-	pub use super::PortBackendBytesReader;
-	pub use super::PortBackendBytesWriter;
+	pub use super::PortBackendNativeReader;
+	pub use super::PortBackendNativeWriter;
 	
 }
 
 
 
 
-pub struct PortBackendBytesReader {
-	source : PortBackendBytesReaderSource,
-	range_start : usize,
-	range_end : Option<usize>,
-	offset : usize,
-}
-
-enum PortBackendBytesReaderSource {
-	Bytes ( StdRc<StdVec<u8>> ),
-	String ( StdRc<StdString> ),
-	None,
+pub struct PortBackendNativeReader {
+	reader : Option<io::BufReader<StdBox<io::Read>>>,
 }
 
 
-impl PortBackendReader for PortBackendBytesReader {
+impl PortBackendReader for PortBackendNativeReader {
 	
 	fn byte_ready (&mut self) -> (Outcome<bool>) {
-		succeed! (true);
+		if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
+			if ! buffer.is_empty () {
+				succeed! (true);
+			} else {
+				succeed! (false);
+			}
+		} else {
+			succeed! (true);
+		}
 	}
 	
 	fn byte_peek (&mut self) -> (Outcome<Option<u8>>) {
@@ -53,7 +53,7 @@ impl PortBackendReader for PortBackendBytesReader {
 		} else {
 			(None, 0)
 		};
-		self.offset += offset_increment;
+		self.buffer_consume (offset_increment);
 		succeed! (byte);
 	}
 	
@@ -65,7 +65,7 @@ impl PortBackendReader for PortBackendBytesReader {
 		} else {
 			(None, 0)
 		};
-		self.offset += offset_increment;
+		self.buffer_consume (offset_increment);
 		succeed! (count);
 	}
 	
@@ -77,7 +77,7 @@ impl PortBackendReader for PortBackendBytesReader {
 		} else {
 			(None, 0)
 		};
-		self.offset += offset_increment;
+		self.buffer_consume (offset_increment);
 		succeed! (count);
 	}
 	
@@ -93,12 +93,25 @@ impl PortBackendReader for PortBackendBytesReader {
 		} else {
 			(None, 0)
 		};
-		self.offset += offset_increment;
+		self.buffer_consume (offset_increment);
 		succeed! (count);
 	}
 	
 	fn char_ready (&mut self) -> (Outcome<bool>) {
-		succeed! (true);
+		if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
+			if ! buffer.is_empty () {
+				let char_width = unicode_utf8_char_width (buffer[0]);
+				if char_width <= buffer.len () {
+					succeed! (true);
+				} else {
+					succeed! (false);
+				}
+			} else {
+				succeed! (false);
+			}
+		} else {
+			succeed! (true);
+		}
 	}
 	
 	fn char_peek (&mut self) -> (Outcome<Option<char>>) {
@@ -117,7 +130,7 @@ impl PortBackendReader for PortBackendBytesReader {
 		} else {
 			(None, 0)
 		};
-		self.offset += offset_increment;
+		self.buffer_consume (offset_increment);
 		succeed! (char);
 	}
 	
@@ -137,7 +150,7 @@ impl PortBackendReader for PortBackendBytesReader {
 		} else {
 			(None, 0)
 		};
-		self.offset += offset_increment;
+		self.buffer_consume (offset_increment);
 		succeed! (count);
 	}
 	
@@ -157,7 +170,7 @@ impl PortBackendReader for PortBackendBytesReader {
 		} else {
 			(None, 0)
 		};
-		self.offset += offset_increment;
+		self.buffer_consume (offset_increment);
 		succeed! (count);
 	}
 	
@@ -177,180 +190,185 @@ impl PortBackendReader for PortBackendBytesReader {
 		} else {
 			(None, 0)
 		};
-		self.offset += offset_increment;
+		self.buffer_consume (offset_increment);
 		succeed! (count);
 	}
 	
 	fn input_close (&mut self) -> (Outcome<()>) {
-		self.source = PortBackendBytesReaderSource::None;
+		self.reader = None;
 		succeed! (());
 	}
 	
 	fn is_input_open (&mut self) -> (bool) {
-		match self.source {
-			PortBackendBytesReaderSource::Bytes (_) =>
-				return true,
-			PortBackendBytesReaderSource::String (_) =>
-				return true,
-			PortBackendBytesReaderSource::None =>
-				return false,
-		}
+		return self.reader.is_some ();
 	}
 }
 
 
-impl PortBackendBytesReader {
+impl PortBackendNativeReader {
 	
-	pub fn new_from_bytes (bytes : StdRc<StdVec<u8>>, range_start : usize, range_end : Option<usize>) -> (Outcome<PortBackendBytesReader>) {
-		return PortBackendBytesReader::new_from_source (PortBackendBytesReaderSource::Bytes (bytes), range_start, range_end);
+	pub fn new_from_unbuffered (reader : StdBox<io::Read>) -> (Outcome<PortBackendNativeReader>) {
+		let reader = io::BufReader::new (reader);
+		return PortBackendNativeReader::new_from_buffered (reader);
 	}
 	
-	pub fn new_from_string (string : StdRc<StdString>, range_start : usize, range_end : Option<usize>) -> (Outcome<PortBackendBytesReader>) {
-		return PortBackendBytesReader::new_from_source (PortBackendBytesReaderSource::String (string), range_start, range_end);
-	}
-	
-	fn new_from_source (source : PortBackendBytesReaderSource, range_start : usize, range_end : Option<usize>) -> (Outcome<PortBackendBytesReader>) {
-		if let Some (range_end) = range_end {
-			if range_end < range_start {
-				fail! (0xc8068e78);
-			}
-		}
-		let backend = PortBackendBytesReader {
-				source : source,
-				range_start : range_start,
-				range_end : range_end,
-				offset : 0,
+	pub fn new_from_buffered (reader : io::BufReader<StdBox<io::Read>>) -> (Outcome<PortBackendNativeReader>) {
+		let backend = PortBackendNativeReader {
+				reader : Some (reader),
 			};
 		succeed! (backend);
 	}
 	
 	fn buffer_ref_if_open (&mut self) -> (Outcome<Option<&[u8]>>) {
-		
-		let buffer = match self.source {
-			PortBackendBytesReaderSource::Bytes (ref source) =>
-				source.as_ref (),
-			PortBackendBytesReaderSource::String (ref source) =>
-				source.as_ref () .as_bytes (),
-			PortBackendBytesReaderSource::None =>
-				succeed! (None),
-		};
-		
-		let range_start = self.range_start + self.offset;
-		let buffer = if let Some (range_end) = self.range_end {
-			buffer.get (range_start .. range_end)
-		} else {
-			buffer.get (range_start ..)
-		};
-		
-		if let Some (buffer) = buffer {
-			if ! buffer.is_empty () {
-				succeed! (Some (buffer));
+		use std::io::BufRead;
+		if let Some (ref mut reader) = self.reader {
+			if let Ok (buffer) = reader.fill_buf () {
+				if ! buffer.is_empty () {
+					succeed! (Some (buffer));
+				} else {
+					succeed! (None);
+				}
 			} else {
-				succeed! (None);
+				fail! (0x5dcf2c12);
 			}
 		} else {
 			succeed! (None);
 		}
 	}
+	
+	fn buffer_consume (&mut self, size : usize) -> () {
+		use std::io::BufRead;
+		if let Some (ref mut reader) = self.reader {
+			reader.consume (size);
+		}
+	}
 }
 
 
 
 
-pub struct PortBackendBytesWriter {
-	buffer : Option<StdVec<u8>>,
+pub struct PortBackendNativeWriter {
+	writer : Option<io::BufWriter<StdBox<io::Write>>>,
 }
 
 
-impl PortBackendWriter for PortBackendBytesWriter {
+impl PortBackendWriter for PortBackendNativeWriter {
 	
 	fn byte_write (&mut self, byte : u8) -> (Outcome<()>) {
-		let buffer = try! (self.buffer_ref_mut_check_open ());
-		buffer.push (byte);
-		succeed! (());
+		let writer = try! (self.writer_ref_mut_check_open ());
+		let bytes = [byte];
+		succeed_or_fail! (writer.write_all (&bytes), 0x1ebd7525);
 	}
 	
-	fn byte_write_slice (&mut self, bytes : &[u8], _full : bool) -> (Outcome<usize>) {
-		let buffer = try! (self.buffer_ref_mut_check_open ());
-		buffer.extend_from_slice (bytes);
-		succeed! (bytes.len ());
+	fn byte_write_slice (&mut self, bytes : &[u8], full : bool) -> (Outcome<usize>) {
+		let writer = try! (self.writer_ref_mut_check_open ());
+		if full {
+			try_or_fail! (writer.write_all (bytes), 0x30691aa9);
+			succeed! (bytes.len ());
+		} else {
+			succeed_or_fail! (writer.write (bytes), 0x4a7ae9ae);
+		}
 	}
 	
-	fn byte_write_string (&mut self, string : &str, _full : bool) -> (Outcome<usize>) {
-		let buffer = try! (self.buffer_ref_mut_check_open ());
-		buffer.extend_from_slice (string.as_bytes ());
-		succeed! (string.len ());
+	fn byte_write_string (&mut self, string : &str, full : bool) -> (Outcome<usize>) {
+		return self.byte_write_slice (string.as_bytes (), full);
 	}
 	
 	fn char_write (&mut self, char : char) -> (Outcome<()>) {
-		let buffer = try! (self.buffer_ref_mut_check_open ());
+		let writer = try! (self.writer_ref_mut_check_open ());
 		let mut bytes = [0; 4];
 		let string = char.encode_utf8 (&mut bytes);
-		buffer.extend_from_slice (string.as_bytes ());
-		succeed! (());
+		succeed_or_fail! (writer.write_all (string.as_bytes ()), 0xaca4d20e);
 	}
 	
-	fn char_write_slice (&mut self, chars : &[char], _full : bool) -> (Outcome<usize>) {
-		let buffer = try! (self.buffer_ref_mut_check_open ());
+	fn char_write_slice (&mut self, chars : &[char], full : bool) -> (Outcome<usize>) {
+		let writer = try! (self.writer_ref_mut_check_open ());
 		let mut bytes = [0; 4];
 		let mut count = 0;
 		for char in chars {
 			let string = char.encode_utf8 (&mut bytes);
-			buffer.extend_from_slice (string.as_bytes ());
-			count += 1;
+			let perhaps_stop = try! (Self::char_write_perhaps_full (writer, string, full));
+			if perhaps_stop {
+				count += 1;
+				break;
+			} else {
+				count += 1;
+			}
 		}
 		succeed! (count);
 	}
 	
-	fn char_write_string (&mut self, string : &str, _full : bool) -> (Outcome<usize>) {
-		let buffer = try! (self.buffer_ref_mut_check_open ());
+	fn char_write_string (&mut self, string : &str, full : bool) -> (Outcome<usize>) {
+		let writer = try! (self.writer_ref_mut_check_open ());
 		let mut bytes = [0; 4];
 		let mut count = 0;
 		for char in string.chars () {
 			let string = char.encode_utf8 (&mut bytes);
-			buffer.extend_from_slice (string.as_bytes ());
-			count += 1;
+			let perhaps_stop = try! (Self::char_write_perhaps_full (writer, string, full));
+			if perhaps_stop {
+				count += 1;
+				break;
+			} else {
+				count += 1;
+			}
 		}
 		succeed! (count);
 	}
 	
 	fn output_flush (&mut self) -> (Outcome<()>) {
-		succeed! (());
+		let writer = try! (self.writer_ref_mut_check_open ());
+		succeed_or_fail! (writer.flush (), 0xf10df25a);
 	}
 	
 	fn output_close (&mut self) -> (Outcome<()>) {
+		self.writer = None;
 		succeed! (());
 	}
 	
 	fn is_output_open (&mut self) -> (bool) {
-		return self.buffer.is_some ();
+		return self.writer.is_some ();
 	}
 }
 
 
-impl PortBackendBytesWriter {
+impl PortBackendNativeWriter {
 	
-	pub fn new () -> (Outcome<PortBackendBytesWriter>) {
-		let buffer = StdVec::new ();
-		let backend = PortBackendBytesWriter {
-				buffer : Some (buffer),
+	pub fn new_from_unbuffered (writer : StdBox<io::Write>) -> (Outcome<PortBackendNativeWriter>) {
+		let writer = io::BufWriter::new (writer);
+		return PortBackendNativeWriter::new_from_buffered (writer);
+	}
+	
+	pub fn new_from_buffered (writer : io::BufWriter<StdBox<io::Write>>) -> (Outcome<PortBackendNativeWriter>) {
+		let backend = PortBackendNativeWriter {
+				writer : Some (writer),
 			};
 		succeed! (backend);
 	}
 	
-	pub fn finalize (&mut self) -> (Outcome<StdVec<u8>>) {
-		if let Some (buffer) = self.buffer.take () {
-			succeed! (buffer);
+	fn writer_ref_mut_check_open (&mut self) -> (Outcome<&mut io::Write>) {
+		if let Some (ref mut writer) = self.writer {
+			succeed! (writer);
 		} else {
-			fail! (0x461ed3a2);
+			fail! (0x6f55fd9c);
 		}
 	}
 	
-	fn buffer_ref_mut_check_open (&mut self) -> (Outcome<&mut StdVec<u8>>) {
-		if let Some (ref mut buffer) = self.buffer {
-			succeed! (buffer);
+	fn char_write_perhaps_full (writer : &mut io::Write, string : &str, full : bool) -> (Outcome<bool>) {
+		let mut bytes = string.as_bytes ();
+		if full {
+			try_or_fail! (writer.write_all (bytes), 0xab43d083);
+			succeed! (true);
 		} else {
-			fail! (0xd507a546);
+			let mut wrote = try_or_fail! (writer.write (bytes), 0xe616ccd6);
+			if wrote < bytes.len () {
+				while wrote < bytes.len () {
+					bytes = &bytes[wrote..];
+					wrote = try_or_fail! (writer.write (bytes), 0x33d2d5dd);
+				}
+				succeed! (false);
+			} else {
+				succeed! (true);
+			}
 		}
 	}
 }

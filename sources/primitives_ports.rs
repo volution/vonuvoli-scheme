@@ -287,16 +287,16 @@ pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, input_1 : &Value, 
 			return port_string_writer_finalize (input_1),
 		
 		PortPrimitive1::OpenBinaryInput =>
-			fail_unimplemented! (0xa3e9af81),
+			return port_file_reader_open (input_1),
 		
 		PortPrimitive1::OpenBinaryOutput =>
-			fail_unimplemented! (0xa9fd190e),
+			return port_file_writer_open (input_1),
 		
 		PortPrimitive1::OpenTextualInput =>
-			fail_unimplemented! (0x2166fd23),
+			return port_file_reader_open (input_1),
 		
 		PortPrimitive1::OpenTextualOutput =>
-			fail_unimplemented! (0x677c2ccf),
+			return port_file_writer_open (input_1),
 		
 	}
 }

@@ -3,10 +3,12 @@
 use super::errors::exports::*;
 use super::globals::exports::*;
 use super::ports_memory::exports::*;
+use super::ports_native::exports::*;
 use super::runtime::exports::*;
 
 use std::fmt;
 use std::hash;
+use std::io;
 use std::ptr;
 
 
@@ -50,8 +52,13 @@ pub enum PortState {
 
 
 pub enum PortBackend {
+	
 	BytesReader ( PortBackendBytesReader ),
 	BytesWriter ( PortBackendBytesWriter ),
+	
+	NativeReader ( PortBackendNativeReader ),
+	NativeWriter ( PortBackendNativeWriter ),
+	
 }
 
 
@@ -96,14 +103,14 @@ pub trait PortReader {
 
 pub trait PortBackendReader {
 	
-	fn byte_ready (&self) -> (Outcome<bool>);
+	fn byte_ready (&mut self) -> (Outcome<bool>);
 	fn byte_peek (&mut self) -> (Outcome<Option<u8>>);
 	fn byte_read (&mut self) -> (Outcome<Option<u8>>);
 	fn byte_read_slice (&mut self, buffer : &mut [u8], full : bool) -> (Outcome<Option<usize>>);
 	fn byte_read_extend (&mut self, buffer : &mut StdVec<u8>, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>);
 	fn byte_read_string (&mut self, buffer : &mut StdString, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>);
 	
-	fn char_ready (&self) -> (Outcome<bool>);
+	fn char_ready (&mut self) -> (Outcome<bool>);
 	fn char_peek (&mut self) -> (Outcome<Option<char>>);
 	fn char_read (&mut self) -> (Outcome<Option<char>>);
 	fn char_read_slice (&mut self, buffer : &mut [char], full : bool) -> (Outcome<Option<usize>>);
@@ -112,7 +119,7 @@ pub trait PortBackendReader {
 	
 	fn input_close (&mut self) -> (Outcome<()>);
 	
-	fn is_input_open (&self) -> (bool);
+	fn is_input_open (&mut self) -> (bool);
 	
 }
 
@@ -150,7 +157,7 @@ pub trait PortBackendWriter {
 	fn output_flush (&mut self) -> (Outcome<()>);
 	fn output_close (&mut self) -> (Outcome<()>);
 	
-	fn is_output_open (&self) -> (bool);
+	fn is_output_open (&mut self) -> (bool);
 	
 }
 
@@ -175,6 +182,18 @@ impl Port {
 	pub fn new_bytes_writer () -> (Outcome<Port>) {
 		let backend = try! (PortBackendBytesWriter::new ());
 		let backend = PortBackend::BytesWriter (backend);
+		return Port::new_from_backend (backend);
+	}
+	
+	pub fn new_native_reader_from_unbuffered (reader : StdBox<io::Read>) -> (Outcome<Port>) {
+		let backend = try! (PortBackendNativeReader::new_from_unbuffered (reader));
+		let backend = PortBackend::NativeReader (backend);
+		return Port::new_from_backend (backend);
+	}
+	
+	pub fn new_native_writer_from_unbuffered (writer : StdBox<io::Write>) -> (Outcome<Port>) {
+		let backend = try! (PortBackendNativeWriter::new_from_unbuffered (writer));
+		let backend = PortBackend::NativeWriter (backend);
 		return Port::new_from_backend (backend);
 	}
 	
@@ -498,7 +517,7 @@ impl PortReader for Port {
 	}
 	
 	fn is_input_open (&self) -> (bool) {
-		if let Ok (Some (self_0)) = self.internals_ref_if_open () {
+		if let Ok (Some (mut self_0)) = self.internals_ref_mut_if_open () {
 			return self_0.backend.is_input_open ();
 		} else {
 			return false;
@@ -566,7 +585,7 @@ impl PortWriter for Port {
 	}
 	
 	fn is_output_open (&self) -> (bool) {
-		if let Ok (Some (self_0)) = self.internals_ref_if_open () {
+		if let Ok (Some (mut self_0)) = self.internals_ref_mut_if_open () {
 			return self_0.backend.is_output_open ();
 		} else {
 			return false;
@@ -581,10 +600,17 @@ impl PortBackend {
 	
 	pub fn close (&mut self) -> (Outcome<()>) {
 		match *self {
+			
 			PortBackend::BytesReader (ref mut backend) =>
 				return backend.input_close (),
 			PortBackend::BytesWriter (ref mut backend) =>
 				return backend.output_close (),
+			
+			PortBackend::NativeReader (ref mut backend) =>
+				return backend.input_close (),
+			PortBackend::NativeWriter (ref mut backend) =>
+				return backend.output_close (),
+			
 		}
 	}
 }
@@ -596,46 +622,81 @@ impl PortQueries for PortBackend {
 	
 	fn is_read_implemented (&self) -> (bool) {
 		match *self {
+			
 			PortBackend::BytesReader (_) =>
 				return true,
 			PortBackend::BytesWriter (_) =>
 				return false,
+			
+			PortBackend::NativeReader (_) =>
+				return true,
+			PortBackend::NativeWriter (_) =>
+				return false,
+			
 		}
 	}
 	
 	fn is_write_implemented (&self) -> (bool) {
 		match *self {
+			
 			PortBackend::BytesReader (_) =>
 				return false,
 			PortBackend::BytesWriter (_) =>
 				return true,
+			
+			PortBackend::NativeReader (_) =>
+				return false,
+			PortBackend::NativeWriter (_) =>
+				return true,
+			
 		}
 	}
 	
 	fn is_byte_implemented (&self) -> (bool) {
 		match *self {
+			
 			PortBackend::BytesReader (_) =>
 				return true,
 			PortBackend::BytesWriter (_) =>
 				return true,
+			
+			PortBackend::NativeReader (_) =>
+				return true,
+			PortBackend::NativeWriter (_) =>
+				return true,
+			
 		}
 	}
 	
 	fn is_char_implemented (&self) -> (bool) {
 		match *self {
+			
 			PortBackend::BytesReader (_) =>
 				return true,
 			PortBackend::BytesWriter (_) =>
 				return true,
+			
+			PortBackend::NativeReader (_) =>
+				return true,
+			PortBackend::NativeWriter (_) =>
+				return true,
+			
 		}
 	}
 	
 	fn is_value_implemented (&self) -> (bool) {
 		match *self {
+			
 			PortBackend::BytesReader (_) =>
 				return false,
 			PortBackend::BytesWriter (_) =>
 				return false,
+			
+			PortBackend::NativeReader (_) =>
+				return false,
+			PortBackend::NativeWriter (_) =>
+				return false,
+			
 		}
 	}
 }
@@ -645,129 +706,227 @@ impl PortQueries for PortBackend {
 
 impl PortBackendReader for PortBackend {
 	
-	fn byte_ready (&self) -> (Outcome<bool>) {
+	fn byte_ready (&mut self) -> (Outcome<bool>) {
 		match *self {
-			PortBackend::BytesReader (ref backend) =>
+			
+			PortBackend::BytesReader (ref mut backend) =>
 				return backend.byte_ready (),
 			PortBackend::BytesWriter (_) =>
 				fail! (0xfeae1f6f),
+			
+			PortBackend::NativeReader (ref mut backend) =>
+				return backend.byte_ready (),
+			PortBackend::NativeWriter (_) =>
+				fail! (0xfeae1f6f),
+			
 		}
 	}
 	
 	fn byte_peek (&mut self) -> (Outcome<Option<u8>>) {
 		match *self {
+			
 			PortBackend::BytesReader (ref mut backend) =>
 				return backend.byte_peek (),
 			PortBackend::BytesWriter (_) =>
 				fail! (0xc27a4d90),
+			
+			PortBackend::NativeReader (ref mut backend) =>
+				return backend.byte_peek (),
+			PortBackend::NativeWriter (_) =>
+				fail! (0xc27a4d90),
+			
 		}
 	}
 	
 	fn byte_read (&mut self) -> (Outcome<Option<u8>>) {
 		match *self {
+			
 			PortBackend::BytesReader (ref mut backend) =>
 				return backend.byte_read (),
 			PortBackend::BytesWriter (_) =>
 				fail! (0xf667bc10),
+			
+			PortBackend::NativeReader (ref mut backend) =>
+				return backend.byte_read (),
+			PortBackend::NativeWriter (_) =>
+				fail! (0xf667bc10),
+			
 		}
 	}
 	
 	fn byte_read_slice (&mut self, buffer : &mut [u8], full : bool) -> (Outcome<Option<usize>>) {
 		match *self {
+			
 			PortBackend::BytesReader (ref mut backend) =>
 				return backend.byte_read_slice (buffer, full),
 			PortBackend::BytesWriter (_) =>
 				fail! (0x11f30803),
+			
+			PortBackend::NativeReader (ref mut backend) =>
+				return backend.byte_read_slice (buffer, full),
+			PortBackend::NativeWriter (_) =>
+				fail! (0x11f30803),
+			
 		}
 	}
 	
 	fn byte_read_extend (&mut self, buffer : &mut StdVec<u8>, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>) {
 		match *self {
+			
 			PortBackend::BytesReader (ref mut backend) =>
 				return backend.byte_read_extend (buffer, count, full),
 			PortBackend::BytesWriter (_) =>
 				fail! (0xc9f43b63),
+			
+			PortBackend::NativeReader (ref mut backend) =>
+				return backend.byte_read_extend (buffer, count, full),
+			PortBackend::NativeWriter (_) =>
+				fail! (0xc9f43b63),
+			
 		}
 	}
 	
 	fn byte_read_string (&mut self, buffer : &mut StdString, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>) {
 		match *self {
+			
 			PortBackend::BytesReader (ref mut backend) =>
 				return backend.byte_read_string (buffer, count, full),
 			PortBackend::BytesWriter (_) =>
 				fail! (0xcf79a239),
+			
+			PortBackend::NativeReader (ref mut backend) =>
+				return backend.byte_read_string (buffer, count, full),
+			PortBackend::NativeWriter (_) =>
+				fail! (0xcf79a239),
+			
 		}
 	}
 	
-	fn char_ready (&self) -> (Outcome<bool>) {
+	fn char_ready (&mut self) -> (Outcome<bool>) {
 		match *self {
-			PortBackend::BytesReader (ref backend) =>
+			
+			PortBackend::BytesReader (ref mut backend) =>
 				return backend.char_ready (),
 			PortBackend::BytesWriter (_) =>
 				fail! (0x53e51828),
+			
+			PortBackend::NativeReader (ref mut backend) =>
+				return backend.char_ready (),
+			PortBackend::NativeWriter (_) =>
+				fail! (0x53e51828),
+			
 		}
 	}
 	
 	fn char_peek (&mut self) -> (Outcome<Option<char>>) {
 		match *self {
+			
 			PortBackend::BytesReader (ref mut backend) =>
 				return backend.char_peek (),
 			PortBackend::BytesWriter (_) =>
 				fail! (0x5b9b1a55),
+			
+			PortBackend::NativeReader (ref mut backend) =>
+				return backend.char_peek (),
+			PortBackend::NativeWriter (_) =>
+				fail! (0x5b9b1a55),
+			
 		}
 	}
 	
 	fn char_read (&mut self) -> (Outcome<Option<char>>) {
 		match *self {
+			
 			PortBackend::BytesReader (ref mut backend) =>
 				return backend.char_read (),
 			PortBackend::BytesWriter (_) =>
 				fail! (0x3af9daae),
+			
+			PortBackend::NativeReader (ref mut backend) =>
+				return backend.char_read (),
+			PortBackend::NativeWriter (_) =>
+				fail! (0x3af9daae),
+			
 		}
 	}
 	
 	fn char_read_slice (&mut self, buffer : &mut [char], full : bool) -> (Outcome<Option<usize>>) {
 		match *self {
+			
 			PortBackend::BytesReader (ref mut backend) =>
 				return backend.char_read_slice (buffer, full),
 			PortBackend::BytesWriter (_) =>
 				fail! (0xfc132fec),
+			
+			PortBackend::NativeReader (ref mut backend) =>
+				return backend.char_read_slice (buffer, full),
+			PortBackend::NativeWriter (_) =>
+				fail! (0xfc132fec),
+			
 		}
 	}
 	
 	fn char_read_extend (&mut self, buffer : &mut StdVec<char>, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>) {
 		match *self {
+			
 			PortBackend::BytesReader (ref mut backend) =>
 				return backend.char_read_extend (buffer, count, full),
 			PortBackend::BytesWriter (_) =>
 				fail! (0x1647a5ea),
+			
+			PortBackend::NativeReader (ref mut backend) =>
+				return backend.char_read_extend (buffer, count, full),
+			PortBackend::NativeWriter (_) =>
+				fail! (0x1647a5ea),
+			
 		}
 	}
 	
 	fn char_read_string (&mut self, buffer : &mut StdString, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>) {
 		match *self {
+			
 			PortBackend::BytesReader (ref mut backend) =>
 				return backend.char_read_string (buffer, count, full),
 			PortBackend::BytesWriter (_) =>
 				fail! (0x1add1477),
+			
+			PortBackend::NativeReader (ref mut backend) =>
+				return backend.char_read_string (buffer, count, full),
+			PortBackend::NativeWriter (_) =>
+				fail! (0x1add1477),
+			
 		}
 	}
 	
 	fn input_close (&mut self) -> (Outcome<()>) {
 		match *self {
+			
 			PortBackend::BytesReader (ref mut backend) =>
 				return backend.input_close (),
 			PortBackend::BytesWriter (_) =>
 				fail! (0x3aef6f3e),
+			
+			PortBackend::NativeReader (ref mut backend) =>
+				return backend.input_close (),
+			PortBackend::NativeWriter (_) =>
+				fail! (0x3aef6f3e),
+			
 		}
 	}
 	
-	fn is_input_open (&self) -> (bool) {
+	fn is_input_open (&mut self) -> (bool) {
 		match *self {
-			PortBackend::BytesReader (ref backend) =>
+			
+			PortBackend::BytesReader (ref mut backend) =>
 				return backend.is_input_open (),
 			PortBackend::BytesWriter (_) =>
 				return false,
+			
+			PortBackend::NativeReader (ref mut backend) =>
+				return backend.is_input_open (),
+			PortBackend::NativeWriter (_) =>
+				return false,
+			
 		}
 	}
 }
@@ -779,82 +938,145 @@ impl PortBackendWriter for PortBackend {
 	
 	fn byte_write (&mut self, byte : u8) -> (Outcome<()>) {
 		match *self {
+			
 			PortBackend::BytesReader (_) =>
 				fail! (0xf4d88c23),
 			PortBackend::BytesWriter (ref mut backend) =>
 				return backend.byte_write (byte),
+			
+			PortBackend::NativeReader (_) =>
+				fail! (0xf4d88c23),
+			PortBackend::NativeWriter (ref mut backend) =>
+				return backend.byte_write (byte),
+			
 		}
 	}
 	
 	fn byte_write_slice (&mut self, bytes : &[u8], full : bool) -> (Outcome<usize>) {
 		match *self {
+			
 			PortBackend::BytesReader (_) =>
 				fail! (0x6b40031c),
 			PortBackend::BytesWriter (ref mut backend) =>
 				return backend.byte_write_slice (bytes, full),
+			
+			PortBackend::NativeReader (_) =>
+				fail! (0x6b40031c),
+			PortBackend::NativeWriter (ref mut backend) =>
+				return backend.byte_write_slice (bytes, full),
+			
 		}
 	}
 	
 	fn byte_write_string (&mut self, string : &str, full : bool) -> (Outcome<usize>) {
 		match *self {
+			
 			PortBackend::BytesReader (_) =>
 				fail! (0x69b8e5e7),
 			PortBackend::BytesWriter (ref mut backend) =>
 				return backend.byte_write_string (string, full),
+			
+			PortBackend::NativeReader (_) =>
+				fail! (0x69b8e5e7),
+			PortBackend::NativeWriter (ref mut backend) =>
+				return backend.byte_write_string (string, full),
+			
 		}
 	}
 	
 	fn char_write (&mut self, char : char) -> (Outcome<()>) {
 		match *self {
+			
 			PortBackend::BytesReader (_) =>
 				fail! (0x6b9c35d1),
 			PortBackend::BytesWriter (ref mut backend) =>
 				return backend.char_write (char),
+			
+			PortBackend::NativeReader (_) =>
+				fail! (0x6b9c35d1),
+			PortBackend::NativeWriter (ref mut backend) =>
+				return backend.char_write (char),
+			
 		}
 	}
 	
 	fn char_write_slice (&mut self, chars : &[char], full : bool) -> (Outcome<usize>) {
 		match *self {
+			
 			PortBackend::BytesReader (_) =>
 				fail! (0xd8c4feb7),
 			PortBackend::BytesWriter (ref mut backend) =>
 				return backend.char_write_slice (chars, full),
+			
+			PortBackend::NativeReader (_) =>
+				fail! (0xd8c4feb7),
+			PortBackend::NativeWriter (ref mut backend) =>
+				return backend.char_write_slice (chars, full),
+			
 		}
 	}
 	
 	fn char_write_string (&mut self, string : &str, full : bool) -> (Outcome<usize>) {
 		match *self {
+			
 			PortBackend::BytesReader (_) =>
 				fail! (0x773381e6),
 			PortBackend::BytesWriter (ref mut backend) =>
 				return backend.char_write_string (string, full),
+			
+			PortBackend::NativeReader (_) =>
+				fail! (0x773381e6),
+			PortBackend::NativeWriter (ref mut backend) =>
+				return backend.char_write_string (string, full),
+			
 		}
 	}
 	
 	fn output_flush (&mut self) -> (Outcome<()>) {
 		match *self {
+			
 			PortBackend::BytesReader (_) =>
 				fail! (0xe4db6cd7),
 			PortBackend::BytesWriter (ref mut backend) =>
 				return backend.output_flush (),
+			
+			PortBackend::NativeReader (_) =>
+				fail! (0xe4db6cd7),
+			PortBackend::NativeWriter (ref mut backend) =>
+				return backend.output_flush (),
+			
 		}
 	}
 	
 	fn output_close (&mut self) -> (Outcome<()>) {
 		match *self {
+			
 			PortBackend::BytesReader (_) =>
 				fail! (0x61b53f17),
 			PortBackend::BytesWriter (ref mut backend) =>
 				return backend.output_close (),
+			
+			PortBackend::NativeReader (_) =>
+				fail! (0x61b53f17),
+			PortBackend::NativeWriter (ref mut backend) =>
+				return backend.output_close (),
+			
 		}
 	}
 	
-	fn is_output_open (&self) -> (bool) {
+	fn is_output_open (&mut self) -> (bool) {
 		match *self {
+			
 			PortBackend::BytesReader (_) =>
 				return false,
-			PortBackend::BytesWriter (ref backend) =>
+			PortBackend::BytesWriter (ref mut backend) =>
 				return backend.is_output_open (),
+			
+			PortBackend::NativeReader (_) =>
+				return false,
+			PortBackend::NativeWriter (ref mut backend) =>
+				return backend.is_output_open (),
+			
 		}
 	}
 }

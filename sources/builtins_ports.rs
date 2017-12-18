@@ -8,6 +8,9 @@ use super::ports::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
 
+use std::fs;
+use std::io;
+
 
 
 
@@ -49,6 +52,16 @@ pub mod exports {
 		
 		port_bytes_reader_new, port_bytes_writer_new, port_bytes_writer_finalize,
 		port_string_reader_new, port_string_writer_new, port_string_writer_finalize,
+		
+	};
+	
+	pub use super::{
+		
+		port_native_reader_new,
+		port_native_writer_new,
+		
+		port_file_reader_open, port_file_reader_open_with_options,
+		port_file_writer_open, port_file_writer_open_with_options,
 		
 	};
 }
@@ -289,5 +302,56 @@ pub fn port_string_writer_finalize (port : &Value) -> (Outcome<Value>) {
 		_ =>
 			fail! (0xac1839d4),
 	}
+}
+
+
+
+
+pub fn port_native_reader_new (reader : StdBox<io::Read>) -> (Outcome<Value>) {
+	let port = try! (Port::new_native_reader_from_unbuffered (reader));
+	succeed! (port.into ());
+}
+
+pub fn port_native_writer_new (writer : StdBox<io::Write>) -> (Outcome<Value>) {
+	let port = try! (Port::new_native_writer_from_unbuffered (writer));
+	succeed! (port.into ());
+}
+
+
+
+
+pub fn port_file_reader_open (path : &Value) -> (Outcome<Value>) {
+	let mut options = fs::OpenOptions::new ();
+	options.read (true);
+	return port_file_reader_open_with_options (path, &options);
+}
+
+pub fn port_file_writer_open (path : &Value) -> (Outcome<Value>) {
+	let mut options = fs::OpenOptions::new ();
+	options.write (true);
+	options.create_new (true);
+	return port_file_writer_open_with_options (path, &options);
+}
+
+
+pub fn port_file_reader_open_with_options (path : &Value, options : &fs::OpenOptions) -> (Outcome<Value>) {
+	let file = try! (port_file_open_with_options (path, options));
+	let file = StdBox::new (file);
+	return port_native_reader_new (file);
+}
+
+pub fn port_file_writer_open_with_options (path : &Value, options : &fs::OpenOptions) -> (Outcome<Value>) {
+	let file = try! (port_file_open_with_options (path, options));
+	let file = StdBox::new (file);
+	return port_native_writer_new (file);
+}
+
+
+pub fn port_file_open_with_options (path : &Value, options : &fs::OpenOptions) -> (Outcome<fs::File>) {
+	let path = try_as_string_ref! (path);
+	let path = path.string_as_str ();
+	// FIXME:  Clearly indicate why the open failed!
+	let file = try_or_fail! (options.open (path), 0xbe1989bd);
+	succeed! (file);
 }
 

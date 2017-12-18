@@ -79,6 +79,17 @@ macro_rules! fail_unreachable {
 
 
 #[ macro_export ]
+macro_rules! succeed_or_fail {
+	( $result : expr, $code : expr ) => (
+		if let ::std::result::Result::Ok (value) = $result {
+			succeed! (value);
+		} else {
+			fail! ($code);
+		}
+	);
+}
+
+#[ macro_export ]
 macro_rules! try_or_fail {
 	( $result : expr, $code : expr ) => (
 		if let ::std::result::Result::Ok (value) = $result {
