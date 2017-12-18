@@ -36,17 +36,17 @@ cat <<'EOS'
 	fi
 !!
 
-:: compile / lib / debug :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --lib "${@}"
-:: compile / lib / release :: x-run ':: compile / peg' ; exec -- env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --lib --release --all-features "${@}"
+:: compile / lib / debug :: x-run ':: compile / peg' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --lib "${@}"
+:: compile / lib / release :: x-run ':: compile / peg' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" CARGO_INCREMENTAL=0 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --lib --release --all-features "${@}"
 
-:: compile / bin / interpreter / debug :: x-run ':: compile / lib / debug' ; exec -- env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --bin rust-scheme-interpreter "${@}"
-:: compile / bin / interpreter / release :: x-run ':: compile / lib / release' ; exec -- env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --bin rust-scheme-interpreter --release --all-features "${@}"
+:: compile / bin / interpreter / debug :: x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --bin rust-scheme-interpreter "${@}"
+:: compile / bin / interpreter / release :: x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" CARGO_INCREMENTAL=0 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --bin rust-scheme-interpreter --release --all-features "${@}"
 
-:: compile / bin / compiler / debug :: x-run ':: compile / lib / debug' ; exec -- env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --bin rust-scheme-compiler "${@}"
-:: compile / bin / compiler / release :: x-run ':: compile / lib / release' ; exec -- env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --bin rust-scheme-compiler --release --all-features "${@}"
+:: compile / bin / compiler / debug :: x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --bin rust-scheme-compiler "${@}"
+:: compile / bin / compiler / release :: x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" CARGO_INCREMENTAL=0 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --bin rust-scheme-compiler --release --all-features "${@}"
 
-:: compile / doc / debug :: x-run ':: compile / lib / debug' ; exec -- env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo doc --quiet --all-features "${@}"
-:: compile / doc / release :: x-run ':: compile / lib / release' ; exec -- env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo doc --quiet --release --all-features "${@}"
+:: compile / doc / debug :: x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo doc --quiet --all-features "${@}"
+:: compile / doc / release :: x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" CARGO_INCREMENTAL=0 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo doc --quiet --release --all-features "${@}"
 
 << compile / lib / source
 	x-run ':: compile / lib / debug'
@@ -91,8 +91,8 @@ cat <<'EOS'
 :: execute / bin / compiler / debug :: x-run ':: compile / bin / compiler / debug' ; exec -- ./target/debug/rust-scheme-compiler "${@}"
 :: execute / bin / compiler / release :: x-run ':: compile / bin / compiler / release' ; exec -- ./target/release/rust-scheme-compiler "${@}"
 
-:: compile / test / all / debug :: x-run ':: compile / lib / debug' ; exec -- env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --all-features --no-run
-:: compile / test / all / release :: x-run ':: compile / lib / release' ; exec -- env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --release --all-features --no-run
+:: compile / test / all / debug :: x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --all-features --no-run
+:: compile / test / all / release :: x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" CARGO_INCREMENTAL=0 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --release --all-features --no-run
 :: execute / test / all / debug :: x-run ':: compile / test / all / debug' ; exec -- env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --all-features --jobs 1 -- --test-threads 1 --test 'test__' "${@}"
 :: execute / test / all / release :: x-run ':: compile / test / all / release' ; exec -- env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --release --all-features --jobs 1 -- --test-threads 1 --test 'test__' "${@}"
 :: execute / test / all / benchmark :: x-run ':: compile / test / all / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --release --all-features --jobs 1 -- --test-threads 1 --bench 'benchmark__' "${@}"
@@ -100,7 +100,7 @@ cat <<'EOS'
 :: browse / doc :: exec -- x-www open file://"$( readlink -e -- ./target/doc/rust_scheme/index.html )"
 :: browse / r7rs :: exec -- x-www open file://"$( readlink -e -- ./documentation/external/r7rs-small-spec/stripped/r7rs.pdf )"
 
-:: compile / clean :: exec -- rm -R -f ./target/
+:: compile / clean :: exec -- find ./target/ -xdev -depth -print -delete
 
 :: files / grep / sources / x-selection / primary :: exec -- git grep --no-index -C10 -F -e "$( exec -- x-selection primary output )" -- ./sources
 :: files / grep / sources / unimplemented :: exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- ./sources
@@ -159,8 +159,8 @@ EOS
 
 for _test in scheme low-level-r7rs low-level-parser low-level-sizes low-level-assertions ; do
 sed -r -e 's#@\{TEST\}#'"${_test}"'#g' <<'EOS'
-:: compile / test / @{TEST} / debug :: x-run ':: compile / lib / debug' ; exec -- env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test '@{TEST}' --all-features --no-run
-:: compile / test / @{TEST} / release :: x-run ':: compile / lib / release' ; exec -- env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test '@{TEST}' --release --all-features --no-run
+:: compile / test / @{TEST} / debug :: x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test '@{TEST}' --all-features --no-run
+:: compile / test / @{TEST} / release :: x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" CARGO_INCREMENTAL=0 time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test '@{TEST}' --release --all-features --no-run
 :: execute / test / @{TEST} / tests / all / debug :: x-run ':: compile / test / @{TEST} / debug' ; exec -- env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test '@{TEST}' --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__' "${@}"
 :: execute / test / @{TEST} / tests / all / release :: x-run ':: compile / test / @{TEST} / release' ; exec -- env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test '@{TEST}' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__' "${@}"
 :: execute / test / @{TEST} / benchmarks / all / debug :: x-run ':: compile / test / @{TEST} / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test '@{TEST}' --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
