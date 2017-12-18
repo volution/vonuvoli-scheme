@@ -5,22 +5,57 @@ version = "0.1.0"
 authors = ["Ciprian Dorin Craciun <ciprian@volution.ro>"]
 publish = false
 
-[features]
-default = []
-conversions-all = []
 
 [[bin]]
 name = "rust-scheme-interpreter"
 path = "./sources/bin_interpreter.rs"
+test = false
+bench = false
 doc = false
+doctest = false
 
 [[bin]]
 name = "rust-scheme-compiler"
 path = "./sources/bin_compiler.rs"
+test = false
+bench = false
 doc = false
+doctest = false
 
 [lib]
 name = "rust_scheme"
 path = "./sources/lib.rs"
+test = true
+bench = true
 doc = true
+doctest = false
+
+
+[features]
+default = []
+
+
+[profile.dev]
+opt-level = 0
+codegen-units = 8
+lto = false
+debug = true
+
+[profile.test]
+opt-level = 1
+codegen-units = 8
+lto = false
+debug = true
+
+[profile.release]
+opt-level = 3
+codegen-units = 1
+lto = true
+debug = false
+
+[profile.bench]
+opt-level = 3
+codegen-units = 1
+lto = true
+debug = false
 
