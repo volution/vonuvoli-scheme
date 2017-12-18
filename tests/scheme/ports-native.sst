@@ -1,0 +1,174 @@
+
+(port? (open-binary-output-file "/dev/null")) => #t
+(input-port? (open-binary-output-file "/dev/null")) => #f
+(input-port-open? (open-binary-output-file "/dev/null")) => #f
+(output-port? (open-binary-output-file "/dev/null")) => #t
+(output-port-open? (open-binary-output-file "/dev/null")) => #t
+(binary-port? (open-binary-output-file "/dev/null")) => #t
+(textual-port? (open-binary-output-file "/dev/null")) => #t
+
+(close-port (open-binary-output-file "/dev/null")) => #void
+(close-output-port (open-binary-output-file "/dev/null")) => #void
+
+(let ((port (open-binary-output-file "/dev/null")))
+	(values
+		(flush-output-port port)
+		(close-port port)
+		(close-output-port port)
+		(close-port port)
+		(close-output-port port)
+		(close-port port)))
+=> #values(#void #void #void #void #void #void)
+
+
+
+
+(port? (open-output-file "/dev/null")) => #t
+(input-port? (open-output-file "/dev/null")) => #f
+(input-port-open? (open-output-file "/dev/null")) => #f
+(output-port? (open-output-file "/dev/null")) => #t
+(output-port-open? (open-output-file "/dev/null")) => #t
+(binary-port? (open-output-file "/dev/null")) => #t
+(textual-port? (open-output-file "/dev/null")) => #t
+
+(close-port (open-output-file "/dev/null")) => #void
+(close-output-port (open-output-file "/dev/null")) => #void
+
+(let ((port (open-output-file "/dev/null")))
+	(values
+		(flush-output-port port)
+		(close-port port)
+		(close-output-port port)
+		(close-port port)
+		(close-output-port port)
+		(close-port port)))
+=> #values(#void #void #void #void #void #void)
+
+
+
+
+(port? (open-binary-input-file "/dev/zero")) => #t
+(input-port? (open-binary-input-file "/dev/zero")) => #t
+(input-port-open? (open-binary-input-file "/dev/zero")) => #t
+(output-port? (open-binary-input-file "/dev/zero")) => #f
+(output-port-open? (open-binary-input-file "/dev/zero")) => #f
+(binary-port? (open-binary-input-file "/dev/zero")) => #t
+(textual-port? (open-binary-input-file "/dev/zero")) => #t
+
+(close-port (open-binary-input-file "/dev/zero")) => #void
+(close-input-port (open-binary-input-file "/dev/zero")) => #void
+
+(let ((port (open-binary-input-file "/dev/zero")))
+	(values
+		(close-port port)
+		(close-input-port port)
+		(close-port port)
+		(close-input-port port)
+		(close-port port)))
+=> #values(#void #void #void #void #void)
+
+
+
+
+(port? (open-input-file "/dev/zero")) => #t
+(input-port? (open-input-file "/dev/zero")) => #t
+(input-port-open? (open-input-file "/dev/zero")) => #t
+(output-port? (open-input-file "/dev/zero")) => #f
+(output-port-open? (open-input-file "/dev/zero")) => #f
+(binary-port? (open-input-file "/dev/zero")) => #t
+(textual-port? (open-input-file "/dev/zero")) => #t
+
+(close-port (open-input-file "/dev/zero")) => #void
+(close-input-port (open-input-file "/dev/zero")) => #void
+
+(let ((port (open-input-file "/dev/zero")))
+	(values
+		(close-port port)
+		(close-input-port port)
+		(close-port port)
+		(close-input-port port)
+		(close-port port)))
+=> #values(#void #void #void #void #void)
+
+
+
+
+(define tmp-file-path-1 (string-append "/tmp/rust-scheme--tests--ports-native--1--" (number->string (current-jiffy)) ".txt")) => !ignore
+(define tmp-file-path-2 (string-append "/tmp/rust-scheme--tests--ports-native--2--" (number->string (current-jiffy)) ".txt")) => !ignore
+
+(file-exists? tmp-file-path-1) => #f
+(file-exists? tmp-file-path-2) => #f
+
+
+
+
+(let
+		((bytes-port (open-binary-output-file tmp-file-path-1))
+		(chars-port (open-output-file tmp-file-path-2)))
+	(values
+		(write-char #\a bytes-port)
+		(write-char #\a chars-port)
+		(write-u8 98 bytes-port)
+		(write-u8 98 chars-port)
+		(write-string "c" bytes-port)
+		(write-string "c" chars-port)
+		(write-bytevector #u8(100) bytes-port)
+		(write-bytevector #u8(100) chars-port)
+	))
+=> #values(
+	#void #void
+	#void #void
+	#void #void
+	#void #void
+)
+
+
+
+
+(let
+		((bytes-port (open-binary-input-file tmp-file-path-2))
+		(chars-port (open-input-file tmp-file-path-1)))
+	(values
+		(char-ready? bytes-port)
+		(char-ready? chars-port)
+		(u8-ready? bytes-port)
+		(u8-ready? chars-port)
+		(read-char bytes-port)
+		(read-char chars-port)
+		(read-u8 bytes-port)
+		(read-u8 chars-port)
+		(read-string 1 bytes-port)
+		(read-string 1 chars-port)
+		(read-bytevector 1 bytes-port)
+		(read-bytevector 1 chars-port)
+		(char-ready? bytes-port)
+		(char-ready? chars-port)
+		(u8-ready? bytes-port)
+		(u8-ready? chars-port)
+		(eof-object? (read-u8 bytes-port))
+		(eof-object? (read-u8 chars-port))
+	))
+=> #values(
+	#t #t
+	#t #t
+	#\a #\a
+	98 98
+	"c" "c"
+	#u8(100) #u8(100)
+	#t #t
+	#t #t
+	#t #t
+)
+
+
+
+
+(file-exists? tmp-file-path-1) => #t
+(file-exists? tmp-file-path-2) => #t
+
+(delete-file tmp-file-path-1) => #void
+(delete-file tmp-file-path-2) => #void
+
+(file-exists? tmp-file-path-1) => #f
+(file-exists? tmp-file-path-2) => #f
+

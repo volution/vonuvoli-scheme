@@ -30,8 +30,8 @@
 (input-port-open? (open-output-string)) => #f
 (output-port? (open-output-string)) => #t
 (output-port-open? (open-output-string)) => #t
-(binary-port? (open-output-bytevector)) => #t
-(textual-port? (open-output-bytevector)) => #t
+(binary-port? (open-output-string)) => #t
+(textual-port? (open-output-string)) => #t
 
 (close-port (open-output-string)) => #void
 (close-output-port (open-output-string)) => #void
