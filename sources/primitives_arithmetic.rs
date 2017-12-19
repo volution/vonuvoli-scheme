@@ -503,7 +503,7 @@ pub fn arithmetic_primitive_2_evaluate (primitive : ArithmeticPrimitive2, input_
 		
 		ArithmeticPrimitive2::Power =>
 			arithmetic_primitive_2_delegate_call! ((input_1, input_2),
-					(value_1, value_2), NumberReal::power (&<NumberReal>::from (*value_1), &<NumberReal>::from (*value_2)),
+					(value_1, value_2), NumberReal::power (&<NumberReal>::from (value_1.value ()), &<NumberReal>::from (value_2.value ())),
 					(value_1, value_2), NumberReal::power (value_1, value_2)),
 		
 		ArithmeticPrimitive2::GreatestCommonDivisor =>

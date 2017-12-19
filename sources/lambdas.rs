@@ -6,7 +6,9 @@ use super::globals::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
 
+use std::cmp;
 use std::fmt;
+use std::hash;
 use std::ptr;
 
 
@@ -26,11 +28,7 @@ pub mod exports {
 
 
 
-#[ derive (Clone, Hash) ]
-pub struct Lambda ( StdRc<LambdaInternals> );
-
-
-#[ derive (Debug, Hash) ]
+#[ derive (Debug) ]
 pub struct LambdaInternals {
 	pub handle_1 : Handle,
 	pub handle_2 : Handle,
@@ -42,7 +40,38 @@ pub struct LambdaInternals {
 }
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Hash) ]
+impl cmp::Eq for LambdaInternals {}
+
+impl cmp::PartialEq for LambdaInternals {
+	fn eq (&self, other : &LambdaInternals) -> (bool) {
+		Handle::eq (&self.handle_2, &other.handle_2)
+	}
+}
+
+
+impl cmp::Ord for LambdaInternals {
+	fn cmp (&self, other : &LambdaInternals) -> (cmp::Ordering) {
+		Handle::cmp (&self.handle_2, &other.handle_2)
+	}
+}
+
+impl cmp::PartialOrd for LambdaInternals {
+	fn partial_cmp (&self, other : &LambdaInternals) -> (Option<cmp::Ordering>) {
+		Handle::partial_cmp (&self.handle_2, &other.handle_2)
+	}
+}
+
+
+impl hash::Hash for LambdaInternals {
+	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
+		self.handle_2.hash (hasher);
+	}
+}
+
+
+
+
+#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub struct LambdaTemplate {
 	pub identifier : Option<Symbol>,
 	pub arguments_positional : StdBox<[Symbol]>,
@@ -64,6 +93,11 @@ impl LambdaTemplate {
 	}
 }
 
+
+
+
+#[ derive (Clone, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub struct Lambda ( StdRc<LambdaInternals> );
 
 impl Lambda {
 	
@@ -130,7 +164,7 @@ impl fmt::Debug for Lambda {
 
 
 
-#[ derive (Clone, Hash) ]
+#[ derive (Clone, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub struct ProcedureLambda ( StdRc<LambdaInternals> );
 
 
@@ -189,7 +223,7 @@ impl fmt::Debug for ProcedureLambda {
 
 
 
-#[ derive (Clone, Hash) ]
+#[ derive (Clone, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub struct SyntaxLambda ( StdRc<LambdaInternals> );
 
 

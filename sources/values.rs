@@ -10,6 +10,7 @@ use super::primitives::exports::*;
 use super::runtime::exports::*;
 
 use std::char;
+use std::cmp;
 use std::fmt;
 use std::hash;
 use std::ops;
@@ -88,7 +89,7 @@ pub enum ValueClass {
 
 
 
-#[ derive (Clone, Hash) ]
+#[ derive (Clone, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum Value {
 	
 	Singleton ( ValueMeta1, ValueSingleton, ValueMeta2 ),
@@ -123,7 +124,7 @@ pub enum Value {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ValueSingleton {
 	Null,
 	Undefined,
@@ -142,8 +143,8 @@ impl Value {
 	pub fn class (&self) -> (ValueClass) {
 		match *self {
 			
-			Value::Singleton (_, value, _) =>
-				match value {
+			Value::Singleton (_, ref value, _) =>
+				match *value {
 					ValueSingleton::Null => ValueClass::Null,
 					ValueSingleton::Void => ValueClass::Void,
 					ValueSingleton::Undefined => ValueClass::Undefined,
@@ -231,8 +232,8 @@ impl fmt::Display for Value {
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		match *self {
 			
-			Value::Singleton (_, value, _) =>
-				match value {
+			Value::Singleton (_, ref value, _) =>
+				match *value {
 					ValueSingleton::Null => formatter.write_str ("#null"),
 					ValueSingleton::Void => formatter.write_str ("#void"),
 					ValueSingleton::Undefined => formatter.write_str ("#undefined"),
@@ -277,8 +278,8 @@ impl fmt::Debug for Value {
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		match *self {
 			
-			Value::Singleton (_, value, _) =>
-				match value {
+			Value::Singleton (_, ref value, _) =>
+				match *value {
 					ValueSingleton::Null => formatter.debug_struct ("Null") .finish (),
 					ValueSingleton::Void => formatter.debug_struct ("Void") .finish (),
 					ValueSingleton::Undefined => formatter.debug_struct ("Undefined") .finish (),
@@ -319,18 +320,18 @@ impl fmt::Debug for Value {
 
 
 
-#[ derive (Clone, Debug, Hash) ]
+#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub struct ValueMeta1 ( u8, u8, u8 );
 pub const VALUE_META_1 : ValueMeta1 = ValueMeta1 (0, 0, 0);
 
-#[ derive (Clone, Debug, Hash) ]
+#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub struct ValueMeta2 ( u8, u8, u8, u8 );
 pub const VALUE_META_2 : ValueMeta2 = ValueMeta2 (0, 0, 0, 0);
 
 
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub struct Boolean ( pub bool );
 
 
@@ -413,7 +414,7 @@ impl fmt::Display for Boolean {
 
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub struct NumberInteger ( pub i64 );
 
 
@@ -937,7 +938,7 @@ impl fmt::Display for NumberInteger {
 
 
 
-#[ derive (Copy, Clone, PartialEq, PartialOrd, Debug) ]
+#[ derive (Clone, Debug) ]
 pub struct NumberReal ( pub f64 );
 
 
@@ -1252,6 +1253,36 @@ impl <NumberRealInto : StdInto<NumberReal>> ops::Rem<NumberRealInto> for NumberR
 	}
 }
 
+impl cmp::Eq for NumberReal {}
+
+impl cmp::PartialEq for NumberReal {
+	
+	#[ inline (always) ]
+	fn eq (&self, other : &NumberReal) -> (bool) {
+		f64::eq (&self.0, &other.0)
+	}
+}
+
+impl cmp::Ord for NumberReal {
+	
+	#[ inline (always) ]
+	fn cmp (&self, other : &NumberReal) -> (cmp::Ordering) {
+		if let Some (cmp) = f64::partial_cmp (&self.0, &other.0) {
+			cmp
+		} else {
+			u64::cmp (&(self.0).to_bits (), &(other.0).to_bits ())
+		}
+	}
+}
+
+impl cmp::PartialOrd for NumberReal {
+	
+	#[ inline (always) ]
+	fn partial_cmp (&self, other : &NumberReal) -> (Option<cmp::Ordering>) {
+		f64::partial_cmp (&self.0, &other.0)
+	}
+}
+
 impl hash::Hash for NumberReal {
 	
 	#[ inline (always) ]
@@ -1271,7 +1302,7 @@ impl fmt::Display for NumberReal {
 
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub struct Character ( pub char );
 
 
@@ -1585,7 +1616,7 @@ impl fmt::Display for Bytes {
 
 
 
-#[ derive (Clone, Debug, Hash) ]
+#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 // FIXME:  Add immutability flag!
 pub struct Pair ( StdRc<(Value, Value)> );
 
@@ -1664,7 +1695,7 @@ impl fmt::Display for Pair {
 
 
 
-#[ derive (Clone, Debug, Hash) ]
+#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 // FIXME:  Add immutability flag!
 pub struct Array ( StdRc<StdVec<Value>> );
 
@@ -1741,7 +1772,7 @@ impl fmt::Display for Array {
 
 
 
-#[ derive (Clone, Debug, Hash) ]
+#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub struct Values ( StdRc<StdBox<[Value]>> );
 
 

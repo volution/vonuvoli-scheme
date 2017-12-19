@@ -643,9 +643,9 @@ impl NumberCoercion2 {
 pub fn number_coerce_1 (right : &Value) -> (Outcome<NumberCoercion1>) {
 	match right {
 		&Value::NumberInteger (_, ref right, _) =>
-			Ok (NumberCoercion1::Integer (*right)),
+			Ok (NumberCoercion1::Integer (right.clone ())),
 		&Value::NumberReal (_, ref right, _) =>
-			Ok (NumberCoercion1::Real (*right)),
+			Ok (NumberCoercion1::Real (right.clone ())),
 		_ =>
 			failed! (0x947fb339),
 	}
@@ -655,13 +655,13 @@ pub fn number_coerce_1 (right : &Value) -> (Outcome<NumberCoercion1>) {
 pub fn number_coerce_2a (left : &Value, right : &Value) -> (Outcome<NumberCoercion2>) {
 	match (left, right) {
 		(&Value::NumberInteger (_, ref left, _), &Value::NumberInteger (_, ref right, _)) =>
-			Ok (NumberCoercion2::Integer (*left, *right)),
+			Ok (NumberCoercion2::Integer (left.clone (), right.clone ())),
 		(&Value::NumberReal (_, ref left, _), &Value::NumberReal (_, ref right, _)) =>
-			Ok (NumberCoercion2::Real (*left, *right)),
+			Ok (NumberCoercion2::Real (left.clone (), right.clone ())),
 		(&Value::NumberReal (_, ref left, _), &Value::NumberInteger (_, ref right, _)) =>
-			Ok (NumberCoercion2::Real (*left, (*right).into ())),
+			Ok (NumberCoercion2::Real (left.clone (), right.value () .into ())),
 		(&Value::NumberInteger (_, ref left, _), &Value::NumberReal (_, ref right, _)) =>
-			Ok (NumberCoercion2::Real ((*left).into (), *right)),
+			Ok (NumberCoercion2::Real (left.value () .into (), right.clone ())),
 		_ =>
 			failed! (0x6cfbdd37),
 	}
@@ -671,13 +671,13 @@ pub fn number_coerce_2a (left : &Value, right : &Value) -> (Outcome<NumberCoerci
 pub fn number_coerce_2b (left : &NumberCoercion1, right : &Value) -> (Outcome<NumberCoercion2>) {
 	match (left, right) {
 		(&NumberCoercion1::Integer (ref left), &Value::NumberInteger (_, ref right, _)) =>
-			Ok (NumberCoercion2::Integer (*left, *right)),
+			Ok (NumberCoercion2::Integer (left.clone (), right.clone ())),
 		(&NumberCoercion1::Real (ref left), &Value::NumberReal (_, ref right, _)) =>
-			Ok (NumberCoercion2::Real (*left, *right)),
+			Ok (NumberCoercion2::Real (left.clone (), right.clone ())),
 		(&NumberCoercion1::Real (ref left), &Value::NumberInteger (_, ref right, _)) =>
-			Ok (NumberCoercion2::Real (*left, (*right).into ())),
+			Ok (NumberCoercion2::Real (left.clone (), right.value () .into ())),
 		(&NumberCoercion1::Integer (ref left), &Value::NumberReal (_, ref right, _)) =>
-			Ok (NumberCoercion2::Real ((*left).into (), *right)),
+			Ok (NumberCoercion2::Real (left.value () .into (), right.clone ())),
 		_ =>
 			failed! (0xc3883ceb),
 	}

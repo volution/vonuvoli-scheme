@@ -26,7 +26,7 @@ pub type Outcome<T> = StdResult<T, Error>;
 
 
 
-#[ derive (Clone, Eq, PartialEq, Hash) ]
+#[ derive (Clone, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub struct Error {
 	pub code : u32,
 }

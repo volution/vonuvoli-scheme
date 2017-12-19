@@ -27,7 +27,7 @@ pub mod exports {
 pub struct Context ( StdRc<StdRefCell<ContextInternals>> );
 
 
-#[ derive (Debug) ]
+#[ derive (Clone, Debug) ]
 struct ContextInternals {
 	bindings : StdMap<StdString, Binding>,
 	parent : Option<Context>,
@@ -180,7 +180,28 @@ impl cmp::PartialEq for Context {
 	fn eq (&self, other : &Self) -> (bool) {
 		let self_0 = self.internals_ref ();
 		let other_0 = other.internals_ref ();
-		return self_0.handle == other_0.handle;
+		return Handle::eq (&self_0.handle, &other_0.handle);
+	}
+}
+
+
+impl cmp::Ord for Context {
+	
+	#[ inline (always) ]
+	fn cmp (&self, other : &Self) -> (cmp::Ordering) {
+		let self_0 = self.internals_ref ();
+		let other_0 = other.internals_ref ();
+		return Handle::cmp (&self_0.handle, &other_0.handle);
+	}
+}
+
+impl cmp::PartialOrd for Context {
+	
+	#[ inline (always) ]
+	fn partial_cmp (&self, other : &Self) -> (Option<cmp::Ordering>) {
+		let self_0 = self.internals_ref ();
+		let other_0 = other.internals_ref ();
+		return Handle::partial_cmp (&self_0.handle, &other_0.handle);
 	}
 }
 
@@ -222,6 +243,7 @@ impl fmt::Debug for Context {
 
 
 
+#[ derive (Clone) ]
 pub struct Registers {
 	registers : StdVec<Register>,
 	count : usize,
@@ -230,6 +252,7 @@ pub struct Registers {
 }
 
 
+#[ derive (Clone, Hash) ]
 #[ allow (dead_code) ]
 enum Register {
 	Binding (Binding),
@@ -452,7 +475,24 @@ impl cmp::PartialEq for Registers {
 	
 	#[ inline (always) ]
 	fn eq (&self, other : &Self) -> (bool) {
-		return self.handle == other.handle;
+		return Handle::eq (&self.handle, &other.handle);
+	}
+}
+
+
+impl cmp::Ord for Registers {
+	
+	#[ inline (always) ]
+	fn cmp (&self, other : &Self) -> (cmp::Ordering) {
+		return Handle::cmp (&self.handle, &other.handle);
+	}
+}
+
+impl cmp::PartialOrd for Registers {
+	
+	#[ inline (always) ]
+	fn partial_cmp (&self, other : &Self) -> (Option<cmp::Ordering>) {
+		return Handle::partial_cmp (&self.handle, &other.handle);
 	}
 }
 
@@ -531,7 +571,7 @@ impl fmt::Debug for Register {
 pub struct Binding ( StdRc<StdRefCell<BindingInternals>> );
 
 
-#[ derive (Debug) ]
+#[ derive (Clone, Debug, Hash) ]
 struct BindingInternals {
 	identifier : Option<Symbol>,
 	value : Value,
@@ -668,7 +708,28 @@ impl cmp::PartialEq for Binding {
 	fn eq (&self, other : &Self) -> (bool) {
 		let self_0 = self.internals_ref ();
 		let other_0 = other.internals_ref ();
-		return self_0.handle == other_0.handle;
+		return Handle::eq (&self_0.handle, &other_0.handle);
+	}
+}
+
+
+impl cmp::Ord for Binding {
+	
+	#[ inline (always) ]
+	fn cmp (&self, other : &Self) -> (cmp::Ordering) {
+		let self_0 = self.internals_ref ();
+		let other_0 = other.internals_ref ();
+		return Handle::cmp (&self_0.handle, &other_0.handle);
+	}
+}
+
+impl cmp::PartialOrd for Binding {
+	
+	#[ inline (always) ]
+	fn partial_cmp (&self, other : &Self) -> (Option<cmp::Ordering>) {
+		let self_0 = self.internals_ref ();
+		let other_0 = other.internals_ref ();
+		return Handle::partial_cmp (&self_0.handle, &other_0.handle);
 	}
 }
 

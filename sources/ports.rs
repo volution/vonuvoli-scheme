@@ -6,6 +6,7 @@ use super::ports_memory::exports::*;
 use super::ports_native::exports::*;
 use super::runtime::exports::*;
 
+use std::cmp;
 use std::fmt;
 use std::hash;
 use std::io;
@@ -301,6 +302,34 @@ impl PortInternals {
 				return Err (error);
 			},
 		}
+	}
+}
+
+
+impl cmp::Eq for Port {}
+
+impl cmp::PartialEq for Port {
+	fn eq (&self, other : &Port) -> (bool) {
+		let self_0 = self.internals_ref ();
+		let other_0 = other.internals_ref ();
+		Handle::eq (&self_0.handle, &other_0.handle)
+	}
+}
+
+
+impl cmp::Ord for Port {
+	fn cmp (&self, other : &Port) -> (cmp::Ordering) {
+		let self_0 = self.internals_ref ();
+		let other_0 = other.internals_ref ();
+		Handle::cmp (&self_0.handle, &other_0.handle)
+	}
+}
+
+impl cmp::PartialOrd for Port {
+	fn partial_cmp (&self, other : &Port) -> (Option<cmp::Ordering>) {
+		let self_0 = self.internals_ref ();
+		let other_0 = other.internals_ref ();
+		Handle::partial_cmp (&self_0.handle, &other_0.handle)
 	}
 }
 
