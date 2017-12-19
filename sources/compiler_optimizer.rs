@@ -454,54 +454,194 @@ impl Optimizer {
 	
 	
 	
-	fn optimize_conditional_if (&self, optimization : OptimizerContext, clauses : StdBox<[(Option<(Expression, bool)>, Option<Expression>)]>) -> (Outcome<(OptimizerContext, Expression)>) {
+	fn optimize_conditional_if (&self, optimization : OptimizerContext, clauses : ExpressionConditionalIfClauses) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, clauses) = try! (self.optimize_conditional_if_clauses (optimization, clauses));
 		let expression = Expression::ConditionalIf (clauses);
 		succeed! ((optimization, expression));
 	}
 	
-	fn optimize_conditional_if_clauses (&self, optimization : OptimizerContext, clauses : StdBox<[(Option<(Expression, bool)>, Option<Expression>)]>) -> (Outcome<(OptimizerContext, StdBox<[(Option<(Expression, bool)>, Option<Expression>)]>)>) {
-		let (guards, expressions) = vec_unzip_2 (StdVec::from (clauses));
-		let (optimization, guards) = try! (self.optimize_0_vec_transform (optimization, guards,
-				|optimization, clause| {
-					if let Some ((guard, negated)) = clause {
-						let (optimization, guard) = try! (self.optimize_0 (optimization, guard));
-						let clause = Some ((guard, negated));
-						succeed! ((optimization, clause));
-					} else {
-						succeed! ((optimization, None));
-					}
-				}));
-		let (optimization, expressions) = try! (self.optimize_0_vec_transform (optimization, expressions,
-				|optimization, expression| {
-					return self.optimize_0_option (optimization, expression)
-				}));
-		let clauses = vec_zip_2 (guards, expressions);
-		succeed! ((optimization, clauses.into_boxed_slice ()));
+	fn optimize_conditional_if_clauses (&self, optimization : OptimizerContext, clauses : ExpressionConditionalIfClauses) -> (Outcome<(OptimizerContext, ExpressionConditionalIfClauses)>) {
+		match clauses {
+			ExpressionConditionalIfClauses::Void =>
+				succeed! ((optimization, clauses)),
+			ExpressionConditionalIfClauses::Single (clause) => {
+				let (optimization, clause) = try! (self.optimize_conditional_if_clause (optimization, *clause));
+				let clauses = match clause {
+					ExpressionConditionalIfClause::Void =>
+						ExpressionConditionalIfClauses::Void,
+					_ =>
+						ExpressionConditionalIfClauses::Single (StdBox::new (clause)),
+				};
+				succeed! ((optimization, clauses));
+			},
+			ExpressionConditionalIfClauses::Multiple (clauses) => {
+				let (optimization, clauses) = try! (self.optimize_0_vec_transform (optimization, StdVec::from (clauses),
+						|optimization, clause| self.optimize_conditional_if_clause (optimization, clause)));
+				let clauses = vec_filter_into! (clauses, clause,
+						match *clause {
+							ExpressionConditionalIfClause::Void =>
+								false,
+							_ =>
+								true,
+						});
+				let clauses = match clauses.len () {
+					0 =>
+						ExpressionConditionalIfClauses::Void,
+					1 =>
+						ExpressionConditionalIfClauses::Single (StdBox::new (try! (vec_explode_1 (clauses)))),
+					_ =>
+						ExpressionConditionalIfClauses::Multiple (clauses.into_boxed_slice ()),
+				};
+				succeed! ((optimization, clauses));
+			}
+		}
+	}
+	
+	fn optimize_conditional_if_clause (&self, optimization : OptimizerContext, clause : ExpressionConditionalIfClause) -> (Outcome<(OptimizerContext, ExpressionConditionalIfClause)>) {
+		match clause {
+			ExpressionConditionalIfClause::Void =>
+				succeed! ((optimization, clause)),
+			ExpressionConditionalIfClause::GuardOnly (guard) => {
+				let (optimization, guard) = try! (self.optimize_conditional_if_guard (optimization, guard));
+				let clause = match guard {
+					ExpressionConditionalIfGuard::False =>
+						ExpressionConditionalIfClause::Void,
+					_ =>
+						ExpressionConditionalIfClause::GuardOnly (guard),
+				};
+				succeed! ((optimization, clause));
+			},
+			ExpressionConditionalIfClause::GuardAndOutput (guard, output) => {
+				let (optimization, guard) = try! (self.optimize_conditional_if_guard (optimization, guard));
+				let (optimization, output) = try! (self.optimize_0 (optimization, output));
+				let clause = match guard {
+					ExpressionConditionalIfGuard::False =>
+						ExpressionConditionalIfClause::Void,
+					_ =>
+						ExpressionConditionalIfClause::GuardAndOutput (guard, output),
+				};
+				succeed! ((optimization, clause));
+			},
+		}
+	}
+	
+	fn optimize_conditional_if_guard (&self, optimization : OptimizerContext, guard : ExpressionConditionalIfGuard) -> (Outcome<(OptimizerContext, ExpressionConditionalIfGuard)>) {
+		match guard {
+			ExpressionConditionalIfGuard::True =>
+				succeed! ((optimization, guard)),
+			ExpressionConditionalIfGuard::False =>
+				succeed! ((optimization, guard)),
+			ExpressionConditionalIfGuard::Expression (expression, negated) => {
+				let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
+				let guard = ExpressionConditionalIfGuard::Expression (expression, negated);
+				succeed! ((optimization, guard));
+			},
+		}
 	}
 	
 	
-	fn optimize_conditional_match (&self, optimization : OptimizerContext, actual : Expression, clauses : StdBox<[(Option<(StdBox<[Value]>, bool)>, Option<Expression>)]>) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, actual, clauses) = try! (self.optimize_conditional_match_clauses (optimization, actual, clauses));
+	
+	
+	fn optimize_conditional_match (&self, optimization : OptimizerContext, actual : Expression, clauses : ExpressionConditionalMatchClauses) -> (Outcome<(OptimizerContext, Expression)>) {
+		let (optimization, actual) = try! (self.optimize_0 (optimization, actual));
+		let (optimization, clauses) = try! (self.optimize_conditional_match_clauses (optimization, clauses));
 		let expression = Expression::ConditionalMatch (actual.into (), clauses);
 		succeed! ((optimization, expression));
 	}
 	
-	fn optimize_conditional_match_clauses (&self, optimization : OptimizerContext, actual : Expression, clauses : StdBox<[(Option<(StdBox<[Value]>, bool)>, Option<Expression>)]>) -> (Outcome<(OptimizerContext, Expression, StdBox<[(Option<(StdBox<[Value]>, bool)>, Option<Expression>)]>)>) {
-		let (optimization, actual) = try! (self.optimize_0 (optimization, actual));
-		let (guards, expressions) = vec_unzip_2 (StdVec::from (clauses));
-		let (optimization, expressions) = try! (self.optimize_0_vec_transform (optimization, expressions,
-				|optimization, expression| {
-					return self.optimize_0_option (optimization, expression)
-				}));
-		let clauses = vec_zip_2 (guards, expressions);
-		succeed! ((optimization, actual, clauses.into_boxed_slice ()));
+	fn optimize_conditional_match_clauses (&self, optimization : OptimizerContext, clauses : ExpressionConditionalMatchClauses) -> (Outcome<(OptimizerContext, ExpressionConditionalMatchClauses)>) {
+		match clauses {
+			ExpressionConditionalMatchClauses::Void =>
+				succeed! ((optimization, clauses)),
+			ExpressionConditionalMatchClauses::Single (clause) => {
+				let (optimization, clause) = try! (self.optimize_conditional_match_clause (optimization, *clause));
+				let clauses = match clause {
+					ExpressionConditionalMatchClause::Void =>
+						ExpressionConditionalMatchClauses::Void,
+					_ =>
+						ExpressionConditionalMatchClauses::Single (StdBox::new (clause)),
+				};
+				succeed! ((optimization, clauses));
+			},
+			ExpressionConditionalMatchClauses::Multiple (clauses) => {
+				let (optimization, clauses) = try! (self.optimize_0_vec_transform (optimization, StdVec::from (clauses),
+						|optimization, clause| self.optimize_conditional_match_clause (optimization, clause)));
+				let clauses = vec_filter_into! (clauses, clause,
+						match *clause {
+							ExpressionConditionalMatchClause::Void =>
+								false,
+							_ =>
+								true,
+						});
+				let clauses = match clauses.len () {
+					0 =>
+						ExpressionConditionalMatchClauses::Void,
+					1 =>
+						ExpressionConditionalMatchClauses::Single (StdBox::new (try! (vec_explode_1 (clauses)))),
+					_ =>
+						ExpressionConditionalMatchClauses::Multiple (clauses.into_boxed_slice ()),
+				};
+				succeed! ((optimization, clauses));
+			}
+		}
+	}
+	
+	fn optimize_conditional_match_clause (&self, optimization : OptimizerContext, clause : ExpressionConditionalMatchClause) -> (Outcome<(OptimizerContext, ExpressionConditionalMatchClause)>) {
+		match clause {
+			ExpressionConditionalMatchClause::Void =>
+				succeed! ((optimization, clause)),
+			ExpressionConditionalMatchClause::GuardOnly (guard) => {
+				let (optimization, guard) = try! (self.optimize_conditional_match_guard (optimization, guard));
+				let clause = match guard {
+					ExpressionConditionalMatchGuard::False =>
+						ExpressionConditionalMatchClause::Void,
+					_ =>
+						ExpressionConditionalMatchClause::GuardOnly (guard),
+				};
+				succeed! ((optimization, clause));
+			},
+			ExpressionConditionalMatchClause::GuardAndOutput (guard, output) => {
+				let (optimization, guard) = try! (self.optimize_conditional_match_guard (optimization, guard));
+				let (optimization, output) = try! (self.optimize_0 (optimization, output));
+				let clause = match guard {
+					ExpressionConditionalMatchGuard::False =>
+						ExpressionConditionalMatchClause::Void,
+					_ =>
+						ExpressionConditionalMatchClause::GuardAndOutput (guard, output),
+				};
+				succeed! ((optimization, clause));
+			},
+		}
+	}
+	
+	fn optimize_conditional_match_guard (&self, optimization : OptimizerContext, guard : ExpressionConditionalMatchGuard) -> (Outcome<(OptimizerContext, ExpressionConditionalMatchGuard)>) {
+		match guard {
+			ExpressionConditionalMatchGuard::True =>
+				succeed! ((optimization, guard)),
+			ExpressionConditionalMatchGuard::False =>
+				succeed! ((optimization, guard)),
+			ExpressionConditionalMatchGuard::Value (_, _) =>
+				succeed! ((optimization, guard)),
+			ExpressionConditionalMatchGuard::Values (values, negated) => {
+				let mut values = StdVec::from (values);
+				values.sort ();
+				values.dedup ();
+				match values.len () {
+					0 =>
+						succeed! ((optimization, ExpressionConditionalMatchGuard::False)),
+					1 =>
+						succeed! ((optimization, ExpressionConditionalMatchGuard::Value (try! (vec_explode_1 (values)), negated))),
+					_ =>
+						succeed! ((optimization, ExpressionConditionalMatchGuard::Values (values.into_boxed_slice (), negated))),
+				}
+			},
+		}
 	}
 	
 	
 	
 	
-	fn optimize_loop (&self, optimization : OptimizerContext, initialize : Option<Expression>, update : Option<Expression>, body : Option<Expression>, clauses : StdBox<[(Option<(Expression, bool)>, Option<Expression>)]>) -> (Outcome<(OptimizerContext, Expression)>) {
+	fn optimize_loop (&self, optimization : OptimizerContext, initialize : Option<Expression>, update : Option<Expression>, body : Option<Expression>, clauses : ExpressionConditionalIfClauses) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, initialize) = try! (self.optimize_0_option (optimization, initialize));
 		let (optimization, update) = try! (self.optimize_0_option (optimization, update));
 		let (optimization, body) = try! (self.optimize_0_option (optimization, body));

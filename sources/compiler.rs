@@ -344,19 +344,27 @@ impl Compiler {
 		let clauses = if tokens_count == 3 {
 			let (guard, if_true, if_false) = try! (vec_explode_3 (statements));
 			vec! [
-					(Some ((guard, false)), Some (if_true)),
-					(None, Some (if_false)),
+					ExpressionConditionalIfClause::GuardAndOutput (
+							ExpressionConditionalIfGuard::Expression (guard, false),
+							if_true),
+					ExpressionConditionalIfClause::GuardAndOutput (
+							ExpressionConditionalIfGuard::True,
+							if_false),
 				]
 		} else if tokens_count == 2 {
 			let (guard, if_true) = try! (vec_explode_2 (statements));
 			vec! [
-					(Some ((guard, false)), Some (if_true)),
+					ExpressionConditionalIfClause::GuardAndOutput (
+							ExpressionConditionalIfGuard::Expression (guard, false),
+							if_true),
 				]
 		} else {
 			fail_unreachable! (0xbc801c5d);
 		};
 		
-		let expression = Expression::ConditionalIf (clauses.into_boxed_slice ());
+		let clauses = ExpressionConditionalIfClauses::Multiple (clauses.into_boxed_slice ());
+		
+		let expression = Expression::ConditionalIf (clauses);
 		
 		succeed! ((compilation, expression));
 	}
@@ -385,9 +393,14 @@ impl Compiler {
 		};
 		
 		let clauses = vec! [
-				(Some ((guard, negated)), Some (statements)),
+				ExpressionConditionalIfClause::GuardAndOutput (
+						ExpressionConditionalIfGuard::Expression (guard, negated),
+						statements),
 			];
-		let expression = Expression::ConditionalIf (clauses.into_boxed_slice ());
+		
+		let clauses = ExpressionConditionalIfClauses::Multiple (clauses.into_boxed_slice ());
+		
+		let expression = Expression::ConditionalIf (clauses);
 		
 		succeed! ((compilation, expression));
 	}
@@ -410,9 +423,11 @@ impl Compiler {
 			
 			let (compilation_1, guard) = if ! (guard.is (ValueClass::Symbol) && StdAsRef::<Symbol>::as_ref (&guard) .string_eq ("else")) {
 				let (compilation_1, guard) = try! (self.compile_0 (compilation, guard));
-				(compilation_1, Some ((guard, false)))
+				let guard = ExpressionConditionalIfGuard::Expression (guard, false);
+				(compilation_1, guard)
 			} else {
-				(compilation, None)
+				let guard = ExpressionConditionalIfGuard::True;
+				(compilation, guard)
 			};
 			
 			if (statements.len () >= 1) && (statements[0].is (ValueClass::Symbol) && StdAsRef::<Symbol>::as_ref (&statements[0]) .string_eq ("=>")) {
@@ -422,16 +437,18 @@ impl Compiler {
 			
 			let clause = if !statements.is_empty () {
 				let statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, statements.into_boxed_slice ());
-				(guard, Some (statements))
+				ExpressionConditionalIfClause::GuardAndOutput (guard, statements)
 			} else {
-				(guard, None)
+				ExpressionConditionalIfClause::GuardOnly (guard)
 			};
 			
 			clauses.push (clause);
 			compilation = compilation_1;
 		}
 		
-		let expression = Expression::ConditionalIf (clauses.into_boxed_slice ());
+		let clauses = ExpressionConditionalIfClauses::Multiple (clauses.into_boxed_slice ());
+		
+		let expression = Expression::ConditionalIf (clauses);
 		
 		succeed! ((compilation, expression));
 	}
@@ -460,11 +477,11 @@ impl Compiler {
 			}
 			let (expected, statements) = try! (vec_explode_1n (tokens));
 			
-			let expected = if ! (expected.is (ValueClass::Symbol) && StdAsRef::<Symbol>::as_ref (&expected) .string_eq ("else")) {
+			let guard = if ! (expected.is (ValueClass::Symbol) && StdAsRef::<Symbol>::as_ref (&expected) .string_eq ("else")) {
 				let expected = try! (vec_list_clone (&expected));
-				Some ((expected.into_boxed_slice (), false))
+				ExpressionConditionalMatchGuard::Values (expected.into_boxed_slice (), false)
 			} else {
-				None
+				ExpressionConditionalMatchGuard::True
 			};
 			
 			if (statements.len () >= 1) && (statements[0].is (ValueClass::Symbol) && StdAsRef::<Symbol>::as_ref (&statements[0]) .string_eq ("=>")) {
@@ -474,16 +491,18 @@ impl Compiler {
 			
 			let clause = if !statements.is_empty () {
 				let statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, statements.into_boxed_slice ());
-				(expected, Some (statements))
+				ExpressionConditionalMatchClause::GuardAndOutput (guard, statements)
 			} else {
-				(expected, None)
+				ExpressionConditionalMatchClause::GuardOnly (guard)
 			};
 			
 			clauses.push (clause);
 			compilation = compilation_1;
 		}
 		
-		let expression = Expression::ConditionalMatch (actual.into (), clauses.into_boxed_slice ());
+		let clauses = ExpressionConditionalMatchClauses::Multiple (clauses.into_boxed_slice ());
+		
+		let expression = Expression::ConditionalMatch (actual.into (), clauses);
 		
 		succeed! ((compilation, expression));
 	}
@@ -553,15 +572,21 @@ impl Compiler {
 		
 		let break_statements = try! (vec_list_clone (&break_statements));
 		let (break_guard, break_statements) = try! (vec_explode_1n (break_statements));
+		
 		let (compilation, break_guard) = try! (self.compile_0 (compilation, break_guard));
-		let (compilation, break_statements) = if break_statements.is_empty () {
-			(compilation, None)
+		let break_guard = ExpressionConditionalIfGuard::Expression (break_guard, false);
+		
+		let (compilation, break_clause) = if break_statements.is_empty () {
+			let clause = ExpressionConditionalIfClause::GuardOnly (break_guard);
+			(compilation, clause)
 		} else {
 			let (compilation, break_statements) = try! (self.compile_0_vec (compilation, break_statements));
 			let break_statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, break_statements.into_boxed_slice ());
-			(compilation, Some (break_statements))
+			let clause = ExpressionConditionalIfClause::GuardAndOutput (break_guard, break_statements);
+			(compilation, clause)
 		};
-		let break_clauses = StdBox::new ([(Some ((break_guard, false)), break_statements)]);
+		
+		let break_clauses = ExpressionConditionalIfClauses::Multiple (StdBox::new ([break_clause]));
 		
 		let (compilation, loop_statement) = if loop_statements.is_empty () {
 			(compilation, None)

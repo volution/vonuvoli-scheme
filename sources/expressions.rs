@@ -20,6 +20,13 @@ pub mod exports {
 	pub use super::ExpressionBox;
 	pub use super::ExpressionVec;
 	
+	pub use super::ExpressionConditionalIfClauses;
+	pub use super::ExpressionConditionalIfClause;
+	pub use super::ExpressionConditionalIfGuard;
+	pub use super::ExpressionConditionalMatchClauses;
+	pub use super::ExpressionConditionalMatchClause;
+	pub use super::ExpressionConditionalMatchGuard;
+	
 	pub use super::ExpressionForContexts;
 	pub use super::ExpressionForProcedureGenericCall;
 	pub use super::ExpressionForProcedurePrimitiveCall;
@@ -49,9 +56,9 @@ pub enum Expression {
 	Value ( Value ),
 	
 	Sequence ( ExpressionSequenceOperator, StdBox<[Expression]> ),
-	ConditionalIf ( StdBox<[(Option<(Expression, bool)>, Option<Expression>)]> ),
-	ConditionalMatch ( ExpressionBox, StdBox<[(Option<(StdBox<[Value]>, bool)>, Option<Expression>)]> ),
-	Loop ( Option<ExpressionBox>, Option<ExpressionBox>, Option<ExpressionBox>, StdBox<[(Option<(Expression, bool)>, Option<Expression>)]> ),
+	ConditionalIf ( ExpressionConditionalIfClauses ),
+	ConditionalMatch ( ExpressionBox, ExpressionConditionalMatchClauses ),
+	Loop ( Option<ExpressionBox>, Option<ExpressionBox>, Option<ExpressionBox>, ExpressionConditionalIfClauses ),
 	
 	Contexts ( ExpressionForContexts ),
 	
@@ -64,6 +71,57 @@ pub enum Expression {
 	Lambda ( StdRc<LambdaTemplate>, StdRc<Expression>, StdBox<[RegisterTemplate]>, StdRc<[RegisterTemplate]> ),
 	
 }
+
+
+
+
+#[ derive (Debug, Hash) ]
+pub enum ExpressionConditionalIfClauses {
+	Void,
+	Single ( StdBox<ExpressionConditionalIfClause> ),
+	Multiple ( StdBox<[ExpressionConditionalIfClause]> ),
+}
+
+#[ derive (Debug, Hash) ]
+pub enum ExpressionConditionalIfClause {
+	Void,
+	GuardOnly ( ExpressionConditionalIfGuard ),
+	GuardAndOutput ( ExpressionConditionalIfGuard, Expression ),
+}
+
+#[ derive (Debug, Hash) ]
+pub enum ExpressionConditionalIfGuard {
+	True,
+	False,
+	Expression ( Expression, bool ),
+}
+
+
+
+
+#[ derive (Debug, Hash) ]
+pub enum ExpressionConditionalMatchClauses {
+	Void,
+	Single ( StdBox<ExpressionConditionalMatchClause> ),
+	Multiple ( StdBox<[ExpressionConditionalMatchClause]> ),
+}
+
+#[ derive (Debug, Hash) ]
+pub enum ExpressionConditionalMatchClause {
+	Void,
+	GuardOnly ( ExpressionConditionalMatchGuard ),
+	GuardAndOutput ( ExpressionConditionalMatchGuard, Expression ),
+}
+
+#[ derive (Debug, Hash) ]
+pub enum ExpressionConditionalMatchGuard {
+	True,
+	False,
+	Value ( Value, bool ),
+	Values ( StdBox<[Value]>, bool ),
+}
+
+
 
 
 #[ derive (Debug, Hash) ]
@@ -93,6 +151,8 @@ pub enum ExpressionForContexts {
 }
 
 
+
+
 #[ derive (Debug, Hash) ]
 pub enum ExpressionForProcedureGenericCall {
 	
@@ -106,6 +166,8 @@ pub enum ExpressionForProcedureGenericCall {
 	ProcedureCallN ( ExpressionBox, StdBox<[Expression]> ),
 	
 }
+
+
 
 
 #[ derive (Debug, Hash) ]
@@ -124,6 +186,8 @@ pub enum ExpressionForProcedurePrimitiveCall {
 }
 
 
+
+
 #[ derive (Debug, Hash) ]
 pub enum ExpressionForProcedureExtendedCall {
 	
@@ -139,6 +203,8 @@ pub enum ExpressionForProcedureExtendedCall {
 }
 
 
+
+
 #[ derive (Debug, Hash) ]
 pub enum ExpressionForProcedureLambdaCall {
 	
@@ -152,6 +218,8 @@ pub enum ExpressionForProcedureLambdaCall {
 	ProcedureLambdaCallN ( StdRc<LambdaInternals>, StdBox<[Expression]> ),
 	
 }
+
+
 
 
 pub enum ExpressionForProcedureNativeCall {
