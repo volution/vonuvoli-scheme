@@ -1119,6 +1119,18 @@ impl Optimizer {
 				}
 			}
 		}
+		match self.expression_procedure_call_callable_ref (&optimization, &expression) .unwrap () {
+			ExpressionProcedureCallCallableRef::Expression (_) =>
+				(),
+			ExpressionProcedureCallCallableRef::Primitive (_) =>
+				(),
+			ExpressionProcedureCallCallableRef::Extended (_) =>
+				(),
+			ExpressionProcedureCallCallableRef::Native (_) =>
+				(),
+			ExpressionProcedureCallCallableRef::Lambda (_) =>
+				(),
+		}
 		succeed! ((optimization, expression));
 	}
 	
@@ -2001,6 +2013,189 @@ impl Optimizer {
 	
 	
 	
+	fn expression_procedure_call_callable_ref <'a, ExpressionRef : StdAsRef<Expression> + 'a> (&self, _optimization : &OptimizerContext, expression : &'a ExpressionRef) -> (Option<ExpressionProcedureCallCallableRef<'a>>) {
+		let expression = expression.as_ref ();
+		match *expression {
+			
+			Expression::Void =>
+				None,
+			Expression::Value (_) =>
+				None,
+			
+			Expression::Sequence (_, _) =>
+				None,
+			Expression::ConditionalIf (_) =>
+				None,
+			Expression::ConditionalMatch (_, _) =>
+				None,
+			Expression::Loop (_, _, _, _) =>
+				None,
+			
+			Expression::Lambda (_, _, _, _) =>
+				None,
+			
+			Expression::Contexts (ref expression) =>
+				match *expression {
+					
+					ExpressionForContexts::ContextDefine (_, _) =>
+						None,
+					ExpressionForContexts::ContextUpdate (_, _) =>
+						None,
+					ExpressionForContexts::ContextSelect (_) =>
+						None,
+					
+					ExpressionForContexts::BindingInitialize1 (_, _) =>
+						None,
+					ExpressionForContexts::BindingInitializeN (_, _) =>
+						None,
+					ExpressionForContexts::BindingInitializeValues (_, _) =>
+						None,
+					ExpressionForContexts::BindingSet1 (_, _) =>
+						None,
+					ExpressionForContexts::BindingSetN (_, _) =>
+						None,
+					ExpressionForContexts::BindingSetValues (_, _) =>
+						None,
+					ExpressionForContexts::BindingGet1 (_) =>
+						None,
+					
+					ExpressionForContexts::RegisterClosure (_, _) =>
+						None,
+					ExpressionForContexts::RegisterInitialize1 (_, _) =>
+						None,
+					ExpressionForContexts::RegisterInitializeN (_, _) =>
+						None,
+					ExpressionForContexts::RegisterInitializeValues (_, _) =>
+						None,
+					ExpressionForContexts::RegisterSet1 (_, _) =>
+						None,
+					ExpressionForContexts::RegisterSetN (_, _) =>
+						None,
+					ExpressionForContexts::RegisterSetValues (_, _) =>
+						None,
+					ExpressionForContexts::RegisterGet1 (_) =>
+						None,
+					
+				},
+			
+			Expression::ProcedureGenericCall (ref expression) =>
+				match *expression {
+					
+					ExpressionForProcedureGenericCall::ProcedureCall (ref callable, _) =>
+						Some (ExpressionProcedureCallCallableRef::Expression (callable)),
+					ExpressionForProcedureGenericCall::ProcedureCall0 (ref callable) =>
+						Some (ExpressionProcedureCallCallableRef::Expression (callable)),
+					ExpressionForProcedureGenericCall::ProcedureCall1 (ref callable, _) =>
+						Some (ExpressionProcedureCallCallableRef::Expression (callable)),
+					ExpressionForProcedureGenericCall::ProcedureCall2 (ref callable, _, _) =>
+						Some (ExpressionProcedureCallCallableRef::Expression (callable)),
+					ExpressionForProcedureGenericCall::ProcedureCall3 (ref callable, _, _, _) =>
+						Some (ExpressionProcedureCallCallableRef::Expression (callable)),
+					ExpressionForProcedureGenericCall::ProcedureCall4 (ref callable, _, _, _, _) =>
+						Some (ExpressionProcedureCallCallableRef::Expression (callable)),
+					ExpressionForProcedureGenericCall::ProcedureCall5 (ref callable, _, _, _, _, _) =>
+						Some (ExpressionProcedureCallCallableRef::Expression (callable)),
+					ExpressionForProcedureGenericCall::ProcedureCallN (ref callable, _) =>
+						Some (ExpressionProcedureCallCallableRef::Expression (callable)),
+					
+				},
+			
+			Expression::ProcedurePrimitiveCall (ref expression) =>
+				match *expression {
+					
+					ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall (callable, _) =>
+						Some (ExpressionProcedureCallCallableRef::Primitive (callable)),
+					ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall0 (callable) =>
+						Some (ExpressionProcedureCallCallableRef::Primitive (callable.into ())),
+					ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall1 (callable, _) =>
+						Some (ExpressionProcedureCallCallableRef::Primitive (callable.into ())),
+					ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall2 (callable, _, _) =>
+						Some (ExpressionProcedureCallCallableRef::Primitive (callable.into ())),
+					ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall3 (callable, _, _, _) =>
+						Some (ExpressionProcedureCallCallableRef::Primitive (callable.into ())),
+					ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall4 (callable, _, _, _, _) =>
+						Some (ExpressionProcedureCallCallableRef::Primitive (callable.into ())),
+					ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall5 (callable, _, _, _, _, _) =>
+						Some (ExpressionProcedureCallCallableRef::Primitive (callable.into ())),
+					ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCallN (callable, _) =>
+						Some (ExpressionProcedureCallCallableRef::Primitive (callable.into ())),
+					ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCallV (callable, _) =>
+						Some (ExpressionProcedureCallCallableRef::Primitive (callable.into ())),
+					
+				},
+			
+			Expression::ProcedureExtendedCall (ref expression) =>
+				match *expression {
+					
+					ExpressionForProcedureExtendedCall::ProcedureExtendedCall (ref callable, _) =>
+						Some (ExpressionProcedureCallCallableRef::Extended (callable.internals ())),
+					ExpressionForProcedureExtendedCall::ProcedureExtendedCall0 (ref callable) =>
+						Some (ExpressionProcedureCallCallableRef::Extended (callable.internals ())),
+					ExpressionForProcedureExtendedCall::ProcedureExtendedCall1 (ref callable, _) =>
+						Some (ExpressionProcedureCallCallableRef::Extended (callable.internals ())),
+					ExpressionForProcedureExtendedCall::ProcedureExtendedCall2 (ref callable, _, _) =>
+						Some (ExpressionProcedureCallCallableRef::Extended (callable.internals ())),
+					ExpressionForProcedureExtendedCall::ProcedureExtendedCall3 (ref callable, _, _, _) =>
+						Some (ExpressionProcedureCallCallableRef::Extended (callable.internals ())),
+					ExpressionForProcedureExtendedCall::ProcedureExtendedCall4 (ref callable, _, _, _, _) =>
+						Some (ExpressionProcedureCallCallableRef::Extended (callable.internals ())),
+					ExpressionForProcedureExtendedCall::ProcedureExtendedCall5 (ref callable, _, _, _, _, _) =>
+						Some (ExpressionProcedureCallCallableRef::Extended (callable.internals ())),
+					ExpressionForProcedureExtendedCall::ProcedureExtendedCallN (ref callable, _) =>
+						Some (ExpressionProcedureCallCallableRef::Extended (callable.internals ())),
+					
+				},
+			
+			Expression::ProcedureLambdaCall (ref expression) =>
+				match *expression {
+					
+					ExpressionForProcedureLambdaCall::ProcedureLambdaCall (ref callable, _) =>
+						Some (ExpressionProcedureCallCallableRef::Lambda (callable)),
+					ExpressionForProcedureLambdaCall::ProcedureLambdaCall0 (ref callable) =>
+						Some (ExpressionProcedureCallCallableRef::Lambda (callable)),
+					ExpressionForProcedureLambdaCall::ProcedureLambdaCall1 (ref callable, _) =>
+						Some (ExpressionProcedureCallCallableRef::Lambda (callable)),
+					ExpressionForProcedureLambdaCall::ProcedureLambdaCall2 (ref callable, _, _) =>
+						Some (ExpressionProcedureCallCallableRef::Lambda (callable)),
+					ExpressionForProcedureLambdaCall::ProcedureLambdaCall3 (ref callable, _, _, _) =>
+						Some (ExpressionProcedureCallCallableRef::Lambda (callable)),
+					ExpressionForProcedureLambdaCall::ProcedureLambdaCall4 (ref callable, _, _, _, _) =>
+						Some (ExpressionProcedureCallCallableRef::Lambda (callable)),
+					ExpressionForProcedureLambdaCall::ProcedureLambdaCall5 (ref callable, _, _, _, _, _) =>
+						Some (ExpressionProcedureCallCallableRef::Lambda (callable)),
+					ExpressionForProcedureLambdaCall::ProcedureLambdaCallN (ref callable, _) =>
+						Some (ExpressionProcedureCallCallableRef::Lambda (callable)),
+					
+				},
+			
+			Expression::ProcedureNativeCall (ref expression) =>
+				match *expression {
+					
+					ExpressionForProcedureNativeCall::ProcedureNativeCall (ref callable, _) =>
+						Some (ExpressionProcedureCallCallableRef::Native (callable.internals () .clone ())),
+					ExpressionForProcedureNativeCall::ProcedureNativeCall0 (callable) =>
+						Some (ExpressionProcedureCallCallableRef::Native (callable.into ())),
+					ExpressionForProcedureNativeCall::ProcedureNativeCall1 (callable, _) =>
+						Some (ExpressionProcedureCallCallableRef::Native (callable.into ())),
+					ExpressionForProcedureNativeCall::ProcedureNativeCall2 (callable, _, _) =>
+						Some (ExpressionProcedureCallCallableRef::Native (callable.into ())),
+					ExpressionForProcedureNativeCall::ProcedureNativeCall3 (callable, _, _, _) =>
+						Some (ExpressionProcedureCallCallableRef::Native (callable.into ())),
+					ExpressionForProcedureNativeCall::ProcedureNativeCall4 (callable, _, _, _, _) =>
+						Some (ExpressionProcedureCallCallableRef::Native (callable.into ())),
+					ExpressionForProcedureNativeCall::ProcedureNativeCall5 (callable, _, _, _, _, _) =>
+						Some (ExpressionProcedureCallCallableRef::Native (callable.into ())),
+					ExpressionForProcedureNativeCall::ProcedureNativeCallN (callable, _) =>
+						Some (ExpressionProcedureCallCallableRef::Native (callable.into ())),
+					
+				},
+			
+		}
+	}
+	
+	
+	
+	
 	fn expression_procedure_call_inputs_ref <'a, ExpressionRef : StdAsRef<Expression> + 'a> (&self, _optimization : &OptimizerContext, expression : &'a ExpressionRef) -> (Option<StdBox<[&'a Expression]>>) {
 		let expression = expression.as_ref ();
 		match *expression {
@@ -2250,6 +2445,20 @@ pub enum ExpressionClass {
 	Constant,
 	Value (ValueClass),
 	Type (TypePrimitive1),
+	
+}
+
+
+
+
+#[ derive (Clone) ]
+pub enum ExpressionProcedureCallCallableRef <'a> {
+	
+	Expression (&'a Expression),
+	Primitive (ProcedurePrimitive),
+	Extended (&'a ProcedureExtendedInternals),
+	Native (ProcedureNativeInternals),
+	Lambda (&'a LambdaInternals),
 	
 }
 
