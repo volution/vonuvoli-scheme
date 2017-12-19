@@ -8,6 +8,7 @@ use super::evaluator::exports::*;
 use super::expressions::exports::*;
 use super::extended_procedures::exports::*;
 use super::lambdas::exports::*;
+use super::native_procedures::exports::*;
 use super::primitives::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
@@ -253,9 +254,6 @@ impl Optimizer {
 	
 	
 	fn optimize_for_procedure_native_call (&self, optimization : OptimizerContext, expression : ExpressionForProcedureNativeCall) -> (Outcome<(OptimizerContext, Expression)>) {
-		// FIXME:  Implement this!
-		succeed! ((optimization, expression.into ()));
-		/*
 		match expression {
 			
 			ExpressionForProcedureNativeCall::ProcedureNativeCall (native, inputs) =>
@@ -276,7 +274,6 @@ impl Optimizer {
 				return self.optimize_procedure_native_n (optimization, native, inputs),
 			
 		}
-		*/
 	}
 	
 	
@@ -816,6 +813,8 @@ impl Optimizer {
 					return self.optimize_procedure_primitive (optimization, callable.into (), inputs),
 				ValueClass::ProcedureExtended =>
 					return self.optimize_procedure_extended (optimization, callable.into (), inputs),
+				ValueClass::ProcedureNative =>
+					return self.optimize_procedure_native (optimization, callable.into (), inputs),
 				ValueClass::ProcedureLambda =>
 					return self.optimize_procedure_lambda (optimization, StdInto::<ProcedureLambda>::into (callable) .internals_rc_into (), inputs),
 				_ =>
@@ -852,6 +851,8 @@ impl Optimizer {
 					},
 				ValueClass::ProcedureExtended =>
 					return self.optimize_procedure_extended_0 (optimization, callable.into ()),
+				ValueClass::ProcedureNative =>
+					return self.optimize_procedure_native (optimization, callable.into (), StdBox::new ([])),
 				ValueClass::ProcedureLambda =>
 					return self.optimize_procedure_lambda_0 (optimization, StdInto::<ProcedureLambda>::into (callable) .internals_rc_into ()),
 				_ =>
@@ -887,6 +888,8 @@ impl Optimizer {
 					},
 				ValueClass::ProcedureExtended =>
 					return self.optimize_procedure_extended_1 (optimization, callable.into (), input_1),
+				ValueClass::ProcedureNative =>
+					return self.optimize_procedure_native (optimization, callable.into (), StdBox::new ([input_1])),
 				ValueClass::ProcedureLambda =>
 					return self.optimize_procedure_lambda_1 (optimization, StdInto::<ProcedureLambda>::into (callable) .internals_rc_into (), input_1),
 				_ =>
@@ -923,6 +926,8 @@ impl Optimizer {
 					},
 				ValueClass::ProcedureExtended =>
 					return self.optimize_procedure_extended_2 (optimization, callable.into (), input_1, input_2),
+				ValueClass::ProcedureNative =>
+					return self.optimize_procedure_native (optimization, callable.into (), StdBox::new ([input_1, input_2])),
 				ValueClass::ProcedureLambda =>
 					return self.optimize_procedure_lambda_2 (optimization, StdInto::<ProcedureLambda>::into (callable) .internals_rc_into (), input_1, input_2),
 				_ =>
@@ -960,6 +965,8 @@ impl Optimizer {
 					},
 				ValueClass::ProcedureExtended =>
 					return self.optimize_procedure_extended_3 (optimization, callable.into (), input_1, input_2, input_3),
+				ValueClass::ProcedureNative =>
+					return self.optimize_procedure_native (optimization, callable.into (), StdBox::new ([input_1, input_2, input_3])),
 				ValueClass::ProcedureLambda =>
 					return self.optimize_procedure_lambda_3 (optimization, StdInto::<ProcedureLambda>::into (callable) .internals_rc_into (), input_1, input_2, input_3),
 				_ =>
@@ -998,6 +1005,8 @@ impl Optimizer {
 					},
 				ValueClass::ProcedureExtended =>
 					return self.optimize_procedure_extended_4 (optimization, callable.into (), input_1, input_2, input_3, input_4),
+				ValueClass::ProcedureNative =>
+					return self.optimize_procedure_native (optimization, callable.into (), StdBox::new ([input_1, input_2, input_3, input_4])),
 				ValueClass::ProcedureLambda =>
 					return self.optimize_procedure_lambda_4 (optimization, StdInto::<ProcedureLambda>::into (callable) .internals_rc_into (), input_1, input_2, input_3, input_4),
 				_ =>
@@ -1037,6 +1046,8 @@ impl Optimizer {
 					},
 				ValueClass::ProcedureExtended =>
 					return self.optimize_procedure_extended_5 (optimization, callable.into (), input_1, input_2, input_3, input_4, input_5),
+				ValueClass::ProcedureNative =>
+					return self.optimize_procedure_native (optimization, callable.into (), StdBox::new ([input_1, input_2, input_3, input_4, input_5])),
 				ValueClass::ProcedureLambda =>
 					return self.optimize_procedure_lambda_5 (optimization, StdInto::<ProcedureLambda>::into (callable) .internals_rc_into (), input_1, input_2, input_3, input_4, input_5),
 				_ =>
@@ -1073,6 +1084,8 @@ impl Optimizer {
 					},
 				ValueClass::ProcedureExtended =>
 					return self.optimize_procedure_extended_n (optimization, callable.into (), inputs),
+				ValueClass::ProcedureNative =>
+					return self.optimize_procedure_native (optimization, callable.into (), inputs),
 				ValueClass::ProcedureLambda =>
 					return self.optimize_procedure_lambda_n (optimization, StdInto::<ProcedureLambda>::into (callable) .internals_rc_into (), inputs),
 				_ =>
@@ -1446,6 +1459,139 @@ impl Optimizer {
 	
 	
 	
+	fn optimize_procedure_native (&self, optimization : OptimizerContext, native : ProcedureNative, inputs : StdBox<[Expression]>) -> (Outcome<(OptimizerContext, Expression)>) {
+		let inputs_count = inputs.len ();
+		let native = native.internals_into ();
+		match native {
+			ProcedureNativeInternals::Native0 (native) =>
+				if inputs_count == 0 {
+					return self.optimize_procedure_native_0 (optimization, native);
+				} else {
+					fail! (0x0664f4d0);
+				},
+			ProcedureNativeInternals::Native1 (native) =>
+				if inputs_count == 1 {
+					let mut inputs = StdVec::from (inputs) .into_iter ();
+					let input_1 = inputs.next () .unwrap ();
+					return self.optimize_procedure_native_1 (optimization, native, input_1);
+				} else {
+					fail! (0xce8a1f83);
+				},
+			ProcedureNativeInternals::Native2 (native) =>
+				if inputs_count == 2 {
+					let mut inputs = StdVec::from (inputs) .into_iter ();
+					let input_1 = inputs.next () .unwrap ();
+					let input_2 = inputs.next () .unwrap ();
+					return self.optimize_procedure_native_2 (optimization, native, input_1, input_2);
+				} else {
+					fail! (0x98c15092);
+				},
+			ProcedureNativeInternals::Native3 (native) =>
+				if inputs_count == 3 {
+					let mut inputs = StdVec::from (inputs) .into_iter ();
+					let input_1 = inputs.next () .unwrap ();
+					let input_2 = inputs.next () .unwrap ();
+					let input_3 = inputs.next () .unwrap ();
+					return self.optimize_procedure_native_3 (optimization, native, input_1, input_2, input_3);
+				} else {
+					fail! (0x6d40d94d);
+				},
+			ProcedureNativeInternals::Native4 (native) =>
+				if inputs_count == 4 {
+					let mut inputs = StdVec::from (inputs) .into_iter ();
+					let input_1 = inputs.next () .unwrap ();
+					let input_2 = inputs.next () .unwrap ();
+					let input_3 = inputs.next () .unwrap ();
+					let input_4 = inputs.next () .unwrap ();
+					return self.optimize_procedure_native_4 (optimization, native, input_1, input_2, input_3, input_4);
+				} else {
+					fail! (0x12b4fab7);
+				},
+			ProcedureNativeInternals::Native5 (native) =>
+				if inputs_count == 5 {
+					let mut inputs = StdVec::from (inputs) .into_iter ();
+					let input_1 = inputs.next () .unwrap ();
+					let input_2 = inputs.next () .unwrap ();
+					let input_3 = inputs.next () .unwrap ();
+					let input_4 = inputs.next () .unwrap ();
+					let input_5 = inputs.next () .unwrap ();
+					return self.optimize_procedure_native_5 (optimization, native, input_1, input_2, input_3, input_4, input_5);
+				} else {
+					fail! (0x7b45d7b6);
+				},
+			ProcedureNativeInternals::NativeN (native) =>
+				return self.optimize_procedure_native_n (optimization, native, inputs),
+		}
+	}
+	
+	
+	fn optimize_procedure_native_0 (&self, optimization : OptimizerContext, native : ProcedureNative0) -> (Outcome<(OptimizerContext, Expression)>) {
+		let expression = ExpressionForProcedureNativeCall::ProcedureNativeCall0 (native) .into ();
+		let attributes = None;
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
+	}
+	
+	
+	fn optimize_procedure_native_1 (&self, optimization : OptimizerContext, native : ProcedureNative1, input_1 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
+		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
+		let expression = ExpressionForProcedureNativeCall::ProcedureNativeCall1 (native, input_1.into ()) .into ();
+		let attributes = None;
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
+	}
+	
+	
+	fn optimize_procedure_native_2 (&self, optimization : OptimizerContext, native : ProcedureNative2, input_1 : Expression, input_2 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
+		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
+		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
+		let expression = ExpressionForProcedureNativeCall::ProcedureNativeCall2 (native, input_1.into (), input_2.into ()) .into ();
+		let attributes = None;
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
+	}
+	
+	
+	fn optimize_procedure_native_3 (&self, optimization : OptimizerContext, native : ProcedureNative3, input_1 : Expression, input_2 : Expression, input_3 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
+		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
+		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
+		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
+		let expression = ExpressionForProcedureNativeCall::ProcedureNativeCall3 (native, input_1.into (), input_2.into (), input_3.into ()) .into ();
+		let attributes = None;
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
+	}
+	
+	
+	fn optimize_procedure_native_4 (&self, optimization : OptimizerContext, native : ProcedureNative4, input_1 : Expression, input_2 : Expression, input_3 : Expression, input_4 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
+		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
+		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
+		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
+		let (optimization, input_4) = try! (self.optimize_0 (optimization, input_4));
+		let expression = ExpressionForProcedureNativeCall::ProcedureNativeCall4 (native, input_1.into (), input_2.into (), input_3.into (), input_4.into ()) .into ();
+		let attributes = None;
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
+	}
+	
+	
+	fn optimize_procedure_native_5 (&self, optimization : OptimizerContext, native : ProcedureNative5, input_1 : Expression, input_2 : Expression, input_3 : Expression, input_4 : Expression, input_5 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
+		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
+		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
+		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
+		let (optimization, input_4) = try! (self.optimize_0 (optimization, input_4));
+		let (optimization, input_5) = try! (self.optimize_0 (optimization, input_5));
+		let expression = ExpressionForProcedureNativeCall::ProcedureNativeCall5 (native, input_1.into (), input_2.into (), input_3.into (), input_4.into (), input_5.into ()) .into ();
+		let attributes = None;
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
+	}
+	
+	
+	fn optimize_procedure_native_n (&self, optimization : OptimizerContext, native : ProcedureNativeN, inputs : StdBox<[Expression]>) -> (Outcome<(OptimizerContext, Expression)>) {
+		let (optimization, inputs) = try! (self.optimize_0_slice (optimization, inputs));
+		let expression = ExpressionForProcedureNativeCall::ProcedureNativeCallN (native, inputs) .into ();
+		let attributes = None;
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
+	}
+	
+	
+	
+	
 	fn optimize_procedure_lambda (&self, optimization : OptimizerContext, lambda : StdRc<LambdaInternals>, inputs : StdBox<[Expression]>) -> (Outcome<(OptimizerContext, Expression)>) {
 		let input_count = inputs.len ();
 		match input_count {
@@ -1730,6 +1876,8 @@ impl Optimizer {
 			Expression::ProcedureNativeCall (ref expression) =>
 				match *expression {
 					
+					ExpressionForProcedureNativeCall::ProcedureNativeCall (_, _) =>
+						false,
 					ExpressionForProcedureNativeCall::ProcedureNativeCall0 (_) =>
 						false,
 					ExpressionForProcedureNativeCall::ProcedureNativeCall1 (_, _) =>
@@ -2011,6 +2159,8 @@ impl Optimizer {
 			Expression::ProcedureNativeCall (ref expression) =>
 				match *expression {
 					
+					ExpressionForProcedureNativeCall::ProcedureNativeCall (ref _native, ref inputs) =>
+						Some (boxed_slice_to_ref (inputs)),
 					ExpressionForProcedureNativeCall::ProcedureNativeCall0 (ref _native) =>
 						Some (StdBox::new ([])),
 					ExpressionForProcedureNativeCall::ProcedureNativeCall1 (ref _native, ref input_1) =>

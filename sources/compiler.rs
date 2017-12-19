@@ -17,6 +17,9 @@ pub mod exports {
 	pub use super::compile;
 	pub use super::compile_script;
 	pub use super::Compiler;
+	pub use super::CompilerContext;
+	pub use super::CompilerBindings;
+	pub use super::CompilerBinding;
 	pub use super::super::compiler_optimizer::exports::*;
 }
 
@@ -106,12 +109,17 @@ impl Compiler {
 				fail_panic! (0xa9e5d4ca),
 			ValueClass::ProcedureExtended =>
 				fail_panic! (0xaf6f1288),
+			ValueClass::ProcedureNative =>
+				fail_panic! (0x3ee44fb5),
 			ValueClass::ProcedureLambda =>
 				fail_panic! (0x2c4bb21a),
+			
 			ValueClass::SyntaxPrimitive =>
 				fail_panic! (0x09e47c84),
 			ValueClass::SyntaxExtended =>
 				fail_panic! (0xe781b659),
+			ValueClass::SyntaxNative =>
+				fail_panic! (0x08600fd4),
 			ValueClass::SyntaxLambda =>
 				fail_panic! (0x7f9c4bb4),
 			
@@ -1233,12 +1241,17 @@ impl Compiler {
 				fail! (0x89c49854),
 			ValueClass::ProcedureExtended =>
 				fail! (0xc3fb9b61),
+			ValueClass::ProcedureNative =>
+				fail! (0xd1762c78),
 			ValueClass::ProcedureLambda =>
 				fail! (0xf3b07bb7),
+			
 			ValueClass::SyntaxPrimitive =>
 				fail! (0x251a7fd0),
 			ValueClass::SyntaxExtended =>
 				fail! (0x567a02a2),
+			ValueClass::SyntaxNative =>
+				fail! (0x34564a2c),
 			ValueClass::SyntaxLambda =>
 				fail! (0xbe7157a3),
 			
@@ -1369,7 +1382,7 @@ impl Compiler {
 
 
 #[ derive (Debug) ]
-struct CompilerContext {
+pub struct CompilerContext {
 	bindings : CompilerBindings,
 }
 
@@ -1425,7 +1438,7 @@ impl CompilerContext {
 
 
 #[ derive (Debug) ]
-enum CompilerBindings {
+pub enum CompilerBindings {
 	None,
 	Globals1 (Context),
 	Globals2 (StdBox<CompilerBindings>, Context),
@@ -1434,7 +1447,7 @@ enum CompilerBindings {
 
 
 #[ derive (Clone, Debug) ]
-enum CompilerBinding {
+pub enum CompilerBinding {
 	Undefined,
 	Binding (Binding, Option<BindingTemplate>),
 	Register (usize, RegisterTemplate),

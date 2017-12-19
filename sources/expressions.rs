@@ -1,9 +1,9 @@
 
 
 use super::contexts::exports::*;
-use super::errors::exports::*;
 use super::extended_procedures::exports::*;
 use super::lambdas::exports::*;
+use super::native_procedures::exports::*;
 use super::primitives::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
@@ -35,14 +35,6 @@ pub mod exports {
 	pub use super::ExpressionForProcedureNativeCall;
 	
 	pub use super::ExpressionSequenceOperator;
-	
-	pub use super::ProcedureNative0;
-	pub use super::ProcedureNative1;
-	pub use super::ProcedureNative2;
-	pub use super::ProcedureNative3;
-	pub use super::ProcedureNative4;
-	pub use super::ProcedureNative5;
-	pub use super::ProcedureNativeN;
 	
 }
 
@@ -224,6 +216,7 @@ pub enum ExpressionForProcedureLambdaCall {
 
 pub enum ExpressionForProcedureNativeCall {
 	
+	ProcedureNativeCall ( ProcedureNative, StdBox<[Expression]> ),
 	ProcedureNativeCall0 ( ProcedureNative0 ),
 	ProcedureNativeCall1 ( ProcedureNative1, ExpressionBox ),
 	ProcedureNativeCall2 ( ProcedureNative2, ExpressionBox, ExpressionBox ),
@@ -250,17 +243,6 @@ pub enum ExpressionSequenceOperator {
 	And,
 	Or,
 }
-
-
-
-
-pub type ProcedureNative0 = fn () -> (Outcome<Value>);
-pub type ProcedureNative1 = fn (&Value) -> (Outcome<Value>);
-pub type ProcedureNative2 = fn (&Value, &Value) -> (Outcome<Value>);
-pub type ProcedureNative3 = fn (&Value, &Value, &Value) -> (Outcome<Value>);
-pub type ProcedureNative4 = fn (&Value, &Value, &Value, &Value) -> (Outcome<Value>);
-pub type ProcedureNative5 = fn (&Value, &Value, &Value, &Value, &Value) -> (Outcome<Value>);
-pub type ProcedureNativeN = fn (&[&Value]) -> (Outcome<Value>);
 
 
 

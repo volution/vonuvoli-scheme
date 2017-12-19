@@ -6,6 +6,8 @@ use super::errors::exports::*;
 use super::extended_procedures::exports::*;
 use super::extended_syntaxes::exports::*;
 use super::lambdas::exports::*;
+use super::native_procedures::exports::*;
+use super::native_syntaxes::exports::*;
 use super::ports::exports::*;
 use super::primitives::exports::*;
 use super::runtime::exports::*;
@@ -45,9 +47,11 @@ pub mod exports {
 			error_compare_1, error_compare_1a,
 			procedure_primitive_compare_1, procedure_primitive_compare_1a,
 			procedure_extended_compare_1, procedure_extended_compare_1a,
+			procedure_native_compare_1, procedure_native_compare_1a,
 			procedure_lambda_compare_1, procedure_lambda_compare_1a,
 			syntax_primitive_compare_1, syntax_primitive_compare_1a,
 			syntax_extended_compare_1, syntax_extended_compare_1a,
+			syntax_native_compare_1, syntax_native_compare_1a,
 			syntax_lambda_compare_1, syntax_lambda_compare_1a,
 			port_compare_1, port_compare_1a,
 			context_compare_1, context_compare_1a,
@@ -69,9 +73,11 @@ pub mod exports {
 			error_compare_2, error_compare_2a,
 			procedure_primitive_compare_2, procedure_primitive_compare_2a,
 			procedure_extended_compare_2, procedure_extended_compare_2a,
+			procedure_native_compare_2, procedure_native_compare_2a,
 			procedure_lambda_compare_2, procedure_lambda_compare_2a,
 			syntax_primitive_compare_2, syntax_primitive_compare_2a,
 			syntax_extended_compare_2, syntax_extended_compare_2a,
+			syntax_native_compare_2, syntax_native_compare_2a,
 			syntax_lambda_compare_2, syntax_lambda_compare_2a,
 			port_compare_2, port_compare_2a,
 			context_compare_2, context_compare_2a,
@@ -93,9 +99,11 @@ pub mod exports {
 			error_compare_3, error_compare_3a,
 			procedure_primitive_compare_3, procedure_primitive_compare_3a,
 			procedure_extended_compare_3, procedure_extended_compare_3a,
+			procedure_native_compare_3, procedure_native_compare_3a,
 			procedure_lambda_compare_3, procedure_lambda_compare_3a,
 			syntax_primitive_compare_3, syntax_primitive_compare_3a,
 			syntax_extended_compare_3, syntax_extended_compare_3a,
+			syntax_native_compare_3, syntax_native_compare_3a,
 			syntax_lambda_compare_3, syntax_lambda_compare_3a,
 			port_compare_3, port_compare_3a,
 			context_compare_3, context_compare_3a,
@@ -117,9 +125,11 @@ pub mod exports {
 			error_compare_4, error_compare_4a,
 			procedure_primitive_compare_4, procedure_primitive_compare_4a,
 			procedure_extended_compare_4, procedure_extended_compare_4a,
+			procedure_native_compare_4, procedure_native_compare_4a,
 			procedure_lambda_compare_4, procedure_lambda_compare_4a,
 			syntax_primitive_compare_4, syntax_primitive_compare_4a,
 			syntax_extended_compare_4, syntax_extended_compare_4a,
+			syntax_native_compare_4, syntax_native_compare_4a,
 			syntax_lambda_compare_4, syntax_lambda_compare_4a,
 			port_compare_4, port_compare_4a,
 			context_compare_4, context_compare_4a,
@@ -141,9 +151,11 @@ pub mod exports {
 			error_compare_n, error_compare_na,
 			procedure_primitive_compare_n, procedure_primitive_compare_na,
 			procedure_extended_compare_n, procedure_extended_compare_na,
+			procedure_native_compare_n, procedure_native_compare_na,
 			procedure_lambda_compare_n, procedure_lambda_compare_na,
 			syntax_primitive_compare_n, syntax_primitive_compare_na,
 			syntax_extended_compare_n, syntax_extended_compare_na,
+			syntax_native_compare_n, syntax_native_compare_na,
 			syntax_lambda_compare_n, syntax_lambda_compare_na,
 			port_compare_n, port_compare_na,
 			context_compare_n, context_compare_na,
@@ -419,6 +431,9 @@ pub fn compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Co
 		ValueClass::ProcedureExtended =>
 			return procedure_extended_compare_1a (value, comparison),
 		
+		ValueClass::ProcedureNative =>
+			return procedure_native_compare_1a (value, comparison),
+		
 		ValueClass::ProcedureLambda =>
 			return procedure_lambda_compare_1a (value, comparison),
 		
@@ -427,6 +442,9 @@ pub fn compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Co
 		
 		ValueClass::SyntaxExtended =>
 			return syntax_extended_compare_1a (value, comparison),
+		
+		ValueClass::SyntaxNative =>
+			return syntax_native_compare_1a (value, comparison),
 		
 		ValueClass::SyntaxLambda =>
 			return syntax_lambda_compare_1a (value, comparison),
@@ -513,6 +531,9 @@ pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef
 		(ValueClass::ProcedureExtended, ValueClass::ProcedureExtended) =>
 			return procedure_extended_compare_2a (left, right, comparison),
 		
+		(ValueClass::ProcedureNative, ValueClass::ProcedureNative) =>
+			return procedure_native_compare_2a (left, right, comparison),
+		
 		(ValueClass::ProcedureLambda, ValueClass::ProcedureLambda) =>
 			return procedure_lambda_compare_2a (left, right, comparison),
 		
@@ -521,6 +542,9 @@ pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef
 		
 		(ValueClass::SyntaxExtended, ValueClass::SyntaxExtended) =>
 			return syntax_extended_compare_2a (left, right, comparison),
+		
+		(ValueClass::SyntaxNative, ValueClass::SyntaxNative) =>
+			return syntax_native_compare_2a (left, right, comparison),
 		
 		(ValueClass::SyntaxLambda, ValueClass::SyntaxLambda) =>
 			return syntax_lambda_compare_2a (left, right, comparison),
@@ -913,6 +937,26 @@ pub fn procedure_extended_compare_2a <ValueRef : StdAsRef<ProcedureExtended>> (l
 }
 
 
+def_fn_compare! (ProcedureNative,
+		procedure_native_compare_1, procedure_native_compare_2, procedure_native_compare_3, procedure_native_compare_4, procedure_native_compare_n,
+		procedure_native_compare_1a, procedure_native_compare_2a, procedure_native_compare_3a, procedure_native_compare_4a, procedure_native_compare_na);
+
+pub fn procedure_native_compare_1a <ValueRef : StdAsRef<ProcedureNative>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true);
+}
+
+pub fn procedure_native_compare_2a <ValueRef : StdAsRef<ProcedureNative>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	let left = left.as_ref ();
+	let right = right.as_ref ();
+	match comparison {
+		Comparison::Equivalence (_, _, _) =>
+			succeed! (ProcedureNative::is_self (left, right)),
+		Comparison::Ordering (_, _, _) =>
+			fail_unimplemented! (0x00119c6c), // deferred
+	}
+}
+
+
 def_fn_compare! (ProcedureLambda,
 		procedure_lambda_compare_1, procedure_lambda_compare_2, procedure_lambda_compare_3, procedure_lambda_compare_4, procedure_lambda_compare_n,
 		procedure_lambda_compare_1a, procedure_lambda_compare_2a, procedure_lambda_compare_3a, procedure_lambda_compare_4a, procedure_lambda_compare_na);
@@ -962,6 +1006,26 @@ pub fn syntax_extended_compare_2a <ValueRef : StdAsRef<SyntaxExtended>> (left : 
 			succeed! (SyntaxExtended::is_self (left, right)),
 		Comparison::Ordering (_, _, _) =>
 			fail_unimplemented! (0x6b87390b), // deferred
+	}
+}
+
+
+def_fn_compare! (SyntaxNative,
+		syntax_native_compare_1, syntax_native_compare_2, syntax_native_compare_3, syntax_native_compare_4, syntax_native_compare_n,
+		syntax_native_compare_1a, syntax_native_compare_2a, syntax_native_compare_3a, syntax_native_compare_4a, syntax_native_compare_na);
+
+pub fn syntax_native_compare_1a <ValueRef : StdAsRef<SyntaxNative>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true);
+}
+
+pub fn syntax_native_compare_2a <ValueRef : StdAsRef<SyntaxNative>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	let left = left.as_ref ();
+	let right = right.as_ref ();
+	match comparison {
+		Comparison::Equivalence (_, _, _) =>
+			succeed! (SyntaxNative::is_self (left, right)),
+		Comparison::Ordering (_, _, _) =>
+			fail_unimplemented! (0x41363133), // deferred
 	}
 }
 

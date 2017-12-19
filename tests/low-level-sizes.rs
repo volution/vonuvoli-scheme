@@ -32,8 +32,12 @@ fn test__0 () -> () {
 	println! ("## size-of `Error`: {}", size_of::<Error> ());
 	println! ("## size-of `Lambda`: {}", size_of::<Lambda> ());
 	println! ("## size-of `ProcedurePrimitive`: {}", size_of::<ProcedurePrimitive> ());
+	println! ("## size-of `ProcedureExtended`: {}", size_of::<ProcedureExtended> ());
+	println! ("## size-of `ProcedureNative`: {}", size_of::<ProcedureNative> ());
 	println! ("## size-of `ArithmeticPrimitive1`: {}", size_of::<ArithmeticPrimitive1> ());
 	println! ("## size-of `SyntaxPrimitive`: {}", size_of::<SyntaxPrimitive> ());
+	println! ("## size-of `SyntaxExtended`: {}", size_of::<SyntaxExtended> ());
+	println! ("## size-of `SyntaxNative`: {}", size_of::<SyntaxNative> ());
 	println! ("## size-of `Context`: {}", size_of::<Context> ());
 	println! ("## size-of `Binding`: {}", size_of::<Binding> ());
 	

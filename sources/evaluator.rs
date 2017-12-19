@@ -8,6 +8,7 @@ use super::errors::exports::*;
 use super::expressions::exports::*;
 use super::extended_procedures::exports::*;
 use super::lambdas::exports::*;
+use super::native_procedures::exports::*;
 use super::primitives::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
@@ -267,6 +268,8 @@ impl Evaluator {
 	fn evaluate_for_procedure_native_call (&self, evaluation : &mut EvaluatorContext, input : &ExpressionForProcedureNativeCall) -> (Outcome<Value>) {
 		match *input {
 			
+			ExpressionForProcedureNativeCall::ProcedureNativeCall (ref _procedure, ref _inputs) =>
+				fail_unimplemented! (0xe933a5ac), // deferred
 			ExpressionForProcedureNativeCall::ProcedureNativeCall0 (ref procedure) =>
 				self.evaluate_procedure_native_0 (evaluation, procedure),
 			ExpressionForProcedureNativeCall::ProcedureNativeCall1 (ref procedure, ref input_1) =>
@@ -1377,8 +1380,8 @@ impl Evaluator {
 	
 	
 	#[ inline (always) ]
-	fn evaluate_procedure_native_0 (&self, _evaluation : &mut EvaluatorContext, native : &ProcedureNative0) -> (Outcome<Value>) {
-		return native ();
+	fn evaluate_procedure_native_0 (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative0) -> (Outcome<Value>) {
+		return native (evaluation);
 	}
 	
 	
@@ -1389,8 +1392,8 @@ impl Evaluator {
 	}
 	
 	#[ inline (always) ]
-	fn evaluate_procedure_native_1_with_values (&self, _evaluation : &mut EvaluatorContext, native : &ProcedureNative1, input_1 : &Value) -> (Outcome<Value>) {
-		return native (input_1);
+	fn evaluate_procedure_native_1_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative1, input_1 : &Value) -> (Outcome<Value>) {
+		return native (input_1, evaluation);
 	}
 	
 	
@@ -1402,8 +1405,8 @@ impl Evaluator {
 	}
 	
 	#[ inline (always) ]
-	fn evaluate_procedure_native_2_with_values (&self, _evaluation : &mut EvaluatorContext, native : &ProcedureNative2, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
-		return native (input_1, input_2);
+	fn evaluate_procedure_native_2_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative2, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
+		return native (input_1, input_2, evaluation);
 	}
 	
 	
@@ -1416,8 +1419,8 @@ impl Evaluator {
 	}
 	
 	#[ inline (always) ]
-	fn evaluate_procedure_native_3_with_values (&self, _evaluation : &mut EvaluatorContext, native : &ProcedureNative3, input_1 : &Value, input_2 : &Value, input_3 : &Value) -> (Outcome<Value>) {
-		return native (input_1, input_2, input_3);
+	fn evaluate_procedure_native_3_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative3, input_1 : &Value, input_2 : &Value, input_3 : &Value) -> (Outcome<Value>) {
+		return native (input_1, input_2, input_3, evaluation);
 	}
 	
 	
@@ -1431,8 +1434,8 @@ impl Evaluator {
 	}
 	
 	#[ inline (always) ]
-	fn evaluate_procedure_native_4_with_values (&self, _evaluation : &mut EvaluatorContext, native : &ProcedureNative4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value) -> (Outcome<Value>) {
-		return native (input_1, input_2, input_3, input_4);
+	fn evaluate_procedure_native_4_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value) -> (Outcome<Value>) {
+		return native (input_1, input_2, input_3, input_4, evaluation);
 	}
 	
 	
@@ -1447,8 +1450,8 @@ impl Evaluator {
 	}
 	
 	#[ inline (always) ]
-	fn evaluate_procedure_native_5_with_values (&self, _evaluation : &mut EvaluatorContext, native : &ProcedureNative5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value) -> (Outcome<Value>) {
-		return native (input_1, input_2, input_3, input_4, input_5);
+	fn evaluate_procedure_native_5_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value) -> (Outcome<Value>) {
+		return native (input_1, input_2, input_3, input_4, input_5, evaluation);
 	}
 	
 	
@@ -1460,8 +1463,8 @@ impl Evaluator {
 	}
 	
 	#[ inline (always) ]
-	fn evaluate_procedure_native_n_with_values (&self, _evaluation : &mut EvaluatorContext, native : &ProcedureNativeN, inputs : &[&Value]) -> (Outcome<Value>) {
-		return native (inputs);
+	fn evaluate_procedure_native_n_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeN, inputs : &[&Value]) -> (Outcome<Value>) {
+		return native (inputs, evaluation);
 	}
 	
 	

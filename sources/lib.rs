@@ -50,6 +50,8 @@ pub mod lambdas;
 pub mod languages;
 pub mod languages_builtins;
 pub mod languages_r7rs;
+pub mod native_procedures;
+pub mod native_syntaxes;
 pub mod parser;
 pub mod ports;
 pub mod ports_memory;
@@ -95,6 +97,8 @@ pub mod exports {
 	pub use super::extended_syntaxes::exports::*;
 	pub use super::lambdas::exports::*;
 	pub use super::languages::exports::*;
+	pub use super::native_procedures::exports::*;
+	pub use super::native_syntaxes::exports::*;
 	pub use super::parser::exports::*;
 	pub use super::ports::exports::*;
 	pub use super::primitives::exports::*;

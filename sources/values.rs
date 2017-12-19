@@ -5,6 +5,8 @@ use super::errors::exports::*;
 use super::extended_procedures::exports::*;
 use super::extended_syntaxes::exports::*;
 use super::lambdas::exports::*;
+use super::native_procedures::exports::*;
+use super::native_syntaxes::exports::*;
 use super::ports::exports::*;
 use super::primitives::exports::*;
 use super::runtime::exports::*;
@@ -74,9 +76,12 @@ pub enum ValueClass {
 	
 	ProcedurePrimitive,
 	ProcedureExtended,
+	ProcedureNative,
 	ProcedureLambda,
+	
 	SyntaxPrimitive,
 	SyntaxExtended,
+	SyntaxNative,
 	SyntaxLambda,
 	
 	Port,
@@ -111,9 +116,12 @@ pub enum Value {
 	
 	ProcedurePrimitive ( ValueMeta1, ProcedurePrimitive, ValueMeta2 ),
 	ProcedureExtended ( ValueMeta1, ProcedureExtended, ValueMeta2 ),
+	ProcedureNative ( ValueMeta1, ProcedureNative, ValueMeta2 ),
 	ProcedureLambda ( ValueMeta1, ProcedureLambda, ValueMeta2 ),
+	
 	SyntaxPrimitive ( ValueMeta1, SyntaxPrimitive, ValueMeta2, ),
 	SyntaxExtended ( ValueMeta1, SyntaxExtended, ValueMeta2, ),
+	SyntaxNative ( ValueMeta1, SyntaxNative, ValueMeta2, ),
 	SyntaxLambda ( ValueMeta1, SyntaxLambda, ValueMeta2, ),
 	
 	Port ( ValueMeta1, Port, ValueMeta2, ),
@@ -168,9 +176,12 @@ impl Value {
 			
 			Value::ProcedurePrimitive (_, _, _) => ValueClass::ProcedurePrimitive,
 			Value::ProcedureExtended (_, _, _) => ValueClass::ProcedureExtended,
+			Value::ProcedureNative (_, _, _) => ValueClass::ProcedureNative,
 			Value::ProcedureLambda (_, _, _) => ValueClass::ProcedureLambda,
+			
 			Value::SyntaxPrimitive (_, _, _) => ValueClass::SyntaxPrimitive,
 			Value::SyntaxExtended (_, _, _) => ValueClass::SyntaxExtended,
+			Value::SyntaxNative (_, _, _) => ValueClass::SyntaxNative,
 			Value::SyntaxLambda (_, _, _) => ValueClass::SyntaxLambda,
 			
 			Value::Port (_, _, _) => ValueClass::Port,
@@ -209,9 +220,12 @@ impl Value {
 			
 			(&Value::ProcedurePrimitive (_, ref self_0, _), &Value::ProcedurePrimitive (_, ref other_0, _)) => self_0 == other_0,
 			(&Value::ProcedureExtended (_, ref self_0, _), &Value::ProcedureExtended (_, ref other_0, _)) => ProcedureExtended::is_self (self_0, other_0),
+			(&Value::ProcedureNative (_, ref self_0, _), &Value::ProcedureNative (_, ref other_0, _)) => ProcedureNative::is_self (self_0, other_0),
 			(&Value::ProcedureLambda (_, ref self_0, _), &Value::ProcedureLambda (_, ref other_0, _)) => ProcedureLambda::is_self (self_0, other_0),
+			
 			(&Value::SyntaxPrimitive (_, ref self_0, _), &Value::SyntaxPrimitive (_, ref other_0, _)) => self_0 == other_0,
 			(&Value::SyntaxExtended (_, ref self_0, _), &Value::SyntaxExtended (_, ref other_0, _)) => SyntaxExtended::is_self (self_0, other_0),
+			(&Value::SyntaxNative (_, ref self_0, _), &Value::SyntaxNative (_, ref other_0, _)) => SyntaxNative::is_self (self_0, other_0),
 			(&Value::SyntaxLambda (_, ref self_0, _), &Value::SyntaxLambda (_, ref other_0, _)) => SyntaxLambda::is_self (self_0, other_0),
 			
 			(&Value::Port (_, ref self_0, _), &Value::Port (_, ref other_0, _)) => Port::is_self (self_0, other_0),
@@ -257,9 +271,12 @@ impl fmt::Display for Value {
 			
 			Value::ProcedurePrimitive (_, ref value, _) => write! (formatter, "#<procedure:{:?}>", value),
 			Value::ProcedureExtended (_, ref value, _) => value.fmt (formatter),
+			Value::ProcedureNative (_, ref value, _) => value.fmt (formatter),
 			Value::ProcedureLambda (_, ref value, _) => value.fmt (formatter),
+			
 			Value::SyntaxPrimitive (_, ref value, _) => write! (formatter, "#<syntax:{:?}>", value),
 			Value::SyntaxExtended (_, ref value, _) => value.fmt (formatter),
+			Value::SyntaxNative (_, ref value, _) => value.fmt (formatter),
 			Value::SyntaxLambda (_, ref value, _) => value.fmt (formatter),
 			
 			Value::Port (_, ref value, _) => value.fmt (formatter),
@@ -303,9 +320,12 @@ impl fmt::Debug for Value {
 			
 			Value::ProcedurePrimitive (_, ref value, _) => value.fmt (formatter),
 			Value::ProcedureExtended (_, ref value, _) => value.fmt (formatter),
+			Value::ProcedureNative (_, ref value, _) => value.fmt (formatter),
 			Value::ProcedureLambda (_, ref value, _) => value.fmt (formatter),
+			
 			Value::SyntaxPrimitive (_, ref value, _) => value.fmt (formatter),
 			Value::SyntaxExtended (_, ref value, _) => value.fmt (formatter),
+			Value::SyntaxNative (_, ref value, _) => value.fmt (formatter),
 			Value::SyntaxLambda (_, ref value, _) => value.fmt (formatter),
 			
 			Value::Port (_, ref value, _) => value.fmt (formatter),

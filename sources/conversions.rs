@@ -6,6 +6,8 @@ use super::expressions::exports::*;
 use super::extended_procedures::exports::*;
 use super::extended_syntaxes::exports::*;
 use super::lambdas::exports::*;
+use super::native_procedures::exports::*;
+use super::native_syntaxes::exports::*;
 use super::ports::exports::*;
 use super::primitives::exports::*;
 use super::runtime::exports::*;
@@ -103,9 +105,11 @@ impl_from_for_Value_1! (Values, Values);
 impl_from_for_Value_1! (Error, Error);
 impl_from_for_Value_1! (ProcedurePrimitive, ProcedurePrimitive);
 impl_from_for_Value_1! (ProcedureExtended, ProcedureExtended);
+impl_from_for_Value_1! (ProcedureNative, ProcedureNative);
 impl_from_for_Value_1! (ProcedureLambda, ProcedureLambda);
 impl_from_for_Value_1! (SyntaxPrimitive, SyntaxPrimitive);
 impl_from_for_Value_1! (SyntaxExtended, SyntaxExtended);
+impl_from_for_Value_1! (SyntaxNative, SyntaxNative);
 impl_from_for_Value_1! (SyntaxLambda, SyntaxLambda);
 impl_from_for_Value_1! (Port, Port);
 impl_from_for_Value_1! (Context, Context);
@@ -154,6 +158,9 @@ impl_from_for_type! (Pair, (Value, Value), value, { let (left, right) = value; p
 impl_from_for_Value_3! (ProcedureExtended, ProcedureExtended, ProcedureExtendedInternals, internals, ProcedureExtended::new (internals));
 impl_from_for_Value_3! (SyntaxExtended, SyntaxExtended, SyntaxExtendedInternals, internals, SyntaxExtended::new (internals));
 
+impl_from_for_Value_3! (ProcedureNative, ProcedureNative, ProcedureNativeInternals, internals, ProcedureNative::new (internals));
+impl_from_for_Value_3! (SyntaxNative, SyntaxNative, SyntaxNativeInternals, internals, SyntaxNative::new (internals));
+
 
 
 
@@ -189,6 +196,38 @@ macro_rules! impl_from_for_primitive_syntax {
 }
 
 impl_from_for_primitive_syntax! (SyntaxPrimitiveV, PrimitiveV);
+
+
+
+
+macro_rules! impl_from_for_native_procedure_1 {
+	( $from : ty, $tag : ident ) => (
+		impl_from_for_enum! (ProcedureNativeInternals, $tag, $from);
+		impl_from_for_Value_3! (ProcedureNative, ProcedureNative, $from, native, ProcedureNativeInternals::$tag (native) .into ());
+		impl_unwrappers_for_enum_wrapper! (ProcedureNativeInternals, $tag, $from);
+	);
+}
+
+impl_from_for_native_procedure_1! (ProcedureNative0, Native0);
+impl_from_for_native_procedure_1! (ProcedureNative1, Native1);
+impl_from_for_native_procedure_1! (ProcedureNative2, Native2);
+impl_from_for_native_procedure_1! (ProcedureNative3, Native3);
+impl_from_for_native_procedure_1! (ProcedureNative4, Native4);
+impl_from_for_native_procedure_1! (ProcedureNative5, Native5);
+impl_from_for_native_procedure_1! (ProcedureNativeN, NativeN);
+
+
+
+
+macro_rules! impl_from_for_native_syntax_1 {
+	( $from : ty, $tag : ident ) => (
+		impl_from_for_enum! (SyntaxNativeInternals, $tag, $from);
+		impl_from_for_Value_3! (SyntaxNative, SyntaxNative, $from, native, SyntaxNativeInternals::$tag (native) .into ());
+		// impl_unwrappers_for_enum_wrapper! (SyntaxNativeInternals, $tag, $from);
+	);
+}
+
+impl_from_for_native_syntax_1! (SyntaxNativeG, NativeG);
 
 
 
