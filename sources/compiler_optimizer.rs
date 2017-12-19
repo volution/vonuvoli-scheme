@@ -1726,7 +1726,7 @@ impl Optimizer {
 					ExpressionClass::Value (class) =>
 						VOID_VALUE.is (class),
 					ExpressionClass::Type (primitive) =>
-						type_primitive_1_evaluate_0 (primitive, &VOID_VALUE) .unwrap (), // PANIC
+						type_primitive_1_evaluate_0 (primitive, &VOID_VALUE) .unwrap (),
 				},
 			
 			Expression::Value (ref value) =>
@@ -1736,7 +1736,7 @@ impl Optimizer {
 					ExpressionClass::Value (class) =>
 						value.is (class),
 					ExpressionClass::Type (primitive) =>
-						type_primitive_1_evaluate_0 (primitive, value) .unwrap (), // PANIC
+						type_primitive_1_evaluate_0 (primitive, value) .unwrap (),
 				},
 			
 			Expression::Sequence (_, _) =>

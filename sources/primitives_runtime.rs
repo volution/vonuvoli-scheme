@@ -114,16 +114,16 @@ pub fn runtime_primitive_0_evaluate (primitive : RuntimePrimitive0, _evaluator :
 	match primitive {
 		
 		RuntimePrimitive0::ProcessArguments =>
-			fail_unimplemented! (0x1a7fa84a), // deferred
+			fail_unimplemented! (0x1a7fa84a),
 		
 		RuntimePrimitive0::ProcessEnvironment =>
-			fail_unimplemented! (0x3d8c06db), // deferred
+			fail_unimplemented! (0x3d8c06db),
 		
 		RuntimePrimitive0::ProcessExit =>
-			fail_unimplemented! (0x6b6e5604), // deferred
+			fail_unimplemented! (0x6b6e5604),
 		
 		RuntimePrimitive0::ProcessExitEmergency =>
-			fail_unimplemented! (0xe1a2c04e), // deferred
+			fail_unimplemented! (0xe1a2c04e),
 		
 		RuntimePrimitive0::PosixTimestamp =>
 			succeed! (posix_timestamp () .into ()),
@@ -145,13 +145,13 @@ pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, _input_1 : &
 	match primitive {
 		
 		RuntimePrimitive1::ProcessEnvironment =>
-			fail_unimplemented! (0x8f801b52), // deferred
+			fail_unimplemented! (0x8f801b52),
 		
 		RuntimePrimitive1::ProcessExit =>
-			fail_unimplemented! (0xf2f39391), // deferred
+			fail_unimplemented! (0xf2f39391),
 		
 		RuntimePrimitive1::ProcessExitEmergency =>
-			fail_unimplemented! (0x7a0fae27), // deferred
+			fail_unimplemented! (0x7a0fae27),
 	}
 }
 

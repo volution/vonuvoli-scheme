@@ -269,7 +269,7 @@ impl Evaluator {
 		match *input {
 			
 			ExpressionForProcedureNativeCall::ProcedureNativeCall (ref _procedure, ref _inputs) =>
-				fail_unimplemented! (0xe933a5ac), // deferred
+				fail_unimplemented! (0xe933a5ac),
 			ExpressionForProcedureNativeCall::ProcedureNativeCall0 (ref procedure) =>
 				self.evaluate_procedure_native_0 (evaluation, procedure),
 			ExpressionForProcedureNativeCall::ProcedureNativeCall1 (ref procedure, ref input_1) =>

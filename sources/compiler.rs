@@ -439,7 +439,7 @@ impl Compiler {
 			};
 			
 			if (statements.len () >= 1) && (statements[0].is (ValueClass::Symbol) && StdAsRef::<Symbol>::as_ref (&statements[0]) .string_eq ("=>")) {
-				fail_unimplemented! (0xfa332991); // deferred
+				fail_unimplemented! (0xfa332991);
 			}
 			let (compilation_1, statements) = try! (self.compile_0_vec (compilation_1, statements));
 			
@@ -493,7 +493,7 @@ impl Compiler {
 			};
 			
 			if (statements.len () >= 1) && (statements[0].is (ValueClass::Symbol) && StdAsRef::<Symbol>::as_ref (&statements[0]) .string_eq ("=>")) {
-				fail_unimplemented! (0xef5d468c); // deferred
+				fail_unimplemented! (0xef5d468c);
 			}
 			let (compilation_1, statements) = try! (self.compile_0_vec (compilation, statements));
 			

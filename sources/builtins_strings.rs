@@ -76,7 +76,7 @@ pub fn string_at (string : &Value, index : usize) -> (Outcome<Value>) {
 }
 
 pub fn string_at_set (_string : &Value, _index : usize, _char : &Value) -> (Outcome<Value>) {
-	fail_unimplemented! (0xc8a46002); // deferred
+	fail_unimplemented! (0xc8a46002);
 }
 
 
@@ -272,14 +272,14 @@ pub fn string_fill_range (string : &Value, fill : Option<&Value>, range_start : 
 		0 as char
 	};
 	let (_range_start, _range_end) = try! (range_coerce_unbounded (range_start, range_end));
-	fail_unimplemented! (0x7eaac146); // deferred
+	fail_unimplemented! (0x7eaac146);
 }
 
 
 pub fn string_reverse_range (string : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let _string = try_as_string_ref! (string);
 	let (_range_start, _range_end) = try! (range_coerce_unbounded (range_start, range_end));
-	fail_unimplemented! (0x46884d97); // deferred
+	fail_unimplemented! (0x46884d97);
 }
 
 
@@ -288,7 +288,7 @@ pub fn string_copy_range (target_string : &Value, target_start : Option<&Value>,
 	let _source_string = try_as_string_ref! (source_string);
 	let (_source_start, _source_end) = try! (range_coerce_unbounded (source_start, source_end));
 	let (_target_start, _target_end) = try! (range_coerce_unbounded (target_start, None));
-	fail_unimplemented! (0xf216023f); // deferred
+	fail_unimplemented! (0xf216023f);
 }
 
 
@@ -635,7 +635,7 @@ pub fn number_to_string (number : &Value, radix : Option<&Value>, sign : Option<
 					if let Some (number) = number.checked_abs () {
 						(number, "-")
 					} else {
-						fail_unimplemented! (0x231c95ca); // deferred
+						fail_unimplemented! (0x231c95ca);
 					}
 				};
 				match radix {
@@ -648,7 +648,7 @@ pub fn number_to_string (number : &Value, radix : Option<&Value>, sign : Option<
 					Some (16) =>
 						format! ("{}{:x}", prefix, number),
 					_ =>
-						fail_unimplemented! (0x3bd46548), // deferred
+						fail_unimplemented! (0x3bd46548),
 				}
 			} else {
 				match sign {

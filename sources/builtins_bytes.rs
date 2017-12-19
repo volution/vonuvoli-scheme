@@ -52,7 +52,7 @@ pub fn bytes_at_ref (bytes : &Value, index : usize) -> (Outcome<&u8>) {
 }
 
 pub fn bytes_at_set (_bytes : &Value, _index : usize, _byte : &Value) -> (Outcome<Value>) {
-	fail_unimplemented! (0xd606bd1c); // deferred
+	fail_unimplemented! (0xd606bd1c);
 }
 
 
@@ -248,14 +248,14 @@ pub fn bytes_fill_range (bytes : &Value, fill : Option<&Value>, range_start : Op
 		0 as u8
 	};
 	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, bytes.values_length ()));
-	fail_unimplemented! (0xfc14ec8b); // deferred
+	fail_unimplemented! (0xfc14ec8b);
 }
 
 
 pub fn bytes_reverse_range (bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_ref! (bytes);
 	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, bytes.values_length ()));
-	fail_unimplemented! (0xff6acb00); // deferred
+	fail_unimplemented! (0xff6acb00);
 }
 
 
@@ -267,7 +267,7 @@ pub fn bytes_copy_range (target_bytes : &Value, target_start : Option<&Value>, s
 	if (target_end - target_start) < (source_end - source_start) {
 		fail! (0x7033eb20);
 	}
-	fail_unimplemented! (0x00cfa730); // deferred
+	fail_unimplemented! (0x00cfa730);
 }
 
 

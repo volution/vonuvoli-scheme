@@ -695,7 +695,7 @@ pub fn character_compare_2a <ValueRef : StdAsRef<Character>> (left : ValueRef, r
 				None | Some (true) =>
 					return std_ord_compare_2_ordering_val (left, right, ordering),
 				_ =>
-					fail_unimplemented! (0xea3c51f1), // deferred
+					fail_unimplemented! (0xea3c51f1),
 			},
 	}
 }
@@ -720,7 +720,7 @@ pub fn symbol_compare_2a <ValueRef : StdAsRef<Symbol>> (left : ValueRef, right :
 				None | Some (true) =>
 					return std_ord_compare_2_ordering_val (left, right, ordering),
 				_ =>
-					fail_unimplemented! (0xc4ef7065), // deferred
+					fail_unimplemented! (0xc4ef7065),
 			},
 	}
 }
@@ -750,7 +750,7 @@ pub fn string_compare_2a <ValueRef : StdAsRef<String>> (left : ValueRef, right :
 				None | Some (true) =>
 					return std_ord_compare_2_ordering_ref (left, right, ordering),
 				_ =>
-					fail_unimplemented! (0x2736b1f6), // deferred
+					fail_unimplemented! (0x2736b1f6),
 			},
 	}
 }
@@ -932,7 +932,7 @@ pub fn procedure_extended_compare_2a <ValueRef : StdAsRef<ProcedureExtended>> (l
 		Comparison::Equivalence (_, _, _) =>
 			succeed! (ProcedureExtended::is_self (left, right)),
 		Comparison::Ordering (_, _, _) =>
-			fail_unimplemented! (0x6b87390b), // deferred
+			fail_unimplemented! (0x6b87390b),
 	}
 }
 
@@ -952,7 +952,7 @@ pub fn procedure_native_compare_2a <ValueRef : StdAsRef<ProcedureNative>> (left 
 		Comparison::Equivalence (_, _, _) =>
 			succeed! (ProcedureNative::is_self (left, right)),
 		Comparison::Ordering (_, _, _) =>
-			fail_unimplemented! (0x00119c6c), // deferred
+			fail_unimplemented! (0x00119c6c),
 	}
 }
 
@@ -972,7 +972,7 @@ pub fn procedure_lambda_compare_2a <ValueRef : StdAsRef<ProcedureLambda>> (left 
 		Comparison::Equivalence (_, _, _) =>
 			succeed! (ProcedureLambda::is_self (left, right)),
 		Comparison::Ordering (_, _, _) =>
-			fail_unimplemented! (0x53fd2c24), // deferred
+			fail_unimplemented! (0x53fd2c24),
 	}
 }
 
@@ -1005,7 +1005,7 @@ pub fn syntax_extended_compare_2a <ValueRef : StdAsRef<SyntaxExtended>> (left : 
 		Comparison::Equivalence (_, _, _) =>
 			succeed! (SyntaxExtended::is_self (left, right)),
 		Comparison::Ordering (_, _, _) =>
-			fail_unimplemented! (0x6b87390b), // deferred
+			fail_unimplemented! (0x6b87390b),
 	}
 }
 
@@ -1025,7 +1025,7 @@ pub fn syntax_native_compare_2a <ValueRef : StdAsRef<SyntaxNative>> (left : Valu
 		Comparison::Equivalence (_, _, _) =>
 			succeed! (SyntaxNative::is_self (left, right)),
 		Comparison::Ordering (_, _, _) =>
-			fail_unimplemented! (0x41363133), // deferred
+			fail_unimplemented! (0x41363133),
 	}
 }
 
@@ -1045,7 +1045,7 @@ pub fn syntax_lambda_compare_2a <ValueRef : StdAsRef<SyntaxLambda>> (left : Valu
 		Comparison::Equivalence (_, _, _) =>
 			succeed! (SyntaxLambda::is_self (left, right)),
 		Comparison::Ordering (_, _, _) =>
-			fail_unimplemented! (0xbaf266d4), // deferred
+			fail_unimplemented! (0xbaf266d4),
 	}
 }
 
@@ -1065,7 +1065,7 @@ pub fn port_compare_2a <ValueRef : StdAsRef<Port>> (left : ValueRef, right : Val
 		Comparison::Equivalence (_, _, _) =>
 			succeed! (Port::is_self (left, right)),
 		Comparison::Ordering (_, _, _) =>
-			fail_unimplemented! (0xd492be08), // deferred
+			fail_unimplemented! (0xd492be08),
 	}
 }
 
@@ -1085,7 +1085,7 @@ pub fn context_compare_2a <ValueRef : StdAsRef<Context>> (left : ValueRef, right
 		Comparison::Equivalence (_, _, _) =>
 			succeed! (Context::is_self (left, right)),
 		Comparison::Ordering (_, _, _) =>
-			fail_unimplemented! (0x9296c028), // deferred
+			fail_unimplemented! (0x9296c028),
 	}
 }
 
@@ -1105,7 +1105,7 @@ pub fn binding_compare_2a <ValueRef : StdAsRef<Binding>> (left : ValueRef, right
 		Comparison::Equivalence (_, _, _) =>
 			succeed! (Binding::is_self (left, right)),
 		Comparison::Ordering (_, _, _) =>
-			fail_unimplemented! (0x4466d4a7), // deferred
+			fail_unimplemented! (0x4466d4a7),
 	}
 }
 
