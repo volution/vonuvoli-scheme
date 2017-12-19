@@ -311,7 +311,7 @@ impl Compiler {
 				},
 			
 			SyntaxPrimitive::Auxiliary =>
-				fail! (0x1aed14f3),
+				fail! (0xc64adbb8),
 			
 			SyntaxPrimitive::Unimplemented =>
 				fail_unimplemented! (0xa4e41f62), // OK
@@ -1031,7 +1031,7 @@ impl Compiler {
 							CompilerBinding::Register (index, _) =>
 								succeed! ((index, expression)),
 							_ =>
-								fail! (0x5627731f),
+								fail! (0x9d0610d6),
 						});
 				let expression = if initialize {
 					ExpressionForContexts::RegisterInitializeN (initializers.into_boxed_slice (), parallel) .into ()

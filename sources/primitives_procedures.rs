@@ -760,13 +760,13 @@ pub fn procedure_primitive_g_evaluate_0 (primitive : ProcedurePrimitive, evaluat
 			return procedure_primitive_v_evaluate_0 (primitive, evaluator),
 		
 		ProcedurePrimitive::Unimplemented =>
-			fail_unimplemented! (0x10d3710f), // OK
+			fail_unimplemented! (0x635e3f45), // OK
 		
 		ProcedurePrimitive::Unsupported =>
-			fail_unimplemented! (0x8baac30b), // OK
+			fail_unimplemented! (0x588a2e8f), // OK
 		
 		ProcedurePrimitive::Reserved =>
-			fail! (0xb687a39c),
+			fail! (0x649839df),
 		
 		_ =>
 			fail! (0x38623a76),
@@ -790,13 +790,13 @@ pub fn procedure_primitive_g_evaluate_1 (primitive : ProcedurePrimitive, input_1
 			return procedure_primitive_v_evaluate_1 (primitive, input_1, evaluator),
 		
 		ProcedurePrimitive::Unimplemented =>
-			fail_unimplemented! (0x10d3710f), // OK
+			fail_unimplemented! (0x6c063079), // OK
 		
 		ProcedurePrimitive::Unsupported =>
-			fail_unimplemented! (0x8baac30b), // OK
+			fail_unimplemented! (0xc689378a), // OK
 		
 		ProcedurePrimitive::Reserved =>
-			fail! (0xb687a39c),
+			fail! (0xfed99283),
 		
 		_ =>
 			fail! (0x92f0f0ce),
@@ -820,13 +820,13 @@ pub fn procedure_primitive_g_evaluate_2 (primitive : ProcedurePrimitive, input_1
 			return procedure_primitive_v_evaluate_2 (primitive, input_1, input_2, evaluator),
 		
 		ProcedurePrimitive::Unimplemented =>
-			fail_unimplemented! (0x10d3710f), // OK
+			fail_unimplemented! (0xd79d710f), // OK
 		
 		ProcedurePrimitive::Unsupported =>
-			fail_unimplemented! (0x8baac30b), // OK
+			fail_unimplemented! (0xfae8451f), // OK
 		
 		ProcedurePrimitive::Reserved =>
-			fail! (0xb687a39c),
+			fail! (0x0b04b93e),
 		
 		_ =>
 			fail! (0xdaa4c8f5),
@@ -850,13 +850,13 @@ pub fn procedure_primitive_g_evaluate_3 (primitive : ProcedurePrimitive, input_1
 			return procedure_primitive_v_evaluate_3 (primitive, input_1, input_2, input_3, evaluator),
 		
 		ProcedurePrimitive::Unimplemented =>
-			fail_unimplemented! (0x10d3710f), // OK
+			fail_unimplemented! (0x299b0807), // OK
 		
 		ProcedurePrimitive::Unsupported =>
-			fail_unimplemented! (0x8baac30b), // OK
+			fail_unimplemented! (0x0d3c6416), // OK
 		
 		ProcedurePrimitive::Reserved =>
-			fail! (0xb687a39c),
+			fail! (0x310b03d4),
 		
 		_ =>
 			fail! (0x99473830),
@@ -880,16 +880,16 @@ pub fn procedure_primitive_g_evaluate_4 (primitive : ProcedurePrimitive, input_1
 			return procedure_primitive_v_evaluate_4 (primitive, input_1, input_2, input_3, input_4, evaluator),
 		
 		ProcedurePrimitive::Unimplemented =>
-			fail_unimplemented! (0x10d3710f), // OK
+			fail_unimplemented! (0x41ea7797), // OK
 		
 		ProcedurePrimitive::Unsupported =>
-			fail_unimplemented! (0x8baac30b), // OK
+			fail_unimplemented! (0xbcbf1bcd), // OK
 		
 		ProcedurePrimitive::Reserved =>
-			fail! (0xb687a39c),
+			fail! (0x37319aac),
 		
 		_ =>
-			fail! (0xb01e600e),
+			fail! (0x723b728c),
 	}
 }
 
@@ -910,16 +910,16 @@ pub fn procedure_primitive_g_evaluate_5 (primitive : ProcedurePrimitive, input_1
 			return procedure_primitive_v_evaluate_5 (primitive, input_1, input_2, input_3, input_4, input_5, evaluator),
 		
 		ProcedurePrimitive::Unimplemented =>
-			fail_unimplemented! (0x10d3710f), // OK
+			fail_unimplemented! (0x97c9abd0), // OK
 		
 		ProcedurePrimitive::Unsupported =>
-			fail_unimplemented! (0x8baac30b), // OK
+			fail_unimplemented! (0x2e569e14), // OK
 		
 		ProcedurePrimitive::Reserved =>
-			fail! (0xb687a39c),
+			fail! (0xc8a6c70d),
 		
 		_ =>
-			fail! (0x5d861664),
+			fail! (0xa4f4a6c6),
 	}
 }
 

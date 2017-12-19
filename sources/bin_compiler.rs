@@ -15,7 +15,7 @@ use std::io::Write;
 
 
 fn main () -> () {
-	main_0 () .expect ("f2d87179");
+	main_0 () .expect ("eefe92a1");
 }
 
 
@@ -33,8 +33,8 @@ fn main_0 () -> (Outcome<()>) {
 		Ok (_) =>
 			(),
 		Err (error) => {
-			try_or_fail! (write! (transcript, "!! input !! => {:#?}\n", &error), 0xb498c8f0);
-			fail! (0x68c9854b);
+			try_or_fail! (write! (transcript, "!! input !! => {:#?}\n", &error), 0xfda55994);
+			fail! (0x4d3a5ff8);
 		},
 	}
 	
@@ -42,7 +42,7 @@ fn main_0 () -> (Outcome<()>) {
 		Ok (expressions) =>
 			expressions,
 		Err (error) => {
-			try_or_fail! (write! (transcript, "!! parse !! => {:#?}\n", &error), 0x4b546a75);
+			try_or_fail! (write! (transcript, "!! parse !! => {:#?}\n", &error), 0xf25f2f7b);
 			return Err (error);
 		},
 	};
@@ -51,7 +51,7 @@ fn main_0 () -> (Outcome<()>) {
 		Ok (expression) =>
 			expression,
 		Err (error) => {
-			try_or_fail! (write! (transcript, "!! compile !! => {:#?}\n", &error), 0xeaf9b7f2);
+			try_or_fail! (write! (transcript, "!! compile !! => {:#?}\n", &error), 0xb181d326);
 			return Err (error);
 		},
 	};
@@ -60,7 +60,7 @@ fn main_0 () -> (Outcome<()>) {
 		Ok (expression) =>
 			expression,
 		Err (error) => {
-			try_or_fail! (write! (transcript, "!! optimize !! => {:#?}\n", &error), 0x89f48a5b);
+			try_or_fail! (write! (transcript, "!! optimize !! => {:#?}\n", &error), 0xf591ef0e);
 			return Err (error);
 		},
 	};

@@ -793,7 +793,7 @@ pub fn option_unwrap_ref <T> (option : &Option<T>) -> (&T) {
 		Some (ref value) =>
 			value,
 		None =>
-			panic! ("75a8fcd5"),
+			panic! ("652a4430"),
 	}
 }
 

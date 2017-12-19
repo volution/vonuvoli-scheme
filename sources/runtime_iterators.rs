@@ -68,7 +68,7 @@ impl <Value, IteratorDelegate> Iterator for RangeIterator<Value, IteratorDelegat
 				if self.index == range_end {
 					return None;
 				} else {
-					return Some (failed! (0x98c83cbe));
+					return Some (failed! (0x75a86cb5));
 				}
 			} else {
 				return None;
@@ -146,7 +146,7 @@ impl <Value, IteratorDelegate> Iterator for RangeIteratorForOutcome<Value, Itera
 				if self.index == range_end {
 					return None;
 				} else {
-					return Some (failed! (0x98c83cbe));
+					return Some (failed! (0x9a76c55c));
 				}
 			} else {
 				return None;

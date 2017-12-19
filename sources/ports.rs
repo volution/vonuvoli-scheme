@@ -741,12 +741,12 @@ impl PortBackendReader for PortBackend {
 			PortBackend::BytesReader (ref mut backend) =>
 				return backend.byte_ready (),
 			PortBackend::BytesWriter (_) =>
-				fail! (0xfeae1f6f),
+				fail! (0x5a27a6cf),
 			
 			PortBackend::NativeReader (ref mut backend) =>
 				return backend.byte_ready (),
 			PortBackend::NativeWriter (_) =>
-				fail! (0xfeae1f6f),
+				fail! (0xf6b9d777),
 			
 		}
 	}
@@ -762,7 +762,7 @@ impl PortBackendReader for PortBackend {
 			PortBackend::NativeReader (ref mut backend) =>
 				return backend.byte_peek (),
 			PortBackend::NativeWriter (_) =>
-				fail! (0xc27a4d90),
+				fail! (0x693a0eb6),
 			
 		}
 	}
@@ -778,7 +778,7 @@ impl PortBackendReader for PortBackend {
 			PortBackend::NativeReader (ref mut backend) =>
 				return backend.byte_read (),
 			PortBackend::NativeWriter (_) =>
-				fail! (0xf667bc10),
+				fail! (0x39e6cf6d),
 			
 		}
 	}
@@ -789,7 +789,7 @@ impl PortBackendReader for PortBackend {
 			PortBackend::BytesReader (ref mut backend) =>
 				return backend.byte_read_slice (buffer, full),
 			PortBackend::BytesWriter (_) =>
-				fail! (0x11f30803),
+				fail! (0xddc2d8a4),
 			
 			PortBackend::NativeReader (ref mut backend) =>
 				return backend.byte_read_slice (buffer, full),
@@ -810,7 +810,7 @@ impl PortBackendReader for PortBackend {
 			PortBackend::NativeReader (ref mut backend) =>
 				return backend.byte_read_extend (buffer, count, full),
 			PortBackend::NativeWriter (_) =>
-				fail! (0xc9f43b63),
+				fail! (0xfadfcd4e),
 			
 		}
 	}
@@ -826,7 +826,7 @@ impl PortBackendReader for PortBackend {
 			PortBackend::NativeReader (ref mut backend) =>
 				return backend.byte_read_string (buffer, count, full),
 			PortBackend::NativeWriter (_) =>
-				fail! (0xcf79a239),
+				fail! (0x00245653),
 			
 		}
 	}
@@ -842,7 +842,7 @@ impl PortBackendReader for PortBackend {
 			PortBackend::NativeReader (ref mut backend) =>
 				return backend.char_ready (),
 			PortBackend::NativeWriter (_) =>
-				fail! (0x53e51828),
+				fail! (0x3256e2ec),
 			
 		}
 	}
@@ -858,7 +858,7 @@ impl PortBackendReader for PortBackend {
 			PortBackend::NativeReader (ref mut backend) =>
 				return backend.char_peek (),
 			PortBackend::NativeWriter (_) =>
-				fail! (0x5b9b1a55),
+				fail! (0x4c7f1120),
 			
 		}
 	}
@@ -869,7 +869,7 @@ impl PortBackendReader for PortBackend {
 			PortBackend::BytesReader (ref mut backend) =>
 				return backend.char_read (),
 			PortBackend::BytesWriter (_) =>
-				fail! (0x3af9daae),
+				fail! (0x4cb1bbf3),
 			
 			PortBackend::NativeReader (ref mut backend) =>
 				return backend.char_read (),
@@ -885,7 +885,7 @@ impl PortBackendReader for PortBackend {
 			PortBackend::BytesReader (ref mut backend) =>
 				return backend.char_read_slice (buffer, full),
 			PortBackend::BytesWriter (_) =>
-				fail! (0xfc132fec),
+				fail! (0xa6dd9cfc),
 			
 			PortBackend::NativeReader (ref mut backend) =>
 				return backend.char_read_slice (buffer, full),
@@ -901,7 +901,7 @@ impl PortBackendReader for PortBackend {
 			PortBackend::BytesReader (ref mut backend) =>
 				return backend.char_read_extend (buffer, count, full),
 			PortBackend::BytesWriter (_) =>
-				fail! (0x1647a5ea),
+				fail! (0x5d9b848d),
 			
 			PortBackend::NativeReader (ref mut backend) =>
 				return backend.char_read_extend (buffer, count, full),
@@ -917,7 +917,7 @@ impl PortBackendReader for PortBackend {
 			PortBackend::BytesReader (ref mut backend) =>
 				return backend.char_read_string (buffer, count, full),
 			PortBackend::BytesWriter (_) =>
-				fail! (0x1add1477),
+				fail! (0x63177075),
 			
 			PortBackend::NativeReader (ref mut backend) =>
 				return backend.char_read_string (buffer, count, full),
@@ -938,7 +938,7 @@ impl PortBackendReader for PortBackend {
 			PortBackend::NativeReader (ref mut backend) =>
 				return backend.input_close (),
 			PortBackend::NativeWriter (_) =>
-				fail! (0x3aef6f3e),
+				fail! (0xee88f941),
 			
 		}
 	}
@@ -974,7 +974,7 @@ impl PortBackendWriter for PortBackend {
 				return backend.byte_write (byte),
 			
 			PortBackend::NativeReader (_) =>
-				fail! (0xf4d88c23),
+				fail! (0xa4bc3df7),
 			PortBackend::NativeWriter (ref mut backend) =>
 				return backend.byte_write (byte),
 			
@@ -990,7 +990,7 @@ impl PortBackendWriter for PortBackend {
 				return backend.byte_write_slice (bytes, full),
 			
 			PortBackend::NativeReader (_) =>
-				fail! (0x6b40031c),
+				fail! (0x11185a54),
 			PortBackend::NativeWriter (ref mut backend) =>
 				return backend.byte_write_slice (bytes, full),
 			
@@ -1006,7 +1006,7 @@ impl PortBackendWriter for PortBackend {
 				return backend.byte_write_string (string, full),
 			
 			PortBackend::NativeReader (_) =>
-				fail! (0x69b8e5e7),
+				fail! (0x8eb45415),
 			PortBackend::NativeWriter (ref mut backend) =>
 				return backend.byte_write_string (string, full),
 			
@@ -1022,7 +1022,7 @@ impl PortBackendWriter for PortBackend {
 				return backend.char_write (char),
 			
 			PortBackend::NativeReader (_) =>
-				fail! (0x6b9c35d1),
+				fail! (0x1c1ce62f),
 			PortBackend::NativeWriter (ref mut backend) =>
 				return backend.char_write (char),
 			
@@ -1038,7 +1038,7 @@ impl PortBackendWriter for PortBackend {
 				return backend.char_write_slice (chars, full),
 			
 			PortBackend::NativeReader (_) =>
-				fail! (0xd8c4feb7),
+				fail! (0x3e37a36e),
 			PortBackend::NativeWriter (ref mut backend) =>
 				return backend.char_write_slice (chars, full),
 			
@@ -1054,7 +1054,7 @@ impl PortBackendWriter for PortBackend {
 				return backend.char_write_string (string, full),
 			
 			PortBackend::NativeReader (_) =>
-				fail! (0x773381e6),
+				fail! (0x91f63752),
 			PortBackend::NativeWriter (ref mut backend) =>
 				return backend.char_write_string (string, full),
 			
@@ -1070,7 +1070,7 @@ impl PortBackendWriter for PortBackend {
 				return backend.output_flush (),
 			
 			PortBackend::NativeReader (_) =>
-				fail! (0xe4db6cd7),
+				fail! (0x9440749b),
 			PortBackend::NativeWriter (ref mut backend) =>
 				return backend.output_flush (),
 			
@@ -1086,7 +1086,7 @@ impl PortBackendWriter for PortBackend {
 				return backend.output_close (),
 			
 			PortBackend::NativeReader (_) =>
-				fail! (0x61b53f17),
+				fail! (0x992e7687),
 			PortBackend::NativeWriter (ref mut backend) =>
 				return backend.output_close (),
 			

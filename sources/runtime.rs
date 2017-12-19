@@ -132,7 +132,7 @@ pub fn vec_explode_1 <Element> (vector : Vec<Element>) -> (Outcome<Element>) {
 		fail! (0x0828936d);
 	}
 	let mut iterator = vector.into_iter ();
-	succeed! (iterator.next () .expect ("a116f5d2"));
+	succeed! (iterator.next () .expect ("a02552aa"));
 }
 
 #[ inline (always) ]
@@ -142,7 +142,7 @@ pub fn vec_explode_1n <Element> (vector : Vec<Element>) -> (Outcome<(Element, Ve
 	}
 	let mut iterator = vector.into_iter ();
 	succeed! ((
-				iterator.next () .expect ("a116f5d2"),
+				iterator.next () .expect ("44d3f371"),
 				iterator.collect (),
 		));
 }

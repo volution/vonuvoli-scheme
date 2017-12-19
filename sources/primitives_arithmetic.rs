@@ -564,7 +564,7 @@ pub fn arithmetic_primitive_2_evaluate (primitive : ArithmeticPrimitive2, input_
 					(value_1, value_2), NumberReal::power (value_1, value_2)),
 		
 		ArithmeticPrimitive2::GreatestCommonDivisor =>
-			fail_unimplemented! (0x79f53d20),
+			fail_unimplemented! (0x21f7773e),
 		
 		ArithmeticPrimitive2::LeastCommonMultiple =>
 			fail_unimplemented! (0x79f53d20),

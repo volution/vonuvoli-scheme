@@ -109,6 +109,11 @@ cat <<'EOS'
 :: files / grep / sources / string :: exec -- git grep --no-index -C10 -F "${@/#/-e}" -- ./sources
 :: files / grep / sources / regexp :: exec -- git grep --no-index -C10 -P "${@/#/-e}" -- ./sources
 
+:: files / grep / sources / errors / duplicates / list :: grep -o -P -e '(?<=0x)[0-9a-f]{8}(?=[)])|(?<=")[0-9a-f]{8}(?=")' -h -r ./sources -r ./tests --include '*.rs' --include '*.in' | sort | uniq -d
+:: files / grep / sources / errors / duplicates / show :: x-run ':: files / grep / sources / errors / duplicates / list' | git grep --no-index -C0 -F -f /dev/stdin -- ./sources ./tests
+:: files / grep / sources / errors / improper / list :: grep -o -P -e '(?<=0x)([0-9a-f]{3,7}|[0-9a-f]{9,})(?=[)])|(?<=")([0-9a-f]{3,7}|[0-9a-f]{9,})(?=")' -h -r ./sources -r ./tests --include '*.rs' --include '*.in' | sort -u
+:: files / grep / sources / errors / improper / show :: x-run ':: files / grep / sources / errors / improper / list' | git grep --no-index -C2 -F -f /dev/stdin -- ./sources ./tests
+
 << execute / rust-up / initialize
 	test "${#}" -eq 0
 	if test ! -e ./.rust ; then

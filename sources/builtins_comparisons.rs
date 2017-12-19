@@ -932,7 +932,7 @@ pub fn procedure_extended_compare_2a <ValueRef : StdAsRef<ProcedureExtended>> (l
 		Comparison::Equivalence (_, _, _) =>
 			succeed! (ProcedureExtended::is_self (left, right)),
 		Comparison::Ordering (_, _, _) =>
-			fail_unimplemented! (0x6b87390b),
+			fail_unimplemented! (0x9f9ed990),
 	}
 }
 
@@ -1297,7 +1297,7 @@ pub fn vec_compare_2 (left : &[Value], right : &[Value], comparison : Comparison
 			(None, Some (_)) =>
 				match comparison {
 					Comparison::Equivalence (_, _, _) =>
-						fail_unreachable! (0xee6ad119),
+						fail_unreachable! (0x97e8a0c7),
 					Comparison::Ordering (ordering, _, _) =>
 						match ordering {
 							Ordering::Lesser | Ordering::LesserOrEqual =>
@@ -1310,7 +1310,7 @@ pub fn vec_compare_2 (left : &[Value], right : &[Value], comparison : Comparison
 			(Some (_), None) =>
 				match comparison {
 					Comparison::Equivalence (_, _, _) =>
-						fail_unreachable! (0xee6ad119),
+						fail_unreachable! (0x2558c7ee),
 					Comparison::Ordering (ordering, _, _) =>
 						match ordering {
 							Ordering::Greater | Ordering::GreaterOrEqual =>

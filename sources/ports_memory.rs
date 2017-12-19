@@ -88,7 +88,7 @@ impl PortBackendReader for PortBackendBytesReader {
 				target.push_str (buffer);
 				(Some (count), count)
 			} else {
-				fail! (0x4c431111);
+				fail! (0xe560db58);
 			}
 		} else {
 			(None, 0)

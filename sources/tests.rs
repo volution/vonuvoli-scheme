@@ -191,7 +191,7 @@ pub fn benchmark_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, be
 		let summary = bencher.bench (|ref mut bencher| bencher.iter (||
 			if iterations_bencher == 1 {
 				for test in tests {
-					benchmark_test_without_optimizations (test) .expect ("4d0ddf23");
+					benchmark_test_without_optimizations (test) .expect ("2754c9b4");
 				}
 			} else {
 				for test in tests {
@@ -235,7 +235,7 @@ pub fn benchmark_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, be
 		let summary = bencher.bench (|ref mut bencher| bencher.iter (||
 			if iterations_bencher == 1 {
 				for test in tests {
-					benchmark_test_with_optimizations (test) .expect ("690bb327");
+					benchmark_test_with_optimizations (test) .expect ("a434c507");
 				}
 			} else {
 				for test in tests {
@@ -281,9 +281,9 @@ pub fn benchmark_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, be
 				transcript, verbosity));
 	}
 	if memory_leaks_for_without_optimizations {
-		try_or_fail! (write! (transcript, "       mem-leaks : {:10.0} KB (!!!! DETECTED !!!!)\n", memory_delta_for_without_optimizations), 0x5bbaa2ae);
+		try_or_fail! (write! (transcript, "       mem-leaks : {:10.0} KB (!!!! DETECTED !!!!)\n", memory_delta_for_without_optimizations), 0x3c756d6f);
 	} else {
-		try_or_fail! (write! (transcript, "       mem-leaks : {:10.0} KB\n", memory_delta_for_without_optimizations), 0x5bbaa2ae);
+		try_or_fail! (write! (transcript, "       mem-leaks : {:10.0} KB\n", memory_delta_for_without_optimizations), 0xb8b463fe);
 	}
 	if let Some (summary_with_optimizations) = summary_with_optimizations {
 		try! (benchmark_report (
@@ -292,9 +292,9 @@ pub fn benchmark_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, be
 				transcript, verbosity));
 	}
 	if memory_leaks_for_with_optimizations {
-		try_or_fail! (write! (transcript, "       mem-leaks : {:10.0} KB (!!!! DETECTED !!!!)\n", memory_delta_for_with_optimizations), 0x5bbaa2ae);
+		try_or_fail! (write! (transcript, "       mem-leaks : {:10.0} KB (!!!! DETECTED !!!!)\n", memory_delta_for_with_optimizations), 0x1c319cd7);
 	} else {
-		try_or_fail! (write! (transcript, "       mem-leaks : {:10.0} KB\n", memory_delta_for_with_optimizations), 0x5bbaa2ae);
+		try_or_fail! (write! (transcript, "       mem-leaks : {:10.0} KB\n", memory_delta_for_with_optimizations), 0x5460baae);
 	}
 	
 	succeed! (());
@@ -527,10 +527,10 @@ pub fn execute_test (test : &TestCaseCompiled, transcript : &mut io::Write, verb
 		let output_matched = try! (equivalent_by_value_strict_recursive_2 (&output_value_without_optimizations, expected_value));
 		if !output_matched {
 			header_emitted = try! (test_case_header_emit (&test.source, transcript, verbosity_without_optimizations, header_emitted, true));
-			try_or_fail! (write! (transcript, "!! assertion-without-optimizations !! {} => {}\n", &output_value_without_optimizations, expected_value), 0xb66640e5);
-			try_or_fail! (write! (transcript, "!! assertion-without-optimizations !!\n{:#?}\n!! => !!\n{:#?}\n", &output_value_without_optimizations, &expected_value), 0xe650c868);
-			try_or_fail! (write! (transcript, "!! failed\n"), 0xf7d88757);
-			fail! (0xe52ddb4f);
+			try_or_fail! (write! (transcript, "!! assertion-without-optimizations !! {} => {}\n", &output_value_without_optimizations, expected_value), 0xdcdf61a8);
+			try_or_fail! (write! (transcript, "!! assertion-without-optimizations !!\n{:#?}\n!! => !!\n{:#?}\n", &output_value_without_optimizations, &expected_value), 0x64d71b63);
+			try_or_fail! (write! (transcript, "!! failed\n"), 0xd2c3f278);
+			fail! (0x67419241);
 		}
 	}
 	

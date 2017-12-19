@@ -52,7 +52,7 @@ pub fn array_at_ref (array : &Value, index : usize) -> (Outcome<&Value>) {
 }
 
 pub fn array_at_set (_array : &Value, _index : usize, _value : &Value) -> (Outcome<Value>) {
-	fail_unimplemented! (0x562f049a);
+	fail_unimplemented! (0x4b6ce51d);
 }
 
 
@@ -214,7 +214,7 @@ pub fn array_fill_range (array : &Value, fill : Option<&Value>, range_start : Op
 		UNDEFINED.into ()
 	};
 	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, array.values_length ()));
-	fail_unimplemented! (0x3c6f81b9);
+	fail_unimplemented! (0xbf94c047);
 }
 
 
@@ -231,7 +231,7 @@ pub fn array_copy_range (target_array : &Value, target_start : Option<&Value>, s
 	let (source_start, source_end) = try! (range_coerce (source_start, source_end, source_array.values_length ()));
 	let (target_start, target_end) = try! (range_coerce (target_start, None, target_array.values_length ()));
 	if (target_end - target_start) < (source_end - source_start) {
-		fail! (0x7033eb20);
+		fail! (0x18f863a1);
 	}
 	fail_unimplemented! (0x3c6f81b9);
 }

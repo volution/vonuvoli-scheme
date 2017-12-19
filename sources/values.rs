@@ -637,7 +637,7 @@ impl NumberInteger {
 		if let Some (outcome) = <i64>::checked_div (self.0, other.0) {
 			succeed! (outcome.into ());
 		} else {
-			fail! (0xce26bc76);
+			fail! (0x39216440);
 		}
 	}
 	

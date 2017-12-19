@@ -506,7 +506,7 @@ pub fn vec_list_append_n (lists : &[&Value]) -> (Outcome<ValueVec>) {
 fn vec_list_append_return ((buffer, last) : (ValueVec, Option<Value>)) -> (Outcome<ValueVec>) {
 	match last {
 		Some (_) =>
-			fail! (0x48f9af8f),
+			fail! (0xe037d833),
 		None =>
 			succeed! (buffer),
 	}
@@ -587,7 +587,7 @@ pub fn vec_list_clone (list : &Value) -> (Outcome<ValueVec>) {
 	let (buffer, last) = try! (vec_list_clone_dotted (list));
 	match last {
 		Some (_) =>
-			fail! (0x096d7253),
+			fail! (0xc38cb8df),
 		None =>
 			succeed! (buffer),
 	}
@@ -605,7 +605,7 @@ pub fn vec_list_drain (buffer : &mut ValueVec, list : &Value) -> (Outcome<()>) {
 	let last = try! (vec_list_drain_dotted (buffer, list));
 	match last {
 		Some (_) =>
-			fail! (0x57ebb8de),
+			fail! (0xae634ad2),
 		None =>
 			succeed! (()),
 	}
@@ -627,7 +627,7 @@ pub fn vec_list_drain_dotted (buffer : &mut ValueVec, list : &Value) -> (Outcome
 				succeed! (Some (cursor.clone ())),
 		}
 		if list.is_self (cursor) {
-			fail! (0x7b9aae29);
+			fail! (0xeff11a7d);
 		}
 	}
 }
@@ -771,7 +771,7 @@ pub fn vec_list_ref_drain <'a : 'b, 'b> (buffer : &'b mut StdVec<&'a Value>, lis
 	let last = try! (vec_list_ref_drain_dotted (buffer, list));
 	match last {
 		Some (_) =>
-			fail! (0x57ebb8de),
+			fail! (0x83b605ae),
 		None =>
 			succeed! (()),
 	}
@@ -793,7 +793,7 @@ pub fn vec_list_ref_drain_dotted <'a : 'b, 'b> (buffer : &'b mut StdVec<&'a Valu
 				succeed! (Some (cursor)),
 		}
 		if list.is_self (cursor) {
-			fail! (0x7b9aae29);
+			fail! (0x4526488f);
 		}
 	}
 }
