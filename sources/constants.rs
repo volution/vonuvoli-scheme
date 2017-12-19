@@ -3,7 +3,9 @@
 use super::values::exports::*;
 use super::primitives_procedures::exports::*;
 
+use std::cmp;
 use std::f64;
+use std::hash;
 
 
 
@@ -102,4 +104,116 @@ pub const CONSTANT_PROCEDURE_ATTRIBUTES_N : ProcedureAttributes =
 				arity : ProcedureArity::Unbounded,
 				output : ProcedureOutputAttributes::Constant,
 			};
+
+
+
+
+#[ derive (Copy, Clone, Debug, PartialEq, PartialOrd) ]
+pub struct Constant <Value> ( Value );
+
+impl <Value : Copy> Constant<Value> {
+	
+	#[ inline (always) ]
+	pub fn value (&self) -> (Value) {
+		self.0
+	}
+}
+
+
+/*
+impl <Value : cmp::Eq> cmp::Eq for Constant<Value> {}
+
+impl <Value : cmp::PartialEq> cmp::PartialEq for Constant<Value> {
+	
+	#[ inline (always) ]
+	fn eq (&self, other : &Self) -> (bool) {
+		Value::eq (&self.0, &other.0)
+	}
+}
+
+impl <Value : cmp::Ord> cmp::Ord for Constant<Value> {
+	
+	#[ inline (always) ]
+	fn cmp (&self, other : &Self) -> (cmp::Ordering) {
+		Value::cmp (&self.0, &other.0)
+	}
+}
+
+impl <Value : cmp::PartialOrd> cmp::PartialOrd for Constant<Value> {
+	
+	#[ inline (always) ]
+	fn partial_cmp (&self, other : &Self) -> (Option<cmp::Ordering>) {
+		Value::partial_cmp (&self.0, &other.0)
+	}
+}
+
+impl <Value : hash::Hash> hash::Hash for Constant<Value> {
+	
+	#[ inline (always) ]
+	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
+		self.0.hash (hasher);
+	}
+}
+*/
+
+
+impl cmp::Eq for Constant<i16> {}
+
+impl cmp::Ord for Constant<i16> {
+	
+	#[ inline (always) ]
+	fn cmp (&self, other : &Self) -> (cmp::Ordering) {
+		i16::cmp (&self.0, &other.0)
+	}
+}
+
+impl hash::Hash for Constant<i16> {
+	
+	#[ inline (always) ]
+	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
+		hasher.write_i16 (self.0);
+	}
+}
+
+
+impl cmp::Eq for Constant<i32> {}
+
+impl cmp::Ord for Constant<i32> {
+	
+	#[ inline (always) ]
+	fn cmp (&self, other : &Self) -> (cmp::Ordering) {
+		i32::cmp (&self.0, &other.0)
+	}
+}
+
+impl hash::Hash for Constant<i32> {
+	
+	#[ inline (always) ]
+	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
+		hasher.write_i32 (self.0);
+	}
+}
+
+
+impl cmp::Eq for Constant<f32> {}
+
+impl cmp::Ord for Constant<f32> {
+	
+	#[ inline (always) ]
+	fn cmp (&self, other : &Self) -> (cmp::Ordering) {
+		if let Some (cmp) = f32::partial_cmp (&self.0, &other.0) {
+			cmp
+		} else {
+			u32::cmp (&(self.0).to_bits (), &(other.0).to_bits ())
+		}
+	}
+}
+
+impl hash::Hash for Constant<f32> {
+	
+	#[ inline (always) ]
+	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
+		hasher.write_u32 (self.0.to_bits ());
+	}
+}
 

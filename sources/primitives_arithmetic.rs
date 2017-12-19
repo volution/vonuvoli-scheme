@@ -110,6 +110,18 @@ pub enum ArithmeticPrimitive1 {
 	Multiplication,
 	Division,
 	
+	AdditionWithInteger ( Constant<i16> ),
+	SubtractionWithInteger ( Constant<i16> ),
+	MultiplicationWithInteger ( Constant<i16> ),
+	DivisionWithInteger ( Constant<i16> ),
+	
+	/*
+	AdditionWithReal ( Constant<f32> ),
+	SubtractionWithReal ( Constant<f32> ),
+	MultiplicationWithReal ( Constant<f32> ),
+	DivisionWithReal ( Constant<f32> ),
+	*/
+	
 	GreatestCommonDivisor,
 	LeastCommonMultiple,
 	
@@ -427,6 +439,51 @@ pub fn arithmetic_primitive_1_evaluate (primitive : ArithmeticPrimitive1, input_
 					(&ONE.into (), input_1),
 					(value_1, value_2), try! (NumberInteger::div (value_1, value_2)),
 					(value_1, value_2), NumberReal::div (value_1, value_2)),
+		
+		
+		ArithmeticPrimitive1::AdditionWithInteger (constant) =>
+			arithmetic_primitive_1_delegate_call! (input_1,
+					value, try! (NumberInteger::add (value, &constant.value () .into ())),
+					value, NumberReal::add (value, &constant.value () .into ())),
+		
+		ArithmeticPrimitive1::SubtractionWithInteger (constant) =>
+			arithmetic_primitive_1_delegate_call! (input_1,
+					value, try! (NumberInteger::sub (value, &constant.value () .into ())),
+					value, NumberReal::sub (value, &constant.value () .into ())),
+		
+		ArithmeticPrimitive1::MultiplicationWithInteger (constant) =>
+			arithmetic_primitive_1_delegate_call! (input_1,
+					value, try! (NumberInteger::mul (value, &constant.value () .into ())),
+					value, NumberReal::mul (value, &constant.value () .into ())),
+		
+		ArithmeticPrimitive1::DivisionWithInteger (constant) =>
+			arithmetic_primitive_1_delegate_call! (input_1,
+					value, try! (NumberInteger::div (value, &constant.value () .into ())),
+					value, NumberReal::div (value, &constant.value () .into ())),
+		
+		
+		/*
+		ArithmeticPrimitive1::AdditionWithReal (constant) =>
+			arithmetic_primitive_1_delegate_call! (input_1,
+					value, NumberReal::add (&value.value () .into (), &constant.value () .into ()),
+					value, NumberReal::add (value, &constant.value () .into ())),
+		
+		ArithmeticPrimitive1::SubtractionWithReal (constant) =>
+			arithmetic_primitive_1_delegate_call! (input_1,
+					value, NumberReal::sub (&value.value () .into (), &constant.value () .into ()),
+					value, NumberReal::sub (value, &constant.value () .into ())),
+		
+		ArithmeticPrimitive1::MultiplicationWithReal (constant) =>
+			arithmetic_primitive_1_delegate_call! (input_1,
+					value, NumberReal::mul (&value.value () .into (), &constant.value () .into ()),
+					value, NumberReal::mul (value, &constant.value () .into ())),
+		
+		ArithmeticPrimitive1::DivisionWithReal (constant) =>
+			arithmetic_primitive_1_delegate_call! (input_1,
+					value, NumberReal::div (&value.value () .into (), &constant.value () .into ()),
+					value, NumberReal::div (value, &constant.value () .into ())),
+		*/
+		
 		
 		ArithmeticPrimitive1::GreatestCommonDivisor =>
 			try! (number_coerce_1 (input_1)) .into_value (),
