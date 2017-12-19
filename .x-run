@@ -240,19 +240,19 @@ find ./tests/scripts -type f \( -name 'optimizer--*.ss' -o -name 'benchmark--*.s
 | sort -u \
 | while read _script ; do
 sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
-:: execute / optimizer / scheme / @{SCRIPT} / debug :: x-run ':: compile / bin / compiler / debug' ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-compiler < './tests/scripts/optimizer--@{SCRIPT}.ss' >| './tests/scripts/_out/optimizer--@{SCRIPT}--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--@{SCRIPT}--scheme-compile.out'
-:: execute / optimizer / scheme / @{SCRIPT} / release :: x-run ':: compile / bin / compiler / release' ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-compiler < './tests/scripts/optimizer--@{SCRIPT}.ss' >| './tests/scripts/_out/optimizer--@{SCRIPT}--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--@{SCRIPT}--scheme-compile.out'
+:: execute / bin / compiler / scheme / @{SCRIPT} / debug :: x-run ':: compile / bin / compiler / debug' ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-compiler < './tests/scripts/optimizer--@{SCRIPT}.ss' >| './tests/scripts/_out/optimizer--@{SCRIPT}--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--@{SCRIPT}--scheme-compile.out'
+:: execute / bin / compiler / scheme / @{SCRIPT} / release :: x-run ':: compile / bin / compiler / release' ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-compiler < './tests/scripts/optimizer--@{SCRIPT}.ss' >| './tests/scripts/_out/optimizer--@{SCRIPT}--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--@{SCRIPT}--scheme-compile.out'
 EOS
 done
 
-printf -- '%s\n' '<< execute / optimizer / scheme / all / release'
+printf -- '%s\n' '<< execute / bin / compiler / scheme / all / debug'
 printf -- '%s\n' "x-run ':: compile / bin / compiler / release'"
 find ./tests/scripts -type f \( -name 'optimizer--*.ss' -o -name 'benchmark--*.ss' \) -printf '%f\n' \
 | sed -r -e 's/\.ss$//' \
 | sort -u \
 | while read _script ; do
 sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
-./target/release/rust-scheme-compiler < './tests/scripts/@{SCRIPT}.ss' >| './tests/scripts/_out/@{SCRIPT}--scheme-compile.out'
+./target/debug/rust-scheme-compiler < './tests/scripts/@{SCRIPT}.ss' >| './tests/scripts/_out/@{SCRIPT}--scheme-compile.out'
 EOS
 done
 printf -- '%s\n' '!!'

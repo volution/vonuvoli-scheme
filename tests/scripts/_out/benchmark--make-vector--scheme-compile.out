@@ -32,38 +32,25 @@ Contexts(
             ),
             Some(
                 Contexts(
-                    RegisterSetN(
-                        [
-                            (
-                                0,
+                    RegisterSet1(
+                        1,
+                        ProcedurePrimitiveCall(
+                            ProcedurePrimitiveCall2(
+                                Arithmetic(
+                                    Subtraction
+                                ),
                                 Contexts(
                                     RegisterGet1(
-                                        0
+                                        1
                                     )
-                                )
-                            ),
-                            (
-                                1,
-                                ProcedurePrimitiveCall(
-                                    ProcedurePrimitiveCall2(
-                                        Arithmetic(
-                                            Subtraction
-                                        ),
-                                        Contexts(
-                                            RegisterGet1(
-                                                1
-                                            )
-                                        ),
-                                        Value(
-                                            NumberInteger(
-                                                1
-                                            )
-                                        )
+                                ),
+                                Value(
+                                    NumberInteger(
+                                        1
                                     )
                                 )
                             )
-                        ],
-                        true
+                        )
                     )
                 )
             ),
@@ -84,113 +71,97 @@ Contexts(
                     )
                 )
             ),
-            [
-                (
-                    Some(
-                        (
-                            ProcedurePrimitiveCall(
-                                ProcedurePrimitiveCall1(
-                                    Arithmetic(
-                                        IsZero
-                                    ),
-                                    Contexts(
-                                        RegisterGet1(
-                                            1
-                                        )
+            Single(
+                GuardAndOutput(
+                    Expression(
+                        ProcedurePrimitiveCall(
+                            ProcedurePrimitiveCall1(
+                                Arithmetic(
+                                    IsZero
+                                ),
+                                Contexts(
+                                    RegisterGet1(
+                                        1
                                     )
                                 )
-                            ),
-                            false
-                        )
+                            )
+                        ),
+                        false
                     ),
-                    Some(
-                        Sequence(
-                            ReturnLast,
-                            [
-                                ProcedurePrimitiveCall(
-                                    ProcedurePrimitiveCall1(
-                                        Port(
-                                            RsDisplay
-                                        ),
-                                        ProcedurePrimitiveCall(
-                                            ProcedurePrimitiveCall2(
-                                                Arithmetic(
-                                                    Division
-                                                ),
-                                                ProcedurePrimitiveCall(
-                                                    ProcedurePrimitiveCall2(
-                                                        Arithmetic(
-                                                            Multiplication
-                                                        ),
-                                                        ProcedurePrimitiveCall(
-                                                            ProcedurePrimitiveCall2(
-                                                                Arithmetic(
-                                                                    Subtraction
-                                                                ),
-                                                                ProcedurePrimitiveCall(
-                                                                    ProcedurePrimitiveCall0(
-                                                                        Runtime(
-                                                                            JiffiesTimestamp
-                                                                        )
-                                                                    )
-                                                                ),
-                                                                Contexts(
-                                                                    RegisterGet1(
-                                                                        0
+                    Sequence(
+                        ReturnLast,
+                        [
+                            ProcedurePrimitiveCall(
+                                ProcedurePrimitiveCall1(
+                                    Port(
+                                        RsDisplay
+                                    ),
+                                    ProcedurePrimitiveCall(
+                                        ProcedurePrimitiveCall2(
+                                            Arithmetic(
+                                                Division
+                                            ),
+                                            ProcedurePrimitiveCall(
+                                                ProcedurePrimitiveCall2(
+                                                    Arithmetic(
+                                                        Multiplication
+                                                    ),
+                                                    ProcedurePrimitiveCall(
+                                                        ProcedurePrimitiveCall2(
+                                                            Arithmetic(
+                                                                Subtraction
+                                                            ),
+                                                            ProcedurePrimitiveCall(
+                                                                ProcedurePrimitiveCall0(
+                                                                    Runtime(
+                                                                        JiffiesTimestamp
                                                                     )
                                                                 )
-                                                            )
-                                                        ),
-                                                        Value(
-                                                            NumberInteger(
-                                                                1000
+                                                            ),
+                                                            Contexts(
+                                                                RegisterGet1(
+                                                                    0
+                                                                )
                                                             )
                                                         )
+                                                    ),
+                                                    Value(
+                                                        NumberInteger(
+                                                            1000
+                                                        )
                                                     )
-                                                ),
-                                                Value(
-                                                    NumberInteger(
-                                                        1000000000
-                                                    )
+                                                )
+                                            ),
+                                            Value(
+                                                NumberInteger(
+                                                    1000000000
                                                 )
                                             )
                                         )
                                     )
-                                ),
-                                ProcedurePrimitiveCall(
-                                    ProcedurePrimitiveCall0(
-                                        Port(
-                                            RsNewLine
-                                        )
+                                )
+                            ),
+                            ProcedurePrimitiveCall(
+                                ProcedurePrimitiveCall0(
+                                    Port(
+                                        RsNewLine
                                     )
                                 )
-                            ]
-                        )
+                            )
+                        ]
                     )
                 )
-            ]
+            )
         ),
         [
-            RegistersBindingTemplate {
-                identifier: Some(
-                    Symbol(
-                        "timestamp-start"
-                    )
-                ),
-                borrow: None,
-                value: None,
-                immutable: false
-            },
-            RegistersBindingTemplate {
-                identifier: Some(
-                    Symbol(
-                        "loop"
-                    )
-                ),
-                borrow: None,
-                value: None,
-                immutable: false
-            }
+            LocalValue(
+                None,
+                false
+            ),
+            LocalValue(
+                None,
+                false
+            )
         ]
     )
 )

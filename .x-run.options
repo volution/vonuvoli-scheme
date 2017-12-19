@@ -1028,45 +1028,45 @@
 	x-run ':: execute / benchmark / compare / make-vector'
 !!
 
-<< execute / optimizer / scheme / controls / debug
+<< execute / bin / compiler / scheme / controls / debug
 	x-run ':: compile / bin / compiler / debug' ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-compiler < './tests/scripts/optimizer--controls.ss' >| './tests/scripts/_out/optimizer--controls--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--controls--scheme-compile.out'
 !!
 
-<< execute / optimizer / scheme / controls / release
+<< execute / bin / compiler / scheme / controls / release
 	x-run ':: compile / bin / compiler / release' ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-compiler < './tests/scripts/optimizer--controls.ss' >| './tests/scripts/_out/optimizer--controls--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--controls--scheme-compile.out'
 !!
 
-<< execute / optimizer / scheme / loop / debug
+<< execute / bin / compiler / scheme / loop / debug
 	x-run ':: compile / bin / compiler / debug' ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-compiler < './tests/scripts/optimizer--loop.ss' >| './tests/scripts/_out/optimizer--loop--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--loop--scheme-compile.out'
 !!
 
-<< execute / optimizer / scheme / loop / release
+<< execute / bin / compiler / scheme / loop / release
 	x-run ':: compile / bin / compiler / release' ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-compiler < './tests/scripts/optimizer--loop.ss' >| './tests/scripts/_out/optimizer--loop--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--loop--scheme-compile.out'
 !!
 
-<< execute / optimizer / scheme / make-cons / debug
+<< execute / bin / compiler / scheme / make-cons / debug
 	x-run ':: compile / bin / compiler / debug' ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-compiler < './tests/scripts/optimizer--make-cons.ss' >| './tests/scripts/_out/optimizer--make-cons--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--make-cons--scheme-compile.out'
 !!
 
-<< execute / optimizer / scheme / make-cons / release
+<< execute / bin / compiler / scheme / make-cons / release
 	x-run ':: compile / bin / compiler / release' ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-compiler < './tests/scripts/optimizer--make-cons.ss' >| './tests/scripts/_out/optimizer--make-cons--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--make-cons--scheme-compile.out'
 !!
 
-<< execute / optimizer / scheme / make-vector / debug
+<< execute / bin / compiler / scheme / make-vector / debug
 	x-run ':: compile / bin / compiler / debug' ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-compiler < './tests/scripts/optimizer--make-vector.ss' >| './tests/scripts/_out/optimizer--make-vector--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--make-vector--scheme-compile.out'
 !!
 
-<< execute / optimizer / scheme / make-vector / release
+<< execute / bin / compiler / scheme / make-vector / release
 	x-run ':: compile / bin / compiler / release' ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-compiler < './tests/scripts/optimizer--make-vector.ss' >| './tests/scripts/_out/optimizer--make-vector--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--make-vector--scheme-compile.out'
 !!
 
-<< execute / optimizer / scheme / all / release
+<< execute / bin / compiler / scheme / all / debug
 	x-run ':: compile / bin / compiler / release'
-	./target/release/rust-scheme-compiler < './tests/scripts/benchmark--controls.ss' >| './tests/scripts/_out/benchmark--controls--scheme-compile.out'
-	./target/release/rust-scheme-compiler < './tests/scripts/benchmark--loop.ss' >| './tests/scripts/_out/benchmark--loop--scheme-compile.out'
-	./target/release/rust-scheme-compiler < './tests/scripts/benchmark--make-cons.ss' >| './tests/scripts/_out/benchmark--make-cons--scheme-compile.out'
-	./target/release/rust-scheme-compiler < './tests/scripts/benchmark--make-vector.ss' >| './tests/scripts/_out/benchmark--make-vector--scheme-compile.out'
-	./target/release/rust-scheme-compiler < './tests/scripts/optimizer--controls.ss' >| './tests/scripts/_out/optimizer--controls--scheme-compile.out'
+	./target/debug/rust-scheme-compiler < './tests/scripts/benchmark--controls.ss' >| './tests/scripts/_out/benchmark--controls--scheme-compile.out'
+	./target/debug/rust-scheme-compiler < './tests/scripts/benchmark--loop.ss' >| './tests/scripts/_out/benchmark--loop--scheme-compile.out'
+	./target/debug/rust-scheme-compiler < './tests/scripts/benchmark--make-cons.ss' >| './tests/scripts/_out/benchmark--make-cons--scheme-compile.out'
+	./target/debug/rust-scheme-compiler < './tests/scripts/benchmark--make-vector.ss' >| './tests/scripts/_out/benchmark--make-vector--scheme-compile.out'
+	./target/debug/rust-scheme-compiler < './tests/scripts/optimizer--controls.ss' >| './tests/scripts/_out/optimizer--controls--scheme-compile.out'
 !!
 
 << files / edit / sources/bin_compiler.rs
