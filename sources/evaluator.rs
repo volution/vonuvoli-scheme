@@ -13,7 +13,7 @@ use super::primitives::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
 
-use std::iter;
+use super::prelude::*;
 
 
 
@@ -37,7 +37,7 @@ pub fn evaluate (context : &Context, expression : &Expression) -> (Outcome<Value
 
 #[ inline (always) ]
 pub fn evaluate_script <Iterator, ExpressionRef> (context : &Context, expressions : Iterator) -> (Outcome<()>)
-		where Iterator : iter::Iterator<Item = ExpressionRef>, ExpressionRef : AsRef<Expression>
+		where Iterator : iter::Iterator<Item = ExpressionRef>, ExpressionRef : StdAsRef<Expression>
 {
 	let evaluator = Evaluator::new ();
 	let mut evaluation = evaluator.fork (context);
@@ -292,8 +292,8 @@ impl Evaluator {
 	
 	
 	#[ inline (always) ]
-	fn evaluate_slice (&self, evaluation : &mut EvaluatorContext, inputs : &[Expression]) -> (Outcome<Vec<Value>>) {
-		let mut outputs = Vec::with_capacity (inputs.len ());
+	fn evaluate_slice (&self, evaluation : &mut EvaluatorContext, inputs : &[Expression]) -> (Outcome<StdVec<Value>>) {
+		let mut outputs = StdVec::with_capacity (inputs.len ());
 		for input in inputs {
 			let output = try! (self.evaluate (evaluation, input));
 			outputs.push (output);
@@ -1502,13 +1502,13 @@ impl <'a> EvaluatorContext<'a> {
 	}
 	
 	#[ inline (always) ]
-	pub fn evaluate_slice (&mut self, inputs : &[Expression]) -> (Outcome<Vec<Value>>) {
+	pub fn evaluate_slice (&mut self, inputs : &[Expression]) -> (Outcome<StdVec<Value>>) {
 		return self.evaluator.evaluate_slice (self, inputs);
 	}
 	
 	#[ inline (always) ]
 	pub fn evaluate_script <Iterator, ExpressionRef> (&mut self, inputs : Iterator) -> (Outcome<()>)
-			where Iterator : iter::Iterator<Item = ExpressionRef>, ExpressionRef : AsRef<Expression>
+			where Iterator : iter::Iterator<Item = ExpressionRef>, ExpressionRef : StdAsRef<Expression>
 	{
 		for input in inputs {
 			try! (self.evaluate (input.as_ref ()));

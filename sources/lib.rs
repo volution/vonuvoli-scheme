@@ -1,20 +1,23 @@
 
 
+#![ feature (core) ]
+#![ feature (libc) ]
+#![ feature (test) ]
+
 #![ feature (ascii_ctype) ]
 #![ feature (str_internals) ]
 #![ feature (char_from_unchecked) ]
 
-#![ feature (libc) ]
-#![ feature (test) ]
+#![ no_implicit_prelude ]
 
 #![ allow (unused_macros) ]
 
 
 
 
-extern crate core;
-extern crate libc;
-extern crate test;
+pub extern crate core;
+pub extern crate libc;
+pub extern crate test;
 
 
 
@@ -53,9 +56,11 @@ pub mod languages_r7rs;
 pub mod native_procedures;
 pub mod native_syntaxes;
 pub mod parser;
+pub mod parser_peg;
 pub mod ports;
 pub mod ports_memory;
 pub mod ports_native;
+pub mod prelude;
 pub mod primitives;
 pub mod primitives_arithmetic;
 pub mod primitives_arrays;
@@ -76,8 +81,6 @@ pub mod runtime_iterators;
 pub mod runtime_unicode;
 pub mod tests;
 pub mod values;
-
-mod parser_peg;
 
 
 

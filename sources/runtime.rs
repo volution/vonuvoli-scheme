@@ -2,36 +2,12 @@
 
 use super::errors::exports::*;
 
-use std::fmt;
-use std::iter;
-use std::mem;
-
-use libc;
+use super::prelude::*;
 
 
 
 
 pub mod exports {
-	
-	pub use std::borrow::Borrow as StdBorrow;
-	pub use std::boxed::Box as StdBox;
-	pub use std::cell::Cell as StdCell;
-	pub use std::cell::Ref as StdRef;
-	pub use std::cell::RefCell as StdRefCell;
-	pub use std::cell::RefMut as StdRefMut;
-	pub use std::collections::HashMap as StdMap;
-	pub use std::collections::HashSet as StdSet;
-	pub use std::convert::AsRef as StdAsRef;
-	pub use std::convert::From as StdFrom;
-	pub use std::convert::Into as StdInto;
-	pub use std::rc::Rc as StdRc;
-	pub use std::result::Result as StdResult;
-	pub use std::string::String as StdString;
-	pub use std::vec::Vec as StdVec;
-	
-	pub use super::StdTryFrom;
-	pub use super::StdTryInto;
-	pub use super::StdTryAsRef;
 	
 	pub use super::Handle;
 	
@@ -108,7 +84,7 @@ impl fmt::Debug for Handle {
 
 
 #[ inline (always) ]
-pub fn vec_into <Element, To : From<Element>> (from : Vec<Element>) -> (Vec<To>) {
+pub fn vec_into <Element, To : StdFrom<Element>> (from : StdVec<Element>) -> (StdVec<To>) {
 	return vec_map_into! (from, value, value.into ());
 }
 
@@ -116,8 +92,8 @@ pub fn vec_into <Element, To : From<Element>> (from : Vec<Element>) -> (Vec<To>)
 
 
 #[ inline (always) ]
-pub fn vec_append_2 <Element> (vector_1 : Vec<Element>, vector_2 : Vec<Element>) -> (Vec<Element>) {
-	let mut vector = Vec::with_capacity (vector_1.len () + vector_2.len ());
+pub fn vec_append_2 <Element> (vector_1 : StdVec<Element>, vector_2 : StdVec<Element>) -> (StdVec<Element>) {
+	let mut vector = StdVec::with_capacity (vector_1.len () + vector_2.len ());
 	vector.extend (vector_1.into_iter ());
 	vector.extend (vector_2.into_iter ());
 	return vector;
@@ -127,7 +103,7 @@ pub fn vec_append_2 <Element> (vector_1 : Vec<Element>, vector_2 : Vec<Element>)
 
 
 #[ inline (always) ]
-pub fn vec_explode_1 <Element> (vector : Vec<Element>) -> (Outcome<Element>) {
+pub fn vec_explode_1 <Element> (vector : StdVec<Element>) -> (Outcome<Element>) {
 	if vector.len () != 1 {
 		fail! (0x0828936d);
 	}
@@ -136,7 +112,7 @@ pub fn vec_explode_1 <Element> (vector : Vec<Element>) -> (Outcome<Element>) {
 }
 
 #[ inline (always) ]
-pub fn vec_explode_1n <Element> (vector : Vec<Element>) -> (Outcome<(Element, Vec<Element>)>) {
+pub fn vec_explode_1n <Element> (vector : StdVec<Element>) -> (Outcome<(Element, StdVec<Element>)>) {
 	if vector.len () < 1 {
 		fail! (0x2b9bdaf2);
 	}
@@ -149,7 +125,7 @@ pub fn vec_explode_1n <Element> (vector : Vec<Element>) -> (Outcome<(Element, Ve
 
 
 #[ inline (always) ]
-pub fn vec_explode_2 <Element> (vector : Vec<Element>) -> (Outcome<(Element, Element)>) {
+pub fn vec_explode_2 <Element> (vector : StdVec<Element>) -> (Outcome<(Element, Element)>) {
 	if vector.len () != 2 {
 		fail! (0x6865c09d);
 	}
@@ -161,7 +137,7 @@ pub fn vec_explode_2 <Element> (vector : Vec<Element>) -> (Outcome<(Element, Ele
 }
 
 #[ inline (always) ]
-pub fn vec_explode_2n <Element> (vector : Vec<Element>) -> (Outcome<(Element, Element, Vec<Element>)>) {
+pub fn vec_explode_2n <Element> (vector : StdVec<Element>) -> (Outcome<(Element, Element, StdVec<Element>)>) {
 	if vector.len () < 2 {
 		fail! (0x3dde9cf1);
 	}
@@ -175,7 +151,7 @@ pub fn vec_explode_2n <Element> (vector : Vec<Element>) -> (Outcome<(Element, El
 
 
 #[ inline (always) ]
-pub fn vec_explode_3 <Element> (vector : Vec<Element>) -> (Outcome<(Element, Element, Element)>) {
+pub fn vec_explode_3 <Element> (vector : StdVec<Element>) -> (Outcome<(Element, Element, Element)>) {
 	if vector.len () != 3 {
 		fail! (0xb6510cf5);
 	}
@@ -188,7 +164,7 @@ pub fn vec_explode_3 <Element> (vector : Vec<Element>) -> (Outcome<(Element, Ele
 }
 
 #[ inline (always) ]
-pub fn vec_explode_3n <Element> (vector : Vec<Element>) -> (Outcome<(Element, Element, Element, Vec<Element>)>) {
+pub fn vec_explode_3n <Element> (vector : StdVec<Element>) -> (Outcome<(Element, Element, Element, StdVec<Element>)>) {
 	if vector.len () < 3 {
 		fail! (0x2d2644c7);
 	}
@@ -205,11 +181,11 @@ pub fn vec_explode_3n <Element> (vector : Vec<Element>) -> (Outcome<(Element, El
 
 
 #[ inline (always) ]
-pub fn vec_zip_2 <Element1, Element2> (vector_1 : Vec<Element1>, vector_2 : Vec<Element2>) -> (Vec<(Element1, Element2)>) {
+pub fn vec_zip_2 <Element1, Element2> (vector_1 : StdVec<Element1>, vector_2 : StdVec<Element2>) -> (StdVec<(Element1, Element2)>) {
 	if vector_1.len () != vector_2.len () {
 		panic! ("a8f6ee9e");
 	}
-	let mut vector = Vec::with_capacity (vector_1.len ());
+	let mut vector = StdVec::with_capacity (vector_1.len ());
 	let mut vector_1 = vector_1.into_iter ();
 	let mut vector_2 = vector_2.into_iter ();
 	loop {
@@ -227,9 +203,9 @@ pub fn vec_zip_2 <Element1, Element2> (vector_1 : Vec<Element1>, vector_2 : Vec<
 }
 
 #[ inline (always) ]
-pub fn vec_unzip_2 <Element1, Element2> (vector : Vec<(Element1, Element2)>) -> ((Vec<Element1>, Vec<Element2>)) {
-	let mut vector_1 = Vec::with_capacity (vector.len ());
-	let mut vector_2 = Vec::with_capacity (vector.len ());
+pub fn vec_unzip_2 <Element1, Element2> (vector : StdVec<(Element1, Element2)>) -> ((StdVec<Element1>, StdVec<Element2>)) {
+	let mut vector_1 = StdVec::with_capacity (vector.len ());
+	let mut vector_2 = StdVec::with_capacity (vector.len ());
 	for (element_1, element_2) in vector.into_iter () {
 		vector_1.push (element_1);
 		vector_2.push (element_2);
@@ -241,12 +217,12 @@ pub fn vec_unzip_2 <Element1, Element2> (vector : Vec<(Element1, Element2)>) -> 
 
 
 #[ inline (always) ]
-pub fn vec_clone_vec <Element : Clone> (vector : &Vec<Element>) -> (Vec<Element>) {
+pub fn vec_clone_vec <Element : Clone> (vector : &StdVec<Element>) -> (StdVec<Element>) {
 	return vec_map! (vector.iter (), value, value.clone ());
 }
 
 #[ inline (always) ]
-pub fn vec_clone_slice <Element : Clone> (slice : &[Element]) -> (Vec<Element>) {
+pub fn vec_clone_slice <Element : Clone> (slice : &[Element]) -> (StdVec<Element>) {
 	return vec_map! (slice.iter (), value, (*value).clone ());
 }
 
@@ -254,17 +230,17 @@ pub fn vec_clone_slice <Element : Clone> (slice : &[Element]) -> (Vec<Element>) 
 
 
 #[ inline (always) ]
-pub fn vec_clone_vec_ref <Element : Clone, ElementRef : AsRef<Element>> (vector : &Vec<ElementRef>) -> (Vec<Element>) {
+pub fn vec_clone_vec_ref <Element : Clone, ElementRef : StdAsRef<Element>> (vector : &StdVec<ElementRef>) -> (StdVec<Element>) {
 	return vec_map! (vector.iter (), value, value.as_ref () .clone ());
 }
 
 #[ inline (always) ]
-pub fn vec_clone_slice_ref <Element : Clone, ElementRef : AsRef<Element>> (slice : &[ElementRef]) -> (Vec<Element>) {
+pub fn vec_clone_slice_ref <Element : Clone, ElementRef : StdAsRef<Element>> (slice : &[ElementRef]) -> (StdVec<Element>) {
 	return vec_map! (slice.iter (), value, value.as_ref () .clone ());
 }
 
 #[ inline (always) ]
-pub fn vec_clone_iter_ref <Element : Clone, ElementRef : AsRef<Element>, Iterator : iter::Iterator<Item = ElementRef>> (iterator : Iterator) -> (Vec<Element>) {
+pub fn vec_clone_iter_ref <Element : Clone, ElementRef : StdAsRef<Element>, Iterator : iter::Iterator<Item = ElementRef>> (iterator : Iterator) -> (StdVec<Element>) {
 	return vec_map! (iterator, value, value.as_ref () .clone ());
 }
 
@@ -272,17 +248,17 @@ pub fn vec_clone_iter_ref <Element : Clone, ElementRef : AsRef<Element>, Iterato
 
 
 #[ inline (always) ]
-pub fn vec_vec_to_ref <Element, ElementRef : AsRef<Element>> (vector : &Vec<ElementRef>) -> (Vec<&Element>) {
+pub fn vec_vec_to_ref <Element, ElementRef : StdAsRef<Element>> (vector : &StdVec<ElementRef>) -> (StdVec<&Element>) {
 	return vec_map! (vector.iter (), value, value.as_ref ());
 }
 
 #[ inline (always) ]
-pub fn vec_slice_to_ref <Element, ElementRef : AsRef<Element>> (slice : &[ElementRef]) -> (Vec<&Element>) {
+pub fn vec_slice_to_ref <Element, ElementRef : StdAsRef<Element>> (slice : &[ElementRef]) -> (StdVec<&Element>) {
 	return vec_map! (slice.iter (), value, value.as_ref ());
 }
 
 #[ inline (always) ]
-pub fn vec_iter_to_ref <'a, Element : 'a, ElementRef : AsRef<Element> + 'a, Iterator : iter::Iterator<Item = &'a ElementRef>> (iterator : Iterator) -> (Vec<&'a Element>) {
+pub fn vec_iter_to_ref <'a, Element : 'a, ElementRef : StdAsRef<Element> + 'a, Iterator : iter::Iterator<Item = &'a ElementRef>> (iterator : Iterator) -> (StdVec<&'a Element>) {
 	return vec_map! (iterator, value, value.as_ref ());
 }
 
@@ -290,7 +266,7 @@ pub fn vec_iter_to_ref <'a, Element : 'a, ElementRef : AsRef<Element> + 'a, Iter
 
 
 #[ inline (always) ]
-pub fn boxed_slice_to_ref <'a, Element : 'a, ElementRef : AsRef<Element> + 'a> (slice : &'a Box<[ElementRef]>) -> (Box<[&'a Element]>) {
+pub fn boxed_slice_to_ref <'a, Element : 'a, ElementRef : StdAsRef<Element> + 'a> (slice : &'a StdBox<[ElementRef]>) -> (StdBox<[&'a Element]>) {
 	return vec_map! (slice.iter (), value, value.as_ref ()) .into_boxed_slice ();
 }
 

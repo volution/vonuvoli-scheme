@@ -5,7 +5,15 @@ use super::constants::exports as constants;
 use super::tests::exports as tests;
 use super::values::exports as values;
 use std::char;
+use std::iter::Iterator;
+use std::convert::Into;
+use std::option::Option::Some;
+use std::result::Result;
+use std::result::Result::Ok;
+use std::result::Result::Err;
 use std::str::FromStr;
+use std::string::String;
+use std::vec::Vec;
 fn escape_default(s: &str) -> String {
     s.chars().flat_map(|c| c.escape_default()).collect()
 }

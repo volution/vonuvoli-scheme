@@ -6,8 +6,7 @@ use super::errors::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
 
-use std::iter;
-use std::str;
+use super::prelude::*;
 
 
 
@@ -85,8 +84,7 @@ pub fn string_at_set (_string : &Value, _index : usize, _char : &Value) -> (Outc
 pub fn string_collect_chars <Source> (chars : Source) -> (Value)
 		where Source : iter::IntoIterator<Item = char>, Source::IntoIter : iter::DoubleEndedIterator
 {
-	use std::iter::FromIterator;
-	return string_new (FromIterator::from_iter (chars)) .into ();
+	return string_new (iter::FromIterator::from_iter (chars)) .into ();
 }
 
 pub fn string_collect_values <Source> (chars : Source) -> (Outcome<Value>)
@@ -461,7 +459,7 @@ impl <'a> StringIterator <'a> {
 }
 
 
-impl <'a> Iterator for StringIterator <'a> {
+impl <'a> iter::Iterator for StringIterator <'a> {
 	
 	type Item = Outcome<Value>;
 	
@@ -489,7 +487,7 @@ impl <'a> StringIterators <'a> {
 }
 
 
-impl <'a> Iterator for StringIterators <'a> {
+impl <'a> iter::Iterator for StringIterators <'a> {
 	
 	type Item = Outcome<StdVec<Value>>;
 	
@@ -598,7 +596,6 @@ pub fn symbol_to_string (symbol : &Value) -> (Outcome<Value>) {
 
 
 pub fn string_to_number (string : &Value, radix : Option<&Value>) -> (Outcome<Value>) {
-	use std::str::FromStr;
 	let string = try_as_string_ref! (string) .string_as_str ();
 	let radix = try! (number_radix_coerce (radix));
 	if let Ok (number) = i64::from_str_radix (string, radix.unwrap_or (10)) {

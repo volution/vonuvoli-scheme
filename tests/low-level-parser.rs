@@ -1,15 +1,13 @@
 
 
-extern crate rust_scheme;
-
-use rust_scheme::exports::*;
-
-
+#![ feature (test) ]
+#![ no_implicit_prelude ]
+include! ("prelude.in");
 
 
-#[ test ]
-#[ allow (non_snake_case) ]
-fn test__0 () -> () {
+
+
+def_test! (test__0, {
 	
 	let tests = vec! [
 			
@@ -92,5 +90,5 @@ fn test__0 () -> () {
 		println! ();
 	}
 	
-}
+});
 

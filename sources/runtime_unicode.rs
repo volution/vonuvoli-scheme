@@ -2,8 +2,7 @@
 
 use super::errors::exports::*;
 
-use core::char as core_char;
-use core::str as core_str;
+use super::prelude::*;
 
 
 

@@ -8,7 +8,7 @@ use super::evaluator::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
 
-use std::iter;
+use super::prelude::*;
 
 
 
@@ -812,7 +812,7 @@ impl <'a> ListIterator <'a> {
 }
 
 
-impl <'a> Iterator for ListIterator <'a> {
+impl <'a> iter::Iterator for ListIterator <'a> {
 	
 	type Item = Outcome<&'a Value>;
 	
@@ -848,7 +848,7 @@ impl <'a> ListPairIterator <'a> {
 }
 
 
-impl <'a> Iterator for ListPairIterator <'a> {
+impl <'a> iter::Iterator for ListPairIterator <'a> {
 	
 	type Item = Outcome<&'a Pair>;
 	
@@ -889,7 +889,7 @@ impl <'a> ListIterators <'a> {
 }
 
 
-impl <'a> Iterator for ListIterators <'a> {
+impl <'a> iter::Iterator for ListIterators <'a> {
 	
 	type Item = Outcome<StdVec<&'a Value>>;
 	

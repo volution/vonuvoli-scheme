@@ -2,6 +2,8 @@
 
 use super::errors::exports::*;
 
+use super::prelude::*;
+
 
 
 
@@ -14,7 +16,7 @@ pub mod exports {
 
 
 pub struct RangeIterator <Value, IteratorDelegate>
-		where IteratorDelegate : Iterator<Item = Value>
+		where IteratorDelegate : iter::Iterator<Item = Value>
 {
 		iterator : IteratorDelegate,
 		index : usize,
@@ -24,7 +26,7 @@ pub struct RangeIterator <Value, IteratorDelegate>
 
 
 impl <Value, IteratorDelegate> RangeIterator<Value, IteratorDelegate>
-		where IteratorDelegate : Iterator<Item = Value>
+		where IteratorDelegate : iter::Iterator<Item = Value>
 {
 	
 	#[ inline (always) ]
@@ -39,8 +41,8 @@ impl <Value, IteratorDelegate> RangeIterator<Value, IteratorDelegate>
 }
 
 
-impl <Value, IteratorDelegate> Iterator for RangeIterator<Value, IteratorDelegate>
-		where IteratorDelegate : Iterator<Item = Value>
+impl <Value, IteratorDelegate> iter::Iterator for RangeIterator<Value, IteratorDelegate>
+		where IteratorDelegate : iter::Iterator<Item = Value>
 {
 	type Item = Outcome<Value>;
 	
@@ -81,7 +83,7 @@ impl <Value, IteratorDelegate> Iterator for RangeIterator<Value, IteratorDelegat
 
 
 pub struct RangeIteratorForOutcome <Value, IteratorDelegate>
-		where IteratorDelegate : Iterator<Item = Outcome<Value>>
+		where IteratorDelegate : iter::Iterator<Item = Outcome<Value>>
 {
 		iterator : IteratorDelegate,
 		index : usize,
@@ -91,7 +93,7 @@ pub struct RangeIteratorForOutcome <Value, IteratorDelegate>
 
 
 impl <Value, IteratorDelegate> RangeIteratorForOutcome<Value, IteratorDelegate>
-		where IteratorDelegate : Iterator<Item = Outcome<Value>>
+		where IteratorDelegate : iter::Iterator<Item = Outcome<Value>>
 {
 	
 	#[ inline (always) ]
@@ -106,8 +108,8 @@ impl <Value, IteratorDelegate> RangeIteratorForOutcome<Value, IteratorDelegate>
 }
 
 
-impl <Value, IteratorDelegate> Iterator for RangeIteratorForOutcome<Value, IteratorDelegate>
-		where IteratorDelegate : Iterator<Item = Outcome<Value>>
+impl <Value, IteratorDelegate> iter::Iterator for RangeIteratorForOutcome<Value, IteratorDelegate>
+		where IteratorDelegate : iter::Iterator<Item = Outcome<Value>>
 {
 	type Item = Outcome<Value>;
 	

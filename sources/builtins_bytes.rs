@@ -6,8 +6,7 @@ use super::errors::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
 
-use std::iter;
-use std::slice;
+use super::prelude::*;
 
 
 
@@ -61,8 +60,7 @@ pub fn bytes_at_set (_bytes : &Value, _index : usize, _byte : &Value) -> (Outcom
 pub fn bytes_collect_bytes <Source> (bytes : Source) -> (Value)
 		where Source : iter::IntoIterator<Item = u8>, Source::IntoIter : iter::DoubleEndedIterator
 {
-	use std::iter::FromIterator;
-	return bytes_new (FromIterator::from_iter (bytes)) .into ();
+	return bytes_new (iter::FromIterator::from_iter (bytes)) .into ();
 }
 
 pub fn bytes_collect_values <Source> (bytes : Source) -> (Outcome<Value>)
@@ -413,7 +411,7 @@ impl <'a> BytesIterator <'a> {
 }
 
 
-impl <'a> Iterator for BytesIterator <'a> {
+impl <'a> iter::Iterator for BytesIterator <'a> {
 	
 	type Item = Outcome<Value>;
 	
@@ -441,7 +439,7 @@ impl <'a> BytesIterators <'a> {
 }
 
 
-impl <'a> Iterator for BytesIterators <'a> {
+impl <'a> iter::Iterator for BytesIterators <'a> {
 	
 	type Item = Outcome<StdVec<Value>>;
 	

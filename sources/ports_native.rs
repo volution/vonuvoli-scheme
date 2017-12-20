@@ -4,8 +4,7 @@ use super::errors::exports::*;
 use super::ports::exports::*;
 use super::runtime::exports::*;
 
-use std::io;
-use std::str;
+use super::prelude::*;
 
 
 
@@ -220,7 +219,6 @@ impl PortBackendNativeReader {
 	}
 	
 	fn buffer_ref_if_open (&mut self) -> (Outcome<Option<&[u8]>>) {
-		use std::io::BufRead;
 		if let Some (ref mut reader) = self.reader {
 			if let Ok (buffer) = reader.fill_buf () {
 				if ! buffer.is_empty () {
@@ -237,7 +235,6 @@ impl PortBackendNativeReader {
 	}
 	
 	fn buffer_consume (&mut self, size : usize) -> () {
-		use std::io::BufRead;
 		if let Some (ref mut reader) = self.reader {
 			reader.consume (size);
 		}

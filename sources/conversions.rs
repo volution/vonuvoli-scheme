@@ -10,8 +10,9 @@ use super::native_procedures::exports::*;
 use super::native_syntaxes::exports::*;
 use super::ports::exports::*;
 use super::primitives::exports::*;
-use super::runtime::exports::*;
 use super::values::exports::*;
+
+use super::prelude::*;
 
 
 
@@ -821,7 +822,7 @@ pub fn option_box_unwrap <T> (option : Option<StdBox<T>>) -> (T) {
 }
 
 #[ inline (always) ]
-pub fn option_box_as_ref <T> (option : &Option<Box<T>>) -> (Option<&T>) {
+pub fn option_box_as_ref <T> (option : &Option<StdBox<T>>) -> (Option<&T>) {
 	match *option {
 		Some (ref value) =>
 			Some (&value),

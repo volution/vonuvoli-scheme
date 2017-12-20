@@ -1,16 +1,13 @@
 
 
 #![ feature (test) ]
-
-#[ macro_use ]
-extern crate rust_scheme;
-
-extern crate test;
+#![ no_implicit_prelude ]
+include! ("prelude.in");
 
 
 
 
-def_tests_from_file! (
+def_scheme_tests_from_file! (
 		
 		test__values => "scheme/values.sst",
 		test__contexts => "scheme/contexts.sst",
@@ -60,7 +57,7 @@ def_tests_from_file! (
 
 
 
-def_benchmarks_from_file! (
+def_scheme_benchmarks_from_file! (
 		
 		benchmark__types => "scheme/types.sst",
 		benchmark__booleans => "scheme/booleans.sst",

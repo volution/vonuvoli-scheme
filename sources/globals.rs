@@ -1,7 +1,7 @@
 
 
-use super::counters::PermutationCounter;
-use super::runtime::Handle;
+use super::counters::*;
+use super::runtime::*;
 
 
 

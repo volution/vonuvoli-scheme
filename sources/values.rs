@@ -11,13 +11,7 @@ use super::ports::exports::*;
 use super::primitives::exports::*;
 use super::runtime::exports::*;
 
-use std::char;
-use std::cmp;
-use std::fmt;
-use std::hash;
-use std::ops;
-use std::ptr;
-use std::str;
+use super::prelude::*;
 
 
 
@@ -45,6 +39,21 @@ pub mod exports {
 	pub use super::{pair_new};
 	
 	pub use super::{ValueMeta1, ValueMeta2, VALUE_META_1, VALUE_META_2};
+	
+	pub use super::super::errors::Error;
+	pub use super::super::contexts::Context;
+	pub use super::super::contexts::Binding;
+	pub use super::super::ports::Port;
+	
+	pub use super::super::primitives::exports::ProcedurePrimitive;
+	pub use super::super::extended_procedures::exports::ProcedureExtended;
+	pub use super::super::native_procedures::exports::ProcedureNative;
+	pub use super::super::lambdas::exports::ProcedureLambda;
+	
+	pub use super::super::primitives::exports::SyntaxPrimitive;
+	pub use super::super::extended_syntaxes::exports::SyntaxExtended;
+	pub use super::super::native_syntaxes::exports::SyntaxNative;
+	pub use super::super::lambdas::exports::SyntaxLambda;
 	
 }
 
@@ -456,7 +465,7 @@ macro_rules! NumberInteger_fn_try_to_signed_integer {
 		#[ inline (always) ]
 		pub fn $export (&self) -> (Outcome<$type>) {
 			let value = self.0;
-			if ::std::mem::size_of::<i64> () <= ::std::mem::size_of::<$type> () {
+			if mem::size_of::<i64> () <= mem::size_of::<$type> () {
 				succeed! (value as $type);
 			}
 			let min = <$type>::min_value () as i64;
@@ -480,7 +489,7 @@ macro_rules! NumberInteger_fn_try_to_unsigned_integer {
 			if value < 0 {
 				fail! (0xe4d76587);
 			}
-			if ::std::mem::size_of::<i64> () <= ::std::mem::size_of::<$type> () {
+			if mem::size_of::<i64> () <= mem::size_of::<$type> () {
 				succeed! (value as $type);
 			}
 			let max = <$type>::max_value () as i64;
@@ -1079,8 +1088,6 @@ impl NumberReal {
 	
 	#[ inline (always) ]
 	pub fn try_to_f32 (&self) -> (Outcome<f32>) {
-		use std::f32;
-		use std::f64;
 		let value = self.0;
 		if value.is_finite () {
 			let min = f32::MIN as f64;
@@ -1343,7 +1350,6 @@ impl fmt::Display for Character {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		use std::fmt::Write;
 		let character = self.0;
 		match character {
 			'!' ... '~' => {
@@ -1435,7 +1441,6 @@ impl fmt::Display for Symbol {
 		if self.0.is_empty () {
 			try! (formatter.write_str ("||"));
 		} else {
-			use std::fmt::Write;
 			try! (formatter.write_char ('|'));
 			for character in self.0.chars () {
 				match character {
@@ -1536,7 +1541,6 @@ impl fmt::Display for String {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		use std::fmt::Write;
 		try! (formatter.write_char ('"'));
 		for character in self.0.chars () {
 			match character {
@@ -1617,7 +1621,6 @@ impl fmt::Display for Bytes {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		use std::fmt::Write;
 		try! (formatter.write_str ("#u8("));
 		let mut is_first = true;
 		for byte in self.0.iter () {
@@ -1679,7 +1682,6 @@ impl fmt::Display for Pair {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		use std::fmt::Write;
 		try! (formatter.write_char ('('));
 		let mut cursor = self;
 		loop {
@@ -1773,7 +1775,6 @@ impl fmt::Display for Array {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		use std::fmt::Write;
 		try! (formatter.write_str ("#("));
 		let mut is_first = true;
 		for element in self.0.iter () {
@@ -1849,7 +1850,6 @@ impl fmt::Display for Values {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		use std::fmt::Write;
 		try! (formatter.write_str ("#values("));
 		let mut is_first = true;
 		for element in self.0.iter () {

@@ -1,8 +1,6 @@
 
 
-use super::runtime::exports::*;
-
-use std::fmt;
+use super::prelude::*;
 
 
 
@@ -21,7 +19,7 @@ pub mod exports {
 
 
 
-pub type Outcome<T> = StdResult<T, Error>;
+pub type Outcome<T> = Result<T, Error>;
 
 
 

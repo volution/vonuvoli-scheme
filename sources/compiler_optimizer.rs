@@ -13,7 +13,7 @@ use super::primitives::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
 
-use std::iter;
+use super::prelude::*;
 
 
 
@@ -1980,13 +1980,13 @@ impl Optimizer {
 	
 	
 	#[ allow (dead_code) ]
-	fn expressions_retain_if_is (&self, optimization : &OptimizerContext, expressions : Vec<Expression>, class : ExpressionClass) -> (Vec<Expression>) {
+	fn expressions_retain_if_is (&self, optimization : &OptimizerContext, expressions : StdVec<Expression>, class : ExpressionClass) -> (StdVec<Expression>) {
 		let mut expressions = expressions;
 		expressions.retain (|expression| self.expression_is (optimization, expression, class));
 		return expressions;
 	}
 	
-	fn expressions_retain_if_is_not (&self, optimization : &OptimizerContext, expressions : Vec<Expression>, class : ExpressionClass) -> (Vec<Expression>) {
+	fn expressions_retain_if_is_not (&self, optimization : &OptimizerContext, expressions : StdVec<Expression>, class : ExpressionClass) -> (StdVec<Expression>) {
 		let mut expressions = expressions;
 		expressions.retain (|expression| self.expression_is_not (optimization, expression, class));
 		return expressions;
@@ -1994,7 +1994,7 @@ impl Optimizer {
 	
 	
 	#[ allow (dead_code) ]
-	fn expressions_collect_if_is <Iterator> (&self, optimization : &OptimizerContext, expressions : Iterator, class : ExpressionClass) -> (Vec<Expression>)
+	fn expressions_collect_if_is <Iterator> (&self, optimization : &OptimizerContext, expressions : Iterator, class : ExpressionClass) -> (StdVec<Expression>)
 			where Iterator : iter::Iterator<Item = Expression>
 	{
 		let expressions = expressions.filter (|expression| self.expression_is (optimization, expression, class));
@@ -2002,7 +2002,7 @@ impl Optimizer {
 		return expressions;
 	}
 	
-	fn expressions_collect_if_is_not <Iterator> (&self, optimization : &OptimizerContext, expressions : Iterator, class : ExpressionClass) -> (Vec<Expression>)
+	fn expressions_collect_if_is_not <Iterator> (&self, optimization : &OptimizerContext, expressions : Iterator, class : ExpressionClass) -> (StdVec<Expression>)
 			where Iterator : iter::Iterator<Item = Expression>
 	{
 		let expressions = expressions.filter (|expression| self.expression_is_not (optimization, expression, class));

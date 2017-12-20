@@ -7,8 +7,7 @@ use super::errors::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
 
-use std::iter;
-use std::slice;
+use super::prelude::*;
 
 
 
@@ -61,8 +60,7 @@ pub fn array_at_set (_array : &Value, _index : usize, _value : &Value) -> (Outco
 pub fn array_collect <Source> (values : Source) -> (Value)
 		where Source : iter::IntoIterator<Item = Value>, Source::IntoIter : iter::DoubleEndedIterator
 {
-	use std::iter::FromIterator;
-	return array_new (FromIterator::from_iter (values)) .into ();
+	return array_new (iter::FromIterator::from_iter (values)) .into ();
 }
 
 pub fn array_collect_from_generator <Source> (values : Source) -> (Outcome<Value>)
@@ -368,7 +366,7 @@ impl <'a> ArrayIterator <'a> {
 }
 
 
-impl <'a> Iterator for ArrayIterator <'a> {
+impl <'a> iter::Iterator for ArrayIterator <'a> {
 	
 	type Item = Outcome<&'a Value>;
 	
@@ -396,7 +394,7 @@ impl <'a> ArrayIterators <'a> {
 }
 
 
-impl <'a> Iterator for ArrayIterators <'a> {
+impl <'a> iter::Iterator for ArrayIterators <'a> {
 	
 	type Item = Outcome<StdVec<&'a Value>>;
 	

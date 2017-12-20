@@ -3,7 +3,7 @@
 #[ macro_export ]
 macro_rules! succeeded {
 	( $outcome : expr ) => (
-		::std::result::Result::Ok ($outcome)
+		$crate::prelude::Result::Ok ($outcome)
 	);
 }
 
@@ -21,21 +21,21 @@ macro_rules! failed_or_panic {
 #[ macro_export ]
 macro_rules! failed {
 	( $code : expr ) => (
-		failed_or_panic! ($code, ::std::result::Result::Err ($crate::errors::exports::error_generic ($code)))
+		failed_or_panic! ($code, $crate::prelude::Result::Err ($crate::errors::exports::error_generic ($code)))
 	);
 }
 
 #[ macro_export ]
 macro_rules! failed_unimplemented {
 	( $code : expr ) => (
-		failed_or_panic! ($code, ::std::result::Result::Err ($crate::errors::exports::error_unimplemented ($code)))
+		failed_or_panic! ($code, $crate::prelude::Result::Err ($crate::errors::exports::error_unimplemented ($code)))
 	);
 }
 
 #[ macro_export ]
 macro_rules! failed_panic {
 	( $code : expr ) => (
-		failed_or_panic! ($code, ::std::result::Result::Err ($crate::errors::exports::error_panic ($code)))
+		failed_or_panic! ($code, $crate::prelude::Result::Err ($crate::errors::exports::error_panic ($code)))
 	);
 }
 
@@ -81,7 +81,7 @@ macro_rules! fail_unreachable {
 #[ macro_export ]
 macro_rules! succeed_or_fail {
 	( $result : expr, $code : expr ) => (
-		if let ::std::result::Result::Ok (value) = $result {
+		if let $crate::prelude::Result::Ok (value) = $result {
 			succeed! (value);
 		} else {
 			fail! ($code);
@@ -92,7 +92,7 @@ macro_rules! succeed_or_fail {
 #[ macro_export ]
 macro_rules! try_or_fail {
 	( $result : expr, $code : expr ) => (
-		if let ::std::result::Result::Ok (value) = $result {
+		if let $crate::prelude::Result::Ok (value) = $result {
 			value
 		} else {
 			fail! ($code);
@@ -117,7 +117,7 @@ macro_rules! enforce {
 
 macro_rules! try_some {
 	( $option : expr, $code : expr ) => (
-		if let ::std::option::Option::Some (value) = $option {
+		if let $crate::prelude::Option::Some (value) = $option {
 			value
 		} else {
 			fail! ($code);
@@ -127,7 +127,7 @@ macro_rules! try_some {
 
 macro_rules! try_some_ref {
 	( $option : expr, $code : expr ) => (
-		if let ::std::option::Option::Some (ref value) = $option {
+		if let $crate::prelude::Option::Some (ref value) = $option {
 			value
 		} else {
 			fail! ($code);
@@ -155,24 +155,24 @@ macro_rules! impl_from_for_box {
 		impl_from_for_box! ($to, $from, value, $to (value.into ()));
 	);
 	( $to : ty, $from : ty, $value : ident, $expression : expr ) => (
-		impl StdFrom<$from> for StdBox<$to> {
+		impl $crate::prelude::StdFrom<$from> for $crate::prelude::StdBox<$to> {
 			#[ inline (always) ]
-			fn from ($value : $from) -> (StdBox<$to>) {
-				return StdBox::new (StdFrom::<$to>::from ($expression));
+			fn from ($value : $from) -> ($crate::prelude::StdBox<$to>) {
+				return $crate::prelude::StdBox::new ($crate::prelude::StdFrom::<$to>::from ($expression));
 			}
 		}
-		impl StdTryFrom<$from> for StdBox<$to> {
+		impl $crate::prelude::StdTryFrom<$from> for $crate::prelude::StdBox<$to> {
 			type Error = $crate::errors::exports::Error;
 			#[ inline (always) ]
-			fn try_from (value : $from) -> (::std::result::Result<StdBox<$to>, ::errors::exports::Error>) {
-				succeed! (StdFrom::from (value));
+			fn try_from (value : $from) -> ($crate::prelude::Result<$crate::prelude::StdBox<$to>, $crate::errors::exports::Error>) {
+				succeed! ($crate::prelude::StdFrom::from (value));
 			}
 		}
-		impl StdTryInto<StdBox<$to>> for $from {
+		impl $crate::prelude::StdTryInto<$crate::prelude::StdBox<$to>> for $from {
 			type Error = $crate::errors::exports::Error;
 			#[ inline (always) ]
-			fn try_into (self) -> (::std::result::Result<StdBox<$to>, $crate::errors::exports::Error>) {
-				return StdTryFrom::try_from (self);
+			fn try_into (self) -> ($crate::prelude::Result<$crate::prelude::StdBox<$to>, $crate::errors::exports::Error>) {
+				return $crate::prelude::StdTryFrom::try_from (self);
 			}
 		}
 	);
@@ -181,24 +181,24 @@ macro_rules! impl_from_for_box {
 
 macro_rules! impl_try_from_for_box {
 	( $to : ty, $from : ty, $value : ident, $expression : expr ) => (
-		impl StdTryFrom<$from> for StdBox<$to> {
+		impl $crate::prelude::StdTryFrom<$from> for $crate::prelude::StdBox<$to> {
 			type Error = $crate::errors::exports::Error;
 			#[ inline (always) ]
-			fn try_from ($value : $from) -> (::std::result::Result<StdBox<$to>, ::errors::exports::Error>) {
-				succeed! (StdBox::new (StdFrom::<$to>::from (try! ($expression))));
+			fn try_from ($value : $from) -> ($crate::prelude::Result<$crate::prelude::StdBox<$to>, $crate::errors::exports::Error>) {
+				succeed! ($crate::prelude::StdBox::new ($crate::prelude::StdFrom::<$to>::from (try! ($expression))));
 			}
 		}
-		impl StdFrom<$from> for StdBox<$to> {
+		impl $crate::prelude::StdFrom<$from> for $crate::prelude::StdBox<$to> {
 			#[ inline (always) ]
-			fn from (value : $from) -> (StdBox<$to>) {
-				return StdTryFrom::try_from (value) .expect ("421e5427");
+			fn from (value : $from) -> ($crate::prelude::StdBox<$to>) {
+				return $crate::prelude::StdTryFrom::try_from (value) .expect ("421e5427");
 			}
 		}
-		impl StdTryInto<StdBox<$to>> for $from {
+		impl $crate::prelude::StdTryInto<$crate::prelude::StdBox<$to>> for $from {
 			type Error = $crate::errors::exports::Error;
 			#[ inline (always) ]
-			fn try_into (self) -> (::std::result::Result<StdBox<$to>, $crate::errors::exports::Error>) {
-				return StdTryFrom::try_from (self);
+			fn try_into (self) -> ($crate::prelude::Result<$crate::prelude::StdBox<$to>, $crate::errors::exports::Error>) {
+				return $crate::prelude::StdTryFrom::try_from (self);
 			}
 		}
 	);
@@ -212,24 +212,24 @@ macro_rules! impl_from_for_type {
 		impl_from_for_type! ($to, $from, value, $to (value.into ()));
 	);
 	( $to : ty, $from : ty, $value : ident, $expression : expr ) => (
-		impl StdFrom<$from> for $to {
+		impl $crate::prelude::StdFrom<$from> for $to {
 			#[ inline (always) ]
 			fn from ($value : $from) -> ($to) {
-				return StdFrom::<$to>::from ($expression);
+				return $crate::prelude::StdFrom::<$to>::from ($expression);
 			}
 		}
-		impl StdTryFrom<$from> for $to {
+		impl $crate::prelude::StdTryFrom<$from> for $to {
 			type Error = $crate::errors::exports::Error;
 			#[ inline (always) ]
-			fn try_from (value : $from) -> (::std::result::Result<$to, ::errors::exports::Error>) {
-				succeed! (StdFrom::from (value));
+			fn try_from (value : $from) -> ($crate::prelude::Result<$to, $crate::errors::exports::Error>) {
+				succeed! ($crate::prelude::StdFrom::from (value));
 			}
 		}
-		impl StdTryInto<$to> for $from {
+		impl $crate::prelude::StdTryInto<$to> for $from {
 			type Error = $crate::errors::exports::Error;
 			#[ inline (always) ]
-			fn try_into (self) -> (::std::result::Result<$to, $crate::errors::exports::Error>) {
-				return StdTryFrom::try_from (self);
+			fn try_into (self) -> ($crate::prelude::Result<$to, $crate::errors::exports::Error>) {
+				return $crate::prelude::StdTryFrom::try_from (self);
 			}
 		}
 		impl_from_for_box! ($to, $from, $value, $expression);
@@ -239,24 +239,24 @@ macro_rules! impl_from_for_type {
 
 macro_rules! impl_try_from_for_type {
 	( $to : ty, $from : ty, $value : ident, $expression : expr ) => (
-		impl StdTryFrom<$from> for $to {
+		impl $crate::prelude::StdTryFrom<$from> for $to {
 			type Error = $crate::errors::exports::Error;
 			#[ inline (always) ]
-			fn try_from ($value : $from) -> (::std::result::Result<$to, ::errors::exports::Error>) {
-				succeed! (StdFrom::<$to>::from (try! ($expression)));
+			fn try_from ($value : $from) -> ($crate::prelude::Result<$to, $crate::errors::exports::Error>) {
+				succeed! ($crate::prelude::StdFrom::<$to>::from (try! ($expression)));
 			}
 		}
-		impl StdFrom<$from> for $to {
+		impl $crate::prelude::StdFrom<$from> for $to {
 			#[ inline (always) ]
 			fn from (value : $from) -> ($to) {
-				return StdTryFrom::try_from (value) .expect ("d747d1de");
+				return $crate::prelude::StdTryFrom::try_from (value) .expect ("d747d1de");
 			}
 		}
-		impl StdTryInto<$to> for $from {
+		impl $crate::prelude::StdTryInto<$to> for $from {
 			type Error = $crate::errors::exports::Error;
 			#[ inline (always) ]
-			fn try_into (self) -> (::std::result::Result<$to, $crate::errors::exports::Error>) {
-				return StdTryFrom::try_from (self);
+			fn try_into (self) -> ($crate::prelude::Result<$to, $crate::errors::exports::Error>) {
+				return $crate::prelude::StdTryFrom::try_from (self);
 			}
 		}
 		impl_try_from_for_box! ($to, $from, $value, $expression);
@@ -271,17 +271,17 @@ macro_rules! impl_as_ref_for_type {
 		impl_as_ref_for_type! ($from, $from, self, self);
 	);
 	( $to : ty, $from : ty, $self : ident, $expression : expr ) => (
-		impl StdAsRef<$to> for $from {
+		impl $crate::prelude::StdAsRef<$to> for $from {
 			#[ inline (always) ]
 			fn as_ref (&$self) -> (&$to) {
 				return $expression;
 			}
 		}
-		impl StdTryAsRef<$to> for $from {
+		impl $crate::prelude::StdTryAsRef<$to> for $from {
 			type Error = $crate::errors::exports::Error;
 			#[ inline (always) ]
-			fn try_as_ref (&self) -> (::std::result::Result<&$to, ::errors::exports::Error>) {
-				succeed! (StdAsRef::as_ref (self));
+			fn try_as_ref (&self) -> ($crate::prelude::Result<&$to, $crate::errors::exports::Error>) {
+				succeed! ($crate::prelude::StdAsRef::as_ref (self));
 			}
 		}
 	);
@@ -290,17 +290,17 @@ macro_rules! impl_as_ref_for_type {
 
 macro_rules! impl_try_as_ref_for_type {
 	( $to : ty, $from : ty, $self : ident, $expression : expr ) => (
-		impl StdTryAsRef<$to> for $from {
+		impl $crate::prelude::StdTryAsRef<$to> for $from {
 			type Error = $crate::errors::exports::Error;
 			#[ inline (always) ]
-			fn try_as_ref (&$self) -> (::std::result::Result<&$to, ::errors::exports::Error>) {
+			fn try_as_ref (&$self) -> ($crate::prelude::Result<&$to, $crate::errors::exports::Error>) {
 				succeed! (try! ($expression));
 			}
 		}
-		impl StdAsRef<$to> for $from {
+		impl $crate::prelude::StdAsRef<$to> for $from {
 			#[ inline (always) ]
 			fn as_ref (&self) -> (&$to) {
-				return StdAsRef::try_as_ref (self) .expect ("b1ff6fb6");
+				return $crate::prelude::StdAsRef::try_as_ref (self) .expect ("b1ff6fb6");
 			}
 		}
 	);
@@ -314,24 +314,24 @@ macro_rules! impl_from_for_enum {
 		impl_from_for_enum! ($to, $tag, $from, value, value);
 	);
 	( $to : ident, $tag : ident, $from : ty, $value : ident, $expression : expr ) => (
-		impl StdFrom<$from> for $to {
+		impl $crate::prelude::StdFrom<$from> for $to {
 			#[ inline (always) ]
 			fn from ($value : $from) -> ($to) {
 				return $to::$tag ($expression.into ());
 			}
 		}
-		impl StdTryFrom<$from> for $to {
+		impl $crate::prelude::StdTryFrom<$from> for $to {
 			type Error = $crate::errors::exports::Error;
 			#[ inline (always) ]
-			fn try_from (value : $from) -> (::std::result::Result<$to, ::errors::exports::Error>) {
-				succeed! (StdFrom::from (value));
+			fn try_from (value : $from) -> ($crate::prelude::Result<$to, $crate::errors::exports::Error>) {
+				succeed! ($crate::prelude::StdFrom::from (value));
 			}
 		}
-		impl StdTryInto<$to> for $from {
+		impl $crate::prelude::StdTryInto<$to> for $from {
 			type Error = $crate::errors::exports::Error;
 			#[ inline (always) ]
-			fn try_into (self) -> (::std::result::Result<$to, $crate::errors::exports::Error>) {
-				return StdTryFrom::try_from (self);
+			fn try_into (self) -> ($crate::prelude::Result<$to, $crate::errors::exports::Error>) {
+				return $crate::prelude::StdTryFrom::try_from (self);
 			}
 		}
 		impl_from_for_box! ($to, $from, $value, $expression.into ());
@@ -341,24 +341,24 @@ macro_rules! impl_from_for_enum {
 
 macro_rules! impl_try_from_for_enum {
 	( $to : ident, $tag : ident, $from : ty, $value : ident, $expression : expr ) => (
-		impl StdTryFrom<$from> for $to {
+		impl $crate::prelude::StdTryFrom<$from> for $to {
 			type Error = $crate::errors::exports::Error;
 			#[ inline (always) ]
-			fn try_from ($value : $from) -> (::std::result::Result<$to, $crate::errors::exports::Error>) {
+			fn try_from ($value : $from) -> ($crate::prelude::Result<$to, $crate::errors::exports::Error>) {
 				succeed! ($to::tag (try! ($expression) .into ()));
 			}
 		}
-		impl StdFrom<$from> for $to {
+		impl $crate::prelude::StdFrom<$from> for $to {
 			#[ inline (always) ]
 			fn from (value : $from) -> ($to) {
-				return StdTryFrom::try_from (value) .expect ("86d35665");
+				return $crate::prelude::StdTryFrom::try_from (value) .expect ("86d35665");
 			}
 		}
-		impl StdTryInto<$to> for $from {
+		impl $crate::prelude::StdTryInto<$to> for $from {
 			type Error = $crate::errors::exports::Error;
 			#[ inline (always) ]
-			fn try_into (self) -> (::std::result::Result<$to, $crate::errors::exports::Error>) {
-				return StdTryFrom::try_from (self);
+			fn try_into (self) -> ($crate::prelude::Result<$to, $crate::errors::exports::Error>) {
+				return $crate::prelude::StdTryFrom::try_from (self);
 			}
 		}
 		impl_try_from_for_box! ($to, $from, $value, $expression.into ());
@@ -373,37 +373,37 @@ macro_rules! impl_unwrappers_for_box {
 		impl_unwrappers_for_box ($to, $to);
 	);
 	( $from : ty, $to : ty) => (
-		impl StdFrom<StdBox<$from>> for $to {
+		impl $crate::prelude::StdFrom<$crate::prelude::StdBox<$from>> for $to {
 			#[ inline (always) ]
-			fn from (value : StdBox<$from>) -> ($to) {
+			fn from (value : $crate::prelude::StdBox<$from>) -> ($to) {
 				return <$to>::from (*value);
 			}
 		}
-		impl StdTryFrom<StdBox<$from>> for $to {
+		impl $crate::prelude::StdTryFrom<$crate::prelude::StdBox<$from>> for $to {
 			type Error = $crate::errors::exports::Error;
 			#[ inline (always) ]
-			fn try_from (value : StdBox<$from>) -> (::std::result::Result<$to, ::errors::exports::Error>) {
+			fn try_from (value : $crate::prelude::StdBox<$from>) -> ($crate::prelude::Result<$to, $crate::errors::exports::Error>) {
 				return <$to>::try_from (*value);
 			}
 		}
-		impl StdTryInto<$to> for StdBox<$from> {
+		impl $crate::prelude::StdTryInto<$to> for $crate::prelude::StdBox<$from> {
 			type Error = $crate::errors::exports::Error;
 			#[ inline (always) ]
-			fn try_into (self) -> (::std::result::Result<$to, $crate::errors::exports::Error>) {
-				return StdTryFrom::try_from (self);
+			fn try_into (self) -> ($crate::prelude::Result<$to, $crate::errors::exports::Error>) {
+				return $crate::prelude::StdTryFrom::try_from (self);
 			}
 		}
 		/*
-		impl StdAsRef<$to> for StdBox<$from> {
+		impl $crate::prelude::StdAsRef<$to> for $crate::prelude::StdBox<$from> {
 			#[ inline (always) ]
 			fn as_ref (&self) -> (&$to) {
 				return <$to>::as_ref (<$from>::as_ref (self));
 			}
 		}
-		impl StdTryAsRef<$to> for StdBox<$from> {
+		impl $crate::prelude::StdTryAsRef<$to> for $crate::prelude::StdBox<$from> {
 			type Error = $crate::errors::exports::Error;
 			#[ inline (always) ]
-			fn try_as_ref (&self) -> (::std::result::Result<&$to, ::errors::exports::Error>) {
+			fn try_as_ref (&self) -> ($crate::prelude::Result<&$to, $crate::errors::exports::Error>) {
 				return <$to>::try_as_ref (<$from>::as_ref (self));
 			}
 		}
@@ -414,37 +414,37 @@ macro_rules! impl_unwrappers_for_box {
 
 macro_rules! impl_unwrappers_for_type_wrapper {
 	( $from : ty, $to : ty) => (
-		impl StdFrom<$from> for $to {
+		impl $crate::prelude::StdFrom<$from> for $to {
 			#[ inline (always) ]
 			fn from (value : $from) -> ($to) {
-				return StdFrom::<$to>::from (value.0);
+				return $crate::prelude::StdFrom::<$to>::from (value.0);
 			}
 		}
-		impl StdTryFrom<$from> for $to {
+		impl $crate::prelude::StdTryFrom<$from> for $to {
 			type Error = $crate::errors::exports::Error;
 			#[ inline (always) ]
-			fn try_from (value : $from) -> (::std::result::Result<$to, ::errors::exports::Error>) {
-				succeed! (StdFrom::from (value));
+			fn try_from (value : $from) -> ($crate::prelude::Result<$to, $crate::errors::exports::Error>) {
+				succeed! ($crate::prelude::StdFrom::from (value));
 			}
 		}
-		impl StdTryInto<$to> for $from {
+		impl $crate::prelude::StdTryInto<$to> for $from {
 			type Error = $crate::errors::exports::Error;
 			#[ inline (always) ]
-			fn try_into (self) -> (::std::result::Result<$to, $crate::errors::exports::Error>) {
-				return StdTryFrom::try_from (self);
+			fn try_into (self) -> ($crate::prelude::Result<$to, $crate::errors::exports::Error>) {
+				return $crate::prelude::StdTryFrom::try_from (self);
 			}
 		}
-		impl StdAsRef<$to> for $from {
+		impl $crate::prelude::StdAsRef<$to> for $from {
 			#[ inline (always) ]
 			fn as_ref (&self) -> (&$to) {
 				return &self.0;
 			}
 		}
-		impl StdTryAsRef<$to> for $from {
+		impl $crate::prelude::StdTryAsRef<$to> for $from {
 			type Error = $crate::errors::exports::Error;
 			#[ inline (always) ]
-			fn try_as_ref (&self) -> (::std::result::Result<&$to, ::errors::exports::Error>) {
-				succeed! (StdAsRef::as_ref (self));
+			fn try_as_ref (&self) -> ($crate::prelude::Result<&$to, $crate::errors::exports::Error>) {
+				succeed! ($crate::prelude::StdAsRef::as_ref (self));
 			}
 		}
 		impl_unwrappers_for_box! ($from, $to);
@@ -454,10 +454,10 @@ macro_rules! impl_unwrappers_for_type_wrapper {
 
 macro_rules! impl_unwrappers_for_enum_wrapper {
 	( $from : ident, $tag : ident, $to : ty) => (
-		impl StdTryFrom<$from> for $to {
+		impl $crate::prelude::StdTryFrom<$from> for $to {
 			type Error = $crate::errors::exports::Error;
 			#[ inline (always) ]
-			fn try_from (value : $from) -> (::std::result::Result<$to, $crate::errors::exports::Error>) {
+			fn try_from (value : $from) -> ($crate::prelude::Result<$to, $crate::errors::exports::Error>) {
 				if let $from::$tag (value) = value {
 					succeed! (<$to>::from (value));
 				} else {
@@ -465,24 +465,24 @@ macro_rules! impl_unwrappers_for_enum_wrapper {
 				}
 			}
 		}
-		impl StdFrom<$from> for $to {
+		impl $crate::prelude::StdFrom<$from> for $to {
 			#[ inline (always) ]
 			fn from (value : $from) -> ($to) {
-				return StdTryFrom::try_from (value) .expect ("686ef2f9");
+				return $crate::prelude::StdTryFrom::try_from (value) .expect ("686ef2f9");
 			}
 		}
-		impl StdTryInto<$to> for $from {
+		impl $crate::prelude::StdTryInto<$to> for $from {
 			type Error = $crate::errors::exports::Error;
 			#[ inline (always) ]
-			fn try_into (self) -> (::std::result::Result<$to, $crate::errors::exports::Error>) {
-				return StdTryFrom::try_from (self);
+			fn try_into (self) -> ($crate::prelude::Result<$to, $crate::errors::exports::Error>) {
+				return $crate::prelude::StdTryFrom::try_from (self);
 			}
 		}
 		/*
-		impl StdTryAsRef<$to> for $from {
+		impl $crate::prelude::StdTryAsRef<$to> for $from {
 			type Error = $crate::errors::exports::Error;
 			#[ inline (always) ]
-			fn try_as_ref (&self) -> (::std::result::Result<&$to, $crate::errors::exports::Error>) {
+			fn try_as_ref (&self) -> ($crate::prelude::Result<&$to, $crate::errors::exports::Error>) {
 				if let $from::$tag (ref value) = *self {
 					return <$to>::try_as_ref (value);
 				} else {
@@ -490,10 +490,10 @@ macro_rules! impl_unwrappers_for_enum_wrapper {
 				}
 			}
 		}
-		impl StdAsRef<$to> for $from {
+		impl $crate::prelude::StdAsRef<$to> for $from {
 			#[ inline (always) ]
 			fn as_ref (&self) -> (&$to) {
-				return StdTryAsRef::try_as_ref (self) .expect ("8dee9989");
+				return $crate::prelude::StdTryAsRef::try_as_ref (self) .expect ("8dee9989");
 			}
 		}
 		*/
@@ -504,10 +504,10 @@ macro_rules! impl_unwrappers_for_enum_wrapper {
 
 macro_rules! impl_unwrappers_2_for_enum_3_wrapper {
 	( $from : ident, $tag : ident, $to : ty) => (
-		impl StdTryFrom<$from> for $to {
+		impl $crate::prelude::StdTryFrom<$from> for $to {
 			type Error = $crate::errors::exports::Error;
 			#[ inline (always) ]
-			fn try_from (value : $from) -> (::std::result::Result<$to, $crate::errors::exports::Error>) {
+			fn try_from (value : $from) -> ($crate::prelude::Result<$to, $crate::errors::exports::Error>) {
 				if let $from::$tag (_, value, _) = value {
 					succeed! (<$to>::from (value));
 				} else {
@@ -515,23 +515,23 @@ macro_rules! impl_unwrappers_2_for_enum_3_wrapper {
 				}
 			}
 		}
-		impl StdFrom<$from> for $to {
+		impl $crate::prelude::StdFrom<$from> for $to {
 			#[ inline (always) ]
 			fn from (value : $from) -> ($to) {
-				return StdTryFrom::try_from (value) .expect ("328db7d1");
+				return $crate::prelude::StdTryFrom::try_from (value) .expect ("328db7d1");
 			}
 		}
-		impl StdTryInto<$to> for $from {
+		impl $crate::prelude::StdTryInto<$to> for $from {
 			type Error = $crate::errors::exports::Error;
 			#[ inline (always) ]
-			fn try_into (self) -> (::std::result::Result<$to, $crate::errors::exports::Error>) {
-				return StdTryFrom::try_from (self);
+			fn try_into (self) -> ($crate::prelude::Result<$to, $crate::errors::exports::Error>) {
+				return $crate::prelude::StdTryFrom::try_from (self);
 			}
 		}
-		impl StdTryAsRef<$to> for $from {
+		impl $crate::prelude::StdTryAsRef<$to> for $from {
 			type Error = $crate::errors::exports::Error;
 			#[ inline (always) ]
-			fn try_as_ref (&self) -> (::std::result::Result<&$to, $crate::errors::exports::Error>) {
+			fn try_as_ref (&self) -> ($crate::prelude::Result<&$to, $crate::errors::exports::Error>) {
 				if let $from::$tag (_, ref value, _) = *self {
 					return <$to>::try_as_ref (value);
 				} else {
@@ -539,10 +539,10 @@ macro_rules! impl_unwrappers_2_for_enum_3_wrapper {
 				}
 			}
 		}
-		impl StdAsRef<$to> for $from {
+		impl $crate::prelude::StdAsRef<$to> for $from {
 			#[ inline (always) ]
 			fn as_ref (&self) -> (&$to) {
-				return StdTryAsRef::try_as_ref (self) .expect ("7d5095ee");
+				return $crate::prelude::StdTryAsRef::try_as_ref (self) .expect ("7d5095ee");
 			}
 		}
 		impl_unwrappers_for_box! ($from, $to);
@@ -554,31 +554,31 @@ macro_rules! impl_unwrappers_2_for_enum_3_wrapper {
 
 macro_rules! vec_into {
 	( $( $value : expr ),* ) => (
-		vec! [ $( $value, )* ] .into_iter () .map (|value| value.into ()) .collect::<::std::vec::Vec<_>> ()
+		vec! [ $( $value, )* ] .into_iter () .map (|value| value.into ()) .collect::<$crate::prelude::StdVec<_>> ()
 	);
 }
 
 macro_rules! vec_map {
 	( $iterator : expr, $element : pat, $expression : expr ) => (
-		$iterator.map (|$element| $expression) .collect::<::std::vec::Vec<_>> ()
+		$iterator.map (|$element| $expression) .collect::<$crate::prelude::StdVec<_>> ()
 	);
 }
 
 macro_rules! vec_map_into {
 	( $vector : expr, $element : pat, $expression : expr ) => (
-		$vector.into_iter () .map (|$element| $expression) .collect::<::std::vec::Vec<_>> ()
+		$vector.into_iter () .map (|$element| $expression) .collect::<$crate::prelude::StdVec<_>> ()
 	);
 }
 
 macro_rules! try_vec_map {
 	( $iterator : expr, $element : pat, $expression : expr ) => (
-		try! ($iterator.map (|$element| $expression) .collect::<::std::result::Result<::std::vec::Vec<_>, _>> ())
+		try! ($iterator.map (|$element| $expression) .collect::<$crate::prelude::Result<$crate::prelude::StdVec<_>, _>> ())
 	);
 }
 
 macro_rules! try_vec_map_into {
 	( $vector : expr, $element : pat, $expression : expr ) => (
-		try! ($vector.into_iter () .map (|$element| $expression) .collect::<::std::result::Result<::std::vec::Vec<_>, _>> ())
+		try! ($vector.into_iter () .map (|$element| $expression) .collect::<$crate::prelude::Result<$crate::prelude::StdVec<_>, _>> ())
 	);
 }
 
@@ -597,9 +597,9 @@ macro_rules! vec_fold_into {
 macro_rules! try_vec_fold {
 	( $iterator : expr, $initial : expr, ($accumulator : pat, $element : pat), $expression : block ) => (
 		// FIXME:  Try to elide the `$crate::errors::exports::Error`!
-		try! ($iterator.fold::<::std::result::Result<_, $crate::errors::exports::Error>, _> (::std::result::Result::Ok ($initial), |accumulator, $element| {
+		try! ($iterator.fold::<$crate::prelude::Result<_, $crate::errors::exports::Error>, _> ($crate::prelude::Result::Ok ($initial), |accumulator, $element| {
 			match accumulator {
-				::std::result::Result::Ok ($accumulator) =>
+				$crate::prelude::Result::Ok ($accumulator) =>
 					$expression,
 				error =>
 					error,
@@ -611,9 +611,9 @@ macro_rules! try_vec_fold {
 macro_rules! try_vec_fold_into {
 	( $vector : expr, $initial : expr, ($accumulator : pat, $element : pat), $expression : block ) => (
 		// FIXME:  Try to elide the `$crate::errors::exports::Error`!
-		try! ($vector.into_iter () .fold::<::std::result::Result<_, $crate::errors::exports::Error>, _> (::std::result::Result::Ok ($initial), |accumulator, $element| {
+		try! ($vector.into_iter () .fold::<$crate::prelude::Result<_, $crate::errors::exports::Error>, _> ($crate::prelude::Result::Ok ($initial), |accumulator, $element| {
 			match accumulator {
-				::std::result::Result::Ok ($accumulator) =>
+				$crate::prelude::Result::Ok ($accumulator) =>
 					$expression,
 				error =>
 					error,
@@ -624,13 +624,13 @@ macro_rules! try_vec_fold_into {
 
 macro_rules! vec_filter {
 	( $iterator : expr, $element : pat, $expression : expr ) => (
-		$iterator.filter (|$element| $expression) .collect::<::std::vec::Vec<_>> ()
+		$iterator.filter (|$element| $expression) .collect::<$crate::prelude::StdVec<_>> ()
 	);
 }
 
 macro_rules! vec_filter_into {
 	( $vector : expr, $element : pat, $expression : expr ) => (
-		$vector.into_iter () .filter (|$element| $expression) .collect::<::std::vec::Vec<_>> ()
+		$vector.into_iter () .filter (|$element| $expression) .collect::<$crate::prelude::StdVec<_>> ()
 	);
 }
 
@@ -701,11 +701,11 @@ macro_rules! try_option_map {
 
 macro_rules! try_as_ref {
 	( $type : ty, $value : expr ) => (
-		try! ($crate::runtime::exports::StdTryAsRef::<$type>::try_as_ref ($value))
+		try! ($crate::prelude::StdTryAsRef::<$type>::try_as_ref ($value))
 	);
 }
 
-macro_rules! def_try_as_ref {
+macro_rules! def_value_try_as_ref {
 	( $identifier : ident, $type : ty) => (
 		macro_rules! $identifier {
 			( $value : expr ) => (
@@ -718,11 +718,11 @@ macro_rules! def_try_as_ref {
 
 macro_rules! try_into {
 	( $type : ty, $value : expr ) => (
-		try! ($crate::runtime::exports::StdTryInto::<$type>::try_into ($value))
+		try! ($crate::prelude::StdTryInto::<$type>::try_into ($value))
 	);
 }
 
-macro_rules! def_try_into {
+macro_rules! def_value_try_into {
 	( $identifier : ident, $type : ty) => (
 		macro_rules! $identifier {
 			( $value : expr ) => (
@@ -733,90 +733,101 @@ macro_rules! def_try_into {
 }
 
 
-def_try_as_ref! (try_as_boolean_ref, ::values::exports::Boolean);
-def_try_into! (try_into_boolean, ::values::exports::Boolean);
+macro_rules! value_type {
+	( $type : ident ) => (
+		$crate::values::exports::$type
+	);
+}
 
-def_try_as_ref! (try_as_number_integer_ref, ::values::exports::NumberInteger);
-def_try_into! (try_into_number_integer, ::values::exports::NumberInteger);
 
-def_try_as_ref! (try_as_number_real_ref, ::values::exports::NumberReal);
-def_try_into! (try_into_number_real, ::values::exports::NumberReal);
+def_value_try_as_ref! (try_as_boolean_ref, value_type! (Boolean));
+def_value_try_into! (try_into_boolean, value_type! (Boolean));
 
-def_try_as_ref! (try_as_character_ref, ::values::exports::Character);
-def_try_into! (try_into_character, ::values::exports::Character);
+def_value_try_as_ref! (try_as_number_integer_ref, value_type! (NumberInteger));
+def_value_try_into! (try_into_number_integer, value_type! (NumberInteger));
 
-def_try_as_ref! (try_as_symbol_ref, ::values::exports::Symbol);
-def_try_into! (try_into_symbol, ::values::exports::Symbol);
+def_value_try_as_ref! (try_as_number_real_ref, value_type! (NumberReal));
+def_value_try_into! (try_into_number_real, value_type! (NumberReal));
 
-def_try_as_ref! (try_as_string_ref, ::values::exports::String);
-def_try_into! (try_into_string, ::values::exports::String);
+def_value_try_as_ref! (try_as_character_ref, value_type! (Character));
+def_value_try_into! (try_into_character, value_type! (Character));
 
-def_try_as_ref! (try_as_bytes_ref, ::values::exports::Bytes);
-def_try_into! (try_into_bytes, ::values::exports::Bytes);
+def_value_try_as_ref! (try_as_symbol_ref, value_type! (Symbol));
+def_value_try_into! (try_into_symbol, value_type! (Symbol));
 
-def_try_as_ref! (try_as_pair_ref, ::values::exports::Pair);
-def_try_into! (try_into_pair, ::values::exports::Pair);
+def_value_try_as_ref! (try_as_string_ref, value_type! (String));
+def_value_try_into! (try_into_string, value_type! (String));
 
-def_try_as_ref! (try_as_array_ref, ::values::exports::Array);
-def_try_into! (try_into_array, ::values::exports::Array);
+def_value_try_as_ref! (try_as_bytes_ref, value_type! (Bytes));
+def_value_try_into! (try_into_bytes, value_type! (Bytes));
 
-def_try_as_ref! (try_as_values_ref, ::values::exports::Values);
-def_try_into! (try_into_values, ::values::exports::Values);
+def_value_try_as_ref! (try_as_pair_ref, value_type! (Pair));
+def_value_try_into! (try_into_pair, value_type! (Pair));
 
-def_try_as_ref! (try_as_error_ref, ::values::exports::Error);
-def_try_into! (try_into_error, ::values::exports::Error);
+def_value_try_as_ref! (try_as_array_ref, value_type! (Array));
+def_value_try_into! (try_into_array, value_type! (Array));
 
-def_try_as_ref! (try_as_procedure_primitive_ref, ::primitives::exports::ProcedurePrimitive);
-def_try_into! (try_into_procedure_primitive, ::primitives::exports::ProcedurePrimitive);
+def_value_try_as_ref! (try_as_values_ref, value_type! (Values));
+def_value_try_into! (try_into_values, value_type! (Values));
 
-def_try_as_ref! (try_as_procedure_extended_ref, ::primitives::exports::ProcedureExtended);
-def_try_into! (try_into_procedure_extended, ::primitives::exports::ProcedureExtended);
+def_value_try_as_ref! (try_as_error_ref, value_type! (Error));
+def_value_try_into! (try_into_error, value_type! (Error));
 
-def_try_as_ref! (try_as_procedure_lambda_ref, ::procedures::exports::ProcedureLambda);
-def_try_into! (try_into_procedure_lambda, ::procedures::exports::ProcedureLambda);
+def_value_try_as_ref! (try_as_procedure_primitive_ref, value_type! (ProcedurePrimitive));
+def_value_try_into! (try_into_procedure_primitive, value_type! (ProcedurePrimitive));
 
-def_try_as_ref! (try_as_syntax_primitive_ref, ::primitives::exports::SyntaxPrimitive);
-def_try_into! (try_into_syntax_primitive, ::primitives::exports::SyntaxPrimitive);
+def_value_try_as_ref! (try_as_procedure_extended_ref, value_type! (ProcedureExtended));
+def_value_try_into! (try_into_procedure_extended, value_type! (ProcedureExtended));
 
-def_try_as_ref! (try_as_syntax_extended_ref, ::primitives::exports::SyntaxExtended);
-def_try_into! (try_into_syntax_extended, ::primitives::exports::SyntaxExtended);
+def_value_try_as_ref! (try_as_procedure_extended_ref, value_type! (ProcedureNative));
+def_value_try_into! (try_into_procedure_extended, value_type! (ProcedureNative));
 
-def_try_as_ref! (try_as_syntax_lambda_ref, ::primitives::exports::SyntaxLambda);
-def_try_into! (try_into_syntax_lambda, ::primitives::exports::SyntaxLambda);
+def_value_try_as_ref! (try_as_procedure_lambda_ref, value_type! (ProcedureLambda));
+def_value_try_into! (try_into_procedure_lambda, value_type! (ProcedureLambda));
 
-def_try_as_ref! (try_as_port_ref, ::ports::exports::Port);
-def_try_into! (try_into_port, ::ports::exports::Port);
+def_value_try_as_ref! (try_as_syntax_primitive_ref, value_type! (SyntaxPrimitive));
+def_value_try_into! (try_into_syntax_primitive, value_type! (SyntaxPrimitive));
 
-def_try_as_ref! (try_as_context_ref, ::values::exports::Context);
-def_try_into! (try_into_context, ::values::exports::Context);
+def_value_try_as_ref! (try_as_syntax_extended_ref, value_type! (SyntaxExtended));
+def_value_try_into! (try_into_syntax_extended, value_type! (SyntaxExtended));
 
-def_try_as_ref! (try_as_binding_ref, ::values::exports::Binding);
-def_try_into! (try_into_binding, ::values::exports::Binding);
+def_value_try_as_ref! (try_as_syntax_extended_ref, value_type! (SyntaxNative));
+def_value_try_into! (try_into_syntax_extended, value_type! (SyntaxNative));
+
+def_value_try_as_ref! (try_as_syntax_lambda_ref, value_type! (SyntaxLambda));
+def_value_try_into! (try_into_syntax_lambda, value_type! (SyntaxLambda));
+
+def_value_try_as_ref! (try_as_port_ref, value_type! (Port));
+def_value_try_into! (try_into_port, value_type! (Port));
+
+def_value_try_as_ref! (try_as_context_ref, value_type! (Context));
+def_value_try_into! (try_into_context, value_type! (Context));
+
+def_value_try_as_ref! (try_as_binding_ref, value_type! (Binding));
+def_value_try_into! (try_into_binding, value_type! (Binding));
 
 
 
 
 #[ macro_export ]
-macro_rules! def_tests {
+macro_rules! def_scheme_tests {
 	( $identifier : ident, $source : expr ) => (
 		#[ test ]
 		#[ inline (never) ]
 		#[ allow (non_snake_case) ]
 		fn $identifier () -> () {
-			let transcript_backend = std::io::stdout ();
+			let transcript_backend = $crate::prelude::io::stdout ();
 			let transcript_locked = transcript_backend.lock ();
-			def_tests_block! ($identifier, $source, transcript_locked);
+			def_scheme_tests_block! ($identifier, $source, transcript_locked);
 		}
 	);
 }
 
 #[ macro_export ]
-macro_rules! def_tests_block {
+macro_rules! def_scheme_tests_block {
 	( $identifier : ident, $source : expr, $transcript : expr ) => ({
+		use $crate::prelude::*;
 		use $crate::exports::*;
-		use std::env;
-		use std::string;
-		use std::io::Write;
 		let identifier = stringify! ($identifier);
 		let source = $source;
 		let verbosity = env::var ("RUST_SCHEME_TESTS_DEBUG") .unwrap_or (string::String::from ("false"));
@@ -831,12 +842,12 @@ macro_rules! def_tests_block {
 }
 
 #[ macro_export ]
-macro_rules! def_tests_from_file {
+macro_rules! def_scheme_tests_from_file {
 	( $( $identifier : ident => $source : expr, )* ) => (
-		$( def_tests_from_file! ($identifier, $source); )*
+		$( def_scheme_tests_from_file! ($identifier, $source); )*
 	);
 	( $identifier : ident, $source : expr ) => (
-		def_tests! ($identifier, include_str! ($source));
+		def_scheme_tests! ($identifier, include_str! ($source));
 	);
 }
 
@@ -844,38 +855,34 @@ macro_rules! def_tests_from_file {
 
 
 #[ macro_export ]
-macro_rules! def_benchmarks {
+macro_rules! def_scheme_benchmarks {
 	( $identifier : ident, $source : expr ) => (
 		#[ bench ]
 		#[ inline (never) ]
 		#[ allow (non_snake_case) ]
-		fn $identifier (bencher : &mut test::Bencher) -> () {
-			let transcript_backend = std::io::stdout ();
+		fn $identifier (bencher : &mut $crate::prelude::test::Bencher) -> () {
+			let transcript_backend = $crate::prelude::io::stdout ();
 			let transcript_locked = transcript_backend.lock ();
-			def_benchmarks_block! ($identifier, $source, bencher, transcript_locked);
+			def_scheme_benchmarks_block! ($identifier, $source, bencher, transcript_locked);
 		}
 	);
 }
 
 #[ macro_export ]
-macro_rules! def_benchmarks_from_file {
+macro_rules! def_scheme_benchmarks_from_file {
 	( $( $identifier : ident => $source : expr, )* ) => (
-		$( def_benchmarks_from_file! ($identifier, $source); )*
+		$( def_scheme_benchmarks_from_file! ($identifier, $source); )*
 	);
 	( $identifier : ident, $source : expr ) => (
-		def_benchmarks! ($identifier, include_str! ($source));
+		def_scheme_benchmarks! ($identifier, include_str! ($source));
 	);
 }
 
 #[ macro_export ]
-macro_rules! def_benchmarks_block {
+macro_rules! def_scheme_benchmarks_block {
 	( $identifier : ident, $source : expr, $bencher : expr, $transcript : expr ) => ({
+		use $crate::prelude::*;
 		use $crate::exports::*;
-		use std::env;
-		use std::fs;
-		use std::string;
-		use std::vec;
-		use std::io::Write;
 		let identifier = stringify! ($identifier);
 		let source = $source;
 		let verbosity = env::var ("RUST_SCHEME_BENCHMARKS_DEBUG") .unwrap_or (string::String::from ("false"));
@@ -885,7 +892,7 @@ macro_rules! def_benchmarks_block {
 		let mut transcript = $transcript;
 		write! (transcript, "\n\n") .expect ("42d6a453");
 		let outcome = if let Some (output) = output {
-			let mut buffer = vec::Vec::new ();
+			let mut buffer = StdVec::new ();
 			let outcome = parse_and_benchmark_tests (identifier, source, $bencher, &mut buffer, verbosity);
 			transcript.write_all (&buffer) .expect ("e987851f");
 			let mut output = fs::File::create (output) .expect ("25b456ed");
@@ -898,5 +905,24 @@ macro_rules! def_benchmarks_block {
 		transcript.flush () .expect ("39279869");
 		outcome.expect ("65639c2b");
 	});
+}
+
+
+
+
+#[ macro_export ]
+macro_rules! def_test {
+	( $identifier : ident, $expression : expr ) => (
+		#[ test ]
+		#[ inline (never) ]
+		#[ allow (non_snake_case) ]
+		fn $identifier () -> () {
+			#[ allow (unused_imports) ]
+			use $crate::prelude::*;
+			#[ allow (unused_imports) ]
+			use $crate::exports::*;
+			$expression
+		}
+	);
 }
 

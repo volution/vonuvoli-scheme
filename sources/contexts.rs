@@ -5,11 +5,7 @@ use super::globals::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
 
-use std::cmp;
-use std::fmt;
-use std::hash;
-use std::mem;
-use std::ptr;
+use super::prelude::*;
 
 
 
@@ -79,7 +75,6 @@ impl Context {
 	
 	#[ inline (always) ]
 	pub fn define_with_prefix (&self, template : &BindingTemplate, prefix : Option<&str>) -> (Outcome<Binding>) {
-		use std::collections::hash_map::Entry;
 		let mut self_0 = self.internals_ref_mut ();
 		if self_0.immutable {
 			fail! (0x4814c74f);
@@ -95,9 +90,9 @@ impl Context {
 		};
 		let bindings_entry = self_0.bindings.entry (identifier);
 		match bindings_entry {
-			Entry::Occupied (_) =>
+			StdMapEntry::Occupied (_) =>
 				fail! (0x5b8e8d57),
-			Entry::Vacant (_) => {
+			StdMapEntry::Vacant (_) => {
 				let binding = try! (self.new_binding (template));
 				bindings_entry.or_insert (binding.clone ());
 				succeed! (binding);

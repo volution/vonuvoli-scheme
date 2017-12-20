@@ -7,6 +7,8 @@ use super::evaluator::exports::*;
 use super::primitives_procedures::exports::*;
 use super::values::exports::*;
 
+use super::prelude::*;
+
 
 
 
@@ -168,8 +170,6 @@ pub fn port_primitive_0_evaluate (primitive : PortPrimitive0, _evaluator : &mut 
 		
 		PortPrimitive0::RsNewLine => {
 			// FIXME:  Replace this stub implementation!
-			use std::io;
-			use std::io::Write;
 			let mut stream = io::stdout ();
 			let mut stream = stream.lock ();
 			match write! (stream, "\n") {
@@ -208,8 +208,6 @@ pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, input_1 : &Value, 
 		
 		PortPrimitive1::RsDisplay => {
 			// FIXME:  Replace this stub implementation!
-			use std::io;
-			use std::io::Write;
 			let mut stream = io::stdout ();
 			let mut stream = stream.lock ();
 			match write! (stream, "{}", input_1) {

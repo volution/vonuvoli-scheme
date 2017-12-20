@@ -1,15 +1,12 @@
 
 
+#![ no_implicit_prelude ]
+
 #[ macro_use ]
 extern crate rust_scheme;
 
-
 use rust_scheme::exports::*;
-use rust_scheme::runtime::exports::*;
-
-use std::io;
-use std::io::Read;
-use std::io::Write;
+use rust_scheme::prelude::*;
 
 
 

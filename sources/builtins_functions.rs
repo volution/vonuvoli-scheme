@@ -7,6 +7,8 @@ use super::evaluator::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
 
+use super::prelude::*;
+
 
 
 
@@ -662,7 +664,7 @@ pub fn strings_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, 
 
 
 pub fn iterators_map_1 <Iterator1, ValueRef> (evaluator : &mut EvaluatorContext, callable : &Value, iterator_1 : Iterator1) -> (Outcome<ValueVec>)
-		where Iterator1 : Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
+		where Iterator1 : iter::Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
 {
 	let mut outputs = StdVec::new ();
 	for input_1 in iterator_1 {
@@ -675,7 +677,7 @@ pub fn iterators_map_1 <Iterator1, ValueRef> (evaluator : &mut EvaluatorContext,
 }
 
 pub fn iterators_iterate_1 <Iterator1, ValueRef> (evaluator : &mut EvaluatorContext, callable : &Value, iterator_1 : Iterator1) -> (Outcome<()>)
-		where Iterator1 : Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
+		where Iterator1 : iter::Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
 {
 	for input_1 in iterator_1 {
 		let input_1 = try! (input_1);
@@ -689,7 +691,7 @@ pub fn iterators_iterate_1 <Iterator1, ValueRef> (evaluator : &mut EvaluatorCont
 
 
 pub fn iterators_map_2 <Iterator1, Iterator2, ValueRef> (evaluator : &mut EvaluatorContext, callable : &Value, iterator_1 : Iterator1, iterator_2 : Iterator2) -> (Outcome<ValueVec>)
-		where Iterator1 : Iterator<Item = Outcome<ValueRef>>, Iterator2 : Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
+		where Iterator1 : iter::Iterator<Item = Outcome<ValueRef>>, Iterator2 : iter::Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
 {
 	let mut outputs = StdVec::new ();
 	let mut iterator_1 = iterator_1;
@@ -708,7 +710,7 @@ pub fn iterators_map_2 <Iterator1, Iterator2, ValueRef> (evaluator : &mut Evalua
 }
 
 pub fn iterators_iterate_2 <Iterator1, Iterator2, ValueRef> (evaluator : &mut EvaluatorContext, callable : &Value, iterator_1 : Iterator1, iterator_2 : Iterator2) -> (Outcome<()>)
-		where Iterator1 : Iterator<Item = Outcome<ValueRef>>, Iterator2 : Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
+		where Iterator1 : iter::Iterator<Item = Outcome<ValueRef>>, Iterator2 : iter::Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
 {
 	let mut iterator_1 = iterator_1;
 	let mut iterator_2 = iterator_2;
@@ -728,7 +730,7 @@ pub fn iterators_iterate_2 <Iterator1, Iterator2, ValueRef> (evaluator : &mut Ev
 
 
 pub fn iterators_map_3 <Iterator1, Iterator2, Iterator3, ValueRef> (evaluator : &mut EvaluatorContext, callable : &Value, iterator_1 : Iterator1, iterator_2 : Iterator2, iterator_3 : Iterator3) -> (Outcome<ValueVec>)
-		where Iterator1 : Iterator<Item = Outcome<ValueRef>>, Iterator2 : Iterator<Item = Outcome<ValueRef>>, Iterator3 : Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
+		where Iterator1 : iter::Iterator<Item = Outcome<ValueRef>>, Iterator2 : iter::Iterator<Item = Outcome<ValueRef>>, Iterator3 : iter::Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
 {
 	let mut outputs = StdVec::new ();
 	let mut iterator_1 = iterator_1;
@@ -751,7 +753,7 @@ pub fn iterators_map_3 <Iterator1, Iterator2, Iterator3, ValueRef> (evaluator : 
 }
 
 pub fn iterators_iterate_3 <Iterator1, Iterator2, Iterator3, ValueRef> (evaluator : &mut EvaluatorContext, callable : &Value, iterator_1 : Iterator1, iterator_2 : Iterator2, iterator_3 : Iterator3) -> (Outcome<()>)
-		where Iterator1 : Iterator<Item = Outcome<ValueRef>>, Iterator2 : Iterator<Item = Outcome<ValueRef>>, Iterator3 : Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
+		where Iterator1 : iter::Iterator<Item = Outcome<ValueRef>>, Iterator2 : iter::Iterator<Item = Outcome<ValueRef>>, Iterator3 : iter::Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
 {
 	let mut iterator_1 = iterator_1;
 	let mut iterator_2 = iterator_2;
@@ -775,7 +777,7 @@ pub fn iterators_iterate_3 <Iterator1, Iterator2, Iterator3, ValueRef> (evaluato
 
 
 pub fn iterators_map_4 <Iterator1, Iterator2, Iterator3, Iterator4, ValueRef> (evaluator : &mut EvaluatorContext, callable : &Value, iterator_1 : Iterator1, iterator_2 : Iterator2, iterator_3 : Iterator3, iterator_4 : Iterator4) -> (Outcome<ValueVec>)
-		where Iterator1 : Iterator<Item = Outcome<ValueRef>>, Iterator2 : Iterator<Item = Outcome<ValueRef>>, Iterator3 : Iterator<Item = Outcome<ValueRef>>, Iterator4 : Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
+		where Iterator1 : iter::Iterator<Item = Outcome<ValueRef>>, Iterator2 : iter::Iterator<Item = Outcome<ValueRef>>, Iterator3 : iter::Iterator<Item = Outcome<ValueRef>>, Iterator4 : iter::Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
 {
 	let mut outputs = StdVec::new ();
 	let mut iterator_1 = iterator_1;
@@ -802,7 +804,7 @@ pub fn iterators_map_4 <Iterator1, Iterator2, Iterator3, Iterator4, ValueRef> (e
 }
 
 pub fn iterators_iterate_4 <Iterator1, Iterator2, Iterator3, Iterator4, ValueRef> (evaluator : &mut EvaluatorContext, callable : &Value, iterator_1 : Iterator1, iterator_2 : Iterator2, iterator_3 : Iterator3, iterator_4 : Iterator4) -> (Outcome<()>)
-		where Iterator1 : Iterator<Item = Outcome<ValueRef>>, Iterator2 : Iterator<Item = Outcome<ValueRef>>, Iterator3 : Iterator<Item = Outcome<ValueRef>>, Iterator4 : Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
+		where Iterator1 : iter::Iterator<Item = Outcome<ValueRef>>, Iterator2 : iter::Iterator<Item = Outcome<ValueRef>>, Iterator3 : iter::Iterator<Item = Outcome<ValueRef>>, Iterator4 : iter::Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
 {
 	let mut iterator_1 = iterator_1;
 	let mut iterator_2 = iterator_2;
@@ -830,7 +832,7 @@ pub fn iterators_iterate_4 <Iterator1, Iterator2, Iterator3, Iterator4, ValueRef
 
 
 pub fn iterators_map_n <Iterators, ValueRef> (evaluator : &mut EvaluatorContext, callable : &Value, iterators : Iterators) -> (Outcome<ValueVec>)
-		where Iterators : Iterator<Item = Outcome<StdVec<ValueRef>>>, ValueRef : StdAsRef<Value>
+		where Iterators : iter::Iterator<Item = Outcome<StdVec<ValueRef>>>, ValueRef : StdAsRef<Value>
 {
 	let mut outputs = StdVec::new ();
 	for inputs in iterators {
@@ -843,7 +845,7 @@ pub fn iterators_map_n <Iterators, ValueRef> (evaluator : &mut EvaluatorContext,
 }
 
 pub fn iterators_iterate_n <Iterators, ValueRef> (evaluator : &mut EvaluatorContext, callable : &Value, iterators : Iterators) -> (Outcome<()>)
-		where Iterators : Iterator<Item = Outcome<StdVec<ValueRef>>>, ValueRef : StdAsRef<Value>
+		where Iterators : iter::Iterator<Item = Outcome<StdVec<ValueRef>>>, ValueRef : StdAsRef<Value>
 {
 	for inputs in iterators {
 		let inputs = try! (inputs);
