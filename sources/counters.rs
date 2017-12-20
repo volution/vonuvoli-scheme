@@ -80,24 +80,3 @@ static FUZZ_1 : num::Wrapping<u32> = num::Wrapping (0x5bf03635);
 static FUZZ_2 : num::Wrapping<u32> = num::Wrapping (0x682f0161);
 static FUZZ_3 : num::Wrapping<u32> = num::Wrapping (0x46790905);
 
-
-
-
-/*
-fn main () -> () {
-	
-	use std::io::Write;
-	
-	let stdout = std::io::stdout ();
-	let mut stdout = stdout.lock ();
-	let mut counter = counters::PermutationCounter::new ();
-	
-	loop {
-		let value = counter.next ();
-		let bytes : [u8; 4] = unsafe {
-			std::mem::transmute (value)
-		};
-		stdout.write (bytes.as_ref ());
-	}
-*/
-
