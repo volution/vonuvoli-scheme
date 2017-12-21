@@ -47,7 +47,7 @@ impl SyntaxNative {
 	}
 	
 	#[ inline (always) ]
-	pub fn internals (&self) -> (&SyntaxNativeInternals) {
+	pub fn internals_ref (&self) -> (&SyntaxNativeInternals) {
 		return &self.0;
 	}
 	
@@ -58,7 +58,7 @@ impl SyntaxNative {
 	
 	#[ inline (always) ]
 	pub fn handle_value (&self) -> (u64) {
-		let self_0 = self.internals ();
+		let self_0 = self.internals_ref ();
 		match *self_0 {
 			SyntaxNativeInternals::NativeG (ref native) =>
 				unsafe { mem::transmute_copy (native) },
@@ -68,53 +68,6 @@ impl SyntaxNative {
 	#[ inline (always) ]
 	pub fn is_self (&self, other : &SyntaxNative) -> (bool) {
 		return self.handle_value () == other.handle_value ();
-	}
-}
-
-
-impl cmp::Eq for SyntaxNative {}
-
-impl cmp::PartialEq for SyntaxNative {
-	fn eq (&self, other : &SyntaxNative) -> (bool) {
-		u64::eq (&self.handle_value (), &other.handle_value ())
-	}
-}
-
-
-impl cmp::Ord for SyntaxNative {
-	fn cmp (&self, other : &SyntaxNative) -> (cmp::Ordering) {
-		u64::cmp (&self.handle_value (), &other.handle_value ())
-	}
-}
-
-impl cmp::PartialOrd for SyntaxNative {
-	fn partial_cmp (&self, other : &SyntaxNative) -> (Option<cmp::Ordering>) {
-		u64::partial_cmp (&self.handle_value (), &other.handle_value ())
-	}
-}
-
-
-impl hash::Hash for SyntaxNative {
-	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		self.handle_value () .hash (hasher);
-	}
-}
-
-
-impl fmt::Display for SyntaxNative {
-	
-	#[ inline (never) ]
-	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		return write! (formatter, "#<syntax-native:{:016x}>", self.handle_value ());
-	}
-}
-
-
-impl fmt::Debug for SyntaxNative {
-	
-	#[ inline (never) ]
-	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		formatter.debug_tuple ("SyntaxNative") .field (&self.handle_value ()) .finish ()
 	}
 }
 

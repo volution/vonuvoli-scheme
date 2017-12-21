@@ -302,57 +302,6 @@ impl PortInternals {
 }
 
 
-impl cmp::Eq for Port {}
-
-impl cmp::PartialEq for Port {
-	fn eq (&self, other : &Port) -> (bool) {
-		let self_0 = self.internals_ref ();
-		let other_0 = other.internals_ref ();
-		Handle::eq (&self_0.handle, &other_0.handle)
-	}
-}
-
-
-impl cmp::Ord for Port {
-	fn cmp (&self, other : &Port) -> (cmp::Ordering) {
-		let self_0 = self.internals_ref ();
-		let other_0 = other.internals_ref ();
-		Handle::cmp (&self_0.handle, &other_0.handle)
-	}
-}
-
-impl cmp::PartialOrd for Port {
-	fn partial_cmp (&self, other : &Port) -> (Option<cmp::Ordering>) {
-		let self_0 = self.internals_ref ();
-		let other_0 = other.internals_ref ();
-		Handle::partial_cmp (&self_0.handle, &other_0.handle)
-	}
-}
-
-
-impl hash::Hash for Port {
-	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		let self_0 = self.internals_ref ();
-		self_0.handle.hash (hasher);
-	}
-}
-
-
-impl fmt::Display for Port {
-	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		let self_0 = self.internals_ref ();
-		return write! (formatter, "#<port:{:08x}>", self_0.handle.value ());
-	}
-}
-
-
-impl fmt::Debug for Port {
-	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		formatter.write_str ("#<port>")
-	}
-}
-
-
 
 
 impl Port {

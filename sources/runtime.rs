@@ -67,20 +67,6 @@ impl Handle {
 }
 
 
-impl fmt::Display for Handle {
-	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		return write! (formatter, "#<handle:{:08x}>", self.0);
-	}
-}
-
-
-impl fmt::Debug for Handle {
-	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		return write! (formatter, "Handle({:08x})", self.0);
-	}
-}
-
-
 
 
 #[ inline (always) ]

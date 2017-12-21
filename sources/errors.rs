@@ -39,24 +39,6 @@ impl Error {
 }
 
 
-impl fmt::Display for Error {
-	
-	#[ inline (never) ]
-	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		write! (formatter, "#<error:{:08x}>", self.code)
-	}
-}
-
-
-impl fmt::Debug for Error {
-	
-	#[ inline (never) ]
-	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		write! (formatter, "#<error:{:08x}>", self.code)
-	}
-}
-
-
 
 
 #[ inline (always) ]

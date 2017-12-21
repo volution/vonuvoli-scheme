@@ -2128,21 +2128,21 @@ impl Optimizer {
 				match *expression {
 					
 					ExpressionForProcedureExtendedCall::ProcedureExtendedCall (ref callable, _) =>
-						Some (ExpressionProcedureCallCallableRef::Extended (callable.internals ())),
+						Some (ExpressionProcedureCallCallableRef::Extended (callable.internals_ref ())),
 					ExpressionForProcedureExtendedCall::ProcedureExtendedCall0 (ref callable) =>
-						Some (ExpressionProcedureCallCallableRef::Extended (callable.internals ())),
+						Some (ExpressionProcedureCallCallableRef::Extended (callable.internals_ref ())),
 					ExpressionForProcedureExtendedCall::ProcedureExtendedCall1 (ref callable, _) =>
-						Some (ExpressionProcedureCallCallableRef::Extended (callable.internals ())),
+						Some (ExpressionProcedureCallCallableRef::Extended (callable.internals_ref ())),
 					ExpressionForProcedureExtendedCall::ProcedureExtendedCall2 (ref callable, _, _) =>
-						Some (ExpressionProcedureCallCallableRef::Extended (callable.internals ())),
+						Some (ExpressionProcedureCallCallableRef::Extended (callable.internals_ref ())),
 					ExpressionForProcedureExtendedCall::ProcedureExtendedCall3 (ref callable, _, _, _) =>
-						Some (ExpressionProcedureCallCallableRef::Extended (callable.internals ())),
+						Some (ExpressionProcedureCallCallableRef::Extended (callable.internals_ref ())),
 					ExpressionForProcedureExtendedCall::ProcedureExtendedCall4 (ref callable, _, _, _, _) =>
-						Some (ExpressionProcedureCallCallableRef::Extended (callable.internals ())),
+						Some (ExpressionProcedureCallCallableRef::Extended (callable.internals_ref ())),
 					ExpressionForProcedureExtendedCall::ProcedureExtendedCall5 (ref callable, _, _, _, _, _) =>
-						Some (ExpressionProcedureCallCallableRef::Extended (callable.internals ())),
+						Some (ExpressionProcedureCallCallableRef::Extended (callable.internals_ref ())),
 					ExpressionForProcedureExtendedCall::ProcedureExtendedCallN (ref callable, _) =>
-						Some (ExpressionProcedureCallCallableRef::Extended (callable.internals ())),
+						Some (ExpressionProcedureCallCallableRef::Extended (callable.internals_ref ())),
 					
 				},
 			
@@ -2172,7 +2172,7 @@ impl Optimizer {
 				match *expression {
 					
 					ExpressionForProcedureNativeCall::ProcedureNativeCall (ref callable, _) =>
-						Some (ExpressionProcedureCallCallableRef::Native (callable.internals () .clone ())),
+						Some (ExpressionProcedureCallCallableRef::Native (callable.internals_ref () .clone ())),
 					ExpressionForProcedureNativeCall::ProcedureNativeCall0 (callable) =>
 						Some (ExpressionProcedureCallCallableRef::Native (callable.into ())),
 					ExpressionForProcedureNativeCall::ProcedureNativeCall1 (callable, _) =>

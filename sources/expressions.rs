@@ -242,24 +242,3 @@ pub enum ExpressionSequenceOperator {
 	Or,
 }
 
-
-
-
-impl fmt::Debug for ExpressionForProcedureNativeCall {
-	
-	#[ inline (never) ]
-	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		formatter.write_str ("ProcedureNativeCall")
-	}
-}
-
-
-impl hash::Hash for ExpressionForProcedureNativeCall {
-	
-	#[ inline (always) ]
-	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		// FIXME:  Implement this!
-		hasher.write_u32 (0);
-	}
-}
-

@@ -64,7 +64,7 @@ impl ProcedureNative {
 	}
 	
 	#[ inline (always) ]
-	pub fn internals (&self) -> (&ProcedureNativeInternals) {
+	pub fn internals_ref (&self) -> (&ProcedureNativeInternals) {
 		return &self.0;
 	}
 	
@@ -75,7 +75,7 @@ impl ProcedureNative {
 	
 	#[ inline (always) ]
 	pub fn handle_value (&self) -> (u64) {
-		let self_0 = self.internals ();
+		let self_0 = self.internals_ref ();
 		match *self_0 {
 			ProcedureNativeInternals::Native0 (ref native) =>
 				unsafe { mem::transmute_copy (native) },
@@ -97,53 +97,6 @@ impl ProcedureNative {
 	#[ inline (always) ]
 	pub fn is_self (&self, other : &ProcedureNative) -> (bool) {
 		return self.handle_value () == other.handle_value ();
-	}
-}
-
-
-impl cmp::Eq for ProcedureNative {}
-
-impl cmp::PartialEq for ProcedureNative {
-	fn eq (&self, other : &ProcedureNative) -> (bool) {
-		u64::eq (&self.handle_value (), &other.handle_value ())
-	}
-}
-
-
-impl cmp::Ord for ProcedureNative {
-	fn cmp (&self, other : &ProcedureNative) -> (cmp::Ordering) {
-		u64::cmp (&self.handle_value (), &other.handle_value ())
-	}
-}
-
-impl cmp::PartialOrd for ProcedureNative {
-	fn partial_cmp (&self, other : &ProcedureNative) -> (Option<cmp::Ordering>) {
-		u64::partial_cmp (&self.handle_value (), &other.handle_value ())
-	}
-}
-
-
-impl hash::Hash for ProcedureNative {
-	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		self.handle_value () .hash (hasher);
-	}
-}
-
-
-impl fmt::Display for ProcedureNative {
-	
-	#[ inline (never) ]
-	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		return write! (formatter, "#<procedure-native:{:016x}>", self.handle_value ());
-	}
-}
-
-
-impl fmt::Debug for ProcedureNative {
-	
-	#[ inline (never) ]
-	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		formatter.debug_tuple ("ProcedureNative") .field (&self.handle_value ()) .finish ()
 	}
 }
 

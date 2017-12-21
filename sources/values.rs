@@ -103,7 +103,7 @@ pub enum ValueClass {
 
 
 
-#[ derive (Clone, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive (Clone) ]
 pub enum Value {
 	
 	Singleton ( ValueMeta1, ValueSingleton, ValueMeta2 ),
@@ -141,7 +141,7 @@ pub enum Value {
 }
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive (Clone, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ValueSingleton {
 	Null,
 	Undefined,
@@ -249,111 +249,13 @@ impl Value {
 }
 
 
-impl fmt::Display for Value {
-	
-	#[ inline (never) ]
-	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		match *self {
-			
-			Value::Singleton (_, ref value, _) =>
-				match *value {
-					ValueSingleton::Null => formatter.write_str ("#null"),
-					ValueSingleton::Void => formatter.write_str ("#void"),
-					ValueSingleton::Undefined => formatter.write_str ("#undefined"),
-					ValueSingleton::PortEof => formatter.write_str ("#enf-of-file"),
-				},
-			
-			Value::Boolean (_, ref value, _) => value.fmt (formatter),
-			Value::NumberInteger (_, ref value, _) => value.fmt (formatter),
-			Value::NumberReal (_, ref value, _) => value.fmt (formatter),
-			Value::Character (_, ref value, _) => value.fmt (formatter),
-			
-			Value::Symbol (_, ref value, _) => value.fmt (formatter),
-			Value::String (_, ref value, _) => value.fmt (formatter),
-			Value::Bytes (_, ref value, _) => value.fmt (formatter),
-			
-			Value::Pair (_, ref value, _) => value.fmt (formatter),
-			Value::Array (_, ref value, _) => value.fmt (formatter),
-			Value::Values (_, ref value, _) => value.fmt (formatter),
-			
-			Value::Error (_, ref value, _) => value.fmt (formatter),
-			
-			Value::ProcedurePrimitive (_, ref value, _) => write! (formatter, "#<procedure:{:?}>", value),
-			Value::ProcedureExtended (_, ref value, _) => value.fmt (formatter),
-			Value::ProcedureNative (_, ref value, _) => value.fmt (formatter),
-			Value::ProcedureLambda (_, ref value, _) => value.fmt (formatter),
-			
-			Value::SyntaxPrimitive (_, ref value, _) => write! (formatter, "#<syntax:{:?}>", value),
-			Value::SyntaxExtended (_, ref value, _) => value.fmt (formatter),
-			Value::SyntaxNative (_, ref value, _) => value.fmt (formatter),
-			Value::SyntaxLambda (_, ref value, _) => value.fmt (formatter),
-			
-			Value::Port (_, ref value, _) => value.fmt (formatter),
-			
-			Value::Context (_, ref value, _) => value.fmt (formatter),
-			Value::Binding (_, ref value, _) => value.fmt (formatter),
-			
-		}
-	}
-}
 
 
-impl fmt::Debug for Value {
-	
-	#[ inline (never) ]
-	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		match *self {
-			
-			Value::Singleton (_, ref value, _) =>
-				match *value {
-					ValueSingleton::Null => formatter.debug_struct ("Null") .finish (),
-					ValueSingleton::Void => formatter.debug_struct ("Void") .finish (),
-					ValueSingleton::Undefined => formatter.debug_struct ("Undefined") .finish (),
-					ValueSingleton::PortEof => formatter.debug_struct ("PortEof") .finish (),
-				},
-			
-			Value::Boolean (_, ref value, _) => value.fmt (formatter),
-			Value::NumberInteger (_, ref value, _) => value.fmt (formatter),
-			Value::NumberReal (_, ref value, _) => value.fmt (formatter),
-			Value::Character (_, ref value, _) => value.fmt (formatter),
-			
-			Value::Symbol (_, ref value, _) => value.fmt (formatter),
-			Value::String (_, ref value, _) => value.fmt (formatter),
-			Value::Bytes (_, ref value, _) => value.fmt (formatter),
-			
-			Value::Pair (_, ref value, _) => value.fmt (formatter),
-			Value::Array (_, ref value, _) => value.fmt (formatter),
-			Value::Values (_, ref value, _) => value.fmt (formatter),
-			
-			Value::Error (_, ref value, _) => value.fmt (formatter),
-			
-			Value::ProcedurePrimitive (_, ref value, _) => value.fmt (formatter),
-			Value::ProcedureExtended (_, ref value, _) => value.fmt (formatter),
-			Value::ProcedureNative (_, ref value, _) => value.fmt (formatter),
-			Value::ProcedureLambda (_, ref value, _) => value.fmt (formatter),
-			
-			Value::SyntaxPrimitive (_, ref value, _) => value.fmt (formatter),
-			Value::SyntaxExtended (_, ref value, _) => value.fmt (formatter),
-			Value::SyntaxNative (_, ref value, _) => value.fmt (formatter),
-			Value::SyntaxLambda (_, ref value, _) => value.fmt (formatter),
-			
-			Value::Port (_, ref value, _) => value.fmt (formatter),
-			
-			Value::Context (_, ref value, _) => value.fmt (formatter),
-			Value::Binding (_, ref value, _) => value.fmt (formatter),
-			
-		}
-	}
-}
-
-
-
-
-#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive (Clone) ]
 pub struct ValueMeta1 ( u8, u8, u8 );
 pub const VALUE_META_1 : ValueMeta1 = ValueMeta1 (0, 0, 0);
 
-#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive (Clone) ]
 pub struct ValueMeta2 ( u8, u8, u8, u8 );
 pub const VALUE_META_2 : ValueMeta2 = ValueMeta2 (0, 0, 0, 0);
 
@@ -423,20 +325,6 @@ impl ops::Not for Boolean {
 	#[ inline (always) ]
 	fn not (self) -> (Boolean) {
 		Boolean::not (&self)
-	}
-}
-
-
-impl fmt::Display for Boolean {
-	
-	#[ inline (never) ]
-	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		match self.0 {
-			true =>
-				formatter.write_str ("#true"),
-			false =>
-				formatter.write_str ("#false"),
-		}
 	}
 }
 
@@ -956,15 +844,6 @@ impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Shr<NumberIntegerInto> fo
 }
 
 
-impl fmt::Display for NumberInteger {
-	
-	#[ inline (never) ]
-	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		write! (formatter, "{:+}", self.0)
-	}
-}
-
-
 
 
 #[ derive (Clone, Debug) ]
@@ -1280,52 +1159,6 @@ impl <NumberRealInto : StdInto<NumberReal>> ops::Rem<NumberRealInto> for NumberR
 	}
 }
 
-impl cmp::Eq for NumberReal {}
-
-impl cmp::PartialEq for NumberReal {
-	
-	#[ inline (always) ]
-	fn eq (&self, other : &NumberReal) -> (bool) {
-		f64::eq (&self.0, &other.0)
-	}
-}
-
-impl cmp::Ord for NumberReal {
-	
-	#[ inline (always) ]
-	fn cmp (&self, other : &NumberReal) -> (cmp::Ordering) {
-		if let Some (cmp) = f64::partial_cmp (&self.0, &other.0) {
-			cmp
-		} else {
-			u64::cmp (&(self.0).to_bits (), &(other.0).to_bits ())
-		}
-	}
-}
-
-impl cmp::PartialOrd for NumberReal {
-	
-	#[ inline (always) ]
-	fn partial_cmp (&self, other : &NumberReal) -> (Option<cmp::Ordering>) {
-		f64::partial_cmp (&self.0, &other.0)
-	}
-}
-
-impl hash::Hash for NumberReal {
-	
-	#[ inline (always) ]
-	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		hasher.write_u64 (self.0.to_bits ());
-	}
-}
-
-impl fmt::Display for NumberReal {
-	
-	#[ inline (never) ]
-	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		write! (formatter, "{:+e}", self.0)
-	}
-}
-
 
 
 
@@ -1346,24 +1179,6 @@ impl Character {
 }
 
 
-impl fmt::Display for Character {
-	
-	#[ inline (never) ]
-	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		let character = self.0;
-		match character {
-			'!' ... '~' => {
-				try! (formatter.write_str ("#\\"));
-				try! (formatter.write_char (character));
-			},
-			_ =>
-				try! (write! (formatter, "#\\x{:02x}", character as u32)),
-		}
-		succeed! (());
-	}
-}
-
-
 
 
 #[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
@@ -1378,7 +1193,7 @@ impl Symbol {
 	
 	#[ inline (always) ]
 	pub fn string_as_str (&self) -> (&str) {
-		self.0.as_ref () .as_str ()
+		self.string_ref () .as_str ()
 	}
 	
 	#[ inline (always) ]
@@ -1388,7 +1203,7 @@ impl Symbol {
 	
 	#[ inline (always) ]
 	pub fn string_clone (&self) -> (StdString) {
-		self.0.as_ref () .clone ()
+		self.string_ref () .clone ()
 	}
 	
 	#[ inline (always) ]
@@ -1428,36 +1243,9 @@ impl Symbol {
 	
 	#[ inline (always) ]
 	pub fn string_rc_clone (&self) -> (StdRc<StdString>) {
-		return self.0.clone ();
+		self.0.clone ()
 	}
 	
-}
-
-
-impl fmt::Display for Symbol {
-	
-	#[ inline (never) ]
-	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		if self.0.is_empty () {
-			try! (formatter.write_str ("||"));
-		} else {
-			try! (formatter.write_char ('|'));
-			for character in self.0.chars () {
-				match character {
-					'|' | '\\' => {
-						try! (formatter.write_char ('\\'));
-						try! (formatter.write_char (character));
-					},
-					' ' ... '~' =>
-						try! (formatter.write_char (character)),
-					_ =>
-						try! (write! (formatter, "#\\x{:02x};", character as u32)),
-				}
-			}
-			try! (formatter.write_char ('|'));
-		}
-		succeed! (());
-	}
 }
 
 
@@ -1476,7 +1264,7 @@ impl String {
 	
 	#[ inline (always) ]
 	pub fn string_as_str (&self) -> (&str) {
-		self.0.as_ref () .as_str ()
+		self.string_ref () .as_str ()
 	}
 	
 	#[ inline (always) ]
@@ -1486,7 +1274,7 @@ impl String {
 	
 	#[ inline (always) ]
 	pub fn string_clone (&self) -> (StdString) {
-		self.0.as_ref () .clone ()
+		self.string_ref () .clone ()
 	}
 	
 	#[ inline (always) ]
@@ -1531,32 +1319,9 @@ impl String {
 	
 	#[ inline (always) ]
 	pub fn string_rc_clone (&self) -> (StdRc<StdString>) {
-		return self.0.clone ();
+		self.0.clone ()
 	}
 	
-}
-
-
-impl fmt::Display for String {
-	
-	#[ inline (never) ]
-	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		try! (formatter.write_char ('"'));
-		for character in self.0.chars () {
-			match character {
-				'"' | '\\' => {
-					try! (formatter.write_char ('\\'));
-					try! (formatter.write_char (character));
-				},
-				' ' ... '~' =>
-					try! (formatter.write_char (character)),
-				_ =>
-					try! (write! (formatter, "#\\x{:02x};", character as u32)),
-			}
-		}
-		try! (formatter.write_char ('"'));
-		succeed! (());
-	}
 }
 
 
@@ -1575,7 +1340,12 @@ impl Bytes {
 	
 	#[ inline (always) ]
 	pub fn values_as_slice (&self) -> (&[u8]) {
-		self.0.as_ref () .as_slice ()
+		self.values_ref () .as_slice ()
+	}
+	
+	#[ inline (always) ]
+	pub fn values_as_iter (&self) -> (slice::Iter<u8>) {
+		self.values_ref () .iter ()
 	}
 	
 	#[ inline (always) ]
@@ -1585,7 +1355,7 @@ impl Bytes {
 	
 	#[ inline (always) ]
 	pub fn values_clone (&self) -> (StdVec<u8>) {
-		self.0.as_ref () .clone ()
+		self.values_ref () .clone ()
 	}
 	
 	#[ inline (always) ]
@@ -1610,30 +1380,9 @@ impl Bytes {
 	
 	#[ inline (always) ]
 	pub fn values_rc_clone (&self) -> (StdRc<StdVec<u8>>) {
-		return self.0.clone ();
+		self.0.clone ()
 	}
 	
-}
-
-
-
-impl fmt::Display for Bytes {
-	
-	#[ inline (never) ]
-	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		try! (formatter.write_str ("#u8("));
-		let mut is_first = true;
-		for byte in self.0.iter () {
-			if !is_first {
-				try! (formatter.write_char (' '));
-			} else {
-				is_first = false;
-			}
-			try! (write! (formatter, "{}", byte));
-		}
-		try! (formatter.write_char (')'));
-		succeed! (());
-	}
 }
 
 
@@ -1672,46 +1421,9 @@ impl Pair {
 	
 	#[ inline (always) ]
 	pub fn values_rc_clone (&self) -> (StdRc<(Value, Value)>) {
-		return self.0.clone ();
+		self.0.clone ()
 	}
 	
-}
-
-
-impl fmt::Display for Pair {
-	
-	#[ inline (never) ]
-	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		try! (formatter.write_char ('('));
-		let mut cursor = self;
-		loop {
-			let (left, right) = cursor.left_and_right ();
-			try! (left.fmt (formatter));
-			match *right {
-				Value::Singleton (_, ValueSingleton::Null, _) =>
-					break,
-				Value::Pair (_, ref right, _) => {
-					try! (formatter.write_char (' '));
-					cursor = right;
-				},
-				_ => {
-					try! (formatter.write_char (' '));
-					try! (formatter.write_char ('.'));
-					try! (formatter.write_char (' '));
-					try! (right.fmt (formatter));
-					break;
-				},
-			}
-			if self.is_self (cursor) {
-				try! (formatter.write_char ('.'));
-				try! (formatter.write_char (' '));
-				try! (formatter.write_str ("#cyclic"));
-				break;
-			}
-		}
-		try! (formatter.write_char (')'));
-		succeed! (());
-	}
 }
 
 
@@ -1730,7 +1442,12 @@ impl Array {
 	
 	#[ inline (always) ]
 	pub fn values_as_slice (&self) -> (&[Value]) {
-		self.0.as_ref () .as_slice ()
+		self.values_ref () .as_slice ()
+	}
+	
+	#[ inline (always) ]
+	pub fn values_as_iter (&self) -> (slice::Iter<Value>) {
+		self.values_ref () .iter ()
 	}
 	
 	#[ inline (always) ]
@@ -1740,7 +1457,7 @@ impl Array {
 	
 	#[ inline (always) ]
 	pub fn values_clone (&self) -> (StdVec<Value>) {
-		self.0.as_ref () .clone ()
+		self.values_ref () .clone ()
 	}
 	
 	#[ inline (always) ]
@@ -1765,29 +1482,9 @@ impl Array {
 	
 	#[ inline (always) ]
 	pub fn values_rc_clone (&self) -> (StdRc<StdVec<Value>>) {
-		return self.0.clone ();
+		self.0.clone ()
 	}
 	
-}
-
-
-impl fmt::Display for Array {
-	
-	#[ inline (never) ]
-	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		try! (formatter.write_str ("#("));
-		let mut is_first = true;
-		for element in self.0.iter () {
-			if !is_first {
-				try! (formatter.write_char (' '));
-			} else {
-				is_first = false;
-			}
-			try! (element.fmt (formatter));
-		}
-		try! (formatter.write_char (')'));
-		succeed! (());
-	}
 }
 
 
@@ -1805,7 +1502,12 @@ impl Values {
 	
 	#[ inline (always) ]
 	pub fn values_as_slice (&self) -> (&[Value]) {
-		self.0.as_ref ()
+		self.values_ref () .as_ref ()
+	}
+	
+	#[ inline (always) ]
+	pub fn values_as_iter (&self) -> (slice::Iter<Value>) {
+		self.values_ref () .iter ()
 	}
 	
 	#[ inline (always) ]
@@ -1815,22 +1517,22 @@ impl Values {
 	
 	#[ inline (always) ]
 	pub fn values_clone (&self) -> (StdBox<[Value]>) {
-		self.0.as_ref () .clone ()
+		self.values_ref () .clone ()
 	}
 	
 	#[ inline (always) ]
 	pub fn values_is_empty (&self) -> (bool) {
-		self.values_as_slice () .is_empty ()
+		self.values_ref () .is_empty ()
 	}
 	
 	#[ inline (always) ]
 	pub fn values_is_not_empty (&self) -> (bool) {
-		!self.values_as_slice () .is_empty ()
+		!self.values_ref () .is_empty ()
 	}
 	
 	#[ inline (always) ]
 	pub fn values_length (&self) -> (usize) {
-		self.values_as_slice () .len ()
+		self.values_ref () .len ()
 	}
 	
 	#[ inline (always) ]
@@ -1840,29 +1542,9 @@ impl Values {
 	
 	#[ inline (always) ]
 	pub fn values_rc_clone (&self) -> (StdRc<StdBox<[Value]>>) {
-		return self.0.clone ();
+		self.0.clone ()
 	}
 	
-}
-
-
-impl fmt::Display for Values {
-	
-	#[ inline (never) ]
-	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		try! (formatter.write_str ("#values("));
-		let mut is_first = true;
-		for element in self.0.iter () {
-			if !is_first {
-				try! (formatter.write_char (' '));
-			} else {
-				is_first = false;
-			}
-			try! (element.fmt (formatter));
-		}
-		try! (formatter.write_char (')'));
-		succeed! (());
-	}
 }
 
 
