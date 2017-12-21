@@ -57,6 +57,7 @@ pub mod languages_builtins;
 pub mod languages_r7rs;
 pub mod native_procedures;
 pub mod native_syntaxes;
+pub mod numbers;
 pub mod ordering;
 pub mod parser;
 pub mod parser_peg;
