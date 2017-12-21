@@ -24,19 +24,27 @@ pub mod exports {
 	pub use super::Boolean;
 	pub use super::Character;
 	pub use super::Symbol;
-	pub use super::String;
-	pub use super::Bytes;
-	pub use super::Pair;
-	pub use super::Array;
+	pub use super::{String, StringImmutable, StringMutable};
+	pub use super::{Bytes, BytesImmutable, BytesMutable};
+	pub use super::{Pair, PairImmutable, PairMutable};
+	pub use super::{Array, ArrayImmutable, ArrayMutable};
 	pub use super::Values;
 	
 	pub use super::{boolean, number_i64, number_f64, character};
 	pub use super::{symbol_new, symbol_clone_str, symbol_clone_characters};
-	pub use super::{string_new, string_clone_str, string_clone_characters};
-	pub use super::{bytes_new, bytes_clone_slice};
-	pub use super::{array_new, array_clone_slice, array_clone_slice_ref};
+	pub use super::{string_immutable_new, string_immutable_clone_str, string_immutable_clone_characters};
+	pub use super::{string_mutable_new, string_mutable_clone_str, string_mutable_clone_characters};
+	pub use super::{bytes_immutable_new, bytes_immutable_clone_slice, bytes_immutable_clone_str, bytes_immutable_clone_characters};
+	pub use super::{bytes_mutable_new, bytes_mutable_clone_slice, bytes_mutable_clone_str, bytes_mutable_clone_characters};
+	pub use super::{array_immutable_new, array_immutable_clone_slice, array_immutable_clone_slice_ref};
+	pub use super::{array_mutable_new, array_mutable_clone_slice, array_mutable_clone_slice_ref};
 	pub use super::{values_new, values_new_from_vec, values_clone_slice, values_clone_slice_ref};
-	pub use super::{pair_new};
+	pub use super::{pair_immutable_new};
+	pub use super::{pair_mutable_new};
+	
+	pub use super::{string_new, bytes_new, array_new, pair_new};
+	pub use super::{string_clone_str, bytes_clone_str};
+	pub use super::{bytes_clone_slice, array_clone_slice};
 	
 	pub use super::{ValueMeta1, ValueMeta2, VALUE_META_1, VALUE_META_2};
 	
@@ -117,11 +125,15 @@ pub enum Value {
 	Character ( ValueMeta1, Character, ValueMeta2 ),
 	
 	Symbol ( ValueMeta1, Symbol, ValueMeta2 ),
-	String ( ValueMeta1, String, ValueMeta2 ),
-	Bytes ( ValueMeta1, Bytes, ValueMeta2 ),
+	StringImmutable ( ValueMeta1, StringImmutable, ValueMeta2 ),
+	StringMutable ( ValueMeta1, StringMutable, ValueMeta2 ),
+	BytesImmutable ( ValueMeta1, BytesImmutable, ValueMeta2 ),
+	BytesMutable ( ValueMeta1, BytesMutable, ValueMeta2 ),
 	
-	Pair ( ValueMeta1, Pair, ValueMeta2 ),
-	Array ( ValueMeta1, Array, ValueMeta2 ),
+	PairImmutable ( ValueMeta1, PairImmutable, ValueMeta2 ),
+	PairMutable ( ValueMeta1, PairMutable, ValueMeta2 ),
+	ArrayImmutable ( ValueMeta1, ArrayImmutable, ValueMeta2 ),
+	ArrayMutable ( ValueMeta1, ArrayMutable, ValueMeta2 ),
 	Values ( ValueMeta1, Values, ValueMeta2 ),
 	
 	Error ( ValueMeta1, Error, ValueMeta2 ),
@@ -177,11 +189,15 @@ impl Value {
 			Value::Character (_, _, _) => ValueClass::Character,
 			
 			Value::Symbol (_, _, _) => ValueClass::Symbol,
-			Value::String (_, _, _) => ValueClass::String,
-			Value::Bytes (_, _, _) => ValueClass::Bytes,
+			Value::StringImmutable (_, _, _) => ValueClass::String,
+			Value::StringMutable (_, _, _) => ValueClass::String,
+			Value::BytesImmutable (_, _, _) => ValueClass::Bytes,
+			Value::BytesMutable (_, _, _) => ValueClass::Bytes,
 			
-			Value::Pair (_, _, _) => ValueClass::Pair,
-			Value::Array (_, _, _) => ValueClass::Array,
+			Value::PairImmutable (_, _, _) => ValueClass::Pair,
+			Value::PairMutable (_, _, _) => ValueClass::Pair,
+			Value::ArrayImmutable (_, _, _) => ValueClass::Array,
+			Value::ArrayMutable (_, _, _) => ValueClass::Array,
 			Value::Values (_, _, _) => ValueClass::Values,
 			
 			Value::Error (_, _, _) => ValueClass::Error,
@@ -221,11 +237,15 @@ impl Value {
 			(&Value::Character (_, ref self_0, _), &Value::Character (_, ref other_0, _)) => self_0 == other_0,
 			
 			(&Value::Symbol (_, ref self_0, _), &Value::Symbol (_, ref other_0, _)) => self_0 == other_0,
-			(&Value::String (_, ref self_0, _), &Value::String (_, ref other_0, _)) => String::is_self (self_0, other_0),
-			(&Value::Bytes (_, ref self_0, _), &Value::Bytes (_, ref other_0, _)) => Bytes::is_self (self_0, other_0),
+			(&Value::StringImmutable (_, ref self_0, _), &Value::StringImmutable (_, ref other_0, _)) => StringImmutable::is_self (self_0, other_0),
+			(&Value::StringMutable (_, ref self_0, _), &Value::StringMutable (_, ref other_0, _)) => StringMutable::is_self (self_0, other_0),
+			(&Value::BytesImmutable (_, ref self_0, _), &Value::BytesImmutable (_, ref other_0, _)) => BytesImmutable::is_self (self_0, other_0),
+			(&Value::BytesMutable (_, ref self_0, _), &Value::BytesMutable (_, ref other_0, _)) => BytesMutable::is_self (self_0, other_0),
 			
-			(&Value::Pair (_, ref self_0, _), &Value::Pair (_, ref other_0, _)) => Pair::is_self (self_0, other_0),
-			(&Value::Array (_, ref self_0, _), &Value::Array (_, ref other_0, _)) => Array::is_self (self_0, other_0),
+			(&Value::PairImmutable (_, ref self_0, _), &Value::PairImmutable (_, ref other_0, _)) => PairImmutable::is_self (self_0, other_0),
+			(&Value::PairMutable (_, ref self_0, _), &Value::PairMutable (_, ref other_0, _)) => PairMutable::is_self (self_0, other_0),
+			(&Value::ArrayImmutable (_, ref self_0, _), &Value::ArrayImmutable (_, ref other_0, _)) => ArrayImmutable::is_self (self_0, other_0),
+			(&Value::ArrayMutable (_, ref self_0, _), &Value::ArrayMutable (_, ref other_0, _)) => ArrayMutable::is_self (self_0, other_0),
 			(&Value::Values (_, ref self_0, _), &Value::Values (_, ref other_0, _)) => Values::is_self (self_0, other_0),
 			
 			(&Value::Error (_, ref self_0, _), &Value::Error (_, ref other_0, _)) => Error::is_self (self_0, other_0),
@@ -405,71 +425,36 @@ impl Symbol {
 	pub fn string_rc_clone (&self) -> (StdRc<StdString>) {
 		self.0.clone ()
 	}
+}
+
+
+
+
+pub trait String {
 	
+	fn string_as_str (&self) -> (&str);
+	fn string_ref (&self) -> (&StdString);
+	fn string_clone (&self) -> (StdString);
+	fn string_is_empty (&self) -> (bool);
+	fn string_is_not_empty (&self) -> (bool);
+	fn string_eq (&self, other : &str) -> (bool);
+	fn string_utf8_bytes_count (&self) -> (usize);
+	fn string_chars (&self) -> (str::Chars);
+	fn string_chars_count_compute (&self) -> (usize);
+	fn string_char_at_compute (&self, index : usize) -> (Option<char>);
 }
 
 
 
 
 #[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
-// FIXME:  Add immutability flag!
-pub struct String ( StdRc<StdString> );
+pub struct StringImmutable ( StdRc<StdString> );
 
 
-impl String {
+impl StringImmutable {
 	
 	#[ inline (always) ]
-	pub fn string_as_str (&self) -> (&str) {
-		self.string_ref () .as_str ()
-	}
-	
-	#[ inline (always) ]
-	pub fn string_ref (&self) -> (&StdString) {
-		&self.0.as_ref ()
-	}
-	
-	#[ inline (always) ]
-	pub fn string_clone (&self) -> (StdString) {
-		self.string_ref () .clone ()
-	}
-	
-	#[ inline (always) ]
-	pub fn string_is_empty (&self) -> (bool) {
-		self.string_ref () .is_empty ()
-	}
-	
-	#[ inline (always) ]
-	pub fn string_is_not_empty (&self) -> (bool) {
-		!self.string_ref () .is_empty ()
-	}
-	
-	#[ inline (always) ]
-	pub fn string_eq (&self, other : &str) -> (bool) {
-		self.string_ref () .eq (other)
-	}
-	
-	#[ inline (always) ]
-	pub fn string_utf8_bytes_count (&self) -> (usize) {
-		self.string_ref () .len ()
-	}
-	
-	#[ inline (always) ]
-	pub fn string_chars (&self) -> (str::Chars) {
-		self.string_ref () .chars ()
-	}
-	
-	#[ inline (always) ]
-	pub fn string_chars_count_compute (&self) -> (usize) {
-		self.string_chars () .count ()
-	}
-	
-	#[ inline (always) ]
-	pub fn string_char_at_compute (&self, index : usize) -> (Option<char>) {
-		self.string_chars () .nth (index)
-	}
-	
-	#[ inline (always) ]
-	pub fn is_self (&self, other : &String) -> (bool) {
+	pub fn is_self (&self, other : &StringImmutable) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
 	
@@ -477,56 +462,160 @@ impl String {
 	pub fn string_rc_clone (&self) -> (StdRc<StdString>) {
 		self.0.clone ()
 	}
+}
+
+impl String for StringImmutable {
 	
+	#[ inline (always) ]
+	fn string_as_str (&self) -> (&str) {
+		self.string_ref () .as_str ()
+	}
+	
+	#[ inline (always) ]
+	fn string_ref (&self) -> (&StdString) {
+		&self.0.as_ref ()
+	}
+	
+	#[ inline (always) ]
+	fn string_clone (&self) -> (StdString) {
+		self.string_ref () .clone ()
+	}
+	
+	#[ inline (always) ]
+	fn string_is_empty (&self) -> (bool) {
+		self.string_ref () .is_empty ()
+	}
+	
+	#[ inline (always) ]
+	fn string_is_not_empty (&self) -> (bool) {
+		!self.string_ref () .is_empty ()
+	}
+	
+	#[ inline (always) ]
+	fn string_eq (&self, other : &str) -> (bool) {
+		self.string_ref () .eq (other)
+	}
+	
+	#[ inline (always) ]
+	fn string_utf8_bytes_count (&self) -> (usize) {
+		self.string_ref () .len ()
+	}
+	
+	#[ inline (always) ]
+	fn string_chars (&self) -> (str::Chars) {
+		self.string_ref () .chars ()
+	}
+	
+	#[ inline (always) ]
+	fn string_chars_count_compute (&self) -> (usize) {
+		self.string_chars () .count ()
+	}
+	
+	#[ inline (always) ]
+	fn string_char_at_compute (&self, index : usize) -> (Option<char>) {
+		self.string_chars () .nth (index)
+	}
 }
 
 
 
 
 #[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
-// FIXME:  Add immutability flag!
-pub struct Bytes ( StdRc<StdVec<u8>> );
+pub struct StringMutable ( StdRc<StdString> );
 
 
-impl Bytes {
+impl StringMutable {
 	
 	#[ inline (always) ]
-	pub fn values_as_slice (&self) -> (&[u8]) {
-		self.values_ref () .as_slice ()
+	pub fn is_self (&self, other : &StringMutable) -> (bool) {
+		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
 	
 	#[ inline (always) ]
-	pub fn values_as_iter (&self) -> (slice::Iter<u8>) {
-		self.values_ref () .iter ()
+	pub fn string_rc_clone (&self) -> (StdRc<StdString>) {
+		self.0.clone ()
+	}
+}
+
+
+impl String for StringMutable {
+	
+	#[ inline (always) ]
+	fn string_as_str (&self) -> (&str) {
+		self.string_ref () .as_str ()
 	}
 	
 	#[ inline (always) ]
-	pub fn values_ref (&self) -> (&StdVec<u8>) {
-		self.0.as_ref ()
+	fn string_ref (&self) -> (&StdString) {
+		&self.0.as_ref ()
 	}
 	
 	#[ inline (always) ]
-	pub fn values_clone (&self) -> (StdVec<u8>) {
-		self.values_ref () .clone ()
+	fn string_clone (&self) -> (StdString) {
+		self.string_ref () .clone ()
 	}
 	
 	#[ inline (always) ]
-	pub fn values_is_empty (&self) -> (bool) {
-		self.values_ref () .is_empty ()
+	fn string_is_empty (&self) -> (bool) {
+		self.string_ref () .is_empty ()
 	}
 	
 	#[ inline (always) ]
-	pub fn values_is_not_empty (&self) -> (bool) {
-		!self.values_ref () .is_empty ()
+	fn string_is_not_empty (&self) -> (bool) {
+		!self.string_ref () .is_empty ()
 	}
 	
 	#[ inline (always) ]
-	pub fn values_length (&self) -> (usize) {
-		self.values_ref () .len ()
+	fn string_eq (&self, other : &str) -> (bool) {
+		self.string_ref () .eq (other)
 	}
 	
 	#[ inline (always) ]
-	pub fn is_self (&self, other : &Bytes) -> (bool) {
+	fn string_utf8_bytes_count (&self) -> (usize) {
+		self.string_ref () .len ()
+	}
+	
+	#[ inline (always) ]
+	fn string_chars (&self) -> (str::Chars) {
+		self.string_ref () .chars ()
+	}
+	
+	#[ inline (always) ]
+	fn string_chars_count_compute (&self) -> (usize) {
+		self.string_chars () .count ()
+	}
+	
+	#[ inline (always) ]
+	fn string_char_at_compute (&self, index : usize) -> (Option<char>) {
+		self.string_chars () .nth (index)
+	}
+}
+
+
+
+
+pub trait Bytes {
+	
+	fn values_as_slice (&self) -> (&[u8]);
+	fn values_as_iter (&self) -> (slice::Iter<u8>);
+	fn values_ref (&self) -> (&StdVec<u8>);
+	fn values_clone (&self) -> (StdVec<u8>);
+	fn values_is_empty (&self) -> (bool);
+	fn values_is_not_empty (&self) -> (bool);
+	fn values_length (&self) -> (usize);
+}
+
+
+
+
+#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub struct BytesImmutable ( StdRc<StdVec<u8>> );
+
+
+impl BytesImmutable {
+	
+	#[ inline (always) ]
+	pub fn is_self (&self, other : &BytesImmutable) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
 	
@@ -534,36 +623,128 @@ impl Bytes {
 	pub fn values_rc_clone (&self) -> (StdRc<StdVec<u8>>) {
 		self.0.clone ()
 	}
+}
+
+
+impl Bytes for BytesImmutable {
 	
+	#[ inline (always) ]
+	fn values_as_slice (&self) -> (&[u8]) {
+		self.values_ref () .as_slice ()
+	}
+	
+	#[ inline (always) ]
+	fn values_as_iter (&self) -> (slice::Iter<u8>) {
+		self.values_ref () .iter ()
+	}
+	
+	#[ inline (always) ]
+	fn values_ref (&self) -> (&StdVec<u8>) {
+		self.0.as_ref ()
+	}
+	
+	#[ inline (always) ]
+	fn values_clone (&self) -> (StdVec<u8>) {
+		self.values_ref () .clone ()
+	}
+	
+	#[ inline (always) ]
+	fn values_is_empty (&self) -> (bool) {
+		self.values_ref () .is_empty ()
+	}
+	
+	#[ inline (always) ]
+	fn values_is_not_empty (&self) -> (bool) {
+		!self.values_ref () .is_empty ()
+	}
+	
+	#[ inline (always) ]
+	fn values_length (&self) -> (usize) {
+		self.values_ref () .len ()
+	}
 }
 
 
 
 
 #[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
-// FIXME:  Add immutability flag!
-pub struct Pair ( StdRc<(Value, Value)> );
+pub struct BytesMutable ( StdRc<StdVec<u8>> );
 
 
-impl Pair {
+impl BytesMutable {
 	
 	#[ inline (always) ]
-	pub fn left (&self) -> (&Value) {
-		&(self.0).0
+	pub fn is_self (&self, other : &BytesMutable) -> (bool) {
+		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
 	
 	#[ inline (always) ]
-	pub fn right (&self) -> (&Value) {
-		&(self.0).1
+	pub fn values_rc_clone (&self) -> (StdRc<StdVec<u8>>) {
+		self.0.clone ()
+	}
+}
+
+
+impl Bytes for BytesMutable {
+	
+	#[ inline (always) ]
+	fn values_as_slice (&self) -> (&[u8]) {
+		self.values_ref () .as_slice ()
 	}
 	
 	#[ inline (always) ]
-	pub fn left_and_right (&self) -> (&Value, &Value) {
-		(&(self.0).0, &(self.0).1)
+	fn values_as_iter (&self) -> (slice::Iter<u8>) {
+		self.values_ref () .iter ()
 	}
 	
 	#[ inline (always) ]
-	pub fn is_self (&self, other : &Pair) -> (bool) {
+	fn values_ref (&self) -> (&StdVec<u8>) {
+		self.0.as_ref ()
+	}
+	
+	#[ inline (always) ]
+	fn values_clone (&self) -> (StdVec<u8>) {
+		self.values_ref () .clone ()
+	}
+	
+	#[ inline (always) ]
+	fn values_is_empty (&self) -> (bool) {
+		self.values_ref () .is_empty ()
+	}
+	
+	#[ inline (always) ]
+	fn values_is_not_empty (&self) -> (bool) {
+		!self.values_ref () .is_empty ()
+	}
+	
+	#[ inline (always) ]
+	fn values_length (&self) -> (usize) {
+		self.values_ref () .len ()
+	}
+}
+
+
+
+
+pub trait Pair {
+	
+	fn left (&self) -> (&Value);
+	fn right (&self) -> (&Value);
+	fn left_and_right (&self) -> (&Value, &Value);
+	fn values_ref (&self) -> (&(Value, Value));
+}
+
+
+
+
+#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub struct PairImmutable ( StdRc<(Value, Value)> );
+
+
+impl PairImmutable {
+	
+	#[ inline (always) ]
+	pub fn is_self (&self, other : &PairImmutable) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
 	
@@ -571,56 +752,101 @@ impl Pair {
 	pub fn values_rc_clone (&self) -> (StdRc<(Value, Value)>) {
 		self.0.clone ()
 	}
+}
+
+
+impl Pair for PairImmutable {
 	
+	#[ inline (always) ]
+	fn left (&self) -> (&Value) {
+		&(self.0).0
+	}
+	
+	#[ inline (always) ]
+	fn right (&self) -> (&Value) {
+		&(self.0).1
+	}
+	
+	#[ inline (always) ]
+	fn left_and_right (&self) -> (&Value, &Value) {
+		(&(self.0).0, &(self.0).1)
+	}
+	
+	#[ inline (always) ]
+	fn values_ref (&self) -> (&(Value, Value)) {
+		&self.0
+	}
 }
 
 
 
 
 #[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
-// FIXME:  Add immutability flag!
-pub struct Array ( StdRc<StdVec<Value>> );
+pub struct PairMutable ( StdRc<(Value, Value)> );
 
 
-impl Array {
+impl PairMutable {
 	
 	#[ inline (always) ]
-	pub fn values_as_slice (&self) -> (&[Value]) {
-		self.values_ref () .as_slice ()
+	pub fn is_self (&self, other : &PairMutable) -> (bool) {
+		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
 	
 	#[ inline (always) ]
-	pub fn values_as_iter (&self) -> (slice::Iter<Value>) {
-		self.values_ref () .iter ()
+	pub fn values_rc_clone (&self) -> (StdRc<(Value, Value)>) {
+		self.0.clone ()
+	}
+}
+
+
+impl Pair for PairMutable {
+	
+	#[ inline (always) ]
+	fn left (&self) -> (&Value) {
+		&(self.0).0
 	}
 	
 	#[ inline (always) ]
-	pub fn values_ref (&self) -> (&StdVec<Value>) {
-		self.0.as_ref ()
+	fn right (&self) -> (&Value) {
+		&(self.0).1
 	}
 	
 	#[ inline (always) ]
-	pub fn values_clone (&self) -> (StdVec<Value>) {
-		self.values_ref () .clone ()
+	fn left_and_right (&self) -> (&Value, &Value) {
+		(&(self.0).0, &(self.0).1)
 	}
 	
 	#[ inline (always) ]
-	pub fn values_is_empty (&self) -> (bool) {
-		self.values_ref () .is_empty ()
+	fn values_ref (&self) -> (&(Value, Value)) {
+		&self.0
 	}
+}
+
+
+
+
+pub trait Array {
+	
+	fn values_as_slice (&self) -> (&[Value]);
+	fn values_as_iter (&self) -> (slice::Iter<Value>);
+	fn values_ref (&self) -> (&StdVec<Value>);
+	fn values_clone (&self) -> (StdVec<Value>);
+	fn values_is_empty (&self) -> (bool);
+	fn values_is_not_empty (&self) -> (bool);
+	fn values_length (&self) -> (usize);
+}
+
+
+
+
+#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub struct ArrayImmutable ( StdRc<StdVec<Value>> );
+
+
+impl ArrayImmutable {
 	
 	#[ inline (always) ]
-	pub fn values_is_not_empty (&self) -> (bool) {
-		!self.values_ref () .is_empty ()
-	}
-	
-	#[ inline (always) ]
-	pub fn values_length (&self) -> (usize) {
-		self.values_ref () .len ()
-	}
-	
-	#[ inline (always) ]
-	pub fn is_self (&self, other : &Array) -> (bool) {
+	pub fn is_self (&self, other : &ArrayImmutable) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
 	
@@ -628,7 +854,104 @@ impl Array {
 	pub fn values_rc_clone (&self) -> (StdRc<StdVec<Value>>) {
 		self.0.clone ()
 	}
+}
+
+
+impl Array for ArrayImmutable {
 	
+	#[ inline (always) ]
+	fn values_as_slice (&self) -> (&[Value]) {
+		self.values_ref () .as_slice ()
+	}
+	
+	#[ inline (always) ]
+	fn values_as_iter (&self) -> (slice::Iter<Value>) {
+		self.values_ref () .iter ()
+	}
+	
+	#[ inline (always) ]
+	fn values_ref (&self) -> (&StdVec<Value>) {
+		self.0.as_ref ()
+	}
+	
+	#[ inline (always) ]
+	fn values_clone (&self) -> (StdVec<Value>) {
+		self.values_ref () .clone ()
+	}
+	
+	#[ inline (always) ]
+	fn values_is_empty (&self) -> (bool) {
+		self.values_ref () .is_empty ()
+	}
+	
+	#[ inline (always) ]
+	fn values_is_not_empty (&self) -> (bool) {
+		!self.values_ref () .is_empty ()
+	}
+	
+	#[ inline (always) ]
+	fn values_length (&self) -> (usize) {
+		self.values_ref () .len ()
+	}
+}
+
+
+
+
+#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub struct ArrayMutable ( StdRc<StdVec<Value>> );
+
+
+impl ArrayMutable {
+	
+	#[ inline (always) ]
+	pub fn is_self (&self, other : &ArrayMutable) -> (bool) {
+		ptr::eq (self.0.as_ref (), other.0.as_ref ())
+	}
+	
+	#[ inline (always) ]
+	pub fn values_rc_clone (&self) -> (StdRc<StdVec<Value>>) {
+		self.0.clone ()
+	}
+}
+
+
+impl Array for ArrayMutable {
+	
+	#[ inline (always) ]
+	fn values_as_slice (&self) -> (&[Value]) {
+		self.values_ref () .as_slice ()
+	}
+	
+	#[ inline (always) ]
+	fn values_as_iter (&self) -> (slice::Iter<Value>) {
+		self.values_ref () .iter ()
+	}
+	
+	#[ inline (always) ]
+	fn values_ref (&self) -> (&StdVec<Value>) {
+		self.0.as_ref ()
+	}
+	
+	#[ inline (always) ]
+	fn values_clone (&self) -> (StdVec<Value>) {
+		self.values_ref () .clone ()
+	}
+	
+	#[ inline (always) ]
+	fn values_is_empty (&self) -> (bool) {
+		self.values_ref () .is_empty ()
+	}
+	
+	#[ inline (always) ]
+	fn values_is_not_empty (&self) -> (bool) {
+		!self.values_ref () .is_empty ()
+	}
+	
+	#[ inline (always) ]
+	fn values_length (&self) -> (usize) {
+		self.values_ref () .len ()
+	}
 }
 
 
@@ -684,7 +1007,6 @@ impl Values {
 	pub fn values_rc_clone (&self) -> (StdRc<StdBox<[Value]>>) {
 		self.0.clone ()
 	}
-	
 }
 
 
@@ -718,9 +1040,30 @@ pub fn symbol_new (value : StdString) -> (Symbol) {
 	Symbol (StdRc::new (value))
 }
 
+
+
+
 #[ inline (always) ]
-pub fn string_new (value : StdString) -> (String) {
-	String (StdRc::new (value))
+pub fn string_immutable_new (value : StdString) -> (StringImmutable) {
+	StringImmutable (StdRc::new (value))
+}
+
+#[ inline (always) ]
+pub fn string_mutable_new (value : StdString) -> (StringMutable) {
+	StringMutable (StdRc::new (value))
+}
+
+
+
+
+#[ inline (always) ]
+pub fn bytes_immutable_new (values : StdVec<u8>) -> (BytesImmutable) {
+	BytesImmutable (StdRc::new (values))
+}
+
+#[ inline (always) ]
+pub fn bytes_mutable_new (values : StdVec<u8>) -> (BytesMutable) {
+	BytesMutable (StdRc::new (values))
 }
 
 
@@ -732,8 +1075,23 @@ pub fn symbol_clone_str (value : &str) -> (Symbol) {
 }
 
 #[ inline (always) ]
-pub fn string_clone_str (value : &str) -> (String) {
-	string_new (StdString::from (value))
+pub fn string_immutable_clone_str (value : &str) -> (StringImmutable) {
+	string_immutable_new (StdString::from (value))
+}
+
+#[ inline (always) ]
+pub fn string_mutable_clone_str (value : &str) -> (StringMutable) {
+	string_mutable_new (StdString::from (value))
+}
+
+#[ inline (always) ]
+pub fn bytes_immutable_clone_str (value : &str) -> (BytesImmutable) {
+	bytes_immutable_new (StdString::from (value) .into_bytes ())
+}
+
+#[ inline (always) ]
+pub fn bytes_mutable_clone_str (value : &str) -> (BytesMutable) {
+	bytes_mutable_new (StdString::from (value) .into_bytes ())
 }
 
 
@@ -745,8 +1103,23 @@ pub fn symbol_clone_characters (characters : &[char]) -> (Symbol) {
 }
 
 #[ inline (always) ]
-pub fn string_clone_characters (characters : &[char]) -> (String) {
-	string_new (characters_clone (characters))
+pub fn string_immutable_clone_characters (characters : &[char]) -> (StringImmutable) {
+	string_immutable_new (characters_clone (characters))
+}
+
+#[ inline (always) ]
+pub fn string_mutable_clone_characters (characters : &[char]) -> (StringMutable) {
+	string_mutable_new (characters_clone (characters))
+}
+
+#[ inline (always) ]
+pub fn bytes_immutable_clone_characters (characters : &[char]) -> (BytesImmutable) {
+	bytes_immutable_new (characters_clone (characters) .into_bytes ())
+}
+
+#[ inline (always) ]
+pub fn bytes_mutable_clone_characters (characters : &[char]) -> (BytesMutable) {
+	bytes_mutable_new (characters_clone (characters) .into_bytes ())
 }
 
 #[ inline (always) ]
@@ -762,31 +1135,49 @@ fn characters_clone (characters : &[char]) -> (StdString) {
 
 
 #[ inline (always) ]
-pub fn bytes_new (values : StdVec<u8>) -> (Bytes) {
-	Bytes (StdRc::new (values))
+pub fn bytes_immutable_clone_slice (values : &[u8]) -> (BytesImmutable) {
+	bytes_immutable_new (vec_clone_slice (values))
 }
 
 #[ inline (always) ]
-pub fn bytes_clone_slice (values : &[u8]) -> (Bytes) {
-	bytes_new (vec_clone_slice (values))
+pub fn bytes_mutable_clone_slice (values : &[u8]) -> (BytesMutable) {
+	bytes_mutable_new (vec_clone_slice (values))
 }
 
 
 
 
 #[ inline (always) ]
-pub fn array_new (values : StdVec<Value>) -> (Array) {
-	Array (StdRc::new (values))
+pub fn array_immutable_new (values : StdVec<Value>) -> (ArrayImmutable) {
+	ArrayImmutable (StdRc::new (values))
 }
 
 #[ inline (always) ]
-pub fn array_clone_slice (values : &[Value]) -> (Array) {
-	array_new (vec_clone_slice (values))
+pub fn array_mutable_new (values : StdVec<Value>) -> (ArrayMutable) {
+	ArrayMutable (StdRc::new (values))
+}
+
+
+
+
+#[ inline (always) ]
+pub fn array_immutable_clone_slice (values : &[Value]) -> (ArrayImmutable) {
+	array_immutable_new (vec_clone_slice (values))
 }
 
 #[ inline (always) ]
-pub fn array_clone_slice_ref (values : &[&Value]) -> (Array) {
-	array_new (vec_clone_slice_ref (values))
+pub fn array_mutable_clone_slice (values : &[Value]) -> (ArrayMutable) {
+	array_mutable_new (vec_clone_slice (values))
+}
+
+#[ inline (always) ]
+pub fn array_immutable_clone_slice_ref (values : &[&Value]) -> (ArrayImmutable) {
+	array_immutable_new (vec_clone_slice_ref (values))
+}
+
+#[ inline (always) ]
+pub fn array_mutable_clone_slice_ref (values : &[&Value]) -> (ArrayMutable) {
+	array_mutable_new (vec_clone_slice_ref (values))
 }
 
 
@@ -816,7 +1207,93 @@ pub fn values_clone_slice_ref (values : &[&Value]) -> (Values) {
 
 
 #[ inline (always) ]
-pub fn pair_new (left : Value, right : Value) -> (Pair) {
-	Pair (StdRc::new ((left, right)))
+pub fn pair_immutable_new (left : Value, right : Value) -> (PairImmutable) {
+	PairImmutable (StdRc::new ((left, right)))
+}
+
+#[ inline (always) ]
+pub fn pair_mutable_new (left : Value, right : Value) -> (PairMutable) {
+	PairMutable (StdRc::new ((left, right)))
+}
+
+
+
+
+#[ inline (always) ]
+pub fn string_new (value : StdString) -> (Value) {
+	if true {
+		string_immutable_new (value) .into ()
+	} else {
+		string_mutable_new (value) .into ()
+	}
+}
+
+#[ inline (always) ]
+pub fn bytes_new (values : StdVec<u8>) -> (Value) {
+	if true {
+		bytes_immutable_new (values) .into ()
+	} else {
+		bytes_mutable_new (values) .into ()
+	}
+}
+
+#[ inline (always) ]
+pub fn array_new (values : StdVec<Value>) -> (Value) {
+	if true {
+		array_immutable_new (values) .into ()
+	} else {
+		array_mutable_new (values) .into ()
+	}
+}
+
+#[ inline (always) ]
+pub fn pair_new (left : Value, right : Value) -> (Value) {
+	if true {
+		pair_immutable_new (left, right) .into ()
+	} else {
+		pair_mutable_new (left, right) .into ()
+	}
+}
+
+
+
+
+#[ inline (always) ]
+pub fn string_clone_str (value : &str) -> (Value) {
+	if true {
+		string_immutable_clone_str (value) .into ()
+	} else {
+		string_mutable_clone_str (value) .into ()
+	}
+}
+
+#[ inline (always) ]
+pub fn bytes_clone_str (value : &str) -> (Value) {
+	if true {
+		bytes_immutable_clone_str (value) .into ()
+	} else {
+		bytes_mutable_clone_str (value) .into ()
+	}
+}
+
+
+
+
+#[ inline (always) ]
+pub fn bytes_clone_slice (values : &[u8]) -> (Value) {
+	if true {
+		bytes_immutable_clone_slice (values) .into ()
+	} else {
+		bytes_mutable_clone_slice (values) .into ()
+	}
+}
+
+#[ inline (always) ]
+pub fn array_clone_slice (values : &[Value]) -> (Value) {
+	if true {
+		array_immutable_clone_slice (values) .into ()
+	} else {
+		array_mutable_clone_slice (values) .into ()
+	}
 }
 

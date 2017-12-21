@@ -725,22 +725,22 @@ pub fn symbol_compare_2a <ValueRef : StdAsRef<Symbol>> (left : ValueRef, right :
 }
 
 
-def_fn_compare! (String,
+def_fn_compare! (StringImmutable,
 		string_compare_1, string_compare_2, string_compare_3, string_compare_4, string_compare_n,
 		string_compare_1a, string_compare_2a, string_compare_3a, string_compare_4a, string_compare_na);
 
-pub fn string_compare_1a <ValueRef : StdAsRef<String>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
+pub fn string_compare_1a <ValueRef : StdAsRef<StringImmutable>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true);
 }
 
-pub fn string_compare_2a <ValueRef : StdAsRef<String>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+pub fn string_compare_2a <ValueRef : StdAsRef<StringImmutable>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
 	match comparison {
 		Comparison::Equivalence (equivalence, _, _) =>
 			match equivalence {
 				Equivalence::ByIdentity =>
-					succeed! (String::is_self (left, right)),
+					succeed! (StringImmutable::is_self (left, right)),
 				Equivalence::ByValue =>
 					succeed! (left == right),
 			},
@@ -755,22 +755,22 @@ pub fn string_compare_2a <ValueRef : StdAsRef<String>> (left : ValueRef, right :
 }
 
 
-def_fn_compare! (Bytes,
+def_fn_compare! (BytesImmutable,
 		bytes_compare_1, bytes_compare_2, bytes_compare_3, bytes_compare_4, bytes_compare_n,
 		bytes_compare_1a, bytes_compare_2a, bytes_compare_3a, bytes_compare_4a, bytes_compare_na);
 
-pub fn bytes_compare_1a <ValueRef : StdAsRef<Bytes>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
+pub fn bytes_compare_1a <ValueRef : StdAsRef<BytesImmutable>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true);
 }
 
-pub fn bytes_compare_2a <ValueRef : StdAsRef<Bytes>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+pub fn bytes_compare_2a <ValueRef : StdAsRef<BytesImmutable>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
 	match comparison {
 		Comparison::Equivalence (equivalence, _, _) =>
 			match equivalence {
 				Equivalence::ByIdentity =>
-					succeed! (Bytes::is_self (left, right)),
+					succeed! (BytesImmutable::is_self (left, right)),
 				Equivalence::ByValue =>
 					succeed! (left == right),
 			},
@@ -780,15 +780,15 @@ pub fn bytes_compare_2a <ValueRef : StdAsRef<Bytes>> (left : ValueRef, right : V
 }
 
 
-def_fn_compare! (Pair,
+def_fn_compare! (PairImmutable,
 		pair_compare_1, pair_compare_2, pair_compare_3, pair_compare_4, pair_compare_n,
 		pair_compare_1a, pair_compare_2a, pair_compare_3a, pair_compare_4a, pair_compare_na);
 
-pub fn pair_compare_1a <ValueRef : StdAsRef<Pair>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
+pub fn pair_compare_1a <ValueRef : StdAsRef<PairImmutable>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true);
 }
 
-pub fn pair_compare_2a <ValueRef : StdAsRef<Pair>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+pub fn pair_compare_2a <ValueRef : StdAsRef<PairImmutable>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
 	match comparison {
@@ -796,7 +796,7 @@ pub fn pair_compare_2a <ValueRef : StdAsRef<Pair>> (left : ValueRef, right : Val
 		Comparison::Equivalence (equivalence, _, _) =>
 			match equivalence {
 				Equivalence::ByIdentity =>
-					succeed! (Pair::is_self (left, right)),
+					succeed! (PairImmutable::is_self (left, right)),
 				Equivalence::ByValue => {
 					let comparison = comparison.for_aggregated (false);
 					succeed! (
@@ -833,22 +833,22 @@ pub fn pair_compare_2a <ValueRef : StdAsRef<Pair>> (left : ValueRef, right : Val
 }
 
 
-def_fn_compare! (Array,
+def_fn_compare! (ArrayImmutable,
 		array_compare_1, array_compare_2, array_compare_3, array_compare_4, array_compare_n,
 		array_compare_1a, array_compare_2a, array_compare_3a, array_compare_4a, array_compare_na);
 
-pub fn array_compare_1a <ValueRef : StdAsRef<Array>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
+pub fn array_compare_1a <ValueRef : StdAsRef<ArrayImmutable>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true);
 }
 
-pub fn array_compare_2a <ValueRef : StdAsRef<Array>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+pub fn array_compare_2a <ValueRef : StdAsRef<ArrayImmutable>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
 	match comparison {
 		Comparison::Equivalence (equivalence, _, _) =>
 			match equivalence {
 				Equivalence::ByIdentity =>
-					succeed! (Array::is_self (left, right)),
+					succeed! (ArrayImmutable::is_self (left, right)),
 				Equivalence::ByValue =>
 					return vec_compare_2 (left.values_as_slice (), right.values_as_slice (), comparison),
 			},

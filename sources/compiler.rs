@@ -168,7 +168,7 @@ impl Compiler {
 	
 	
 	
-	fn compile_form (&self, compilation : CompilerContext, form : Pair) -> (Outcome<(CompilerContext, Expression)>) {
+	fn compile_form (&self, compilation : CompilerContext, form : PairImmutable) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		match try! (self.compile_form_0 (compilation, form.clone ())) {
 			
@@ -181,7 +181,7 @@ impl Compiler {
 	}
 	
 	
-	fn compile_form_0 (&self, compilation : CompilerContext, token : Pair) -> (Outcome<(CompilerContext, Option<(SyntaxPrimitive, Value)>)>) {
+	fn compile_form_0 (&self, compilation : CompilerContext, token : PairImmutable) -> (Outcome<(CompilerContext, Option<(SyntaxPrimitive, Value)>)>) {
 		
 		let mut compilation = compilation;
 		let callable = token.left () .clone ();
@@ -1338,7 +1338,7 @@ impl Compiler {
 					match cursor.class () {
 						
 						ValueClass::Pair => {
-							let pair = cursor.as_ref () as &Pair;
+							let pair = try! (cursor.try_as_ref ()) as &PairImmutable;
 							let (compilation_1, element) = try! (self.compile_syntax_quasi_quote_0 (compilation, pair.left () .clone (), false, true, quote_depth, unquote_depth));
 							compilation = compilation_1;
 							elements.push (element);

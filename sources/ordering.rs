@@ -26,11 +26,15 @@ impl cmp::PartialEq for Value {
 			(&Value::Character (_, ref self_0, _), &Value::Character (_, ref other_0, _)) => Character::eq (self_0, other_0),
 			
 			(&Value::Symbol (_, ref self_0, _), &Value::Symbol (_, ref other_0, _)) => Symbol::eq (self_0, other_0),
-			(&Value::String (_, ref self_0, _), &Value::String (_, ref other_0, _)) => String::eq (self_0, other_0),
-			(&Value::Bytes (_, ref self_0, _), &Value::Bytes (_, ref other_0, _)) => Bytes::eq (self_0, other_0),
+			(&Value::StringImmutable (_, ref self_0, _), &Value::StringImmutable (_, ref other_0, _)) => StringImmutable::eq (self_0, other_0),
+			(&Value::StringMutable (_, ref self_0, _), &Value::StringMutable (_, ref other_0, _)) => StringMutable::eq (self_0, other_0),
+			(&Value::BytesImmutable (_, ref self_0, _), &Value::BytesImmutable (_, ref other_0, _)) => BytesImmutable::eq (self_0, other_0),
+			(&Value::BytesMutable (_, ref self_0, _), &Value::BytesMutable (_, ref other_0, _)) => BytesMutable::eq (self_0, other_0),
 			
-			(&Value::Pair (_, ref self_0, _), &Value::Pair (_, ref other_0, _)) => Pair::eq (self_0, other_0),
-			(&Value::Array (_, ref self_0, _), &Value::Array (_, ref other_0, _)) => Array::eq (self_0, other_0),
+			(&Value::PairImmutable (_, ref self_0, _), &Value::PairImmutable (_, ref other_0, _)) => PairImmutable::eq (self_0, other_0),
+			(&Value::PairMutable (_, ref self_0, _), &Value::PairMutable (_, ref other_0, _)) => PairMutable::eq (self_0, other_0),
+			(&Value::ArrayImmutable (_, ref self_0, _), &Value::ArrayImmutable (_, ref other_0, _)) => ArrayImmutable::eq (self_0, other_0),
+			(&Value::ArrayMutable (_, ref self_0, _), &Value::ArrayMutable (_, ref other_0, _)) => ArrayMutable::eq (self_0, other_0),
 			(&Value::Values (_, ref self_0, _), &Value::Values (_, ref other_0, _)) => Values::eq (self_0, other_0),
 			
 			(&Value::Error (_, ref self_0, _), &Value::Error (_, ref other_0, _)) => Error::eq (self_0, other_0),
@@ -78,11 +82,15 @@ impl cmp::Ord for Value {
 			(&Value::Character (_, ref self_0, _), &Value::Character (_, ref other_0, _)) => Character::cmp (self_0, other_0),
 			
 			(&Value::Symbol (_, ref self_0, _), &Value::Symbol (_, ref other_0, _)) => Symbol::cmp (self_0, other_0),
-			(&Value::String (_, ref self_0, _), &Value::String (_, ref other_0, _)) => String::cmp (self_0, other_0),
-			(&Value::Bytes (_, ref self_0, _), &Value::Bytes (_, ref other_0, _)) => Bytes::cmp (self_0, other_0),
+			(&Value::StringImmutable (_, ref self_0, _), &Value::StringImmutable (_, ref other_0, _)) => StringImmutable::cmp (self_0, other_0),
+			(&Value::StringMutable (_, ref self_0, _), &Value::StringMutable (_, ref other_0, _)) => StringMutable::cmp (self_0, other_0),
+			(&Value::BytesImmutable (_, ref self_0, _), &Value::BytesImmutable (_, ref other_0, _)) => BytesImmutable::cmp (self_0, other_0),
+			(&Value::BytesMutable (_, ref self_0, _), &Value::BytesMutable (_, ref other_0, _)) => BytesMutable::cmp (self_0, other_0),
 			
-			(&Value::Pair (_, ref self_0, _), &Value::Pair (_, ref other_0, _)) => Pair::cmp (self_0, other_0),
-			(&Value::Array (_, ref self_0, _), &Value::Array (_, ref other_0, _)) => Array::cmp (self_0, other_0),
+			(&Value::PairImmutable (_, ref self_0, _), &Value::PairImmutable (_, ref other_0, _)) => PairImmutable::cmp (self_0, other_0),
+			(&Value::PairMutable (_, ref self_0, _), &Value::PairMutable (_, ref other_0, _)) => PairMutable::cmp (self_0, other_0),
+			(&Value::ArrayImmutable (_, ref self_0, _), &Value::ArrayImmutable (_, ref other_0, _)) => ArrayImmutable::cmp (self_0, other_0),
+			(&Value::ArrayMutable (_, ref self_0, _), &Value::ArrayMutable (_, ref other_0, _)) => ArrayMutable::cmp (self_0, other_0),
 			(&Value::Values (_, ref self_0, _), &Value::Values (_, ref other_0, _)) => Values::cmp (self_0, other_0),
 			
 			(&Value::Error (_, ref self_0, _), &Value::Error (_, ref other_0, _)) => Error::cmp (self_0, other_0),

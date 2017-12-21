@@ -98,10 +98,14 @@ impl_from_for_Value_1! (NumberInteger, NumberInteger);
 impl_from_for_Value_1! (NumberReal, NumberReal);
 impl_from_for_Value_1! (Character, Character);
 impl_from_for_Value_1! (Symbol, Symbol);
-impl_from_for_Value_1! (String, String);
-impl_from_for_Value_1! (Bytes, Bytes);
-impl_from_for_Value_1! (Pair, Pair);
-impl_from_for_Value_1! (Array, Array);
+impl_from_for_Value_1! (StringImmutable, StringImmutable);
+impl_from_for_Value_1! (StringMutable, StringMutable);
+impl_from_for_Value_1! (BytesImmutable, BytesImmutable);
+impl_from_for_Value_1! (BytesMutable, BytesMutable);
+impl_from_for_Value_1! (PairImmutable, PairImmutable);
+impl_from_for_Value_1! (PairMutable, PairMutable);
+impl_from_for_Value_1! (ArrayImmutable, ArrayImmutable);
+impl_from_for_Value_1! (ArrayMutable, ArrayMutable);
 impl_from_for_Value_1! (Values, Values);
 impl_from_for_Value_1! (Error, Error);
 impl_from_for_Value_1! (ProcedurePrimitive, ProcedurePrimitive);
@@ -148,13 +152,17 @@ impl_from_for_type! (NumberReal, u64, value, number_f64 (value as f64));
 impl_from_for_type! (NumberReal, isize, value, number_f64 (value as f64));
 impl_from_for_type! (NumberReal, usize, value, number_f64 (value as f64));
 
-impl_from_for_Value_3! (String, String, StdString, value, string_new (value));
-impl_from_for_Value_3! (String, String, &'static str, value, string_clone_str (value));
+impl_from_for_Value_3! (StringImmutable, StringImmutable, StdString, value, string_immutable_new (value));
+impl_from_for_Value_3! (StringImmutable, StringImmutable, &'static str, value, string_immutable_clone_str (value));
+
+impl_from_for_type! (StringMutable, StdString, value, string_mutable_new (value));
+impl_from_for_type! (StringMutable, &'static str, value, string_mutable_clone_str (value));
 
 impl_from_for_type! (Symbol, StdString, value, symbol_new (value));
 impl_from_for_type! (Symbol, &'static str, value, symbol_clone_str (value));
 
-impl_from_for_type! (Pair, (Value, Value), value, { let (left, right) = value; pair_new (left, right) });
+impl_from_for_type! (PairImmutable, (Value, Value), value, { let (left, right) = value; pair_immutable_new (left, right) });
+impl_from_for_type! (PairMutable, (Value, Value), value, { let (left, right) = value; pair_mutable_new (left, right) });
 
 impl_from_for_Value_3! (ProcedureExtended, ProcedureExtended, ProcedureExtendedInternals, internals, ProcedureExtended::new (internals));
 impl_from_for_Value_3! (SyntaxExtended, SyntaxExtended, SyntaxExtendedInternals, internals, SyntaxExtended::new (internals));
@@ -361,8 +369,8 @@ macro_rules! impl_from_for_ProcedurePrimitiveCall1 {
 				Expression,
 				Value,
 				Boolean, NumberInteger, NumberReal, Character,
-				Symbol, String, Bytes,
-				Pair, Array, Values,
+				Symbol, StringImmutable, StringMutable, BytesImmutable, BytesMutable,
+				PairImmutable, PairMutable, ArrayImmutable, ArrayMutable, Values,
 				bool, i64, f64, char,
 				StdString, &'static str
 			]);
@@ -381,8 +389,8 @@ macro_rules! impl_from_for_ProcedurePrimitiveCall2 {
 				Expression,
 				Value,
 				Boolean, NumberInteger, NumberReal, Character,
-				Symbol, String, Bytes,
-				Pair, Array, Values,
+				Symbol, StringImmutable, StringMutable, BytesImmutable, BytesMutable,
+				PairImmutable, PairMutable, ArrayImmutable, ArrayMutable, Values,
 				bool, i64, f64, char,
 				StdString, &'static str
 			]);
@@ -402,8 +410,8 @@ macro_rules! impl_from_for_ProcedurePrimitiveCall3 {
 				Expression,
 				Value,
 				Boolean, NumberInteger, NumberReal, Character,
-				Symbol, String, Bytes,
-				Pair, Array, Values,
+				Symbol, StringImmutable, StringMutable, BytesImmutable, BytesMutable,
+				PairImmutable, PairMutable, ArrayImmutable, ArrayMutable, Values,
 				bool, i64, f64, char,
 				StdString, &'static str
 			]);
@@ -423,8 +431,8 @@ macro_rules! impl_from_for_ProcedurePrimitiveCall4 {
 				Expression,
 				Value,
 				Boolean, NumberInteger, NumberReal, Character,
-				Symbol, String, Bytes,
-				Pair, Array, Values,
+				Symbol, StringImmutable, StringMutable, BytesImmutable, BytesMutable,
+				PairImmutable, PairMutable, ArrayImmutable, ArrayMutable, Values,
 				bool, i64, f64, char,
 				StdString, &'static str
 			]);
@@ -444,8 +452,8 @@ macro_rules! impl_from_for_ProcedurePrimitiveCall5 {
 				Expression,
 				Value,
 				Boolean, NumberInteger, NumberReal, Character,
-				Symbol, String, Bytes,
-				Pair, Array, Values,
+				Symbol, StringImmutable, StringMutable, BytesImmutable, BytesMutable,
+				PairImmutable, PairMutable, ArrayImmutable, ArrayMutable, Values,
 				bool, i64, f64, char,
 				StdString, &'static str
 			]);
@@ -466,8 +474,8 @@ macro_rules! impl_from_for_ProcedurePrimitiveCallN {
 				Expression,
 				Value,
 				Boolean, NumberInteger, NumberReal, Character,
-				Symbol, String, Bytes,
-				Pair, Array, Values,
+				Symbol, StringImmutable, StringMutable, BytesImmutable, BytesMutable,
+				PairImmutable, PairMutable, ArrayImmutable, ArrayMutable, Values,
 				bool, i64, f64, char,
 				StdString, &'static str
 			]);
@@ -502,8 +510,8 @@ macro_rules! impl_from_for_ProcedurePrimitiveCallV {
 				Expression,
 				Value,
 				Boolean, NumberInteger, NumberReal, Character,
-				Symbol, String, Bytes,
-				Pair, Array, Values,
+				Symbol, StringImmutable, StringMutable, BytesImmutable, BytesMutable,
+				PairImmutable, PairMutable, ArrayImmutable, ArrayMutable, Values,
 				bool, i64, f64, char,
 				StdString, &'static str
 			]);

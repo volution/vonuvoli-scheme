@@ -25,11 +25,15 @@ impl fmt::Display for Value {
 			Value::Character (_, ref value, _) => value.fmt (formatter),
 			
 			Value::Symbol (_, ref value, _) => value.fmt (formatter),
-			Value::String (_, ref value, _) => value.fmt (formatter),
-			Value::Bytes (_, ref value, _) => value.fmt (formatter),
+			Value::StringImmutable (_, ref value, _) => value.fmt (formatter),
+			Value::StringMutable (_, ref value, _) => value.fmt (formatter),
+			Value::BytesImmutable (_, ref value, _) => value.fmt (formatter),
+			Value::BytesMutable (_, ref value, _) => value.fmt (formatter),
 			
-			Value::Pair (_, ref value, _) => value.fmt (formatter),
-			Value::Array (_, ref value, _) => value.fmt (formatter),
+			Value::PairImmutable (_, ref value, _) => value.fmt (formatter),
+			Value::PairMutable (_, ref value, _) => value.fmt (formatter),
+			Value::ArrayImmutable (_, ref value, _) => value.fmt (formatter),
+			Value::ArrayMutable (_, ref value, _) => value.fmt (formatter),
 			Value::Values (_, ref value, _) => value.fmt (formatter),
 			
 			Value::Error (_, ref value, _) => value.fmt (formatter),
@@ -67,11 +71,15 @@ impl fmt::Debug for Value {
 			Value::Character (_, ref value, _) => value.fmt (formatter),
 			
 			Value::Symbol (_, ref value, _) => value.fmt (formatter),
-			Value::String (_, ref value, _) => value.fmt (formatter),
-			Value::Bytes (_, ref value, _) => value.fmt (formatter),
+			Value::StringImmutable (_, ref value, _) => value.fmt (formatter),
+			Value::StringMutable (_, ref value, _) => value.fmt (formatter),
+			Value::BytesImmutable (_, ref value, _) => value.fmt (formatter),
+			Value::BytesMutable (_, ref value, _) => value.fmt (formatter),
 			
-			Value::Pair (_, ref value, _) => value.fmt (formatter),
-			Value::Array (_, ref value, _) => value.fmt (formatter),
+			Value::PairImmutable (_, ref value, _) => value.fmt (formatter),
+			Value::PairMutable (_, ref value, _) => value.fmt (formatter),
+			Value::ArrayImmutable (_, ref value, _) => value.fmt (formatter),
+			Value::ArrayMutable (_, ref value, _) => value.fmt (formatter),
 			Value::Values (_, ref value, _) => value.fmt (formatter),
 			
 			Value::Error (_, ref value, _) => value.fmt (formatter),
@@ -215,112 +223,166 @@ impl fmt::Display for Symbol {
 
 
 
-impl fmt::Display for String {
+impl fmt::Display for StringImmutable {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		let string = self.string_as_str ();
-		try! (formatter.write_char ('"'));
-		for character in string.chars () {
-			match character {
-				'"' | '\\' => {
-					try! (formatter.write_char ('\\'));
-					try! (formatter.write_char (character));
-				},
-				' ' ... '~' =>
-					try! (formatter.write_char (character)),
-				_ =>
-					try! (write! (formatter, "#\\x{:02x};", character as u32)),
-			}
-		}
-		try! (formatter.write_char ('"'));
-		succeed! (());
+		return string_fmt (self.string_as_str (), formatter);
 	}
+}
+
+impl fmt::Display for StringMutable {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		return string_fmt (self.string_as_str (), formatter);
+	}
+}
+
+#[ inline (always) ]
+fn string_fmt (string : &str, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+	try! (formatter.write_char ('"'));
+	for character in string.chars () {
+		match character {
+			'"' | '\\' => {
+				try! (formatter.write_char ('\\'));
+				try! (formatter.write_char (character));
+			},
+			' ' ... '~' =>
+				try! (formatter.write_char (character)),
+			_ =>
+				try! (write! (formatter, "#\\x{:02x};", character as u32)),
+		}
+	}
+	try! (formatter.write_char ('"'));
+	succeed! (());
 }
 
 
 
 
-impl fmt::Display for Bytes {
+impl fmt::Display for BytesImmutable {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		let bytes = self.values_as_iter ();
-		try! (formatter.write_str ("#u8("));
-		let mut is_first = true;
-		for byte in bytes {
-			if !is_first {
+		return bytes_fmt (self.values_as_slice (), formatter);
+	}
+}
+
+impl fmt::Display for BytesMutable {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		return bytes_fmt (self.values_as_slice (), formatter);
+	}
+}
+
+#[ inline (always) ]
+fn bytes_fmt (bytes : &[u8], formatter : &mut fmt::Formatter) -> (fmt::Result) {
+	try! (formatter.write_str ("#u8("));
+	let mut is_first = true;
+	for byte in bytes {
+		if !is_first {
+			try! (formatter.write_char (' '));
+		} else {
+			is_first = false;
+		}
+		try! (write! (formatter, "{}", byte));
+	}
+	try! (formatter.write_char (')'));
+	succeed! (());
+}
+
+
+
+
+impl fmt::Display for PairImmutable {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		return pair_fmt (self.values_ref (), formatter);
+	}
+}
+
+impl fmt::Display for PairMutable {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		return pair_fmt (self.values_ref (), formatter);
+	}
+}
+
+#[ inline (always) ]
+fn pair_fmt (pair : &(Value, Value), formatter : &mut fmt::Formatter) -> (fmt::Result) {
+	try! (formatter.write_char ('('));
+	let mut cursor = pair;
+	loop {
+		let left = &cursor.0;
+		let right = &cursor.1;
+		try! (fmt::Display::fmt (left, formatter));
+		match *right {
+			Value::Singleton (_, ValueSingleton::Null, _) =>
+				break,
+			Value::PairImmutable (_, ref right, _) => {
 				try! (formatter.write_char (' '));
-			} else {
-				is_first = false;
-			}
-			try! (write! (formatter, "{}", byte));
-		}
-		try! (formatter.write_char (')'));
-		succeed! (());
-	}
-}
-
-
-
-
-impl fmt::Display for Pair {
-	
-	#[ inline (never) ]
-	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		try! (formatter.write_char ('('));
-		let mut cursor = self;
-		loop {
-			let (left, right) = cursor.left_and_right ();
-			try! (left.fmt (formatter));
-			match *right {
-				Value::Singleton (_, ValueSingleton::Null, _) =>
-					break,
-				Value::Pair (_, ref right, _) => {
-					try! (formatter.write_char (' '));
-					cursor = right;
-				},
-				_ => {
-					try! (formatter.write_char (' '));
-					try! (formatter.write_char ('.'));
-					try! (formatter.write_char (' '));
-					try! (right.fmt (formatter));
-					break;
-				},
-			}
-			if self.is_self (cursor) {
+				cursor = right.values_ref ();
+			},
+			Value::PairMutable (_, ref right, _) => {
+				try! (formatter.write_char (' '));
+				cursor = right.values_ref ();
+			},
+			_ => {
+				try! (formatter.write_char (' '));
 				try! (formatter.write_char ('.'));
 				try! (formatter.write_char (' '));
-				try! (formatter.write_str ("#cyclic"));
+				try! (fmt::Display::fmt (right, formatter));
 				break;
-			}
+			},
 		}
-		try! (formatter.write_char (')'));
-		succeed! (());
+		if ptr::eq (pair, cursor) {
+			try! (formatter.write_char ('.'));
+			try! (formatter.write_char (' '));
+			try! (formatter.write_str ("#cyclic"));
+			break;
+		}
 	}
+	try! (formatter.write_char (')'));
+	succeed! (());
 }
 
 
 
 
-impl fmt::Display for Array {
+impl fmt::Display for ArrayImmutable {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		let values = self.values_as_iter ();
-		try! (formatter.write_str ("#("));
-		let mut is_first = true;
-		for value in values {
-			if !is_first {
-				try! (formatter.write_char (' '));
-			} else {
-				is_first = false;
-			}
-			try! (value.fmt (formatter));
-		}
-		try! (formatter.write_char (')'));
-		succeed! (());
+		return array_fmt (self.values_as_slice (), formatter);
 	}
+}
+
+impl fmt::Display for ArrayMutable {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		return array_fmt (self.values_as_slice (), formatter);
+	}
+}
+
+#[ inline (always) ]
+fn array_fmt (values : &[Value], formatter : &mut fmt::Formatter) -> (fmt::Result) {
+	try! (formatter.write_str ("#("));
+	let mut is_first = true;
+	for value in values {
+		if !is_first {
+			try! (formatter.write_char (' '));
+		} else {
+			is_first = false;
+		}
+		try! (fmt::Display::fmt (value, formatter));
+	}
+	try! (formatter.write_char (')'));
+	succeed! (());
 }
 
 

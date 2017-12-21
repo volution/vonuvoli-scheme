@@ -21,10 +21,14 @@ def_test! (test__0, {
 	println! ("## size-of `NumberReal`: {}", mem::size_of::<NumberReal> ());
 	println! ("## size-of `Character`: {}", mem::size_of::<Character> ());
 	println! ("## size-of `Symbol`: {}", mem::size_of::<Symbol> ());
-	println! ("## size-of `String`: {}", mem::size_of::<String> ());
-	println! ("## size-of `Bytes`: {}", mem::size_of::<Bytes> ());
-	println! ("## size-of `Pair`: {}", mem::size_of::<Pair> ());
-	println! ("## size-of `Array`: {}", mem::size_of::<Array> ());
+	println! ("## size-of `StringImmutable`: {}", mem::size_of::<StringImmutable> ());
+	println! ("## size-of `StringMutable`: {}", mem::size_of::<StringMutable> ());
+	println! ("## size-of `BytesImmutable`: {}", mem::size_of::<BytesImmutable> ());
+	println! ("## size-of `BytesMutable`: {}", mem::size_of::<BytesMutable> ());
+	println! ("## size-of `PairImmutable`: {}", mem::size_of::<PairImmutable> ());
+	println! ("## size-of `PairMutable`: {}", mem::size_of::<PairMutable> ());
+	println! ("## size-of `ArrayImmutable`: {}", mem::size_of::<ArrayImmutable> ());
+	println! ("## size-of `ArrayMutable`: {}", mem::size_of::<ArrayMutable> ());
 	println! ("## size-of `Error`: {}", mem::size_of::<Error> ());
 	println! ("## size-of `Lambda`: {}", mem::size_of::<Lambda> ());
 	println! ("## size-of `ProcedurePrimitive`: {}", mem::size_of::<ProcedurePrimitive> ());

@@ -714,11 +714,17 @@ pub fn list_class_on (value : &Value) -> (Outcome<ListClass>) {
 			succeed! (ListClass::Empty),
 		
 		ValueClass::Pair => {
-			let mut cursor = StdAsRef::<Pair>::as_ref (value) .right ();
+			let mut cursor = value;
 			loop {
 				match cursor.class () {
 					ValueClass::Pair =>
-						cursor = StdAsRef::<Pair>::as_ref (cursor) .right (),
+						if let Ok (cursor_pair) = StdTryAsRef::<PairImmutable>::try_as_ref (cursor) {
+							cursor = cursor_pair.right ();
+						} else if let Ok (cursor_pair) =  StdTryAsRef::<PairMutable>::try_as_ref (cursor) {
+							cursor = cursor_pair.right ();
+						} else {
+							panic! ("e57b1ed5");
+						},
 					ValueClass::Null =>
 						succeed! (ListClass::Proper),
 					_ =>

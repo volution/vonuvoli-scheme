@@ -755,17 +755,17 @@ def_value_try_into! (try_into_character, value_type! (Character));
 def_value_try_as_ref! (try_as_symbol_ref, value_type! (Symbol));
 def_value_try_into! (try_into_symbol, value_type! (Symbol));
 
-def_value_try_as_ref! (try_as_string_ref, value_type! (String));
-def_value_try_into! (try_into_string, value_type! (String));
+def_value_try_as_ref! (try_as_string_ref, value_type! (StringImmutable));
+def_value_try_into! (try_into_string, value_type! (StringImmutable));
 
-def_value_try_as_ref! (try_as_bytes_ref, value_type! (Bytes));
-def_value_try_into! (try_into_bytes, value_type! (Bytes));
+def_value_try_as_ref! (try_as_bytes_ref, value_type! (BytesImmutable));
+def_value_try_into! (try_into_bytes, value_type! (BytesImmutable));
 
-def_value_try_as_ref! (try_as_pair_ref, value_type! (Pair));
-def_value_try_into! (try_into_pair, value_type! (Pair));
+def_value_try_as_ref! (try_as_pair_ref, value_type! (PairImmutable));
+def_value_try_into! (try_into_pair, value_type! (PairImmutable));
 
-def_value_try_as_ref! (try_as_array_ref, value_type! (Array));
-def_value_try_into! (try_into_array, value_type! (Array));
+def_value_try_as_ref! (try_as_array_ref, value_type! (ArrayImmutable));
+def_value_try_into! (try_into_array, value_type! (ArrayImmutable));
 
 def_value_try_as_ref! (try_as_values_ref, value_type! (Values));
 def_value_try_into! (try_into_values, value_type! (Values));

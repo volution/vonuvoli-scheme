@@ -24,11 +24,15 @@ impl hash::Hash for Value {
 			Value::Character (_, ref value, _) => { hasher.write_u32 (0x29e07200); value.hash (hasher); },
 			
 			Value::Symbol (_, ref value, _) => { hasher.write_u32 (0x1fcc2d57); value.hash (hasher); },
-			Value::String (_, ref value, _) => { hasher.write_u32 (0x85932088); value.hash (hasher); },
-			Value::Bytes (_, ref value, _) => { hasher.write_u32 (0xd6ec09a4); value.hash (hasher); },
+			Value::StringImmutable (_, ref value, _) => { hasher.write_u32 (0x85932088); value.hash (hasher); },
+			Value::StringMutable (_, ref value, _) => { hasher.write_u32 (0x5dffe8a7); value.hash (hasher); },
+			Value::BytesImmutable (_, ref value, _) => { hasher.write_u32 (0xd6ec09a4); value.hash (hasher); },
+			Value::BytesMutable (_, ref value, _) => { hasher.write_u32 (0x15527940); value.hash (hasher); },
 			
-			Value::Pair (_, ref value, _) => { hasher.write_u32 (0x1064fab6); value.hash (hasher); },
-			Value::Array (_, ref value, _) => { hasher.write_u32 (0x0b86fd20); value.hash (hasher); },
+			Value::PairImmutable (_, ref value, _) => { hasher.write_u32 (0x1064fab6); value.hash (hasher); },
+			Value::PairMutable (_, ref value, _) => { hasher.write_u32 (0x4bac60cf); value.hash (hasher); },
+			Value::ArrayImmutable (_, ref value, _) => { hasher.write_u32 (0x0b86fd20); value.hash (hasher); },
+			Value::ArrayMutable (_, ref value, _) => { hasher.write_u32 (0xb20f12de); value.hash (hasher); },
 			Value::Values (_, ref value, _) => { hasher.write_u32 (0xb5f3786a); value.hash (hasher); },
 			
 			Value::Error (_, ref value, _) => { hasher.write_u32 (0x15f15501); value.hash (hasher); },

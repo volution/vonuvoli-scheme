@@ -531,7 +531,8 @@ fn __parse_array<'input>(
                                                 match __seq_res {
                                                     Matched(__pos, _) => {
                                                         Matched(__pos, {
-                                                            values::array_new(elements).into()
+                                                            values::array_immutable_new(elements)
+                                                                .into()
                                                         })
                                                     }
                                                     Failed => Failed,
@@ -2658,7 +2659,8 @@ fn __parse_string_quoted<'input>(
                         match __seq_res {
                             Matched(__pos, _) => {
                                 Matched(__pos, {
-                                    values::string_clone_characters(elements.as_slice()).into()
+                                    values::string_immutable_clone_characters(elements.as_slice())
+                                        .into()
                                 })
                             }
                             Failed => Failed,
@@ -2967,9 +2969,7 @@ fn __parse_string_array<'input>(
                                                 match __seq_res {
                                                     Matched(__pos, _) => {
                                                         Matched(__pos, {
-                                                            values::string_clone_characters(
-                                                                elements.as_slice(),
-                                                            ).into()
+                                                            values::string_immutable_clone_characters (elements.as_slice ()) .into ()
                                                         })
                                                     }
                                                     Failed => Failed,
@@ -3125,7 +3125,8 @@ fn __parse_bytes<'input>(
                                                 match __seq_res {
                                                     Matched(__pos, _) => {
                                                         Matched(__pos, {
-                                                            values::bytes_new(elements).into()
+                                                            values::bytes_immutable_new(elements)
+                                                                .into()
                                                         })
                                                     }
                                                     Failed => Failed,

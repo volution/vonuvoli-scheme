@@ -132,7 +132,7 @@ pub fn list_pair_at (list : &Value, index : usize) -> (Outcome<Value>) {
 	}
 }
 
-pub fn list_pair_at_ref (list : &Value, index : usize) -> (Outcome<Option<&Pair>>) {
+pub fn list_pair_at_ref (list : &Value, index : usize) -> (Outcome<Option<&PairImmutable>>) {
 	let mut iterator = try! (ListPairIterator::new (list));
 	let mut offset = 0;
 	loop {
@@ -617,7 +617,8 @@ pub fn vec_list_drain_dotted (buffer : &mut ValueVec, list : &Value) -> (Outcome
 	loop {
 		match cursor.class () {
 			ValueClass::Pair => {
-				let (left, right) = StdAsRef::<Pair>::as_ref (cursor) .left_and_right ();
+				// FIXME:  Add support for mutable pairs!
+				let (left, right) = try! (StdTryAsRef::<PairImmutable>::try_as_ref (cursor)) .left_and_right ();
 				buffer.push (left.clone ());
 				cursor = right;
 			},
@@ -783,7 +784,8 @@ pub fn vec_list_ref_drain_dotted <'a : 'b, 'b> (buffer : &'b mut StdVec<&'a Valu
 	loop {
 		match cursor.class () {
 			ValueClass::Pair => {
-				let (left, right) = StdAsRef::<Pair>::as_ref (cursor) .left_and_right ();
+				// FIXME:  Add support for mutable pairs!
+				let (left, right) = try! (StdTryAsRef::<PairImmutable>::try_as_ref (cursor)) .left_and_right ();
 				buffer.push (left);
 				cursor = right;
 			},
@@ -820,7 +822,12 @@ impl <'a> iter::Iterator for ListIterator <'a> {
 		let cursor = self.0;
 		let (value, cursor) = match cursor.class () {
 			ValueClass::Pair =>
-				StdAsRef::<Pair>::as_ref (cursor) .left_and_right (),
+				// FIXME:  Add support for mutable pairs!
+				if let Ok (pair) = StdTryAsRef::<PairImmutable>::try_as_ref (cursor) {
+					pair.left_and_right ()
+				} else {
+					return Some (failed! (0xcf8b7fbb));
+				},
 			ValueClass::Null =>
 				return None,
 			_ =>
@@ -850,17 +857,21 @@ impl <'a> ListPairIterator <'a> {
 
 impl <'a> iter::Iterator for ListPairIterator <'a> {
 	
-	type Item = Outcome<&'a Pair>;
+	type Item = Outcome<&'a PairImmutable>;
 	
-	fn next (&mut self) -> (Option<Outcome<&'a Pair>>) {
+	fn next (&mut self) -> (Option<Outcome<&'a PairImmutable>>) {
 		
 		let cursor = self.0;
 		let (pair, cursor) = match cursor.class () {
-			ValueClass::Pair => {
-				let pair = StdAsRef::<Pair>::as_ref (cursor);
-				let cursor = pair.right ();
-				(pair, cursor)
-			},
+			ValueClass::Pair =>
+				// FIXME:  Add support for mutable pairs!
+				if let Ok (pair) = StdTryAsRef::<PairImmutable>::try_as_ref (cursor) {
+					pair.left_and_right ();
+					let cursor = pair.right ();
+					(pair, cursor)
+				} else {
+					return Some (failed! (0xcf8b7fbb));
+				},
 			ValueClass::Null =>
 				return None,
 			_ =>
