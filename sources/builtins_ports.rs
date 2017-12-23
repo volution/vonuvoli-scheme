@@ -248,15 +248,31 @@ pub fn port_call_and_close (port : &Value, callable : &Value, evaluator : &mut E
 
 pub fn port_bytes_reader_new (bytes : &Value) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_ref! (bytes);
-	let bytes = bytes.values_rc_clone ();
-	let port = try! (Port::new_bytes_reader_from_bytes (bytes, 0, None));
+	let port = match bytes {
+		BytesRef::Immutable (ref bytes, _) => {
+			let bytes = bytes.values_rc_clone ();
+			try! (Port::new_bytes_reader_from_bytes_immutable (bytes, 0, None))
+		},
+		BytesRef::Mutable (ref bytes, _) => {
+			let bytes = bytes.values_rc_clone ();
+			try! (Port::new_bytes_reader_from_bytes_mutable (bytes, 0, None))
+		},
+	};
 	succeed! (port.into ());
 }
 
 pub fn port_string_reader_new (string : &Value) -> (Outcome<Value>) {
 	let string = try_as_string_ref! (string);
-	let string = string.string_rc_clone ();
-	let port = try! (Port::new_bytes_reader_from_string (string, 0, None));
+	let port = match string {
+		StringRef::Immutable (ref string, _) => {
+			let string = string.string_rc_clone ();
+			try! (Port::new_bytes_reader_from_string_immutable (string, 0, None))
+		},
+		StringRef::Mutable (ref string, _) => {
+			let string = string.string_rc_clone ();
+			try! (Port::new_bytes_reader_from_string_mutable (string, 0, None))
+		},
+	};
 	succeed! (port.into ());
 }
 

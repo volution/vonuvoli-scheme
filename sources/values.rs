@@ -24,8 +24,8 @@ pub mod exports {
 	pub use super::Boolean;
 	pub use super::Character;
 	pub use super::Symbol;
-	pub use super::{String, StringImmutable, StringMutable};
-	pub use super::{Bytes, BytesImmutable, BytesMutable};
+	pub use super::{String, StringRef, StringImmutable, StringMutable};
+	pub use super::{Bytes, BytesRef, BytesImmutable, BytesMutable};
 	pub use super::{Pair, PairImmutable, PairMutable};
 	pub use super::{Array, ArrayImmutable, ArrayMutable};
 	pub use super::Values;
@@ -447,6 +447,89 @@ pub trait String {
 
 
 
+#[ derive (Debug) ]
+pub enum StringRef <'a> {
+	Immutable (&'a StringImmutable, &'a StdString),
+	Mutable (&'a StringMutable, &'a StdString),
+	// Mutable (&'a StringMutable, StdRef<'a, StdString>),
+}
+
+
+impl <'a> StringRef<'a> {
+	
+	#[ inline (always) ]
+	pub fn try (value : &'a Value) -> (Outcome<StringRef<'a>>) {
+		match *value {
+			Value::StringImmutable (_, ref value, _) =>
+				succeed! (StringRef::Immutable (value, value.string_ref ())),
+			Value::StringMutable (_, ref value, _) =>
+				succeed! (StringRef::Mutable (value, value.string_ref ())),
+			_ =>
+				fail! (0x20d78ff4),
+		}
+	}
+}
+
+
+impl <'a> String for StringRef<'a> {
+	
+	#[ inline (always) ]
+	fn string_as_str (&self) -> (&str) {
+		self.string_ref () .as_str ()
+	}
+	
+	#[ inline (always) ]
+	fn string_ref (&self) -> (&StdString) {
+		match *self {
+			StringRef::Immutable (_, ref string) => string,
+			StringRef::Mutable (_, ref string) => string,
+		}
+	}
+	
+	#[ inline (always) ]
+	fn string_clone (&self) -> (StdString) {
+		self.string_ref () .clone ()
+	}
+	
+	#[ inline (always) ]
+	fn string_is_empty (&self) -> (bool) {
+		self.string_ref () .is_empty ()
+	}
+	
+	#[ inline (always) ]
+	fn string_is_not_empty (&self) -> (bool) {
+		!self.string_ref () .is_empty ()
+	}
+	
+	#[ inline (always) ]
+	fn string_eq (&self, other : &str) -> (bool) {
+		self.string_ref () .eq (other)
+	}
+	
+	#[ inline (always) ]
+	fn string_utf8_bytes_count (&self) -> (usize) {
+		self.string_ref () .len ()
+	}
+	
+	#[ inline (always) ]
+	fn string_chars (&self) -> (str::Chars) {
+		self.string_ref () .chars ()
+	}
+	
+	#[ inline (always) ]
+	fn string_chars_count_compute (&self) -> (usize) {
+		self.string_chars () .count ()
+	}
+	
+	#[ inline (always) ]
+	fn string_char_at_compute (&self, index : usize) -> (Option<char>) {
+		self.string_chars () .nth (index)
+	}
+}
+
+
+
+
 #[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub struct StringImmutable ( StdRc<StdString> );
 
@@ -603,6 +686,74 @@ pub trait Bytes {
 	fn values_is_empty (&self) -> (bool);
 	fn values_is_not_empty (&self) -> (bool);
 	fn values_length (&self) -> (usize);
+}
+
+
+
+
+#[ derive (Debug) ]
+pub enum BytesRef <'a> {
+	Immutable (&'a BytesImmutable, &'a StdVec<u8>),
+	Mutable (&'a BytesMutable, &'a StdVec<u8>),
+	// Mutable (&'a BytesMutable, StdRef<'a, StdVec<u8>>),
+}
+
+
+impl <'a> BytesRef<'a> {
+	
+	#[ inline (always) ]
+	pub fn try (value : &'a Value) -> (Outcome<BytesRef<'a>>) {
+		match *value {
+			Value::BytesImmutable (_, ref value, _) =>
+				succeed! (BytesRef::Immutable (value, value.values_ref ())),
+			Value::BytesMutable (_, ref value, _) =>
+				succeed! (BytesRef::Mutable (value, value.values_ref ())),
+			_ =>
+				fail! (0xb6042061),
+		}
+	}
+}
+
+
+impl <'a> Bytes for BytesRef<'a> {
+	
+	#[ inline (always) ]
+	fn values_as_slice (&self) -> (&[u8]) {
+		self.values_ref () .as_slice ()
+	}
+	
+	#[ inline (always) ]
+	fn values_as_iter (&self) -> (slice::Iter<u8>) {
+		self.values_ref () .iter ()
+	}
+	
+	#[ inline (always) ]
+	fn values_ref (&self) -> (&StdVec<u8>) {
+		match *self {
+			BytesRef::Immutable (_, ref bytes) => bytes,
+			BytesRef::Mutable (_, ref bytes) => bytes,
+		}
+	}
+	
+	#[ inline (always) ]
+	fn values_clone (&self) -> (StdVec<u8>) {
+		self.values_ref () .clone ()
+	}
+	
+	#[ inline (always) ]
+	fn values_is_empty (&self) -> (bool) {
+		self.values_ref () .is_empty ()
+	}
+	
+	#[ inline (always) ]
+	fn values_is_not_empty (&self) -> (bool) {
+		!self.values_ref () .is_empty ()
+	}
+	
+	#[ inline (always) ]
+	fn values_length (&self) -> (usize) {
+		self.values_ref () .len ()
+	}
 }
 
 

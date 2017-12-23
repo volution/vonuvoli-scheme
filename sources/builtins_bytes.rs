@@ -13,7 +13,7 @@ use super::prelude::*;
 
 pub mod exports {
 	
-	pub use super::{bytes_at, bytes_at_ref, bytes_at_set};
+	pub use super::{bytes_at, bytes_at_set};
 	
 	pub use super::{bytes_empty};
 	pub use super::{bytes_collect_bytes, bytes_collect_values, bytes_collect_values_ref};
@@ -38,13 +38,10 @@ pub mod exports {
 
 
 pub fn bytes_at (bytes : &Value, index : usize) -> (Outcome<Value>) {
-	succeed! (try! (bytes_at_ref (bytes, index)) .clone () .into ());
-}
-
-pub fn bytes_at_ref (bytes : &Value, index : usize) -> (Outcome<&u8>) {
 	let bytes = try_as_bytes_ref! (bytes);
-	if let Some (byte) = bytes.values_ref () .get (index) {
-		succeed! (byte);
+	let bytes = bytes.values_ref ();
+	if let Some (byte) = bytes.get (index) {
+		succeed! (byte.clone () .into ());
 	} else {
 		fail! (0x9a4ad939);
 	}
@@ -395,7 +392,7 @@ pub fn vec_bytes_drain (buffer : &mut StdVec<u8>, bytes : &Value) -> (Outcome<()
 
 
 
-pub struct BytesIterator <'a> ( &'a Bytes, slice::Iter<'a, u8> );
+pub struct BytesIterator <'a> ( BytesRef<'a>, slice::Iter<'a, u8> );
 
 
 impl <'a> BytesIterator <'a> {
@@ -405,8 +402,9 @@ impl <'a> BytesIterator <'a> {
 		return BytesIterator::new_a (bytes);
 	}
 	
-	pub fn new_a (bytes : &'a Bytes) -> (Outcome<BytesIterator<'a>>) {
-		succeed! (BytesIterator (bytes, bytes.values_ref () .iter ()));
+	pub fn new_a (bytes : BytesRef<'a>) -> (Outcome<BytesIterator<'a>>) {
+		let iterator = unsafe { mem::transmute (bytes.values_as_iter ()) };
+		succeed! (BytesIterator (bytes, iterator));
 	}
 }
 

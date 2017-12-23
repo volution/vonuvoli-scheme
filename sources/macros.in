@@ -755,11 +755,17 @@ def_value_try_into! (try_into_character, value_type! (Character));
 def_value_try_as_ref! (try_as_symbol_ref, value_type! (Symbol));
 def_value_try_into! (try_into_symbol, value_type! (Symbol));
 
-def_value_try_as_ref! (try_as_string_ref, value_type! (StringImmutable));
-def_value_try_into! (try_into_string, value_type! (StringImmutable));
+def_value_try_as_ref! (try_as_string_immutable_ref, value_type! (StringImmutable));
+def_value_try_into! (try_into_string_immutable, value_type! (StringImmutable));
 
-def_value_try_as_ref! (try_as_bytes_ref, value_type! (BytesImmutable));
-def_value_try_into! (try_into_bytes, value_type! (BytesImmutable));
+def_value_try_as_ref! (try_as_string_mutable_ref, value_type! (StringMutable));
+def_value_try_into! (try_into_string_mutable, value_type! (StringMutable));
+
+def_value_try_as_ref! (try_as_bytes_immutable_ref, value_type! (BytesImmutable));
+def_value_try_into! (try_into_bytes_immutable, value_type! (BytesImmutable));
+
+def_value_try_as_ref! (try_as_bytes_mutable_ref, value_type! (BytesMutable));
+def_value_try_into! (try_into_bytes_mutable, value_type! (BytesMutable));
 
 def_value_try_as_ref! (try_as_pair_ref, value_type! (PairImmutable));
 def_value_try_into! (try_into_pair, value_type! (PairImmutable));
@@ -805,6 +811,21 @@ def_value_try_into! (try_into_context, value_type! (Context));
 
 def_value_try_as_ref! (try_as_binding_ref, value_type! (Binding));
 def_value_try_into! (try_into_binding, value_type! (Binding));
+
+
+
+
+macro_rules! try_as_string_ref {
+	( $value : expr ) => {
+		try! ($crate::values::exports::StringRef::try ($value))
+	};
+}
+
+macro_rules! try_as_bytes_ref {
+	( $value : expr ) => {
+		try! ($crate::values::exports::BytesRef::try ($value))
+	};
+}
 
 
 

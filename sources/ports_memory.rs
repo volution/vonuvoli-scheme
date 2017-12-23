@@ -27,8 +27,10 @@ pub struct PortBackendBytesReader {
 }
 
 enum PortBackendBytesReaderSource {
-	Bytes ( StdRc<StdVec<u8>> ),
-	String ( StdRc<StdString> ),
+	BytesImmutable ( StdRc<StdVec<u8>> ),
+	BytesMutable ( StdRc<StdVec<u8>> ),
+	StringImmutable ( StdRc<StdString> ),
+	StringMutable ( StdRc<StdString> ),
 	None,
 }
 
@@ -188,9 +190,13 @@ impl PortBackendReader for PortBackendBytesReader {
 	
 	fn is_input_open (&mut self) -> (bool) {
 		match self.source {
-			PortBackendBytesReaderSource::Bytes (_) =>
+			PortBackendBytesReaderSource::BytesImmutable (_) =>
 				return true,
-			PortBackendBytesReaderSource::String (_) =>
+			PortBackendBytesReaderSource::BytesMutable (_) =>
+				return true,
+			PortBackendBytesReaderSource::StringImmutable (_) =>
+				return true,
+			PortBackendBytesReaderSource::StringMutable (_) =>
 				return true,
 			PortBackendBytesReaderSource::None =>
 				return false,
@@ -201,12 +207,20 @@ impl PortBackendReader for PortBackendBytesReader {
 
 impl PortBackendBytesReader {
 	
-	pub fn new_from_bytes (bytes : StdRc<StdVec<u8>>, range_start : usize, range_end : Option<usize>) -> (Outcome<PortBackendBytesReader>) {
-		return PortBackendBytesReader::new_from_source (PortBackendBytesReaderSource::Bytes (bytes), range_start, range_end);
+	pub fn new_from_bytes_immutable (bytes : StdRc<StdVec<u8>>, range_start : usize, range_end : Option<usize>) -> (Outcome<PortBackendBytesReader>) {
+		return PortBackendBytesReader::new_from_source (PortBackendBytesReaderSource::BytesImmutable (bytes), range_start, range_end);
 	}
 	
-	pub fn new_from_string (string : StdRc<StdString>, range_start : usize, range_end : Option<usize>) -> (Outcome<PortBackendBytesReader>) {
-		return PortBackendBytesReader::new_from_source (PortBackendBytesReaderSource::String (string), range_start, range_end);
+	pub fn new_from_bytes_mutable (bytes : StdRc<StdVec<u8>>, range_start : usize, range_end : Option<usize>) -> (Outcome<PortBackendBytesReader>) {
+		return PortBackendBytesReader::new_from_source (PortBackendBytesReaderSource::BytesMutable (bytes), range_start, range_end);
+	}
+	
+	pub fn new_from_string_immutable (string : StdRc<StdString>, range_start : usize, range_end : Option<usize>) -> (Outcome<PortBackendBytesReader>) {
+		return PortBackendBytesReader::new_from_source (PortBackendBytesReaderSource::StringImmutable (string), range_start, range_end);
+	}
+	
+	pub fn new_from_string_mutable (string : StdRc<StdString>, range_start : usize, range_end : Option<usize>) -> (Outcome<PortBackendBytesReader>) {
+		return PortBackendBytesReader::new_from_source (PortBackendBytesReaderSource::StringMutable (string), range_start, range_end);
 	}
 	
 	fn new_from_source (source : PortBackendBytesReaderSource, range_start : usize, range_end : Option<usize>) -> (Outcome<PortBackendBytesReader>) {
@@ -227,9 +241,13 @@ impl PortBackendBytesReader {
 	fn buffer_ref_if_open (&mut self) -> (Outcome<Option<&[u8]>>) {
 		
 		let buffer = match self.source {
-			PortBackendBytesReaderSource::Bytes (ref source) =>
+			PortBackendBytesReaderSource::BytesImmutable (ref source) =>
 				source.as_ref (),
-			PortBackendBytesReaderSource::String (ref source) =>
+			PortBackendBytesReaderSource::BytesMutable (ref source) =>
+				source.as_ref (),
+			PortBackendBytesReaderSource::StringImmutable (ref source) =>
+				source.as_ref () .as_bytes (),
+			PortBackendBytesReaderSource::StringMutable (ref source) =>
 				source.as_ref () .as_bytes (),
 			PortBackendBytesReaderSource::None =>
 				succeed! (None),

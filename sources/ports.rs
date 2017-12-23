@@ -164,23 +164,37 @@ pub trait PortBackendWriter {
 impl Port {
 	
 	
-	pub fn new_bytes_reader_from_bytes (buffer : StdRc<StdVec<u8>>, range_start : usize, range_end : Option<usize>) -> (Outcome<Port>) {
-		let backend = try! (PortBackendBytesReader::new_from_bytes (buffer, range_start, range_end));
+	pub fn new_bytes_reader_from_bytes_immutable (buffer : StdRc<StdVec<u8>>, range_start : usize, range_end : Option<usize>) -> (Outcome<Port>) {
+		let backend = try! (PortBackendBytesReader::new_from_bytes_immutable (buffer, range_start, range_end));
 		let backend = PortBackend::BytesReader (backend);
 		return Port::new_from_backend (backend);
 	}
 	
-	pub fn new_bytes_reader_from_string (buffer : StdRc<StdString>, range_start : usize, range_end : Option<usize>) -> (Outcome<Port>) {
-		let backend = try! (PortBackendBytesReader::new_from_string (buffer, range_start, range_end));
+	pub fn new_bytes_reader_from_bytes_mutable (buffer : StdRc<StdVec<u8>>, range_start : usize, range_end : Option<usize>) -> (Outcome<Port>) {
+		let backend = try! (PortBackendBytesReader::new_from_bytes_mutable (buffer, range_start, range_end));
 		let backend = PortBackend::BytesReader (backend);
 		return Port::new_from_backend (backend);
 	}
+	
+	pub fn new_bytes_reader_from_string_immutable (buffer : StdRc<StdString>, range_start : usize, range_end : Option<usize>) -> (Outcome<Port>) {
+		let backend = try! (PortBackendBytesReader::new_from_string_immutable (buffer, range_start, range_end));
+		let backend = PortBackend::BytesReader (backend);
+		return Port::new_from_backend (backend);
+	}
+	
+	pub fn new_bytes_reader_from_string_mutable (buffer : StdRc<StdString>, range_start : usize, range_end : Option<usize>) -> (Outcome<Port>) {
+		let backend = try! (PortBackendBytesReader::new_from_string_mutable (buffer, range_start, range_end));
+		let backend = PortBackend::BytesReader (backend);
+		return Port::new_from_backend (backend);
+	}
+	
 	
 	pub fn new_bytes_writer () -> (Outcome<Port>) {
 		let backend = try! (PortBackendBytesWriter::new ());
 		let backend = PortBackend::BytesWriter (backend);
 		return Port::new_from_backend (backend);
 	}
+	
 	
 	pub fn new_native_reader_from_unbuffered (reader : StdBox<io::Read>) -> (Outcome<Port>) {
 		let backend = try! (PortBackendNativeReader::new_from_unbuffered (reader));
@@ -193,6 +207,7 @@ impl Port {
 		let backend = PortBackend::NativeWriter (backend);
 		return Port::new_from_backend (backend);
 	}
+	
 	
 	pub fn new_from_backend (backend : PortBackend) -> (Outcome<Port>) {
 		let internals = PortInternals {

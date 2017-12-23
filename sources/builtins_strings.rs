@@ -443,7 +443,7 @@ pub fn vec_string_drain (buffer : &mut StdVec<char>, string : &Value) -> (Outcom
 
 
 
-pub struct StringIterator <'a> ( &'a String, str::Chars<'a> );
+pub struct StringIterator <'a> ( StringRef<'a>, str::Chars<'a> );
 
 
 impl <'a> StringIterator <'a> {
@@ -453,8 +453,9 @@ impl <'a> StringIterator <'a> {
 		return StringIterator::new_a (string);
 	}
 	
-	pub fn new_a (string : &'a String) -> (Outcome<StringIterator<'a>>) {
-		succeed! (StringIterator (string, string.string_chars ()));
+	pub fn new_a (string : StringRef<'a>) -> (Outcome<StringIterator<'a>>) {
+		let iterator = unsafe { mem::transmute (string.string_chars ()) };
+		succeed! (StringIterator (string, iterator));
 	}
 }
 
@@ -511,13 +512,15 @@ impl <'a> iter::Iterator for StringIterators <'a> {
 
 
 pub fn string_to_upper_case (string : &Value) -> (Outcome<Value>) {
-	let string = try_as_string_ref! (string) .string_as_str ();
+	let string = try_as_string_ref! (string);
+	let string = string.string_as_str ();
 	let string = string.to_uppercase ();
 	succeed! (string_new (string) .into ());
 }
 
 pub fn string_to_lower_case (string : &Value) -> (Outcome<Value>) {
-	let string = try_as_string_ref! (string) .string_as_str ();
+	let string = try_as_string_ref! (string);
+	let string = string.string_as_str ();
 	let string = string.to_lowercase ();
 	succeed! (string_new (string) .into ());
 }
@@ -529,13 +532,15 @@ pub fn string_to_fold_case (string : &Value) -> (Outcome<Value>) {
 
 
 pub fn symbol_to_upper_case (symbol : &Value) -> (Outcome<Value>) {
-	let string = try_as_symbol_ref! (symbol) .string_as_str ();
+	let string = try_as_symbol_ref! (symbol);
+	let string = string.string_as_str ();
 	let string = string.to_uppercase ();
 	succeed! (symbol_new (string) .into ());
 }
 
 pub fn symbol_to_lower_case (symbol : &Value) -> (Outcome<Value>) {
-	let string = try_as_symbol_ref! (symbol) .string_as_str ();
+	let string = try_as_symbol_ref! (symbol);
+	let string = string.string_as_str ();
 	let string = string.to_lowercase ();
 	succeed! (symbol_new (string) .into ());
 }
@@ -583,12 +588,14 @@ pub fn character_to_fold_case (character : &Value) -> (Outcome<Value>) {
 
 
 pub fn string_to_symbol (string : &Value) -> (Outcome<Value>) {
-	let string = try_as_string_ref! (string) .string_as_str ();
+	let string = try_as_string_ref! (string);
+	let string = string.string_as_str ();
 	succeed! (symbol_clone_str (string) .into ());
 }
 
 pub fn symbol_to_string (symbol : &Value) -> (Outcome<Value>) {
-	let string = try_as_symbol_ref! (symbol) .string_as_str ();
+	let string = try_as_symbol_ref! (symbol);
+	let string = string.string_as_str ();
 	succeed! (string_clone_str (string) .into ());
 }
 
@@ -596,7 +603,8 @@ pub fn symbol_to_string (symbol : &Value) -> (Outcome<Value>) {
 
 
 pub fn string_to_number (string : &Value, radix : Option<&Value>) -> (Outcome<Value>) {
-	let string = try_as_string_ref! (string) .string_as_str ();
+	let string = try_as_string_ref! (string);
+	let string = string.string_as_str ();
 	let radix = try! (number_radix_coerce (radix));
 	if let Ok (number) = i64::from_str_radix (string, radix.unwrap_or (10)) {
 		succeed! (number.into ());
