@@ -19,15 +19,15 @@ use super::prelude::*;
 
 pub mod exports {
 	
-	pub use super::{Value, ValueBox, ValueVec, ValueClass, ValueSingleton};
+	pub use super::{Value, ValueRef, ValueBox, ValueVec, ValueClass, ValueSingleton};
 	
 	pub use super::Boolean;
 	pub use super::Character;
 	pub use super::Symbol;
 	pub use super::{String, StringRef, StringImmutable, StringMutable};
 	pub use super::{Bytes, BytesRef, BytesImmutable, BytesMutable};
-	pub use super::{Pair, PairImmutable, PairMutable};
-	pub use super::{Array, ArrayImmutable, ArrayMutable};
+	pub use super::{Pair, PairRef, PairImmutable, PairMutable};
+	pub use super::{Array, ArrayRef, ArrayImmutable, ArrayMutable};
 	pub use super::Values;
 	
 	pub use super::{boolean, number_i64, number_f64, character};
@@ -285,6 +285,146 @@ pub const VALUE_META_2 : ValueMeta2 = ValueMeta2 (0, 0, 0, 0);
 
 
 
+#[ derive (Debug) ]
+pub enum ValueRef <'a> {
+	Immutable (&'a Value),
+	Mutable (StdRef<'a, Value>),
+}
+
+
+impl <'a> ValueRef<'a> {
+	
+	#[ inline (always) ]
+	pub fn clone (&self) -> (Value) {
+		match *self {
+			ValueRef::Immutable (value) =>
+				(*value) .clone () .into (),
+			ValueRef::Mutable (ref value) =>
+				(*value) .clone () .into (),
+		}
+	}
+	
+	#[ inline (always) ]
+	pub fn is_self <OtherRef : StdAsRef<Value>> (&self, other : OtherRef) -> (bool) {
+		Value::is_self (self.value_ref (), other.as_ref ())
+	}
+	
+	#[ inline (always) ]
+	pub fn value_ref (&self) -> (&Value) {
+		match *self {
+			ValueRef::Immutable (value) =>
+				value,
+			ValueRef::Mutable (ref value) =>
+				value,
+		}
+	}
+	
+	#[ inline (always) ]
+	pub fn map_value <Transformer> (self, transformer : Transformer) -> (ValueRef<'a>)
+			where Transformer : FnOnce (&Value) -> (&Value)
+	{
+		match self {
+			ValueRef::Immutable (value) =>
+				ValueRef::Immutable (transformer (value)),
+			ValueRef::Mutable (value) =>
+				ValueRef::Mutable (StdRef::map (value, transformer)),
+		}
+	}
+	
+	#[ inline (always) ]
+	pub fn map_generic <Transformer, Output> (self, transformer : Transformer) -> (GenericRef<'a, Output>)
+			where Transformer : FnOnce (&Value) -> (&Output)
+	{
+		match self {
+			ValueRef::Immutable (value) =>
+				GenericRef::Immutable (transformer (value)),
+			ValueRef::Mutable (value) =>
+				GenericRef::Mutable (StdRef::map (value, transformer)),
+		}
+	}
+}
+
+
+impl <'a> StdDeref for ValueRef<'a> {
+	
+	type Target = Value;
+	
+	#[ inline (always) ]
+	fn deref (&self) -> (&Value) {
+		match *self {
+			ValueRef::Immutable (value) =>
+				value,
+			ValueRef::Mutable (ref value) =>
+				&value,
+		}
+	}
+}
+
+
+impl <'a> StdAsRef<Value> for ValueRef<'a> {
+	
+	#[ inline (always) ]
+	fn as_ref (&self) -> (&Value) {
+		&self
+	}
+}
+
+
+
+
+#[ derive (Debug) ]
+pub enum GenericRef <'a, T : 'a> {
+	Immutable (&'a T),
+	Mutable (StdRef<'a, T>),
+}
+
+
+impl <'a, T : 'a> GenericRef<'a, T> {
+	
+	#[ inline (always) ]
+	pub fn generic_ref (&self) -> (&T) {
+		match *self {
+			GenericRef::Immutable (value) =>
+				value,
+			GenericRef::Mutable (ref value) =>
+				value,
+		}
+	}
+	
+	#[ inline (always) ]
+	pub fn is_self <OtherRef : StdAsRef<T>> (&self, other : OtherRef) -> (bool) {
+		ptr::eq (self.generic_ref (), other.as_ref ())
+	}
+}
+
+
+impl <'a, T : 'a> StdDeref for GenericRef<'a, T> {
+	
+	type Target = T;
+	
+	#[ inline (always) ]
+	fn deref (&self) -> (&T) {
+		match *self {
+			GenericRef::Immutable (value) =>
+				value,
+			GenericRef::Mutable (ref value) =>
+				&value,
+		}
+	}
+}
+
+
+impl <'a, T : 'a> StdAsRef<T> for GenericRef<'a, T> {
+	
+	#[ inline (always) ]
+	fn as_ref (&self) -> (&T) {
+		&self
+	}
+}
+
+
+
+
 #[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub struct Boolean ( pub bool );
 
@@ -370,6 +510,13 @@ pub struct Symbol ( StdRc<StdString> );
 
 
 impl Symbol {
+	
+	#[ inline (always) ]
+	pub fn is_self (&self, other : &Symbol) -> (bool) {
+		let self_0 = self.0.as_ref ();
+		let other_0 = other.0.as_ref ();
+		ptr::eq (self_0, other_0) && (self_0 == other_0)
+	}
 	
 	#[ inline (always) ]
 	pub fn string_rc_clone (&self) -> (StdRc<StdString>) {
@@ -467,6 +614,28 @@ impl <'a> StringRef<'a> {
 				fail! (0x20d78ff4),
 		}
 	}
+	
+	#[ inline (always) ]
+	pub fn clone (&self) -> (Value) {
+		match *self {
+			StringRef::Immutable (value, _) =>
+				(*value) .clone () .into (),
+			StringRef::Mutable (value, _) =>
+				(*value) .clone () .into (),
+		}
+	}
+	
+	#[ inline (always) ]
+	pub fn is_self (&self, other : &StringRef) -> (bool) {
+		match (self, other) {
+			(&StringRef::Immutable (self_0, _), &StringRef::Immutable (other_0, _)) =>
+				StringImmutable::is_self (self_0, other_0),
+			(&StringRef::Mutable (self_0, _), &StringRef::Mutable (other_0, _)) =>
+				StringMutable::is_self (self_0, other_0),
+			_ =>
+				false,
+		}
+	}
 }
 
 
@@ -475,8 +644,10 @@ impl <'a> String for StringRef<'a> {
 	#[ inline (always) ]
 	fn string_as_string (&self) -> (&StdString) {
 		match *self {
-			StringRef::Immutable (_, ref string) => string,
-			StringRef::Mutable (_, ref string) => string,
+			StringRef::Immutable (_, string) =>
+				string,
+			StringRef::Mutable (_, ref string) =>
+				string,
 		}
 	}
 }
@@ -484,7 +655,7 @@ impl <'a> String for StringRef<'a> {
 
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd) ]
 pub struct StringImmutable ( StdRc<StdString> );
 
 
@@ -601,6 +772,28 @@ impl <'a> BytesRef<'a> {
 				fail! (0xb6042061),
 		}
 	}
+	
+	#[ inline (always) ]
+	pub fn clone (&self) -> (Value) {
+		match *self {
+			BytesRef::Immutable (value, _) =>
+				(*value) .clone () .into (),
+			BytesRef::Mutable (value, _) =>
+				(*value) .clone () .into (),
+		}
+	}
+	
+	#[ inline (always) ]
+	pub fn is_self (&self, other : &BytesRef) -> (bool) {
+		match (self, other) {
+			(&BytesRef::Immutable (self_0, _), &BytesRef::Immutable (other_0, _)) =>
+				BytesImmutable::is_self (self_0, other_0),
+			(&BytesRef::Mutable (self_0, _), &BytesRef::Mutable (other_0, _)) =>
+				BytesMutable::is_self (self_0, other_0),
+			_ =>
+				false,
+		}
+	}
 }
 
 
@@ -609,8 +802,10 @@ impl <'a> Bytes for BytesRef<'a> {
 	#[ inline (always) ]
 	fn bytes_as_vec (&self) -> (&StdVec<u8>) {
 		match *self {
-			BytesRef::Immutable (_, ref bytes) => bytes,
-			BytesRef::Mutable (_, ref bytes) => bytes,
+			BytesRef::Immutable (_, bytes) =>
+				bytes,
+			BytesRef::Mutable (_, ref bytes) =>
+				bytes,
 		}
 	}
 }
@@ -618,7 +813,7 @@ impl <'a> Bytes for BytesRef<'a> {
 
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd) ]
 pub struct BytesImmutable ( StdRc<StdVec<u8>> );
 
 
@@ -679,16 +874,112 @@ impl BytesMutable {
 
 pub trait Pair {
 	
-	fn left (&self) -> (&Value);
-	fn right (&self) -> (&Value);
-	fn left_and_right (&self) -> (&Value, &Value);
-	fn values_ref (&self) -> (&(Value, Value));
+	fn values_as_ref (&self) -> (&(Value, Value));
+	
+	#[ inline (always) ]
+	fn left (&self) -> (&Value) {
+		let values = self.values_as_ref ();
+		&values.0
+	}
+	
+	#[ inline (always) ]
+	fn right (&self) -> (&Value) {
+		let values = self.values_as_ref ();
+		&values.1
+	}
+	
+	#[ inline (always) ]
+	fn left_and_right (&self) -> ((&Value, &Value)) {
+		let values = self.values_as_ref ();
+		(&values.0, &values.1)
+	}
 }
 
 
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive (Debug) ]
+pub enum PairRef <'a> {
+	Immutable (&'a PairImmutable, &'a (Value, Value)),
+	Mutable (&'a PairMutable, StdRef<'a, (Value, Value)>),
+}
+
+
+impl <'a> PairRef<'a> {
+	
+	#[ inline (always) ]
+	pub fn try (value : &'a Value) -> (Outcome<PairRef<'a>>) {
+		match *value {
+			Value::PairImmutable (_, ref value, _) =>
+				succeed! (value.pair_ref ()),
+			Value::PairMutable (_, ref value, _) =>
+				succeed! (value.pair_ref ()),
+			_ =>
+				fail! (0x0bb90a73),
+		}
+	}
+	
+	#[ inline (always) ]
+	pub fn clone (&self) -> (Value) {
+		match *self {
+			PairRef::Immutable (value, _) =>
+				(*value) .clone () .into (),
+			PairRef::Mutable (value, _) =>
+				(*value) .clone () .into (),
+		}
+	}
+	
+	#[ inline (always) ]
+	pub fn is_self (&self, other : &PairRef) -> (bool) {
+		match (self, other) {
+			(&PairRef::Immutable (self_0, _), &PairRef::Immutable (other_0, _)) =>
+				PairImmutable::is_self (self_0, other_0),
+			(&PairRef::Mutable (self_0, _), &PairRef::Mutable (other_0, _)) =>
+				PairMutable::is_self (self_0, other_0),
+			_ =>
+				false,
+		}
+	}
+	
+	#[ inline (always) ]
+	pub fn left_ref_into (self) -> (ValueRef<'a>) {
+		match self {
+			PairRef::Immutable (_, value) =>
+				ValueRef::Immutable (&value.0),
+			PairRef::Mutable (_, value) =>
+				ValueRef::Mutable (StdRef::map (value, |value| &value.0)),
+		}
+	}
+	
+	#[ inline (always) ]
+	pub fn right_ref_into (self) -> (ValueRef<'a>) {
+		match self {
+			PairRef::Immutable (_, value) =>
+				ValueRef::Immutable (&value.1),
+			PairRef::Mutable (_, value) =>
+				ValueRef::Mutable (StdRef::map (value, |value| &value.1)),
+		}
+	}
+}
+
+
+impl <'a> Pair for PairRef<'a> {
+	
+	#[ inline (always) ]
+	fn values_as_ref (&self) -> (&(Value, Value)) {
+		match *self {
+			PairRef::Immutable (_, values) =>
+				values,
+			PairRef::Mutable (_, ref values) =>
+				values,
+		}
+	}
+}
+
+
+
+
+#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd) ]
 pub struct PairImmutable ( StdRc<(Value, Value)> );
 
 
@@ -697,6 +988,11 @@ impl PairImmutable {
 	#[ inline (always) ]
 	pub fn is_self (&self, other : &PairImmutable) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
+	}
+	
+	#[ inline (always) ]
+	pub fn pair_ref (&self) -> (PairRef) {
+		PairRef::Immutable (self, self.0.as_ref ())
 	}
 	
 	#[ inline (always) ]
@@ -709,31 +1005,16 @@ impl PairImmutable {
 impl Pair for PairImmutable {
 	
 	#[ inline (always) ]
-	fn left (&self) -> (&Value) {
-		&(self.0).0
-	}
-	
-	#[ inline (always) ]
-	fn right (&self) -> (&Value) {
-		&(self.0).1
-	}
-	
-	#[ inline (always) ]
-	fn left_and_right (&self) -> (&Value, &Value) {
-		(&(self.0).0, &(self.0).1)
-	}
-	
-	#[ inline (always) ]
-	fn values_ref (&self) -> (&(Value, Value)) {
-		&self.0
+	fn values_as_ref (&self) -> (&(Value, Value)) {
+		self.0.as_ref ()
 	}
 }
 
 
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
-pub struct PairMutable ( StdRc<(Value, Value)> );
+#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd) ]
+pub struct PairMutable ( StdRc<StdRefCell<(Value, Value)>> );
 
 
 impl PairMutable {
@@ -744,32 +1025,13 @@ impl PairMutable {
 	}
 	
 	#[ inline (always) ]
-	pub fn values_rc_clone (&self) -> (StdRc<(Value, Value)>) {
+	pub fn pair_ref (&self) -> (PairRef) {
+		PairRef::Mutable (self, self.0.as_ref () .borrow ())
+	}
+	
+	#[ inline (always) ]
+	pub fn values_rc_clone (&self) -> (StdRc<StdRefCell<(Value, Value)>>) {
 		self.0.clone ()
-	}
-}
-
-
-impl Pair for PairMutable {
-	
-	#[ inline (always) ]
-	fn left (&self) -> (&Value) {
-		&(self.0).0
-	}
-	
-	#[ inline (always) ]
-	fn right (&self) -> (&Value) {
-		&(self.0).1
-	}
-	
-	#[ inline (always) ]
-	fn left_and_right (&self) -> (&Value, &Value) {
-		(&(self.0).0, &(self.0).1)
-	}
-	
-	#[ inline (always) ]
-	fn values_ref (&self) -> (&(Value, Value)) {
-		&self.0
 	}
 }
 
@@ -785,6 +1047,15 @@ pub trait Array {
 	fn values_is_empty (&self) -> (bool);
 	fn values_is_not_empty (&self) -> (bool);
 	fn values_length (&self) -> (usize);
+}
+
+
+
+
+#[ derive (Debug) ]
+pub enum ArrayRef <'a> {
+	Immutable (&'a ArrayImmutable, &'a StdVec<Value>),
+	Mutable (&'a ArrayMutable, StdRef<'a, StdVec<Value>>),
 }
 
 
@@ -1164,7 +1435,7 @@ pub fn pair_immutable_new (left : Value, right : Value) -> (PairImmutable) {
 
 #[ inline (always) ]
 pub fn pair_mutable_new (left : Value, right : Value) -> (PairMutable) {
-	PairMutable (StdRc::new ((left, right)))
+	PairMutable (StdRc::new (StdRefCell::new ((left, right))))
 }
 
 

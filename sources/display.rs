@@ -304,7 +304,8 @@ impl fmt::Display for PairImmutable {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		return pair_fmt (self.values_ref (), formatter);
+		let pair = self.pair_ref ();
+		return pair_fmt (pair, formatter);
 	}
 }
 
@@ -312,46 +313,62 @@ impl fmt::Display for PairMutable {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		return pair_fmt (self.values_ref (), formatter);
+		let pair = self.pair_ref ();
+		return pair_fmt (pair, formatter);
 	}
 }
 
 #[ inline (always) ]
-fn pair_fmt (pair : &(Value, Value), formatter : &mut fmt::Formatter) -> (fmt::Result) {
+fn pair_fmt (pair : PairRef, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 	try! (formatter.write_char ('('));
-	let mut cursor = pair;
+	let pair = pair.values_as_ref ();
+	try! (pair_fmt_0 (&pair, &pair, formatter));
+	try! (formatter.write_char (')'));
+	succeed! (());
+}
+
+#[ inline (always) ]
+fn pair_fmt_0 (head : &(Value, Value), cursor : &(Value, Value), formatter : &mut fmt::Formatter) -> (fmt::Result) {
+	let mut cursor = cursor;
 	loop {
 		let left = &cursor.0;
 		let right = &cursor.1;
+		
+		// FIXME:  Make sure `left` is not recursive also!
 		try! (fmt::Display::fmt (left, formatter));
+		
 		match *right {
+			
 			Value::Singleton (_, ValueSingleton::Null, _) =>
-				break,
-			Value::PairImmutable (_, ref right, _) => {
+				succeed! (()),
+			
+			Value::PairImmutable (_, ref pair, _) => {
 				try! (formatter.write_char (' '));
-				cursor = right.values_ref ();
+				cursor = pair.values_as_ref ();
 			},
-			Value::PairMutable (_, ref right, _) => {
+			
+			Value::PairMutable (_, ref pair, _) => {
 				try! (formatter.write_char (' '));
-				cursor = right.values_ref ();
+				return pair_fmt_0 (head, pair.pair_ref () .values_as_ref (), formatter);
 			},
+			
 			_ => {
 				try! (formatter.write_char (' '));
 				try! (formatter.write_char ('.'));
 				try! (formatter.write_char (' '));
 				try! (fmt::Display::fmt (right, formatter));
-				break;
+				succeed! (());
 			},
+			
 		}
-		if ptr::eq (pair, cursor) {
+		
+		if ptr::eq (head, cursor) {
 			try! (formatter.write_char ('.'));
 			try! (formatter.write_char (' '));
 			try! (formatter.write_str ("#cyclic"));
-			break;
+			succeed! (());
 		}
 	}
-	try! (formatter.write_char (')'));
-	succeed! (());
 }
 
 

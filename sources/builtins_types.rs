@@ -713,32 +713,38 @@ pub fn list_class_on (value : &Value) -> (Outcome<ListClass>) {
 		ValueClass::Null =>
 			succeed! (ListClass::Empty),
 		
-		ValueClass::Pair => {
-			let mut cursor = value;
-			loop {
-				match cursor.class () {
-					ValueClass::Pair =>
-						if let Ok (cursor_pair) = StdTryAsRef::<PairImmutable>::try_as_ref (cursor) {
-							cursor = cursor_pair.right ();
-						} else if let Ok (cursor_pair) =  StdTryAsRef::<PairMutable>::try_as_ref (cursor) {
-							cursor = cursor_pair.right ();
-						} else {
-							panic! ("e57b1ed5");
-						},
-					ValueClass::Null =>
-						succeed! (ListClass::Proper),
-					_ =>
-						succeed! (ListClass::Dotted),
-				}
-				if value.is_self (cursor) {
-					succeed! (ListClass::Cyclic);
-				}
-			}
-		},
+		ValueClass::Pair =>
+			return list_class_on_0 (value, try_as_pair_ref! (value)),
 		
 		_ =>
 			fail! (0xf9bfa236),
 		
+	}
+}
+
+fn list_class_on_0 (value : &Value, pair : PairRef) -> (Outcome<ListClass>) {
+	let mut cursor = pair.right ();
+	loop {
+		
+		if value.is_self (cursor) {
+			succeed! (ListClass::Cyclic);
+		}
+		
+		match *cursor {
+			
+			Value::Singleton (_, ValueSingleton::Null, _) =>
+				succeed! (ListClass::Proper),
+			
+			Value::PairImmutable (_, ref pair, _) =>
+				cursor = pair.right (),
+			
+			Value::PairMutable (_, ref pair, _) =>
+				return list_class_on_0 (value, pair.pair_ref ()),
+			
+			_ =>
+				succeed! (ListClass::Dotted),
+			
+		}
 	}
 }
 

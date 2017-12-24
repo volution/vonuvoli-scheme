@@ -57,31 +57,49 @@ pub mod exports {
 
 
 
-pub fn pair (left : &Value, right : &Value) -> (Value) {
-	return pair_new (left.clone (), right.clone ()) .into ();
+pub fn pair <ValueRef1 : StdAsRef<Value>, ValueRef2 : StdAsRef<Value>> (left : ValueRef1, right : ValueRef2) -> (Value) {
+	let left = left.as_ref ();
+	let left = left.clone ();
+	let right = right.as_ref ();
+	let right = right.clone ();
+	return pair_new (left, right) .into ();
 }
 
-pub fn pair_left (pair : &Value) -> (Outcome<Value>) {
-	succeed! (try! (pair_left_ref (pair)) .clone ());
+pub fn pair_left <ValueRef : StdAsRef<Value>> (pair : ValueRef) -> (Outcome<Value>) {
+	let pair = pair.as_ref ();
+	let left = try! (pair_left_ref (pair));
+	let left = (*left) .clone ();
+	succeed! (left);
 }
 
-pub fn pair_right (pair : &Value) -> (Outcome<Value>) {
-	succeed! (try! (pair_right_ref (pair)) .clone ());
+pub fn pair_right <ValueRef : StdAsRef<Value>> (pair : ValueRef) -> (Outcome<Value>) {
+	let pair = pair.as_ref ();
+	let right = try! (pair_right_ref (pair));
+	let right = (*right) .clone ();
+	succeed! (right);
 }
 
-pub fn pair_left_ref (pair : &Value) -> (Outcome<&Value>) {
-	succeed! (try_as_pair_ref! (pair) .left ());
+pub fn pair_left_ref <'a> (pair : &'a Value) -> (Outcome<ValueRef<'a>>) {
+	let pair = pair.as_ref ();
+	let pair = try_as_pair_ref! (pair);
+	succeed! (pair.left_ref_into ());
 }
 
-pub fn pair_right_ref (pair : &Value) -> (Outcome<&Value>) {
-	succeed! (try_as_pair_ref! (pair) .right ());
+pub fn pair_right_ref <'a> (pair : &'a Value) -> (Outcome<ValueRef<'a>>) {
+	let pair = pair.as_ref ();
+	let pair = try_as_pair_ref! (pair);
+	succeed! (pair.right_ref_into ());
 }
 
-pub fn pair_left_set (_pair : &Value, _left : &Value) -> (Outcome<Value>) {
+pub fn pair_left_set <ValueRef1 : StdAsRef<Value>, ValueRef2 : StdAsRef<Value>> (pair : ValueRef1, left : ValueRef2) -> (Outcome<Value>) {
+	let _pair = pair.as_ref ();
+	let _left = left.as_ref ();
 	fail_unimplemented! (0x2073d5a3);
 }
 
-pub fn pair_right_set (_pair : &Value, _right : &Value) -> (Outcome<Value>) {
+pub fn pair_right_set <ValueRef1 : StdAsRef<Value>, ValueRef2 : StdAsRef<Value>> (pair : ValueRef1, right : ValueRef2) -> (Outcome<Value>) {
+	let _pair = pair.as_ref ();
+	let _right = right.as_ref ();
 	fail_unimplemented! (0xa223165c);
 }
 
@@ -822,11 +840,14 @@ impl <'a> iter::Iterator for ListIterator <'a> {
 		let cursor = self.0;
 		let (value, cursor) = match cursor.class () {
 			ValueClass::Pair =>
-				// FIXME:  Add support for mutable pairs!
-				if let Ok (pair) = StdTryAsRef::<PairImmutable>::try_as_ref (cursor) {
-					pair.left_and_right ()
-				} else {
-					return Some (failed! (0xcf8b7fbb));
+				match *cursor {
+					Value::PairImmutable (_, ref pair, _) =>
+						pair.left_and_right (),
+					// FIXME:  Add support for mutable pairs!
+					//Value::PairMutable (_, ref pair, _) =>
+					//	pair.pair_ref () .left_and_right (),
+					_ =>
+						return Some (failed! (0xff1a6f2d)),
 				},
 			ValueClass::Null =>
 				return None,
