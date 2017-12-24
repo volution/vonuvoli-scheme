@@ -170,7 +170,7 @@ impl Port {
 		return Port::new_from_backend (backend);
 	}
 	
-	pub fn new_bytes_reader_from_bytes_mutable (buffer : StdRc<StdVec<u8>>, range_start : usize, range_end : Option<usize>) -> (Outcome<Port>) {
+	pub fn new_bytes_reader_from_bytes_mutable (buffer : StdRc<StdRefCell<StdVec<u8>>>, range_start : usize, range_end : Option<usize>) -> (Outcome<Port>) {
 		let backend = try! (PortBackendBytesReader::new_from_bytes_mutable (buffer, range_start, range_end));
 		let backend = PortBackend::BytesReader (backend);
 		return Port::new_from_backend (backend);
@@ -182,7 +182,7 @@ impl Port {
 		return Port::new_from_backend (backend);
 	}
 	
-	pub fn new_bytes_reader_from_string_mutable (buffer : StdRc<StdString>, range_start : usize, range_end : Option<usize>) -> (Outcome<Port>) {
+	pub fn new_bytes_reader_from_string_mutable (buffer : StdRc<StdRefCell<StdString>>, range_start : usize, range_end : Option<usize>) -> (Outcome<Port>) {
 		let backend = try! (PortBackendBytesReader::new_from_string_mutable (buffer, range_start, range_end));
 		let backend = PortBackend::BytesReader (backend);
 		return Port::new_from_backend (backend);

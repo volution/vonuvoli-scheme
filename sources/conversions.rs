@@ -849,3 +849,128 @@ pub fn option_box_into_owned <T> (value : Option<StdBox<T>>) -> (Option<T>) {
 	}
 }
 
+
+
+
+#[ derive (Debug) ]
+pub enum BytesSliceRef <'a> {
+	Immutable ( &'a [u8] ),
+	Mutable ( StdRef<'a, [u8]> ),
+}
+
+
+impl <'a> BytesSliceRef<'a> {
+	
+	#[ inline (always) ]
+	pub fn range (self, range_start : usize, range_end : Option<usize>) -> (Option<BytesSliceRef<'a>>) {
+		if let Some (range_end) = range_end {
+			self.slice (range_start .. range_end)
+		} else {
+			self.slice (range_start ..)
+		}
+	}
+	
+	#[ inline (always) ]
+	pub fn slice <Slice> (self, slice : Slice) -> (Option<BytesSliceRef<'a>>)
+		where Slice : slice::SliceIndex<[u8], Output = [u8]> + Clone
+	{
+		match self {
+			BytesSliceRef::Immutable (reference) =>
+				if let Some (reference) = reference.get (slice) {
+					Some (BytesSliceRef::Immutable (reference))
+				} else {
+					None
+				},
+			BytesSliceRef::Mutable (reference) => {
+				// FIXME:  Try to call `get` only once!
+				if let Some (_) = reference.get (slice.clone ()) {
+					let reference = StdRef::map (reference, |reference| reference.get (slice) .unwrap ());
+					Some (BytesSliceRef::Mutable (reference))
+				} else {
+					None
+				}
+			},
+		}
+	}
+}
+
+
+impl <'a> StdDeref for BytesSliceRef<'a> {
+	
+	type Target = [u8];
+	
+	#[ inline (always) ]
+	fn deref (&self) -> (&[u8]) {
+		match *self {
+			BytesSliceRef::Immutable (reference) =>
+				reference,
+			BytesSliceRef::Mutable (ref reference) =>
+				&reference,
+		}
+	}
+}
+
+
+impl <'a> StdFrom<&'a StdVec<u8>> for BytesSliceRef<'a> {
+	
+	#[ inline (always) ]
+	fn from (reference : &'a StdVec<u8>) -> (BytesSliceRef<'a>) {
+		BytesSliceRef::Immutable (reference.as_ref ())
+	}
+}
+
+
+impl <'a> StdFrom<StdRef<'a, StdVec<u8>>> for BytesSliceRef<'a> {
+	
+	#[ inline (always) ]
+	fn from (reference : StdRef<'a, StdVec<u8>>) -> (BytesSliceRef<'a>) {
+		BytesSliceRef::Mutable (StdRef::map (reference, |reference| reference.as_ref ()))
+	}
+}
+
+
+impl <'a> StdFrom<&'a StdString> for BytesSliceRef<'a> {
+	
+	#[ inline (always) ]
+	fn from (reference : &'a StdString) -> (BytesSliceRef<'a>) {
+		BytesSliceRef::Immutable (reference.as_bytes ())
+	}
+}
+
+
+impl <'a> StdFrom<StdRef<'a, StdString>> for BytesSliceRef<'a> {
+	
+	#[ inline (always) ]
+	fn from (reference : StdRef<'a, StdString>) -> (BytesSliceRef<'a>) {
+		BytesSliceRef::Mutable (StdRef::map (reference, |reference| reference.as_bytes ()))
+	}
+}
+
+
+impl <'a> StdFrom<BytesRef<'a>> for BytesSliceRef<'a> {
+	
+	#[ inline (always) ]
+	fn from (reference : BytesRef<'a>) -> (BytesSliceRef<'a>) {
+		match reference {
+			BytesRef::Immutable (_, reference) =>
+				reference.into (),
+			BytesRef::Mutable (_, reference) =>
+				reference.into (),
+		}
+	}
+}
+
+
+impl <'a> StdFrom<StringRef<'a>> for BytesSliceRef<'a> {
+	
+	#[ inline (always) ]
+	fn from (reference : StringRef<'a>) -> (BytesSliceRef<'a>) {
+		match reference {
+			StringRef::Immutable (_, reference) =>
+				reference.into (),
+			StringRef::Mutable (_, reference) =>
+				reference.into (),
+		}
+	}
+}
+

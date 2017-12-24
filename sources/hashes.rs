@@ -70,6 +70,30 @@ impl hash::Hash for NumberReal {
 
 
 
+impl hash::Hash for StringMutable {
+	
+	#[ inline (always) ]
+	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
+		let string = self.string_ref ();
+		string.string_as_string () .hash (hasher);
+	}
+}
+
+
+
+
+impl hash::Hash for BytesMutable {
+	
+	#[ inline (always) ]
+	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
+		let string = self.bytes_ref ();
+		string.bytes_as_vec () .hash (hasher);
+	}
+}
+
+
+
+
 impl hash::Hash for LambdaInternals {
 	
 	#[ inline (always) ]

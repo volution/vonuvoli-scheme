@@ -339,8 +339,8 @@ pub fn string_range_to_bytes (string : &Value, range_start : Option<&Value>, ran
 
 pub fn bytes_range_to_string (bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_ref! (bytes);
-	let (range_start, range_end) = try! (range_coerce (range_start, range_end, bytes.values_length ()));
-	if let Ok (string) = str::from_utf8 (& bytes.values_as_slice () [range_start..range_end]) {
+	let (range_start, range_end) = try! (range_coerce (range_start, range_end, bytes.bytes_count ()));
+	if let Ok (string) = str::from_utf8 (& bytes.bytes_as_slice () [range_start..range_end]) {
 		succeed! (string_clone_str (string) .into ());
 	} else {
 		fail! (0xbc4b3840);

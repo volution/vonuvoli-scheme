@@ -7,6 +7,7 @@
 #![ feature (ascii_ctype) ]
 #![ feature (str_internals) ]
 #![ feature (char_from_unchecked) ]
+#![ feature (slice_get_slice) ]
 
 #![ no_implicit_prelude ]
 

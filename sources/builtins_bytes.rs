@@ -39,7 +39,7 @@ pub mod exports {
 
 pub fn bytes_at (bytes : &Value, index : usize) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_ref! (bytes);
-	let bytes = bytes.values_ref ();
+	let bytes = bytes.bytes_as_vec ();
 	if let Some (byte) = bytes.get (index) {
 		succeed! (byte.clone () .into ());
 	} else {
@@ -242,14 +242,14 @@ pub fn bytes_fill_range (bytes : &Value, fill : Option<&Value>, range_start : Op
 	} else {
 		0 as u8
 	};
-	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, bytes.values_length ()));
+	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, bytes.bytes_count ()));
 	fail_unimplemented! (0xfc14ec8b);
 }
 
 
 pub fn bytes_reverse_range (bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_ref! (bytes);
-	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, bytes.values_length ()));
+	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, bytes.bytes_count ()));
 	fail_unimplemented! (0xff6acb00);
 }
 
@@ -257,8 +257,8 @@ pub fn bytes_reverse_range (bytes : &Value, range_start : Option<&Value>, range_
 pub fn bytes_copy_range (target_bytes : &Value, target_start : Option<&Value>, source_bytes : &Value, source_start : Option<&Value>, source_end : Option<&Value>) -> (Outcome<Value>) {
 	let target_bytes = try_as_bytes_ref! (target_bytes);
 	let source_bytes = try_as_bytes_ref! (source_bytes);
-	let (source_start, source_end) = try! (range_coerce (source_start, source_end, source_bytes.values_length ()));
-	let (target_start, target_end) = try! (range_coerce (target_start, None, target_bytes.values_length ()));
+	let (source_start, source_end) = try! (range_coerce (source_start, source_end, source_bytes.bytes_count ()));
+	let (target_start, target_end) = try! (range_coerce (target_start, None, target_bytes.bytes_count ()));
 	if (target_end - target_start) < (source_end - source_start) {
 		fail! (0x7033eb20);
 	}
@@ -268,8 +268,8 @@ pub fn bytes_copy_range (target_bytes : &Value, target_start : Option<&Value>, s
 
 pub fn bytes_clone_range (bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_ref! (bytes);
-	let (range_start, range_end) = try! (range_coerce (range_start, range_end, bytes.values_length ()));
-	succeed! (bytes_clone_slice (& bytes.values_as_slice () [range_start..range_end]) .into ());
+	let (range_start, range_end) = try! (range_coerce (range_start, range_end, bytes.bytes_count ()));
+	succeed! (bytes_clone_slice (& bytes.bytes_as_slice () [range_start..range_end]) .into ());
 }
 
 
@@ -301,7 +301,7 @@ pub fn array_range_to_bytes (array : &Value, range_start : Option<&Value>, range
 
 pub fn bytes_range_iterator <'a> (bytes : &'a Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<RangeIteratorForOutcome<Value, BytesIterator<'a>>>) {
 	let bytes = try_as_bytes_ref! (bytes);
-	let (range_start, range_end) = try! (range_coerce (range_start, range_end, bytes.values_length ()));
+	let (range_start, range_end) = try! (range_coerce (range_start, range_end, bytes.bytes_count ()));
 	let iterator = try! (BytesIterator::new_a (bytes));
 	let iterator = try! (RangeIteratorForOutcome::new (iterator, range_start, Some (range_end)));
 	succeed! (iterator);
@@ -312,7 +312,7 @@ pub fn bytes_range_iterator <'a> (bytes : &'a Value, range_start : Option<&Value
 
 pub fn bytes_length (bytes : &Value) -> (Outcome<usize>) {
 	let bytes = try_as_bytes_ref! (bytes);
-	succeed! (bytes.values_length ());
+	succeed! (bytes.bytes_count ());
 }
 
 
@@ -385,7 +385,7 @@ pub fn vec_bytes_clone (bytes : &Value) -> (Outcome<StdVec<u8>>) {
 
 pub fn vec_bytes_drain (buffer : &mut StdVec<u8>, bytes : &Value) -> (Outcome<()>) {
 	let bytes = try_as_bytes_ref! (bytes);
-	buffer.extend_from_slice (bytes.values_as_slice ());
+	buffer.extend_from_slice (bytes.bytes_as_slice ());
 	succeed! (());
 }
 
@@ -403,7 +403,7 @@ impl <'a> BytesIterator <'a> {
 	}
 	
 	pub fn new_a (bytes : BytesRef<'a>) -> (Outcome<BytesIterator<'a>>) {
-		let iterator = unsafe { mem::transmute (bytes.values_as_iter ()) };
+		let iterator = unsafe { mem::transmute (bytes.bytes_iter ()) };
 		succeed! (BytesIterator (bytes, iterator));
 	}
 }

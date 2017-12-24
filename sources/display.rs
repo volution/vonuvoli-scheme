@@ -227,7 +227,8 @@ impl fmt::Display for StringImmutable {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		return string_fmt (self.string_as_str (), formatter);
+		let string = self.string_ref ();
+		return string_fmt (string.string_as_str (), formatter);
 	}
 }
 
@@ -235,7 +236,8 @@ impl fmt::Display for StringMutable {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		return string_fmt (self.string_as_str (), formatter);
+		let string = self.string_ref ();
+		return string_fmt (string.string_as_str (), formatter);
 	}
 }
 
@@ -265,7 +267,8 @@ impl fmt::Display for BytesImmutable {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		return bytes_fmt (self.values_as_slice (), formatter);
+		let bytes = self.bytes_ref ();
+		return bytes_fmt (bytes.bytes_as_slice (), formatter);
 	}
 }
 
@@ -273,7 +276,8 @@ impl fmt::Display for BytesMutable {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		return bytes_fmt (self.values_as_slice (), formatter);
+		let bytes = self.bytes_ref ();
+		return bytes_fmt (bytes.bytes_as_slice (), formatter);
 	}
 }
 

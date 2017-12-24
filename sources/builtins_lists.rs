@@ -870,7 +870,7 @@ impl <'a> iter::Iterator for ListPairIterator <'a> {
 					let cursor = pair.right ();
 					(pair, cursor)
 				} else {
-					return Some (failed! (0xcf8b7fbb));
+					return Some (failed! (0x14fb94f0));
 				},
 			ValueClass::Null =>
 				return None,

@@ -28,6 +28,7 @@ pub use std::collections::hash_set::HashSet as StdSet;
 pub use std::convert::AsRef as StdAsRef;
 pub use std::convert::From as StdFrom;
 pub use std::convert::Into as StdInto;
+pub use std::ops::Deref as StdDeref;
 pub use std::rc::Rc as StdRc;
 pub use std::string::String as StdString;
 pub use std::vec::Vec as StdVec;

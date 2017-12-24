@@ -170,7 +170,7 @@ pub fn port_input_bytes_read_extend (port : &Value, bytes : &Value, count : Opti
 pub fn port_input_bytes_read_copy_range (port : &Value, bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let _port = try_as_port_ref! (port);
 	let bytes = try_as_bytes_ref! (bytes);
-	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, bytes.values_length ()));
+	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, bytes.bytes_count ()));
 	fail_unimplemented! (0xb68f984b);
 }
 
@@ -207,7 +207,7 @@ pub fn port_output_byte_write (port : &Value, byte : &Value) -> (Outcome<()>) {
 pub fn port_output_bytes_write (port : &Value, bytes : &Value) -> (Outcome<()>) {
 	let port = try_as_port_ref! (port);
 	let bytes = try_as_bytes_ref! (bytes);
-	let bytes = bytes.values_as_slice ();
+	let bytes = bytes.bytes_as_slice ();
 	try! (port.byte_write_slice (bytes, true));
 	succeed! (());
 }
@@ -250,11 +250,11 @@ pub fn port_bytes_reader_new (bytes : &Value) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_ref! (bytes);
 	let port = match bytes {
 		BytesRef::Immutable (ref bytes, _) => {
-			let bytes = bytes.values_rc_clone ();
+			let bytes = bytes.bytes_rc_clone ();
 			try! (Port::new_bytes_reader_from_bytes_immutable (bytes, 0, None))
 		},
 		BytesRef::Mutable (ref bytes, _) => {
-			let bytes = bytes.values_rc_clone ();
+			let bytes = bytes.bytes_rc_clone ();
 			try! (Port::new_bytes_reader_from_bytes_mutable (bytes, 0, None))
 		},
 	};

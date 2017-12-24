@@ -1,5 +1,6 @@
 
 
+use super::conversions::exports::*;
 use super::errors::exports::*;
 use super::ports::exports::*;
 use super::runtime::exports::*;
@@ -28,9 +29,9 @@ pub struct PortBackendBytesReader {
 
 enum PortBackendBytesReaderSource {
 	BytesImmutable ( StdRc<StdVec<u8>> ),
-	BytesMutable ( StdRc<StdVec<u8>> ),
+	BytesMutable ( StdRc<StdRefCell<StdVec<u8>>> ),
 	StringImmutable ( StdRc<StdString> ),
-	StringMutable ( StdRc<StdString> ),
+	StringMutable ( StdRc<StdRefCell<StdString>> ),
 	None,
 }
 
@@ -105,7 +106,7 @@ impl PortBackendReader for PortBackendBytesReader {
 	
 	fn char_peek (&mut self) -> (Outcome<Option<char>>) {
 		if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
-			let (char, _) = try! (unicode_utf8_char_decode_and_width (buffer));
+			let (char, _) = try! (unicode_utf8_char_decode_and_width (&buffer));
 			succeed! (Some (char));
 		} else {
 			succeed! (None);
@@ -114,7 +115,7 @@ impl PortBackendReader for PortBackendBytesReader {
 	
 	fn char_read (&mut self) -> (Outcome<Option<char>>) {
 		let (char, offset_increment) = if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
-			let (char, char_width) = try! (unicode_utf8_char_decode_and_width (buffer));
+			let (char, char_width) = try! (unicode_utf8_char_decode_and_width (&buffer));
 			(Some (char), char_width)
 		} else {
 			(None, 0)
@@ -211,7 +212,7 @@ impl PortBackendBytesReader {
 		return PortBackendBytesReader::new_from_source (PortBackendBytesReaderSource::BytesImmutable (bytes), range_start, range_end);
 	}
 	
-	pub fn new_from_bytes_mutable (bytes : StdRc<StdVec<u8>>, range_start : usize, range_end : Option<usize>) -> (Outcome<PortBackendBytesReader>) {
+	pub fn new_from_bytes_mutable (bytes : StdRc<StdRefCell<StdVec<u8>>>, range_start : usize, range_end : Option<usize>) -> (Outcome<PortBackendBytesReader>) {
 		return PortBackendBytesReader::new_from_source (PortBackendBytesReaderSource::BytesMutable (bytes), range_start, range_end);
 	}
 	
@@ -219,7 +220,7 @@ impl PortBackendBytesReader {
 		return PortBackendBytesReader::new_from_source (PortBackendBytesReaderSource::StringImmutable (string), range_start, range_end);
 	}
 	
-	pub fn new_from_string_mutable (string : StdRc<StdString>, range_start : usize, range_end : Option<usize>) -> (Outcome<PortBackendBytesReader>) {
+	pub fn new_from_string_mutable (string : StdRc<StdRefCell<StdString>>, range_start : usize, range_end : Option<usize>) -> (Outcome<PortBackendBytesReader>) {
 		return PortBackendBytesReader::new_from_source (PortBackendBytesReaderSource::StringMutable (string), range_start, range_end);
 	}
 	
@@ -238,27 +239,22 @@ impl PortBackendBytesReader {
 		succeed! (backend);
 	}
 	
-	fn buffer_ref_if_open (&mut self) -> (Outcome<Option<&[u8]>>) {
+	fn buffer_ref_if_open (&mut self) -> (Outcome<Option<BytesSliceRef>>) {
 		
-		let buffer = match self.source {
+		let buffer : BytesSliceRef = match self.source {
 			PortBackendBytesReaderSource::BytesImmutable (ref source) =>
-				source.as_ref (),
+				source.as_ref () .into (),
 			PortBackendBytesReaderSource::BytesMutable (ref source) =>
-				source.as_ref (),
+				source.as_ref () .borrow () .into (),
 			PortBackendBytesReaderSource::StringImmutable (ref source) =>
-				source.as_ref () .as_bytes (),
+				source.as_ref () .into (),
 			PortBackendBytesReaderSource::StringMutable (ref source) =>
-				source.as_ref () .as_bytes (),
+				source.as_ref () .borrow () .into (),
 			PortBackendBytesReaderSource::None =>
 				succeed! (None),
 		};
 		
-		let range_start = self.range_start + self.offset;
-		let buffer = if let Some (range_end) = self.range_end {
-			buffer.get (range_start .. range_end)
-		} else {
-			buffer.get (range_start ..)
-		};
+		let buffer = buffer.range (self.range_start + self.offset, self.range_end);
 		
 		if let Some (buffer) = buffer {
 			if ! buffer.is_empty () {

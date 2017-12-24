@@ -55,7 +55,7 @@ impl Context {
 	#[ inline (always) ]
 	pub fn resolve (&self, identifier : &Symbol) -> (Outcome<Option<Binding>>) {
 		let self_0 = self.internals_ref ();
-		match self_0.bindings.get (identifier.string_ref ()) {
+		match self_0.bindings.get (identifier.string_as_string ()) {
 			Some (binding) =>
 				succeed! (Some (binding.clone ())),
 			None =>
