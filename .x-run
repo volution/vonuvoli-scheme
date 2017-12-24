@@ -114,6 +114,9 @@ cat <<'EOS'
 :: files / grep / sources / errors / improper / list :: grep -o -P -e '(?<=0x)([0-9a-f]{3,7}|[0-9a-f]{9,})(?=[)])|(?<=")([0-9a-f]{3,7}|[0-9a-f]{9,})(?=")' -h -r ./sources -r ./tests --include '*.rs' --include '*.in' | sort -u
 :: files / grep / sources / errors / improper / show :: x-run ':: files / grep / sources / errors / improper / list' | git grep --no-index -C2 -F -f /dev/stdin -- ./sources ./tests
 
+:: files / sed / sources / inline-always / disable :: find ./sources ./tests -xdev -type f \( -name '*.rs' -o -name '*.in' \) -exec sed -r -e 's!^(\s*)(#\[ inline \(always\) \])$!\1#[ inline (never) ] // __inline_always__!' -i -- {} \;
+:: files / sed / sources / inline-always / enable :: find ./sources ./tests -xdev -type f \( -name '*.rs' -o -name '*.in' \) -exec sed -r -e 's!^(\s*)(#\[ inline \(never\) \] // __inline_always__)$!\1#[ inline (always) ]!' -i -- {} \;
+
 << execute / rust-up / initialize
 	test "${#}" -eq 0
 	if test ! -e ./.rust ; then
@@ -173,7 +176,7 @@ sed -r -e 's#@\{TEST\}#'"${_test}"'#g' <<'EOS'
 EOS
 done
 
-find ./tests/scheme -type f -name '*.sst' -printf '%f\n' \
+find ./tests/scheme -xdev -type f -name '*.sst' -printf '%f\n' \
 | sed -r -e 's/\.sst$//' -e 's/-/_/g' \
 | sort -u \
 | while read _test ; do
@@ -186,7 +189,7 @@ EOS
 done
 
 
-find ./tests/scripts -type f -name 'benchmark--*.ss' -printf '%f\n' \
+find ./tests/scripts -xdev -type f -name 'benchmark--*.ss' -printf '%f\n' \
 | sed -r -e 's/^benchmark--//' -e 's/\.ss$//' \
 | sort -u \
 | while read _script ; do
@@ -200,7 +203,7 @@ EOS
 done
 
 
-find ./tests/scripts -type f -name 'benchmark--*.py' -printf '%f\n' \
+find ./tests/scripts -xdev -type f -name 'benchmark--*.py' -printf '%f\n' \
 | sed -r -e 's/^benchmark--//' -e 's/\.py$//' \
 | sort -u \
 | while read _script ; do
@@ -210,7 +213,7 @@ EOS
 done
 
 
-find ./tests/scripts -type f \( -name 'benchmark--*.ss' -o -name 'benchmark--*.py' \) -printf '%f\n' \
+find ./tests/scripts -xdev -type f \( -name 'benchmark--*.ss' -o -name 'benchmark--*.py' \) -printf '%f\n' \
 | sed -r -e 's/^benchmark--//' -e 's/\.ss$//' -e 's/\.py$//' \
 | sort -u \
 | while read _script ; do
@@ -231,7 +234,7 @@ EOS
 done
 
 printf -- '%s\n' '<< execute / benchmark / compare / all'
-find ./tests/scripts -type f -name 'benchmark--*.ss' -printf '%f\n' \
+find ./tests/scripts -xdev -type f -name 'benchmark--*.ss' -printf '%f\n' \
 | sed -r -e 's/^benchmark--//' -e 's/\.ss$//' \
 | sort -u \
 | while read _script ; do
@@ -240,7 +243,7 @@ done
 printf -- '%s\n' '!!'
 
 
-find ./tests/scripts -type f \( -name 'optimizer--*.ss' -o -name 'benchmark--*.ss' \) -printf '%f\n' \
+find ./tests/scripts -xdev -type f \( -name 'optimizer--*.ss' -o -name 'benchmark--*.ss' \) -printf '%f\n' \
 | sed -r -e 's/^optimizer--//' -e 's/^benchmark--//' -e 's/\.ss$//' \
 | sort -u \
 | while read _script ; do
@@ -252,7 +255,7 @@ done
 
 printf -- '%s\n' '<< execute / bin / compiler / scheme / all / debug'
 printf -- '%s\n' "x-run ':: compile / bin / compiler / release'"
-find ./tests/scripts -type f \( -name 'optimizer--*.ss' -o -name 'benchmark--*.ss' \) -printf '%f\n' \
+find ./tests/scripts -xdev -type f \( -name 'optimizer--*.ss' -o -name 'benchmark--*.ss' \) -printf '%f\n' \
 | sed -r -e 's/\.ss$//' \
 | sort -u \
 | while read _script ; do

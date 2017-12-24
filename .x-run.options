@@ -173,6 +173,14 @@
 	x-run ':: files / grep / sources / errors / improper / list' | git grep --no-index -C2 -F -f /dev/stdin -- ./sources ./tests
 !!
 
+<< files / sed / sources / inline-always / disable
+	find ./sources ./tests -xdev -type f \( -name '*.rs' -o -name '*.in' \) -exec sed -r -e 's!^(\s*)(#\[ inline \(always\) \])$!\1#[ inline (never) ] // __inline_always__!' -i -- {} \;
+!!
+
+<< files / sed / sources / inline-always / enable
+	find ./sources ./tests -xdev -type f \( -name '*.rs' -o -name '*.in' \) -exec sed -r -e 's!^(\s*)(#\[ inline \(never\) \] // __inline_always__)$!\1#[ inline (always) ]!' -i -- {} \;
+!!
+
 << execute / rust-up / initialize
 		test "${#}" -eq 0
 		if test ! -e ./.rust ; then
@@ -1157,6 +1165,10 @@
 	exec -- sce ./sources/counters.rs
 !!
 
+<< files / edit / sources/display.rs
+	exec -- sce ./sources/display.rs
+!!
+
 << files / edit / sources/errors.rs
 	exec -- sce ./sources/errors.rs
 !!
@@ -1179,6 +1191,10 @@
 
 << files / edit / sources/globals.rs
 	exec -- sce ./sources/globals.rs
+!!
+
+<< files / edit / sources/hashes.rs
+	exec -- sce ./sources/hashes.rs
 !!
 
 << files / edit / sources/lambdas.rs
@@ -1209,6 +1225,14 @@
 	exec -- sce ./sources/native_syntaxes.rs
 !!
 
+<< files / edit / sources/numbers.rs
+	exec -- sce ./sources/numbers.rs
+!!
+
+<< files / edit / sources/ordering.rs
+	exec -- sce ./sources/ordering.rs
+!!
+
 << files / edit / sources/parser.rs
 	exec -- sce ./sources/parser.rs
 !!
@@ -1227,6 +1251,10 @@
 
 << files / edit / sources/ports_native.rs
 	exec -- sce ./sources/ports_native.rs
+!!
+
+<< files / edit / sources/prelude.rs
+	exec -- sce ./sources/prelude.rs
 !!
 
 << files / edit / sources/primitives.rs
@@ -1401,6 +1429,10 @@
 	exec -- less -- ./sources/counters.rs
 !!
 
+<< files / view / sources/display.rs
+	exec -- less -- ./sources/display.rs
+!!
+
 << files / view / sources/errors.rs
 	exec -- less -- ./sources/errors.rs
 !!
@@ -1423,6 +1455,10 @@
 
 << files / view / sources/globals.rs
 	exec -- less -- ./sources/globals.rs
+!!
+
+<< files / view / sources/hashes.rs
+	exec -- less -- ./sources/hashes.rs
 !!
 
 << files / view / sources/lambdas.rs
@@ -1453,6 +1489,14 @@
 	exec -- less -- ./sources/native_syntaxes.rs
 !!
 
+<< files / view / sources/numbers.rs
+	exec -- less -- ./sources/numbers.rs
+!!
+
+<< files / view / sources/ordering.rs
+	exec -- less -- ./sources/ordering.rs
+!!
+
 << files / view / sources/parser.rs
 	exec -- less -- ./sources/parser.rs
 !!
@@ -1471,6 +1515,10 @@
 
 << files / view / sources/ports_native.rs
 	exec -- less -- ./sources/ports_native.rs
+!!
+
+<< files / view / sources/prelude.rs
+	exec -- less -- ./sources/prelude.rs
 !!
 
 << files / view / sources/primitives.rs
