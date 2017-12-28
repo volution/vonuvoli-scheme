@@ -917,6 +917,10 @@
 	taskset -c 2 env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- chibi-scheme -m scheme.base -m scheme.time -- './tests/scripts/benchmark--controls.ss' >| './tests/scripts/_out/benchmark--controls--chibi.out' ; exec -- cat -- './tests/scripts/_out/benchmark--controls--chibi.out'
 !!
 
+<< execute / benchmark / gauche / controls
+	taskset -c 2 env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- gosh -b -r 7 < './tests/scripts/benchmark--controls.ss' >| './tests/scripts/_out/benchmark--controls--gauche.out' ; exec -- cat -- './tests/scripts/_out/benchmark--controls--gauche.out'
+!!
+
 << execute / bin / compiler / scheme / loop / debug
 	x-run ':: compile / bin / compiler / debug' ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-compiler < './tests/scripts/benchmark--loop.ss' >| './tests/scripts/_out/benchmark--loop--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--loop--scheme-compile.out'
 !!
@@ -935,6 +939,10 @@
 
 << execute / benchmark / chibi / loop
 	taskset -c 2 env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- chibi-scheme -m scheme.base -m scheme.time -- './tests/scripts/benchmark--loop.ss' >| './tests/scripts/_out/benchmark--loop--chibi.out' ; exec -- cat -- './tests/scripts/_out/benchmark--loop--chibi.out'
+!!
+
+<< execute / benchmark / gauche / loop
+	taskset -c 2 env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- gosh -b -r 7 < './tests/scripts/benchmark--loop.ss' >| './tests/scripts/_out/benchmark--loop--gauche.out' ; exec -- cat -- './tests/scripts/_out/benchmark--loop--gauche.out'
 !!
 
 << execute / bin / compiler / scheme / make-cons / debug
@@ -957,6 +965,10 @@
 	taskset -c 2 env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- chibi-scheme -m scheme.base -m scheme.time -- './tests/scripts/benchmark--make-cons.ss' >| './tests/scripts/_out/benchmark--make-cons--chibi.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-cons--chibi.out'
 !!
 
+<< execute / benchmark / gauche / make-cons
+	taskset -c 2 env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- gosh -b -r 7 < './tests/scripts/benchmark--make-cons.ss' >| './tests/scripts/_out/benchmark--make-cons--gauche.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-cons--gauche.out'
+!!
+
 << execute / bin / compiler / scheme / make-vector / debug
 	x-run ':: compile / bin / compiler / debug' ; env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-compiler < './tests/scripts/benchmark--make-vector.ss' >| './tests/scripts/_out/benchmark--make-vector--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--make-vector--scheme-compile.out'
 !!
@@ -975,6 +987,10 @@
 
 << execute / benchmark / chibi / make-vector
 	taskset -c 2 env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- chibi-scheme -m scheme.base -m scheme.time -- './tests/scripts/benchmark--make-vector.ss' >| './tests/scripts/_out/benchmark--make-vector--chibi.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-vector--chibi.out'
+!!
+
+<< execute / benchmark / gauche / make-vector
+	taskset -c 2 env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- gosh -b -r 7 < './tests/scripts/benchmark--make-vector.ss' >| './tests/scripts/_out/benchmark--make-vector--gauche.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-vector--gauche.out'
 !!
 
 << execute / benchmark / python / controls
@@ -1001,6 +1017,8 @@
 		x-run ':: execute / benchmark / scheme / controls / release'
 		printf -- '\n== %s / chibi ==\n' 'controls' >&2
 		x-run ':: execute / benchmark / chibi / controls'
+		printf -- '\n== %s / gauche ==\n' 'controls' >&2
+		x-run ':: execute / benchmark / gauche / controls'
 		printf -- '\n== %s / python ==\n' 'controls' >&2
 		x-run ':: execute / benchmark / python / controls'
 		printf -- '\n--------------------------------------------------------------------------------\n' >&2
@@ -1014,6 +1032,8 @@
 		x-run ':: execute / benchmark / scheme / loop / release'
 		printf -- '\n== %s / chibi ==\n' 'loop' >&2
 		x-run ':: execute / benchmark / chibi / loop'
+		printf -- '\n== %s / gauche ==\n' 'loop' >&2
+		x-run ':: execute / benchmark / gauche / loop'
 		printf -- '\n== %s / python ==\n' 'loop' >&2
 		x-run ':: execute / benchmark / python / loop'
 		printf -- '\n--------------------------------------------------------------------------------\n' >&2
@@ -1027,6 +1047,8 @@
 		x-run ':: execute / benchmark / scheme / make-cons / release'
 		printf -- '\n== %s / chibi ==\n' 'make-cons' >&2
 		x-run ':: execute / benchmark / chibi / make-cons'
+		printf -- '\n== %s / gauche ==\n' 'make-cons' >&2
+		x-run ':: execute / benchmark / gauche / make-cons'
 		printf -- '\n== %s / python ==\n' 'make-cons' >&2
 		x-run ':: execute / benchmark / python / make-cons'
 		printf -- '\n--------------------------------------------------------------------------------\n' >&2
@@ -1040,6 +1062,8 @@
 		x-run ':: execute / benchmark / scheme / make-vector / release'
 		printf -- '\n== %s / chibi ==\n' 'make-vector' >&2
 		x-run ':: execute / benchmark / chibi / make-vector'
+		printf -- '\n== %s / gauche ==\n' 'make-vector' >&2
+		x-run ':: execute / benchmark / gauche / make-vector'
 		printf -- '\n== %s / python ==\n' 'make-vector' >&2
 		x-run ':: execute / benchmark / python / make-vector'
 		printf -- '\n--------------------------------------------------------------------------------\n' >&2

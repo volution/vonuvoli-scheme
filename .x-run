@@ -199,6 +199,7 @@ sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
 :: execute / benchmark / scheme / @{SCRIPT} / debug :: x-run ':: compile / bin / interpreter / debug' ; taskset -c 2 env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-interpreter < './tests/scripts/benchmark--@{SCRIPT}.ss' >| './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-debug.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-debug.out'
 :: execute / benchmark / scheme / @{SCRIPT} / release :: x-run ':: compile / bin / interpreter / release' ; taskset -c 2 env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-interpreter < './tests/scripts/benchmark--@{SCRIPT}.ss' >| './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-release.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-release.out'
 :: execute / benchmark / chibi / @{SCRIPT} :: taskset -c 2 env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- chibi-scheme -m scheme.base -m scheme.time -- './tests/scripts/benchmark--@{SCRIPT}.ss' >| './tests/scripts/_out/benchmark--@{SCRIPT}--chibi.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--chibi.out'
+:: execute / benchmark / gauche / @{SCRIPT} :: taskset -c 2 env time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- gosh -b -r 7 < './tests/scripts/benchmark--@{SCRIPT}.ss' >| './tests/scripts/_out/benchmark--@{SCRIPT}--gauche.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--gauche.out'
 EOS
 done
 
@@ -226,6 +227,8 @@ sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
 	x-run ':: execute / benchmark / scheme / @{SCRIPT} / release'
 	printf -- '\n== %s / chibi ==\n' '@{SCRIPT}' >&2
 	x-run ':: execute / benchmark / chibi / @{SCRIPT}'
+	printf -- '\n== %s / gauche ==\n' '@{SCRIPT}' >&2
+	x-run ':: execute / benchmark / gauche / @{SCRIPT}'
 	printf -- '\n== %s / python ==\n' '@{SCRIPT}' >&2
 	x-run ':: execute / benchmark / python / @{SCRIPT}'
 	printf -- '\n--------------------------------------------------------------------------------\n' >&2
