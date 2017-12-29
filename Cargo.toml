@@ -38,13 +38,13 @@ scheme_inline_always = []
 
 [profile.dev]
 opt-level = 0
-codegen-units = 8
+codegen-units = 32
 lto = false
 debug = true
 
 [profile.test]
-opt-level = 1
-codegen-units = 8
+opt-level = 0
+codegen-units = 32
 lto = false
 debug = true
 
