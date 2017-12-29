@@ -773,8 +773,11 @@ def_value_try_into! (try_into_pair_immutable, value_type! (PairImmutable));
 def_value_try_as_ref! (try_as_pair_mutable_ref, value_type! (PairMutable));
 def_value_try_into! (try_into_pair_mutable, value_type! (PairMutable));
 
-def_value_try_as_ref! (try_as_array_ref, value_type! (ArrayImmutable));
-def_value_try_into! (try_into_array, value_type! (ArrayImmutable));
+def_value_try_as_ref! (try_as_array_immutable_ref, value_type! (ArrayImmutable));
+def_value_try_into! (try_into_array_immutable, value_type! (ArrayImmutable));
+
+def_value_try_as_ref! (try_as_array_mutable_ref, value_type! (ArrayMutable));
+def_value_try_into! (try_into_array_mutable, value_type! (ArrayMutable));
 
 def_value_try_as_ref! (try_as_values_ref, value_type! (Values));
 def_value_try_into! (try_into_values, value_type! (Values));
@@ -833,6 +836,12 @@ macro_rules! try_as_bytes_ref {
 macro_rules! try_as_pair_ref {
 	( $value : expr ) => {
 		try! ($crate::values::exports::PairRef::try ($value))
+	};
+}
+
+macro_rules! try_as_array_ref {
+	( $value : expr ) => {
+		try! ($crate::values::exports::ArrayRef::try ($value))
 	};
 }
 

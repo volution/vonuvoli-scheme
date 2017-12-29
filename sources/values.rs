@@ -1040,13 +1040,37 @@ impl PairMutable {
 
 pub trait Array {
 	
-	fn values_as_slice (&self) -> (&[Value]);
-	fn values_as_iter (&self) -> (slice::Iter<Value>);
-	fn values_ref (&self) -> (&StdVec<Value>);
-	fn values_clone (&self) -> (StdVec<Value>);
-	fn values_is_empty (&self) -> (bool);
-	fn values_is_not_empty (&self) -> (bool);
-	fn values_length (&self) -> (usize);
+	fn values_as_vec (&self) -> (&StdVec<Value>);
+	
+	#[ inline (always) ]
+	fn values_as_slice (&self) -> (&[Value]) {
+		self.values_as_vec () .as_slice ()
+	}
+	
+	#[ inline (always) ]
+	fn values_iter (&self) -> (slice::Iter<Value>) {
+		self.values_as_vec () .iter ()
+	}
+	
+	#[ inline (always) ]
+	fn values_clone (&self) -> (StdVec<Value>) {
+		self.values_as_vec () .clone ()
+	}
+	
+	#[ inline (always) ]
+	fn values_is_empty (&self) -> (bool) {
+		self.values_as_vec () .is_empty ()
+	}
+	
+	#[ inline (always) ]
+	fn values_is_not_empty (&self) -> (bool) {
+		! self.values_as_vec () .is_empty ()
+	}
+	
+	#[ inline (always) ]
+	fn values_length (&self) -> (usize) {
+		self.values_as_vec () .len ()
+	}
 }
 
 
@@ -1059,9 +1083,61 @@ pub enum ArrayRef <'a> {
 }
 
 
+impl <'a> ArrayRef<'a> {
+	
+	#[ inline (always) ]
+	pub fn try (value : &'a Value) -> (Outcome<ArrayRef<'a>>) {
+		match *value {
+			Value::ArrayImmutable (_, ref value, _) =>
+				succeed! (value.values_ref ()),
+			Value::ArrayMutable (_, ref value, _) =>
+				succeed! (value.values_ref ()),
+			_ =>
+				fail! (0x4e577110),
+		}
+	}
+	
+	#[ inline (always) ]
+	pub fn clone (&self) -> (Value) {
+		match *self {
+			ArrayRef::Immutable (value, _) =>
+				(*value) .clone () .into (),
+			ArrayRef::Mutable (value, _) =>
+				(*value) .clone () .into (),
+		}
+	}
+	
+	#[ inline (always) ]
+	pub fn is_self (&self, other : &ArrayRef) -> (bool) {
+		match (self, other) {
+			(&ArrayRef::Immutable (self_0, _), &ArrayRef::Immutable (other_0, _)) =>
+				ArrayImmutable::is_self (self_0, other_0),
+			(&ArrayRef::Mutable (self_0, _), &ArrayRef::Mutable (other_0, _)) =>
+				ArrayMutable::is_self (self_0, other_0),
+			_ =>
+				false,
+		}
+	}
+}
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+impl <'a> Array for ArrayRef<'a> {
+	
+	#[ inline (always) ]
+	fn values_as_vec (&self) -> (&StdVec<Value>) {
+		match *self {
+			ArrayRef::Immutable (_, values) =>
+				values,
+			ArrayRef::Mutable (_, ref values) =>
+				values,
+		}
+	}
+}
+
+
+
+
+#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd) ]
 pub struct ArrayImmutable ( StdRc<StdVec<Value>> );
 
 
@@ -1070,6 +1146,11 @@ impl ArrayImmutable {
 	#[ inline (always) ]
 	pub fn is_self (&self, other : &ArrayImmutable) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
+	}
+	
+	#[ inline (always) ]
+	pub fn values_ref (&self) -> (ArrayRef) {
+		ArrayRef::Immutable (self, self.0.as_ref ())
 	}
 	
 	#[ inline (always) ]
@@ -1082,46 +1163,16 @@ impl ArrayImmutable {
 impl Array for ArrayImmutable {
 	
 	#[ inline (always) ]
-	fn values_as_slice (&self) -> (&[Value]) {
-		self.values_ref () .as_slice ()
-	}
-	
-	#[ inline (always) ]
-	fn values_as_iter (&self) -> (slice::Iter<Value>) {
-		self.values_ref () .iter ()
-	}
-	
-	#[ inline (always) ]
-	fn values_ref (&self) -> (&StdVec<Value>) {
+	fn values_as_vec (&self) -> (&StdVec<Value>) {
 		self.0.as_ref ()
-	}
-	
-	#[ inline (always) ]
-	fn values_clone (&self) -> (StdVec<Value>) {
-		self.values_ref () .clone ()
-	}
-	
-	#[ inline (always) ]
-	fn values_is_empty (&self) -> (bool) {
-		self.values_ref () .is_empty ()
-	}
-	
-	#[ inline (always) ]
-	fn values_is_not_empty (&self) -> (bool) {
-		!self.values_ref () .is_empty ()
-	}
-	
-	#[ inline (always) ]
-	fn values_length (&self) -> (usize) {
-		self.values_ref () .len ()
 	}
 }
 
 
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
-pub struct ArrayMutable ( StdRc<StdVec<Value>> );
+#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd) ]
+pub struct ArrayMutable ( StdRc<StdRefCell<StdVec<Value>>> );
 
 
 impl ArrayMutable {
@@ -1132,47 +1183,13 @@ impl ArrayMutable {
 	}
 	
 	#[ inline (always) ]
-	pub fn values_rc_clone (&self) -> (StdRc<StdVec<Value>>) {
+	pub fn values_ref (&self) -> (ArrayRef) {
+		ArrayRef::Mutable (self, self.0.as_ref () .borrow ())
+	}
+	
+	#[ inline (always) ]
+	pub fn values_rc_clone (&self) -> (StdRc<StdRefCell<StdVec<Value>>>) {
 		self.0.clone ()
-	}
-}
-
-
-impl Array for ArrayMutable {
-	
-	#[ inline (always) ]
-	fn values_as_slice (&self) -> (&[Value]) {
-		self.values_ref () .as_slice ()
-	}
-	
-	#[ inline (always) ]
-	fn values_as_iter (&self) -> (slice::Iter<Value>) {
-		self.values_ref () .iter ()
-	}
-	
-	#[ inline (always) ]
-	fn values_ref (&self) -> (&StdVec<Value>) {
-		self.0.as_ref ()
-	}
-	
-	#[ inline (always) ]
-	fn values_clone (&self) -> (StdVec<Value>) {
-		self.values_ref () .clone ()
-	}
-	
-	#[ inline (always) ]
-	fn values_is_empty (&self) -> (bool) {
-		self.values_ref () .is_empty ()
-	}
-	
-	#[ inline (always) ]
-	fn values_is_not_empty (&self) -> (bool) {
-		!self.values_ref () .is_empty ()
-	}
-	
-	#[ inline (always) ]
-	fn values_length (&self) -> (usize) {
-		self.values_ref () .len ()
 	}
 }
 
@@ -1191,7 +1208,7 @@ impl Values {
 	}
 	
 	#[ inline (always) ]
-	pub fn values_as_iter (&self) -> (slice::Iter<Value>) {
+	pub fn values_iter (&self) -> (slice::Iter<Value>) {
 		self.values_ref () .iter ()
 	}
 	
@@ -1212,7 +1229,7 @@ impl Values {
 	
 	#[ inline (always) ]
 	pub fn values_is_not_empty (&self) -> (bool) {
-		!self.values_ref () .is_empty ()
+		! self.values_ref () .is_empty ()
 	}
 	
 	#[ inline (always) ]
@@ -1376,7 +1393,7 @@ pub fn array_immutable_new (values : StdVec<Value>) -> (ArrayImmutable) {
 
 #[ inline (always) ]
 pub fn array_mutable_new (values : StdVec<Value>) -> (ArrayMutable) {
-	ArrayMutable (StdRc::new (values))
+	ArrayMutable (StdRc::new (StdRefCell::new (values)))
 }
 
 

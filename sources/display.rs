@@ -378,7 +378,8 @@ impl fmt::Display for ArrayImmutable {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		return array_fmt (self.values_as_slice (), formatter);
+		let array = self.values_ref ();
+		return array_fmt (array.values_as_slice (), formatter);
 	}
 }
 
@@ -386,7 +387,8 @@ impl fmt::Display for ArrayMutable {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		return array_fmt (self.values_as_slice (), formatter);
+		let array = self.values_ref ();
+		return array_fmt (array.values_as_slice (), formatter);
 	}
 }
 
@@ -413,7 +415,7 @@ impl fmt::Display for Values {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		let values = self.values_as_iter ();
+		let values = self.values_iter ();
 		try! (formatter.write_str ("#values("));
 		let mut is_first = true;
 		for value in values {

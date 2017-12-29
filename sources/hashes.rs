@@ -136,6 +136,28 @@ impl hash::Hash for PairMutable {
 
 
 
+impl hash::Hash for ArrayImmutable {
+	
+	#[ inline (always) ]
+	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
+		let values = self.values_ref ();
+		values.values_as_vec () .hash (hasher);
+	}
+}
+
+
+impl hash::Hash for ArrayMutable {
+	
+	#[ inline (always) ]
+	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
+		let values = self.values_ref ();
+		values.values_as_vec () .hash (hasher);
+	}
+}
+
+
+
+
 impl hash::Hash for LambdaInternals {
 	
 	#[ inline (always) ]

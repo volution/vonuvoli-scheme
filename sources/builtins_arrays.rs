@@ -14,7 +14,7 @@ use super::prelude::*;
 
 pub mod exports {
 	
-	pub use super::{array_at, array_at_ref, array_at_set};
+	pub use super::{array_at, array_at_set};
 	
 	pub use super::{array_empty};
 	pub use super::{array_collect};
@@ -38,13 +38,10 @@ pub mod exports {
 
 
 pub fn array_at (array : &Value, index : usize) -> (Outcome<Value>) {
-	succeed! (try! (array_at_ref (array, index)) .clone ());
-}
-
-pub fn array_at_ref (array : &Value, index : usize) -> (Outcome<&Value>) {
 	let array = try_as_array_ref! (array);
-	if let Some (value) = array.values_ref () .get (index) {
-		succeed! (value);
+	let array = array.values_as_vec ();
+	if let Some (value) = array.get (index) {
+		succeed! (value.clone ());
 	} else {
 		fail! (0x40bcc72e);
 	}
@@ -350,7 +347,7 @@ pub fn vec_array_drain (buffer : &mut ValueVec, array : &Value) -> (Outcome<()>)
 
 
 
-pub struct ArrayIterator <'a> ( &'a Array, slice::Iter<'a, Value> );
+pub struct ArrayIterator <'a> ( ArrayRef<'a>, slice::Iter<'a, Value> );
 
 
 impl <'a> ArrayIterator <'a> {
@@ -360,8 +357,9 @@ impl <'a> ArrayIterator <'a> {
 		return ArrayIterator::new_a (array);
 	}
 	
-	pub fn new_a (array : &'a Array) -> (Outcome<ArrayIterator<'a>>) {
-		succeed! (ArrayIterator (array, array.values_ref () .iter ()));
+	pub fn new_a (array : ArrayRef<'a>) -> (Outcome<ArrayIterator<'a>>) {
+		let iterator = unsafe { mem::transmute (array.values_iter ()) };
+		succeed! (ArrayIterator (array, iterator));
 	}
 }
 
