@@ -20,7 +20,7 @@ pub mod exports {
 
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn generate_binding_templates () -> (Outcome<StdVec<BindingTemplate>>) {
 	
 	let definitions = try! (generate_definitions ());
@@ -51,7 +51,7 @@ pub fn generate_binding_templates () -> (Outcome<StdVec<BindingTemplate>>) {
 
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value)>>) {
 	
 	let definitions = vec! [

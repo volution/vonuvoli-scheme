@@ -35,7 +35,7 @@ pub struct ContextInternals {
 impl Context {
 	
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn new (parent : Option<&Context>) -> (Context) {
 		let internals = ContextInternals {
 				bindings : StdMap::new (),
@@ -46,13 +46,13 @@ impl Context {
 		return Context (StdRc::new (StdRefCell::new (internals)));
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn fork (&self) -> (Context) {
 		return Context::new (Some (self));
 	}
 	
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn resolve (&self, identifier : &Symbol) -> (Outcome<Option<Binding>>) {
 		let self_0 = self.internals_ref ();
 		match self_0.bindings.get (identifier.string_as_string ()) {
@@ -68,12 +68,12 @@ impl Context {
 	}
 	
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn define (&self, template : &BindingTemplate) -> (Outcome<Binding>) {
 		return self.define_with_prefix (template, None);
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn define_with_prefix (&self, template : &BindingTemplate, prefix : Option<&str>) -> (Outcome<Binding>) {
 		let mut self_0 = self.internals_ref_mut ();
 		if self_0.immutable {
@@ -101,12 +101,12 @@ impl Context {
 	}
 	
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn define_all (&self, templates : &[BindingTemplate]) -> (Outcome<()>) {
 		return self.define_all_with_prefix (templates, None);
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn define_all_with_prefix (&self, templates : &[BindingTemplate], prefix : Option<&str>) -> (Outcome<()>) {
 		{
 			let mut self_0 = self.internals_ref_mut ();
@@ -124,7 +124,7 @@ impl Context {
 	}
 	
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn set_immutable (&self) -> (Outcome<()>) {
 		let mut self_0 = self.internals_ref_mut ();
 		self_0.immutable = true;
@@ -132,24 +132,24 @@ impl Context {
 	}
 	
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn internals_ref (&self) -> (StdRef<ContextInternals>) {
 		return StdRefCell::borrow (StdRc::as_ref (&self.0));
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn internals_ref_mut (&self) -> (StdRefMut<ContextInternals>) {
 		return StdRefCell::borrow_mut (StdRc::as_ref (&self.0));
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn handle (&self) -> (Handle) {
 		let self_0 = self.internals_ref ();
 		return self_0.handle;
 	}
 	
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn new_binding (&self, template : &BindingTemplate) -> (Outcome<Binding>) {
 		let binding = Binding::new (
 				template.identifier.clone (),
@@ -160,7 +160,7 @@ impl Context {
 	}
 	
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn is_self (&self, other : &Context) -> (bool) {
 		return ptr::eq (self.0.as_ref (), other.0.as_ref ());
 	}
@@ -205,7 +205,7 @@ pub enum RegisterTemplate {
 impl Registers {
 	
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn new () -> (Registers) {
 		let internals = RegistersInternals {
 				registers : StdVec::new (),
@@ -217,7 +217,7 @@ impl Registers {
 	}
 	
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn new_and_define (templates : &[RegisterTemplate], borrow : &Registers) -> (Outcome<Registers>) {
 		let mut registers = Registers::new ();
 		try! (registers.define_all (templates, borrow));
@@ -225,7 +225,7 @@ impl Registers {
 	}
 	
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn resolve_value (&mut self, index : usize) -> (Outcome<Value>) {
 		let self_0 = self.internals_ref_mut ();
 		let register = try_some! (self_0.registers.get (index), 0x89e68eab);
@@ -242,7 +242,7 @@ impl Registers {
 	}
 	
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn resolve_binding_option (&self, index : usize) -> (Outcome<Option<Binding>>) {
 		let self_0 = self.internals_ref ();
 		let register = try_some! (self_0.registers.get (index), 0x371fc84b);
@@ -258,7 +258,7 @@ impl Registers {
 		}
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn resolve_binding_create (&mut self, index : usize) -> (Outcome<Binding>) {
 		let self_0 = self.internals_ref_mut ();
 		let register = try_some! (self_0.registers.get_mut (index), 0x79873ff6);
@@ -281,7 +281,7 @@ impl Registers {
 	}
 	
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn initialize_value (&mut self, index : usize, value : Value) -> (Outcome<()>) {
 		let self_0 = self.internals_ref_mut ();
 		let register = try_some! (self_0.registers.get_mut (index), 0x7dabdbe0);
@@ -299,7 +299,7 @@ impl Registers {
 		}
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn update_value (&mut self, index : usize, value : Value) -> (Outcome<Value>) {
 		let self_0 = self.internals_ref_mut ();
 		if self_0.immutable {
@@ -325,7 +325,7 @@ impl Registers {
 	}
 	
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn define (&mut self, template : &RegisterTemplate, borrow : &Registers) -> (Outcome<usize>) {
 		let self_0 = self.internals_ref_mut ();
 		if self_0.immutable {
@@ -338,7 +338,7 @@ impl Registers {
 		succeed! (index);
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn define_all (&mut self, templates : &[RegisterTemplate], borrow : &Registers) -> (Outcome<()>) {
 		{
 			let self_0 = self.internals_ref_mut ();
@@ -356,7 +356,7 @@ impl Registers {
 	}
 	
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn set_immutable (&mut self) -> (Outcome<()>) {
 		let self_0 = self.internals_ref_mut ();
 		self_0.immutable = true;
@@ -364,7 +364,7 @@ impl Registers {
 	}
 	
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn new_register (template : &RegisterTemplate, borrow : &Registers) -> (Outcome<Register>) {
 		match *template {
 			RegisterTemplate::Borrow (index) => {
@@ -394,24 +394,24 @@ impl Registers {
 	}
 	
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn internals_ref (&self) -> (&RegistersInternals) {
 		return &self.0;
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn internals_ref_mut (&mut self) -> (&mut RegistersInternals) {
 		return &mut self.0;
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn handle (&self) -> (Handle) {
 		let self_0 = self.internals_ref ();
 		return self_0.handle;
 	}
 	
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn is_self (&self, other : &Registers) -> (bool) {
 		return ptr::eq (self, other);
 	}
@@ -445,7 +445,7 @@ pub struct BindingTemplate {
 impl Binding {
 	
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn new (identifier : Option<Symbol>, value : Option<Value>, immutable : bool) -> (Binding) {
 		let (value, initialized) = if let Some (value) = value {
 			(value, true)
@@ -463,7 +463,7 @@ impl Binding {
 	}
 	
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn get (&self) -> (Outcome<Value>) {
 		let self_0 = self.internals_ref ();
 		if ! self_0.initialized {
@@ -472,7 +472,7 @@ impl Binding {
 		succeed! (self_0.value.clone ());
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn get_option (&self) -> (Outcome<Option<Value>>) {
 		let self_0 = self.internals_ref ();
 		if self_0.initialized {
@@ -483,7 +483,7 @@ impl Binding {
 	}
 	
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn initialize (&self, value : Value) -> (Outcome<()>) {
 		let mut self_0 = self.internals_ref_mut ();
 		// FIXME:  This breaks bencmarks!
@@ -495,7 +495,7 @@ impl Binding {
 		succeed! (());
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn set (&self, value : Value) -> (Outcome<Value>) {
 		let mut self_0 = self.internals_ref_mut ();
 		if self_0.immutable {
@@ -510,18 +510,18 @@ impl Binding {
 	}
 	
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn is_initialized (&self) -> (bool) {
 		return self.internals_ref () .initialized;
 	}
 	
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn is_immutable (&self) -> (bool) {
 		return self.internals_ref () .immutable;
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn set_immutable (&self) -> (Outcome<()>) {
 		let mut self_0 = self.internals_ref_mut ();
 		self_0.immutable = true;
@@ -529,24 +529,24 @@ impl Binding {
 	}
 	
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn internals_ref (&self) -> (StdRef<BindingInternals>) {
 		return StdRefCell::borrow (StdRc::as_ref (&self.0));
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn internals_ref_mut (&self) -> (StdRefMut<BindingInternals>) {
 		return StdRefCell::borrow_mut (StdRc::as_ref (&self.0));
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn handle (&self) -> (Handle) {
 		let self_0 = self.internals_ref ();
 		return self_0.handle;
 	}
 	
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn is_self (&self, other : &Binding) -> (bool) {
 		return ptr::eq (self.0.as_ref (), other.0.as_ref ());
 	}

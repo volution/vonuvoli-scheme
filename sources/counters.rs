@@ -25,12 +25,12 @@ pub struct PermutationCounter {
 impl PermutationCounter {
 	
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn new () -> (Self) {
 		PermutationCounter::with_seed (0, 0)
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn with_seed (index : u32, offset : u32) -> (Self) {
 		PermutationCounter {
 				index : index,
@@ -40,7 +40,7 @@ impl PermutationCounter {
 	}
 	
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn initialize (&mut self) -> () {
 		if !self.initialized {
 			self.index = self.permute (self.permute (num::Wrapping (self.index)) + FUZZ_2) .0;
@@ -49,7 +49,7 @@ impl PermutationCounter {
 		}
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn next (&mut self) -> (u32) {
 		self.initialize ();
 		self.index = (num::Wrapping (self.index) + num::Wrapping (1u32)) .0;
@@ -60,7 +60,7 @@ impl PermutationCounter {
 		return output.0;
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn permute (&self, index : num::Wrapping<u32>) -> (num::Wrapping<u32>) {
 		if index >= PRIME {
 			return index;

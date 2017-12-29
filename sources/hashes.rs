@@ -12,7 +12,7 @@ use super::prelude::*;
 
 impl hash::Hash for Value {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		match *self {
 			
@@ -61,7 +61,7 @@ impl hash::Hash for Value {
 
 impl hash::Hash for NumberReal {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		hasher.write_u64 (self.value () .to_bits ());
 	}
@@ -72,7 +72,7 @@ impl hash::Hash for NumberReal {
 
 impl hash::Hash for StringImmutable {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		let string = self.string_ref ();
 		string.string_as_string () .hash (hasher);
@@ -82,7 +82,7 @@ impl hash::Hash for StringImmutable {
 
 impl hash::Hash for StringMutable {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		let string = self.string_ref ();
 		string.string_as_string () .hash (hasher);
@@ -94,7 +94,7 @@ impl hash::Hash for StringMutable {
 
 impl hash::Hash for BytesImmutable {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		let bytes = self.bytes_ref ();
 		bytes.bytes_as_vec () .hash (hasher);
@@ -104,7 +104,7 @@ impl hash::Hash for BytesImmutable {
 
 impl hash::Hash for BytesMutable {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		let bytes = self.bytes_ref ();
 		bytes.bytes_as_vec () .hash (hasher);
@@ -116,7 +116,7 @@ impl hash::Hash for BytesMutable {
 
 impl hash::Hash for PairImmutable {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		let pair = self.pair_ref ();
 		pair.values_as_ref () .hash (hasher);
@@ -126,7 +126,7 @@ impl hash::Hash for PairImmutable {
 
 impl hash::Hash for PairMutable {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		let pair = self.pair_ref ();
 		pair.values_as_ref () .hash (hasher);
@@ -138,7 +138,7 @@ impl hash::Hash for PairMutable {
 
 impl hash::Hash for ArrayImmutable {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		let values = self.values_ref ();
 		values.values_as_vec () .hash (hasher);
@@ -148,7 +148,7 @@ impl hash::Hash for ArrayImmutable {
 
 impl hash::Hash for ArrayMutable {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		let values = self.values_ref ();
 		values.values_as_vec () .hash (hasher);
@@ -160,7 +160,7 @@ impl hash::Hash for ArrayMutable {
 
 impl hash::Hash for LambdaInternals {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		self.handle_2.hash (hasher);
 	}
@@ -171,7 +171,7 @@ impl hash::Hash for LambdaInternals {
 
 impl hash::Hash for ProcedureNative {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		self.handle_value () .hash (hasher);
 	}
@@ -180,7 +180,7 @@ impl hash::Hash for ProcedureNative {
 
 impl hash::Hash for SyntaxNative {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		self.handle_value () .hash (hasher);
 	}
@@ -191,7 +191,7 @@ impl hash::Hash for SyntaxNative {
 
 impl hash::Hash for Port {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		self.handle () .hash (hasher);
 	}
@@ -202,7 +202,7 @@ impl hash::Hash for Port {
 
 impl hash::Hash for Context {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		self.handle () .hash (hasher);
 	}
@@ -211,7 +211,7 @@ impl hash::Hash for Context {
 
 impl hash::Hash for Registers {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		self.handle () .hash (hasher);
 	}
@@ -220,7 +220,7 @@ impl hash::Hash for Registers {
 
 impl hash::Hash for Binding {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		self.handle () .hash (hasher);
 	}
@@ -231,7 +231,7 @@ impl hash::Hash for Binding {
 
 impl hash::Hash for ExpressionForProcedureNativeCall {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		// FIXME:  Implement this!
 		hasher.write_u32 (0);

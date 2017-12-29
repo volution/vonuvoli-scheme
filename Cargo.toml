@@ -32,7 +32,8 @@ doctest = false
 
 
 [features]
-default = []
+default = ["scheme_inline_always"]
+scheme_inline_always = []
 
 
 [profile.dev]

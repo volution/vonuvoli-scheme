@@ -42,17 +42,17 @@ pub enum ProcedureExtendedInternals {
 
 impl ProcedureExtended {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn new (internals : ProcedureExtendedInternals) -> (ProcedureExtended) {
 		return ProcedureExtended (StdRc::new (internals));
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn internals_ref (&self) -> (&ProcedureExtendedInternals) {
 		return StdRc::as_ref (&self.0);
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn is_self (&self, other : &ProcedureExtended) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
@@ -61,7 +61,7 @@ impl ProcedureExtended {
 
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn procedure_extended_evaluate_0 (extended : &ProcedureExtended, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match *extended.internals_ref () {
 		
@@ -74,7 +74,7 @@ pub fn procedure_extended_evaluate_0 (extended : &ProcedureExtended, _evaluator 
 
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn procedure_extended_evaluate_1 (extended : &ProcedureExtended, input_1 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match *extended.internals_ref () {
 		
@@ -96,7 +96,7 @@ pub fn procedure_extended_evaluate_1 (extended : &ProcedureExtended, input_1 : &
 
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn procedure_extended_evaluate_2 (extended : &ProcedureExtended, _input_1 : &Value, _input_2 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match *extended.internals_ref () {
 		
@@ -109,7 +109,7 @@ pub fn procedure_extended_evaluate_2 (extended : &ProcedureExtended, _input_1 : 
 
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn procedure_extended_evaluate_3 (extended : &ProcedureExtended, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match *extended.internals_ref () {
 		
@@ -122,7 +122,7 @@ pub fn procedure_extended_evaluate_3 (extended : &ProcedureExtended, _input_1 : 
 
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn procedure_extended_evaluate_4 (extended : &ProcedureExtended, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match *extended.internals_ref () {
 		
@@ -135,7 +135,7 @@ pub fn procedure_extended_evaluate_4 (extended : &ProcedureExtended, _input_1 : 
 
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn procedure_extended_evaluate_5 (extended : &ProcedureExtended, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _input_5 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match *extended.internals_ref () {
 		
@@ -148,7 +148,7 @@ pub fn procedure_extended_evaluate_5 (extended : &ProcedureExtended, _input_1 : 
 
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn procedure_extended_evaluate_n (extended : &ProcedureExtended, inputs : &[&Value], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let inputs_count = inputs.len ();
 	match *extended.internals_ref () {

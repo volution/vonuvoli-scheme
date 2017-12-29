@@ -25,17 +25,17 @@ pub enum SyntaxExtendedInternals {}
 
 impl SyntaxExtended {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn new (internals : SyntaxExtendedInternals) -> (SyntaxExtended) {
 		return SyntaxExtended (StdRc::new (internals));
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn internals_ref (&self) -> (&SyntaxExtendedInternals) {
 		return StdRc::as_ref (&self.0);
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn is_self (&self, other : &SyntaxExtended) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}

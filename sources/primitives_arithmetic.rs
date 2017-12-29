@@ -250,7 +250,7 @@ macro_rules! arithmetic_primitive_2_delegate_call {
 
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn arithmetic_primitive_0_evaluate (primitive : ArithmeticPrimitive0, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	let output : Value = match primitive {
@@ -269,7 +269,7 @@ pub fn arithmetic_primitive_0_evaluate (primitive : ArithmeticPrimitive0, _evalu
 
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn arithmetic_primitive_1_evaluate (primitive : ArithmeticPrimitive1, input_1 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	let output : Value = match primitive {
@@ -507,7 +507,7 @@ pub fn arithmetic_primitive_1_evaluate (primitive : ArithmeticPrimitive1, input_
 
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn arithmetic_primitive_2_evaluate (primitive : ArithmeticPrimitive2, input_1 : &Value, input_2 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	let output : Value = match primitive {
@@ -585,7 +585,7 @@ pub fn arithmetic_primitive_2_evaluate (primitive : ArithmeticPrimitive2, input_
 
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn arithmetic_primitive_3_evaluate (primitive : ArithmeticPrimitive3, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
@@ -593,7 +593,7 @@ pub fn arithmetic_primitive_3_evaluate (primitive : ArithmeticPrimitive3, _input
 
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn arithmetic_primitive_4_evaluate (primitive : ArithmeticPrimitive4, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
@@ -601,7 +601,7 @@ pub fn arithmetic_primitive_4_evaluate (primitive : ArithmeticPrimitive4, _input
 
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn arithmetic_primitive_5_evaluate (primitive : ArithmeticPrimitive5, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _input_5 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
@@ -609,7 +609,7 @@ pub fn arithmetic_primitive_5_evaluate (primitive : ArithmeticPrimitive5, _input
 
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn arithmetic_primitive_n_evaluate (primitive : ArithmeticPrimitiveN, inputs : &[&Value], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	match primitive {
@@ -713,7 +713,7 @@ pub fn arithmetic_primitive_n_evaluate (primitive : ArithmeticPrimitiveN, inputs
 
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn arithmetic_primitive_v_alternative_0 (primitive : ArithmeticPrimitiveV) -> (Option<ArithmeticPrimitive0>) {
 	match primitive {
 		ArithmeticPrimitiveV::Addition =>
@@ -738,7 +738,7 @@ pub fn arithmetic_primitive_v_alternative_0 (primitive : ArithmeticPrimitiveV) -
 
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn arithmetic_primitive_v_alternative_1 (primitive : ArithmeticPrimitiveV) -> (Option<ArithmeticPrimitive1>) {
 	match primitive {
 		ArithmeticPrimitiveV::Addition =>
@@ -763,7 +763,7 @@ pub fn arithmetic_primitive_v_alternative_1 (primitive : ArithmeticPrimitiveV) -
 
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn arithmetic_primitive_v_alternative_2 (primitive : ArithmeticPrimitiveV) -> (Option<ArithmeticPrimitive2>) {
 	match primitive {
 		ArithmeticPrimitiveV::Addition =>
@@ -788,7 +788,7 @@ pub fn arithmetic_primitive_v_alternative_2 (primitive : ArithmeticPrimitiveV) -
 
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn arithmetic_primitive_v_alternative_3 (primitive : ArithmeticPrimitiveV) -> (Option<ArithmeticPrimitive3>) {
 	match primitive {
 		ArithmeticPrimitiveV::Addition =>
@@ -813,7 +813,7 @@ pub fn arithmetic_primitive_v_alternative_3 (primitive : ArithmeticPrimitiveV) -
 
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn arithmetic_primitive_v_alternative_4 (primitive : ArithmeticPrimitiveV) -> (Option<ArithmeticPrimitive4>) {
 	match primitive {
 		ArithmeticPrimitiveV::Addition =>
@@ -838,7 +838,7 @@ pub fn arithmetic_primitive_v_alternative_4 (primitive : ArithmeticPrimitiveV) -
 
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn arithmetic_primitive_v_alternative_5 (primitive : ArithmeticPrimitiveV) -> (Option<ArithmeticPrimitive5>) {
 	match primitive {
 		ArithmeticPrimitiveV::Addition =>
@@ -863,7 +863,7 @@ pub fn arithmetic_primitive_v_alternative_5 (primitive : ArithmeticPrimitiveV) -
 
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn arithmetic_primitive_v_alternative_n (primitive : ArithmeticPrimitiveV) -> (Option<ArithmeticPrimitiveN>) {
 	match primitive {
 		ArithmeticPrimitiveV::Addition =>
@@ -888,37 +888,37 @@ pub fn arithmetic_primitive_v_alternative_n (primitive : ArithmeticPrimitiveV) -
 
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn arithmetic_primitive_0_attributes (_primitive : ArithmeticPrimitive0) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_0);
 }
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn arithmetic_primitive_1_attributes (_primitive : ArithmeticPrimitive1) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_1);
 }
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn arithmetic_primitive_2_attributes (_primitive : ArithmeticPrimitive2) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_2);
 }
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn arithmetic_primitive_3_attributes (_primitive : ArithmeticPrimitive3) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_2);
 }
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn arithmetic_primitive_4_attributes (_primitive : ArithmeticPrimitive4) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_4);
 }
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn arithmetic_primitive_5_attributes (_primitive : ArithmeticPrimitive5) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_5);
 }
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn arithmetic_primitive_n_attributes (_primitive : ArithmeticPrimitiveN) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_N);
 }

@@ -20,13 +20,13 @@ pub mod exports {
 
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn unicode_utf8_char_width (byte : u8) -> (usize) {
 	return core_str::utf8_char_width (byte);
 }
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn unicode_utf8_char_decode (bytes : &[u8]) -> (Outcome<char>) {
 	if let Some (code) = core_str::next_code_point (&mut bytes.iter ()) {
 		unsafe {
@@ -39,7 +39,7 @@ pub fn unicode_utf8_char_decode (bytes : &[u8]) -> (Outcome<char>) {
 }
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn unicode_utf8_char_decode_and_width (bytes : &[u8]) -> (Outcome<(char, usize)>) {
 	let char_byte_0 = bytes[0];
 	let char_width = unicode_utf8_char_width (char_byte_0);

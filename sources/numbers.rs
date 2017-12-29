@@ -21,7 +21,7 @@ pub struct NumberInteger ( pub i64 );
 
 impl NumberInteger {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn value (&self) -> (i64) {
 		self.0
 	}
@@ -30,7 +30,7 @@ impl NumberInteger {
 
 macro_rules! NumberInteger_fn_try_to_signed_integer {
 	($export : ident, $type : ty) => (
-		#[ inline (always) ]
+		#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 		pub fn $export (&self) -> (Outcome<$type>) {
 			let value = self.0;
 			if mem::size_of::<i64> () <= mem::size_of::<$type> () {
@@ -51,7 +51,7 @@ macro_rules! NumberInteger_fn_try_to_signed_integer {
 
 macro_rules! NumberInteger_fn_try_to_unsigned_integer {
 	($export : ident, $type : ty) => (
-		#[ inline (always) ]
+		#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 		pub fn $export (&self) -> (Outcome<$type>) {
 			let value = self.0;
 			if value < 0 {
@@ -75,7 +75,7 @@ macro_rules! NumberInteger_fn_predicate {
 		NumberInteger_fn_predicate! ($delegate, $delegate);
 	);
 	($export : ident, $delegate : ident) => (
-		#[ inline (always) ]
+		#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 		pub fn $export (&self) -> (bool) {
 			<i64>::$delegate (self.0)
 		}
@@ -88,7 +88,7 @@ macro_rules! NumberInteger_fn_delegate_1 {
 		NumberInteger_fn_delegate_1! ($delegate, $delegate);
 	);
 	($export : ident, $delegate : ident) => (
-		#[ inline (always) ]
+		#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 		pub fn $export (&self) -> (NumberInteger) {
 			<i64>::$delegate (self.0) .into ()
 		}
@@ -100,7 +100,7 @@ macro_rules! NumberInteger_fn_delegate_2 {
 		NumberInteger_fn_delegate_2! ($delegate, $delegate);
 	);
 	($export : ident, $delegate : ident) => (
-		#[ inline (always) ]
+		#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 		pub fn $export (&self, other : &NumberInteger) -> (NumberInteger) {
 			<i64>::$delegate (self.0, other.0) .into ()
 		}
@@ -113,7 +113,7 @@ macro_rules! NumberInteger_fn_delegate_1_real {
 		NumberInteger_fn_delegate_1_real! ($delegate, $delegate);
 	);
 	($export : ident, $delegate : ident) => (
-		#[ inline (always) ]
+		#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 		pub fn $export (&self) -> (NumberReal) {
 			<f64>::$delegate (self.0 as f64) .into ()
 		}
@@ -125,7 +125,7 @@ macro_rules! NumberInteger_fn_delegate_2_real {
 		NumberInteger_fn_delegate_2_real! ($delegate, $delegate);
 	);
 	($export : ident, $delegate : ident) => (
-		#[ inline (always) ]
+		#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 		pub fn $export (&self, other : &NumberReal) -> (NumberReal) {
 			<f64>::$delegate (self.0 as f64, other.0) .into ()
 		}
@@ -148,7 +148,7 @@ impl NumberInteger {
 	NumberInteger_fn_try_to_unsigned_integer! (try_to_u64, u64);
 	NumberInteger_fn_try_to_unsigned_integer! (try_to_usize, usize);
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn try_to_char (&self) -> (Outcome<char>) {
 		let value = try! (self.try_to_u32 ());
 		if let Some (value) = char::from_u32 (value) {
@@ -158,13 +158,13 @@ impl NumberInteger {
 		}
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn try_to_real (&self) -> (Outcome<NumberReal>) {
 		succeed! ((self.0 as f64) .into ());
 	}
 	
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn neg (&self) -> (Outcome<NumberInteger>) {
 		if let Some (outcome) = <i64>::checked_neg (self.0) {
 			succeed! (outcome.into ());
@@ -173,7 +173,7 @@ impl NumberInteger {
 		}
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn abs (&self) -> (Outcome<NumberInteger>) {
 		if let Some (outcome) = <i64>::checked_abs (self.0) {
 			succeed! (outcome.into ());
@@ -182,7 +182,7 @@ impl NumberInteger {
 		}
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn add (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		if let Some (outcome) = <i64>::checked_add (self.0, other.0) {
 			succeed! (outcome.into ());
@@ -191,7 +191,7 @@ impl NumberInteger {
 		}
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn sub (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		if let Some (outcome) = <i64>::checked_sub (self.0, other.0) {
 			succeed! (outcome.into ());
@@ -200,7 +200,7 @@ impl NumberInteger {
 		}
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn mul (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		if let Some (outcome) = <i64>::checked_mul (self.0, other.0) {
 			succeed! (outcome.into ());
@@ -209,7 +209,7 @@ impl NumberInteger {
 		}
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn div (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		if let Some (outcome) = <i64>::checked_div (self.0, other.0) {
 			succeed! (outcome.into ());
@@ -218,7 +218,7 @@ impl NumberInteger {
 		}
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn rem (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		if let Some (outcome) = <i64>::checked_rem (self.0, other.0) {
 			succeed! (outcome.into ());
@@ -227,7 +227,7 @@ impl NumberInteger {
 		}
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn pow (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		let other = other.0;
 		if (other < 0) || (other > (<u32>::max_value () as i64)) {
@@ -237,59 +237,59 @@ impl NumberInteger {
 	}
 	
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn is_zero (&self) -> (bool) {
 		self.0 == 0
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn is_even (&self) -> (bool) {
 		(self.0 & 1) == 0
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn is_odd (&self) -> (bool) {
 		(self.0 & 1) != 0
 	}
 	
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn bitnot (&self) -> (NumberInteger) {
 		(!self.0) .into ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn bitand (&self, other : &NumberInteger) -> (NumberInteger) {
 		(self.0 & other.0) .into ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn bitor (&self, other : &NumberInteger) -> (NumberInteger) {
 		(self.0 | other.0) .into ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn bitxor (&self, other : &NumberInteger) -> (NumberInteger) {
 		(self.0 ^ other.0) .into ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn bitnand (&self, other : &NumberInteger) -> (NumberInteger) {
 		self.bitand (other) .bitnot ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn bitnor (&self, other : &NumberInteger) -> (NumberInteger) {
 		self.bitor (other) .bitnot ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn bitnxor (&self, other : &NumberInteger) -> (NumberInteger) {
 		self.bitxor (other) .bitnot ()
 	}
 	
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn shl (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		let other = other.0;
 		if (other < 0) || (other > (<u32>::max_value () as i64)) {
@@ -302,7 +302,7 @@ impl NumberInteger {
 		}
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn shr (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		let other = other.0;
 		if (other < 0) || (other > (<u32>::max_value () as i64)) {
@@ -315,7 +315,7 @@ impl NumberInteger {
 		}
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn rotate_left (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		let other = other.0;
 		if (other < 0) || (other > (<u32>::max_value () as i64)) {
@@ -324,7 +324,7 @@ impl NumberInteger {
 		succeed! ((<i64>::rotate_left (self.0, other as u32)) .into ());
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn rotate_right (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		let other = other.0;
 		if (other < 0) || (other > (<u32>::max_value () as i64)) {
@@ -406,7 +406,7 @@ impl ops::Neg for NumberInteger {
 	
 	type Output = Outcome<NumberInteger>;
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn neg (self) -> (Outcome<NumberInteger>) {
 		NumberInteger::neg (&self)
 	}
@@ -416,7 +416,7 @@ impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Add<NumberIntegerInto> fo
 	
 	type Output = Outcome<NumberInteger>;
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn add (self, other : NumberIntegerInto) -> (Outcome<NumberInteger>) {
 		NumberInteger::add (&self, &other.into ())
 	}
@@ -426,7 +426,7 @@ impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Sub<NumberIntegerInto> fo
 	
 	type Output = Outcome<NumberInteger>;
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn sub (self, other : NumberIntegerInto) -> (Outcome<NumberInteger>) {
 		NumberInteger::sub (&self, &other.into ())
 	}
@@ -436,7 +436,7 @@ impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Mul<NumberIntegerInto> fo
 	
 	type Output = Outcome<NumberInteger>;
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn mul (self, other : NumberIntegerInto) -> (Outcome<NumberInteger>) {
 		NumberInteger::mul (&self, &other.into ())
 	}
@@ -446,7 +446,7 @@ impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Div<NumberIntegerInto> fo
 	
 	type Output = Outcome<NumberInteger>;
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn div (self, other : NumberIntegerInto) -> (Outcome<NumberInteger>) {
 		NumberInteger::div (&self, &other.into ())
 	}
@@ -456,7 +456,7 @@ impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Rem<NumberIntegerInto> fo
 	
 	type Output = Outcome<NumberInteger>;
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn rem (self, other : NumberIntegerInto) -> (Outcome<NumberInteger>) {
 		NumberInteger::rem (&self, &other.into ())
 	}
@@ -467,7 +467,7 @@ impl ops::Not for NumberInteger {
 	
 	type Output = NumberInteger;
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn not (self) -> (NumberInteger) {
 		NumberInteger::bitnot (&self)
 	}
@@ -477,7 +477,7 @@ impl <NumberIntegerInto : StdInto<NumberInteger>> ops::BitAnd<NumberIntegerInto>
 	
 	type Output = NumberInteger;
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn bitand (self, other : NumberIntegerInto) -> (NumberInteger) {
 		NumberInteger::bitand (&self, &other.into ())
 	}
@@ -487,7 +487,7 @@ impl <NumberIntegerInto : StdInto<NumberInteger>> ops::BitOr<NumberIntegerInto> 
 	
 	type Output = NumberInteger;
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn bitor (self, other : NumberIntegerInto) -> (NumberInteger) {
 		NumberInteger::bitor (&self, &other.into ())
 	}
@@ -497,7 +497,7 @@ impl <NumberIntegerInto : StdInto<NumberInteger>> ops::BitXor<NumberIntegerInto>
 	
 	type Output = NumberInteger;
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn bitxor (self, other : NumberIntegerInto) -> (NumberInteger) {
 		NumberInteger::bitxor (&self, &other.into ())
 	}
@@ -507,7 +507,7 @@ impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Shl<NumberIntegerInto> fo
 	
 	type Output = Outcome<NumberInteger>;
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn shl (self, other : NumberIntegerInto) -> (Outcome<NumberInteger>) {
 		NumberInteger::shl (&self, &other.into ())
 	}
@@ -517,7 +517,7 @@ impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Shr<NumberIntegerInto> fo
 	
 	type Output = Outcome<NumberInteger>;
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn shr (self, other : NumberIntegerInto) -> (Outcome<NumberInteger>) {
 		NumberInteger::shr (&self, &other.into ())
 	}
@@ -532,7 +532,7 @@ pub struct NumberReal ( pub f64 );
 
 impl NumberReal {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn value (&self) -> (f64) {
 		self.0
 	}
@@ -541,7 +541,7 @@ impl NumberReal {
 
 macro_rules! NumberReal_fn_try_to_signed_integer {
 	($export : ident, $type : ty) => (
-		#[ inline (always) ]
+		#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 		pub fn $export (&self) -> (Outcome<$type>) {
 			let value = self.0;
 			if ! value.is_finite () {
@@ -565,7 +565,7 @@ macro_rules! NumberReal_fn_try_to_signed_integer {
 
 macro_rules! NumberReal_fn_try_to_unsigned_integer {
 	($export : ident, $type : ty) => (
-		#[ inline (always) ]
+		#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 		pub fn $export (&self) -> (Outcome<$type>) {
 			let value = self.0;
 			if ! value.is_finite () {
@@ -592,7 +592,7 @@ macro_rules! NumberReal_fn_predicate {
 		NumberReal_fn_predicate! ($delegate, $delegate);
 	);
 	($export : ident, $delegate : ident) => (
-		#[ inline (always) ]
+		#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 		pub fn $export (&self) -> (bool) {
 			<f64>::$delegate (self.0)
 		}
@@ -605,7 +605,7 @@ macro_rules! NumberReal_fn_delegate_1 {
 		NumberReal_fn_delegate_1! ($delegate, $delegate);
 	);
 	($export : ident, $delegate : ident) => (
-		#[ inline (always) ]
+		#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 		pub fn $export (&self) -> (NumberReal) {
 			<f64>::$delegate (self.0) .into ()
 		}
@@ -617,7 +617,7 @@ macro_rules! NumberReal_fn_delegate_2 {
 		NumberReal_fn_delegate_2! ($delegate, $delegate);
 	);
 	($export : ident, $delegate : ident) => (
-		#[ inline (always) ]
+		#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 		pub fn $export (&self, other : &NumberReal) -> (NumberReal) {
 			<f64>::$delegate (self.0, other.0) .into ()
 		}
@@ -641,7 +641,7 @@ impl NumberReal {
 	NumberReal_fn_try_to_unsigned_integer! (try_to_usize, usize);
 	
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn try_to_f32 (&self) -> (Outcome<f32>) {
 		let value = self.0;
 		if value.is_finite () {
@@ -666,54 +666,54 @@ impl NumberReal {
 	}
 	
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn try_to_integer (&self) -> (Outcome<NumberInteger>) {
 		succeed! (try! (self.try_to_i64 ()) .into ());
 	}
 	
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn neg (&self) -> (NumberReal) {
 		(-self.0) .into ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn add (&self, other : &NumberReal) -> (NumberReal) {
 		(self.0 + other.0) .into ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn sub (&self, other : &NumberReal) -> (NumberReal) {
 		(self.0 - other.0) .into ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn mul (&self, other : &NumberReal) -> (NumberReal) {
 		(self.0 * other.0) .into ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn div (&self, other : &NumberReal) -> (NumberReal) {
 		(self.0 / other.0) .into ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn rem (&self, other : &NumberReal) -> (NumberReal) {
 		(self.0 % other.0) .into ()
 	}
 	
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn is_zero (&self) -> (bool) {
 		self.0 == 0.0
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn is_even (&self) -> (bool) {
 		(self.0 % 2.0) == 0.0
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn is_odd (&self) -> (bool) {
 		(self.0 % 2.0) != 0.0
 	}
@@ -779,7 +779,7 @@ impl ops::Neg for NumberReal {
 	
 	type Output = NumberReal;
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn neg (self) -> (NumberReal) {
 		NumberReal::neg (&self)
 	}
@@ -789,7 +789,7 @@ impl <NumberRealInto : StdInto<NumberReal>> ops::Add<NumberRealInto> for NumberR
 	
 	type Output = NumberReal;
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn add (self, other : NumberRealInto) -> (NumberReal) {
 		NumberReal::add (&self, &other.into ())
 	}
@@ -799,7 +799,7 @@ impl <NumberRealInto : StdInto<NumberReal>> ops::Sub<NumberRealInto> for NumberR
 	
 	type Output = NumberReal;
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn sub (self, other : NumberRealInto) -> (NumberReal) {
 		NumberReal::sub (&self, &other.into ())
 	}
@@ -809,7 +809,7 @@ impl <NumberRealInto : StdInto<NumberReal>> ops::Mul<NumberRealInto> for NumberR
 	
 	type Output = NumberReal;
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn mul (self, other : NumberRealInto) -> (NumberReal) {
 		NumberReal::mul (&self, &other.into ())
 	}
@@ -819,7 +819,7 @@ impl <NumberRealInto : StdInto<NumberReal>> ops::Div<NumberRealInto> for NumberR
 	
 	type Output = NumberReal;
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn div (self, other : NumberRealInto) -> (NumberReal) {
 		NumberReal::div (&self, &other.into ())
 	}
@@ -829,7 +829,7 @@ impl <NumberRealInto : StdInto<NumberReal>> ops::Rem<NumberRealInto> for NumberR
 	
 	type Output = NumberReal;
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn rem (self, other : NumberRealInto) -> (NumberReal) {
 		NumberReal::rem (&self, &other.into ())
 	}

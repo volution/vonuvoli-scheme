@@ -32,7 +32,7 @@ pub struct Error {
 
 impl Error {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn is_self (&self, other : &Error) -> (bool) {
 		self.code == other.code
 	}
@@ -41,17 +41,17 @@ impl Error {
 
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn error_generic (code : u32) -> (Error) {
 	Error {code : code}
 }
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn error_unimplemented (code : u32) -> (Error) {
 	Error {code : code}
 }
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn error_panic (code : u32) -> (Error) {
 	Error {code : code}
 }

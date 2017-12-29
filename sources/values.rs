@@ -171,7 +171,7 @@ pub type ValueVec = StdVec<Value>;
 
 impl Value {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn class (&self) -> (ValueClass) {
 		match *self {
 			
@@ -220,12 +220,12 @@ impl Value {
 		}
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn is (&self, class : ValueClass) -> (bool) {
 		self.class () == class
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn is_self (&self, other : &Value) -> (bool) {
 		match (self, other) {
 			
@@ -294,7 +294,7 @@ pub enum ValueRef <'a> {
 
 impl <'a> ValueRef<'a> {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn clone (&self) -> (Value) {
 		match *self {
 			ValueRef::Immutable (value) =>
@@ -304,12 +304,12 @@ impl <'a> ValueRef<'a> {
 		}
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn is_self <OtherRef : StdAsRef<Value>> (&self, other : OtherRef) -> (bool) {
 		Value::is_self (self.value_ref (), other.as_ref ())
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn value_ref (&self) -> (&Value) {
 		match *self {
 			ValueRef::Immutable (value) =>
@@ -319,7 +319,7 @@ impl <'a> ValueRef<'a> {
 		}
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn map_value <Transformer> (self, transformer : Transformer) -> (ValueRef<'a>)
 			where Transformer : FnOnce (&Value) -> (&Value)
 	{
@@ -331,7 +331,7 @@ impl <'a> ValueRef<'a> {
 		}
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn map_generic <Transformer, Output> (self, transformer : Transformer) -> (GenericRef<'a, Output>)
 			where Transformer : FnOnce (&Value) -> (&Output)
 	{
@@ -349,7 +349,7 @@ impl <'a> StdDeref for ValueRef<'a> {
 	
 	type Target = Value;
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn deref (&self) -> (&Value) {
 		match *self {
 			ValueRef::Immutable (value) =>
@@ -363,7 +363,7 @@ impl <'a> StdDeref for ValueRef<'a> {
 
 impl <'a> StdAsRef<Value> for ValueRef<'a> {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn as_ref (&self) -> (&Value) {
 		&self
 	}
@@ -381,7 +381,7 @@ pub enum GenericRef <'a, T : 'a> {
 
 impl <'a, T : 'a> GenericRef<'a, T> {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn generic_ref (&self) -> (&T) {
 		match *self {
 			GenericRef::Immutable (value) =>
@@ -391,7 +391,7 @@ impl <'a, T : 'a> GenericRef<'a, T> {
 		}
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn is_self <OtherRef : StdAsRef<T>> (&self, other : OtherRef) -> (bool) {
 		ptr::eq (self.generic_ref (), other.as_ref ())
 	}
@@ -402,7 +402,7 @@ impl <'a, T : 'a> StdDeref for GenericRef<'a, T> {
 	
 	type Target = T;
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn deref (&self) -> (&T) {
 		match *self {
 			GenericRef::Immutable (value) =>
@@ -416,7 +416,7 @@ impl <'a, T : 'a> StdDeref for GenericRef<'a, T> {
 
 impl <'a, T : 'a> StdAsRef<T> for GenericRef<'a, T> {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn as_ref (&self) -> (&T) {
 		&self
 	}
@@ -431,7 +431,7 @@ pub struct Boolean ( pub bool );
 
 impl Boolean {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn value (&self) -> (bool) {
 		self.0
 	}
@@ -440,37 +440,37 @@ impl Boolean {
 
 impl Boolean {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn not (&self) -> (Boolean) {
 		(!self.0) .into ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn and (&self, other : &Boolean) -> (Boolean) {
 		(self.0 && other.0) .into ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn or (&self, other : &Boolean) -> (Boolean) {
 		(self.0 || other.0) .into ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn xor (&self, other : &Boolean) -> (Boolean) {
 		(self.0 ^ other.0) .into ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn nand (&self, other : &Boolean) -> (Boolean) {
 		self.and (other) .not ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn nor (&self, other : &Boolean) -> (Boolean) {
 		self.or (other) .not ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn nxor (&self, other : &Boolean) -> (Boolean) {
 		self.xor (other) .not ()
 	}
@@ -481,7 +481,7 @@ impl ops::Not for Boolean {
 	
 	type Output = Boolean;
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn not (self) -> (Boolean) {
 		Boolean::not (&self)
 	}
@@ -496,7 +496,7 @@ pub struct Character ( pub char );
 
 impl Character {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn value (&self) -> (char) {
 		self.0
 	}
@@ -511,14 +511,14 @@ pub struct Symbol ( StdRc<StdString> );
 
 impl Symbol {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn is_self (&self, other : &Symbol) -> (bool) {
 		let self_0 = self.0.as_ref ();
 		let other_0 = other.0.as_ref ();
 		ptr::eq (self_0, other_0) && (self_0 == other_0)
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn string_rc_clone (&self) -> (StdRc<StdString>) {
 		self.0.clone ()
 	}
@@ -527,7 +527,7 @@ impl Symbol {
 
 impl String for Symbol {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn string_as_string (&self) -> (&StdString) {
 		self.0.as_ref ()
 	}
@@ -540,52 +540,52 @@ pub trait String {
 	
 	fn string_as_string (&self) -> (&StdString);
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn string_as_str (&self) -> (&str) {
 		self.string_as_string () .as_str ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn string_as_bytes (&self) -> (&[u8]) {
 		self.string_as_string () .as_bytes ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn string_chars (&self) -> (str::Chars) {
 		self.string_as_string () .chars ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn string_clone (&self) -> (StdString) {
 		self.string_as_string () .clone ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn string_is_empty (&self) -> (bool) {
 		self.string_as_string () .is_empty ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn string_is_not_empty (&self) -> (bool) {
 		! self.string_as_string () .is_empty ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn string_eq (&self, other : &str) -> (bool) {
 		self.string_as_string () .eq (other)
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn string_utf8_bytes_count (&self) -> (usize) {
 		self.string_as_string () .len ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn string_chars_count_compute (&self) -> (usize) {
 		self.string_chars () .count ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn string_char_at_compute (&self, index : usize) -> (Option<char>) {
 		self.string_chars () .nth (index)
 	}
@@ -603,7 +603,7 @@ pub enum StringRef <'a> {
 
 impl <'a> StringRef<'a> {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn try (value : &'a Value) -> (Outcome<StringRef<'a>>) {
 		match *value {
 			Value::StringImmutable (_, ref value, _) =>
@@ -615,7 +615,7 @@ impl <'a> StringRef<'a> {
 		}
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn clone (&self) -> (Value) {
 		match *self {
 			StringRef::Immutable (value, _) =>
@@ -625,7 +625,7 @@ impl <'a> StringRef<'a> {
 		}
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn is_self (&self, other : &StringRef) -> (bool) {
 		match (self, other) {
 			(&StringRef::Immutable (self_0, _), &StringRef::Immutable (other_0, _)) =>
@@ -641,7 +641,7 @@ impl <'a> StringRef<'a> {
 
 impl <'a> String for StringRef<'a> {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn string_as_string (&self) -> (&StdString) {
 		match *self {
 			StringRef::Immutable (_, string) =>
@@ -661,17 +661,17 @@ pub struct StringImmutable ( StdRc<StdString> );
 
 impl StringImmutable {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn is_self (&self, other : &StringImmutable) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn string_ref (&self) -> (StringRef) {
 		StringRef::Immutable (self, self.0.as_ref ())
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn string_rc_clone (&self) -> (StdRc<StdString>) {
 		self.0.clone ()
 	}
@@ -680,7 +680,7 @@ impl StringImmutable {
 
 impl String for StringImmutable {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn string_as_string (&self) -> (&StdString) {
 		self.0.as_ref ()
 	}
@@ -695,17 +695,17 @@ pub struct StringMutable ( StdRc<StdRefCell<StdString>> );
 
 impl StringMutable {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn is_self (&self, other : &StringMutable) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn string_ref (&self) -> (StringRef) {
 		StringRef::Mutable (self, self.0.as_ref () .borrow ())
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn string_rc_clone (&self) -> (StdRc<StdRefCell<StdString>>) {
 		self.0.clone ()
 	}
@@ -718,32 +718,32 @@ pub trait Bytes {
 	
 	fn bytes_as_vec (&self) -> (&StdVec<u8>);
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn bytes_as_slice (&self) -> (&[u8]) {
 		self.bytes_as_vec () .as_slice ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn bytes_iter (&self) -> (slice::Iter<u8>) {
 		self.bytes_as_vec () .iter ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn bytes_clone (&self) -> (StdVec<u8>) {
 		self.bytes_as_vec () .clone ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn values_is_empty (&self) -> (bool) {
 		self.bytes_as_vec () .is_empty ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn values_is_not_empty (&self) -> (bool) {
 		! self.bytes_as_vec () .is_empty ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn bytes_count (&self) -> (usize) {
 		self.bytes_as_vec () .len ()
 	}
@@ -761,7 +761,7 @@ pub enum BytesRef <'a> {
 
 impl <'a> BytesRef<'a> {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn try (value : &'a Value) -> (Outcome<BytesRef<'a>>) {
 		match *value {
 			Value::BytesImmutable (_, ref value, _) =>
@@ -773,7 +773,7 @@ impl <'a> BytesRef<'a> {
 		}
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn clone (&self) -> (Value) {
 		match *self {
 			BytesRef::Immutable (value, _) =>
@@ -783,7 +783,7 @@ impl <'a> BytesRef<'a> {
 		}
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn is_self (&self, other : &BytesRef) -> (bool) {
 		match (self, other) {
 			(&BytesRef::Immutable (self_0, _), &BytesRef::Immutable (other_0, _)) =>
@@ -799,7 +799,7 @@ impl <'a> BytesRef<'a> {
 
 impl <'a> Bytes for BytesRef<'a> {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn bytes_as_vec (&self) -> (&StdVec<u8>) {
 		match *self {
 			BytesRef::Immutable (_, bytes) =>
@@ -819,17 +819,17 @@ pub struct BytesImmutable ( StdRc<StdVec<u8>> );
 
 impl BytesImmutable {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn is_self (&self, other : &BytesImmutable) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn bytes_ref (&self) -> (BytesRef) {
 		BytesRef::Immutable (self, self.0.as_ref ())
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn bytes_rc_clone (&self) -> (StdRc<StdVec<u8>>) {
 		self.0.clone ()
 	}
@@ -838,7 +838,7 @@ impl BytesImmutable {
 
 impl Bytes for BytesImmutable {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn bytes_as_vec (&self) -> (&StdVec<u8>) {
 		self.0.as_ref ()
 	}
@@ -853,17 +853,17 @@ pub struct BytesMutable ( StdRc<StdRefCell<StdVec<u8>>> );
 
 impl BytesMutable {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn is_self (&self, other : &BytesMutable) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn bytes_ref (&self) -> (BytesRef) {
 		BytesRef::Mutable (self, self.0.as_ref () .borrow ())
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn bytes_rc_clone (&self) -> (StdRc<StdRefCell<StdVec<u8>>>) {
 		self.0.clone ()
 	}
@@ -876,19 +876,19 @@ pub trait Pair {
 	
 	fn values_as_ref (&self) -> (&(Value, Value));
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn left (&self) -> (&Value) {
 		let values = self.values_as_ref ();
 		&values.0
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn right (&self) -> (&Value) {
 		let values = self.values_as_ref ();
 		&values.1
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn left_and_right (&self) -> ((&Value, &Value)) {
 		let values = self.values_as_ref ();
 		(&values.0, &values.1)
@@ -907,7 +907,7 @@ pub enum PairRef <'a> {
 
 impl <'a> PairRef<'a> {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn try (value : &'a Value) -> (Outcome<PairRef<'a>>) {
 		match *value {
 			Value::PairImmutable (_, ref value, _) =>
@@ -919,7 +919,7 @@ impl <'a> PairRef<'a> {
 		}
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn clone (&self) -> (Value) {
 		match *self {
 			PairRef::Immutable (value, _) =>
@@ -929,7 +929,7 @@ impl <'a> PairRef<'a> {
 		}
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn is_self (&self, other : &PairRef) -> (bool) {
 		match (self, other) {
 			(&PairRef::Immutable (self_0, _), &PairRef::Immutable (other_0, _)) =>
@@ -941,7 +941,7 @@ impl <'a> PairRef<'a> {
 		}
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn left_ref_into (self) -> (ValueRef<'a>) {
 		match self {
 			PairRef::Immutable (_, value) =>
@@ -951,7 +951,7 @@ impl <'a> PairRef<'a> {
 		}
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn right_ref_into (self) -> (ValueRef<'a>) {
 		match self {
 			PairRef::Immutable (_, value) =>
@@ -965,7 +965,7 @@ impl <'a> PairRef<'a> {
 
 impl <'a> Pair for PairRef<'a> {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn values_as_ref (&self) -> (&(Value, Value)) {
 		match *self {
 			PairRef::Immutable (_, values) =>
@@ -985,17 +985,17 @@ pub struct PairImmutable ( StdRc<(Value, Value)> );
 
 impl PairImmutable {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn is_self (&self, other : &PairImmutable) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn pair_ref (&self) -> (PairRef) {
 		PairRef::Immutable (self, self.0.as_ref ())
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn values_rc_clone (&self) -> (StdRc<(Value, Value)>) {
 		self.0.clone ()
 	}
@@ -1004,7 +1004,7 @@ impl PairImmutable {
 
 impl Pair for PairImmutable {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn values_as_ref (&self) -> (&(Value, Value)) {
 		self.0.as_ref ()
 	}
@@ -1019,17 +1019,17 @@ pub struct PairMutable ( StdRc<StdRefCell<(Value, Value)>> );
 
 impl PairMutable {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn is_self (&self, other : &PairMutable) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn pair_ref (&self) -> (PairRef) {
 		PairRef::Mutable (self, self.0.as_ref () .borrow ())
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn values_rc_clone (&self) -> (StdRc<StdRefCell<(Value, Value)>>) {
 		self.0.clone ()
 	}
@@ -1042,32 +1042,32 @@ pub trait Array {
 	
 	fn values_as_vec (&self) -> (&StdVec<Value>);
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn values_as_slice (&self) -> (&[Value]) {
 		self.values_as_vec () .as_slice ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn values_iter (&self) -> (slice::Iter<Value>) {
 		self.values_as_vec () .iter ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn values_clone (&self) -> (StdVec<Value>) {
 		self.values_as_vec () .clone ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn values_is_empty (&self) -> (bool) {
 		self.values_as_vec () .is_empty ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn values_is_not_empty (&self) -> (bool) {
 		! self.values_as_vec () .is_empty ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn values_length (&self) -> (usize) {
 		self.values_as_vec () .len ()
 	}
@@ -1085,7 +1085,7 @@ pub enum ArrayRef <'a> {
 
 impl <'a> ArrayRef<'a> {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn try (value : &'a Value) -> (Outcome<ArrayRef<'a>>) {
 		match *value {
 			Value::ArrayImmutable (_, ref value, _) =>
@@ -1097,7 +1097,7 @@ impl <'a> ArrayRef<'a> {
 		}
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn clone (&self) -> (Value) {
 		match *self {
 			ArrayRef::Immutable (value, _) =>
@@ -1107,7 +1107,7 @@ impl <'a> ArrayRef<'a> {
 		}
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn is_self (&self, other : &ArrayRef) -> (bool) {
 		match (self, other) {
 			(&ArrayRef::Immutable (self_0, _), &ArrayRef::Immutable (other_0, _)) =>
@@ -1123,7 +1123,7 @@ impl <'a> ArrayRef<'a> {
 
 impl <'a> Array for ArrayRef<'a> {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn values_as_vec (&self) -> (&StdVec<Value>) {
 		match *self {
 			ArrayRef::Immutable (_, values) =>
@@ -1143,17 +1143,17 @@ pub struct ArrayImmutable ( StdRc<StdVec<Value>> );
 
 impl ArrayImmutable {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn is_self (&self, other : &ArrayImmutable) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn values_ref (&self) -> (ArrayRef) {
 		ArrayRef::Immutable (self, self.0.as_ref ())
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn values_rc_clone (&self) -> (StdRc<StdVec<Value>>) {
 		self.0.clone ()
 	}
@@ -1162,7 +1162,7 @@ impl ArrayImmutable {
 
 impl Array for ArrayImmutable {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn values_as_vec (&self) -> (&StdVec<Value>) {
 		self.0.as_ref ()
 	}
@@ -1177,17 +1177,17 @@ pub struct ArrayMutable ( StdRc<StdRefCell<StdVec<Value>>> );
 
 impl ArrayMutable {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn is_self (&self, other : &ArrayMutable) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn values_ref (&self) -> (ArrayRef) {
 		ArrayRef::Mutable (self, self.0.as_ref () .borrow ())
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn values_rc_clone (&self) -> (StdRc<StdRefCell<StdVec<Value>>>) {
 		self.0.clone ()
 	}
@@ -1202,47 +1202,47 @@ pub struct Values ( StdRc<StdBox<[Value]>> );
 
 impl Values {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn values_as_slice (&self) -> (&[Value]) {
 		self.values_ref () .as_ref ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn values_iter (&self) -> (slice::Iter<Value>) {
 		self.values_ref () .iter ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn values_ref (&self) -> (&StdBox<[Value]>) {
 		self.0.as_ref ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn values_clone (&self) -> (StdBox<[Value]>) {
 		self.values_ref () .clone ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn values_is_empty (&self) -> (bool) {
 		self.values_ref () .is_empty ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn values_is_not_empty (&self) -> (bool) {
 		! self.values_ref () .is_empty ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn values_length (&self) -> (usize) {
 		self.values_ref () .len ()
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn is_self (&self, other : &Values) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn values_rc_clone (&self) -> (StdRc<StdBox<[Value]>>) {
 		self.0.clone ()
 	}
@@ -1251,22 +1251,22 @@ impl Values {
 
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn boolean (value : bool) -> (Boolean) {
 	Boolean (value)
 }
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn number_i64 (value : i64) -> (NumberInteger) {
 	NumberInteger (value)
 }
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn number_f64 (value : f64) -> (NumberReal) {
 	NumberReal (value)
 }
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn character (value : char) -> (Character) {
 	Character (value)
 }
@@ -1274,7 +1274,7 @@ pub fn character (value : char) -> (Character) {
 
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn symbol_new (value : StdString) -> (Symbol) {
 	Symbol (StdRc::new (value))
 }
@@ -1282,12 +1282,12 @@ pub fn symbol_new (value : StdString) -> (Symbol) {
 
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_immutable_new (value : StdString) -> (StringImmutable) {
 	StringImmutable (StdRc::new (value))
 }
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_mutable_new (value : StdString) -> (StringMutable) {
 	StringMutable (StdRc::new (StdRefCell::new (value)))
 }
@@ -1295,12 +1295,12 @@ pub fn string_mutable_new (value : StdString) -> (StringMutable) {
 
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn bytes_immutable_new (values : StdVec<u8>) -> (BytesImmutable) {
 	BytesImmutable (StdRc::new (values))
 }
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn bytes_mutable_new (values : StdVec<u8>) -> (BytesMutable) {
 	BytesMutable (StdRc::new (StdRefCell::new (values)))
 }
@@ -1308,27 +1308,27 @@ pub fn bytes_mutable_new (values : StdVec<u8>) -> (BytesMutable) {
 
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn symbol_clone_str (value : &str) -> (Symbol) {
 	symbol_new (StdString::from (value))
 }
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_immutable_clone_str (value : &str) -> (StringImmutable) {
 	string_immutable_new (StdString::from (value))
 }
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_mutable_clone_str (value : &str) -> (StringMutable) {
 	string_mutable_new (StdString::from (value))
 }
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn bytes_immutable_clone_str (value : &str) -> (BytesImmutable) {
 	bytes_immutable_new (StdString::from (value) .into_bytes ())
 }
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn bytes_mutable_clone_str (value : &str) -> (BytesMutable) {
 	bytes_mutable_new (StdString::from (value) .into_bytes ())
 }
@@ -1336,32 +1336,32 @@ pub fn bytes_mutable_clone_str (value : &str) -> (BytesMutable) {
 
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn symbol_clone_characters (characters : &[char]) -> (Symbol) {
 	symbol_new (characters_clone (characters))
 }
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_immutable_clone_characters (characters : &[char]) -> (StringImmutable) {
 	string_immutable_new (characters_clone (characters))
 }
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_mutable_clone_characters (characters : &[char]) -> (StringMutable) {
 	string_mutable_new (characters_clone (characters))
 }
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn bytes_immutable_clone_characters (characters : &[char]) -> (BytesImmutable) {
 	bytes_immutable_new (characters_clone (characters) .into_bytes ())
 }
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn bytes_mutable_clone_characters (characters : &[char]) -> (BytesMutable) {
 	bytes_mutable_new (characters_clone (characters) .into_bytes ())
 }
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 fn characters_clone (characters : &[char]) -> (StdString) {
 	let mut value = StdString::with_capacity (characters.len ());
 	for character in characters {
@@ -1373,12 +1373,12 @@ fn characters_clone (characters : &[char]) -> (StdString) {
 
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn bytes_immutable_clone_slice (values : &[u8]) -> (BytesImmutable) {
 	bytes_immutable_new (vec_clone_slice (values))
 }
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn bytes_mutable_clone_slice (values : &[u8]) -> (BytesMutable) {
 	bytes_mutable_new (vec_clone_slice (values))
 }
@@ -1386,12 +1386,12 @@ pub fn bytes_mutable_clone_slice (values : &[u8]) -> (BytesMutable) {
 
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn array_immutable_new (values : StdVec<Value>) -> (ArrayImmutable) {
 	ArrayImmutable (StdRc::new (values))
 }
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn array_mutable_new (values : StdVec<Value>) -> (ArrayMutable) {
 	ArrayMutable (StdRc::new (StdRefCell::new (values)))
 }
@@ -1399,22 +1399,22 @@ pub fn array_mutable_new (values : StdVec<Value>) -> (ArrayMutable) {
 
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn array_immutable_clone_slice (values : &[Value]) -> (ArrayImmutable) {
 	array_immutable_new (vec_clone_slice (values))
 }
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn array_mutable_clone_slice (values : &[Value]) -> (ArrayMutable) {
 	array_mutable_new (vec_clone_slice (values))
 }
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn array_immutable_clone_slice_ref (values : &[&Value]) -> (ArrayImmutable) {
 	array_immutable_new (vec_clone_slice_ref (values))
 }
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn array_mutable_clone_slice_ref (values : &[&Value]) -> (ArrayMutable) {
 	array_mutable_new (vec_clone_slice_ref (values))
 }
@@ -1422,22 +1422,22 @@ pub fn array_mutable_clone_slice_ref (values : &[&Value]) -> (ArrayMutable) {
 
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn values_new (values : StdBox<[Value]>) -> (Values) {
 	Values (StdRc::new (values))
 }
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn values_new_from_vec (values : StdVec<Value>) -> (Values) {
 	values_new (values.into_boxed_slice ())
 }
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn values_clone_slice (values : &[Value]) -> (Values) {
 	values_new_from_vec (vec_clone_slice (values))
 }
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn values_clone_slice_ref (values : &[&Value]) -> (Values) {
 	values_new_from_vec (vec_clone_slice_ref (values))
 }
@@ -1445,12 +1445,12 @@ pub fn values_clone_slice_ref (values : &[&Value]) -> (Values) {
 
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn pair_immutable_new (left : Value, right : Value) -> (PairImmutable) {
 	PairImmutable (StdRc::new ((left, right)))
 }
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn pair_mutable_new (left : Value, right : Value) -> (PairMutable) {
 	PairMutable (StdRc::new (StdRefCell::new ((left, right))))
 }
@@ -1458,7 +1458,7 @@ pub fn pair_mutable_new (left : Value, right : Value) -> (PairMutable) {
 
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_new (value : StdString) -> (Value) {
 	if true {
 		string_immutable_new (value) .into ()
@@ -1467,7 +1467,7 @@ pub fn string_new (value : StdString) -> (Value) {
 	}
 }
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn bytes_new (values : StdVec<u8>) -> (Value) {
 	if true {
 		bytes_immutable_new (values) .into ()
@@ -1476,7 +1476,7 @@ pub fn bytes_new (values : StdVec<u8>) -> (Value) {
 	}
 }
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn array_new (values : StdVec<Value>) -> (Value) {
 	if true {
 		array_immutable_new (values) .into ()
@@ -1485,7 +1485,7 @@ pub fn array_new (values : StdVec<Value>) -> (Value) {
 	}
 }
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn pair_new (left : Value, right : Value) -> (Value) {
 	if true {
 		pair_immutable_new (left, right) .into ()
@@ -1497,7 +1497,7 @@ pub fn pair_new (left : Value, right : Value) -> (Value) {
 
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_clone_str (value : &str) -> (Value) {
 	if true {
 		string_immutable_clone_str (value) .into ()
@@ -1506,7 +1506,7 @@ pub fn string_clone_str (value : &str) -> (Value) {
 	}
 }
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn bytes_clone_str (value : &str) -> (Value) {
 	if true {
 		bytes_immutable_clone_str (value) .into ()
@@ -1518,7 +1518,7 @@ pub fn bytes_clone_str (value : &str) -> (Value) {
 
 
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn bytes_clone_slice (values : &[u8]) -> (Value) {
 	if true {
 		bytes_immutable_clone_slice (values) .into ()
@@ -1527,7 +1527,7 @@ pub fn bytes_clone_slice (values : &[u8]) -> (Value) {
 	}
 }
 
-#[ inline (always) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn array_clone_slice (values : &[Value]) -> (Value) {
 	if true {
 		array_immutable_clone_slice (values) .into ()

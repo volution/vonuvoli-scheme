@@ -14,7 +14,7 @@ impl cmp::Eq for Value {}
 
 impl cmp::PartialEq for Value {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn eq (&self, other : &Value) -> (bool) {
 		match (self, other) {
 			
@@ -62,7 +62,7 @@ impl cmp::PartialEq for Value {
 
 impl cmp::Ord for Value {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn cmp (&self, other : &Value) -> (cmp::Ordering) {
 		let self_class = self.class ();
 		let other_class = other.class ();
@@ -118,7 +118,7 @@ impl cmp::Ord for Value {
 
 impl cmp::PartialOrd for Value {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn partial_cmp (&self, other : &Value) -> (Option<cmp::Ordering>) {
 		Some (Value::cmp (self, other))
 	}
@@ -131,7 +131,7 @@ impl cmp::Eq for NumberReal {}
 
 impl cmp::PartialEq for NumberReal {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn eq (&self, other : &NumberReal) -> (bool) {
 		f64::eq (&self.value (), &other.value ())
 	}
@@ -139,7 +139,7 @@ impl cmp::PartialEq for NumberReal {
 
 impl cmp::Ord for NumberReal {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn cmp (&self, other : &NumberReal) -> (cmp::Ordering) {
 		if let Some (cmp) = f64::partial_cmp (&self.value (), &other.value ()) {
 			cmp
@@ -151,7 +151,7 @@ impl cmp::Ord for NumberReal {
 
 impl cmp::PartialOrd for NumberReal {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn partial_cmp (&self, other : &NumberReal) -> (Option<cmp::Ordering>) {
 		f64::partial_cmp (&self.value (), &other.value ())
 	}
@@ -164,7 +164,7 @@ impl cmp::Eq for LambdaInternals {}
 
 impl cmp::PartialEq for LambdaInternals {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn eq (&self, other : &LambdaInternals) -> (bool) {
 		Handle::eq (&self.handle_2, &other.handle_2)
 	}
@@ -173,7 +173,7 @@ impl cmp::PartialEq for LambdaInternals {
 
 impl cmp::Ord for LambdaInternals {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn cmp (&self, other : &LambdaInternals) -> (cmp::Ordering) {
 		Handle::cmp (&self.handle_2, &other.handle_2)
 	}
@@ -181,7 +181,7 @@ impl cmp::Ord for LambdaInternals {
 
 impl cmp::PartialOrd for LambdaInternals {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn partial_cmp (&self, other : &LambdaInternals) -> (Option<cmp::Ordering>) {
 		Handle::partial_cmp (&self.handle_2, &other.handle_2)
 	}
@@ -194,7 +194,7 @@ impl cmp::Eq for ProcedureNative {}
 
 impl cmp::PartialEq for ProcedureNative {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn eq (&self, other : &ProcedureNative) -> (bool) {
 		u64::eq (&self.handle_value (), &other.handle_value ())
 	}
@@ -202,7 +202,7 @@ impl cmp::PartialEq for ProcedureNative {
 
 impl cmp::Ord for ProcedureNative {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn cmp (&self, other : &ProcedureNative) -> (cmp::Ordering) {
 		u64::cmp (&self.handle_value (), &other.handle_value ())
 	}
@@ -210,7 +210,7 @@ impl cmp::Ord for ProcedureNative {
 
 impl cmp::PartialOrd for ProcedureNative {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn partial_cmp (&self, other : &ProcedureNative) -> (Option<cmp::Ordering>) {
 		u64::partial_cmp (&self.handle_value (), &other.handle_value ())
 	}
@@ -223,7 +223,7 @@ impl cmp::Eq for SyntaxNative {}
 
 impl cmp::PartialEq for SyntaxNative {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn eq (&self, other : &SyntaxNative) -> (bool) {
 		u64::eq (&self.handle_value (), &other.handle_value ())
 	}
@@ -231,7 +231,7 @@ impl cmp::PartialEq for SyntaxNative {
 
 impl cmp::Ord for SyntaxNative {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn cmp (&self, other : &SyntaxNative) -> (cmp::Ordering) {
 		u64::cmp (&self.handle_value (), &other.handle_value ())
 	}
@@ -239,7 +239,7 @@ impl cmp::Ord for SyntaxNative {
 
 impl cmp::PartialOrd for SyntaxNative {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn partial_cmp (&self, other : &SyntaxNative) -> (Option<cmp::Ordering>) {
 		u64::partial_cmp (&self.handle_value (), &other.handle_value ())
 	}
@@ -252,7 +252,7 @@ impl cmp::Eq for Port {}
 
 impl cmp::PartialEq for Port {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn eq (&self, other : &Port) -> (bool) {
 		Handle::eq (&self.handle (), &other.handle ())
 	}
@@ -260,7 +260,7 @@ impl cmp::PartialEq for Port {
 
 impl cmp::Ord for Port {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn cmp (&self, other : &Port) -> (cmp::Ordering) {
 		Handle::cmp (&self.handle (), &other.handle ())
 	}
@@ -268,7 +268,7 @@ impl cmp::Ord for Port {
 
 impl cmp::PartialOrd for Port {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn partial_cmp (&self, other : &Port) -> (Option<cmp::Ordering>) {
 		Handle::partial_cmp (&self.handle (), &other.handle ())
 	}
@@ -281,7 +281,7 @@ impl cmp::Eq for Context {}
 
 impl cmp::PartialEq for Context {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn eq (&self, other : &Self) -> (bool) {
 		Handle::eq (&self.handle (), &other.handle ())
 	}
@@ -289,7 +289,7 @@ impl cmp::PartialEq for Context {
 
 impl cmp::Ord for Context {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn cmp (&self, other : &Self) -> (cmp::Ordering) {
 		Handle::cmp (&self.handle (), &other.handle ())
 	}
@@ -297,7 +297,7 @@ impl cmp::Ord for Context {
 
 impl cmp::PartialOrd for Context {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn partial_cmp (&self, other : &Self) -> (Option<cmp::Ordering>) {
 		Handle::partial_cmp (&self.handle (), &other.handle ())
 	}
@@ -310,7 +310,7 @@ impl cmp::Eq for Registers {}
 
 impl cmp::PartialEq for Registers {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn eq (&self, other : &Self) -> (bool) {
 		Handle::eq (&self.handle (), &other.handle ())
 	}
@@ -318,7 +318,7 @@ impl cmp::PartialEq for Registers {
 
 impl cmp::Ord for Registers {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn cmp (&self, other : &Self) -> (cmp::Ordering) {
 		Handle::cmp (&self.handle (), &other.handle ())
 	}
@@ -326,7 +326,7 @@ impl cmp::Ord for Registers {
 
 impl cmp::PartialOrd for Registers {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn partial_cmp (&self, other : &Self) -> (Option<cmp::Ordering>) {
 		Handle::partial_cmp (&self.handle (), &other.handle ())
 	}
@@ -339,7 +339,7 @@ impl cmp::Eq for Binding {}
 
 impl cmp::PartialEq for Binding {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn eq (&self, other : &Self) -> (bool) {
 		Handle::eq (&self.handle (), &other.handle ())
 	}
@@ -347,7 +347,7 @@ impl cmp::PartialEq for Binding {
 
 impl cmp::Ord for Binding {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn cmp (&self, other : &Self) -> (cmp::Ordering) {
 		Handle::cmp (&self.handle (), &other.handle ())
 	}
@@ -355,7 +355,7 @@ impl cmp::Ord for Binding {
 
 impl cmp::PartialOrd for Binding {
 	
-	#[ inline (always) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn partial_cmp (&self, other : &Self) -> (Option<cmp::Ordering>) {
 		Handle::partial_cmp (&self.handle (), &other.handle ())
 	}
