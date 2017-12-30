@@ -30,8 +30,6 @@ pub mod exports {
 	pub use super::{vec_array_append_2, vec_array_append_3, vec_array_append_4, vec_array_append_n};
 	pub use super::{vec_array_clone, vec_array_drain};
 	
-	pub use super::{ArrayIterator, ArrayIterators};
-	
 }
 
 
@@ -342,73 +340,5 @@ pub fn vec_array_drain (buffer : &mut ValueVec, array : &Value) -> (Outcome<()>)
 	let array = try_as_array_ref! (array);
 	buffer.extend_from_slice (array.values_as_slice ());
 	succeed! (());
-}
-
-
-
-
-pub struct ArrayIterator <'a> ( ArrayRef<'a>, slice::Iter<'a, Value> );
-
-
-impl <'a> ArrayIterator <'a> {
-	
-	pub fn new (array : &'a Value) -> (Outcome<ArrayIterator<'a>>) {
-		let array = try_as_array_ref! (array);
-		return ArrayIterator::new_a (array);
-	}
-	
-	pub fn new_a (array : ArrayRef<'a>) -> (Outcome<ArrayIterator<'a>>) {
-		let iterator = unsafe { mem::transmute (array.values_iter ()) };
-		succeed! (ArrayIterator (array, iterator));
-	}
-}
-
-
-impl <'a> iter::Iterator for ArrayIterator <'a> {
-	
-	type Item = Outcome<&'a Value>;
-	
-	fn next (&mut self) -> (Option<Outcome<&'a Value>>) {
-		if let Some (value) = self.1.next () {
-			return Some (succeeded! (value));
-		} else {
-			return None;
-		}
-	}
-}
-
-
-
-
-pub struct ArrayIterators <'a> ( StdVec<ArrayIterator<'a>> );
-
-
-impl <'a> ArrayIterators <'a> {
-	
-	pub fn new (arrays : &'a [&'a Value]) -> (Outcome<ArrayIterators<'a>>) {
-		let iterators = try! (arrays.iter () .map (|array| ArrayIterator::new (array)) .collect ());
-		succeed! (ArrayIterators (iterators));
-	}
-}
-
-
-impl <'a> iter::Iterator for ArrayIterators <'a> {
-	
-	type Item = Outcome<StdVec<&'a Value>>;
-	
-	fn next (&mut self) -> (Option<Outcome<StdVec<&'a Value>>>) {
-		let mut outcomes = StdVec::with_capacity (self.0.len ());
-		for mut iterator in self.0.iter_mut () {
-			match iterator.next () {
-				Some (Ok (outcome)) =>
-					outcomes.push (outcome),
-				Some (Err (error)) =>
-					return Some (Err (error)),
-				None =>
-					return None,
-			}
-		}
-		return Some (succeeded! (outcomes));
-	}
 }
 

@@ -30,8 +30,6 @@ pub mod exports {
 	pub use super::{vec_bytes_append_2, vec_bytes_append_3, vec_bytes_append_4, vec_bytes_append_n};
 	pub use super::{vec_bytes_clone, vec_bytes_drain};
 	
-	pub use super::{BytesIterator, BytesIterators};
-	
 }
 
 
@@ -387,73 +385,5 @@ pub fn vec_bytes_drain (buffer : &mut StdVec<u8>, bytes : &Value) -> (Outcome<()
 	let bytes = try_as_bytes_ref! (bytes);
 	buffer.extend_from_slice (bytes.bytes_as_slice ());
 	succeed! (());
-}
-
-
-
-
-pub struct BytesIterator <'a> ( BytesRef<'a>, slice::Iter<'a, u8> );
-
-
-impl <'a> BytesIterator <'a> {
-	
-	pub fn new (bytes : &'a Value) -> (Outcome<BytesIterator<'a>>) {
-		let bytes = try_as_bytes_ref! (bytes);
-		return BytesIterator::new_a (bytes);
-	}
-	
-	pub fn new_a (bytes : BytesRef<'a>) -> (Outcome<BytesIterator<'a>>) {
-		let iterator = unsafe { mem::transmute (bytes.bytes_iter ()) };
-		succeed! (BytesIterator (bytes, iterator));
-	}
-}
-
-
-impl <'a> iter::Iterator for BytesIterator <'a> {
-	
-	type Item = Outcome<Value>;
-	
-	fn next (&mut self) -> (Option<Outcome<Value>>) {
-		if let Some (value) = self.1.next () {
-			return Some (succeeded! (number_i64 (*value as i64) .into ()));
-		} else {
-			return None;
-		}
-	}
-}
-
-
-
-
-pub struct BytesIterators <'a> ( StdVec<BytesIterator<'a>> );
-
-
-impl <'a> BytesIterators <'a> {
-	
-	pub fn new (bytes : &'a [&'a Value]) -> (Outcome<BytesIterators<'a>>) {
-		let iterators = try! (bytes.iter () .map (|bytes| BytesIterator::new (bytes)) .collect ());
-		succeed! (BytesIterators (iterators));
-	}
-}
-
-
-impl <'a> iter::Iterator for BytesIterators <'a> {
-	
-	type Item = Outcome<StdVec<Value>>;
-	
-	fn next (&mut self) -> (Option<Outcome<StdVec<Value>>>) {
-		let mut outcomes = StdVec::with_capacity (self.0.len ());
-		for mut iterator in self.0.iter_mut () {
-			match iterator.next () {
-				Some (Ok (outcome)) =>
-					outcomes.push (outcome),
-				Some (Err (error)) =>
-					return Some (Err (error)),
-				None =>
-					return None,
-			}
-		}
-		return Some (succeeded! (outcomes));
-	}
 }
 

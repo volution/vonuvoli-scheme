@@ -570,11 +570,11 @@ def_fn_predicate_any! (is_bytes, is_bytes_any_2, is_bytes_any_3, is_bytes_any_4,
 
 
 pub fn is_bytes_empty (value : &Value) -> (Outcome<bool>) {
-	succeed! (try_as_bytes_ref! (value) .values_is_empty ());
+	succeed! (try_as_bytes_ref! (value) .bytes_is_empty ());
 }
 
 pub fn is_bytes_not_empty (value : &Value) -> (Outcome<bool>) {
-	succeed! (try_as_bytes_ref! (value) .values_is_not_empty ());
+	succeed! (try_as_bytes_ref! (value) .bytes_is_not_empty ());
 }
 
 def_fn_try_predicate_all! (is_bytes_empty, is_bytes_empty_all_2, is_bytes_empty_all_3, is_bytes_empty_all_4, is_bytes_empty_all_n);

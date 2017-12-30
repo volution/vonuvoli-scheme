@@ -8,8 +8,8 @@ use super::prelude::*;
 
 
 pub mod exports {
-	pub use super::NumberInteger;
-	pub use super::NumberReal;
+	pub use super::{NumberInteger, NumberReal};
+	pub use super::{number_i64, number_f64};
 }
 
 
@@ -833,5 +833,18 @@ impl <NumberRealInto : StdInto<NumberReal>> ops::Rem<NumberRealInto> for NumberR
 	fn rem (self, other : NumberRealInto) -> (NumberReal) {
 		NumberReal::rem (&self, &other.into ())
 	}
+}
+
+
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+pub fn number_i64 (value : i64) -> (NumberInteger) {
+	NumberInteger (value)
+}
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+pub fn number_f64 (value : f64) -> (NumberReal) {
+	NumberReal (value)
 }
 

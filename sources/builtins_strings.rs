@@ -31,8 +31,6 @@ pub mod exports {
 	pub use super::{vec_string_append_2, vec_string_append_3, vec_string_append_4, vec_string_append_n};
 	pub use super::{vec_string_clone, vec_string_drain};
 	
-	pub use super::{StringIterator, StringIterators};
-	
 	pub use super::{
 			string_to_upper_case, string_to_lower_case, string_to_fold_case,
 			symbol_to_upper_case, symbol_to_lower_case, symbol_to_fold_case,
@@ -438,74 +436,6 @@ pub fn vec_string_drain (buffer : &mut StdVec<char>, string : &Value) -> (Outcom
 	let string = try_as_string_ref! (string);
 	buffer.extend (string.string_chars ());
 	succeed! (());
-}
-
-
-
-
-pub struct StringIterator <'a> ( StringRef<'a>, str::Chars<'a> );
-
-
-impl <'a> StringIterator <'a> {
-	
-	pub fn new (string : &'a Value) -> (Outcome<StringIterator<'a>>) {
-		let string = try_as_string_ref! (string);
-		return StringIterator::new_a (string);
-	}
-	
-	pub fn new_a (string : StringRef<'a>) -> (Outcome<StringIterator<'a>>) {
-		let iterator = unsafe { mem::transmute (string.string_chars ()) };
-		succeed! (StringIterator (string, iterator));
-	}
-}
-
-
-impl <'a> iter::Iterator for StringIterator <'a> {
-	
-	type Item = Outcome<Value>;
-	
-	fn next (&mut self) -> (Option<Outcome<Value>>) {
-		if let Some (value) = self.1.next () {
-			return Some (succeeded! (character (value) .into ()));
-		} else {
-			return None;
-		}
-	}
-}
-
-
-
-
-pub struct StringIterators <'a> ( StdVec<StringIterator<'a>> );
-
-
-impl <'a> StringIterators <'a> {
-	
-	pub fn new (strings : &'a [&'a Value]) -> (Outcome<StringIterators<'a>>) {
-		let iterators = try! (strings.iter () .map (|string| StringIterator::new (string)) .collect ());
-		succeed! (StringIterators (iterators));
-	}
-}
-
-
-impl <'a> iter::Iterator for StringIterators <'a> {
-	
-	type Item = Outcome<StdVec<Value>>;
-	
-	fn next (&mut self) -> (Option<Outcome<StdVec<Value>>>) {
-		let mut outcomes = StdVec::with_capacity (self.0.len ());
-		for mut iterator in self.0.iter_mut () {
-			match iterator.next () {
-				Some (Ok (outcome)) =>
-					outcomes.push (outcome),
-				Some (Err (error)) =>
-					return Some (Err (error)),
-				None =>
-					return None,
-			}
-		}
-		return Some (succeeded! (outcomes));
-	}
 }
 
 

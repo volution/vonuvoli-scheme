@@ -1257,10 +1257,6 @@
 	exec -- sce ./sources/native_syntaxes.rs
 !!
 
-<< files / edit / sources/numbers.rs
-	exec -- sce ./sources/numbers.rs
-!!
-
 << files / edit / sources/ordering.rs
 	exec -- sce ./sources/ordering.rs
 !!
@@ -1367,6 +1363,46 @@
 
 << files / edit / sources/values.rs
 	exec -- sce ./sources/values.rs
+!!
+
+<< files / edit / sources/values_arrays.rs
+	exec -- sce ./sources/values_arrays.rs
+!!
+
+<< files / edit / sources/values_booleans.rs
+	exec -- sce ./sources/values_booleans.rs
+!!
+
+<< files / edit / sources/values_bytes.rs
+	exec -- sce ./sources/values_bytes.rs
+!!
+
+<< files / edit / sources/values_characters.rs
+	exec -- sce ./sources/values_characters.rs
+!!
+
+<< files / edit / sources/values_numbers.rs
+	exec -- sce ./sources/values_numbers.rs
+!!
+
+<< files / edit / sources/values_pairs.rs
+	exec -- sce ./sources/values_pairs.rs
+!!
+
+<< files / edit / sources/values_strings.rs
+	exec -- sce ./sources/values_strings.rs
+!!
+
+<< files / edit / sources/values_symbols.rs
+	exec -- sce ./sources/values_symbols.rs
+!!
+
+<< files / edit / sources/values_value.rs
+	exec -- sce ./sources/values_value.rs
+!!
+
+<< files / edit / sources/values_values.rs
+	exec -- sce ./sources/values_values.rs
 !!
 
 << files / edit / tests/low-level-assertions.rs
@@ -1521,10 +1557,6 @@
 	exec -- less -- ./sources/native_syntaxes.rs
 !!
 
-<< files / view / sources/numbers.rs
-	exec -- less -- ./sources/numbers.rs
-!!
-
 << files / view / sources/ordering.rs
 	exec -- less -- ./sources/ordering.rs
 !!
@@ -1631,6 +1663,46 @@
 
 << files / view / sources/values.rs
 	exec -- less -- ./sources/values.rs
+!!
+
+<< files / view / sources/values_arrays.rs
+	exec -- less -- ./sources/values_arrays.rs
+!!
+
+<< files / view / sources/values_booleans.rs
+	exec -- less -- ./sources/values_booleans.rs
+!!
+
+<< files / view / sources/values_bytes.rs
+	exec -- less -- ./sources/values_bytes.rs
+!!
+
+<< files / view / sources/values_characters.rs
+	exec -- less -- ./sources/values_characters.rs
+!!
+
+<< files / view / sources/values_numbers.rs
+	exec -- less -- ./sources/values_numbers.rs
+!!
+
+<< files / view / sources/values_pairs.rs
+	exec -- less -- ./sources/values_pairs.rs
+!!
+
+<< files / view / sources/values_strings.rs
+	exec -- less -- ./sources/values_strings.rs
+!!
+
+<< files / view / sources/values_symbols.rs
+	exec -- less -- ./sources/values_symbols.rs
+!!
+
+<< files / view / sources/values_value.rs
+	exec -- less -- ./sources/values_value.rs
+!!
+
+<< files / view / sources/values_values.rs
+	exec -- less -- ./sources/values_values.rs
 !!
 
 << files / view / tests/low-level-assertions.rs

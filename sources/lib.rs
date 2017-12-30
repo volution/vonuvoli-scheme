@@ -58,7 +58,6 @@ pub mod languages_builtins;
 pub mod languages_r7rs;
 pub mod native_procedures;
 pub mod native_syntaxes;
-pub mod numbers;
 pub mod ordering;
 pub mod parser;
 pub mod parser_peg;
@@ -86,6 +85,16 @@ pub mod runtime_iterators;
 pub mod runtime_unicode;
 pub mod tests;
 pub mod values;
+pub mod values_arrays;
+pub mod values_booleans;
+pub mod values_bytes;
+pub mod values_characters;
+pub mod values_numbers;
+pub mod values_pairs;
+pub mod values_strings;
+pub mod values_symbols;
+pub mod values_value;
+pub mod values_values;
 
 
 

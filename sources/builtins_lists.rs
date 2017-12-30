@@ -50,8 +50,6 @@ pub mod exports {
 	pub use super::{vec_list_ref_append_2_dotted, vec_list_ref_append_3_dotted, vec_list_ref_append_4_dotted, vec_list_ref_append_n_dotted};
 	pub use super::{vec_list_ref_clone, vec_list_ref_clone_dotted, vec_list_ref_drain, vec_list_ref_drain_dotted};
 	
-	pub use super::{ListIterator, ListIterators};
-	
 }
 
 
@@ -815,129 +813,6 @@ pub fn vec_list_ref_drain_dotted <'a : 'b, 'b> (buffer : &'b mut StdVec<&'a Valu
 		if list.is_self (cursor) {
 			fail! (0x4526488f);
 		}
-	}
-}
-
-
-
-
-pub struct ListIterator <'a> ( &'a Value );
-
-
-impl <'a> ListIterator <'a> {
-	
-	pub fn new (value : &'a Value) -> (Outcome<ListIterator<'a>>) {
-		succeed! (ListIterator (value));
-	}
-}
-
-
-impl <'a> iter::Iterator for ListIterator <'a> {
-	
-	type Item = Outcome<&'a Value>;
-	
-	fn next (&mut self) -> (Option<Outcome<&'a Value>>) {
-		let cursor = self.0;
-		let (value, cursor) = match cursor.class () {
-			ValueClass::Pair =>
-				match *cursor {
-					Value::PairImmutable (_, ref pair, _) =>
-						pair.left_and_right (),
-					// FIXME:  Add support for mutable pairs!
-					//Value::PairMutable (_, ref pair, _) =>
-					//	pair.pair_ref () .left_and_right (),
-					_ =>
-						return Some (failed! (0xff1a6f2d)),
-				},
-			ValueClass::Null =>
-				return None,
-			_ =>
-				return Some (failed! (0xed511f9c)),
-		};
-		if self.0.is_self (cursor) {
-			return Some (failed! (0x2f6495d9));
-		}
-		self.0 = cursor;
-		return Some (succeeded! (value));
-	}
-}
-
-
-
-
-pub struct ListPairIterator <'a> ( &'a Value );
-
-
-impl <'a> ListPairIterator <'a> {
-	
-	pub fn new (value : &'a Value) -> (Outcome<ListPairIterator<'a>>) {
-		succeed! (ListPairIterator (value));
-	}
-}
-
-
-impl <'a> iter::Iterator for ListPairIterator <'a> {
-	
-	type Item = Outcome<&'a PairImmutable>;
-	
-	fn next (&mut self) -> (Option<Outcome<&'a PairImmutable>>) {
-		
-		let cursor = self.0;
-		let (pair, cursor) = match cursor.class () {
-			ValueClass::Pair =>
-				// FIXME:  Add support for mutable pairs!
-				if let Ok (pair) = StdTryAsRef::<PairImmutable>::try_as_ref (cursor) {
-					pair.left_and_right ();
-					let cursor = pair.right ();
-					(pair, cursor)
-				} else {
-					return Some (failed! (0x14fb94f0));
-				},
-			ValueClass::Null =>
-				return None,
-			_ =>
-				return Some (failed! (0x1f8fea4c)),
-		};
-		if self.0.is_self (cursor) {
-			return Some (failed! (0xa8ab23fb));
-		}
-		self.0 = cursor;
-		return Some (succeeded! (pair));
-	}
-}
-
-
-
-
-pub struct ListIterators <'a> ( StdVec<ListIterator<'a>> );
-
-
-impl <'a> ListIterators <'a> {
-	
-	pub fn new (lists : &'a [&Value]) -> (Outcome<ListIterators<'a>>) {
-		let iterators = try! (lists.iter () .map (|list| ListIterator::new (list)) .collect ());
-		succeed! (ListIterators (iterators));
-	}
-}
-
-
-impl <'a> iter::Iterator for ListIterators <'a> {
-	
-	type Item = Outcome<StdVec<&'a Value>>;
-	
-	fn next (&mut self) -> (Option<Outcome<StdVec<&'a Value>>>) {
-		let mut outcomes = StdVec::with_capacity (self.0.len ());
-		for mut iterator in self.0.iter_mut () {
-			match iterator.next () {
-				Some (Ok (outcome)) =>
-					outcomes.push (outcome),
-				Some (Err (error)) =>
-					return Some (Err (error)),
-				None =>
-					return None,
-			}
-		}
-		return Some (succeeded! (outcomes));
 	}
 }
 
