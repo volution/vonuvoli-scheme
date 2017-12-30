@@ -71,9 +71,9 @@ impl <'a> ArrayRef<'a> {
 	pub fn try (value : &'a Value) -> (Outcome<ArrayRef<'a>>) {
 		match *value {
 			Value::ArrayImmutable (_, ref value, _) =>
-				succeed! (value.values_ref ()),
+				succeed! (value.array_ref ()),
 			Value::ArrayMutable (_, ref value, _) =>
-				succeed! (value.values_ref ()),
+				succeed! (value.array_ref ()),
 			_ =>
 				fail! (0x4e577110),
 		}
@@ -119,7 +119,7 @@ impl <'a> Array for ArrayRef<'a> {
 
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd) ]
+#[ derive (Clone, Debug) ]
 pub struct ArrayImmutable ( StdRc<StdVec<Value>> );
 
 
@@ -131,7 +131,7 @@ impl ArrayImmutable {
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
-	pub fn values_ref (&self) -> (ArrayRef) {
+	pub fn array_ref (&self) -> (ArrayRef) {
 		ArrayRef::Immutable (self, self.0.as_ref ())
 	}
 	
@@ -153,7 +153,7 @@ impl Array for ArrayImmutable {
 
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd) ]
+#[ derive (Clone, Debug) ]
 pub struct ArrayMutable ( StdRc<StdRefCell<StdVec<Value>>> );
 
 
@@ -165,7 +165,7 @@ impl ArrayMutable {
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
-	pub fn values_ref (&self) -> (ArrayRef) {
+	pub fn array_ref (&self) -> (ArrayRef) {
 		ArrayRef::Mutable (self, self.0.as_ref () .borrow ())
 	}
 	

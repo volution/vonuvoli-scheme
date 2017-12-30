@@ -119,7 +119,7 @@ impl hash::Hash for PairImmutable {
 	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		let pair = self.pair_ref ();
-		pair.values_as_ref () .hash (hasher);
+		pair.values_as_tuple () .hash (hasher);
 	}
 }
 
@@ -129,7 +129,7 @@ impl hash::Hash for PairMutable {
 	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		let pair = self.pair_ref ();
-		pair.values_as_ref () .hash (hasher);
+		pair.values_as_tuple () .hash (hasher);
 	}
 }
 
@@ -140,7 +140,7 @@ impl hash::Hash for ArrayImmutable {
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		let values = self.values_ref ();
+		let values = self.array_ref ();
 		values.values_as_vec () .hash (hasher);
 	}
 }
@@ -150,7 +150,7 @@ impl hash::Hash for ArrayMutable {
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		let values = self.values_ref ();
+		let values = self.array_ref ();
 		values.values_as_vec () .hash (hasher);
 	}
 }

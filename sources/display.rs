@@ -321,7 +321,7 @@ impl fmt::Display for PairMutable {
 #[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 fn pair_fmt (pair : PairRef, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 	try! (formatter.write_char ('('));
-	let pair = pair.values_as_ref ();
+	let pair = pair.values_as_tuple ();
 	try! (pair_fmt_0 (&pair, &pair, formatter));
 	try! (formatter.write_char (')'));
 	succeed! (());
@@ -344,12 +344,12 @@ fn pair_fmt_0 (head : &(Value, Value), cursor : &(Value, Value), formatter : &mu
 			
 			Value::PairImmutable (_, ref pair, _) => {
 				try! (formatter.write_char (' '));
-				cursor = pair.values_as_ref ();
+				cursor = pair.values_as_tuple ();
 			},
 			
 			Value::PairMutable (_, ref pair, _) => {
 				try! (formatter.write_char (' '));
-				return pair_fmt_0 (head, pair.pair_ref () .values_as_ref (), formatter);
+				return pair_fmt_0 (head, pair.pair_ref () .values_as_tuple (), formatter);
 			},
 			
 			_ => {
@@ -378,7 +378,7 @@ impl fmt::Display for ArrayImmutable {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		let array = self.values_ref ();
+		let array = self.array_ref ();
 		return array_fmt (array.values_as_slice (), formatter);
 	}
 }
@@ -387,7 +387,7 @@ impl fmt::Display for ArrayMutable {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		let array = self.values_ref ();
+		let array = self.array_ref ();
 		return array_fmt (array.values_as_slice (), formatter);
 	}
 }

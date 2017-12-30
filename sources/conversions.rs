@@ -173,6 +173,14 @@ impl_from_for_Value_3! (SyntaxNative, SyntaxNative, SyntaxNativeInternals, inter
 
 
 
+impl_as_ref_for_type_wlt! (StringRef<'a>, 'a);
+impl_as_ref_for_type_wlt! (BytesRef<'a>, 'a);
+impl_as_ref_for_type_wlt! (PairRef<'a>, 'a);
+impl_as_ref_for_type_wlt! (ArrayRef<'a>, 'a);
+
+
+
+
 macro_rules! impl_from_for_primitive_procedure_1 {
 	( $from : ty, $tag : ident ) => (
 		impl_as_ref_for_type! ($from);

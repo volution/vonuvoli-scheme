@@ -140,7 +140,7 @@ impl <'a> String for StringRef<'a> {
 
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd) ]
+#[ derive (Clone, Debug) ]
 pub struct StringImmutable ( StdRc<StdString> );
 
 
@@ -174,7 +174,7 @@ impl String for StringImmutable {
 
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd) ]
+#[ derive (Clone, Debug) ]
 pub struct StringMutable ( StdRc<StdRefCell<StdString>> );
 
 

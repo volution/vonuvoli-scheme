@@ -288,6 +288,28 @@ macro_rules! impl_as_ref_for_type {
 }
 
 
+macro_rules! impl_as_ref_for_type_wlt {
+	( $from : ty, $lifetime : tt ) => (
+		impl_as_ref_for_type_wlt! ($from, $from, $lifetime, self, self);
+	);
+	( $to : ty, $from : ty, $lifetime : tt, $self : ident, $expression : expr ) => (
+		impl <$lifetime> $crate::prelude::StdAsRef<$to> for $from {
+			#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+			fn as_ref (&$self) -> (&$to) {
+				return $expression;
+			}
+		}
+		impl <$lifetime> $crate::prelude::StdTryAsRef<$to> for $from {
+			type Error = $crate::errors::exports::Error;
+			#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+			fn try_as_ref (&self) -> ($crate::prelude::Result<&$to, $crate::errors::exports::Error>) {
+				succeed! ($crate::prelude::StdAsRef::as_ref (self));
+			}
+		}
+	);
+}
+
+
 macro_rules! impl_try_as_ref_for_type {
 	( $to : ty, $from : ty, $self : ident, $expression : expr ) => (
 		impl $crate::prelude::StdTryAsRef<$to> for $from {

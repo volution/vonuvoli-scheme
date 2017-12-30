@@ -19,23 +19,23 @@ pub mod exports {
 
 pub trait Pair {
 	
-	fn values_as_ref (&self) -> (&(Value, Value));
+	fn values_as_tuple (&self) -> (&(Value, Value));
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn left (&self) -> (&Value) {
-		let values = self.values_as_ref ();
+		let values = self.values_as_tuple ();
 		&values.0
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn right (&self) -> (&Value) {
-		let values = self.values_as_ref ();
+		let values = self.values_as_tuple ();
 		&values.1
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn left_and_right (&self) -> ((&Value, &Value)) {
-		let values = self.values_as_ref ();
+		let values = self.values_as_tuple ();
 		(&values.0, &values.1)
 	}
 }
@@ -111,7 +111,7 @@ impl <'a> PairRef<'a> {
 impl <'a> Pair for PairRef<'a> {
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
-	fn values_as_ref (&self) -> (&(Value, Value)) {
+	fn values_as_tuple (&self) -> (&(Value, Value)) {
 		match *self {
 			PairRef::Immutable (_, values) =>
 				values,
@@ -124,7 +124,7 @@ impl <'a> Pair for PairRef<'a> {
 
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd) ]
+#[ derive (Clone, Debug) ]
 pub struct PairImmutable ( StdRc<(Value, Value)> );
 
 
@@ -150,7 +150,7 @@ impl PairImmutable {
 impl Pair for PairImmutable {
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
-	fn values_as_ref (&self) -> (&(Value, Value)) {
+	fn values_as_tuple (&self) -> (&(Value, Value)) {
 		self.0.as_ref ()
 	}
 }
@@ -158,7 +158,7 @@ impl Pair for PairImmutable {
 
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd) ]
+#[ derive (Clone, Debug) ]
 pub struct PairMutable ( StdRc<StdRefCell<(Value, Value)>> );
 
 

@@ -160,6 +160,402 @@ impl cmp::PartialOrd for NumberReal {
 
 
 
+impl cmp::Eq for StringImmutable {}
+
+impl cmp::PartialEq for StringImmutable {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	fn eq (&self, other : &StringImmutable) -> (bool) {
+		let self_0 = self.string_ref ();
+		let other_0 = other.string_ref ();
+		StringRef::eq (&self_0, &other_0)
+	}
+}
+
+impl cmp::Ord for StringImmutable {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	fn cmp (&self, other : &StringImmutable) -> (cmp::Ordering) {
+		let self_0 = self.string_ref ();
+		let other_0 = other.string_ref ();
+		StringRef::cmp (&self_0, &other_0)
+	}
+}
+
+impl cmp::PartialOrd for StringImmutable {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	fn partial_cmp (&self, other : &StringImmutable) -> (Option<cmp::Ordering>) {
+		let self_0 = self.string_ref ();
+		let other_0 = other.string_ref ();
+		StringRef::partial_cmp (&self_0, &other_0)
+	}
+}
+
+
+impl cmp::Eq for StringMutable {}
+
+impl cmp::PartialEq for StringMutable {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	fn eq (&self, other : &StringMutable) -> (bool) {
+		let self_0 = self.string_ref ();
+		let other_0 = other.string_ref ();
+		StringRef::eq (&self_0, &other_0)
+	}
+}
+
+impl cmp::Ord for StringMutable {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	fn cmp (&self, other : &StringMutable) -> (cmp::Ordering) {
+		let self_0 = self.string_ref ();
+		let other_0 = other.string_ref ();
+		StringRef::cmp (&self_0, &other_0)
+	}
+}
+
+impl cmp::PartialOrd for StringMutable {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	fn partial_cmp (&self, other : &StringMutable) -> (Option<cmp::Ordering>) {
+		let self_0 = self.string_ref ();
+		let other_0 = other.string_ref ();
+		StringRef::partial_cmp (&self_0, &other_0)
+	}
+}
+
+
+impl <'a> cmp::Eq for StringRef<'a> {}
+
+impl <'a> cmp::PartialEq for StringRef<'a> {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	fn eq (&self, other : &StringRef) -> (bool) {
+		let self_0 = self.string_as_string ();
+		let other_0 = other.string_as_string ();
+		StdString::eq (self_0, other_0)
+	}
+}
+
+impl <'a> cmp::Ord for StringRef<'a> {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	fn cmp (&self, other : &StringRef) -> (cmp::Ordering) {
+		let self_0 = self.string_as_string ();
+		let other_0 = other.string_as_string ();
+		StdString::cmp (self_0, other_0)
+	}
+}
+
+impl <'a> cmp::PartialOrd for StringRef<'a> {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	fn partial_cmp (&self, other : &StringRef) -> (Option<cmp::Ordering>) {
+		Some (StringRef::cmp (self, other))
+	}
+}
+
+
+
+
+impl cmp::Eq for BytesImmutable {}
+
+impl cmp::PartialEq for BytesImmutable {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	fn eq (&self, other : &BytesImmutable) -> (bool) {
+		let self_0 = self.bytes_ref ();
+		let other_0 = other.bytes_ref ();
+		BytesRef::eq (&self_0, &other_0)
+	}
+}
+
+impl cmp::Ord for BytesImmutable {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	fn cmp (&self, other : &BytesImmutable) -> (cmp::Ordering) {
+		let self_0 = self.bytes_ref ();
+		let other_0 = other.bytes_ref ();
+		BytesRef::cmp (&self_0, &other_0)
+	}
+}
+
+impl cmp::PartialOrd for BytesImmutable {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	fn partial_cmp (&self, other : &BytesImmutable) -> (Option<cmp::Ordering>) {
+		let self_0 = self.bytes_ref ();
+		let other_0 = other.bytes_ref ();
+		BytesRef::partial_cmp (&self_0, &other_0)
+	}
+}
+
+
+impl cmp::Eq for BytesMutable {}
+
+impl cmp::PartialEq for BytesMutable {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	fn eq (&self, other : &BytesMutable) -> (bool) {
+		let self_0 = self.bytes_ref ();
+		let other_0 = other.bytes_ref ();
+		BytesRef::eq (&self_0, &other_0)
+	}
+}
+
+impl cmp::Ord for BytesMutable {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	fn cmp (&self, other : &BytesMutable) -> (cmp::Ordering) {
+		let self_0 = self.bytes_ref ();
+		let other_0 = other.bytes_ref ();
+		BytesRef::cmp (&self_0, &other_0)
+	}
+}
+
+impl cmp::PartialOrd for BytesMutable {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	fn partial_cmp (&self, other : &BytesMutable) -> (Option<cmp::Ordering>) {
+		let self_0 = self.bytes_ref ();
+		let other_0 = other.bytes_ref ();
+		BytesRef::partial_cmp (&self_0, &other_0)
+	}
+}
+
+
+impl <'a> cmp::Eq for BytesRef<'a> {}
+
+impl <'a> cmp::PartialEq for BytesRef<'a> {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	fn eq (&self, other : &BytesRef) -> (bool) {
+		let self_0 = self.bytes_as_vec ();
+		let other_0 = other.bytes_as_vec ();
+		StdVec::eq (self_0, other_0)
+	}
+}
+
+impl <'a> cmp::Ord for BytesRef<'a> {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	fn cmp (&self, other : &BytesRef) -> (cmp::Ordering) {
+		let self_0 = self.bytes_as_vec ();
+		let other_0 = other.bytes_as_vec ();
+		StdVec::cmp (self_0, other_0)
+	}
+}
+
+impl <'a> cmp::PartialOrd for BytesRef<'a> {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	fn partial_cmp (&self, other : &BytesRef) -> (Option<cmp::Ordering>) {
+		Some (BytesRef::cmp (self, other))
+	}
+}
+
+
+
+
+impl cmp::Eq for PairImmutable {}
+
+impl cmp::PartialEq for PairImmutable {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	fn eq (&self, other : &PairImmutable) -> (bool) {
+		let self_0 = self.pair_ref ();
+		let other_0 = other.pair_ref ();
+		PairRef::eq (&self_0, &other_0)
+	}
+}
+
+impl cmp::Ord for PairImmutable {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	fn cmp (&self, other : &PairImmutable) -> (cmp::Ordering) {
+		let self_0 = self.pair_ref ();
+		let other_0 = other.pair_ref ();
+		PairRef::cmp (&self_0, &other_0)
+	}
+}
+
+impl cmp::PartialOrd for PairImmutable {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	fn partial_cmp (&self, other : &PairImmutable) -> (Option<cmp::Ordering>) {
+		let self_0 = self.pair_ref ();
+		let other_0 = other.pair_ref ();
+		PairRef::partial_cmp (&self_0, &other_0)
+	}
+}
+
+
+impl cmp::Eq for PairMutable {}
+
+impl cmp::PartialEq for PairMutable {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	fn eq (&self, other : &PairMutable) -> (bool) {
+		let self_0 = self.pair_ref ();
+		let other_0 = other.pair_ref ();
+		PairRef::eq (&self_0, &other_0)
+	}
+}
+
+impl cmp::Ord for PairMutable {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	fn cmp (&self, other : &PairMutable) -> (cmp::Ordering) {
+		let self_0 = self.pair_ref ();
+		let other_0 = other.pair_ref ();
+		PairRef::cmp (&self_0, &other_0)
+	}
+}
+
+impl cmp::PartialOrd for PairMutable {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	fn partial_cmp (&self, other : &PairMutable) -> (Option<cmp::Ordering>) {
+		let self_0 = self.pair_ref ();
+		let other_0 = other.pair_ref ();
+		PairRef::partial_cmp (&self_0, &other_0)
+	}
+}
+
+
+impl <'a> cmp::Eq for PairRef<'a> {}
+
+impl <'a> cmp::PartialEq for PairRef<'a> {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	fn eq (&self, other : &PairRef) -> (bool) {
+		let self_0 = self.values_as_tuple ();
+		let other_0 = other.values_as_tuple ();
+		<(Value, Value)>::eq (self_0, other_0)
+	}
+}
+
+impl <'a> cmp::Ord for PairRef<'a> {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	fn cmp (&self, other : &PairRef) -> (cmp::Ordering) {
+		let self_0 = self.values_as_tuple ();
+		let other_0 = other.values_as_tuple ();
+		<(Value, Value)>::cmp (self_0, other_0)
+	}
+}
+
+impl <'a> cmp::PartialOrd for PairRef<'a> {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	fn partial_cmp (&self, other : &PairRef) -> (Option<cmp::Ordering>) {
+		Some (PairRef::cmp (self, other))
+	}
+}
+
+
+
+
+impl cmp::Eq for ArrayImmutable {}
+
+impl cmp::PartialEq for ArrayImmutable {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	fn eq (&self, other : &ArrayImmutable) -> (bool) {
+		let self_0 = self.array_ref ();
+		let other_0 = other.array_ref ();
+		ArrayRef::eq (&self_0, &other_0)
+	}
+}
+
+impl cmp::Ord for ArrayImmutable {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	fn cmp (&self, other : &ArrayImmutable) -> (cmp::Ordering) {
+		let self_0 = self.array_ref ();
+		let other_0 = other.array_ref ();
+		ArrayRef::cmp (&self_0, &other_0)
+	}
+}
+
+impl cmp::PartialOrd for ArrayImmutable {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	fn partial_cmp (&self, other : &ArrayImmutable) -> (Option<cmp::Ordering>) {
+		let self_0 = self.array_ref ();
+		let other_0 = other.array_ref ();
+		ArrayRef::partial_cmp (&self_0, &other_0)
+	}
+}
+
+
+impl cmp::Eq for ArrayMutable {}
+
+impl cmp::PartialEq for ArrayMutable {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	fn eq (&self, other : &ArrayMutable) -> (bool) {
+		let self_0 = self.array_ref ();
+		let other_0 = other.array_ref ();
+		ArrayRef::eq (&self_0, &other_0)
+	}
+}
+
+impl cmp::Ord for ArrayMutable {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	fn cmp (&self, other : &ArrayMutable) -> (cmp::Ordering) {
+		let self_0 = self.array_ref ();
+		let other_0 = other.array_ref ();
+		ArrayRef::cmp (&self_0, &other_0)
+	}
+}
+
+impl cmp::PartialOrd for ArrayMutable {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	fn partial_cmp (&self, other : &ArrayMutable) -> (Option<cmp::Ordering>) {
+		let self_0 = self.array_ref ();
+		let other_0 = other.array_ref ();
+		ArrayRef::partial_cmp (&self_0, &other_0)
+	}
+}
+
+
+impl <'a> cmp::Eq for ArrayRef<'a> {}
+
+impl <'a> cmp::PartialEq for ArrayRef<'a> {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	fn eq (&self, other : &ArrayRef) -> (bool) {
+		let self_0 = self.values_as_vec ();
+		let other_0 = other.values_as_vec ();
+		StdVec::eq (self_0, other_0)
+	}
+}
+
+impl <'a> cmp::Ord for ArrayRef<'a> {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	fn cmp (&self, other : &ArrayRef) -> (cmp::Ordering) {
+		let self_0 = self.values_as_vec ();
+		let other_0 = other.values_as_vec ();
+		StdVec::cmp (self_0, other_0)
+	}
+}
+
+impl <'a> cmp::PartialOrd for ArrayRef<'a> {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	fn partial_cmp (&self, other : &ArrayRef) -> (Option<cmp::Ordering>) {
+		Some (ArrayRef::cmp (self, other))
+	}
+}
+
+
+
+
 impl cmp::Eq for LambdaInternals {}
 
 impl cmp::PartialEq for LambdaInternals {

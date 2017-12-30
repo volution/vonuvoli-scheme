@@ -120,7 +120,7 @@ impl <'a> Bytes for BytesRef<'a> {
 
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd) ]
+#[ derive (Clone, Debug) ]
 pub struct BytesImmutable ( StdRc<StdVec<u8>> );
 
 
@@ -154,7 +154,7 @@ impl Bytes for BytesImmutable {
 
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd) ]
+#[ derive (Clone, Debug) ]
 pub struct BytesMutable ( StdRc<StdRefCell<StdVec<u8>>> );
 
 
