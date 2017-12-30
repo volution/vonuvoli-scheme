@@ -2,14 +2,14 @@
 ## benchmarking `benchmark__booleans`...
 ## benchmarked `benchmark__booleans`!
      without optimizations:
-       average   :       5042
-         stdev   :         33 /   0.66%
-         median  :       5026 /   0.36%
-       min / max :       5014 / 5014 / 5026 / 5060 / 5118
+       average   :       5021
+         stdev   :         19 /   0.38%
+         median  :       5020 /   0.45%
+       min / max :       4993 / 5005 / 5020 / 5035 / 5057
        mem-leaks :          0 KB
      with optimizations:
-       average   :       2653 / +47.37% / 1.90*
-         stdev   :         15 /   0.58%
-         median  :       2645 /   0.33%
-       min / max :       2638 / 2643 / 2645 / 2661 / 2687
+       average   :       2689 / +46.44% / 1.87*
+         stdev   :         12 /   0.45%
+         median  :       2685 /   0.24%
+       min / max :       2673 / 2682 / 2685 / 2694 / 2718
        mem-leaks :          0 KB

@@ -2,14 +2,14 @@
 ## benchmarking `benchmark__control`...
 ## benchmarked `benchmark__control`!
      without optimizations:
-       average   :       7885
-         stdev   :         47 /   0.59%
-         median  :       7868 /   0.55%
-       min / max :       7835 / 7846 / 7868 / 7915 / 7987
+       average   :       8551
+         stdev   :         32 /   0.37%
+         median  :       8546 /   0.41%
+       min / max :       8510 / 8523 / 8546 / 8570 / 8621
        mem-leaks :          0 KB
      with optimizations:
-       average   :       6843 / +13.21% / 1.15*
-         stdev   :         33 /   0.48%
-         median  :       6828 /   0.29%
-       min / max :       6801 / 6823 / 6828 / 6861 / 6922
+       average   :       7250 / +15.21% / 1.18*
+         stdev   :         30 /   0.41%
+         median  :       7247 /   0.47%
+       min / max :       7209 / 7222 / 7247 / 7268 / 7303
        mem-leaks :          0 KB
