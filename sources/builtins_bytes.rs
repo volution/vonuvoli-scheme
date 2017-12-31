@@ -47,8 +47,14 @@ pub fn bytes_at (bytes : &Value, index : usize) -> (Outcome<Value>) {
 }
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-pub fn bytes_at_set (_bytes : &Value, _index : usize, _byte : &Value) -> (Outcome<Value>) {
-	fail_unimplemented! (0xd606bd1c);
+pub fn bytes_at_set (bytes : &Value, index : usize, byte : &Value) -> (Outcome<Value>) {
+	let bytes = try_as_bytes_mutable_ref! (bytes);
+	let mut bytes = bytes.bytes_ref_mut ();
+	let byte = try_as_number_integer_ref! (byte);
+	let byte_ref = try_some! (bytes.get_mut (index), 0x3cf4282c);
+	let mut byte_swap = try! (byte.try_to_u8 ());
+	mem::swap (&mut byte_swap, byte_ref);
+	succeed! (byte_swap.into ());
 }
 
 
@@ -255,36 +261,51 @@ pub fn bytes_reverse (bytes : &Value) -> (Outcome<Value>) {
 
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-pub fn bytes_fill_range (bytes : &Value, fill : Option<&Value>, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
-	let bytes = try_as_bytes_ref! (bytes);
-	let _fill = if let Some (fill) = fill {
+pub fn bytes_fill_range (bytes : &Value, fill : Option<&Value>, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<()>) {
+	let bytes = try_as_bytes_mutable_ref! (bytes);
+	let mut bytes = bytes.bytes_ref_mut ();
+	let fill = if let Some (fill) = fill {
 		try! (try_as_number_integer_ref! (fill) .try_to_u8 ())
 	} else {
 		0 as u8
 	};
-	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, bytes.bytes_count ()));
-	fail_unimplemented! (0xfc14ec8b);
-}
-
-
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-pub fn bytes_reverse_range (bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
-	let bytes = try_as_bytes_ref! (bytes);
-	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, bytes.bytes_count ()));
-	fail_unimplemented! (0xff6acb00);
-}
-
-
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-pub fn bytes_copy_range (target_bytes : &Value, target_start : Option<&Value>, source_bytes : &Value, source_start : Option<&Value>, source_end : Option<&Value>) -> (Outcome<Value>) {
-	let target_bytes = try_as_bytes_ref! (target_bytes);
-	let source_bytes = try_as_bytes_ref! (source_bytes);
-	let (source_start, source_end) = try! (range_coerce (source_start, source_end, source_bytes.bytes_count ()));
-	let (target_start, target_end) = try! (range_coerce (target_start, None, target_bytes.bytes_count ()));
-	if (target_end - target_start) < (source_end - source_start) {
-		fail! (0x7033eb20);
+	let (range_start, range_end) = try! (range_coerce (range_start, range_end, bytes.len ()));
+	let bytes = try_some! (bytes.get_mut (range_start .. range_end), 0x79902e57);
+	for byte_ref in bytes {
+		*byte_ref = fill;
 	}
-	fail_unimplemented! (0x00cfa730);
+	succeed! (());
+}
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn bytes_reverse_range (bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<()>) {
+	let bytes = try_as_bytes_mutable_ref! (bytes);
+	let mut bytes = bytes.bytes_ref_mut ();
+	let (range_start, range_end) = try! (range_coerce (range_start, range_end, bytes.len ()));
+	let bytes = try_some! (bytes.get_mut (range_start .. range_end), 0x31d6fbe3);
+	bytes.reverse ();
+	succeed! (());
+}
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn bytes_copy_range (target_bytes : &Value, target_start : Option<&Value>, source_bytes : &Value, source_start : Option<&Value>, source_end : Option<&Value>) -> (Outcome<()>) {
+	let target_bytes = try_as_bytes_mutable_ref! (target_bytes);
+	let mut target_bytes = target_bytes.bytes_ref_mut ();
+	let source_bytes = try_as_bytes_ref! (source_bytes);
+	let source_bytes = source_bytes.bytes_as_slice ();
+	let (source_start, source_end) = try! (range_coerce (source_start, source_end, source_bytes.len ()));
+	let (target_start, target_end) = try! (range_coerce (target_start, None, target_bytes.len ()));
+	let target_end = if (target_end - target_start) >= (source_end - source_start) {
+		target_start + (source_end - source_start)
+	} else {
+		fail! (0x7033eb20);
+	};
+	let target_bytes = try_some! (target_bytes.get_mut (target_start .. target_end), 0xbd28374b);
+	let source_bytes = try_some! (source_bytes.get (source_start .. source_end), 0xb0b58937);
+	<[u8]>::copy_from_slice (target_bytes, source_bytes);
+	succeed! (());
 }
 
 
