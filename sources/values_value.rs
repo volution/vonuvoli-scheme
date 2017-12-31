@@ -127,7 +127,7 @@ pub type ValueVec = StdVec<Value>;
 
 impl Value {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn class (&self) -> (ValueClass) {
 		match *self {
 			
@@ -176,12 +176,12 @@ impl Value {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn is (&self, class : ValueClass) -> (bool) {
 		self.class () == class
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn is_self (&self, other : &Value) -> (bool) {
 		match (self, other) {
 			
@@ -266,7 +266,7 @@ pub enum ValueRef <'a> {
 
 impl <'a> ValueRef<'a> {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn clone (&self) -> (Value) {
 		match *self {
 			ValueRef::Immutable (value) =>
@@ -276,12 +276,12 @@ impl <'a> ValueRef<'a> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn is_self <OtherRef : StdAsRef<Value>> (&self, other : OtherRef) -> (bool) {
 		Value::is_self (self.value_ref (), other.as_ref ())
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn value_ref (&self) -> (&Value) {
 		match *self {
 			ValueRef::Immutable (value) =>
@@ -291,7 +291,7 @@ impl <'a> ValueRef<'a> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn map_value <Transformer> (self, transformer : Transformer) -> (ValueRef<'a>)
 			where Transformer : FnOnce (&Value) -> (&Value)
 	{
@@ -303,7 +303,7 @@ impl <'a> ValueRef<'a> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn map_generic <Transformer, Output> (self, transformer : Transformer) -> (GenericRef<'a, Output>)
 			where Transformer : FnOnce (&Value) -> (&Output)
 	{
@@ -321,7 +321,7 @@ impl <'a> StdDeref for ValueRef<'a> {
 	
 	type Target = Value;
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn deref (&self) -> (&Value) {
 		match *self {
 			ValueRef::Immutable (value) =>
@@ -335,7 +335,7 @@ impl <'a> StdDeref for ValueRef<'a> {
 
 impl <'a> StdAsRef<Value> for ValueRef<'a> {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn as_ref (&self) -> (&Value) {
 		&self
 	}
@@ -353,7 +353,7 @@ pub enum GenericRef <'a, T : 'a> {
 
 impl <'a, T : 'a> GenericRef<'a, T> {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn generic_ref (&self) -> (&T) {
 		match *self {
 			GenericRef::Immutable (value) =>
@@ -363,7 +363,7 @@ impl <'a, T : 'a> GenericRef<'a, T> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn is_self <OtherRef : StdAsRef<T>> (&self, other : OtherRef) -> (bool) {
 		ptr::eq (self.generic_ref (), other.as_ref ())
 	}
@@ -374,7 +374,7 @@ impl <'a, T : 'a> StdDeref for GenericRef<'a, T> {
 	
 	type Target = T;
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn deref (&self) -> (&T) {
 		match *self {
 			GenericRef::Immutable (value) =>
@@ -388,7 +388,7 @@ impl <'a, T : 'a> StdDeref for GenericRef<'a, T> {
 
 impl <'a, T : 'a> StdAsRef<T> for GenericRef<'a, T> {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn as_ref (&self) -> (&T) {
 		&self
 	}

@@ -50,7 +50,7 @@ pub struct LambdaTemplate {
 
 impl LambdaTemplate {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn new (identifier : Option<Symbol>, arguments_positional : StdBox<[Symbol]>, argument_rest : Option<Symbol>) -> (LambdaTemplate) {
 		return LambdaTemplate {
 				identifier : identifier,
@@ -69,7 +69,7 @@ pub struct Lambda ( StdRc<LambdaInternals> );
 
 impl Lambda {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn new (template : StdRc<LambdaTemplate>, expression : StdRc<Expression>, registers_closure : Registers, registers_local : StdRc<[RegisterTemplate]>) -> (Lambda) {
 		let internals = LambdaInternals {
 				handle_1 : template.handle,
@@ -83,28 +83,28 @@ impl Lambda {
 		return Lambda (StdRc::new (internals));
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn internals_ref (&self) -> (&LambdaInternals) {
 		return StdRc::as_ref (&self.0);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn internals_rc_clone (&self) -> (StdRc<LambdaInternals>) {
 		return self.0.clone ();
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn internals_rc_into (self) -> (StdRc<LambdaInternals>) {
 		return self.0;
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn handle (&self) -> (Handle) {
 		let self_0 = self.internals_ref ();
 		return self_0.handle_2;
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn is_self (&self, other : &Lambda) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
@@ -119,33 +119,33 @@ pub struct ProcedureLambda ( StdRc<LambdaInternals> );
 
 impl ProcedureLambda {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn new (lambda : Lambda) -> (ProcedureLambda) {
 		return ProcedureLambda (lambda.internals_rc_clone ());
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn internals_ref (&self) -> (&LambdaInternals) {
 		return StdRc::as_ref (&self.0);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn internals_rc_clone (&self) -> (StdRc<LambdaInternals>) {
 		return self.0.clone ();
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn internals_rc_into (self) -> (StdRc<LambdaInternals>) {
 		return self.0;
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn handle (&self) -> (Handle) {
 		let self_0 = self.internals_ref ();
 		return self_0.handle_2;
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn is_self (&self, other : &ProcedureLambda) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
@@ -160,33 +160,33 @@ pub struct SyntaxLambda ( StdRc<LambdaInternals> );
 
 impl SyntaxLambda {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn new (lambda : Lambda) -> (SyntaxLambda) {
 		return SyntaxLambda (lambda.internals_rc_clone ());
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn internals_ref (&self) -> (&LambdaInternals) {
 		return StdRc::as_ref (&self.0);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn internals_rc_clone (&self) -> (StdRc<LambdaInternals>) {
 		return self.0.clone ();
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn internals_rc_into (self) -> (StdRc<LambdaInternals>) {
 		return self.0;
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn handle (&self) -> (Handle) {
 		let self_0 = self.internals_ref ();
 		return self_0.handle_2;
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn is_self (&self, other : &SyntaxLambda) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}

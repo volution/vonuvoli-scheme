@@ -164,28 +164,28 @@ pub trait PortBackendWriter {
 impl Port {
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn new_bytes_reader_from_bytes_immutable (buffer : StdRc<StdVec<u8>>, range_start : usize, range_end : Option<usize>) -> (Outcome<Port>) {
 		let backend = try! (PortBackendBytesReader::new_from_bytes_immutable (buffer, range_start, range_end));
 		let backend = PortBackend::BytesReader (backend);
 		return Port::new_from_backend (backend);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn new_bytes_reader_from_bytes_mutable (buffer : StdRc<StdRefCell<StdVec<u8>>>, range_start : usize, range_end : Option<usize>) -> (Outcome<Port>) {
 		let backend = try! (PortBackendBytesReader::new_from_bytes_mutable (buffer, range_start, range_end));
 		let backend = PortBackend::BytesReader (backend);
 		return Port::new_from_backend (backend);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn new_bytes_reader_from_string_immutable (buffer : StdRc<StdString>, range_start : usize, range_end : Option<usize>) -> (Outcome<Port>) {
 		let backend = try! (PortBackendBytesReader::new_from_string_immutable (buffer, range_start, range_end));
 		let backend = PortBackend::BytesReader (backend);
 		return Port::new_from_backend (backend);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn new_bytes_reader_from_string_mutable (buffer : StdRc<StdRefCell<StdString>>, range_start : usize, range_end : Option<usize>) -> (Outcome<Port>) {
 		let backend = try! (PortBackendBytesReader::new_from_string_mutable (buffer, range_start, range_end));
 		let backend = PortBackend::BytesReader (backend);
@@ -193,7 +193,7 @@ impl Port {
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn new_bytes_writer () -> (Outcome<Port>) {
 		let backend = try! (PortBackendBytesWriter::new ());
 		let backend = PortBackend::BytesWriter (backend);
@@ -201,14 +201,14 @@ impl Port {
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn new_native_reader_from_unbuffered (reader : StdBox<io::Read>) -> (Outcome<Port>) {
 		let backend = try! (PortBackendNativeReader::new_from_unbuffered (reader));
 		let backend = PortBackend::NativeReader (backend);
 		return Port::new_from_backend (backend);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn new_native_writer_from_unbuffered (writer : StdBox<io::Write>) -> (Outcome<Port>) {
 		let backend = try! (PortBackendNativeWriter::new_from_unbuffered (writer));
 		let backend = PortBackend::NativeWriter (backend);
@@ -216,7 +216,7 @@ impl Port {
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn new_from_backend (backend : PortBackend) -> (Outcome<Port>) {
 		let internals = PortInternals {
 				state : PortState::Open,
@@ -228,24 +228,24 @@ impl Port {
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn internals_ref (&self) -> (StdRef<PortInternals>) {
 		return StdRefCell::borrow (StdRc::as_ref (&self.0));
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn internals_ref_mut (&self) -> (StdRefMut<PortInternals>) {
 		return StdRefCell::borrow_mut (StdRc::as_ref (&self.0));
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn handle (&self) -> (Handle) {
 		let self_0 = self.internals_ref ();
 		return self_0.handle;
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn internals_ref_if_open (&self) -> (Outcome<Option<StdRef<PortInternals>>>) {
 		let self_0 = self.internals_ref ();
 		match self_0.state {
@@ -259,7 +259,7 @@ impl Port {
 		succeed! (Some (self_0));
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn internals_ref_mut_if_open (&self) -> (Outcome<Option<StdRefMut<PortInternals>>>) {
 		let self_0 = self.internals_ref_mut ();
 		match self_0.state {
@@ -274,7 +274,7 @@ impl Port {
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn internals_ref_check_open (&self) -> (Outcome<StdRef<PortInternals>>) {
 		let self_0 = self.internals_ref ();
 		match self_0.state {
@@ -288,7 +288,7 @@ impl Port {
 		succeed! (self_0);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn internals_ref_mut_check_open (&self) -> (Outcome<StdRefMut<PortInternals>>) {
 		let self_0 = self.internals_ref_mut ();
 		match self_0.state {
@@ -303,7 +303,7 @@ impl Port {
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn is_self (&self, other : &Port) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
@@ -312,17 +312,17 @@ impl Port {
 
 impl PortInternals {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn backend_ref (&self) -> (&PortBackend) {
 		return &self.backend;
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn backend_ref_mut (&mut self) -> (&mut PortBackend) {
 		return &mut self.backend;
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn process_outcome <T> (&mut self, outcome : Outcome<T>) -> (Outcome<T>) {
 		match outcome {
 			outcome @ Ok (_) =>
@@ -340,7 +340,7 @@ impl PortInternals {
 
 impl Port {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn close (&self) -> (Outcome<()>) {
 		if let Some (mut self_0) = try! (self.internals_ref_mut_if_open ()) {
 			match self_0.backend.close () {
@@ -362,7 +362,7 @@ impl Port {
 
 impl PortQueries for Port {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn is_read_implemented (&self) -> (bool) {
 		if let Ok (Some (self_0)) = self.internals_ref_if_open () {
 			return self_0.backend.is_read_implemented ();
@@ -371,7 +371,7 @@ impl PortQueries for Port {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn is_write_implemented (&self) -> (bool) {
 		if let Ok (Some (self_0)) = self.internals_ref_if_open () {
 			return self_0.backend.is_write_implemented ();
@@ -380,7 +380,7 @@ impl PortQueries for Port {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn is_byte_implemented (&self) -> (bool) {
 		if let Ok (Some (self_0)) = self.internals_ref_if_open () {
 			return self_0.backend.is_byte_implemented ();
@@ -389,7 +389,7 @@ impl PortQueries for Port {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn is_char_implemented (&self) -> (bool) {
 		if let Ok (Some (self_0)) = self.internals_ref_if_open () {
 			return self_0.backend.is_char_implemented ();
@@ -398,7 +398,7 @@ impl PortQueries for Port {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn is_value_implemented (&self) -> (bool) {
 		if let Ok (Some (self_0)) = self.internals_ref_if_open () {
 			return self_0.backend.is_value_implemented ();
@@ -413,7 +413,7 @@ impl PortQueries for Port {
 
 impl PortReader for Port {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn byte_ready (&self) -> (Outcome<bool>) {
 		if let Some (mut self_0) = try! (self.internals_ref_mut_if_open ()) {
 			let outcome = self_0.backend.byte_ready ();
@@ -423,7 +423,7 @@ impl PortReader for Port {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn byte_peek (&self) -> (Outcome<Option<u8>>) {
 		if let Some (mut self_0) = try! (self.internals_ref_mut_if_open ()) {
 			let outcome = self_0.backend.byte_peek ();
@@ -433,7 +433,7 @@ impl PortReader for Port {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn byte_read (&self) -> (Outcome<Option<u8>>) {
 		if let Some (mut self_0) = try! (self.internals_ref_mut_if_open ()) {
 			let outcome = self_0.backend.byte_read ();
@@ -443,7 +443,7 @@ impl PortReader for Port {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn byte_read_slice (&self, buffer : &mut [u8], full : bool) -> (Outcome<Option<usize>>) {
 		if let Some (mut self_0) = try! (self.internals_ref_mut_if_open ()) {
 			let outcome = self_0.backend.byte_read_slice (buffer, full);
@@ -453,7 +453,7 @@ impl PortReader for Port {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn byte_read_extend (&self, buffer : &mut StdVec<u8>, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>) {
 		if let Some (mut self_0) = try! (self.internals_ref_mut_if_open ()) {
 			let outcome = self_0.backend.byte_read_extend (buffer, count, full);
@@ -463,7 +463,7 @@ impl PortReader for Port {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn byte_read_string (&self, buffer : &mut StdString, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>) {
 		if let Some (mut self_0) = try! (self.internals_ref_mut_if_open ()) {
 			let outcome = self_0.backend.byte_read_string (buffer, count, full);
@@ -473,7 +473,7 @@ impl PortReader for Port {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn char_ready (&self) -> (Outcome<bool>) {
 		if let Some (mut self_0) = try! (self.internals_ref_mut_if_open ()) {
 			let outcome = self_0.backend.char_ready ();
@@ -483,7 +483,7 @@ impl PortReader for Port {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn char_peek (&self) -> (Outcome<Option<char>>) {
 		if let Some (mut self_0) = try! (self.internals_ref_mut_if_open ()) {
 			let outcome = self_0.backend.char_peek ();
@@ -493,7 +493,7 @@ impl PortReader for Port {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn char_read (&self) -> (Outcome<Option<char>>) {
 		if let Some (mut self_0) = try! (self.internals_ref_mut_if_open ()) {
 			let outcome = self_0.backend.char_read ();
@@ -503,7 +503,7 @@ impl PortReader for Port {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn char_read_slice (&self, buffer : &mut [char], full : bool) -> (Outcome<Option<usize>>) {
 		if let Some (mut self_0) = try! (self.internals_ref_mut_if_open ()) {
 			let outcome = self_0.backend.char_read_slice (buffer, full);
@@ -513,7 +513,7 @@ impl PortReader for Port {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn char_read_extend (&self, buffer : &mut StdVec<char>, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>) {
 		if let Some (mut self_0) = try! (self.internals_ref_mut_if_open ()) {
 			let outcome = self_0.backend.char_read_extend (buffer, count, full);
@@ -523,7 +523,7 @@ impl PortReader for Port {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn char_read_string (&self, buffer : &mut StdString, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>) {
 		if let Some (mut self_0) = try! (self.internals_ref_mut_if_open ()) {
 			let outcome = self_0.backend.char_read_string (buffer, count, full);
@@ -533,7 +533,7 @@ impl PortReader for Port {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn input_close (&self) -> (Outcome<()>) {
 		if let Some (mut self_0) = try! (self.internals_ref_mut_if_open ()) {
 			let outcome = self_0.backend.input_close ();
@@ -543,7 +543,7 @@ impl PortReader for Port {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn is_input_open (&self) -> (bool) {
 		if let Ok (Some (mut self_0)) = self.internals_ref_mut_if_open () {
 			return self_0.backend.is_input_open ();
@@ -558,49 +558,49 @@ impl PortReader for Port {
 
 impl PortWriter for Port {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn byte_write (&self, byte : u8) -> (Outcome<()>) {
 		let mut self_0 = try! (self.internals_ref_mut_check_open ());
 		let outcome = self_0.backend.byte_write (byte);
 		return self_0.process_outcome (outcome);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn byte_write_slice (&self, bytes : &[u8], full : bool) -> (Outcome<usize>) {
 		let mut self_0 = try! (self.internals_ref_mut_check_open ());
 		let outcome = self_0.backend.byte_write_slice (bytes, full);
 		return self_0.process_outcome (outcome);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn byte_write_string (&self, string : &str, full : bool) -> (Outcome<usize>) {
 		let mut self_0 = try! (self.internals_ref_mut_check_open ());
 		let outcome = self_0.backend.byte_write_string (string, full);
 		return self_0.process_outcome (outcome);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn char_write (&self, char : char) -> (Outcome<()>) {
 		let mut self_0 = try! (self.internals_ref_mut_check_open ());
 		let outcome = self_0.backend.char_write (char);
 		return self_0.process_outcome (outcome);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn char_write_slice (&self, chars : &[char], full : bool) -> (Outcome<usize>) {
 		let mut self_0 = try! (self.internals_ref_mut_check_open ());
 		let outcome = self_0.backend.char_write_slice (chars, full);
 		return self_0.process_outcome (outcome);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn char_write_string (&self, string : &str, full : bool) -> (Outcome<usize>) {
 		let mut self_0 = try! (self.internals_ref_mut_check_open ());
 		let outcome = self_0.backend.char_write_string (string, full);
 		return self_0.process_outcome (outcome);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn output_flush (&self) -> (Outcome<()>) {
 		if let Some (mut self_0) = try! (self.internals_ref_mut_if_open ()) {
 			let outcome = self_0.backend.output_flush ();
@@ -610,7 +610,7 @@ impl PortWriter for Port {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn output_close (&self) -> (Outcome<()>) {
 		if let Some (mut self_0) = try! (self.internals_ref_mut_if_open ()) {
 			let outcome = self_0.backend.output_close ();
@@ -620,7 +620,7 @@ impl PortWriter for Port {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn is_output_open (&self) -> (bool) {
 		if let Ok (Some (mut self_0)) = self.internals_ref_mut_if_open () {
 			return self_0.backend.is_output_open ();
@@ -635,7 +635,7 @@ impl PortWriter for Port {
 
 impl PortBackend {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn close (&mut self) -> (Outcome<()>) {
 		match *self {
 			
@@ -658,7 +658,7 @@ impl PortBackend {
 
 impl PortQueries for PortBackend {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn is_read_implemented (&self) -> (bool) {
 		match *self {
 			
@@ -675,7 +675,7 @@ impl PortQueries for PortBackend {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn is_write_implemented (&self) -> (bool) {
 		match *self {
 			
@@ -692,7 +692,7 @@ impl PortQueries for PortBackend {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn is_byte_implemented (&self) -> (bool) {
 		match *self {
 			
@@ -709,7 +709,7 @@ impl PortQueries for PortBackend {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn is_char_implemented (&self) -> (bool) {
 		match *self {
 			
@@ -726,7 +726,7 @@ impl PortQueries for PortBackend {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn is_value_implemented (&self) -> (bool) {
 		match *self {
 			
@@ -749,7 +749,7 @@ impl PortQueries for PortBackend {
 
 impl PortBackendReader for PortBackend {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn byte_ready (&mut self) -> (Outcome<bool>) {
 		match *self {
 			
@@ -766,7 +766,7 @@ impl PortBackendReader for PortBackend {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn byte_peek (&mut self) -> (Outcome<Option<u8>>) {
 		match *self {
 			
@@ -783,7 +783,7 @@ impl PortBackendReader for PortBackend {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn byte_read (&mut self) -> (Outcome<Option<u8>>) {
 		match *self {
 			
@@ -800,7 +800,7 @@ impl PortBackendReader for PortBackend {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn byte_read_slice (&mut self, buffer : &mut [u8], full : bool) -> (Outcome<Option<usize>>) {
 		match *self {
 			
@@ -817,7 +817,7 @@ impl PortBackendReader for PortBackend {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn byte_read_extend (&mut self, buffer : &mut StdVec<u8>, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>) {
 		match *self {
 			
@@ -834,7 +834,7 @@ impl PortBackendReader for PortBackend {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn byte_read_string (&mut self, buffer : &mut StdString, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>) {
 		match *self {
 			
@@ -851,7 +851,7 @@ impl PortBackendReader for PortBackend {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn char_ready (&mut self) -> (Outcome<bool>) {
 		match *self {
 			
@@ -868,7 +868,7 @@ impl PortBackendReader for PortBackend {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn char_peek (&mut self) -> (Outcome<Option<char>>) {
 		match *self {
 			
@@ -885,7 +885,7 @@ impl PortBackendReader for PortBackend {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn char_read (&mut self) -> (Outcome<Option<char>>) {
 		match *self {
 			
@@ -902,7 +902,7 @@ impl PortBackendReader for PortBackend {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn char_read_slice (&mut self, buffer : &mut [char], full : bool) -> (Outcome<Option<usize>>) {
 		match *self {
 			
@@ -919,7 +919,7 @@ impl PortBackendReader for PortBackend {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn char_read_extend (&mut self, buffer : &mut StdVec<char>, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>) {
 		match *self {
 			
@@ -936,7 +936,7 @@ impl PortBackendReader for PortBackend {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn char_read_string (&mut self, buffer : &mut StdString, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>) {
 		match *self {
 			
@@ -953,7 +953,7 @@ impl PortBackendReader for PortBackend {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn input_close (&mut self) -> (Outcome<()>) {
 		match *self {
 			
@@ -970,7 +970,7 @@ impl PortBackendReader for PortBackend {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn is_input_open (&mut self) -> (bool) {
 		match *self {
 			
@@ -993,7 +993,7 @@ impl PortBackendReader for PortBackend {
 
 impl PortBackendWriter for PortBackend {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn byte_write (&mut self, byte : u8) -> (Outcome<()>) {
 		match *self {
 			
@@ -1010,7 +1010,7 @@ impl PortBackendWriter for PortBackend {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn byte_write_slice (&mut self, bytes : &[u8], full : bool) -> (Outcome<usize>) {
 		match *self {
 			
@@ -1027,7 +1027,7 @@ impl PortBackendWriter for PortBackend {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn byte_write_string (&mut self, string : &str, full : bool) -> (Outcome<usize>) {
 		match *self {
 			
@@ -1044,7 +1044,7 @@ impl PortBackendWriter for PortBackend {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn char_write (&mut self, char : char) -> (Outcome<()>) {
 		match *self {
 			
@@ -1061,7 +1061,7 @@ impl PortBackendWriter for PortBackend {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn char_write_slice (&mut self, chars : &[char], full : bool) -> (Outcome<usize>) {
 		match *self {
 			
@@ -1078,7 +1078,7 @@ impl PortBackendWriter for PortBackend {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn char_write_string (&mut self, string : &str, full : bool) -> (Outcome<usize>) {
 		match *self {
 			
@@ -1095,7 +1095,7 @@ impl PortBackendWriter for PortBackend {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn output_flush (&mut self) -> (Outcome<()>) {
 		match *self {
 			
@@ -1112,7 +1112,7 @@ impl PortBackendWriter for PortBackend {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn output_close (&mut self) -> (Outcome<()>) {
 		match *self {
 			
@@ -1129,7 +1129,7 @@ impl PortBackendWriter for PortBackend {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn is_output_open (&mut self) -> (bool) {
 		match *self {
 			

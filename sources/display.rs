@@ -241,7 +241,7 @@ impl fmt::Display for StringMutable {
 	}
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 fn string_fmt (string : &str, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 	try! (formatter.write_char ('"'));
 	for character in string.chars () {
@@ -281,7 +281,7 @@ impl fmt::Display for BytesMutable {
 	}
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 fn bytes_fmt (bytes : &[u8], formatter : &mut fmt::Formatter) -> (fmt::Result) {
 	try! (formatter.write_str ("#u8("));
 	let mut is_first = true;
@@ -318,7 +318,7 @@ impl fmt::Display for PairMutable {
 	}
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 fn pair_fmt (pair : PairRef, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 	try! (formatter.write_char ('('));
 	let pair = pair.values_as_tuple ();
@@ -327,7 +327,7 @@ fn pair_fmt (pair : PairRef, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 	succeed! (());
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 fn pair_fmt_0 (head : &(Value, Value), cursor : &(Value, Value), formatter : &mut fmt::Formatter) -> (fmt::Result) {
 	let mut cursor = cursor;
 	loop {
@@ -392,7 +392,7 @@ impl fmt::Display for ArrayMutable {
 	}
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 fn array_fmt (values : &[Value], formatter : &mut fmt::Formatter) -> (fmt::Result) {
 	try! (formatter.write_str ("#("));
 	let mut is_first = true;

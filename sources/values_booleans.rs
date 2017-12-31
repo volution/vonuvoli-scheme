@@ -19,7 +19,7 @@ pub struct Boolean ( pub bool );
 
 impl Boolean {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn value (&self) -> (bool) {
 		self.0
 	}
@@ -28,37 +28,37 @@ impl Boolean {
 
 impl Boolean {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn not (&self) -> (Boolean) {
 		(!self.0) .into ()
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn and (&self, other : &Boolean) -> (Boolean) {
 		(self.0 && other.0) .into ()
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn or (&self, other : &Boolean) -> (Boolean) {
 		(self.0 || other.0) .into ()
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn xor (&self, other : &Boolean) -> (Boolean) {
 		(self.0 ^ other.0) .into ()
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn nand (&self, other : &Boolean) -> (Boolean) {
 		self.and (other) .not ()
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn nor (&self, other : &Boolean) -> (Boolean) {
 		self.or (other) .not ()
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn nxor (&self, other : &Boolean) -> (Boolean) {
 		self.xor (other) .not ()
 	}
@@ -69,7 +69,7 @@ impl ops::Not for Boolean {
 	
 	type Output = Boolean;
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn not (self) -> (Boolean) {
 		Boolean::not (&self)
 	}
@@ -78,7 +78,7 @@ impl ops::Not for Boolean {
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn boolean (value : bool) -> (Boolean) {
 	Boolean (value)
 }

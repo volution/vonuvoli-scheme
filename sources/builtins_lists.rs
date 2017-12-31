@@ -55,7 +55,7 @@ pub mod exports {
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn pair <ValueRef1 : StdAsRef<Value>, ValueRef2 : StdAsRef<Value>> (left : ValueRef1, right : ValueRef2) -> (Value) {
 	let left = left.as_ref ();
 	let left = left.clone ();
@@ -64,7 +64,7 @@ pub fn pair <ValueRef1 : StdAsRef<Value>, ValueRef2 : StdAsRef<Value>> (left : V
 	return pair_new (left, right) .into ();
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn pair_left <ValueRef : StdAsRef<Value>> (pair : ValueRef) -> (Outcome<Value>) {
 	let pair = pair.as_ref ();
 	let left = try! (pair_left_ref (pair));
@@ -72,7 +72,7 @@ pub fn pair_left <ValueRef : StdAsRef<Value>> (pair : ValueRef) -> (Outcome<Valu
 	succeed! (left);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn pair_right <ValueRef : StdAsRef<Value>> (pair : ValueRef) -> (Outcome<Value>) {
 	let pair = pair.as_ref ();
 	let right = try! (pair_right_ref (pair));
@@ -80,28 +80,28 @@ pub fn pair_right <ValueRef : StdAsRef<Value>> (pair : ValueRef) -> (Outcome<Val
 	succeed! (right);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn pair_left_ref <'a> (pair : &'a Value) -> (Outcome<ValueRef<'a>>) {
 	let pair = pair.as_ref ();
 	let pair = try_as_pair_ref! (pair);
 	succeed! (pair.left_ref_into ());
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn pair_right_ref <'a> (pair : &'a Value) -> (Outcome<ValueRef<'a>>) {
 	let pair = pair.as_ref ();
 	let pair = try_as_pair_ref! (pair);
 	succeed! (pair.right_ref_into ());
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn pair_left_set <ValueRef1 : StdAsRef<Value>, ValueRef2 : StdAsRef<Value>> (pair : ValueRef1, left : ValueRef2) -> (Outcome<Value>) {
 	let _pair = pair.as_ref ();
 	let _left = left.as_ref ();
 	fail_unimplemented! (0x2073d5a3);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn pair_right_set <ValueRef1 : StdAsRef<Value>, ValueRef2 : StdAsRef<Value>> (pair : ValueRef1, right : ValueRef2) -> (Outcome<Value>) {
 	let _pair = pair.as_ref ();
 	let _right = right.as_ref ();
@@ -111,18 +111,18 @@ pub fn pair_right_set <ValueRef1 : StdAsRef<Value>, ValueRef2 : StdAsRef<Value>>
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_first_at (list : &Value, index : usize) -> (Outcome<Value>) {
 	succeed! (try! (list_first_at_ref (list, index)) .clone ());
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_rest_at (list : &Value, index : usize) -> (Outcome<Value>) {
 	succeed! (try! (list_rest_at_ref (list, index)) .clone ());
 }
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_first_at_ref (list : &Value, index : usize) -> (Outcome<&Value>) {
 	let pair = try! (list_pair_at_ref (list, index));
 	if let Some (pair) = pair {
@@ -132,7 +132,7 @@ pub fn list_first_at_ref (list : &Value, index : usize) -> (Outcome<&Value>) {
 	}
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_rest_at_ref (list : &Value, index : usize) -> (Outcome<&Value>) {
 	let pair = try! (list_pair_at_ref (list, index));
 	if let Some (pair) = pair {
@@ -142,17 +142,17 @@ pub fn list_rest_at_ref (list : &Value, index : usize) -> (Outcome<&Value>) {
 	}
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_first_at_set (_list : &Value, _index : usize, _value : &Value) -> (Outcome<Value>) {
 	fail_unimplemented! (0x562f049a);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_rest_at_set (_list : &Value, _index : usize, _value : &Value) -> (Outcome<Value>) {
 	fail_unimplemented! (0x2ef281ce);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_pair_at (list : &Value, index : usize) -> (Outcome<Value>) {
 	let pair = try! (list_pair_at_ref (list, index));
 	if let Some (pair) = pair {
@@ -162,7 +162,7 @@ pub fn list_pair_at (list : &Value, index : usize) -> (Outcome<Value>) {
 	}
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_pair_at_ref (list : &Value, index : usize) -> (Outcome<Option<&PairImmutable>>) {
 	let mut iterator = try! (ListPairIterator::new (list));
 	let mut offset = 0;
@@ -189,14 +189,14 @@ pub fn list_pair_at_ref (list : &Value, index : usize) -> (Outcome<Option<&PairI
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_collect <Source> (values : Source) -> (Value)
 		where Source : iter::IntoIterator<Item = Value>, Source::IntoIter : iter::DoubleEndedIterator
 {
 	return list_collect_dotted (values, None);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_collect_dotted <Source> (values : Source, last : Option<Value>) -> (Value)
 		where Source : iter::IntoIterator<Item = Value>, Source::IntoIter : iter::DoubleEndedIterator
 {
@@ -209,14 +209,14 @@ pub fn list_collect_dotted <Source> (values : Source, last : Option<Value>) -> (
 }
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_collect_ref <Source, ValueRef> (values : Source) -> (Value)
 		where Source : iter::IntoIterator<Item = ValueRef>, Source::IntoIter : iter::DoubleEndedIterator, ValueRef : StdAsRef<Value>
 {
 	return list_collect_dotted_ref (values, None);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_collect_dotted_ref <Source, ValueRef> (values : Source, last : Option<ValueRef>) -> (Value)
 		where Source : iter::IntoIterator<Item = ValueRef>, Source::IntoIter : iter::DoubleEndedIterator, ValueRef : StdAsRef<Value>
 {
@@ -231,14 +231,14 @@ pub fn list_collect_dotted_ref <Source, ValueRef> (values : Source, last : Optio
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_collect_from_generator <Source> (values : Source) -> (Outcome<Value>)
 		where Source : iter::Iterator<Item = Outcome<Value>>
 {
 	return list_collect_dotted_from_generator (values, None);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_collect_dotted_from_generator <Source> (values : Source, last : Option<Value>) -> (Outcome<Value>)
 		where Source : iter::Iterator<Item = Outcome<Value>>
 {
@@ -248,14 +248,14 @@ pub fn list_collect_dotted_from_generator <Source> (values : Source, last : Opti
 }
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_collect_from_generator_ref <Source, ValueRef> (values : Source) -> (Outcome<Value>)
 		where Source : iter::Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
 {
 	return list_collect_dotted_from_generator_ref (values, None);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_collect_dotted_from_generator_ref <Source, ValueRef> (values : Source, last : Option<ValueRef>) -> (Outcome<Value>)
 		where Source : iter::Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
 {
@@ -267,32 +267,32 @@ pub fn list_collect_dotted_from_generator_ref <Source, ValueRef> (values : Sourc
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_empty () -> (Value) {
 	return NULL.into ();
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_build_1 (value_1 : &Value) -> (Value) {
 	return pair_new (value_1.clone (), NULL.into ()) .into ();
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_build_2 (value_1 : &Value, value_2 : &Value) -> (Value) {
 	return pair_new (value_1.clone (), pair_new (value_2.clone (), NULL.into ()) .into ()) .into ();
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_build_3 (value_1 : &Value, value_2 : &Value, value_3 : &Value) -> (Value) {
 	return pair_new (value_1.clone (), pair_new (value_2.clone (), pair_new (value_3.clone (), NULL.into ()) .into ()) .into ()) .into ();
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_build_4 (value_1 : &Value, value_2 : &Value, value_3 : &Value, value_4 : &Value) -> (Value) {
 	return pair_new (value_1.clone (), pair_new (value_2.clone (), pair_new (value_3.clone (), pair_new (value_4.clone (), NULL.into ()) .into ()) .into ()) .into ()) .into ();
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_build_n (values : &[&Value]) -> (Value) {
 	match values.len () {
 		0 =>
@@ -314,28 +314,28 @@ pub fn list_build_n (values : &[&Value]) -> (Value) {
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_append_2 (list_1 : &Value, list_2 : &Value) -> (Outcome<Value>) {
 	// FIXME:  Optimize the vector allocation!
 	let (buffer, last) = try! (vec_list_append_2_dotted (list_1, list_2));
 	succeed! (list_collect_dotted (buffer, last));
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_append_3 (list_1 : &Value, list_2 : &Value, list_3 : &Value) -> (Outcome<Value>) {
 	// FIXME:  Optimize the vector allocation!
 	let (buffer, last) = try! (vec_list_append_3_dotted (list_1, list_2, list_3));
 	succeed! (list_collect_dotted (buffer, last));
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_append_4 (list_1 : &Value, list_2 : &Value, list_3 : &Value, list_4 : &Value) -> (Outcome<Value>) {
 	// FIXME:  Optimize the vector allocation!
 	let (buffer, last) = try! (vec_list_append_4_dotted (list_1, list_2, list_3, list_4));
 	succeed! (list_collect_dotted (buffer, last));
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_append_n (lists : &[&Value]) -> (Outcome<Value>) {
 	match lists.len () {
 		0 =>
@@ -359,7 +359,7 @@ pub fn list_append_n (lists : &[&Value]) -> (Outcome<Value>) {
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_make (length : usize, fill : &Value) -> (Outcome<Value>) {
 	// FIXME:  Optimize the vector allocation!
 	let mut buffer = StdVec::with_capacity (length);
@@ -369,14 +369,14 @@ pub fn list_make (length : usize, fill : &Value) -> (Outcome<Value>) {
 	succeed! (list_collect (buffer));
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_clone (list : &Value) -> (Outcome<Value>) {
 	// FIXME:  Optimize the vector allocation!
 	let (buffer, last) = try! (vec_list_clone_dotted (list));
 	succeed! (list_collect_dotted (buffer, last));
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_reverse (list : &Value) -> (Outcome<Value>) {
 	// FIXME:  Optimize the vector allocation!
 	let buffer = try! (vec_list_clone (list));
@@ -386,7 +386,7 @@ pub fn list_reverse (list : &Value) -> (Outcome<Value>) {
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_fill_range (_list : &Value, fill : Option<&Value>, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let _fill = if let Some (fill) = fill {
 		fill.clone ()
@@ -398,14 +398,14 @@ pub fn list_fill_range (_list : &Value, fill : Option<&Value>, range_start : Opt
 }
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_reverse_range (_list : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let (_range_start, _range_end) = try! (range_coerce_unbounded (range_start, range_end));
 	fail_unimplemented! (0x562a1252);
 }
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_copy_range (_target_list : &Value, target_start : Option<&Value>, _source_list : &Value, source_start : Option<&Value>, source_end : Option<&Value>) -> (Outcome<Value>) {
 	let (_source_start, _source_end) = try! (range_coerce_unbounded (source_start, source_end));
 	let (_target_start, _target_end) = try! (range_coerce_unbounded (target_start, None));
@@ -413,7 +413,7 @@ pub fn list_copy_range (_target_list : &Value, target_start : Option<&Value>, _s
 }
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_clone_range (list : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let iterator = try! (list_range_iterator (list, range_start, range_end));
 	return list_collect_from_generator_ref (iterator);
@@ -422,7 +422,7 @@ pub fn list_clone_range (list : &Value, range_start : Option<&Value>, range_end 
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_range_iterator <'a> (list : &'a Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<RangeIteratorForOutcome<&'a Value, ListIterator<'a>>>) {
 	let (range_start, range_end) = try! (range_coerce_unbounded (range_start, range_end));
 	let iterator = try! (ListIterator::new (list));
@@ -433,7 +433,7 @@ pub fn list_range_iterator <'a> (list : &'a Value, range_start : Option<&Value>,
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_length (list : &Value) -> (Outcome<usize>) {
 	let mut length : usize = 0;
 	let mut iterator = try! (ListPairIterator::new (list));
@@ -452,7 +452,7 @@ pub fn list_length (list : &Value) -> (Outcome<usize>) {
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_member_by_comparison (list : &Value, value : &Value, comparison : Comparison) -> (Outcome<Value>) {
 	let mut iterator = try! (ListPairIterator::new (list));
 	loop {
@@ -469,7 +469,7 @@ pub fn list_member_by_comparison (list : &Value, value : &Value, comparison : Co
 	}
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_member_by_comparator (list : &Value, value : &Value, comparator : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let mut iterator = try! (ListPairIterator::new (list));
 	loop {
@@ -489,7 +489,7 @@ pub fn list_member_by_comparator (list : &Value, value : &Value, comparator : &V
 }
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_assoc_by_comparison (list : &Value, value : &Value, comparison : Comparison) -> (Outcome<Value>) {
 	let mut iterator = try! (ListPairIterator::new (list));
 	loop {
@@ -508,7 +508,7 @@ pub fn list_assoc_by_comparison (list : &Value, value : &Value, comparison : Com
 	}
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_assoc_by_comparator (list : &Value, value : &Value, comparator : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let mut iterator = try! (ListPairIterator::new (list));
 	loop {
@@ -531,25 +531,25 @@ pub fn list_assoc_by_comparator (list : &Value, value : &Value, comparator : &Va
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn vec_list_append_2 (list_1 : &Value, list_2 : &Value) -> (Outcome<ValueVec>) {
 	let buffer = try! (vec_list_append_2_dotted (list_1, list_2));
 	return vec_list_append_return (buffer);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn vec_list_append_3 (list_1 : &Value, list_2 : &Value, list_3 : &Value) -> (Outcome<ValueVec>) {
 	let buffer = try! (vec_list_append_3_dotted (list_1, list_2, list_3));
 	return vec_list_append_return (buffer);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn vec_list_append_4 (list_1 : &Value, list_2 : &Value, list_3 : &Value, list_4 : &Value) -> (Outcome<ValueVec>) {
 	let buffer = try! (vec_list_append_4_dotted (list_1, list_2, list_3, list_4));
 	return vec_list_append_return (buffer);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn vec_list_append_n (lists : &[&Value]) -> (Outcome<ValueVec>) {
 	match lists.len () {
 		0 =>
@@ -569,7 +569,7 @@ pub fn vec_list_append_n (lists : &[&Value]) -> (Outcome<ValueVec>) {
 	return vec_list_append_return (buffer);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 fn vec_list_append_return ((buffer, last) : (ValueVec, Option<Value>)) -> (Outcome<ValueVec>) {
 	match last {
 		Some (_) =>
@@ -582,7 +582,7 @@ fn vec_list_append_return ((buffer, last) : (ValueVec, Option<Value>)) -> (Outco
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn vec_list_append_2_dotted (list_1 : &Value, list_2 : &Value) -> (Outcome<(ValueVec, Option<Value>)>) {
 	if is_null_all_2 (list_1, list_2) {
 		succeed! ((StdVec::new (), None));
@@ -593,7 +593,7 @@ pub fn vec_list_append_2_dotted (list_1 : &Value, list_2 : &Value) -> (Outcome<(
 	succeed! ((buffer, last));
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn vec_list_append_3_dotted (list_1 : &Value, list_2 : &Value, list_3 : &Value) -> (Outcome<(ValueVec, Option<Value>)>) {
 	if is_null_all_3 (list_1, list_2, list_3) {
 		succeed! ((StdVec::new (), None));
@@ -605,7 +605,7 @@ pub fn vec_list_append_3_dotted (list_1 : &Value, list_2 : &Value, list_3 : &Val
 	succeed! ((buffer, last));
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn vec_list_append_4_dotted (list_1 : &Value, list_2 : &Value, list_3 : &Value, list_4 : &Value) -> (Outcome<(ValueVec, Option<Value>)>) {
 	if is_null_all_4 (list_1, list_2, list_3, list_4) {
 		succeed! ((StdVec::new (), None));
@@ -618,7 +618,7 @@ pub fn vec_list_append_4_dotted (list_1 : &Value, list_2 : &Value, list_3 : &Val
 	succeed! ((buffer, last));
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn vec_list_append_n_dotted (lists : &[&Value]) -> (Outcome<(ValueVec, Option<Value>)>) {
 	match lists.len () {
 		0 =>
@@ -654,7 +654,7 @@ pub fn vec_list_append_n_dotted (lists : &[&Value]) -> (Outcome<(ValueVec, Optio
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn vec_list_clone (list : &Value) -> (Outcome<ValueVec>) {
 	let (buffer, last) = try! (vec_list_clone_dotted (list));
 	match last {
@@ -666,7 +666,7 @@ pub fn vec_list_clone (list : &Value) -> (Outcome<ValueVec>) {
 }
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn vec_list_clone_dotted (list : &Value) -> (Outcome<(ValueVec, Option<Value>)>) {
 	let mut buffer = StdVec::new ();
 	let last = try! (vec_list_drain_dotted (&mut buffer, list));
@@ -674,7 +674,7 @@ pub fn vec_list_clone_dotted (list : &Value) -> (Outcome<(ValueVec, Option<Value
 }
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn vec_list_drain (buffer : &mut ValueVec, list : &Value) -> (Outcome<()>) {
 	let last = try! (vec_list_drain_dotted (buffer, list));
 	match last {
@@ -686,7 +686,7 @@ pub fn vec_list_drain (buffer : &mut ValueVec, list : &Value) -> (Outcome<()>) {
 }
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn vec_list_drain_dotted (buffer : &mut ValueVec, list : &Value) -> (Outcome<Option<Value>>) {
 	let mut cursor = list;
 	loop {
@@ -711,25 +711,25 @@ pub fn vec_list_drain_dotted (buffer : &mut ValueVec, list : &Value) -> (Outcome
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn vec_list_ref_append_2 <'a> (list_1 : &'a Value, list_2 : &'a Value) -> (Outcome<StdVec<&'a Value>>) {
 	let buffer = try! (vec_list_ref_append_2_dotted (list_1, list_2));
 	return vec_list_ref_append_return (buffer);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn vec_list_ref_append_3 <'a> (list_1 : &'a Value, list_2 : &'a Value, list_3 : &'a Value) -> (Outcome<StdVec<&'a Value>>) {
 	let buffer = try! (vec_list_ref_append_3_dotted (list_1, list_2, list_3));
 	return vec_list_ref_append_return (buffer);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn vec_list_ref_append_4 <'a> (list_1 : &'a Value, list_2 : &'a Value, list_3 : &'a Value, list_4 : &'a Value) -> (Outcome<StdVec<&'a Value>>) {
 	let buffer = try! (vec_list_ref_append_4_dotted (list_1, list_2, list_3, list_4));
 	return vec_list_ref_append_return (buffer);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn vec_list_ref_append_n <'a> (lists : &'a [&'a Value]) -> (Outcome<StdVec<&'a Value>>) {
 	match lists.len () {
 		0 =>
@@ -749,7 +749,7 @@ pub fn vec_list_ref_append_n <'a> (lists : &'a [&'a Value]) -> (Outcome<StdVec<&
 	return vec_list_ref_append_return (buffer);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 fn vec_list_ref_append_return <'a> ((buffer, last) : (StdVec<&'a Value>, Option<&'a Value>)) -> (Outcome<StdVec<&'a Value>>) {
 	match last {
 		Some (_) =>
@@ -762,7 +762,7 @@ fn vec_list_ref_append_return <'a> ((buffer, last) : (StdVec<&'a Value>, Option<
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn vec_list_ref_append_2_dotted <'a> (list_1 : &'a Value, list_2 : &'a Value) -> (Outcome<(StdVec<&'a Value>, Option<&'a Value>)>) {
 	if is_null_all_2 (list_1, list_2) {
 		succeed! ((StdVec::new (), None));
@@ -773,7 +773,7 @@ pub fn vec_list_ref_append_2_dotted <'a> (list_1 : &'a Value, list_2 : &'a Value
 	succeed! ((buffer, last));
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn vec_list_ref_append_3_dotted <'a> (list_1 : &'a Value, list_2 : &'a Value, list_3 : &'a Value) -> (Outcome<(StdVec<&'a Value>, Option<&'a Value>)>) {
 	if is_null_all_3 (list_1, list_2, list_3) {
 		succeed! ((StdVec::new (), None));
@@ -785,7 +785,7 @@ pub fn vec_list_ref_append_3_dotted <'a> (list_1 : &'a Value, list_2 : &'a Value
 	succeed! ((buffer, last));
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn vec_list_ref_append_4_dotted <'a> (list_1 : &'a Value, list_2 : &'a Value, list_3 : &'a Value, list_4 : &'a Value) -> (Outcome<(StdVec<&'a Value>, Option<&'a Value>)>) {
 	if is_null_all_4 (list_1, list_2, list_3, list_4) {
 		succeed! ((StdVec::new (), None));
@@ -798,7 +798,7 @@ pub fn vec_list_ref_append_4_dotted <'a> (list_1 : &'a Value, list_2 : &'a Value
 	succeed! ((buffer, last));
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn vec_list_ref_append_n_dotted <'a> (lists : &'a [&'a Value]) -> (Outcome<(StdVec<&'a Value>, Option<&'a Value>)>) {
 	match lists.len () {
 		0 =>
@@ -834,7 +834,7 @@ pub fn vec_list_ref_append_n_dotted <'a> (lists : &'a [&'a Value]) -> (Outcome<(
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn vec_list_ref_clone <'a> (list : &'a Value) -> (Outcome<StdVec<&'a Value>>) {
 	let (buffer, last) = try! (vec_list_ref_clone_dotted (list));
 	match last {
@@ -846,7 +846,7 @@ pub fn vec_list_ref_clone <'a> (list : &'a Value) -> (Outcome<StdVec<&'a Value>>
 }
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn vec_list_ref_clone_dotted <'a> (list : &'a Value) -> (Outcome<(StdVec<&'a Value>, Option<&'a Value>)>) {
 	let mut buffer = StdVec::new ();
 	let last = try! (vec_list_ref_drain_dotted (&mut buffer, list));
@@ -854,7 +854,7 @@ pub fn vec_list_ref_clone_dotted <'a> (list : &'a Value) -> (Outcome<(StdVec<&'a
 }
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn vec_list_ref_drain <'a : 'b, 'b> (buffer : &'b mut StdVec<&'a Value>, list : &'a Value) -> (Outcome<()>) {
 	let last = try! (vec_list_ref_drain_dotted (buffer, list));
 	match last {
@@ -866,7 +866,7 @@ pub fn vec_list_ref_drain <'a : 'b, 'b> (buffer : &'b mut StdVec<&'a Value>, lis
 }
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn vec_list_ref_drain_dotted <'a : 'b, 'b> (buffer : &'b mut StdVec<&'a Value>, list : &'a Value) -> (Outcome<Option<&'a Value>>) {
 	let mut cursor = list;
 	loop {

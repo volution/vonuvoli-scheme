@@ -22,7 +22,7 @@ static mut CONTEXT_HANDLES : PermutationCounter = PermutationCounter {
 		initialized : false,
 	};
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn context_handles_next () -> (Handle) {
 	unsafe {
 		Handle::new (CONTEXT_HANDLES.next ())
@@ -38,7 +38,7 @@ static mut BINDINGS_HANDLES : PermutationCounter = PermutationCounter {
 		initialized : false,
 	};
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn bindings_handles_next () -> (Handle) {
 	unsafe {
 		Handle::new (BINDINGS_HANDLES.next ())
@@ -54,7 +54,7 @@ static mut LAMBDAS_HANDLES : PermutationCounter = PermutationCounter {
 		initialized : false,
 	};
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn lambdas_handles_next () -> (Handle) {
 	unsafe {
 		Handle::new (LAMBDAS_HANDLES.next ())
@@ -70,7 +70,7 @@ static mut PORTS_HANDLES : PermutationCounter = PermutationCounter {
 		initialized : false,
 	};
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn ports_handles_next () -> (Handle) {
 	unsafe {
 		Handle::new (PORTS_HANDLES.next ())

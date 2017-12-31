@@ -669,7 +669,7 @@ pub enum NumberCoercion2 {
 
 impl NumberCoercion1 {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn into_value (self) -> (Value) {
 		match self {
 			NumberCoercion1::Integer (number) =>
@@ -683,7 +683,7 @@ impl NumberCoercion1 {
 
 impl NumberCoercion2 {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn into_values (self) -> ((Value, Value)) {
 		match self {
 			NumberCoercion2::Integer (number_1, number_2) =>
@@ -695,7 +695,7 @@ impl NumberCoercion2 {
 }
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn number_coerce_1 (right : &Value) -> (Outcome<NumberCoercion1>) {
 	match right {
 		&Value::NumberInteger (_, ref right, _) =>
@@ -707,7 +707,7 @@ pub fn number_coerce_1 (right : &Value) -> (Outcome<NumberCoercion1>) {
 	}
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn number_coerce_2a (left : &Value, right : &Value) -> (Outcome<NumberCoercion2>) {
 	match (left, right) {
 		(&Value::NumberInteger (_, ref left, _), &Value::NumberInteger (_, ref right, _)) =>
@@ -723,7 +723,7 @@ pub fn number_coerce_2a (left : &Value, right : &Value) -> (Outcome<NumberCoerci
 	}
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn number_coerce_2b (left : &NumberCoercion1, right : &Value) -> (Outcome<NumberCoercion2>) {
 	match (left, right) {
 		(&NumberCoercion1::Integer (ref left), &Value::NumberInteger (_, ref right, _)) =>
@@ -742,7 +742,7 @@ pub fn number_coerce_2b (left : &NumberCoercion1, right : &Value) -> (Outcome<Nu
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn range_coerce (start : Option<&Value>, end : Option<&Value>, length : usize) -> (Outcome<(usize, usize)>) {
 	let (start, end) = try! (range_coerce_unbounded (start, end));
 	let end = end.unwrap_or (length);
@@ -756,7 +756,7 @@ pub fn range_coerce (start : Option<&Value>, end : Option<&Value>, length : usiz
 }
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn range_coerce_unbounded (start : Option<&Value>, end : Option<&Value>) -> (Outcome<(usize, Option<usize>)>) {
 	let start = if let Some (start) = start {
 		try! (try_as_number_integer_ref! (start) .try_to_usize ())
@@ -778,7 +778,7 @@ pub fn range_coerce_unbounded (start : Option<&Value>, end : Option<&Value>) -> 
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn count_coerce (count : Option<&Value>) -> (Outcome<Option<usize>>) {
 	let count = if let Some (count) = count {
 		Some (try! (try_as_number_integer_ref! (count) .try_to_usize ()))
@@ -791,7 +791,7 @@ pub fn count_coerce (count : Option<&Value>) -> (Outcome<Option<usize>>) {
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn outcome_as_ref <T> (outcome : &Outcome<T>) -> (Outcome<&T>) {
 	match *outcome {
 		Ok (ref value) =>
@@ -804,7 +804,7 @@ pub fn outcome_as_ref <T> (outcome : &Outcome<T>) -> (Outcome<&T>) {
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn option_unwrap_ref <T> (option : &Option<T>) -> (&T) {
 	match *option {
 		Some (ref value) =>
@@ -817,7 +817,7 @@ pub fn option_unwrap_ref <T> (option : &Option<T>) -> (&T) {
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn option_box_new <T> (option : Option<T>) -> (Option<StdBox<T>>) {
 	match option {
 		Some (value) =>
@@ -827,7 +827,7 @@ pub fn option_box_new <T> (option : Option<T>) -> (Option<StdBox<T>>) {
 	}
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn option_box_unwrap <T> (option : Option<StdBox<T>>) -> (T) {
 	match option {
 		Some (value) =>
@@ -837,7 +837,7 @@ pub fn option_box_unwrap <T> (option : Option<StdBox<T>>) -> (T) {
 	}
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn option_box_as_ref <T> (option : &Option<StdBox<T>>) -> (Option<&T>) {
 	match *option {
 		Some (ref value) =>
@@ -847,7 +847,7 @@ pub fn option_box_as_ref <T> (option : &Option<StdBox<T>>) -> (Option<&T>) {
 	}
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn option_box_into_owned <T> (value : Option<StdBox<T>>) -> (Option<T>) {
 	match value {
 		Some (value) =>
@@ -869,7 +869,7 @@ pub enum BytesSliceRef <'a> {
 
 impl <'a> BytesSliceRef<'a> {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn range (self, range_start : usize, range_end : Option<usize>) -> (Option<BytesSliceRef<'a>>) {
 		if let Some (range_end) = range_end {
 			self.slice (range_start .. range_end)
@@ -878,7 +878,7 @@ impl <'a> BytesSliceRef<'a> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn slice <Slice> (self, slice : Slice) -> (Option<BytesSliceRef<'a>>)
 		where Slice : slice::SliceIndex<[u8], Output = [u8]> + Clone
 	{
@@ -907,7 +907,7 @@ impl <'a> StdDeref for BytesSliceRef<'a> {
 	
 	type Target = [u8];
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn deref (&self) -> (&[u8]) {
 		match *self {
 			BytesSliceRef::Immutable (reference) =>
@@ -921,7 +921,7 @@ impl <'a> StdDeref for BytesSliceRef<'a> {
 
 impl <'a> StdFrom<&'a StdVec<u8>> for BytesSliceRef<'a> {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn from (reference : &'a StdVec<u8>) -> (BytesSliceRef<'a>) {
 		BytesSliceRef::Immutable (reference.as_ref ())
 	}
@@ -930,7 +930,7 @@ impl <'a> StdFrom<&'a StdVec<u8>> for BytesSliceRef<'a> {
 
 impl <'a> StdFrom<StdRef<'a, StdVec<u8>>> for BytesSliceRef<'a> {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn from (reference : StdRef<'a, StdVec<u8>>) -> (BytesSliceRef<'a>) {
 		BytesSliceRef::Mutable (StdRef::map (reference, |reference| reference.as_ref ()))
 	}
@@ -939,7 +939,7 @@ impl <'a> StdFrom<StdRef<'a, StdVec<u8>>> for BytesSliceRef<'a> {
 
 impl <'a> StdFrom<&'a StdString> for BytesSliceRef<'a> {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn from (reference : &'a StdString) -> (BytesSliceRef<'a>) {
 		BytesSliceRef::Immutable (reference.as_bytes ())
 	}
@@ -948,7 +948,7 @@ impl <'a> StdFrom<&'a StdString> for BytesSliceRef<'a> {
 
 impl <'a> StdFrom<StdRef<'a, StdString>> for BytesSliceRef<'a> {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn from (reference : StdRef<'a, StdString>) -> (BytesSliceRef<'a>) {
 		BytesSliceRef::Mutable (StdRef::map (reference, |reference| reference.as_bytes ()))
 	}
@@ -957,7 +957,7 @@ impl <'a> StdFrom<StdRef<'a, StdString>> for BytesSliceRef<'a> {
 
 impl <'a> StdFrom<BytesRef<'a>> for BytesSliceRef<'a> {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn from (reference : BytesRef<'a>) -> (BytesSliceRef<'a>) {
 		match reference {
 			BytesRef::Immutable (_, reference) =>
@@ -971,7 +971,7 @@ impl <'a> StdFrom<BytesRef<'a>> for BytesSliceRef<'a> {
 
 impl <'a> StdFrom<StringRef<'a>> for BytesSliceRef<'a> {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn from (reference : StringRef<'a>) -> (BytesSliceRef<'a>) {
 		match reference {
 			StringRef::Immutable (_, reference) =>

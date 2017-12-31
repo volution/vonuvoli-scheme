@@ -38,12 +38,12 @@ enum PortBackendBytesReaderSource {
 
 impl PortBackendReader for PortBackendBytesReader {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn byte_ready (&mut self) -> (Outcome<bool>) {
 		succeed! (true);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn byte_peek (&mut self) -> (Outcome<Option<u8>>) {
 		if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
 			succeed! (Some (buffer[0]));
@@ -52,7 +52,7 @@ impl PortBackendReader for PortBackendBytesReader {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn byte_read (&mut self) -> (Outcome<Option<u8>>) {
 		let (byte, offset_increment) = if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
 			(Some (buffer[0]), 1)
@@ -63,7 +63,7 @@ impl PortBackendReader for PortBackendBytesReader {
 		succeed! (byte);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn byte_read_slice (&mut self, target : &mut [u8], _full : bool) -> (Outcome<Option<usize>>) {
 		let (count, offset_increment) = if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
 			let count = usize::min (buffer.len (), target.len ());
@@ -76,7 +76,7 @@ impl PortBackendReader for PortBackendBytesReader {
 		succeed! (count);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn byte_read_extend (&mut self, target : &mut StdVec<u8>, count : Option<usize>, _full : bool) -> (Outcome<Option<usize>>) {
 		let (count, offset_increment) = if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
 			let count = usize::min (buffer.len (), count.unwrap_or (0));
@@ -89,7 +89,7 @@ impl PortBackendReader for PortBackendBytesReader {
 		succeed! (count);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn byte_read_string (&mut self, target : &mut StdString, count : Option<usize>, _full : bool) -> (Outcome<Option<usize>>) {
 		let (count, offset_increment) = if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
 			let count = usize::min (buffer.len (), count.unwrap_or (0));
@@ -106,12 +106,12 @@ impl PortBackendReader for PortBackendBytesReader {
 		succeed! (count);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn char_ready (&mut self) -> (Outcome<bool>) {
 		succeed! (true);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn char_peek (&mut self) -> (Outcome<Option<char>>) {
 		if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
 			let (char, _) = try! (unicode_utf8_char_decode_and_width (&buffer));
@@ -121,7 +121,7 @@ impl PortBackendReader for PortBackendBytesReader {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn char_read (&mut self) -> (Outcome<Option<char>>) {
 		let (char, offset_increment) = if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
 			let (char, char_width) = try! (unicode_utf8_char_decode_and_width (&buffer));
@@ -133,7 +133,7 @@ impl PortBackendReader for PortBackendBytesReader {
 		succeed! (char);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn char_read_slice (&mut self, target : &mut [char], _full : bool) -> (Outcome<Option<usize>>) {
 		let (count, offset_increment) = if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
 			let mut buffer_offset = 0;
@@ -154,7 +154,7 @@ impl PortBackendReader for PortBackendBytesReader {
 		succeed! (count);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn char_read_extend (&mut self, target : &mut StdVec<char>, count : Option<usize>, _full : bool) -> (Outcome<Option<usize>>) {
 		let (count, offset_increment) = if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
 			let mut buffer_offset = 0;
@@ -175,7 +175,7 @@ impl PortBackendReader for PortBackendBytesReader {
 		succeed! (count);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn char_read_string (&mut self, target : &mut StdString, count : Option<usize>, _full : bool) -> (Outcome<Option<usize>>) {
 		let (count, offset_increment) = if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
 			let mut buffer_offset = 0;
@@ -196,13 +196,13 @@ impl PortBackendReader for PortBackendBytesReader {
 		succeed! (count);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn input_close (&mut self) -> (Outcome<()>) {
 		self.source = PortBackendBytesReaderSource::None;
 		succeed! (());
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn is_input_open (&mut self) -> (bool) {
 		match self.source {
 			PortBackendBytesReaderSource::BytesImmutable (_) =>
@@ -222,27 +222,27 @@ impl PortBackendReader for PortBackendBytesReader {
 
 impl PortBackendBytesReader {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn new_from_bytes_immutable (bytes : StdRc<StdVec<u8>>, range_start : usize, range_end : Option<usize>) -> (Outcome<PortBackendBytesReader>) {
 		return PortBackendBytesReader::new_from_source (PortBackendBytesReaderSource::BytesImmutable (bytes), range_start, range_end);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn new_from_bytes_mutable (bytes : StdRc<StdRefCell<StdVec<u8>>>, range_start : usize, range_end : Option<usize>) -> (Outcome<PortBackendBytesReader>) {
 		return PortBackendBytesReader::new_from_source (PortBackendBytesReaderSource::BytesMutable (bytes), range_start, range_end);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn new_from_string_immutable (string : StdRc<StdString>, range_start : usize, range_end : Option<usize>) -> (Outcome<PortBackendBytesReader>) {
 		return PortBackendBytesReader::new_from_source (PortBackendBytesReaderSource::StringImmutable (string), range_start, range_end);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn new_from_string_mutable (string : StdRc<StdRefCell<StdString>>, range_start : usize, range_end : Option<usize>) -> (Outcome<PortBackendBytesReader>) {
 		return PortBackendBytesReader::new_from_source (PortBackendBytesReaderSource::StringMutable (string), range_start, range_end);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn new_from_source (source : PortBackendBytesReaderSource, range_start : usize, range_end : Option<usize>) -> (Outcome<PortBackendBytesReader>) {
 		if let Some (range_end) = range_end {
 			if range_end < range_start {
@@ -258,7 +258,7 @@ impl PortBackendBytesReader {
 		succeed! (backend);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn buffer_ref_if_open (&mut self) -> (Outcome<Option<BytesSliceRef>>) {
 		
 		let buffer : BytesSliceRef = match self.source {
@@ -298,28 +298,28 @@ pub struct PortBackendBytesWriter {
 
 impl PortBackendWriter for PortBackendBytesWriter {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn byte_write (&mut self, byte : u8) -> (Outcome<()>) {
 		let buffer = try! (self.buffer_ref_mut_check_open ());
 		buffer.push (byte);
 		succeed! (());
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn byte_write_slice (&mut self, bytes : &[u8], _full : bool) -> (Outcome<usize>) {
 		let buffer = try! (self.buffer_ref_mut_check_open ());
 		buffer.extend_from_slice (bytes);
 		succeed! (bytes.len ());
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn byte_write_string (&mut self, string : &str, _full : bool) -> (Outcome<usize>) {
 		let buffer = try! (self.buffer_ref_mut_check_open ());
 		buffer.extend_from_slice (string.as_bytes ());
 		succeed! (string.len ());
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn char_write (&mut self, char : char) -> (Outcome<()>) {
 		let buffer = try! (self.buffer_ref_mut_check_open ());
 		let mut bytes = [0; 4];
@@ -328,7 +328,7 @@ impl PortBackendWriter for PortBackendBytesWriter {
 		succeed! (());
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn char_write_slice (&mut self, chars : &[char], _full : bool) -> (Outcome<usize>) {
 		let buffer = try! (self.buffer_ref_mut_check_open ());
 		let mut bytes = [0; 4];
@@ -341,7 +341,7 @@ impl PortBackendWriter for PortBackendBytesWriter {
 		succeed! (count);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn char_write_string (&mut self, string : &str, _full : bool) -> (Outcome<usize>) {
 		let buffer = try! (self.buffer_ref_mut_check_open ());
 		let mut bytes = [0; 4];
@@ -354,17 +354,17 @@ impl PortBackendWriter for PortBackendBytesWriter {
 		succeed! (count);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn output_flush (&mut self) -> (Outcome<()>) {
 		succeed! (());
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn output_close (&mut self) -> (Outcome<()>) {
 		succeed! (());
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn is_output_open (&mut self) -> (bool) {
 		return self.buffer.is_some ();
 	}
@@ -373,7 +373,7 @@ impl PortBackendWriter for PortBackendBytesWriter {
 
 impl PortBackendBytesWriter {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn new () -> (Outcome<PortBackendBytesWriter>) {
 		let buffer = StdVec::new ();
 		let backend = PortBackendBytesWriter {
@@ -382,7 +382,7 @@ impl PortBackendBytesWriter {
 		succeed! (backend);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn finalize (&mut self) -> (Outcome<StdVec<u8>>) {
 		if let Some (buffer) = self.buffer.take () {
 			succeed! (buffer);
@@ -391,7 +391,7 @@ impl PortBackendBytesWriter {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn buffer_ref_mut_check_open (&mut self) -> (Outcome<&mut StdVec<u8>>) {
 		if let Some (ref mut buffer) = self.buffer {
 			succeed! (buffer);

@@ -19,7 +19,7 @@ pub struct Character ( pub char );
 
 impl Character {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn value (&self) -> (char) {
 		self.0
 	}
@@ -28,7 +28,7 @@ impl Character {
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn character (value : char) -> (Character) {
 	Character (value)
 }

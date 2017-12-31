@@ -29,7 +29,7 @@ impl <Value, IteratorDelegate> RangeIterator<Value, IteratorDelegate>
 		where IteratorDelegate : iter::Iterator<Item = Value>
 {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn new (iterator : IteratorDelegate, range_start : usize, range_end : Option<usize>) -> (Outcome<Self>) {
 		succeed! (RangeIterator {
 				iterator : iterator,
@@ -46,7 +46,7 @@ impl <Value, IteratorDelegate> iter::Iterator for RangeIterator<Value, IteratorD
 {
 	type Item = Outcome<Value>;
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn next (&mut self) -> (Option<Outcome<Value>>) {
 		
 		while self.index < self.range_start {
@@ -96,7 +96,7 @@ impl <Value, IteratorDelegate> RangeIteratorForOutcome<Value, IteratorDelegate>
 		where IteratorDelegate : iter::Iterator<Item = Outcome<Value>>
 {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn new (iterator : IteratorDelegate, range_start : usize, range_end : Option<usize>) -> (Outcome<Self>) {
 		succeed! (RangeIteratorForOutcome {
 				iterator : iterator,
@@ -113,7 +113,7 @@ impl <Value, IteratorDelegate> iter::Iterator for RangeIteratorForOutcome<Value,
 {
 	type Item = Outcome<Value>;
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn next (&mut self) -> (Option<Outcome<Value>>) {
 		
 		while self.index < self.range_start {

@@ -244,7 +244,7 @@ pub enum Comparison {
 
 impl Comparison {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn for_aggregated (&self, last : bool) -> (Comparison) {
 		match *self {
 			
@@ -282,27 +282,27 @@ impl Comparison {
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn equivalent_by_identity_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef) -> (Outcome<bool>) {
 	return compare_2 (left, right, Comparison::Equivalence (Equivalence::ByIdentity, None, None));
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn equivalent_by_value_strict_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef) -> (Outcome<bool>) {
 	return compare_2 (left, right, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (false)));
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn equivalent_by_value_strict_recursive_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef) -> (Outcome<bool>) {
 	return compare_2 (left, right, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (true)));
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn equivalent_by_value_coerced_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef) -> (Outcome<bool>) {
 	return compare_2 (left, right, Comparison::Equivalence (Equivalence::ByValue, Some (true), Some (false)));
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn equivalent_by_value_coerced_recursive_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef) -> (Outcome<bool>) {
 	return compare_2 (left, right, Comparison::Equivalence (Equivalence::ByValue, Some (true), Some (true)));
 }
@@ -315,7 +315,7 @@ macro_rules! def_fn_compare {
 			$type : ident,
 			$compare_1 : ident, $compare_2 : ident, $compare_3 : ident, $compare_4 : ident, $compare_n : ident
 	) => (
-		#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+		#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 		pub fn $compare_3 <ValueRef : StdAsRef<$type>> (input_1 : ValueRef, input_2 : ValueRef, input_3 : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 			let input_1 = input_1.as_ref ();
 			let input_2 = input_2.as_ref ();
@@ -325,7 +325,7 @@ macro_rules! def_fn_compare {
 			}
 			return $compare_2 (input_2, input_3, comparison);
 		}
-		#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+		#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 		pub fn $compare_4 <ValueRef : StdAsRef<$type>> (input_1 : ValueRef, input_2 : ValueRef, input_3 : ValueRef, input_4 : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 			let input_1 = input_1.as_ref ();
 			let input_2 = input_2.as_ref ();
@@ -339,7 +339,7 @@ macro_rules! def_fn_compare {
 			}
 			return $compare_2 (input_3, input_4, comparison);
 		}
-		#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+		#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 		pub fn $compare_n <ValueRef : StdAsRef<$type>> (inputs : &[ValueRef], comparison : Comparison) -> (Outcome<bool>) {
 			let inputs_count = inputs.len ();
 			match inputs_count {
@@ -372,25 +372,25 @@ macro_rules! def_fn_compare {
 			$compare_1 : ident, $compare_2 : ident, $compare_3 : ident, $compare_4 : ident, $compare_n : ident,
 			$compare_1a : ident, $compare_2a : ident, $compare_3a : ident, $compare_4a : ident, $compare_na : ident
 	) => (
-		#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+		#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 		pub fn $compare_1 <ValueRef : StdAsRef<Value>> (input_1 : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 			let input_1 = try! (StdTryAsRef::<$type>::try_as_ref (input_1.as_ref ()));
 			return $compare_1a (input_1, comparison);
 		}
-		#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+		#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 		pub fn $compare_2 <ValueRef : StdAsRef<Value>> (input_1 : ValueRef, input_2 : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 			let input_1 = try! (StdTryAsRef::<$type>::try_as_ref (input_1.as_ref ()));
 			let input_2 = try! (StdTryAsRef::<$type>::try_as_ref (input_2.as_ref ()));
 			return $compare_2a (input_1, input_2, comparison);
 		}
-		#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+		#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 		pub fn $compare_3 <ValueRef : StdAsRef<Value>> (input_1 : ValueRef, input_2 : ValueRef, input_3 : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 			let input_1 = try! (StdTryAsRef::<$type>::try_as_ref (input_1.as_ref ()));
 			let input_2 = try! (StdTryAsRef::<$type>::try_as_ref (input_2.as_ref ()));
 			let input_3 = try! (StdTryAsRef::<$type>::try_as_ref (input_3.as_ref ()));
 			return $compare_3a (input_1, input_2, input_3, comparison);
 		}
-		#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+		#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 		pub fn $compare_4 <ValueRef : StdAsRef<Value>> (input_1 : ValueRef, input_2 : ValueRef, input_3 : ValueRef, input_4 : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 			let input_1 = try! (StdTryAsRef::<$type>::try_as_ref (input_1.as_ref ()));
 			let input_2 = try! (StdTryAsRef::<$type>::try_as_ref (input_2.as_ref ()));
@@ -398,7 +398,7 @@ macro_rules! def_fn_compare {
 			let input_4 = try! (StdTryAsRef::<$type>::try_as_ref (input_4.as_ref ()));
 			return $compare_4a (input_1, input_2, input_3, input_4, comparison);
 		}
-		#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+		#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 		pub fn $compare_n <ValueRef : StdAsRef<Value>> (inputs : &[ValueRef], comparison : Comparison) -> (Outcome<bool>) {
 			let inputs_count = inputs.len ();
 			match inputs_count {
@@ -436,7 +436,7 @@ macro_rules! def_fn_compare {
 def_fn_compare! (Value,
 		compare_1, compare_2, compare_3, compare_4, compare_n);
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let value = value.as_ref ();
 	match value.class () {
@@ -524,7 +524,7 @@ pub fn compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Co
 	
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -661,12 +661,12 @@ def_fn_compare! (ValueSingleton,
 		value_singleton_compare_1, value_singleton_compare_2, value_singleton_compare_3, value_singleton_compare_4, value_singleton_compare_n,
 		value_singleton_compare_1a, value_singleton_compare_2a, value_singleton_compare_3a, value_singleton_compare_4a, value_singleton_compare_na);
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn value_singleton_compare_1a <ValueRef : StdAsRef<ValueSingleton>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn value_singleton_compare_2a <ValueRef : StdAsRef<ValueSingleton>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	return std_ord_compare_2_ref (left, right, comparison);
 }
@@ -678,12 +678,12 @@ def_fn_compare! (Boolean,
 		boolean_compare_1, boolean_compare_2, boolean_compare_3, boolean_compare_4, boolean_compare_n,
 		boolean_compare_1a, boolean_compare_2a, boolean_compare_3a, boolean_compare_4a, boolean_compare_na);
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn boolean_compare_1a <ValueRef : StdAsRef<Boolean>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn boolean_compare_2a <ValueRef : StdAsRef<Boolean>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	return std_ord_compare_2_ref (left, right, comparison);
 }
@@ -695,12 +695,12 @@ def_fn_compare! (NumberInteger,
 		number_integer_compare_1, number_integer_compare_2, number_integer_compare_3, number_integer_compare_4, number_integer_compare_n,
 		number_integer_compare_1a, number_integer_compare_2a, number_integer_compare_3a, number_integer_compare_4a, number_integer_compare_na);
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn number_integer_compare_1a <ValueRef : StdAsRef<NumberInteger>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn number_integer_compare_2a <ValueRef : StdAsRef<NumberInteger>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	return std_ord_compare_2_ref (left, right, comparison);
 }
@@ -712,7 +712,7 @@ def_fn_compare! (NumberReal,
 		number_real_compare_1, number_real_compare_2, number_real_compare_3, number_real_compare_4, number_real_compare_n,
 		number_real_compare_1a, number_real_compare_2a, number_real_compare_3a, number_real_compare_4a, number_real_compare_na);
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn number_real_compare_1a <ValueRef : StdAsRef<NumberReal>> (value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let value = value.as_ref () .value ();
 	if value.is_nan () {
@@ -727,7 +727,7 @@ pub fn number_real_compare_1a <ValueRef : StdAsRef<NumberReal>> (value : ValueRe
 	}
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn number_real_compare_2a <ValueRef : StdAsRef<NumberReal>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref () .value ();
 	let right = right.as_ref () .value ();
@@ -754,12 +754,12 @@ def_fn_compare! (Character,
 		character_compare_1, character_compare_2, character_compare_3, character_compare_4, character_compare_n,
 		character_compare_1a, character_compare_2a, character_compare_3a, character_compare_4a, character_compare_na);
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn character_compare_1a <ValueRef : StdAsRef<Character>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn character_compare_2a <ValueRef : StdAsRef<Character>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref () .value ();
 	let right = right.as_ref () .value ();
@@ -783,12 +783,12 @@ def_fn_compare! (Symbol,
 		symbol_compare_1, symbol_compare_2, symbol_compare_3, symbol_compare_4, symbol_compare_n,
 		symbol_compare_1a, symbol_compare_2a, symbol_compare_3a, symbol_compare_4a, symbol_compare_na);
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn symbol_compare_1a <ValueRef : StdAsRef<Symbol>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn symbol_compare_2a <ValueRef : StdAsRef<Symbol>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref () .string_as_str ();
 	let right = right.as_ref () .string_as_str ();
@@ -812,12 +812,12 @@ def_fn_compare! (StringImmutable,
 		string_immutable_compare_1, string_immutable_compare_2, string_immutable_compare_3, string_immutable_compare_4, string_immutable_compare_n,
 		string_immutable_compare_1a, string_immutable_compare_2a, string_immutable_compare_3a, string_immutable_compare_4a, string_immutable_compare_na);
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn string_immutable_compare_1a <ValueRef : StdAsRef<StringImmutable>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn string_immutable_compare_2a <ValueRef : StdAsRef<StringImmutable>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref () .string_ref ();
 	let right = right.as_ref () .string_ref ();
@@ -829,12 +829,12 @@ def_fn_compare! (StringMutable,
 		string_mutable_compare_1, string_mutable_compare_2, string_mutable_compare_3, string_mutable_compare_4, string_mutable_compare_n,
 		string_mutable_compare_1a, string_mutable_compare_2a, string_mutable_compare_3a, string_mutable_compare_4a, string_mutable_compare_na);
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn string_mutable_compare_1a <ValueRef : StdAsRef<StringMutable>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn string_mutable_compare_2a <ValueRef : StdAsRef<StringMutable>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref () .string_ref ();
 	let right = right.as_ref () .string_ref ();
@@ -842,7 +842,7 @@ pub fn string_mutable_compare_2a <ValueRef : StdAsRef<StringMutable>> (left : Va
 }
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn string_ref_compare_2a <'a, ValueRef : StdAsRef<StringRef<'a>>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -871,12 +871,12 @@ def_fn_compare! (BytesImmutable,
 		bytes_immutable_compare_1, bytes_immutable_compare_2, bytes_immutable_compare_3, bytes_immutable_compare_4, bytes_immutable_compare_n,
 		bytes_immutable_compare_1a, bytes_immutable_compare_2a, bytes_immutable_compare_3a, bytes_immutable_compare_4a, bytes_immutable_compare_na);
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn bytes_immutable_compare_1a <ValueRef : StdAsRef<BytesImmutable>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn bytes_immutable_compare_2a <ValueRef : StdAsRef<BytesImmutable>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref () .bytes_ref ();
 	let right = right.as_ref () .bytes_ref ();
@@ -888,12 +888,12 @@ def_fn_compare! (BytesMutable,
 		bytes_mutable_compare_1, bytes_mutable_compare_2, bytes_mutable_compare_3, bytes_mutable_compare_4, bytes_mutable_compare_n,
 		bytes_mutable_compare_1a, bytes_mutable_compare_2a, bytes_mutable_compare_3a, bytes_mutable_compare_4a, bytes_mutable_compare_na);
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn bytes_mutable_compare_1a <ValueRef : StdAsRef<BytesMutable>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn bytes_mutable_compare_2a <ValueRef : StdAsRef<BytesMutable>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref () .bytes_ref ();
 	let right = right.as_ref () .bytes_ref ();
@@ -901,7 +901,7 @@ pub fn bytes_mutable_compare_2a <ValueRef : StdAsRef<BytesMutable>> (left : Valu
 }
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn bytes_ref_compare_2a <'a, ValueRef : StdAsRef<BytesRef<'a>>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -930,12 +930,12 @@ def_fn_compare! (PairImmutable,
 		pair_immutable_compare_1, pair_immutable_compare_2, pair_immutable_compare_3, pair_immutable_compare_4, pair_immutable_compare_n,
 		pair_immutable_compare_1a, pair_immutable_compare_2a, pair_immutable_compare_3a, pair_immutable_compare_4a, pair_immutable_compare_na);
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn pair_immutable_compare_1a <ValueRef : StdAsRef<PairImmutable>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn pair_immutable_compare_2a <ValueRef : StdAsRef<PairImmutable>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref () .pair_ref ();
 	let right = right.as_ref () .pair_ref ();
@@ -947,12 +947,12 @@ def_fn_compare! (PairMutable,
 		pair_mutable_compare_1, pair_mutable_compare_2, pair_mutable_compare_3, pair_mutable_compare_4, pair_mutable_compare_n,
 		pair_mutable_compare_1a, pair_mutable_compare_2a, pair_mutable_compare_3a, pair_mutable_compare_4a, pair_mutable_compare_na);
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn pair_mutable_compare_1a <ValueRef : StdAsRef<PairMutable>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn pair_mutable_compare_2a <ValueRef : StdAsRef<PairMutable>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref () .pair_ref ();
 	let right = right.as_ref () .pair_ref ();
@@ -960,7 +960,7 @@ pub fn pair_mutable_compare_2a <ValueRef : StdAsRef<PairMutable>> (left : ValueR
 }
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn pair_ref_compare_2a <'a, ValueRef : StdAsRef<PairRef<'a>>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -1012,12 +1012,12 @@ def_fn_compare! (ArrayImmutable,
 		array_immutable_compare_1, array_immutable_compare_2, array_immutable_compare_3, array_immutable_compare_4, array_immutable_compare_n,
 		array_immutable_compare_1a, array_immutable_compare_2a, array_immutable_compare_3a, array_immutable_compare_4a, array_immutable_compare_na);
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn array_immutable_compare_1a <ValueRef : StdAsRef<ArrayImmutable>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn array_immutable_compare_2a <ValueRef : StdAsRef<ArrayImmutable>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref () .array_ref ();
 	let right = right.as_ref () .array_ref ();
@@ -1029,12 +1029,12 @@ def_fn_compare! (ArrayMutable,
 		array_mutable_compare_1, array_mutable_compare_2, array_mutable_compare_3, array_mutable_compare_4, array_mutable_compare_n,
 		array_mutable_compare_1a, array_mutable_compare_2a, array_mutable_compare_3a, array_mutable_compare_4a, array_mutable_compare_na);
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn array_mutable_compare_1a <ValueRef : StdAsRef<ArrayMutable>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn array_mutable_compare_2a <ValueRef : StdAsRef<ArrayMutable>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref () .array_ref ();
 	let right = right.as_ref () .array_ref ();
@@ -1042,7 +1042,7 @@ pub fn array_mutable_compare_2a <ValueRef : StdAsRef<ArrayMutable>> (left : Valu
 }
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn array_ref_compare_2a <'a, ValueRef : StdAsRef<ArrayRef<'a>>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -1066,12 +1066,12 @@ def_fn_compare! (Values,
 		values_compare_1, values_compare_2, values_compare_3, values_compare_4, values_compare_n,
 		values_compare_1a, values_compare_2a, values_compare_3a, values_compare_4a, values_compare_na);
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn values_compare_1a <ValueRef : StdAsRef<Values>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn values_compare_2a <ValueRef : StdAsRef<Values>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -1095,12 +1095,12 @@ def_fn_compare! (Error,
 		error_compare_1, error_compare_2, error_compare_3, error_compare_4, error_compare_n,
 		error_compare_1a, error_compare_2a, error_compare_3a, error_compare_4a, error_compare_na);
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn error_compare_1a <ValueRef : StdAsRef<Error>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn error_compare_2a <ValueRef : StdAsRef<Error>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -1119,12 +1119,12 @@ def_fn_compare! (ProcedurePrimitive,
 		procedure_primitive_compare_1, procedure_primitive_compare_2, procedure_primitive_compare_3, procedure_primitive_compare_4, procedure_primitive_compare_n,
 		procedure_primitive_compare_1a, procedure_primitive_compare_2a, procedure_primitive_compare_3a, procedure_primitive_compare_4a, procedure_primitive_compare_na);
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn procedure_primitive_compare_1a <ValueRef : StdAsRef<ProcedurePrimitive>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn procedure_primitive_compare_2a <ValueRef : StdAsRef<ProcedurePrimitive>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	return std_ord_compare_2_ref (left, right, comparison);
 }
@@ -1134,12 +1134,12 @@ def_fn_compare! (ProcedureExtended,
 		procedure_extended_compare_1, procedure_extended_compare_2, procedure_extended_compare_3, procedure_extended_compare_4, procedure_extended_compare_n,
 		procedure_extended_compare_1a, procedure_extended_compare_2a, procedure_extended_compare_3a, procedure_extended_compare_4a, procedure_extended_compare_na);
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn procedure_extended_compare_1a <ValueRef : StdAsRef<ProcedureExtended>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn procedure_extended_compare_2a <ValueRef : StdAsRef<ProcedureExtended>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -1156,12 +1156,12 @@ def_fn_compare! (ProcedureNative,
 		procedure_native_compare_1, procedure_native_compare_2, procedure_native_compare_3, procedure_native_compare_4, procedure_native_compare_n,
 		procedure_native_compare_1a, procedure_native_compare_2a, procedure_native_compare_3a, procedure_native_compare_4a, procedure_native_compare_na);
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn procedure_native_compare_1a <ValueRef : StdAsRef<ProcedureNative>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn procedure_native_compare_2a <ValueRef : StdAsRef<ProcedureNative>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -1178,12 +1178,12 @@ def_fn_compare! (ProcedureLambda,
 		procedure_lambda_compare_1, procedure_lambda_compare_2, procedure_lambda_compare_3, procedure_lambda_compare_4, procedure_lambda_compare_n,
 		procedure_lambda_compare_1a, procedure_lambda_compare_2a, procedure_lambda_compare_3a, procedure_lambda_compare_4a, procedure_lambda_compare_na);
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn procedure_lambda_compare_1a <ValueRef : StdAsRef<ProcedureLambda>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn procedure_lambda_compare_2a <ValueRef : StdAsRef<ProcedureLambda>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -1202,12 +1202,12 @@ def_fn_compare! (SyntaxPrimitive,
 		syntax_primitive_compare_1, syntax_primitive_compare_2, syntax_primitive_compare_3, syntax_primitive_compare_4, syntax_primitive_compare_n,
 		syntax_primitive_compare_1a, syntax_primitive_compare_2a, syntax_primitive_compare_3a, syntax_primitive_compare_4a, syntax_primitive_compare_na);
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn syntax_primitive_compare_1a <ValueRef : StdAsRef<SyntaxPrimitive>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn syntax_primitive_compare_2a <ValueRef : StdAsRef<SyntaxPrimitive>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	return std_ord_compare_2_ref (left, right, comparison);
 }
@@ -1217,12 +1217,12 @@ def_fn_compare! (SyntaxExtended,
 		syntax_extended_compare_1, syntax_extended_compare_2, syntax_extended_compare_3, syntax_extended_compare_4, syntax_extended_compare_n,
 		syntax_extended_compare_1a, syntax_extended_compare_2a, syntax_extended_compare_3a, syntax_extended_compare_4a, syntax_extended_compare_na);
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn syntax_extended_compare_1a <ValueRef : StdAsRef<SyntaxExtended>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn syntax_extended_compare_2a <ValueRef : StdAsRef<SyntaxExtended>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -1239,12 +1239,12 @@ def_fn_compare! (SyntaxNative,
 		syntax_native_compare_1, syntax_native_compare_2, syntax_native_compare_3, syntax_native_compare_4, syntax_native_compare_n,
 		syntax_native_compare_1a, syntax_native_compare_2a, syntax_native_compare_3a, syntax_native_compare_4a, syntax_native_compare_na);
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn syntax_native_compare_1a <ValueRef : StdAsRef<SyntaxNative>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn syntax_native_compare_2a <ValueRef : StdAsRef<SyntaxNative>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -1261,12 +1261,12 @@ def_fn_compare! (SyntaxLambda,
 		syntax_lambda_compare_1, syntax_lambda_compare_2, syntax_lambda_compare_3, syntax_lambda_compare_4, syntax_lambda_compare_n,
 		syntax_lambda_compare_1a, syntax_lambda_compare_2a, syntax_lambda_compare_3a, syntax_lambda_compare_4a, syntax_lambda_compare_na);
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn syntax_lambda_compare_1a <ValueRef : StdAsRef<SyntaxLambda>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn syntax_lambda_compare_2a <ValueRef : StdAsRef<SyntaxLambda>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -1285,12 +1285,12 @@ def_fn_compare! (Port,
 		port_compare_1, port_compare_2, port_compare_3, port_compare_4, port_compare_n,
 		port_compare_1a, port_compare_2a, port_compare_3a, port_compare_4a, port_compare_na);
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn port_compare_1a <ValueRef : StdAsRef<Port>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn port_compare_2a <ValueRef : StdAsRef<Port>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -1309,12 +1309,12 @@ def_fn_compare! (Context,
 		context_compare_1, context_compare_2, context_compare_3, context_compare_4, context_compare_n,
 		context_compare_1a, context_compare_2a, context_compare_3a, context_compare_4a, context_compare_na);
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn context_compare_1a <ValueRef : StdAsRef<Context>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn context_compare_2a <ValueRef : StdAsRef<Context>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -1333,12 +1333,12 @@ def_fn_compare! (Binding,
 		binding_compare_1, binding_compare_2, binding_compare_3, binding_compare_4, binding_compare_n,
 		binding_compare_1a, binding_compare_2a, binding_compare_3a, binding_compare_4a, binding_compare_na);
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn binding_compare_1a <ValueRef : StdAsRef<Binding>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn binding_compare_2a <ValueRef : StdAsRef<Binding>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -1356,7 +1356,7 @@ pub fn binding_compare_2a <ValueRef : StdAsRef<Binding>> (left : ValueRef, right
 def_fn_compare! (Value,
 		number_compare_1, number_compare_2, number_compare_3, number_compare_4, number_compare_n);
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn number_compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let value = value.as_ref ();
 	match comparison {
@@ -1385,7 +1385,7 @@ pub fn number_compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparis
 	}
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn number_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -1470,13 +1470,13 @@ pub fn number_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : V
 def_fn_compare! (Value,
 		string_compare_1, string_compare_2, string_compare_3, string_compare_4, string_compare_n);
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn string_compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
 	let _value = try! (StringRef::try (value.as_ref ()));
 	succeed! (true);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn string_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = try! (StringRef::try (left.as_ref ()));
 	let right = try! (StringRef::try (right.as_ref ()));
@@ -1489,13 +1489,13 @@ pub fn string_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : V
 def_fn_compare! (Value,
 		bytes_compare_1, bytes_compare_2, bytes_compare_3, bytes_compare_4, bytes_compare_n);
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn bytes_compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
 	let _value = try! (BytesRef::try (value.as_ref ()));
 	succeed! (true);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn bytes_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = try! (BytesRef::try (left.as_ref ()));
 	let right = try! (BytesRef::try (right.as_ref ()));
@@ -1508,13 +1508,13 @@ pub fn bytes_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : Va
 def_fn_compare! (Value,
 		pair_compare_1, pair_compare_2, pair_compare_3, pair_compare_4, pair_compare_n);
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn pair_compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
 	let _value = try! (PairRef::try (value.as_ref ()));
 	succeed! (true);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn pair_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = try! (PairRef::try (left.as_ref ()));
 	let right = try! (PairRef::try (right.as_ref ()));
@@ -1527,13 +1527,13 @@ pub fn pair_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : Val
 def_fn_compare! (Value,
 		array_compare_1, array_compare_2, array_compare_3, array_compare_4, array_compare_n);
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn array_compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
 	let _value = try! (ArrayRef::try (value.as_ref ()));
 	succeed! (true);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn array_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = try! (ArrayRef::try (left.as_ref ()));
 	let right = try! (ArrayRef::try (right.as_ref ()));
@@ -1543,7 +1543,7 @@ pub fn array_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : Va
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn value_class_compare_2a_ordering (left : ValueClass, right : ValueClass, ordering : Ordering) -> (Outcome<bool>) {
 	return std_ord_compare_2_ordering_val (left, right, ordering);
 }
@@ -1551,7 +1551,7 @@ pub fn value_class_compare_2a_ordering (left : ValueClass, right : ValueClass, o
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn vec_compare_2 (left : &[Value], right : &[Value], comparison : Comparison) -> (Outcome<bool>) {
 	
 	let left_length = left.len ();
@@ -1650,7 +1650,7 @@ pub fn vec_compare_2 (left : &[Value], right : &[Value], comparison : Comparison
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn std_ord_compare_2_ref <Value, ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>)
 		where Value : cmp::PartialOrd
 {
@@ -1662,7 +1662,7 @@ pub fn std_ord_compare_2_ref <Value, ValueRef : StdAsRef<Value>> (left : ValueRe
 	}
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn std_ord_compare_2_ordering_ref <Value, ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, ordering : Ordering) -> (Outcome<bool>)
 		where Value : cmp::PartialOrd
 {
@@ -1686,7 +1686,7 @@ pub fn std_ord_compare_2_ordering_ref <Value, ValueRef : StdAsRef<Value>> (left 
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn std_ord_compare_2_val <Value> (left : Value, right : Value, comparison : Comparison) -> (Outcome<bool>)
 		where Value : cmp::PartialOrd
 {
@@ -1698,7 +1698,7 @@ pub fn std_ord_compare_2_val <Value> (left : Value, right : Value, comparison : 
 	}
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn std_ord_compare_2_ordering_val <Value> (left : Value, right : Value, ordering : Ordering) -> (Outcome<bool>)
 		where Value : cmp::PartialOrd
 {

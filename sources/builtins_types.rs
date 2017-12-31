@@ -173,19 +173,19 @@ pub mod exports {
 
 macro_rules! def_fn_predicate_all {
 	( $predicate : ident, $predicate_2 : ident, $predicate_3 : ident, $predicate_4 : ident, $predicate_n : ident ) => (
-		#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+		#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 		pub fn $predicate_2 (value_1 : &Value, value_2 : &Value) -> (bool) {
 			return $predicate (value_1) && $predicate (value_2);
 		}
-		#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+		#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 		pub fn $predicate_3 (value_1 : &Value, value_2 : &Value, value_3 : &Value) -> (bool) {
 			return $predicate (value_1) && $predicate (value_2) && $predicate (value_3);
 		}
-		#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+		#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 		pub fn $predicate_4 (value_1 : &Value, value_2 : &Value, value_3 : &Value, value_4 : &Value) -> (bool) {
 			return $predicate (value_1) && $predicate (value_2) && $predicate (value_3) && $predicate (value_4);
 		}
-		#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+		#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 		pub fn $predicate_n (values : &[&Value]) -> (bool) {
 			for value_i in values {
 				if !$predicate (value_i) {
@@ -199,19 +199,19 @@ macro_rules! def_fn_predicate_all {
 
 macro_rules! def_fn_predicate_any {
 	( $predicate : ident, $predicate_2 : ident, $predicate_3 : ident, $predicate_4 : ident, $predicate_n : ident ) => (
-		#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+		#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 		pub fn $predicate_2 (value_1 : &Value, value_2 : &Value) -> (bool) {
 			return $predicate (value_1) || $predicate (value_2);
 		}
-		#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+		#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 		pub fn $predicate_3 (value_1 : &Value, value_2 : &Value, value_3 : &Value) -> (bool) {
 			return $predicate (value_1) || $predicate (value_2) || $predicate (value_3);
 		}
-		#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+		#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 		pub fn $predicate_4 (value_1 : &Value, value_2 : &Value, value_3 : &Value, value_4 : &Value) -> (bool) {
 			return $predicate (value_1) || $predicate (value_2) || $predicate (value_3) || $predicate (value_4);
 		}
-		#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+		#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 		pub fn $predicate_n (values : &[&Value]) -> (bool) {
 			for value_i in values {
 				if $predicate (value_i) {
@@ -226,20 +226,20 @@ macro_rules! def_fn_predicate_any {
 
 macro_rules! def_fn_try_predicate_all {
 	( $predicate : ident, $predicate_2 : ident, $predicate_3 : ident, $predicate_4 : ident, $predicate_n : ident ) => (
-		#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+		#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 		pub fn $predicate_2 (value_1 : &Value, value_2 : &Value) -> (Outcome<bool>) {
 			let outcome_1 = try! ($predicate (value_1));
 			let outcome_2 = try! ($predicate (value_2));
 			succeed! (outcome_1 && outcome_2);
 		}
-		#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+		#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 		pub fn $predicate_3 (value_1 : &Value, value_2 : &Value, value_3 : &Value) -> (Outcome<bool>) {
 			let outcome_1 = try! ($predicate (value_1));
 			let outcome_2 = try! ($predicate (value_2));
 			let outcome_3 = try! ($predicate (value_3));
 			succeed! (outcome_1 && outcome_2 && outcome_3);
 		}
-		#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+		#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 		pub fn $predicate_4 (value_1 : &Value, value_2 : &Value, value_3 : &Value, value_4 : &Value) -> (Outcome<bool>) {
 			let outcome_1 = try! ($predicate (value_1));
 			let outcome_2 = try! ($predicate (value_2));
@@ -247,7 +247,7 @@ macro_rules! def_fn_try_predicate_all {
 			let outcome_4 = try! ($predicate (value_4));
 			succeed! (outcome_1 && outcome_2 && outcome_3 && outcome_4);
 		}
-		#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+		#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 		pub fn $predicate_n (values : &[&Value]) -> (Outcome<bool>) {
 			let mut outcome = true;
 			for value_i in values {
@@ -261,20 +261,20 @@ macro_rules! def_fn_try_predicate_all {
 
 macro_rules! def_fn_try_predicate_any {
 	( $predicate : ident, $predicate_2 : ident, $predicate_3 : ident, $predicate_4 : ident, $predicate_n : ident ) => (
-		#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+		#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 		pub fn $predicate_2 (value_1 : &Value, value_2 : &Value) -> (Outcome<bool>) {
 			let outcome_1 = try! ($predicate (value_1));
 			let outcome_2 = try! ($predicate (value_2));
 			succeed! (outcome_1 || outcome_2);
 		}
-		#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+		#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 		pub fn $predicate_3 (value_1 : &Value, value_2 : &Value, value_3 : &Value) -> (Outcome<bool>) {
 			let outcome_1 = try! ($predicate (value_1));
 			let outcome_2 = try! ($predicate (value_2));
 			let outcome_3 = try! ($predicate (value_3));
 			succeed! (outcome_1 || outcome_2 || outcome_3);
 		}
-		#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+		#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 		pub fn $predicate_4 (value_1 : &Value, value_2 : &Value, value_3 : &Value, value_4 : &Value) -> (Outcome<bool>) {
 			let outcome_1 = try! ($predicate (value_1));
 			let outcome_2 = try! ($predicate (value_2));
@@ -282,7 +282,7 @@ macro_rules! def_fn_try_predicate_any {
 			let outcome_4 = try! ($predicate (value_4));
 			succeed! (outcome_1 || outcome_2 || outcome_3 || outcome_4);
 		}
-		#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+		#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 		pub fn $predicate_n (values : &[&Value]) -> (Outcome<bool>) {
 			let mut outcome = true;
 			for value_i in values {
@@ -297,7 +297,7 @@ macro_rules! def_fn_try_predicate_any {
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_boolean (value : &Value) -> (bool) {
 	return value.is (ValueClass::Boolean);
 }
@@ -308,7 +308,7 @@ def_fn_predicate_any! (is_boolean, is_boolean_any_2, is_boolean_any_3, is_boolea
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_true (value : &Value) -> (bool) {
 	if let Ok (value) = StdTryAsRef::<Boolean>::try_as_ref (value) {
 		return value.0 == true;
@@ -317,7 +317,7 @@ pub fn is_true (value : &Value) -> (bool) {
 	}
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_false (value : &Value) -> (bool) {
 	if let Ok (value) = StdTryAsRef::<Boolean>::try_as_ref (value) {
 		return value.0 == false;
@@ -333,12 +333,12 @@ def_fn_predicate_all! (is_false, is_false_all_2, is_false_all_3, is_false_all_4,
 def_fn_predicate_any! (is_false, is_false_any_2, is_false_any_3, is_false_any_4, is_false_any_n);
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_not_true (value : &Value) -> (bool) {
 	return !is_true (value);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_not_false (value : &Value) -> (bool) {
 	return !is_false (value);
 }
@@ -352,12 +352,12 @@ def_fn_predicate_any! (is_not_false, is_not_false_any_2, is_not_false_any_3, is_
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_true_or_equivalent (value : &Value) -> (bool) {
 	!is_false_or_equivalent (value)
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_false_or_equivalent (value : &Value) -> (bool) {
 	match value.class () {
 		ValueClass::Null | ValueClass::Void | ValueClass::Undefined =>
@@ -380,17 +380,17 @@ def_fn_predicate_any! (is_false_or_equivalent, is_false_or_equivalent_any_2, is_
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_null (value : &Value) -> (bool) {
 	return value.is (ValueClass::Null);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_void (value : &Value) -> (bool) {
 	return value.is (ValueClass::Void);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_undefined (value : &Value) -> (bool) {
 	return value.is (ValueClass::Undefined);
 }
@@ -405,17 +405,17 @@ def_fn_predicate_all! (is_undefined, is_undefined_all_2, is_undefined_all_3, is_
 def_fn_predicate_any! (is_undefined, is_undefined_any_2, is_undefined_any_3, is_undefined_any_4, is_undefined_any_n);
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_not_null (value : &Value) -> (bool) {
 	return !is_null (value);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_not_void (value : &Value) -> (bool) {
 	return !is_void (value);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_not_undefined (value : &Value) -> (bool) {
 	return !is_undefined (value);
 }
@@ -432,7 +432,7 @@ def_fn_predicate_any! (is_not_undefined, is_not_undefined_any_2, is_not_undefine
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_number (value : &Value) -> (bool) {
 	return number_class (value) .is_ok ();
 }
@@ -443,7 +443,7 @@ def_fn_predicate_any! (is_number, is_number_any_2, is_number_any_3, is_number_an
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_list (value : &Value) -> (bool) {
 	let class = list_class_o1 (value);
 	if class.is_ok () {
@@ -454,7 +454,7 @@ pub fn is_list (value : &Value) -> (bool) {
 	}
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_list_empty (value : &Value) -> (bool) {
 	let class = list_class_o1 (value);
 	if class.is_ok () {
@@ -465,7 +465,7 @@ pub fn is_list_empty (value : &Value) -> (bool) {
 	}
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_list_or_empty (value : &Value) -> (bool) {
 	let class = list_class_o1 (value);
 	if class.is_ok () {
@@ -486,7 +486,7 @@ def_fn_predicate_all! (is_list_or_empty, is_list_or_empty_all_2, is_list_or_empt
 def_fn_predicate_any! (is_list_or_empty, is_list_or_empty_any_2, is_list_or_empty_any_3, is_list_or_empty_any_4, is_list_or_empty_any_n);
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_list_proper (value : &Value) -> (bool) {
 	let class = list_class_on (value);
 	if class.is_ok () {
@@ -497,7 +497,7 @@ pub fn is_list_proper (value : &Value) -> (bool) {
 	}
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_list_proper_or_empty (value : &Value) -> (bool) {
 	let class = list_class_on (value);
 	if class.is_ok () {
@@ -515,7 +515,7 @@ def_fn_predicate_all! (is_list_proper_or_empty, is_list_proper_or_empty_all_2, i
 def_fn_predicate_any! (is_list_proper_or_empty, is_list_proper_or_empty_any_2, is_list_proper_or_empty_any_3, is_list_proper_or_empty_any_4, is_list_proper_or_empty_any_n);
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_list_dotted (value : &Value) -> (bool) {
 	let class = list_class_on (value);
 	if class.is_ok () {
@@ -526,7 +526,7 @@ pub fn is_list_dotted (value : &Value) -> (bool) {
 	}
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_list_dotted_or_empty (value : &Value) -> (bool) {
 	let class = list_class_on (value);
 	if class.is_ok () {
@@ -544,7 +544,7 @@ def_fn_predicate_all! (is_list_dotted_or_empty, is_list_dotted_or_empty_all_2, i
 def_fn_predicate_any! (is_list_dotted_or_empty, is_list_dotted_or_empty_any_2, is_list_dotted_or_empty_any_3, is_list_dotted_or_empty_any_4, is_list_dotted_or_empty_any_n);
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_list_cyclic (value : &Value) -> (bool) {
 	let class = list_class_on (value);
 	if class.is_ok () {
@@ -555,7 +555,7 @@ pub fn is_list_cyclic (value : &Value) -> (bool) {
 	}
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_list_cyclic_or_empty (value : &Value) -> (bool) {
 	let class = list_class_on (value);
 	if class.is_ok () {
@@ -575,7 +575,7 @@ def_fn_predicate_any! (is_list_cyclic_or_empty, is_list_cyclic_or_empty_any_2, i
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_array (value : &Value) -> (bool) {
 	return value.is (ValueClass::Array);
 }
@@ -584,12 +584,12 @@ def_fn_predicate_all! (is_array, is_array_all_2, is_array_all_3, is_array_all_4,
 def_fn_predicate_any! (is_array, is_array_any_2, is_array_any_3, is_array_any_4, is_array_any_n);
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_array_empty (value : &Value) -> (Outcome<bool>) {
 	succeed! (try_as_array_ref! (value) .values_is_empty ());
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_array_not_empty (value : &Value) -> (Outcome<bool>) {
 	succeed! (try_as_array_ref! (value) .values_is_not_empty ());
 }
@@ -603,7 +603,7 @@ def_fn_try_predicate_any! (is_array_not_empty, is_array_not_empty_any_2, is_arra
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_bytes (value : &Value) -> (bool) {
 	return value.is (ValueClass::Bytes);
 }
@@ -612,12 +612,12 @@ def_fn_predicate_all! (is_bytes, is_bytes_all_2, is_bytes_all_3, is_bytes_all_4,
 def_fn_predicate_any! (is_bytes, is_bytes_any_2, is_bytes_any_3, is_bytes_any_4, is_bytes_any_n);
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_bytes_empty (value : &Value) -> (Outcome<bool>) {
 	succeed! (try_as_bytes_ref! (value) .bytes_is_empty ());
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_bytes_not_empty (value : &Value) -> (Outcome<bool>) {
 	succeed! (try_as_bytes_ref! (value) .bytes_is_not_empty ());
 }
@@ -631,7 +631,7 @@ def_fn_try_predicate_any! (is_bytes_not_empty, is_bytes_not_empty_any_2, is_byte
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_string (value : &Value) -> (bool) {
 	return value.is (ValueClass::String);
 }
@@ -640,12 +640,12 @@ def_fn_predicate_all! (is_string, is_string_all_2, is_string_all_3, is_string_al
 def_fn_predicate_any! (is_string, is_string_any_2, is_string_any_3, is_string_any_4, is_string_any_n);
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_string_empty (value : &Value) -> (Outcome<bool>) {
 	succeed! (try_as_string_ref! (value) .string_is_empty ());
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_string_not_empty (value : &Value) -> (Outcome<bool>) {
 	succeed! (try_as_string_ref! (value) .string_is_not_empty ());
 }
@@ -659,7 +659,7 @@ def_fn_try_predicate_any! (is_string_not_empty, is_string_not_empty_any_2, is_st
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_values (value : &Value) -> (bool) {
 	return value.is (ValueClass::Values);
 }
@@ -668,12 +668,12 @@ def_fn_predicate_all! (is_values, is_values_all_2, is_values_all_3, is_values_al
 def_fn_predicate_any! (is_values, is_values_any_2, is_values_any_3, is_values_any_4, is_values_any_n);
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_values_empty (value : &Value) -> (Outcome<bool>) {
 	succeed! (try_as_values_ref! (value) .values_is_empty ());
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_values_not_empty (value : &Value) -> (Outcome<bool>) {
 	succeed! (try_as_values_ref! (value) .values_is_not_empty ());
 }
@@ -687,7 +687,7 @@ def_fn_try_predicate_any! (is_values_not_empty, is_values_not_empty_any_2, is_va
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_procedure (value : &Value) -> (bool) {
 	return procedure_class (value) .is_ok ();
 }
@@ -698,7 +698,7 @@ def_fn_predicate_any! (is_procedure, is_procedure_any_2, is_procedure_any_3, is_
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_syntax (value : &Value) -> (bool) {
 	return syntax_class (value) .is_ok ();
 }
@@ -716,7 +716,7 @@ pub enum NumberClass {
 }
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn number_class (value : &Value) -> (Outcome<NumberClass>) {
 	match value.class () {
 		
@@ -745,7 +745,7 @@ pub enum ListClass {
 }
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_class_o1 (value : &Value) -> (Outcome<ListClass>) {
 	match value.class () {
 		
@@ -762,7 +762,7 @@ pub fn list_class_o1 (value : &Value) -> (Outcome<ListClass>) {
 }
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_class_on (value : &Value) -> (Outcome<ListClass>) {
 	match value.class () {
 		
@@ -778,7 +778,7 @@ pub fn list_class_on (value : &Value) -> (Outcome<ListClass>) {
 	}
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 fn list_class_on_0 (value : &Value, pair : PairRef) -> (Outcome<ListClass>) {
 	let mut cursor = pair.right ();
 	loop {
@@ -808,32 +808,32 @@ fn list_class_on_0 (value : &Value, pair : PairRef) -> (Outcome<ListClass>) {
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_port (value : &Value) -> (bool) {
 	return value.is (ValueClass::Port);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_port_input (value : &Value) -> (Outcome<bool>) {
 	succeed! (try_as_port_ref! (value) .is_read_implemented ());
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_port_output (value : &Value) -> (Outcome<bool>) {
 	succeed! (try_as_port_ref! (value) .is_write_implemented ());
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_port_binary (value : &Value) -> (Outcome<bool>) {
 	succeed! (try_as_port_ref! (value) .is_byte_implemented ());
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_port_textual (value : &Value) -> (Outcome<bool>) {
 	succeed! (try_as_port_ref! (value) .is_char_implemented ());
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_port_eof (value : &Value) -> (bool) {
 	if let Ok (value) = StdTryAsRef::<ValueSingleton>::try_as_ref (value) {
 		return *value == ValueSingleton::PortEof;
@@ -853,7 +853,7 @@ pub enum ProcedureClass {
 }
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn procedure_class (value : &Value) -> (Outcome<ProcedureClass>) {
 	match value.class () {
 		ValueClass::ProcedurePrimitive =>
@@ -878,7 +878,7 @@ pub enum SyntaxClass {
 }
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn syntax_class (value : &Value) -> (Outcome<SyntaxClass>) {
 	match value.class () {
 		ValueClass::SyntaxPrimitive =>
