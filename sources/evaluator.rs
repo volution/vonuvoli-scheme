@@ -102,10 +102,10 @@ impl Evaluator {
 				self.evaluate_for_procedure_primitive_call (evaluation, expression),
 			Expression::ProcedureExtendedCall (ref expression) =>
 				self.evaluate_for_procedure_extended_call (evaluation, expression),
-			Expression::ProcedureLambdaCall (ref expression) =>
-				self.evaluate_for_procedure_lambda_call (evaluation, expression),
 			Expression::ProcedureNativeCall (ref expression) =>
 				self.evaluate_for_procedure_native_call (evaluation, expression),
+			Expression::ProcedureLambdaCall (ref expression) =>
+				self.evaluate_for_procedure_lambda_call (evaluation, expression),
 			
 			Expression::Lambda (ref lambda, ref expression, ref registers_closure, ref registers_local) =>
 				self.evaluate_lambda_create (evaluation, lambda, expression, registers_closure, registers_local),
@@ -268,8 +268,8 @@ impl Evaluator {
 	fn evaluate_for_procedure_native_call (&self, evaluation : &mut EvaluatorContext, input : &ExpressionForProcedureNativeCall) -> (Outcome<Value>) {
 		match *input {
 			
-			ExpressionForProcedureNativeCall::ProcedureNativeCall (ref _procedure, ref _inputs) =>
-				fail_unimplemented! (0xe933a5ac),
+			ExpressionForProcedureNativeCall::ProcedureNativeCall (ref procedure, ref inputs) =>
+				self.evaluate_procedure_native (evaluation, procedure.internals_ref (), inputs),
 			ExpressionForProcedureNativeCall::ProcedureNativeCall0 (ref procedure) =>
 				self.evaluate_procedure_native_0 (evaluation, procedure),
 			ExpressionForProcedureNativeCall::ProcedureNativeCall1 (ref procedure, ref input_1) =>
@@ -945,6 +945,8 @@ impl Evaluator {
 				return self.evaluate_procedure_primitive_with_values (evaluation, *callable.as_ref (), inputs),
 			ValueClass::ProcedureExtended =>
 				return self.evaluate_procedure_extended_with_values (evaluation, callable.as_ref (), inputs),
+			ValueClass::ProcedureNative =>
+				return self.evaluate_procedure_native_with_values (evaluation, StdAsRef::<ProcedureNative>::as_ref (callable). internals_ref (), inputs),
 			ValueClass::ProcedureLambda =>
 				return self.evaluate_procedure_lambda_with_values (evaluation, StdAsRef::<ProcedureLambda>::as_ref (callable) .internals_ref (), inputs),
 			_ =>
@@ -967,10 +969,12 @@ impl Evaluator {
 					ProcedurePrimitive::Primitive0 (primitive) =>
 						return self.evaluate_procedure_primitive_0 (evaluation, primitive),
 					primitive =>
-						return procedure_primitive_g_evaluate_0 (primitive, evaluation),
+						return self.evaluate_procedure_primitive_0_g (evaluation, primitive),
 				},
 			ValueClass::ProcedureExtended =>
 				return self.evaluate_procedure_extended_0 (evaluation, callable.as_ref ()),
+			ValueClass::ProcedureNative =>
+				return self.evaluate_procedure_native_0_g (evaluation, StdAsRef::<ProcedureNative>::as_ref (callable) .internals_ref ()),
 			ValueClass::ProcedureLambda =>
 				return self.evaluate_procedure_lambda_0 (evaluation, StdAsRef::<ProcedureLambda>::as_ref (callable) .internals_ref ()),
 			_ =>
@@ -994,10 +998,12 @@ impl Evaluator {
 					ProcedurePrimitive::Primitive1 (primitive) =>
 						return self.evaluate_procedure_primitive_1_with_values (evaluation, primitive, input_1),
 					primitive =>
-						return procedure_primitive_g_evaluate_1 (primitive, input_1, evaluation),
+						return self.evaluate_procedure_primitive_1_g_with_values (evaluation, primitive, input_1),
 				},
 			ValueClass::ProcedureExtended =>
 				return self.evaluate_procedure_extended_1_with_values (evaluation, callable.as_ref (), input_1),
+			ValueClass::ProcedureNative =>
+				return self.evaluate_procedure_native_1_g_with_values (evaluation, StdAsRef::<ProcedureNative>::as_ref (callable) .internals_ref (), input_1),
 			ValueClass::ProcedureLambda =>
 				return self.evaluate_procedure_lambda_1_with_values (evaluation, StdAsRef::<ProcedureLambda>::as_ref (callable) .internals_ref (), input_1),
 			_ =>
@@ -1022,10 +1028,12 @@ impl Evaluator {
 					ProcedurePrimitive::Primitive2 (primitive) =>
 						return self.evaluate_procedure_primitive_2_with_values (evaluation, primitive, input_1, input_2),
 					primitive =>
-						return procedure_primitive_g_evaluate_2 (primitive, input_1, input_2, evaluation),
+						return self.evaluate_procedure_primitive_2_g_with_values (evaluation, primitive, input_1, input_2),
 				},
 			ValueClass::ProcedureExtended =>
 				return self.evaluate_procedure_extended_2_with_values (evaluation, callable.as_ref (), input_1, input_2),
+			ValueClass::ProcedureNative =>
+				return self.evaluate_procedure_native_2_g_with_values (evaluation, StdAsRef::<ProcedureNative>::as_ref (callable) .internals_ref (), input_1, input_2),
 			ValueClass::ProcedureLambda =>
 				return self.evaluate_procedure_lambda_2_with_values (evaluation, StdAsRef::<ProcedureLambda>::as_ref (callable) .internals_ref (), input_1, input_2),
 			_ =>
@@ -1051,10 +1059,12 @@ impl Evaluator {
 					ProcedurePrimitive::Primitive3 (primitive) =>
 						return self.evaluate_procedure_primitive_3_with_values (evaluation, primitive, input_1, input_2, input_3),
 					primitive =>
-						return procedure_primitive_g_evaluate_3 (primitive, input_1, input_2, input_3, evaluation),
+						return self.evaluate_procedure_primitive_3_g_with_values (evaluation, primitive, input_1, input_2, input_3),
 				},
 			ValueClass::ProcedureExtended =>
 				return self.evaluate_procedure_extended_3_with_values (evaluation, callable.as_ref (), input_1, input_2, input_3),
+			ValueClass::ProcedureNative =>
+				return self.evaluate_procedure_native_3_g_with_values (evaluation, StdAsRef::<ProcedureNative>::as_ref (callable) .internals_ref (), input_1, input_2, input_3),
 			ValueClass::ProcedureLambda =>
 				return self.evaluate_procedure_lambda_3_with_values (evaluation, StdAsRef::<ProcedureLambda>::as_ref (callable) .internals_ref (), input_1, input_2, input_3),
 			_ =>
@@ -1081,10 +1091,12 @@ impl Evaluator {
 					ProcedurePrimitive::Primitive4 (primitive) =>
 						return self.evaluate_procedure_primitive_4_with_values (evaluation, primitive, input_1, input_2, input_3, input_4),
 					primitive =>
-						return procedure_primitive_g_evaluate_4 (primitive, input_1, input_2, input_3, input_4, evaluation),
+						return self.evaluate_procedure_primitive_4_g_with_values (evaluation, primitive, input_1, input_2, input_3, input_4),
 				},
 			ValueClass::ProcedureExtended =>
 				return self.evaluate_procedure_extended_4_with_values (evaluation, callable.as_ref (), input_1, input_2, input_3, input_4),
+			ValueClass::ProcedureNative =>
+				return self.evaluate_procedure_native_4_g_with_values (evaluation, StdAsRef::<ProcedureNative>::as_ref (callable) .internals_ref (), input_1, input_2, input_3, input_4),
 			ValueClass::ProcedureLambda =>
 				return self.evaluate_procedure_lambda_4_with_values (evaluation, StdAsRef::<ProcedureLambda>::as_ref (callable) .internals_ref (), input_1, input_2, input_3, input_4),
 			_ =>
@@ -1112,10 +1124,12 @@ impl Evaluator {
 					ProcedurePrimitive::Primitive5 (primitive) =>
 						return self.evaluate_procedure_primitive_5_with_values (evaluation, primitive, input_1, input_2, input_3, input_4, input_5),
 					primitive =>
-						return procedure_primitive_g_evaluate_5 (primitive, input_1, input_2, input_3, input_4, input_5, evaluation),
+						return self.evaluate_procedure_primitive_5_g_with_values (evaluation, primitive, input_1, input_2, input_3, input_4, input_5),
 				},
 			ValueClass::ProcedureExtended =>
 				return self.evaluate_procedure_extended_5_with_values (evaluation, callable.as_ref (), input_1, input_2, input_3, input_4, input_5),
+			ValueClass::ProcedureNative =>
+				return self.evaluate_procedure_native_5_g_with_values (evaluation, StdAsRef::<ProcedureNative>::as_ref (callable) .internals_ref (), input_1, input_2, input_3, input_4, input_5),
 			ValueClass::ProcedureLambda =>
 				return self.evaluate_procedure_lambda_5_with_values (evaluation, StdAsRef::<ProcedureLambda>::as_ref (callable) .internals_ref (), input_1, input_2, input_3, input_4, input_5),
 			_ =>
@@ -1140,10 +1154,12 @@ impl Evaluator {
 					ProcedurePrimitive::PrimitiveN (primitive) =>
 						return self.evaluate_procedure_primitive_n_with_values (evaluation, primitive, inputs),
 					primitive =>
-						return procedure_primitive_g_evaluate_n (primitive, inputs, evaluation),
+						return self.evaluate_procedure_primitive_n_g_with_values (evaluation, primitive, inputs),
 				},
 			ValueClass::ProcedureExtended =>
 				return self.evaluate_procedure_extended_n_with_values (evaluation, callable.as_ref (), inputs),
+			ValueClass::ProcedureNative =>
+				return self.evaluate_procedure_native_n_g_with_values (evaluation, StdAsRef::<ProcedureNative>::as_ref (callable) .internals_ref (), inputs),
 			ValueClass::ProcedureLambda =>
 				return self.evaluate_procedure_lambda_n_with_values (evaluation, StdAsRef::<ProcedureLambda>::as_ref (callable) .internals_ref (), inputs),
 			_ =>
@@ -1172,6 +1188,11 @@ impl Evaluator {
 		return procedure_primitive_0_evaluate (primitive, evaluation);
 	}
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn evaluate_procedure_primitive_0_g (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive) -> (Outcome<Value>) {
+		return procedure_primitive_g_evaluate_0 (primitive, evaluation);
+	}
+	
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn evaluate_procedure_primitive_1 (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive1, input_1 : &Expression) -> (Outcome<Value>) {
@@ -1182,6 +1203,11 @@ impl Evaluator {
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn evaluate_procedure_primitive_1_with_values (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive1, input_1 : &Value) -> (Outcome<Value>) {
 		return procedure_primitive_1_evaluate (primitive, input_1, evaluation);
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn evaluate_procedure_primitive_1_g_with_values (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive, input_1 : &Value) -> (Outcome<Value>) {
+		return procedure_primitive_g_evaluate_1 (primitive, input_1, evaluation);
 	}
 	
 	
@@ -1195,6 +1221,11 @@ impl Evaluator {
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn evaluate_procedure_primitive_2_with_values (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive2, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
 		return procedure_primitive_2_evaluate (primitive, input_1, input_2, evaluation);
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn evaluate_procedure_primitive_2_g_with_values (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
+		return procedure_primitive_g_evaluate_2 (primitive, input_1, input_2, evaluation);
 	}
 	
 	
@@ -1211,6 +1242,11 @@ impl Evaluator {
 		return procedure_primitive_3_evaluate (primitive, input_1, input_2, input_3, evaluation);
 	}
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn evaluate_procedure_primitive_3_g_with_values (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive, input_1 : &Value, input_2 : &Value, input_3 : &Value) -> (Outcome<Value>) {
+		return procedure_primitive_g_evaluate_3 (primitive, input_1, input_2, input_3, evaluation);
+	}
+	
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn evaluate_procedure_primitive_4 (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive4, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression, input_4 : &Expression) -> (Outcome<Value>) {
@@ -1224,6 +1260,11 @@ impl Evaluator {
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn evaluate_procedure_primitive_4_with_values (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value) -> (Outcome<Value>) {
 		return procedure_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4, evaluation);
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn evaluate_procedure_primitive_4_g_with_values (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value) -> (Outcome<Value>) {
+		return procedure_primitive_g_evaluate_4 (primitive, input_1, input_2, input_3, input_4, evaluation);
 	}
 	
 	
@@ -1242,6 +1283,11 @@ impl Evaluator {
 		return procedure_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, evaluation);
 	}
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn evaluate_procedure_primitive_5_g_with_values (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value) -> (Outcome<Value>) {
+		return procedure_primitive_g_evaluate_5 (primitive, input_1, input_2, input_3, input_4, input_5, evaluation);
+	}
+	
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn evaluate_procedure_primitive_n (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitiveN, inputs : &[Expression]) -> (Outcome<Value>) {
@@ -1253,6 +1299,11 @@ impl Evaluator {
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn evaluate_procedure_primitive_n_with_values (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitiveN, inputs : &[&Value]) -> (Outcome<Value>) {
 		return procedure_primitive_n_evaluate (primitive, inputs, evaluation);
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn evaluate_procedure_primitive_n_g_with_values (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive, inputs : &[&Value]) -> (Outcome<Value>) {
+		return procedure_primitive_g_evaluate_n (primitive, inputs, evaluation);
 	}
 	
 	
@@ -1376,8 +1427,73 @@ impl Evaluator {
 	
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn evaluate_procedure_native (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeInternals, inputs : &[Expression]) -> (Outcome<Value>) {
+		let inputs = try! (self.evaluate_slice (evaluation, inputs));
+		let inputs = vec_vec_to_ref (&inputs);
+		return self.evaluate_procedure_native_with_values (evaluation, native, &inputs);
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn evaluate_procedure_native_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeInternals, inputs : &[&Value]) -> (Outcome<Value>) {
+		let inputs_count = inputs.len ();
+		match *native {
+			ProcedureNativeInternals::Native0 (native) =>
+				if inputs_count == 0 {
+					return native (evaluation);
+				} else {
+					fail! (0xd3c0db37);
+				},
+			ProcedureNativeInternals::Native1 (native) =>
+				if inputs_count == 1 {
+					return native (inputs[0], evaluation);
+				} else {
+					fail! (0x05b52d20);
+				},
+			ProcedureNativeInternals::Native2 (native) =>
+				if inputs_count == 2 {
+					return native (inputs[0], inputs[1], evaluation);
+				} else {
+					fail! (0x5c7dcbe3);
+				},
+			ProcedureNativeInternals::Native3 (native) =>
+				if inputs_count == 3 {
+					return native (inputs[0], inputs[1], inputs[2], evaluation);
+				} else {
+					fail! (0x6a6c5c6b);
+				},
+			ProcedureNativeInternals::Native4 (native) =>
+				if inputs_count == 4 {
+					return native (inputs[0], inputs[1], inputs[2], inputs[3], evaluation);
+				} else {
+					fail! (0xefff8476);
+				},
+			ProcedureNativeInternals::Native5 (native) =>
+				if inputs_count == 5 {
+					return native (inputs[0], inputs[1], inputs[2], inputs[3], inputs[4], evaluation);
+				} else {
+					fail! (0x39ad3d33);
+				},
+			ProcedureNativeInternals::NativeN (native) =>
+				return native (inputs, evaluation),
+		}
+	}
+	
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn evaluate_procedure_native_0 (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative0) -> (Outcome<Value>) {
 		return native (evaluation);
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn evaluate_procedure_native_0_g (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeInternals) -> (Outcome<Value>) {
+		match *native {
+			ProcedureNativeInternals::Native0 (native) =>
+				return native (evaluation),
+			ProcedureNativeInternals::NativeN (native) =>
+				return native (&[], evaluation),
+			_ =>
+				fail! (0x3b2b8840),
+		}
 	}
 	
 	
@@ -1392,6 +1508,18 @@ impl Evaluator {
 		return native (input_1, evaluation);
 	}
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn evaluate_procedure_native_1_g_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeInternals, input_1 : &Value) -> (Outcome<Value>) {
+		match *native {
+			ProcedureNativeInternals::Native1 (native) =>
+				return native (input_1, evaluation),
+			ProcedureNativeInternals::NativeN (native) =>
+				return native (&[input_1], evaluation),
+			_ =>
+				fail! (0xee275ee6),
+		}
+	}
+	
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn evaluate_procedure_native_2 (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative2, input_1 : &Expression, input_2 : &Expression) -> (Outcome<Value>) {
@@ -1403,6 +1531,18 @@ impl Evaluator {
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn evaluate_procedure_native_2_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative2, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
 		return native (input_1, input_2, evaluation);
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn evaluate_procedure_native_2_g_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeInternals, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
+		match *native {
+			ProcedureNativeInternals::Native2 (native) =>
+				return native (input_1, input_2, evaluation),
+			ProcedureNativeInternals::NativeN (native) =>
+				return native (&[input_1, input_2], evaluation),
+			_ =>
+				fail! (0x45146253),
+		}
 	}
 	
 	
@@ -1419,6 +1559,18 @@ impl Evaluator {
 		return native (input_1, input_2, input_3, evaluation);
 	}
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn evaluate_procedure_native_3_g_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeInternals, input_1 : &Value, input_2 : &Value, input_3 : &Value) -> (Outcome<Value>) {
+		match *native {
+			ProcedureNativeInternals::Native3 (native) =>
+				return native (input_1, input_2, input_3, evaluation),
+			ProcedureNativeInternals::NativeN (native) =>
+				return native (&[input_1, input_2, input_3], evaluation),
+			_ =>
+				fail! (0xb6b70b62),
+		}
+	}
+	
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn evaluate_procedure_native_4 (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative4, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression, input_4 : &Expression) -> (Outcome<Value>) {
@@ -1432,6 +1584,18 @@ impl Evaluator {
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn evaluate_procedure_native_4_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value) -> (Outcome<Value>) {
 		return native (input_1, input_2, input_3, input_4, evaluation);
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn evaluate_procedure_native_4_g_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeInternals, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value) -> (Outcome<Value>) {
+		match *native {
+			ProcedureNativeInternals::Native4 (native) =>
+				return native (input_1, input_2, input_3, input_4, evaluation),
+			ProcedureNativeInternals::NativeN (native) =>
+				return native (&[input_1, input_2, input_3, input_4], evaluation),
+			_ =>
+				fail! (0x28930473),
+		}
 	}
 	
 	
@@ -1450,6 +1614,18 @@ impl Evaluator {
 		return native (input_1, input_2, input_3, input_4, input_5, evaluation);
 	}
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn evaluate_procedure_native_5_g_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeInternals, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value) -> (Outcome<Value>) {
+		match *native {
+			ProcedureNativeInternals::Native5 (native) =>
+				return native (input_1, input_2, input_3, input_4, input_5, evaluation),
+			ProcedureNativeInternals::NativeN (native) =>
+				return native (&[input_1, input_2, input_3, input_4, input_5], evaluation),
+			_ =>
+				fail! (0xb1b016a9),
+		}
+	}
+	
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn evaluate_procedure_native_n (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeN, inputs : &[Expression]) -> (Outcome<Value>) {
@@ -1461,6 +1637,11 @@ impl Evaluator {
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn evaluate_procedure_native_n_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeN, inputs : &[&Value]) -> (Outcome<Value>) {
 		return native (inputs, evaluation);
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn evaluate_procedure_native_n_g_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeInternals, inputs : &[&Value]) -> (Outcome<Value>) {
+		return self.evaluate_procedure_native_with_values (evaluation, native, inputs);
 	}
 	
 	
