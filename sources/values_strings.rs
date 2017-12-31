@@ -194,6 +194,11 @@ impl StringMutable {
 	pub fn string_rc_clone (&self) -> (StdRc<StdRefCell<StdString>>) {
 		self.0.clone ()
 	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn string_ref_mut (&self) -> (StdRefMut<StdString>) {
+		self.0.as_ref () .borrow_mut ()
+	}
 }
 
 

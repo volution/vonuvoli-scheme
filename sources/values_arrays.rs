@@ -173,6 +173,11 @@ impl ArrayMutable {
 	pub fn values_rc_clone (&self) -> (StdRc<StdRefCell<StdVec<Value>>>) {
 		self.0.clone ()
 	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn values_ref_mut (&self) -> (StdRefMut<StdVec<Value>>) {
+		self.0.as_ref () .borrow_mut ()
+	}
 }
 
 

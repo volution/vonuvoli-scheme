@@ -174,6 +174,11 @@ impl BytesMutable {
 	pub fn bytes_rc_clone (&self) -> (StdRc<StdRefCell<StdVec<u8>>>) {
 		self.0.clone ()
 	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn bytes_ref_mut (&self) -> (StdRefMut<StdVec<u8>>) {
+		self.0.as_ref () .borrow_mut ()
+	}
 }
 
 

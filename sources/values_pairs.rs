@@ -178,6 +178,11 @@ impl PairMutable {
 	pub fn values_rc_clone (&self) -> (StdRc<StdRefCell<(Value, Value)>>) {
 		self.0.clone ()
 	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn values_ref_mut (&self) -> (StdRefMut<(Value, Value)>) {
+		self.0.as_ref () .borrow_mut ()
+	}
 }
 
 
