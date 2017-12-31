@@ -174,18 +174,31 @@ pub fn port_input_bytes_read_collect (port : &Value, count : Option<&Value>) -> 
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn port_input_bytes_read_extend (port : &Value, bytes : &Value, count : Option<&Value>) -> (Outcome<Value>) {
-	let _port = try_as_port_ref! (port);
-	let _bytes = try_as_bytes_ref! (bytes);
-	let _count = try! (count_coerce (count));
-	fail_unimplemented! (0xef49dfa9);
+	let port = try_as_port_ref! (port);
+	let bytes = try_as_bytes_mutable_ref! (bytes);
+	let count = try! (count_coerce (count));
+	let mut buffer = bytes.bytes_ref_mut ();
+	let (count, full) = (Some (count.unwrap_or (buffer.capacity ())), count.is_some ());
+	if let Some (count) = try! (port.byte_read_extend (&mut buffer, count, full)) {
+		succeed! (try! (NumberInteger::try_from (count)) .into ());
+	} else {
+		succeed! (PORT_EOF.into ());
+	}
 }
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn port_input_bytes_read_copy_range (port : &Value, bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
-	let _port = try_as_port_ref! (port);
-	let bytes = try_as_bytes_ref! (bytes);
-	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, bytes.bytes_count ()));
-	fail_unimplemented! (0xb68f984b);
+	let port = try_as_port_ref! (port);
+	let bytes = try_as_bytes_mutable_ref! (bytes);
+	let mut buffer = bytes.bytes_ref_mut ();
+	let full = range_start.is_some () || range_end.is_some ();
+	let (range_start, range_end) = try! (range_coerce (range_start, range_end, buffer.len ()));
+	let buffer = try_some! (buffer.get_mut (range_start .. range_end), 0xb8c1be42);
+	if let Some (count) = try! (port.byte_read_slice (buffer, full)) {
+		succeed! (try! (NumberInteger::try_from (count)) .into ());
+	} else {
+		succeed! (PORT_EOF.into ());
+	}
 }
 
 
@@ -204,10 +217,16 @@ pub fn port_input_string_read_collect (port : &Value, count : Option<&Value>) ->
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn port_input_string_read_extend (port : &Value, string : &Value, count : Option<&Value>) -> (Outcome<Value>) {
-	let _port = try_as_port_ref! (port);
-	let _string = try_as_string_ref! (string);
-	let _count = try! (count_coerce (count));
-	fail_unimplemented! (0x9e6b998c);
+	let port = try_as_port_ref! (port);
+	let string = try_as_string_mutable_ref! (string);
+	let count = try! (count_coerce (count));
+	let mut buffer = string.string_ref_mut ();
+	let (count, full) = (Some (count.unwrap_or (buffer.capacity ())), count.is_some ());
+	if let Some (count) = try! (port.char_read_string (&mut buffer, count, full)) {
+		succeed! (try! (NumberInteger::try_from (count)) .into ());
+	} else {
+		succeed! (PORT_EOF.into ());
+	}
 }
 
 
