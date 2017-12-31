@@ -47,8 +47,13 @@ pub fn array_at (array : &Value, index : usize) -> (Outcome<Value>) {
 }
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-pub fn array_at_set (_array : &Value, _index : usize, _value : &Value) -> (Outcome<Value>) {
-	fail_unimplemented! (0x4b6ce51d);
+pub fn array_at_set (array : &Value, index : usize, value : &Value) -> (Outcome<Value>) {
+	let array = try_as_array_mutable_ref! (array);
+	let mut array = array.values_ref_mut ();
+	let value_ref = try_some! (array.get_mut (index), 0x51cf23d4);
+	let mut value_swap = value.clone ();
+	mem::swap (&mut value_swap, value_ref);
+	succeed! (value_swap);
 }
 
 
@@ -218,36 +223,51 @@ pub fn array_reverse (array : &Value) -> (Outcome<Value>) {
 
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-pub fn array_fill_range (array : &Value, fill : Option<&Value>, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
-	let array = try_as_array_ref! (array);
-	let _fill = if let Some (fill) = fill {
-		fill.clone ()
+pub fn array_fill_range (array : &Value, fill : Option<&Value>, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<()>) {
+	let array = try_as_array_mutable_ref! (array);
+	let mut array = array.values_ref_mut ();
+	let fill = if let Some (fill) = fill {
+		fill
 	} else {
-		UNDEFINED.into ()
+		&UNDEFINED_VALUE
 	};
-	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, array.values_length ()));
-	fail_unimplemented! (0xbf94c047);
-}
-
-
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-pub fn array_reverse_range (array : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
-	let array = try_as_array_ref! (array);
-	let (_range_start, _range_end) = try! (range_coerce (range_start, range_end, array.values_length ()));
-	fail_unimplemented! (0xfd9c4a54);
-}
-
-
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-pub fn array_copy_range (target_array : &Value, target_start : Option<&Value>, source_array : &Value, source_start : Option<&Value>, source_end : Option<&Value>) -> (Outcome<Value>) {
-	let target_array = try_as_array_ref! (target_array);
-	let source_array = try_as_array_ref! (source_array);
-	let (source_start, source_end) = try! (range_coerce (source_start, source_end, source_array.values_length ()));
-	let (target_start, target_end) = try! (range_coerce (target_start, None, target_array.values_length ()));
-	if (target_end - target_start) < (source_end - source_start) {
-		fail! (0x18f863a1);
+	let (range_start, range_end) = try! (range_coerce (range_start, range_end, array.len ()));
+	let array = try_some! (array.get_mut (range_start .. range_end), 0xa0064b49);
+	for value_ref in array {
+		*value_ref = fill.clone ();
 	}
-	fail_unimplemented! (0x3c6f81b9);
+	succeed! (());
+}
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn array_reverse_range (array : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<()>) {
+	let array = try_as_array_mutable_ref! (array);
+	let mut array = array.values_ref_mut ();
+	let (range_start, range_end) = try! (range_coerce (range_start, range_end, array.len ()));
+	let array = try_some! (array.get_mut (range_start .. range_end), 0xa3cf0255);
+	array.reverse ();
+	succeed! (());
+}
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn array_copy_range (target_array : &Value, target_start : Option<&Value>, source_array : &Value, source_start : Option<&Value>, source_end : Option<&Value>) -> (Outcome<()>) {
+	let target_array = try_as_array_mutable_ref! (target_array);
+	let mut target_array = target_array.values_ref_mut ();
+	let source_array = try_as_array_ref! (source_array);
+	let source_array = source_array.values_as_slice ();
+	let (source_start, source_end) = try! (range_coerce (source_start, source_end, source_array.len ()));
+	let (target_start, target_end) = try! (range_coerce (target_start, None, target_array.len ()));
+	let target_end = if (target_end - target_start) >= (source_end - source_start) {
+		target_start + (source_end - source_start)
+	} else {
+		fail! (0x18f863a1);
+	};
+	let target_array = try_some! (target_array.get_mut (target_start .. target_end), 0x333deb75);
+	let source_array = try_some! (source_array.get (source_start .. source_end), 0xe3774a7e);
+	<[Value]>::clone_from_slice (target_array, source_array);
+	succeed! (());
 }
 
 
