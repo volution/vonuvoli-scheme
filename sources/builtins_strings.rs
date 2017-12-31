@@ -74,8 +74,21 @@ pub fn string_at (string : &Value, index : usize) -> (Outcome<Value>) {
 }
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-pub fn string_at_set (_string : &Value, _index : usize, _char : &Value) -> (Outcome<Value>) {
-	fail_unimplemented! (0xc8a46002);
+pub fn string_at_set (string : &Value, index : usize, char : &Value) -> (Outcome<Value>) {
+	let string = try_as_string_mutable_ref! (string);
+	let mut string = string.string_ref_mut ();
+	let char = try_as_character_ref! (char);
+	let mut buffer = unicode_utf8_string_clone_chars (string.as_str ());
+	let char_swap = if let Some (char_ref) = buffer.get_mut (index) {
+		let mut char_swap = char.value ();
+		mem::swap (&mut char_swap, char_ref);
+		char_swap
+	} else {
+		fail! (0x2aefb8e7);
+	};
+	string.clear ();
+	string.extend (buffer);
+	succeed! (char_swap.into ());
 }
 
 
@@ -282,33 +295,66 @@ pub fn string_reverse (string : &Value) -> (Outcome<Value>) {
 
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-pub fn string_fill_range (string : &Value, fill : Option<&Value>, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
-	let _string = try_as_string_ref! (string);
-	let _fill = if let Some (fill) = fill {
+pub fn string_fill_range (string : &Value, fill : Option<&Value>, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<()>) {
+	let string = try_as_string_mutable_ref! (string);
+	let mut string = string.string_ref_mut ();
+	let fill = if let Some (fill) = fill {
 		try_as_character_ref! (fill) .value ()
 	} else {
 		0 as char
 	};
-	let (_range_start, _range_end) = try! (range_coerce_unbounded (range_start, range_end));
-	fail_unimplemented! (0x7eaac146);
+	let mut buffer = unicode_utf8_string_clone_chars (string.as_str ());
+	let (range_start, range_end) = try! (range_coerce (range_start, range_end, buffer.len ()));
+	{
+		let buffer = try_some! (buffer.get_mut (range_start .. range_end), 0x4ee3e633);
+		for char_ref in buffer {
+			*char_ref = fill;
+		}
+	}
+	string.clear ();
+	string.extend (buffer);
+	succeed! (());
 }
 
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-pub fn string_reverse_range (string : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
-	let _string = try_as_string_ref! (string);
-	let (_range_start, _range_end) = try! (range_coerce_unbounded (range_start, range_end));
-	fail_unimplemented! (0x46884d97);
+pub fn string_reverse_range (string : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<()>) {
+	let string = try_as_string_mutable_ref! (string);
+	let mut string = string.string_ref_mut ();
+	let mut buffer = unicode_utf8_string_clone_chars (string.as_str ());
+	let (range_start, range_end) = try! (range_coerce (range_start, range_end, buffer.len ()));
+	{
+		let buffer = try_some! (buffer.get_mut (range_start .. range_end), 0x4ee3e633);
+		buffer.reverse ();
+	}
+	string.clear ();
+	string.extend (buffer);
+	succeed! (());
 }
 
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-pub fn string_copy_range (target_string : &Value, target_start : Option<&Value>, source_string : &Value, source_start : Option<&Value>, source_end : Option<&Value>) -> (Outcome<Value>) {
-	let _target_string = try_as_string_ref! (target_string);
-	let _source_string = try_as_string_ref! (source_string);
-	let (_source_start, _source_end) = try! (range_coerce_unbounded (source_start, source_end));
-	let (_target_start, _target_end) = try! (range_coerce_unbounded (target_start, None));
-	fail_unimplemented! (0xf216023f);
+pub fn string_copy_range (target_string : &Value, target_start : Option<&Value>, source_string : &Value, source_start : Option<&Value>, source_end : Option<&Value>) -> (Outcome<()>) {
+	let target_string = try_as_string_mutable_ref! (target_string);
+	let mut target_string = target_string.string_ref_mut ();
+	let source_string = try_as_string_ref! (source_string);
+	let mut target_buffer = unicode_utf8_string_clone_chars (target_string.as_str ());
+	let source_buffer = unicode_utf8_string_clone_chars (source_string.string_as_str ());
+	let (source_start, source_end) = try! (range_coerce (source_start, source_end, source_buffer.len ()));
+	let (target_start, target_end) = try! (range_coerce (target_start, None, target_buffer.len ()));
+	let target_end = if (target_end - target_start) >= (source_end - source_start) {
+		target_start + (source_end - source_start)
+	} else {
+		fail! (0x296b51f4);
+	};
+	{
+		let target_buffer = try_some! (target_buffer.get_mut (target_start .. target_end), 0x193442e0);
+		let source_buffer = try_some! (source_buffer.get (source_start .. source_end), 0x91d466f3);
+		<[char]>::copy_from_slice (target_buffer, source_buffer);
+	}
+	target_string.clear ();
+	target_string.extend (target_buffer);
+	succeed! (());
 }
 
 
@@ -622,7 +668,7 @@ pub fn number_to_string (number : &Value, radix : Option<&Value>, sign : Option<
 					if let Some (number) = number.checked_abs () {
 						(number, "-")
 					} else {
-						fail_unimplemented! (0x231c95ca);
+						fail_unimplemented! (0x231c95ca); // deferred
 					}
 				};
 				match radix {
@@ -635,7 +681,7 @@ pub fn number_to_string (number : &Value, radix : Option<&Value>, sign : Option<
 					Some (16) =>
 						format! ("{}{:x}", prefix, number),
 					_ =>
-						fail_unimplemented! (0x3bd46548),
+						fail_unimplemented! (0x3bd46548), // deferred
 				}
 			} else {
 				match sign {
