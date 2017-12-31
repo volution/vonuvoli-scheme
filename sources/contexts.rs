@@ -55,7 +55,7 @@ impl Context {
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn resolve (&self, identifier : &Symbol) -> (Outcome<Option<Binding>>) {
 		let self_0 = self.internals_ref ();
-		match self_0.bindings.get (identifier.string_as_string ()) {
+		match self_0.bindings.get (identifier.string_as_str ()) {
 			Some (binding) =>
 				succeed! (Some (binding.clone ())),
 			None =>

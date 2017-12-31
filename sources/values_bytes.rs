@@ -23,36 +23,31 @@ pub mod exports {
 
 pub trait Bytes {
 	
-	fn bytes_as_vec (&self) -> (&StdVec<u8>);
-	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	fn bytes_as_slice (&self) -> (&[u8]) {
-		self.bytes_as_vec () .as_slice ()
-	}
+	fn bytes_as_slice (&self) -> (&[u8]);
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn bytes_iter (&self) -> (slice::Iter<u8>) {
-		self.bytes_as_vec () .iter ()
+		self.bytes_as_slice () .iter ()
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn bytes_clone (&self) -> (StdVec<u8>) {
-		self.bytes_as_vec () .clone ()
+		self.bytes_as_slice () .to_vec ()
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn bytes_is_empty (&self) -> (bool) {
-		self.bytes_as_vec () .is_empty ()
+		self.bytes_as_slice () .is_empty ()
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn bytes_is_not_empty (&self) -> (bool) {
-		! self.bytes_as_vec () .is_empty ()
+		! self.bytes_as_slice () .is_empty ()
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn bytes_count (&self) -> (usize) {
-		self.bytes_as_vec () .len ()
+		self.bytes_as_slice () .len ()
 	}
 }
 
@@ -107,7 +102,7 @@ impl <'a> BytesRef<'a> {
 impl <'a> Bytes for BytesRef<'a> {
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	fn bytes_as_vec (&self) -> (&StdVec<u8>) {
+	fn bytes_as_slice (&self) -> (&[u8]) {
 		match *self {
 			BytesRef::Immutable (_, bytes) =>
 				bytes,
@@ -146,7 +141,7 @@ impl BytesImmutable {
 impl Bytes for BytesImmutable {
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	fn bytes_as_vec (&self) -> (&StdVec<u8>) {
+	fn bytes_as_slice (&self) -> (&[u8]) {
 		self.0.as_ref ()
 	}
 }

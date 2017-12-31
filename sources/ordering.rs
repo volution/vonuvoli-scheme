@@ -232,9 +232,9 @@ impl <'a> cmp::PartialEq for StringRef<'a> {
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn eq (&self, other : &StringRef) -> (bool) {
-		let self_0 = self.string_as_string ();
-		let other_0 = other.string_as_string ();
-		StdString::eq (self_0, other_0)
+		let self_0 = self.string_as_str ();
+		let other_0 = other.string_as_str ();
+		str::eq (self_0, other_0)
 	}
 }
 
@@ -242,9 +242,9 @@ impl <'a> cmp::Ord for StringRef<'a> {
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn cmp (&self, other : &StringRef) -> (cmp::Ordering) {
-		let self_0 = self.string_as_string ();
-		let other_0 = other.string_as_string ();
-		StdString::cmp (self_0, other_0)
+		let self_0 = self.string_as_str ();
+		let other_0 = other.string_as_str ();
+		str::cmp (self_0, other_0)
 	}
 }
 
@@ -331,9 +331,9 @@ impl <'a> cmp::PartialEq for BytesRef<'a> {
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn eq (&self, other : &BytesRef) -> (bool) {
-		let self_0 = self.bytes_as_vec ();
-		let other_0 = other.bytes_as_vec ();
-		StdVec::eq (self_0, other_0)
+		let self_0 = self.bytes_as_slice ();
+		let other_0 = other.bytes_as_slice ();
+		<[u8]>::eq (self_0, other_0)
 	}
 }
 
@@ -341,9 +341,9 @@ impl <'a> cmp::Ord for BytesRef<'a> {
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn cmp (&self, other : &BytesRef) -> (cmp::Ordering) {
-		let self_0 = self.bytes_as_vec ();
-		let other_0 = other.bytes_as_vec ();
-		StdVec::cmp (self_0, other_0)
+		let self_0 = self.bytes_as_slice ();
+		let other_0 = other.bytes_as_slice ();
+		<[u8]>::cmp (self_0, other_0)
 	}
 }
 
@@ -529,9 +529,9 @@ impl <'a> cmp::PartialEq for ArrayRef<'a> {
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn eq (&self, other : &ArrayRef) -> (bool) {
-		let self_0 = self.values_as_vec ();
-		let other_0 = other.values_as_vec ();
-		StdVec::eq (self_0, other_0)
+		let self_0 = self.values_as_slice ();
+		let other_0 = other.values_as_slice ();
+		<[Value]>::eq (self_0, other_0)
 	}
 }
 
@@ -539,9 +539,9 @@ impl <'a> cmp::Ord for ArrayRef<'a> {
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn cmp (&self, other : &ArrayRef) -> (cmp::Ordering) {
-		let self_0 = self.values_as_vec ();
-		let other_0 = other.values_as_vec ();
-		StdVec::cmp (self_0, other_0)
+		let self_0 = self.values_as_slice ();
+		let other_0 = other.values_as_slice ();
+		<[Value]>::cmp (self_0, other_0)
 	}
 }
 

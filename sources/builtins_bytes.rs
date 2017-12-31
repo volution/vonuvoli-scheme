@@ -38,7 +38,7 @@ pub mod exports {
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn bytes_at (bytes : &Value, index : usize) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_ref! (bytes);
-	let bytes = bytes.bytes_as_vec ();
+	let bytes = bytes.bytes_as_slice ();
 	if let Some (byte) = bytes.get (index) {
 		succeed! (byte.clone () .into ());
 	} else {

@@ -75,7 +75,7 @@ impl hash::Hash for StringImmutable {
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		let string = self.string_ref ();
-		string.string_as_string () .hash (hasher);
+		string.string_as_str () .hash (hasher);
 	}
 }
 
@@ -85,7 +85,7 @@ impl hash::Hash for StringMutable {
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		let string = self.string_ref ();
-		string.string_as_string () .hash (hasher);
+		string.string_as_str () .hash (hasher);
 	}
 }
 
@@ -97,7 +97,7 @@ impl hash::Hash for BytesImmutable {
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		let bytes = self.bytes_ref ();
-		bytes.bytes_as_vec () .hash (hasher);
+		bytes.bytes_as_slice () .hash (hasher);
 	}
 }
 
@@ -107,7 +107,7 @@ impl hash::Hash for BytesMutable {
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		let bytes = self.bytes_ref ();
-		bytes.bytes_as_vec () .hash (hasher);
+		bytes.bytes_as_slice () .hash (hasher);
 	}
 }
 
@@ -141,7 +141,7 @@ impl hash::Hash for ArrayImmutable {
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		let values = self.array_ref ();
-		values.values_as_vec () .hash (hasher);
+		values.values_as_slice () .hash (hasher);
 	}
 }
 
@@ -151,7 +151,7 @@ impl hash::Hash for ArrayMutable {
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		let values = self.array_ref ();
-		values.values_as_vec () .hash (hasher);
+		values.values_as_slice () .hash (hasher);
 	}
 }
 

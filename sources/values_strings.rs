@@ -23,46 +23,41 @@ pub mod exports {
 
 pub trait String {
 	
-	fn string_as_string (&self) -> (&StdString);
-	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	fn string_as_str (&self) -> (&str) {
-		self.string_as_string () .as_str ()
-	}
+	fn string_as_str (&self) -> (&str);
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn string_as_bytes (&self) -> (&[u8]) {
-		self.string_as_string () .as_bytes ()
+		self.string_as_str () .as_bytes ()
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn string_chars (&self) -> (str::Chars) {
-		self.string_as_string () .chars ()
+		self.string_as_str () .chars ()
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn string_clone (&self) -> (StdString) {
-		self.string_as_string () .clone ()
+		self.string_as_str () .to_string ()
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn string_is_empty (&self) -> (bool) {
-		self.string_as_string () .is_empty ()
+		self.string_as_str () .is_empty ()
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn string_is_not_empty (&self) -> (bool) {
-		! self.string_as_string () .is_empty ()
+		! self.string_as_str () .is_empty ()
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn string_eq (&self, other : &str) -> (bool) {
-		self.string_as_string () .eq (other)
+		self.string_as_str () .eq (other)
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn string_utf8_bytes_count (&self) -> (usize) {
-		self.string_as_string () .len ()
+		self.string_as_str () .len ()
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
@@ -127,7 +122,7 @@ impl <'a> StringRef<'a> {
 impl <'a> String for StringRef<'a> {
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	fn string_as_string (&self) -> (&StdString) {
+	fn string_as_str (&self) -> (&str) {
 		match *self {
 			StringRef::Immutable (_, string) =>
 				string,
@@ -166,7 +161,7 @@ impl StringImmutable {
 impl String for StringImmutable {
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	fn string_as_string (&self) -> (&StdString) {
+	fn string_as_str (&self) -> (&str) {
 		self.0.as_ref ()
 	}
 }

@@ -38,7 +38,7 @@ pub mod exports {
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn array_at (array : &Value, index : usize) -> (Outcome<Value>) {
 	let array = try_as_array_ref! (array);
-	let array = array.values_as_vec ();
+	let array = array.values_as_slice ();
 	if let Some (value) = array.get (index) {
 		succeed! (value.clone ());
 	} else {

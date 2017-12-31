@@ -39,7 +39,7 @@ impl Symbol {
 impl String for Symbol {
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	fn string_as_string (&self) -> (&StdString) {
+	fn string_as_str (&self) -> (&str) {
 		self.0.as_ref ()
 	}
 }

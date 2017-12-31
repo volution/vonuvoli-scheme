@@ -22,36 +22,31 @@ pub mod exports {
 
 pub trait Array {
 	
-	fn values_as_vec (&self) -> (&StdVec<Value>);
-	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	fn values_as_slice (&self) -> (&[Value]) {
-		self.values_as_vec () .as_slice ()
-	}
+	fn values_as_slice (&self) -> (&[Value]);
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn values_iter (&self) -> (slice::Iter<Value>) {
-		self.values_as_vec () .iter ()
+		self.values_as_slice () .iter ()
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn values_clone (&self) -> (StdVec<Value>) {
-		self.values_as_vec () .clone ()
+		self.values_as_slice () .to_vec ()
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn values_is_empty (&self) -> (bool) {
-		self.values_as_vec () .is_empty ()
+		self.values_as_slice () .is_empty ()
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn values_is_not_empty (&self) -> (bool) {
-		! self.values_as_vec () .is_empty ()
+		! self.values_as_slice () .is_empty ()
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn values_length (&self) -> (usize) {
-		self.values_as_vec () .len ()
+		self.values_as_slice () .len ()
 	}
 }
 
@@ -106,7 +101,7 @@ impl <'a> ArrayRef<'a> {
 impl <'a> Array for ArrayRef<'a> {
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	fn values_as_vec (&self) -> (&StdVec<Value>) {
+	fn values_as_slice (&self) -> (&[Value]) {
 		match *self {
 			ArrayRef::Immutable (_, values) =>
 				values,
@@ -145,7 +140,7 @@ impl ArrayImmutable {
 impl Array for ArrayImmutable {
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	fn values_as_vec (&self) -> (&StdVec<Value>) {
+	fn values_as_slice (&self) -> (&[Value]) {
 		self.0.as_ref ()
 	}
 }
