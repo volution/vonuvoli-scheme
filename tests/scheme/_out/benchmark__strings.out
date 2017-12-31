@@ -2,14 +2,14 @@
 ## benchmarking `benchmark__strings`...
 ## benchmarked `benchmark__strings`!
      without optimizations:
-       average   :     100804
-         stdev   :        578 /   0.57%
-         median  :     100600 /   0.33%
-       min / max :     100033 / 100414 / 100600 / 101082 / 101966
+       average   :     104954
+         stdev   :       1170 /   1.12%
+         median  :     104633 /   0.74%
+       min / max :     103563 / 104190 / 104633 / 105270 / 107728
        mem-leaks :          0 KB
      with optimizations:
-       average   :      68431 / +32.12% / 1.47*
-         stdev   :        352 /   0.51%
-         median  :      68340 /   0.50%
-       min / max :      67961 / 68139 / 68340 / 68723 / 69159
+       average   :      67907 / +35.30% / 1.55*
+         stdev   :        528 /   0.78%
+         median  :      67854 /   0.80%
+       min / max :      67128 / 67488 / 67854 / 68176 / 69027
        mem-leaks :          0 KB

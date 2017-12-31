@@ -2,14 +2,14 @@
 ## benchmarking `benchmark__issues`...
 ## benchmarked `benchmark__issues`!
      without optimizations:
-       average   :       4948
-         stdev   :        154 /   3.11%
-         median  :       4895 /   0.63%
-       min / max :       4869 / 4886 / 4895 / 4918 / 5408
-       mem-leaks :        292 KB (!!!! DETECTED !!!!)
+       average   :       5289
+         stdev   :        128 /   2.43%
+         median  :       5245 /   1.22%
+       min / max :       5186 / 5217 / 5245 / 5306 / 5699
+       mem-leaks :       1655 KB (!!!! DETECTED !!!!)
      with optimizations:
-       average   :       4523 / +8.60% / 1.09*
-         stdev   :        107 /   2.36%
-         median  :       4484 /   0.52%
-       min / max :       4457 / 4477 / 4484 / 4519 / 4867
-       mem-leaks :         52 KB
+       average   :       4828 / +8.72% / 1.10*
+         stdev   :        141 /   2.92%
+         median  :       4779 /   1.58%
+       min / max :       4722 / 4731 / 4779 / 4862 / 5292
+       mem-leaks :        430 KB (!!!! DETECTED !!!!)

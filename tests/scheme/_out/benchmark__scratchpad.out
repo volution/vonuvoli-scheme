@@ -3,13 +3,13 @@
 ## benchmarked `benchmark__scratchpad`!
      without optimizations:
        average   :          2
-         stdev   :          0 /   1.89%
-         median  :          2 /   1.90%
+         stdev   :          0 /   1.03%
+         median  :          2 /   1.48%
        min / max :          2 / 2 / 2 / 2 / 2
        mem-leaks :          0 KB
      with optimizations:
-       average   :          2 / +7.56% / 1.08*
-         stdev   :          0 /   0.77%
-         median  :          2 /   0.38%
+       average   :          2 / -0.16% / 1.00*
+         stdev   :          0 /   0.40%
+         median  :          2 /   0.37%
        min / max :          2 / 2 / 2 / 2 / 2
        mem-leaks :          0 KB
