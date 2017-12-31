@@ -95,17 +95,21 @@ pub fn pair_right_ref <'a> (pair : &'a Value) -> (Outcome<ValueRef<'a>>) {
 }
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-pub fn pair_left_set <ValueRef1 : StdAsRef<Value>, ValueRef2 : StdAsRef<Value>> (pair : ValueRef1, left : ValueRef2) -> (Outcome<Value>) {
-	let _pair = pair.as_ref ();
-	let _left = left.as_ref ();
-	fail_unimplemented! (0x2073d5a3);
+pub fn pair_left_set <ValueRef1 : StdAsRef<Value>, ValueRef2 : StdAsRef<Value>> (pair : ValueRef1, value : ValueRef2) -> (Outcome<Value>) {
+	let pair = try_as_pair_mutable_ref! (pair.as_ref ());
+	let mut pair = pair.values_ref_mut ();
+	let mut value_swap = value.as_ref () .clone ();
+	mem::swap (&mut value_swap, &mut pair.0);
+	succeed! (value_swap);
 }
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-pub fn pair_right_set <ValueRef1 : StdAsRef<Value>, ValueRef2 : StdAsRef<Value>> (pair : ValueRef1, right : ValueRef2) -> (Outcome<Value>) {
-	let _pair = pair.as_ref ();
-	let _right = right.as_ref ();
-	fail_unimplemented! (0xa223165c);
+pub fn pair_right_set <ValueRef1 : StdAsRef<Value>, ValueRef2 : StdAsRef<Value>> (pair : ValueRef1, value : ValueRef2) -> (Outcome<Value>) {
+	let pair = try_as_pair_mutable_ref! (pair.as_ref ());
+	let mut pair = pair.values_ref_mut ();
+	let mut value_swap = value.as_ref () .clone ();
+	mem::swap (&mut value_swap, &mut pair.1);
+	succeed! (value_swap);
 }
 
 
