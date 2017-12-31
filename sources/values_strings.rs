@@ -245,12 +245,12 @@ pub fn string_clone_str (string : &str) -> (Value) {
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn string_immutable_clone_characters (characters : &[char]) -> (StringImmutable) {
-	string_immutable_new (unicode_utf8_chars_clone (characters))
+	string_immutable_new (unicode_utf8_chars_clone_string (characters))
 }
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn string_mutable_clone_characters (characters : &[char]) -> (StringMutable) {
-	string_mutable_new (unicode_utf8_chars_clone (characters))
+	string_mutable_new (unicode_utf8_chars_clone_string (characters))
 }
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]

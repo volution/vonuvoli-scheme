@@ -59,6 +59,6 @@ pub fn symbol_clone_str (string : &str) -> (Symbol) {
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn symbol_clone_characters (characters : &[char]) -> (Symbol) {
-	symbol_new (unicode_utf8_chars_clone (characters))
+	symbol_new (unicode_utf8_chars_clone_string (characters))
 }
 

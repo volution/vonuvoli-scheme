@@ -247,12 +247,12 @@ pub fn bytes_clone_str (string : &str) -> (Value) {
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn bytes_immutable_clone_characters (characters : &[char]) -> (BytesImmutable) {
-	bytes_immutable_new (unicode_utf8_chars_clone (characters) .into_bytes ())
+	bytes_immutable_new (unicode_utf8_chars_clone_string (characters) .into_bytes ())
 }
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn bytes_mutable_clone_characters (characters : &[char]) -> (BytesMutable) {
-	bytes_mutable_new (unicode_utf8_chars_clone (characters) .into_bytes ())
+	bytes_mutable_new (unicode_utf8_chars_clone_string (characters) .into_bytes ())
 }
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]

@@ -16,7 +16,8 @@ pub mod exports {
 	};
 	
 	pub use super::{
-		unicode_utf8_chars_clone,
+		unicode_utf8_chars_clone_string,
+		unicode_utf8_string_clone_chars,
 	};
 }
 
@@ -60,11 +61,20 @@ pub fn unicode_utf8_char_decode_and_width (bytes : &[u8]) -> (Outcome<(char, usi
 
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-pub fn unicode_utf8_chars_clone (characters : &[char]) -> (StdString) {
-	let mut value = StdString::with_capacity (characters.len ());
+pub fn unicode_utf8_chars_clone_string (characters : &[char]) -> (StdString) {
+	let mut buffer = StdString::with_capacity (characters.len ());
 	for character in characters {
-		value.push (*character);
+		buffer.push (*character);
 	}
-	StdString::from (value)
+	StdString::from (buffer)
+}
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn unicode_utf8_string_clone_chars (characters : &str) -> (StdVec<char>) {
+	let mut buffer = StdVec::with_capacity (characters.len ());
+	for character in characters.chars () {
+		buffer.push (character);
+	}
+	buffer
 }
 
