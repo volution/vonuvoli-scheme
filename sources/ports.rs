@@ -165,7 +165,7 @@ impl Port {
 	
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	pub fn new_bytes_reader_from_bytes_immutable (buffer : StdRc<StdVec<u8>>, range_start : usize, range_end : Option<usize>) -> (Outcome<Port>) {
+	pub fn new_bytes_reader_from_bytes_immutable (buffer : StdRc<StdBox<[u8]>>, range_start : usize, range_end : Option<usize>) -> (Outcome<Port>) {
 		let backend = try! (PortBackendBytesReader::new_from_bytes_immutable (buffer, range_start, range_end));
 		let backend = PortBackend::BytesReader (backend);
 		return Port::new_from_backend (backend);
@@ -179,7 +179,7 @@ impl Port {
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	pub fn new_bytes_reader_from_string_immutable (buffer : StdRc<StdString>, range_start : usize, range_end : Option<usize>) -> (Outcome<Port>) {
+	pub fn new_bytes_reader_from_string_immutable (buffer : StdRc<StdBox<str>>, range_start : usize, range_end : Option<usize>) -> (Outcome<Port>) {
 		let backend = try! (PortBackendBytesReader::new_from_string_immutable (buffer, range_start, range_end));
 		let backend = PortBackend::BytesReader (backend);
 		return Port::new_from_backend (backend);

@@ -28,9 +28,9 @@ pub struct PortBackendBytesReader {
 }
 
 enum PortBackendBytesReaderSource {
-	BytesImmutable ( StdRc<StdVec<u8>> ),
+	BytesImmutable ( StdRc<StdBox<[u8]>> ),
 	BytesMutable ( StdRc<StdRefCell<StdVec<u8>>> ),
-	StringImmutable ( StdRc<StdString> ),
+	StringImmutable ( StdRc<StdBox<str>> ),
 	StringMutable ( StdRc<StdRefCell<StdString>> ),
 	None,
 }
@@ -223,7 +223,7 @@ impl PortBackendReader for PortBackendBytesReader {
 impl PortBackendBytesReader {
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	pub fn new_from_bytes_immutable (bytes : StdRc<StdVec<u8>>, range_start : usize, range_end : Option<usize>) -> (Outcome<PortBackendBytesReader>) {
+	pub fn new_from_bytes_immutable (bytes : StdRc<StdBox<[u8]>>, range_start : usize, range_end : Option<usize>) -> (Outcome<PortBackendBytesReader>) {
 		return PortBackendBytesReader::new_from_source (PortBackendBytesReaderSource::BytesImmutable (bytes), range_start, range_end);
 	}
 	
@@ -233,7 +233,7 @@ impl PortBackendBytesReader {
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	pub fn new_from_string_immutable (string : StdRc<StdString>, range_start : usize, range_end : Option<usize>) -> (Outcome<PortBackendBytesReader>) {
+	pub fn new_from_string_immutable (string : StdRc<StdBox<str>>, range_start : usize, range_end : Option<usize>) -> (Outcome<PortBackendBytesReader>) {
 		return PortBackendBytesReader::new_from_source (PortBackendBytesReaderSource::StringImmutable (string), range_start, range_end);
 	}
 	

@@ -76,7 +76,7 @@ pub trait String {
 
 #[ derive (Debug) ]
 pub enum StringRef <'a> {
-	Immutable (&'a StringImmutable, &'a StdString),
+	Immutable (&'a StringImmutable, &'a str),
 	Mutable (&'a StringMutable, StdRef<'a, StdString>),
 }
 
@@ -136,7 +136,7 @@ impl <'a> String for StringRef<'a> {
 
 
 #[ derive (Clone, Debug) ]
-pub struct StringImmutable ( StdRc<StdString> );
+pub struct StringImmutable ( StdRc<StdBox<str>> );
 
 
 impl StringImmutable {
@@ -152,7 +152,7 @@ impl StringImmutable {
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	pub fn string_rc_clone (&self) -> (StdRc<StdString>) {
+	pub fn string_rc_clone (&self) -> (StdRc<StdBox<str>>) {
 		self.0.clone ()
 	}
 }
@@ -201,7 +201,7 @@ impl StringMutable {
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn string_immutable_new (string : StdString) -> (StringImmutable) {
-	StringImmutable (StdRc::new (string))
+	StringImmutable (StdRc::new (string.into_boxed_str ()))
 }
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]

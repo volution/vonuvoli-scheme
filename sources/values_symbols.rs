@@ -17,7 +17,7 @@ pub mod exports {
 
 
 #[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
-pub struct Symbol ( StdRc<StdString> );
+pub struct Symbol ( StdRc<StdBox<str>> );
 
 
 impl Symbol {
@@ -30,7 +30,7 @@ impl Symbol {
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	pub fn string_rc_clone (&self) -> (StdRc<StdString>) {
+	pub fn string_rc_clone (&self) -> (StdRc<StdBox<str>>) {
 		self.0.clone ()
 	}
 }
@@ -49,7 +49,7 @@ impl String for Symbol {
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn symbol_new (string : StdString) -> (Symbol) {
-	Symbol (StdRc::new (string))
+	Symbol (StdRc::new (string.into_boxed_str ()))
 }
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]

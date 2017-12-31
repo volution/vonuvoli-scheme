@@ -56,7 +56,7 @@ pub trait Bytes {
 
 #[ derive (Debug) ]
 pub enum BytesRef <'a> {
-	Immutable (&'a BytesImmutable, &'a StdVec<u8>),
+	Immutable (&'a BytesImmutable, &'a [u8]),
 	Mutable (&'a BytesMutable, StdRef<'a, StdVec<u8>>),
 }
 
@@ -116,7 +116,7 @@ impl <'a> Bytes for BytesRef<'a> {
 
 
 #[ derive (Clone, Debug) ]
-pub struct BytesImmutable ( StdRc<StdVec<u8>> );
+pub struct BytesImmutable ( StdRc<StdBox<[u8]>> );
 
 
 impl BytesImmutable {
@@ -132,7 +132,7 @@ impl BytesImmutable {
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	pub fn bytes_rc_clone (&self) -> (StdRc<StdVec<u8>>) {
+	pub fn bytes_rc_clone (&self) -> (StdRc<StdBox<[u8]>>) {
 		self.0.clone ()
 	}
 }
@@ -181,7 +181,7 @@ impl BytesMutable {
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn bytes_immutable_new (bytes : StdVec<u8>) -> (BytesImmutable) {
-	BytesImmutable (StdRc::new (bytes))
+	BytesImmutable (StdRc::new (bytes.into_boxed_slice ()))
 }
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]

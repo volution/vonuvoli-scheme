@@ -55,7 +55,7 @@ pub trait Array {
 
 #[ derive (Debug) ]
 pub enum ArrayRef <'a> {
-	Immutable (&'a ArrayImmutable, &'a StdVec<Value>),
+	Immutable (&'a ArrayImmutable, &'a [Value]),
 	Mutable (&'a ArrayMutable, StdRef<'a, StdVec<Value>>),
 }
 
@@ -115,7 +115,7 @@ impl <'a> Array for ArrayRef<'a> {
 
 
 #[ derive (Clone, Debug) ]
-pub struct ArrayImmutable ( StdRc<StdVec<Value>> );
+pub struct ArrayImmutable ( StdRc<StdBox<[Value]>> );
 
 
 impl ArrayImmutable {
@@ -131,7 +131,7 @@ impl ArrayImmutable {
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	pub fn values_rc_clone (&self) -> (StdRc<StdVec<Value>>) {
+	pub fn values_rc_clone (&self) -> (StdRc<StdBox<[Value]>>) {
 		self.0.clone ()
 	}
 }
@@ -180,7 +180,7 @@ impl ArrayMutable {
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn array_immutable_new (values : StdVec<Value>) -> (ArrayImmutable) {
-	ArrayImmutable (StdRc::new (values))
+	ArrayImmutable (StdRc::new (values.into_boxed_slice ()))
 }
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
