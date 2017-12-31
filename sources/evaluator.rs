@@ -633,7 +633,7 @@ impl Evaluator {
 		for (binding, value_new) in bindings.iter () .zip (values_new.values_ref () .iter ()) {
 			try! (binding.initialize (value_new.clone ()));
 		}
-		return Ok (values_new.into ());
+		return Ok (VOID.into ());
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
@@ -665,17 +665,15 @@ impl Evaluator {
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn evaluate_binding_set_values (&self, evaluation : &mut EvaluatorContext, bindings : &[Binding], expression : &Expression) -> (Outcome<Value>) {
-		let values_new_ = try! (self.evaluate (evaluation, expression));
-		let values_new_ = try_into_values! (values_new_);
-		if values_new_.values_length () != bindings.len () {
+		let values_new = try! (self.evaluate (evaluation, expression));
+		let values_new = try_into_values! (values_new);
+		if values_new.values_length () != bindings.len () {
 			fail! (0xd47ae677);
 		}
-		let mut values_old = StdVec::with_capacity (values_new_.values_length ());
-		for (binding, value_new) in bindings.iter () .zip (values_new_.values_ref () .iter ()) {
-			let value_old = try! (binding.set (value_new.clone ()));
-			values_old.push (value_old);
+		for (binding, value_new) in bindings.iter () .zip (values_new.values_ref () .iter ()) {
+			try! (binding.set (value_new.clone ()));
 		}
-		return Ok (values_new (values_old.into_boxed_slice ()) .into ());
+		return Ok (VOID.into ());
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
@@ -729,7 +727,7 @@ impl Evaluator {
 		for (index, value_new) in indices.iter () .zip (values_new.values_ref () .iter ()) {
 			try! (evaluation.registers.initialize_value (*index, value_new.clone ()));
 		}
-		return Ok (values_new.into ());
+		return Ok (VOID.into ());
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
@@ -759,17 +757,15 @@ impl Evaluator {
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn evaluate_register_set_values (&self, evaluation : &mut EvaluatorContext, indices : &[usize], expression : &Expression) -> (Outcome<Value>) {
-		let values_new_ = try! (self.evaluate (evaluation, expression));
-		let values_new_ = try_into_values! (values_new_);
-		if values_new_.values_length () != indices.len () {
+		let values_new = try! (self.evaluate (evaluation, expression));
+		let values_new = try_into_values! (values_new);
+		if values_new.values_length () != indices.len () {
 			fail! (0x7257e042);
 		}
-		let mut values_old = StdVec::with_capacity (values_new_.values_length ());
-		for (index, value_new) in indices.iter () .zip (values_new_.values_ref () .iter ()) {
-			let value_old = try! (evaluation.registers.update_value (*index, value_new.clone ()));
-			values_old.push (value_old);
+		for (index, value_new) in indices.iter () .zip (values_new.values_ref () .iter ()) {
+			try! (evaluation.registers.update_value (*index, value_new.clone ()));
 		}
-		return Ok (values_new (values_old.into_boxed_slice ()) .into ());
+		return Ok (VOID.into ());
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
