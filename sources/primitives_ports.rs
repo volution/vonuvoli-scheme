@@ -273,7 +273,7 @@ pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, input_1 : &Value, 
 			fail_unimplemented! (0x83c98559),
 		
 		PortPrimitive1::ValueRead =>
-			fail_unimplemented! (0xae3d8a9f),
+			fail_unimplemented! (0xae3d8a9f), // deferred
 		
 		PortPrimitive1::InputFromBytes =>
 			return port_bytes_reader_new (input_1),
@@ -351,13 +351,13 @@ pub fn port_primitive_2_evaluate (primitive : PortPrimitive2, input_1 : &Value, 
 		},
 		
 		PortPrimitive2::ValueWrite =>
-			fail_unimplemented! (0x696cb627),
+			fail_unimplemented! (0x696cb627), // deferred
 		
 		PortPrimitive2::ValueWriteShared =>
-			fail_unimplemented! (0xd82b6e11),
+			fail_unimplemented! (0xd82b6e11), // deferred
 		
 		PortPrimitive2::ValueWriteSimple =>
-			fail_unimplemented! (0x71e1d1d0),
+			fail_unimplemented! (0x71e1d1d0), // deferred
 		
 		PortPrimitive2::CallAndClose =>
 			return port_call_and_close (input_1, input_2, evaluator),

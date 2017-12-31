@@ -771,7 +771,7 @@ pub fn character_compare_2a <ValueRef : StdAsRef<Character>> (left : ValueRef, r
 				None | Some (true) =>
 					return std_ord_compare_2_ordering_val (left, right, ordering),
 				_ =>
-					fail_unimplemented! (0xea3c51f1),
+					fail_unimplemented! (0xea3c51f1), // deferred
 			},
 	}
 }
@@ -800,7 +800,7 @@ pub fn symbol_compare_2a <ValueRef : StdAsRef<Symbol>> (left : ValueRef, right :
 				None | Some (true) =>
 					return std_ord_compare_2_ordering_val (left, right, ordering),
 				_ =>
-					fail_unimplemented! (0xc4ef7065),
+					fail_unimplemented! (0xc4ef7065), // deferred
 			},
 	}
 }
@@ -859,7 +859,7 @@ pub fn string_ref_compare_2a <'a, ValueRef : StdAsRef<StringRef<'a>>> (left : Va
 				None | Some (true) =>
 					return std_ord_compare_2_ordering_ref (left, right, ordering),
 				_ =>
-					fail_unimplemented! (0x2736b1f6),
+					fail_unimplemented! (0x2736b1f6), // deferred
 			},
 	}
 }
@@ -918,7 +918,7 @@ pub fn bytes_ref_compare_2a <'a, ValueRef : StdAsRef<BytesRef<'a>>> (left : Valu
 				None | Some (true) =>
 					return std_ord_compare_2_ordering_ref (left, right, ordering),
 				_ =>
-					fail_unimplemented! (0x5be9ea91),
+					fail_unimplemented! (0x5be9ea91), // deferred
 			},
 	}
 }

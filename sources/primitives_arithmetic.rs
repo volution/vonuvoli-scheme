@@ -398,7 +398,7 @@ pub fn arithmetic_primitive_1_evaluate (primitive : ArithmeticPrimitive1, input_
 			arithmetic_primitive_1_delegate_call! (sqrt, input_1),
 		
 		ArithmeticPrimitive1::SquareRootWithRemainder =>
-			fail_unimplemented! (0x0aed9e07),
+			fail_unimplemented! (0x0aed9e07), // deferred
 		
 		ArithmeticPrimitive1::Exponential =>
 			arithmetic_primitive_1_delegate_call! (exp, input_1),
@@ -543,22 +543,22 @@ pub fn arithmetic_primitive_2_evaluate (primitive : ArithmeticPrimitive2, input_
 					(value_1, value_2), NumberReal::rem (value_1, value_2)),
 		
 		ArithmeticPrimitive2::DivisionFloor =>
-			fail_unimplemented! (0x738acdd6),
+			fail_unimplemented! (0x738acdd6), // deferred
 		
 		ArithmeticPrimitive2::DivisionFloorQuotient =>
-			fail_unimplemented! (0x2f425d22),
+			fail_unimplemented! (0x2f425d22), // deferred
 		
 		ArithmeticPrimitive2::DivisionFloorRemainder =>
-			fail_unimplemented! (0x8b709e6a),
+			fail_unimplemented! (0x8b709e6a), // deferred
 		
 		ArithmeticPrimitive2::DivisionTruncate =>
-			fail_unimplemented! (0xbbf7f471),
+			fail_unimplemented! (0xbbf7f471), // deferred
 			
 		ArithmeticPrimitive2::DivisionTruncateQuotient =>
-			fail_unimplemented! (0xd6bb8165),
+			fail_unimplemented! (0xd6bb8165), // deferred
 		
 		ArithmeticPrimitive2::DivisionTruncateRemainder =>
-			fail_unimplemented! (0xfba74cd9),
+			fail_unimplemented! (0xfba74cd9), // deferred
 		
 		ArithmeticPrimitive2::Power =>
 			arithmetic_primitive_2_delegate_call! ((input_1, input_2),
@@ -566,10 +566,10 @@ pub fn arithmetic_primitive_2_evaluate (primitive : ArithmeticPrimitive2, input_
 					(value_1, value_2), NumberReal::power (value_1, value_2)),
 		
 		ArithmeticPrimitive2::GreatestCommonDivisor =>
-			fail_unimplemented! (0x21f7773e),
+			fail_unimplemented! (0x21f7773e), // deferred
 		
 		ArithmeticPrimitive2::LeastCommonMultiple =>
-			fail_unimplemented! (0x79f53d20),
+			fail_unimplemented! (0x79f53d20), // deferred
 		
 		ArithmeticPrimitive2::Minimum =>
 			arithmetic_primitive_2_delegate_call! (min, (input_1, input_2)),
@@ -615,10 +615,10 @@ pub fn arithmetic_primitive_n_evaluate (primitive : ArithmeticPrimitiveN, inputs
 	match primitive {
 		
 		ArithmeticPrimitiveN::GreatestCommonDivisor =>
-			fail_unimplemented! (0xeefd593c),
+			fail_unimplemented! (0xeefd593c), // deferred
 		
 		ArithmeticPrimitiveN::LeastCommonMultiple =>
-			fail_unimplemented! (0x4bc0a9ad),
+			fail_unimplemented! (0x4bc0a9ad), // deferred
 		
 		_ =>
 			(),
