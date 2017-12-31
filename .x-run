@@ -103,9 +103,10 @@ cat <<'EOS'
 :: compile / clean :: exec -- find ./target/ -xdev -depth -print -delete
 
 :: files / grep / sources / x-selection / primary :: exec -- git grep --no-index -C10 -F -e "$( exec -- x-selection primary output )" -- ./sources
-:: files / grep / sources / unimplemented :: exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- ./sources
-:: files / grep / sources / primitives / unimplemented :: exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- './sources/primitives*.rs'
-:: files / grep / sources / builtins / unimplemented :: exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- './sources/builtins*.rs'
+:: files / grep / sources / unimplemented / show :: exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- ./sources
+:: files / grep / sources / unimplemented / list :: exec -- git grep --no-index -l -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- ./sources
+:: files / grep / sources / primitives / unimplemented / show :: exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- './sources/primitives*.rs'
+:: files / grep / sources / builtins / unimplemented / show :: exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- './sources/builtins*.rs'
 :: files / grep / sources / string :: exec -- git grep --no-index -C10 -F "${@/#/-e}" -- ./sources
 :: files / grep / sources / regexp :: exec -- git grep --no-index -C10 -P "${@/#/-e}" -- ./sources
 

@@ -137,15 +137,19 @@
 	exec -- git grep --no-index -C10 -F -e "$( exec -- x-selection primary output )" -- ./sources
 !!
 
-<< files / grep / sources / unimplemented
+<< files / grep / sources / unimplemented / show
 	exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- ./sources
 !!
 
-<< files / grep / sources / primitives / unimplemented
+<< files / grep / sources / unimplemented / list
+	exec -- git grep --no-index -l -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- ./sources
+!!
+
+<< files / grep / sources / primitives / unimplemented / show
 	exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- './sources/primitives*.rs'
 !!
 
-<< files / grep / sources / builtins / unimplemented
+<< files / grep / sources / builtins / unimplemented / show
 	exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- './sources/builtins*.rs'
 !!
 
