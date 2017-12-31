@@ -41,22 +41,26 @@ opt-level = 0
 codegen-units = 32
 lto = false
 debug = true
+incremental = true
 
 [profile.test]
 opt-level = 0
 codegen-units = 32
 lto = false
 debug = true
+incremental = true
 
 [profile.release]
 opt-level = 3
 codegen-units = 1
 lto = true
 debug = false
+incremental = false
 
 [profile.bench]
 opt-level = 3
 codegen-units = 1
 lto = true
 debug = false
+incremental = false
 
