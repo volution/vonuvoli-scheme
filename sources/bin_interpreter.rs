@@ -16,6 +16,7 @@ fn main () -> () {
 }
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 fn main_0 () -> (Outcome<()>) {
 	
 	let mut transcript = io::stdout ();

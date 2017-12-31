@@ -26,6 +26,7 @@ pub struct PortBackendNativeReader {
 
 impl PortBackendReader for PortBackendNativeReader {
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn byte_ready (&mut self) -> (Outcome<bool>) {
 		if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
 			if ! buffer.is_empty () {
@@ -38,6 +39,7 @@ impl PortBackendReader for PortBackendNativeReader {
 		}
 	}
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn byte_peek (&mut self) -> (Outcome<Option<u8>>) {
 		if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
 			succeed! (Some (buffer[0]));
@@ -46,6 +48,7 @@ impl PortBackendReader for PortBackendNativeReader {
 		}
 	}
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn byte_read (&mut self) -> (Outcome<Option<u8>>) {
 		let (byte, offset_increment) = if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
 			(Some (buffer[0]), 1)
@@ -56,6 +59,7 @@ impl PortBackendReader for PortBackendNativeReader {
 		succeed! (byte);
 	}
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn byte_read_slice (&mut self, target : &mut [u8], _full : bool) -> (Outcome<Option<usize>>) {
 		let (count, offset_increment) = if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
 			let count = usize::min (buffer.len (), target.len ());
@@ -68,6 +72,7 @@ impl PortBackendReader for PortBackendNativeReader {
 		succeed! (count);
 	}
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn byte_read_extend (&mut self, target : &mut StdVec<u8>, count : Option<usize>, _full : bool) -> (Outcome<Option<usize>>) {
 		let (count, offset_increment) = if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
 			let count = usize::min (buffer.len (), count.unwrap_or (0));
@@ -80,6 +85,7 @@ impl PortBackendReader for PortBackendNativeReader {
 		succeed! (count);
 	}
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn byte_read_string (&mut self, target : &mut StdString, count : Option<usize>, _full : bool) -> (Outcome<Option<usize>>) {
 		let (count, offset_increment) = if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
 			let count = usize::min (buffer.len (), count.unwrap_or (0));
@@ -96,6 +102,7 @@ impl PortBackendReader for PortBackendNativeReader {
 		succeed! (count);
 	}
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn char_ready (&mut self) -> (Outcome<bool>) {
 		if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
 			if ! buffer.is_empty () {
@@ -113,6 +120,7 @@ impl PortBackendReader for PortBackendNativeReader {
 		}
 	}
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn char_peek (&mut self) -> (Outcome<Option<char>>) {
 		if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
 			let (char, _) = try! (unicode_utf8_char_decode_and_width (buffer));
@@ -122,6 +130,7 @@ impl PortBackendReader for PortBackendNativeReader {
 		}
 	}
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn char_read (&mut self) -> (Outcome<Option<char>>) {
 		let (char, offset_increment) = if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
 			let (char, char_width) = try! (unicode_utf8_char_decode_and_width (buffer));
@@ -133,6 +142,7 @@ impl PortBackendReader for PortBackendNativeReader {
 		succeed! (char);
 	}
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn char_read_slice (&mut self, target : &mut [char], _full : bool) -> (Outcome<Option<usize>>) {
 		let (count, offset_increment) = if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
 			let mut buffer_offset = 0;
@@ -153,6 +163,7 @@ impl PortBackendReader for PortBackendNativeReader {
 		succeed! (count);
 	}
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn char_read_extend (&mut self, target : &mut StdVec<char>, count : Option<usize>, _full : bool) -> (Outcome<Option<usize>>) {
 		let (count, offset_increment) = if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
 			let mut buffer_offset = 0;
@@ -173,6 +184,7 @@ impl PortBackendReader for PortBackendNativeReader {
 		succeed! (count);
 	}
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn char_read_string (&mut self, target : &mut StdString, count : Option<usize>, _full : bool) -> (Outcome<Option<usize>>) {
 		let (count, offset_increment) = if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
 			let mut buffer_offset = 0;
@@ -193,11 +205,13 @@ impl PortBackendReader for PortBackendNativeReader {
 		succeed! (count);
 	}
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn input_close (&mut self) -> (Outcome<()>) {
 		self.reader = None;
 		succeed! (());
 	}
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn is_input_open (&mut self) -> (bool) {
 		return self.reader.is_some ();
 	}
@@ -206,11 +220,13 @@ impl PortBackendReader for PortBackendNativeReader {
 
 impl PortBackendNativeReader {
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn new_from_unbuffered (reader : StdBox<io::Read>) -> (Outcome<PortBackendNativeReader>) {
 		let reader = io::BufReader::new (reader);
 		return PortBackendNativeReader::new_from_buffered (reader);
 	}
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn new_from_buffered (reader : io::BufReader<StdBox<io::Read>>) -> (Outcome<PortBackendNativeReader>) {
 		let backend = PortBackendNativeReader {
 				reader : Some (reader),
@@ -218,6 +234,7 @@ impl PortBackendNativeReader {
 		succeed! (backend);
 	}
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn buffer_ref_if_open (&mut self) -> (Outcome<Option<&[u8]>>) {
 		if let Some (ref mut reader) = self.reader {
 			if let Ok (buffer) = reader.fill_buf () {
@@ -234,6 +251,7 @@ impl PortBackendNativeReader {
 		}
 	}
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn buffer_consume (&mut self, size : usize) -> () {
 		if let Some (ref mut reader) = self.reader {
 			reader.consume (size);
@@ -251,12 +269,14 @@ pub struct PortBackendNativeWriter {
 
 impl PortBackendWriter for PortBackendNativeWriter {
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn byte_write (&mut self, byte : u8) -> (Outcome<()>) {
 		let writer = try! (self.writer_ref_mut_check_open ());
 		let bytes = [byte];
 		succeed_or_fail! (writer.write_all (&bytes), 0x1ebd7525);
 	}
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn byte_write_slice (&mut self, bytes : &[u8], full : bool) -> (Outcome<usize>) {
 		let writer = try! (self.writer_ref_mut_check_open ());
 		if full {
@@ -267,10 +287,12 @@ impl PortBackendWriter for PortBackendNativeWriter {
 		}
 	}
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn byte_write_string (&mut self, string : &str, full : bool) -> (Outcome<usize>) {
 		return self.byte_write_slice (string.as_bytes (), full);
 	}
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn char_write (&mut self, char : char) -> (Outcome<()>) {
 		let writer = try! (self.writer_ref_mut_check_open ());
 		let mut bytes = [0; 4];
@@ -278,6 +300,7 @@ impl PortBackendWriter for PortBackendNativeWriter {
 		succeed_or_fail! (writer.write_all (string.as_bytes ()), 0xaca4d20e);
 	}
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn char_write_slice (&mut self, chars : &[char], full : bool) -> (Outcome<usize>) {
 		let writer = try! (self.writer_ref_mut_check_open ());
 		let mut bytes = [0; 4];
@@ -295,6 +318,7 @@ impl PortBackendWriter for PortBackendNativeWriter {
 		succeed! (count);
 	}
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn char_write_string (&mut self, string : &str, full : bool) -> (Outcome<usize>) {
 		let writer = try! (self.writer_ref_mut_check_open ());
 		let mut bytes = [0; 4];
@@ -312,16 +336,19 @@ impl PortBackendWriter for PortBackendNativeWriter {
 		succeed! (count);
 	}
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn output_flush (&mut self) -> (Outcome<()>) {
 		let writer = try! (self.writer_ref_mut_check_open ());
 		succeed_or_fail! (writer.flush (), 0xf10df25a);
 	}
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn output_close (&mut self) -> (Outcome<()>) {
 		self.writer = None;
 		succeed! (());
 	}
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn is_output_open (&mut self) -> (bool) {
 		return self.writer.is_some ();
 	}
@@ -330,11 +357,13 @@ impl PortBackendWriter for PortBackendNativeWriter {
 
 impl PortBackendNativeWriter {
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn new_from_unbuffered (writer : StdBox<io::Write>) -> (Outcome<PortBackendNativeWriter>) {
 		let writer = io::BufWriter::new (writer);
 		return PortBackendNativeWriter::new_from_buffered (writer);
 	}
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn new_from_buffered (writer : io::BufWriter<StdBox<io::Write>>) -> (Outcome<PortBackendNativeWriter>) {
 		let backend = PortBackendNativeWriter {
 				writer : Some (writer),
@@ -342,6 +371,7 @@ impl PortBackendNativeWriter {
 		succeed! (backend);
 	}
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn writer_ref_mut_check_open (&mut self) -> (Outcome<&mut io::Write>) {
 		if let Some (ref mut writer) = self.writer {
 			succeed! (writer);
@@ -350,6 +380,7 @@ impl PortBackendNativeWriter {
 		}
 	}
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn char_write_perhaps_full (writer : &mut io::Write, string : &str, full : bool) -> (Outcome<bool>) {
 		let mut bytes = string.as_bytes ();
 		if full {

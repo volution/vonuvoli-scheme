@@ -16,6 +16,7 @@ pub mod exports {
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn posix_timestamp () -> (NumberReal) {
 	let elapsed = match time::UNIX_EPOCH.elapsed () {
 		Ok (elapsed) =>
@@ -33,6 +34,7 @@ pub fn posix_timestamp () -> (NumberReal) {
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn jiffies_timestamp () -> (NumberInteger) {
 	unsafe {
 		match JIFFIES_INSTANT {
@@ -58,6 +60,7 @@ pub fn jiffies_timestamp () -> (NumberInteger) {
 }
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn jiffies_per_second () -> (NumberInteger) {
 	return 1_000_000_000.into ();
 }

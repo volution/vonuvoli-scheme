@@ -249,11 +249,13 @@ pub struct ArrayIterator <'a> ( ArrayRef<'a>, slice::Iter<'a, Value> );
 
 impl <'a> ArrayIterator <'a> {
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn new (array : &'a Value) -> (Outcome<ArrayIterator<'a>>) {
 		let array = try_as_array_ref! (array);
 		return ArrayIterator::new_a (array);
 	}
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn new_a (array : ArrayRef<'a>) -> (Outcome<ArrayIterator<'a>>) {
 		let iterator = unsafe { mem::transmute (array.values_iter ()) };
 		succeed! (ArrayIterator (array, iterator));
@@ -265,6 +267,7 @@ impl <'a> iter::Iterator for ArrayIterator <'a> {
 	
 	type Item = Outcome<&'a Value>;
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn next (&mut self) -> (Option<Outcome<&'a Value>>) {
 		if let Some (value) = self.1.next () {
 			return Some (succeeded! (value));
@@ -282,6 +285,7 @@ pub struct ArrayIterators <'a> ( StdVec<ArrayIterator<'a>> );
 
 impl <'a> ArrayIterators <'a> {
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn new (arrays : &'a [&'a Value]) -> (Outcome<ArrayIterators<'a>>) {
 		let iterators = try! (arrays.iter () .map (|array| ArrayIterator::new (array)) .collect ());
 		succeed! (ArrayIterators (iterators));
@@ -293,6 +297,7 @@ impl <'a> iter::Iterator for ArrayIterators <'a> {
 	
 	type Item = Outcome<StdVec<&'a Value>>;
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn next (&mut self) -> (Option<Outcome<StdVec<&'a Value>>>) {
 		let mut outcomes = StdVec::with_capacity (self.0.len ());
 		for mut iterator in self.0.iter_mut () {

@@ -37,6 +37,7 @@ pub mod exports {
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn call_with_values (evaluator : &mut EvaluatorContext, callable : &Value, values : &Value) -> (Outcome<Value>) {
 	let values = try_as_values_ref! (values);
 	let values = vec_slice_to_ref (values.values_as_slice ());
@@ -44,6 +45,7 @@ pub fn call_with_values (evaluator : &mut EvaluatorContext, callable : &Value, v
 }
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn call_with_values_builder (evaluator : &mut EvaluatorContext, callable : &Value, builder : &Value) -> (Outcome<Value>) {
 	let values = try! (evaluator.evaluate_procedure_call_0 (builder));
 	return call_with_values (evaluator, callable, &values);
@@ -52,26 +54,32 @@ pub fn call_with_values_builder (evaluator : &mut EvaluatorContext, callable : &
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn call_0 (evaluator : &mut EvaluatorContext, callable : &Value) -> (Outcome<Value>) {
 	return evaluator.evaluate_procedure_call_0 (callable);
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn call_1 (evaluator : &mut EvaluatorContext, callable : &Value, input_1 : &Value) -> (Outcome<Value>) {
 	return evaluator.evaluate_procedure_call_1 (callable, input_1);
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn call_2 (evaluator : &mut EvaluatorContext, callable : &Value, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
 	return evaluator.evaluate_procedure_call_2 (callable, input_1, input_2);
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn call_3 (evaluator : &mut EvaluatorContext, callable : &Value, input_1 : &Value, input_2 : &Value, input_3 : &Value) -> (Outcome<Value>) {
 	return evaluator.evaluate_procedure_call_3 (callable, input_1, input_2, input_3);
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn call_4 (evaluator : &mut EvaluatorContext, callable : &Value, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value) -> (Outcome<Value>) {
 	return evaluator.evaluate_procedure_call_4 (callable, input_1, input_2, input_3, input_4);
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn call_n (evaluator : &mut EvaluatorContext, callable : &Value, inputs : &[&Value]) -> (Outcome<Value>) {
 	match inputs.len () {
 		0 =>
@@ -93,30 +101,36 @@ pub fn call_n (evaluator : &mut EvaluatorContext, callable : &Value, inputs : &[
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn apply_0 (evaluator : &mut EvaluatorContext, callable : &Value) -> (Outcome<Value>) {
 	return call_0 (evaluator, callable);
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn apply_1 (evaluator : &mut EvaluatorContext, callable : &Value, input_1 : &Value) -> (Outcome<Value>) {
 	let inputs = try! (vec_list_ref_clone (input_1));
 	return call_n (evaluator, callable, &inputs);
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn apply_2 (evaluator : &mut EvaluatorContext, callable : &Value, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
 	let inputs = try! (vec_list_ref_append_2 (input_1, input_2));
 	return call_n (evaluator, callable, &inputs);
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn apply_3 (evaluator : &mut EvaluatorContext, callable : &Value, input_1 : &Value, input_2 : &Value, input_3 : &Value) -> (Outcome<Value>) {
 	let inputs = try! (vec_list_ref_append_3 (input_1, input_2, input_3));
 	return call_n (evaluator, callable, &inputs);
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn apply_4 (evaluator : &mut EvaluatorContext, callable : &Value, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value) -> (Outcome<Value>) {
 	let inputs = try! (vec_list_ref_append_4 (input_1, input_2, input_3, input_4));
 	return call_n (evaluator, callable, &inputs);
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn apply_n (evaluator : &mut EvaluatorContext, callable : &Value, inputs : &[&Value]) -> (Outcome<Value>) {
 	match inputs.len () {
 		0 =>
@@ -139,6 +153,7 @@ pub fn apply_n (evaluator : &mut EvaluatorContext, callable : &Value, inputs : &
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn lists_map_1 (evaluator : &mut EvaluatorContext, callable : &Value, list_1 : &Value) -> (Outcome<Value>) {
 	if is_list_empty (list_1) {
 		succeed! (list_empty ());
@@ -148,6 +163,7 @@ pub fn lists_map_1 (evaluator : &mut EvaluatorContext, callable : &Value, list_1
 	succeed! (list_collect (outputs));
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn lists_iterate_1 (evaluator : &mut EvaluatorContext, callable : &Value, list_1 : &Value) -> (Outcome<Value>) {
 	if is_list_empty (list_1) {
 		succeed! (VOID.into ());
@@ -158,6 +174,7 @@ pub fn lists_iterate_1 (evaluator : &mut EvaluatorContext, callable : &Value, li
 }
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn lists_map_2 (evaluator : &mut EvaluatorContext, callable : &Value, list_1 : &Value, list_2 : &Value) -> (Outcome<Value>) {
 	if is_list_empty_all_2 (list_1, list_2) {
 		succeed! (list_empty ());
@@ -168,6 +185,7 @@ pub fn lists_map_2 (evaluator : &mut EvaluatorContext, callable : &Value, list_1
 	succeed! (list_collect (outputs));
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn lists_iterate_2 (evaluator : &mut EvaluatorContext, callable : &Value, list_1 : &Value, list_2 : &Value) -> (Outcome<Value>) {
 	if is_list_empty_all_2 (list_1, list_2) {
 		succeed! (VOID.into ());
@@ -179,6 +197,7 @@ pub fn lists_iterate_2 (evaluator : &mut EvaluatorContext, callable : &Value, li
 }
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn lists_map_3 (evaluator : &mut EvaluatorContext, callable : &Value, list_1 : &Value, list_2 : &Value, list_3 : &Value) -> (Outcome<Value>) {
 	if is_list_empty_all_3 (list_1, list_2, list_3) {
 		succeed! (list_empty ());
@@ -190,6 +209,7 @@ pub fn lists_map_3 (evaluator : &mut EvaluatorContext, callable : &Value, list_1
 	succeed! (list_collect (outputs));
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn lists_iterate_3 (evaluator : &mut EvaluatorContext, callable : &Value, list_1 : &Value, list_2 : &Value, list_3 : &Value) -> (Outcome<Value>) {
 	if is_list_empty_all_3 (list_1, list_2, list_3) {
 		succeed! (VOID.into ());
@@ -202,6 +222,7 @@ pub fn lists_iterate_3 (evaluator : &mut EvaluatorContext, callable : &Value, li
 }
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn lists_map_4 (evaluator : &mut EvaluatorContext, callable : &Value, list_1 : &Value, list_2 : &Value, list_3 : &Value, list_4 : &Value) -> (Outcome<Value>) {
 	if is_list_empty_all_4 (list_1, list_2, list_3, list_4) {
 		succeed! (list_empty ());
@@ -214,6 +235,7 @@ pub fn lists_map_4 (evaluator : &mut EvaluatorContext, callable : &Value, list_1
 	succeed! (list_collect (outputs));
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn lists_iterate_4 (evaluator : &mut EvaluatorContext, callable : &Value, list_1 : &Value, list_2 : &Value, list_3 : &Value, list_4 : &Value) -> (Outcome<Value>) {
 	if is_list_empty_all_4 (list_1, list_2, list_3, list_4) {
 		succeed! (VOID.into ());
@@ -227,6 +249,7 @@ pub fn lists_iterate_4 (evaluator : &mut EvaluatorContext, callable : &Value, li
 }
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn lists_map_n (evaluator : &mut EvaluatorContext, callable : &Value, lists : &[&Value]) -> (Outcome<Value>) {
 	match lists.len () {
 		1 =>
@@ -247,6 +270,7 @@ pub fn lists_map_n (evaluator : &mut EvaluatorContext, callable : &Value, lists 
 	succeed! (list_collect (outputs));
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn lists_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, lists : &[&Value]) -> (Outcome<Value>) {
 	match lists.len () {
 		1 =>
@@ -270,6 +294,7 @@ pub fn lists_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, li
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn arrays_map_1 (evaluator : &mut EvaluatorContext, callable : &Value, array : &Value) -> (Outcome<Value>) {
 	if try! (is_array_empty (array)) {
 		succeed! (array_empty ());
@@ -279,6 +304,7 @@ pub fn arrays_map_1 (evaluator : &mut EvaluatorContext, callable : &Value, array
 	succeed! (array_collect (outputs));
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn arrays_iterate_1 (evaluator : &mut EvaluatorContext, callable : &Value, array : &Value) -> (Outcome<Value>) {
 	if try! (is_array_empty (array)) {
 		succeed! (VOID.into ());
@@ -289,6 +315,7 @@ pub fn arrays_iterate_1 (evaluator : &mut EvaluatorContext, callable : &Value, a
 }
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn arrays_map_2 (evaluator : &mut EvaluatorContext, callable : &Value, array_1 : &Value, array_2 : &Value) -> (Outcome<Value>) {
 	if try! (is_array_empty_all_2 (array_1, array_2)) {
 		succeed! (array_empty ());
@@ -299,6 +326,7 @@ pub fn arrays_map_2 (evaluator : &mut EvaluatorContext, callable : &Value, array
 	succeed! (array_collect (outputs));
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn arrays_iterate_2 (evaluator : &mut EvaluatorContext, callable : &Value, array_1 : &Value, array_2 : &Value) -> (Outcome<Value>) {
 	if try! (is_array_empty_all_2 (array_1, array_2)) {
 		succeed! (VOID.into ());
@@ -310,6 +338,7 @@ pub fn arrays_iterate_2 (evaluator : &mut EvaluatorContext, callable : &Value, a
 }
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn arrays_map_3 (evaluator : &mut EvaluatorContext, callable : &Value, array_1 : &Value, array_2 : &Value, array_3 : &Value) -> (Outcome<Value>) {
 	if try! (is_array_empty_all_3 (array_1, array_2, array_3)) {
 		succeed! (array_empty ());
@@ -321,6 +350,7 @@ pub fn arrays_map_3 (evaluator : &mut EvaluatorContext, callable : &Value, array
 	succeed! (array_collect (outputs));
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn arrays_iterate_3 (evaluator : &mut EvaluatorContext, callable : &Value, array_1 : &Value, array_2 : &Value, array_3 : &Value) -> (Outcome<Value>) {
 	if try! (is_array_empty_all_3 (array_1, array_2, array_3)) {
 		succeed! (VOID.into ());
@@ -333,6 +363,7 @@ pub fn arrays_iterate_3 (evaluator : &mut EvaluatorContext, callable : &Value, a
 }
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn arrays_map_4 (evaluator : &mut EvaluatorContext, callable : &Value, array_1 : &Value, array_2 : &Value, array_3 : &Value, array_4 : &Value) -> (Outcome<Value>) {
 	if try! (is_array_empty_all_4 (array_1, array_2, array_3, array_4)) {
 		succeed! (array_empty ());
@@ -345,6 +376,7 @@ pub fn arrays_map_4 (evaluator : &mut EvaluatorContext, callable : &Value, array
 	succeed! (array_collect (outputs));
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn arrays_iterate_4 (evaluator : &mut EvaluatorContext, callable : &Value, array_1 : &Value, array_2 : &Value, array_3 : &Value, array_4 : &Value) -> (Outcome<Value>) {
 	if try! (is_array_empty_all_4 (array_1, array_2, array_3, array_4)) {
 		succeed! (VOID.into ());
@@ -358,6 +390,7 @@ pub fn arrays_iterate_4 (evaluator : &mut EvaluatorContext, callable : &Value, a
 }
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn arrays_map_n (evaluator : &mut EvaluatorContext, callable : &Value, arrays : &[&Value]) -> (Outcome<Value>) {
 	match arrays.len () {
 		1 =>
@@ -378,6 +411,7 @@ pub fn arrays_map_n (evaluator : &mut EvaluatorContext, callable : &Value, array
 	succeed! (array_collect (outputs));
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn arrays_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, arrays : &[&Value]) -> (Outcome<Value>) {
 	match arrays.len () {
 		1 =>
@@ -401,6 +435,7 @@ pub fn arrays_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, a
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn bytes_map_1 (evaluator : &mut EvaluatorContext, callable : &Value, bytes : &Value) -> (Outcome<Value>) {
 	if try! (is_bytes_empty (bytes)) {
 		succeed! (bytes_empty ());
@@ -410,6 +445,7 @@ pub fn bytes_map_1 (evaluator : &mut EvaluatorContext, callable : &Value, bytes 
 	return bytes_collect_values (outputs);
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn bytes_iterate_1 (evaluator : &mut EvaluatorContext, callable : &Value, bytes : &Value) -> (Outcome<Value>) {
 	if try! (is_bytes_empty (bytes)) {
 		succeed! (VOID.into ());
@@ -420,6 +456,7 @@ pub fn bytes_iterate_1 (evaluator : &mut EvaluatorContext, callable : &Value, by
 }
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn bytes_map_2 (evaluator : &mut EvaluatorContext, callable : &Value, bytes_1 : &Value, bytes_2 : &Value) -> (Outcome<Value>) {
 	if try! (is_bytes_empty_all_2 (bytes_1, bytes_2)) {
 		succeed! (bytes_empty ());
@@ -430,6 +467,7 @@ pub fn bytes_map_2 (evaluator : &mut EvaluatorContext, callable : &Value, bytes_
 	return bytes_collect_values (outputs);
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn bytes_iterate_2 (evaluator : &mut EvaluatorContext, callable : &Value, bytes_1 : &Value, bytes_2 : &Value) -> (Outcome<Value>) {
 	if try! (is_bytes_empty_all_2 (bytes_1, bytes_2)) {
 		succeed! (VOID.into ());
@@ -441,6 +479,7 @@ pub fn bytes_iterate_2 (evaluator : &mut EvaluatorContext, callable : &Value, by
 }
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn bytes_map_3 (evaluator : &mut EvaluatorContext, callable : &Value, bytes_1 : &Value, bytes_2 : &Value, bytes_3 : &Value) -> (Outcome<Value>) {
 	if try! (is_bytes_empty_all_3 (bytes_1, bytes_2, bytes_3)) {
 		succeed! (bytes_empty ());
@@ -452,6 +491,7 @@ pub fn bytes_map_3 (evaluator : &mut EvaluatorContext, callable : &Value, bytes_
 	return bytes_collect_values (outputs);
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn bytes_iterate_3 (evaluator : &mut EvaluatorContext, callable : &Value, bytes_1 : &Value, bytes_2 : &Value, bytes_3 : &Value) -> (Outcome<Value>) {
 	if try! (is_bytes_empty_all_3 (bytes_1, bytes_2, bytes_3)) {
 		succeed! (VOID.into ());
@@ -464,6 +504,7 @@ pub fn bytes_iterate_3 (evaluator : &mut EvaluatorContext, callable : &Value, by
 }
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn bytes_map_4 (evaluator : &mut EvaluatorContext, callable : &Value, bytes_1 : &Value, bytes_2 : &Value, bytes_3 : &Value, bytes_4 : &Value) -> (Outcome<Value>) {
 	if try! (is_bytes_empty_all_4 (bytes_1, bytes_2, bytes_3, bytes_4)) {
 		succeed! (bytes_empty ());
@@ -476,6 +517,7 @@ pub fn bytes_map_4 (evaluator : &mut EvaluatorContext, callable : &Value, bytes_
 	return bytes_collect_values (outputs);
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn bytes_iterate_4 (evaluator : &mut EvaluatorContext, callable : &Value, bytes_1 : &Value, bytes_2 : &Value, bytes_3 : &Value, bytes_4 : &Value) -> (Outcome<Value>) {
 	if try! (is_bytes_empty_all_4 (bytes_1, bytes_2, bytes_3, bytes_4)) {
 		succeed! (VOID.into ());
@@ -489,6 +531,7 @@ pub fn bytes_iterate_4 (evaluator : &mut EvaluatorContext, callable : &Value, by
 }
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn bytes_map_n (evaluator : &mut EvaluatorContext, callable : &Value, bytes : &[&Value]) -> (Outcome<Value>) {
 	match bytes.len () {
 		1 =>
@@ -509,6 +552,7 @@ pub fn bytes_map_n (evaluator : &mut EvaluatorContext, callable : &Value, bytes 
 	return bytes_collect_values (outputs);
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn bytes_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, bytes : &[&Value]) -> (Outcome<Value>) {
 	match bytes.len () {
 		1 =>
@@ -532,6 +576,7 @@ pub fn bytes_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, by
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn strings_map_1 (evaluator : &mut EvaluatorContext, callable : &Value, string : &Value) -> (Outcome<Value>) {
 	if try! (is_string_empty (string)) {
 		succeed! (string_empty ());
@@ -541,6 +586,7 @@ pub fn strings_map_1 (evaluator : &mut EvaluatorContext, callable : &Value, stri
 	return string_collect_values (outputs);
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn strings_iterate_1 (evaluator : &mut EvaluatorContext, callable : &Value, string : &Value) -> (Outcome<Value>) {
 	if try! (is_string_empty (string)) {
 		succeed! (VOID.into ());
@@ -551,6 +597,7 @@ pub fn strings_iterate_1 (evaluator : &mut EvaluatorContext, callable : &Value, 
 }
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn strings_map_2 (evaluator : &mut EvaluatorContext, callable : &Value, string_1 : &Value, string_2 : &Value) -> (Outcome<Value>) {
 	if try! (is_string_empty_all_2 (string_1, string_2)) {
 		succeed! (string_empty ());
@@ -561,6 +608,7 @@ pub fn strings_map_2 (evaluator : &mut EvaluatorContext, callable : &Value, stri
 	return string_collect_values (outputs);
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn strings_iterate_2 (evaluator : &mut EvaluatorContext, callable : &Value, string_1 : &Value, string_2 : &Value) -> (Outcome<Value>) {
 	if try! (is_string_empty_all_2 (string_1, string_2)) {
 		succeed! (VOID.into ());
@@ -572,6 +620,7 @@ pub fn strings_iterate_2 (evaluator : &mut EvaluatorContext, callable : &Value, 
 }
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn strings_map_3 (evaluator : &mut EvaluatorContext, callable : &Value, string_1 : &Value, string_2 : &Value, string_3 : &Value) -> (Outcome<Value>) {
 	if try! (is_string_empty_all_3 (string_1, string_2, string_3)) {
 		succeed! (string_empty ());
@@ -583,6 +632,7 @@ pub fn strings_map_3 (evaluator : &mut EvaluatorContext, callable : &Value, stri
 	return string_collect_values (outputs);
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn strings_iterate_3 (evaluator : &mut EvaluatorContext, callable : &Value, string_1 : &Value, string_2 : &Value, string_3 : &Value) -> (Outcome<Value>) {
 	if try! (is_string_empty_all_3 (string_1, string_2, string_3)) {
 		succeed! (VOID.into ());
@@ -595,6 +645,7 @@ pub fn strings_iterate_3 (evaluator : &mut EvaluatorContext, callable : &Value, 
 }
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn strings_map_4 (evaluator : &mut EvaluatorContext, callable : &Value, string_1 : &Value, string_2 : &Value, string_3 : &Value, string_4 : &Value) -> (Outcome<Value>) {
 	if try! (is_string_empty_all_4 (string_1, string_2, string_3, string_4)) {
 		succeed! (string_empty ());
@@ -607,6 +658,7 @@ pub fn strings_map_4 (evaluator : &mut EvaluatorContext, callable : &Value, stri
 	return string_collect_values (outputs);
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn strings_iterate_4 (evaluator : &mut EvaluatorContext, callable : &Value, string_1 : &Value, string_2 : &Value, string_3 : &Value, string_4 : &Value) -> (Outcome<Value>) {
 	if try! (is_string_empty_all_4 (string_1, string_2, string_3, string_4)) {
 		succeed! (VOID.into ());
@@ -620,6 +672,7 @@ pub fn strings_iterate_4 (evaluator : &mut EvaluatorContext, callable : &Value, 
 }
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn strings_map_n (evaluator : &mut EvaluatorContext, callable : &Value, strings : &[&Value]) -> (Outcome<Value>) {
 	match strings.len () {
 		1 =>
@@ -640,6 +693,7 @@ pub fn strings_map_n (evaluator : &mut EvaluatorContext, callable : &Value, stri
 	return string_collect_values (outputs);
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn strings_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, strings : &[&Value]) -> (Outcome<Value>) {
 	match strings.len () {
 		1 =>
@@ -663,6 +717,7 @@ pub fn strings_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, 
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn iterators_map_1 <Iterator1, ValueRef> (evaluator : &mut EvaluatorContext, callable : &Value, iterator_1 : Iterator1) -> (Outcome<ValueVec>)
 		where Iterator1 : iter::Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
 {
@@ -676,6 +731,7 @@ pub fn iterators_map_1 <Iterator1, ValueRef> (evaluator : &mut EvaluatorContext,
 	succeed! (outputs);
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn iterators_iterate_1 <Iterator1, ValueRef> (evaluator : &mut EvaluatorContext, callable : &Value, iterator_1 : Iterator1) -> (Outcome<()>)
 		where Iterator1 : iter::Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
 {
@@ -690,6 +746,7 @@ pub fn iterators_iterate_1 <Iterator1, ValueRef> (evaluator : &mut EvaluatorCont
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn iterators_map_2 <Iterator1, Iterator2, ValueRef> (evaluator : &mut EvaluatorContext, callable : &Value, iterator_1 : Iterator1, iterator_2 : Iterator2) -> (Outcome<ValueVec>)
 		where Iterator1 : iter::Iterator<Item = Outcome<ValueRef>>, Iterator2 : iter::Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
 {
@@ -709,6 +766,7 @@ pub fn iterators_map_2 <Iterator1, Iterator2, ValueRef> (evaluator : &mut Evalua
 	succeed! (outputs);
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn iterators_iterate_2 <Iterator1, Iterator2, ValueRef> (evaluator : &mut EvaluatorContext, callable : &Value, iterator_1 : Iterator1, iterator_2 : Iterator2) -> (Outcome<()>)
 		where Iterator1 : iter::Iterator<Item = Outcome<ValueRef>>, Iterator2 : iter::Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
 {
@@ -729,6 +787,7 @@ pub fn iterators_iterate_2 <Iterator1, Iterator2, ValueRef> (evaluator : &mut Ev
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn iterators_map_3 <Iterator1, Iterator2, Iterator3, ValueRef> (evaluator : &mut EvaluatorContext, callable : &Value, iterator_1 : Iterator1, iterator_2 : Iterator2, iterator_3 : Iterator3) -> (Outcome<ValueVec>)
 		where Iterator1 : iter::Iterator<Item = Outcome<ValueRef>>, Iterator2 : iter::Iterator<Item = Outcome<ValueRef>>, Iterator3 : iter::Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
 {
@@ -752,6 +811,7 @@ pub fn iterators_map_3 <Iterator1, Iterator2, Iterator3, ValueRef> (evaluator : 
 	succeed! (outputs);
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn iterators_iterate_3 <Iterator1, Iterator2, Iterator3, ValueRef> (evaluator : &mut EvaluatorContext, callable : &Value, iterator_1 : Iterator1, iterator_2 : Iterator2, iterator_3 : Iterator3) -> (Outcome<()>)
 		where Iterator1 : iter::Iterator<Item = Outcome<ValueRef>>, Iterator2 : iter::Iterator<Item = Outcome<ValueRef>>, Iterator3 : iter::Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
 {
@@ -776,6 +836,7 @@ pub fn iterators_iterate_3 <Iterator1, Iterator2, Iterator3, ValueRef> (evaluato
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn iterators_map_4 <Iterator1, Iterator2, Iterator3, Iterator4, ValueRef> (evaluator : &mut EvaluatorContext, callable : &Value, iterator_1 : Iterator1, iterator_2 : Iterator2, iterator_3 : Iterator3, iterator_4 : Iterator4) -> (Outcome<ValueVec>)
 		where Iterator1 : iter::Iterator<Item = Outcome<ValueRef>>, Iterator2 : iter::Iterator<Item = Outcome<ValueRef>>, Iterator3 : iter::Iterator<Item = Outcome<ValueRef>>, Iterator4 : iter::Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
 {
@@ -803,6 +864,7 @@ pub fn iterators_map_4 <Iterator1, Iterator2, Iterator3, Iterator4, ValueRef> (e
 	succeed! (outputs);
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn iterators_iterate_4 <Iterator1, Iterator2, Iterator3, Iterator4, ValueRef> (evaluator : &mut EvaluatorContext, callable : &Value, iterator_1 : Iterator1, iterator_2 : Iterator2, iterator_3 : Iterator3, iterator_4 : Iterator4) -> (Outcome<()>)
 		where Iterator1 : iter::Iterator<Item = Outcome<ValueRef>>, Iterator2 : iter::Iterator<Item = Outcome<ValueRef>>, Iterator3 : iter::Iterator<Item = Outcome<ValueRef>>, Iterator4 : iter::Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
 {
@@ -831,6 +893,7 @@ pub fn iterators_iterate_4 <Iterator1, Iterator2, Iterator3, Iterator4, ValueRef
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn iterators_map_n <Iterators, ValueRef> (evaluator : &mut EvaluatorContext, callable : &Value, iterators : Iterators) -> (Outcome<ValueVec>)
 		where Iterators : iter::Iterator<Item = Outcome<StdVec<ValueRef>>>, ValueRef : StdAsRef<Value>
 {
@@ -844,6 +907,7 @@ pub fn iterators_map_n <Iterators, ValueRef> (evaluator : &mut EvaluatorContext,
 	succeed! (outputs);
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn iterators_iterate_n <Iterators, ValueRef> (evaluator : &mut EvaluatorContext, callable : &Value, iterators : Iterators) -> (Outcome<()>)
 		where Iterators : iter::Iterator<Item = Outcome<StdVec<ValueRef>>>, ValueRef : StdAsRef<Value>
 {
@@ -858,26 +922,32 @@ pub fn iterators_iterate_n <Iterators, ValueRef> (evaluator : &mut EvaluatorCont
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn values_build_0 () -> (Value) {
 	return values_new (StdBox::new ([])) .into ();
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn values_build_1 (value_1 : &Value) -> (Value) {
 	return values_new (StdBox::new ([value_1.clone ()])) .into ();
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn values_build_2 (value_1 : &Value, value_2 : &Value) -> (Value) {
 	return values_new (StdBox::new ([value_1.clone (), value_2.clone ()])) .into ();
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn values_build_3 (value_1 : &Value, value_2 : &Value, value_3 : &Value) -> (Value) {
 	return values_new (StdBox::new ([value_1.clone (), value_2.clone (), value_3.clone ()])) .into ();
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn values_build_4 (value_1 : &Value, value_2 : &Value, value_3 : &Value, value_4 : &Value) -> (Value) {
 	return values_new (StdBox::new ([value_1.clone (), value_2.clone (), value_3.clone (), value_4.clone ()])) .into ();
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn values_build_n (values : &[&Value]) -> (Value) {
 	return values_clone_slice_ref (values) .into ();
 }

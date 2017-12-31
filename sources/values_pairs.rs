@@ -210,6 +210,7 @@ pub struct ListPairIterator <'a> ( &'a Value );
 
 impl <'a> ListPairIterator <'a> {
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn new (value : &'a Value) -> (Outcome<ListPairIterator<'a>>) {
 		succeed! (ListPairIterator (value));
 	}
@@ -220,6 +221,7 @@ impl <'a> iter::Iterator for ListPairIterator <'a> {
 	
 	type Item = Outcome<&'a PairImmutable>;
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn next (&mut self) -> (Option<Outcome<&'a PairImmutable>>) {
 		
 		let cursor = self.0;
@@ -254,6 +256,7 @@ pub struct ListIterator <'a> ( &'a Value );
 
 impl <'a> ListIterator <'a> {
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn new (value : &'a Value) -> (Outcome<ListIterator<'a>>) {
 		succeed! (ListIterator (value));
 	}
@@ -264,6 +267,7 @@ impl <'a> iter::Iterator for ListIterator <'a> {
 	
 	type Item = Outcome<&'a Value>;
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn next (&mut self) -> (Option<Outcome<&'a Value>>) {
 		let cursor = self.0;
 		let (value, cursor) = match cursor.class () {
@@ -298,6 +302,7 @@ pub struct ListIterators <'a> ( StdVec<ListIterator<'a>> );
 
 impl <'a> ListIterators <'a> {
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn new (lists : &'a [&Value]) -> (Outcome<ListIterators<'a>>) {
 		let iterators = try! (lists.iter () .map (|list| ListIterator::new (list)) .collect ());
 		succeed! (ListIterators (iterators));
@@ -309,6 +314,7 @@ impl <'a> iter::Iterator for ListIterators <'a> {
 	
 	type Item = Outcome<StdVec<&'a Value>>;
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn next (&mut self) -> (Option<Outcome<StdVec<&'a Value>>>) {
 		let mut outcomes = StdVec::with_capacity (self.0.len ());
 		for mut iterator in self.0.iter_mut () {

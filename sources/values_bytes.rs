@@ -272,11 +272,13 @@ pub struct BytesIterator <'a> ( BytesRef<'a>, slice::Iter<'a, u8> );
 
 impl <'a> BytesIterator <'a> {
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn new (bytes : &'a Value) -> (Outcome<BytesIterator<'a>>) {
 		let bytes = try_as_bytes_ref! (bytes);
 		return BytesIterator::new_a (bytes);
 	}
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn new_a (bytes : BytesRef<'a>) -> (Outcome<BytesIterator<'a>>) {
 		let iterator = unsafe { mem::transmute (bytes.bytes_iter ()) };
 		succeed! (BytesIterator (bytes, iterator));
@@ -288,6 +290,7 @@ impl <'a> iter::Iterator for BytesIterator <'a> {
 	
 	type Item = Outcome<Value>;
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn next (&mut self) -> (Option<Outcome<Value>>) {
 		if let Some (value) = self.1.next () {
 			return Some (succeeded! (number_i64 (*value as i64) .into ()));
@@ -305,6 +308,7 @@ pub struct BytesIterators <'a> ( StdVec<BytesIterator<'a>> );
 
 impl <'a> BytesIterators <'a> {
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn new (bytes : &'a [&'a Value]) -> (Outcome<BytesIterators<'a>>) {
 		let iterators = try! (bytes.iter () .map (|bytes| BytesIterator::new (bytes)) .collect ());
 		succeed! (BytesIterators (iterators));
@@ -316,6 +320,7 @@ impl <'a> iter::Iterator for BytesIterators <'a> {
 	
 	type Item = Outcome<StdVec<Value>>;
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn next (&mut self) -> (Option<Outcome<StdVec<Value>>>) {
 		let mut outcomes = StdVec::with_capacity (self.0.len ());
 		for mut iterator in self.0.iter_mut () {

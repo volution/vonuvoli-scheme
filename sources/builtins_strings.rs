@@ -63,6 +63,7 @@ pub mod exports {
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_at (string : &Value, index : usize) -> (Outcome<Value>) {
 	let string = try_as_string_ref! (string);
 	if let Some (char) = string.string_char_at_compute (index) {
@@ -72,6 +73,7 @@ pub fn string_at (string : &Value, index : usize) -> (Outcome<Value>) {
 	}
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_at_set (_string : &Value, _index : usize, _char : &Value) -> (Outcome<Value>) {
 	fail_unimplemented! (0xc8a46002);
 }
@@ -79,12 +81,14 @@ pub fn string_at_set (_string : &Value, _index : usize, _char : &Value) -> (Outc
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_collect_chars <Source> (chars : Source) -> (Value)
 		where Source : iter::IntoIterator<Item = char>, Source::IntoIter : iter::DoubleEndedIterator
 {
 	return string_new (iter::FromIterator::from_iter (chars)) .into ();
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_collect_values <Source> (chars : Source) -> (Outcome<Value>)
 		where Source : iter::IntoIterator<Item = Value>, Source::IntoIter : iter::DoubleEndedIterator, Source::IntoIter : iter::ExactSizeIterator
 {
@@ -96,6 +100,7 @@ pub fn string_collect_values <Source> (chars : Source) -> (Outcome<Value>)
 	succeed! (string_collect_chars (buffer) .into ());
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_collect_values_ref <Source, ValueRef> (chars : Source) -> (Outcome<Value>)
 		where Source : iter::IntoIterator<Item = ValueRef>, Source::IntoIter : iter::DoubleEndedIterator, Source::IntoIter : iter::ExactSizeIterator, ValueRef : StdAsRef<Value>
 {
@@ -110,6 +115,7 @@ pub fn string_collect_values_ref <Source, ValueRef> (chars : Source) -> (Outcome
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_collect_chars_from_generator <Source> (chars : Source) -> (Outcome<Value>)
 		where Source : iter::Iterator<Item = Outcome<char>>
 {
@@ -118,6 +124,7 @@ pub fn string_collect_chars_from_generator <Source> (chars : Source) -> (Outcome
 	succeed! (string_collect_chars (chars));
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_collect_values_from_generator <Source> (chars : Source) -> (Outcome<Value>)
 		where Source : iter::Iterator<Item = Outcome<Value>>
 {
@@ -126,6 +133,7 @@ pub fn string_collect_values_from_generator <Source> (chars : Source) -> (Outcom
 	return string_collect_values (chars);
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_collect_values_from_generator_ref <Source, ValueRef> (chars : Source) -> (Outcome<Value>)
 		where Source : iter::Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
 {
@@ -137,16 +145,19 @@ pub fn string_collect_values_from_generator_ref <Source, ValueRef> (chars : Sour
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_empty () -> (Value) {
 	return string_new (StdString::new ()) .into ();
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_build_1 (char_1 : &Value) -> (Outcome<Value>) {
 	let mut buffer = StdString::with_capacity (1);
 	buffer.push (try_as_character_ref! (char_1) .value ());
 	succeed! (string_new (buffer) .into ());
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_build_2 (char_1 : &Value, char_2 : &Value) -> (Outcome<Value>) {
 	let mut buffer = StdString::with_capacity (2);
 	buffer.push (try_as_character_ref! (char_1) .value ());
@@ -154,6 +165,7 @@ pub fn string_build_2 (char_1 : &Value, char_2 : &Value) -> (Outcome<Value>) {
 	succeed! (string_new (buffer) .into ());
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_build_3 (char_1 : &Value, char_2 : &Value, char_3 : &Value) -> (Outcome<Value>) {
 	let mut buffer = StdString::with_capacity (3);
 	buffer.push (try_as_character_ref! (char_1) .value ());
@@ -162,6 +174,7 @@ pub fn string_build_3 (char_1 : &Value, char_2 : &Value, char_3 : &Value) -> (Ou
 	succeed! (string_new (buffer) .into ());
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_build_4 (char_1 : &Value, char_2 : &Value, char_3 : &Value, char_4 : &Value) -> (Outcome<Value>) {
 	let mut buffer = StdString::with_capacity (4);
 	buffer.push (try_as_character_ref! (char_1) .value ());
@@ -171,6 +184,7 @@ pub fn string_build_4 (char_1 : &Value, char_2 : &Value, char_3 : &Value, char_4
 	succeed! (string_new (buffer) .into ());
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_build_n (chars : &[&Value]) -> (Outcome<Value>) {
 	match chars.len () {
 		0 =>
@@ -196,21 +210,25 @@ pub fn string_build_n (chars : &[&Value]) -> (Outcome<Value>) {
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_append_2 (string_1 : &Value, string_2 : &Value) -> (Outcome<Value>) {
 	let buffer = try! (vec_string_append_2 (string_1, string_2));
 	succeed! (string_collect_chars (buffer) .into ());
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_append_3 (string_1 : &Value, string_2 : &Value, string_3 : &Value) -> (Outcome<Value>) {
 	let buffer = try! (vec_string_append_3 (string_1, string_2, string_3));
 	succeed! (string_collect_chars (buffer) .into ());
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_append_4 (string_1 : &Value, string_2 : &Value, string_3 : &Value, string_4 : &Value) -> (Outcome<Value>) {
 	let buffer = try! (vec_string_append_4 (string_1, string_2, string_3, string_4));
 	succeed! (string_collect_chars (buffer) .into ());
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_append_n (strings : &[&Value]) -> (Outcome<Value>) {
 	match strings.len () {
 		0 =>
@@ -233,6 +251,7 @@ pub fn string_append_n (strings : &[&Value]) -> (Outcome<Value>) {
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_make (length : usize, fill : Option<&Value>) -> (Outcome<Value>) {
 	let fill = if let Some (fill) = fill {
 		try_as_character_ref! (fill) .value ()
@@ -246,11 +265,13 @@ pub fn string_make (length : usize, fill : Option<&Value>) -> (Outcome<Value>) {
 	succeed! (string_new (buffer) .into ());
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_clone (string : &Value) -> (Outcome<Value>) {
 	let buffer = try! (vec_string_clone (string));
 	succeed! (string_collect_chars (buffer) .into ());
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_reverse (string : &Value) -> (Outcome<Value>) {
 	// FIXME:  Optimize the vector allocation!
 	let buffer = try! (vec_string_clone (string));
@@ -260,6 +281,7 @@ pub fn string_reverse (string : &Value) -> (Outcome<Value>) {
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_fill_range (string : &Value, fill : Option<&Value>, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let _string = try_as_string_ref! (string);
 	let _fill = if let Some (fill) = fill {
@@ -272,6 +294,7 @@ pub fn string_fill_range (string : &Value, fill : Option<&Value>, range_start : 
 }
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_reverse_range (string : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let _string = try_as_string_ref! (string);
 	let (_range_start, _range_end) = try! (range_coerce_unbounded (range_start, range_end));
@@ -279,6 +302,7 @@ pub fn string_reverse_range (string : &Value, range_start : Option<&Value>, rang
 }
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_copy_range (target_string : &Value, target_start : Option<&Value>, source_string : &Value, source_start : Option<&Value>, source_end : Option<&Value>) -> (Outcome<Value>) {
 	let _target_string = try_as_string_ref! (target_string);
 	let _source_string = try_as_string_ref! (source_string);
@@ -288,6 +312,7 @@ pub fn string_copy_range (target_string : &Value, target_start : Option<&Value>,
 }
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_clone_range (string : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let string = try_as_string_ref! (string);
 	let (range_start, range_end) = try! (range_coerce_unbounded (range_start, range_end));
@@ -302,28 +327,33 @@ pub fn string_clone_range (string : &Value, range_start : Option<&Value>, range_
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_range_to_list (string : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let characters = try! (string_range_iterator (string, range_start, range_end));
 	return list_collect_from_generator (characters);
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn list_range_to_string (list : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let characters = try! (list_range_iterator (list, range_start, range_end));
 	return string_collect_values_from_generator_ref (characters);
 }
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_range_to_array (string : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let characters = try! (string_range_iterator (string, range_start, range_end));
 	return array_collect_from_generator (characters);
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn array_range_to_string (array : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let characters = try! (array_range_iterator (array, range_start, range_end));
 	return string_collect_values_from_generator_ref (characters);
 }
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_range_to_bytes (string : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let string = try_as_string_ref! (string);
 	let (range_start, range_end) = try! (range_coerce_unbounded (range_start, range_end));
@@ -335,6 +365,7 @@ pub fn string_range_to_bytes (string : &Value, range_start : Option<&Value>, ran
 	succeed! (bytes_new (buffer.into_bytes ()) .into ());
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn bytes_range_to_string (bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_ref! (bytes);
 	let (range_start, range_end) = try! (range_coerce (range_start, range_end, bytes.bytes_count ()));
@@ -348,6 +379,7 @@ pub fn bytes_range_to_string (bytes : &Value, range_start : Option<&Value>, rang
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_range_iterator <'a> (string : &'a Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<RangeIteratorForOutcome<Value, StringIterator<'a>>>) {
 	let string = try_as_string_ref! (string);
 	let (range_start, range_end) = try! (range_coerce_unbounded (range_start, range_end));
@@ -359,6 +391,7 @@ pub fn string_range_iterator <'a> (string : &'a Value, range_start : Option<&Val
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_length (string : &Value) -> (Outcome<usize>) {
 	let string = try_as_string_ref! (string);
 	succeed! (string.string_chars_count_compute ());
@@ -367,6 +400,7 @@ pub fn string_length (string : &Value) -> (Outcome<usize>) {
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn vec_string_append_2 (string_1 : &Value, string_2 : &Value) -> (Outcome<StdVec<char>>) {
 	if try! (is_string_empty_all_2 (string_1, string_2)) {
 		succeed! (StdVec::new ());
@@ -377,6 +411,7 @@ pub fn vec_string_append_2 (string_1 : &Value, string_2 : &Value) -> (Outcome<St
 	succeed! (buffer);
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn vec_string_append_3 (string_1 : &Value, string_2 : &Value, string_3 : &Value) -> (Outcome<StdVec<char>>) {
 	if try! (is_string_empty_all_3 (string_1, string_2, string_3)) {
 		succeed! (StdVec::new ());
@@ -388,6 +423,7 @@ pub fn vec_string_append_3 (string_1 : &Value, string_2 : &Value, string_3 : &Va
 	succeed! (buffer);
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn vec_string_append_4 (string_1 : &Value, string_2 : &Value, string_3 : &Value, string_4 : &Value) -> (Outcome<StdVec<char>>) {
 	if try! (is_string_empty_all_4 (string_1, string_2, string_3, string_4)) {
 		succeed! (StdVec::new ());
@@ -400,6 +436,7 @@ pub fn vec_string_append_4 (string_1 : &Value, string_2 : &Value, string_3 : &Va
 	succeed! (buffer);
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn vec_string_append_n (strings : &[&Value]) -> (Outcome<StdVec<char>>) {
 	match strings.len () {
 		0 =>
@@ -425,6 +462,7 @@ pub fn vec_string_append_n (strings : &[&Value]) -> (Outcome<StdVec<char>>) {
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn vec_string_clone (string : &Value) -> (Outcome<StdVec<char>>) {
 	let mut buffer = StdVec::new ();
 	try! (vec_string_drain (&mut buffer, string));
@@ -432,6 +470,7 @@ pub fn vec_string_clone (string : &Value) -> (Outcome<StdVec<char>>) {
 }
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn vec_string_drain (buffer : &mut StdVec<char>, string : &Value) -> (Outcome<()>) {
 	let string = try_as_string_ref! (string);
 	buffer.extend (string.string_chars ());
@@ -441,6 +480,7 @@ pub fn vec_string_drain (buffer : &mut StdVec<char>, string : &Value) -> (Outcom
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_to_upper_case (string : &Value) -> (Outcome<Value>) {
 	let string = try_as_string_ref! (string);
 	let string = string.string_as_str ();
@@ -448,6 +488,7 @@ pub fn string_to_upper_case (string : &Value) -> (Outcome<Value>) {
 	succeed! (string_new (string) .into ());
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_to_lower_case (string : &Value) -> (Outcome<Value>) {
 	let string = try_as_string_ref! (string);
 	let string = string.string_as_str ();
@@ -455,12 +496,14 @@ pub fn string_to_lower_case (string : &Value) -> (Outcome<Value>) {
 	succeed! (string_new (string) .into ());
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_to_fold_case (string : &Value) -> (Outcome<Value>) {
 	// FIXME:  Actually implement Unicode case-folding instead of delegating to lower-case!
 	return string_to_lower_case (string);
 }
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn symbol_to_upper_case (symbol : &Value) -> (Outcome<Value>) {
 	let string = try_as_symbol_ref! (symbol);
 	let string = string.string_as_str ();
@@ -468,6 +511,7 @@ pub fn symbol_to_upper_case (symbol : &Value) -> (Outcome<Value>) {
 	succeed! (symbol_new (string) .into ());
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn symbol_to_lower_case (symbol : &Value) -> (Outcome<Value>) {
 	let string = try_as_symbol_ref! (symbol);
 	let string = string.string_as_str ();
@@ -475,12 +519,14 @@ pub fn symbol_to_lower_case (symbol : &Value) -> (Outcome<Value>) {
 	succeed! (symbol_new (string) .into ());
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn symbol_to_fold_case (symbol : &Value) -> (Outcome<Value>) {
 	// FIXME:  Actually implement Unicode case-folding instead of delegating to lower-case!
 	return symbol_to_lower_case (symbol);
 }
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn character_to_upper_case (character : &Value) -> (Outcome<Value>) {
 	let character = try_as_character_ref! (character) .value ();
 	let mut iterator = character.to_uppercase ();
@@ -495,6 +541,7 @@ pub fn character_to_upper_case (character : &Value) -> (Outcome<Value>) {
 	}
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn character_to_lower_case (character : &Value) -> (Outcome<Value>) {
 	let character = try_as_character_ref! (character) .value ();
 	let mut iterator = character.to_lowercase ();
@@ -509,6 +556,7 @@ pub fn character_to_lower_case (character : &Value) -> (Outcome<Value>) {
 	}
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn character_to_fold_case (character : &Value) -> (Outcome<Value>) {
 	// FIXME:  Actually implement Unicode case-folding instead of delegating to lower-case!
 	return character_to_lower_case (character);
@@ -517,12 +565,14 @@ pub fn character_to_fold_case (character : &Value) -> (Outcome<Value>) {
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_to_symbol (string : &Value) -> (Outcome<Value>) {
 	let string = try_as_string_ref! (string);
 	let string = string.string_as_str ();
 	succeed! (symbol_clone_str (string) .into ());
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn symbol_to_string (symbol : &Value) -> (Outcome<Value>) {
 	let string = try_as_symbol_ref! (symbol);
 	let string = string.string_as_str ();
@@ -532,6 +582,7 @@ pub fn symbol_to_string (symbol : &Value) -> (Outcome<Value>) {
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn string_to_number (string : &Value, radix : Option<&Value>) -> (Outcome<Value>) {
 	let string = try_as_string_ref! (string);
 	let string = string.string_as_str ();
@@ -552,6 +603,7 @@ pub fn string_to_number (string : &Value, radix : Option<&Value>) -> (Outcome<Va
 	}
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn number_to_string (number : &Value, radix : Option<&Value>, sign : Option<bool>) -> (Outcome<Value>) {
 	let radix = try! (number_radix_coerce (radix));
 	match number.class () {
@@ -631,6 +683,7 @@ pub fn number_to_string (number : &Value, radix : Option<&Value>, sign : Option<
 	}
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn number_radix_coerce (radix : Option<&Value>) -> (Outcome<Option<u32>>) {
 	if let Some (radix) = radix {
 		let radix = try_as_number_integer_ref! (radix) .value ();
@@ -647,12 +700,14 @@ pub fn number_radix_coerce (radix : Option<&Value>) -> (Outcome<Option<u32>>) {
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn character_to_number (character : &Value) -> (Outcome<Value>) {
 	let character = try_as_character_ref! (character) .value ();
 	let number = NumberInteger::from (character);
 	succeed! (number.into ());
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn number_to_character (number : &Value) -> (Outcome<Value>) {
 	let number = try_as_number_integer_ref! (number);
 	let character = try! (number.try_to_char ());
@@ -662,6 +717,7 @@ pub fn number_to_character (number : &Value) -> (Outcome<Value>) {
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn character_to_digit_number (character : &Value, radix : Option<&Value>) -> (Outcome<Value>) {
 	let character = try_as_character_ref! (character) .value ();
 	let radix = try! (number_radix_coerce (radix)) .unwrap_or (10);
@@ -677,6 +733,7 @@ pub fn character_to_digit_number (character : &Value, radix : Option<&Value>) ->
 
 macro_rules! def_fn_character_predicate_delegate {
 	( $predicate : ident, $delegate : ident ) => (
+		#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 		pub fn $predicate (character : &Value) -> (Outcome<bool>) {
 			let character = try_as_character_ref! (character) .value ();
 			succeed! (character.$delegate () .into ());
@@ -704,6 +761,7 @@ def_fn_character_predicate_delegate! (character_is_ascii_control, is_ascii_contr
 def_fn_character_predicate_delegate! (character_is_ascii_punctuation, is_ascii_punctuation);
 def_fn_character_predicate_delegate! (character_is_ascii_graphic, is_ascii_graphic);
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn character_is_ascii_numeric_base_8 (character : &Value) -> (Outcome<bool>) {
 	let character = try_as_character_ref! (character) .value ();
 	match character {
@@ -714,6 +772,7 @@ pub fn character_is_ascii_numeric_base_8 (character : &Value) -> (Outcome<bool>)
 	}
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn character_is_ascii_numeric_base_16 (character : &Value) -> (Outcome<bool>) {
 	let character = try_as_character_ref! (character) .value ();
 	match character {

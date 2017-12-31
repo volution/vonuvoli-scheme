@@ -270,11 +270,13 @@ pub struct StringIterator <'a> ( StringRef<'a>, str::Chars<'a> );
 
 impl <'a> StringIterator <'a> {
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn new (string : &'a Value) -> (Outcome<StringIterator<'a>>) {
 		let string = try_as_string_ref! (string);
 		return StringIterator::new_a (string);
 	}
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn new_a (string : StringRef<'a>) -> (Outcome<StringIterator<'a>>) {
 		let iterator = unsafe { mem::transmute (string.string_chars ()) };
 		succeed! (StringIterator (string, iterator));
@@ -286,6 +288,7 @@ impl <'a> iter::Iterator for StringIterator <'a> {
 	
 	type Item = Outcome<Value>;
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn next (&mut self) -> (Option<Outcome<Value>>) {
 		if let Some (value) = self.1.next () {
 			return Some (succeeded! (character (value) .into ()));
@@ -303,6 +306,7 @@ pub struct StringIterators <'a> ( StdVec<StringIterator<'a>> );
 
 impl <'a> StringIterators <'a> {
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	pub fn new (strings : &'a [&'a Value]) -> (Outcome<StringIterators<'a>>) {
 		let iterators = try! (strings.iter () .map (|string| StringIterator::new (string)) .collect ());
 		succeed! (StringIterators (iterators));
@@ -314,6 +318,7 @@ impl <'a> iter::Iterator for StringIterators <'a> {
 	
 	type Item = Outcome<StdVec<Value>>;
 	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 	fn next (&mut self) -> (Option<Outcome<StdVec<Value>>>) {
 		let mut outcomes = StdVec::with_capacity (self.0.len ());
 		for mut iterator in self.0.iter_mut () {

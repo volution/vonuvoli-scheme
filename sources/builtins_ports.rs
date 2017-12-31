@@ -70,10 +70,12 @@ pub mod exports {
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn is_port_input_open (port : &Value) -> (Outcome<bool>) {
 	succeed! (try_as_port_ref! (port) .is_input_open ());
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn is_port_output_open (port : &Value) -> (Outcome<bool>) {
 	succeed! (try_as_port_ref! (port) .is_output_open ());
 }
@@ -81,16 +83,19 @@ pub fn is_port_output_open (port : &Value) -> (Outcome<bool>) {
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn port_close (port : &Value) -> (Outcome<()>) {
 	let port = try_as_port_ref! (port);
 	return port.close ();
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn port_input_close (port : &Value) -> (Outcome<()>) {
 	let port = try_as_port_ref! (port);
 	return port.input_close ();
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn port_output_close (port : &Value) -> (Outcome<()>) {
 	let port = try_as_port_ref! (port);
 	return port.output_close ();
@@ -99,6 +104,7 @@ pub fn port_output_close (port : &Value) -> (Outcome<()>) {
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn port_input_byte_peek (port : &Value) -> (Outcome<Value>) {
 	let port = try_as_port_ref! (port);
 	if let Some (byte) = try! (port.byte_peek ()) {
@@ -108,6 +114,7 @@ pub fn port_input_byte_peek (port : &Value) -> (Outcome<Value>) {
 	}
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn port_input_byte_read (port : &Value) -> (Outcome<Value>) {
 	let port = try_as_port_ref! (port);
 	if let Some (byte) = try! (port.byte_read ()) {
@@ -117,11 +124,13 @@ pub fn port_input_byte_read (port : &Value) -> (Outcome<Value>) {
 	}
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn port_input_byte_ready (port : &Value) -> (Outcome<bool>) {
 	let port = try_as_port_ref! (port);
 	return port.byte_ready ();
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn port_input_character_peek (port : &Value) -> (Outcome<Value>) {
 	let port = try_as_port_ref! (port);
 	if let Some (char) = try! (port.char_peek ()) {
@@ -131,6 +140,7 @@ pub fn port_input_character_peek (port : &Value) -> (Outcome<Value>) {
 	}
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn port_input_character_read (port : &Value) -> (Outcome<Value>) {
 	let port = try_as_port_ref! (port);
 	if let Some (char) = try! (port.char_read ()) {
@@ -140,6 +150,7 @@ pub fn port_input_character_read (port : &Value) -> (Outcome<Value>) {
 	}
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn port_input_character_ready (port : &Value) -> (Outcome<bool>) {
 	let port = try_as_port_ref! (port);
 	return port.char_ready ();
@@ -148,6 +159,7 @@ pub fn port_input_character_ready (port : &Value) -> (Outcome<bool>) {
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn port_input_bytes_read_collect (port : &Value, count : Option<&Value>) -> (Outcome<Value>) {
 	let port = try_as_port_ref! (port);
 	let count = try! (count_coerce (count));
@@ -160,6 +172,7 @@ pub fn port_input_bytes_read_collect (port : &Value, count : Option<&Value>) -> 
 	}
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn port_input_bytes_read_extend (port : &Value, bytes : &Value, count : Option<&Value>) -> (Outcome<Value>) {
 	let _port = try_as_port_ref! (port);
 	let _bytes = try_as_bytes_ref! (bytes);
@@ -167,6 +180,7 @@ pub fn port_input_bytes_read_extend (port : &Value, bytes : &Value, count : Opti
 	fail_unimplemented! (0xef49dfa9);
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn port_input_bytes_read_copy_range (port : &Value, bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let _port = try_as_port_ref! (port);
 	let bytes = try_as_bytes_ref! (bytes);
@@ -175,6 +189,7 @@ pub fn port_input_bytes_read_copy_range (port : &Value, bytes : &Value, range_st
 }
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn port_input_string_read_collect (port : &Value, count : Option<&Value>) -> (Outcome<Value>) {
 	let port = try_as_port_ref! (port);
 	let count = try! (count_coerce (count));
@@ -187,6 +202,7 @@ pub fn port_input_string_read_collect (port : &Value, count : Option<&Value>) ->
 	}
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn port_input_string_read_extend (port : &Value, string : &Value, count : Option<&Value>) -> (Outcome<Value>) {
 	let _port = try_as_port_ref! (port);
 	let _string = try_as_string_ref! (string);
@@ -197,6 +213,7 @@ pub fn port_input_string_read_extend (port : &Value, string : &Value, count : Op
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn port_output_byte_write (port : &Value, byte : &Value) -> (Outcome<()>) {
 	let port = try_as_port_ref! (port);
 	let byte = try_as_number_integer_ref! (byte);
@@ -204,6 +221,7 @@ pub fn port_output_byte_write (port : &Value, byte : &Value) -> (Outcome<()>) {
 	return port.byte_write (byte);
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn port_output_bytes_write (port : &Value, bytes : &Value) -> (Outcome<()>) {
 	let port = try_as_port_ref! (port);
 	let bytes = try_as_bytes_ref! (bytes);
@@ -212,6 +230,7 @@ pub fn port_output_bytes_write (port : &Value, bytes : &Value) -> (Outcome<()>) 
 	succeed! (());
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn port_output_character_write (port : &Value, char : &Value) -> (Outcome<()>) {
 	let port = try_as_port_ref! (port);
 	let char = try_as_character_ref! (char);
@@ -219,6 +238,7 @@ pub fn port_output_character_write (port : &Value, char : &Value) -> (Outcome<()
 	return port.char_write (char);
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn port_output_string_write (port : &Value, string : &Value) -> (Outcome<()>) {
 	let port = try_as_port_ref! (port);
 	let string = try_as_string_ref! (string);
@@ -227,6 +247,7 @@ pub fn port_output_string_write (port : &Value, string : &Value) -> (Outcome<()>
 	succeed! (());
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn port_output_flush (port : &Value) -> (Outcome<()>) {
 	let port = try_as_port_ref! (port);
 	return port.output_flush ();
@@ -235,6 +256,7 @@ pub fn port_output_flush (port : &Value) -> (Outcome<()>) {
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn port_call_and_close (port : &Value, callable : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	try_as_port_ref! (port);
 	let outcome = evaluator.evaluate_procedure_call_1 (callable, port);
@@ -246,6 +268,7 @@ pub fn port_call_and_close (port : &Value, callable : &Value, evaluator : &mut E
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn port_bytes_reader_new (bytes : &Value) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_ref! (bytes);
 	let port = match bytes {
@@ -261,6 +284,7 @@ pub fn port_bytes_reader_new (bytes : &Value) -> (Outcome<Value>) {
 	succeed! (port.into ());
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn port_string_reader_new (string : &Value) -> (Outcome<Value>) {
 	let string = try_as_string_ref! (string);
 	let port = match string {
@@ -276,11 +300,13 @@ pub fn port_string_reader_new (string : &Value) -> (Outcome<Value>) {
 	succeed! (port.into ());
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn port_bytes_writer_new () -> (Outcome<Value>) {
 	let port = try! (Port::new_bytes_writer ());
 	succeed! (port.into ());
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn port_string_writer_new () -> (Outcome<Value>) {
 	let port = try! (Port::new_bytes_writer ());
 	succeed! (port.into ());
@@ -289,6 +315,7 @@ pub fn port_string_writer_new () -> (Outcome<Value>) {
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn port_bytes_writer_finalize (port : &Value) -> (Outcome<Value>) {
 	let port = try_as_port_ref! (port);
 	let mut port = port.internals_ref_mut ();
@@ -303,6 +330,7 @@ pub fn port_bytes_writer_finalize (port : &Value) -> (Outcome<Value>) {
 	}
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn port_string_writer_finalize (port : &Value) -> (Outcome<Value>) {
 	let port = try_as_port_ref! (port);
 	let mut port = port.internals_ref_mut ();
@@ -324,11 +352,13 @@ pub fn port_string_writer_finalize (port : &Value) -> (Outcome<Value>) {
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn port_native_reader_new (reader : StdBox<io::Read>) -> (Outcome<Value>) {
 	let port = try! (Port::new_native_reader_from_unbuffered (reader));
 	succeed! (port.into ());
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn port_native_writer_new (writer : StdBox<io::Write>) -> (Outcome<Value>) {
 	let port = try! (Port::new_native_writer_from_unbuffered (writer));
 	succeed! (port.into ());
@@ -337,12 +367,14 @@ pub fn port_native_writer_new (writer : StdBox<io::Write>) -> (Outcome<Value>) {
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn port_file_reader_open (path : &Value) -> (Outcome<Value>) {
 	let mut options = fs::OpenOptions::new ();
 	options.read (true);
 	return port_file_reader_open_with_options (path, &options);
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn port_file_writer_open (path : &Value) -> (Outcome<Value>) {
 	let mut options = fs::OpenOptions::new ();
 	options.write (true);
@@ -354,12 +386,14 @@ pub fn port_file_writer_open (path : &Value) -> (Outcome<Value>) {
 }
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn port_file_reader_open_with_options (path : &Value, options : &fs::OpenOptions) -> (Outcome<Value>) {
 	let file = try! (port_file_open_with_options (path, options));
 	let file = StdBox::new (file);
 	return port_native_reader_new (file);
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn port_file_writer_open_with_options (path : &Value, options : &fs::OpenOptions) -> (Outcome<Value>) {
 	let file = try! (port_file_open_with_options (path, options));
 	let file = StdBox::new (file);
@@ -367,6 +401,7 @@ pub fn port_file_writer_open_with_options (path : &Value, options : &fs::OpenOpt
 }
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn port_file_open_with_options (path : &Value, options : &fs::OpenOptions) -> (Outcome<fs::File>) {
 	let path = try_as_string_ref! (path);
 	let path = fs_path::Path::new (path.string_as_str ());
@@ -378,12 +413,14 @@ pub fn port_file_open_with_options (path : &Value, options : &fs::OpenOptions) -
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn port_file_exists (path : &Value) -> (Outcome<bool>) {
 	let path = try_as_string_ref! (path);
 	let path = fs_path::Path::new (path.string_as_str ());
 	succeed! (path.exists ());
 }
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]
 pub fn port_file_delete (path : &Value) -> (Outcome<()>) {
 	let path = try_as_string_ref! (path);
 	let path = fs_path::Path::new (path.string_as_str ());
