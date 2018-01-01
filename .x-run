@@ -98,6 +98,7 @@ cat <<'EOS'
 :: execute / test / all / benchmark :: x-run ':: compile / test / all / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --release --all-features --jobs 1 -- --test-threads 1 --bench 'benchmark__' "${@}"
 
 :: browse / doc :: exec -- x-www open file://"$( readlink -e -- ./target/doc/rust_scheme/index.html )"
+:: browse / coverage :: exec -- x-www open file://"$( readlink -e -- ./target/cov/index.html )"
 :: browse / r7rs :: exec -- x-www open file://"$( readlink -e -- ./documentation/external/r7rs-small-spec/stripped/r7rs.pdf )"
 
 :: compile / clean :: exec -- find ./target/ -xdev -depth -print -delete
@@ -154,8 +155,17 @@ cat <<'EOS'
 	nice -n 19 -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./.rust/cargo/bin/rustup update
 !!
 
-:: environment / rust-up / use / stable :: export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin ):${PATH}"
-:: environment / rust-up / use / nightly :: export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):${PATH}"
+<< execute / cargo / install
+	test "${#}" -eq 0
+	test -e ./.rust
+	export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
+	export -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"
+	export -- PATH="${RUST_PATH}"
+	nice -n 19 -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo install cargo-kcov
+!!
+
+:: environment / rust-up / use / stable :: export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}"
+:: environment / rust-up / use / nightly :: export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}"
 
 :: environment / rust / stack / 128M :: export -- RUST_MIN_STACK=134217728
 :: environment / rust / backtrace / enable :: export -- RUST_BACKTRACE=1
@@ -179,6 +189,8 @@ sed -r -e 's#@\{TEST\}#'"${_test}"'#g' <<'EOS'
 :: execute / test / @{TEST} / tests / all / release :: x-run ':: compile / test / @{TEST} / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test '@{TEST}' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__' "${@}"
 :: execute / test / @{TEST} / benchmarks / all / debug :: x-run ':: compile / test / @{TEST} / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test '@{TEST}' --no-default-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
 :: execute / test / @{TEST} / benchmarks / all / release :: x-run ':: compile / test / @{TEST} / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test '@{TEST}' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
+:: execute / test / @{TEST} / coverage / all / debug :: exec -- taskset -c 2 env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo kcov --test '@{TEST}' --no-default-features --jobs 1 -- "${@}"
+:: execute / test / @{TEST} / coverage / all / release :: exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo kcov --test '@{TEST}' --release --all-features --jobs 1 -- "${@}"
 EOS
 done
 
@@ -275,11 +287,14 @@ done
 printf -- '%s\n' '!!'
 
 
-find . -xdev -type f -name '*.rs' -printf ':: files / edit / %P :: exec -- sce %p\n' | sort
-find . -xdev -type f -name '*.rs' -printf ':: files / view / %P :: exec -- less -- %p\n' | sort
+find ./sources/ ./tests/ -xdev -type f -name '*.rs' -printf ':: files / edit / %P :: exec -- sce %p\n' | sort
+find ./sources/ ./tests/ -xdev -type f -name '*.rs' -printf ':: files / view / %P :: exec -- less -- %p\n' | sort
 
-find . -xdev -type f -name '*.sst' -printf ':: files / edit / %P :: exec -- sce %p\n' | sort
-find . -xdev -type f -name '*.sst' -printf ':: files / view / %P :: exec -- less -- %p\n' | sort
+find ./sources/ ./tests/ -xdev -type f -name '*.in' -printf ':: files / edit / %P :: exec -- sce %p\n' | sort
+find ./sources/ ./tests/ -xdev -type f -name '*.in' -printf ':: files / view / %P :: exec -- less -- %p\n' | sort
+
+find ./sources/ ./tests/ -xdev -type f -name '*.sst' -printf ':: files / edit / %P :: exec -- sce %p\n' | sort
+find ./sources/ ./tests/ -xdev -type f -name '*.sst' -printf ':: files / view / %P :: exec -- less -- %p\n' | sort
 
 
 
