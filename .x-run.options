@@ -121,12 +121,16 @@
 	x-run ':: compile / test / all / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --release --all-features --jobs 1 -- --test-threads 1 --bench 'benchmark__' "${@}"
 !!
 
+<< execute / test / all / coverage / kcov
+	x-run ':: compile / test / all / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo kcov --no-clean-rebuild --no-default-features --jobs 1 --output ./target/kcov -- "${@}"
+!!
+
 << browse / doc
 	exec -- x-www open file://"$( readlink -e -- ./target/doc/rust_scheme/index.html )"
 !!
 
-<< browse / coverage
-	exec -- x-www open file://"$( readlink -e -- ./target/cov/index.html )"
+<< browse / coverage / kcov
+	exec -- x-www open file://"$( readlink -e -- ./target/kcov/index.html )"
 !!
 
 << browse / r7rs
@@ -212,7 +216,7 @@
 			mv -n -T -- ./.rust/rustup-init.tmp ./.rust/rustup-init
 			export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
 			export -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"
-			nice -n 19 -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./.rust/rustup-init -v -y --no-modify-path
+			nice -n 19 -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./.rust/rustup-init -y --no-modify-path
 		fi
 !!
 
@@ -239,6 +243,7 @@
 		export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
 		export -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"
 		export -- PATH="${RUST_PATH}"
+		# nice -n 19 -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo install cargo-cov
 		nice -n 19 -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo install cargo-kcov
 !!
 
@@ -306,12 +311,8 @@
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test 'scheme' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
 !!
 
-<< execute / test / scheme / coverage / all / debug
-	exec -- taskset -c 2 env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo kcov --test 'scheme' --no-default-features --jobs 1 -- "${@}"
-!!
-
-<< execute / test / scheme / coverage / all / release
-	exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo kcov --test 'scheme' --release --all-features --jobs 1 -- "${@}"
+<< execute / test / scheme / coverage / all / kcov
+	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo kcov --test 'scheme' --no-clean-rebuild --no-default-features --jobs 1 --output ./target/kcov -- "${@}"
 !!
 
 << compile / test / low-level-r7rs / debug
@@ -338,12 +339,8 @@
 	x-run ':: compile / test / low-level-r7rs / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test 'low-level-r7rs' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
 !!
 
-<< execute / test / low-level-r7rs / coverage / all / debug
-	exec -- taskset -c 2 env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo kcov --test 'low-level-r7rs' --no-default-features --jobs 1 -- "${@}"
-!!
-
-<< execute / test / low-level-r7rs / coverage / all / release
-	exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo kcov --test 'low-level-r7rs' --release --all-features --jobs 1 -- "${@}"
+<< execute / test / low-level-r7rs / coverage / all / kcov
+	x-run ':: compile / test / low-level-r7rs / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo kcov --test 'low-level-r7rs' --no-clean-rebuild --no-default-features --jobs 1 --output ./target/kcov -- "${@}"
 !!
 
 << compile / test / low-level-parser / debug
@@ -370,12 +367,8 @@
 	x-run ':: compile / test / low-level-parser / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test 'low-level-parser' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
 !!
 
-<< execute / test / low-level-parser / coverage / all / debug
-	exec -- taskset -c 2 env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo kcov --test 'low-level-parser' --no-default-features --jobs 1 -- "${@}"
-!!
-
-<< execute / test / low-level-parser / coverage / all / release
-	exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo kcov --test 'low-level-parser' --release --all-features --jobs 1 -- "${@}"
+<< execute / test / low-level-parser / coverage / all / kcov
+	x-run ':: compile / test / low-level-parser / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo kcov --test 'low-level-parser' --no-clean-rebuild --no-default-features --jobs 1 --output ./target/kcov -- "${@}"
 !!
 
 << compile / test / low-level-sizes / debug
@@ -402,12 +395,8 @@
 	x-run ':: compile / test / low-level-sizes / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test 'low-level-sizes' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
 !!
 
-<< execute / test / low-level-sizes / coverage / all / debug
-	exec -- taskset -c 2 env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo kcov --test 'low-level-sizes' --no-default-features --jobs 1 -- "${@}"
-!!
-
-<< execute / test / low-level-sizes / coverage / all / release
-	exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo kcov --test 'low-level-sizes' --release --all-features --jobs 1 -- "${@}"
+<< execute / test / low-level-sizes / coverage / all / kcov
+	x-run ':: compile / test / low-level-sizes / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo kcov --test 'low-level-sizes' --no-clean-rebuild --no-default-features --jobs 1 --output ./target/kcov -- "${@}"
 !!
 
 << compile / test / low-level-assertions / debug
@@ -434,12 +423,8 @@
 	x-run ':: compile / test / low-level-assertions / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test 'low-level-assertions' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
 !!
 
-<< execute / test / low-level-assertions / coverage / all / debug
-	exec -- taskset -c 2 env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo kcov --test 'low-level-assertions' --no-default-features --jobs 1 -- "${@}"
-!!
-
-<< execute / test / low-level-assertions / coverage / all / release
-	exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo kcov --test 'low-level-assertions' --release --all-features --jobs 1 -- "${@}"
+<< execute / test / low-level-assertions / coverage / all / kcov
+	x-run ':: compile / test / low-level-assertions / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo kcov --test 'low-level-assertions' --no-clean-rebuild --no-default-features --jobs 1 --output ./target/kcov -- "${@}"
 !!
 
 << execute / test / scheme / tests / arithmetic / debug

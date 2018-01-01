@@ -96,9 +96,10 @@ cat <<'EOS'
 :: execute / test / all / debug :: x-run ':: compile / test / all / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --no-default-features --jobs 1 -- --test-threads 1 --test 'test__' "${@}"
 :: execute / test / all / release :: x-run ':: compile / test / all / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --release --all-features --jobs 1 -- --test-threads 1 --test 'test__' "${@}"
 :: execute / test / all / benchmark :: x-run ':: compile / test / all / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --release --all-features --jobs 1 -- --test-threads 1 --bench 'benchmark__' "${@}"
+:: execute / test / all / coverage / kcov :: x-run ':: compile / test / all / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo kcov --no-clean-rebuild --no-default-features --jobs 1 --output ./target/kcov -- "${@}"
 
 :: browse / doc :: exec -- x-www open file://"$( readlink -e -- ./target/doc/rust_scheme/index.html )"
-:: browse / coverage :: exec -- x-www open file://"$( readlink -e -- ./target/cov/index.html )"
+:: browse / coverage / kcov :: exec -- x-www open file://"$( readlink -e -- ./target/kcov/index.html )"
 :: browse / r7rs :: exec -- x-www open file://"$( readlink -e -- ./documentation/external/r7rs-small-spec/stripped/r7rs.pdf )"
 
 :: compile / clean :: exec -- find ./target/ -xdev -depth -print -delete
@@ -134,7 +135,7 @@ cat <<'EOS'
 		mv -n -T -- ./.rust/rustup-init.tmp ./.rust/rustup-init
 		export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
 		export -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"
-		nice -n 19 -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./.rust/rustup-init -v -y --no-modify-path
+		nice -n 19 -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./.rust/rustup-init -y --no-modify-path
 	fi
 !!
 
@@ -161,6 +162,7 @@ cat <<'EOS'
 	export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
 	export -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"
 	export -- PATH="${RUST_PATH}"
+	# nice -n 19 -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo install cargo-cov
 	nice -n 19 -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo install cargo-kcov
 !!
 
@@ -189,8 +191,7 @@ sed -r -e 's#@\{TEST\}#'"${_test}"'#g' <<'EOS'
 :: execute / test / @{TEST} / tests / all / release :: x-run ':: compile / test / @{TEST} / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test '@{TEST}' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__' "${@}"
 :: execute / test / @{TEST} / benchmarks / all / debug :: x-run ':: compile / test / @{TEST} / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test '@{TEST}' --no-default-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
 :: execute / test / @{TEST} / benchmarks / all / release :: x-run ':: compile / test / @{TEST} / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test '@{TEST}' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
-:: execute / test / @{TEST} / coverage / all / debug :: exec -- taskset -c 2 env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo kcov --test '@{TEST}' --no-default-features --jobs 1 -- "${@}"
-:: execute / test / @{TEST} / coverage / all / release :: exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo kcov --test '@{TEST}' --release --all-features --jobs 1 -- "${@}"
+:: execute / test / @{TEST} / coverage / all / kcov :: x-run ':: compile / test / @{TEST} / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo kcov --test '@{TEST}' --no-clean-rebuild --no-default-features --jobs 1 --output ./target/kcov -- "${@}"
 EOS
 done
 
