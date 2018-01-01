@@ -84,6 +84,12 @@ pub enum ListPrimitive1 {
 	
 	ListFill,
 	
+	PairToImmutable,
+	PairToMutable,
+	
+	ListToImmutable,
+	ListToMutable,
+	
 }
 
 
@@ -246,6 +252,18 @@ pub fn list_primitive_1_evaluate (primitive : ListPrimitive1, input_1 : &Value, 
 		
 		ListPrimitive1::ListFill =>
 			return list_fill_range (input_1, None, None, None),
+		
+		ListPrimitive1::PairToImmutable =>
+			succeed! (try_as_pair_ref! (input_1) .to_immutable () .into ()),
+		
+		ListPrimitive1::PairToMutable =>
+			succeed! (try_as_pair_ref! (input_1) .to_mutable () .into ()),
+		
+		ListPrimitive1::ListToImmutable =>
+			fail_unimplemented! (0xaab9fe29), // deferred
+		
+		ListPrimitive1::ListToMutable =>
+			fail_unimplemented! (0xf0892d44), // deferred
 		
 	}
 }

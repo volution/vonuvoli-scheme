@@ -59,6 +59,8 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("nxor*", BooleanPrimitiveV::Nxor.into ()),
 			
 			("string-reverse", StringPrimitive1::StringReverse.into ()),
+			("string->immutable", StringPrimitive1::StringToImmutable.into ()),
+			("string->mutable", StringPrimitive1::StringToMutable.into ()),
 			
 			("symbol-upcase", StringPrimitive1::SymbolToUpperCase.into ()),
 			("symbol-downcase", StringPrimitive1::SymbolToLowerCase.into ()),
@@ -72,8 +74,18 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("vector->bytevector", BytesPrimitiveV::ArrayRangeToBytes.into ()),
 			("bytevector->list", BytesPrimitiveV::BytesRangeToList.into ()),
 			("list->bytevector", BytesPrimitiveV::ListRangeToBytes.into ()),
+			("bytevector->immutable", BytesPrimitive1::BytesToImmutable.into ()),
+			("bytevector->mutable", BytesPrimitive1::BytesToMutable.into ()),
+			
+			("cons->immutable", ListPrimitive1::PairToImmutable.into ()),
+			("cons->mutable", ListPrimitive1::PairToMutable.into ()),
+			
+			("list->immutable", ListPrimitive1::ListToImmutable.into ()),
+			("list->mutable", ListPrimitive1::ListToMutable.into ()),
 			
 			("vector-reverse", ArrayPrimitive1::ArrayReverse.into ()),
+			("vector->immutable", ArrayPrimitive1::ArrayToImmutable.into ()),
+			("vector->mutable", ArrayPrimitive1::ArrayToMutable.into ()),
 			
 			("equivalent-by-identity?", ComparisonPrimitiveV::EquivalentByIdentity.into ()),
 			("equivalent-by-value-strict?", ComparisonPrimitiveV::EquivalentByValueStrict.into ()),

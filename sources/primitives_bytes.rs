@@ -80,6 +80,9 @@ pub enum BytesPrimitive1 {
 	BytesToArray,
 	ArrayToBytes,
 	
+	BytesToImmutable,
+	BytesToMutable,
+	
 }
 
 
@@ -232,6 +235,12 @@ pub fn bytes_primitive_1_evaluate (primitive : BytesPrimitive1, input_1 : &Value
 		
 		BytesPrimitive1::ArrayToBytes =>
 			return array_range_to_bytes (input_1, None, None),
+		
+		BytesPrimitive1::BytesToImmutable =>
+			succeed! (try_as_bytes_ref! (input_1) .to_immutable () .into ()),
+		
+		BytesPrimitive1::BytesToMutable =>
+			succeed! (try_as_bytes_ref! (input_1) .to_mutable () .into ()),
 		
 	}
 }
