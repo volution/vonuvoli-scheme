@@ -83,8 +83,7 @@ impl Compiler {
 				return self.compile_syntax_quote_0 (compilation, token),
 			
 			ValueClass::Boolean |
-			ValueClass::NumberInteger |
-			ValueClass::NumberReal |
+			ValueClass::Number |
 			ValueClass::Character =>
 				return self.compile_syntax_quote_0 (compilation, token),
 			
@@ -107,31 +106,17 @@ impl Compiler {
 			ValueClass::Error =>
 				fail_panic! (0x2aa7bc60),
 			
-			ValueClass::ProcedurePrimitive =>
+			ValueClass::Procedure =>
 				fail_panic! (0xa9e5d4ca),
-			ValueClass::ProcedureExtended =>
-				fail_panic! (0xaf6f1288),
-			ValueClass::ProcedureNative =>
-				fail_panic! (0x3ee44fb5),
-			ValueClass::ProcedureLambda =>
-				fail_panic! (0x2c4bb21a),
 			
-			ValueClass::SyntaxPrimitive =>
+			ValueClass::Syntax =>
 				fail_panic! (0x09e47c84),
-			ValueClass::SyntaxExtended =>
-				fail_panic! (0xe781b659),
-			ValueClass::SyntaxNative =>
-				fail_panic! (0x08600fd4),
-			ValueClass::SyntaxLambda =>
-				fail_panic! (0x7f9c4bb4),
 			
 			ValueClass::Port =>
 				fail_panic! (0x05fe5b73),
 			
-			ValueClass::Binding =>
-				fail_panic! (0x7172b055),
-			ValueClass::Context =>
-				fail_panic! (0x5f0d7003),
+			ValueClass::Opaque =>
+				fail_panic! (0x56a47d68),
 			
 		}
 	}
@@ -192,7 +177,7 @@ impl Compiler {
 			ValueClass::Symbol => {
 				if let Some (callable) = try! (compilation.resolve_value (callable.into ())) {
 					match callable.class () {
-						ValueClass::SyntaxPrimitive =>
+						ValueClass::Syntax =>
 							succeed! ((compilation, Some ((callable.into (), arguments)))),
 						_ =>
 							succeed! ((compilation, None)),
@@ -202,7 +187,7 @@ impl Compiler {
 				}
 			},
 			
-			ValueClass::SyntaxPrimitive =>
+			ValueClass::Syntax =>
 				succeed! ((compilation, Some ((callable.into (), arguments)))),
 			
 			_ =>
@@ -431,7 +416,7 @@ impl Compiler {
 			}
 			let (guard, statements) = try! (vec_explode_1n (tokens));
 			
-			let (compilation_1, guard) = if ! (guard.is (ValueClass::Symbol) && StdAsRef::<Symbol>::as_ref (&guard) .string_eq ("else")) {
+			let (compilation_1, guard) = if ! (guard.is_class (ValueClass::Symbol) && StdAsRef::<Symbol>::as_ref (&guard) .string_eq ("else")) {
 				let (compilation_1, guard) = try! (self.compile_0 (compilation, guard));
 				let guard = ExpressionConditionalIfGuard::Expression (guard, false);
 				(compilation_1, guard)
@@ -440,7 +425,7 @@ impl Compiler {
 				(compilation, guard)
 			};
 			
-			if (statements.len () >= 1) && (statements[0].is (ValueClass::Symbol) && StdAsRef::<Symbol>::as_ref (&statements[0]) .string_eq ("=>")) {
+			if (statements.len () >= 1) && (statements[0].is_class (ValueClass::Symbol) && StdAsRef::<Symbol>::as_ref (&statements[0]) .string_eq ("=>")) {
 				fail_unimplemented! (0xfa332991); // deferred
 			}
 			let (compilation_1, statements) = try! (self.compile_0_vec (compilation_1, statements));
@@ -487,14 +472,14 @@ impl Compiler {
 			}
 			let (expected, statements) = try! (vec_explode_1n (tokens));
 			
-			let guard = if ! (expected.is (ValueClass::Symbol) && StdAsRef::<Symbol>::as_ref (&expected) .string_eq ("else")) {
+			let guard = if ! (expected.is_class (ValueClass::Symbol) && StdAsRef::<Symbol>::as_ref (&expected) .string_eq ("else")) {
 				let expected = try! (vec_list_clone (&expected));
 				ExpressionConditionalMatchGuard::Values (expected.into_boxed_slice (), false)
 			} else {
 				ExpressionConditionalMatchGuard::True
 			};
 			
-			if (statements.len () >= 1) && (statements[0].is (ValueClass::Symbol) && StdAsRef::<Symbol>::as_ref (&statements[0]) .string_eq ("=>")) {
+			if (statements.len () >= 1) && (statements[0].is_class (ValueClass::Symbol) && StdAsRef::<Symbol>::as_ref (&statements[0]) .string_eq ("=>")) {
 				fail_unimplemented! (0xef5d468c); // deferred
 			}
 			let (compilation_1, statements) = try! (self.compile_0_vec (compilation, statements));
@@ -1220,8 +1205,7 @@ impl Compiler {
 				succeed! ((compilation, splice (token, spliceable))),
 			
 			ValueClass::Boolean |
-			ValueClass::NumberInteger |
-			ValueClass::NumberReal |
+			ValueClass::Number |
 			ValueClass::Character =>
 				succeed! ((compilation, splice (token, spliceable))),
 			
@@ -1237,33 +1221,19 @@ impl Compiler {
 				fail_unimplemented! (0x0da960b2), // deferred
 			
 			ValueClass::Error =>
-				fail! (0x9681733a),
+				fail_panic! (0x9681733a),
 			
-			ValueClass::ProcedurePrimitive =>
-				fail! (0x89c49854),
-			ValueClass::ProcedureExtended =>
-				fail! (0xc3fb9b61),
-			ValueClass::ProcedureNative =>
-				fail! (0xd1762c78),
-			ValueClass::ProcedureLambda =>
-				fail! (0xf3b07bb7),
+			ValueClass::Procedure =>
+				fail_panic! (0x89c49854),
 			
-			ValueClass::SyntaxPrimitive =>
-				fail! (0x251a7fd0),
-			ValueClass::SyntaxExtended =>
-				fail! (0x567a02a2),
-			ValueClass::SyntaxNative =>
-				fail! (0x34564a2c),
-			ValueClass::SyntaxLambda =>
-				fail! (0xbe7157a3),
+			ValueClass::Syntax =>
+				fail_panic! (0xbe7157a3),
 			
 			ValueClass::Port =>
-				fail! (0x9c039a72),
+				fail_panic! (0x9c039a72),
 			
-			ValueClass::Binding =>
-				fail! (0xdf21f737),
-			ValueClass::Context =>
-				fail! (0xfa7ef6f6),
+			ValueClass::Opaque =>
+				fail_panic! (0xfa7ef6f6),
 			
 			ValueClass::Pair => {
 				

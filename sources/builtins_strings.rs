@@ -652,9 +652,9 @@ pub fn string_to_number (string : &Value, radix : Option<&Value>) -> (Outcome<Va
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn number_to_string (number : &Value, radix : Option<&Value>, sign : Option<bool>) -> (Outcome<Value>) {
 	let radix = try! (number_radix_coerce (radix));
-	match number.class () {
+	match number.kind () {
 		
-		ValueClass::NumberInteger => {
+		ValueKind::NumberInteger => {
 			let number = StdAsRef::<NumberInteger>::as_ref (number) .value ();
 			let string = if number != 0 {
 				let (number, prefix) = if number > 0 {
@@ -694,7 +694,7 @@ pub fn number_to_string (number : &Value, radix : Option<&Value>, sign : Option<
 			succeed! (string.into ());
 		},
 		
-		ValueClass::NumberReal => {
+		ValueKind::NumberReal => {
 			let number = StdAsRef::<NumberReal>::as_ref (number) .value ();
 			let string = if (number != 0.0) && !number.is_nan () {
 				match radix {

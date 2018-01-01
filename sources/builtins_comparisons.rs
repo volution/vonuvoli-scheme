@@ -439,80 +439,92 @@ def_fn_compare! (Value,
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let value = value.as_ref ();
-	match value.class () {
+	match value.kind () {
 		
-		ValueClass::Null |
-		ValueClass::Void |
-		ValueClass::Singleton =>
+		ValueKind::Null |
+		ValueKind::Void |
+		ValueKind::Singleton =>
 			succeed! (true),
 		
-		ValueClass::Boolean =>
+		ValueKind::Boolean =>
 			return boolean_compare_1a (value,  comparison),
 		
-		ValueClass::NumberInteger =>
+		ValueKind::NumberInteger =>
 			return number_integer_compare_1a (value, comparison),
 		
-		ValueClass::NumberReal =>
+		ValueKind::NumberReal =>
 			return number_real_compare_1a (value, comparison),
 		
-		ValueClass::Character =>
+		ValueKind::Character =>
 			return character_compare_1a (value, comparison),
 		
-		ValueClass::Symbol =>
+		ValueKind::Symbol =>
 			return symbol_compare_1a (value, comparison),
 		
-		ValueClass::String =>
-			return string_compare_1 (value, comparison),
+		ValueKind::StringImmutable =>
+			return string_immutable_compare_1a (value, comparison),
 		
-		ValueClass::Bytes =>
-			return bytes_compare_1 (value, comparison),
+		ValueKind::StringMutable =>
+			return string_mutable_compare_1a (value, comparison),
 		
-		ValueClass::Pair =>
-			return pair_compare_1 (value, comparison),
+		ValueKind::BytesImmutable =>
+			return bytes_immutable_compare_1a (value, comparison),
 		
-		ValueClass::Array =>
-			return array_compare_1 (value, comparison),
+		ValueKind::BytesMutable =>
+			return bytes_mutable_compare_1a (value, comparison),
 		
-		ValueClass::Values =>
+		ValueKind::PairImmutable =>
+			return pair_immutable_compare_1a (value, comparison),
+		
+		ValueKind::PairMutable =>
+			return pair_mutable_compare_1a (value, comparison),
+		
+		ValueKind::ArrayImmutable =>
+			return array_immutable_compare_1a (value, comparison),
+		
+		ValueKind::ArrayMutable =>
+			return array_mutable_compare_1a (value, comparison),
+		
+		ValueKind::Values =>
 			return values_compare_1a (value, comparison),
 		
-		ValueClass::Error =>
+		ValueKind::Error =>
 			return error_compare_1a (value, comparison),
 		
-		ValueClass::ProcedurePrimitive =>
+		ValueKind::ProcedurePrimitive =>
 			return procedure_primitive_compare_1a (value, comparison),
 		
-		ValueClass::ProcedureExtended =>
+		ValueKind::ProcedureExtended =>
 			return procedure_extended_compare_1a (value, comparison),
 		
-		ValueClass::ProcedureNative =>
+		ValueKind::ProcedureNative =>
 			return procedure_native_compare_1a (value, comparison),
 		
-		ValueClass::ProcedureLambda =>
+		ValueKind::ProcedureLambda =>
 			return procedure_lambda_compare_1a (value, comparison),
 		
-		ValueClass::SyntaxPrimitive =>
+		ValueKind::SyntaxPrimitive =>
 			return syntax_primitive_compare_1a (value, comparison),
 		
-		ValueClass::SyntaxExtended =>
+		ValueKind::SyntaxExtended =>
 			return syntax_extended_compare_1a (value, comparison),
 		
-		ValueClass::SyntaxNative =>
+		ValueKind::SyntaxNative =>
 			return syntax_native_compare_1a (value, comparison),
 		
-		ValueClass::SyntaxLambda =>
+		ValueKind::SyntaxLambda =>
 			return syntax_lambda_compare_1a (value, comparison),
 		
-		ValueClass::Port =>
+		ValueKind::Port =>
 			return port_compare_1a (value, comparison),
 		
-		ValueClass::Context =>
+		ValueKind::Context =>
 			return context_compare_1a (value, comparison),
 		
-		ValueClass::Binding =>
+		ValueKind::Binding =>
 			return binding_compare_1a (value, comparison),
 		
-		ValueClass::Undefined =>
+		ValueKind::Undefined =>
 			match comparison {
 				Comparison::Equivalence (_, _, _) =>
 					succeed! (true),
@@ -528,10 +540,10 @@ pub fn compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Co
 pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
-	match (left.class (), right.class ()) {
+	match (left.kind (), right.kind ()) {
 		
-		(ValueClass::Null, ValueClass::Null) |
-		(ValueClass::Void, ValueClass::Void) =>
+		(ValueKind::Null, ValueKind::Null) |
+		(ValueKind::Void, ValueKind::Void) =>
 			match comparison {
 				Comparison::Equivalence (_, _, _) =>
 					succeed! (true),
@@ -544,82 +556,108 @@ pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef
 					},
 			},
 		
-		(ValueClass::Singleton, ValueClass::Singleton) =>
+		(ValueKind::Singleton, ValueKind::Singleton) =>
 			return value_singleton_compare_2a (left, right, comparison),
 		
-		(ValueClass::Boolean, ValueClass::Boolean) =>
+		(ValueKind::Boolean, ValueKind::Boolean) =>
 			return boolean_compare_2a (left, right, comparison),
 		
-		(ValueClass::NumberInteger, ValueClass::NumberInteger) =>
+		(ValueKind::NumberInteger, ValueKind::NumberInteger) =>
 			return number_integer_compare_2a (left, right, comparison),
 		
-		(ValueClass::NumberReal, ValueClass::NumberReal) =>
+		(ValueKind::NumberReal, ValueKind::NumberReal) =>
 			return number_real_compare_2a (left, right, comparison),
 		
-		(ValueClass::Character, ValueClass::Character) =>
+		(ValueKind::NumberInteger, ValueKind::NumberReal) |
+		(ValueKind::NumberReal, ValueKind::NumberInteger) =>
+			return number_compare_2 (left, right, comparison),
+		
+		(ValueKind::Character, ValueKind::Character) =>
 			return character_compare_2a (left, right, comparison),
 		
-		(ValueClass::Symbol, ValueClass::Symbol) =>
+		(ValueKind::Symbol, ValueKind::Symbol) =>
 			return symbol_compare_2a (left, right, comparison),
 		
-		(ValueClass::String, ValueClass::String) =>
+		(ValueKind::StringImmutable, ValueKind::StringImmutable) =>
+			return string_immutable_compare_2a (left, right, comparison),
+		
+		(ValueKind::StringMutable, ValueKind::StringMutable) =>
+			return string_mutable_compare_2a (left, right, comparison),
+		
+		(ValueKind::StringImmutable, ValueKind::StringMutable) |
+		(ValueKind::StringMutable, ValueKind::StringImmutable) =>
 			return string_compare_2 (left, right, comparison),
 		
-		(ValueClass::Bytes, ValueClass::Bytes) =>
+		(ValueKind::BytesImmutable, ValueKind::BytesImmutable) =>
+			return bytes_immutable_compare_2a (left, right, comparison),
+		
+		(ValueKind::BytesMutable, ValueKind::BytesMutable) =>
+			return bytes_mutable_compare_2a (left, right, comparison),
+		
+		(ValueKind::BytesImmutable, ValueKind::BytesMutable) |
+		(ValueKind::BytesMutable, ValueKind::BytesImmutable) =>
 			return bytes_compare_2 (left, right, comparison),
 		
-		(ValueClass::Pair, ValueClass::Pair) =>
+		(ValueKind::PairImmutable, ValueKind::PairImmutable) =>
+			return pair_immutable_compare_2a (left, right, comparison),
+		
+		(ValueKind::PairMutable, ValueKind::PairMutable) =>
+			return pair_mutable_compare_2a (left, right, comparison),
+		
+		(ValueKind::PairImmutable, ValueKind::PairMutable) |
+		(ValueKind::PairMutable, ValueKind::PairImmutable) =>
 			return pair_compare_2 (left, right, comparison),
 		
-		(ValueClass::Array, ValueClass::Array) =>
+		(ValueKind::ArrayImmutable, ValueKind::ArrayImmutable) =>
+			return array_immutable_compare_2a (left, right, comparison),
+		
+		(ValueKind::ArrayMutable, ValueKind::ArrayMutable) =>
+			return array_mutable_compare_2a (left, right, comparison),
+		
+		(ValueKind::ArrayImmutable, ValueKind::ArrayMutable) |
+		(ValueKind::ArrayMutable, ValueKind::ArrayImmutable) =>
 			return array_compare_2 (left, right, comparison),
 		
-		(ValueClass::Values, ValueClass::Values) =>
+		(ValueKind::Values, ValueKind::Values) =>
 			return values_compare_2a (left, right, comparison),
 		
-		(ValueClass::Error, ValueClass::Error) =>
+		(ValueKind::Error, ValueKind::Error) =>
 			return error_compare_2a (left, right, comparison),
 		
-		(ValueClass::ProcedurePrimitive, ValueClass::ProcedurePrimitive) =>
+		(ValueKind::ProcedurePrimitive, ValueKind::ProcedurePrimitive) =>
 			return procedure_primitive_compare_2a (left, right, comparison),
 		
-		(ValueClass::ProcedureExtended, ValueClass::ProcedureExtended) =>
+		(ValueKind::ProcedureExtended, ValueKind::ProcedureExtended) =>
 			return procedure_extended_compare_2a (left, right, comparison),
 		
-		(ValueClass::ProcedureNative, ValueClass::ProcedureNative) =>
+		(ValueKind::ProcedureNative, ValueKind::ProcedureNative) =>
 			return procedure_native_compare_2a (left, right, comparison),
 		
-		(ValueClass::ProcedureLambda, ValueClass::ProcedureLambda) =>
+		(ValueKind::ProcedureLambda, ValueKind::ProcedureLambda) =>
 			return procedure_lambda_compare_2a (left, right, comparison),
 		
-		(ValueClass::SyntaxPrimitive, ValueClass::SyntaxPrimitive) =>
+		(ValueKind::SyntaxPrimitive, ValueKind::SyntaxPrimitive) =>
 			return syntax_primitive_compare_2a (left, right, comparison),
 		
-		(ValueClass::SyntaxExtended, ValueClass::SyntaxExtended) =>
+		(ValueKind::SyntaxExtended, ValueKind::SyntaxExtended) =>
 			return syntax_extended_compare_2a (left, right, comparison),
 		
-		(ValueClass::SyntaxNative, ValueClass::SyntaxNative) =>
+		(ValueKind::SyntaxNative, ValueKind::SyntaxNative) =>
 			return syntax_native_compare_2a (left, right, comparison),
 		
-		(ValueClass::SyntaxLambda, ValueClass::SyntaxLambda) =>
+		(ValueKind::SyntaxLambda, ValueKind::SyntaxLambda) =>
 			return syntax_lambda_compare_2a (left, right, comparison),
 		
-		(ValueClass::Port, ValueClass::Port) =>
+		(ValueKind::Port, ValueKind::Port) =>
 			return port_compare_2a (left, right, comparison),
 		
-		(ValueClass::Context, ValueClass::Context) =>
+		(ValueKind::Context, ValueKind::Context) =>
 			return context_compare_2a (left, right, comparison),
 		
-		(ValueClass::Binding, ValueClass::Binding) =>
+		(ValueKind::Binding, ValueKind::Binding) =>
 			return binding_compare_2a (left, right, comparison),
 		
-		(ValueClass::NumberInteger, ValueClass::NumberReal) =>
-			return number_compare_2 (left, right, comparison),
-		
-		(ValueClass::NumberReal, ValueClass::NumberInteger) =>
-			return number_compare_2 (left, right, comparison),
-		
-		(ValueClass::Undefined, ValueClass::Undefined) =>
+		(ValueKind::Undefined, ValueKind::Undefined) =>
 			match comparison {
 				Comparison::Equivalence (_, _, _) =>
 					succeed! (true),
@@ -627,7 +665,7 @@ pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef
 					fail! (0xec7931c0),
 			},
 		
-		(ValueClass::Undefined, _) =>
+		(ValueKind::Undefined, _) =>
 			match comparison {
 				Comparison::Equivalence (_, _, _) =>
 					succeed! (false),
@@ -635,7 +673,7 @@ pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef
 					fail! (0xa7c9f145),
 			},
 		
-		(_, ValueClass::Undefined) =>
+		(_, ValueKind::Undefined) =>
 			match comparison {
 				Comparison::Equivalence (_, _, _) =>
 					succeed! (false),
@@ -643,12 +681,12 @@ pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef
 					fail! (0xb57c53eb),
 			},
 		
-		(left_class, right_class) =>
+		(left_kind, right_kind) =>
 			match comparison {
 				Comparison::Equivalence (_, _, _) =>
 					succeed! (false),
 				Comparison::Ordering (ordering, _, _) =>
-					return value_class_compare_2a_ordering (left_class, right_class, ordering),
+					return value_kind_compare_2a_ordering (left_kind, right_kind, ordering),
 			},
 		
 	}
@@ -1361,24 +1399,26 @@ pub fn number_compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparis
 	let value = value.as_ref ();
 	match comparison {
 		Comparison::Equivalence (_, _, _) =>
-			match value.class () {
-				ValueClass::NumberInteger =>
+			match value.kind () {
+				ValueKind::NumberInteger =>
 					succeed! (true),
-				ValueClass::NumberReal =>
+				ValueKind::NumberReal =>
 					succeed! (true),
 				_ =>
 					fail! (0x67cd9293),
 			},
 		Comparison::Ordering (_, _, _) =>
-			match value.class () {
-				ValueClass::NumberInteger =>
+			match value.kind () {
+				ValueKind::NumberInteger =>
 					succeed! (true),
-				ValueClass::NumberReal =>
-					if StdAsRef::<NumberReal>::as_ref (value) .is_nan () {
+				ValueKind::NumberReal => {
+					let value = StdAsRef::<NumberReal>::as_ref (value) .value ();
+					if value.is_nan () {
 						succeed! (false);
 					} else {
 						succeed! (true);
-					},
+					}
+				},
 				_ =>
 					fail! (0x0e6bfc4b),
 			},
@@ -1395,10 +1435,13 @@ pub fn number_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : V
 			match coercion {
 				
 				None | Some (false) =>
-					match (left.class (), right.class ()) {
-						(ValueClass::NumberInteger, ValueClass::NumberInteger) =>
-							succeed! (StdAsRef::<NumberInteger>::as_ref (left) == StdAsRef::<NumberInteger>::as_ref (right)),
-						(ValueClass::NumberReal, ValueClass::NumberReal) => {
+					match (left.kind (), right.kind ()) {
+						(ValueKind::NumberInteger, ValueKind::NumberInteger) => {
+							let left = StdAsRef::<NumberInteger>::as_ref (left) .value ();
+							let right = StdAsRef::<NumberInteger>::as_ref (right) .value ();
+							succeed! (left == right);
+						},
+						(ValueKind::NumberReal, ValueKind::NumberReal) => {
 							let left = StdAsRef::<NumberReal>::as_ref (left) .value ();
 							let right = StdAsRef::<NumberReal>::as_ref (right) .value ();
 							if left.is_nan () && right.is_nan () {
@@ -1407,17 +1450,17 @@ pub fn number_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : V
 								succeed! (left == right);
 							}
 						},
-						(ValueClass::NumberInteger, ValueClass::NumberReal) =>
+						(ValueKind::NumberInteger, ValueKind::NumberReal) =>
 							succeed! (false),
-						(ValueClass::NumberReal, ValueClass::NumberInteger) =>
+						(ValueKind::NumberReal, ValueKind::NumberInteger) =>
 							succeed! (false),
-						(ValueClass::NumberInteger, _) =>
+						(ValueKind::NumberInteger, _) =>
 							fail! (0x4878e871),
-						(ValueClass::NumberReal, _) =>
+						(ValueKind::NumberReal, _) =>
 							fail! (0xf6401a54),
-						(_, ValueClass::NumberInteger) =>
+						(_, ValueKind::NumberInteger) =>
 							fail! (0xb73515b9),
-						(_, ValueClass::NumberReal) =>
+						(_, ValueKind::NumberReal) =>
 							fail! (0xbbdcc17a),
 						(_, _) =>
 							fail! (0xfc1f9e8b),
@@ -1542,6 +1585,11 @@ pub fn array_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : Va
 
 
 
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn value_kind_compare_2a_ordering (left : ValueKind, right : ValueKind, ordering : Ordering) -> (Outcome<bool>) {
+	return std_ord_compare_2_ordering_val (left, right, ordering);
+}
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn value_class_compare_2a_ordering (left : ValueClass, right : ValueClass, ordering : Ordering) -> (Outcome<bool>) {

@@ -117,46 +117,46 @@ pub fn type_primitive_1_evaluate_0 (primitive : TypePrimitive1, input_1 : &Value
 	let output = match primitive {
 		
 		TypePrimitive1::IsNull =>
-			input_1.is (ValueClass::Null),
+			input_1.is_kind (ValueKind::Null),
 		
 		TypePrimitive1::IsVoid =>
-			input_1.is (ValueClass::Void),
+			input_1.is_kind (ValueKind::Void),
 		
 		TypePrimitive1::IsUndefined =>
-			input_1.is (ValueClass::Undefined),
+			input_1.is_kind (ValueKind::Undefined),
 		
 		TypePrimitive1::IsBoolean =>
-			input_1.is (ValueClass::Boolean),
+			input_1.is_kind (ValueKind::Boolean),
 		
 		TypePrimitive1::IsNumberInteger =>
-			input_1.is (ValueClass::NumberInteger),
+			input_1.is_kind (ValueKind::NumberInteger),
 		
 		TypePrimitive1::IsNumberReal =>
-			input_1.is (ValueClass::NumberReal),
+			input_1.is_kind (ValueKind::NumberReal),
 		
 		TypePrimitive1::IsCharacter =>
-			input_1.is (ValueClass::Character),
+			input_1.is_kind (ValueKind::Character),
 		
 		TypePrimitive1::IsSymbol =>
-			input_1.is (ValueClass::Symbol),
+			input_1.is_kind (ValueKind::Symbol),
 		
 		TypePrimitive1::IsString =>
-			input_1.is (ValueClass::String),
+			input_1.is_class (ValueClass::String),
 		
 		TypePrimitive1::IsBytes =>
-			input_1.is (ValueClass::Bytes),
+			input_1.is_class (ValueClass::Bytes),
 		
 		TypePrimitive1::IsPair =>
-			input_1.is (ValueClass::Pair),
+			input_1.is_class (ValueClass::Pair),
 		
 		TypePrimitive1::IsArray =>
-			input_1.is (ValueClass::Array),
+			input_1.is_class (ValueClass::Array),
 		
 		TypePrimitive1::IsValues =>
-			input_1.is (ValueClass::Values),
+			input_1.is_kind (ValueKind::Values),
 		
 		TypePrimitive1::IsError =>
-			input_1.is (ValueClass::Error),
+			input_1.is_kind (ValueKind::Error),
 		
 		TypePrimitive1::IsErrorSyntax =>
 			fail_unimplemented! (0x6519f984),

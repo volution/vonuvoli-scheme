@@ -76,9 +76,9 @@ def_test! (test__0, {
 			continue;
 		}
 		
-		match value.class () {
+		match value.kind () {
 			
-			ValueClass::ProcedurePrimitive => {
+			ValueKind::ProcedurePrimitive => {
 				let primitive = ProcedurePrimitive::from (value);
 				match primitive {
 					
@@ -172,7 +172,7 @@ def_test! (test__0, {
 				}
 			},
 			
-			ValueClass::SyntaxPrimitive => {
+			ValueKind::SyntaxPrimitive => {
 				let primitive = SyntaxPrimitive::from (value);
 				match primitive {
 					

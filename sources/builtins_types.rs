@@ -299,7 +299,7 @@ macro_rules! def_fn_try_predicate_any {
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_boolean (value : &Value) -> (bool) {
-	return value.is (ValueClass::Boolean);
+	return value.is_class (ValueClass::Boolean);
 }
 
 def_fn_predicate_all! (is_boolean, is_boolean_all_2, is_boolean_all_3, is_boolean_all_4, is_boolean_all_n);
@@ -382,17 +382,17 @@ def_fn_predicate_any! (is_false_or_equivalent, is_false_or_equivalent_any_2, is_
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_null (value : &Value) -> (bool) {
-	return value.is (ValueClass::Null);
+	return value.is_class (ValueClass::Null);
 }
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_void (value : &Value) -> (bool) {
-	return value.is (ValueClass::Void);
+	return value.is_class (ValueClass::Void);
 }
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_undefined (value : &Value) -> (bool) {
-	return value.is (ValueClass::Undefined);
+	return value.is_class (ValueClass::Undefined);
 }
 
 def_fn_predicate_all! (is_null, is_null_all_2, is_null_all_3, is_null_all_4, is_null_all_n);
@@ -434,7 +434,7 @@ def_fn_predicate_any! (is_not_undefined, is_not_undefined_any_2, is_not_undefine
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_number (value : &Value) -> (bool) {
-	return number_class (value) .is_ok ();
+	return value.is_class (ValueClass::Number);
 }
 
 def_fn_predicate_all! (is_number, is_number_all_2, is_number_all_3, is_number_all_4, is_number_all_n);
@@ -577,7 +577,7 @@ def_fn_predicate_any! (is_list_cyclic_or_empty, is_list_cyclic_or_empty_any_2, i
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_array (value : &Value) -> (bool) {
-	return value.is (ValueClass::Array);
+	return value.is_class (ValueClass::Array);
 }
 
 def_fn_predicate_all! (is_array, is_array_all_2, is_array_all_3, is_array_all_4, is_array_all_n);
@@ -605,7 +605,7 @@ def_fn_try_predicate_any! (is_array_not_empty, is_array_not_empty_any_2, is_arra
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_bytes (value : &Value) -> (bool) {
-	return value.is (ValueClass::Bytes);
+	return value.is_class (ValueClass::Bytes);
 }
 
 def_fn_predicate_all! (is_bytes, is_bytes_all_2, is_bytes_all_3, is_bytes_all_4, is_bytes_all_n);
@@ -633,7 +633,7 @@ def_fn_try_predicate_any! (is_bytes_not_empty, is_bytes_not_empty_any_2, is_byte
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_string (value : &Value) -> (bool) {
-	return value.is (ValueClass::String);
+	return value.is_class (ValueClass::String);
 }
 
 def_fn_predicate_all! (is_string, is_string_all_2, is_string_all_3, is_string_all_4, is_string_all_n);
@@ -661,7 +661,7 @@ def_fn_try_predicate_any! (is_string_not_empty, is_string_not_empty_any_2, is_st
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_values (value : &Value) -> (bool) {
-	return value.is (ValueClass::Values);
+	return value.is_class (ValueClass::Values);
 }
 
 def_fn_predicate_all! (is_values, is_values_all_2, is_values_all_3, is_values_all_4, is_values_all_n);
@@ -689,7 +689,7 @@ def_fn_try_predicate_any! (is_values_not_empty, is_values_not_empty_any_2, is_va
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_procedure (value : &Value) -> (bool) {
-	return procedure_class (value) .is_ok ();
+	return value.is_class (ValueClass::Procedure);
 }
 
 def_fn_predicate_all! (is_procedure, is_procedure_all_2, is_procedure_all_3, is_procedure_all_4, is_procedure_all_n);
@@ -700,7 +700,7 @@ def_fn_predicate_any! (is_procedure, is_procedure_any_2, is_procedure_any_3, is_
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_syntax (value : &Value) -> (bool) {
-	return syntax_class (value) .is_ok ();
+	return value.is_class (ValueClass::Syntax);
 }
 
 def_fn_predicate_all! (is_syntax, is_syntax_all_2, is_syntax_all_3, is_syntax_all_4, is_syntax_all_n);
@@ -718,12 +718,12 @@ pub enum NumberClass {
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn number_class (value : &Value) -> (Outcome<NumberClass>) {
-	match value.class () {
+	match value.kind () {
 		
-		ValueClass::NumberInteger =>
+		ValueKind::NumberInteger =>
 			succeed! (NumberClass::Integer),
 		
-		ValueClass::NumberReal =>
+		ValueKind::NumberReal =>
 			succeed! (NumberClass::Real),
 		
 		_ =>
@@ -810,7 +810,7 @@ fn list_class_on_0 (value : &Value, pair : PairRef) -> (Outcome<ListClass>) {
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_port (value : &Value) -> (bool) {
-	return value.is (ValueClass::Port);
+	return value.is_class (ValueClass::Port);
 }
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
@@ -855,12 +855,12 @@ pub enum ProcedureClass {
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn procedure_class (value : &Value) -> (Outcome<ProcedureClass>) {
-	match value.class () {
-		ValueClass::ProcedurePrimitive =>
+	match value.kind () {
+		ValueKind::ProcedurePrimitive =>
 			succeed! (ProcedureClass::Primitive),
-		ValueClass::ProcedureExtended =>
+		ValueKind::ProcedureExtended =>
 			succeed! (ProcedureClass::Extended),
-		ValueClass::ProcedureLambda =>
+		ValueKind::ProcedureLambda =>
 			succeed! (ProcedureClass::Lambda),
 		_ =>
 			fail! (0xef418db1),
@@ -880,12 +880,12 @@ pub enum SyntaxClass {
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn syntax_class (value : &Value) -> (Outcome<SyntaxClass>) {
-	match value.class () {
-		ValueClass::SyntaxPrimitive =>
+	match value.kind () {
+		ValueKind::SyntaxPrimitive =>
 			succeed! (SyntaxClass::Primitive),
-		ValueClass::SyntaxExtended =>
+		ValueKind::SyntaxExtended =>
 			succeed! (SyntaxClass::Extended),
-		ValueClass::SyntaxLambda =>
+		ValueKind::SyntaxLambda =>
 			succeed! (SyntaxClass::Lambda),
 		_ =>
 			fail! (0x97144c3b),

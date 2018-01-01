@@ -559,10 +559,10 @@ pub fn execute_test (test : &TestCaseCompiled, transcript : &mut io::Write, verb
 		(None, None) =>
 			(),
 		(Some (ref expected_value_without_optimizations), Some (ref expected_value_with_optimizations)) =>
-			match (expected_value_without_optimizations.class (), expected_value_with_optimizations.class ()) {
-				(ValueClass::ProcedureLambda, ValueClass::ProcedureLambda) |
-				(ValueClass::SyntaxLambda, ValueClass::SyntaxLambda) |
-				(ValueClass::Port, ValueClass::Port) =>
+			match (expected_value_without_optimizations.kind (), expected_value_with_optimizations.kind ()) {
+				(ValueKind::ProcedureLambda, ValueKind::ProcedureLambda) |
+				(ValueKind::SyntaxLambda, ValueKind::SyntaxLambda) |
+				(ValueKind::Port, ValueKind::Port) =>
 					(),
 				(_, _) => {
 					let output_matched = try! (equivalent_by_value_strict_recursive_2 (expected_value_without_optimizations, expected_value_with_optimizations));

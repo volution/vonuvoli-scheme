@@ -342,7 +342,7 @@ impl Optimizer {
 	
 	
 	fn optimize_value (&self, optimization : OptimizerContext, value : Value) -> (Outcome<(OptimizerContext, Expression)>) {
-		if value.is (ValueClass::Void) {
+		if value.is_class (ValueClass::Void) {
 			succeed! ((optimization, Expression::Void));
 		} else {
 			succeed! ((optimization, Expression::Value (value)));
@@ -807,15 +807,15 @@ impl Optimizer {
 	
 	fn optimize_procedure_call (&self, optimization : OptimizerContext, callable : Expression, inputs : StdBox<[Expression]>) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, callable) = try! (self.optimize_0 (optimization, callable));
-		if let Some (class) = self.expression_value_class (&callable) {
+		if let Some (class) = self.expression_value_kind (&callable) {
 			match class {
-				ValueClass::ProcedurePrimitive =>
+				ValueKind::ProcedurePrimitive =>
 					return self.optimize_procedure_primitive (optimization, callable.into (), inputs),
-				ValueClass::ProcedureExtended =>
+				ValueKind::ProcedureExtended =>
 					return self.optimize_procedure_extended (optimization, callable.into (), inputs),
-				ValueClass::ProcedureNative =>
+				ValueKind::ProcedureNative =>
 					return self.optimize_procedure_native (optimization, callable.into (), inputs),
-				ValueClass::ProcedureLambda =>
+				ValueKind::ProcedureLambda =>
 					return self.optimize_procedure_lambda (optimization, StdInto::<ProcedureLambda>::into (callable) .internals_rc_into (), inputs),
 				_ =>
 					(),
@@ -830,9 +830,9 @@ impl Optimizer {
 	
 	fn optimize_procedure_call_0 (&self, optimization : OptimizerContext, callable : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, callable) = try! (self.optimize_0 (optimization, callable));
-		if let Some (class) = self.expression_value_class (&callable) {
+		if let Some (class) = self.expression_value_kind (&callable) {
 			match class {
-				ValueClass::ProcedurePrimitive =>
+				ValueKind::ProcedurePrimitive =>
 					match callable.into () {
 						ProcedurePrimitive::Primitive0 (primitive) =>
 							return self.optimize_procedure_primitive_0 (optimization, primitive),
@@ -849,11 +849,11 @@ impl Optimizer {
 						_ =>
 							fail! (0xc262ceb2),
 					},
-				ValueClass::ProcedureExtended =>
+				ValueKind::ProcedureExtended =>
 					return self.optimize_procedure_extended_0 (optimization, callable.into ()),
-				ValueClass::ProcedureNative =>
+				ValueKind::ProcedureNative =>
 					return self.optimize_procedure_native (optimization, callable.into (), StdBox::new ([])),
-				ValueClass::ProcedureLambda =>
+				ValueKind::ProcedureLambda =>
 					return self.optimize_procedure_lambda_0 (optimization, StdInto::<ProcedureLambda>::into (callable) .internals_rc_into ()),
 				_ =>
 					(),
@@ -867,9 +867,9 @@ impl Optimizer {
 	
 	fn optimize_procedure_call_1 (&self, optimization : OptimizerContext, callable : Expression, input_1 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, callable) = try! (self.optimize_0 (optimization, callable));
-		if let Some (class) = self.expression_value_class (&callable) {
+		if let Some (class) = self.expression_value_kind (&callable) {
 			match class {
-				ValueClass::ProcedurePrimitive =>
+				ValueKind::ProcedurePrimitive =>
 					match callable.into () {
 						ProcedurePrimitive::Primitive1 (primitive) =>
 							return self.optimize_procedure_primitive_1 (optimization, primitive, input_1),
@@ -886,11 +886,11 @@ impl Optimizer {
 						_ =>
 							fail! (0xa8613b5a),
 					},
-				ValueClass::ProcedureExtended =>
+				ValueKind::ProcedureExtended =>
 					return self.optimize_procedure_extended_1 (optimization, callable.into (), input_1),
-				ValueClass::ProcedureNative =>
+				ValueKind::ProcedureNative =>
 					return self.optimize_procedure_native (optimization, callable.into (), StdBox::new ([input_1])),
-				ValueClass::ProcedureLambda =>
+				ValueKind::ProcedureLambda =>
 					return self.optimize_procedure_lambda_1 (optimization, StdInto::<ProcedureLambda>::into (callable) .internals_rc_into (), input_1),
 				_ =>
 					(),
@@ -905,9 +905,9 @@ impl Optimizer {
 	
 	fn optimize_procedure_call_2 (&self, optimization : OptimizerContext, callable : Expression, input_1 : Expression, input_2 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, callable) = try! (self.optimize_0 (optimization, callable));
-		if let Some (class) = self.expression_value_class (&callable) {
+		if let Some (class) = self.expression_value_kind (&callable) {
 			match class {
-				ValueClass::ProcedurePrimitive =>
+				ValueKind::ProcedurePrimitive =>
 					match callable.into () {
 						ProcedurePrimitive::Primitive2 (primitive) =>
 							return self.optimize_procedure_primitive_2 (optimization, primitive, input_1, input_2),
@@ -924,11 +924,11 @@ impl Optimizer {
 						_ =>
 							fail! (0x246ed89d),
 					},
-				ValueClass::ProcedureExtended =>
+				ValueKind::ProcedureExtended =>
 					return self.optimize_procedure_extended_2 (optimization, callable.into (), input_1, input_2),
-				ValueClass::ProcedureNative =>
+				ValueKind::ProcedureNative =>
 					return self.optimize_procedure_native (optimization, callable.into (), StdBox::new ([input_1, input_2])),
-				ValueClass::ProcedureLambda =>
+				ValueKind::ProcedureLambda =>
 					return self.optimize_procedure_lambda_2 (optimization, StdInto::<ProcedureLambda>::into (callable) .internals_rc_into (), input_1, input_2),
 				_ =>
 					(),
@@ -944,9 +944,9 @@ impl Optimizer {
 	
 	fn optimize_procedure_call_3 (&self, optimization : OptimizerContext, callable : Expression, input_1 : Expression, input_2 : Expression, input_3 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, callable) = try! (self.optimize_0 (optimization, callable));
-		if let Some (class) = self.expression_value_class (&callable) {
+		if let Some (class) = self.expression_value_kind (&callable) {
 			match class {
-				ValueClass::ProcedurePrimitive =>
+				ValueKind::ProcedurePrimitive =>
 					match callable.into () {
 						ProcedurePrimitive::Primitive3 (primitive) =>
 							return self.optimize_procedure_primitive_3 (optimization, primitive, input_1, input_2, input_3),
@@ -963,11 +963,11 @@ impl Optimizer {
 						_ =>
 							fail! (0x2b3e2453),
 					},
-				ValueClass::ProcedureExtended =>
+				ValueKind::ProcedureExtended =>
 					return self.optimize_procedure_extended_3 (optimization, callable.into (), input_1, input_2, input_3),
-				ValueClass::ProcedureNative =>
+				ValueKind::ProcedureNative =>
 					return self.optimize_procedure_native (optimization, callable.into (), StdBox::new ([input_1, input_2, input_3])),
-				ValueClass::ProcedureLambda =>
+				ValueKind::ProcedureLambda =>
 					return self.optimize_procedure_lambda_3 (optimization, StdInto::<ProcedureLambda>::into (callable) .internals_rc_into (), input_1, input_2, input_3),
 				_ =>
 					(),
@@ -984,9 +984,9 @@ impl Optimizer {
 	
 	fn optimize_procedure_call_4 (&self, optimization : OptimizerContext, callable : Expression, input_1 : Expression, input_2 : Expression, input_3 : Expression, input_4 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, callable) = try! (self.optimize_0 (optimization, callable));
-		if let Some (class) = self.expression_value_class (&callable) {
+		if let Some (class) = self.expression_value_kind (&callable) {
 			match class {
-				ValueClass::ProcedurePrimitive =>
+				ValueKind::ProcedurePrimitive =>
 					match callable.into () {
 						ProcedurePrimitive::Primitive4 (primitive) =>
 							return self.optimize_procedure_primitive_4 (optimization, primitive, input_1, input_2, input_3, input_4),
@@ -1003,11 +1003,11 @@ impl Optimizer {
 						_ =>
 							fail! (0x47994db4),
 					},
-				ValueClass::ProcedureExtended =>
+				ValueKind::ProcedureExtended =>
 					return self.optimize_procedure_extended_4 (optimization, callable.into (), input_1, input_2, input_3, input_4),
-				ValueClass::ProcedureNative =>
+				ValueKind::ProcedureNative =>
 					return self.optimize_procedure_native (optimization, callable.into (), StdBox::new ([input_1, input_2, input_3, input_4])),
-				ValueClass::ProcedureLambda =>
+				ValueKind::ProcedureLambda =>
 					return self.optimize_procedure_lambda_4 (optimization, StdInto::<ProcedureLambda>::into (callable) .internals_rc_into (), input_1, input_2, input_3, input_4),
 				_ =>
 					(),
@@ -1025,9 +1025,9 @@ impl Optimizer {
 	
 	fn optimize_procedure_call_5 (&self, optimization : OptimizerContext, callable : Expression, input_1 : Expression, input_2 : Expression, input_3 : Expression, input_4 : Expression, input_5 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, callable) = try! (self.optimize_0 (optimization, callable));
-		if let Some (class) = self.expression_value_class (&callable) {
+		if let Some (class) = self.expression_value_kind (&callable) {
 			match class {
-				ValueClass::ProcedurePrimitive =>
+				ValueKind::ProcedurePrimitive =>
 					match callable.into () {
 						ProcedurePrimitive::Primitive5 (primitive) =>
 							return self.optimize_procedure_primitive_5 (optimization, primitive, input_1, input_2, input_3, input_4, input_5),
@@ -1044,11 +1044,11 @@ impl Optimizer {
 						_ =>
 							fail! (0x71fe0ce5),
 					},
-				ValueClass::ProcedureExtended =>
+				ValueKind::ProcedureExtended =>
 					return self.optimize_procedure_extended_5 (optimization, callable.into (), input_1, input_2, input_3, input_4, input_5),
-				ValueClass::ProcedureNative =>
+				ValueKind::ProcedureNative =>
 					return self.optimize_procedure_native (optimization, callable.into (), StdBox::new ([input_1, input_2, input_3, input_4, input_5])),
-				ValueClass::ProcedureLambda =>
+				ValueKind::ProcedureLambda =>
 					return self.optimize_procedure_lambda_5 (optimization, StdInto::<ProcedureLambda>::into (callable) .internals_rc_into (), input_1, input_2, input_3, input_4, input_5),
 				_ =>
 					(),
@@ -1067,9 +1067,9 @@ impl Optimizer {
 	
 	fn optimize_procedure_call_n (&self, optimization : OptimizerContext, callable : Expression, inputs : StdBox<[Expression]>) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, callable) = try! (self.optimize_0 (optimization, callable));
-		if let Some (class) = self.expression_value_class (&callable) {
+		if let Some (class) = self.expression_value_kind (&callable) {
 			match class {
-				ValueClass::ProcedurePrimitive =>
+				ValueKind::ProcedurePrimitive =>
 					match callable.into () {
 						ProcedurePrimitive::PrimitiveN (primitive) =>
 							return self.optimize_procedure_primitive_n (optimization, primitive, inputs),
@@ -1082,11 +1082,11 @@ impl Optimizer {
 						_ =>
 							fail! (0xd891d200),
 					},
-				ValueClass::ProcedureExtended =>
+				ValueKind::ProcedureExtended =>
 					return self.optimize_procedure_extended_n (optimization, callable.into (), inputs),
-				ValueClass::ProcedureNative =>
+				ValueKind::ProcedureNative =>
 					return self.optimize_procedure_native (optimization, callable.into (), inputs),
-				ValueClass::ProcedureLambda =>
+				ValueKind::ProcedureLambda =>
 					return self.optimize_procedure_lambda_n (optimization, StdInto::<ProcedureLambda>::into (callable) .internals_rc_into (), inputs),
 				_ =>
 					(),
@@ -1724,7 +1724,7 @@ impl Optimizer {
 					ExpressionClass::Constant =>
 						true,
 					ExpressionClass::Value (class) =>
-						VOID_VALUE.is (class),
+						VOID_VALUE.is_class (class),
 					ExpressionClass::Type (primitive) =>
 						type_primitive_1_evaluate_0 (primitive, &VOID_VALUE) .unwrap (),
 				},
@@ -1734,7 +1734,7 @@ impl Optimizer {
 					ExpressionClass::Constant =>
 						true,
 					ExpressionClass::Value (class) =>
-						value.is (class),
+						value.is_class (class),
 					ExpressionClass::Type (primitive) =>
 						type_primitive_1_evaluate_0 (primitive, value) .unwrap (),
 				},
@@ -1913,6 +1913,19 @@ impl Optimizer {
 	
 	
 	
+	fn expression_value_kind <ExpressionRef : StdAsRef<Expression>> (&self, expression : ExpressionRef) -> (Option<ValueKind>) {
+		let expression = expression.as_ref ();
+		match *expression {
+			Expression::Void =>
+				Some (ValueKind::Void),
+			Expression::Value (ref value) =>
+				Some (value.kind ()),
+			_ =>
+				None,
+		}
+	}
+	
+	#[ allow (dead_code) ]
 	fn expression_value_class <ExpressionRef : StdAsRef<Expression>> (&self, expression : ExpressionRef) -> (Option<ValueClass>) {
 		let expression = expression.as_ref ();
 		match *expression {

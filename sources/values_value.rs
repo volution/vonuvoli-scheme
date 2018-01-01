@@ -25,7 +25,7 @@ use super::prelude::*;
 
 
 pub mod exports {
-	pub use super::{ValueClass};
+	pub use super::{ValueKind, ValueClass};
 	pub use super::{Value, ValueBox, ValueVec};
 	pub use super::{ValueMeta1, ValueMeta2, VALUE_META_1, VALUE_META_2};
 	pub use super::{ValueSingleton};
@@ -37,7 +37,7 @@ pub mod exports {
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
-pub enum ValueClass {
+pub enum ValueKind {
 	
 	Null,
 	Void,
@@ -50,11 +50,15 @@ pub enum ValueClass {
 	Character,
 	
 	Symbol,
-	String,
-	Bytes,
+	StringImmutable,
+	StringMutable,
+	BytesImmutable,
+	BytesMutable,
 	
-	Pair,
-	Array,
+	PairImmutable,
+	PairMutable,
+	ArrayImmutable,
+	ArrayMutable,
 	Values,
 	
 	Error,
@@ -73,6 +77,40 @@ pub enum ValueClass {
 	
 	Context,
 	Binding,
+	
+}
+
+
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub enum ValueClass {
+	
+	Null,
+	Void,
+	Undefined,
+	Singleton,
+	
+	Boolean,
+	Number,
+	Character,
+	
+	Symbol,
+	String,
+	Bytes,
+	
+	Pair,
+	Array,
+	Values,
+	
+	Error,
+	
+	Procedure,
+	Syntax,
+	
+	Port,
+	
+	Opaque,
 	
 }
 
@@ -128,6 +166,55 @@ pub type ValueVec = StdVec<Value>;
 impl Value {
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn kind (&self) -> (ValueKind) {
+		match *self {
+			
+			Value::Singleton (_, ref value, _) =>
+				match *value {
+					ValueSingleton::Null => ValueKind::Null,
+					ValueSingleton::Void => ValueKind::Void,
+					ValueSingleton::Undefined => ValueKind::Undefined,
+					ValueSingleton::PortEof => ValueKind::Singleton,
+				},
+			
+			Value::Boolean (_, _, _) => ValueKind::Boolean,
+			Value::NumberInteger (_, _, _) => ValueKind::NumberInteger,
+			Value::NumberReal (_, _, _) => ValueKind::NumberReal,
+			Value::Character (_, _, _) => ValueKind::Character,
+			
+			Value::Symbol (_, _, _) => ValueKind::Symbol,
+			Value::StringImmutable (_, _, _) => ValueKind::StringImmutable,
+			Value::StringMutable (_, _, _) => ValueKind::StringMutable,
+			Value::BytesImmutable (_, _, _) => ValueKind::BytesImmutable,
+			Value::BytesMutable (_, _, _) => ValueKind::BytesMutable,
+			
+			Value::PairImmutable (_, _, _) => ValueKind::PairImmutable,
+			Value::PairMutable (_, _, _) => ValueKind::PairMutable,
+			Value::ArrayImmutable (_, _, _) => ValueKind::ArrayImmutable,
+			Value::ArrayMutable (_, _, _) => ValueKind::ArrayMutable,
+			Value::Values (_, _, _) => ValueKind::Values,
+			
+			Value::Error (_, _, _) => ValueKind::Error,
+			
+			Value::ProcedurePrimitive (_, _, _) => ValueKind::ProcedurePrimitive,
+			Value::ProcedureExtended (_, _, _) => ValueKind::ProcedureExtended,
+			Value::ProcedureNative (_, _, _) => ValueKind::ProcedureNative,
+			Value::ProcedureLambda (_, _, _) => ValueKind::ProcedureLambda,
+			
+			Value::SyntaxPrimitive (_, _, _) => ValueKind::SyntaxPrimitive,
+			Value::SyntaxExtended (_, _, _) => ValueKind::SyntaxExtended,
+			Value::SyntaxNative (_, _, _) => ValueKind::SyntaxNative,
+			Value::SyntaxLambda (_, _, _) => ValueKind::SyntaxLambda,
+			
+			Value::Port (_, _, _) => ValueKind::Port,
+			
+			Value::Context (_, _, _) => ValueKind::Context,
+			Value::Binding (_, _, _) => ValueKind::Binding,
+			
+		}
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn class (&self) -> (ValueClass) {
 		match *self {
 			
@@ -140,8 +227,8 @@ impl Value {
 				},
 			
 			Value::Boolean (_, _, _) => ValueClass::Boolean,
-			Value::NumberInteger (_, _, _) => ValueClass::NumberInteger,
-			Value::NumberReal (_, _, _) => ValueClass::NumberReal,
+			Value::NumberInteger (_, _, _) => ValueClass::Number,
+			Value::NumberReal (_, _, _) => ValueClass::Number,
 			Value::Character (_, _, _) => ValueClass::Character,
 			
 			Value::Symbol (_, _, _) => ValueClass::Symbol,
@@ -158,26 +245,31 @@ impl Value {
 			
 			Value::Error (_, _, _) => ValueClass::Error,
 			
-			Value::ProcedurePrimitive (_, _, _) => ValueClass::ProcedurePrimitive,
-			Value::ProcedureExtended (_, _, _) => ValueClass::ProcedureExtended,
-			Value::ProcedureNative (_, _, _) => ValueClass::ProcedureNative,
-			Value::ProcedureLambda (_, _, _) => ValueClass::ProcedureLambda,
+			Value::ProcedurePrimitive (_, _, _) => ValueClass::Procedure,
+			Value::ProcedureExtended (_, _, _) => ValueClass::Procedure,
+			Value::ProcedureNative (_, _, _) => ValueClass::Procedure,
+			Value::ProcedureLambda (_, _, _) => ValueClass::Procedure,
 			
-			Value::SyntaxPrimitive (_, _, _) => ValueClass::SyntaxPrimitive,
-			Value::SyntaxExtended (_, _, _) => ValueClass::SyntaxExtended,
-			Value::SyntaxNative (_, _, _) => ValueClass::SyntaxNative,
-			Value::SyntaxLambda (_, _, _) => ValueClass::SyntaxLambda,
+			Value::SyntaxPrimitive (_, _, _) => ValueClass::Syntax,
+			Value::SyntaxExtended (_, _, _) => ValueClass::Syntax,
+			Value::SyntaxNative (_, _, _) => ValueClass::Syntax,
+			Value::SyntaxLambda (_, _, _) => ValueClass::Syntax,
 			
 			Value::Port (_, _, _) => ValueClass::Port,
 			
-			Value::Context (_, _, _) => ValueClass::Context,
-			Value::Binding (_, _, _) => ValueClass::Binding,
+			Value::Context (_, _, _) => ValueClass::Opaque,
+			Value::Binding (_, _, _) => ValueClass::Opaque,
 			
 		}
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	pub fn is (&self, class : ValueClass) -> (bool) {
+	pub fn is_kind (&self, kind : ValueKind) -> (bool) {
+		self.kind () == kind
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn is_class (&self, class : ValueClass) -> (bool) {
 		self.class () == class
 	}
 	
