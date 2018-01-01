@@ -317,6 +317,72 @@ impl Value {
 			
 		}
 	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn to_immutable (&self) -> (Outcome<Value>) {
+		let value = match *self {
+			
+			Value::Singleton (_, ref self_0, _) => self_0.clone () .into (),
+			
+			Value::Boolean (_, ref self_0, _) => self_0.clone () .into (),
+			Value::NumberInteger (_, ref self_0, _) => self_0.clone () .into (),
+			Value::NumberReal (_, ref self_0, _) => self_0.clone () .into (),
+			Value::Character (_, ref self_0, _) => self_0.clone () .into (),
+			
+			Value::Symbol (_, ref self_0, _) => self_0.clone () .into (),
+			Value::StringImmutable (_, ref self_0, _) => self_0.clone () .into (),
+			Value::StringMutable (_, ref self_0, _) => self_0.to_immutable () .into (),
+			Value::BytesImmutable (_, ref self_0, _) => self_0.clone () .into (),
+			Value::BytesMutable (_, ref self_0, _) => self_0.to_immutable () .into (),
+			
+			Value::PairImmutable (_, ref self_0, _) => self_0.clone () .into (),
+			Value::PairMutable (_, ref self_0, _) => self_0.to_immutable () .into (),
+			Value::ArrayImmutable (_, ref self_0, _) => self_0.clone () .into (),
+			Value::ArrayMutable (_, ref self_0, _) => self_0.to_immutable () .into (),
+			Value::Values (_, ref self_0, _) => self_0.clone () .into (),
+			
+			Value::Error (_, ref self_0, _) => self_0.clone () .into (),
+			
+			Value::ProcedurePrimitive (_, ref self_0, _) => self_0.clone () .into (),
+			Value::ProcedureExtended (_, ref self_0, _) => self_0.clone () .into (),
+			Value::ProcedureNative (_, ref self_0, _) => self_0.clone () .into (),
+			Value::ProcedureLambda (_, ref self_0, _) => self_0.clone () .into (),
+			
+			Value::SyntaxPrimitive (_, ref self_0, _) => self_0.clone () .into (),
+			Value::SyntaxExtended (_, ref self_0, _) => self_0.clone () .into (),
+			Value::SyntaxNative (_, ref self_0, _) => self_0.clone () .into (),
+			Value::SyntaxLambda (_, ref self_0, _) => self_0.clone () .into (),
+			
+			Value::Port (_, _, _) => fail! (0xe4de734c),
+			
+			Value::Context (_, _, _) => fail! (0x7e3a414d),
+			Value::Binding (_, _, _) => fail! (0xcf5a0e0d),
+			
+		};
+		succeed! (value);
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn to_mutable (&self) -> (Outcome<Value>) {
+		let value = match *self {
+			
+			Value::StringImmutable (_, ref self_0, _) => self_0.to_mutable () .into (),
+			Value::StringMutable (_, ref self_0, _) => self_0.clone () .into (),
+			Value::BytesImmutable (_, ref self_0, _) => self_0.to_mutable () .into (),
+			Value::BytesMutable (_, ref self_0, _) => self_0.clone () .into (),
+			
+			Value::PairImmutable (_, ref self_0, _) => self_0.to_mutable () .into (),
+			Value::PairMutable (_, ref self_0, _) => self_0.clone () .into (),
+			Value::ArrayImmutable (_, ref self_0, _) => self_0.to_mutable () .into (),
+			Value::ArrayMutable (_, ref self_0, _) => self_0.clone () .into (),
+			
+			Value::Port (_, ref self_0, _) => self_0.clone () .into (),
+			
+			_ => fail! (0x34e2a415),
+			
+		};
+		succeed! (value);
+	}
 }
 
 

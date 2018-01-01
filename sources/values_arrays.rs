@@ -85,6 +85,26 @@ impl <'a> ArrayRef<'a> {
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn to_immutable (&self) -> (ArrayImmutable) {
+		match *self {
+			ArrayRef::Immutable (value, _) =>
+				(*value) .clone () .into (),
+			ArrayRef::Mutable (value, _) =>
+				(*value) .to_immutable () .into (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn to_mutable (&self) -> (ArrayMutable) {
+		match *self {
+			ArrayRef::Immutable (value, _) =>
+				(*value) .to_mutable () .into (),
+			ArrayRef::Mutable (value, _) =>
+				(*value) .clone () .into (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn is_self (&self, other : &ArrayRef) -> (bool) {
 		match (self, other) {
 			(&ArrayRef::Immutable (self_0, _), &ArrayRef::Immutable (other_0, _)) =>
@@ -133,6 +153,12 @@ impl ArrayImmutable {
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn values_rc_clone (&self) -> (StdRc<StdBox<[Value]>>) {
 		self.0.clone ()
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn to_mutable (&self) -> (ArrayMutable) {
+		let internals = ArrayMutableInternals::Cow (self.values_rc_clone ());
+		ArrayMutable (StdRc::new (StdRefCell::new (internals)))
 	}
 }
 
@@ -183,6 +209,33 @@ impl ArrayMutable {
 		let reference = self.0.as_ref () .borrow_mut ();
 		let reference = StdRefMut::map (reference, |reference| reference.as_mut ());
 		reference
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn to_immutable (&self) -> (ArrayImmutable) {
+		let mut reference = self.0.as_ref () .borrow_mut ();
+		let values = reference.to_cow ();
+		ArrayImmutable (values)
+	}
+}
+
+
+impl ArrayMutableInternals {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn to_cow (&mut self) -> (StdRc<StdBox<[Value]>>) {
+		let values_cow = match *self {
+			ArrayMutableInternals::Owned (ref mut values_owned) => {
+				let mut values_swap = StdVec::new ();
+				mem::swap (&mut values_swap, values_owned);
+				let values_swap = values_swap.into_boxed_slice ();
+				values_swap
+			},
+			ArrayMutableInternals::Cow (ref mut values) =>
+				return values.clone (),
+		};
+		*self = ArrayMutableInternals::Cow (StdRc::new (values_cow));
+		return self.to_cow ();
 	}
 }
 

@@ -75,6 +75,26 @@ impl <'a> PairRef<'a> {
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn to_immutable (&self) -> (PairImmutable) {
+		match *self {
+			PairRef::Immutable (value, _) =>
+				(*value) .clone () .into (),
+			PairRef::Mutable (value, _) =>
+				(*value) .to_immutable () .into (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn to_mutable (&self) -> (PairMutable) {
+		match *self {
+			PairRef::Immutable (value, _) =>
+				(*value) .to_mutable () .into (),
+			PairRef::Mutable (value, _) =>
+				(*value) .clone () .into (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn is_self (&self, other : &PairRef) -> (bool) {
 		match (self, other) {
 			(&PairRef::Immutable (self_0, _), &PairRef::Immutable (other_0, _)) =>
@@ -144,6 +164,11 @@ impl PairImmutable {
 	pub fn values_rc_clone (&self) -> (StdRc<(Value, Value)>) {
 		self.0.clone ()
 	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn to_mutable (&self) -> (PairMutable) {
+		PairMutable (StdRc::new (StdRefCell::new ((*self.0) .clone ())))
+	}
 }
 
 
@@ -182,6 +207,12 @@ impl PairMutable {
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn values_ref_mut (&self) -> (StdRefMut<(Value, Value)>) {
 		self.0.as_ref () .borrow_mut ()
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn to_immutable (&self) -> (PairImmutable) {
+		let reference = self.0.as_ref () .borrow ();
+		PairImmutable (StdRc::new ((*reference) .clone ()))
 	}
 }
 

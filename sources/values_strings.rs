@@ -106,6 +106,26 @@ impl <'a> StringRef<'a> {
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn to_immutable (&self) -> (StringImmutable) {
+		match *self {
+			StringRef::Immutable (value, _) =>
+				(*value) .clone () .into (),
+			StringRef::Mutable (value, _) =>
+				(*value) .to_immutable () .into (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn to_mutable (&self) -> (StringMutable) {
+		match *self {
+			StringRef::Immutable (value, _) =>
+				(*value) .to_mutable () .into (),
+			StringRef::Mutable (value, _) =>
+				(*value) .clone () .into (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn is_self (&self, other : &StringRef) -> (bool) {
 		match (self, other) {
 			(&StringRef::Immutable (self_0, _), &StringRef::Immutable (other_0, _)) =>
@@ -154,6 +174,12 @@ impl StringImmutable {
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn string_rc_clone (&self) -> (StdRc<StdBox<str>>) {
 		self.0.clone ()
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn to_mutable (&self) -> (StringMutable) {
+		let internals = StringMutableInternals::Cow (self.string_rc_clone ());
+		StringMutable (StdRc::new (StdRefCell::new (internals)))
 	}
 }
 
@@ -205,6 +231,33 @@ impl StringMutable {
 		let reference = StdRefMut::map (reference, |reference| reference.as_mut ());
 		reference
 	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn to_immutable (&self) -> (StringImmutable) {
+		let mut reference = self.0.as_ref () .borrow_mut ();
+		let string = reference.to_cow ();
+		StringImmutable (string)
+	}
+}
+
+
+impl StringMutableInternals {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn to_cow (&mut self) -> (StdRc<StdBox<str>>) {
+		let string_cow = match *self {
+			StringMutableInternals::Owned (ref mut string_owned) => {
+				let mut string_swap = StdString::new ();
+				mem::swap (&mut string_swap, string_owned);
+				let string_swap = string_swap.into_boxed_str ();
+				string_swap
+			},
+			StringMutableInternals::Cow (ref mut string) =>
+				return string.clone (),
+		};
+		*self = StringMutableInternals::Cow (StdRc::new (string_cow));
+		return self.to_cow ();
+	}
 }
 
 
@@ -213,10 +266,10 @@ impl StdAsRef<str> for StringMutableInternals {
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn as_ref (&self) -> (&str) {
 		match *self {
-			StringMutableInternals::Owned (ref bytes) =>
-				bytes.deref (),
-			StringMutableInternals::Cow (ref bytes) =>
-				bytes.deref (),
+			StringMutableInternals::Owned (ref string) =>
+				string.deref (),
+			StringMutableInternals::Cow (ref string) =>
+				string.deref (),
 		}
 	}
 }

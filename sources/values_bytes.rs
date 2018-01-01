@@ -86,6 +86,26 @@ impl <'a> BytesRef<'a> {
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn to_immutable (&self) -> (BytesImmutable) {
+		match *self {
+			BytesRef::Immutable (value, _) =>
+				(*value) .clone () .into (),
+			BytesRef::Mutable (value, _) =>
+				(*value) .to_immutable () .into (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn to_mutable (&self) -> (BytesMutable) {
+		match *self {
+			BytesRef::Immutable (value, _) =>
+				(*value) .to_mutable () .into (),
+			BytesRef::Mutable (value, _) =>
+				(*value) .clone () .into (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn is_self (&self, other : &BytesRef) -> (bool) {
 		match (self, other) {
 			(&BytesRef::Immutable (self_0, _), &BytesRef::Immutable (other_0, _)) =>
@@ -134,6 +154,12 @@ impl BytesImmutable {
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn bytes_rc_clone (&self) -> (StdRc<StdBox<[u8]>>) {
 		self.0.clone ()
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn to_mutable (&self) -> (BytesMutable) {
+		let internals = BytesMutableInternals::Cow (self.bytes_rc_clone ());
+		BytesMutable (StdRc::new (StdRefCell::new (internals)))
 	}
 }
 
@@ -184,6 +210,33 @@ impl BytesMutable {
 		let reference = self.0.as_ref () .borrow_mut ();
 		let reference = StdRefMut::map (reference, |reference| reference.as_mut ());
 		reference
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn to_immutable (&self) -> (BytesImmutable) {
+		let mut reference = self.0.as_ref () .borrow_mut ();
+		let bytes = reference.to_cow ();
+		BytesImmutable (bytes)
+	}
+}
+
+
+impl BytesMutableInternals {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn to_cow (&mut self) -> (StdRc<StdBox<[u8]>>) {
+		let bytes_cow = match *self {
+			BytesMutableInternals::Owned (ref mut bytes_owned) => {
+				let mut bytes_swap = StdVec::new ();
+				mem::swap (&mut bytes_swap, bytes_owned);
+				let bytes_swap = bytes_swap.into_boxed_slice ();
+				bytes_swap
+			},
+			BytesMutableInternals::Cow (ref mut bytes) =>
+				return bytes.clone (),
+		};
+		*self = BytesMutableInternals::Cow (StdRc::new (bytes_cow));
+		return self.to_cow ();
 	}
 }
 
