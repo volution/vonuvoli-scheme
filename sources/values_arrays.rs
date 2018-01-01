@@ -10,7 +10,7 @@ use super::prelude::*;
 
 
 pub mod exports {
-	pub use super::{Array, ArrayRef, ArrayImmutable, ArrayMutable};
+	pub use super::{Array, ArrayRef, ArrayImmutable, ArrayMutable, ArrayMutableInternals};
 	pub use super::{array_immutable_new, array_immutable_clone_slice, array_immutable_clone_slice_ref};
 	pub use super::{array_mutable_new, array_mutable_clone_slice, array_mutable_clone_slice_ref};
 	pub use super::{array_new, array_clone_slice, array_clone_slice_ref};
@@ -56,7 +56,7 @@ pub trait Array {
 #[ derive (Debug) ]
 pub enum ArrayRef <'a> {
 	Immutable (&'a ArrayImmutable, &'a [Value]),
-	Mutable (&'a ArrayMutable, StdRef<'a, StdVec<Value>>),
+	Mutable (&'a ArrayMutable, StdRef<'a, [Value]>),
 }
 
 
@@ -149,7 +149,14 @@ impl Array for ArrayImmutable {
 
 
 #[ derive (Clone, Debug) ]
-pub struct ArrayMutable ( StdRc<StdRefCell<StdVec<Value>>> );
+pub struct ArrayMutable ( StdRc<StdRefCell<ArrayMutableInternals>> );
+
+
+#[ derive (Debug) ]
+pub enum ArrayMutableInternals {
+	Owned (StdVec<Value>),
+	Cow (StdRc<StdBox<[Value]>>),
+}
 
 
 impl ArrayMutable {
@@ -161,17 +168,56 @@ impl ArrayMutable {
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn array_ref (&self) -> (ArrayRef) {
-		ArrayRef::Mutable (self, self.0.as_ref () .borrow ())
+		let reference = self.0.as_ref () .borrow ();
+		let reference = StdRef::map (reference, |reference| reference.as_ref ());
+		ArrayRef::Mutable (self, reference)
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	pub fn values_rc_clone (&self) -> (StdRc<StdRefCell<StdVec<Value>>>) {
+	pub fn values_rc_clone (&self) -> (StdRc<StdRefCell<ArrayMutableInternals>>) {
 		self.0.clone ()
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn values_ref_mut (&self) -> (StdRefMut<StdVec<Value>>) {
-		self.0.as_ref () .borrow_mut ()
+		let reference = self.0.as_ref () .borrow_mut ();
+		let reference = StdRefMut::map (reference, |reference| reference.as_mut ());
+		reference
+	}
+}
+
+
+impl StdAsRef<[Value]> for ArrayMutableInternals {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn as_ref (&self) -> (&[Value]) {
+		match *self {
+			ArrayMutableInternals::Owned (ref values) =>
+				values.deref (),
+			ArrayMutableInternals::Cow (ref values) =>
+				values.deref (),
+		}
+	}
+}
+
+
+impl StdAsRefMut<StdVec<Value>> for ArrayMutableInternals {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn as_mut (&mut self) -> (&mut StdVec<Value>) {
+		let values_owned = match *self {
+			ArrayMutableInternals::Owned (ref mut values) =>
+				return values,
+			ArrayMutableInternals::Cow (ref mut values_cow) => {
+				let values_cow = StdRc::make_mut (values_cow);
+				let mut values_swap = StdVec::new () .into_boxed_slice ();
+				mem::swap (&mut values_swap, values_cow);
+				let values_swap = StdVec::from (values_swap);
+				values_swap
+			},
+		};
+		*self = ArrayMutableInternals::Owned (values_owned);
+		return self.as_mut ();
 	}
 }
 
@@ -185,7 +231,8 @@ pub fn array_immutable_new (values : StdVec<Value>) -> (ArrayImmutable) {
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn array_mutable_new (values : StdVec<Value>) -> (ArrayMutable) {
-	ArrayMutable (StdRc::new (StdRefCell::new (values)))
+	let internals = ArrayMutableInternals::Owned (values);
+	ArrayMutable (StdRc::new (StdRefCell::new (internals)))
 }
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
