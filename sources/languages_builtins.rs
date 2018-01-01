@@ -58,7 +58,8 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("nor*", BooleanPrimitiveV::Nor.into ()),
 			("nxor*", BooleanPrimitiveV::Nxor.into ()),
 			
-			("string-reverse", StringPrimitive1::StringReverse.into ()),
+			("string-reverse", StringPrimitive1::StringCloneReverse.into ()),
+			("string-reverse!", StringPrimitiveV::StringRangeReverse.into ()),
 			("string->immutable", StringPrimitive1::StringToImmutable.into ()),
 			("string->mutable", StringPrimitive1::StringToMutable.into ()),
 			
@@ -66,8 +67,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("symbol-downcase", StringPrimitive1::SymbolToLowerCase.into ()),
 			("symbol-foldcase", StringPrimitive1::SymbolToFoldCase.into ()),
 			
-			("bytevector-reverse", BytesPrimitive1::BytesReverse.into ()),
-			("bytevector-u8-fill", BytesPrimitiveV::BytesRangeFill.into ()),
+			("bytevector-reverse", BytesPrimitive1::BytesCloneReverse.into ()),
+			("bytevector-reverse!", BytesPrimitiveV::BytesRangeReverse.into ()),
+			("bytevector-u8-fill!", BytesPrimitiveV::BytesRangeFill.into ()),
 			("bytevector-u8-map", FunctionsPrimitiveV::BytesMap.into ()),
 			("bytevector-u8-for-each", FunctionsPrimitiveV::BytesIterate.into ()),
 			("bytevector->vector", BytesPrimitiveV::BytesRangeToArray.into ()),
@@ -83,7 +85,8 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("list->immutable", ListPrimitive1::ListToImmutable.into ()),
 			("list->mutable", ListPrimitive1::ListToMutable.into ()),
 			
-			("vector-reverse", ArrayPrimitive1::ArrayReverse.into ()),
+			("vector-reverse", ArrayPrimitive1::ArrayCloneReverse.into ()),
+			("vector-reverse!", ArrayPrimitiveV::ArrayRangeReverse.into ()),
 			("vector->immutable", ArrayPrimitive1::ArrayToImmutable.into ()),
 			("vector->mutable", ArrayPrimitive1::ArrayToMutable.into ()),
 			

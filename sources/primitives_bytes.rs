@@ -66,7 +66,7 @@ pub enum BytesPrimitive1 {
 	
 	BytesLength,
 	BytesClone,
-	BytesReverse,
+	BytesCloneReverse,
 	
 	BytesMake,
 	
@@ -74,6 +74,7 @@ pub enum BytesPrimitive1 {
 	BytesAppend,
 	
 	BytesFill,
+	BytesReverse,
 	
 	BytesToList,
 	ListToBytes,
@@ -99,6 +100,7 @@ pub enum BytesPrimitive2 {
 	BytesFill,
 	BytesCopy,
 	BytesRangeClone,
+	BytesRangeReverse,
 	
 	BytesRangeToList,
 	ListRangeToBytes,
@@ -119,6 +121,7 @@ pub enum BytesPrimitive3 {
 	BytesRangeFill,
 	BytesRangeCopy,
 	BytesRangeClone,
+	BytesRangeReverse,
 	
 	BytesRangeToList,
 	ListRangeToBytes,
@@ -167,6 +170,7 @@ pub enum BytesPrimitiveV {
 	BytesRangeFill,
 	BytesRangeCopy,
 	BytesRangeClone,
+	BytesRangeReverse,
 	
 	BytesRangeToList,
 	ListRangeToBytes,
@@ -207,7 +211,7 @@ pub fn bytes_primitive_1_evaluate (primitive : BytesPrimitive1, input_1 : &Value
 		BytesPrimitive1::BytesClone =>
 			return bytes_clone (input_1),
 		
-		BytesPrimitive1::BytesReverse =>
+		BytesPrimitive1::BytesCloneReverse =>
 			return bytes_reverse (input_1),
 		
 		BytesPrimitive1::BytesMake =>
@@ -221,6 +225,11 @@ pub fn bytes_primitive_1_evaluate (primitive : BytesPrimitive1, input_1 : &Value
 		
 		BytesPrimitive1::BytesFill => {
 			try! (bytes_fill_range (input_1, None, None, None));
+			succeed! (VOID_VALUE);
+		},
+		
+		BytesPrimitive1::BytesReverse => {
+			try! (bytes_reverse_range (input_1, None, None));
 			succeed! (VOID_VALUE);
 		},
 		
@@ -277,6 +286,11 @@ pub fn bytes_primitive_2_evaluate (primitive : BytesPrimitive2, input_1 : &Value
 		BytesPrimitive2::BytesRangeClone =>
 			return bytes_clone_range (input_1, Some (input_2), None),
 		
+		BytesPrimitive2::BytesRangeReverse => {
+			try! (bytes_reverse_range (input_1, Some (input_2), None));
+			succeed! (VOID_VALUE);
+		},
+		
 		BytesPrimitive2::BytesRangeToList =>
 			return bytes_range_to_list (input_1, Some (input_2), None),
 		
@@ -320,6 +334,11 @@ pub fn bytes_primitive_3_evaluate (primitive : BytesPrimitive3, input_1 : &Value
 		
 		BytesPrimitive3::BytesRangeClone =>
 			return bytes_clone_range (input_1, Some (input_2), Some (input_3)),
+		
+		BytesPrimitive3::BytesRangeReverse => {
+			try! (bytes_reverse_range (input_1, Some (input_2), Some (input_3)));
+			succeed! (VOID_VALUE);
+		},
 		
 		BytesPrimitive3::BytesRangeToList =>
 			return bytes_range_to_list (input_1, Some (input_2), Some (input_3)),
@@ -411,6 +430,8 @@ pub fn bytes_primitive_v_alternative_0 (primitive : BytesPrimitiveV) -> (Option<
 			None,
 		BytesPrimitiveV::BytesRangeClone =>
 			None,
+		BytesPrimitiveV::BytesRangeReverse =>
+			None,
 		BytesPrimitiveV::BytesRangeToList =>
 			None,
 		BytesPrimitiveV::ListRangeToBytes =>
@@ -440,6 +461,8 @@ pub fn bytes_primitive_v_alternative_1 (primitive : BytesPrimitiveV) -> (Option<
 			None,
 		BytesPrimitiveV::BytesRangeClone =>
 			Some (BytesPrimitive1::BytesClone),
+		BytesPrimitiveV::BytesRangeReverse =>
+			Some (BytesPrimitive1::BytesReverse),
 		BytesPrimitiveV::BytesRangeToList =>
 			Some (BytesPrimitive1::BytesToList),
 		BytesPrimitiveV::ListRangeToBytes =>
@@ -469,6 +492,8 @@ pub fn bytes_primitive_v_alternative_2 (primitive : BytesPrimitiveV) -> (Option<
 			Some (BytesPrimitive2::BytesCopy),
 		BytesPrimitiveV::BytesRangeClone =>
 			Some (BytesPrimitive2::BytesRangeClone),
+		BytesPrimitiveV::BytesRangeReverse =>
+			Some (BytesPrimitive2::BytesRangeReverse),
 		BytesPrimitiveV::BytesRangeToList =>
 			Some (BytesPrimitive2::BytesRangeToList),
 		BytesPrimitiveV::ListRangeToBytes =>
@@ -498,6 +523,8 @@ pub fn bytes_primitive_v_alternative_3 (primitive : BytesPrimitiveV) -> (Option<
 			Some (BytesPrimitive3::BytesRangeCopy),
 		BytesPrimitiveV::BytesRangeClone =>
 			Some (BytesPrimitive3::BytesRangeClone),
+		BytesPrimitiveV::BytesRangeReverse =>
+			Some (BytesPrimitive3::BytesRangeReverse),
 		BytesPrimitiveV::BytesRangeToList =>
 			Some (BytesPrimitive3::BytesRangeToList),
 		BytesPrimitiveV::ListRangeToBytes =>
@@ -526,6 +553,8 @@ pub fn bytes_primitive_v_alternative_4 (primitive : BytesPrimitiveV) -> (Option<
 		BytesPrimitiveV::BytesRangeCopy =>
 			Some (BytesPrimitive4::BytesRangeCopy),
 		BytesPrimitiveV::BytesRangeClone =>
+			None,
+		BytesPrimitiveV::BytesRangeReverse =>
 			None,
 		BytesPrimitiveV::BytesRangeToList =>
 			None,
@@ -556,6 +585,8 @@ pub fn bytes_primitive_v_alternative_5 (primitive : BytesPrimitiveV) -> (Option<
 			Some (BytesPrimitive5::BytesRangeCopy),
 		BytesPrimitiveV::BytesRangeClone =>
 			None,
+		BytesPrimitiveV::BytesRangeReverse =>
+			None,
 		BytesPrimitiveV::BytesRangeToList =>
 			None,
 		BytesPrimitiveV::ListRangeToBytes =>
@@ -584,6 +615,8 @@ pub fn bytes_primitive_v_alternative_n (primitive : BytesPrimitiveV) -> (Option<
 		BytesPrimitiveV::BytesRangeCopy =>
 			None,
 		BytesPrimitiveV::BytesRangeClone =>
+			None,
+		BytesPrimitiveV::BytesRangeReverse =>
 			None,
 		BytesPrimitiveV::BytesRangeToList =>
 			None,

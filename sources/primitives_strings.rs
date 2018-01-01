@@ -66,7 +66,7 @@ pub enum StringPrimitive1 {
 	
 	StringLength,
 	StringClone,
-	StringReverse,
+	StringCloneReverse,
 	
 	StringMake,
 	
@@ -74,6 +74,7 @@ pub enum StringPrimitive1 {
 	StringAppend,
 	
 	StringFill,
+	StringReverse,
 	
 	StringToList,
 	ListToString,
@@ -119,6 +120,7 @@ pub enum StringPrimitive2 {
 	StringFill,
 	StringCopy,
 	StringRangeClone,
+	StringRangeReverse,
 	
 	StringRangeToList,
 	ListRangeToString,
@@ -145,6 +147,7 @@ pub enum StringPrimitive3 {
 	StringRangeFill,
 	StringRangeCopy,
 	StringRangeClone,
+	StringRangeReverse,
 	
 	StringRangeToList,
 	ListRangeToString,
@@ -197,6 +200,7 @@ pub enum StringPrimitiveV {
 	StringRangeFill,
 	StringRangeCopy,
 	StringRangeClone,
+	StringRangeReverse,
 	
 	StringRangeToList,
 	ListRangeToString,
@@ -243,7 +247,7 @@ pub fn string_primitive_1_evaluate (primitive : StringPrimitive1, input_1 : &Val
 		StringPrimitive1::StringClone =>
 			return string_clone (input_1),
 		
-		StringPrimitive1::StringReverse =>
+		StringPrimitive1::StringCloneReverse =>
 			return string_reverse (input_1),
 		
 		StringPrimitive1::StringMake =>
@@ -257,6 +261,11 @@ pub fn string_primitive_1_evaluate (primitive : StringPrimitive1, input_1 : &Val
 		
 		StringPrimitive1::StringFill => {
 			try! (string_fill_range (input_1, None, None, None));
+			succeed! (VOID.into ());
+		},
+		
+		StringPrimitive1::StringReverse => {
+			try! (string_reverse_range (input_1, None, None));
 			succeed! (VOID.into ());
 		},
 		
@@ -367,6 +376,11 @@ pub fn string_primitive_2_evaluate (primitive : StringPrimitive2, input_1 : &Val
 		StringPrimitive2::StringRangeClone =>
 			return string_clone_range (input_1, Some (input_2), None),
 		
+		StringPrimitive2::StringRangeReverse => {
+			try! (string_reverse_range (input_1, Some (input_2), None));
+			succeed! (VOID.into ());
+		},
+		
 		StringPrimitive2::StringRangeToList =>
 			return string_range_to_list (input_1, Some (input_2), None),
 		
@@ -425,6 +439,11 @@ pub fn string_primitive_3_evaluate (primitive : StringPrimitive3, input_1 : &Val
 		
 		StringPrimitive3::StringRangeClone =>
 			return string_clone_range (input_1, Some (input_2), Some (input_3)),
+		
+		StringPrimitive3::StringRangeReverse => {
+			try! (string_reverse_range (input_1, Some (input_2), Some (input_3)));
+			succeed! (VOID.into ());
+		},
 		
 		StringPrimitive3::StringRangeToList =>
 			return string_range_to_list (input_1, Some (input_2), Some (input_3)),
@@ -525,6 +544,8 @@ pub fn string_primitive_v_alternative_0 (primitive : StringPrimitiveV) -> (Optio
 			None,
 		StringPrimitiveV::StringRangeClone =>
 			None,
+		StringPrimitiveV::StringRangeReverse =>
+			None,
 		StringPrimitiveV::StringRangeToList =>
 			None,
 		StringPrimitiveV::ListRangeToString =>
@@ -562,6 +583,8 @@ pub fn string_primitive_v_alternative_1 (primitive : StringPrimitiveV) -> (Optio
 			None,
 		StringPrimitiveV::StringRangeClone =>
 			Some (StringPrimitive1::StringClone),
+		StringPrimitiveV::StringRangeReverse =>
+			Some (StringPrimitive1::StringReverse),
 		StringPrimitiveV::StringRangeToList =>
 			Some (StringPrimitive1::StringToList),
 		StringPrimitiveV::ListRangeToString =>
@@ -599,6 +622,8 @@ pub fn string_primitive_v_alternative_2 (primitive : StringPrimitiveV) -> (Optio
 			Some (StringPrimitive2::StringCopy),
 		StringPrimitiveV::StringRangeClone =>
 			Some (StringPrimitive2::StringRangeClone),
+		StringPrimitiveV::StringRangeReverse =>
+			Some (StringPrimitive2::StringRangeReverse),
 		StringPrimitiveV::StringRangeToList =>
 			Some (StringPrimitive2::StringRangeToList),
 		StringPrimitiveV::ListRangeToString =>
@@ -636,6 +661,8 @@ pub fn string_primitive_v_alternative_3 (primitive : StringPrimitiveV) -> (Optio
 			Some (StringPrimitive3::StringRangeCopy),
 		StringPrimitiveV::StringRangeClone =>
 			Some (StringPrimitive3::StringRangeClone),
+		StringPrimitiveV::StringRangeReverse =>
+			Some (StringPrimitive3::StringRangeReverse),
 		StringPrimitiveV::StringRangeToList =>
 			Some (StringPrimitive3::StringRangeToList),
 		StringPrimitiveV::ListRangeToString =>
@@ -672,6 +699,8 @@ pub fn string_primitive_v_alternative_4 (primitive : StringPrimitiveV) -> (Optio
 		StringPrimitiveV::StringRangeCopy =>
 			Some (StringPrimitive4::StringRangeCopy),
 		StringPrimitiveV::StringRangeClone =>
+			None,
+		StringPrimitiveV::StringRangeReverse =>
 			None,
 		StringPrimitiveV::StringRangeToList =>
 			None,
@@ -710,6 +739,8 @@ pub fn string_primitive_v_alternative_5 (primitive : StringPrimitiveV) -> (Optio
 			Some (StringPrimitive5::StringRangeCopy),
 		StringPrimitiveV::StringRangeClone =>
 			None,
+		StringPrimitiveV::StringRangeReverse =>
+			None,
 		StringPrimitiveV::StringRangeToList =>
 			None,
 		StringPrimitiveV::ListRangeToString =>
@@ -746,6 +777,8 @@ pub fn string_primitive_v_alternative_n (primitive : StringPrimitiveV) -> (Optio
 		StringPrimitiveV::StringRangeCopy =>
 			None,
 		StringPrimitiveV::StringRangeClone =>
+			None,
+		StringPrimitiveV::StringRangeReverse =>
 			None,
 		StringPrimitiveV::StringRangeToList =>
 			None,

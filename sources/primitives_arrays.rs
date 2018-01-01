@@ -66,7 +66,7 @@ pub enum ArrayPrimitive1 {
 	
 	ArrayLength,
 	ArrayClone,
-	ArrayReverse,
+	ArrayCloneReverse,
 	
 	ArrayMake,
 	
@@ -74,6 +74,7 @@ pub enum ArrayPrimitive1 {
 	ArrayAppend,
 	
 	ArrayFill,
+	ArrayReverse,
 	
 	ArrayToList,
 	ListToArray,
@@ -97,6 +98,7 @@ pub enum ArrayPrimitive2 {
 	ArrayFill,
 	ArrayCopy,
 	ArrayRangeClone,
+	ArrayRangeReverse,
 	
 	ArrayRangeToList,
 	ListRangeToArray,
@@ -115,6 +117,7 @@ pub enum ArrayPrimitive3 {
 	ArrayRangeFill,
 	ArrayRangeCopy,
 	ArrayRangeClone,
+	ArrayRangeReverse,
 	
 	ArrayRangeToList,
 	ListRangeToArray,
@@ -161,6 +164,7 @@ pub enum ArrayPrimitiveV {
 	ArrayRangeFill,
 	ArrayRangeCopy,
 	ArrayRangeClone,
+	ArrayRangeReverse,
 	
 	ArrayRangeToList,
 	ListRangeToArray,
@@ -199,7 +203,7 @@ pub fn array_primitive_1_evaluate (primitive : ArrayPrimitive1, input_1 : &Value
 		ArrayPrimitive1::ArrayClone =>
 			return array_clone (input_1),
 		
-		ArrayPrimitive1::ArrayReverse =>
+		ArrayPrimitive1::ArrayCloneReverse =>
 			return array_reverse (input_1),
 		
 		ArrayPrimitive1::ArrayMake =>
@@ -213,6 +217,11 @@ pub fn array_primitive_1_evaluate (primitive : ArrayPrimitive1, input_1 : &Value
 		
 		ArrayPrimitive1::ArrayFill => {
 			try! (array_fill_range (input_1, None, None, None));
+			succeed! (VOID_VALUE);
+		},
+		
+		ArrayPrimitive1::ArrayReverse => {
+			try! (array_reverse_range (input_1, None, None));
 			succeed! (VOID_VALUE);
 		},
 		
@@ -263,6 +272,11 @@ pub fn array_primitive_2_evaluate (primitive : ArrayPrimitive2, input_1 : &Value
 		ArrayPrimitive2::ArrayRangeClone =>
 			return array_clone_range (input_1, Some (input_2), None),
 		
+		ArrayPrimitive2::ArrayRangeReverse => {
+			try! (array_reverse_range (input_1, Some (input_2), None));
+			succeed! (VOID_VALUE);
+		},
+		
 		ArrayPrimitive2::ArrayRangeToList =>
 			return array_range_to_list (input_1, Some (input_2), None),
 		
@@ -300,6 +314,11 @@ pub fn array_primitive_3_evaluate (primitive : ArrayPrimitive3, input_1 : &Value
 		
 		ArrayPrimitive3::ArrayRangeClone =>
 			return array_clone_range (input_1, Some (input_2), Some (input_3)),
+		
+		ArrayPrimitive3::ArrayRangeReverse => {
+			try! (array_reverse_range (input_1, Some (input_2), Some (input_3)));
+			succeed! (VOID_VALUE);
+		},
 		
 		ArrayPrimitive3::ArrayRangeToList =>
 			return array_range_to_list (input_1, Some (input_2), Some (input_3)),
@@ -385,6 +404,8 @@ pub fn array_primitive_v_alternative_0 (primitive : ArrayPrimitiveV) -> (Option<
 			None,
 		ArrayPrimitiveV::ArrayRangeClone =>
 			None,
+		ArrayPrimitiveV::ArrayRangeReverse =>
+			None,
 		ArrayPrimitiveV::ArrayRangeToList =>
 			None,
 		ArrayPrimitiveV::ListRangeToArray =>
@@ -410,6 +431,8 @@ pub fn array_primitive_v_alternative_1 (primitive : ArrayPrimitiveV) -> (Option<
 			None,
 		ArrayPrimitiveV::ArrayRangeClone =>
 			Some (ArrayPrimitive1::ArrayClone),
+		ArrayPrimitiveV::ArrayRangeReverse =>
+			Some (ArrayPrimitive1::ArrayReverse),
 		ArrayPrimitiveV::ArrayRangeToList =>
 			Some (ArrayPrimitive1::ArrayToList),
 		ArrayPrimitiveV::ListRangeToArray =>
@@ -435,6 +458,8 @@ pub fn array_primitive_v_alternative_2 (primitive : ArrayPrimitiveV) -> (Option<
 			Some (ArrayPrimitive2::ArrayCopy),
 		ArrayPrimitiveV::ArrayRangeClone =>
 			Some (ArrayPrimitive2::ArrayRangeClone),
+		ArrayPrimitiveV::ArrayRangeReverse =>
+			Some (ArrayPrimitive2::ArrayRangeReverse),
 		ArrayPrimitiveV::ArrayRangeToList =>
 			Some (ArrayPrimitive2::ArrayRangeToList),
 		ArrayPrimitiveV::ListRangeToArray =>
@@ -460,6 +485,8 @@ pub fn array_primitive_v_alternative_3 (primitive : ArrayPrimitiveV) -> (Option<
 			Some (ArrayPrimitive3::ArrayRangeCopy),
 		ArrayPrimitiveV::ArrayRangeClone =>
 			Some (ArrayPrimitive3::ArrayRangeClone),
+		ArrayPrimitiveV::ArrayRangeReverse =>
+			Some (ArrayPrimitive3::ArrayRangeReverse),
 		ArrayPrimitiveV::ArrayRangeToList =>
 			Some (ArrayPrimitive3::ArrayRangeToList),
 		ArrayPrimitiveV::ListRangeToArray =>
@@ -484,6 +511,8 @@ pub fn array_primitive_v_alternative_4 (primitive : ArrayPrimitiveV) -> (Option<
 		ArrayPrimitiveV::ArrayRangeCopy =>
 			Some (ArrayPrimitive4::ArrayRangeCopy),
 		ArrayPrimitiveV::ArrayRangeClone =>
+			None,
+		ArrayPrimitiveV::ArrayRangeReverse =>
 			None,
 		ArrayPrimitiveV::ArrayRangeToList =>
 			None,
@@ -510,6 +539,8 @@ pub fn array_primitive_v_alternative_5 (primitive : ArrayPrimitiveV) -> (Option<
 			Some (ArrayPrimitive5::ArrayRangeCopy),
 		ArrayPrimitiveV::ArrayRangeClone =>
 			None,
+		ArrayPrimitiveV::ArrayRangeReverse =>
+			None,
 		ArrayPrimitiveV::ArrayRangeToList =>
 			None,
 		ArrayPrimitiveV::ListRangeToArray =>
@@ -534,6 +565,8 @@ pub fn array_primitive_v_alternative_n (primitive : ArrayPrimitiveV) -> (Option<
 		ArrayPrimitiveV::ArrayRangeCopy =>
 			None,
 		ArrayPrimitiveV::ArrayRangeClone =>
+			None,
+		ArrayPrimitiveV::ArrayRangeReverse =>
 			None,
 		ArrayPrimitiveV::ArrayRangeToList =>
 			None,
