@@ -32,7 +32,7 @@ enum PortBackendBytesReaderSource {
 	BytesImmutable ( StdRc<StdBox<[u8]>> ),
 	BytesMutable ( StdRc<StdRefCell<BytesMutableInternals>> ),
 	StringImmutable ( StdRc<StdBox<str>> ),
-	StringMutable ( StdRc<StdRefCell<StdString>> ),
+	StringMutable ( StdRc<StdRefCell<StringMutableInternals>> ),
 	None,
 }
 
@@ -239,7 +239,7 @@ impl PortBackendBytesReader {
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	pub fn new_from_string_mutable (string : StdRc<StdRefCell<StdString>>, range_start : usize, range_end : Option<usize>) -> (Outcome<PortBackendBytesReader>) {
+	pub fn new_from_string_mutable (string : StdRc<StdRefCell<StringMutableInternals>>, range_start : usize, range_end : Option<usize>) -> (Outcome<PortBackendBytesReader>) {
 		return PortBackendBytesReader::new_from_source (PortBackendBytesReaderSource::StringMutable (string), range_start, range_end);
 	}
 	

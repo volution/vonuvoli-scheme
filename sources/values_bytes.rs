@@ -152,6 +152,7 @@ impl Bytes for BytesImmutable {
 #[ derive (Clone, Debug) ]
 pub struct BytesMutable ( StdRc<StdRefCell<BytesMutableInternals>> );
 
+
 #[ derive (Debug) ]
 pub enum BytesMutableInternals {
 	Owned (StdVec<u8>),

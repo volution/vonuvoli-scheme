@@ -187,7 +187,7 @@ impl Port {
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	pub fn new_bytes_reader_from_string_mutable (buffer : StdRc<StdRefCell<StdString>>, range_start : usize, range_end : Option<usize>) -> (Outcome<Port>) {
+	pub fn new_bytes_reader_from_string_mutable (buffer : StdRc<StdRefCell<StringMutableInternals>>, range_start : usize, range_end : Option<usize>) -> (Outcome<Port>) {
 		let backend = try! (PortBackendBytesReader::new_from_string_mutable (buffer, range_start, range_end));
 		let backend = PortBackend::BytesReader (backend);
 		return Port::new_from_backend (backend);

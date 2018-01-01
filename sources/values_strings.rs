@@ -11,7 +11,7 @@ use super::prelude::*;
 
 
 pub mod exports {
-	pub use super::{String, StringRef, StringImmutable, StringMutable};
+	pub use super::{String, StringRef, StringImmutable, StringMutable, StringMutableInternals};
 	pub use super::{string_immutable_new, string_immutable_clone_str, string_immutable_clone_characters};
 	pub use super::{string_mutable_new, string_mutable_clone_str, string_mutable_clone_characters};
 	pub use super::{string_new, string_clone_str, string_clone_characters};
@@ -77,7 +77,7 @@ pub trait String {
 #[ derive (Debug) ]
 pub enum StringRef <'a> {
 	Immutable (&'a StringImmutable, &'a str),
-	Mutable (&'a StringMutable, StdRef<'a, StdString>),
+	Mutable (&'a StringMutable, StdRef<'a, str>),
 }
 
 
@@ -170,7 +170,14 @@ impl String for StringImmutable {
 
 
 #[ derive (Clone, Debug) ]
-pub struct StringMutable ( StdRc<StdRefCell<StdString>> );
+pub struct StringMutable ( StdRc<StdRefCell<StringMutableInternals>> );
+
+
+#[ derive (Debug) ]
+pub enum StringMutableInternals {
+	Owned (StdString),
+	Cow (StdRc<StdBox<str>>),
+}
 
 
 impl StringMutable {
@@ -182,17 +189,56 @@ impl StringMutable {
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn string_ref (&self) -> (StringRef) {
-		StringRef::Mutable (self, self.0.as_ref () .borrow ())
+		let reference = self.0.as_ref () .borrow ();
+		let reference = StdRef::map (reference, |reference| reference.as_ref ());
+		StringRef::Mutable (self, reference)
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	pub fn string_rc_clone (&self) -> (StdRc<StdRefCell<StdString>>) {
+	pub fn string_rc_clone (&self) -> (StdRc<StdRefCell<StringMutableInternals>>) {
 		self.0.clone ()
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn string_ref_mut (&self) -> (StdRefMut<StdString>) {
-		self.0.as_ref () .borrow_mut ()
+		let reference = self.0.as_ref () .borrow_mut ();
+		let reference = StdRefMut::map (reference, |reference| reference.as_mut ());
+		reference
+	}
+}
+
+
+impl StdAsRef<str> for StringMutableInternals {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn as_ref (&self) -> (&str) {
+		match *self {
+			StringMutableInternals::Owned (ref bytes) =>
+				bytes.deref (),
+			StringMutableInternals::Cow (ref bytes) =>
+				bytes.deref (),
+		}
+	}
+}
+
+
+impl StdAsRefMut<StdString> for StringMutableInternals {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn as_mut (&mut self) -> (&mut StdString) {
+		let string_owned = match *self {
+			StringMutableInternals::Owned (ref mut string) =>
+				return string,
+			StringMutableInternals::Cow (ref mut string_cow) => {
+				let string_cow = StdRc::make_mut (string_cow);
+				let mut string_swap = StdString::new () .into_boxed_str ();
+				mem::swap (&mut string_swap, string_cow);
+				let string_swap = StdString::from (string_swap);
+				string_swap
+			},
+		};
+		*self = StringMutableInternals::Owned (string_owned);
+		return self.as_mut ();
 	}
 }
 
@@ -206,7 +252,8 @@ pub fn string_immutable_new (string : StdString) -> (StringImmutable) {
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn string_mutable_new (string : StdString) -> (StringMutable) {
-	StringMutable (StdRc::new (StdRefCell::new (string)))
+	let internals = StringMutableInternals::Owned (string);
+	StringMutable (StdRc::new (StdRefCell::new (internals)))
 }
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]

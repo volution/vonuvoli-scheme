@@ -1028,6 +1028,14 @@ impl <'a> StdFrom<StdRef<'a, StdString>> for BytesSliceRef<'a> {
 	}
 }
 
+impl <'a> StdFrom<StdRef<'a, StringMutableInternals>> for BytesSliceRef<'a> {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn from (reference : StdRef<'a, StringMutableInternals>) -> (BytesSliceRef<'a>) {
+		BytesSliceRef::Mutable (StdRef::map (reference, |reference| reference.as_ref () .as_bytes ()))
+	}
+}
+
 
 
 
