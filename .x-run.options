@@ -261,6 +261,14 @@
 	exec -- taskset -a -p -c 0-31 "${$}"
 !!
 
+<< environment / taskset / 0,2
+	exec -- taskset -a -p -c 0,2 "${$}"
+!!
+
+<< environment / taskset / 3
+	exec -- taskset -a -p -c 3 "${$}"
+!!
+
 << compile / test / scheme / debug
 	x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --test 'scheme' --no-default-features
 !!

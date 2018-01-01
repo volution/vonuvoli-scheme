@@ -165,6 +165,8 @@ cat <<'EOS'
 :: environment / tests / debug / disable :: export -- RUST_SCHEME_TESTS_DEBUG=false
 
 :: environment / taskset / all :: exec -- taskset -a -p -c 0-31 "${$}"
+:: environment / taskset / 0,2 :: exec -- taskset -a -p -c 0,2 "${$}"
+:: environment / taskset / 3 :: exec -- taskset -a -p -c 3 "${$}"
 
 EOS
 
