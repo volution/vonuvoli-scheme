@@ -347,12 +347,6 @@ macro_rules! def_fn_compare {
 					succeed! (true),
 				1 =>
 					return $compare_1 (inputs[0].as_ref (), comparison),
-				2 =>
-					return $compare_2 (inputs[0].as_ref (), inputs[1].as_ref (), comparison),
-				3 =>
-					return $compare_3 (inputs[0].as_ref (), inputs[1].as_ref (), inputs[2].as_ref (), comparison),
-				4 =>
-					return $compare_4 (inputs[0].as_ref (), inputs[1].as_ref (), inputs[2].as_ref (), inputs[3].as_ref (), comparison),
 				_ =>
 					(),
 			}
@@ -406,12 +400,6 @@ macro_rules! def_fn_compare {
 					succeed! (true),
 				1 =>
 					return $compare_1 (inputs[0].as_ref (), comparison),
-				2 =>
-					return $compare_2 (inputs[0].as_ref (), inputs[1].as_ref (), comparison),
-				3 =>
-					return $compare_3 (inputs[0].as_ref (), inputs[1].as_ref (), inputs[2].as_ref (), comparison),
-				4 =>
-					return $compare_4 (inputs[0].as_ref (), inputs[1].as_ref (), inputs[2].as_ref (), inputs[3].as_ref (), comparison),
 				_ =>
 					(),
 			}

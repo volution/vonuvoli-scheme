@@ -165,19 +165,8 @@ pub fn bytes_build_4 (byte_1 : &Value, byte_2 : &Value, byte_3 : &Value, byte_4 
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn bytes_build_n (bytes : &[&Value]) -> (Outcome<Value>) {
-	match bytes.len () {
-		0 =>
-			succeed! (bytes_empty ()),
-		1 =>
-			return bytes_build_1 (bytes[0]),
-		2 =>
-			return bytes_build_2 (bytes[0], bytes[1]),
-		3 =>
-			return bytes_build_3 (bytes[0], bytes[1], bytes[2]),
-		4 =>
-			return bytes_build_4 (bytes[0], bytes[1], bytes[2], bytes[3]),
-		_ =>
-			(),
+	if bytes.is_empty () {
+		succeed! (bytes_empty ());
 	}
 	let mut buffer = StdVec::with_capacity (bytes.len ());
 	for byte in bytes {
@@ -209,19 +198,8 @@ pub fn bytes_append_4 (bytes_1 : &Value, bytes_2 : &Value, bytes_3 : &Value, byt
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn bytes_append_n (bytes : &[&Value]) -> (Outcome<Value>) {
-	match bytes.len () {
-		0 =>
-			succeed! (bytes_empty ()),
-		1 =>
-			succeed! (bytes[0].clone ()),
-		2 =>
-			return bytes_append_2 (bytes[0], bytes[1]),
-		3 =>
-			return bytes_append_3 (bytes[0], bytes[1], bytes[2]),
-		4 =>
-			return bytes_append_4 (bytes[0], bytes[1], bytes[2], bytes[3]),
-		_ =>
-			(),
+	if bytes.is_empty () {
+		succeed! (bytes_empty ());
 	}
 	let buffer = try! (vec_bytes_append_n (bytes));
 	succeed! (bytes_new (buffer) .into ());
@@ -406,19 +384,8 @@ pub fn vec_bytes_append_4 (bytes_1 : &Value, bytes_2 : &Value, bytes_3 : &Value,
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn vec_bytes_append_n (bytes : &[&Value]) -> (Outcome<StdVec<u8>>) {
-	match bytes.len () {
-		0 =>
-			succeed! (StdVec::new ()),
-		1 =>
-			return vec_bytes_clone (bytes[0]),
-		2 =>
-			return vec_bytes_append_2 (bytes[0], bytes[1]),
-		3 =>
-			return vec_bytes_append_3 (bytes[0], bytes[1], bytes[2]),
-		4 =>
-			return vec_bytes_append_4 (bytes[0], bytes[1], bytes[2], bytes[3]),
-		_ =>
-			(),
+	if bytes.is_empty () {
+		succeed! (StdVec::new ());
 	}
 	let mut buffer = StdVec::new ();
 	for bytes in bytes {

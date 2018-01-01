@@ -199,19 +199,8 @@ pub fn string_build_4 (char_1 : &Value, char_2 : &Value, char_3 : &Value, char_4
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn string_build_n (chars : &[&Value]) -> (Outcome<Value>) {
-	match chars.len () {
-		0 =>
-			succeed! (string_empty ()),
-		1 =>
-			return string_build_1 (chars[0]),
-		2 =>
-			return string_build_2 (chars[0], chars[1]),
-		3 =>
-			return string_build_3 (chars[0], chars[1], chars[2]),
-		4 =>
-			return string_build_4 (chars[0], chars[1], chars[2], chars[3]),
-		_ =>
-			(),
+	if chars.is_empty () {
+		succeed! (string_empty ());
 	}
 	let mut buffer = StdString::with_capacity (chars.len ());
 	for char in chars {
@@ -243,19 +232,8 @@ pub fn string_append_4 (string_1 : &Value, string_2 : &Value, string_3 : &Value,
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn string_append_n (strings : &[&Value]) -> (Outcome<Value>) {
-	match strings.len () {
-		0 =>
-			succeed! (string_empty ()),
-		1 =>
-			succeed! (strings[0].clone ()),
-		2 =>
-			return string_append_2 (strings[0], strings[1]),
-		3 =>
-			return string_append_3 (strings[0], strings[1], strings[2]),
-		4 =>
-			return string_append_4 (strings[0], strings[1], strings[2], strings[3]),
-		_ =>
-			(),
+	if strings.is_empty () {
+		succeed! (string_empty ());
 	}
 	let buffer = try! (vec_string_append_n (strings));
 	succeed! (string_collect_chars (buffer) .into ());
@@ -484,19 +462,8 @@ pub fn vec_string_append_4 (string_1 : &Value, string_2 : &Value, string_3 : &Va
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn vec_string_append_n (strings : &[&Value]) -> (Outcome<StdVec<char>>) {
-	match strings.len () {
-		0 =>
-			succeed! (StdVec::new ()),
-		1 =>
-			return vec_string_clone (strings[0]),
-		2 =>
-			return vec_string_append_2 (strings[0], strings[1]),
-		3 =>
-			return vec_string_append_3 (strings[0], strings[1], strings[2]),
-		4 =>
-			return vec_string_append_4 (strings[0], strings[1], strings[2], strings[3]),
-		_ =>
-			(),
+	if strings.is_empty () {
+		succeed! (StdVec::new ());
 	}
 	let mut buffer = StdVec::new ();
 	for string in strings {

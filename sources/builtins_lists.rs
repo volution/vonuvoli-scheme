@@ -298,19 +298,8 @@ pub fn list_build_4 (value_1 : &Value, value_2 : &Value, value_3 : &Value, value
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_build_n (values : &[&Value]) -> (Value) {
-	match values.len () {
-		0 =>
-			return list_empty (),
-		1 =>
-			return list_build_1 (&values[0]),
-		2 =>
-			return list_build_2 (&values[0], &values[1]),
-		3 =>
-			return list_build_3 (&values[0], &values[1], &values[2]),
-		4 =>
-			return list_build_4 (&values[0], &values[1], &values[2], &values[3]),
-		_ =>
-			(),
+	if values.is_empty () {
+		return list_empty ();
 	}
 	return values.iter () .rev () .fold (NULL.into (), |last, value| pair_new ((*value).clone (), last) .into ());
 }
@@ -341,19 +330,8 @@ pub fn list_append_4 (list_1 : &Value, list_2 : &Value, list_3 : &Value, list_4 
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_append_n (lists : &[&Value]) -> (Outcome<Value>) {
-	match lists.len () {
-		0 =>
-			succeed! (list_empty ()),
-		1 =>
-			succeed! (lists[0].clone ()),
-		2 =>
-			return list_append_2 (lists[0], lists[1]),
-		3 =>
-			return list_append_3 (lists[0], lists[1], lists[2]),
-		4 =>
-			return list_append_4 (lists[0], lists[1], lists[2], lists[3]),
-		_ =>
-			(),
+	if lists.is_empty () {
+		succeed! (list_empty ());
 	}
 	// FIXME:  Optimize the vector allocation!
 	let (buffer, last) = try! (vec_list_append_n_dotted (lists));
@@ -555,19 +533,8 @@ pub fn vec_list_append_4 (list_1 : &Value, list_2 : &Value, list_3 : &Value, lis
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn vec_list_append_n (lists : &[&Value]) -> (Outcome<ValueVec>) {
-	match lists.len () {
-		0 =>
-			succeed! (StdVec::new ()),
-		1 =>
-			return vec_list_clone (lists[0]),
-		2 =>
-			return vec_list_append_2 (lists[0], lists[1]),
-		3 =>
-			return vec_list_append_3 (lists[0], lists[1], lists[2]),
-		4 =>
-			return vec_list_append_4 (lists[0], lists[1], lists[2], lists[3]),
-		_ =>
-			(),
+	if lists.is_empty () {
+		succeed! (StdVec::new ());
 	}
 	let buffer = try! (vec_list_append_n_dotted (lists));
 	return vec_list_append_return (buffer);
@@ -624,19 +591,8 @@ pub fn vec_list_append_4_dotted (list_1 : &Value, list_2 : &Value, list_3 : &Val
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn vec_list_append_n_dotted (lists : &[&Value]) -> (Outcome<(ValueVec, Option<Value>)>) {
-	match lists.len () {
-		0 =>
-			succeed! ((StdVec::new (), None)),
-		1 =>
-			return vec_list_clone_dotted (lists[0]),
-		2 =>
-			return vec_list_append_2_dotted (lists[0], lists[1]),
-		3 =>
-			return vec_list_append_3_dotted (lists[0], lists[1], lists[2]),
-		4 =>
-			return vec_list_append_4_dotted (lists[0], lists[1], lists[2], lists[3]),
-		_ =>
-			(),
+	if lists.is_empty () {
+		succeed! ((StdVec::new (), None));
 	}
 	match lists.split_last () {
 		Some ((list_last, lists_first)) =>
@@ -735,19 +691,8 @@ pub fn vec_list_ref_append_4 <'a> (list_1 : &'a Value, list_2 : &'a Value, list_
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn vec_list_ref_append_n <'a> (lists : &'a [&'a Value]) -> (Outcome<StdVec<&'a Value>>) {
-	match lists.len () {
-		0 =>
-			succeed! (StdVec::new ()),
-		1 =>
-			return vec_list_ref_clone (lists[0]),
-		2 =>
-			return vec_list_ref_append_2 (lists[0], lists[1]),
-		3 =>
-			return vec_list_ref_append_3 (lists[0], lists[1], lists[2]),
-		4 =>
-			return vec_list_ref_append_4 (lists[0], lists[1], lists[2], lists[3]),
-		_ =>
-			(),
+	if lists.is_empty () {
+		succeed! (StdVec::new ());
 	}
 	let buffer = try! (vec_list_ref_append_n_dotted (lists));
 	return vec_list_ref_append_return (buffer);
@@ -804,19 +749,8 @@ pub fn vec_list_ref_append_4_dotted <'a> (list_1 : &'a Value, list_2 : &'a Value
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn vec_list_ref_append_n_dotted <'a> (lists : &'a [&'a Value]) -> (Outcome<(StdVec<&'a Value>, Option<&'a Value>)>) {
-	match lists.len () {
-		0 =>
-			succeed! ((StdVec::new (), None)),
-		1 =>
-			return vec_list_ref_clone_dotted (lists[0]),
-		2 =>
-			return vec_list_ref_append_2_dotted (lists[0], lists[1]),
-		3 =>
-			return vec_list_ref_append_3_dotted (lists[0], lists[1], lists[2]),
-		4 =>
-			return vec_list_ref_append_4_dotted (lists[0], lists[1], lists[2], lists[3]),
-		_ =>
-			(),
+	if lists.is_empty () {
+		succeed! ((StdVec::new (), None));
 	}
 	match lists.split_last () {
 		Some ((list_last, lists_first)) =>

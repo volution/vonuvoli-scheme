@@ -81,20 +81,6 @@ pub fn call_4 (evaluator : &mut EvaluatorContext, callable : &Value, input_1 : &
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn call_n (evaluator : &mut EvaluatorContext, callable : &Value, inputs : &[&Value]) -> (Outcome<Value>) {
-	match inputs.len () {
-		0 =>
-			return call_0 (evaluator, callable),
-		1 =>
-			return call_1 (evaluator, callable, &inputs[0]),
-		2 =>
-			return call_2 (evaluator, callable, &inputs[0], &inputs[1]),
-		3 =>
-			return call_3 (evaluator, callable, &inputs[0], &inputs[1], &inputs[2]),
-		4 =>
-			return call_4 (evaluator, callable, &inputs[0], &inputs[1], &inputs[2], &inputs[3]),
-		_ =>
-			(),
-	}
 	return evaluator.evaluate_procedure_call_n (callable, inputs);
 }
 
@@ -132,20 +118,6 @@ pub fn apply_4 (evaluator : &mut EvaluatorContext, callable : &Value, input_1 : 
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn apply_n (evaluator : &mut EvaluatorContext, callable : &Value, inputs : &[&Value]) -> (Outcome<Value>) {
-	match inputs.len () {
-		0 =>
-			return apply_0 (evaluator, callable),
-		1 =>
-			return apply_1 (evaluator, callable, &inputs[0]),
-		2 =>
-			return apply_2 (evaluator, callable, &inputs[0], &inputs[1]),
-		3 =>
-			return apply_3 (evaluator, callable, &inputs[0], &inputs[1], &inputs[2]),
-		4 =>
-			return apply_4 (evaluator, callable, &inputs[0], &inputs[1], &inputs[2], &inputs[3]),
-		_ =>
-			(),
-	}
 	let inputs = try! (vec_list_ref_append_n (inputs));
 	return call_n (evaluator, callable, &inputs);
 }
@@ -251,19 +223,8 @@ pub fn lists_iterate_4 (evaluator : &mut EvaluatorContext, callable : &Value, li
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn lists_map_n (evaluator : &mut EvaluatorContext, callable : &Value, lists : &[&Value]) -> (Outcome<Value>) {
-	match lists.len () {
-		1 =>
-			return lists_map_1 (evaluator, callable, lists[0]),
-		2 =>
-			return lists_map_2 (evaluator, callable, lists[0], lists[1]),
-		3 =>
-			return lists_map_3 (evaluator, callable, lists[0], lists[1], lists[2]),
-		4 =>
-			return lists_map_4 (evaluator, callable, lists[0], lists[1], lists[2], lists[3]),
-		0 =>
-			fail! (0x00de54c0),
-		_ =>
-			(),
+	if lists.is_empty () {
+		fail! (0x00de54c0);
 	}
 	let iterators = try! (ListIterators::new (lists));
 	let outputs = try! (iterators_map_n (evaluator, callable, iterators));
@@ -272,19 +233,8 @@ pub fn lists_map_n (evaluator : &mut EvaluatorContext, callable : &Value, lists 
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn lists_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, lists : &[&Value]) -> (Outcome<Value>) {
-	match lists.len () {
-		1 =>
-			return lists_iterate_1 (evaluator, callable, lists[0]),
-		2 =>
-			return lists_iterate_2 (evaluator, callable, lists[0], lists[1]),
-		3 =>
-			return lists_iterate_3 (evaluator, callable, lists[0], lists[1], lists[2]),
-		4 =>
-			return lists_iterate_4 (evaluator, callable, lists[0], lists[1], lists[2], lists[3]),
-		0 =>
-			fail! (0x1022d804),
-		_ =>
-			(),
+	if lists.is_empty () {
+		fail! (0x1022d804);
 	}
 	let iterators = try! (ListIterators::new (lists));
 	try! (iterators_iterate_n (evaluator, callable, iterators));
@@ -392,19 +342,8 @@ pub fn arrays_iterate_4 (evaluator : &mut EvaluatorContext, callable : &Value, a
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn arrays_map_n (evaluator : &mut EvaluatorContext, callable : &Value, arrays : &[&Value]) -> (Outcome<Value>) {
-	match arrays.len () {
-		1 =>
-			return arrays_map_1 (evaluator, callable, &arrays[0]),
-		2 =>
-			return arrays_map_2 (evaluator, callable, &arrays[0], &arrays[1]),
-		3 =>
-			return arrays_map_3 (evaluator, callable, &arrays[0], &arrays[1], &arrays[2]),
-		4 =>
-			return arrays_map_4 (evaluator, callable, &arrays[0], &arrays[1], &arrays[2], &arrays[3]),
-		0 =>
-			fail! (0x0122b23a),
-		_ =>
-			(),
+	if arrays.is_empty () {
+		fail! (0x0122b23a);
 	}
 	let iterators = try! (ArrayIterators::new (arrays));
 	let outputs = try! (iterators_map_n (evaluator, callable, iterators));
@@ -413,19 +352,8 @@ pub fn arrays_map_n (evaluator : &mut EvaluatorContext, callable : &Value, array
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn arrays_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, arrays : &[&Value]) -> (Outcome<Value>) {
-	match arrays.len () {
-		1 =>
-			return arrays_iterate_1 (evaluator, callable, &arrays[0]),
-		2 =>
-			return arrays_iterate_2 (evaluator, callable, &arrays[0], &arrays[1]),
-		3 =>
-			return arrays_iterate_3 (evaluator, callable, &arrays[0], &arrays[1], &arrays[2]),
-		4 =>
-			return arrays_iterate_4 (evaluator, callable, &arrays[0], &arrays[1], &arrays[2], &arrays[3]),
-		0 =>
-			fail! (0xe2d9384a),
-		_ =>
-			(),
+	if arrays.is_empty () {
+		fail! (0xe2d9384a);
 	}
 	let iterators = try! (ArrayIterators::new (arrays));
 	try! (iterators_iterate_n (evaluator, callable, iterators));
@@ -533,19 +461,8 @@ pub fn bytes_iterate_4 (evaluator : &mut EvaluatorContext, callable : &Value, by
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn bytes_map_n (evaluator : &mut EvaluatorContext, callable : &Value, bytes : &[&Value]) -> (Outcome<Value>) {
-	match bytes.len () {
-		1 =>
-			return bytes_map_1 (evaluator, callable, &bytes[0]),
-		2 =>
-			return bytes_map_2 (evaluator, callable, &bytes[0], &bytes[1]),
-		3 =>
-			return bytes_map_3 (evaluator, callable, &bytes[0], &bytes[1], &bytes[2]),
-		4 =>
-			return bytes_map_4 (evaluator, callable, &bytes[0], &bytes[1], &bytes[2], &bytes[3]),
-		0 =>
-			fail! (0xfa789f5a),
-		_ =>
-			(),
+	if bytes.is_empty () {
+		fail! (0xfa789f5a);
 	}
 	let iterators = try! (BytesIterators::new (bytes));
 	let outputs = try! (iterators_map_n (evaluator, callable, iterators));
@@ -554,19 +471,8 @@ pub fn bytes_map_n (evaluator : &mut EvaluatorContext, callable : &Value, bytes 
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn bytes_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, bytes : &[&Value]) -> (Outcome<Value>) {
-	match bytes.len () {
-		1 =>
-			return bytes_iterate_1 (evaluator, callable, &bytes[0]),
-		2 =>
-			return bytes_iterate_2 (evaluator, callable, &bytes[0], &bytes[1]),
-		3 =>
-			return bytes_iterate_3 (evaluator, callable, &bytes[0], &bytes[1], &bytes[2]),
-		4 =>
-			return bytes_iterate_4 (evaluator, callable, &bytes[0], &bytes[1], &bytes[2], &bytes[3]),
-		0 =>
-			fail! (0xfff5829b),
-		_ =>
-			(),
+	if bytes.is_empty () {
+		fail! (0xfff5829b);
 	}
 	let iterators = try! (BytesIterators::new (bytes));
 	try! (iterators_iterate_n (evaluator, callable, iterators));
@@ -674,19 +580,8 @@ pub fn strings_iterate_4 (evaluator : &mut EvaluatorContext, callable : &Value, 
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn strings_map_n (evaluator : &mut EvaluatorContext, callable : &Value, strings : &[&Value]) -> (Outcome<Value>) {
-	match strings.len () {
-		1 =>
-			return strings_map_1 (evaluator, callable, &strings[0]),
-		2 =>
-			return strings_map_2 (evaluator, callable, &strings[0], &strings[1]),
-		3 =>
-			return strings_map_3 (evaluator, callable, &strings[0], &strings[1], &strings[2]),
-		4 =>
-			return strings_map_4 (evaluator, callable, &strings[0], &strings[1], &strings[2], &strings[3]),
-		0 =>
-			fail! (0x75dac57b),
-		_ =>
-			(),
+	if strings.is_empty () {
+		fail! (0x75dac57b);
 	}
 	let iterators = try! (StringIterators::new (strings));
 	let outputs = try! (iterators_map_n (evaluator, callable, iterators));
@@ -695,19 +590,8 @@ pub fn strings_map_n (evaluator : &mut EvaluatorContext, callable : &Value, stri
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn strings_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, strings : &[&Value]) -> (Outcome<Value>) {
-	match strings.len () {
-		1 =>
-			return strings_iterate_1 (evaluator, callable, &strings[0]),
-		2 =>
-			return strings_iterate_2 (evaluator, callable, &strings[0], &strings[1]),
-		3 =>
-			return strings_iterate_3 (evaluator, callable, &strings[0], &strings[1], &strings[2]),
-		4 =>
-			return strings_iterate_4 (evaluator, callable, &strings[0], &strings[1], &strings[2], &strings[3]),
-		0 =>
-			fail! (0x278c8e6c),
-		_ =>
-			(),
+	if strings.is_empty () {
+		fail! (0x278c8e6c);
 	}
 	let iterators = try! (StringIterators::new (strings));
 	try! (iterators_iterate_n (evaluator, callable, iterators));

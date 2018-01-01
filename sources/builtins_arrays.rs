@@ -127,19 +127,8 @@ pub fn array_build_4 (value_1 : &Value, value_2 : &Value, value_3 : &Value, valu
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn array_build_n (values : &[&Value]) -> (Value) {
-	match values.len () {
-		0 =>
-			return array_empty (),
-		1 =>
-			return array_build_1 (&values[0]),
-		2 =>
-			return array_build_2 (&values[0], &values[1]),
-		3 =>
-			return array_build_3 (&values[0], &values[1], &values[2]),
-		4 =>
-			return array_build_4 (&values[0], &values[1], &values[2], &values[3]),
-		_ =>
-			(),
+	if values.is_empty () {
+		return array_empty ();
 	}
 	let mut buffer = StdVec::with_capacity (values.len ());
 	for value in values {
@@ -171,19 +160,8 @@ pub fn array_append_4 (array_1 : &Value, array_2 : &Value, array_3 : &Value, arr
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn array_append_n (arrays : &[&Value]) -> (Outcome<Value>) {
-	match arrays.len () {
-		0 =>
-			succeed! (array_empty ()),
-		1 =>
-			succeed! (arrays[0].clone ()),
-		2 =>
-			return array_append_2 (arrays[0], arrays[1]),
-		3 =>
-			return array_append_3 (arrays[0], arrays[1], arrays[2]),
-		4 =>
-			return array_append_4 (arrays[0], arrays[1], arrays[2], arrays[3]),
-		_ =>
-			(),
+	if arrays.is_empty () {
+		succeed! (array_empty ());
 	}
 	let buffer = try! (vec_array_append_n (arrays));
 	succeed! (array_new (buffer) .into ());
@@ -355,19 +333,8 @@ pub fn vec_array_append_4 (array_1 : &Value, array_2 : &Value, array_3 : &Value,
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn vec_array_append_n (arrays : &[&Value]) -> (Outcome<ValueVec>) {
-	match arrays.len () {
-		0 =>
-			succeed! (StdVec::new ()),
-		1 =>
-			return vec_array_clone (arrays[0]),
-		2 =>
-			return vec_array_append_2 (arrays[0], arrays[1]),
-		3 =>
-			return vec_array_append_3 (arrays[0], arrays[1], arrays[2]),
-		4 =>
-			return vec_array_append_4 (arrays[0], arrays[1], arrays[2], arrays[3]),
-		_ =>
-			(),
+	if arrays.is_empty () {
+		succeed! (StdVec::new ());
 	}
 	let mut buffer = StdVec::new ();
 	for array in arrays {
