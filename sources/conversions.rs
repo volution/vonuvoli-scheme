@@ -919,6 +919,8 @@ impl <'a> StdDeref for BytesSliceRef<'a> {
 }
 
 
+
+
 impl <'a> StdFrom<&'a [u8]> for BytesSliceRef<'a> {
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
@@ -926,7 +928,6 @@ impl <'a> StdFrom<&'a [u8]> for BytesSliceRef<'a> {
 		BytesSliceRef::Immutable (reference)
 	}
 }
-
 
 impl <'a> StdFrom<&'a StdBox<[u8]>> for BytesSliceRef<'a> {
 	
@@ -936,7 +937,6 @@ impl <'a> StdFrom<&'a StdBox<[u8]>> for BytesSliceRef<'a> {
 	}
 }
 
-
 impl <'a> StdFrom<&'a StdVec<u8>> for BytesSliceRef<'a> {
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
@@ -945,6 +945,21 @@ impl <'a> StdFrom<&'a StdVec<u8>> for BytesSliceRef<'a> {
 	}
 }
 
+impl <'a> StdFrom<StdRef<'a, [u8]>> for BytesSliceRef<'a> {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn from (reference : StdRef<'a, [u8]>) -> (BytesSliceRef<'a>) {
+		BytesSliceRef::Mutable (StdRef::map (reference, |reference| reference))
+	}
+}
+
+impl <'a> StdFrom<StdRef<'a, StdBox<[u8]>>> for BytesSliceRef<'a> {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn from (reference : StdRef<'a, StdBox<[u8]>>) -> (BytesSliceRef<'a>) {
+		BytesSliceRef::Mutable (StdRef::map (reference, |reference| reference.as_ref ()))
+	}
+}
 
 impl <'a> StdFrom<StdRef<'a, StdVec<u8>>> for BytesSliceRef<'a> {
 	
@@ -953,6 +968,16 @@ impl <'a> StdFrom<StdRef<'a, StdVec<u8>>> for BytesSliceRef<'a> {
 		BytesSliceRef::Mutable (StdRef::map (reference, |reference| reference.as_ref ()))
 	}
 }
+
+impl <'a> StdFrom<StdRef<'a, BytesMutableInternals>> for BytesSliceRef<'a> {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn from (reference : StdRef<'a, BytesMutableInternals>) -> (BytesSliceRef<'a>) {
+		BytesSliceRef::Mutable (StdRef::map (reference, |reference| reference.as_ref ()))
+	}
+}
+
+
 
 
 impl <'a> StdFrom<&'a str> for BytesSliceRef<'a> {
@@ -963,7 +988,6 @@ impl <'a> StdFrom<&'a str> for BytesSliceRef<'a> {
 	}
 }
 
-
 impl <'a> StdFrom<&'a StdBox<str>> for BytesSliceRef<'a> {
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
@@ -971,7 +995,6 @@ impl <'a> StdFrom<&'a StdBox<str>> for BytesSliceRef<'a> {
 		BytesSliceRef::Immutable (reference.as_bytes ())
 	}
 }
-
 
 impl <'a> StdFrom<&'a StdString> for BytesSliceRef<'a> {
 	
@@ -981,6 +1004,21 @@ impl <'a> StdFrom<&'a StdString> for BytesSliceRef<'a> {
 	}
 }
 
+impl <'a> StdFrom<StdRef<'a, str>> for BytesSliceRef<'a> {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn from (reference : StdRef<'a, str>) -> (BytesSliceRef<'a>) {
+		BytesSliceRef::Mutable (StdRef::map (reference, |reference| reference.as_bytes ()))
+	}
+}
+
+impl <'a> StdFrom<StdRef<'a, StdBox<str>>> for BytesSliceRef<'a> {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn from (reference : StdRef<'a, StdBox<str>>) -> (BytesSliceRef<'a>) {
+		BytesSliceRef::Mutable (StdRef::map (reference, |reference| reference.as_bytes ()))
+	}
+}
 
 impl <'a> StdFrom<StdRef<'a, StdString>> for BytesSliceRef<'a> {
 	
@@ -989,6 +1027,8 @@ impl <'a> StdFrom<StdRef<'a, StdString>> for BytesSliceRef<'a> {
 		BytesSliceRef::Mutable (StdRef::map (reference, |reference| reference.as_bytes ()))
 	}
 }
+
+
 
 
 impl <'a> StdFrom<BytesRef<'a>> for BytesSliceRef<'a> {
@@ -1003,7 +1043,6 @@ impl <'a> StdFrom<BytesRef<'a>> for BytesSliceRef<'a> {
 		}
 	}
 }
-
 
 impl <'a> StdFrom<StringRef<'a>> for BytesSliceRef<'a> {
 	

@@ -4,6 +4,7 @@ use super::conversions::exports::*;
 use super::errors::exports::*;
 use super::ports::exports::*;
 use super::runtime::exports::*;
+use super::values::exports::*;
 
 use super::prelude::*;
 
@@ -29,7 +30,7 @@ pub struct PortBackendBytesReader {
 
 enum PortBackendBytesReaderSource {
 	BytesImmutable ( StdRc<StdBox<[u8]>> ),
-	BytesMutable ( StdRc<StdRefCell<StdVec<u8>>> ),
+	BytesMutable ( StdRc<StdRefCell<BytesMutableInternals>> ),
 	StringImmutable ( StdRc<StdBox<str>> ),
 	StringMutable ( StdRc<StdRefCell<StdString>> ),
 	None,
@@ -228,7 +229,7 @@ impl PortBackendBytesReader {
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	pub fn new_from_bytes_mutable (bytes : StdRc<StdRefCell<StdVec<u8>>>, range_start : usize, range_end : Option<usize>) -> (Outcome<PortBackendBytesReader>) {
+	pub fn new_from_bytes_mutable (bytes : StdRc<StdRefCell<BytesMutableInternals>>, range_start : usize, range_end : Option<usize>) -> (Outcome<PortBackendBytesReader>) {
 		return PortBackendBytesReader::new_from_source (PortBackendBytesReaderSource::BytesMutable (bytes), range_start, range_end);
 	}
 	

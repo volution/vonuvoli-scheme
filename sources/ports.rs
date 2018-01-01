@@ -5,6 +5,7 @@ use super::globals::exports::*;
 use super::ports_memory::exports::*;
 use super::ports_native::exports::*;
 use super::runtime::exports::*;
+use super::values::exports::*;
 
 use super::prelude::*;
 
@@ -172,7 +173,7 @@ impl Port {
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	pub fn new_bytes_reader_from_bytes_mutable (buffer : StdRc<StdRefCell<StdVec<u8>>>, range_start : usize, range_end : Option<usize>) -> (Outcome<Port>) {
+	pub fn new_bytes_reader_from_bytes_mutable (buffer : StdRc<StdRefCell<BytesMutableInternals>>, range_start : usize, range_end : Option<usize>) -> (Outcome<Port>) {
 		let backend = try! (PortBackendBytesReader::new_from_bytes_mutable (buffer, range_start, range_end));
 		let backend = PortBackend::BytesReader (backend);
 		return Port::new_from_backend (backend);

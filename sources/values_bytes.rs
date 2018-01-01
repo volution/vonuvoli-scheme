@@ -11,7 +11,7 @@ use super::prelude::*;
 
 
 pub mod exports {
-	pub use super::{Bytes, BytesRef, BytesImmutable, BytesMutable};
+	pub use super::{Bytes, BytesRef, BytesImmutable, BytesMutable, BytesMutableInternals};
 	pub use super::{bytes_immutable_new, bytes_immutable_clone_slice, bytes_immutable_clone_str, bytes_immutable_clone_characters};
 	pub use super::{bytes_mutable_new, bytes_mutable_clone_slice, bytes_mutable_clone_str, bytes_mutable_clone_characters};
 	pub use super::{bytes_new, bytes_clone_slice, bytes_clone_str, bytes_clone_characters};
@@ -57,7 +57,7 @@ pub trait Bytes {
 #[ derive (Debug) ]
 pub enum BytesRef <'a> {
 	Immutable (&'a BytesImmutable, &'a [u8]),
-	Mutable (&'a BytesMutable, StdRef<'a, StdVec<u8>>),
+	Mutable (&'a BytesMutable, StdRef<'a, [u8]>),
 }
 
 
@@ -150,7 +150,13 @@ impl Bytes for BytesImmutable {
 
 
 #[ derive (Clone, Debug) ]
-pub struct BytesMutable ( StdRc<StdRefCell<StdVec<u8>>> );
+pub struct BytesMutable ( StdRc<StdRefCell<BytesMutableInternals>> );
+
+#[ derive (Debug) ]
+pub enum BytesMutableInternals {
+	Owned (StdVec<u8>),
+	Cow (StdRc<StdBox<[u8]>>),
+}
 
 
 impl BytesMutable {
@@ -162,17 +168,56 @@ impl BytesMutable {
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn bytes_ref (&self) -> (BytesRef) {
-		BytesRef::Mutable (self, self.0.as_ref () .borrow ())
+		let reference = self.0.as_ref () .borrow ();
+		let reference = StdRef::map (reference, |reference| reference.as_ref ());
+		BytesRef::Mutable (self, reference)
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	pub fn bytes_rc_clone (&self) -> (StdRc<StdRefCell<StdVec<u8>>>) {
+	pub fn bytes_rc_clone (&self) -> (StdRc<StdRefCell<BytesMutableInternals>>) {
 		self.0.clone ()
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn bytes_ref_mut (&self) -> (StdRefMut<StdVec<u8>>) {
-		self.0.as_ref () .borrow_mut ()
+		let reference = self.0.as_ref () .borrow_mut ();
+		let reference = StdRefMut::map (reference, |reference| reference.as_mut ());
+		reference
+	}
+}
+
+
+impl StdAsRef<[u8]> for BytesMutableInternals {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn as_ref (&self) -> (&[u8]) {
+		match *self {
+			BytesMutableInternals::Owned (ref bytes) =>
+				bytes.deref (),
+			BytesMutableInternals::Cow (ref bytes) =>
+				bytes.deref (),
+		}
+	}
+}
+
+
+impl StdAsRefMut<StdVec<u8>> for BytesMutableInternals {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn as_mut (&mut self) -> (&mut StdVec<u8>) {
+		let bytes_owned = match *self {
+			BytesMutableInternals::Owned (ref mut bytes) =>
+				return bytes,
+			BytesMutableInternals::Cow (ref mut bytes_cow) => {
+				let bytes_cow = StdRc::make_mut (bytes_cow);
+				let mut bytes_swap = StdVec::new () .into_boxed_slice ();
+				mem::swap (&mut bytes_swap, bytes_cow);
+				let bytes_swap = StdVec::from (bytes_swap);
+				bytes_swap
+			},
+		};
+		*self = BytesMutableInternals::Owned (bytes_owned);
+		return self.as_mut ();
 	}
 }
 
@@ -186,7 +231,8 @@ pub fn bytes_immutable_new (bytes : StdVec<u8>) -> (BytesImmutable) {
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn bytes_mutable_new (bytes : StdVec<u8>) -> (BytesMutable) {
-	BytesMutable (StdRc::new (StdRefCell::new (bytes)))
+	let internals = BytesMutableInternals::Owned (bytes);
+	BytesMutable (StdRc::new (StdRefCell::new (internals)))
 }
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]

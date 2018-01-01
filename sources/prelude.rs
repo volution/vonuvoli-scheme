@@ -26,6 +26,7 @@ pub use std::collections::hash_map::Entry as StdMapEntry;
 pub use std::collections::hash_map::HashMap as StdMap;
 pub use std::collections::hash_set::HashSet as StdSet;
 pub use std::convert::AsRef as StdAsRef;
+pub use std::convert::AsMut as StdAsRefMut;
 pub use std::convert::From as StdFrom;
 pub use std::convert::Into as StdInto;
 pub use std::ops::Deref as StdDeref;
