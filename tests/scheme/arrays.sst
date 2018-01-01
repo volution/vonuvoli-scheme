@@ -149,3 +149,76 @@
 (vector-ref #(a b) 1) => 'b
 (vector-ref #(a b c) 2) => 'c
 
+
+
+
+(~vector->immutable #()) => #()
+(~vector->mutable #()) => #()
+
+(~vector->immutable #(0)) => #(0)
+(~vector->mutable #(0)) => #(0)
+
+(~vector->immutable #(0 1)) => #(0 1)
+(~vector->mutable #(0 1)) => #(0 1)
+
+(~vector->immutable #(0 1 2)) => #(0 1 2)
+(~vector->mutable #(0 1 2)) => #(0 1 2)
+
+
+(~vector->immutable #()) => (~vector->mutable #())
+(~vector->mutable #()) => (~vector->immutable #())
+
+(~vector->immutable #(0 1 2)) => (~vector->mutable #(0 1 2))
+(~vector->mutable #(0 1 2)) => (~vector->immutable #(0 1 2))
+
+
+
+
+(define a (~vector->mutable #(10 11 12 13 14 15))) => #(10 11 12 13 14 15)
+
+
+
+
+(vector-ref a 0) => 10
+(vector-ref a 1) => 11
+(vector-ref a 2) => 12
+
+(vector-set! a 0 20) => 10
+(vector-set! a 1 21) => 11
+(vector-set! a 2 22) => 12
+
+(vector-ref a 0) => 20
+(vector-ref a 1) => 21
+(vector-ref a 2) => 22
+
+(vector-set! a 0 10) => 20
+(vector-set! a 1 11) => 21
+(vector-set! a 2 12) => 22
+
+
+
+
+(~vector-reverse! a) => #void
+a => #(15 14 13 12 11 10)
+
+(~vector-reverse! a 2) => #void
+a => #(15 14 10 11 12 13)
+
+(~vector-reverse! a 1 3) => #void
+a => #(15 10 14 11 12 13)
+
+(~vector-reverse! a 2 6) => #void
+a => #(15 10 13 12 11 14)
+
+
+
+
+(vector-fill! a 0 1 3) => #void
+a => #(15 0 0 12 11 14)
+
+(vector-fill! a 0 4) => #void
+a => #(15 0 0 12 0 0)
+
+(vector-fill! a 0) => #void
+a => #(0 0 0 0 0 0)
+
