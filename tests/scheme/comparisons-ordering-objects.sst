@@ -358,6 +358,36 @@
 
 
 
+(compare-generic #null) => #(#t #t #t #t #t)
+(compare-generic #void) => #(#t #t #t #t #t)
+
+(compare-generic #t) => #(#t #t #t #t #t)
+(compare-generic #f) => #(#t #t #t #t #t)
+
+(compare-generic 0) => #(#t #t #t #t #t)
+(compare-generic 0.0) => #(#t #t #t #t #t)
+
+(compare-generic #\0) => #(#t #t #t #t #t)
+
+(compare-generic '|0|) => #(#t #t #t #t #t)
+
+(compare-generic "0") => #(#t #t #t #t #t)
+
+(compare-generic #u8(0)) => #(#t #t #t #t #t)
+
+(compare-generic '(0 . 0)) => #(#t #t #t #t #t)
+
+(compare-generic #(0)) => #(#t #t #t #t #t)
+
+(compare-generic #values(0)) => #(#t #t #t #t #t)
+
+(compare-generic +) => #(#t #t #t #t #t)
+
+(compare-generic (lambda x x)) => #(#t #t #t #t #t)
+
+
+
+
 (compare-generic #null #null) => #(#f #t #t #t #f)
 (compare-generic #void #void) => #(#f #t #t #t #f)
 
