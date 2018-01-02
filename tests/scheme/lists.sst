@@ -107,6 +107,8 @@
 (member "" '(1 "" 2)) => '("" 2)
 
 
+(member 0 '(0 1 2) >) => #f
+
 (member 1 '(0 1 2) <) => '(2)
 (member 1 '(0 1 2) <=) => '(1 2)
 (member 1 '(0 1 2) >=) => '(0 1 2)
@@ -143,6 +145,8 @@
 (assoc "" '((1 a) ("" b) (2 c))) => '("" b)
 
 
+(assoc 0 '((0 a) (1 b) (2 c)) >) => #f
+
 (assoc 1 '((0 a) (1 b) (2 c)) <) => '(2 c)
 (assoc 1 '((0 a) (1 b) (2 c)) <=) => '(1 b)
 (assoc 1 '((0 a) (1 b) (2 c)) >=) => '(0 a)
@@ -154,10 +158,16 @@
 (append) => #null
 (append #null) => #null
 (append #null #null) => #null
+(append #null #null #null) => #null
+(append #null #null #null #null) => #null
+(append #null #null #null #null #null) => #null
 
 (append 0) => 0
 (append #null 0) => 0
 (append #null #null 0) => 0
+(append #null #null #null 0) => 0
+(append #null #null #null #null 0) => 0
+(append #null #null #null #null #null 0) => 0
 
 (append '(0 . 1)) => '(0 . 1)
 (append '(0) 1) => '(0 . 1)

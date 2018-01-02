@@ -185,6 +185,9 @@
 (string-append) => #string()
 (string-append #string()) => #string()
 (string-append #string() #string()) => #string()
+(string-append #string() #string() #string()) => #string()
+(string-append #string() #string() #string() #string()) => #string()
+(string-append #string() #string() #string() #string() #string()) => #string()
 
 (string-append #string(0)) => #string(0)
 (string-append #string() #string(0)) => #string(0)
@@ -244,6 +247,19 @@
 (~string->mutable #string(0 1 2)) => #string(0 1 2)
 
 
+(~string->immutable (~string->mutable #string())) => #string()
+(~string->mutable (~string->immutable #string())) => #string()
+
+(~string->immutable (~string->mutable #string(0 1 2))) => #string(0 1 2)
+(~string->mutable (~string->immutable #string(0 1 2))) => #string(0 1 2)
+
+(~string->immutable (~string->immutable #string())) => #string()
+(~string->mutable (~string->mutable #string())) => #string()
+
+(~string->immutable (~string->immutable #string(0 1 2))) => #string(0 1 2)
+(~string->mutable (~string->mutable #string(0 1 2))) => #string(0 1 2)
+
+
 (~string->immutable #string()) => (~string->mutable #string())
 (~string->mutable #string()) => (~string->immutable #string())
 
@@ -254,6 +270,9 @@
 
 
 (define a (~string->mutable #string(10 11 12 13 14 15))) => #string(10 11 12 13 14 15)
+(define e (~string->mutable #string())) => #string()
+(define t (~string->mutable #string(0 0 0 0 0 0))) => #string(0 0 0 0 0 0)
+(define s #string(0 1 2 3 4 5)) => #string(0 1 2 3 4 5)
 
 
 
@@ -277,29 +296,56 @@
 
 
 
-(~string-reverse! a) => #void
-a => #string(15 14 13 12 11 10)
-
-(~string-reverse! a 2) => #void
-a => #string(15 14 10 11 12 13)
-
-(~string-reverse! a 1 3) => #void
-a => #string(15 10 14 11 12 13)
-
-(~string-reverse! a 2 6) => #void
-a => #string(15 10 13 12 11 14)
+(values (~string-reverse! a) a) => #values(#void #string(15 14 13 12 11 10))
+(values (~string-reverse! a 2) a) => #values(#void #string(15 14 10 11 12 13))
+(values (~string-reverse! a 1 3) a) => #values(#void #string(15 10 14 11 12 13))
+(values (~string-reverse! a 2 6) a) => #values(#void #string(15 10 13 12 11 14))
 
 
 
 
-(string-fill! a #\x0 1 3) => #void
-a => #string(15 0 0 12 11 14)
+(values (string-fill! a #\x0 1 3) a) => #values(#void #string(15 0 0 12 11 14))
+(values (string-fill! a #\x0 4) a) => #values(#void #string(15 0 0 12 0 0))
+(values (string-fill! a #\x1) a) => #values(#void #string(1 1 1 1 1 1))
+(values (string-fill! a) a) => #values(#void #string(0 0 0 0 0 0))
 
-(string-fill! a #\x0 4) => #void
-a => #string(15 0 0 12 0 0)
 
-(string-fill! a #\x0) => #void
-a => #string(0 0 0 0 0 0)
+
+
+(values (string-copy! e 0 #string()) e) => #values(#void #string())
+(values (string-copy! e 0 #string() 0) e) => #values(#void #string())
+(values (string-copy! e 0 #string() 0 0) e) => #values(#void #string())
+
+(values (string-copy! t s) t) => #values(#void #string(0 1 2 3 4 5))
+(values (string-fill! t #\x0) t) => #values(#void #string(0 0 0 0 0 0))
+
+(values (string-copy! t 6 s 6) t) => #values(#void #string(0 0 0 0 0 0))
+(values (string-copy! t 5 s 5) t) => #values(#void #string(0 0 0 0 0 5))
+(values (string-copy! t 2 s 2) t) => #values(#void #string(0 0 2 3 4 5))
+(values (string-copy! t 0 s 0) t) => #values(#void #string(0 1 2 3 4 5))
+(values (string-fill! t #\x0) t) => #values(#void #string(0 0 0 0 0 0))
+
+(values (string-copy! t 5 s 1 2) t) => #values(#void #string(0 0 0 0 0 1))
+(values (string-copy! t 2 s 1 4) t) => #values(#void #string(0 0 1 2 3 1))
+(values (string-fill! t #\x0) t) => #values(#void #string(0 0 0 0 0 0))
+
+(values (string-copy! t 0 s 0 0) t) => #values(#void #string(0 0 0 0 0 0))
+(values (string-copy! t 0 s 1 1) t) => #values(#void #string(0 0 0 0 0 0))
+(values (string-copy! t 0 s 5 5) t) => #values(#void #string(0 0 0 0 0 0))
+(values (string-copy! t 0 s 6 6) t) => #values(#void #string(0 0 0 0 0 0))
+(values (string-copy! t 1 s 0 0) t) => #values(#void #string(0 0 0 0 0 0))
+(values (string-copy! t 1 s 1 1) t) => #values(#void #string(0 0 0 0 0 0))
+(values (string-copy! t 1 s 5 5) t) => #values(#void #string(0 0 0 0 0 0))
+(values (string-copy! t 1 s 6 6) t) => #values(#void #string(0 0 0 0 0 0))
+(values (string-copy! t 5 s 0 0) t) => #values(#void #string(0 0 0 0 0 0))
+(values (string-copy! t 5 s 1 1) t) => #values(#void #string(0 0 0 0 0 0))
+(values (string-copy! t 5 s 5 5) t) => #values(#void #string(0 0 0 0 0 0))
+(values (string-copy! t 5 s 6 6) t) => #values(#void #string(0 0 0 0 0 0))
+(values (string-copy! t 6 s 0 0) t) => #values(#void #string(0 0 0 0 0 0))
+(values (string-copy! t 6 s 1 1) t) => #values(#void #string(0 0 0 0 0 0))
+(values (string-copy! t 6 s 5 5) t) => #values(#void #string(0 0 0 0 0 0))
+(values (string-copy! t 6 s 6 6) t) => #values(#void #string(0 0 0 0 0 0))
+(values (string-fill! t #\x0) t) => #values(#void #string(0 0 0 0 0 0))
 
 
 

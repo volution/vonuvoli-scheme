@@ -16,6 +16,35 @@
 
 
 
+(~cons->immutable (cons 0 1)) => '(0 . 1)
+(~cons->mutable (cons 0 1)) => '(0 . 1)
+
+(~cons->immutable (~cons->mutable (cons 0 1))) => '(0 . 1)
+(~cons->mutable (~cons->immutable (cons 0 1))) => '(0 . 1)
+
+(~cons->immutable (~cons->immutable (cons 0 1))) => '(0 . 1)
+(~cons->mutable (~cons->mutable (cons 0 1))) => '(0 . 1)
+
+(~cons->immutable (cons 0 1)) => (~cons->mutable (cons 0 1))
+(~cons->mutable (cons 0 1)) => (~cons->immutable (cons 0 1))
+
+
+
+
+(define a (~cons->mutable (cons 0 1))) => '(0 . 1)
+
+(car a) => 0
+(cdr a) => 1
+
+(set-car! a 2) => 0
+(set-cdr! a 3) => 1
+
+(car a) => 2
+(cdr a) => 3
+
+
+
+
 (caar '((0 . a) (1 . b) (2 . c))) => 0
 (cdar '((0 . a) (1 . b) (2 . c))) => 'a
 (cadr '((0 . a) (1 . b) (2 . c))) => '(1 . b)

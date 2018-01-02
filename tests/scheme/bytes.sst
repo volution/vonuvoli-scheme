@@ -143,6 +143,9 @@
 (bytevector-append) => #u8()
 (bytevector-append #u8()) => #u8()
 (bytevector-append #u8() #u8()) => #u8()
+(bytevector-append #u8() #u8() #u8()) => #u8()
+(bytevector-append #u8() #u8() #u8() #u8()) => #u8()
+(bytevector-append #u8() #u8() #u8() #u8() #u8()) => #u8()
 
 (bytevector-append #u8(0)) => #u8(0)
 (bytevector-append #u8() #u8(0)) => #u8(0)
@@ -202,6 +205,19 @@
 (~bytevector->mutable #u8(0 1 2)) => #u8(0 1 2)
 
 
+(~bytevector->immutable (~bytevector->mutable #u8())) => #u8()
+(~bytevector->mutable (~bytevector->immutable #u8())) => #u8()
+
+(~bytevector->immutable (~bytevector->mutable #u8(0 1 2))) => #u8(0 1 2)
+(~bytevector->mutable (~bytevector->immutable #u8(0 1 2))) => #u8(0 1 2)
+
+(~bytevector->immutable (~bytevector->immutable #u8())) => #u8()
+(~bytevector->mutable (~bytevector->mutable #u8())) => #u8()
+
+(~bytevector->immutable (~bytevector->immutable #u8(0 1 2))) => #u8(0 1 2)
+(~bytevector->mutable (~bytevector->mutable #u8(0 1 2))) => #u8(0 1 2)
+
+
 (~bytevector->immutable #u8()) => (~bytevector->mutable #u8())
 (~bytevector->mutable #u8()) => (~bytevector->immutable #u8())
 
@@ -212,6 +228,9 @@
 
 
 (define a (~bytevector->mutable #u8(10 11 12 13 14 15))) => #u8(10 11 12 13 14 15)
+(define e (~bytevector->mutable #u8())) => #u8()
+(define t (~bytevector->mutable #u8(0 0 0 0 0 0))) => #u8(0 0 0 0 0 0)
+(define s #u8(0 1 2 3 4 5)) => #u8(0 1 2 3 4 5)
 
 
 
@@ -235,27 +254,54 @@
 
 
 
-(~bytevector-reverse! a) => #void
-a => #u8(15 14 13 12 11 10)
-
-(~bytevector-reverse! a 2) => #void
-a => #u8(15 14 10 11 12 13)
-
-(~bytevector-reverse! a 1 3) => #void
-a => #u8(15 10 14 11 12 13)
-
-(~bytevector-reverse! a 2 6) => #void
-a => #u8(15 10 13 12 11 14)
+(values (~bytevector-reverse! a) a) => #values(#void #u8(15 14 13 12 11 10))
+(values (~bytevector-reverse! a 2) a) => #values(#void #u8(15 14 10 11 12 13))
+(values (~bytevector-reverse! a 1 3) a) => #values(#void #u8(15 10 14 11 12 13))
+(values (~bytevector-reverse! a 2 6) a) => #values(#void #u8(15 10 13 12 11 14))
 
 
 
 
-(~bytevector-u8-fill! a 0 1 3) => #void
-a => #u8(15 0 0 12 11 14)
+(values (~bytevector-u8-fill! a 0 1 3) a) => #values(#void #u8(15 0 0 12 11 14))
+(values (~bytevector-u8-fill! a 0 4) a) => #values(#void #u8(15 0 0 12 0 0))
+(values (~bytevector-u8-fill! a 1) a) => #values(#void #u8(1 1 1 1 1 1))
+(values (~bytevector-u8-fill! a) a) => #values(#void #u8(0 0 0 0 0 0))
 
-(~bytevector-u8-fill! a 0 4) => #void
-a => #u8(15 0 0 12 0 0)
 
-(~bytevector-u8-fill! a 0) => #void
-a => #u8(0 0 0 0 0 0)
+
+
+(values (bytevector-copy! e 0 #u8()) e) => #values(#void #u8())
+(values (bytevector-copy! e 0 #u8() 0) e) => #values(#void #u8())
+(values (bytevector-copy! e 0 #u8() 0 0) e) => #values(#void #u8())
+
+(values (bytevector-copy! t s) t) => #values(#void #u8(0 1 2 3 4 5))
+(values (~bytevector-u8-fill! t 0) t) => #values(#void #u8(0 0 0 0 0 0))
+
+(values (bytevector-copy! t 6 s 6) t) => #values(#void #u8(0 0 0 0 0 0))
+(values (bytevector-copy! t 5 s 5) t) => #values(#void #u8(0 0 0 0 0 5))
+(values (bytevector-copy! t 2 s 2) t) => #values(#void #u8(0 0 2 3 4 5))
+(values (bytevector-copy! t 0 s 0) t) => #values(#void #u8(0 1 2 3 4 5))
+(values (~bytevector-u8-fill! t 0) t) => #values(#void #u8(0 0 0 0 0 0))
+
+(values (bytevector-copy! t 5 s 1 2) t) => #values(#void #u8(0 0 0 0 0 1))
+(values (bytevector-copy! t 2 s 1 4) t) => #values(#void #u8(0 0 1 2 3 1))
+(values (~bytevector-u8-fill! t 0) t) => #values(#void #u8(0 0 0 0 0 0))
+
+(values (bytevector-copy! t 0 s 0 0) t) => #values(#void #u8(0 0 0 0 0 0))
+(values (bytevector-copy! t 0 s 1 1) t) => #values(#void #u8(0 0 0 0 0 0))
+(values (bytevector-copy! t 0 s 5 5) t) => #values(#void #u8(0 0 0 0 0 0))
+(values (bytevector-copy! t 0 s 6 6) t) => #values(#void #u8(0 0 0 0 0 0))
+(values (bytevector-copy! t 1 s 0 0) t) => #values(#void #u8(0 0 0 0 0 0))
+(values (bytevector-copy! t 1 s 1 1) t) => #values(#void #u8(0 0 0 0 0 0))
+(values (bytevector-copy! t 1 s 5 5) t) => #values(#void #u8(0 0 0 0 0 0))
+(values (bytevector-copy! t 1 s 6 6) t) => #values(#void #u8(0 0 0 0 0 0))
+(values (bytevector-copy! t 5 s 0 0) t) => #values(#void #u8(0 0 0 0 0 0))
+(values (bytevector-copy! t 5 s 1 1) t) => #values(#void #u8(0 0 0 0 0 0))
+(values (bytevector-copy! t 5 s 5 5) t) => #values(#void #u8(0 0 0 0 0 0))
+(values (bytevector-copy! t 5 s 6 6) t) => #values(#void #u8(0 0 0 0 0 0))
+(values (bytevector-copy! t 6 s 0 0) t) => #values(#void #u8(0 0 0 0 0 0))
+(values (bytevector-copy! t 6 s 1 1) t) => #values(#void #u8(0 0 0 0 0 0))
+(values (bytevector-copy! t 6 s 5 5) t) => #values(#void #u8(0 0 0 0 0 0))
+(values (bytevector-copy! t 6 s 6 6) t) => #values(#void #u8(0 0 0 0 0 0))
+(values (~bytevector-u8-fill! t 0) t) => #values(#void #u8(0 0 0 0 0 0))
 
