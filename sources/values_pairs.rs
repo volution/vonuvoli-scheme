@@ -9,7 +9,7 @@ use super::prelude::*;
 
 
 pub mod exports {
-	pub use super::{Pair, PairRef, PairImmutable, PairMutable};
+	pub use super::{Pair, PairRef, PairAsRef, PairImmutable, PairMutable};
 	pub use super::{pair_new, pair_immutable_new, pair_mutable_new};
 	pub use super::{ListPairIterator, ListIterator, ListIterators};
 }
@@ -75,26 +75,6 @@ impl <'a> PairRef<'a> {
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	pub fn to_immutable (&self) -> (PairImmutable) {
-		match *self {
-			PairRef::Immutable (value, _) =>
-				(*value) .clone () .into (),
-			PairRef::Mutable (value, _) =>
-				(*value) .to_immutable () .into (),
-		}
-	}
-	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	pub fn to_mutable (&self) -> (PairMutable) {
-		match *self {
-			PairRef::Immutable (value, _) =>
-				(*value) .to_mutable () .into (),
-			PairRef::Mutable (value, _) =>
-				(*value) .clone () .into (),
-		}
-	}
-	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn is_self (&self, other : &PairRef) -> (bool) {
 		match (self, other) {
 			(&PairRef::Immutable (self_0, _), &PairRef::Immutable (other_0, _)) =>
@@ -137,6 +117,83 @@ impl <'a> Pair for PairRef<'a> {
 				values,
 			PairRef::Mutable (_, ref values) =>
 				values,
+		}
+	}
+}
+
+
+
+
+#[ derive (Debug) ]
+pub enum PairAsRef <'a> {
+	Immutable (&'a PairImmutable),
+	Mutable (&'a PairMutable),
+}
+
+
+impl <'a> PairAsRef<'a> {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn try (value : &'a Value) -> (Outcome<PairAsRef<'a>>) {
+		match *value {
+			Value::PairImmutable (_, ref value, _) =>
+				succeed! (PairAsRef::Immutable (value)),
+			Value::PairMutable (_, ref value, _) =>
+				succeed! (PairAsRef::Mutable (value)),
+			_ =>
+				fail! (0x1cb1913b),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn pair_ref (&self) -> (PairRef<'a>) {
+		match *self {
+			PairAsRef::Immutable (value) =>
+				value.pair_ref (),
+			PairAsRef::Mutable (value) =>
+				value.pair_ref (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn clone (&self) -> (Value) {
+		match *self {
+			PairAsRef::Immutable (value) =>
+				(*value) .clone () .into (),
+			PairAsRef::Mutable (value) =>
+				(*value) .clone () .into (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn to_immutable (&self) -> (PairImmutable) {
+		match *self {
+			PairAsRef::Immutable (value) =>
+				(*value) .clone (),
+			PairAsRef::Mutable (value) =>
+				(*value) .to_immutable (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn to_mutable (&self) -> (PairMutable) {
+		match *self {
+			PairAsRef::Immutable (value) =>
+				(*value) .to_mutable (),
+			PairAsRef::Mutable (value) =>
+				(*value) .clone (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn is_self (&self, other : &PairAsRef) -> (bool) {
+		match (self, other) {
+			(&PairAsRef::Immutable (self_0), &PairAsRef::Immutable (other_0)) =>
+				PairImmutable::is_self (self_0, other_0),
+			(&PairAsRef::Mutable (self_0), &PairAsRef::Mutable (other_0)) =>
+				PairMutable::is_self (self_0, other_0),
+			_ =>
+				false,
 		}
 	}
 }

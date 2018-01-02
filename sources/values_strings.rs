@@ -11,7 +11,7 @@ use super::prelude::*;
 
 
 pub mod exports {
-	pub use super::{String, StringRef, StringImmutable, StringMutable, StringMutableInternals};
+	pub use super::{String, StringRef, StringAsRef, StringImmutable, StringMutable, StringMutableInternals};
 	pub use super::{string_immutable_new, string_immutable_clone_str, string_immutable_clone_characters};
 	pub use super::{string_mutable_new, string_mutable_clone_str, string_mutable_clone_characters};
 	pub use super::{string_new, string_clone_str, string_clone_characters};
@@ -106,26 +106,6 @@ impl <'a> StringRef<'a> {
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	pub fn to_immutable (&self) -> (StringImmutable) {
-		match *self {
-			StringRef::Immutable (value, _) =>
-				(*value) .clone () .into (),
-			StringRef::Mutable (value, _) =>
-				(*value) .to_immutable () .into (),
-		}
-	}
-	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	pub fn to_mutable (&self) -> (StringMutable) {
-		match *self {
-			StringRef::Immutable (value, _) =>
-				(*value) .to_mutable () .into (),
-			StringRef::Mutable (value, _) =>
-				(*value) .clone () .into (),
-		}
-	}
-	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn is_self (&self, other : &StringRef) -> (bool) {
 		match (self, other) {
 			(&StringRef::Immutable (self_0, _), &StringRef::Immutable (other_0, _)) =>
@@ -148,6 +128,83 @@ impl <'a> String for StringRef<'a> {
 				string,
 			StringRef::Mutable (_, ref string) =>
 				string,
+		}
+	}
+}
+
+
+
+
+#[ derive (Debug) ]
+pub enum StringAsRef <'a> {
+	Immutable (&'a StringImmutable),
+	Mutable (&'a StringMutable),
+}
+
+
+impl <'a> StringAsRef<'a> {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn try (value : &'a Value) -> (Outcome<StringAsRef<'a>>) {
+		match *value {
+			Value::StringImmutable (_, ref value, _) =>
+				succeed! (StringAsRef::Immutable (value)),
+			Value::StringMutable (_, ref value, _) =>
+				succeed! (StringAsRef::Mutable (value)),
+			_ =>
+				fail! (0x2aacd51d),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn string_ref (&self) -> (StringRef<'a>) {
+		match *self {
+			StringAsRef::Immutable (value) =>
+				value.string_ref (),
+			StringAsRef::Mutable (value) =>
+				value.string_ref (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn clone (&self) -> (Value) {
+		match *self {
+			StringAsRef::Immutable (value) =>
+				(*value) .clone () .into (),
+			StringAsRef::Mutable (value) =>
+				(*value) .clone () .into (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn to_immutable (&self) -> (StringImmutable) {
+		match *self {
+			StringAsRef::Immutable (value) =>
+				(*value) .clone (),
+			StringAsRef::Mutable (value) =>
+				(*value) .to_immutable (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn to_mutable (&self) -> (StringMutable) {
+		match *self {
+			StringAsRef::Immutable (value) =>
+				(*value) .to_mutable (),
+			StringAsRef::Mutable (value) =>
+				(*value) .clone (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn is_self (&self, other : &StringAsRef) -> (bool) {
+		match (self, other) {
+			(&StringAsRef::Immutable (self_0), &StringAsRef::Immutable (other_0)) =>
+				StringImmutable::is_self (self_0, other_0),
+			(&StringAsRef::Mutable (self_0), &StringAsRef::Mutable (other_0)) =>
+				StringMutable::is_self (self_0, other_0),
+			_ =>
+				false,
 		}
 	}
 }

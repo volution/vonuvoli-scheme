@@ -336,10 +336,10 @@ pub fn string_primitive_1_evaluate (primitive : StringPrimitive1, input_1 : &Val
 			return character_to_digit_number (input_1, None),
 		
 		StringPrimitive1::StringToImmutable =>
-			succeed! (try_as_string_ref! (input_1) .to_immutable () .into ()),
+			succeed! (try_as_string_as_ref! (input_1) .to_immutable () .into ()),
 		
 		StringPrimitive1::StringToMutable =>
-			succeed! (try_as_string_ref! (input_1) .to_mutable () .into ()),
+			succeed! (try_as_string_as_ref! (input_1) .to_mutable () .into ()),
 		
 	}
 }

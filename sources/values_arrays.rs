@@ -10,7 +10,7 @@ use super::prelude::*;
 
 
 pub mod exports {
-	pub use super::{Array, ArrayRef, ArrayImmutable, ArrayMutable, ArrayMutableInternals};
+	pub use super::{Array, ArrayRef, ArrayAsRef, ArrayImmutable, ArrayMutable, ArrayMutableInternals};
 	pub use super::{array_immutable_new, array_immutable_clone_slice, array_immutable_clone_slice_ref};
 	pub use super::{array_mutable_new, array_mutable_clone_slice, array_mutable_clone_slice_ref};
 	pub use super::{array_new, array_clone_slice, array_clone_slice_ref};
@@ -85,26 +85,6 @@ impl <'a> ArrayRef<'a> {
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	pub fn to_immutable (&self) -> (ArrayImmutable) {
-		match *self {
-			ArrayRef::Immutable (value, _) =>
-				(*value) .clone () .into (),
-			ArrayRef::Mutable (value, _) =>
-				(*value) .to_immutable () .into (),
-		}
-	}
-	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	pub fn to_mutable (&self) -> (ArrayMutable) {
-		match *self {
-			ArrayRef::Immutable (value, _) =>
-				(*value) .to_mutable () .into (),
-			ArrayRef::Mutable (value, _) =>
-				(*value) .clone () .into (),
-		}
-	}
-	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn is_self (&self, other : &ArrayRef) -> (bool) {
 		match (self, other) {
 			(&ArrayRef::Immutable (self_0, _), &ArrayRef::Immutable (other_0, _)) =>
@@ -127,6 +107,83 @@ impl <'a> Array for ArrayRef<'a> {
 				values,
 			ArrayRef::Mutable (_, ref values) =>
 				values,
+		}
+	}
+}
+
+
+
+
+#[ derive (Debug) ]
+pub enum ArrayAsRef <'a> {
+	Immutable (&'a ArrayImmutable),
+	Mutable (&'a ArrayMutable),
+}
+
+
+impl <'a> ArrayAsRef<'a> {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn try (value : &'a Value) -> (Outcome<ArrayAsRef<'a>>) {
+		match *value {
+			Value::ArrayImmutable (_, ref value, _) =>
+				succeed! (ArrayAsRef::Immutable (value)),
+			Value::ArrayMutable (_, ref value, _) =>
+				succeed! (ArrayAsRef::Mutable (value)),
+			_ =>
+				fail! (0xde9b3abe),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn array_ref (&self) -> (ArrayRef<'a>) {
+		match *self {
+			ArrayAsRef::Immutable (value) =>
+				value.array_ref (),
+			ArrayAsRef::Mutable (value) =>
+				value.array_ref (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn clone (&self) -> (Value) {
+		match *self {
+			ArrayAsRef::Immutable (value) =>
+				(*value) .clone () .into (),
+			ArrayAsRef::Mutable (value) =>
+				(*value) .clone () .into (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn to_immutable (&self) -> (ArrayImmutable) {
+		match *self {
+			ArrayAsRef::Immutable (value) =>
+				(*value) .clone (),
+			ArrayAsRef::Mutable (value) =>
+				(*value) .to_immutable (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn to_mutable (&self) -> (ArrayMutable) {
+		match *self {
+			ArrayAsRef::Immutable (value) =>
+				(*value) .to_mutable (),
+			ArrayAsRef::Mutable (value) =>
+				(*value) .clone (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn is_self (&self, other : &ArrayAsRef) -> (bool) {
+		match (self, other) {
+			(&ArrayAsRef::Immutable (self_0), &ArrayAsRef::Immutable (other_0)) =>
+				ArrayImmutable::is_self (self_0, other_0),
+			(&ArrayAsRef::Mutable (self_0), &ArrayAsRef::Mutable (other_0)) =>
+				ArrayMutable::is_self (self_0, other_0),
+			_ =>
+				false,
 		}
 	}
 }

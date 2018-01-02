@@ -11,7 +11,7 @@ use super::prelude::*;
 
 
 pub mod exports {
-	pub use super::{Bytes, BytesRef, BytesImmutable, BytesMutable, BytesMutableInternals};
+	pub use super::{Bytes, BytesRef, BytesAsRef, BytesImmutable, BytesMutable, BytesMutableInternals};
 	pub use super::{bytes_immutable_new, bytes_immutable_clone_slice, bytes_immutable_clone_str, bytes_immutable_clone_characters};
 	pub use super::{bytes_mutable_new, bytes_mutable_clone_slice, bytes_mutable_clone_str, bytes_mutable_clone_characters};
 	pub use super::{bytes_new, bytes_clone_slice, bytes_clone_str, bytes_clone_characters};
@@ -86,26 +86,6 @@ impl <'a> BytesRef<'a> {
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	pub fn to_immutable (&self) -> (BytesImmutable) {
-		match *self {
-			BytesRef::Immutable (value, _) =>
-				(*value) .clone () .into (),
-			BytesRef::Mutable (value, _) =>
-				(*value) .to_immutable () .into (),
-		}
-	}
-	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	pub fn to_mutable (&self) -> (BytesMutable) {
-		match *self {
-			BytesRef::Immutable (value, _) =>
-				(*value) .to_mutable () .into (),
-			BytesRef::Mutable (value, _) =>
-				(*value) .clone () .into (),
-		}
-	}
-	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	pub fn is_self (&self, other : &BytesRef) -> (bool) {
 		match (self, other) {
 			(&BytesRef::Immutable (self_0, _), &BytesRef::Immutable (other_0, _)) =>
@@ -128,6 +108,83 @@ impl <'a> Bytes for BytesRef<'a> {
 				bytes,
 			BytesRef::Mutable (_, ref bytes) =>
 				bytes,
+		}
+	}
+}
+
+
+
+
+#[ derive (Debug) ]
+pub enum BytesAsRef <'a> {
+	Immutable (&'a BytesImmutable),
+	Mutable (&'a BytesMutable),
+}
+
+
+impl <'a> BytesAsRef<'a> {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn try (value : &'a Value) -> (Outcome<BytesAsRef<'a>>) {
+		match *value {
+			Value::BytesImmutable (_, ref value, _) =>
+				succeed! (BytesAsRef::Immutable (value)),
+			Value::BytesMutable (_, ref value, _) =>
+				succeed! (BytesAsRef::Mutable (value)),
+			_ =>
+				fail! (0xa0fe7201),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn bytes_ref (&self) -> (BytesRef<'a>) {
+		match *self {
+			BytesAsRef::Immutable (value) =>
+				value.bytes_ref (),
+			BytesAsRef::Mutable (value) =>
+				value.bytes_ref (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn clone (&self) -> (Value) {
+		match *self {
+			BytesAsRef::Immutable (value) =>
+				(*value) .clone () .into (),
+			BytesAsRef::Mutable (value) =>
+				(*value) .clone () .into (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn to_immutable (&self) -> (BytesImmutable) {
+		match *self {
+			BytesAsRef::Immutable (value) =>
+				(*value) .clone (),
+			BytesAsRef::Mutable (value) =>
+				(*value) .to_immutable (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn to_mutable (&self) -> (BytesMutable) {
+		match *self {
+			BytesAsRef::Immutable (value) =>
+				(*value) .to_mutable (),
+			BytesAsRef::Mutable (value) =>
+				(*value) .clone (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn is_self (&self, other : &BytesAsRef) -> (bool) {
+		match (self, other) {
+			(&BytesAsRef::Immutable (self_0), &BytesAsRef::Immutable (other_0)) =>
+				BytesImmutable::is_self (self_0, other_0),
+			(&BytesAsRef::Mutable (self_0), &BytesAsRef::Mutable (other_0)) =>
+				BytesMutable::is_self (self_0, other_0),
+			_ =>
+				false,
 		}
 	}
 }

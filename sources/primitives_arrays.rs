@@ -232,10 +232,10 @@ pub fn array_primitive_1_evaluate (primitive : ArrayPrimitive1, input_1 : &Value
 			return list_range_to_array (input_1, None, None),
 		
 		ArrayPrimitive1::ArrayToImmutable =>
-			succeed! (try_as_array_ref! (input_1) .to_immutable () .into ()),
+			succeed! (try_as_array_as_ref! (input_1) .to_immutable () .into ()),
 		
 		ArrayPrimitive1::ArrayToMutable =>
-			succeed! (try_as_array_ref! (input_1) .to_mutable () .into ()),
+			succeed! (try_as_array_as_ref! (input_1) .to_mutable () .into ()),
 		
 	}
 }

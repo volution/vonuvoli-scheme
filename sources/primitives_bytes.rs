@@ -246,10 +246,10 @@ pub fn bytes_primitive_1_evaluate (primitive : BytesPrimitive1, input_1 : &Value
 			return array_range_to_bytes (input_1, None, None),
 		
 		BytesPrimitive1::BytesToImmutable =>
-			succeed! (try_as_bytes_ref! (input_1) .to_immutable () .into ()),
+			succeed! (try_as_bytes_as_ref! (input_1) .to_immutable () .into ()),
 		
 		BytesPrimitive1::BytesToMutable =>
-			succeed! (try_as_bytes_ref! (input_1) .to_mutable () .into ()),
+			succeed! (try_as_bytes_as_ref! (input_1) .to_mutable () .into ()),
 		
 	}
 }

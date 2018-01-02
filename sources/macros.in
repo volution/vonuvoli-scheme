@@ -870,6 +870,33 @@ macro_rules! try_as_array_ref {
 
 
 
+macro_rules! try_as_string_as_ref {
+	( $value : expr ) => {
+		try! ($crate::values::exports::StringAsRef::try ($value))
+	};
+}
+
+macro_rules! try_as_bytes_as_ref {
+	( $value : expr ) => {
+		try! ($crate::values::exports::BytesAsRef::try ($value))
+	};
+}
+
+macro_rules! try_as_pair_as_ref {
+	( $value : expr ) => {
+		try! ($crate::values::exports::PairAsRef::try ($value))
+	};
+}
+
+macro_rules! try_as_array_as_ref {
+	( $value : expr ) => {
+		try! ($crate::values::exports::ArrayAsRef::try ($value))
+	};
+}
+
+
+
+
 #[ macro_export ]
 macro_rules! def_scheme_tests {
 	( $identifier : ident, $source : expr ) => (
