@@ -155,7 +155,8 @@ impl fmt::Display for NumberInteger {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		write! (formatter, "{:+}", self.value ())
+		let value = self.value ();
+		write! (formatter, "{:+}", value)
 	}
 }
 
@@ -166,7 +167,12 @@ impl fmt::Display for NumberReal {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		write! (formatter, "{:+e}", self.value ())
+		let value = self.value ();
+		if value.is_nan () {
+			write! (formatter, "nan")
+		} else {
+			write! (formatter, "{:+e}", value)
+		}
 	}
 }
 
@@ -211,7 +217,7 @@ impl fmt::Display for Symbol {
 					' ' ... '~' =>
 						try! (formatter.write_char (character)),
 					_ =>
-						try! (write! (formatter, "#\\x{:02x};", character as u32)),
+						try! (write! (formatter, "\\x{:02x};", character as u32)),
 				}
 			}
 			try! (formatter.write_char ('|'));
@@ -253,7 +259,7 @@ fn string_fmt (string : &str, formatter : &mut fmt::Formatter) -> (fmt::Result) 
 			' ' ... '~' =>
 				try! (formatter.write_char (character)),
 			_ =>
-				try! (write! (formatter, "#\\x{:02x};", character as u32)),
+				try! (write! (formatter, "\\x{:02x};", character as u32)),
 		}
 	}
 	try! (formatter.write_char ('"'));
