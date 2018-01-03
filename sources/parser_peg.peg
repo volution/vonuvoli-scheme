@@ -54,7 +54,7 @@ number_integer -> values::Value = number_integer_2 / number_integer_8 / number_i
 number_integer_2 -> values::Value = ( "#b" / "#B" ) value : $( number_sign? [0-1]+ ) {? i64::from_str_radix (value, 2) .map (|value| values::number_i64 (value) .into ()) .map_err (|_| "invalid real syntax") }
 number_integer_8 -> values::Value = ( "#o" / "#O" ) value : $( number_sign? [0-7]+ ) {? i64::from_str_radix (value, 8) .map (|value| values::number_i64 (value) .into ()) .map_err (|_| "invalid real syntax") }
 number_integer_10 -> values::Value = ( "#d" / "#D" )? value : $( number_sign? [0-9]+ ) {? i64::from_str_radix (value, 10) .map (|value| values::number_i64 (value) .into ()) .map_err (|_| "invalid real syntax") }
-number_integer_16 -> values::Value = ( "#x" / "#X" ) value : $( number_sign? ( [0-9a-f]+ / [0-9A-F]+ ) ) {? i64::from_str_radix (value, 16) .map (|value| values::number_i64 (value) .into ()) .map_err (|_| "invalid real syntax") }
+number_integer_16 -> values::Value = ( "#x" / "#X" ) value : $( number_sign? ( [0-9a-fA-F]+ ) ) {? i64::from_str_radix (value, 16) .map (|value| values::number_i64 (value) .into ()) .map_err (|_| "invalid real syntax") }
 
 number_real -> values::Value = number_real_variant_1 / number_real_variant_2 / number_real_variant_3 / number_real_variant_4 / number_real_inf / number_real_nan / number_real_epsilon
 number_real_variant_1 -> values::Value = value : $( number_sign? [0-9]+ "." [0-9]+ number_real_exponent? ) {? f64::from_str (value) .map (|value| values::number_f64 (value) .into ()) .map_err (|_| "invalid real syntax") }
@@ -62,19 +62,19 @@ number_real_variant_2 -> values::Value = value : $( number_sign? [0-9]+ "." numb
 number_real_variant_3 -> values::Value = value : $( number_sign? "." [0-9]+ number_real_exponent? ) {? f64::from_str (value) .map (|value| values::number_f64 (value) .into ()) .map_err (|_| "invalid real syntax") }
 number_real_variant_4 -> values::Value = value : $( number_sign? [0-9]+ number_real_exponent ) {? f64::from_str (value) .map (|value| values::number_f64 (value) .into ()) .map_err (|_| "invalid real syntax") }
 number_real_inf -> values::Value = number_real_inf_positive / number_real_inf_negative
-number_real_inf_positive -> values::Value = &"+" number_sign "inf" ".0"? { constants::INF_POSITIVE.into () }
+number_real_inf_positive -> values::Value = (&"+" number_sign)? "inf" ".0"? { constants::INF_POSITIVE.into () }
 number_real_inf_negative -> values::Value = &"-" number_sign "inf" ".0"? { constants::INF_NEGATIVE.into () }
 number_real_nan -> values::Value = number_real_nan_positive / number_real_nan_negative
-number_real_nan_positive -> values::Value = &"+" number_sign "nan" ".0"? { constants::NAN_POSITIVE.into () }
+number_real_nan_positive -> values::Value = (&"+" number_sign)? "nan" ".0"? { constants::NAN_POSITIVE.into () }
 number_real_nan_negative -> values::Value = &"-" number_sign "nan" ".0"? { constants::NAN_NEGATIVE.into () }
 number_real_epsilon -> values::Value = number_real_epsilon_positive / number_real_epsilon_negative
-number_real_epsilon_positive -> values::Value = &"+" number_sign "epsilon" ".0"? { constants::EPSILON_POSITIVE.into () }
+number_real_epsilon_positive -> values::Value = (&"+" number_sign)? "epsilon" ".0"? { constants::EPSILON_POSITIVE.into () }
 number_real_epsilon_negative -> values::Value = &"-" number_sign "epsilon" ".0"? { constants::EPSILON_NEGATIVE.into () }
 number_real_exponent = ( "e" / "E" ) number_sign? [0-9]+
 
 character -> values::Value = character_glyph / character_escaped / character_named
 character_glyph -> values::Value = "#\\" glyph : $( . ) !atom { values::character (glyph.chars () .next () .expect ("36da249a")) .into () }
-character_escaped -> values::Value = ( "#\\x" / "#\\X" ) value : $( [0-9a-f]+ / [0-9A-F]+ ) {? u32::from_str_radix (value, 16) .map_err (|_| "invalid character syntax") .and_then (|value| char::from_u32 (value) .ok_or ("invalid character value")) .map (|character| values::character (character) .into ()) }
+character_escaped -> values::Value = ( "#\\x" / "#\\X" ) value : $( [0-9a-fA-F]+ ) {? u32::from_str_radix (value, 16) .map_err (|_| "invalid character syntax") .and_then (|value| char::from_u32 (value) .ok_or ("invalid character value")) .map (|character| values::character (character) .into ()) }
 character_named -> values::Value = "#\\" value : $( "alarm" / "backspace" / "delete" / "escape" / "newline" / "null" / "return" / "space" / "tab" ) {?
 		match value {
 			"alarm" => Ok (values::character (7 as char) .into ()),
@@ -103,7 +103,7 @@ string -> values::Value = string_quoted / string_array
 string_quoted -> values::Value = "\"" elements : string_character* "\"" { values::string_immutable_clone_characters (elements.as_slice ()) .into () }
 string_character -> char = string_character_glyph / string_character_escaped / string_character_named
 string_character_glyph -> char = glyph : $( [^"\\] ) { glyph.chars () .next () .expect ("61d18567") }
-string_character_escaped -> char = ( "\\x" / "\\X" ) value : $( [0-9a-f]+ / [0-9A-F]+ ) ";" {? u32::from_str_radix (value, 16) .map_err (|_| "invalid character syntax") .and_then (|value| char::from_u32 (value) .ok_or ("invalid character value")) }
+string_character_escaped -> char = ( "\\x" / "\\X" ) value : $( [0-9a-fA-F]+ ) ";" {? u32::from_str_radix (value, 16) .map_err (|_| "invalid character syntax") .and_then (|value| char::from_u32 (value) .ok_or ("invalid character value")) }
 string_character_named -> char = "\\" value : $( "a" / "b" / "t" / "n" / "r" ) {?
 		match value {
 			"a" => Ok (7 as char),
@@ -124,8 +124,8 @@ constant -> values::Value = "#void" { constants::VOID.into () } / "#undefined" {
 
 comment = #quiet< comment_line+ / comment_nested+ / comment_value+ >
 comment_line = #quiet< ";" [^\n]* "\n" >
-comment_nested = #quiet< "#|" ( !("#|" / "|#") . . )* comment_nested* ( !("#|" / "|#") . . )* "|#" >
-comment_value = "#;" whitespace value
+comment_nested = #quiet< "#|" ( !("#|" / "|#") . )* comment_nested* ( !("#|" / "|#") . )* "|#" >
+comment_value = "#;" whitespace? value
 
 whitespace = #quiet< [ \t\n]+ >
 space = ( whitespace / comment )+
