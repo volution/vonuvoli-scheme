@@ -319,7 +319,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "bytes", "bytevector-u8-ref", BytesPrimitive2::BytesAt.into ()),
 			
 			("base", "bytes", "bytevector-u8-set!", BytesPrimitive3::BytesAtSet.into ()),
-			("base", "bytes", "bytevector-copy!", BytesPrimitiveV::BytesRangeFill.into ()),
+			("base", "bytes", "bytevector-copy!", BytesPrimitiveV::BytesRangeCopy.into ()),
 			
 			
 			
