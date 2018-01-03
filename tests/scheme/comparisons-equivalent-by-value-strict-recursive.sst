@@ -4,6 +4,8 @@
 (define cmp ~equivalent-by-value-strict-recursive?) => !ignore
 (define (cmp-self x) (cmp x x)) => !ignore
 
+(define l (lambda x x)) => !ignore
+
 
 
 
@@ -179,6 +181,8 @@
 
 
 
+
+(cmp l l) => #t
 
 (cmp (lambda x x) (lambda x x)) => #f
 (cmp (lambda x x) (lambda y y)) => #f
