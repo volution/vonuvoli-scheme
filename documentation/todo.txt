@@ -1,0 +1,8 @@
+
+primitives:
+
+  (string/bytevector/vector/list-swap! left right)
+  (string/bytevector/vector/list-swap! left left-start right)
+  (string/bytevector/vector/list-swap! left left-start right right-start)
+  (string/bytevector/vector/list-swap! left left-start right right-start right-end)
+
