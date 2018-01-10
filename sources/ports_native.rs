@@ -21,6 +21,7 @@ pub mod exports {
 
 pub struct PortBackendNativeReader {
 	reader : Option<io::BufReader<StdBox<io::Read>>>,
+	descriptor : Option<PortDescriptor>,
 }
 
 
@@ -221,17 +222,23 @@ impl PortBackendReader for PortBackendNativeReader {
 impl PortBackendNativeReader {
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	pub fn new_from_unbuffered (reader : StdBox<io::Read>) -> (Outcome<PortBackendNativeReader>) {
+	pub fn new_from_unbuffered (reader : StdBox<io::Read>, descriptor : Option<PortDescriptor>) -> (Outcome<PortBackendNativeReader>) {
 		let reader = io::BufReader::new (reader);
-		return PortBackendNativeReader::new_from_buffered (reader);
+		return PortBackendNativeReader::new_from_buffered (reader, descriptor);
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	pub fn new_from_buffered (reader : io::BufReader<StdBox<io::Read>>) -> (Outcome<PortBackendNativeReader>) {
+	pub fn new_from_buffered (reader : io::BufReader<StdBox<io::Read>>, descriptor : Option<PortDescriptor>) -> (Outcome<PortBackendNativeReader>) {
 		let backend = PortBackendNativeReader {
 				reader : Some (reader),
+				descriptor : descriptor,
 			};
 		succeed! (backend);
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn descriptor (&self) -> (Outcome<Option<PortDescriptor>>) {
+		succeed! (self.descriptor.clone ());
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
@@ -264,6 +271,7 @@ impl PortBackendNativeReader {
 
 pub struct PortBackendNativeWriter {
 	writer : Option<io::BufWriter<StdBox<io::Write>>>,
+	descriptor : Option<PortDescriptor>,
 }
 
 
@@ -358,17 +366,23 @@ impl PortBackendWriter for PortBackendNativeWriter {
 impl PortBackendNativeWriter {
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	pub fn new_from_unbuffered (writer : StdBox<io::Write>) -> (Outcome<PortBackendNativeWriter>) {
+	pub fn new_from_unbuffered (writer : StdBox<io::Write>, descriptor : Option<PortDescriptor>) -> (Outcome<PortBackendNativeWriter>) {
 		let writer = io::BufWriter::new (writer);
-		return PortBackendNativeWriter::new_from_buffered (writer);
+		return PortBackendNativeWriter::new_from_buffered (writer, descriptor);
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	pub fn new_from_buffered (writer : io::BufWriter<StdBox<io::Write>>) -> (Outcome<PortBackendNativeWriter>) {
+	pub fn new_from_buffered (writer : io::BufWriter<StdBox<io::Write>>, descriptor : Option<PortDescriptor>) -> (Outcome<PortBackendNativeWriter>) {
 		let backend = PortBackendNativeWriter {
 				writer : Some (writer),
+				descriptor : descriptor,
 			};
 		succeed! (backend);
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn descriptor (&self) -> (Outcome<Option<PortDescriptor>>) {
+		succeed! (self.descriptor.clone ());
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]

@@ -372,14 +372,14 @@ pub fn port_string_writer_finalize (port : &Value) -> (Outcome<Value>) {
 
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-pub fn port_native_reader_new (reader : StdBox<io::Read>) -> (Outcome<Value>) {
-	let port = try! (Port::new_native_reader_from_unbuffered (reader));
+pub fn port_native_reader_new (reader : StdBox<io::Read>, descriptor : Option<PortDescriptor>) -> (Outcome<Value>) {
+	let port = try! (Port::new_native_reader_from_unbuffered (reader, descriptor));
 	succeed! (port.into ());
 }
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-pub fn port_native_writer_new (writer : StdBox<io::Write>) -> (Outcome<Value>) {
-	let port = try! (Port::new_native_writer_from_unbuffered (writer));
+pub fn port_native_writer_new (writer : StdBox<io::Write>, descriptor : Option<PortDescriptor>) -> (Outcome<Value>) {
+	let port = try! (Port::new_native_writer_from_unbuffered (writer, descriptor));
 	succeed! (port.into ());
 }
 
@@ -409,14 +409,16 @@ pub fn port_file_writer_open (path : &Value) -> (Outcome<Value>) {
 pub fn port_file_reader_open_with_options (path : &Value, options : &fs::OpenOptions) -> (Outcome<Value>) {
 	let file = try! (port_file_open_with_options (path, options));
 	let file = StdBox::new (file);
-	return port_native_reader_new (file);
+	let descriptor = PortDescriptor::for_file (&file);
+	return port_native_reader_new (file, descriptor);
 }
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn port_file_writer_open_with_options (path : &Value, options : &fs::OpenOptions) -> (Outcome<Value>) {
 	let file = try! (port_file_open_with_options (path, options));
 	let file = StdBox::new (file);
-	return port_native_writer_new (file);
+	let descriptor = PortDescriptor::for_file (&file);
+	return port_native_writer_new (file, descriptor);
 }
 
 

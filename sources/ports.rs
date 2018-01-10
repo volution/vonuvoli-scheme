@@ -17,7 +17,8 @@ pub mod exports {
 	pub use super::{
 		Port, PortInternals,
 		PortState,
-		PortBackend
+		PortBackend,
+		PortDescriptor,
 	};
 	
 	pub use super::{
@@ -57,6 +58,12 @@ pub enum PortBackend {
 	NativeReader ( PortBackendNativeReader ),
 	NativeWriter ( PortBackendNativeWriter ),
 	
+}
+
+
+#[ derive (Clone, Debug) ]
+pub enum PortDescriptor {
+	RawFd (unix_io::RawFd),
 }
 
 
@@ -203,15 +210,15 @@ impl Port {
 	
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	pub fn new_native_reader_from_unbuffered (reader : StdBox<io::Read>) -> (Outcome<Port>) {
-		let backend = try! (PortBackendNativeReader::new_from_unbuffered (reader));
+	pub fn new_native_reader_from_unbuffered (reader : StdBox<io::Read>, descriptor : Option<PortDescriptor>) -> (Outcome<Port>) {
+		let backend = try! (PortBackendNativeReader::new_from_unbuffered (reader, descriptor));
 		let backend = PortBackend::NativeReader (backend);
 		return Port::new_from_backend (backend);
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	pub fn new_native_writer_from_unbuffered (writer : StdBox<io::Write>) -> (Outcome<Port>) {
-		let backend = try! (PortBackendNativeWriter::new_from_unbuffered (writer));
+	pub fn new_native_writer_from_unbuffered (writer : StdBox<io::Write>, descriptor : Option<PortDescriptor>) -> (Outcome<Port>) {
+		let backend = try! (PortBackendNativeWriter::new_from_unbuffered (writer, descriptor));
 		let backend = PortBackend::NativeWriter (backend);
 		return Port::new_from_backend (backend);
 	}
@@ -355,6 +362,12 @@ impl Port {
 		} else {
 			succeed! (());
 		}
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn descriptor (&self) -> (Outcome<Option<PortDescriptor>>) {
+		let self_0 = try! (self.internals_ref_check_open ());
+		return self_0.backend.descriptor ();
 	}
 }
 
@@ -649,6 +662,22 @@ impl PortBackend {
 				return backend.input_close (),
 			PortBackend::NativeWriter (ref mut backend) =>
 				return backend.output_close (),
+			
+		}
+	}
+	
+	pub fn descriptor (&self) -> (Outcome<Option<PortDescriptor>>) {
+		match *self {
+			
+			PortBackend::BytesReader (_) =>
+				succeed! (None),
+			PortBackend::BytesWriter (_) =>
+				succeed! (None),
+			
+			PortBackend::NativeReader (ref backend) =>
+				return backend.descriptor (),
+			PortBackend::NativeWriter (ref backend) =>
+				return backend.descriptor (),
 			
 		}
 	}
@@ -1145,6 +1174,32 @@ impl PortBackendWriter for PortBackend {
 				return backend.is_output_open (),
 			
 		}
+	}
+}
+
+
+
+
+impl PortDescriptor {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn for_file (file : &fs::File) -> (Option<PortDescriptor>) {
+		return Some (PortDescriptor::RawFd (unix_io::AsRawFd::as_raw_fd (file)));
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn for_child_stdin (stream : &process::ChildStdin) -> (Option<PortDescriptor>) {
+		return Some (PortDescriptor::RawFd (unix_io::AsRawFd::as_raw_fd (stream)));
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn for_child_stdout (stream : &process::ChildStdout) -> (Option<PortDescriptor>) {
+		return Some (PortDescriptor::RawFd (unix_io::AsRawFd::as_raw_fd (stream)));
+	}
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	pub fn for_child_stderr (stream : &process::ChildStderr) -> (Option<PortDescriptor>) {
+		return Some (PortDescriptor::RawFd (unix_io::AsRawFd::as_raw_fd (stream)));
 	}
 }
 
