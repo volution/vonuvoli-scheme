@@ -22,6 +22,7 @@ pub mod exports {
 	pub use super::{boxed_slice_to_ref};
 	
 	pub use super::{libc_getrusage_for_thread};
+	pub use super::{libc_kill};
 	
 	pub use super::super::runtime_iterators::exports::*;
 	pub use super::super::runtime_unicode::exports::*;
@@ -267,6 +268,18 @@ pub fn libc_getrusage_for_thread () -> (libc::rusage) {
 			resources
 		} else {
 			panic! ("fc7fa1cb");
+		}
+	}
+}
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn libc_kill (process : libc::pid_t, signal : libc::c_int) -> (Outcome<()>) {
+	unsafe {
+		if libc::kill (process, signal) == 0 {
+			succeed! (());
+		} else {
+			fail! (0x41a2990d);
 		}
 	}
 }
