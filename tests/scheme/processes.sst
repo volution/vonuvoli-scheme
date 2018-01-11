@@ -1,0 +1,49 @@
+
+
+(~process-run "true") => #void
+(~process-run-try "true") => #t
+(~process-run-try "false") => 1
+
+
+(~process-wait (~process-spawn "true")) => #void
+(~process-wait-try (~process-spawn "true")) => #t
+(~process-wait-try (~process-spawn "false")) => 1
+
+
+
+
+(let ((p (~process-spawn "true")))
+	(values
+		(~process? p)
+		(~process-wait-try p)
+		(~process-wait-try p)
+		(~process-wait-try p)
+		(~process-wait-try p)
+		(~process? p)))
+=> #values(#t #t #t #t #t #t)
+
+(let ((p (~process-spawn "false")))
+	(values
+		(~process? p)
+		(~process-wait-try p)
+		(~process-wait-try p)
+		(~process-wait-try p)
+		(~process-wait-try p)
+		(~process? p)))
+=> #values(#t 1 1 1 1 #t)
+
+
+(let ((p (~process-spawn "sleep" "0.1")))
+	(values
+		(~process? p)
+		(~process-wait-poll p)
+		(~process-wait-poll p)
+		(~process-wait-poll p)
+		(~process-wait-try p)
+		(~process-wait-poll p)
+		(~process-wait-poll p)
+		(~process-wait-poll p)
+		(~process-wait-try p)
+		(~process? p)))
+=> #values(#t #f #f #f #t #t #t #t #t #t)
+

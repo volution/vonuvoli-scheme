@@ -49,6 +49,8 @@ def_scheme_tests_from_file! (
 		
 		test__runtime => "scheme/runtime.sst",
 		
+		test__processes => "scheme/processes.sst",
+		
 		test__scratchpad => "scheme/scratchpad.sst",
 		test__issues => "scheme/issues.sst",
 		
@@ -94,6 +96,8 @@ def_scheme_benchmarks_from_file! (
 		benchmark__ports_native => "scheme/ports-native.sst",
 		
 		benchmark__runtime => "scheme/runtime.sst",
+		
+		benchmark__processes => "scheme/processes.sst",
 		
 		benchmark__scratchpad => "scheme/scratchpad.sst",
 		benchmark__issues => "scheme/issues.sst",
