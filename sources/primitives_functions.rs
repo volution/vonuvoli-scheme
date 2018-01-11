@@ -216,7 +216,7 @@ pub fn functions_primitive_0_evaluate (primitive : FunctionsPrimitive0, _evaluat
 	match primitive {
 		
 		FunctionsPrimitive0::Values =>
-			succeed! (values_build_0 ()),
+			return values_build_0 () .into_0 (),
 		
 	}
 }
@@ -235,7 +235,7 @@ pub fn functions_primitive_1_evaluate (primitive : FunctionsPrimitive1, input_1 
 			return apply_0 (evaluator, input_1),
 		
 		FunctionsPrimitive1::Values =>
-			succeed! (values_build_1 (input_1)),
+			return values_build_1 (input_1) .into_0 (),
 		
 	}
 }
@@ -284,7 +284,7 @@ pub fn functions_primitive_2_evaluate (primitive : FunctionsPrimitive2, input_1 
 			return strings_iterate_1 (evaluator, input_1, input_2),
 		
 		FunctionsPrimitive2::Values =>
-			succeed! (values_build_2 (input_1, input_2)),
+			return values_build_2 (input_1, input_2) .into_0 (),
 		
 	}
 }
@@ -327,7 +327,7 @@ pub fn functions_primitive_3_evaluate (primitive : FunctionsPrimitive3, input_1 
 			return strings_iterate_2 (evaluator, input_1, input_2, input_3),
 		
 		FunctionsPrimitive3::Values =>
-			succeed! (values_build_3 (input_1, input_2, input_3)),
+			return values_build_3 (input_1, input_2, input_3) .into_0 (),
 		
 	}
 }
@@ -370,7 +370,7 @@ pub fn functions_primitive_4_evaluate (primitive : FunctionsPrimitive4, input_1 
 			return strings_iterate_3 (evaluator, input_1, input_2, input_3, input_4),
 		
 		FunctionsPrimitive4::Values =>
-			succeed! (values_build_4 (input_1, input_2, input_3, input_4)),
+			return values_build_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
 	}
 }
@@ -473,7 +473,7 @@ pub fn functions_primitive_n_evaluate (primitive : FunctionsPrimitiveN, inputs :
 		},
 		
 		FunctionsPrimitiveN::Values =>
-			succeed! (values_build_n (inputs)),
+			return values_build_n (inputs) .into_0 (),
 		
 	}
 }

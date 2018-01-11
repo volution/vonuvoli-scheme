@@ -184,7 +184,7 @@ pub fn port_primitive_0_evaluate (primitive : PortPrimitive0, _evaluator : &mut 
 				Err (_) =>
 					fail! (0x35130507),
 			}
-			succeed! (VOID.into ());
+			return VOID.into_0 ();
 		},
 		
 		PortPrimitive0::OutputToBytes =>
@@ -194,7 +194,7 @@ pub fn port_primitive_0_evaluate (primitive : PortPrimitive0, _evaluator : &mut 
 			return port_string_writer_new (),
 		
 		PortPrimitive0::Eof =>
-			succeed! (PORT_EOF.into ()),
+			return PORT_EOF.into_0 (),
 		
 	}
 }
@@ -216,37 +216,29 @@ pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, input_1 : &Value, 
 				Err (_) =>
 					fail! (0x7aab6cc6),
 			}
-			succeed! (VOID.into ());
+			return VOID.into_0 ();
 		},
 		
 		PortPrimitive1::IsInputOpen =>
-			succeed! (try! (is_port_input_open (input_1)) .into ()),
+			return is_port_input_open (input_1) .into_0 (),
 		
 		PortPrimitive1::IsOutputOpen =>
-			succeed! (try! (is_port_output_open (input_1)) .into ()),
+			return is_port_output_open (input_1) .into_0 (),
 		
-		PortPrimitive1::Close => {
-			try! (port_close (input_1));
-			succeed! (VOID.into ());
-		},
+		PortPrimitive1::Close =>
+			return port_close (input_1) .into_0 (),
 		
-		PortPrimitive1::CloseInput => {
-			try! (port_input_close (input_1));
-			succeed! (VOID.into ());
-		},
+		PortPrimitive1::CloseInput =>
+			return port_input_close (input_1) .into_0 (),
 		
-		PortPrimitive1::CloseOutput => {
-			try! (port_output_close (input_1));
-			succeed! (VOID.into ());
-		},
+		PortPrimitive1::CloseOutput =>
+			return port_output_close (input_1) .into_0 (),
 		
-		PortPrimitive1::FlushOutput => {
-			try! (port_output_flush (input_1));
-			succeed! (VOID.into ());
-		},
+		PortPrimitive1::FlushOutput =>
+			return port_output_flush (input_1) .into_0 (),
 		
 		PortPrimitive1::ByteReady =>
-			succeed! (try! (port_input_byte_ready (input_1)) .into ()),
+			return port_input_byte_ready (input_1) .into_0 (),
 		
 		PortPrimitive1::BytePeek =>
 			return port_input_byte_peek (input_1),
@@ -255,7 +247,7 @@ pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, input_1 : &Value, 
 			return port_input_byte_read (input_1),
 		
 		PortPrimitive1::CharacterReady =>
-			succeed! (try! (port_input_character_ready (input_1)) .into ()),
+			return port_input_character_ready (input_1) .into_0 (),
 		
 		PortPrimitive1::CharacterPeek =>
 			return port_input_character_peek (input_1),
@@ -300,10 +292,10 @@ pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, input_1 : &Value, 
 			return port_file_writer_open (input_1),
 		
 		PortPrimitive1::FileExists =>
-			succeed! (try! (port_file_exists (input_1)) .into ()),
+			return port_file_exists (input_1) .into_0 (),
 		
 		PortPrimitive1::FileDelete =>
-			succeed! (try! (port_file_delete (input_1)) .into ()),
+			return port_file_delete (input_1) .into_0 (),
 		
 	}
 }
@@ -330,25 +322,17 @@ pub fn port_primitive_2_evaluate (primitive : PortPrimitive2, input_1 : &Value, 
 		PortPrimitive2::StringReadExtend =>
 			return port_input_string_read_extend (input_2, input_1, None),
 		
-		PortPrimitive2::ByteWrite => {
-			try! (port_output_byte_write (input_2, input_1));
-			succeed! (VOID.into ());
-		},
+		PortPrimitive2::ByteWrite =>
+			return port_output_byte_write (input_2, input_1) .into_0 (),
 		
-		PortPrimitive2::BytesWrite => {
-			try! (port_output_bytes_write (input_2, input_1));
-			succeed! (VOID.into ());
-		},
+		PortPrimitive2::BytesWrite =>
+			return port_output_bytes_write (input_2, input_1) .into_0 (),
 		
-		PortPrimitive2::CharacterWrite => {
-			try! (port_output_character_write (input_2, input_1));
-			succeed! (VOID.into ());
-		},
+		PortPrimitive2::CharacterWrite =>
+			return port_output_character_write (input_2, input_1) .into_0 (),
 		
-		PortPrimitive2::StringWrite => {
-			try! (port_output_string_write (input_2, input_1));
-			succeed! (VOID.into ());
-		},
+		PortPrimitive2::StringWrite =>
+			return port_output_string_write (input_2, input_1) .into_0 (),
 		
 		PortPrimitive2::ValueWrite =>
 			fail_unimplemented! (0x696cb627), // deferred

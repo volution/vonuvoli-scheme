@@ -196,10 +196,10 @@ pub fn list_primitive_0_evaluate (primitive : ListPrimitive0, _evaluator : &mut 
 	match primitive {
 		
 		ListPrimitive0::ListBuild =>
-			succeed! (list_empty ()),
+			return list_empty () .into_0 (),
 		
 		ListPrimitive0::ListAppend =>
-			succeed! (list_empty ()),
+			return list_empty () .into_0 (),
 		
 	}
 }
@@ -229,11 +229,8 @@ pub fn list_primitive_1_evaluate (primitive : ListPrimitive1, input_1 : &Value, 
 		ListPrimitive1::ListRestOfFirst =>
 			return list_rest (try! (list_first_ref (input_1))),
 		
-		ListPrimitive1::ListLength => {
-			let length = try! (list_length (input_1));
-			let length : NumberInteger = try! (StdTryFrom::try_from (length));
-			succeed! (length.into ());
-		},
+		ListPrimitive1::ListLength =>
+			return list_length (input_1) .into_0 (),
 		
 		ListPrimitive1::ListClone =>
 			return list_clone (input_1),
@@ -245,19 +242,19 @@ pub fn list_primitive_1_evaluate (primitive : ListPrimitive1, input_1 : &Value, 
 			return list_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), &UNDEFINED.into ()),
 		
 		ListPrimitive1::ListBuild =>
-			succeed! (list_build_1 (input_1)),
+			return list_build_1 (input_1) .into_0 (),
 		
 		ListPrimitive1::ListAppend =>
-			succeed! (input_1.clone ()),
+			return input_1.clone () .into_0 (),
 		
 		ListPrimitive1::ListFill =>
 			return list_fill_range (input_1, None, None, None),
 		
 		ListPrimitive1::PairToImmutable =>
-			succeed! (try_as_pair_as_ref! (input_1) .to_immutable () .into ()),
+			return try_as_pair_as_ref! (input_1) .to_immutable () .into_0 (),
 		
 		ListPrimitive1::PairToMutable =>
-			succeed! (try_as_pair_as_ref! (input_1) .to_mutable () .into ()),
+			return try_as_pair_as_ref! (input_1) .to_mutable () .into_0 (),
 		
 		ListPrimitive1::ListToImmutable =>
 			fail_unimplemented! (0xaab9fe29), // deferred
@@ -276,7 +273,7 @@ pub fn list_primitive_2_evaluate (primitive : ListPrimitive2, input_1 : &Value, 
 	match primitive {
 		
 		ListPrimitive2::Pair =>
-			succeed! (pair (input_1, input_2)),
+			return pair (input_1, input_2) .into_0 (),
 		
 		ListPrimitive2::PairLeftSet =>
 			return pair_left_set (input_1, input_2),
@@ -297,7 +294,7 @@ pub fn list_primitive_2_evaluate (primitive : ListPrimitive2, input_1 : &Value, 
 			return list_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), input_2),
 		
 		ListPrimitive2::ListBuild =>
-			succeed! (list_build_2 (input_1, input_2)),
+			return list_build_2 (input_1, input_2). into_0 (),
 		
 		ListPrimitive2::ListAppend =>
 			return list_append_2 (input_1, input_2),
@@ -346,7 +343,7 @@ pub fn list_primitive_3_evaluate (primitive : ListPrimitive3, input_1 : &Value, 
 			return list_rest_at_set (input_1, try! (try_as_number_integer_ref! (input_2) .try_to_usize ()), input_3),
 		
 		ListPrimitive3::ListBuild =>
-			succeed! (list_build_3 (input_1, input_2, input_3)),
+			return list_build_3 (input_1, input_2, input_3) .into_0 (),
 		
 		ListPrimitive3::ListAppend =>
 			return list_append_3 (input_1, input_2, input_3),
@@ -377,7 +374,7 @@ pub fn list_primitive_4_evaluate (primitive : ListPrimitive4, input_1 : &Value, 
 	match primitive {
 		
 		ListPrimitive4::ListBuild =>
-			succeed! (list_build_4 (input_1, input_2, input_3, input_4)),
+			return list_build_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
 		ListPrimitive4::ListAppend =>
 			return list_append_4 (input_1, input_2, input_3, input_4),
@@ -412,7 +409,7 @@ pub fn list_primitive_n_evaluate (primitive : ListPrimitiveN, inputs : &[&Value]
 	match primitive {
 		
 		ListPrimitiveN::ListBuild =>
-			succeed! (list_build_n (inputs)),
+			return list_build_n (inputs) .into_0 (),
 		
 		ListPrimitiveN::ListAppend =>
 			return list_append_n (inputs),

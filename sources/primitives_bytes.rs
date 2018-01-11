@@ -1,6 +1,5 @@
 
 
-use super::constants::exports::*;
 use super::builtins::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
@@ -187,10 +186,10 @@ pub fn bytes_primitive_0_evaluate (primitive : BytesPrimitive0, _evaluator : &mu
 	match primitive {
 		
 		BytesPrimitive0::BytesBuild =>
-			succeed! (bytes_empty ()),
+			return bytes_empty () .into_0 (),
 		
 		BytesPrimitive0::BytesAppend =>
-			succeed! (bytes_empty ()),
+			return bytes_empty () .into_0 (),
 		
 	}
 }
@@ -202,11 +201,8 @@ pub fn bytes_primitive_0_evaluate (primitive : BytesPrimitive0, _evaluator : &mu
 pub fn bytes_primitive_1_evaluate (primitive : BytesPrimitive1, input_1 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
-		BytesPrimitive1::BytesLength => {
-			let length = try! (bytes_length (input_1));
-			let length : NumberInteger = try! (StdTryFrom::try_from (length));
-			succeed! (length.into ());
-		},
+		BytesPrimitive1::BytesLength =>
+			return bytes_length (input_1) .into_0 (),
 		
 		BytesPrimitive1::BytesClone =>
 			return bytes_clone (input_1),
@@ -223,15 +219,11 @@ pub fn bytes_primitive_1_evaluate (primitive : BytesPrimitive1, input_1 : &Value
 		BytesPrimitive1::BytesAppend =>
 			return bytes_clone (input_1),
 		
-		BytesPrimitive1::BytesFill => {
-			try! (bytes_fill_range (input_1, None, None, None));
-			succeed! (VOID_VALUE);
-		},
+		BytesPrimitive1::BytesFill =>
+			return bytes_fill_range (input_1, None, None, None) .into_0 (),
 		
-		BytesPrimitive1::BytesReverse => {
-			try! (bytes_reverse_range (input_1, None, None));
-			succeed! (VOID_VALUE);
-		},
+		BytesPrimitive1::BytesReverse =>
+			return bytes_reverse_range (input_1, None, None) .into_0 (),
 		
 		BytesPrimitive1::BytesToList =>
 			return bytes_range_to_list (input_1, None, None),
@@ -246,10 +238,10 @@ pub fn bytes_primitive_1_evaluate (primitive : BytesPrimitive1, input_1 : &Value
 			return array_range_to_bytes (input_1, None, None),
 		
 		BytesPrimitive1::BytesToImmutable =>
-			succeed! (try_as_bytes_as_ref! (input_1) .to_immutable () .into ()),
+			return try_as_bytes_as_ref! (input_1) .to_immutable () .into_0 (),
 		
 		BytesPrimitive1::BytesToMutable =>
-			succeed! (try_as_bytes_as_ref! (input_1) .to_mutable () .into ()),
+			return try_as_bytes_as_ref! (input_1) .to_mutable () .into_0 (),
 		
 	}
 }
@@ -273,23 +265,17 @@ pub fn bytes_primitive_2_evaluate (primitive : BytesPrimitive2, input_1 : &Value
 		BytesPrimitive2::BytesAppend =>
 			return bytes_append_2 (input_1, input_2),
 		
-		BytesPrimitive2::BytesFill => {
-			try! (bytes_fill_range (input_1, Some (input_2), None, None));
-			succeed! (VOID_VALUE);
-		},
+		BytesPrimitive2::BytesFill =>
+			return bytes_fill_range (input_1, Some (input_2), None, None) .into_0 (),
 		
-		BytesPrimitive2::BytesCopy => {
-			try! (bytes_copy_range (input_1, None, input_2, None, None));
-			succeed! (VOID_VALUE);
-		},
+		BytesPrimitive2::BytesCopy =>
+			return bytes_copy_range (input_1, None, input_2, None, None) .into_0 (),
 		
 		BytesPrimitive2::BytesRangeClone =>
 			return bytes_clone_range (input_1, Some (input_2), None),
 		
-		BytesPrimitive2::BytesRangeReverse => {
-			try! (bytes_reverse_range (input_1, Some (input_2), None));
-			succeed! (VOID_VALUE);
-		},
+		BytesPrimitive2::BytesRangeReverse =>
+			return bytes_reverse_range (input_1, Some (input_2), None) .into_0 (),
 		
 		BytesPrimitive2::BytesRangeToList =>
 			return bytes_range_to_list (input_1, Some (input_2), None),
@@ -322,23 +308,17 @@ pub fn bytes_primitive_3_evaluate (primitive : BytesPrimitive3, input_1 : &Value
 		BytesPrimitive3::BytesAppend =>
 			return bytes_append_3 (input_1, input_2, input_3),
 		
-		BytesPrimitive3::BytesRangeFill => {
-			try! (bytes_fill_range (input_1, Some (input_2), Some (input_3), None));
-			succeed! (VOID_VALUE);
-		},
+		BytesPrimitive3::BytesRangeFill =>
+			return bytes_fill_range (input_1, Some (input_2), Some (input_3), None) .into_0 (),
 		
-		BytesPrimitive3::BytesRangeCopy => {
-			try! (bytes_copy_range (input_1, Some (input_2), input_3, None, None));
-			succeed! (VOID_VALUE);
-		},
+		BytesPrimitive3::BytesRangeCopy =>
+			return bytes_copy_range (input_1, Some (input_2), input_3, None, None) .into_0 (),
 		
 		BytesPrimitive3::BytesRangeClone =>
 			return bytes_clone_range (input_1, Some (input_2), Some (input_3)),
 		
-		BytesPrimitive3::BytesRangeReverse => {
-			try! (bytes_reverse_range (input_1, Some (input_2), Some (input_3)));
-			succeed! (VOID_VALUE);
-		},
+		BytesPrimitive3::BytesRangeReverse =>
+			return bytes_reverse_range (input_1, Some (input_2), Some (input_3)) .into_0 (),
 		
 		BytesPrimitive3::BytesRangeToList =>
 			return bytes_range_to_list (input_1, Some (input_2), Some (input_3)),
@@ -368,15 +348,11 @@ pub fn bytes_primitive_4_evaluate (primitive : BytesPrimitive4, input_1 : &Value
 		BytesPrimitive4::BytesAppend =>
 			return bytes_append_4 (input_1, input_2, input_3, input_4),
 		
-		BytesPrimitive4::BytesRangeFill => {
-			try! (bytes_fill_range (input_1, Some (input_2), Some (input_3), Some (input_4)));
-			succeed! (VOID_VALUE);
-		},
+		BytesPrimitive4::BytesRangeFill =>
+			return bytes_fill_range (input_1, Some (input_2), Some (input_3), Some (input_4)) .into_0 (),
 		
-		BytesPrimitive4::BytesRangeCopy => {
-			try! (bytes_copy_range (input_1, Some (input_2), input_3, Some (input_4), None));
-			succeed! (VOID_VALUE);
-		},
+		BytesPrimitive4::BytesRangeCopy =>
+			return bytes_copy_range (input_1, Some (input_2), input_3, Some (input_4), None) .into_0 (),
 		
 	}
 }
@@ -388,10 +364,8 @@ pub fn bytes_primitive_4_evaluate (primitive : BytesPrimitive4, input_1 : &Value
 pub fn bytes_primitive_5_evaluate (primitive : BytesPrimitive5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
-		BytesPrimitive5::BytesRangeCopy => {
-			try! (bytes_copy_range (input_1, Some (input_2), input_3, Some (input_4), Some (input_5)));
-			succeed! (VOID_VALUE);
-		},
+		BytesPrimitive5::BytesRangeCopy =>
+			return bytes_copy_range (input_1, Some (input_2), input_3, Some (input_4), Some (input_5)) .into_0 (),
 		
 	}
 }

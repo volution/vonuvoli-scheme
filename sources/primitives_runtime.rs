@@ -138,13 +138,13 @@ pub fn runtime_primitive_0_evaluate (primitive : RuntimePrimitive0, _evaluator :
 			fail_unimplemented! (0xe1a2c04e), // deferred
 		
 		RuntimePrimitive0::PosixTimestamp =>
-			posix_timestamp () .into_0 (),
+			return posix_timestamp () .into_0 (),
 		
 		RuntimePrimitive0::JiffiesTimestamp =>
-			jiffies_timestamp () .into_0 (),
+			return jiffies_timestamp () .into_0 (),
 		
 		RuntimePrimitive0::JiffiesPerSecond =>
-			jiffies_per_second () .into_0 (),
+			return jiffies_per_second () .into_0 (),
 		
 	}
 }
@@ -166,13 +166,13 @@ pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, input_1 : &V
 			fail_unimplemented! (0x7a0fae27), // deferred
 		
 		RuntimePrimitive1::ProcessWaitPoll =>
-			process_wait (input_1, false) .into_0 (),
+			return process_wait (input_1, false) .into_0 (),
 		
 		RuntimePrimitive1::ProcessWaitTry =>
-			process_wait (input_1, true) .into_0 (),
+			return process_wait (input_1, true) .into_0 (),
 		
 		RuntimePrimitive1::ProcessWaitCheck =>
-			process_wait_check (input_1, true) .into_0 (),
+			return process_wait_check (input_1, true) .into_0 (),
 	}
 }
 
@@ -216,13 +216,13 @@ pub fn runtime_primitive_n_evaluate (primitive : RuntimePrimitiveN, inputs : &[&
 	match primitive {
 		
 		RuntimePrimitiveN::ProcessSpawn =>
-			process_spawn (inputs) .into_0 (),
+			return process_spawn (inputs) .into_0 (),
 		
 		RuntimePrimitiveN::ProcessRunTry =>
-			process_run (inputs) .into_0 (),
+			return process_run (inputs) .into_0 (),
 		
 		RuntimePrimitiveN::ProcessRunCheck =>
-			process_run_check (inputs) .into_0 (),
+			return process_run_check (inputs) .into_0 (),
 		
 	}
 }

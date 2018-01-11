@@ -1,6 +1,5 @@
 
 
-use super::constants::exports::*;
 use super::builtins::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
@@ -223,10 +222,10 @@ pub fn string_primitive_0_evaluate (primitive : StringPrimitive0, _evaluator : &
 	match primitive {
 		
 		StringPrimitive0::StringBuild =>
-			succeed! (string_empty ()),
+			return string_empty () .into_0 (),
 		
 		StringPrimitive0::StringAppend =>
-			succeed! (string_empty ()),
+			return string_empty () .into_0 (),
 		
 	}
 }
@@ -238,11 +237,8 @@ pub fn string_primitive_0_evaluate (primitive : StringPrimitive0, _evaluator : &
 pub fn string_primitive_1_evaluate (primitive : StringPrimitive1, input_1 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
-		StringPrimitive1::StringLength => {
-			let length = try! (string_length (input_1));
-			let length : NumberInteger = try! (StdTryFrom::try_from (length));
-			succeed! (length.into ());
-		},
+		StringPrimitive1::StringLength =>
+			return string_length (input_1) .into_0 (),
 		
 		StringPrimitive1::StringClone =>
 			return string_clone (input_1),
@@ -259,15 +255,11 @@ pub fn string_primitive_1_evaluate (primitive : StringPrimitive1, input_1 : &Val
 		StringPrimitive1::StringAppend =>
 			return string_clone (input_1),
 		
-		StringPrimitive1::StringFill => {
-			try! (string_fill_range (input_1, None, None, None));
-			succeed! (VOID.into ());
-		},
+		StringPrimitive1::StringFill =>
+			return string_fill_range (input_1, None, None, None) .into_0 (),
 		
-		StringPrimitive1::StringReverse => {
-			try! (string_reverse_range (input_1, None, None));
-			succeed! (VOID.into ());
-		},
+		StringPrimitive1::StringReverse =>
+			return string_reverse_range (input_1, None, None) .into_0 (),
 		
 		StringPrimitive1::StringToList =>
 			return string_range_to_list (input_1, None, None),
@@ -336,10 +328,10 @@ pub fn string_primitive_1_evaluate (primitive : StringPrimitive1, input_1 : &Val
 			return character_to_digit_number (input_1, None),
 		
 		StringPrimitive1::StringToImmutable =>
-			succeed! (try_as_string_as_ref! (input_1) .to_immutable () .into ()),
+			return try_as_string_as_ref! (input_1) .to_immutable () .into_0 (),
 		
 		StringPrimitive1::StringToMutable =>
-			succeed! (try_as_string_as_ref! (input_1) .to_mutable () .into ()),
+			return try_as_string_as_ref! (input_1) .to_mutable () .into_0 (),
 		
 	}
 }
@@ -363,23 +355,17 @@ pub fn string_primitive_2_evaluate (primitive : StringPrimitive2, input_1 : &Val
 		StringPrimitive2::StringAppend =>
 			return string_append_2 (input_1, input_2),
 		
-		StringPrimitive2::StringFill => {
-			try! (string_fill_range (input_1, Some (input_2), None, None));
-			succeed! (VOID.into ());
-		},
+		StringPrimitive2::StringFill =>
+			return string_fill_range (input_1, Some (input_2), None, None) .into_0 (),
 		
-		StringPrimitive2::StringCopy => {
-			try! (string_copy_range (input_1, None, input_2, None, None));
-			succeed! (VOID.into ());
-		},
+		StringPrimitive2::StringCopy =>
+			return string_copy_range (input_1, None, input_2, None, None) .into_0 (),
 		
 		StringPrimitive2::StringRangeClone =>
 			return string_clone_range (input_1, Some (input_2), None),
 		
-		StringPrimitive2::StringRangeReverse => {
-			try! (string_reverse_range (input_1, Some (input_2), None));
-			succeed! (VOID.into ());
-		},
+		StringPrimitive2::StringRangeReverse =>
+			return string_reverse_range (input_1, Some (input_2), None) .into_0 (),
 		
 		StringPrimitive2::StringRangeToList =>
 			return string_range_to_list (input_1, Some (input_2), None),
@@ -427,23 +413,17 @@ pub fn string_primitive_3_evaluate (primitive : StringPrimitive3, input_1 : &Val
 		StringPrimitive3::StringAppend =>
 			return string_append_3 (input_1, input_2, input_3),
 		
-		StringPrimitive3::StringRangeFill => {
-			try! (string_fill_range (input_1, Some (input_2), Some (input_3), None));
-			succeed! (VOID.into ());
-		},
+		StringPrimitive3::StringRangeFill =>
+			return string_fill_range (input_1, Some (input_2), Some (input_3), None) .into_0 (),
 		
-		StringPrimitive3::StringRangeCopy => {
-			try! (string_copy_range (input_1, Some (input_2), input_3, None, None));
-			succeed! (VOID.into ());
-		},
+		StringPrimitive3::StringRangeCopy =>
+			return string_copy_range (input_1, Some (input_2), input_3, None, None) .into_0 (),
 		
 		StringPrimitive3::StringRangeClone =>
 			return string_clone_range (input_1, Some (input_2), Some (input_3)),
 		
-		StringPrimitive3::StringRangeReverse => {
-			try! (string_reverse_range (input_1, Some (input_2), Some (input_3)));
-			succeed! (VOID.into ());
-		},
+		StringPrimitive3::StringRangeReverse =>
+			return string_reverse_range (input_1, Some (input_2), Some (input_3)) .into_0 (),
 		
 		StringPrimitive3::StringRangeToList =>
 			return string_range_to_list (input_1, Some (input_2), Some (input_3)),
@@ -482,15 +462,11 @@ pub fn string_primitive_4_evaluate (primitive : StringPrimitive4, input_1 : &Val
 		StringPrimitive4::StringAppend =>
 			return string_append_4 (input_1, input_2, input_3, input_4),
 		
-		StringPrimitive4::StringRangeFill => {
-			try! (string_fill_range (input_1, Some (input_2), Some (input_3), Some (input_4)));
-			succeed! (VOID.into ());
-		},
+		StringPrimitive4::StringRangeFill =>
+			return string_fill_range (input_1, Some (input_2), Some (input_3), Some (input_4)) .into_0 (),
 		
-		StringPrimitive4::StringRangeCopy => {
-			try! (string_copy_range (input_1, Some (input_2), input_3, Some (input_4), None));
-			succeed! (VOID.into ());
-		},
+		StringPrimitive4::StringRangeCopy =>
+			return string_copy_range (input_1, Some (input_2), input_3, Some (input_4), None) .into_0 (),
 		
 	}
 }
@@ -502,10 +478,8 @@ pub fn string_primitive_4_evaluate (primitive : StringPrimitive4, input_1 : &Val
 pub fn string_primitive_5_evaluate (primitive : StringPrimitive5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
-		StringPrimitive5::StringRangeCopy => {
-			try! (string_copy_range (input_1, Some (input_2), input_3, Some (input_4), Some (input_5)));
-			succeed! (VOID.into ());
-		},
+		StringPrimitive5::StringRangeCopy =>
+			return string_copy_range (input_1, Some (input_2), input_3, Some (input_4), Some (input_5)) .into_0 (),
 		
 	}
 }

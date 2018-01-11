@@ -612,221 +612,219 @@ pub fn comparison_primitive_0_evaluate (primitive : ComparisonPrimitive0, _evalu
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn comparison_primitive_1_evaluate (primitive : ComparisonPrimitive1, input_1 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
-	let output = match primitive {
+	match primitive {
 		
 		ComparisonPrimitive1::EquivalentByIdentity =>
-			try! (compare_1 (input_1, Comparison::Equivalence (Equivalence::ByIdentity, None, None))),
+			return compare_1 (input_1, Comparison::Equivalence (Equivalence::ByIdentity, None, None)) .into_0 (),
 		
 		ComparisonPrimitive1::EquivalentByValueStrict =>
-			try! (compare_1 (input_1, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (false)))),
+			return compare_1 (input_1, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (false))) .into_0 (),
 		
 		ComparisonPrimitive1::EquivalentByValueStrictRecursive =>
-			try! (compare_1 (input_1, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (true)))),
+			return compare_1 (input_1, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (true))) .into_0 (),
 		
 		ComparisonPrimitive1::EquivalentByValueCoerced =>
-			try! (compare_1 (input_1, Comparison::Equivalence (Equivalence::ByValue, Some (true), Some (false)))),
+			return compare_1 (input_1, Comparison::Equivalence (Equivalence::ByValue, Some (true), Some (false))) .into_0 (),
 		
 		ComparisonPrimitive1::EquivalentByValueCoercedRecursive =>
-			try! (compare_1 (input_1, Comparison::Equivalence (Equivalence::ByValue, Some (true), Some (true)))),
+			return compare_1 (input_1, Comparison::Equivalence (Equivalence::ByValue, Some (true), Some (true))) .into_0 (),
 		
 		ComparisonPrimitive1::GenericLesser =>
-			try! (compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, None))),
+			return compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
 		
 		ComparisonPrimitive1::GenericLesserOrEqual =>
-			try! (compare_1 (input_1, Comparison::Ordering (Ordering::LesserOrEqual, None, None))),
+			return compare_1 (input_1, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive1::GenericEqual =>
-			try! (compare_1 (input_1, Comparison::Ordering (Ordering::Equal, None, None))),
+			return compare_1 (input_1, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
 		
 		ComparisonPrimitive1::GenericGreaterOrEqual =>
-			try! (compare_1 (input_1, Comparison::Ordering (Ordering::GreaterOrEqual, None, None))),
+			return compare_1 (input_1, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive1::GenericGreater =>
-			try! (compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, None))),
+			return compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
 		ComparisonPrimitive1::BooleanLesser =>
-			try! (boolean_compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, None))),
+			return boolean_compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
 		
 		ComparisonPrimitive1::BooleanLesserOrEqual =>
-			try! (boolean_compare_1 (input_1, Comparison::Ordering (Ordering::LesserOrEqual, None, None))),
+			return boolean_compare_1 (input_1, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive1::BooleanEqual =>
-			try! (boolean_compare_1 (input_1, Comparison::Ordering (Ordering::Equal, None, None))),
+			return boolean_compare_1 (input_1, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
 		
 		ComparisonPrimitive1::BooleanGreaterOrEqual =>
-			try! (boolean_compare_1 (input_1, Comparison::Ordering (Ordering::GreaterOrEqual, None, None))),
+			return boolean_compare_1 (input_1, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive1::BooleanGreater =>
-			try! (boolean_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, None))),
+			return boolean_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
 		ComparisonPrimitive1::NumberLesser =>
-			try! (number_compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, None))),
+			return number_compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
 		
 		ComparisonPrimitive1::NumberLesserOrEqual =>
-			try! (number_compare_1 (input_1, Comparison::Ordering (Ordering::LesserOrEqual, None, None))),
+			return number_compare_1 (input_1, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive1::NumberEqual =>
-			try! (number_compare_1 (input_1, Comparison::Ordering (Ordering::Equal, None, None))),
+			return number_compare_1 (input_1, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
 		
 		ComparisonPrimitive1::NumberGreaterOrEqual =>
-			try! (number_compare_1 (input_1, Comparison::Ordering (Ordering::GreaterOrEqual, None, None))),
+			return number_compare_1 (input_1, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive1::NumberGreater =>
-			try! (number_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, None))),
+			return number_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
 		ComparisonPrimitive1::CharacterCaseSensitiveLesser =>
-			try! (character_compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, Some (true)))),
+			return character_compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive1::CharacterCaseSensitiveLesserOrEqual =>
-			try! (character_compare_1 (input_1, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true)))),
+			return character_compare_1 (input_1, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive1::CharacterCaseSensitiveEqual =>
-			try! (character_compare_1 (input_1, Comparison::Ordering (Ordering::Equal, None, Some (true)))),
+			return character_compare_1 (input_1, Comparison::Ordering (Ordering::Equal, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive1::CharacterCaseSensitiveGreaterOrEqual =>
-			try! (character_compare_1 (input_1, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true)))),
+			return character_compare_1 (input_1, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive1::CharacterCaseSensitiveGreater =>
-			try! (character_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, Some (true)))),
+			return character_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive1::CharacterCaseInsensitiveLesser =>
-			try! (character_compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, Some (false)))),
+			return character_compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive1::CharacterCaseInsensitiveLesserOrEqual =>
-			try! (character_compare_1 (input_1, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false)))),
+			return character_compare_1 (input_1, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive1::CharacterCaseInsensitiveEqual =>
-			try! (character_compare_1 (input_1, Comparison::Ordering (Ordering::Equal, None, Some (false)))),
+			return character_compare_1 (input_1, Comparison::Ordering (Ordering::Equal, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive1::CharacterCaseInsensitiveGreaterOrEqual =>
-			try! (character_compare_1 (input_1, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false)))),
+			return character_compare_1 (input_1, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive1::CharacterCaseInsensitiveGreater =>
-			try! (character_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, Some (false)))),
+			return character_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive1::StringCaseSensitiveLesser =>
-			try! (string_compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, Some (true)))),
+			return string_compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive1::StringCaseSensitiveLesserOrEqual =>
-			try! (string_compare_1 (input_1, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true)))),
+			return string_compare_1 (input_1, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive1::StringCaseSensitiveEqual =>
-			try! (string_compare_1 (input_1, Comparison::Ordering (Ordering::Equal, None, Some (true)))),
+			return string_compare_1 (input_1, Comparison::Ordering (Ordering::Equal, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive1::StringCaseSensitiveGreaterOrEqual =>
-			try! (string_compare_1 (input_1, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true)))),
+			return string_compare_1 (input_1, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive1::StringCaseSensitiveGreater =>
-			try! (string_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, Some (true)))),
+			return string_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive1::StringCaseInsensitiveLesser =>
-			try! (string_compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, Some (false)))),
+			return string_compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive1::StringCaseInsensitiveLesserOrEqual =>
-			try! (string_compare_1 (input_1, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false)))),
+			return string_compare_1 (input_1, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive1::StringCaseInsensitiveEqual =>
-			try! (string_compare_1 (input_1, Comparison::Ordering (Ordering::Equal, None, Some (false)))),
+			return string_compare_1 (input_1, Comparison::Ordering (Ordering::Equal, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive1::StringCaseInsensitiveGreaterOrEqual =>
-			try! (string_compare_1 (input_1, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false)))),
+			return string_compare_1 (input_1, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive1::StringCaseInsensitiveGreater =>
-			try! (string_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, Some (false)))),
+			return string_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive1::SymbolCaseSensitiveLesser =>
-			try! (symbol_compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, Some (true)))),
+			return symbol_compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive1::SymbolCaseSensitiveLesserOrEqual =>
-			try! (symbol_compare_1 (input_1, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true)))),
+			return symbol_compare_1 (input_1, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive1::SymbolCaseSensitiveEqual =>
-			try! (symbol_compare_1 (input_1, Comparison::Ordering (Ordering::Equal, None, Some (true)))),
+			return symbol_compare_1 (input_1, Comparison::Ordering (Ordering::Equal, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive1::SymbolCaseSensitiveGreaterOrEqual =>
-			try! (symbol_compare_1 (input_1, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true)))),
+			return symbol_compare_1 (input_1, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive1::SymbolCaseSensitiveGreater =>
-			try! (symbol_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, Some (true)))),
+			return symbol_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive1::SymbolCaseInsensitiveLesser =>
-			try! (symbol_compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, Some (false)))),
+			return symbol_compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive1::SymbolCaseInsensitiveLesserOrEqual =>
-			try! (symbol_compare_1 (input_1, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false)))),
+			return symbol_compare_1 (input_1, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive1::SymbolCaseInsensitiveEqual =>
-			try! (symbol_compare_1 (input_1, Comparison::Ordering (Ordering::Equal, None, Some (false)))),
+			return symbol_compare_1 (input_1, Comparison::Ordering (Ordering::Equal, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive1::SymbolCaseInsensitiveGreaterOrEqual =>
-			try! (symbol_compare_1 (input_1, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false)))),
+			return symbol_compare_1 (input_1, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive1::SymbolCaseInsensitiveGreater =>
-			try! (symbol_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, Some (false)))),
+			return symbol_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive1::BytesLesser =>
-			try! (bytes_compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, None))),
+			return bytes_compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
 		
 		ComparisonPrimitive1::BytesLesserOrEqual =>
-			try! (bytes_compare_1 (input_1, Comparison::Ordering (Ordering::LesserOrEqual, None, None))),
+			return bytes_compare_1 (input_1, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive1::BytesEqual =>
-			try! (bytes_compare_1 (input_1, Comparison::Ordering (Ordering::Equal, None, None))),
+			return bytes_compare_1 (input_1, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
 		
 		ComparisonPrimitive1::BytesGreaterOrEqual =>
-			try! (bytes_compare_1 (input_1, Comparison::Ordering (Ordering::GreaterOrEqual, None, None))),
+			return bytes_compare_1 (input_1, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive1::BytesGreater =>
-			try! (bytes_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, None))),
+			return bytes_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
 		ComparisonPrimitive1::PairLesser =>
-			try! (pair_compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, None))),
+			return pair_compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
 		
 		ComparisonPrimitive1::PairLesserOrEqual =>
-			try! (pair_compare_1 (input_1, Comparison::Ordering (Ordering::LesserOrEqual, None, None))),
+			return pair_compare_1 (input_1, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive1::PairEqual =>
-			try! (pair_compare_1 (input_1, Comparison::Ordering (Ordering::Equal, None, None))),
+			return pair_compare_1 (input_1, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
 		
 		ComparisonPrimitive1::PairGreaterOrEqual =>
-			try! (pair_compare_1 (input_1, Comparison::Ordering (Ordering::GreaterOrEqual, None, None))),
+			return pair_compare_1 (input_1, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive1::PairGreater =>
-			try! (pair_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, None))),
+			return pair_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
 		ComparisonPrimitive1::ArrayLesser =>
-			try! (array_compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, None))),
+			return array_compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
 		
 		ComparisonPrimitive1::ArrayLesserOrEqual =>
-			try! (array_compare_1 (input_1, Comparison::Ordering (Ordering::LesserOrEqual, None, None))),
+			return array_compare_1 (input_1, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive1::ArrayEqual =>
-			try! (array_compare_1 (input_1, Comparison::Ordering (Ordering::Equal, None, None))),
+			return array_compare_1 (input_1, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
 		
 		ComparisonPrimitive1::ArrayGreaterOrEqual =>
-			try! (array_compare_1 (input_1, Comparison::Ordering (Ordering::GreaterOrEqual, None, None))),
+			return array_compare_1 (input_1, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive1::ArrayGreater =>
-			try! (array_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, None))),
+			return array_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
 		ComparisonPrimitive1::ValuesLesser =>
-			try! (values_compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, None))),
+			return values_compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
 		
 		ComparisonPrimitive1::ValuesLesserOrEqual =>
-			try! (values_compare_1 (input_1, Comparison::Ordering (Ordering::LesserOrEqual, None, None))),
+			return values_compare_1 (input_1, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive1::ValuesEqual =>
-			try! (values_compare_1 (input_1, Comparison::Ordering (Ordering::Equal, None, None))),
+			return values_compare_1 (input_1, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
 		
 		ComparisonPrimitive1::ValuesGreaterOrEqual =>
-			try! (values_compare_1 (input_1, Comparison::Ordering (Ordering::GreaterOrEqual, None, None))),
+			return values_compare_1 (input_1, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive1::ValuesGreater =>
-			try! (values_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, None))),
+			return values_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
-	};
-	
-	succeed! (output.into ());
+	}
 }
 
 
@@ -834,221 +832,219 @@ pub fn comparison_primitive_1_evaluate (primitive : ComparisonPrimitive1, input_
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn comparison_primitive_2_evaluate (primitive : ComparisonPrimitive2, input_1 : &Value, input_2 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
-	let output = match primitive {
+	match primitive {
 		
 		ComparisonPrimitive2::EquivalentByIdentity =>
-			try! (compare_2 (input_1, input_2, Comparison::Equivalence (Equivalence::ByIdentity, None, None))),
+			return compare_2 (input_1, input_2, Comparison::Equivalence (Equivalence::ByIdentity, None, None)) .into_0 (),
 		
 		ComparisonPrimitive2::EquivalentByValueStrict =>
-			try! (compare_2 (input_1, input_2, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (false)))),
+			return compare_2 (input_1, input_2, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (false))) .into_0 (),
 		
 		ComparisonPrimitive2::EquivalentByValueStrictRecursive =>
-			try! (compare_2 (input_1, input_2, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (true)))),
+			return compare_2 (input_1, input_2, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (true))) .into_0 (),
 		
 		ComparisonPrimitive2::EquivalentByValueCoerced =>
-			try! (compare_2 (input_1, input_2, Comparison::Equivalence (Equivalence::ByValue, Some (true), Some (false)))),
+			return compare_2 (input_1, input_2, Comparison::Equivalence (Equivalence::ByValue, Some (true), Some (false))) .into_0 (),
 		
 		ComparisonPrimitive2::EquivalentByValueCoercedRecursive =>
-			try! (compare_2 (input_1, input_2, Comparison::Equivalence (Equivalence::ByValue, Some (true), Some (true)))),
+			return compare_2 (input_1, input_2, Comparison::Equivalence (Equivalence::ByValue, Some (true), Some (true))) .into_0 (),
 		
 		ComparisonPrimitive2::GenericLesser =>
-			try! (compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, None))),
+			return compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
 		
 		ComparisonPrimitive2::GenericLesserOrEqual =>
-			try! (compare_2 (input_1, input_2, Comparison::Ordering (Ordering::LesserOrEqual, None, None))),
+			return compare_2 (input_1, input_2, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive2::GenericEqual =>
-			try! (compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Equal, None, None))),
+			return compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
 		
 		ComparisonPrimitive2::GenericGreaterOrEqual =>
-			try! (compare_2 (input_1, input_2, Comparison::Ordering (Ordering::GreaterOrEqual, None, None))),
+			return compare_2 (input_1, input_2, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive2::GenericGreater =>
-			try! (compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, None))),
+			return compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
 		ComparisonPrimitive2::BooleanLesser =>
-			try! (boolean_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, None))),
+			return boolean_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
 		
 		ComparisonPrimitive2::BooleanLesserOrEqual =>
-			try! (boolean_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::LesserOrEqual, None, None))),
+			return boolean_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive2::BooleanEqual =>
-			try! (boolean_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Equal, None, None))),
+			return boolean_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
 		
 		ComparisonPrimitive2::BooleanGreaterOrEqual =>
-			try! (boolean_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::GreaterOrEqual, None, None))),
+			return boolean_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive2::BooleanGreater =>
-			try! (boolean_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, None))),
+			return boolean_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
 		ComparisonPrimitive2::NumberLesser =>
-			try! (number_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, None))),
+			return number_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
 		
 		ComparisonPrimitive2::NumberLesserOrEqual =>
-			try! (number_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::LesserOrEqual, None, None))),
+			return number_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive2::NumberEqual =>
-			try! (number_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Equal, None, None))),
+			return number_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
 		
 		ComparisonPrimitive2::NumberGreaterOrEqual =>
-			try! (number_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::GreaterOrEqual, None, None))),
+			return number_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive2::NumberGreater =>
-			try! (number_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, None))),
+			return number_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
 		ComparisonPrimitive2::CharacterCaseSensitiveLesser =>
-			try! (character_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, Some (true)))),
+			return character_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive2::CharacterCaseSensitiveLesserOrEqual =>
-			try! (character_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true)))),
+			return character_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive2::CharacterCaseSensitiveEqual =>
-			try! (character_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Equal, None, Some (true)))),
+			return character_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Equal, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive2::CharacterCaseSensitiveGreaterOrEqual =>
-			try! (character_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true)))),
+			return character_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive2::CharacterCaseSensitiveGreater =>
-			try! (character_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, Some (true)))),
+			return character_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive2::CharacterCaseInsensitiveLesser =>
-			try! (character_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, Some (false)))),
+			return character_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive2::CharacterCaseInsensitiveLesserOrEqual =>
-			try! (character_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false)))),
+			return character_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive2::CharacterCaseInsensitiveEqual =>
-			try! (character_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Equal, None, Some (false)))),
+			return character_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Equal, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive2::CharacterCaseInsensitiveGreaterOrEqual =>
-			try! (character_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false)))),
+			return character_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive2::CharacterCaseInsensitiveGreater =>
-			try! (character_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, Some (false)))),
+			return character_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive2::StringCaseSensitiveLesser =>
-			try! (string_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, Some (true)))),
+			return string_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive2::StringCaseSensitiveLesserOrEqual =>
-			try! (string_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true)))),
+			return string_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive2::StringCaseSensitiveEqual =>
-			try! (string_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Equal, None, Some (true)))),
+			return string_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Equal, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive2::StringCaseSensitiveGreaterOrEqual =>
-			try! (string_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true)))),
+			return string_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive2::StringCaseSensitiveGreater =>
-			try! (string_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, Some (true)))),
+			return string_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive2::StringCaseInsensitiveLesser =>
-			try! (string_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, Some (false)))),
+			return string_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive2::StringCaseInsensitiveLesserOrEqual =>
-			try! (string_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false)))),
+			return string_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive2::StringCaseInsensitiveEqual =>
-			try! (string_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Equal, None, Some (false)))),
+			return string_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Equal, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive2::StringCaseInsensitiveGreaterOrEqual =>
-			try! (string_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false)))),
+			return string_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive2::StringCaseInsensitiveGreater =>
-			try! (string_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, Some (false)))),
+			return string_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive2::SymbolCaseSensitiveLesser =>
-			try! (symbol_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, Some (true)))),
+			return symbol_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive2::SymbolCaseSensitiveLesserOrEqual =>
-			try! (symbol_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true)))),
+			return symbol_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive2::SymbolCaseSensitiveEqual =>
-			try! (symbol_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Equal, None, Some (true)))),
+			return symbol_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Equal, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive2::SymbolCaseSensitiveGreaterOrEqual =>
-			try! (symbol_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true)))),
+			return symbol_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive2::SymbolCaseSensitiveGreater =>
-			try! (symbol_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, Some (true)))),
+			return symbol_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive2::SymbolCaseInsensitiveLesser =>
-			try! (symbol_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, Some (false)))),
+			return symbol_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive2::SymbolCaseInsensitiveLesserOrEqual =>
-			try! (symbol_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false)))),
+			return symbol_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive2::SymbolCaseInsensitiveEqual =>
-			try! (symbol_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Equal, None, Some (false)))),
+			return symbol_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Equal, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive2::SymbolCaseInsensitiveGreaterOrEqual =>
-			try! (symbol_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false)))),
+			return symbol_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive2::SymbolCaseInsensitiveGreater =>
-			try! (symbol_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, Some (false)))),
+			return symbol_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive2::BytesLesser =>
-			try! (bytes_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, None))),
+			return bytes_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
 		
 		ComparisonPrimitive2::BytesLesserOrEqual =>
-			try! (bytes_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::LesserOrEqual, None, None))),
+			return bytes_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive2::BytesEqual =>
-			try! (bytes_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Equal, None, None))),
+			return bytes_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
 		
 		ComparisonPrimitive2::BytesGreaterOrEqual =>
-			try! (bytes_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::GreaterOrEqual, None, None))),
+			return bytes_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive2::BytesGreater =>
-			try! (bytes_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, None))),
+			return bytes_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
 		ComparisonPrimitive2::PairLesser =>
-			try! (pair_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, None))),
+			return pair_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
 		
 		ComparisonPrimitive2::PairLesserOrEqual =>
-			try! (pair_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::LesserOrEqual, None, None))),
+			return pair_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive2::PairEqual =>
-			try! (pair_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Equal, None, None))),
+			return pair_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
 		
 		ComparisonPrimitive2::PairGreaterOrEqual =>
-			try! (pair_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::GreaterOrEqual, None, None))),
+			return pair_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive2::PairGreater =>
-			try! (pair_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, None))),
+			return pair_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
 		ComparisonPrimitive2::ArrayLesser =>
-			try! (array_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, None))),
+			return array_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
 		
 		ComparisonPrimitive2::ArrayLesserOrEqual =>
-			try! (array_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::LesserOrEqual, None, None))),
+			return array_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive2::ArrayEqual =>
-			try! (array_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Equal, None, None))),
+			return array_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
 		
 		ComparisonPrimitive2::ArrayGreaterOrEqual =>
-			try! (array_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::GreaterOrEqual, None, None))),
+			return array_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive2::ArrayGreater =>
-			try! (array_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, None))),
+			return array_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
 		ComparisonPrimitive2::ValuesLesser =>
-			try! (values_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, None))),
+			return values_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
 		
 		ComparisonPrimitive2::ValuesLesserOrEqual =>
-			try! (values_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::LesserOrEqual, None, None))),
+			return values_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive2::ValuesEqual =>
-			try! (values_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Equal, None, None))),
+			return values_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
 		
 		ComparisonPrimitive2::ValuesGreaterOrEqual =>
-			try! (values_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::GreaterOrEqual, None, None))),
+			return values_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive2::ValuesGreater =>
-			try! (values_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, None))),
+			return values_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
-	};
-	
-	succeed! (output.into ());
+	}
 }
 
 
@@ -1056,221 +1052,219 @@ pub fn comparison_primitive_2_evaluate (primitive : ComparisonPrimitive2, input_
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn comparison_primitive_3_evaluate (primitive : ComparisonPrimitive3, input_1 : &Value, input_2 : &Value, input_3 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
-	let output = match primitive {
+	match primitive {
 		
 		ComparisonPrimitive3::EquivalentByIdentity =>
-			try! (compare_3 (input_1, input_2, input_3, Comparison::Equivalence (Equivalence::ByIdentity, None, None))),
+			return compare_3 (input_1, input_2, input_3, Comparison::Equivalence (Equivalence::ByIdentity, None, None)) .into_0 (),
 		
 		ComparisonPrimitive3::EquivalentByValueStrict =>
-			try! (compare_3 (input_1, input_2, input_3, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (false)))),
+			return compare_3 (input_1, input_2, input_3, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (false))) .into_0 (),
 		
 		ComparisonPrimitive3::EquivalentByValueStrictRecursive =>
-			try! (compare_3 (input_1, input_2, input_3, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (true)))),
+			return compare_3 (input_1, input_2, input_3, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (true))) .into_0 (),
 		
 		ComparisonPrimitive3::EquivalentByValueCoerced =>
-			try! (compare_3 (input_1, input_2, input_3, Comparison::Equivalence (Equivalence::ByValue, Some (true), Some (false)))),
+			return compare_3 (input_1, input_2, input_3, Comparison::Equivalence (Equivalence::ByValue, Some (true), Some (false))) .into_0 (),
 		
 		ComparisonPrimitive3::EquivalentByValueCoercedRecursive =>
-			try! (compare_3 (input_1, input_2, input_3, Comparison::Equivalence (Equivalence::ByValue, Some (true), Some (true)))),
+			return compare_3 (input_1, input_2, input_3, Comparison::Equivalence (Equivalence::ByValue, Some (true), Some (true))) .into_0 (),
 		
 		ComparisonPrimitive3::GenericLesser =>
-			try! (compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, None))),
+			return compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
 		
 		ComparisonPrimitive3::GenericLesserOrEqual =>
-			try! (compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::LesserOrEqual, None, None))),
+			return compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive3::GenericEqual =>
-			try! (compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Equal, None, None))),
+			return compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
 		
 		ComparisonPrimitive3::GenericGreaterOrEqual =>
-			try! (compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::GreaterOrEqual, None, None))),
+			return compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive3::GenericGreater =>
-			try! (compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, None))),
+			return compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
 		ComparisonPrimitive3::BooleanLesser =>
-			try! (boolean_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, None))),
+			return boolean_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
 		
 		ComparisonPrimitive3::BooleanLesserOrEqual =>
-			try! (boolean_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::LesserOrEqual, None, None))),
+			return boolean_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive3::BooleanEqual =>
-			try! (boolean_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Equal, None, None))),
+			return boolean_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
 		
 		ComparisonPrimitive3::BooleanGreaterOrEqual =>
-			try! (boolean_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::GreaterOrEqual, None, None))),
+			return boolean_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive3::BooleanGreater =>
-			try! (boolean_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, None))),
+			return boolean_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
 		ComparisonPrimitive3::NumberLesser =>
-			try! (number_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, None))),
+			return number_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
 		
 		ComparisonPrimitive3::NumberLesserOrEqual =>
-			try! (number_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::LesserOrEqual, None, None))),
+			return number_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive3::NumberEqual =>
-			try! (number_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Equal, None, None))),
+			return number_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
 		
 		ComparisonPrimitive3::NumberGreaterOrEqual =>
-			try! (number_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::GreaterOrEqual, None, None))),
+			return number_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive3::NumberGreater =>
-			try! (number_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, None))),
+			return number_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
 		ComparisonPrimitive3::CharacterCaseSensitiveLesser =>
-			try! (character_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, Some (true)))),
+			return character_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive3::CharacterCaseSensitiveLesserOrEqual =>
-			try! (character_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true)))),
+			return character_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive3::CharacterCaseSensitiveEqual =>
-			try! (character_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Equal, None, Some (true)))),
+			return character_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Equal, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive3::CharacterCaseSensitiveGreaterOrEqual =>
-			try! (character_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true)))),
+			return character_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive3::CharacterCaseSensitiveGreater =>
-			try! (character_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, Some (true)))),
+			return character_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive3::CharacterCaseInsensitiveLesser =>
-			try! (character_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, Some (false)))),
+			return character_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive3::CharacterCaseInsensitiveLesserOrEqual =>
-			try! (character_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false)))),
+			return character_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive3::CharacterCaseInsensitiveEqual =>
-			try! (character_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Equal, None, Some (false)))),
+			return character_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Equal, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive3::CharacterCaseInsensitiveGreaterOrEqual =>
-			try! (character_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false)))),
+			return character_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive3::CharacterCaseInsensitiveGreater =>
-			try! (character_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, Some (false)))),
+			return character_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive3::StringCaseSensitiveLesser =>
-			try! (string_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, Some (true)))),
+			return string_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive3::StringCaseSensitiveLesserOrEqual =>
-			try! (string_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true)))),
+			return string_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive3::StringCaseSensitiveEqual =>
-			try! (string_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Equal, None, Some (true)))),
+			return string_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Equal, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive3::StringCaseSensitiveGreaterOrEqual =>
-			try! (string_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true)))),
+			return string_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive3::StringCaseSensitiveGreater =>
-			try! (string_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, Some (true)))),
+			return string_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive3::StringCaseInsensitiveLesser =>
-			try! (string_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, Some (false)))),
+			return string_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive3::StringCaseInsensitiveLesserOrEqual =>
-			try! (string_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false)))),
+			return string_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive3::StringCaseInsensitiveEqual =>
-			try! (string_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Equal, None, Some (false)))),
+			return string_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Equal, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive3::StringCaseInsensitiveGreaterOrEqual =>
-			try! (string_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false)))),
+			return string_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive3::StringCaseInsensitiveGreater =>
-			try! (string_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, Some (false)))),
+			return string_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive3::SymbolCaseSensitiveLesser =>
-			try! (symbol_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, Some (true)))),
+			return symbol_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive3::SymbolCaseSensitiveLesserOrEqual =>
-			try! (symbol_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true)))),
+			return symbol_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive3::SymbolCaseSensitiveEqual =>
-			try! (symbol_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Equal, None, Some (true)))),
+			return symbol_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Equal, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive3::SymbolCaseSensitiveGreaterOrEqual =>
-			try! (symbol_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true)))),
+			return symbol_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive3::SymbolCaseSensitiveGreater =>
-			try! (symbol_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, Some (true)))),
+			return symbol_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive3::SymbolCaseInsensitiveLesser =>
-			try! (symbol_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, Some (false)))),
+			return symbol_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive3::SymbolCaseInsensitiveLesserOrEqual =>
-			try! (symbol_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false)))),
+			return symbol_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive3::SymbolCaseInsensitiveEqual =>
-			try! (symbol_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Equal, None, Some (false)))),
+			return symbol_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Equal, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive3::SymbolCaseInsensitiveGreaterOrEqual =>
-			try! (symbol_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false)))),
+			return symbol_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive3::SymbolCaseInsensitiveGreater =>
-			try! (symbol_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, Some (false)))),
+			return symbol_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive3::BytesLesser =>
-			try! (bytes_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, None))),
+			return bytes_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
 		
 		ComparisonPrimitive3::BytesLesserOrEqual =>
-			try! (bytes_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::LesserOrEqual, None, None))),
+			return bytes_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive3::BytesEqual =>
-			try! (bytes_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Equal, None, None))),
+			return bytes_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
 		
 		ComparisonPrimitive3::BytesGreaterOrEqual =>
-			try! (bytes_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::GreaterOrEqual, None, None))),
+			return bytes_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive3::BytesGreater =>
-			try! (bytes_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, None))),
+			return bytes_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
 		ComparisonPrimitive3::PairLesser =>
-			try! (pair_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, None))),
+			return pair_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
 		
 		ComparisonPrimitive3::PairLesserOrEqual =>
-			try! (pair_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::LesserOrEqual, None, None))),
+			return pair_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive3::PairEqual =>
-			try! (pair_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Equal, None, None))),
+			return pair_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
 		
 		ComparisonPrimitive3::PairGreaterOrEqual =>
-			try! (pair_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::GreaterOrEqual, None, None))),
+			return pair_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive3::PairGreater =>
-			try! (pair_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, None))),
+			return pair_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
 		ComparisonPrimitive3::ArrayLesser =>
-			try! (array_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, None))),
+			return array_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
 		
 		ComparisonPrimitive3::ArrayLesserOrEqual =>
-			try! (array_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::LesserOrEqual, None, None))),
+			return array_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive3::ArrayEqual =>
-			try! (array_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Equal, None, None))),
+			return array_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
 		
 		ComparisonPrimitive3::ArrayGreaterOrEqual =>
-			try! (array_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::GreaterOrEqual, None, None))),
+			return array_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive3::ArrayGreater =>
-			try! (array_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, None))),
+			return array_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
 		ComparisonPrimitive3::ValuesLesser =>
-			try! (values_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, None))),
+			return values_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
 		
 		ComparisonPrimitive3::ValuesLesserOrEqual =>
-			try! (values_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::LesserOrEqual, None, None))),
+			return values_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive3::ValuesEqual =>
-			try! (values_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Equal, None, None))),
+			return values_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
 		
 		ComparisonPrimitive3::ValuesGreaterOrEqual =>
-			try! (values_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::GreaterOrEqual, None, None))),
+			return values_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive3::ValuesGreater =>
-			try! (values_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, None))),
+			return values_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
-	};
-	
-	succeed! (output.into ());
+	}
 }
 
 
@@ -1278,221 +1272,219 @@ pub fn comparison_primitive_3_evaluate (primitive : ComparisonPrimitive3, input_
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn comparison_primitive_4_evaluate (primitive : ComparisonPrimitive4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
-	let output = match primitive {
+	match primitive {
 		
 		ComparisonPrimitive4::EquivalentByIdentity =>
-			try! (compare_4 (input_1, input_2, input_3, input_4, Comparison::Equivalence (Equivalence::ByIdentity, None, None))),
+			return compare_4 (input_1, input_2, input_3, input_4, Comparison::Equivalence (Equivalence::ByIdentity, None, None)) .into_0 (),
 		
 		ComparisonPrimitive4::EquivalentByValueStrict =>
-			try! (compare_4 (input_1, input_2, input_3, input_4, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (false)))),
+			return compare_4 (input_1, input_2, input_3, input_4, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (false))) .into_0 (),
 		
 		ComparisonPrimitive4::EquivalentByValueStrictRecursive =>
-			try! (compare_4 (input_1, input_2, input_3, input_4, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (true)))),
+			return compare_4 (input_1, input_2, input_3, input_4, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (true))) .into_0 (),
 		
 		ComparisonPrimitive4::EquivalentByValueCoerced =>
-			try! (compare_4 (input_1, input_2, input_3, input_4, Comparison::Equivalence (Equivalence::ByValue, Some (true), Some (false)))),
+			return compare_4 (input_1, input_2, input_3, input_4, Comparison::Equivalence (Equivalence::ByValue, Some (true), Some (false))) .into_0 (),
 		
 		ComparisonPrimitive4::EquivalentByValueCoercedRecursive =>
-			try! (compare_4 (input_1, input_2, input_3, input_4, Comparison::Equivalence (Equivalence::ByValue, Some (true), Some (true)))),
+			return compare_4 (input_1, input_2, input_3, input_4, Comparison::Equivalence (Equivalence::ByValue, Some (true), Some (true))) .into_0 (),
 		
 		ComparisonPrimitive4::GenericLesser =>
-			try! (compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, None))),
+			return compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
 		
 		ComparisonPrimitive4::GenericLesserOrEqual =>
-			try! (compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::LesserOrEqual, None, None))),
+			return compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive4::GenericEqual =>
-			try! (compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Equal, None, None))),
+			return compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
 		
 		ComparisonPrimitive4::GenericGreaterOrEqual =>
-			try! (compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::GreaterOrEqual, None, None))),
+			return compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive4::GenericGreater =>
-			try! (compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, None))),
+			return compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
 		ComparisonPrimitive4::BooleanLesser =>
-			try! (boolean_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, None))),
+			return boolean_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
 		
 		ComparisonPrimitive4::BooleanLesserOrEqual =>
-			try! (boolean_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::LesserOrEqual, None, None))),
+			return boolean_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive4::BooleanEqual =>
-			try! (boolean_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Equal, None, None))),
+			return boolean_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
 		
 		ComparisonPrimitive4::BooleanGreaterOrEqual =>
-			try! (boolean_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::GreaterOrEqual, None, None))),
+			return boolean_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive4::BooleanGreater =>
-			try! (boolean_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, None))),
+			return boolean_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
 		ComparisonPrimitive4::NumberLesser =>
-			try! (number_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, None))),
+			return number_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
 		
 		ComparisonPrimitive4::NumberLesserOrEqual =>
-			try! (number_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::LesserOrEqual, None, None))),
+			return number_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive4::NumberEqual =>
-			try! (number_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Equal, None, None))),
+			return number_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
 		
 		ComparisonPrimitive4::NumberGreaterOrEqual =>
-			try! (number_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::GreaterOrEqual, None, None))),
+			return number_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive4::NumberGreater =>
-			try! (number_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, None))),
+			return number_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
 		ComparisonPrimitive4::CharacterCaseSensitiveLesser =>
-			try! (character_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, Some (true)))),
+			return character_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive4::CharacterCaseSensitiveLesserOrEqual =>
-			try! (character_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true)))),
+			return character_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive4::CharacterCaseSensitiveEqual =>
-			try! (character_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Equal, None, Some (true)))),
+			return character_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Equal, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive4::CharacterCaseSensitiveGreaterOrEqual =>
-			try! (character_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true)))),
+			return character_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive4::CharacterCaseSensitiveGreater =>
-			try! (character_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, Some (true)))),
+			return character_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive4::CharacterCaseInsensitiveLesser =>
-			try! (character_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, Some (false)))),
+			return character_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive4::CharacterCaseInsensitiveLesserOrEqual =>
-			try! (character_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false)))),
+			return character_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive4::CharacterCaseInsensitiveEqual =>
-			try! (character_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Equal, None, Some (false)))),
+			return character_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Equal, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive4::CharacterCaseInsensitiveGreaterOrEqual =>
-			try! (character_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false)))),
+			return character_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive4::CharacterCaseInsensitiveGreater =>
-			try! (character_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, Some (false)))),
+			return character_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive4::StringCaseSensitiveLesser =>
-			try! (string_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, Some (true)))),
+			return string_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive4::StringCaseSensitiveLesserOrEqual =>
-			try! (string_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true)))),
+			return string_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive4::StringCaseSensitiveEqual =>
-			try! (string_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Equal, None, Some (true)))),
+			return string_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Equal, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive4::StringCaseSensitiveGreaterOrEqual =>
-			try! (string_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true)))),
+			return string_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive4::StringCaseSensitiveGreater =>
-			try! (string_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, Some (true)))),
+			return string_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive4::StringCaseInsensitiveLesser =>
-			try! (string_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, Some (false)))),
+			return string_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive4::StringCaseInsensitiveLesserOrEqual =>
-			try! (string_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false)))),
+			return string_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive4::StringCaseInsensitiveEqual =>
-			try! (string_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Equal, None, Some (false)))),
+			return string_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Equal, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive4::StringCaseInsensitiveGreaterOrEqual =>
-			try! (string_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false)))),
+			return string_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive4::StringCaseInsensitiveGreater =>
-			try! (string_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, Some (false)))),
+			return string_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive4::SymbolCaseSensitiveLesser =>
-			try! (symbol_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, Some (true)))),
+			return symbol_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive4::SymbolCaseSensitiveLesserOrEqual =>
-			try! (symbol_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true)))),
+			return symbol_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive4::SymbolCaseSensitiveEqual =>
-			try! (symbol_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Equal, None, Some (true)))),
+			return symbol_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Equal, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive4::SymbolCaseSensitiveGreaterOrEqual =>
-			try! (symbol_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true)))),
+			return symbol_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive4::SymbolCaseSensitiveGreater =>
-			try! (symbol_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, Some (true)))),
+			return symbol_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitive4::SymbolCaseInsensitiveLesser =>
-			try! (symbol_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, Some (false)))),
+			return symbol_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive4::SymbolCaseInsensitiveLesserOrEqual =>
-			try! (symbol_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false)))),
+			return symbol_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive4::SymbolCaseInsensitiveEqual =>
-			try! (symbol_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Equal, None, Some (false)))),
+			return symbol_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Equal, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive4::SymbolCaseInsensitiveGreaterOrEqual =>
-			try! (symbol_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false)))),
+			return symbol_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive4::SymbolCaseInsensitiveGreater =>
-			try! (symbol_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, Some (false)))),
+			return symbol_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitive4::BytesLesser =>
-			try! (bytes_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, None))),
+			return bytes_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
 		
 		ComparisonPrimitive4::BytesLesserOrEqual =>
-			try! (bytes_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::LesserOrEqual, None, None))),
+			return bytes_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive4::BytesEqual =>
-			try! (bytes_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Equal, None, None))),
+			return bytes_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
 		
 		ComparisonPrimitive4::BytesGreaterOrEqual =>
-			try! (bytes_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::GreaterOrEqual, None, None))),
+			return bytes_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive4::BytesGreater =>
-			try! (bytes_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, None))),
+			return bytes_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
 		ComparisonPrimitive4::PairLesser =>
-			try! (pair_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, None))),
+			return pair_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
 		
 		ComparisonPrimitive4::PairLesserOrEqual =>
-			try! (pair_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::LesserOrEqual, None, None))),
+			return pair_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive4::PairEqual =>
-			try! (pair_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Equal, None, None))),
+			return pair_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
 		
 		ComparisonPrimitive4::PairGreaterOrEqual =>
-			try! (pair_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::GreaterOrEqual, None, None))),
+			return pair_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive4::PairGreater =>
-			try! (pair_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, None))),
+			return pair_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
 		ComparisonPrimitive4::ArrayLesser =>
-			try! (array_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, None))),
+			return array_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
 		
 		ComparisonPrimitive4::ArrayLesserOrEqual =>
-			try! (array_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::LesserOrEqual, None, None))),
+			return array_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive4::ArrayEqual =>
-			try! (array_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Equal, None, None))),
+			return array_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
 		
 		ComparisonPrimitive4::ArrayGreaterOrEqual =>
-			try! (array_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::GreaterOrEqual, None, None))),
+			return array_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive4::ArrayGreater =>
-			try! (array_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, None))),
+			return array_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
 		ComparisonPrimitive4::ValuesLesser =>
-			try! (values_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, None))),
+			return values_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
 		
 		ComparisonPrimitive4::ValuesLesserOrEqual =>
-			try! (values_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::LesserOrEqual, None, None))),
+			return values_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive4::ValuesEqual =>
-			try! (values_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Equal, None, None))),
+			return values_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
 		
 		ComparisonPrimitive4::ValuesGreaterOrEqual =>
-			try! (values_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::GreaterOrEqual, None, None))),
+			return values_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitive4::ValuesGreater =>
-			try! (values_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, None))),
+			return values_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
-	};
-	
-	succeed! (output.into ());
+	}
 }
 
 
@@ -1508,221 +1500,219 @@ pub fn comparison_primitive_5_evaluate (primitive : ComparisonPrimitive5, _input
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn comparison_primitive_n_evaluate (primitive : ComparisonPrimitiveN, inputs : &[&Value], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
-	let output = match primitive {
+	match primitive {
 		
 		ComparisonPrimitiveN::EquivalentByIdentity =>
-			try! (compare_n (inputs, Comparison::Equivalence (Equivalence::ByIdentity, None, None))),
+			return compare_n (inputs, Comparison::Equivalence (Equivalence::ByIdentity, None, None)) .into_0 (),
 		
 		ComparisonPrimitiveN::EquivalentByValueStrict =>
-			try! (compare_n (inputs, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (false)))),
+			return compare_n (inputs, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (false))) .into_0 (),
 		
 		ComparisonPrimitiveN::EquivalentByValueStrictRecursive =>
-			try! (compare_n (inputs, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (true)))),
+			return compare_n (inputs, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (true))) .into_0 (),
 		
 		ComparisonPrimitiveN::EquivalentByValueCoerced =>
-			try! (compare_n (inputs, Comparison::Equivalence (Equivalence::ByValue, Some (true), Some (false)))),
+			return compare_n (inputs, Comparison::Equivalence (Equivalence::ByValue, Some (true), Some (false))) .into_0 (),
 		
 		ComparisonPrimitiveN::EquivalentByValueCoercedRecursive =>
-			try! (compare_n (inputs, Comparison::Equivalence (Equivalence::ByValue, Some (true), Some (true)))),
+			return compare_n (inputs, Comparison::Equivalence (Equivalence::ByValue, Some (true), Some (true))) .into_0 (),
 		
 		ComparisonPrimitiveN::GenericLesser =>
-			try! (compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, None))),
+			return compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
 		
 		ComparisonPrimitiveN::GenericLesserOrEqual =>
-			try! (compare_n (inputs, Comparison::Ordering (Ordering::LesserOrEqual, None, None))),
+			return compare_n (inputs, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitiveN::GenericEqual =>
-			try! (compare_n (inputs, Comparison::Ordering (Ordering::Equal, None, None))),
+			return compare_n (inputs, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
 		
 		ComparisonPrimitiveN::GenericGreaterOrEqual =>
-			try! (compare_n (inputs, Comparison::Ordering (Ordering::GreaterOrEqual, None, None))),
+			return compare_n (inputs, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitiveN::GenericGreater =>
-			try! (compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, None))),
+			return compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
 		ComparisonPrimitiveN::BooleanLesser =>
-			try! (boolean_compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, None))),
+			return boolean_compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
 		
 		ComparisonPrimitiveN::BooleanLesserOrEqual =>
-			try! (boolean_compare_n (inputs, Comparison::Ordering (Ordering::LesserOrEqual, None, None))),
+			return boolean_compare_n (inputs, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitiveN::BooleanEqual =>
-			try! (boolean_compare_n (inputs, Comparison::Ordering (Ordering::Equal, None, None))),
+			return boolean_compare_n (inputs, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
 		
 		ComparisonPrimitiveN::BooleanGreaterOrEqual =>
-			try! (boolean_compare_n (inputs, Comparison::Ordering (Ordering::GreaterOrEqual, None, None))),
+			return boolean_compare_n (inputs, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitiveN::BooleanGreater =>
-			try! (boolean_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, None))),
+			return boolean_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
 		ComparisonPrimitiveN::NumberLesser =>
-			try! (number_compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, None))),
+			return number_compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
 		
 		ComparisonPrimitiveN::NumberLesserOrEqual =>
-			try! (number_compare_n (inputs, Comparison::Ordering (Ordering::LesserOrEqual, None, None))),
+			return number_compare_n (inputs, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitiveN::NumberEqual =>
-			try! (number_compare_n (inputs, Comparison::Ordering (Ordering::Equal, None, None))),
+			return number_compare_n (inputs, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
 		
 		ComparisonPrimitiveN::NumberGreaterOrEqual =>
-			try! (number_compare_n (inputs, Comparison::Ordering (Ordering::GreaterOrEqual, None, None))),
+			return number_compare_n (inputs, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitiveN::NumberGreater =>
-			try! (number_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, None))),
+			return number_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
 		ComparisonPrimitiveN::CharacterCaseSensitiveLesser =>
-			try! (character_compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, Some (true)))),
+			return character_compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitiveN::CharacterCaseSensitiveLesserOrEqual =>
-			try! (character_compare_n (inputs, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true)))),
+			return character_compare_n (inputs, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitiveN::CharacterCaseSensitiveEqual =>
-			try! (character_compare_n (inputs, Comparison::Ordering (Ordering::Equal, None, Some (true)))),
+			return character_compare_n (inputs, Comparison::Ordering (Ordering::Equal, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitiveN::CharacterCaseSensitiveGreaterOrEqual =>
-			try! (character_compare_n (inputs, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true)))),
+			return character_compare_n (inputs, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitiveN::CharacterCaseSensitiveGreater =>
-			try! (character_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, Some (true)))),
+			return character_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitiveN::CharacterCaseInsensitiveLesser =>
-			try! (character_compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, Some (false)))),
+			return character_compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitiveN::CharacterCaseInsensitiveLesserOrEqual =>
-			try! (character_compare_n (inputs, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false)))),
+			return character_compare_n (inputs, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitiveN::CharacterCaseInsensitiveEqual =>
-			try! (character_compare_n (inputs, Comparison::Ordering (Ordering::Equal, None, Some (false)))),
+			return character_compare_n (inputs, Comparison::Ordering (Ordering::Equal, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitiveN::CharacterCaseInsensitiveGreaterOrEqual =>
-			try! (character_compare_n (inputs, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false)))),
+			return character_compare_n (inputs, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitiveN::CharacterCaseInsensitiveGreater =>
-			try! (character_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, Some (false)))),
+			return character_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitiveN::StringCaseSensitiveLesser =>
-			try! (string_compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, Some (true)))),
+			return string_compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitiveN::StringCaseSensitiveLesserOrEqual =>
-			try! (string_compare_n (inputs, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true)))),
+			return string_compare_n (inputs, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitiveN::StringCaseSensitiveEqual =>
-			try! (string_compare_n (inputs, Comparison::Ordering (Ordering::Equal, None, Some (true)))),
+			return string_compare_n (inputs, Comparison::Ordering (Ordering::Equal, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitiveN::StringCaseSensitiveGreaterOrEqual =>
-			try! (string_compare_n (inputs, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true)))),
+			return string_compare_n (inputs, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitiveN::StringCaseSensitiveGreater =>
-			try! (string_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, Some (true)))),
+			return string_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitiveN::StringCaseInsensitiveLesser =>
-			try! (string_compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, Some (false)))),
+			return string_compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitiveN::StringCaseInsensitiveLesserOrEqual =>
-			try! (string_compare_n (inputs, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false)))),
+			return string_compare_n (inputs, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitiveN::StringCaseInsensitiveEqual =>
-			try! (string_compare_n (inputs, Comparison::Ordering (Ordering::Equal, None, Some (false)))),
+			return string_compare_n (inputs, Comparison::Ordering (Ordering::Equal, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitiveN::StringCaseInsensitiveGreaterOrEqual =>
-			try! (string_compare_n (inputs, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false)))),
+			return string_compare_n (inputs, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitiveN::StringCaseInsensitiveGreater =>
-			try! (string_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, Some (false)))),
+			return string_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitiveN::SymbolCaseSensitiveLesser =>
-			try! (symbol_compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, Some (true)))),
+			return symbol_compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitiveN::SymbolCaseSensitiveLesserOrEqual =>
-			try! (symbol_compare_n (inputs, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true)))),
+			return symbol_compare_n (inputs, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitiveN::SymbolCaseSensitiveEqual =>
-			try! (symbol_compare_n (inputs, Comparison::Ordering (Ordering::Equal, None, Some (true)))),
+			return symbol_compare_n (inputs, Comparison::Ordering (Ordering::Equal, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitiveN::SymbolCaseSensitiveGreaterOrEqual =>
-			try! (symbol_compare_n (inputs, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true)))),
+			return symbol_compare_n (inputs, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitiveN::SymbolCaseSensitiveGreater =>
-			try! (symbol_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, Some (true)))),
+			return symbol_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, Some (true))) .into_0 (),
 		
 		ComparisonPrimitiveN::SymbolCaseInsensitiveLesser =>
-			try! (symbol_compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, Some (false)))),
+			return symbol_compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitiveN::SymbolCaseInsensitiveLesserOrEqual =>
-			try! (symbol_compare_n (inputs, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false)))),
+			return symbol_compare_n (inputs, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitiveN::SymbolCaseInsensitiveEqual =>
-			try! (symbol_compare_n (inputs, Comparison::Ordering (Ordering::Equal, None, Some (false)))),
+			return symbol_compare_n (inputs, Comparison::Ordering (Ordering::Equal, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitiveN::SymbolCaseInsensitiveGreaterOrEqual =>
-			try! (symbol_compare_n (inputs, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false)))),
+			return symbol_compare_n (inputs, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitiveN::SymbolCaseInsensitiveGreater =>
-			try! (symbol_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, Some (false)))),
+			return symbol_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, Some (false))) .into_0 (),
 		
 		ComparisonPrimitiveN::BytesLesser =>
-			try! (bytes_compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, None))),
+			return bytes_compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
 		
 		ComparisonPrimitiveN::BytesLesserOrEqual =>
-			try! (bytes_compare_n (inputs, Comparison::Ordering (Ordering::LesserOrEqual, None, None))),
+			return bytes_compare_n (inputs, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitiveN::BytesEqual =>
-			try! (bytes_compare_n (inputs, Comparison::Ordering (Ordering::Equal, None, None))),
+			return bytes_compare_n (inputs, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
 		
 		ComparisonPrimitiveN::BytesGreaterOrEqual =>
-			try! (bytes_compare_n (inputs, Comparison::Ordering (Ordering::GreaterOrEqual, None, None))),
+			return bytes_compare_n (inputs, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitiveN::BytesGreater =>
-			try! (bytes_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, None))),
+			return bytes_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
 		ComparisonPrimitiveN::PairLesser =>
-			try! (pair_compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, None))),
+			return pair_compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
 		
 		ComparisonPrimitiveN::PairLesserOrEqual =>
-			try! (pair_compare_n (inputs, Comparison::Ordering (Ordering::LesserOrEqual, None, None))),
+			return pair_compare_n (inputs, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitiveN::PairEqual =>
-			try! (pair_compare_n (inputs, Comparison::Ordering (Ordering::Equal, None, None))),
+			return pair_compare_n (inputs, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
 		
 		ComparisonPrimitiveN::PairGreaterOrEqual =>
-			try! (pair_compare_n (inputs, Comparison::Ordering (Ordering::GreaterOrEqual, None, None))),
+			return pair_compare_n (inputs, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitiveN::PairGreater =>
-			try! (pair_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, None))),
+			return pair_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
 		ComparisonPrimitiveN::ArrayLesser =>
-			try! (array_compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, None))),
+			return array_compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
 		
 		ComparisonPrimitiveN::ArrayLesserOrEqual =>
-			try! (array_compare_n (inputs, Comparison::Ordering (Ordering::LesserOrEqual, None, None))),
+			return array_compare_n (inputs, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitiveN::ArrayEqual =>
-			try! (array_compare_n (inputs, Comparison::Ordering (Ordering::Equal, None, None))),
+			return array_compare_n (inputs, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
 		
 		ComparisonPrimitiveN::ArrayGreaterOrEqual =>
-			try! (array_compare_n (inputs, Comparison::Ordering (Ordering::GreaterOrEqual, None, None))),
+			return array_compare_n (inputs, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitiveN::ArrayGreater =>
-			try! (array_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, None))),
+			return array_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
 		ComparisonPrimitiveN::ValuesLesser =>
-			try! (values_compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, None))),
+			return values_compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
 		
 		ComparisonPrimitiveN::ValuesLesserOrEqual =>
-			try! (values_compare_n (inputs, Comparison::Ordering (Ordering::LesserOrEqual, None, None))),
+			return values_compare_n (inputs, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitiveN::ValuesEqual =>
-			try! (values_compare_n (inputs, Comparison::Ordering (Ordering::Equal, None, None))),
+			return values_compare_n (inputs, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
 		
 		ComparisonPrimitiveN::ValuesGreaterOrEqual =>
-			try! (values_compare_n (inputs, Comparison::Ordering (Ordering::GreaterOrEqual, None, None))),
+			return values_compare_n (inputs, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
 		
 		ComparisonPrimitiveN::ValuesGreater =>
-			try! (values_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, None))),
+			return values_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
-	};
-	
-	succeed! (output.into ());
+	}
 }
 
 

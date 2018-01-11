@@ -1,6 +1,5 @@
 
 
-use super::constants::exports::*;
 use super::builtins::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
@@ -179,10 +178,10 @@ pub fn array_primitive_0_evaluate (primitive : ArrayPrimitive0, _evaluator : &mu
 	match primitive {
 		
 		ArrayPrimitive0::ArrayBuild =>
-			succeed! (array_empty ()),
+			return array_empty () .into_0 (),
 		
 		ArrayPrimitive0::ArrayAppend =>
-			succeed! (array_empty ()),
+			return array_empty () .into_0 (),
 		
 	}
 }
@@ -194,11 +193,8 @@ pub fn array_primitive_0_evaluate (primitive : ArrayPrimitive0, _evaluator : &mu
 pub fn array_primitive_1_evaluate (primitive : ArrayPrimitive1, input_1 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
-		ArrayPrimitive1::ArrayLength => {
-			let length = try! (array_length (input_1));
-			let length : NumberInteger = try! (StdTryFrom::try_from (length));
-			succeed! (length.into ());
-		},
+		ArrayPrimitive1::ArrayLength =>
+			return array_length (input_1) .into_0 (),
 		
 		ArrayPrimitive1::ArrayClone =>
 			return array_clone (input_1),
@@ -210,20 +206,16 @@ pub fn array_primitive_1_evaluate (primitive : ArrayPrimitive1, input_1 : &Value
 			return array_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), None),
 		
 		ArrayPrimitive1::ArrayBuild =>
-			succeed! (array_build_1 (input_1)),
+			return array_build_1 (input_1) .into_0 (),
 		
 		ArrayPrimitive1::ArrayAppend =>
 			return array_clone (input_1),
 		
-		ArrayPrimitive1::ArrayFill => {
-			try! (array_fill_range (input_1, None, None, None));
-			succeed! (VOID_VALUE);
-		},
+		ArrayPrimitive1::ArrayFill =>
+			return array_fill_range (input_1, None, None, None) .into_0 (),
 		
-		ArrayPrimitive1::ArrayReverse => {
-			try! (array_reverse_range (input_1, None, None));
-			succeed! (VOID_VALUE);
-		},
+		ArrayPrimitive1::ArrayReverse =>
+			return array_reverse_range (input_1, None, None) .into_0 (),
 		
 		ArrayPrimitive1::ArrayToList =>
 			return array_range_to_list (input_1, None, None),
@@ -232,10 +224,10 @@ pub fn array_primitive_1_evaluate (primitive : ArrayPrimitive1, input_1 : &Value
 			return list_range_to_array (input_1, None, None),
 		
 		ArrayPrimitive1::ArrayToImmutable =>
-			succeed! (try_as_array_as_ref! (input_1) .to_immutable () .into ()),
+			return try_as_array_as_ref! (input_1) .to_immutable () .into_0 (),
 		
 		ArrayPrimitive1::ArrayToMutable =>
-			succeed! (try_as_array_as_ref! (input_1) .to_mutable () .into ()),
+			return try_as_array_as_ref! (input_1) .to_mutable () .into_0 (),
 		
 	}
 }
@@ -254,28 +246,22 @@ pub fn array_primitive_2_evaluate (primitive : ArrayPrimitive2, input_1 : &Value
 			return array_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), Some (input_2)),
 		
 		ArrayPrimitive2::ArrayBuild =>
-			succeed! (array_build_2 (input_1, input_2)),
+			return array_build_2 (input_1, input_2) .into_0 (),
 		
 		ArrayPrimitive2::ArrayAppend =>
 			return array_append_2 (input_1, input_2),
 		
-		ArrayPrimitive2::ArrayFill => {
-			try! (array_fill_range (input_1, Some (input_2), None, None));
-			succeed! (VOID_VALUE);
-		},
+		ArrayPrimitive2::ArrayFill =>
+			return array_fill_range (input_1, Some (input_2), None, None) .into_0 (),
 		
-		ArrayPrimitive2::ArrayCopy => {
-			try! (array_copy_range (input_1, None, input_2, None, None));
-			succeed! (VOID_VALUE);
-		},
+		ArrayPrimitive2::ArrayCopy =>
+			return array_copy_range (input_1, None, input_2, None, None) .into_0 (),
 		
 		ArrayPrimitive2::ArrayRangeClone =>
 			return array_clone_range (input_1, Some (input_2), None),
 		
-		ArrayPrimitive2::ArrayRangeReverse => {
-			try! (array_reverse_range (input_1, Some (input_2), None));
-			succeed! (VOID_VALUE);
-		},
+		ArrayPrimitive2::ArrayRangeReverse =>
+			return array_reverse_range (input_1, Some (input_2), None) .into_0 (),
 		
 		ArrayPrimitive2::ArrayRangeToList =>
 			return array_range_to_list (input_1, Some (input_2), None),
@@ -297,28 +283,22 @@ pub fn array_primitive_3_evaluate (primitive : ArrayPrimitive3, input_1 : &Value
 			return array_at_set (input_1, try! (try_as_number_integer_ref! (input_2) .try_to_usize ()), input_3),
 		
 		ArrayPrimitive3::ArrayBuild =>
-			succeed! (array_build_3 (input_1, input_2, input_3)),
+			return array_build_3 (input_1, input_2, input_3) .into_0 (),
 		
 		ArrayPrimitive3::ArrayAppend =>
 			return array_append_3 (input_1, input_2, input_3),
 		
-		ArrayPrimitive3::ArrayRangeFill => {
-			try! (array_fill_range (input_1, Some (input_2), Some (input_3), None));
-			succeed! (VOID_VALUE);
-		},
+		ArrayPrimitive3::ArrayRangeFill =>
+			return array_fill_range (input_1, Some (input_2), Some (input_3), None) .into_0 (),
 		
-		ArrayPrimitive3::ArrayRangeCopy => {
-			try! (array_copy_range (input_1, Some (input_2), input_3, None, None));
-			succeed! (VOID_VALUE);
-		},
+		ArrayPrimitive3::ArrayRangeCopy =>
+			return array_copy_range (input_1, Some (input_2), input_3, None, None) .into_0 (),
 		
 		ArrayPrimitive3::ArrayRangeClone =>
 			return array_clone_range (input_1, Some (input_2), Some (input_3)),
 		
-		ArrayPrimitive3::ArrayRangeReverse => {
-			try! (array_reverse_range (input_1, Some (input_2), Some (input_3)));
-			succeed! (VOID_VALUE);
-		},
+		ArrayPrimitive3::ArrayRangeReverse =>
+			return array_reverse_range (input_1, Some (input_2), Some (input_3)) .into_0 (),
 		
 		ArrayPrimitive3::ArrayRangeToList =>
 			return array_range_to_list (input_1, Some (input_2), Some (input_3)),
@@ -337,20 +317,16 @@ pub fn array_primitive_4_evaluate (primitive : ArrayPrimitive4, input_1 : &Value
 	match primitive {
 		
 		ArrayPrimitive4::ArrayBuild =>
-			succeed! (array_build_4 (input_1, input_2, input_3, input_4)),
+			return array_build_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
 		ArrayPrimitive4::ArrayAppend =>
 			return array_append_4 (input_1, input_2, input_3, input_4),
 		
-		ArrayPrimitive4::ArrayRangeFill => {
-			try! (array_fill_range (input_1, Some (input_2), Some (input_3), Some (input_4)));
-			succeed! (VOID_VALUE);
-		},
+		ArrayPrimitive4::ArrayRangeFill =>
+			return array_fill_range (input_1, Some (input_2), Some (input_3), Some (input_4)) .into_0 (),
 		
-		ArrayPrimitive4::ArrayRangeCopy => {
-			try! (array_copy_range (input_1, Some (input_2), input_3, Some (input_4), None));
-			succeed! (VOID_VALUE);
-		},
+		ArrayPrimitive4::ArrayRangeCopy =>
+			return array_copy_range (input_1, Some (input_2), input_3, Some (input_4), None) .into_0 (),
 		
 	}
 }
@@ -362,10 +338,8 @@ pub fn array_primitive_4_evaluate (primitive : ArrayPrimitive4, input_1 : &Value
 pub fn array_primitive_5_evaluate (primitive : ArrayPrimitive5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
-		ArrayPrimitive5::ArrayRangeCopy => {
-			try! (array_copy_range (input_1, Some (input_2), input_3, Some (input_4), Some (input_5)));
-			succeed! (VOID_VALUE);
-		},
+		ArrayPrimitive5::ArrayRangeCopy =>
+			return array_copy_range (input_1, Some (input_2), input_3, Some (input_4), Some (input_5)) .into_0 (),
 		
 	}
 }
@@ -378,7 +352,7 @@ pub fn array_primitive_n_evaluate (primitive : ArrayPrimitiveN, inputs : &[&Valu
 	match primitive {
 		
 		ArrayPrimitiveN::ArrayBuild =>
-			succeed! (array_build_n (inputs)),
+			return array_build_n (inputs) .into_0 (),
 		
 		ArrayPrimitiveN::ArrayAppend =>
 			return array_append_n (inputs),
