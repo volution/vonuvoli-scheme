@@ -77,6 +77,10 @@ pub enum RuntimePrimitive1 {
 	ProcessExit,
 	ProcessExitEmergency,
 	
+	ProcessWaitPoll,
+	ProcessWaitTry,
+	ProcessWaitCheck,
+	
 }
 
 
@@ -97,7 +101,13 @@ pub enum RuntimePrimitive5 {}
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
-pub enum RuntimePrimitiveN {}
+pub enum RuntimePrimitiveN {
+	
+	ProcessSpawn,
+	ProcessRunTry,
+	ProcessRunCheck,
+	
+}
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
@@ -128,13 +138,13 @@ pub fn runtime_primitive_0_evaluate (primitive : RuntimePrimitive0, _evaluator :
 			fail_unimplemented! (0xe1a2c04e), // deferred
 		
 		RuntimePrimitive0::PosixTimestamp =>
-			succeed! (posix_timestamp () .into ()),
+			posix_timestamp () .into_0 (),
 		
 		RuntimePrimitive0::JiffiesTimestamp =>
-			succeed! (jiffies_timestamp () .into ()),
+			jiffies_timestamp () .into_0 (),
 		
 		RuntimePrimitive0::JiffiesPerSecond =>
-			succeed! (jiffies_per_second () .into ()),
+			jiffies_per_second () .into_0 (),
 		
 	}
 }
@@ -143,7 +153,7 @@ pub fn runtime_primitive_0_evaluate (primitive : RuntimePrimitive0, _evaluator :
 
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, _input_1 : &Value, _evaluator : &EvaluatorContext) -> (Outcome<Value>) {
+pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, input_1 : &Value, _evaluator : &EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		RuntimePrimitive1::ProcessEnvironment =>
@@ -154,6 +164,15 @@ pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, _input_1 : &
 		
 		RuntimePrimitive1::ProcessExitEmergency =>
 			fail_unimplemented! (0x7a0fae27), // deferred
+		
+		RuntimePrimitive1::ProcessWaitPoll =>
+			process_wait (input_1, false) .into_0 (),
+		
+		RuntimePrimitive1::ProcessWaitTry =>
+			process_wait (input_1, true) .into_0 (),
+		
+		RuntimePrimitive1::ProcessWaitCheck =>
+			process_wait_check (input_1, true) .into_0 (),
 	}
 }
 
@@ -193,8 +212,19 @@ pub fn runtime_primitive_5_evaluate (primitive : RuntimePrimitive5, _input_1 : &
 
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-pub fn runtime_primitive_n_evaluate (primitive : RuntimePrimitiveN, _inputs : &[&Value], _evaluator : &EvaluatorContext) -> (Outcome<Value>) {
-	match primitive {}
+pub fn runtime_primitive_n_evaluate (primitive : RuntimePrimitiveN, inputs : &[&Value], _evaluator : &EvaluatorContext) -> (Outcome<Value>) {
+	match primitive {
+		
+		RuntimePrimitiveN::ProcessSpawn =>
+			process_spawn (inputs) .into_0 (),
+		
+		RuntimePrimitiveN::ProcessRunTry =>
+			process_run (inputs) .into_0 (),
+		
+		RuntimePrimitiveN::ProcessRunCheck =>
+			process_run_check (inputs) .into_0 (),
+		
+	}
 }
 
 

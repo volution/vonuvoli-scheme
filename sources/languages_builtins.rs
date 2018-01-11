@@ -167,6 +167,13 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("generic>=?", ComparisonPrimitiveV::GenericGreaterOrEqual.into ()),
 			
 			
+			("process-spawn", RuntimePrimitiveN::ProcessSpawn.into ()),
+			("process-wait-poll", RuntimePrimitive1::ProcessWaitPoll.into ()),
+			("process-wait", RuntimePrimitive1::ProcessWaitCheck.into ()),
+			("process-wait-try", RuntimePrimitive1::ProcessWaitTry.into ()),
+			("process-run", RuntimePrimitiveN::ProcessRunCheck.into ()),
+			("process-run-try", RuntimePrimitiveN::ProcessRunTry.into ()),
+			
 			("process?", TypePrimitive1::IsProcess.into ()),
 			("resource?", TypePrimitive1::IsResource.into ()),
 			("opaque?", TypePrimitive1::IsOpaque.into ()),

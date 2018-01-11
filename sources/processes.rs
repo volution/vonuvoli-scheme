@@ -21,6 +21,9 @@ pub mod exports {
 		ProcessSignal,
 	};
 	
+	pub use super::{
+		ProcessConfiguration, ProcessConfigurationStream,
+	};
 }
 
 
@@ -70,7 +73,7 @@ pub enum ProcessSignal {
 }
 
 
-#[ derive (Debug) ]
+#[ derive (Debug, Default) ]
 pub struct ProcessConfiguration <'a> {
 	pub executable : &'a str,
 	pub argument0 : Option<&'a str>,
