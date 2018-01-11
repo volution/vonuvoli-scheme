@@ -393,7 +393,7 @@ impl Optimizer {
 			ExpressionSequenceOperator::And => {
 				let mut expressions = expressions;
 				let expression = if let Some (last) = expressions.pop () {
-					let mut expressions = self.expressions_retain_if_is_not (&optimization, expressions, ExpressionClass::Type (TypePrimitive1::IsNotFalse));
+					let mut expressions = self.expressions_retain_if_is_not (&optimization, expressions, ExpressionClass::Type (TypePrimitive1::IsFalseNot));
 					if ! expressions.is_empty () {
 						expressions.push (last);
 						if self.expressions_are_any (&optimization, expressions.iter (), ExpressionClass::Type (TypePrimitive1::IsFalse)) {
@@ -416,11 +416,11 @@ impl Optimizer {
 					expressions.push (last);
 					let mut expressions = self.expressions_retain_if_is_not (&optimization, expressions, ExpressionClass::Type (TypePrimitive1::IsFalse));
 					if ! expressions.is_empty () {
-						let expressions = if self.expressions_are_any (&optimization, expressions.iter (), ExpressionClass::Type (TypePrimitive1::IsNotFalse)) {
+						let expressions = if self.expressions_are_any (&optimization, expressions.iter (), ExpressionClass::Type (TypePrimitive1::IsFalseNot)) {
 							let expressions_0 = expressions;
 							let mut expressions = StdVec::new ();
 							for expression in expressions_0.into_iter () {
-								if self.expression_is (&optimization, &expression, ExpressionClass::Type (TypePrimitive1::IsNotFalse)) {
+								if self.expression_is (&optimization, &expression, ExpressionClass::Type (TypePrimitive1::IsFalseNot)) {
 									expressions.push (expression);
 									break;
 								} else {

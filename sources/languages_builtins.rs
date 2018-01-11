@@ -51,6 +51,20 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("call", FunctionsPrimitiveV::Call.into ()),
 			("call-with-values*", FunctionsPrimitive2::CallWithValues.into ()),
 			
+			("not-null?", TypePrimitive1::IsNullNot.into ()),
+			
+			("void?", TypePrimitive1::IsVoid.into ()),
+			("not-void?", TypePrimitive1::IsVoidNot.into ()),
+			("undefined?", TypePrimitive1::IsUndefined.into ()),
+			("not-undefined?", TypePrimitive1::IsUndefinedNot.into ()),
+			
+			("true?", TypePrimitive1::IsTrue.into ()),
+			("not-true?", TypePrimitive1::IsTrueNot.into ()),
+			("true-or-equivalent?", TypePrimitive1::IsTrueOrEquivalent.into ()),
+			("false?", TypePrimitive1::IsFalse.into ()),
+			("not-false?", TypePrimitive1::IsFalseNot.into ()),
+			("false-or-equivalent?", TypePrimitive1::IsFalseOrEquivalent.into ()),
+			
 			("and*", BooleanPrimitiveV::And.into ()),
 			("or*", BooleanPrimitiveV::Or.into ()),
 			("xor*", BooleanPrimitiveV::Xor.into ()),
@@ -62,6 +76,8 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("string-reverse!", StringPrimitiveV::StringRangeReverse.into ()),
 			("string->immutable", StringPrimitive1::StringToImmutable.into ()),
 			("string->mutable", StringPrimitive1::StringToMutable.into ()),
+			("string-immutable?", TypePrimitive1::IsStringImmutable.into ()),
+			("string-mutable?", TypePrimitive1::IsStringMutable.into ()),
 			
 			("symbol-upcase", StringPrimitive1::SymbolToUpperCase.into ()),
 			("symbol-downcase", StringPrimitive1::SymbolToLowerCase.into ()),
@@ -78,9 +94,13 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("list->bytevector", BytesPrimitiveV::ListRangeToBytes.into ()),
 			("bytevector->immutable", BytesPrimitive1::BytesToImmutable.into ()),
 			("bytevector->mutable", BytesPrimitive1::BytesToMutable.into ()),
+			("bytevector-immutable?", TypePrimitive1::IsBytesImmutable.into ()),
+			("bytevector-mutable?", TypePrimitive1::IsBytesMutable.into ()),
 			
-			("cons->immutable", ListPrimitive1::PairToImmutable.into ()),
-			("cons->mutable", ListPrimitive1::PairToMutable.into ()),
+			("pair->immutable", ListPrimitive1::PairToImmutable.into ()),
+			("pair->mutable", ListPrimitive1::PairToMutable.into ()),
+			("pair-immutable?", TypePrimitive1::IsPairImmutable.into ()),
+			("pair-mutable?", TypePrimitive1::IsPairMutable.into ()),
 			
 			("list->immutable", ListPrimitive1::ListToImmutable.into ()),
 			("list->mutable", ListPrimitive1::ListToMutable.into ()),
@@ -89,6 +109,10 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("vector-reverse!", ArrayPrimitiveV::ArrayRangeReverse.into ()),
 			("vector->immutable", ArrayPrimitive1::ArrayToImmutable.into ()),
 			("vector->mutable", ArrayPrimitive1::ArrayToMutable.into ()),
+			("vector-immutable?", TypePrimitive1::IsArrayImmutable.into ()),
+			("vector-mutable?", TypePrimitive1::IsArrayMutable.into ()),
+			
+			("values?", TypePrimitive1::IsValues.into ()),
 			
 			("equivalent-by-identity?", ComparisonPrimitiveV::EquivalentByIdentity.into ()),
 			("equivalent-by-value-strict?", ComparisonPrimitiveV::EquivalentByValueStrict.into ()),
@@ -141,6 +165,11 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("generic>?", ComparisonPrimitiveV::GenericGreater.into ()),
 			("generic<=?", ComparisonPrimitiveV::GenericLesserOrEqual.into ()),
 			("generic>=?", ComparisonPrimitiveV::GenericGreaterOrEqual.into ()),
+			
+			
+			("process?", TypePrimitive1::IsProcess.into ()),
+			("resource?", TypePrimitive1::IsResource.into ()),
+			("opaque?", TypePrimitive1::IsOpaque.into ()),
 			
 		];
 	

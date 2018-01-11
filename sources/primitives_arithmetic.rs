@@ -64,23 +64,6 @@ pub enum ArithmeticPrimitive0 {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ArithmeticPrimitive1 {
 	
-	IsComplex,
-	IsReal,
-	IsRational,
-	IsInteger,
-	IsExact,
-	IsExactInteger,
-	IsInexact,
-	
-	IsZero,
-	IsPositive,
-	IsNegative,
-	IsFinite,
-	IsInfinite,
-	IsNan,
-	IsEven,
-	IsOdd,
-	
 	Negate,
 	Absolute,
 	Signum,
@@ -273,73 +256,6 @@ pub fn arithmetic_primitive_0_evaluate (primitive : ArithmeticPrimitive0, _evalu
 pub fn arithmetic_primitive_1_evaluate (primitive : ArithmeticPrimitive1, input_1 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	let output : Value = match primitive {
-		
-		ArithmeticPrimitive1::IsComplex =>
-			arithmetic_primitive_1_delegate_call! (input_1,
-					_value, TRUE,
-					_value, TRUE),
-		
-		ArithmeticPrimitive1::IsReal =>
-			arithmetic_primitive_1_delegate_call! (input_1,
-					_value, TRUE,
-					_value, TRUE),
-		
-		ArithmeticPrimitive1::IsRational =>
-			arithmetic_primitive_1_delegate_call! (input_1,
-					_value, TRUE,
-					_value, FALSE),
-		
-		ArithmeticPrimitive1::IsInteger =>
-			arithmetic_primitive_1_delegate_call! (input_1,
-					_value, TRUE,
-					_value, FALSE),
-		
-		ArithmeticPrimitive1::IsExact =>
-			arithmetic_primitive_1_delegate_call! (input_1,
-					_value, TRUE,
-					_value, FALSE),
-		
-		ArithmeticPrimitive1::IsExactInteger =>
-			arithmetic_primitive_1_delegate_call! (input_1,
-					_value, TRUE,
-					_value, FALSE),
-		
-		ArithmeticPrimitive1::IsInexact =>
-			arithmetic_primitive_1_delegate_call! (input_1,
-					_value, FALSE,
-					_value, TRUE),
-		
-		ArithmeticPrimitive1::IsZero =>
-			arithmetic_primitive_1_delegate_call! (is_zero, input_1),
-		
-		ArithmeticPrimitive1::IsPositive =>
-			arithmetic_primitive_1_delegate_call! (input_1,
-					value, !value.is_zero () && value.is_positive (),
-					value, !value.is_zero () && value.is_positive ()),
-		
-		ArithmeticPrimitive1::IsNegative =>
-			arithmetic_primitive_1_delegate_call! (is_negative, input_1),
-		
-		ArithmeticPrimitive1::IsFinite =>
-			arithmetic_primitive_1_delegate_call! (input_1,
-					_value, TRUE,
-					value, value.is_finite ()),
-		
-		ArithmeticPrimitive1::IsInfinite =>
-			arithmetic_primitive_1_delegate_call! (input_1,
-					_value, FALSE,
-					value, value.is_infinite ()),
-		
-		ArithmeticPrimitive1::IsNan =>
-			arithmetic_primitive_1_delegate_call! (input_1,
-					_value, FALSE,
-					value, value.is_nan ()),
-		
-		ArithmeticPrimitive1::IsEven =>
-			arithmetic_primitive_1_delegate_call! (is_even, input_1),
-		
-		ArithmeticPrimitive1::IsOdd =>
-			arithmetic_primitive_1_delegate_call! (is_odd, input_1),
 		
 		ArithmeticPrimitive1::Negate =>
 			arithmetic_primitive_1_delegate_call! (input_1,

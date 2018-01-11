@@ -142,19 +142,19 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			// math
 			
 			("base", "types", "number?", TypePrimitive1::IsNumber.into ()),
-			("base", "types", "integer?", ArithmeticPrimitive1::IsInteger.into ()),
-			("base", "types", "real?", ArithmeticPrimitive1::IsReal.into ()),
-			("base", "types", "rational?", ArithmeticPrimitive1::IsRational.into ()),
-			("base", "types", "complex?", ArithmeticPrimitive1::IsComplex.into ()),
-			("base", "types", "exact?", ArithmeticPrimitive1::IsExact.into ()),
-			("base", "types", "exact-integer?", ArithmeticPrimitive1::IsExactInteger.into ()),
-			("base", "types", "inexact?", ArithmeticPrimitive1::IsInexact.into ()),
+			("base", "types", "integer?", TypePrimitive1::IsNumberInteger.into ()),
+			("base", "types", "real?", TypePrimitive1::IsNumberReal.into ()),
+			("base", "types", "rational?", TypePrimitive1::IsNumberRational.into ()),
+			("base", "types", "complex?", TypePrimitive1::IsNumberComplex.into ()),
+			("base", "types", "exact?", TypePrimitive1::IsNumberExact.into ()),
+			("base", "types", "exact-integer?", TypePrimitive1::IsNumberExactInteger.into ()),
+			("base", "types", "inexact?", TypePrimitive1::IsNumberInexact.into ()),
 			
-			("base", "arithmetic", "zero?", ArithmeticPrimitive1::IsZero.into ()),
-			("base", "arithmetic", "positive?", ArithmeticPrimitive1::IsPositive.into ()),
-			("base", "arithmetic", "negative?", ArithmeticPrimitive1::IsNegative.into ()),
-			("base", "arithmetic", "odd?", ArithmeticPrimitive1::IsOdd.into ()),
-			("base", "arithmetic", "even?", ArithmeticPrimitive1::IsEven.into ()),
+			("base", "arithmetic", "zero?", TypePrimitive1::IsNumberZero.into ()),
+			("base", "arithmetic", "positive?", TypePrimitive1::IsNumberPositive.into ()),
+			("base", "arithmetic", "negative?", TypePrimitive1::IsNumberNegative.into ()),
+			("base", "arithmetic", "odd?", TypePrimitive1::IsNumberOdd.into ()),
+			("base", "arithmetic", "even?", TypePrimitive1::IsNumberEven.into ()),
 			
 			("base", "arithmetic", "+", ArithmeticPrimitiveV::Addition.into ()),
 			("base", "arithmetic", "-", ArithmeticPrimitiveV::Subtraction.into ()),
@@ -635,9 +635,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("inexact", "arithmetic", "acos", ArithmeticPrimitive1::Acos.into ()),
 			("inexact", "arithmetic", "atan", ArithmeticPrimitive1::Atan.into ()),
 			
-			("inexact", "arithmetic", "finite?", ArithmeticPrimitive1::IsFinite.into ()),
-			("inexact", "arithmetic", "infinite?", ArithmeticPrimitive1::IsInfinite.into ()),
-			("inexact", "arithmetic", "nan?", ArithmeticPrimitive1::IsNan.into ()),
+			("inexact", "arithmetic", "finite?", TypePrimitive1::IsNumberFinite.into ()),
+			("inexact", "arithmetic", "infinite?", TypePrimitive1::IsNumberInfinite.into ()),
+			("inexact", "arithmetic", "nan?", TypePrimitive1::IsNumberNan.into ()),
 			
 			
 			

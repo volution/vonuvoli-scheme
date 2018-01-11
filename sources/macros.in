@@ -883,6 +883,9 @@ def_value_try_into! (try_into_syntax_lambda, value_type! (SyntaxLambda));
 def_value_try_as_ref! (try_as_port_ref, value_type! (Port));
 def_value_try_into! (try_into_port, value_type! (Port));
 
+def_value_try_as_ref! (try_as_process_ref, value_type! (Process));
+def_value_try_into! (try_into_process, value_type! (Process));
+
 def_value_try_as_ref! (try_as_context_ref, value_type! (Context));
 def_value_try_into! (try_into_context, value_type! (Context));
 

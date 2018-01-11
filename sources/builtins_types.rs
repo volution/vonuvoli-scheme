@@ -1,5 +1,6 @@
 
 
+use super::conversions::exports::*;
 use super::errors::exports::*;
 use super::ports::exports::*;
 use super::values::exports::*;
@@ -63,9 +64,64 @@ pub mod exports {
 	
 	pub use super::{
 			
-			is_number,
+			is_number, is_number_integer, is_number_rational, is_number_real, is_number_complex,
+			is_number_exact, is_number_exact_integer, is_number_inexact,
+			is_number_zero, is_number_positive, is_number_negative, is_number_finite, is_number_infinite, is_number_nan,
+			is_number_even, is_number_odd,
 			
 			is_number_all_2, is_number_all_3, is_number_all_4, is_number_all_n,
+			is_number_integer_all_2, is_number_integer_all_3, is_number_integer_all_4, is_number_integer_all_n,
+			is_number_rational_all_2, is_number_rational_all_3, is_number_rational_all_4, is_number_rational_all_n,
+			is_number_real_all_2, is_number_real_all_3, is_number_real_all_4, is_number_real_all_n,
+			is_number_complex_all_2, is_number_complex_all_3, is_number_complex_all_4, is_number_complex_all_n,
+			is_number_exact_all_2, is_number_exact_all_3, is_number_exact_all_4, is_number_exact_all_n,
+			is_number_exact_integer_all_2, is_number_exact_integer_all_3, is_number_exact_integer_all_4, is_number_exact_integer_all_n,
+			is_number_inexact_all_2, is_number_inexact_all_3, is_number_inexact_all_4, is_number_inexact_all_n,
+			
+			is_number_any_2, is_number_any_3, is_number_any_4, is_number_any_n,
+			is_number_integer_any_2, is_number_integer_any_3, is_number_integer_any_4, is_number_integer_any_n,
+			is_number_rational_any_2, is_number_rational_any_3, is_number_rational_any_4, is_number_rational_any_n,
+			is_number_real_any_2, is_number_real_any_3, is_number_real_any_4, is_number_real_any_n,
+			is_number_complex_any_2, is_number_complex_any_3, is_number_complex_any_4, is_number_complex_any_n,
+			is_number_exact_any_2, is_number_exact_any_3, is_number_exact_any_4, is_number_exact_any_n,
+			is_number_exact_integer_any_2, is_number_exact_integer_any_3, is_number_exact_integer_any_4, is_number_exact_integer_any_n,
+			is_number_inexact_any_2, is_number_inexact_any_3, is_number_inexact_any_4, is_number_inexact_any_n,
+			
+			// FIXME:  Add other variants for `is_number_*`!
+	};
+	
+	
+	pub use super::{
+			
+			is_character,
+			
+			is_character_all_2, is_character_all_3, is_character_all_4, is_character_all_n,
+			is_character_any_2, is_character_any_3, is_character_any_4, is_character_any_n,
+			
+	};
+	
+	
+	pub use super::{
+			
+			is_symbol,
+			
+			is_symbol_all_2, is_symbol_all_3, is_symbol_all_4, is_symbol_all_n,
+			is_symbol_any_2, is_symbol_any_3, is_symbol_any_4, is_symbol_any_n,
+			
+	};
+	
+	
+	pub use super::{
+			
+			is_pair, is_pair_immutable, is_pair_mutable,
+			
+			is_pair_all_2, is_pair_all_3, is_pair_all_4, is_pair_all_n,
+			is_pair_immutable_all_2, is_pair_immutable_all_3, is_pair_immutable_all_4, is_pair_immutable_all_n,
+			is_pair_mutable_all_2, is_pair_mutable_all_3, is_pair_mutable_all_4, is_pair_mutable_all_n,
+			
+			is_pair_any_2, is_pair_any_3, is_pair_any_4, is_pair_any_n,
+			is_pair_immutable_any_2, is_pair_immutable_any_3, is_pair_immutable_any_4, is_pair_immutable_any_n,
+			is_pair_mutable_any_2, is_pair_mutable_any_3, is_pair_mutable_any_4, is_pair_mutable_any_n,
 			
 	};
 	
@@ -80,15 +136,39 @@ pub mod exports {
 			is_list_empty_all_2, is_list_empty_all_3, is_list_empty_all_4, is_list_empty_all_n,
 			is_list_empty_any_2, is_list_empty_any_3, is_list_empty_any_4, is_list_empty_any_n,
 			
+			// FIXME:  Add other variants for `is_list_*`!
 	};
 	
 	
 	pub use super::{
 			
 			is_array, is_array_empty, is_array_not_empty,
+			is_array_immutable, is_array_immutable_empty, is_array_immutable_not_empty,
+			is_array_mutable, is_array_mutable_empty, is_array_mutable_not_empty,
+			
+			is_array_all_2, is_array_all_3, is_array_all_4, is_array_all_n,
+			is_array_immutable_all_2, is_array_immutable_all_3, is_array_immutable_all_4, is_array_immutable_all_n,
+			is_array_mutable_all_2, is_array_mutable_all_3, is_array_mutable_all_4, is_array_mutable_all_n,
+			
+			is_array_any_2, is_array_any_3, is_array_any_4, is_array_any_n,
+			is_array_immutable_any_2, is_array_immutable_any_3, is_array_immutable_any_4, is_array_immutable_any_n,
+			is_array_mutable_any_2, is_array_mutable_any_3, is_array_mutable_any_4, is_array_mutable_any_n,
 			
 			is_array_empty_all_2, is_array_empty_all_3, is_array_empty_all_4,
+			is_array_immutable_empty_all_2, is_array_immutable_empty_all_3, is_array_immutable_empty_all_4,
+			is_array_mutable_empty_all_2, is_array_mutable_empty_all_3, is_array_mutable_empty_all_4,
+			
 			is_array_empty_any_2, is_array_empty_any_3, is_array_empty_any_4,
+			is_array_immutable_empty_any_2, is_array_immutable_empty_any_3, is_array_immutable_empty_any_4,
+			is_array_mutable_empty_any_2, is_array_mutable_empty_any_3, is_array_mutable_empty_any_4,
+			
+			is_array_not_empty_all_2, is_array_not_empty_all_3, is_array_not_empty_all_4,
+			is_array_immutable_not_empty_all_2, is_array_immutable_not_empty_all_3, is_array_immutable_not_empty_all_4,
+			is_array_mutable_not_empty_all_2, is_array_mutable_not_empty_all_3, is_array_mutable_not_empty_all_4,
+			
+			is_array_not_empty_any_2, is_array_not_empty_any_3, is_array_not_empty_any_4,
+			is_array_immutable_not_empty_any_2, is_array_immutable_not_empty_any_3, is_array_immutable_not_empty_any_4,
+			is_array_mutable_not_empty_any_2, is_array_mutable_not_empty_any_3, is_array_mutable_not_empty_any_4,
 			
 	};
 	
@@ -96,9 +176,32 @@ pub mod exports {
 	pub use super::{
 			
 			is_bytes, is_bytes_empty, is_bytes_not_empty,
+			is_bytes_immutable, is_bytes_immutable_empty, is_bytes_immutable_not_empty,
+			is_bytes_mutable, is_bytes_mutable_empty, is_bytes_mutable_not_empty,
+			
+			is_bytes_all_2, is_bytes_all_3, is_bytes_all_4, is_bytes_all_n,
+			is_bytes_immutable_all_2, is_bytes_immutable_all_3, is_bytes_immutable_all_4, is_bytes_immutable_all_n,
+			is_bytes_mutable_all_2, is_bytes_mutable_all_3, is_bytes_mutable_all_4, is_bytes_mutable_all_n,
+			
+			is_bytes_any_2, is_bytes_any_3, is_bytes_any_4, is_bytes_any_n,
+			is_bytes_immutable_any_2, is_bytes_immutable_any_3, is_bytes_immutable_any_4, is_bytes_immutable_any_n,
+			is_bytes_mutable_any_2, is_bytes_mutable_any_3, is_bytes_mutable_any_4, is_bytes_mutable_any_n,
 			
 			is_bytes_empty_all_2, is_bytes_empty_all_3, is_bytes_empty_all_4,
+			is_bytes_immutable_empty_all_2, is_bytes_immutable_empty_all_3, is_bytes_immutable_empty_all_4,
+			is_bytes_mutable_empty_all_2, is_bytes_mutable_empty_all_3, is_bytes_mutable_empty_all_4,
+			
 			is_bytes_empty_any_2, is_bytes_empty_any_3, is_bytes_empty_any_4,
+			is_bytes_immutable_empty_any_2, is_bytes_immutable_empty_any_3, is_bytes_immutable_empty_any_4,
+			is_bytes_mutable_empty_any_2, is_bytes_mutable_empty_any_3, is_bytes_mutable_empty_any_4,
+			
+			is_bytes_not_empty_all_2, is_bytes_not_empty_all_3, is_bytes_not_empty_all_4,
+			is_bytes_immutable_not_empty_all_2, is_bytes_immutable_not_empty_all_3, is_bytes_immutable_not_empty_all_4,
+			is_bytes_mutable_not_empty_all_2, is_bytes_mutable_not_empty_all_3, is_bytes_mutable_not_empty_all_4,
+			
+			is_bytes_not_empty_any_2, is_bytes_not_empty_any_3, is_bytes_not_empty_any_4,
+			is_bytes_immutable_not_empty_any_2, is_bytes_immutable_not_empty_any_3, is_bytes_immutable_not_empty_any_4,
+			is_bytes_mutable_not_empty_any_2, is_bytes_mutable_not_empty_any_3, is_bytes_mutable_not_empty_any_4,
 			
 	};
 	
@@ -106,9 +209,32 @@ pub mod exports {
 	pub use super::{
 			
 			is_string, is_string_empty, is_string_not_empty,
+			is_string_immutable, is_string_immutable_empty, is_string_immutable_not_empty,
+			is_string_mutable, is_string_mutable_empty, is_string_mutable_not_empty,
+			
+			is_string_all_2, is_string_all_3, is_string_all_4, is_string_all_n,
+			is_string_immutable_all_2, is_string_immutable_all_3, is_string_immutable_all_4, is_string_immutable_all_n,
+			is_string_mutable_all_2, is_string_mutable_all_3, is_string_mutable_all_4, is_string_mutable_all_n,
+			
+			is_string_any_2, is_string_any_3, is_string_any_4, is_string_any_n,
+			is_string_immutable_any_2, is_string_immutable_any_3, is_string_immutable_any_4, is_string_immutable_any_n,
+			is_string_mutable_any_2, is_string_mutable_any_3, is_string_mutable_any_4, is_string_mutable_any_n,
 			
 			is_string_empty_all_2, is_string_empty_all_3, is_string_empty_all_4,
+			is_string_immutable_empty_all_2, is_string_immutable_empty_all_3, is_string_immutable_empty_all_4,
+			is_string_mutable_empty_all_2, is_string_mutable_empty_all_3, is_string_mutable_empty_all_4,
+			
 			is_string_empty_any_2, is_string_empty_any_3, is_string_empty_any_4,
+			is_string_immutable_empty_any_2, is_string_immutable_empty_any_3, is_string_immutable_empty_any_4,
+			is_string_mutable_empty_any_2, is_string_mutable_empty_any_3, is_string_mutable_empty_any_4,
+			
+			is_string_not_empty_all_2, is_string_not_empty_all_3, is_string_not_empty_all_4,
+			is_string_immutable_not_empty_all_2, is_string_immutable_not_empty_all_3, is_string_immutable_not_empty_all_4,
+			is_string_mutable_not_empty_all_2, is_string_mutable_not_empty_all_3, is_string_mutable_not_empty_all_4,
+			
+			is_string_not_empty_any_2, is_string_not_empty_any_3, is_string_not_empty_any_4,
+			is_string_immutable_not_empty_any_2, is_string_immutable_not_empty_any_3, is_string_immutable_not_empty_any_4,
+			is_string_mutable_not_empty_any_2, is_string_mutable_not_empty_any_3, is_string_mutable_not_empty_any_4,
 			
 	};
 	
@@ -117,8 +243,14 @@ pub mod exports {
 			
 			is_values, is_values_empty, is_values_not_empty,
 			
+			is_values_all_2, is_values_all_3, is_values_all_4,
+			is_values_any_2, is_values_any_3, is_values_any_4,
+			
 			is_values_empty_all_2, is_values_empty_all_3, is_values_empty_all_4,
 			is_values_empty_any_2, is_values_empty_any_3, is_values_empty_any_4,
+			
+			is_values_not_empty_all_2, is_values_not_empty_all_3, is_values_not_empty_all_4,
+			is_values_not_empty_any_2, is_values_not_empty_any_3, is_values_not_empty_any_4,
 			
 	};
 	
@@ -145,10 +277,42 @@ pub mod exports {
 	
 	pub use super::{
 			
+			is_error,
+			is_error_syntax,
+			is_error_file, is_error_port, is_error_port_input, is_error_port_output,
+			
+			// FIXME:  Add other variants for `is_error_*`!
+	};
+	
+	
+	pub use super::{
+			
 			is_port,
 			is_port_input, is_port_output,
 			is_port_binary, is_port_textual,
 			is_port_eof,
+			
+			is_port_all_2, is_port_all_3, is_port_all_4, is_port_all_n,
+			is_port_any_2, is_port_any_3, is_port_any_4, is_port_any_n,
+			
+			// FIXME:  Add other variants for `is_port_*`!
+	};
+	
+	
+	pub use super::{
+			
+			is_process,
+			is_resource,
+			is_opaque,
+			
+			is_process_all_2, is_process_all_3, is_process_all_4, is_process_all_n,
+			is_process_any_2, is_process_any_3, is_process_any_4, is_process_any_n,
+			
+			is_resource_all_2, is_resource_all_3, is_resource_all_4, is_resource_all_n,
+			is_resource_any_2, is_resource_any_3, is_resource_any_4, is_resource_any_n,
+			
+			is_opaque_all_2, is_opaque_all_3, is_opaque_all_4, is_opaque_all_n,
+			is_opaque_any_2, is_opaque_any_3, is_opaque_any_4, is_opaque_any_n,
 			
 	};
 	
@@ -299,13 +463,11 @@ macro_rules! def_fn_try_predicate_any {
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_boolean (value : &Value) -> (bool) {
-	return value.is_class (ValueClass::Boolean);
+	return value.is_kind (ValueKind::Boolean);
 }
 
 def_fn_predicate_all! (is_boolean, is_boolean_all_2, is_boolean_all_3, is_boolean_all_4, is_boolean_all_n);
 def_fn_predicate_any! (is_boolean, is_boolean_any_2, is_boolean_any_3, is_boolean_any_4, is_boolean_any_n);
-
-
 
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
@@ -317,6 +479,10 @@ pub fn is_true (value : &Value) -> (bool) {
 	}
 }
 
+def_fn_predicate_all! (is_true, is_true_all_2, is_true_all_3, is_true_all_4, is_true_all_n);
+def_fn_predicate_any! (is_true, is_true_any_2, is_true_any_3, is_true_any_4, is_true_any_n);
+
+
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_false (value : &Value) -> (bool) {
 	if let Ok (value) = StdTryAsRef::<Boolean>::try_as_ref (value) {
@@ -325,9 +491,6 @@ pub fn is_false (value : &Value) -> (bool) {
 		return false;
 	}
 }
-
-def_fn_predicate_all! (is_true, is_true_all_2, is_true_all_3, is_true_all_4, is_true_all_n);
-def_fn_predicate_any! (is_true, is_true_any_2, is_true_any_3, is_true_any_4, is_true_any_n);
 
 def_fn_predicate_all! (is_false, is_false_all_2, is_false_all_3, is_false_all_4, is_false_all_n);
 def_fn_predicate_any! (is_false, is_false_any_2, is_false_any_3, is_false_any_4, is_false_any_n);
@@ -338,18 +501,17 @@ pub fn is_not_true (value : &Value) -> (bool) {
 	return !is_true (value);
 }
 
+def_fn_predicate_all! (is_not_true, is_not_true_all_2, is_not_true_all_3, is_not_true_all_4, is_not_true_all_n);
+def_fn_predicate_any! (is_not_true, is_not_true_any_2, is_not_true_any_3, is_not_true_any_4, is_not_true_any_n);
+
+
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_not_false (value : &Value) -> (bool) {
 	return !is_false (value);
 }
 
-def_fn_predicate_all! (is_not_true, is_not_true_all_2, is_not_true_all_3, is_not_true_all_4, is_not_true_all_n);
-def_fn_predicate_any! (is_not_true, is_not_true_any_2, is_not_true_any_3, is_not_true_any_4, is_not_true_any_n);
-
 def_fn_predicate_all! (is_not_false, is_not_false_all_2, is_not_false_all_3, is_not_false_all_4, is_not_false_all_n);
 def_fn_predicate_any! (is_not_false, is_not_false_any_2, is_not_false_any_3, is_not_false_any_4, is_not_false_any_n);
-
-
 
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
@@ -357,22 +519,23 @@ pub fn is_true_or_equivalent (value : &Value) -> (bool) {
 	!is_false_or_equivalent (value)
 }
 
+def_fn_predicate_all! (is_true_or_equivalent, is_true_or_equivalent_all_2, is_true_or_equivalent_all_3, is_true_or_equivalent_all_4, is_true_or_equivalent_all_n);
+def_fn_predicate_any! (is_true_or_equivalent, is_true_or_equivalent_any_2, is_true_or_equivalent_any_3, is_true_or_equivalent_any_4, is_true_or_equivalent_any_n);
+
+
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_false_or_equivalent (value : &Value) -> (bool) {
-	match value.class () {
-		ValueClass::Null | ValueClass::Void | ValueClass::Undefined =>
+	match value.kind () {
+		ValueKind::Null | ValueKind::Void | ValueKind::Undefined =>
 			return true,
-		ValueClass::Boolean =>
-			return StdAsRef::<Boolean>::as_ref (value) .0 == false,
-		ValueClass::Error =>
+		ValueKind::Boolean =>
+			return ! StdAsRef::<Boolean>::as_ref (value) .value (),
+		ValueKind::Error =>
 			return true,
 		_ =>
 			return false,
 	}
 }
-
-def_fn_predicate_all! (is_true_or_equivalent, is_true_or_equivalent_all_2, is_true_or_equivalent_all_3, is_true_or_equivalent_all_4, is_true_or_equivalent_all_n);
-def_fn_predicate_any! (is_true_or_equivalent, is_true_or_equivalent_any_2, is_true_or_equivalent_any_3, is_true_or_equivalent_any_4, is_true_or_equivalent_any_n);
 
 def_fn_predicate_all! (is_false_or_equivalent, is_false_or_equivalent_all_2, is_false_or_equivalent_all_3, is_false_or_equivalent_all_4, is_false_or_equivalent_all_n);
 def_fn_predicate_any! (is_false_or_equivalent, is_false_or_equivalent_any_2, is_false_or_equivalent_any_3, is_false_or_equivalent_any_4, is_false_or_equivalent_any_n);
@@ -382,24 +545,26 @@ def_fn_predicate_any! (is_false_or_equivalent, is_false_or_equivalent_any_2, is_
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_null (value : &Value) -> (bool) {
-	return value.is_class (ValueClass::Null);
-}
-
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-pub fn is_void (value : &Value) -> (bool) {
-	return value.is_class (ValueClass::Void);
-}
-
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-pub fn is_undefined (value : &Value) -> (bool) {
-	return value.is_class (ValueClass::Undefined);
+	return value.is_kind (ValueKind::Null);
 }
 
 def_fn_predicate_all! (is_null, is_null_all_2, is_null_all_3, is_null_all_4, is_null_all_n);
 def_fn_predicate_any! (is_null, is_null_any_2, is_null_any_3, is_null_any_4, is_null_any_n);
 
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_void (value : &Value) -> (bool) {
+	return value.is_kind (ValueKind::Void);
+}
+
 def_fn_predicate_all! (is_void, is_void_all_2, is_void_all_3, is_void_all_4, is_void_all_n);
 def_fn_predicate_any! (is_void, is_void_any_2, is_void_any_3, is_void_any_4, is_void_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_undefined (value : &Value) -> (bool) {
+	return value.is_kind (ValueKind::Undefined);
+}
 
 def_fn_predicate_all! (is_undefined, is_undefined_all_2, is_undefined_all_3, is_undefined_all_4, is_undefined_all_n);
 def_fn_predicate_any! (is_undefined, is_undefined_any_2, is_undefined_any_3, is_undefined_any_4, is_undefined_any_n);
@@ -410,21 +575,23 @@ pub fn is_not_null (value : &Value) -> (bool) {
 	return !is_null (value);
 }
 
+def_fn_predicate_all! (is_not_null, is_not_null_all_2, is_not_null_all_3, is_not_null_all_4, is_not_null_all_n);
+def_fn_predicate_any! (is_not_null, is_not_null_any_2, is_not_null_any_3, is_not_null_any_4, is_not_null_any_n);
+
+
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_not_void (value : &Value) -> (bool) {
 	return !is_void (value);
 }
 
+def_fn_predicate_all! (is_not_void, is_not_void_all_2, is_not_void_all_3, is_not_void_all_4, is_not_void_all_n);
+def_fn_predicate_any! (is_not_void, is_not_void_any_2, is_not_void_any_3, is_not_void_any_4, is_not_void_any_n);
+
+
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_not_undefined (value : &Value) -> (bool) {
 	return !is_undefined (value);
 }
-
-def_fn_predicate_all! (is_not_null, is_not_null_all_2, is_not_null_all_3, is_not_null_all_4, is_not_null_all_n);
-def_fn_predicate_any! (is_not_null, is_not_null_any_2, is_not_null_any_3, is_not_null_any_4, is_not_null_any_n);
-
-def_fn_predicate_all! (is_not_void, is_not_void_all_2, is_not_void_all_3, is_not_void_all_4, is_not_void_all_n);
-def_fn_predicate_any! (is_not_void, is_not_void_any_2, is_not_void_any_3, is_not_void_any_4, is_not_void_any_n);
 
 def_fn_predicate_all! (is_not_undefined, is_not_undefined_all_2, is_not_undefined_all_3, is_not_undefined_all_4, is_not_undefined_all_n);
 def_fn_predicate_any! (is_not_undefined, is_not_undefined_any_2, is_not_undefined_any_3, is_not_undefined_any_4, is_not_undefined_any_n);
@@ -441,6 +608,251 @@ def_fn_predicate_all! (is_number, is_number_all_2, is_number_all_3, is_number_al
 def_fn_predicate_any! (is_number, is_number_any_2, is_number_any_3, is_number_any_4, is_number_any_n);
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_number_integer (value : &Value) -> (bool) {
+	return value.is_kind (ValueKind::NumberInteger);
+}
+
+def_fn_predicate_all! (is_number_integer, is_number_integer_all_2, is_number_integer_all_3, is_number_integer_all_4, is_number_integer_all_n);
+def_fn_predicate_any! (is_number_integer, is_number_integer_any_2, is_number_integer_any_3, is_number_integer_any_4, is_number_integer_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_number_rational (value : &Value) -> (bool) {
+	return value.is_kind (ValueKind::NumberInteger);
+}
+
+def_fn_predicate_all! (is_number_rational, is_number_rational_all_2, is_number_rational_all_3, is_number_rational_all_4, is_number_rational_all_n);
+def_fn_predicate_any! (is_number_rational, is_number_rational_any_2, is_number_rational_any_3, is_number_rational_any_4, is_number_rational_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_number_real (value : &Value) -> (bool) {
+	return value.is_kind (ValueKind::NumberReal);
+}
+
+def_fn_predicate_all! (is_number_real, is_number_real_all_2, is_number_real_all_3, is_number_real_all_4, is_number_real_all_n);
+def_fn_predicate_any! (is_number_real, is_number_real_any_2, is_number_real_any_3, is_number_real_any_4, is_number_real_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_number_complex (value : &Value) -> (bool) {
+	return value.is_class (ValueClass::Number);
+}
+
+def_fn_predicate_all! (is_number_complex, is_number_complex_all_2, is_number_complex_all_3, is_number_complex_all_4, is_number_complex_all_n);
+def_fn_predicate_any! (is_number_complex, is_number_complex_any_2, is_number_complex_any_3, is_number_complex_any_4, is_number_complex_any_n);
+
+
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_number_exact (value : &Value) -> (Outcome<bool>) {
+	match try! (number_coerce_1 (value)) {
+		NumberCoercion1::Integer (_) =>
+			succeed! (true),
+		NumberCoercion1::Real (_) =>
+			succeed! (false),
+	}
+}
+
+def_fn_try_predicate_all! (is_number_exact, is_number_exact_all_2, is_number_exact_all_3, is_number_exact_all_4, is_number_exact_all_n);
+def_fn_try_predicate_any! (is_number_exact, is_number_exact_any_2, is_number_exact_any_3, is_number_exact_any_4, is_number_exact_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_number_exact_integer (value : &Value) -> (Outcome<bool>) {
+	match try! (number_coerce_1 (value)) {
+		NumberCoercion1::Integer (_) =>
+			succeed! (true),
+		NumberCoercion1::Real (_) =>
+			succeed! (false),
+	}
+}
+
+def_fn_try_predicate_all! (is_number_exact_integer, is_number_exact_integer_all_2, is_number_exact_integer_all_3, is_number_exact_integer_all_4, is_number_exact_integer_all_n);
+def_fn_try_predicate_any! (is_number_exact_integer, is_number_exact_integer_any_2, is_number_exact_integer_any_3, is_number_exact_integer_any_4, is_number_exact_integer_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_number_inexact (value : &Value) -> (Outcome<bool>) {
+	match try! (number_coerce_1 (value)) {
+		NumberCoercion1::Integer (_) =>
+			succeed! (false),
+		NumberCoercion1::Real (_) =>
+			succeed! (true),
+	}
+}
+
+def_fn_try_predicate_all! (is_number_inexact, is_number_inexact_all_2, is_number_inexact_all_3, is_number_inexact_all_4, is_number_inexact_all_n);
+def_fn_try_predicate_any! (is_number_inexact, is_number_inexact_any_2, is_number_inexact_any_3, is_number_inexact_any_4, is_number_inexact_any_n);
+
+
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_number_zero (value : &Value) -> (Outcome<bool>) {
+	match try! (number_coerce_1 (value)) {
+		NumberCoercion1::Integer (value) =>
+			succeed! (value.is_zero ()),
+		NumberCoercion1::Real (value) =>
+			succeed! (value.is_zero ()),
+	}
+}
+
+def_fn_try_predicate_all! (is_number_zero, is_number_zero_all_2, is_number_zero_all_3, is_number_zero_all_4, is_number_zero_all_n);
+def_fn_try_predicate_any! (is_number_zero, is_number_zero_any_2, is_number_zero_any_3, is_number_zero_any_4, is_number_zero_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_number_positive (value : &Value) -> (Outcome<bool>) {
+	match try! (number_coerce_1 (value)) {
+		NumberCoercion1::Integer (value) =>
+			succeed! (value.is_positive ()),
+		NumberCoercion1::Real (value) =>
+			succeed! (value.is_positive ()),
+	}
+}
+
+def_fn_try_predicate_all! (is_number_positive, is_number_positive_all_2, is_number_positive_all_3, is_number_positive_all_4, is_number_positive_all_n);
+def_fn_try_predicate_any! (is_number_positive, is_number_positive_any_2, is_number_positive_any_3, is_number_positive_any_4, is_number_positive_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_number_negative (value : &Value) -> (Outcome<bool>) {
+	match try! (number_coerce_1 (value)) {
+		NumberCoercion1::Integer (value) =>
+			succeed! (value.is_negative ()),
+		NumberCoercion1::Real (value) =>
+			succeed! (value.is_negative ()),
+	}
+}
+
+def_fn_try_predicate_all! (is_number_negative, is_number_negative_all_2, is_number_negative_all_3, is_number_negative_all_4, is_number_negative_all_n);
+def_fn_try_predicate_any! (is_number_negative, is_number_negative_any_2, is_number_negative_any_3, is_number_negative_any_4, is_number_negative_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_number_finite (value : &Value) -> (Outcome<bool>) {
+	match try! (number_coerce_1 (value)) {
+		NumberCoercion1::Integer (_) =>
+			succeed! (true),
+		NumberCoercion1::Real (value) =>
+			succeed! (value.is_finite ()),
+	}
+}
+
+def_fn_try_predicate_all! (is_number_finite, is_number_finite_all_2, is_number_finite_all_3, is_number_finite_all_4, is_number_finite_all_n);
+def_fn_try_predicate_any! (is_number_finite, is_number_finite_any_2, is_number_finite_any_3, is_number_finite_any_4, is_number_finite_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_number_infinite (value : &Value) -> (Outcome<bool>) {
+	match try! (number_coerce_1 (value)) {
+		NumberCoercion1::Integer (_) =>
+			succeed! (false),
+		NumberCoercion1::Real (value) =>
+			succeed! (value.is_infinite ()),
+	}
+}
+
+def_fn_try_predicate_all! (is_number_infinite, is_number_infinite_all_2, is_number_infinite_all_3, is_number_infinite_all_4, is_number_infinite_all_n);
+def_fn_try_predicate_any! (is_number_infinite, is_number_infinite_any_2, is_number_infinite_any_3, is_number_infinite_any_4, is_number_infinite_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_number_nan (value : &Value) -> (Outcome<bool>) {
+	match try! (number_coerce_1 (value)) {
+		NumberCoercion1::Integer (_) =>
+			succeed! (false),
+		NumberCoercion1::Real (value) =>
+			succeed! (value.is_nan ()),
+	}
+}
+
+def_fn_try_predicate_all! (is_number_nan, is_number_nan_all_2, is_number_nan_all_3, is_number_nan_all_4, is_number_nan_all_n);
+def_fn_try_predicate_any! (is_number_nan, is_number_nan_any_2, is_number_nan_any_3, is_number_nan_any_4, is_number_nan_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_number_even (value : &Value) -> (Outcome<bool>) {
+	match try! (number_coerce_1 (value)) {
+		NumberCoercion1::Integer (value) =>
+			succeed! (value.is_even ()),
+		NumberCoercion1::Real (value) =>
+			succeed! (value.is_even ()),
+	}
+}
+
+def_fn_try_predicate_all! (is_number_even, is_number_even_all_2, is_number_even_all_3, is_number_even_all_4, is_number_even_all_n);
+def_fn_try_predicate_any! (is_number_even, is_number_even_any_2, is_number_even_any_3, is_number_even_any_4, is_number_even_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_number_odd (value : &Value) -> (Outcome<bool>) {
+	match try! (number_coerce_1 (value)) {
+		NumberCoercion1::Integer (value) =>
+			succeed! (value.is_odd ()),
+		NumberCoercion1::Real (value) =>
+			succeed! (value.is_odd ()),
+	}
+}
+
+def_fn_try_predicate_all! (is_number_odd, is_number_odd_all_2, is_number_odd_all_3, is_number_odd_all_4, is_number_odd_all_n);
+def_fn_try_predicate_any! (is_number_odd, is_number_odd_any_2, is_number_odd_any_3, is_number_odd_any_4, is_number_odd_any_n);
+
+
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_character (value : &Value) -> (bool) {
+	return value.is_kind (ValueKind::Character);
+}
+
+def_fn_predicate_all! (is_character, is_character_all_2, is_character_all_3, is_character_all_4, is_character_all_n);
+def_fn_predicate_any! (is_character, is_character_any_2, is_character_any_3, is_character_any_4, is_character_any_n);
+
+
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_symbol (value : &Value) -> (bool) {
+	return value.is_kind (ValueKind::Symbol);
+}
+
+def_fn_predicate_all! (is_symbol, is_symbol_all_2, is_symbol_all_3, is_symbol_all_4, is_symbol_all_n);
+def_fn_predicate_any! (is_symbol, is_symbol_any_2, is_symbol_any_3, is_symbol_any_4, is_symbol_any_n);
+
+
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_pair (value : &Value) -> (bool) {
+	return value.is_class (ValueClass::Pair);
+}
+
+def_fn_predicate_all! (is_pair, is_pair_all_2, is_pair_all_3, is_pair_all_4, is_pair_all_n);
+def_fn_predicate_any! (is_pair, is_pair_any_2, is_pair_any_3, is_pair_any_4, is_pair_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_pair_immutable (value : &Value) -> (bool) {
+	return value.is_kind (ValueKind::PairImmutable);
+}
+
+def_fn_predicate_all! (is_pair_immutable, is_pair_immutable_all_2, is_pair_immutable_all_3, is_pair_immutable_all_4, is_pair_immutable_all_n);
+def_fn_predicate_any! (is_pair_immutable, is_pair_immutable_any_2, is_pair_immutable_any_3, is_pair_immutable_any_4, is_pair_immutable_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_pair_mutable (value : &Value) -> (bool) {
+	return value.is_kind (ValueKind::PairMutable);
+}
+
+def_fn_predicate_all! (is_pair_mutable, is_pair_mutable_all_2, is_pair_mutable_all_3, is_pair_mutable_all_4, is_pair_mutable_all_n);
+def_fn_predicate_any! (is_pair_mutable, is_pair_mutable_any_2, is_pair_mutable_any_3, is_pair_mutable_any_4, is_pair_mutable_any_n);
+
+
 
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
@@ -454,6 +866,10 @@ pub fn is_list (value : &Value) -> (bool) {
 	}
 }
 
+def_fn_predicate_all! (is_list, is_list_all_2, is_list_all_3, is_list_all_4, is_list_all_n);
+def_fn_predicate_any! (is_list, is_list_any_2, is_list_any_3, is_list_any_4, is_list_any_n);
+
+
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_list_empty (value : &Value) -> (bool) {
 	let class = list_class_o1 (value);
@@ -465,6 +881,10 @@ pub fn is_list_empty (value : &Value) -> (bool) {
 	}
 }
 
+def_fn_predicate_all! (is_list_empty, is_list_empty_all_2, is_list_empty_all_3, is_list_empty_all_4, is_list_empty_all_n);
+def_fn_predicate_any! (is_list_empty, is_list_empty_any_2, is_list_empty_any_3, is_list_empty_any_4, is_list_empty_any_n);
+
+
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_list_or_empty (value : &Value) -> (bool) {
 	let class = list_class_o1 (value);
@@ -475,12 +895,6 @@ pub fn is_list_or_empty (value : &Value) -> (bool) {
 		return false;
 	}
 }
-
-def_fn_predicate_all! (is_list, is_list_all_2, is_list_all_3, is_list_all_4, is_list_all_n);
-def_fn_predicate_any! (is_list, is_list_any_2, is_list_any_3, is_list_any_4, is_list_any_n);
-
-def_fn_predicate_all! (is_list_empty, is_list_empty_all_2, is_list_empty_all_3, is_list_empty_all_4, is_list_empty_all_n);
-def_fn_predicate_any! (is_list_empty, is_list_empty_any_2, is_list_empty_any_3, is_list_empty_any_4, is_list_empty_any_n);
 
 def_fn_predicate_all! (is_list_or_empty, is_list_or_empty_all_2, is_list_or_empty_all_3, is_list_or_empty_all_4, is_list_or_empty_all_n);
 def_fn_predicate_any! (is_list_or_empty, is_list_or_empty_any_2, is_list_or_empty_any_3, is_list_or_empty_any_4, is_list_or_empty_any_n);
@@ -497,6 +911,10 @@ pub fn is_list_proper (value : &Value) -> (bool) {
 	}
 }
 
+def_fn_predicate_all! (is_list_proper, is_list_proper_all_2, is_list_proper_all_3, is_list_proper_all_4, is_list_proper_all_n);
+def_fn_predicate_any! (is_list_proper, is_list_proper_any_2, is_list_proper_any_3, is_list_proper_any_4, is_list_proper_any_n);
+
+
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_list_proper_or_empty (value : &Value) -> (bool) {
 	let class = list_class_on (value);
@@ -507,9 +925,6 @@ pub fn is_list_proper_or_empty (value : &Value) -> (bool) {
 		return false;
 	}
 }
-
-def_fn_predicate_all! (is_list_proper, is_list_proper_all_2, is_list_proper_all_3, is_list_proper_all_4, is_list_proper_all_n);
-def_fn_predicate_any! (is_list_proper, is_list_proper_any_2, is_list_proper_any_3, is_list_proper_any_4, is_list_proper_any_n);
 
 def_fn_predicate_all! (is_list_proper_or_empty, is_list_proper_or_empty_all_2, is_list_proper_or_empty_all_3, is_list_proper_or_empty_all_4, is_list_proper_or_empty_all_n);
 def_fn_predicate_any! (is_list_proper_or_empty, is_list_proper_or_empty_any_2, is_list_proper_or_empty_any_3, is_list_proper_or_empty_any_4, is_list_proper_or_empty_any_n);
@@ -526,6 +941,10 @@ pub fn is_list_dotted (value : &Value) -> (bool) {
 	}
 }
 
+def_fn_predicate_all! (is_list_dotted, is_list_dotted_all_2, is_list_dotted_all_3, is_list_dotted_all_4, is_list_dotted_all_n);
+def_fn_predicate_any! (is_list_dotted, is_list_dotted_any_2, is_list_dotted_any_3, is_list_dotted_any_4, is_list_dotted_any_n);
+
+
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_list_dotted_or_empty (value : &Value) -> (bool) {
 	let class = list_class_on (value);
@@ -536,9 +955,6 @@ pub fn is_list_dotted_or_empty (value : &Value) -> (bool) {
 		return false;
 	}
 }
-
-def_fn_predicate_all! (is_list_dotted, is_list_dotted_all_2, is_list_dotted_all_3, is_list_dotted_all_4, is_list_dotted_all_n);
-def_fn_predicate_any! (is_list_dotted, is_list_dotted_any_2, is_list_dotted_any_3, is_list_dotted_any_4, is_list_dotted_any_n);
 
 def_fn_predicate_all! (is_list_dotted_or_empty, is_list_dotted_or_empty_all_2, is_list_dotted_or_empty_all_3, is_list_dotted_or_empty_all_4, is_list_dotted_or_empty_all_n);
 def_fn_predicate_any! (is_list_dotted_or_empty, is_list_dotted_or_empty_any_2, is_list_dotted_or_empty_any_3, is_list_dotted_or_empty_any_4, is_list_dotted_or_empty_any_n);
@@ -555,6 +971,10 @@ pub fn is_list_cyclic (value : &Value) -> (bool) {
 	}
 }
 
+def_fn_predicate_all! (is_list_cyclic, is_list_cyclic_all_2, is_list_cyclic_all_3, is_list_cyclic_all_4, is_list_cyclic_all_n);
+def_fn_predicate_any! (is_list_cyclic, is_list_cyclic_any_2, is_list_cyclic_any_3, is_list_cyclic_any_4, is_list_cyclic_any_n);
+
+
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_list_cyclic_or_empty (value : &Value) -> (bool) {
 	let class = list_class_on (value);
@@ -565,9 +985,6 @@ pub fn is_list_cyclic_or_empty (value : &Value) -> (bool) {
 		return false;
 	}
 }
-
-def_fn_predicate_all! (is_list_cyclic, is_list_cyclic_all_2, is_list_cyclic_all_3, is_list_cyclic_all_4, is_list_cyclic_all_n);
-def_fn_predicate_any! (is_list_cyclic, is_list_cyclic_any_2, is_list_cyclic_any_3, is_list_cyclic_any_4, is_list_cyclic_any_n);
 
 def_fn_predicate_all! (is_list_cyclic_or_empty, is_list_cyclic_or_empty_all_2, is_list_cyclic_or_empty_all_3, is_list_cyclic_or_empty_all_4, is_list_cyclic_or_empty_all_n);
 def_fn_predicate_any! (is_list_cyclic_or_empty, is_list_cyclic_or_empty_any_2, is_list_cyclic_or_empty_any_3, is_list_cyclic_or_empty_any_4, is_list_cyclic_or_empty_any_n);
@@ -585,20 +1002,79 @@ def_fn_predicate_any! (is_array, is_array_any_2, is_array_any_3, is_array_any_4,
 
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_array_immutable (value : &Value) -> (bool) {
+	return value.is_kind (ValueKind::ArrayImmutable);
+}
+
+def_fn_predicate_all! (is_array_immutable, is_array_immutable_all_2, is_array_immutable_all_3, is_array_immutable_all_4, is_array_immutable_all_n);
+def_fn_predicate_any! (is_array_immutable, is_array_immutable_any_2, is_array_immutable_any_3, is_array_immutable_any_4, is_array_immutable_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_array_mutable (value : &Value) -> (bool) {
+	return value.is_kind (ValueKind::ArrayMutable);
+}
+
+def_fn_predicate_all! (is_array_mutable, is_array_mutable_all_2, is_array_mutable_all_3, is_array_mutable_all_4, is_array_mutable_all_n);
+def_fn_predicate_any! (is_array_mutable, is_array_mutable_any_2, is_array_mutable_any_3, is_array_mutable_any_4, is_array_mutable_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_array_empty (value : &Value) -> (Outcome<bool>) {
 	succeed! (try_as_array_ref! (value) .values_is_empty ());
 }
+
+def_fn_try_predicate_all! (is_array_empty, is_array_empty_all_2, is_array_empty_all_3, is_array_empty_all_4, is_array_empty_all_n);
+def_fn_try_predicate_any! (is_array_empty, is_array_empty_any_2, is_array_empty_any_3, is_array_empty_any_4, is_array_empty_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_array_immutable_empty (value : &Value) -> (Outcome<bool>) {
+	let value = try_as_array_immutable_ref! (value);
+	succeed! (value.array_ref () .values_is_empty ());
+}
+
+def_fn_try_predicate_all! (is_array_immutable_empty, is_array_immutable_empty_all_2, is_array_immutable_empty_all_3, is_array_immutable_empty_all_4, is_array_immutable_empty_all_n);
+def_fn_try_predicate_any! (is_array_immutable_empty, is_array_immutable_empty_any_2, is_array_immutable_empty_any_3, is_array_immutable_empty_any_4, is_array_immutable_empty_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_array_mutable_empty (value : &Value) -> (Outcome<bool>) {
+	let value = try_as_array_mutable_ref! (value);
+	succeed! (value.array_ref () .values_is_empty ());
+}
+
+def_fn_try_predicate_all! (is_array_mutable_empty, is_array_mutable_empty_all_2, is_array_mutable_empty_all_3, is_array_mutable_empty_all_4, is_array_mutable_empty_all_n);
+def_fn_try_predicate_any! (is_array_mutable_empty, is_array_mutable_empty_any_2, is_array_mutable_empty_any_3, is_array_mutable_empty_any_4, is_array_mutable_empty_any_n);
+
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_array_not_empty (value : &Value) -> (Outcome<bool>) {
 	succeed! (try_as_array_ref! (value) .values_is_not_empty ());
 }
 
-def_fn_try_predicate_all! (is_array_empty, is_array_empty_all_2, is_array_empty_all_3, is_array_empty_all_4, is_array_empty_all_n);
-def_fn_try_predicate_any! (is_array_empty, is_array_empty_any_2, is_array_empty_any_3, is_array_empty_any_4, is_array_empty_any_n);
-
 def_fn_try_predicate_all! (is_array_not_empty, is_array_not_empty_all_2, is_array_not_empty_all_3, is_array_not_empty_all_4, is_array_not_empty_all_n);
 def_fn_try_predicate_any! (is_array_not_empty, is_array_not_empty_any_2, is_array_not_empty_any_3, is_array_not_empty_any_4, is_array_not_empty_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_array_immutable_not_empty (value : &Value) -> (Outcome<bool>) {
+	let value = try_as_array_immutable_ref! (value);
+	succeed! (value.array_ref () .values_is_not_empty ());
+}
+
+def_fn_try_predicate_all! (is_array_immutable_not_empty, is_array_immutable_not_empty_all_2, is_array_immutable_not_empty_all_3, is_array_immutable_not_empty_all_4, is_array_immutable_not_empty_all_n);
+def_fn_try_predicate_any! (is_array_immutable_not_empty, is_array_immutable_not_empty_any_2, is_array_immutable_not_empty_any_3, is_array_immutable_not_empty_any_4, is_array_immutable_not_empty_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_array_mutable_not_empty (value : &Value) -> (Outcome<bool>) {
+	let value = try_as_array_mutable_ref! (value);
+	succeed! (value.array_ref () .values_is_not_empty ());
+}
+
+def_fn_try_predicate_all! (is_array_mutable_not_empty, is_array_mutable_not_empty_all_2, is_array_mutable_not_empty_all_3, is_array_mutable_not_empty_all_4, is_array_mutable_not_empty_all_n);
+def_fn_try_predicate_any! (is_array_mutable_not_empty, is_array_mutable_not_empty_any_2, is_array_mutable_not_empty_any_3, is_array_mutable_not_empty_any_4, is_array_mutable_not_empty_any_n);
 
 
 
@@ -613,20 +1089,79 @@ def_fn_predicate_any! (is_bytes, is_bytes_any_2, is_bytes_any_3, is_bytes_any_4,
 
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_bytes_immutable (value : &Value) -> (bool) {
+	return value.is_kind (ValueKind::BytesImmutable);
+}
+
+def_fn_predicate_all! (is_bytes_immutable, is_bytes_immutable_all_2, is_bytes_immutable_all_3, is_bytes_immutable_all_4, is_bytes_immutable_all_n);
+def_fn_predicate_any! (is_bytes_immutable, is_bytes_immutable_any_2, is_bytes_immutable_any_3, is_bytes_immutable_any_4, is_bytes_immutable_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_bytes_mutable (value : &Value) -> (bool) {
+	return value.is_kind (ValueKind::BytesMutable);
+}
+
+def_fn_predicate_all! (is_bytes_mutable, is_bytes_mutable_all_2, is_bytes_mutable_all_3, is_bytes_mutable_all_4, is_bytes_mutable_all_n);
+def_fn_predicate_any! (is_bytes_mutable, is_bytes_mutable_any_2, is_bytes_mutable_any_3, is_bytes_mutable_any_4, is_bytes_mutable_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_bytes_empty (value : &Value) -> (Outcome<bool>) {
 	succeed! (try_as_bytes_ref! (value) .bytes_is_empty ());
 }
+
+def_fn_try_predicate_all! (is_bytes_empty, is_bytes_empty_all_2, is_bytes_empty_all_3, is_bytes_empty_all_4, is_bytes_empty_all_n);
+def_fn_try_predicate_any! (is_bytes_empty, is_bytes_empty_any_2, is_bytes_empty_any_3, is_bytes_empty_any_4, is_bytes_empty_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_bytes_immutable_empty (value : &Value) -> (Outcome<bool>) {
+	let value = try_as_bytes_immutable_ref! (value);
+	succeed! (value.bytes_ref () .bytes_is_empty ());
+}
+
+def_fn_try_predicate_all! (is_bytes_immutable_empty, is_bytes_immutable_empty_all_2, is_bytes_immutable_empty_all_3, is_bytes_immutable_empty_all_4, is_bytes_immutable_empty_all_n);
+def_fn_try_predicate_any! (is_bytes_immutable_empty, is_bytes_immutable_empty_any_2, is_bytes_immutable_empty_any_3, is_bytes_immutable_empty_any_4, is_bytes_immutable_empty_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_bytes_mutable_empty (value : &Value) -> (Outcome<bool>) {
+	let value = try_as_bytes_mutable_ref! (value);
+	succeed! (value.bytes_ref () .bytes_is_empty ());
+}
+
+def_fn_try_predicate_all! (is_bytes_mutable_empty, is_bytes_mutable_empty_all_2, is_bytes_mutable_empty_all_3, is_bytes_mutable_empty_all_4, is_bytes_mutable_empty_all_n);
+def_fn_try_predicate_any! (is_bytes_mutable_empty, is_bytes_mutable_empty_any_2, is_bytes_mutable_empty_any_3, is_bytes_mutable_empty_any_4, is_bytes_mutable_empty_any_n);
+
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_bytes_not_empty (value : &Value) -> (Outcome<bool>) {
 	succeed! (try_as_bytes_ref! (value) .bytes_is_not_empty ());
 }
 
-def_fn_try_predicate_all! (is_bytes_empty, is_bytes_empty_all_2, is_bytes_empty_all_3, is_bytes_empty_all_4, is_bytes_empty_all_n);
-def_fn_try_predicate_any! (is_bytes_empty, is_bytes_empty_any_2, is_bytes_empty_any_3, is_bytes_empty_any_4, is_bytes_empty_any_n);
-
 def_fn_try_predicate_all! (is_bytes_not_empty, is_bytes_not_empty_all_2, is_bytes_not_empty_all_3, is_bytes_not_empty_all_4, is_bytes_not_empty_all_n);
 def_fn_try_predicate_any! (is_bytes_not_empty, is_bytes_not_empty_any_2, is_bytes_not_empty_any_3, is_bytes_not_empty_any_4, is_bytes_not_empty_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_bytes_immutable_not_empty (value : &Value) -> (Outcome<bool>) {
+	let value = try_as_bytes_immutable_ref! (value);
+	succeed! (value.bytes_ref () .bytes_is_not_empty ());
+}
+
+def_fn_try_predicate_all! (is_bytes_immutable_not_empty, is_bytes_immutable_not_empty_all_2, is_bytes_immutable_not_empty_all_3, is_bytes_immutable_not_empty_all_4, is_bytes_immutable_not_empty_all_n);
+def_fn_try_predicate_any! (is_bytes_immutable_not_empty, is_bytes_immutable_not_empty_any_2, is_bytes_immutable_not_empty_any_3, is_bytes_immutable_not_empty_any_4, is_bytes_immutable_not_empty_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_bytes_mutable_not_empty (value : &Value) -> (Outcome<bool>) {
+	let value = try_as_bytes_mutable_ref! (value);
+	succeed! (value.bytes_ref () .bytes_is_not_empty ());
+}
+
+def_fn_try_predicate_all! (is_bytes_mutable_not_empty, is_bytes_mutable_not_empty_all_2, is_bytes_mutable_not_empty_all_3, is_bytes_mutable_not_empty_all_4, is_bytes_mutable_not_empty_all_n);
+def_fn_try_predicate_any! (is_bytes_mutable_not_empty, is_bytes_mutable_not_empty_any_2, is_bytes_mutable_not_empty_any_3, is_bytes_mutable_not_empty_any_4, is_bytes_mutable_not_empty_any_n);
 
 
 
@@ -641,27 +1176,86 @@ def_fn_predicate_any! (is_string, is_string_any_2, is_string_any_3, is_string_an
 
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_string_immutable (value : &Value) -> (bool) {
+	return value.is_kind (ValueKind::StringImmutable);
+}
+
+def_fn_predicate_all! (is_string_immutable, is_string_immutable_all_2, is_string_immutable_all_3, is_string_immutable_all_4, is_string_immutable_all_n);
+def_fn_predicate_any! (is_string_immutable, is_string_immutable_any_2, is_string_immutable_any_3, is_string_immutable_any_4, is_string_immutable_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_string_mutable (value : &Value) -> (bool) {
+	return value.is_kind (ValueKind::StringMutable);
+}
+
+def_fn_predicate_all! (is_string_mutable, is_string_mutable_all_2, is_string_mutable_all_3, is_string_mutable_all_4, is_string_mutable_all_n);
+def_fn_predicate_any! (is_string_mutable, is_string_mutable_any_2, is_string_mutable_any_3, is_string_mutable_any_4, is_string_mutable_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_string_empty (value : &Value) -> (Outcome<bool>) {
 	succeed! (try_as_string_ref! (value) .string_is_empty ());
 }
+
+def_fn_try_predicate_all! (is_string_empty, is_string_empty_all_2, is_string_empty_all_3, is_string_empty_all_4, is_string_empty_all_n);
+def_fn_try_predicate_any! (is_string_empty, is_string_empty_any_2, is_string_empty_any_3, is_string_empty_any_4, is_string_empty_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_string_immutable_empty (value : &Value) -> (Outcome<bool>) {
+	let value = try_as_string_immutable_ref! (value);
+	succeed! (value.string_ref () .string_is_empty ());
+}
+
+def_fn_try_predicate_all! (is_string_immutable_empty, is_string_immutable_empty_all_2, is_string_immutable_empty_all_3, is_string_immutable_empty_all_4, is_string_immutable_empty_all_n);
+def_fn_try_predicate_any! (is_string_immutable_empty, is_string_immutable_empty_any_2, is_string_immutable_empty_any_3, is_string_immutable_empty_any_4, is_string_immutable_empty_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_string_mutable_empty (value : &Value) -> (Outcome<bool>) {
+	let value = try_as_string_mutable_ref! (value);
+	succeed! (value.string_ref () .string_is_empty ());
+}
+
+def_fn_try_predicate_all! (is_string_mutable_empty, is_string_mutable_empty_all_2, is_string_mutable_empty_all_3, is_string_mutable_empty_all_4, is_string_mutable_empty_all_n);
+def_fn_try_predicate_any! (is_string_mutable_empty, is_string_mutable_empty_any_2, is_string_mutable_empty_any_3, is_string_mutable_empty_any_4, is_string_mutable_empty_any_n);
+
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_string_not_empty (value : &Value) -> (Outcome<bool>) {
 	succeed! (try_as_string_ref! (value) .string_is_not_empty ());
 }
 
-def_fn_try_predicate_all! (is_string_empty, is_string_empty_all_2, is_string_empty_all_3, is_string_empty_all_4, is_string_empty_all_n);
-def_fn_try_predicate_any! (is_string_empty, is_string_empty_any_2, is_string_empty_any_3, is_string_empty_any_4, is_string_empty_any_n);
-
 def_fn_try_predicate_all! (is_string_not_empty, is_string_not_empty_all_2, is_string_not_empty_all_3, is_string_not_empty_all_4, is_string_not_empty_all_n);
 def_fn_try_predicate_any! (is_string_not_empty, is_string_not_empty_any_2, is_string_not_empty_any_3, is_string_not_empty_any_4, is_string_not_empty_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_string_immutable_not_empty (value : &Value) -> (Outcome<bool>) {
+	let value = try_as_string_immutable_ref! (value);
+	succeed! (value.string_ref () .string_is_not_empty ());
+}
+
+def_fn_try_predicate_all! (is_string_immutable_not_empty, is_string_immutable_not_empty_all_2, is_string_immutable_not_empty_all_3, is_string_immutable_not_empty_all_4, is_string_immutable_not_empty_all_n);
+def_fn_try_predicate_any! (is_string_immutable_not_empty, is_string_immutable_not_empty_any_2, is_string_immutable_not_empty_any_3, is_string_immutable_not_empty_any_4, is_string_immutable_not_empty_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_string_mutable_not_empty (value : &Value) -> (Outcome<bool>) {
+	let value = try_as_string_mutable_ref! (value);
+	succeed! (value.string_ref () .string_is_not_empty ());
+}
+
+def_fn_try_predicate_all! (is_string_mutable_not_empty, is_string_mutable_not_empty_all_2, is_string_mutable_not_empty_all_3, is_string_mutable_not_empty_all_4, is_string_mutable_not_empty_all_n);
+def_fn_try_predicate_any! (is_string_mutable_not_empty, is_string_mutable_not_empty_any_2, is_string_mutable_not_empty_any_3, is_string_mutable_not_empty_any_4, is_string_mutable_not_empty_any_n);
 
 
 
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_values (value : &Value) -> (bool) {
-	return value.is_class (ValueClass::Values);
+	return value.is_kind (ValueKind::Values);
 }
 
 def_fn_predicate_all! (is_values, is_values_all_2, is_values_all_3, is_values_all_4, is_values_all_n);
@@ -673,13 +1267,14 @@ pub fn is_values_empty (value : &Value) -> (Outcome<bool>) {
 	succeed! (try_as_values_ref! (value) .values_is_empty ());
 }
 
+def_fn_try_predicate_all! (is_values_empty, is_values_empty_all_2, is_values_empty_all_3, is_values_empty_all_4, is_values_empty_all_n);
+def_fn_try_predicate_any! (is_values_empty, is_values_empty_any_2, is_values_empty_any_3, is_values_empty_any_4, is_values_empty_any_n);
+
+
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_values_not_empty (value : &Value) -> (Outcome<bool>) {
 	succeed! (try_as_values_ref! (value) .values_is_not_empty ());
 }
-
-def_fn_try_predicate_all! (is_values_empty, is_values_empty_all_2, is_values_empty_all_3, is_values_empty_all_4, is_values_empty_all_n);
-def_fn_try_predicate_any! (is_values_empty, is_values_empty_any_2, is_values_empty_any_3, is_values_empty_any_4, is_values_empty_any_n);
 
 def_fn_try_predicate_all! (is_values_not_empty, is_values_not_empty_all_2, is_values_not_empty_all_3, is_values_not_empty_all_4, is_values_not_empty_all_n);
 def_fn_try_predicate_any! (is_values_not_empty, is_values_not_empty_any_2, is_values_not_empty_any_3, is_values_not_empty_any_4, is_values_not_empty_any_n);
@@ -709,6 +1304,156 @@ def_fn_predicate_any! (is_syntax, is_syntax_any_2, is_syntax_any_3, is_syntax_an
 
 
 
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_error (value : &Value) -> (bool) {
+	return value.is_kind (ValueKind::Error);
+}
+
+def_fn_predicate_all! (is_error, is_error_all_2, is_error_all_3, is_error_all_4, is_error_all_n);
+def_fn_predicate_any! (is_error, is_error_any_2, is_error_any_3, is_error_any_4, is_error_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_error_syntax (value : &Value) -> (Outcome<bool>) {
+	let _value = try_as_error_ref! (value);
+	fail_unimplemented! (0x18d9951d);
+}
+
+def_fn_try_predicate_all! (is_error_syntax, is_error_syntax_all_2, is_error_syntax_all_3, is_error_syntax_all_4, is_error_syntax_all_n);
+def_fn_try_predicate_any! (is_error_syntax, is_error_syntax_any_2, is_error_syntax_any_3, is_error_syntax_any_4, is_error_syntax_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_error_file (value : &Value) -> (Outcome<bool>) {
+	let _value = try_as_error_ref! (value);
+	fail_unimplemented! (0x18d9951d);
+}
+
+def_fn_try_predicate_all! (is_error_file, is_error_file_all_2, is_error_file_all_3, is_error_file_all_4, is_error_file_all_n);
+def_fn_try_predicate_any! (is_error_file, is_error_file_any_2, is_error_file_any_3, is_error_file_any_4, is_error_file_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_error_port (value : &Value) -> (Outcome<bool>) {
+	let _value = try_as_error_ref! (value);
+	fail_unimplemented! (0x18d9951d);
+}
+
+def_fn_try_predicate_all! (is_error_port, is_error_port_all_2, is_error_port_all_3, is_error_port_all_4, is_error_port_all_n);
+def_fn_try_predicate_any! (is_error_port, is_error_port_any_2, is_error_port_any_3, is_error_port_any_4, is_error_port_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_error_port_input (value : &Value) -> (Outcome<bool>) {
+	let _value = try_as_error_ref! (value);
+	fail_unimplemented! (0x18d9951d);
+}
+
+def_fn_try_predicate_all! (is_error_port_input, is_error_port_input_all_2, is_error_port_input_all_3, is_error_port_input_all_4, is_error_port_input_all_n);
+def_fn_try_predicate_any! (is_error_port_input, is_error_port_input_any_2, is_error_port_input_any_3, is_error_port_input_any_4, is_error_port_input_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_error_port_output (value : &Value) -> (Outcome<bool>) {
+	let _value = try_as_error_ref! (value);
+	fail_unimplemented! (0x18d9951d);
+}
+
+def_fn_try_predicate_all! (is_error_port_output, is_error_port_output_all_2, is_error_port_output_all_3, is_error_port_output_all_4, is_error_port_output_all_n);
+def_fn_try_predicate_any! (is_error_port_output, is_error_port_output_any_2, is_error_port_output_any_3, is_error_port_output_any_4, is_error_port_output_any_n);
+
+
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_port (value : &Value) -> (bool) {
+	return value.is_kind (ValueKind::Port);
+}
+
+def_fn_predicate_all! (is_port, is_port_all_2, is_port_all_3, is_port_all_4, is_port_all_n);
+def_fn_predicate_any! (is_port, is_port_any_2, is_port_any_3, is_port_any_4, is_port_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_port_input (value : &Value) -> (Outcome<bool>) {
+	succeed! (try_as_port_ref! (value) .is_read_implemented ());
+}
+
+def_fn_try_predicate_all! (is_port_input, is_port_input_all_2, is_port_input_all_3, is_port_input_all_4, is_port_input_all_n);
+def_fn_try_predicate_any! (is_port_input, is_port_input_any_2, is_port_input_any_3, is_port_input_any_4, is_port_input_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_port_output (value : &Value) -> (Outcome<bool>) {
+	succeed! (try_as_port_ref! (value) .is_write_implemented ());
+}
+
+def_fn_try_predicate_all! (is_port_output, is_port_output_all_2, is_port_output_all_3, is_port_output_all_4, is_port_output_all_n);
+def_fn_try_predicate_any! (is_port_output, is_port_output_any_2, is_port_output_any_3, is_port_output_any_4, is_port_output_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_port_binary (value : &Value) -> (Outcome<bool>) {
+	succeed! (try_as_port_ref! (value) .is_byte_implemented ());
+}
+
+def_fn_try_predicate_all! (is_port_binary, is_port_binary_all_2, is_port_binary_all_3, is_port_binary_all_4, is_port_binary_all_n);
+def_fn_try_predicate_any! (is_port_binary, is_port_binary_any_2, is_port_binary_any_3, is_port_binary_any_4, is_port_binary_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_port_textual (value : &Value) -> (Outcome<bool>) {
+	succeed! (try_as_port_ref! (value) .is_char_implemented ());
+}
+
+def_fn_try_predicate_all! (is_port_textual, is_port_textual_all_2, is_port_textual_all_3, is_port_textual_all_4, is_port_textual_all_n);
+def_fn_try_predicate_any! (is_port_textual, is_port_textual_any_2, is_port_textual_any_3, is_port_textual_any_4, is_port_textual_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_port_eof (value : &Value) -> (bool) {
+	if let Ok (value) = StdTryAsRef::<ValueSingleton>::try_as_ref (value) {
+		return *value == ValueSingleton::PortEof;
+	} else {
+		return false;
+	}
+}
+
+def_fn_predicate_all! (is_port_eof, is_port_eof_all_2, is_port_eof_all_3, is_port_eof_all_4, is_port_eof_all_n);
+def_fn_predicate_any! (is_port_eof, is_port_eof_any_2, is_port_eof_any_3, is_port_eof_any_4, is_port_eof_any_n);
+
+
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_process (value : &Value) -> (bool) {
+	return value.is_kind (ValueKind::Process);
+}
+
+def_fn_predicate_all! (is_process, is_process_all_2, is_process_all_3, is_process_all_4, is_process_all_n);
+def_fn_predicate_any! (is_process, is_process_any_2, is_process_any_3, is_process_any_4, is_process_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_resource (value : &Value) -> (bool) {
+	return value.is_class (ValueClass::Resource);
+}
+
+def_fn_predicate_all! (is_resource, is_resource_all_2, is_resource_all_3, is_resource_all_4, is_resource_all_n);
+def_fn_predicate_any! (is_resource, is_resource_any_2, is_resource_any_3, is_resource_any_4, is_resource_any_n);
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn is_opaque (value : &Value) -> (bool) {
+	return value.is_class (ValueClass::Opaque);
+}
+
+def_fn_predicate_all! (is_opaque, is_opaque_all_2, is_opaque_all_3, is_opaque_all_4, is_opaque_all_n);
+def_fn_predicate_any! (is_opaque, is_opaque_any_2, is_opaque_any_3, is_opaque_any_4, is_opaque_any_n);
+
+
+
+
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
 pub enum NumberClass {
 	Integer,
@@ -719,16 +1464,12 @@ pub enum NumberClass {
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn number_class (value : &Value) -> (Outcome<NumberClass>) {
 	match value.kind () {
-		
 		ValueKind::NumberInteger =>
 			succeed! (NumberClass::Integer),
-		
 		ValueKind::NumberReal =>
 			succeed! (NumberClass::Real),
-		
 		_ =>
 			fail! (0x7a6c3f3e),
-		
 	}
 }
 
@@ -748,16 +1489,12 @@ pub enum ListClass {
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_class_o1 (value : &Value) -> (Outcome<ListClass>) {
 	match value.class () {
-		
 		ValueClass::Null =>
 			succeed! (ListClass::Empty),
-		
 		ValueClass::Pair =>
 			succeed! (ListClass::Cell),
-		
 		_ =>
 			fail! (0x355bf0c9),
-		
 	}
 }
 
@@ -765,16 +1502,12 @@ pub fn list_class_o1 (value : &Value) -> (Outcome<ListClass>) {
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn list_class_on (value : &Value) -> (Outcome<ListClass>) {
 	match value.class () {
-		
 		ValueClass::Null =>
 			succeed! (ListClass::Empty),
-		
 		ValueClass::Pair =>
 			return list_class_on_0 (value, try_as_pair_ref! (value)),
-		
 		_ =>
 			fail! (0xf9bfa236),
-		
 	}
 }
 
@@ -782,63 +1515,19 @@ pub fn list_class_on (value : &Value) -> (Outcome<ListClass>) {
 fn list_class_on_0 (value : &Value, pair : PairRef) -> (Outcome<ListClass>) {
 	let mut cursor = pair.right ();
 	loop {
-		
 		if value.is_self (cursor) {
 			succeed! (ListClass::Cyclic);
 		}
-		
 		match *cursor {
-			
 			Value::Singleton (_, ValueSingleton::Null, _) =>
 				succeed! (ListClass::Proper),
-			
 			Value::PairImmutable (_, ref pair, _) =>
 				cursor = pair.right (),
-			
 			Value::PairMutable (_, ref pair, _) =>
 				return list_class_on_0 (value, pair.pair_ref ()),
-			
 			_ =>
 				succeed! (ListClass::Dotted),
-			
 		}
-	}
-}
-
-
-
-
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-pub fn is_port (value : &Value) -> (bool) {
-	return value.is_class (ValueClass::Port);
-}
-
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-pub fn is_port_input (value : &Value) -> (Outcome<bool>) {
-	succeed! (try_as_port_ref! (value) .is_read_implemented ());
-}
-
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-pub fn is_port_output (value : &Value) -> (Outcome<bool>) {
-	succeed! (try_as_port_ref! (value) .is_write_implemented ());
-}
-
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-pub fn is_port_binary (value : &Value) -> (Outcome<bool>) {
-	succeed! (try_as_port_ref! (value) .is_byte_implemented ());
-}
-
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-pub fn is_port_textual (value : &Value) -> (Outcome<bool>) {
-	succeed! (try_as_port_ref! (value) .is_char_implemented ());
-}
-
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-pub fn is_port_eof (value : &Value) -> (bool) {
-	if let Ok (value) = StdTryAsRef::<ValueSingleton>::try_as_ref (value) {
-		return *value == ValueSingleton::PortEof;
-	} else {
-		return false;
 	}
 }
 
