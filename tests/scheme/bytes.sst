@@ -227,6 +227,35 @@
 
 
 
+(bytevector? (~bytevector->immutable #u8())) => #t
+(~bytevector-immutable? (~bytevector->immutable #u8())) => #t
+(~bytevector-mutable? (~bytevector->immutable #u8())) => #f
+
+(bytevector? (~bytevector->mutable #u8())) => #t
+(~bytevector-immutable? (~bytevector->mutable #u8())) => #f
+(~bytevector-mutable? (~bytevector->mutable #u8())) => #t
+
+
+(bytevector? (~bytevector->immutable (~bytevector->mutable #u8()))) => #t
+(~bytevector-immutable? (~bytevector->immutable (~bytevector->mutable #u8()))) => #t
+(~bytevector-mutable? (~bytevector->immutable (~bytevector->mutable #u8()))) => #f
+
+(bytevector? (~bytevector->mutable (~bytevector->immutable #u8()))) => #t
+(~bytevector-immutable? (~bytevector->mutable (~bytevector->immutable #u8()))) => #f
+(~bytevector-mutable? (~bytevector->mutable (~bytevector->immutable #u8()))) => #t
+
+
+(bytevector? (~bytevector->immutable (~bytevector->immutable #u8()))) => #t
+(~bytevector-immutable? (~bytevector->immutable (~bytevector->immutable #u8()))) => #t
+(~bytevector-mutable? (~bytevector->immutable (~bytevector->immutable #u8()))) => #f
+
+(bytevector? (~bytevector->mutable (~bytevector->mutable #u8()))) => #t
+(~bytevector-immutable? (~bytevector->mutable (~bytevector->mutable #u8()))) => #f
+(~bytevector-mutable? (~bytevector->mutable (~bytevector->mutable #u8()))) => #t
+
+
+
+
 (define a (~bytevector->mutable #u8(10 11 12 13 14 15))) => #u8(10 11 12 13 14 15)
 (define e (~bytevector->mutable #u8())) => #u8()
 (define t (~bytevector->mutable #u8(0 0 0 0 0 0))) => #u8(0 0 0 0 0 0)

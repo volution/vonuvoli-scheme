@@ -196,3 +196,93 @@
 (procedure? +) => #t
 (procedure? (lambda _ _)) => #t
 
+
+(~void? #null) => #f
+(~void? #void) => #t
+(~void? #undefined) => #f
+(~void? #t) => #f
+(~void? #f) => #f
+(~void? 0) => #f
+(~void? 0.0) => #f
+(~void? #\c) => #f
+(~void? 'symbol) => #f
+(~void? "string") => #f
+(~void? #u8()) => #f
+(~void? #()) => #f
+(~void? '(0 . 1)) => #f
+(~void? '(0 1)) => #f
+(~void? +) => #f
+(~void? (lambda _ _)) => #f
+
+
+(~undefined? #null) => #f
+(~undefined? #void) => #f
+(~undefined? #undefined) => #t
+(~undefined? #t) => #f
+(~undefined? #f) => #f
+(~undefined? 0) => #f
+(~undefined? 0.0) => #f
+(~undefined? #\c) => #f
+(~undefined? 'symbol) => #f
+(~undefined? "string") => #f
+(~undefined? #u8()) => #f
+(~undefined? #()) => #f
+(~undefined? '(0 . 1)) => #f
+(~undefined? '(0 1)) => #f
+(~undefined? +) => #f
+(~undefined? (lambda _ _)) => #f
+
+
+(~not-null? #null) => #f
+(~not-null? #void) => #t
+(~not-null? #undefined) => #t
+(~not-null? #t) => #t
+(~not-null? #f) => #t
+(~not-null? 0) => #t
+(~not-null? 0.0) => #t
+(~not-null? #\c) => #t
+(~not-null? 'symbol) => #t
+(~not-null? "string") => #t
+(~not-null? #u8()) => #t
+(~not-null? #()) => #t
+(~not-null? '(0 . 1)) => #t
+(~not-null? '(0 1)) => #t
+(~not-null? +) => #t
+(~not-null? (lambda _ _)) => #t
+
+
+(~not-void? #null) => #t
+(~not-void? #void) => #f
+(~not-void? #undefined) => #t
+(~not-void? #t) => #t
+(~not-void? #f) => #t
+(~not-void? 0) => #t
+(~not-void? 0.0) => #t
+(~not-void? #\c) => #t
+(~not-void? 'symbol) => #t
+(~not-void? "string") => #t
+(~not-void? #u8()) => #t
+(~not-void? #()) => #t
+(~not-void? '(0 . 1)) => #t
+(~not-void? '(0 1)) => #t
+(~not-void? +) => #t
+(~not-void? (lambda _ _)) => #t
+
+
+(~not-undefined? #null) => #t
+(~not-undefined? #void) => #t
+(~not-undefined? #undefined) => #f
+(~not-undefined? #t) => #t
+(~not-undefined? #f) => #t
+(~not-undefined? 0) => #t
+(~not-undefined? 0.0) => #t
+(~not-undefined? #\c) => #t
+(~not-undefined? 'symbol) => #t
+(~not-undefined? "string") => #t
+(~not-undefined? #u8()) => #t
+(~not-undefined? #()) => #t
+(~not-undefined? '(0 . 1)) => #t
+(~not-undefined? '(0 1)) => #t
+(~not-undefined? +) => #t
+(~not-undefined? (lambda _ _)) => #t
+

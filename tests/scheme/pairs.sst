@@ -16,22 +16,51 @@
 
 
 
-(~cons->immutable (cons 0 1)) => '(0 . 1)
-(~cons->mutable (cons 0 1)) => '(0 . 1)
+(~pair->immutable (cons 0 1)) => '(0 . 1)
+(~pair->mutable (cons 0 1)) => '(0 . 1)
 
-(~cons->immutable (~cons->mutable (cons 0 1))) => '(0 . 1)
-(~cons->mutable (~cons->immutable (cons 0 1))) => '(0 . 1)
+(~pair->immutable (~pair->mutable (cons 0 1))) => '(0 . 1)
+(~pair->mutable (~pair->immutable (cons 0 1))) => '(0 . 1)
 
-(~cons->immutable (~cons->immutable (cons 0 1))) => '(0 . 1)
-(~cons->mutable (~cons->mutable (cons 0 1))) => '(0 . 1)
+(~pair->immutable (~pair->immutable (cons 0 1))) => '(0 . 1)
+(~pair->mutable (~pair->mutable (cons 0 1))) => '(0 . 1)
 
-(~cons->immutable (cons 0 1)) => (~cons->mutable (cons 0 1))
-(~cons->mutable (cons 0 1)) => (~cons->immutable (cons 0 1))
-
-
+(~pair->immutable (cons 0 1)) => (~pair->mutable (cons 0 1))
+(~pair->mutable (cons 0 1)) => (~pair->immutable (cons 0 1))
 
 
-(define a (~cons->mutable (cons 0 1))) => '(0 . 1)
+
+
+(pair? (~pair->immutable (cons 0 1))) => #t
+(~pair-immutable? (~pair->immutable (cons 0 1))) => #t
+(~pair-mutable? (~pair->immutable (cons 0 1))) => #f
+
+(pair? (~pair->mutable (cons 0 1))) => #t
+(~pair-immutable? (~pair->mutable (cons 0 1))) => #f
+(~pair-mutable? (~pair->mutable (cons 0 1))) => #t
+
+
+(pair? (~pair->immutable (~pair->mutable (cons 0 1)))) => #t
+(~pair-immutable? (~pair->immutable (~pair->mutable (cons 0 1)))) => #t
+(~pair-mutable? (~pair->immutable (~pair->mutable (cons 0 1)))) => #f
+
+(pair? (~pair->mutable (~pair->immutable (cons 0 1)))) => #t
+(~pair-immutable? (~pair->mutable (~pair->immutable (cons 0 1)))) => #f
+(~pair-mutable? (~pair->mutable (~pair->immutable (cons 0 1)))) => #t
+
+
+(pair? (~pair->immutable (~pair->immutable (cons 0 1)))) => #t
+(~pair-immutable? (~pair->immutable (~pair->immutable (cons 0 1)))) => #t
+(~pair-mutable? (~pair->immutable (~pair->immutable (cons 0 1)))) => #f
+
+(pair? (~pair->mutable (~pair->mutable (cons 0 1)))) => #t
+(~pair-immutable? (~pair->mutable (~pair->mutable (cons 0 1)))) => #f
+(~pair-mutable? (~pair->mutable (~pair->mutable (cons 0 1)))) => #t
+
+
+
+
+(define a (~pair->mutable (cons 0 1))) => '(0 . 1)
 
 (car a) => 0
 (cdr a) => 1

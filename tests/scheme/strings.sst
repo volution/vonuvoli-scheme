@@ -269,6 +269,35 @@
 
 
 
+(string? (~string->immutable #string())) => #t
+(~string-immutable? (~string->immutable #string())) => #t
+(~string-mutable? (~string->immutable #string())) => #f
+
+(string? (~string->mutable #string())) => #t
+(~string-immutable? (~string->mutable #string())) => #f
+(~string-mutable? (~string->mutable #string())) => #t
+
+
+(string? (~string->immutable (~string->mutable #string()))) => #t
+(~string-immutable? (~string->immutable (~string->mutable #string()))) => #t
+(~string-mutable? (~string->immutable (~string->mutable #string()))) => #f
+
+(string? (~string->mutable (~string->immutable #string()))) => #t
+(~string-immutable? (~string->mutable (~string->immutable #string()))) => #f
+(~string-mutable? (~string->mutable (~string->immutable #string()))) => #t
+
+
+(string? (~string->immutable (~string->immutable #string()))) => #t
+(~string-immutable? (~string->immutable (~string->immutable #string()))) => #t
+(~string-mutable? (~string->immutable (~string->immutable #string()))) => #f
+
+(string? (~string->mutable (~string->mutable #string()))) => #t
+(~string-immutable? (~string->mutable (~string->mutable #string()))) => #f
+(~string-mutable? (~string->mutable (~string->mutable #string()))) => #t
+
+
+
+
 (define a (~string->mutable #string(10 11 12 13 14 15))) => #string(10 11 12 13 14 15)
 (define e (~string->mutable #string())) => #string()
 (define t (~string->mutable #string(0 0 0 0 0 0))) => #string(0 0 0 0 0 0)

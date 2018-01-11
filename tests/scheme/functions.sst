@@ -56,6 +56,16 @@
 
 
 
+(~values? #values()) => #t
+(~values? '(0 . 1)) => #f
+(~values? #()) => #f
+(~values? #u8()) => #f
+(~values? "") => #f
+(~values? 0) => #f
+
+
+
+
 (~call-with-values* list #values()) => '()
 (~call-with-values* list #values(0)) => '(0)
 (~call-with-values* list #values(0 1)) => '(0 1)

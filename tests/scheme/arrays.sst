@@ -190,6 +190,35 @@
 
 
 
+(vector? (~vector->immutable #())) => #t
+(~vector-immutable? (~vector->immutable #())) => #t
+(~vector-mutable? (~vector->immutable #())) => #f
+
+(vector? (~vector->mutable #())) => #t
+(~vector-immutable? (~vector->mutable #())) => #f
+(~vector-mutable? (~vector->mutable #())) => #t
+
+
+(vector? (~vector->immutable (~vector->mutable #()))) => #t
+(~vector-immutable? (~vector->immutable (~vector->mutable #()))) => #t
+(~vector-mutable? (~vector->immutable (~vector->mutable #()))) => #f
+
+(vector? (~vector->mutable (~vector->immutable #()))) => #t
+(~vector-immutable? (~vector->mutable (~vector->immutable #()))) => #f
+(~vector-mutable? (~vector->mutable (~vector->immutable #()))) => #t
+
+
+(vector? (~vector->immutable (~vector->immutable #()))) => #t
+(~vector-immutable? (~vector->immutable (~vector->immutable #()))) => #t
+(~vector-mutable? (~vector->immutable (~vector->immutable #()))) => #f
+
+(vector? (~vector->mutable (~vector->mutable #()))) => #t
+(~vector-immutable? (~vector->mutable (~vector->mutable #()))) => #f
+(~vector-mutable? (~vector->mutable (~vector->mutable #()))) => #t
+
+
+
+
 (define a (~vector->mutable #(10 11 12 13 14 15))) => #(10 11 12 13 14 15)
 (define e (~vector->mutable #())) => #()
 (define t (~vector->mutable #(0 0 0 0 0 0))) => #(0 0 0 0 0 0)
