@@ -152,47 +152,57 @@ macro_rules! try_some_ref_2 {
 
 macro_rules! impl_into_for_outcome {
 	( $from : ty ) => (
-		impl_into_for_outcome! ($from, $from, self, self);
+		impl_into_for_outcome! ($from, $from, value, value);
 	);
 	( $to : ty, $from : ty ) => (
-		impl_into_for_outcome! ($to, $from, self, self.into ());
+		impl_into_for_outcome! ($to, $from, value, value.into ());
 	);
-	( $to : ty, $from : ty, $self : ident, $expression : expr ) => (
+	( $to : ty, $from : ty, $value : ident, $expression : expr ) => (
 		impl $crate::prelude::StdInto0<$crate::errors::exports::Outcome<$to>> for $from {
 			#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-			fn into_0 ($self) -> ($crate::errors::exports::Outcome<$to>) {
+			fn into_0 (self) -> ($crate::errors::exports::Outcome<$to>) {
+				let $value = self;
 				succeed! ($crate::prelude::StdFrom::<$to>::from ($expression));
 			}
 		}
-		/*
-		impl $crate::prelude::StdTryInto0<$crate::errors::exports::Outcome<$to>> for $from {
-			type Error = $crate::errors::exports::Error;
-			#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-			fn try_into_0 ($self) -> ($crate::prelude::Result<$crate::errors::exports::Outcome<$to>, $crate::errors::exports::Error>) {
-				return $crate::prelude::StdTryFrom::<$to>::try_from ($expression);
-			}
-		}
-		*/
 		impl $crate::prelude::StdInto0<$crate::errors::exports::Outcome<$to>> for $crate::errors::exports::Outcome<$from> {
 			#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 			fn into_0 (self) -> ($crate::errors::exports::Outcome<$to>) {
 				match self {
-					$crate::prelude::Result::Ok (value) =>
-						succeed! ($crate::prelude::StdFrom::<$to>::from (value.into ())),
+					$crate::prelude::Result::Ok ($value) =>
+						succeed! ($crate::prelude::StdFrom::<$to>::from ($expression)),
 					$crate::prelude::Result::Err (error) =>
 						$crate::prelude::Result::Err (error),
 				}
 			}
 		}
-		/*
-		impl $crate::prelude::StdTryInto0<$crate::errors::exports::Outcome<$to>> for $crate::errors::exports::Outcome<$from> {
-			type Error = $crate::errors::exports::Error;
+	);
+}
+
+
+macro_rules! impl_try_into_for_outcome {
+	( $to : ty, $from : ty ) => (
+		impl_try_into_for_outcome! ($to, $from, value, value.try_into ());
+	);
+	( $to : ty, $from : ty, $value : ident, $expression : expr ) => (
+		impl $crate::prelude::StdInto0<$crate::errors::exports::Outcome<$to>> for $from {
 			#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-			fn try_into_0 (self) -> ($crate::prelude::Result<$crate::errors::exports::Outcome<$to>, $crate::errors::exports::Error>) {
-				return $crate::prelude::StdTryFrom::<$to>::try_from (try! (self));
+			fn into_0 (self) -> ($crate::errors::exports::Outcome<$to>) {
+				let $value = self;
+				succeed! ($crate::prelude::StdFrom::<$to>::from (try! ($expression)));
 			}
 		}
-		*/
+		impl $crate::prelude::StdInto0<$crate::errors::exports::Outcome<$to>> for $crate::errors::exports::Outcome<$from> {
+			#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+			fn into_0 (self) -> ($crate::errors::exports::Outcome<$to>) {
+				match self {
+					$crate::prelude::Result::Ok ($value) =>
+						succeed! ($crate::prelude::StdFrom::<$to>::from (try! ($expression))),
+					$crate::prelude::Result::Err (error) =>
+						$crate::prelude::Result::Err (error),
+				}
+			}
+		}
 	);
 }
 
@@ -281,7 +291,8 @@ macro_rules! impl_from_for_type {
 				return $crate::prelude::StdTryFrom::try_from (self);
 			}
 		}
-		impl_from_for_box! ($to, $from, $value, $expression);
+		impl_from_for_box! ($to, $from, value, $crate::prelude::StdInto::<$to>::into (value));
+		impl_into_for_outcome! ($to, $from, value, $crate::prelude::StdInto::<$to>::into (value));
 	);
 }
 
@@ -308,7 +319,8 @@ macro_rules! impl_try_from_for_type {
 				return $crate::prelude::StdTryFrom::try_from (self);
 			}
 		}
-		impl_try_from_for_box! ($to, $from, $value, $expression);
+		impl_try_from_for_box! ($to, $from, value, $crate::prelude::StdTryInto::<$to>::try_into (value));
+		impl_try_into_for_outcome! ($to, $from, value, $crate::prelude::StdTryInto::<$to>::try_into (value));
 	);
 }
 
@@ -405,7 +417,8 @@ macro_rules! impl_from_for_enum {
 				return $crate::prelude::StdTryFrom::try_from (self);
 			}
 		}
-		impl_from_for_box! ($to, $from, $value, $expression.into ());
+		impl_from_for_box! ($to, $from, value, $crate::prelude::StdInto::<$to>::into (value));
+		impl_into_for_outcome! ($to, $from, value, $crate::prelude::StdInto::<$to>::into (value));
 	);
 }
 
@@ -432,7 +445,8 @@ macro_rules! impl_try_from_for_enum {
 				return $crate::prelude::StdTryFrom::try_from (self);
 			}
 		}
-		impl_try_from_for_box! ($to, $from, $value, $expression.into ());
+		impl_try_from_for_box! ($to, $from, value, $crate::prelude::StdTryInto::<$to>::try_into (value));
+		impl_try_into_for_outcome! ($to, $from, value, , $crate::prelude::StdTryInto::<$to>::try_into (value));
 	);
 }
 

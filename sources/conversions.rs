@@ -52,7 +52,6 @@ macro_rules! impl_from_for_Value_0 {
 	( $tag : ident, $from : ty ) => (
 		impl_from_for_type! (Value, $from, value, Value::$tag (VALUE_META_1, value.into (), VALUE_META_2));
 		impl_from_for_Expression_0! (Value, $from);
-		impl_into_for_outcome! (Value, $from);
 	);
 }
 
@@ -84,6 +83,7 @@ macro_rules! impl_from_for_Value_3 {
 
 
 impl_as_ref_for_type! (Expression);
+impl_into_for_outcome! (Expression);
 
 impl_as_ref_for_type! (Value);
 impl_into_for_outcome! (Value);
@@ -141,6 +141,8 @@ impl_from_for_Value_3! (NumberInteger, NumberInteger, u32, value, number_i64 (va
 impl_from_for_Value_3! (NumberInteger, NumberInteger, isize, value, number_i64 (value as i64));
 impl_try_from_for_type! (NumberInteger, u64, value, if value <= <i64>::max_value () as u64 { succeeded! (number_i64 (value as i64)) } else { failed! (0x78f55fb6) });
 impl_try_from_for_type! (NumberInteger, usize, value, if value <= <i64>::max_value () as usize { succeeded! (number_i64 (value as i64)) } else { failed! (0xe99641f7) });
+impl_try_from_for_type! (Value, u64, value, StdTryInto::<NumberInteger>::try_into (value) .into_0 ());
+impl_try_from_for_type! (Value, usize, value, StdTryInto::<NumberInteger>::try_into (value) .into_0 ());
 impl_from_for_type! (NumberInteger, char, value, number_i64 (value as i64));
 
 impl_from_for_Value_2! (NumberReal, NumberReal, f64);
@@ -176,16 +178,23 @@ impl_from_for_Value_3! (ProcedureNative, ProcedureNative, ProcedureNativeInterna
 impl_from_for_Value_3! (SyntaxNative, SyntaxNative, SyntaxNativeInternals, internals, SyntaxNative::new (internals));
 
 
-impl_from_for_type! (Value, ProcessStatus, status, status.value ());
-impl_into_for_outcome! (Value, ProcessStatus);
-
-
 
 
 impl_as_ref_for_type_wlt! (StringRef<'a>, 'a);
 impl_as_ref_for_type_wlt! (BytesRef<'a>, 'a);
 impl_as_ref_for_type_wlt! (PairRef<'a>, 'a);
 impl_as_ref_for_type_wlt! (ArrayRef<'a>, 'a);
+
+
+
+
+impl_from_for_type! (Value, ProcessStatus, status, status.value ());
+
+
+
+
+// FIXME:  Implement this for all that implement `Into<T>`!
+impl_into_for_outcome! (bool);
 
 
 
@@ -1073,4 +1082,56 @@ impl <'a> StdFrom<StringRef<'a>> for BytesSliceRef<'a> {
 		}
 	}
 }
+
+
+
+
+/*
+impl <From, To> StdInto0<Outcome<To>> for From where From : StdInto<To> {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn into_0 (self) -> (Outcome<To>) {
+		return Ok (self.into ());
+	}
+}
+
+impl <From, To> StdInto0<Outcome<To>> for Outcome<From> where From : StdInto<To> {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn into_0 (self) -> (Outcome<To>) {
+		match self {
+			Ok (value) =>
+				return Ok (value.into ()),
+			Err (error) =>
+				return Err (error),
+		}
+	}
+}
+
+
+impl <From, To> StdTryInto0<To> for From where From : StdTryInto<To, Error = super::errors::exports::Error> {
+	
+	type Error = super::errors::exports::Error;
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn try_into_0 (self) -> (Result<To, Self::Error>) {
+		return self.try_into ();
+	}
+}
+
+impl <From, To> StdTryInto0<To> for Outcome<From> where From : StdTryInto<To, Error = super::errors::exports::Error> {
+	
+	type Error = super::errors::exports::Error;
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn try_into_0 (self) -> (Result<To, Self::Error>) {
+		match self {
+			Ok (value) =>
+				return value.try_into (),
+			Err (error) =>
+				return Err (error),
+		}
+	}
+}
+*/
 
