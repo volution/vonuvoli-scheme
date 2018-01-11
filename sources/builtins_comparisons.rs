@@ -10,6 +10,7 @@ use super::native_procedures::exports::*;
 use super::native_syntaxes::exports::*;
 use super::ports::exports::*;
 use super::primitives::exports::*;
+use super::processes::exports::*;
 use super::values::exports::*;
 
 use super::prelude::*;
@@ -62,6 +63,7 @@ pub mod exports {
 			syntax_native_compare_1, syntax_native_compare_1a,
 			syntax_lambda_compare_1, syntax_lambda_compare_1a,
 			port_compare_1, port_compare_1a,
+			process_compare_1, process_compare_1a,
 			context_compare_1, context_compare_1a,
 			binding_compare_1, binding_compare_1a,
 			
@@ -96,6 +98,7 @@ pub mod exports {
 			syntax_native_compare_2, syntax_native_compare_2a,
 			syntax_lambda_compare_2, syntax_lambda_compare_2a,
 			port_compare_2, port_compare_2a,
+			process_compare_2, process_compare_2a,
 			context_compare_2, context_compare_2a,
 			binding_compare_2, binding_compare_2a,
 			
@@ -130,6 +133,7 @@ pub mod exports {
 			syntax_native_compare_3, syntax_native_compare_3a,
 			syntax_lambda_compare_3, syntax_lambda_compare_3a,
 			port_compare_3, port_compare_3a,
+			process_compare_3, process_compare_3a,
 			context_compare_3, context_compare_3a,
 			binding_compare_3, binding_compare_3a,
 			
@@ -164,6 +168,7 @@ pub mod exports {
 			syntax_native_compare_4, syntax_native_compare_4a,
 			syntax_lambda_compare_4, syntax_lambda_compare_4a,
 			port_compare_4, port_compare_4a,
+			process_compare_4, process_compare_4a,
 			context_compare_4, context_compare_4a,
 			binding_compare_4, binding_compare_4a,
 			
@@ -198,6 +203,7 @@ pub mod exports {
 			syntax_native_compare_n, syntax_native_compare_na,
 			syntax_lambda_compare_n, syntax_lambda_compare_na,
 			port_compare_n, port_compare_na,
+			process_compare_n, process_compare_na,
 			context_compare_n, context_compare_na,
 			binding_compare_n, binding_compare_na,
 			
@@ -506,6 +512,9 @@ pub fn compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Co
 		ValueKind::Port =>
 			return port_compare_1a (value, comparison),
 		
+		ValueKind::Process =>
+			return process_compare_1a (value, comparison),
+		
 		ValueKind::Context =>
 			return context_compare_1a (value, comparison),
 		
@@ -638,6 +647,9 @@ pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef
 		
 		(ValueKind::Port, ValueKind::Port) =>
 			return port_compare_2a (left, right, comparison),
+		
+		(ValueKind::Process, ValueKind::Process) =>
+			return process_compare_2a (left, right, comparison),
 		
 		(ValueKind::Context, ValueKind::Context) =>
 			return context_compare_2a (left, right, comparison),
@@ -1323,6 +1335,30 @@ pub fn port_compare_2a <ValueRef : StdAsRef<Port>> (left : ValueRef, right : Val
 	match comparison {
 		Comparison::Equivalence (_, _, _) =>
 			succeed! (Port::is_self (left, right)),
+		Comparison::Ordering (_, _, _) =>
+			return std_ord_compare_2_ref (left, right, comparison),
+	}
+}
+
+
+
+
+def_fn_compare! (Process,
+		process_compare_1, process_compare_2, process_compare_3, process_compare_4, process_compare_n,
+		process_compare_1a, process_compare_2a, process_compare_3a, process_compare_4a, process_compare_na);
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn process_compare_1a <ValueRef : StdAsRef<Process>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true);
+}
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn process_compare_2a <ValueRef : StdAsRef<Process>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	let left = left.as_ref ();
+	let right = right.as_ref ();
+	match comparison {
+		Comparison::Equivalence (_, _, _) =>
+			succeed! (Process::is_self (left, right)),
 		Comparison::Ordering (_, _, _) =>
 			return std_ord_compare_2_ref (left, right, comparison),
 	}

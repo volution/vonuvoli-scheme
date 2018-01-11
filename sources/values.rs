@@ -15,10 +15,11 @@ pub mod exports {
 	pub use super::super::values_arrays::exports::*;
 	pub use super::super::values_values::exports::*;
 	
-	pub use super::super::errors::Error;
-	pub use super::super::contexts::Context;
-	pub use super::super::contexts::Binding;
-	pub use super::super::ports::Port;
+	pub use super::super::errors::exports::Error;
+	pub use super::super::contexts::exports::Context;
+	pub use super::super::contexts::exports::Binding;
+	pub use super::super::ports::exports::Port;
+	pub use super::super::processes::exports::Process;
 	
 	pub use super::super::primitives::exports::ProcedurePrimitive;
 	pub use super::super::extended_procedures::exports::ProcedureExtended;

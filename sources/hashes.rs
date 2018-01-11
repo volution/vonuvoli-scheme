@@ -48,6 +48,7 @@ impl hash::Hash for Value {
 			Value::SyntaxLambda (_, ref value, _) => { hasher.write_u32 (0xd5b61513); value.hash (hasher); },
 			
 			Value::Port (_, ref value, _) => { hasher.write_u32 (0xd25641d0); value.hash (hasher); },
+			Value::Process (_, ref value, _) => { hasher.write_u32 (0x87b9167c); value.hash (hasher); },
 			
 			Value::Context (_, ref value, _) => { hasher.write_u32 (0x04ef2744); value.hash (hasher); },
 			Value::Binding (_, ref value, _) => { hasher.write_u32 (0x8dd0b6ab); value.hash (hasher); },
@@ -190,6 +191,17 @@ impl hash::Hash for SyntaxNative {
 
 
 impl hash::Hash for Port {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
+		self.handle () .hash (hasher);
+	}
+}
+
+
+
+
+impl hash::Hash for Process {
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {

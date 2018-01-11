@@ -50,6 +50,7 @@ impl cmp::PartialEq for Value {
 			(&Value::SyntaxLambda (_, ref self_0, _), &Value::SyntaxLambda (_, ref other_0, _)) => SyntaxLambda::eq (self_0, other_0),
 			
 			(&Value::Port (_, ref self_0, _), &Value::Port (_, ref other_0, _)) => Port::eq (self_0, other_0),
+			(&Value::Process (_, ref self_0, _), &Value::Process (_, ref other_0, _)) => Process::eq (self_0, other_0),
 			
 			(&Value::Context (_, ref self_0, _), &Value::Context (_, ref other_0, _)) => Context::eq (self_0, other_0),
 			(&Value::Binding (_, ref self_0, _), &Value::Binding (_, ref other_0, _)) => Binding::eq (self_0, other_0),
@@ -106,6 +107,7 @@ impl cmp::Ord for Value {
 			(&Value::SyntaxLambda (_, ref self_0, _), &Value::SyntaxLambda (_, ref other_0, _)) => SyntaxLambda::cmp (self_0, other_0),
 			
 			(&Value::Port (_, ref self_0, _), &Value::Port (_, ref other_0, _)) => Port::cmp (self_0, other_0),
+			(&Value::Process (_, ref self_0, _), &Value::Process (_, ref other_0, _)) => Process::cmp (self_0, other_0),
 			
 			(&Value::Context (_, ref self_0, _), &Value::Context (_, ref other_0, _)) => Context::cmp (self_0, other_0),
 			(&Value::Binding (_, ref self_0, _), &Value::Binding (_, ref other_0, _)) => Binding::cmp (self_0, other_0),
@@ -666,6 +668,35 @@ impl cmp::PartialOrd for Port {
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn partial_cmp (&self, other : &Port) -> (Option<cmp::Ordering>) {
+		Handle::partial_cmp (&self.handle (), &other.handle ())
+	}
+}
+
+
+
+
+impl cmp::Eq for Process {}
+
+impl cmp::PartialEq for Process {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn eq (&self, other : &Process) -> (bool) {
+		Handle::eq (&self.handle (), &other.handle ())
+	}
+}
+
+impl cmp::Ord for Process {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn cmp (&self, other : &Process) -> (cmp::Ordering) {
+		Handle::cmp (&self.handle (), &other.handle ())
+	}
+}
+
+impl cmp::PartialOrd for Process {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn partial_cmp (&self, other : &Process) -> (Option<cmp::Ordering>) {
 		Handle::partial_cmp (&self.handle (), &other.handle ())
 	}
 }

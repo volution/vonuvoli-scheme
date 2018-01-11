@@ -114,6 +114,8 @@ impl Compiler {
 			
 			ValueClass::Port =>
 				fail_panic! (0x05fe5b73),
+			ValueClass::Resource =>
+				fail_panic! (0xd526bfa4),
 			
 			ValueClass::Opaque =>
 				fail_panic! (0x56a47d68),
@@ -1231,6 +1233,8 @@ impl Compiler {
 			
 			ValueClass::Port =>
 				fail_panic! (0x9c039a72),
+			ValueClass::Resource =>
+				fail_panic! (0xd2f960f5),
 			
 			ValueClass::Opaque =>
 				fail_panic! (0xfa7ef6f6),

@@ -10,6 +10,7 @@ use super::native_procedures::exports::*;
 use super::native_syntaxes::exports::*;
 use super::ports::exports::*;
 use super::primitives::exports::*;
+use super::processes::exports::*;
 use super::values::exports::*;
 
 use super::prelude::*;
@@ -117,6 +118,7 @@ impl_from_for_Value_1! (SyntaxExtended, SyntaxExtended);
 impl_from_for_Value_1! (SyntaxNative, SyntaxNative);
 impl_from_for_Value_1! (SyntaxLambda, SyntaxLambda);
 impl_from_for_Value_1! (Port, Port);
+impl_from_for_Value_1! (Process, Process);
 impl_from_for_Value_1! (Context, Context);
 impl_from_for_Value_1! (Binding, Binding);
 

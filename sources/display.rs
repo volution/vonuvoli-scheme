@@ -49,6 +49,7 @@ impl fmt::Display for Value {
 			Value::SyntaxLambda (_, ref value, _) => value.fmt (formatter),
 			
 			Value::Port (_, ref value, _) => value.fmt (formatter),
+			Value::Process (_, ref value, _) => value.fmt (formatter),
 			
 			Value::Context (_, ref value, _) => value.fmt (formatter),
 			Value::Binding (_, ref value, _) => value.fmt (formatter),
@@ -95,6 +96,7 @@ impl fmt::Debug for Value {
 			Value::SyntaxLambda (_, ref value, _) => value.fmt (formatter),
 			
 			Value::Port (_, ref value, _) => value.fmt (formatter),
+			Value::Process (_, ref value, _) => value.fmt (formatter),
 			
 			Value::Context (_, ref value, _) => value.fmt (formatter),
 			Value::Binding (_, ref value, _) => value.fmt (formatter),
@@ -630,6 +632,25 @@ impl fmt::Debug for Port {
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		formatter.write_str ("#<port>")
+	}
+}
+
+
+
+
+impl fmt::Display for Process {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		write! (formatter, "#<process:{:08x}:{:09}>", self.handle () .value (), self.id ())
+	}
+}
+
+impl fmt::Debug for Process {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		formatter.write_str ("#<process>")
 	}
 }
 

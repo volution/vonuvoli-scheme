@@ -1,14 +1,15 @@
 
 
-use super::contexts::*;
-use super::errors::*;
+use super::contexts::exports::*;
+use super::errors::exports::*;
 use super::extended_procedures::exports::*;
 use super::extended_syntaxes::exports::*;
 use super::lambdas::exports::*;
 use super::native_procedures::exports::*;
 use super::native_syntaxes::exports::*;
-use super::ports::*;
+use super::ports::exports::*;
 use super::primitives::exports::*;
+use super::processes::exports::*;
 use super::values_arrays::exports::*;
 use super::values_booleans::exports::*;
 use super::values_bytes::exports::*;
@@ -74,6 +75,7 @@ pub enum ValueKind {
 	SyntaxLambda,
 	
 	Port,
+	Process,
 	
 	Context,
 	Binding,
@@ -109,6 +111,7 @@ pub enum ValueClass {
 	Syntax,
 	
 	Port,
+	Resource,
 	
 	Opaque,
 	
@@ -152,6 +155,7 @@ pub enum Value {
 	SyntaxLambda ( ValueMeta1, SyntaxLambda, ValueMeta2, ),
 	
 	Port ( ValueMeta1, Port, ValueMeta2, ),
+	Process ( ValueMeta1, Process, ValueMeta2, ),
 	
 	Context ( ValueMeta1, Context, ValueMeta2 ),
 	Binding ( ValueMeta1, Binding, ValueMeta2 ),
@@ -207,6 +211,7 @@ impl Value {
 			Value::SyntaxLambda (_, _, _) => ValueKind::SyntaxLambda,
 			
 			Value::Port (_, _, _) => ValueKind::Port,
+			Value::Process (_, _, _) => ValueKind::Process,
 			
 			Value::Context (_, _, _) => ValueKind::Context,
 			Value::Binding (_, _, _) => ValueKind::Binding,
@@ -256,6 +261,7 @@ impl Value {
 			Value::SyntaxLambda (_, _, _) => ValueClass::Syntax,
 			
 			Value::Port (_, _, _) => ValueClass::Port,
+			Value::Process (_, _, _) => ValueClass::Resource,
 			
 			Value::Context (_, _, _) => ValueClass::Opaque,
 			Value::Binding (_, _, _) => ValueClass::Opaque,
@@ -309,6 +315,7 @@ impl Value {
 			(&Value::SyntaxLambda (_, ref self_0, _), &Value::SyntaxLambda (_, ref other_0, _)) => SyntaxLambda::is_self (self_0, other_0),
 			
 			(&Value::Port (_, ref self_0, _), &Value::Port (_, ref other_0, _)) => Port::is_self (self_0, other_0),
+			(&Value::Process (_, ref self_0, _), &Value::Process (_, ref other_0, _)) => Process::is_self (self_0, other_0),
 			
 			(&Value::Context (_, ref self_0, _), &Value::Context (_, ref other_0, _)) => Context::is_self (self_0, other_0),
 			(&Value::Binding (_, ref self_0, _), &Value::Binding (_, ref other_0, _)) => Binding::is_self (self_0, other_0),
@@ -354,6 +361,7 @@ impl Value {
 			Value::SyntaxLambda (_, ref self_0, _) => self_0.clone () .into (),
 			
 			Value::Port (_, _, _) => fail! (0xe4de734c),
+			Value::Process (_, _, _) => fail! (0x629f6149),
 			
 			Value::Context (_, _, _) => fail! (0x7e3a414d),
 			Value::Binding (_, _, _) => fail! (0xcf5a0e0d),
@@ -377,6 +385,7 @@ impl Value {
 			Value::ArrayMutable (_, ref self_0, _) => self_0.clone () .into (),
 			
 			Value::Port (_, ref self_0, _) => self_0.clone () .into (),
+			Value::Process (_, ref self_0, _) => self_0.clone () .into (),
 			
 			_ => fail! (0x34e2a415),
 			
