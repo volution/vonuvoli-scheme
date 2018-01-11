@@ -52,6 +52,7 @@ macro_rules! impl_from_for_Value_0 {
 	( $tag : ident, $from : ty ) => (
 		impl_from_for_type! (Value, $from, value, Value::$tag (VALUE_META_1, value.into (), VALUE_META_2));
 		impl_from_for_Expression_0! (Value, $from);
+		impl_into_for_outcome! (Value, $from);
 	);
 }
 
@@ -83,7 +84,9 @@ macro_rules! impl_from_for_Value_3 {
 
 
 impl_as_ref_for_type! (Expression);
+
 impl_as_ref_for_type! (Value);
+impl_into_for_outcome! (Value);
 
 impl_from_for_Expression_1! (Value, Value);
 impl_from_for_Expression_1! (Contexts, ExpressionForContexts);
@@ -171,6 +174,10 @@ impl_from_for_Value_3! (SyntaxExtended, SyntaxExtended, SyntaxExtendedInternals,
 
 impl_from_for_Value_3! (ProcedureNative, ProcedureNative, ProcedureNativeInternals, internals, ProcedureNative::new (internals));
 impl_from_for_Value_3! (SyntaxNative, SyntaxNative, SyntaxNativeInternals, internals, SyntaxNative::new (internals));
+
+
+impl_from_for_type! (Value, ProcessStatus, status, status.value ());
+impl_into_for_outcome! (Value, ProcessStatus);
 
 
 

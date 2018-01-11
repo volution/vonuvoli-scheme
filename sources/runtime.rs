@@ -48,6 +48,16 @@ pub trait StdTryAsRef <T> {
 }
 
 
+pub trait StdInto0 <T> : Sized {
+	fn into_0 (self) -> (T);
+}
+
+pub trait StdTryInto0 <T> : Sized {
+	type Error;
+	fn try_into_0 (self) -> (Result<T, Self::Error>);
+}
+
+
 
 
 #[ derive (Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash) ]

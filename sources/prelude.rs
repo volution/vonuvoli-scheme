@@ -1,6 +1,7 @@
 
 
 pub use std::clone::Clone;
+pub use std::default::Default;
 pub use std::marker::Copy;
 pub use std::marker::Sized;
 pub use std::ops::Fn;
@@ -40,6 +41,9 @@ pub use std::vec::Vec as StdVec;
 pub use super::runtime::StdTryAsRef;
 pub use super::runtime::StdTryFrom;
 pub use super::runtime::StdTryInto;
+
+pub use super::runtime::StdInto0;
+pub use super::runtime::StdTryInto0;
 
 
 

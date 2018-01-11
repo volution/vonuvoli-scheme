@@ -150,6 +150,55 @@ macro_rules! try_some_ref_2 {
 
 
 
+macro_rules! impl_into_for_outcome {
+	( $from : ty ) => (
+		impl_into_for_outcome! ($from, $from, self, self);
+	);
+	( $to : ty, $from : ty ) => (
+		impl_into_for_outcome! ($to, $from, self, self.into ());
+	);
+	( $to : ty, $from : ty, $self : ident, $expression : expr ) => (
+		impl $crate::prelude::StdInto0<$crate::errors::exports::Outcome<$to>> for $from {
+			#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+			fn into_0 ($self) -> ($crate::errors::exports::Outcome<$to>) {
+				succeed! ($crate::prelude::StdFrom::<$to>::from ($expression));
+			}
+		}
+		/*
+		impl $crate::prelude::StdTryInto0<$crate::errors::exports::Outcome<$to>> for $from {
+			type Error = $crate::errors::exports::Error;
+			#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+			fn try_into_0 ($self) -> ($crate::prelude::Result<$crate::errors::exports::Outcome<$to>, $crate::errors::exports::Error>) {
+				return $crate::prelude::StdTryFrom::<$to>::try_from ($expression);
+			}
+		}
+		*/
+		impl $crate::prelude::StdInto0<$crate::errors::exports::Outcome<$to>> for $crate::errors::exports::Outcome<$from> {
+			#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+			fn into_0 (self) -> ($crate::errors::exports::Outcome<$to>) {
+				match self {
+					$crate::prelude::Result::Ok (value) =>
+						succeed! ($crate::prelude::StdFrom::<$to>::from (value.into ())),
+					$crate::prelude::Result::Err (error) =>
+						$crate::prelude::Result::Err (error),
+				}
+			}
+		}
+		/*
+		impl $crate::prelude::StdTryInto0<$crate::errors::exports::Outcome<$to>> for $crate::errors::exports::Outcome<$from> {
+			type Error = $crate::errors::exports::Error;
+			#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+			fn try_into_0 (self) -> ($crate::prelude::Result<$crate::errors::exports::Outcome<$to>, $crate::errors::exports::Error>) {
+				return $crate::prelude::StdTryFrom::<$to>::try_from (try! (self));
+			}
+		}
+		*/
+	);
+}
+
+
+
+
 macro_rules! impl_from_for_box {
 	( $to : ty, $from : ty ) => (
 		impl_from_for_box! ($to, $from, value, $to (value.into ()));
