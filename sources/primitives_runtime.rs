@@ -81,6 +81,10 @@ pub enum RuntimePrimitive1 {
 	ProcessWaitTry,
 	ProcessWaitCheck,
 	
+	ProcessStdinGet,
+	ProcessStdoutGet,
+	ProcessStderrGet,
+	
 }
 
 
@@ -173,6 +177,16 @@ pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, input_1 : &V
 		
 		RuntimePrimitive1::ProcessWaitCheck =>
 			return process_wait_check (input_1, true) .into_0 (),
+		
+		RuntimePrimitive1::ProcessStdinGet =>
+			return process_stdin_get (input_1),
+		
+		RuntimePrimitive1::ProcessStdoutGet =>
+			return process_stdout_get (input_1),
+		
+		RuntimePrimitive1::ProcessStderrGet =>
+			return process_stderr_get (input_1),
+		
 	}
 }
 

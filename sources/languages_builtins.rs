@@ -174,6 +174,10 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("process-run", RuntimePrimitiveN::ProcessRunCheck.into ()),
 			("process-run-try", RuntimePrimitiveN::ProcessRunTry.into ()),
 			
+			("process-stdin", RuntimePrimitive1::ProcessStdinGet.into ()),
+			("process-stdout", RuntimePrimitive1::ProcessStdoutGet.into ()),
+			("process-stderr", RuntimePrimitive1::ProcessStderrGet.into ()),
+			
 			("process?", TypePrimitive1::IsProcess.into ()),
 			("resource?", TypePrimitive1::IsResource.into ()),
 			("opaque?", TypePrimitive1::IsOpaque.into ()),

@@ -18,6 +18,8 @@ pub mod exports {
 		process_wait, process_wait_check,
 		process_run, process_run_check,
 		
+		process_stdin_get, process_stdout_get, process_stderr_get,
+		
 		process_status_check,
 		
 	};
@@ -98,5 +100,29 @@ pub fn process_status_check (status : ProcessStatus) -> (Outcome<()>) {
 		ProcessStatus::Killed (_) =>
 			fail! (0x5c2a4699),
 	}
+}
+
+
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn process_stdin_get (process : &Value) -> (Outcome<Value>) {
+	let process = try_as_process_ref! (process);
+	let port = try_some! (process.stdin (), 0x0f6f72aa);
+	succeed! (port.into ());
+}
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn process_stdout_get (process : &Value) -> (Outcome<Value>) {
+	let process = try_as_process_ref! (process);
+	let port = try_some! (process.stdout (), 0xf389596d);
+	succeed! (port.into ());
+}
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn process_stderr_get (process : &Value) -> (Outcome<Value>) {
+	let process = try_as_process_ref! (process);
+	let port = try_some! (process.stderr (), 0xa1fc1b22);
+	succeed! (port.into ());
 }
 
