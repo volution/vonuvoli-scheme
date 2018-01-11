@@ -859,6 +859,22 @@
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__ports_native' --exact "${@}"
 !!
 
+<< execute / test / scheme / tests / processes / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --no-default-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__processes' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / processes / release
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__processes' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / processes / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --no-default-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__processes' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / processes / release
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__processes' --exact "${@}"
+!!
+
 << execute / test / scheme / tests / quotation / debug
 	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --no-default-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__quotation' --exact "${@}"
 !!
@@ -1211,6 +1227,10 @@
 	exec -- sce ./sources/builtins_ports.rs
 !!
 
+<< files / edit / builtins_processes.rs
+	exec -- sce ./sources/builtins_processes.rs
+!!
+
 << files / edit / builtins_runtime.rs
 	exec -- sce ./sources/builtins_runtime.rs
 !!
@@ -1411,6 +1431,10 @@
 	exec -- sce ./sources/primitives_types.rs
 !!
 
+<< files / edit / processes.rs
+	exec -- sce ./sources/processes.rs
+!!
+
 << files / edit / runtime.rs
 	exec -- sce ./sources/runtime.rs
 !!
@@ -1509,6 +1533,10 @@
 
 << files / view / builtins_ports.rs
 	exec -- less -- ./sources/builtins_ports.rs
+!!
+
+<< files / view / builtins_processes.rs
+	exec -- less -- ./sources/builtins_processes.rs
 !!
 
 << files / view / builtins_runtime.rs
@@ -1711,6 +1739,10 @@
 	exec -- less -- ./sources/primitives_types.rs
 !!
 
+<< files / view / processes.rs
+	exec -- less -- ./sources/processes.rs
+!!
+
 << files / view / runtime.rs
 	exec -- less -- ./sources/runtime.rs
 !!
@@ -1899,6 +1931,10 @@
 	exec -- sce ./tests/scheme/ports.sst
 !!
 
+<< files / edit / scheme/processes.sst
+	exec -- sce ./tests/scheme/processes.sst
+!!
+
 << files / edit / scheme/quotation.sst
 	exec -- sce ./tests/scheme/quotation.sst
 !!
@@ -2029,6 +2065,10 @@
 
 << files / view / scheme/ports.sst
 	exec -- less -- ./tests/scheme/ports.sst
+!!
+
+<< files / view / scheme/processes.sst
+	exec -- less -- ./tests/scheme/processes.sst
 !!
 
 << files / view / scheme/quotation.sst
