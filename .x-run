@@ -39,11 +39,11 @@ cat <<'EOS'
 :: compile / lib / debug :: x-run ':: compile / peg' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --lib --no-default-features "${@}"
 :: compile / lib / release :: x-run ':: compile / peg' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --lib --release --all-features "${@}"
 
-:: compile / bin / interpreter / debug :: x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --bin rust-scheme-interpreter --no-default-features "${@}"
-:: compile / bin / interpreter / release :: x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --bin rust-scheme-interpreter --release --all-features "${@}"
+:: compile / bin / interpreter / debug :: x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --bin vonuvoli-scheme-interpreter --no-default-features "${@}"
+:: compile / bin / interpreter / release :: x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --bin vonuvoli-scheme-interpreter --release --all-features "${@}"
 
-:: compile / bin / compiler / debug :: x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --bin rust-scheme-compiler --no-default-features "${@}"
-:: compile / bin / compiler / release :: x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --bin rust-scheme-compiler --release --all-features "${@}"
+:: compile / bin / compiler / debug :: x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --bin vonuvoli-scheme-compiler --no-default-features "${@}"
+:: compile / bin / compiler / release :: x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --bin vonuvoli-scheme-compiler --release --all-features "${@}"
 
 :: compile / doc / debug :: x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo doc --quiet --no-default-features "${@}"
 :: compile / doc / release :: x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo doc --quiet --release --all-features "${@}"
@@ -63,7 +63,7 @@ cat <<'EOS'
 	env PATH="${RUST_PATH}" \
 			rustc \
 					--test \
-					--extern rust_scheme=./target/debug/librust_scheme.rlib \
+					--extern vonuvoli_scheme=./target/debug/libvonuvoli_scheme.rlib \
 					-Z unstable-options \
 					--pretty=expanded \
 					-- ./tests/scheme.rs \
@@ -85,11 +85,11 @@ cat <<'EOS'
 	#
 !!
 
-:: execute / bin / interpreter / debug :: x-run ':: compile / bin / interpreter / debug' ; exec -- ./target/debug/rust-scheme-interpreter "${@}"
-:: execute / bin / interpreter / release :: x-run ':: compile / bin / interpreter / release' ; exec -- ./target/release/rust-scheme-interpreter "${@}"
+:: execute / bin / interpreter / debug :: x-run ':: compile / bin / interpreter / debug' ; exec -- ./target/debug/vonuvoli-scheme-interpreter "${@}"
+:: execute / bin / interpreter / release :: x-run ':: compile / bin / interpreter / release' ; exec -- ./target/release/vonuvoli-scheme-interpreter "${@}"
 
-:: execute / bin / compiler / debug :: x-run ':: compile / bin / compiler / debug' ; exec -- ./target/debug/rust-scheme-compiler "${@}"
-:: execute / bin / compiler / release :: x-run ':: compile / bin / compiler / release' ; exec -- ./target/release/rust-scheme-compiler "${@}"
+:: execute / bin / compiler / debug :: x-run ':: compile / bin / compiler / debug' ; exec -- ./target/debug/vonuvoli-scheme-compiler "${@}"
+:: execute / bin / compiler / release :: x-run ':: compile / bin / compiler / release' ; exec -- ./target/release/vonuvoli-scheme-compiler "${@}"
 
 :: compile / test / all / debug :: x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --no-default-features --no-run
 :: compile / test / all / release :: x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --release --all-features --no-run
@@ -98,7 +98,7 @@ cat <<'EOS'
 :: execute / test / all / benchmark :: x-run ':: compile / test / all / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --release --all-features --jobs 1 -- --test-threads 1 --bench 'benchmark__' "${@}"
 :: execute / test / all / coverage / kcov :: x-run ':: compile / test / all / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo kcov --no-clean-rebuild --no-default-features --jobs 1 --output ./target/kcov -- "${@}"
 
-:: browse / doc :: exec -- x-www open file://"$( readlink -e -- ./target/doc/rust_scheme/index.html )"
+:: browse / doc :: exec -- x-www open file://"$( readlink -e -- ./target/doc/vonuvoli_scheme/index.html )"
 :: browse / coverage / kcov :: exec -- x-www open file://"$( readlink -e -- ./target/kcov/index.html )"
 :: browse / r7rs :: exec -- x-www open file://"$( readlink -e -- ./documentation/external/r7rs-small-spec/stripped/r7rs.pdf )"
 :: browse / documentation / readme :: exec -- x-www open http://127.0.0.1:53110/
@@ -237,10 +237,10 @@ find ./tests/scripts -xdev -type f -name 'benchmark--*.ss' -printf '%f\n' \
 | sort -u \
 | while read _script ; do
 sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
-:: execute / bin / compiler / scheme / @{SCRIPT} / debug :: x-run ':: compile / bin / compiler / debug' ; env time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-compiler < './tests/scripts/benchmark--@{SCRIPT}.ss' >| './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-compile.out'
-:: execute / bin / compiler / scheme / @{SCRIPT} / release :: x-run ':: compile / bin / compiler / release' ; env time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-compiler < ./tests/scripts/benchmark--@{SCRIPT}.ss' >| './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-compile.out'
-:: execute / benchmark / scheme / @{SCRIPT} / debug :: x-run ':: compile / bin / interpreter / debug' ; taskset -c 2 time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-interpreter < './tests/scripts/benchmark--@{SCRIPT}.ss' >| './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-debug.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-debug.out'
-:: execute / benchmark / scheme / @{SCRIPT} / release :: x-run ':: compile / bin / interpreter / release' ; taskset -c 2 time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-interpreter < './tests/scripts/benchmark--@{SCRIPT}.ss' >| './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-release.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-release.out'
+:: execute / bin / compiler / scheme / @{SCRIPT} / debug :: x-run ':: compile / bin / compiler / debug' ; env time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-compiler < './tests/scripts/benchmark--@{SCRIPT}.ss' >| './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-compile.out'
+:: execute / bin / compiler / scheme / @{SCRIPT} / release :: x-run ':: compile / bin / compiler / release' ; env time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-compiler < ./tests/scripts/benchmark--@{SCRIPT}.ss' >| './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-compile.out'
+:: execute / benchmark / scheme / @{SCRIPT} / debug :: x-run ':: compile / bin / interpreter / debug' ; taskset -c 2 time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-interpreter < './tests/scripts/benchmark--@{SCRIPT}.ss' >| './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-debug.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-debug.out'
+:: execute / benchmark / scheme / @{SCRIPT} / release :: x-run ':: compile / bin / interpreter / release' ; taskset -c 2 time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-interpreter < './tests/scripts/benchmark--@{SCRIPT}.ss' >| './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-release.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-release.out'
 :: execute / benchmark / chibi / @{SCRIPT} :: taskset -c 2 time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- chibi-scheme -m scheme.base -m scheme.time -- './tests/scripts/benchmark--@{SCRIPT}.ss' >| './tests/scripts/_out/benchmark--@{SCRIPT}--chibi.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--chibi.out'
 :: execute / benchmark / gauche / @{SCRIPT} :: taskset -c 2 time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- gosh -b -r 7 < './tests/scripts/benchmark--@{SCRIPT}.ss' >| './tests/scripts/_out/benchmark--@{SCRIPT}--gauche.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--gauche.out'
 EOS
@@ -294,8 +294,8 @@ find ./tests/scripts -xdev -type f \( -name 'optimizer--*.ss' -o -name 'benchmar
 | sort -u \
 | while read _script ; do
 sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
-:: execute / bin / compiler / scheme / @{SCRIPT} / debug :: x-run ':: compile / bin / compiler / debug' ; env time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-compiler < './tests/scripts/optimizer--@{SCRIPT}.ss' >| './tests/scripts/_out/optimizer--@{SCRIPT}--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--@{SCRIPT}--scheme-compile.out'
-:: execute / bin / compiler / scheme / @{SCRIPT} / release :: x-run ':: compile / bin / compiler / release' ; env time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-compiler < './tests/scripts/optimizer--@{SCRIPT}.ss' >| './tests/scripts/_out/optimizer--@{SCRIPT}--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--@{SCRIPT}--scheme-compile.out'
+:: execute / bin / compiler / scheme / @{SCRIPT} / debug :: x-run ':: compile / bin / compiler / debug' ; env time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-compiler < './tests/scripts/optimizer--@{SCRIPT}.ss' >| './tests/scripts/_out/optimizer--@{SCRIPT}--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--@{SCRIPT}--scheme-compile.out'
+:: execute / bin / compiler / scheme / @{SCRIPT} / release :: x-run ':: compile / bin / compiler / release' ; env time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-compiler < './tests/scripts/optimizer--@{SCRIPT}.ss' >| './tests/scripts/_out/optimizer--@{SCRIPT}--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--@{SCRIPT}--scheme-compile.out'
 EOS
 done
 
@@ -306,7 +306,7 @@ find ./tests/scripts -xdev -type f \( -name 'optimizer--*.ss' -o -name 'benchmar
 | sort -u \
 | while read _script ; do
 sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
-./target/debug/rust-scheme-compiler < './tests/scripts/@{SCRIPT}.ss' >| './tests/scripts/_out/@{SCRIPT}--scheme-compile.out'
+./target/debug/vonuvoli-scheme-compiler < './tests/scripts/@{SCRIPT}.ss' >| './tests/scripts/_out/@{SCRIPT}--scheme-compile.out'
 EOS
 done
 printf -- '%s\n' '!!'

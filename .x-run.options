@@ -25,19 +25,19 @@
 !!
 
 << compile / bin / interpreter / debug
-	x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --bin rust-scheme-interpreter --no-default-features "${@}"
+	x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --bin vonuvoli-scheme-interpreter --no-default-features "${@}"
 !!
 
 << compile / bin / interpreter / release
-	x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --bin rust-scheme-interpreter --release --all-features "${@}"
+	x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --bin vonuvoli-scheme-interpreter --release --all-features "${@}"
 !!
 
 << compile / bin / compiler / debug
-	x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --bin rust-scheme-compiler --no-default-features "${@}"
+	x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --bin vonuvoli-scheme-compiler --no-default-features "${@}"
 !!
 
 << compile / bin / compiler / release
-	x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --bin rust-scheme-compiler --release --all-features "${@}"
+	x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --bin vonuvoli-scheme-compiler --release --all-features "${@}"
 !!
 
 << compile / doc / debug
@@ -63,7 +63,7 @@
 		env PATH="${RUST_PATH}" \
 				rustc \
 						--test \
-						--extern rust_scheme=./target/debug/librust_scheme.rlib \
+						--extern vonuvoli_scheme=./target/debug/libvonuvoli_scheme.rlib \
 						-Z unstable-options \
 						--pretty=expanded \
 						-- ./tests/scheme.rs \
@@ -86,19 +86,19 @@
 !!
 
 << execute / bin / interpreter / debug
-	x-run ':: compile / bin / interpreter / debug' ; exec -- ./target/debug/rust-scheme-interpreter "${@}"
+	x-run ':: compile / bin / interpreter / debug' ; exec -- ./target/debug/vonuvoli-scheme-interpreter "${@}"
 !!
 
 << execute / bin / interpreter / release
-	x-run ':: compile / bin / interpreter / release' ; exec -- ./target/release/rust-scheme-interpreter "${@}"
+	x-run ':: compile / bin / interpreter / release' ; exec -- ./target/release/vonuvoli-scheme-interpreter "${@}"
 !!
 
 << execute / bin / compiler / debug
-	x-run ':: compile / bin / compiler / debug' ; exec -- ./target/debug/rust-scheme-compiler "${@}"
+	x-run ':: compile / bin / compiler / debug' ; exec -- ./target/debug/vonuvoli-scheme-compiler "${@}"
 !!
 
 << execute / bin / compiler / release
-	x-run ':: compile / bin / compiler / release' ; exec -- ./target/release/rust-scheme-compiler "${@}"
+	x-run ':: compile / bin / compiler / release' ; exec -- ./target/release/vonuvoli-scheme-compiler "${@}"
 !!
 
 << compile / test / all / debug
@@ -126,7 +126,7 @@
 !!
 
 << browse / doc
-	exec -- x-www open file://"$( readlink -e -- ./target/doc/rust_scheme/index.html )"
+	exec -- x-www open file://"$( readlink -e -- ./target/doc/vonuvoli_scheme/index.html )"
 !!
 
 << browse / coverage / kcov
@@ -1004,19 +1004,19 @@
 !!
 
 << execute / bin / compiler / scheme / controls / debug
-	x-run ':: compile / bin / compiler / debug' ; env time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-compiler < './tests/scripts/benchmark--controls.ss' >| './tests/scripts/_out/benchmark--controls--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--controls--scheme-compile.out'
+	x-run ':: compile / bin / compiler / debug' ; env time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-compiler < './tests/scripts/benchmark--controls.ss' >| './tests/scripts/_out/benchmark--controls--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--controls--scheme-compile.out'
 !!
 
 << execute / bin / compiler / scheme / controls / release
-	x-run ':: compile / bin / compiler / release' ; env time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-compiler < ./tests/scripts/benchmark--controls.ss' >| './tests/scripts/_out/benchmark--controls--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--controls--scheme-compile.out'
+	x-run ':: compile / bin / compiler / release' ; env time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-compiler < ./tests/scripts/benchmark--controls.ss' >| './tests/scripts/_out/benchmark--controls--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--controls--scheme-compile.out'
 !!
 
 << execute / benchmark / scheme / controls / debug
-	x-run ':: compile / bin / interpreter / debug' ; taskset -c 2 time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-interpreter < './tests/scripts/benchmark--controls.ss' >| './tests/scripts/_out/benchmark--controls--scheme-debug.out' ; exec -- cat -- './tests/scripts/_out/benchmark--controls--scheme-debug.out'
+	x-run ':: compile / bin / interpreter / debug' ; taskset -c 2 time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-interpreter < './tests/scripts/benchmark--controls.ss' >| './tests/scripts/_out/benchmark--controls--scheme-debug.out' ; exec -- cat -- './tests/scripts/_out/benchmark--controls--scheme-debug.out'
 !!
 
 << execute / benchmark / scheme / controls / release
-	x-run ':: compile / bin / interpreter / release' ; taskset -c 2 time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-interpreter < './tests/scripts/benchmark--controls.ss' >| './tests/scripts/_out/benchmark--controls--scheme-release.out' ; exec -- cat -- './tests/scripts/_out/benchmark--controls--scheme-release.out'
+	x-run ':: compile / bin / interpreter / release' ; taskset -c 2 time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-interpreter < './tests/scripts/benchmark--controls.ss' >| './tests/scripts/_out/benchmark--controls--scheme-release.out' ; exec -- cat -- './tests/scripts/_out/benchmark--controls--scheme-release.out'
 !!
 
 << execute / benchmark / chibi / controls
@@ -1028,19 +1028,19 @@
 !!
 
 << execute / bin / compiler / scheme / loop / debug
-	x-run ':: compile / bin / compiler / debug' ; env time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-compiler < './tests/scripts/benchmark--loop.ss' >| './tests/scripts/_out/benchmark--loop--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--loop--scheme-compile.out'
+	x-run ':: compile / bin / compiler / debug' ; env time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-compiler < './tests/scripts/benchmark--loop.ss' >| './tests/scripts/_out/benchmark--loop--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--loop--scheme-compile.out'
 !!
 
 << execute / bin / compiler / scheme / loop / release
-	x-run ':: compile / bin / compiler / release' ; env time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-compiler < ./tests/scripts/benchmark--loop.ss' >| './tests/scripts/_out/benchmark--loop--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--loop--scheme-compile.out'
+	x-run ':: compile / bin / compiler / release' ; env time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-compiler < ./tests/scripts/benchmark--loop.ss' >| './tests/scripts/_out/benchmark--loop--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--loop--scheme-compile.out'
 !!
 
 << execute / benchmark / scheme / loop / debug
-	x-run ':: compile / bin / interpreter / debug' ; taskset -c 2 time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-interpreter < './tests/scripts/benchmark--loop.ss' >| './tests/scripts/_out/benchmark--loop--scheme-debug.out' ; exec -- cat -- './tests/scripts/_out/benchmark--loop--scheme-debug.out'
+	x-run ':: compile / bin / interpreter / debug' ; taskset -c 2 time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-interpreter < './tests/scripts/benchmark--loop.ss' >| './tests/scripts/_out/benchmark--loop--scheme-debug.out' ; exec -- cat -- './tests/scripts/_out/benchmark--loop--scheme-debug.out'
 !!
 
 << execute / benchmark / scheme / loop / release
-	x-run ':: compile / bin / interpreter / release' ; taskset -c 2 time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-interpreter < './tests/scripts/benchmark--loop.ss' >| './tests/scripts/_out/benchmark--loop--scheme-release.out' ; exec -- cat -- './tests/scripts/_out/benchmark--loop--scheme-release.out'
+	x-run ':: compile / bin / interpreter / release' ; taskset -c 2 time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-interpreter < './tests/scripts/benchmark--loop.ss' >| './tests/scripts/_out/benchmark--loop--scheme-release.out' ; exec -- cat -- './tests/scripts/_out/benchmark--loop--scheme-release.out'
 !!
 
 << execute / benchmark / chibi / loop
@@ -1052,19 +1052,19 @@
 !!
 
 << execute / bin / compiler / scheme / make-cons / debug
-	x-run ':: compile / bin / compiler / debug' ; env time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-compiler < './tests/scripts/benchmark--make-cons.ss' >| './tests/scripts/_out/benchmark--make-cons--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--make-cons--scheme-compile.out'
+	x-run ':: compile / bin / compiler / debug' ; env time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-compiler < './tests/scripts/benchmark--make-cons.ss' >| './tests/scripts/_out/benchmark--make-cons--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--make-cons--scheme-compile.out'
 !!
 
 << execute / bin / compiler / scheme / make-cons / release
-	x-run ':: compile / bin / compiler / release' ; env time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-compiler < ./tests/scripts/benchmark--make-cons.ss' >| './tests/scripts/_out/benchmark--make-cons--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--make-cons--scheme-compile.out'
+	x-run ':: compile / bin / compiler / release' ; env time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-compiler < ./tests/scripts/benchmark--make-cons.ss' >| './tests/scripts/_out/benchmark--make-cons--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--make-cons--scheme-compile.out'
 !!
 
 << execute / benchmark / scheme / make-cons / debug
-	x-run ':: compile / bin / interpreter / debug' ; taskset -c 2 time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-interpreter < './tests/scripts/benchmark--make-cons.ss' >| './tests/scripts/_out/benchmark--make-cons--scheme-debug.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-cons--scheme-debug.out'
+	x-run ':: compile / bin / interpreter / debug' ; taskset -c 2 time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-interpreter < './tests/scripts/benchmark--make-cons.ss' >| './tests/scripts/_out/benchmark--make-cons--scheme-debug.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-cons--scheme-debug.out'
 !!
 
 << execute / benchmark / scheme / make-cons / release
-	x-run ':: compile / bin / interpreter / release' ; taskset -c 2 time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-interpreter < './tests/scripts/benchmark--make-cons.ss' >| './tests/scripts/_out/benchmark--make-cons--scheme-release.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-cons--scheme-release.out'
+	x-run ':: compile / bin / interpreter / release' ; taskset -c 2 time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-interpreter < './tests/scripts/benchmark--make-cons.ss' >| './tests/scripts/_out/benchmark--make-cons--scheme-release.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-cons--scheme-release.out'
 !!
 
 << execute / benchmark / chibi / make-cons
@@ -1076,19 +1076,19 @@
 !!
 
 << execute / bin / compiler / scheme / make-vector / debug
-	x-run ':: compile / bin / compiler / debug' ; env time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-compiler < './tests/scripts/benchmark--make-vector.ss' >| './tests/scripts/_out/benchmark--make-vector--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--make-vector--scheme-compile.out'
+	x-run ':: compile / bin / compiler / debug' ; env time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-compiler < './tests/scripts/benchmark--make-vector.ss' >| './tests/scripts/_out/benchmark--make-vector--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--make-vector--scheme-compile.out'
 !!
 
 << execute / bin / compiler / scheme / make-vector / release
-	x-run ':: compile / bin / compiler / release' ; env time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-compiler < ./tests/scripts/benchmark--make-vector.ss' >| './tests/scripts/_out/benchmark--make-vector--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--make-vector--scheme-compile.out'
+	x-run ':: compile / bin / compiler / release' ; env time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-compiler < ./tests/scripts/benchmark--make-vector.ss' >| './tests/scripts/_out/benchmark--make-vector--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--make-vector--scheme-compile.out'
 !!
 
 << execute / benchmark / scheme / make-vector / debug
-	x-run ':: compile / bin / interpreter / debug' ; taskset -c 2 time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-interpreter < './tests/scripts/benchmark--make-vector.ss' >| './tests/scripts/_out/benchmark--make-vector--scheme-debug.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-vector--scheme-debug.out'
+	x-run ':: compile / bin / interpreter / debug' ; taskset -c 2 time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-interpreter < './tests/scripts/benchmark--make-vector.ss' >| './tests/scripts/_out/benchmark--make-vector--scheme-debug.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-vector--scheme-debug.out'
 !!
 
 << execute / benchmark / scheme / make-vector / release
-	x-run ':: compile / bin / interpreter / release' ; taskset -c 2 time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-interpreter < './tests/scripts/benchmark--make-vector.ss' >| './tests/scripts/_out/benchmark--make-vector--scheme-release.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-vector--scheme-release.out'
+	x-run ':: compile / bin / interpreter / release' ; taskset -c 2 time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-interpreter < './tests/scripts/benchmark--make-vector.ss' >| './tests/scripts/_out/benchmark--make-vector--scheme-release.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-vector--scheme-release.out'
 !!
 
 << execute / benchmark / chibi / make-vector
@@ -1183,44 +1183,44 @@
 !!
 
 << execute / bin / compiler / scheme / controls / debug
-	x-run ':: compile / bin / compiler / debug' ; env time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-compiler < './tests/scripts/optimizer--controls.ss' >| './tests/scripts/_out/optimizer--controls--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--controls--scheme-compile.out'
+	x-run ':: compile / bin / compiler / debug' ; env time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-compiler < './tests/scripts/optimizer--controls.ss' >| './tests/scripts/_out/optimizer--controls--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--controls--scheme-compile.out'
 !!
 
 << execute / bin / compiler / scheme / controls / release
-	x-run ':: compile / bin / compiler / release' ; env time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-compiler < './tests/scripts/optimizer--controls.ss' >| './tests/scripts/_out/optimizer--controls--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--controls--scheme-compile.out'
+	x-run ':: compile / bin / compiler / release' ; env time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-compiler < './tests/scripts/optimizer--controls.ss' >| './tests/scripts/_out/optimizer--controls--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--controls--scheme-compile.out'
 !!
 
 << execute / bin / compiler / scheme / loop / debug
-	x-run ':: compile / bin / compiler / debug' ; env time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-compiler < './tests/scripts/optimizer--loop.ss' >| './tests/scripts/_out/optimizer--loop--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--loop--scheme-compile.out'
+	x-run ':: compile / bin / compiler / debug' ; env time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-compiler < './tests/scripts/optimizer--loop.ss' >| './tests/scripts/_out/optimizer--loop--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--loop--scheme-compile.out'
 !!
 
 << execute / bin / compiler / scheme / loop / release
-	x-run ':: compile / bin / compiler / release' ; env time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-compiler < './tests/scripts/optimizer--loop.ss' >| './tests/scripts/_out/optimizer--loop--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--loop--scheme-compile.out'
+	x-run ':: compile / bin / compiler / release' ; env time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-compiler < './tests/scripts/optimizer--loop.ss' >| './tests/scripts/_out/optimizer--loop--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--loop--scheme-compile.out'
 !!
 
 << execute / bin / compiler / scheme / make-cons / debug
-	x-run ':: compile / bin / compiler / debug' ; env time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-compiler < './tests/scripts/optimizer--make-cons.ss' >| './tests/scripts/_out/optimizer--make-cons--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--make-cons--scheme-compile.out'
+	x-run ':: compile / bin / compiler / debug' ; env time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-compiler < './tests/scripts/optimizer--make-cons.ss' >| './tests/scripts/_out/optimizer--make-cons--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--make-cons--scheme-compile.out'
 !!
 
 << execute / bin / compiler / scheme / make-cons / release
-	x-run ':: compile / bin / compiler / release' ; env time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-compiler < './tests/scripts/optimizer--make-cons.ss' >| './tests/scripts/_out/optimizer--make-cons--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--make-cons--scheme-compile.out'
+	x-run ':: compile / bin / compiler / release' ; env time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-compiler < './tests/scripts/optimizer--make-cons.ss' >| './tests/scripts/_out/optimizer--make-cons--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--make-cons--scheme-compile.out'
 !!
 
 << execute / bin / compiler / scheme / make-vector / debug
-	x-run ':: compile / bin / compiler / debug' ; env time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/rust-scheme-compiler < './tests/scripts/optimizer--make-vector.ss' >| './tests/scripts/_out/optimizer--make-vector--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--make-vector--scheme-compile.out'
+	x-run ':: compile / bin / compiler / debug' ; env time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-compiler < './tests/scripts/optimizer--make-vector.ss' >| './tests/scripts/_out/optimizer--make-vector--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--make-vector--scheme-compile.out'
 !!
 
 << execute / bin / compiler / scheme / make-vector / release
-	x-run ':: compile / bin / compiler / release' ; env time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/rust-scheme-compiler < './tests/scripts/optimizer--make-vector.ss' >| './tests/scripts/_out/optimizer--make-vector--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--make-vector--scheme-compile.out'
+	x-run ':: compile / bin / compiler / release' ; env time -o /dev/tty -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-compiler < './tests/scripts/optimizer--make-vector.ss' >| './tests/scripts/_out/optimizer--make-vector--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--make-vector--scheme-compile.out'
 !!
 
 << execute / bin / compiler / scheme / all / debug
 	x-run ':: compile / bin / compiler / release'
-	./target/debug/rust-scheme-compiler < './tests/scripts/benchmark--controls.ss' >| './tests/scripts/_out/benchmark--controls--scheme-compile.out'
-	./target/debug/rust-scheme-compiler < './tests/scripts/benchmark--loop.ss' >| './tests/scripts/_out/benchmark--loop--scheme-compile.out'
-	./target/debug/rust-scheme-compiler < './tests/scripts/benchmark--make-cons.ss' >| './tests/scripts/_out/benchmark--make-cons--scheme-compile.out'
-	./target/debug/rust-scheme-compiler < './tests/scripts/benchmark--make-vector.ss' >| './tests/scripts/_out/benchmark--make-vector--scheme-compile.out'
-	./target/debug/rust-scheme-compiler < './tests/scripts/optimizer--controls.ss' >| './tests/scripts/_out/optimizer--controls--scheme-compile.out'
+	./target/debug/vonuvoli-scheme-compiler < './tests/scripts/benchmark--controls.ss' >| './tests/scripts/_out/benchmark--controls--scheme-compile.out'
+	./target/debug/vonuvoli-scheme-compiler < './tests/scripts/benchmark--loop.ss' >| './tests/scripts/_out/benchmark--loop--scheme-compile.out'
+	./target/debug/vonuvoli-scheme-compiler < './tests/scripts/benchmark--make-cons.ss' >| './tests/scripts/_out/benchmark--make-cons--scheme-compile.out'
+	./target/debug/vonuvoli-scheme-compiler < './tests/scripts/benchmark--make-vector.ss' >| './tests/scripts/_out/benchmark--make-vector--scheme-compile.out'
+	./target/debug/vonuvoli-scheme-compiler < './tests/scripts/optimizer--controls.ss' >| './tests/scripts/_out/optimizer--controls--scheme-compile.out'
 !!
 
 << files / edit / bin_compiler.rs

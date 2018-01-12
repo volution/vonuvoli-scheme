@@ -3,10 +3,10 @@
 #![ no_implicit_prelude ]
 
 #[ macro_use ]
-extern crate rust_scheme;
+extern crate vonuvoli_scheme;
 
-use rust_scheme::exports::*;
-use rust_scheme::prelude::*;
+use vonuvoli_scheme::exports::*;
+use vonuvoli_scheme::prelude::*;
 
 
 

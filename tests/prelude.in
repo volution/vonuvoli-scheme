@@ -2,14 +2,14 @@
 
 #[ macro_use ]
 #[ allow (unused_imports) ]
-extern crate rust_scheme;
+extern crate vonuvoli_scheme;
 
 
 #[ allow (unused_imports) ]
-use rust_scheme::exports::*;
+use vonuvoli_scheme::exports::*;
 
 #[ allow (unused_imports) ]
-use rust_scheme::prelude::*;
+use vonuvoli_scheme::prelude::*;
 
 
 

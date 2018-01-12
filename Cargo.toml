@@ -1,13 +1,13 @@
 
 [package]
-name = "rust-scheme"
+name = "vonuvoli-scheme"
 version = "0.1.0"
 authors = ["Ciprian Dorin Craciun <ciprian@volution.ro>"]
 publish = false
 
 
 [[bin]]
-name = "rust-scheme-interpreter"
+name = "vonuvoli-scheme-interpreter"
 path = "./sources/bin_interpreter.rs"
 test = false
 bench = false
@@ -15,7 +15,7 @@ doc = false
 doctest = false
 
 [[bin]]
-name = "rust-scheme-compiler"
+name = "vonuvoli-scheme-compiler"
 path = "./sources/bin_compiler.rs"
 test = false
 bench = false
@@ -23,7 +23,7 @@ doc = false
 doctest = false
 
 [lib]
-name = "rust_scheme"
+name = "vonuvoli_scheme"
 path = "./sources/lib.rs"
 test = false
 bench = false
