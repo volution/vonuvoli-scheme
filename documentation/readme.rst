@@ -94,7 +94,7 @@ Which are ``vonuvoli``'s non-focus areas?
   * computational performance --- if one needs high-performance algorithms, one can always write that code directly in Rust (or even C) and expose that as builtin functionality;
   * Windows portability --- as previously stated the development is mainly focused on UNIX-like operating systems, but porting it to Windows should be trivial building upon Rust's conditional compilation;
   * GUI and human interaction --- focusing mainly on systems programming, these matters should be better delegated to tools like ``dmenu`` or ``rofi``;
-  * full Scheme R7RS compliance --- some of the "key" features of Scheme (mainly continuations) are sacrificed because they require heavy tradeoffs (especially in terms of performance and complexity) given the current implementation;  (this however might change;)
+  * full Scheme R7RS compliance --- some of the "key" features of Scheme (mainly continuations) are sacrificed because they require heavy tradeoffs (especially in terms of performance and complexity) given the current implementation;  (this however might change;)  (for an up-to-date R7RS implementation status see `this report <./documentation/r7rs-support.md>`_;)
 
 
 
@@ -104,7 +104,7 @@ What is currently being worked on?
 
 .. epigraph::  A.K.A.  That section about "what features are currently missing, some of which are quite important and useful, but unfortunately of which 50% will be delayed forever --- unless someone steps-up, or even better pays the authors, to implement them"...
 
-..
+Scheme / Lisp related functionalities:
 
   * tail recursion --- this is one of the top TODO tasks;
   * Lisp ``defmacro``-like macros --- like tail recursion is at the top of the TODO list;
@@ -116,6 +116,10 @@ What is currently being worked on?
   * Scheme R7RS ``define-library`` and related;
   * Scheme R7RS ``eval`` and related;
   * Scheme R7RS ``delay`` and related;
+  * (for an up-to-date Scheme R7RS implementation status see `this report <./documentation/r7rs-support.md>`_;)
+
+Other builtin functionalities:
+
   * JSON functions and syntax;
   * regular expressions and syntax;
   * extended string / bytes / array / lists functions;
@@ -136,6 +140,7 @@ What is currently deferred?
   * Scheme R7RS complex and rational numbers;
   * Scheme R7RS continuations (i.e. ``call/cc`` and related);
   * arbitrary precision numeric values;
+  * (for an up-to-date Scheme R7RS implementation status see `this report <./documentation/r7rs-support.md>`_;)
 
 
 
@@ -229,6 +234,7 @@ Unfortunately currently there is absolutely no documentation regarding the built
 However one can take a look at the `tests/scheme/*.sst <./tests/scheme>`_ files which provide good examples (expected inputs and outputs) for all the builtins.
 
 Moreover one can look at the Scheme R7RS_ standard which is mostly implemented by this interpreter.
+For an up-to-date Scheme R7RS implementation status see `this report <./documentation/r7rs-support.md>`_.
 
 
 
