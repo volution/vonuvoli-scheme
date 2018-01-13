@@ -155,14 +155,14 @@ macro_rules! impl_into_for_outcome {
 		impl_into_for_outcome! ($from, $from, value, value);
 	);
 	( $to : ty, $from : ty ) => (
-		impl_into_for_outcome! ($to, $from, value, value.into ());
+		impl_into_for_outcome! ($to, $from, value, value);
 	);
 	( $to : ty, $from : ty, $value : ident, $expression : expr ) => (
 		impl $crate::prelude::StdInto0<$crate::errors::exports::Outcome<$to>> for $from {
 			#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 			fn into_0 (self) -> ($crate::errors::exports::Outcome<$to>) {
 				let $value = self;
-				succeed! ($crate::prelude::StdFrom::<$to>::from ($expression));
+				succeed! ($crate::prelude::StdInto::<$to>::into ($expression));
 			}
 		}
 		impl $crate::prelude::StdInto0<$crate::errors::exports::Outcome<$to>> for $crate::errors::exports::Outcome<$from> {
@@ -170,7 +170,7 @@ macro_rules! impl_into_for_outcome {
 			fn into_0 (self) -> ($crate::errors::exports::Outcome<$to>) {
 				match self {
 					$crate::prelude::Result::Ok ($value) =>
-						succeed! ($crate::prelude::StdFrom::<$to>::from ($expression)),
+						succeed! ($crate::prelude::StdInto::<$to>::into ($expression)),
 					$crate::prelude::Result::Err (error) =>
 						$crate::prelude::Result::Err (error),
 				}
@@ -189,7 +189,7 @@ macro_rules! impl_try_into_for_outcome {
 			#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 			fn into_0 (self) -> ($crate::errors::exports::Outcome<$to>) {
 				let $value = self;
-				succeed! ($crate::prelude::StdFrom::<$to>::from (try! ($expression)));
+				succeed! ($crate::prelude::StdInto::<$to>::into (try! ($expression)));
 			}
 		}
 		impl $crate::prelude::StdInto0<$crate::errors::exports::Outcome<$to>> for $crate::errors::exports::Outcome<$from> {
@@ -197,7 +197,7 @@ macro_rules! impl_try_into_for_outcome {
 			fn into_0 (self) -> ($crate::errors::exports::Outcome<$to>) {
 				match self {
 					$crate::prelude::Result::Ok ($value) =>
-						succeed! ($crate::prelude::StdFrom::<$to>::from (try! ($expression))),
+						succeed! ($crate::prelude::StdInto::<$to>::into (try! ($expression))),
 					$crate::prelude::Result::Err (error) =>
 						$crate::prelude::Result::Err (error),
 				}
@@ -211,13 +211,13 @@ macro_rules! impl_try_into_for_outcome {
 
 macro_rules! impl_from_for_box {
 	( $to : ty, $from : ty ) => (
-		impl_from_for_box! ($to, $from, value, $to (value.into ()));
+		impl_from_for_box! ($to, $from, value, value);
 	);
 	( $to : ty, $from : ty, $value : ident, $expression : expr ) => (
 		impl $crate::prelude::StdFrom<$from> for $crate::prelude::StdBox<$to> {
 			#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 			fn from ($value : $from) -> ($crate::prelude::StdBox<$to>) {
-				return $crate::prelude::StdBox::new ($crate::prelude::StdFrom::<$to>::from ($expression));
+				return $crate::prelude::StdBox::new ($crate::prelude::StdInto::<$to>::into ($expression));
 			}
 		}
 		impl $crate::prelude::StdTryFrom<$from> for $crate::prelude::StdBox<$to> {
@@ -244,7 +244,7 @@ macro_rules! impl_try_from_for_box {
 			type Error = $crate::errors::exports::Error;
 			#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 			fn try_from ($value : $from) -> ($crate::prelude::Result<$crate::prelude::StdBox<$to>, $crate::errors::exports::Error>) {
-				succeed! ($crate::prelude::StdBox::new ($crate::prelude::StdFrom::<$to>::from (try! ($expression))));
+				succeed! ($crate::prelude::StdBox::new ($crate::prelude::StdInto::<$to>::into (try! ($expression))));
 			}
 		}
 		impl $crate::prelude::StdFrom<$from> for $crate::prelude::StdBox<$to> {
@@ -268,13 +268,15 @@ macro_rules! impl_try_from_for_box {
 
 macro_rules! impl_from_for_type {
 	( $to : ident, $from : ty ) => (
-		impl_from_for_type! ($to, $from, value, $to (value.into ()));
+		impl_from_for_type! ($to, $from, value, $to ($crate::prelude::StdInto::<$from>::into (value)));
 	);
 	( $to : ty, $from : ty, $value : ident, $expression : expr ) => (
 		impl $crate::prelude::StdFrom<$from> for $to {
 			#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 			fn from ($value : $from) -> ($to) {
-				return $crate::prelude::StdFrom::<$to>::from ($expression);
+				// FIXME:  Investigate why the following does not work!
+				// return $crate::prelude::StdInto::<$to>::into ($expression);
+				return $expression;
 			}
 		}
 		impl $crate::prelude::StdTryFrom<$from> for $to {
@@ -303,7 +305,7 @@ macro_rules! impl_try_from_for_type {
 			type Error = $crate::errors::exports::Error;
 			#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 			fn try_from ($value : $from) -> ($crate::prelude::Result<$to, $crate::errors::exports::Error>) {
-				succeed! ($crate::prelude::StdFrom::<$to>::from (try! ($expression)));
+				succeed! ($crate::prelude::StdInto::<$to>::into (try! ($expression)));
 			}
 		}
 		impl $crate::prelude::StdFrom<$from> for $to {
@@ -400,7 +402,7 @@ macro_rules! impl_from_for_enum {
 		impl $crate::prelude::StdFrom<$from> for $to {
 			#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 			fn from ($value : $from) -> ($to) {
-				return $to::$tag ($expression.into ());
+				return $to::$tag ($crate::prelude::StdInto::<_>::into ($expression));
 			}
 		}
 		impl $crate::prelude::StdTryFrom<$from> for $to {
@@ -429,7 +431,7 @@ macro_rules! impl_try_from_for_enum {
 			type Error = $crate::errors::exports::Error;
 			#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 			fn try_from ($value : $from) -> ($crate::prelude::Result<$to, $crate::errors::exports::Error>) {
-				succeed! ($to::tag (try! ($expression) .into ()));
+				succeed! ($to::tag ($crate::prelude::StdInto::<_>::into (try! ($expression))));
 			}
 		}
 		impl $crate::prelude::StdFrom<$from> for $to {
@@ -461,7 +463,7 @@ macro_rules! impl_unwrappers_for_box {
 		impl $crate::prelude::StdFrom<$crate::prelude::StdBox<$from>> for $to {
 			#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 			fn from (value : $crate::prelude::StdBox<$from>) -> ($to) {
-				return <$to>::from (*value);
+				return $crate::prelude::StdInto::<$to>::into (*value);
 			}
 		}
 		impl $crate::prelude::StdTryFrom<$crate::prelude::StdBox<$from>> for $to {
@@ -497,12 +499,14 @@ macro_rules! impl_unwrappers_for_box {
 }
 
 
+
+
 macro_rules! impl_unwrappers_for_type_wrapper {
 	( $from : ty, $to : ty) => (
 		impl $crate::prelude::StdFrom<$from> for $to {
 			#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 			fn from (value : $from) -> ($to) {
-				return $crate::prelude::StdFrom::<$to>::from (value.0);
+				return $crate::prelude::StdInto::<$to>::into (value.0);
 			}
 		}
 		impl $crate::prelude::StdTryFrom<$from> for $to {
@@ -544,7 +548,7 @@ macro_rules! impl_unwrappers_for_enum_wrapper {
 			#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 			fn try_from (value : $from) -> ($crate::prelude::Result<$to, $crate::errors::exports::Error>) {
 				if let $from::$tag (value) = value {
-					succeed! (<$to>::from (value));
+					succeed! ($crate::prelude::StdInto::<$to>::into (value));
 				} else {
 					fail! (0x64d097b5);
 				}
@@ -594,7 +598,7 @@ macro_rules! impl_unwrappers_2_for_enum_3_wrapper {
 			#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 			fn try_from (value : $from) -> ($crate::prelude::Result<$to, $crate::errors::exports::Error>) {
 				if let $from::$tag (_, value, _) = value {
-					succeed! (<$to>::from (value));
+					succeed! ($crate::prelude::StdInto::<$to>::into (value));
 				} else {
 					fail! (0x7ac7cc9c);
 				}
