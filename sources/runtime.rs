@@ -32,16 +32,6 @@ pub mod exports {
 
 
 
-pub trait StdTryFrom <T> : Sized {
-	type Error;
-	fn try_from (value: T) -> (Result<Self, Self::Error>);
-}
-
-pub trait StdTryInto <T> : Sized {
-	type Error;
-	fn try_into (self) -> (Result<T, Self::Error>);
-}
-
 pub trait StdTryAsRef <T> {
 	type Error;
 	fn try_as_ref (&self) -> (Result<&T, Self::Error>);

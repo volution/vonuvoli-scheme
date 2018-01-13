@@ -30,6 +30,8 @@ pub use std::convert::AsRef as StdAsRef;
 pub use std::convert::AsMut as StdAsRefMut;
 pub use std::convert::From as StdFrom;
 pub use std::convert::Into as StdInto;
+pub use std::convert::TryFrom as StdTryFrom;
+pub use std::convert::TryInto as StdTryInto;
 pub use std::ops::Deref as StdDeref;
 pub use std::rc::Rc as StdRc;
 pub use std::string::String as StdString;
@@ -39,9 +41,6 @@ pub use std::vec::Vec as StdVec;
 
 
 pub use super::runtime::StdTryAsRef;
-pub use super::runtime::StdTryFrom;
-pub use super::runtime::StdTryInto;
-
 pub use super::runtime::StdInto0;
 pub use super::runtime::StdTryInto0;
 
