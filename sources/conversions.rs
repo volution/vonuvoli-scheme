@@ -33,17 +33,20 @@ macro_rules! impl_from_for_Expression_0 {
 
 macro_rules! impl_from_for_Expression_1 {
 	( $tag : ident, $from : ty ) => (
+		impl_as_ref_for_type! ($from);
 		impl_from_for_Expression_0! ($tag, $from);
 		impl_unwrappers_for_enum_wrapper! (Expression, $tag, $from);
 	);
 }
 
+/*~~
 macro_rules! impl_from_for_Expression_2 {
 	( $tag : ident, $from : ty, $value : ident, $expression : tt ) => (
 		impl_from_for_type! (Expression, $from, $value, Expression::$tag $expression);
 		impl_from_for_Expression_0! ($tag, $from);
 	);
 }
+*/
 
 
 
@@ -60,12 +63,13 @@ macro_rules! impl_from_for_Value_1 {
 		impl_as_ref_for_type! ($from);
 		impl_from_for_Value_0! ($tag, $from);
 		impl_unwrappers_2_for_enum_3_wrapper! (Value, $tag, $from);
-		impl_unwrappers_for_enum_wrapper! (Expression, Value, $from);
+		impl_try_unwrappers_for_enum_wrapper! (Expression, Value, $from);
 	);
 }
 
 macro_rules! impl_from_for_Value_2 {
 	( $tag : ident, $to : ident, $from : ty ) => (
+		// impl_as_ref_for_type! ($from);
 		impl_from_for_type! ($to, $from);
 		impl_from_for_Value_0! ($tag, $from);
 		impl_unwrappers_for_type_wrapper! ($to, $from);
@@ -74,6 +78,7 @@ macro_rules! impl_from_for_Value_2 {
 
 macro_rules! impl_from_for_Value_3 {
 	( $tag : ident, $to : ty, $from : ty, $value : ident, $expression : expr ) => (
+		// impl_as_ref_for_type! ($from);
 		impl_from_for_type! ($to, $from, $value, $expression);
 		impl_from_for_Value_0! ($tag, $from);
 	);
@@ -85,9 +90,6 @@ macro_rules! impl_from_for_Value_3 {
 impl_as_ref_for_type! (Expression);
 impl_into_for_outcome! (Expression);
 
-impl_as_ref_for_type! (Value);
-impl_into_for_outcome! (Value);
-
 impl_from_for_Expression_1! (Value, Value);
 impl_from_for_Expression_1! (Contexts, ExpressionForContexts);
 impl_from_for_Expression_1! (ProcedureGenericCall, ExpressionForProcedureGenericCall);
@@ -95,6 +97,12 @@ impl_from_for_Expression_1! (ProcedurePrimitiveCall, ExpressionForProcedurePrimi
 impl_from_for_Expression_1! (ProcedureExtendedCall, ExpressionForProcedureExtendedCall);
 impl_from_for_Expression_1! (ProcedureLambdaCall, ExpressionForProcedureLambdaCall);
 impl_from_for_Expression_1! (ProcedureNativeCall, ExpressionForProcedureNativeCall);
+
+
+
+
+// impl_as_ref_for_type! (Value);
+impl_into_for_outcome! (Value);
 
 impl_from_for_Value_1! (Singleton, ValueSingleton);
 impl_from_for_Value_1! (Boolean, Boolean);
@@ -141,8 +149,8 @@ impl_from_for_Value_3! (NumberInteger, NumberInteger, u32, value, number_i64 (va
 impl_from_for_Value_3! (NumberInteger, NumberInteger, isize, value, number_i64 (value as i64));
 impl_try_from_for_type! (NumberInteger, u64, value, if value <= <i64>::max_value () as u64 { succeeded! (number_i64 (value as i64)) } else { failed! (0x78f55fb6) });
 impl_try_from_for_type! (NumberInteger, usize, value, if value <= <i64>::max_value () as usize { succeeded! (number_i64 (value as i64)) } else { failed! (0xe99641f7) });
-impl_try_from_for_type! (Value, u64, value, StdTryInto::<NumberInteger>::try_into (value) .into_0 ());
-impl_try_from_for_type! (Value, usize, value, StdTryInto::<NumberInteger>::try_into (value) .into_0 ());
+impl_try_from_for_type! (Value, u64, value, StdTryInto::<NumberInteger>::try_into (value) .into ());
+impl_try_from_for_type! (Value, usize, value, StdTryInto::<NumberInteger>::try_into (value) .into ());
 impl_from_for_type! (NumberInteger, char, value, number_i64 (value as i64));
 
 impl_from_for_Value_2! (NumberReal, NumberReal, f64);
