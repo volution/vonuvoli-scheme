@@ -622,7 +622,7 @@ pub fn number_to_string (number : &Value, radix : Option<&Value>, sign : Option<
 	match number.kind () {
 		
 		ValueKind::NumberInteger => {
-			let number = StdAsRef::<NumberInteger>::as_ref (number) .value ();
+			let number = StdExpectAsRef0::<NumberInteger>::expect_as_ref_0 (number) .value ();
 			let string = if number != 0 {
 				let (number, prefix) = if number > 0 {
 					match sign {
@@ -662,7 +662,7 @@ pub fn number_to_string (number : &Value, radix : Option<&Value>, sign : Option<
 		},
 		
 		ValueKind::NumberReal => {
-			let number = StdAsRef::<NumberReal>::as_ref (number) .value ();
+			let number = StdExpectAsRef0::<NumberReal>::expect_as_ref_0 (number) .value ();
 			let string = if (number != 0.0) && !number.is_nan () {
 				match radix {
 					None | Some (10) =>

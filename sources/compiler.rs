@@ -91,10 +91,10 @@ impl Compiler {
 				return self.compile_syntax_quote_0 (compilation, token),
 			
 			ValueClass::Symbol =>
-				return self.compile_symbol (compilation, token.into ()),
+				return self.compile_symbol (compilation, token.expect_into_0 ()),
 			
 			ValueClass::Pair =>
-				return self.compile_form (compilation, token.into ()),
+				return self.compile_form (compilation, token.expect_into_0 ()),
 			
 			ValueClass::Bytes =>
 				return self.compile_syntax_quote_0 (compilation, token),
@@ -177,10 +177,10 @@ impl Compiler {
 		match callable.class () {
 			
 			ValueClass::Symbol => {
-				if let Some (callable) = try! (compilation.resolve_value (callable.into ())) {
+				if let Some (callable) = try! (compilation.resolve_value (callable.expect_into_0 ())) {
 					match callable.class () {
 						ValueClass::Syntax =>
-							succeed! ((compilation, Some ((callable.into (), arguments)))),
+							succeed! ((compilation, Some ((callable.expect_into_0 (), arguments)))),
 						_ =>
 							succeed! ((compilation, None)),
 					}
@@ -190,7 +190,7 @@ impl Compiler {
 			},
 			
 			ValueClass::Syntax =>
-				succeed! ((compilation, Some ((callable.into (), arguments)))),
+				succeed! ((compilation, Some ((callable.expect_into_0 (), arguments)))),
 			
 			_ =>
 				succeed! ((compilation, None)),
@@ -418,7 +418,7 @@ impl Compiler {
 			}
 			let (guard, statements) = try! (vec_explode_1n (tokens));
 			
-			let (compilation_1, guard) = if ! (guard.is_class (ValueClass::Symbol) && StdAsRef::<Symbol>::as_ref (&guard) .string_eq ("else")) {
+			let (compilation_1, guard) = if ! (guard.is_class (ValueClass::Symbol) && StdExpectAsRef0::<Symbol>::expect_as_ref_0 (&guard) .string_eq ("else")) {
 				let (compilation_1, guard) = try! (self.compile_0 (compilation, guard));
 				let guard = ExpressionConditionalIfGuard::Expression (guard, false);
 				(compilation_1, guard)
@@ -427,7 +427,7 @@ impl Compiler {
 				(compilation, guard)
 			};
 			
-			if (statements.len () >= 1) && (statements[0].is_class (ValueClass::Symbol) && StdAsRef::<Symbol>::as_ref (&statements[0]) .string_eq ("=>")) {
+			if (statements.len () >= 1) && (statements[0].is_class (ValueClass::Symbol) && StdExpectAsRef0::<Symbol>::expect_as_ref_0 (&statements[0]) .string_eq ("=>")) {
 				fail_unimplemented! (0xfa332991); // deferred
 			}
 			let (compilation_1, statements) = try! (self.compile_0_vec (compilation_1, statements));
@@ -474,14 +474,14 @@ impl Compiler {
 			}
 			let (expected, statements) = try! (vec_explode_1n (tokens));
 			
-			let guard = if ! (expected.is_class (ValueClass::Symbol) && StdAsRef::<Symbol>::as_ref (&expected) .string_eq ("else")) {
+			let guard = if ! (expected.is_class (ValueClass::Symbol) && StdExpectAsRef0::<Symbol>::expect_as_ref_0 (&expected) .string_eq ("else")) {
 				let expected = try! (vec_list_clone (&expected));
 				ExpressionConditionalMatchGuard::Values (expected.into_boxed_slice (), false)
 			} else {
 				ExpressionConditionalMatchGuard::True
 			};
 			
-			if (statements.len () >= 1) && (statements[0].is_class (ValueClass::Symbol) && StdAsRef::<Symbol>::as_ref (&statements[0]) .string_eq ("=>")) {
+			if (statements.len () >= 1) && (statements[0].is_class (ValueClass::Symbol) && StdExpectAsRef0::<Symbol>::expect_as_ref_0 (&statements[0]) .string_eq ("=>")) {
 				fail_unimplemented! (0xef5d468c); // deferred
 			}
 			let (compilation_1, statements) = try! (self.compile_0_vec (compilation, statements));
@@ -1121,7 +1121,7 @@ impl Compiler {
 		let (arguments, statements) = try! (vec_explode_1n (tokens));
 		let (arguments_positional, argument_rest) = match arguments.class () {
 			ValueClass::Symbol =>
-				(StdVec::new (), Some (Symbol::from (arguments))),
+				(StdVec::new (), Some (StdExpectInto0::<Symbol>::expect_into_0 (arguments))),
 			ValueClass::Pair | ValueClass::Null => {
 				let (arguments_positional, argument_rest) = try! (vec_list_clone_dotted (&arguments));
 				let arguments_positional = try_vec_map_into! (arguments_positional, value, Symbol::try_from (value));
@@ -1241,7 +1241,7 @@ impl Compiler {
 			
 			ValueClass::Pair => {
 				
-				let compilation = match try! (self.compile_form_0 (compilation, token.clone () .into ())) {
+				let compilation = match try! (self.compile_form_0 (compilation, token.clone () .expect_into_0 ())) {
 					
 					(compilation, Some ((syntax, tokens))) => {
 						let tokens = try! (vec_list_clone (&tokens));
@@ -1312,7 +1312,7 @@ impl Compiler {
 					match cursor.class () {
 						
 						ValueClass::Pair => {
-							let pair = try! (cursor.try_as_ref ()) as &PairImmutable;
+							let pair = try_as_pair_immutable_ref! (cursor);
 							let (compilation_1, element) = try! (self.compile_syntax_quasi_quote_0 (compilation, pair.left () .clone (), false, true, quote_depth, unquote_depth));
 							compilation = compilation_1;
 							elements.push (element);

@@ -374,28 +374,28 @@ macro_rules! def_fn_compare {
 	) => (
 		#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 		pub fn $compare_1 <ValueRef : StdAsRef<Value>> (input_1 : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
-			let input_1 = try! (StdTryAsRef::<$type>::try_as_ref (input_1.as_ref ()));
+			let input_1 = try! (StdTryAsRef0::<$type>::try_as_ref_0 (input_1.as_ref ()));
 			return $compare_1a (input_1, comparison);
 		}
 		#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 		pub fn $compare_2 <ValueRef : StdAsRef<Value>> (input_1 : ValueRef, input_2 : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
-			let input_1 = try! (StdTryAsRef::<$type>::try_as_ref (input_1.as_ref ()));
-			let input_2 = try! (StdTryAsRef::<$type>::try_as_ref (input_2.as_ref ()));
+			let input_1 = try! (StdTryAsRef0::<$type>::try_as_ref_0 (input_1.as_ref ()));
+			let input_2 = try! (StdTryAsRef0::<$type>::try_as_ref_0 (input_2.as_ref ()));
 			return $compare_2a (input_1, input_2, comparison);
 		}
 		#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 		pub fn $compare_3 <ValueRef : StdAsRef<Value>> (input_1 : ValueRef, input_2 : ValueRef, input_3 : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
-			let input_1 = try! (StdTryAsRef::<$type>::try_as_ref (input_1.as_ref ()));
-			let input_2 = try! (StdTryAsRef::<$type>::try_as_ref (input_2.as_ref ()));
-			let input_3 = try! (StdTryAsRef::<$type>::try_as_ref (input_3.as_ref ()));
+			let input_1 = try! (StdTryAsRef0::<$type>::try_as_ref_0 (input_1.as_ref ()));
+			let input_2 = try! (StdTryAsRef0::<$type>::try_as_ref_0 (input_2.as_ref ()));
+			let input_3 = try! (StdTryAsRef0::<$type>::try_as_ref_0 (input_3.as_ref ()));
 			return $compare_3a (input_1, input_2, input_3, comparison);
 		}
 		#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 		pub fn $compare_4 <ValueRef : StdAsRef<Value>> (input_1 : ValueRef, input_2 : ValueRef, input_3 : ValueRef, input_4 : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
-			let input_1 = try! (StdTryAsRef::<$type>::try_as_ref (input_1.as_ref ()));
-			let input_2 = try! (StdTryAsRef::<$type>::try_as_ref (input_2.as_ref ()));
-			let input_3 = try! (StdTryAsRef::<$type>::try_as_ref (input_3.as_ref ()));
-			let input_4 = try! (StdTryAsRef::<$type>::try_as_ref (input_4.as_ref ()));
+			let input_1 = try! (StdTryAsRef0::<$type>::try_as_ref_0 (input_1.as_ref ()));
+			let input_2 = try! (StdTryAsRef0::<$type>::try_as_ref_0 (input_2.as_ref ()));
+			let input_3 = try! (StdTryAsRef0::<$type>::try_as_ref_0 (input_3.as_ref ()));
+			let input_4 = try! (StdTryAsRef0::<$type>::try_as_ref_0 (input_4.as_ref ()));
 			return $compare_4a (input_1, input_2, input_3, input_4, comparison);
 		}
 		#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
@@ -409,7 +409,7 @@ macro_rules! def_fn_compare {
 				_ =>
 					(),
 			}
-			let inputs = try! (inputs.iter () .map (|input| StdTryAsRef::<$type>::try_as_ref (input.as_ref ())) .collect::<Outcome<StdVec<_>>> ());
+			let inputs = try! (inputs.iter () .map (|input| StdTryAsRef0::<$type>::try_as_ref_0 (input.as_ref ())) .collect::<Outcome<StdVec<_>>> ());
 			let mut inputs_iterator = inputs.iter ();
 			let mut input_previous = inputs_iterator.next () .unwrap ();
 			for input_current in inputs_iterator {
@@ -1436,7 +1436,7 @@ pub fn number_compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparis
 				ValueKind::NumberInteger =>
 					succeed! (true),
 				ValueKind::NumberReal => {
-					let value = StdAsRef::<NumberReal>::as_ref (value) .value ();
+					let value = StdExpectAsRef0::<NumberReal>::expect_as_ref_0 (value) .value ();
 					if value.is_nan () {
 						succeed! (false);
 					} else {
@@ -1461,13 +1461,13 @@ pub fn number_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : V
 				None | Some (false) =>
 					match (left.kind (), right.kind ()) {
 						(ValueKind::NumberInteger, ValueKind::NumberInteger) => {
-							let left = StdAsRef::<NumberInteger>::as_ref (left) .value ();
-							let right = StdAsRef::<NumberInteger>::as_ref (right) .value ();
+							let left = StdExpectAsRef0::<NumberInteger>::expect_as_ref_0 (left) .value ();
+							let right = StdExpectAsRef0::<NumberInteger>::expect_as_ref_0 (right) .value ();
 							succeed! (left == right);
 						},
 						(ValueKind::NumberReal, ValueKind::NumberReal) => {
-							let left = StdAsRef::<NumberReal>::as_ref (left) .value ();
-							let right = StdAsRef::<NumberReal>::as_ref (right) .value ();
+							let left = StdExpectAsRef0::<NumberReal>::expect_as_ref_0 (left) .value ();
+							let right = StdExpectAsRef0::<NumberReal>::expect_as_ref_0 (right) .value ();
 							if left.is_nan () && right.is_nan () {
 								succeed! (true);
 							} else {

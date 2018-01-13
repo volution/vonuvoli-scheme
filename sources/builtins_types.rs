@@ -472,7 +472,7 @@ def_fn_predicate_any! (is_boolean, is_boolean_any_2, is_boolean_any_3, is_boolea
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_true (value : &Value) -> (bool) {
-	if let Ok (value) = StdTryAsRef::<Boolean>::try_as_ref (value) {
+	if let Ok (value) = StdTryAsRef0::<Boolean>::try_as_ref_0 (value) {
 		return value.0 == true;
 	} else {
 		return false;
@@ -485,7 +485,7 @@ def_fn_predicate_any! (is_true, is_true_any_2, is_true_any_3, is_true_any_4, is_
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_false (value : &Value) -> (bool) {
-	if let Ok (value) = StdTryAsRef::<Boolean>::try_as_ref (value) {
+	if let Ok (value) = StdTryAsRef0::<Boolean>::try_as_ref_0 (value) {
 		return value.0 == false;
 	} else {
 		return false;
@@ -529,7 +529,7 @@ pub fn is_false_or_equivalent (value : &Value) -> (bool) {
 		ValueKind::Null | ValueKind::Void | ValueKind::Undefined =>
 			return true,
 		ValueKind::Boolean =>
-			return ! StdAsRef::<Boolean>::as_ref (value) .value (),
+			return ! StdExpectAsRef0::<Boolean>::expect_as_ref_0 (value) .value (),
 		ValueKind::Error =>
 			return true,
 		_ =>
@@ -1412,7 +1412,7 @@ def_fn_try_predicate_any! (is_port_textual, is_port_textual_any_2, is_port_textu
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 pub fn is_port_eof (value : &Value) -> (bool) {
-	if let Ok (value) = StdTryAsRef::<ValueSingleton>::try_as_ref (value) {
+	if let Ok (value) = StdTryAsRef0::<ValueSingleton>::try_as_ref_0 (value) {
 		return *value == ValueSingleton::PortEof;
 	} else {
 		return false;

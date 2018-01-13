@@ -653,7 +653,7 @@ pub fn vec_list_drain_dotted (buffer : &mut ValueVec, list : &Value) -> (Outcome
 		match cursor.class () {
 			ValueClass::Pair => {
 				// FIXME:  Add support for mutable pairs!
-				let (left, right) = try! (StdTryAsRef::<PairImmutable>::try_as_ref (cursor)) .left_and_right ();
+				let (left, right) = try! (StdTryAsRef0::<PairImmutable>::try_as_ref_0 (cursor)) .left_and_right ();
 				buffer.push (left.clone ());
 				cursor = right;
 			},
@@ -811,7 +811,7 @@ pub fn vec_list_ref_drain_dotted <'a : 'b, 'b> (buffer : &'b mut StdVec<&'a Valu
 		match cursor.class () {
 			ValueClass::Pair => {
 				// FIXME:  Add support for mutable pairs!
-				let (left, right) = try! (StdTryAsRef::<PairImmutable>::try_as_ref (cursor)) .left_and_right ();
+				let (left, right) = try! (StdTryAsRef0::<PairImmutable>::try_as_ref_0 (cursor)) .left_and_right ();
 				buffer.push (left);
 				cursor = right;
 			},

@@ -802,9 +802,9 @@ pub fn verify_definitions (definitions : &StdVec<(Symbol, Symbol, Symbol, Value)
 		if let Some (existing) = mappings.insert (identifier.clone (), value) {
 			let existing_is_value = match (existing.kind (), value.kind ()) {
 				(ValueKind::ProcedurePrimitive, ValueKind::ProcedurePrimitive) =>
-					StdAsRef::<ProcedurePrimitive>::as_ref (existing) == StdAsRef::<ProcedurePrimitive>::as_ref (value),
+					StdExpectAsRef0::<ProcedurePrimitive>::expect_as_ref_0 (existing) == StdExpectAsRef0::<ProcedurePrimitive>::expect_as_ref_0 (value),
 				(ValueKind::SyntaxPrimitive, ValueKind::SyntaxPrimitive) =>
-					StdAsRef::<SyntaxPrimitive>::as_ref (existing) == StdAsRef::<SyntaxPrimitive>::as_ref (value),
+					StdExpectAsRef0::<SyntaxPrimitive>::expect_as_ref_0 (existing) == StdExpectAsRef0::<SyntaxPrimitive>::expect_as_ref_0 (value),
 				_ =>
 					false
 			};

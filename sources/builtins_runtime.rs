@@ -46,7 +46,7 @@ pub fn jiffies_timestamp () -> (NumberInteger) {
 					let elapsed =
 							(elapsed_seconds * 1_000_000_000)
 							+ (elapsed.subsec_nanos () as u64);
-					return elapsed.into ();
+					return elapsed.expect_into_0 ();
 				} else {
 					panic! ("70f11280");
 				}

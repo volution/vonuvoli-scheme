@@ -810,13 +810,13 @@ impl Optimizer {
 		if let Some (class) = self.expression_value_kind (&callable) {
 			match class {
 				ValueKind::ProcedurePrimitive =>
-					return self.optimize_procedure_primitive (optimization, callable.into (), inputs),
+					return self.optimize_procedure_primitive (optimization, callable.expect_into_0 (), inputs),
 				ValueKind::ProcedureExtended =>
-					return self.optimize_procedure_extended (optimization, callable.into (), inputs),
+					return self.optimize_procedure_extended (optimization, callable.expect_into_0 (), inputs),
 				ValueKind::ProcedureNative =>
-					return self.optimize_procedure_native (optimization, callable.into (), inputs),
+					return self.optimize_procedure_native (optimization, callable.expect_into_0 (), inputs),
 				ValueKind::ProcedureLambda =>
-					return self.optimize_procedure_lambda (optimization, StdInto::<ProcedureLambda>::into (callable) .internals_rc_into (), inputs),
+					return self.optimize_procedure_lambda (optimization, StdExpectInto0::<ProcedureLambda>::expect_into_0 (callable) .internals_rc_into (), inputs),
 				_ =>
 					(),
 			}
@@ -833,7 +833,7 @@ impl Optimizer {
 		if let Some (class) = self.expression_value_kind (&callable) {
 			match class {
 				ValueKind::ProcedurePrimitive =>
-					match callable.into () {
+					match callable.expect_into_0 () {
 						ProcedurePrimitive::Primitive0 (primitive) =>
 							return self.optimize_procedure_primitive_0 (optimization, primitive),
 						ProcedurePrimitive::PrimitiveN (primitive) =>
@@ -850,11 +850,11 @@ impl Optimizer {
 							fail! (0xc262ceb2),
 					},
 				ValueKind::ProcedureExtended =>
-					return self.optimize_procedure_extended_0 (optimization, callable.into ()),
+					return self.optimize_procedure_extended_0 (optimization, callable.expect_into_0 ()),
 				ValueKind::ProcedureNative =>
-					return self.optimize_procedure_native (optimization, callable.into (), StdBox::new ([])),
+					return self.optimize_procedure_native (optimization, callable.expect_into_0 (), StdBox::new ([])),
 				ValueKind::ProcedureLambda =>
-					return self.optimize_procedure_lambda_0 (optimization, StdInto::<ProcedureLambda>::into (callable) .internals_rc_into ()),
+					return self.optimize_procedure_lambda_0 (optimization, StdExpectInto0::<ProcedureLambda>::expect_into_0 (callable) .internals_rc_into ()),
 				_ =>
 					(),
 			}
@@ -870,7 +870,7 @@ impl Optimizer {
 		if let Some (class) = self.expression_value_kind (&callable) {
 			match class {
 				ValueKind::ProcedurePrimitive =>
-					match callable.into () {
+					match callable.expect_into_0 () {
 						ProcedurePrimitive::Primitive1 (primitive) =>
 							return self.optimize_procedure_primitive_1 (optimization, primitive, input_1),
 						ProcedurePrimitive::PrimitiveN (primitive) =>
@@ -887,11 +887,11 @@ impl Optimizer {
 							fail! (0xa8613b5a),
 					},
 				ValueKind::ProcedureExtended =>
-					return self.optimize_procedure_extended_1 (optimization, callable.into (), input_1),
+					return self.optimize_procedure_extended_1 (optimization, callable.expect_into_0 (), input_1),
 				ValueKind::ProcedureNative =>
-					return self.optimize_procedure_native (optimization, callable.into (), StdBox::new ([input_1])),
+					return self.optimize_procedure_native (optimization, callable.expect_into_0 (), StdBox::new ([input_1])),
 				ValueKind::ProcedureLambda =>
-					return self.optimize_procedure_lambda_1 (optimization, StdInto::<ProcedureLambda>::into (callable) .internals_rc_into (), input_1),
+					return self.optimize_procedure_lambda_1 (optimization, StdExpectInto0::<ProcedureLambda>::expect_into_0 (callable) .internals_rc_into (), input_1),
 				_ =>
 					(),
 			}
@@ -908,7 +908,7 @@ impl Optimizer {
 		if let Some (class) = self.expression_value_kind (&callable) {
 			match class {
 				ValueKind::ProcedurePrimitive =>
-					match callable.into () {
+					match callable.expect_into_0 () {
 						ProcedurePrimitive::Primitive2 (primitive) =>
 							return self.optimize_procedure_primitive_2 (optimization, primitive, input_1, input_2),
 						ProcedurePrimitive::PrimitiveN (primitive) =>
@@ -925,11 +925,11 @@ impl Optimizer {
 							fail! (0x246ed89d),
 					},
 				ValueKind::ProcedureExtended =>
-					return self.optimize_procedure_extended_2 (optimization, callable.into (), input_1, input_2),
+					return self.optimize_procedure_extended_2 (optimization, callable.expect_into_0 (), input_1, input_2),
 				ValueKind::ProcedureNative =>
-					return self.optimize_procedure_native (optimization, callable.into (), StdBox::new ([input_1, input_2])),
+					return self.optimize_procedure_native (optimization, callable.expect_into_0 (), StdBox::new ([input_1, input_2])),
 				ValueKind::ProcedureLambda =>
-					return self.optimize_procedure_lambda_2 (optimization, StdInto::<ProcedureLambda>::into (callable) .internals_rc_into (), input_1, input_2),
+					return self.optimize_procedure_lambda_2 (optimization, StdExpectInto0::<ProcedureLambda>::expect_into_0 (callable) .internals_rc_into (), input_1, input_2),
 				_ =>
 					(),
 			}
@@ -947,7 +947,7 @@ impl Optimizer {
 		if let Some (class) = self.expression_value_kind (&callable) {
 			match class {
 				ValueKind::ProcedurePrimitive =>
-					match callable.into () {
+					match callable.expect_into_0 () {
 						ProcedurePrimitive::Primitive3 (primitive) =>
 							return self.optimize_procedure_primitive_3 (optimization, primitive, input_1, input_2, input_3),
 						ProcedurePrimitive::PrimitiveN (primitive) =>
@@ -964,11 +964,11 @@ impl Optimizer {
 							fail! (0x2b3e2453),
 					},
 				ValueKind::ProcedureExtended =>
-					return self.optimize_procedure_extended_3 (optimization, callable.into (), input_1, input_2, input_3),
+					return self.optimize_procedure_extended_3 (optimization, callable.expect_into_0 (), input_1, input_2, input_3),
 				ValueKind::ProcedureNative =>
-					return self.optimize_procedure_native (optimization, callable.into (), StdBox::new ([input_1, input_2, input_3])),
+					return self.optimize_procedure_native (optimization, callable.expect_into_0 (), StdBox::new ([input_1, input_2, input_3])),
 				ValueKind::ProcedureLambda =>
-					return self.optimize_procedure_lambda_3 (optimization, StdInto::<ProcedureLambda>::into (callable) .internals_rc_into (), input_1, input_2, input_3),
+					return self.optimize_procedure_lambda_3 (optimization, StdExpectInto0::<ProcedureLambda>::expect_into_0 (callable) .internals_rc_into (), input_1, input_2, input_3),
 				_ =>
 					(),
 			}
@@ -987,7 +987,7 @@ impl Optimizer {
 		if let Some (class) = self.expression_value_kind (&callable) {
 			match class {
 				ValueKind::ProcedurePrimitive =>
-					match callable.into () {
+					match callable.expect_into_0 () {
 						ProcedurePrimitive::Primitive4 (primitive) =>
 							return self.optimize_procedure_primitive_4 (optimization, primitive, input_1, input_2, input_3, input_4),
 						ProcedurePrimitive::PrimitiveN (primitive) =>
@@ -1004,11 +1004,11 @@ impl Optimizer {
 							fail! (0x47994db4),
 					},
 				ValueKind::ProcedureExtended =>
-					return self.optimize_procedure_extended_4 (optimization, callable.into (), input_1, input_2, input_3, input_4),
+					return self.optimize_procedure_extended_4 (optimization, callable.expect_into_0 (), input_1, input_2, input_3, input_4),
 				ValueKind::ProcedureNative =>
-					return self.optimize_procedure_native (optimization, callable.into (), StdBox::new ([input_1, input_2, input_3, input_4])),
+					return self.optimize_procedure_native (optimization, callable.expect_into_0 (), StdBox::new ([input_1, input_2, input_3, input_4])),
 				ValueKind::ProcedureLambda =>
-					return self.optimize_procedure_lambda_4 (optimization, StdInto::<ProcedureLambda>::into (callable) .internals_rc_into (), input_1, input_2, input_3, input_4),
+					return self.optimize_procedure_lambda_4 (optimization, StdExpectInto0::<ProcedureLambda>::expect_into_0 (callable) .internals_rc_into (), input_1, input_2, input_3, input_4),
 				_ =>
 					(),
 			}
@@ -1028,7 +1028,7 @@ impl Optimizer {
 		if let Some (class) = self.expression_value_kind (&callable) {
 			match class {
 				ValueKind::ProcedurePrimitive =>
-					match callable.into () {
+					match callable.expect_into_0 () {
 						ProcedurePrimitive::Primitive5 (primitive) =>
 							return self.optimize_procedure_primitive_5 (optimization, primitive, input_1, input_2, input_3, input_4, input_5),
 						ProcedurePrimitive::PrimitiveN (primitive) =>
@@ -1045,11 +1045,11 @@ impl Optimizer {
 							fail! (0x71fe0ce5),
 					},
 				ValueKind::ProcedureExtended =>
-					return self.optimize_procedure_extended_5 (optimization, callable.into (), input_1, input_2, input_3, input_4, input_5),
+					return self.optimize_procedure_extended_5 (optimization, callable.expect_into_0 (), input_1, input_2, input_3, input_4, input_5),
 				ValueKind::ProcedureNative =>
-					return self.optimize_procedure_native (optimization, callable.into (), StdBox::new ([input_1, input_2, input_3, input_4, input_5])),
+					return self.optimize_procedure_native (optimization, callable.expect_into_0 (), StdBox::new ([input_1, input_2, input_3, input_4, input_5])),
 				ValueKind::ProcedureLambda =>
-					return self.optimize_procedure_lambda_5 (optimization, StdInto::<ProcedureLambda>::into (callable) .internals_rc_into (), input_1, input_2, input_3, input_4, input_5),
+					return self.optimize_procedure_lambda_5 (optimization, StdExpectInto0::<ProcedureLambda>::expect_into_0 (callable) .internals_rc_into (), input_1, input_2, input_3, input_4, input_5),
 				_ =>
 					(),
 			}
@@ -1070,7 +1070,7 @@ impl Optimizer {
 		if let Some (class) = self.expression_value_kind (&callable) {
 			match class {
 				ValueKind::ProcedurePrimitive =>
-					match callable.into () {
+					match callable.expect_into_0 () {
 						ProcedurePrimitive::PrimitiveN (primitive) =>
 							return self.optimize_procedure_primitive_n (optimization, primitive, inputs),
 						ProcedurePrimitive::PrimitiveV (primitive) =>
@@ -1083,11 +1083,11 @@ impl Optimizer {
 							fail! (0xd891d200),
 					},
 				ValueKind::ProcedureExtended =>
-					return self.optimize_procedure_extended_n (optimization, callable.into (), inputs),
+					return self.optimize_procedure_extended_n (optimization, callable.expect_into_0 (), inputs),
 				ValueKind::ProcedureNative =>
-					return self.optimize_procedure_native (optimization, callable.into (), inputs),
+					return self.optimize_procedure_native (optimization, callable.expect_into_0 (), inputs),
 				ValueKind::ProcedureLambda =>
-					return self.optimize_procedure_lambda_n (optimization, StdInto::<ProcedureLambda>::into (callable) .internals_rc_into (), inputs),
+					return self.optimize_procedure_lambda_n (optimization, StdExpectInto0::<ProcedureLambda>::expect_into_0 (callable) .internals_rc_into (), inputs),
 				_ =>
 					(),
 			}

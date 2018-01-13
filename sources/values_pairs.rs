@@ -321,7 +321,7 @@ impl <'a> iter::Iterator for ListPairIterator <'a> {
 		let (pair, cursor) = match cursor.class () {
 			ValueClass::Pair =>
 				// FIXME:  Add support for mutable pairs!
-				if let Ok (pair) = StdTryAsRef::<PairImmutable>::try_as_ref (cursor) {
+				if let Ok (pair) = StdTryAsRef0::<PairImmutable>::try_as_ref_0 (cursor) {
 					pair.left_and_right ();
 					let cursor = pair.right ();
 					(pair, cursor)
