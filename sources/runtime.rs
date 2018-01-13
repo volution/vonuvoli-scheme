@@ -32,12 +32,6 @@ pub mod exports {
 
 
 
-pub trait StdTryAsRef <T> {
-	type Error;
-	fn try_as_ref (&self) -> (Result<&T, Self::Error>);
-}
-
-
 pub trait StdInto0 <T> : Sized {
 	fn into_0 (self) -> (T);
 }
@@ -45,6 +39,102 @@ pub trait StdInto0 <T> : Sized {
 pub trait StdTryInto0 <T> : Sized {
 	type Error;
 	fn try_into_0 (self) -> (Result<T, Self::Error>);
+}
+
+pub trait StdExpectInto0 <T> : Sized {
+	fn expect_into_0 (self) -> (T);
+}
+
+
+
+
+/*
+impl <T, U> StdInto0<U> for T where T : StdInto<U> {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn into_0 (self) -> (U) {
+		T::into (self)
+	}
+}
+*/
+
+
+impl <T, U> StdTryInto0<U> for T where T : StdTryInto<U> {
+	
+	type Error = T::Error;
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn try_into_0 (self) -> (Result<U, Self::Error>) {
+		T::try_into (self)
+	}
+}
+
+
+impl <T, U> StdExpectInto0<U> for T where T : StdTryInto0<U> {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn expect_into_0 (self) -> (U) {
+		match T::try_into_0 (self) {
+			Ok (value) =>
+				value,
+			Err (_) =>
+				// FIXME:  Report the actual error!
+				panic! ("073cc689"),
+		}
+	}
+}
+
+
+
+
+pub trait StdAsRef0 <T> {
+	fn as_ref_0 (&self) -> (&T);
+}
+
+pub trait StdTryAsRef0 <T> {
+	type Error;
+	fn try_as_ref_0 (&self) -> (Result<&T, Self::Error>);
+}
+
+pub trait StdExpectAsRef0 <T> {
+	fn expect_as_ref_0 (&self) -> (&T);
+}
+
+
+
+
+impl <T, U> StdAsRef0<U> for T where T : StdAsRef<U> {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn as_ref_0 (&self) -> (&U) {
+		T::as_ref (self)
+	}
+}
+
+
+impl <T, U> StdTryAsRef0<U> for T where T : StdAsRef0<U> {
+	
+	type Error = convert::Infallible;
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn try_as_ref_0 (&self) -> (Result<&U, Self::Error>) {
+		Ok (T::as_ref_0 (self))
+	}
+}
+
+
+impl <T, U> StdExpectAsRef0<U> for T where T : StdTryAsRef0<U> {
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn expect_as_ref_0 (&self) -> (&U) {
+		match T::try_as_ref_0 (self) {
+			Ok (value) =>
+				value,
+			Err (_) =>
+				// FIXME:  Report the actual error!
+				panic! ("dd0868fb"),
+		}
+	}
 }
 
 

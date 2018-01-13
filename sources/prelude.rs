@@ -40,15 +40,20 @@ pub use std::vec::Vec as StdVec;
 
 
 
-pub use super::runtime::StdTryAsRef;
 pub use super::runtime::StdInto0;
 pub use super::runtime::StdTryInto0;
+pub use super::runtime::StdExpectInto0;
+
+pub use super::runtime::StdAsRef0;
+pub use super::runtime::StdTryAsRef0;
+pub use super::runtime::StdExpectAsRef0;
 
 
 
 
 pub use std::char;
 pub use std::cmp;
+pub use std::convert;
 pub use std::env;
 pub use std::f32;
 pub use std::f64;
