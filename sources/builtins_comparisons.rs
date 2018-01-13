@@ -441,85 +441,85 @@ pub fn compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Co
 			succeed! (true),
 		
 		ValueKind::Boolean =>
-			return boolean_compare_1a (value,  comparison),
+			return boolean_compare_1 (value,  comparison),
 		
 		ValueKind::NumberInteger =>
-			return number_integer_compare_1a (value, comparison),
+			return number_integer_compare_1 (value, comparison),
 		
 		ValueKind::NumberReal =>
-			return number_real_compare_1a (value, comparison),
+			return number_real_compare_1 (value, comparison),
 		
 		ValueKind::Character =>
-			return character_compare_1a (value, comparison),
+			return character_compare_1 (value, comparison),
 		
 		ValueKind::Symbol =>
-			return symbol_compare_1a (value, comparison),
+			return symbol_compare_1 (value, comparison),
 		
 		ValueKind::StringImmutable =>
-			return string_immutable_compare_1a (value, comparison),
+			return string_immutable_compare_1 (value, comparison),
 		
 		ValueKind::StringMutable =>
-			return string_mutable_compare_1a (value, comparison),
+			return string_mutable_compare_1 (value, comparison),
 		
 		ValueKind::BytesImmutable =>
-			return bytes_immutable_compare_1a (value, comparison),
+			return bytes_immutable_compare_1 (value, comparison),
 		
 		ValueKind::BytesMutable =>
-			return bytes_mutable_compare_1a (value, comparison),
+			return bytes_mutable_compare_1 (value, comparison),
 		
 		ValueKind::PairImmutable =>
-			return pair_immutable_compare_1a (value, comparison),
+			return pair_immutable_compare_1 (value, comparison),
 		
 		ValueKind::PairMutable =>
-			return pair_mutable_compare_1a (value, comparison),
+			return pair_mutable_compare_1 (value, comparison),
 		
 		ValueKind::ArrayImmutable =>
-			return array_immutable_compare_1a (value, comparison),
+			return array_immutable_compare_1 (value, comparison),
 		
 		ValueKind::ArrayMutable =>
-			return array_mutable_compare_1a (value, comparison),
+			return array_mutable_compare_1 (value, comparison),
 		
 		ValueKind::Values =>
-			return values_compare_1a (value, comparison),
+			return values_compare_1 (value, comparison),
 		
 		ValueKind::Error =>
-			return error_compare_1a (value, comparison),
+			return error_compare_1 (value, comparison),
 		
 		ValueKind::ProcedurePrimitive =>
-			return procedure_primitive_compare_1a (value, comparison),
+			return procedure_primitive_compare_1 (value, comparison),
 		
 		ValueKind::ProcedureExtended =>
-			return procedure_extended_compare_1a (value, comparison),
+			return procedure_extended_compare_1 (value, comparison),
 		
 		ValueKind::ProcedureNative =>
-			return procedure_native_compare_1a (value, comparison),
+			return procedure_native_compare_1 (value, comparison),
 		
 		ValueKind::ProcedureLambda =>
-			return procedure_lambda_compare_1a (value, comparison),
+			return procedure_lambda_compare_1 (value, comparison),
 		
 		ValueKind::SyntaxPrimitive =>
-			return syntax_primitive_compare_1a (value, comparison),
+			return syntax_primitive_compare_1 (value, comparison),
 		
 		ValueKind::SyntaxExtended =>
-			return syntax_extended_compare_1a (value, comparison),
+			return syntax_extended_compare_1 (value, comparison),
 		
 		ValueKind::SyntaxNative =>
-			return syntax_native_compare_1a (value, comparison),
+			return syntax_native_compare_1 (value, comparison),
 		
 		ValueKind::SyntaxLambda =>
-			return syntax_lambda_compare_1a (value, comparison),
+			return syntax_lambda_compare_1 (value, comparison),
 		
 		ValueKind::Port =>
-			return port_compare_1a (value, comparison),
+			return port_compare_1 (value, comparison),
 		
 		ValueKind::Process =>
-			return process_compare_1a (value, comparison),
+			return process_compare_1 (value, comparison),
 		
 		ValueKind::Context =>
-			return context_compare_1a (value, comparison),
+			return context_compare_1 (value, comparison),
 		
 		ValueKind::Binding =>
-			return binding_compare_1a (value, comparison),
+			return binding_compare_1 (value, comparison),
 		
 		ValueKind::Undefined =>
 			match comparison {
@@ -554,108 +554,108 @@ pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef
 			},
 		
 		(ValueKind::Singleton, ValueKind::Singleton) =>
-			return value_singleton_compare_2a (left, right, comparison),
+			return value_singleton_compare_2 (left, right, comparison),
 		
 		(ValueKind::Boolean, ValueKind::Boolean) =>
-			return boolean_compare_2a (left, right, comparison),
+			return boolean_compare_2 (left, right, comparison),
 		
 		(ValueKind::NumberInteger, ValueKind::NumberInteger) =>
-			return number_integer_compare_2a (left, right, comparison),
+			return number_integer_compare_2 (left, right, comparison),
 		
 		(ValueKind::NumberReal, ValueKind::NumberReal) =>
-			return number_real_compare_2a (left, right, comparison),
+			return number_real_compare_2 (left, right, comparison),
 		
 		(ValueKind::NumberInteger, ValueKind::NumberReal) |
 		(ValueKind::NumberReal, ValueKind::NumberInteger) =>
 			return number_compare_2 (left, right, comparison),
 		
 		(ValueKind::Character, ValueKind::Character) =>
-			return character_compare_2a (left, right, comparison),
+			return character_compare_2 (left, right, comparison),
 		
 		(ValueKind::Symbol, ValueKind::Symbol) =>
-			return symbol_compare_2a (left, right, comparison),
+			return symbol_compare_2 (left, right, comparison),
 		
 		(ValueKind::StringImmutable, ValueKind::StringImmutable) =>
-			return string_immutable_compare_2a (left, right, comparison),
+			return string_immutable_compare_2 (left, right, comparison),
 		
 		(ValueKind::StringMutable, ValueKind::StringMutable) =>
-			return string_mutable_compare_2a (left, right, comparison),
+			return string_mutable_compare_2 (left, right, comparison),
 		
 		(ValueKind::StringImmutable, ValueKind::StringMutable) |
 		(ValueKind::StringMutable, ValueKind::StringImmutable) =>
 			return string_compare_2 (left, right, comparison),
 		
 		(ValueKind::BytesImmutable, ValueKind::BytesImmutable) =>
-			return bytes_immutable_compare_2a (left, right, comparison),
+			return bytes_immutable_compare_2 (left, right, comparison),
 		
 		(ValueKind::BytesMutable, ValueKind::BytesMutable) =>
-			return bytes_mutable_compare_2a (left, right, comparison),
+			return bytes_mutable_compare_2 (left, right, comparison),
 		
 		(ValueKind::BytesImmutable, ValueKind::BytesMutable) |
 		(ValueKind::BytesMutable, ValueKind::BytesImmutable) =>
 			return bytes_compare_2 (left, right, comparison),
 		
 		(ValueKind::PairImmutable, ValueKind::PairImmutable) =>
-			return pair_immutable_compare_2a (left, right, comparison),
+			return pair_immutable_compare_2 (left, right, comparison),
 		
 		(ValueKind::PairMutable, ValueKind::PairMutable) =>
-			return pair_mutable_compare_2a (left, right, comparison),
+			return pair_mutable_compare_2 (left, right, comparison),
 		
 		(ValueKind::PairImmutable, ValueKind::PairMutable) |
 		(ValueKind::PairMutable, ValueKind::PairImmutable) =>
 			return pair_compare_2 (left, right, comparison),
 		
 		(ValueKind::ArrayImmutable, ValueKind::ArrayImmutable) =>
-			return array_immutable_compare_2a (left, right, comparison),
+			return array_immutable_compare_2 (left, right, comparison),
 		
 		(ValueKind::ArrayMutable, ValueKind::ArrayMutable) =>
-			return array_mutable_compare_2a (left, right, comparison),
+			return array_mutable_compare_2 (left, right, comparison),
 		
 		(ValueKind::ArrayImmutable, ValueKind::ArrayMutable) |
 		(ValueKind::ArrayMutable, ValueKind::ArrayImmutable) =>
 			return array_compare_2 (left, right, comparison),
 		
 		(ValueKind::Values, ValueKind::Values) =>
-			return values_compare_2a (left, right, comparison),
+			return values_compare_2 (left, right, comparison),
 		
 		(ValueKind::Error, ValueKind::Error) =>
-			return error_compare_2a (left, right, comparison),
+			return error_compare_2 (left, right, comparison),
 		
 		(ValueKind::ProcedurePrimitive, ValueKind::ProcedurePrimitive) =>
-			return procedure_primitive_compare_2a (left, right, comparison),
+			return procedure_primitive_compare_2 (left, right, comparison),
 		
 		(ValueKind::ProcedureExtended, ValueKind::ProcedureExtended) =>
-			return procedure_extended_compare_2a (left, right, comparison),
+			return procedure_extended_compare_2 (left, right, comparison),
 		
 		(ValueKind::ProcedureNative, ValueKind::ProcedureNative) =>
-			return procedure_native_compare_2a (left, right, comparison),
+			return procedure_native_compare_2 (left, right, comparison),
 		
 		(ValueKind::ProcedureLambda, ValueKind::ProcedureLambda) =>
-			return procedure_lambda_compare_2a (left, right, comparison),
+			return procedure_lambda_compare_2 (left, right, comparison),
 		
 		(ValueKind::SyntaxPrimitive, ValueKind::SyntaxPrimitive) =>
-			return syntax_primitive_compare_2a (left, right, comparison),
+			return syntax_primitive_compare_2 (left, right, comparison),
 		
 		(ValueKind::SyntaxExtended, ValueKind::SyntaxExtended) =>
-			return syntax_extended_compare_2a (left, right, comparison),
+			return syntax_extended_compare_2 (left, right, comparison),
 		
 		(ValueKind::SyntaxNative, ValueKind::SyntaxNative) =>
-			return syntax_native_compare_2a (left, right, comparison),
+			return syntax_native_compare_2 (left, right, comparison),
 		
 		(ValueKind::SyntaxLambda, ValueKind::SyntaxLambda) =>
-			return syntax_lambda_compare_2a (left, right, comparison),
+			return syntax_lambda_compare_2 (left, right, comparison),
 		
 		(ValueKind::Port, ValueKind::Port) =>
-			return port_compare_2a (left, right, comparison),
+			return port_compare_2 (left, right, comparison),
 		
 		(ValueKind::Process, ValueKind::Process) =>
-			return process_compare_2a (left, right, comparison),
+			return process_compare_2 (left, right, comparison),
 		
 		(ValueKind::Context, ValueKind::Context) =>
-			return context_compare_2a (left, right, comparison),
+			return context_compare_2 (left, right, comparison),
 		
 		(ValueKind::Binding, ValueKind::Binding) =>
-			return binding_compare_2a (left, right, comparison),
+			return binding_compare_2 (left, right, comparison),
 		
 		(ValueKind::Undefined, ValueKind::Undefined) =>
 			match comparison {
