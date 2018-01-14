@@ -1,15 +1,15 @@
-## compiling `benchmark__strings`...
-## benchmarking `benchmark__strings`...
-## benchmarked `benchmark__strings`!
+## compiling `./tests/scheme/strings.sst`...
+## benchmarking `./tests/scheme/strings.sst`...
+## benchmarked `./tests/scheme/strings.sst`!
      without optimizations:
-       average   :     104954
-         stdev   :       1170 /   1.12%
-         median  :     104633 /   0.74%
-       min / max :     103563 / 104190 / 104633 / 105270 / 107728
+       average   :     148373
+         stdev   :       1649 /   1.11%
+         median  :     147756 /   0.81%
+       min / max :     146673 / 147053 / 147756 / 149005 / 152104
        mem-leaks :          0 KB
      with optimizations:
-       average   :      67907 / +35.30% / 1.55*
-         stdev   :        528 /   0.78%
-         median  :      67854 /   0.80%
-       min / max :      67128 / 67488 / 67854 / 68176 / 69027
+       average   :      94732 / +36.15% / 1.57*
+         stdev   :        738 /   0.78%
+         median  :      94555 /   0.71%
+       min / max :      93754 / 94211 / 94555 / 95188 / 96449
        mem-leaks :          0 KB

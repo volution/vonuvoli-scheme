@@ -1,15 +1,15 @@
-## compiling `benchmark__functions_arrays`...
-## benchmarking `benchmark__functions_arrays`...
-## benchmarked `benchmark__functions_arrays`!
+## compiling `./tests/scheme/functions-arrays.sst`...
+## benchmarking `./tests/scheme/functions-arrays.sst`...
+## benchmarked `./tests/scheme/functions-arrays.sst`!
      without optimizations:
-       average   :      47116
-         stdev   :        335 /   0.71%
-         median  :      47075 /   0.71%
-       min / max :      46577 / 46859 / 47075 / 47368 / 47764
+       average   :      47442
+         stdev   :        482 /   1.02%
+         median  :      47272 /   0.58%
+       min / max :      46903 / 47119 / 47272 / 47633 / 48555
        mem-leaks :          0 KB
      with optimizations:
-       average   :      33816 / +28.23% / 1.39*
-         stdev   :        152 /   0.45%
-         median  :      33764 /   0.35%
-       min / max :      33612 / 33721 / 33764 / 33896 / 34184
+       average   :      35181 / +25.85% / 1.35*
+         stdev   :        321 /   0.91%
+         median  :      35104 /   0.81%
+       min / max :      34752 / 34916 / 35104 / 35323 / 35838
        mem-leaks :          0 KB

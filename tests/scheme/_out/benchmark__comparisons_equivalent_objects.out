@@ -1,15 +1,15 @@
-## compiling `benchmark__comparisons_equivalent_objects`...
-## benchmarking `benchmark__comparisons_equivalent_objects`...
-## benchmarked `benchmark__comparisons_equivalent_objects`!
+## compiling `./tests/scheme/comparisons-equivalent-objects.sst`...
+## benchmarking `./tests/scheme/comparisons-equivalent-objects.sst`...
+## benchmarked `./tests/scheme/comparisons-equivalent-objects.sst`!
      without optimizations:
-       average   :      15749
-         stdev   :        290 /   1.84%
-         median  :      15626 /   0.81%
-       min / max :      15508 / 15562 / 15626 / 15777 / 16399
+       average   :      15912
+         stdev   :        143 /   0.90%
+         median  :      15866 /   0.74%
+       min / max :      15742 / 15805 / 15866 / 15990 / 16225
        mem-leaks :          0 KB
      with optimizations:
-       average   :       2585 / +83.59% / 6.09*
-         stdev   :         54 /   2.11%
-         median  :       2565 /   0.78%
-       min / max :       2545 / 2553 / 2565 / 2580 / 2741
+       average   :       2642 / +83.39% / 6.02*
+         stdev   :         20 /   0.74%
+         median  :       2637 /   0.62%
+       min / max :       2618 / 2629 / 2637 / 2654 / 2684
        mem-leaks :          0 KB

@@ -1,15 +1,15 @@
-## compiling `benchmark__scratchpad`...
-## benchmarking `benchmark__scratchpad`...
-## benchmarked `benchmark__scratchpad`!
+## compiling `./tests/scheme/scratchpad.sst`...
+## benchmarking `./tests/scheme/scratchpad.sst`...
+## benchmarked `./tests/scheme/scratchpad.sst`!
      without optimizations:
        average   :          2
-         stdev   :          0 /   1.03%
-         median  :          2 /   1.48%
+         stdev   :          0 /   0.62%
+         median  :          2 /   0.65%
        min / max :          2 / 2 / 2 / 2 / 2
        mem-leaks :          0 KB
      with optimizations:
-       average   :          2 / -0.16% / 1.00*
-         stdev   :          0 /   0.40%
-         median  :          2 /   0.37%
+       average   :          2 / -1.23% / 0.99*
+         stdev   :          0 /   1.77%
+         median  :          2 /   1.32%
        min / max :          2 / 2 / 2 / 2 / 2
        mem-leaks :          0 KB

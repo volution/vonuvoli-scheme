@@ -1,15 +1,15 @@
-## compiling `benchmark__bytes`...
-## benchmarking `benchmark__bytes`...
-## benchmarked `benchmark__bytes`!
+## compiling `./tests/scheme/bytes.sst`...
+## benchmarking `./tests/scheme/bytes.sst`...
+## benchmarked `./tests/scheme/bytes.sst`!
      without optimizations:
-       average   :      39080
-         stdev   :        576 /   1.48%
-         median  :      38871 /   0.66%
-       min / max :      38597 / 38735 / 38871 / 39063 / 40609
+       average   :      76340
+         stdev   :        743 /   0.97%
+         median  :      76147 /   0.83%
+       min / max :      75417 / 75756 / 76147 / 76716 / 78249
        mem-leaks :          0 KB
      with optimizations:
-       average   :      26179 / +33.01% / 1.49*
-         stdev   :        585 /   2.23%
-         median  :      25930 /   0.95%
-       min / max :      25704 / 25867 / 25930 / 26263 / 27838
+       average   :      46324 / +39.32% / 1.65*
+         stdev   :        422 /   0.91%
+         median  :      46186 /   0.71%
+       min / max :      45880 / 46077 / 46186 / 46428 / 47360
        mem-leaks :          0 KB

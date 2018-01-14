@@ -1,15 +1,15 @@
-## compiling `benchmark__lambdas`...
-## benchmarking `benchmark__lambdas`...
-## benchmarked `benchmark__lambdas`!
+## compiling `./tests/scheme/lambdas.sst`...
+## benchmarking `./tests/scheme/lambdas.sst`...
+## benchmarked `./tests/scheme/lambdas.sst`!
      without optimizations:
-       average   :      62925
-         stdev   :       6857 /  10.90%
-         median  :      60531 /   2.27%
-       min / max :      59374 / 59898 / 60531 / 61692 / 86133
-       mem-leaks :       4547 KB (!!!! DETECTED !!!!)
+       average   :      67235
+         stdev   :       6652 /   9.89%
+         median  :      64130 /   1.55%
+       min / max :      63314 / 63620 / 64130 / 65767 / 84572
+       mem-leaks :       6622 KB (!!!! DETECTED !!!!)
      with optimizations:
-       average   :      54890 / +12.77% / 1.15*
-         stdev   :       7480 /  13.63%
-         median  :      52236 /   2.38%
-       min / max :      51134 / 51593 / 52236 / 53163 / 76065
-       mem-leaks :         71 KB
+       average   :      55159 / +17.96% / 1.22*
+         stdev   :       2184 /   3.96%
+         median  :      54346 /   2.23%
+       min / max :      53124 / 53560 / 54346 / 55897 / 60245
+       mem-leaks :          0 KB

@@ -1,15 +1,15 @@
-## compiling `benchmark__comparisons_ordering_numbers`...
-## benchmarking `benchmark__comparisons_ordering_numbers`...
-## benchmarked `benchmark__comparisons_ordering_numbers`!
+## compiling `./tests/scheme/comparisons-ordering-numbers.sst`...
+## benchmarking `./tests/scheme/comparisons-ordering-numbers.sst`...
+## benchmarked `./tests/scheme/comparisons-ordering-numbers.sst`!
      without optimizations:
-       average   :     240696
-         stdev   :       4381 /   1.82%
-         median  :     239097 /   0.77%
-       min / max :     237647 / 238038 / 239097 / 241464 / 254157
+       average   :     245491
+         stdev   :       2299 /   0.94%
+         median  :     244851 /   0.78%
+       min / max :     242685 / 243983 / 244851 / 246454 / 250715
        mem-leaks :          0 KB
      with optimizations:
-       average   :     149840 / +37.75% / 1.61*
-         stdev   :       3219 /   2.15%
-         median  :     148330 /   0.94%
-       min / max :     147020 / 147613 / 148330 / 150396 / 157387
+       average   :     154504 / +37.06% / 1.59*
+         stdev   :       1290 /   0.83%
+         median  :     154266 /   0.70%
+       min / max :     152786 / 153647 / 154266 / 155025 / 157493
        mem-leaks :          0 KB

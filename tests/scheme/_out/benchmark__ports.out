@@ -1,15 +1,15 @@
-## compiling `benchmark__ports`...
-## benchmarking `benchmark__ports`...
-## benchmarked `benchmark__ports`!
+## compiling `./tests/scheme/ports.sst`...
+## benchmarking `./tests/scheme/ports.sst`...
+## benchmarked `./tests/scheme/ports.sst`!
      without optimizations:
-       average   :       1480
-         stdev   :         13 /   0.90%
-         median  :       1474 /   0.67%
-       min / max :       1465 / 1471 / 1474 / 1484 / 1510
+       average   :       1483
+         stdev   :         15 /   1.00%
+         median  :       1480 /   0.86%
+       min / max :       1465 / 1473 / 1480 / 1492 / 1520
        mem-leaks :          0 KB
      with optimizations:
-       average   :        392 / +73.52% / 3.78*
-         stdev   :          2 /   0.49%
-         median  :        392 /   0.48%
-       min / max :        389 / 390 / 392 / 393 / 397
+       average   :        408 / +72.53% / 3.64*
+         stdev   :          4 /   1.00%
+         median  :        407 /   1.09%
+       min / max :        403 / 404 / 407 / 409 / 417
        mem-leaks :          0 KB

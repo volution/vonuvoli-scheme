@@ -1,0 +1,15 @@
+## compiling `./tests/scheme/processes.sst`...
+## benchmarking `./tests/scheme/processes.sst`...
+## benchmarked `./tests/scheme/processes.sst`!
+     without optimizations:
+       average   :   22617579
+         stdev   :     224467 /   0.99%
+         median  :   22593923 /   0.98%
+       min / max :   22289708 / 22454719 / 22593923 / 22758739 / 23050950
+       mem-leaks :          0 KB
+     with optimizations:
+       average   :   22605698 / +0.05% / 1.00*
+         stdev   :     194934 /   0.86%
+         median  :   22552201 /   0.98%
+       min / max :   22279557 / 22493038 / 22552201 / 22729593 / 22967607
+       mem-leaks :          0 KB

@@ -1,15 +1,15 @@
-## compiling `benchmark__comparisons_equivalent_by_value_strict_recursive`...
-## benchmarking `benchmark__comparisons_equivalent_by_value_strict_recursive`...
-## benchmarked `benchmark__comparisons_equivalent_by_value_strict_recursive`!
+## compiling `./tests/scheme/comparisons-equivalent-by-value-strict-recursive.sst`...
+## benchmarking `./tests/scheme/comparisons-equivalent-by-value-strict-recursive.sst`...
+## benchmarked `./tests/scheme/comparisons-equivalent-by-value-strict-recursive.sst`!
      without optimizations:
-       average   :      41194
-         stdev   :        679 /   1.65%
-         median  :      40935 /   0.92%
-       min / max :      40556 / 40695 / 40935 / 41433 / 42783
+       average   :      41603
+         stdev   :        318 /   0.76%
+         median  :      41508 /   0.82%
+       min / max :      41224 / 41344 / 41508 / 41862 / 42200
        mem-leaks :          0 KB
      with optimizations:
-       average   :      40209 / +2.39% / 1.02*
-         stdev   :        673 /   1.67%
-         median  :      39952 /   0.74%
-       min / max :      39597 / 39800 / 39952 / 40240 / 41903
+       average   :      41472 / +0.31% / 1.00*
+         stdev   :        528 /   1.27%
+         median  :      41320 /   0.85%
+       min / max :      40862 / 41111 / 41320 / 41624 / 42855
        mem-leaks :          0 KB

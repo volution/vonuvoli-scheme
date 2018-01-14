@@ -33,7 +33,7 @@
 => #values(#t 1 1 1 1 #t)
 
 
-(let ((p (~process-spawn "sleep" "0.1")))
+(let ((p (~process-spawn "sleep" "0.01")))
 	(values
 		(~process? p)
 		(~process-wait-poll p)

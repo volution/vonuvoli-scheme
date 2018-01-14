@@ -1,15 +1,15 @@
-## compiling `benchmark__functions_bytes`...
-## benchmarking `benchmark__functions_bytes`...
-## benchmarked `benchmark__functions_bytes`!
+## compiling `./tests/scheme/functions-bytes.sst`...
+## benchmarking `./tests/scheme/functions-bytes.sst`...
+## benchmarked `./tests/scheme/functions-bytes.sst`!
      without optimizations:
-       average   :      50556
-         stdev   :        454 /   0.90%
-         median  :      50437 /   0.68%
-       min / max :      50079 / 50249 / 50437 / 50695 / 51707
+       average   :      49736
+         stdev   :        356 /   0.72%
+         median  :      49649 /   0.57%
+       min / max :      49279 / 49468 / 49649 / 49837 / 50499
        mem-leaks :          0 KB
      with optimizations:
-       average   :      36968 / +26.88% / 1.37*
-         stdev   :        147 /   0.40%
-         median  :      36927 /   0.38%
-       min / max :      36773 / 36876 / 36927 / 37032 / 37324
+       average   :      37582 / +24.44% / 1.32*
+         stdev   :        280 /   0.75%
+         median  :      37530 /   0.68%
+       min / max :      37204 / 37354 / 37530 / 37689 / 38205
        mem-leaks :          0 KB
