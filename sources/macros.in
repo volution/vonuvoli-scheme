@@ -853,29 +853,9 @@ macro_rules! def_scheme_tests {
 		#[ inline (never) ]
 		#[ allow (non_snake_case) ]
 		fn $identifier () -> () {
-			let transcript_backend = $crate::prelude::io::stdout ();
-			let transcript_locked = transcript_backend.lock ();
-			def_scheme_tests_block! ($identifier, $source, transcript_locked);
+			def_scheme_tests_block! ($identifier, $source);
 		}
 	);
-}
-
-#[ macro_export ]
-macro_rules! def_scheme_tests_block {
-	( $identifier : ident, $source : expr, $transcript : expr ) => ({
-		use $crate::prelude::*;
-		use $crate::exports::*;
-		let identifier = stringify! ($identifier);
-		let source = $source;
-		let verbosity = env::var ("RUST_SCHEME_TESTS_DEBUG") .unwrap_or (string::String::from ("false"));
-		let verbosity = if verbosity == "true" { TestVerbosity::Debug } else { TestVerbosity::Quiet };
-		let mut transcript = $transcript;
-		write! (transcript, "\n\n") .expect ("5afde5da");
-		let outcome = parse_and_execute_tests (identifier, source, &mut transcript, verbosity);
-		write! (transcript, "\n") .expect ("216bb5ee");
-		transcript.flush () .expect ("a05200ec");
-		outcome.expect ("d03750c4");
-	});
 }
 
 #[ macro_export ]
@@ -888,6 +868,17 @@ macro_rules! def_scheme_tests_from_file {
 	);
 }
 
+#[ macro_export ]
+macro_rules! def_scheme_tests_block {
+	( $identifier : ident, $source : expr ) => ({
+		use $crate::exports::*;
+		let identifier = stringify! ($identifier);
+		let source = $source;
+		let outcome = execute_tests_main (identifier, source, None, None, None);
+		outcome.expect ("d03750c4");
+	});
+}
+
 
 
 
@@ -898,9 +889,7 @@ macro_rules! def_scheme_benchmarks {
 		#[ inline (never) ]
 		#[ allow (non_snake_case) ]
 		fn $identifier (bencher : &mut $crate::prelude::test::Bencher) -> () {
-			let transcript_backend = $crate::prelude::io::stdout ();
-			let transcript_locked = transcript_backend.lock ();
-			def_scheme_benchmarks_block! ($identifier, $source, bencher, transcript_locked);
+			def_scheme_benchmarks_block! ($identifier, $source, bencher);
 		}
 	);
 }
@@ -917,29 +906,11 @@ macro_rules! def_scheme_benchmarks_from_file {
 
 #[ macro_export ]
 macro_rules! def_scheme_benchmarks_block {
-	( $identifier : ident, $source : expr, $bencher : expr, $transcript : expr ) => ({
-		use $crate::prelude::*;
+	( $identifier : ident, $source : expr, $bencher : expr ) => ({
 		use $crate::exports::*;
 		let identifier = stringify! ($identifier);
 		let source = $source;
-		let verbosity = env::var ("RUST_SCHEME_BENCHMARKS_DEBUG") .unwrap_or (string::String::from ("false"));
-		let verbosity = if verbosity == "true" { TestVerbosity::Debug } else { TestVerbosity::Quiet };
-		let output = env::var ("RUST_SCHEME_BENCHMARKS_OUTPUT") .ok ();
-		let output = if let Some (output) = output { Some (output.replace ("{IDENTIFIER}", identifier)) } else { None };
-		let mut transcript = $transcript;
-		write! (transcript, "\n\n") .expect ("42d6a453");
-		let outcome = if let Some (output) = output {
-			let mut buffer = StdVec::new ();
-			let outcome = parse_and_benchmark_tests (identifier, source, $bencher, &mut buffer, verbosity);
-			transcript.write_all (&buffer) .expect ("e987851f");
-			let mut output = fs::File::create (output) .expect ("25b456ed");
-			output.write_all (&buffer) .expect ("41e00f08");
-			outcome
-		} else {
-			parse_and_benchmark_tests (identifier, source, $bencher, &mut transcript, verbosity)
-		};
-		write! (transcript, "\n") .expect ("276ffb09");
-		transcript.flush () .expect ("39279869");
+		let outcome = benchmark_tests_main (identifier, source, None, $bencher, None, None, None);
 		outcome.expect ("65639c2b");
 	});
 }

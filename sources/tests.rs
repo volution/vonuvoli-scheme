@@ -24,6 +24,8 @@ pub mod exports {
 	pub use super::{execute_tests, execute_test, parse_and_execute_tests};
 	pub use super::{benchmark_tests, parse_and_benchmark_tests};
 	
+	pub use super::{execute_tests_main, benchmark_tests_main};
+	
 }
 
 
@@ -71,24 +73,26 @@ pub struct TestCaseCompiled {
 
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-pub fn parse_and_compile_tests (identifier : &str, source : &str, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<(StdVec<TestCaseCompiled>)>) {
+pub fn parse_and_compile_tests (identifier : &str, source : &str, context : Option<Context>, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<(StdVec<TestCaseCompiled>)>) {
 	let tests = try! (parse_tests (source));
-	return compile_tests (identifier, &tests, transcript, verbosity);
+	return compile_tests (identifier, &tests, context, transcript, verbosity);
 }
 
 
 #[ inline (never) ]
-pub fn compile_tests (identifier : &str, tests : &StdVec<TestCase>, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<(StdVec<TestCaseCompiled>)>) {
+pub fn compile_tests (identifier : &str, tests : &StdVec<TestCase>, context_template : Option<Context>, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<(StdVec<TestCaseCompiled>)>) {
 	
 	try_or_fail! (write! (transcript, "## compiling `{}`...\n", identifier), 0xb1d307bd);
 	
-	let context_without_optimizations = Context::new (None);
-	try! (context_without_optimizations.define_all (try! (language_r7rs_generate_binding_templates ()) .as_ref ()));
-	try! (context_without_optimizations.define_all_with_prefix (try! (language_builtins_generate_binding_templates ()) .as_ref (), Some ("~")));
-	
-	let context_with_optimizations = Context::new (None);
-	try! (context_with_optimizations.define_all (try! (language_r7rs_generate_binding_templates ()) .as_ref ()));
-	try! (context_with_optimizations.define_all_with_prefix (try! (language_builtins_generate_binding_templates ()) .as_ref (), Some ("~")));
+	let context_template = if let Some (context) = context_template {
+		context
+	} else {
+		let context = Context::new (None);
+		try! (context.define_all (try! (language_r7rs_generate_binding_templates ()) .as_ref ()));
+		try! (context.define_all_with_prefix (try! (language_builtins_generate_binding_templates ()) .as_ref (), Some ("~")));
+		context
+	};
+	let (context_without_optimizations, context_with_optimizations) = (context_template.fork (), context_template.fork ());
 	
 	let tests = vec_filter_into! (tests.clone (), test,
 		match test.action {
@@ -105,8 +109,8 @@ pub fn compile_tests (identifier : &str, tests : &StdVec<TestCase>, transcript :
 
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-pub fn parse_and_execute_tests (identifier : &str, source : &str, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
-	let tests = try! (parse_and_compile_tests (identifier, source, transcript, verbosity));
+pub fn parse_and_execute_tests (identifier : &str, source : &str, context : Option<Context>, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
+	let tests = try! (parse_and_compile_tests (identifier, source, context, transcript, verbosity));
 	return execute_tests (identifier, &tests, transcript, verbosity);
 }
 
@@ -148,8 +152,8 @@ pub fn execute_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, tran
 
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-pub fn parse_and_benchmark_tests (identifier : &str, source : &str, bencher : &mut test::Bencher, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
-	let tests = try! (parse_and_compile_tests (identifier, source, transcript, verbosity));
+pub fn parse_and_benchmark_tests (identifier : &str, source : &str, context : Option<Context>, bencher : &mut test::Bencher, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
+	let tests = try! (parse_and_compile_tests (identifier, source, context, transcript, verbosity));
 	return benchmark_tests (identifier, &tests, bencher, transcript, verbosity);
 }
 
@@ -185,19 +189,25 @@ pub fn benchmark_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, be
 		
 		let resources_before = libc_getrusage_for_thread ();
 		
-		let summary = bencher.bench (|ref mut bencher| bencher.iter (||
-			if iterations_bencher == 1 {
+		#[ inline (always) ] // OK
+		fn bencher_execute (tests : &StdVec<TestCaseCompiled>, iterations : usize) -> (Outcome<()>) {
+			if iterations == 1 {
 				for test in tests {
-					benchmark_test_without_optimizations (test) .expect ("2754c9b4");
+					try! (benchmark_test_without_optimizations (test));
 				}
 			} else {
 				for test in tests {
-					for _iteration in 0 .. iterations_bencher {
-						benchmark_test_without_optimizations (test) .expect ("4d0ddf23");
+					for _iteration in 0 .. iterations {
+						try! (benchmark_test_without_optimizations (test));
 					}
 				}
 			}
-		));
+			succeed! (());
+		}
+		
+		let summary = bencher.bench (
+				|ref mut bencher| bencher.iter (
+						|| bencher_execute (tests, iterations_bencher) .expect ("4022f37c")));
 		
 		let resources_after = libc_getrusage_for_thread ();
 		let memory_delta = resources_after.ru_maxrss - resources_before.ru_maxrss;
@@ -229,19 +239,25 @@ pub fn benchmark_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, be
 		
 		let resources_before = libc_getrusage_for_thread ();
 		
-		let summary = bencher.bench (|ref mut bencher| bencher.iter (||
-			if iterations_bencher == 1 {
+		#[ inline (always) ] // OK
+		fn bencher_execute (tests : &StdVec<TestCaseCompiled>, iterations : usize) -> (Outcome<()>) {
+			if iterations == 1 {
 				for test in tests {
-					benchmark_test_with_optimizations (test) .expect ("a434c507");
+					try! (benchmark_test_with_optimizations (test));
 				}
 			} else {
 				for test in tests {
-					for _iteration in 0 .. iterations_bencher {
-						benchmark_test_with_optimizations (test) .expect ("690bb327");
+					for _iteration in 0 .. iterations {
+						try! (benchmark_test_with_optimizations (test));
 					}
 				}
 			}
-		));
+			succeed! (());
+		}
+		
+		let summary = bencher.bench (
+				|ref mut bencher| bencher.iter (
+						|| bencher_execute (tests, iterations_bencher) .expect ("06d861e0")));
 		
 		let resources_after = libc_getrusage_for_thread ();
 		let memory_delta = resources_after.ru_maxrss - resources_before.ru_maxrss;
@@ -640,5 +656,68 @@ fn test_case_footer_emit (test : &TestCase, transcript : &mut io::Write, verbosi
 		try_or_fail! (write! (transcript, "--------------------------------------------------------------------------------\n\n\n\n"), 0x3d63834c);
 	}
 	succeed! (emitted);
+}
+
+
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn execute_tests_main (identifier : &str, source : &str, context : Option<Context>, transcript : Option<&mut io::Write>, verbosity : Option<TestVerbosity>) -> (Outcome<()>) {
+	
+	let mut stdout = io::stdout ();
+	let transcript = if let Some (transcript) = transcript { transcript } else { &mut stdout };
+	let verbosity = if let Some (verbosity) = verbosity { verbosity } else {
+		let verbosity = env::var ("RUST_SCHEME_TESTS_DEBUG") .unwrap_or (string::String::from ("false"));
+		let verbosity = if verbosity == "true" { TestVerbosity::Debug } else { TestVerbosity::Quiet };
+		verbosity
+	};
+	
+	try_or_fail! (write! (transcript, "\n\n"), 0x5afde5da);
+	let outcome = parse_and_execute_tests (identifier, source, context, transcript, verbosity);
+	try_or_fail! (write! (transcript, "\n"), 0x216bb5ee);
+	try_or_fail! (transcript.flush (), 0xa05200ec);
+	return outcome;
+}
+
+
+#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+pub fn benchmark_tests_main (identifier : &str, source : &str, context : Option<Context>, bencher : &mut test::Bencher, transcript : Option<&mut io::Write>, output : Option<&mut io::Write>, verbosity : Option<TestVerbosity>) -> (Outcome<()>) {
+	
+	let mut stdout = io::stdout ();
+	let transcript = if let Some (transcript) = transcript { transcript } else { &mut stdout };
+	let verbosity = if let Some (verbosity) = verbosity { verbosity } else {
+		let verbosity = env::var ("RUST_SCHEME_BENCHMARKS_DEBUG") .unwrap_or (string::String::from ("false"));
+		let verbosity = if verbosity == "true" { TestVerbosity::Debug } else { TestVerbosity::Quiet };
+		verbosity
+	};
+	
+	let (output, output_backend) = if let Some (output) = output {
+		(Some (output), None)
+	} else {
+		let output = env::var ("RUST_SCHEME_BENCHMARKS_OUTPUT") .ok ();
+		let output = if let Some (output) = output { Some (output.replace ("{IDENTIFIER}", identifier)) } else { None };
+		if let Some (output) = output {
+			let output = try_or_fail! (fs::File::create (output), 0x25b456ed);
+			(None, Some (output))
+		} else {
+			(None, None)
+		}
+	};
+	let mut output_backend = output_backend;
+	let output = if let Some (ref mut output) = output_backend { Some (output as &mut io::Write) } else { output };
+	
+	try_or_fail! (write! (transcript, "\n\n"), 0x42d6a453);
+	let outcome = if let Some (output) = output {
+		let mut buffer = StdVec::new ();
+		let outcome = parse_and_benchmark_tests (identifier, source, context, bencher, &mut buffer, verbosity);
+		try_or_fail! (transcript.write_all (&buffer), 0xe987851f);
+		try_or_fail! (output.write_all (&buffer), 0x41e00f08);
+		outcome
+	} else {
+		parse_and_benchmark_tests (identifier, source, context, bencher, transcript, verbosity)
+	};
+	try_or_fail! (write! (transcript, "\n"), 0x276ffb09);
+	try_or_fail! (transcript.flush (), 0x39279869);
+	return outcome;
 }
 
