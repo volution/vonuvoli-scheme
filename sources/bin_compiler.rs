@@ -19,7 +19,8 @@ fn main () -> () {
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 fn main_0 () -> (Outcome<()>) {
 	
-	let mut transcript = io::stdout ();
+	let transcript_backend = io::stdout ();
+	let mut transcript = transcript_backend.lock ();
 	let mut source_stream = io::stdin ();
 	
 	let context = Context::new (None);

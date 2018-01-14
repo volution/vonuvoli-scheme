@@ -22,6 +22,22 @@ bench = false
 doc = false
 doctest = false
 
+[[bin]]
+name = "vonuvoli-scheme-tester"
+path = "./sources/bin_tester.rs"
+test = false
+bench = false
+doc = false
+doctest = false
+
+[[bin]]
+name = "vonuvoli-scheme-bencher"
+path = "./sources/bin_bencher.rs"
+test = false
+bench = false
+doc = false
+doctest = false
+
 [lib]
 name = "vonuvoli_scheme"
 path = "./sources/lib.rs"
