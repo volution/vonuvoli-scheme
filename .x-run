@@ -36,6 +36,9 @@ cat <<'EOS'
 	fi
 !!
 
+:: compile / all / debug :: x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --no-default-features "${@}"
+:: compile / all / release :: x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --release --all-features "${@}"
+
 :: compile / lib / debug :: x-run ':: compile / peg' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --lib --no-default-features "${@}"
 :: compile / lib / release :: x-run ':: compile / peg' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --lib --release --all-features "${@}"
 
@@ -44,6 +47,12 @@ cat <<'EOS'
 
 :: compile / bin / compiler / debug :: x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --bin vonuvoli-scheme-compiler --no-default-features "${@}"
 :: compile / bin / compiler / release :: x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --bin vonuvoli-scheme-compiler --release --all-features "${@}"
+
+:: compile / bin / tester / debug :: x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --bin vonuvoli-scheme-tester --no-default-features "${@}"
+:: compile / bin / tester / release :: x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --bin vonuvoli-scheme-tester --release --all-features "${@}"
+
+:: compile / bin / bencher / debug :: x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --bin vonuvoli-scheme-bencher --no-default-features "${@}"
+:: compile / bin / bencher / release :: x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --bin vonuvoli-scheme-bencher --release --all-features "${@}"
 
 :: compile / doc / debug :: x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo doc --quiet --no-default-features "${@}"
 :: compile / doc / release :: x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo doc --quiet --release --all-features "${@}"
@@ -90,6 +99,12 @@ cat <<'EOS'
 
 :: execute / bin / compiler / debug :: x-run ':: compile / bin / compiler / debug' ; exec -- ./target/debug/vonuvoli-scheme-compiler "${@}"
 :: execute / bin / compiler / release :: x-run ':: compile / bin / compiler / release' ; exec -- ./target/release/vonuvoli-scheme-compiler "${@}"
+
+:: execute / bin / tester / debug :: x-run ':: compile / bin / tester / debug' ; exec -- ./target/debug/vonuvoli-scheme-tester "${@}"
+:: execute / bin / tester / release :: x-run ':: compile / bin / tester / release' ; exec -- ./target/release/vonuvoli-scheme-tester "${@}"
+
+:: execute / bin / bencher / debug :: x-run ':: compile / bin / bencher / debug' ; exec -- ./target/debug/vonuvoli-scheme-bencher "${@}"
+:: execute / bin / bencher / release :: x-run ':: compile / bin / bencher / release' ; exec -- ./target/release/vonuvoli-scheme-bencher "${@}"
 
 :: compile / test / all / debug :: x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --no-default-features --no-run
 :: compile / test / all / release :: x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --release --all-features --no-run
@@ -228,6 +243,10 @@ sed -r -e 's#@\{TEST\}#'"${_test}"'#g' <<'EOS'
 :: execute / test / scheme / tests / @{TEST} / release :: x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__@{TEST}' --exact "${@}"
 :: execute / test / scheme / benchmarks / @{TEST} / debug :: x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --no-default-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__@{TEST}' --exact "${@}"
 :: execute / test / scheme / benchmarks / @{TEST} / release :: x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__@{TEST}' --exact "${@}"
+:: execute / tester / @{TEST} / debug :: x-run ':: compile / bin / tester / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-tester "${@}" < './tests/scheme/@{TEST}.sst'
+:: execute / tester / @{TEST} / release :: x-run ':: compile / bin / tester / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-tester "${@}" < './tests/scheme/@{TEST}.sst'
+:: execute / bencher / @{TEST} / debug :: x-run ':: compile / bin / bencher / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-bencher "${@}" < './tests/scheme/@{TEST}.sst'
+:: execute / bencher / @{TEST} / release :: x-run ':: compile / bin / bencher / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher "${@}" < './tests/scheme/@{TEST}.sst'
 EOS
 done
 

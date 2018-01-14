@@ -16,6 +16,14 @@
 		fi
 !!
 
+<< compile / all / debug
+	x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --no-default-features "${@}"
+!!
+
+<< compile / all / release
+	x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --release --all-features "${@}"
+!!
+
 << compile / lib / debug
 	x-run ':: compile / peg' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --lib --no-default-features "${@}"
 !!
@@ -38,6 +46,22 @@
 
 << compile / bin / compiler / release
 	x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --bin vonuvoli-scheme-compiler --release --all-features "${@}"
+!!
+
+<< compile / bin / tester / debug
+	x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --bin vonuvoli-scheme-tester --no-default-features "${@}"
+!!
+
+<< compile / bin / tester / release
+	x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --bin vonuvoli-scheme-tester --release --all-features "${@}"
+!!
+
+<< compile / bin / bencher / debug
+	x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --bin vonuvoli-scheme-bencher --no-default-features "${@}"
+!!
+
+<< compile / bin / bencher / release
+	x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo build --quiet --bin vonuvoli-scheme-bencher --release --all-features "${@}"
 !!
 
 << compile / doc / debug
@@ -99,6 +123,22 @@
 
 << execute / bin / compiler / release
 	x-run ':: compile / bin / compiler / release' ; exec -- ./target/release/vonuvoli-scheme-compiler "${@}"
+!!
+
+<< execute / bin / tester / debug
+	x-run ':: compile / bin / tester / debug' ; exec -- ./target/debug/vonuvoli-scheme-tester "${@}"
+!!
+
+<< execute / bin / tester / release
+	x-run ':: compile / bin / tester / release' ; exec -- ./target/release/vonuvoli-scheme-tester "${@}"
+!!
+
+<< execute / bin / bencher / debug
+	x-run ':: compile / bin / bencher / debug' ; exec -- ./target/debug/vonuvoli-scheme-bencher "${@}"
+!!
+
+<< execute / bin / bencher / release
+	x-run ':: compile / bin / bencher / release' ; exec -- ./target/release/vonuvoli-scheme-bencher "${@}"
 !!
 
 << compile / test / all / debug
@@ -475,6 +515,22 @@
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__arithmetic' --exact "${@}"
 !!
 
+<< execute / tester / arithmetic / debug
+	x-run ':: compile / bin / tester / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-tester "${@}" < './tests/scheme/arithmetic.sst'
+!!
+
+<< execute / tester / arithmetic / release
+	x-run ':: compile / bin / tester / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-tester "${@}" < './tests/scheme/arithmetic.sst'
+!!
+
+<< execute / bencher / arithmetic / debug
+	x-run ':: compile / bin / bencher / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-bencher "${@}" < './tests/scheme/arithmetic.sst'
+!!
+
+<< execute / bencher / arithmetic / release
+	x-run ':: compile / bin / bencher / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher "${@}" < './tests/scheme/arithmetic.sst'
+!!
+
 << execute / test / scheme / tests / arrays / debug
 	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --no-default-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__arrays' --exact "${@}"
 !!
@@ -489,6 +545,22 @@
 
 << execute / test / scheme / benchmarks / arrays / release
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__arrays' --exact "${@}"
+!!
+
+<< execute / tester / arrays / debug
+	x-run ':: compile / bin / tester / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-tester "${@}" < './tests/scheme/arrays.sst'
+!!
+
+<< execute / tester / arrays / release
+	x-run ':: compile / bin / tester / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-tester "${@}" < './tests/scheme/arrays.sst'
+!!
+
+<< execute / bencher / arrays / debug
+	x-run ':: compile / bin / bencher / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-bencher "${@}" < './tests/scheme/arrays.sst'
+!!
+
+<< execute / bencher / arrays / release
+	x-run ':: compile / bin / bencher / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher "${@}" < './tests/scheme/arrays.sst'
 !!
 
 << execute / test / scheme / tests / booleans / debug
@@ -507,6 +579,22 @@
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__booleans' --exact "${@}"
 !!
 
+<< execute / tester / booleans / debug
+	x-run ':: compile / bin / tester / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-tester "${@}" < './tests/scheme/booleans.sst'
+!!
+
+<< execute / tester / booleans / release
+	x-run ':: compile / bin / tester / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-tester "${@}" < './tests/scheme/booleans.sst'
+!!
+
+<< execute / bencher / booleans / debug
+	x-run ':: compile / bin / bencher / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-bencher "${@}" < './tests/scheme/booleans.sst'
+!!
+
+<< execute / bencher / booleans / release
+	x-run ':: compile / bin / bencher / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher "${@}" < './tests/scheme/booleans.sst'
+!!
+
 << execute / test / scheme / tests / bytes / debug
 	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --no-default-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__bytes' --exact "${@}"
 !!
@@ -521,6 +609,22 @@
 
 << execute / test / scheme / benchmarks / bytes / release
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__bytes' --exact "${@}"
+!!
+
+<< execute / tester / bytes / debug
+	x-run ':: compile / bin / tester / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-tester "${@}" < './tests/scheme/bytes.sst'
+!!
+
+<< execute / tester / bytes / release
+	x-run ':: compile / bin / tester / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-tester "${@}" < './tests/scheme/bytes.sst'
+!!
+
+<< execute / bencher / bytes / debug
+	x-run ':: compile / bin / bencher / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-bencher "${@}" < './tests/scheme/bytes.sst'
+!!
+
+<< execute / bencher / bytes / release
+	x-run ':: compile / bin / bencher / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher "${@}" < './tests/scheme/bytes.sst'
 !!
 
 << execute / test / scheme / tests / comparisons_equivalent_by_identity / debug
@@ -539,6 +643,22 @@
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_by_identity' --exact "${@}"
 !!
 
+<< execute / tester / comparisons_equivalent_by_identity / debug
+	x-run ':: compile / bin / tester / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-tester "${@}" < './tests/scheme/comparisons_equivalent_by_identity.sst'
+!!
+
+<< execute / tester / comparisons_equivalent_by_identity / release
+	x-run ':: compile / bin / tester / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-tester "${@}" < './tests/scheme/comparisons_equivalent_by_identity.sst'
+!!
+
+<< execute / bencher / comparisons_equivalent_by_identity / debug
+	x-run ':: compile / bin / bencher / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-bencher "${@}" < './tests/scheme/comparisons_equivalent_by_identity.sst'
+!!
+
+<< execute / bencher / comparisons_equivalent_by_identity / release
+	x-run ':: compile / bin / bencher / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher "${@}" < './tests/scheme/comparisons_equivalent_by_identity.sst'
+!!
+
 << execute / test / scheme / tests / comparisons_equivalent_by_value_coerced / debug
 	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --no-default-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_equivalent_by_value_coerced' --exact "${@}"
 !!
@@ -553,6 +673,22 @@
 
 << execute / test / scheme / benchmarks / comparisons_equivalent_by_value_coerced / release
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_by_value_coerced' --exact "${@}"
+!!
+
+<< execute / tester / comparisons_equivalent_by_value_coerced / debug
+	x-run ':: compile / bin / tester / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-tester "${@}" < './tests/scheme/comparisons_equivalent_by_value_coerced.sst'
+!!
+
+<< execute / tester / comparisons_equivalent_by_value_coerced / release
+	x-run ':: compile / bin / tester / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-tester "${@}" < './tests/scheme/comparisons_equivalent_by_value_coerced.sst'
+!!
+
+<< execute / bencher / comparisons_equivalent_by_value_coerced / debug
+	x-run ':: compile / bin / bencher / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-bencher "${@}" < './tests/scheme/comparisons_equivalent_by_value_coerced.sst'
+!!
+
+<< execute / bencher / comparisons_equivalent_by_value_coerced / release
+	x-run ':: compile / bin / bencher / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher "${@}" < './tests/scheme/comparisons_equivalent_by_value_coerced.sst'
 !!
 
 << execute / test / scheme / tests / comparisons_equivalent_by_value_coerced_recursive / debug
@@ -571,6 +707,22 @@
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_by_value_coerced_recursive' --exact "${@}"
 !!
 
+<< execute / tester / comparisons_equivalent_by_value_coerced_recursive / debug
+	x-run ':: compile / bin / tester / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-tester "${@}" < './tests/scheme/comparisons_equivalent_by_value_coerced_recursive.sst'
+!!
+
+<< execute / tester / comparisons_equivalent_by_value_coerced_recursive / release
+	x-run ':: compile / bin / tester / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-tester "${@}" < './tests/scheme/comparisons_equivalent_by_value_coerced_recursive.sst'
+!!
+
+<< execute / bencher / comparisons_equivalent_by_value_coerced_recursive / debug
+	x-run ':: compile / bin / bencher / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-bencher "${@}" < './tests/scheme/comparisons_equivalent_by_value_coerced_recursive.sst'
+!!
+
+<< execute / bencher / comparisons_equivalent_by_value_coerced_recursive / release
+	x-run ':: compile / bin / bencher / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher "${@}" < './tests/scheme/comparisons_equivalent_by_value_coerced_recursive.sst'
+!!
+
 << execute / test / scheme / tests / comparisons_equivalent_by_value_strict / debug
 	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --no-default-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_equivalent_by_value_strict' --exact "${@}"
 !!
@@ -585,6 +737,22 @@
 
 << execute / test / scheme / benchmarks / comparisons_equivalent_by_value_strict / release
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_by_value_strict' --exact "${@}"
+!!
+
+<< execute / tester / comparisons_equivalent_by_value_strict / debug
+	x-run ':: compile / bin / tester / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-tester "${@}" < './tests/scheme/comparisons_equivalent_by_value_strict.sst'
+!!
+
+<< execute / tester / comparisons_equivalent_by_value_strict / release
+	x-run ':: compile / bin / tester / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-tester "${@}" < './tests/scheme/comparisons_equivalent_by_value_strict.sst'
+!!
+
+<< execute / bencher / comparisons_equivalent_by_value_strict / debug
+	x-run ':: compile / bin / bencher / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-bencher "${@}" < './tests/scheme/comparisons_equivalent_by_value_strict.sst'
+!!
+
+<< execute / bencher / comparisons_equivalent_by_value_strict / release
+	x-run ':: compile / bin / bencher / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher "${@}" < './tests/scheme/comparisons_equivalent_by_value_strict.sst'
 !!
 
 << execute / test / scheme / tests / comparisons_equivalent_by_value_strict_recursive / debug
@@ -603,6 +771,22 @@
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_by_value_strict_recursive' --exact "${@}"
 !!
 
+<< execute / tester / comparisons_equivalent_by_value_strict_recursive / debug
+	x-run ':: compile / bin / tester / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-tester "${@}" < './tests/scheme/comparisons_equivalent_by_value_strict_recursive.sst'
+!!
+
+<< execute / tester / comparisons_equivalent_by_value_strict_recursive / release
+	x-run ':: compile / bin / tester / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-tester "${@}" < './tests/scheme/comparisons_equivalent_by_value_strict_recursive.sst'
+!!
+
+<< execute / bencher / comparisons_equivalent_by_value_strict_recursive / debug
+	x-run ':: compile / bin / bencher / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-bencher "${@}" < './tests/scheme/comparisons_equivalent_by_value_strict_recursive.sst'
+!!
+
+<< execute / bencher / comparisons_equivalent_by_value_strict_recursive / release
+	x-run ':: compile / bin / bencher / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher "${@}" < './tests/scheme/comparisons_equivalent_by_value_strict_recursive.sst'
+!!
+
 << execute / test / scheme / tests / comparisons_equivalent_objects / debug
 	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --no-default-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_equivalent_objects' --exact "${@}"
 !!
@@ -617,6 +801,22 @@
 
 << execute / test / scheme / benchmarks / comparisons_equivalent_objects / release
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_objects' --exact "${@}"
+!!
+
+<< execute / tester / comparisons_equivalent_objects / debug
+	x-run ':: compile / bin / tester / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-tester "${@}" < './tests/scheme/comparisons_equivalent_objects.sst'
+!!
+
+<< execute / tester / comparisons_equivalent_objects / release
+	x-run ':: compile / bin / tester / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-tester "${@}" < './tests/scheme/comparisons_equivalent_objects.sst'
+!!
+
+<< execute / bencher / comparisons_equivalent_objects / debug
+	x-run ':: compile / bin / bencher / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-bencher "${@}" < './tests/scheme/comparisons_equivalent_objects.sst'
+!!
+
+<< execute / bencher / comparisons_equivalent_objects / release
+	x-run ':: compile / bin / bencher / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher "${@}" < './tests/scheme/comparisons_equivalent_objects.sst'
 !!
 
 << execute / test / scheme / tests / comparisons_ordering_numbers / debug
@@ -635,6 +835,22 @@
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_ordering_numbers' --exact "${@}"
 !!
 
+<< execute / tester / comparisons_ordering_numbers / debug
+	x-run ':: compile / bin / tester / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-tester "${@}" < './tests/scheme/comparisons_ordering_numbers.sst'
+!!
+
+<< execute / tester / comparisons_ordering_numbers / release
+	x-run ':: compile / bin / tester / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-tester "${@}" < './tests/scheme/comparisons_ordering_numbers.sst'
+!!
+
+<< execute / bencher / comparisons_ordering_numbers / debug
+	x-run ':: compile / bin / bencher / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-bencher "${@}" < './tests/scheme/comparisons_ordering_numbers.sst'
+!!
+
+<< execute / bencher / comparisons_ordering_numbers / release
+	x-run ':: compile / bin / bencher / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher "${@}" < './tests/scheme/comparisons_ordering_numbers.sst'
+!!
+
 << execute / test / scheme / tests / comparisons_ordering_objects / debug
 	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --no-default-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_ordering_objects' --exact "${@}"
 !!
@@ -649,6 +865,22 @@
 
 << execute / test / scheme / benchmarks / comparisons_ordering_objects / release
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_ordering_objects' --exact "${@}"
+!!
+
+<< execute / tester / comparisons_ordering_objects / debug
+	x-run ':: compile / bin / tester / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-tester "${@}" < './tests/scheme/comparisons_ordering_objects.sst'
+!!
+
+<< execute / tester / comparisons_ordering_objects / release
+	x-run ':: compile / bin / tester / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-tester "${@}" < './tests/scheme/comparisons_ordering_objects.sst'
+!!
+
+<< execute / bencher / comparisons_ordering_objects / debug
+	x-run ':: compile / bin / bencher / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-bencher "${@}" < './tests/scheme/comparisons_ordering_objects.sst'
+!!
+
+<< execute / bencher / comparisons_ordering_objects / release
+	x-run ':: compile / bin / bencher / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher "${@}" < './tests/scheme/comparisons_ordering_objects.sst'
 !!
 
 << execute / test / scheme / tests / contexts / debug
@@ -667,6 +899,22 @@
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__contexts' --exact "${@}"
 !!
 
+<< execute / tester / contexts / debug
+	x-run ':: compile / bin / tester / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-tester "${@}" < './tests/scheme/contexts.sst'
+!!
+
+<< execute / tester / contexts / release
+	x-run ':: compile / bin / tester / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-tester "${@}" < './tests/scheme/contexts.sst'
+!!
+
+<< execute / bencher / contexts / debug
+	x-run ':: compile / bin / bencher / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-bencher "${@}" < './tests/scheme/contexts.sst'
+!!
+
+<< execute / bencher / contexts / release
+	x-run ':: compile / bin / bencher / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher "${@}" < './tests/scheme/contexts.sst'
+!!
+
 << execute / test / scheme / tests / control / debug
 	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --no-default-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__control' --exact "${@}"
 !!
@@ -681,6 +929,22 @@
 
 << execute / test / scheme / benchmarks / control / release
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__control' --exact "${@}"
+!!
+
+<< execute / tester / control / debug
+	x-run ':: compile / bin / tester / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-tester "${@}" < './tests/scheme/control.sst'
+!!
+
+<< execute / tester / control / release
+	x-run ':: compile / bin / tester / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-tester "${@}" < './tests/scheme/control.sst'
+!!
+
+<< execute / bencher / control / debug
+	x-run ':: compile / bin / bencher / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-bencher "${@}" < './tests/scheme/control.sst'
+!!
+
+<< execute / bencher / control / release
+	x-run ':: compile / bin / bencher / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher "${@}" < './tests/scheme/control.sst'
 !!
 
 << execute / test / scheme / tests / functions / debug
@@ -699,6 +963,22 @@
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__functions' --exact "${@}"
 !!
 
+<< execute / tester / functions / debug
+	x-run ':: compile / bin / tester / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-tester "${@}" < './tests/scheme/functions.sst'
+!!
+
+<< execute / tester / functions / release
+	x-run ':: compile / bin / tester / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-tester "${@}" < './tests/scheme/functions.sst'
+!!
+
+<< execute / bencher / functions / debug
+	x-run ':: compile / bin / bencher / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-bencher "${@}" < './tests/scheme/functions.sst'
+!!
+
+<< execute / bencher / functions / release
+	x-run ':: compile / bin / bencher / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher "${@}" < './tests/scheme/functions.sst'
+!!
+
 << execute / test / scheme / tests / functions_arrays / debug
 	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --no-default-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__functions_arrays' --exact "${@}"
 !!
@@ -713,6 +993,22 @@
 
 << execute / test / scheme / benchmarks / functions_arrays / release
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__functions_arrays' --exact "${@}"
+!!
+
+<< execute / tester / functions_arrays / debug
+	x-run ':: compile / bin / tester / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-tester "${@}" < './tests/scheme/functions_arrays.sst'
+!!
+
+<< execute / tester / functions_arrays / release
+	x-run ':: compile / bin / tester / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-tester "${@}" < './tests/scheme/functions_arrays.sst'
+!!
+
+<< execute / bencher / functions_arrays / debug
+	x-run ':: compile / bin / bencher / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-bencher "${@}" < './tests/scheme/functions_arrays.sst'
+!!
+
+<< execute / bencher / functions_arrays / release
+	x-run ':: compile / bin / bencher / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher "${@}" < './tests/scheme/functions_arrays.sst'
 !!
 
 << execute / test / scheme / tests / functions_bytes / debug
@@ -731,6 +1027,22 @@
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__functions_bytes' --exact "${@}"
 !!
 
+<< execute / tester / functions_bytes / debug
+	x-run ':: compile / bin / tester / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-tester "${@}" < './tests/scheme/functions_bytes.sst'
+!!
+
+<< execute / tester / functions_bytes / release
+	x-run ':: compile / bin / tester / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-tester "${@}" < './tests/scheme/functions_bytes.sst'
+!!
+
+<< execute / bencher / functions_bytes / debug
+	x-run ':: compile / bin / bencher / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-bencher "${@}" < './tests/scheme/functions_bytes.sst'
+!!
+
+<< execute / bencher / functions_bytes / release
+	x-run ':: compile / bin / bencher / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher "${@}" < './tests/scheme/functions_bytes.sst'
+!!
+
 << execute / test / scheme / tests / functions_lists / debug
 	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --no-default-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__functions_lists' --exact "${@}"
 !!
@@ -745,6 +1057,22 @@
 
 << execute / test / scheme / benchmarks / functions_lists / release
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__functions_lists' --exact "${@}"
+!!
+
+<< execute / tester / functions_lists / debug
+	x-run ':: compile / bin / tester / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-tester "${@}" < './tests/scheme/functions_lists.sst'
+!!
+
+<< execute / tester / functions_lists / release
+	x-run ':: compile / bin / tester / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-tester "${@}" < './tests/scheme/functions_lists.sst'
+!!
+
+<< execute / bencher / functions_lists / debug
+	x-run ':: compile / bin / bencher / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-bencher "${@}" < './tests/scheme/functions_lists.sst'
+!!
+
+<< execute / bencher / functions_lists / release
+	x-run ':: compile / bin / bencher / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher "${@}" < './tests/scheme/functions_lists.sst'
 !!
 
 << execute / test / scheme / tests / functions_strings / debug
@@ -763,6 +1091,22 @@
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__functions_strings' --exact "${@}"
 !!
 
+<< execute / tester / functions_strings / debug
+	x-run ':: compile / bin / tester / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-tester "${@}" < './tests/scheme/functions_strings.sst'
+!!
+
+<< execute / tester / functions_strings / release
+	x-run ':: compile / bin / tester / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-tester "${@}" < './tests/scheme/functions_strings.sst'
+!!
+
+<< execute / bencher / functions_strings / debug
+	x-run ':: compile / bin / bencher / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-bencher "${@}" < './tests/scheme/functions_strings.sst'
+!!
+
+<< execute / bencher / functions_strings / release
+	x-run ':: compile / bin / bencher / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher "${@}" < './tests/scheme/functions_strings.sst'
+!!
+
 << execute / test / scheme / tests / issues / debug
 	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --no-default-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__issues' --exact "${@}"
 !!
@@ -777,6 +1121,22 @@
 
 << execute / test / scheme / benchmarks / issues / release
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__issues' --exact "${@}"
+!!
+
+<< execute / tester / issues / debug
+	x-run ':: compile / bin / tester / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-tester "${@}" < './tests/scheme/issues.sst'
+!!
+
+<< execute / tester / issues / release
+	x-run ':: compile / bin / tester / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-tester "${@}" < './tests/scheme/issues.sst'
+!!
+
+<< execute / bencher / issues / debug
+	x-run ':: compile / bin / bencher / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-bencher "${@}" < './tests/scheme/issues.sst'
+!!
+
+<< execute / bencher / issues / release
+	x-run ':: compile / bin / bencher / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher "${@}" < './tests/scheme/issues.sst'
 !!
 
 << execute / test / scheme / tests / lambdas / debug
@@ -795,6 +1155,22 @@
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__lambdas' --exact "${@}"
 !!
 
+<< execute / tester / lambdas / debug
+	x-run ':: compile / bin / tester / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-tester "${@}" < './tests/scheme/lambdas.sst'
+!!
+
+<< execute / tester / lambdas / release
+	x-run ':: compile / bin / tester / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-tester "${@}" < './tests/scheme/lambdas.sst'
+!!
+
+<< execute / bencher / lambdas / debug
+	x-run ':: compile / bin / bencher / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-bencher "${@}" < './tests/scheme/lambdas.sst'
+!!
+
+<< execute / bencher / lambdas / release
+	x-run ':: compile / bin / bencher / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher "${@}" < './tests/scheme/lambdas.sst'
+!!
+
 << execute / test / scheme / tests / lists / debug
 	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --no-default-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__lists' --exact "${@}"
 !!
@@ -809,6 +1185,22 @@
 
 << execute / test / scheme / benchmarks / lists / release
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__lists' --exact "${@}"
+!!
+
+<< execute / tester / lists / debug
+	x-run ':: compile / bin / tester / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-tester "${@}" < './tests/scheme/lists.sst'
+!!
+
+<< execute / tester / lists / release
+	x-run ':: compile / bin / tester / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-tester "${@}" < './tests/scheme/lists.sst'
+!!
+
+<< execute / bencher / lists / debug
+	x-run ':: compile / bin / bencher / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-bencher "${@}" < './tests/scheme/lists.sst'
+!!
+
+<< execute / bencher / lists / release
+	x-run ':: compile / bin / bencher / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher "${@}" < './tests/scheme/lists.sst'
 !!
 
 << execute / test / scheme / tests / loops / debug
@@ -827,6 +1219,22 @@
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__loops' --exact "${@}"
 !!
 
+<< execute / tester / loops / debug
+	x-run ':: compile / bin / tester / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-tester "${@}" < './tests/scheme/loops.sst'
+!!
+
+<< execute / tester / loops / release
+	x-run ':: compile / bin / tester / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-tester "${@}" < './tests/scheme/loops.sst'
+!!
+
+<< execute / bencher / loops / debug
+	x-run ':: compile / bin / bencher / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-bencher "${@}" < './tests/scheme/loops.sst'
+!!
+
+<< execute / bencher / loops / release
+	x-run ':: compile / bin / bencher / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher "${@}" < './tests/scheme/loops.sst'
+!!
+
 << execute / test / scheme / tests / pairs / debug
 	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --no-default-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__pairs' --exact "${@}"
 !!
@@ -841,6 +1249,22 @@
 
 << execute / test / scheme / benchmarks / pairs / release
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__pairs' --exact "${@}"
+!!
+
+<< execute / tester / pairs / debug
+	x-run ':: compile / bin / tester / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-tester "${@}" < './tests/scheme/pairs.sst'
+!!
+
+<< execute / tester / pairs / release
+	x-run ':: compile / bin / tester / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-tester "${@}" < './tests/scheme/pairs.sst'
+!!
+
+<< execute / bencher / pairs / debug
+	x-run ':: compile / bin / bencher / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-bencher "${@}" < './tests/scheme/pairs.sst'
+!!
+
+<< execute / bencher / pairs / release
+	x-run ':: compile / bin / bencher / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher "${@}" < './tests/scheme/pairs.sst'
 !!
 
 << execute / test / scheme / tests / ports / debug
@@ -859,6 +1283,22 @@
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__ports' --exact "${@}"
 !!
 
+<< execute / tester / ports / debug
+	x-run ':: compile / bin / tester / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-tester "${@}" < './tests/scheme/ports.sst'
+!!
+
+<< execute / tester / ports / release
+	x-run ':: compile / bin / tester / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-tester "${@}" < './tests/scheme/ports.sst'
+!!
+
+<< execute / bencher / ports / debug
+	x-run ':: compile / bin / bencher / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-bencher "${@}" < './tests/scheme/ports.sst'
+!!
+
+<< execute / bencher / ports / release
+	x-run ':: compile / bin / bencher / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher "${@}" < './tests/scheme/ports.sst'
+!!
+
 << execute / test / scheme / tests / ports_memory / debug
 	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --no-default-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__ports_memory' --exact "${@}"
 !!
@@ -873,6 +1313,22 @@
 
 << execute / test / scheme / benchmarks / ports_memory / release
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__ports_memory' --exact "${@}"
+!!
+
+<< execute / tester / ports_memory / debug
+	x-run ':: compile / bin / tester / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-tester "${@}" < './tests/scheme/ports_memory.sst'
+!!
+
+<< execute / tester / ports_memory / release
+	x-run ':: compile / bin / tester / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-tester "${@}" < './tests/scheme/ports_memory.sst'
+!!
+
+<< execute / bencher / ports_memory / debug
+	x-run ':: compile / bin / bencher / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-bencher "${@}" < './tests/scheme/ports_memory.sst'
+!!
+
+<< execute / bencher / ports_memory / release
+	x-run ':: compile / bin / bencher / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher "${@}" < './tests/scheme/ports_memory.sst'
 !!
 
 << execute / test / scheme / tests / ports_native / debug
@@ -891,6 +1347,22 @@
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__ports_native' --exact "${@}"
 !!
 
+<< execute / tester / ports_native / debug
+	x-run ':: compile / bin / tester / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-tester "${@}" < './tests/scheme/ports_native.sst'
+!!
+
+<< execute / tester / ports_native / release
+	x-run ':: compile / bin / tester / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-tester "${@}" < './tests/scheme/ports_native.sst'
+!!
+
+<< execute / bencher / ports_native / debug
+	x-run ':: compile / bin / bencher / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-bencher "${@}" < './tests/scheme/ports_native.sst'
+!!
+
+<< execute / bencher / ports_native / release
+	x-run ':: compile / bin / bencher / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher "${@}" < './tests/scheme/ports_native.sst'
+!!
+
 << execute / test / scheme / tests / processes / debug
 	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --no-default-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__processes' --exact "${@}"
 !!
@@ -905,6 +1377,22 @@
 
 << execute / test / scheme / benchmarks / processes / release
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__processes' --exact "${@}"
+!!
+
+<< execute / tester / processes / debug
+	x-run ':: compile / bin / tester / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-tester "${@}" < './tests/scheme/processes.sst'
+!!
+
+<< execute / tester / processes / release
+	x-run ':: compile / bin / tester / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-tester "${@}" < './tests/scheme/processes.sst'
+!!
+
+<< execute / bencher / processes / debug
+	x-run ':: compile / bin / bencher / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-bencher "${@}" < './tests/scheme/processes.sst'
+!!
+
+<< execute / bencher / processes / release
+	x-run ':: compile / bin / bencher / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher "${@}" < './tests/scheme/processes.sst'
 !!
 
 << execute / test / scheme / tests / quotation / debug
@@ -923,6 +1411,22 @@
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__quotation' --exact "${@}"
 !!
 
+<< execute / tester / quotation / debug
+	x-run ':: compile / bin / tester / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-tester "${@}" < './tests/scheme/quotation.sst'
+!!
+
+<< execute / tester / quotation / release
+	x-run ':: compile / bin / tester / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-tester "${@}" < './tests/scheme/quotation.sst'
+!!
+
+<< execute / bencher / quotation / debug
+	x-run ':: compile / bin / bencher / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-bencher "${@}" < './tests/scheme/quotation.sst'
+!!
+
+<< execute / bencher / quotation / release
+	x-run ':: compile / bin / bencher / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher "${@}" < './tests/scheme/quotation.sst'
+!!
+
 << execute / test / scheme / tests / runtime / debug
 	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --no-default-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__runtime' --exact "${@}"
 !!
@@ -937,6 +1441,22 @@
 
 << execute / test / scheme / benchmarks / runtime / release
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__runtime' --exact "${@}"
+!!
+
+<< execute / tester / runtime / debug
+	x-run ':: compile / bin / tester / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-tester "${@}" < './tests/scheme/runtime.sst'
+!!
+
+<< execute / tester / runtime / release
+	x-run ':: compile / bin / tester / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-tester "${@}" < './tests/scheme/runtime.sst'
+!!
+
+<< execute / bencher / runtime / debug
+	x-run ':: compile / bin / bencher / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-bencher "${@}" < './tests/scheme/runtime.sst'
+!!
+
+<< execute / bencher / runtime / release
+	x-run ':: compile / bin / bencher / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher "${@}" < './tests/scheme/runtime.sst'
 !!
 
 << execute / test / scheme / tests / scratchpad / debug
@@ -955,6 +1475,22 @@
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__scratchpad' --exact "${@}"
 !!
 
+<< execute / tester / scratchpad / debug
+	x-run ':: compile / bin / tester / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-tester "${@}" < './tests/scheme/scratchpad.sst'
+!!
+
+<< execute / tester / scratchpad / release
+	x-run ':: compile / bin / tester / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-tester "${@}" < './tests/scheme/scratchpad.sst'
+!!
+
+<< execute / bencher / scratchpad / debug
+	x-run ':: compile / bin / bencher / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-bencher "${@}" < './tests/scheme/scratchpad.sst'
+!!
+
+<< execute / bencher / scratchpad / release
+	x-run ':: compile / bin / bencher / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher "${@}" < './tests/scheme/scratchpad.sst'
+!!
+
 << execute / test / scheme / tests / strings / debug
 	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --no-default-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__strings' --exact "${@}"
 !!
@@ -969,6 +1505,22 @@
 
 << execute / test / scheme / benchmarks / strings / release
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__strings' --exact "${@}"
+!!
+
+<< execute / tester / strings / debug
+	x-run ':: compile / bin / tester / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-tester "${@}" < './tests/scheme/strings.sst'
+!!
+
+<< execute / tester / strings / release
+	x-run ':: compile / bin / tester / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-tester "${@}" < './tests/scheme/strings.sst'
+!!
+
+<< execute / bencher / strings / debug
+	x-run ':: compile / bin / bencher / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-bencher "${@}" < './tests/scheme/strings.sst'
+!!
+
+<< execute / bencher / strings / release
+	x-run ':: compile / bin / bencher / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher "${@}" < './tests/scheme/strings.sst'
 !!
 
 << execute / test / scheme / tests / types / debug
@@ -987,6 +1539,22 @@
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__types' --exact "${@}"
 !!
 
+<< execute / tester / types / debug
+	x-run ':: compile / bin / tester / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-tester "${@}" < './tests/scheme/types.sst'
+!!
+
+<< execute / tester / types / release
+	x-run ':: compile / bin / tester / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-tester "${@}" < './tests/scheme/types.sst'
+!!
+
+<< execute / bencher / types / debug
+	x-run ':: compile / bin / bencher / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-bencher "${@}" < './tests/scheme/types.sst'
+!!
+
+<< execute / bencher / types / release
+	x-run ':: compile / bin / bencher / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher "${@}" < './tests/scheme/types.sst'
+!!
+
 << execute / test / scheme / tests / values / debug
 	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --no-default-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__values' --exact "${@}"
 !!
@@ -1001,6 +1569,22 @@
 
 << execute / test / scheme / benchmarks / values / release
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__values' --exact "${@}"
+!!
+
+<< execute / tester / values / debug
+	x-run ':: compile / bin / tester / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-tester "${@}" < './tests/scheme/values.sst'
+!!
+
+<< execute / tester / values / release
+	x-run ':: compile / bin / tester / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-tester "${@}" < './tests/scheme/values.sst'
+!!
+
+<< execute / bencher / values / debug
+	x-run ':: compile / bin / bencher / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-bencher "${@}" < './tests/scheme/values.sst'
+!!
+
+<< execute / bencher / values / release
+	x-run ':: compile / bin / bencher / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher "${@}" < './tests/scheme/values.sst'
 !!
 
 << execute / bin / compiler / scheme / controls / debug
@@ -1223,12 +1807,20 @@
 	./target/debug/vonuvoli-scheme-compiler < './tests/scripts/optimizer--controls.ss' >| './tests/scripts/_out/optimizer--controls--scheme-compile.out'
 !!
 
+<< files / edit / bin_bencher.rs
+	exec -- sce ./sources/bin_bencher.rs
+!!
+
 << files / edit / bin_compiler.rs
 	exec -- sce ./sources/bin_compiler.rs
 !!
 
 << files / edit / bin_interpreter.rs
 	exec -- sce ./sources/bin_interpreter.rs
+!!
+
+<< files / edit / bin_tester.rs
+	exec -- sce ./sources/bin_tester.rs
 !!
 
 << files / edit / builtins.rs
@@ -1531,12 +2123,20 @@
 	exec -- sce ./sources/values_values.rs
 !!
 
+<< files / view / bin_bencher.rs
+	exec -- less -- ./sources/bin_bencher.rs
+!!
+
 << files / view / bin_compiler.rs
 	exec -- less -- ./sources/bin_compiler.rs
 !!
 
 << files / view / bin_interpreter.rs
 	exec -- less -- ./sources/bin_interpreter.rs
+!!
+
+<< files / view / bin_tester.rs
+	exec -- less -- ./sources/bin_tester.rs
 !!
 
 << files / view / builtins.rs
