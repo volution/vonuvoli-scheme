@@ -22,14 +22,14 @@ pub struct Symbol ( StdRc<StdBox<str>> );
 
 impl Symbol {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &Symbol) -> (bool) {
 		let self_0 = self.0.as_ref ();
 		let other_0 = other.0.as_ref ();
 		ptr::eq (self_0, other_0) && (self_0 == other_0)
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn string_rc_clone (&self) -> (StdRc<StdBox<str>>) {
 		self.0.clone ()
 	}
@@ -38,7 +38,7 @@ impl Symbol {
 
 impl String for Symbol {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn string_as_str (&self) -> (&str) {
 		self.0.as_ref ()
 	}
@@ -47,17 +47,17 @@ impl String for Symbol {
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn symbol_new (string : StdString) -> (Symbol) {
 	Symbol (StdRc::new (string.into_boxed_str ()))
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn symbol_clone_str (string : &str) -> (Symbol) {
 	symbol_new (StdString::from (string))
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn symbol_clone_characters (characters : &[char]) -> (Symbol) {
 	symbol_new (unicode_utf8_chars_clone_string (characters))
 }

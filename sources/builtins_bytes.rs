@@ -35,7 +35,7 @@ pub mod exports {
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_at (bytes : &Value, index : usize) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_ref! (bytes);
 	let bytes = bytes.bytes_as_slice ();
@@ -46,7 +46,7 @@ pub fn bytes_at (bytes : &Value, index : usize) -> (Outcome<Value>) {
 	}
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_at_set (bytes : &Value, index : usize, byte : &Value) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_mutable_ref! (bytes);
 	let mut bytes = bytes.bytes_ref_mut ();
@@ -60,14 +60,14 @@ pub fn bytes_at_set (bytes : &Value, index : usize, byte : &Value) -> (Outcome<V
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_collect_bytes <Source> (bytes : Source) -> (Value)
 		where Source : iter::IntoIterator<Item = u8>, Source::IntoIter : iter::DoubleEndedIterator
 {
 	return bytes_new (iter::FromIterator::from_iter (bytes)) .into ();
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_collect_values <Source> (bytes : Source) -> (Outcome<Value>)
 		where Source : iter::IntoIterator<Item = Value>, Source::IntoIter : iter::DoubleEndedIterator, Source::IntoIter : iter::ExactSizeIterator
 {
@@ -79,7 +79,7 @@ pub fn bytes_collect_values <Source> (bytes : Source) -> (Outcome<Value>)
 	succeed! (bytes_new (buffer) .into ());
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_collect_values_ref <Source, ValueRef> (bytes : Source) -> (Outcome<Value>)
 		where Source : iter::IntoIterator<Item = ValueRef>, Source::IntoIter : iter::DoubleEndedIterator, Source::IntoIter : iter::ExactSizeIterator, ValueRef : StdAsRef<Value>
 {
@@ -94,7 +94,7 @@ pub fn bytes_collect_values_ref <Source, ValueRef> (bytes : Source) -> (Outcome<
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_collect_bytes_from_generator <Source> (bytes : Source) -> (Outcome<Value>)
 		where Source : iter::Iterator<Item = Outcome<u8>>
 {
@@ -103,7 +103,7 @@ pub fn bytes_collect_bytes_from_generator <Source> (bytes : Source) -> (Outcome<
 	succeed! (bytes_collect_bytes (bytes));
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_collect_values_from_generator <Source> (bytes : Source) -> (Outcome<Value>)
 		where Source : iter::Iterator<Item = Outcome<Value>>
 {
@@ -112,7 +112,7 @@ pub fn bytes_collect_values_from_generator <Source> (bytes : Source) -> (Outcome
 	return bytes_collect_values (bytes);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_collect_values_from_generator_ref <Source, ValueRef> (bytes : Source) -> (Outcome<Value>)
 		where Source : iter::Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
 {
@@ -124,19 +124,19 @@ pub fn bytes_collect_values_from_generator_ref <Source, ValueRef> (bytes : Sourc
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_empty () -> (Value) {
 	return bytes_new (StdVec::new ()) .into ();
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_build_1 (byte_1 : &Value) -> (Outcome<Value>) {
 	let mut buffer = StdVec::with_capacity (1);
 	buffer.push (try! (try_as_number_integer_ref! (byte_1) .try_to_u8 ()));
 	succeed! (bytes_new (buffer) .into ());
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_build_2 (byte_1 : &Value, byte_2 : &Value) -> (Outcome<Value>) {
 	let mut buffer = StdVec::with_capacity (2);
 	buffer.push (try! (try_as_number_integer_ref! (byte_1) .try_to_u8 ()));
@@ -144,7 +144,7 @@ pub fn bytes_build_2 (byte_1 : &Value, byte_2 : &Value) -> (Outcome<Value>) {
 	succeed! (bytes_new (buffer) .into ());
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_build_3 (byte_1 : &Value, byte_2 : &Value, byte_3 : &Value) -> (Outcome<Value>) {
 	let mut buffer = StdVec::with_capacity (3);
 	buffer.push (try! (try_as_number_integer_ref! (byte_1) .try_to_u8 ()));
@@ -153,7 +153,7 @@ pub fn bytes_build_3 (byte_1 : &Value, byte_2 : &Value, byte_3 : &Value) -> (Out
 	succeed! (bytes_new (buffer) .into ());
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_build_4 (byte_1 : &Value, byte_2 : &Value, byte_3 : &Value, byte_4 : &Value) -> (Outcome<Value>) {
 	let mut buffer = StdVec::with_capacity (4);
 	buffer.push (try! (try_as_number_integer_ref! (byte_1) .try_to_u8 ()));
@@ -163,7 +163,7 @@ pub fn bytes_build_4 (byte_1 : &Value, byte_2 : &Value, byte_3 : &Value, byte_4 
 	succeed! (bytes_new (buffer) .into ());
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_build_n (bytes : &[&Value]) -> (Outcome<Value>) {
 	if bytes.is_empty () {
 		succeed! (bytes_empty ());
@@ -178,25 +178,25 @@ pub fn bytes_build_n (bytes : &[&Value]) -> (Outcome<Value>) {
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_append_2 (bytes_1 : &Value, bytes_2 : &Value) -> (Outcome<Value>) {
 	let buffer = try! (vec_bytes_append_2 (bytes_1, bytes_2));
 	succeed! (bytes_new (buffer) .into ());
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_append_3 (bytes_1 : &Value, bytes_2 : &Value, bytes_3 : &Value) -> (Outcome<Value>) {
 	let buffer = try! (vec_bytes_append_3 (bytes_1, bytes_2, bytes_3));
 	succeed! (bytes_new (buffer) .into ());
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_append_4 (bytes_1 : &Value, bytes_2 : &Value, bytes_3 : &Value, bytes_4 : &Value) -> (Outcome<Value>) {
 	let buffer = try! (vec_bytes_append_4 (bytes_1, bytes_2, bytes_3, bytes_4));
 	succeed! (bytes_new (buffer) .into ());
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_append_n (bytes : &[&Value]) -> (Outcome<Value>) {
 	if bytes.is_empty () {
 		succeed! (bytes_empty ());
@@ -208,7 +208,7 @@ pub fn bytes_append_n (bytes : &[&Value]) -> (Outcome<Value>) {
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_make (length : usize, fill : Option<&Value>) -> (Outcome<Value>) {
 	let fill = if let Some (fill) = fill {
 		try! (try_as_number_integer_ref! (fill) .try_to_u8 ())
@@ -222,13 +222,13 @@ pub fn bytes_make (length : usize, fill : Option<&Value>) -> (Outcome<Value>) {
 	succeed! (bytes_new (buffer) .into ());
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_clone (bytes : &Value) -> (Outcome<Value>) {
 	let buffer = try! (vec_bytes_clone (bytes));
 	succeed! (bytes_new (buffer) .into ());
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_reverse (bytes : &Value) -> (Outcome<Value>) {
 	// FIXME:  Optimize the vector allocation!
 	let buffer = try! (vec_bytes_clone (bytes));
@@ -238,7 +238,7 @@ pub fn bytes_reverse (bytes : &Value) -> (Outcome<Value>) {
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_fill_range (bytes : &Value, fill : Option<&Value>, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<()>) {
 	let bytes = try_as_bytes_mutable_ref! (bytes);
 	let mut bytes = bytes.bytes_ref_mut ();
@@ -256,7 +256,7 @@ pub fn bytes_fill_range (bytes : &Value, fill : Option<&Value>, range_start : Op
 }
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_reverse_range (bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<()>) {
 	let bytes = try_as_bytes_mutable_ref! (bytes);
 	let mut bytes = bytes.bytes_ref_mut ();
@@ -267,7 +267,7 @@ pub fn bytes_reverse_range (bytes : &Value, range_start : Option<&Value>, range_
 }
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_copy_range (target_bytes : &Value, target_start : Option<&Value>, source_bytes : &Value, source_start : Option<&Value>, source_end : Option<&Value>) -> (Outcome<()>) {
 	let target_bytes = try_as_bytes_mutable_ref! (target_bytes);
 	let mut target_bytes = target_bytes.bytes_ref_mut ();
@@ -287,7 +287,7 @@ pub fn bytes_copy_range (target_bytes : &Value, target_start : Option<&Value>, s
 }
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_clone_range (bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_ref! (bytes);
 	let (range_start, range_end) = try! (range_coerce (range_start, range_end, bytes.bytes_count ()));
@@ -297,26 +297,26 @@ pub fn bytes_clone_range (bytes : &Value, range_start : Option<&Value>, range_en
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_range_to_list (bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let iterator = try! (bytes_range_iterator (bytes, range_start, range_end));
 	return list_collect_from_generator (iterator);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn list_range_to_bytes (list : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let iterator = try! (list_range_iterator (list, range_start, range_end));
 	return bytes_collect_values_from_generator_ref (iterator);
 }
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_range_to_array (bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let iterator = try! (bytes_range_iterator (bytes, range_start, range_end));
 	return array_collect_from_generator (iterator);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_range_to_bytes (array : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let iterator = try! (array_range_iterator (array, range_start, range_end));
 	return bytes_collect_values_from_generator_ref (iterator);
@@ -325,7 +325,7 @@ pub fn array_range_to_bytes (array : &Value, range_start : Option<&Value>, range
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_range_iterator <'a> (bytes : &'a Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<RangeIteratorForOutcome<Value, BytesIterator<'a>>>) {
 	let bytes = try_as_bytes_ref! (bytes);
 	let (range_start, range_end) = try! (range_coerce (range_start, range_end, bytes.bytes_count ()));
@@ -337,7 +337,7 @@ pub fn bytes_range_iterator <'a> (bytes : &'a Value, range_start : Option<&Value
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_length (bytes : &Value) -> (Outcome<usize>) {
 	let bytes = try_as_bytes_ref! (bytes);
 	succeed! (bytes.bytes_count ());
@@ -346,7 +346,7 @@ pub fn bytes_length (bytes : &Value) -> (Outcome<usize>) {
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn vec_bytes_append_2 (bytes_1 : &Value, bytes_2 : &Value) -> (Outcome<StdVec<u8>>) {
 	if try! (is_bytes_empty_all_2 (bytes_1, bytes_2)) {
 		succeed! (StdVec::new ());
@@ -357,7 +357,7 @@ pub fn vec_bytes_append_2 (bytes_1 : &Value, bytes_2 : &Value) -> (Outcome<StdVe
 	succeed! (buffer);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn vec_bytes_append_3 (bytes_1 : &Value, bytes_2 : &Value, bytes_3 : &Value) -> (Outcome<StdVec<u8>>) {
 	if try! (is_bytes_empty_all_3 (bytes_1, bytes_2, bytes_3)) {
 		succeed! (StdVec::new ());
@@ -369,7 +369,7 @@ pub fn vec_bytes_append_3 (bytes_1 : &Value, bytes_2 : &Value, bytes_3 : &Value)
 	succeed! (buffer);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn vec_bytes_append_4 (bytes_1 : &Value, bytes_2 : &Value, bytes_3 : &Value, bytes_4 : &Value) -> (Outcome<StdVec<u8>>) {
 	if try! (is_bytes_empty_all_4 (bytes_1, bytes_2, bytes_3, bytes_4)) {
 		succeed! (StdVec::new ());
@@ -382,7 +382,7 @@ pub fn vec_bytes_append_4 (bytes_1 : &Value, bytes_2 : &Value, bytes_3 : &Value,
 	succeed! (buffer);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn vec_bytes_append_n (bytes : &[&Value]) -> (Outcome<StdVec<u8>>) {
 	if bytes.is_empty () {
 		succeed! (StdVec::new ());
@@ -397,7 +397,7 @@ pub fn vec_bytes_append_n (bytes : &[&Value]) -> (Outcome<StdVec<u8>>) {
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn vec_bytes_clone (bytes : &Value) -> (Outcome<StdVec<u8>>) {
 	let mut buffer = StdVec::new ();
 	try! (vec_bytes_drain (&mut buffer, bytes));
@@ -405,7 +405,7 @@ pub fn vec_bytes_clone (bytes : &Value) -> (Outcome<StdVec<u8>>) {
 }
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn vec_bytes_drain (buffer : &mut StdVec<u8>, bytes : &Value) -> (Outcome<()>) {
 	let bytes = try_as_bytes_ref! (bytes);
 	buffer.extend_from_slice (bytes.bytes_as_slice ());

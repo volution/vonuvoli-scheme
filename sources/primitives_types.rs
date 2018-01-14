@@ -135,7 +135,7 @@ pub enum TypePrimitive1 {
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn type_primitive_1_evaluate (primitive : TypePrimitive1, input_1 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	return type_primitive_1_evaluate_0 (primitive, input_1) .into_0 ();
 }
@@ -143,7 +143,7 @@ pub fn type_primitive_1_evaluate (primitive : TypePrimitive1, input_1 : &Value, 
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn type_primitive_1_evaluate_0 (primitive : TypePrimitive1, input_1 : &Value) -> (Outcome<bool>) {
 	match primitive {
 		
@@ -414,7 +414,7 @@ pub fn type_primitive_1_evaluate_0 (primitive : TypePrimitive1, input_1 : &Value
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn type_primitive_1_attributes (_primitive : TypePrimitive1) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_1);
 }

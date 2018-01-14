@@ -24,27 +24,27 @@ pub trait Array {
 	
 	fn values_as_slice (&self) -> (&[Value]);
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn values_iter (&self) -> (slice::Iter<Value>) {
 		self.values_as_slice () .iter ()
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn values_clone (&self) -> (StdVec<Value>) {
 		self.values_as_slice () .to_vec ()
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn values_is_empty (&self) -> (bool) {
 		self.values_as_slice () .is_empty ()
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn values_is_not_empty (&self) -> (bool) {
 		! self.values_as_slice () .is_empty ()
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn values_length (&self) -> (usize) {
 		self.values_as_slice () .len ()
 	}
@@ -62,7 +62,7 @@ pub enum ArrayRef <'a> {
 
 impl <'a> ArrayRef<'a> {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn try (value : &'a Value) -> (Outcome<ArrayRef<'a>>) {
 		match *value {
 			Value::ArrayImmutable (_, ref value, _) =>
@@ -74,7 +74,7 @@ impl <'a> ArrayRef<'a> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn clone (&self) -> (Value) {
 		match *self {
 			ArrayRef::Immutable (value, _) =>
@@ -84,7 +84,7 @@ impl <'a> ArrayRef<'a> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &ArrayRef) -> (bool) {
 		match (self, other) {
 			(&ArrayRef::Immutable (self_0, _), &ArrayRef::Immutable (other_0, _)) =>
@@ -100,7 +100,7 @@ impl <'a> ArrayRef<'a> {
 
 impl <'a> Array for ArrayRef<'a> {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn values_as_slice (&self) -> (&[Value]) {
 		match *self {
 			ArrayRef::Immutable (_, values) =>
@@ -123,7 +123,7 @@ pub enum ArrayAsRef <'a> {
 
 impl <'a> ArrayAsRef<'a> {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn try (value : &'a Value) -> (Outcome<ArrayAsRef<'a>>) {
 		match *value {
 			Value::ArrayImmutable (_, ref value, _) =>
@@ -135,7 +135,7 @@ impl <'a> ArrayAsRef<'a> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn array_ref (&self) -> (ArrayRef<'a>) {
 		match *self {
 			ArrayAsRef::Immutable (value) =>
@@ -145,7 +145,7 @@ impl <'a> ArrayAsRef<'a> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn clone (&self) -> (Value) {
 		match *self {
 			ArrayAsRef::Immutable (value) =>
@@ -155,7 +155,7 @@ impl <'a> ArrayAsRef<'a> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn to_immutable (&self) -> (ArrayImmutable) {
 		match *self {
 			ArrayAsRef::Immutable (value) =>
@@ -165,7 +165,7 @@ impl <'a> ArrayAsRef<'a> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn to_mutable (&self) -> (ArrayMutable) {
 		match *self {
 			ArrayAsRef::Immutable (value) =>
@@ -175,7 +175,7 @@ impl <'a> ArrayAsRef<'a> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &ArrayAsRef) -> (bool) {
 		match (self, other) {
 			(&ArrayAsRef::Immutable (self_0), &ArrayAsRef::Immutable (other_0)) =>
@@ -197,22 +197,22 @@ pub struct ArrayImmutable ( StdRc<StdBox<[Value]>> );
 
 impl ArrayImmutable {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &ArrayImmutable) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn array_ref (&self) -> (ArrayRef) {
 		ArrayRef::Immutable (self, self.0.as_ref ())
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn values_rc_clone (&self) -> (StdRc<StdBox<[Value]>>) {
 		self.0.clone ()
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn to_mutable (&self) -> (ArrayMutable) {
 		let internals = ArrayMutableInternals::Cow (self.values_rc_clone ());
 		ArrayMutable (StdRc::new (StdRefCell::new (internals)))
@@ -222,7 +222,7 @@ impl ArrayImmutable {
 
 impl Array for ArrayImmutable {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn values_as_slice (&self) -> (&[Value]) {
 		self.0.as_ref ()
 	}
@@ -244,31 +244,31 @@ pub enum ArrayMutableInternals {
 
 impl ArrayMutable {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &ArrayMutable) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn array_ref (&self) -> (ArrayRef) {
 		let reference = self.0.as_ref () .borrow ();
 		let reference = StdRef::map (reference, |reference| reference.as_ref ());
 		ArrayRef::Mutable (self, reference)
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn values_rc_clone (&self) -> (StdRc<StdRefCell<ArrayMutableInternals>>) {
 		self.0.clone ()
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn values_ref_mut (&self) -> (StdRefMut<StdVec<Value>>) {
 		let reference = self.0.as_ref () .borrow_mut ();
 		let reference = StdRefMut::map (reference, |reference| reference.as_mut ());
 		reference
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn to_immutable (&self) -> (ArrayImmutable) {
 		let mut reference = self.0.as_ref () .borrow_mut ();
 		let values = reference.to_cow ();
@@ -279,7 +279,7 @@ impl ArrayMutable {
 
 impl ArrayMutableInternals {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn to_cow (&mut self) -> (StdRc<StdBox<[Value]>>) {
 		let values_cow = match *self {
 			ArrayMutableInternals::Owned (ref mut values_owned) => {
@@ -299,7 +299,7 @@ impl ArrayMutableInternals {
 
 impl StdAsRef<[Value]> for ArrayMutableInternals {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn as_ref (&self) -> (&[Value]) {
 		match *self {
 			ArrayMutableInternals::Owned (ref values) =>
@@ -313,7 +313,7 @@ impl StdAsRef<[Value]> for ArrayMutableInternals {
 
 impl StdAsRefMut<StdVec<Value>> for ArrayMutableInternals {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn as_mut (&mut self) -> (&mut StdVec<Value>) {
 		let values_owned = match *self {
 			ArrayMutableInternals::Owned (ref mut values) =>
@@ -334,18 +334,18 @@ impl StdAsRefMut<StdVec<Value>> for ArrayMutableInternals {
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_immutable_new (values : StdVec<Value>) -> (ArrayImmutable) {
 	ArrayImmutable (StdRc::new (values.into_boxed_slice ()))
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_mutable_new (values : StdVec<Value>) -> (ArrayMutable) {
 	let internals = ArrayMutableInternals::Owned (values);
 	ArrayMutable (StdRc::new (StdRefCell::new (internals)))
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_new (values : StdVec<Value>) -> (Value) {
 	if true {
 		array_immutable_new (values) .into ()
@@ -357,17 +357,17 @@ pub fn array_new (values : StdVec<Value>) -> (Value) {
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_immutable_clone_slice (values : &[Value]) -> (ArrayImmutable) {
 	array_immutable_new (vec_clone_slice (values))
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_mutable_clone_slice (values : &[Value]) -> (ArrayMutable) {
 	array_mutable_new (vec_clone_slice (values))
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_clone_slice (values : &[Value]) -> (Value) {
 	if true {
 		array_immutable_clone_slice (values) .into ()
@@ -379,17 +379,17 @@ pub fn array_clone_slice (values : &[Value]) -> (Value) {
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_immutable_clone_slice_ref (values : &[&Value]) -> (ArrayImmutable) {
 	array_immutable_new (vec_clone_slice_ref (values))
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_mutable_clone_slice_ref (values : &[&Value]) -> (ArrayMutable) {
 	array_mutable_new (vec_clone_slice_ref (values))
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_clone_slice_ref (values : &[&Value]) -> (Value) {
 	if true {
 		array_immutable_clone_slice_ref (values) .into ()
@@ -406,13 +406,13 @@ pub struct ArrayIterator <'a> ( ArrayRef<'a>, slice::Iter<'a, Value> );
 
 impl <'a> ArrayIterator <'a> {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new (array : &'a Value) -> (Outcome<ArrayIterator<'a>>) {
 		let array = try_as_array_ref! (array);
 		return ArrayIterator::new_a (array);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_a (array : ArrayRef<'a>) -> (Outcome<ArrayIterator<'a>>) {
 		let iterator = unsafe { mem::transmute (array.values_iter ()) };
 		succeed! (ArrayIterator (array, iterator));
@@ -424,7 +424,7 @@ impl <'a> iter::Iterator for ArrayIterator <'a> {
 	
 	type Item = Outcome<&'a Value>;
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn next (&mut self) -> (Option<Outcome<&'a Value>>) {
 		if let Some (value) = self.1.next () {
 			return Some (succeeded! (value));
@@ -442,7 +442,7 @@ pub struct ArrayIterators <'a> ( StdVec<ArrayIterator<'a>> );
 
 impl <'a> ArrayIterators <'a> {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new (arrays : &'a [&'a Value]) -> (Outcome<ArrayIterators<'a>>) {
 		let iterators = try! (arrays.iter () .map (|array| ArrayIterator::new (array)) .collect ());
 		succeed! (ArrayIterators (iterators));
@@ -454,7 +454,7 @@ impl <'a> iter::Iterator for ArrayIterators <'a> {
 	
 	type Item = Outcome<StdVec<&'a Value>>;
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn next (&mut self) -> (Option<Outcome<StdVec<&'a Value>>>) {
 		let mut outcomes = StdVec::with_capacity (self.0.len ());
 		for mut iterator in self.0.iter_mut () {

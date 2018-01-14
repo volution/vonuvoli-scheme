@@ -292,7 +292,7 @@ pub enum ProcedureOutputAttributes {
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_primitive_0_evaluate (primitive : ProcedurePrimitive0, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -335,7 +335,7 @@ pub fn procedure_primitive_0_evaluate (primitive : ProcedurePrimitive0, evaluato
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_primitive_1_evaluate (primitive : ProcedurePrimitive1, input_1 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -381,7 +381,7 @@ pub fn procedure_primitive_1_evaluate (primitive : ProcedurePrimitive1, input_1 
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_primitive_2_evaluate (primitive : ProcedurePrimitive2, input_1 : &Value, input_2 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -424,7 +424,7 @@ pub fn procedure_primitive_2_evaluate (primitive : ProcedurePrimitive2, input_1 
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_primitive_3_evaluate (primitive : ProcedurePrimitive3, input_1 : &Value, input_2 : &Value, input_3 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -467,7 +467,7 @@ pub fn procedure_primitive_3_evaluate (primitive : ProcedurePrimitive3, input_1 
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_primitive_4_evaluate (primitive : ProcedurePrimitive4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -510,7 +510,7 @@ pub fn procedure_primitive_4_evaluate (primitive : ProcedurePrimitive4, input_1 
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_primitive_5_evaluate (primitive : ProcedurePrimitive5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -553,7 +553,7 @@ pub fn procedure_primitive_5_evaluate (primitive : ProcedurePrimitive5, input_1 
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_primitive_n_evaluate (primitive : ProcedurePrimitiveN, inputs : &[&Value], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -997,7 +997,7 @@ pub fn procedure_primitive_g_evaluate_n (primitive : ProcedurePrimitive, inputs 
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_primitive_v_alternative_0 (primitive : ProcedurePrimitiveV) -> (Option<ProcedurePrimitive0>) {
 	match primitive {
 		
@@ -1084,7 +1084,7 @@ pub fn procedure_primitive_v_alternative_0 (primitive : ProcedurePrimitiveV) -> 
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_primitive_v_alternative_1 (primitive : ProcedurePrimitiveV) -> (Option<ProcedurePrimitive1>) {
 	match primitive {
 		
@@ -1171,7 +1171,7 @@ pub fn procedure_primitive_v_alternative_1 (primitive : ProcedurePrimitiveV) -> 
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_primitive_v_alternative_2 (primitive : ProcedurePrimitiveV) -> (Option<ProcedurePrimitive2>) {
 	match primitive {
 		
@@ -1258,7 +1258,7 @@ pub fn procedure_primitive_v_alternative_2 (primitive : ProcedurePrimitiveV) -> 
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_primitive_v_alternative_3 (primitive : ProcedurePrimitiveV) -> (Option<ProcedurePrimitive3>) {
 	match primitive {
 		
@@ -1345,7 +1345,7 @@ pub fn procedure_primitive_v_alternative_3 (primitive : ProcedurePrimitiveV) -> 
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_primitive_v_alternative_4 (primitive : ProcedurePrimitiveV) -> (Option<ProcedurePrimitive4>) {
 	match primitive {
 		
@@ -1432,7 +1432,7 @@ pub fn procedure_primitive_v_alternative_4 (primitive : ProcedurePrimitiveV) -> 
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_primitive_v_alternative_5 (primitive : ProcedurePrimitiveV) -> (Option<ProcedurePrimitive5>) {
 	match primitive {
 		
@@ -1519,7 +1519,7 @@ pub fn procedure_primitive_v_alternative_5 (primitive : ProcedurePrimitiveV) -> 
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_primitive_v_alternative_n (primitive : ProcedurePrimitiveV) -> (Option<ProcedurePrimitiveN>) {
 	match primitive {
 		
@@ -1606,7 +1606,7 @@ pub fn procedure_primitive_v_alternative_n (primitive : ProcedurePrimitiveV) -> 
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_primitive_0_attributes (primitive : ProcedurePrimitive0) -> (Option<ProcedureAttributes>) {
 	match primitive {
 		
@@ -1649,7 +1649,7 @@ pub fn procedure_primitive_0_attributes (primitive : ProcedurePrimitive0) -> (Op
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_primitive_1_attributes (primitive : ProcedurePrimitive1) -> (Option<ProcedureAttributes>) {
 	match primitive {
 		
@@ -1695,7 +1695,7 @@ pub fn procedure_primitive_1_attributes (primitive : ProcedurePrimitive1) -> (Op
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_primitive_2_attributes (primitive : ProcedurePrimitive2) -> (Option<ProcedureAttributes>) {
 	match primitive {
 		
@@ -1738,7 +1738,7 @@ pub fn procedure_primitive_2_attributes (primitive : ProcedurePrimitive2) -> (Op
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_primitive_3_attributes (primitive : ProcedurePrimitive3) -> (Option<ProcedureAttributes>) {
 	match primitive {
 		
@@ -1781,7 +1781,7 @@ pub fn procedure_primitive_3_attributes (primitive : ProcedurePrimitive3) -> (Op
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_primitive_4_attributes (primitive : ProcedurePrimitive4) -> (Option<ProcedureAttributes>) {
 	match primitive {
 		
@@ -1824,7 +1824,7 @@ pub fn procedure_primitive_4_attributes (primitive : ProcedurePrimitive4) -> (Op
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_primitive_5_attributes (primitive : ProcedurePrimitive5) -> (Option<ProcedureAttributes>) {
 	match primitive {
 		
@@ -1867,7 +1867,7 @@ pub fn procedure_primitive_5_attributes (primitive : ProcedurePrimitive5) -> (Op
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_primitive_n_attributes (primitive : ProcedurePrimitiveN) -> (Option<ProcedureAttributes>) {
 	match primitive {
 		
@@ -1908,7 +1908,7 @@ pub fn procedure_primitive_n_attributes (primitive : ProcedurePrimitiveN) -> (Op
 }
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_primitive_g_attributes (primitive : ProcedurePrimitive) -> (Option<ProcedureAttributes>) {
 	match primitive {
 		

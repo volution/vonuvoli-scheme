@@ -138,8 +138,8 @@ cat <<'EOS'
 
 :: files / sed / sources / inline-always / disable :: exec -- find ./sources ./tests -xdev -type f \( -name '*.rs' -o -name '*.in' \) -exec sed -r -e 's!^(\s*)(#\[ inline \(always\) \])$!\1#[ inline (never) ] // __inline_always__!' -i -- {} \;
 :: files / sed / sources / inline-always / enable :: exec -- find ./sources ./tests -xdev -type f \( -name '*.rs' -o -name '*.in' \) -exec sed -r -e 's!^(\s*)(#\[ inline \(never\) \] // __inline_always__)$!\1#[ inline (always) ]!' -i -- {} \;
-:: files / sed / sources / inline-always / configurable :: exec -- find ./sources ./tests -xdev -type f \( -name '*.rs' -o -name '*.in' \) -exec sed -r -e 's!^(\s*)(#\[ inline \(always\) \])$!\1#[ cfg_attr ( feature = "scheme_inline_always", inline (always) ) ]!' -i -- {} \;
-:: files / sed / sources / inline-always / to-plain :: exec -- find ./sources ./tests -xdev -type f \( -name '*.rs' -o -name '*.in' \) -exec sed -r -e 's!^(\s*)(#\[ inline \(always\) \])$!\1#[ inline ]!' -e 's!^(\s*)(#\[ cfg_attr \( feature = "scheme_inline_always", inline \(always\) \) \])$!\1#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]!' -i -- {} \;
+:: files / sed / sources / inline-always / configurable :: exec -- find ./sources ./tests -xdev -type f \( -name '*.rs' -o -name '*.in' \) -exec sed -r -e 's!^(\s*)(#\[ inline \(always\) \])$!\1#[ cfg_attr ( feature = "vonuvoli_inline", inline (always) ) ]!' -i -- {} \;
+:: files / sed / sources / inline-always / to-plain :: exec -- find ./sources ./tests -xdev -type f \( -name '*.rs' -o -name '*.in' \) -exec sed -r -e 's!^(\s*)(#\[ inline \(always\) \])$!\1#[ inline ]!' -e 's!^(\s*)(#\[ cfg_attr \( feature = "vonuvoli_inline", inline \(always\) \) \])$!\1#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]!' -i -- {} \;
 
 :: files / grep / outputs / benchmarks :: git diff --color-words -U0 -- ./tests/scheme/_out/benchmark__* | grep -E -e '^....--' -e 'average.*/' | sed -r -e 's/^(....)--- i\/tests\/scheme\/_out\/benchmark__/\1/'
 
@@ -212,8 +212,8 @@ cat <<'EOS'
 :: environment / rust / backtrace / enable :: export -- RUST_BACKTRACE=1
 :: environment / rust / backtrace / disable :: export -- RUST_BACKTRACE=0
 
-:: environment / tests / debug / enable :: export -- RUST_SCHEME_TESTS_DEBUG=true
-:: environment / tests / debug / disable :: export -- RUST_SCHEME_TESTS_DEBUG=false
+:: environment / tests / debug / enable :: export -- VONUVOLI_SCHEME_TESTS_DEBUG=true
+:: environment / tests / debug / disable :: export -- VONUVOLI_SCHEME_TESTS_DEBUG=false
 
 :: environment / taskset / all :: exec -- taskset -a -p -c 0-31 "${$}"
 :: environment / taskset / 0,2 :: exec -- taskset -a -p -c 0,2 "${$}"
@@ -229,7 +229,7 @@ sed -r -e 's#@\{TEST\}#'"${_test}"'#g' <<'EOS'
 :: execute / test / @{TEST} / tests / all / debug :: x-run ':: compile / test / @{TEST} / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test '@{TEST}' --no-default-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__' "${@}"
 :: execute / test / @{TEST} / tests / all / release :: x-run ':: compile / test / @{TEST} / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test '@{TEST}' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__' "${@}"
 :: execute / test / @{TEST} / benchmarks / all / debug :: x-run ':: compile / test / @{TEST} / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test '@{TEST}' --no-default-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
-:: execute / test / @{TEST} / benchmarks / all / release :: x-run ':: compile / test / @{TEST} / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test '@{TEST}' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
+:: execute / test / @{TEST} / benchmarks / all / release :: x-run ':: compile / test / @{TEST} / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test '@{TEST}' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
 :: execute / test / @{TEST} / coverage / all / kcov :: x-run ':: compile / test / @{TEST} / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo kcov --test '@{TEST}' --no-clean-rebuild --no-default-features --jobs 1 --output ./target/kcov -- "${@}"
 EOS
 done
@@ -242,7 +242,7 @@ sed -r -e 's#@\{TEST\}#'"${_test}"'#g' <<'EOS'
 :: execute / test / scheme / tests / @{TEST} / debug :: x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --no-default-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__@{TEST}' --exact "${@}"
 :: execute / test / scheme / tests / @{TEST} / release :: x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__@{TEST}' --exact "${@}"
 :: execute / test / scheme / benchmarks / @{TEST} / debug :: x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --no-default-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__@{TEST}' --exact "${@}"
-:: execute / test / scheme / benchmarks / @{TEST} / release :: x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__@{TEST}' --exact "${@}"
+:: execute / test / scheme / benchmarks / @{TEST} / release :: x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__@{TEST}' --exact "${@}"
 EOS
 done
 
@@ -255,7 +255,7 @@ sed -r -e 's#@\{TEST\}#'"${_test}"'#g' -e 's#\{IDENTIFIER\}'#"${_test//-/_}"'#g'
 :: execute / bin / tester / @{TEST} / debug :: x-run ':: compile / bin / tester / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/@{TEST}.sst' "${@}"
 :: execute / bin / tester / @{TEST} / release :: x-run ':: compile / bin / tester / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-tester './tests/scheme/@{TEST}.sst' "${@}"
 :: execute / bin / bencher / @{TEST} / debug :: x-run ':: compile / bin / bencher / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-bencher './tests/scheme/@{TEST}.sst' "${@}"
-:: execute / bin / bencher / @{TEST} / release :: x-run ':: compile / bin / bencher / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher './tests/scheme/@{TEST}.sst' "${@}"
+:: execute / bin / bencher / @{TEST} / release :: x-run ':: compile / bin / bencher / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher './tests/scheme/@{TEST}.sst' "${@}"
 EOS
 done
 
@@ -280,7 +280,7 @@ find ./tests/scheme -xdev -type f -name '*.sst' -printf '%f\n' \
 | sort -u \
 | while read _test ; do
 sed -r -e 's#@\{TEST\}#'"${_test}"'#g' -e 's#\{IDENTIFIER\}'#"${_test//-/_}"'#g' <<'EOS'
-taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher './tests/scheme/@{TEST}.sst' "${@}"
+taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher './tests/scheme/@{TEST}.sst' "${@}"
 EOS
 done
 printf -- '%s\n' '!!'

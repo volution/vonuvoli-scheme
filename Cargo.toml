@@ -48,8 +48,8 @@ doctest = false
 
 
 [features]
-default = ["scheme_inline_always"]
-scheme_inline_always = []
+default = ["vonuvoli_inline"]
+vonuvoli_inline = []
 
 
 [profile.dev]

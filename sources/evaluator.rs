@@ -28,14 +28,14 @@ pub mod exports {
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn evaluate (context : &Context, expression : &Expression) -> (Outcome<Value>) {
 	let evaluator = Evaluator::new ();
 	let mut evaluation = evaluator.fork (context);
 	return evaluation.evaluate (expression);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn evaluate_script <Iterator, ExpressionRef> (context : &Context, expressions : Iterator) -> (Outcome<()>)
 		where Iterator : iter::Iterator<Item = ExpressionRef>, ExpressionRef : StdAsRef<Expression>
 {
@@ -56,17 +56,17 @@ impl Evaluator {
 	
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new () -> (Evaluator) {
 		return Evaluator {};
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn fork <'a> (&'a self, context : &'a Context) -> (EvaluatorContext<'a>) {
 		return EvaluatorContext::new (self, Some (context), Registers::new ());
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn fork_0 <'a> (&'a self) -> (EvaluatorContext<'a>) {
 		return EvaluatorContext::new (self, None, Registers::new ());
 	}
@@ -115,7 +115,7 @@ impl Evaluator {
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_for_contexts (&self, evaluation : &mut EvaluatorContext, input : &ExpressionForContexts) -> (Outcome<Value>) {
 		match *input {
 			
@@ -162,7 +162,7 @@ impl Evaluator {
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_for_procedure_generic_call (&self, evaluation : &mut EvaluatorContext, input : &ExpressionForProcedureGenericCall) -> (Outcome<Value>) {
 		match *input {
 			
@@ -187,7 +187,7 @@ impl Evaluator {
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_for_procedure_primitive_call (&self, evaluation : &mut EvaluatorContext, input : &ExpressionForProcedurePrimitiveCall) -> (Outcome<Value>) {
 		match *input {
 			
@@ -214,7 +214,7 @@ impl Evaluator {
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_for_procedure_extended_call (&self, evaluation : &mut EvaluatorContext, input : &ExpressionForProcedureExtendedCall) -> (Outcome<Value>) {
 		match *input {
 			
@@ -239,7 +239,7 @@ impl Evaluator {
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_for_procedure_lambda_call (&self, evaluation : &mut EvaluatorContext, input : &ExpressionForProcedureLambdaCall) -> (Outcome<Value>) {
 		match *input {
 			
@@ -264,7 +264,7 @@ impl Evaluator {
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_for_procedure_native_call (&self, evaluation : &mut EvaluatorContext, input : &ExpressionForProcedureNativeCall) -> (Outcome<Value>) {
 		match *input {
 			
@@ -291,7 +291,7 @@ impl Evaluator {
 	
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_slice (&self, evaluation : &mut EvaluatorContext, inputs : &[Expression]) -> (Outcome<StdVec<Value>>) {
 		let mut outputs = StdVec::with_capacity (inputs.len ());
 		for input in inputs {
@@ -304,7 +304,7 @@ impl Evaluator {
 	
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_sequence (&self, evaluation : &mut EvaluatorContext, operator : ExpressionSequenceOperator, expressions : &[Expression]) -> (Outcome<Value>) {
 		match operator {
 			
@@ -373,7 +373,7 @@ impl Evaluator {
 	
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_conditional_if (&self, evaluation : &mut EvaluatorContext, clauses : &ExpressionConditionalIfClauses) -> (Outcome<Value>) {
 		if let Some (output) = try! (self.evaluate_conditional_if_clauses (evaluation, clauses)) {
 			if let Some (output) = output {
@@ -386,7 +386,7 @@ impl Evaluator {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_conditional_if_clauses (&self, evaluation : &mut EvaluatorContext, clauses : &ExpressionConditionalIfClauses) -> (Outcome<Option<Option<Value>>>) {
 		match *clauses {
 			ExpressionConditionalIfClauses::Void =>
@@ -405,7 +405,7 @@ impl Evaluator {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_conditional_if_clause (&self, evaluation : &mut EvaluatorContext, clause : &ExpressionConditionalIfClause) -> (Outcome<Option<Option<Value>>>) {
 		match *clause {
 			ExpressionConditionalIfClause::Void =>
@@ -422,7 +422,7 @@ impl Evaluator {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_conditional_if_guard (&self, evaluation : &mut EvaluatorContext, guard : &ExpressionConditionalIfGuard, guard_usage : &ExpressionConditionalGuardUsage) -> (Outcome<Option<Option<Value>>>) {
 		match *guard {
 			ExpressionConditionalIfGuard::True =>
@@ -448,7 +448,7 @@ impl Evaluator {
 	
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_conditional_match (&self, evaluation : &mut EvaluatorContext, actual : &Expression, clauses : &ExpressionConditionalMatchClauses) -> (Outcome<Value>) {
 		if let Some (output) = try! (self.evaluate_conditional_match_clauses (evaluation, actual, clauses)) {
 			if let Some (output) = output {
@@ -461,7 +461,7 @@ impl Evaluator {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_conditional_match_clauses (&self, evaluation : &mut EvaluatorContext, actual : &Expression, clauses : &ExpressionConditionalMatchClauses) -> (Outcome<Option<Option<Value>>>) {
 		match *clauses {
 			ExpressionConditionalMatchClauses::Void =>
@@ -490,7 +490,7 @@ impl Evaluator {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_conditional_match_clause (&self, evaluation : &mut EvaluatorContext, actual : Value, clause : &ExpressionConditionalMatchClause) -> (Outcome<Alternative2<Option<Value>, Value>>) {
 		match *clause {
 			ExpressionConditionalMatchClause::Void =>
@@ -509,7 +509,7 @@ impl Evaluator {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_conditional_match_guard (&self, evaluation : &mut EvaluatorContext, actual : Value, guard : &ExpressionConditionalMatchGuard, guard_usage : &ExpressionConditionalGuardUsage) -> (Outcome<Alternative2<Option<Value>, Value>>) {
 		let (matched, negated) = match *guard {
 			ExpressionConditionalMatchGuard::True =>
@@ -541,7 +541,7 @@ impl Evaluator {
 	
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_conditional_guard_usage (&self, evaluation : &mut EvaluatorContext, value : Value, usage : &ExpressionConditionalGuardUsage) -> (Outcome<Option<Value>>) {
 		match *usage {
 			ExpressionConditionalGuardUsage::Ignore =>
@@ -570,7 +570,7 @@ impl Evaluator {
 	
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_loop (&self, evaluation : &mut EvaluatorContext, initialize : Option<&Expression>, update : Option<&Expression>, body : Option<&Expression>, clauses : &ExpressionConditionalIfClauses) -> (Outcome<Value>) {
 		
 		if let Some (initialize) = initialize {
@@ -600,7 +600,7 @@ impl Evaluator {
 	
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_context_define (&self, evaluation : &mut EvaluatorContext, identifier : &Symbol, expression : &Expression) -> (Outcome<Value>) {
 		let context = try_some! (evaluation.context, 0xfe053ac6);
 		let template = BindingTemplate {
@@ -614,7 +614,7 @@ impl Evaluator {
 		return Ok (value_new);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_context_update (&self, evaluation : &mut EvaluatorContext, identifier : &Symbol, expression : &Expression) -> (Outcome<Value>) {
 		let context = try_some! (evaluation.context, 0x4be15062);
 		let binding = try_some_2! (context.resolve (identifier), 0x8c4717b1);
@@ -623,7 +623,7 @@ impl Evaluator {
 		return Ok (value_old);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_context_select (&self, evaluation : &mut EvaluatorContext, identifier : &Symbol) -> (Outcome<Value>) {
 		let context = try_some! (evaluation.context, 0xdf799bc8);
 		let binding = try_some_2! (context.resolve (identifier), 0x8790e81e);
@@ -634,14 +634,14 @@ impl Evaluator {
 	
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_binding_initialize_1 (&self, evaluation : &mut EvaluatorContext, binding : &Binding, expression : &Expression) -> (Outcome<Value>) {
 		let value_new = try! (self.evaluate (evaluation, expression));
 		try! (binding.initialize (value_new.clone ()));
 		return Ok (value_new);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_binding_initialize_n (&self, evaluation : &mut EvaluatorContext, initializers : &[(Binding, Expression)], parallel : bool) -> (Outcome<Value>) {
 		let bindings = initializers.iter () .map (|&(ref binding, _)| binding) .collect::<StdVec<_>> ();
 		let expressions = initializers.iter () .map (|&(_, ref expression)| expression) .collect::<StdVec<_>> ();
@@ -659,7 +659,7 @@ impl Evaluator {
 		return Ok (VOID.into ());
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_binding_initialize_values (&self, evaluation : &mut EvaluatorContext, bindings : &[Binding], expression : &Expression) -> (Outcome<Value>) {
 		let values_new = try! (self.evaluate (evaluation, expression));
 		let values_new = try_into_values! (values_new);
@@ -672,7 +672,7 @@ impl Evaluator {
 		return Ok (VOID.into ());
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_binding_set_1 (&self, evaluation : &mut EvaluatorContext, binding : &Binding, expression : &Expression) -> (Outcome<Value>) {
 		let value_new = try! (self.evaluate (evaluation, expression));
 		let value_old = try! (binding.set (value_new));
@@ -680,7 +680,7 @@ impl Evaluator {
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_binding_set_n (&self, evaluation : &mut EvaluatorContext, initializers : &[(Binding, Expression)], parallel : bool) -> (Outcome<Value>) {
 		let bindings = initializers.iter () .map (|&(ref binding, _)| binding) .collect::<StdVec<_>> ();
 		let expressions = initializers.iter () .map (|&(_, ref expression)| expression) .collect::<StdVec<_>> ();
@@ -699,7 +699,7 @@ impl Evaluator {
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_binding_set_values (&self, evaluation : &mut EvaluatorContext, bindings : &[Binding], expression : &Expression) -> (Outcome<Value>) {
 		let values_new = try! (self.evaluate (evaluation, expression));
 		let values_new = try_into_values! (values_new);
@@ -712,7 +712,7 @@ impl Evaluator {
 		return Ok (VOID.into ());
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_binding_get_1 (&self, _evaluation : &mut EvaluatorContext, binding : &Binding) -> (Outcome<Value>) {
 		let value = try! (binding.get ());
 		return Ok (value);
@@ -721,21 +721,21 @@ impl Evaluator {
 	
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_register_closure (&self, evaluation : &mut EvaluatorContext, expression : &Expression, borrows : &[RegisterTemplate]) -> (Outcome<Value>) {
 		let registers = try! (Registers::new_and_define (borrows, &evaluation.registers));
 		let mut evaluation = EvaluatorContext::new (self, evaluation.context, registers);
 		return self.evaluate (&mut evaluation, expression);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_register_initialize_1 (&self, evaluation : &mut EvaluatorContext, index : usize, expression : &Expression) -> (Outcome<Value>) {
 		let value_new = try! (self.evaluate (evaluation, expression));
 		try! (evaluation.registers.initialize_value (index, value_new.clone ()));
 		succeed! (value_new);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_register_initialize_n (&self, evaluation : &mut EvaluatorContext, initializers : &[(usize, Expression)], parallel : bool) -> (Outcome<Value>) {
 		let indices = initializers.iter () .map (|&(index, _)| index) .collect::<StdVec<_>> ();
 		let expressions = initializers.iter () .map (|&(_, ref expression)| expression) .collect::<StdVec<_>> ();
@@ -753,7 +753,7 @@ impl Evaluator {
 		return Ok (VOID.into ());
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_register_initialize_values (&self, evaluation : &mut EvaluatorContext, indices : &[usize], expression : &Expression) -> (Outcome<Value>) {
 		let values_new = try! (self.evaluate (evaluation, expression));
 		let values_new = try_into_values! (values_new);
@@ -766,14 +766,14 @@ impl Evaluator {
 		return Ok (VOID.into ());
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_register_set_1 (&self, evaluation : &mut EvaluatorContext, index : usize, expression : &Expression) -> (Outcome<Value>) {
 		let value_new = try! (self.evaluate (evaluation, expression));
 		let value_old = try! (evaluation.registers.update_value (index, value_new));
 		return Ok (value_old);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_register_set_n (&self, evaluation : &mut EvaluatorContext, initializers : &[(usize, Expression)], parallel : bool) -> (Outcome<Value>) {
 		let indices = initializers.iter () .map (|&(index, _)| index) .collect::<StdVec<_>> ();
 		let expressions = initializers.iter () .map (|&(_, ref expression)| expression) .collect::<StdVec<_>> ();
@@ -791,7 +791,7 @@ impl Evaluator {
 		return Ok (VOID.into ());
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_register_set_values (&self, evaluation : &mut EvaluatorContext, indices : &[usize], expression : &Expression) -> (Outcome<Value>) {
 		let values_new = try! (self.evaluate (evaluation, expression));
 		let values_new = try_into_values! (values_new);
@@ -804,7 +804,7 @@ impl Evaluator {
 		return Ok (VOID.into ());
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_register_get_1 (&self, evaluation : &mut EvaluatorContext, index : usize) -> (Outcome<Value>) {
 		let value = try! (evaluation.registers.resolve_value (index));
 		return Ok (value);
@@ -813,7 +813,7 @@ impl Evaluator {
 	
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_lambda_create (&self, evaluation : &mut EvaluatorContext, template : &StdRc<LambdaTemplate>, expression : &StdRc<Expression>, registers_closure : &[RegisterTemplate], registers_local : &StdRc<[RegisterTemplate]>) -> (Outcome<Value>) {
 		let expression = StdRc::clone (expression);
 		let registers_closure = try! (Registers::new_and_define (registers_closure, &evaluation.registers));
@@ -826,7 +826,7 @@ impl Evaluator {
 	
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_lambda (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, inputs : &[Expression]) -> (Outcome<Value>) {
 		let inputs = try! (self.evaluate_slice (evaluation, inputs));
 		let inputs = vec_vec_to_ref (&inputs);
@@ -875,38 +875,38 @@ impl Evaluator {
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_lambda_0 (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals) -> (Outcome<Value>) {
 		return self.evaluate_procedure_lambda_with_values (evaluation, lambda, &[]);
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_lambda_1 (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, input_1 : &Expression) -> (Outcome<Value>) {
 		let input_1 = try! (self.evaluate (evaluation, input_1));
 		return self.evaluate_procedure_lambda_1_with_values (evaluation, lambda, &input_1);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_lambda_1_with_values (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, input_1 : &Value) -> (Outcome<Value>) {
 		return self.evaluate_procedure_lambda_with_values (evaluation, lambda, &[input_1]);
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_lambda_2 (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, input_1 : &Expression, input_2 : &Expression) -> (Outcome<Value>) {
 		let input_1 = try! (self.evaluate (evaluation, input_1));
 		let input_2 = try! (self.evaluate (evaluation, input_2));
 		return self.evaluate_procedure_lambda_2_with_values (evaluation, lambda, &input_1, &input_2);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_lambda_2_with_values (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
 		return self.evaluate_procedure_lambda_with_values (evaluation, lambda, &[input_1, input_2]);
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_lambda_3 (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression) -> (Outcome<Value>) {
 		let input_1 = try! (self.evaluate (evaluation, input_1));
 		let input_2 = try! (self.evaluate (evaluation, input_2));
@@ -914,13 +914,13 @@ impl Evaluator {
 		return self.evaluate_procedure_lambda_3_with_values (evaluation, lambda, &input_1, &input_2, &input_3);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_lambda_3_with_values (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, input_1 : &Value, input_2 : &Value, input_3 : &Value) -> (Outcome<Value>) {
 		return self.evaluate_procedure_lambda_with_values (evaluation, lambda, &[input_1, input_2, input_3]);
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_lambda_4 (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression, input_4 : &Expression) -> (Outcome<Value>) {
 		let input_1 = try! (self.evaluate (evaluation, input_1));
 		let input_2 = try! (self.evaluate (evaluation, input_2));
@@ -929,13 +929,13 @@ impl Evaluator {
 		return self.evaluate_procedure_lambda_4_with_values (evaluation, lambda, &input_1, &input_2, &input_3, &input_4);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_lambda_4_with_values (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value) -> (Outcome<Value>) {
 		return self.evaluate_procedure_lambda_with_values (evaluation, lambda, &[input_1, input_2, input_3, input_4]);
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_lambda_5 (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression, input_4 : &Expression, input_5 : &Expression) -> (Outcome<Value>) {
 		let input_1 = try! (self.evaluate (evaluation, input_1));
 		let input_2 = try! (self.evaluate (evaluation, input_2));
@@ -945,20 +945,20 @@ impl Evaluator {
 		return self.evaluate_procedure_lambda_5_with_values (evaluation, lambda, &input_1, &input_2, &input_3, &input_4, &input_5);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_lambda_5_with_values (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value) -> (Outcome<Value>) {
 		return self.evaluate_procedure_lambda_with_values (evaluation, lambda, &[input_1, input_2, input_3, input_4, input_5]);
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_lambda_n (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, inputs : &[Expression]) -> (Outcome<Value>) {
 		let inputs = try! (self.evaluate_slice (evaluation, inputs));
 		let inputs = vec_vec_to_ref (&inputs);
 		return self.evaluate_procedure_lambda_n_with_values (evaluation, lambda, &inputs);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_lambda_n_with_values (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, inputs : &[&Value]) -> (Outcome<Value>) {
 		return self.evaluate_procedure_lambda_with_values (evaluation, lambda, inputs);
 	}
@@ -966,7 +966,7 @@ impl Evaluator {
 	
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_call (&self, evaluation : &mut EvaluatorContext, callable : &Expression, inputs : &[Expression]) -> (Outcome<Value>) {
 		let callable = try! (self.evaluate (evaluation, callable));
 		let inputs = try! (self.evaluate_slice (evaluation, inputs));
@@ -974,7 +974,7 @@ impl Evaluator {
 		return self.evaluate_procedure_call_with_values (evaluation, &callable, &inputs);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_call_with_values (&self, evaluation : &mut EvaluatorContext, callable : &Value, inputs : &[&Value]) -> (Outcome<Value>) {
 		match callable.kind () {
 			ValueKind::ProcedurePrimitive =>
@@ -991,13 +991,13 @@ impl Evaluator {
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_call_0 (&self, evaluation : &mut EvaluatorContext, callable : &Expression) -> (Outcome<Value>) {
 		let callable = try! (self.evaluate (evaluation, callable));
 		return self.evaluate_procedure_call_0_with_values (evaluation, &callable);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_call_0_with_values (&self, evaluation : &mut EvaluatorContext, callable : &Value) -> (Outcome<Value>) {
 		match callable.kind () {
 			ValueKind::ProcedurePrimitive =>
@@ -1019,14 +1019,14 @@ impl Evaluator {
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_call_1 (&self, evaluation : &mut EvaluatorContext, callable : &Expression, input_1 : &Expression) -> (Outcome<Value>) {
 		let callable = try! (self.evaluate (evaluation, callable));
 		let input_1 = try! (self.evaluate (evaluation, input_1));
 		return self.evaluate_procedure_call_1_with_values (evaluation, &callable, &input_1);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_call_1_with_values (&self, evaluation : &mut EvaluatorContext, callable : &Value, input_1 : &Value) -> (Outcome<Value>) {
 		match callable.kind () {
 			ValueKind::ProcedurePrimitive =>
@@ -1048,7 +1048,7 @@ impl Evaluator {
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_call_2 (&self, evaluation : &mut EvaluatorContext, callable : &Expression, input_1 : &Expression, input_2 : &Expression) -> (Outcome<Value>) {
 		let callable = try! (self.evaluate (evaluation, callable));
 		let input_1 = try! (self.evaluate (evaluation, input_1));
@@ -1056,7 +1056,7 @@ impl Evaluator {
 		return self.evaluate_procedure_call_2_with_values (evaluation, &callable, &input_1, &input_2);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_call_2_with_values (&self, evaluation : &mut EvaluatorContext, callable : &Value, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
 		match callable.kind () {
 			ValueKind::ProcedurePrimitive =>
@@ -1078,7 +1078,7 @@ impl Evaluator {
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_call_3 (&self, evaluation : &mut EvaluatorContext, callable : &Expression, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression) -> (Outcome<Value>) {
 		let callable = try! (self.evaluate (evaluation, callable));
 		let input_1 = try! (self.evaluate (evaluation, input_1));
@@ -1087,7 +1087,7 @@ impl Evaluator {
 		return self.evaluate_procedure_call_3_with_values (evaluation, &callable, &input_1, &input_2, &input_3);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_call_3_with_values (&self, evaluation : &mut EvaluatorContext, callable : &Value, input_1 : &Value, input_2 : &Value, input_3 : &Value) -> (Outcome<Value>) {
 		match callable.kind () {
 			ValueKind::ProcedurePrimitive =>
@@ -1109,7 +1109,7 @@ impl Evaluator {
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_call_4 (&self, evaluation : &mut EvaluatorContext, callable : &Expression, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression, input_4 : &Expression) -> (Outcome<Value>) {
 		let callable = try! (self.evaluate (evaluation, callable));
 		let input_1 = try! (self.evaluate (evaluation, input_1));
@@ -1119,7 +1119,7 @@ impl Evaluator {
 		return self.evaluate_procedure_call_4_with_values (evaluation, &callable, &input_1, &input_2, &input_3, &input_4);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_call_4_with_values (&self, evaluation : &mut EvaluatorContext, callable : &Value, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value) -> (Outcome<Value>) {
 		match callable.kind () {
 			ValueKind::ProcedurePrimitive =>
@@ -1141,7 +1141,7 @@ impl Evaluator {
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_call_5 (&self, evaluation : &mut EvaluatorContext, callable : &Expression, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression, input_4 : &Expression, input_5 : &Expression) -> (Outcome<Value>) {
 		let callable = try! (self.evaluate (evaluation, callable));
 		let input_1 = try! (self.evaluate (evaluation, input_1));
@@ -1152,7 +1152,7 @@ impl Evaluator {
 		return self.evaluate_procedure_call_5_with_values (evaluation, &callable, &input_1, &input_2, &input_3, &input_4, &input_5);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_call_5_with_values (&self, evaluation : &mut EvaluatorContext, callable : &Value, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value) -> (Outcome<Value>) {
 		match callable.kind () {
 			ValueKind::ProcedurePrimitive =>
@@ -1174,7 +1174,7 @@ impl Evaluator {
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_call_n (&self, evaluation : &mut EvaluatorContext, callable : &Expression, inputs : &[Expression]) -> (Outcome<Value>) {
 		let callable = try! (self.evaluate (evaluation, callable));
 		let inputs = try! (self.evaluate_slice (evaluation, inputs));
@@ -1182,7 +1182,7 @@ impl Evaluator {
 		return self.evaluate_procedure_call_n_with_values (evaluation, &callable, &inputs);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_call_n_with_values (&self, evaluation : &mut EvaluatorContext, callable : &Value, inputs : &[&Value]) -> (Outcome<Value>) {
 		match callable.kind () {
 			ValueKind::ProcedurePrimitive =>
@@ -1206,66 +1206,66 @@ impl Evaluator {
 	
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_primitive (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive, inputs : &[Expression]) -> (Outcome<Value>) {
 		let inputs = try! (self.evaluate_slice (evaluation, inputs));
 		let inputs = vec_vec_to_ref (&inputs);
 		return self.evaluate_procedure_primitive_with_values (evaluation, primitive, &inputs);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_primitive_with_values (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive, inputs : &[&Value]) -> (Outcome<Value>) {
 		return procedure_primitive_g_evaluate_n (primitive, inputs, evaluation);
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_primitive_0 (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive0) -> (Outcome<Value>) {
 		return procedure_primitive_0_evaluate (primitive, evaluation);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_primitive_0_g (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive) -> (Outcome<Value>) {
 		return procedure_primitive_g_evaluate_0 (primitive, evaluation);
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_primitive_1 (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive1, input_1 : &Expression) -> (Outcome<Value>) {
 		let input_1 = try! (self.evaluate (evaluation, input_1));
 		return self.evaluate_procedure_primitive_1_with_values (evaluation, primitive, &input_1);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_primitive_1_with_values (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive1, input_1 : &Value) -> (Outcome<Value>) {
 		return procedure_primitive_1_evaluate (primitive, input_1, evaluation);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_primitive_1_g_with_values (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive, input_1 : &Value) -> (Outcome<Value>) {
 		return procedure_primitive_g_evaluate_1 (primitive, input_1, evaluation);
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_primitive_2 (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive2, input_1 : &Expression, input_2 : &Expression) -> (Outcome<Value>) {
 		let input_1 = try! (self.evaluate (evaluation, input_1));
 		let input_2 = try! (self.evaluate (evaluation, input_2));
 		return self.evaluate_procedure_primitive_2_with_values (evaluation, primitive, &input_1, &input_2);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_primitive_2_with_values (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive2, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
 		return procedure_primitive_2_evaluate (primitive, input_1, input_2, evaluation);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_primitive_2_g_with_values (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
 		return procedure_primitive_g_evaluate_2 (primitive, input_1, input_2, evaluation);
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_primitive_3 (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive3, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression) -> (Outcome<Value>) {
 		let input_1 = try! (self.evaluate (evaluation, input_1));
 		let input_2 = try! (self.evaluate (evaluation, input_2));
@@ -1273,18 +1273,18 @@ impl Evaluator {
 		return self.evaluate_procedure_primitive_3_with_values (evaluation, primitive, &input_1, &input_2, &input_3);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_primitive_3_with_values (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive3, input_1 : &Value, input_2 : &Value, input_3 : &Value) -> (Outcome<Value>) {
 		return procedure_primitive_3_evaluate (primitive, input_1, input_2, input_3, evaluation);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_primitive_3_g_with_values (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive, input_1 : &Value, input_2 : &Value, input_3 : &Value) -> (Outcome<Value>) {
 		return procedure_primitive_g_evaluate_3 (primitive, input_1, input_2, input_3, evaluation);
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_primitive_4 (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive4, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression, input_4 : &Expression) -> (Outcome<Value>) {
 		let input_1 = try! (self.evaluate (evaluation, input_1));
 		let input_2 = try! (self.evaluate (evaluation, input_2));
@@ -1293,18 +1293,18 @@ impl Evaluator {
 		return self.evaluate_procedure_primitive_4_with_values (evaluation, primitive, &input_1, &input_2, &input_3, &input_4);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_primitive_4_with_values (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value) -> (Outcome<Value>) {
 		return procedure_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4, evaluation);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_primitive_4_g_with_values (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value) -> (Outcome<Value>) {
 		return procedure_primitive_g_evaluate_4 (primitive, input_1, input_2, input_3, input_4, evaluation);
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_primitive_5 (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive5, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression, input_4 : &Expression, input_5 : &Expression) -> (Outcome<Value>) {
 		let input_1 = try! (self.evaluate (evaluation, input_1));
 		let input_2 = try! (self.evaluate (evaluation, input_2));
@@ -1314,43 +1314,43 @@ impl Evaluator {
 		return self.evaluate_procedure_primitive_5_with_values (evaluation, primitive, &input_1, &input_2, &input_3, &input_4, &input_5);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_primitive_5_with_values (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value) -> (Outcome<Value>) {
 		return procedure_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, evaluation);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_primitive_5_g_with_values (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value) -> (Outcome<Value>) {
 		return procedure_primitive_g_evaluate_5 (primitive, input_1, input_2, input_3, input_4, input_5, evaluation);
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_primitive_n (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitiveN, inputs : &[Expression]) -> (Outcome<Value>) {
 		let inputs = try! (self.evaluate_slice (evaluation, inputs));
 		let inputs = vec_vec_to_ref (&inputs);
 		return self.evaluate_procedure_primitive_n_with_values (evaluation, primitive, &inputs);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_primitive_n_with_values (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitiveN, inputs : &[&Value]) -> (Outcome<Value>) {
 		return procedure_primitive_n_evaluate (primitive, inputs, evaluation);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_primitive_n_g_with_values (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive, inputs : &[&Value]) -> (Outcome<Value>) {
 		return procedure_primitive_g_evaluate_n (primitive, inputs, evaluation);
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_primitive_v (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitiveV, inputs : &[Expression]) -> (Outcome<Value>) {
 		let inputs = try! (self.evaluate_slice (evaluation, inputs));
 		let inputs = vec_vec_to_ref (&inputs);
 		return self.evaluate_procedure_primitive_v_with_values (evaluation, primitive, &inputs);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_primitive_v_with_values (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitiveV, inputs : &[&Value]) -> (Outcome<Value>) {
 		return procedure_primitive_v_evaluate_n (primitive, inputs, evaluation);
 	}
@@ -1358,51 +1358,51 @@ impl Evaluator {
 	
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_extended (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, inputs : &[Expression]) -> (Outcome<Value>) {
 		let inputs = try! (self.evaluate_slice (evaluation, inputs));
 		let inputs = vec_vec_to_ref (&inputs);
 		return self.evaluate_procedure_extended_with_values (evaluation, extended, &inputs);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_extended_with_values (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, inputs : &[&Value]) -> (Outcome<Value>) {
 		return procedure_extended_evaluate_n (extended, inputs, evaluation);
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_extended_0 (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended) -> (Outcome<Value>) {
 		return procedure_extended_evaluate_0 (extended, evaluation);
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_extended_1 (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, input_1 : &Expression) -> (Outcome<Value>) {
 		let input_1 = try! (self.evaluate (evaluation, input_1));
 		return self.evaluate_procedure_extended_1_with_values (evaluation, extended, &input_1);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_extended_1_with_values (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, input_1 : &Value) -> (Outcome<Value>) {
 		return procedure_extended_evaluate_1 (extended, input_1, evaluation);
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_extended_2 (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, input_1 : &Expression, input_2 : &Expression) -> (Outcome<Value>) {
 		let input_1 = try! (self.evaluate (evaluation, input_1));
 		let input_2 = try! (self.evaluate (evaluation, input_2));
 		return self.evaluate_procedure_extended_2_with_values (evaluation, extended, &input_1, &input_2);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_extended_2_with_values (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
 		return procedure_extended_evaluate_2 (extended, input_1, input_2, evaluation);
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_extended_3 (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression) -> (Outcome<Value>) {
 		let input_1 = try! (self.evaluate (evaluation, input_1));
 		let input_2 = try! (self.evaluate (evaluation, input_2));
@@ -1410,13 +1410,13 @@ impl Evaluator {
 		return self.evaluate_procedure_extended_3_with_values (evaluation, extended, &input_1, &input_2, &input_3);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_extended_3_with_values (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, input_1 : &Value, input_2 : &Value, input_3 : &Value) -> (Outcome<Value>) {
 		return procedure_extended_evaluate_3 (extended, input_1, input_2, input_3, evaluation);
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_extended_4 (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression, input_4 : &Expression) -> (Outcome<Value>) {
 		let input_1 = try! (self.evaluate (evaluation, input_1));
 		let input_2 = try! (self.evaluate (evaluation, input_2));
@@ -1425,13 +1425,13 @@ impl Evaluator {
 		return self.evaluate_procedure_extended_4_with_values (evaluation, extended, &input_1, &input_2, &input_3, &input_4);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_extended_4_with_values (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value) -> (Outcome<Value>) {
 		return procedure_extended_evaluate_4 (extended, input_1, input_2, input_3, input_4, evaluation);
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_extended_5 (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression, input_4 : &Expression, input_5 : &Expression) -> (Outcome<Value>) {
 		let input_1 = try! (self.evaluate (evaluation, input_1));
 		let input_2 = try! (self.evaluate (evaluation, input_2));
@@ -1441,20 +1441,20 @@ impl Evaluator {
 		return self.evaluate_procedure_extended_5_with_values (evaluation, extended, &input_1, &input_2, &input_3, &input_4, &input_5);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_extended_5_with_values (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value) -> (Outcome<Value>) {
 		return procedure_extended_evaluate_5 (extended, input_1, input_2, input_3, input_4, input_5, evaluation);
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_extended_n (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, inputs : &[Expression]) -> (Outcome<Value>) {
 		let inputs = try! (self.evaluate_slice (evaluation, inputs));
 		let inputs = vec_vec_to_ref (&inputs);
 		return self.evaluate_procedure_extended_n_with_values (evaluation, extended, &inputs);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_extended_n_with_values (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, inputs : &[&Value]) -> (Outcome<Value>) {
 		return procedure_extended_evaluate_n (extended, inputs, evaluation);
 	}
@@ -1462,14 +1462,14 @@ impl Evaluator {
 	
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_native (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeInternals, inputs : &[Expression]) -> (Outcome<Value>) {
 		let inputs = try! (self.evaluate_slice (evaluation, inputs));
 		let inputs = vec_vec_to_ref (&inputs);
 		return self.evaluate_procedure_native_with_values (evaluation, native, &inputs);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_native_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeInternals, inputs : &[&Value]) -> (Outcome<Value>) {
 		let inputs_count = inputs.len ();
 		match *native {
@@ -1515,12 +1515,12 @@ impl Evaluator {
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_native_0 (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative0) -> (Outcome<Value>) {
 		return native (evaluation);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_native_0_g (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeInternals) -> (Outcome<Value>) {
 		match *native {
 			ProcedureNativeInternals::Native0 (native) =>
@@ -1533,18 +1533,18 @@ impl Evaluator {
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_native_1 (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative1, input_1 : &Expression) -> (Outcome<Value>) {
 		let input_1 = try! (self.evaluate (evaluation, input_1));
 		return self.evaluate_procedure_native_1_with_values (evaluation, native, &input_1);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_native_1_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative1, input_1 : &Value) -> (Outcome<Value>) {
 		return native (input_1, evaluation);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_native_1_g_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeInternals, input_1 : &Value) -> (Outcome<Value>) {
 		match *native {
 			ProcedureNativeInternals::Native1 (native) =>
@@ -1557,19 +1557,19 @@ impl Evaluator {
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_native_2 (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative2, input_1 : &Expression, input_2 : &Expression) -> (Outcome<Value>) {
 		let input_1 = try! (self.evaluate (evaluation, input_1));
 		let input_2 = try! (self.evaluate (evaluation, input_2));
 		return self.evaluate_procedure_native_2_with_values (evaluation, native, &input_1, &input_2);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_native_2_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative2, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
 		return native (input_1, input_2, evaluation);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_native_2_g_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeInternals, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
 		match *native {
 			ProcedureNativeInternals::Native2 (native) =>
@@ -1582,7 +1582,7 @@ impl Evaluator {
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_native_3 (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative3, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression) -> (Outcome<Value>) {
 		let input_1 = try! (self.evaluate (evaluation, input_1));
 		let input_2 = try! (self.evaluate (evaluation, input_2));
@@ -1590,12 +1590,12 @@ impl Evaluator {
 		return self.evaluate_procedure_native_3_with_values (evaluation, native, &input_1, &input_2, &input_3);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_native_3_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative3, input_1 : &Value, input_2 : &Value, input_3 : &Value) -> (Outcome<Value>) {
 		return native (input_1, input_2, input_3, evaluation);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_native_3_g_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeInternals, input_1 : &Value, input_2 : &Value, input_3 : &Value) -> (Outcome<Value>) {
 		match *native {
 			ProcedureNativeInternals::Native3 (native) =>
@@ -1608,7 +1608,7 @@ impl Evaluator {
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_native_4 (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative4, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression, input_4 : &Expression) -> (Outcome<Value>) {
 		let input_1 = try! (self.evaluate (evaluation, input_1));
 		let input_2 = try! (self.evaluate (evaluation, input_2));
@@ -1617,12 +1617,12 @@ impl Evaluator {
 		return self.evaluate_procedure_native_4_with_values (evaluation, native, &input_1, &input_2, &input_3, &input_4);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_native_4_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value) -> (Outcome<Value>) {
 		return native (input_1, input_2, input_3, input_4, evaluation);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_native_4_g_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeInternals, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value) -> (Outcome<Value>) {
 		match *native {
 			ProcedureNativeInternals::Native4 (native) =>
@@ -1635,7 +1635,7 @@ impl Evaluator {
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_native_5 (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative5, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression, input_4 : &Expression, input_5 : &Expression) -> (Outcome<Value>) {
 		let input_1 = try! (self.evaluate (evaluation, input_1));
 		let input_2 = try! (self.evaluate (evaluation, input_2));
@@ -1645,12 +1645,12 @@ impl Evaluator {
 		return self.evaluate_procedure_native_5_with_values (evaluation, native, &input_1, &input_2, &input_3, &input_4, &input_5);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_native_5_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value) -> (Outcome<Value>) {
 		return native (input_1, input_2, input_3, input_4, input_5, evaluation);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_native_5_g_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeInternals, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value) -> (Outcome<Value>) {
 		match *native {
 			ProcedureNativeInternals::Native5 (native) =>
@@ -1663,19 +1663,19 @@ impl Evaluator {
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_native_n (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeN, inputs : &[Expression]) -> (Outcome<Value>) {
 		let inputs = try! (self.evaluate_slice (evaluation, inputs));
 		let inputs = vec_vec_to_ref (&inputs);
 		return self.evaluate_procedure_native_n_with_values (evaluation, native, &inputs);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_native_n_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeN, inputs : &[&Value]) -> (Outcome<Value>) {
 		return native (inputs, evaluation);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_native_n_g_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeInternals, inputs : &[&Value]) -> (Outcome<Value>) {
 		return self.evaluate_procedure_native_with_values (evaluation, native, inputs);
 	}
@@ -1699,7 +1699,7 @@ pub struct EvaluatorContext <'a> {
 impl <'a> EvaluatorContext<'a> {
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn new (evaluator : &'a Evaluator, context : Option<&'a Context>, registers : Registers) -> (EvaluatorContext<'a>) {
 		return EvaluatorContext {
 				evaluator : evaluator,
@@ -1709,17 +1709,17 @@ impl <'a> EvaluatorContext<'a> {
 	}
 	
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn evaluate (&mut self, input : &Expression) -> (Outcome<Value>) {
 		return self.evaluator.evaluate (self, input);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn evaluate_slice (&mut self, inputs : &[Expression]) -> (Outcome<StdVec<Value>>) {
 		return self.evaluator.evaluate_slice (self, inputs);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn evaluate_script <Iterator, ExpressionRef> (&mut self, inputs : Iterator) -> (Outcome<()>)
 			where Iterator : iter::Iterator<Item = ExpressionRef>, ExpressionRef : StdAsRef<Expression>
 	{

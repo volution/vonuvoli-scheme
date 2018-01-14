@@ -41,22 +41,22 @@ pub enum SyntaxNativeInternals {
 
 impl SyntaxNative {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new (internals : SyntaxNativeInternals) -> (SyntaxNative) {
 		return SyntaxNative (StdBox::new (internals));
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn internals_ref (&self) -> (&SyntaxNativeInternals) {
 		return &self.0;
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn internals_into (self) -> (SyntaxNativeInternals) {
 		return *self.0;
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn handle_value (&self) -> (u64) {
 		let self_0 = self.internals_ref ();
 		match *self_0 {
@@ -65,7 +65,7 @@ impl SyntaxNative {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &SyntaxNative) -> (bool) {
 		return self.handle_value () == other.handle_value ();
 	}

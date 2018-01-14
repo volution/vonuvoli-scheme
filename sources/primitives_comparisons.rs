@@ -602,7 +602,7 @@ pub enum ComparisonPrimitiveV {
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn comparison_primitive_0_evaluate (primitive : ComparisonPrimitive0, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
@@ -610,7 +610,7 @@ pub fn comparison_primitive_0_evaluate (primitive : ComparisonPrimitive0, _evalu
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn comparison_primitive_1_evaluate (primitive : ComparisonPrimitive1, input_1 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -830,7 +830,7 @@ pub fn comparison_primitive_1_evaluate (primitive : ComparisonPrimitive1, input_
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn comparison_primitive_2_evaluate (primitive : ComparisonPrimitive2, input_1 : &Value, input_2 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -1050,7 +1050,7 @@ pub fn comparison_primitive_2_evaluate (primitive : ComparisonPrimitive2, input_
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn comparison_primitive_3_evaluate (primitive : ComparisonPrimitive3, input_1 : &Value, input_2 : &Value, input_3 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -1270,7 +1270,7 @@ pub fn comparison_primitive_3_evaluate (primitive : ComparisonPrimitive3, input_
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn comparison_primitive_4_evaluate (primitive : ComparisonPrimitive4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -1490,7 +1490,7 @@ pub fn comparison_primitive_4_evaluate (primitive : ComparisonPrimitive4, input_
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn comparison_primitive_5_evaluate (primitive : ComparisonPrimitive5, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _input_5 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
@@ -1498,7 +1498,7 @@ pub fn comparison_primitive_5_evaluate (primitive : ComparisonPrimitive5, _input
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn comparison_primitive_n_evaluate (primitive : ComparisonPrimitiveN, inputs : &[&Value], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -1718,7 +1718,7 @@ pub fn comparison_primitive_n_evaluate (primitive : ComparisonPrimitiveN, inputs
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn comparison_primitive_v_alternative_0 (primitive : ComparisonPrimitiveV) -> (Option<ComparisonPrimitive0>) {
 	match primitive {
 		ComparisonPrimitiveV::EquivalentByIdentity =>
@@ -1867,7 +1867,7 @@ pub fn comparison_primitive_v_alternative_0 (primitive : ComparisonPrimitiveV) -
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn comparison_primitive_v_alternative_1 (primitive : ComparisonPrimitiveV) -> (Option<ComparisonPrimitive1>) {
 	match primitive {
 		ComparisonPrimitiveV::EquivalentByIdentity =>
@@ -2016,7 +2016,7 @@ pub fn comparison_primitive_v_alternative_1 (primitive : ComparisonPrimitiveV) -
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn comparison_primitive_v_alternative_2 (primitive : ComparisonPrimitiveV) -> (Option<ComparisonPrimitive2>) {
 	match primitive {
 		ComparisonPrimitiveV::EquivalentByIdentity =>
@@ -2165,7 +2165,7 @@ pub fn comparison_primitive_v_alternative_2 (primitive : ComparisonPrimitiveV) -
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn comparison_primitive_v_alternative_3 (primitive : ComparisonPrimitiveV) -> (Option<ComparisonPrimitive3>) {
 	match primitive {
 		ComparisonPrimitiveV::EquivalentByIdentity =>
@@ -2314,7 +2314,7 @@ pub fn comparison_primitive_v_alternative_3 (primitive : ComparisonPrimitiveV) -
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn comparison_primitive_v_alternative_4 (primitive : ComparisonPrimitiveV) -> (Option<ComparisonPrimitive4>) {
 	match primitive {
 		ComparisonPrimitiveV::EquivalentByIdentity =>
@@ -2463,7 +2463,7 @@ pub fn comparison_primitive_v_alternative_4 (primitive : ComparisonPrimitiveV) -
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn comparison_primitive_v_alternative_5 (primitive : ComparisonPrimitiveV) -> (Option<ComparisonPrimitive5>) {
 	match primitive {
 		ComparisonPrimitiveV::EquivalentByIdentity =>
@@ -2612,7 +2612,7 @@ pub fn comparison_primitive_v_alternative_5 (primitive : ComparisonPrimitiveV) -
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn comparison_primitive_v_alternative_n (primitive : ComparisonPrimitiveV) -> (Option<ComparisonPrimitiveN>) {
 	match primitive {
 		ComparisonPrimitiveV::EquivalentByIdentity =>
@@ -2759,37 +2759,37 @@ pub fn comparison_primitive_v_alternative_n (primitive : ComparisonPrimitiveV) -
 }
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn comparison_primitive_0_attributes (_primitive : ComparisonPrimitive0) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_0);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn comparison_primitive_1_attributes (_primitive : ComparisonPrimitive1) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_1);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn comparison_primitive_2_attributes (_primitive : ComparisonPrimitive2) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_2);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn comparison_primitive_3_attributes (_primitive : ComparisonPrimitive3) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_3);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn comparison_primitive_4_attributes (_primitive : ComparisonPrimitive4) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_4);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn comparison_primitive_5_attributes (_primitive : ComparisonPrimitive5) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_5);
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn comparison_primitive_n_attributes (_primitive : ComparisonPrimitiveN) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_N);
 }

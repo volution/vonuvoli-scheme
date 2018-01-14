@@ -72,7 +72,7 @@ pub struct TestCaseCompiled {
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn parse_and_compile_tests (identifier : &str, source : &str, context : Option<Context>, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<(StdVec<TestCaseCompiled>)>) {
 	let tests = try! (parse_tests (source));
 	return compile_tests (identifier, &tests, context, transcript, verbosity);
@@ -108,7 +108,7 @@ pub fn compile_tests (identifier : &str, tests : &StdVec<TestCase>, context_temp
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn parse_and_execute_tests (identifier : &str, source : &str, context : Option<Context>, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
 	let tests = try! (parse_and_compile_tests (identifier, source, context, transcript, verbosity));
 	return execute_tests (identifier, &tests, transcript, verbosity);
@@ -151,7 +151,7 @@ pub fn execute_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, tran
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn parse_and_benchmark_tests (identifier : &str, source : &str, context : Option<Context>, bencher : Option<&mut test::Bencher>, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
 	let tests = try! (parse_and_compile_tests (identifier, source, context, transcript, verbosity));
 	return benchmark_tests (identifier, &tests, bencher, transcript, verbosity);
@@ -328,7 +328,7 @@ pub fn benchmark_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, be
 	succeed! (());
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn benchmark_report (header : &str, prefix : &str, summary : &test::stats::Summary, reference : Option<&test::stats::Summary>, factor : f64, transcript : &mut io::Write, _verbosity : TestVerbosity) -> (Outcome<()>) {
 	let mut report = StdString::new ();
 	report.push_str (&format! ("{}{}\n", prefix, header));
@@ -349,7 +349,7 @@ fn benchmark_report (header : &str, prefix : &str, summary : &test::stats::Summa
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ allow (unused_assignments) ] // FIXME:  Why does the compiler think we are not using `header_emitted`?
 pub fn compile_test (context_without_optimizations : &Context, context_with_optimizations : &Context, test : &TestCase, transcript : &mut io::Write, verbosity_global : TestVerbosity) -> (Outcome<TestCaseCompiled>) {
 	
@@ -465,7 +465,7 @@ pub fn compile_test (context_without_optimizations : &Context, context_with_opti
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ allow (unused_assignments) ] // FIXME:  Why does the compiler think we are not using `header_emitted`?
 pub fn execute_test (test : &TestCaseCompiled, transcript : &mut io::Write, verbosity_global : TestVerbosity) -> (Outcome<()>) {
 	
@@ -619,7 +619,7 @@ pub fn execute_test (test : &TestCaseCompiled, transcript : &mut io::Write, verb
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn benchmark_test_without_optimizations (test : &TestCaseCompiled) -> (Outcome<()>) {
 	
 	try! (evaluate (&test.context_without_optimizations, &test.expression_without_optimizations));
@@ -627,7 +627,7 @@ pub fn benchmark_test_without_optimizations (test : &TestCaseCompiled) -> (Outco
 	succeed! (());
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn benchmark_test_with_optimizations (test : &TestCaseCompiled) -> (Outcome<()>) {
 	
 	try! (evaluate (&test.context_with_optimizations, &test.expression_with_optimizations));
@@ -638,7 +638,7 @@ pub fn benchmark_test_with_optimizations (test : &TestCaseCompiled) -> (Outcome<
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn test_case_header_emit (test : &TestCase, transcript : &mut io::Write, verbosity : TestVerbosity, emitted : bool, forced : bool) -> (Outcome<bool>) {
 	if emitted {
 		succeed! (true);
@@ -664,7 +664,7 @@ fn test_case_header_emit (test : &TestCase, transcript : &mut io::Write, verbosi
 }
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn test_case_footer_emit (test : &TestCase, transcript : &mut io::Write, verbosity : TestVerbosity, emitted : bool, forced : bool) -> (Outcome<bool>) {
 	let emitted = try! (test_case_header_emit (test, transcript, verbosity, emitted, forced));
 	if emitted {
@@ -676,13 +676,13 @@ fn test_case_footer_emit (test : &TestCase, transcript : &mut io::Write, verbosi
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn execute_tests_main (identifier : &str, source : &str, context : Option<Context>, transcript : Option<&mut io::Write>, verbosity : Option<TestVerbosity>) -> (Outcome<()>) {
 	
 	let mut stdout = io::stdout ();
 	let transcript = if let Some (transcript) = transcript { transcript } else { &mut stdout };
 	let verbosity = if let Some (verbosity) = verbosity { verbosity } else {
-		let verbosity = env::var ("RUST_SCHEME_TESTS_DEBUG") .unwrap_or (string::String::from ("false"));
+		let verbosity = env::var ("VONUVOLI_SCHEME_TESTS_DEBUG") .unwrap_or (string::String::from ("false"));
 		let verbosity = if verbosity == "true" { TestVerbosity::Debug } else { TestVerbosity::Quiet };
 		verbosity
 	};
@@ -695,13 +695,13 @@ pub fn execute_tests_main (identifier : &str, source : &str, context : Option<Co
 }
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn benchmark_tests_main (identifier : &str, source : &str, context : Option<Context>, bencher : Option<&mut test::Bencher>, transcript : Option<&mut io::Write>, output : Option<&mut io::Write>, verbosity : Option<TestVerbosity>) -> (Outcome<()>) {
 	
 	let mut stdout = io::stdout ();
 	let transcript = if let Some (transcript) = transcript { transcript } else { &mut stdout };
 	let verbosity = if let Some (verbosity) = verbosity { verbosity } else {
-		let verbosity = env::var ("RUST_SCHEME_BENCHMARKS_DEBUG") .unwrap_or (string::String::from ("false"));
+		let verbosity = env::var ("VONUVOLI_SCHEME_BENCHMARKS_DEBUG") .unwrap_or (string::String::from ("false"));
 		let verbosity = if verbosity == "true" { TestVerbosity::Debug } else { TestVerbosity::Quiet };
 		verbosity
 	};
@@ -709,7 +709,7 @@ pub fn benchmark_tests_main (identifier : &str, source : &str, context : Option<
 	let (output, output_backend) = if let Some (output) = output {
 		(Some (output), None)
 	} else {
-		let output = env::var ("RUST_SCHEME_BENCHMARKS_OUTPUT") .ok ();
+		let output = env::var ("VONUVOLI_SCHEME_BENCHMARKS_OUTPUT") .ok ();
 		let output = if let Some (output) = output { Some (output.replace ("{IDENTIFIER}", identifier)) } else { None };
 		if let Some (output) = output {
 			let output = try_or_fail! (fs::File::create (output), 0x25b456ed);

@@ -173,7 +173,7 @@ pub enum ArrayPrimitiveV {
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_primitive_0_evaluate (primitive : ArrayPrimitive0, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -189,7 +189,7 @@ pub fn array_primitive_0_evaluate (primitive : ArrayPrimitive0, _evaluator : &mu
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_primitive_1_evaluate (primitive : ArrayPrimitive1, input_1 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -235,7 +235,7 @@ pub fn array_primitive_1_evaluate (primitive : ArrayPrimitive1, input_1 : &Value
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_primitive_2_evaluate (primitive : ArrayPrimitive2, input_1 : &Value, input_2 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -275,7 +275,7 @@ pub fn array_primitive_2_evaluate (primitive : ArrayPrimitive2, input_1 : &Value
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_primitive_3_evaluate (primitive : ArrayPrimitive3, input_1 : &Value, input_2 : &Value, input_3 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -312,7 +312,7 @@ pub fn array_primitive_3_evaluate (primitive : ArrayPrimitive3, input_1 : &Value
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_primitive_4_evaluate (primitive : ArrayPrimitive4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -334,7 +334,7 @@ pub fn array_primitive_4_evaluate (primitive : ArrayPrimitive4, input_1 : &Value
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_primitive_5_evaluate (primitive : ArrayPrimitive5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -347,7 +347,7 @@ pub fn array_primitive_5_evaluate (primitive : ArrayPrimitive5, input_1 : &Value
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_primitive_n_evaluate (primitive : ArrayPrimitiveN, inputs : &[&Value], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -363,7 +363,7 @@ pub fn array_primitive_n_evaluate (primitive : ArrayPrimitiveN, inputs : &[&Valu
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_primitive_v_alternative_0 (primitive : ArrayPrimitiveV) -> (Option<ArrayPrimitive0>) {
 	match primitive {
 		ArrayPrimitiveV::ArrayMake =>
@@ -390,7 +390,7 @@ pub fn array_primitive_v_alternative_0 (primitive : ArrayPrimitiveV) -> (Option<
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_primitive_v_alternative_1 (primitive : ArrayPrimitiveV) -> (Option<ArrayPrimitive1>) {
 	match primitive {
 		ArrayPrimitiveV::ArrayMake =>
@@ -417,7 +417,7 @@ pub fn array_primitive_v_alternative_1 (primitive : ArrayPrimitiveV) -> (Option<
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_primitive_v_alternative_2 (primitive : ArrayPrimitiveV) -> (Option<ArrayPrimitive2>) {
 	match primitive {
 		ArrayPrimitiveV::ArrayMake =>
@@ -444,7 +444,7 @@ pub fn array_primitive_v_alternative_2 (primitive : ArrayPrimitiveV) -> (Option<
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_primitive_v_alternative_3 (primitive : ArrayPrimitiveV) -> (Option<ArrayPrimitive3>) {
 	match primitive {
 		ArrayPrimitiveV::ArrayMake =>
@@ -471,7 +471,7 @@ pub fn array_primitive_v_alternative_3 (primitive : ArrayPrimitiveV) -> (Option<
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_primitive_v_alternative_4 (primitive : ArrayPrimitiveV) -> (Option<ArrayPrimitive4>) {
 	match primitive {
 		ArrayPrimitiveV::ArrayMake =>
@@ -498,7 +498,7 @@ pub fn array_primitive_v_alternative_4 (primitive : ArrayPrimitiveV) -> (Option<
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_primitive_v_alternative_5 (primitive : ArrayPrimitiveV) -> (Option<ArrayPrimitive5>) {
 	match primitive {
 		ArrayPrimitiveV::ArrayMake =>
@@ -525,7 +525,7 @@ pub fn array_primitive_v_alternative_5 (primitive : ArrayPrimitiveV) -> (Option<
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_primitive_v_alternative_n (primitive : ArrayPrimitiveV) -> (Option<ArrayPrimitiveN>) {
 	match primitive {
 		ArrayPrimitiveV::ArrayMake =>
@@ -552,37 +552,37 @@ pub fn array_primitive_v_alternative_n (primitive : ArrayPrimitiveV) -> (Option<
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_primitive_0_attributes (_primitive : ArrayPrimitive0) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_primitive_1_attributes (_primitive : ArrayPrimitive1) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_primitive_2_attributes (_primitive : ArrayPrimitive2) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_primitive_3_attributes (_primitive : ArrayPrimitive3) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_primitive_4_attributes (_primitive : ArrayPrimitive4) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_primitive_5_attributes (_primitive : ArrayPrimitive5) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_primitive_n_attributes (_primitive : ArrayPrimitiveN) -> (Option<ProcedureAttributes>) {
 	return None;
 }

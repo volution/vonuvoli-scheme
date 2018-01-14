@@ -58,22 +58,22 @@ pub enum ProcedureNativeInternals {
 
 impl ProcedureNative {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new (internals : ProcedureNativeInternals) -> (ProcedureNative) {
 		return ProcedureNative (StdBox::new (internals));
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn internals_ref (&self) -> (&ProcedureNativeInternals) {
 		return &self.0;
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn internals_into (self) -> (ProcedureNativeInternals) {
 		return *self.0;
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn handle_value (&self) -> (u64) {
 		let self_0 = self.internals_ref ();
 		match *self_0 {
@@ -94,7 +94,7 @@ impl ProcedureNative {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &ProcedureNative) -> (bool) {
 		return self.handle_value () == other.handle_value ();
 	}

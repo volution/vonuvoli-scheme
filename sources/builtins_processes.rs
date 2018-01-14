@@ -29,7 +29,7 @@ pub mod exports {
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_spawn (arguments : &[&Value]) -> (Outcome<Process>) {
 	
 	if arguments.is_empty () {
@@ -54,7 +54,7 @@ pub fn process_spawn (arguments : &[&Value]) -> (Outcome<Process>) {
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_wait (process : &Value, block : bool) -> (Outcome<ProcessStatus>) {
 	let process = try_as_process_ref! (process);
 	let status = try! (process.wait (block));
@@ -62,7 +62,7 @@ pub fn process_wait (process : &Value, block : bool) -> (Outcome<ProcessStatus>)
 }
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_wait_check (process : &Value, block : bool) -> (Outcome<()>) {
 	let status = try! (process_wait (process, block));
 	return process_status_check (status);
@@ -71,7 +71,7 @@ pub fn process_wait_check (process : &Value, block : bool) -> (Outcome<()>) {
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_run (arguments : &[&Value]) -> (Outcome<ProcessStatus>) {
 	let process = try! (process_spawn (arguments));
 	let status = try! (process.wait (true));
@@ -79,7 +79,7 @@ pub fn process_run (arguments : &[&Value]) -> (Outcome<ProcessStatus>) {
 }
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_run_check (arguments : &[&Value]) -> (Outcome<()>) {
 	let status = try! (process_run (arguments));
 	return process_status_check (status);
@@ -88,7 +88,7 @@ pub fn process_run_check (arguments : &[&Value]) -> (Outcome<()>) {
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_status_check (status : ProcessStatus) -> (Outcome<()>) {
 	match status {
 		ProcessStatus::Running =>
@@ -105,21 +105,21 @@ pub fn process_status_check (status : ProcessStatus) -> (Outcome<()>) {
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_stdin_get (process : &Value) -> (Outcome<Value>) {
 	let process = try_as_process_ref! (process);
 	let port = try_some! (process.stdin (), 0x0f6f72aa);
 	succeed! (port.into ());
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_stdout_get (process : &Value) -> (Outcome<Value>) {
 	let process = try_as_process_ref! (process);
 	let port = try_some! (process.stdout (), 0xf389596d);
 	succeed! (port.into ());
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_stderr_get (process : &Value) -> (Outcome<Value>) {
 	let process = try_as_process_ref! (process);
 	let port = try_some! (process.stderr (), 0xa1fc1b22);

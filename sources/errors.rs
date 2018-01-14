@@ -32,7 +32,7 @@ pub struct Error {
 
 impl Error {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &Error) -> (bool) {
 		self.code == other.code
 	}
@@ -41,17 +41,17 @@ impl Error {
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_generic (code : u32) -> (Error) {
 	Error {code : code}
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_unimplemented (code : u32) -> (Error) {
 	Error {code : code}
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_panic (code : u32) -> (Error) {
 	Error {code : code}
 }
@@ -61,7 +61,7 @@ pub fn error_panic (code : u32) -> (Error) {
 
 impl StdFrom<convert::Infallible> for Error {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn from (_error : convert::Infallible) -> (Error) {
 		return error_panic (0xddde3965);
 	}

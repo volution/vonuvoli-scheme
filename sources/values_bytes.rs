@@ -25,27 +25,27 @@ pub trait Bytes {
 	
 	fn bytes_as_slice (&self) -> (&[u8]);
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn bytes_iter (&self) -> (slice::Iter<u8>) {
 		self.bytes_as_slice () .iter ()
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn bytes_clone (&self) -> (StdVec<u8>) {
 		self.bytes_as_slice () .to_vec ()
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn bytes_is_empty (&self) -> (bool) {
 		self.bytes_as_slice () .is_empty ()
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn bytes_is_not_empty (&self) -> (bool) {
 		! self.bytes_as_slice () .is_empty ()
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn bytes_count (&self) -> (usize) {
 		self.bytes_as_slice () .len ()
 	}
@@ -63,7 +63,7 @@ pub enum BytesRef <'a> {
 
 impl <'a> BytesRef<'a> {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn try (value : &'a Value) -> (Outcome<BytesRef<'a>>) {
 		match *value {
 			Value::BytesImmutable (_, ref value, _) =>
@@ -75,7 +75,7 @@ impl <'a> BytesRef<'a> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn clone (&self) -> (Value) {
 		match *self {
 			BytesRef::Immutable (value, _) =>
@@ -85,7 +85,7 @@ impl <'a> BytesRef<'a> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &BytesRef) -> (bool) {
 		match (self, other) {
 			(&BytesRef::Immutable (self_0, _), &BytesRef::Immutable (other_0, _)) =>
@@ -101,7 +101,7 @@ impl <'a> BytesRef<'a> {
 
 impl <'a> Bytes for BytesRef<'a> {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn bytes_as_slice (&self) -> (&[u8]) {
 		match *self {
 			BytesRef::Immutable (_, bytes) =>
@@ -124,7 +124,7 @@ pub enum BytesAsRef <'a> {
 
 impl <'a> BytesAsRef<'a> {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn try (value : &'a Value) -> (Outcome<BytesAsRef<'a>>) {
 		match *value {
 			Value::BytesImmutable (_, ref value, _) =>
@@ -136,7 +136,7 @@ impl <'a> BytesAsRef<'a> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn bytes_ref (&self) -> (BytesRef<'a>) {
 		match *self {
 			BytesAsRef::Immutable (value) =>
@@ -146,7 +146,7 @@ impl <'a> BytesAsRef<'a> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn clone (&self) -> (Value) {
 		match *self {
 			BytesAsRef::Immutable (value) =>
@@ -156,7 +156,7 @@ impl <'a> BytesAsRef<'a> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn to_immutable (&self) -> (BytesImmutable) {
 		match *self {
 			BytesAsRef::Immutable (value) =>
@@ -166,7 +166,7 @@ impl <'a> BytesAsRef<'a> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn to_mutable (&self) -> (BytesMutable) {
 		match *self {
 			BytesAsRef::Immutable (value) =>
@@ -176,7 +176,7 @@ impl <'a> BytesAsRef<'a> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &BytesAsRef) -> (bool) {
 		match (self, other) {
 			(&BytesAsRef::Immutable (self_0), &BytesAsRef::Immutable (other_0)) =>
@@ -198,22 +198,22 @@ pub struct BytesImmutable ( StdRc<StdBox<[u8]>> );
 
 impl BytesImmutable {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &BytesImmutable) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn bytes_ref (&self) -> (BytesRef) {
 		BytesRef::Immutable (self, self.0.as_ref ())
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn bytes_rc_clone (&self) -> (StdRc<StdBox<[u8]>>) {
 		self.0.clone ()
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn to_mutable (&self) -> (BytesMutable) {
 		let internals = BytesMutableInternals::Cow (self.bytes_rc_clone ());
 		BytesMutable (StdRc::new (StdRefCell::new (internals)))
@@ -223,7 +223,7 @@ impl BytesImmutable {
 
 impl Bytes for BytesImmutable {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn bytes_as_slice (&self) -> (&[u8]) {
 		self.0.as_ref ()
 	}
@@ -245,31 +245,31 @@ pub enum BytesMutableInternals {
 
 impl BytesMutable {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &BytesMutable) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn bytes_ref (&self) -> (BytesRef) {
 		let reference = self.0.as_ref () .borrow ();
 		let reference = StdRef::map (reference, |reference| reference.as_ref ());
 		BytesRef::Mutable (self, reference)
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn bytes_rc_clone (&self) -> (StdRc<StdRefCell<BytesMutableInternals>>) {
 		self.0.clone ()
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn bytes_ref_mut (&self) -> (StdRefMut<StdVec<u8>>) {
 		let reference = self.0.as_ref () .borrow_mut ();
 		let reference = StdRefMut::map (reference, |reference| reference.as_mut ());
 		reference
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn to_immutable (&self) -> (BytesImmutable) {
 		let mut reference = self.0.as_ref () .borrow_mut ();
 		let bytes = reference.to_cow ();
@@ -280,7 +280,7 @@ impl BytesMutable {
 
 impl BytesMutableInternals {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn to_cow (&mut self) -> (StdRc<StdBox<[u8]>>) {
 		let bytes_cow = match *self {
 			BytesMutableInternals::Owned (ref mut bytes_owned) => {
@@ -300,7 +300,7 @@ impl BytesMutableInternals {
 
 impl StdAsRef<[u8]> for BytesMutableInternals {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn as_ref (&self) -> (&[u8]) {
 		match *self {
 			BytesMutableInternals::Owned (ref bytes) =>
@@ -314,7 +314,7 @@ impl StdAsRef<[u8]> for BytesMutableInternals {
 
 impl StdAsRefMut<StdVec<u8>> for BytesMutableInternals {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn as_mut (&mut self) -> (&mut StdVec<u8>) {
 		let bytes_owned = match *self {
 			BytesMutableInternals::Owned (ref mut bytes) =>
@@ -335,18 +335,18 @@ impl StdAsRefMut<StdVec<u8>> for BytesMutableInternals {
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_immutable_new (bytes : StdVec<u8>) -> (BytesImmutable) {
 	BytesImmutable (StdRc::new (bytes.into_boxed_slice ()))
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_mutable_new (bytes : StdVec<u8>) -> (BytesMutable) {
 	let internals = BytesMutableInternals::Owned (bytes);
 	BytesMutable (StdRc::new (StdRefCell::new (internals)))
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_new (bytes : StdVec<u8>) -> (Value) {
 	if true {
 		bytes_immutable_new (bytes) .into ()
@@ -358,17 +358,17 @@ pub fn bytes_new (bytes : StdVec<u8>) -> (Value) {
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_immutable_clone_slice (bytes : &[u8]) -> (BytesImmutable) {
 	bytes_immutable_new (vec_clone_slice (bytes))
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_mutable_clone_slice (bytes : &[u8]) -> (BytesMutable) {
 	bytes_mutable_new (vec_clone_slice (bytes))
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_clone_slice (bytes : &[u8]) -> (Value) {
 	if true {
 		bytes_immutable_clone_slice (bytes) .into ()
@@ -380,17 +380,17 @@ pub fn bytes_clone_slice (bytes : &[u8]) -> (Value) {
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_immutable_clone_str (string : &str) -> (BytesImmutable) {
 	bytes_immutable_new (StdString::from (string) .into_bytes ())
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_mutable_clone_str (string : &str) -> (BytesMutable) {
 	bytes_mutable_new (StdString::from (string) .into_bytes ())
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_clone_str (string : &str) -> (Value) {
 	if true {
 		bytes_immutable_clone_str (string) .into ()
@@ -402,17 +402,17 @@ pub fn bytes_clone_str (string : &str) -> (Value) {
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_immutable_clone_characters (characters : &[char]) -> (BytesImmutable) {
 	bytes_immutable_new (unicode_utf8_chars_clone_string (characters) .into_bytes ())
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_mutable_clone_characters (characters : &[char]) -> (BytesMutable) {
 	bytes_mutable_new (unicode_utf8_chars_clone_string (characters) .into_bytes ())
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_clone_characters (characters : &[char]) -> (Value) {
 	if true {
 		bytes_immutable_clone_characters (characters) .into ()
@@ -429,13 +429,13 @@ pub struct BytesIterator <'a> ( BytesRef<'a>, slice::Iter<'a, u8> );
 
 impl <'a> BytesIterator <'a> {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new (bytes : &'a Value) -> (Outcome<BytesIterator<'a>>) {
 		let bytes = try_as_bytes_ref! (bytes);
 		return BytesIterator::new_a (bytes);
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_a (bytes : BytesRef<'a>) -> (Outcome<BytesIterator<'a>>) {
 		let iterator = unsafe { mem::transmute (bytes.bytes_iter ()) };
 		succeed! (BytesIterator (bytes, iterator));
@@ -447,7 +447,7 @@ impl <'a> iter::Iterator for BytesIterator <'a> {
 	
 	type Item = Outcome<Value>;
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn next (&mut self) -> (Option<Outcome<Value>>) {
 		if let Some (value) = self.1.next () {
 			return Some (succeeded! (number_i64 (*value as i64) .into ()));
@@ -465,7 +465,7 @@ pub struct BytesIterators <'a> ( StdVec<BytesIterator<'a>> );
 
 impl <'a> BytesIterators <'a> {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new (bytes : &'a [&'a Value]) -> (Outcome<BytesIterators<'a>>) {
 		let iterators = try! (bytes.iter () .map (|bytes| BytesIterator::new (bytes)) .collect ());
 		succeed! (BytesIterators (iterators));
@@ -477,7 +477,7 @@ impl <'a> iter::Iterator for BytesIterators <'a> {
 	
 	type Item = Outcome<StdVec<Value>>;
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn next (&mut self) -> (Option<Outcome<StdVec<Value>>>) {
 		let mut outcomes = StdVec::with_capacity (self.0.len ());
 		for mut iterator in self.0.iter_mut () {

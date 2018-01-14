@@ -83,7 +83,7 @@ pub trait StdExpectInto0 <T> : Sized {
 /*
 impl <T, U> StdInto0<U> for T where T : StdInto<U> {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn into_0 (self) -> (U) {
 		T::into (self)
 	}
@@ -95,7 +95,7 @@ impl <T, U> StdTryInto0<U> for T where T : StdTryInto<U> {
 	
 	type Error = T::Error;
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn try_into_0 (self) -> (Result<U, Self::Error>) {
 		T::try_into (self)
 	}
@@ -104,7 +104,7 @@ impl <T, U> StdTryInto0<U> for T where T : StdTryInto<U> {
 
 impl <T, U> StdExpectInto0<U> for T where T : StdTryInto0<U> {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn expect_into_0 (self) -> (U) {
 		match T::try_into_0 (self) {
 			Ok (value) =>
@@ -137,7 +137,7 @@ pub trait StdExpectAsRef0 <T> {
 
 impl <T, U> StdAsRef0<U> for T where T : StdAsRef<U> {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn as_ref_0 (&self) -> (&U) {
 		T::as_ref (self)
 	}
@@ -148,7 +148,7 @@ impl <T, U> StdTryAsRef0<U> for T where T : StdAsRef0<U> {
 	
 	type Error = convert::Infallible;
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn try_as_ref_0 (&self) -> (Result<&U, Self::Error>) {
 		Ok (T::as_ref_0 (self))
 	}
@@ -157,7 +157,7 @@ impl <T, U> StdTryAsRef0<U> for T where T : StdAsRef0<U> {
 
 impl <T, U> StdExpectAsRef0<U> for T where T : StdTryAsRef0<U> {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn expect_as_ref_0 (&self) -> (&U) {
 		match T::try_as_ref_0 (self) {
 			Ok (value) =>
@@ -178,12 +178,12 @@ pub struct Handle ( u32 );
 
 impl Handle {
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new (handle : u32) -> (Handle) {
 		return Handle ( handle );
 	}
 	
-	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn value (&self) -> (u32) {
 		return self.0;
 	}
@@ -192,7 +192,7 @@ impl Handle {
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn vec_into <Element, To : StdFrom<Element>> (from : StdVec<Element>) -> (StdVec<To>) {
 	return vec_map_into! (from, value, value.into ());
 }
@@ -200,7 +200,7 @@ pub fn vec_into <Element, To : StdFrom<Element>> (from : StdVec<Element>) -> (St
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn vec_append_2 <Element> (vector_1 : StdVec<Element>, vector_2 : StdVec<Element>) -> (StdVec<Element>) {
 	let mut vector = StdVec::with_capacity (vector_1.len () + vector_2.len ());
 	vector.extend (vector_1.into_iter ());
@@ -211,7 +211,7 @@ pub fn vec_append_2 <Element> (vector_1 : StdVec<Element>, vector_2 : StdVec<Ele
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn vec_explode_1 <Element> (vector : StdVec<Element>) -> (Outcome<Element>) {
 	if vector.len () != 1 {
 		fail! (0x0828936d);
@@ -220,7 +220,7 @@ pub fn vec_explode_1 <Element> (vector : StdVec<Element>) -> (Outcome<Element>) 
 	succeed! (iterator.next () .expect ("a02552aa"));
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn vec_explode_1n <Element> (vector : StdVec<Element>) -> (Outcome<(Element, StdVec<Element>)>) {
 	if vector.len () < 1 {
 		fail! (0x2b9bdaf2);
@@ -233,7 +233,7 @@ pub fn vec_explode_1n <Element> (vector : StdVec<Element>) -> (Outcome<(Element,
 }
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn vec_explode_2 <Element> (vector : StdVec<Element>) -> (Outcome<(Element, Element)>) {
 	if vector.len () != 2 {
 		fail! (0x6865c09d);
@@ -245,7 +245,7 @@ pub fn vec_explode_2 <Element> (vector : StdVec<Element>) -> (Outcome<(Element, 
 		));
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn vec_explode_2n <Element> (vector : StdVec<Element>) -> (Outcome<(Element, Element, StdVec<Element>)>) {
 	if vector.len () < 2 {
 		fail! (0x3dde9cf1);
@@ -259,7 +259,7 @@ pub fn vec_explode_2n <Element> (vector : StdVec<Element>) -> (Outcome<(Element,
 }
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn vec_explode_3 <Element> (vector : StdVec<Element>) -> (Outcome<(Element, Element, Element)>) {
 	if vector.len () != 3 {
 		fail! (0xb6510cf5);
@@ -272,7 +272,7 @@ pub fn vec_explode_3 <Element> (vector : StdVec<Element>) -> (Outcome<(Element, 
 		));
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn vec_explode_3n <Element> (vector : StdVec<Element>) -> (Outcome<(Element, Element, Element, StdVec<Element>)>) {
 	if vector.len () < 3 {
 		fail! (0x2d2644c7);
@@ -289,7 +289,7 @@ pub fn vec_explode_3n <Element> (vector : StdVec<Element>) -> (Outcome<(Element,
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn vec_zip_2 <Element1, Element2> (vector_1 : StdVec<Element1>, vector_2 : StdVec<Element2>) -> (StdVec<(Element1, Element2)>) {
 	if vector_1.len () != vector_2.len () {
 		panic! ("a8f6ee9e");
@@ -311,7 +311,7 @@ pub fn vec_zip_2 <Element1, Element2> (vector_1 : StdVec<Element1>, vector_2 : S
 	}
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn vec_unzip_2 <Element1, Element2> (vector : StdVec<(Element1, Element2)>) -> ((StdVec<Element1>, StdVec<Element2>)) {
 	let mut vector_1 = StdVec::with_capacity (vector.len ());
 	let mut vector_2 = StdVec::with_capacity (vector.len ());
@@ -325,12 +325,12 @@ pub fn vec_unzip_2 <Element1, Element2> (vector : StdVec<(Element1, Element2)>) 
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn vec_clone_vec <Element : Clone> (vector : &StdVec<Element>) -> (StdVec<Element>) {
 	return vec_map! (vector.iter (), value, value.clone ());
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn vec_clone_slice <Element : Clone> (slice : &[Element]) -> (StdVec<Element>) {
 	return vec_map! (slice.iter (), value, (*value).clone ());
 }
@@ -338,17 +338,17 @@ pub fn vec_clone_slice <Element : Clone> (slice : &[Element]) -> (StdVec<Element
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn vec_clone_vec_ref <Element : Clone, ElementRef : StdAsRef<Element>> (vector : &StdVec<ElementRef>) -> (StdVec<Element>) {
 	return vec_map! (vector.iter (), value, value.as_ref () .clone ());
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn vec_clone_slice_ref <Element : Clone, ElementRef : StdAsRef<Element>> (slice : &[ElementRef]) -> (StdVec<Element>) {
 	return vec_map! (slice.iter (), value, value.as_ref () .clone ());
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn vec_clone_iter_ref <Element : Clone, ElementRef : StdAsRef<Element>, Iterator : iter::Iterator<Item = ElementRef>> (iterator : Iterator) -> (StdVec<Element>) {
 	return vec_map! (iterator, value, value.as_ref () .clone ());
 }
@@ -356,17 +356,17 @@ pub fn vec_clone_iter_ref <Element : Clone, ElementRef : StdAsRef<Element>, Iter
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn vec_vec_to_ref <Element, ElementRef : StdAsRef<Element>> (vector : &StdVec<ElementRef>) -> (StdVec<&Element>) {
 	return vec_map! (vector.iter (), value, value.as_ref ());
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn vec_slice_to_ref <Element, ElementRef : StdAsRef<Element>> (slice : &[ElementRef]) -> (StdVec<&Element>) {
 	return vec_map! (slice.iter (), value, value.as_ref ());
 }
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn vec_iter_to_ref <'a, Element : 'a, ElementRef : StdAsRef<Element> + 'a, Iterator : iter::Iterator<Item = &'a ElementRef>> (iterator : Iterator) -> (StdVec<&'a Element>) {
 	return vec_map! (iterator, value, value.as_ref ());
 }
@@ -374,7 +374,7 @@ pub fn vec_iter_to_ref <'a, Element : 'a, ElementRef : StdAsRef<Element> + 'a, I
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn boxed_slice_to_ref <'a, Element : 'a, ElementRef : StdAsRef<Element> + 'a> (slice : &'a StdBox<[ElementRef]>) -> (StdBox<[&'a Element]>) {
 	return vec_map! (slice.iter (), value, value.as_ref ()) .into_boxed_slice ();
 }
@@ -382,7 +382,7 @@ pub fn boxed_slice_to_ref <'a, Element : 'a, ElementRef : StdAsRef<Element> + 'a
 
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn libc_getrusage_for_thread () -> (libc::rusage) {
 	unsafe {
 		let mut resources = mem::zeroed ();
@@ -395,7 +395,7 @@ pub fn libc_getrusage_for_thread () -> (libc::rusage) {
 }
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn libc_kill (process : libc::pid_t, signal : libc::c_int) -> (Outcome<()>) {
 	unsafe {
 		if libc::kill (process, signal) == 0 {

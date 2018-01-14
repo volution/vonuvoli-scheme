@@ -16,7 +16,7 @@ fn main () -> () {
 }
 
 
-#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn main_0 () -> (Outcome<()>) {
 	
 	let arguments = env::args () .collect::<StdVec<_>> ();
