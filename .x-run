@@ -243,12 +243,47 @@ sed -r -e 's#@\{TEST\}#'"${_test}"'#g' <<'EOS'
 :: execute / test / scheme / tests / @{TEST} / release :: x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__@{TEST}' --exact "${@}"
 :: execute / test / scheme / benchmarks / @{TEST} / debug :: x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --no-default-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__@{TEST}' --exact "${@}"
 :: execute / test / scheme / benchmarks / @{TEST} / release :: x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__@{TEST}' --exact "${@}"
-:: execute / tester / @{TEST} / debug :: x-run ':: compile / bin / tester / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/@{TEST}.sst' "${@}"
-:: execute / tester / @{TEST} / release :: x-run ':: compile / bin / tester / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-tester './tests/scheme/@{TEST}.sst' "${@}"
-:: execute / bencher / @{TEST} / debug :: x-run ':: compile / bin / bencher / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-bencher './tests/scheme/@{TEST}.sst' "${@}"
-:: execute / bencher / @{TEST} / release :: x-run ':: compile / bin / bencher / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher './tests/scheme/@{TEST}.sst' "${@}"
 EOS
 done
+
+
+find ./tests/scheme -xdev -type f -name '*.sst' -printf '%f\n' \
+| sed -r -e 's/\.sst$//' \
+| sort -u \
+| while read _test ; do
+sed -r -e 's#@\{TEST\}#'"${_test}"'#g' -e 's#\{IDENTIFIER\}'#"${_test//-/_}"'#g' <<'EOS'
+:: execute / bin / tester / @{TEST} / debug :: x-run ':: compile / bin / tester / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/@{TEST}.sst' "${@}"
+:: execute / bin / tester / @{TEST} / release :: x-run ':: compile / bin / tester / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-tester './tests/scheme/@{TEST}.sst' "${@}"
+:: execute / bin / bencher / @{TEST} / debug :: x-run ':: compile / bin / bencher / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-bencher './tests/scheme/@{TEST}.sst' "${@}"
+:: execute / bin / bencher / @{TEST} / release :: x-run ':: compile / bin / bencher / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher './tests/scheme/@{TEST}.sst' "${@}"
+EOS
+done
+
+
+printf -- '%s\n' '<< execute / bin / tester / all / debug'
+printf -- '%s\n' "x-run ':: compile / bin / tester / debug'"
+find ./tests/scheme -xdev -type f -name '*.sst' -printf '%f\n' \
+| sed -r -e 's/\.sst$//' \
+| sort -u \
+| while read _test ; do
+sed -r -e 's#@\{TEST\}#'"${_test}"'#g' -e 's#\{IDENTIFIER\}'#"${_test//-/_}"'#g' <<'EOS'
+taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/@{TEST}.sst' "${@}"
+EOS
+done
+printf -- '%s\n' '!!'
+
+
+printf -- '%s\n' '<< execute / bin / bencher / all / release'
+printf -- '%s\n' "x-run ':: compile / bin / bencher / release'"
+find ./tests/scheme -xdev -type f -name '*.sst' -printf '%f\n' \
+| sed -r -e 's/\.sst$//' \
+| sort -u \
+| while read _test ; do
+sed -r -e 's#@\{TEST\}#'"${_test}"'#g' -e 's#\{IDENTIFIER\}'#"${_test//-/_}"'#g' <<'EOS'
+taskset -c 2 env PATH="${RUST_PATH}" RUST_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__{IDENTIFIER}.out' time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-bencher './tests/scheme/@{TEST}.sst' "${@}"
+EOS
+done
+printf -- '%s\n' '!!'
 
 
 find ./tests/scripts -xdev -type f -name 'benchmark--*.ss' -printf '%f\n' \
@@ -256,10 +291,10 @@ find ./tests/scripts -xdev -type f -name 'benchmark--*.ss' -printf '%f\n' \
 | sort -u \
 | while read _script ; do
 sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
-:: execute / bin / compiler / scheme / @{SCRIPT} / debug :: x-run ':: compile / bin / compiler / debug' ; env time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-compiler './tests/scripts/benchmark--@{SCRIPT}.ss' "${@}" >| './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-compile.out'
-:: execute / bin / compiler / scheme / @{SCRIPT} / release :: x-run ':: compile / bin / compiler / release' ; env time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-compiler ./tests/scripts/benchmark--@{SCRIPT}.ss' "${@}" >| './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-compile.out'
-:: execute / benchmark / scheme / @{SCRIPT} / debug :: x-run ':: compile / bin / interpreter / debug' ; taskset -c 2 time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-interpreter './tests/scripts/benchmark--@{SCRIPT}.ss' "${@}" >| './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-debug.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-debug.out'
-:: execute / benchmark / scheme / @{SCRIPT} / release :: x-run ':: compile / bin / interpreter / release' ; taskset -c 2 time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-interpreter './tests/scripts/benchmark--@{SCRIPT}.ss' "${@}" >| './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-release.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--scheme-release.out'
+:: execute / bin / compiler / @{SCRIPT} / debug :: x-run ':: compile / bin / compiler / debug' ; env time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-compiler './tests/scripts/benchmark--@{SCRIPT}.ss' "${@}" >| './tests/scripts/_out/benchmark--@{SCRIPT}--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--@{SCRIPT}--vonuvoli-compile.out'
+:: execute / bin / compiler / @{SCRIPT} / release :: x-run ':: compile / bin / compiler / release' ; env time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-compiler ./tests/scripts/benchmark--@{SCRIPT}.ss' "${@}" >| './tests/scripts/_out/benchmark--@{SCRIPT}--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--@{SCRIPT}--vonuvoli-compile.out'
+:: execute / benchmark / vonuvoli / @{SCRIPT} / debug :: x-run ':: compile / bin / interpreter / debug' ; taskset -c 2 time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-interpreter './tests/scripts/benchmark--@{SCRIPT}.ss' "${@}" >| './tests/scripts/_out/benchmark--@{SCRIPT}--vonuvoli-debug.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--vonuvoli-debug.out'
+:: execute / benchmark / vonuvoli / @{SCRIPT} / release :: x-run ':: compile / bin / interpreter / release' ; taskset -c 2 time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-interpreter './tests/scripts/benchmark--@{SCRIPT}.ss' "${@}" >| './tests/scripts/_out/benchmark--@{SCRIPT}--vonuvoli-release.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--vonuvoli-release.out'
 :: execute / benchmark / chibi / @{SCRIPT} :: taskset -c 2 time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- chibi-scheme -m scheme.base -m scheme.time -- './tests/scripts/benchmark--@{SCRIPT}.ss' "${@}" >| './tests/scripts/_out/benchmark--@{SCRIPT}--chibi.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--chibi.out'
 :: execute / benchmark / gauche / @{SCRIPT} :: taskset -c 2 time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- gosh -b -r 7 "${@}" < './tests/scripts/benchmark--@{SCRIPT}.ss' >| './tests/scripts/_out/benchmark--@{SCRIPT}--gauche.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--gauche.out'
 EOS
@@ -283,10 +318,8 @@ find ./tests/scripts -xdev -type f \( -name 'benchmark--*.ss' -o -name 'benchmar
 sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
 << execute / benchmark / compare / @{SCRIPT}
 	printf -- '\n--------------------------------------------------------------------------------\n' >&2
-	# printf -- '\n== %s / scheme / debug ==\n' '@{SCRIPT}' >&2
-	# x-run ':: execute / benchmark / scheme / @{SCRIPT} / debug'
-	printf -- '\n== %s / scheme / release ==\n' '@{SCRIPT}' >&2
-	x-run ':: execute / benchmark / scheme / @{SCRIPT} / release'
+	printf -- '\n== %s / vonuvoli / release ==\n' '@{SCRIPT}' >&2
+	x-run ':: execute / benchmark / vonuvoli / @{SCRIPT} / release'
 	printf -- '\n== %s / chibi ==\n' '@{SCRIPT}' >&2
 	x-run ':: execute / benchmark / chibi / @{SCRIPT}'
 	printf -- '\n== %s / gauche ==\n' '@{SCRIPT}' >&2
@@ -307,25 +340,34 @@ printf -- '%s\n' "x-run ':: execute / benchmark / compare / ${_script}'"
 done
 printf -- '%s\n' '!!'
 
+printf -- '%s\n' '<< execute / benchmark / vonuvoli / all / release'
+find ./tests/scripts -xdev -type f -name 'benchmark--*.ss' -printf '%f\n' \
+| sed -r -e 's/^benchmark--//' -e 's/\.ss$//' \
+| sort -u \
+| while read _script ; do
+printf -- '%s\n' "x-run ':: execute / benchmark / vonuvoli / ${_script} / release'"
+done
+printf -- '%s\n' '!!'
+
 
 find ./tests/scripts -xdev -type f \( -name 'optimizer--*.ss' -o -name 'benchmark--*.ss' \) -printf '%f\n' \
 | sed -r -e 's/^optimizer--//' -e 's/^benchmark--//' -e 's/\.ss$//' \
 | sort -u \
 | while read _script ; do
 sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
-:: execute / bin / compiler / scheme / @{SCRIPT} / debug :: x-run ':: compile / bin / compiler / debug' ; env time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-compiler './tests/scripts/optimizer--@{SCRIPT}.ss' "${@}" >| './tests/scripts/_out/optimizer--@{SCRIPT}--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--@{SCRIPT}--scheme-compile.out'
-:: execute / bin / compiler / scheme / @{SCRIPT} / release :: x-run ':: compile / bin / compiler / release' ; env time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-compiler './tests/scripts/optimizer--@{SCRIPT}.ss' "${@}" >| './tests/scripts/_out/optimizer--@{SCRIPT}--scheme-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--@{SCRIPT}--scheme-compile.out'
+:: execute / bin / compiler / @{SCRIPT} / debug :: x-run ':: compile / bin / compiler / debug' ; env time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-compiler './tests/scripts/optimizer--@{SCRIPT}.ss' "${@}" >| './tests/scripts/_out/optimizer--@{SCRIPT}--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--@{SCRIPT}--vonuvoli-compile.out'
+:: execute / bin / compiler / @{SCRIPT} / release :: x-run ':: compile / bin / compiler / release' ; env time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-compiler './tests/scripts/optimizer--@{SCRIPT}.ss' "${@}" >| './tests/scripts/_out/optimizer--@{SCRIPT}--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--@{SCRIPT}--vonuvoli-compile.out'
 EOS
 done
 
-printf -- '%s\n' '<< execute / bin / compiler / scheme / all / debug'
-printf -- '%s\n' "x-run ':: compile / bin / compiler / release'"
+printf -- '%s\n' '<< execute / bin / compiler / all / debug'
+printf -- '%s\n' "x-run ':: compile / bin / compiler / debug'"
 find ./tests/scripts -xdev -type f \( -name 'optimizer--*.ss' -o -name 'benchmark--*.ss' \) -printf '%f\n' \
 | sed -r -e 's/\.ss$//' \
 | sort -u \
 | while read _script ; do
 sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
-./target/debug/vonuvoli-scheme-compiler './tests/scripts/@{SCRIPT}.ss' "${@}" >| './tests/scripts/_out/@{SCRIPT}--scheme-compile.out'
+./target/debug/vonuvoli-scheme-compiler './tests/scripts/@{SCRIPT}.ss' "${@}" >| './tests/scripts/_out/@{SCRIPT}--vonuvoli-compile.out'
 EOS
 done
 printf -- '%s\n' '!!'
