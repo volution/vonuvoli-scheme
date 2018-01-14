@@ -341,18 +341,21 @@ impl Compiler {
 		let clauses = if tokens_count == 3 {
 			let (guard, if_true, if_false) = try! (vec_explode_3 (statements));
 			vec! [
-					ExpressionConditionalIfClause::GuardAndOutput (
+					ExpressionConditionalIfClause::GuardAndExpression (
 							ExpressionConditionalIfGuard::Expression (guard, false),
+							ExpressionConditionalGuardUsage::Ignore,
 							if_true),
-					ExpressionConditionalIfClause::GuardAndOutput (
+					ExpressionConditionalIfClause::GuardAndExpression (
 							ExpressionConditionalIfGuard::True,
+							ExpressionConditionalGuardUsage::Ignore,
 							if_false),
 				]
 		} else if tokens_count == 2 {
 			let (guard, if_true) = try! (vec_explode_2 (statements));
 			vec! [
-					ExpressionConditionalIfClause::GuardAndOutput (
+					ExpressionConditionalIfClause::GuardAndExpression (
 							ExpressionConditionalIfGuard::Expression (guard, false),
+							ExpressionConditionalGuardUsage::Ignore,
 							if_true),
 				]
 		} else {
@@ -390,8 +393,9 @@ impl Compiler {
 		};
 		
 		let clauses = vec! [
-				ExpressionConditionalIfClause::GuardAndOutput (
+				ExpressionConditionalIfClause::GuardAndExpression (
 						ExpressionConditionalIfGuard::Expression (guard, negated),
+						ExpressionConditionalGuardUsage::Ignore,
 						statements),
 			];
 		
@@ -427,16 +431,19 @@ impl Compiler {
 				(compilation, guard)
 			};
 			
-			if (statements.len () >= 1) && (statements[0].is_class (ValueClass::Symbol) && StdExpectAsRef0::<Symbol>::expect_as_ref_0 (&statements[0]) .string_eq ("=>")) {
+			let (compilation_1, guard_usage) = if (statements.len () >= 1) && (statements[0].is_class (ValueClass::Symbol) && StdExpectAsRef0::<Symbol>::expect_as_ref_0 (&statements[0]) .string_eq ("=>")) {
 				fail_unimplemented! (0xfa332991); // deferred
-			}
+			} else {
+				(compilation_1, ExpressionConditionalGuardUsage::Ignore)
+			};
+			
 			let (compilation_1, statements) = try! (self.compile_0_vec (compilation_1, statements));
 			
 			let clause = if !statements.is_empty () {
 				let statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, statements.into_boxed_slice ());
-				ExpressionConditionalIfClause::GuardAndOutput (guard, statements)
+				ExpressionConditionalIfClause::GuardAndExpression (guard, guard_usage, statements)
 			} else {
-				ExpressionConditionalIfClause::GuardOnly (guard)
+				ExpressionConditionalIfClause::GuardOnly (guard, ExpressionConditionalGuardUsage::Return)
 			};
 			
 			clauses.push (clause);
@@ -481,16 +488,19 @@ impl Compiler {
 				ExpressionConditionalMatchGuard::True
 			};
 			
-			if (statements.len () >= 1) && (statements[0].is_class (ValueClass::Symbol) && StdExpectAsRef0::<Symbol>::expect_as_ref_0 (&statements[0]) .string_eq ("=>")) {
+			let (compilation_1, guard_usage) = if (statements.len () >= 1) && (statements[0].is_class (ValueClass::Symbol) && StdExpectAsRef0::<Symbol>::expect_as_ref_0 (&statements[0]) .string_eq ("=>")) {
 				fail_unimplemented! (0xef5d468c); // deferred
-			}
-			let (compilation_1, statements) = try! (self.compile_0_vec (compilation, statements));
+			} else {
+				(compilation, ExpressionConditionalGuardUsage::Ignore)
+			};
+			
+			let (compilation_1, statements) = try! (self.compile_0_vec (compilation_1, statements));
 			
 			let clause = if !statements.is_empty () {
 				let statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, statements.into_boxed_slice ());
-				ExpressionConditionalMatchClause::GuardAndOutput (guard, statements)
+				ExpressionConditionalMatchClause::GuardAndExpression (guard, guard_usage, statements)
 			} else {
-				ExpressionConditionalMatchClause::GuardOnly (guard)
+				ExpressionConditionalMatchClause::GuardOnly (guard, ExpressionConditionalGuardUsage::Return)
 			};
 			
 			clauses.push (clause);
@@ -574,12 +584,13 @@ impl Compiler {
 		let break_guard = ExpressionConditionalIfGuard::Expression (break_guard, false);
 		
 		let (compilation, break_clause) = if break_statements.is_empty () {
-			let clause = ExpressionConditionalIfClause::GuardOnly (break_guard);
+			let clause = ExpressionConditionalIfClause::GuardOnly (break_guard, ExpressionConditionalGuardUsage::Return);
 			(compilation, clause)
 		} else {
+			// FIXME:  Add support for `(guard => expression)` just like for `cond`!
 			let (compilation, break_statements) = try! (self.compile_0_vec (compilation, break_statements));
 			let break_statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, break_statements.into_boxed_slice ());
-			let clause = ExpressionConditionalIfClause::GuardAndOutput (break_guard, break_statements);
+			let clause = ExpressionConditionalIfClause::GuardAndExpression (break_guard, ExpressionConditionalGuardUsage::Ignore, break_statements);
 			(compilation, clause)
 		};
 		

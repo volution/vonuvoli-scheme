@@ -32,6 +32,38 @@ pub mod exports {
 
 
 
+pub enum Alternative2 <T1, T2> {
+	Variant1 (T1),
+	Variant2 (T2),
+}
+
+
+impl <T1, T2> Alternative2<T1, T2> {
+	
+	#[ inline (always) ] // OK
+	pub fn is_variant_1 (&self) -> (bool) {
+		match *self {
+			Alternative2::Variant1 (_) =>
+				true,
+			_ =>
+				false,
+		}
+	}
+	
+	#[ inline (always) ] // OK
+	pub fn is_variant_2 (&self) -> (bool) {
+		match *self {
+			Alternative2::Variant2 (_) =>
+				true,
+			_ =>
+				false,
+		}
+	}
+}
+
+
+
+
 pub trait StdInto0 <T> : Sized {
 	fn into_0 (self) -> (T);
 }

@@ -24,6 +24,7 @@ pub mod exports {
 	pub use super::ExpressionConditionalMatchClauses;
 	pub use super::ExpressionConditionalMatchClause;
 	pub use super::ExpressionConditionalMatchGuard;
+	pub use super::ExpressionConditionalGuardUsage;
 	
 	pub use super::ExpressionForContexts;
 	pub use super::ExpressionForProcedureGenericCall;
@@ -75,8 +76,8 @@ pub enum ExpressionConditionalIfClauses {
 #[ derive (Debug, Hash) ]
 pub enum ExpressionConditionalIfClause {
 	Void,
-	GuardOnly ( ExpressionConditionalIfGuard ),
-	GuardAndOutput ( ExpressionConditionalIfGuard, Expression ),
+	GuardOnly ( ExpressionConditionalIfGuard, ExpressionConditionalGuardUsage ),
+	GuardAndExpression ( ExpressionConditionalIfGuard, ExpressionConditionalGuardUsage, Expression ),
 }
 
 #[ derive (Debug, Hash) ]
@@ -99,8 +100,8 @@ pub enum ExpressionConditionalMatchClauses {
 #[ derive (Debug, Hash) ]
 pub enum ExpressionConditionalMatchClause {
 	Void,
-	GuardOnly ( ExpressionConditionalMatchGuard ),
-	GuardAndOutput ( ExpressionConditionalMatchGuard, Expression ),
+	GuardOnly ( ExpressionConditionalMatchGuard, ExpressionConditionalGuardUsage ),
+	GuardAndExpression ( ExpressionConditionalMatchGuard, ExpressionConditionalGuardUsage, Expression ),
 }
 
 #[ derive (Debug, Hash) ]
@@ -109,6 +110,19 @@ pub enum ExpressionConditionalMatchGuard {
 	False,
 	Value ( Value, bool ),
 	Values ( StdBox<[Value]>, bool ),
+}
+
+
+
+
+#[ derive (Debug, Hash) ]
+pub enum ExpressionConditionalGuardUsage {
+	Ignore,
+	Return,
+	BindingInitialize ( Binding ),
+	BindingSet ( Binding ),
+	RegisterInitialize ( usize ),
+	RegisterSet ( usize ),
 }
 
 

@@ -376,14 +376,18 @@ impl Evaluator {
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn evaluate_conditional_if (&self, evaluation : &mut EvaluatorContext, clauses : &ExpressionConditionalIfClauses) -> (Outcome<Value>) {
 		if let Some (output) = try! (self.evaluate_conditional_if_clauses (evaluation, clauses)) {
-			succeed! (output);
+			if let Some (output) = output {
+				succeed! (output);
+			} else {
+				succeed! (VOID.into ());
+			}
 		} else {
 			succeed! (VOID.into ());
 		}
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	fn evaluate_conditional_if_clauses (&self, evaluation : &mut EvaluatorContext, clauses : &ExpressionConditionalIfClauses) -> (Outcome<Option<Value>>) {
+	fn evaluate_conditional_if_clauses (&self, evaluation : &mut EvaluatorContext, clauses : &ExpressionConditionalIfClauses) -> (Outcome<Option<Option<Value>>>) {
 		match *clauses {
 			ExpressionConditionalIfClauses::Void =>
 				succeed! (None),
@@ -402,16 +406,16 @@ impl Evaluator {
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	fn evaluate_conditional_if_clause (&self, evaluation : &mut EvaluatorContext, clause : &ExpressionConditionalIfClause) -> (Outcome<Option<Value>>) {
+	fn evaluate_conditional_if_clause (&self, evaluation : &mut EvaluatorContext, clause : &ExpressionConditionalIfClause) -> (Outcome<Option<Option<Value>>>) {
 		match *clause {
 			ExpressionConditionalIfClause::Void =>
 				succeed! (None),
-			ExpressionConditionalIfClause::GuardOnly (ref guard) =>
-				return self.evaluate_conditional_if_guard (evaluation, guard),
-			ExpressionConditionalIfClause::GuardAndOutput (ref guard, ref output) =>
-				if try! (self.evaluate_conditional_if_guard (evaluation, guard)) .is_some () {
+			ExpressionConditionalIfClause::GuardOnly (ref guard, ref guard_usage) =>
+				return self.evaluate_conditional_if_guard (evaluation, guard, guard_usage),
+			ExpressionConditionalIfClause::GuardAndExpression (ref guard, ref guard_usage, ref output) =>
+				if try! (self.evaluate_conditional_if_guard (evaluation, guard, guard_usage)) .is_some () {
 					let output = try! (self.evaluate (evaluation, output));
-					succeed! (Some (output));
+					succeed! (Some (Some (output)));
 				} else {
 					succeed! (None);
 				},
@@ -419,10 +423,10 @@ impl Evaluator {
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	fn evaluate_conditional_if_guard (&self, evaluation : &mut EvaluatorContext, guard : &ExpressionConditionalIfGuard) -> (Outcome<Option<Value>>) {
+	fn evaluate_conditional_if_guard (&self, evaluation : &mut EvaluatorContext, guard : &ExpressionConditionalIfGuard, guard_usage : &ExpressionConditionalGuardUsage) -> (Outcome<Option<Option<Value>>>) {
 		match *guard {
 			ExpressionConditionalIfGuard::True =>
-				succeed! (Some (TRUE.into ())),
+				succeed! (Some (try! (self.evaluate_conditional_guard_usage (evaluation, TRUE.into (), guard_usage)))),
 			ExpressionConditionalIfGuard::False =>
 				succeed! (None),
 			ExpressionConditionalIfGuard::Expression (ref expression, negated) => {
@@ -433,7 +437,7 @@ impl Evaluator {
 					(is_false (&output), TRUE.into ())
 				};
 				if matched {
-					succeed! (Some (output));
+					succeed! (Some (try! (self.evaluate_conditional_guard_usage (evaluation, output, guard_usage))));
 				} else {
 					succeed! (None);
 				}
@@ -447,84 +451,79 @@ impl Evaluator {
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
 	fn evaluate_conditional_match (&self, evaluation : &mut EvaluatorContext, actual : &Expression, clauses : &ExpressionConditionalMatchClauses) -> (Outcome<Value>) {
 		if let Some (output) = try! (self.evaluate_conditional_match_clauses (evaluation, actual, clauses)) {
-			succeed! (output);
+			if let Some (output) = output {
+				succeed! (output);
+			} else {
+				succeed! (VOID.into ());
+			}
 		} else {
 			succeed! (VOID.into ());
 		}
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	fn evaluate_conditional_match_clauses (&self, evaluation : &mut EvaluatorContext, actual : &Expression, clauses : &ExpressionConditionalMatchClauses) -> (Outcome<Option<Value>>) {
-		let (actual, matched, output) = match *clauses {
+	fn evaluate_conditional_match_clauses (&self, evaluation : &mut EvaluatorContext, actual : &Expression, clauses : &ExpressionConditionalMatchClauses) -> (Outcome<Option<Option<Value>>>) {
+		match *clauses {
 			ExpressionConditionalMatchClauses::Void =>
 				succeed! (None),
 			ExpressionConditionalMatchClauses::Single (ref clause) => {
 				let actual = try! (self.evaluate (evaluation, actual));
-				let (matched, output) = try! (self.evaluate_conditional_match_clause (evaluation, &actual, clause));
-				(actual, matched, output)
+				match try! (self.evaluate_conditional_match_clause (evaluation, actual, clause)) {
+					Alternative2::Variant1 (output) =>
+						succeed! (Some (output)),
+					Alternative2::Variant2 (_) =>
+						succeed! (None),
+				}
 			},
 			ExpressionConditionalMatchClauses::Multiple (ref clauses) => {
-				let actual = try! (self.evaluate (evaluation, actual));
-				let mut matched = false;
-				let mut output = None;
+				let mut actual = try! (self.evaluate (evaluation, actual));
 				for clause in clauses.iter () {
-					let (matched_1, output_1) = try! (self.evaluate_conditional_match_clause (evaluation, &actual, clause));
-					matched = matched_1;
-					output = output_1;
-					if matched {
-						break;
+					match try! (self.evaluate_conditional_match_clause (evaluation, actual, clause)) {
+						Alternative2::Variant1 (output) =>
+							succeed! (Some (output)),
+						Alternative2::Variant2 (actual_1) =>
+							actual = actual_1,
 					}
 				}
-				(actual, matched, output)
+				succeed! (None);
 			},
-		};
-		if matched {
-			if let Some (output) = output {
-				succeed! (Some (output));
-			} else {
-				succeed! (Some (actual));
-			}
-		} else {
-			succeed! (None);
 		}
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	fn evaluate_conditional_match_clause (&self, evaluation : &mut EvaluatorContext, actual : &Value, clause : &ExpressionConditionalMatchClause) -> (Outcome<(bool, Option<Value>)>) {
+	fn evaluate_conditional_match_clause (&self, evaluation : &mut EvaluatorContext, actual : Value, clause : &ExpressionConditionalMatchClause) -> (Outcome<Alternative2<Option<Value>, Value>>) {
 		match *clause {
 			ExpressionConditionalMatchClause::Void =>
-				succeed! ((false, None)),
-			ExpressionConditionalMatchClause::GuardOnly (ref guard) =>
-				if try! (self.evaluate_conditional_match_guard (evaluation, actual, guard)) {
-					succeed! ((true, None));
-				} else {
-					succeed! ((false, None));
-				},
-			ExpressionConditionalMatchClause::GuardAndOutput (ref guard, ref output) =>
-				if try! (self.evaluate_conditional_match_guard (evaluation, actual, guard)) {
-					let output = try! (self.evaluate (evaluation, output));
-					succeed! ((true, Some (output)));
-				} else {
-					succeed! ((false, None));
+				succeed! (Alternative2::Variant2 (actual)),
+			ExpressionConditionalMatchClause::GuardOnly (ref guard, ref guard_usage) =>
+				return self.evaluate_conditional_match_guard (evaluation, actual, guard, guard_usage),
+			ExpressionConditionalMatchClause::GuardAndExpression (ref guard, ref guard_usage, ref output) =>
+				match try! (self.evaluate_conditional_match_guard (evaluation, actual, guard, guard_usage)) {
+					Alternative2::Variant1 (_) => {
+						let output = try! (self.evaluate (evaluation, output));
+						succeed! (Alternative2::Variant1 (Some (output)));
+					},
+					outcome @ Alternative2::Variant2 (_) =>
+						succeed! (outcome),
 				},
 		}
 	}
 	
 	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-	fn evaluate_conditional_match_guard (&self, _evaluation : &mut EvaluatorContext, actual : &Value, guard : &ExpressionConditionalMatchGuard) -> (Outcome<bool>) {
+	fn evaluate_conditional_match_guard (&self, evaluation : &mut EvaluatorContext, actual : Value, guard : &ExpressionConditionalMatchGuard, guard_usage : &ExpressionConditionalGuardUsage) -> (Outcome<Alternative2<Option<Value>, Value>>) {
 		let (matched, negated) = match *guard {
 			ExpressionConditionalMatchGuard::True =>
-				succeed! (true),
+				(true, false),
 			ExpressionConditionalMatchGuard::False =>
-				succeed! (false),
+				succeed! (Alternative2::Variant2 (actual)),
 			ExpressionConditionalMatchGuard::Value (ref expected, negated) => {
-				let matched = try! (equivalent_by_value_strict_2 (actual, expected));
+				let matched = try! (equivalent_by_value_strict_2 (&actual, expected));
 				(matched, negated)
 			},
 			ExpressionConditionalMatchGuard::Values (ref expected, negated) => {
 				let mut matched = false;
 				for expected in expected.iter () {
-					matched = try! (equivalent_by_value_strict_2 (actual, expected));
+					matched = try! (equivalent_by_value_strict_2 (&actual, expected));
 					if matched {
 						break;
 					}
@@ -532,7 +531,40 @@ impl Evaluator {
 				(matched, negated)
 			},
 		};
-		succeed! (matched ^ negated);
+		if matched ^ negated {
+			succeed! (Alternative2::Variant1 (try! (self.evaluate_conditional_guard_usage (evaluation, actual, guard_usage))));
+		} else {
+			succeed! (Alternative2::Variant2 (actual));
+		}
+	}
+	
+	
+	
+	
+	#[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
+	fn evaluate_conditional_guard_usage (&self, evaluation : &mut EvaluatorContext, value : Value, usage : &ExpressionConditionalGuardUsage) -> (Outcome<Option<Value>>) {
+		match *usage {
+			ExpressionConditionalGuardUsage::Ignore =>
+				succeed! (None),
+			ExpressionConditionalGuardUsage::Return =>
+				succeed! (Some (value)),
+			ExpressionConditionalGuardUsage::BindingInitialize (ref binding) => {
+				try! (binding.initialize (value));
+				succeed! (None);
+			},
+			ExpressionConditionalGuardUsage::BindingSet (ref binding) => {
+				try! (binding.set (value));
+				succeed! (None);
+			},
+			ExpressionConditionalGuardUsage::RegisterInitialize (index) => {
+				try! (evaluation.registers.initialize_value (index, value));
+				succeed! (None);
+			},
+			ExpressionConditionalGuardUsage::RegisterSet (index) => {
+				try! (evaluation.registers.update_value (index, value));
+				succeed! (None);
+			},
+		}
 	}
 	
 	
@@ -548,7 +580,11 @@ impl Evaluator {
 		loop {
 			
 			if let Some (output) = try! (self.evaluate_conditional_if_clauses (evaluation, clauses)) {
-				succeed! (output);
+				if let Some (output) = output {
+					succeed! (output);
+				} else {
+					succeed! (VOID.into ());
+				}
 			}
 			
 			if let Some (body) = body {

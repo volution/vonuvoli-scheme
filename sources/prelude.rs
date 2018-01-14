@@ -40,6 +40,8 @@ pub use std::vec::Vec as StdVec;
 
 
 
+pub use super::runtime::Alternative2;
+
 pub use super::runtime::StdInto0;
 pub use super::runtime::StdTryInto0;
 pub use super::runtime::StdExpectInto0;
