@@ -152,14 +152,29 @@ pub fn execute_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, tran
 
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-pub fn parse_and_benchmark_tests (identifier : &str, source : &str, context : Option<Context>, bencher : &mut test::Bencher, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
+pub fn parse_and_benchmark_tests (identifier : &str, source : &str, context : Option<Context>, bencher : Option<&mut test::Bencher>, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
 	let tests = try! (parse_and_compile_tests (identifier, source, context, transcript, verbosity));
 	return benchmark_tests (identifier, &tests, bencher, transcript, verbosity);
 }
 
 
 #[ inline (never) ]
-pub fn benchmark_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, bencher : &mut test::Bencher, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
+pub fn benchmark_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, bencher : Option<&mut test::Bencher>, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
+	
+	let (bencher, mut bencher_backend) = if let Some (bencher) = bencher {
+		(Some (bencher), None)
+	} else {
+		let bencher = unsafe { mem::zeroed::<test::Bencher> () };
+		(None, Some (bencher))
+	};
+	let bencher = match (bencher, &mut bencher_backend) {
+		(_, &mut Some (ref mut bencher)) =>
+			bencher,
+		(Some (bencher), _) =>
+			bencher,
+		_ =>
+			fail_panic! (0x5e76028c),
+	};
 	
 	try_or_fail! (write! (transcript, "## benchmarking `{}`...\n", identifier), 0x0930df0d);
 	
@@ -681,7 +696,7 @@ pub fn execute_tests_main (identifier : &str, source : &str, context : Option<Co
 
 
 #[ cfg_attr ( feature = "scheme_inline_always", inline ) ]
-pub fn benchmark_tests_main (identifier : &str, source : &str, context : Option<Context>, bencher : &mut test::Bencher, transcript : Option<&mut io::Write>, output : Option<&mut io::Write>, verbosity : Option<TestVerbosity>) -> (Outcome<()>) {
+pub fn benchmark_tests_main (identifier : &str, source : &str, context : Option<Context>, bencher : Option<&mut test::Bencher>, transcript : Option<&mut io::Write>, output : Option<&mut io::Write>, verbosity : Option<TestVerbosity>) -> (Outcome<()>) {
 	
 	let mut stdout = io::stdout ();
 	let transcript = if let Some (transcript) = transcript { transcript } else { &mut stdout };

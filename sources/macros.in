@@ -910,7 +910,7 @@ macro_rules! def_scheme_benchmarks_block {
 		use $crate::exports::*;
 		let identifier = stringify! ($identifier);
 		let source = $source;
-		let outcome = benchmark_tests_main (identifier, source, None, $bencher, None, None, None);
+		let outcome = benchmark_tests_main (identifier, source, None, Some ($bencher), None, None, None);
 		outcome.expect ("65639c2b");
 	});
 }
