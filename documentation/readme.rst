@@ -202,12 +202,19 @@ Documentation
 -------------------------------
 
 Unfortunately currently there is no documentation about the interpreter invocation.
+Basically the interpreter takes a proper Scheme source file and executes it.
 
 However at the moment it doesn't support any flags, therefore its invocation is quite simple:
 
   ::
 
     vonuvoli-scheme-interpreter /.../script.ss
+
+For example, executing all benchmark scripts:
+
+  ::
+
+    find ./tests/scripts -type f -name '*.ss' -exec ./target/debug/vonuvoli-scheme-interpreter '{}' \;
 
 
 
@@ -216,12 +223,43 @@ However at the moment it doesn't support any flags, therefore its invocation is 
 ----------------------------
 
 Like with the interpreter, currently there is no documentation about the compiler invocation.
+Basically the compiler takes a proper Scheme source file then compiles it and dumps the resulting ``Expression``.
 
 However, just like with the interpreter, the invocation is quite simple:
 
   ::
 
     vonuvoli-scheme-compiler /.../script.ss
+
+For example, compiling all benchmark scripts:
+
+  ::
+
+    find ./tests/scripts -type f -name '*.ss' -exec ./target/debug/vonuvoli-scheme-compiler '{}' \;
+
+
+
+
+``vonuvoli`` Scheme tester and bencher
+--------------------------------------
+
+Like with the interpreter, currently there is no documentation about the compiler invocation.
+Basically the tester and bencher take a proper Scheme test file and executes it.
+(A "test" Scheme file is a simple syntax extension over "plain" Scheme: ``statement => expected-output``.)
+
+However, just like with the interpreter, the invocation is quite simple:
+
+  ::
+
+    vonuvoli-scheme-tester /.../script.sst
+    vonuvoli-scheme-bencher /.../script.sst
+
+For example, testing all test-cases:
+
+  ::
+
+    find ./tests/scheme -type f -name '*.sst' -exec ./target/debug/vonuvoli-scheme-tester '{}' \;
+    find ./tests/scheme -type f -name '*.sst' -exec ./target/debug/vonuvoli-scheme-bencher '{}' \;
 
 
 
@@ -423,6 +461,7 @@ The following binaries are optional to see how Scheme scripts are translated int
 
   cp ./target/release/vonuvoli-scheme-compiler /.../vonuvoli-scheme-compiler
   cp ./target/release/vonuvoli-scheme-tester /.../vonuvoli-scheme-tester
+  cp ./target/release/vonuvoli-scheme-bencher /.../vonuvoli-scheme-bencher
 
 
 
