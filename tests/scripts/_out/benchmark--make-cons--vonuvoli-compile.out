@@ -8562,12 +8562,12 @@ Contexts(
                 )
             ),
             Single(
-                GuardAndOutput(
+                GuardAndExpression(
                     Expression(
                         ProcedurePrimitiveCall(
                             ProcedurePrimitiveCall1(
-                                Arithmetic(
-                                    IsZero
+                                Type(
+                                    IsNumberZero
                                 ),
                                 Contexts(
                                     RegisterGet1(
@@ -8578,6 +8578,7 @@ Contexts(
                         ),
                         false
                     ),
+                    Ignore,
                     Sequence(
                         ReturnLast,
                         [
@@ -8587,44 +8588,51 @@ Contexts(
                                         RsDisplay
                                     ),
                                     ProcedurePrimitiveCall(
-                                        ProcedurePrimitiveCall2(
+                                        ProcedurePrimitiveCall1(
                                             Arithmetic(
-                                                Division
+                                                Round
                                             ),
                                             ProcedurePrimitiveCall(
                                                 ProcedurePrimitiveCall2(
                                                     Arithmetic(
-                                                        Multiplication
+                                                        Division
                                                     ),
                                                     ProcedurePrimitiveCall(
                                                         ProcedurePrimitiveCall2(
                                                             Arithmetic(
-                                                                Subtraction
+                                                                Multiplication
                                                             ),
                                                             ProcedurePrimitiveCall(
-                                                                ProcedurePrimitiveCall0(
-                                                                    Runtime(
-                                                                        JiffiesTimestamp
+                                                                ProcedurePrimitiveCall2(
+                                                                    Arithmetic(
+                                                                        Subtraction
+                                                                    ),
+                                                                    ProcedurePrimitiveCall(
+                                                                        ProcedurePrimitiveCall0(
+                                                                            Runtime(
+                                                                                JiffiesTimestamp
+                                                                            )
+                                                                        )
+                                                                    ),
+                                                                    Contexts(
+                                                                        RegisterGet1(
+                                                                            0
+                                                                        )
                                                                     )
                                                                 )
                                                             ),
-                                                            Contexts(
-                                                                RegisterGet1(
-                                                                    0
+                                                            Value(
+                                                                NumberInteger(
+                                                                    1000
                                                                 )
                                                             )
                                                         )
                                                     ),
                                                     Value(
                                                         NumberInteger(
-                                                            1000
+                                                            1000000000
                                                         )
                                                     )
-                                                )
-                                            ),
-                                            Value(
-                                                NumberInteger(
-                                                    1000000000
                                                 )
                                             )
                                         )
