@@ -24,6 +24,7 @@ pub mod exports {
 	pub use super::{libc_getrusage_for_thread};
 	pub use super::{libc_kill};
 	
+	pub use super::super::runtime_configurations::exports::*;
 	pub use super::super::runtime_iterators::exports::*;
 	pub use super::super::runtime_unicode::exports::*;
 	

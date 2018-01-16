@@ -84,6 +84,7 @@ pub mod primitives_syntaxes;
 pub mod primitives_types;
 pub mod processes;
 pub mod runtime;
+pub mod runtime_configurations;
 pub mod runtime_iterators;
 pub mod runtime_unicode;
 pub mod tests;

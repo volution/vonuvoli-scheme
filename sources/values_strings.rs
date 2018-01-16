@@ -368,7 +368,7 @@ pub fn string_mutable_new (string : StdString) -> (StringMutable) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_new (string : StdString) -> (Value) {
-	if true {
+	if STRING_NEW_IMMUTABLE {
 		string_immutable_new (string) .into ()
 	} else {
 		string_mutable_new (string) .into ()
@@ -390,7 +390,7 @@ pub fn string_mutable_clone_str (string : &str) -> (StringMutable) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_clone_str (string : &str) -> (Value) {
-	if true {
+	if STRING_NEW_IMMUTABLE {
 		string_immutable_clone_str (string) .into ()
 	} else {
 		string_mutable_clone_str (string) .into ()
@@ -412,7 +412,7 @@ pub fn string_mutable_clone_characters (characters : &[char]) -> (StringMutable)
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_clone_characters (characters : &[char]) -> (Value) {
-	if true {
+	if STRING_NEW_IMMUTABLE {
 		string_immutable_clone_characters (characters) .into ()
 	} else {
 		string_mutable_clone_characters (characters) .into ()

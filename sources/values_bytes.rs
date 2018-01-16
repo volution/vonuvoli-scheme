@@ -348,7 +348,7 @@ pub fn bytes_mutable_new (bytes : StdVec<u8>) -> (BytesMutable) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_new (bytes : StdVec<u8>) -> (Value) {
-	if true {
+	if BYTES_NEW_IMMUTABLE {
 		bytes_immutable_new (bytes) .into ()
 	} else {
 		bytes_mutable_new (bytes) .into ()
@@ -370,7 +370,7 @@ pub fn bytes_mutable_clone_slice (bytes : &[u8]) -> (BytesMutable) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_clone_slice (bytes : &[u8]) -> (Value) {
-	if true {
+	if BYTES_NEW_IMMUTABLE {
 		bytes_immutable_clone_slice (bytes) .into ()
 	} else {
 		bytes_mutable_clone_slice (bytes) .into ()
@@ -392,7 +392,7 @@ pub fn bytes_mutable_clone_str (string : &str) -> (BytesMutable) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_clone_str (string : &str) -> (Value) {
-	if true {
+	if BYTES_NEW_IMMUTABLE {
 		bytes_immutable_clone_str (string) .into ()
 	} else {
 		bytes_mutable_clone_str (string) .into ()
@@ -414,7 +414,7 @@ pub fn bytes_mutable_clone_characters (characters : &[char]) -> (BytesMutable) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_clone_characters (characters : &[char]) -> (Value) {
-	if true {
+	if BYTES_NEW_IMMUTABLE {
 		bytes_immutable_clone_characters (characters) .into ()
 	} else {
 		bytes_mutable_clone_characters (characters) .into ()

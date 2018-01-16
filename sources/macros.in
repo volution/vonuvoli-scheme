@@ -10,10 +10,10 @@ macro_rules! succeeded {
 #[ macro_export ]
 macro_rules! failed_or_panic {
 	( $code : expr, $outcome : expr ) => (
-		if true {
-			$outcome
-		} else {
+		if $crate::runtime::exports::PANIC_ON_FAILED {
 			panic! ("{:08x}", $code as u32);
+		} else {
+			$outcome
 		}
 	);
 }

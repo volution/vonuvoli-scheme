@@ -347,7 +347,7 @@ pub fn array_mutable_new (values : StdVec<Value>) -> (ArrayMutable) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_new (values : StdVec<Value>) -> (Value) {
-	if true {
+	if ARRAY_NEW_IMMUTABLE {
 		array_immutable_new (values) .into ()
 	} else {
 		array_mutable_new (values) .into ()
@@ -369,7 +369,7 @@ pub fn array_mutable_clone_slice (values : &[Value]) -> (ArrayMutable) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_clone_slice (values : &[Value]) -> (Value) {
-	if true {
+	if ARRAY_NEW_IMMUTABLE {
 		array_immutable_clone_slice (values) .into ()
 	} else {
 		array_mutable_clone_slice (values) .into ()
@@ -391,7 +391,7 @@ pub fn array_mutable_clone_slice_ref (values : &[&Value]) -> (ArrayMutable) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_clone_slice_ref (values : &[&Value]) -> (Value) {
-	if true {
+	if ARRAY_NEW_IMMUTABLE {
 		array_immutable_clone_slice_ref (values) .into ()
 	} else {
 		array_mutable_clone_slice_ref (values) .into ()
