@@ -566,8 +566,24 @@ impl Compiler {
 		let mut updaters = StdVec::with_capacity (definitions.len ());
 		for definition in definitions.into_iter () {
 			let definition = try! (vec_list_clone (&definition));
-			let (identifier, initializer, updater) = try! (vec_explode_3 (definition));
+			let (identifier, initializer, updater) = match definition.len () {
+				2 => {
+					let (identifier, initializer) = try! (vec_explode_2 (definition));
+					(identifier, initializer, None)
+				},
+				3 => {
+					let (identifier, initializer, updater) = try! (vec_explode_3 (definition));
+					(identifier, initializer, Some (updater))
+				},
+				_ =>
+					fail! (0x0735df7b),
+			};
 			let identifier = try_into_symbol! (identifier);
+			let updater = if let Some (updater) = updater {
+				updater
+			} else {
+				identifier.clone () .into ()
+			};
 			identifiers.push (identifier);
 			initializers.push (initializer);
 			updaters.push (updater);
