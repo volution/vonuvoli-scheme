@@ -124,3 +124,15 @@
 (~locals (define (f a b . r) r) (f 0 1)) => '()
 (~locals (define (f a b . r) r) (f 0 1 2)) => '(2)
 
+
+
+
+(procedure? (let f () f)) => #t
+
+(let f () 0) => 0
+(let f ((a 0)) a) => 0
+(let f ((a 10)) (if (zero? a) a (f (- a 1)))) => 0
+
+(let ((a 10)) (let f ((a a)) (if (zero? a) a (f (- a 1))))) => 0
+
+
