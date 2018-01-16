@@ -2252,21 +2252,22 @@
 
 << execute / watch
 		test "${#}" -ge 1
-		_timestamp_previous="$( find ./sources/ ./tests/ -printf '%T+\n' | LC_ALL=C sort | tail -n 1 )"
-		if ! "${@}" 2>&1 < /dev/null | tee -a /dev/stderr >| "./target/x-run--watch--${$}.txt" ; then
-			less -- "./target/x-run--watch--${$}.txt"
-		else
-			rm -- "./target/x-run--watch--${$}.txt"
-		fi
-		printf '\n[--]\n' >&2
-		while sleep 0.5s ; do
-			_timestamp_current="$( find ./sources/ ./tests/ -printf '%T+\n' | LC_ALL=C sort | tail -n 1 )"
-			if test "${_timestamp_previous}" != "${_timestamp_current}" ; then
-				break
+		while true ; do
+			_timestamp_previous="$( find ./sources/ ./tests/ -printf '%T+\n' | LC_ALL=C sort | tail -n 1 )"
+			if ! "${@}" 2>&1 < /dev/null | tee -a /dev/stderr >| "./target/x-run--watch--${$}.txt" ; then
+				less -- "./target/x-run--watch--${$}.txt"
+			else
+				rm -- "./target/x-run--watch--${$}.txt"
 			fi
+			printf '\n[--]\n' >&2
+			while sleep 0.5s ; do
+				_timestamp_current="$( find ./sources/ ./tests/ -printf '%T+\n' | LC_ALL=C sort | tail -n 1 )"
+				if test "${_timestamp_previous}" != "${_timestamp_current}" ; then
+					break
+				fi
+			done
+			printf '\n[--]\n\n' >&2
 		done
-		printf '\n[--]\n\n' >&2
-		exec -- x-run ':: execute / watch' "${@}"
 !!
 
 << files / edit / bin_bencher.rs
