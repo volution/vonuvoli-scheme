@@ -202,9 +202,15 @@ impl Compiler {
 	
 	
 	fn compile_procedure_call (&self, compilation : CompilerContext, procedure : Value, arguments : Value) -> (Outcome<(CompilerContext, Expression)>) {
+		let arguments = try! (vec_list_clone (&arguments));
+		return self.compile_procedure_call_0 (compilation, procedure, arguments);
+	}
+	
+	
+	fn compile_procedure_call_0 (&self, compilation : CompilerContext, procedure : Value, arguments : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		let (compilation, procedure) = try! (self.compile_0 (compilation, procedure));
-		let (compilation, arguments) = try! (self.compile_0_vec (compilation, try! (vec_list_clone (&arguments))));
+		let (compilation, arguments) = try! (self.compile_0_vec (compilation, arguments));
 		
 		let expression = ExpressionForProcedureGenericCall::ProcedureCall (procedure.into (), arguments.into_boxed_slice ()) .into ();
 		
@@ -645,6 +651,10 @@ impl Compiler {
 		match definitions.class () {
 			ValueClass::Null =>
 				return self.compile_syntax_locals (compilation, statements),
+			ValueClass::Symbol => {
+				let (definitions_1, statements) = try! (vec_explode_1n (statements));
+				return self.compile_syntax_lambda_let (compilation, definitions.expect_into_0 (), definitions_1, statements);
+			},
 			ValueClass::Pair =>
 				(),
 			_ =>
@@ -1144,6 +1154,43 @@ impl Compiler {
 		};
 		
 		return self.compile_syntax_lambda_0 (compilation, identifier, arguments_positional, argument_rest, statements);
+	}
+	
+	
+	fn compile_syntax_lambda_let (&self, compilation : CompilerContext, identifier : Symbol, definitions : Value, statements : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+		
+		let definitions = try! (vec_list_clone (&definitions));
+		
+		let mut compilation = try! (compilation.fork_locals (true));
+		
+		let mut argument_identifiers = StdVec::with_capacity (definitions.len ());
+		let mut argument_initializers = StdVec::with_capacity (definitions.len ());
+		for definition in definitions.into_iter () {
+			let definition = try! (vec_list_clone (&definition));
+			if definition.len () != 2 {
+				fail! (0x4ad3c4b8);
+			}
+			let (identifier, initializer) = try! (vec_explode_2 (definition));
+			let identifier = try_into_symbol! (identifier);
+			let (compilation_1, initializer) = try! (self.compile_0 (compilation, initializer));
+			argument_identifiers.push (identifier);
+			argument_initializers.push (initializer);
+			compilation = compilation_1;
+		}
+		
+		let lambda_binding = try! (compilation.define (identifier.clone ()));
+		let (compilation, lambda_value) = try! (self.compile_syntax_lambda_0 (compilation, Some (identifier.clone ()), argument_identifiers, None, statements));
+		let (compilation, lambda_reference) = try! (self.compile_symbol (compilation, identifier.clone ()));
+		
+		let lambda_initializer = try! (self.compile_syntax_binding_set_1 (lambda_binding, lambda_value, true));
+		let lambda_call = ExpressionForProcedureGenericCall::ProcedureCall (lambda_reference.into (), argument_initializers.into_boxed_slice ()) .into ();
+		let statements = vec! [ lambda_initializer, lambda_call ];
+		
+		let (compilation, registers) = try! (compilation.unfork_locals ());
+		let statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, statements.into_boxed_slice ());
+		let expression = ExpressionForContexts::RegisterClosure (statements.into (), registers.into_boxed_slice ()) .into ();
+		
+		succeed! ((compilation, expression));
 	}
 	
 	
