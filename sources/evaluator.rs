@@ -75,8 +75,38 @@ impl Evaluator {
 	
 	
 	#[ inline (never) ]
-	fn evaluate (&self, evaluation : &mut EvaluatorContext, input : &Expression) -> (Outcome<Value>) {
+	fn evaluate (&self, evaluation : &mut EvaluatorContext, expression : &Expression) -> (Outcome<Value>) {
 		
+		if EVALUATOR_TRACE_INPUT || EVALUATOR_TRACE_OUTPUT || EVALUATOR_TRACE_ERROR {
+			
+			if EVALUATOR_TRACE_INPUT {
+				eprint! ("[dd]  evaluating: {:?}\n", expression);
+			}
+			
+			let outcome = self.evaluate_00 (evaluation, expression);
+			
+			match outcome {
+				Ok (ref output) if EVALUATOR_TRACE_OUTPUT =>
+					eprint! ("[dd]  evaluating succeeded:\n[  ]      {:?}\n[  ]      {:?}\n", expression, output),
+				Ok (_) =>
+					(),
+				Err (ref error) if EVALUATOR_TRACE_OUTPUT || EVALUATOR_TRACE_ERROR =>
+					eprint! ("[dd]  evaluating failed:\n[  ]      {:?}\n[  ]      {:?}\n", expression, error),
+				Err (_) =>
+					(),
+			}
+			
+			return outcome;
+			
+		} else {
+			
+			return self.evaluate_00 (evaluation, expression);
+		}
+	}
+	
+	
+	#[ inline (always) ] // OK
+	fn evaluate_00 (&self, evaluation : &mut EvaluatorContext, input : &Expression) -> (Outcome<Value>) {
 		match *input {
 			
 			Expression::Void =>
@@ -111,7 +141,6 @@ impl Evaluator {
 				self.evaluate_lambda_create (evaluation, lambda, expression, registers_closure, registers_local),
 			
 		}
-		
 	}
 	
 	

@@ -69,6 +69,38 @@ impl Optimizer {
 	
 	
 	fn optimize_0 (&self, optimization : OptimizerContext, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
+		
+		if OPTIMIZER_TRACE_INPUT || OPTIMIZER_TRACE_OUTPUT || OPTIMIZER_TRACE_ERROR {
+			
+			let expression_input = expression.clone ();
+			
+			if OPTIMIZER_TRACE_INPUT {
+				eprint! ("[dd]  optimizing: {:?}\n", &expression_input);
+			}
+			
+			let outcome = self.optimize_00 (optimization, expression);
+			
+			match outcome {
+				Ok (ref expression_optimized) if OPTIMIZER_TRACE_OUTPUT =>
+					eprint! ("[dd]  optimizing succeeded:\n[  ]      {:?}\n[  ]      {:?}\n", &expression_input, expression_optimized),
+				Ok (_) =>
+					(),
+				Err (ref error) if OPTIMIZER_TRACE_OUTPUT || OPTIMIZER_TRACE_ERROR =>
+					eprint! ("[dd]  optimizing failed:\n[  ]      {:?}\n[  ]      {:?}\n", &expression_input, error),
+				Err (_) =>
+					(),
+			}
+			
+			return outcome;
+			
+		} else {
+			
+			return self.optimize_00 (optimization, expression);
+		}
+	}
+	
+	
+	fn optimize_00 (&self, optimization : OptimizerContext, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		match expression {
 			
 			Expression::Void =>
@@ -102,7 +134,7 @@ impl Optimizer {
 			Expression::Lambda (lambda, expression, registers_closure, registers_local) =>
 				return self.optimize_lambda_create (optimization, lambda, expression, registers_closure, registers_local),
 			
-		};
+		}
 	}
 	
 	
@@ -826,7 +858,13 @@ impl Optimizer {
 	
 	
 	fn optimize_lambda_create (&self, optimization : OptimizerContext, template : StdRc<LambdaTemplate>, expression : StdRc<Expression>, registers_closure : StdBox<[RegisterTemplate]>, registers_local : StdRc<[RegisterTemplate]>) -> (Outcome<(OptimizerContext, Expression)>) {
-		let expression = try_or_fail! (StdRc::try_unwrap (expression), 0xbf91e753);
+		let expression = match StdRc::try_unwrap (expression) {
+			Ok (expression) =>
+				expression,
+			Err (expression) =>
+				// FIXME:  This happens only when the expression was cloned...
+				StdRc::as_ref (&expression) .clone (),
+		};
 		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
 		let expression = StdRc::new (expression);
 		let expression = Expression::Lambda (template, expression, registers_closure, registers_local);

@@ -74,6 +74,38 @@ impl Compiler {
 	
 	fn compile_0 (&self, compilation : CompilerContext, token : Value) -> (Outcome<(CompilerContext, Expression)>) {
 		
+		if COMPILER_TRACE_INPUT || COMPILER_TRACE_OUTPUT || COMPILER_TRACE_ERROR {
+			
+			let token_input = token.clone ();
+			
+			if COMPILER_TRACE_INPUT {
+				eprint! ("[dd]  compiling: {}\n", &token_input);
+			}
+			
+			let outcome = self.compile_00 (compilation, token);
+			
+			match outcome {
+				Ok (ref expression) if COMPILER_TRACE_OUTPUT =>
+					eprint! ("[dd]  compiling succeeded:\n[  ]      {}\n[  ]      {:?}\n", &token_input, expression),
+				Ok (_) =>
+					(),
+				Err (ref error) if COMPILER_TRACE_OUTPUT || COMPILER_TRACE_ERROR =>
+					eprint! ("[dd]  compiling failed:\n[  ]      {}\n[  ]      {:?}\n", &token_input, error),
+				Err (_) =>
+					(),
+			}
+			
+			return outcome;
+			
+		} else {
+			
+			return self.compile_00 (compilation, token);
+		}
+	}
+	
+	
+	fn compile_00 (&self, compilation : CompilerContext, token : Value) -> (Outcome<(CompilerContext, Expression)>) {
+		
 		match token.class () {
 			
 			ValueClass::Null |
