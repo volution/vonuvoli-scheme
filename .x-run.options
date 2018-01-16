@@ -142,11 +142,11 @@
 !!
 
 << compile / test / all / debug
-	x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --no-default-features --no-run
+	x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --no-default-features --no-run "${@}"
 !!
 
 << compile / test / all / release
-	x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --release --all-features --no-run
+	x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --release --all-features --no-run "${@}"
 !!
 
 << execute / test / all / debug
@@ -163,6 +163,37 @@
 
 << execute / test / all / coverage / kcov
 	x-run ':: compile / test / all / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo kcov --no-clean-rebuild --no-default-features --jobs 1 --output ./target/kcov -- "${@}"
+!!
+
+<< execute / bin / interpreter / debug / x-selection / primary
+	x-run ':: compile / bin / interpreter / debug' ; exec -- ./target/debug/vonuvoli-scheme-interpreter <( exec -- x-selection primary output )
+!!
+
+<< execute / bin / compiler / debug / x-selection / primary
+	x-run ':: compile / bin / compiler / debug' ; exec -- ./target/debug/vonuvoli-scheme-compiler <( exec -- x-selection primary output )
+!!
+
+<< execute / test / all / debug / loop
+	exec -- x-run ':: execute / loop' x-run ':: execute / test / all / debug'
+!!
+
+<< execute / loop
+		test "${#}" -ge 1
+		_timestamp_previous="$( find ./sources/ ./tests/ -printf '%T+\n' | LC_ALL=C sort | tail -n 1 )"
+		if ! "${@}" 2>&1 < /dev/null | tee -a /dev/stderr >| "./target/x-run--loop--${$}.txt" ; then
+			less -- "./target/x-run--loop--${$}.txt"
+		else
+			rm -- "./target/x-run--loop--${$}.txt"
+		fi
+		printf '\n[--]\n' >&2
+		while sleep 0.5s ; do
+			_timestamp_current="$( find ./sources/ ./tests/ -printf '%T+\n' | LC_ALL=C sort | tail -n 1 )"
+			if test "${_timestamp_previous}" != "${_timestamp_current}" ; then
+				break
+			fi
+		done
+		printf '\n[--]\n\n' >&2
+		exec -- x-run ':: execute / loop' "${@}"
 !!
 
 << browse / doc
@@ -280,7 +311,7 @@
 		nice -n 19 -- time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./.rust/cargo/bin/rustup install nightly
 !!
 
-<< workbench / rust-up / update
+<< workbench / rust-up / upgrade
 		test "${#}" -eq 0
 		test -e ./.rust
 		export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
@@ -288,13 +319,13 @@
 		nice -n 19 -- time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./.rust/cargo/bin/rustup update
 !!
 
-<< workbench / cargo / install
+<< workbench / cargo / install or upgrade
 		test "${#}" -eq 0
 		test -e ./.rust
 		export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
 		export -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"
 		export -- PATH="${RUST_PATH}"
-		nice -n 19 -- time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo install cargo-kcov
+		nice -n 19 -- time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo install --force cargo-kcov
 !!
 
 << workbench / cargo / update
@@ -312,11 +343,11 @@
 		nice -n 19 -- time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- virtualenv --python python2.7 -- ./.python
 !!
 
-<< workbench / python / install
+<< workbench / python / install or upgrade
 		test "${#}" -eq 0
 		test -e ./.python
-		# nice -n 19 -- time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./.python/bin/pip install docutils
-		nice -n 19 -- time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./.python/bin/pip install restview
+		# nice -n 19 -- time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./.python/bin/pip install --force docutils
+		nice -n 19 -- time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./.python/bin/pip install --force restview
 !!
 
 << environment / rust-up / use / stable
@@ -345,6 +376,14 @@
 
 << environment / tests / debug / disable
 	export -- VONUVOLI_SCHEME_TESTS_DEBUG=false
+!!
+
+<< environment / x-run / trace / enable
+	export -- X_RUN_TRACE=true
+!!
+
+<< environment / x-run / trace / disable
+	export -- X_RUN_TRACE=false
 !!
 
 << environment / taskset / all
@@ -1664,115 +1703,151 @@
 !!
 
 << execute / bin / compiler / controls / debug
-	x-run ':: compile / bin / compiler / debug' ; env time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-compiler './tests/scripts/benchmark--controls.ss' "${@}" >| './tests/scripts/_out/benchmark--controls--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--controls--vonuvoli-compile.out'
+	x-run ':: execute / bin / compiler / debug' './tests/scripts/benchmark--controls.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--controls--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--controls--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / controls / release
-	x-run ':: compile / bin / compiler / release' ; env time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-compiler ./tests/scripts/benchmark--controls.ss' "${@}" >| './tests/scripts/_out/benchmark--controls--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--controls--vonuvoli-compile.out'
+	x-run ':: execute / bin / compiler / release' ./tests/scripts/benchmark--controls.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--controls--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--controls--vonuvoli-compile.out'
 !!
 
 << execute / benchmark / vonuvoli / controls / debug
-	x-run ':: compile / bin / interpreter / debug' ; taskset -c 2 time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-interpreter './tests/scripts/benchmark--controls.ss' "${@}" >| './tests/scripts/_out/benchmark--controls--vonuvoli-debug.out' ; exec -- cat -- './tests/scripts/_out/benchmark--controls--vonuvoli-debug.out'
+	x-run ':: execute / bin / interpreter / debug' './tests/scripts/benchmark--controls.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--controls--vonuvoli-debug.out' ; exec -- cat -- './tests/scripts/_out/benchmark--controls--vonuvoli-debug.out'
 !!
 
 << execute / benchmark / vonuvoli / controls / release
-	x-run ':: compile / bin / interpreter / release' ; taskset -c 2 time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-interpreter './tests/scripts/benchmark--controls.ss' "${@}" >| './tests/scripts/_out/benchmark--controls--vonuvoli-release.out' ; exec -- cat -- './tests/scripts/_out/benchmark--controls--vonuvoli-release.out'
+	x-run ':: execute / bin / interpreter / release' './tests/scripts/benchmark--controls.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--controls--vonuvoli-release.out' ; exec -- cat -- './tests/scripts/_out/benchmark--controls--vonuvoli-release.out'
 !!
 
 << execute / benchmark / chibi / controls
-	taskset -c 2 time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- chibi-scheme -m scheme.base -m scheme.time -- './tests/scripts/benchmark--controls.ss' "${@}" >| './tests/scripts/_out/benchmark--controls--chibi.out' ; exec -- cat -- './tests/scripts/_out/benchmark--controls--chibi.out'
+	x-run ':: execute / chibi' -- './tests/scripts/benchmark--controls.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--controls--chibi.out' ; exec -- cat -- './tests/scripts/_out/benchmark--controls--chibi.out'
 !!
 
 << execute / benchmark / gauche / controls
-	taskset -c 2 time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- gosh -b -r 7 "${@}" < './tests/scripts/benchmark--controls.ss' >| './tests/scripts/_out/benchmark--controls--gauche.out' ; exec -- cat -- './tests/scripts/_out/benchmark--controls--gauche.out'
+	x-run ':: execute / gauche' -- './tests/scripts/benchmark--controls.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--controls--gauche.out' ; exec -- cat -- './tests/scripts/_out/benchmark--controls--gauche.out'
 !!
 
 << execute / bin / compiler / loop / debug
-	x-run ':: compile / bin / compiler / debug' ; env time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-compiler './tests/scripts/benchmark--loop.ss' "${@}" >| './tests/scripts/_out/benchmark--loop--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--loop--vonuvoli-compile.out'
+	x-run ':: execute / bin / compiler / debug' './tests/scripts/benchmark--loop.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--loop--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--loop--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / loop / release
-	x-run ':: compile / bin / compiler / release' ; env time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-compiler ./tests/scripts/benchmark--loop.ss' "${@}" >| './tests/scripts/_out/benchmark--loop--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--loop--vonuvoli-compile.out'
+	x-run ':: execute / bin / compiler / release' ./tests/scripts/benchmark--loop.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--loop--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--loop--vonuvoli-compile.out'
 !!
 
 << execute / benchmark / vonuvoli / loop / debug
-	x-run ':: compile / bin / interpreter / debug' ; taskset -c 2 time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-interpreter './tests/scripts/benchmark--loop.ss' "${@}" >| './tests/scripts/_out/benchmark--loop--vonuvoli-debug.out' ; exec -- cat -- './tests/scripts/_out/benchmark--loop--vonuvoli-debug.out'
+	x-run ':: execute / bin / interpreter / debug' './tests/scripts/benchmark--loop.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--loop--vonuvoli-debug.out' ; exec -- cat -- './tests/scripts/_out/benchmark--loop--vonuvoli-debug.out'
 !!
 
 << execute / benchmark / vonuvoli / loop / release
-	x-run ':: compile / bin / interpreter / release' ; taskset -c 2 time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-interpreter './tests/scripts/benchmark--loop.ss' "${@}" >| './tests/scripts/_out/benchmark--loop--vonuvoli-release.out' ; exec -- cat -- './tests/scripts/_out/benchmark--loop--vonuvoli-release.out'
+	x-run ':: execute / bin / interpreter / release' './tests/scripts/benchmark--loop.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--loop--vonuvoli-release.out' ; exec -- cat -- './tests/scripts/_out/benchmark--loop--vonuvoli-release.out'
 !!
 
 << execute / benchmark / chibi / loop
-	taskset -c 2 time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- chibi-scheme -m scheme.base -m scheme.time -- './tests/scripts/benchmark--loop.ss' "${@}" >| './tests/scripts/_out/benchmark--loop--chibi.out' ; exec -- cat -- './tests/scripts/_out/benchmark--loop--chibi.out'
+	x-run ':: execute / chibi' -- './tests/scripts/benchmark--loop.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--loop--chibi.out' ; exec -- cat -- './tests/scripts/_out/benchmark--loop--chibi.out'
 !!
 
 << execute / benchmark / gauche / loop
-	taskset -c 2 time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- gosh -b -r 7 "${@}" < './tests/scripts/benchmark--loop.ss' >| './tests/scripts/_out/benchmark--loop--gauche.out' ; exec -- cat -- './tests/scripts/_out/benchmark--loop--gauche.out'
+	x-run ':: execute / gauche' -- './tests/scripts/benchmark--loop.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--loop--gauche.out' ; exec -- cat -- './tests/scripts/_out/benchmark--loop--gauche.out'
 !!
 
 << execute / bin / compiler / make-cons / debug
-	x-run ':: compile / bin / compiler / debug' ; env time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-compiler './tests/scripts/benchmark--make-cons.ss' "${@}" >| './tests/scripts/_out/benchmark--make-cons--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--make-cons--vonuvoli-compile.out'
+	x-run ':: execute / bin / compiler / debug' './tests/scripts/benchmark--make-cons.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--make-cons--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--make-cons--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / make-cons / release
-	x-run ':: compile / bin / compiler / release' ; env time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-compiler ./tests/scripts/benchmark--make-cons.ss' "${@}" >| './tests/scripts/_out/benchmark--make-cons--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--make-cons--vonuvoli-compile.out'
+	x-run ':: execute / bin / compiler / release' ./tests/scripts/benchmark--make-cons.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--make-cons--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--make-cons--vonuvoli-compile.out'
 !!
 
 << execute / benchmark / vonuvoli / make-cons / debug
-	x-run ':: compile / bin / interpreter / debug' ; taskset -c 2 time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-interpreter './tests/scripts/benchmark--make-cons.ss' "${@}" >| './tests/scripts/_out/benchmark--make-cons--vonuvoli-debug.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-cons--vonuvoli-debug.out'
+	x-run ':: execute / bin / interpreter / debug' './tests/scripts/benchmark--make-cons.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--make-cons--vonuvoli-debug.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-cons--vonuvoli-debug.out'
 !!
 
 << execute / benchmark / vonuvoli / make-cons / release
-	x-run ':: compile / bin / interpreter / release' ; taskset -c 2 time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-interpreter './tests/scripts/benchmark--make-cons.ss' "${@}" >| './tests/scripts/_out/benchmark--make-cons--vonuvoli-release.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-cons--vonuvoli-release.out'
+	x-run ':: execute / bin / interpreter / release' './tests/scripts/benchmark--make-cons.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--make-cons--vonuvoli-release.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-cons--vonuvoli-release.out'
 !!
 
 << execute / benchmark / chibi / make-cons
-	taskset -c 2 time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- chibi-scheme -m scheme.base -m scheme.time -- './tests/scripts/benchmark--make-cons.ss' "${@}" >| './tests/scripts/_out/benchmark--make-cons--chibi.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-cons--chibi.out'
+	x-run ':: execute / chibi' -- './tests/scripts/benchmark--make-cons.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--make-cons--chibi.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-cons--chibi.out'
 !!
 
 << execute / benchmark / gauche / make-cons
-	taskset -c 2 time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- gosh -b -r 7 "${@}" < './tests/scripts/benchmark--make-cons.ss' >| './tests/scripts/_out/benchmark--make-cons--gauche.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-cons--gauche.out'
+	x-run ':: execute / gauche' -- './tests/scripts/benchmark--make-cons.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--make-cons--gauche.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-cons--gauche.out'
 !!
 
 << execute / bin / compiler / make-vector / debug
-	x-run ':: compile / bin / compiler / debug' ; env time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-compiler './tests/scripts/benchmark--make-vector.ss' "${@}" >| './tests/scripts/_out/benchmark--make-vector--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--make-vector--vonuvoli-compile.out'
+	x-run ':: execute / bin / compiler / debug' './tests/scripts/benchmark--make-vector.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--make-vector--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--make-vector--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / make-vector / release
-	x-run ':: compile / bin / compiler / release' ; env time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-compiler ./tests/scripts/benchmark--make-vector.ss' "${@}" >| './tests/scripts/_out/benchmark--make-vector--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--make-vector--vonuvoli-compile.out'
+	x-run ':: execute / bin / compiler / release' ./tests/scripts/benchmark--make-vector.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--make-vector--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--make-vector--vonuvoli-compile.out'
 !!
 
 << execute / benchmark / vonuvoli / make-vector / debug
-	x-run ':: compile / bin / interpreter / debug' ; taskset -c 2 time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-interpreter './tests/scripts/benchmark--make-vector.ss' "${@}" >| './tests/scripts/_out/benchmark--make-vector--vonuvoli-debug.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-vector--vonuvoli-debug.out'
+	x-run ':: execute / bin / interpreter / debug' './tests/scripts/benchmark--make-vector.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--make-vector--vonuvoli-debug.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-vector--vonuvoli-debug.out'
 !!
 
 << execute / benchmark / vonuvoli / make-vector / release
-	x-run ':: compile / bin / interpreter / release' ; taskset -c 2 time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-interpreter './tests/scripts/benchmark--make-vector.ss' "${@}" >| './tests/scripts/_out/benchmark--make-vector--vonuvoli-release.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-vector--vonuvoli-release.out'
+	x-run ':: execute / bin / interpreter / release' './tests/scripts/benchmark--make-vector.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--make-vector--vonuvoli-release.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-vector--vonuvoli-release.out'
 !!
 
 << execute / benchmark / chibi / make-vector
-	taskset -c 2 time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- chibi-scheme -m scheme.base -m scheme.time -- './tests/scripts/benchmark--make-vector.ss' "${@}" >| './tests/scripts/_out/benchmark--make-vector--chibi.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-vector--chibi.out'
+	x-run ':: execute / chibi' -- './tests/scripts/benchmark--make-vector.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--make-vector--chibi.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-vector--chibi.out'
 !!
 
 << execute / benchmark / gauche / make-vector
-	taskset -c 2 time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- gosh -b -r 7 "${@}" < './tests/scripts/benchmark--make-vector.ss' >| './tests/scripts/_out/benchmark--make-vector--gauche.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-vector--gauche.out'
+	x-run ':: execute / gauche' -- './tests/scripts/benchmark--make-vector.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--make-vector--gauche.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-vector--gauche.out'
+!!
+
+<< execute / bin / compiler / r7rs-array1 / debug
+	x-run ':: execute / bin / compiler / debug' './tests/scripts/benchmark--r7rs-array1.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--r7rs-array1--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--r7rs-array1--vonuvoli-compile.out'
+!!
+
+<< execute / bin / compiler / r7rs-array1 / release
+	x-run ':: execute / bin / compiler / release' ./tests/scripts/benchmark--r7rs-array1.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--r7rs-array1--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--r7rs-array1--vonuvoli-compile.out'
+!!
+
+<< execute / benchmark / vonuvoli / r7rs-array1 / debug
+	x-run ':: execute / bin / interpreter / debug' './tests/scripts/benchmark--r7rs-array1.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--r7rs-array1--vonuvoli-debug.out' ; exec -- cat -- './tests/scripts/_out/benchmark--r7rs-array1--vonuvoli-debug.out'
+!!
+
+<< execute / benchmark / vonuvoli / r7rs-array1 / release
+	x-run ':: execute / bin / interpreter / release' './tests/scripts/benchmark--r7rs-array1.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--r7rs-array1--vonuvoli-release.out' ; exec -- cat -- './tests/scripts/_out/benchmark--r7rs-array1--vonuvoli-release.out'
+!!
+
+<< execute / benchmark / chibi / r7rs-array1
+	x-run ':: execute / chibi' -- './tests/scripts/benchmark--r7rs-array1.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--r7rs-array1--chibi.out' ; exec -- cat -- './tests/scripts/_out/benchmark--r7rs-array1--chibi.out'
+!!
+
+<< execute / benchmark / gauche / r7rs-array1
+	x-run ':: execute / gauche' -- './tests/scripts/benchmark--r7rs-array1.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--r7rs-array1--gauche.out' ; exec -- cat -- './tests/scripts/_out/benchmark--r7rs-array1--gauche.out'
 !!
 
 << execute / benchmark / python / controls
-	taskset -c 2 time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- python2 -E -O -O -B -u -- './tests/scripts/benchmark--controls.py' "${@}" >| './tests/scripts/_out/benchmark--controls--python.out' ; exec -- cat -- './tests/scripts/_out/benchmark--controls--python.out'
+	x-run ':: execute / python' -- './tests/scripts/benchmark--controls.py' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--controls--python.out' ; exec -- cat -- './tests/scripts/_out/benchmark--controls--python.out'
 !!
 
 << execute / benchmark / python / loop
-	taskset -c 2 time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- python2 -E -O -O -B -u -- './tests/scripts/benchmark--loop.py' "${@}" >| './tests/scripts/_out/benchmark--loop--python.out' ; exec -- cat -- './tests/scripts/_out/benchmark--loop--python.out'
+	x-run ':: execute / python' -- './tests/scripts/benchmark--loop.py' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--loop--python.out' ; exec -- cat -- './tests/scripts/_out/benchmark--loop--python.out'
 !!
 
 << execute / benchmark / python / make-cons
-	taskset -c 2 time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- python2 -E -O -O -B -u -- './tests/scripts/benchmark--make-cons.py' "${@}" >| './tests/scripts/_out/benchmark--make-cons--python.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-cons--python.out'
+	x-run ':: execute / python' -- './tests/scripts/benchmark--make-cons.py' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--make-cons--python.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-cons--python.out'
 !!
 
 << execute / benchmark / python / make-vector
-	taskset -c 2 time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- python2 -E -O -O -B -u -- './tests/scripts/benchmark--make-vector.py' "${@}" >| './tests/scripts/_out/benchmark--make-vector--python.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-vector--python.out'
+	x-run ':: execute / python' -- './tests/scripts/benchmark--make-vector.py' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--make-vector--python.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-vector--python.out'
+!!
+
+<< execute / chibi
+	taskset -c 2 time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- chibi-scheme -m scheme.base -m scheme.case-lambda -m scheme.char -m scheme.complex -m scheme.cxr -m scheme.eval -m scheme.file -m scheme.inexact -m scheme.lazy -m scheme.load -m scheme.process-context -m scheme.r5rs -m scheme.read -m scheme.repl -m scheme.time -m scheme.write "${@}"
+!!
+
+<< execute / gauche
+	taskset -c 2 time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- gosh -b -q -u scheme.base -u scheme.case-lambda -u scheme.char -u scheme.complex -u scheme.cxr -u scheme.eval -u scheme.file -u scheme.inexact -u scheme.lazy -u scheme.load -u scheme.process-context -u scheme.r5rs -u scheme.read -u scheme.repl -u scheme.time -u scheme.write "${@}"
+!!
+
+<< execute / python
+	taskset -c 2 time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- python2 -E -O -O -B -u "${@}"
 !!
 
 << execute / benchmark / compare / controls
@@ -1783,8 +1858,10 @@
 		x-run ':: execute / benchmark / chibi / controls'
 		printf -- '\n== %s / gauche ==\n' 'controls' >&2
 		x-run ':: execute / benchmark / gauche / controls'
-		printf -- '\n== %s / python ==\n' 'controls' >&2
-		x-run ':: execute / benchmark / python / controls'
+		if test -e './tests/scripts/benchmark--controls.py' ; then
+			printf -- '\n== %s / python ==\n' 'controls' >&2
+			x-run ':: execute / benchmark / python / controls'
+		fi
 		printf -- '\n--------------------------------------------------------------------------------\n' >&2
 !!
 
@@ -1796,8 +1873,10 @@
 		x-run ':: execute / benchmark / chibi / loop'
 		printf -- '\n== %s / gauche ==\n' 'loop' >&2
 		x-run ':: execute / benchmark / gauche / loop'
-		printf -- '\n== %s / python ==\n' 'loop' >&2
-		x-run ':: execute / benchmark / python / loop'
+		if test -e './tests/scripts/benchmark--loop.py' ; then
+			printf -- '\n== %s / python ==\n' 'loop' >&2
+			x-run ':: execute / benchmark / python / loop'
+		fi
 		printf -- '\n--------------------------------------------------------------------------------\n' >&2
 !!
 
@@ -1809,8 +1888,10 @@
 		x-run ':: execute / benchmark / chibi / make-cons'
 		printf -- '\n== %s / gauche ==\n' 'make-cons' >&2
 		x-run ':: execute / benchmark / gauche / make-cons'
-		printf -- '\n== %s / python ==\n' 'make-cons' >&2
-		x-run ':: execute / benchmark / python / make-cons'
+		if test -e './tests/scripts/benchmark--make-cons.py' ; then
+			printf -- '\n== %s / python ==\n' 'make-cons' >&2
+			x-run ':: execute / benchmark / python / make-cons'
+		fi
 		printf -- '\n--------------------------------------------------------------------------------\n' >&2
 !!
 
@@ -1822,8 +1903,25 @@
 		x-run ':: execute / benchmark / chibi / make-vector'
 		printf -- '\n== %s / gauche ==\n' 'make-vector' >&2
 		x-run ':: execute / benchmark / gauche / make-vector'
-		printf -- '\n== %s / python ==\n' 'make-vector' >&2
-		x-run ':: execute / benchmark / python / make-vector'
+		if test -e './tests/scripts/benchmark--make-vector.py' ; then
+			printf -- '\n== %s / python ==\n' 'make-vector' >&2
+			x-run ':: execute / benchmark / python / make-vector'
+		fi
+		printf -- '\n--------------------------------------------------------------------------------\n' >&2
+!!
+
+<< execute / benchmark / compare / r7rs-array1
+		printf -- '\n--------------------------------------------------------------------------------\n' >&2
+		printf -- '\n== %s / vonuvoli / release ==\n' 'r7rs-array1' >&2
+		x-run ':: execute / benchmark / vonuvoli / r7rs-array1 / release'
+		printf -- '\n== %s / chibi ==\n' 'r7rs-array1' >&2
+		x-run ':: execute / benchmark / chibi / r7rs-array1'
+		printf -- '\n== %s / gauche ==\n' 'r7rs-array1' >&2
+		x-run ':: execute / benchmark / gauche / r7rs-array1'
+		if test -e './tests/scripts/benchmark--r7rs-array1.py' ; then
+			printf -- '\n== %s / python ==\n' 'r7rs-array1' >&2
+			x-run ':: execute / benchmark / python / r7rs-array1'
+		fi
 		printf -- '\n--------------------------------------------------------------------------------\n' >&2
 !!
 
@@ -1832,6 +1930,7 @@
 	x-run ':: execute / benchmark / compare / loop'
 	x-run ':: execute / benchmark / compare / make-cons'
 	x-run ':: execute / benchmark / compare / make-vector'
+	x-run ':: execute / benchmark / compare / r7rs-array1'
 !!
 
 << execute / benchmark / vonuvoli / all / release
@@ -1839,6 +1938,7 @@
 	x-run ':: execute / benchmark / vonuvoli / loop / release'
 	x-run ':: execute / benchmark / vonuvoli / make-cons / release'
 	x-run ':: execute / benchmark / vonuvoli / make-vector / release'
+	x-run ':: execute / benchmark / vonuvoli / r7rs-array1 / release'
 !!
 
 << execute / bin / compiler / controls / debug
@@ -1873,12 +1973,21 @@
 	x-run ':: compile / bin / compiler / release' ; env time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-compiler './tests/scripts/optimizer--make-vector.ss' "${@}" >| './tests/scripts/_out/optimizer--make-vector--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--make-vector--vonuvoli-compile.out'
 !!
 
+<< execute / bin / compiler / r7rs-array1 / debug
+	x-run ':: compile / bin / compiler / debug' ; env time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-compiler './tests/scripts/optimizer--r7rs-array1.ss' "${@}" >| './tests/scripts/_out/optimizer--r7rs-array1--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--r7rs-array1--vonuvoli-compile.out'
+!!
+
+<< execute / bin / compiler / r7rs-array1 / release
+	x-run ':: compile / bin / compiler / release' ; env time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-compiler './tests/scripts/optimizer--r7rs-array1.ss' "${@}" >| './tests/scripts/_out/optimizer--r7rs-array1--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--r7rs-array1--vonuvoli-compile.out'
+!!
+
 << execute / bin / compiler / all / debug
 	x-run ':: compile / bin / compiler / debug'
 	./target/debug/vonuvoli-scheme-compiler './tests/scripts/benchmark--controls.ss' "${@}" >| './tests/scripts/_out/benchmark--controls--vonuvoli-compile.out'
 	./target/debug/vonuvoli-scheme-compiler './tests/scripts/benchmark--loop.ss' "${@}" >| './tests/scripts/_out/benchmark--loop--vonuvoli-compile.out'
 	./target/debug/vonuvoli-scheme-compiler './tests/scripts/benchmark--make-cons.ss' "${@}" >| './tests/scripts/_out/benchmark--make-cons--vonuvoli-compile.out'
 	./target/debug/vonuvoli-scheme-compiler './tests/scripts/benchmark--make-vector.ss' "${@}" >| './tests/scripts/_out/benchmark--make-vector--vonuvoli-compile.out'
+	./target/debug/vonuvoli-scheme-compiler './tests/scripts/benchmark--r7rs-array1.ss' "${@}" >| './tests/scripts/_out/benchmark--r7rs-array1--vonuvoli-compile.out'
 	./target/debug/vonuvoli-scheme-compiler './tests/scripts/optimizer--controls.ss' "${@}" >| './tests/scripts/_out/optimizer--controls--vonuvoli-compile.out'
 !!
 
@@ -2136,6 +2245,10 @@
 
 << files / edit / runtime.rs
 	exec -- sce ./sources/runtime.rs
+!!
+
+<< files / edit / runtime_configurations.rs
+	exec -- sce ./sources/runtime_configurations.rs
 !!
 
 << files / edit / runtime_iterators.rs
@@ -2452,6 +2565,10 @@
 
 << files / view / runtime.rs
 	exec -- less -- ./sources/runtime.rs
+!!
+
+<< files / view / runtime_configurations.rs
+	exec -- less -- ./sources/runtime_configurations.rs
 !!
 
 << files / view / runtime_iterators.rs

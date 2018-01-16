@@ -106,12 +106,38 @@ cat <<'EOS'
 :: execute / bin / bencher / debug :: x-run ':: compile / bin / bencher / debug' ; exec -- ./target/debug/vonuvoli-scheme-bencher "${@}"
 :: execute / bin / bencher / release :: x-run ':: compile / bin / bencher / release' ; exec -- ./target/release/vonuvoli-scheme-bencher "${@}"
 
-:: compile / test / all / debug :: x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --no-default-features --no-run
-:: compile / test / all / release :: x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --release --all-features --no-run
+:: compile / test / all / debug :: x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --no-default-features --no-run "${@}"
+:: compile / test / all / release :: x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --release --all-features --no-run "${@}"
 :: execute / test / all / debug :: x-run ':: compile / test / all / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --no-default-features --jobs 1 -- --test-threads 1 --test 'test__' "${@}"
 :: execute / test / all / release :: x-run ':: compile / test / all / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --release --all-features --jobs 1 -- --test-threads 1 --test 'test__' "${@}"
 :: execute / test / all / benchmark :: x-run ':: compile / test / all / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo test --quiet --release --all-features --jobs 1 -- --test-threads 1 --bench 'benchmark__' "${@}"
 :: execute / test / all / coverage / kcov :: x-run ':: compile / test / all / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo kcov --no-clean-rebuild --no-default-features --jobs 1 --output ./target/kcov -- "${@}"
+
+
+:: execute / bin / interpreter / debug / x-selection / primary :: x-run ':: compile / bin / interpreter / debug' ; exec -- ./target/debug/vonuvoli-scheme-interpreter <( exec -- x-selection primary output )
+:: execute / bin / compiler / debug / x-selection / primary :: x-run ':: compile / bin / compiler / debug' ; exec -- ./target/debug/vonuvoli-scheme-compiler <( exec -- x-selection primary output )
+
+:: execute / test / all / debug / loop :: exec -- x-run ':: execute / loop' x-run ':: execute / test / all / debug'
+
+<< execute / loop
+	test "${#}" -ge 1
+	_timestamp_previous="$( find ./sources/ ./tests/ -printf '%T+\n' | LC_ALL=C sort | tail -n 1 )"
+	if ! "${@}" 2>&1 < /dev/null | tee -a /dev/stderr >| "./target/x-run--loop--${$}.txt" ; then
+		less -- "./target/x-run--loop--${$}.txt"
+	else
+		rm -- "./target/x-run--loop--${$}.txt"
+	fi
+	printf '\n[--]\n' >&2
+	while sleep 0.5s ; do
+		_timestamp_current="$( find ./sources/ ./tests/ -printf '%T+\n' | LC_ALL=C sort | tail -n 1 )"
+		if test "${_timestamp_previous}" != "${_timestamp_current}" ; then
+			break
+		fi
+	done
+	printf '\n[--]\n\n' >&2
+	exec -- x-run ':: execute / loop' "${@}"
+!!
+
 
 :: browse / doc :: exec -- x-www open file://"$( readlink -e -- ./target/doc/vonuvoli_scheme/index.html )"
 :: browse / coverage / kcov :: exec -- x-www open file://"$( readlink -e -- ./target/kcov/index.html )"
@@ -166,7 +192,7 @@ cat <<'EOS'
 	nice -n 19 -- time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./.rust/cargo/bin/rustup install nightly
 !!
 
-<< workbench / rust-up / update
+<< workbench / rust-up / upgrade
 	test "${#}" -eq 0
 	test -e ./.rust
 	export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
@@ -174,13 +200,13 @@ cat <<'EOS'
 	nice -n 19 -- time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./.rust/cargo/bin/rustup update
 !!
 
-<< workbench / cargo / install
+<< workbench / cargo / install or upgrade
 	test "${#}" -eq 0
 	test -e ./.rust
 	export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
 	export -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"
 	export -- PATH="${RUST_PATH}"
-	nice -n 19 -- time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo install cargo-kcov
+	nice -n 19 -- time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- cargo install --force cargo-kcov
 !!
 
 << workbench / cargo / update
@@ -198,11 +224,11 @@ cat <<'EOS'
 	nice -n 19 -- time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- virtualenv --python python2.7 -- ./.python
 !!
 
-<< workbench / python / install
+<< workbench / python / install or upgrade
 	test "${#}" -eq 0
 	test -e ./.python
-	# nice -n 19 -- time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./.python/bin/pip install docutils
-	nice -n 19 -- time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./.python/bin/pip install restview
+	# nice -n 19 -- time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./.python/bin/pip install --force docutils
+	nice -n 19 -- time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./.python/bin/pip install --force restview
 !!
 
 :: environment / rust-up / use / stable :: export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}"
@@ -214,6 +240,9 @@ cat <<'EOS'
 
 :: environment / tests / debug / enable :: export -- VONUVOLI_SCHEME_TESTS_DEBUG=true
 :: environment / tests / debug / disable :: export -- VONUVOLI_SCHEME_TESTS_DEBUG=false
+
+:: environment / x-run / trace / enable :: export -- X_RUN_TRACE=true
+:: environment / x-run / trace / disable :: export -- X_RUN_TRACE=false
 
 :: environment / taskset / all :: exec -- taskset -a -p -c 0-31 "${$}"
 :: environment / taskset / 0,2 :: exec -- taskset -a -p -c 0,2 "${$}"
@@ -291,12 +320,12 @@ find ./tests/scripts -xdev -type f -name 'benchmark--*.ss' -printf '%f\n' \
 | sort -u \
 | while read _script ; do
 sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
-:: execute / bin / compiler / @{SCRIPT} / debug :: x-run ':: compile / bin / compiler / debug' ; env time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-compiler './tests/scripts/benchmark--@{SCRIPT}.ss' "${@}" >| './tests/scripts/_out/benchmark--@{SCRIPT}--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--@{SCRIPT}--vonuvoli-compile.out'
-:: execute / bin / compiler / @{SCRIPT} / release :: x-run ':: compile / bin / compiler / release' ; env time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-compiler ./tests/scripts/benchmark--@{SCRIPT}.ss' "${@}" >| './tests/scripts/_out/benchmark--@{SCRIPT}--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--@{SCRIPT}--vonuvoli-compile.out'
-:: execute / benchmark / vonuvoli / @{SCRIPT} / debug :: x-run ':: compile / bin / interpreter / debug' ; taskset -c 2 time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-interpreter './tests/scripts/benchmark--@{SCRIPT}.ss' "${@}" >| './tests/scripts/_out/benchmark--@{SCRIPT}--vonuvoli-debug.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--vonuvoli-debug.out'
-:: execute / benchmark / vonuvoli / @{SCRIPT} / release :: x-run ':: compile / bin / interpreter / release' ; taskset -c 2 time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-interpreter './tests/scripts/benchmark--@{SCRIPT}.ss' "${@}" >| './tests/scripts/_out/benchmark--@{SCRIPT}--vonuvoli-release.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--vonuvoli-release.out'
-:: execute / benchmark / chibi / @{SCRIPT} :: taskset -c 2 time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- chibi-scheme -m scheme.base -m scheme.time -- './tests/scripts/benchmark--@{SCRIPT}.ss' "${@}" >| './tests/scripts/_out/benchmark--@{SCRIPT}--chibi.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--chibi.out'
-:: execute / benchmark / gauche / @{SCRIPT} :: taskset -c 2 time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- gosh -b -r 7 "${@}" < './tests/scripts/benchmark--@{SCRIPT}.ss' >| './tests/scripts/_out/benchmark--@{SCRIPT}--gauche.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--gauche.out'
+:: execute / bin / compiler / @{SCRIPT} / debug :: x-run ':: execute / bin / compiler / debug' './tests/scripts/benchmark--@{SCRIPT}.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--@{SCRIPT}--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--@{SCRIPT}--vonuvoli-compile.out'
+:: execute / bin / compiler / @{SCRIPT} / release :: x-run ':: execute / bin / compiler / release' ./tests/scripts/benchmark--@{SCRIPT}.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--@{SCRIPT}--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--@{SCRIPT}--vonuvoli-compile.out'
+:: execute / benchmark / vonuvoli / @{SCRIPT} / debug :: x-run ':: execute / bin / interpreter / debug' './tests/scripts/benchmark--@{SCRIPT}.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--@{SCRIPT}--vonuvoli-debug.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--vonuvoli-debug.out'
+:: execute / benchmark / vonuvoli / @{SCRIPT} / release :: x-run ':: execute / bin / interpreter / release' './tests/scripts/benchmark--@{SCRIPT}.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--@{SCRIPT}--vonuvoli-release.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--vonuvoli-release.out'
+:: execute / benchmark / chibi / @{SCRIPT} :: x-run ':: execute / chibi' -- './tests/scripts/benchmark--@{SCRIPT}.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--@{SCRIPT}--chibi.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--chibi.out'
+:: execute / benchmark / gauche / @{SCRIPT} :: x-run ':: execute / gauche' -- './tests/scripts/benchmark--@{SCRIPT}.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--@{SCRIPT}--gauche.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--gauche.out'
 EOS
 done
 
@@ -306,9 +335,16 @@ find ./tests/scripts -xdev -type f -name 'benchmark--*.py' -printf '%f\n' \
 | sort -u \
 | while read _script ; do
 sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
-:: execute / benchmark / python / @{SCRIPT} :: taskset -c 2 time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- python2 -E -O -O -B -u -- './tests/scripts/benchmark--@{SCRIPT}.py' "${@}" >| './tests/scripts/_out/benchmark--@{SCRIPT}--python.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--python.out'
+:: execute / benchmark / python / @{SCRIPT} :: x-run ':: execute / python' -- './tests/scripts/benchmark--@{SCRIPT}.py' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--@{SCRIPT}--python.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--python.out'
 EOS
 done
+
+
+cat <<'EOS'
+:: execute / chibi :: taskset -c 2 time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- chibi-scheme -m scheme.base -m scheme.case-lambda -m scheme.char -m scheme.complex -m scheme.cxr -m scheme.eval -m scheme.file -m scheme.inexact -m scheme.lazy -m scheme.load -m scheme.process-context -m scheme.r5rs -m scheme.read -m scheme.repl -m scheme.time -m scheme.write "${@}"
+:: execute / gauche :: taskset -c 2 time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- gosh -b -q -u scheme.base -u scheme.case-lambda -u scheme.char -u scheme.complex -u scheme.cxr -u scheme.eval -u scheme.file -u scheme.inexact -u scheme.lazy -u scheme.load -u scheme.process-context -u scheme.r5rs -u scheme.read -u scheme.repl -u scheme.time -u scheme.write "${@}"
+:: execute / python :: taskset -c 2 time -o "${TIME_TTY:-/dev/stderr}" -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- python2 -E -O -O -B -u "${@}"
+EOS
 
 
 find ./tests/scripts -xdev -type f \( -name 'benchmark--*.ss' -o -name 'benchmark--*.py' \) -printf '%f\n' \
@@ -324,8 +360,10 @@ sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
 	x-run ':: execute / benchmark / chibi / @{SCRIPT}'
 	printf -- '\n== %s / gauche ==\n' '@{SCRIPT}' >&2
 	x-run ':: execute / benchmark / gauche / @{SCRIPT}'
-	printf -- '\n== %s / python ==\n' '@{SCRIPT}' >&2
-	x-run ':: execute / benchmark / python / @{SCRIPT}'
+	if test -e './tests/scripts/benchmark--@{SCRIPT}.py' ; then
+		printf -- '\n== %s / python ==\n' '@{SCRIPT}' >&2
+		x-run ':: execute / benchmark / python / @{SCRIPT}'
+	fi
 	printf -- '\n--------------------------------------------------------------------------------\n' >&2
 !!
 EOS
