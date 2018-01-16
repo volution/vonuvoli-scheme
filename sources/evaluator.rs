@@ -892,7 +892,7 @@ impl Evaluator {
 		}
 		if lambda_argument_rest {
 			let inputs = if inputs_offset < inputs_count {
-				list_build_n (&inputs[inputs_offset..])
+				list_build_n (&inputs[inputs_offset..], None)
 			} else {
 				NULL.into ()
 			};

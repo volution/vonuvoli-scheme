@@ -226,7 +226,7 @@ pub fn bytes_primitive_1_evaluate (primitive : BytesPrimitive1, input_1 : &Value
 			return bytes_reverse_range (input_1, None, None) .into_0 (),
 		
 		BytesPrimitive1::BytesToList =>
-			return bytes_range_to_list (input_1, None, None),
+			return bytes_range_to_list (input_1, None, None, None),
 		
 		BytesPrimitive1::ListToBytes =>
 			return list_range_to_bytes (input_1, None, None),
@@ -278,7 +278,7 @@ pub fn bytes_primitive_2_evaluate (primitive : BytesPrimitive2, input_1 : &Value
 			return bytes_reverse_range (input_1, Some (input_2), None) .into_0 (),
 		
 		BytesPrimitive2::BytesRangeToList =>
-			return bytes_range_to_list (input_1, Some (input_2), None),
+			return bytes_range_to_list (input_1, Some (input_2), None, None),
 		
 		BytesPrimitive2::ListRangeToBytes =>
 			return list_range_to_bytes (input_1, Some (input_2), None),
@@ -321,7 +321,7 @@ pub fn bytes_primitive_3_evaluate (primitive : BytesPrimitive3, input_1 : &Value
 			return bytes_reverse_range (input_1, Some (input_2), Some (input_3)) .into_0 (),
 		
 		BytesPrimitive3::BytesRangeToList =>
-			return bytes_range_to_list (input_1, Some (input_2), Some (input_3)),
+			return bytes_range_to_list (input_1, Some (input_2), Some (input_3), None),
 		
 		BytesPrimitive3::ListRangeToBytes =>
 			return list_range_to_bytes (input_1, Some (input_2), Some (input_3)),

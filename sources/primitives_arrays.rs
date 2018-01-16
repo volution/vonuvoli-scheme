@@ -218,7 +218,7 @@ pub fn array_primitive_1_evaluate (primitive : ArrayPrimitive1, input_1 : &Value
 			return array_reverse_range (input_1, None, None) .into_0 (),
 		
 		ArrayPrimitive1::ArrayToList =>
-			return array_range_to_list (input_1, None, None),
+			return array_range_to_list (input_1, None, None, None),
 		
 		ArrayPrimitive1::ListToArray =>
 			return list_range_to_array (input_1, None, None),
@@ -264,7 +264,7 @@ pub fn array_primitive_2_evaluate (primitive : ArrayPrimitive2, input_1 : &Value
 			return array_reverse_range (input_1, Some (input_2), None) .into_0 (),
 		
 		ArrayPrimitive2::ArrayRangeToList =>
-			return array_range_to_list (input_1, Some (input_2), None),
+			return array_range_to_list (input_1, Some (input_2), None, None),
 		
 		ArrayPrimitive2::ListRangeToArray =>
 			return list_range_to_array (input_1, Some (input_2), None),
@@ -301,7 +301,7 @@ pub fn array_primitive_3_evaluate (primitive : ArrayPrimitive3, input_1 : &Value
 			return array_reverse_range (input_1, Some (input_2), Some (input_3)) .into_0 (),
 		
 		ArrayPrimitive3::ArrayRangeToList =>
-			return array_range_to_list (input_1, Some (input_2), Some (input_3)),
+			return array_range_to_list (input_1, Some (input_2), Some (input_3), None),
 		
 		ArrayPrimitive3::ListRangeToArray =>
 			return list_range_to_array (input_1, Some (input_2), Some (input_3)),

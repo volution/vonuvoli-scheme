@@ -262,7 +262,7 @@ pub fn string_primitive_1_evaluate (primitive : StringPrimitive1, input_1 : &Val
 			return string_reverse_range (input_1, None, None) .into_0 (),
 		
 		StringPrimitive1::StringToList =>
-			return string_range_to_list (input_1, None, None),
+			return string_range_to_list (input_1, None, None, None),
 		
 		StringPrimitive1::ListToString =>
 			return list_range_to_string (input_1, None, None),
@@ -368,7 +368,7 @@ pub fn string_primitive_2_evaluate (primitive : StringPrimitive2, input_1 : &Val
 			return string_reverse_range (input_1, Some (input_2), None) .into_0 (),
 		
 		StringPrimitive2::StringRangeToList =>
-			return string_range_to_list (input_1, Some (input_2), None),
+			return string_range_to_list (input_1, Some (input_2), None, None),
 		
 		StringPrimitive2::ListRangeToString =>
 			return list_range_to_string (input_1, Some (input_2), None),
@@ -426,7 +426,7 @@ pub fn string_primitive_3_evaluate (primitive : StringPrimitive3, input_1 : &Val
 			return string_reverse_range (input_1, Some (input_2), Some (input_3)) .into_0 (),
 		
 		StringPrimitive3::StringRangeToList =>
-			return string_range_to_list (input_1, Some (input_2), Some (input_3)),
+			return string_range_to_list (input_1, Some (input_2), Some (input_3), None),
 		
 		StringPrimitive3::ListRangeToString =>
 			return list_range_to_string (input_1, Some (input_2), Some (input_3)),

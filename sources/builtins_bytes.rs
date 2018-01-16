@@ -298,9 +298,9 @@ pub fn bytes_clone_range (bytes : &Value, range_start : Option<&Value>, range_en
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn bytes_range_to_list (bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
+pub fn bytes_range_to_list (bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>, immutable : Option<bool>) -> (Outcome<Value>) {
 	let iterator = try! (bytes_range_iterator (bytes, range_start, range_end));
-	return list_collect_from_generator (iterator);
+	return list_collect_from_generator (iterator, immutable);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

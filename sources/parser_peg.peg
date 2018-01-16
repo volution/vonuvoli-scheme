@@ -24,15 +24,15 @@ pub value -> values::Value = abbreviation / list / array / values / atom
 atom -> values::Value = boolean / number / symbol / character / string / bytes / constant
 
 list -> values::Value = list_empty / list_proper / list_dotted
-list_proper -> values::Value = "(" space? elements : value ** space space? ")" { builtins::list_collect (elements) }
-list_dotted -> values::Value = "(" space? elements : value ++ space space "." space last : value space? ")" { builtins::list_collect_dotted (elements, Some (last)) }
+list_proper -> values::Value = "(" space? elements : value ** space space? ")" { builtins::list_collect (elements, Some (true)) }
+list_dotted -> values::Value = "(" space? elements : value ++ space space "." space last : value space? ")" { builtins::list_collect_dotted (elements, Some (last), Some (true)) }
 list_empty -> values::Value = ( "(" space? ")" / "#null" ) { builtins::list_empty () }
 
 array -> values::Value = ( "#array" / "#" ) "(" space? elements : value ** space space? ")" {  values::array_immutable_new (elements) .into () }
 
 values -> values::Value = ( "#values" / "#" ) "(" space? elements : value ** space space? ")" {  values::values_new_from_vec (elements) .into () }
 
-abbreviation -> values::Value = abbreviation : abbreviation_prefix whitespace? value : value { builtins::list_collect (vec! [abbreviation, value]) }
+abbreviation -> values::Value = abbreviation : abbreviation_prefix whitespace? value : value { builtins::list_collect (vec! [abbreviation, value], Some (true)) }
 abbreviation_prefix -> values::Value = value : $( "'" / "`" / ",@" / "," ) {?
 		match value {
 			"'" => Ok (values::symbol_clone_str ("quote").into ()),

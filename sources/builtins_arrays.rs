@@ -260,9 +260,9 @@ pub fn array_clone_range (array : &Value, range_start : Option<&Value>, range_en
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn array_range_to_list (array : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
+pub fn array_range_to_list (array : &Value, range_start : Option<&Value>, range_end : Option<&Value>, immutable : Option<bool>) -> (Outcome<Value>) {
 	let iterator = try! (array_range_iterator (array, range_start, range_end));
-	return list_collect_from_generator_ref (iterator);
+	return list_collect_from_generator_ref (iterator, immutable);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

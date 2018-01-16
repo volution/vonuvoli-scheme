@@ -132,7 +132,7 @@ pub fn lists_map_1 (evaluator : &mut EvaluatorContext, callable : &Value, list_1
 	}
 	let iterator_1 = try! (ListIterator::new (list_1));
 	let outputs = try! (iterators_map_1 (evaluator, callable, iterator_1));
-	succeed! (list_collect (outputs));
+	succeed! (list_collect (outputs, None));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -154,7 +154,7 @@ pub fn lists_map_2 (evaluator : &mut EvaluatorContext, callable : &Value, list_1
 	let iterator_1 = try! (ListIterator::new (list_1));
 	let iterator_2 = try! (ListIterator::new (list_2));
 	let outputs = try! (iterators_map_2 (evaluator, callable, iterator_1, iterator_2));
-	succeed! (list_collect (outputs));
+	succeed! (list_collect (outputs, None));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -178,7 +178,7 @@ pub fn lists_map_3 (evaluator : &mut EvaluatorContext, callable : &Value, list_1
 	let iterator_2 = try! (ListIterator::new (list_2));
 	let iterator_3 = try! (ListIterator::new (list_3));
 	let outputs = try! (iterators_map_3 (evaluator, callable, iterator_1, iterator_2, iterator_3));
-	succeed! (list_collect (outputs));
+	succeed! (list_collect (outputs, None));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -204,7 +204,7 @@ pub fn lists_map_4 (evaluator : &mut EvaluatorContext, callable : &Value, list_1
 	let iterator_3 = try! (ListIterator::new (list_3));
 	let iterator_4 = try! (ListIterator::new (list_4));
 	let outputs = try! (iterators_map_4 (evaluator, callable, iterator_1, iterator_2, iterator_3, iterator_4));
-	succeed! (list_collect (outputs));
+	succeed! (list_collect (outputs, None));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -228,7 +228,7 @@ pub fn lists_map_n (evaluator : &mut EvaluatorContext, callable : &Value, lists 
 	}
 	let iterators = try! (ListIterators::new (lists));
 	let outputs = try! (iterators_map_n (evaluator, callable, iterators));
-	succeed! (list_collect (outputs));
+	succeed! (list_collect (outputs, None));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

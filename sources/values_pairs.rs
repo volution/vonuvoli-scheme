@@ -288,8 +288,8 @@ pub fn pair_mutable_new (left : Value, right : Value) -> (PairMutable) {
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn pair_new (left : Value, right : Value) -> (Value) {
-	if PAIR_NEW_IMMUTABLE {
+pub fn pair_new (left : Value, right : Value, immutable : Option<bool>) -> (Value) {
+	if immutable.unwrap_or (PAIR_NEW_IMMUTABLE) {
 		pair_immutable_new (left, right) .into ()
 	} else {
 		pair_mutable_new (left, right) .into ()

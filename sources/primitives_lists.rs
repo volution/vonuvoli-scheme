@@ -233,16 +233,16 @@ pub fn list_primitive_1_evaluate (primitive : ListPrimitive1, input_1 : &Value, 
 			return list_length (input_1) .into_0 (),
 		
 		ListPrimitive1::ListClone =>
-			return list_clone (input_1),
+			return list_clone (input_1, None),
 		
 		ListPrimitive1::ListReverse =>
-			return list_reverse (input_1),
+			return list_reverse (input_1, None),
 		
 		ListPrimitive1::ListMake =>
-			return list_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), &UNDEFINED.into ()),
+			return list_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), &UNDEFINED.into (), None),
 		
 		ListPrimitive1::ListBuild =>
-			return list_build_1 (input_1) .into_0 (),
+			return list_build_1 (input_1, None) .into_0 (),
 		
 		ListPrimitive1::ListAppend =>
 			return input_1.clone () .into_0 (),
@@ -273,7 +273,7 @@ pub fn list_primitive_2_evaluate (primitive : ListPrimitive2, input_1 : &Value, 
 	match primitive {
 		
 		ListPrimitive2::Pair =>
-			return pair (input_1, input_2) .into_0 (),
+			return pair (input_1, input_2, None) .into_0 (),
 		
 		ListPrimitive2::PairLeftSet =>
 			return pair_left_set (input_1, input_2),
@@ -291,13 +291,13 @@ pub fn list_primitive_2_evaluate (primitive : ListPrimitive2, input_1 : &Value, 
 			return list_rest_at (input_1, try! (try_as_number_integer_ref! (input_2) .try_to_usize ())),
 		
 		ListPrimitive2::ListMake =>
-			return list_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), input_2),
+			return list_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), input_2, None),
 		
 		ListPrimitive2::ListBuild =>
-			return list_build_2 (input_1, input_2). into_0 (),
+			return list_build_2 (input_1, input_2, None). into_0 (),
 		
 		ListPrimitive2::ListAppend =>
-			return list_append_2 (input_1, input_2),
+			return list_append_2 (input_1, input_2, None),
 		
 		ListPrimitive2::ListFill =>
 			return list_fill_range (input_1, Some (input_2), None, None),
@@ -306,7 +306,7 @@ pub fn list_primitive_2_evaluate (primitive : ListPrimitive2, input_1 : &Value, 
 			return list_copy_range (input_1, None, input_2, None, None),
 		
 		ListPrimitive2::ListRangeClone =>
-			return list_clone_range (input_1, Some (input_2), None),
+			return list_clone_range (input_1, Some (input_2), None, None),
 		
 		ListPrimitive2::ListMemberByIdentity =>
 			return list_member_by_comparison (input_2, input_1, Comparison::Equivalence (Equivalence::ByIdentity, Some (false), Some (false))),
@@ -343,10 +343,10 @@ pub fn list_primitive_3_evaluate (primitive : ListPrimitive3, input_1 : &Value, 
 			return list_rest_at_set (input_1, try! (try_as_number_integer_ref! (input_2) .try_to_usize ()), input_3),
 		
 		ListPrimitive3::ListBuild =>
-			return list_build_3 (input_1, input_2, input_3) .into_0 (),
+			return list_build_3 (input_1, input_2, input_3, None) .into_0 (),
 		
 		ListPrimitive3::ListAppend =>
-			return list_append_3 (input_1, input_2, input_3),
+			return list_append_3 (input_1, input_2, input_3, None),
 		
 		ListPrimitive3::ListRangeFill =>
 			return list_fill_range (input_1, Some (input_2), Some (input_3), None),
@@ -355,7 +355,7 @@ pub fn list_primitive_3_evaluate (primitive : ListPrimitive3, input_1 : &Value, 
 			return list_copy_range (input_1, Some (input_2), input_3, None, None),
 		
 		ListPrimitive3::ListRangeClone =>
-			return list_clone_range (input_1, Some (input_2), Some (input_3)),
+			return list_clone_range (input_1, Some (input_2), Some (input_3), None),
 		
 		ListPrimitive3::ListMemberByComparator =>
 			return list_member_by_comparator (input_2, input_1, input_3, evaluator),
@@ -374,10 +374,10 @@ pub fn list_primitive_4_evaluate (primitive : ListPrimitive4, input_1 : &Value, 
 	match primitive {
 		
 		ListPrimitive4::ListBuild =>
-			return list_build_4 (input_1, input_2, input_3, input_4) .into_0 (),
+			return list_build_4 (input_1, input_2, input_3, input_4, None) .into_0 (),
 		
 		ListPrimitive4::ListAppend =>
-			return list_append_4 (input_1, input_2, input_3, input_4),
+			return list_append_4 (input_1, input_2, input_3, input_4, None),
 		
 		ListPrimitive4::ListRangeFill =>
 			return list_fill_range (input_1, Some (input_2), Some (input_3), Some (input_4)),
@@ -409,10 +409,10 @@ pub fn list_primitive_n_evaluate (primitive : ListPrimitiveN, inputs : &[&Value]
 	match primitive {
 		
 		ListPrimitiveN::ListBuild =>
-			return list_build_n (inputs) .into_0 (),
+			return list_build_n (inputs, None) .into_0 (),
 		
 		ListPrimitiveN::ListAppend =>
-			return list_append_n (inputs),
+			return list_append_n (inputs, None),
 		
 	}
 }

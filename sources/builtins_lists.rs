@@ -56,12 +56,12 @@ pub mod exports {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn pair <ValueRef1 : StdAsRef<Value>, ValueRef2 : StdAsRef<Value>> (left : ValueRef1, right : ValueRef2) -> (Value) {
+pub fn pair <ValueRef1 : StdAsRef<Value>, ValueRef2 : StdAsRef<Value>> (left : ValueRef1, right : ValueRef2, immutable : Option<bool>) -> (Value) {
 	let left = left.as_ref ();
 	let left = left.clone ();
 	let right = right.as_ref ();
 	let right = right.clone ();
-	return pair_new (left, right) .into ();
+	return pair_new (left, right, immutable) .into ();
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -194,14 +194,14 @@ pub fn list_pair_at_ref (list : &Value, index : usize) -> (Outcome<Option<&PairI
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn list_collect <Source> (values : Source) -> (Value)
+pub fn list_collect <Source> (values : Source, immutable : Option<bool>) -> (Value)
 		where Source : iter::IntoIterator<Item = Value>, Source::IntoIter : iter::DoubleEndedIterator
 {
-	return list_collect_dotted (values, None);
+	return list_collect_dotted (values, None, immutable);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn list_collect_dotted <Source> (values : Source, last : Option<Value>) -> (Value)
+pub fn list_collect_dotted <Source> (values : Source, last : Option<Value>, immutable : Option<bool>) -> (Value)
 		where Source : iter::IntoIterator<Item = Value>, Source::IntoIter : iter::DoubleEndedIterator
 {
 	let last = if let Some (last) = last {
@@ -209,19 +209,19 @@ pub fn list_collect_dotted <Source> (values : Source, last : Option<Value>) -> (
 	} else {
 		NULL.into ()
 	};
-	return values.into_iter () .rev () .fold (last, |last, value| pair_new (value, last) .into ());
+	return values.into_iter () .rev () .fold (last, |last, value| pair_new (value, last, immutable) .into ());
 }
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn list_collect_ref <Source, ValueRef> (values : Source) -> (Value)
+pub fn list_collect_ref <Source, ValueRef> (values : Source, immutable : Option<bool>) -> (Value)
 		where Source : iter::IntoIterator<Item = ValueRef>, Source::IntoIter : iter::DoubleEndedIterator, ValueRef : StdAsRef<Value>
 {
-	return list_collect_dotted_ref (values, None);
+	return list_collect_dotted_ref (values, None, immutable);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn list_collect_dotted_ref <Source, ValueRef> (values : Source, last : Option<ValueRef>) -> (Value)
+pub fn list_collect_dotted_ref <Source, ValueRef> (values : Source, last : Option<ValueRef>, immutable : Option<bool>) -> (Value)
 		where Source : iter::IntoIterator<Item = ValueRef>, Source::IntoIter : iter::DoubleEndedIterator, ValueRef : StdAsRef<Value>
 {
 	let last = if let Some (last) = last {
@@ -229,43 +229,43 @@ pub fn list_collect_dotted_ref <Source, ValueRef> (values : Source, last : Optio
 	} else {
 		NULL.into ()
 	};
-	return values.into_iter () .rev () .fold (last, |last, value| pair_new (value.as_ref () .clone (), last) .into ());
+	return values.into_iter () .rev () .fold (last, |last, value| pair_new (value.as_ref () .clone (), last, immutable) .into ());
 }
 
 
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn list_collect_from_generator <Source> (values : Source) -> (Outcome<Value>)
+pub fn list_collect_from_generator <Source> (values : Source, immutable : Option<bool>) -> (Outcome<Value>)
 		where Source : iter::Iterator<Item = Outcome<Value>>
 {
-	return list_collect_dotted_from_generator (values, None);
+	return list_collect_dotted_from_generator (values, None, immutable);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn list_collect_dotted_from_generator <Source> (values : Source, last : Option<Value>) -> (Outcome<Value>)
+pub fn list_collect_dotted_from_generator <Source> (values : Source, last : Option<Value>, immutable : Option<bool>) -> (Outcome<Value>)
 		where Source : iter::Iterator<Item = Outcome<Value>>
 {
 	// FIXME:  Remove vector allocation!
 	let values = try! (values.collect::<Outcome<StdVec<_>>> ());
-	succeed! (list_collect_dotted (values, last));
+	succeed! (list_collect_dotted (values, last, immutable));
 }
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn list_collect_from_generator_ref <Source, ValueRef> (values : Source) -> (Outcome<Value>)
+pub fn list_collect_from_generator_ref <Source, ValueRef> (values : Source, immutable : Option<bool>) -> (Outcome<Value>)
 		where Source : iter::Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
 {
-	return list_collect_dotted_from_generator_ref (values, None);
+	return list_collect_dotted_from_generator_ref (values, None, immutable);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn list_collect_dotted_from_generator_ref <Source, ValueRef> (values : Source, last : Option<ValueRef>) -> (Outcome<Value>)
+pub fn list_collect_dotted_from_generator_ref <Source, ValueRef> (values : Source, last : Option<ValueRef>, immutable : Option<bool>) -> (Outcome<Value>)
 		where Source : iter::Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
 {
 	// FIXME:  Remove vector allocation!
 	let values = try! (values.collect::<Outcome<StdVec<_>>> ());
-	succeed! (list_collect_dotted_ref (values, last));
+	succeed! (list_collect_dotted_ref (values, last, immutable));
 }
 
 
@@ -277,92 +277,92 @@ pub fn list_empty () -> (Value) {
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn list_build_1 (value_1 : &Value) -> (Value) {
-	return pair_new (value_1.clone (), NULL.into ()) .into ();
+pub fn list_build_1 (value_1 : &Value, immutable : Option<bool>) -> (Value) {
+	return pair_new (value_1.clone (), NULL.into (), immutable) .into ();
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn list_build_2 (value_1 : &Value, value_2 : &Value) -> (Value) {
-	return pair_new (value_1.clone (), pair_new (value_2.clone (), NULL.into ()) .into ()) .into ();
+pub fn list_build_2 (value_1 : &Value, value_2 : &Value, immutable : Option<bool>) -> (Value) {
+	return pair_new (value_1.clone (), pair_new (value_2.clone (), NULL.into (), immutable) .into (), immutable) .into ();
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn list_build_3 (value_1 : &Value, value_2 : &Value, value_3 : &Value) -> (Value) {
-	return pair_new (value_1.clone (), pair_new (value_2.clone (), pair_new (value_3.clone (), NULL.into ()) .into ()) .into ()) .into ();
+pub fn list_build_3 (value_1 : &Value, value_2 : &Value, value_3 : &Value, immutable : Option<bool>) -> (Value) {
+	return pair_new (value_1.clone (), pair_new (value_2.clone (), pair_new (value_3.clone (), NULL.into (), immutable) .into (), immutable) .into (), immutable) .into ();
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn list_build_4 (value_1 : &Value, value_2 : &Value, value_3 : &Value, value_4 : &Value) -> (Value) {
-	return pair_new (value_1.clone (), pair_new (value_2.clone (), pair_new (value_3.clone (), pair_new (value_4.clone (), NULL.into ()) .into ()) .into ()) .into ()) .into ();
+pub fn list_build_4 (value_1 : &Value, value_2 : &Value, value_3 : &Value, value_4 : &Value, immutable : Option<bool>) -> (Value) {
+	return pair_new (value_1.clone (), pair_new (value_2.clone (), pair_new (value_3.clone (), pair_new (value_4.clone (), NULL.into (), immutable) .into (), immutable) .into (), immutable) .into (), immutable) .into ();
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn list_build_n (values : &[&Value]) -> (Value) {
+pub fn list_build_n (values : &[&Value], immutable : Option<bool>) -> (Value) {
 	if values.is_empty () {
 		return list_empty ();
 	}
-	return values.iter () .rev () .fold (NULL.into (), |last, value| pair_new ((*value).clone (), last) .into ());
+	return values.iter () .rev () .fold (NULL.into (), |last, value| pair_new ((*value).clone (), last, immutable) .into ());
 }
 
 
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn list_append_2 (list_1 : &Value, list_2 : &Value) -> (Outcome<Value>) {
+pub fn list_append_2 (list_1 : &Value, list_2 : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	// FIXME:  Optimize the vector allocation!
 	let (buffer, last) = try! (vec_list_append_2_dotted (list_1, list_2));
-	succeed! (list_collect_dotted (buffer, last));
+	succeed! (list_collect_dotted (buffer, last, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn list_append_3 (list_1 : &Value, list_2 : &Value, list_3 : &Value) -> (Outcome<Value>) {
+pub fn list_append_3 (list_1 : &Value, list_2 : &Value, list_3 : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	// FIXME:  Optimize the vector allocation!
 	let (buffer, last) = try! (vec_list_append_3_dotted (list_1, list_2, list_3));
-	succeed! (list_collect_dotted (buffer, last));
+	succeed! (list_collect_dotted (buffer, last, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn list_append_4 (list_1 : &Value, list_2 : &Value, list_3 : &Value, list_4 : &Value) -> (Outcome<Value>) {
+pub fn list_append_4 (list_1 : &Value, list_2 : &Value, list_3 : &Value, list_4 : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	// FIXME:  Optimize the vector allocation!
 	let (buffer, last) = try! (vec_list_append_4_dotted (list_1, list_2, list_3, list_4));
-	succeed! (list_collect_dotted (buffer, last));
+	succeed! (list_collect_dotted (buffer, last, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn list_append_n (lists : &[&Value]) -> (Outcome<Value>) {
+pub fn list_append_n (lists : &[&Value], immutable : Option<bool>) -> (Outcome<Value>) {
 	if lists.is_empty () {
 		succeed! (list_empty ());
 	}
 	// FIXME:  Optimize the vector allocation!
 	let (buffer, last) = try! (vec_list_append_n_dotted (lists));
-	succeed! (list_collect_dotted (buffer, last));
+	succeed! (list_collect_dotted (buffer, last, immutable));
 }
 
 
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn list_make (length : usize, fill : &Value) -> (Outcome<Value>) {
+pub fn list_make (length : usize, fill : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	// FIXME:  Optimize the vector allocation!
 	let mut buffer = StdVec::with_capacity (length);
 	for _index in 0..length {
 		buffer.push (fill.clone ());
 	}
-	succeed! (list_collect (buffer));
+	succeed! (list_collect (buffer, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn list_clone (list : &Value) -> (Outcome<Value>) {
+pub fn list_clone (list : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	// FIXME:  Optimize the vector allocation!
 	let (buffer, last) = try! (vec_list_clone_dotted (list));
-	succeed! (list_collect_dotted (buffer, last));
+	succeed! (list_collect_dotted (buffer, last, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn list_reverse (list : &Value) -> (Outcome<Value>) {
+pub fn list_reverse (list : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	// FIXME:  Optimize the vector allocation!
 	let buffer = try! (vec_list_clone (list));
-	succeed! (list_collect (buffer.into_iter () .rev ()));
+	succeed! (list_collect (buffer.into_iter () .rev (), immutable));
 }
 
 
@@ -396,9 +396,9 @@ pub fn list_copy_range (_target_list : &Value, target_start : Option<&Value>, _s
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn list_clone_range (list : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
+pub fn list_clone_range (list : &Value, range_start : Option<&Value>, range_end : Option<&Value>, immutable : Option<bool>) -> (Outcome<Value>) {
 	let iterator = try! (list_range_iterator (list, range_start, range_end));
-	return list_collect_from_generator_ref (iterator);
+	return list_collect_from_generator_ref (iterator, immutable);
 }
 
 
@@ -648,21 +648,23 @@ pub fn vec_list_drain (buffer : &mut ValueVec, list : &Value) -> (Outcome<()>) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn vec_list_drain_dotted (buffer : &mut ValueVec, list : &Value) -> (Outcome<Option<Value>>) {
-	let mut cursor = list;
+	// FIXME:  Add support for mutable pairs!  (without using the `.clone` if not necessary!)
+	let mut cursor = list.clone ();
 	loop {
 		match cursor.class () {
-			ValueClass::Pair => {
-				// FIXME:  Add support for mutable pairs!
-				let (left, right) = try! (StdTryAsRef0::<PairImmutable>::try_as_ref_0 (cursor)) .left_and_right ();
-				buffer.push (left.clone ());
-				cursor = right;
-			},
+			ValueClass::Pair =>
+				cursor = {
+					let pair = try_as_pair_ref! (&cursor);
+					let (left, right) = pair.left_and_right ();
+					buffer.push (left.clone ());
+					right.clone ()
+				},
 			ValueClass::Null =>
 				succeed! (None),
 			_ =>
-				succeed! (Some (cursor.clone ())),
+				succeed! (Some (cursor)),
 		}
-		if list.is_self (cursor) {
+		if list.is_self (&cursor) {
 			fail! (0xeff11a7d);
 		}
 	}
