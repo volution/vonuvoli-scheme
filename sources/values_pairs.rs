@@ -516,13 +516,14 @@ impl <'a> iter::Iterator for ListPairIterator <'a> {
 
 
 
-pub struct ListIterator <'a> ( &'a Value );
+pub struct ListIterator <'a> ( ValueRef<'a> );
 
 
 impl <'a> ListIterator <'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new (value : &'a Value) -> (Outcome<ListIterator<'a>>) {
+		let value = ValueRef::Immutable (value);
 		succeed! (ListIterator (value));
 	}
 }
@@ -530,28 +531,23 @@ impl <'a> ListIterator <'a> {
 
 impl <'a> iter::Iterator for ListIterator <'a> {
 	
-	type Item = Outcome<&'a Value>;
+	type Item = Outcome<ValueRef<'a>>;
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn next (&mut self) -> (Option<Outcome<&'a Value>>) {
-		let cursor = self.0;
-		let (value, cursor) = match cursor.class () {
-			ValueClass::Pair =>
-				match *cursor {
-					Value::PairImmutable (_, ref pair, _) =>
-						pair.left_and_right (),
-					// FIXME:  Add support for mutable pairs!
-					//Value::PairMutable (_, ref pair, _) =>
-					//	pair.pair_ref () .left_and_right (),
-					_ =>
-						return Some (failed! (0xff1a6f2d)),
-				},
-			ValueClass::Null =>
+	fn next (&mut self) -> (Option<Outcome<ValueRef<'a>>>) {
+		let (value, cursor) = match self.0.kind () {
+			ValueKind::PairImmutable => {
+				let pair = self.0.clone_ref () .map_generic::<PairImmutable, _> (|value| value.expect_as_ref_0 ());
+				let cursor = pair.clone_ref () .map_value (|pair| pair.right ());
+				let value = pair.map_value (|pair| pair.left ());
+				(value, cursor)
+			},
+			ValueKind::Null =>
 				return None,
 			_ =>
 				return Some (failed! (0xed511f9c)),
 		};
-		if self.0.is_self (cursor) {
+		if self.0.value_is_self (&cursor) {
 			return Some (failed! (0x2f6495d9));
 		}
 		self.0 = cursor;
@@ -577,10 +573,10 @@ impl <'a> ListIterators <'a> {
 
 impl <'a> iter::Iterator for ListIterators <'a> {
 	
-	type Item = Outcome<StdVec<&'a Value>>;
+	type Item = Outcome<StdVec<ValueRef<'a>>>;
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn next (&mut self) -> (Option<Outcome<StdVec<&'a Value>>>) {
+	fn next (&mut self) -> (Option<Outcome<StdVec<ValueRef<'a>>>>) {
 		let mut outcomes = StdVec::with_capacity (self.0.len ());
 		for mut iterator in self.0.iter_mut () {
 			match iterator.next () {

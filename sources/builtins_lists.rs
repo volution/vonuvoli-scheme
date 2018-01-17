@@ -405,7 +405,7 @@ pub fn list_clone_range (list : &Value, range_start : Option<&Value>, range_end 
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn list_range_iterator <'a> (list : &'a Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<RangeIteratorForOutcome<&'a Value, ListIterator<'a>>>) {
+pub fn list_range_iterator <'a> (list : &'a Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<RangeIteratorForOutcome<ValueRef<'a>, ListIterator<'a>>>) {
 	let (range_start, range_end) = try! (range_coerce_unbounded (range_start, range_end));
 	let iterator = try! (ListIterator::new (list));
 	let iterator = try! (RangeIteratorForOutcome::new (iterator, range_start, range_end));
