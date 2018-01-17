@@ -46,15 +46,17 @@ pub trait Pair {
 
 #[ derive (Debug) ]
 pub enum PairRef <'a> {
-	Immutable (&'a PairImmutable, &'a (Value, Value)),
-	Mutable (&'a PairMutable, StdRef<'a, (Value, Value)>),
+	Immutable (&'a StdRc<(Value, Value)>, &'a (Value, Value)),
+	ImmutableEmbedded (StdRc<(Value, Value)>, &'a (Value, Value)),
+	Mutable (&'a StdRc<StdRefCell<(Value, Value)>>, StdRef<'a, (Value, Value)>),
+	MutableEmbedded (StdRc<StdRefCell<(Value, Value)>>, StdRef<'a, (Value, Value)>),
 }
 
 
 impl <'a> PairRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn try (value : &'a Value) -> (Outcome<PairRef<'a>>) {
+	pub fn try_ref (value : &'a Value) -> (Outcome<PairRef<'a>>) {
 		match *value {
 			Value::PairImmutable (_, ref value, _) =>
 				succeed! (value.pair_ref ()),
@@ -66,22 +68,69 @@ impl <'a> PairRef<'a> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn clone (&self) -> (Value) {
+	pub fn new_embedded_immutable (value : PairImmutable) -> (PairRef<'a>) {
+		let value = value.values_rc_into ();
+		let value_ref = unsafe { mem::transmute (value.as_ref ()) };
+		PairRef::ImmutableEmbedded (value, value_ref)
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new_embedded_mutable (value : PairMutable) -> (PairRef<'a>) {
+		let value = value.values_rc_into ();
+		let value_ref = unsafe { mem::transmute (value.as_ref () .borrow ()) };
+		PairRef::MutableEmbedded (value, value_ref)
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn clone_ref (&self) -> (PairRef<'a>) {
 		match *self {
-			PairRef::Immutable (value, _) =>
-				(*value) .clone () .into (),
-			PairRef::Mutable (value, _) =>
-				(*value) .clone () .into (),
+			PairRef::Immutable (value, reference) =>
+				PairRef::Immutable (value, reference),
+			PairRef::ImmutableEmbedded (ref value, reference) =>
+				PairRef::ImmutableEmbedded (StdRc::clone (value), reference),
+			PairRef::Mutable (value, ref reference) =>
+				PairRef::Mutable (value, StdRef::clone (reference)),
+			PairRef::MutableEmbedded (ref value, ref reference) =>
+				PairRef::MutableEmbedded (StdRc::clone (value), StdRef::clone (reference)),
 		}
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn is_self (&self, other : &PairRef) -> (bool) {
+	pub fn value_clone (&self) -> (Value) {
+		match *self {
+			PairRef::Immutable (value, _) =>
+				PairImmutable (StdRc::clone (value)) .into (),
+			PairRef::ImmutableEmbedded (ref value, _) =>
+				PairImmutable (StdRc::clone (value)) .into (),
+			PairRef::Mutable (value, _) =>
+				PairMutable (StdRc::clone (value)) .into (),
+			PairRef::MutableEmbedded (ref value, _) =>
+				PairMutable (StdRc::clone (value)) .into (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn value_is_self (&self, other : &PairRef) -> (bool) {
 		match (self, other) {
+			
 			(&PairRef::Immutable (self_0, _), &PairRef::Immutable (other_0, _)) =>
-				PairImmutable::is_self (self_0, other_0),
+				ptr::eq (self_0.as_ref (), other_0.as_ref ()),
+			(&PairRef::ImmutableEmbedded (ref self_0, _), &PairRef::ImmutableEmbedded (ref other_0, _)) =>
+				ptr::eq (self_0.as_ref (), other_0.as_ref ()),
+			(&PairRef::Immutable (self_0, _), &PairRef::ImmutableEmbedded (ref other_0, _)) =>
+				ptr::eq (self_0.as_ref (), other_0.as_ref ()),
+			(&PairRef::ImmutableEmbedded (ref self_0, _), &PairRef::Immutable (other_0, _)) =>
+				ptr::eq (self_0.as_ref (), other_0.as_ref ()),
+			
 			(&PairRef::Mutable (self_0, _), &PairRef::Mutable (other_0, _)) =>
-				PairMutable::is_self (self_0, other_0),
+				ptr::eq (self_0.as_ref (), other_0.as_ref ()),
+			(&PairRef::MutableEmbedded (ref self_0, _), &PairRef::MutableEmbedded (ref other_0, _)) =>
+				ptr::eq (self_0.as_ref (), other_0.as_ref ()),
+			(&PairRef::Mutable (self_0, _), &PairRef::MutableEmbedded (ref other_0, _)) =>
+				ptr::eq (self_0.as_ref (), other_0.as_ref ()),
+			(&PairRef::MutableEmbedded (ref self_0, _), &PairRef::Mutable (other_0, _)) =>
+				ptr::eq (self_0.as_ref (), other_0.as_ref ()),
+			
 			_ =>
 				false,
 		}
@@ -92,8 +141,12 @@ impl <'a> PairRef<'a> {
 		match self {
 			PairRef::Immutable (_, value) =>
 				ValueRef::Immutable (&value.0),
+			PairRef::ImmutableEmbedded (embedded, value) =>
+				ValueRef::ImmutableEmbedded (embedded, &value.0),
 			PairRef::Mutable (_, value) =>
 				ValueRef::Mutable (StdRef::map (value, |value| &value.0)),
+			PairRef::MutableEmbedded (embedded, value) =>
+				ValueRef::MutableEmbedded (embedded, StdRef::map (value, |value| &value.0)),
 		}
 	}
 	
@@ -102,8 +155,12 @@ impl <'a> PairRef<'a> {
 		match self {
 			PairRef::Immutable (_, value) =>
 				ValueRef::Immutable (&value.1),
+			PairRef::ImmutableEmbedded (embedded, value) =>
+				ValueRef::ImmutableEmbedded (embedded, &value.1),
 			PairRef::Mutable (_, value) =>
 				ValueRef::Mutable (StdRef::map (value, |value| &value.1)),
+			PairRef::MutableEmbedded (embedded, value) =>
+				ValueRef::MutableEmbedded (embedded, StdRef::map (value, |value| &value.1)),
 		}
 	}
 }
@@ -116,7 +173,11 @@ impl <'a> Pair for PairRef<'a> {
 		match *self {
 			PairRef::Immutable (_, values) =>
 				values,
+			PairRef::ImmutableEmbedded (_, values) =>
+				values,
 			PairRef::Mutable (_, ref values) =>
+				values,
+			PairRef::MutableEmbedded (_, ref values) =>
 				values,
 		}
 	}
@@ -215,12 +276,17 @@ impl PairImmutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn pair_ref (&self) -> (PairRef) {
-		PairRef::Immutable (self, self.0.as_ref ())
+		PairRef::Immutable (&self.0, self.0.as_ref ())
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn values_rc_clone (&self) -> (StdRc<(Value, Value)>) {
 		self.0.clone ()
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn values_rc_into (self) -> (StdRc<(Value, Value)>) {
+		self.0
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -254,12 +320,22 @@ impl PairMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn pair_ref (&self) -> (PairRef) {
-		PairRef::Mutable (self, self.0.as_ref () .borrow ())
+		PairRef::Mutable (&self.0, self.values_rc_borrow ())
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn values_rc_borrow (&self) -> (StdRef<(Value, Value)>) {
+		self.0.as_ref () .borrow ()
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn values_rc_clone (&self) -> (StdRc<StdRefCell<(Value, Value)>>) {
 		self.0.clone ()
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn values_rc_into (self) -> (StdRc<StdRefCell<(Value, Value)>>) {
+		self.0
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
