@@ -312,7 +312,7 @@ for _test in scheme low-level-r7rs low-level-parser low-level-sizes low-level-as
 sed -r -e 's#@\{TEST\}#'"${_test}"'#g' <<'EOS'
 :: compile / test / @{TEST} / debug :: x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --test '@{TEST}' --no-default-features
 :: compile / test / @{TEST} / release :: x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --test '@{TEST}' --release --all-features
-:: execute / test / @{TEST} / tests / all / debug / watch :: exec -- x-run ':: execute / watch' x-run ':: execute / test / @{TEST} / debug' "${@}"
+:: execute / test / @{TEST} / tests / all / debug / watch :: exec -- x-run ':: execute / watch' x-run ':: execute / test / @{TEST} / tests / all / debug' "${@}"
 :: execute / test / @{TEST} / tests / all / debug :: x-run ':: compile / test / @{TEST} / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test '@{TEST}' --no-default-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__' "${@}"
 :: execute / test / @{TEST} / tests / all / release :: x-run ':: compile / test / @{TEST} / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test '@{TEST}' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__' "${@}"
 :: execute / test / @{TEST} / benchmarks / all / debug :: x-run ':: compile / test / @{TEST} / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test '@{TEST}' --no-default-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"

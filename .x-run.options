@@ -1495,7 +1495,7 @@
 !!
 
 << execute / test / low-level-assertions / tests / all / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / low-level-assertions / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / low-level-assertions / tests / all / debug' "${@}"
 !!
 
 << execute / test / low-level-assertions / tests / all / release
@@ -1519,7 +1519,7 @@
 !!
 
 << execute / test / low-level-parser / tests / all / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / low-level-parser / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / low-level-parser / tests / all / debug' "${@}"
 !!
 
 << execute / test / low-level-parser / tests / all / release
@@ -1543,7 +1543,7 @@
 !!
 
 << execute / test / low-level-r7rs / tests / all / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / low-level-r7rs / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / low-level-r7rs / tests / all / debug' "${@}"
 !!
 
 << execute / test / low-level-r7rs / tests / all / release
@@ -1567,7 +1567,7 @@
 !!
 
 << execute / test / low-level-sizes / tests / all / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / low-level-sizes / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / low-level-sizes / tests / all / debug' "${@}"
 !!
 
 << execute / test / low-level-sizes / tests / all / release
@@ -1863,7 +1863,7 @@
 !!
 
 << execute / test / scheme / tests / all / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / all / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / all / release
