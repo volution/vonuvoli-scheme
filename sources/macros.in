@@ -806,7 +806,7 @@ macro_rules! try_as_bytes_ref {
 
 macro_rules! try_as_pair_ref {
 	( $value : expr ) => {
-		try! ($crate::values::exports::PairRef::try ($value))
+		try! ($crate::values::exports::PairRef::try_ref ($value))
 	};
 }
 

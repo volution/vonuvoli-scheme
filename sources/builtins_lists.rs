@@ -479,7 +479,7 @@ pub fn list_assoc_by_comparison (list : &Value, value : &Value, comparison : Com
 			Some (Ok (pair)) => {
 				let pair = try_as_pair_ref! (pair.left ());
 				if try! (compare_2 (value, pair.left (), comparison)) {
-					succeed! (pair.clone () .into ());
+					succeed! (pair.value_clone () .into ());
 				}
 			},
 			Some (Err (error)) =>
@@ -499,7 +499,7 @@ pub fn list_assoc_by_comparator (list : &Value, value : &Value, comparator : &Va
 				let pair = try_as_pair_ref! (pair.left ());
 				let comparison = try! (evaluator.evaluate_procedure_call_2 (comparator, value, pair.left ()));
 				if is_not_false (&comparison) {
-					succeed! (pair.clone () .into ());
+					succeed! (pair.value_clone () .into ());
 				}
 			},
 			Some (Err (error)) =>
@@ -656,8 +656,9 @@ pub fn vec_list_drain_dotted (buffer : &mut ValueVec, list : &Value) -> (Outcome
 				cursor = {
 					let pair = try_as_pair_ref! (&cursor);
 					let (left, right) = pair.left_and_right ();
+					let cursor = right.clone ();
 					buffer.push (left.clone ());
-					right.clone ()
+					cursor
 				},
 			ValueClass::Null =>
 				succeed! (None),

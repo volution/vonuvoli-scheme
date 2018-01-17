@@ -1007,7 +1007,7 @@ pub fn pair_ref_compare_2a <'a, ValueRef : StdAsRef<PairRef<'a>>> (left : ValueR
 		Comparison::Equivalence (equivalence, _, _) =>
 			match equivalence {
 				Equivalence::ByIdentity =>
-					succeed! (PairRef::is_self (left, right)),
+					succeed! (PairRef::value_is_self (left, right)),
 				Equivalence::ByValue => {
 					let comparison = comparison.for_aggregated (false);
 					succeed! (
@@ -1577,14 +1577,14 @@ def_fn_compare! (Value,
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn pair_compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	let _value = try! (PairRef::try (value.as_ref ()));
+	let _value = try! (PairRef::try_ref (value.as_ref ()));
 	succeed! (true);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn pair_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
-	let left = try! (PairRef::try (left.as_ref ()));
-	let right = try! (PairRef::try (right.as_ref ()));
+	let left = try! (PairRef::try_ref (left.as_ref ()));
+	let right = try! (PairRef::try_ref (right.as_ref ()));
 	return pair_ref_compare_2a (&left, &right, comparison);
 }
 

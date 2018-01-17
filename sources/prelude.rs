@@ -17,6 +17,7 @@ pub use std::result::Result;
 
 
 
+pub use std::any::Any as StdAny;
 pub use std::borrow::Borrow as StdBorrow;
 pub use std::boxed::Box as StdBox;
 pub use std::cell::Cell as StdCell;
