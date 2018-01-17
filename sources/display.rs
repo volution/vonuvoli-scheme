@@ -329,18 +329,18 @@ impl fmt::Display for PairMutable {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn pair_fmt (pair : PairRef, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 	try! (formatter.write_char ('('));
-	let pair = pair.values_as_tuple ();
-	try! (pair_fmt_0 (&pair, &pair, formatter));
+	let pair = pair.left_and_right ();
+	try! (pair_fmt_0 (pair, pair, formatter));
 	try! (formatter.write_char (')'));
 	succeed! (());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn pair_fmt_0 (head : &(Value, Value), cursor : &(Value, Value), formatter : &mut fmt::Formatter) -> (fmt::Result) {
+fn pair_fmt_0 (head : (&Value, &Value), cursor : (&Value, &Value), formatter : &mut fmt::Formatter) -> (fmt::Result) {
 	let mut cursor = cursor;
 	loop {
-		let left = &cursor.0;
-		let right = &cursor.1;
+		let left = cursor.0;
+		let right = cursor.1;
 		
 		// FIXME:  Make sure `left` is not recursive also!
 		try! (fmt::Display::fmt (left, formatter));
@@ -352,12 +352,12 @@ fn pair_fmt_0 (head : &(Value, Value), cursor : &(Value, Value), formatter : &mu
 			
 			Value::PairImmutable (_, ref pair, _) => {
 				try! (formatter.write_char (' '));
-				cursor = pair.values_as_tuple ();
+				cursor = pair.left_and_right ();
 			},
 			
 			Value::PairMutable (_, ref pair, _) => {
 				try! (formatter.write_char (' '));
-				return pair_fmt_0 (head, pair.pair_ref () .values_as_tuple (), formatter);
+				return pair_fmt_0 (head, pair.pair_ref () .left_and_right (), formatter);
 			},
 			
 			_ => {
@@ -370,12 +370,15 @@ fn pair_fmt_0 (head : &(Value, Value), cursor : &(Value, Value), formatter : &mu
 			
 		}
 		
+		// FIXME:  Find a better way to detect recursive lists!
+		/*
 		if ptr::eq (head, cursor) {
 			try! (formatter.write_char ('.'));
 			try! (formatter.write_char (' '));
 			try! (formatter.write_str ("#cyclic"));
 			succeed! (());
 		}
+		*/
 	}
 }
 

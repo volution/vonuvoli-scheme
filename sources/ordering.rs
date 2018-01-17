@@ -432,9 +432,13 @@ impl <'a> cmp::PartialEq for PairRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn eq (&self, other : &PairRef) -> (bool) {
-		let self_0 = self.values_as_tuple ();
-		let other_0 = other.values_as_tuple ();
-		<(Value, Value)>::eq (self_0, other_0)
+		let (self_left, self_right) = self.left_and_right ();
+		let (other_left, other_right) = other.left_and_right ();
+		if Value::eq (self_left, other_left) {
+			Value::eq (self_right, other_right)
+		} else {
+			false
+		}
 	}
 }
 
@@ -442,9 +446,14 @@ impl <'a> cmp::Ord for PairRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn cmp (&self, other : &PairRef) -> (cmp::Ordering) {
-		let self_0 = self.values_as_tuple ();
-		let other_0 = other.values_as_tuple ();
-		<(Value, Value)>::cmp (self_0, other_0)
+		let (self_left, self_right) = self.left_and_right ();
+		let (other_left, other_right) = other.left_and_right ();
+		match Value::cmp (self_left, other_left) {
+			cmp::Ordering::Equal =>
+				Value::cmp (self_right, other_right),
+			ordering =>
+				ordering,
+		}
 	}
 }
 

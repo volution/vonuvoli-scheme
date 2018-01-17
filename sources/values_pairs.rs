@@ -10,7 +10,7 @@ use super::prelude::*;
 
 
 pub mod exports {
-	pub use super::{Pair, PairRef, PairAsRef, PairImmutable, PairMutable};
+	pub use super::{Pair, PairRef, PairAsRef, PairImmutable, PairImmutableInternals, PairMutable, PairMutableInternals};
 	pub use super::{pair_new, pair_immutable_new, pair_mutable_new};
 	pub use super::{ListPairIterator, ListIterator, ListIterators};
 }
@@ -20,25 +20,9 @@ pub mod exports {
 
 pub trait Pair {
 	
-	fn values_as_tuple (&self) -> (&(Value, Value));
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn left (&self) -> (&Value) {
-		let values = self.values_as_tuple ();
-		&values.0
-	}
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn right (&self) -> (&Value) {
-		let values = self.values_as_tuple ();
-		&values.1
-	}
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn left_and_right (&self) -> ((&Value, &Value)) {
-		let values = self.values_as_tuple ();
-		(&values.0, &values.1)
-	}
+	fn left (&self) -> (&Value);
+	fn right (&self) -> (&Value);
+	fn left_and_right (&self) -> ((&Value, &Value));
 }
 
 
@@ -46,10 +30,10 @@ pub trait Pair {
 
 #[ derive (Debug) ]
 pub enum PairRef <'a> {
-	Immutable (&'a StdRc<(Value, Value)>, &'a (Value, Value)),
-	ImmutableEmbedded (StdRc<(Value, Value)>, &'a (Value, Value)),
-	Mutable (&'a StdRc<StdRefCell<(Value, Value)>>, StdRef<'a, (Value, Value)>),
-	MutableEmbedded (StdRc<StdRefCell<(Value, Value)>>, StdRef<'a, (Value, Value)>),
+	Immutable (&'a StdRc<PairImmutableInternals>, &'a PairImmutableInternals),
+	ImmutableEmbedded (StdRc<PairImmutableInternals>, &'a PairImmutableInternals),
+	Mutable (&'a StdRc<StdRefCell<PairMutableInternals>>, StdRef<'a, PairMutableInternals>),
+	MutableEmbedded (StdRc<StdRefCell<PairMutableInternals>>, StdRef<'a, PairMutableInternals>),
 }
 
 
@@ -69,29 +53,29 @@ impl <'a> PairRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_embedded_immutable (value : PairImmutable) -> (PairRef<'a>) {
-		let value = value.values_rc_into ();
-		let value_ref = unsafe { mem::transmute (value.as_ref ()) };
-		PairRef::ImmutableEmbedded (value, value_ref)
+		let value = value.internals_rc_into ();
+		let internals = unsafe { mem::transmute (value.as_ref ()) };
+		PairRef::ImmutableEmbedded (value, internals)
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_embedded_mutable (value : PairMutable) -> (PairRef<'a>) {
-		let value = value.values_rc_into ();
-		let value_ref = unsafe { mem::transmute (value.as_ref () .borrow ()) };
-		PairRef::MutableEmbedded (value, value_ref)
+		let value = value.internals_rc_into ();
+		let internals = unsafe { mem::transmute (value.as_ref () .borrow ()) };
+		PairRef::MutableEmbedded (value, internals)
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn clone_ref (&self) -> (PairRef<'a>) {
 		match *self {
-			PairRef::Immutable (value, reference) =>
-				PairRef::Immutable (value, reference),
-			PairRef::ImmutableEmbedded (ref value, reference) =>
-				PairRef::ImmutableEmbedded (StdRc::clone (value), reference),
-			PairRef::Mutable (value, ref reference) =>
-				PairRef::Mutable (value, StdRef::clone (reference)),
-			PairRef::MutableEmbedded (ref value, ref reference) =>
-				PairRef::MutableEmbedded (StdRc::clone (value), StdRef::clone (reference)),
+			PairRef::Immutable (value, internals) =>
+				PairRef::Immutable (value, internals),
+			PairRef::ImmutableEmbedded (ref value, internals) =>
+				PairRef::ImmutableEmbedded (StdRc::clone (value), internals),
+			PairRef::Mutable (value, ref internals) =>
+				PairRef::Mutable (value, StdRef::clone (internals)),
+			PairRef::MutableEmbedded (ref value, ref internals) =>
+				PairRef::MutableEmbedded (StdRc::clone (value), StdRef::clone (internals)),
 		}
 	}
 	
@@ -139,28 +123,28 @@ impl <'a> PairRef<'a> {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn left_ref_into (self) -> (ValueRef<'a>) {
 		match self {
-			PairRef::Immutable (_, value) =>
-				ValueRef::Immutable (&value.0),
-			PairRef::ImmutableEmbedded (embedded, value) =>
-				ValueRef::ImmutableEmbedded (embedded, &value.0),
-			PairRef::Mutable (_, value) =>
-				ValueRef::Mutable (StdRef::map (value, |value| &value.0)),
-			PairRef::MutableEmbedded (embedded, value) =>
-				ValueRef::MutableEmbedded (embedded, StdRef::map (value, |value| &value.0)),
+			PairRef::Immutable (_, internals) =>
+				ValueRef::Immutable (internals.left ()),
+			PairRef::ImmutableEmbedded (value, internals) =>
+				ValueRef::ImmutableEmbedded (value, internals.left ()),
+			PairRef::Mutable (_, internals) =>
+				ValueRef::Mutable (StdRef::map (internals, |internals| internals.left ())),
+			PairRef::MutableEmbedded (value, internals) =>
+				ValueRef::MutableEmbedded (value, StdRef::map (internals, |internals| internals.left ())),
 		}
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn right_ref_into (self) -> (ValueRef<'a>) {
 		match self {
-			PairRef::Immutable (_, value) =>
-				ValueRef::Immutable (&value.1),
-			PairRef::ImmutableEmbedded (embedded, value) =>
-				ValueRef::ImmutableEmbedded (embedded, &value.1),
-			PairRef::Mutable (_, value) =>
-				ValueRef::Mutable (StdRef::map (value, |value| &value.1)),
-			PairRef::MutableEmbedded (embedded, value) =>
-				ValueRef::MutableEmbedded (embedded, StdRef::map (value, |value| &value.1)),
+			PairRef::Immutable (_, internals) =>
+				ValueRef::Immutable (internals.right ()),
+			PairRef::ImmutableEmbedded (value, internals) =>
+				ValueRef::ImmutableEmbedded (value, internals.right ()),
+			PairRef::Mutable (_, internals) =>
+				ValueRef::Mutable (StdRef::map (internals, |internals| internals.right ())),
+			PairRef::MutableEmbedded (value, internals) =>
+				ValueRef::MutableEmbedded (value, StdRef::map (internals, |internals| internals.right ())),
 		}
 	}
 }
@@ -169,16 +153,44 @@ impl <'a> PairRef<'a> {
 impl <'a> Pair for PairRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn values_as_tuple (&self) -> (&(Value, Value)) {
+	fn left (&self) -> (&Value) {
 		match *self {
-			PairRef::Immutable (_, values) =>
-				values,
-			PairRef::ImmutableEmbedded (_, values) =>
-				values,
-			PairRef::Mutable (_, ref values) =>
-				values,
-			PairRef::MutableEmbedded (_, ref values) =>
-				values,
+			PairRef::Immutable (_, internals) =>
+				internals.left (),
+			PairRef::ImmutableEmbedded (_, internals) =>
+				internals.left (),
+			PairRef::Mutable (_, ref internals) =>
+				internals.left (),
+			PairRef::MutableEmbedded (_, ref internals) =>
+				internals.left (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn right (&self) -> (&Value) {
+		match *self {
+			PairRef::Immutable (_, internals) =>
+				internals.right (),
+			PairRef::ImmutableEmbedded (_, internals) =>
+				internals.right (),
+			PairRef::Mutable (_, ref internals) =>
+				internals.right (),
+			PairRef::MutableEmbedded (_, ref internals) =>
+				internals.right (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn left_and_right (&self) -> ((&Value, &Value)) {
+		match *self {
+			PairRef::Immutable (_, internals) =>
+				internals.left_and_right (),
+			PairRef::ImmutableEmbedded (_, internals) =>
+				internals.left_and_right (),
+			PairRef::Mutable (_, ref internals) =>
+				internals.left_and_right (),
+			PairRef::MutableEmbedded (_, ref internals) =>
+				internals.left_and_right (),
 		}
 	}
 }
@@ -188,6 +200,7 @@ impl <'a> Pair for PairRef<'a> {
 
 #[ derive (Clone, Debug) ]
 pub enum PairAsRef <'a> {
+	// FIXME:  Use internals!
 	Immutable (&'a PairImmutable),
 	ImmutableEmbedded (StdRc<StdAny>, &'a PairImmutable),
 	Mutable (&'a PairMutable),
@@ -251,14 +264,14 @@ impl <'a> PairAsRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_embedded_immutable_from_rc (value : StdRc<PairImmutable>) -> (PairAsRef<'a>) {
-		let value_ref = unsafe { mem::transmute (value.as_ref ()) };
-		PairAsRef::ImmutableEmbedded (value, value_ref)
+		let internals = unsafe { mem::transmute (value.as_ref ()) };
+		PairAsRef::ImmutableEmbedded (value, internals)
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_embedded_mutable_from_rc (value : StdRc<PairMutable>) -> (PairAsRef<'a>) {
-		let value_ref = unsafe { mem::transmute (value.as_ref ()) };
-		PairAsRef::MutableEmbedded (value, value_ref)
+		let internals = unsafe { mem::transmute (value.as_ref ()) };
+		PairAsRef::MutableEmbedded (value, internals)
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -352,9 +365,9 @@ impl <'a> PairAsRef<'a> {
 			PairAsRef::ImmutableEmbedded (embedded, value) =>
 				ValueRef::ImmutableEmbedded (embedded, value.left ()),
 			PairAsRef::Mutable (value) =>
-				ValueRef::Mutable (StdRef::map (value.values_rc_borrow (), |value| &value.0)),
+				ValueRef::Mutable (StdRef::map (value.internals_rc_borrow (), |value| value.left ())),
 			PairAsRef::MutableEmbedded (embedded, value) =>
-				ValueRef::MutableEmbedded (embedded, StdRef::map (value.values_rc_borrow (), |value| &value.0)),
+				ValueRef::MutableEmbedded (embedded, StdRef::map (value.internals_rc_borrow (), |value| value.left ())),
 		}
 	}
 	
@@ -366,9 +379,9 @@ impl <'a> PairAsRef<'a> {
 			PairAsRef::ImmutableEmbedded (embedded, value) =>
 				ValueRef::ImmutableEmbedded (embedded, value.right ()),
 			PairAsRef::Mutable (value) =>
-				ValueRef::Mutable (StdRef::map (value.values_rc_borrow (), |value| &value.1)),
+				ValueRef::Mutable (StdRef::map (value.internals_rc_borrow (), |value| value.right ())),
 			PairAsRef::MutableEmbedded (embedded, value) =>
-				ValueRef::MutableEmbedded (embedded, StdRef::map (value.values_rc_borrow (), |value| &value.1)),
+				ValueRef::MutableEmbedded (embedded, StdRef::map (value.internals_rc_borrow (), |value| value.right ())),
 		}
 	}
 }
@@ -377,7 +390,13 @@ impl <'a> PairAsRef<'a> {
 
 
 #[ derive (Clone, Debug) ]
-pub struct PairImmutable ( StdRc<(Value, Value)> );
+pub struct PairImmutable ( StdRc<PairImmutableInternals> );
+
+#[ derive (Debug) ]
+pub struct PairImmutableInternals {
+	pub left : Value,
+	pub right : Value,
+}
 
 
 impl PairImmutable {
@@ -393,18 +412,22 @@ impl PairImmutable {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn values_rc_clone (&self) -> (StdRc<(Value, Value)>) {
+	pub fn internals_rc_clone (&self) -> (StdRc<PairImmutableInternals>) {
 		self.0.clone ()
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn values_rc_into (self) -> (StdRc<(Value, Value)>) {
+	pub fn internals_rc_into (self) -> (StdRc<PairImmutableInternals>) {
 		self.0
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn to_mutable (&self) -> (PairMutable) {
-		PairMutable (StdRc::new (StdRefCell::new ((*self.0) .clone ())))
+		let (left, right) = self.left_and_right ();
+		let left = left.clone ();
+		let right = right.clone ();
+		let internals = PairMutableInternals { left, right };
+		PairMutable (StdRc::new (StdRefCell::new (internals)))
 	}
 }
 
@@ -412,8 +435,37 @@ impl PairImmutable {
 impl Pair for PairImmutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn values_as_tuple (&self) -> (&(Value, Value)) {
-		self.0.as_ref ()
+	fn left (&self) -> (&Value) {
+		self.0.as_ref () .left ()
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn right (&self) -> (&Value) {
+		self.0.as_ref () .right ()
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn left_and_right (&self) -> ((&Value, &Value)) {
+		self.0.as_ref () .left_and_right ()
+	}
+}
+
+
+impl Pair for PairImmutableInternals {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn left (&self) -> (&Value) {
+		&self.left
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn right (&self) -> (&Value) {
+		&self.right
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn left_and_right (&self) -> ((&Value, &Value)) {
+		(&self.left, &self.right)
 	}
 }
 
@@ -421,7 +473,13 @@ impl Pair for PairImmutable {
 
 
 #[ derive (Clone, Debug) ]
-pub struct PairMutable ( StdRc<StdRefCell<(Value, Value)>> );
+pub struct PairMutable ( StdRc<StdRefCell<PairMutableInternals>> );
+
+#[ derive (Debug) ]
+pub struct PairMutableInternals {
+	pub left : Value,
+	pub right : Value,
+}
 
 
 impl PairMutable {
@@ -433,33 +491,56 @@ impl PairMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn pair_ref (&self) -> (PairRef) {
-		PairRef::Mutable (&self.0, self.values_rc_borrow ())
+		PairRef::Mutable (&self.0, self.internals_rc_borrow ())
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn values_rc_borrow (&self) -> (StdRef<(Value, Value)>) {
+	pub fn internals_rc_borrow (&self) -> (StdRef<PairMutableInternals>) {
 		self.0.as_ref () .borrow ()
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn values_rc_clone (&self) -> (StdRc<StdRefCell<(Value, Value)>>) {
+	pub fn internals_rc_clone (&self) -> (StdRc<StdRefCell<PairMutableInternals>>) {
 		self.0.clone ()
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn values_rc_into (self) -> (StdRc<StdRefCell<(Value, Value)>>) {
+	pub fn internals_rc_into (self) -> (StdRc<StdRefCell<PairMutableInternals>>) {
 		self.0
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn values_ref_mut (&self) -> (StdRefMut<(Value, Value)>) {
+	pub fn internals_ref_mut (&self) -> (StdRefMut<PairMutableInternals>) {
 		self.0.as_ref () .borrow_mut ()
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn to_immutable (&self) -> (PairImmutable) {
-		let reference = self.0.as_ref () .borrow ();
-		PairImmutable (StdRc::new ((*reference) .clone ()))
+		let self_0 = self.internals_rc_borrow ();
+		let (left, right) = self_0.left_and_right ();
+		let left = left.clone ();
+		let right = right.clone ();
+		let internals = PairImmutableInternals { left, right };
+		PairImmutable (StdRc::new (internals))
+	}
+}
+
+
+impl Pair for PairMutableInternals {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn left (&self) -> (&Value) {
+		&self.left
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn right (&self) -> (&Value) {
+		&self.right
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn left_and_right (&self) -> ((&Value, &Value)) {
+		(&self.left, &self.right)
 	}
 }
 
@@ -468,12 +549,14 @@ impl PairMutable {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn pair_immutable_new (left : Value, right : Value) -> (PairImmutable) {
-	PairImmutable (StdRc::new ((left, right)))
+	let internals = PairImmutableInternals { left, right };
+	PairImmutable (StdRc::new (internals))
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn pair_mutable_new (left : Value, right : Value) -> (PairMutable) {
-	PairMutable (StdRc::new (StdRefCell::new ((left, right))))
+	let internals = PairMutableInternals { left, right };
+	PairMutable (StdRc::new (StdRefCell::new (internals)))
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

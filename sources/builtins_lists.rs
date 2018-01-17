@@ -97,18 +97,18 @@ pub fn pair_right_ref <'a> (pair : &'a Value) -> (Outcome<ValueRef<'a>>) {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn pair_left_set <ValueRef1 : StdAsRef<Value>, ValueRef2 : StdAsRef<Value>> (pair : ValueRef1, value : ValueRef2) -> (Outcome<Value>) {
 	let pair = try_as_pair_mutable_ref! (pair.as_ref ());
-	let mut pair = pair.values_ref_mut ();
+	let mut pair = pair.internals_ref_mut ();
 	let mut value_swap = value.as_ref () .clone ();
-	mem::swap (&mut value_swap, &mut pair.0);
+	mem::swap (&mut value_swap, &mut pair.left);
 	succeed! (value_swap);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn pair_right_set <ValueRef1 : StdAsRef<Value>, ValueRef2 : StdAsRef<Value>> (pair : ValueRef1, value : ValueRef2) -> (Outcome<Value>) {
 	let pair = try_as_pair_mutable_ref! (pair.as_ref ());
-	let mut pair = pair.values_ref_mut ();
+	let mut pair = pair.internals_ref_mut ();
 	let mut value_swap = value.as_ref () .clone ();
-	mem::swap (&mut value_swap, &mut pair.1);
+	mem::swap (&mut value_swap, &mut pair.right);
 	succeed! (value_swap);
 }
 
