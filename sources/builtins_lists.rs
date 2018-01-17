@@ -650,25 +650,15 @@ pub fn vec_list_drain (buffer : &mut ValueVec, list : &Value) -> (Outcome<()>) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn vec_list_drain_dotted (buffer : &mut ValueVec, list : &Value) -> (Outcome<Option<Value>>) {
-	// FIXME:  Add support for mutable pairs!  (without using the `.clone` if not necessary!)
-	let mut cursor = list.clone ();
+	let mut iterator = try! (ListIterator::new (list, true));
 	loop {
-		match cursor.class () {
-			ValueClass::Pair =>
-				cursor = {
-					let pair = try_as_pair_ref! (&cursor);
-					let (left, right) = pair.left_and_right ();
-					let cursor = right.clone ();
-					buffer.push (left.clone ());
-					cursor
-				},
-			ValueClass::Null =>
-				succeed! (None),
-			_ =>
-				succeed! (Some (cursor)),
-		}
-		if list.is_self (&cursor) {
-			fail! (0xeff11a7d);
+		match iterator.next () {
+			Some (Ok (value)) =>
+				buffer.push (value.clone ()),
+			Some (Err (error)) =>
+				return Err (error),
+			None =>
+				return Ok (option_map! (iterator.dotted (), value, value.clone ())),
 		}
 	}
 }
@@ -811,34 +801,15 @@ pub fn vec_list_ref_drain <'a : 'b, 'b> (buffer : &'b mut StdVec<ValueRef<'a>>, 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn vec_list_ref_drain_dotted <'a : 'b, 'b> (buffer : &'b mut StdVec<ValueRef<'a>>, list : &'a Value) -> (Outcome<Option<ValueRef<'a>>>) {
-	// FIXME:  Add support for mutable pairs!  (without using the `.clone` if not necessary!)
-	let mut cursor = ValueRef::Immutable (list);
+	let mut iterator = try! (ListIterator::new (list, true));
 	loop {
-		match cursor.kind () {
-			ValueKind::PairImmutable =>
-				cursor = {
-					let pair = cursor.map_generic::<PairImmutable, _> (|value| value.expect_as_ref_0 ());
-					let right = pair.clone_ref () .map_value (|pair| pair.right ());
-					let left = pair.map_value (|pair| pair.left ());
-					buffer.push (left);
-					right
-				},
-			ValueKind::PairMutable =>
-				cursor = {
-					let pair = cursor.map_generic::<PairMutable, _> (|value| value.expect_as_ref_0 ());
-					let pair = PairRef::new_embedded_mutable (pair.clone ());
-					let right = pair.clone_ref () .right_ref_into ();
-					let left = pair.left_ref_into ();
-					buffer.push (left);
-					right
-				},
-			ValueKind::Null =>
-				succeed! (None),
-			_ =>
-				succeed! (Some (cursor)),
-		}
-		if list.is_self (&cursor) {
-			fail! (0x4526488f);
+		match iterator.next () {
+			Some (Ok (value)) =>
+				buffer.push (value),
+			Some (Err (error)) =>
+				return Err (error),
+			None =>
+				return Ok (iterator.dotted ()),
 		}
 	}
 }
