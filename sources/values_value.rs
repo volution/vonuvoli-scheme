@@ -469,17 +469,34 @@ impl <'a> ValueRef<'a> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new_embedded_immutable (value : Value) -> (ValueRef<'a>) {
+	pub fn new_embedded_immutable <U : 'static, Accessor> (value : U, accessor : Accessor) -> (ValueRef<'a>)
+			where Accessor : FnOnce (&'a U) -> (&'a Value)
+	{
 		let value = StdRc::new (value);
+		ValueRef::new_embedded_immutable_from_rc (value, accessor)
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new_embedded_mutable <U : 'static, Accessor> (value : U, accessor : Accessor) -> (ValueRef<'a>)
+			where Accessor : FnOnce (&'a U) -> (StdRef<'a, Value>)
+	{
+		let value = StdRc::new (value);
+		ValueRef::new_embedded_mutable_from_rc (value, accessor)
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new_embedded_immutable_from_rc <U : 'static, Accessor> (value : StdRc<U>, accessor : Accessor) -> (ValueRef<'a>)
+			where Accessor : FnOnce (&'a U) -> (&'a Value)
+	{
 		let value_ref = unsafe { mem::transmute (value.as_ref ()) };
+		let value_ref = accessor (value_ref);
 		ValueRef::ImmutableEmbedded (value, value_ref)
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new_embedded_mutable <U : 'a, Accessor> (value : Value, accessor : Accessor) -> (ValueRef<'a>)
+	pub fn new_embedded_mutable_from_rc <U : 'static, Accessor> (value : StdRc<U>, accessor : Accessor) -> (ValueRef<'a>)
 			where Accessor : FnOnce (&'a U) -> (StdRef<'a, Value>)
 	{
-		let value = StdRc::new (value);
 		let value_ref = unsafe { mem::transmute (value.as_ref ()) };
 		let value_ref = accessor (value_ref);
 		ValueRef::MutableEmbedded (value, value_ref)
@@ -585,9 +602,7 @@ impl <'a, T : 'a> GenericRef<'a, T> {
 			where Accessor : FnOnce (&'a U) -> (&'a T)
 	{
 		let value = StdRc::new (value);
-		let value_ref = unsafe { mem::transmute (value.as_ref ()) };
-		let value_ref = accessor (value_ref);
-		GenericRef::ImmutableEmbedded (value, value_ref)
+		GenericRef::new_embedded_immutable_from_rc (value, accessor)
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -595,6 +610,22 @@ impl <'a, T : 'a> GenericRef<'a, T> {
 			where Accessor : FnOnce (&'a U) -> (StdRef<'a, T>)
 	{
 		let value = StdRc::new (value);
+		GenericRef::new_embedded_mutable_from_rc (value, accessor)
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new_embedded_immutable_from_rc <U : 'static, Accessor> (value : StdRc<U>, accessor : Accessor) -> (GenericRef<'a, T>)
+			where Accessor : FnOnce (&'a U) -> (&'a T)
+	{
+		let value_ref = unsafe { mem::transmute (value.as_ref ()) };
+		let value_ref = accessor (value_ref);
+		GenericRef::ImmutableEmbedded (value, value_ref)
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new_embedded_mutable_from_rc <U : 'static, Accessor> (value : StdRc<U>, accessor : Accessor) -> (GenericRef<'a, T>)
+			where Accessor : FnOnce (&'a U) -> (StdRef<'a, T>)
+	{
 		let value_ref = unsafe { mem::transmute (value.as_ref ()) };
 		let value_ref = accessor (value_ref);
 		GenericRef::MutableEmbedded (value, value_ref)
