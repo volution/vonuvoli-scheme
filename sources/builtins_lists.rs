@@ -675,25 +675,25 @@ pub fn vec_list_drain_dotted (buffer : &mut ValueVec, list : &Value) -> (Outcome
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn vec_list_ref_append_2 <'a> (list_1 : &'a Value, list_2 : &'a Value) -> (Outcome<StdVec<&'a Value>>) {
+pub fn vec_list_ref_append_2 <'a> (list_1 : &'a Value, list_2 : &'a Value) -> (Outcome<StdVec<ValueRef<'a>>>) {
 	let buffer = try! (vec_list_ref_append_2_dotted (list_1, list_2));
 	return vec_list_ref_append_return (buffer);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn vec_list_ref_append_3 <'a> (list_1 : &'a Value, list_2 : &'a Value, list_3 : &'a Value) -> (Outcome<StdVec<&'a Value>>) {
+pub fn vec_list_ref_append_3 <'a> (list_1 : &'a Value, list_2 : &'a Value, list_3 : &'a Value) -> (Outcome<StdVec<ValueRef<'a>>>) {
 	let buffer = try! (vec_list_ref_append_3_dotted (list_1, list_2, list_3));
 	return vec_list_ref_append_return (buffer);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn vec_list_ref_append_4 <'a> (list_1 : &'a Value, list_2 : &'a Value, list_3 : &'a Value, list_4 : &'a Value) -> (Outcome<StdVec<&'a Value>>) {
+pub fn vec_list_ref_append_4 <'a> (list_1 : &'a Value, list_2 : &'a Value, list_3 : &'a Value, list_4 : &'a Value) -> (Outcome<StdVec<ValueRef<'a>>>) {
 	let buffer = try! (vec_list_ref_append_4_dotted (list_1, list_2, list_3, list_4));
 	return vec_list_ref_append_return (buffer);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn vec_list_ref_append_n <'a> (lists : &'a [&'a Value]) -> (Outcome<StdVec<&'a Value>>) {
+pub fn vec_list_ref_append_n <'a> (lists : &'a [&'a Value]) -> (Outcome<StdVec<ValueRef<'a>>>) {
 	if lists.is_empty () {
 		succeed! (StdVec::new ());
 	}
@@ -702,7 +702,7 @@ pub fn vec_list_ref_append_n <'a> (lists : &'a [&'a Value]) -> (Outcome<StdVec<&
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn vec_list_ref_append_return <'a> ((buffer, last) : (StdVec<&'a Value>, Option<&'a Value>)) -> (Outcome<StdVec<&'a Value>>) {
+fn vec_list_ref_append_return <'a> ((buffer, last) : (StdVec<ValueRef<'a>>, Option<ValueRef<'a>>)) -> (Outcome<StdVec<ValueRef<'a>>>) {
 	match last {
 		Some (_) =>
 			fail! (0x48f9af8f),
@@ -715,7 +715,7 @@ fn vec_list_ref_append_return <'a> ((buffer, last) : (StdVec<&'a Value>, Option<
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn vec_list_ref_append_2_dotted <'a> (list_1 : &'a Value, list_2 : &'a Value) -> (Outcome<(StdVec<&'a Value>, Option<&'a Value>)>) {
+pub fn vec_list_ref_append_2_dotted <'a> (list_1 : &'a Value, list_2 : &'a Value) -> (Outcome<(StdVec<ValueRef<'a>>, Option<ValueRef<'a>>)>) {
 	if is_null_all_2 (list_1, list_2) {
 		succeed! ((StdVec::new (), None));
 	}
@@ -726,7 +726,7 @@ pub fn vec_list_ref_append_2_dotted <'a> (list_1 : &'a Value, list_2 : &'a Value
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn vec_list_ref_append_3_dotted <'a> (list_1 : &'a Value, list_2 : &'a Value, list_3 : &'a Value) -> (Outcome<(StdVec<&'a Value>, Option<&'a Value>)>) {
+pub fn vec_list_ref_append_3_dotted <'a> (list_1 : &'a Value, list_2 : &'a Value, list_3 : &'a Value) -> (Outcome<(StdVec<ValueRef<'a>>, Option<ValueRef<'a>>)>) {
 	if is_null_all_3 (list_1, list_2, list_3) {
 		succeed! ((StdVec::new (), None));
 	}
@@ -738,7 +738,7 @@ pub fn vec_list_ref_append_3_dotted <'a> (list_1 : &'a Value, list_2 : &'a Value
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn vec_list_ref_append_4_dotted <'a> (list_1 : &'a Value, list_2 : &'a Value, list_3 : &'a Value, list_4 : &'a Value) -> (Outcome<(StdVec<&'a Value>, Option<&'a Value>)>) {
+pub fn vec_list_ref_append_4_dotted <'a> (list_1 : &'a Value, list_2 : &'a Value, list_3 : &'a Value, list_4 : &'a Value) -> (Outcome<(StdVec<ValueRef<'a>>, Option<ValueRef<'a>>)>) {
 	if is_null_all_4 (list_1, list_2, list_3, list_4) {
 		succeed! ((StdVec::new (), None));
 	}
@@ -751,7 +751,7 @@ pub fn vec_list_ref_append_4_dotted <'a> (list_1 : &'a Value, list_2 : &'a Value
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn vec_list_ref_append_n_dotted <'a> (lists : &'a [&'a Value]) -> (Outcome<(StdVec<&'a Value>, Option<&'a Value>)>) {
+pub fn vec_list_ref_append_n_dotted <'a> (lists : &'a [&'a Value]) -> (Outcome<(StdVec<ValueRef<'a>>, Option<ValueRef<'a>>)>) {
 	if lists.is_empty () {
 		succeed! ((StdVec::new (), None));
 	}
@@ -776,7 +776,7 @@ pub fn vec_list_ref_append_n_dotted <'a> (lists : &'a [&'a Value]) -> (Outcome<(
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn vec_list_ref_clone <'a> (list : &'a Value) -> (Outcome<StdVec<&'a Value>>) {
+pub fn vec_list_ref_clone <'a> (list : &'a Value) -> (Outcome<StdVec<ValueRef<'a>>>) {
 	let (buffer, last) = try! (vec_list_ref_clone_dotted (list));
 	match last {
 		Some (_) =>
@@ -788,7 +788,7 @@ pub fn vec_list_ref_clone <'a> (list : &'a Value) -> (Outcome<StdVec<&'a Value>>
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn vec_list_ref_clone_dotted <'a> (list : &'a Value) -> (Outcome<(StdVec<&'a Value>, Option<&'a Value>)>) {
+pub fn vec_list_ref_clone_dotted <'a> (list : &'a Value) -> (Outcome<(StdVec<ValueRef<'a>>, Option<ValueRef<'a>>)>) {
 	let mut buffer = StdVec::new ();
 	let last = try! (vec_list_ref_drain_dotted (&mut buffer, list));
 	succeed! ((buffer, last));
@@ -796,7 +796,7 @@ pub fn vec_list_ref_clone_dotted <'a> (list : &'a Value) -> (Outcome<(StdVec<&'a
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn vec_list_ref_drain <'a : 'b, 'b> (buffer : &'b mut StdVec<&'a Value>, list : &'a Value) -> (Outcome<()>) {
+pub fn vec_list_ref_drain <'a : 'b, 'b> (buffer : &'b mut StdVec<ValueRef<'a>>, list : &'a Value) -> (Outcome<()>) {
 	let last = try! (vec_list_ref_drain_dotted (buffer, list));
 	match last {
 		Some (_) =>
@@ -808,22 +808,34 @@ pub fn vec_list_ref_drain <'a : 'b, 'b> (buffer : &'b mut StdVec<&'a Value>, lis
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn vec_list_ref_drain_dotted <'a : 'b, 'b> (buffer : &'b mut StdVec<&'a Value>, list : &'a Value) -> (Outcome<Option<&'a Value>>) {
-	let mut cursor = list;
+pub fn vec_list_ref_drain_dotted <'a : 'b, 'b> (buffer : &'b mut StdVec<ValueRef<'a>>, list : &'a Value) -> (Outcome<Option<ValueRef<'a>>>) {
+	// FIXME:  Add support for mutable pairs!  (without using the `.clone` if not necessary!)
+	let mut cursor = ValueRef::Immutable (list);
 	loop {
-		match cursor.class () {
-			ValueClass::Pair => {
-				// FIXME:  Add support for mutable pairs!
-				let (left, right) = try! (StdTryAsRef0::<PairImmutable>::try_as_ref_0 (cursor)) .left_and_right ();
-				buffer.push (left);
-				cursor = right;
-			},
-			ValueClass::Null =>
+		match cursor.kind () {
+			ValueKind::PairImmutable =>
+				cursor = {
+					let pair = cursor.map_generic::<PairImmutable, _> (|value| value.expect_as_ref_0 ());
+					let right = pair.clone_ref () .map_value (|pair| pair.right ());
+					let left = pair.map_value (|pair| pair.left ());
+					buffer.push (left);
+					right
+				},
+			ValueKind::PairMutable =>
+				cursor = {
+					let pair = cursor.map_generic::<PairMutable, _> (|value| value.expect_as_ref_0 ());
+					let pair = PairRef::new_embedded_mutable (pair.clone ());
+					let right = pair.clone_ref () .right_ref_into ();
+					let left = pair.left_ref_into ();
+					buffer.push (left);
+					right
+				},
+			ValueKind::Null =>
 				succeed! (None),
 			_ =>
 				succeed! (Some (cursor)),
 		}
-		if list.is_self (cursor) {
+		if list.is_self (&cursor) {
 			fail! (0x4526488f);
 		}
 	}

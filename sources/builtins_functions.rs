@@ -95,30 +95,35 @@ pub fn apply_0 (evaluator : &mut EvaluatorContext, callable : &Value) -> (Outcom
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn apply_1 (evaluator : &mut EvaluatorContext, callable : &Value, input_1 : &Value) -> (Outcome<Value>) {
 	let inputs = try! (vec_list_ref_clone (input_1));
+	let inputs = vec_vec_to_ref (&inputs);
 	return call_n (evaluator, callable, &inputs);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn apply_2 (evaluator : &mut EvaluatorContext, callable : &Value, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
 	let inputs = try! (vec_list_ref_append_2 (input_1, input_2));
+	let inputs = vec_vec_to_ref (&inputs);
 	return call_n (evaluator, callable, &inputs);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn apply_3 (evaluator : &mut EvaluatorContext, callable : &Value, input_1 : &Value, input_2 : &Value, input_3 : &Value) -> (Outcome<Value>) {
 	let inputs = try! (vec_list_ref_append_3 (input_1, input_2, input_3));
+	let inputs = vec_vec_to_ref (&inputs);
 	return call_n (evaluator, callable, &inputs);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn apply_4 (evaluator : &mut EvaluatorContext, callable : &Value, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value) -> (Outcome<Value>) {
 	let inputs = try! (vec_list_ref_append_4 (input_1, input_2, input_3, input_4));
+	let inputs = vec_vec_to_ref (&inputs);
 	return call_n (evaluator, callable, &inputs);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn apply_n (evaluator : &mut EvaluatorContext, callable : &Value, inputs : &[&Value]) -> (Outcome<Value>) {
 	let inputs = try! (vec_list_ref_append_n (inputs));
+	let inputs = vec_vec_to_ref (&inputs);
 	return call_n (evaluator, callable, &inputs);
 }
 
