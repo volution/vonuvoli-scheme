@@ -224,6 +224,20 @@ impl <'a> PairAsRef<'a> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new_mutable_from_generic_ref (value : GenericRef<'a, PairMutable>) -> (PairAsRef<'a>) {
+		match value {
+			GenericRef::Immutable (value) =>
+				PairAsRef::Mutable (value),
+			GenericRef::ImmutableEmbedded (embedded, value) =>
+				PairAsRef::MutableEmbedded (embedded, value),
+			GenericRef::Mutable (value) =>
+				PairAsRef::new_embedded_mutable (value.as_ref () .clone ()),
+			GenericRef::MutableEmbedded (_, value) =>
+				PairAsRef::new_embedded_mutable (value.as_ref () .clone ()),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_embedded_immutable (value : PairImmutable) -> (PairAsRef<'a>) {
 		let value = StdRc::new (value);
 		PairAsRef::new_embedded_immutable_from_rc (value)
@@ -500,6 +514,12 @@ impl <'a> iter::Iterator for ListPairIterator <'a> {
 				let pair = PairAsRef::new_immutable_from_generic_ref (pair);
 				(pair, cursor)
 			},
+			ValueKind::PairMutable => {
+				let pair = self.0.clone_ref () .map_generic::<PairMutable, _> (|value| value.expect_as_ref_0 ());
+				let cursor = PairRef::new_embedded_mutable (pair.clone ()) .right_ref_into ();
+				let pair = PairAsRef::new_mutable_from_generic_ref (pair);
+				(pair, cursor)
+			},
 			ValueKind::Null =>
 				return None,
 			_ =>
@@ -540,6 +560,13 @@ impl <'a> iter::Iterator for ListIterator <'a> {
 				let pair = self.0.clone_ref () .map_generic::<PairImmutable, _> (|value| value.expect_as_ref_0 ());
 				let cursor = pair.clone_ref () .map_value (|pair| pair.right ());
 				let value = pair.map_value (|pair| pair.left ());
+				(value, cursor)
+			},
+			ValueKind::PairMutable => {
+				let pair = self.0.clone_ref () .map_generic::<PairMutable, _> (|value| value.expect_as_ref_0 ());
+				let pair = PairRef::new_embedded_mutable (pair.clone ());
+				let cursor = pair.clone_ref () .right_ref_into ();
+				let value = pair.left_ref_into ();
 				(value, cursor)
 			},
 			ValueKind::Null =>
