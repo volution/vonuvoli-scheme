@@ -129,8 +129,6 @@ cat <<'EOS'
 :: execute / test / all / benchmark :: x-run ':: compile / test / all / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --release --all-features --jobs 1 -- --test-threads 1 --bench 'benchmark__' "${@}"
 :: execute / test / all / coverage / kcov :: x-run ':: compile / test / all / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov --no-clean-rebuild --no-default-features --jobs 1 --output ./target/kcov -- "${@}"
 
-:: execute / test / all / debug / watch :: exec -- x-run ':: execute / watch' x-run ':: execute / test / all / debug' "${@}"
-
 
 :: execute / chibi :: exec -- chibi-scheme -m scheme.base -m scheme.case-lambda -m scheme.char -m scheme.complex -m scheme.cxr -m scheme.eval -m scheme.file -m scheme.inexact -m scheme.lazy -m scheme.load -m scheme.process-context -m scheme.r5rs -m scheme.read -m scheme.repl -m scheme.time -m scheme.write "${@}"
 :: execute / gauche :: exec -- gosh -b -q -u scheme.base -u scheme.case-lambda -u scheme.char -u scheme.complex -u scheme.cxr -u scheme.eval -u scheme.file -u scheme.inexact -u scheme.lazy -u scheme.load -u scheme.process-context -u scheme.r5rs -u scheme.read -u scheme.repl -u scheme.time -u scheme.write "${@}"
@@ -148,11 +146,22 @@ cat <<'EOS'
 
 
 
+:: compile / all / debug / watch :: exec -- x-run ':: execute / watch' x-run ':: compile / all / debug' "${@}"
+:: compile / lib / debug / watch :: exec -- x-run ':: execute / watch' x-run ':: compile / lib / debug' "${@}"
+:: compile / bin / interpreter / debug / watch :: exec -- x-run ':: execute / watch' x-run ':: compile / bin / interpreter / debug' "${@}"
+:: compile / bin / compiler / debug / watch :: exec -- x-run ':: execute / watch' x-run ':: compile / bin / compiler / debug' "${@}"
+:: compile / bin / tester / debug / watch :: exec -- x-run ':: execute / watch' x-run ':: compile / bin / tester / debug' "${@}"
+:: compile / bin / bencher / debug / watch :: exec -- x-run ':: execute / watch' x-run ':: compile / bin / bencher / debug' "${@}"
+:: compile / test / all / debug / watch :: exec -- x-run ':: execute / watch' x-run ':: compile / test / all / debug' "${@}"
+
+:: execute / test / all / debug / watch :: exec -- x-run ':: execute / watch' x-run ':: execute / test / all / debug' "${@}"
+
+
 << execute / watch
 	test "${#}" -ge 1
 	while true ; do
 		_timestamp_previous="$( find ./sources/ ./tests/ -printf '%T+\n' | LC_ALL=C sort | tail -n 1 )"
-		if ! "${@}" 2>&1 < /dev/null | tee -a /dev/stderr >| "./target/x-run--watch--${$}.txt" ; then
+		if ! "${@}" 2>&1 < /dev/null | tee "./target/x-run--watch--${$}.txt" ; then
 			less -- "./target/x-run--watch--${$}.txt"
 		else
 			rm -- "./target/x-run--watch--${$}.txt"
@@ -374,10 +383,10 @@ find ./tests/scripts -xdev -type f -name 'benchmark--*.ss' -printf '%f\n' \
 sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
 :: execute / bin / compiler / @{SCRIPT} / debug :: x-run ':: execute / bin / compiler / debug' './tests/scripts/benchmark--@{SCRIPT}.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--@{SCRIPT}--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--@{SCRIPT}--vonuvoli-compile.out'
 :: execute / bin / compiler / @{SCRIPT} / release :: x-run ':: execute / bin / compiler / release' ./tests/scripts/benchmark--@{SCRIPT}.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--@{SCRIPT}--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--@{SCRIPT}--vonuvoli-compile.out'
-:: execute / benchmark / vonuvoli / @{SCRIPT} / debug :: taskset -c 2 x-run ':: execute / bin / interpreter / debug' './tests/scripts/benchmark--@{SCRIPT}.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--@{SCRIPT}--vonuvoli-debug.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--vonuvoli-debug.out'
-:: execute / benchmark / vonuvoli / @{SCRIPT} / release :: taskset -c 2 x-run ':: execute / bin / interpreter / release' './tests/scripts/benchmark--@{SCRIPT}.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--@{SCRIPT}--vonuvoli-release.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--vonuvoli-release.out'
-:: execute / benchmark / chibi / @{SCRIPT} :: taskset -c 2 x-run ':: execute / chibi' -- './tests/scripts/benchmark--@{SCRIPT}.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--@{SCRIPT}--chibi.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--chibi.out'
-:: execute / benchmark / gauche / @{SCRIPT} :: taskset -c 2 x-run ':: execute / gauche' -- './tests/scripts/benchmark--@{SCRIPT}.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--@{SCRIPT}--gauche.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--gauche.out'
+:: execute / benchmark / vonuvoli / @{SCRIPT} / debug :: taskset -c 2 x-run ':: execute / bin / interpreter / debug' './tests/scripts/benchmark--@{SCRIPT}.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--@{SCRIPT}--vonuvoli-debug.out'
+:: execute / benchmark / vonuvoli / @{SCRIPT} / release :: taskset -c 2 x-run ':: execute / bin / interpreter / release' './tests/scripts/benchmark--@{SCRIPT}.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--@{SCRIPT}--vonuvoli-release.out'
+:: execute / benchmark / chibi / @{SCRIPT} :: taskset -c 2 x-run ':: execute / chibi' -- './tests/scripts/benchmark--@{SCRIPT}.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--@{SCRIPT}--chibi.out'
+:: execute / benchmark / gauche / @{SCRIPT} :: taskset -c 2 x-run ':: execute / gauche' -- './tests/scripts/benchmark--@{SCRIPT}.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--@{SCRIPT}--gauche.out'
 EOS
 done
 
@@ -387,7 +396,7 @@ find ./tests/scripts -xdev -type f -name 'benchmark--*.py' -printf '%f\n' \
 | sort -u \
 | while read _script ; do
 sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
-:: execute / benchmark / python / @{SCRIPT} :: taskset -c 2 x-run ':: execute / python' -- './tests/scripts/benchmark--@{SCRIPT}.py' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--@{SCRIPT}--python.out' ; exec -- cat -- './tests/scripts/_out/benchmark--@{SCRIPT}--python.out'
+:: execute / benchmark / python / @{SCRIPT} :: taskset -c 2 x-run ':: execute / python' -- './tests/scripts/benchmark--@{SCRIPT}.py' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--@{SCRIPT}--python.out'
 EOS
 done
 

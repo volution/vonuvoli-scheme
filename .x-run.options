@@ -19,12 +19,20 @@
 	x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --no-default-features "${@}"
 !!
 
+<< compile / all / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: compile / all / debug' "${@}"
+!!
+
 << compile / all / release
 	x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --release --all-features "${@}"
 !!
 
 << compile / bin / bencher / debug
 	x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --bin vonuvoli-scheme-bencher --no-default-features "${@}"
+!!
+
+<< compile / bin / bencher / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: compile / bin / bencher / debug' "${@}"
 !!
 
 << compile / bin / bencher / release
@@ -35,6 +43,10 @@
 	x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --bin vonuvoli-scheme-compiler --no-default-features "${@}"
 !!
 
+<< compile / bin / compiler / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: compile / bin / compiler / debug' "${@}"
+!!
+
 << compile / bin / compiler / release
 	x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --bin vonuvoli-scheme-compiler --release --all-features "${@}"
 !!
@@ -43,12 +55,20 @@
 	x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --bin vonuvoli-scheme-interpreter --no-default-features "${@}"
 !!
 
+<< compile / bin / interpreter / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: compile / bin / interpreter / debug' "${@}"
+!!
+
 << compile / bin / interpreter / release
 	x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --bin vonuvoli-scheme-interpreter --release --all-features "${@}"
 !!
 
 << compile / bin / tester / debug
 	x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --bin vonuvoli-scheme-tester --no-default-features "${@}"
+!!
+
+<< compile / bin / tester / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: compile / bin / tester / debug' "${@}"
 !!
 
 << compile / bin / tester / release
@@ -77,6 +97,10 @@
 
 << compile / lib / debug
 	x-run ':: compile / peg' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --lib --no-default-features "${@}"
+!!
+
+<< compile / lib / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: compile / lib / debug' "${@}"
 !!
 
 << compile / lib / release
@@ -112,6 +136,10 @@
 
 << compile / test / all / debug
 	x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --no-default-features --no-run "${@}"
+!!
+
+<< compile / test / all / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: compile / test / all / debug' "${@}"
 !!
 
 << compile / test / all / release
@@ -223,31 +251,31 @@
 !!
 
 << execute / benchmark / chibi / controls
-	taskset -c 2 x-run ':: execute / chibi' -- './tests/scripts/benchmark--controls.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--controls--chibi.out' ; exec -- cat -- './tests/scripts/_out/benchmark--controls--chibi.out'
+	taskset -c 2 x-run ':: execute / chibi' -- './tests/scripts/benchmark--controls.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--controls--chibi.out'
 !!
 
 << execute / benchmark / chibi / loop
-	taskset -c 2 x-run ':: execute / chibi' -- './tests/scripts/benchmark--loop.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--loop--chibi.out' ; exec -- cat -- './tests/scripts/_out/benchmark--loop--chibi.out'
+	taskset -c 2 x-run ':: execute / chibi' -- './tests/scripts/benchmark--loop.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--loop--chibi.out'
 !!
 
 << execute / benchmark / chibi / make-cons
-	taskset -c 2 x-run ':: execute / chibi' -- './tests/scripts/benchmark--make-cons.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--make-cons--chibi.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-cons--chibi.out'
+	taskset -c 2 x-run ':: execute / chibi' -- './tests/scripts/benchmark--make-cons.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--make-cons--chibi.out'
 !!
 
 << execute / benchmark / chibi / make-vector
-	taskset -c 2 x-run ':: execute / chibi' -- './tests/scripts/benchmark--make-vector.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--make-vector--chibi.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-vector--chibi.out'
+	taskset -c 2 x-run ':: execute / chibi' -- './tests/scripts/benchmark--make-vector.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--make-vector--chibi.out'
 !!
 
 << execute / benchmark / chibi / r7rs-ack
-	taskset -c 2 x-run ':: execute / chibi' -- './tests/scripts/benchmark--r7rs-ack.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--r7rs-ack--chibi.out' ; exec -- cat -- './tests/scripts/_out/benchmark--r7rs-ack--chibi.out'
+	taskset -c 2 x-run ':: execute / chibi' -- './tests/scripts/benchmark--r7rs-ack.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--r7rs-ack--chibi.out'
 !!
 
 << execute / benchmark / chibi / r7rs-array1
-	taskset -c 2 x-run ':: execute / chibi' -- './tests/scripts/benchmark--r7rs-array1.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--r7rs-array1--chibi.out' ; exec -- cat -- './tests/scripts/_out/benchmark--r7rs-array1--chibi.out'
+	taskset -c 2 x-run ':: execute / chibi' -- './tests/scripts/benchmark--r7rs-array1.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--r7rs-array1--chibi.out'
 !!
 
 << execute / benchmark / chibi / r7rs-browse
-	taskset -c 2 x-run ':: execute / chibi' -- './tests/scripts/benchmark--r7rs-browse.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--r7rs-browse--chibi.out' ; exec -- cat -- './tests/scripts/_out/benchmark--r7rs-browse--chibi.out'
+	taskset -c 2 x-run ':: execute / chibi' -- './tests/scripts/benchmark--r7rs-browse.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--r7rs-browse--chibi.out'
 !!
 
 << execute / benchmark / compare / all
@@ -366,47 +394,47 @@
 !!
 
 << execute / benchmark / gauche / controls
-	taskset -c 2 x-run ':: execute / gauche' -- './tests/scripts/benchmark--controls.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--controls--gauche.out' ; exec -- cat -- './tests/scripts/_out/benchmark--controls--gauche.out'
+	taskset -c 2 x-run ':: execute / gauche' -- './tests/scripts/benchmark--controls.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--controls--gauche.out'
 !!
 
 << execute / benchmark / gauche / loop
-	taskset -c 2 x-run ':: execute / gauche' -- './tests/scripts/benchmark--loop.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--loop--gauche.out' ; exec -- cat -- './tests/scripts/_out/benchmark--loop--gauche.out'
+	taskset -c 2 x-run ':: execute / gauche' -- './tests/scripts/benchmark--loop.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--loop--gauche.out'
 !!
 
 << execute / benchmark / gauche / make-cons
-	taskset -c 2 x-run ':: execute / gauche' -- './tests/scripts/benchmark--make-cons.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--make-cons--gauche.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-cons--gauche.out'
+	taskset -c 2 x-run ':: execute / gauche' -- './tests/scripts/benchmark--make-cons.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--make-cons--gauche.out'
 !!
 
 << execute / benchmark / gauche / make-vector
-	taskset -c 2 x-run ':: execute / gauche' -- './tests/scripts/benchmark--make-vector.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--make-vector--gauche.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-vector--gauche.out'
+	taskset -c 2 x-run ':: execute / gauche' -- './tests/scripts/benchmark--make-vector.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--make-vector--gauche.out'
 !!
 
 << execute / benchmark / gauche / r7rs-ack
-	taskset -c 2 x-run ':: execute / gauche' -- './tests/scripts/benchmark--r7rs-ack.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--r7rs-ack--gauche.out' ; exec -- cat -- './tests/scripts/_out/benchmark--r7rs-ack--gauche.out'
+	taskset -c 2 x-run ':: execute / gauche' -- './tests/scripts/benchmark--r7rs-ack.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--r7rs-ack--gauche.out'
 !!
 
 << execute / benchmark / gauche / r7rs-array1
-	taskset -c 2 x-run ':: execute / gauche' -- './tests/scripts/benchmark--r7rs-array1.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--r7rs-array1--gauche.out' ; exec -- cat -- './tests/scripts/_out/benchmark--r7rs-array1--gauche.out'
+	taskset -c 2 x-run ':: execute / gauche' -- './tests/scripts/benchmark--r7rs-array1.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--r7rs-array1--gauche.out'
 !!
 
 << execute / benchmark / gauche / r7rs-browse
-	taskset -c 2 x-run ':: execute / gauche' -- './tests/scripts/benchmark--r7rs-browse.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--r7rs-browse--gauche.out' ; exec -- cat -- './tests/scripts/_out/benchmark--r7rs-browse--gauche.out'
+	taskset -c 2 x-run ':: execute / gauche' -- './tests/scripts/benchmark--r7rs-browse.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--r7rs-browse--gauche.out'
 !!
 
 << execute / benchmark / python / controls
-	taskset -c 2 x-run ':: execute / python' -- './tests/scripts/benchmark--controls.py' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--controls--python.out' ; exec -- cat -- './tests/scripts/_out/benchmark--controls--python.out'
+	taskset -c 2 x-run ':: execute / python' -- './tests/scripts/benchmark--controls.py' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--controls--python.out'
 !!
 
 << execute / benchmark / python / loop
-	taskset -c 2 x-run ':: execute / python' -- './tests/scripts/benchmark--loop.py' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--loop--python.out' ; exec -- cat -- './tests/scripts/_out/benchmark--loop--python.out'
+	taskset -c 2 x-run ':: execute / python' -- './tests/scripts/benchmark--loop.py' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--loop--python.out'
 !!
 
 << execute / benchmark / python / make-cons
-	taskset -c 2 x-run ':: execute / python' -- './tests/scripts/benchmark--make-cons.py' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--make-cons--python.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-cons--python.out'
+	taskset -c 2 x-run ':: execute / python' -- './tests/scripts/benchmark--make-cons.py' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--make-cons--python.out'
 !!
 
 << execute / benchmark / python / make-vector
-	taskset -c 2 x-run ':: execute / python' -- './tests/scripts/benchmark--make-vector.py' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--make-vector--python.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-vector--python.out'
+	taskset -c 2 x-run ':: execute / python' -- './tests/scripts/benchmark--make-vector.py' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--make-vector--python.out'
 !!
 
 << execute / benchmark / vonuvoli / all / release
@@ -420,59 +448,59 @@
 !!
 
 << execute / benchmark / vonuvoli / controls / debug
-	taskset -c 2 x-run ':: execute / bin / interpreter / debug' './tests/scripts/benchmark--controls.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--controls--vonuvoli-debug.out' ; exec -- cat -- './tests/scripts/_out/benchmark--controls--vonuvoli-debug.out'
+	taskset -c 2 x-run ':: execute / bin / interpreter / debug' './tests/scripts/benchmark--controls.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--controls--vonuvoli-debug.out'
 !!
 
 << execute / benchmark / vonuvoli / controls / release
-	taskset -c 2 x-run ':: execute / bin / interpreter / release' './tests/scripts/benchmark--controls.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--controls--vonuvoli-release.out' ; exec -- cat -- './tests/scripts/_out/benchmark--controls--vonuvoli-release.out'
+	taskset -c 2 x-run ':: execute / bin / interpreter / release' './tests/scripts/benchmark--controls.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--controls--vonuvoli-release.out'
 !!
 
 << execute / benchmark / vonuvoli / loop / debug
-	taskset -c 2 x-run ':: execute / bin / interpreter / debug' './tests/scripts/benchmark--loop.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--loop--vonuvoli-debug.out' ; exec -- cat -- './tests/scripts/_out/benchmark--loop--vonuvoli-debug.out'
+	taskset -c 2 x-run ':: execute / bin / interpreter / debug' './tests/scripts/benchmark--loop.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--loop--vonuvoli-debug.out'
 !!
 
 << execute / benchmark / vonuvoli / loop / release
-	taskset -c 2 x-run ':: execute / bin / interpreter / release' './tests/scripts/benchmark--loop.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--loop--vonuvoli-release.out' ; exec -- cat -- './tests/scripts/_out/benchmark--loop--vonuvoli-release.out'
+	taskset -c 2 x-run ':: execute / bin / interpreter / release' './tests/scripts/benchmark--loop.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--loop--vonuvoli-release.out'
 !!
 
 << execute / benchmark / vonuvoli / make-cons / debug
-	taskset -c 2 x-run ':: execute / bin / interpreter / debug' './tests/scripts/benchmark--make-cons.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--make-cons--vonuvoli-debug.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-cons--vonuvoli-debug.out'
+	taskset -c 2 x-run ':: execute / bin / interpreter / debug' './tests/scripts/benchmark--make-cons.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--make-cons--vonuvoli-debug.out'
 !!
 
 << execute / benchmark / vonuvoli / make-cons / release
-	taskset -c 2 x-run ':: execute / bin / interpreter / release' './tests/scripts/benchmark--make-cons.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--make-cons--vonuvoli-release.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-cons--vonuvoli-release.out'
+	taskset -c 2 x-run ':: execute / bin / interpreter / release' './tests/scripts/benchmark--make-cons.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--make-cons--vonuvoli-release.out'
 !!
 
 << execute / benchmark / vonuvoli / make-vector / debug
-	taskset -c 2 x-run ':: execute / bin / interpreter / debug' './tests/scripts/benchmark--make-vector.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--make-vector--vonuvoli-debug.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-vector--vonuvoli-debug.out'
+	taskset -c 2 x-run ':: execute / bin / interpreter / debug' './tests/scripts/benchmark--make-vector.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--make-vector--vonuvoli-debug.out'
 !!
 
 << execute / benchmark / vonuvoli / make-vector / release
-	taskset -c 2 x-run ':: execute / bin / interpreter / release' './tests/scripts/benchmark--make-vector.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--make-vector--vonuvoli-release.out' ; exec -- cat -- './tests/scripts/_out/benchmark--make-vector--vonuvoli-release.out'
+	taskset -c 2 x-run ':: execute / bin / interpreter / release' './tests/scripts/benchmark--make-vector.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--make-vector--vonuvoli-release.out'
 !!
 
 << execute / benchmark / vonuvoli / r7rs-ack / debug
-	taskset -c 2 x-run ':: execute / bin / interpreter / debug' './tests/scripts/benchmark--r7rs-ack.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--r7rs-ack--vonuvoli-debug.out' ; exec -- cat -- './tests/scripts/_out/benchmark--r7rs-ack--vonuvoli-debug.out'
+	taskset -c 2 x-run ':: execute / bin / interpreter / debug' './tests/scripts/benchmark--r7rs-ack.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--r7rs-ack--vonuvoli-debug.out'
 !!
 
 << execute / benchmark / vonuvoli / r7rs-ack / release
-	taskset -c 2 x-run ':: execute / bin / interpreter / release' './tests/scripts/benchmark--r7rs-ack.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--r7rs-ack--vonuvoli-release.out' ; exec -- cat -- './tests/scripts/_out/benchmark--r7rs-ack--vonuvoli-release.out'
+	taskset -c 2 x-run ':: execute / bin / interpreter / release' './tests/scripts/benchmark--r7rs-ack.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--r7rs-ack--vonuvoli-release.out'
 !!
 
 << execute / benchmark / vonuvoli / r7rs-array1 / debug
-	taskset -c 2 x-run ':: execute / bin / interpreter / debug' './tests/scripts/benchmark--r7rs-array1.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--r7rs-array1--vonuvoli-debug.out' ; exec -- cat -- './tests/scripts/_out/benchmark--r7rs-array1--vonuvoli-debug.out'
+	taskset -c 2 x-run ':: execute / bin / interpreter / debug' './tests/scripts/benchmark--r7rs-array1.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--r7rs-array1--vonuvoli-debug.out'
 !!
 
 << execute / benchmark / vonuvoli / r7rs-array1 / release
-	taskset -c 2 x-run ':: execute / bin / interpreter / release' './tests/scripts/benchmark--r7rs-array1.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--r7rs-array1--vonuvoli-release.out' ; exec -- cat -- './tests/scripts/_out/benchmark--r7rs-array1--vonuvoli-release.out'
+	taskset -c 2 x-run ':: execute / bin / interpreter / release' './tests/scripts/benchmark--r7rs-array1.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--r7rs-array1--vonuvoli-release.out'
 !!
 
 << execute / benchmark / vonuvoli / r7rs-browse / debug
-	taskset -c 2 x-run ':: execute / bin / interpreter / debug' './tests/scripts/benchmark--r7rs-browse.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--r7rs-browse--vonuvoli-debug.out' ; exec -- cat -- './tests/scripts/_out/benchmark--r7rs-browse--vonuvoli-debug.out'
+	taskset -c 2 x-run ':: execute / bin / interpreter / debug' './tests/scripts/benchmark--r7rs-browse.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--r7rs-browse--vonuvoli-debug.out'
 !!
 
 << execute / benchmark / vonuvoli / r7rs-browse / release
-	taskset -c 2 x-run ':: execute / bin / interpreter / release' './tests/scripts/benchmark--r7rs-browse.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--r7rs-browse--vonuvoli-release.out' ; exec -- cat -- './tests/scripts/_out/benchmark--r7rs-browse--vonuvoli-release.out'
+	taskset -c 2 x-run ':: execute / bin / interpreter / release' './tests/scripts/benchmark--r7rs-browse.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--r7rs-browse--vonuvoli-release.out'
 !!
 
 << execute / bin / bencher / all / release
@@ -2254,7 +2282,7 @@
 		test "${#}" -ge 1
 		while true ; do
 			_timestamp_previous="$( find ./sources/ ./tests/ -printf '%T+\n' | LC_ALL=C sort | tail -n 1 )"
-			if ! "${@}" 2>&1 < /dev/null | tee -a /dev/stderr >| "./target/x-run--watch--${$}.txt" ; then
+			if ! "${@}" 2>&1 < /dev/null | tee "./target/x-run--watch--${$}.txt" ; then
 				less -- "./target/x-run--watch--${$}.txt"
 			else
 				rm -- "./target/x-run--watch--${$}.txt"
