@@ -427,34 +427,75 @@ pub enum ValueSingleton {
 #[ derive (Debug) ]
 pub enum ValueRef <'a> {
 	Immutable (&'a Value),
+	ImmutableEmbedded (StdRc<StdAny>, &'a Value),
 	Mutable (StdRef<'a, Value>),
+	MutableEmbedded (StdRc<StdAny>, StdRef<'a, Value>),
 }
 
 
 impl <'a> ValueRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn clone (&self) -> (Value) {
-		match *self {
-			ValueRef::Immutable (value) =>
-				(*value) .clone () .into (),
-			ValueRef::Mutable (ref value) =>
-				(*value) .clone () .into (),
-		}
-	}
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn is_self <OtherRef : StdAsRef<Value>> (&self, other : OtherRef) -> (bool) {
-		Value::is_self (self.value_ref (), other.as_ref ())
-	}
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn value_ref (&self) -> (&Value) {
 		match *self {
 			ValueRef::Immutable (value) =>
 				value,
+			ValueRef::ImmutableEmbedded (_, value) =>
+				value,
 			ValueRef::Mutable (ref value) =>
 				value,
+			ValueRef::MutableEmbedded (_, ref value) =>
+				value,
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn value_clone (&self) -> (Value) {
+		match *self {
+			ValueRef::Immutable (value) =>
+				(*value) .clone (),
+			ValueRef::ImmutableEmbedded (_, value) =>
+				(*value) .clone (),
+			ValueRef::Mutable (ref value) =>
+				(*value) .clone (),
+			ValueRef::MutableEmbedded (_, ref value) =>
+				(*value) .clone (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn value_is_self <OtherRef : StdAsRef<Value>> (&self, other : OtherRef) -> (bool) {
+		Value::is_self (self.value_ref (), other.as_ref ())
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new_embedded_immutable (value : Value) -> (ValueRef<'a>) {
+		let value = StdRc::new (value);
+		let value_ref = unsafe { mem::transmute (value.as_ref ()) };
+		ValueRef::ImmutableEmbedded (value, value_ref)
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new_embedded_mutable <U : 'a, Accessor> (value : Value, accessor : Accessor) -> (ValueRef<'a>)
+			where Accessor : FnOnce (&'a U) -> (StdRef<'a, Value>)
+	{
+		let value = StdRc::new (value);
+		let value_ref = unsafe { mem::transmute (value.as_ref ()) };
+		let value_ref = accessor (value_ref);
+		ValueRef::MutableEmbedded (value, value_ref)
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn clone_ref (&self) -> (ValueRef<'a>) {
+		match *self {
+			ValueRef::Immutable (value) =>
+				ValueRef::Immutable (value),
+			ValueRef::ImmutableEmbedded (ref embedded, value) =>
+				ValueRef::ImmutableEmbedded (StdRc::clone (embedded), value),
+			ValueRef::Mutable (ref value) =>
+				ValueRef::Mutable (StdRef::clone (value)),
+			ValueRef::MutableEmbedded (ref embedded, ref value) =>
+				ValueRef::MutableEmbedded (StdRc::clone (embedded), StdRef::clone (value)),
 		}
 	}
 	
@@ -465,20 +506,28 @@ impl <'a> ValueRef<'a> {
 		match self {
 			ValueRef::Immutable (value) =>
 				ValueRef::Immutable (transformer (value)),
+			ValueRef::ImmutableEmbedded (embedded, value) =>
+				ValueRef::ImmutableEmbedded (embedded, transformer (value)),
 			ValueRef::Mutable (value) =>
 				ValueRef::Mutable (StdRef::map (value, transformer)),
+			ValueRef::MutableEmbedded (embedded, value) =>
+				ValueRef::MutableEmbedded (embedded, StdRef::map (value, transformer)),
 		}
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn map_generic <Transformer, Output> (self, transformer : Transformer) -> (GenericRef<'a, Output>)
+	pub fn map_generic <Output, Transformer> (self, transformer : Transformer) -> (GenericRef<'a, Output>)
 			where Transformer : FnOnce (&Value) -> (&Output)
 	{
 		match self {
 			ValueRef::Immutable (value) =>
 				GenericRef::Immutable (transformer (value)),
+			ValueRef::ImmutableEmbedded (embedded, value) =>
+				GenericRef::ImmutableEmbedded (embedded, transformer (value)),
 			ValueRef::Mutable (value) =>
 				GenericRef::Mutable (StdRef::map (value, transformer)),
+			ValueRef::MutableEmbedded (embedded, value) =>
+				GenericRef::MutableEmbedded (embedded, StdRef::map (value, transformer)),
 		}
 	}
 }
@@ -490,12 +539,7 @@ impl <'a> StdDeref for ValueRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn deref (&self) -> (&Value) {
-		match *self {
-			ValueRef::Immutable (value) =>
-				value,
-			ValueRef::Mutable (ref value) =>
-				&value,
-		}
+		self.value_ref ()
 	}
 }
 
@@ -504,7 +548,7 @@ impl <'a> StdAsRef<Value> for ValueRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn as_ref (&self) -> (&Value) {
-		&self
+		self.value_ref ()
 	}
 }
 
@@ -514,7 +558,9 @@ impl <'a> StdAsRef<Value> for ValueRef<'a> {
 #[ derive (Debug) ]
 pub enum GenericRef <'a, T : 'a> {
 	Immutable (&'a T),
+	ImmutableEmbedded (StdRc<StdAny>, &'a T),
 	Mutable (StdRef<'a, T>),
+	MutableEmbedded (StdRc<StdAny>, StdRef<'a, T>),
 }
 
 
@@ -525,14 +571,79 @@ impl <'a, T : 'a> GenericRef<'a, T> {
 		match *self {
 			GenericRef::Immutable (value) =>
 				value,
+			GenericRef::ImmutableEmbedded (_, value) =>
+				value,
 			GenericRef::Mutable (ref value) =>
+				value,
+			GenericRef::MutableEmbedded (_, ref value) =>
 				value,
 		}
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn is_self <OtherRef : StdAsRef<T>> (&self, other : OtherRef) -> (bool) {
-		ptr::eq (self.generic_ref (), other.as_ref ())
+	pub fn new_embedded_immutable <U : 'static, Accessor> (value : U, accessor : Accessor) -> (GenericRef<'a, T>)
+			where Accessor : FnOnce (&'a U) -> (&'a T)
+	{
+		let value = StdRc::new (value);
+		let value_ref = unsafe { mem::transmute (value.as_ref ()) };
+		let value_ref = accessor (value_ref);
+		GenericRef::ImmutableEmbedded (value, value_ref)
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new_embedded_mutable <U : 'static, Accessor> (value : U, accessor : Accessor) -> (GenericRef<'a, T>)
+			where Accessor : FnOnce (&'a U) -> (StdRef<'a, T>)
+	{
+		let value = StdRc::new (value);
+		let value_ref = unsafe { mem::transmute (value.as_ref ()) };
+		let value_ref = accessor (value_ref);
+		GenericRef::MutableEmbedded (value, value_ref)
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn clone_ref (&self) -> (GenericRef<'a, T>) {
+		match *self {
+			GenericRef::Immutable (value) =>
+				GenericRef::Immutable (value),
+			GenericRef::ImmutableEmbedded (ref embedded, value) =>
+				GenericRef::ImmutableEmbedded (StdRc::clone (embedded), value),
+			GenericRef::Mutable (ref value) =>
+				GenericRef::Mutable (StdRef::clone (value)),
+			GenericRef::MutableEmbedded (ref embedded, ref value) =>
+				GenericRef::MutableEmbedded (StdRc::clone (embedded), StdRef::clone (value)),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn map_value <Transformer> (self, transformer : Transformer) -> (ValueRef<'a>)
+			where Transformer : FnOnce (&T) -> (&Value)
+	{
+		match self {
+			GenericRef::Immutable (value) =>
+				ValueRef::Immutable (transformer (value)),
+			GenericRef::ImmutableEmbedded (embedded, value) =>
+				ValueRef::ImmutableEmbedded (embedded, transformer (value)),
+			GenericRef::Mutable (value) =>
+				ValueRef::Mutable (StdRef::map (value, transformer)),
+			GenericRef::MutableEmbedded (embedded, value) =>
+				ValueRef::MutableEmbedded (embedded, StdRef::map (value, transformer)),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn map_generic <Output, Transformer> (self, transformer : Transformer) -> (GenericRef<'a, Output>)
+			where Transformer : FnOnce (&T) -> (&Output)
+	{
+		match self {
+			GenericRef::Immutable (value) =>
+				GenericRef::Immutable (transformer (value)),
+			GenericRef::ImmutableEmbedded (embedded, value) =>
+				GenericRef::ImmutableEmbedded (embedded, transformer (value)),
+			GenericRef::Mutable (value) =>
+				GenericRef::Mutable (StdRef::map (value, transformer)),
+			GenericRef::MutableEmbedded (embedded, value) =>
+				GenericRef::MutableEmbedded (embedded, StdRef::map (value, transformer)),
+		}
 	}
 }
 
@@ -543,12 +654,7 @@ impl <'a, T : 'a> StdDeref for GenericRef<'a, T> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn deref (&self) -> (&T) {
-		match *self {
-			GenericRef::Immutable (value) =>
-				value,
-			GenericRef::Mutable (ref value) =>
-				&value,
-		}
+		self.generic_ref ()
 	}
 }
 
@@ -557,7 +663,7 @@ impl <'a, T : 'a> StdAsRef<T> for GenericRef<'a, T> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn as_ref (&self) -> (&T) {
-		&self
+		self.generic_ref ()
 	}
 }
 
