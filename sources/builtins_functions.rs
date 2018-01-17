@@ -135,7 +135,7 @@ pub fn lists_map_1 (evaluator : &mut EvaluatorContext, callable : &Value, list_1
 	if is_list_empty (list_1) {
 		succeed! (list_empty ());
 	}
-	let iterator_1 = try! (ListIterator::new (list_1));
+	let iterator_1 = try! (ListIterator::new (list_1, false));
 	let outputs = try! (iterators_map_1 (evaluator, callable, iterator_1));
 	succeed! (list_collect (outputs, None));
 }
@@ -145,7 +145,7 @@ pub fn lists_iterate_1 (evaluator : &mut EvaluatorContext, callable : &Value, li
 	if is_list_empty (list_1) {
 		succeed! (VOID.into ());
 	}
-	let iterator_1 = try! (ListIterator::new (list_1));
+	let iterator_1 = try! (ListIterator::new (list_1, false));
 	try! (iterators_iterate_1 (evaluator, callable, iterator_1));
 	succeed! (VOID.into ());
 }
@@ -156,8 +156,8 @@ pub fn lists_map_2 (evaluator : &mut EvaluatorContext, callable : &Value, list_1
 	if is_list_empty_all_2 (list_1, list_2) {
 		succeed! (list_empty ());
 	}
-	let iterator_1 = try! (ListIterator::new (list_1));
-	let iterator_2 = try! (ListIterator::new (list_2));
+	let iterator_1 = try! (ListIterator::new (list_1, false));
+	let iterator_2 = try! (ListIterator::new (list_2, false));
 	let outputs = try! (iterators_map_2 (evaluator, callable, iterator_1, iterator_2));
 	succeed! (list_collect (outputs, None));
 }
@@ -167,8 +167,8 @@ pub fn lists_iterate_2 (evaluator : &mut EvaluatorContext, callable : &Value, li
 	if is_list_empty_all_2 (list_1, list_2) {
 		succeed! (VOID.into ());
 	}
-	let iterator_1 = try! (ListIterator::new (list_1));
-	let iterator_2 = try! (ListIterator::new (list_2));
+	let iterator_1 = try! (ListIterator::new (list_1, false));
+	let iterator_2 = try! (ListIterator::new (list_2, false));
 	try! (iterators_iterate_2 (evaluator, callable, iterator_1, iterator_2));
 	succeed! (VOID.into ());
 }
@@ -179,9 +179,9 @@ pub fn lists_map_3 (evaluator : &mut EvaluatorContext, callable : &Value, list_1
 	if is_list_empty_all_3 (list_1, list_2, list_3) {
 		succeed! (list_empty ());
 	}
-	let iterator_1 = try! (ListIterator::new (list_1));
-	let iterator_2 = try! (ListIterator::new (list_2));
-	let iterator_3 = try! (ListIterator::new (list_3));
+	let iterator_1 = try! (ListIterator::new (list_1, false));
+	let iterator_2 = try! (ListIterator::new (list_2, false));
+	let iterator_3 = try! (ListIterator::new (list_3, false));
 	let outputs = try! (iterators_map_3 (evaluator, callable, iterator_1, iterator_2, iterator_3));
 	succeed! (list_collect (outputs, None));
 }
@@ -191,9 +191,9 @@ pub fn lists_iterate_3 (evaluator : &mut EvaluatorContext, callable : &Value, li
 	if is_list_empty_all_3 (list_1, list_2, list_3) {
 		succeed! (VOID.into ());
 	}
-	let iterator_1 = try! (ListIterator::new (list_1));
-	let iterator_2 = try! (ListIterator::new (list_2));
-	let iterator_3 = try! (ListIterator::new (list_3));
+	let iterator_1 = try! (ListIterator::new (list_1, false));
+	let iterator_2 = try! (ListIterator::new (list_2, false));
+	let iterator_3 = try! (ListIterator::new (list_3, false));
 	try! (iterators_iterate_3 (evaluator, callable, iterator_1, iterator_2, iterator_3));
 	succeed! (VOID.into ());
 }
@@ -204,10 +204,10 @@ pub fn lists_map_4 (evaluator : &mut EvaluatorContext, callable : &Value, list_1
 	if is_list_empty_all_4 (list_1, list_2, list_3, list_4) {
 		succeed! (list_empty ());
 	}
-	let iterator_1 = try! (ListIterator::new (list_1));
-	let iterator_2 = try! (ListIterator::new (list_2));
-	let iterator_3 = try! (ListIterator::new (list_3));
-	let iterator_4 = try! (ListIterator::new (list_4));
+	let iterator_1 = try! (ListIterator::new (list_1, false));
+	let iterator_2 = try! (ListIterator::new (list_2, false));
+	let iterator_3 = try! (ListIterator::new (list_3, false));
+	let iterator_4 = try! (ListIterator::new (list_4, false));
 	let outputs = try! (iterators_map_4 (evaluator, callable, iterator_1, iterator_2, iterator_3, iterator_4));
 	succeed! (list_collect (outputs, None));
 }
@@ -217,10 +217,10 @@ pub fn lists_iterate_4 (evaluator : &mut EvaluatorContext, callable : &Value, li
 	if is_list_empty_all_4 (list_1, list_2, list_3, list_4) {
 		succeed! (VOID.into ());
 	}
-	let iterator_1 = try! (ListIterator::new (list_1));
-	let iterator_2 = try! (ListIterator::new (list_2));
-	let iterator_3 = try! (ListIterator::new (list_3));
-	let iterator_4 = try! (ListIterator::new (list_4));
+	let iterator_1 = try! (ListIterator::new (list_1, false));
+	let iterator_2 = try! (ListIterator::new (list_2, false));
+	let iterator_3 = try! (ListIterator::new (list_3, false));
+	let iterator_4 = try! (ListIterator::new (list_4, false));
 	try! (iterators_iterate_4 (evaluator, callable, iterator_1, iterator_2, iterator_3, iterator_4));
 	succeed! (VOID.into ());
 }
@@ -231,7 +231,7 @@ pub fn lists_map_n (evaluator : &mut EvaluatorContext, callable : &Value, lists 
 	if lists.is_empty () {
 		fail! (0x00de54c0);
 	}
-	let iterators = try! (ListIterators::new (lists));
+	let iterators = try! (ListIterators::new (lists, false));
 	let outputs = try! (iterators_map_n (evaluator, callable, iterators));
 	succeed! (list_collect (outputs, None));
 }
@@ -241,7 +241,7 @@ pub fn lists_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, li
 	if lists.is_empty () {
 		fail! (0x1022d804);
 	}
-	let iterators = try! (ListIterators::new (lists));
+	let iterators = try! (ListIterators::new (lists, false));
 	try! (iterators_iterate_n (evaluator, callable, iterators));
 	succeed! (VOID.into ());
 }

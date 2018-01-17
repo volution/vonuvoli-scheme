@@ -168,7 +168,7 @@ pub fn list_pair_at (list : &Value, index : usize) -> (Outcome<Value>) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn list_pair_at_ref (list : &Value, index : usize) -> (Outcome<Option<PairAsRef>>) {
-	let mut iterator = try! (ListPairIterator::new (list));
+	let mut iterator = try! (ListPairIterator::new (list, false));
 	let mut offset = 0;
 	loop {
 		match iterator.next () {
@@ -407,7 +407,7 @@ pub fn list_clone_range (list : &Value, range_start : Option<&Value>, range_end 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn list_range_iterator <'a> (list : &'a Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<RangeIteratorForOutcome<ValueRef<'a>, ListIterator<'a>>>) {
 	let (range_start, range_end) = try! (range_coerce_unbounded (range_start, range_end));
-	let iterator = try! (ListIterator::new (list));
+	let iterator = try! (ListIterator::new (list, false));
 	let iterator = try! (RangeIteratorForOutcome::new (iterator, range_start, range_end));
 	succeed! (iterator);
 }
@@ -418,7 +418,7 @@ pub fn list_range_iterator <'a> (list : &'a Value, range_start : Option<&Value>,
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn list_length (list : &Value) -> (Outcome<usize>) {
 	let mut length : usize = 0;
-	let mut iterator = try! (ListPairIterator::new (list));
+	let mut iterator = try! (ListPairIterator::new (list, false));
 	loop {
 		match iterator.next () {
 			Some (Ok (_)) =>
@@ -436,7 +436,7 @@ pub fn list_length (list : &Value) -> (Outcome<usize>) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn list_member_by_comparison (list : &Value, value : &Value, comparison : Comparison) -> (Outcome<Value>) {
-	let mut iterator = try! (ListPairIterator::new (list));
+	let mut iterator = try! (ListPairIterator::new (list, false));
 	loop {
 		match iterator.next () {
 			Some (Ok (pair)) =>
@@ -453,7 +453,7 @@ pub fn list_member_by_comparison (list : &Value, value : &Value, comparison : Co
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn list_member_by_comparator (list : &Value, value : &Value, comparator : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
-	let mut iterator = try! (ListPairIterator::new (list));
+	let mut iterator = try! (ListPairIterator::new (list, false));
 	loop {
 		match iterator.next () {
 			Some (Ok (pair)) => {
@@ -473,7 +473,7 @@ pub fn list_member_by_comparator (list : &Value, value : &Value, comparator : &V
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn list_assoc_by_comparison (list : &Value, value : &Value, comparison : Comparison) -> (Outcome<Value>) {
-	let mut iterator = try! (ListPairIterator::new (list));
+	let mut iterator = try! (ListPairIterator::new (list, false));
 	loop {
 		match iterator.next () {
 			Some (Ok (pair)) => {
@@ -493,7 +493,7 @@ pub fn list_assoc_by_comparison (list : &Value, value : &Value, comparison : Com
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn list_assoc_by_comparator (list : &Value, value : &Value, comparator : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
-	let mut iterator = try! (ListPairIterator::new (list));
+	let mut iterator = try! (ListPairIterator::new (list, false));
 	loop {
 		match iterator.next () {
 			Some (Ok (pair)) => {
