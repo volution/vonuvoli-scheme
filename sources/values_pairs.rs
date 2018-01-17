@@ -488,15 +488,20 @@ pub fn pair_new (left : Value, right : Value, immutable : Option<bool>) -> (Valu
 
 
 
-pub struct ListPairIterator <'a> ( ValueRef<'a> );
+pub struct ListPairIterator <'a> ( Option<ValueRef<'a>>, bool );
 
 
 impl <'a> ListPairIterator <'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new (value : &'a Value) -> (Outcome<ListPairIterator<'a>>) {
+	pub fn new (value : &'a Value, dotted : bool) -> (Outcome<ListPairIterator<'a>>) {
 		let value = ValueRef::Immutable (value);
-		succeed! (ListPairIterator (value));
+		succeed! (ListPairIterator (Some (value), dotted));
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn dotted (self) -> (Option<ValueRef<'a>>) {
+		return self.0;
 	}
 }
 
@@ -507,44 +512,67 @@ impl <'a> iter::Iterator for ListPairIterator <'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn next (&mut self) -> (Option<Outcome<PairAsRef<'a>>>) {
-		let (pair, cursor) = match self.0.kind () {
-			ValueKind::PairImmutable => {
-				let pair = self.0.clone_ref () .map_generic::<PairImmutable, _> (|value| value.expect_as_ref_0 ());
-				let cursor = pair.clone_ref () .map_value (|pair| pair.right ());
-				let pair = PairAsRef::new_immutable_from_generic_ref (pair);
-				(pair, cursor)
-			},
-			ValueKind::PairMutable => {
-				let pair = self.0.clone_ref () .map_generic::<PairMutable, _> (|value| value.expect_as_ref_0 ());
-				let cursor = PairRef::new_embedded_mutable (pair.clone ()) .right_ref_into ();
-				let pair = PairAsRef::new_mutable_from_generic_ref (pair);
-				(pair, cursor)
-			},
-			ValueKind::Null =>
-				return None,
-			_ =>
-				return Some (failed! (0x1f8fea4c)),
+		let (pair, cursor) = {
+			let previous = if let Some (ref previous) = self.0 {
+				previous
+			} else {
+				return None
+			};
+			let (pair, cursor) = match previous.kind () {
+				ValueKind::PairImmutable => {
+					let pair = previous.clone_ref () .map_generic::<PairImmutable, _> (|value| value.expect_as_ref_0 ());
+					let cursor = pair.clone_ref () .map_value (|pair| pair.right ());
+					let pair = PairAsRef::new_immutable_from_generic_ref (pair);
+					(Some (pair), Some (cursor))
+				},
+				ValueKind::PairMutable => {
+					let pair = previous.clone_ref () .map_generic::<PairMutable, _> (|value| value.expect_as_ref_0 ());
+					let cursor = PairRef::new_embedded_mutable (pair.clone ()) .right_ref_into ();
+					let pair = PairAsRef::new_mutable_from_generic_ref (pair);
+					(Some (pair), Some (cursor))
+				},
+				ValueKind::Null =>
+					(None, None),
+				_ =>
+					if self.1 {
+						return None;
+					} else {
+						return Some (failed! (0x1f8fea4c));
+					},
+			};
+			if let Some (ref cursor) = cursor {
+				if previous.value_is_self (cursor) {
+					return Some (failed! (0xa8ab23fb));
+				}
+			}
+			(pair, cursor)
 		};
-		if self.0.value_is_self (&cursor) {
-			return Some (failed! (0xa8ab23fb));
-		}
 		self.0 = cursor;
-		return Some (succeeded! (pair));
+		if let Some (pair) = pair {
+			return Some (succeeded! (pair));
+		} else {
+			return None;
+		}
 	}
 }
 
 
 
 
-pub struct ListIterator <'a> ( ValueRef<'a> );
+pub struct ListIterator <'a> ( Option<ValueRef<'a>>, bool );
 
 
 impl <'a> ListIterator <'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new (value : &'a Value) -> (Outcome<ListIterator<'a>>) {
+	pub fn new (value : &'a Value, dotted : bool) -> (Outcome<ListIterator<'a>>) {
 		let value = ValueRef::Immutable (value);
-		succeed! (ListIterator (value));
+		succeed! (ListIterator (Some (value), dotted));
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn dotted (self) -> (Option<ValueRef<'a>>) {
+		return self.0;
 	}
 }
 
@@ -555,30 +583,48 @@ impl <'a> iter::Iterator for ListIterator <'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn next (&mut self) -> (Option<Outcome<ValueRef<'a>>>) {
-		let (value, cursor) = match self.0.kind () {
-			ValueKind::PairImmutable => {
-				let pair = self.0.clone_ref () .map_generic::<PairImmutable, _> (|value| value.expect_as_ref_0 ());
-				let cursor = pair.clone_ref () .map_value (|pair| pair.right ());
-				let value = pair.map_value (|pair| pair.left ());
-				(value, cursor)
-			},
-			ValueKind::PairMutable => {
-				let pair = self.0.clone_ref () .map_generic::<PairMutable, _> (|value| value.expect_as_ref_0 ());
-				let pair = PairRef::new_embedded_mutable (pair.clone ());
-				let cursor = pair.clone_ref () .right_ref_into ();
-				let value = pair.left_ref_into ();
-				(value, cursor)
-			},
-			ValueKind::Null =>
-				return None,
-			_ =>
-				return Some (failed! (0xed511f9c)),
+		let (value, cursor) = {
+			let previous = if let Some (ref previous) = self.0 {
+				previous
+			} else {
+				return None
+			};
+			let (value, cursor) = match previous.kind () {
+				ValueKind::PairImmutable => {
+					let pair = previous.clone_ref () .map_generic::<PairImmutable, _> (|value| value.expect_as_ref_0 ());
+					let cursor = pair.clone_ref () .map_value (|pair| pair.right ());
+					let value = pair.map_value (|pair| pair.left ());
+					(Some (value), Some (cursor))
+				},
+				ValueKind::PairMutable => {
+					let pair = previous.clone_ref () .map_generic::<PairMutable, _> (|value| value.expect_as_ref_0 ());
+					let pair = PairRef::new_embedded_mutable (pair.clone ());
+					let cursor = pair.clone_ref () .right_ref_into ();
+					let value = pair.left_ref_into ();
+					(Some (value), Some (cursor))
+				},
+				ValueKind::Null =>
+					(None, None),
+				_ =>
+					if self.1 {
+						return None;
+					} else {
+						return Some (failed! (0xed511f9c));
+					},
+			};
+			if let Some (ref cursor) = cursor {
+				if previous.value_is_self (cursor) {
+					return Some (failed! (0x2f6495d9));
+				}
+			}
+			(value, cursor)
 		};
-		if self.0.value_is_self (&cursor) {
-			return Some (failed! (0x2f6495d9));
-		}
 		self.0 = cursor;
-		return Some (succeeded! (value));
+		if let Some (value) = value {
+			return Some (succeeded! (value));
+		} else {
+			return None;
+		}
 	}
 }
 
@@ -591,9 +637,14 @@ pub struct ListIterators <'a> ( StdVec<ListIterator<'a>> );
 impl <'a> ListIterators <'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new (lists : &'a [&Value]) -> (Outcome<ListIterators<'a>>) {
-		let iterators = try! (lists.iter () .map (|list| ListIterator::new (list)) .collect ());
+	pub fn new (lists : &'a [&Value], dotted : bool) -> (Outcome<ListIterators<'a>>) {
+		let iterators = try! (lists.iter () .map (|list| ListIterator::new (list, dotted)) .collect ());
 		succeed! (ListIterators (iterators));
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn dotted (self) -> (StdVec<Option<ValueRef<'a>>>) {
+		return vec_map_into! (self.0, iterator, iterator.dotted ());
 	}
 }
 
