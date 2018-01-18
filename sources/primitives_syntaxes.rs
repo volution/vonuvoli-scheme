@@ -67,3 +67,14 @@ pub enum SyntaxPrimitiveV {
 	
 }
 
+
+
+
+impl SyntaxPrimitive {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn is_self (&self, other : &SyntaxPrimitive) -> (bool) {
+		*self == *other
+	}
+}
+

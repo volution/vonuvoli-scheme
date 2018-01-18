@@ -1948,3 +1948,14 @@ pub fn procedure_primitive_g_attributes (primitive : ProcedurePrimitive) -> (Opt
 	}
 }
 
+
+
+
+impl ProcedurePrimitive {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn is_self (&self, other : &ProcedurePrimitive) -> (bool) {
+		*self == *other
+	}
+}
+

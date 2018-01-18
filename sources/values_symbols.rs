@@ -26,7 +26,7 @@ impl Symbol {
 	pub fn is_self (&self, other : &Symbol) -> (bool) {
 		let self_0 = self.0.as_ref ();
 		let other_0 = other.0.as_ref ();
-		ptr::eq (self_0, other_0) && (self_0 == other_0)
+		ptr::eq (self_0, other_0) || (self_0 == other_0)
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
