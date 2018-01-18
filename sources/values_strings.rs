@@ -111,10 +111,10 @@ impl <'a> StringRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn try (value : &'a Value) -> (Outcome<StringRef<'a>>) {
-		match *value {
-			Value::StringImmutable (_, ref value, _) =>
+		match value.kind_match_as_ref () {
+			ValueKindMatchAsRef::StringImmutable (value) =>
 				succeed! (value.string_ref ()),
-			Value::StringMutable (_, ref value, _) =>
+			ValueKindMatchAsRef::StringMutable (value) =>
 				succeed! (value.string_ref ()),
 			_ =>
 				fail! (0x20d78ff4),
@@ -172,10 +172,10 @@ impl <'a> StringAsRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn try (value : &'a Value) -> (Outcome<StringAsRef<'a>>) {
-		match *value {
-			Value::StringImmutable (_, ref value, _) =>
+		match value.kind_match_as_ref () {
+			ValueKindMatchAsRef::StringImmutable (value) =>
 				succeed! (StringAsRef::Immutable (value)),
-			Value::StringMutable (_, ref value, _) =>
+			ValueKindMatchAsRef::StringMutable (value) =>
 				succeed! (StringAsRef::Mutable (value)),
 			_ =>
 				fail! (0x2aacd51d),

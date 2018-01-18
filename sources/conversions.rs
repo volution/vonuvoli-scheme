@@ -722,12 +722,15 @@ impl NumberCoercion2 {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn number_coerce_1 (right : &Value) -> (Outcome<NumberCoercion1>) {
-	match right {
-		&Value::NumberInteger (_, ref right, _) =>
-			Ok (NumberCoercion1::Integer (right.clone ())),
-		&Value::NumberReal (_, ref right, _) =>
-			Ok (NumberCoercion1::Real (right.clone ())),
+pub fn number_coerce_1 (value : &Value) -> (Outcome<NumberCoercion1>) {
+	match value.class_match_as_ref () {
+		ValueClassMatchAsRef::Number (class) =>
+			match class {
+				NumberMatchAsRef::Integer (value) =>
+					Ok (NumberCoercion1::Integer (value.clone ())),
+				NumberMatchAsRef::Real (value) =>
+					Ok (NumberCoercion1::Real (value.clone ())),
+			},
 		_ =>
 			failed! (0x947fb339),
 	}
@@ -735,15 +738,18 @@ pub fn number_coerce_1 (right : &Value) -> (Outcome<NumberCoercion1>) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn number_coerce_2a (left : &Value, right : &Value) -> (Outcome<NumberCoercion2>) {
-	match (left, right) {
-		(&Value::NumberInteger (_, ref left, _), &Value::NumberInteger (_, ref right, _)) =>
-			Ok (NumberCoercion2::Integer (left.clone (), right.clone ())),
-		(&Value::NumberReal (_, ref left, _), &Value::NumberReal (_, ref right, _)) =>
-			Ok (NumberCoercion2::Real (left.clone (), right.clone ())),
-		(&Value::NumberReal (_, ref left, _), &Value::NumberInteger (_, ref right, _)) =>
-			Ok (NumberCoercion2::Real (left.clone (), right.value () .into ())),
-		(&Value::NumberInteger (_, ref left, _), &Value::NumberReal (_, ref right, _)) =>
-			Ok (NumberCoercion2::Real (left.value () .into (), right.clone ())),
+	match Value::class_match_as_ref_2 (left, right) {
+		ValueClassMatchAsRef2::Number (class) =>
+			match class {
+				NumberMatchAsRef2::IntegerBoth (left, right) =>
+					Ok (NumberCoercion2::Integer (left.clone (), right.clone ())),
+				NumberMatchAsRef2::RealBoth (left, right) =>
+					Ok (NumberCoercion2::Real (left.clone (), right.clone ())),
+				NumberMatchAsRef2::IntegerAndReal (left, right) =>
+					Ok (NumberCoercion2::Real (left.value () .into (), right.clone ())),
+				NumberMatchAsRef2::RealAndInteger (left, right) =>
+					Ok (NumberCoercion2::Real (left.clone (), right.value () .into ())),
+			},
 		_ =>
 			failed! (0x6cfbdd37),
 	}
@@ -751,17 +757,21 @@ pub fn number_coerce_2a (left : &Value, right : &Value) -> (Outcome<NumberCoerci
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn number_coerce_2b (left : &NumberCoercion1, right : &Value) -> (Outcome<NumberCoercion2>) {
+	let right = try! (number_coerce_1 (right));
+	succeed! (number_coerce_2c (left, &right));
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn number_coerce_2c (left : &NumberCoercion1, right : &NumberCoercion1) -> (NumberCoercion2) {
 	match (left, right) {
-		(&NumberCoercion1::Integer (ref left), &Value::NumberInteger (_, ref right, _)) =>
+		(&NumberCoercion1::Integer (ref left), &NumberCoercion1::Integer (ref right)) =>
 			Ok (NumberCoercion2::Integer (left.clone (), right.clone ())),
-		(&NumberCoercion1::Real (ref left), &Value::NumberReal (_, ref right, _)) =>
+		(&NumberCoercion1::Real (ref left), &NumberCoercion1::Real (ref right)) =>
 			Ok (NumberCoercion2::Real (left.clone (), right.clone ())),
-		(&NumberCoercion1::Real (ref left), &Value::NumberInteger (_, ref right, _)) =>
+		(&NumberCoercion1::Real (ref left), &NumberCoercion1::Integer (ref right)) =>
 			Ok (NumberCoercion2::Real (left.clone (), right.value () .into ())),
-		(&NumberCoercion1::Integer (ref left), &Value::NumberReal (_, ref right, _)) =>
+		(&NumberCoercion1::Integer (ref left), &NumberCoercion1::Real (ref right)) =>
 			Ok (NumberCoercion2::Real (left.value () .into (), right.clone ())),
-		_ =>
-			failed! (0xc3883ceb),
 	}
 }
 

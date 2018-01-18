@@ -90,10 +90,10 @@ impl <'a> ArrayRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn try (value : &'a Value) -> (Outcome<ArrayRef<'a>>) {
-		match *value {
-			Value::ArrayImmutable (_, ref value, _) =>
+		match value.kind_match_as_ref () {
+			ValueKindMatchAsRef::ArrayImmutable (value) =>
 				succeed! (value.array_ref ()),
-			Value::ArrayMutable (_, ref value, _) =>
+			ValueKindMatchAsRef::ArrayMutable (value) =>
 				succeed! (value.array_ref ()),
 			_ =>
 				fail! (0x4e577110),
@@ -151,10 +151,10 @@ impl <'a> ArrayAsRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn try (value : &'a Value) -> (Outcome<ArrayAsRef<'a>>) {
-		match *value {
-			Value::ArrayImmutable (_, ref value, _) =>
+		match value.kind_match_as_ref () {
+			ValueKindMatchAsRef::ArrayImmutable (value) =>
 				succeed! (ArrayAsRef::Immutable (value)),
-			Value::ArrayMutable (_, ref value, _) =>
+			ValueKindMatchAsRef::ArrayMutable (value) =>
 				succeed! (ArrayAsRef::Mutable (value)),
 			_ =>
 				fail! (0xde9b3abe),

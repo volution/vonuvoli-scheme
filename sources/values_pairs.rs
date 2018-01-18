@@ -67,10 +67,10 @@ impl <'a> PairRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn try_ref (value : &'a Value) -> (Outcome<PairRef<'a>>) {
-		match *value {
-			Value::PairImmutable (_, ref value, _) =>
+		match value.kind_match_as_ref () {
+			ValueKindMatchAsRef::PairImmutable (value) =>
 				succeed! (value.pair_ref ()),
-			Value::PairMutable (_, ref value, _) =>
+			ValueKindMatchAsRef::PairMutable (value) =>
 				succeed! (value.pair_ref ()),
 			_ =>
 				fail! (0x0bb90a73),
@@ -238,10 +238,10 @@ impl <'a> PairAsRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn try (value : &'a Value) -> (Outcome<PairAsRef<'a>>) {
-		match *value {
-			Value::PairImmutable (_, ref value, _) =>
+		match value.kind_match_as_ref () {
+			ValueKindMatchAsRef::PairImmutable (value) =>
 				succeed! (PairAsRef::Immutable (value)),
-			Value::PairMutable (_, ref value, _) =>
+			ValueKindMatchAsRef::PairMutable (value) =>
 				succeed! (PairAsRef::Mutable (value)),
 			_ =>
 				fail! (0x1cb1913b),

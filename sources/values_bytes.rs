@@ -91,10 +91,10 @@ impl <'a> BytesRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn try (value : &'a Value) -> (Outcome<BytesRef<'a>>) {
-		match *value {
-			Value::BytesImmutable (_, ref value, _) =>
+		match value.kind_match_as_ref () {
+			ValueKindMatchAsRef::BytesImmutable (value) =>
 				succeed! (value.bytes_ref ()),
-			Value::BytesMutable (_, ref value, _) =>
+			ValueKindMatchAsRef::BytesMutable (value) =>
 				succeed! (value.bytes_ref ()),
 			_ =>
 				fail! (0xb6042061),
@@ -152,10 +152,10 @@ impl <'a> BytesAsRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn try (value : &'a Value) -> (Outcome<BytesAsRef<'a>>) {
-		match *value {
-			Value::BytesImmutable (_, ref value, _) =>
+		match value.kind_match_as_ref () {
+			ValueKindMatchAsRef::BytesImmutable (value) =>
 				succeed! (BytesAsRef::Immutable (value)),
-			Value::BytesMutable (_, ref value, _) =>
+			ValueKindMatchAsRef::BytesMutable (value) =>
 				succeed! (BytesAsRef::Mutable (value)),
 			_ =>
 				fail! (0xa0fe7201),
