@@ -149,6 +149,8 @@ impl Compiler {
 			ValueClass::Resource =>
 				fail_panic! (0xd526bfa4),
 			
+			ValueClass::Internal =>
+				fail_panic! (0x3760aa2c),
 			ValueClass::Opaque =>
 				fail_panic! (0x56a47d68),
 			
@@ -1342,6 +1344,8 @@ impl Compiler {
 			ValueClass::Resource =>
 				fail_panic! (0xd2f960f5),
 			
+			ValueClass::Internal =>
+				fail_panic! (0x0bc54733),
 			ValueClass::Opaque =>
 				fail_panic! (0xfa7ef6f6),
 			

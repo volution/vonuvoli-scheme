@@ -26,10 +26,15 @@ use super::prelude::*;
 
 
 pub mod exports {
-	pub use super::{ValueKind, ValueClass};
+	pub use super::{ValueKind, ValueKindMatchAsRef, ValueKindMatchInto};
+	pub use super::{ValueClass, ValueClassMatchAsRef, ValueClassMatchInto};
 	pub use super::{Value, ValueBox, ValueVec};
 	pub use super::{ValueMeta1, ValueMeta2, VALUE_META_1, VALUE_META_2};
 	pub use super::{ValueSingleton};
+	pub use super::{ProcedureMatchAsRef, ProcedureMatchInto};
+	pub use super::{SyntaxMatchAsRef, SyntaxMatchInto};
+	pub use super::{ResourceMatchAsRef, ResourceMatchInto};
+	pub use super::{InternalMatchAsRef, InternalMatchInto};
 	pub use super::{ValueRef};
 	pub use super::{GenericRef};
 }
@@ -83,6 +88,98 @@ pub enum ValueKind {
 }
 
 
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub enum ValueKindMatchAsRef <'a> {
+	
+	Null,
+	Void,
+	Undefined,
+	Singleton (ValueSingleton),
+	
+	Boolean (&'a Boolean),
+	NumberInteger (&'a NumberInteger),
+	NumberReal (&'a NumberReal),
+	Character (&'a Character),
+	
+	Symbol (&'a Symbol),
+	StringImmutable (&'a StringImmutable),
+	StringMutable (&'a StringMutable),
+	BytesImmutable (&'a BytesImmutable),
+	BytesMutable (&'a BytesMutable),
+	
+	PairImmutable (&'a PairImmutable),
+	PairMutable (&'a PairMutable),
+	ArrayImmutable (&'a ArrayImmutable),
+	ArrayMutable (&'a ArrayMutable),
+	Values (&'a Values),
+	
+	Error (&'a Error),
+	
+	ProcedurePrimitive (&'a ProcedurePrimitive),
+	ProcedureExtended (&'a ProcedureExtended),
+	ProcedureNative (&'a ProcedureNative),
+	ProcedureLambda (&'a ProcedureLambda),
+	
+	SyntaxPrimitive (&'a SyntaxPrimitive),
+	SyntaxExtended (&'a SyntaxExtended),
+	SyntaxNative (&'a SyntaxNative),
+	SyntaxLambda (&'a SyntaxLambda),
+	
+	Port (&'a Port),
+	Process (&'a Process),
+	
+	Context (&'a Context),
+	Binding (&'a Binding),
+	
+}
+
+
+#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub enum ValueKindMatchInto {
+	
+	Null,
+	Void,
+	Undefined,
+	Singleton (ValueSingleton),
+	
+	Boolean (Boolean),
+	NumberInteger (NumberInteger),
+	NumberReal (NumberReal),
+	Character (Character),
+	
+	Symbol (Symbol),
+	StringImmutable (StringImmutable),
+	StringMutable (StringMutable),
+	BytesImmutable (BytesImmutable),
+	BytesMutable (BytesMutable),
+	
+	PairImmutable (PairImmutable),
+	PairMutable (PairMutable),
+	ArrayImmutable (ArrayImmutable),
+	ArrayMutable (ArrayMutable),
+	Values (Values),
+	
+	Error (Error),
+	
+	ProcedurePrimitive (ProcedurePrimitive),
+	ProcedureExtended (ProcedureExtended),
+	ProcedureNative (ProcedureNative),
+	ProcedureLambda (ProcedureLambda),
+	
+	SyntaxPrimitive (SyntaxPrimitive),
+	SyntaxExtended (SyntaxExtended),
+	SyntaxNative (SyntaxNative),
+	SyntaxLambda (SyntaxLambda),
+	
+	Port (Port),
+	Process (Process),
+	
+	Context (Context),
+	Binding (Binding),
+	
+}
+
+
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
@@ -113,8 +210,141 @@ pub enum ValueClass {
 	Port,
 	Resource,
 	
+	Internal,
 	Opaque,
 	
+}
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub enum ValueClassMatchAsRef <'a> {
+	
+	Null,
+	Void,
+	Undefined,
+	Singleton (ValueSingleton),
+	
+	Boolean (&'a Boolean),
+	Number (NumberMatchAsRef<'a>),
+	Character (&'a Character),
+	
+	Symbol (&'a Symbol),
+	String (StringMatchAsRef<'a>),
+	Bytes (BytesMatchAsRef<'a>),
+	
+	Pair (PairMatchAsRef<'a>),
+	Array (ArrayMatchAsRef<'a>),
+	Values (&'a Values),
+	
+	Error (&'a Error),
+	
+	Procedure (ProcedureMatchAsRef<'a>),
+	Syntax (SyntaxMatchAsRef<'a>),
+	
+	Port (&'a Port),
+	Resource (ResourceMatchAsRef<'a>),
+	
+	Internal (InternalMatchAsRef<'a>),
+	Opaque (&'a Value),
+	
+}
+
+
+#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub enum ValueClassMatchInto {
+	
+	Null,
+	Void,
+	Undefined,
+	Singleton (ValueSingleton),
+	
+	Boolean (Boolean),
+	Number (NumberMatchInto),
+	Character (Character),
+	
+	Symbol (Symbol),
+	String (StringMatchInto),
+	Bytes (BytesMatchInto),
+	
+	Pair (PairMatchInto),
+	Array (ArrayMatchInto),
+	Values (Values),
+	
+	Error (Error),
+	
+	Procedure (ProcedureMatchInto),
+	Syntax (SyntaxMatchInto),
+	
+	Port (Port),
+	Resource (ResourceMatchInto),
+	
+	Internal (InternalMatchInto),
+	Opaque (Value),
+	
+}
+
+
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub enum ProcedureMatchAsRef <'a> {
+	Primitive (&'a ProcedurePrimitive),
+	Extended (&'a ProcedureExtended),
+	Native (&'a ProcedureNative),
+	Lambda (&'a ProcedureLambda),
+}
+
+
+#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub enum ProcedureMatchInto {
+	Primitive (ProcedurePrimitive),
+	Extended (ProcedureExtended),
+	Native (ProcedureNative),
+	Lambda (ProcedureLambda),
+}
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub enum SyntaxMatchAsRef <'a> {
+	Primitive (&'a SyntaxPrimitive),
+	Extended (&'a SyntaxExtended),
+	Native (&'a SyntaxNative),
+	Lambda (&'a SyntaxLambda),
+}
+
+
+#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub enum SyntaxMatchInto {
+	Primitive (SyntaxPrimitive),
+	Extended (SyntaxExtended),
+	Native (SyntaxNative),
+	Lambda (SyntaxLambda),
+}
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub enum ResourceMatchAsRef <'a> {
+	Process (&'a Process),
+}
+
+
+#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub enum ResourceMatchInto {
+	Process (Process),
+}
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub enum InternalMatchAsRef <'a> {
+	Context (&'a Context),
+	Binding (&'a Binding),
+}
+
+
+#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub enum InternalMatchInto {
+	Context (Context),
+	Binding (Binding),
 }
 
 
@@ -173,8 +403,8 @@ impl Value {
 	pub fn kind (&self) -> (ValueKind) {
 		match *self {
 			
-			Value::Singleton (_, ref value, _) =>
-				match *value {
+			Value::Singleton (_, ref self_0, _) =>
+				match *self_0 {
 					ValueSingleton::Null => ValueKind::Null,
 					ValueSingleton::Void => ValueKind::Void,
 					ValueSingleton::Undefined => ValueKind::Undefined,
@@ -220,11 +450,111 @@ impl Value {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn kind_match_as_ref (&self) -> (ValueKindMatchAsRef) {
+		match *self {
+			
+			Value::Singleton (_, ref self_0, _) =>
+				match *self_0 {
+					ValueSingleton::Null => ValueKindMatchAsRef::Null,
+					ValueSingleton::Void => ValueKindMatchAsRef::Void,
+					ValueSingleton::Undefined => ValueKindMatchAsRef::Undefined,
+					ValueSingleton::PortEof => ValueKindMatchAsRef::Singleton (*self_0),
+				},
+			
+			Value::Boolean (_, ref self_0, _) => ValueKindMatchAsRef::Boolean (self_0),
+			Value::NumberInteger (_, ref self_0, _) => ValueKindMatchAsRef::NumberInteger (self_0),
+			Value::NumberReal (_, ref self_0, _) => ValueKindMatchAsRef::NumberReal (self_0),
+			Value::Character (_, ref self_0, _) => ValueKindMatchAsRef::Character (self_0),
+			
+			Value::Symbol (_, ref self_0, _) => ValueKindMatchAsRef::Symbol (self_0),
+			Value::StringImmutable (_, ref self_0, _) => ValueKindMatchAsRef::StringImmutable (self_0),
+			Value::StringMutable (_, ref self_0, _) => ValueKindMatchAsRef::StringMutable (self_0),
+			Value::BytesImmutable (_, ref self_0, _) => ValueKindMatchAsRef::BytesImmutable (self_0),
+			Value::BytesMutable (_, ref self_0, _) => ValueKindMatchAsRef::BytesMutable (self_0),
+			
+			Value::PairImmutable (_, ref self_0, _) => ValueKindMatchAsRef::PairImmutable (self_0),
+			Value::PairMutable (_, ref self_0, _) => ValueKindMatchAsRef::PairMutable (self_0),
+			Value::ArrayImmutable (_, ref self_0, _) => ValueKindMatchAsRef::ArrayImmutable (self_0),
+			Value::ArrayMutable (_, ref self_0, _) => ValueKindMatchAsRef::ArrayMutable (self_0),
+			Value::Values (_, ref self_0, _) => ValueKindMatchAsRef::Values (self_0),
+			
+			Value::Error (_, ref self_0, _) => ValueKindMatchAsRef::Error (self_0),
+			
+			Value::ProcedurePrimitive (_, ref self_0, _) => ValueKindMatchAsRef::ProcedurePrimitive (self_0),
+			Value::ProcedureExtended (_, ref self_0, _) => ValueKindMatchAsRef::ProcedureExtended (self_0),
+			Value::ProcedureNative (_, ref self_0, _) => ValueKindMatchAsRef::ProcedureNative (self_0),
+			Value::ProcedureLambda (_, ref self_0, _) => ValueKindMatchAsRef::ProcedureLambda (self_0),
+			
+			Value::SyntaxPrimitive (_, ref self_0, _) => ValueKindMatchAsRef::SyntaxPrimitive (self_0),
+			Value::SyntaxExtended (_, ref self_0, _) => ValueKindMatchAsRef::SyntaxExtended (self_0),
+			Value::SyntaxNative (_, ref self_0, _) => ValueKindMatchAsRef::SyntaxNative (self_0),
+			Value::SyntaxLambda (_, ref self_0, _) => ValueKindMatchAsRef::SyntaxLambda (self_0),
+			
+			Value::Port (_, ref self_0, _) => ValueKindMatchAsRef::Port (self_0),
+			Value::Process (_, ref self_0, _) => ValueKindMatchAsRef::Process (self_0),
+			
+			Value::Context (_, ref self_0, _) => ValueKindMatchAsRef::Context (self_0),
+			Value::Binding (_, ref self_0, _) => ValueKindMatchAsRef::Binding (self_0),
+			
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn kind_match_into (self) -> (ValueKindMatchInto) {
+		match self {
+			
+			Value::Singleton (_, self_0, _) =>
+				match self_0 {
+					ValueSingleton::Null => ValueKindMatchInto::Null,
+					ValueSingleton::Void => ValueKindMatchInto::Void,
+					ValueSingleton::Undefined => ValueKindMatchInto::Undefined,
+					ValueSingleton::PortEof => ValueKindMatchInto::Singleton (self_0),
+				},
+			
+			Value::Boolean (_, self_0, _) => ValueKindMatchInto::Boolean (self_0),
+			Value::NumberInteger (_, self_0, _) => ValueKindMatchInto::NumberInteger (self_0),
+			Value::NumberReal (_, self_0, _) => ValueKindMatchInto::NumberReal (self_0),
+			Value::Character (_, self_0, _) => ValueKindMatchInto::Character (self_0),
+			
+			Value::Symbol (_, self_0, _) => ValueKindMatchInto::Symbol (self_0),
+			Value::StringImmutable (_, self_0, _) => ValueKindMatchInto::StringImmutable (self_0),
+			Value::StringMutable (_, self_0, _) => ValueKindMatchInto::StringMutable (self_0),
+			Value::BytesImmutable (_, self_0, _) => ValueKindMatchInto::BytesImmutable (self_0),
+			Value::BytesMutable (_, self_0, _) => ValueKindMatchInto::BytesMutable (self_0),
+			
+			Value::PairImmutable (_, self_0, _) => ValueKindMatchInto::PairImmutable (self_0),
+			Value::PairMutable (_, self_0, _) => ValueKindMatchInto::PairMutable (self_0),
+			Value::ArrayImmutable (_, self_0, _) => ValueKindMatchInto::ArrayImmutable (self_0),
+			Value::ArrayMutable (_, self_0, _) => ValueKindMatchInto::ArrayMutable (self_0),
+			Value::Values (_, self_0, _) => ValueKindMatchInto::Values (self_0),
+			
+			Value::Error (_, self_0, _) => ValueKindMatchInto::Error (self_0),
+			
+			Value::ProcedurePrimitive (_, self_0, _) => ValueKindMatchInto::ProcedurePrimitive (self_0),
+			Value::ProcedureExtended (_, self_0, _) => ValueKindMatchInto::ProcedureExtended (self_0),
+			Value::ProcedureNative (_, self_0, _) => ValueKindMatchInto::ProcedureNative (self_0),
+			Value::ProcedureLambda (_, self_0, _) => ValueKindMatchInto::ProcedureLambda (self_0),
+			
+			Value::SyntaxPrimitive (_, self_0, _) => ValueKindMatchInto::SyntaxPrimitive (self_0),
+			Value::SyntaxExtended (_, self_0, _) => ValueKindMatchInto::SyntaxExtended (self_0),
+			Value::SyntaxNative (_, self_0, _) => ValueKindMatchInto::SyntaxNative (self_0),
+			Value::SyntaxLambda (_, self_0, _) => ValueKindMatchInto::SyntaxLambda (self_0),
+			
+			Value::Port (_, self_0, _) => ValueKindMatchInto::Port (self_0),
+			Value::Process (_, self_0, _) => ValueKindMatchInto::Process (self_0),
+			
+			Value::Context (_, self_0, _) => ValueKindMatchInto::Context (self_0),
+			Value::Binding (_, self_0, _) => ValueKindMatchInto::Binding (self_0),
+			
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn class (&self) -> (ValueClass) {
 		match *self {
 			
-			Value::Singleton (_, ref value, _) =>
-				match *value {
+			Value::Singleton (_, ref self_0, _) =>
+				match *self_0 {
 					ValueSingleton::Null => ValueClass::Null,
 					ValueSingleton::Void => ValueClass::Void,
 					ValueSingleton::Undefined => ValueClass::Undefined,
@@ -263,8 +593,110 @@ impl Value {
 			Value::Port (_, _, _) => ValueClass::Port,
 			Value::Process (_, _, _) => ValueClass::Resource,
 			
-			Value::Context (_, _, _) => ValueClass::Opaque,
-			Value::Binding (_, _, _) => ValueClass::Opaque,
+			Value::Context (_, _, _) => ValueClass::Internal,
+			Value::Binding (_, _, _) => ValueClass::Internal,
+			
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn class_match_as_ref (&self) -> (ValueClassMatchAsRef) {
+		match *self {
+			
+			Value::Singleton (_, ref self_0, _) =>
+				match *self_0 {
+					ValueSingleton::Null => ValueClassMatchAsRef::Null,
+					ValueSingleton::Void => ValueClassMatchAsRef::Void,
+					ValueSingleton::Undefined => ValueClassMatchAsRef::Undefined,
+					ValueSingleton::PortEof => ValueClassMatchAsRef::Singleton (*self_0),
+				},
+			
+			Value::Boolean (_, ref self_0, _) => ValueClassMatchAsRef::Boolean (self_0),
+			Value::NumberInteger (_, ref self_0, _) => ValueClassMatchAsRef::Number (NumberMatchAsRef::Integer (self_0)),
+			Value::NumberReal (_, ref self_0, _) => ValueClassMatchAsRef::Number (NumberMatchAsRef::Real (self_0)),
+			Value::Character (_, ref self_0, _) => ValueClassMatchAsRef::Character (self_0),
+			
+			Value::Symbol (_, ref self_0, _) => ValueClassMatchAsRef::Symbol (self_0),
+			Value::StringImmutable (_, ref self_0, _) => ValueClassMatchAsRef::String (StringMatchAsRef::Immutable (self_0)),
+			Value::StringMutable (_, ref self_0, _) => ValueClassMatchAsRef::String (StringMatchAsRef::Mutable (self_0)),
+			
+			Value::BytesImmutable (_, ref self_0, _) => ValueClassMatchAsRef::Bytes (BytesMatchAsRef::Immutable (self_0)),
+			Value::BytesMutable (_, ref self_0, _) => ValueClassMatchAsRef::Bytes (BytesMatchAsRef::Mutable (self_0)),
+			
+			Value::PairImmutable (_, ref self_0, _) => ValueClassMatchAsRef::Pair (PairMatchAsRef::Immutable (self_0)),
+			Value::PairMutable (_, ref self_0, _) => ValueClassMatchAsRef::Pair (PairMatchAsRef::Mutable (self_0)),
+			Value::ArrayImmutable (_, ref self_0, _) => ValueClassMatchAsRef::Array (ArrayMatchAsRef::Immutable (self_0)),
+			Value::ArrayMutable (_, ref self_0, _) => ValueClassMatchAsRef::Array (ArrayMatchAsRef::Mutable (self_0)),
+			Value::Values (_, ref self_0, _) => ValueClassMatchAsRef::Values (self_0),
+			
+			Value::Error (_, ref self_0, _) => ValueClassMatchAsRef::Error (self_0),
+			
+			Value::ProcedurePrimitive (_, ref self_0, _) => ValueClassMatchAsRef::Procedure (ProcedureMatchAsRef::Primitive (self_0)),
+			Value::ProcedureExtended (_, ref self_0, _) => ValueClassMatchAsRef::Procedure (ProcedureMatchAsRef::Extended (self_0)),
+			Value::ProcedureNative (_, ref self_0, _) => ValueClassMatchAsRef::Procedure (ProcedureMatchAsRef::Native (self_0)),
+			Value::ProcedureLambda (_, ref self_0, _) => ValueClassMatchAsRef::Procedure (ProcedureMatchAsRef::Lambda (self_0)),
+			
+			Value::SyntaxPrimitive (_, ref self_0, _) => ValueClassMatchAsRef::Syntax (SyntaxMatchAsRef::Primitive (self_0)),
+			Value::SyntaxExtended (_, ref self_0, _) => ValueClassMatchAsRef::Syntax (SyntaxMatchAsRef::Extended (self_0)),
+			Value::SyntaxNative (_, ref self_0, _) => ValueClassMatchAsRef::Syntax (SyntaxMatchAsRef::Native (self_0)),
+			Value::SyntaxLambda (_, ref self_0, _) => ValueClassMatchAsRef::Syntax (SyntaxMatchAsRef::Lambda (self_0)),
+			
+			Value::Port (_, ref self_0, _) => ValueClassMatchAsRef::Port (self_0),
+			Value::Process (_, ref self_0, _) => ValueClassMatchAsRef::Resource (ResourceMatchAsRef::Process (self_0)),
+			
+			Value::Context (_, ref self_0, _) => ValueClassMatchAsRef::Internal (InternalMatchAsRef::Context (self_0)),
+			Value::Binding (_, ref self_0, _) => ValueClassMatchAsRef::Internal (InternalMatchAsRef::Binding (self_0)),
+			
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn class_match_into (self) -> (ValueClassMatchInto) {
+		match self {
+			
+			Value::Singleton (_, self_0, _) =>
+				match self_0 {
+					ValueSingleton::Null => ValueClassMatchInto::Null,
+					ValueSingleton::Void => ValueClassMatchInto::Void,
+					ValueSingleton::Undefined => ValueClassMatchInto::Undefined,
+					ValueSingleton::PortEof => ValueClassMatchInto::Singleton (self_0),
+				},
+			
+			Value::Boolean (_, self_0, _) => ValueClassMatchInto::Boolean (self_0),
+			Value::NumberInteger (_, self_0, _) => ValueClassMatchInto::Number (NumberMatchInto::Integer (self_0)),
+			Value::NumberReal (_, self_0, _) => ValueClassMatchInto::Number (NumberMatchInto::Real (self_0)),
+			Value::Character (_, self_0, _) => ValueClassMatchInto::Character (self_0),
+			
+			Value::Symbol (_, self_0, _) => ValueClassMatchInto::Symbol (self_0),
+			Value::StringImmutable (_, self_0, _) => ValueClassMatchInto::String (StringMatchInto::Immutable (self_0)),
+			Value::StringMutable (_, self_0, _) => ValueClassMatchInto::String (StringMatchInto::Mutable (self_0)),
+			
+			Value::BytesImmutable (_, self_0, _) => ValueClassMatchInto::Bytes (BytesMatchInto::Immutable (self_0)),
+			Value::BytesMutable (_, self_0, _) => ValueClassMatchInto::Bytes (BytesMatchInto::Mutable (self_0)),
+			
+			Value::PairImmutable (_, self_0, _) => ValueClassMatchInto::Pair (PairMatchInto::Immutable (self_0)),
+			Value::PairMutable (_, self_0, _) => ValueClassMatchInto::Pair (PairMatchInto::Mutable (self_0)),
+			Value::ArrayImmutable (_, self_0, _) => ValueClassMatchInto::Array (ArrayMatchInto::Immutable (self_0)),
+			Value::ArrayMutable (_, self_0, _) => ValueClassMatchInto::Array (ArrayMatchInto::Mutable (self_0)),
+			Value::Values (_, self_0, _) => ValueClassMatchInto::Values (self_0),
+			
+			Value::Error (_, self_0, _) => ValueClassMatchInto::Error (self_0),
+			
+			Value::ProcedurePrimitive (_, self_0, _) => ValueClassMatchInto::Procedure (ProcedureMatchInto::Primitive (self_0)),
+			Value::ProcedureExtended (_, self_0, _) => ValueClassMatchInto::Procedure (ProcedureMatchInto::Extended (self_0)),
+			Value::ProcedureNative (_, self_0, _) => ValueClassMatchInto::Procedure (ProcedureMatchInto::Native (self_0)),
+			Value::ProcedureLambda (_, self_0, _) => ValueClassMatchInto::Procedure (ProcedureMatchInto::Lambda (self_0)),
+			
+			Value::SyntaxPrimitive (_, self_0, _) => ValueClassMatchInto::Syntax (SyntaxMatchInto::Primitive (self_0)),
+			Value::SyntaxExtended (_, self_0, _) => ValueClassMatchInto::Syntax (SyntaxMatchInto::Extended (self_0)),
+			Value::SyntaxNative (_, self_0, _) => ValueClassMatchInto::Syntax (SyntaxMatchInto::Native (self_0)),
+			Value::SyntaxLambda (_, self_0, _) => ValueClassMatchInto::Syntax (SyntaxMatchInto::Lambda (self_0)),
+			
+			Value::Port (_, self_0, _) => ValueClassMatchInto::Port (self_0),
+			Value::Process (_, self_0, _) => ValueClassMatchInto::Resource (ResourceMatchInto::Process (self_0)),
+			
+			Value::Context (_, self_0, _) => ValueClassMatchInto::Internal (InternalMatchInto::Context (self_0)),
+			Value::Binding (_, self_0, _) => ValueClassMatchInto::Internal (InternalMatchInto::Binding (self_0)),
 			
 		}
 	}
@@ -413,7 +845,7 @@ pub const VALUE_META_2 : ValueMeta2 = ValueMeta2 (0, 0, 0, 0);
 
 
 
-#[ derive (Clone, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive (Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ValueSingleton {
 	Null,
 	Undefined,

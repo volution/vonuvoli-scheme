@@ -11,10 +11,27 @@ use super::prelude::*;
 
 pub mod exports {
 	pub use super::{Array, ArrayRef, ArrayAsRef, ArrayImmutable, ArrayMutable, ArrayMutableInternals};
+	pub use super::{ArrayMatchAsRef, ArrayMatchInto};
 	pub use super::{array_immutable_new, array_immutable_clone_slice, array_immutable_clone_slice_ref};
 	pub use super::{array_mutable_new, array_mutable_clone_slice, array_mutable_clone_slice_ref};
 	pub use super::{array_new, array_clone_slice, array_clone_slice_ref};
 	pub use super::{ArrayIterator, ArrayIterators};
+}
+
+
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub enum ArrayMatchAsRef <'a> {
+	Immutable (&'a ArrayImmutable),
+	Mutable (&'a ArrayMutable),
+}
+
+
+#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub enum ArrayMatchInto {
+	Immutable (ArrayImmutable),
+	Mutable (ArrayMutable),
 }
 
 
