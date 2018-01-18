@@ -302,7 +302,7 @@ pub fn string_reverse_range (string : &Value, range_start : Option<&Value>, rang
 	let mut buffer = unicode_utf8_string_clone_chars (string.as_str ());
 	let (range_start, range_end) = try! (range_coerce (range_start, range_end, buffer.len ()));
 	{
-		let buffer = try_some! (buffer.get_mut (range_start .. range_end), 0x4ee3e633);
+		let buffer = try_some! (buffer.get_mut (range_start .. range_end), 0x5c43164e);
 		buffer.reverse ();
 	}
 	string.clear ();

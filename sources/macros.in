@@ -446,7 +446,7 @@ macro_rules! impl_unwrappers_for_enum_wrapper {
 				if let $from::$tag (ref value) = *self {
 					succeed! ($crate::prelude::StdAsRef0::<$to>::as_ref_0 (value));
 				} else {
-					fail! (0x19768613);
+					fail! (0x958097f2);
 				}
 			}
 		}
@@ -467,7 +467,7 @@ macro_rules! impl_try_unwrappers_for_enum_wrapper {
 				if let $from::$tag (value) = value {
 					return $crate::prelude::StdTryInto::<$to>::try_into (value);
 				} else {
-					fail! (0x64d097b5);
+					fail! (0x3f1bcb88);
 				}
 			}
 		}

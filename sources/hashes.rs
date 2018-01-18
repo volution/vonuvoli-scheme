@@ -18,9 +18,9 @@ impl hash::Hash for Value {
 		match self.kind_match_as_ref () {
 			
 			ValueKindMatchAsRef::Null => { hasher.write_u32 (0xc8aa23d5); NULL.hash (hasher); },
-			ValueKindMatchAsRef::Void => { hasher.write_u32 (0xc8aa23d5); VOID.hash (hasher); },
-			ValueKindMatchAsRef::Undefined => { hasher.write_u32 (0xc8aa23d5); UNDEFINED.hash (hasher); },
-			ValueKindMatchAsRef::Singleton (self_0) => { hasher.write_u32 (0xc8aa23d5); self_0.hash (hasher); },
+			ValueKindMatchAsRef::Void => { hasher.write_u32 (0x87e0a1e2); VOID.hash (hasher); },
+			ValueKindMatchAsRef::Undefined => { hasher.write_u32 (0x5b9e3330); UNDEFINED.hash (hasher); },
+			ValueKindMatchAsRef::Singleton (self_0) => { hasher.write_u32 (0x2ff760b6); self_0.hash (hasher); },
 			
 			ValueKindMatchAsRef::Boolean (self_0) => { hasher.write_u32 (0xee64c5c5); self_0.hash (hasher); },
 			ValueKindMatchAsRef::NumberInteger (self_0) => { hasher.write_u32 (0xf5b45115); self_0.hash (hasher); },
