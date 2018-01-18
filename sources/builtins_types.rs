@@ -1,6 +1,5 @@
 
 
-use super::conversions::exports::*;
 use super::errors::exports::*;
 use super::ports::exports::*;
 use super::values::exports::*;
@@ -472,10 +471,11 @@ def_fn_predicate_any! (is_boolean, is_boolean_any_2, is_boolean_any_3, is_boolea
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_true (value : &Value) -> (bool) {
-	if let Ok (value) = StdTryAsRef0::<Boolean>::try_as_ref_0 (value) {
-		return value.0 == true;
-	} else {
-		return false;
+	match value.kind_match_as_ref () {
+		ValueKindMatchAsRef::Boolean (value) =>
+			return value.value () == true,
+		_ =>
+			return false,
 	}
 }
 
@@ -485,10 +485,11 @@ def_fn_predicate_any! (is_true, is_true_any_2, is_true_any_3, is_true_any_4, is_
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_false (value : &Value) -> (bool) {
-	if let Ok (value) = StdTryAsRef0::<Boolean>::try_as_ref_0 (value) {
-		return value.0 == false;
-	} else {
-		return false;
+	match value.kind_match_as_ref () {
+		ValueKindMatchAsRef::Boolean (value) =>
+			return value.value () == false,
+		_ =>
+			return false,
 	}
 }
 
@@ -498,7 +499,7 @@ def_fn_predicate_any! (is_false, is_false_any_2, is_false_any_3, is_false_any_4,
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_not_true (value : &Value) -> (bool) {
-	return !is_true (value);
+	return ! is_true (value);
 }
 
 def_fn_predicate_all! (is_not_true, is_not_true_all_2, is_not_true_all_3, is_not_true_all_4, is_not_true_all_n);
@@ -507,7 +508,7 @@ def_fn_predicate_any! (is_not_true, is_not_true_any_2, is_not_true_any_3, is_not
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_not_false (value : &Value) -> (bool) {
-	return !is_false (value);
+	return ! is_false (value);
 }
 
 def_fn_predicate_all! (is_not_false, is_not_false_all_2, is_not_false_all_3, is_not_false_all_4, is_not_false_all_n);
@@ -516,7 +517,7 @@ def_fn_predicate_any! (is_not_false, is_not_false_any_2, is_not_false_any_3, is_
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_true_or_equivalent (value : &Value) -> (bool) {
-	!is_false_or_equivalent (value)
+	return ! is_false_or_equivalent (value)
 }
 
 def_fn_predicate_all! (is_true_or_equivalent, is_true_or_equivalent_all_2, is_true_or_equivalent_all_3, is_true_or_equivalent_all_4, is_true_or_equivalent_all_n);
@@ -525,12 +526,14 @@ def_fn_predicate_any! (is_true_or_equivalent, is_true_or_equivalent_any_2, is_tr
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_false_or_equivalent (value : &Value) -> (bool) {
-	match value.kind () {
-		ValueKind::Null | ValueKind::Void | ValueKind::Undefined =>
+	match value.kind_match_as_ref () {
+		ValueKindMatchAsRef::Null |
+		ValueKindMatchAsRef::Void |
+		ValueKindMatchAsRef::Undefined =>
 			return true,
-		ValueKind::Boolean =>
-			return ! StdExpectAsRef0::<Boolean>::expect_as_ref_0 (value) .value (),
-		ValueKind::Error =>
+		ValueKindMatchAsRef::Boolean (value) =>
+			return ! value.value (),
+		ValueKindMatchAsRef::Error (_) =>
 			return true,
 		_ =>
 			return false,
@@ -572,7 +575,7 @@ def_fn_predicate_any! (is_undefined, is_undefined_any_2, is_undefined_any_3, is_
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_not_null (value : &Value) -> (bool) {
-	return !is_null (value);
+	return ! is_null (value);
 }
 
 def_fn_predicate_all! (is_not_null, is_not_null_all_2, is_not_null_all_3, is_not_null_all_4, is_not_null_all_n);
@@ -581,7 +584,7 @@ def_fn_predicate_any! (is_not_null, is_not_null_any_2, is_not_null_any_3, is_not
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_not_void (value : &Value) -> (bool) {
-	return !is_void (value);
+	return ! is_void (value);
 }
 
 def_fn_predicate_all! (is_not_void, is_not_void_all_2, is_not_void_all_3, is_not_void_all_4, is_not_void_all_n);
@@ -590,7 +593,7 @@ def_fn_predicate_any! (is_not_void, is_not_void_any_2, is_not_void_any_3, is_not
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_not_undefined (value : &Value) -> (bool) {
-	return !is_undefined (value);
+	return ! is_undefined (value);
 }
 
 def_fn_predicate_all! (is_not_undefined, is_not_undefined_all_2, is_not_undefined_all_3, is_not_undefined_all_4, is_not_undefined_all_n);
@@ -648,11 +651,16 @@ def_fn_predicate_any! (is_number_complex, is_number_complex_any_2, is_number_com
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_number_exact (value : &Value) -> (Outcome<bool>) {
-	match try! (number_coerce_1 (value)) {
-		NumberCoercion1::Integer (_) =>
-			succeed! (true),
-		NumberCoercion1::Real (_) =>
-			succeed! (false),
+	match value.class_match_as_ref () {
+		ValueClassMatchAsRef::Number (class) =>
+			match class {
+				NumberMatchAsRef::Integer (_) =>
+					succeed! (true),
+				NumberMatchAsRef::Real (_) =>
+					succeed! (false),
+			},
+		_ =>
+			fail! (0xf5982779),
 	}
 }
 
@@ -662,11 +670,16 @@ def_fn_try_predicate_any! (is_number_exact, is_number_exact_any_2, is_number_exa
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_number_exact_integer (value : &Value) -> (Outcome<bool>) {
-	match try! (number_coerce_1 (value)) {
-		NumberCoercion1::Integer (_) =>
-			succeed! (true),
-		NumberCoercion1::Real (_) =>
-			succeed! (false),
+	match value.class_match_as_ref () {
+		ValueClassMatchAsRef::Number (class) =>
+			match class {
+				NumberMatchAsRef::Integer (_) =>
+					succeed! (true),
+				NumberMatchAsRef::Real (_) =>
+					succeed! (false),
+			},
+		_ =>
+			fail! (0xd8518d91),
 	}
 }
 
@@ -676,11 +689,16 @@ def_fn_try_predicate_any! (is_number_exact_integer, is_number_exact_integer_any_
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_number_inexact (value : &Value) -> (Outcome<bool>) {
-	match try! (number_coerce_1 (value)) {
-		NumberCoercion1::Integer (_) =>
-			succeed! (false),
-		NumberCoercion1::Real (_) =>
-			succeed! (true),
+	match value.class_match_as_ref () {
+		ValueClassMatchAsRef::Number (class) =>
+			match class {
+				NumberMatchAsRef::Integer (_) =>
+					succeed! (false),
+				NumberMatchAsRef::Real (_) =>
+					succeed! (true),
+			},
+		_ =>
+			fail! (0x676feef5),
 	}
 }
 
@@ -692,11 +710,16 @@ def_fn_try_predicate_any! (is_number_inexact, is_number_inexact_any_2, is_number
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_number_zero (value : &Value) -> (Outcome<bool>) {
-	match try! (number_coerce_1 (value)) {
-		NumberCoercion1::Integer (value) =>
-			succeed! (value.is_zero ()),
-		NumberCoercion1::Real (value) =>
-			succeed! (value.is_zero ()),
+	match value.class_match_as_ref () {
+		ValueClassMatchAsRef::Number (class) =>
+			match class {
+				NumberMatchAsRef::Integer (value) =>
+					succeed! (value.is_zero ()),
+				NumberMatchAsRef::Real (value) =>
+					succeed! (value.is_zero ()),
+			},
+		_ =>
+			fail! (0x71ac7e77),
 	}
 }
 
@@ -706,11 +729,16 @@ def_fn_try_predicate_any! (is_number_zero, is_number_zero_any_2, is_number_zero_
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_number_positive (value : &Value) -> (Outcome<bool>) {
-	match try! (number_coerce_1 (value)) {
-		NumberCoercion1::Integer (value) =>
-			succeed! (value.is_positive ()),
-		NumberCoercion1::Real (value) =>
-			succeed! (value.is_positive ()),
+	match value.class_match_as_ref () {
+		ValueClassMatchAsRef::Number (class) =>
+			match class {
+				NumberMatchAsRef::Integer (value) =>
+					succeed! (value.is_positive ()),
+				NumberMatchAsRef::Real (value) =>
+					succeed! (value.is_positive ()),
+			},
+		_ =>
+			fail! (0x7b86bd2d),
 	}
 }
 
@@ -720,11 +748,16 @@ def_fn_try_predicate_any! (is_number_positive, is_number_positive_any_2, is_numb
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_number_negative (value : &Value) -> (Outcome<bool>) {
-	match try! (number_coerce_1 (value)) {
-		NumberCoercion1::Integer (value) =>
-			succeed! (value.is_negative ()),
-		NumberCoercion1::Real (value) =>
-			succeed! (value.is_negative ()),
+	match value.class_match_as_ref () {
+		ValueClassMatchAsRef::Number (class) =>
+			match class {
+				NumberMatchAsRef::Integer (value) =>
+					succeed! (value.is_negative ()),
+				NumberMatchAsRef::Real (value) =>
+					succeed! (value.is_negative ()),
+			},
+		_ =>
+			fail! (0xffbd419f),
 	}
 }
 
@@ -734,11 +767,16 @@ def_fn_try_predicate_any! (is_number_negative, is_number_negative_any_2, is_numb
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_number_finite (value : &Value) -> (Outcome<bool>) {
-	match try! (number_coerce_1 (value)) {
-		NumberCoercion1::Integer (_) =>
-			succeed! (true),
-		NumberCoercion1::Real (value) =>
-			succeed! (value.is_finite ()),
+	match value.class_match_as_ref () {
+		ValueClassMatchAsRef::Number (class) =>
+			match class {
+				NumberMatchAsRef::Integer (_) =>
+					succeed! (true),
+				NumberMatchAsRef::Real (value) =>
+					succeed! (value.is_finite ()),
+			},
+		_ =>
+			fail! (0xecdbce29),
 	}
 }
 
@@ -748,11 +786,16 @@ def_fn_try_predicate_any! (is_number_finite, is_number_finite_any_2, is_number_f
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_number_infinite (value : &Value) -> (Outcome<bool>) {
-	match try! (number_coerce_1 (value)) {
-		NumberCoercion1::Integer (_) =>
-			succeed! (false),
-		NumberCoercion1::Real (value) =>
-			succeed! (value.is_infinite ()),
+	match value.class_match_as_ref () {
+		ValueClassMatchAsRef::Number (class) =>
+			match class {
+				NumberMatchAsRef::Integer (_) =>
+					succeed! (false),
+				NumberMatchAsRef::Real (value) =>
+					succeed! (value.is_infinite ()),
+			},
+		_ =>
+			fail! (0x348e9928),
 	}
 }
 
@@ -762,11 +805,16 @@ def_fn_try_predicate_any! (is_number_infinite, is_number_infinite_any_2, is_numb
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_number_nan (value : &Value) -> (Outcome<bool>) {
-	match try! (number_coerce_1 (value)) {
-		NumberCoercion1::Integer (_) =>
-			succeed! (false),
-		NumberCoercion1::Real (value) =>
-			succeed! (value.is_nan ()),
+	match value.class_match_as_ref () {
+		ValueClassMatchAsRef::Number (class) =>
+			match class {
+				NumberMatchAsRef::Integer (_) =>
+					succeed! (false),
+				NumberMatchAsRef::Real (value) =>
+					succeed! (value.is_nan ()),
+			},
+		_ =>
+			fail! (0xa3ce47bf),
 	}
 }
 
@@ -776,11 +824,16 @@ def_fn_try_predicate_any! (is_number_nan, is_number_nan_any_2, is_number_nan_any
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_number_even (value : &Value) -> (Outcome<bool>) {
-	match try! (number_coerce_1 (value)) {
-		NumberCoercion1::Integer (value) =>
-			succeed! (value.is_even ()),
-		NumberCoercion1::Real (value) =>
-			succeed! (value.is_even ()),
+	match value.class_match_as_ref () {
+		ValueClassMatchAsRef::Number (class) =>
+			match class {
+				NumberMatchAsRef::Integer (value) =>
+					succeed! (value.is_even ()),
+				NumberMatchAsRef::Real (value) =>
+					succeed! (value.is_even ()),
+			},
+		_ =>
+			fail! (0x4baca78b),
 	}
 }
 
@@ -790,11 +843,16 @@ def_fn_try_predicate_any! (is_number_even, is_number_even_any_2, is_number_even_
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_number_odd (value : &Value) -> (Outcome<bool>) {
-	match try! (number_coerce_1 (value)) {
-		NumberCoercion1::Integer (value) =>
-			succeed! (value.is_odd ()),
-		NumberCoercion1::Real (value) =>
-			succeed! (value.is_odd ()),
+	match value.class_match_as_ref () {
+		ValueClassMatchAsRef::Number (class) =>
+			match class {
+				NumberMatchAsRef::Integer (value) =>
+					succeed! (value.is_odd ()),
+				NumberMatchAsRef::Real (value) =>
+					succeed! (value.is_odd ()),
+			},
+		_ =>
+			fail! (0x8b6565ee),
 	}
 }
 
@@ -857,9 +915,7 @@ def_fn_predicate_any! (is_pair_mutable, is_pair_mutable_any_2, is_pair_mutable_a
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_list (value : &Value) -> (bool) {
-	let class = list_class_o1 (value);
-	if class.is_ok () {
-		let class = class.unwrap ();
+	if let Some (class) = list_class_o1 (value) {
 		return class == ListClass::Cell;
 	} else {
 		return false;
@@ -872,9 +928,7 @@ def_fn_predicate_any! (is_list, is_list_any_2, is_list_any_3, is_list_any_4, is_
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_list_empty (value : &Value) -> (bool) {
-	let class = list_class_o1 (value);
-	if class.is_ok () {
-		let class = class.unwrap ();
+	if let Some (class) = list_class_o1 (value) {
 		return class == ListClass::Empty;
 	} else {
 		return false;
@@ -887,9 +941,7 @@ def_fn_predicate_any! (is_list_empty, is_list_empty_any_2, is_list_empty_any_3, 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_list_or_empty (value : &Value) -> (bool) {
-	let class = list_class_o1 (value);
-	if class.is_ok () {
-		let class = class.unwrap ();
+	if let Some (class) = list_class_o1 (value) {
 		return (class == ListClass::Cell) || (class == ListClass::Empty);
 	} else {
 		return false;
@@ -902,9 +954,7 @@ def_fn_predicate_any! (is_list_or_empty, is_list_or_empty_any_2, is_list_or_empt
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_list_proper (value : &Value) -> (bool) {
-	let class = list_class_on (value);
-	if class.is_ok () {
-		let class = class.unwrap ();
+	if let Some (class) = list_class_on (value) {
 		return class == ListClass::Proper;
 	} else {
 		return false;
@@ -917,9 +967,7 @@ def_fn_predicate_any! (is_list_proper, is_list_proper_any_2, is_list_proper_any_
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_list_proper_or_empty (value : &Value) -> (bool) {
-	let class = list_class_on (value);
-	if class.is_ok () {
-		let class = class.unwrap ();
+	if let Some (class) = list_class_on (value) {
 		return (class == ListClass::Proper) || (class == ListClass::Empty);
 	} else {
 		return false;
@@ -932,9 +980,7 @@ def_fn_predicate_any! (is_list_proper_or_empty, is_list_proper_or_empty_any_2, i
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_list_dotted (value : &Value) -> (bool) {
-	let class = list_class_on (value);
-	if class.is_ok () {
-		let class = class.unwrap ();
+	if let Some (class) = list_class_on (value) {
 		return class == ListClass::Dotted;
 	} else {
 		return false;
@@ -947,9 +993,7 @@ def_fn_predicate_any! (is_list_dotted, is_list_dotted_any_2, is_list_dotted_any_
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_list_dotted_or_empty (value : &Value) -> (bool) {
-	let class = list_class_on (value);
-	if class.is_ok () {
-		let class = class.unwrap ();
+	if let Some (class) = list_class_on (value) {
 		return (class == ListClass::Dotted) || (class == ListClass::Empty);
 	} else {
 		return false;
@@ -962,9 +1006,7 @@ def_fn_predicate_any! (is_list_dotted_or_empty, is_list_dotted_or_empty_any_2, i
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_list_cyclic (value : &Value) -> (bool) {
-	let class = list_class_on (value);
-	if class.is_ok () {
-		let class = class.unwrap ();
+	if let Some (class) = list_class_on (value) {
 		return class == ListClass::Cyclic;
 	} else {
 		return false;
@@ -977,9 +1019,7 @@ def_fn_predicate_any! (is_list_cyclic, is_list_cyclic_any_2, is_list_cyclic_any_
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_list_cyclic_or_empty (value : &Value) -> (bool) {
-	let class = list_class_on (value);
-	if class.is_ok () {
-		let class = class.unwrap ();
+	if let Some (class) = list_class_on (value) {
 		return (class == ListClass::Cyclic) || (class == ListClass::Empty);
 	} else {
 		return false;
@@ -1326,7 +1366,7 @@ def_fn_try_predicate_any! (is_error_syntax, is_error_syntax_any_2, is_error_synt
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_error_file (value : &Value) -> (Outcome<bool>) {
 	let _value = try_as_error_ref! (value);
-	fail_unimplemented! (0x18d9951d);
+	fail_unimplemented! (0xdc61fd91);
 }
 
 def_fn_try_predicate_all! (is_error_file, is_error_file_all_2, is_error_file_all_3, is_error_file_all_4, is_error_file_all_n);
@@ -1336,7 +1376,7 @@ def_fn_try_predicate_any! (is_error_file, is_error_file_any_2, is_error_file_any
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_error_port (value : &Value) -> (Outcome<bool>) {
 	let _value = try_as_error_ref! (value);
-	fail_unimplemented! (0x18d9951d);
+	fail_unimplemented! (0xc1084d3e);
 }
 
 def_fn_try_predicate_all! (is_error_port, is_error_port_all_2, is_error_port_all_3, is_error_port_all_4, is_error_port_all_n);
@@ -1346,7 +1386,7 @@ def_fn_try_predicate_any! (is_error_port, is_error_port_any_2, is_error_port_any
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_error_port_input (value : &Value) -> (Outcome<bool>) {
 	let _value = try_as_error_ref! (value);
-	fail_unimplemented! (0x18d9951d);
+	fail_unimplemented! (0xb0f9d9e5);
 }
 
 def_fn_try_predicate_all! (is_error_port_input, is_error_port_input_all_2, is_error_port_input_all_3, is_error_port_input_all_4, is_error_port_input_all_n);
@@ -1356,7 +1396,7 @@ def_fn_try_predicate_any! (is_error_port_input, is_error_port_input_any_2, is_er
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_error_port_output (value : &Value) -> (Outcome<bool>) {
 	let _value = try_as_error_ref! (value);
-	fail_unimplemented! (0x18d9951d);
+	fail_unimplemented! (0x2ec6d6b7);
 }
 
 def_fn_try_predicate_all! (is_error_port_output, is_error_port_output_all_2, is_error_port_output_all_3, is_error_port_output_all_4, is_error_port_output_all_n);
@@ -1412,10 +1452,11 @@ def_fn_try_predicate_any! (is_port_textual, is_port_textual_any_2, is_port_textu
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_port_eof (value : &Value) -> (bool) {
-	if let Ok (value) = StdTryAsRef0::<ValueSingleton>::try_as_ref_0 (value) {
-		return *value == ValueSingleton::PortEof;
-	} else {
-		return false;
+	match value.kind_match_as_ref () {
+		ValueKindMatchAsRef::Singleton (ValueSingleton::PortEof) =>
+			return true,
+		_ =>
+			return false,
 	}
 }
 
@@ -1462,14 +1503,17 @@ pub enum NumberClass {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn number_class (value : &Value) -> (Outcome<NumberClass>) {
-	match value.kind () {
-		ValueKind::NumberInteger =>
-			succeed! (NumberClass::Integer),
-		ValueKind::NumberReal =>
-			succeed! (NumberClass::Real),
+pub fn number_class (value : &Value) -> (Option<NumberClass>) {
+	match value.class_match_as_ref () {
+		ValueClassMatchAsRef::Number (class) =>
+			match class {
+				NumberMatchAsRef::Integer (_) =>
+					return Some (NumberClass::Integer),
+				NumberMatchAsRef::Real (_) =>
+					return Some (NumberClass::Real),
+			},
 		_ =>
-			fail! (0x7a6c3f3e),
+			return None
 	}
 }
 
@@ -1487,46 +1531,50 @@ pub enum ListClass {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn list_class_o1 (value : &Value) -> (Outcome<ListClass>) {
-	match value.class () {
-		ValueClass::Null =>
-			succeed! (ListClass::Empty),
-		ValueClass::Pair =>
-			succeed! (ListClass::Cell),
-		_ =>
-			fail! (0x355bf0c9),
+pub fn list_class_o1 (value : &Value) -> (Option<ListClass>) {
+	match value.list_match_as_ref () {
+		ListMatchAsRef::Null =>
+			return Some (ListClass::Empty),
+		ListMatchAsRef::PairImmutable (_) =>
+			return Some (ListClass::Cell),
+		ListMatchAsRef::PairMutable (_) =>
+			return Some (ListClass::Cell),
+		ListMatchAsRef::Value (_) =>
+			return None,
 	}
 }
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn list_class_on (value : &Value) -> (Outcome<ListClass>) {
-	match value.class () {
-		ValueClass::Null =>
-			succeed! (ListClass::Empty),
-		ValueClass::Pair =>
-			return list_class_on_0 (value, try_as_pair_ref! (value)),
-		_ =>
-			fail! (0xf9bfa236),
+pub fn list_class_on (value : &Value) -> (Option<ListClass>) {
+	match value.list_match_as_ref () {
+		ListMatchAsRef::Null =>
+			return Some (ListClass::Empty),
+		ListMatchAsRef::PairImmutable (pair) =>
+			return Some (list_class_on_0 (value, pair.right ())),
+		ListMatchAsRef::PairMutable (pair) =>
+			return Some (list_class_on_0 (value, pair.pair_ref () .right ())),
+		ListMatchAsRef::Value (_) =>
+			return None,
 	}
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn list_class_on_0 (value : &Value, pair : PairRef) -> (Outcome<ListClass>) {
-	let mut cursor = pair.right ();
+fn list_class_on_0 (value : &Value, cursor : &Value) -> (ListClass) {
+	let mut cursor = cursor;
 	loop {
 		if value.is_self (cursor) {
-			succeed! (ListClass::Cyclic);
+			return ListClass::Cyclic;
 		}
-		match *cursor {
-			Value::Singleton (_, ValueSingleton::Null, _) =>
-				succeed! (ListClass::Proper),
-			Value::PairImmutable (_, ref pair, _) =>
+		match cursor.list_match_as_ref () {
+			ListMatchAsRef::Null =>
+				return ListClass::Proper,
+			ListMatchAsRef::PairImmutable (pair) =>
 				cursor = pair.right (),
-			Value::PairMutable (_, ref pair, _) =>
-				return list_class_on_0 (value, pair.pair_ref ()),
-			_ =>
-				succeed! (ListClass::Dotted),
+			ListMatchAsRef::PairMutable (pair) =>
+				return list_class_on_0 (value, pair.pair_ref () .right ()),
+			ListMatchAsRef::Value (_) =>
+				return ListClass::Dotted,
 		}
 	}
 }
@@ -1538,21 +1586,27 @@ fn list_class_on_0 (value : &Value, pair : PairRef) -> (Outcome<ListClass>) {
 pub enum ProcedureClass {
 	Primitive,
 	Extended,
+	Native,
 	Lambda,
 }
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn procedure_class (value : &Value) -> (Outcome<ProcedureClass>) {
-	match value.kind () {
-		ValueKind::ProcedurePrimitive =>
-			succeed! (ProcedureClass::Primitive),
-		ValueKind::ProcedureExtended =>
-			succeed! (ProcedureClass::Extended),
-		ValueKind::ProcedureLambda =>
-			succeed! (ProcedureClass::Lambda),
+pub fn procedure_class (value : &Value) -> (Option<ProcedureClass>) {
+	match value.class_match_as_ref () {
+		ValueClassMatchAsRef::Procedure (class) =>
+			match class {
+				ProcedureMatchAsRef::Primitive (_) =>
+					return Some (ProcedureClass::Primitive),
+				ProcedureMatchAsRef::Extended (_) =>
+					return Some (ProcedureClass::Extended),
+				ProcedureMatchAsRef::Native (_) =>
+					return Some (ProcedureClass::Native),
+				ProcedureMatchAsRef::Lambda (_) =>
+					return Some (ProcedureClass::Lambda),
+			},
 		_ =>
-			fail! (0xef418db1),
+			return None,
 	}
 }
 
@@ -1563,21 +1617,27 @@ pub fn procedure_class (value : &Value) -> (Outcome<ProcedureClass>) {
 pub enum SyntaxClass {
 	Primitive,
 	Extended,
+	Native,
 	Lambda,
 }
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn syntax_class (value : &Value) -> (Outcome<SyntaxClass>) {
-	match value.kind () {
-		ValueKind::SyntaxPrimitive =>
-			succeed! (SyntaxClass::Primitive),
-		ValueKind::SyntaxExtended =>
-			succeed! (SyntaxClass::Extended),
-		ValueKind::SyntaxLambda =>
-			succeed! (SyntaxClass::Lambda),
+pub fn syntax_class (value : &Value) -> (Option<SyntaxClass>) {
+	match value.class_match_as_ref () {
+		ValueClassMatchAsRef::Syntax (class) =>
+			match class {
+				SyntaxMatchAsRef::Primitive (_) =>
+					return Some (SyntaxClass::Primitive),
+				SyntaxMatchAsRef::Extended (_) =>
+					return Some (SyntaxClass::Extended),
+				SyntaxMatchAsRef::Native (_) =>
+					return Some (SyntaxClass::Native),
+				SyntaxMatchAsRef::Lambda (_) =>
+					return Some (SyntaxClass::Lambda),
+			},
 		_ =>
-			fail! (0x97144c3b),
+			return None,
 	}
 }
 
