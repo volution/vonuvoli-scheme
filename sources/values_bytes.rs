@@ -12,7 +12,7 @@ use super::prelude::*;
 
 pub mod exports {
 	pub use super::{Bytes, BytesRef, BytesAsRef, BytesImmutable, BytesMutable, BytesMutableInternals};
-	pub use super::{BytesMatchAsRef, BytesMatchInto};
+	pub use super::{BytesMatchAsRef, BytesMatchInto, BytesMatchAsRef2};
 	pub use super::{bytes_immutable_new, bytes_immutable_clone_slice, bytes_immutable_clone_str, bytes_immutable_clone_characters};
 	pub use super::{bytes_mutable_new, bytes_mutable_clone_slice, bytes_mutable_clone_str, bytes_mutable_clone_characters};
 	pub use super::{bytes_new, bytes_clone_slice, bytes_clone_str, bytes_clone_characters};
@@ -33,6 +33,15 @@ pub enum BytesMatchAsRef <'a> {
 pub enum BytesMatchInto {
 	Immutable (BytesImmutable),
 	Mutable (BytesMutable),
+}
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub enum BytesMatchAsRef2 <'a> {
+	ImmutableBoth (&'a BytesImmutable, &'a BytesImmutable),
+	MutableBoth (&'a BytesMutable, &'a BytesMutable),
+	ImmutableAndMutable (&'a BytesImmutable, &'a BytesMutable),
+	MutableAndImmutable (&'a BytesMutable, &'a BytesImmutable),
 }
 
 

@@ -9,7 +9,7 @@ use super::prelude::*;
 
 pub mod exports {
 	pub use super::{NumberInteger, NumberReal};
-	pub use super::{NumberMatchAsRef, NumberMatchInto};
+	pub use super::{NumberMatchAsRef, NumberMatchInto, NumberMatchAsRef2};
 	pub use super::{number_i64, number_f64};
 }
 
@@ -27,6 +27,15 @@ pub enum NumberMatchAsRef <'a> {
 pub enum NumberMatchInto {
 	Integer (NumberInteger),
 	Real (NumberReal),
+}
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub enum NumberMatchAsRef2 <'a> {
+	IntegerBoth (&'a NumberInteger, &'a NumberInteger),
+	RealBoth (&'a NumberReal, &'a NumberReal),
+	IntegerAndReal (&'a NumberInteger, &'a NumberReal),
+	RealAndInteger (&'a NumberReal, &'a NumberInteger),
 }
 
 

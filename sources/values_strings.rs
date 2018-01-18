@@ -12,7 +12,7 @@ use super::prelude::*;
 
 pub mod exports {
 	pub use super::{String, StringRef, StringAsRef, StringImmutable, StringMutable, StringMutableInternals};
-	pub use super::{StringMatchAsRef, StringMatchInto};
+	pub use super::{StringMatchAsRef, StringMatchInto, StringMatchAsRef2};
 	pub use super::{string_immutable_new, string_immutable_clone_str, string_immutable_clone_characters};
 	pub use super::{string_mutable_new, string_mutable_clone_str, string_mutable_clone_characters};
 	pub use super::{string_new, string_clone_str, string_clone_characters};
@@ -33,6 +33,15 @@ pub enum StringMatchAsRef <'a> {
 pub enum StringMatchInto {
 	Immutable (StringImmutable),
 	Mutable (StringMutable),
+}
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub enum StringMatchAsRef2 <'a> {
+	ImmutableBoth (&'a StringImmutable, &'a StringImmutable),
+	MutableBoth (&'a StringMutable, &'a StringMutable),
+	ImmutableAndMutable (&'a StringImmutable, &'a StringMutable),
+	MutableAndImmutable (&'a StringMutable, &'a StringImmutable),
 }
 
 

@@ -11,7 +11,7 @@ use super::prelude::*;
 
 pub mod exports {
 	pub use super::{Array, ArrayRef, ArrayAsRef, ArrayImmutable, ArrayMutable, ArrayMutableInternals};
-	pub use super::{ArrayMatchAsRef, ArrayMatchInto};
+	pub use super::{ArrayMatchAsRef, ArrayMatchInto, ArrayMatchAsRef2};
 	pub use super::{array_immutable_new, array_immutable_clone_slice, array_immutable_clone_slice_ref};
 	pub use super::{array_mutable_new, array_mutable_clone_slice, array_mutable_clone_slice_ref};
 	pub use super::{array_new, array_clone_slice, array_clone_slice_ref};
@@ -32,6 +32,15 @@ pub enum ArrayMatchAsRef <'a> {
 pub enum ArrayMatchInto {
 	Immutable (ArrayImmutable),
 	Mutable (ArrayMutable),
+}
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub enum ArrayMatchAsRef2 <'a> {
+	ImmutableBoth (&'a ArrayImmutable, &'a ArrayImmutable),
+	MutableBoth (&'a ArrayMutable, &'a ArrayMutable),
+	ImmutableAndMutable (&'a ArrayImmutable, &'a ArrayMutable),
+	MutableAndImmutable (&'a ArrayMutable, &'a ArrayImmutable),
 }
 
 

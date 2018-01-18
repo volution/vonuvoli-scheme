@@ -11,7 +11,7 @@ use super::prelude::*;
 
 pub mod exports {
 	pub use super::{Pair, PairRef, PairAsRef, PairImmutable, PairImmutableInternals, PairMutable, PairMutableInternals};
-	pub use super::{PairMatchAsRef, PairMatchInto};
+	pub use super::{PairMatchAsRef, PairMatchInto, PairMatchAsRef2};
 	pub use super::{pair_new, pair_immutable_new, pair_mutable_new};
 	pub use super::{ListPairIterator, ListIterator, ListIterators};
 }
@@ -30,6 +30,15 @@ pub enum PairMatchAsRef <'a> {
 pub enum PairMatchInto {
 	Immutable (PairImmutable),
 	Mutable (PairMutable),
+}
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub enum PairMatchAsRef2 <'a> {
+	ImmutableBoth (&'a PairImmutable, &'a PairImmutable),
+	MutableBoth (&'a PairMutable, &'a PairMutable),
+	ImmutableAndMutable (&'a PairImmutable, &'a PairMutable),
+	MutableAndImmutable (&'a PairMutable, &'a PairImmutable),
 }
 
 
