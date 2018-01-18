@@ -26,8 +26,8 @@ use super::prelude::*;
 
 
 pub mod exports {
-	pub use super::{ValueKind, ValueKindMatchAsRef, ValueKindMatchInto};
-	pub use super::{ValueClass, ValueClassMatchAsRef, ValueClassMatchInto};
+	pub use super::{ValueKind, ValueKindMatchAsRef, ValueKindMatchInto, ValueKindMatchAsRef2};
+	pub use super::{ValueClass, ValueClassMatchAsRef, ValueClassMatchInto, ValueClassMatchAsRef2};
 	pub use super::{Value, ValueBox, ValueVec};
 	pub use super::{ValueMeta1, ValueMeta2, VALUE_META_1, VALUE_META_2};
 	pub use super::{ValueSingleton};
@@ -35,6 +35,7 @@ pub mod exports {
 	pub use super::{SyntaxMatchAsRef, SyntaxMatchInto};
 	pub use super::{ResourceMatchAsRef, ResourceMatchInto};
 	pub use super::{InternalMatchAsRef, InternalMatchInto};
+	pub use super::{ListMatchAsRef, ListMatchInto};
 	pub use super::{ValueRef};
 	pub use super::{GenericRef};
 }
@@ -180,6 +181,54 @@ pub enum ValueKindMatchInto {
 }
 
 
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub enum ValueKindMatchAsRef2 <'a> {
+	
+	Null,
+	Void,
+	Undefined,
+	Singleton (ValueSingleton),
+	
+	Boolean (&'a Boolean, &'a Boolean),
+	NumberInteger (&'a NumberInteger, &'a NumberInteger),
+	NumberReal (&'a NumberReal, &'a NumberReal),
+	Character (&'a Character, &'a Character),
+	
+	Symbol (&'a Symbol, &'a Symbol),
+	StringImmutable (&'a StringImmutable, &'a StringImmutable),
+	StringMutable (&'a StringMutable, &'a StringMutable),
+	BytesImmutable (&'a BytesImmutable, &'a BytesImmutable),
+	BytesMutable (&'a BytesMutable, &'a BytesMutable),
+	
+	PairImmutable (&'a PairImmutable, &'a PairImmutable),
+	PairMutable (&'a PairMutable, &'a PairMutable),
+	ArrayImmutable (&'a ArrayImmutable, &'a ArrayImmutable),
+	ArrayMutable (&'a ArrayMutable, &'a ArrayMutable),
+	Values (&'a Values, &'a Values),
+	
+	Error (&'a Error, &'a Error),
+	
+	ProcedurePrimitive (&'a ProcedurePrimitive, &'a ProcedurePrimitive),
+	ProcedureExtended (&'a ProcedureExtended, &'a ProcedureExtended),
+	ProcedureNative (&'a ProcedureNative, &'a ProcedureNative),
+	ProcedureLambda (&'a ProcedureLambda, &'a ProcedureLambda),
+	
+	SyntaxPrimitive (&'a SyntaxPrimitive, &'a SyntaxPrimitive),
+	SyntaxExtended (&'a SyntaxExtended, &'a SyntaxExtended),
+	SyntaxNative (&'a SyntaxNative, &'a SyntaxNative),
+	SyntaxLambda (&'a SyntaxLambda, &'a SyntaxLambda),
+	
+	Port (&'a Port, &'a Port),
+	Process (&'a Process, &'a Process),
+	
+	Context (&'a Context, &'a Context),
+	Binding (&'a Binding, &'a Binding),
+	
+	Missmatched,
+	
+}
+
+
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
@@ -284,6 +333,42 @@ pub enum ValueClassMatchInto {
 }
 
 
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub enum ValueClassMatchAsRef2 <'a> {
+	
+	Null,
+	Void,
+	Undefined,
+	Singleton (ValueSingleton),
+	
+	Boolean (&'a Boolean, &'a Boolean),
+	Number (NumberMatchAsRef2<'a>),
+	Character (&'a Character, &'a Character),
+	
+	Symbol (&'a Symbol, &'a Symbol),
+	String (StringMatchAsRef2<'a>),
+	Bytes (BytesMatchAsRef2<'a>),
+	
+	Pair (PairMatchAsRef2<'a>),
+	Array (ArrayMatchAsRef2<'a>),
+	Values (&'a Values, &'a Values),
+	
+	Error (&'a Error, &'a Error),
+	
+	Procedure (ProcedureMatchAsRef<'a>, ProcedureMatchAsRef<'a>),
+	Syntax (SyntaxMatchAsRef<'a>, SyntaxMatchAsRef<'a>),
+	
+	Port (&'a Port, &'a Port),
+	Resource (ResourceMatchAsRef<'a>, ResourceMatchAsRef<'a>),
+	
+	Internal (InternalMatchAsRef<'a>, InternalMatchAsRef<'a>),
+	Opaque (&'a Value, &'a Value),
+	
+	Missmatched (ValueClassMatchAsRef<'a>, ValueClassMatchAsRef<'a>),
+	
+}
+
+
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
@@ -348,6 +433,24 @@ pub enum InternalMatchInto {
 }
 
 
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub enum ListMatchAsRef <'a> {
+	Null,
+	PairImmutable (&'a PairImmutable),
+	PairMutable (&'a PairMutable),
+	Value (&'a Value),
+}
+
+
+#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub enum ListMatchInto {
+	Null,
+	PairImmutable (PairImmutable),
+	PairMutable (PairMutable),
+	Value (Value),
+}
+
+
 
 
 #[ derive (Clone) ]
@@ -389,6 +492,8 @@ pub enum Value {
 	
 	Context ( ValueMeta1, Context, ValueMeta2 ),
 	Binding ( ValueMeta1, Binding, ValueMeta2 ),
+	
+	__NonExhaustive,
 	
 }
 
@@ -446,6 +551,8 @@ impl Value {
 			Value::Context (_, _, _) => ValueKind::Context,
 			Value::Binding (_, _, _) => ValueKind::Binding,
 			
+			Value::__NonExhaustive => unreachable! (),
+			
 		}
 	}
 	
@@ -495,6 +602,8 @@ impl Value {
 			
 			Value::Context (_, ref self_0, _) => ValueKindMatchAsRef::Context (self_0),
 			Value::Binding (_, ref self_0, _) => ValueKindMatchAsRef::Binding (self_0),
+			
+			Value::__NonExhaustive => unreachable! (),
 			
 		}
 	}
@@ -546,6 +655,69 @@ impl Value {
 			Value::Context (_, self_0, _) => ValueKindMatchInto::Context (self_0),
 			Value::Binding (_, self_0, _) => ValueKindMatchInto::Binding (self_0),
 			
+			Value::__NonExhaustive => unreachable! (),
+			
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn kind_match_as_ref_2 <'a> (this : &'a Value, other : &'a Value) -> (ValueKindMatchAsRef2<'a>) {
+		match (this, other) {
+			
+			(&Value::Singleton (_, self_0, _), &Value::Singleton (_, other_0, _)) =>
+				match (self_0, other_0) {
+					(ValueSingleton::Null, ValueSingleton::Null) => ValueKindMatchAsRef2::Null,
+					(ValueSingleton::Void, ValueSingleton::Void) => ValueKindMatchAsRef2::Void,
+					(ValueSingleton::Undefined, ValueSingleton::Undefined) => ValueKindMatchAsRef2::Void,
+					(self_0, other_0) =>
+						if self_0 == other_0 {
+							ValueKindMatchAsRef2::Singleton (self_0)
+						} else {
+							ValueKindMatchAsRef2::Missmatched
+						},
+				},
+			
+			(&Value::Boolean (_, ref self_0, _), &Value::Boolean (_, ref other_0, _)) => ValueKindMatchAsRef2::Boolean (self_0, other_0),
+			(&Value::NumberInteger (_, ref self_0, _), &Value::NumberInteger (_, ref other_0, _)) => ValueKindMatchAsRef2::NumberInteger (self_0, other_0),
+			(&Value::NumberReal (_, ref self_0, _), &Value::NumberReal (_, ref other_0, _)) => ValueKindMatchAsRef2::NumberReal (self_0, other_0),
+			(&Value::Character (_, ref self_0, _), &Value::Character (_, ref other_0, _)) => ValueKindMatchAsRef2::Character (self_0, other_0),
+			
+			(&Value::Symbol (_, ref self_0, _), &Value::Symbol (_, ref other_0, _)) => ValueKindMatchAsRef2::Symbol (self_0, other_0),
+			(&Value::StringImmutable (_, ref self_0, _), &Value::StringImmutable (_, ref other_0, _)) => ValueKindMatchAsRef2::StringImmutable (self_0, other_0),
+			(&Value::StringMutable (_, ref self_0, _), &Value::StringMutable (_, ref other_0, _)) => ValueKindMatchAsRef2::StringMutable (self_0, other_0),
+			(&Value::BytesImmutable (_, ref self_0, _), &Value::BytesImmutable (_, ref other_0, _)) => ValueKindMatchAsRef2::BytesImmutable (self_0, other_0),
+			(&Value::BytesMutable (_, ref self_0, _), &Value::BytesMutable (_, ref other_0, _)) => ValueKindMatchAsRef2::BytesMutable (self_0, other_0),
+			
+			(&Value::PairImmutable (_, ref self_0, _), &Value::PairImmutable (_, ref other_0, _)) => ValueKindMatchAsRef2::PairImmutable (self_0, other_0),
+			(&Value::PairMutable (_, ref self_0, _), &Value::PairMutable (_, ref other_0, _)) => ValueKindMatchAsRef2::PairMutable (self_0, other_0),
+			(&Value::ArrayImmutable (_, ref self_0, _), &Value::ArrayImmutable (_, ref other_0, _)) => ValueKindMatchAsRef2::ArrayImmutable (self_0, other_0),
+			(&Value::ArrayMutable (_, ref self_0, _), &Value::ArrayMutable (_, ref other_0, _)) => ValueKindMatchAsRef2::ArrayMutable (self_0, other_0),
+			(&Value::Values (_, ref self_0, _), &Value::Values (_, ref other_0, _)) => ValueKindMatchAsRef2::Values (self_0, other_0),
+			
+			(&Value::Error (_, ref self_0, _), &Value::Error (_, ref other_0, _)) => ValueKindMatchAsRef2::Error (self_0, other_0),
+			
+			(&Value::ProcedurePrimitive (_, ref self_0, _), &Value::ProcedurePrimitive (_, ref other_0, _)) => ValueKindMatchAsRef2::ProcedurePrimitive (self_0, other_0),
+			(&Value::ProcedureExtended (_, ref self_0, _), &Value::ProcedureExtended (_, ref other_0, _)) => ValueKindMatchAsRef2::ProcedureExtended (self_0, other_0),
+			(&Value::ProcedureNative (_, ref self_0, _), &Value::ProcedureNative (_, ref other_0, _)) => ValueKindMatchAsRef2::ProcedureNative (self_0, other_0),
+			(&Value::ProcedureLambda (_, ref self_0, _), &Value::ProcedureLambda (_, ref other_0, _)) => ValueKindMatchAsRef2::ProcedureLambda (self_0, other_0),
+			
+			(&Value::SyntaxPrimitive (_, ref self_0, _), &Value::SyntaxPrimitive (_, ref other_0, _)) => ValueKindMatchAsRef2::SyntaxPrimitive (self_0, other_0),
+			(&Value::SyntaxExtended (_, ref self_0, _), &Value::SyntaxExtended (_, ref other_0, _)) => ValueKindMatchAsRef2::SyntaxExtended (self_0, other_0),
+			(&Value::SyntaxNative (_, ref self_0, _), &Value::SyntaxNative (_, ref other_0, _)) => ValueKindMatchAsRef2::SyntaxNative (self_0, other_0),
+			(&Value::SyntaxLambda (_, ref self_0, _), &Value::SyntaxLambda (_, ref other_0, _)) => ValueKindMatchAsRef2::SyntaxLambda (self_0, other_0),
+			
+			(&Value::Port (_, ref self_0, _), &Value::Port (_, ref other_0, _)) => ValueKindMatchAsRef2::Port (self_0, other_0),
+			(&Value::Process (_, ref self_0, _), &Value::Process (_, ref other_0, _)) => ValueKindMatchAsRef2::Process (self_0, other_0),
+			
+			(&Value::Context (_, ref self_0, _), &Value::Context (_, ref other_0, _)) => ValueKindMatchAsRef2::Context (self_0, other_0),
+			(&Value::Binding (_, ref self_0, _), &Value::Binding (_, ref other_0, _)) => ValueKindMatchAsRef2::Binding (self_0, other_0),
+			
+			(&Value::__NonExhaustive, _) => unreachable! (),
+			(_, &Value::__NonExhaustive) => unreachable! (),
+			
+			// NOTE:  !!! match-fallback !!!
+			(_, _) => ValueKindMatchAsRef2::Missmatched,
+			
 		}
 	}
 	
@@ -595,6 +767,8 @@ impl Value {
 			
 			Value::Context (_, _, _) => ValueClass::Internal,
 			Value::Binding (_, _, _) => ValueClass::Internal,
+			
+			Value::__NonExhaustive => unreachable! (),
 			
 		}
 	}
@@ -647,6 +821,8 @@ impl Value {
 			Value::Context (_, ref self_0, _) => ValueClassMatchAsRef::Internal (InternalMatchAsRef::Context (self_0)),
 			Value::Binding (_, ref self_0, _) => ValueClassMatchAsRef::Internal (InternalMatchAsRef::Binding (self_0)),
 			
+			Value::__NonExhaustive => unreachable! (),
+			
 		}
 	}
 	
@@ -698,6 +874,111 @@ impl Value {
 			Value::Context (_, self_0, _) => ValueClassMatchInto::Internal (InternalMatchInto::Context (self_0)),
 			Value::Binding (_, self_0, _) => ValueClassMatchInto::Internal (InternalMatchInto::Binding (self_0)),
 			
+			Value::__NonExhaustive => unreachable! (),
+			
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn class_match_as_ref_2 <'a> (this : &'a Value, other : &'a Value) -> (ValueClassMatchAsRef2<'a>) {
+		match (this, other) {
+			
+			(&Value::Singleton (_, self_0, _), &Value::Singleton (_, other_0, _)) =>
+				match (self_0, other_0) {
+					(ValueSingleton::Null, ValueSingleton::Null) => ValueClassMatchAsRef2::Null,
+					(ValueSingleton::Void, ValueSingleton::Void) => ValueClassMatchAsRef2::Void,
+					(ValueSingleton::Undefined, ValueSingleton::Undefined) => ValueClassMatchAsRef2::Void,
+					(self_0, other_0) =>
+						if self_0 == other_0 {
+							ValueClassMatchAsRef2::Singleton (self_0)
+						} else {
+							ValueClassMatchAsRef2::Missmatched (ValueClassMatchAsRef::Singleton (self_0), ValueClassMatchAsRef::Singleton (other_0))
+						},
+				},
+			
+			(&Value::Boolean (_, ref self_0, _), &Value::Boolean (_, ref other_0, _)) => ValueClassMatchAsRef2::Boolean (self_0, other_0),
+			
+			(&Value::NumberInteger (_, ref self_0, _), &Value::NumberInteger (_, ref other_0, _)) => ValueClassMatchAsRef2::Number (NumberMatchAsRef2::IntegerBoth (self_0, other_0)),
+			(&Value::NumberReal (_, ref self_0, _), &Value::NumberReal (_, ref other_0, _)) => ValueClassMatchAsRef2::Number (NumberMatchAsRef2::RealBoth (self_0, other_0)),
+			(&Value::NumberInteger (_, ref self_0, _), &Value::NumberReal (_, ref other_0, _)) => ValueClassMatchAsRef2::Number (NumberMatchAsRef2::IntegerAndReal (self_0, other_0)),
+			(&Value::NumberReal (_, ref self_0, _), &Value::NumberInteger (_, ref other_0, _)) => ValueClassMatchAsRef2::Number (NumberMatchAsRef2::RealAndInteger (self_0, other_0)),
+			
+			(&Value::Character (_, ref self_0, _), &Value::Character (_, ref other_0, _)) => ValueClassMatchAsRef2::Character (self_0, other_0),
+			
+			(&Value::Symbol (_, ref self_0, _), &Value::Symbol (_, ref other_0, _)) => ValueClassMatchAsRef2::Symbol (self_0, other_0),
+			
+			(&Value::StringImmutable (_, ref self_0, _), &Value::StringImmutable (_, ref other_0, _)) => ValueClassMatchAsRef2::String (StringMatchAsRef2::ImmutableBoth (self_0, other_0)),
+			(&Value::StringMutable (_, ref self_0, _), &Value::StringMutable (_, ref other_0, _)) => ValueClassMatchAsRef2::String (StringMatchAsRef2::MutableBoth (self_0, other_0)),
+			(&Value::StringImmutable (_, ref self_0, _), &Value::StringMutable (_, ref other_0, _)) => ValueClassMatchAsRef2::String (StringMatchAsRef2::ImmutableAndMutable (self_0, other_0)),
+			(&Value::StringMutable (_, ref self_0, _), &Value::StringImmutable (_, ref other_0, _)) => ValueClassMatchAsRef2::String (StringMatchAsRef2::MutableAndImmutable (self_0, other_0)),
+			
+			(&Value::BytesImmutable (_, ref self_0, _), &Value::BytesImmutable (_, ref other_0, _)) => ValueClassMatchAsRef2::Bytes (BytesMatchAsRef2::ImmutableBoth (self_0, other_0)),
+			(&Value::BytesMutable (_, ref self_0, _), &Value::BytesMutable (_, ref other_0, _)) => ValueClassMatchAsRef2::Bytes (BytesMatchAsRef2::MutableBoth (self_0, other_0)),
+			(&Value::BytesImmutable (_, ref self_0, _), &Value::BytesMutable (_, ref other_0, _)) => ValueClassMatchAsRef2::Bytes (BytesMatchAsRef2::ImmutableAndMutable (self_0, other_0)),
+			(&Value::BytesMutable (_, ref self_0, _), &Value::BytesImmutable (_, ref other_0, _)) => ValueClassMatchAsRef2::Bytes (BytesMatchAsRef2::MutableAndImmutable (self_0, other_0)),
+			
+			(&Value::PairImmutable (_, ref self_0, _), &Value::PairImmutable (_, ref other_0, _)) => ValueClassMatchAsRef2::Pair (PairMatchAsRef2::ImmutableBoth (self_0, other_0)),
+			(&Value::PairMutable (_, ref self_0, _), &Value::PairMutable (_, ref other_0, _)) => ValueClassMatchAsRef2::Pair (PairMatchAsRef2::MutableBoth (self_0, other_0)),
+			(&Value::PairImmutable (_, ref self_0, _), &Value::PairMutable (_, ref other_0, _)) => ValueClassMatchAsRef2::Pair (PairMatchAsRef2::ImmutableAndMutable (self_0, other_0)),
+			(&Value::PairMutable (_, ref self_0, _), &Value::PairImmutable (_, ref other_0, _)) => ValueClassMatchAsRef2::Pair (PairMatchAsRef2::MutableAndImmutable (self_0, other_0)),
+			
+			(&Value::ArrayImmutable (_, ref self_0, _), &Value::ArrayImmutable (_, ref other_0, _)) => ValueClassMatchAsRef2::Array (ArrayMatchAsRef2::ImmutableBoth (self_0, other_0)),
+			(&Value::ArrayMutable (_, ref self_0, _), &Value::ArrayMutable (_, ref other_0, _)) => ValueClassMatchAsRef2::Array (ArrayMatchAsRef2::MutableBoth (self_0, other_0)),
+			(&Value::ArrayImmutable (_, ref self_0, _), &Value::ArrayMutable (_, ref other_0, _)) => ValueClassMatchAsRef2::Array (ArrayMatchAsRef2::ImmutableAndMutable (self_0, other_0)),
+			(&Value::ArrayMutable (_, ref self_0, _), &Value::ArrayImmutable (_, ref other_0, _)) => ValueClassMatchAsRef2::Array (ArrayMatchAsRef2::MutableAndImmutable (self_0, other_0)),
+			
+			(&Value::Values (_, ref self_0, _), &Value::Values (_, ref other_0, _)) => ValueClassMatchAsRef2::Values (self_0, other_0),
+			
+			(&Value::Error (_, ref self_0, _), &Value::Error (_, ref other_0, _)) => ValueClassMatchAsRef2::Error (self_0, other_0),
+			
+			(&Value::Port (_, ref self_0, _), &Value::Port (_, ref other_0, _)) => ValueClassMatchAsRef2::Port (self_0, other_0),
+			
+			(&Value::__NonExhaustive, _) => unreachable! (),
+			(_, &Value::__NonExhaustive) => unreachable! (),
+			
+			// NOTE:  !!! match-fallback !!!
+			_ =>
+				match (this.class_match_as_ref (), other.class_match_as_ref ()) {
+					
+					(ValueClassMatchAsRef::Procedure (self_0), ValueClassMatchAsRef::Procedure (other_0)) =>
+						ValueClassMatchAsRef2::Procedure (self_0, other_0),
+					(ValueClassMatchAsRef::Syntax (self_0), ValueClassMatchAsRef::Syntax (other_0)) =>
+						ValueClassMatchAsRef2::Syntax (self_0, other_0),
+					(ValueClassMatchAsRef::Resource (self_0), ValueClassMatchAsRef::Resource (other_0)) =>
+						ValueClassMatchAsRef2::Resource (self_0, other_0),
+					(ValueClassMatchAsRef::Opaque (self_0), ValueClassMatchAsRef::Opaque (other_0)) =>
+						ValueClassMatchAsRef2::Opaque (self_0, other_0),
+					
+					// NOTE:  !!! match-fallback !!!
+					(self_0, other_0) =>
+						ValueClassMatchAsRef2::Missmatched (self_0, other_0),
+					
+				},
+			
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn list_match_as_ref (&self) -> (ListMatchAsRef) {
+		match *self {
+			Value::Singleton (_, ValueSingleton::Null, _) => ListMatchAsRef::Null,
+			Value::PairImmutable (_, ref self_0, _) => ListMatchAsRef::PairImmutable (self_0),
+			Value::PairMutable (_, ref self_0, _) => ListMatchAsRef::PairMutable (self_0),
+			Value::__NonExhaustive => unreachable! (),
+			// NOTE:  !!! match-fallback !!!
+			_ => ListMatchAsRef::Value (self),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn list_match_into (self) -> (ListMatchInto) {
+		match self {
+			Value::Singleton (_, ValueSingleton::Null, _) => ListMatchInto::Null,
+			Value::PairImmutable (_, self_0, _) => ListMatchInto::PairImmutable (self_0),
+			Value::PairMutable (_, self_0, _) => ListMatchInto::PairMutable (self_0),
+			Value::__NonExhaustive => unreachable! (),
+			// NOTE:  !!! match-fallback !!!
+			_ => ListMatchInto::Value (self),
 		}
 	}
 	
@@ -713,46 +994,49 @@ impl Value {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &Value) -> (bool) {
-		match (self, other) {
+		match Value::kind_match_as_ref_2 (self, other) {
 			
-			(&Value::Singleton (_, ref self_0, _), &Value::Singleton (_, ref other_0, _)) => self_0 == other_0,
+			ValueKindMatchAsRef2::Null => true,
+			ValueKindMatchAsRef2::Void => true,
+			ValueKindMatchAsRef2::Undefined => true,
+			ValueKindMatchAsRef2::Singleton (_) => true,
 			
-			(&Value::Boolean (_, ref self_0, _), &Value::Boolean (_, ref other_0, _)) => self_0 == other_0,
-			(&Value::NumberInteger (_, ref self_0, _), &Value::NumberInteger (_, ref other_0, _)) => self_0 == other_0,
-			(&Value::NumberReal (_, ref self_0, _), &Value::NumberReal (_, ref other_0, _)) => self_0 == other_0,
-			(&Value::Character (_, ref self_0, _), &Value::Character (_, ref other_0, _)) => self_0 == other_0,
+			ValueKindMatchAsRef2::Boolean (self_0, other_0) => Boolean::eq (self_0, other_0),
+			ValueKindMatchAsRef2::NumberInteger (self_0, other_0) => NumberInteger::eq (self_0, other_0),
+			ValueKindMatchAsRef2::NumberReal (self_0, other_0) => NumberReal::eq (self_0, other_0),
+			ValueKindMatchAsRef2::Character (self_0, other_0) => Character::eq (self_0, other_0),
 			
-			(&Value::Symbol (_, ref self_0, _), &Value::Symbol (_, ref other_0, _)) => self_0 == other_0,
-			(&Value::StringImmutable (_, ref self_0, _), &Value::StringImmutable (_, ref other_0, _)) => StringImmutable::is_self (self_0, other_0),
-			(&Value::StringMutable (_, ref self_0, _), &Value::StringMutable (_, ref other_0, _)) => StringMutable::is_self (self_0, other_0),
-			(&Value::BytesImmutable (_, ref self_0, _), &Value::BytesImmutable (_, ref other_0, _)) => BytesImmutable::is_self (self_0, other_0),
-			(&Value::BytesMutable (_, ref self_0, _), &Value::BytesMutable (_, ref other_0, _)) => BytesMutable::is_self (self_0, other_0),
+			ValueKindMatchAsRef2::Symbol (self_0, other_0) => Symbol::is_self (self_0, other_0),
+			ValueKindMatchAsRef2::StringImmutable (self_0, other_0) => StringImmutable::is_self (self_0, other_0),
+			ValueKindMatchAsRef2::StringMutable (self_0, other_0) => StringMutable::is_self (self_0, other_0),
+			ValueKindMatchAsRef2::BytesImmutable (self_0, other_0) => BytesImmutable::is_self (self_0, other_0),
+			ValueKindMatchAsRef2::BytesMutable (self_0, other_0) => BytesMutable::is_self (self_0, other_0),
 			
-			(&Value::PairImmutable (_, ref self_0, _), &Value::PairImmutable (_, ref other_0, _)) => PairImmutable::is_self (self_0, other_0),
-			(&Value::PairMutable (_, ref self_0, _), &Value::PairMutable (_, ref other_0, _)) => PairMutable::is_self (self_0, other_0),
-			(&Value::ArrayImmutable (_, ref self_0, _), &Value::ArrayImmutable (_, ref other_0, _)) => ArrayImmutable::is_self (self_0, other_0),
-			(&Value::ArrayMutable (_, ref self_0, _), &Value::ArrayMutable (_, ref other_0, _)) => ArrayMutable::is_self (self_0, other_0),
-			(&Value::Values (_, ref self_0, _), &Value::Values (_, ref other_0, _)) => Values::is_self (self_0, other_0),
+			ValueKindMatchAsRef2::PairImmutable (self_0, other_0) => PairImmutable::is_self (self_0, other_0),
+			ValueKindMatchAsRef2::PairMutable (self_0, other_0) => PairMutable::is_self (self_0, other_0),
+			ValueKindMatchAsRef2::ArrayImmutable (self_0, other_0) => ArrayImmutable::is_self (self_0, other_0),
+			ValueKindMatchAsRef2::ArrayMutable (self_0, other_0) => ArrayMutable::is_self (self_0, other_0),
+			ValueKindMatchAsRef2::Values (self_0, other_0) => Values::is_self (self_0, other_0),
 			
-			(&Value::Error (_, ref self_0, _), &Value::Error (_, ref other_0, _)) => Error::is_self (self_0, other_0),
+			ValueKindMatchAsRef2::Error (self_0, other_0) => Error::is_self (self_0, other_0),
 			
-			(&Value::ProcedurePrimitive (_, ref self_0, _), &Value::ProcedurePrimitive (_, ref other_0, _)) => self_0 == other_0,
-			(&Value::ProcedureExtended (_, ref self_0, _), &Value::ProcedureExtended (_, ref other_0, _)) => ProcedureExtended::is_self (self_0, other_0),
-			(&Value::ProcedureNative (_, ref self_0, _), &Value::ProcedureNative (_, ref other_0, _)) => ProcedureNative::is_self (self_0, other_0),
-			(&Value::ProcedureLambda (_, ref self_0, _), &Value::ProcedureLambda (_, ref other_0, _)) => ProcedureLambda::is_self (self_0, other_0),
+			ValueKindMatchAsRef2::ProcedurePrimitive (self_0, other_0) => ProcedurePrimitive::is_self (self_0, other_0),
+			ValueKindMatchAsRef2::ProcedureExtended (self_0, other_0) => ProcedureExtended::is_self (self_0, other_0),
+			ValueKindMatchAsRef2::ProcedureNative (self_0, other_0) => ProcedureNative::is_self (self_0, other_0),
+			ValueKindMatchAsRef2::ProcedureLambda (self_0, other_0) => ProcedureLambda::is_self (self_0, other_0),
 			
-			(&Value::SyntaxPrimitive (_, ref self_0, _), &Value::SyntaxPrimitive (_, ref other_0, _)) => self_0 == other_0,
-			(&Value::SyntaxExtended (_, ref self_0, _), &Value::SyntaxExtended (_, ref other_0, _)) => SyntaxExtended::is_self (self_0, other_0),
-			(&Value::SyntaxNative (_, ref self_0, _), &Value::SyntaxNative (_, ref other_0, _)) => SyntaxNative::is_self (self_0, other_0),
-			(&Value::SyntaxLambda (_, ref self_0, _), &Value::SyntaxLambda (_, ref other_0, _)) => SyntaxLambda::is_self (self_0, other_0),
+			ValueKindMatchAsRef2::SyntaxPrimitive (self_0, other_0) => SyntaxPrimitive::is_self (self_0, other_0),
+			ValueKindMatchAsRef2::SyntaxExtended (self_0, other_0) => SyntaxExtended::is_self (self_0, other_0),
+			ValueKindMatchAsRef2::SyntaxNative (self_0, other_0) => SyntaxNative::is_self (self_0, other_0),
+			ValueKindMatchAsRef2::SyntaxLambda (self_0, other_0) => SyntaxLambda::is_self (self_0, other_0),
 			
-			(&Value::Port (_, ref self_0, _), &Value::Port (_, ref other_0, _)) => Port::is_self (self_0, other_0),
-			(&Value::Process (_, ref self_0, _), &Value::Process (_, ref other_0, _)) => Process::is_self (self_0, other_0),
+			ValueKindMatchAsRef2::Port (self_0, other_0) => Port::is_self (self_0, other_0),
+			ValueKindMatchAsRef2::Process (self_0, other_0) => Process::is_self (self_0, other_0),
 			
-			(&Value::Context (_, ref self_0, _), &Value::Context (_, ref other_0, _)) => Context::is_self (self_0, other_0),
-			(&Value::Binding (_, ref self_0, _), &Value::Binding (_, ref other_0, _)) => Binding::is_self (self_0, other_0),
+			ValueKindMatchAsRef2::Context (self_0, other_0) => Context::is_self (self_0, other_0),
+			ValueKindMatchAsRef2::Binding (self_0, other_0) => Binding::is_self (self_0, other_0),
 			
-			(_, _) => false,
+			ValueKindMatchAsRef2::Missmatched => false,
 			
 		}
 	}
@@ -798,6 +1082,8 @@ impl Value {
 			Value::Context (_, _, _) => fail! (0x7e3a414d),
 			Value::Binding (_, _, _) => fail! (0xcf5a0e0d),
 			
+			Value::__NonExhaustive => unreachable! (),
+			
 		};
 		succeed! (value);
 	}
@@ -819,6 +1105,9 @@ impl Value {
 			Value::Port (_, ref self_0, _) => self_0.clone () .into (),
 			Value::Process (_, ref self_0, _) => self_0.clone () .into (),
 			
+			Value::__NonExhaustive => unreachable! (),
+			
+			// NOTE:  !!! match-fallback !!!
 			_ => fail! (0x34e2a415),
 			
 		};

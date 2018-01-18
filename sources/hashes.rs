@@ -1,5 +1,6 @@
 
 
+use super::constants::exports::*;
 use super::contexts::exports::*;
 use super::expressions::exports::*;
 use super::lambdas::exports::*;
@@ -14,44 +15,47 @@ impl hash::Hash for Value {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		match *self {
+		match self.kind_match_as_ref () {
 			
-			Value::Singleton (_, ref value, _) => { hasher.write_u32 (0xc8aa23d5); value.hash (hasher); },
+			ValueKindMatchAsRef::Null => { hasher.write_u32 (0xc8aa23d5); NULL.hash (hasher); },
+			ValueKindMatchAsRef::Void => { hasher.write_u32 (0xc8aa23d5); VOID.hash (hasher); },
+			ValueKindMatchAsRef::Undefined => { hasher.write_u32 (0xc8aa23d5); UNDEFINED.hash (hasher); },
+			ValueKindMatchAsRef::Singleton (self_0) => { hasher.write_u32 (0xc8aa23d5); self_0.hash (hasher); },
 			
-			Value::Boolean (_, ref value, _) => { hasher.write_u32 (0xee64c5c5); value.hash (hasher); },
-			Value::NumberInteger (_, ref value, _) => { hasher.write_u32 (0xf5b45115); value.hash (hasher); },
-			Value::NumberReal (_, ref value, _) => { hasher.write_u32 (0x754462d9); value.hash (hasher); },
-			Value::Character (_, ref value, _) => { hasher.write_u32 (0x29e07200); value.hash (hasher); },
+			ValueKindMatchAsRef::Boolean (self_0) => { hasher.write_u32 (0xee64c5c5); self_0.hash (hasher); },
+			ValueKindMatchAsRef::NumberInteger (self_0) => { hasher.write_u32 (0xf5b45115); self_0.hash (hasher); },
+			ValueKindMatchAsRef::NumberReal (self_0) => { hasher.write_u32 (0x754462d9); self_0.hash (hasher); },
+			ValueKindMatchAsRef::Character (self_0) => { hasher.write_u32 (0x29e07200); self_0.hash (hasher); },
 			
-			Value::Symbol (_, ref value, _) => { hasher.write_u32 (0x1fcc2d57); value.hash (hasher); },
-			Value::StringImmutable (_, ref value, _) => { hasher.write_u32 (0x85932088); value.hash (hasher); },
-			Value::StringMutable (_, ref value, _) => { hasher.write_u32 (0x5dffe8a7); value.hash (hasher); },
-			Value::BytesImmutable (_, ref value, _) => { hasher.write_u32 (0xd6ec09a4); value.hash (hasher); },
-			Value::BytesMutable (_, ref value, _) => { hasher.write_u32 (0x15527940); value.hash (hasher); },
+			ValueKindMatchAsRef::Symbol (self_0) => { hasher.write_u32 (0x1fcc2d57); self_0.hash (hasher); },
+			ValueKindMatchAsRef::StringImmutable (self_0) => { hasher.write_u32 (0x85932088); self_0.hash (hasher); },
+			ValueKindMatchAsRef::StringMutable (self_0) => { hasher.write_u32 (0x5dffe8a7); self_0.hash (hasher); },
+			ValueKindMatchAsRef::BytesImmutable (self_0) => { hasher.write_u32 (0xd6ec09a4); self_0.hash (hasher); },
+			ValueKindMatchAsRef::BytesMutable (self_0) => { hasher.write_u32 (0x15527940); self_0.hash (hasher); },
 			
-			Value::PairImmutable (_, ref value, _) => { hasher.write_u32 (0x1064fab6); value.hash (hasher); },
-			Value::PairMutable (_, ref value, _) => { hasher.write_u32 (0x4bac60cf); value.hash (hasher); },
-			Value::ArrayImmutable (_, ref value, _) => { hasher.write_u32 (0x0b86fd20); value.hash (hasher); },
-			Value::ArrayMutable (_, ref value, _) => { hasher.write_u32 (0xb20f12de); value.hash (hasher); },
-			Value::Values (_, ref value, _) => { hasher.write_u32 (0xb5f3786a); value.hash (hasher); },
+			ValueKindMatchAsRef::PairImmutable (self_0) => { hasher.write_u32 (0x1064fab6); self_0.hash (hasher); },
+			ValueKindMatchAsRef::PairMutable (self_0) => { hasher.write_u32 (0x4bac60cf); self_0.hash (hasher); },
+			ValueKindMatchAsRef::ArrayImmutable (self_0) => { hasher.write_u32 (0x0b86fd20); self_0.hash (hasher); },
+			ValueKindMatchAsRef::ArrayMutable (self_0) => { hasher.write_u32 (0xb20f12de); self_0.hash (hasher); },
+			ValueKindMatchAsRef::Values (self_0) => { hasher.write_u32 (0xb5f3786a); self_0.hash (hasher); },
 			
-			Value::Error (_, ref value, _) => { hasher.write_u32 (0x15f15501); value.hash (hasher); },
+			ValueKindMatchAsRef::Error (self_0) => { hasher.write_u32 (0x15f15501); self_0.hash (hasher); },
 			
-			Value::ProcedurePrimitive (_, ref value, _) => { hasher.write_u32 (0x23a51f00); value.hash (hasher); },
-			Value::ProcedureExtended (_, ref value, _) => { hasher.write_u32 (0x50c5d416); value.hash (hasher); },
-			Value::ProcedureNative (_, ref value, _) => { hasher.write_u32 (0xfe96b2d7); value.hash (hasher); },
-			Value::ProcedureLambda (_, ref value, _) => { hasher.write_u32 (0x3f65eccb); value.hash (hasher); },
+			ValueKindMatchAsRef::ProcedurePrimitive (self_0) => { hasher.write_u32 (0x23a51f00); self_0.hash (hasher); },
+			ValueKindMatchAsRef::ProcedureExtended (self_0) => { hasher.write_u32 (0x50c5d416); self_0.hash (hasher); },
+			ValueKindMatchAsRef::ProcedureNative (self_0) => { hasher.write_u32 (0xfe96b2d7); self_0.hash (hasher); },
+			ValueKindMatchAsRef::ProcedureLambda (self_0) => { hasher.write_u32 (0x3f65eccb); self_0.hash (hasher); },
 			
-			Value::SyntaxPrimitive (_, ref value, _) => { hasher.write_u32 (0xda6585c6); value.hash (hasher); },
-			Value::SyntaxExtended (_, ref value, _) => { hasher.write_u32 (0x3f07734c); value.hash (hasher); },
-			Value::SyntaxNative (_, ref value, _) => { hasher.write_u32 (0xf018c0a5); value.hash (hasher); },
-			Value::SyntaxLambda (_, ref value, _) => { hasher.write_u32 (0xd5b61513); value.hash (hasher); },
+			ValueKindMatchAsRef::SyntaxPrimitive (self_0) => { hasher.write_u32 (0xda6585c6); self_0.hash (hasher); },
+			ValueKindMatchAsRef::SyntaxExtended (self_0) => { hasher.write_u32 (0x3f07734c); self_0.hash (hasher); },
+			ValueKindMatchAsRef::SyntaxNative (self_0) => { hasher.write_u32 (0xf018c0a5); self_0.hash (hasher); },
+			ValueKindMatchAsRef::SyntaxLambda (self_0) => { hasher.write_u32 (0xd5b61513); self_0.hash (hasher); },
 			
-			Value::Port (_, ref value, _) => { hasher.write_u32 (0xd25641d0); value.hash (hasher); },
-			Value::Process (_, ref value, _) => { hasher.write_u32 (0x87b9167c); value.hash (hasher); },
+			ValueKindMatchAsRef::Port (self_0) => { hasher.write_u32 (0xd25641d0); self_0.hash (hasher); },
+			ValueKindMatchAsRef::Process (self_0) => { hasher.write_u32 (0x87b9167c); self_0.hash (hasher); },
 			
-			Value::Context (_, ref value, _) => { hasher.write_u32 (0x04ef2744); value.hash (hasher); },
-			Value::Binding (_, ref value, _) => { hasher.write_u32 (0x8dd0b6ab); value.hash (hasher); },
+			ValueKindMatchAsRef::Context (self_0) => { hasher.write_u32 (0x04ef2744); self_0.hash (hasher); },
+			ValueKindMatchAsRef::Binding (self_0) => { hasher.write_u32 (0x8dd0b6ab); self_0.hash (hasher); },
 			
 		}
 	}

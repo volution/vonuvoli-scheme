@@ -1,5 +1,6 @@
 
 
+use super::constants::exports::*;
 use super::contexts::exports::*;
 use super::expressions::exports::*;
 use super::lambdas::exports::*;
@@ -15,44 +16,47 @@ impl fmt::Display for Value {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		match *self {
+		match self.kind_match_as_ref () {
 			
-			Value::Singleton (_, ref value, _) => value.fmt (formatter),
+			ValueKindMatchAsRef::Null => NULL.fmt (formatter),
+			ValueKindMatchAsRef::Void => VOID.fmt (formatter),
+			ValueKindMatchAsRef::Undefined => UNDEFINED.fmt (formatter),
+			ValueKindMatchAsRef::Singleton (self_0) => self_0.fmt (formatter),
 			
-			Value::Boolean (_, ref value, _) => value.fmt (formatter),
-			Value::NumberInteger (_, ref value, _) => value.fmt (formatter),
-			Value::NumberReal (_, ref value, _) => value.fmt (formatter),
-			Value::Character (_, ref value, _) => value.fmt (formatter),
+			ValueKindMatchAsRef::Boolean (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::NumberInteger (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::NumberReal (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::Character (self_0) => self_0.fmt (formatter),
 			
-			Value::Symbol (_, ref value, _) => value.fmt (formatter),
-			Value::StringImmutable (_, ref value, _) => value.fmt (formatter),
-			Value::StringMutable (_, ref value, _) => value.fmt (formatter),
-			Value::BytesImmutable (_, ref value, _) => value.fmt (formatter),
-			Value::BytesMutable (_, ref value, _) => value.fmt (formatter),
+			ValueKindMatchAsRef::Symbol (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::StringImmutable (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::StringMutable (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::BytesImmutable (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::BytesMutable (self_0) => self_0.fmt (formatter),
 			
-			Value::PairImmutable (_, ref value, _) => value.fmt (formatter),
-			Value::PairMutable (_, ref value, _) => value.fmt (formatter),
-			Value::ArrayImmutable (_, ref value, _) => value.fmt (formatter),
-			Value::ArrayMutable (_, ref value, _) => value.fmt (formatter),
-			Value::Values (_, ref value, _) => value.fmt (formatter),
+			ValueKindMatchAsRef::PairImmutable (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::PairMutable (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::ArrayImmutable (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::ArrayMutable (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::Values (self_0) => self_0.fmt (formatter),
 			
-			Value::Error (_, ref value, _) => value.fmt (formatter),
+			ValueKindMatchAsRef::Error (self_0) => self_0.fmt (formatter),
 			
-			Value::ProcedurePrimitive (_, ref value, _) => value.fmt (formatter),
-			Value::ProcedureExtended (_, ref value, _) => value.fmt (formatter),
-			Value::ProcedureNative (_, ref value, _) => value.fmt (formatter),
-			Value::ProcedureLambda (_, ref value, _) => value.fmt (formatter),
+			ValueKindMatchAsRef::ProcedurePrimitive (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::ProcedureExtended (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::ProcedureNative (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::ProcedureLambda (self_0) => self_0.fmt (formatter),
 			
-			Value::SyntaxPrimitive (_, ref value, _) => value.fmt (formatter),
-			Value::SyntaxExtended (_, ref value, _) => value.fmt (formatter),
-			Value::SyntaxNative (_, ref value, _) => value.fmt (formatter),
-			Value::SyntaxLambda (_, ref value, _) => value.fmt (formatter),
+			ValueKindMatchAsRef::SyntaxPrimitive (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::SyntaxExtended (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::SyntaxNative (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::SyntaxLambda (self_0) => self_0.fmt (formatter),
 			
-			Value::Port (_, ref value, _) => value.fmt (formatter),
-			Value::Process (_, ref value, _) => value.fmt (formatter),
+			ValueKindMatchAsRef::Port (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::Process (self_0) => self_0.fmt (formatter),
 			
-			Value::Context (_, ref value, _) => value.fmt (formatter),
-			Value::Binding (_, ref value, _) => value.fmt (formatter),
+			ValueKindMatchAsRef::Context (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::Binding (self_0) => self_0.fmt (formatter),
 			
 		}
 	}
@@ -62,44 +66,47 @@ impl fmt::Debug for Value {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		match *self {
+		match self.kind_match_as_ref () {
 			
-			Value::Singleton (_, ref value, _) => value.fmt (formatter),
+			ValueKindMatchAsRef::Null => NULL.fmt (formatter),
+			ValueKindMatchAsRef::Void => VOID.fmt (formatter),
+			ValueKindMatchAsRef::Undefined => UNDEFINED.fmt (formatter),
+			ValueKindMatchAsRef::Singleton (self_0) => self_0.fmt (formatter),
 			
-			Value::Boolean (_, ref value, _) => value.fmt (formatter),
-			Value::NumberInteger (_, ref value, _) => value.fmt (formatter),
-			Value::NumberReal (_, ref value, _) => value.fmt (formatter),
-			Value::Character (_, ref value, _) => value.fmt (formatter),
+			ValueKindMatchAsRef::Boolean (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::NumberInteger (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::NumberReal (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::Character (self_0) => self_0.fmt (formatter),
 			
-			Value::Symbol (_, ref value, _) => value.fmt (formatter),
-			Value::StringImmutable (_, ref value, _) => value.fmt (formatter),
-			Value::StringMutable (_, ref value, _) => value.fmt (formatter),
-			Value::BytesImmutable (_, ref value, _) => value.fmt (formatter),
-			Value::BytesMutable (_, ref value, _) => value.fmt (formatter),
+			ValueKindMatchAsRef::Symbol (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::StringImmutable (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::StringMutable (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::BytesImmutable (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::BytesMutable (self_0) => self_0.fmt (formatter),
 			
-			Value::PairImmutable (_, ref value, _) => value.fmt (formatter),
-			Value::PairMutable (_, ref value, _) => value.fmt (formatter),
-			Value::ArrayImmutable (_, ref value, _) => value.fmt (formatter),
-			Value::ArrayMutable (_, ref value, _) => value.fmt (formatter),
-			Value::Values (_, ref value, _) => value.fmt (formatter),
+			ValueKindMatchAsRef::PairImmutable (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::PairMutable (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::ArrayImmutable (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::ArrayMutable (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::Values (self_0) => self_0.fmt (formatter),
 			
-			Value::Error (_, ref value, _) => value.fmt (formatter),
+			ValueKindMatchAsRef::Error (self_0) => self_0.fmt (formatter),
 			
-			Value::ProcedurePrimitive (_, ref value, _) => value.fmt (formatter),
-			Value::ProcedureExtended (_, ref value, _) => value.fmt (formatter),
-			Value::ProcedureNative (_, ref value, _) => value.fmt (formatter),
-			Value::ProcedureLambda (_, ref value, _) => value.fmt (formatter),
+			ValueKindMatchAsRef::ProcedurePrimitive (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::ProcedureExtended (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::ProcedureNative (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::ProcedureLambda (self_0) => self_0.fmt (formatter),
 			
-			Value::SyntaxPrimitive (_, ref value, _) => value.fmt (formatter),
-			Value::SyntaxExtended (_, ref value, _) => value.fmt (formatter),
-			Value::SyntaxNative (_, ref value, _) => value.fmt (formatter),
-			Value::SyntaxLambda (_, ref value, _) => value.fmt (formatter),
+			ValueKindMatchAsRef::SyntaxPrimitive (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::SyntaxExtended (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::SyntaxNative (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::SyntaxLambda (self_0) => self_0.fmt (formatter),
 			
-			Value::Port (_, ref value, _) => value.fmt (formatter),
-			Value::Process (_, ref value, _) => value.fmt (formatter),
+			ValueKindMatchAsRef::Port (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::Process (self_0) => self_0.fmt (formatter),
 			
-			Value::Context (_, ref value, _) => value.fmt (formatter),
-			Value::Binding (_, ref value, _) => value.fmt (formatter),
+			ValueKindMatchAsRef::Context (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::Binding (self_0) => self_0.fmt (formatter),
 			
 		}
 	}
@@ -345,26 +352,26 @@ fn pair_fmt_0 (head : (&Value, &Value), cursor : (&Value, &Value), formatter : &
 		// FIXME:  Make sure `left` is not recursive also!
 		try! (fmt::Display::fmt (left, formatter));
 		
-		match *right {
+		match right.list_match_as_ref () {
 			
-			Value::Singleton (_, ValueSingleton::Null, _) =>
+			ListMatchAsRef::Null =>
 				succeed! (()),
 			
-			Value::PairImmutable (_, ref pair, _) => {
+			ListMatchAsRef::PairImmutable (pair) => {
 				try! (formatter.write_char (' '));
 				cursor = pair.left_and_right ();
 			},
 			
-			Value::PairMutable (_, ref pair, _) => {
+			ListMatchAsRef::PairMutable (pair) => {
 				try! (formatter.write_char (' '));
 				return pair_fmt_0 (head, pair.pair_ref () .left_and_right (), formatter);
 			},
 			
-			_ => {
+			ListMatchAsRef::Value (value) => {
 				try! (formatter.write_char (' '));
 				try! (formatter.write_char ('.'));
 				try! (formatter.write_char (' '));
-				try! (fmt::Display::fmt (right, formatter));
+				try! (fmt::Display::fmt (value, formatter));
 				succeed! (());
 			},
 			
