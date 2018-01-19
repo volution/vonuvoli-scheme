@@ -45,6 +45,38 @@ pub enum StringMatchAsRef2 <'a> {
 }
 
 
+impl <'a> StringMatchAsRef<'a> {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn string_ref (&self) -> (StringRef<'a>) {
+		match *self {
+			StringMatchAsRef::Immutable (value) =>
+				value.string_ref (),
+			StringMatchAsRef::Mutable (value) =>
+				value.string_ref (),
+		}
+	}
+}
+
+
+impl <'a> StringMatchAsRef2<'a> {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn string_ref (&self) -> ((StringRef<'a>, StringRef<'a>)) {
+		match *self {
+			StringMatchAsRef2::ImmutableBoth (left, right) =>
+				(left.string_ref (), right.string_ref ()),
+			StringMatchAsRef2::MutableBoth (left, right) =>
+				(left.string_ref (), right.string_ref ()),
+			StringMatchAsRef2::ImmutableAndMutable (left, right) =>
+				(left.string_ref (), right.string_ref ()),
+			StringMatchAsRef2::MutableAndImmutable (left, right) =>
+				(left.string_ref (), right.string_ref ()),
+		}
+	}
+}
+
+
 
 
 pub trait String {

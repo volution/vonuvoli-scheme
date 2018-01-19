@@ -42,6 +42,38 @@ pub enum PairMatchAsRef2 <'a> {
 }
 
 
+impl <'a> PairMatchAsRef<'a> {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn pair_ref (&self) -> (PairRef<'a>) {
+		match *self {
+			PairMatchAsRef::Immutable (value) =>
+				value.pair_ref (),
+			PairMatchAsRef::Mutable (value) =>
+				value.pair_ref (),
+		}
+	}
+}
+
+
+impl <'a> PairMatchAsRef2<'a> {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn pair_ref (&self) -> ((PairRef<'a>, PairRef<'a>)) {
+		match *self {
+			PairMatchAsRef2::ImmutableBoth (left, right) =>
+				(left.pair_ref (), right.pair_ref ()),
+			PairMatchAsRef2::MutableBoth (left, right) =>
+				(left.pair_ref (), right.pair_ref ()),
+			PairMatchAsRef2::ImmutableAndMutable (left, right) =>
+				(left.pair_ref (), right.pair_ref ()),
+			PairMatchAsRef2::MutableAndImmutable (left, right) =>
+				(left.pair_ref (), right.pair_ref ()),
+		}
+	}
+}
+
+
 
 
 pub trait Pair {

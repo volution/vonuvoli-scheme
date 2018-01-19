@@ -44,6 +44,38 @@ pub enum ArrayMatchAsRef2 <'a> {
 }
 
 
+impl <'a> ArrayMatchAsRef<'a> {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn array_ref (&self) -> (ArrayRef<'a>) {
+		match *self {
+			ArrayMatchAsRef::Immutable (value) =>
+				value.array_ref (),
+			ArrayMatchAsRef::Mutable (value) =>
+				value.array_ref (),
+		}
+	}
+}
+
+
+impl <'a> ArrayMatchAsRef2<'a> {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn array_ref (&self) -> ((ArrayRef<'a>, ArrayRef<'a>)) {
+		match *self {
+			ArrayMatchAsRef2::ImmutableBoth (left, right) =>
+				(left.array_ref (), right.array_ref ()),
+			ArrayMatchAsRef2::MutableBoth (left, right) =>
+				(left.array_ref (), right.array_ref ()),
+			ArrayMatchAsRef2::ImmutableAndMutable (left, right) =>
+				(left.array_ref (), right.array_ref ()),
+			ArrayMatchAsRef2::MutableAndImmutable (left, right) =>
+				(left.array_ref (), right.array_ref ()),
+		}
+	}
+}
+
+
 
 
 pub trait Array {

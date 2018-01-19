@@ -45,6 +45,38 @@ pub enum BytesMatchAsRef2 <'a> {
 }
 
 
+impl <'a> BytesMatchAsRef<'a> {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn bytes_ref (&self) -> (BytesRef<'a>) {
+		match *self {
+			BytesMatchAsRef::Immutable (value) =>
+				value.bytes_ref (),
+			BytesMatchAsRef::Mutable (value) =>
+				value.bytes_ref (),
+		}
+	}
+}
+
+
+impl <'a> BytesMatchAsRef2<'a> {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn bytes_ref (&self) -> ((BytesRef<'a>, BytesRef<'a>)) {
+		match *self {
+			BytesMatchAsRef2::ImmutableBoth (left, right) =>
+				(left.bytes_ref (), right.bytes_ref ()),
+			BytesMatchAsRef2::MutableBoth (left, right) =>
+				(left.bytes_ref (), right.bytes_ref ()),
+			BytesMatchAsRef2::ImmutableAndMutable (left, right) =>
+				(left.bytes_ref (), right.bytes_ref ()),
+			BytesMatchAsRef2::MutableAndImmutable (left, right) =>
+				(left.bytes_ref (), right.bytes_ref ()),
+		}
+	}
+}
+
+
 
 
 pub trait Bytes {
