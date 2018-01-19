@@ -102,10 +102,13 @@ pub mod exports {
 	
 	pub use super::{
 			
-			is_symbol,
+			is_symbol, is_symbol_eq,
 			
 			is_symbol_all_2, is_symbol_all_3, is_symbol_all_4, is_symbol_all_n,
 			is_symbol_any_2, is_symbol_any_3, is_symbol_any_4, is_symbol_any_n,
+			
+			is_symbol_eq_all_2, is_symbol_eq_all_3, is_symbol_eq_all_4, is_symbol_eq_all_n,
+			is_symbol_eq_any_2, is_symbol_eq_any_3, is_symbol_eq_any_4, is_symbol_eq_any_n,
 			
 	};
 	
@@ -450,6 +453,132 @@ macro_rules! def_fn_try_predicate_any {
 			let mut outcome = true;
 			for value_i in values {
 				let outcome_i = try! ($predicate (value_i));
+				outcome = outcome || outcome_i;
+			}
+			succeed! (outcome);
+		}
+	);
+}
+
+
+
+
+macro_rules! def_fn_predicate_all_x1 {
+	( $predicate : ident, $extra_1_type : ty, $predicate_2 : ident, $predicate_3 : ident, $predicate_4 : ident, $predicate_n : ident ) => (
+		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+		pub fn $predicate_2 (extra_1 : $extra_1_type, value_1 : &Value, value_2 : &Value) -> (bool) {
+			return $predicate (extra_1, value_1) && $predicate (extra_1, value_2);
+		}
+		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+		pub fn $predicate_3 (extra_1 : $extra_1_type, value_1 : &Value, value_2 : &Value, value_3 : &Value) -> (bool) {
+			return $predicate (extra_1, value_1) && $predicate (extra_1, value_2) && $predicate (extra_1, value_3);
+		}
+		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+		pub fn $predicate_4 (extra_1 : $extra_1_type, value_1 : &Value, value_2 : &Value, value_3 : &Value, value_4 : &Value) -> (bool) {
+			return $predicate (extra_1, value_1) && $predicate (extra_1, value_2) && $predicate (extra_1, value_3) && $predicate (extra_1, value_4);
+		}
+		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+		pub fn $predicate_n (extra_1 : $extra_1_type, values : &[&Value]) -> (bool) {
+			for value_i in values {
+				if !$predicate (extra_1, value_i) {
+					return false;
+				}
+			}
+			return true;
+		}
+	);
+}
+
+macro_rules! def_fn_predicate_any_x1 {
+	( $predicate : ident, $extra_1_type : ty, $predicate_2 : ident, $predicate_3 : ident, $predicate_4 : ident, $predicate_n : ident ) => (
+		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+		pub fn $predicate_2 (extra_1 : $extra_1_type, value_1 : &Value, value_2 : &Value) -> (bool) {
+			return $predicate (extra_1, value_1) || $predicate (extra_1, value_2);
+		}
+		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+		pub fn $predicate_3 (extra_1 : $extra_1_type, value_1 : &Value, value_2 : &Value, value_3 : &Value) -> (bool) {
+			return $predicate (extra_1, value_1) || $predicate (extra_1, value_2) || $predicate (extra_1, value_3);
+		}
+		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+		pub fn $predicate_4 (extra_1 : $extra_1_type, value_1 : &Value, value_2 : &Value, value_3 : &Value, value_4 : &Value) -> (bool) {
+			return $predicate (extra_1, value_1) || $predicate (extra_1, value_2) || $predicate (extra_1, value_3) || $predicate (extra_1, value_4);
+		}
+		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+		pub fn $predicate_n (extra_1 : $extra_1_type, values : &[&Value]) -> (bool) {
+			for value_i in values {
+				if $predicate (extra_1, value_i) {
+					return false;
+				}
+			}
+			return false;
+		}
+	);
+}
+
+
+macro_rules! def_fn_try_predicate_all_x1 {
+	( $predicate : ident, $extra_1_type : ty, $predicate_2 : ident, $predicate_3 : ident, $predicate_4 : ident, $predicate_n : ident ) => (
+		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+		pub fn $predicate_2 (extra_1 : $extra_1_type, value_1 : &Value, value_2 : &Value) -> (Outcome<bool>) {
+			let outcome_1 = try! ($predicate (extra_1, value_1));
+			let outcome_2 = try! ($predicate (extra_1, value_2));
+			succeed! (outcome_1 && outcome_2);
+		}
+		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+		pub fn $predicate_3 (extra_1 : $extra_1_type, value_1 : &Value, value_2 : &Value, value_3 : &Value) -> (Outcome<bool>) {
+			let outcome_1 = try! ($predicate (extra_1, value_1));
+			let outcome_2 = try! ($predicate (extra_1, value_2));
+			let outcome_3 = try! ($predicate (extra_1, value_3));
+			succeed! (outcome_1 && outcome_2 && outcome_3);
+		}
+		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+		pub fn $predicate_4 (extra_1 : $extra_1_type, value_1 : &Value, value_2 : &Value, value_3 : &Value, value_4 : &Value) -> (Outcome<bool>) {
+			let outcome_1 = try! ($predicate (extra_1, value_1));
+			let outcome_2 = try! ($predicate (extra_1, value_2));
+			let outcome_3 = try! ($predicate (extra_1, value_3));
+			let outcome_4 = try! ($predicate (extra_1, value_4));
+			succeed! (outcome_1 && outcome_2 && outcome_3 && outcome_4);
+		}
+		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+		pub fn $predicate_n (extra_1 : $extra_1_type, values : &[&Value]) -> (Outcome<bool>) {
+			let mut outcome = true;
+			for value_i in values {
+				let outcome_i = try! ($predicate (extra_1, value_i));
+				outcome = outcome && outcome_i;
+			}
+			succeed! (outcome);
+		}
+	);
+}
+
+macro_rules! def_fn_try_predicate_any_x1 {
+	( $predicate : ident, $extra_1_type : ty, $predicate_2 : ident, $predicate_3 : ident, $predicate_4 : ident, $predicate_n : ident ) => (
+		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+		pub fn $predicate_2 (extra_1 : $extra_1_type, value_1 : &Value, value_2 : &Value) -> (Outcome<bool>) {
+			let outcome_1 = try! ($predicate (extra_1, value_1));
+			let outcome_2 = try! ($predicate (extra_1, value_2));
+			succeed! (outcome_1 || outcome_2);
+		}
+		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+		pub fn $predicate_3 (value_1 : &Value, value_2 : &Value, value_3 : &Value) -> (Outcome<bool>) {
+			let outcome_1 = try! ($predicate (extra_1, value_1));
+			let outcome_2 = try! ($predicate (extra_1, value_2));
+			let outcome_3 = try! ($predicate (extra_1, value_3));
+			succeed! (outcome_1 || outcome_2 || outcome_3);
+		}
+		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+		pub fn $predicate_4 (extra_1 : $extra_1_type, value_1 : &Value, value_2 : &Value, value_3 : &Value, value_4 : &Value) -> (Outcome<bool>) {
+			let outcome_1 = try! ($predicate (extra_1, value_1));
+			let outcome_2 = try! ($predicate (extra_1, value_2));
+			let outcome_3 = try! ($predicate (extra_1, value_3));
+			let outcome_4 = try! ($predicate (extra_1, value_4));
+			succeed! (outcome_1 || outcome_2 || outcome_3 || outcome_4);
+		}
+		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+		pub fn $predicate_n (extra_1 : $extra_1_type, values : &[&Value]) -> (Outcome<bool>) {
+			let mut outcome = true;
+			for value_i in values {
+				let outcome_i = try! ($predicate (extra_1, value_i));
 				outcome = outcome || outcome_i;
 			}
 			succeed! (outcome);
@@ -880,6 +1009,20 @@ pub fn is_symbol (value : &Value) -> (bool) {
 
 def_fn_predicate_all! (is_symbol, is_symbol_all_2, is_symbol_all_3, is_symbol_all_4, is_symbol_all_n);
 def_fn_predicate_any! (is_symbol, is_symbol_any_2, is_symbol_any_3, is_symbol_any_4, is_symbol_any_n);
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn is_symbol_eq (expected : &str, value : &Value) -> (bool) {
+	match value.kind_match_as_ref () {
+		ValueKindMatchAsRef::Symbol (symbol) =>
+			return symbol.string_eq (expected),
+		_ =>
+			return false,
+	}
+}
+
+def_fn_predicate_all_x1! (is_symbol_eq, &str, is_symbol_eq_all_2, is_symbol_eq_all_3, is_symbol_eq_all_4, is_symbol_eq_all_n);
+def_fn_predicate_any_x1! (is_symbol_eq, &str, is_symbol_eq_any_2, is_symbol_eq_any_3, is_symbol_eq_any_4, is_symbol_eq_any_n);
 
 
 
