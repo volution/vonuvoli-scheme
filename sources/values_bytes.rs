@@ -77,6 +77,20 @@ impl <'a> BytesMatchAsRef2<'a> {
 }
 
 
+impl BytesMatchInto {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn value (self) -> (Value) {
+		match self {
+			BytesMatchInto::Immutable (value) =>
+				value.into (),
+			BytesMatchInto::Mutable (value) =>
+				value.into (),
+		}
+	}
+}
+
+
 
 
 pub trait Bytes {

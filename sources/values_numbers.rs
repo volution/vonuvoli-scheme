@@ -1,6 +1,7 @@
 
 
-use super::errors::*;
+use super::errors::exports::*;
+use super::values::exports::*;
 
 use super::prelude::*;
 
@@ -36,6 +37,20 @@ pub enum NumberMatchAsRef2 <'a> {
 	RealBoth (&'a NumberReal, &'a NumberReal),
 	IntegerAndReal (&'a NumberInteger, &'a NumberReal),
 	RealAndInteger (&'a NumberReal, &'a NumberInteger),
+}
+
+
+impl NumberMatchInto {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn value (self) -> (Value) {
+		match self {
+			NumberMatchInto::Integer (value) =>
+				value.into (),
+			NumberMatchInto::Real (value) =>
+				value.into (),
+		}
+	}
 }
 
 

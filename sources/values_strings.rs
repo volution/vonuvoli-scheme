@@ -77,6 +77,20 @@ impl <'a> StringMatchAsRef2<'a> {
 }
 
 
+impl StringMatchInto {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn value (self) -> (Value) {
+		match self {
+			StringMatchInto::Immutable (value) =>
+				value.into (),
+			StringMatchInto::Mutable (value) =>
+				value.into (),
+		}
+	}
+}
+
+
 
 
 pub trait String {

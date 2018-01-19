@@ -74,6 +74,50 @@ impl <'a> PairMatchAsRef2<'a> {
 }
 
 
+impl PairMatchInto {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn value (self) -> (Value) {
+		match self {
+			PairMatchInto::Immutable (value) =>
+				value.into (),
+			PairMatchInto::Mutable (value) =>
+				value.into (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn into_immutable (self) -> (PairImmutable) {
+		match self {
+			PairMatchInto::Immutable (value) =>
+				value,
+			PairMatchInto::Mutable (value) =>
+				value.into_immutable (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn into_mutable (self) -> (PairMutable) {
+		match self {
+			PairMatchInto::Immutable (value) =>
+				value.into_mutable (),
+			PairMatchInto::Mutable (value) =>
+				value,
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn left_and_right_into (self) -> ((Value, Value)) {
+		match self {
+			PairMatchInto::Immutable (value) =>
+				value.left_and_right_into (),
+			PairMatchInto::Mutable (value) =>
+				value.left_and_right_into (),
+		}
+	}
+}
+
+
 
 
 pub trait Pair {
@@ -480,12 +524,34 @@ impl PairImmutable {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn left_and_right_into (self) -> ((Value, Value)) {
+		match StdRc::try_unwrap (self.0) {
+			Ok (internals) => {
+				let PairImmutableInternals { left, right } = internals;
+				(left, right)
+			},
+			Err (internals) => {
+				let internals = internals.as_ref ();
+				let left = internals.left.clone ();
+				let right = internals.right.clone ();
+				(left, right)
+			},
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn to_mutable (&self) -> (PairMutable) {
 		let (left, right) = self.left_and_right ();
 		let left = left.clone ();
 		let right = right.clone ();
 		let internals = PairMutableInternals { left, right };
 		PairMutable (StdRc::new (StdRefCell::new (internals)))
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn into_mutable (self) -> (PairMutable) {
+		let (left, right) = self.left_and_right_into ();
+		pair_mutable_new (left, right)
 	}
 }
 
@@ -573,6 +639,23 @@ impl PairMutable {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn left_and_right_into (self) -> ((Value, Value)) {
+		match StdRc::try_unwrap (self.0) {
+			Ok (internals) => {
+				let internals = internals.into_inner ();
+				let PairMutableInternals { left, right } = internals;
+				(left, right)
+			},
+			Err (internals) => {
+				let internals = internals.as_ref () .borrow ();
+				let left = internals.left.clone ();
+				let right = internals.right.clone ();
+				(left, right)
+			},
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn to_immutable (&self) -> (PairImmutable) {
 		let self_0 = self.internals_rc_borrow ();
 		let (left, right) = self_0.left_and_right ();
@@ -580,6 +663,12 @@ impl PairMutable {
 		let right = right.clone ();
 		let internals = PairImmutableInternals { left, right };
 		PairImmutable (StdRc::new (internals))
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn into_immutable (self) -> (PairImmutable) {
+		let (left, right) = self.left_and_right_into ();
+		pair_immutable_new (left, right)
 	}
 }
 

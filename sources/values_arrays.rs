@@ -76,6 +76,20 @@ impl <'a> ArrayMatchAsRef2<'a> {
 }
 
 
+impl ArrayMatchInto {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn value (self) -> (Value) {
+		match self {
+			ArrayMatchInto::Immutable (value) =>
+				value.into (),
+			ArrayMatchInto::Mutable (value) =>
+				value.into (),
+		}
+	}
+}
+
+
 
 
 pub trait Array {

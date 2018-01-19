@@ -1,5 +1,6 @@
 
 
+use super::constants::exports::*;
 use super::contexts::exports::*;
 use super::errors::exports::*;
 use super::extended_procedures::exports::*;
@@ -1112,6 +1113,163 @@ impl Value {
 			
 		};
 		succeed! (value);
+	}
+}
+
+
+impl ValueKindMatchInto {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn value (self) -> (Value) {
+		match self {
+			
+			ValueKindMatchInto::Null => NULL.into (),
+			ValueKindMatchInto::Void => VOID.into (),
+			ValueKindMatchInto::Undefined => UNDEFINED.into (),
+			ValueKindMatchInto::Singleton (value) => value.into (),
+			
+			ValueKindMatchInto::Boolean (value) => value.into (),
+			ValueKindMatchInto::NumberInteger (value) => value.into (),
+			ValueKindMatchInto::NumberReal (value) => value.into (),
+			ValueKindMatchInto::Character (value) => value.into (),
+			
+			ValueKindMatchInto::Symbol (value) => value.into (),
+			ValueKindMatchInto::StringImmutable (value) => value.into (),
+			ValueKindMatchInto::StringMutable (value) => value.into (),
+			ValueKindMatchInto::BytesImmutable (value) => value.into (),
+			ValueKindMatchInto::BytesMutable (value) => value.into (),
+			
+			ValueKindMatchInto::PairImmutable (value) => value.into (),
+			ValueKindMatchInto::PairMutable (value) => value.into (),
+			ValueKindMatchInto::ArrayImmutable (value) => value.into (),
+			ValueKindMatchInto::ArrayMutable (value) => value.into (),
+			ValueKindMatchInto::Values (value) => value.into (),
+			
+			ValueKindMatchInto::Error (value) => value.into (),
+			
+			ValueKindMatchInto::ProcedurePrimitive (value) => value.into (),
+			ValueKindMatchInto::ProcedureExtended (value) => value.into (),
+			ValueKindMatchInto::ProcedureNative (value) => value.into (),
+			ValueKindMatchInto::ProcedureLambda (value) => value.into (),
+			
+			ValueKindMatchInto::SyntaxPrimitive (value) => value.into (),
+			ValueKindMatchInto::SyntaxExtended (value) => value.into (),
+			ValueKindMatchInto::SyntaxNative (value) => value.into (),
+			ValueKindMatchInto::SyntaxLambda (value) => value.into (),
+			
+			ValueKindMatchInto::Port (value) => value.into (),
+			ValueKindMatchInto::Process (value) => value.into (),
+			
+			ValueKindMatchInto::Context (value) => value.into (),
+			ValueKindMatchInto::Binding (value) => value.into (),
+			
+		}
+		
+	}
+}
+
+
+impl ValueClassMatchInto {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn value (self) -> (Value) {
+		match self {
+			
+			ValueClassMatchInto::Null => NULL.into (),
+			ValueClassMatchInto::Void => VOID.into (),
+			ValueClassMatchInto::Undefined => UNDEFINED.into (),
+			ValueClassMatchInto::Singleton (value) => value.into (),
+			
+			ValueClassMatchInto::Boolean (value) => value.into (),
+			ValueClassMatchInto::Number (class) => class.value (),
+			ValueClassMatchInto::Character (value) => value.into (),
+			
+			ValueClassMatchInto::Symbol (value) => value.into (),
+			ValueClassMatchInto::String (class) => class.value (),
+			ValueClassMatchInto::Bytes (class) => class.value (),
+			
+			ValueClassMatchInto::Pair (class) => class.value (),
+			ValueClassMatchInto::Array (class) => class.value (),
+			ValueClassMatchInto::Values (value) => value.into (),
+			
+			ValueClassMatchInto::Error (value) => value.into (),
+			
+			ValueClassMatchInto::Procedure (class) => class.value (),
+			ValueClassMatchInto::Syntax (class) => class.value (),
+			
+			ValueClassMatchInto::Port (value) => value.into (),
+			ValueClassMatchInto::Resource (class) => class.value (),
+			
+			ValueClassMatchInto::Internal (class) => class.value (),
+			ValueClassMatchInto::Opaque (value) => value,
+			
+		}
+		
+	}
+}
+
+
+impl ProcedureMatchInto {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn value (self) -> (Value) {
+		match self {
+			ProcedureMatchInto::Primitive (value) => value.into (),
+			ProcedureMatchInto::Extended (value) => value.into (),
+			ProcedureMatchInto::Native (value) => value.into (),
+			ProcedureMatchInto::Lambda (value) => value.into (),
+		}
+	}
+}
+
+
+impl SyntaxMatchInto {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn value (self) -> (Value) {
+		match self {
+			SyntaxMatchInto::Primitive (value) => value.into (),
+			SyntaxMatchInto::Extended (value) => value.into (),
+			SyntaxMatchInto::Native (value) => value.into (),
+			SyntaxMatchInto::Lambda (value) => value.into (),
+		}
+	}
+}
+
+
+impl ResourceMatchInto {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn value (self) -> (Value) {
+		match self {
+			ResourceMatchInto::Process (value) => value.into (),
+		}
+	}
+}
+
+
+impl InternalMatchInto {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn value (self) -> (Value) {
+		match self {
+			InternalMatchInto::Binding (value) => value.into (),
+			InternalMatchInto::Context (value) => value.into (),
+		}
+	}
+}
+
+
+impl ListMatchInto {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn value (self) -> (Value) {
+		match self {
+			ListMatchInto::Null => NULL.into (),
+			ListMatchInto::PairImmutable (value) => value.into (),
+			ListMatchInto::PairMutable (value) => value.into (),
+			ListMatchInto::Value (value) => value,
+		}
 	}
 }
 
