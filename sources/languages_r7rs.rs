@@ -800,15 +800,7 @@ pub fn verify_definitions (definitions : &StdVec<(Symbol, Symbol, Symbol, Value)
 	
 	for &(_, _, ref identifier, ref value) in definitions {
 		if let Some (existing) = mappings.insert (identifier.clone (), value) {
-			let existing_is_value = match (existing.kind (), value.kind ()) {
-				(ValueKind::ProcedurePrimitive, ValueKind::ProcedurePrimitive) =>
-					StdExpectAsRef0::<ProcedurePrimitive>::expect_as_ref_0 (existing) == StdExpectAsRef0::<ProcedurePrimitive>::expect_as_ref_0 (value),
-				(ValueKind::SyntaxPrimitive, ValueKind::SyntaxPrimitive) =>
-					StdExpectAsRef0::<SyntaxPrimitive>::expect_as_ref_0 (existing) == StdExpectAsRef0::<SyntaxPrimitive>::expect_as_ref_0 (value),
-				_ =>
-					false
-			};
-			if !existing_is_value {
+			if existing != value {
 				eprintln! ("[ee]  duplicate missmatched mapping for `{}`!", identifier.string_as_str ());
 				errors = true;
 			}

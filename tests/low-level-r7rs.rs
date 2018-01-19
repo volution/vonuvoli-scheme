@@ -87,10 +87,10 @@ def_test! (test__0, {
 			continue;
 		}
 		
-		match value.kind () {
+		match value.kind_match_as_ref () {
 			
-			ValueKind::ProcedurePrimitive => {
-				let primitive = value.expect_into_0 ();
+			ValueKindMatchAsRef::ProcedurePrimitive (primitive) => {
+				let primitive = *primitive;
 				match primitive {
 					
 					ProcedurePrimitive::Primitive0 (_) |
@@ -184,8 +184,8 @@ def_test! (test__0, {
 				}
 			},
 			
-			ValueKind::SyntaxPrimitive => {
-				let primitive = value.expect_into_0 ();
+			ValueKindMatchAsRef::SyntaxPrimitive (primitive) => {
+				let primitive = *primitive;
 				match primitive {
 					
 					SyntaxPrimitive::PrimitiveV (_) => {

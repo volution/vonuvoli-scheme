@@ -590,12 +590,14 @@ pub fn execute_test (test : &TestCaseCompiled, transcript : &mut io::Write, verb
 		(None, None) =>
 			(),
 		(Some (ref expected_value_without_optimizations), Some (ref expected_value_with_optimizations)) =>
-			match (expected_value_without_optimizations.kind (), expected_value_with_optimizations.kind ()) {
-				(ValueKind::ProcedureLambda, ValueKind::ProcedureLambda) |
-				(ValueKind::SyntaxLambda, ValueKind::SyntaxLambda) |
-				(ValueKind::Port, ValueKind::Port) =>
+			match Value::kind_match_as_ref_2 (expected_value_without_optimizations, expected_value_with_optimizations) {
+				ValueKindMatchAsRef2::ProcedureExtended (_, _) |
+				ValueKindMatchAsRef2::ProcedureLambda (_, _) |
+				ValueKindMatchAsRef2::SyntaxExtended (_, _) |
+				ValueKindMatchAsRef2::SyntaxLambda (_, _) |
+				ValueKindMatchAsRef2::Port (_, _) =>
 					(),
-				(_, _) => {
+				_ => {
 					let output_matched = try! (equivalent_by_value_strict_recursive_2 (expected_value_without_optimizations, expected_value_with_optimizations));
 					if !output_matched {
 						header_emitted = try! (test_case_header_emit (&test.source, transcript, verbosity_generic, header_emitted, true));
