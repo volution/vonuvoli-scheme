@@ -106,53 +106,67 @@ impl Compiler {
 	
 	fn compile_00 (&self, compilation : CompilerContext, token : Value) -> (Outcome<(CompilerContext, Expression)>) {
 		
-		match token.class () {
+		match token.class_match_into () {
 			
-			ValueClass::Null |
-			ValueClass::Void |
-			ValueClass::Undefined |
-			ValueClass::Singleton =>
-				return self.compile_syntax_quote_0 (compilation, token),
+			ValueClassMatchInto::Null =>
+				return self.compile_syntax_quote_0 (compilation, NULL_VALUE),
 			
-			ValueClass::Boolean |
-			ValueClass::Number |
-			ValueClass::Character =>
-				return self.compile_syntax_quote_0 (compilation, token),
+			ValueClassMatchInto::Void =>
+				return self.compile_syntax_quote_0 (compilation, VOID_VALUE),
 			
-			ValueClass::String =>
-				return self.compile_syntax_quote_0 (compilation, token),
+			ValueClassMatchInto::Undefined =>
+				return self.compile_syntax_quote_0 (compilation, UNDEFINED_VALUE),
 			
-			ValueClass::Symbol =>
-				return self.compile_symbol (compilation, token.expect_into_0 ()),
+			ValueClassMatchInto::Singleton (value) =>
+				return self.compile_syntax_quote_0 (compilation, value.into ()),
 			
-			ValueClass::Pair =>
-				return self.compile_form (compilation, token.expect_into_0 ()),
+			ValueClassMatchInto::Boolean (value) =>
+				return self.compile_syntax_quote_0 (compilation, value.into ()),
 			
-			ValueClass::Bytes =>
-				return self.compile_syntax_quote_0 (compilation, token),
-			ValueClass::Array =>
-				return self.compile_syntax_quote_0 (compilation, token),
-			ValueClass::Values =>
-				return self.compile_syntax_quote_0 (compilation, token),
+			ValueClassMatchInto::Number (class) =>
+				return self.compile_syntax_quote_0 (compilation, class.value ()),
 			
-			ValueClass::Error =>
-				fail_panic! (0x2aa7bc60),
+			ValueClassMatchInto::Character (value) =>
+				return self.compile_syntax_quote_0 (compilation, value.into ()),
 			
-			ValueClass::Procedure =>
-				fail_panic! (0xa9e5d4ca),
+			ValueClassMatchInto::String (class) =>
+				return self.compile_syntax_quote_0 (compilation, class.value ()),
 			
-			ValueClass::Syntax =>
-				fail_panic! (0x09e47c84),
+			ValueClassMatchInto::Symbol (value) =>
+				return self.compile_symbol (compilation, value),
 			
-			ValueClass::Port =>
-				fail_panic! (0x05fe5b73),
-			ValueClass::Resource =>
-				fail_panic! (0xd526bfa4),
+			ValueClassMatchInto::Pair (class) =>
+				return self.compile_form (compilation, class.into_immutable ()),
 			
-			ValueClass::Internal =>
-				fail_panic! (0x3760aa2c),
-			ValueClass::Opaque =>
-				fail_panic! (0x56a47d68),
+			ValueClassMatchInto::Bytes (class) =>
+				return self.compile_syntax_quote_0 (compilation, class.value ()),
+			
+			ValueClassMatchInto::Array (class) =>
+				return self.compile_syntax_quote_0 (compilation, class.value ()),
+			
+			ValueClassMatchInto::Values (value) =>
+				return self.compile_syntax_quote_0 (compilation, value.into ()),
+			
+			ValueClassMatchInto::Error (value) =>
+				return self.compile_syntax_quote_0 (compilation, value.into ()),
+			
+			ValueClassMatchInto::Procedure (class) =>
+				return self.compile_syntax_quote_0 (compilation, class.value ()),
+			
+			ValueClassMatchInto::Syntax (_class) =>
+				fail_unimplemented! (0xc617f3c7), // deferred
+			
+			ValueClassMatchInto::Port (value) =>
+				return self.compile_syntax_quote_0 (compilation, value.into ()),
+			
+			ValueClassMatchInto::Resource (class) =>
+				return self.compile_syntax_quote_0 (compilation, class.value ()),
+			
+			ValueClassMatchInto::Internal (_value) =>
+				fail_unimplemented! (0x45661ea2), // deferred
+			
+			ValueClassMatchInto::Opaque (value) =>
+				return self.compile_syntax_quote_0 (compilation, value),
 			
 		}
 	}
@@ -191,43 +205,59 @@ impl Compiler {
 	
 	fn compile_form (&self, compilation : CompilerContext, form : PairImmutable) -> (Outcome<(CompilerContext, Expression)>) {
 		
-		match try! (self.compile_form_0 (compilation, form.clone ())) {
+		let (callable, arguments) = form.left_and_right_into ();
+		
+		match try! (self.compile_form_match_callable (compilation, callable)) {
 			
-			(compilation, Some ((syntax, tokens))) =>
-				return self.compile_syntax_call (compilation, syntax, tokens),
+			(compilation, Alternative2::Variant1 (syntax)) =>
+				return self.compile_syntax_call (compilation, syntax, arguments),
 			
-			(compilation, None) =>
-				return self.compile_procedure_call (compilation, form.left () .clone (), form.right () .clone ()),
+			(compilation, Alternative2::Variant2 (callable)) =>
+				return self.compile_procedure_call (compilation, callable, arguments),
+			
 		}
 	}
 	
 	
-	fn compile_form_0 (&self, compilation : CompilerContext, token : PairImmutable) -> (Outcome<(CompilerContext, Option<(SyntaxPrimitive, Value)>)>) {
+	fn compile_form_match_callable (&self, compilation : CompilerContext, callable : Value) -> (Outcome<(CompilerContext, Alternative2<SyntaxPrimitive, Value>)>) {
 		
-		let mut compilation = compilation;
-		let callable = token.left () .clone ();
-		let arguments = token.right () .clone ();
-		
-		match callable.class () {
+		match callable.class_match_into () {
 			
-			ValueClass::Symbol => {
-				if let Some (callable) = try! (compilation.resolve_value (callable.expect_into_0 ())) {
-					match callable.class () {
-						ValueClass::Syntax =>
-							succeed! ((compilation, Some ((callable.expect_into_0 (), arguments)))),
-						_ =>
-							succeed! ((compilation, None)),
-					}
+			ValueClassMatchInto::Symbol (symbol) => {
+				let mut compilation = compilation;
+				if let Some (callable) = try! (compilation.resolve_value (symbol.clone ())) {
+					let class = callable.class_match_into ();
+					return self.compile_form_match_class (compilation, class);
 				} else {
-					succeed! ((compilation, None));
+					succeed! ((compilation, Alternative2::Variant2 (symbol.into ())));
 				}
 			},
 			
-			ValueClass::Syntax =>
-				succeed! ((compilation, Some ((callable.expect_into_0 (), arguments)))),
+			class =>
+				return self.compile_form_match_class (compilation, class),
 			
-			_ =>
-				succeed! ((compilation, None)),
+		}
+	}
+	
+	
+	fn compile_form_match_class (&self, compilation : CompilerContext, class : ValueClassMatchInto) -> (Outcome<(CompilerContext, Alternative2<SyntaxPrimitive, Value>)>) {
+		
+		match class {
+			
+			ValueClassMatchInto::Syntax (class) =>
+				match class {
+					SyntaxMatchInto::Primitive (syntax) =>
+						succeed! ((compilation, Alternative2::Variant1 (syntax))),
+					SyntaxMatchInto::Extended (_syntax) =>
+						fail_unimplemented! (0xb9915ee0), // deferred
+					SyntaxMatchInto::Native (_syntax) =>
+						fail_unimplemented! (0x09bdd94b), // deferred
+					SyntaxMatchInto::Lambda (_syntax) =>
+						fail_unimplemented! (0xd3517f42), // deferred
+				},
+			
+			class =>
+				succeed! ((compilation, Alternative2::Variant2 (class.value ()))),
 			
 		}
 	}
@@ -462,7 +492,7 @@ impl Compiler {
 			}
 			let (guard, statements) = try! (vec_explode_1n (tokens));
 			
-			let (compilation_1, guard) = if ! (guard.is_class (ValueClass::Symbol) && StdExpectAsRef0::<Symbol>::expect_as_ref_0 (&guard) .string_eq ("else")) {
+			let (compilation_1, guard) = if ! is_symbol_eq ("else", &guard) {
 				let (compilation_1, guard) = try! (self.compile_0 (compilation, guard));
 				let guard = ExpressionConditionalIfGuard::Expression (guard, false);
 				(compilation_1, guard)
@@ -471,7 +501,7 @@ impl Compiler {
 				(compilation, guard)
 			};
 			
-			let (compilation_1, guard_usage) = if (statements.len () >= 1) && (statements[0].is_class (ValueClass::Symbol) && StdExpectAsRef0::<Symbol>::expect_as_ref_0 (&statements[0]) .string_eq ("=>")) {
+			let (compilation_1, guard_usage) = if ! statements.is_empty () && is_symbol_eq ("=>", &statements[0]) {
 				fail_unimplemented! (0xfa332991); // deferred
 			} else {
 				(compilation_1, ExpressionConditionalGuardUsage::Ignore)
@@ -479,7 +509,7 @@ impl Compiler {
 			
 			let (compilation_1, statements) = try! (self.compile_0_vec (compilation_1, statements));
 			
-			let clause = if !statements.is_empty () {
+			let clause = if ! statements.is_empty () {
 				let statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, statements.into_boxed_slice ());
 				ExpressionConditionalIfClause::GuardAndExpression (guard, guard_usage, statements)
 			} else {
@@ -521,14 +551,14 @@ impl Compiler {
 			}
 			let (expected, statements) = try! (vec_explode_1n (tokens));
 			
-			let guard = if ! (expected.is_class (ValueClass::Symbol) && StdExpectAsRef0::<Symbol>::expect_as_ref_0 (&expected) .string_eq ("else")) {
+			let guard = if ! is_symbol_eq ("else", &expected) {
 				let expected = try! (vec_list_clone (&expected));
 				ExpressionConditionalMatchGuard::Values (expected.into_boxed_slice (), false)
 			} else {
 				ExpressionConditionalMatchGuard::True
 			};
 			
-			let (compilation_1, guard_usage) = if (statements.len () >= 1) && (statements[0].is_class (ValueClass::Symbol) && StdExpectAsRef0::<Symbol>::expect_as_ref_0 (&statements[0]) .string_eq ("=>")) {
+			let (compilation_1, guard_usage) = if ! statements.is_empty () && is_symbol_eq ("=>", &statements[0]) {
 				fail_unimplemented! (0xef5d468c); // deferred
 			} else {
 				(compilation, ExpressionConditionalGuardUsage::Ignore)
@@ -536,7 +566,7 @@ impl Compiler {
 			
 			let (compilation_1, statements) = try! (self.compile_0_vec (compilation_1, statements));
 			
-			let clause = if !statements.is_empty () {
+			let clause = if ! statements.is_empty () {
 				let statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, statements.into_boxed_slice ());
 				ExpressionConditionalMatchClause::GuardAndExpression (guard, guard_usage, statements)
 			} else {
@@ -698,20 +728,20 @@ impl Compiler {
 		}
 		let (definitions, statements) = try! (vec_explode_1n (tokens));
 		
-		match definitions.class () {
-			ValueClass::Null =>
+		let definitions = match definitions.kind_match_into () {
+			ValueKindMatchInto::Null =>
 				return self.compile_syntax_locals (compilation, statements),
-			ValueClass::Symbol => {
-				let (definitions_1, statements) = try! (vec_explode_1n (statements));
-				return self.compile_syntax_lambda_let (compilation, definitions.expect_into_0 (), definitions_1, statements);
+			ValueKindMatchInto::Symbol (symbol) => {
+				let (definitions, statements) = try! (vec_explode_1n (statements));
+				return self.compile_syntax_lambda_let (compilation, symbol, definitions, statements);
 			},
-			ValueClass::Pair =>
-				(),
+			ValueKindMatchInto::PairImmutable (pair) =>
+				try! (vec_list_clone (&pair.into ())),
+			ValueKindMatchInto::PairMutable (pair) =>
+				try! (vec_list_clone (&pair.into ())),
 			_ =>
 				fail! (0x825cb457),
-		}
-		
-		let definitions = try! (vec_list_clone (&definitions));
+		};
 		
 		let mut identifiers = StdVec::with_capacity (definitions.len ());
 		let mut initializers = StdVec::with_capacity (definitions.len ());
@@ -809,16 +839,16 @@ impl Compiler {
 		}
 		let (definitions, statements) = try! (vec_explode_1n (tokens));
 		
-		match definitions.class () {
-			ValueClass::Null =>
+		let definitions = match definitions.kind_match_into () {
+			ValueKindMatchInto::Null =>
 				return self.compile_syntax_locals (compilation, statements),
-			ValueClass::Pair =>
-				(),
+			ValueKindMatchInto::PairImmutable (pair) =>
+				try! (vec_list_clone (&pair.into ())),
+			ValueKindMatchInto::PairMutable (pair) =>
+				try! (vec_list_clone (&pair.into ())),
 			_ =>
 				fail! (0x60cfd87a),
-		}
-		
-		let definitions = try! (vec_list_clone (&definitions));
+		};
 		
 		let mut identifiers_n = StdVec::with_capacity (definitions.len ());
 		let mut initializers = StdVec::with_capacity (definitions.len ());
@@ -900,15 +930,14 @@ impl Compiler {
 		let (signature, statements) = try! (vec_explode_1n (tokens));
 		let mut compilation = compilation;
 		
-		let (compilation, binding, expression) = match signature.class () {
+		let (compilation, binding, expression) = match signature.class_match_into () {
 			
-			ValueClass::Symbol => {
+			ValueClassMatchInto::Symbol (identifier) => {
 				
 				if statements.len () != 1 {
 					fail! (0xc364edf8);
 				}
 				
-				let identifier = try_into_symbol! (signature);
 				let statement = try! (vec_explode_1 (statements));
 				
 				let binding = try! (compilation.define (identifier));
@@ -917,13 +946,13 @@ impl Compiler {
 				(compilation, binding, expression)
 			},
 			
-			ValueClass::Pair => {
+			ValueClassMatchInto::Pair (signature) => {
 				
 				if statements.len () < 1 {
 					fail! (0x48c70de5);
 				}
 				
-				let (signature, argument_rest) = try! (vec_list_clone_dotted (&signature));
+				let (signature, argument_rest) = try! (vec_list_clone_dotted (&signature.value ()));
 				let (identifier, arguments_positional) = try! (vec_explode_1n (signature));
 				
 				let identifier = try_into_symbol! (identifier);
@@ -1190,11 +1219,13 @@ impl Compiler {
 		}
 		
 		let (arguments, statements) = try! (vec_explode_1n (tokens));
-		let (arguments_positional, argument_rest) = match arguments.class () {
-			ValueClass::Symbol =>
-				(StdVec::new (), Some (StdExpectInto0::<Symbol>::expect_into_0 (arguments))),
-			ValueClass::Pair | ValueClass::Null => {
-				let (arguments_positional, argument_rest) = try! (vec_list_clone_dotted (&arguments));
+		let (arguments_positional, argument_rest) = match arguments.class_match_into () {
+			ValueClassMatchInto::Null =>
+				(StdVec::new (), None),
+			ValueClassMatchInto::Symbol (argument) =>
+				(StdVec::new (), Some (argument)),
+			ValueClassMatchInto::Pair (arguments) => {
+				let (arguments_positional, argument_rest) = try! (vec_list_clone_dotted (&arguments.value ()));
 				let arguments_positional = try_vec_map_into! (arguments_positional, value, Symbol::try_from (value));
 				let argument_rest = try_option_map! (argument_rest, Symbol::try_from (argument_rest));
 				(arguments_positional, argument_rest)
@@ -1306,55 +1337,96 @@ impl Compiler {
 			}
 		}
 		
-		match token.class () {
+		match token.class_match_into () {
 			
-			ValueClass::Null |
-			ValueClass::Void |
-			ValueClass::Undefined |
-			ValueClass::Singleton =>
-				succeed! ((compilation, splice (token, spliceable))),
+			ValueClassMatchInto::Null =>
+				succeed! ((compilation, splice (NULL, spliceable))),
 			
-			ValueClass::Boolean |
-			ValueClass::Number |
-			ValueClass::Character =>
-				succeed! ((compilation, splice (token, spliceable))),
+			ValueClassMatchInto::Void =>
+				succeed! ((compilation, splice (VOID, spliceable))),
 			
-			ValueClass::String |
-			ValueClass::Bytes =>
-				succeed! ((compilation, splice (token, spliceable))),
+			ValueClassMatchInto::Undefined =>
+				succeed! ((compilation, splice (UNDEFINED, spliceable))),
 			
-			ValueClass::Symbol =>
-				succeed! ((compilation, splice (token, spliceable))),
-			ValueClass::Array =>
-				fail_unimplemented! (0x0d99c57b), // deferred
-			ValueClass::Values =>
-				fail_unimplemented! (0x0da960b2), // deferred
+			ValueClassMatchInto::Singleton (value) =>
+				succeed! ((compilation, splice (value, spliceable))),
 			
-			ValueClass::Error =>
-				fail_panic! (0x9681733a),
+			ValueClassMatchInto::Boolean (value) =>
+				succeed! ((compilation, splice (value, spliceable))),
 			
-			ValueClass::Procedure =>
-				fail_panic! (0x89c49854),
+			ValueClassMatchInto::Number (class) =>
+				succeed! ((compilation, splice (class.value (), spliceable))),
 			
-			ValueClass::Syntax =>
-				fail_panic! (0xbe7157a3),
+			ValueClassMatchInto::Character (value) =>
+				succeed! ((compilation, splice (value, spliceable))),
 			
-			ValueClass::Port =>
-				fail_panic! (0x9c039a72),
-			ValueClass::Resource =>
-				fail_panic! (0xd2f960f5),
+			ValueClassMatchInto::String (class) =>
+				succeed! ((compilation, splice (class.value (), spliceable))),
 			
-			ValueClass::Internal =>
-				fail_panic! (0x0bc54733),
-			ValueClass::Opaque =>
-				fail_panic! (0xfa7ef6f6),
+			ValueClassMatchInto::Bytes (class) =>
+				succeed! ((compilation, splice (class.value (), spliceable))),
 			
-			ValueClass::Pair => {
+			ValueClassMatchInto::Symbol (value) =>
+				succeed! ((compilation, splice (value, spliceable))),
+			
+			ValueClassMatchInto::Array (class) =>
+				// FIXME:  Add support for quasi-quotation in arrays!
+				succeed! ((compilation, splice (class.value (), spliceable))),
+			
+			ValueClassMatchInto::Values (value) =>
+				// FIXME:  Add support for quasi-quotation in values!
+				succeed! ((compilation, splice (value, spliceable))),
+			
+			ValueClassMatchInto::Error (value) =>
+				succeed! ((compilation, splice (value, spliceable))),
+			
+			ValueClassMatchInto::Procedure (class) =>
+				succeed! ((compilation, splice (class.value (), spliceable))),
+			
+			ValueClassMatchInto::Syntax (class) =>
+				match class {
+					SyntaxMatchInto::Primitive (syntax) =>
+						match syntax {
+							SyntaxPrimitive::PrimitiveV (syntax) =>
+								match syntax {
+									SyntaxPrimitiveV::Quote =>
+										succeed! ((compilation, splice (symbol_clone_str ("quote"), spliceable))),
+									SyntaxPrimitiveV::QuasiQuote =>
+										succeed! ((compilation, splice (symbol_clone_str ("quasiquote"), spliceable))),
+									SyntaxPrimitiveV::UnQuote =>
+										succeed! ((compilation, splice (symbol_clone_str ("unquote"), spliceable))),
+									SyntaxPrimitiveV::UnQuoteSplicing =>
+										succeed! ((compilation, splice (symbol_clone_str ("unquote-splicing"), spliceable))),
+									_ =>
+										succeed! ((compilation, splice (syntax, spliceable))),
+								},
+							_ =>
+								succeed! ((compilation, splice (syntax, spliceable))),
+						},
+					_ =>
+						succeed! ((compilation, splice (class.value (), spliceable))),
+				},
+			
+			ValueClassMatchInto::Port (value) =>
+				succeed! ((compilation, splice (value, spliceable))),
+			
+			ValueClassMatchInto::Resource (class) =>
+				succeed! ((compilation, splice (class.value (), spliceable))),
+			
+			ValueClassMatchInto::Internal (_value) =>
+				fail_unimplemented! (0x0bc54733), // deferred
+			
+			ValueClassMatchInto::Opaque (value) =>
+				succeed! ((compilation, splice (value, spliceable))),
+			
+			ValueClassMatchInto::Pair (class) => {
 				
-				let compilation = match try! (self.compile_form_0 (compilation, token.clone () .expect_into_0 ())) {
+				let (callable, arguments) = class.left_and_right_into ();
+				
+				let (compilation, callable) = match try! (self.compile_form_match_callable (compilation, callable)) {
 					
-					(compilation, Some ((syntax, tokens))) => {
-						let tokens = try! (vec_list_clone (&tokens));
+					(compilation, Alternative2::Variant1 (syntax)) => {
+						let tokens = try! (vec_list_clone (&arguments));
 						let tokens_count = tokens.len ();
 						match syntax {
 							
@@ -1406,19 +1478,22 @@ impl Compiler {
 								},
 							
 							_ =>
-								compilation,
+								(compilation, syntax.into ()),
 						}
 					},
 					
-					(compilation, None) =>
-						compilation,
+					(compilation, Alternative2::Variant2 (callable)) =>
+						(compilation, callable),
 					
 				};
+				
+				let token : Value = pair_immutable_new (callable, arguments) .into ();
 				
 				let mut compilation = compilation;
 				let mut elements = ExpressionVec::new ();
 				let mut cursor = &token;
 				loop {
+					// FIXME:  Use `ListIterator`!
 					match cursor.class () {
 						
 						ValueClass::Pair => {
