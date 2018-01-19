@@ -619,76 +619,81 @@ pub fn string_to_number (string : &Value, radix : Option<&Value>) -> (Outcome<Va
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn number_to_string (number : &Value, radix : Option<&Value>, sign : Option<bool>) -> (Outcome<Value>) {
 	let radix = try! (number_radix_coerce (radix));
-	match number.kind () {
+	match number.class_match_as_ref () {
 		
-		ValueKind::NumberInteger => {
-			let number = StdExpectAsRef0::<NumberInteger>::expect_as_ref_0 (number) .value ();
-			let string = if number != 0 {
-				let (number, prefix) = if number > 0 {
-					match sign {
-						None | Some (false) =>
-							(number, ""),
-						Some (true) =>
-							(number, "+"),
-					}
-				} else {
-					if let Some (number) = number.checked_abs () {
-						(number, "-")
+		ValueClassMatchAsRef::Number (class) =>
+			match class {
+				
+				NumberMatchAsRef::Integer (number) => {
+					let number = number.value ();
+					let string = if number != 0 {
+						let (number, prefix) = if number > 0 {
+							match sign {
+								None | Some (false) =>
+									(number, ""),
+								Some (true) =>
+									(number, "+"),
+							}
+						} else {
+							if let Some (number) = number.checked_abs () {
+								(number, "-")
+							} else {
+								fail_unimplemented! (0x231c95ca); // deferred
+							}
+						};
+						match radix {
+							None | Some (10) =>
+								format! ("{}{:}", prefix, number),
+							Some (2) =>
+								format! ("{}{:b}", prefix, number),
+							Some (8) =>
+								format! ("{}{:o}", prefix, number),
+							Some (16) =>
+								format! ("{}{:x}", prefix, number),
+							_ =>
+								fail_unimplemented! (0x3bd46548), // deferred
+						}
 					} else {
-						fail_unimplemented! (0x231c95ca); // deferred
-					}
-				};
-				match radix {
-					None | Some (10) =>
-						format! ("{}{:}", prefix, number),
-					Some (2) =>
-						format! ("{}{:b}", prefix, number),
-					Some (8) =>
-						format! ("{}{:o}", prefix, number),
-					Some (16) =>
-						format! ("{}{:x}", prefix, number),
-					_ =>
-						fail_unimplemented! (0x3bd46548), // deferred
-				}
-			} else {
-				match sign {
-					None | Some (false) =>
-						StdString::from ("0"),
-					Some (true) =>
-						StdString::from ("+0"),
-				}
-			};
-			succeed! (string.into ());
-		},
-		
-		ValueKind::NumberReal => {
-			let number = StdExpectAsRef0::<NumberReal>::expect_as_ref_0 (number) .value ();
-			let string = if (number != 0.0) && !number.is_nan () {
-				match radix {
-					None | Some (10) =>
 						match sign {
 							None | Some (false) =>
-								format! ("{:}", number),
+								StdString::from ("0"),
 							Some (true) =>
-								format! ("{:+}", number),
-						},
-					_ =>
-						fail! (0x4ab1bbce),
-				}
-			} else if number == 0.0 {
-				match sign {
-					None | Some (false) =>
-						StdString::from ("0"),
-					Some (true) =>
-						StdString::from ("+0"),
-				}
-			} else if number.is_nan () {
-				StdString::from ("nan")
-			} else {
-				fail_unreachable! (0xf8a1f4d5);
-			};
-			succeed! (string.into ());
-		},
+								StdString::from ("+0"),
+						}
+					};
+					succeed! (string.into ());
+				},
+				
+				NumberMatchAsRef::Real (number) => {
+					let number = number.value ();
+					let string = if (number != 0.0) && !number.is_nan () {
+						match radix {
+							None | Some (10) =>
+								match sign {
+									None | Some (false) =>
+										format! ("{:}", number),
+									Some (true) =>
+										format! ("{:+}", number),
+								},
+							_ =>
+								fail! (0x4ab1bbce),
+						}
+					} else if number == 0.0 {
+						match sign {
+							None | Some (false) =>
+								StdString::from ("0"),
+							Some (true) =>
+								StdString::from ("+0"),
+						}
+					} else if number.is_nan () {
+						StdString::from ("nan")
+					} else {
+						fail_unreachable! (0xf8a1f4d5);
+					};
+					succeed! (string.into ());
+				},
+				
+			},
 		
 		_ =>
 			fail! (0xd2ebac17),
