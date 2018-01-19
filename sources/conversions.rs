@@ -682,14 +682,14 @@ impl_from_for_ProcedurePrimitiveCallV! (PortPrimitiveV);
 
 #[ derive (Clone, Debug) ]
 pub enum NumberCoercion1 {
-	Integer ( NumberInteger ),
-	Real ( NumberReal ),
+	Integer ( i64 ),
+	Real ( f64 ),
 }
 
 #[ derive (Clone, Debug) ]
 pub enum NumberCoercion2 {
-	Integer ( NumberInteger, NumberInteger ),
-	Real ( NumberReal, NumberReal ),
+	Integer ( i64, i64 ),
+	Real ( f64, f64 ),
 }
 
 
@@ -727,9 +727,9 @@ pub fn number_coerce_1 (value : &Value) -> (Outcome<NumberCoercion1>) {
 		ValueClassMatchAsRef::Number (class) =>
 			match class {
 				NumberMatchAsRef::Integer (value) =>
-					Ok (NumberCoercion1::Integer (value.clone ())),
+					Ok (NumberCoercion1::Integer (value.value ())),
 				NumberMatchAsRef::Real (value) =>
-					Ok (NumberCoercion1::Real (value.clone ())),
+					Ok (NumberCoercion1::Real (value.value ())),
 			},
 		_ =>
 			failed! (0x947fb339),
@@ -742,13 +742,13 @@ pub fn number_coerce_2a (left : &Value, right : &Value) -> (Outcome<NumberCoerci
 		ValueClassMatchAsRef2::Number (class) =>
 			match class {
 				NumberMatchAsRef2::IntegerBoth (left, right) =>
-					Ok (NumberCoercion2::Integer (left.clone (), right.clone ())),
+					Ok (NumberCoercion2::Integer (left.value (), right.value ())),
 				NumberMatchAsRef2::RealBoth (left, right) =>
-					Ok (NumberCoercion2::Real (left.clone (), right.clone ())),
+					Ok (NumberCoercion2::Real (left.value (), right.value ())),
 				NumberMatchAsRef2::IntegerAndReal (left, right) =>
-					Ok (NumberCoercion2::Real (left.value () .into (), right.clone ())),
+					Ok (NumberCoercion2::Real (left.value () as f64, right.value ())),
 				NumberMatchAsRef2::RealAndInteger (left, right) =>
-					Ok (NumberCoercion2::Real (left.clone (), right.value () .into ())),
+					Ok (NumberCoercion2::Real (left.value (), right.value () as f64)),
 			},
 		_ =>
 			failed! (0x6cfbdd37),
@@ -764,14 +764,14 @@ pub fn number_coerce_2b (left : &NumberCoercion1, right : &Value) -> (Outcome<Nu
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn number_coerce_2c (left : &NumberCoercion1, right : &NumberCoercion1) -> (NumberCoercion2) {
 	match (left, right) {
-		(&NumberCoercion1::Integer (ref left), &NumberCoercion1::Integer (ref right)) =>
-			Ok (NumberCoercion2::Integer (left.clone (), right.clone ())),
-		(&NumberCoercion1::Real (ref left), &NumberCoercion1::Real (ref right)) =>
-			Ok (NumberCoercion2::Real (left.clone (), right.clone ())),
-		(&NumberCoercion1::Real (ref left), &NumberCoercion1::Integer (ref right)) =>
-			Ok (NumberCoercion2::Real (left.clone (), right.value () .into ())),
-		(&NumberCoercion1::Integer (ref left), &NumberCoercion1::Real (ref right)) =>
-			Ok (NumberCoercion2::Real (left.value () .into (), right.clone ())),
+		(&NumberCoercion1::Integer (left), &NumberCoercion1::Integer (right)) =>
+			NumberCoercion2::Integer (left, right),
+		(&NumberCoercion1::Real (left), &NumberCoercion1::Real (right)) =>
+			NumberCoercion2::Real (left, right),
+		(&NumberCoercion1::Integer (left), &NumberCoercion1::Real (right)) =>
+			NumberCoercion2::Real (left as f64, right),
+		(&NumberCoercion1::Real (left), &NumberCoercion1::Integer (right)) =>
+			NumberCoercion2::Real (left, right as f64),
 	}
 }
 

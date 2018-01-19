@@ -1493,13 +1493,9 @@ pub fn number_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : V
 				Some (true) =>
 					match try! (number_coerce_2a (left, right)) {
 						NumberCoercion2::Integer (left, right) => {
-							let left = left.value ();
-							let right = right.value ();
 							succeed! (left == right);
 						},
 						NumberCoercion2::Real (left, right) => {
-							let left = left.value ();
-							let right = right.value ();
 							if left.is_nan () && right.is_nan () {
 								succeed! (true);
 							} else {
@@ -1513,13 +1509,9 @@ pub fn number_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : V
 		Comparison::Ordering (ordering, _, _) =>
 			match try! (number_coerce_2a (left, right)) {
 				NumberCoercion2::Integer (left, right) => {
-					let left = left.value ();
-					let right = right.value ();
 					return std_ord_compare_2_ordering_val (left, right, ordering);
 				},
 				NumberCoercion2::Real (left, right) => {
-					let left = left.value ();
-					let right = right.value ();
 					if left.is_nan () || right.is_nan () {
 						succeed! (false);
 					} else {

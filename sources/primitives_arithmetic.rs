@@ -193,13 +193,14 @@ pub enum ArithmeticPrimitiveV {
 
 
 
+// FIXME:  Eliminate creation of temporary `Number*` values!
 macro_rules! arithmetic_primitive_1_delegate_call {
 	( $input : expr, $value_integer : ident, $for_integer : expr, $value_real : ident, $for_real : expr ) => (
 		match try! (number_coerce_1 ($input)) {
-			NumberCoercion1::Integer (ref $value_integer) =>
-				$for_integer.into (),
-			NumberCoercion1::Real (ref $value_real) =>
-				$for_real.into (),
+			NumberCoercion1::Integer (value) =>
+				{ let $value_integer = & NumberInteger (value); $for_integer.into () },
+			NumberCoercion1::Real (value) =>
+				{ let $value_real = & NumberReal (value); $for_real.into () },
 		}
 	);
 	( $delegate : ident, $input : expr ) => (
@@ -212,13 +213,14 @@ macro_rules! arithmetic_primitive_1_delegate_call {
 }
 
 
+// FIXME:  Eliminate creation of temporary `Number*` values!
 macro_rules! arithmetic_primitive_2_delegate_call {
 	( ($input_1 : expr, $input_2 : expr), ($value_1_integer : ident, $value_2_integer : ident), $for_integer : expr, ($value_1_real : ident, $value_2_real : ident), $for_real : expr ) => (
 		match try! (number_coerce_2a ($input_1, $input_2)) {
-			NumberCoercion2::Integer (ref $value_1_integer, ref $value_2_integer) =>
-				$for_integer.into (),
-			NumberCoercion2::Real (ref $value_1_real, ref $value_2_real) =>
-				$for_real.into (),
+			NumberCoercion2::Integer (value_1, value_2) =>
+				{ let $value_1_integer = & NumberInteger (value_1); let $value_2_integer = & NumberInteger (value_2); $for_integer.into () },
+			NumberCoercion2::Real (value_1, value_2) =>
+				{ let $value_1_integer = & NumberReal (value_1); let $value_2_integer = & NumberReal (value_2); $for_real.into () },
 		}
 	);
 	( $delegate : ident, ($input_1 : expr, $input_2 : expr) ) => (
