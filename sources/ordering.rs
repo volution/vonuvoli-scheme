@@ -16,50 +16,11 @@ impl cmp::PartialEq for Value {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn eq (&self, other : &Value) -> (bool) {
-		match Value::kind_match_as_ref_2 (self, other) {
-			
-			ValueKindMatchAsRef2::Null => true,
-			ValueKindMatchAsRef2::Void => true,
-			ValueKindMatchAsRef2::Undefined => true,
-			ValueKindMatchAsRef2::Singleton (_) => true,
-			
-			ValueKindMatchAsRef2::Boolean (self_0, other_0) => Boolean::eq (self_0, other_0),
-			ValueKindMatchAsRef2::NumberInteger (self_0, other_0) => NumberInteger::eq (self_0, other_0),
-			ValueKindMatchAsRef2::NumberReal (self_0, other_0) => NumberReal::eq (self_0, other_0),
-			ValueKindMatchAsRef2::Character (self_0, other_0) => Character::eq (self_0, other_0),
-			
-			ValueKindMatchAsRef2::Symbol (self_0, other_0) => Symbol::eq (self_0, other_0),
-			ValueKindMatchAsRef2::StringImmutable (self_0, other_0) => StringImmutable::eq (self_0, other_0),
-			ValueKindMatchAsRef2::StringMutable (self_0, other_0) => StringMutable::eq (self_0, other_0),
-			ValueKindMatchAsRef2::BytesImmutable (self_0, other_0) => BytesImmutable::eq (self_0, other_0),
-			ValueKindMatchAsRef2::BytesMutable (self_0, other_0) => BytesMutable::eq (self_0, other_0),
-			
-			ValueKindMatchAsRef2::PairImmutable (self_0, other_0) => PairImmutable::eq (self_0, other_0),
-			ValueKindMatchAsRef2::PairMutable (self_0, other_0) => PairMutable::eq (self_0, other_0),
-			ValueKindMatchAsRef2::ArrayImmutable (self_0, other_0) => ArrayImmutable::eq (self_0, other_0),
-			ValueKindMatchAsRef2::ArrayMutable (self_0, other_0) => ArrayMutable::eq (self_0, other_0),
-			ValueKindMatchAsRef2::Values (self_0, other_0) => Values::eq (self_0, other_0),
-			
-			ValueKindMatchAsRef2::Error (self_0, other_0) => Error::eq (self_0, other_0),
-			
-			ValueKindMatchAsRef2::ProcedurePrimitive (self_0, other_0) => ProcedurePrimitive::eq (self_0, other_0),
-			ValueKindMatchAsRef2::ProcedureExtended (self_0, other_0) => ProcedureExtended::eq (self_0, other_0),
-			ValueKindMatchAsRef2::ProcedureNative (self_0, other_0) => ProcedureNative::eq (self_0, other_0),
-			ValueKindMatchAsRef2::ProcedureLambda (self_0, other_0) => ProcedureLambda::eq (self_0, other_0),
-			
-			ValueKindMatchAsRef2::SyntaxPrimitive (self_0, other_0) => SyntaxPrimitive::eq (self_0, other_0),
-			ValueKindMatchAsRef2::SyntaxExtended (self_0, other_0) => SyntaxExtended::eq (self_0, other_0),
-			ValueKindMatchAsRef2::SyntaxNative (self_0, other_0) => SyntaxNative::eq (self_0, other_0),
-			ValueKindMatchAsRef2::SyntaxLambda (self_0, other_0) => SyntaxLambda::eq (self_0, other_0),
-			
-			ValueKindMatchAsRef2::Port (self_0, other_0) => Port::eq (self_0, other_0),
-			ValueKindMatchAsRef2::Process (self_0, other_0) => Process::eq (self_0, other_0),
-			
-			ValueKindMatchAsRef2::Context (self_0, other_0) => Context::eq (self_0, other_0),
-			ValueKindMatchAsRef2::Binding (self_0, other_0) => Binding::eq (self_0, other_0),
-			
-			ValueKindMatchAsRef2::Missmatched => false,
-			
+		let match_as_ref = Value::kind_match_as_ref_2 (self, other);
+		if let Some (equals) = match_as_ref.eq () {
+			return equals;
+		} else {
+			return false;
 		}
 	}
 }
@@ -68,59 +29,18 @@ impl cmp::Ord for Value {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn cmp (&self, other : &Value) -> (cmp::Ordering) {
-		match Value::kind_match_as_ref_2 (self, other) {
-			
-			ValueKindMatchAsRef2::Null => cmp::Ordering::Equal,
-			ValueKindMatchAsRef2::Void => cmp::Ordering::Equal,
-			ValueKindMatchAsRef2::Undefined => cmp::Ordering::Equal,
-			ValueKindMatchAsRef2::Singleton (_) => cmp::Ordering::Equal,
-			
-			ValueKindMatchAsRef2::Boolean (self_0, other_0) => Boolean::cmp (self_0, other_0),
-			ValueKindMatchAsRef2::NumberInteger (self_0, other_0) => NumberInteger::cmp (self_0, other_0),
-			ValueKindMatchAsRef2::NumberReal (self_0, other_0) => NumberReal::cmp (self_0, other_0),
-			ValueKindMatchAsRef2::Character (self_0, other_0) => Character::cmp (self_0, other_0),
-			
-			ValueKindMatchAsRef2::Symbol (self_0, other_0) => Symbol::cmp (self_0, other_0),
-			ValueKindMatchAsRef2::StringImmutable (self_0, other_0) => StringImmutable::cmp (self_0, other_0),
-			ValueKindMatchAsRef2::StringMutable (self_0, other_0) => StringMutable::cmp (self_0, other_0),
-			ValueKindMatchAsRef2::BytesImmutable (self_0, other_0) => BytesImmutable::cmp (self_0, other_0),
-			ValueKindMatchAsRef2::BytesMutable (self_0, other_0) => BytesMutable::cmp (self_0, other_0),
-			
-			ValueKindMatchAsRef2::PairImmutable (self_0, other_0) => PairImmutable::cmp (self_0, other_0),
-			ValueKindMatchAsRef2::PairMutable (self_0, other_0) => PairMutable::cmp (self_0, other_0),
-			ValueKindMatchAsRef2::ArrayImmutable (self_0, other_0) => ArrayImmutable::cmp (self_0, other_0),
-			ValueKindMatchAsRef2::ArrayMutable (self_0, other_0) => ArrayMutable::cmp (self_0, other_0),
-			ValueKindMatchAsRef2::Values (self_0, other_0) => Values::cmp (self_0, other_0),
-			
-			ValueKindMatchAsRef2::Error (self_0, other_0) => Error::cmp (self_0, other_0),
-			
-			ValueKindMatchAsRef2::ProcedurePrimitive (self_0, other_0) => ProcedurePrimitive::cmp (self_0, other_0),
-			ValueKindMatchAsRef2::ProcedureExtended (self_0, other_0) => ProcedureExtended::cmp (self_0, other_0),
-			ValueKindMatchAsRef2::ProcedureNative (self_0, other_0) => ProcedureNative::cmp (self_0, other_0),
-			ValueKindMatchAsRef2::ProcedureLambda (self_0, other_0) => ProcedureLambda::cmp (self_0, other_0),
-			
-			ValueKindMatchAsRef2::SyntaxPrimitive (self_0, other_0) => SyntaxPrimitive::cmp (self_0, other_0),
-			ValueKindMatchAsRef2::SyntaxExtended (self_0, other_0) => SyntaxExtended::cmp (self_0, other_0),
-			ValueKindMatchAsRef2::SyntaxNative (self_0, other_0) => SyntaxNative::cmp (self_0, other_0),
-			ValueKindMatchAsRef2::SyntaxLambda (self_0, other_0) => SyntaxLambda::cmp (self_0, other_0),
-			
-			ValueKindMatchAsRef2::Port (self_0, other_0) => Port::cmp (self_0, other_0),
-			ValueKindMatchAsRef2::Process (self_0, other_0) => Process::cmp (self_0, other_0),
-			
-			ValueKindMatchAsRef2::Context (self_0, other_0) => Context::cmp (self_0, other_0),
-			ValueKindMatchAsRef2::Binding (self_0, other_0) => Binding::cmp (self_0, other_0),
-			
-			ValueKindMatchAsRef2::Missmatched => {
-				let self_kind = self.kind ();
-				let other_kind = other.kind ();
-				match ValueKind::cmp (&self_kind, &other_kind) {
-					ordering @ cmp::Ordering::Less | ordering @ cmp::Ordering::Greater =>
-						return ordering,
-					cmp::Ordering::Equal =>
-						panic! ("610d52ed"),
-				}
-			},
-			
+		let match_as_ref = Value::kind_match_as_ref_2 (self, other);
+		if let Some (ordering) = match_as_ref.cmp () {
+			return ordering;
+		} else {
+			let self_kind = self.kind ();
+			let other_kind = other.kind ();
+			match ValueKind::cmp (&self_kind, &other_kind) {
+				ordering @ cmp::Ordering::Less | ordering @ cmp::Ordering::Greater =>
+					return ordering,
+				cmp::Ordering::Equal =>
+					panic! ("610d52ed"),
+			}
 		}
 	}
 }
@@ -130,6 +50,113 @@ impl cmp::PartialOrd for Value {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn partial_cmp (&self, other : &Value) -> (Option<cmp::Ordering>) {
 		Some (Value::cmp (self, other))
+	}
+}
+
+
+
+
+impl <'a> ValueKindMatchAsRef2<'a> {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn eq (&self) -> (Option<bool>) {
+		match *self {
+			
+			ValueKindMatchAsRef2::Null => Some (true),
+			ValueKindMatchAsRef2::Void => Some (true),
+			ValueKindMatchAsRef2::Undefined => Some (true),
+			ValueKindMatchAsRef2::Singleton (_) => Some (true),
+			
+			ValueKindMatchAsRef2::Boolean (self_0, other_0) => Some (Boolean::eq (self_0, other_0)),
+			ValueKindMatchAsRef2::NumberInteger (self_0, other_0) => Some (NumberInteger::eq (self_0, other_0)),
+			ValueKindMatchAsRef2::NumberReal (self_0, other_0) => Some (NumberReal::eq (self_0, other_0)),
+			ValueKindMatchAsRef2::Character (self_0, other_0) => Some (Character::eq (self_0, other_0)),
+			
+			ValueKindMatchAsRef2::Symbol (self_0, other_0) => Some (Symbol::eq (self_0, other_0)),
+			ValueKindMatchAsRef2::StringImmutable (self_0, other_0) => Some (StringImmutable::eq (self_0, other_0)),
+			ValueKindMatchAsRef2::StringMutable (self_0, other_0) => Some (StringMutable::eq (self_0, other_0)),
+			ValueKindMatchAsRef2::BytesImmutable (self_0, other_0) => Some (BytesImmutable::eq (self_0, other_0)),
+			ValueKindMatchAsRef2::BytesMutable (self_0, other_0) => Some (BytesMutable::eq (self_0, other_0)),
+			
+			ValueKindMatchAsRef2::PairImmutable (self_0, other_0) => Some (PairImmutable::eq (self_0, other_0)),
+			ValueKindMatchAsRef2::PairMutable (self_0, other_0) => Some (PairMutable::eq (self_0, other_0)),
+			ValueKindMatchAsRef2::ArrayImmutable (self_0, other_0) => Some (ArrayImmutable::eq (self_0, other_0)),
+			ValueKindMatchAsRef2::ArrayMutable (self_0, other_0) => Some (ArrayMutable::eq (self_0, other_0)),
+			ValueKindMatchAsRef2::Values (self_0, other_0) => Some (Values::eq (self_0, other_0)),
+			
+			ValueKindMatchAsRef2::Error (self_0, other_0) => Some (Error::eq (self_0, other_0)),
+			
+			ValueKindMatchAsRef2::ProcedurePrimitive (self_0, other_0) => Some (ProcedurePrimitive::eq (self_0, other_0)),
+			ValueKindMatchAsRef2::ProcedureExtended (self_0, other_0) => Some (ProcedureExtended::eq (self_0, other_0)),
+			ValueKindMatchAsRef2::ProcedureNative (self_0, other_0) => Some (ProcedureNative::eq (self_0, other_0)),
+			ValueKindMatchAsRef2::ProcedureLambda (self_0, other_0) => Some (ProcedureLambda::eq (self_0, other_0)),
+			
+			ValueKindMatchAsRef2::SyntaxPrimitive (self_0, other_0) => Some (SyntaxPrimitive::eq (self_0, other_0)),
+			ValueKindMatchAsRef2::SyntaxExtended (self_0, other_0) => Some (SyntaxExtended::eq (self_0, other_0)),
+			ValueKindMatchAsRef2::SyntaxNative (self_0, other_0) => Some (SyntaxNative::eq (self_0, other_0)),
+			ValueKindMatchAsRef2::SyntaxLambda (self_0, other_0) => Some (SyntaxLambda::eq (self_0, other_0)),
+			
+			ValueKindMatchAsRef2::Port (self_0, other_0) => Some (Port::eq (self_0, other_0)),
+			ValueKindMatchAsRef2::Process (self_0, other_0) => Some (Process::eq (self_0, other_0)),
+			
+			ValueKindMatchAsRef2::Context (self_0, other_0) => Some (Context::eq (self_0, other_0)),
+			ValueKindMatchAsRef2::Binding (self_0, other_0) => Some (Binding::eq (self_0, other_0)),
+			
+			ValueKindMatchAsRef2::Missmatched => None,
+			
+		}
+	}
+}
+
+impl <'a> ValueKindMatchAsRef2<'a> {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn cmp (&self) -> (Option<cmp::Ordering>) {
+		match *self {
+			
+			ValueKindMatchAsRef2::Null => Some (cmp::Ordering::Equal),
+			ValueKindMatchAsRef2::Void => Some (cmp::Ordering::Equal),
+			ValueKindMatchAsRef2::Undefined => Some (cmp::Ordering::Equal),
+			ValueKindMatchAsRef2::Singleton (_) => Some (cmp::Ordering::Equal),
+			
+			ValueKindMatchAsRef2::Boolean (self_0, other_0) => Some (Boolean::cmp (self_0, other_0)),
+			ValueKindMatchAsRef2::NumberInteger (self_0, other_0) => Some (NumberInteger::cmp (self_0, other_0)),
+			ValueKindMatchAsRef2::NumberReal (self_0, other_0) => Some (NumberReal::cmp (self_0, other_0)),
+			ValueKindMatchAsRef2::Character (self_0, other_0) => Some (Character::cmp (self_0, other_0)),
+			
+			ValueKindMatchAsRef2::Symbol (self_0, other_0) => Some (Symbol::cmp (self_0, other_0)),
+			ValueKindMatchAsRef2::StringImmutable (self_0, other_0) => Some (StringImmutable::cmp (self_0, other_0)),
+			ValueKindMatchAsRef2::StringMutable (self_0, other_0) => Some (StringMutable::cmp (self_0, other_0)),
+			ValueKindMatchAsRef2::BytesImmutable (self_0, other_0) => Some (BytesImmutable::cmp (self_0, other_0)),
+			ValueKindMatchAsRef2::BytesMutable (self_0, other_0) => Some (BytesMutable::cmp (self_0, other_0)),
+			
+			ValueKindMatchAsRef2::PairImmutable (self_0, other_0) => Some (PairImmutable::cmp (self_0, other_0)),
+			ValueKindMatchAsRef2::PairMutable (self_0, other_0) => Some (PairMutable::cmp (self_0, other_0)),
+			ValueKindMatchAsRef2::ArrayImmutable (self_0, other_0) => Some (ArrayImmutable::cmp (self_0, other_0)),
+			ValueKindMatchAsRef2::ArrayMutable (self_0, other_0) => Some (ArrayMutable::cmp (self_0, other_0)),
+			ValueKindMatchAsRef2::Values (self_0, other_0) => Some (Values::cmp (self_0, other_0)),
+			
+			ValueKindMatchAsRef2::Error (self_0, other_0) => Some (Error::cmp (self_0, other_0)),
+			
+			ValueKindMatchAsRef2::ProcedurePrimitive (self_0, other_0) => Some (ProcedurePrimitive::cmp (self_0, other_0)),
+			ValueKindMatchAsRef2::ProcedureExtended (self_0, other_0) => Some (ProcedureExtended::cmp (self_0, other_0)),
+			ValueKindMatchAsRef2::ProcedureNative (self_0, other_0) => Some (ProcedureNative::cmp (self_0, other_0)),
+			ValueKindMatchAsRef2::ProcedureLambda (self_0, other_0) => Some (ProcedureLambda::cmp (self_0, other_0)),
+			
+			ValueKindMatchAsRef2::SyntaxPrimitive (self_0, other_0) => Some (SyntaxPrimitive::cmp (self_0, other_0)),
+			ValueKindMatchAsRef2::SyntaxExtended (self_0, other_0) => Some (SyntaxExtended::cmp (self_0, other_0)),
+			ValueKindMatchAsRef2::SyntaxNative (self_0, other_0) => Some (SyntaxNative::cmp (self_0, other_0)),
+			ValueKindMatchAsRef2::SyntaxLambda (self_0, other_0) => Some (SyntaxLambda::cmp (self_0, other_0)),
+			
+			ValueKindMatchAsRef2::Port (self_0, other_0) => Some (Port::cmp (self_0, other_0)),
+			ValueKindMatchAsRef2::Process (self_0, other_0) => Some (Process::cmp (self_0, other_0)),
+			
+			ValueKindMatchAsRef2::Context (self_0, other_0) => Some (Context::cmp (self_0, other_0)),
+			ValueKindMatchAsRef2::Binding (self_0, other_0) => Some (Binding::cmp (self_0, other_0)),
+			
+			ValueKindMatchAsRef2::Missmatched => None,
+			
+		}
 	}
 }
 
