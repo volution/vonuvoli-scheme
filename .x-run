@@ -162,8 +162,10 @@ cat <<'EOS'
 	while true ; do
 		_timestamp_previous="$( find ./sources/ ./tests/ -printf '%T+\n' | LC_ALL=C sort | tail -n 1 )"
 		if ! "${@}" 2>&1 < /dev/null | tee "./target/x-run--watch--${$}.txt" ; then
+			x-output osd-notify low "FAILED!  ${*}"
 			less -- "./target/x-run--watch--${$}.txt"
 		else
+			x-output osd-notify low "Succeeded:  ${*}"
 			rm -- "./target/x-run--watch--${$}.txt"
 		fi
 		printf '\n[--]\n' >&2
@@ -296,14 +298,12 @@ EOS
 
 
 
-find ./sources/ ./tests/ -xdev -type f -name '*.rs' -printf ':: files / edit / %P :: exec -- sce %p\n' | sort
-find ./sources/ ./tests/ -xdev -type f -name '*.rs' -printf ':: files / view / %P :: exec -- less -- %p\n' | sort
-
-find ./sources/ ./tests/ -xdev -type f -name '*.in' -printf ':: files / edit / %P :: exec -- sce %p\n' | sort
-find ./sources/ ./tests/ -xdev -type f -name '*.in' -printf ':: files / view / %P :: exec -- less -- %p\n' | sort
-
-find ./sources/ ./tests/ -xdev -type f -name '*.sst' -printf ':: files / edit / %P :: exec -- sce %p\n' | sort
-find ./sources/ ./tests/ -xdev -type f -name '*.sst' -printf ':: files / view / %P :: exec -- less -- %p\n' | sort
+find ./ -xdev -type f \
+		\( -path './sources/*' -o -path './tests/*' \) \
+		\( -name '*.rs' -o -name '*.in' -o -name '*.ss' -o -name '*.sst' \) \
+		-printf ':: files / edit / %P :: exec -- sce %p\n' \
+		-printf ':: files / view / %P :: exec -- less -- %p\n' \
+| sort
 
 
 
