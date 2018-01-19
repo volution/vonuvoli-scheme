@@ -1005,15 +1005,15 @@ impl Evaluator {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_call_with_values (&self, evaluation : &mut EvaluatorContext, callable : &Value, inputs : &[&Value]) -> (Outcome<Value>) {
-		match callable.kind () {
-			ValueKind::ProcedurePrimitive =>
-				return self.evaluate_procedure_primitive_with_values (evaluation, *callable.expect_as_ref_0 (), inputs),
-			ValueKind::ProcedureExtended =>
-				return self.evaluate_procedure_extended_with_values (evaluation, callable.expect_as_ref_0 (), inputs),
-			ValueKind::ProcedureNative =>
-				return self.evaluate_procedure_native_with_values (evaluation, StdExpectAsRef0::<ProcedureNative>::expect_as_ref_0 (callable). internals_ref (), inputs),
-			ValueKind::ProcedureLambda =>
-				return self.evaluate_procedure_lambda_with_values (evaluation, StdExpectAsRef0::<ProcedureLambda>::expect_as_ref_0 (callable) .internals_ref (), inputs),
+		match callable.kind_match_as_ref () {
+			ValueKindMatchAsRef::ProcedurePrimitive (callable) =>
+				return self.evaluate_procedure_primitive_with_values (evaluation, *callable, inputs),
+			ValueKindMatchAsRef::ProcedureExtended (callable) =>
+				return self.evaluate_procedure_extended_with_values (evaluation, callable, inputs),
+			ValueKindMatchAsRef::ProcedureNative (callable) =>
+				return self.evaluate_procedure_native_with_values (evaluation, callable.internals_ref (), inputs),
+			ValueKindMatchAsRef::ProcedureLambda (callable) =>
+				return self.evaluate_procedure_lambda_with_values (evaluation, callable.internals_ref (), inputs),
 			_ =>
 				fail! (0x88be334b),
 		}
@@ -1028,20 +1028,20 @@ impl Evaluator {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_call_0_with_values (&self, evaluation : &mut EvaluatorContext, callable : &Value) -> (Outcome<Value>) {
-		match callable.kind () {
-			ValueKind::ProcedurePrimitive =>
-				match *callable.expect_as_ref_0 () {
+		match callable.kind_match_as_ref () {
+			ValueKindMatchAsRef::ProcedurePrimitive (callable) =>
+				match *callable {
 					ProcedurePrimitive::Primitive0 (primitive) =>
 						return self.evaluate_procedure_primitive_0 (evaluation, primitive),
 					primitive =>
 						return self.evaluate_procedure_primitive_0_g (evaluation, primitive),
 				},
-			ValueKind::ProcedureExtended =>
-				return self.evaluate_procedure_extended_0 (evaluation, callable.expect_as_ref_0 ()),
-			ValueKind::ProcedureNative =>
-				return self.evaluate_procedure_native_0_g (evaluation, StdExpectAsRef0::<ProcedureNative>::expect_as_ref_0 (callable) .internals_ref ()),
-			ValueKind::ProcedureLambda =>
-				return self.evaluate_procedure_lambda_0 (evaluation, StdExpectAsRef0::<ProcedureLambda>::expect_as_ref_0 (callable) .internals_ref ()),
+			ValueKindMatchAsRef::ProcedureExtended (callable) =>
+				return self.evaluate_procedure_extended_0 (evaluation, callable),
+			ValueKindMatchAsRef::ProcedureNative (callable) =>
+				return self.evaluate_procedure_native_0_g (evaluation, callable.internals_ref ()),
+			ValueKindMatchAsRef::ProcedureLambda (callable) =>
+				return self.evaluate_procedure_lambda_0 (evaluation, callable.internals_ref ()),
 			_ =>
 				fail! (0xc58e190e),
 		}
@@ -1057,20 +1057,20 @@ impl Evaluator {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_call_1_with_values (&self, evaluation : &mut EvaluatorContext, callable : &Value, input_1 : &Value) -> (Outcome<Value>) {
-		match callable.kind () {
-			ValueKind::ProcedurePrimitive =>
-				match *callable.expect_as_ref_0 () {
+		match callable.kind_match_as_ref () {
+			ValueKindMatchAsRef::ProcedurePrimitive (callable) =>
+				match *callable {
 					ProcedurePrimitive::Primitive1 (primitive) =>
 						return self.evaluate_procedure_primitive_1_with_values (evaluation, primitive, input_1),
 					primitive =>
 						return self.evaluate_procedure_primitive_1_g_with_values (evaluation, primitive, input_1),
 				},
-			ValueKind::ProcedureExtended =>
-				return self.evaluate_procedure_extended_1_with_values (evaluation, callable.expect_as_ref_0 (), input_1),
-			ValueKind::ProcedureNative =>
-				return self.evaluate_procedure_native_1_g_with_values (evaluation, StdExpectAsRef0::<ProcedureNative>::expect_as_ref_0 (callable) .internals_ref (), input_1),
-			ValueKind::ProcedureLambda =>
-				return self.evaluate_procedure_lambda_1_with_values (evaluation, StdExpectAsRef0::<ProcedureLambda>::expect_as_ref_0 (callable) .internals_ref (), input_1),
+			ValueKindMatchAsRef::ProcedureExtended (callable) =>
+				return self.evaluate_procedure_extended_1_with_values (evaluation, callable, input_1),
+			ValueKindMatchAsRef::ProcedureNative (callable) =>
+				return self.evaluate_procedure_native_1_g_with_values (evaluation, callable.internals_ref (), input_1),
+			ValueKindMatchAsRef::ProcedureLambda (callable) =>
+				return self.evaluate_procedure_lambda_1_with_values (evaluation, callable.internals_ref (), input_1),
 			_ =>
 				fail! (0xe7f6dbfc),
 		}
@@ -1087,20 +1087,20 @@ impl Evaluator {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_call_2_with_values (&self, evaluation : &mut EvaluatorContext, callable : &Value, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
-		match callable.kind () {
-			ValueKind::ProcedurePrimitive =>
-				match *callable.expect_as_ref_0 () {
+		match callable.kind_match_as_ref () {
+			ValueKindMatchAsRef::ProcedurePrimitive (callable) =>
+				match *callable {
 					ProcedurePrimitive::Primitive2 (primitive) =>
 						return self.evaluate_procedure_primitive_2_with_values (evaluation, primitive, input_1, input_2),
 					primitive =>
 						return self.evaluate_procedure_primitive_2_g_with_values (evaluation, primitive, input_1, input_2),
 				},
-			ValueKind::ProcedureExtended =>
-				return self.evaluate_procedure_extended_2_with_values (evaluation, callable.expect_as_ref_0 (), input_1, input_2),
-			ValueKind::ProcedureNative =>
-				return self.evaluate_procedure_native_2_g_with_values (evaluation, StdExpectAsRef0::<ProcedureNative>::expect_as_ref_0 (callable) .internals_ref (), input_1, input_2),
-			ValueKind::ProcedureLambda =>
-				return self.evaluate_procedure_lambda_2_with_values (evaluation, StdExpectAsRef0::<ProcedureLambda>::expect_as_ref_0 (callable) .internals_ref (), input_1, input_2),
+			ValueKindMatchAsRef::ProcedureExtended (callable) =>
+				return self.evaluate_procedure_extended_2_with_values (evaluation, callable, input_1, input_2),
+			ValueKindMatchAsRef::ProcedureNative (callable) =>
+				return self.evaluate_procedure_native_2_g_with_values (evaluation, callable.internals_ref (), input_1, input_2),
+			ValueKindMatchAsRef::ProcedureLambda (callable) =>
+				return self.evaluate_procedure_lambda_2_with_values (evaluation, callable.internals_ref (), input_1, input_2),
 			_ =>
 				fail! (0x856bf44d),
 		}
@@ -1118,20 +1118,20 @@ impl Evaluator {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_call_3_with_values (&self, evaluation : &mut EvaluatorContext, callable : &Value, input_1 : &Value, input_2 : &Value, input_3 : &Value) -> (Outcome<Value>) {
-		match callable.kind () {
-			ValueKind::ProcedurePrimitive =>
-				match *callable.expect_as_ref_0 () {
+		match callable.kind_match_as_ref () {
+			ValueKindMatchAsRef::ProcedurePrimitive (callable) =>
+				match *callable {
 					ProcedurePrimitive::Primitive3 (primitive) =>
 						return self.evaluate_procedure_primitive_3_with_values (evaluation, primitive, input_1, input_2, input_3),
 					primitive =>
 						return self.evaluate_procedure_primitive_3_g_with_values (evaluation, primitive, input_1, input_2, input_3),
 				},
-			ValueKind::ProcedureExtended =>
-				return self.evaluate_procedure_extended_3_with_values (evaluation, callable.expect_as_ref_0 (), input_1, input_2, input_3),
-			ValueKind::ProcedureNative =>
-				return self.evaluate_procedure_native_3_g_with_values (evaluation, StdExpectAsRef0::<ProcedureNative>::expect_as_ref_0 (callable) .internals_ref (), input_1, input_2, input_3),
-			ValueKind::ProcedureLambda =>
-				return self.evaluate_procedure_lambda_3_with_values (evaluation, StdExpectAsRef0::<ProcedureLambda>::expect_as_ref_0 (callable) .internals_ref (), input_1, input_2, input_3),
+			ValueKindMatchAsRef::ProcedureExtended (callable) =>
+				return self.evaluate_procedure_extended_3_with_values (evaluation, callable, input_1, input_2, input_3),
+			ValueKindMatchAsRef::ProcedureNative (callable) =>
+				return self.evaluate_procedure_native_3_g_with_values (evaluation, callable.internals_ref (), input_1, input_2, input_3),
+			ValueKindMatchAsRef::ProcedureLambda (callable) =>
+				return self.evaluate_procedure_lambda_3_with_values (evaluation, callable.internals_ref (), input_1, input_2, input_3),
 			_ =>
 				fail! (0xdb6b9bbc),
 		}
@@ -1150,20 +1150,20 @@ impl Evaluator {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_call_4_with_values (&self, evaluation : &mut EvaluatorContext, callable : &Value, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value) -> (Outcome<Value>) {
-		match callable.kind () {
-			ValueKind::ProcedurePrimitive =>
-				match *callable.expect_as_ref_0 () {
+		match callable.kind_match_as_ref () {
+			ValueKindMatchAsRef::ProcedurePrimitive (callable) =>
+				match *callable {
 					ProcedurePrimitive::Primitive4 (primitive) =>
 						return self.evaluate_procedure_primitive_4_with_values (evaluation, primitive, input_1, input_2, input_3, input_4),
 					primitive =>
 						return self.evaluate_procedure_primitive_4_g_with_values (evaluation, primitive, input_1, input_2, input_3, input_4),
 				},
-			ValueKind::ProcedureExtended =>
-				return self.evaluate_procedure_extended_4_with_values (evaluation, callable.expect_as_ref_0 (), input_1, input_2, input_3, input_4),
-			ValueKind::ProcedureNative =>
-				return self.evaluate_procedure_native_4_g_with_values (evaluation, StdExpectAsRef0::<ProcedureNative>::expect_as_ref_0 (callable) .internals_ref (), input_1, input_2, input_3, input_4),
-			ValueKind::ProcedureLambda =>
-				return self.evaluate_procedure_lambda_4_with_values (evaluation, StdExpectAsRef0::<ProcedureLambda>::expect_as_ref_0 (callable) .internals_ref (), input_1, input_2, input_3, input_4),
+			ValueKindMatchAsRef::ProcedureExtended (callable) =>
+				return self.evaluate_procedure_extended_4_with_values (evaluation, callable, input_1, input_2, input_3, input_4),
+			ValueKindMatchAsRef::ProcedureNative (callable) =>
+				return self.evaluate_procedure_native_4_g_with_values (evaluation, callable.internals_ref (), input_1, input_2, input_3, input_4),
+			ValueKindMatchAsRef::ProcedureLambda (callable) =>
+				return self.evaluate_procedure_lambda_4_with_values (evaluation, callable.internals_ref (), input_1, input_2, input_3, input_4),
 			_ =>
 				fail! (0xf0969d74),
 		}
@@ -1183,20 +1183,20 @@ impl Evaluator {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_call_5_with_values (&self, evaluation : &mut EvaluatorContext, callable : &Value, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value) -> (Outcome<Value>) {
-		match callable.kind () {
-			ValueKind::ProcedurePrimitive =>
-				match *callable.expect_as_ref_0 () {
+		match callable.kind_match_as_ref () {
+			ValueKindMatchAsRef::ProcedurePrimitive (callable) =>
+				match *callable {
 					ProcedurePrimitive::Primitive5 (primitive) =>
 						return self.evaluate_procedure_primitive_5_with_values (evaluation, primitive, input_1, input_2, input_3, input_4, input_5),
 					primitive =>
 						return self.evaluate_procedure_primitive_5_g_with_values (evaluation, primitive, input_1, input_2, input_3, input_4, input_5),
 				},
-			ValueKind::ProcedureExtended =>
-				return self.evaluate_procedure_extended_5_with_values (evaluation, callable.expect_as_ref_0 (), input_1, input_2, input_3, input_4, input_5),
-			ValueKind::ProcedureNative =>
-				return self.evaluate_procedure_native_5_g_with_values (evaluation, StdExpectAsRef0::<ProcedureNative>::expect_as_ref_0 (callable) .internals_ref (), input_1, input_2, input_3, input_4, input_5),
-			ValueKind::ProcedureLambda =>
-				return self.evaluate_procedure_lambda_5_with_values (evaluation, StdExpectAsRef0::<ProcedureLambda>::expect_as_ref_0 (callable) .internals_ref (), input_1, input_2, input_3, input_4, input_5),
+			ValueKindMatchAsRef::ProcedureExtended (callable) =>
+				return self.evaluate_procedure_extended_5_with_values (evaluation, callable, input_1, input_2, input_3, input_4, input_5),
+			ValueKindMatchAsRef::ProcedureNative (callable) =>
+				return self.evaluate_procedure_native_5_g_with_values (evaluation, callable.internals_ref (), input_1, input_2, input_3, input_4, input_5),
+			ValueKindMatchAsRef::ProcedureLambda (callable) =>
+				return self.evaluate_procedure_lambda_5_with_values (evaluation, callable.internals_ref (), input_1, input_2, input_3, input_4, input_5),
 			_ =>
 				fail! (0x62e8aef5),
 		}
@@ -1213,20 +1213,20 @@ impl Evaluator {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_call_n_with_values (&self, evaluation : &mut EvaluatorContext, callable : &Value, inputs : &[&Value]) -> (Outcome<Value>) {
-		match callable.kind () {
-			ValueKind::ProcedurePrimitive =>
-				match *callable.expect_as_ref_0 () {
+		match callable.kind_match_as_ref () {
+			ValueKindMatchAsRef::ProcedurePrimitive (callable) =>
+				match *callable {
 					ProcedurePrimitive::PrimitiveN (primitive) =>
 						return self.evaluate_procedure_primitive_n_with_values (evaluation, primitive, inputs),
 					primitive =>
 						return self.evaluate_procedure_primitive_n_g_with_values (evaluation, primitive, inputs),
 				},
-			ValueKind::ProcedureExtended =>
-				return self.evaluate_procedure_extended_n_with_values (evaluation, callable.expect_as_ref_0 (), inputs),
-			ValueKind::ProcedureNative =>
-				return self.evaluate_procedure_native_n_g_with_values (evaluation, StdExpectAsRef0::<ProcedureNative>::expect_as_ref_0 (callable) .internals_ref (), inputs),
-			ValueKind::ProcedureLambda =>
-				return self.evaluate_procedure_lambda_n_with_values (evaluation, StdExpectAsRef0::<ProcedureLambda>::expect_as_ref_0 (callable) .internals_ref (), inputs),
+			ValueKindMatchAsRef::ProcedureExtended (callable) =>
+				return self.evaluate_procedure_extended_n_with_values (evaluation, callable, inputs),
+			ValueKindMatchAsRef::ProcedureNative (callable) =>
+				return self.evaluate_procedure_native_n_g_with_values (evaluation, callable.internals_ref (), inputs),
+			ValueKindMatchAsRef::ProcedureLambda (callable) =>
+				return self.evaluate_procedure_lambda_n_with_values (evaluation, callable.internals_ref (), inputs),
 			_ =>
 				fail! (0x906ebf03),
 		}
