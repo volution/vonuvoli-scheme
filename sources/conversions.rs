@@ -736,23 +736,11 @@ pub fn number_coerce_1 (value : &Value) -> (Outcome<NumberCoercion1>) {
 	}
 }
 
+
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn number_coerce_2a (left : &Value, right : &Value) -> (Outcome<NumberCoercion2>) {
-	match Value::class_match_as_ref_2 (left, right) {
-		ValueClassMatchAsRef2::Number (class) =>
-			match class {
-				NumberMatchAsRef2::IntegerBoth (left, right) =>
-					Ok (NumberCoercion2::Integer (left.value (), right.value ())),
-				NumberMatchAsRef2::RealBoth (left, right) =>
-					Ok (NumberCoercion2::Real (left.value (), right.value ())),
-				NumberMatchAsRef2::IntegerAndReal (left, right) =>
-					Ok (NumberCoercion2::Real (left.value () as f64, right.value ())),
-				NumberMatchAsRef2::RealAndInteger (left, right) =>
-					Ok (NumberCoercion2::Real (left.value (), right.value () as f64)),
-			},
-		_ =>
-			failed! (0x6cfbdd37),
-	}
+	let class = Value::class_match_as_ref_2 (left, right);
+	return number_coerce_2d (&class);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -772,6 +760,30 @@ pub fn number_coerce_2c (left : &NumberCoercion1, right : &NumberCoercion1) -> (
 			NumberCoercion2::Real (left as f64, right),
 		(&NumberCoercion1::Real (left), &NumberCoercion1::Integer (right)) =>
 			NumberCoercion2::Real (left, right as f64),
+	}
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn number_coerce_2d <'a> (class : &ValueClassMatchAsRef2<'a>) -> (Outcome<NumberCoercion2>) {
+	match *class {
+		ValueClassMatchAsRef2::Number (ref class) =>
+			succeed! (number_coerce_2e (class)),
+		_ =>
+			failed! (0x6cfbdd37),
+	}
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn number_coerce_2e <'a> (class : &NumberMatchAsRef2<'a>) -> (NumberCoercion2) {
+	match *class {
+		NumberMatchAsRef2::IntegerBoth (left, right) =>
+			NumberCoercion2::Integer (left.value (), right.value ()),
+		NumberMatchAsRef2::RealBoth (left, right) =>
+			NumberCoercion2::Real (left.value (), right.value ()),
+		NumberMatchAsRef2::IntegerAndReal (left, right) =>
+			NumberCoercion2::Real (left.value () as f64, right.value ()),
+		NumberMatchAsRef2::RealAndInteger (left, right) =>
+			NumberCoercion2::Real (left.value (), right.value () as f64),
 	}
 }
 
