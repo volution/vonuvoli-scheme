@@ -169,7 +169,13 @@ impl cmp::PartialEq for NumberReal {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn eq (&self, other : &NumberReal) -> (bool) {
-		f64::eq (&self.value (), &other.value ())
+		let self_0 = self.value ();
+		let other_0 = other.value ();
+		if self_0.is_nan () && other_0.is_nan () {
+			true
+		} else {
+			f64::eq (&self_0, &other_0)
+		}
 	}
 }
 
@@ -177,10 +183,14 @@ impl cmp::Ord for NumberReal {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn cmp (&self, other : &NumberReal) -> (cmp::Ordering) {
-		if let Some (cmp) = f64::partial_cmp (&self.value (), &other.value ()) {
+		let self_0 = self.value ();
+		let other_0 = other.value ();
+		if let Some (cmp) = f64::partial_cmp (&self_0, &other_0) {
 			cmp
+		} else if self_0.is_nan () && other_0.is_nan () {
+			cmp::Ordering::Equal
 		} else {
-			u64::cmp (&self.value () .to_bits (), &other.value () .to_bits ())
+			u64::cmp (&self_0.to_bits (), &other_0.to_bits ())
 		}
 	}
 }
@@ -189,7 +199,7 @@ impl cmp::PartialOrd for NumberReal {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn partial_cmp (&self, other : &NumberReal) -> (Option<cmp::Ordering>) {
-		f64::partial_cmp (&self.value (), &other.value ())
+		Some (NumberReal::cmp (self, other))
 	}
 }
 
@@ -222,9 +232,7 @@ impl cmp::PartialOrd for StringImmutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn partial_cmp (&self, other : &StringImmutable) -> (Option<cmp::Ordering>) {
-		let self_0 = self.string_ref ();
-		let other_0 = other.string_ref ();
-		StringRef::partial_cmp (&self_0, &other_0)
+		Some (StringImmutable::cmp (self, other))
 	}
 }
 
@@ -255,9 +263,7 @@ impl cmp::PartialOrd for StringMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn partial_cmp (&self, other : &StringMutable) -> (Option<cmp::Ordering>) {
-		let self_0 = self.string_ref ();
-		let other_0 = other.string_ref ();
-		StringRef::partial_cmp (&self_0, &other_0)
+		Some (StringMutable::cmp (self, other))
 	}
 }
 
@@ -321,9 +327,7 @@ impl cmp::PartialOrd for BytesImmutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn partial_cmp (&self, other : &BytesImmutable) -> (Option<cmp::Ordering>) {
-		let self_0 = self.bytes_ref ();
-		let other_0 = other.bytes_ref ();
-		BytesRef::partial_cmp (&self_0, &other_0)
+		Some (BytesImmutable::cmp (self, other))
 	}
 }
 
@@ -354,9 +358,7 @@ impl cmp::PartialOrd for BytesMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn partial_cmp (&self, other : &BytesMutable) -> (Option<cmp::Ordering>) {
-		let self_0 = self.bytes_ref ();
-		let other_0 = other.bytes_ref ();
-		BytesRef::partial_cmp (&self_0, &other_0)
+		Some (BytesMutable::cmp (self, other))
 	}
 }
 
@@ -420,9 +422,7 @@ impl cmp::PartialOrd for PairImmutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn partial_cmp (&self, other : &PairImmutable) -> (Option<cmp::Ordering>) {
-		let self_0 = self.pair_ref ();
-		let other_0 = other.pair_ref ();
-		PairRef::partial_cmp (&self_0, &other_0)
+		Some (PairImmutable::cmp (self, other))
 	}
 }
 
@@ -453,9 +453,7 @@ impl cmp::PartialOrd for PairMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn partial_cmp (&self, other : &PairMutable) -> (Option<cmp::Ordering>) {
-		let self_0 = self.pair_ref ();
-		let other_0 = other.pair_ref ();
-		PairRef::partial_cmp (&self_0, &other_0)
+		Some (PairMutable::cmp (self, other))
 	}
 }
 
@@ -528,9 +526,7 @@ impl cmp::PartialOrd for ArrayImmutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn partial_cmp (&self, other : &ArrayImmutable) -> (Option<cmp::Ordering>) {
-		let self_0 = self.array_ref ();
-		let other_0 = other.array_ref ();
-		ArrayRef::partial_cmp (&self_0, &other_0)
+		Some (ArrayImmutable::cmp (self, other))
 	}
 }
 
@@ -561,9 +557,7 @@ impl cmp::PartialOrd for ArrayMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn partial_cmp (&self, other : &ArrayMutable) -> (Option<cmp::Ordering>) {
-		let self_0 = self.array_ref ();
-		let other_0 = other.array_ref ();
-		ArrayRef::partial_cmp (&self_0, &other_0)
+		Some (ArrayMutable::cmp (self, other))
 	}
 }
 
@@ -624,7 +618,7 @@ impl cmp::PartialOrd for LambdaInternals {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn partial_cmp (&self, other : &LambdaInternals) -> (Option<cmp::Ordering>) {
-		Handle::partial_cmp (&self.handle_2, &other.handle_2)
+		Some (LambdaInternals::cmp (self, other))
 	}
 }
 
@@ -653,7 +647,7 @@ impl cmp::PartialOrd for ProcedureNative {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn partial_cmp (&self, other : &ProcedureNative) -> (Option<cmp::Ordering>) {
-		u64::partial_cmp (&self.handle_value (), &other.handle_value ())
+		Some (ProcedureNative::cmp (self, other))
 	}
 }
 
@@ -682,7 +676,7 @@ impl cmp::PartialOrd for SyntaxNative {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn partial_cmp (&self, other : &SyntaxNative) -> (Option<cmp::Ordering>) {
-		u64::partial_cmp (&self.handle_value (), &other.handle_value ())
+		Some (SyntaxNative::cmp (self, other))
 	}
 }
 
@@ -711,7 +705,7 @@ impl cmp::PartialOrd for Port {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn partial_cmp (&self, other : &Port) -> (Option<cmp::Ordering>) {
-		Handle::partial_cmp (&self.handle (), &other.handle ())
+		Some (Port::cmp (self, other))
 	}
 }
 
@@ -740,7 +734,7 @@ impl cmp::PartialOrd for Process {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn partial_cmp (&self, other : &Process) -> (Option<cmp::Ordering>) {
-		Handle::partial_cmp (&self.handle (), &other.handle ())
+		Some (Process::cmp (self, other))
 	}
 }
 
@@ -769,7 +763,7 @@ impl cmp::PartialOrd for Context {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn partial_cmp (&self, other : &Self) -> (Option<cmp::Ordering>) {
-		Handle::partial_cmp (&self.handle (), &other.handle ())
+		Some (Context::cmp (self, other))
 	}
 }
 
@@ -798,7 +792,7 @@ impl cmp::PartialOrd for Registers {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn partial_cmp (&self, other : &Self) -> (Option<cmp::Ordering>) {
-		Handle::partial_cmp (&self.handle (), &other.handle ())
+		Some (Registers::cmp (self, other))
 	}
 }
 
@@ -827,7 +821,7 @@ impl cmp::PartialOrd for Binding {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn partial_cmp (&self, other : &Self) -> (Option<cmp::Ordering>) {
-		Handle::partial_cmp (&self.handle (), &other.handle ())
+		Some (Binding::cmp (self, other))
 	}
 }
 
