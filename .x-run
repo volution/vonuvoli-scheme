@@ -208,7 +208,7 @@ cat <<'EOS'
 :: files / sed / sources / inline-always / configurable :: exec -- find ./sources ./tests -xdev -type f \( -name '*.rs' -o -name '*.in' \) -exec sed -r -e 's!^(\s*)(#\[ inline \(always\) \])$!\1#[ cfg_attr ( feature = "vonuvoli_inline", inline (always) ) ]!' -i -- {} \;
 :: files / sed / sources / inline-always / to-plain :: exec -- find ./sources ./tests -xdev -type f \( -name '*.rs' -o -name '*.in' \) -exec sed -r -e 's!^(\s*)(#\[ inline \(always\) \])$!\1#[ inline ]!' -e 's!^(\s*)(#\[ cfg_attr \( feature = "vonuvoli_inline", inline \(always\) \) \])$!\1#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]!' -i -- {} \;
 
-:: files / grep / outputs / benchmarks :: git diff --color-words -U0 -- ./tests/scheme/_out/benchmark__* | grep -E -e '^....--' -e 'average.*/' | sed -r -e 's/^(....)--- i\/tests\/scheme\/_out\/benchmark__/\1/'
+:: files / grep / outputs / benchmarks :: git diff --color-words -U0 -- ./tests/_outputs/*--benchmark__* | grep -E -e '^....--' -e 'average' | sed -r -e 's/^(....)--- i\/tests\/_outputs\/[a-z0-9-]+--benchmark__/\1/'
 
 
 
@@ -308,15 +308,18 @@ find ./ -xdev -type f \
 
 
 
-for _test in scheme low-level-r7rs low-level-parser low-level-sizes low-level-assertions ; do
+for _test in scheme builtins-lists low-level-r7rs low-level-parser low-level-sizes low-level-assertions ; do
+test -f "./tests/${_test}.rs"
 sed -r -e 's#@\{TEST\}#'"${_test}"'#g' <<'EOS'
+:: compile / test / @{TEST} / debug / watch :: exec -- x-run ':: execute / watch' x-run ':: compile / test / @{TEST} / debug' "${@}"
 :: compile / test / @{TEST} / debug :: x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --test '@{TEST}' --no-default-features
 :: compile / test / @{TEST} / release :: x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --test '@{TEST}' --release --all-features
 :: execute / test / @{TEST} / tests / all / debug / watch :: exec -- x-run ':: execute / watch' x-run ':: execute / test / @{TEST} / tests / all / debug' "${@}"
 :: execute / test / @{TEST} / tests / all / debug :: x-run ':: compile / test / @{TEST} / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test '@{TEST}' --no-default-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__' "${@}"
 :: execute / test / @{TEST} / tests / all / release :: x-run ':: compile / test / @{TEST} / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test '@{TEST}' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__' "${@}"
+:: execute / test / @{TEST} / benchmarks / all / debug / watch :: exec -- x-run ':: execute / watch' x-run ':: execute / test / @{TEST} / benchmarks / all / debug' "${@}"
 :: execute / test / @{TEST} / benchmarks / all / debug :: x-run ':: compile / test / @{TEST} / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test '@{TEST}' --no-default-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
-:: execute / test / @{TEST} / benchmarks / all / release :: x-run ':: compile / test / @{TEST} / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' cargo test --quiet --test '@{TEST}' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
+:: execute / test / @{TEST} / benchmarks / all / release :: x-run ':: compile / test / @{TEST} / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/@{TEST}--{IDENTIFIER}.out' cargo test --quiet --test '@{TEST}' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
 :: execute / test / @{TEST} / coverage / all / kcov :: x-run ':: compile / test / @{TEST} / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov --test '@{TEST}' --no-clean-rebuild --no-default-features --jobs 1 --output ./target/kcov -- "${@}"
 EOS
 done
@@ -331,7 +334,7 @@ sed -r -e 's#@\{TEST\}#'"${_test}"'#g' <<'EOS'
 :: execute / test / scheme / tests / @{TEST} / debug :: x-run ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__@{TEST}' --exact "${@}"
 :: execute / test / scheme / tests / @{TEST} / release :: x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__@{TEST}' --exact "${@}"
 :: execute / test / scheme / benchmarks / @{TEST} / debug :: x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__@{TEST}' --exact "${@}"
-:: execute / test / scheme / benchmarks / @{TEST} / release :: x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__@{TEST}' --exact "${@}"
+:: execute / test / scheme / benchmarks / @{TEST} / release :: x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__@{TEST}' --exact "${@}"
 EOS
 done
 
@@ -345,7 +348,7 @@ sed -r -e 's#@\{TEST\}#'"${_test}"'#g' -e 's#\{IDENTIFIER\}'#"${_test//-/_}"'#g'
 :: execute / bin / tester / @{TEST} / debug :: exec -- nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/@{TEST}.sst' "${@}"
 :: execute / bin / tester / @{TEST} / release :: exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/@{TEST}.sst' "${@}"
 :: execute / bin / bencher / @{TEST} / debug :: exec -- taskset -c 2 x-run ':: execute / bin / bencher / debug' './tests/scheme/@{TEST}.sst' "${@}"
-:: execute / bin / bencher / @{TEST} / release :: exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__{IDENTIFIER}.out' x-run ':: execute / bin / bencher / release' './tests/scheme/@{TEST}.sst' "${@}"
+:: execute / bin / bencher / @{TEST} / release :: exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__{IDENTIFIER}.out' x-run ':: execute / bin / bencher / release' './tests/scheme/@{TEST}.sst' "${@}"
 EOS
 done
 
@@ -370,38 +373,38 @@ find ./tests/scheme -xdev -type f -name '*.sst' -printf '%f\n' \
 | sort -u \
 | while read _test ; do
 sed -r -e 's#@\{TEST\}#'"${_test}"'#g' -e 's#\{IDENTIFIER\}'#"${_test//-/_}"'#g' <<'EOS'
-taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__{IDENTIFIER}.out' x-run ':: execute / bin / bencher / release' './tests/scheme/@{TEST}.sst' "${@}"
+taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__{IDENTIFIER}.out' x-run ':: execute / bin / bencher / release' './tests/scheme/@{TEST}.sst' "${@}"
 EOS
 done
 printf -- '%s\n' '!!'
 
 
-find ./tests/scripts -xdev -type f -name 'benchmark--*.ss' -printf '%f\n' \
+find ./examples -xdev -type f -name 'benchmark--*.ss' -printf '%f\n' \
 | sed -r -e 's/^benchmark--//' -e 's/\.ss$//' \
 | sort -u \
 | while read _script ; do
 sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
-:: execute / bin / compiler / @{SCRIPT} / debug :: x-run ':: execute / bin / compiler / debug' './tests/scripts/benchmark--@{SCRIPT}.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--@{SCRIPT}--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--@{SCRIPT}--vonuvoli-compile.out'
-:: execute / bin / compiler / @{SCRIPT} / release :: x-run ':: execute / bin / compiler / release' ./tests/scripts/benchmark--@{SCRIPT}.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--@{SCRIPT}--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--@{SCRIPT}--vonuvoli-compile.out'
-:: execute / benchmark / vonuvoli / @{SCRIPT} / debug :: taskset -c 2 x-run ':: execute / bin / interpreter / debug' './tests/scripts/benchmark--@{SCRIPT}.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--@{SCRIPT}--vonuvoli-debug.out'
-:: execute / benchmark / vonuvoli / @{SCRIPT} / release :: taskset -c 2 x-run ':: execute / bin / interpreter / release' './tests/scripts/benchmark--@{SCRIPT}.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--@{SCRIPT}--vonuvoli-release.out'
-:: execute / benchmark / chibi / @{SCRIPT} :: taskset -c 2 x-run ':: execute / chibi' -- './tests/scripts/benchmark--@{SCRIPT}.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--@{SCRIPT}--chibi.out'
-:: execute / benchmark / gauche / @{SCRIPT} :: taskset -c 2 x-run ':: execute / gauche' -- './tests/scripts/benchmark--@{SCRIPT}.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--@{SCRIPT}--gauche.out'
+:: execute / bin / compiler / @{SCRIPT} / debug :: x-run ':: execute / bin / compiler / debug' './examples/benchmark--@{SCRIPT}.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--@{SCRIPT}--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--@{SCRIPT}--vonuvoli-compile.out'
+:: execute / bin / compiler / @{SCRIPT} / release :: x-run ':: execute / bin / compiler / release' ./examples/benchmark--@{SCRIPT}.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--@{SCRIPT}--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--@{SCRIPT}--vonuvoli-compile.out'
+:: execute / benchmark / vonuvoli / @{SCRIPT} / debug :: taskset -c 2 x-run ':: execute / bin / interpreter / debug' './examples/benchmark--@{SCRIPT}.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--@{SCRIPT}--vonuvoli-debug.out'
+:: execute / benchmark / vonuvoli / @{SCRIPT} / release :: taskset -c 2 x-run ':: execute / bin / interpreter / release' './examples/benchmark--@{SCRIPT}.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--@{SCRIPT}--vonuvoli-release.out'
+:: execute / benchmark / chibi / @{SCRIPT} :: taskset -c 2 x-run ':: execute / chibi' -- './examples/benchmark--@{SCRIPT}.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--@{SCRIPT}--chibi.out'
+:: execute / benchmark / gauche / @{SCRIPT} :: taskset -c 2 x-run ':: execute / gauche' -- './examples/benchmark--@{SCRIPT}.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--@{SCRIPT}--gauche.out'
 EOS
 done
 
 
-find ./tests/scripts -xdev -type f -name 'benchmark--*.py' -printf '%f\n' \
+find ./examples -xdev -type f -name 'benchmark--*.py' -printf '%f\n' \
 | sed -r -e 's/^benchmark--//' -e 's/\.py$//' \
 | sort -u \
 | while read _script ; do
 sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
-:: execute / benchmark / python / @{SCRIPT} :: taskset -c 2 x-run ':: execute / python' -- './tests/scripts/benchmark--@{SCRIPT}.py' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--@{SCRIPT}--python.out'
+:: execute / benchmark / python / @{SCRIPT} :: taskset -c 2 x-run ':: execute / python' -- './examples/benchmark--@{SCRIPT}.py' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--@{SCRIPT}--python.out'
 EOS
 done
 
 
-find ./tests/scripts -xdev -type f \( -name 'benchmark--*.ss' -o -name 'benchmark--*.py' \) -printf '%f\n' \
+find ./examples -xdev -type f \( -name 'benchmark--*.ss' -o -name 'benchmark--*.py' \) -printf '%f\n' \
 | sed -r -e 's/^benchmark--//' -e 's/\.ss$//' -e 's/\.py$//' \
 | sort -u \
 | while read _script ; do
@@ -414,7 +417,7 @@ sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
 	x-run ':: execute / benchmark / chibi / @{SCRIPT}'
 	printf -- '\n== %s / gauche ==\n' '@{SCRIPT}' >&2
 	x-run ':: execute / benchmark / gauche / @{SCRIPT}'
-	if test -e './tests/scripts/benchmark--@{SCRIPT}.py' ; then
+	if test -e './examples/benchmark--@{SCRIPT}.py' ; then
 		printf -- '\n== %s / python ==\n' '@{SCRIPT}' >&2
 		x-run ':: execute / benchmark / python / @{SCRIPT}'
 	fi
@@ -425,7 +428,7 @@ done
 
 
 printf -- '%s\n' '<< execute / benchmark / compare / all'
-find ./tests/scripts -xdev -type f -name 'benchmark--*.ss' -printf '%f\n' \
+find ./examples -xdev -type f -name 'benchmark--*.ss' -printf '%f\n' \
 | sed -r -e 's/^benchmark--//' -e 's/\.ss$//' \
 | sort -u \
 | while read _script ; do
@@ -435,7 +438,7 @@ printf -- '%s\n' '!!'
 
 
 printf -- '%s\n' '<< execute / benchmark / vonuvoli / all / release'
-find ./tests/scripts -xdev -type f -name 'benchmark--*.ss' -printf '%f\n' \
+find ./examples -xdev -type f -name 'benchmark--*.ss' -printf '%f\n' \
 | sed -r -e 's/^benchmark--//' -e 's/\.ss$//' \
 | sort -u \
 | while read _script ; do
@@ -444,25 +447,25 @@ done
 printf -- '%s\n' '!!'
 
 
-find ./tests/scripts -xdev -type f \( -name 'optimizer--*.ss' -o -name 'benchmark--*.ss' \) -printf '%f\n' \
+find ./examples -xdev -type f \( -name 'optimizer--*.ss' -o -name 'benchmark--*.ss' \) -printf '%f\n' \
 | sed -r -e 's/^optimizer--//' -e 's/^benchmark--//' -e 's/\.ss$//' \
 | sort -u \
 | while read _script ; do
 sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
-:: execute / bin / compiler / @{SCRIPT} / debug :: nice -n 19 -- x-run ':: execute / bin / compiler / debug' './tests/scripts/optimizer--@{SCRIPT}.ss' "${@}" >| './tests/scripts/_out/optimizer--@{SCRIPT}--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--@{SCRIPT}--vonuvoli-compile.out'
-:: execute / bin / compiler / @{SCRIPT} / release :: nice -n 19 -- x-run ':: execute / bin / compiler / release' './tests/scripts/optimizer--@{SCRIPT}.ss' "${@}" >| './tests/scripts/_out/optimizer--@{SCRIPT}--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--@{SCRIPT}--vonuvoli-compile.out'
+:: execute / bin / compiler / @{SCRIPT} / debug :: nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/optimizer--@{SCRIPT}.ss' "${@}" >| './examples/_outputs/optimizer--@{SCRIPT}--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/optimizer--@{SCRIPT}--vonuvoli-compile.out'
+:: execute / bin / compiler / @{SCRIPT} / release :: nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/optimizer--@{SCRIPT}.ss' "${@}" >| './examples/_outputs/optimizer--@{SCRIPT}--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/optimizer--@{SCRIPT}--vonuvoli-compile.out'
 EOS
 done
 
 
 printf -- '%s\n' '<< execute / bin / compiler / all / debug'
 printf -- '%s\n' "x-run ':: compile / bin / compiler / debug'"
-find ./tests/scripts -xdev -type f \( -name 'optimizer--*.ss' -o -name 'benchmark--*.ss' \) -printf '%f\n' \
+find ./examples -xdev -type f \( -name 'optimizer--*.ss' -o -name 'benchmark--*.ss' \) -printf '%f\n' \
 | sed -r -e 's/\.ss$//' \
 | sort -u \
 | while read _script ; do
 sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
-nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './tests/scripts/@{SCRIPT}.ss' "${@}" >| './tests/scripts/_out/@{SCRIPT}--vonuvoli-compile.out'
+nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/@{SCRIPT}.ss' "${@}" >| './examples/_outputs/@{SCRIPT}--vonuvoli-compile.out'
 EOS
 done
 printf -- '%s\n' '!!'

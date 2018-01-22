@@ -146,8 +146,24 @@
 	x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --release --all-features --no-run "${@}"
 !!
 
+<< compile / test / builtins-lists / debug
+	x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --test 'builtins-lists' --no-default-features
+!!
+
+<< compile / test / builtins-lists / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: compile / test / builtins-lists / debug' "${@}"
+!!
+
+<< compile / test / builtins-lists / release
+	x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --test 'builtins-lists' --release --all-features
+!!
+
 << compile / test / low-level-assertions / debug
 	x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --test 'low-level-assertions' --no-default-features
+!!
+
+<< compile / test / low-level-assertions / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: compile / test / low-level-assertions / debug' "${@}"
 !!
 
 << compile / test / low-level-assertions / release
@@ -158,12 +174,20 @@
 	x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --test 'low-level-parser' --no-default-features
 !!
 
+<< compile / test / low-level-parser / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: compile / test / low-level-parser / debug' "${@}"
+!!
+
 << compile / test / low-level-parser / release
 	x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --test 'low-level-parser' --release --all-features
 !!
 
 << compile / test / low-level-r7rs / debug
 	x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --test 'low-level-r7rs' --no-default-features
+!!
+
+<< compile / test / low-level-r7rs / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: compile / test / low-level-r7rs / debug' "${@}"
 !!
 
 << compile / test / low-level-r7rs / release
@@ -174,12 +198,20 @@
 	x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --test 'low-level-sizes' --no-default-features
 !!
 
+<< compile / test / low-level-sizes / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: compile / test / low-level-sizes / debug' "${@}"
+!!
+
 << compile / test / low-level-sizes / release
 	x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --test 'low-level-sizes' --release --all-features
 !!
 
 << compile / test / scheme / debug
 	x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --test 'scheme' --no-default-features
+!!
+
+<< compile / test / scheme / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: compile / test / scheme / debug' "${@}"
 !!
 
 << compile / test / scheme / release
@@ -251,31 +283,31 @@
 !!
 
 << execute / benchmark / chibi / controls
-	taskset -c 2 x-run ':: execute / chibi' -- './tests/scripts/benchmark--controls.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--controls--chibi.out'
+	taskset -c 2 x-run ':: execute / chibi' -- './examples/benchmark--controls.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--controls--chibi.out'
 !!
 
 << execute / benchmark / chibi / loop
-	taskset -c 2 x-run ':: execute / chibi' -- './tests/scripts/benchmark--loop.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--loop--chibi.out'
+	taskset -c 2 x-run ':: execute / chibi' -- './examples/benchmark--loop.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--loop--chibi.out'
 !!
 
 << execute / benchmark / chibi / make-cons
-	taskset -c 2 x-run ':: execute / chibi' -- './tests/scripts/benchmark--make-cons.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--make-cons--chibi.out'
+	taskset -c 2 x-run ':: execute / chibi' -- './examples/benchmark--make-cons.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--make-cons--chibi.out'
 !!
 
 << execute / benchmark / chibi / make-vector
-	taskset -c 2 x-run ':: execute / chibi' -- './tests/scripts/benchmark--make-vector.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--make-vector--chibi.out'
+	taskset -c 2 x-run ':: execute / chibi' -- './examples/benchmark--make-vector.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--make-vector--chibi.out'
 !!
 
 << execute / benchmark / chibi / r7rs-ack
-	taskset -c 2 x-run ':: execute / chibi' -- './tests/scripts/benchmark--r7rs-ack.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--r7rs-ack--chibi.out'
+	taskset -c 2 x-run ':: execute / chibi' -- './examples/benchmark--r7rs-ack.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--r7rs-ack--chibi.out'
 !!
 
 << execute / benchmark / chibi / r7rs-array1
-	taskset -c 2 x-run ':: execute / chibi' -- './tests/scripts/benchmark--r7rs-array1.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--r7rs-array1--chibi.out'
+	taskset -c 2 x-run ':: execute / chibi' -- './examples/benchmark--r7rs-array1.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--r7rs-array1--chibi.out'
 !!
 
 << execute / benchmark / chibi / r7rs-browse
-	taskset -c 2 x-run ':: execute / chibi' -- './tests/scripts/benchmark--r7rs-browse.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--r7rs-browse--chibi.out'
+	taskset -c 2 x-run ':: execute / chibi' -- './examples/benchmark--r7rs-browse.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--r7rs-browse--chibi.out'
 !!
 
 << execute / benchmark / compare / all
@@ -296,7 +328,7 @@
 		x-run ':: execute / benchmark / chibi / controls'
 		printf -- '\n== %s / gauche ==\n' 'controls' >&2
 		x-run ':: execute / benchmark / gauche / controls'
-		if test -e './tests/scripts/benchmark--controls.py' ; then
+		if test -e './examples/benchmark--controls.py' ; then
 			printf -- '\n== %s / python ==\n' 'controls' >&2
 			x-run ':: execute / benchmark / python / controls'
 		fi
@@ -311,7 +343,7 @@
 		x-run ':: execute / benchmark / chibi / loop'
 		printf -- '\n== %s / gauche ==\n' 'loop' >&2
 		x-run ':: execute / benchmark / gauche / loop'
-		if test -e './tests/scripts/benchmark--loop.py' ; then
+		if test -e './examples/benchmark--loop.py' ; then
 			printf -- '\n== %s / python ==\n' 'loop' >&2
 			x-run ':: execute / benchmark / python / loop'
 		fi
@@ -326,7 +358,7 @@
 		x-run ':: execute / benchmark / chibi / make-cons'
 		printf -- '\n== %s / gauche ==\n' 'make-cons' >&2
 		x-run ':: execute / benchmark / gauche / make-cons'
-		if test -e './tests/scripts/benchmark--make-cons.py' ; then
+		if test -e './examples/benchmark--make-cons.py' ; then
 			printf -- '\n== %s / python ==\n' 'make-cons' >&2
 			x-run ':: execute / benchmark / python / make-cons'
 		fi
@@ -341,7 +373,7 @@
 		x-run ':: execute / benchmark / chibi / make-vector'
 		printf -- '\n== %s / gauche ==\n' 'make-vector' >&2
 		x-run ':: execute / benchmark / gauche / make-vector'
-		if test -e './tests/scripts/benchmark--make-vector.py' ; then
+		if test -e './examples/benchmark--make-vector.py' ; then
 			printf -- '\n== %s / python ==\n' 'make-vector' >&2
 			x-run ':: execute / benchmark / python / make-vector'
 		fi
@@ -356,7 +388,7 @@
 		x-run ':: execute / benchmark / chibi / r7rs-ack'
 		printf -- '\n== %s / gauche ==\n' 'r7rs-ack' >&2
 		x-run ':: execute / benchmark / gauche / r7rs-ack'
-		if test -e './tests/scripts/benchmark--r7rs-ack.py' ; then
+		if test -e './examples/benchmark--r7rs-ack.py' ; then
 			printf -- '\n== %s / python ==\n' 'r7rs-ack' >&2
 			x-run ':: execute / benchmark / python / r7rs-ack'
 		fi
@@ -371,7 +403,7 @@
 		x-run ':: execute / benchmark / chibi / r7rs-array1'
 		printf -- '\n== %s / gauche ==\n' 'r7rs-array1' >&2
 		x-run ':: execute / benchmark / gauche / r7rs-array1'
-		if test -e './tests/scripts/benchmark--r7rs-array1.py' ; then
+		if test -e './examples/benchmark--r7rs-array1.py' ; then
 			printf -- '\n== %s / python ==\n' 'r7rs-array1' >&2
 			x-run ':: execute / benchmark / python / r7rs-array1'
 		fi
@@ -386,7 +418,7 @@
 		x-run ':: execute / benchmark / chibi / r7rs-browse'
 		printf -- '\n== %s / gauche ==\n' 'r7rs-browse' >&2
 		x-run ':: execute / benchmark / gauche / r7rs-browse'
-		if test -e './tests/scripts/benchmark--r7rs-browse.py' ; then
+		if test -e './examples/benchmark--r7rs-browse.py' ; then
 			printf -- '\n== %s / python ==\n' 'r7rs-browse' >&2
 			x-run ':: execute / benchmark / python / r7rs-browse'
 		fi
@@ -394,47 +426,47 @@
 !!
 
 << execute / benchmark / gauche / controls
-	taskset -c 2 x-run ':: execute / gauche' -- './tests/scripts/benchmark--controls.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--controls--gauche.out'
+	taskset -c 2 x-run ':: execute / gauche' -- './examples/benchmark--controls.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--controls--gauche.out'
 !!
 
 << execute / benchmark / gauche / loop
-	taskset -c 2 x-run ':: execute / gauche' -- './tests/scripts/benchmark--loop.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--loop--gauche.out'
+	taskset -c 2 x-run ':: execute / gauche' -- './examples/benchmark--loop.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--loop--gauche.out'
 !!
 
 << execute / benchmark / gauche / make-cons
-	taskset -c 2 x-run ':: execute / gauche' -- './tests/scripts/benchmark--make-cons.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--make-cons--gauche.out'
+	taskset -c 2 x-run ':: execute / gauche' -- './examples/benchmark--make-cons.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--make-cons--gauche.out'
 !!
 
 << execute / benchmark / gauche / make-vector
-	taskset -c 2 x-run ':: execute / gauche' -- './tests/scripts/benchmark--make-vector.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--make-vector--gauche.out'
+	taskset -c 2 x-run ':: execute / gauche' -- './examples/benchmark--make-vector.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--make-vector--gauche.out'
 !!
 
 << execute / benchmark / gauche / r7rs-ack
-	taskset -c 2 x-run ':: execute / gauche' -- './tests/scripts/benchmark--r7rs-ack.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--r7rs-ack--gauche.out'
+	taskset -c 2 x-run ':: execute / gauche' -- './examples/benchmark--r7rs-ack.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--r7rs-ack--gauche.out'
 !!
 
 << execute / benchmark / gauche / r7rs-array1
-	taskset -c 2 x-run ':: execute / gauche' -- './tests/scripts/benchmark--r7rs-array1.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--r7rs-array1--gauche.out'
+	taskset -c 2 x-run ':: execute / gauche' -- './examples/benchmark--r7rs-array1.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--r7rs-array1--gauche.out'
 !!
 
 << execute / benchmark / gauche / r7rs-browse
-	taskset -c 2 x-run ':: execute / gauche' -- './tests/scripts/benchmark--r7rs-browse.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--r7rs-browse--gauche.out'
+	taskset -c 2 x-run ':: execute / gauche' -- './examples/benchmark--r7rs-browse.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--r7rs-browse--gauche.out'
 !!
 
 << execute / benchmark / python / controls
-	taskset -c 2 x-run ':: execute / python' -- './tests/scripts/benchmark--controls.py' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--controls--python.out'
+	taskset -c 2 x-run ':: execute / python' -- './examples/benchmark--controls.py' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--controls--python.out'
 !!
 
 << execute / benchmark / python / loop
-	taskset -c 2 x-run ':: execute / python' -- './tests/scripts/benchmark--loop.py' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--loop--python.out'
+	taskset -c 2 x-run ':: execute / python' -- './examples/benchmark--loop.py' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--loop--python.out'
 !!
 
 << execute / benchmark / python / make-cons
-	taskset -c 2 x-run ':: execute / python' -- './tests/scripts/benchmark--make-cons.py' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--make-cons--python.out'
+	taskset -c 2 x-run ':: execute / python' -- './examples/benchmark--make-cons.py' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--make-cons--python.out'
 !!
 
 << execute / benchmark / python / make-vector
-	taskset -c 2 x-run ':: execute / python' -- './tests/scripts/benchmark--make-vector.py' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--make-vector--python.out'
+	taskset -c 2 x-run ':: execute / python' -- './examples/benchmark--make-vector.py' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--make-vector--python.out'
 !!
 
 << execute / benchmark / vonuvoli / all / release
@@ -448,97 +480,97 @@
 !!
 
 << execute / benchmark / vonuvoli / controls / debug
-	taskset -c 2 x-run ':: execute / bin / interpreter / debug' './tests/scripts/benchmark--controls.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--controls--vonuvoli-debug.out'
+	taskset -c 2 x-run ':: execute / bin / interpreter / debug' './examples/benchmark--controls.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--controls--vonuvoli-debug.out'
 !!
 
 << execute / benchmark / vonuvoli / controls / release
-	taskset -c 2 x-run ':: execute / bin / interpreter / release' './tests/scripts/benchmark--controls.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--controls--vonuvoli-release.out'
+	taskset -c 2 x-run ':: execute / bin / interpreter / release' './examples/benchmark--controls.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--controls--vonuvoli-release.out'
 !!
 
 << execute / benchmark / vonuvoli / loop / debug
-	taskset -c 2 x-run ':: execute / bin / interpreter / debug' './tests/scripts/benchmark--loop.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--loop--vonuvoli-debug.out'
+	taskset -c 2 x-run ':: execute / bin / interpreter / debug' './examples/benchmark--loop.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--loop--vonuvoli-debug.out'
 !!
 
 << execute / benchmark / vonuvoli / loop / release
-	taskset -c 2 x-run ':: execute / bin / interpreter / release' './tests/scripts/benchmark--loop.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--loop--vonuvoli-release.out'
+	taskset -c 2 x-run ':: execute / bin / interpreter / release' './examples/benchmark--loop.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--loop--vonuvoli-release.out'
 !!
 
 << execute / benchmark / vonuvoli / make-cons / debug
-	taskset -c 2 x-run ':: execute / bin / interpreter / debug' './tests/scripts/benchmark--make-cons.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--make-cons--vonuvoli-debug.out'
+	taskset -c 2 x-run ':: execute / bin / interpreter / debug' './examples/benchmark--make-cons.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--make-cons--vonuvoli-debug.out'
 !!
 
 << execute / benchmark / vonuvoli / make-cons / release
-	taskset -c 2 x-run ':: execute / bin / interpreter / release' './tests/scripts/benchmark--make-cons.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--make-cons--vonuvoli-release.out'
+	taskset -c 2 x-run ':: execute / bin / interpreter / release' './examples/benchmark--make-cons.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--make-cons--vonuvoli-release.out'
 !!
 
 << execute / benchmark / vonuvoli / make-vector / debug
-	taskset -c 2 x-run ':: execute / bin / interpreter / debug' './tests/scripts/benchmark--make-vector.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--make-vector--vonuvoli-debug.out'
+	taskset -c 2 x-run ':: execute / bin / interpreter / debug' './examples/benchmark--make-vector.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--make-vector--vonuvoli-debug.out'
 !!
 
 << execute / benchmark / vonuvoli / make-vector / release
-	taskset -c 2 x-run ':: execute / bin / interpreter / release' './tests/scripts/benchmark--make-vector.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--make-vector--vonuvoli-release.out'
+	taskset -c 2 x-run ':: execute / bin / interpreter / release' './examples/benchmark--make-vector.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--make-vector--vonuvoli-release.out'
 !!
 
 << execute / benchmark / vonuvoli / r7rs-ack / debug
-	taskset -c 2 x-run ':: execute / bin / interpreter / debug' './tests/scripts/benchmark--r7rs-ack.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--r7rs-ack--vonuvoli-debug.out'
+	taskset -c 2 x-run ':: execute / bin / interpreter / debug' './examples/benchmark--r7rs-ack.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--r7rs-ack--vonuvoli-debug.out'
 !!
 
 << execute / benchmark / vonuvoli / r7rs-ack / release
-	taskset -c 2 x-run ':: execute / bin / interpreter / release' './tests/scripts/benchmark--r7rs-ack.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--r7rs-ack--vonuvoli-release.out'
+	taskset -c 2 x-run ':: execute / bin / interpreter / release' './examples/benchmark--r7rs-ack.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--r7rs-ack--vonuvoli-release.out'
 !!
 
 << execute / benchmark / vonuvoli / r7rs-array1 / debug
-	taskset -c 2 x-run ':: execute / bin / interpreter / debug' './tests/scripts/benchmark--r7rs-array1.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--r7rs-array1--vonuvoli-debug.out'
+	taskset -c 2 x-run ':: execute / bin / interpreter / debug' './examples/benchmark--r7rs-array1.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--r7rs-array1--vonuvoli-debug.out'
 !!
 
 << execute / benchmark / vonuvoli / r7rs-array1 / release
-	taskset -c 2 x-run ':: execute / bin / interpreter / release' './tests/scripts/benchmark--r7rs-array1.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--r7rs-array1--vonuvoli-release.out'
+	taskset -c 2 x-run ':: execute / bin / interpreter / release' './examples/benchmark--r7rs-array1.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--r7rs-array1--vonuvoli-release.out'
 !!
 
 << execute / benchmark / vonuvoli / r7rs-browse / debug
-	taskset -c 2 x-run ':: execute / bin / interpreter / debug' './tests/scripts/benchmark--r7rs-browse.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--r7rs-browse--vonuvoli-debug.out'
+	taskset -c 2 x-run ':: execute / bin / interpreter / debug' './examples/benchmark--r7rs-browse.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--r7rs-browse--vonuvoli-debug.out'
 !!
 
 << execute / benchmark / vonuvoli / r7rs-browse / release
-	taskset -c 2 x-run ':: execute / bin / interpreter / release' './tests/scripts/benchmark--r7rs-browse.ss' "${@}" < /dev/null | tee -- './tests/scripts/_out/benchmark--r7rs-browse--vonuvoli-release.out'
+	taskset -c 2 x-run ':: execute / bin / interpreter / release' './examples/benchmark--r7rs-browse.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--r7rs-browse--vonuvoli-release.out'
 !!
 
 << execute / bin / bencher / all / release
 	x-run ':: compile / bin / bencher / release'
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__arithmetic.out' x-run ':: execute / bin / bencher / release' './tests/scheme/arithmetic.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__arrays.out' x-run ':: execute / bin / bencher / release' './tests/scheme/arrays.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__booleans.out' x-run ':: execute / bin / bencher / release' './tests/scheme/booleans.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__bytes.out' x-run ':: execute / bin / bencher / release' './tests/scheme/bytes.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__comparisons_equivalent_by_identity.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-identity.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__comparisons_equivalent_by_value_coerced.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-value-coerced.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__comparisons_equivalent_by_value_coerced_recursive.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__comparisons_equivalent_by_value_strict.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-value-strict.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__comparisons_equivalent_by_value_strict_recursive.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-value-strict-recursive.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__comparisons_equivalent_objects.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-objects.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__comparisons_ordering_numbers.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-ordering-numbers.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__comparisons_ordering_objects.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-ordering-objects.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__contexts.out' x-run ':: execute / bin / bencher / release' './tests/scheme/contexts.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__control.out' x-run ':: execute / bin / bencher / release' './tests/scheme/control.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__functions.out' x-run ':: execute / bin / bencher / release' './tests/scheme/functions.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__functions_arrays.out' x-run ':: execute / bin / bencher / release' './tests/scheme/functions-arrays.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__functions_bytes.out' x-run ':: execute / bin / bencher / release' './tests/scheme/functions-bytes.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__functions_lists.out' x-run ':: execute / bin / bencher / release' './tests/scheme/functions-lists.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__functions_strings.out' x-run ':: execute / bin / bencher / release' './tests/scheme/functions-strings.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__issues.out' x-run ':: execute / bin / bencher / release' './tests/scheme/issues.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__lambdas.out' x-run ':: execute / bin / bencher / release' './tests/scheme/lambdas.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__lists.out' x-run ':: execute / bin / bencher / release' './tests/scheme/lists.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__loops.out' x-run ':: execute / bin / bencher / release' './tests/scheme/loops.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__pairs.out' x-run ':: execute / bin / bencher / release' './tests/scheme/pairs.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__ports.out' x-run ':: execute / bin / bencher / release' './tests/scheme/ports.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__ports_memory.out' x-run ':: execute / bin / bencher / release' './tests/scheme/ports-memory.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__ports_native.out' x-run ':: execute / bin / bencher / release' './tests/scheme/ports-native.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__processes.out' x-run ':: execute / bin / bencher / release' './tests/scheme/processes.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__quotation.out' x-run ':: execute / bin / bencher / release' './tests/scheme/quotation.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__runtime.out' x-run ':: execute / bin / bencher / release' './tests/scheme/runtime.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__scratchpad.out' x-run ':: execute / bin / bencher / release' './tests/scheme/scratchpad.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__strings.out' x-run ':: execute / bin / bencher / release' './tests/scheme/strings.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__types.out' x-run ':: execute / bin / bencher / release' './tests/scheme/types.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__values.out' x-run ':: execute / bin / bencher / release' './tests/scheme/values.sst' "${@}"
+	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__arithmetic.out' x-run ':: execute / bin / bencher / release' './tests/scheme/arithmetic.sst' "${@}"
+	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__arrays.out' x-run ':: execute / bin / bencher / release' './tests/scheme/arrays.sst' "${@}"
+	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__booleans.out' x-run ':: execute / bin / bencher / release' './tests/scheme/booleans.sst' "${@}"
+	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__bytes.out' x-run ':: execute / bin / bencher / release' './tests/scheme/bytes.sst' "${@}"
+	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_identity.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-identity.sst' "${@}"
+	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-value-coerced.sst' "${@}"
+	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_recursive.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst' "${@}"
+	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-value-strict.sst' "${@}"
+	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_recursive.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-value-strict-recursive.sst' "${@}"
+	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_objects.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-objects.sst' "${@}"
+	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_ordering_numbers.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-ordering-numbers.sst' "${@}"
+	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_ordering_objects.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-ordering-objects.sst' "${@}"
+	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__contexts.out' x-run ':: execute / bin / bencher / release' './tests/scheme/contexts.sst' "${@}"
+	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__control.out' x-run ':: execute / bin / bencher / release' './tests/scheme/control.sst' "${@}"
+	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions.out' x-run ':: execute / bin / bencher / release' './tests/scheme/functions.sst' "${@}"
+	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_arrays.out' x-run ':: execute / bin / bencher / release' './tests/scheme/functions-arrays.sst' "${@}"
+	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_bytes.out' x-run ':: execute / bin / bencher / release' './tests/scheme/functions-bytes.sst' "${@}"
+	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_lists.out' x-run ':: execute / bin / bencher / release' './tests/scheme/functions-lists.sst' "${@}"
+	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_strings.out' x-run ':: execute / bin / bencher / release' './tests/scheme/functions-strings.sst' "${@}"
+	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__issues.out' x-run ':: execute / bin / bencher / release' './tests/scheme/issues.sst' "${@}"
+	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__lambdas.out' x-run ':: execute / bin / bencher / release' './tests/scheme/lambdas.sst' "${@}"
+	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__lists.out' x-run ':: execute / bin / bencher / release' './tests/scheme/lists.sst' "${@}"
+	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__loops.out' x-run ':: execute / bin / bencher / release' './tests/scheme/loops.sst' "${@}"
+	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__pairs.out' x-run ':: execute / bin / bencher / release' './tests/scheme/pairs.sst' "${@}"
+	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports.out' x-run ':: execute / bin / bencher / release' './tests/scheme/ports.sst' "${@}"
+	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports_memory.out' x-run ':: execute / bin / bencher / release' './tests/scheme/ports-memory.sst' "${@}"
+	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports_native.out' x-run ':: execute / bin / bencher / release' './tests/scheme/ports-native.sst' "${@}"
+	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__processes.out' x-run ':: execute / bin / bencher / release' './tests/scheme/processes.sst' "${@}"
+	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__quotation.out' x-run ':: execute / bin / bencher / release' './tests/scheme/quotation.sst' "${@}"
+	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__runtime.out' x-run ':: execute / bin / bencher / release' './tests/scheme/runtime.sst' "${@}"
+	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__scratchpad.out' x-run ':: execute / bin / bencher / release' './tests/scheme/scratchpad.sst' "${@}"
+	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__strings.out' x-run ':: execute / bin / bencher / release' './tests/scheme/strings.sst' "${@}"
+	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__types.out' x-run ':: execute / bin / bencher / release' './tests/scheme/types.sst' "${@}"
+	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__values.out' x-run ':: execute / bin / bencher / release' './tests/scheme/values.sst' "${@}"
 !!
 
 << execute / bin / bencher / arithmetic / debug
@@ -546,7 +578,7 @@
 !!
 
 << execute / bin / bencher / arithmetic / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__arithmetic.out' x-run ':: execute / bin / bencher / release' './tests/scheme/arithmetic.sst' "${@}"
+	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__arithmetic.out' x-run ':: execute / bin / bencher / release' './tests/scheme/arithmetic.sst' "${@}"
 !!
 
 << execute / bin / bencher / arrays / debug
@@ -554,7 +586,7 @@
 !!
 
 << execute / bin / bencher / arrays / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__arrays.out' x-run ':: execute / bin / bencher / release' './tests/scheme/arrays.sst' "${@}"
+	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__arrays.out' x-run ':: execute / bin / bencher / release' './tests/scheme/arrays.sst' "${@}"
 !!
 
 << execute / bin / bencher / booleans / debug
@@ -562,7 +594,7 @@
 !!
 
 << execute / bin / bencher / booleans / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__booleans.out' x-run ':: execute / bin / bencher / release' './tests/scheme/booleans.sst' "${@}"
+	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__booleans.out' x-run ':: execute / bin / bencher / release' './tests/scheme/booleans.sst' "${@}"
 !!
 
 << execute / bin / bencher / bytes / debug
@@ -570,7 +602,7 @@
 !!
 
 << execute / bin / bencher / bytes / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__bytes.out' x-run ':: execute / bin / bencher / release' './tests/scheme/bytes.sst' "${@}"
+	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__bytes.out' x-run ':: execute / bin / bencher / release' './tests/scheme/bytes.sst' "${@}"
 !!
 
 << execute / bin / bencher / comparisons-equivalent-by-identity / debug
@@ -578,7 +610,7 @@
 !!
 
 << execute / bin / bencher / comparisons-equivalent-by-identity / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__comparisons_equivalent_by_identity.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-identity.sst' "${@}"
+	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_identity.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-identity.sst' "${@}"
 !!
 
 << execute / bin / bencher / comparisons-equivalent-by-value-coerced / debug
@@ -586,7 +618,7 @@
 !!
 
 << execute / bin / bencher / comparisons-equivalent-by-value-coerced / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__comparisons_equivalent_by_value_coerced.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-value-coerced.sst' "${@}"
+	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-value-coerced.sst' "${@}"
 !!
 
 << execute / bin / bencher / comparisons-equivalent-by-value-coerced-recursive / debug
@@ -594,7 +626,7 @@
 !!
 
 << execute / bin / bencher / comparisons-equivalent-by-value-coerced-recursive / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__comparisons_equivalent_by_value_coerced_recursive.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst' "${@}"
+	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_recursive.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst' "${@}"
 !!
 
 << execute / bin / bencher / comparisons-equivalent-by-value-strict / debug
@@ -602,7 +634,7 @@
 !!
 
 << execute / bin / bencher / comparisons-equivalent-by-value-strict / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__comparisons_equivalent_by_value_strict.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-value-strict.sst' "${@}"
+	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-value-strict.sst' "${@}"
 !!
 
 << execute / bin / bencher / comparisons-equivalent-by-value-strict-recursive / debug
@@ -610,7 +642,7 @@
 !!
 
 << execute / bin / bencher / comparisons-equivalent-by-value-strict-recursive / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__comparisons_equivalent_by_value_strict_recursive.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-value-strict-recursive.sst' "${@}"
+	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_recursive.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-value-strict-recursive.sst' "${@}"
 !!
 
 << execute / bin / bencher / comparisons-equivalent-objects / debug
@@ -618,7 +650,7 @@
 !!
 
 << execute / bin / bencher / comparisons-equivalent-objects / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__comparisons_equivalent_objects.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-objects.sst' "${@}"
+	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_objects.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-objects.sst' "${@}"
 !!
 
 << execute / bin / bencher / comparisons-ordering-numbers / debug
@@ -626,7 +658,7 @@
 !!
 
 << execute / bin / bencher / comparisons-ordering-numbers / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__comparisons_ordering_numbers.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-ordering-numbers.sst' "${@}"
+	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_ordering_numbers.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-ordering-numbers.sst' "${@}"
 !!
 
 << execute / bin / bencher / comparisons-ordering-objects / debug
@@ -634,7 +666,7 @@
 !!
 
 << execute / bin / bencher / comparisons-ordering-objects / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__comparisons_ordering_objects.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-ordering-objects.sst' "${@}"
+	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_ordering_objects.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-ordering-objects.sst' "${@}"
 !!
 
 << execute / bin / bencher / contexts / debug
@@ -642,7 +674,7 @@
 !!
 
 << execute / bin / bencher / contexts / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__contexts.out' x-run ':: execute / bin / bencher / release' './tests/scheme/contexts.sst' "${@}"
+	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__contexts.out' x-run ':: execute / bin / bencher / release' './tests/scheme/contexts.sst' "${@}"
 !!
 
 << execute / bin / bencher / control / debug
@@ -650,7 +682,7 @@
 !!
 
 << execute / bin / bencher / control / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__control.out' x-run ':: execute / bin / bencher / release' './tests/scheme/control.sst' "${@}"
+	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__control.out' x-run ':: execute / bin / bencher / release' './tests/scheme/control.sst' "${@}"
 !!
 
 << execute / bin / bencher / debug
@@ -662,7 +694,7 @@
 !!
 
 << execute / bin / bencher / functions / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__functions.out' x-run ':: execute / bin / bencher / release' './tests/scheme/functions.sst' "${@}"
+	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions.out' x-run ':: execute / bin / bencher / release' './tests/scheme/functions.sst' "${@}"
 !!
 
 << execute / bin / bencher / functions-arrays / debug
@@ -670,7 +702,7 @@
 !!
 
 << execute / bin / bencher / functions-arrays / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__functions_arrays.out' x-run ':: execute / bin / bencher / release' './tests/scheme/functions-arrays.sst' "${@}"
+	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_arrays.out' x-run ':: execute / bin / bencher / release' './tests/scheme/functions-arrays.sst' "${@}"
 !!
 
 << execute / bin / bencher / functions-bytes / debug
@@ -678,7 +710,7 @@
 !!
 
 << execute / bin / bencher / functions-bytes / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__functions_bytes.out' x-run ':: execute / bin / bencher / release' './tests/scheme/functions-bytes.sst' "${@}"
+	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_bytes.out' x-run ':: execute / bin / bencher / release' './tests/scheme/functions-bytes.sst' "${@}"
 !!
 
 << execute / bin / bencher / functions-lists / debug
@@ -686,7 +718,7 @@
 !!
 
 << execute / bin / bencher / functions-lists / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__functions_lists.out' x-run ':: execute / bin / bencher / release' './tests/scheme/functions-lists.sst' "${@}"
+	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_lists.out' x-run ':: execute / bin / bencher / release' './tests/scheme/functions-lists.sst' "${@}"
 !!
 
 << execute / bin / bencher / functions-strings / debug
@@ -694,7 +726,7 @@
 !!
 
 << execute / bin / bencher / functions-strings / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__functions_strings.out' x-run ':: execute / bin / bencher / release' './tests/scheme/functions-strings.sst' "${@}"
+	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_strings.out' x-run ':: execute / bin / bencher / release' './tests/scheme/functions-strings.sst' "${@}"
 !!
 
 << execute / bin / bencher / issues / debug
@@ -702,7 +734,7 @@
 !!
 
 << execute / bin / bencher / issues / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__issues.out' x-run ':: execute / bin / bencher / release' './tests/scheme/issues.sst' "${@}"
+	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__issues.out' x-run ':: execute / bin / bencher / release' './tests/scheme/issues.sst' "${@}"
 !!
 
 << execute / bin / bencher / lambdas / debug
@@ -710,7 +742,7 @@
 !!
 
 << execute / bin / bencher / lambdas / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__lambdas.out' x-run ':: execute / bin / bencher / release' './tests/scheme/lambdas.sst' "${@}"
+	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__lambdas.out' x-run ':: execute / bin / bencher / release' './tests/scheme/lambdas.sst' "${@}"
 !!
 
 << execute / bin / bencher / lists / debug
@@ -718,7 +750,7 @@
 !!
 
 << execute / bin / bencher / lists / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__lists.out' x-run ':: execute / bin / bencher / release' './tests/scheme/lists.sst' "${@}"
+	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__lists.out' x-run ':: execute / bin / bencher / release' './tests/scheme/lists.sst' "${@}"
 !!
 
 << execute / bin / bencher / loops / debug
@@ -726,7 +758,7 @@
 !!
 
 << execute / bin / bencher / loops / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__loops.out' x-run ':: execute / bin / bencher / release' './tests/scheme/loops.sst' "${@}"
+	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__loops.out' x-run ':: execute / bin / bencher / release' './tests/scheme/loops.sst' "${@}"
 !!
 
 << execute / bin / bencher / pairs / debug
@@ -734,7 +766,7 @@
 !!
 
 << execute / bin / bencher / pairs / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__pairs.out' x-run ':: execute / bin / bencher / release' './tests/scheme/pairs.sst' "${@}"
+	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__pairs.out' x-run ':: execute / bin / bencher / release' './tests/scheme/pairs.sst' "${@}"
 !!
 
 << execute / bin / bencher / ports / debug
@@ -742,7 +774,7 @@
 !!
 
 << execute / bin / bencher / ports / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__ports.out' x-run ':: execute / bin / bencher / release' './tests/scheme/ports.sst' "${@}"
+	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports.out' x-run ':: execute / bin / bencher / release' './tests/scheme/ports.sst' "${@}"
 !!
 
 << execute / bin / bencher / ports-memory / debug
@@ -750,7 +782,7 @@
 !!
 
 << execute / bin / bencher / ports-memory / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__ports_memory.out' x-run ':: execute / bin / bencher / release' './tests/scheme/ports-memory.sst' "${@}"
+	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports_memory.out' x-run ':: execute / bin / bencher / release' './tests/scheme/ports-memory.sst' "${@}"
 !!
 
 << execute / bin / bencher / ports-native / debug
@@ -758,7 +790,7 @@
 !!
 
 << execute / bin / bencher / ports-native / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__ports_native.out' x-run ':: execute / bin / bencher / release' './tests/scheme/ports-native.sst' "${@}"
+	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports_native.out' x-run ':: execute / bin / bencher / release' './tests/scheme/ports-native.sst' "${@}"
 !!
 
 << execute / bin / bencher / processes / debug
@@ -766,7 +798,7 @@
 !!
 
 << execute / bin / bencher / processes / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__processes.out' x-run ':: execute / bin / bencher / release' './tests/scheme/processes.sst' "${@}"
+	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__processes.out' x-run ':: execute / bin / bencher / release' './tests/scheme/processes.sst' "${@}"
 !!
 
 << execute / bin / bencher / quotation / debug
@@ -774,7 +806,7 @@
 !!
 
 << execute / bin / bencher / quotation / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__quotation.out' x-run ':: execute / bin / bencher / release' './tests/scheme/quotation.sst' "${@}"
+	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__quotation.out' x-run ':: execute / bin / bencher / release' './tests/scheme/quotation.sst' "${@}"
 !!
 
 << execute / bin / bencher / release
@@ -786,7 +818,7 @@
 !!
 
 << execute / bin / bencher / runtime / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__runtime.out' x-run ':: execute / bin / bencher / release' './tests/scheme/runtime.sst' "${@}"
+	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__runtime.out' x-run ':: execute / bin / bencher / release' './tests/scheme/runtime.sst' "${@}"
 !!
 
 << execute / bin / bencher / scratchpad / debug
@@ -794,7 +826,7 @@
 !!
 
 << execute / bin / bencher / scratchpad / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__scratchpad.out' x-run ':: execute / bin / bencher / release' './tests/scheme/scratchpad.sst' "${@}"
+	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__scratchpad.out' x-run ':: execute / bin / bencher / release' './tests/scheme/scratchpad.sst' "${@}"
 !!
 
 << execute / bin / bencher / strings / debug
@@ -802,7 +834,7 @@
 !!
 
 << execute / bin / bencher / strings / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__strings.out' x-run ':: execute / bin / bencher / release' './tests/scheme/strings.sst' "${@}"
+	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__strings.out' x-run ':: execute / bin / bencher / release' './tests/scheme/strings.sst' "${@}"
 !!
 
 << execute / bin / bencher / types / debug
@@ -810,7 +842,7 @@
 !!
 
 << execute / bin / bencher / types / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__types.out' x-run ':: execute / bin / bencher / release' './tests/scheme/types.sst' "${@}"
+	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__types.out' x-run ':: execute / bin / bencher / release' './tests/scheme/types.sst' "${@}"
 !!
 
 << execute / bin / bencher / values / debug
@@ -818,35 +850,35 @@
 !!
 
 << execute / bin / bencher / values / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/benchmark__values.out' x-run ':: execute / bin / bencher / release' './tests/scheme/values.sst' "${@}"
+	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__values.out' x-run ':: execute / bin / bencher / release' './tests/scheme/values.sst' "${@}"
 !!
 
 << execute / bin / compiler / all / debug
 	x-run ':: compile / bin / compiler / debug'
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './tests/scripts/benchmark--controls.ss' "${@}" >| './tests/scripts/_out/benchmark--controls--vonuvoli-compile.out'
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './tests/scripts/benchmark--loop.ss' "${@}" >| './tests/scripts/_out/benchmark--loop--vonuvoli-compile.out'
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './tests/scripts/benchmark--make-cons.ss' "${@}" >| './tests/scripts/_out/benchmark--make-cons--vonuvoli-compile.out'
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './tests/scripts/benchmark--make-vector.ss' "${@}" >| './tests/scripts/_out/benchmark--make-vector--vonuvoli-compile.out'
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './tests/scripts/benchmark--r7rs-ack.ss' "${@}" >| './tests/scripts/_out/benchmark--r7rs-ack--vonuvoli-compile.out'
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './tests/scripts/benchmark--r7rs-array1.ss' "${@}" >| './tests/scripts/_out/benchmark--r7rs-array1--vonuvoli-compile.out'
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './tests/scripts/benchmark--r7rs-browse.ss' "${@}" >| './tests/scripts/_out/benchmark--r7rs-browse--vonuvoli-compile.out'
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './tests/scripts/optimizer--controls.ss' "${@}" >| './tests/scripts/_out/optimizer--controls--vonuvoli-compile.out'
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/benchmark--controls.ss' "${@}" >| './examples/_outputs/benchmark--controls--vonuvoli-compile.out'
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/benchmark--loop.ss' "${@}" >| './examples/_outputs/benchmark--loop--vonuvoli-compile.out'
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/benchmark--make-cons.ss' "${@}" >| './examples/_outputs/benchmark--make-cons--vonuvoli-compile.out'
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/benchmark--make-vector.ss' "${@}" >| './examples/_outputs/benchmark--make-vector--vonuvoli-compile.out'
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/benchmark--r7rs-ack.ss' "${@}" >| './examples/_outputs/benchmark--r7rs-ack--vonuvoli-compile.out'
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/benchmark--r7rs-array1.ss' "${@}" >| './examples/_outputs/benchmark--r7rs-array1--vonuvoli-compile.out'
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/benchmark--r7rs-browse.ss' "${@}" >| './examples/_outputs/benchmark--r7rs-browse--vonuvoli-compile.out'
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/optimizer--controls.ss' "${@}" >| './examples/_outputs/optimizer--controls--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / controls / debug
-	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './tests/scripts/optimizer--controls.ss' "${@}" >| './tests/scripts/_out/optimizer--controls--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--controls--vonuvoli-compile.out'
+	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/optimizer--controls.ss' "${@}" >| './examples/_outputs/optimizer--controls--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/optimizer--controls--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / controls / debug
-	x-run ':: execute / bin / compiler / debug' './tests/scripts/benchmark--controls.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--controls--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--controls--vonuvoli-compile.out'
+	x-run ':: execute / bin / compiler / debug' './examples/benchmark--controls.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--controls--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--controls--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / controls / release
-	nice -n 19 -- x-run ':: execute / bin / compiler / release' './tests/scripts/optimizer--controls.ss' "${@}" >| './tests/scripts/_out/optimizer--controls--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--controls--vonuvoli-compile.out'
+	nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/optimizer--controls.ss' "${@}" >| './examples/_outputs/optimizer--controls--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/optimizer--controls--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / controls / release
-	x-run ':: execute / bin / compiler / release' ./tests/scripts/benchmark--controls.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--controls--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--controls--vonuvoli-compile.out'
+	x-run ':: execute / bin / compiler / release' ./examples/benchmark--controls.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--controls--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--controls--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / debug
@@ -862,99 +894,99 @@
 !!
 
 << execute / bin / compiler / loop / debug
-	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './tests/scripts/optimizer--loop.ss' "${@}" >| './tests/scripts/_out/optimizer--loop--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--loop--vonuvoli-compile.out'
+	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/optimizer--loop.ss' "${@}" >| './examples/_outputs/optimizer--loop--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/optimizer--loop--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / loop / debug
-	x-run ':: execute / bin / compiler / debug' './tests/scripts/benchmark--loop.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--loop--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--loop--vonuvoli-compile.out'
+	x-run ':: execute / bin / compiler / debug' './examples/benchmark--loop.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--loop--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--loop--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / loop / release
-	nice -n 19 -- x-run ':: execute / bin / compiler / release' './tests/scripts/optimizer--loop.ss' "${@}" >| './tests/scripts/_out/optimizer--loop--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--loop--vonuvoli-compile.out'
+	nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/optimizer--loop.ss' "${@}" >| './examples/_outputs/optimizer--loop--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/optimizer--loop--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / loop / release
-	x-run ':: execute / bin / compiler / release' ./tests/scripts/benchmark--loop.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--loop--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--loop--vonuvoli-compile.out'
+	x-run ':: execute / bin / compiler / release' ./examples/benchmark--loop.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--loop--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--loop--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / make-cons / debug
-	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './tests/scripts/optimizer--make-cons.ss' "${@}" >| './tests/scripts/_out/optimizer--make-cons--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--make-cons--vonuvoli-compile.out'
+	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/optimizer--make-cons.ss' "${@}" >| './examples/_outputs/optimizer--make-cons--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/optimizer--make-cons--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / make-cons / debug
-	x-run ':: execute / bin / compiler / debug' './tests/scripts/benchmark--make-cons.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--make-cons--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--make-cons--vonuvoli-compile.out'
+	x-run ':: execute / bin / compiler / debug' './examples/benchmark--make-cons.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--make-cons--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--make-cons--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / make-cons / release
-	nice -n 19 -- x-run ':: execute / bin / compiler / release' './tests/scripts/optimizer--make-cons.ss' "${@}" >| './tests/scripts/_out/optimizer--make-cons--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--make-cons--vonuvoli-compile.out'
+	nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/optimizer--make-cons.ss' "${@}" >| './examples/_outputs/optimizer--make-cons--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/optimizer--make-cons--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / make-cons / release
-	x-run ':: execute / bin / compiler / release' ./tests/scripts/benchmark--make-cons.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--make-cons--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--make-cons--vonuvoli-compile.out'
+	x-run ':: execute / bin / compiler / release' ./examples/benchmark--make-cons.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--make-cons--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--make-cons--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / make-vector / debug
-	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './tests/scripts/optimizer--make-vector.ss' "${@}" >| './tests/scripts/_out/optimizer--make-vector--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--make-vector--vonuvoli-compile.out'
+	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/optimizer--make-vector.ss' "${@}" >| './examples/_outputs/optimizer--make-vector--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/optimizer--make-vector--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / make-vector / debug
-	x-run ':: execute / bin / compiler / debug' './tests/scripts/benchmark--make-vector.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--make-vector--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--make-vector--vonuvoli-compile.out'
+	x-run ':: execute / bin / compiler / debug' './examples/benchmark--make-vector.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--make-vector--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--make-vector--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / make-vector / release
-	nice -n 19 -- x-run ':: execute / bin / compiler / release' './tests/scripts/optimizer--make-vector.ss' "${@}" >| './tests/scripts/_out/optimizer--make-vector--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--make-vector--vonuvoli-compile.out'
+	nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/optimizer--make-vector.ss' "${@}" >| './examples/_outputs/optimizer--make-vector--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/optimizer--make-vector--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / make-vector / release
-	x-run ':: execute / bin / compiler / release' ./tests/scripts/benchmark--make-vector.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--make-vector--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--make-vector--vonuvoli-compile.out'
+	x-run ':: execute / bin / compiler / release' ./examples/benchmark--make-vector.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--make-vector--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--make-vector--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / r7rs-ack / debug
-	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './tests/scripts/optimizer--r7rs-ack.ss' "${@}" >| './tests/scripts/_out/optimizer--r7rs-ack--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--r7rs-ack--vonuvoli-compile.out'
+	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/optimizer--r7rs-ack.ss' "${@}" >| './examples/_outputs/optimizer--r7rs-ack--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/optimizer--r7rs-ack--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / r7rs-ack / debug
-	x-run ':: execute / bin / compiler / debug' './tests/scripts/benchmark--r7rs-ack.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--r7rs-ack--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--r7rs-ack--vonuvoli-compile.out'
+	x-run ':: execute / bin / compiler / debug' './examples/benchmark--r7rs-ack.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--r7rs-ack--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--r7rs-ack--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / r7rs-ack / release
-	nice -n 19 -- x-run ':: execute / bin / compiler / release' './tests/scripts/optimizer--r7rs-ack.ss' "${@}" >| './tests/scripts/_out/optimizer--r7rs-ack--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--r7rs-ack--vonuvoli-compile.out'
+	nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/optimizer--r7rs-ack.ss' "${@}" >| './examples/_outputs/optimizer--r7rs-ack--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/optimizer--r7rs-ack--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / r7rs-ack / release
-	x-run ':: execute / bin / compiler / release' ./tests/scripts/benchmark--r7rs-ack.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--r7rs-ack--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--r7rs-ack--vonuvoli-compile.out'
+	x-run ':: execute / bin / compiler / release' ./examples/benchmark--r7rs-ack.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--r7rs-ack--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--r7rs-ack--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / r7rs-array1 / debug
-	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './tests/scripts/optimizer--r7rs-array1.ss' "${@}" >| './tests/scripts/_out/optimizer--r7rs-array1--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--r7rs-array1--vonuvoli-compile.out'
+	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/optimizer--r7rs-array1.ss' "${@}" >| './examples/_outputs/optimizer--r7rs-array1--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/optimizer--r7rs-array1--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / r7rs-array1 / debug
-	x-run ':: execute / bin / compiler / debug' './tests/scripts/benchmark--r7rs-array1.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--r7rs-array1--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--r7rs-array1--vonuvoli-compile.out'
+	x-run ':: execute / bin / compiler / debug' './examples/benchmark--r7rs-array1.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--r7rs-array1--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--r7rs-array1--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / r7rs-array1 / release
-	nice -n 19 -- x-run ':: execute / bin / compiler / release' './tests/scripts/optimizer--r7rs-array1.ss' "${@}" >| './tests/scripts/_out/optimizer--r7rs-array1--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--r7rs-array1--vonuvoli-compile.out'
+	nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/optimizer--r7rs-array1.ss' "${@}" >| './examples/_outputs/optimizer--r7rs-array1--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/optimizer--r7rs-array1--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / r7rs-array1 / release
-	x-run ':: execute / bin / compiler / release' ./tests/scripts/benchmark--r7rs-array1.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--r7rs-array1--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--r7rs-array1--vonuvoli-compile.out'
+	x-run ':: execute / bin / compiler / release' ./examples/benchmark--r7rs-array1.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--r7rs-array1--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--r7rs-array1--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / r7rs-browse / debug
-	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './tests/scripts/optimizer--r7rs-browse.ss' "${@}" >| './tests/scripts/_out/optimizer--r7rs-browse--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--r7rs-browse--vonuvoli-compile.out'
+	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/optimizer--r7rs-browse.ss' "${@}" >| './examples/_outputs/optimizer--r7rs-browse--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/optimizer--r7rs-browse--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / r7rs-browse / debug
-	x-run ':: execute / bin / compiler / debug' './tests/scripts/benchmark--r7rs-browse.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--r7rs-browse--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--r7rs-browse--vonuvoli-compile.out'
+	x-run ':: execute / bin / compiler / debug' './examples/benchmark--r7rs-browse.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--r7rs-browse--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--r7rs-browse--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / r7rs-browse / release
-	nice -n 19 -- x-run ':: execute / bin / compiler / release' './tests/scripts/optimizer--r7rs-browse.ss' "${@}" >| './tests/scripts/_out/optimizer--r7rs-browse--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/optimizer--r7rs-browse--vonuvoli-compile.out'
+	nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/optimizer--r7rs-browse.ss' "${@}" >| './examples/_outputs/optimizer--r7rs-browse--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/optimizer--r7rs-browse--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / r7rs-browse / release
-	x-run ':: execute / bin / compiler / release' ./tests/scripts/benchmark--r7rs-browse.ss' "${@}" < /dev/null >| './tests/scripts/_out/benchmark--r7rs-browse--vonuvoli-compile.out' ; exec -- less -- './tests/scripts/_out/benchmark--r7rs-browse--vonuvoli-compile.out'
+	x-run ':: execute / bin / compiler / release' ./examples/benchmark--r7rs-browse.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--r7rs-browse--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--r7rs-browse--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / release
@@ -1478,12 +1510,44 @@
 	x-run ':: compile / test / all / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --release --all-features --jobs 1 -- --test-threads 1 --test 'test__' "${@}"
 !!
 
+<< execute / test / builtins-lists / benchmarks / all / debug
+	x-run ':: compile / test / builtins-lists / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test 'builtins-lists' --no-default-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
+!!
+
+<< execute / test / builtins-lists / benchmarks / all / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / builtins-lists / benchmarks / all / debug' "${@}"
+!!
+
+<< execute / test / builtins-lists / benchmarks / all / release
+	x-run ':: compile / test / builtins-lists / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/builtins-lists--{IDENTIFIER}.out' cargo test --quiet --test 'builtins-lists' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
+!!
+
+<< execute / test / builtins-lists / coverage / all / kcov
+	x-run ':: compile / test / builtins-lists / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov --test 'builtins-lists' --no-clean-rebuild --no-default-features --jobs 1 --output ./target/kcov -- "${@}"
+!!
+
+<< execute / test / builtins-lists / tests / all / debug
+	x-run ':: compile / test / builtins-lists / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test 'builtins-lists' --no-default-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__' "${@}"
+!!
+
+<< execute / test / builtins-lists / tests / all / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / builtins-lists / tests / all / debug' "${@}"
+!!
+
+<< execute / test / builtins-lists / tests / all / release
+	x-run ':: compile / test / builtins-lists / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test 'builtins-lists' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__' "${@}"
+!!
+
 << execute / test / low-level-assertions / benchmarks / all / debug
 	x-run ':: compile / test / low-level-assertions / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test 'low-level-assertions' --no-default-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
 !!
 
+<< execute / test / low-level-assertions / benchmarks / all / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / low-level-assertions / benchmarks / all / debug' "${@}"
+!!
+
 << execute / test / low-level-assertions / benchmarks / all / release
-	x-run ':: compile / test / low-level-assertions / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' cargo test --quiet --test 'low-level-assertions' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
+	x-run ':: compile / test / low-level-assertions / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/low-level-assertions--{IDENTIFIER}.out' cargo test --quiet --test 'low-level-assertions' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
 !!
 
 << execute / test / low-level-assertions / coverage / all / kcov
@@ -1506,8 +1570,12 @@
 	x-run ':: compile / test / low-level-parser / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test 'low-level-parser' --no-default-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
 !!
 
+<< execute / test / low-level-parser / benchmarks / all / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / low-level-parser / benchmarks / all / debug' "${@}"
+!!
+
 << execute / test / low-level-parser / benchmarks / all / release
-	x-run ':: compile / test / low-level-parser / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' cargo test --quiet --test 'low-level-parser' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
+	x-run ':: compile / test / low-level-parser / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/low-level-parser--{IDENTIFIER}.out' cargo test --quiet --test 'low-level-parser' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
 !!
 
 << execute / test / low-level-parser / coverage / all / kcov
@@ -1530,8 +1598,12 @@
 	x-run ':: compile / test / low-level-r7rs / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test 'low-level-r7rs' --no-default-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
 !!
 
+<< execute / test / low-level-r7rs / benchmarks / all / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / low-level-r7rs / benchmarks / all / debug' "${@}"
+!!
+
 << execute / test / low-level-r7rs / benchmarks / all / release
-	x-run ':: compile / test / low-level-r7rs / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' cargo test --quiet --test 'low-level-r7rs' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
+	x-run ':: compile / test / low-level-r7rs / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/low-level-r7rs--{IDENTIFIER}.out' cargo test --quiet --test 'low-level-r7rs' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
 !!
 
 << execute / test / low-level-r7rs / coverage / all / kcov
@@ -1554,8 +1626,12 @@
 	x-run ':: compile / test / low-level-sizes / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test 'low-level-sizes' --no-default-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
 !!
 
+<< execute / test / low-level-sizes / benchmarks / all / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / low-level-sizes / benchmarks / all / debug' "${@}"
+!!
+
 << execute / test / low-level-sizes / benchmarks / all / release
-	x-run ':: compile / test / low-level-sizes / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' cargo test --quiet --test 'low-level-sizes' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
+	x-run ':: compile / test / low-level-sizes / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/low-level-sizes--{IDENTIFIER}.out' cargo test --quiet --test 'low-level-sizes' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
 !!
 
 << execute / test / low-level-sizes / coverage / all / kcov
@@ -1578,8 +1654,12 @@
 	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test 'scheme' --no-default-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
 !!
 
+<< execute / test / scheme / benchmarks / all / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / benchmarks / all / debug' "${@}"
+!!
+
 << execute / test / scheme / benchmarks / all / release
-	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' cargo test --quiet --test 'scheme' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test 'scheme' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
 !!
 
 << execute / test / scheme / benchmarks / arithmetic / debug
@@ -1587,7 +1667,7 @@
 !!
 
 << execute / test / scheme / benchmarks / arithmetic / release
-	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__arithmetic' --exact "${@}"
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__arithmetic' --exact "${@}"
 !!
 
 << execute / test / scheme / benchmarks / arrays / debug
@@ -1595,7 +1675,7 @@
 !!
 
 << execute / test / scheme / benchmarks / arrays / release
-	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__arrays' --exact "${@}"
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__arrays' --exact "${@}"
 !!
 
 << execute / test / scheme / benchmarks / booleans / debug
@@ -1603,7 +1683,7 @@
 !!
 
 << execute / test / scheme / benchmarks / booleans / release
-	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__booleans' --exact "${@}"
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__booleans' --exact "${@}"
 !!
 
 << execute / test / scheme / benchmarks / bytes / debug
@@ -1611,7 +1691,7 @@
 !!
 
 << execute / test / scheme / benchmarks / bytes / release
-	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__bytes' --exact "${@}"
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__bytes' --exact "${@}"
 !!
 
 << execute / test / scheme / benchmarks / comparisons_equivalent_by_identity / debug
@@ -1619,7 +1699,7 @@
 !!
 
 << execute / test / scheme / benchmarks / comparisons_equivalent_by_identity / release
-	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_by_identity' --exact "${@}"
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_by_identity' --exact "${@}"
 !!
 
 << execute / test / scheme / benchmarks / comparisons_equivalent_by_value_coerced / debug
@@ -1627,7 +1707,7 @@
 !!
 
 << execute / test / scheme / benchmarks / comparisons_equivalent_by_value_coerced / release
-	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_by_value_coerced' --exact "${@}"
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_by_value_coerced' --exact "${@}"
 !!
 
 << execute / test / scheme / benchmarks / comparisons_equivalent_by_value_coerced_recursive / debug
@@ -1635,7 +1715,7 @@
 !!
 
 << execute / test / scheme / benchmarks / comparisons_equivalent_by_value_coerced_recursive / release
-	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_by_value_coerced_recursive' --exact "${@}"
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_by_value_coerced_recursive' --exact "${@}"
 !!
 
 << execute / test / scheme / benchmarks / comparisons_equivalent_by_value_strict / debug
@@ -1643,7 +1723,7 @@
 !!
 
 << execute / test / scheme / benchmarks / comparisons_equivalent_by_value_strict / release
-	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_by_value_strict' --exact "${@}"
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_by_value_strict' --exact "${@}"
 !!
 
 << execute / test / scheme / benchmarks / comparisons_equivalent_by_value_strict_recursive / debug
@@ -1651,7 +1731,7 @@
 !!
 
 << execute / test / scheme / benchmarks / comparisons_equivalent_by_value_strict_recursive / release
-	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_by_value_strict_recursive' --exact "${@}"
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_by_value_strict_recursive' --exact "${@}"
 !!
 
 << execute / test / scheme / benchmarks / comparisons_equivalent_objects / debug
@@ -1659,7 +1739,7 @@
 !!
 
 << execute / test / scheme / benchmarks / comparisons_equivalent_objects / release
-	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_objects' --exact "${@}"
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_objects' --exact "${@}"
 !!
 
 << execute / test / scheme / benchmarks / comparisons_ordering_numbers / debug
@@ -1667,7 +1747,7 @@
 !!
 
 << execute / test / scheme / benchmarks / comparisons_ordering_numbers / release
-	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_ordering_numbers' --exact "${@}"
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_ordering_numbers' --exact "${@}"
 !!
 
 << execute / test / scheme / benchmarks / comparisons_ordering_objects / debug
@@ -1675,7 +1755,7 @@
 !!
 
 << execute / test / scheme / benchmarks / comparisons_ordering_objects / release
-	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_ordering_objects' --exact "${@}"
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_ordering_objects' --exact "${@}"
 !!
 
 << execute / test / scheme / benchmarks / contexts / debug
@@ -1683,7 +1763,7 @@
 !!
 
 << execute / test / scheme / benchmarks / contexts / release
-	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__contexts' --exact "${@}"
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__contexts' --exact "${@}"
 !!
 
 << execute / test / scheme / benchmarks / control / debug
@@ -1691,7 +1771,7 @@
 !!
 
 << execute / test / scheme / benchmarks / control / release
-	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__control' --exact "${@}"
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__control' --exact "${@}"
 !!
 
 << execute / test / scheme / benchmarks / functions / debug
@@ -1699,7 +1779,7 @@
 !!
 
 << execute / test / scheme / benchmarks / functions / release
-	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__functions' --exact "${@}"
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__functions' --exact "${@}"
 !!
 
 << execute / test / scheme / benchmarks / functions_arrays / debug
@@ -1707,7 +1787,7 @@
 !!
 
 << execute / test / scheme / benchmarks / functions_arrays / release
-	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__functions_arrays' --exact "${@}"
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__functions_arrays' --exact "${@}"
 !!
 
 << execute / test / scheme / benchmarks / functions_bytes / debug
@@ -1715,7 +1795,7 @@
 !!
 
 << execute / test / scheme / benchmarks / functions_bytes / release
-	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__functions_bytes' --exact "${@}"
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__functions_bytes' --exact "${@}"
 !!
 
 << execute / test / scheme / benchmarks / functions_lists / debug
@@ -1723,7 +1803,7 @@
 !!
 
 << execute / test / scheme / benchmarks / functions_lists / release
-	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__functions_lists' --exact "${@}"
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__functions_lists' --exact "${@}"
 !!
 
 << execute / test / scheme / benchmarks / functions_strings / debug
@@ -1731,7 +1811,7 @@
 !!
 
 << execute / test / scheme / benchmarks / functions_strings / release
-	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__functions_strings' --exact "${@}"
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__functions_strings' --exact "${@}"
 !!
 
 << execute / test / scheme / benchmarks / issues / debug
@@ -1739,7 +1819,7 @@
 !!
 
 << execute / test / scheme / benchmarks / issues / release
-	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__issues' --exact "${@}"
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__issues' --exact "${@}"
 !!
 
 << execute / test / scheme / benchmarks / lambdas / debug
@@ -1747,7 +1827,7 @@
 !!
 
 << execute / test / scheme / benchmarks / lambdas / release
-	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__lambdas' --exact "${@}"
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__lambdas' --exact "${@}"
 !!
 
 << execute / test / scheme / benchmarks / lists / debug
@@ -1755,7 +1835,7 @@
 !!
 
 << execute / test / scheme / benchmarks / lists / release
-	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__lists' --exact "${@}"
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__lists' --exact "${@}"
 !!
 
 << execute / test / scheme / benchmarks / loops / debug
@@ -1763,7 +1843,7 @@
 !!
 
 << execute / test / scheme / benchmarks / loops / release
-	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__loops' --exact "${@}"
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__loops' --exact "${@}"
 !!
 
 << execute / test / scheme / benchmarks / pairs / debug
@@ -1771,7 +1851,7 @@
 !!
 
 << execute / test / scheme / benchmarks / pairs / release
-	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__pairs' --exact "${@}"
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__pairs' --exact "${@}"
 !!
 
 << execute / test / scheme / benchmarks / ports / debug
@@ -1779,7 +1859,7 @@
 !!
 
 << execute / test / scheme / benchmarks / ports / release
-	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__ports' --exact "${@}"
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__ports' --exact "${@}"
 !!
 
 << execute / test / scheme / benchmarks / ports_memory / debug
@@ -1787,7 +1867,7 @@
 !!
 
 << execute / test / scheme / benchmarks / ports_memory / release
-	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__ports_memory' --exact "${@}"
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__ports_memory' --exact "${@}"
 !!
 
 << execute / test / scheme / benchmarks / ports_native / debug
@@ -1795,7 +1875,7 @@
 !!
 
 << execute / test / scheme / benchmarks / ports_native / release
-	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__ports_native' --exact "${@}"
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__ports_native' --exact "${@}"
 !!
 
 << execute / test / scheme / benchmarks / processes / debug
@@ -1803,7 +1883,7 @@
 !!
 
 << execute / test / scheme / benchmarks / processes / release
-	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__processes' --exact "${@}"
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__processes' --exact "${@}"
 !!
 
 << execute / test / scheme / benchmarks / quotation / debug
@@ -1811,7 +1891,7 @@
 !!
 
 << execute / test / scheme / benchmarks / quotation / release
-	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__quotation' --exact "${@}"
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__quotation' --exact "${@}"
 !!
 
 << execute / test / scheme / benchmarks / runtime / debug
@@ -1819,7 +1899,7 @@
 !!
 
 << execute / test / scheme / benchmarks / runtime / release
-	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__runtime' --exact "${@}"
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__runtime' --exact "${@}"
 !!
 
 << execute / test / scheme / benchmarks / scratchpad / debug
@@ -1827,7 +1907,7 @@
 !!
 
 << execute / test / scheme / benchmarks / scratchpad / release
-	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__scratchpad' --exact "${@}"
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__scratchpad' --exact "${@}"
 !!
 
 << execute / test / scheme / benchmarks / strings / debug
@@ -1835,7 +1915,7 @@
 !!
 
 << execute / test / scheme / benchmarks / strings / release
-	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__strings' --exact "${@}"
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__strings' --exact "${@}"
 !!
 
 << execute / test / scheme / benchmarks / types / debug
@@ -1843,7 +1923,7 @@
 !!
 
 << execute / test / scheme / benchmarks / types / release
-	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__types' --exact "${@}"
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__types' --exact "${@}"
 !!
 
 << execute / test / scheme / benchmarks / values / debug
@@ -1851,7 +1931,7 @@
 !!
 
 << execute / test / scheme / benchmarks / values / release
-	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/scheme/_out/{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__values' --exact "${@}"
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__values' --exact "${@}"
 !!
 
 << execute / test / scheme / coverage / all / kcov
@@ -2604,6 +2684,10 @@
 	exec -- sce ./sources/values_values.rs
 !!
 
+<< files / edit / tests/builtins-lists.rs
+	exec -- sce ./tests/builtins-lists.rs
+!!
+
 << files / edit / tests/low-level-assertions.rs
 	exec -- sce ./tests/low-level-assertions.rs
 !!
@@ -2764,40 +2848,8 @@
 	exec -- sce ./tests/scheme/values.sst
 !!
 
-<< files / edit / tests/scripts/benchmark--controls.ss
-	exec -- sce ./tests/scripts/benchmark--controls.ss
-!!
-
-<< files / edit / tests/scripts/benchmark--loop.ss
-	exec -- sce ./tests/scripts/benchmark--loop.ss
-!!
-
-<< files / edit / tests/scripts/benchmark--make-cons.ss
-	exec -- sce ./tests/scripts/benchmark--make-cons.ss
-!!
-
-<< files / edit / tests/scripts/benchmark--make-vector.ss
-	exec -- sce ./tests/scripts/benchmark--make-vector.ss
-!!
-
-<< files / edit / tests/scripts/benchmark--r7rs-ack.ss
-	exec -- sce ./tests/scripts/benchmark--r7rs-ack.ss
-!!
-
-<< files / edit / tests/scripts/benchmark--r7rs-array1.ss
-	exec -- sce ./tests/scripts/benchmark--r7rs-array1.ss
-!!
-
-<< files / edit / tests/scripts/benchmark--r7rs-browse.ss
-	exec -- sce ./tests/scripts/benchmark--r7rs-browse.ss
-!!
-
-<< files / edit / tests/scripts/optimizer--controls.ss
-	exec -- sce ./tests/scripts/optimizer--controls.ss
-!!
-
 << files / grep / outputs / benchmarks
-	git diff --color-words -U0 -- ./tests/scheme/_out/benchmark__* | grep -E -e '^....--' -e 'average.*/' | sed -r -e 's/^(....)--- i\/tests\/scheme\/_out\/benchmark__/\1/'
+	git diff --color-words -U0 -- ./tests/_outputs/*--benchmark__* | grep -E -e '^....--' -e 'average' | sed -r -e 's/^(....)--- i\/tests\/_outputs\/[a-z0-9-]+--benchmark__/\1/'
 !!
 
 << files / grep / sources / builtins / unimplemented / show
@@ -3164,6 +3216,10 @@
 	exec -- less -- ./sources/values_values.rs
 !!
 
+<< files / view / tests/builtins-lists.rs
+	exec -- less -- ./tests/builtins-lists.rs
+!!
+
 << files / view / tests/low-level-assertions.rs
 	exec -- less -- ./tests/low-level-assertions.rs
 !!
@@ -3322,38 +3378,6 @@
 
 << files / view / tests/scheme/values.sst
 	exec -- less -- ./tests/scheme/values.sst
-!!
-
-<< files / view / tests/scripts/benchmark--controls.ss
-	exec -- less -- ./tests/scripts/benchmark--controls.ss
-!!
-
-<< files / view / tests/scripts/benchmark--loop.ss
-	exec -- less -- ./tests/scripts/benchmark--loop.ss
-!!
-
-<< files / view / tests/scripts/benchmark--make-cons.ss
-	exec -- less -- ./tests/scripts/benchmark--make-cons.ss
-!!
-
-<< files / view / tests/scripts/benchmark--make-vector.ss
-	exec -- less -- ./tests/scripts/benchmark--make-vector.ss
-!!
-
-<< files / view / tests/scripts/benchmark--r7rs-ack.ss
-	exec -- less -- ./tests/scripts/benchmark--r7rs-ack.ss
-!!
-
-<< files / view / tests/scripts/benchmark--r7rs-array1.ss
-	exec -- less -- ./tests/scripts/benchmark--r7rs-array1.ss
-!!
-
-<< files / view / tests/scripts/benchmark--r7rs-browse.ss
-	exec -- less -- ./tests/scripts/benchmark--r7rs-browse.ss
-!!
-
-<< files / view / tests/scripts/optimizer--controls.ss
-	exec -- less -- ./tests/scripts/optimizer--controls.ss
 !!
 
 << workbench / cargo / install or upgrade
