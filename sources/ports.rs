@@ -321,6 +321,40 @@ impl Port {
 	
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn backend_ref_if_open (&self) -> (Outcome<Option<StdRef<PortBackend>>>) {
+		let internals = try! (self.internals_ref_if_open ());
+		if let Some (internals) = internals {
+			succeed! (Some (StdRef::map (internals, |internals| &internals.backend)));
+		} else {
+			succeed! (None);
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn backend_ref_mut_if_open (&self) -> (Outcome<Option<StdRefMut<PortBackend>>>) {
+		let internals = try! (self.internals_ref_mut_if_open ());
+		if let Some (internals) = internals {
+			succeed! (Some (StdRefMut::map (internals, |internals| &mut internals.backend)));
+		} else {
+			succeed! (None);
+		}
+	}
+	
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn backend_ref_check_open (&self) -> (Outcome<StdRef<PortBackend>>) {
+		let internals = try! (self.internals_ref_check_open ());
+		succeed! (StdRef::map (internals, |internals| &internals.backend));
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn backend_ref_mut_check_open (&self) -> (Outcome<StdRefMut<PortBackend>>) {
+		let internals = try! (self.internals_ref_mut_check_open ());
+		succeed! (StdRefMut::map (internals, |internals| &mut internals.backend));
+	}
+	
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &Port) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
