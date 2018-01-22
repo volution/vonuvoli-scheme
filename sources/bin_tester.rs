@@ -57,6 +57,6 @@ fn main_0 () -> (Outcome<()>) {
 		},
 	}
 	
-	return execute_tests_main (identifier, &source, Some (context), Some (&mut transcript), None);
+	return execute_tests_main (identifier, &source, Some (&context), Some (&mut transcript), None);
 }
 

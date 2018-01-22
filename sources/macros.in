@@ -934,3 +934,42 @@ macro_rules! def_test {
 	);
 }
 
+#[ macro_export ]
+macro_rules! def_tests {
+	( $( $identifier : ident => $expression : block, )* ) => (
+		$( def_test! ($identifier, $expression); )*
+	);
+}
+
+
+
+
+#[ macro_export ]
+macro_rules! def_benchmark {
+	( $identifier : ident, $expression: expr ) => (
+		#[ bench ]
+		#[ inline (never) ]
+		#[ allow (non_snake_case) ]
+		fn $identifier (bencher : &mut $crate::prelude::test::Bencher) -> () {
+			def_benchmark_block! ($identifier, $expression, bencher);
+		}
+	);
+}
+
+#[ macro_export ]
+macro_rules! def_benchmarks {
+	( $( $identifier : ident => $expression : expr, )* ) => (
+		$( def_benchmark! ($identifier, $expression); )*
+	);
+}
+
+#[ macro_export ]
+macro_rules! def_benchmark_block {
+	( $identifier : ident, $expression : expr, $bencher : expr ) => ({
+		use $crate::exports::*;
+		let identifier = stringify! ($identifier);
+		let outcome = benchmark_generic_main (identifier, || $expression, Some ($bencher), None, None, None);
+		outcome.expect ("b504b743");
+	});
+}
+

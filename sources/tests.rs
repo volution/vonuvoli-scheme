@@ -26,6 +26,8 @@ pub mod exports {
 	
 	pub use super::{execute_tests_main, benchmark_tests_main};
 	
+	pub use super::{benchmark_generic, benchmark_generic_main};
+	
 }
 
 
@@ -73,19 +75,19 @@ pub struct TestCaseCompiled {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn parse_and_compile_tests (identifier : &str, source : &str, context : Option<Context>, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<(StdVec<TestCaseCompiled>)>) {
+pub fn parse_and_compile_tests (identifier : &str, source : &str, context : Option<&Context>, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<(StdVec<TestCaseCompiled>)>) {
 	let tests = try! (parse_tests (source));
 	return compile_tests (identifier, &tests, context, transcript, verbosity);
 }
 
 
 #[ inline (never) ]
-pub fn compile_tests (identifier : &str, tests : &StdVec<TestCase>, context_template : Option<Context>, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<(StdVec<TestCaseCompiled>)>) {
+pub fn compile_tests (identifier : &str, tests : &StdVec<TestCase>, context_template : Option<&Context>, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<(StdVec<TestCaseCompiled>)>) {
 	
 	try_or_fail! (write! (transcript, "## compiling `{}`...\n", identifier), 0xb1d307bd);
 	
 	let context_template = if let Some (context) = context_template {
-		context
+		context.clone ()
 	} else {
 		let context = Context::new (None);
 		try! (context.define_all (try! (language_r7rs_generate_binding_templates ()) .as_ref ()));
@@ -109,7 +111,7 @@ pub fn compile_tests (identifier : &str, tests : &StdVec<TestCase>, context_temp
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn parse_and_execute_tests (identifier : &str, source : &str, context : Option<Context>, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
+pub fn parse_and_execute_tests (identifier : &str, source : &str, context : Option<&Context>, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
 	let tests = try! (parse_and_compile_tests (identifier, source, context, transcript, verbosity));
 	return execute_tests (identifier, &tests, transcript, verbosity);
 }
@@ -149,189 +151,144 @@ pub fn execute_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, tran
 
 
 
-
-
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn parse_and_benchmark_tests (identifier : &str, source : &str, context : Option<Context>, bencher : Option<&mut test::Bencher>, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
+pub fn parse_and_benchmark_tests (identifier : &str, source : &str, context : Option<&Context>, bencher : &mut test::Bencher, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
 	let tests = try! (parse_and_compile_tests (identifier, source, context, transcript, verbosity));
 	return benchmark_tests (identifier, &tests, bencher, transcript, verbosity);
 }
 
 
 #[ inline (never) ]
-pub fn benchmark_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, bencher : Option<&mut test::Bencher>, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
-	
-	let (bencher, mut bencher_backend) = if let Some (bencher) = bencher {
-		(Some (bencher), None)
-	} else {
-		let bencher = unsafe { mem::zeroed::<test::Bencher> () };
-		(None, Some (bencher))
-	};
-	let bencher = match (bencher, &mut bencher_backend) {
-		(_, &mut Some (ref mut bencher)) =>
-			bencher,
-		(Some (bencher), _) =>
-			bencher,
-		_ =>
-			fail_panic! (0x5e76028c),
-	};
+pub fn benchmark_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, bencher : &mut test::Bencher, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
 	
 	try_or_fail! (write! (transcript, "## benchmarking `{}`...\n", identifier), 0x0930df0d);
 	
-	let iterations_warmup = 1;
-	let iterations_bencher = 1;
-	let iterations_bests_with_optimizations = 5;
-	let iterations_bests_without_optimizations = iterations_bests_with_optimizations * 5;
-	let summary_factor = 1.0 / iterations_bencher as f64;
+	let iterations_base = 5;
+	let iterations_warmup = iterations_base / 2;
+	let iterations_without_optimizations = iterations_base / 2;
+	let iterations_with_optimizations = iterations_base * 2;
+	
 	let memory_leak_threshold = 128 * 1024;
+	let summary_factor = 1.0;
 	
-	let resources_at_start = libc_getrusage_for_thread ();
-	let memory_at_start = resources_at_start.ru_maxrss;
-	
-	for test in tests {
-		for _iteration in 0 .. iterations_warmup {
+	for _ in 0 .. iterations_warmup {
+		for test in tests {
 			try! (execute_test (test, transcript, verbosity));
 		}
 	}
 	
-	let resources_after_warmup = libc_getrusage_for_thread ();
-	let memory_after_warmup = resources_after_warmup.ru_maxrss;
+	let (summary_without_optimizations, memory_delta_without_optimizations) =
+			try! (benchmark_bencher_iterate (bencher, iterations_without_optimizations,
+					|| for test in tests {
+						benchmark_test_without_optimizations (test) .expect ("68669f56");
+					}));
 	
-	let mut summary_without_optimizations = None;
-	let mut summary_without_optimizations_best = f64::MAX;
-	let mut memory_leaks_for_without_optimizations = false;
-	for _iteration in 0 .. iterations_bests_without_optimizations {
-		
-		let resources_before = libc_getrusage_for_thread ();
-		
-		#[ inline (always) ] // OK
-		fn bencher_execute (tests : &StdVec<TestCaseCompiled>, iterations : usize) -> (Outcome<()>) {
-			if iterations == 1 {
-				for test in tests {
-					try! (benchmark_test_without_optimizations (test));
-				}
-			} else {
-				for test in tests {
-					for _iteration in 0 .. iterations {
-						try! (benchmark_test_without_optimizations (test));
-					}
-				}
-			}
-			succeed! (());
-		}
-		
-		let summary = bencher.bench (
-				|ref mut bencher| bencher.iter (
-						|| bencher_execute (tests, iterations_bencher) .expect ("4022f37c")));
-		
-		let resources_after = libc_getrusage_for_thread ();
-		let memory_delta = resources_after.ru_maxrss - resources_before.ru_maxrss;
-		if memory_delta > memory_leak_threshold {
-			memory_leaks_for_without_optimizations = true;
-		}
-		
-		if let Some (summary) = summary {
-			if summary.median < summary_without_optimizations_best {
-				summary_without_optimizations_best = summary.median;
-				summary_without_optimizations = Some (summary);
-			}
-		} else {
-			break;
-		}
-	}
+	let (summary_with_optimizations, memory_delta_with_optimizations) =
+			try! (benchmark_bencher_iterate (bencher, iterations_with_optimizations,
+					|| for test in tests {
+						benchmark_test_with_optimizations (test) .expect ("fffb0313");
+					}));
 	
-	let resources_after_without_optimizations = libc_getrusage_for_thread ();
-	let memory_after_without_optimizations = resources_after_without_optimizations.ru_maxrss;
-	let memory_delta_for_without_optimizations = memory_after_without_optimizations - memory_after_warmup;
-	if memory_delta_for_without_optimizations > memory_leak_threshold {
-		memory_leaks_for_without_optimizations = true;
-	}
-	
-	let mut summary_with_optimizations = None;
-	let mut summary_with_optimizations_best = f64::MAX;
-	let mut memory_leaks_for_with_optimizations = false;
-	for _iteration in 0 .. iterations_bests_with_optimizations {
-		
-		let resources_before = libc_getrusage_for_thread ();
-		
-		#[ inline (always) ] // OK
-		fn bencher_execute (tests : &StdVec<TestCaseCompiled>, iterations : usize) -> (Outcome<()>) {
-			if iterations == 1 {
-				for test in tests {
-					try! (benchmark_test_with_optimizations (test));
-				}
-			} else {
-				for test in tests {
-					for _iteration in 0 .. iterations {
-						try! (benchmark_test_with_optimizations (test));
-					}
-				}
-			}
-			succeed! (());
-		}
-		
-		let summary = bencher.bench (
-				|ref mut bencher| bencher.iter (
-						|| bencher_execute (tests, iterations_bencher) .expect ("06d861e0")));
-		
-		let resources_after = libc_getrusage_for_thread ();
-		let memory_delta = resources_after.ru_maxrss - resources_before.ru_maxrss;
-		if memory_delta > memory_leak_threshold {
-			memory_leaks_for_with_optimizations = true;
-		}
-		
-		if let Some (summary) = summary {
-			if summary.median < summary_with_optimizations_best {
-				summary_with_optimizations_best = summary.median;
-				summary_with_optimizations = Some (summary);
-			}
-		} else {
-			break;
-		}
-	}
-	
-	let resources_after_with_optimizations = libc_getrusage_for_thread ();
-	let memory_after_with_optimizations = resources_after_with_optimizations.ru_maxrss;
-	let memory_delta_for_with_optimizations = memory_after_with_optimizations - memory_after_without_optimizations;
-	if memory_delta_for_with_optimizations > memory_leak_threshold {
-		memory_leaks_for_with_optimizations = true;
-	}
-	
-	let _memory_delta_for_wamup = memory_after_warmup - memory_at_start;
-	let memory_delta_for_without_optimizations = memory_delta_for_without_optimizations as f64 / 1024.0;
-	let memory_delta_for_with_optimizations = memory_delta_for_with_optimizations as f64 / 1024.0;
+	let memory_leaks_without_optimizations = memory_delta_without_optimizations > memory_leak_threshold;
+	let memory_leaks_with_optimizations = memory_delta_with_optimizations > memory_leak_threshold;
 	
 	try_or_fail! (write! (transcript, "## benchmarked `{}`!\n", identifier), 0xedd3605c);
 	if let Some (summary_without_optimizations) = summary_without_optimizations {
-		try! (benchmark_report (
-				&format! ("without optimizations:"), "     ",
+		try! (benchmark_bencher_report (
+				Some ("without optimizations:"), "     ",
 				&summary_without_optimizations, None, summary_factor,
+				memory_delta_without_optimizations, memory_leaks_without_optimizations,
 				transcript, verbosity));
 	}
-	if memory_leaks_for_without_optimizations {
-		try_or_fail! (write! (transcript, "       mem-leaks : {:10.0} KB (!!!! DETECTED !!!!)\n", memory_delta_for_without_optimizations), 0x3c756d6f);
-	} else {
-		try_or_fail! (write! (transcript, "       mem-leaks : {:10.0} KB\n", memory_delta_for_without_optimizations), 0xb8b463fe);
-	}
+	
 	if let Some (summary_with_optimizations) = summary_with_optimizations {
-		try! (benchmark_report (
-				&format! ("with optimizations:"), "     ",
+		try! (benchmark_bencher_report (
+				Some ("with optimizations:"), "     ",
 				&summary_with_optimizations, summary_without_optimizations.as_ref (), summary_factor,
+				memory_delta_with_optimizations, memory_leaks_with_optimizations,
 				transcript, verbosity));
-	}
-	if memory_leaks_for_with_optimizations {
-		try_or_fail! (write! (transcript, "       mem-leaks : {:10.0} KB (!!!! DETECTED !!!!)\n", memory_delta_for_with_optimizations), 0x1c319cd7);
-	} else {
-		try_or_fail! (write! (transcript, "       mem-leaks : {:10.0} KB\n", memory_delta_for_with_optimizations), 0x5460baae);
 	}
 	
 	succeed! (());
 }
 
+
+
+
+#[ inline (never) ]
+pub fn benchmark_generic <Iteration, Output> (identifier : &str, iteration : Iteration, bencher : &mut test::Bencher, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>)
+		where Iteration : Fn () -> (Output)
+{
+	
+	try_or_fail! (write! (transcript, "## benchmarking `{}`...\n", identifier), 0x0930df0d);
+	
+	let iterations_base = 5;
+	let iterations_warmup = iterations_base / 2;
+	let iterations_benchmark = iterations_base * 2;
+	
+	let memory_leak_threshold = 128 * 1024;
+	let summary_factor = 1.0;
+	
+	for _ in 0 .. iterations_warmup {
+		test::black_box (iteration ());
+	}
+	
+	let (summary, memory_delta) = try! (benchmark_bencher_iterate (bencher, iterations_benchmark, iteration));
+	
+	let memory_leaks = memory_delta > memory_leak_threshold;
+	
+	try_or_fail! (write! (transcript, "## benchmarked `{}`!\n", identifier), 0xedd3605c);
+	if let Some (summary) = summary {
+		try! (benchmark_bencher_report (
+				None, "     ",
+				&summary, None, summary_factor,
+				memory_delta, memory_leaks,
+				transcript, verbosity));
+	}
+	
+	succeed! (());
+}
+
+
+
+
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn benchmark_report (header : &str, prefix : &str, summary : &test::stats::Summary, reference : Option<&test::stats::Summary>, factor : f64, transcript : &mut io::Write, _verbosity : TestVerbosity) -> (Outcome<()>) {
+fn benchmark_bencher_iterate <Iteration, Output> (bencher : &mut test::Bencher, iterations_count : usize, iteration : Iteration) -> (Outcome<(Option<test::stats::Summary>, usize)>)
+		where Iteration : Fn () -> (Output)
+{
+	
+	let resources_before = libc_getrusage_for_thread ();
+	
+	let mut summary_best = None;
+	let mut summary_best_median = f64::MAX;
+	
+	for _ in 0 .. iterations_count {
+		
+		let summary = bencher.bench (|ref mut bencher| bencher.iter (|| iteration ()));
+		
+		if let Some (summary) = summary {
+			if summary.median < summary_best_median {
+				summary_best_median = summary.median;
+				summary_best = Some (summary);
+			}
+		} else {
+			break;
+		}
+	}
+	
+	let resources_after = libc_getrusage_for_thread ();
+	let memory_delta = (resources_after.ru_maxrss - resources_before.ru_maxrss) as usize;
+	
+	succeed! ((summary_best, memory_delta));
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn benchmark_bencher_report (header : Option<&str>, prefix : &str, summary : &test::stats::Summary, reference : Option<&test::stats::Summary>, factor : f64, memory_delta : usize, memory_leaks : bool, transcript : &mut io::Write, _verbosity : TestVerbosity) -> (Outcome<()>) {
 	let mut report = StdString::new ();
-	report.push_str (&format! ("{}{}\n", prefix, header));
+	if let Some (header) = header {
+		report.push_str (&format! ("{}{}\n", prefix, header));
+	}
 	if let Some (reference) = reference {
 		let speedup_factor = reference.mean / summary.mean;
 		let speedup_percent = (1.0 - summary.mean / reference.mean) * 100.0;
@@ -342,6 +299,11 @@ fn benchmark_report (header : &str, prefix : &str, summary : &test::stats::Summa
 	report.push_str (&format! ("{}    stdev   : {:10.0} / {:6.2}%\n", prefix, summary.std_dev * factor, summary.std_dev_pct));
 	report.push_str (&format! ("{}    median  : {:10.0} / {:6.2}%\n", prefix, summary.median * factor, summary.median_abs_dev_pct));
 	report.push_str (&format! ("{}  min / max : {:10.0} / {:.0} / {:.0} / {:.0} / {:.0}\n", prefix, summary.min * factor, summary.quartiles.0 * factor, summary.quartiles.1 * factor, summary.quartiles.2 * factor, summary.max * factor));
+	if memory_leaks {
+		report.push_str (&format! ("{}  mem-leaks : {:10.0} KB (!!!! DETECTED !!!!)\n", prefix, (memory_delta as f64) / 1024.0 * factor));
+	} else {
+		report.push_str (&format! ("{}  mem-leaks : {:10.0} KB\n", prefix, (memory_delta as f64) / 1024.0 * factor));
+	}
 	try_or_fail! (write! (transcript, "{}", report), 0x9b631c5f);
 	succeed! (());
 }
@@ -679,7 +641,7 @@ fn test_case_footer_emit (test : &TestCase, transcript : &mut io::Write, verbosi
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn execute_tests_main (identifier : &str, source : &str, context : Option<Context>, transcript : Option<&mut io::Write>, verbosity : Option<TestVerbosity>) -> (Outcome<()>) {
+pub fn execute_tests_main (identifier : &str, source : &str, context : Option<&Context>, transcript : Option<&mut io::Write>, verbosity : Option<TestVerbosity>) -> (Outcome<()>) {
 	
 	let mut stdout = io::stdout ();
 	let transcript = if let Some (transcript) = transcript { transcript } else { &mut stdout };
@@ -697,8 +659,34 @@ pub fn execute_tests_main (identifier : &str, source : &str, context : Option<Co
 }
 
 
+
+
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn benchmark_tests_main (identifier : &str, source : &str, context : Option<Context>, bencher : Option<&mut test::Bencher>, transcript : Option<&mut io::Write>, output : Option<&mut io::Write>, verbosity : Option<TestVerbosity>) -> (Outcome<()>) {
+pub fn benchmark_tests_main (identifier : &str, source : &str, context : Option<&Context>, bencher : Option<&mut test::Bencher>, transcript : Option<&mut io::Write>, output : Option<&mut io::Write>, verbosity : Option<TestVerbosity>) -> (Outcome<()>) {
+	benchmark_main (
+			identifier,
+			|identifier, bencher, transcript, verbosity|
+					parse_and_benchmark_tests (identifier, source, context.clone (), bencher, transcript, verbosity),
+			bencher, transcript, output, verbosity)
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn benchmark_generic_main <Iteration, Output> (identifier : &str, iteration : Iteration, bencher : Option<&mut test::Bencher>, transcript : Option<&mut io::Write>, output : Option<&mut io::Write>, verbosity : Option<TestVerbosity>) -> (Outcome<()>)
+		where Iteration : Fn () -> (Output)
+{
+	benchmark_main (
+			identifier,
+			|identifier, bencher, transcript, verbosity|
+					benchmark_generic (identifier, &iteration, bencher, transcript, verbosity),
+			bencher, transcript, output, verbosity)
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn benchmark_main <Benchmark> (identifier : &str, benchmark : Benchmark, bencher : Option<&mut test::Bencher>, transcript : Option<&mut io::Write>, output : Option<&mut io::Write>, verbosity : Option<TestVerbosity>) -> (Outcome<()>)
+		where Benchmark : Fn (&str, &mut test::Bencher, &mut io::Write, TestVerbosity) -> (Outcome<()>)
+{
 	
 	let mut stdout = io::stdout ();
 	let transcript = if let Some (transcript) = transcript { transcript } else { &mut stdout };
@@ -723,15 +711,30 @@ pub fn benchmark_tests_main (identifier : &str, source : &str, context : Option<
 	let mut output_backend = output_backend;
 	let output = if let Some (ref mut output) = output_backend { Some (output as &mut io::Write) } else { output };
 	
+	let (bencher, mut bencher_backend) = if let Some (bencher) = bencher {
+		(Some (bencher), None)
+	} else {
+		let bencher = unsafe { mem::zeroed::<test::Bencher> () };
+		(None, Some (bencher))
+	};
+	let bencher = match (bencher, &mut bencher_backend) {
+		(_, &mut Some (ref mut bencher)) =>
+			bencher,
+		(Some (bencher), _) =>
+			bencher,
+		_ =>
+			fail_panic! (0x5e76028c),
+	};
+	
 	try_or_fail! (write! (transcript, "\n\n"), 0x42d6a453);
 	let outcome = if let Some (output) = output {
 		let mut buffer = StdVec::new ();
-		let outcome = parse_and_benchmark_tests (identifier, source, context, bencher, &mut buffer, verbosity);
+		let outcome = benchmark (identifier, bencher, &mut buffer, verbosity);
 		try_or_fail! (transcript.write_all (&buffer), 0xe987851f);
 		try_or_fail! (output.write_all (&buffer), 0x41e00f08);
 		outcome
 	} else {
-		parse_and_benchmark_tests (identifier, source, context, bencher, transcript, verbosity)
+		benchmark (identifier, bencher, transcript, verbosity)
 	};
 	try_or_fail! (write! (transcript, "\n"), 0x276ffb09);
 	try_or_fail! (transcript.flush (), 0x39279869);
