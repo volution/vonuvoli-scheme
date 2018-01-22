@@ -65,6 +65,14 @@ pub mod exports {
 		port_file_delete,
 		
 	};
+	
+	pub use super::{
+		
+		port_output_value_display, port_output_value_display_0, port_output_value_display_0_slice, port_output_value_display_0_iterable,
+		port_output_value_write, port_output_value_write_0, port_output_value_write_0_slice, port_output_value_write_0_iterable,
+		port_output_newline, port_output_newline_0,
+		
+	};
 }
 
 
@@ -447,5 +455,442 @@ pub fn port_file_delete (path : &Value) -> (Outcome<()>) {
 	let path = fs_path::Path::new (path.string_as_str ());
 	// FIXME:  Clearly indicate why the operation failed!
 	succeed_or_fail! (fs::remove_file (path), 0xa1653696);
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn port_output_value_display (port : &Value, value : &Value, flatten : bool, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
+	let port = try_as_port_ref! (port);
+	let mut port = try! (port.backend_ref_mut_check_open ());
+	let port = port.deref_mut ();
+	return port_output_value_display_0 (port, value, flatten, separator, flush);
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn port_output_value_display_0 (port : &mut PortBackendWriter, value : &Value, flatten : bool, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
+	let flush = flush.unwrap_or (true);
+	
+	match value.class_match_as_ref () {
+		
+		ValueClassMatchAsRef::Null => {
+			try! (port.char_write_string ("null", true));
+		},
+		
+		ValueClassMatchAsRef::Void => {
+			try! (port.char_write_string ("void", true));
+		},
+		
+		ValueClassMatchAsRef::Undefined => {
+			try! (port.char_write_string ("undefined", true));
+		},
+		
+		ValueClassMatchAsRef::Singleton (value) => {
+			let formatted = match value {
+				ValueSingleton::Null =>
+					"null",
+				ValueSingleton::Void =>
+					"void",
+				ValueSingleton::Undefined =>
+					"undefined",
+				ValueSingleton::PortEof =>
+					"end-of-file",
+			};
+			try! (port.char_write_string (formatted, true));
+		},
+		
+		ValueClassMatchAsRef::Boolean (value) => {
+			let value = value.value ();
+			let formatted = if value {
+				"true"
+			} else {
+				"false"
+			};
+			try! (port.char_write_string (formatted, true));
+		},
+		
+		ValueClassMatchAsRef::Number (class) => {
+			let formatted = match class {
+				NumberMatchAsRef::Integer (value) =>
+					format! ("{}", value.value ()),
+				NumberMatchAsRef::Real (value) =>
+					format! ("{}", value.value ()),
+			};
+			try! (port.char_write_string (&formatted, true));
+		},
+		
+		ValueClassMatchAsRef::Character (value) => {
+			let value = value.value ();
+			try! (port.char_write (value));
+		},
+		
+		ValueClassMatchAsRef::Symbol (value) => {
+			let string = value.string_as_str ();
+			try! (port.char_write_string (string, true));
+		},
+		
+		ValueClassMatchAsRef::String (class) => {
+			let string = class.string_ref ();
+			let string = string.string_as_str ();
+			try! (port.char_write_string (string, true));
+		},
+		
+		ValueClassMatchAsRef::Bytes (class) => {
+			let bytes = class.bytes_ref ();
+			let bytes = bytes.bytes_as_slice ();
+			try! (port.byte_write_slice (bytes, true));
+		},
+		
+		ValueClassMatchAsRef::Pair (_) => {
+			let mut iterator = try! (ListIterator::new (value, true));
+			if flatten {
+				try! (port_output_value_display_0_iterable (port, &mut iterator, flatten, separator, Some (false)));
+				if let Some (dotted) = iterator.dotted () {
+					let dotted = dotted.as_ref ();
+					try! (port_output_value_display_0 (port, dotted, flatten, separator, Some (false)));
+				}
+			} else {
+				fail_unimplemented! (0x3b2f708d);
+			}
+		},
+		
+		ValueClassMatchAsRef::Array (class) => {
+			let array = class.array_ref ();
+			let values = array.values_as_slice ();
+			if flatten {
+				try! (port_output_value_display_0_slice (port, values, flatten, separator, Some (false)));
+			} else {
+				fail_unimplemented! (0xe3ed7dba);
+			}
+		},
+		
+		ValueClassMatchAsRef::Values (value) => {
+			let values = value.values_as_slice ();
+			if flatten {
+				try! (port_output_value_display_0_slice (port, values, flatten, separator, Some (false)));
+			} else {
+				fail_unimplemented! (0x7b7b3a99);
+			}
+		},
+		
+		ValueClassMatchAsRef::Procedure (_) |
+		ValueClassMatchAsRef::Syntax (_) |
+		ValueClassMatchAsRef::Error (_) |
+		ValueClassMatchAsRef::Port (_) |
+		ValueClassMatchAsRef::Resource (_) |
+		ValueClassMatchAsRef::Internal (_) |
+		ValueClassMatchAsRef::Opaque (_) => {
+			let formatted = format! ("{}", value);
+			try! (port.char_write_string (&formatted, true));
+		},
+		
+	}
+	
+	if flush {
+		try! (port.output_flush ());
+	}
+	
+	succeed! (());
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn port_output_value_display_0_slice (port : &mut PortBackendWriter, values : &[Value], flatten : bool, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
+	
+	let separator_actual = separator.unwrap_or (' ');
+	let flush = flush.unwrap_or (false);
+	let mut first = true;
+	
+	for value in values {
+		if ! first {
+			try! (port.char_write (separator_actual));
+		} else {
+			first = false;
+		}
+		try! (port_output_value_display_0 (port, value, flatten, separator, Some (false)));
+	}
+	
+	if flush {
+		try! (port.output_flush ());
+	}
+	
+	succeed! (());
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn port_output_value_display_0_iterable <'a, Iterator> (port : &mut PortBackendWriter, values : &mut Iterator, flatten : bool, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>)
+		where Iterator : iter::Iterator<Item = Outcome<ValueRef<'a>>>
+{
+	
+	let separator_actual = separator.unwrap_or (' ');
+	let flush = flush.unwrap_or (false);
+	let mut first = true;
+	
+	for value in values {
+		let value = try! (value);
+		let value = value.as_ref ();
+		if ! first {
+			try! (port.char_write (separator_actual));
+		} else {
+			first = false;
+		}
+		try! (port_output_value_display_0 (port, value, flatten, separator, Some (false)));
+	}
+	
+	if flush {
+		try! (port.output_flush ());
+	}
+	
+	succeed! (());
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn port_output_value_write (port : &Value, value : &Value, flatten : bool, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
+	let port = try_as_port_ref! (port);
+	let mut port = try! (port.backend_ref_mut_check_open ());
+	let port = port.deref_mut ();
+	return port_output_value_write_0 (port, value, flatten, separator, flush);
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value, flatten : bool, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
+	let flush = flush.unwrap_or (true);
+	
+	match value.class_match_as_ref () {
+		
+		ValueClassMatchAsRef::Null => {
+			try! (port.char_write_string ("#null", true));
+		},
+		
+		ValueClassMatchAsRef::Void => {
+			try! (port.char_write_string ("#void", true));
+		},
+		
+		ValueClassMatchAsRef::Undefined => {
+			try! (port.char_write_string ("#undefined", true));
+		},
+		
+		ValueClassMatchAsRef::Singleton (value) => {
+			let formatted = match value {
+				ValueSingleton::Null =>
+					"#null",
+				ValueSingleton::Void =>
+					"#void",
+				ValueSingleton::Undefined =>
+					"#undefined",
+				ValueSingleton::PortEof =>
+					"#end-of-file",
+			};
+			try! (port.char_write_string (formatted, true));
+		},
+		
+		ValueClassMatchAsRef::Boolean (value) => {
+			let value = value.value ();
+			let formatted = if value {
+				"#t"
+			} else {
+				"#f"
+			};
+			try! (port.char_write_string (formatted, true));
+		},
+		
+		ValueClassMatchAsRef::Number (class) => {
+			// FIXME:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+			let formatted = match class {
+				NumberMatchAsRef::Integer (value) =>
+					format! ("{}", value),
+				NumberMatchAsRef::Real (value) =>
+					format! ("{}", value),
+			};
+			try! (port.char_write_string (&formatted, true));
+		},
+		
+		ValueClassMatchAsRef::Character (value) => {
+			// FIXME:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+			let formatted = format! ("{}", value);
+			try! (port.char_write_string (&formatted, true));
+		},
+		
+		ValueClassMatchAsRef::Symbol (value) => {
+			// FIXME:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+			let formatted = format! ("{}", value);
+			try! (port.char_write_string (&formatted, true));
+		},
+		
+		ValueClassMatchAsRef::String (class) => {
+			// FIXME:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+			let formatted = match class {
+				StringMatchAsRef::Immutable (value) =>
+					format! ("{}", value),
+				StringMatchAsRef::Mutable (value) =>
+					format! ("{}", value),
+			};
+			try! (port.char_write_string (&formatted, true));
+		},
+		
+		ValueClassMatchAsRef::Bytes (class) => {
+			// FIXME:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+			let formatted = match class {
+				BytesMatchAsRef::Immutable (value) =>
+					format! ("{}", value),
+				BytesMatchAsRef::Mutable (value) =>
+					format! ("{}", value),
+			};
+			try! (port.char_write_string (&formatted, true));
+		},
+		
+		ValueClassMatchAsRef::Pair (class) => {
+			if flatten {
+				let mut iterator = try! (ListIterator::new (value, true));
+				try! (port_output_value_write_0_iterable (port, &mut iterator, flatten, separator, Some (false)));
+				if let Some (dotted) = iterator.dotted () {
+					let dotted = dotted.as_ref ();
+					try! (port_output_value_write_0 (port, dotted, flatten, separator, Some (false)));
+				}
+			} else {
+				// FIXME:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+				let formatted = match class {
+					PairMatchAsRef::Immutable (value) =>
+						format! ("{}", value),
+					PairMatchAsRef::Mutable (value) =>
+						format! ("{}", value),
+				};
+				try! (port.char_write_string (&formatted, true));
+			}
+		},
+		
+		ValueClassMatchAsRef::Array (class) => {
+			if flatten {
+				let array = class.array_ref ();
+				let values = array.values_as_slice ();
+				try! (port_output_value_write_0_slice (port, values, flatten, separator, Some (false)));
+			} else {
+				// FIXME:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+				let formatted = match class {
+					ArrayMatchAsRef::Immutable (value) =>
+						format! ("{}", value),
+					ArrayMatchAsRef::Mutable (value) =>
+						format! ("{}", value),
+				};
+				try! (port.char_write_string (&formatted, true));
+			}
+		},
+		
+		ValueClassMatchAsRef::Values (value) => {
+			if flatten {
+				let values = value.values_as_slice ();
+				try! (port_output_value_display_0_slice (port, values, flatten, separator, Some (false)));
+			} else {
+				// FIXME:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+				let formatted = format! ("{}", value);
+				try! (port.char_write_string (&formatted, true));
+			}
+		},
+		
+		ValueClassMatchAsRef::Procedure (_) |
+		ValueClassMatchAsRef::Syntax (_) |
+		ValueClassMatchAsRef::Error (_) |
+		ValueClassMatchAsRef::Port (_) |
+		ValueClassMatchAsRef::Resource (_) |
+		ValueClassMatchAsRef::Internal (_) |
+		ValueClassMatchAsRef::Opaque (_) => {
+			// FIXME:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+			let formatted = format! ("{}", value);
+			try! (port.char_write_string (&formatted, true));
+		},
+		
+	}
+	
+	if flush {
+		try! (port.output_flush ());
+	}
+	
+	succeed! (());
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn port_output_value_write_0_slice (port : &mut PortBackendWriter, values : &[Value], flatten : bool, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
+	
+	let separator_actual = separator.unwrap_or (' ');
+	let flush = flush.unwrap_or (false);
+	let mut first = true;
+	
+	for value in values {
+		if ! first {
+			try! (port.char_write (separator_actual));
+		} else {
+			first = false;
+		}
+		try! (port_output_value_write_0 (port, value, flatten, separator, Some (false)));
+	}
+	
+	if flush {
+		try! (port.output_flush ());
+	}
+	
+	succeed! (());
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn port_output_value_write_0_iterable <'a, Iterator> (port : &mut PortBackendWriter, values : &mut Iterator, flatten : bool, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>)
+		where Iterator : iter::Iterator<Item = Outcome<ValueRef<'a>>>
+{
+	
+	let separator_actual = separator.unwrap_or (' ');
+	let flush = flush.unwrap_or (false);
+	let mut first = true;
+	
+	for value in values {
+		let value = try! (value);
+		let value = value.as_ref ();
+		if ! first {
+			try! (port.char_write (separator_actual));
+		} else {
+			first = false;
+		}
+		try! (port_output_value_write_0 (port, value, flatten, separator, Some (false)));
+	}
+	
+	if flush {
+		try! (port.output_flush ());
+	}
+	
+	succeed! (());
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn port_output_newline (port : &Value, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
+	let port = try_as_port_ref! (port);
+	let mut port = try! (port.backend_ref_mut_check_open ());
+	let port = port.deref_mut ();
+	return port_output_newline_0 (port, separator, flush);
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn port_output_newline_0 (port : &mut PortBackendWriter, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
+	
+	let separator = separator.unwrap_or ('\n');
+	let flush = flush.unwrap_or (true);
+	
+	try! (port.char_write (separator));
+	
+	if flush {
+		try! (port.output_flush ());
+	}
+	
+	succeed! (());
 }
 

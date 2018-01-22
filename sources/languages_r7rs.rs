@@ -485,7 +485,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "ports", "write-u8", PortPrimitive2::ByteWrite.into ()),
 			("base", "ports", "write-bytevector", PortPrimitive2::BytesWrite.into ()),
 			
-			("base", "ports", "newline", PortPrimitive0::RsNewLine.into ()),
+			("base", "ports", "newline", PortPrimitive0::NewLine.into ()),
 			
 			("base", "ports", "flush-output-port", PortPrimitive1::FlushOutput.into ()),
 			
@@ -718,7 +718,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("write", "ports", "write", PortPrimitive2::ValueWrite.into ()),
 			("write", "ports", "write-shared", PortPrimitive2::ValueWriteShared.into ()),
 			("write", "ports", "write-simple", PortPrimitive2::ValueWriteSimple.into ()),
-			("write", "ports", "display", PortPrimitive1::RsDisplay.into ()),
+			("write", "ports", "display", PortPrimitive1::ValueDisplay.into ()),
 			
 			
 			

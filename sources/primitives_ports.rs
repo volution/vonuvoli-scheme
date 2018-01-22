@@ -4,6 +4,7 @@ use super::builtins::exports::*;
 use super::constants::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
+use super::ports::exports::*;
 use super::primitives_procedures::exports::*;
 use super::values::exports::*;
 
@@ -55,7 +56,7 @@ pub mod exports {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum PortPrimitive0 {
 	
-	RsNewLine,
+	NewLine,
 	
 	OutputToBytes,
 	OutputToString,
@@ -67,8 +68,6 @@ pub enum PortPrimitive0 {
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum PortPrimitive1 {
-	
-	RsDisplay,
 	
 	IsInputOpen,
 	IsOutputOpen,
@@ -94,6 +93,7 @@ pub enum PortPrimitive1 {
 	StringReadLine,
 	
 	ValueRead,
+	ValueDisplay,
 	
 	InputFromBytes,
 	InputFromString,
@@ -168,24 +168,8 @@ pub enum PortPrimitiveV {}
 pub fn port_primitive_0_evaluate (primitive : PortPrimitive0, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
-		PortPrimitive0::RsNewLine => {
-			// FIXME:  Replace this stub implementation!
-			let mut stream = io::stdout ();
-			let mut stream = stream.lock ();
-			match write! (stream, "\n") {
-				Ok (()) =>
-					(),
-				Err (_) =>
-					fail! (0xe2f91118),
-			}
-			match stream.flush () {
-				Ok (()) =>
-					(),
-				Err (_) =>
-					fail! (0x35130507),
-			}
-			return VOID.into_0 ();
-		},
+		PortPrimitive0::NewLine =>
+			return port_output_newline_0 (&mut try! (PortBackend::new_stdout ()), None, Some (true)) .into_0 (),
 		
 		PortPrimitive0::OutputToBytes =>
 			return port_bytes_writer_new (),
@@ -205,19 +189,6 @@ pub fn port_primitive_0_evaluate (primitive : PortPrimitive0, _evaluator : &mut 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, input_1 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
-		
-		PortPrimitive1::RsDisplay => {
-			// FIXME:  Replace this stub implementation!
-			let mut stream = io::stdout ();
-			let mut stream = stream.lock ();
-			match write! (stream, "{}", input_1) {
-				Ok (()) =>
-					(),
-				Err (_) =>
-					fail! (0x7aab6cc6),
-			}
-			return VOID.into_0 ();
-		},
 		
 		PortPrimitive1::IsInputOpen =>
 			return is_port_input_open (input_1) .into_0 (),
@@ -266,6 +237,9 @@ pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, input_1 : &Value, 
 		
 		PortPrimitive1::ValueRead =>
 			fail_unimplemented! (0xae3d8a9f), // deferred
+		
+		PortPrimitive1::ValueDisplay =>
+			return port_output_value_display_0 (&mut try! (PortBackend::new_stdout ()), input_1, true, None, Some (true)) .into_0 (),
 		
 		PortPrimitive1::InputFromBytes =>
 			return port_bytes_reader_new (input_1),
@@ -335,13 +309,16 @@ pub fn port_primitive_2_evaluate (primitive : PortPrimitive2, input_1 : &Value, 
 			return port_output_string_write (input_2, input_1) .into_0 (),
 		
 		PortPrimitive2::ValueWrite =>
-			fail_unimplemented! (0x696cb627), // deferred
+			// FIXME:  Add support for cyclic objects!
+			return port_output_value_write (input_2, input_1, false, None, None) .into_0 (),
 		
 		PortPrimitive2::ValueWriteShared =>
-			fail_unimplemented! (0xd82b6e11), // deferred
+			// FIXME:  Add support for cyclic objects!
+			return port_output_value_write (input_2, input_1, false, None, None) .into_0 (),
 		
 		PortPrimitive2::ValueWriteSimple =>
-			fail_unimplemented! (0x71e1d1d0), // deferred
+			// FIXME:  Add support for cyclic objects!
+			return port_output_value_write (input_2, input_1, false, None, None) .into_0 (),
 		
 		PortPrimitive2::CallAndClose =>
 			return port_call_and_close (input_1, input_2, evaluator),
