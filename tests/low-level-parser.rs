@@ -100,7 +100,7 @@ def_test! (test__values, {
 		let input_2 = output_1.to_string ();
 		let output_2 = parse_value (input_2.as_ref ()) .expect ("3652725f");
 		
-		if output_1 != output_2 && input_2 != "nan" {
+		if output_1 != output_2 {
 			eprintln! ("== `{:?}` -> `{:?}` -> `{:?}` -> `{:?}`", input_1, output_1, input_2, output_2);
 			assert_eq! (output_1, output_2);
 		}
