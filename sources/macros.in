@@ -523,7 +523,7 @@ macro_rules! impl_unwrappers_2_for_enum_3_wrapper {
 
 
 macro_rules! vec_into {
-	( $( $value : expr ),* ) => (
+	( $( $value : expr, )* ) => (
 		vec! [ $( $value, )* ] .into_iter () .map (|value| value.into ()) .collect::<$crate::prelude::StdVec<_>> ()
 	);
 }
@@ -860,7 +860,7 @@ macro_rules! def_scheme_tests {
 
 #[ macro_export ]
 macro_rules! def_scheme_tests_from_file {
-	( $( $identifier : ident => $source : expr, )* ) => (
+	( $( $identifier : ident => $source : expr, )+ ) => (
 		$( def_scheme_tests_from_file! ($identifier, $source); )*
 	);
 	( $identifier : ident, $source : expr ) => (
@@ -896,7 +896,7 @@ macro_rules! def_scheme_benchmarks {
 
 #[ macro_export ]
 macro_rules! def_scheme_benchmarks_from_file {
-	( $( $identifier : ident => $source : expr, )* ) => (
+	( $( $identifier : ident => $source : expr, )+ ) => (
 		$( def_scheme_benchmarks_from_file! ($identifier, $source); )*
 	);
 	( $identifier : ident, $source : expr ) => (
@@ -936,7 +936,7 @@ macro_rules! def_test {
 
 #[ macro_export ]
 macro_rules! def_tests {
-	( $( $identifier : ident => $expression : block, )* ) => (
+	( $( $identifier : ident => $expression : block, )+ ) => (
 		$( def_test! ($identifier, $expression); )*
 	);
 }
@@ -946,7 +946,15 @@ macro_rules! def_tests {
 
 #[ macro_export ]
 macro_rules! def_benchmark {
-	( $identifier : ident, $expression: expr ) => (
+	( $identifier : ident, { with_values $expression : expr, $( $variable : ident => $initializer : expr, )+ } ) => (
+		#[ bench ]
+		#[ inline (never) ]
+		#[ allow (non_snake_case) ]
+		fn $identifier (bencher : &mut $crate::prelude::test::Bencher) -> () {
+			def_benchmark_block! ($identifier, $expression, ( $( ( $variable, $initializer ) ),* ), bencher);
+		}
+	);
+	( $identifier : ident, { $expression: expr } ) => (
 		#[ bench ]
 		#[ inline (never) ]
 		#[ allow (non_snake_case) ]
@@ -958,17 +966,29 @@ macro_rules! def_benchmark {
 
 #[ macro_export ]
 macro_rules! def_benchmarks {
-	( $( $identifier : ident => $expression : expr, )* ) => (
-		$( def_benchmark! ($identifier, $expression); )*
+	( $( $identifier : ident => $token : tt, )+ ) => (
+		$( def_benchmark! ($identifier, $token ); )*
 	);
 }
 
 #[ macro_export ]
 macro_rules! def_benchmark_block {
+	( $identifier : ident, $expression : expr, ( $( ( $variable : ident, $initializer : expr ) ),+ ), $bencher : expr ) => ({
+		use $crate::exports::*;
+		let identifier = stringify! ($identifier);
+		let outcome = benchmark_generic_main (identifier,
+				|| Ok ( ( $( $initializer, )* ) ),
+				|&( $( ref $variable, )* )| $expression,
+				Some ($bencher), None, None, None);
+		outcome.expect ("b504b743");
+	});
 	( $identifier : ident, $expression : expr, $bencher : expr ) => ({
 		use $crate::exports::*;
 		let identifier = stringify! ($identifier);
-		let outcome = benchmark_generic_main (identifier, || $expression, Some ($bencher), None, None, None);
+		let outcome = benchmark_generic_main (identifier,
+				|| Ok (()),
+				|&()| $expression,
+				Some ($bencher), None, None, None);
 		outcome.expect ("b504b743");
 	});
 }

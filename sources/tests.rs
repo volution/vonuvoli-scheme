@@ -216,8 +216,10 @@ pub fn benchmark_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, be
 
 
 #[ inline (never) ]
-pub fn benchmark_generic <Iteration, Output> (identifier : &str, iteration : Iteration, bencher : &mut test::Bencher, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>)
-		where Iteration : Fn () -> (Output)
+pub fn benchmark_generic <Setup, Iteration, SetupOutput, IterationOutput> (identifier : &str, setup : Setup, iteration : Iteration, bencher : &mut test::Bencher, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>)
+		where
+			Setup : Fn () -> (Outcome<SetupOutput>),
+			Iteration : Fn (&SetupOutput) -> (IterationOutput)
 {
 	
 	try_or_fail! (write! (transcript, "## benchmarking `{}`...\n", identifier), 0x0930df0d);
@@ -229,11 +231,13 @@ pub fn benchmark_generic <Iteration, Output> (identifier : &str, iteration : Ite
 	let memory_leak_threshold = 128 * 1024;
 	let summary_factor = 1.0;
 	
+	let setup = try! (setup ());
+	
 	for _ in 0 .. iterations_warmup {
-		test::black_box (iteration ());
+		test::black_box (iteration (&setup));
 	}
 	
-	let (summary, memory_delta) = try! (benchmark_bencher_iterate (bencher, iterations_benchmark, iteration));
+	let (summary, memory_delta) = try! (benchmark_bencher_iterate (bencher, iterations_benchmark, || iteration (&setup)));
 	
 	let memory_leaks = memory_delta > memory_leak_threshold;
 	
@@ -672,13 +676,15 @@ pub fn benchmark_tests_main (identifier : &str, source : &str, context : Option<
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn benchmark_generic_main <Iteration, Output> (identifier : &str, iteration : Iteration, bencher : Option<&mut test::Bencher>, transcript : Option<&mut io::Write>, output : Option<&mut io::Write>, verbosity : Option<TestVerbosity>) -> (Outcome<()>)
-		where Iteration : Fn () -> (Output)
+pub fn benchmark_generic_main <Setup, Iteration, SetupOutput, IterationOutput> (identifier : &str, setup : Setup, iteration : Iteration, bencher : Option<&mut test::Bencher>, transcript : Option<&mut io::Write>, output : Option<&mut io::Write>, verbosity : Option<TestVerbosity>) -> (Outcome<()>)
+		where
+			Setup : Fn () -> (Outcome<SetupOutput>),
+			Iteration : Fn (&SetupOutput) -> (IterationOutput)
 {
 	benchmark_main (
 			identifier,
 			|identifier, bencher, transcript, verbosity|
-					benchmark_generic (identifier, &iteration, bencher, transcript, verbosity),
+					benchmark_generic (identifier, &setup, &iteration, bencher, transcript, verbosity),
 			bencher, transcript, output, verbosity)
 }
 

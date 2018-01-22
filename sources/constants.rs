@@ -38,6 +38,9 @@ pub const FALSE_VALUE : Value = Value::Boolean (VALUE_META_1, FALSE, VALUE_META_
 pub const ZERO : NumberInteger = NumberInteger (0);
 pub const ONE : NumberInteger = NumberInteger (1);
 
+pub const ZERO_VALUE : Value = Value::NumberInteger (VALUE_META_1, ZERO, VALUE_META_2);
+pub const ONE_VALUE : Value = Value::NumberInteger (VALUE_META_1, ONE, VALUE_META_2);
+
 pub const ZERO_REAL_POSITIVE : NumberReal = NumberReal (0.0);
 pub const ZERO_REAL_NEGATIVE : NumberReal = NumberReal (-0.0);
 pub const ONE_REAL_POSITIVE : NumberReal = NumberReal (1.0);
