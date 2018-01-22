@@ -165,7 +165,11 @@ impl fmt::Display for NumberInteger {
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let value = self.value ();
-		write! (formatter, "{:+}", value)
+		if value == 0 {
+			write! (formatter, "0")
+		} else {
+			write! (formatter, "{:+}", value)
+		}
 	}
 }
 
@@ -177,8 +181,16 @@ impl fmt::Display for NumberReal {
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let value = self.value ();
-		if value.is_nan () {
-			write! (formatter, "nan")
+		if value == 0.0 {
+			write! (formatter, "0.0")
+		} else if value.is_nan () {
+			write! (formatter, "nan.0")
+		} else if value.is_infinite () {
+			if value.is_sign_positive () {
+				write! (formatter, "+inf.0")
+			} else {
+				write! (formatter, "-inf.0")
+			}
 		} else {
 			write! (formatter, "{:+e}", value)
 		}
