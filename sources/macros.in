@@ -989,7 +989,7 @@ macro_rules! def_benchmark_block {
 				|| Ok (()),
 				|&()| $expression,
 				Some ($bencher), None, None, None);
-		outcome.expect ("b504b743");
+		outcome.expect ("ba9c8ac7");
 	});
 }
 

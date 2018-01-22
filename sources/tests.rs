@@ -192,7 +192,7 @@ pub fn benchmark_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, be
 	let memory_leaks_without_optimizations = memory_delta_without_optimizations > memory_leak_threshold;
 	let memory_leaks_with_optimizations = memory_delta_with_optimizations > memory_leak_threshold;
 	
-	try_or_fail! (write! (transcript, "## benchmarked `{}`!\n", identifier), 0xedd3605c);
+	try_or_fail! (write! (transcript, "## benchmarked `{}`!\n", identifier), 0x3748dc5d);
 	if let Some (summary_without_optimizations) = summary_without_optimizations {
 		try! (benchmark_bencher_report (
 				Some ("without optimizations:"), "     ",
@@ -222,7 +222,7 @@ pub fn benchmark_generic <Setup, Iteration, SetupOutput, IterationOutput> (ident
 			Iteration : Fn (&SetupOutput) -> (IterationOutput)
 {
 	
-	try_or_fail! (write! (transcript, "## benchmarking `{}`...\n", identifier), 0x0930df0d);
+	try_or_fail! (write! (transcript, "## benchmarking `{}`...\n", identifier), 0xf25e5c5b);
 	
 	let iterations_base = 5;
 	let iterations_warmup = iterations_base / 2;
@@ -241,7 +241,7 @@ pub fn benchmark_generic <Setup, Iteration, SetupOutput, IterationOutput> (ident
 	
 	let memory_leaks = memory_delta > memory_leak_threshold;
 	
-	try_or_fail! (write! (transcript, "## benchmarked `{}`!\n", identifier), 0xedd3605c);
+	try_or_fail! (write! (transcript, "## benchmarked `{}`!\n", identifier), 0xb5993dbd);
 	if let Some (summary) = summary {
 		try! (benchmark_bencher_report (
 				None, "     ",
