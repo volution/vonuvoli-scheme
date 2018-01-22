@@ -66,6 +66,9 @@ pub enum PortBackend {
 #[ derive (Clone, Debug) ]
 pub enum PortDescriptor {
 	RawFd (unix_io::RawFd),
+	Stdin,
+	Stdout,
+	Stderr,
 }
 
 
@@ -222,6 +225,25 @@ impl Port {
 	pub fn new_native_writer_from_unbuffered (writer : StdBox<io::Write>, descriptor : Option<PortDescriptor>) -> (Outcome<Port>) {
 		let backend = try! (PortBackendNativeWriter::new_from_unbuffered (writer, descriptor));
 		let backend = PortBackend::NativeWriter (backend);
+		return Port::new_from_backend (backend);
+	}
+	
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new_stdin () -> (Outcome<Port>) {
+		let backend = try! (PortBackend::new_stdin ());
+		return Port::new_from_backend (backend);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new_stdout () -> (Outcome<Port>) {
+		let backend = try! (PortBackend::new_stdout ());
+		return Port::new_from_backend (backend);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new_stderr () -> (Outcome<Port>) {
+		let backend = try! (PortBackend::new_stderr ());
 		return Port::new_from_backend (backend);
 	}
 	
@@ -691,6 +713,27 @@ impl PortWriter for Port {
 
 
 impl PortBackend {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new_stdin () -> (Outcome<PortBackend>) {
+		let backend = try! (PortBackendNativeReader::new_stdin ());
+		let backend = PortBackend::NativeReader (backend);
+		succeed! (backend);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new_stdout () -> (Outcome<PortBackend>) {
+		let backend = try! (PortBackendNativeWriter::new_stdout ());
+		let backend = PortBackend::NativeWriter (backend);
+		succeed! (backend);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new_stderr () -> (Outcome<PortBackend>) {
+		let backend = try! (PortBackendNativeWriter::new_stderr ());
+		let backend = PortBackend::NativeWriter (backend);
+		succeed! (backend);
+	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn close (&mut self) -> (Outcome<()>) {

@@ -410,6 +410,18 @@ impl <'a> ProcessConfigurationStream<'a> {
 						unsafe {
 							succeed! (unix_io::FromRawFd::from_raw_fd (descriptor));
 						},
+					PortDescriptor::Stdin =>
+						unsafe {
+							succeed! (unix_io::FromRawFd::from_raw_fd (unix_io::AsRawFd::as_raw_fd (&io::stdin ())));
+						},
+					PortDescriptor::Stdout =>
+						unsafe {
+							succeed! (unix_io::FromRawFd::from_raw_fd (unix_io::AsRawFd::as_raw_fd (&io::stdout ())));
+						},
+					PortDescriptor::Stderr =>
+						unsafe {
+							succeed! (unix_io::FromRawFd::from_raw_fd (unix_io::AsRawFd::as_raw_fd (&io::stderr ())));
+						},
 				},
 			ProcessConfigurationStream::Port (ref port) => {
 				let descriptor = try! (port.descriptor ());
