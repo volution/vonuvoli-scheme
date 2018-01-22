@@ -722,17 +722,28 @@ impl NumberCoercion2 {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn number_coerce_1 (value : &Value) -> (Outcome<NumberCoercion1>) {
-	match value.class_match_as_ref () {
-		ValueClassMatchAsRef::Number (class) =>
-			match class {
-				NumberMatchAsRef::Integer (value) =>
-					Ok (NumberCoercion1::Integer (value.value ())),
-				NumberMatchAsRef::Real (value) =>
-					Ok (NumberCoercion1::Real (value.value ())),
-			},
+pub fn number_coerce_1a (value : &Value) -> (Outcome<NumberCoercion1>) {
+	let class = value.class_match_as_ref ();
+	return number_coerce_1d (&class);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn number_coerce_1d <'a> (class : &ValueClassMatchAsRef<'a>) -> (Outcome<NumberCoercion1>) {
+	match *class {
+		ValueClassMatchAsRef::Number (ref class) =>
+			succeed! (number_coerce_1e (class)),
 		_ =>
-			failed! (0x947fb339),
+			failed! (0x5539630a),
+	}
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn number_coerce_1e <'a> (class : &NumberMatchAsRef<'a>) -> (NumberCoercion1) {
+	match *class {
+		NumberMatchAsRef::Integer (value) =>
+			NumberCoercion1::Integer (value.value ()),
+		NumberMatchAsRef::Real (value) =>
+			NumberCoercion1::Real (value.value ()),
 	}
 }
 
@@ -745,7 +756,7 @@ pub fn number_coerce_2a (left : &Value, right : &Value) -> (Outcome<NumberCoerci
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn number_coerce_2b (left : &NumberCoercion1, right : &Value) -> (Outcome<NumberCoercion2>) {
-	let right = try! (number_coerce_1 (right));
+	let right = try! (number_coerce_1a (right));
 	succeed! (number_coerce_2c (left, &right));
 }
 

@@ -196,7 +196,7 @@ pub enum ArithmeticPrimitiveV {
 // FIXME:  Eliminate creation of temporary `Number*` values!
 macro_rules! arithmetic_primitive_1_delegate_call {
 	( $input : expr, $value_integer : ident, $for_integer : expr, $value_real : ident, $for_real : expr ) => (
-		match try! (number_coerce_1 ($input)) {
+		match try! (number_coerce_1a ($input)) {
 			NumberCoercion1::Integer (value) =>
 				{ let $value_integer = & NumberInteger (value); $for_integer.into () },
 			NumberCoercion1::Real (value) =>
@@ -343,7 +343,7 @@ pub fn arithmetic_primitive_1_evaluate (primitive : ArithmeticPrimitive1, input_
 			arithmetic_primitive_1_delegate_call! (atan, input_1),
 		
 		ArithmeticPrimitive1::Addition =>
-			try! (number_coerce_1 (input_1)) .into_value (),
+			try! (number_coerce_1a (input_1)) .into_value (),
 		
 		ArithmeticPrimitive1::Subtraction =>
 			arithmetic_primitive_2_delegate_call! (
@@ -352,7 +352,7 @@ pub fn arithmetic_primitive_1_evaluate (primitive : ArithmeticPrimitive1, input_
 					(value_1, value_2), NumberReal::sub (value_1, value_2)),
 		
 		ArithmeticPrimitive1::Multiplication =>
-			try! (number_coerce_1 (input_1)) .into_value (),
+			try! (number_coerce_1a (input_1)) .into_value (),
 		
 		ArithmeticPrimitive1::Division =>
 			arithmetic_primitive_2_delegate_call! (
@@ -406,16 +406,16 @@ pub fn arithmetic_primitive_1_evaluate (primitive : ArithmeticPrimitive1, input_
 		
 		
 		ArithmeticPrimitive1::GreatestCommonDivisor =>
-			try! (number_coerce_1 (input_1)) .into_value (),
+			try! (number_coerce_1a (input_1)) .into_value (),
 		
 		ArithmeticPrimitive1::LeastCommonMultiple =>
-			try! (number_coerce_1 (input_1)) .into_value (),
+			try! (number_coerce_1a (input_1)) .into_value (),
 		
 		ArithmeticPrimitive1::Minimum =>
-			try! (number_coerce_1 (input_1)) .into_value (),
+			try! (number_coerce_1a (input_1)) .into_value (),
 		
 		ArithmeticPrimitive1::Maximum =>
-			try! (number_coerce_1 (input_1)) .into_value (),
+			try! (number_coerce_1a (input_1)) .into_value (),
 		
 	};
 	
@@ -559,7 +559,7 @@ pub fn arithmetic_primitive_n_evaluate (primitive : ArithmeticPrimitiveN, inputs
 		}
 	}
 	
-	let mut output : Value = try! (number_coerce_1 (inputs[0])) .into_value ();
+	let mut output : Value = try! (number_coerce_1a (inputs[0])) .into_value ();
 	
 	if inputs_count == 1 {
 		output = match primitive {
