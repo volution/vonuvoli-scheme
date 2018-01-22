@@ -1,0 +1,7 @@
+## benchmarking `benchmark__list_build_4__mutable`...
+## benchmarked `benchmark__list_build_4__mutable`!
+       average   :        157
+         stdev   :          1 /   0.77%
+         median  :        157 /   0.55%
+       min / max :        156 / 156 / 157 / 157 / 160
+       mem-leaks :          0 KB

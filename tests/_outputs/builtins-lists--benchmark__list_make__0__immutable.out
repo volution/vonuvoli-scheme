@@ -1,0 +1,7 @@
+## benchmarking `benchmark__list_make__0__immutable`...
+## benchmarked `benchmark__list_make__0__immutable`!
+       average   :         40
+         stdev   :          0 /   1.03%
+         median  :         40 /   0.75%
+       min / max :         40 / 40 / 40 / 40 / 41
+       mem-leaks :          0 KB

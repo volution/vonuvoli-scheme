@@ -1,0 +1,7 @@
+## benchmarking `benchmark__list_clone__100__mutable`...
+## benchmarked `benchmark__list_clone__100__mutable`!
+       average   :       9914
+         stdev   :         54 /   0.54%
+         median  :       9896 /   0.31%
+       min / max :       9826 / 9887 / 9896 / 9951 / 10046
+       mem-leaks :          0 KB

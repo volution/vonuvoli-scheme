@@ -1,0 +1,7 @@
+## benchmarking `benchmark__list_length__100__immutable`...
+## benchmarked `benchmark__list_length__100__immutable`!
+       average   :       3015
+         stdev   :         22 /   0.74%
+         median  :       3005 /   0.62%
+       min / max :       2990 / 3002 / 3005 / 3027 / 3069
+       mem-leaks :          0 KB

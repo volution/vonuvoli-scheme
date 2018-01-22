@@ -1,0 +1,7 @@
+## benchmarking `benchmark__list_length__0`...
+## benchmarked `benchmark__list_length__0`!
+       average   :         21
+         stdev   :          0 /   1.24%
+         median  :         21 /   1.50%
+       min / max :         20 / 21 / 21 / 21 / 21
+       mem-leaks :          0 KB
