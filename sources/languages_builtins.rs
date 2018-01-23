@@ -45,8 +45,10 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 	let definitions = vec! [
 			
 			
-			("locals", SyntaxPrimitiveV::Locals.into ()), // https://docs.racket-lang.org/reference/local.html
+			("locals", SyntaxPrimitiveV::Locals.into ()),
 			("set!-values", SyntaxPrimitiveV::SetValues.into ()),
+			
+			("guard*", SyntaxPrimitiveV::Guard.into ()),
 			
 			("call", FunctionsPrimitiveV::Call.into ()),
 			("call-with-values*", FunctionsPrimitive2::CallWithValues.into ()),

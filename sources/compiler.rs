@@ -339,6 +339,12 @@ impl Compiler {
 					SyntaxPrimitiveV::UntilCond =>
 						fail_unimplemented! (0x9e9861c0), // deferred
 					
+					SyntaxPrimitiveV::Guard =>
+						return self.compile_syntax_guard (compilation, tokens),
+					
+					SyntaxPrimitiveV::GuardCond =>
+						return self.compile_syntax_guard_cond (compilation, tokens),
+					
 					SyntaxPrimitiveV::Locals =>
 						return self.compile_syntax_locals (compilation, tokens),
 					
@@ -701,6 +707,20 @@ impl Compiler {
 		};
 		
 		succeed! ((compilation, expression));
+	}
+	
+	
+	
+	
+	fn compile_syntax_guard (&self, _compilation : CompilerContext, _tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+		fail_unimplemented! (0x4bc8b360);
+	}
+	
+	
+	
+	
+	fn compile_syntax_guard_cond (&self, _compilation : CompilerContext, _tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+		fail_unimplemented! (0xc89144f5);
 	}
 	
 	

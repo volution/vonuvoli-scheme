@@ -45,9 +45,12 @@ pub enum SyntaxPrimitiveV {
 	Do,
 	DoCond,
 	While,
-	Until,
 	WhileCond,
+	Until,
 	UntilCond,
+	
+	Guard,
+	GuardCond,
 	
 	Locals,
 	LetParallel,

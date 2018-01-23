@@ -52,7 +52,7 @@ fn main_0 () -> (Outcome<()>) {
 			(),
 		Err (error) => {
 			try_or_fail! (write! (transcript, "!! input !! => {:#?}\n", &error), 0xfaa982e1);
-			fail! (0x008f9fa86);
+			fail! (0x08f9fa86);
 		},
 	}
 	

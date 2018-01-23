@@ -116,7 +116,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "syntaxes", "syntax-error", SyntaxPrimitive::Unsupported.into ()),
 			("base", "syntaxes", "syntax-rules", SyntaxPrimitive::Unsupported.into ()),
 			
-			("base", "evaluator", "guard", SyntaxPrimitive::Unimplemented.into ()),
+			("base", "evaluator", "guard", SyntaxPrimitiveV::GuardCond.into ()),
 			
 			
 			
