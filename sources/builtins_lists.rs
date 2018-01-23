@@ -297,11 +297,11 @@ pub fn list_build_4 (value_1 : &Value, value_2 : &Value, value_3 : &Value, value
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn list_build_n (values : &[&Value], immutable : Option<bool>) -> (Value) {
+pub fn list_build_n <ValueRef : StdAsRef<Value>> (values : &[ValueRef], immutable : Option<bool>) -> (Value) {
 	if values.is_empty () {
 		return list_empty ();
 	}
-	return values.iter () .rev () .fold (NULL.into (), |last, value| pair_new ((*value).clone (), last, immutable) .into ());
+	return values.iter () .rev () .fold (NULL.into (), |last, value| pair_new (value.as_ref () .clone (), last, immutable) .into ());
 }
 
 

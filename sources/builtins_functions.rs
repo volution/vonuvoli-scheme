@@ -813,7 +813,7 @@ pub fn iterators_iterate_n <Iterators, ValueRef> (evaluator : &mut EvaluatorCont
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn values_build_0 () -> (Value) {
-	return values_new (StdBox::new ([])) .into ();
+	return values_new_empty () .into ();
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -838,6 +838,9 @@ pub fn values_build_4 (value_1 : &Value, value_2 : &Value, value_3 : &Value, val
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn values_build_n (values : &[&Value]) -> (Value) {
+	if values.is_empty () {
+		return values_build_0 ();
+	}
 	return values_clone_slice_ref (values) .into ();
 }
 

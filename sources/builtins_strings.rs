@@ -160,7 +160,7 @@ pub fn string_collect_values_from_generator_ref <Source, ValueRef> (chars : Sour
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_empty () -> (Value) {
-	return string_new (StdString::new ()) .into ();
+	return string_new_empty () .into ();
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

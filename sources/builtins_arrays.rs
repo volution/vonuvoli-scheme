@@ -88,7 +88,7 @@ pub fn array_collect_from_generator_ref <Source, ValueRef> (values : Source) -> 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_empty () -> (Value) {
-	return array_new (StdVec::new ()) .into ();
+	return array_new_empty () .into ();
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

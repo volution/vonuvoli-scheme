@@ -126,7 +126,7 @@ pub fn bytes_collect_values_from_generator_ref <Source, ValueRef> (bytes : Sourc
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_empty () -> (Value) {
-	return bytes_new (StdVec::new ()) .into ();
+	return bytes_new_empty () .into ();
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
