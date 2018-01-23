@@ -51,7 +51,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("call", FunctionsPrimitiveV::Call.into ()),
 			("call-with-values*", FunctionsPrimitive2::CallWithValues.into ()),
 			
-			("error-make", RuntimePrimitiveV::ErrorBuild.into ()),
+			("make-error", RuntimePrimitiveV::ErrorBuild.into ()),
 			("error-object-irritants->vector", RuntimePrimitive1::ErrorArgumentsAsArray.into ()),
 			("error-object-irritants->values", RuntimePrimitive1::ErrorArgumentsAsValues.into ()),
 			

@@ -1,12 +1,12 @@
 
 
-(define e0 (~error-make "error-0")) => !ignore
-(define e1 (~error-make "error-1" 1)) => !ignore
-(define e2 (~error-make "error-2" 1 2)) => !ignore
-(define e3 (~error-make "error-3" 1 2 3)) => !ignore
-(define e4 (~error-make "error-4" 1 2 3 4)) => !ignore
-(define e5 (~error-make "error-5" 1 2 3 4 5)) => !ignore
-(define e6 (~error-make "error-6" 1 2 3 4 5 6)) => !ignore
+(define e0 (~make-error "error-0")) => !ignore
+(define e1 (~make-error "error-1" 1)) => !ignore
+(define e2 (~make-error "error-2" 1 2)) => !ignore
+(define e3 (~make-error "error-3" 1 2 3)) => !ignore
+(define e4 (~make-error "error-4" 1 2 3 4)) => !ignore
+(define e5 (~make-error "error-5" 1 2 3 4 5)) => !ignore
+(define e6 (~make-error "error-6" 1 2 3 4 5 6)) => !ignore
 
 
 (error-object? e0) => #t
