@@ -15,6 +15,7 @@ pub mod exports {
 	pub use super::{
 			error_message, error_arguments_as_list, error_arguments_as_array, error_arguments_as_values,
 			error_build_0, error_build_1, error_build_2, error_build_3, error_build_4, error_build_n,
+			error_coerce, error_coerce_from,
 		};
 	
 	pub use super::{posix_timestamp, jiffies_timestamp, jiffies_per_second};
@@ -127,6 +128,28 @@ pub fn error_build_n (code : Option<u64>, message : &Value, arguments : &[&Value
 	let arguments = StdRc::new (arguments.into_boxed_slice ());
 	let error = Error::new_with_message_and_arguments (code, message, arguments);
 	succeed! (error);
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn error_coerce (code : Option<u64>, value : &Value) -> (Error) {
+	let value = value.clone ();
+	return error_coerce_from (code, value);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn error_coerce_from (code : Option<u64>, value : Value) -> (Error) {
+	match value.kind_match_into () {
+		ValueKindMatchInto::Error (error) =>
+			return error,
+		kind => {
+			let value = kind.value ();
+			let error = Error::new_with_value (code, value);
+			return error;
+		},
+	}
 }
 
 

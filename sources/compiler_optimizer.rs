@@ -134,6 +134,9 @@ impl Optimizer {
 			Expression::Lambda (lambda, expression, registers_closure, registers_local) =>
 				return self.optimize_lambda_create (optimization, lambda, expression, registers_closure, registers_local),
 			
+			Expression::ErrorThrow (expression) =>
+				return self.optimize_error_throw (optimization, *expression),
+			
 		}
 	}
 	
@@ -857,6 +860,15 @@ impl Optimizer {
 	
 	
 	
+	fn optimize_error_throw (&self, optimization : OptimizerContext, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
+		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
+		let expression = Expression::ErrorThrow (expression.into ());
+		succeed! ((optimization, expression));
+	}
+	
+	
+	
+	
 	fn optimize_lambda_create (&self, optimization : OptimizerContext, template : StdRc<LambdaTemplate>, expression : StdRc<Expression>, registers_closure : StdBox<[RegisterTemplate]>, registers_local : StdRc<[RegisterTemplate]>) -> (Outcome<(OptimizerContext, Expression)>) {
 		let expression = match StdRc::try_unwrap (expression) {
 			Ok (expression) =>
@@ -1287,60 +1299,118 @@ impl Optimizer {
 	
 	
 	fn optimize_procedure_primitive_1 (&self, optimization : OptimizerContext, primitive : ProcedurePrimitive1, input_1 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
-		let expression = ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall1 (primitive, input_1.into ()) .into ();
-		let attributes = procedure_primitive_1_attributes (primitive);
-		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
+		match primitive {
+			ProcedurePrimitive1::Runtime (RuntimePrimitive1::ValueRaise) => {
+				let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
+				let expression = Expression::ErrorThrow (input_1.into ()) .into ();
+				succeed! ((optimization, expression));
+			},
+			ProcedurePrimitive1::Runtime (RuntimePrimitive1::ErrorRaise) => {
+				let (optimization, expression) = try! (self.optimize_procedure_primitive_1 (optimization, RuntimePrimitive1::ErrorBuild.into (), input_1));
+				let expression = Expression::ErrorThrow (expression.into ()) .into ();
+				succeed! ((optimization, expression));
+			},
+			_ => {
+				let expression = ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall1 (primitive, input_1.into ()) .into ();
+				let attributes = procedure_primitive_1_attributes (primitive);
+				return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
+			},
+		};
 	}
 	
 	
 	fn optimize_procedure_primitive_2 (&self, optimization : OptimizerContext, primitive : ProcedurePrimitive2, input_1 : Expression, input_2 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
-		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
-		let expression = ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall2 (primitive, input_1.into (), input_2.into ()) .into ();
-		let attributes = procedure_primitive_2_attributes (primitive);
-		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
+		match primitive {
+			ProcedurePrimitive2::Runtime (RuntimePrimitive2::ErrorRaise) => {
+				let (optimization, expression) = try! (self.optimize_procedure_primitive_2 (optimization, RuntimePrimitive2::ErrorBuild.into (), input_1, input_2));
+				let expression = Expression::ErrorThrow (expression.into ()) .into ();
+				succeed! ((optimization, expression));
+			},
+			_ => {
+				let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
+				let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
+				let expression = ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall2 (primitive, input_1.into (), input_2.into ()) .into ();
+				let attributes = procedure_primitive_2_attributes (primitive);
+				return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
+			},
+		}
 	}
 	
 	
 	fn optimize_procedure_primitive_3 (&self, optimization : OptimizerContext, primitive : ProcedurePrimitive3, input_1 : Expression, input_2 : Expression, input_3 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
-		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
-		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
-		let expression = ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall3 (primitive, input_1.into (), input_2.into (), input_3.into ()) .into ();
-		let attributes = procedure_primitive_3_attributes (primitive);
-		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
+		match primitive {
+			ProcedurePrimitive3::Runtime (RuntimePrimitive3::ErrorRaise) => {
+				let (optimization, expression) = try! (self.optimize_procedure_primitive_3 (optimization, RuntimePrimitive3::ErrorBuild.into (), input_1, input_2, input_3));
+				let expression = Expression::ErrorThrow (expression.into ()) .into ();
+				succeed! ((optimization, expression));
+			},
+			_ => {
+				let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
+				let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
+				let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
+				let expression = ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall3 (primitive, input_1.into (), input_2.into (), input_3.into ()) .into ();
+				let attributes = procedure_primitive_3_attributes (primitive);
+				return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
+			},
+		}
 	}
 	
 	
 	fn optimize_procedure_primitive_4 (&self, optimization : OptimizerContext, primitive : ProcedurePrimitive4, input_1 : Expression, input_2 : Expression, input_3 : Expression, input_4 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
-		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
-		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
-		let (optimization, input_4) = try! (self.optimize_0 (optimization, input_4));
-		let expression = ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall4 (primitive, input_1.into (), input_2.into (), input_3.into (), input_4.into ()) .into ();
-		let attributes = procedure_primitive_4_attributes (primitive);
-		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
+		match primitive {
+			ProcedurePrimitive4::Runtime (RuntimePrimitive4::ErrorRaise) => {
+				let (optimization, expression) = try! (self.optimize_procedure_primitive_4 (optimization, RuntimePrimitive4::ErrorBuild.into (), input_1, input_2, input_3, input_4));
+				let expression = Expression::ErrorThrow (expression.into ()) .into ();
+				succeed! ((optimization, expression));
+			},
+			_ => {
+				let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
+				let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
+				let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
+				let (optimization, input_4) = try! (self.optimize_0 (optimization, input_4));
+				let expression = ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall4 (primitive, input_1.into (), input_2.into (), input_3.into (), input_4.into ()) .into ();
+				let attributes = procedure_primitive_4_attributes (primitive);
+				return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
+			}
+		}
 	}
 	
 	
 	fn optimize_procedure_primitive_5 (&self, optimization : OptimizerContext, primitive : ProcedurePrimitive5, input_1 : Expression, input_2 : Expression, input_3 : Expression, input_4 : Expression, input_5 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
-		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
-		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
-		let (optimization, input_4) = try! (self.optimize_0 (optimization, input_4));
-		let (optimization, input_5) = try! (self.optimize_0 (optimization, input_5));
-		let expression = ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall5 (primitive, input_1.into (), input_2.into (), input_3.into (), input_4.into (), input_5.into ()) .into ();
-		let attributes = procedure_primitive_5_attributes (primitive);
-		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
+		match primitive {
+			ProcedurePrimitive5::Runtime (RuntimePrimitive5::ErrorRaise) => {
+				let (optimization, expression) = try! (self.optimize_procedure_primitive_5 (optimization, RuntimePrimitive5::ErrorBuild.into (), input_1, input_2, input_3, input_4, input_5));
+				let expression = Expression::ErrorThrow (expression.into ()) .into ();
+				succeed! ((optimization, expression));
+			},
+			_ => {
+				let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
+				let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
+				let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
+				let (optimization, input_4) = try! (self.optimize_0 (optimization, input_4));
+				let (optimization, input_5) = try! (self.optimize_0 (optimization, input_5));
+				let expression = ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall5 (primitive, input_1.into (), input_2.into (), input_3.into (), input_4.into (), input_5.into ()) .into ();
+				let attributes = procedure_primitive_5_attributes (primitive);
+				return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
+			},
+		}
 	}
 	
 	
 	fn optimize_procedure_primitive_n (&self, optimization : OptimizerContext, primitive : ProcedurePrimitiveN, inputs : StdBox<[Expression]>) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, inputs) = try! (self.optimize_0_slice (optimization, inputs));
-		let expression = ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCallN (primitive, inputs) .into ();
-		let attributes = procedure_primitive_n_attributes (primitive);
-		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
+		match primitive {
+			ProcedurePrimitiveN::Runtime (RuntimePrimitiveN::ErrorRaise) => {
+				let (optimization, expression) = try! (self.optimize_procedure_primitive_n (optimization, RuntimePrimitiveN::ErrorBuild.into (), inputs));
+				let expression = Expression::ErrorThrow (expression.into ()) .into ();
+				succeed! ((optimization, expression));
+			},
+			_ => {
+				let (optimization, inputs) = try! (self.optimize_0_slice (optimization, inputs));
+				let expression = ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCallN (primitive, inputs) .into ();
+				let attributes = procedure_primitive_n_attributes (primitive);
+				return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
+			},
+		}
 	}
 	
 	
@@ -1820,6 +1890,9 @@ impl Optimizer {
 			Expression::Lambda (_, _, _, _) =>
 				false,
 			
+			Expression::ErrorThrow (_) =>
+				false,
+			
 			Expression::Contexts (ref expression) =>
 				match *expression {
 					
@@ -2116,6 +2189,9 @@ impl Optimizer {
 			Expression::Lambda (_, _, _, _) =>
 				None,
 			
+			Expression::ErrorThrow (_) =>
+				None,
+			
 			Expression::Contexts (ref expression) =>
 				match *expression {
 					
@@ -2297,6 +2373,9 @@ impl Optimizer {
 				None,
 			
 			Expression::Lambda (_, _, _, _) =>
+				None,
+			
+			Expression::ErrorThrow (_) =>
 				None,
 			
 			Expression::Contexts (ref expression) =>

@@ -61,6 +61,8 @@ pub enum Expression {
 	
 	Lambda ( StdRc<LambdaTemplate>, StdRc<Expression>, StdBox<[RegisterTemplate]>, StdRc<[RegisterTemplate]> ),
 	
+	ErrorThrow ( ExpressionBox ),
+	
 }
 
 
