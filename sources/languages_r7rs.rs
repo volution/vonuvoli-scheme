@@ -429,9 +429,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			("base", "ports", "call-with-port", PortPrimitive2::CallAndClose.into ()),
 			
-			("base", "parameters", "current-input-port", ProcedurePrimitive::Unsupported.into ()),
-			("base", "parameters", "current-output-port", ProcedurePrimitive::Unsupported.into ()),
-			("base", "parameters", "current-error-port", ProcedurePrimitive::Unsupported.into ()),
+			("base", "parameters", "current-input-port", PortPrimitive0::CurrentInput.into ()),
+			("base", "parameters", "current-output-port", PortPrimitive0::CurrentOutput.into ()),
+			("base", "parameters", "current-error-port", PortPrimitive0::CurrentError.into ()),
 			
 			("base", "ports", "port?", TypePrimitive1::IsPort.into ()),
 			("base", "ports", "input-port?", TypePrimitive1::IsPortInput.into ()),

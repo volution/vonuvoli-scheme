@@ -63,6 +63,10 @@ pub enum PortPrimitive0 {
 	
 	Eof,
 	
+	CurrentInput,
+	CurrentOutput,
+	CurrentError,
+	
 }
 
 
@@ -179,6 +183,15 @@ pub fn port_primitive_0_evaluate (primitive : PortPrimitive0, _evaluator : &mut 
 		
 		PortPrimitive0::Eof =>
 			return PORT_EOF.into_0 (),
+		
+		PortPrimitive0::CurrentInput =>
+			return Port::new_stdin () .into_0 (),
+		
+		PortPrimitive0::CurrentOutput =>
+			return Port::new_stdout () .into_0 (),
+		
+		PortPrimitive0::CurrentError =>
+			return Port::new_stderr () .into_0 (),
 		
 	}
 }
