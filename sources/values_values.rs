@@ -10,7 +10,7 @@ use super::prelude::*;
 
 pub mod exports {
 	pub use super::Values;
-	pub use super::{values_new, values_new_from_vec};
+	pub use super::{values_new, values_new_empty, values_new_from_vec};
 	pub use super::{values_clone_slice, values_clone_slice_ref};
 }
 
@@ -85,6 +85,11 @@ impl Values {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn values_new (values : StdBox<[Value]>) -> (Values) {
 	Values (StdRc::new (values))
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn values_new_empty () -> (Values) {
+	Values (StdRc::new (StdBox::new ([])))
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

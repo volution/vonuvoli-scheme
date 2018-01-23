@@ -13,9 +13,9 @@ use super::prelude::*;
 pub mod exports {
 	pub use super::{Bytes, BytesRef, BytesAsRef, BytesImmutable, BytesMutable, BytesMutableInternals};
 	pub use super::{BytesMatchAsRef, BytesMatchInto, BytesMatchAsRef2};
-	pub use super::{bytes_immutable_new, bytes_immutable_clone_slice, bytes_immutable_clone_str, bytes_immutable_clone_characters};
-	pub use super::{bytes_mutable_new, bytes_mutable_clone_slice, bytes_mutable_clone_str, bytes_mutable_clone_characters};
-	pub use super::{bytes_new, bytes_clone_slice, bytes_clone_str, bytes_clone_characters};
+	pub use super::{bytes_immutable_new, bytes_immutable_new_empty, bytes_immutable_clone_slice, bytes_immutable_clone_str, bytes_immutable_clone_characters};
+	pub use super::{bytes_mutable_new, bytes_mutable_new_empty, bytes_mutable_clone_slice, bytes_mutable_clone_str, bytes_mutable_clone_characters};
+	pub use super::{bytes_new, bytes_new_empty, bytes_clone_slice, bytes_clone_str, bytes_clone_characters};
 	pub use super::{BytesIterator, BytesIterators};
 }
 
@@ -225,6 +225,16 @@ impl <'a> BytesAsRef<'a> {
 				(*value) .clone () .into (),
 			BytesAsRef::Mutable (value) =>
 				(*value) .clone () .into (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn bytes_rc_clone (&self) -> (StdRc<StdBox<[u8]>>) {
+		match *self {
+			BytesAsRef::Immutable (value) =>
+				value.bytes_rc_clone (),
+			BytesAsRef::Mutable (value) =>
+				(value.0) .as_ref () .borrow_mut () .to_cow (),
 		}
 	}
 	
@@ -444,6 +454,28 @@ pub fn bytes_new (bytes : StdVec<u8>) -> (Value) {
 		bytes_immutable_new (bytes) .into ()
 	} else {
 		bytes_mutable_new (bytes) .into ()
+	}
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn bytes_immutable_new_empty () -> (BytesImmutable) {
+	bytes_immutable_new (StdVec::new ())
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn bytes_mutable_new_empty () -> (BytesMutable) {
+	bytes_mutable_new (StdVec::new ())
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn bytes_new_empty () -> (Value) {
+	if BYTES_NEW_IMMUTABLE {
+		bytes_immutable_new_empty () .into ()
+	} else {
+		bytes_mutable_new_empty () .into ()
 	}
 }
 

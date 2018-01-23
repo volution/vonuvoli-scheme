@@ -13,9 +13,9 @@ use super::prelude::*;
 pub mod exports {
 	pub use super::{String, StringRef, StringAsRef, StringImmutable, StringMutable, StringMutableInternals};
 	pub use super::{StringMatchAsRef, StringMatchInto, StringMatchAsRef2};
-	pub use super::{string_immutable_new, string_immutable_clone_str, string_immutable_clone_characters};
-	pub use super::{string_mutable_new, string_mutable_clone_str, string_mutable_clone_characters};
-	pub use super::{string_new, string_clone_str, string_clone_characters};
+	pub use super::{string_immutable_new, string_immutable_new_empty, string_immutable_clone_str, string_immutable_clone_characters};
+	pub use super::{string_mutable_new, string_mutable_new_empty, string_mutable_clone_str, string_mutable_clone_characters};
+	pub use super::{string_new, string_new_empty, string_clone_str, string_clone_characters};
 	pub use super::{StringIterator, StringIterators};
 }
 
@@ -249,6 +249,16 @@ impl <'a> StringAsRef<'a> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn string_rc_clone (&self) -> (StdRc<StdBox<str>>) {
+		match *self {
+			StringAsRef::Immutable (value) =>
+				value.string_rc_clone (),
+			StringAsRef::Mutable (value) =>
+				(value.0) .as_ref () .borrow_mut () .to_cow (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn to_immutable (&self) -> (StringImmutable) {
 		match *self {
 			StringAsRef::Immutable (value) =>
@@ -464,6 +474,28 @@ pub fn string_new (string : StdString) -> (Value) {
 		string_immutable_new (string) .into ()
 	} else {
 		string_mutable_new (string) .into ()
+	}
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn string_immutable_new_empty () -> (StringImmutable) {
+	string_immutable_new (StdString::new ())
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn string_mutable_new_empty () -> (StringMutable) {
+	string_mutable_new (StdString::new ())
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn string_new_empty () -> (Value) {
+	if STRING_NEW_IMMUTABLE {
+		string_immutable_new_empty () .into ()
+	} else {
+		string_mutable_new_empty () .into ()
 	}
 }
 

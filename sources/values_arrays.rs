@@ -12,9 +12,9 @@ use super::prelude::*;
 pub mod exports {
 	pub use super::{Array, ArrayRef, ArrayAsRef, ArrayImmutable, ArrayMutable, ArrayMutableInternals};
 	pub use super::{ArrayMatchAsRef, ArrayMatchInto, ArrayMatchAsRef2};
-	pub use super::{array_immutable_new, array_immutable_clone_slice, array_immutable_clone_slice_ref};
-	pub use super::{array_mutable_new, array_mutable_clone_slice, array_mutable_clone_slice_ref};
-	pub use super::{array_new, array_clone_slice, array_clone_slice_ref};
+	pub use super::{array_immutable_new, array_immutable_new_empty, array_immutable_clone_slice, array_immutable_clone_slice_ref};
+	pub use super::{array_mutable_new, array_mutable_new_empty, array_mutable_clone_slice, array_mutable_clone_slice_ref};
+	pub use super::{array_new, array_new_empty, array_clone_slice, array_clone_slice_ref};
 	pub use super::{ArrayIterator, ArrayIterators};
 }
 
@@ -224,6 +224,16 @@ impl <'a> ArrayAsRef<'a> {
 				(*value) .clone () .into (),
 			ArrayAsRef::Mutable (value) =>
 				(*value) .clone () .into (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn values_rc_clone (&self) -> (StdRc<StdBox<[Value]>>) {
+		match *self {
+			ArrayAsRef::Immutable (value) =>
+				value.values_rc_clone (),
+			ArrayAsRef::Mutable (value) =>
+				(value.0) .as_ref () .borrow_mut () .to_cow (),
 		}
 	}
 	
@@ -443,6 +453,28 @@ pub fn array_new (values : StdVec<Value>) -> (Value) {
 		array_immutable_new (values) .into ()
 	} else {
 		array_mutable_new (values) .into ()
+	}
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn array_immutable_new_empty () -> (ArrayImmutable) {
+	array_immutable_new (StdVec::new ())
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn array_mutable_new_empty () -> (ArrayMutable) {
+	array_mutable_new (StdVec::new ())
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn array_new_empty () -> (Value) {
+	if BYTES_NEW_IMMUTABLE {
+		array_immutable_new_empty () .into ()
+	} else {
+		array_mutable_new_empty () .into ()
 	}
 }
 
