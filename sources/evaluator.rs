@@ -442,10 +442,10 @@ impl Evaluator {
 		match *clause {
 			ExpressionConditionalIfClause::Void =>
 				succeed! (None),
-			ExpressionConditionalIfClause::GuardOnly (ref guard, ref guard_usage) =>
-				return self.evaluate_conditional_if_guard (evaluation, guard, guard_usage),
-			ExpressionConditionalIfClause::GuardAndExpression (ref guard, ref guard_usage, ref output) =>
-				if try! (self.evaluate_conditional_if_guard (evaluation, guard, guard_usage)) .is_some () {
+			ExpressionConditionalIfClause::GuardOnly (ref guard, ref guard_consumer) =>
+				return self.evaluate_conditional_if_guard (evaluation, guard, guard_consumer),
+			ExpressionConditionalIfClause::GuardAndExpression (ref guard, ref guard_consumer, ref output) =>
+				if try! (self.evaluate_conditional_if_guard (evaluation, guard, guard_consumer)) .is_some () {
 					let output = try! (self.evaluate (evaluation, output));
 					succeed! (Some (Some (output)));
 				} else {
@@ -455,10 +455,10 @@ impl Evaluator {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn evaluate_conditional_if_guard (&self, evaluation : &mut EvaluatorContext, guard : &ExpressionConditionalIfGuard, guard_usage : &ExpressionConditionalGuardUsage) -> (Outcome<Option<Option<Value>>>) {
+	fn evaluate_conditional_if_guard (&self, evaluation : &mut EvaluatorContext, guard : &ExpressionConditionalIfGuard, guard_consumer : &ExpressionValueConsumer) -> (Outcome<Option<Option<Value>>>) {
 		match *guard {
 			ExpressionConditionalIfGuard::True =>
-				succeed! (Some (try! (self.evaluate_conditional_guard_usage (evaluation, TRUE.into (), guard_usage)))),
+				succeed! (Some (try! (self.evaluate_value_consumer (evaluation, TRUE.into (), guard_consumer)))),
 			ExpressionConditionalIfGuard::False =>
 				succeed! (None),
 			ExpressionConditionalIfGuard::Expression (ref expression, negated) => {
@@ -469,7 +469,7 @@ impl Evaluator {
 					(is_false (&output), TRUE.into ())
 				};
 				if matched {
-					succeed! (Some (try! (self.evaluate_conditional_guard_usage (evaluation, output, guard_usage))));
+					succeed! (Some (try! (self.evaluate_value_consumer (evaluation, output, guard_consumer))));
 				} else {
 					succeed! (None);
 				}
@@ -527,10 +527,10 @@ impl Evaluator {
 		match *clause {
 			ExpressionConditionalMatchClause::Void =>
 				succeed! (Alternative2::Variant2 (actual)),
-			ExpressionConditionalMatchClause::GuardOnly (ref guard, ref guard_usage) =>
-				return self.evaluate_conditional_match_guard (evaluation, actual, guard, guard_usage),
-			ExpressionConditionalMatchClause::GuardAndExpression (ref guard, ref guard_usage, ref output) =>
-				match try! (self.evaluate_conditional_match_guard (evaluation, actual, guard, guard_usage)) {
+			ExpressionConditionalMatchClause::GuardOnly (ref guard, ref guard_consumer) =>
+				return self.evaluate_conditional_match_guard (evaluation, actual, guard, guard_consumer),
+			ExpressionConditionalMatchClause::GuardAndExpression (ref guard, ref guard_consumer, ref output) =>
+				match try! (self.evaluate_conditional_match_guard (evaluation, actual, guard, guard_consumer)) {
 					Alternative2::Variant1 (_) => {
 						let output = try! (self.evaluate (evaluation, output));
 						succeed! (Alternative2::Variant1 (Some (output)));
@@ -542,7 +542,7 @@ impl Evaluator {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn evaluate_conditional_match_guard (&self, evaluation : &mut EvaluatorContext, actual : Value, guard : &ExpressionConditionalMatchGuard, guard_usage : &ExpressionConditionalGuardUsage) -> (Outcome<Alternative2<Option<Value>, Value>>) {
+	fn evaluate_conditional_match_guard (&self, evaluation : &mut EvaluatorContext, actual : Value, guard : &ExpressionConditionalMatchGuard, guard_consumer : &ExpressionValueConsumer) -> (Outcome<Alternative2<Option<Value>, Value>>) {
 		let (matched, negated) = match *guard {
 			ExpressionConditionalMatchGuard::True =>
 				(true, false),
@@ -564,7 +564,7 @@ impl Evaluator {
 			},
 		};
 		if matched ^ negated {
-			succeed! (Alternative2::Variant1 (try! (self.evaluate_conditional_guard_usage (evaluation, actual, guard_usage))));
+			succeed! (Alternative2::Variant1 (try! (self.evaluate_value_consumer (evaluation, actual, guard_consumer))));
 		} else {
 			succeed! (Alternative2::Variant2 (actual));
 		}
@@ -574,25 +574,25 @@ impl Evaluator {
 	
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn evaluate_conditional_guard_usage (&self, evaluation : &mut EvaluatorContext, value : Value, usage : &ExpressionConditionalGuardUsage) -> (Outcome<Option<Value>>) {
-		match *usage {
-			ExpressionConditionalGuardUsage::Ignore =>
+	fn evaluate_value_consumer (&self, evaluation : &mut EvaluatorContext, value : Value, consumer : &ExpressionValueConsumer) -> (Outcome<Option<Value>>) {
+		match *consumer {
+			ExpressionValueConsumer::Ignore =>
 				succeed! (None),
-			ExpressionConditionalGuardUsage::Return =>
+			ExpressionValueConsumer::Return =>
 				succeed! (Some (value)),
-			ExpressionConditionalGuardUsage::BindingInitialize (ref binding) => {
+			ExpressionValueConsumer::BindingInitialize (ref binding) => {
 				try! (binding.initialize (value));
 				succeed! (None);
 			},
-			ExpressionConditionalGuardUsage::BindingSet (ref binding) => {
+			ExpressionValueConsumer::BindingSet (ref binding) => {
 				try! (binding.set (value));
 				succeed! (None);
 			},
-			ExpressionConditionalGuardUsage::RegisterInitialize (index) => {
+			ExpressionValueConsumer::RegisterInitialize (index) => {
 				try! (evaluation.registers.initialize_value (index, value));
 				succeed! (None);
 			},
-			ExpressionConditionalGuardUsage::RegisterSet (index) => {
+			ExpressionValueConsumer::RegisterSet (index) => {
 				try! (evaluation.registers.update_value (index, value));
 				succeed! (None);
 			},

@@ -413,11 +413,11 @@ impl Compiler {
 			vec! [
 					ExpressionConditionalIfClause::GuardAndExpression (
 							ExpressionConditionalIfGuard::Expression (guard, false),
-							ExpressionConditionalGuardUsage::Ignore,
+							ExpressionValueConsumer::Ignore,
 							if_true),
 					ExpressionConditionalIfClause::GuardAndExpression (
 							ExpressionConditionalIfGuard::True,
-							ExpressionConditionalGuardUsage::Ignore,
+							ExpressionValueConsumer::Ignore,
 							if_false),
 				]
 		} else if tokens_count == 2 {
@@ -425,7 +425,7 @@ impl Compiler {
 			vec! [
 					ExpressionConditionalIfClause::GuardAndExpression (
 							ExpressionConditionalIfGuard::Expression (guard, false),
-							ExpressionConditionalGuardUsage::Ignore,
+							ExpressionValueConsumer::Ignore,
 							if_true),
 				]
 		} else {
@@ -465,7 +465,7 @@ impl Compiler {
 		let clauses = vec! [
 				ExpressionConditionalIfClause::GuardAndExpression (
 						ExpressionConditionalIfGuard::Expression (guard, negated),
-						ExpressionConditionalGuardUsage::Ignore,
+						ExpressionValueConsumer::Ignore,
 						statements),
 			];
 		
@@ -501,19 +501,19 @@ impl Compiler {
 				(compilation, guard)
 			};
 			
-			let (compilation_1, guard_usage) = if ! statements.is_empty () && is_symbol_eq ("=>", &statements[0]) {
+			let (compilation_1, guard_consumer) = if ! statements.is_empty () && is_symbol_eq ("=>", &statements[0]) {
 				fail_unimplemented! (0xfa332991); // deferred
 			} else {
-				(compilation_1, ExpressionConditionalGuardUsage::Ignore)
+				(compilation_1, ExpressionValueConsumer::Ignore)
 			};
 			
 			let (compilation_1, statements) = try! (self.compile_0_vec (compilation_1, statements));
 			
 			let clause = if ! statements.is_empty () {
 				let statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, statements.into_boxed_slice ());
-				ExpressionConditionalIfClause::GuardAndExpression (guard, guard_usage, statements)
+				ExpressionConditionalIfClause::GuardAndExpression (guard, guard_consumer, statements)
 			} else {
-				ExpressionConditionalIfClause::GuardOnly (guard, ExpressionConditionalGuardUsage::Return)
+				ExpressionConditionalIfClause::GuardOnly (guard, ExpressionValueConsumer::Return)
 			};
 			
 			clauses.push (clause);
@@ -558,19 +558,19 @@ impl Compiler {
 				ExpressionConditionalMatchGuard::True
 			};
 			
-			let (compilation_1, guard_usage) = if ! statements.is_empty () && is_symbol_eq ("=>", &statements[0]) {
+			let (compilation_1, guard_consumer) = if ! statements.is_empty () && is_symbol_eq ("=>", &statements[0]) {
 				fail_unimplemented! (0xef5d468c); // deferred
 			} else {
-				(compilation, ExpressionConditionalGuardUsage::Ignore)
+				(compilation, ExpressionValueConsumer::Ignore)
 			};
 			
 			let (compilation_1, statements) = try! (self.compile_0_vec (compilation_1, statements));
 			
 			let clause = if ! statements.is_empty () {
 				let statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, statements.into_boxed_slice ());
-				ExpressionConditionalMatchClause::GuardAndExpression (guard, guard_usage, statements)
+				ExpressionConditionalMatchClause::GuardAndExpression (guard, guard_consumer, statements)
 			} else {
-				ExpressionConditionalMatchClause::GuardOnly (guard, ExpressionConditionalGuardUsage::Return)
+				ExpressionConditionalMatchClause::GuardOnly (guard, ExpressionValueConsumer::Return)
 			};
 			
 			clauses.push (clause);
@@ -670,13 +670,13 @@ impl Compiler {
 		let break_guard = ExpressionConditionalIfGuard::Expression (break_guard, false);
 		
 		let (compilation, break_clause) = if break_statements.is_empty () {
-			let clause = ExpressionConditionalIfClause::GuardOnly (break_guard, ExpressionConditionalGuardUsage::Return);
+			let clause = ExpressionConditionalIfClause::GuardOnly (break_guard, ExpressionValueConsumer::Return);
 			(compilation, clause)
 		} else {
 			// FIXME:  Add support for `(guard => expression)` just like for `cond`!
 			let (compilation, break_statements) = try! (self.compile_0_vec (compilation, break_statements));
 			let break_statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, break_statements.into_boxed_slice ());
-			let clause = ExpressionConditionalIfClause::GuardAndExpression (break_guard, ExpressionConditionalGuardUsage::Ignore, break_statements);
+			let clause = ExpressionConditionalIfClause::GuardAndExpression (break_guard, ExpressionValueConsumer::Ignore, break_statements);
 			(compilation, clause)
 		};
 		

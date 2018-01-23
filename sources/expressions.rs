@@ -24,7 +24,7 @@ pub mod exports {
 	pub use super::ExpressionConditionalMatchClauses;
 	pub use super::ExpressionConditionalMatchClause;
 	pub use super::ExpressionConditionalMatchGuard;
-	pub use super::ExpressionConditionalGuardUsage;
+	pub use super::ExpressionValueConsumer;
 	
 	pub use super::ExpressionForContexts;
 	pub use super::ExpressionForProcedureGenericCall;
@@ -78,8 +78,8 @@ pub enum ExpressionConditionalIfClauses {
 #[ derive (Clone, Debug, Hash) ]
 pub enum ExpressionConditionalIfClause {
 	Void,
-	GuardOnly ( ExpressionConditionalIfGuard, ExpressionConditionalGuardUsage ),
-	GuardAndExpression ( ExpressionConditionalIfGuard, ExpressionConditionalGuardUsage, Expression ),
+	GuardOnly ( ExpressionConditionalIfGuard, ExpressionValueConsumer ),
+	GuardAndExpression ( ExpressionConditionalIfGuard, ExpressionValueConsumer, Expression ),
 }
 
 #[ derive (Clone, Debug, Hash) ]
@@ -102,8 +102,8 @@ pub enum ExpressionConditionalMatchClauses {
 #[ derive (Clone, Debug, Hash) ]
 pub enum ExpressionConditionalMatchClause {
 	Void,
-	GuardOnly ( ExpressionConditionalMatchGuard, ExpressionConditionalGuardUsage ),
-	GuardAndExpression ( ExpressionConditionalMatchGuard, ExpressionConditionalGuardUsage, Expression ),
+	GuardOnly ( ExpressionConditionalMatchGuard, ExpressionValueConsumer ),
+	GuardAndExpression ( ExpressionConditionalMatchGuard, ExpressionValueConsumer, Expression ),
 }
 
 #[ derive (Clone, Debug, Hash) ]
@@ -118,7 +118,7 @@ pub enum ExpressionConditionalMatchGuard {
 
 
 #[ derive (Clone, Debug, Hash) ]
-pub enum ExpressionConditionalGuardUsage {
+pub enum ExpressionValueConsumer {
 	Ignore,
 	Return,
 	BindingInitialize ( Binding ),

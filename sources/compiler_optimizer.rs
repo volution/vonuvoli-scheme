@@ -533,36 +533,36 @@ impl Optimizer {
 		match clause {
 			ExpressionConditionalIfClause::Void =>
 				succeed! ((optimization, clause)),
-			ExpressionConditionalIfClause::GuardOnly (guard, guard_usage) => {
+			ExpressionConditionalIfClause::GuardOnly (guard, guard_consumer) => {
 				let (optimization, guard) = try! (self.optimize_conditional_if_guard (optimization, guard));
-				let (optimization, guard_usage) = try! (self.optimize_conditional_guard_usage (optimization, guard_usage));
+				let (optimization, guard_consumer) = try! (self.optimize_value_consumer (optimization, guard_consumer));
 				let clause = match guard {
 					ExpressionConditionalIfGuard::False =>
-						match guard_usage {
-							ExpressionConditionalGuardUsage::Return =>
+						match guard_consumer {
+							ExpressionValueConsumer::Return =>
 								ExpressionConditionalIfClause::Void,
 							_ =>
-								ExpressionConditionalIfClause::GuardOnly (guard, guard_usage),
+								ExpressionConditionalIfClause::GuardOnly (guard, guard_consumer),
 						},
 					_ =>
-						ExpressionConditionalIfClause::GuardOnly (guard, guard_usage),
+						ExpressionConditionalIfClause::GuardOnly (guard, guard_consumer),
 				};
 				succeed! ((optimization, clause));
 			},
-			ExpressionConditionalIfClause::GuardAndExpression (guard, guard_usage, output) => {
+			ExpressionConditionalIfClause::GuardAndExpression (guard, guard_consumer, output) => {
 				let (optimization, guard) = try! (self.optimize_conditional_if_guard (optimization, guard));
-				let (optimization, guard_usage) = try! (self.optimize_conditional_guard_usage (optimization, guard_usage));
+				let (optimization, guard_consumer) = try! (self.optimize_value_consumer (optimization, guard_consumer));
 				let (optimization, output) = try! (self.optimize_0 (optimization, output));
 				let clause = match guard {
 					ExpressionConditionalIfGuard::False =>
-						match guard_usage {
-							ExpressionConditionalGuardUsage::Return =>
+						match guard_consumer {
+							ExpressionValueConsumer::Return =>
 								ExpressionConditionalIfClause::Void,
 							_ =>
-								ExpressionConditionalIfClause::GuardOnly (guard, guard_usage),
+								ExpressionConditionalIfClause::GuardOnly (guard, guard_consumer),
 						},
 					_ =>
-						ExpressionConditionalIfClause::GuardAndExpression (guard, guard_usage, output),
+						ExpressionConditionalIfClause::GuardAndExpression (guard, guard_consumer, output),
 				};
 				succeed! ((optimization, clause));
 			},
@@ -634,36 +634,36 @@ impl Optimizer {
 		match clause {
 			ExpressionConditionalMatchClause::Void =>
 				succeed! ((optimization, clause)),
-			ExpressionConditionalMatchClause::GuardOnly (guard, guard_usage) => {
+			ExpressionConditionalMatchClause::GuardOnly (guard, guard_consumer) => {
 				let (optimization, guard) = try! (self.optimize_conditional_match_guard (optimization, guard));
-				let (optimization, guard_usage) = try! (self.optimize_conditional_guard_usage (optimization, guard_usage));
+				let (optimization, guard_consumer) = try! (self.optimize_value_consumer (optimization, guard_consumer));
 				let clause = match guard {
 					ExpressionConditionalMatchGuard::False =>
-						match guard_usage {
-							ExpressionConditionalGuardUsage::Return =>
+						match guard_consumer {
+							ExpressionValueConsumer::Return =>
 								ExpressionConditionalMatchClause::Void,
 							_ =>
-								ExpressionConditionalMatchClause::GuardOnly (guard, guard_usage),
+								ExpressionConditionalMatchClause::GuardOnly (guard, guard_consumer),
 						},
 					_ =>
-						ExpressionConditionalMatchClause::GuardOnly (guard, guard_usage),
+						ExpressionConditionalMatchClause::GuardOnly (guard, guard_consumer),
 				};
 				succeed! ((optimization, clause));
 			},
-			ExpressionConditionalMatchClause::GuardAndExpression (guard, guard_usage, output) => {
+			ExpressionConditionalMatchClause::GuardAndExpression (guard, guard_consumer, output) => {
 				let (optimization, guard) = try! (self.optimize_conditional_match_guard (optimization, guard));
-				let (optimization, guard_usage) = try! (self.optimize_conditional_guard_usage (optimization, guard_usage));
+				let (optimization, guard_consumer) = try! (self.optimize_value_consumer (optimization, guard_consumer));
 				let (optimization, output) = try! (self.optimize_0 (optimization, output));
 				let clause = match guard {
 					ExpressionConditionalMatchGuard::False =>
-						match guard_usage {
-							ExpressionConditionalGuardUsage::Return =>
+						match guard_consumer {
+							ExpressionValueConsumer::Return =>
 								ExpressionConditionalMatchClause::Void,
 							_ =>
-								ExpressionConditionalMatchClause::GuardOnly (guard, guard_usage),
+								ExpressionConditionalMatchClause::GuardOnly (guard, guard_consumer),
 						},
 					_ =>
-						ExpressionConditionalMatchClause::GuardAndExpression (guard, guard_usage, output),
+						ExpressionConditionalMatchClause::GuardAndExpression (guard, guard_consumer, output),
 				};
 				succeed! ((optimization, clause));
 			},
@@ -697,8 +697,8 @@ impl Optimizer {
 	
 	
 	
-	fn optimize_conditional_guard_usage (&self, optimization : OptimizerContext, usage : ExpressionConditionalGuardUsage) -> (Outcome<(OptimizerContext, ExpressionConditionalGuardUsage)>) {
-		succeed! ((optimization, usage));
+	fn optimize_value_consumer (&self, optimization : OptimizerContext, consumer : ExpressionValueConsumer) -> (Outcome<(OptimizerContext, ExpressionValueConsumer)>) {
+		succeed! ((optimization, consumer));
 	}
 	
 	
