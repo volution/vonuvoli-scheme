@@ -48,6 +48,7 @@ def_scheme_tests_from_file! (
 		test__ports_native => "scheme/ports-native.sst",
 		
 		test__runtime => "scheme/runtime.sst",
+		test__errors => "scheme/errors.sst",
 		
 		test__processes => "scheme/processes.sst",
 		
@@ -96,6 +97,7 @@ def_scheme_benchmarks_from_file! (
 		benchmark__ports_native => "scheme/ports-native.sst",
 		
 		benchmark__runtime => "scheme/runtime.sst",
+		benchmark__errors => "scheme/errors.sst",
 		
 		benchmark__processes => "scheme/processes.sst",
 		

@@ -551,6 +551,7 @@
 	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_ordering_objects.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-ordering-objects.sst' "${@}"
 	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__contexts.out' x-run ':: execute / bin / bencher / release' './tests/scheme/contexts.sst' "${@}"
 	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__control.out' x-run ':: execute / bin / bencher / release' './tests/scheme/control.sst' "${@}"
+	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__errors.out' x-run ':: execute / bin / bencher / release' './tests/scheme/errors.sst' "${@}"
 	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions.out' x-run ':: execute / bin / bencher / release' './tests/scheme/functions.sst' "${@}"
 	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_arrays.out' x-run ':: execute / bin / bencher / release' './tests/scheme/functions-arrays.sst' "${@}"
 	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_bytes.out' x-run ':: execute / bin / bencher / release' './tests/scheme/functions-bytes.sst' "${@}"
@@ -687,6 +688,14 @@
 
 << execute / bin / bencher / debug
 	x-run ':: compile / bin / bencher / debug' ; exec -- ./target/debug/vonuvoli-scheme-bencher "${@}"
+!!
+
+<< execute / bin / bencher / errors / debug
+	exec -- taskset -c 2 x-run ':: execute / bin / bencher / debug' './tests/scheme/errors.sst' "${@}"
+!!
+
+<< execute / bin / bencher / errors / release
+	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__errors.out' x-run ':: execute / bin / bencher / release' './tests/scheme/errors.sst' "${@}"
 !!
 
 << execute / bin / bencher / functions / debug
@@ -1025,6 +1034,7 @@
 	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/comparisons-ordering-objects.sst' "${@}"
 	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/contexts.sst' "${@}"
 	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/control.sst' "${@}"
+	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/errors.sst' "${@}"
 	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/functions.sst' "${@}"
 	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/functions-arrays.sst' "${@}"
 	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/functions-bytes.sst' "${@}"
@@ -1217,6 +1227,18 @@
 
 << execute / bin / tester / debug
 	x-run ':: compile / bin / tester / debug' ; exec -- ./target/debug/vonuvoli-scheme-tester "${@}"
+!!
+
+<< execute / bin / tester / errors / debug
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/errors.sst' "${@}"
+!!
+
+<< execute / bin / tester / errors / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / bin / tester / errors / debug'
+!!
+
+<< execute / bin / tester / errors / release
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/errors.sst' "${@}"
 !!
 
 << execute / bin / tester / functions / debug
@@ -1774,6 +1796,14 @@
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__control' --exact "${@}"
 !!
 
+<< execute / test / scheme / benchmarks / errors / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__errors' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / errors / release
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__errors' --exact "${@}"
+!!
+
 << execute / test / scheme / benchmarks / functions / debug
 	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__functions' --exact "${@}"
 !!
@@ -2116,6 +2146,18 @@
 
 << execute / test / scheme / tests / control / release
 	x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__control' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / errors / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__errors' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / errors / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / errors / debug' "${@}"
+!!
+
+<< execute / test / scheme / tests / errors / release
+	x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__errors' --exact "${@}"
 !!
 
 << execute / test / scheme / tests / functions / debug
@@ -2768,6 +2810,10 @@
 	exec -- sce ./tests/scheme/control.sst
 !!
 
+<< files / edit / tests/scheme/errors.sst
+	exec -- sce ./tests/scheme/errors.sst
+!!
+
 << files / edit / tests/scheme/functions-arrays.sst
 	exec -- sce ./tests/scheme/functions-arrays.sst
 !!
@@ -3298,6 +3344,10 @@
 
 << files / view / tests/scheme/control.sst
 	exec -- less -- ./tests/scheme/control.sst
+!!
+
+<< files / view / tests/scheme/errors.sst
+	exec -- less -- ./tests/scheme/errors.sst
 !!
 
 << files / view / tests/scheme/functions-arrays.sst
