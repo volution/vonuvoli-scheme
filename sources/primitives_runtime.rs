@@ -72,6 +72,13 @@ pub enum RuntimePrimitive0 {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum RuntimePrimitive1 {
 	
+	ErrorRaise,
+	ErrorBuild,
+	ErrorMessage,
+	ErrorArgumentsAsList,
+	ErrorArgumentsAsArray,
+	ErrorArgumentsAsValues,
+	
 	ProcessEnvironment,
 	
 	ProcessExit,
@@ -89,23 +96,46 @@ pub enum RuntimePrimitive1 {
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
-pub enum RuntimePrimitive2 {}
+pub enum RuntimePrimitive2 {
+	
+	ErrorRaise,
+	ErrorBuild,
+	
+}
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
-pub enum RuntimePrimitive3 {}
+pub enum RuntimePrimitive3 {
+	
+	ErrorRaise,
+	ErrorBuild,
+	
+}
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
-pub enum RuntimePrimitive4 {}
+pub enum RuntimePrimitive4 {
+	
+	ErrorRaise,
+	ErrorBuild,
+	
+}
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
-pub enum RuntimePrimitive5 {}
+pub enum RuntimePrimitive5 {
+	
+	ErrorRaise,
+	ErrorBuild,
+	
+}
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum RuntimePrimitiveN {
+	
+	ErrorRaise,
+	ErrorBuild,
 	
 	ProcessSpawn,
 	ProcessRunTry,
@@ -116,6 +146,9 @@ pub enum RuntimePrimitiveN {
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum RuntimePrimitiveV {
+	
+	ErrorRaise,
+	ErrorBuild,
 	
 	ProcessExit,
 	ProcessExitEmergency,
@@ -160,6 +193,24 @@ pub fn runtime_primitive_0_evaluate (primitive : RuntimePrimitive0, _evaluator :
 pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, input_1 : &Value, _evaluator : &EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
+		RuntimePrimitive1::ErrorRaise =>
+			return Err (try! (error_build_0 (None, input_1))),
+		
+		RuntimePrimitive1::ErrorBuild =>
+			return error_build_0 (None, input_1) .into_0 (),
+		
+		RuntimePrimitive1::ErrorMessage =>
+			return error_message (input_1) .into_0 (),
+		
+		RuntimePrimitive1::ErrorArgumentsAsList =>
+			return error_arguments_as_list (input_1) .into_0 (),
+		
+		RuntimePrimitive1::ErrorArgumentsAsArray =>
+			return error_arguments_as_array (input_1) .into_0 (),
+		
+		RuntimePrimitive1::ErrorArgumentsAsValues =>
+			return error_arguments_as_values (input_1) .into_0 (),
+		
 		RuntimePrimitive1::ProcessEnvironment =>
 			fail_unimplemented! (0x8f801b52), // deferred
 		
@@ -194,32 +245,64 @@ pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, input_1 : &V
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn runtime_primitive_2_evaluate (primitive : RuntimePrimitive2, _input_1 : &Value, _input_2 : &Value, _evaluator : &EvaluatorContext) -> (Outcome<Value>) {
-	match primitive {}
+pub fn runtime_primitive_2_evaluate (primitive : RuntimePrimitive2, input_1 : &Value, input_2 : &Value, _evaluator : &EvaluatorContext) -> (Outcome<Value>) {
+	match primitive {
+		
+		RuntimePrimitive2::ErrorRaise =>
+			return Err (try! (error_build_1 (None, input_1, input_2))),
+		
+		RuntimePrimitive2::ErrorBuild =>
+			return error_build_1 (None, input_1, input_2) .into_0 (),
+		
+	}
 }
 
 
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn runtime_primitive_3_evaluate (primitive : RuntimePrimitive3, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _evaluator : &EvaluatorContext) -> (Outcome<Value>) {
-	match primitive {}
+pub fn runtime_primitive_3_evaluate (primitive : RuntimePrimitive3, input_1 : &Value, input_2 : &Value, input_3 : &Value, _evaluator : &EvaluatorContext) -> (Outcome<Value>) {
+	match primitive {
+		
+		RuntimePrimitive3::ErrorRaise =>
+			return Err (try! (error_build_2 (None, input_1, input_2, input_3))),
+		
+		RuntimePrimitive3::ErrorBuild =>
+			return error_build_2 (None, input_1, input_2, input_3) .into_0 (),
+		
+	}
 }
 
 
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn runtime_primitive_4_evaluate (primitive : RuntimePrimitive4, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _evaluator : &EvaluatorContext) -> (Outcome<Value>) {
-	match primitive {}
+pub fn runtime_primitive_4_evaluate (primitive : RuntimePrimitive4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, _evaluator : &EvaluatorContext) -> (Outcome<Value>) {
+	match primitive {
+		
+		RuntimePrimitive4::ErrorRaise =>
+			return Err (try! (error_build_3 (None, input_1, input_2, input_3, input_4))),
+		
+		RuntimePrimitive4::ErrorBuild =>
+			return error_build_3 (None, input_1, input_2, input_3, input_4) .into_0 (),
+		
+	}
 }
 
 
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn runtime_primitive_5_evaluate (primitive : RuntimePrimitive5, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _input_5 : &Value, _evaluator : &EvaluatorContext) -> (Outcome<Value>) {
-	match primitive {}
+pub fn runtime_primitive_5_evaluate (primitive : RuntimePrimitive5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value, _evaluator : &EvaluatorContext) -> (Outcome<Value>) {
+	match primitive {
+		
+		RuntimePrimitive5::ErrorRaise =>
+			return Err (try! (error_build_4 (None, input_1, input_2, input_3, input_4, input_5))),
+		
+		RuntimePrimitive5::ErrorBuild =>
+			return error_build_4 (None, input_1, input_2, input_3, input_4, input_5) .into_0 (),
+		
+	}
 }
 
 
@@ -228,6 +311,16 @@ pub fn runtime_primitive_5_evaluate (primitive : RuntimePrimitive5, _input_1 : &
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn runtime_primitive_n_evaluate (primitive : RuntimePrimitiveN, inputs : &[&Value], _evaluator : &EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
+		
+		RuntimePrimitiveN::ErrorRaise => {
+			let (message, inputs) = try_some! (inputs.split_first (), 0x84aec603);
+			return Err (try! (error_build_n (None, message, inputs)));
+		},
+		
+		RuntimePrimitiveN::ErrorBuild => {
+			let (message, inputs) = try_some! (inputs.split_first (), 0x87db450f);
+			return error_build_n (None, message, inputs) .into_0 ();
+		},
 		
 		RuntimePrimitiveN::ProcessSpawn =>
 			return process_spawn (inputs) .into_0 (),
@@ -247,6 +340,10 @@ pub fn runtime_primitive_n_evaluate (primitive : RuntimePrimitiveN, inputs : &[&
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn runtime_primitive_v_alternative_0 (primitive : RuntimePrimitiveV) -> (Option<RuntimePrimitive0>) {
 	match primitive {
+		RuntimePrimitiveV::ErrorRaise =>
+			None,
+		RuntimePrimitiveV::ErrorBuild =>
+			None,
 		RuntimePrimitiveV::ProcessExit =>
 			Some (RuntimePrimitive0::ProcessExit),
 		RuntimePrimitiveV::ProcessExitEmergency =>
@@ -260,6 +357,10 @@ pub fn runtime_primitive_v_alternative_0 (primitive : RuntimePrimitiveV) -> (Opt
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn runtime_primitive_v_alternative_1 (primitive : RuntimePrimitiveV) -> (Option<RuntimePrimitive1>) {
 	match primitive {
+		RuntimePrimitiveV::ErrorRaise =>
+			Some (RuntimePrimitive1::ErrorRaise),
+		RuntimePrimitiveV::ErrorBuild =>
+			Some (RuntimePrimitive1::ErrorBuild),
 		RuntimePrimitiveV::ProcessExit =>
 			Some (RuntimePrimitive1::ProcessExit),
 		RuntimePrimitiveV::ProcessExitEmergency =>
@@ -273,6 +374,10 @@ pub fn runtime_primitive_v_alternative_1 (primitive : RuntimePrimitiveV) -> (Opt
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn runtime_primitive_v_alternative_2 (primitive : RuntimePrimitiveV) -> (Option<RuntimePrimitive2>) {
 	match primitive {
+		RuntimePrimitiveV::ErrorRaise =>
+			Some (RuntimePrimitive2::ErrorRaise),
+		RuntimePrimitiveV::ErrorBuild =>
+			Some (RuntimePrimitive2::ErrorBuild),
 		RuntimePrimitiveV::ProcessExit =>
 			None,
 		RuntimePrimitiveV::ProcessExitEmergency =>
@@ -286,6 +391,10 @@ pub fn runtime_primitive_v_alternative_2 (primitive : RuntimePrimitiveV) -> (Opt
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn runtime_primitive_v_alternative_3 (primitive : RuntimePrimitiveV) -> (Option<RuntimePrimitive3>) {
 	match primitive {
+		RuntimePrimitiveV::ErrorRaise =>
+			Some (RuntimePrimitive3::ErrorRaise),
+		RuntimePrimitiveV::ErrorBuild =>
+			Some (RuntimePrimitive3::ErrorBuild),
 		RuntimePrimitiveV::ProcessExit =>
 			None,
 		RuntimePrimitiveV::ProcessExitEmergency =>
@@ -299,6 +408,10 @@ pub fn runtime_primitive_v_alternative_3 (primitive : RuntimePrimitiveV) -> (Opt
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn runtime_primitive_v_alternative_4 (primitive : RuntimePrimitiveV) -> (Option<RuntimePrimitive4>) {
 	match primitive {
+		RuntimePrimitiveV::ErrorRaise =>
+			Some (RuntimePrimitive4::ErrorRaise),
+		RuntimePrimitiveV::ErrorBuild =>
+			Some (RuntimePrimitive4::ErrorBuild),
 		RuntimePrimitiveV::ProcessExit =>
 			None,
 		RuntimePrimitiveV::ProcessExitEmergency =>
@@ -312,6 +425,10 @@ pub fn runtime_primitive_v_alternative_4 (primitive : RuntimePrimitiveV) -> (Opt
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn runtime_primitive_v_alternative_5 (primitive : RuntimePrimitiveV) -> (Option<RuntimePrimitive5>) {
 	match primitive {
+		RuntimePrimitiveV::ErrorRaise =>
+			Some (RuntimePrimitive5::ErrorRaise),
+		RuntimePrimitiveV::ErrorBuild =>
+			Some (RuntimePrimitive5::ErrorBuild),
 		RuntimePrimitiveV::ProcessExit =>
 			None,
 		RuntimePrimitiveV::ProcessExitEmergency =>
@@ -325,6 +442,10 @@ pub fn runtime_primitive_v_alternative_5 (primitive : RuntimePrimitiveV) -> (Opt
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn runtime_primitive_v_alternative_n (primitive : RuntimePrimitiveV) -> (Option<RuntimePrimitiveN>) {
 	match primitive {
+		RuntimePrimitiveV::ErrorRaise =>
+			Some (RuntimePrimitiveN::ErrorRaise),
+		RuntimePrimitiveV::ErrorBuild =>
+			Some (RuntimePrimitiveN::ErrorBuild),
 		RuntimePrimitiveV::ProcessExit =>
 			None,
 		RuntimePrimitiveV::ProcessExitEmergency =>

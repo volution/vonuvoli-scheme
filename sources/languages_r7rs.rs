@@ -413,10 +413,10 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "evaluator", "raise", ProcedurePrimitive::Unimplemented.into ()),
 			("base", "evaluator", "raise-continuable", ProcedurePrimitive::Unsupported.into ()),
 			
-			("base", "errors", "error", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "errors", "error", RuntimePrimitiveV::ErrorRaise.into ()),
 			("base", "errors", "error-object?", TypePrimitive1::IsError.into ()),
-			("base", "errors", "error-object-message", ProcedurePrimitive::Unimplemented.into ()),
-			("base", "errors", "error-object-irritants", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "errors", "error-object-message", RuntimePrimitive1::ErrorMessage.into ()),
+			("base", "errors", "error-object-irritants", RuntimePrimitive1::ErrorArgumentsAsList.into ()),
 			("base", "errors", "read-error?", TypePrimitive1::IsErrorPortInput.into ()),
 			("base", "errors", "file-error?", TypePrimitive1::IsErrorFile.into ()),
 			
