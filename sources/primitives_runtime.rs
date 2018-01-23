@@ -72,6 +72,8 @@ pub enum RuntimePrimitive0 {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum RuntimePrimitive1 {
 	
+	ValueRaise,
+	
 	ErrorRaise,
 	ErrorBuild,
 	ErrorMessage,
@@ -192,6 +194,9 @@ pub fn runtime_primitive_0_evaluate (primitive : RuntimePrimitive0, _evaluator :
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, input_1 : &Value, _evaluator : &EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
+		
+		RuntimePrimitive1::ValueRaise =>
+			return Err (Error::new_with_value (None, input_1.clone ())),
 		
 		RuntimePrimitive1::ErrorRaise =>
 			return Err (try! (error_build_0 (None, input_1))),

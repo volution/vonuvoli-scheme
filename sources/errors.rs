@@ -33,6 +33,7 @@ pub enum ErrorInternals {
 	Code (u64),
 	WithMessage (Option<u64>, StdRc<StdBox<str>>),
 	WithMessageAndArguments (Option<u64>, StdRc<StdBox<str>>, StdRc<StdBox<[Value]>>),
+	WithValue (Option<u64>, Value),
 }
 
 
@@ -57,6 +58,12 @@ impl Error {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new_with_value (code : Option<u64>, value : Value) -> (Error) {
+		let internals = ErrorInternals::WithValue (code, value);
+		Error (StdRc::new (internals))
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn code (&self) -> (u64) {
 		match *self.internals_ref () {
 			ErrorInternals::Code (code) =>
@@ -64,6 +71,8 @@ impl Error {
 			ErrorInternals::WithMessage (code, _) =>
 				code.unwrap_or (0x0000000000000000),
 			ErrorInternals::WithMessageAndArguments (code, _, _) =>
+				code.unwrap_or (0x0000000000000000),
+			ErrorInternals::WithValue (code, _) =>
 				code.unwrap_or (0x0000000000000000),
 		}
 	}
@@ -77,6 +86,8 @@ impl Error {
 				Some (message.as_ref ()),
 			ErrorInternals::WithMessageAndArguments (_, ref message, _) =>
 				Some (message.as_ref ()),
+			ErrorInternals::WithValue (_, _) =>
+				None,
 		}
 	}
 	
@@ -89,6 +100,8 @@ impl Error {
 				Some (StringImmutable::clone_rc (message)),
 			ErrorInternals::WithMessageAndArguments (_, ref message, _) =>
 				Some (StringImmutable::clone_rc (message)),
+			ErrorInternals::WithValue (_, _) =>
+				None,
 		}
 	}
 	
@@ -101,6 +114,8 @@ impl Error {
 				None,
 			ErrorInternals::WithMessageAndArguments (_, _, ref arguments) =>
 				Some (arguments.as_ref ()),
+			ErrorInternals::WithValue (_, _) =>
+				None,
 		}
 	}
 	
@@ -113,6 +128,8 @@ impl Error {
 				None,
 			ErrorInternals::WithMessageAndArguments (_, _, ref arguments) =>
 				Some (ArrayImmutable::clone_rc (arguments)),
+			ErrorInternals::WithValue (_, _) =>
+				None,
 		}
 	}
 	
@@ -125,6 +142,8 @@ impl Error {
 				None,
 			ErrorInternals::WithMessageAndArguments (_, _, ref arguments) =>
 				Some (Values::clone_rc (arguments)),
+			ErrorInternals::WithValue (_, _) =>
+				None,
 		}
 	}
 	

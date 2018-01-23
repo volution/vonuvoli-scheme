@@ -116,7 +116,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "syntaxes", "syntax-error", SyntaxPrimitive::Unsupported.into ()),
 			("base", "syntaxes", "syntax-rules", SyntaxPrimitive::Unsupported.into ()),
 			
-			("base", "evaluator", "guard", SyntaxPrimitive::Unsupported.into ()),
+			("base", "evaluator", "guard", SyntaxPrimitive::Unimplemented.into ()),
 			
 			
 			
@@ -410,7 +410,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			// ???
 			
-			("base", "evaluator", "raise", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "errors", "raise", RuntimePrimitive1::ValueRaise.into ()),
 			("base", "evaluator", "raise-continuable", ProcedurePrimitive::Unsupported.into ()),
 			
 			("base", "errors", "error", RuntimePrimitiveV::ErrorRaise.into ()),
@@ -420,7 +420,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "errors", "read-error?", TypePrimitive1::IsErrorPortInput.into ()),
 			("base", "errors", "file-error?", TypePrimitive1::IsErrorFile.into ()),
 			
-			("base", "evaluator", "with-exception-handler", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "evaluator", "with-exception-handler", ProcedurePrimitive::Unsupported.into ()),
 			
 			
 			
