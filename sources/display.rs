@@ -626,7 +626,8 @@ impl fmt::Display for Error {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		write! (formatter, "#<error:{:08x}>", self.code)
+		let (code_1, code_2) = self.code_2 ();
+		write! (formatter, "#<error:{:08x}:{:08x}>", code_1, code_2)
 	}
 }
 
@@ -634,7 +635,8 @@ impl fmt::Debug for Error {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		write! (formatter, "#<error:{:08x}>", self.code)
+		let (code_1, code_2) = self.code_2 ();
+		write! (formatter, "#<error:{:08x}:{:08x}>", code_1, code_2)
 	}
 }
 

@@ -625,6 +625,35 @@ impl cmp::PartialOrd for LambdaInternals {
 
 
 
+impl cmp::Eq for Error {}
+
+impl cmp::PartialEq for Error {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn eq (&self, other : &Error) -> (bool) {
+		u64::eq (&self.code (), &other.code ())
+	}
+}
+
+impl cmp::Ord for Error {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn cmp (&self, other : &Error) -> (cmp::Ordering) {
+		u64::cmp (&self.code (), &other.code ())
+	}
+}
+
+impl cmp::PartialOrd for Error {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn partial_cmp (&self, other : &Error) -> (Option<cmp::Ordering>) {
+		Some (Error::cmp (self, other))
+	}
+}
+
+
+
+
 impl cmp::Eq for ProcedureNative {}
 
 impl cmp::PartialEq for ProcedureNative {

@@ -1160,7 +1160,7 @@ pub fn error_compare_2a <ValueRef : StdAsRef<Error>> (left : ValueRef, right : V
 		Comparison::Equivalence (_, _, _) =>
 			succeed! (Error::is_self (left, right)),
 		Comparison::Ordering (ordering, _, _) =>
-			return std_ord_compare_2_ordering_val (left.code, right.code, ordering),
+			return std_ord_compare_2_ordering_val (left.code (), right.code (), ordering),
 	}
 }
 

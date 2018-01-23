@@ -88,6 +88,16 @@ def_test! (test__0, {
 	
 	assert_size! (all, report, [
 			
+			Outcome<()>,
+			Outcome<bool>,
+			Outcome<NumberInteger>,
+			Outcome<Value>,
+			
+		]);
+	
+	
+	assert_size! (all, report, [
+			
 			Expression,
 			
 		]);

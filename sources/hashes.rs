@@ -167,6 +167,17 @@ impl hash::Hash for ArrayMutable {
 
 
 
+impl hash::Hash for Error {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
+		self.code () .hash (hasher);
+	}
+}
+
+
+
+
 impl hash::Hash for LambdaInternals {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
