@@ -270,6 +270,16 @@ pub struct ArrayImmutable ( StdRc<StdBox<[Value]>> );
 impl ArrayImmutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn from_rc (rc : StdRc<StdBox<[Value]>>) -> (ArrayImmutable) {
+		ArrayImmutable (rc)
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn clone_rc (rc : &StdRc<StdBox<[Value]>>) -> (ArrayImmutable) {
+		ArrayImmutable::from_rc (StdRc::clone (rc))
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &ArrayImmutable) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
@@ -286,8 +296,7 @@ impl ArrayImmutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn to_mutable (&self) -> (ArrayMutable) {
-		let internals = ArrayMutableInternals::Cow (self.values_rc_clone ());
-		ArrayMutable (StdRc::new (StdRefCell::new (internals)))
+		ArrayMutable::from_rc (self.values_rc_clone ())
 	}
 }
 
@@ -317,6 +326,17 @@ pub enum ArrayMutableInternals {
 impl ArrayMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn from_rc (rc : StdRc<StdBox<[Value]>>) -> (ArrayMutable) {
+		let internals = ArrayMutableInternals::Cow (rc);
+		ArrayMutable (StdRc::new (StdRefCell::new (internals)))
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn clone_rc (rc : &StdRc<StdBox<[Value]>>) -> (ArrayMutable) {
+		ArrayMutable::from_rc (StdRc::clone (rc))
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &ArrayMutable) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
@@ -344,7 +364,7 @@ impl ArrayMutable {
 	pub fn to_immutable (&self) -> (ArrayImmutable) {
 		let mut reference = self.0.as_ref () .borrow_mut ();
 		let values = reference.to_cow ();
-		ArrayImmutable (values)
+		ArrayImmutable::from_rc (values)
 	}
 }
 

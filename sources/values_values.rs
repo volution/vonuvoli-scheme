@@ -59,6 +59,16 @@ impl Values {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn from_rc (rc : StdRc<StdBox<[Value]>>) -> (Values) {
+		Values (rc)
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn clone_rc (rc : &StdRc<StdBox<[Value]>>) -> (Values) {
+		Values::from_rc (StdRc::clone (rc))
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &Values) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}

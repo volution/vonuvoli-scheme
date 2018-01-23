@@ -291,6 +291,16 @@ pub struct StringImmutable ( StdRc<StdBox<str>> );
 impl StringImmutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn from_rc (rc : StdRc<StdBox<str>>) -> (StringImmutable) {
+		StringImmutable (rc)
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn clone_rc (rc : &StdRc<StdBox<str>>) -> (StringImmutable) {
+		StringImmutable::from_rc (StdRc::clone (rc))
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &StringImmutable) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
@@ -307,8 +317,7 @@ impl StringImmutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn to_mutable (&self) -> (StringMutable) {
-		let internals = StringMutableInternals::Cow (self.string_rc_clone ());
-		StringMutable (StdRc::new (StdRefCell::new (internals)))
+		StringMutable::from_rc (self.string_rc_clone ())
 	}
 }
 
@@ -338,6 +347,17 @@ pub enum StringMutableInternals {
 impl StringMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn from_rc (rc : StdRc<StdBox<str>>) -> (StringMutable) {
+		let internals = StringMutableInternals::Cow (rc);
+		StringMutable (StdRc::new (StdRefCell::new (internals)))
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn clone_rc (rc : &StdRc<StdBox<str>>) -> (StringMutable) {
+		StringMutable::from_rc (StdRc::clone (rc))
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &StringMutable) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
@@ -365,7 +385,7 @@ impl StringMutable {
 	pub fn to_immutable (&self) -> (StringImmutable) {
 		let mut reference = self.0.as_ref () .borrow_mut ();
 		let string = reference.to_cow ();
-		StringImmutable (string)
+		StringImmutable::from_rc (string)
 	}
 }
 

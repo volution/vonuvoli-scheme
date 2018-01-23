@@ -271,6 +271,16 @@ pub struct BytesImmutable ( StdRc<StdBox<[u8]>> );
 impl BytesImmutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn from_rc (rc : StdRc<StdBox<[u8]>>) -> (BytesImmutable) {
+		BytesImmutable (rc)
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn clone_rc (rc : &StdRc<StdBox<[u8]>>) -> (BytesImmutable) {
+		BytesImmutable::from_rc (StdRc::clone (rc))
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &BytesImmutable) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
@@ -287,8 +297,7 @@ impl BytesImmutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn to_mutable (&self) -> (BytesMutable) {
-		let internals = BytesMutableInternals::Cow (self.bytes_rc_clone ());
-		BytesMutable (StdRc::new (StdRefCell::new (internals)))
+		BytesMutable::from_rc (self.bytes_rc_clone ())
 	}
 }
 
@@ -318,6 +327,17 @@ pub enum BytesMutableInternals {
 impl BytesMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn from_rc (rc : StdRc<StdBox<[u8]>>) -> (BytesMutable) {
+		let internals = BytesMutableInternals::Cow (rc);
+		BytesMutable (StdRc::new (StdRefCell::new (internals)))
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn clone_rc (rc : &StdRc<StdBox<[u8]>>) -> (BytesMutable) {
+		BytesMutable::from_rc (StdRc::clone (rc))
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &BytesMutable) -> (bool) {
 		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
@@ -345,7 +365,7 @@ impl BytesMutable {
 	pub fn to_immutable (&self) -> (BytesImmutable) {
 		let mut reference = self.0.as_ref () .borrow_mut ();
 		let bytes = reference.to_cow ();
-		BytesImmutable (bytes)
+		BytesImmutable::from_rc (bytes)
 	}
 }
 
