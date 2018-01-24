@@ -80,11 +80,11 @@
 !!
 
 << compile / doc / debug
-	x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo doc --quiet --no-default-features "${@}"
+	x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo doc --quiet --no-default-features --no-deps "${@}"
 !!
 
 << compile / doc / release
-	x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo doc --quiet --release --all-features "${@}"
+	x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo doc --quiet --release --all-features --no-deps "${@}"
 !!
 
 << compile / documentation / r7rs-support

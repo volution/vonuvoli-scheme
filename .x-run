@@ -43,8 +43,8 @@ cat <<'EOS'
 :: compile / test / all / debug :: x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --no-default-features --no-run "${@}"
 :: compile / test / all / release :: x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --release --all-features --no-run "${@}"
 
-:: compile / doc / debug :: x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo doc --quiet --no-default-features "${@}"
-:: compile / doc / release :: x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo doc --quiet --release --all-features "${@}"
+:: compile / doc / debug :: x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo doc --quiet --no-default-features --no-deps "${@}"
+:: compile / doc / release :: x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo doc --quiet --release --all-features --no-deps "${@}"
 
 :: compile / clean :: exec -- find ./target/ -xdev -depth -print -delete
 
