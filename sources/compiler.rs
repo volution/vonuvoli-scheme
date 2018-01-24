@@ -748,15 +748,123 @@ impl Compiler {
 	
 	
 	
-	fn compile_syntax_guard (&self, _compilation : CompilerContext, _tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
-		fail_unimplemented! (0x4bc8b360);
+	fn compile_syntax_guard (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+		
+		match tokens.len () {
+			0 =>
+				fail! (0x4065b3e7),
+			1 => {
+				let token = try! (vec_explode_1 (tokens));
+				return self.compile_syntax_guard_return (compilation, token);
+			},
+			3 =>
+				(),
+			_ =>
+				fail! (0xa6056cfd),
+		}
+		
+		let (error_identifier, statement, error_statement) = try! (vec_explode_3 (tokens));
+		let error_identifier = try_into_symbol! (error_identifier);
+		
+		let compilation = try! (compilation.fork_locals (true));
+		
+		let compilation = try! (compilation.define_disable ());
+		let (compilation, statement) = try! (self.compile_0 (compilation, statement));
+		let compilation = try! (compilation.define_enable ());
+		
+		let (compilation, error_binding) = try! (compilation.define (error_identifier));
+		
+		let compilation = try! (compilation.define_disable ());
+		let (compilation, error_statement) = try! (self.compile_0 (compilation, error_statement));
+		let compilation = try! (compilation.define_enable ());
+		
+		let (compilation, registers) = try! (compilation.unfork_locals ());
+		
+		let error_consumer = match error_binding {
+			CompilerBinding::Undefined =>
+				fail_panic! (0xce4f018f),
+			CompilerBinding::Binding (_, binding, _) =>
+				ExpressionValueConsumer::BindingInitialize (binding),
+			CompilerBinding::Register (_, index, _) =>
+				ExpressionValueConsumer::RegisterInitialize (index),
+		};
+		
+		let expression = Expression::ErrorCatch (statement.into (), error_consumer, error_statement.into ());
+		let expression = ExpressionForContexts::RegisterClosure (expression.into (), registers.into_boxed_slice ()) .into ();
+		
+		succeed! ((compilation, expression));
 	}
 	
 	
 	
 	
-	fn compile_syntax_guard_cond (&self, _compilation : CompilerContext, _tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
-		fail_unimplemented! (0xc89144f5);
+	fn compile_syntax_guard_cond (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+		
+		match tokens.len () {
+			0 =>
+				fail! (0x4065b3e7),
+			1 => {
+				let token = try! (vec_explode_1 (tokens));
+				return self.compile_syntax_guard_return (compilation, token);
+			},
+			_ =>
+				(),
+		}
+		
+		let (error_handler, statements) = try! (vec_explode_1n (tokens));
+		let error_handler = try! (vec_list_clone (&error_handler));
+		let (error_identifier, error_clauses) = try! (vec_explode_1n (error_handler));
+		let error_identifier = try_into_symbol! (error_identifier);
+		
+		let compilation = try! (compilation.fork_locals (true));
+		
+		let compilation = try! (compilation.define_disable ());
+		let (compilation, statements) = try! (self.compile_0_vec (compilation, statements));
+		let compilation = try! (compilation.define_enable ());
+		
+		let (compilation, error_binding) = try! (compilation.define (error_identifier.clone ()));
+		let (compilation, error_reference) = try! (self.compile_symbol (compilation, error_identifier));
+		
+		let compilation = try! (compilation.define_disable ());
+		let (compilation, error_clauses) = try! (self.compile_syntax_cond_clauses (compilation, error_clauses));
+		let compilation = try! (compilation.define_enable ());
+		
+		let mut error_clauses = error_clauses;
+		error_clauses.push (ExpressionConditionalIfClause::GuardAndExpression (ExpressionConditionalIfGuard::True, ExpressionValueConsumer::Ignore, Expression::ErrorThrow (error_reference.into ())));
+		
+		let error_clauses = ExpressionConditionalIfClauses::Multiple (error_clauses.into_boxed_slice ());
+		let error_statement = Expression::ConditionalIf (error_clauses);
+		
+		let (compilation, registers) = try! (compilation.unfork_locals ());
+		
+		let error_consumer = match error_binding {
+			CompilerBinding::Undefined =>
+				fail_panic! (0xfd6d2099),
+			CompilerBinding::Binding (_, binding, _) =>
+				ExpressionValueConsumer::BindingInitialize (binding),
+			CompilerBinding::Register (_, index, _) =>
+				ExpressionValueConsumer::RegisterInitialize (index),
+		};
+		
+		let statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, statements.into_boxed_slice ());
+		let expression = Expression::ErrorCatch (statements.into (), error_consumer, error_statement.into ());
+		let expression = ExpressionForContexts::RegisterClosure (expression.into (), registers.into_boxed_slice ()) .into ();
+		
+		succeed! ((compilation, expression));
+	}
+	
+	
+	
+	
+	fn compile_syntax_guard_return (&self, compilation : CompilerContext, token : Value) -> (Outcome<(CompilerContext, Expression)>) {
+		
+		let compilation = try! (compilation.define_disable ());
+		let (compilation, statement) = try! (self.compile_0 (compilation, token));
+		let compilation = try! (compilation.define_enable ());
+		
+		let expression = Expression::ErrorReturn (statement.into ()) .into ();
+		
+		succeed! ((compilation, expression));
 	}
 	
 	
