@@ -12,7 +12,34 @@
 
 #![ no_implicit_prelude ]
 
+
+
+
+// NOTE:  Treat all warnings as errors!
+//        (Except those explicitly `allow`-ed.)
+#![ deny (warnings) ]
+
+// NOTE:  Temporarely `allow` these lints!
+#![ allow (dead_code) ]
 #![ allow (unused_macros) ]
+
+// NOTE:  These lints are `allow`-ed by default.
+//        Toggle `warn` for some of them!
+#![ warn (anonymous_parameters) ]
+#![ allow (box_pointers) ]
+#![ allow (missing_copy_implementations) ]
+#![ allow (missing_debug_implementations) ]
+#![ warn (trivial_casts) ]
+#![ warn (trivial_numeric_casts) ]
+#![ warn (unreachable_pub) ]
+#![ warn (unused_extern_crates) ]
+#![ allow (unused_import_braces) ]
+#![ warn (unused_qualifications) ]
+#![ allow (variant_size_differences) ]
+
+// NOTE:  These lints are `allow`-ed by default.
+#![ allow (missing_docs) ]
+#![ allow (unsafe_code) ]
 
 
 
