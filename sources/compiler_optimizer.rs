@@ -134,6 +134,8 @@ impl Optimizer {
 			Expression::Lambda (lambda, expression, registers_closure, registers_local) =>
 				return self.optimize_lambda_create (optimization, lambda, expression, registers_closure, registers_local),
 			
+			Expression::ErrorCatch (expression, error_consumer, error_expression) =>
+				return self.optimize_error_catch (optimization, *expression, error_consumer, *error_expression),
 			Expression::ErrorThrow (expression) =>
 				return self.optimize_error_throw (optimization, *expression),
 			
@@ -854,6 +856,17 @@ impl Optimizer {
 	
 	fn optimize_register_get_1 (&self, optimization : OptimizerContext, index : usize) -> (Outcome<(OptimizerContext, Expression)>) {
 		let expression = ExpressionForContexts::RegisterGet1 (index) .into ();
+		succeed! ((optimization, expression));
+	}
+	
+	
+	
+	
+	fn optimize_error_catch (&self, optimization : OptimizerContext, expression : Expression, error_consumer : ExpressionValueConsumer, error_expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
+		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
+		let (optimization, error_consumer) = try! (self.optimize_value_consumer (optimization, error_consumer));
+		let (optimization, error_expression) = try! (self.optimize_0 (optimization, error_expression));
+		let expression = Expression::ErrorCatch (expression.into (), error_consumer, error_expression.into ());
 		succeed! ((optimization, expression));
 	}
 	
@@ -1905,6 +1918,8 @@ impl Optimizer {
 			Expression::Lambda (_, _, _, _) =>
 				false,
 			
+			Expression::ErrorCatch (_, _, _) =>
+				false,
 			Expression::ErrorThrow (_) =>
 				false,
 			
@@ -2204,6 +2219,8 @@ impl Optimizer {
 			Expression::Lambda (_, _, _, _) =>
 				None,
 			
+			Expression::ErrorCatch (_, _, _) =>
+				None,
 			Expression::ErrorThrow (_) =>
 				None,
 			
@@ -2390,6 +2407,8 @@ impl Optimizer {
 			Expression::Lambda (_, _, _, _) =>
 				None,
 			
+			Expression::ErrorCatch (_, _, _) =>
+				None,
 			Expression::ErrorThrow (_) =>
 				None,
 			

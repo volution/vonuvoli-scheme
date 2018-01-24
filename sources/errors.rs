@@ -64,6 +64,32 @@ impl Error {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn into_value (self) -> (Value) {
+		match *self.internals_ref () {
+			ErrorInternals::WithValue (_, _) =>
+				(),
+			_ =>
+				return self.into (),
+		}
+		match StdRc::try_unwrap (self.0) {
+			Ok (internals) =>
+				match internals {
+					ErrorInternals::WithValue (_, value) =>
+						return value,
+					_ =>
+						unreachable! (),
+				},
+			Err (internals) =>
+				match *internals.as_ref () {
+					ErrorInternals::WithValue (_, ref value) =>
+						return value.clone (),
+					_ =>
+						unreachable! (),
+				},
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn code (&self) -> (u64) {
 		match *self.internals_ref () {
 			ErrorInternals::Code (code) =>
