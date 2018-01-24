@@ -42,7 +42,7 @@
 |        base        |   parameters   |     procedure      | `make-parameter                  ` | `Unsupported`
 |        base        |    syntaxes    |       syntax       | `syntax-error                    ` | `Unsupported`
 |        base        |    syntaxes    |       syntax       | `syntax-rules                    ` | `Unsupported`
-|        base        |   evaluator    |       syntax       | `guard                           ` | `Unsupported`
+|        base        |   evaluator    |       syntax       | `guard                           ` | `PrimitiveV(GuardCond)`
 |        base        |    modules     |     procedure      | `features                        ` | `Unsupported`
 |        base        |     types      |    procedure-1     | `null?                           ` | `Primitive1(Type(IsNull))`
 |        base        |  equivalence   |    procedure-1*    | `eq?                             ` | `Primitive1(Comparison(EquivalentByIdentity))`
@@ -487,19 +487,25 @@
 |        base        |   evaluator    |     procedure      | `call-with-current-continuation  ` | `Unsupported`
 |        base        |   evaluator    |     procedure      | `call/cc                         ` | `Unsupported`
 |        base        |   evaluator    |     procedure      | `dynamic-wind                    ` | `Unsupported`
-|        base        |   evaluator    |     procedure      | `raise                           ` | `Unimplemented`
+|        base        |     errors     |    procedure-1     | `raise                           ` | `Primitive1(Runtime(ValueRaise))`
 |        base        |   evaluator    |     procedure      | `raise-continuable               ` | `Unsupported`
-|        base        |     errors     |     procedure      | `error                           ` | `Unimplemented`
+|        base        |     errors     |    procedure-1*    | `error                           ` | `Primitive1(Runtime(ErrorRaise))`
+|        base        |     errors     |    procedure-2*    | `error                           ` | `Primitive2(Runtime(ErrorRaise))`
+|        base        |     errors     |    procedure-3*    | `error                           ` | `Primitive3(Runtime(ErrorRaise))`
+|        base        |     errors     |    procedure-4*    | `error                           ` | `Primitive4(Runtime(ErrorRaise))`
+|        base        |     errors     |    procedure-5*    | `error                           ` | `Primitive5(Runtime(ErrorRaise))`
+|        base        |     errors     |    procedure-n*    | `error                           ` | `PrimitiveN(Runtime(ErrorRaise))`
+|        base        |     errors     |    procedure-v*    | `error                           ` | `PrimitiveV(Runtime(ErrorRaise))`
 |        base        |     errors     |    procedure-1     | `error-object?                   ` | `Primitive1(Type(IsError))`
-|        base        |     errors     |     procedure      | `error-object-message            ` | `Unimplemented`
-|        base        |     errors     |     procedure      | `error-object-irritants          ` | `Unimplemented`
+|        base        |     errors     |    procedure-1     | `error-object-message            ` | `Primitive1(Runtime(ErrorMessage))`
+|        base        |     errors     |    procedure-1     | `error-object-irritants          ` | `Primitive1(Runtime(ErrorArgumentsAsList))`
 |        base        |     errors     |    procedure-1     | `read-error?                     ` | `Primitive1(Type(IsErrorPortInput))`
 |        base        |     errors     |    procedure-1     | `file-error?                     ` | `Primitive1(Type(IsErrorFile))`
-|        base        |   evaluator    |     procedure      | `with-exception-handler          ` | `Unimplemented`
+|        base        |   evaluator    |     procedure      | `with-exception-handler          ` | `Unsupported`
 |        base        |     ports      |    procedure-2     | `call-with-port                  ` | `Primitive2(Port(CallAndClose))`
-|        base        |   parameters   |     procedure      | `current-input-port              ` | `Unsupported`
-|        base        |   parameters   |     procedure      | `current-output-port             ` | `Unsupported`
-|        base        |   parameters   |     procedure      | `current-error-port              ` | `Unsupported`
+|        base        |   parameters   |    procedure-0     | `current-input-port              ` | `Primitive0(Port(CurrentInput))`
+|        base        |   parameters   |    procedure-0     | `current-output-port             ` | `Primitive0(Port(CurrentOutput))`
+|        base        |   parameters   |    procedure-0     | `current-error-port              ` | `Primitive0(Port(CurrentError))`
 |        base        |     ports      |    procedure-1     | `port?                           ` | `Primitive1(Type(IsPort))`
 |        base        |     ports      |    procedure-1     | `input-port?                     ` | `Primitive1(Type(IsPortInput))`
 |        base        |     ports      |    procedure-1     | `input-port-open?                ` | `Primitive1(Port(IsInputOpen))`
@@ -532,7 +538,7 @@
 |        base        |     ports      |    procedure-2     | `write-string                    ` | `Primitive2(Port(StringWrite))`
 |        base        |     ports      |    procedure-2     | `write-u8                        ` | `Primitive2(Port(ByteWrite))`
 |        base        |     ports      |    procedure-2     | `write-bytevector                ` | `Primitive2(Port(BytesWrite))`
-|        base        |     ports      |    procedure-0     | `newline                         ` | `Primitive0(Port(RsNewLine))`
+|        base        |     ports      |    procedure-0     | `newline                         ` | `Primitive0(Port(NewLine))`
 |        base        |     ports      |    procedure-1     | `flush-output-port               ` | `Primitive1(Port(FlushOutput))`
 |    case-lambda     |     lambda     |       syntax       | `case-lambda                     ` | `Unsupported`
 |        char        |    strings     |    procedure-1     | `string-upcase                   ` | `Primitive1(String(StringToUpperCase))`
@@ -689,35 +695,27 @@
 |       write        |     ports      |    procedure-2     | `write                           ` | `Primitive2(Port(ValueWrite))`
 |       write        |     ports      |    procedure-2     | `write-shared                    ` | `Primitive2(Port(ValueWriteShared))`
 |       write        |     ports      |    procedure-2     | `write-simple                    ` | `Primitive2(Port(ValueWriteSimple))`
-|       write        |     ports      |    procedure-1     | `display                         ` | `Primitive1(Port(RsDisplay))`
+|       write        |     ports      |    procedure-1     | `display                         ` | `Primitive1(Port(ValueDisplay))`
 
 ****
 
 
 ## Scheme R7RS definitions -- summary
 
-* implemented       289 (97.97% / 85.50%)
+* implemented       297 (99.66% / 87.87%)
 
-* unimplemented       6 (02.03% / 01.78%)
+* unimplemented       1 (00.34% / 00.30%)
   ```
     define-record-type
-    error
-    error-object-irritants
-    error-object-message
-    raise
-    with-exception-handler
   ```
 
-* unsupported        43 (14.58% / 12.72%)
+* unsupported        40 (13.42% / 11.83%)
   ```
     angle
     call-with-current-continuation
     call/cc
     case-lambda
     cond-expand
-    current-error-port
-    current-input-port
-    current-output-port
     define-syntax
     delay
     delay-force
@@ -727,7 +725,6 @@
     eval
     features
     force
-    guard
     imag-part
     import
     include
@@ -751,6 +748,7 @@
     scheme-report-environment
     syntax-error
     syntax-rules
+    with-exception-handler
     with-input-from-file
     with-output-to-file
   ```
