@@ -28,8 +28,13 @@ pub mod exports {
 		port_input_byte_peek, port_input_byte_read, port_input_byte_ready,
 		port_input_character_peek, port_input_character_read, port_input_character_ready,
 		
-		port_input_bytes_read_collect, port_input_bytes_read_extend, port_input_bytes_read_copy_range,
+		port_input_bytes_read_copy_range,
+		
+		port_input_bytes_read_collect, port_input_bytes_read_extend,
 		port_input_string_read_collect, port_input_string_read_extend,
+		
+		port_input_bytes_read_collect_until, port_input_bytes_read_extend_until,
+		port_input_string_read_collect_until, port_input_string_read_extend_until,
 		
 	};
 	
@@ -169,6 +174,24 @@ pub fn port_input_character_ready (port : &Value) -> (Outcome<bool>) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn port_input_bytes_read_copy_range (port : &Value, bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
+	let port = try_as_port_ref! (port);
+	let bytes = try_as_bytes_mutable_ref! (bytes);
+	let mut buffer = bytes.bytes_ref_mut ();
+	let full = range_start.is_some () || range_end.is_some ();
+	let (range_start, range_end) = try! (range_coerce (range_start, range_end, buffer.len ()));
+	let buffer = try_some! (buffer.get_mut (range_start .. range_end), 0xb8c1be42);
+	if let Some (count) = try! (port.byte_read_slice (buffer, full)) {
+		succeed! (try! (NumberInteger::try_from (count)) .into ());
+	} else {
+		succeed! (PORT_EOF.into ());
+	}
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_bytes_read_collect (port : &Value, count : Option<&Value>) -> (Outcome<Value>) {
 	let port = try_as_port_ref! (port);
 	let count = try! (count_coerce (count));
@@ -189,21 +212,6 @@ pub fn port_input_bytes_read_extend (port : &Value, bytes : &Value, count : Opti
 	let mut buffer = bytes.bytes_ref_mut ();
 	let (count, full) = (Some (count.unwrap_or (buffer.capacity ())), count.is_some ());
 	if let Some (count) = try! (port.byte_read_extend (&mut buffer, count, full)) {
-		succeed! (try! (NumberInteger::try_from (count)) .into ());
-	} else {
-		succeed! (PORT_EOF.into ());
-	}
-}
-
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_input_bytes_read_copy_range (port : &Value, bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
-	let port = try_as_port_ref! (port);
-	let bytes = try_as_bytes_mutable_ref! (bytes);
-	let mut buffer = bytes.bytes_ref_mut ();
-	let full = range_start.is_some () || range_end.is_some ();
-	let (range_start, range_end) = try! (range_coerce (range_start, range_end, buffer.len ()));
-	let buffer = try_some! (buffer.get_mut (range_start .. range_end), 0xb8c1be42);
-	if let Some (count) = try! (port.byte_read_slice (buffer, full)) {
 		succeed! (try! (NumberInteger::try_from (count)) .into ());
 	} else {
 		succeed! (PORT_EOF.into ());
@@ -232,6 +240,118 @@ pub fn port_input_string_read_extend (port : &Value, string : &Value, count : Op
 	let mut buffer = string.string_ref_mut ();
 	let (count, full) = (Some (count.unwrap_or (buffer.capacity ())), count.is_some ());
 	if let Some (count) = try! (port.char_read_string (&mut buffer, count, full)) {
+		succeed! (try! (NumberInteger::try_from (count)) .into ());
+	} else {
+		succeed! (PORT_EOF.into ());
+	}
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn port_input_bytes_read_collect_until (port : &Value, delimiter : Option<&Value>, count : Option<&Value>, include_delimiter : Option<bool>) -> (Outcome<Value>) {
+	let port = try_as_port_ref! (port);
+	let count = try! (count_coerce (count));
+	let delimiter = if let Some (delimiter) = delimiter { try! (try_as_number_integer_ref! (delimiter) .try_to_u8 ()) } else { '\n' as u8 };
+	let include_delimiter = include_delimiter.unwrap_or (false);
+	let mut buffer = StdVec::with_capacity (count.unwrap_or (DEFAULT_PORT_BUFFER_SIZE));
+	let (count, full) = (Some (count.unwrap_or (buffer.capacity ())), count.is_some ());
+	if let Some (_) = try! (port.byte_read_extend_until (&mut buffer, delimiter, count, full)) {
+		if ! include_delimiter {
+			if let Some (last) = buffer.pop () {
+				if last != delimiter {
+					buffer.push (last);
+				}
+			} else {
+				fail_panic! (0x87f51301);
+			}
+		}
+		succeed! (bytes_new (buffer) .into ());
+	} else {
+		succeed! (PORT_EOF.into ());
+	}
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn port_input_bytes_read_extend_until (port : &Value, bytes : &Value, delimiter : Option<&Value>, count : Option<&Value>, include_delimiter : Option<bool>) -> (Outcome<Value>) {
+	let port = try_as_port_ref! (port);
+	let bytes = try_as_bytes_mutable_ref! (bytes);
+	let count = try! (count_coerce (count));
+	let delimiter = if let Some (delimiter) = delimiter { try! (try_as_number_integer_ref! (delimiter) .try_to_u8 ()) } else { '\n' as u8 };
+	let include_delimiter = include_delimiter.unwrap_or (false);
+	let mut buffer = bytes.bytes_ref_mut ();
+	let (count, full) = (Some (count.unwrap_or (buffer.capacity ())), count.is_some ());
+	if let Some (count) = try! (port.byte_read_extend_until (&mut buffer, delimiter, count, full)) {
+		let count = if ! include_delimiter {
+			if let Some (last) = buffer.pop () {
+				if last != delimiter {
+					buffer.push (last);
+					count
+				} else {
+					count - 1
+				}
+			} else {
+				fail_panic! (0x1ccb568e);
+			}
+		} else {
+			count
+		};
+		succeed! (try! (NumberInteger::try_from (count)) .into ());
+	} else {
+		succeed! (PORT_EOF.into ());
+	}
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn port_input_string_read_collect_until (port : &Value, delimiter : Option<&Value>, count : Option<&Value>, include_delimiter : Option<bool>) -> (Outcome<Value>) {
+	let port = try_as_port_ref! (port);
+	let count = try! (count_coerce (count));
+	let delimiter = if let Some (delimiter) = delimiter { try_as_character_ref! (delimiter) .value () } else { '\n' };
+	let include_delimiter = include_delimiter.unwrap_or (false);
+	let mut buffer = StdString::with_capacity (count.unwrap_or (DEFAULT_PORT_BUFFER_SIZE));
+	let (count, full) = (Some (count.unwrap_or (buffer.capacity ())), count.is_some ());
+	if let Some (_) = try! (port.char_read_string_until (&mut buffer, delimiter, count, full)) {
+		if ! include_delimiter {
+			if let Some (last) = buffer.pop () {
+				if last != delimiter {
+					buffer.push (last);
+				}
+			} else {
+				fail_panic! (0xec6380c4);
+			}
+		}
+		succeed! (string_new (buffer) .into ());
+	} else {
+		succeed! (PORT_EOF.into ());
+	}
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn port_input_string_read_extend_until (port : &Value, string : &Value, delimiter : Option<&Value>, count : Option<&Value>, include_delimiter : Option<bool>) -> (Outcome<Value>) {
+	let port = try_as_port_ref! (port);
+	let string = try_as_string_mutable_ref! (string);
+	let count = try! (count_coerce (count));
+	let delimiter = if let Some (delimiter) = delimiter { try_as_character_ref! (delimiter) .value () } else { '\n' };
+	let include_delimiter = include_delimiter.unwrap_or (false);
+	let mut buffer = string.string_ref_mut ();
+	let (count, full) = (Some (count.unwrap_or (buffer.capacity ())), count.is_some ());
+	if let Some (count) = try! (port.char_read_string_until (&mut buffer, delimiter, count, full)) {
+		let count = if ! include_delimiter {
+			if let Some (last) = buffer.pop () {
+				if last != delimiter {
+					buffer.push (last);
+					count
+				} else {
+					count - 1
+				}
+			} else {
+				fail_panic! (0xd2798fc4);
+			}
+		} else {
+			count
+		};
 		succeed! (try! (NumberInteger::try_from (count)) .into ());
 	} else {
 		succeed! (PORT_EOF.into ());

@@ -145,7 +145,7 @@ impl PortBackendReader for PortBackendBytesReader {
 				target.push_str (buffer);
 				(Some (count), count)
 			} else {
-				fail! (0xe560db58);
+				fail! (0x14eb4c70);
 			}
 		} else {
 			(None, 0)

@@ -246,7 +246,7 @@ pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, input_1 : &Value, 
 			return port_input_string_read_collect (input_1, None),
 		
 		PortPrimitive1::StringReadLine =>
-			fail_unimplemented! (0x83c98559),
+			return port_input_string_read_collect_until (input_1, Some (& '\n'.into ()), None, Some (false)),
 		
 		PortPrimitive1::ValueRead =>
 			fail_unimplemented! (0xae3d8a9f), // deferred
