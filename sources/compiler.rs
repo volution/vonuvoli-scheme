@@ -189,8 +189,8 @@ impl Compiler {
 	
 	
 	fn compile_symbol (&self, compilation : CompilerContext, identifier : Symbol) -> (Outcome<(CompilerContext, Expression)>) {
-		let mut compilation = compilation;
-		match try! (compilation.resolve (identifier)) {
+		let (compilation, binding) = try! (compilation.resolve (identifier));
+		match binding {
 			CompilerBinding::Binding (_, binding, _) =>
 				succeed! ((compilation, ExpressionForContexts::BindingGet1 (binding) .into ())),
 			CompilerBinding::Register (_, index, _) =>
@@ -224,8 +224,8 @@ impl Compiler {
 		match callable.class_match_into () {
 			
 			ValueClassMatchInto::Symbol (symbol) => {
-				let mut compilation = compilation;
-				if let Some (callable) = try! (compilation.resolve_value (symbol.clone ())) {
+				let (compilation, callable) = try! (compilation.resolve_value (symbol.clone ()));
+				if let Some (callable) = callable {
 					let class = callable.class_match_into ();
 					return self.compile_form_match_class (compilation, class);
 				} else {
@@ -648,7 +648,8 @@ impl Compiler {
 			}
 			
 			for identifier in identifiers.into_iter () {
-				let binding = try! (compilation.define (identifier));
+				let (compilation_1, binding) = try! (compilation.define (identifier));
+				compilation = compilation_1;
 				binding_templates.push (binding);
 			}
 			
@@ -789,7 +790,8 @@ impl Compiler {
 					binding_initializers.push (initializer);
 				}
 				for identifier in identifiers.into_iter () {
-					let binding = try! (compilation.define (identifier));
+					let (compilation_1, binding) = try! (compilation.define (identifier));
+					compilation = compilation_1;
 					binding_templates.push (binding);
 				}
 			},
@@ -797,8 +799,8 @@ impl Compiler {
 			SyntaxPrimitiveV::LetSequential => {
 				for (initializer, identifier) in initializers.into_iter ().zip (identifiers.into_iter ()) {
 					let (compilation_1, initializer) = try! (self.compile_0 (compilation, initializer));
+					let (compilation_1, binding) = try! (compilation_1.define (identifier));
 					compilation = compilation_1;
-					let binding = try! (compilation.define (identifier));
 					binding_initializers.push (initializer);
 					binding_templates.push (binding);
 				}
@@ -806,7 +808,8 @@ impl Compiler {
 			
 			SyntaxPrimitiveV::LetRecursiveParallel | SyntaxPrimitiveV::LetRecursiveSequential => {
 				for identifier in identifiers.into_iter () {
-					let binding = try! (compilation.define (identifier));
+					let (compilation_1, binding) = try! (compilation.define (identifier));
+					compilation = compilation_1;
 					binding_templates.push (binding);
 				}
 				for initializer in initializers.into_iter () {
@@ -899,7 +902,8 @@ impl Compiler {
 				for identifiers in identifiers_n.into_iter () {
 					let mut binding_templates = StdVec::new ();
 					for identifier in identifiers.into_iter () {
-						let binding = try! (compilation.define (identifier));
+						let (compilation_1, binding) = try! (compilation.define (identifier));
+						compilation = compilation_1;
 						binding_templates.push (binding);
 					}
 					binding_templates_n.push (binding_templates);
@@ -912,7 +916,8 @@ impl Compiler {
 					compilation = compilation_1;
 					let mut binding_templates = StdVec::new ();
 					for identifier in identifiers.into_iter () {
-						let binding = try! (compilation.define (identifier));
+						let (compilation_1, binding) = try! (compilation.define (identifier));
+						compilation = compilation_1;
 						binding_templates.push (binding);
 					}
 					binding_templates_n.push (binding_templates);
@@ -948,7 +953,6 @@ impl Compiler {
 			fail! (0x4481879c);
 		}
 		let (signature, statements) = try! (vec_explode_1n (tokens));
-		let mut compilation = compilation;
 		
 		let (compilation, binding, expression) = match signature.class_match_into () {
 			
@@ -960,7 +964,7 @@ impl Compiler {
 				
 				let statement = try! (vec_explode_1 (statements));
 				
-				let binding = try! (compilation.define (identifier));
+				let (compilation, binding) = try! (compilation.define (identifier));
 				let (compilation, expression) = try! (self.compile_0 (compilation, statement));
 				
 				(compilation, binding, expression)
@@ -979,7 +983,7 @@ impl Compiler {
 				let arguments_positional = try_vec_map_into! (arguments_positional, value, Symbol::try_from (value));
 				let argument_rest = try_option_map! (argument_rest, Symbol::try_from (argument_rest));
 				
-				let binding = try! (compilation.define (identifier.clone ()));
+				let (compilation, binding) = try! (compilation.define (identifier.clone ()));
 				let (compilation, expression) = try! (self.compile_syntax_lambda_0 (compilation, Some (identifier), arguments_positional, argument_rest, statements));
 				
 				(compilation, binding, expression)
@@ -1010,7 +1014,8 @@ impl Compiler {
 		let mut compilation = compilation;
 		let mut binding_templates = StdVec::new ();
 		for identifier in identifiers.into_iter () {
-			let binding = try! (compilation.define (identifier));
+			let (compilation_1, binding) = try! (compilation.define (identifier));
+			compilation = compilation_1;
 			binding_templates.push (binding);
 		}
 		
@@ -1033,8 +1038,7 @@ impl Compiler {
 		let (identifier, initializer) = try! (vec_explode_2 (tokens));
 		let identifier = try_into_symbol! (identifier);
 		
-		let mut compilation = compilation;
-		let binding = try! (compilation.resolve (identifier));
+		let (compilation, binding) = try! (compilation.resolve (identifier));
 		
 		let (compilation, initializer) = try! (self.compile_0 (compilation, initializer));
 		
@@ -1059,7 +1063,8 @@ impl Compiler {
 		let mut compilation = compilation;
 		let mut bindings = StdVec::new ();
 		for identifier in identifiers.into_iter () {
-			let binding = try! (compilation.resolve (identifier));
+			let (compilation_1, binding) = try! (compilation.resolve (identifier));
+			compilation = compilation_1;
 			bindings.push (binding);
 		}
 		
@@ -1279,7 +1284,7 @@ impl Compiler {
 			compilation = compilation_1;
 		}
 		
-		let lambda_binding = try! (compilation.define (identifier.clone ()));
+		let (compilation, lambda_binding) = try! (compilation.define (identifier.clone ()));
 		let (compilation, lambda_value) = try! (self.compile_syntax_lambda_0 (compilation, Some (identifier.clone ()), argument_identifiers, None, statements));
 		let (compilation, lambda_reference) = try! (self.compile_symbol (compilation, identifier.clone ()));
 		
@@ -1301,10 +1306,12 @@ impl Compiler {
 		
 		let mut compilation = try! (compilation.fork_locals (true));
 		for identifier in &arguments_positional {
-			try! (compilation.define (identifier.clone ()));
+			let (compilation_1, _) = try! (compilation.define (identifier.clone ()));
+			compilation = compilation_1;
 		}
 		if let Some (ref identifier) = argument_rest {
-			try! (compilation.define (identifier.clone ()));
+			let (compilation_1, _) = try! (compilation.define (identifier.clone ()));
+			compilation = compilation_1;
 		}
 		
 		let (compilation, statements) = try! (self.compile_0_vec (compilation, statements));
@@ -1602,16 +1609,34 @@ impl CompilerContext {
 	}
 	
 	
-	fn resolve (&mut self, identifier : Symbol) -> (Outcome<CompilerBinding>) {
-		return self.bindings.resolve (identifier);
+	fn resolve (self, identifier : Symbol) -> (Outcome<(CompilerContext, CompilerBinding)>) {
+		let mut this = self;
+		let binding = try! (this.bindings.resolve (identifier));
+		succeed! ((this, binding));
 	}
 	
-	fn resolve_value (&mut self, identifier : Symbol) -> (Outcome<Option<Value>>) {
-		return self.bindings.resolve_value (identifier);
+	fn resolve_value (self, identifier : Symbol) -> (Outcome<(CompilerContext, Option<Value>)>) {
+		let mut this = self;
+		let value = try! (this.bindings.resolve_value (identifier));
+		succeed! ((this, value));
 	}
 	
-	fn define (&mut self, identifier : Symbol) -> (Outcome<CompilerBinding>) {
-		return self.bindings.define (identifier);
+	fn define (self, identifier : Symbol) -> (Outcome<(CompilerContext, CompilerBinding)>) {
+		let mut this = self;
+		let binding = try! (this.bindings.define (identifier));
+		succeed! ((this, binding));
+	}
+	
+	fn define_enable (self) -> (CompilerContext) {
+		let mut this = self;
+		this.bindings.define_enable ();
+		return this;
+	}
+	
+	fn define_disable (self) -> (CompilerContext) {
+		let mut this = self;
+		this.bindings.define_disable ();
+		return this;
 	}
 }
 
