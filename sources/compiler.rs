@@ -412,7 +412,9 @@ impl Compiler {
 			fail! (0xe34389a7);
 		}
 		
+		let compilation = try! (compilation.define_disable ());
 		let (compilation, statements) = try! (self.compile_0_vec (compilation, tokens));
+		let compilation = try! (compilation.define_enable ());
 		
 		let clauses = if tokens_count == 3 {
 			let (guard, if_true, if_false) = try! (vec_explode_3 (statements));
@@ -455,7 +457,10 @@ impl Compiler {
 			fail! (0x3c364a9f);
 		}
 		
+		let compilation = try! (compilation.define_disable ());
 		let (compilation, statements) = try! (self.compile_0_vec (compilation, tokens));
+		let compilation = try! (compilation.define_enable ());
+		
 		let (guard, statements) = try! (vec_explode_1n (statements));
 		let statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, statements.into_boxed_slice ());
 		
@@ -487,8 +492,8 @@ impl Compiler {
 	
 	fn compile_syntax_cond (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
+		let mut compilation = try! (compilation.define_disable ());
 		let mut clauses = StdVec::new ();
-		let mut compilation = compilation;
 		
 		for tokens in tokens.into_iter () {
 			
@@ -526,6 +531,8 @@ impl Compiler {
 			compilation = compilation_1;
 		}
 		
+		let compilation = try! (compilation.define_enable ());
+		
 		let clauses = ExpressionConditionalIfClauses::Multiple (clauses.into_boxed_slice ());
 		
 		let expression = Expression::ConditionalIf (clauses);
@@ -544,10 +551,12 @@ impl Compiler {
 		
 		let (actual, tokens) = try! (vec_explode_1n (tokens));
 		
+		let compilation = try! (compilation.define_disable ());
 		let (compilation, actual) = try! (self.compile_0 (compilation, actual));
+		let compilation = try! (compilation.define_enable ());
 		
+		let mut compilation = try! (compilation.define_disable ());
 		let mut clauses = StdVec::new ();
-		let mut compilation = compilation;
 		
 		for tokens in tokens.into_iter () {
 			
@@ -582,6 +591,8 @@ impl Compiler {
 			clauses.push (clause);
 			compilation = compilation_1;
 		}
+		
+		let compilation = try! (compilation.define_enable ());
 		
 		let clauses = ExpressionConditionalMatchClauses::Multiple (clauses.into_boxed_slice ());
 		
@@ -642,8 +653,9 @@ impl Compiler {
 			let mut compilation = compilation;
 			
 			for initializer in initializers.into_iter () {
-				let (compilation_1, initializer) = try! (self.compile_0 (compilation, initializer));
-				compilation = compilation_1;
+				let compilation_1 = try! (compilation.define_disable ());
+				let (compilation_1, initializer) = try! (self.compile_0 (compilation_1, initializer));
+				compilation = try! (compilation_1.define_enable ());
 				binding_initializers.push (initializer);
 			}
 			
@@ -654,8 +666,9 @@ impl Compiler {
 			}
 			
 			for updater in updaters.into_iter () {
-				let (compilation_1, updater) = try! (self.compile_0 (compilation, updater));
-				compilation = compilation_1;
+				let compilation_1 = try! (compilation.define_disable ());
+				let (compilation_1, updater) = try! (self.compile_0 (compilation_1, updater));
+				compilation = try! (compilation_1.define_enable ());
 				binding_updaters.push (updater);
 			}
 			
@@ -673,7 +686,9 @@ impl Compiler {
 		let break_statements = try! (vec_list_clone (&break_statements));
 		let (break_guard, break_statements) = try! (vec_explode_1n (break_statements));
 		
+		let compilation = try! (compilation.define_disable ());
 		let (compilation, break_guard) = try! (self.compile_0 (compilation, break_guard));
+		let compilation = try! (compilation.define_enable ());
 		let break_guard = ExpressionConditionalIfGuard::Expression (break_guard, false);
 		
 		let (compilation, break_clause) = if break_statements.is_empty () {
@@ -681,7 +696,9 @@ impl Compiler {
 			(compilation, clause)
 		} else {
 			// FIXME:  Add support for `(guard => expression)` just like for `cond`!
+			let compilation = try! (compilation.define_disable ());
 			let (compilation, break_statements) = try! (self.compile_0_vec (compilation, break_statements));
+			let compilation = try! (compilation.define_enable ());
 			let break_statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, break_statements.into_boxed_slice ());
 			let clause = ExpressionConditionalIfClause::GuardAndExpression (break_guard, ExpressionValueConsumer::Ignore, break_statements);
 			(compilation, clause)
@@ -692,7 +709,9 @@ impl Compiler {
 		let (compilation, loop_statement) = if loop_statements.is_empty () {
 			(compilation, None)
 		} else {
+			let compilation = try! (compilation.define_disable ());
 			let (compilation, loop_statements) = try! (self.compile_0_vec (compilation, loop_statements));
+			let compilation = try! (compilation.define_enable ());
 			let loop_statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, loop_statements.into_boxed_slice ());
 			(compilation, Some (loop_statements.into ()))
 		};
@@ -785,8 +804,9 @@ impl Compiler {
 			
 			SyntaxPrimitiveV::LetParallel => {
 				for initializer in initializers.into_iter () {
-					let (compilation_1, initializer) = try! (self.compile_0 (compilation, initializer));
-					compilation = compilation_1;
+					let compilation_1 = try! (compilation.define_disable ());
+					let (compilation_1, initializer) = try! (self.compile_0 (compilation_1, initializer));
+					compilation = try! (compilation_1.define_enable ());
 					binding_initializers.push (initializer);
 				}
 				for identifier in identifiers.into_iter () {
@@ -798,7 +818,9 @@ impl Compiler {
 			
 			SyntaxPrimitiveV::LetSequential => {
 				for (initializer, identifier) in initializers.into_iter ().zip (identifiers.into_iter ()) {
-					let (compilation_1, initializer) = try! (self.compile_0 (compilation, initializer));
+					let compilation_1 = try! (compilation.define_disable ());
+					let (compilation_1, initializer) = try! (self.compile_0 (compilation_1, initializer));
+					let compilation_1 = try! (compilation_1.define_enable ());
 					let (compilation_1, binding) = try! (compilation_1.define (identifier));
 					compilation = compilation_1;
 					binding_initializers.push (initializer);
@@ -813,8 +835,9 @@ impl Compiler {
 					binding_templates.push (binding);
 				}
 				for initializer in initializers.into_iter () {
-					let (compilation_1, initializer) = try! (self.compile_0 (compilation, initializer));
-					compilation = compilation_1;
+					let compilation_1 = try! (compilation.define_disable ());
+					let (compilation_1, initializer) = try! (self.compile_0 (compilation_1, initializer));
+					compilation = try! (compilation_1.define_enable ());
 					binding_initializers.push (initializer);
 				}
 			},
@@ -895,8 +918,9 @@ impl Compiler {
 			
 			SyntaxPrimitiveV::LetValuesParallel => {
 				for initializer in initializers.into_iter () {
-					let (compilation_1, initializer) = try! (self.compile_0 (compilation, initializer));
-					compilation = compilation_1;
+					let compilation_1 = try! (compilation.define_disable ());
+					let (compilation_1, initializer) = try! (self.compile_0 (compilation_1, initializer));
+					compilation = try! (compilation_1.define_enable ());
 					binding_initializers.push (initializer);
 				}
 				for identifiers in identifiers_n.into_iter () {
@@ -912,8 +936,9 @@ impl Compiler {
 			
 			SyntaxPrimitiveV::LetValuesSequential => {
 				for (initializer, identifiers) in initializers.into_iter ().zip (identifiers_n.into_iter ()) {
-					let (compilation_1, initializer) = try! (self.compile_0 (compilation, initializer));
-					compilation = compilation_1;
+					let compilation_1 = try! (compilation.define_disable ());
+					let (compilation_1, initializer) = try! (self.compile_0 (compilation_1, initializer));
+					compilation = try! (compilation_1.define_enable ());
 					let mut binding_templates = StdVec::new ();
 					for identifier in identifiers.into_iter () {
 						let (compilation_1, binding) = try! (compilation.define (identifier));
@@ -965,7 +990,10 @@ impl Compiler {
 				let statement = try! (vec_explode_1 (statements));
 				
 				let (compilation, binding) = try! (compilation.define (identifier));
+				
+				let compilation = try! (compilation.define_disable ());
 				let (compilation, expression) = try! (self.compile_0 (compilation, statement));
+				let compilation = try! (compilation.define_enable ());
 				
 				(compilation, binding, expression)
 			},
@@ -1019,7 +1047,9 @@ impl Compiler {
 			binding_templates.push (binding);
 		}
 		
+		let compilation = try! (compilation.define_disable ());
 		let (compilation, binding_initializer) = try! (self.compile_0 (compilation, initializer));
+		let compilation = try! (compilation.define_enable ());
 		
 		let expression = try! (self.compile_syntax_binding_set_values_1 (binding_templates, binding_initializer, true));
 		
@@ -1040,7 +1070,9 @@ impl Compiler {
 		
 		let (compilation, binding) = try! (compilation.resolve (identifier));
 		
+		let compilation = try! (compilation.define_disable ());
 		let (compilation, initializer) = try! (self.compile_0 (compilation, initializer));
+		let compilation = try! (compilation.define_enable ());
 		
 		let initializer = try! (self.compile_syntax_binding_set_1 (binding, initializer, false));
 		
@@ -1068,7 +1100,9 @@ impl Compiler {
 			bindings.push (binding);
 		}
 		
+		let compilation = try! (compilation.define_disable ());
 		let (compilation, initializer) = try! (self.compile_0 (compilation, initializer));
+		let compilation = try! (compilation.define_enable ());
 		
 		let initializer = try! (self.compile_syntax_binding_set_values_1 (bindings, initializer, false));
 		
@@ -1267,8 +1301,9 @@ impl Compiler {
 		
 		let definitions = try! (vec_list_clone (&definitions));
 		
-		let mut compilation = try! (compilation.fork_locals (true));
+		let compilation = try! (compilation.fork_locals (true));
 		
+		let mut compilation = try! (compilation.define_disable ());
 		let mut argument_identifiers = StdVec::with_capacity (definitions.len ());
 		let mut argument_initializers = StdVec::with_capacity (definitions.len ());
 		for definition in definitions.into_iter () {
@@ -1283,6 +1318,7 @@ impl Compiler {
 			argument_initializers.push (initializer);
 			compilation = compilation_1;
 		}
+		let compilation = try! (compilation.define_enable ());
 		
 		let (compilation, lambda_binding) = try! (compilation.define (identifier.clone ()));
 		let (compilation, lambda_value) = try! (self.compile_syntax_lambda_0 (compilation, Some (identifier.clone ()), argument_identifiers, None, statements));
@@ -1337,7 +1373,10 @@ impl Compiler {
 	
 	fn compile_syntax_quote (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		let token = try! (vec_explode_1 (tokens));
-		return self.compile_syntax_quote_0 (compilation, token);
+		let compilation = try! (compilation.define_disable ());
+		let (compilation, expression) = try! (self.compile_syntax_quote_0 (compilation, token));
+		let compilation = try! (compilation.define_enable ());
+		succeed! ((compilation, expression));
 	}
 	
 	fn compile_syntax_quote_0 (&self, compilation : CompilerContext, token : Value) -> (Outcome<(CompilerContext, Expression)>) {
@@ -1349,7 +1388,10 @@ impl Compiler {
 	
 	fn compile_syntax_quasi_quote (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		let token = try! (vec_explode_1 (tokens));
-		return self.compile_syntax_quasi_quote_0 (compilation, token, true, false, 0, 0);
+		let compilation = try! (compilation.define_disable ());
+		let (compilation, expression) = try! (self.compile_syntax_quasi_quote_0 (compilation, token, true, false, 0, 0));
+		let compilation = try! (compilation.define_enable ());
+		succeed! ((compilation, expression));
 	}
 	
 	
@@ -1580,9 +1622,9 @@ impl CompilerContext {
 	
 	fn new_with_context (context : Option<&Context>) -> (CompilerContext) {
 		if let Some (context) = context {
-			return CompilerContext::new_with_bindings (CompilerBindings::Globals1 (context.clone (), true));
+			return CompilerContext::new_with_bindings (CompilerBindings::Globals1 (context.clone (), 0));
 		} else {
-			return CompilerContext::new_with_bindings (CompilerBindings::None);
+			return CompilerContext::new_with_bindings (CompilerBindings::None (0));
 		}
 	}
 	
@@ -1627,16 +1669,16 @@ impl CompilerContext {
 		succeed! ((this, binding));
 	}
 	
-	fn define_enable (self) -> (CompilerContext) {
+	fn define_enable (self) -> (Outcome<CompilerContext>) {
 		let mut this = self;
-		this.bindings.define_enable ();
-		return this;
+		try! (this.bindings.define_enable ());
+		succeed! (this);
 	}
 	
-	fn define_disable (self) -> (CompilerContext) {
+	fn define_disable (self) -> (Outcome<CompilerContext>) {
 		let mut this = self;
-		this.bindings.define_disable ();
-		return this;
+		try! (this.bindings.define_disable ());
+		succeed! (this);
 	}
 }
 
@@ -1645,10 +1687,10 @@ impl CompilerContext {
 
 #[ derive (Debug) ]
 pub enum CompilerBindings {
-	None,
-	Globals1 (Context, bool),
-	Globals2 (StdBox<CompilerBindings>, Context, bool),
-	Locals (StdBox<CompilerBindings>, StdMap<Symbol, CompilerBinding>, StdVec<RegisterTemplate>, bool, bool),
+	None (usize),
+	Globals1 (Context, usize),
+	Globals2 (StdBox<CompilerBindings>, Context, usize),
+	Locals (StdBox<CompilerBindings>, StdMap<Symbol, CompilerBinding>, StdVec<RegisterTemplate>, bool, usize),
 }
 
 
@@ -1665,32 +1707,32 @@ impl CompilerBindings {
 	
 	fn fork_locals (self, force : bool) -> (Outcome<CompilerBindings>) {
 		if force {
-			succeed! (CompilerBindings::Locals (StdBox::new (self), StdMap::new (), StdVec::new (), false, true));
+			succeed! (CompilerBindings::Locals (StdBox::new (self), StdMap::new (), StdVec::new (), false, 0));
 		} else {
 			match self {
-				CompilerBindings::None =>
-					fail! (0xad3e033b),
+				CompilerBindings::None (_) =>
+					succeed! (CompilerBindings::Globals2 (StdBox::new (self), Context::new (None), 0)),
 				CompilerBindings::Globals1 (_, _) =>
-					succeed! (CompilerBindings::Globals2 (StdBox::new (self), Context::new (None), true)),
+					succeed! (CompilerBindings::Globals2 (StdBox::new (self), Context::new (None), 0)),
 				CompilerBindings::Globals2 (_, _, _) =>
-					succeed! (CompilerBindings::Globals2 (StdBox::new (self), Context::new (None), true)),
+					succeed! (CompilerBindings::Globals2 (StdBox::new (self), Context::new (None), 0)),
 				CompilerBindings::Locals (_, _, _, _, _) =>
-					succeed! (CompilerBindings::Locals (StdBox::new (self), StdMap::new (), StdVec::new (), false, true)),
+					succeed! (CompilerBindings::Locals (StdBox::new (self), StdMap::new (), StdVec::new (), false, 0)),
 			}
 		}
 	}
 	
 	fn fork_locals_with_bindings (self) -> (Outcome<CompilerBindings>) {
-		succeed! (CompilerBindings::Locals (StdBox::new (self), StdMap::new (), StdVec::new (), true, true));
+		succeed! (CompilerBindings::Locals (StdBox::new (self), StdMap::new (), StdVec::new (), true, 0));
 	}
 	
 	
 	fn unfork_locals (self) -> (Outcome<(CompilerBindings, StdVec<RegisterTemplate>)>) {
 		match self {
-			CompilerBindings::None =>
-				fail! (0x98657e5a),
+			CompilerBindings::None (_) =>
+				fail_panic! (0x98657e5a),
 			CompilerBindings::Globals1 (_, _) =>
-				fail! (0xdd470d36),
+				fail_panic! (0xdd470d36),
 			CompilerBindings::Globals2 (parent, _, _) =>
 				succeed! ((*parent, StdVec::new ())),
 			CompilerBindings::Locals (parent, _, registers, _, _) =>
@@ -1705,7 +1747,7 @@ impl CompilerBindings {
 	
 	fn resolve_0 (&mut self, identifier : Symbol, force_binding : bool) -> (Outcome<CompilerBinding>) {
 		match *self {
-			CompilerBindings::None =>
+			CompilerBindings::None (_) =>
 				succeed! (CompilerBinding::Undefined),
 			CompilerBindings::Globals1 (ref context, _) =>
 				if let Some (binding) = try! (context.resolve (&identifier)) {
@@ -1779,10 +1821,10 @@ impl CompilerBindings {
 	
 	fn define (&mut self, identifier : Symbol) -> (Outcome<CompilerBinding>) {
 		match *self {
-			CompilerBindings::None =>
+			CompilerBindings::None (_) =>
 				fail! (0xd943456d),
 			CompilerBindings::Globals1 (ref context, define_allowed) | CompilerBindings::Globals2 (_, ref context, define_allowed) => {
-				if ! define_allowed {
+				if define_allowed > 0 {
 					fail! (0x0d9133ab);
 				}
 				let template = BindingTemplate {
@@ -1794,7 +1836,7 @@ impl CompilerBindings {
 				succeed! (CompilerBinding::Binding (identifier, binding, Some (template)));
 			},
 			CompilerBindings::Locals (_, ref mut cached, ref mut registers, force_binding, define_allowed) => {
-				if ! define_allowed {
+				if define_allowed > 0 {
 					fail! (0xaf5074cb);
 				}
 				let index = registers.len ();
@@ -1821,12 +1863,12 @@ impl CompilerBindings {
 				fail! (0x06fec793),
 			CompilerBinding::Register (ref identifier, _, _) =>
 				match *self {
-					CompilerBindings::None =>
-						fail! (0x3a1f3306),
+					CompilerBindings::None (_) =>
+						fail_panic! (0x3a1f3306),
 					CompilerBindings::Globals1 (_, _) =>
-						fail! (0xcdf142d8),
+						fail_panic! (0xcdf142d8),
 					CompilerBindings::Globals2 (_, _, _) =>
-						fail! (0x382ba35e),
+						fail_panic! (0x382ba35e),
 					CompilerBindings::Locals (_, ref mut cached, _, _, _) => {
 						cached.remove (identifier);
 						succeed! (());
@@ -1836,30 +1878,37 @@ impl CompilerBindings {
 	}
 	
 	
-	fn define_disable (&mut self) -> () {
-		match *self {
-			CompilerBindings::None =>
-				(),
+	fn define_disable (&mut self) -> (Outcome<()>) {
+		let define_allowed = match *self {
+			CompilerBindings::None (ref mut define_allowed) =>
+				define_allowed,
 			CompilerBindings::Globals1 (_, ref mut define_allowed) =>
-				*define_allowed = false,
+				define_allowed,
 			CompilerBindings::Globals2 (_, _, ref mut define_allowed) =>
-				*define_allowed = false,
+				define_allowed,
 			CompilerBindings::Locals (_, _, _, _, ref mut define_allowed) =>
-				*define_allowed = false,
-		}
+				define_allowed,
+		};
+		*define_allowed += 1;
+		succeed! (());
 	}
 	
-	fn define_enable (&mut self) -> () {
-		match *self {
-			CompilerBindings::None =>
-				(),
+	fn define_enable (&mut self) -> (Outcome<()>) {
+		let define_allowed = match *self {
+			CompilerBindings::None (ref mut define_allowed) =>
+				define_allowed,
 			CompilerBindings::Globals1 (_, ref mut define_allowed) =>
-				*define_allowed = true,
+				define_allowed,
 			CompilerBindings::Globals2 (_, _, ref mut define_allowed) =>
-				*define_allowed = true,
+				define_allowed,
 			CompilerBindings::Locals (_, _, _, _, ref mut define_allowed) =>
-				*define_allowed = true,
+				define_allowed,
+		};
+		if *define_allowed == 0 {
+			fail_panic! (0x987257ca);
 		}
+		*define_allowed -= 1;
+		succeed! (());
 	}
 }
 
