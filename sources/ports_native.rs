@@ -87,6 +87,7 @@ impl PortBackendReader for PortBackendNativeReader {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn byte_read_slice (&mut self, target : &mut [u8], _full : bool) -> (Outcome<Option<usize>>) {
+		// FIXME:  Do respect the `full == true` semantic!
 		if let Some (mut reader) = try! (self.reader_ref_mut_if_open ()) {
 			let (count, offset_increment) = if let Some (buffer) = try! (reader.buffer_ref ()) {
 				let count = usize::min (buffer.len (), target.len ());
@@ -106,6 +107,7 @@ impl PortBackendReader for PortBackendNativeReader {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn byte_read_extend (&mut self, target : &mut StdVec<u8>, count : Option<usize>, _full : bool) -> (Outcome<Option<usize>>) {
+		// FIXME:  Do respect the `full == true` semantic!
 		if let Some (mut reader) = try! (self.reader_ref_mut_if_open ()) {
 			let (count, offset_increment) = if let Some (buffer) = try! (reader.buffer_ref ()) {
 				let count = usize::min (buffer.len (), count.unwrap_or (usize::max_value ()));
@@ -125,6 +127,7 @@ impl PortBackendReader for PortBackendNativeReader {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn byte_read_string (&mut self, target : &mut StdString, count : Option<usize>, _full : bool) -> (Outcome<Option<usize>>) {
+		// FIXME:  Do respect the `full == true` semantic!
 		if let Some (mut reader) = try! (self.reader_ref_mut_if_open ()) {
 			let (count, offset_increment) = if let Some (buffer) = try! (reader.buffer_ref ()) {
 				let count = usize::min (buffer.len (), count.unwrap_or (usize::max_value ()));
@@ -148,6 +151,7 @@ impl PortBackendReader for PortBackendNativeReader {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn byte_read_extend_until (&mut self, target : &mut StdVec<u8>, delimiter : u8, count : Option<usize>, _full : bool) -> (Outcome<Option<usize>>) {
+		// FIXME:  Do respect the `full == true` semantic!
 		if let Some (mut reader) = try! (self.reader_ref_mut_if_open ()) {
 			let (count, offset_increment) = if let Some (buffer) = try! (reader.buffer_ref ()) {
 				let count = match libc_memchr (delimiter, buffer) {
@@ -172,6 +176,7 @@ impl PortBackendReader for PortBackendNativeReader {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn byte_read_string_until (&mut self, target : &mut StdString, delimiter : u8, count : Option<usize>, _full : bool) -> (Outcome<Option<usize>>) {
+		// FIXME:  Do respect the `full == true` semantic!
 		if let Some (mut reader) = try! (self.reader_ref_mut_if_open ()) {
 			let (count, offset_increment) = if let Some (buffer) = try! (reader.buffer_ref ()) {
 				let count = match libc_memchr (delimiter, buffer) {
@@ -254,6 +259,7 @@ impl PortBackendReader for PortBackendNativeReader {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn char_read_slice (&mut self, target : &mut [char], _full : bool) -> (Outcome<Option<usize>>) {
+		// FIXME:  Do respect the `full == true` semantic!
 		if let Some (mut reader) = try! (self.reader_ref_mut_if_open ()) {
 			let (count, offset_increment) = if let Some (buffer) = try! (reader.buffer_ref ()) {
 				let mut buffer_offset = 0;
@@ -281,6 +287,7 @@ impl PortBackendReader for PortBackendNativeReader {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn char_read_extend (&mut self, target : &mut StdVec<char>, count : Option<usize>, _full : bool) -> (Outcome<Option<usize>>) {
+		// FIXME:  Do respect the `full == true` semantic!
 		if let Some (mut reader) = try! (self.reader_ref_mut_if_open ()) {
 			let (count, offset_increment) = if let Some (buffer) = try! (reader.buffer_ref ()) {
 				let mut buffer_offset = 0;
@@ -308,6 +315,7 @@ impl PortBackendReader for PortBackendNativeReader {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn char_read_string (&mut self, target : &mut StdString, count : Option<usize>, _full : bool) -> (Outcome<Option<usize>>) {
+		// FIXME:  Do respect the `full == true` semantic!
 		if let Some (mut reader) = try! (self.reader_ref_mut_if_open ()) {
 			let (count, offset_increment) = if let Some (buffer) = try! (reader.buffer_ref ()) {
 				let mut buffer_offset = 0;
@@ -335,6 +343,7 @@ impl PortBackendReader for PortBackendNativeReader {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn char_read_extend_until (&mut self, target : &mut StdVec<char>, delimiter : char, count : Option<usize>, _full : bool) -> (Outcome<Option<usize>>) {
+		// FIXME:  Do respect the `full == true` semantic!
 		if let Some (mut reader) = try! (self.reader_ref_mut_if_open ()) {
 			let (count, offset_increment) = if let Some (buffer) = try! (reader.buffer_ref ()) {
 				let mut buffer_offset = 0;
@@ -365,6 +374,7 @@ impl PortBackendReader for PortBackendNativeReader {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn char_read_string_until (&mut self, target : &mut StdString, delimiter : char, count : Option<usize>, _full : bool) -> (Outcome<Option<usize>>) {
+		// FIXME:  Do respect the `full == true` semantic!
 		if let Some (mut reader) = try! (self.reader_ref_mut_if_open ()) {
 			let (count, offset_increment) = if let Some (buffer) = try! (reader.buffer_ref ()) {
 				let mut buffer_offset = 0;
