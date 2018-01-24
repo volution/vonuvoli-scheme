@@ -26,6 +26,7 @@ pub mod exports {
 	
 	pub use super::{libc_getrusage_for_thread};
 	pub use super::{libc_kill};
+	pub use super::{libc_memchr};
 	
 	pub use super::super::runtime_configurations::exports::*;
 	pub use super::super::runtime_iterators::exports::*;
@@ -406,6 +407,24 @@ pub fn libc_kill (process : libc::pid_t, signal : libc::c_int) -> (Outcome<()>) 
 			succeed! (());
 		} else {
 			fail! (0x41a2990d);
+		}
+	}
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn libc_memchr (search : u8, buffer : &[u8]) -> (Option<usize>) {
+	unsafe {
+		let buffer_pointer = buffer.as_ptr () as * const libc::c_void;
+		let found_pointer = libc::memchr (
+				buffer_pointer,
+				search as libc::c_int,
+				buffer.len ()
+			);
+		if found_pointer.is_null () {
+			return None;
+		} else {
+			return Some ((found_pointer as usize) - (buffer_pointer as usize));
 		}
 	}
 }

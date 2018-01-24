@@ -96,6 +96,8 @@ pub trait PortReader {
 	fn byte_read_slice (&self, buffer : &mut [u8], full : bool) -> (Outcome<Option<usize>>);
 	fn byte_read_extend (&self, buffer : &mut StdVec<u8>, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>);
 	fn byte_read_string (&self, buffer : &mut StdString, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>);
+	fn byte_read_extend_until (&self, buffer : &mut StdVec<u8>, delimiter : u8, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>);
+	fn byte_read_string_until (&self, buffer : &mut StdString, delimiter : u8, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>);
 	
 	fn char_ready (&self) -> (Outcome<bool>);
 	fn char_peek (&self) -> (Outcome<Option<char>>);
@@ -103,6 +105,8 @@ pub trait PortReader {
 	fn char_read_slice (&self, buffer : &mut [char], full : bool) -> (Outcome<Option<usize>>);
 	fn char_read_extend (&self, buffer : &mut StdVec<char>, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>);
 	fn char_read_string (&self, buffer : &mut StdString, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>);
+	fn char_read_extend_until (&self, buffer : &mut StdVec<char>, delimiter : char, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>);
+	fn char_read_string_until (&self, buffer : &mut StdString, delimiter : char, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>);
 	
 	fn input_close (&self) -> (Outcome<()>);
 	
@@ -119,6 +123,8 @@ pub trait PortBackendReader {
 	fn byte_read_slice (&mut self, buffer : &mut [u8], full : bool) -> (Outcome<Option<usize>>);
 	fn byte_read_extend (&mut self, buffer : &mut StdVec<u8>, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>);
 	fn byte_read_string (&mut self, buffer : &mut StdString, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>);
+	fn byte_read_extend_until (&mut self, buffer : &mut StdVec<u8>, delimiter : u8, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>);
+	fn byte_read_string_until (&mut self, buffer : &mut StdString, delimiter : u8, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>);
 	
 	fn char_ready (&mut self) -> (Outcome<bool>);
 	fn char_peek (&mut self) -> (Outcome<Option<char>>);
@@ -126,6 +132,8 @@ pub trait PortBackendReader {
 	fn char_read_slice (&mut self, buffer : &mut [char], full : bool) -> (Outcome<Option<usize>>);
 	fn char_read_extend (&mut self, buffer : &mut StdVec<char>, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>);
 	fn char_read_string (&mut self, buffer : &mut StdString, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>);
+	fn char_read_extend_until (&mut self, buffer : &mut StdVec<char>, delimiter : char, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>);
+	fn char_read_string_until (&mut self, buffer : &mut StdString, delimiter : char, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>);
 	
 	fn input_close (&mut self) -> (Outcome<()>);
 	
@@ -553,6 +561,26 @@ impl PortReader for Port {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn byte_read_extend_until (&self, buffer : &mut StdVec<u8>, delimiter : u8, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>) {
+		if let Some (mut self_0) = try! (self.internals_ref_mut_if_open ()) {
+			let outcome = self_0.backend.byte_read_extend_until (buffer, delimiter, count, full);
+			return self_0.process_outcome (outcome);
+		} else {
+			succeed! (None);
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn byte_read_string_until (&self, buffer : &mut StdString, delimiter : u8, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>) {
+		if let Some (mut self_0) = try! (self.internals_ref_mut_if_open ()) {
+			let outcome = self_0.backend.byte_read_string_until (buffer, delimiter, count, full);
+			return self_0.process_outcome (outcome);
+		} else {
+			succeed! (None);
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn char_ready (&self) -> (Outcome<bool>) {
 		if let Some (mut self_0) = try! (self.internals_ref_mut_if_open ()) {
 			let outcome = self_0.backend.char_ready ();
@@ -606,6 +634,26 @@ impl PortReader for Port {
 	fn char_read_string (&self, buffer : &mut StdString, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>) {
 		if let Some (mut self_0) = try! (self.internals_ref_mut_if_open ()) {
 			let outcome = self_0.backend.char_read_string (buffer, count, full);
+			return self_0.process_outcome (outcome);
+		} else {
+			succeed! (None);
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn char_read_extend_until (&self, buffer : &mut StdVec<char>, delimiter : char, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>) {
+		if let Some (mut self_0) = try! (self.internals_ref_mut_if_open ()) {
+			let outcome = self_0.backend.char_read_extend_until (buffer, delimiter, count, full);
+			return self_0.process_outcome (outcome);
+		} else {
+			succeed! (None);
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn char_read_string_until (&self, buffer : &mut StdString, delimiter : char, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>) {
+		if let Some (mut self_0) = try! (self.internals_ref_mut_if_open ()) {
+			let outcome = self_0.backend.char_read_string_until (buffer, delimiter, count, full);
 			return self_0.process_outcome (outcome);
 		} else {
 			succeed! (None);
@@ -1007,6 +1055,46 @@ impl PortBackendReader for PortBackend {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn byte_read_extend_until (&mut self, buffer : &mut StdVec<u8>, delimiter : u8, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>) {
+		match *self {
+			
+			PortBackend::BytesReader (ref mut backend) =>
+				return backend.byte_read_extend_until (buffer, delimiter, count, full),
+			PortBackend::BytesWriter (_) =>
+				fail! (0xa13de3a3),
+			
+			PortBackend::NativeReader (ref mut backend) =>
+				return backend.byte_read_extend_until (buffer, delimiter, count, full),
+			PortBackend::NativeWriter (_) =>
+				fail! (0x971d0c58),
+			
+			PortBackend::Descriptor (_) =>
+				fail! (0x4cf09429),
+			
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn byte_read_string_until (&mut self, buffer : &mut StdString, delimiter : u8, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>) {
+		match *self {
+			
+			PortBackend::BytesReader (ref mut backend) =>
+				return backend.byte_read_string_until (buffer, delimiter, count, full),
+			PortBackend::BytesWriter (_) =>
+				fail! (0xc580867d),
+			
+			PortBackend::NativeReader (ref mut backend) =>
+				return backend.byte_read_string_until (buffer, delimiter, count, full),
+			PortBackend::NativeWriter (_) =>
+				fail! (0x09555e0a),
+			
+			PortBackend::Descriptor (_) =>
+				fail! (0x4b3f6dea),
+			
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn char_ready (&mut self) -> (Outcome<bool>) {
 		match *self {
 			
@@ -1122,6 +1210,46 @@ impl PortBackendReader for PortBackend {
 			
 			PortBackend::Descriptor (_) =>
 				fail! (0x1da6954c),
+			
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn char_read_extend_until (&mut self, buffer : &mut StdVec<char>, delimiter : char, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>) {
+		match *self {
+			
+			PortBackend::BytesReader (ref mut backend) =>
+				return backend.char_read_extend_until (buffer, delimiter, count, full),
+			PortBackend::BytesWriter (_) =>
+				fail! (0x7cace7ff),
+			
+			PortBackend::NativeReader (ref mut backend) =>
+				return backend.char_read_extend_until (buffer, delimiter, count, full),
+			PortBackend::NativeWriter (_) =>
+				fail! (0x621f1695),
+			
+			PortBackend::Descriptor (_) =>
+				fail! (0x5c8c0f0f),
+			
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn char_read_string_until (&mut self, buffer : &mut StdString, delimiter : char, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>) {
+		match *self {
+			
+			PortBackend::BytesReader (ref mut backend) =>
+				return backend.char_read_string_until (buffer, delimiter, count, full),
+			PortBackend::BytesWriter (_) =>
+				fail! (0x7a47bd7b),
+			
+			PortBackend::NativeReader (ref mut backend) =>
+				return backend.char_read_string_until (buffer, delimiter, count, full),
+			PortBackend::NativeWriter (_) =>
+				fail! (0x44f16931),
+			
+			PortBackend::Descriptor (_) =>
+				fail! (0x530812a2),
 			
 		}
 	}
