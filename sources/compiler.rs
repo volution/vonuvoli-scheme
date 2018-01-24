@@ -492,6 +492,18 @@ impl Compiler {
 	
 	fn compile_syntax_cond (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
+		let (compilation, clauses) = try! (self.compile_syntax_cond_clauses (compilation, tokens));
+		
+		let clauses = ExpressionConditionalIfClauses::Multiple (clauses.into_boxed_slice ());
+		
+		let expression = Expression::ConditionalIf (clauses);
+		
+		succeed! ((compilation, expression));
+	}
+	
+	
+	fn compile_syntax_cond_clauses (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, StdVec<ExpressionConditionalIfClause>)>) {
+		
 		let mut compilation = try! (compilation.define_disable ());
 		let mut clauses = StdVec::new ();
 		
@@ -533,11 +545,7 @@ impl Compiler {
 		
 		let compilation = try! (compilation.define_enable ());
 		
-		let clauses = ExpressionConditionalIfClauses::Multiple (clauses.into_boxed_slice ());
-		
-		let expression = Expression::ConditionalIf (clauses);
-		
-		succeed! ((compilation, expression));
+		succeed! ((compilation, clauses));
 	}
 	
 	
@@ -554,6 +562,18 @@ impl Compiler {
 		let compilation = try! (compilation.define_disable ());
 		let (compilation, actual) = try! (self.compile_0 (compilation, actual));
 		let compilation = try! (compilation.define_enable ());
+		
+		let (compilation, clauses) = try! (self.compile_syntax_case_clauses (compilation, tokens));
+		
+		let clauses = ExpressionConditionalMatchClauses::Multiple (clauses.into_boxed_slice ());
+		
+		let expression = Expression::ConditionalMatch (actual.into (), clauses);
+		
+		succeed! ((compilation, expression));
+	}
+	
+	
+	fn compile_syntax_case_clauses (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, StdVec<ExpressionConditionalMatchClause>)>) {
 		
 		let mut compilation = try! (compilation.define_disable ());
 		let mut clauses = StdVec::new ();
@@ -594,11 +614,7 @@ impl Compiler {
 		
 		let compilation = try! (compilation.define_enable ());
 		
-		let clauses = ExpressionConditionalMatchClauses::Multiple (clauses.into_boxed_slice ());
-		
-		let expression = Expression::ConditionalMatch (actual.into (), clauses);
-		
-		succeed! ((compilation, expression));
+		succeed! ((compilation, clauses));
 	}
 	
 	
