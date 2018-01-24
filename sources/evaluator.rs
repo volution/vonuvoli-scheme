@@ -140,6 +140,8 @@ impl Evaluator {
 			Expression::Lambda (ref lambda, ref expression, ref registers_closure, ref registers_local) =>
 				self.evaluate_lambda_create (evaluation, lambda, expression, registers_closure, registers_local),
 			
+			Expression::ErrorReturn (ref expression) =>
+				self.evaluate_error_return (evaluation, expression),
 			Expression::ErrorCatch (ref expression, ref error_consumer, ref error_expression) =>
 				self.evaluate_error_catch (evaluation, expression, error_consumer, error_expression),
 			Expression::ErrorThrow (ref expression) =>
@@ -842,6 +844,20 @@ impl Evaluator {
 	fn evaluate_register_get_1 (&self, evaluation : &mut EvaluatorContext, index : usize) -> (Outcome<Value>) {
 		let value = try! (evaluation.registers.resolve_value (index));
 		return Ok (value);
+	}
+	
+	
+	
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn evaluate_error_return (&self, evaluation : &mut EvaluatorContext, expression : &Expression) -> (Outcome<Value>) {
+		let outcome = self.evaluate (evaluation, expression);
+		match outcome {
+			Ok (value) =>
+				succeed! (value),
+			Err (error) =>
+				succeed! (error.into_value ()),
+		}
 	}
 	
 	

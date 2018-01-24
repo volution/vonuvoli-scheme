@@ -134,6 +134,8 @@ impl Optimizer {
 			Expression::Lambda (lambda, expression, registers_closure, registers_local) =>
 				return self.optimize_lambda_create (optimization, lambda, expression, registers_closure, registers_local),
 			
+			Expression::ErrorReturn (expression) =>
+				return self.optimize_error_return (optimization, *expression),
 			Expression::ErrorCatch (expression, error_consumer, error_expression) =>
 				return self.optimize_error_catch (optimization, *expression, error_consumer, *error_expression),
 			Expression::ErrorThrow (expression) =>
@@ -856,6 +858,15 @@ impl Optimizer {
 	
 	fn optimize_register_get_1 (&self, optimization : OptimizerContext, index : usize) -> (Outcome<(OptimizerContext, Expression)>) {
 		let expression = ExpressionForContexts::RegisterGet1 (index) .into ();
+		succeed! ((optimization, expression));
+	}
+	
+	
+	
+	
+	fn optimize_error_return (&self, optimization : OptimizerContext, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
+		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
+		let expression = Expression::ErrorReturn (expression.into ());
 		succeed! ((optimization, expression));
 	}
 	
@@ -1918,6 +1929,8 @@ impl Optimizer {
 			Expression::Lambda (_, _, _, _) =>
 				false,
 			
+			Expression::ErrorReturn (_) =>
+				false,
 			Expression::ErrorCatch (_, _, _) =>
 				false,
 			Expression::ErrorThrow (_) =>
@@ -2219,6 +2232,8 @@ impl Optimizer {
 			Expression::Lambda (_, _, _, _) =>
 				None,
 			
+			Expression::ErrorReturn (_) =>
+				None,
 			Expression::ErrorCatch (_, _, _) =>
 				None,
 			Expression::ErrorThrow (_) =>
@@ -2407,6 +2422,8 @@ impl Optimizer {
 			Expression::Lambda (_, _, _, _) =>
 				None,
 			
+			Expression::ErrorReturn (_) =>
+				None,
 			Expression::ErrorCatch (_, _, _) =>
 				None,
 			Expression::ErrorThrow (_) =>
