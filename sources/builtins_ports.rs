@@ -471,7 +471,6 @@ pub fn port_output_value_display (port : &Value, value : &Value, flatten : bool,
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_output_value_display_0 (port : &mut PortBackendWriter, value : &Value, flatten : bool, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
-	let flush = flush.unwrap_or (true);
 	
 	match value.class_match_as_ref () {
 		
@@ -544,34 +543,34 @@ pub fn port_output_value_display_0 (port : &mut PortBackendWriter, value : &Valu
 		},
 		
 		ValueClassMatchAsRef::Pair (_) => {
-			let mut iterator = try! (ListIterator::new (value, true));
 			if flatten {
+				let mut iterator = try! (ListIterator::new (value, true));
 				try! (port_output_value_display_0_iterable (port, &mut iterator, flatten, separator, Some (false)));
 				if let Some (dotted) = iterator.dotted () {
 					let dotted = dotted.as_ref ();
 					try! (port_output_value_display_0 (port, dotted, flatten, separator, Some (false)));
 				}
 			} else {
-				fail_unimplemented! (0x3b2f708d);
+				return port_output_value_write_0 (port, value, false, separator, flush);
 			}
 		},
 		
 		ValueClassMatchAsRef::Array (class) => {
-			let array = class.array_ref ();
-			let values = array.values_as_slice ();
 			if flatten {
+				let array = class.array_ref ();
+				let values = array.values_as_slice ();
 				try! (port_output_value_display_0_slice (port, values, flatten, separator, Some (false)));
 			} else {
-				fail_unimplemented! (0xe3ed7dba);
+				return port_output_value_write_0 (port, value, false, separator, flush);
 			}
 		},
 		
-		ValueClassMatchAsRef::Values (value) => {
-			let values = value.values_as_slice ();
+		ValueClassMatchAsRef::Values (values) => {
 			if flatten {
+				let values = values.values_as_slice ();
 				try! (port_output_value_display_0_slice (port, values, flatten, separator, Some (false)));
 			} else {
-				fail_unimplemented! (0x7b7b3a99);
+				return port_output_value_write_0 (port, value, false, separator, flush);
 			}
 		},
 		
@@ -588,7 +587,7 @@ pub fn port_output_value_display_0 (port : &mut PortBackendWriter, value : &Valu
 		
 	}
 	
-	if flush {
+	if flush.unwrap_or (true) {
 		try! (port.output_flush ());
 	}
 	
@@ -600,7 +599,6 @@ pub fn port_output_value_display_0 (port : &mut PortBackendWriter, value : &Valu
 pub fn port_output_value_display_0_slice (port : &mut PortBackendWriter, values : &[Value], flatten : bool, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
 	
 	let separator_actual = separator.unwrap_or (' ');
-	let flush = flush.unwrap_or (false);
 	let mut first = true;
 	
 	for value in values {
@@ -612,7 +610,7 @@ pub fn port_output_value_display_0_slice (port : &mut PortBackendWriter, values 
 		try! (port_output_value_display_0 (port, value, flatten, separator, Some (false)));
 	}
 	
-	if flush {
+	if flush.unwrap_or (false) {
 		try! (port.output_flush ());
 	}
 	
@@ -626,7 +624,6 @@ pub fn port_output_value_display_0_iterable <'a, Iterator> (port : &mut PortBack
 {
 	
 	let separator_actual = separator.unwrap_or (' ');
-	let flush = flush.unwrap_or (false);
 	let mut first = true;
 	
 	for value in values {
@@ -640,7 +637,7 @@ pub fn port_output_value_display_0_iterable <'a, Iterator> (port : &mut PortBack
 		try! (port_output_value_display_0 (port, value, flatten, separator, Some (false)));
 	}
 	
-	if flush {
+	if flush.unwrap_or (false) {
 		try! (port.output_flush ());
 	}
 	
@@ -661,7 +658,6 @@ pub fn port_output_value_write (port : &Value, value : &Value, flatten : bool, s
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value, flatten : bool, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
-	let flush = flush.unwrap_or (true);
 	
 	match value.class_match_as_ref () {
 		
@@ -808,7 +804,7 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 		
 	}
 	
-	if flush {
+	if flush.unwrap_or (true) {
 		try! (port.output_flush ());
 	}
 	
@@ -820,7 +816,6 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 pub fn port_output_value_write_0_slice (port : &mut PortBackendWriter, values : &[Value], flatten : bool, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
 	
 	let separator_actual = separator.unwrap_or (' ');
-	let flush = flush.unwrap_or (false);
 	let mut first = true;
 	
 	for value in values {
@@ -832,7 +827,7 @@ pub fn port_output_value_write_0_slice (port : &mut PortBackendWriter, values : 
 		try! (port_output_value_write_0 (port, value, flatten, separator, Some (false)));
 	}
 	
-	if flush {
+	if flush.unwrap_or (false) {
 		try! (port.output_flush ());
 	}
 	
@@ -846,7 +841,6 @@ pub fn port_output_value_write_0_iterable <'a, Iterator> (port : &mut PortBacken
 {
 	
 	let separator_actual = separator.unwrap_or (' ');
-	let flush = flush.unwrap_or (false);
 	let mut first = true;
 	
 	for value in values {
@@ -860,7 +854,7 @@ pub fn port_output_value_write_0_iterable <'a, Iterator> (port : &mut PortBacken
 		try! (port_output_value_write_0 (port, value, flatten, separator, Some (false)));
 	}
 	
-	if flush {
+	if flush.unwrap_or (false) {
 		try! (port.output_flush ());
 	}
 	
@@ -883,11 +877,10 @@ pub fn port_output_newline (port : &Value, separator : Option<char>, flush : Opt
 pub fn port_output_newline_0 (port : &mut PortBackendWriter, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
 	
 	let separator = separator.unwrap_or ('\n');
-	let flush = flush.unwrap_or (true);
 	
 	try! (port.char_write (separator));
 	
-	if flush {
+	if flush.unwrap_or (true) {
 		try! (port.output_flush ());
 	}
 	
