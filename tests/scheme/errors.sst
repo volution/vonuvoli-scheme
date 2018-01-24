@@ -53,3 +53,48 @@
 (~error-object-irritants->values e5) => #values(1 2 3 4 5)
 (~error-object-irritants->values e6) => #values(1 2 3 4 5 6)
 
+
+
+
+(guard 0) => 0
+(~guard* 0) => 0
+
+(guard (raise 0)) => 0
+(~guard* (raise 0)) => 0
+
+(error-object? (guard 0)) => #f
+(error-object? (~guard* 0)) => #f
+
+(error-object? (guard (raise 0))) => #f
+(error-object? (~guard* (raise 0))) => #f
+
+(error-object? (guard (error "error-x"))) => #t
+(error-object? (~guard* (error "error-x"))) => #t
+
+
+(~guard* e 0 e) => 0
+(~guard* e (raise 0) e) => 0
+(error-object? (~guard* e 0 e)) => #f
+(error-object? (~guard* e (raise 0) e)) => #f
+(error-object? (~guard* e (error "error-x") e)) => #t
+
+
+(guard (e) 0) => 0
+(guard (guard (e) (raise 0))) => 0
+(error-object? (guard (guard (e) 0))) => #f
+(error-object? (guard (guard (e) (raise 0)))) => #f
+(error-object? (guard (guard (e) (error "error-x")))) => #t
+
+
+(guard (e (#t e)) 0) => 0
+(guard (e (#t e)) (raise 0)) => 0
+(error-object? (guard (e (#t e)) 0)) => #f
+(error-object? (guard (e (#t e)) (raise 0))) => #f
+(error-object? (guard (e (#t e)) (error "error-x"))) => #t
+
+
+(guard (e ((error-object? e) 1) ((eq? e 0) 2) (#t 3)) 0) => 0
+(guard (e ((error-object? e) 1) ((eq? e 0) 2) (#t 3)) (raise 0)) => 2
+(guard (e ((error-object? e) 1) ((eq? e 0) 2) (#t 3)) (raise 1)) => 3
+(guard (e ((error-object? e) 1) ((eq? e 0) 2) (#t 3)) (error "error-x")) => 1
+
