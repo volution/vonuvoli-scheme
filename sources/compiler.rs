@@ -802,7 +802,7 @@ impl Compiler {
 		
 		match tokens.len () {
 			0 =>
-				fail! (0x4065b3e7),
+				fail! (0xa10959b0),
 			1 => {
 				let token = try! (vec_explode_1 (tokens));
 				return self.compile_syntax_guard_return (compilation, token);

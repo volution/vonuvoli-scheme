@@ -252,7 +252,7 @@ pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, input_1 : &Value, 
 			fail_unimplemented! (0xae3d8a9f), // deferred
 		
 		PortPrimitive1::ValueDisplay =>
-			return port_output_value_display_0 (&mut try! (PortBackend::new_stdout ()), input_1, true, None, Some (true)) .into_0 (),
+			return port_output_value_display_0 (&mut try! (PortBackend::new_stdout ()), input_1, None, None, Some (true)) .into_0 (),
 		
 		PortPrimitive1::InputFromBytes =>
 			return port_bytes_reader_new (input_1),
@@ -323,15 +323,15 @@ pub fn port_primitive_2_evaluate (primitive : PortPrimitive2, input_1 : &Value, 
 		
 		PortPrimitive2::ValueWrite =>
 			// FIXME:  Add support for cyclic objects!
-			return port_output_value_write (input_2, input_1, false, None, None) .into_0 (),
+			return port_output_value_write (input_2, input_1, None, None, None) .into_0 (),
 		
 		PortPrimitive2::ValueWriteShared =>
 			// FIXME:  Add support for cyclic objects!
-			return port_output_value_write (input_2, input_1, false, None, None) .into_0 (),
+			return port_output_value_write (input_2, input_1, None, None, None) .into_0 (),
 		
 		PortPrimitive2::ValueWriteSimple =>
 			// FIXME:  Add support for cyclic objects!
-			return port_output_value_write (input_2, input_1, false, None, None) .into_0 (),
+			return port_output_value_write (input_2, input_1, None, None, None) .into_0 (),
 		
 		PortPrimitive2::CallAndClose =>
 			return port_call_and_close (input_1, input_2, evaluator),

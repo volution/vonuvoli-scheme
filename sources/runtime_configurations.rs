@@ -31,5 +31,21 @@ pub const EVALUATOR_TRACE_ERROR : bool = true;
 
 
 
+pub const DEFAULT_PORT_OUTPUT_VALUE_DISPLAY_FLATTEN : bool = true;
+pub const DEFAULT_PORT_OUTPUT_VALUE_DISPLAY_FLUSH : bool = true;
+pub const DEFAULT_PORT_OUTPUT_VALUE_DISPLAY_SEPARATOR : char = ' ';
+
+pub const DEFAULT_PORT_OUTPUT_VALUE_WRITE_FLATTEN : bool = false;
+pub const DEFAULT_PORT_OUTPUT_VALUE_WRITE_FLUSH : bool = false;
+pub const DEFAULT_PORT_OUTPUT_VALUE_WRITE_SEPARATOR : char = ' ';
+
+pub const DEFAULT_PORT_OUTPUT_NEWLINE_FLUSH : bool = true;
+pub const DEFAULT_PORT_OUTPUT_NEWLINE_SEPARATOR : char = '\n';
+
+pub const DEFAULT_PORT_BUFFER_SIZE : usize = 4096;
+
+
+
+
 pub const PANIC_ON_FAILED : bool = false;
 

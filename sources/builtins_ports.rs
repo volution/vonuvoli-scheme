@@ -5,6 +5,7 @@ use super::conversions::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
 use super::ports::exports::*;
+use super::runtime::exports::*;
 use super::values::exports::*;
 
 use super::prelude::*;
@@ -171,7 +172,7 @@ pub fn port_input_character_ready (port : &Value) -> (Outcome<bool>) {
 pub fn port_input_bytes_read_collect (port : &Value, count : Option<&Value>) -> (Outcome<Value>) {
 	let port = try_as_port_ref! (port);
 	let count = try! (count_coerce (count));
-	let mut buffer = StdVec::with_capacity (count.unwrap_or (1024));
+	let mut buffer = StdVec::with_capacity (count.unwrap_or (DEFAULT_PORT_BUFFER_SIZE));
 	let (count, full) = (Some (count.unwrap_or (buffer.capacity ())), count.is_some ());
 	if let Some (_) = try! (port.byte_read_extend (&mut buffer, count, full)) {
 		succeed! (bytes_new (buffer) .into ());
@@ -214,7 +215,7 @@ pub fn port_input_bytes_read_copy_range (port : &Value, bytes : &Value, range_st
 pub fn port_input_string_read_collect (port : &Value, count : Option<&Value>) -> (Outcome<Value>) {
 	let port = try_as_port_ref! (port);
 	let count = try! (count_coerce (count));
-	let mut buffer = StdString::with_capacity (count.unwrap_or (1024));
+	let mut buffer = StdString::with_capacity (count.unwrap_or (DEFAULT_PORT_BUFFER_SIZE));
 	let (count, full) = (Some (count.unwrap_or (buffer.capacity ())), count.is_some ());
 	if let Some (_) = try! (port.char_read_string (&mut buffer, count, full)) {
 		succeed! (string_new (buffer) .into ());
@@ -543,7 +544,7 @@ pub fn port_output_value_display_0 (port : &mut PortBackendWriter, value : &Valu
 		},
 		
 		ValueClassMatchAsRef::Pair (_) => {
-			if flatten.unwrap_or (false) {
+			if flatten.unwrap_or (DEFAULT_PORT_OUTPUT_VALUE_DISPLAY_FLATTEN) {
 				let mut iterator = try! (ListIterator::new (value, true));
 				try! (port_output_value_display_0_iterable (port, &mut iterator, Some (true), separator, Some (false)));
 				if let Some (dotted) = iterator.dotted () {
@@ -556,7 +557,7 @@ pub fn port_output_value_display_0 (port : &mut PortBackendWriter, value : &Valu
 		},
 		
 		ValueClassMatchAsRef::Array (class) => {
-			if flatten.unwrap_or (false) {
+			if flatten.unwrap_or (DEFAULT_PORT_OUTPUT_VALUE_DISPLAY_FLATTEN) {
 				let array = class.array_ref ();
 				let values = array.values_as_slice ();
 				try! (port_output_value_display_0_slice (port, values, Some (true), separator, Some (false)));
@@ -566,7 +567,7 @@ pub fn port_output_value_display_0 (port : &mut PortBackendWriter, value : &Valu
 		},
 		
 		ValueClassMatchAsRef::Values (values) => {
-			if flatten.unwrap_or (false) {
+			if flatten.unwrap_or (DEFAULT_PORT_OUTPUT_VALUE_DISPLAY_FLATTEN) {
 				let values = values.values_as_slice ();
 				try! (port_output_value_display_0_slice (port, values, Some (true), separator, Some (false)));
 			} else {
@@ -587,7 +588,7 @@ pub fn port_output_value_display_0 (port : &mut PortBackendWriter, value : &Valu
 		
 	}
 	
-	if flush.unwrap_or (true) {
+	if flush.unwrap_or (DEFAULT_PORT_OUTPUT_VALUE_DISPLAY_FLUSH) {
 		try! (port.output_flush ());
 	}
 	
@@ -598,7 +599,7 @@ pub fn port_output_value_display_0 (port : &mut PortBackendWriter, value : &Valu
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_output_value_display_0_slice (port : &mut PortBackendWriter, values : &[Value], flatten : Option<bool>, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
 	
-	let separator_actual = separator.unwrap_or (' ');
+	let separator_actual = separator.unwrap_or (DEFAULT_PORT_OUTPUT_VALUE_DISPLAY_SEPARATOR);
 	let mut first = true;
 	
 	for value in values {
@@ -623,7 +624,7 @@ pub fn port_output_value_display_0_iterable <'a, Iterator> (port : &mut PortBack
 		where Iterator : iter::Iterator<Item = Outcome<ValueRef<'a>>>
 {
 	
-	let separator_actual = separator.unwrap_or (' ');
+	let separator_actual = separator.unwrap_or (DEFAULT_PORT_OUTPUT_VALUE_DISPLAY_SEPARATOR);
 	let mut first = true;
 	
 	for value in values {
@@ -743,7 +744,7 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 		},
 		
 		ValueClassMatchAsRef::Pair (class) => {
-			if flatten.unwrap_or (false) {
+			if flatten.unwrap_or (DEFAULT_PORT_OUTPUT_VALUE_WRITE_FLATTEN) {
 				let mut iterator = try! (ListIterator::new (value, true));
 				try! (port_output_value_write_0_iterable (port, &mut iterator, Some (true), separator, Some (false)));
 				if let Some (dotted) = iterator.dotted () {
@@ -763,7 +764,7 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 		},
 		
 		ValueClassMatchAsRef::Array (class) => {
-			if flatten.unwrap_or (false) {
+			if flatten.unwrap_or (DEFAULT_PORT_OUTPUT_VALUE_WRITE_FLATTEN) {
 				let array = class.array_ref ();
 				let values = array.values_as_slice ();
 				try! (port_output_value_write_0_slice (port, values, Some (true), separator, Some (false)));
@@ -780,7 +781,7 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 		},
 		
 		ValueClassMatchAsRef::Values (value) => {
-			if flatten.unwrap_or (false) {
+			if flatten.unwrap_or (DEFAULT_PORT_OUTPUT_VALUE_WRITE_FLATTEN) {
 				let values = value.values_as_slice ();
 				try! (port_output_value_display_0_slice (port, values, Some (true), separator, Some (false)));
 			} else {
@@ -804,7 +805,7 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 		
 	}
 	
-	if flush.unwrap_or (true) {
+	if flush.unwrap_or (DEFAULT_PORT_OUTPUT_VALUE_WRITE_FLUSH) {
 		try! (port.output_flush ());
 	}
 	
@@ -815,7 +816,7 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_output_value_write_0_slice (port : &mut PortBackendWriter, values : &[Value], flatten : Option<bool>, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
 	
-	let separator_actual = separator.unwrap_or (' ');
+	let separator_actual = separator.unwrap_or (DEFAULT_PORT_OUTPUT_VALUE_WRITE_SEPARATOR);
 	let mut first = true;
 	
 	for value in values {
@@ -840,7 +841,7 @@ pub fn port_output_value_write_0_iterable <'a, Iterator> (port : &mut PortBacken
 		where Iterator : iter::Iterator<Item = Outcome<ValueRef<'a>>>
 {
 	
-	let separator_actual = separator.unwrap_or (' ');
+	let separator_actual = separator.unwrap_or (DEFAULT_PORT_OUTPUT_VALUE_WRITE_SEPARATOR);
 	let mut first = true;
 	
 	for value in values {
@@ -876,11 +877,11 @@ pub fn port_output_newline (port : &Value, separator : Option<char>, flush : Opt
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_output_newline_0 (port : &mut PortBackendWriter, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
 	
-	let separator = separator.unwrap_or ('\n');
+	let separator = separator.unwrap_or (DEFAULT_PORT_OUTPUT_NEWLINE_SEPARATOR);
 	
 	try! (port.char_write (separator));
 	
-	if flush.unwrap_or (true) {
+	if flush.unwrap_or (DEFAULT_PORT_OUTPUT_NEWLINE_FLUSH) {
 		try! (port.output_flush ());
 	}
 	
