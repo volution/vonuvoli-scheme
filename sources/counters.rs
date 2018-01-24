@@ -15,10 +15,10 @@ use super::prelude::*;
 
 
 #[ derive (Clone, Debug, Default) ]
-pub struct PermutationCounter {
-	pub index : u32,
-	pub offset : u32,
-	pub initialized : bool,
+pub(crate) struct PermutationCounter {
+	pub(crate) index : u32,
+	pub(crate) offset : u32,
+	pub(crate) initialized : bool,
 }
 
 
@@ -26,12 +26,12 @@ impl PermutationCounter {
 	
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new () -> (Self) {
+	pub(crate) fn new () -> (Self) {
 		PermutationCounter::with_seed (0, 0)
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn with_seed (index : u32, offset : u32) -> (Self) {
+	pub(crate) fn with_seed (index : u32, offset : u32) -> (Self) {
 		PermutationCounter {
 				index : index,
 				offset : offset,
@@ -41,7 +41,7 @@ impl PermutationCounter {
 	
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn initialize (&mut self) -> () {
+	pub(crate) fn initialize (&mut self) -> () {
 		if !self.initialized {
 			self.index = self.permute (self.permute (num::Wrapping (self.index)) + FUZZ_2) .0;
 			self.offset = self.permute (self.permute (num::Wrapping (self.offset)) + FUZZ_3) .0;
@@ -50,7 +50,7 @@ impl PermutationCounter {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn next (&mut self) -> (u32) {
+	pub(crate) fn next (&mut self) -> (u32) {
 		self.initialize ();
 		self.index = (num::Wrapping (self.index) + num::Wrapping (1u32)) .0;
 		let output = self.permute (num::Wrapping (self.index));

@@ -180,7 +180,7 @@ impl NumberInteger {
 	NumberInteger_fn_try_to_signed_integer! (try_to_i8, i8);
 	NumberInteger_fn_try_to_signed_integer! (try_to_i16, i16);
 	NumberInteger_fn_try_to_signed_integer! (try_to_i32, i32);
-	NumberInteger_fn_try_to_signed_integer! (try_to_i64, i64);
+	// NumberInteger_fn_try_to_signed_integer! (try_to_i64, i64);
 	NumberInteger_fn_try_to_signed_integer! (try_to_isize, isize);
 	
 	NumberInteger_fn_try_to_unsigned_integer! (try_to_u8, u8);

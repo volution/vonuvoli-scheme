@@ -1,5 +1,11 @@
 
 
+// FIXME:  Remove this after exporting all public functions!
+#![ allow (unreachable_pub) ]
+
+
+
+
 use super::errors::exports::*;
 use super::ports::exports::*;
 use super::values::exports::*;

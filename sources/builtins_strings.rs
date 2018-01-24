@@ -702,7 +702,7 @@ pub fn number_to_string (number : &Value, radix : Option<&Value>, sign : Option<
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn number_radix_coerce (radix : Option<&Value>) -> (Outcome<Option<u32>>) {
+pub(crate) fn number_radix_coerce (radix : Option<&Value>) -> (Outcome<Option<u32>>) {
 	if let Some (radix) = radix {
 		let radix = try_as_number_integer_ref! (radix) .value ();
 		if (radix >= 2) && (radix <= 36) {

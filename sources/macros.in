@@ -10,8 +10,9 @@ macro_rules! succeeded {
 #[ macro_export ]
 macro_rules! failed_or_panic {
 	( $code : expr, $outcome : expr ) => (
-		if $crate::runtime::exports::PANIC_ON_FAILED {
-			panic! ("{:08x}", $code as u32);
+		if $crate::internals::runtime_configurations::PANIC_ON_FAILED {
+			let code : u64 = $code;
+			panic! ("{:08x}", code);
 		} else {
 			$outcome
 		}
@@ -21,21 +22,21 @@ macro_rules! failed_or_panic {
 #[ macro_export ]
 macro_rules! failed {
 	( $code : expr ) => (
-		failed_or_panic! ($code, $crate::prelude::Result::Err ($crate::errors::exports::error_generic ($code)))
+		failed_or_panic! ($code, $crate::prelude::Result::Err ($crate::exports::error_generic ($code)))
 	);
 }
 
 #[ macro_export ]
 macro_rules! failed_unimplemented {
 	( $code : expr ) => (
-		failed_or_panic! ($code, $crate::prelude::Result::Err ($crate::errors::exports::error_unimplemented ($code)))
+		failed_or_panic! ($code, $crate::prelude::Result::Err ($crate::exports::error_unimplemented ($code)))
 	);
 }
 
 #[ macro_export ]
 macro_rules! failed_panic {
 	( $code : expr ) => (
-		failed_or_panic! ($code, $crate::prelude::Result::Err ($crate::errors::exports::error_panic ($code)))
+		failed_or_panic! ($code, $crate::prelude::Result::Err ($crate::exports::error_panic ($code)))
 	);
 }
 
@@ -158,16 +159,16 @@ macro_rules! impl_into_for_outcome {
 		impl_into_for_outcome! ($to, $from, value, value);
 	);
 	( $to : ty, $from : ty, $value : ident, $expression : expr ) => (
-		impl $crate::prelude::StdInto0<$crate::errors::exports::Outcome<$to>> for $from {
+		impl $crate::exports::StdInto0<$crate::exports::Outcome<$to>> for $from {
 			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-			fn into_0 (self) -> ($crate::errors::exports::Outcome<$to>) {
+			fn into_0 (self) -> ($crate::exports::Outcome<$to>) {
 				let $value = self;
 				succeed! ($crate::prelude::StdInto::<$to>::into ($expression));
 			}
 		}
-		impl $crate::prelude::StdInto0<$crate::errors::exports::Outcome<$to>> for $crate::errors::exports::Outcome<$from> {
+		impl $crate::exports::StdInto0<$crate::exports::Outcome<$to>> for $crate::exports::Outcome<$from> {
 			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-			fn into_0 (self) -> ($crate::errors::exports::Outcome<$to>) {
+			fn into_0 (self) -> ($crate::exports::Outcome<$to>) {
 				match self {
 					$crate::prelude::Result::Ok ($value) =>
 						succeed! ($crate::prelude::StdInto::<$to>::into ($expression)),
@@ -185,16 +186,16 @@ macro_rules! impl_try_into_for_outcome {
 		impl_try_into_for_outcome! ($to, $from, value, value.try_into ());
 	);
 	( $to : ty, $from : ty, $value : ident, $expression : expr ) => (
-		impl $crate::prelude::StdInto0<$crate::errors::exports::Outcome<$to>> for $from {
+		impl $crate::exports::StdInto0<$crate::exports::Outcome<$to>> for $from {
 			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-			fn into_0 (self) -> ($crate::errors::exports::Outcome<$to>) {
+			fn into_0 (self) -> ($crate::exports::Outcome<$to>) {
 				let $value = self;
 				succeed! ($crate::prelude::StdInto::<$to>::into (try! ($expression)));
 			}
 		}
-		impl $crate::prelude::StdInto0<$crate::errors::exports::Outcome<$to>> for $crate::errors::exports::Outcome<$from> {
+		impl $crate::exports::StdInto0<$crate::exports::Outcome<$to>> for $crate::exports::Outcome<$from> {
 			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-			fn into_0 (self) -> ($crate::errors::exports::Outcome<$to>) {
+			fn into_0 (self) -> ($crate::exports::Outcome<$to>) {
 				match self {
 					$crate::prelude::Result::Ok ($value) =>
 						succeed! ($crate::prelude::StdInto::<$to>::into (try! ($expression))),
@@ -227,9 +228,9 @@ macro_rules! impl_from_for_box {
 macro_rules! impl_try_from_for_box {
 	( $to : ty, $from : ty, $value : ident, $expression : expr ) => (
 		impl $crate::prelude::StdTryFrom<$from> for $crate::prelude::StdBox<$to> {
-			type Error = $crate::errors::exports::Error;
+			type Error = $crate::exports::Error;
 			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-			fn try_from ($value : $from) -> ($crate::prelude::Result<$crate::prelude::StdBox<$to>, $crate::errors::exports::Error>) {
+			fn try_from ($value : $from) -> ($crate::prelude::Result<$crate::prelude::StdBox<$to>, $crate::exports::Error>) {
 				succeed! ($crate::prelude::StdBox::new ($crate::prelude::StdInto::<$to>::into (try! ($expression))));
 			}
 		}
@@ -261,9 +262,9 @@ macro_rules! impl_from_for_type {
 macro_rules! impl_try_from_for_type {
 	( $to : ty, $from : ty, $value : ident, $expression : expr ) => (
 		impl $crate::prelude::StdTryFrom<$from> for $to {
-			type Error = $crate::errors::exports::Error;
+			type Error = $crate::exports::Error;
 			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-			fn try_from ($value : $from) -> ($crate::prelude::Result<$to, $crate::errors::exports::Error>) {
+			fn try_from ($value : $from) -> ($crate::prelude::Result<$to, $crate::exports::Error>) {
 				succeed! ($crate::prelude::StdInto::<$to>::into (try! ($expression)));
 			}
 		}
@@ -307,10 +308,10 @@ macro_rules! impl_as_ref_for_type_wlt {
 
 macro_rules! impl_try_as_ref_for_type {
 	( $to : ty, $from : ty, $self : ident, $expression : expr ) => (
-		impl $crate::prelude::StdTryAsRef0<$to> for $from {
-			type Error = $crate::errors::exports::Error;
+		impl $crate::exports::StdTryAsRef0<$to> for $from {
+			type Error = $crate::exports::Error;
 			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-			fn try_as_ref_0 (&$self) -> ($crate::prelude::Result<&$to, $crate::errors::exports::Error>) {
+			fn try_as_ref_0 (&$self) -> ($crate::prelude::Result<&$to, $crate::exports::Error>) {
 				succeed! (try! ($expression));
 			}
 		}
@@ -340,9 +341,9 @@ macro_rules! impl_from_for_enum {
 macro_rules! impl_try_from_for_enum {
 	( $to : ident, $tag : ident, $from : ty, $value : ident, $expression : expr ) => (
 		impl $crate::prelude::StdTryFrom<$from> for $to {
-			type Error = $crate::errors::exports::Error;
+			type Error = $crate::exports::Error;
 			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-			fn try_from ($value : $from) -> ($crate::prelude::Result<$to, $crate::errors::exports::Error>) {
+			fn try_from ($value : $from) -> ($crate::prelude::Result<$to, $crate::exports::Error>) {
 				succeed! ($to::tag ($crate::prelude::StdInto::<_>::into (try! ($expression))));
 			}
 		}
@@ -369,7 +370,7 @@ macro_rules! impl_unwrappers_for_box {
 		impl $crate::prelude::StdAsRef<$to> for $crate::prelude::StdBox<$from> {
 			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 			fn as_ref (&self) -> (&$to) {
-				return $crate::prelude::StdAsRef0::<$to>::as_ref_0 (&self);
+				return $crate::exports::StdAsRef0::<$to>::as_ref_0 (&self);
 			}
 		}
 		*/
@@ -383,18 +384,18 @@ macro_rules! impl_try_unwrappers_for_box {
 	);
 	( $from : ty, $to : ty) => (
 		impl $crate::prelude::StdTryFrom<$crate::prelude::StdBox<$from>> for $to {
-			type Error = $crate::errors::exports::Error;
+			type Error = $crate::exports::Error;
 			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-			fn try_from (value : $crate::prelude::StdBox<$from>) -> ($crate::prelude::Result<$to, $crate::errors::exports::Error>) {
+			fn try_from (value : $crate::prelude::StdBox<$from>) -> ($crate::prelude::Result<$to, $crate::exports::Error>) {
 				return $crate::prelude::StdTryInto::<$to>::try_into (*value);
 			}
 		}
 		/*
-		impl $crate::prelude::StdTryAsRef0<$to> for $crate::prelude::StdBox<$from> {
-			type Error = $crate::errors::exports::Error;
+		impl $crate::exports::StdTryAsRef0<$to> for $crate::prelude::StdBox<$from> {
+			type Error = $crate::exports::Error;
 			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-			fn try_as_ref_0 (&self) -> ($crate::prelude::Result<&$to, $crate::errors::exports::Error>) {
-				return $crate::prelude::StdTryAsRef0::<$to>::try_as_ref_0 (&self);
+			fn try_as_ref_0 (&self) -> ($crate::prelude::Result<&$to, $crate::exports::Error>) {
+				return $crate::exports::StdTryAsRef0::<$to>::try_as_ref_0 (&self);
 			}
 		}
 		*/
@@ -428,9 +429,9 @@ macro_rules! impl_unwrappers_for_type_wrapper {
 macro_rules! impl_unwrappers_for_enum_wrapper {
 	( $from : ident, $tag : ident, $to : ty) => (
 		impl $crate::prelude::StdTryFrom<$from> for $to {
-			type Error = $crate::errors::exports::Error;
+			type Error = $crate::exports::Error;
 			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-			fn try_from (value : $from) -> ($crate::prelude::Result<$to, $crate::errors::exports::Error>) {
+			fn try_from (value : $from) -> ($crate::prelude::Result<$to, $crate::exports::Error>) {
 				if let $from::$tag (value) = value {
 					succeed! ($crate::prelude::StdInto::<$to>::into (value));
 				} else {
@@ -439,12 +440,12 @@ macro_rules! impl_unwrappers_for_enum_wrapper {
 			}
 		}
 		/*
-		impl $crate::prelude::StdTryAsRef0<$to> for $from {
-			type Error = $crate::errors::exports::Error;
+		impl $crate::exports::StdTryAsRef0<$to> for $from {
+			type Error = $crate::exports::Error;
 			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-			fn try_as_ref_0 (&self) -> ($crate::prelude::Result<&$to, $crate::errors::exports::Error>) {
+			fn try_as_ref_0 (&self) -> ($crate::prelude::Result<&$to, $crate::exports::Error>) {
 				if let $from::$tag (ref value) = *self {
-					succeed! ($crate::prelude::StdAsRef0::<$to>::as_ref_0 (value));
+					succeed! ($crate::exports::StdAsRef0::<$to>::as_ref_0 (value));
 				} else {
 					fail! (0x958097f2);
 				}
@@ -461,9 +462,9 @@ macro_rules! impl_unwrappers_for_enum_wrapper {
 macro_rules! impl_try_unwrappers_for_enum_wrapper {
 	( $from : ident, $tag : ident, $to : ty) => (
 		impl $crate::prelude::StdTryFrom<$from> for $to {
-			type Error = $crate::errors::exports::Error;
+			type Error = $crate::exports::Error;
 			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-			fn try_from (value : $from) -> ($crate::prelude::Result<$to, $crate::errors::exports::Error>) {
+			fn try_from (value : $from) -> ($crate::prelude::Result<$to, $crate::exports::Error>) {
 				if let $from::$tag (value) = value {
 					return $crate::prelude::StdTryInto::<$to>::try_into (value);
 				} else {
@@ -472,12 +473,12 @@ macro_rules! impl_try_unwrappers_for_enum_wrapper {
 			}
 		}
 		/*
-		impl $crate::prelude::StdTryAsRef0<$to> for $from {
-			type Error = $crate::errors::exports::Error;
+		impl $crate::exports::StdTryAsRef0<$to> for $from {
+			type Error = $crate::exports::Error;
 			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-			fn try_as_ref_0 (&self) -> ($crate::prelude::Result<&$to, $crate::errors::exports::Error>) {
+			fn try_as_ref_0 (&self) -> ($crate::prelude::Result<&$to, $crate::exports::Error>) {
 				if let $from::$tag (ref value) = *self {
-					return $crate::prelude::StdTryAsRef0::<$to>::try_as_ref_0 (value);
+					return $crate::exports::StdTryAsRef0::<$to>::try_as_ref_0 (value);
 				} else {
 					fail! (0x19768613);
 				}
@@ -494,9 +495,9 @@ macro_rules! impl_try_unwrappers_for_enum_wrapper {
 macro_rules! impl_unwrappers_2_for_enum_3_wrapper {
 	( $from : ident, $tag : ident, $to : ty) => (
 		impl $crate::prelude::StdTryFrom<$from> for $to {
-			type Error = $crate::errors::exports::Error;
+			type Error = $crate::exports::Error;
 			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-			fn try_from (value : $from) -> ($crate::prelude::Result<$to, $crate::errors::exports::Error>) {
+			fn try_from (value : $from) -> ($crate::prelude::Result<$to, $crate::exports::Error>) {
 				if let $from::$tag (_, value, _) = value {
 					succeed! ($crate::prelude::StdInto::<$to>::into (value));
 				} else {
@@ -504,12 +505,12 @@ macro_rules! impl_unwrappers_2_for_enum_3_wrapper {
 				}
 			}
 		}
-		impl $crate::prelude::StdTryAsRef0<$to> for $from {
-			type Error = $crate::errors::exports::Error;
+		impl $crate::exports::StdTryAsRef0<$to> for $from {
+			type Error = $crate::exports::Error;
 			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-			fn try_as_ref_0 (&self) -> ($crate::prelude::Result<&$to, $crate::errors::exports::Error>) {
+			fn try_as_ref_0 (&self) -> ($crate::prelude::Result<&$to, $crate::exports::Error>) {
 				if let $from::$tag (_, ref value, _) = *self {
-					succeed! ($crate::prelude::StdAsRef0::<$to>::as_ref_0 (value));
+					succeed! ($crate::exports::StdAsRef0::<$to>::as_ref_0 (value));
 				} else {
 					fail! (0x1e588e5f);
 				}
@@ -669,7 +670,7 @@ macro_rules! try_option_map {
 
 macro_rules! try_as_ref {
 	( $type : ty, $value : expr ) => (
-		try! ($crate::prelude::StdTryAsRef0::<$type>::try_as_ref_0 ($value))
+		try! ($crate::exports::StdTryAsRef0::<$type>::try_as_ref_0 ($value))
 	);
 }
 

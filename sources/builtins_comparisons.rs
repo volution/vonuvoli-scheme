@@ -895,7 +895,7 @@ pub fn string_mutable_compare_2a <ValueRef : StdAsRef<StringMutable>> (left : Va
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn string_ref_compare_2a <'a, ValueRef : StdAsRef<StringRef<'a>>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+pub(crate) fn string_ref_compare_2a <'a, ValueRef : StdAsRef<StringRef<'a>>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
 	match comparison {
@@ -954,7 +954,7 @@ pub fn bytes_mutable_compare_2a <ValueRef : StdAsRef<BytesMutable>> (left : Valu
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn bytes_ref_compare_2a <'a, ValueRef : StdAsRef<BytesRef<'a>>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+pub(crate) fn bytes_ref_compare_2a <'a, ValueRef : StdAsRef<BytesRef<'a>>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
 	match comparison {
@@ -1013,7 +1013,7 @@ pub fn pair_mutable_compare_2a <ValueRef : StdAsRef<PairMutable>> (left : ValueR
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn pair_ref_compare_2a <'a, ValueRef : StdAsRef<PairRef<'a>>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+pub(crate) fn pair_ref_compare_2a <'a, ValueRef : StdAsRef<PairRef<'a>>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
 	match comparison {
@@ -1095,7 +1095,7 @@ pub fn array_mutable_compare_2a <ValueRef : StdAsRef<ArrayMutable>> (left : Valu
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn array_ref_compare_2a <'a, ValueRef : StdAsRef<ArrayRef<'a>>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+pub(crate) fn array_ref_compare_2a <'a, ValueRef : StdAsRef<ArrayRef<'a>>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
 	match comparison {
@@ -1457,7 +1457,7 @@ pub fn number_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : V
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn number_match_as_ref_compare_1a (class : &NumberMatchAsRef, comparison : Comparison) -> (Outcome<bool>) {
+pub(crate) fn number_match_as_ref_compare_1a (class : &NumberMatchAsRef, comparison : Comparison) -> (Outcome<bool>) {
 	match comparison {
 		
 		Comparison::Equivalence (_, _, _) =>
@@ -1486,7 +1486,7 @@ pub fn number_match_as_ref_compare_1a (class : &NumberMatchAsRef, comparison : C
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn number_match_as_ref_compare_2a (class : &NumberMatchAsRef2, comparison : Comparison) -> (Outcome<bool>) {
+pub(crate) fn number_match_as_ref_compare_2a (class : &NumberMatchAsRef2, comparison : Comparison) -> (Outcome<bool>) {
 	match comparison {
 		
 		Comparison::Equivalence (_, coercion, _) =>
@@ -1623,12 +1623,12 @@ pub fn array_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : Va
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn value_kind_compare_2a_ordering (left : ValueKind, right : ValueKind, ordering : Ordering) -> (Outcome<bool>) {
+pub(crate) fn value_kind_compare_2a_ordering (left : ValueKind, right : ValueKind, ordering : Ordering) -> (Outcome<bool>) {
 	return std_ord_compare_2_ordering_val (left, right, ordering);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn value_class_compare_2a_ordering (left : ValueClass, right : ValueClass, ordering : Ordering) -> (Outcome<bool>) {
+pub(crate) fn value_class_compare_2a_ordering (left : ValueClass, right : ValueClass, ordering : Ordering) -> (Outcome<bool>) {
 	return std_ord_compare_2_ordering_val (left, right, ordering);
 }
 
@@ -1735,7 +1735,7 @@ pub fn vec_compare_2 (left : &[Value], right : &[Value], comparison : Comparison
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn std_ord_compare_2_ref <Value, ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>)
+pub(crate) fn std_ord_compare_2_ref <Value, ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>)
 		where Value : cmp::PartialOrd
 {
 	match comparison {
@@ -1747,7 +1747,7 @@ pub fn std_ord_compare_2_ref <Value, ValueRef : StdAsRef<Value>> (left : ValueRe
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn std_ord_compare_2_ordering_ref <Value, ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, ordering : Ordering) -> (Outcome<bool>)
+pub(crate) fn std_ord_compare_2_ordering_ref <Value, ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, ordering : Ordering) -> (Outcome<bool>)
 		where Value : cmp::PartialOrd
 {
 	let left = left.as_ref ();
@@ -1771,7 +1771,7 @@ pub fn std_ord_compare_2_ordering_ref <Value, ValueRef : StdAsRef<Value>> (left 
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn std_ord_compare_2_val <Value> (left : Value, right : Value, comparison : Comparison) -> (Outcome<bool>)
+pub(crate) fn std_ord_compare_2_val <Value> (left : Value, right : Value, comparison : Comparison) -> (Outcome<bool>)
 		where Value : cmp::PartialOrd
 {
 	match comparison {
@@ -1783,7 +1783,7 @@ pub fn std_ord_compare_2_val <Value> (left : Value, right : Value, comparison : 
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn std_ord_compare_2_ordering_val <Value> (left : Value, right : Value, ordering : Ordering) -> (Outcome<bool>)
+pub(crate) fn std_ord_compare_2_ordering_val <Value> (left : Value, right : Value, ordering : Ordering) -> (Outcome<bool>)
 		where Value : cmp::PartialOrd
 {
 	let output = match ordering {

@@ -6,11 +6,11 @@ use super::runtime::*;
 
 
 
-pub mod exports {
-	pub use super::context_handles_next;
-	pub use super::bindings_handles_next;
-	pub use super::lambdas_handles_next;
-	pub use super::ports_handles_next;
+pub(crate) mod exports {
+	pub(crate) use super::context_handles_next;
+	pub(crate) use super::bindings_handles_next;
+	pub(crate) use super::lambdas_handles_next;
+	pub(crate) use super::ports_handles_next;
 }
 
 
@@ -23,7 +23,7 @@ static mut CONTEXT_HANDLES : PermutationCounter = PermutationCounter {
 	};
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn context_handles_next () -> (Handle) {
+pub(crate) fn context_handles_next () -> (Handle) {
 	unsafe {
 		Handle::new (CONTEXT_HANDLES.next ())
 	}
@@ -39,7 +39,7 @@ static mut BINDINGS_HANDLES : PermutationCounter = PermutationCounter {
 	};
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn bindings_handles_next () -> (Handle) {
+pub(crate) fn bindings_handles_next () -> (Handle) {
 	unsafe {
 		Handle::new (BINDINGS_HANDLES.next ())
 	}
@@ -55,7 +55,7 @@ static mut LAMBDAS_HANDLES : PermutationCounter = PermutationCounter {
 	};
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn lambdas_handles_next () -> (Handle) {
+pub(crate) fn lambdas_handles_next () -> (Handle) {
 	unsafe {
 		Handle::new (LAMBDAS_HANDLES.next ())
 	}
@@ -71,7 +71,7 @@ static mut PORTS_HANDLES : PermutationCounter = PermutationCounter {
 	};
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn ports_handles_next () -> (Handle) {
+pub(crate) fn ports_handles_next () -> (Handle) {
 	unsafe {
 		Handle::new (PORTS_HANDLES.next ())
 	}

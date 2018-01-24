@@ -213,7 +213,7 @@ pub fn bytes_make (length : usize, fill : Option<&Value>) -> (Outcome<Value>) {
 	let fill = if let Some (fill) = fill {
 		try! (try_as_number_integer_ref! (fill) .try_to_u8 ())
 	} else {
-		0 as u8
+		0
 	};
 	let mut buffer = StdVec::with_capacity (length);
 	for _index in 0..length {
@@ -245,7 +245,7 @@ pub fn bytes_fill_range (bytes : &Value, fill : Option<&Value>, range_start : Op
 	let fill = if let Some (fill) = fill {
 		try! (try_as_number_integer_ref! (fill) .try_to_u8 ())
 	} else {
-		0 as u8
+		0
 	};
 	let (range_start, range_end) = try! (range_coerce (range_start, range_end, bytes.len ()));
 	let bytes = try_some! (bytes.get_mut (range_start .. range_end), 0x79902e57);

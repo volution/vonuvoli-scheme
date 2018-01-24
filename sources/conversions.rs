@@ -820,7 +820,7 @@ pub fn range_coerce_unbounded (start : Option<&Value>, end : Option<&Value>) -> 
 	let start = if let Some (start) = start {
 		try! (try_as_number_integer_ref! (start) .try_to_usize ())
 	} else {
-		0 as usize
+		0
 	};
 	let end = if let Some (end) = end {
 		let end = try! (try_as_number_integer_ref! (end) .try_to_usize ());

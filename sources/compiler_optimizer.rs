@@ -38,7 +38,7 @@ pub fn optimize_script (expressions : ExpressionVec) -> (Outcome<ExpressionVec>)
 
 
 #[ derive (Debug) ]
-pub struct Optimizer {}
+pub(crate) struct Optimizer {}
 
 
 impl Optimizer {
@@ -46,20 +46,20 @@ impl Optimizer {
 	
 	
 	
-	pub fn new () -> (Optimizer) {
+	pub(crate) fn new () -> (Optimizer) {
 		return Optimizer {};
 	}
 	
 	
 	
 	
-	pub fn optimize (&self, expression : Expression) -> (Outcome<Expression>) {
+	pub(crate) fn optimize (&self, expression : Expression) -> (Outcome<Expression>) {
 		let optimization = OptimizerContext::new ();
 		let (_optimization, expression) = try! (self.optimize_0 (optimization, expression));
 		succeed! (expression);
 	}
 	
-	pub fn optimize_vec (&self, expressions : ExpressionVec) -> (Outcome<ExpressionVec>) {
+	pub(crate) fn optimize_vec (&self, expressions : ExpressionVec) -> (Outcome<ExpressionVec>) {
 		let optimization = OptimizerContext::new ();
 		let (_optimization, expressions) = try! (self.optimize_0_vec (optimization, expressions));
 		succeed! (expressions);
@@ -2635,7 +2635,7 @@ impl OptimizerContext {
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
-pub enum ExpressionClass {
+pub(crate) enum ExpressionClass {
 	
 	Constant,
 	Value (ValueClass),
@@ -2647,7 +2647,7 @@ pub enum ExpressionClass {
 
 
 #[ derive (Clone) ]
-pub enum ExpressionProcedureCallCallableRef <'a> {
+pub(crate) enum ExpressionProcedureCallCallableRef <'a> {
 	
 	Expression (&'a Expression),
 	Primitive (ProcedurePrimitive),

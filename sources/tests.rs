@@ -588,7 +588,7 @@ pub fn execute_test (test : &TestCaseCompiled, transcript : &mut io::Write, verb
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn benchmark_test_without_optimizations (test : &TestCaseCompiled) -> (Outcome<()>) {
+pub(crate) fn benchmark_test_without_optimizations (test : &TestCaseCompiled) -> (Outcome<()>) {
 	
 	try! (evaluate (&test.context_without_optimizations, &test.expression_without_optimizations));
 	
@@ -596,7 +596,7 @@ pub fn benchmark_test_without_optimizations (test : &TestCaseCompiled) -> (Outco
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn benchmark_test_with_optimizations (test : &TestCaseCompiled) -> (Outcome<()>) {
+pub(crate) fn benchmark_test_with_optimizations (test : &TestCaseCompiled) -> (Outcome<()>) {
 	
 	try! (evaluate (&test.context_with_optimizations, &test.expression_with_optimizations));
 	
@@ -690,7 +690,7 @@ pub fn benchmark_generic_main <Setup, Iteration, SetupOutput, IterationOutput> (
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn benchmark_main <Benchmark> (identifier : &str, benchmark : Benchmark, bencher : Option<&mut test::Bencher>, transcript : Option<&mut io::Write>, output : Option<&mut io::Write>, verbosity : Option<TestVerbosity>) -> (Outcome<()>)
+pub(crate) fn benchmark_main <Benchmark> (identifier : &str, benchmark : Benchmark, bencher : Option<&mut test::Bencher>, transcript : Option<&mut io::Write>, output : Option<&mut io::Write>, verbosity : Option<TestVerbosity>) -> (Outcome<()>)
 		where Benchmark : Fn (&str, &mut test::Bencher, &mut io::Write, TestVerbosity) -> (Outcome<()>)
 {
 	
@@ -715,7 +715,7 @@ pub fn benchmark_main <Benchmark> (identifier : &str, benchmark : Benchmark, ben
 		}
 	};
 	let mut output_backend = output_backend;
-	let output = if let Some (ref mut output) = output_backend { Some (output as &mut io::Write) } else { output };
+	let output : Option<&mut io::Write> = if let Some (ref mut output) = output_backend { Some (output) } else { output };
 	
 	let (bencher, mut bencher_backend) = if let Some (bencher) = bencher {
 		(Some (bencher), None)

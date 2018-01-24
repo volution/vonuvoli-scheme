@@ -56,76 +56,155 @@ include! ("macros.in");
 
 
 
-pub mod builtins;
-pub mod builtins_arrays;
-pub mod builtins_bytes;
-pub mod builtins_comparisons;
-pub mod builtins_functions;
-pub mod builtins_lists;
-pub mod builtins_ports;
-pub mod builtins_processes;
-pub mod builtins_runtime;
-pub mod builtins_strings;
-pub mod builtins_types;
-pub mod compiler;
-pub mod compiler_optimizer;
-pub mod constants;
-pub mod contexts;
-pub mod conversions;
-pub mod counters;
-pub mod display;
-pub mod errors;
-pub mod evaluator;
-pub mod expressions;
-pub mod extended_procedures;
-pub mod extended_syntaxes;
-pub mod globals;
-pub mod hashes;
-pub mod lambdas;
-pub mod languages;
-pub mod languages_builtins;
-pub mod languages_r7rs;
-pub mod native_procedures;
-pub mod native_syntaxes;
-pub mod ordering;
-pub mod parser;
-pub mod parser_peg;
-pub mod ports;
-pub mod ports_memory;
-pub mod ports_native;
+pub(crate) mod builtins;
+pub(crate) mod builtins_arrays;
+pub(crate) mod builtins_bytes;
+pub(crate) mod builtins_comparisons;
+pub(crate) mod builtins_functions;
+pub(crate) mod builtins_lists;
+pub(crate) mod builtins_ports;
+pub(crate) mod builtins_processes;
+pub(crate) mod builtins_runtime;
+pub(crate) mod builtins_strings;
+pub(crate) mod builtins_types;
+pub(crate) mod compiler;
+pub(crate) mod compiler_optimizer;
+pub(crate) mod constants;
+pub(crate) mod contexts;
+pub(crate) mod conversions;
+pub(crate) mod counters;
+pub(crate) mod display;
+pub(crate) mod errors;
+pub(crate) mod evaluator;
+pub(crate) mod expressions;
+pub(crate) mod extended_procedures;
+pub(crate) mod extended_syntaxes;
+pub(crate) mod globals;
+pub(crate) mod hashes;
+pub(crate) mod lambdas;
+pub(crate) mod languages;
+pub(crate) mod languages_builtins;
+pub(crate) mod languages_r7rs;
+pub(crate) mod native_procedures;
+pub(crate) mod native_syntaxes;
+pub(crate) mod ordering;
+pub(crate) mod parser;
+pub(crate) mod ports;
+pub(crate) mod ports_memory;
+pub(crate) mod ports_native;
+pub(crate) mod primitives;
+pub(crate) mod primitives_arithmetic;
+pub(crate) mod primitives_arrays;
+pub(crate) mod primitives_bitwise;
+pub(crate) mod primitives_boolean;
+pub(crate) mod primitives_bytes;
+pub(crate) mod primitives_comparisons;
+pub(crate) mod primitives_functions;
+pub(crate) mod primitives_lists;
+pub(crate) mod primitives_ports;
+pub(crate) mod primitives_procedures;
+pub(crate) mod primitives_runtime;
+pub(crate) mod primitives_strings;
+pub(crate) mod primitives_syntaxes;
+pub(crate) mod primitives_types;
+pub(crate) mod processes;
+pub(crate) mod runtime;
+pub(crate) mod runtime_configurations;
+pub(crate) mod runtime_iterators;
+pub(crate) mod runtime_unicode;
+pub(crate) mod tests;
+pub(crate) mod values;
+pub(crate) mod values_arrays;
+pub(crate) mod values_booleans;
+pub(crate) mod values_bytes;
+pub(crate) mod values_characters;
+pub(crate) mod values_numbers;
+pub(crate) mod values_pairs;
+pub(crate) mod values_strings;
+pub(crate) mod values_symbols;
+pub(crate) mod values_value;
+pub(crate) mod values_values;
+
+
+// NOTE:  This module is generated thus we can't easily change its members visibility...
+#[ allow (unreachable_pub) ]
+pub(crate) mod parser_peg;
+
+
+
+
 pub mod prelude;
-pub mod primitives;
-pub mod primitives_arithmetic;
-pub mod primitives_arrays;
-pub mod primitives_bitwise;
-pub mod primitives_boolean;
-pub mod primitives_bytes;
-pub mod primitives_comparisons;
-pub mod primitives_functions;
-pub mod primitives_lists;
-pub mod primitives_ports;
-pub mod primitives_procedures;
-pub mod primitives_runtime;
-pub mod primitives_strings;
-pub mod primitives_syntaxes;
-pub mod primitives_types;
-pub mod processes;
-pub mod runtime;
-pub mod runtime_configurations;
-pub mod runtime_iterators;
-pub mod runtime_unicode;
-pub mod tests;
-pub mod values;
-pub mod values_arrays;
-pub mod values_booleans;
-pub mod values_bytes;
-pub mod values_characters;
-pub mod values_numbers;
-pub mod values_pairs;
-pub mod values_strings;
-pub mod values_symbols;
-pub mod values_value;
-pub mod values_values;
+
+
+
+
+pub mod internals {
+	
+	pub use super::builtins::exports as builtins;
+	pub use super::builtins_arrays::exports as builtins_arrays;
+	pub use super::builtins_bytes::exports as builtins_bytes;
+	pub use super::builtins_comparisons::exports as builtins_comparisons;
+	pub use super::builtins_functions::exports as builtins_functions;
+	pub use super::builtins_lists::exports as builtins_lists;
+	pub use super::builtins_ports::exports as builtins_ports;
+	pub use super::builtins_processes::exports as builtins_processes;
+	pub use super::builtins_runtime::exports as builtins_runtime;
+	pub use super::builtins_strings::exports as builtins_strings;
+	pub use super::builtins_types::exports as builtins_types;
+	pub use super::compiler::exports as compiler;
+	pub use super::compiler_optimizer::exports as compiler_optimizer;
+	pub use super::constants::exports as constants;
+	pub use super::contexts::exports as contexts;
+	pub use super::conversions::exports as conversions;
+	pub use super::errors::exports as errors;
+	pub use super::evaluator::exports as evaluator;
+	pub use super::expressions::exports as expressions;
+	pub use super::extended_procedures::exports as extended_procedures;
+	pub use super::extended_syntaxes::exports as extended_syntaxes;
+	pub use super::lambdas::exports as lambdas;
+	pub use super::languages::exports as languages;
+	pub use super::languages_builtins::exports as languages_builtins;
+	pub use super::languages_r7rs::exports as languages_r7rs;
+	pub use super::native_procedures::exports as native_procedures;
+	pub use super::native_syntaxes::exports as native_syntaxes;
+	pub use super::parser::exports as parser;
+	pub use super::ports::exports as ports;
+	pub use super::ports_memory::exports as ports_memory;
+	pub use super::ports_native::exports as ports_native;
+	pub use super::primitives::exports as primitives;
+	pub use super::primitives_arithmetic::exports as primitives_arithmetic;
+	pub use super::primitives_arrays::exports as primitives_arrays;
+	pub use super::primitives_bitwise::exports as primitives_bitwise;
+	pub use super::primitives_boolean::exports as primitives_boolean;
+	pub use super::primitives_bytes::exports as primitives_bytes;
+	pub use super::primitives_comparisons::exports as primitives_comparisons;
+	pub use super::primitives_functions::exports as primitives_functions;
+	pub use super::primitives_lists::exports as primitives_lists;
+	pub use super::primitives_ports::exports as primitives_ports;
+	pub use super::primitives_procedures::exports as primitives_procedures;
+	pub use super::primitives_runtime::exports as primitives_runtime;
+	pub use super::primitives_strings::exports as primitives_strings;
+	pub use super::primitives_syntaxes::exports as primitives_syntaxes;
+	pub use super::primitives_types::exports as primitives_types;
+	pub use super::processes::exports as processes;
+	pub use super::runtime::exports as runtime;
+	pub use super::runtime_configurations::exports as runtime_configurations;
+	pub use super::runtime_iterators::exports as runtime_iterators;
+	pub use super::runtime_unicode::exports as runtime_unicode;
+	pub use super::tests::exports as tests;
+	pub use super::values::exports as values;
+	pub use super::values_arrays::exports as values_arrays;
+	pub use super::values_booleans::exports as values_booleans;
+	pub use super::values_bytes::exports as values_bytes;
+	pub use super::values_characters::exports as values_characters;
+	pub use super::values_numbers::exports as values_numbers;
+	pub use super::values_pairs::exports as values_pairs;
+	pub use super::values_strings::exports as values_strings;
+	pub use super::values_symbols::exports as values_symbols;
+	pub use super::values_value::exports as values_value;
+	pub use super::values_values::exports as values_values;
+	
+}
 
 
 
@@ -150,6 +229,8 @@ pub mod exports {
 	pub use super::parser::exports::*;
 	pub use super::ports::exports::*;
 	pub use super::primitives::exports::*;
+	pub use super::processes::exports::*;
+	pub use super::runtime::exports::*;
 	pub use super::tests::exports::*;
 	pub use super::values::exports::*;
 	

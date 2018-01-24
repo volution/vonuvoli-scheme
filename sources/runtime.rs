@@ -9,6 +9,9 @@ use super::prelude::*;
 
 pub mod exports {
 	
+	pub use super::{StdInto0, StdTryInto0, StdExpectInto0};
+	pub use super::{StdAsRef0, StdTryAsRef0, StdExpectAsRef0};
+	
 	pub use super::Handle;
 	
 	pub use super::{vec_into};
