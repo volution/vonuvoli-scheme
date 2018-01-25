@@ -38,6 +38,7 @@ pub mod exports {
 		port_input_bytes_read_collect_until, port_input_bytes_read_extend_until,
 		port_input_string_read_collect_until, port_input_string_read_extend_until,
 		
+		port_input_read_chunk,
 		port_input_read_line,
 		
 	};
@@ -201,7 +202,7 @@ pub fn port_input_coerce_arguments <'a> (port : &'a Value, count : Option<&'a Va
 	
 	//!    # Arguments
 	//!
-	//!    * `count` defaults to `DEFAULT_PORT_BUFFER_SIZE` if (the original) `full` is `None`;
+	//!    * `count` defaults to `DEFAULT_PORT_BUFFER_SIZE` if (the original) `full` is `None` and `full_default` is `false`;
 	//!    * `full` defaults to `Some (true)` if (the original) `count` is `Some(_)`;  else it defaults to `full_default`;
 	//!    * (`full_default` mainly is used by `*_read_*_until` family of functions;)
 	
@@ -225,7 +226,7 @@ pub fn port_input_coerce_arguments <'a> (port : &'a Value, count : Option<&'a Va
 	let count = try! (count_coerce (count));
 	
 	let (count, full) = (
-			count.or_else (|| if full.is_none () { Some (DEFAULT_PORT_BUFFER_SIZE) } else { None }),
+			count.or_else (|| if full.is_none () && ! full_default { Some (DEFAULT_PORT_BUFFER_SIZE) } else { None }),
 			full.unwrap_or_else (|| if count.is_some () { true } else { full_default }),
 		);
 	
@@ -408,49 +409,54 @@ pub fn port_input_string_read_extend_until (port : &Value, string : &Value, deli
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn port_input_read_chunk (port : &Value, count : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
+	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
+	let (port, count, full, buffer_size) = try! (port_input_coerce_arguments (port, count, full, false));
+	let mut buffer = StdString::with_capacity (buffer_size);
+	if let Some (_) = try! (
+			// FIXME:  Decide if we should use the `char` or `byte` port interfaces!
+			if false {
+				port.char_read_string (&mut buffer, count, full)
+			} else {
+				port.byte_read_string (&mut buffer, count, full)
+			}
+	) {
+		succeed! (string_new (buffer) .into ());
+	} else {
+		succeed! (PORT_EOF.into ());
+	}
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_read_line (port : &Value, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let (port, count, full, buffer_size) = try! (port_input_coerce_arguments (port, count, full, true));
 	let delimiter = '\n';
 	let include_delimiter = include_delimiter.unwrap_or (false);
-	// FIXME:  Decide if we should use the `char` or `byte` port interfaces!
-	if false {
-		let mut buffer = StdString::with_capacity (buffer_size);
-		if let Some (_) = try! (port.char_read_string_until (&mut buffer, delimiter, count, full)) {
-			if ! include_delimiter {
-				if let Some (last) = buffer.pop () {
-					if last != delimiter {
-						buffer.push (last);
-					}
-				} else {
-					fail_panic! (0xca581872);
-				}
-			}
-			succeed! (string_new (buffer) .into ());
-		} else {
-			succeed! (PORT_EOF.into ());
-		}
-	} else {
-		let delimiter = delimiter as u8;
-		let mut buffer = StdVec::with_capacity (buffer_size);
-		if let Some (_) = try! (port.byte_read_extend_until (&mut buffer, delimiter, count, full)) {
-			if ! include_delimiter {
-				if let Some (last) = buffer.pop () {
-					if last != delimiter {
-						buffer.push (last);
-					}
-				} else {
-					fail_panic! (0xba2e4baa);
-				}
-			}
-			if let Ok (buffer) = StdString::from_utf8 (buffer) {
-				succeed! (string_new (buffer) .into ());
+	let mut buffer = StdString::with_capacity (buffer_size);
+	if let Some (_) = try! (
+			// FIXME:  Decide if we should use the `char` or `byte` port interfaces!
+			if false {
+				port.char_read_string_until (&mut buffer, delimiter, count, full)
 			} else {
-				fail! (0x0c3a0397);
+				port.byte_read_string_until (&mut buffer, delimiter as u8, count, full)
 			}
-		} else {
-			succeed! (PORT_EOF.into ());
+	) {
+		if ! include_delimiter {
+			if let Some (last) = buffer.pop () {
+				if last != delimiter {
+					buffer.push (last);
+				}
+			} else {
+				fail_panic! (0xca581872);
+			}
 		}
+		succeed! (string_new (buffer) .into ());
+	} else {
+		succeed! (PORT_EOF.into ());
 	}
 }
 

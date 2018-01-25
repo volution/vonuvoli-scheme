@@ -94,6 +94,7 @@ pub enum PortPrimitive1 {
 	
 	StringReadCollect,
 	
+	StringReadChunk,
 	StringReadLine,
 	
 	ValueRead,
@@ -244,6 +245,9 @@ pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, input_1 : &Value, 
 		
 		PortPrimitive1::StringReadCollect =>
 			return port_input_string_read_collect (input_1, None, None),
+		
+		PortPrimitive1::StringReadChunk =>
+			return port_input_read_chunk (input_1, None, None),
 		
 		PortPrimitive1::StringReadLine =>
 			return port_input_read_line (input_1, Some (false), None, None),

@@ -173,6 +173,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("generic>=?", ComparisonPrimitiveV::GenericGreaterOrEqual.into ()),
 			
 			
+			("read-chunk", PortPrimitive1::StringReadChunk.into ()),
+			
+			
 			("process-spawn", RuntimePrimitiveN::ProcessSpawn.into ()),
 			("process-spawn*", RuntimePrimitiveV::ProcessSpawnExtended.into ()),
 			("process-wait-poll", RuntimePrimitive1::ProcessWaitPoll.into ()),
