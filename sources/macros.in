@@ -668,6 +668,37 @@ macro_rules! try_option_map {
 
 
 
+macro_rules! option_ref_map {
+	( $option : ident, $expression : expr ) => (
+		option_ref_map! ($option, $option, $expression)
+	);
+	( $option : expr, $value : pat, $expression : expr ) => (
+		match $option.as_ref () {
+			Some ($value) =>
+				Some ($expression),
+			None =>
+				None,
+		}
+	);
+}
+
+macro_rules! try_option_ref_map {
+	( $option : ident, $expression : expr ) => (
+		try_option_ref_map! ($option, $option, $expression)
+	);
+	( $option : expr, $value : pat, $expression : expr ) => (
+		match $option.as_ref () {
+			Some ($value) =>
+				Some (try! ($expression)),
+			None =>
+				None,
+		}
+	);
+}
+
+
+
+
 macro_rules! try_as_ref {
 	( $type : ty, $value : expr ) => (
 		try! ($crate::exports::StdTryAsRef0::<$type>::try_as_ref_0 ($value))
