@@ -425,8 +425,9 @@ impl PortBackendReader for PortBackendNativeReader {
 impl PortBackendNativeReader {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new_from_unbuffered (reader : StdBox<io::Read>, descriptor : Option<PortDescriptor>) -> (Outcome<PortBackendNativeReader>) {
-		let reader = io::BufReader::new (reader);
+	pub fn new_from_unbuffered (reader : StdBox<io::Read>, buffer : Option<usize>, descriptor : Option<PortDescriptor>) -> (Outcome<PortBackendNativeReader>) {
+		let buffer = buffer.unwrap_or (DEFAULT_PORT_BUFFER_SIZE);
+		let reader = io::BufReader::with_capacity (buffer, reader);
 		return PortBackendNativeReader::new_from_buffered (reader, descriptor);
 	}
 	
@@ -650,8 +651,9 @@ impl PortBackendWriter for PortBackendNativeWriter {
 impl PortBackendNativeWriter {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new_from_unbuffered (writer : StdBox<io::Write>, descriptor : Option<PortDescriptor>) -> (Outcome<PortBackendNativeWriter>) {
-		let writer = io::BufWriter::new (writer);
+	pub fn new_from_unbuffered (writer : StdBox<io::Write>, buffer : Option<usize>, descriptor : Option<PortDescriptor>) -> (Outcome<PortBackendNativeWriter>) {
+		let buffer = buffer.unwrap_or (DEFAULT_PORT_BUFFER_SIZE);
+		let writer = io::BufWriter::with_capacity (buffer, writer);
 		return PortBackendNativeWriter::new_from_buffered (writer, descriptor);
 	}
 	

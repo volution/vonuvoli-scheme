@@ -122,6 +122,7 @@ impl Process {
 		let mut process = process;
 		let process_id = process.id () as libc::pid_t;
 		
+		// FIXME:  Add support for specifying the stdin/stdout/stderr buffer size!
 		let mut stdin = None;
 		let mut stdout = None;
 		let mut stderr = None;
@@ -130,15 +131,15 @@ impl Process {
 		mem::swap (&mut stderr, &mut process.stderr);
 		let stdin = option_map! (stdin, {
 			let descriptor = PortDescriptor::for_child_stdin (&stdin);
-			try! (Port::new_native_writer_from_unbuffered (StdBox::new (stdin), descriptor))
+			try! (Port::new_native_writer_from_unbuffered (StdBox::new (stdin), None, descriptor))
 		});
 		let stdout = option_map! (stdout, {
 			let descriptor = PortDescriptor::for_child_stdout (&stdout);
-			try! (Port::new_native_reader_from_unbuffered (StdBox::new (stdout), descriptor))
+			try! (Port::new_native_reader_from_unbuffered (StdBox::new (stdout), None, descriptor))
 		});
 		let stderr = option_map! (stderr, {
 			let descriptor = PortDescriptor::for_child_stderr (&stderr);
-			try! (Port::new_native_reader_from_unbuffered (StdBox::new (stderr), descriptor))
+			try! (Port::new_native_reader_from_unbuffered (StdBox::new (stderr), None, descriptor))
 		});
 		
 		let internals = ProcessInternals {

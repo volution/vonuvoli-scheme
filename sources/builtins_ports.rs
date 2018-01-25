@@ -501,14 +501,14 @@ pub fn port_string_writer_finalize (port : &Value) -> (Outcome<Value>) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_native_reader_new (reader : StdBox<io::Read>, descriptor : Option<PortDescriptor>) -> (Outcome<Value>) {
-	let port = try! (Port::new_native_reader_from_unbuffered (reader, descriptor));
+pub fn port_native_reader_new (reader : StdBox<io::Read>, buffer : Option<usize>, descriptor : Option<PortDescriptor>) -> (Outcome<Value>) {
+	let port = try! (Port::new_native_reader_from_unbuffered (reader, buffer, descriptor));
 	succeed! (port.into ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_native_writer_new (writer : StdBox<io::Write>, descriptor : Option<PortDescriptor>) -> (Outcome<Value>) {
-	let port = try! (Port::new_native_writer_from_unbuffered (writer, descriptor));
+pub fn port_native_writer_new (writer : StdBox<io::Write>, buffer : Option<usize>, descriptor : Option<PortDescriptor>) -> (Outcome<Value>) {
+	let port = try! (Port::new_native_writer_from_unbuffered (writer, buffer, descriptor));
 	succeed! (port.into ());
 }
 
@@ -516,38 +516,38 @@ pub fn port_native_writer_new (writer : StdBox<io::Write>, descriptor : Option<P
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_file_reader_open (path : &Value) -> (Outcome<Value>) {
+pub fn port_file_reader_open (path : &Value, buffer : Option<usize>) -> (Outcome<Value>) {
 	let mut options = fs::OpenOptions::new ();
 	options.read (true);
-	return port_file_reader_open_with_options (path, &options);
+	return port_file_reader_open_with_options (path, &options, buffer);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_file_writer_open (path : &Value) -> (Outcome<Value>) {
+pub fn port_file_writer_open (path : &Value, buffer : Option<usize>) -> (Outcome<Value>) {
 	let mut options = fs::OpenOptions::new ();
 	options.write (true);
 	options.create (true);
 	options.truncate (true);
 	// FIXME:  A safer default would be to make sure we are creating the file!
 	// options.create_new (true);
-	return port_file_writer_open_with_options (path, &options);
+	return port_file_writer_open_with_options (path, &options, buffer);
 }
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_file_reader_open_with_options (path : &Value, options : &fs::OpenOptions) -> (Outcome<Value>) {
+pub fn port_file_reader_open_with_options (path : &Value, options : &fs::OpenOptions, buffer : Option<usize>) -> (Outcome<Value>) {
 	let file = try! (port_file_open_with_options (path, options));
 	let file = StdBox::new (file);
 	let descriptor = PortDescriptor::for_file (&file);
-	return port_native_reader_new (file, descriptor);
+	return port_native_reader_new (file, buffer, descriptor);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_file_writer_open_with_options (path : &Value, options : &fs::OpenOptions) -> (Outcome<Value>) {
+pub fn port_file_writer_open_with_options (path : &Value, options : &fs::OpenOptions, buffer : Option<usize>) -> (Outcome<Value>) {
 	let file = try! (port_file_open_with_options (path, options));
 	let file = StdBox::new (file);
 	let descriptor = PortDescriptor::for_file (&file);
-	return port_native_writer_new (file, descriptor);
+	return port_native_writer_new (file, buffer, descriptor);
 }
 
 
