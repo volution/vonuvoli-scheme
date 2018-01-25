@@ -1,0 +1,11 @@
+
+(define s-in (current-input-port))
+(define s-out (current-output-port))
+
+
+(do
+		((chunk (read-chunk s-in) (read-chunk s-in)))
+		((eof-object? chunk))
+	; (newline) (display (string-length chunk)) (newline)
+	(write-string chunk s-out))
+
