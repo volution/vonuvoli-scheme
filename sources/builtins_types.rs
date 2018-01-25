@@ -1,6 +1,6 @@
 
 
-// FIXME:  Remove this after exporting all public functions!
+// TODO:  Remove this after exporting all public functions!
 #![ allow (unreachable_pub) ]
 
 
@@ -92,7 +92,7 @@ pub mod exports {
 			is_number_exact_integer_any_2, is_number_exact_integer_any_3, is_number_exact_integer_any_4, is_number_exact_integer_any_n,
 			is_number_inexact_any_2, is_number_inexact_any_3, is_number_inexact_any_4, is_number_inexact_any_n,
 			
-			// FIXME:  Add other variants for `is_number_*`!
+			// TODO:  Add other variants for `is_number_*`!
 	};
 	
 	
@@ -144,7 +144,7 @@ pub mod exports {
 			is_list_empty_all_2, is_list_empty_all_3, is_list_empty_all_4, is_list_empty_all_n,
 			is_list_empty_any_2, is_list_empty_any_3, is_list_empty_any_4, is_list_empty_any_n,
 			
-			// FIXME:  Add other variants for `is_list_*`!
+			// TODO:  Add other variants for `is_list_*`!
 	};
 	
 	
@@ -289,7 +289,7 @@ pub mod exports {
 			is_error_syntax,
 			is_error_file, is_error_port, is_error_port_input, is_error_port_output,
 			
-			// FIXME:  Add other variants for `is_error_*`!
+			// TODO:  Add other variants for `is_error_*`!
 	};
 	
 	
@@ -303,7 +303,7 @@ pub mod exports {
 			is_port_all_2, is_port_all_3, is_port_all_4, is_port_all_n,
 			is_port_any_2, is_port_any_3, is_port_any_4, is_port_any_n,
 			
-			// FIXME:  Add other variants for `is_port_*`!
+			// TODO:  Add other variants for `is_port_*`!
 	};
 	
 	

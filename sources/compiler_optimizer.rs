@@ -898,7 +898,7 @@ impl Optimizer {
 			Ok (expression) =>
 				expression,
 			Err (expression) =>
-				// FIXME:  This happens only when the expression was cloned...
+				// NOTE:  This happens only when the expression was cloned...
 				StdRc::as_ref (&expression) .clone (),
 		};
 		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));

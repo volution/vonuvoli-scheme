@@ -192,7 +192,7 @@ pub fn array_clone (array : &Value) -> (Outcome<Value>) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_reverse (array : &Value) -> (Outcome<Value>) {
-	// FIXME:  Optimize the vector allocation!
+	// TODO:  Optimize the vector allocation!
 	let buffer = try! (vec_array_clone (array));
 	succeed! (array_collect (buffer.into_iter () .rev ()));
 }

@@ -122,7 +122,7 @@ impl Process {
 		let mut process = process;
 		let process_id = process.id () as libc::pid_t;
 		
-		// FIXME:  Add support for specifying the stdin/stdout/stderr buffer size!
+		// TODO:  Add support for specifying the stdin/stdout/stderr buffer size!
 		let mut stdin = None;
 		let mut stdout = None;
 		let mut stderr = None;

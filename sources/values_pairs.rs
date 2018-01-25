@@ -302,7 +302,7 @@ impl <'a> Pair for PairRef<'a> {
 
 #[ derive (Clone, Debug) ]
 pub enum PairAsRef <'a> {
-	// FIXME:  Use internals!
+	// TODO:  Use internals!
 	Immutable (&'a PairImmutable),
 	ImmutableEmbedded (StdRc<StdAny>, &'a PairImmutable),
 	Mutable (&'a PairMutable),

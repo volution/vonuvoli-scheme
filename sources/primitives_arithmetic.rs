@@ -193,7 +193,7 @@ pub enum ArithmeticPrimitiveV {
 
 
 
-// FIXME:  Eliminate creation of temporary `Number*` values!
+// TODO:  Eliminate creation of temporary `Number*` values!
 macro_rules! arithmetic_primitive_1_delegate_call {
 	( $input : expr, $value_integer : ident, $for_integer : expr, $value_real : ident, $for_real : expr ) => (
 		match try! (number_coerce_1a ($input)) {
@@ -213,7 +213,7 @@ macro_rules! arithmetic_primitive_1_delegate_call {
 }
 
 
-// FIXME:  Eliminate creation of temporary `Number*` values!
+// TODO:  Eliminate creation of temporary `Number*` values!
 macro_rules! arithmetic_primitive_2_delegate_call {
 	( ($input_1 : expr, $input_2 : expr), ($value_1_integer : ident, $value_2_integer : ident), $for_integer : expr, ($value_1_real : ident, $value_2_real : ident), $for_real : expr ) => (
 		match try! (number_coerce_2a ($input_1, $input_2)) {

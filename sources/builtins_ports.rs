@@ -413,14 +413,7 @@ pub fn port_input_read_chunk (port : &Value, count : Option<&Value>, full : Opti
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let (port, count, full, buffer_size) = try! (port_input_coerce_arguments (port, count, full, false));
 	let mut buffer = StdString::with_capacity (buffer_size);
-	if let Some (_) = try! (
-			// FIXME:  Decide if we should use the `char` or `byte` port interfaces!
-			if false {
-				port.char_read_string (&mut buffer, count, full)
-			} else {
-				port.byte_read_string (&mut buffer, count, full)
-			}
-	) {
+	if let Some (_) = try! (port.char_read_string (&mut buffer, count, full)) {
 		succeed! (string_new (buffer) .into ());
 	} else {
 		succeed! (PORT_EOF.into ());
@@ -437,14 +430,7 @@ pub fn port_input_read_line (port : &Value, include_delimiter : Option<bool>, co
 	let delimiter = '\n';
 	let include_delimiter = include_delimiter.unwrap_or (false);
 	let mut buffer = StdString::with_capacity (buffer_size);
-	if let Some (_) = try! (
-			// FIXME:  Decide if we should use the `char` or `byte` port interfaces!
-			if false {
-				port.char_read_string_until (&mut buffer, delimiter, count, full)
-			} else {
-				port.byte_read_string_until (&mut buffer, delimiter as u8, count, full)
-			}
-	) {
+	if let Some (_) = try! (port.char_read_string_until (&mut buffer, delimiter, count, full)) {
 		if ! include_delimiter {
 			if let Some (last) = buffer.pop () {
 				if last != delimiter {
@@ -633,7 +619,7 @@ pub fn port_file_writer_open (path : &Value, buffer : Option<usize>) -> (Outcome
 	options.write (true);
 	options.create (true);
 	options.truncate (true);
-	// FIXME:  A safer default would be to make sure we are creating the file!
+	// NOTE:  A safer default would be to make sure we are creating the file!
 	// options.create_new (true);
 	return port_file_writer_open_with_options (path, &options, buffer);
 }
@@ -660,7 +646,6 @@ pub fn port_file_writer_open_with_options (path : &Value, options : &fs::OpenOpt
 pub(crate) fn port_file_open_with_options (path : &Value, options : &fs::OpenOptions) -> (Outcome<fs::File>) {
 	let path = try_as_string_ref! (path);
 	let path = fs_path::Path::new (path.string_as_str ());
-	// FIXME:  Clearly indicate why the operation failed!
 	let file = try_or_fail! (options.open (path), 0xbe1989bd);
 	succeed! (file);
 }
@@ -679,7 +664,6 @@ pub fn port_file_exists (path : &Value) -> (Outcome<bool>) {
 pub fn port_file_delete (path : &Value) -> (Outcome<()>) {
 	let path = try_as_string_ref! (path);
 	let path = fs_path::Path::new (path.string_as_str ());
-	// FIXME:  Clearly indicate why the operation failed!
 	succeed_or_fail! (fs::remove_file (path), 0xa1653696);
 }
 
@@ -924,7 +908,7 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 		},
 		
 		ValueClassMatchAsRef::Number (class) => {
-			// FIXME:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+			// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
 			let formatted = match class {
 				NumberMatchAsRef::Integer (value) =>
 					format! ("{}", value),
@@ -935,19 +919,19 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 		},
 		
 		ValueClassMatchAsRef::Character (value) => {
-			// FIXME:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+			// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
 			let formatted = format! ("{}", value);
 			try! (port.char_write_string (&formatted, true));
 		},
 		
 		ValueClassMatchAsRef::Symbol (value) => {
-			// FIXME:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+			// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
 			let formatted = format! ("{}", value);
 			try! (port.char_write_string (&formatted, true));
 		},
 		
 		ValueClassMatchAsRef::String (class) => {
-			// FIXME:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+			// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
 			let formatted = match class {
 				StringMatchAsRef::Immutable (value) =>
 					format! ("{}", value),
@@ -958,7 +942,7 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 		},
 		
 		ValueClassMatchAsRef::Bytes (class) => {
-			// FIXME:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+			// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
 			let formatted = match class {
 				BytesMatchAsRef::Immutable (value) =>
 					format! ("{}", value),
@@ -977,7 +961,7 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 					try! (port_output_value_write_0 (port, dotted, Some (true), separator, Some (false)));
 				}
 			} else {
-				// FIXME:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+				// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
 				let formatted = match class {
 					PairMatchAsRef::Immutable (value) =>
 						format! ("{}", value),
@@ -994,7 +978,7 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 				let values = array.values_as_slice ();
 				try! (port_output_value_write_0_slice (port, values, Some (true), separator, Some (false)));
 			} else {
-				// FIXME:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+				// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
 				let formatted = match class {
 					ArrayMatchAsRef::Immutable (value) =>
 						format! ("{}", value),
@@ -1010,7 +994,7 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 				let values = value.values_as_slice ();
 				try! (port_output_value_display_0_slice (port, values, Some (true), separator, Some (false)));
 			} else {
-				// FIXME:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+				// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
 				let formatted = format! ("{}", value);
 				try! (port.char_write_string (&formatted, true));
 			}
@@ -1023,7 +1007,7 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 		ValueClassMatchAsRef::Resource (_) |
 		ValueClassMatchAsRef::Internal (_) |
 		ValueClassMatchAsRef::Opaque (_) => {
-			// FIXME:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+			// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
 			let formatted = format! ("{}", value);
 			try! (port.char_write_string (&formatted, true));
 		},

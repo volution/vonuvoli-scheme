@@ -115,7 +115,7 @@ impl <T, U> StdExpectInto0<U> for T where T : StdTryInto0<U> {
 			Ok (value) =>
 				value,
 			Err (_) =>
-				// FIXME:  Report the actual error!
+				// TODO:  Report the actual error!
 				panic! ("073cc689"),
 		}
 	}
@@ -168,7 +168,7 @@ impl <T, U> StdExpectAsRef0<U> for T where T : StdTryAsRef0<U> {
 			Ok (value) =>
 				value,
 			Err (_) =>
-				// FIXME:  Report the actual error!
+				// TODO:  Report the actual error!
 				panic! ("dd0868fb"),
 		}
 	}

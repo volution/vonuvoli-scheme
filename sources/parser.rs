@@ -26,7 +26,7 @@ pub fn parse_value (input : &str) -> (Outcome<Value>) {
 		Ok (output) =>
 			succeed! (output),
 		Err (error) => {
-			// FIXME:  Wrap and return this error instead of printing!
+			// TODO:  Wrap and return this error instead of printing!
 			eprintln! ("[ee]  {:?}", error);
 			fail! (0x2af5f184);
 		},
@@ -42,7 +42,7 @@ pub fn parse_script (input : &str) -> (Outcome<ValueVec>) {
 		Ok (output) =>
 			succeed! (output),
 		Err (error) => {
-			// FIXME:  Wrap and return this error instead of printing!
+			// TODO:  Wrap and return this error instead of printing!
 			eprintln! ("[ee]  {:?}", error);
 			fail! (0xb13e446a);
 		},
@@ -58,7 +58,7 @@ pub fn parse_tests (input : &str) -> (Outcome<StdVec<TestCase>>) {
 		Ok (output) =>
 			succeed! (output),
 		Err (error) => {
-			// FIXME:  Wrap and return this error instead of printing!
+			// TODO:  Wrap and return this error instead of printing!
 			eprintln! ("[ee]  {:?}", error);
 			fail! (0x86ee143a);
 		},
@@ -71,7 +71,7 @@ pub fn parse_test (input : &str) -> (Outcome<TestCase>) {
 		Ok (output) =>
 			succeed! (output),
 		Err (error) => {
-			// FIXME:  Wrap and return this error instead of printing!
+			// TODO:  Wrap and return this error instead of printing!
 			eprintln! ("[ee]  {:?}", error);
 			fail! (0x46eb5847);
 		},

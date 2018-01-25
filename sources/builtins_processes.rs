@@ -62,7 +62,7 @@ pub fn process_spawn_extended (executable : &Value, arguments : Option<&Value>, 
 	let executable = try_as_string_ref! (executable);
 	let executable = executable.string_as_str ();
 	
-	// FIXME:  Accept arrays as arguments!
+	// TODO:  Accept arrays as arguments!
 	let arguments = option_map! (arguments, try! (vec_list_clone (arguments)));
 	let arguments = option_ref_map! (arguments, try_vec_map! (arguments.iter (), argument, StringRef::try (argument)));
 	let arguments = option_ref_map! (arguments, vec_map! (arguments.iter (), argument, argument.string_as_str ()));
@@ -112,13 +112,13 @@ pub fn process_spawn_extended (executable : &Value, arguments : Option<&Value>, 
 									}
 								},
 								
-								// FIXME:  Add support for:
-								//         * argument0
-								//         * environment-empty
-								//         * environment-include
-								//         * environment-exclude
-								//         * working-directory
-								//         * other descriptors
+								// TODO:  Add support for:
+								//        * argument0
+								//        * environment-empty
+								//        * environment-include
+								//        * environment-exclude
+								//        * working-directory
+								//        * other descriptors
 								
 								_ =>
 									fail! (0xeb97ad7f),

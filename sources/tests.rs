@@ -316,8 +316,9 @@ fn benchmark_bencher_report (header : Option<&str>, prefix : &str, summary : &te
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-#[ allow (unused_assignments) ] // FIXME:  Why does the compiler think we are not using `header_emitted`?
+#[ allow (unused_assignments) ]
 pub fn compile_test (context_without_optimizations : &Context, context_with_optimizations : &Context, test : &TestCase, transcript : &mut io::Write, verbosity_global : TestVerbosity) -> (Outcome<TestCaseCompiled>) {
+	// TODO:  Why does the compiler think we are not using `header_emitted`?
 	
 	
 	let (verbosity_without_optimizations, verbosity_with_optimizations) = match (&test.action, verbosity_global) {
@@ -432,8 +433,10 @@ pub fn compile_test (context_without_optimizations : &Context, context_with_opti
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-#[ allow (unused_assignments) ] // FIXME:  Why does the compiler think we are not using `header_emitted`?
+#[ allow (unused_assignments) ]
 pub fn execute_test (test : &TestCaseCompiled, transcript : &mut io::Write, verbosity_global : TestVerbosity) -> (Outcome<()>) {
+	// TODO:  Why does the compiler think we are not using `header_emitted`?
+	
 	
 	let (verbosity_without_optimizations, verbosity_with_optimizations) = match (&test.action, verbosity_global) {
 		(&TestAction::Debug, _) |
@@ -508,7 +511,7 @@ pub fn execute_test (test : &TestCaseCompiled, transcript : &mut io::Write, verb
 	
 	let expected_value_without_optimizations = match test.action {
 		TestAction::Expect (ref expected_expression) => {
-			// FIXME:  Add error reporting for these!
+			// TODO:  Add error reporting for these!
 			let expected_expression = try! (compile (&test.context_without_optimizations, expected_expression));
 			let expected_value = try! (evaluate (&test.context_without_optimizations, &expected_expression));
 			Some (expected_value)
@@ -531,7 +534,7 @@ pub fn execute_test (test : &TestCaseCompiled, transcript : &mut io::Write, verb
 	
 	let expected_value_with_optimizations = match test.action {
 		TestAction::Expect (ref expected_expression) => {
-			// FIXME:  Add error reporting for these!
+			// TODO:  Add error reporting for these!
 			let expected_expression = try! (compile (&test.context_with_optimizations, expected_expression));
 			let expected_value = try! (evaluate (&test.context_with_optimizations, &expected_expression));
 			Some (expected_value)

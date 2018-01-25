@@ -326,11 +326,11 @@ pub fn port_primitive_2_evaluate (primitive : PortPrimitive2, input_1 : &Value, 
 			return port_output_string_write (input_2, input_1) .into_0 (),
 		
 		PortPrimitive2::ValueWrite =>
-			// FIXME:  Add support for cyclic objects!
+			// TODO:  Add support for cyclic objects!
 			return port_output_value_write (input_2, input_1, None, None, None) .into_0 (),
 		
 		PortPrimitive2::ValueWriteShared =>
-			// FIXME:  Add support for cyclic objects!
+			// TODO:  Add support for cyclic objects!
 			return port_output_value_write (input_2, input_1, None, None, None) .into_0 (),
 		
 		PortPrimitive2::ValueWriteSimple =>

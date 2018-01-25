@@ -949,7 +949,7 @@ impl <'a> BytesSliceRef<'a> {
 					None
 				},
 			BytesSliceRef::Mutable (reference) => {
-				// FIXME:  Try to call `get` only once!
+				// TODO:  Try to call `get` only once!
 				if let Some (_) = reference.get (slice.clone ()) {
 					let reference = StdRef::map (reference, |reference| reference.get (slice) .unwrap ());
 					Some (BytesSliceRef::Mutable (reference))

@@ -410,7 +410,7 @@ macro_rules! def_fn_compare {
 				_ =>
 					(),
 			}
-			// FIXME:  Try to eliminate extra vector creation!
+			// TODO:  Try to eliminate extra vector creation!
 			let inputs = try! (inputs.iter () .map (|input| StdTryAsRef0::<$type>::try_as_ref_0 (input.as_ref ())) .collect::<Outcome<StdVec<_>>> ());
 			let mut inputs_iterator = inputs.iter ();
 			let mut input_previous = inputs_iterator.next () .unwrap ();

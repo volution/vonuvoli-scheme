@@ -142,7 +142,7 @@ impl PortBackendReader for PortBackendBytesReader {
 			};
 			let (_, offset, _) = try! (unicode_utf8_char_decode_slice_extend_string (&buffer[..limit], None, None, target));
 			if full && (offset != limit) {
-				fail! (0xf7c810bb);
+				fail! (0x8fce22d7);
 			}
 			(Some (offset), offset)
 		} else {
@@ -203,7 +203,7 @@ impl PortBackendReader for PortBackendBytesReader {
 			let buffer = &buffer;
 			let (offset, buffer_offset, _) = try! (unicode_utf8_char_decode_slice_extend_vector (buffer, count, None, target));
 			if full && (offset != count.unwrap_or (offset)) && (buffer_offset != buffer.len ()) {
-				fail! (0xf7c810bb);
+				fail! (0x1f8749f1);
 			}
 			(Some (offset), buffer_offset)
 		} else {
@@ -251,7 +251,7 @@ impl PortBackendReader for PortBackendBytesReader {
 			let buffer = &buffer;
 			let (offset, buffer_offset, matched) = try! (unicode_utf8_char_decode_slice_extend_string (buffer, count, Some (delimiter), target));
 			if full && ! matched && (offset != count.unwrap_or (offset)) && (buffer_offset != buffer.len ()) {
-				fail! (0xc4161f41);
+				fail! (0xa38d9f65);
 			}
 			(Some (offset), buffer_offset)
 		} else {
