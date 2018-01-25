@@ -240,13 +240,13 @@ pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, input_1 : &Value, 
 			return port_input_character_read (input_1),
 		
 		PortPrimitive1::BytesReadCollect =>
-			return port_input_bytes_read_collect (input_1, None),
+			return port_input_bytes_read_collect (input_1, None, None),
 		
 		PortPrimitive1::StringReadCollect =>
-			return port_input_string_read_collect (input_1, None),
+			return port_input_string_read_collect (input_1, None, None),
 		
 		PortPrimitive1::StringReadLine =>
-			return port_input_read_line (input_1, Some (false)),
+			return port_input_read_line (input_1, Some (false), None, None),
 		
 		PortPrimitive1::ValueRead =>
 			fail_unimplemented! (0xae3d8a9f), // deferred
@@ -295,19 +295,19 @@ pub fn port_primitive_2_evaluate (primitive : PortPrimitive2, input_1 : &Value, 
 	match primitive {
 		
 		PortPrimitive2::BytesReadCollect =>
-			return port_input_bytes_read_collect (input_2, Some (input_1)),
+			return port_input_bytes_read_collect (input_2, Some (input_1), None),
 		
 		PortPrimitive2::BytesReadExtend =>
-			return port_input_bytes_read_extend (input_2, input_1, None),
+			return port_input_bytes_read_extend (input_2, input_1, None, None),
 		
 		PortPrimitive2::BytesReadCopy =>
-			return port_input_bytes_read_copy_range (input_2, input_1, None, None),
+			return port_input_bytes_read_copy_range (input_2, input_1, None, None, None),
 		
 		PortPrimitive2::StringReadCollect =>
-			return port_input_string_read_collect (input_2, Some (input_1)),
+			return port_input_string_read_collect (input_2, Some (input_1), None),
 		
 		PortPrimitive2::StringReadExtend =>
-			return port_input_string_read_extend (input_2, input_1, None),
+			return port_input_string_read_extend (input_2, input_1, None, None),
 		
 		PortPrimitive2::ByteWrite =>
 			return port_output_byte_write (input_2, input_1) .into_0 (),

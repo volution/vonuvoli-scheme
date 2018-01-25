@@ -25,6 +25,8 @@ pub mod exports {
 	
 	pub use super::{
 		
+		port_input_coerce_arguments,
+		
 		port_input_byte_peek, port_input_byte_read, port_input_byte_ready,
 		port_input_character_peek, port_input_character_read, port_input_character_ready,
 		
@@ -176,11 +178,12 @@ pub fn port_input_character_ready (port : &Value) -> (Outcome<bool>) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_input_bytes_read_copy_range (port : &Value, bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
+pub fn port_input_bytes_read_copy_range (port : &Value, bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
+	//! NOTE:  `full` defaults to `Some(true)` if `range_end` is not `None`;
 	let port = try_as_port_ref! (port);
 	let bytes = try_as_bytes_mutable_ref! (bytes);
 	let mut buffer = bytes.bytes_ref_mut ();
-	let full = range_start.is_some () || range_end.is_some ();
+	let full = full.unwrap_or (range_end.is_some ());
 	let (range_start, range_end) = try! (range_coerce (range_start, range_end, buffer.len ()));
 	let buffer = try_some! (buffer.get_mut (range_start .. range_end), 0xb8c1be42);
 	if let Some (count) = try! (port.byte_read_slice (buffer, full)) {
@@ -194,11 +197,51 @@ pub fn port_input_bytes_read_copy_range (port : &Value, bytes : &Value, range_st
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_input_bytes_read_collect (port : &Value, count : Option<&Value>) -> (Outcome<Value>) {
+pub fn port_input_coerce_arguments <'a> (port : &'a Value, count : Option<&'a Value>, full : Option<bool>, full_default : bool) -> (Outcome<(&'a Port, Option<usize>, bool, usize)>) {
+	
+	//!    # Arguments
+	//!
+	//!    * `count` defaults to `DEFAULT_PORT_BUFFER_SIZE` if (the original) `full` is `None`;
+	//!    * `full` defaults to `Some (true)` if (the original) `count` is `Some(_)`;  else it defaults to `full_default`;
+	//!    * (`full_default` mainly is used by `*_read_*_until` family of functions;)
+	
+	//!    # Returns
+	//!
+	//!    * `&Port`
+	//!    * `count : Option<usize>` -- the actual `count` to be used by the above rules;
+	//!    * `full : bool` -- the actual `full` to be used by the above rules;
+	//!    * `buffer : usize` -- the "guessed" buffer capacity required;
+	
+	//!    # Notes
+	//!
+	//!    Combining `count` and `full` one can obtain a wide range of behaviour:
+	//!    * `count == Some (_)` and `full == Some (true) | None` -- read **exactly** `count` bytes;  (could require multiple syscalls;)
+	//!    * `count == Some (_)` and `full == Some (false)` -- read **at most** `count` bytes;  (should require a single syscall;)
+	//!    * `count == None` and `full == Some (true)` -- read **everything** until `EOF`;  (could require multiple syscalls;)
+	//!    * `count == None` and `full == Some (false) | None` -- read **any** bytes available;  (should require a single syscall;)
+	//!    * `count == Some (0)` -- makes no sense!
+	
 	let port = try_as_port_ref! (port);
 	let count = try! (count_coerce (count));
-	let mut buffer = StdVec::with_capacity (count.unwrap_or (DEFAULT_PORT_BUFFER_SIZE));
-	let (count, full) = (Some (count.unwrap_or (buffer.capacity ())), count.is_some ());
+	
+	let (count, full) = (
+			count.or_else (|| if full.is_none () { Some (DEFAULT_PORT_BUFFER_SIZE) } else { None }),
+			full.unwrap_or_else (|| if count.is_some () { true } else { full_default }),
+		);
+	
+	let buffer = count.unwrap_or (DEFAULT_PORT_BUFFER_SIZE);
+	
+	succeed! ((port, count, full, buffer));
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn port_input_bytes_read_collect (port : &Value, count : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
+	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
+	let (port, count, full, buffer_size) = try! (port_input_coerce_arguments (port, count, full, false));
+	let mut buffer = StdVec::with_capacity (buffer_size);
 	if let Some (_) = try! (port.byte_read_extend (&mut buffer, count, full)) {
 		succeed! (bytes_new (buffer) .into ());
 	} else {
@@ -207,13 +250,14 @@ pub fn port_input_bytes_read_collect (port : &Value, count : Option<&Value>) -> 
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_input_bytes_read_extend (port : &Value, bytes : &Value, count : Option<&Value>) -> (Outcome<Value>) {
-	let port = try_as_port_ref! (port);
+pub fn port_input_bytes_read_extend (port : &Value, bytes : &Value, count : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
+	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
+	let (port, count, full, buffer_size) = try! (port_input_coerce_arguments (port, count, full, false));
 	let bytes = try_as_bytes_mutable_ref! (bytes);
-	let count = try! (count_coerce (count));
 	let mut buffer = bytes.bytes_ref_mut ();
-	let (count, full) = (Some (count.unwrap_or (buffer.capacity ())), count.is_some ());
-	if let Some (count) = try! (port.byte_read_extend (&mut buffer, count, full)) {
+	let buffer = &mut buffer;
+	buffer.reserve (buffer_size);
+	if let Some (count) = try! (port.byte_read_extend (buffer, count, full)) {
 		succeed! (try! (NumberInteger::try_from (count)) .into ());
 	} else {
 		succeed! (PORT_EOF.into ());
@@ -222,11 +266,10 @@ pub fn port_input_bytes_read_extend (port : &Value, bytes : &Value, count : Opti
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_input_string_read_collect (port : &Value, count : Option<&Value>) -> (Outcome<Value>) {
-	let port = try_as_port_ref! (port);
-	let count = try! (count_coerce (count));
-	let mut buffer = StdString::with_capacity (count.unwrap_or (DEFAULT_PORT_BUFFER_SIZE));
-	let (count, full) = (Some (count.unwrap_or (buffer.capacity ())), count.is_some ());
+pub fn port_input_string_read_collect (port : &Value, count : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
+	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
+	let (port, count, full, buffer_size) = try! (port_input_coerce_arguments (port, count, full, false));
+	let mut buffer = StdString::with_capacity (buffer_size);
 	if let Some (_) = try! (port.char_read_string (&mut buffer, count, full)) {
 		succeed! (string_new (buffer) .into ());
 	} else {
@@ -235,13 +278,14 @@ pub fn port_input_string_read_collect (port : &Value, count : Option<&Value>) ->
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_input_string_read_extend (port : &Value, string : &Value, count : Option<&Value>) -> (Outcome<Value>) {
-	let port = try_as_port_ref! (port);
+pub fn port_input_string_read_extend (port : &Value, string : &Value, count : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
+	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
+	let (port, count, full, buffer_size) = try! (port_input_coerce_arguments (port, count, full, false));
 	let string = try_as_string_mutable_ref! (string);
-	let count = try! (count_coerce (count));
 	let mut buffer = string.string_ref_mut ();
-	let (count, full) = (Some (count.unwrap_or (buffer.capacity ())), count.is_some ());
-	if let Some (count) = try! (port.char_read_string (&mut buffer, count, full)) {
+	let buffer = &mut buffer;
+	buffer.reserve (buffer_size);
+	if let Some (count) = try! (port.char_read_string (buffer, count, full)) {
 		succeed! (try! (NumberInteger::try_from (count)) .into ());
 	} else {
 		succeed! (PORT_EOF.into ());
@@ -252,14 +296,12 @@ pub fn port_input_string_read_extend (port : &Value, string : &Value, count : Op
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_input_bytes_read_collect_until (port : &Value, delimiter : Option<&Value>, count : Option<&Value>, include_delimiter : Option<bool>) -> (Outcome<Value>) {
-	// FIXME:  Verify how `count` and `full` fit for `read_*_until` family of functions!
-	let port = try_as_port_ref! (port);
-	let count = try! (count_coerce (count));
+pub fn port_input_bytes_read_collect_until (port : &Value, delimiter : Option<&Value>, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
+	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
+	let (port, count, full, buffer_size) = try! (port_input_coerce_arguments (port, count, full, true));
 	let delimiter = if let Some (delimiter) = delimiter { try! (try_as_number_integer_ref! (delimiter) .try_to_u8 ()) } else { '\n' as u8 };
 	let include_delimiter = include_delimiter.unwrap_or (false);
-	let mut buffer = StdVec::with_capacity (count.unwrap_or (DEFAULT_PORT_BUFFER_SIZE));
-	let (count, full) = (Some (count.unwrap_or (buffer.capacity ())), count.is_some ());
+	let mut buffer = StdVec::with_capacity (buffer_size);
 	if let Some (_) = try! (port.byte_read_extend_until (&mut buffer, delimiter, count, full)) {
 		if ! include_delimiter {
 			if let Some (last) = buffer.pop () {
@@ -277,16 +319,16 @@ pub fn port_input_bytes_read_collect_until (port : &Value, delimiter : Option<&V
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_input_bytes_read_extend_until (port : &Value, bytes : &Value, delimiter : Option<&Value>, count : Option<&Value>, include_delimiter : Option<bool>) -> (Outcome<Value>) {
-	// FIXME:  Verify how `count` and `full` fit for `read_*_until` family of functions!
-	let port = try_as_port_ref! (port);
-	let bytes = try_as_bytes_mutable_ref! (bytes);
-	let count = try! (count_coerce (count));
+pub fn port_input_bytes_read_extend_until (port : &Value, bytes : &Value, delimiter : Option<&Value>, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
+	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
+	let (port, count, full, buffer_size) = try! (port_input_coerce_arguments (port, count, full, true));
 	let delimiter = if let Some (delimiter) = delimiter { try! (try_as_number_integer_ref! (delimiter) .try_to_u8 ()) } else { '\n' as u8 };
 	let include_delimiter = include_delimiter.unwrap_or (false);
+	let bytes = try_as_bytes_mutable_ref! (bytes);
 	let mut buffer = bytes.bytes_ref_mut ();
-	let (count, full) = (Some (count.unwrap_or (buffer.capacity ())), count.is_some ());
-	if let Some (count) = try! (port.byte_read_extend_until (&mut buffer, delimiter, count, full)) {
+	let buffer = &mut buffer;
+	buffer.reserve (buffer_size);
+	if let Some (count) = try! (port.byte_read_extend_until (buffer, delimiter, count, full)) {
 		let count = if ! include_delimiter {
 			if let Some (last) = buffer.pop () {
 				if last != delimiter {
@@ -309,14 +351,12 @@ pub fn port_input_bytes_read_extend_until (port : &Value, bytes : &Value, delimi
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_input_string_read_collect_until (port : &Value, delimiter : Option<&Value>, count : Option<&Value>, include_delimiter : Option<bool>) -> (Outcome<Value>) {
-	// FIXME:  Verify how `count` and `full` fit for `read_*_until` family of functions!
-	let port = try_as_port_ref! (port);
-	let count = try! (count_coerce (count));
+pub fn port_input_string_read_collect_until (port : &Value, delimiter : Option<&Value>, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
+	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
+	let (port, count, full, buffer_size) = try! (port_input_coerce_arguments (port, count, full, true));
 	let delimiter = if let Some (delimiter) = delimiter { try_as_character_ref! (delimiter) .value () } else { '\n' };
 	let include_delimiter = include_delimiter.unwrap_or (false);
-	let mut buffer = StdString::with_capacity (count.unwrap_or (DEFAULT_PORT_BUFFER_SIZE));
-	let (count, full) = (Some (count.unwrap_or (buffer.capacity ())), count.is_some ());
+	let mut buffer = StdString::with_capacity (buffer_size);
 	if let Some (_) = try! (port.char_read_string_until (&mut buffer, delimiter, count, full)) {
 		if ! include_delimiter {
 			if let Some (last) = buffer.pop () {
@@ -334,16 +374,16 @@ pub fn port_input_string_read_collect_until (port : &Value, delimiter : Option<&
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_input_string_read_extend_until (port : &Value, string : &Value, delimiter : Option<&Value>, count : Option<&Value>, include_delimiter : Option<bool>) -> (Outcome<Value>) {
-	// FIXME:  Verify how `count` and `full` fit for `read_*_until` family of functions!
-	let port = try_as_port_ref! (port);
-	let string = try_as_string_mutable_ref! (string);
-	let count = try! (count_coerce (count));
+pub fn port_input_string_read_extend_until (port : &Value, string : &Value, delimiter : Option<&Value>, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
+	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
+	let (port, count, full, buffer_size) = try! (port_input_coerce_arguments (port, count, full, true));
 	let delimiter = if let Some (delimiter) = delimiter { try_as_character_ref! (delimiter) .value () } else { '\n' };
 	let include_delimiter = include_delimiter.unwrap_or (false);
+	let string = try_as_string_mutable_ref! (string);
 	let mut buffer = string.string_ref_mut ();
-	let (count, full) = (Some (count.unwrap_or (buffer.capacity ())), count.is_some ());
-	if let Some (count) = try! (port.char_read_string_until (&mut buffer, delimiter, count, full)) {
+	let buffer = &mut buffer;
+	buffer.reserve (buffer_size);
+	if let Some (count) = try! (port.char_read_string_until (buffer, delimiter, count, full)) {
 		let count = if ! include_delimiter {
 			if let Some (last) = buffer.pop () {
 				if last != delimiter {
@@ -368,14 +408,15 @@ pub fn port_input_string_read_extend_until (port : &Value, string : &Value, deli
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_input_read_line (port : &Value, include_delimiter : Option<bool>) -> (Outcome<Value>) {
-	let port = try_as_port_ref! (port);
+pub fn port_input_read_line (port : &Value, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
+	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
+	let (port, count, full, buffer_size) = try! (port_input_coerce_arguments (port, count, full, true));
 	let delimiter = '\n';
 	let include_delimiter = include_delimiter.unwrap_or (false);
 	// FIXME:  Decide if we should use the `char` or `byte` port interfaces!
 	if false {
-		let mut buffer = StdString::with_capacity (DEFAULT_PORT_BUFFER_SIZE);
-		if let Some (_) = try! (port.char_read_string_until (&mut buffer, delimiter, None, true)) {
+		let mut buffer = StdString::with_capacity (buffer_size);
+		if let Some (_) = try! (port.char_read_string_until (&mut buffer, delimiter, count, full)) {
 			if ! include_delimiter {
 				if let Some (last) = buffer.pop () {
 					if last != delimiter {
@@ -391,8 +432,8 @@ pub fn port_input_read_line (port : &Value, include_delimiter : Option<bool>) ->
 		}
 	} else {
 		let delimiter = delimiter as u8;
-		let mut buffer = StdVec::with_capacity (DEFAULT_PORT_BUFFER_SIZE);
-		if let Some (_) = try! (port.byte_read_extend_until (&mut buffer, delimiter, None, true)) {
+		let mut buffer = StdVec::with_capacity (buffer_size);
+		if let Some (_) = try! (port.byte_read_extend_until (&mut buffer, delimiter, count, full)) {
 			if ! include_delimiter {
 				if let Some (last) = buffer.pop () {
 					if last != delimiter {
