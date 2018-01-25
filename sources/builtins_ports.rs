@@ -503,15 +503,18 @@ pub fn port_string_reader_new (string : &Value) -> (Outcome<Value>) {
 	succeed! (port.into ());
 }
 
+
+
+
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_bytes_writer_new () -> (Outcome<Value>) {
-	let port = try! (Port::new_bytes_writer ());
+pub fn port_bytes_writer_new (buffer : Option<usize>) -> (Outcome<Value>) {
+	let port = try! (Port::new_bytes_writer (buffer));
 	succeed! (port.into ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_string_writer_new () -> (Outcome<Value>) {
-	let port = try! (Port::new_bytes_writer ());
+pub fn port_string_writer_new (buffer : Option<usize>) -> (Outcome<Value>) {
+	let port = try! (Port::new_bytes_writer (buffer));
 	succeed! (port.into ());
 }
 

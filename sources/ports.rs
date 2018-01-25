@@ -215,8 +215,8 @@ impl Port {
 	
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new_bytes_writer () -> (Outcome<Port>) {
-		let backend = try! (PortBackendBytesWriter::new ());
+	pub fn new_bytes_writer (buffer : Option<usize>) -> (Outcome<Port>) {
+		let backend = try! (PortBackendBytesWriter::new (buffer));
 		let backend = PortBackend::BytesWriter (backend);
 		return Port::new_from_backend (backend);
 	}

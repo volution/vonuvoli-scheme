@@ -176,10 +176,10 @@ pub fn port_primitive_0_evaluate (primitive : PortPrimitive0, _evaluator : &mut 
 			return port_output_newline_0 (&mut try! (PortBackend::new_stdout ()), None, Some (true)) .into_0 (),
 		
 		PortPrimitive0::OutputToBytes =>
-			return port_bytes_writer_new (),
+			return port_bytes_writer_new (None),
 		
 		PortPrimitive0::OutputToString =>
-			return port_string_writer_new (),
+			return port_string_writer_new (None),
 		
 		PortPrimitive0::Eof =>
 			return PORT_EOF.into_0 (),
@@ -330,7 +330,6 @@ pub fn port_primitive_2_evaluate (primitive : PortPrimitive2, input_1 : &Value, 
 			return port_output_value_write (input_2, input_1, None, None, None) .into_0 (),
 		
 		PortPrimitive2::ValueWriteSimple =>
-			// FIXME:  Add support for cyclic objects!
 			return port_output_value_write (input_2, input_1, None, None, None) .into_0 (),
 		
 		PortPrimitive2::CallAndClose =>

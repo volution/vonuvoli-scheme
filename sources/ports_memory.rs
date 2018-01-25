@@ -477,8 +477,9 @@ impl PortBackendWriter for PortBackendBytesWriter {
 impl PortBackendBytesWriter {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new () -> (Outcome<PortBackendBytesWriter>) {
-		let buffer = StdVec::new ();
+	pub fn new (buffer : Option<usize>) -> (Outcome<PortBackendBytesWriter>) {
+		let buffer = buffer.unwrap_or (DEFAULT_PORT_BUFFER_SIZE);
+		let buffer = StdVec::with_capacity (buffer);
 		let backend = PortBackendBytesWriter {
 				buffer : Some (buffer),
 			};
