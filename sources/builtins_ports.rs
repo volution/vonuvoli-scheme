@@ -36,6 +36,8 @@ pub mod exports {
 		port_input_bytes_read_collect_until, port_input_bytes_read_extend_until,
 		port_input_string_read_collect_until, port_input_string_read_extend_until,
 		
+		port_input_read_line,
+		
 	};
 	
 	pub use super::{
@@ -251,6 +253,7 @@ pub fn port_input_string_read_extend (port : &Value, string : &Value, count : Op
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_bytes_read_collect_until (port : &Value, delimiter : Option<&Value>, count : Option<&Value>, include_delimiter : Option<bool>) -> (Outcome<Value>) {
+	// FIXME:  Verify how `count` and `full` fit for `read_*_until` family of functions!
 	let port = try_as_port_ref! (port);
 	let count = try! (count_coerce (count));
 	let delimiter = if let Some (delimiter) = delimiter { try! (try_as_number_integer_ref! (delimiter) .try_to_u8 ()) } else { '\n' as u8 };
@@ -275,6 +278,7 @@ pub fn port_input_bytes_read_collect_until (port : &Value, delimiter : Option<&V
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_bytes_read_extend_until (port : &Value, bytes : &Value, delimiter : Option<&Value>, count : Option<&Value>, include_delimiter : Option<bool>) -> (Outcome<Value>) {
+	// FIXME:  Verify how `count` and `full` fit for `read_*_until` family of functions!
 	let port = try_as_port_ref! (port);
 	let bytes = try_as_bytes_mutable_ref! (bytes);
 	let count = try! (count_coerce (count));
@@ -306,6 +310,7 @@ pub fn port_input_bytes_read_extend_until (port : &Value, bytes : &Value, delimi
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_string_read_collect_until (port : &Value, delimiter : Option<&Value>, count : Option<&Value>, include_delimiter : Option<bool>) -> (Outcome<Value>) {
+	// FIXME:  Verify how `count` and `full` fit for `read_*_until` family of functions!
 	let port = try_as_port_ref! (port);
 	let count = try! (count_coerce (count));
 	let delimiter = if let Some (delimiter) = delimiter { try_as_character_ref! (delimiter) .value () } else { '\n' };
@@ -330,6 +335,7 @@ pub fn port_input_string_read_collect_until (port : &Value, delimiter : Option<&
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_string_read_extend_until (port : &Value, string : &Value, delimiter : Option<&Value>, count : Option<&Value>, include_delimiter : Option<bool>) -> (Outcome<Value>) {
+	// FIXME:  Verify how `count` and `full` fit for `read_*_until` family of functions!
 	let port = try_as_port_ref! (port);
 	let string = try_as_string_mutable_ref! (string);
 	let count = try! (count_coerce (count));
@@ -355,6 +361,55 @@ pub fn port_input_string_read_extend_until (port : &Value, string : &Value, deli
 		succeed! (try! (NumberInteger::try_from (count)) .into ());
 	} else {
 		succeed! (PORT_EOF.into ());
+	}
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn port_input_read_line (port : &Value, include_delimiter : Option<bool>) -> (Outcome<Value>) {
+	let port = try_as_port_ref! (port);
+	let delimiter = '\n';
+	let include_delimiter = include_delimiter.unwrap_or (false);
+	// FIXME:  Decide if we should use the `char` or `byte` port interfaces!
+	if false {
+		let mut buffer = StdString::with_capacity (DEFAULT_PORT_BUFFER_SIZE);
+		if let Some (_) = try! (port.char_read_string_until (&mut buffer, delimiter, None, true)) {
+			if ! include_delimiter {
+				if let Some (last) = buffer.pop () {
+					if last != delimiter {
+						buffer.push (last);
+					}
+				} else {
+					fail_panic! (0xca581872);
+				}
+			}
+			succeed! (string_new (buffer) .into ());
+		} else {
+			succeed! (PORT_EOF.into ());
+		}
+	} else {
+		let delimiter = delimiter as u8;
+		let mut buffer = StdVec::with_capacity (DEFAULT_PORT_BUFFER_SIZE);
+		if let Some (_) = try! (port.byte_read_extend_until (&mut buffer, delimiter, None, true)) {
+			if ! include_delimiter {
+				if let Some (last) = buffer.pop () {
+					if last != delimiter {
+						buffer.push (last);
+					}
+				} else {
+					fail_panic! (0xba2e4baa);
+				}
+			}
+			if let Ok (buffer) = StdString::from_utf8 (buffer) {
+				succeed! (string_new (buffer) .into ());
+			} else {
+				fail! (0x0c3a0397);
+			}
+		} else {
+			succeed! (PORT_EOF.into ());
+		}
 	}
 }
 
