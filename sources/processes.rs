@@ -386,6 +386,18 @@ impl <'a> ProcessConfiguration<'a> {
 		if let Some (path) = self.working_directory {
 			command.current_dir (path);
 		}
+		if let Some (stdin) = self.stdin {
+			let stdin = try! (stdin.build ());
+			command.stdin (stdin);
+		}
+		if let Some (stdout) = self.stdout {
+			let stdout = try! (stdout.build ());
+			command.stdout (stdout);
+		}
+		if let Some (stderr) = self.stderr {
+			let stderr = try! (stderr.build ());
+			command.stderr (stderr);
+		}
 		succeed! (command);
 	}
 }

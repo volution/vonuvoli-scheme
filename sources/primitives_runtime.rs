@@ -86,6 +86,8 @@ pub enum RuntimePrimitive1 {
 	ProcessExit,
 	ProcessExitEmergency,
 	
+	ProcessSpawnExtended,
+	
 	ProcessWaitPoll,
 	ProcessWaitTry,
 	ProcessWaitCheck,
@@ -103,6 +105,8 @@ pub enum RuntimePrimitive2 {
 	ErrorRaise,
 	ErrorBuild,
 	
+	ProcessSpawnExtended,
+	
 }
 
 
@@ -111,6 +115,8 @@ pub enum RuntimePrimitive3 {
 	
 	ErrorRaise,
 	ErrorBuild,
+	
+	ProcessSpawnExtended,
 	
 }
 
@@ -154,6 +160,8 @@ pub enum RuntimePrimitiveV {
 	
 	ProcessExit,
 	ProcessExitEmergency,
+	
+	ProcessSpawnExtended,
 	
 }
 
@@ -225,6 +233,9 @@ pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, input_1 : &V
 		RuntimePrimitive1::ProcessExitEmergency =>
 			fail_unimplemented! (0x7a0fae27), // deferred
 		
+		RuntimePrimitive1::ProcessSpawnExtended =>
+			return process_spawn_extended (input_1, None, None) .into_0 (),
+		
 		RuntimePrimitive1::ProcessWaitPoll =>
 			return process_wait (input_1, false) .into_0 (),
 		
@@ -259,6 +270,9 @@ pub fn runtime_primitive_2_evaluate (primitive : RuntimePrimitive2, input_1 : &V
 		RuntimePrimitive2::ErrorBuild =>
 			return error_build_1 (None, input_1, input_2) .into_0 (),
 		
+		RuntimePrimitive2::ProcessSpawnExtended =>
+			return process_spawn_extended (input_1, Some (input_2), None) .into_0 (),
+		
 	}
 }
 
@@ -274,6 +288,9 @@ pub fn runtime_primitive_3_evaluate (primitive : RuntimePrimitive3, input_1 : &V
 		
 		RuntimePrimitive3::ErrorBuild =>
 			return error_build_2 (None, input_1, input_2, input_3) .into_0 (),
+		
+		RuntimePrimitive3::ProcessSpawnExtended =>
+			return process_spawn_extended (input_1, Some (input_2), Some (input_3)) .into_0 (),
 		
 	}
 }
@@ -353,6 +370,8 @@ pub fn runtime_primitive_v_alternative_0 (primitive : RuntimePrimitiveV) -> (Opt
 			Some (RuntimePrimitive0::ProcessExit),
 		RuntimePrimitiveV::ProcessExitEmergency =>
 			Some (RuntimePrimitive0::ProcessExitEmergency),
+		RuntimePrimitiveV::ProcessSpawnExtended =>
+			None,
 	}
 }
 
@@ -370,6 +389,8 @@ pub fn runtime_primitive_v_alternative_1 (primitive : RuntimePrimitiveV) -> (Opt
 			Some (RuntimePrimitive1::ProcessExit),
 		RuntimePrimitiveV::ProcessExitEmergency =>
 			Some (RuntimePrimitive1::ProcessExitEmergency),
+		RuntimePrimitiveV::ProcessSpawnExtended =>
+			Some (RuntimePrimitive1::ProcessSpawnExtended),
 	}
 }
 
@@ -387,6 +408,8 @@ pub fn runtime_primitive_v_alternative_2 (primitive : RuntimePrimitiveV) -> (Opt
 			None,
 		RuntimePrimitiveV::ProcessExitEmergency =>
 			None,
+		RuntimePrimitiveV::ProcessSpawnExtended =>
+			Some (RuntimePrimitive2::ProcessSpawnExtended),
 	}
 }
 
@@ -404,6 +427,8 @@ pub fn runtime_primitive_v_alternative_3 (primitive : RuntimePrimitiveV) -> (Opt
 			None,
 		RuntimePrimitiveV::ProcessExitEmergency =>
 			None,
+		RuntimePrimitiveV::ProcessSpawnExtended =>
+			Some (RuntimePrimitive3::ProcessSpawnExtended),
 	}
 }
 
@@ -420,6 +445,8 @@ pub fn runtime_primitive_v_alternative_4 (primitive : RuntimePrimitiveV) -> (Opt
 		RuntimePrimitiveV::ProcessExit =>
 			None,
 		RuntimePrimitiveV::ProcessExitEmergency =>
+			None,
+		RuntimePrimitiveV::ProcessSpawnExtended =>
 			None,
 	}
 }
@@ -438,6 +465,8 @@ pub fn runtime_primitive_v_alternative_5 (primitive : RuntimePrimitiveV) -> (Opt
 			None,
 		RuntimePrimitiveV::ProcessExitEmergency =>
 			None,
+		RuntimePrimitiveV::ProcessSpawnExtended =>
+			None,
 	}
 }
 
@@ -454,6 +483,8 @@ pub fn runtime_primitive_v_alternative_n (primitive : RuntimePrimitiveV) -> (Opt
 		RuntimePrimitiveV::ProcessExit =>
 			None,
 		RuntimePrimitiveV::ProcessExitEmergency =>
+			None,
+		RuntimePrimitiveV::ProcessSpawnExtended =>
 			None,
 	}
 }

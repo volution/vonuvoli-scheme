@@ -1,5 +1,6 @@
 
 
+use super::builtins::exports::*;
 use super::errors::exports::*;
 use super::processes::exports::*;
 use super::values::exports::*;
@@ -14,6 +15,7 @@ pub mod exports {
 	pub use super::{
 		
 		process_spawn,
+		process_spawn_extended,
 		
 		process_wait, process_wait_check,
 		process_run, process_run_check,
@@ -45,6 +47,98 @@ pub fn process_spawn (arguments : &[&Value]) -> (Outcome<Process>) {
 	let configuration = ProcessConfiguration {
 			executable :  executable,
 			arguments : Some (arguments.as_ref ()),
+			.. Default::default ()
+		};
+	
+	return Process::spawn (&configuration);
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn process_spawn_extended (executable : &Value, arguments : Option<&Value>, options : Option<&Value>) -> (Outcome<Process>) {
+	
+	let executable = try_as_string_ref! (executable);
+	let executable = executable.string_as_str ();
+	
+	// FIXME:  Accept arrays as arguments!
+	let arguments = option_map! (arguments, try! (vec_list_clone (arguments)));
+	let arguments = option_ref_map! (arguments, try_vec_map! (arguments.iter (), argument, StringRef::try (argument)));
+	let arguments = option_ref_map! (arguments, vec_map! (arguments.iter (), argument, argument.string_as_str ()));
+	
+	let mut configuration_stdin = Some (ProcessConfigurationStream::Null);
+	let mut configuration_stdout = Some (ProcessConfigurationStream::Null);
+	let mut configuration_stderr = Some (ProcessConfigurationStream::Inherited);
+	
+	let options = option_map! (options, try! (vec_list_clone (options)));
+	if let Some (options) = options {
+		for option in options {
+			match option.class_match_as_ref () {
+				ValueClassMatchAsRef::Pair (class) => {
+					let option = class.pair_ref ();
+					let (option, value) = option.left_and_right ();
+					match option.class_match_as_ref () {
+						ValueClassMatchAsRef::Symbol (option) =>
+							match option.string_as_str () {
+								
+								"stdin" | "stdout" | "stderr" => {
+									let stream = match value.class_match_as_ref () {
+										ValueClassMatchAsRef::Symbol (value) =>
+											match value.string_as_str () {
+												"inherited" =>
+													ProcessConfigurationStream::Inherited,
+												"piped" =>
+													ProcessConfigurationStream::Piped,
+												"null" =>
+													ProcessConfigurationStream::Null,
+												_ =>
+													fail! (0x1ed756ce),
+											},
+										ValueClassMatchAsRef::Port (port) =>
+											ProcessConfigurationStream::Port (port.clone ()),
+										_ =>
+											fail! (0x425000b7),
+									};
+									match option.string_as_str () {
+										"stdin" =>
+											configuration_stdin = Some (stream),
+										"stdout" =>
+											configuration_stdout = Some (stream),
+										"stderr" =>
+											configuration_stderr = Some (stream),
+										_ =>
+											fail_unreachable! (0xec023a35),
+									}
+								},
+								
+								// FIXME:  Add support for:
+								//         * argument0
+								//         * environment-empty
+								//         * environment-include
+								//         * environment-exclude
+								//         * working-directory
+								//         * other descriptors
+								
+								_ =>
+									fail! (0xeb97ad7f),
+							},
+						_ =>
+							fail! (0x9d32ecbc),
+					}
+				},
+				_ =>
+					fail! (0xec86ca64),
+			}
+		}
+	}
+	
+	let configuration = ProcessConfiguration {
+			executable :  executable,
+			arguments : option_ref_map! (arguments, arguments.as_ref ()),
+			stdin : configuration_stdin.as_ref (),
+			stdout : configuration_stdout.as_ref (),
+			stderr : configuration_stderr.as_ref (),
 			.. Default::default ()
 		};
 	
