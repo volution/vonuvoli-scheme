@@ -91,9 +91,9 @@ impl PortBackendReader for PortBackendNativeReader {
 			}
 			loop {
 				let increments = if let Some (buffer) = try! (reader.buffer_ref ()) {
-					let count = usize::min (buffer.len (), count_remaining);
-					<[u8]>::copy_from_slice (&mut target[count_accumulated..count], &buffer[..count]);
-					Some ((count, count))
+					let limit = usize::min (buffer.len (), count_remaining);
+					<[u8]>::copy_from_slice (&mut target[count_accumulated..(count_accumulated + limit)], &buffer[..limit]);
+					Some ((limit, limit))
 				} else {
 					None
 				};
@@ -125,9 +125,9 @@ impl PortBackendReader for PortBackendNativeReader {
 			}
 			loop {
 				let increments = if let Some (buffer) = try! (reader.buffer_ref ()) {
-					let count = usize::min (buffer.len (), count_remaining);
-					target.extend (&buffer[..count]);
-					Some ((count, count))
+					let limit = usize::min (buffer.len (), count_remaining);
+					target.extend (&buffer[..limit]);
+					Some ((limit, limit))
 				} else {
 					None
 				};
@@ -159,14 +159,9 @@ impl PortBackendReader for PortBackendNativeReader {
 			}
 			loop {
 				let increments = if let Some (buffer) = try! (reader.buffer_ref ()) {
-					let count = usize::min (buffer.len (), count_remaining);
-					if let Ok (buffer) = str::from_utf8 (&buffer[..count]) {
-						target.push_str (buffer);
-						Some ((count, count))
-					} else {
-						// FIXME:  Handle the case in which the buffer is split in the middle of a multi-byte-character!
-						fail! (0x4c431111);
-					}
+					let limit = usize::min (buffer.len (), count_remaining);
+					let (_, limit, _) = try! (unicode_utf8_char_decode_slice_extend_string (&buffer[..limit], None, None, target));
+					Some ((limit, limit))
 				} else {
 					None
 				};
@@ -198,14 +193,14 @@ impl PortBackendReader for PortBackendNativeReader {
 			}
 			loop {
 				let (matched, increments) = if let Some (buffer) = try! (reader.buffer_ref ()) {
-					let (matched, count) = match libc_memchr (delimiter, buffer) {
+					let (matched, limit) = match libc_memchr (delimiter, buffer) {
 						Some (offset) =>
 							(true, usize::min (offset + 1, count_remaining)),
 						None =>
 							(false, usize::min (buffer.len (), count_remaining)),
 					};
-					target.extend (&buffer[..count]);
-					(matched, Some ((count, count)))
+					target.extend (&buffer[..limit]);
+					(matched, Some ((limit, limit)))
 				} else {
 					(false, None)
 				};
@@ -237,19 +232,14 @@ impl PortBackendReader for PortBackendNativeReader {
 			}
 			loop {
 				let (matched, increments) = if let Some (buffer) = try! (reader.buffer_ref ()) {
-					let (matched, count) = match libc_memchr (delimiter, buffer) {
+					let (matched, limit) = match libc_memchr (delimiter, buffer) {
 						Some (offset) =>
 							(true, usize::min (offset + 1, count_remaining)),
 						None =>
 							(false, usize::min (buffer.len (), count_remaining)),
 					};
-					if let Ok (buffer) = str::from_utf8 (&buffer[..count]) {
-						target.push_str (buffer);
-						(matched, Some ((count, count)))
-					} else {
-						// FIXME:  Handle the case in which the buffer is split in the middle of a multi-byte-character!
-						fail! (0xc1777bbc);
-					}
+					let (_, limit, _) = try! (unicode_utf8_char_decode_slice_extend_string (&buffer[..limit], None, None, target));
+					(matched, Some ((limit, limit)))
 				} else {
 					(false, None)
 				};
@@ -331,18 +321,8 @@ impl PortBackendReader for PortBackendNativeReader {
 			}
 			loop {
 				let increments = if let Some (buffer) = try! (reader.buffer_ref ()) {
-					let target_size = count_remaining;
-					let buffer_size = buffer.len ();
-					let mut target_offset = 0;
-					let mut buffer_offset = 0;
-					while (buffer_offset < buffer_size) && (target_offset < target_size) {
-						// FIXME:  Handle the case in which the buffer is split in the middle of a multi-byte-character!
-						let (char, char_width) = try! (unicode_utf8_char_decode_and_width (&buffer[buffer_offset..]));
-						target[target_offset] = char;
-						target_offset += 1;
-						buffer_offset += char_width;
-					};
-					Some ((target_offset, buffer_offset))
+					let (target_limit, buffer_limit, _) = try! (unicode_utf8_char_decode_slice_copy_slice (buffer, Some (count_remaining), None, &mut target[count_accumulated..]));
+					Some ((target_limit, buffer_limit))
 				} else {
 					None
 				};
@@ -374,18 +354,8 @@ impl PortBackendReader for PortBackendNativeReader {
 			}
 			loop {
 				let increments = if let Some (buffer) = try! (reader.buffer_ref ()) {
-					let target_size = count_remaining;
-					let buffer_size = buffer.len ();
-					let mut target_offset = 0;
-					let mut buffer_offset = 0;
-					while (buffer_offset < buffer_size) && (target_offset < target_size) {
-						// FIXME:  Handle the case in which the buffer is split in the middle of a multi-byte-character!
-						let (char, char_width) = try! (unicode_utf8_char_decode_and_width (&buffer[buffer_offset..]));
-						target.push (char);
-						target_offset += 1;
-						buffer_offset += char_width;
-					};
-					Some ((target_offset, buffer_offset))
+					let (target_limit, buffer_limit, _) = try! (unicode_utf8_char_decode_slice_extend_vector (buffer, Some (count_remaining), None, target));
+					Some ((target_limit, buffer_limit))
 				} else {
 					None
 				};
@@ -417,18 +387,8 @@ impl PortBackendReader for PortBackendNativeReader {
 			}
 			loop {
 				let increments = if let Some (buffer) = try! (reader.buffer_ref ()) {
-					let target_size = count_remaining;
-					let buffer_size = buffer.len ();
-					let mut target_offset = 0;
-					let mut buffer_offset = 0;
-					while (buffer_offset < buffer_size) && (target_offset < target_size) {
-						// FIXME:  Handle the case in which the buffer is split in the middle of a multi-byte-character!
-						let (char, char_width) = try! (unicode_utf8_char_decode_and_width (&buffer[buffer_offset..]));
-						target.push (char);
-						target_offset += 1;
-						buffer_offset += char_width;
-					};
-					Some ((target_offset, buffer_offset))
+					let (target_limit, buffer_limit, _) = try! (unicode_utf8_char_decode_slice_extend_string (buffer, Some (count_remaining), None, target));
+					Some ((target_limit, buffer_limit))
 				} else {
 					None
 				};
@@ -460,23 +420,8 @@ impl PortBackendReader for PortBackendNativeReader {
 			}
 			loop {
 				let (matched, increments) = if let Some (buffer) = try! (reader.buffer_ref ()) {
-					let target_size = count_remaining;
-					let buffer_size = buffer.len ();
-					let mut buffer_offset = 0;
-					let mut target_offset = 0;
-					let mut matched = false;
-					while (buffer_offset < buffer_size) && (target_offset < target_size) {
-						// FIXME:  Handle the case in which the buffer is split in the middle of a multi-byte-character!
-						let (char, char_width) = try! (unicode_utf8_char_decode_and_width (&buffer[buffer_offset..]));
-						target.push (char);
-						target_offset += 1;
-						buffer_offset += char_width;
-						if char == delimiter {
-							matched = true;
-							break;
-						}
-					};
-					(matched, Some ((target_offset, buffer_offset)))
+					let (target_limit, buffer_limit, matched) = try! (unicode_utf8_char_decode_slice_extend_vector (buffer, Some (count_remaining), Some (delimiter), target));
+					(matched, Some ((target_limit, buffer_limit)))
 				} else {
 					(false, None)
 				};
@@ -508,23 +453,8 @@ impl PortBackendReader for PortBackendNativeReader {
 			}
 			loop {
 				let (matched, increments) = if let Some (buffer) = try! (reader.buffer_ref ()) {
-					let target_size = count_remaining;
-					let buffer_size = buffer.len ();
-					let mut target_offset = 0;
-					let mut buffer_offset = 0;
-					let mut matched = false;
-					while (buffer_offset < buffer_size) && (target_offset < target_size) {
-						// FIXME:  Handle the case in which the buffer is split in the middle of a multi-byte-character!
-						let (char, char_width) = try! (unicode_utf8_char_decode_and_width (&buffer[buffer_offset..]));
-						target.push (char);
-						target_offset += 1;
-						buffer_offset += char_width;
-						if char == delimiter {
-							matched = true;
-							break;
-						}
-					};
-					(matched, Some ((target_offset, buffer_offset)))
+					let (target_limit, buffer_limit, matched) = try! (unicode_utf8_char_decode_slice_extend_string (buffer, Some (count_remaining), Some (delimiter), target));
+					(matched, Some ((target_limit, buffer_limit)))
 				} else {
 					(false, None)
 				};
