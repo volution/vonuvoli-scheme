@@ -207,13 +207,22 @@ cat <<'EOS'
 
 
 
-:: files / grep / sources / x-selection / primary :: exec -- git grep --no-index -C10 -F -e "$( exec -- x-selection primary output )" -- ./sources
-:: files / grep / sources / unimplemented / show :: exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- ./sources
-:: files / grep / sources / unimplemented / list :: exec -- git grep --no-index -l -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- ./sources
-:: files / grep / sources / primitives / unimplemented / show :: exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- './sources/primitives*.rs'
-:: files / grep / sources / builtins / unimplemented / show :: exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- './sources/builtins*.rs'
 :: files / grep / sources / string :: exec -- git grep --no-index -C10 -F "${@/#/-e}" -- ./sources
 :: files / grep / sources / regexp :: exec -- git grep --no-index -C10 -P "${@/#/-e}" -- ./sources
+
+:: files / grep / sources / x-selection / primary :: exec -- git grep --no-index -C10 -F -e "$( exec -- x-selection primary output )" -- ./sources
+:: files / grep / sources / x-selection / clipboard :: exec -- git grep --no-index -C10 -F -e "$( exec -- x-selection clipboard output )" -- ./sources
+
+:: files / grep / sources / fixme / show :: exec -- git grep --no-index -C10 -P -e 'FIXME' -- ./sources
+:: files / grep / sources / fixme / list :: exec -- git grep --no-index -l -P -e 'FIXME' -- ./sources
+
+:: files / grep / sources / todo / show :: exec -- git grep --no-index -C10 -P -e 'TODO' -- ./sources
+:: files / grep / sources / todo / list :: exec -- git grep --no-index -l -P -e 'TODO' -- ./sources
+
+:: files / grep / sources / unimplemented / all / show :: exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- ./sources
+:: files / grep / sources / unimplemented / all / list :: exec -- git grep --no-index -l -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- ./sources
+:: files / grep / sources / unimplemented / primitives / show :: exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- './sources/primitives*.rs'
+:: files / grep / sources / unimplemented / builtins / show :: exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- './sources/builtins*.rs'
 
 :: files / grep / sources / errors / duplicates / list :: grep -o -P -e '(?<=0x)[0-9a-f]{8}(?=[)])|(?<=")[0-9a-f]{8}(?=")' -h -r ./sources -r ./tests --include '*.rs' --include '*.in' | sort | uniq -d
 :: files / grep / sources / errors / duplicates / show :: x-run ':: files / grep / sources / errors / duplicates / list' | git grep --no-index -C0 -F -f /dev/stdin -- ./sources ./tests

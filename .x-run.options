@@ -2934,10 +2934,6 @@
 	git diff --color-words -U0 -- ./tests/_outputs/*--benchmark__* | grep -E -e '^....--' -e 'average' | sed -r -e 's/^(....)--- i\/tests\/_outputs\/[a-z0-9-]+--benchmark__/\1/'
 !!
 
-<< files / grep / sources / builtins / unimplemented / show
-	exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- './sources/builtins*.rs'
-!!
-
 << files / grep / sources / errors / duplicates / list
 	grep -o -P -e '(?<=0x)[0-9a-f]{8}(?=[)])|(?<=")[0-9a-f]{8}(?=")' -h -r ./sources -r ./tests --include '*.rs' --include '*.in' | sort | uniq -d
 !!
@@ -2954,8 +2950,12 @@
 	x-run ':: files / grep / sources / errors / improper / list' | git grep --no-index -C2 -F -f /dev/stdin -- ./sources ./tests
 !!
 
-<< files / grep / sources / primitives / unimplemented / show
-	exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- './sources/primitives*.rs'
+<< files / grep / sources / fixme / list
+	exec -- git grep --no-index -l -P -e 'FIXME' -- ./sources
+!!
+
+<< files / grep / sources / fixme / show
+	exec -- git grep --no-index -C10 -P -e 'FIXME' -- ./sources
 !!
 
 << files / grep / sources / regexp
@@ -2966,12 +2966,32 @@
 	exec -- git grep --no-index -C10 -F "${@/#/-e}" -- ./sources
 !!
 
-<< files / grep / sources / unimplemented / list
+<< files / grep / sources / todo / list
+	exec -- git grep --no-index -l -P -e 'TODO' -- ./sources
+!!
+
+<< files / grep / sources / todo / show
+	exec -- git grep --no-index -C10 -P -e 'TODO' -- ./sources
+!!
+
+<< files / grep / sources / unimplemented / all / list
 	exec -- git grep --no-index -l -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- ./sources
 !!
 
-<< files / grep / sources / unimplemented / show
+<< files / grep / sources / unimplemented / all / show
 	exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- ./sources
+!!
+
+<< files / grep / sources / unimplemented / builtins / show
+	exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- './sources/builtins*.rs'
+!!
+
+<< files / grep / sources / unimplemented / primitives / show
+	exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- './sources/primitives*.rs'
+!!
+
+<< files / grep / sources / x-selection / clipboard
+	exec -- git grep --no-index -C10 -F -e "$( exec -- x-selection clipboard output )" -- ./sources
 !!
 
 << files / grep / sources / x-selection / primary
