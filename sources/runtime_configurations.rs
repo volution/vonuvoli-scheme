@@ -22,7 +22,7 @@ pub const COMPILER_TRACE_ERROR : bool = true;
 
 pub const OPTIMIZER_TRACE_INPUT : bool = false;
 pub const OPTIMIZER_TRACE_OUTPUT : bool = false;
-pub const OPTIMIZER_TRACE_ERROR : bool = true;
+pub const OPTIMIZER_TRACE_ERROR : bool = false;
 
 pub const EVALUATOR_TRACE_INPUT : bool = false;
 pub const EVALUATOR_TRACE_OUTPUT : bool = false;
@@ -42,7 +42,7 @@ pub const DEFAULT_PORT_OUTPUT_VALUE_WRITE_SEPARATOR : char = ' ';
 pub const DEFAULT_PORT_OUTPUT_NEWLINE_FLUSH : bool = true;
 pub const DEFAULT_PORT_OUTPUT_NEWLINE_SEPARATOR : char = '\n';
 
-pub const DEFAULT_PORT_BUFFER_SIZE : usize = 4096;
+pub const DEFAULT_PORT_BUFFER_SIZE : usize = 16 * 1024;
 
 
 
