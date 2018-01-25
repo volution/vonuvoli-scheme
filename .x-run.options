@@ -690,6 +690,10 @@
 	x-run ':: compile / bin / bencher / debug' ; exec -- ./target/debug/vonuvoli-scheme-bencher "${@}"
 !!
 
+<< execute / bin / bencher / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / bin / bencher / debug' "${@}"
+!!
+
 << execute / bin / bencher / errors / debug
 	exec -- taskset -c 2 x-run ':: execute / bin / bencher / debug' './tests/scheme/errors.sst' "${@}"
 !!
@@ -894,6 +898,10 @@
 	x-run ':: compile / bin / compiler / debug' ; exec -- ./target/debug/vonuvoli-scheme-compiler "${@}"
 !!
 
+<< execute / bin / compiler / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / bin / compiler / debug' "${@}"
+!!
+
 << execute / bin / compiler / debug / x-selection / clipboard
 	exec -- less-exec x-run ':: execute / bin / compiler / debug' <( exec -- x-selection clipboard output )
 !!
@@ -1006,6 +1014,14 @@
 	x-run ':: compile / bin / interpreter / debug' ; exec -- ./target/debug/vonuvoli-scheme-interpreter "${@}"
 !!
 
+<< execute / bin / interpreter / debug / time
+	x-run ':: compile / bin / interpreter / debug' ; exec --  time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-interpreter "${@}"
+!!
+
+<< execute / bin / interpreter / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / bin / interpreter / debug' "${@}"
+!!
+
 << execute / bin / interpreter / debug / x-selection / clipboard
 	exec -- x-run ':: execute / bin / interpreter / debug' <( exec -- x-selection clipboard output )
 !!
@@ -1016,6 +1032,10 @@
 
 << execute / bin / interpreter / release
 	x-run ':: compile / bin / interpreter / release' ; exec -- ./target/release/vonuvoli-scheme-interpreter "${@}"
+!!
+
+<< execute / bin / interpreter / release / time
+	x-run ':: compile / bin / interpreter / release' ; exec --  time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-interpreter "${@}"
 !!
 
 << execute / bin / tester / all / debug
@@ -1227,6 +1247,10 @@
 
 << execute / bin / tester / debug
 	x-run ':: compile / bin / tester / debug' ; exec -- ./target/debug/vonuvoli-scheme-tester "${@}"
+!!
+
+<< execute / bin / tester / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / bin / tester / debug' "${@}"
 !!
 
 << execute / bin / tester / errors / debug
@@ -1489,12 +1513,24 @@
 	exec -- chibi-scheme -m scheme.base -m scheme.case-lambda -m scheme.char -m scheme.complex -m scheme.cxr -m scheme.eval -m scheme.file -m scheme.inexact -m scheme.lazy -m scheme.load -m scheme.process-context -m scheme.r5rs -m scheme.read -m scheme.repl -m scheme.time -m scheme.write "${@}"
 !!
 
+<< execute / chibi / time
+	exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- chibi-scheme -m scheme.base -m scheme.case-lambda -m scheme.char -m scheme.complex -m scheme.cxr -m scheme.eval -m scheme.file -m scheme.inexact -m scheme.lazy -m scheme.load -m scheme.process-context -m scheme.r5rs -m scheme.read -m scheme.repl -m scheme.time -m scheme.write "${@}"
+!!
+
 << execute / gauche
 	exec -- gosh -b -q -u scheme.base -u scheme.case-lambda -u scheme.char -u scheme.complex -u scheme.cxr -u scheme.eval -u scheme.file -u scheme.inexact -u scheme.lazy -u scheme.load -u scheme.process-context -u scheme.r5rs -u scheme.read -u scheme.repl -u scheme.time -u scheme.write "${@}"
 !!
 
+<< execute / gauche / time
+	exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- gosh -b -q -u scheme.base -u scheme.case-lambda -u scheme.char -u scheme.complex -u scheme.cxr -u scheme.eval -u scheme.file -u scheme.inexact -u scheme.lazy -u scheme.load -u scheme.process-context -u scheme.r5rs -u scheme.read -u scheme.repl -u scheme.time -u scheme.write "${@}"
+!!
+
 << execute / python
 	exec -- python2 -E -O -O -B -u "${@}"
+!!
+
+<< execute / python / time
+	exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- python2 -E -O -O -B -u "${@}"
 !!
 
 << execute / rust-fmt
@@ -2403,7 +2439,7 @@
 << execute / watch
 		test "${#}" -ge 1
 		while true ; do
-			_timestamp_previous="$( find ./sources/ ./tests/ -printf '%T+\n' | LC_ALL=C sort | tail -n 1 )"
+			_timestamp_previous="$( find ./sources/ ./tests/ ./examples/ -xdev -type f -not -path '*/_outputs/*' -printf '%T+\n' | LC_ALL=C sort | tail -n 1 )"
 			if ! "${@}" 2>&1 < /dev/null | tee "./target/x-run--watch--${$}.txt" ; then
 				x-output osd-notify low "FAILED!  ${*}"
 				less -- "./target/x-run--watch--${$}.txt"
@@ -2413,7 +2449,7 @@
 			fi
 			printf '\n[--]\n' >&2
 			while sleep 0.5s ; do
-				_timestamp_current="$( find ./sources/ ./tests/ -printf '%T+\n' | LC_ALL=C sort | tail -n 1 )"
+				_timestamp_current="$( find ./sources/ ./tests/ ./examples/ -xdev -type f -not -path '*/_outputs/*' -printf '%T+\n' | LC_ALL=C sort | tail -n 1 )"
 				if test "${_timestamp_previous}" != "${_timestamp_current}" ; then
 					break
 				fi
