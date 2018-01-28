@@ -1230,7 +1230,8 @@ def_fn_try_predicate_any! (is_array_immutable_empty, is_array_immutable_empty_an
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_array_mutable_empty (value : &Value) -> (Outcome<bool>) {
 	let value = try_as_array_mutable_ref! (value);
-	succeed! (value.array_ref () .values_is_empty ());
+	let value = try! (value.array_ref ());
+	succeed! (value.values_is_empty ());
 }
 
 def_fn_try_predicate_all! (is_array_mutable_empty, is_array_mutable_empty_all_2, is_array_mutable_empty_all_3, is_array_mutable_empty_all_4, is_array_mutable_empty_all_n);
@@ -1259,7 +1260,8 @@ def_fn_try_predicate_any! (is_array_immutable_not_empty, is_array_immutable_not_
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_array_mutable_not_empty (value : &Value) -> (Outcome<bool>) {
 	let value = try_as_array_mutable_ref! (value);
-	succeed! (value.array_ref () .values_is_not_empty ());
+	let value = try! (value.array_ref ());
+	succeed! (value.values_is_not_empty ());
 }
 
 def_fn_try_predicate_all! (is_array_mutable_not_empty, is_array_mutable_not_empty_all_2, is_array_mutable_not_empty_all_3, is_array_mutable_not_empty_all_4, is_array_mutable_not_empty_all_n);

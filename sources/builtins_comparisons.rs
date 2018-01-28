@@ -644,7 +644,7 @@ pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef
 				},
 				
 				ValueClassMatchAsRef2::Array (ref class) => {
-					let (left, right) = class.array_ref ();
+					let (left, right) = try! (class.array_ref ());
 					return array_ref_compare_2a (&left, &right, comparison);
 				}
 				
@@ -1088,8 +1088,8 @@ pub fn array_mutable_compare_1a <ValueRef : StdAsRef<ArrayMutable>> (_value : Va
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_mutable_compare_2a <ValueRef : StdAsRef<ArrayMutable>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
-	let left = left.as_ref () .array_ref ();
-	let right = right.as_ref () .array_ref ();
+	let left = try! (left.as_ref () .array_ref ());
+	let right = try! (right.as_ref () .array_ref ());
 	return array_ref_compare_2a (&left, &right, comparison);
 }
 

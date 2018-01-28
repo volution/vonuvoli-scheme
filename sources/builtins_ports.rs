@@ -767,7 +767,7 @@ pub fn port_output_value_display_0 (port : &mut PortBackendWriter, value : &Valu
 		
 		ValueClassMatchAsRef::Array (class) => {
 			if flatten.unwrap_or (DEFAULT_PORT_OUTPUT_VALUE_DISPLAY_FLATTEN) {
-				let array = class.array_ref ();
+				let array = try! (class.array_ref ());
 				let values = array.values_as_slice ();
 				try! (port_output_value_display_0_slice (port, values, Some (true), separator, Some (false)));
 			} else {
@@ -974,7 +974,7 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 		
 		ValueClassMatchAsRef::Array (class) => {
 			if flatten.unwrap_or (DEFAULT_PORT_OUTPUT_VALUE_WRITE_FLATTEN) {
-				let array = class.array_ref ();
+				let array = try! (class.array_ref ());
 				let values = array.values_as_slice ();
 				try! (port_output_value_write_0_slice (port, values, Some (true), separator, Some (false)));
 			} else {

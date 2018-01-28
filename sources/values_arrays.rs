@@ -47,12 +47,12 @@ pub enum ArrayMatchAsRef2 <'a> {
 impl <'a> ArrayMatchAsRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn array_ref (&self) -> (ArrayRef<'a>) {
+	pub fn array_ref (&self) -> (Outcome<ArrayRef<'a>>) {
 		match *self {
 			ArrayMatchAsRef::Immutable (value) =>
-				value.array_ref (),
+				succeed! (value.array_ref ()),
 			ArrayMatchAsRef::Mutable (value) =>
-				value.array_ref (),
+				return value.array_ref (),
 		}
 	}
 }
@@ -61,16 +61,16 @@ impl <'a> ArrayMatchAsRef<'a> {
 impl <'a> ArrayMatchAsRef2<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn array_ref (&self) -> ((ArrayRef<'a>, ArrayRef<'a>)) {
+	pub fn array_ref (&self) -> (Outcome<(ArrayRef<'a>, ArrayRef<'a>)>) {
 		match *self {
 			ArrayMatchAsRef2::ImmutableBoth (left, right) =>
-				(left.array_ref (), right.array_ref ()),
+				succeed! ((left.array_ref (), right.array_ref ())),
 			ArrayMatchAsRef2::MutableBoth (left, right) =>
-				(left.array_ref (), right.array_ref ()),
+				succeed! ((try! (left.array_ref ()), try! (right.array_ref ()))),
 			ArrayMatchAsRef2::ImmutableAndMutable (left, right) =>
-				(left.array_ref (), right.array_ref ()),
+				succeed! ((left.array_ref (), try! (right.array_ref ()))),
 			ArrayMatchAsRef2::MutableAndImmutable (left, right) =>
-				(left.array_ref (), right.array_ref ()),
+				succeed! ((try! (left.array_ref ()), right.array_ref ())),
 		}
 	}
 }
@@ -140,7 +140,7 @@ impl <'a> ArrayRef<'a> {
 			ValueKindMatchAsRef::ArrayImmutable (value) =>
 				succeed! (value.array_ref ()),
 			ValueKindMatchAsRef::ArrayMutable (value) =>
-				succeed! (value.array_ref ()),
+				return value.array_ref (),
 			_ =>
 				fail! (0x4e577110),
 		}
@@ -208,12 +208,12 @@ impl <'a> ArrayAsRef<'a> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn array_ref (&self) -> (ArrayRef<'a>) {
+	pub fn array_ref (&self) -> (Outcome<ArrayRef<'a>>) {
 		match *self {
 			ArrayAsRef::Immutable (value) =>
-				value.array_ref (),
+				succeed! (value.array_ref ()),
 			ArrayAsRef::Mutable (value) =>
-				value.array_ref (),
+				return value.array_ref (),
 		}
 	}
 	
@@ -228,22 +228,22 @@ impl <'a> ArrayAsRef<'a> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn values_rc_clone (&self) -> (StdRc<StdBox<[Value]>>) {
+	pub fn values_rc_clone (&self) -> (Outcome<StdRc<StdBox<[Value]>>>) {
 		match *self {
 			ArrayAsRef::Immutable (value) =>
-				value.values_rc_clone (),
+				succeed! (value.values_rc_clone ()),
 			ArrayAsRef::Mutable (value) =>
-				(value.0) .as_ref () .borrow_mut () .to_cow (),
+				succeed! (try_or_fail! ((value.0) .as_ref () .try_borrow_mut (), 0xe525f806) .to_cow ()),
 		}
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn to_immutable (&self) -> (ArrayImmutable) {
+	pub fn to_immutable (&self) -> (Outcome<ArrayImmutable>) {
 		match *self {
 			ArrayAsRef::Immutable (value) =>
-				(*value) .clone (),
+				succeed! ((*value) .clone ()),
 			ArrayAsRef::Mutable (value) =>
-				(*value) .to_immutable (),
+				return (*value) .to_immutable (),
 		}
 	}
 	
@@ -352,10 +352,10 @@ impl ArrayMutable {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn array_ref (&self) -> (ArrayRef) {
-		let reference = self.0.as_ref () .borrow ();
+	pub fn array_ref (&self) -> (Outcome<ArrayRef>) {
+		let reference = try_or_fail! (self.0.as_ref () .try_borrow (), 0xa47b0b6c);
 		let reference = StdRef::map (reference, |reference| reference.as_ref ());
-		ArrayRef::Mutable (self, reference)
+		succeed! (ArrayRef::Mutable (self, reference));
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -364,17 +364,17 @@ impl ArrayMutable {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn values_ref_mut (&self) -> (StdRefMut<StdVec<Value>>) {
-		let reference = self.0.as_ref () .borrow_mut ();
+	pub fn values_ref_mut (&self) -> (Outcome<StdRefMut<StdVec<Value>>>) {
+		let reference = try_or_fail! (self.0.as_ref () .try_borrow_mut (), 0xd6dc773c);
 		let reference = StdRefMut::map (reference, |reference| reference.as_mut ());
-		reference
+		succeed! (reference);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn to_immutable (&self) -> (ArrayImmutable) {
-		let mut reference = self.0.as_ref () .borrow_mut ();
+	pub fn to_immutable (&self) -> (Outcome<ArrayImmutable>) {
+		let mut reference = try_or_fail! (self.0.as_ref () .try_borrow_mut (), 0x7a1c7802);
 		let values = reference.to_cow ();
-		ArrayImmutable::from_rc (values)
+		succeed! (ArrayImmutable::from_rc (values));
 	}
 }
 

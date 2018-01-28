@@ -417,7 +417,7 @@ impl fmt::Display for ArrayMutable {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		let array = self.array_ref ();
+		let array = try_or_return! (self.array_ref (), Err (fmt::Error::default ()));
 		return array_fmt (array.values_as_slice (), formatter);
 	}
 }

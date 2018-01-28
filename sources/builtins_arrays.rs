@@ -49,7 +49,7 @@ pub fn array_at (array : &Value, index : usize) -> (Outcome<Value>) {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_at_set (array : &Value, index : usize, value : &Value) -> (Outcome<Value>) {
 	let array = try_as_array_mutable_ref! (array);
-	let mut array = array.values_ref_mut ();
+	let mut array = try! (array.values_ref_mut ());
 	let value_ref = try_some! (array.get_mut (index), 0x51cf23d4);
 	let mut value_swap = value.clone ();
 	mem::swap (&mut value_swap, value_ref);
@@ -203,7 +203,7 @@ pub fn array_reverse (array : &Value) -> (Outcome<Value>) {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_fill_range (array : &Value, fill : Option<&Value>, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<()>) {
 	let array = try_as_array_mutable_ref! (array);
-	let mut array = array.values_ref_mut ();
+	let mut array = try! (array.values_ref_mut ());
 	let fill = if let Some (fill) = fill {
 		fill
 	} else {
@@ -221,7 +221,7 @@ pub fn array_fill_range (array : &Value, fill : Option<&Value>, range_start : Op
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_reverse_range (array : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<()>) {
 	let array = try_as_array_mutable_ref! (array);
-	let mut array = array.values_ref_mut ();
+	let mut array = try! (array.values_ref_mut ());
 	let (range_start, range_end) = try! (range_coerce (range_start, range_end, array.len ()));
 	let array = try_some! (array.get_mut (range_start .. range_end), 0xa3cf0255);
 	array.reverse ();
@@ -232,7 +232,7 @@ pub fn array_reverse_range (array : &Value, range_start : Option<&Value>, range_
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_copy_range (target_array : &Value, target_start : Option<&Value>, source_array : &Value, source_start : Option<&Value>, source_end : Option<&Value>) -> (Outcome<()>) {
 	let target_array = try_as_array_mutable_ref! (target_array);
-	let mut target_array = target_array.values_ref_mut ();
+	let mut target_array = try! (target_array.values_ref_mut ());
 	let source_array = try_as_array_ref! (source_array);
 	let source_array = source_array.values_as_slice ();
 	let (source_start, source_end) = try! (range_coerce (source_start, source_end, source_array.len ()));

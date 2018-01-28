@@ -537,8 +537,8 @@ impl cmp::PartialEq for ArrayMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn eq (&self, other : &ArrayMutable) -> (bool) {
-		let self_0 = self.array_ref ();
-		let other_0 = other.array_ref ();
+		let self_0 = try_or_return! (self.array_ref (), false);
+		let other_0 = try_or_return! (other.array_ref (), false);
 		ArrayRef::eq (&self_0, &other_0)
 	}
 }
@@ -547,8 +547,8 @@ impl cmp::Ord for ArrayMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn cmp (&self, other : &ArrayMutable) -> (cmp::Ordering) {
-		let self_0 = self.array_ref ();
-		let other_0 = other.array_ref ();
+		let self_0 = try_or_return! (self.array_ref (), cmp::Ordering::Equal);
+		let other_0 = try_or_return! (other.array_ref (), cmp::Ordering::Equal);
 		ArrayRef::cmp (&self_0, &other_0)
 	}
 }
