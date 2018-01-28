@@ -194,6 +194,18 @@
 	x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --test 'low-level-r7rs' --release --all-features
 !!
 
+<< compile / test / low-level-rust / debug
+	x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --test 'low-level-rust' --no-default-features
+!!
+
+<< compile / test / low-level-rust / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: compile / test / low-level-rust / debug' "${@}"
+!!
+
+<< compile / test / low-level-rust / release
+	x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --test 'low-level-rust' --release --all-features
+!!
+
 << compile / test / low-level-sizes / debug
 	x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --test 'low-level-sizes' --no-default-features
 !!
@@ -1680,6 +1692,34 @@
 	x-run ':: compile / test / low-level-r7rs / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test 'low-level-r7rs' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__' "${@}"
 !!
 
+<< execute / test / low-level-rust / benchmarks / all / debug
+	x-run ':: compile / test / low-level-rust / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test 'low-level-rust' --no-default-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
+!!
+
+<< execute / test / low-level-rust / benchmarks / all / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / low-level-rust / benchmarks / all / debug' "${@}"
+!!
+
+<< execute / test / low-level-rust / benchmarks / all / release
+	x-run ':: compile / test / low-level-rust / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/low-level-rust--{IDENTIFIER}.out' cargo test --quiet --test 'low-level-rust' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
+!!
+
+<< execute / test / low-level-rust / coverage / all / kcov
+	x-run ':: compile / test / low-level-rust / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov --test 'low-level-rust' --no-clean-rebuild --no-default-features --jobs 1 --output ./target/kcov -- "${@}"
+!!
+
+<< execute / test / low-level-rust / tests / all / debug
+	x-run ':: compile / test / low-level-rust / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test 'low-level-rust' --no-default-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__' "${@}"
+!!
+
+<< execute / test / low-level-rust / tests / all / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / low-level-rust / tests / all / debug' "${@}"
+!!
+
+<< execute / test / low-level-rust / tests / all / release
+	x-run ':: compile / test / low-level-rust / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test 'low-level-rust' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__' "${@}"
+!!
+
 << execute / test / low-level-sizes / benchmarks / all / debug
 	x-run ':: compile / test / low-level-sizes / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test 'low-level-sizes' --no-default-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
 !!
@@ -2778,6 +2818,10 @@
 	exec -- sce ./tests/low-level-r7rs.rs
 !!
 
+<< files / edit / tests/low-level-rust.rs
+	exec -- sce ./tests/low-level-rust.rs
+!!
+
 << files / edit / tests/low-level-sizes.rs
 	exec -- sce ./tests/low-level-sizes.rs
 !!
@@ -3332,6 +3376,10 @@
 
 << files / view / tests/low-level-r7rs.rs
 	exec -- less -- ./tests/low-level-r7rs.rs
+!!
+
+<< files / view / tests/low-level-rust.rs
+	exec -- less -- ./tests/low-level-rust.rs
 !!
 
 << files / view / tests/low-level-sizes.rs

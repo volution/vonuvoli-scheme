@@ -334,7 +334,7 @@ find ./ -xdev -type f \
 
 
 
-for _test in scheme builtins-lists low-level-r7rs low-level-parser low-level-sizes low-level-assertions ; do
+for _test in scheme builtins-lists low-level-r7rs low-level-parser low-level-sizes low-level-assertions low-level-rust ; do
 test -f "./tests/${_test}.rs"
 sed -r -e 's#@\{TEST\}#'"${_test}"'#g' <<'EOS'
 :: compile / test / @{TEST} / debug / watch :: exec -- x-run ':: execute / watch' x-run ':: compile / test / @{TEST} / debug' "${@}"

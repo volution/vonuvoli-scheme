@@ -1,0 +1,7 @@
+## benchmarking `benchmark__box_vs_rc__rc_clone`...
+## benchmarked `benchmark__box_vs_rc__rc_clone`!
+       average   :          4
+         stdev   :          0 /   1.70%
+         median  :          4 /   0.85%
+       min / max :          4 / 4 / 4 / 4 / 4
+       mem-leaks :          0 KB
