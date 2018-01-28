@@ -338,8 +338,8 @@ impl cmp::PartialEq for BytesMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn eq (&self, other : &BytesMutable) -> (bool) {
-		let self_0 = self.bytes_ref ();
-		let other_0 = other.bytes_ref ();
+		let self_0 = try_or_return! (self.bytes_ref (), false);
+		let other_0 = try_or_return! (other.bytes_ref (), false);
 		BytesRef::eq (&self_0, &other_0)
 	}
 }
@@ -348,8 +348,8 @@ impl cmp::Ord for BytesMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn cmp (&self, other : &BytesMutable) -> (cmp::Ordering) {
-		let self_0 = self.bytes_ref ();
-		let other_0 = other.bytes_ref ();
+		let self_0 = try_or_return! (self.bytes_ref (), cmp::Ordering::Equal);
+		let other_0 = try_or_return! (other.bytes_ref (), cmp::Ordering::Equal);
 		BytesRef::cmp (&self_0, &other_0)
 	}
 }

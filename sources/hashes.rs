@@ -111,7 +111,7 @@ impl hash::Hash for BytesMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		let bytes = self.bytes_ref ();
+		let bytes = try_or_return! (self.bytes_ref (), ());
 		bytes.bytes_as_slice () .hash (hasher);
 	}
 }

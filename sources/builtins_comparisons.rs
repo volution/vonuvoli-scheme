@@ -639,7 +639,7 @@ pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef
 				},
 				
 				ValueClassMatchAsRef2::Bytes (ref class) => {
-					let (left, right) = class.bytes_ref ();
+					let (left, right) = try! (class.bytes_ref ());
 					return bytes_ref_compare_2a (&left, &right, comparison);
 				},
 				
@@ -947,8 +947,8 @@ pub fn bytes_mutable_compare_1a <ValueRef : StdAsRef<BytesMutable>> (_value : Va
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_mutable_compare_2a <ValueRef : StdAsRef<BytesMutable>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
-	let left = left.as_ref () .bytes_ref ();
-	let right = right.as_ref () .bytes_ref ();
+	let left = try! (left.as_ref () .bytes_ref ());
+	let right = try! (right.as_ref () .bytes_ref ());
 	return bytes_ref_compare_2a (&left, &right, comparison);
 }
 

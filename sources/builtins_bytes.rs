@@ -49,7 +49,7 @@ pub fn bytes_at (bytes : &Value, index : usize) -> (Outcome<Value>) {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_at_set (bytes : &Value, index : usize, byte : &Value) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_mutable_ref! (bytes);
-	let mut bytes = bytes.bytes_ref_mut ();
+	let mut bytes = try! (bytes.bytes_ref_mut ());
 	let byte = try_as_number_integer_ref! (byte);
 	let byte_ref = try_some! (bytes.get_mut (index), 0x3cf4282c);
 	let mut byte_swap = try! (byte.try_to_u8 ());
@@ -241,7 +241,7 @@ pub fn bytes_reverse (bytes : &Value) -> (Outcome<Value>) {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_fill_range (bytes : &Value, fill : Option<&Value>, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<()>) {
 	let bytes = try_as_bytes_mutable_ref! (bytes);
-	let mut bytes = bytes.bytes_ref_mut ();
+	let mut bytes = try! (bytes.bytes_ref_mut ());
 	let fill = if let Some (fill) = fill {
 		try! (try_as_number_integer_ref! (fill) .try_to_u8 ())
 	} else {
@@ -259,7 +259,7 @@ pub fn bytes_fill_range (bytes : &Value, fill : Option<&Value>, range_start : Op
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_reverse_range (bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<()>) {
 	let bytes = try_as_bytes_mutable_ref! (bytes);
-	let mut bytes = bytes.bytes_ref_mut ();
+	let mut bytes = try! (bytes.bytes_ref_mut ());
 	let (range_start, range_end) = try! (range_coerce (range_start, range_end, bytes.len ()));
 	let bytes = try_some! (bytes.get_mut (range_start .. range_end), 0x31d6fbe3);
 	bytes.reverse ();
@@ -270,7 +270,7 @@ pub fn bytes_reverse_range (bytes : &Value, range_start : Option<&Value>, range_
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_copy_range (target_bytes : &Value, target_start : Option<&Value>, source_bytes : &Value, source_start : Option<&Value>, source_end : Option<&Value>) -> (Outcome<()>) {
 	let target_bytes = try_as_bytes_mutable_ref! (target_bytes);
-	let mut target_bytes = target_bytes.bytes_ref_mut ();
+	let mut target_bytes = try! (target_bytes.bytes_ref_mut ());
 	let source_bytes = try_as_bytes_ref! (source_bytes);
 	let source_bytes = source_bytes.bytes_as_slice ();
 	let (source_start, source_end) = try! (range_coerce (source_start, source_end, source_bytes.len ()));

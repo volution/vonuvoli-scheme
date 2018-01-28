@@ -303,7 +303,7 @@ impl fmt::Display for BytesMutable {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		let bytes = self.bytes_ref ();
+		let bytes = try_or_return! (self.bytes_ref (), Err (fmt::Error::default ()));
 		return bytes_fmt (bytes.bytes_as_slice (), formatter);
 	}
 }

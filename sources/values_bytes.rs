@@ -48,12 +48,12 @@ pub enum BytesMatchAsRef2 <'a> {
 impl <'a> BytesMatchAsRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn bytes_ref (&self) -> (BytesRef<'a>) {
+	pub fn bytes_ref (&self) -> (Outcome<BytesRef<'a>>) {
 		match *self {
 			BytesMatchAsRef::Immutable (value) =>
-				value.bytes_ref (),
+				succeed! (value.bytes_ref ()),
 			BytesMatchAsRef::Mutable (value) =>
-				value.bytes_ref (),
+				return value.bytes_ref (),
 		}
 	}
 }
@@ -62,16 +62,16 @@ impl <'a> BytesMatchAsRef<'a> {
 impl <'a> BytesMatchAsRef2<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn bytes_ref (&self) -> ((BytesRef<'a>, BytesRef<'a>)) {
+	pub fn bytes_ref (&self) -> (Outcome<(BytesRef<'a>, BytesRef<'a>)>) {
 		match *self {
 			BytesMatchAsRef2::ImmutableBoth (left, right) =>
-				(left.bytes_ref (), right.bytes_ref ()),
+				succeed! ((left.bytes_ref (), right.bytes_ref ())),
 			BytesMatchAsRef2::MutableBoth (left, right) =>
-				(left.bytes_ref (), right.bytes_ref ()),
+				succeed! ((try! (left.bytes_ref ()), try! (right.bytes_ref ()))),
 			BytesMatchAsRef2::ImmutableAndMutable (left, right) =>
-				(left.bytes_ref (), right.bytes_ref ()),
+				succeed! ((left.bytes_ref (), try! (right.bytes_ref ()))),
 			BytesMatchAsRef2::MutableAndImmutable (left, right) =>
-				(left.bytes_ref (), right.bytes_ref ()),
+				succeed! ((try! (left.bytes_ref ()), right.bytes_ref ())),
 		}
 	}
 }
@@ -141,7 +141,7 @@ impl <'a> BytesRef<'a> {
 			ValueKindMatchAsRef::BytesImmutable (value) =>
 				succeed! (value.bytes_ref ()),
 			ValueKindMatchAsRef::BytesMutable (value) =>
-				succeed! (value.bytes_ref ()),
+				return value.bytes_ref (),
 			_ =>
 				fail! (0xb6042061),
 		}
@@ -209,12 +209,12 @@ impl <'a> BytesAsRef<'a> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn bytes_ref (&self) -> (BytesRef<'a>) {
+	pub fn bytes_ref (&self) -> (Outcome<BytesRef<'a>>) {
 		match *self {
 			BytesAsRef::Immutable (value) =>
-				value.bytes_ref (),
+				succeed! (value.bytes_ref ()),
 			BytesAsRef::Mutable (value) =>
-				value.bytes_ref (),
+				return value.bytes_ref (),
 		}
 	}
 	
@@ -229,22 +229,22 @@ impl <'a> BytesAsRef<'a> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn bytes_rc_clone (&self) -> (StdRc<StdBox<[u8]>>) {
+	pub fn bytes_rc_clone (&self) -> (Outcome<StdRc<StdBox<[u8]>>>) {
 		match *self {
 			BytesAsRef::Immutable (value) =>
-				value.bytes_rc_clone (),
+				succeed! (value.bytes_rc_clone ()),
 			BytesAsRef::Mutable (value) =>
-				(value.0) .as_ref () .borrow_mut () .to_cow (),
+				succeed! (try_or_fail! ((value.0) .as_ref () .try_borrow_mut (), 0x42fd45a6) .to_cow ()),
 		}
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn to_immutable (&self) -> (BytesImmutable) {
+	pub fn to_immutable (&self) -> (Outcome<BytesImmutable>) {
 		match *self {
 			BytesAsRef::Immutable (value) =>
-				(*value) .clone (),
+				succeed! ((*value) .clone ()),
 			BytesAsRef::Mutable (value) =>
-				(*value) .to_immutable (),
+				return (*value) .to_immutable (),
 		}
 	}
 	
@@ -353,10 +353,10 @@ impl BytesMutable {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn bytes_ref (&self) -> (BytesRef) {
-		let reference = self.0.as_ref () .borrow ();
+	pub fn bytes_ref (&self) -> (Outcome<BytesRef>) {
+		let reference = try_or_fail! (self.0.as_ref () .try_borrow (), 0xd2c583c5);
 		let reference = StdRef::map (reference, |reference| reference.as_ref ());
-		BytesRef::Mutable (self, reference)
+		succeed! (BytesRef::Mutable (self, reference));
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -365,17 +365,17 @@ impl BytesMutable {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn bytes_ref_mut (&self) -> (StdRefMut<StdVec<u8>>) {
-		let reference = self.0.as_ref () .borrow_mut ();
+	pub fn bytes_ref_mut (&self) -> (Outcome<StdRefMut<StdVec<u8>>>) {
+		let reference = try_or_fail! (self.0.as_ref () .try_borrow_mut (), 0x0701b105);
 		let reference = StdRefMut::map (reference, |reference| reference.as_mut ());
-		reference
+		succeed! (reference);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn to_immutable (&self) -> (BytesImmutable) {
-		let mut reference = self.0.as_ref () .borrow_mut ();
+	pub fn to_immutable (&self) -> (Outcome<BytesImmutable>) {
+		let mut reference = try_or_fail! (self.0.as_ref () .try_borrow_mut (), 0x46cd7c85);
 		let bytes = reference.to_cow ();
-		BytesImmutable::from_rc (bytes)
+		succeed! (BytesImmutable::from_rc (bytes));
 	}
 }
 

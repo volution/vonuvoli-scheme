@@ -183,7 +183,7 @@ pub fn port_input_bytes_read_copy_range (port : &Value, bytes : &Value, range_st
 	//! NOTE:  `full` defaults to `Some(true)` if `range_end` is not `None`;
 	let port = try_as_port_ref! (port);
 	let bytes = try_as_bytes_mutable_ref! (bytes);
-	let mut buffer = bytes.bytes_ref_mut ();
+	let mut buffer = try! (bytes.bytes_ref_mut ());
 	let full = full.unwrap_or (range_end.is_some ());
 	let (range_start, range_end) = try! (range_coerce (range_start, range_end, buffer.len ()));
 	let buffer = try_some! (buffer.get_mut (range_start .. range_end), 0xb8c1be42);
@@ -255,7 +255,7 @@ pub fn port_input_bytes_read_extend (port : &Value, bytes : &Value, count : Opti
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let (port, count, full, buffer_size) = try! (port_input_coerce_arguments (port, count, full, false));
 	let bytes = try_as_bytes_mutable_ref! (bytes);
-	let mut buffer = bytes.bytes_ref_mut ();
+	let mut buffer = try! (bytes.bytes_ref_mut ());
 	let buffer = &mut buffer;
 	buffer.reserve (buffer_size);
 	if let Some (count) = try! (port.byte_read_extend (buffer, count, full)) {
@@ -326,7 +326,7 @@ pub fn port_input_bytes_read_extend_until (port : &Value, bytes : &Value, delimi
 	let delimiter = if let Some (delimiter) = delimiter { try! (try_as_number_integer_ref! (delimiter) .try_to_u8 ()) } else { '\n' as u8 };
 	let include_delimiter = include_delimiter.unwrap_or (false);
 	let bytes = try_as_bytes_mutable_ref! (bytes);
-	let mut buffer = bytes.bytes_ref_mut ();
+	let mut buffer = try! (bytes.bytes_ref_mut ());
 	let buffer = &mut buffer;
 	buffer.reserve (buffer_size);
 	if let Some (count) = try! (port.byte_read_extend_until (buffer, delimiter, count, full)) {
@@ -747,7 +747,7 @@ pub fn port_output_value_display_0 (port : &mut PortBackendWriter, value : &Valu
 		},
 		
 		ValueClassMatchAsRef::Bytes (class) => {
-			let bytes = class.bytes_ref ();
+			let bytes = try! (class.bytes_ref ());
 			let bytes = bytes.bytes_as_slice ();
 			try! (port.byte_write_slice (bytes, true));
 		},
