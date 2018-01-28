@@ -1044,38 +1044,38 @@ impl Value {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn to_immutable (&self) -> (Outcome<Value>) {
-		let value = match *self {
+		match *self {
 			
-			Value::Singleton (_, ref self_0, _) => self_0.clone () .into (),
+			Value::Singleton (_, ref self_0, _) => self_0.clone () .into_0 (),
 			
-			Value::Boolean (_, ref self_0, _) => self_0.clone () .into (),
-			Value::NumberInteger (_, ref self_0, _) => self_0.clone () .into (),
-			Value::NumberReal (_, ref self_0, _) => self_0.clone () .into (),
-			Value::Character (_, ref self_0, _) => self_0.clone () .into (),
+			Value::Boolean (_, ref self_0, _) => self_0.clone () .into_0 (),
+			Value::NumberInteger (_, ref self_0, _) => self_0.clone () .into_0 (),
+			Value::NumberReal (_, ref self_0, _) => self_0.clone () .into_0 (),
+			Value::Character (_, ref self_0, _) => self_0.clone () .into_0 (),
 			
-			Value::Symbol (_, ref self_0, _) => self_0.clone () .into (),
-			Value::StringImmutable (_, ref self_0, _) => self_0.clone () .into (),
-			Value::StringMutable (_, ref self_0, _) => self_0.to_immutable () .into (),
-			Value::BytesImmutable (_, ref self_0, _) => self_0.clone () .into (),
-			Value::BytesMutable (_, ref self_0, _) => self_0.to_immutable () .into (),
+			Value::Symbol (_, ref self_0, _) => self_0.clone () .into_0 (),
+			Value::StringImmutable (_, ref self_0, _) => self_0.clone () .into_0 (),
+			Value::StringMutable (_, ref self_0, _) => self_0.to_immutable () .into_0 (),
+			Value::BytesImmutable (_, ref self_0, _) => self_0.clone () .into_0 (),
+			Value::BytesMutable (_, ref self_0, _) => self_0.to_immutable () .into_0 (),
 			
-			Value::PairImmutable (_, ref self_0, _) => self_0.clone () .into (),
-			Value::PairMutable (_, ref self_0, _) => self_0.to_immutable () .into (),
-			Value::ArrayImmutable (_, ref self_0, _) => self_0.clone () .into (),
-			Value::ArrayMutable (_, ref self_0, _) => self_0.to_immutable () .into (),
-			Value::Values (_, ref self_0, _) => self_0.clone () .into (),
+			Value::PairImmutable (_, ref self_0, _) => self_0.clone () .into_0 (),
+			Value::PairMutable (_, ref self_0, _) => self_0.to_immutable () .into_0 (),
+			Value::ArrayImmutable (_, ref self_0, _) => self_0.clone () .into_0 (),
+			Value::ArrayMutable (_, ref self_0, _) => self_0.to_immutable () .into_0 (),
+			Value::Values (_, ref self_0, _) => self_0.clone () .into_0 (),
 			
-			Value::Error (_, ref self_0, _) => self_0.clone () .into (),
+			Value::Error (_, ref self_0, _) => self_0.clone () .into_0 (),
 			
-			Value::ProcedurePrimitive (_, ref self_0, _) => self_0.clone () .into (),
-			Value::ProcedureExtended (_, ref self_0, _) => self_0.clone () .into (),
-			Value::ProcedureNative (_, ref self_0, _) => self_0.clone () .into (),
-			Value::ProcedureLambda (_, ref self_0, _) => self_0.clone () .into (),
+			Value::ProcedurePrimitive (_, ref self_0, _) => self_0.clone () .into_0 (),
+			Value::ProcedureExtended (_, ref self_0, _) => self_0.clone () .into_0 (),
+			Value::ProcedureNative (_, ref self_0, _) => self_0.clone () .into_0 (),
+			Value::ProcedureLambda (_, ref self_0, _) => self_0.clone () .into_0 (),
 			
-			Value::SyntaxPrimitive (_, ref self_0, _) => self_0.clone () .into (),
-			Value::SyntaxExtended (_, ref self_0, _) => self_0.clone () .into (),
-			Value::SyntaxNative (_, ref self_0, _) => self_0.clone () .into (),
-			Value::SyntaxLambda (_, ref self_0, _) => self_0.clone () .into (),
+			Value::SyntaxPrimitive (_, ref self_0, _) => self_0.clone () .into_0 (),
+			Value::SyntaxExtended (_, ref self_0, _) => self_0.clone () .into_0 (),
+			Value::SyntaxNative (_, ref self_0, _) => self_0.clone () .into_0 (),
+			Value::SyntaxLambda (_, ref self_0, _) => self_0.clone () .into_0 (),
 			
 			Value::Port (_, _, _) => fail! (0xe4de734c),
 			Value::Process (_, _, _) => fail! (0x629f6149),
@@ -1085,34 +1085,32 @@ impl Value {
 			
 			Value::__NonExhaustive => unreachable! (),
 			
-		};
-		succeed! (value);
+		}
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn to_mutable (&self) -> (Outcome<Value>) {
-		let value = match *self {
+		match *self {
 			
-			Value::StringImmutable (_, ref self_0, _) => self_0.to_mutable () .into (),
-			Value::StringMutable (_, ref self_0, _) => self_0.clone () .into (),
-			Value::BytesImmutable (_, ref self_0, _) => self_0.to_mutable () .into (),
-			Value::BytesMutable (_, ref self_0, _) => self_0.clone () .into (),
+			Value::StringImmutable (_, ref self_0, _) => self_0.to_mutable () .into_0 (),
+			Value::StringMutable (_, ref self_0, _) => self_0.clone () .into_0 (),
+			Value::BytesImmutable (_, ref self_0, _) => self_0.to_mutable () .into_0 (),
+			Value::BytesMutable (_, ref self_0, _) => self_0.clone () .into_0 (),
 			
-			Value::PairImmutable (_, ref self_0, _) => self_0.to_mutable () .into (),
-			Value::PairMutable (_, ref self_0, _) => self_0.clone () .into (),
-			Value::ArrayImmutable (_, ref self_0, _) => self_0.to_mutable () .into (),
-			Value::ArrayMutable (_, ref self_0, _) => self_0.clone () .into (),
+			Value::PairImmutable (_, ref self_0, _) => self_0.to_mutable () .into_0 (),
+			Value::PairMutable (_, ref self_0, _) => self_0.clone () .into_0 (),
+			Value::ArrayImmutable (_, ref self_0, _) => self_0.to_mutable () .into_0 (),
+			Value::ArrayMutable (_, ref self_0, _) => self_0.clone () .into_0 (),
 			
-			Value::Port (_, ref self_0, _) => self_0.clone () .into (),
-			Value::Process (_, ref self_0, _) => self_0.clone () .into (),
+			Value::Port (_, ref self_0, _) => self_0.clone () .into_0 (),
+			Value::Process (_, ref self_0, _) => self_0.clone () .into_0 (),
 			
 			Value::__NonExhaustive => unreachable! (),
 			
 			// NOTE:  !!! match-fallback !!!
 			_ => fail! (0x34e2a415),
 			
-		};
-		succeed! (value);
+		}
 	}
 }
 

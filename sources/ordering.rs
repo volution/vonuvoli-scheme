@@ -243,8 +243,8 @@ impl cmp::PartialEq for StringMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn eq (&self, other : &StringMutable) -> (bool) {
-		let self_0 = self.string_ref ();
-		let other_0 = other.string_ref ();
+		let self_0 = try_or_return! (self.string_ref (), false);
+		let other_0 = try_or_return! (other.string_ref (), false);
 		StringRef::eq (&self_0, &other_0)
 	}
 }
@@ -253,8 +253,8 @@ impl cmp::Ord for StringMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn cmp (&self, other : &StringMutable) -> (cmp::Ordering) {
-		let self_0 = self.string_ref ();
-		let other_0 = other.string_ref ();
+		let self_0 = try_or_return! (self.string_ref (), cmp::Ordering::Equal);
+		let other_0 = try_or_return! (other.string_ref (), cmp::Ordering::Equal);
 		StringRef::cmp (&self_0, &other_0)
 	}
 }

@@ -634,7 +634,7 @@ pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef
 					return number_match_as_ref_compare_2a (class, comparison),
 				
 				ValueClassMatchAsRef2::String (ref class) => {
-					let (left, right) = class.string_ref ();
+					let (left, right) = try! (class.string_ref ());
 					return string_ref_compare_2a (&left, &right, comparison);
 				},
 				
@@ -888,8 +888,8 @@ pub fn string_mutable_compare_1a <ValueRef : StdAsRef<StringMutable>> (_value : 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_mutable_compare_2a <ValueRef : StdAsRef<StringMutable>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
-	let left = left.as_ref () .string_ref ();
-	let right = right.as_ref () .string_ref ();
+	let left = try! (left.as_ref () .string_ref ());
+	let right = try! (right.as_ref () .string_ref ());
 	return string_ref_compare_2a (&left, &right, comparison);
 }
 

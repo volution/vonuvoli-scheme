@@ -263,7 +263,7 @@ impl fmt::Display for StringMutable {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		let string = self.string_ref ();
+		let string = try_or_return! (self.string_ref (), Err (fmt::Error::default ()));
 		return string_fmt (string.string_as_str (), formatter);
 	}
 }

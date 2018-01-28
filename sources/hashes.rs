@@ -89,7 +89,7 @@ impl hash::Hash for StringMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		let string = self.string_ref ();
+		let string = try_or_return! (self.string_ref (), ());
 		string.string_as_str () .hash (hasher);
 	}
 }

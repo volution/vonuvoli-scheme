@@ -1404,7 +1404,8 @@ def_fn_try_predicate_any! (is_string_immutable_empty, is_string_immutable_empty_
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_string_mutable_empty (value : &Value) -> (Outcome<bool>) {
 	let value = try_as_string_mutable_ref! (value);
-	succeed! (value.string_ref () .string_is_empty ());
+	let value = try! (value.string_ref ());
+	succeed! (value.string_is_empty ());
 }
 
 def_fn_try_predicate_all! (is_string_mutable_empty, is_string_mutable_empty_all_2, is_string_mutable_empty_all_3, is_string_mutable_empty_all_4, is_string_mutable_empty_all_n);
@@ -1433,7 +1434,8 @@ def_fn_try_predicate_any! (is_string_immutable_not_empty, is_string_immutable_no
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_string_mutable_not_empty (value : &Value) -> (Outcome<bool>) {
 	let value = try_as_string_mutable_ref! (value);
-	succeed! (value.string_ref () .string_is_not_empty ());
+	let value = try! (value.string_ref ());
+	succeed! (value.string_is_not_empty ());
 }
 
 def_fn_try_predicate_all! (is_string_mutable_not_empty, is_string_mutable_not_empty_all_2, is_string_mutable_not_empty_all_3, is_string_mutable_not_empty_all_4, is_string_mutable_not_empty_all_n);

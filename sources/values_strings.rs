@@ -48,12 +48,12 @@ pub enum StringMatchAsRef2 <'a> {
 impl <'a> StringMatchAsRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn string_ref (&self) -> (StringRef<'a>) {
+	pub fn string_ref (&self) -> (Outcome<StringRef<'a>>) {
 		match *self {
 			StringMatchAsRef::Immutable (value) =>
-				value.string_ref (),
+				succeed! (value.string_ref ()),
 			StringMatchAsRef::Mutable (value) =>
-				value.string_ref (),
+				return value.string_ref (),
 		}
 	}
 }
@@ -62,16 +62,16 @@ impl <'a> StringMatchAsRef<'a> {
 impl <'a> StringMatchAsRef2<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn string_ref (&self) -> ((StringRef<'a>, StringRef<'a>)) {
+	pub fn string_ref (&self) -> (Outcome<(StringRef<'a>, StringRef<'a>)>) {
 		match *self {
 			StringMatchAsRef2::ImmutableBoth (left, right) =>
-				(left.string_ref (), right.string_ref ()),
+				succeed! ((left.string_ref (), right.string_ref ())),
 			StringMatchAsRef2::MutableBoth (left, right) =>
-				(left.string_ref (), right.string_ref ()),
+				succeed! ((try! (left.string_ref ()), try! (right.string_ref ()))),
 			StringMatchAsRef2::ImmutableAndMutable (left, right) =>
-				(left.string_ref (), right.string_ref ()),
+				succeed! ((left.string_ref (), try! (right.string_ref ()))),
 			StringMatchAsRef2::MutableAndImmutable (left, right) =>
-				(left.string_ref (), right.string_ref ()),
+				succeed! ((try! (left.string_ref ()), right.string_ref ())),
 		}
 	}
 }
@@ -161,7 +161,7 @@ impl <'a> StringRef<'a> {
 			ValueKindMatchAsRef::StringImmutable (value) =>
 				succeed! (value.string_ref ()),
 			ValueKindMatchAsRef::StringMutable (value) =>
-				succeed! (value.string_ref ()),
+				return value.string_ref (),
 			_ =>
 				fail! (0x20d78ff4),
 		}
@@ -229,12 +229,12 @@ impl <'a> StringAsRef<'a> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn string_ref (&self) -> (StringRef<'a>) {
+	pub fn string_ref (&self) -> (Outcome<StringRef<'a>>) {
 		match *self {
 			StringAsRef::Immutable (value) =>
-				value.string_ref (),
+				succeed! (value.string_ref ()),
 			StringAsRef::Mutable (value) =>
-				value.string_ref (),
+				return value.string_ref (),
 		}
 	}
 	
@@ -249,22 +249,22 @@ impl <'a> StringAsRef<'a> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn string_rc_clone (&self) -> (StdRc<StdBox<str>>) {
+	pub fn string_rc_clone (&self) -> (Outcome<StdRc<StdBox<str>>>) {
 		match *self {
 			StringAsRef::Immutable (value) =>
-				value.string_rc_clone (),
+				succeed! (value.string_rc_clone ()),
 			StringAsRef::Mutable (value) =>
-				(value.0) .as_ref () .borrow_mut () .to_cow (),
+				succeed! (try_or_fail! ((value.0) .as_ref () .try_borrow_mut (), 0xf34ad2b8) .to_cow ()),
 		}
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn to_immutable (&self) -> (StringImmutable) {
+	pub fn to_immutable (&self) -> (Outcome<StringImmutable>) {
 		match *self {
 			StringAsRef::Immutable (value) =>
-				(*value) .clone (),
+				succeed! ((*value) .clone ()),
 			StringAsRef::Mutable (value) =>
-				(*value) .to_immutable (),
+				return (*value) .to_immutable (),
 		}
 	}
 	
@@ -373,10 +373,10 @@ impl StringMutable {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn string_ref (&self) -> (StringRef) {
-		let reference = self.0.as_ref () .borrow ();
+	pub fn string_ref (&self) -> (Outcome<StringRef>) {
+		let reference = try_or_fail! (self.0.as_ref () .try_borrow (), 0xb5044e71);
 		let reference = StdRef::map (reference, |reference| reference.as_ref ());
-		StringRef::Mutable (self, reference)
+		succeed! (StringRef::Mutable (self, reference));
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -385,17 +385,17 @@ impl StringMutable {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn string_ref_mut (&self) -> (StdRefMut<StdString>) {
-		let reference = self.0.as_ref () .borrow_mut ();
+	pub fn string_ref_mut (&self) -> (Outcome<StdRefMut<StdString>>) {
+		let reference = try_or_fail! (self.0.as_ref () .try_borrow_mut (), 0x050c6ef5);
 		let reference = StdRefMut::map (reference, |reference| reference.as_mut ());
-		reference
+		succeed! (reference);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn to_immutable (&self) -> (StringImmutable) {
-		let mut reference = self.0.as_ref () .borrow_mut ();
+	pub fn to_immutable (&self) -> (Outcome<StringImmutable>) {
+		let mut reference = try_or_fail! (self.0.as_ref () .try_borrow_mut (), 0xfb81994f);
 		let string = reference.to_cow ();
-		StringImmutable::from_rc (string)
+		succeed! (StringImmutable::from_rc (string));
 	}
 }
 

@@ -283,7 +283,7 @@ pub fn port_input_string_read_extend (port : &Value, string : &Value, count : Op
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let (port, count, full, buffer_size) = try! (port_input_coerce_arguments (port, count, full, false));
 	let string = try_as_string_mutable_ref! (string);
-	let mut buffer = string.string_ref_mut ();
+	let mut buffer = try! (string.string_ref_mut ());
 	let buffer = &mut buffer;
 	buffer.reserve (buffer_size);
 	if let Some (count) = try! (port.char_read_string (buffer, count, full)) {
@@ -381,7 +381,7 @@ pub fn port_input_string_read_extend_until (port : &Value, string : &Value, deli
 	let delimiter = if let Some (delimiter) = delimiter { try_as_character_ref! (delimiter) .value () } else { '\n' };
 	let include_delimiter = include_delimiter.unwrap_or (false);
 	let string = try_as_string_mutable_ref! (string);
-	let mut buffer = string.string_ref_mut ();
+	let mut buffer = try! (string.string_ref_mut ());
 	let buffer = &mut buffer;
 	buffer.reserve (buffer_size);
 	if let Some (count) = try! (port.char_read_string_until (buffer, delimiter, count, full)) {
@@ -741,7 +741,7 @@ pub fn port_output_value_display_0 (port : &mut PortBackendWriter, value : &Valu
 		},
 		
 		ValueClassMatchAsRef::String (class) => {
-			let string = class.string_ref ();
+			let string = try! (class.string_ref ());
 			let string = string.string_as_str ();
 			try! (port.char_write_string (string, true));
 		},

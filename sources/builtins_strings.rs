@@ -76,7 +76,7 @@ pub fn string_at (string : &Value, index : usize) -> (Outcome<Value>) {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_at_set (string : &Value, index : usize, char : &Value) -> (Outcome<Value>) {
 	let string = try_as_string_mutable_ref! (string);
-	let mut string = string.string_ref_mut ();
+	let mut string = try! (string.string_ref_mut ());
 	let char = try_as_character_ref! (char);
 	let mut buffer = unicode_utf8_string_clone_chars (string.as_str ());
 	let char_swap = if let Some (char_ref) = buffer.get_mut (index) {
@@ -275,7 +275,7 @@ pub fn string_reverse (string : &Value) -> (Outcome<Value>) {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_fill_range (string : &Value, fill : Option<&Value>, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<()>) {
 	let string = try_as_string_mutable_ref! (string);
-	let mut string = string.string_ref_mut ();
+	let mut string = try! (string.string_ref_mut ());
 	let fill = if let Some (fill) = fill {
 		try_as_character_ref! (fill) .value ()
 	} else {
@@ -298,7 +298,7 @@ pub fn string_fill_range (string : &Value, fill : Option<&Value>, range_start : 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_reverse_range (string : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<()>) {
 	let string = try_as_string_mutable_ref! (string);
-	let mut string = string.string_ref_mut ();
+	let mut string = try! (string.string_ref_mut ());
 	let mut buffer = unicode_utf8_string_clone_chars (string.as_str ());
 	let (range_start, range_end) = try! (range_coerce (range_start, range_end, buffer.len ()));
 	{
@@ -314,7 +314,7 @@ pub fn string_reverse_range (string : &Value, range_start : Option<&Value>, rang
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_copy_range (target_string : &Value, target_start : Option<&Value>, source_string : &Value, source_start : Option<&Value>, source_end : Option<&Value>) -> (Outcome<()>) {
 	let target_string = try_as_string_mutable_ref! (target_string);
-	let mut target_string = target_string.string_ref_mut ();
+	let mut target_string = try! (target_string.string_ref_mut ());
 	let source_string = try_as_string_ref! (source_string);
 	let mut target_buffer = unicode_utf8_string_clone_chars (target_string.as_str ());
 	let source_buffer = unicode_utf8_string_clone_chars (source_string.string_as_str ());

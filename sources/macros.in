@@ -101,6 +101,17 @@ macro_rules! try_or_fail {
 	);
 }
 
+#[ macro_export ]
+macro_rules! try_or_return {
+	( $result : expr, $default : expr ) => (
+		if let $crate::prelude::Result::Ok (value) = $result {
+			value
+		} else {
+			return $default;
+		}
+	);
+}
+
 
 
 
