@@ -433,8 +433,8 @@ impl cmp::PartialEq for PairMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn eq (&self, other : &PairMutable) -> (bool) {
-		let self_0 = self.pair_ref ();
-		let other_0 = other.pair_ref ();
+		let self_0 = try_or_return! (self.pair_ref (), false);
+		let other_0 = try_or_return! (other.pair_ref (), false);
 		PairRef::eq (&self_0, &other_0)
 	}
 }
@@ -443,8 +443,8 @@ impl cmp::Ord for PairMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn cmp (&self, other : &PairMutable) -> (cmp::Ordering) {
-		let self_0 = self.pair_ref ();
-		let other_0 = other.pair_ref ();
+		let self_0 = try_or_return! (self.pair_ref (), cmp::Ordering::Equal);
+		let other_0 = try_or_return! (other.pair_ref (), cmp::Ordering::Equal);
 		PairRef::cmp (&self_0, &other_0)
 	}
 }

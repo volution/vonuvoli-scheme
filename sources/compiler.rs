@@ -136,7 +136,7 @@ impl Compiler {
 				return self.compile_symbol (compilation, value),
 			
 			ValueClassMatchInto::Pair (class) =>
-				return self.compile_form (compilation, class.into_immutable ()),
+				return self.compile_form (compilation, try! (class.into_immutable ())),
 			
 			ValueClassMatchInto::Bytes (class) =>
 				return self.compile_syntax_quote_0 (compilation, class.value ()),
@@ -1614,7 +1614,7 @@ impl Compiler {
 			
 			ValueClassMatchInto::Pair (class) => {
 				
-				let (callable, arguments) = class.left_and_right_into ();
+				let (callable, arguments) = try! (class.left_and_right_into ());
 				
 				let (compilation, callable) = match try! (self.compile_form_match_callable (compilation, callable)) {
 					

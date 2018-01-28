@@ -97,7 +97,7 @@ pub fn pair_right_ref <'a> (pair : &'a Value) -> (Outcome<ValueRef<'a>>) {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn pair_left_set <ValueRef1 : StdAsRef<Value>, ValueRef2 : StdAsRef<Value>> (pair : ValueRef1, value : ValueRef2) -> (Outcome<Value>) {
 	let pair = try_as_pair_mutable_ref! (pair.as_ref ());
-	let mut pair = pair.internals_ref_mut ();
+	let mut pair = try! (pair.internals_ref_mut ());
 	let mut value_swap = value.as_ref () .clone ();
 	mem::swap (&mut value_swap, &mut pair.left);
 	succeed! (value_swap);
@@ -106,7 +106,7 @@ pub fn pair_left_set <ValueRef1 : StdAsRef<Value>, ValueRef2 : StdAsRef<Value>> 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn pair_right_set <ValueRef1 : StdAsRef<Value>, ValueRef2 : StdAsRef<Value>> (pair : ValueRef1, value : ValueRef2) -> (Outcome<Value>) {
 	let pair = try_as_pair_mutable_ref! (pair.as_ref ());
-	let mut pair = pair.internals_ref_mut ();
+	let mut pair = try! (pair.internals_ref_mut ());
 	let mut value_swap = value.as_ref () .clone ();
 	mem::swap (&mut value_swap, &mut pair.right);
 	succeed! (value_swap);
@@ -130,7 +130,7 @@ pub fn list_rest_at (list : &Value, index : usize) -> (Outcome<Value>) {
 pub fn list_first_at_ref (list : &Value, index : usize) -> (Outcome<ValueRef>) {
 	let pair = try! (list_pair_at_ref (list, index));
 	if let Some (pair) = pair {
-		succeed! (pair.left_ref_into ());
+		return pair.left_ref_into ();
 	} else {
 		fail! (0xf3b2488a);
 	}
@@ -140,7 +140,7 @@ pub fn list_first_at_ref (list : &Value, index : usize) -> (Outcome<ValueRef>) {
 pub fn list_rest_at_ref (list : &Value, index : usize) -> (Outcome<ValueRef>) {
 	let pair = try! (list_pair_at_ref (list, index));
 	if let Some (pair) = pair {
-		succeed! (pair.right_ref_into ());
+		return pair.right_ref_into ();
 	} else {
 		fail! (0x9ea1c42c);
 	}
@@ -440,7 +440,7 @@ pub fn list_member_by_comparison (list : &Value, value : &Value, comparison : Co
 	loop {
 		match iterator.next () {
 			Some (Ok (pair)) =>
-				if try! (compare_2 (value, pair.pair_ref () .left (), comparison)) {
+				if try! (compare_2 (value, try! (pair.pair_ref ()) .left (), comparison)) {
 					succeed! (pair.clone () .into ());
 				}
 			Some (Err (error)) =>
@@ -457,7 +457,7 @@ pub fn list_member_by_comparator (list : &Value, value : &Value, comparator : &V
 	loop {
 		match iterator.next () {
 			Some (Ok (pair)) => {
-				let comparison = try! (evaluator.evaluate_procedure_call_2 (comparator, value, pair.pair_ref () .left ()));
+				let comparison = try! (evaluator.evaluate_procedure_call_2 (comparator, value, try! (pair.pair_ref ()) .left ()));
 				if is_not_false (&comparison) {
 					succeed! (pair.clone () .into ());
 				}
@@ -477,7 +477,7 @@ pub fn list_assoc_by_comparison (list : &Value, value : &Value, comparison : Com
 	loop {
 		match iterator.next () {
 			Some (Ok (pair)) => {
-				let pair = pair.pair_ref () .left_ref_into ();
+				let pair = try! (pair.pair_ref ()) .left_ref_into ();
 				let pair = try_as_pair_ref! (pair.as_ref ());
 				if try! (compare_2 (value, pair.left (), comparison)) {
 					succeed! (pair.value_clone () .into ());
@@ -497,7 +497,7 @@ pub fn list_assoc_by_comparator (list : &Value, value : &Value, comparator : &Va
 	loop {
 		match iterator.next () {
 			Some (Ok (pair)) => {
-				let pair = pair.pair_ref () .left_ref_into ();
+				let pair = try! (pair.pair_ref ()) .left_ref_into ();
 				let pair = try_as_pair_ref! (pair.as_ref ());
 				let comparison = try! (evaluator.evaluate_procedure_call_2 (comparator, value, pair.left ()));
 				if is_not_false (&comparison) {

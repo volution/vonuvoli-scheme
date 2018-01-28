@@ -1102,81 +1102,81 @@ def_fn_predicate_any! (is_list_or_empty, is_list_or_empty_any_2, is_list_or_empt
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn is_list_proper (value : &Value) -> (bool) {
-	if let Some (class) = list_class_on (value) {
-		return class == ListClass::Proper;
+pub fn is_list_proper (value : &Value) -> (Outcome<bool>) {
+	if let Some (class) = try! (list_class_on (value)) {
+		succeed! (class == ListClass::Proper);
 	} else {
-		return false;
+		succeed! (false);
 	}
 }
 
-def_fn_predicate_all! (is_list_proper, is_list_proper_all_2, is_list_proper_all_3, is_list_proper_all_4, is_list_proper_all_n);
-def_fn_predicate_any! (is_list_proper, is_list_proper_any_2, is_list_proper_any_3, is_list_proper_any_4, is_list_proper_any_n);
+def_fn_try_predicate_all! (is_list_proper, is_list_proper_all_2, is_list_proper_all_3, is_list_proper_all_4, is_list_proper_all_n);
+def_fn_try_predicate_any! (is_list_proper, is_list_proper_any_2, is_list_proper_any_3, is_list_proper_any_4, is_list_proper_any_n);
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn is_list_proper_or_empty (value : &Value) -> (bool) {
-	if let Some (class) = list_class_on (value) {
-		return (class == ListClass::Proper) || (class == ListClass::Empty);
+pub fn is_list_proper_or_empty (value : &Value) -> (Outcome<bool>) {
+	if let Some (class) = try! (list_class_on (value)) {
+		succeed! ((class == ListClass::Proper) || (class == ListClass::Empty));
 	} else {
-		return false;
+		succeed! (false);
 	}
 }
 
-def_fn_predicate_all! (is_list_proper_or_empty, is_list_proper_or_empty_all_2, is_list_proper_or_empty_all_3, is_list_proper_or_empty_all_4, is_list_proper_or_empty_all_n);
-def_fn_predicate_any! (is_list_proper_or_empty, is_list_proper_or_empty_any_2, is_list_proper_or_empty_any_3, is_list_proper_or_empty_any_4, is_list_proper_or_empty_any_n);
+def_fn_try_predicate_all! (is_list_proper_or_empty, is_list_proper_or_empty_all_2, is_list_proper_or_empty_all_3, is_list_proper_or_empty_all_4, is_list_proper_or_empty_all_n);
+def_fn_try_predicate_any! (is_list_proper_or_empty, is_list_proper_or_empty_any_2, is_list_proper_or_empty_any_3, is_list_proper_or_empty_any_4, is_list_proper_or_empty_any_n);
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn is_list_dotted (value : &Value) -> (bool) {
-	if let Some (class) = list_class_on (value) {
-		return class == ListClass::Dotted;
+pub fn is_list_dotted (value : &Value) -> (Outcome<bool>) {
+	if let Some (class) = try! (list_class_on (value)) {
+		succeed! (class == ListClass::Dotted);
 	} else {
-		return false;
+		succeed! (false);
 	}
 }
 
-def_fn_predicate_all! (is_list_dotted, is_list_dotted_all_2, is_list_dotted_all_3, is_list_dotted_all_4, is_list_dotted_all_n);
-def_fn_predicate_any! (is_list_dotted, is_list_dotted_any_2, is_list_dotted_any_3, is_list_dotted_any_4, is_list_dotted_any_n);
+def_fn_try_predicate_all! (is_list_dotted, is_list_dotted_all_2, is_list_dotted_all_3, is_list_dotted_all_4, is_list_dotted_all_n);
+def_fn_try_predicate_any! (is_list_dotted, is_list_dotted_any_2, is_list_dotted_any_3, is_list_dotted_any_4, is_list_dotted_any_n);
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn is_list_dotted_or_empty (value : &Value) -> (bool) {
-	if let Some (class) = list_class_on (value) {
-		return (class == ListClass::Dotted) || (class == ListClass::Empty);
+pub fn is_list_dotted_or_empty (value : &Value) -> (Outcome<bool>) {
+	if let Some (class) = try! (list_class_on (value)) {
+		succeed! ((class == ListClass::Dotted) || (class == ListClass::Empty));
 	} else {
-		return false;
+		succeed! (false);
 	}
 }
 
-def_fn_predicate_all! (is_list_dotted_or_empty, is_list_dotted_or_empty_all_2, is_list_dotted_or_empty_all_3, is_list_dotted_or_empty_all_4, is_list_dotted_or_empty_all_n);
-def_fn_predicate_any! (is_list_dotted_or_empty, is_list_dotted_or_empty_any_2, is_list_dotted_or_empty_any_3, is_list_dotted_or_empty_any_4, is_list_dotted_or_empty_any_n);
+def_fn_try_predicate_all! (is_list_dotted_or_empty, is_list_dotted_or_empty_all_2, is_list_dotted_or_empty_all_3, is_list_dotted_or_empty_all_4, is_list_dotted_or_empty_all_n);
+def_fn_try_predicate_any! (is_list_dotted_or_empty, is_list_dotted_or_empty_any_2, is_list_dotted_or_empty_any_3, is_list_dotted_or_empty_any_4, is_list_dotted_or_empty_any_n);
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn is_list_cyclic (value : &Value) -> (bool) {
-	if let Some (class) = list_class_on (value) {
-		return class == ListClass::Cyclic;
+pub fn is_list_cyclic (value : &Value) -> (Outcome<bool>) {
+	if let Some (class) = try! (list_class_on (value)) {
+		succeed! (class == ListClass::Cyclic);
 	} else {
-		return false;
+		succeed! (false);
 	}
 }
 
-def_fn_predicate_all! (is_list_cyclic, is_list_cyclic_all_2, is_list_cyclic_all_3, is_list_cyclic_all_4, is_list_cyclic_all_n);
-def_fn_predicate_any! (is_list_cyclic, is_list_cyclic_any_2, is_list_cyclic_any_3, is_list_cyclic_any_4, is_list_cyclic_any_n);
+def_fn_try_predicate_all! (is_list_cyclic, is_list_cyclic_all_2, is_list_cyclic_all_3, is_list_cyclic_all_4, is_list_cyclic_all_n);
+def_fn_try_predicate_any! (is_list_cyclic, is_list_cyclic_any_2, is_list_cyclic_any_3, is_list_cyclic_any_4, is_list_cyclic_any_n);
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn is_list_cyclic_or_empty (value : &Value) -> (bool) {
-	if let Some (class) = list_class_on (value) {
-		return (class == ListClass::Cyclic) || (class == ListClass::Empty);
+pub fn is_list_cyclic_or_empty (value : &Value) -> (Outcome<bool>) {
+	if let Some (class) = try! (list_class_on (value)) {
+		succeed! ((class == ListClass::Cyclic) || (class == ListClass::Empty));
 	} else {
-		return false;
+		succeed! (false);
 	}
 }
 
-def_fn_predicate_all! (is_list_cyclic_or_empty, is_list_cyclic_or_empty_all_2, is_list_cyclic_or_empty_all_3, is_list_cyclic_or_empty_all_4, is_list_cyclic_or_empty_all_n);
-def_fn_predicate_any! (is_list_cyclic_or_empty, is_list_cyclic_or_empty_any_2, is_list_cyclic_or_empty_any_3, is_list_cyclic_or_empty_any_4, is_list_cyclic_or_empty_any_n);
+def_fn_try_predicate_all! (is_list_cyclic_or_empty, is_list_cyclic_or_empty_all_2, is_list_cyclic_or_empty_all_3, is_list_cyclic_or_empty_all_4, is_list_cyclic_or_empty_all_n);
+def_fn_try_predicate_any! (is_list_cyclic_or_empty, is_list_cyclic_or_empty_any_2, is_list_cyclic_or_empty_any_3, is_list_cyclic_or_empty_any_4, is_list_cyclic_or_empty_any_n);
 
 
 
@@ -1701,35 +1701,35 @@ pub fn list_class_o1 (value : &Value) -> (Option<ListClass>) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn list_class_on (value : &Value) -> (Option<ListClass>) {
+pub fn list_class_on (value : &Value) -> (Outcome<Option<ListClass>>) {
 	match value.list_match_as_ref () {
 		ListMatchAsRef::Null =>
-			return Some (ListClass::Empty),
+			succeed! (Some (ListClass::Empty)),
 		ListMatchAsRef::PairImmutable (pair) =>
-			return Some (list_class_on_0 (value, pair.right ())),
+			succeed! (Some (try! (list_class_on_0 (value, pair.right ())))),
 		ListMatchAsRef::PairMutable (pair) =>
-			return Some (list_class_on_0 (value, pair.pair_ref () .right ())),
+			succeed! (Some (try! (list_class_on_0 (value, try! (pair.pair_ref ()) .right ())))),
 		ListMatchAsRef::Value (_) =>
-			return None,
+			succeed! (None),
 	}
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn list_class_on_0 (value : &Value, cursor : &Value) -> (ListClass) {
+fn list_class_on_0 (value : &Value, cursor : &Value) -> (Outcome<ListClass>) {
 	let mut cursor = cursor;
 	loop {
 		if value.is_self (cursor) {
-			return ListClass::Cyclic;
+			succeed! (ListClass::Cyclic);
 		}
 		match cursor.list_match_as_ref () {
 			ListMatchAsRef::Null =>
-				return ListClass::Proper,
+				succeed! (ListClass::Proper),
 			ListMatchAsRef::PairImmutable (pair) =>
 				cursor = pair.right (),
 			ListMatchAsRef::PairMutable (pair) =>
-				return list_class_on_0 (value, pair.pair_ref () .right ()),
+				return list_class_on_0 (value, try! (pair.pair_ref ()) .right ()),
 			ListMatchAsRef::Value (_) =>
-				return ListClass::Dotted,
+				succeed! (ListClass::Dotted),
 		}
 	}
 }

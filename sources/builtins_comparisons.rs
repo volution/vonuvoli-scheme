@@ -649,7 +649,7 @@ pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef
 				}
 				
 				ValueClassMatchAsRef2::Pair (ref class) => {
-					let (left, right) = class.pair_ref ();
+					let (left, right) = try! (class.pair_ref ());
 					return pair_ref_compare_2a (&left, &right, comparison);
 				}
 				
@@ -1006,8 +1006,8 @@ pub fn pair_mutable_compare_1a <ValueRef : StdAsRef<PairMutable>> (_value : Valu
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn pair_mutable_compare_2a <ValueRef : StdAsRef<PairMutable>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
-	let left = left.as_ref () .pair_ref ();
-	let right = right.as_ref () .pair_ref ();
+	let left = try! (left.as_ref () .pair_ref ());
+	let right = try! (right.as_ref () .pair_ref ());
 	return pair_ref_compare_2a (&left, &right, comparison);
 }
 

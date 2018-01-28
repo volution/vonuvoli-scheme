@@ -135,7 +135,7 @@ impl hash::Hash for PairMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		let pair = self.pair_ref ();
+		let pair = try_or_return! (self.pair_ref (), ());
 		let (left, right) = pair.left_and_right ();
 		left.hash (hasher);
 		right.hash (hasher);

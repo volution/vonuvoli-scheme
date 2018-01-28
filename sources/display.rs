@@ -340,7 +340,7 @@ impl fmt::Display for PairMutable {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		let pair = self.pair_ref ();
+		let pair = try_or_return! (self.pair_ref (), Err (fmt::Error::default ()));
 		return pair_fmt (pair, formatter);
 	}
 }
@@ -376,7 +376,8 @@ fn pair_fmt_0 (head : (&Value, &Value), cursor : (&Value, &Value), formatter : &
 			
 			ListMatchAsRef::PairMutable (pair) => {
 				try! (formatter.write_char (' '));
-				return pair_fmt_0 (head, pair.pair_ref () .left_and_right (), formatter);
+				let pair = try_or_return! (pair.pair_ref (), Err (fmt::Error::default ()));
+				return pair_fmt_0 (head, pair.left_and_right (), formatter);
 			},
 			
 			ListMatchAsRef::Value (value) => {

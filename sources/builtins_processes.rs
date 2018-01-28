@@ -76,7 +76,7 @@ pub fn process_spawn_extended (executable : &Value, arguments : Option<&Value>, 
 		for option in options {
 			match option.class_match_as_ref () {
 				ValueClassMatchAsRef::Pair (class) => {
-					let option = class.pair_ref ();
+					let option = try! (class.pair_ref ());
 					let (option, value) = option.left_and_right ();
 					match option.class_match_as_ref () {
 						ValueClassMatchAsRef::Symbol (option) =>
