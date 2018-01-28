@@ -330,11 +330,11 @@ impl PortBackendBytesReader {
 			PortBackendBytesReaderSource::BytesImmutable (ref source) =>
 				source.as_ref () .into (),
 			PortBackendBytesReaderSource::BytesMutable (ref source) =>
-				source.as_ref () .borrow () .into (),
+				try_or_fail! (source.as_ref () .try_borrow (), 0xcc774fa3) .into (),
 			PortBackendBytesReaderSource::StringImmutable (ref source) =>
 				source.as_ref () .into (),
 			PortBackendBytesReaderSource::StringMutable (ref source) =>
-				source.as_ref () .borrow () .into (),
+				try_or_fail! (source.as_ref () .try_borrow (), 0x37bca183) .into (),
 			PortBackendBytesReaderSource::None =>
 				succeed! (None),
 		};
