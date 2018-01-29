@@ -793,6 +793,12 @@ def_value_try_into! (try_into_array_mutable, value_type! (ArrayMutable));
 def_value_try_as_ref! (try_as_values_ref, value_type! (Values));
 def_value_try_into! (try_into_values, value_type! (Values));
 
+def_value_try_as_ref! (try_as_record_immutable_ref, value_type! (RecordImmutable));
+def_value_try_into! (try_into_record_immutable, value_type! (RecordImmutable));
+
+def_value_try_as_ref! (try_as_record_mutable_ref, value_type! (RecordMutable));
+def_value_try_into! (try_into_record_mutable, value_type! (RecordMutable));
+
 def_value_try_as_ref! (try_as_error_ref, value_type! (Error));
 def_value_try_into! (try_into_error, value_type! (Error));
 
@@ -859,6 +865,12 @@ macro_rules! try_as_array_ref {
 	};
 }
 
+macro_rules! try_as_record_ref {
+	( $value : expr ) => {
+		try! ($crate::values::exports::RecordRef::try ($value))
+	};
+}
+
 
 
 
@@ -883,6 +895,12 @@ macro_rules! try_as_pair_as_ref {
 macro_rules! try_as_array_as_ref {
 	( $value : expr ) => {
 		try! ($crate::values::exports::ArrayAsRef::try ($value))
+	};
+}
+
+macro_rules! try_as_record_as_ref {
+	( $value : expr ) => {
+		try! ($crate::values::exports::RecordAsRef::try ($value))
 	};
 }
 

@@ -2786,6 +2786,10 @@
 	exec -- sce ./sources/values_pairs.rs
 !!
 
+<< files / edit / sources/values_records.rs
+	exec -- sce ./sources/values_records.rs
+!!
+
 << files / edit / sources/values_strings.rs
 	exec -- sce ./sources/values_strings.rs
 !!
@@ -3344,6 +3348,10 @@
 
 << files / view / sources/values_pairs.rs
 	exec -- less -- ./sources/values_pairs.rs
+!!
+
+<< files / view / sources/values_records.rs
+	exec -- less -- ./sources/values_records.rs
 !!
 
 << files / view / sources/values_strings.rs
