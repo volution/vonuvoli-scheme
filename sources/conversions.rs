@@ -196,6 +196,8 @@ impl_as_ref_for_type_wlt! (PairRef<'a>, 'a);
 impl_as_ref_for_type_wlt! (ArrayRef<'a>, 'a);
 impl_as_ref_for_type_wlt! (RecordRef<'a>, 'a);
 
+impl_as_ref_for_type! (RecordKind);
+
 
 
 

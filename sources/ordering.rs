@@ -601,6 +601,33 @@ impl <'a> cmp::PartialOrd for ArrayRef<'a> {
 
 
 
+impl cmp::Eq for RecordKind {}
+
+impl cmp::PartialEq for RecordKind {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn eq (&self, other : &RecordKind) -> (bool) {
+		Handle::eq (&self.handle (), &other.handle ())
+	}
+}
+
+impl cmp::Ord for RecordKind {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn cmp (&self, other : &RecordKind) -> (cmp::Ordering) {
+		Handle::cmp (&self.handle (), &other.handle ())
+	}
+}
+
+impl cmp::PartialOrd for RecordKind {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn partial_cmp (&self, other : &RecordKind) -> (Option<cmp::Ordering>) {
+		Some (RecordKind::cmp (self, other))
+	}
+}
+
+
 impl cmp::Eq for RecordImmutable {}
 
 impl cmp::PartialEq for RecordImmutable {
@@ -669,9 +696,11 @@ impl <'a> cmp::PartialEq for RecordRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn eq (&self, other : &RecordRef) -> (bool) {
+		let self_kind = self.kind ();
+		let other_kind = other.kind ();
 		let self_0 = self.values_as_slice ();
 		let other_0 = other.values_as_slice ();
-		<[Value]>::eq (self_0, other_0)
+		RecordKind::eq (self_kind, other_kind) && <[Value]>::eq (self_0, other_0)
 	}
 }
 
@@ -679,9 +708,16 @@ impl <'a> cmp::Ord for RecordRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn cmp (&self, other : &RecordRef) -> (cmp::Ordering) {
+		let self_kind = self.kind ();
+		let other_kind = other.kind ();
 		let self_0 = self.values_as_slice ();
 		let other_0 = other.values_as_slice ();
-		<[Value]>::cmp (self_0, other_0)
+		match RecordKind::cmp (self_kind, other_kind) {
+			cmp::Ordering::Equal =>
+				<[Value]>::cmp (self_0, other_0),
+			ordering =>
+				ordering,
+		}
 	}
 }
 

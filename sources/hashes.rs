@@ -170,11 +170,21 @@ impl hash::Hash for ArrayMutable {
 
 
 
+impl hash::Hash for RecordKind {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
+		self.handle () .hash (hasher);
+	}
+}
+
+
 impl hash::Hash for RecordImmutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		let values = self.record_ref ();
+		values.kind () .hash (hasher);
 		values.values_as_slice () .hash (hasher);
 	}
 }
@@ -185,6 +195,7 @@ impl hash::Hash for RecordMutable {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		let values = try_or_return! (self.record_ref (), ());
+		values.kind () .hash (hasher);
 		values.values_as_slice () .hash (hasher);
 	}
 }

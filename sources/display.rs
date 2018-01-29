@@ -471,12 +471,36 @@ impl fmt::Display for Values {
 
 
 
+impl fmt::Display for RecordKind {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		let self_0 = self.internals_ref ();
+		if let Some (ref identifier) = self_0.identifier {
+			write! (formatter, "#<record-type:{:08x}:{}>", self_0.handle.value (), identifier)
+		} else {
+			write! (formatter, "#<record-type:{:08x}>", self_0.handle.value ())
+		}
+	}
+}
+
+impl fmt::Debug for RecordKind {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		self.internals_ref () .fmt (formatter)
+	}
+}
+
+
+
+
 impl fmt::Display for RecordImmutable {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let record = self.record_ref ();
-		return record_fmt (record.values_as_slice (), formatter);
+		return record_fmt (record.kind (), record.values_as_slice (), formatter);
 	}
 }
 
@@ -485,13 +509,18 @@ impl fmt::Display for RecordMutable {
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let record = try_or_return! (self.record_ref (), Err (fmt::Error::default ()));
-		return record_fmt (record.values_as_slice (), formatter);
+		return record_fmt (record.kind (), record.values_as_slice (), formatter);
 	}
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn record_fmt (values : &[Value], formatter : &mut fmt::Formatter) -> (fmt::Result) {
-	try! (formatter.write_str ("#("));
+fn record_fmt (kind : &RecordKind, values : &[Value], formatter : &mut fmt::Formatter) -> (fmt::Result) {
+	let kind_0 = kind.internals_ref ();
+	if let Some (ref identifier) = kind_0.identifier {
+		try! (write! (formatter, "#<record:{:08x}:{}>(", kind_0.handle.value (), identifier));
+	} else {
+		try! (write! (formatter, "#<record:{:08x}>(", kind_0.handle.value ()));
+	}
 	let mut is_first = true;
 	for value in values {
 		if !is_first {

@@ -1219,10 +1219,21 @@ pub(crate) fn record_ref_compare_2a <'a, ValueRef : StdAsRef<RecordRef<'a>>> (le
 				Equivalence::ByIdentity =>
 					succeed! (RecordRef::is_self (left, right)),
 				Equivalence::ByValue =>
-					return vec_compare_2 (left.values_as_slice (), right.values_as_slice (), comparison),
+					if RecordKind::is_self (left.kind (), right.kind ()) {
+						return vec_compare_2 (left.values_as_slice (), right.values_as_slice (), comparison);
+					} else {
+						succeed! (false);
+					},
 			},
-		Comparison::Ordering (_, _, _) =>
-			return vec_compare_2 (left.values_as_slice (), right.values_as_slice (), comparison),
+		Comparison::Ordering (_, _, _) => {
+			let left_kind = left.kind ();
+			let right_kind = right.kind ();
+			if RecordKind::is_self (left_kind, right_kind) {
+				return vec_compare_2 (left.values_as_slice (), right.values_as_slice (), comparison);
+			} else {
+				return std_ord_compare_2_ref (left_kind, right_kind, comparison);
+			}
+		},
 	}
 }
 

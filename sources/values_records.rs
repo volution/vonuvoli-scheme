@@ -271,7 +271,7 @@ impl <'a> RecordAsRef<'a> {
 
 
 
-#[ derive (Clone, Debug) ]
+#[ derive (Clone) ]
 pub struct RecordKind ( StdRc<RecordKindInternals> );
 
 #[ derive (Debug) ]
@@ -292,6 +292,32 @@ impl RecordKind {
 				size : size,
 			};
 		return RecordKind (StdRc::new (internals));
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn internals_ref (&self) -> (&RecordKindInternals) {
+		return StdRc::as_ref (&self.0);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn internals_rc_clone (&self) -> (StdRc<RecordKindInternals>) {
+		return self.0.clone ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn internals_rc_into (self) -> (StdRc<RecordKindInternals>) {
+		return self.0;
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn handle (&self) -> (Handle) {
+		let self_0 = self.internals_ref ();
+		return self_0.handle;
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn is_self (&self, other : &RecordKind) -> (bool) {
+		ptr::eq (self.0.as_ref (), other.0.as_ref ())
 	}
 }
 
