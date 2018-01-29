@@ -1,6 +1,7 @@
 
 
 use super::errors::exports::*;
+use super::globals::exports::*;
 use super::runtime::exports::*;
 use super::values_value::exports::*;
 
@@ -10,7 +11,7 @@ use super::prelude::*;
 
 
 pub mod exports {
-	pub use super::{Record, RecordRef, RecordAsRef, RecordImmutable, RecordMutable, RecordMutableInternals};
+	pub use super::{Record, RecordRef, RecordAsRef, RecordKind, RecordKindInternals, RecordImmutable, RecordMutable, RecordMutableInternals};
 	pub use super::{RecordMatchAsRef, RecordMatchInto, RecordMatchAsRef2};
 	pub use super::{record_immutable_new, record_immutable_new_undefined, record_immutable_clone_slice, record_immutable_clone_slice_ref};
 	pub use super::{record_mutable_new, record_mutable_new_undefined, record_mutable_clone_slice, record_mutable_clone_slice_ref};
@@ -93,6 +94,8 @@ impl RecordMatchInto {
 
 pub trait Record {
 	
+	fn kind (&self) -> (&RecordKind);
+	
 	fn values_as_slice (&self) -> (&[Value]);
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -112,8 +115,8 @@ pub trait Record {
 
 #[ derive (Debug) ]
 pub enum RecordRef <'a> {
-	Immutable (&'a RecordImmutable, &'a [Value]),
-	Mutable (&'a RecordMutable, StdRef<'a, [Value]>),
+	Immutable (&'a RecordImmutable, &'a RecordKind, &'a [Value]),
+	Mutable (&'a RecordMutable, &'a RecordKind, StdRef<'a, [Value]>),
 }
 
 
@@ -134,9 +137,9 @@ impl <'a> RecordRef<'a> {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn clone (&self) -> (Value) {
 		match *self {
-			RecordRef::Immutable (value, _) =>
+			RecordRef::Immutable (value, _, _) =>
 				(*value) .clone () .into (),
-			RecordRef::Mutable (value, _) =>
+			RecordRef::Mutable (value, _, _) =>
 				(*value) .clone () .into (),
 		}
 	}
@@ -144,9 +147,9 @@ impl <'a> RecordRef<'a> {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &RecordRef) -> (bool) {
 		match (self, other) {
-			(&RecordRef::Immutable (self_0, _), &RecordRef::Immutable (other_0, _)) =>
+			(&RecordRef::Immutable (self_0, _, _), &RecordRef::Immutable (other_0, _, _)) =>
 				RecordImmutable::is_self (self_0, other_0),
-			(&RecordRef::Mutable (self_0, _), &RecordRef::Mutable (other_0, _)) =>
+			(&RecordRef::Mutable (self_0, _, _), &RecordRef::Mutable (other_0, _, _)) =>
 				RecordMutable::is_self (self_0, other_0),
 			_ =>
 				false,
@@ -158,11 +161,21 @@ impl <'a> RecordRef<'a> {
 impl <'a> Record for RecordRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn kind (&self) -> (&RecordKind) {
+		match *self {
+			RecordRef::Immutable (_, kind, _) =>
+				kind,
+			RecordRef::Mutable (_, kind, _) =>
+				kind,
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn values_as_slice (&self) -> (&[Value]) {
 		match *self {
-			RecordRef::Immutable (_, values) =>
+			RecordRef::Immutable (_, _, values) =>
 				values,
-			RecordRef::Mutable (_, ref values) =>
+			RecordRef::Mutable (_, _, ref values) =>
 				values,
 		}
 	}
@@ -218,7 +231,7 @@ impl <'a> RecordAsRef<'a> {
 			RecordAsRef::Immutable (value) =>
 				succeed! (value.values_rc_clone ()),
 			RecordAsRef::Mutable (value) =>
-				succeed! (try_or_fail! ((value.0) .as_ref () .try_borrow_mut (), 0xe525f806) .to_cow ()),
+				succeed! (try_or_fail! (((value.0).1) .as_ref () .try_borrow_mut (), 0xe525f806) .to_cow ()),
 		}
 	}
 	
@@ -259,19 +272,47 @@ impl <'a> RecordAsRef<'a> {
 
 
 #[ derive (Clone, Debug) ]
-pub struct RecordImmutable ( StdRc<StdBox<[Value]>> );
+pub struct RecordKind ( StdRc<RecordKindInternals> );
+
+#[ derive (Debug) ]
+pub struct RecordKindInternals {
+	pub identifier : Option<StdBox<str>>,
+	pub handle : Handle,
+	pub size : usize,
+}
+
+
+impl RecordKind {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new (identifier : Option<&str>, size : usize) -> (RecordKind) {
+		let internals = RecordKindInternals {
+				identifier : option_map! (identifier, StdString::from (identifier) .into_boxed_str ()),
+				handle : records_handles_next (),
+				size : size,
+			};
+		return RecordKind (StdRc::new (internals));
+	}
+}
+
+
+
+
+#[ derive (Clone, Debug) ]
+pub struct RecordImmutable ( StdRc<(RecordKind, StdRc<StdBox<[Value]>>)> );
 
 
 impl RecordImmutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn from_rc (rc : StdRc<StdBox<[Value]>>) -> (RecordImmutable) {
-		RecordImmutable (rc)
+	pub fn from_rc (kind : &RecordKind, rc : StdRc<StdBox<[Value]>>) -> (RecordImmutable) {
+		let kind = kind.clone ();
+		RecordImmutable (StdRc::new ((kind, rc)))
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn clone_rc (rc : &StdRc<StdBox<[Value]>>) -> (RecordImmutable) {
-		RecordImmutable::from_rc (StdRc::clone (rc))
+	pub fn clone_rc (kind : &RecordKind, rc : &StdRc<StdBox<[Value]>>) -> (RecordImmutable) {
+		RecordImmutable::from_rc (kind, StdRc::clone (rc))
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -281,17 +322,17 @@ impl RecordImmutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn record_ref (&self) -> (RecordRef) {
-		RecordRef::Immutable (self, self.0.as_ref ())
+		RecordRef::Immutable (self, &(self.0).0, (self.0).1.as_ref ())
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn values_rc_clone (&self) -> (StdRc<StdBox<[Value]>>) {
-		self.0.clone ()
+		(self.0).1.clone ()
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn to_mutable (&self) -> (RecordMutable) {
-		RecordMutable::from_rc (self.values_rc_clone ())
+		RecordMutable::from_rc (&(self.0).0, self.values_rc_clone ())
 	}
 }
 
@@ -299,8 +340,13 @@ impl RecordImmutable {
 impl Record for RecordImmutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn kind (&self) -> (&RecordKind) {
+		&(self.0).0
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn values_as_slice (&self) -> (&[Value]) {
-		self.0.as_ref ()
+		(self.0).1.as_ref ()
 	}
 }
 
@@ -308,7 +354,7 @@ impl Record for RecordImmutable {
 
 
 #[ derive (Clone, Debug) ]
-pub struct RecordMutable ( StdRc<StdRefCell<RecordMutableInternals>> );
+pub struct RecordMutable ( StdRc<(RecordKind, StdRc<StdRefCell<RecordMutableInternals>>)> );
 
 
 #[ derive (Debug) ]
@@ -321,14 +367,15 @@ pub enum RecordMutableInternals {
 impl RecordMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn from_rc (rc : StdRc<StdBox<[Value]>>) -> (RecordMutable) {
+	pub fn from_rc (kind : &RecordKind, rc : StdRc<StdBox<[Value]>>) -> (RecordMutable) {
+		let kind = kind.clone ();
 		let internals = RecordMutableInternals::Cow (rc);
-		RecordMutable (StdRc::new (StdRefCell::new (internals)))
+		RecordMutable (StdRc::new ((kind, StdRc::new (StdRefCell::new (internals)))))
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn clone_rc (rc : &StdRc<StdBox<[Value]>>) -> (RecordMutable) {
-		RecordMutable::from_rc (StdRc::clone (rc))
+	pub fn clone_rc (kind : &RecordKind, rc : &StdRc<StdBox<[Value]>>) -> (RecordMutable) {
+		RecordMutable::from_rc (kind, StdRc::clone (rc))
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -338,28 +385,28 @@ impl RecordMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn record_ref (&self) -> (Outcome<RecordRef>) {
-		let reference = try_or_fail! (self.0.as_ref () .try_borrow (), 0xa47b0b6c);
+		let reference = try_or_fail! ((self.0).1.as_ref () .try_borrow (), 0xa47b0b6c);
 		let reference = StdRef::map (reference, |reference| reference.as_ref ());
-		succeed! (RecordRef::Mutable (self, reference));
+		succeed! (RecordRef::Mutable (self, &(self.0).0, reference));
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn values_rc_clone (&self) -> (StdRc<StdRefCell<RecordMutableInternals>>) {
-		self.0.clone ()
+		(self.0).1.clone ()
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn values_ref_mut (&self) -> (Outcome<StdRefMut<StdVec<Value>>>) {
-		let reference = try_or_fail! (self.0.as_ref () .try_borrow_mut (), 0xd6dc773c);
+		let reference = try_or_fail! ((self.0).1.as_ref () .try_borrow_mut (), 0xd6dc773c);
 		let reference = StdRefMut::map (reference, |reference| reference.as_mut ());
 		succeed! (reference);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn to_immutable (&self) -> (Outcome<RecordImmutable>) {
-		let mut reference = try_or_fail! (self.0.as_ref () .try_borrow_mut (), 0x7a1c7802);
+		let mut reference = try_or_fail! ((self.0).1.as_ref () .try_borrow_mut (), 0x7a1c7802);
 		let values = reference.to_cow ();
-		succeed! (RecordImmutable::from_rc (values));
+		succeed! (RecordImmutable::from_rc (&(self.0).0, values));
 	}
 }
 
@@ -422,22 +469,24 @@ impl StdAsRefMut<StdVec<Value>> for RecordMutableInternals {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_immutable_new (values : StdVec<Value>) -> (RecordImmutable) {
-	RecordImmutable (StdRc::new (values.into_boxed_slice ()))
+pub fn record_immutable_new (kind : &RecordKind, values : StdVec<Value>) -> (RecordImmutable) {
+	let kind = kind.clone ();
+	RecordImmutable (StdRc::new ((kind, StdRc::new (values.into_boxed_slice ()))))
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_mutable_new (values : StdVec<Value>) -> (RecordMutable) {
+pub fn record_mutable_new (kind : &RecordKind, values : StdVec<Value>) -> (RecordMutable) {
+	let kind = kind.clone ();
 	let internals = RecordMutableInternals::Owned (values);
-	RecordMutable (StdRc::new (StdRefCell::new (internals)))
+	RecordMutable (StdRc::new ((kind, StdRc::new (StdRefCell::new (internals)))))
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_new (values : StdVec<Value>) -> (Value) {
+pub fn record_new (kind : &RecordKind, values : StdVec<Value>) -> (Value) {
 	if RECORD_NEW_IMMUTABLE {
-		record_immutable_new (values) .into ()
+		record_immutable_new (kind, values) .into ()
 	} else {
-		record_mutable_new (values) .into ()
+		record_mutable_new (kind, values) .into ()
 	}
 }
 
@@ -445,21 +494,21 @@ pub fn record_new (values : StdVec<Value>) -> (Value) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_immutable_new_undefined () -> (RecordImmutable) {
-	record_immutable_new (StdVec::new ())
+pub fn record_immutable_new_undefined (kind : &RecordKind) -> (RecordImmutable) {
+	record_immutable_new (kind, StdVec::new ())
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_mutable_new_undefined () -> (RecordMutable) {
-	record_mutable_new (StdVec::new ())
+pub fn record_mutable_new_undefined (kind : &RecordKind) -> (RecordMutable) {
+	record_mutable_new (kind, StdVec::new ())
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_new_undefined () -> (Value) {
+pub fn record_new_undefined (kind : &RecordKind) -> (Value) {
 	if BYTES_NEW_IMMUTABLE {
-		record_immutable_new_undefined () .into ()
+		record_immutable_new_undefined (kind) .into ()
 	} else {
-		record_mutable_new_undefined () .into ()
+		record_mutable_new_undefined (kind) .into ()
 	}
 }
 
@@ -467,21 +516,21 @@ pub fn record_new_undefined () -> (Value) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_immutable_clone_slice (values : &[Value]) -> (RecordImmutable) {
-	record_immutable_new (vec_clone_slice (values))
+pub fn record_immutable_clone_slice (kind : &RecordKind, values : &[Value]) -> (RecordImmutable) {
+	record_immutable_new (kind, vec_clone_slice (values))
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_mutable_clone_slice (values : &[Value]) -> (RecordMutable) {
-	record_mutable_new (vec_clone_slice (values))
+pub fn record_mutable_clone_slice (kind : &RecordKind, values : &[Value]) -> (RecordMutable) {
+	record_mutable_new (kind, vec_clone_slice (values))
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_clone_slice (values : &[Value]) -> (Value) {
+pub fn record_clone_slice (kind : &RecordKind, values : &[Value]) -> (Value) {
 	if RECORD_NEW_IMMUTABLE {
-		record_immutable_clone_slice (values) .into ()
+		record_immutable_clone_slice (kind, values) .into ()
 	} else {
-		record_mutable_clone_slice (values) .into ()
+		record_mutable_clone_slice (kind, values) .into ()
 	}
 }
 
@@ -489,21 +538,21 @@ pub fn record_clone_slice (values : &[Value]) -> (Value) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_immutable_clone_slice_ref (values : &[&Value]) -> (RecordImmutable) {
-	record_immutable_new (vec_clone_slice_ref (values))
+pub fn record_immutable_clone_slice_ref (kind : &RecordKind, values : &[&Value]) -> (RecordImmutable) {
+	record_immutable_new (kind, vec_clone_slice_ref (values))
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_mutable_clone_slice_ref (values : &[&Value]) -> (RecordMutable) {
-	record_mutable_new (vec_clone_slice_ref (values))
+pub fn record_mutable_clone_slice_ref (kind : &RecordKind, values : &[&Value]) -> (RecordMutable) {
+	record_mutable_new (kind, vec_clone_slice_ref (values))
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_clone_slice_ref (values : &[&Value]) -> (Value) {
+pub fn record_clone_slice_ref (kind : &RecordKind, values : &[&Value]) -> (Value) {
 	if RECORD_NEW_IMMUTABLE {
-		record_immutable_clone_slice_ref (values) .into ()
+		record_immutable_clone_slice_ref (kind, values) .into ()
 	} else {
-		record_mutable_clone_slice_ref (values) .into ()
+		record_mutable_clone_slice_ref (kind, values) .into ()
 	}
 }
 
