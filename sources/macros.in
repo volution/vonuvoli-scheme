@@ -1021,7 +1021,11 @@ macro_rules! def_benchmark_block {
 		let identifier = stringify! ($identifier);
 		let outcome = benchmark_generic_main (identifier,
 				|| Ok ( ( $( $initializer, )* ) ),
-				|&( $( ref $variable, )* )| { ::test::black_box ($expression); () },
+				|&( $( ref $variable, )* )| {
+					#[ warn (unused_must_use) ]
+					let _ = ::test::black_box ($expression);
+					()
+				},
 				Some ($bencher), None, None, None);
 		outcome.expect ("b504b743");
 	});
@@ -1030,7 +1034,11 @@ macro_rules! def_benchmark_block {
 		let identifier = stringify! ($identifier);
 		let outcome = benchmark_generic_main (identifier,
 				|| Ok (()),
-				|&()| { ::test::black_box ($expression); () },
+				|&()| {
+					#[ warn (unused_must_use) ]
+					let _ = ::test::black_box ($expression);
+					()
+				},
 				Some ($bencher), None, None, None);
 		outcome.expect ("ba9c8ac7");
 	});
