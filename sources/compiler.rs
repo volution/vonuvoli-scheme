@@ -147,6 +147,9 @@ impl Compiler {
 			ValueClassMatchInto::Values (value) =>
 				return self.compile_syntax_quote_0 (compilation, value.into ()),
 			
+			ValueClassMatchInto::Record (class) =>
+				return self.compile_syntax_quote_0 (compilation, class.value ()),
+			
 			ValueClassMatchInto::Error (value) =>
 				return self.compile_syntax_quote_0 (compilation, value.into ()),
 			
@@ -1569,6 +1572,10 @@ impl Compiler {
 			ValueClassMatchInto::Values (value) =>
 				// FIXME:  Add support for quasi-quotation in values!
 				succeed! ((compilation, splice (value, spliceable))),
+			
+			ValueClassMatchInto::Record (class) =>
+				// FIXME:  Add support for quasi-quotation in arrays!
+				succeed! ((compilation, splice (class.value (), spliceable))),
 			
 			ValueClassMatchInto::Error (value) =>
 				succeed! ((compilation, splice (value, spliceable))),

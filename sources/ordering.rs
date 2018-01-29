@@ -84,6 +84,9 @@ impl <'a> ValueKindMatchAsRef2<'a> {
 			ValueKindMatchAsRef2::ArrayMutable (self_0, other_0) => Some (ArrayMutable::eq (self_0, other_0)),
 			ValueKindMatchAsRef2::Values (self_0, other_0) => Some (Values::eq (self_0, other_0)),
 			
+			ValueKindMatchAsRef2::RecordImmutable (self_0, other_0) => Some (RecordImmutable::eq (self_0, other_0)),
+			ValueKindMatchAsRef2::RecordMutable (self_0, other_0) => Some (RecordMutable::eq (self_0, other_0)),
+			
 			ValueKindMatchAsRef2::Error (self_0, other_0) => Some (Error::eq (self_0, other_0)),
 			
 			ValueKindMatchAsRef2::ProcedurePrimitive (self_0, other_0) => Some (ProcedurePrimitive::eq (self_0, other_0)),
@@ -135,6 +138,9 @@ impl <'a> ValueKindMatchAsRef2<'a> {
 			ValueKindMatchAsRef2::ArrayImmutable (self_0, other_0) => Some (ArrayImmutable::cmp (self_0, other_0)),
 			ValueKindMatchAsRef2::ArrayMutable (self_0, other_0) => Some (ArrayMutable::cmp (self_0, other_0)),
 			ValueKindMatchAsRef2::Values (self_0, other_0) => Some (Values::cmp (self_0, other_0)),
+			
+			ValueKindMatchAsRef2::RecordImmutable (self_0, other_0) => Some (RecordImmutable::cmp (self_0, other_0)),
+			ValueKindMatchAsRef2::RecordMutable (self_0, other_0) => Some (RecordMutable::cmp (self_0, other_0)),
 			
 			ValueKindMatchAsRef2::Error (self_0, other_0) => Some (Error::cmp (self_0, other_0)),
 			
@@ -589,6 +595,101 @@ impl <'a> cmp::PartialOrd for ArrayRef<'a> {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn partial_cmp (&self, other : &ArrayRef) -> (Option<cmp::Ordering>) {
 		Some (ArrayRef::cmp (self, other))
+	}
+}
+
+
+
+
+impl cmp::Eq for RecordImmutable {}
+
+impl cmp::PartialEq for RecordImmutable {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn eq (&self, other : &RecordImmutable) -> (bool) {
+		let self_0 = self.record_ref ();
+		let other_0 = other.record_ref ();
+		RecordRef::eq (&self_0, &other_0)
+	}
+}
+
+impl cmp::Ord for RecordImmutable {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn cmp (&self, other : &RecordImmutable) -> (cmp::Ordering) {
+		let self_0 = self.record_ref ();
+		let other_0 = other.record_ref ();
+		RecordRef::cmp (&self_0, &other_0)
+	}
+}
+
+impl cmp::PartialOrd for RecordImmutable {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn partial_cmp (&self, other : &RecordImmutable) -> (Option<cmp::Ordering>) {
+		Some (RecordImmutable::cmp (self, other))
+	}
+}
+
+
+impl cmp::Eq for RecordMutable {}
+
+impl cmp::PartialEq for RecordMutable {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn eq (&self, other : &RecordMutable) -> (bool) {
+		let self_0 = try_or_return! (self.record_ref (), false);
+		let other_0 = try_or_return! (other.record_ref (), false);
+		RecordRef::eq (&self_0, &other_0)
+	}
+}
+
+impl cmp::Ord for RecordMutable {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn cmp (&self, other : &RecordMutable) -> (cmp::Ordering) {
+		let self_0 = try_or_return! (self.record_ref (), cmp::Ordering::Equal);
+		let other_0 = try_or_return! (other.record_ref (), cmp::Ordering::Equal);
+		RecordRef::cmp (&self_0, &other_0)
+	}
+}
+
+impl cmp::PartialOrd for RecordMutable {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn partial_cmp (&self, other : &RecordMutable) -> (Option<cmp::Ordering>) {
+		Some (RecordMutable::cmp (self, other))
+	}
+}
+
+
+impl <'a> cmp::Eq for RecordRef<'a> {}
+
+impl <'a> cmp::PartialEq for RecordRef<'a> {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn eq (&self, other : &RecordRef) -> (bool) {
+		let self_0 = self.values_as_slice ();
+		let other_0 = other.values_as_slice ();
+		<[Value]>::eq (self_0, other_0)
+	}
+}
+
+impl <'a> cmp::Ord for RecordRef<'a> {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn cmp (&self, other : &RecordRef) -> (cmp::Ordering) {
+		let self_0 = self.values_as_slice ();
+		let other_0 = other.values_as_slice ();
+		<[Value]>::cmp (self_0, other_0)
+	}
+}
+
+impl <'a> cmp::PartialOrd for RecordRef<'a> {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn partial_cmp (&self, other : &RecordRef) -> (Option<cmp::Ordering>) {
+		Some (RecordRef::cmp (self, other))
 	}
 }
 

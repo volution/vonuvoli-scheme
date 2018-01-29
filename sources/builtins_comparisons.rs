@@ -54,6 +54,9 @@ pub mod exports {
 			array_immutable_compare_1, array_immutable_compare_1a,
 			array_mutable_compare_1, array_mutable_compare_1a,
 			values_compare_1, values_compare_1a,
+			record_compare_1,
+			record_immutable_compare_1, record_immutable_compare_1a,
+			record_mutable_compare_1, record_mutable_compare_1a,
 			error_compare_1, error_compare_1a,
 			procedure_primitive_compare_1, procedure_primitive_compare_1a,
 			procedure_extended_compare_1, procedure_extended_compare_1a,
@@ -89,6 +92,9 @@ pub mod exports {
 			array_immutable_compare_2, array_immutable_compare_2a,
 			array_mutable_compare_2, array_mutable_compare_2a,
 			values_compare_2, values_compare_2a,
+			record_compare_2,
+			record_immutable_compare_2, record_immutable_compare_2a,
+			record_mutable_compare_2, record_mutable_compare_2a,
 			error_compare_2, error_compare_2a,
 			procedure_primitive_compare_2, procedure_primitive_compare_2a,
 			procedure_extended_compare_2, procedure_extended_compare_2a,
@@ -124,6 +130,9 @@ pub mod exports {
 			array_immutable_compare_3, array_immutable_compare_3a,
 			array_mutable_compare_3, array_mutable_compare_3a,
 			values_compare_3, values_compare_3a,
+			record_compare_3,
+			record_immutable_compare_3, record_immutable_compare_3a,
+			record_mutable_compare_3, record_mutable_compare_3a,
 			error_compare_3, error_compare_3a,
 			procedure_primitive_compare_3, procedure_primitive_compare_3a,
 			procedure_extended_compare_3, procedure_extended_compare_3a,
@@ -159,6 +168,9 @@ pub mod exports {
 			array_immutable_compare_4, array_immutable_compare_4a,
 			array_mutable_compare_4, array_mutable_compare_4a,
 			values_compare_4, values_compare_4a,
+			record_compare_4,
+			record_immutable_compare_4, record_immutable_compare_4a,
+			record_mutable_compare_4, record_mutable_compare_4a,
 			error_compare_4, error_compare_4a,
 			procedure_primitive_compare_4, procedure_primitive_compare_4a,
 			procedure_extended_compare_4, procedure_extended_compare_4a,
@@ -194,6 +206,9 @@ pub mod exports {
 			array_immutable_compare_n, array_immutable_compare_na,
 			array_mutable_compare_n, array_mutable_compare_na,
 			values_compare_n, values_compare_na,
+			record_compare_n,
+			record_immutable_compare_n, record_immutable_compare_na,
+			record_mutable_compare_n, record_mutable_compare_na,
 			error_compare_n, error_compare_na,
 			procedure_primitive_compare_n, procedure_primitive_compare_na,
 			procedure_extended_compare_n, procedure_extended_compare_na,
@@ -488,6 +503,12 @@ pub fn compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Co
 		ValueKindMatchAsRef::Values (value) =>
 			return values_compare_1a (value, comparison),
 		
+		ValueKindMatchAsRef::RecordImmutable (value) =>
+			return record_immutable_compare_1a (value, comparison),
+		
+		ValueKindMatchAsRef::RecordMutable (value) =>
+			return record_mutable_compare_1a (value, comparison),
+		
 		ValueKindMatchAsRef::Error (value) =>
 			return error_compare_1a (value, comparison),
 		
@@ -588,6 +609,12 @@ pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef
 		ValueKindMatchAsRef2::Values (left, right) =>
 			return values_compare_2a (left, right, comparison),
 		
+		ValueKindMatchAsRef2::RecordImmutable (left, right) =>
+			return record_immutable_compare_2a (left, right, comparison),
+		
+		ValueKindMatchAsRef2::RecordMutable (left, right) =>
+			return record_mutable_compare_2a (left, right, comparison),
+		
 		ValueKindMatchAsRef2::Error (left, right) =>
 			return error_compare_2a (left, right, comparison),
 		
@@ -643,15 +670,20 @@ pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef
 					return bytes_ref_compare_2a (&left, &right, comparison);
 				},
 				
-				ValueClassMatchAsRef2::Array (ref class) => {
-					let (left, right) = try! (class.array_ref ());
-					return array_ref_compare_2a (&left, &right, comparison);
-				}
-				
 				ValueClassMatchAsRef2::Pair (ref class) => {
 					let (left, right) = try! (class.pair_ref ());
 					return pair_ref_compare_2a (&left, &right, comparison);
-				}
+				},
+				
+				ValueClassMatchAsRef2::Array (ref class) => {
+					let (left, right) = try! (class.array_ref ());
+					return array_ref_compare_2a (&left, &right, comparison);
+				},
+				
+				ValueClassMatchAsRef2::Record (ref class) => {
+					let (left, right) = try! (class.record_ref ());
+					return record_ref_compare_2a (&left, &right, comparison);
+				},
 				
 				_ =>
 					match comparison {
@@ -1143,6 +1175,60 @@ pub fn values_compare_2a <ValueRef : StdAsRef<Values>> (left : ValueRef, right :
 
 
 
+def_fn_compare! (RecordImmutable,
+		record_immutable_compare_1, record_immutable_compare_2, record_immutable_compare_3, record_immutable_compare_4, record_immutable_compare_n,
+		record_immutable_compare_1a, record_immutable_compare_2a, record_immutable_compare_3a, record_immutable_compare_4a, record_immutable_compare_na);
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn record_immutable_compare_1a <ValueRef : StdAsRef<RecordImmutable>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn record_immutable_compare_2a <ValueRef : StdAsRef<RecordImmutable>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	let left = left.as_ref () .record_ref ();
+	let right = right.as_ref () .record_ref ();
+	return record_ref_compare_2a (&left, &right, comparison);
+}
+
+
+def_fn_compare! (RecordMutable,
+		record_mutable_compare_1, record_mutable_compare_2, record_mutable_compare_3, record_mutable_compare_4, record_mutable_compare_n,
+		record_mutable_compare_1a, record_mutable_compare_2a, record_mutable_compare_3a, record_mutable_compare_4a, record_mutable_compare_na);
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn record_mutable_compare_1a <ValueRef : StdAsRef<RecordMutable>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn record_mutable_compare_2a <ValueRef : StdAsRef<RecordMutable>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	let left = try! (left.as_ref () .record_ref ());
+	let right = try! (right.as_ref () .record_ref ());
+	return record_ref_compare_2a (&left, &right, comparison);
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub(crate) fn record_ref_compare_2a <'a, ValueRef : StdAsRef<RecordRef<'a>>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	let left = left.as_ref ();
+	let right = right.as_ref ();
+	match comparison {
+		Comparison::Equivalence (equivalence, _, _) =>
+			match equivalence {
+				Equivalence::ByIdentity =>
+					succeed! (RecordRef::is_self (left, right)),
+				Equivalence::ByValue =>
+					return vec_compare_2 (left.values_as_slice (), right.values_as_slice (), comparison),
+			},
+		Comparison::Ordering (_, _, _) =>
+			return vec_compare_2 (left.values_as_slice (), right.values_as_slice (), comparison),
+	}
+}
+
+
+
+
 def_fn_compare! (Error,
 		error_compare_1, error_compare_2, error_compare_3, error_compare_4, error_compare_n,
 		error_compare_1a, error_compare_2a, error_compare_3a, error_compare_4a, error_compare_na);
@@ -1617,6 +1703,25 @@ pub fn array_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : Va
 	let left = try! (ArrayRef::try (left.as_ref ()));
 	let right = try! (ArrayRef::try (right.as_ref ()));
 	return array_ref_compare_2a (&left, &right, comparison);
+}
+
+
+
+
+def_fn_compare! (Value,
+		record_compare_1, record_compare_2, record_compare_3, record_compare_4, record_compare_n);
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn record_compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
+	let _value = try! (RecordRef::try (value.as_ref ()));
+	succeed! (true);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn record_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	let left = try! (RecordRef::try (left.as_ref ()));
+	let right = try! (RecordRef::try (right.as_ref ()));
+	return record_ref_compare_2a (&left, &right, comparison);
 }
 
 

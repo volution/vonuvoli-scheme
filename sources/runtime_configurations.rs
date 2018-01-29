@@ -10,6 +10,7 @@ pub mod exports {
 pub const STRING_NEW_IMMUTABLE : bool = true;
 pub const BYTES_NEW_IMMUTABLE : bool = true;
 pub const ARRAY_NEW_IMMUTABLE : bool = true;
+pub const RECORD_NEW_IMMUTABLE : bool = true;
 
 pub const PAIR_NEW_IMMUTABLE : bool = true;
 

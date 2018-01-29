@@ -120,6 +120,7 @@ pub(crate) mod values_bytes;
 pub(crate) mod values_characters;
 pub(crate) mod values_numbers;
 pub(crate) mod values_pairs;
+pub(crate) mod values_records;
 pub(crate) mod values_strings;
 pub(crate) mod values_symbols;
 pub(crate) mod values_value;
@@ -199,6 +200,7 @@ pub mod internals {
 	pub use super::values_characters::exports as values_characters;
 	pub use super::values_numbers::exports as values_numbers;
 	pub use super::values_pairs::exports as values_pairs;
+	pub use super::values_records::exports as values_records;
 	pub use super::values_strings::exports as values_strings;
 	pub use super::values_symbols::exports as values_symbols;
 	pub use super::values_value::exports as values_value;

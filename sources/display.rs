@@ -40,6 +40,9 @@ impl fmt::Display for Value {
 			ValueKindMatchAsRef::ArrayMutable (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::Values (self_0) => self_0.fmt (formatter),
 			
+			ValueKindMatchAsRef::RecordImmutable (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::RecordMutable (self_0) => self_0.fmt (formatter),
+			
 			ValueKindMatchAsRef::Error (self_0) => self_0.fmt (formatter),
 			
 			ValueKindMatchAsRef::ProcedurePrimitive (self_0) => self_0.fmt (formatter),
@@ -89,6 +92,9 @@ impl fmt::Debug for Value {
 			ValueKindMatchAsRef::ArrayImmutable (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::ArrayMutable (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::Values (self_0) => self_0.fmt (formatter),
+			
+			ValueKindMatchAsRef::RecordImmutable (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::RecordMutable (self_0) => self_0.fmt (formatter),
 			
 			ValueKindMatchAsRef::Error (self_0) => self_0.fmt (formatter),
 			
@@ -460,6 +466,43 @@ impl fmt::Display for Values {
 		try! (formatter.write_char (')'));
 		succeed! (());
 	}
+}
+
+
+
+
+impl fmt::Display for RecordImmutable {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		let record = self.record_ref ();
+		return record_fmt (record.values_as_slice (), formatter);
+	}
+}
+
+impl fmt::Display for RecordMutable {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		let record = try_or_return! (self.record_ref (), Err (fmt::Error::default ()));
+		return record_fmt (record.values_as_slice (), formatter);
+	}
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn record_fmt (values : &[Value], formatter : &mut fmt::Formatter) -> (fmt::Result) {
+	try! (formatter.write_str ("#("));
+	let mut is_first = true;
+	for value in values {
+		if !is_first {
+			try! (formatter.write_char (' '));
+		} else {
+			is_first = false;
+		}
+		try! (fmt::Display::fmt (value, formatter));
+	}
+	try! (formatter.write_char (')'));
+	succeed! (());
 }
 
 

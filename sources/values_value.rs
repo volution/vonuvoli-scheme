@@ -17,6 +17,7 @@ use super::values_bytes::exports::*;
 use super::values_characters::exports::*;
 use super::values_numbers::exports::*;
 use super::values_pairs::exports::*;
+use super::values_records::exports::*;
 use super::values_symbols::exports::*;
 use super::values_strings::exports::*;
 use super::values_values::exports::*;
@@ -69,6 +70,9 @@ pub enum ValueKind {
 	ArrayMutable,
 	Values,
 	
+	RecordImmutable,
+	RecordMutable,
+	
 	Error,
 	
 	ProcedurePrimitive,
@@ -114,6 +118,9 @@ pub enum ValueKindMatchAsRef <'a> {
 	ArrayImmutable (&'a ArrayImmutable),
 	ArrayMutable (&'a ArrayMutable),
 	Values (&'a Values),
+	
+	RecordImmutable (&'a RecordImmutable),
+	RecordMutable (&'a RecordMutable),
 	
 	Error (&'a Error),
 	
@@ -161,6 +168,9 @@ pub enum ValueKindMatchInto {
 	ArrayMutable (ArrayMutable),
 	Values (Values),
 	
+	RecordImmutable (RecordImmutable),
+	RecordMutable (RecordMutable),
+	
 	Error (Error),
 	
 	ProcedurePrimitive (ProcedurePrimitive),
@@ -207,6 +217,9 @@ pub enum ValueKindMatchAsRef2 <'a> {
 	ArrayMutable (&'a ArrayMutable, &'a ArrayMutable),
 	Values (&'a Values, &'a Values),
 	
+	RecordImmutable (&'a RecordImmutable, &'a RecordImmutable),
+	RecordMutable (&'a RecordMutable, &'a RecordMutable),
+	
 	Error (&'a Error, &'a Error),
 	
 	ProcedurePrimitive (&'a ProcedurePrimitive, &'a ProcedurePrimitive),
@@ -252,6 +265,8 @@ pub enum ValueClass {
 	Array,
 	Values,
 	
+	Record,
+	
 	Error,
 	
 	Procedure,
@@ -285,6 +300,8 @@ pub enum ValueClassMatchAsRef <'a> {
 	Pair (PairMatchAsRef<'a>),
 	Array (ArrayMatchAsRef<'a>),
 	Values (&'a Values),
+	
+	Record (RecordMatchAsRef<'a>),
 	
 	Error (&'a Error),
 	
@@ -320,6 +337,8 @@ pub enum ValueClassMatchInto {
 	Array (ArrayMatchInto),
 	Values (Values),
 	
+	Record (RecordMatchInto),
+	
 	Error (Error),
 	
 	Procedure (ProcedureMatchInto),
@@ -353,6 +372,8 @@ pub enum ValueClassMatchAsRef2 <'a> {
 	Pair (PairMatchAsRef2<'a>),
 	Array (ArrayMatchAsRef2<'a>),
 	Values (&'a Values, &'a Values),
+	
+	Record (RecordMatchAsRef2<'a>),
 	
 	Error (&'a Error, &'a Error),
 	
@@ -476,6 +497,9 @@ pub enum Value {
 	ArrayMutable ( ValueMeta1, ArrayMutable, ValueMeta2 ),
 	Values ( ValueMeta1, Values, ValueMeta2 ),
 	
+	RecordImmutable ( ValueMeta1, RecordImmutable, ValueMeta2 ),
+	RecordMutable ( ValueMeta1, RecordMutable, ValueMeta2 ),
+	
 	Error ( ValueMeta1, Error, ValueMeta2 ),
 	
 	ProcedurePrimitive ( ValueMeta1, ProcedurePrimitive, ValueMeta2 ),
@@ -534,6 +558,9 @@ impl Value {
 			Value::ArrayMutable (_, _, _) => ValueKind::ArrayMutable,
 			Value::Values (_, _, _) => ValueKind::Values,
 			
+			Value::RecordImmutable (_, _, _) => ValueKind::RecordImmutable,
+			Value::RecordMutable (_, _, _) => ValueKind::RecordMutable,
+			
 			Value::Error (_, _, _) => ValueKind::Error,
 			
 			Value::ProcedurePrimitive (_, _, _) => ValueKind::ProcedurePrimitive,
@@ -586,6 +613,9 @@ impl Value {
 			Value::ArrayMutable (_, ref self_0, _) => ValueKindMatchAsRef::ArrayMutable (self_0),
 			Value::Values (_, ref self_0, _) => ValueKindMatchAsRef::Values (self_0),
 			
+			Value::RecordImmutable (_, ref self_0, _) => ValueKindMatchAsRef::RecordImmutable (self_0),
+			Value::RecordMutable (_, ref self_0, _) => ValueKindMatchAsRef::RecordMutable (self_0),
+			
 			Value::Error (_, ref self_0, _) => ValueKindMatchAsRef::Error (self_0),
 			
 			Value::ProcedurePrimitive (_, ref self_0, _) => ValueKindMatchAsRef::ProcedurePrimitive (self_0),
@@ -637,6 +667,9 @@ impl Value {
 			Value::ArrayImmutable (_, self_0, _) => ValueKindMatchInto::ArrayImmutable (self_0),
 			Value::ArrayMutable (_, self_0, _) => ValueKindMatchInto::ArrayMutable (self_0),
 			Value::Values (_, self_0, _) => ValueKindMatchInto::Values (self_0),
+			
+			Value::RecordImmutable (_, self_0, _) => ValueKindMatchInto::RecordImmutable (self_0),
+			Value::RecordMutable (_, self_0, _) => ValueKindMatchInto::RecordMutable (self_0),
 			
 			Value::Error (_, self_0, _) => ValueKindMatchInto::Error (self_0),
 			
@@ -695,6 +728,9 @@ impl Value {
 			(&Value::ArrayMutable (_, ref self_0, _), &Value::ArrayMutable (_, ref other_0, _)) => ValueKindMatchAsRef2::ArrayMutable (self_0, other_0),
 			(&Value::Values (_, ref self_0, _), &Value::Values (_, ref other_0, _)) => ValueKindMatchAsRef2::Values (self_0, other_0),
 			
+			(&Value::RecordImmutable (_, ref self_0, _), &Value::RecordImmutable (_, ref other_0, _)) => ValueKindMatchAsRef2::RecordImmutable (self_0, other_0),
+			(&Value::RecordMutable (_, ref self_0, _), &Value::RecordMutable (_, ref other_0, _)) => ValueKindMatchAsRef2::RecordMutable (self_0, other_0),
+			
 			(&Value::Error (_, ref self_0, _), &Value::Error (_, ref other_0, _)) => ValueKindMatchAsRef2::Error (self_0, other_0),
 			
 			(&Value::ProcedurePrimitive (_, ref self_0, _), &Value::ProcedurePrimitive (_, ref other_0, _)) => ValueKindMatchAsRef2::ProcedurePrimitive (self_0, other_0),
@@ -751,6 +787,9 @@ impl Value {
 			Value::ArrayMutable (_, _, _) => ValueClass::Array,
 			Value::Values (_, _, _) => ValueClass::Values,
 			
+			Value::RecordImmutable (_, _, _) => ValueClass::Record,
+			Value::RecordMutable (_, _, _) => ValueClass::Record,
+			
 			Value::Error (_, _, _) => ValueClass::Error,
 			
 			Value::ProcedurePrimitive (_, _, _) => ValueClass::Procedure,
@@ -804,6 +843,9 @@ impl Value {
 			Value::ArrayMutable (_, ref self_0, _) => ValueClassMatchAsRef::Array (ArrayMatchAsRef::Mutable (self_0)),
 			Value::Values (_, ref self_0, _) => ValueClassMatchAsRef::Values (self_0),
 			
+			Value::RecordImmutable (_, ref self_0, _) => ValueClassMatchAsRef::Record (RecordMatchAsRef::Immutable (self_0)),
+			Value::RecordMutable (_, ref self_0, _) => ValueClassMatchAsRef::Record (RecordMatchAsRef::Mutable (self_0)),
+			
 			Value::Error (_, ref self_0, _) => ValueClassMatchAsRef::Error (self_0),
 			
 			Value::ProcedurePrimitive (_, ref self_0, _) => ValueClassMatchAsRef::Procedure (ProcedureMatchAsRef::Primitive (self_0)),
@@ -856,6 +898,9 @@ impl Value {
 			Value::ArrayImmutable (_, self_0, _) => ValueClassMatchInto::Array (ArrayMatchInto::Immutable (self_0)),
 			Value::ArrayMutable (_, self_0, _) => ValueClassMatchInto::Array (ArrayMatchInto::Mutable (self_0)),
 			Value::Values (_, self_0, _) => ValueClassMatchInto::Values (self_0),
+			
+			Value::RecordImmutable (_, self_0, _) => ValueClassMatchInto::Record (RecordMatchInto::Immutable (self_0)),
+			Value::RecordMutable (_, self_0, _) => ValueClassMatchInto::Record (RecordMatchInto::Mutable (self_0)),
 			
 			Value::Error (_, self_0, _) => ValueClassMatchInto::Error (self_0),
 			
@@ -929,6 +974,11 @@ impl Value {
 			(&Value::ArrayMutable (_, ref self_0, _), &Value::ArrayImmutable (_, ref other_0, _)) => ValueClassMatchAsRef2::Array (ArrayMatchAsRef2::MutableAndImmutable (self_0, other_0)),
 			
 			(&Value::Values (_, ref self_0, _), &Value::Values (_, ref other_0, _)) => ValueClassMatchAsRef2::Values (self_0, other_0),
+			
+			(&Value::RecordImmutable (_, ref self_0, _), &Value::RecordImmutable (_, ref other_0, _)) => ValueClassMatchAsRef2::Record (RecordMatchAsRef2::ImmutableBoth (self_0, other_0)),
+			(&Value::RecordMutable (_, ref self_0, _), &Value::RecordMutable (_, ref other_0, _)) => ValueClassMatchAsRef2::Record (RecordMatchAsRef2::MutableBoth (self_0, other_0)),
+			(&Value::RecordImmutable (_, ref self_0, _), &Value::RecordMutable (_, ref other_0, _)) => ValueClassMatchAsRef2::Record (RecordMatchAsRef2::ImmutableAndMutable (self_0, other_0)),
+			(&Value::RecordMutable (_, ref self_0, _), &Value::RecordImmutable (_, ref other_0, _)) => ValueClassMatchAsRef2::Record (RecordMatchAsRef2::MutableAndImmutable (self_0, other_0)),
 			
 			(&Value::Error (_, ref self_0, _), &Value::Error (_, ref other_0, _)) => ValueClassMatchAsRef2::Error (self_0, other_0),
 			
@@ -1019,6 +1069,9 @@ impl Value {
 			ValueKindMatchAsRef2::ArrayMutable (self_0, other_0) => ArrayMutable::is_self (self_0, other_0),
 			ValueKindMatchAsRef2::Values (self_0, other_0) => Values::is_self (self_0, other_0),
 			
+			ValueKindMatchAsRef2::RecordImmutable (self_0, other_0) => RecordImmutable::is_self (self_0, other_0),
+			ValueKindMatchAsRef2::RecordMutable (self_0, other_0) => RecordMutable::is_self (self_0, other_0),
+			
 			ValueKindMatchAsRef2::Error (self_0, other_0) => Error::is_self (self_0, other_0),
 			
 			ValueKindMatchAsRef2::ProcedurePrimitive (self_0, other_0) => ProcedurePrimitive::is_self (self_0, other_0),
@@ -1065,6 +1118,9 @@ impl Value {
 			Value::ArrayMutable (_, ref self_0, _) => self_0.to_immutable () .into_0 (),
 			Value::Values (_, ref self_0, _) => self_0.clone () .into_0 (),
 			
+			Value::RecordImmutable (_, ref self_0, _) => self_0.clone () .into_0 (),
+			Value::RecordMutable (_, ref self_0, _) => self_0.to_immutable () .into_0 (),
+			
 			Value::Error (_, ref self_0, _) => self_0.clone () .into_0 (),
 			
 			Value::ProcedurePrimitive (_, ref self_0, _) => self_0.clone () .into_0 (),
@@ -1101,6 +1157,9 @@ impl Value {
 			Value::PairMutable (_, ref self_0, _) => self_0.clone () .into_0 (),
 			Value::ArrayImmutable (_, ref self_0, _) => self_0.to_mutable () .into_0 (),
 			Value::ArrayMutable (_, ref self_0, _) => self_0.clone () .into_0 (),
+			
+			Value::RecordImmutable (_, ref self_0, _) => self_0.to_mutable () .into_0 (),
+			Value::RecordMutable (_, ref self_0, _) => self_0.clone () .into_0 (),
 			
 			Value::Port (_, ref self_0, _) => self_0.clone () .into_0 (),
 			Value::Process (_, ref self_0, _) => self_0.clone () .into_0 (),
@@ -1142,6 +1201,9 @@ impl ValueKindMatchInto {
 			ValueKindMatchInto::ArrayImmutable (value) => value.into (),
 			ValueKindMatchInto::ArrayMutable (value) => value.into (),
 			ValueKindMatchInto::Values (value) => value.into (),
+			
+			ValueKindMatchInto::RecordImmutable (value) => value.into (),
+			ValueKindMatchInto::RecordMutable (value) => value.into (),
 			
 			ValueKindMatchInto::Error (value) => value.into (),
 			
@@ -1189,6 +1251,8 @@ impl ValueClassMatchInto {
 			ValueClassMatchInto::Pair (class) => class.value (),
 			ValueClassMatchInto::Array (class) => class.value (),
 			ValueClassMatchInto::Values (value) => value.into (),
+			
+			ValueClassMatchInto::Record (class) => class.value (),
 			
 			ValueClassMatchInto::Error (value) => value.into (),
 			

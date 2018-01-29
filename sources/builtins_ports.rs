@@ -793,6 +793,16 @@ pub fn port_output_value_display_0 (port : &mut PortBackendWriter, value : &Valu
 			}
 		},
 		
+		ValueClassMatchAsRef::Record (class) => {
+			if flatten.unwrap_or (DEFAULT_PORT_OUTPUT_VALUE_DISPLAY_FLATTEN) {
+				let record = try! (class.record_ref ());
+				let values = record.values_as_slice ();
+				try! (port_output_value_display_0_slice (port, values, Some (true), separator, Some (false)));
+			} else {
+				return port_output_value_write_0 (port, value, Some (false), separator, flush);
+			}
+		},
+		
 		ValueClassMatchAsRef::Procedure (_) |
 		ValueClassMatchAsRef::Syntax (_) |
 		ValueClassMatchAsRef::Error (_) |
@@ -1005,6 +1015,23 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 			} else {
 				// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
 				let formatted = format! ("{}", value);
+				try! (port.char_write_string (&formatted, true));
+			}
+		},
+		
+		ValueClassMatchAsRef::Record (class) => {
+			if flatten.unwrap_or (DEFAULT_PORT_OUTPUT_VALUE_WRITE_FLATTEN) {
+				let record = try! (class.record_ref ());
+				let values = record.values_as_slice ();
+				try! (port_output_value_write_0_slice (port, values, Some (true), separator, Some (false)));
+			} else {
+				// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+				let formatted = match class {
+					RecordMatchAsRef::Immutable (value) =>
+						format! ("{}", value),
+					RecordMatchAsRef::Mutable (value) =>
+						format! ("{}", value),
+				};
 				try! (port.char_write_string (&formatted, true));
 			}
 		},

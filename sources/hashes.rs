@@ -39,6 +39,9 @@ impl hash::Hash for Value {
 			ValueKindMatchAsRef::ArrayMutable (self_0) => { hasher.write_u32 (0xb20f12de); self_0.hash (hasher); },
 			ValueKindMatchAsRef::Values (self_0) => { hasher.write_u32 (0xb5f3786a); self_0.hash (hasher); },
 			
+			ValueKindMatchAsRef::RecordImmutable (self_0) => { hasher.write_u32 (0x296684da); self_0.hash (hasher); },
+			ValueKindMatchAsRef::RecordMutable (self_0) => { hasher.write_u32 (0xea85f2fa); self_0.hash (hasher); },
+			
 			ValueKindMatchAsRef::Error (self_0) => { hasher.write_u32 (0x15f15501); self_0.hash (hasher); },
 			
 			ValueKindMatchAsRef::ProcedurePrimitive (self_0) => { hasher.write_u32 (0x23a51f00); self_0.hash (hasher); },
@@ -160,6 +163,28 @@ impl hash::Hash for ArrayMutable {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		let values = try_or_return! (self.array_ref (), ());
+		values.values_as_slice () .hash (hasher);
+	}
+}
+
+
+
+
+impl hash::Hash for RecordImmutable {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
+		let values = self.record_ref ();
+		values.values_as_slice () .hash (hasher);
+	}
+}
+
+
+impl hash::Hash for RecordMutable {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
+		let values = try_or_return! (self.record_ref (), ());
 		values.values_as_slice () .hash (hasher);
 	}
 }
