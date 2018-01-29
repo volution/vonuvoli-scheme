@@ -95,10 +95,12 @@ pub enum ArithmeticPrimitive1 {
 	Multiplication,
 	Division,
 	
+	/*
 	AdditionWithInteger ( Constant<i16> ),
 	SubtractionWithInteger ( Constant<i16> ),
 	MultiplicationWithInteger ( Constant<i16> ),
 	DivisionWithInteger ( Constant<i16> ),
+	*/
 	
 	/*
 	AdditionWithReal ( Constant<f32> ),
@@ -361,6 +363,7 @@ pub fn arithmetic_primitive_1_evaluate (primitive : ArithmeticPrimitive1, input_
 					(value_1, value_2), NumberReal::div (value_1, value_2)),
 		
 		
+		/*
 		ArithmeticPrimitive1::AdditionWithInteger (constant) =>
 			arithmetic_primitive_1_delegate_call! (input_1,
 					value, try! (NumberInteger::add (value, &constant.value () .into ())),
@@ -380,6 +383,7 @@ pub fn arithmetic_primitive_1_evaluate (primitive : ArithmeticPrimitive1, input_
 			arithmetic_primitive_1_delegate_call! (input_1,
 					value, try! (NumberInteger::div (value, &constant.value () .into ())),
 					value, NumberReal::div (value, &constant.value () .into ())),
+		*/
 		
 		
 		/*
