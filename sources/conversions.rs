@@ -851,6 +851,19 @@ pub fn count_coerce (count : Option<&Value>) -> (Outcome<Option<usize>>) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn boolean_coerce (boolean : Option<&Value>) -> (Outcome<Option<bool>>) {
+	let boolean = if let Some (boolean) = boolean {
+		Some (try_as_boolean_ref! (boolean) .value ())
+	} else {
+		None
+	};
+	succeed! (boolean);
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn outcome_as_ref <T> (outcome : &Outcome<T>) -> (Outcome<&T>) {
 	match *outcome {
 		Ok (ref value) =>

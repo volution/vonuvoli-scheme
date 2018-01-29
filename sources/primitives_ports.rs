@@ -2,9 +2,9 @@
 
 use super::builtins::exports::*;
 use super::constants::exports::*;
+use super::conversions::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
-use super::ports::exports::*;
 use super::primitives_procedures::exports::*;
 use super::values::exports::*;
 
@@ -63,6 +63,13 @@ pub enum PortPrimitive0 {
 	CurrentOutput,
 	CurrentError,
 	
+	IsInputOpen,
+	IsOutputOpen,
+	
+	Close,
+	CloseInput,
+	CloseOutput,
+	
 	Eof,
 	
 	ByteReady,
@@ -74,13 +81,10 @@ pub enum PortPrimitive0 {
 	CharacterRead,
 	
 	BytesReadCollect,
-	BytesReadExtend,
-	BytesReadCopy,
 	BytesReadChunk,
 	BytesReadLine,
 	
 	StringReadCollect,
-	StringReadExtend,
 	StringReadChunk,
 	StringReadLine,
 	
@@ -95,6 +99,9 @@ pub enum PortPrimitive0 {
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum PortPrimitive1 {
+	
+	OutputToBytes,
+	OutputToString,
 	
 	InputFromBytes,
 	InputFromString,
@@ -123,14 +130,14 @@ pub enum PortPrimitive1 {
 	CharacterPeek,
 	CharacterRead,
 	
-	BytesReadCollect,
-	BytesReadExtend,
 	BytesReadCopy,
+	BytesReadExtend,
+	BytesReadCollect,
 	BytesReadChunk,
 	BytesReadLine,
 	
-	StringReadCollect,
 	StringReadExtend,
+	StringReadCollect,
 	StringReadChunk,
 	StringReadLine,
 	
@@ -165,12 +172,16 @@ pub enum PortPrimitive2 {
 	OpenTextualInputThenCallAndClose,
 	OpenTextualOutputThenCallAndClose,
 	
-	BytesReadCollect,
-	BytesReadExtend,
 	BytesReadCopy,
+	BytesReadExtend,
+	BytesReadCollect,
+	BytesReadChunk,
+	BytesReadLine,
 	
-	StringReadCollect,
 	StringReadExtend,
+	StringReadCollect,
+	StringReadChunk,
+	StringReadLine,
 	
 	ByteWrite,
 	BytesWrite,
@@ -190,6 +201,9 @@ pub enum PortPrimitive2 {
 pub enum PortPrimitive3 {
 	
 	BytesReadCopy,
+	BytesReadExtend,
+	
+	StringReadExtend,
 	
 	BytesWrite,
 	
@@ -202,6 +216,9 @@ pub enum PortPrimitive3 {
 pub enum PortPrimitive4 {
 	
 	BytesReadCopy,
+	BytesReadExtend,
+	
+	StringReadExtend,
 	
 	BytesWrite,
 	
@@ -211,7 +228,11 @@ pub enum PortPrimitive4 {
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
-pub enum PortPrimitive5 {}
+pub enum PortPrimitive5 {
+	
+	BytesReadCopy,
+	
+}
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
@@ -221,7 +242,16 @@ pub enum PortPrimitiveN {}
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum PortPrimitiveV {
 	
-	/*
+	OutputToBytes,
+	OutputToString,
+	
+	IsInputOpen,
+	IsOutputOpen,
+	
+	Close,
+	CloseInput,
+	CloseOutput,
+	
 	ByteReady,
 	BytePeek,
 	ByteRead,
@@ -230,14 +260,14 @@ pub enum PortPrimitiveV {
 	CharacterPeek,
 	CharacterRead,
 	
-	BytesReadCollect,
-	BytesReadExtend,
 	BytesReadCopy,
+	BytesReadExtend,
+	BytesReadCollect,
 	BytesReadChunk,
 	BytesReadLine,
 	
-	StringReadCollect,
 	StringReadExtend,
+	StringReadCollect,
 	StringReadChunk,
 	StringReadLine,
 	
@@ -256,15 +286,35 @@ pub enum PortPrimitiveV {
 	
 	NewLine,
 	FlushOutput,
-	*/
 	
 }
 
 
 
 
+macro_rules! stdin {
+	( $evaluator : expr ) => (
+		& try! ($evaluator .environment () .stdin_value ())
+	);
+}
+
+macro_rules! stdout {
+	( $evaluator : expr ) => (
+		& try! ($evaluator .environment () .stdout_value ())
+	);
+}
+
+macro_rules! stderr {
+	( $evaluator : expr ) => (
+		& try! ($evaluator .environment () .stderr_value ())
+	);
+}
+
+
+
+
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_primitive_0_evaluate (primitive : PortPrimitive0, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn port_primitive_0_evaluate (primitive : PortPrimitive0, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		PortPrimitive0::OutputToBytes =>
@@ -274,70 +324,79 @@ pub fn port_primitive_0_evaluate (primitive : PortPrimitive0, _evaluator : &mut 
 			return port_string_writer_new (None),
 		
 		PortPrimitive0::CurrentInput =>
-			return Port::new_stdin () .into_0 (),
+			return evaluator.environment () .stdin_value (),
 		
 		PortPrimitive0::CurrentOutput =>
-			return Port::new_stdout () .into_0 (),
+			return evaluator.environment () .stdout_value (),
 		
 		PortPrimitive0::CurrentError =>
-			return Port::new_stderr () .into_0 (),
+			return evaluator.environment () .stderr_value (),
+		
+		PortPrimitive0::IsInputOpen =>
+			return is_port_input_open (stdin! (evaluator)) .into_0 (),
+		
+		PortPrimitive0::IsOutputOpen =>
+			return is_port_output_open (stdout! (evaluator)) .into_0 (),
+		
+		PortPrimitive0::Close => {
+			try! (port_input_close (stdin! (evaluator)));
+			try! (port_output_close (stdout! (evaluator)));
+			succeed! (VOID_VALUE);
+		},
+		
+		PortPrimitive0::CloseInput =>
+			return port_input_close (stdin! (evaluator)) .into_0 (),
+		
+		PortPrimitive0::CloseOutput =>
+			return port_output_close (stdout! (evaluator)) .into_0 (),
 		
 		PortPrimitive0::Eof =>
 			return PORT_EOF.into_0 (),
 		
 		PortPrimitive0::ByteReady =>
-			fail_unimplemented! (0),
+			return port_input_byte_ready (stdin! (evaluator)) .into_0 (),
 		
 		PortPrimitive0::BytePeek =>
-			fail_unimplemented! (0),
+			return port_input_byte_peek (stdin! (evaluator)),
 		
 		PortPrimitive0::ByteRead =>
-			fail_unimplemented! (0),
+			return port_input_byte_read (stdin! (evaluator)),
 		
 		PortPrimitive0::CharacterReady =>
-			fail_unimplemented! (0),
+			return port_input_character_ready (stdin! (evaluator)) .into_0 (),
 		
 		PortPrimitive0::CharacterPeek =>
-			fail_unimplemented! (0),
+			return port_input_character_peek (stdin! (evaluator)),
 		
 		PortPrimitive0::CharacterRead =>
-			fail_unimplemented! (0),
+			return port_input_character_read (stdin! (evaluator)),
 		
 		PortPrimitive0::BytesReadCollect =>
-			fail_unimplemented! (0),
-		
-		PortPrimitive0::BytesReadExtend =>
-			fail_unimplemented! (0),
-		
-		PortPrimitive0::BytesReadCopy =>
-			fail_unimplemented! (0),
+			return port_input_bytes_read_collect (stdin! (evaluator), None, Some (true)),
 		
 		PortPrimitive0::BytesReadChunk =>
-			fail_unimplemented! (0),
+			return port_input_bytes_read_collect (stdin! (evaluator), None, Some (false)),
 		
 		PortPrimitive0::BytesReadLine =>
-			fail_unimplemented! (0),
+			return port_input_bytes_read_line (stdin! (evaluator), Some (false), None, Some (true)),
 		
 		PortPrimitive0::StringReadCollect =>
-			fail_unimplemented! (0),
-		
-		PortPrimitive0::StringReadExtend =>
-			fail_unimplemented! (0),
+			return port_input_string_read_collect (stdin! (evaluator), None, Some (true)),
 		
 		PortPrimitive0::StringReadChunk =>
-			fail_unimplemented! (0),
+			return port_input_string_read_collect (stdin! (evaluator), None, Some (false)),
 		
 		PortPrimitive0::StringReadLine =>
-			fail_unimplemented! (0),
+			return port_input_string_read_line (stdin! (evaluator), Some (false), None, Some (true)),
 		
 		PortPrimitive0::ValueRead =>
-			fail_unimplemented! (0),
+			fail_unimplemented! (0x75ffa1de), // deferred
 		
 		PortPrimitive0::NewLine =>
-			return port_output_newline_0 (&mut try! (PortBackend::new_stdout ()), None, Some (true)) .into_0 (),
+			return port_output_newline (stdout! (evaluator), None, Some (true)) .into_0 (),
 		
 		PortPrimitive0::FlushOutput =>
-			fail_unimplemented! (0),
+			return port_output_flush (stdout! (evaluator)) .into_0 (),
 		
 	}
 }
@@ -346,8 +405,14 @@ pub fn port_primitive_0_evaluate (primitive : PortPrimitive0, _evaluator : &mut 
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, input_1 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, input_1 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
+		
+		PortPrimitive1::OutputToBytes =>
+			fail_unimplemented! (0xf2c90a09), // deferred
+		
+		PortPrimitive1::OutputToString =>
+			fail_unimplemented! (0xe31eb4dd), // deferred
 		
 		PortPrimitive1::InputFromBytes =>
 			return port_bytes_reader_new (input_1),
@@ -406,62 +471,64 @@ pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, input_1 : &Value, 
 		PortPrimitive1::CharacterRead =>
 			return port_input_character_read (input_1),
 		
-		PortPrimitive1::BytesReadCollect =>
-			return port_input_bytes_read_collect (input_1, None, None),
+		PortPrimitive1::BytesReadCopy =>
+			return port_input_bytes_read_copy_range (stdin! (evaluator), input_1, None, None, Some (true)),
 		
 		PortPrimitive1::BytesReadExtend =>
-			fail_unimplemented! (0),
+			return port_input_bytes_read_extend (stdin! (evaluator), input_1, None, Some (false)),
 		
-		PortPrimitive1::BytesReadCopy =>
-			fail_unimplemented! (0),
+		PortPrimitive1::BytesReadCollect =>
+			return port_input_bytes_read_collect (stdin! (evaluator), Some (input_1), Some (true)),
 		
 		PortPrimitive1::BytesReadChunk =>
-			fail_unimplemented! (0),
+			return port_input_bytes_read_collect (input_1, None, Some (false)),
 		
 		PortPrimitive1::BytesReadLine =>
-			fail_unimplemented! (0),
-		
-		PortPrimitive1::StringReadCollect =>
-			return port_input_string_read_collect (input_1, None, None),
+			return port_input_bytes_read_line (input_1, Some (false), None, Some (true)),
 		
 		PortPrimitive1::StringReadExtend =>
-			fail_unimplemented! (0),
+			return port_input_string_read_extend (stdin! (evaluator), input_1, None, Some (false)),
+		
+		PortPrimitive1::StringReadCollect =>
+			return port_input_string_read_collect (stdin! (evaluator), Some (input_1), Some (true)),
 		
 		PortPrimitive1::StringReadChunk =>
-			return port_input_read_chunk (input_1, None, None),
+			return port_input_string_read_collect (input_1, None, Some (false)),
 		
 		PortPrimitive1::StringReadLine =>
-			return port_input_read_line (input_1, Some (false), None, None),
+			return port_input_string_read_line (input_1, Some (false), None, Some (true)),
 		
 		PortPrimitive1::ValueRead =>
 			fail_unimplemented! (0xae3d8a9f), // deferred
 		
 		PortPrimitive1::ByteWrite =>
-			fail_unimplemented! (0),
+			return port_output_byte_write (stdout! (evaluator), input_1) .into_0 (),
 		
 		PortPrimitive1::BytesWrite =>
-			fail_unimplemented! (0),
+			return port_output_bytes_write (stdout! (evaluator), input_1) .into_0 (),
 		
 		PortPrimitive1::CharacterWrite =>
-			fail_unimplemented! (0),
+			return port_output_character_write (stdout! (evaluator), input_1) .into_0 (),
 		
 		PortPrimitive1::StringWrite =>
-			fail_unimplemented! (0),
+			return port_output_string_write (stdout! (evaluator), input_1) .into_0 (),
 		
 		PortPrimitive1::ValueWrite =>
-			fail_unimplemented! (0),
+			// TODO:  Add support for cyclic objects!
+			return port_output_value_write (stdout! (evaluator), input_1, None, None, None) .into_0 (),
 		
 		PortPrimitive1::ValueWriteShared =>
-			fail_unimplemented! (0),
+			// TODO:  Add support for cyclic objects!
+			return port_output_value_write (stdout! (evaluator), input_1, None, None, None) .into_0 (),
 		
 		PortPrimitive1::ValueWriteSimple =>
-			fail_unimplemented! (0),
+			return port_output_value_write (stdout! (evaluator), input_1, None, None, None) .into_0 (),
 		
 		PortPrimitive1::ValueDisplay =>
-			return port_output_value_display_0 (&mut try! (PortBackend::new_stdout ()), input_1, None, None, Some (true)) .into_0 (),
+			return port_output_value_display (stdout! (evaluator), input_1, None, None, Some (true)) .into_0 (),
 		
 		PortPrimitive1::NewLine =>
-			fail_unimplemented! (0),
+			return port_output_newline (input_1, None, Some (true)) .into_0 (),
 		
 		PortPrimitive1::FlushOutput =>
 			return port_output_flush (input_1) .into_0 (),
@@ -505,20 +572,32 @@ pub fn port_primitive_2_evaluate (primitive : PortPrimitive2, input_1 : &Value, 
 			return port_call_and_close (&port, input_2, evaluator);
 		},
 		
-		PortPrimitive2::BytesReadCollect =>
-			return port_input_bytes_read_collect (input_2, Some (input_1), None),
+		PortPrimitive2::BytesReadCopy =>
+			return port_input_bytes_read_copy_range (input_2, input_1, None, None, Some (true)),
 		
 		PortPrimitive2::BytesReadExtend =>
-			return port_input_bytes_read_extend (input_2, input_1, None, None),
+			return port_input_bytes_read_extend (input_2, input_1, None, Some (false)),
 		
-		PortPrimitive2::BytesReadCopy =>
-			return port_input_bytes_read_copy_range (input_2, input_1, None, None, None),
+		PortPrimitive2::BytesReadCollect =>
+			return port_input_bytes_read_collect (input_2, Some (input_1), Some (true)),
 		
-		PortPrimitive2::StringReadCollect =>
-			return port_input_string_read_collect (input_2, Some (input_1), None),
+		PortPrimitive2::BytesReadChunk =>
+			return port_input_bytes_read_collect (input_1, Some (input_2), Some (false)),
+		
+		PortPrimitive2::BytesReadLine =>
+			return port_input_bytes_read_line (input_1, Some (false), Some (input_2), Some (true)),
 		
 		PortPrimitive2::StringReadExtend =>
-			return port_input_string_read_extend (input_2, input_1, None, None),
+			return port_input_string_read_extend (input_2, input_1, None, Some (false)),
+		
+		PortPrimitive2::StringReadCollect =>
+			return port_input_string_read_collect (input_2, Some (input_1), Some (true)),
+		
+		PortPrimitive2::StringReadChunk =>
+			return port_input_string_read_collect (input_1, Some (input_2), Some (false)),
+		
+		PortPrimitive2::StringReadLine =>
+			return port_input_string_read_line (input_1, Some (false), Some (input_2), Some (true)),
 		
 		PortPrimitive2::ByteWrite =>
 			return port_output_byte_write (input_2, input_1) .into_0 (),
@@ -544,7 +623,7 @@ pub fn port_primitive_2_evaluate (primitive : PortPrimitive2, input_1 : &Value, 
 			return port_output_value_write (input_2, input_1, None, None, None) .into_0 (),
 		
 		PortPrimitive2::ValueDisplay =>
-			fail_unimplemented! (0),
+			return port_output_value_display (input_2, input_1, None, None, Some (true)) .into_0 (),
 		
 	}
 }
@@ -553,17 +632,23 @@ pub fn port_primitive_2_evaluate (primitive : PortPrimitive2, input_1 : &Value, 
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_primitive_3_evaluate (primitive : PortPrimitive3, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn port_primitive_3_evaluate (primitive : PortPrimitive3, input_1 : &Value, input_2 : &Value, input_3 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		PortPrimitive3::BytesReadCopy =>
-			fail_unimplemented! (0),
+			return port_input_bytes_read_copy_range (input_2, input_1, Some (input_3), None, Some (true)),
+		
+		PortPrimitive3::BytesReadExtend =>
+			return port_input_bytes_read_extend (input_2, input_1, Some (input_3), Some (true)),
+		
+		PortPrimitive3::StringReadExtend =>
+			return port_input_string_read_extend (input_2, input_1, Some (input_3), Some (true)),
 		
 		PortPrimitive3::BytesWrite =>
-			fail_unimplemented! (0),
+			fail_unimplemented! (0xe9bfad62),
 		
 		PortPrimitive3::StringWrite =>
-			fail_unimplemented! (0),
+			fail_unimplemented! (0x0145ea8e),
 		
 	}
 }
@@ -572,17 +657,23 @@ pub fn port_primitive_3_evaluate (primitive : PortPrimitive3, _input_1 : &Value,
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_primitive_4_evaluate (primitive : PortPrimitive4, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn port_primitive_4_evaluate (primitive : PortPrimitive4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		PortPrimitive4::BytesReadCopy =>
-			fail_unimplemented! (0),
+			return port_input_bytes_read_copy_range (input_2, input_1, Some (input_3), Some (input_4), Some (true)),
+		
+		PortPrimitive4::BytesReadExtend =>
+			return port_input_bytes_read_extend (input_2, input_1, Some (input_3), try! (boolean_coerce (Some (input_4)))),
+		
+		PortPrimitive4::StringReadExtend =>
+			return port_input_string_read_extend (input_2, input_1, Some (input_3), try! (boolean_coerce (Some (input_4)))),
 		
 		PortPrimitive4::BytesWrite =>
-			fail_unimplemented! (0),
+			fail_unimplemented! (0x2e16ec86),
 		
 		PortPrimitive4::StringWrite =>
-			fail_unimplemented! (0),
+			fail_unimplemented! (0xa5f90fe1),
 		
 	}
 }
@@ -591,8 +682,13 @@ pub fn port_primitive_4_evaluate (primitive : PortPrimitive4, _input_1 : &Value,
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_primitive_5_evaluate (primitive : PortPrimitive5, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _input_5 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
-	match primitive {}
+pub fn port_primitive_5_evaluate (primitive : PortPrimitive5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	match primitive {
+		
+		PortPrimitive5::BytesReadCopy =>
+			return port_input_bytes_read_copy_range (input_2, input_1, Some (input_3), Some (input_4), try! (boolean_coerce (Some (input_5)))),
+		
+	}
 }
 
 
@@ -608,7 +704,74 @@ pub fn port_primitive_n_evaluate (primitive : PortPrimitiveN, _inputs : &[&Value
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_primitive_v_alternative_0 (primitive : PortPrimitiveV) -> (Option<PortPrimitive0>) {
-	match primitive {}
+	match primitive {
+		PortPrimitiveV::OutputToBytes =>
+			Some (PortPrimitive0::OutputToBytes),
+		PortPrimitiveV::OutputToString =>
+			Some (PortPrimitive0::OutputToString),
+		PortPrimitiveV::IsInputOpen =>
+			Some (PortPrimitive0::IsInputOpen),
+		PortPrimitiveV::IsOutputOpen =>
+			Some (PortPrimitive0::IsOutputOpen),
+		PortPrimitiveV::Close =>
+			Some (PortPrimitive0::Close),
+		PortPrimitiveV::CloseInput =>
+			Some (PortPrimitive0::CloseInput),
+		PortPrimitiveV::CloseOutput =>
+			Some (PortPrimitive0::CloseOutput),
+		PortPrimitiveV::ByteReady =>
+			Some (PortPrimitive0::ByteReady),
+		PortPrimitiveV::BytePeek =>
+			Some (PortPrimitive0::BytePeek),
+		PortPrimitiveV::ByteRead =>
+			Some (PortPrimitive0::ByteRead),
+		PortPrimitiveV::CharacterReady =>
+			Some (PortPrimitive0::CharacterReady),
+		PortPrimitiveV::CharacterPeek =>
+			Some (PortPrimitive0::CharacterPeek),
+		PortPrimitiveV::CharacterRead =>
+			Some (PortPrimitive0::CharacterRead),
+		PortPrimitiveV::BytesReadCopy =>
+			None,
+		PortPrimitiveV::BytesReadExtend =>
+			None,
+		PortPrimitiveV::BytesReadCollect =>
+			Some (PortPrimitive0::BytesReadCollect),
+		PortPrimitiveV::BytesReadChunk =>
+			Some (PortPrimitive0::BytesReadChunk),
+		PortPrimitiveV::BytesReadLine =>
+			Some (PortPrimitive0::BytesReadLine),
+		PortPrimitiveV::StringReadExtend =>
+			None,
+		PortPrimitiveV::StringReadCollect =>
+			Some (PortPrimitive0::StringReadCollect),
+		PortPrimitiveV::StringReadChunk =>
+			Some (PortPrimitive0::StringReadChunk),
+		PortPrimitiveV::StringReadLine =>
+			Some (PortPrimitive0::StringReadLine),
+		PortPrimitiveV::ValueRead =>
+			Some (PortPrimitive0::ValueRead),
+		PortPrimitiveV::ByteWrite =>
+			None,
+		PortPrimitiveV::BytesWrite =>
+			None,
+		PortPrimitiveV::CharacterWrite =>
+			None,
+		PortPrimitiveV::StringWrite =>
+			None,
+		PortPrimitiveV::ValueWrite =>
+			None,
+		PortPrimitiveV::ValueWriteShared =>
+			None,
+		PortPrimitiveV::ValueWriteSimple =>
+			None,
+		PortPrimitiveV::ValueDisplay =>
+			None,
+		PortPrimitiveV::NewLine =>
+			Some (PortPrimitive0::NewLine),
+		PortPrimitiveV::FlushOutput =>
+			Some (PortPrimitive0::FlushOutput),
+	}
 }
 
 
@@ -616,7 +779,74 @@ pub fn port_primitive_v_alternative_0 (primitive : PortPrimitiveV) -> (Option<Po
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_primitive_v_alternative_1 (primitive : PortPrimitiveV) -> (Option<PortPrimitive1>) {
-	match primitive {}
+	match primitive {
+		PortPrimitiveV::OutputToBytes =>
+			Some (PortPrimitive1::OutputToBytes),
+		PortPrimitiveV::OutputToString =>
+			Some (PortPrimitive1::OutputToString),
+		PortPrimitiveV::IsInputOpen =>
+			Some (PortPrimitive1::IsInputOpen),
+		PortPrimitiveV::IsOutputOpen =>
+			Some (PortPrimitive1::IsOutputOpen),
+		PortPrimitiveV::Close =>
+			Some (PortPrimitive1::Close),
+		PortPrimitiveV::CloseInput =>
+			Some (PortPrimitive1::CloseInput),
+		PortPrimitiveV::CloseOutput =>
+			Some (PortPrimitive1::CloseOutput),
+		PortPrimitiveV::ByteReady =>
+			Some (PortPrimitive1::ByteReady),
+		PortPrimitiveV::BytePeek =>
+			Some (PortPrimitive1::BytePeek),
+		PortPrimitiveV::ByteRead =>
+			Some (PortPrimitive1::ByteRead),
+		PortPrimitiveV::CharacterReady =>
+			Some (PortPrimitive1::CharacterReady),
+		PortPrimitiveV::CharacterPeek =>
+			Some (PortPrimitive1::CharacterPeek),
+		PortPrimitiveV::CharacterRead =>
+			Some (PortPrimitive1::CharacterRead),
+		PortPrimitiveV::BytesReadCopy =>
+			Some (PortPrimitive1::BytesReadCopy),
+		PortPrimitiveV::BytesReadExtend =>
+			Some (PortPrimitive1::BytesReadExtend),
+		PortPrimitiveV::BytesReadCollect =>
+			Some (PortPrimitive1::BytesReadCollect),
+		PortPrimitiveV::BytesReadChunk =>
+			Some (PortPrimitive1::BytesReadChunk),
+		PortPrimitiveV::BytesReadLine =>
+			Some (PortPrimitive1::BytesReadLine),
+		PortPrimitiveV::StringReadExtend =>
+			Some (PortPrimitive1::StringReadExtend),
+		PortPrimitiveV::StringReadCollect =>
+			Some (PortPrimitive1::StringReadCollect),
+		PortPrimitiveV::StringReadChunk =>
+			Some (PortPrimitive1::StringReadChunk),
+		PortPrimitiveV::StringReadLine =>
+			Some (PortPrimitive1::StringReadLine),
+		PortPrimitiveV::ValueRead =>
+			Some (PortPrimitive1::ValueRead),
+		PortPrimitiveV::ByteWrite =>
+			Some (PortPrimitive1::ByteWrite),
+		PortPrimitiveV::BytesWrite =>
+			Some (PortPrimitive1::BytesWrite),
+		PortPrimitiveV::CharacterWrite =>
+			Some (PortPrimitive1::CharacterWrite),
+		PortPrimitiveV::StringWrite =>
+			Some (PortPrimitive1::StringWrite),
+		PortPrimitiveV::ValueWrite =>
+			Some (PortPrimitive1::ValueWrite),
+		PortPrimitiveV::ValueWriteShared =>
+			Some (PortPrimitive1::ValueWriteShared),
+		PortPrimitiveV::ValueWriteSimple =>
+			Some (PortPrimitive1::ValueWriteSimple),
+		PortPrimitiveV::ValueDisplay =>
+			Some (PortPrimitive1::ValueDisplay),
+		PortPrimitiveV::NewLine =>
+			Some (PortPrimitive1::NewLine),
+		PortPrimitiveV::FlushOutput =>
+			Some (PortPrimitive1::FlushOutput),
+	}
 }
 
 
@@ -624,7 +854,74 @@ pub fn port_primitive_v_alternative_1 (primitive : PortPrimitiveV) -> (Option<Po
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_primitive_v_alternative_2 (primitive : PortPrimitiveV) -> (Option<PortPrimitive2>) {
-	match primitive {}
+	match primitive {
+		PortPrimitiveV::OutputToBytes =>
+			None,
+		PortPrimitiveV::OutputToString =>
+			None,
+		PortPrimitiveV::IsInputOpen =>
+			None,
+		PortPrimitiveV::IsOutputOpen =>
+			None,
+		PortPrimitiveV::Close =>
+			None,
+		PortPrimitiveV::CloseInput =>
+			None,
+		PortPrimitiveV::CloseOutput =>
+			None,
+		PortPrimitiveV::ByteReady =>
+			None,
+		PortPrimitiveV::BytePeek =>
+			None,
+		PortPrimitiveV::ByteRead =>
+			None,
+		PortPrimitiveV::CharacterReady =>
+			None,
+		PortPrimitiveV::CharacterPeek =>
+			None,
+		PortPrimitiveV::CharacterRead =>
+			None,
+		PortPrimitiveV::BytesReadCopy =>
+			Some (PortPrimitive2::BytesReadCopy),
+		PortPrimitiveV::BytesReadExtend =>
+			Some (PortPrimitive2::BytesReadExtend),
+		PortPrimitiveV::BytesReadCollect =>
+			Some (PortPrimitive2::BytesReadCollect),
+		PortPrimitiveV::BytesReadChunk =>
+			Some (PortPrimitive2::BytesReadChunk),
+		PortPrimitiveV::BytesReadLine =>
+			Some (PortPrimitive2::BytesReadLine),
+		PortPrimitiveV::StringReadExtend =>
+			Some (PortPrimitive2::StringReadExtend),
+		PortPrimitiveV::StringReadCollect =>
+			Some (PortPrimitive2::StringReadCollect),
+		PortPrimitiveV::StringReadChunk =>
+			Some (PortPrimitive2::StringReadChunk),
+		PortPrimitiveV::StringReadLine =>
+			Some (PortPrimitive2::StringReadLine),
+		PortPrimitiveV::ValueRead =>
+			None,
+		PortPrimitiveV::ByteWrite =>
+			Some (PortPrimitive2::ByteWrite),
+		PortPrimitiveV::BytesWrite =>
+			Some (PortPrimitive2::BytesWrite),
+		PortPrimitiveV::CharacterWrite =>
+			Some (PortPrimitive2::CharacterWrite),
+		PortPrimitiveV::StringWrite =>
+			Some (PortPrimitive2::StringWrite),
+		PortPrimitiveV::ValueWrite =>
+			Some (PortPrimitive2::ValueWrite),
+		PortPrimitiveV::ValueWriteShared =>
+			Some (PortPrimitive2::ValueWriteShared),
+		PortPrimitiveV::ValueWriteSimple =>
+			Some (PortPrimitive2::ValueWriteSimple),
+		PortPrimitiveV::ValueDisplay =>
+			Some (PortPrimitive2::ValueDisplay),
+		PortPrimitiveV::NewLine =>
+			None,
+		PortPrimitiveV::FlushOutput =>
+			None,
+	}
 }
 
 
@@ -632,7 +929,74 @@ pub fn port_primitive_v_alternative_2 (primitive : PortPrimitiveV) -> (Option<Po
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_primitive_v_alternative_3 (primitive : PortPrimitiveV) -> (Option<PortPrimitive3>) {
-	match primitive {}
+	match primitive {
+		PortPrimitiveV::OutputToBytes =>
+			None,
+		PortPrimitiveV::OutputToString =>
+			None,
+		PortPrimitiveV::IsInputOpen =>
+			None,
+		PortPrimitiveV::IsOutputOpen =>
+			None,
+		PortPrimitiveV::Close =>
+			None,
+		PortPrimitiveV::CloseInput =>
+			None,
+		PortPrimitiveV::CloseOutput =>
+			None,
+		PortPrimitiveV::ByteReady =>
+			None,
+		PortPrimitiveV::BytePeek =>
+			None,
+		PortPrimitiveV::ByteRead =>
+			None,
+		PortPrimitiveV::CharacterReady =>
+			None,
+		PortPrimitiveV::CharacterPeek =>
+			None,
+		PortPrimitiveV::CharacterRead =>
+			None,
+		PortPrimitiveV::BytesReadCopy =>
+			Some (PortPrimitive3::BytesReadCopy),
+		PortPrimitiveV::BytesReadExtend =>
+			Some (PortPrimitive3::BytesReadExtend),
+		PortPrimitiveV::BytesReadCollect =>
+			None,
+		PortPrimitiveV::BytesReadChunk =>
+			None,
+		PortPrimitiveV::BytesReadLine =>
+			None,
+		PortPrimitiveV::StringReadExtend =>
+			Some (PortPrimitive3::StringReadExtend),
+		PortPrimitiveV::StringReadCollect =>
+			None,
+		PortPrimitiveV::StringReadChunk =>
+			None,
+		PortPrimitiveV::StringReadLine =>
+			None,
+		PortPrimitiveV::ValueRead =>
+			None,
+		PortPrimitiveV::ByteWrite =>
+			None,
+		PortPrimitiveV::BytesWrite =>
+			Some (PortPrimitive3::BytesWrite),
+		PortPrimitiveV::CharacterWrite =>
+			None,
+		PortPrimitiveV::StringWrite =>
+			Some (PortPrimitive3::StringWrite),
+		PortPrimitiveV::ValueWrite =>
+			None,
+		PortPrimitiveV::ValueWriteShared =>
+			None,
+		PortPrimitiveV::ValueWriteSimple =>
+			None,
+		PortPrimitiveV::ValueDisplay =>
+			None,
+		PortPrimitiveV::NewLine =>
+			None,
+		PortPrimitiveV::FlushOutput =>
+			None,
+	}
 }
 
 
@@ -640,7 +1004,74 @@ pub fn port_primitive_v_alternative_3 (primitive : PortPrimitiveV) -> (Option<Po
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_primitive_v_alternative_4 (primitive : PortPrimitiveV) -> (Option<PortPrimitive4>) {
-	match primitive {}
+	match primitive {
+		PortPrimitiveV::OutputToBytes =>
+			None,
+		PortPrimitiveV::OutputToString =>
+			None,
+		PortPrimitiveV::IsInputOpen =>
+			None,
+		PortPrimitiveV::IsOutputOpen =>
+			None,
+		PortPrimitiveV::Close =>
+			None,
+		PortPrimitiveV::CloseInput =>
+			None,
+		PortPrimitiveV::CloseOutput =>
+			None,
+		PortPrimitiveV::ByteReady =>
+			None,
+		PortPrimitiveV::BytePeek =>
+			None,
+		PortPrimitiveV::ByteRead =>
+			None,
+		PortPrimitiveV::CharacterReady =>
+			None,
+		PortPrimitiveV::CharacterPeek =>
+			None,
+		PortPrimitiveV::CharacterRead =>
+			None,
+		PortPrimitiveV::BytesReadCopy =>
+			Some (PortPrimitive4::BytesReadCopy),
+		PortPrimitiveV::BytesReadExtend =>
+			Some (PortPrimitive4::BytesReadExtend),
+		PortPrimitiveV::BytesReadCollect =>
+			None,
+		PortPrimitiveV::BytesReadChunk =>
+			None,
+		PortPrimitiveV::BytesReadLine =>
+			None,
+		PortPrimitiveV::StringReadExtend =>
+			Some (PortPrimitive4::StringReadExtend),
+		PortPrimitiveV::StringReadCollect =>
+			None,
+		PortPrimitiveV::StringReadChunk =>
+			None,
+		PortPrimitiveV::StringReadLine =>
+			None,
+		PortPrimitiveV::ValueRead =>
+			None,
+		PortPrimitiveV::ByteWrite =>
+			None,
+		PortPrimitiveV::BytesWrite =>
+			Some (PortPrimitive4::BytesWrite),
+		PortPrimitiveV::CharacterWrite =>
+			None,
+		PortPrimitiveV::StringWrite =>
+			Some (PortPrimitive4::StringWrite),
+		PortPrimitiveV::ValueWrite =>
+			None,
+		PortPrimitiveV::ValueWriteShared =>
+			None,
+		PortPrimitiveV::ValueWriteSimple =>
+			None,
+		PortPrimitiveV::ValueDisplay =>
+			None,
+		PortPrimitiveV::NewLine =>
+			None,
+		PortPrimitiveV::FlushOutput =>
+			None,
+	}
 }
 
 
@@ -648,7 +1079,74 @@ pub fn port_primitive_v_alternative_4 (primitive : PortPrimitiveV) -> (Option<Po
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_primitive_v_alternative_5 (primitive : PortPrimitiveV) -> (Option<PortPrimitive5>) {
-	match primitive {}
+	match primitive {
+		PortPrimitiveV::OutputToBytes =>
+			None,
+		PortPrimitiveV::OutputToString =>
+			None,
+		PortPrimitiveV::IsInputOpen =>
+			None,
+		PortPrimitiveV::IsOutputOpen =>
+			None,
+		PortPrimitiveV::Close =>
+			None,
+		PortPrimitiveV::CloseInput =>
+			None,
+		PortPrimitiveV::CloseOutput =>
+			None,
+		PortPrimitiveV::ByteReady =>
+			None,
+		PortPrimitiveV::BytePeek =>
+			None,
+		PortPrimitiveV::ByteRead =>
+			None,
+		PortPrimitiveV::CharacterReady =>
+			None,
+		PortPrimitiveV::CharacterPeek =>
+			None,
+		PortPrimitiveV::CharacterRead =>
+			None,
+		PortPrimitiveV::BytesReadCopy =>
+			Some (PortPrimitive5::BytesReadCopy),
+		PortPrimitiveV::BytesReadExtend =>
+			None,
+		PortPrimitiveV::BytesReadCollect =>
+			None,
+		PortPrimitiveV::BytesReadChunk =>
+			None,
+		PortPrimitiveV::BytesReadLine =>
+			None,
+		PortPrimitiveV::StringReadExtend =>
+			None,
+		PortPrimitiveV::StringReadCollect =>
+			None,
+		PortPrimitiveV::StringReadChunk =>
+			None,
+		PortPrimitiveV::StringReadLine =>
+			None,
+		PortPrimitiveV::ValueRead =>
+			None,
+		PortPrimitiveV::ByteWrite =>
+			None,
+		PortPrimitiveV::BytesWrite =>
+			None,
+		PortPrimitiveV::CharacterWrite =>
+			None,
+		PortPrimitiveV::StringWrite =>
+			None,
+		PortPrimitiveV::ValueWrite =>
+			None,
+		PortPrimitiveV::ValueWriteShared =>
+			None,
+		PortPrimitiveV::ValueWriteSimple =>
+			None,
+		PortPrimitiveV::ValueDisplay =>
+			None,
+		PortPrimitiveV::NewLine =>
+			None,
+		PortPrimitiveV::FlushOutput =>
+			None,
+	}
 }
 
 
@@ -656,7 +1154,74 @@ pub fn port_primitive_v_alternative_5 (primitive : PortPrimitiveV) -> (Option<Po
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_primitive_v_alternative_n (primitive : PortPrimitiveV) -> (Option<PortPrimitiveN>) {
-	match primitive {}
+	match primitive {
+		PortPrimitiveV::OutputToBytes =>
+			None,
+		PortPrimitiveV::OutputToString =>
+			None,
+		PortPrimitiveV::IsInputOpen =>
+			None,
+		PortPrimitiveV::IsOutputOpen =>
+			None,
+		PortPrimitiveV::Close =>
+			None,
+		PortPrimitiveV::CloseInput =>
+			None,
+		PortPrimitiveV::CloseOutput =>
+			None,
+		PortPrimitiveV::ByteReady =>
+			None,
+		PortPrimitiveV::BytePeek =>
+			None,
+		PortPrimitiveV::ByteRead =>
+			None,
+		PortPrimitiveV::CharacterReady =>
+			None,
+		PortPrimitiveV::CharacterPeek =>
+			None,
+		PortPrimitiveV::CharacterRead =>
+			None,
+		PortPrimitiveV::BytesReadCopy =>
+			None,
+		PortPrimitiveV::BytesReadExtend =>
+			None,
+		PortPrimitiveV::BytesReadCollect =>
+			None,
+		PortPrimitiveV::BytesReadChunk =>
+			None,
+		PortPrimitiveV::BytesReadLine =>
+			None,
+		PortPrimitiveV::StringReadExtend =>
+			None,
+		PortPrimitiveV::StringReadCollect =>
+			None,
+		PortPrimitiveV::StringReadChunk =>
+			None,
+		PortPrimitiveV::StringReadLine =>
+			None,
+		PortPrimitiveV::ValueRead =>
+			None,
+		PortPrimitiveV::ByteWrite =>
+			None,
+		PortPrimitiveV::BytesWrite =>
+			None,
+		PortPrimitiveV::CharacterWrite =>
+			None,
+		PortPrimitiveV::StringWrite =>
+			None,
+		PortPrimitiveV::ValueWrite =>
+			None,
+		PortPrimitiveV::ValueWriteShared =>
+			None,
+		PortPrimitiveV::ValueWriteSimple =>
+			None,
+		PortPrimitiveV::ValueDisplay =>
+			None,
+		PortPrimitiveV::NewLine =>
+			None,
+		PortPrimitiveV::FlushOutput =>
+			None,
+	}
 }
 
 

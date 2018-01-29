@@ -38,8 +38,8 @@ pub mod exports {
 		port_input_bytes_read_collect_until, port_input_bytes_read_extend_until,
 		port_input_string_read_collect_until, port_input_string_read_extend_until,
 		
-		port_input_read_chunk,
-		port_input_read_line,
+		port_input_bytes_read_line,
+		port_input_string_read_line,
 		
 	};
 	
@@ -409,22 +409,31 @@ pub fn port_input_string_read_extend_until (port : &Value, string : &Value, deli
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_input_read_chunk (port : &Value, count : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
+pub fn port_input_bytes_read_line (port : &Value, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
-	let (port, count, full, buffer_size) = try! (port_input_coerce_arguments (port, count, full, false));
-	let mut buffer = StdString::with_capacity (buffer_size);
-	if let Some (_) = try! (port.char_read_string (&mut buffer, count, full)) {
-		succeed! (string_new (buffer) .into ());
+	let (port, count, full, buffer_size) = try! (port_input_coerce_arguments (port, count, full, true));
+	let delimiter = '\n' as u8;
+	let include_delimiter = include_delimiter.unwrap_or (false);
+	let mut buffer = StdVec::with_capacity (buffer_size);
+	if let Some (_) = try! (port.byte_read_extend_until (&mut buffer, delimiter, count, full)) {
+		if ! include_delimiter {
+			if let Some (last) = buffer.pop () {
+				if last != delimiter {
+					buffer.push (last);
+				}
+			} else {
+				fail_panic! (0x7e705788);
+			}
+		}
+		succeed! (bytes_new (buffer) .into ());
 	} else {
 		succeed! (PORT_EOF.into ());
 	}
 }
 
 
-
-
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_input_read_line (port : &Value, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
+pub fn port_input_string_read_line (port : &Value, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let (port, count, full, buffer_size) = try! (port_input_coerce_arguments (port, count, full, true));
 	let delimiter = '\n';
