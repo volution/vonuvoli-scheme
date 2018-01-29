@@ -173,7 +173,13 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("generic>=?", ComparisonPrimitiveV::GenericGreaterOrEqual.into ()),
 			
 			
-			("read-chunk", PortPrimitive1::StringReadChunk.into ()),
+			("read-bytevector-chunk", PortPrimitiveV::BytesReadChunk.into ()),
+			("read-bytevector-line", PortPrimitiveV::BytesReadLine.into ()),
+			("read-bytevector-append!", PortPrimitiveV::BytesReadExtend.into ()),
+			
+			("read-string-chunk", PortPrimitiveV::StringReadChunk.into ()),
+			("read-string-line", PortPrimitiveV::StringReadLine.into ()),
+			("read-string-append!", PortPrimitiveV::StringReadExtend.into ()),
 			
 			
 			("process-spawn", RuntimePrimitiveN::ProcessSpawn.into ()),

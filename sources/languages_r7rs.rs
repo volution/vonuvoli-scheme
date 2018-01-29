@@ -435,41 +435,41 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			("base", "ports", "port?", TypePrimitive1::IsPort.into ()),
 			("base", "ports", "input-port?", TypePrimitive1::IsPortInput.into ()),
-			("base", "ports", "input-port-open?", PortPrimitive1::IsInputOpen.into ()),
+			("base", "ports", "input-port-open?", PortPrimitiveV::IsInputOpen.into ()),
 			("base", "ports", "output-port?", TypePrimitive1::IsPortOutput.into ()),
-			("base", "ports", "output-port-open?", PortPrimitive1::IsOutputOpen.into ()),
+			("base", "ports", "output-port-open?", PortPrimitiveV::IsOutputOpen.into ()),
 			("base", "ports", "binary-port?", TypePrimitive1::IsPortBinary.into ()),
 			("base", "ports", "textual-port?", TypePrimitive1::IsPortTextual.into ()),
 			
 			("base", "ports", "open-input-string", PortPrimitive1::InputFromString.into ()),
-			("base", "ports", "open-output-string", PortPrimitive0::OutputToString.into ()),
+			("base", "ports", "open-output-string", PortPrimitiveV::OutputToString.into ()),
 			("base", "ports", "get-output-string", PortPrimitive1::OutputToStringFinalize.into ()),
 			
 			("base", "ports", "open-input-bytevector", PortPrimitive1::InputFromBytes.into ()),
-			("base", "ports", "open-output-bytevector", PortPrimitive0::OutputToBytes.into ()),
+			("base", "ports", "open-output-bytevector", PortPrimitiveV::OutputToBytes.into ()),
 			("base", "ports", "get-output-bytevector", PortPrimitive1::OutputToBytesFinalize.into ()),
 			
-			("base", "ports", "close-port", PortPrimitive1::Close.into ()),
-			("base", "ports", "close-input-port", PortPrimitive1::CloseInput.into ()),
-			("base", "ports", "close-output-port", PortPrimitive1::CloseOutput.into ()),
+			("base", "ports", "close-port", PortPrimitiveV::Close.into ()),
+			("base", "ports", "close-input-port", PortPrimitiveV::CloseInput.into ()),
+			("base", "ports", "close-output-port", PortPrimitiveV::CloseOutput.into ()),
 			
 			
 			
 			
 			// ports input
 			
-			("base", "ports", "char-ready?", PortPrimitive1::CharacterReady.into ()),
-			("base", "ports", "peek-char", PortPrimitive1::CharacterPeek.into ()),
-			("base", "ports", "read-char", PortPrimitive1::CharacterRead.into ()),
-			("base", "ports", "read-string", PortPrimitive2::StringReadCollect.into ()),
+			("base", "ports", "char-ready?", PortPrimitiveV::CharacterReady.into ()),
+			("base", "ports", "peek-char", PortPrimitiveV::CharacterPeek.into ()),
+			("base", "ports", "read-char", PortPrimitiveV::CharacterRead.into ()),
+			("base", "ports", "read-string", PortPrimitiveV::StringReadCollect.into ()),
 			
-			("base", "ports", "u8-ready?", PortPrimitive1::ByteReady.into ()),
-			("base", "ports", "peek-u8", PortPrimitive1::BytePeek.into ()),
-			("base", "ports", "read-u8", PortPrimitive1::ByteRead.into ()),
-			("base", "ports", "read-bytevector", PortPrimitive2::BytesReadCollect.into ()),
-			("base", "ports", "read-bytevector!", PortPrimitive2::BytesReadCopy.into ()),
+			("base", "ports", "u8-ready?", PortPrimitiveV::ByteReady.into ()),
+			("base", "ports", "peek-u8", PortPrimitiveV::BytePeek.into ()),
+			("base", "ports", "read-u8", PortPrimitiveV::ByteRead.into ()),
+			("base", "ports", "read-bytevector", PortPrimitiveV::BytesReadCollect.into ()),
+			("base", "ports", "read-bytevector!", PortPrimitiveV::BytesReadCopy.into ()),
 			
-			("base", "ports", "read-line", PortPrimitive1::StringReadLine.into ()),
+			("base", "ports", "read-line", PortPrimitiveV::StringReadLine.into ()),
 			
 			("base", "ports", "eof-object", PortPrimitive0::Eof.into ()),
 			("base", "ports", "eof-object?", TypePrimitive1::IsPortEof.into ()),
@@ -479,15 +479,15 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			// ports output
 			
-			("base", "ports", "write-char", PortPrimitive2::CharacterWrite.into ()),
-			("base", "ports", "write-string", PortPrimitive2::StringWrite.into ()),
+			("base", "ports", "write-char", PortPrimitiveV::CharacterWrite.into ()),
+			("base", "ports", "write-string", PortPrimitiveV::StringWrite.into ()),
 			
-			("base", "ports", "write-u8", PortPrimitive2::ByteWrite.into ()),
-			("base", "ports", "write-bytevector", PortPrimitive2::BytesWrite.into ()),
+			("base", "ports", "write-u8", PortPrimitiveV::ByteWrite.into ()),
+			("base", "ports", "write-bytevector", PortPrimitiveV::BytesWrite.into ()),
 			
-			("base", "ports", "newline", PortPrimitive0::NewLine.into ()),
+			("base", "ports", "newline", PortPrimitiveV::NewLine.into ()),
 			
-			("base", "ports", "flush-output-port", PortPrimitive1::FlushOutput.into ()),
+			("base", "ports", "flush-output-port", PortPrimitiveV::FlushOutput.into ()),
 			
 			
 			
@@ -689,7 +689,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			// (scheme read)
 			//     --> verified
 			
-			("read", "ports", "read", PortPrimitive1::ValueRead.into ()),
+			("read", "ports", "read", PortPrimitiveV::ValueRead.into ()),
 			
 			
 			
@@ -715,10 +715,10 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			// (scheme write)
 			//     --> verified
 			
-			("write", "ports", "write", PortPrimitive2::ValueWrite.into ()),
-			("write", "ports", "write-shared", PortPrimitive2::ValueWriteShared.into ()),
-			("write", "ports", "write-simple", PortPrimitive2::ValueWriteSimple.into ()),
-			("write", "ports", "display", PortPrimitive1::ValueDisplay.into ()),
+			("write", "ports", "write", PortPrimitiveV::ValueWrite.into ()),
+			("write", "ports", "write-shared", PortPrimitiveV::ValueWriteShared.into ()),
+			("write", "ports", "write-simple", PortPrimitiveV::ValueWriteSimple.into ()),
+			("write", "ports", "display", PortPrimitiveV::ValueDisplay.into ()),
 			
 			
 			
