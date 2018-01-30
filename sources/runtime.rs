@@ -18,9 +18,12 @@ pub mod exports {
 	pub use super::{vec_append_2};
 	pub use super::{vec_explode_1, vec_explode_1n, vec_explode_2, vec_explode_2n, vec_explode_3, vec_explode_3n};
 	pub use super::{vec_zip_2, vec_unzip_2};
+	pub use super::{vec_clone_fill};
 	pub use super::{vec_clone_vec, vec_clone_slice};
 	pub use super::{vec_clone_vec_ref, vec_clone_slice_ref, vec_clone_iter_ref};
 	pub use super::{vec_vec_to_ref, vec_slice_to_ref, vec_iter_to_ref};
+	pub use super::{vec_set};
+	pub use super::{vec_set_ref};
 	
 	pub use super::{boxed_slice_to_ref};
 	
@@ -331,6 +334,20 @@ pub fn vec_unzip_2 <Element1, Element2> (vector : StdVec<(Element1, Element2)>) 
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn vec_clone_fill <Element : Clone, ElementRef : StdAsRef<Element>> (value : ElementRef, capacity : usize) -> (StdVec<Element>) {
+	let mut vector = StdVec::with_capacity (capacity);
+	let value = value.as_ref ();
+	for _ in 0 .. capacity {
+		let value = value.clone ();
+		vector.push (value);
+	}
+	return vector;
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn vec_clone_vec <Element : Clone> (vector : &StdVec<Element>) -> (StdVec<Element>) {
 	return vec_map! (vector.iter (), value, value.clone ());
 }
@@ -374,6 +391,32 @@ pub fn vec_slice_to_ref <Element, ElementRef : StdAsRef<Element>> (slice : &[Ele
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn vec_iter_to_ref <'a, Element : 'a, ElementRef : StdAsRef<Element> + 'a, Iterator : iter::Iterator<Item = &'a ElementRef>> (iterator : Iterator) -> (StdVec<&'a Element>) {
 	return vec_map! (iterator, value, value.as_ref ());
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn vec_set <Element : Clone> (vector : &mut StdVec<Element>, index : usize, value : &Element) -> (Outcome<()>) {
+	if let Some (target) = vector.get_mut (index) {
+		let value = value.clone ();
+		*target = value;
+		succeed! (());
+	} else {
+		fail! (0x3a93081f);
+	}
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn vec_set_ref <Element : Clone, ElementRef : StdAsRef<Element>> (vector : &mut StdVec<Element>, index : usize, value : ElementRef) -> (Outcome<()>) {
+	if let Some (target) = vector.get_mut (index) {
+		let value = value.as_ref ();
+		let value = value.clone ();
+		*target = value;
+		succeed! (());
+	} else {
+		fail! (0x117d74b3);
+	}
 }
 
 
