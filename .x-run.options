@@ -2546,6 +2546,10 @@
 	exec -- sce ./sources/builtins_processes.rs
 !!
 
+<< files / edit / sources/builtins_records.rs
+	exec -- sce ./sources/builtins_records.rs
+!!
+
 << files / edit / sources/builtins_runtime.rs
 	exec -- sce ./sources/builtins_runtime.rs
 !!
@@ -3108,6 +3112,10 @@
 
 << files / view / sources/builtins_processes.rs
 	exec -- less -- ./sources/builtins_processes.rs
+!!
+
+<< files / view / sources/builtins_records.rs
+	exec -- less -- ./sources/builtins_records.rs
 !!
 
 << files / view / sources/builtins_runtime.rs

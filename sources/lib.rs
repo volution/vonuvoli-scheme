@@ -64,6 +64,7 @@ pub(crate) mod builtins_functions;
 pub(crate) mod builtins_lists;
 pub(crate) mod builtins_ports;
 pub(crate) mod builtins_processes;
+pub(crate) mod builtins_records;
 pub(crate) mod builtins_runtime;
 pub(crate) mod builtins_strings;
 pub(crate) mod builtins_types;
@@ -149,6 +150,7 @@ pub mod internals {
 	pub use super::builtins_lists::exports as builtins_lists;
 	pub use super::builtins_ports::exports as builtins_ports;
 	pub use super::builtins_processes::exports as builtins_processes;
+	pub use super::builtins_records::exports as builtins_records;
 	pub use super::builtins_runtime::exports as builtins_runtime;
 	pub use super::builtins_strings::exports as builtins_strings;
 	pub use super::builtins_types::exports as builtins_types;

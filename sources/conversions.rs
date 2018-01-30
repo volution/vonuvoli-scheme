@@ -915,7 +915,7 @@ pub fn option_box_unwrap <T> (option : Option<StdBox<T>>) -> (T) {
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn option_box_as_ref <T> (option : &Option<StdBox<T>>) -> (Option<&T>) {
+pub fn option_box_as_ref <T : ?Sized> (option : &Option<StdBox<T>>) -> (Option<&T>) {
 	match *option {
 		Some (ref value) =>
 			Some (&value),

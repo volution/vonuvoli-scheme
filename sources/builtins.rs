@@ -8,6 +8,7 @@ pub mod exports {
 	pub use super::super::builtins_lists::exports::*;
 	pub use super::super::builtins_ports::exports::*;
 	pub use super::super::builtins_processes::exports::*;
+	pub use super::super::builtins_records::exports::*;
 	pub use super::super::builtins_runtime::exports::*;
 	pub use super::super::builtins_strings::exports::*;
 	pub use super::super::builtins_types::exports::*;
