@@ -376,6 +376,9 @@ impl Compiler {
 					SyntaxPrimitiveV::Lambda =>
 						return self.compile_syntax_lambda (compilation, None, tokens),
 					
+					SyntaxPrimitiveV::DefineRecord =>
+						return self.compile_syntax_define_record (compilation, tokens),
+					
 				},
 			
 			SyntaxPrimitive::Auxiliary =>
@@ -1493,6 +1496,13 @@ impl Compiler {
 		let expression = Expression::Lambda (template, statements, registers_closure, registers_local);
 		
 		succeed! ((compilation, expression));
+	}
+	
+	
+	
+	
+	fn compile_syntax_define_record (&self, _compilation : CompilerContext, _tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+		fail_unimplemented! (0x99820e9d);
 	}
 	
 	

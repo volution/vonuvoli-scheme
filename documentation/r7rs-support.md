@@ -24,7 +24,7 @@
 |        base        |    contexts    |       syntax       | `define                          ` | `PrimitiveV(Define)`
 |        base        |     values     |       syntax       | `define-values                   ` | `PrimitiveV(DefineValues)`
 |        base        |    syntaxes    |       syntax       | `define-syntax                   ` | `Unsupported`
-|        base        |    records     |       syntax       | `define-record-type              ` | `Unimplemented`
+|        base        |    records     |       syntax       | `define-record-type              ` | `PrimitiveV(DefineRecord)`
 |        base        |    contexts    |       syntax       | `let                             ` | `PrimitiveV(LetParallel)`
 |        base        |    contexts    |       syntax       | `let*                            ` | `PrimitiveV(LetSequential)`
 |        base        |    contexts    |       syntax       | `letrec                          ` | `PrimitiveV(LetRecursiveParallel)`
@@ -768,12 +768,9 @@
 
 ## Scheme R7RS definitions -- summary
 
-* implemented       297 (99.66% / 87.87%)
+* implemented       298 (100.00% / 88.17%)
 
-* unimplemented       1 (00.34% / 00.30%)
-  ```
-    define-record-type
-  ```
+* unimplemented       0 (00.00% / 00.00%)
 
 * unsupported        40 (13.42% / 11.83%)
   ```

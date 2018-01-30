@@ -68,6 +68,8 @@ pub enum SyntaxPrimitiveV {
 	
 	Lambda,
 	
+	DefineRecord,
+	
 }
 
 
