@@ -1,0 +1,328 @@
+
+
+(define ra0^ (~make-record-type 0)) => !ignore
+(define ra1^ (~make-record-type 1)) => !ignore
+(define ra2^ (~make-record-type 2)) => !ignore
+(define ra3^ (~make-record-type 3)) => !ignore
+(define ra4^ (~make-record-type 4)) => !ignore
+(define ra5^ (~make-record-type 5)) => !ignore
+(define ra6^ (~make-record-type 6)) => !ignore
+
+(~record-type? ra0^) => #t
+(~record-type? ra1^) => #t
+(~record-type? ra2^) => #t
+(~record-type? ra3^) => #t
+(~record-type? ra4^) => #t
+(~record-type? ra5^) => #t
+(~record-type? ra6^) => #t
+
+(~record-type-identifier ra0^) => #f
+(~record-type-identifier ra1^) => #f
+(~record-type-identifier ra2^) => #f
+(~record-type-identifier ra3^) => #f
+(~record-type-identifier ra4^) => #f
+(~record-type-identifier ra5^) => #f
+(~record-type-identifier ra6^) => #f
+
+(~record-type-size ra0^) => 0
+(~record-type-size ra1^) => 1
+(~record-type-size ra2^) => 2
+(~record-type-size ra3^) => 3
+(~record-type-size ra4^) => 4
+(~record-type-size ra5^) => 5
+(~record-type-size ra6^) => 6
+
+
+(define ra00^ (~make-record-type #f 0)) => !ignore
+(~record-type-identifier ra00^) => #f
+(~record-type-size ra00^) => 0
+
+
+
+
+(define rb0^ (~make-record-type 'rb0 0)) => !ignore
+(define rb1^ (~make-record-type 'rb1 1)) => !ignore
+(define rb2^ (~make-record-type 'rb2 2)) => !ignore
+(define rb3^ (~make-record-type 'rb3 3)) => !ignore
+(define rb4^ (~make-record-type 'rb4 4)) => !ignore
+(define rb5^ (~make-record-type 'rb5 5)) => !ignore
+(define rb6^ (~make-record-type 'rb6 6)) => !ignore
+
+(~record-type? rb0^) => #t
+(~record-type? rb1^) => #t
+(~record-type? rb2^) => #t
+(~record-type? rb3^) => #t
+(~record-type? rb4^) => #t
+(~record-type? rb5^) => #t
+(~record-type? rb6^) => #t
+
+(~record-type-identifier rb0^) => 'rb0
+(~record-type-identifier rb1^) => 'rb1
+(~record-type-identifier rb2^) => 'rb2
+(~record-type-identifier rb3^) => 'rb3
+(~record-type-identifier rb4^) => 'rb4
+(~record-type-identifier rb5^) => 'rb5
+(~record-type-identifier rb6^) => 'rb6
+
+(~record-type-size rb0^) => 0
+(~record-type-size rb1^) => 1
+(~record-type-size rb2^) => 2
+(~record-type-size rb3^) => 3
+(~record-type-size rb4^) => 4
+(~record-type-size rb5^) => 5
+(~record-type-size rb6^) => 6
+
+
+
+
+(eq? ra0^ ra0^) => #t
+
+(eq? ra0^ ra00^) => #f
+(eq? ra0^ ra1^) => #f
+(eq? ra0^ ra2^) => #f
+
+(eq? ra0^ rb0^) => #f
+(eq? ra0^ rb1^) => #f
+(eq? ra0^ rb2^) => #f
+
+
+(eqv? ra0^ ra0^) => #t
+
+(eqv? ra0^ ra00^) => #f
+(eqv? ra0^ ra1^) => #f
+(eqv? ra0^ ra2^) => #f
+
+(eqv? ra0^ rb0^) => #f
+(eqv? ra0^ rb1^) => #f
+(eqv? ra0^ rb2^) => #f
+
+
+(equal? ra0^ ra0^) => #t
+
+(equal? ra0^ ra00^) => #f
+(equal? ra0^ ra1^) => #f
+(equal? ra0^ ra2^) => #f
+
+(equal? ra0^ rb0^) => #f
+(equal? ra0^ rb1^) => #f
+(equal? ra0^ rb2^) => #f
+
+
+
+
+(procedure? (~record-type-predicate ra0^)) => #t
+(procedure? (~record-type-predicate ra0^ #t)) => #t
+(procedure? (~record-type-predicate ra0^ #f)) => #t
+
+(procedure? (~record-type-constructor ra0^)) => #t
+(procedure? (~record-type-constructor ra0^ #f)) => #t
+(procedure? (~record-type-constructor ra0^ #f #t)) => #t
+(procedure? (~record-type-constructor ra0^ #f #f)) => #t
+
+(procedure? (~record-type-accessor ra1^ 0)) => #t
+(procedure? (~record-type-mutator ra1^ 0)) => #t
+
+(procedure? (~record-type-accessor ra6^ 5)) => #t
+(procedure? (~record-type-mutator ra6^ 5)) => #t
+
+
+
+
+(define ra0-1 (~make-record ra0^)) => !ignore
+(define ra0-2 ((~record-type-constructor ra0^))) => !ignore
+
+(define rb0-1 (~make-record rb0^)) => !ignore
+
+(define ra1-1 (~make-record ra1^ 'a)) => !ignore
+(define ra1-2 ((~record-type-constructor ra1^) 'a)) => !ignore
+(define ra1-3 (~make-record ra1^ 'b)) => !ignore
+(define ra1-4 (~record->mutable (~make-record ra1^ 'c))) => !ignore
+
+(define rb1-1 (~record->immutable (~make-record rb1^ 'a))) => !ignore
+(define rb1-2 (~record->mutable (~make-record rb1^ 'b))) => !ignore
+(define rb1-3 (~record->immutable (~record->immutable (~make-record rb1^ 'c)))) => !ignore
+(define rb1-4 (~record->mutable (~record->mutable (~make-record rb1^ 'd)))) => !ignore
+(define rb1-5 (~record->immutable (~record->mutable (~make-record rb1^ 'e)))) => !ignore
+(define rb1-6 (~record->mutable (~record->immutable (~make-record rb1^ 'f)))) => !ignore
+
+(define rb0-9 (~make-record rb0^)) => !ignore
+(define rb1-9 (~make-record rb1^ 1)) => !ignore
+(define rb2-9 (~make-record rb2^ 1 2)) => !ignore
+(define rb3-9 (~make-record rb3^ 1 2 3)) => !ignore
+(define rb4-9 (~make-record rb4^ 1 2 3 4)) => !ignore
+(define rb5-9 (~make-record rb5^ 1 2 3 4 5)) => !ignore
+(define rb6-9 (~make-record rb6^ 1 2 3 4 5 6)) => !ignore
+
+
+
+
+(~record-type ra0-1) => ra0^
+(~record-type ra0-2) => ra0^
+
+(~record-type rb0-1) => rb0^
+
+(~record-type ra1-1) => ra1^
+(~record-type ra1-2) => ra1^
+(~record-type ra1-3) => ra1^
+(~record-type ra1-4) => ra1^
+
+(~record-type rb1-1) => rb1^
+
+
+((~record-type-predicate ra0^) ra0-1) => #t
+((~record-type-predicate ra0^) ra0-2) => #t
+
+((~record-type-predicate ra1^) ra1-1) => #t
+((~record-type-predicate ra1^) ra1-2) => #t
+
+
+
+
+(~record? rb1-1) => #t
+(~record? rb1^ rb1-1) => #t
+(~record? rb1^ rb1-1 #t) => #t
+(~record? rb1^ rb1-1 #f) => #f
+
+(~record? rb1-2) => #t
+(~record? rb1^ rb1-2) => #t
+(~record? rb1^ rb1-2 #t) => #f
+(~record? rb1^ rb1-2 #f) => #t
+
+
+
+
+((~record-type-predicate rb1^) rb1-1) => #t
+((~record-type-predicate rb1^ #t) rb1-1) => #t
+((~record-type-predicate rb1^ #f) rb1-1) => #f
+
+((~record-type-predicate rb1^) rb1-2) => #t
+((~record-type-predicate rb1^ #t) rb1-2) => #f
+((~record-type-predicate rb1^ #f) rb1-2) => #t
+
+
+
+
+(~record-ref 0 ra1-4) => 'c
+(~record-ref ra1^ 0 ra1-4) => 'c
+
+((~record-type-accessor 0) ra1-4) => 'c
+((~record-type-accessor ra1^ 0) ra1-4) => 'c
+
+
+
+
+(~record-set! 0 ra1-4 'd) => 'c
+(~record-ref 0 ra1-4) => 'd
+
+(~record-set! ra1^ 0 ra1-4 'e) => 'd
+(~record-ref 0 ra1-4) => 'e
+
+((~record-type-mutator 0) ra1-4 'f) => 'e
+(~record-ref 0 ra1-4) => 'f
+
+((~record-type-mutator ra1^ 0) ra1-4 'g) => 'f
+(~record-ref 0 ra1-4) => 'g
+
+
+
+
+(eq? ra0-1 ra0-1) => #t
+(eqv? ra0-1 ra0-1) => #t
+(equal? ra0-1 ra0-1) => #t
+
+(eq? ra0-1 ra0-2) => #f
+(eqv? ra0-1 ra0-2) => #t
+(equal? ra0-1 ra0-2) => #t
+
+(eq? ra0-1 rb0-1) => #f
+(eqv? ra0-1 rb0-1) => #f
+(equal? ra0-1 rb0-1) => #f
+
+
+(eq? ra1-1 ra1-1) => #t
+(eqv? ra1-1 ra1-1) => #t
+(equal? ra1-1 ra1-1) => #t
+
+(eq? ra1-1 ra1-2) => #f
+(eqv? ra1-1 ra1-2) => #t
+(equal? ra1-1 ra1-2) => #t
+
+(eq? ra1-1 ra1-3) => #f
+(eqv? ra1-1 ra1-3) => #f
+(equal? ra1-1 ra1-3) => #f
+
+(eq? ra1-1 rb1-1) => #f
+(eqv? ra1-1 rb1-1) => #f
+(equal? ra1-1 rb1-1) => #f
+
+
+
+
+(~record=? ra0-1 ra0-1) => #t
+(~record<=? ra0-1 ra0-1) => #t
+(~record>=? ra0-1 ra0-1) => #t
+(~record<? ra0-1 ra0-1) => #f
+(~record>? ra0-1 ra0-1) => #f
+
+(~record=? ra0-1 ra0-2) => #t
+(~record<=? ra0-1 ra0-2) => #t
+(~record>=? ra0-1 ra0-2) => #t
+(~record<? ra0-1 ra0-2) => #f
+(~record>? ra0-1 ra0-2) => #f
+
+
+(~record=? ra1-1 ra1-1) => #t
+(~record<=? ra1-1 ra1-1) => #t
+(~record>=? ra1-1 ra1-1) => #t
+(~record<? ra1-1 ra1-1) => #f
+(~record>? ra1-1 ra1-1) => #f
+
+(~record=? ra1-1 ra1-2) => #t
+(~record<=? ra1-1 ra1-2) => #t
+(~record>=? ra1-1 ra1-2) => #t
+(~record<? ra1-1 ra1-2) => #f
+(~record>? ra1-1 ra1-2) => #f
+
+(~record=? ra1-1 ra1-3) => #f
+(~record<=? ra1-1 ra1-3) => #t
+(~record>=? ra1-1 ra1-3) => #f
+(~record<? ra1-1 ra1-3) => #t
+(~record>? ra1-1 ra1-3) => #f
+
+
+(~record<? rb1-1) => #t
+(~record<=? rb1-1) => #t
+(~record=? rb1-1) => #t
+(~record>=? rb1-1) => #t
+(~record>? rb1-1) => #t
+
+(~record<? rb1-1 rb1-2) => #t
+(~record<=? rb1-1 rb1-2) => #t
+(~record=? rb1-1 rb1-2) => #f
+(~record>=? rb1-1 rb1-2) => #f
+(~record>? rb1-1 rb1-2) => #f
+
+(~record<? rb1-1 rb1-2 rb1-3) => #t
+(~record<=? rb1-1 rb1-2 rb1-3) => #t
+(~record=? rb1-1 rb1-2 rb1-3) => #f
+(~record>=? rb1-1 rb1-2 rb1-3) => #f
+(~record>? rb1-1 rb1-2 rb1-3) => #f
+
+(~record<? rb1-1 rb1-2 rb1-3 rb1-4) => #t
+(~record<=? rb1-1 rb1-2 rb1-3 rb1-4) => #t
+(~record=? rb1-1 rb1-2 rb1-3 rb1-4) => #f
+(~record>=? rb1-1 rb1-2 rb1-3 rb1-4) => #f
+(~record>? rb1-1 rb1-2 rb1-3 rb1-4) => #f
+
+(~record<? rb1-1 rb1-2 rb1-3 rb1-4 rb1-5) => #t
+(~record<=? rb1-1 rb1-2 rb1-3 rb1-4 rb1-5) => #t
+(~record=? rb1-1 rb1-2 rb1-3 rb1-4 rb1-5) => #f
+(~record>=? rb1-1 rb1-2 rb1-3 rb1-4 rb1-5) => #f
+(~record>? rb1-1 rb1-2 rb1-3 rb1-4 rb1-5) => #f
+
+(~record<? rb1-1 rb1-2 rb1-3 rb1-4 rb1-5 rb1-6) => #t
+(~record<=? rb1-1 rb1-2 rb1-3 rb1-4 rb1-5 rb1-6) => #t
+(~record=? rb1-1 rb1-2 rb1-3 rb1-4 rb1-5 rb1-6) => #f
+(~record>=? rb1-1 rb1-2 rb1-3 rb1-4 rb1-5 rb1-6) => #f
+(~record>? rb1-1 rb1-2 rb1-3 rb1-4 rb1-5 rb1-6) => #f
+

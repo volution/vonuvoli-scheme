@@ -579,6 +579,7 @@
 	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports_native.out' x-run ':: execute / bin / bencher / release' './tests/scheme/ports-native.sst' "${@}"
 	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__processes.out' x-run ':: execute / bin / bencher / release' './tests/scheme/processes.sst' "${@}"
 	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__quotation.out' x-run ':: execute / bin / bencher / release' './tests/scheme/quotation.sst' "${@}"
+	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__records.out' x-run ':: execute / bin / bencher / release' './tests/scheme/records.sst' "${@}"
 	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__runtime.out' x-run ':: execute / bin / bencher / release' './tests/scheme/runtime.sst' "${@}"
 	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__scratchpad.out' x-run ':: execute / bin / bencher / release' './tests/scheme/scratchpad.sst' "${@}"
 	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__strings.out' x-run ':: execute / bin / bencher / release' './tests/scheme/strings.sst' "${@}"
@@ -834,6 +835,14 @@
 	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__quotation.out' x-run ':: execute / bin / bencher / release' './tests/scheme/quotation.sst' "${@}"
 !!
 
+<< execute / bin / bencher / records / debug
+	exec -- taskset -c 2 x-run ':: execute / bin / bencher / debug' './tests/scheme/records.sst' "${@}"
+!!
+
+<< execute / bin / bencher / records / release
+	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__records.out' x-run ':: execute / bin / bencher / release' './tests/scheme/records.sst' "${@}"
+!!
+
 << execute / bin / bencher / release
 	x-run ':: compile / bin / bencher / release' ; exec -- ./target/release/vonuvoli-scheme-bencher "${@}"
 !!
@@ -1082,6 +1091,7 @@
 	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/ports-native.sst' "${@}"
 	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/processes.sst' "${@}"
 	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/quotation.sst' "${@}"
+	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/records.sst' "${@}"
 	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/runtime.sst' "${@}"
 	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/scratchpad.sst' "${@}"
 	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/strings.sst' "${@}"
@@ -1455,6 +1465,18 @@
 
 << execute / bin / tester / quotation / release
 	exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/quotation.sst' "${@}"
+!!
+
+<< execute / bin / tester / records / debug
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/records.sst' "${@}"
+!!
+
+<< execute / bin / tester / records / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / bin / tester / records / debug'
+!!
+
+<< execute / bin / tester / records / release
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/records.sst' "${@}"
 !!
 
 << execute / bin / tester / release
@@ -2000,6 +2022,14 @@
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__quotation' --exact "${@}"
 !!
 
+<< execute / test / scheme / benchmarks / records / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__records' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / records / release
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__records' --exact "${@}"
+!!
+
 << execute / test / scheme / benchmarks / runtime / debug
 	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__runtime' --exact "${@}"
 !!
@@ -2414,6 +2444,18 @@
 
 << execute / test / scheme / tests / quotation / release
 	x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__quotation' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / records / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__records' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / records / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / records / debug' "${@}"
+!!
+
+<< execute / test / scheme / tests / records / release
+	x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__records' --exact "${@}"
 !!
 
 << execute / test / scheme / tests / runtime / debug
@@ -2964,6 +3006,10 @@
 
 << files / edit / tests/scheme/quotation.sst
 	exec -- sce ./tests/scheme/quotation.sst
+!!
+
+<< files / edit / tests/scheme/records.sst
+	exec -- sce ./tests/scheme/records.sst
 !!
 
 << files / edit / tests/scheme/runtime.sst
@@ -3536,6 +3582,10 @@
 
 << files / view / tests/scheme/quotation.sst
 	exec -- less -- ./tests/scheme/quotation.sst
+!!
+
+<< files / view / tests/scheme/records.sst
+	exec -- less -- ./tests/scheme/records.sst
 !!
 
 << files / view / tests/scheme/runtime.sst
