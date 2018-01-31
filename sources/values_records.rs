@@ -326,6 +326,22 @@ impl RecordKind {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn identifier_as_str (&self) -> (Option<&str>) {
+		let self_0 = self.internals_ref ();
+		let identifier = self_0.identifier.as_ref ();
+		let identifier = option_map! (identifier, identifier.as_ref () .as_ref ());
+		return identifier;
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn identifier_rc_clone (&self) -> (Option<StdRc<StdBox<str>>>) {
+		let self_0 = self.internals_ref ();
+		let identifier = self_0.identifier.as_ref ();
+		let identifier = option_map! (identifier, identifier.clone ());
+		return identifier;
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn values_count (&self) -> (usize) {
 		let self_0 = self.internals_ref ();
 		return self_0.size;

@@ -126,6 +126,8 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("record-type-constructor", RecordPrimitiveV::RecordBuildFn.into ()),
 			("record-type-accessor", RecordPrimitiveV::RecordGetFn.into ()),
 			("record-type-mutator", RecordPrimitiveV::RecordSetFn.into ()),
+			("record-type-identifier", RecordPrimitive1::RecordKindIdentifier.into ()),
+			("record-type-size", RecordPrimitive1::RecordKindSize.into ()),
 			("make-record-type", RecordPrimitiveV::RecordKindBuild.into ()),
 			
 			("record?", RecordPrimitiveV::RecordKindIs.into ()),

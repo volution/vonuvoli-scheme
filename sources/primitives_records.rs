@@ -59,6 +59,8 @@ pub enum RecordPrimitive0 {}
 pub enum RecordPrimitive1 {
 	
 	RecordKindBuild,
+	RecordKindIdentifier,
+	RecordKindSize,
 	
 	RecordKindIsFn,
 	RecordBuildFn,
@@ -187,13 +189,19 @@ pub fn record_primitive_1_evaluate (primitive : RecordPrimitive1, input_1 : &Val
 	match primitive {
 		
 		RecordPrimitive1::RecordKindBuild =>
-			return record_kind_build (None, Some (input_1)) .into_0 (),
+			return record_kind_build (None, input_1) .into_0 (),
+		
+		RecordPrimitive1::RecordKindSize =>
+			return record_kind_size (input_1) .into_0 (),
+		
+		RecordPrimitive1::RecordKindIdentifier =>
+			return record_kind_identifier (input_1),
 		
 		RecordPrimitive1::RecordKindIsFn =>
-			return record_kind_is_fn (try_as_record_kind_ref! (input_1), None),
+			return record_kind_is_fn (try_as_record_kind_ref! (input_1), None) .into_0 (),
 		
 		RecordPrimitive1::RecordBuildFn =>
-			return record_build_fn (try_as_record_kind_ref! (input_1), None, None),
+			return record_build_fn (try_as_record_kind_ref! (input_1), None, None) .into_0 (),
 		
 		RecordPrimitive1::RecordKindIs =>
 			return is_record (input_1) .into_0 (),
@@ -239,19 +247,19 @@ pub fn record_primitive_2_evaluate (primitive : RecordPrimitive2, input_1 : &Val
 	match primitive {
 		
 		RecordPrimitive2::RecordKindBuild =>
-			return record_kind_build (Some (input_1), Some (input_2)) .into_0 (),
+			return record_kind_build (Some (input_1), input_2) .into_0 (),
 		
 		RecordPrimitive2::RecordKindIsFn =>
-			return record_kind_is_fn (try_as_record_kind_ref! (input_1), Some (try_as_boolean_ref! (input_1) .value ())),
+			return record_kind_is_fn (try_as_record_kind_ref! (input_1), Some (try_as_boolean_ref! (input_2) .value ())) .into_0 (),
 		
 		RecordPrimitive2::RecordGetFn =>
-			return record_get_fn (try_as_record_kind_ref! (input_1), input_2),
+			return record_get_x_fn (Some (try_as_record_kind_ref! (input_1)), input_2) .into_0 (),
 		
 		RecordPrimitive2::RecordSetFn =>
-			return record_set_fn (try_as_record_kind_ref! (input_1), input_2),
+			return record_set_x_fn (Some (try_as_record_kind_ref! (input_1)), input_2) .into_0 (),
 		
 		RecordPrimitive2::RecordBuildFn =>
-			return record_build_fn (try_as_record_kind_ref! (input_1), Some (input_2), None),
+			return record_build_fn (try_as_record_kind_ref! (input_1), Some (input_2), None) .into_0 (),
 		
 		RecordPrimitive2::RecordKindIs =>
 			return record_kind_is (try_as_record_kind_ref! (input_1), input_2, None) .into_0 (),
@@ -291,7 +299,7 @@ pub fn record_primitive_3_evaluate (primitive : RecordPrimitive3, input_1 : &Val
 	match primitive {
 		
 		RecordPrimitive3::RecordBuildFn =>
-			return record_build_fn (try_as_record_kind_ref! (input_1), Some (input_2), Some (try_as_boolean_ref! (input_3) .value ())),
+			return record_build_fn (try_as_record_kind_ref! (input_1), Some (input_2), Some (try_as_boolean_ref! (input_3) .value ())) .into_0 (),
 		
 		RecordPrimitive3::RecordKindIs =>
 			return record_kind_is (try_as_record_kind_ref! (input_1), input_2, Some (try_as_boolean_ref! (input_3) .value ())) .into_0 (),

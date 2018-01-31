@@ -2,6 +2,7 @@
 
 use super::constants::exports::*;
 use super::errors::exports::*;
+use super::extended_procedures::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
 
@@ -46,8 +47,8 @@ pub mod exports {
 			
 			record_build_fn,
 			
-			record_get_fn,
-			record_set_fn,
+			record_get_fn, record_set_fn,
+			record_get_x_fn, record_set_x_fn,
 			
 		};
 	
@@ -57,21 +58,49 @@ pub mod exports {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_kind_build (_identifier : Option<&Value>, _fields : Option<&Value>) -> (Outcome<RecordKind>) {
-	fail_unimplemented! (0x70639cd8);
+pub fn record_kind_build (identifier : Option<&Value>, fields : &Value) -> (Outcome<RecordKind>) {
+	let (fields, size) = match fields.kind_match_as_ref () {
+		ValueKindMatchAsRef::NumberInteger (fields) =>
+			(None, try! (fields.try_to_usize ())),
+		_ =>
+			fail_unimplemented! (0xefef1c6f), // deferred
+	};
+	let identifier = if let Some (identifier) = identifier {
+		match identifier.kind_match_as_ref () {
+			ValueKindMatchAsRef::Boolean (identifier) =>
+				if ! identifier.value () {
+					None
+				} else {
+					fail! (0xddeb44fd);
+				},
+			ValueKindMatchAsRef::Symbol (identifier) =>
+				Some (identifier.string_rc_clone ()),
+			_ =>
+				fail! (0xbd53861b),
+		}
+	} else {
+		None
+	};
+	return RecordKind::new (identifier, fields, size);
 }
 
 
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_kind_identifier (_kind : &Value) -> (Outcome<Symbol>) {
-	fail_unimplemented! (0x8f0511bb);
+pub fn record_kind_identifier (kind : &Value) -> (Outcome<Value>) {
+	let kind = try_as_record_kind_ref! (kind);
+	if let Some (identifier) = kind.identifier_rc_clone () {
+		succeed! (Symbol::from_rc (identifier) .into ());
+	} else {
+		succeed! (FALSE_VALUE);
+	}
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_kind_size (_kind : &Value) -> (Outcome<usize>) {
-	fail_unimplemented! (0x1d1eb0ef);
+pub fn record_kind_size (kind : &Value) -> (Outcome<usize>) {
+	let kind = try_as_record_kind_ref! (kind);
+	succeed! (kind.values_count ());
 }
 
 
@@ -243,10 +272,6 @@ pub fn record_get_x (kind : Option<&RecordKind>, field : &Value, record : &Value
 			return record_get (kind, try! (field.try_to_usize ()), record),
 		ValueKindMatchAsRef::Symbol (_) =>
 			fail_unimplemented! (0x8424a427), // deferred
-		ValueKindMatchAsRef::StringImmutable (_) =>
-			fail_unimplemented! (0x42382be9), // deferred
-		ValueKindMatchAsRef::StringMutable (_) =>
-			fail_unimplemented! (0x1650c43d), // deferred
 		_ =>
 			fail! (0x8dbc8031),
 	}
@@ -260,10 +285,6 @@ pub fn record_set_x (kind : Option<&RecordKind>, field : &Value, record : &Value
 			return record_set (kind, try! (field.try_to_usize ()), record, value),
 		ValueKindMatchAsRef::Symbol (_) =>
 			fail_unimplemented! (0xd2d2f80a), // deferred
-		ValueKindMatchAsRef::StringImmutable (_) =>
-			fail_unimplemented! (0x5b82f5b9), // deferred
-		ValueKindMatchAsRef::StringMutable (_) =>
-			fail_unimplemented! (0x7fbb163d), // deferred
 		_ =>
 			fail! (0x194d0fbf),
 	}
@@ -307,22 +328,80 @@ pub fn record_from_list (_kind : Option<&RecordKind>, _values : &Value, _immutab
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_kind_is_fn (_kind : &RecordKind, _immutable : Option<bool>) -> (Outcome<Value>) {
-	fail_unimplemented! (0x51f1012d);
+pub fn record_kind_is_fn (kind : &RecordKind, immutable : Option<bool>) -> (ProcedureExtended) {
+	return ProcedureExtendedInternals::RecordKindIs (kind.clone (), immutable) .into ();
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn record_build_fn (kind : &RecordKind, fields : Option<&Value>, immutable : Option<bool>) -> (Outcome<ProcedureExtended>) {
+	let fields = if let Some (fields) = fields {
+		match fields.kind_match_as_ref () {
+			ValueKindMatchAsRef::Boolean (fields) =>
+				if ! fields.value () {
+					None
+				} else {
+					fail! (0xd31ec4f3);
+				},
+			_ =>
+				fail_unimplemented! (0x0b12cf86),
+		}
+	} else {
+		None
+	};
+	let kind = kind.clone ();
+	succeed! (ProcedureExtendedInternals::RecordBuild (kind, fields, immutable) .into ());
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn record_get_fn (kind : Option<&RecordKind>, field : usize) -> (Outcome<ProcedureExtended>) {
+	if let Some (kind) = kind {
+		if field >= kind.values_count () {
+			fail! (0x56ee989d);
+		}
+	}
+	let kind = option_map! (kind, kind.clone ());
+	succeed! (ProcedureExtendedInternals::RecordGet (kind, field) .into ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_build_fn (_kind : &RecordKind, _fields : Option<&Value>, _immutable : Option<bool>) -> (Outcome<Value>) {
-	fail_unimplemented! (0xa3280194);
+pub fn record_set_fn (kind : Option<&RecordKind>, field : usize) -> (Outcome<ProcedureExtended>) {
+	if let Some (kind) = kind {
+		if field >= kind.values_count () {
+			fail! (0x4747b115);
+		}
+	}
+	let kind = option_map! (kind, kind.clone ());
+	succeed! (ProcedureExtendedInternals::RecordSet (kind, field) .into ());
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn record_get_x_fn (kind : Option<&RecordKind>, field : &Value) -> (Outcome<ProcedureExtended>) {
+	match field.kind_match_as_ref () {
+		ValueKindMatchAsRef::NumberInteger (field) =>
+			return record_get_fn (kind, try! (field.try_to_usize ())),
+		_ => {
+			let kind = option_map! (kind, kind.clone ());
+			succeed! (ProcedureExtendedInternals::RecordGetX (kind, field.clone ()) .into ());
+		},
+	}
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_get_fn (_kind : &RecordKind, _field : &Value) -> (Outcome<Value>) {
-	fail_unimplemented! (0xa3280194);
-}
-
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_set_fn (_kind : &RecordKind, _field : &Value) -> (Outcome<Value>) {
-	fail_unimplemented! (0x46847621);
+pub fn record_set_x_fn (kind : Option<&RecordKind>, field : &Value) -> (Outcome<ProcedureExtended>) {
+	match field.kind_match_as_ref () {
+		ValueKindMatchAsRef::NumberInteger (field) =>
+			return record_set_fn (kind, try! (field.try_to_usize ())),
+		_ => {
+			let kind = option_map! (kind, kind.clone ());
+			succeed! (ProcedureExtendedInternals::RecordSetX (kind, field.clone ()) .into ());
+		},
+	}
 }
 
