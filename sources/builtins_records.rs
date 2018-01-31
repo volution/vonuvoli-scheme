@@ -25,6 +25,8 @@ pub mod exports {
 			record_to_values, record_from_values,
 			record_to_list, record_from_list,
 			
+			record_kind_is_fn, record_get_fn, record_set_fn, record_build_fn,
+			
 		};
 	
 }
@@ -45,12 +47,12 @@ pub fn record_kind_get (value : &Value) -> (Outcome<RecordKind>) {
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_kind_is (kind : &RecordKind, value : &Value) -> (bool) {
+pub fn record_kind_is (kind : &RecordKind, value : &Value, immutable : Option<bool>) -> (bool) {
 	match value.kind_match_as_ref () {
 		ValueKindMatchAsRef::RecordImmutable (value) =>
-			return RecordKind::is_self (value.kind (), kind),
+			return RecordKind::is_self (value.kind (), kind) && immutable.unwrap_or (true),
 		ValueKindMatchAsRef::RecordMutable (value) =>
-			return RecordKind::is_self (value.kind (), kind),
+			return RecordKind::is_self (value.kind (), kind) && ! immutable.unwrap_or (false),
 		_ =>
 			return false,
 	}
@@ -256,5 +258,28 @@ pub fn record_from_values (_kind : Option<&RecordKind>, _values : &Value, _immut
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_from_list (_kind : Option<&RecordKind>, _values : &Value, _immutable : Option<bool>) -> (Outcome<Value>) {
 	fail_unimplemented! (0xdd729ef6); // deferred
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn record_kind_is_fn (_kind : &RecordKind, _immutable : Option<bool>) -> (Outcome<Value>) {
+	fail_unimplemented! (0x51f1012d);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn record_get_fn (_kind : &RecordKind, _field : &Value) -> (Outcome<Value>) {
+	fail_unimplemented! (0xa3280194);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn record_set_fn (_kind : &RecordKind, _field : &Value) -> (Outcome<Value>) {
+	fail_unimplemented! (0x46847621);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn record_build_fn (_kind : &RecordKind, _fields : Option<&Value>, _immutable : Option<bool>) -> (Outcome<Value>) {
+	fail_unimplemented! (0xa3280194);
 }
 

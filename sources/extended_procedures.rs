@@ -39,7 +39,7 @@ pub enum ProcedureExtendedInternals {
 	
 	ComposedPrimitive1 (StdBox<[ProcedurePrimitive1]>),
 	
-	RecordKindIs (RecordKind),
+	RecordKindIs (RecordKind, Option<bool>),
 	RecordBuild (RecordKind, Option<StdBox<[usize]>>, Option<bool>),
 	RecordGet (Option<RecordKind>, usize),
 	RecordGetX (Option<RecordKind>, Value),
@@ -103,8 +103,8 @@ pub fn procedure_extended_evaluate_1 (extended : &ProcedureExtended, input_1 : &
 			succeed! (value);
 		}
 		
-		ProcedureExtendedInternals::RecordKindIs (ref kind) =>
-			return record_kind_is (kind, input_1) .into_0 (),
+		ProcedureExtendedInternals::RecordKindIs (ref kind, immutable) =>
+			return record_kind_is (kind, input_1, immutable) .into_0 (),
 		
 		ProcedureExtendedInternals::RecordBuild (ref kind, ref fields, immutable) =>
 			return record_build_1 (kind, option_box_as_ref (fields), input_1, immutable),

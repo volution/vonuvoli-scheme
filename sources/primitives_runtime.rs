@@ -81,6 +81,9 @@ pub enum RuntimePrimitive1 {
 	ErrorArgumentsAsArray,
 	ErrorArgumentsAsValues,
 	
+	RecordKindIsFn,
+	RecordBuildFn,
+	
 	RecordKindGet,
 	RecordBuild,
 	RecordToImmutable,
@@ -116,6 +119,11 @@ pub enum RuntimePrimitive2 {
 	ErrorRaise,
 	ErrorBuild,
 	
+	RecordKindIsFn,
+	RecordGetFn,
+	RecordSetFn,
+	RecordBuildFn,
+	
 	RecordKindIs,
 	RecordGet,
 	RecordBuild,
@@ -137,6 +145,9 @@ pub enum RuntimePrimitive3 {
 	ErrorRaise,
 	ErrorBuild,
 	
+	RecordBuildFn,
+	
+	RecordKindIs,
 	RecordGet,
 	RecordSet,
 	RecordBuild,
@@ -190,6 +201,12 @@ pub enum RuntimePrimitiveV {
 	ErrorRaise,
 	ErrorBuild,
 	
+	RecordKindIsFn,
+	RecordGetFn,
+	RecordSetFn,
+	RecordBuildFn,
+	
+	RecordKindIs,
 	RecordSet,
 	RecordGet,
 	RecordBuild,
@@ -265,6 +282,12 @@ pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, input_1 : &V
 		
 		RuntimePrimitive1::ErrorArgumentsAsValues =>
 			return error_arguments_as_values (input_1) .into_0 (),
+		
+		RuntimePrimitive1::RecordKindIsFn =>
+			return record_kind_is_fn (try_as_record_kind_ref! (input_1), None),
+		
+		RuntimePrimitive1::RecordBuildFn =>
+			return record_build_fn (try_as_record_kind_ref! (input_1), None, None),
 		
 		RuntimePrimitive1::RecordKindGet =>
 			return record_kind_get (input_1) .into_0 (),
@@ -342,8 +365,20 @@ pub fn runtime_primitive_2_evaluate (primitive : RuntimePrimitive2, input_1 : &V
 		RuntimePrimitive2::ErrorBuild =>
 			return error_build_1 (None, input_1, input_2) .into_0 (),
 		
+		RuntimePrimitive2::RecordKindIsFn =>
+			return record_kind_is_fn (try_as_record_kind_ref! (input_1), Some (try_as_boolean_ref! (input_1) .value ())),
+		
+		RuntimePrimitive2::RecordGetFn =>
+			return record_get_fn (try_as_record_kind_ref! (input_1), input_2),
+		
+		RuntimePrimitive2::RecordSetFn =>
+			return record_set_fn (try_as_record_kind_ref! (input_1), input_2),
+		
+		RuntimePrimitive2::RecordBuildFn =>
+			return record_build_fn (try_as_record_kind_ref! (input_1), Some (input_2), None),
+		
 		RuntimePrimitive2::RecordKindIs =>
-			return record_kind_is (try_as_record_kind_ref! (input_1), input_2) .into_0 (),
+			return record_kind_is (try_as_record_kind_ref! (input_1), input_2, None) .into_0 (),
 		
 		RuntimePrimitive2::RecordGet =>
 			return record_get_x (None, input_1, input_2),
@@ -387,6 +422,12 @@ pub fn runtime_primitive_3_evaluate (primitive : RuntimePrimitive3, input_1 : &V
 		
 		RuntimePrimitive3::ErrorBuild =>
 			return error_build_2 (None, input_1, input_2, input_3) .into_0 (),
+		
+		RuntimePrimitive3::RecordBuildFn =>
+			return record_build_fn (try_as_record_kind_ref! (input_1), Some (input_2), Some (try_as_boolean_ref! (input_3) .value ())),
+		
+		RuntimePrimitive3::RecordKindIs =>
+			return record_kind_is (try_as_record_kind_ref! (input_1), input_2, Some (try_as_boolean_ref! (input_3) .value ())) .into_0 (),
 		
 		RuntimePrimitive3::RecordGet =>
 			return record_get_x (Some (try_as_record_kind_ref! (input_1)), input_2, input_3),
@@ -488,6 +529,16 @@ pub fn runtime_primitive_v_alternative_0 (primitive : RuntimePrimitiveV) -> (Opt
 			None,
 		RuntimePrimitiveV::ErrorBuild =>
 			None,
+		RuntimePrimitiveV::RecordKindIsFn =>
+			None,
+		RuntimePrimitiveV::RecordGetFn =>
+			None,
+		RuntimePrimitiveV::RecordSetFn =>
+			None,
+		RuntimePrimitiveV::RecordBuildFn =>
+			None,
+		RuntimePrimitiveV::RecordKindIs =>
+			None,
 		RuntimePrimitiveV::RecordGet =>
 			None,
 		RuntimePrimitiveV::RecordSet =>
@@ -527,6 +578,16 @@ pub fn runtime_primitive_v_alternative_1 (primitive : RuntimePrimitiveV) -> (Opt
 			Some (RuntimePrimitive1::ErrorBuild),
 		RuntimePrimitiveV::ProcessExit =>
 			Some (RuntimePrimitive1::ProcessExit),
+		RuntimePrimitiveV::RecordKindIsFn =>
+			Some (RuntimePrimitive1::RecordKindIsFn),
+		RuntimePrimitiveV::RecordGetFn =>
+			None,
+		RuntimePrimitiveV::RecordSetFn =>
+			None,
+		RuntimePrimitiveV::RecordBuildFn =>
+			Some (RuntimePrimitive1::RecordBuildFn),
+		RuntimePrimitiveV::RecordKindIs =>
+			None,
 		RuntimePrimitiveV::RecordGet =>
 			None,
 		RuntimePrimitiveV::RecordSet =>
@@ -562,6 +623,16 @@ pub fn runtime_primitive_v_alternative_2 (primitive : RuntimePrimitiveV) -> (Opt
 			Some (RuntimePrimitive2::ErrorRaise),
 		RuntimePrimitiveV::ErrorBuild =>
 			Some (RuntimePrimitive2::ErrorBuild),
+		RuntimePrimitiveV::RecordKindIsFn =>
+			Some (RuntimePrimitive2::RecordKindIsFn),
+		RuntimePrimitiveV::RecordGetFn =>
+			Some (RuntimePrimitive2::RecordGetFn),
+		RuntimePrimitiveV::RecordSetFn =>
+			Some (RuntimePrimitive2::RecordSetFn),
+		RuntimePrimitiveV::RecordBuildFn =>
+			Some (RuntimePrimitive2::RecordBuildFn),
+		RuntimePrimitiveV::RecordKindIs =>
+			Some (RuntimePrimitive2::RecordKindIs),
 		RuntimePrimitiveV::RecordGet =>
 			Some (RuntimePrimitive2::RecordGet),
 		RuntimePrimitiveV::RecordSet =>
@@ -599,6 +670,16 @@ pub fn runtime_primitive_v_alternative_3 (primitive : RuntimePrimitiveV) -> (Opt
 			Some (RuntimePrimitive3::ErrorRaise),
 		RuntimePrimitiveV::ErrorBuild =>
 			Some (RuntimePrimitive3::ErrorBuild),
+		RuntimePrimitiveV::RecordKindIsFn =>
+			None,
+		RuntimePrimitiveV::RecordGetFn =>
+			None,
+		RuntimePrimitiveV::RecordSetFn =>
+			None,
+		RuntimePrimitiveV::RecordBuildFn =>
+			Some (RuntimePrimitive3::RecordBuildFn),
+		RuntimePrimitiveV::RecordKindIs =>
+			None,
 		RuntimePrimitiveV::RecordGet =>
 			Some (RuntimePrimitive3::RecordGet),
 		RuntimePrimitiveV::RecordSet =>
@@ -636,6 +717,16 @@ pub fn runtime_primitive_v_alternative_4 (primitive : RuntimePrimitiveV) -> (Opt
 			Some (RuntimePrimitive4::ErrorRaise),
 		RuntimePrimitiveV::ErrorBuild =>
 			Some (RuntimePrimitive4::ErrorBuild),
+		RuntimePrimitiveV::RecordKindIsFn =>
+			None,
+		RuntimePrimitiveV::RecordGetFn =>
+			None,
+		RuntimePrimitiveV::RecordSetFn =>
+			None,
+		RuntimePrimitiveV::RecordBuildFn =>
+			None,
+		RuntimePrimitiveV::RecordKindIs =>
+			None,
 		RuntimePrimitiveV::RecordGet =>
 			None,
 		RuntimePrimitiveV::RecordSet =>
@@ -673,6 +764,16 @@ pub fn runtime_primitive_v_alternative_5 (primitive : RuntimePrimitiveV) -> (Opt
 			Some (RuntimePrimitive5::ErrorRaise),
 		RuntimePrimitiveV::ErrorBuild =>
 			Some (RuntimePrimitive5::ErrorBuild),
+		RuntimePrimitiveV::RecordKindIsFn =>
+			None,
+		RuntimePrimitiveV::RecordGetFn =>
+			None,
+		RuntimePrimitiveV::RecordSetFn =>
+			None,
+		RuntimePrimitiveV::RecordBuildFn =>
+			None,
+		RuntimePrimitiveV::RecordKindIs =>
+			None,
 		RuntimePrimitiveV::RecordGet =>
 			None,
 		RuntimePrimitiveV::RecordSet =>
@@ -710,6 +811,16 @@ pub fn runtime_primitive_v_alternative_n (primitive : RuntimePrimitiveV) -> (Opt
 			Some (RuntimePrimitiveN::ErrorRaise),
 		RuntimePrimitiveV::ErrorBuild =>
 			Some (RuntimePrimitiveN::ErrorBuild),
+		RuntimePrimitiveV::RecordKindIsFn =>
+			None,
+		RuntimePrimitiveV::RecordGetFn =>
+			None,
+		RuntimePrimitiveV::RecordSetFn =>
+			None,
+		RuntimePrimitiveV::RecordBuildFn =>
+			None,
+		RuntimePrimitiveV::RecordKindIs =>
+			None,
 		RuntimePrimitiveV::RecordGet =>
 			None,
 		RuntimePrimitiveV::RecordSet =>
