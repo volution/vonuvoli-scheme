@@ -41,8 +41,10 @@ pub enum ProcedureExtendedInternals {
 	
 	RecordKindIs (RecordKind),
 	RecordBuild (RecordKind, Option<StdBox<[usize]>>, Option<bool>),
-	RecordGet (RecordKind, usize),
-	RecordSet (RecordKind, usize),
+	RecordGet (Option<RecordKind>, usize),
+	RecordGetX (Option<RecordKind>, Value),
+	RecordSet (Option<RecordKind>, usize),
+	RecordSetX (Option<RecordKind>, Value),
 	
 }
 
@@ -108,7 +110,10 @@ pub fn procedure_extended_evaluate_1 (extended : &ProcedureExtended, input_1 : &
 			return record_build_1 (kind, option_box_as_ref (fields), input_1, immutable),
 		
 		ProcedureExtendedInternals::RecordGet (ref kind, field) =>
-			return record_get (kind, field, input_1),
+			return record_get (kind.as_ref (), field, input_1),
+		
+		ProcedureExtendedInternals::RecordGetX (ref kind, ref field) =>
+			return record_get_x (kind.as_ref (), field, input_1),
 		
 		_ =>
 			fail! (0x224ed4b5),
@@ -127,7 +132,10 @@ pub fn procedure_extended_evaluate_2 (extended : &ProcedureExtended, input_1 : &
 			return record_build_2 (kind, option_box_as_ref (fields), input_1, input_2, immutable),
 		
 		ProcedureExtendedInternals::RecordSet (ref kind, field) =>
-			return record_set (kind, field, input_1, input_2),
+			return record_set (kind.as_ref (), field, input_1, input_2),
+		
+		ProcedureExtendedInternals::RecordSetX (ref kind, ref field) =>
+			return record_set_x (kind.as_ref (), field, input_1, input_2),
 		
 		_ =>
 			fail! (0x786569ea),
@@ -196,10 +204,16 @@ pub fn procedure_extended_evaluate_n (extended : &ProcedureExtended, inputs : &[
 			return procedure_extended_evaluate_1 (extended, inputs[0], evaluator),
 		
 		(1, &ProcedureExtendedInternals::RecordGet (ref kind, field)) =>
-			return record_get (kind, field, inputs[0]),
+			return record_get (kind.as_ref (), field, inputs[0]),
+		
+		(1, &ProcedureExtendedInternals::RecordGetX (ref kind, ref field)) =>
+			return record_get_x (kind.as_ref (), field, inputs[0]),
 		
 		(2, &ProcedureExtendedInternals::RecordSet (ref kind, field)) =>
-			return record_set (kind, field, inputs[0], inputs[1]),
+			return record_set (kind.as_ref (), field, inputs[0], inputs[1]),
+		
+		(2, &ProcedureExtendedInternals::RecordSetX (ref kind, ref field)) =>
+			return record_set_x (kind.as_ref (), field, inputs[0], inputs[1]),
 		
 		(_, &ProcedureExtendedInternals::RecordBuild (ref kind, ref fields, immutable)) =>
 			return record_build_n (kind, option_box_as_ref (fields), inputs, immutable),

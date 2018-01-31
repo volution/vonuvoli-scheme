@@ -793,6 +793,9 @@ def_value_try_into! (try_into_array_mutable, value_type! (ArrayMutable));
 def_value_try_as_ref! (try_as_values_ref, value_type! (Values));
 def_value_try_into! (try_into_values, value_type! (Values));
 
+def_value_try_as_ref! (try_as_record_kind_ref, value_type! (RecordKind));
+def_value_try_into! (try_into_record_kind, value_type! (RecordKind));
+
 def_value_try_as_ref! (try_as_record_immutable_ref, value_type! (RecordImmutable));
 def_value_try_into! (try_into_record_immutable, value_type! (RecordImmutable));
 

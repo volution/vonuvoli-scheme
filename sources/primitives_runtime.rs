@@ -81,6 +81,17 @@ pub enum RuntimePrimitive1 {
 	ErrorArgumentsAsArray,
 	ErrorArgumentsAsValues,
 	
+	RecordKindGet,
+	RecordBuild,
+	RecordToImmutable,
+	RecordToMutable,
+	RecordToArray,
+	RecordFromArray,
+	RecordToValues,
+	RecordFromValues,
+	RecordToList,
+	RecordFromList,
+	
 	ProcessEnvironment,
 	
 	ProcessExit,
@@ -105,6 +116,16 @@ pub enum RuntimePrimitive2 {
 	ErrorRaise,
 	ErrorBuild,
 	
+	RecordKindIs,
+	RecordGet,
+	RecordBuild,
+	RecordToArray,
+	RecordFromArray,
+	RecordToValues,
+	RecordFromValues,
+	RecordToList,
+	RecordFromList,
+	
 	ProcessSpawnExtended,
 	
 }
@@ -115,6 +136,10 @@ pub enum RuntimePrimitive3 {
 	
 	ErrorRaise,
 	ErrorBuild,
+	
+	RecordGet,
+	RecordSet,
+	RecordBuild,
 	
 	ProcessSpawnExtended,
 	
@@ -127,6 +152,9 @@ pub enum RuntimePrimitive4 {
 	ErrorRaise,
 	ErrorBuild,
 	
+	RecordSet,
+	RecordBuild,
+	
 }
 
 
@@ -136,6 +164,8 @@ pub enum RuntimePrimitive5 {
 	ErrorRaise,
 	ErrorBuild,
 	
+	RecordBuild,
+	
 }
 
 
@@ -144,6 +174,8 @@ pub enum RuntimePrimitiveN {
 	
 	ErrorRaise,
 	ErrorBuild,
+	
+	RecordBuild,
 	
 	ProcessSpawn,
 	ProcessRunTry,
@@ -157,6 +189,16 @@ pub enum RuntimePrimitiveV {
 	
 	ErrorRaise,
 	ErrorBuild,
+	
+	RecordSet,
+	RecordGet,
+	RecordBuild,
+	RecordToArray,
+	RecordFromArray,
+	RecordToValues,
+	RecordFromValues,
+	RecordToList,
+	RecordFromList,
 	
 	ProcessExit,
 	ProcessExitEmergency,
@@ -224,6 +266,36 @@ pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, input_1 : &V
 		RuntimePrimitive1::ErrorArgumentsAsValues =>
 			return error_arguments_as_values (input_1) .into_0 (),
 		
+		RuntimePrimitive1::RecordKindGet =>
+			return record_kind_get (input_1) .into_0 (),
+		
+		RuntimePrimitive1::RecordBuild =>
+			return record_build_0 (try_as_record_kind_ref! (input_1), None, None),
+		
+		RuntimePrimitive1::RecordToImmutable =>
+			return try_as_record_as_ref! (input_1) .to_immutable () .into_0 (),
+		
+		RuntimePrimitive1::RecordToMutable =>
+			return try_as_record_as_ref! (input_1) .to_mutable () .into_0 (),
+		
+		RuntimePrimitive1::RecordToArray =>
+			return record_to_array (None, input_1, None),
+		
+		RuntimePrimitive1::RecordFromArray =>
+			return record_from_array (None, input_1, None),
+		
+		RuntimePrimitive1::RecordToValues =>
+			return record_to_values (None, input_1, None),
+		
+		RuntimePrimitive1::RecordFromValues =>
+			return record_from_values (None, input_1, None),
+		
+		RuntimePrimitive1::RecordToList =>
+			return record_to_list (None, input_1, None),
+		
+		RuntimePrimitive1::RecordFromList =>
+			return record_from_list (None, input_1, None),
+		
 		RuntimePrimitive1::ProcessEnvironment =>
 			fail_unimplemented! (0x8f801b52), // deferred
 		
@@ -270,6 +342,33 @@ pub fn runtime_primitive_2_evaluate (primitive : RuntimePrimitive2, input_1 : &V
 		RuntimePrimitive2::ErrorBuild =>
 			return error_build_1 (None, input_1, input_2) .into_0 (),
 		
+		RuntimePrimitive2::RecordKindIs =>
+			return record_kind_is (try_as_record_kind_ref! (input_1), input_2) .into_0 (),
+		
+		RuntimePrimitive2::RecordGet =>
+			return record_get_x (None, input_1, input_2),
+		
+		RuntimePrimitive2::RecordBuild =>
+			return record_build_1 (try_as_record_kind_ref! (input_1), None, input_2, None),
+		
+		RuntimePrimitive2::RecordToArray =>
+			return record_to_array (Some (try_as_record_kind_ref! (input_1)), input_2, None),
+		
+		RuntimePrimitive2::RecordFromArray =>
+			return record_from_array (Some (try_as_record_kind_ref! (input_1)), input_2, None),
+		
+		RuntimePrimitive2::RecordToValues =>
+			return record_to_values (Some (try_as_record_kind_ref! (input_1)), input_2, None),
+		
+		RuntimePrimitive2::RecordFromValues =>
+			return record_from_values (Some (try_as_record_kind_ref! (input_1)), input_2, None),
+		
+		RuntimePrimitive2::RecordToList =>
+			return record_to_list (Some (try_as_record_kind_ref! (input_1)), input_2, None),
+		
+		RuntimePrimitive2::RecordFromList =>
+			return record_from_list (Some (try_as_record_kind_ref! (input_1)), input_2, None),
+		
 		RuntimePrimitive2::ProcessSpawnExtended =>
 			return process_spawn_extended (input_1, Some (input_2), None) .into_0 (),
 		
@@ -288,6 +387,15 @@ pub fn runtime_primitive_3_evaluate (primitive : RuntimePrimitive3, input_1 : &V
 		
 		RuntimePrimitive3::ErrorBuild =>
 			return error_build_2 (None, input_1, input_2, input_3) .into_0 (),
+		
+		RuntimePrimitive3::RecordGet =>
+			return record_get_x (Some (try_as_record_kind_ref! (input_1)), input_2, input_3),
+		
+		RuntimePrimitive3::RecordSet =>
+			return record_set_x (None, input_1, input_2, input_3),
+		
+		RuntimePrimitive3::RecordBuild =>
+			return record_build_2 (try_as_record_kind_ref! (input_1), None, input_2, input_3, None),
 		
 		RuntimePrimitive3::ProcessSpawnExtended =>
 			return process_spawn_extended (input_1, Some (input_2), Some (input_3)) .into_0 (),
@@ -308,6 +416,12 @@ pub fn runtime_primitive_4_evaluate (primitive : RuntimePrimitive4, input_1 : &V
 		RuntimePrimitive4::ErrorBuild =>
 			return error_build_3 (None, input_1, input_2, input_3, input_4) .into_0 (),
 		
+		RuntimePrimitive4::RecordSet =>
+			return record_set_x (Some (try_as_record_kind_ref! (input_1)), input_2, input_3, input_4),
+		
+		RuntimePrimitive4::RecordBuild =>
+			return record_build_3 (try_as_record_kind_ref! (input_1), None, input_2, input_3, input_4, None),
+		
 	}
 }
 
@@ -323,6 +437,9 @@ pub fn runtime_primitive_5_evaluate (primitive : RuntimePrimitive5, input_1 : &V
 		
 		RuntimePrimitive5::ErrorBuild =>
 			return error_build_4 (None, input_1, input_2, input_3, input_4, input_5) .into_0 (),
+		
+		RuntimePrimitive5::RecordBuild =>
+			return record_build_4 (try_as_record_kind_ref! (input_1), None, input_2, input_3, input_4, input_5, None),
 		
 	}
 }
@@ -342,6 +459,11 @@ pub fn runtime_primitive_n_evaluate (primitive : RuntimePrimitiveN, inputs : &[&
 		RuntimePrimitiveN::ErrorBuild => {
 			let (message, inputs) = try_some! (inputs.split_first (), 0x87db450f);
 			return error_build_n (None, message, inputs) .into_0 ();
+		},
+		
+		RuntimePrimitiveN::RecordBuild => {
+			let (kind, inputs) = try_some! (inputs.split_first (), 0xa34efcb8);
+			return record_build_n (try_as_record_kind_ref! (*kind), None, inputs, None);
 		},
 		
 		RuntimePrimitiveN::ProcessSpawn =>
@@ -366,6 +488,24 @@ pub fn runtime_primitive_v_alternative_0 (primitive : RuntimePrimitiveV) -> (Opt
 			None,
 		RuntimePrimitiveV::ErrorBuild =>
 			None,
+		RuntimePrimitiveV::RecordGet =>
+			None,
+		RuntimePrimitiveV::RecordSet =>
+			None,
+		RuntimePrimitiveV::RecordBuild =>
+			None,
+		RuntimePrimitiveV::RecordToArray =>
+			None,
+		RuntimePrimitiveV::RecordFromArray =>
+			None,
+		RuntimePrimitiveV::RecordToValues =>
+			None,
+		RuntimePrimitiveV::RecordFromValues =>
+			None,
+		RuntimePrimitiveV::RecordToList =>
+			None,
+		RuntimePrimitiveV::RecordFromList =>
+			None,
 		RuntimePrimitiveV::ProcessExit =>
 			Some (RuntimePrimitive0::ProcessExit),
 		RuntimePrimitiveV::ProcessExitEmergency =>
@@ -387,6 +527,24 @@ pub fn runtime_primitive_v_alternative_1 (primitive : RuntimePrimitiveV) -> (Opt
 			Some (RuntimePrimitive1::ErrorBuild),
 		RuntimePrimitiveV::ProcessExit =>
 			Some (RuntimePrimitive1::ProcessExit),
+		RuntimePrimitiveV::RecordGet =>
+			None,
+		RuntimePrimitiveV::RecordSet =>
+			None,
+		RuntimePrimitiveV::RecordBuild =>
+			Some (RuntimePrimitive1::RecordBuild),
+		RuntimePrimitiveV::RecordToArray =>
+			Some (RuntimePrimitive1::RecordToArray),
+		RuntimePrimitiveV::RecordFromArray =>
+			Some (RuntimePrimitive1::RecordFromArray),
+		RuntimePrimitiveV::RecordToValues =>
+			Some (RuntimePrimitive1::RecordToValues),
+		RuntimePrimitiveV::RecordFromValues =>
+			Some (RuntimePrimitive1::RecordFromValues),
+		RuntimePrimitiveV::RecordToList =>
+			Some (RuntimePrimitive1::RecordToList),
+		RuntimePrimitiveV::RecordFromList =>
+			Some (RuntimePrimitive1::RecordFromList),
 		RuntimePrimitiveV::ProcessExitEmergency =>
 			Some (RuntimePrimitive1::ProcessExitEmergency),
 		RuntimePrimitiveV::ProcessSpawnExtended =>
@@ -404,6 +562,24 @@ pub fn runtime_primitive_v_alternative_2 (primitive : RuntimePrimitiveV) -> (Opt
 			Some (RuntimePrimitive2::ErrorRaise),
 		RuntimePrimitiveV::ErrorBuild =>
 			Some (RuntimePrimitive2::ErrorBuild),
+		RuntimePrimitiveV::RecordGet =>
+			Some (RuntimePrimitive2::RecordGet),
+		RuntimePrimitiveV::RecordSet =>
+			None,
+		RuntimePrimitiveV::RecordBuild =>
+			Some (RuntimePrimitive2::RecordBuild),
+		RuntimePrimitiveV::RecordToArray =>
+			Some (RuntimePrimitive2::RecordToArray),
+		RuntimePrimitiveV::RecordFromArray =>
+			Some (RuntimePrimitive2::RecordFromArray),
+		RuntimePrimitiveV::RecordToValues =>
+			Some (RuntimePrimitive2::RecordToValues),
+		RuntimePrimitiveV::RecordFromValues =>
+			Some (RuntimePrimitive2::RecordFromValues),
+		RuntimePrimitiveV::RecordToList =>
+			Some (RuntimePrimitive2::RecordToList),
+		RuntimePrimitiveV::RecordFromList =>
+			Some (RuntimePrimitive2::RecordFromList),
 		RuntimePrimitiveV::ProcessExit =>
 			None,
 		RuntimePrimitiveV::ProcessExitEmergency =>
@@ -423,6 +599,24 @@ pub fn runtime_primitive_v_alternative_3 (primitive : RuntimePrimitiveV) -> (Opt
 			Some (RuntimePrimitive3::ErrorRaise),
 		RuntimePrimitiveV::ErrorBuild =>
 			Some (RuntimePrimitive3::ErrorBuild),
+		RuntimePrimitiveV::RecordGet =>
+			Some (RuntimePrimitive3::RecordGet),
+		RuntimePrimitiveV::RecordSet =>
+			Some (RuntimePrimitive3::RecordSet),
+		RuntimePrimitiveV::RecordBuild =>
+			Some (RuntimePrimitive3::RecordBuild),
+		RuntimePrimitiveV::RecordToArray =>
+			None,
+		RuntimePrimitiveV::RecordFromArray =>
+			None,
+		RuntimePrimitiveV::RecordToValues =>
+			None,
+		RuntimePrimitiveV::RecordFromValues =>
+			None,
+		RuntimePrimitiveV::RecordToList =>
+			None,
+		RuntimePrimitiveV::RecordFromList =>
+			None,
 		RuntimePrimitiveV::ProcessExit =>
 			None,
 		RuntimePrimitiveV::ProcessExitEmergency =>
@@ -442,6 +636,24 @@ pub fn runtime_primitive_v_alternative_4 (primitive : RuntimePrimitiveV) -> (Opt
 			Some (RuntimePrimitive4::ErrorRaise),
 		RuntimePrimitiveV::ErrorBuild =>
 			Some (RuntimePrimitive4::ErrorBuild),
+		RuntimePrimitiveV::RecordGet =>
+			None,
+		RuntimePrimitiveV::RecordSet =>
+			Some (RuntimePrimitive4::RecordSet),
+		RuntimePrimitiveV::RecordBuild =>
+			Some (RuntimePrimitive4::RecordBuild),
+		RuntimePrimitiveV::RecordToArray =>
+			None,
+		RuntimePrimitiveV::RecordFromArray =>
+			None,
+		RuntimePrimitiveV::RecordToValues =>
+			None,
+		RuntimePrimitiveV::RecordFromValues =>
+			None,
+		RuntimePrimitiveV::RecordToList =>
+			None,
+		RuntimePrimitiveV::RecordFromList =>
+			None,
 		RuntimePrimitiveV::ProcessExit =>
 			None,
 		RuntimePrimitiveV::ProcessExitEmergency =>
@@ -461,6 +673,24 @@ pub fn runtime_primitive_v_alternative_5 (primitive : RuntimePrimitiveV) -> (Opt
 			Some (RuntimePrimitive5::ErrorRaise),
 		RuntimePrimitiveV::ErrorBuild =>
 			Some (RuntimePrimitive5::ErrorBuild),
+		RuntimePrimitiveV::RecordGet =>
+			None,
+		RuntimePrimitiveV::RecordSet =>
+			None,
+		RuntimePrimitiveV::RecordBuild =>
+			Some (RuntimePrimitive5::RecordBuild),
+		RuntimePrimitiveV::RecordToArray =>
+			None,
+		RuntimePrimitiveV::RecordFromArray =>
+			None,
+		RuntimePrimitiveV::RecordToValues =>
+			None,
+		RuntimePrimitiveV::RecordFromValues =>
+			None,
+		RuntimePrimitiveV::RecordToList =>
+			None,
+		RuntimePrimitiveV::RecordFromList =>
+			None,
 		RuntimePrimitiveV::ProcessExit =>
 			None,
 		RuntimePrimitiveV::ProcessExitEmergency =>
@@ -480,6 +710,24 @@ pub fn runtime_primitive_v_alternative_n (primitive : RuntimePrimitiveV) -> (Opt
 			Some (RuntimePrimitiveN::ErrorRaise),
 		RuntimePrimitiveV::ErrorBuild =>
 			Some (RuntimePrimitiveN::ErrorBuild),
+		RuntimePrimitiveV::RecordGet =>
+			None,
+		RuntimePrimitiveV::RecordSet =>
+			None,
+		RuntimePrimitiveV::RecordBuild =>
+			Some (RuntimePrimitiveN::RecordBuild),
+		RuntimePrimitiveV::RecordToArray =>
+			None,
+		RuntimePrimitiveV::RecordFromArray =>
+			None,
+		RuntimePrimitiveV::RecordToValues =>
+			None,
+		RuntimePrimitiveV::RecordFromValues =>
+			None,
+		RuntimePrimitiveV::RecordToList =>
+			None,
+		RuntimePrimitiveV::RecordFromList =>
+			None,
 		RuntimePrimitiveV::ProcessExit =>
 			None,
 		RuntimePrimitiveV::ProcessExitEmergency =>
