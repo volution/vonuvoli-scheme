@@ -564,7 +564,11 @@ pub fn execute_test (test : &TestCaseCompiled, transcript : &mut io::Write, verb
 				ValueKindMatchAsRef2::ProcedureLambda (_, _) |
 				ValueKindMatchAsRef2::SyntaxExtended (_, _) |
 				ValueKindMatchAsRef2::SyntaxLambda (_, _) |
-				ValueKindMatchAsRef2::Port (_, _) =>
+				ValueKindMatchAsRef2::RecordKind (_, _) |
+				ValueKindMatchAsRef2::RecordImmutable (_, _) |
+				ValueKindMatchAsRef2::RecordMutable (_, _) |
+				ValueKindMatchAsRef2::Port (_, _) |
+				ValueKindMatchAsRef2::Process (_, _) =>
 					(),
 				_ => {
 					let output_matched = try! (equivalent_by_value_strict_recursive_2 (expected_value_without_optimizations, expected_value_with_optimizations));

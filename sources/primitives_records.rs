@@ -63,6 +63,8 @@ pub enum RecordPrimitive1 {
 	RecordKindSize,
 	
 	RecordKindIsFn,
+	RecordGetFn,
+	RecordSetFn,
 	RecordBuildFn,
 	
 	RecordKindIs,
@@ -199,6 +201,12 @@ pub fn record_primitive_1_evaluate (primitive : RecordPrimitive1, input_1 : &Val
 		
 		RecordPrimitive1::RecordKindIsFn =>
 			return record_kind_is_fn (try_as_record_kind_ref! (input_1), None) .into_0 (),
+		
+		RecordPrimitive1::RecordGetFn =>
+			return record_get_x_fn (None, input_1) .into_0 (),
+		
+		RecordPrimitive1::RecordSetFn =>
+			return record_set_x_fn (None, input_1) .into_0 (),
 		
 		RecordPrimitive1::RecordBuildFn =>
 			return record_build_fn (try_as_record_kind_ref! (input_1), None, None) .into_0 (),
@@ -410,9 +418,9 @@ pub fn record_primitive_v_alternative_1 (primitive : RecordPrimitiveV) -> (Optio
 		RecordPrimitiveV::RecordKindIsFn =>
 			Some (RecordPrimitive1::RecordKindIsFn),
 		RecordPrimitiveV::RecordGetFn =>
-			None,
+			Some (RecordPrimitive1::RecordGetFn),
 		RecordPrimitiveV::RecordSetFn =>
-			None,
+			Some (RecordPrimitive1::RecordSetFn),
 		RecordPrimitiveV::RecordBuildFn =>
 			Some (RecordPrimitive1::RecordBuildFn),
 		RecordPrimitiveV::RecordKindIs =>
@@ -494,7 +502,7 @@ pub fn record_primitive_v_alternative_3 (primitive : RecordPrimitiveV) -> (Optio
 		RecordPrimitiveV::RecordBuildFn =>
 			Some (RecordPrimitive3::RecordBuildFn),
 		RecordPrimitiveV::RecordKindIs =>
-			None,
+			Some (RecordPrimitive3::RecordKindIs),
 		RecordPrimitiveV::RecordGet =>
 			Some (RecordPrimitive3::RecordGet),
 		RecordPrimitiveV::RecordSet =>

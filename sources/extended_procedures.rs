@@ -203,6 +203,9 @@ pub fn procedure_extended_evaluate_n (extended : &ProcedureExtended, inputs : &[
 			// FIXME:  Extract this!
 			return procedure_extended_evaluate_1 (extended, inputs[0], evaluator),
 		
+		(1, &ProcedureExtendedInternals::RecordKindIs (ref kind, immutable)) =>
+			return record_kind_is (kind, inputs[0], immutable) .into_0 (),
+		
 		(1, &ProcedureExtendedInternals::RecordGet (ref kind, field)) =>
 			return record_get (kind.as_ref (), field, inputs[0]),
 		
