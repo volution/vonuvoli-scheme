@@ -72,6 +72,11 @@ pub enum TypePrimitive1 {
 	
 	IsValues,
 	
+	IsRecordKind,
+	IsRecord,
+	IsRecordImmutable,
+	IsRecordMutable,
+	
 	IsError,
 	IsErrorSyntax,
 	IsErrorFile,
@@ -254,6 +259,18 @@ pub fn type_primitive_1_evaluate_0 (primitive : TypePrimitive1, input_1 : &Value
 		
 		TypePrimitive1::IsValues =>
 			return is_values (input_1) .into_0 (),
+		
+		TypePrimitive1::IsRecordKind =>
+			return is_record_kind (input_1) .into_0 (),
+		
+		TypePrimitive1::IsRecord =>
+			return is_record (input_1) .into_0 (),
+		
+		TypePrimitive1::IsRecordImmutable =>
+			return is_record_immutable (input_1) .into_0 (),
+		
+		TypePrimitive1::IsRecordMutable =>
+			return is_record_mutable (input_1) .into_0 (),
 		
 		TypePrimitive1::IsError =>
 			return is_error (input_1) .into_0 (),
