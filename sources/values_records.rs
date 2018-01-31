@@ -134,7 +134,7 @@ impl <'a> RecordRef<'a> {
 			ValueKindMatchAsRef::RecordMutable (value) =>
 				return value.record_ref (),
 			_ =>
-				fail! (0x4e577110),
+				fail! (0xc4f99def),
 		}
 	}
 	
@@ -205,7 +205,7 @@ impl <'a> RecordAsRef<'a> {
 			ValueKindMatchAsRef::RecordMutable (value) =>
 				succeed! (RecordAsRef::Mutable (value)),
 			_ =>
-				fail! (0xde9b3abe),
+				fail! (0x9f91cb83),
 		}
 	}
 	
@@ -235,7 +235,7 @@ impl <'a> RecordAsRef<'a> {
 			RecordAsRef::Immutable (value) =>
 				succeed! (value.values_rc_clone ()),
 			RecordAsRef::Mutable (value) =>
-				succeed! (try_or_fail! (((value.0).1) .as_ref () .try_borrow_mut (), 0xe525f806) .to_cow ()),
+				succeed! (try_or_fail! (((value.0).1) .as_ref () .try_borrow_mut (), 0x2b6ee4f1) .to_cow ()),
 		}
 	}
 	
@@ -421,7 +421,7 @@ impl RecordMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn record_ref (&self) -> (Outcome<RecordRef>) {
-		let reference = try_or_fail! ((self.0).1.as_ref () .try_borrow (), 0xa47b0b6c);
+		let reference = try_or_fail! ((self.0).1.as_ref () .try_borrow (), 0xc63c4285);
 		let reference = StdRef::map (reference, |reference| reference.as_ref ());
 		succeed! (RecordRef::Mutable (self, &(self.0).0, reference));
 	}
@@ -433,14 +433,14 @@ impl RecordMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn values_ref_mut (&self) -> (Outcome<StdRefMut<StdVec<Value>>>) {
-		let reference = try_or_fail! ((self.0).1.as_ref () .try_borrow_mut (), 0xd6dc773c);
+		let reference = try_or_fail! ((self.0).1.as_ref () .try_borrow_mut (), 0xb93a7d1d);
 		let reference = StdRefMut::map (reference, |reference| reference.as_mut ());
 		succeed! (reference);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn to_immutable (&self) -> (Outcome<RecordImmutable>) {
-		let mut reference = try_or_fail! ((self.0).1.as_ref () .try_borrow_mut (), 0x7a1c7802);
+		let mut reference = try_or_fail! ((self.0).1.as_ref () .try_borrow_mut (), 0xe88d42b2);
 		let values = reference.to_cow ();
 		succeed! (RecordImmutable::from_rc (&(self.0).0, values));
 	}

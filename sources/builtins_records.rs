@@ -182,7 +182,7 @@ pub fn record_set (kind : Option<&RecordKind>, field : usize, record : &Value, v
 		}
 	}
 	let mut record = try! (record.values_ref_mut ());
-	let value_ref = try_some! (record.get_mut (field), 0x51cf23d4);
+	let value_ref = try_some! (record.get_mut (field), 0x8b20ee6e);
 	let mut value_swap = value.clone ();
 	mem::swap (&mut value_swap, value_ref);
 	succeed! (value_swap);
@@ -234,12 +234,12 @@ pub fn record_to_array (_kind : Option<&RecordKind>, _record : &Value, _immutabl
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_to_values (_kind : Option<&RecordKind>, _record : &Value, _immutable : Option<bool>) -> (Outcome<Value>) {
-	fail_unimplemented! (0x2bb3bd43); // deferred
+	fail_unimplemented! (0xb9e5c4ce); // deferred
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_to_list (_kind : Option<&RecordKind>, _record : &Value, _immutable : Option<bool>) -> (Outcome<Value>) {
-	fail_unimplemented! (0x2bb3bd43); // deferred
+	fail_unimplemented! (0x18314e71); // deferred
 }
 
 
