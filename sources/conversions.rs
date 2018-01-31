@@ -372,6 +372,15 @@ impl_from_for_primitive_procedure_2! (FunctionsPrimitive5, ProcedurePrimitive5, 
 impl_from_for_primitive_procedure_2! (FunctionsPrimitiveN, ProcedurePrimitiveN, PrimitiveN, Functions);
 impl_from_for_primitive_procedure_2! (FunctionsPrimitiveV, ProcedurePrimitiveV, PrimitiveV, Functions);
 
+impl_from_for_primitive_procedure_2! (RecordPrimitive0, ProcedurePrimitive0, Primitive0, Record);
+impl_from_for_primitive_procedure_2! (RecordPrimitive1, ProcedurePrimitive1, Primitive1, Record);
+impl_from_for_primitive_procedure_2! (RecordPrimitive2, ProcedurePrimitive2, Primitive2, Record);
+impl_from_for_primitive_procedure_2! (RecordPrimitive3, ProcedurePrimitive3, Primitive3, Record);
+impl_from_for_primitive_procedure_2! (RecordPrimitive4, ProcedurePrimitive4, Primitive4, Record);
+impl_from_for_primitive_procedure_2! (RecordPrimitive5, ProcedurePrimitive5, Primitive5, Record);
+impl_from_for_primitive_procedure_2! (RecordPrimitiveN, ProcedurePrimitiveN, PrimitiveN, Record);
+impl_from_for_primitive_procedure_2! (RecordPrimitiveV, ProcedurePrimitiveV, PrimitiveV, Record);
+
 impl_from_for_primitive_procedure_2! (RuntimePrimitive0, ProcedurePrimitive0, Primitive0, Runtime);
 impl_from_for_primitive_procedure_2! (RuntimePrimitive1, ProcedurePrimitive1, Primitive1, Runtime);
 impl_from_for_primitive_procedure_2! (RuntimePrimitive2, ProcedurePrimitive2, Primitive2, Runtime);
@@ -667,6 +676,15 @@ impl_from_for_ProcedurePrimitiveCall4! (FunctionsPrimitive4);
 impl_from_for_ProcedurePrimitiveCall5! (FunctionsPrimitive5);
 impl_from_for_ProcedurePrimitiveCallN! (FunctionsPrimitiveN);
 impl_from_for_ProcedurePrimitiveCallV! (FunctionsPrimitiveV);
+
+impl_from_for_ProcedurePrimitiveCall0! (RecordPrimitive0);
+impl_from_for_ProcedurePrimitiveCall1! (RecordPrimitive1);
+impl_from_for_ProcedurePrimitiveCall2! (RecordPrimitive2);
+impl_from_for_ProcedurePrimitiveCall3! (RecordPrimitive3);
+impl_from_for_ProcedurePrimitiveCall4! (RecordPrimitive4);
+impl_from_for_ProcedurePrimitiveCall5! (RecordPrimitive5);
+impl_from_for_ProcedurePrimitiveCallN! (RecordPrimitiveN);
+impl_from_for_ProcedurePrimitiveCallV! (RecordPrimitiveV);
 
 impl_from_for_ProcedurePrimitiveCall0! (RuntimePrimitive0);
 impl_from_for_ProcedurePrimitiveCall1! (RuntimePrimitive1);

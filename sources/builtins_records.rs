@@ -14,6 +14,15 @@ pub mod exports {
 	
 	pub use super::{
 			
+			record_kind_build,
+			
+			record_kind_identifier,
+			record_kind_size,
+			
+		};
+	
+	pub use super::{
+			
 			record_kind_get, record_kind_is,
 			
 			record_build_0, record_build_1, record_build_2, record_build_3, record_build_4, record_build_n,
@@ -21,14 +30,48 @@ pub mod exports {
 			record_get, record_set,
 			record_get_x, record_set_x,
 			
+		};
+	
+	pub use super::{
+			
 			record_to_array, record_from_array,
 			record_to_values, record_from_values,
 			record_to_list, record_from_list,
 			
-			record_kind_is_fn, record_get_fn, record_set_fn, record_build_fn,
+		};
+	
+	pub use super::{
+			
+			record_kind_is_fn,
+			
+			record_build_fn,
+			
+			record_get_fn,
+			record_set_fn,
 			
 		};
 	
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn record_kind_build (_identifier : Option<&Value>, _fields : Option<&Value>) -> (Outcome<RecordKind>) {
+	fail_unimplemented! (0x70639cd8);
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn record_kind_identifier (_kind : &Value) -> (Outcome<Symbol>) {
+	fail_unimplemented! (0x8f0511bb);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn record_kind_size (_kind : &Value) -> (Outcome<usize>) {
+	fail_unimplemented! (0x1d1eb0ef);
 }
 
 
@@ -269,6 +312,11 @@ pub fn record_kind_is_fn (_kind : &RecordKind, _immutable : Option<bool>) -> (Ou
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn record_build_fn (_kind : &RecordKind, _fields : Option<&Value>, _immutable : Option<bool>) -> (Outcome<Value>) {
+	fail_unimplemented! (0xa3280194);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_get_fn (_kind : &RecordKind, _field : &Value) -> (Outcome<Value>) {
 	fail_unimplemented! (0xa3280194);
 }
@@ -276,10 +324,5 @@ pub fn record_get_fn (_kind : &RecordKind, _field : &Value) -> (Outcome<Value>) 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_set_fn (_kind : &RecordKind, _field : &Value) -> (Outcome<Value>) {
 	fail_unimplemented! (0x46847621);
-}
-
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_build_fn (_kind : &RecordKind, _fields : Option<&Value>, _immutable : Option<bool>) -> (Outcome<Value>) {
-	fail_unimplemented! (0xa3280194);
 }
 

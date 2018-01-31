@@ -58,9 +58,12 @@ pub enum RecordPrimitive0 {}
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum RecordPrimitive1 {
 	
+	RecordKindBuild,
+	
 	RecordKindIsFn,
 	RecordBuildFn,
 	
+	RecordKindIs,
 	RecordKindGet,
 	
 	RecordBuild,
@@ -80,6 +83,8 @@ pub enum RecordPrimitive1 {
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum RecordPrimitive2 {
+	
+	RecordKindBuild,
 	
 	RecordKindIsFn,
 	RecordGetFn,
@@ -144,6 +149,8 @@ pub enum RecordPrimitiveN {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum RecordPrimitiveV {
 	
+	RecordKindBuild,
+	
 	RecordKindIsFn,
 	RecordGetFn,
 	RecordSetFn,
@@ -179,11 +186,17 @@ pub fn record_primitive_0_evaluate (primitive : RecordPrimitive0, _evaluator : &
 pub fn record_primitive_1_evaluate (primitive : RecordPrimitive1, input_1 : &Value, _evaluator : &EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
+		RecordPrimitive1::RecordKindBuild =>
+			return record_kind_build (None, Some (input_1)) .into_0 (),
+		
 		RecordPrimitive1::RecordKindIsFn =>
 			return record_kind_is_fn (try_as_record_kind_ref! (input_1), None),
 		
 		RecordPrimitive1::RecordBuildFn =>
 			return record_build_fn (try_as_record_kind_ref! (input_1), None, None),
+		
+		RecordPrimitive1::RecordKindIs =>
+			return is_record (input_1) .into_0 (),
 		
 		RecordPrimitive1::RecordKindGet =>
 			return record_kind_get (input_1) .into_0 (),
@@ -224,6 +237,9 @@ pub fn record_primitive_1_evaluate (primitive : RecordPrimitive1, input_1 : &Val
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_primitive_2_evaluate (primitive : RecordPrimitive2, input_1 : &Value, input_2 : &Value, _evaluator : &EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
+		
+		RecordPrimitive2::RecordKindBuild =>
+			return record_kind_build (Some (input_1), Some (input_2)) .into_0 (),
 		
 		RecordPrimitive2::RecordKindIsFn =>
 			return record_kind_is_fn (try_as_record_kind_ref! (input_1), Some (try_as_boolean_ref! (input_1) .value ())),
@@ -342,6 +358,8 @@ pub fn record_primitive_n_evaluate (primitive : RecordPrimitiveN, inputs : &[&Va
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_primitive_v_alternative_0 (primitive : RecordPrimitiveV) -> (Option<RecordPrimitive0>) {
 	match primitive {
+		RecordPrimitiveV::RecordKindBuild =>
+			None,
 		RecordPrimitiveV::RecordKindIsFn =>
 			None,
 		RecordPrimitiveV::RecordGetFn =>
@@ -379,6 +397,8 @@ pub fn record_primitive_v_alternative_0 (primitive : RecordPrimitiveV) -> (Optio
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_primitive_v_alternative_1 (primitive : RecordPrimitiveV) -> (Option<RecordPrimitive1>) {
 	match primitive {
+		RecordPrimitiveV::RecordKindBuild =>
+			Some (RecordPrimitive1::RecordKindBuild),
 		RecordPrimitiveV::RecordKindIsFn =>
 			Some (RecordPrimitive1::RecordKindIsFn),
 		RecordPrimitiveV::RecordGetFn =>
@@ -388,7 +408,7 @@ pub fn record_primitive_v_alternative_1 (primitive : RecordPrimitiveV) -> (Optio
 		RecordPrimitiveV::RecordBuildFn =>
 			Some (RecordPrimitive1::RecordBuildFn),
 		RecordPrimitiveV::RecordKindIs =>
-			None,
+			Some (RecordPrimitive1::RecordKindIs),
 		RecordPrimitiveV::RecordGet =>
 			None,
 		RecordPrimitiveV::RecordSet =>
@@ -416,6 +436,8 @@ pub fn record_primitive_v_alternative_1 (primitive : RecordPrimitiveV) -> (Optio
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_primitive_v_alternative_2 (primitive : RecordPrimitiveV) -> (Option<RecordPrimitive2>) {
 	match primitive {
+		RecordPrimitiveV::RecordKindBuild =>
+			Some (RecordPrimitive2::RecordKindBuild),
 		RecordPrimitiveV::RecordKindIsFn =>
 			Some (RecordPrimitive2::RecordKindIsFn),
 		RecordPrimitiveV::RecordGetFn =>
@@ -453,6 +475,8 @@ pub fn record_primitive_v_alternative_2 (primitive : RecordPrimitiveV) -> (Optio
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_primitive_v_alternative_3 (primitive : RecordPrimitiveV) -> (Option<RecordPrimitive3>) {
 	match primitive {
+		RecordPrimitiveV::RecordKindBuild =>
+			None,
 		RecordPrimitiveV::RecordKindIsFn =>
 			None,
 		RecordPrimitiveV::RecordGetFn =>
@@ -490,6 +514,8 @@ pub fn record_primitive_v_alternative_3 (primitive : RecordPrimitiveV) -> (Optio
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_primitive_v_alternative_4 (primitive : RecordPrimitiveV) -> (Option<RecordPrimitive4>) {
 	match primitive {
+		RecordPrimitiveV::RecordKindBuild =>
+			None,
 		RecordPrimitiveV::RecordKindIsFn =>
 			None,
 		RecordPrimitiveV::RecordGetFn =>
@@ -527,6 +553,8 @@ pub fn record_primitive_v_alternative_4 (primitive : RecordPrimitiveV) -> (Optio
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_primitive_v_alternative_5 (primitive : RecordPrimitiveV) -> (Option<RecordPrimitive5>) {
 	match primitive {
+		RecordPrimitiveV::RecordKindBuild =>
+			None,
 		RecordPrimitiveV::RecordKindIsFn =>
 			None,
 		RecordPrimitiveV::RecordGetFn =>
@@ -564,6 +592,8 @@ pub fn record_primitive_v_alternative_5 (primitive : RecordPrimitiveV) -> (Optio
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_primitive_v_alternative_n (primitive : RecordPrimitiveV) -> (Option<RecordPrimitiveN>) {
 	match primitive {
+		RecordPrimitiveV::RecordKindBuild =>
+			None,
 		RecordPrimitiveV::RecordKindIsFn =>
 			None,
 		RecordPrimitiveV::RecordGetFn =>

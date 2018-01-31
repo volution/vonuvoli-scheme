@@ -280,7 +280,8 @@ pub struct RecordKind ( StdRc<RecordKindInternals> );
 
 #[ derive (Debug) ]
 pub struct RecordKindInternals {
-	pub identifier : Option<StdBox<str>>,
+	pub identifier : Option<StdRc<StdBox<str>>>,
+	pub fields : Option<StdBox<[(Option<StdRc<StdBox<str>>>, bool)]>>,
 	pub handle : Handle,
 	pub size : usize,
 }
@@ -289,13 +290,39 @@ pub struct RecordKindInternals {
 impl RecordKind {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new (identifier : Option<&str>, size : usize) -> (RecordKind) {
+	pub fn new_a (identifier : Option<&str>, fields : Option<&[(Option<&str>, bool)]>, size : usize) -> (Outcome<RecordKind>) {
+		let identifier = option_map! (identifier, StdRc::new (StdString::from (identifier) .into_boxed_str ()));
+		if let Some (fields) = fields {
+			if fields.len () != size {
+				fail! (0x51b48e0a);
+			}
+		}
+		let fields = option_map! (fields,
+				vec_map! (fields.iter (), &(field, immutable),
+						(option_map! (field, StdRc::new (StdString::from (field) .into_boxed_str ())), immutable)
+					) .into_boxed_slice ());
+		return RecordKind::new (identifier, fields, size);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new (identifier : Option<StdRc<StdBox<str>>>, fields : Option<StdBox<[(Option<StdRc<StdBox<str>>>, bool)]>>, size : usize) -> (Outcome<RecordKind>) {
+		if let Some (ref fields) = fields {
+			// TODO:  Check if a named field appeares twice!
+			for &(ref field, _immutable) in fields.iter () {
+				if let Some (ref field) = *field {
+					if field.is_empty () {
+						fail! (0x6880aadb);
+					}
+				}
+			}
+		}
 		let internals = RecordKindInternals {
-				identifier : option_map! (identifier, StdString::from (identifier) .into_boxed_str ()),
+				identifier : identifier,
+				fields : fields,
 				handle : records_handles_next (),
 				size : size,
 			};
-		return RecordKind (StdRc::new (internals));
+		succeed! (RecordKind (StdRc::new (internals)));
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
