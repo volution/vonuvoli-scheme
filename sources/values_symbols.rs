@@ -23,6 +23,16 @@ pub struct Symbol ( StdRc<StdBox<str>> );
 impl Symbol {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn from_rc (rc : StdRc<StdBox<str>>) -> (Symbol) {
+		Symbol (rc)
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn clone_rc (rc : &StdRc<StdBox<str>>) -> (Symbol) {
+		Symbol::from_rc (StdRc::clone (rc))
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &Symbol) -> (bool) {
 		let self_0 = self.0.as_ref ();
 		let other_0 = other.0.as_ref ();
