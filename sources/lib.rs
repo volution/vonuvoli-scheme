@@ -104,6 +104,7 @@ pub(crate) mod primitives_functions;
 pub(crate) mod primitives_lists;
 pub(crate) mod primitives_ports;
 pub(crate) mod primitives_procedures;
+pub(crate) mod primitives_records;
 pub(crate) mod primitives_runtime;
 pub(crate) mod primitives_strings;
 pub(crate) mod primitives_syntaxes;
@@ -185,6 +186,7 @@ pub mod internals {
 	pub use super::primitives_lists::exports as primitives_lists;
 	pub use super::primitives_ports::exports as primitives_ports;
 	pub use super::primitives_procedures::exports as primitives_procedures;
+	pub use super::primitives_records::exports as primitives_records;
 	pub use super::primitives_runtime::exports as primitives_runtime;
 	pub use super::primitives_strings::exports as primitives_strings;
 	pub use super::primitives_syntaxes::exports as primitives_syntaxes;

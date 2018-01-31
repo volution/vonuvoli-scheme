@@ -2722,6 +2722,10 @@
 	exec -- sce ./sources/primitives_procedures.rs
 !!
 
+<< files / edit / sources/primitives_records.rs
+	exec -- sce ./sources/primitives_records.rs
+!!
+
 << files / edit / sources/primitives_runtime.rs
 	exec -- sce ./sources/primitives_runtime.rs
 !!
@@ -3288,6 +3292,10 @@
 
 << files / view / sources/primitives_procedures.rs
 	exec -- less -- ./sources/primitives_procedures.rs
+!!
+
+<< files / view / sources/primitives_records.rs
+	exec -- less -- ./sources/primitives_records.rs
 !!
 
 << files / view / sources/primitives_runtime.rs
