@@ -145,6 +145,12 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("record->list", RecordPrimitiveV::RecordToList.into ()),
 			("list->record", RecordPrimitiveV::RecordFromList.into ()),
 			
+			("record=?", ComparisonPrimitiveV::RecordEqual.into ()),
+			("record<?", ComparisonPrimitiveV::RecordLesser.into ()),
+			("record>?", ComparisonPrimitiveV::RecordGreater.into ()),
+			("record<=?", ComparisonPrimitiveV::RecordLesserOrEqual.into ()),
+			("record>=?", ComparisonPrimitiveV::RecordGreaterOrEqual.into ()),
+			
 			("equivalent-by-identity?", ComparisonPrimitiveV::EquivalentByIdentity.into ()),
 			("equivalent-by-value-strict?", ComparisonPrimitiveV::EquivalentByValueStrict.into ()),
 			("equivalent-by-value-strict-recursive?", ComparisonPrimitiveV::EquivalentByValueStrictRecursive.into ()),

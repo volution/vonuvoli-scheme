@@ -143,6 +143,12 @@ pub enum ComparisonPrimitive1 {
 	ValuesGreaterOrEqual,
 	ValuesGreater,
 	
+	RecordLesser,
+	RecordLesserOrEqual,
+	RecordEqual,
+	RecordGreaterOrEqual,
+	RecordGreater,
+	
 }
 
 
@@ -232,6 +238,12 @@ pub enum ComparisonPrimitive2 {
 	ValuesEqual,
 	ValuesGreaterOrEqual,
 	ValuesGreater,
+	
+	RecordLesser,
+	RecordLesserOrEqual,
+	RecordEqual,
+	RecordGreaterOrEqual,
+	RecordGreater,
 	
 }
 
@@ -323,6 +335,12 @@ pub enum ComparisonPrimitive3 {
 	ValuesGreaterOrEqual,
 	ValuesGreater,
 	
+	RecordLesser,
+	RecordLesserOrEqual,
+	RecordEqual,
+	RecordGreaterOrEqual,
+	RecordGreater,
+	
 }
 
 
@@ -412,6 +430,12 @@ pub enum ComparisonPrimitive4 {
 	ValuesEqual,
 	ValuesGreaterOrEqual,
 	ValuesGreater,
+	
+	RecordLesser,
+	RecordLesserOrEqual,
+	RecordEqual,
+	RecordGreaterOrEqual,
+	RecordGreater,
 	
 }
 
@@ -507,6 +531,12 @@ pub enum ComparisonPrimitiveN {
 	ValuesGreaterOrEqual,
 	ValuesGreater,
 	
+	RecordLesser,
+	RecordLesserOrEqual,
+	RecordEqual,
+	RecordGreaterOrEqual,
+	RecordGreater,
+	
 }
 
 
@@ -596,6 +626,12 @@ pub enum ComparisonPrimitiveV {
 	ValuesEqual,
 	ValuesGreaterOrEqual,
 	ValuesGreater,
+	
+	RecordLesser,
+	RecordLesserOrEqual,
+	RecordEqual,
+	RecordGreaterOrEqual,
+	RecordGreater,
 	
 }
 
@@ -824,6 +860,21 @@ pub fn comparison_primitive_1_evaluate (primitive : ComparisonPrimitive1, input_
 		ComparisonPrimitive1::ValuesGreater =>
 			return values_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
+		ComparisonPrimitive1::RecordLesser =>
+			return record_compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
+		
+		ComparisonPrimitive1::RecordLesserOrEqual =>
+			return record_compare_1 (input_1, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
+		
+		ComparisonPrimitive1::RecordEqual =>
+			return record_compare_1 (input_1, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
+		
+		ComparisonPrimitive1::RecordGreaterOrEqual =>
+			return record_compare_1 (input_1, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
+		
+		ComparisonPrimitive1::RecordGreater =>
+			return record_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
+		
 	}
 }
 
@@ -1043,6 +1094,21 @@ pub fn comparison_primitive_2_evaluate (primitive : ComparisonPrimitive2, input_
 		
 		ComparisonPrimitive2::ValuesGreater =>
 			return values_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
+		
+		ComparisonPrimitive2::RecordLesser =>
+			return record_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
+		
+		ComparisonPrimitive2::RecordLesserOrEqual =>
+			return record_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
+		
+		ComparisonPrimitive2::RecordEqual =>
+			return record_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
+		
+		ComparisonPrimitive2::RecordGreaterOrEqual =>
+			return record_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
+		
+		ComparisonPrimitive2::RecordGreater =>
+			return record_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
 	}
 }
@@ -1264,6 +1330,21 @@ pub fn comparison_primitive_3_evaluate (primitive : ComparisonPrimitive3, input_
 		ComparisonPrimitive3::ValuesGreater =>
 			return values_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
+		ComparisonPrimitive3::RecordLesser =>
+			return record_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
+		
+		ComparisonPrimitive3::RecordLesserOrEqual =>
+			return record_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
+		
+		ComparisonPrimitive3::RecordEqual =>
+			return record_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
+		
+		ComparisonPrimitive3::RecordGreaterOrEqual =>
+			return record_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
+		
+		ComparisonPrimitive3::RecordGreater =>
+			return record_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
+		
 	}
 }
 
@@ -1483,6 +1564,21 @@ pub fn comparison_primitive_4_evaluate (primitive : ComparisonPrimitive4, input_
 		
 		ComparisonPrimitive4::ValuesGreater =>
 			return values_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
+		
+		ComparisonPrimitive4::RecordLesser =>
+			return record_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
+		
+		ComparisonPrimitive4::RecordLesserOrEqual =>
+			return record_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
+		
+		ComparisonPrimitive4::RecordEqual =>
+			return record_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
+		
+		ComparisonPrimitive4::RecordGreaterOrEqual =>
+			return record_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
+		
+		ComparisonPrimitive4::RecordGreater =>
+			return record_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
 	}
 }
@@ -1712,6 +1808,21 @@ pub fn comparison_primitive_n_evaluate (primitive : ComparisonPrimitiveN, inputs
 		ComparisonPrimitiveN::ValuesGreater =>
 			return values_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
+		ComparisonPrimitiveN::RecordLesser =>
+			return record_compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
+		
+		ComparisonPrimitiveN::RecordLesserOrEqual =>
+			return record_compare_n (inputs, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
+		
+		ComparisonPrimitiveN::RecordEqual =>
+			return record_compare_n (inputs, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
+		
+		ComparisonPrimitiveN::RecordGreaterOrEqual =>
+			return record_compare_n (inputs, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
+		
+		ComparisonPrimitiveN::RecordGreater =>
+			return record_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
+		
 	}
 }
 
@@ -1860,6 +1971,16 @@ pub fn comparison_primitive_v_alternative_0 (primitive : ComparisonPrimitiveV) -
 		ComparisonPrimitiveV::ValuesGreaterOrEqual =>
 			None,
 		ComparisonPrimitiveV::ValuesGreater =>
+			None,
+		ComparisonPrimitiveV::RecordLesser =>
+			None,
+		ComparisonPrimitiveV::RecordLesserOrEqual =>
+			None,
+		ComparisonPrimitiveV::RecordEqual =>
+			None,
+		ComparisonPrimitiveV::RecordGreaterOrEqual =>
+			None,
+		ComparisonPrimitiveV::RecordGreater =>
 			None,
 	}
 }
@@ -2010,6 +2131,16 @@ pub fn comparison_primitive_v_alternative_1 (primitive : ComparisonPrimitiveV) -
 			Some (ComparisonPrimitive1::ValuesGreaterOrEqual),
 		ComparisonPrimitiveV::ValuesGreater =>
 			Some (ComparisonPrimitive1::ValuesGreater),
+		ComparisonPrimitiveV::RecordLesser =>
+			Some (ComparisonPrimitive1::RecordLesser),
+		ComparisonPrimitiveV::RecordLesserOrEqual =>
+			Some (ComparisonPrimitive1::RecordLesserOrEqual),
+		ComparisonPrimitiveV::RecordEqual =>
+			Some (ComparisonPrimitive1::RecordEqual),
+		ComparisonPrimitiveV::RecordGreaterOrEqual =>
+			Some (ComparisonPrimitive1::RecordGreaterOrEqual),
+		ComparisonPrimitiveV::RecordGreater =>
+			Some (ComparisonPrimitive1::RecordGreater),
 	}
 }
 
@@ -2159,6 +2290,16 @@ pub fn comparison_primitive_v_alternative_2 (primitive : ComparisonPrimitiveV) -
 			Some (ComparisonPrimitive2::ValuesGreaterOrEqual),
 		ComparisonPrimitiveV::ValuesGreater =>
 			Some (ComparisonPrimitive2::ValuesGreater),
+		ComparisonPrimitiveV::RecordLesser =>
+			Some (ComparisonPrimitive2::RecordLesser),
+		ComparisonPrimitiveV::RecordLesserOrEqual =>
+			Some (ComparisonPrimitive2::RecordLesserOrEqual),
+		ComparisonPrimitiveV::RecordEqual =>
+			Some (ComparisonPrimitive2::RecordEqual),
+		ComparisonPrimitiveV::RecordGreaterOrEqual =>
+			Some (ComparisonPrimitive2::RecordGreaterOrEqual),
+		ComparisonPrimitiveV::RecordGreater =>
+			Some (ComparisonPrimitive2::RecordGreater),
 	}
 }
 
@@ -2308,6 +2449,16 @@ pub fn comparison_primitive_v_alternative_3 (primitive : ComparisonPrimitiveV) -
 			Some (ComparisonPrimitive3::ValuesGreaterOrEqual),
 		ComparisonPrimitiveV::ValuesGreater =>
 			Some (ComparisonPrimitive3::ValuesGreater),
+		ComparisonPrimitiveV::RecordLesser =>
+			Some (ComparisonPrimitive3::RecordLesser),
+		ComparisonPrimitiveV::RecordLesserOrEqual =>
+			Some (ComparisonPrimitive3::RecordLesserOrEqual),
+		ComparisonPrimitiveV::RecordEqual =>
+			Some (ComparisonPrimitive3::RecordEqual),
+		ComparisonPrimitiveV::RecordGreaterOrEqual =>
+			Some (ComparisonPrimitive3::RecordGreaterOrEqual),
+		ComparisonPrimitiveV::RecordGreater =>
+			Some (ComparisonPrimitive3::RecordGreater),
 	}
 }
 
@@ -2457,6 +2608,16 @@ pub fn comparison_primitive_v_alternative_4 (primitive : ComparisonPrimitiveV) -
 			Some (ComparisonPrimitive4::ValuesGreaterOrEqual),
 		ComparisonPrimitiveV::ValuesGreater =>
 			Some (ComparisonPrimitive4::ValuesGreater),
+		ComparisonPrimitiveV::RecordLesser =>
+			Some (ComparisonPrimitive4::RecordLesser),
+		ComparisonPrimitiveV::RecordLesserOrEqual =>
+			Some (ComparisonPrimitive4::RecordLesserOrEqual),
+		ComparisonPrimitiveV::RecordEqual =>
+			Some (ComparisonPrimitive4::RecordEqual),
+		ComparisonPrimitiveV::RecordGreaterOrEqual =>
+			Some (ComparisonPrimitive4::RecordGreaterOrEqual),
+		ComparisonPrimitiveV::RecordGreater =>
+			Some (ComparisonPrimitive4::RecordGreater),
 	}
 }
 
@@ -2605,6 +2766,16 @@ pub fn comparison_primitive_v_alternative_5 (primitive : ComparisonPrimitiveV) -
 		ComparisonPrimitiveV::ValuesGreaterOrEqual =>
 			None,
 		ComparisonPrimitiveV::ValuesGreater =>
+			None,
+		ComparisonPrimitiveV::RecordLesser =>
+			None,
+		ComparisonPrimitiveV::RecordLesserOrEqual =>
+			None,
+		ComparisonPrimitiveV::RecordEqual =>
+			None,
+		ComparisonPrimitiveV::RecordGreaterOrEqual =>
+			None,
+		ComparisonPrimitiveV::RecordGreater =>
 			None,
 	}
 }
@@ -2755,6 +2926,16 @@ pub fn comparison_primitive_v_alternative_n (primitive : ComparisonPrimitiveV) -
 			Some (ComparisonPrimitiveN::ValuesGreaterOrEqual),
 		ComparisonPrimitiveV::ValuesGreater =>
 			Some (ComparisonPrimitiveN::ValuesGreater),
+		ComparisonPrimitiveV::RecordLesser =>
+			Some (ComparisonPrimitiveN::RecordLesser),
+		ComparisonPrimitiveV::RecordLesserOrEqual =>
+			Some (ComparisonPrimitiveN::RecordLesserOrEqual),
+		ComparisonPrimitiveV::RecordEqual =>
+			Some (ComparisonPrimitiveN::RecordEqual),
+		ComparisonPrimitiveV::RecordGreaterOrEqual =>
+			Some (ComparisonPrimitiveN::RecordGreaterOrEqual),
+		ComparisonPrimitiveV::RecordGreater =>
+			Some (ComparisonPrimitiveN::RecordGreater),
 	}
 }
 
