@@ -39,6 +39,7 @@ impl hash::Hash for Value {
 			ValueKindMatchAsRef::ArrayMutable (self_0) => { hasher.write_u32 (0xb20f12de); self_0.hash (hasher); },
 			ValueKindMatchAsRef::Values (self_0) => { hasher.write_u32 (0xb5f3786a); self_0.hash (hasher); },
 			
+			ValueKindMatchAsRef::RecordKind (self_0) => { hasher.write_u32 (0x0a3b7d37); self_0.hash (hasher); },
 			ValueKindMatchAsRef::RecordImmutable (self_0) => { hasher.write_u32 (0x296684da); self_0.hash (hasher); },
 			ValueKindMatchAsRef::RecordMutable (self_0) => { hasher.write_u32 (0xea85f2fa); self_0.hash (hasher); },
 			

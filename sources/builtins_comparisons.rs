@@ -54,6 +54,7 @@ pub mod exports {
 			array_immutable_compare_1, array_immutable_compare_1a,
 			array_mutable_compare_1, array_mutable_compare_1a,
 			values_compare_1, values_compare_1a,
+			record_kind_compare_1, record_kind_compare_1a,
 			record_compare_1,
 			record_immutable_compare_1, record_immutable_compare_1a,
 			record_mutable_compare_1, record_mutable_compare_1a,
@@ -92,6 +93,7 @@ pub mod exports {
 			array_immutable_compare_2, array_immutable_compare_2a,
 			array_mutable_compare_2, array_mutable_compare_2a,
 			values_compare_2, values_compare_2a,
+			record_kind_compare_2, record_kind_compare_2a,
 			record_compare_2,
 			record_immutable_compare_2, record_immutable_compare_2a,
 			record_mutable_compare_2, record_mutable_compare_2a,
@@ -130,6 +132,7 @@ pub mod exports {
 			array_immutable_compare_3, array_immutable_compare_3a,
 			array_mutable_compare_3, array_mutable_compare_3a,
 			values_compare_3, values_compare_3a,
+			record_kind_compare_3, record_kind_compare_3a,
 			record_compare_3,
 			record_immutable_compare_3, record_immutable_compare_3a,
 			record_mutable_compare_3, record_mutable_compare_3a,
@@ -168,6 +171,7 @@ pub mod exports {
 			array_immutable_compare_4, array_immutable_compare_4a,
 			array_mutable_compare_4, array_mutable_compare_4a,
 			values_compare_4, values_compare_4a,
+			record_kind_compare_4, record_kind_compare_4a,
 			record_compare_4,
 			record_immutable_compare_4, record_immutable_compare_4a,
 			record_mutable_compare_4, record_mutable_compare_4a,
@@ -206,6 +210,7 @@ pub mod exports {
 			array_immutable_compare_n, array_immutable_compare_na,
 			array_mutable_compare_n, array_mutable_compare_na,
 			values_compare_n, values_compare_na,
+			record_kind_compare_n, record_kind_compare_na,
 			record_compare_n,
 			record_immutable_compare_n, record_immutable_compare_na,
 			record_mutable_compare_n, record_mutable_compare_na,
@@ -503,6 +508,9 @@ pub fn compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Co
 		ValueKindMatchAsRef::Values (value) =>
 			return values_compare_1a (value, comparison),
 		
+		ValueKindMatchAsRef::RecordKind (value) =>
+			return record_kind_compare_1a (value, comparison),
+		
 		ValueKindMatchAsRef::RecordImmutable (value) =>
 			return record_immutable_compare_1a (value, comparison),
 		
@@ -608,6 +616,9 @@ pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef
 		
 		ValueKindMatchAsRef2::Values (left, right) =>
 			return values_compare_2a (left, right, comparison),
+		
+		ValueKindMatchAsRef2::RecordKind (left, right) =>
+			return record_kind_compare_2a (left, right, comparison),
 		
 		ValueKindMatchAsRef2::RecordImmutable (left, right) =>
 			return record_immutable_compare_2a (left, right, comparison),
@@ -1169,6 +1180,30 @@ pub fn values_compare_2a <ValueRef : StdAsRef<Values>> (left : ValueRef, right :
 			},
 		Comparison::Ordering (_, _, _) =>
 			return vec_compare_2 (left.values_as_slice (), right.values_as_slice (), comparison),
+	}
+}
+
+
+
+
+def_fn_compare! (RecordKind,
+		record_kind_compare_1, record_kind_compare_2, record_kind_compare_3, record_kind_compare_4, record_kind_compare_n,
+		record_kind_compare_1a, record_kind_compare_2a, record_kind_compare_3a, record_kind_compare_4a, record_kind_compare_na);
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn record_kind_compare_1a <ValueRef : StdAsRef<RecordKind>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn record_kind_compare_2a <ValueRef : StdAsRef<RecordKind>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	let left = left.as_ref ();
+	let right = right.as_ref ();
+	match comparison {
+		Comparison::Equivalence (_, _, _) =>
+			succeed! (RecordKind::is_self (left, right)),
+		Comparison::Ordering (_, _, _) =>
+			return std_ord_compare_2_ref (left, right, comparison),
 	}
 }
 

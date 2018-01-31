@@ -70,6 +70,7 @@ pub enum ValueKind {
 	ArrayMutable,
 	Values,
 	
+	RecordKind,
 	RecordImmutable,
 	RecordMutable,
 	
@@ -119,6 +120,7 @@ pub enum ValueKindMatchAsRef <'a> {
 	ArrayMutable (&'a ArrayMutable),
 	Values (&'a Values),
 	
+	RecordKind (&'a RecordKind),
 	RecordImmutable (&'a RecordImmutable),
 	RecordMutable (&'a RecordMutable),
 	
@@ -168,6 +170,7 @@ pub enum ValueKindMatchInto {
 	ArrayMutable (ArrayMutable),
 	Values (Values),
 	
+	RecordKind (RecordKind),
 	RecordImmutable (RecordImmutable),
 	RecordMutable (RecordMutable),
 	
@@ -217,6 +220,7 @@ pub enum ValueKindMatchAsRef2 <'a> {
 	ArrayMutable (&'a ArrayMutable, &'a ArrayMutable),
 	Values (&'a Values, &'a Values),
 	
+	RecordKind (&'a RecordKind, &'a RecordKind),
 	RecordImmutable (&'a RecordImmutable, &'a RecordImmutable),
 	RecordMutable (&'a RecordMutable, &'a RecordMutable),
 	
@@ -265,6 +269,7 @@ pub enum ValueClass {
 	Array,
 	Values,
 	
+	RecordKind,
 	Record,
 	
 	Error,
@@ -301,6 +306,7 @@ pub enum ValueClassMatchAsRef <'a> {
 	Array (ArrayMatchAsRef<'a>),
 	Values (&'a Values),
 	
+	RecordKind (&'a RecordKind),
 	Record (RecordMatchAsRef<'a>),
 	
 	Error (&'a Error),
@@ -337,6 +343,7 @@ pub enum ValueClassMatchInto {
 	Array (ArrayMatchInto),
 	Values (Values),
 	
+	RecordKind (RecordKind),
 	Record (RecordMatchInto),
 	
 	Error (Error),
@@ -373,6 +380,7 @@ pub enum ValueClassMatchAsRef2 <'a> {
 	Array (ArrayMatchAsRef2<'a>),
 	Values (&'a Values, &'a Values),
 	
+	RecordKind (&'a RecordKind, &'a RecordKind),
 	Record (RecordMatchAsRef2<'a>),
 	
 	Error (&'a Error, &'a Error),
@@ -497,6 +505,7 @@ pub enum Value {
 	ArrayMutable ( ValueMeta1, ArrayMutable, ValueMeta2 ),
 	Values ( ValueMeta1, Values, ValueMeta2 ),
 	
+	RecordKind ( ValueMeta1, RecordKind, ValueMeta2 ),
 	RecordImmutable ( ValueMeta1, RecordImmutable, ValueMeta2 ),
 	RecordMutable ( ValueMeta1, RecordMutable, ValueMeta2 ),
 	
@@ -558,6 +567,7 @@ impl Value {
 			Value::ArrayMutable (_, _, _) => ValueKind::ArrayMutable,
 			Value::Values (_, _, _) => ValueKind::Values,
 			
+			Value::RecordKind (_, _, _) => ValueKind::RecordKind,
 			Value::RecordImmutable (_, _, _) => ValueKind::RecordImmutable,
 			Value::RecordMutable (_, _, _) => ValueKind::RecordMutable,
 			
@@ -613,6 +623,7 @@ impl Value {
 			Value::ArrayMutable (_, ref self_0, _) => ValueKindMatchAsRef::ArrayMutable (self_0),
 			Value::Values (_, ref self_0, _) => ValueKindMatchAsRef::Values (self_0),
 			
+			Value::RecordKind (_, ref self_0, _) => ValueKindMatchAsRef::RecordKind (self_0),
 			Value::RecordImmutable (_, ref self_0, _) => ValueKindMatchAsRef::RecordImmutable (self_0),
 			Value::RecordMutable (_, ref self_0, _) => ValueKindMatchAsRef::RecordMutable (self_0),
 			
@@ -668,6 +679,7 @@ impl Value {
 			Value::ArrayMutable (_, self_0, _) => ValueKindMatchInto::ArrayMutable (self_0),
 			Value::Values (_, self_0, _) => ValueKindMatchInto::Values (self_0),
 			
+			Value::RecordKind (_, self_0, _) => ValueKindMatchInto::RecordKind (self_0),
 			Value::RecordImmutable (_, self_0, _) => ValueKindMatchInto::RecordImmutable (self_0),
 			Value::RecordMutable (_, self_0, _) => ValueKindMatchInto::RecordMutable (self_0),
 			
@@ -728,6 +740,7 @@ impl Value {
 			(&Value::ArrayMutable (_, ref self_0, _), &Value::ArrayMutable (_, ref other_0, _)) => ValueKindMatchAsRef2::ArrayMutable (self_0, other_0),
 			(&Value::Values (_, ref self_0, _), &Value::Values (_, ref other_0, _)) => ValueKindMatchAsRef2::Values (self_0, other_0),
 			
+			(&Value::RecordKind (_, ref self_0, _), &Value::RecordKind (_, ref other_0, _)) => ValueKindMatchAsRef2::RecordKind (self_0, other_0),
 			(&Value::RecordImmutable (_, ref self_0, _), &Value::RecordImmutable (_, ref other_0, _)) => ValueKindMatchAsRef2::RecordImmutable (self_0, other_0),
 			(&Value::RecordMutable (_, ref self_0, _), &Value::RecordMutable (_, ref other_0, _)) => ValueKindMatchAsRef2::RecordMutable (self_0, other_0),
 			
@@ -787,6 +800,7 @@ impl Value {
 			Value::ArrayMutable (_, _, _) => ValueClass::Array,
 			Value::Values (_, _, _) => ValueClass::Values,
 			
+			Value::RecordKind (_, _, _) => ValueClass::RecordKind,
 			Value::RecordImmutable (_, _, _) => ValueClass::Record,
 			Value::RecordMutable (_, _, _) => ValueClass::Record,
 			
@@ -843,6 +857,7 @@ impl Value {
 			Value::ArrayMutable (_, ref self_0, _) => ValueClassMatchAsRef::Array (ArrayMatchAsRef::Mutable (self_0)),
 			Value::Values (_, ref self_0, _) => ValueClassMatchAsRef::Values (self_0),
 			
+			Value::RecordKind (_, ref self_0, _) => ValueClassMatchAsRef::RecordKind (self_0),
 			Value::RecordImmutable (_, ref self_0, _) => ValueClassMatchAsRef::Record (RecordMatchAsRef::Immutable (self_0)),
 			Value::RecordMutable (_, ref self_0, _) => ValueClassMatchAsRef::Record (RecordMatchAsRef::Mutable (self_0)),
 			
@@ -899,6 +914,7 @@ impl Value {
 			Value::ArrayMutable (_, self_0, _) => ValueClassMatchInto::Array (ArrayMatchInto::Mutable (self_0)),
 			Value::Values (_, self_0, _) => ValueClassMatchInto::Values (self_0),
 			
+			Value::RecordKind (_, self_0, _) => ValueClassMatchInto::RecordKind (self_0),
 			Value::RecordImmutable (_, self_0, _) => ValueClassMatchInto::Record (RecordMatchInto::Immutable (self_0)),
 			Value::RecordMutable (_, self_0, _) => ValueClassMatchInto::Record (RecordMatchInto::Mutable (self_0)),
 			
@@ -975,6 +991,7 @@ impl Value {
 			
 			(&Value::Values (_, ref self_0, _), &Value::Values (_, ref other_0, _)) => ValueClassMatchAsRef2::Values (self_0, other_0),
 			
+			(&Value::RecordKind (_, ref self_0, _), &Value::RecordKind (_, ref other_0, _)) => ValueClassMatchAsRef2::RecordKind (self_0, other_0),
 			(&Value::RecordImmutable (_, ref self_0, _), &Value::RecordImmutable (_, ref other_0, _)) => ValueClassMatchAsRef2::Record (RecordMatchAsRef2::ImmutableBoth (self_0, other_0)),
 			(&Value::RecordMutable (_, ref self_0, _), &Value::RecordMutable (_, ref other_0, _)) => ValueClassMatchAsRef2::Record (RecordMatchAsRef2::MutableBoth (self_0, other_0)),
 			(&Value::RecordImmutable (_, ref self_0, _), &Value::RecordMutable (_, ref other_0, _)) => ValueClassMatchAsRef2::Record (RecordMatchAsRef2::ImmutableAndMutable (self_0, other_0)),
@@ -1069,6 +1086,7 @@ impl Value {
 			ValueKindMatchAsRef2::ArrayMutable (self_0, other_0) => ArrayMutable::is_self (self_0, other_0),
 			ValueKindMatchAsRef2::Values (self_0, other_0) => Values::is_self (self_0, other_0),
 			
+			ValueKindMatchAsRef2::RecordKind (self_0, other_0) => RecordKind::is_self (self_0, other_0),
 			ValueKindMatchAsRef2::RecordImmutable (self_0, other_0) => RecordImmutable::is_self (self_0, other_0),
 			ValueKindMatchAsRef2::RecordMutable (self_0, other_0) => RecordMutable::is_self (self_0, other_0),
 			
@@ -1118,6 +1136,7 @@ impl Value {
 			Value::ArrayMutable (_, ref self_0, _) => self_0.to_immutable () .into_0 (),
 			Value::Values (_, ref self_0, _) => self_0.clone () .into_0 (),
 			
+			Value::RecordKind (_, ref self_0, _) => self_0.clone () .into_0 (),
 			Value::RecordImmutable (_, ref self_0, _) => self_0.clone () .into_0 (),
 			Value::RecordMutable (_, ref self_0, _) => self_0.to_immutable () .into_0 (),
 			
@@ -1202,6 +1221,7 @@ impl ValueKindMatchInto {
 			ValueKindMatchInto::ArrayMutable (value) => value.into (),
 			ValueKindMatchInto::Values (value) => value.into (),
 			
+			ValueKindMatchInto::RecordKind (value) => value.into (),
 			ValueKindMatchInto::RecordImmutable (value) => value.into (),
 			ValueKindMatchInto::RecordMutable (value) => value.into (),
 			
@@ -1252,6 +1272,7 @@ impl ValueClassMatchInto {
 			ValueClassMatchInto::Array (class) => class.value (),
 			ValueClassMatchInto::Values (value) => value.into (),
 			
+			ValueClassMatchInto::RecordKind (value) => value.into (),
 			ValueClassMatchInto::Record (class) => class.value (),
 			
 			ValueClassMatchInto::Error (value) => value.into (),

@@ -119,6 +119,7 @@ impl_from_for_Value_1! (PairMutable, PairMutable);
 impl_from_for_Value_1! (ArrayImmutable, ArrayImmutable);
 impl_from_for_Value_1! (ArrayMutable, ArrayMutable);
 impl_from_for_Value_1! (Values, Values);
+impl_from_for_Value_1! (RecordKind, RecordKind);
 impl_from_for_Value_1! (RecordImmutable, RecordImmutable);
 impl_from_for_Value_1! (RecordMutable, RecordMutable);
 impl_from_for_Value_1! (Error, Error);
@@ -195,8 +196,6 @@ impl_as_ref_for_type_wlt! (BytesRef<'a>, 'a);
 impl_as_ref_for_type_wlt! (PairRef<'a>, 'a);
 impl_as_ref_for_type_wlt! (ArrayRef<'a>, 'a);
 impl_as_ref_for_type_wlt! (RecordRef<'a>, 'a);
-
-impl_as_ref_for_type! (RecordKind);
 
 
 
@@ -409,7 +408,8 @@ macro_rules! impl_from_for_ProcedurePrimitiveCall1 {
 				Value,
 				Boolean, NumberInteger, NumberReal, Character,
 				Symbol, StringImmutable, StringMutable, BytesImmutable, BytesMutable,
-				PairImmutable, PairMutable, ArrayImmutable, ArrayMutable, Values, RecordImmutable, RecordMutable,
+				PairImmutable, PairMutable, ArrayImmutable, ArrayMutable, Values,
+				RecordKind, RecordImmutable, RecordMutable,
 				bool, i64, f64, char,
 				StdString, &'static str
 			]);
@@ -429,7 +429,8 @@ macro_rules! impl_from_for_ProcedurePrimitiveCall2 {
 				Value,
 				Boolean, NumberInteger, NumberReal, Character,
 				Symbol, StringImmutable, StringMutable, BytesImmutable, BytesMutable,
-				PairImmutable, PairMutable, ArrayImmutable, ArrayMutable, Values, RecordImmutable, RecordMutable,
+				PairImmutable, PairMutable, ArrayImmutable, ArrayMutable, Values,
+				RecordKind, RecordImmutable, RecordMutable,
 				bool, i64, f64, char,
 				StdString, &'static str
 			]);
@@ -450,7 +451,8 @@ macro_rules! impl_from_for_ProcedurePrimitiveCall3 {
 				Value,
 				Boolean, NumberInteger, NumberReal, Character,
 				Symbol, StringImmutable, StringMutable, BytesImmutable, BytesMutable,
-				PairImmutable, PairMutable, ArrayImmutable, ArrayMutable, Values, RecordImmutable, RecordMutable,
+				PairImmutable, PairMutable, ArrayImmutable, ArrayMutable, Values,
+				RecordKind, RecordImmutable, RecordMutable,
 				bool, i64, f64, char,
 				StdString, &'static str
 			]);
@@ -471,7 +473,8 @@ macro_rules! impl_from_for_ProcedurePrimitiveCall4 {
 				Value,
 				Boolean, NumberInteger, NumberReal, Character,
 				Symbol, StringImmutable, StringMutable, BytesImmutable, BytesMutable,
-				PairImmutable, PairMutable, ArrayImmutable, ArrayMutable, Values, RecordImmutable, RecordMutable,
+				PairImmutable, PairMutable, ArrayImmutable, ArrayMutable, Values,
+				RecordKind, RecordImmutable, RecordMutable,
 				bool, i64, f64, char,
 				StdString, &'static str
 			]);
@@ -492,7 +495,8 @@ macro_rules! impl_from_for_ProcedurePrimitiveCall5 {
 				Value,
 				Boolean, NumberInteger, NumberReal, Character,
 				Symbol, StringImmutable, StringMutable, BytesImmutable, BytesMutable,
-				PairImmutable, PairMutable, ArrayImmutable, ArrayMutable, Values, RecordImmutable, RecordMutable,
+				PairImmutable, PairMutable, ArrayImmutable, ArrayMutable, Values,
+				RecordKind, RecordImmutable, RecordMutable,
 				bool, i64, f64, char,
 				StdString, &'static str
 			]);
@@ -514,7 +518,8 @@ macro_rules! impl_from_for_ProcedurePrimitiveCallN {
 				Value,
 				Boolean, NumberInteger, NumberReal, Character,
 				Symbol, StringImmutable, StringMutable, BytesImmutable, BytesMutable,
-				PairImmutable, PairMutable, ArrayImmutable, ArrayMutable, Values, RecordImmutable, RecordMutable,
+				PairImmutable, PairMutable, ArrayImmutable, ArrayMutable, Values,
+				RecordKind, RecordImmutable, RecordMutable,
 				bool, i64, f64, char,
 				StdString, &'static str
 			]);
@@ -550,7 +555,8 @@ macro_rules! impl_from_for_ProcedurePrimitiveCallV {
 				Value,
 				Boolean, NumberInteger, NumberReal, Character,
 				Symbol, StringImmutable, StringMutable, BytesImmutable, BytesMutable,
-				PairImmutable, PairMutable, ArrayImmutable, ArrayMutable, Values, RecordImmutable, RecordMutable,
+				PairImmutable, PairMutable, ArrayImmutable, ArrayMutable, Values,
+				RecordKind, RecordImmutable, RecordMutable,
 				bool, i64, f64, char,
 				StdString, &'static str
 			]);

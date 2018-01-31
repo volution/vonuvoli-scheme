@@ -805,6 +805,7 @@ pub fn port_output_value_display_0 (port : &mut PortBackendWriter, value : &Valu
 		
 		ValueClassMatchAsRef::Procedure (_) |
 		ValueClassMatchAsRef::Syntax (_) |
+		ValueClassMatchAsRef::RecordKind (_) |
 		ValueClassMatchAsRef::Error (_) |
 		ValueClassMatchAsRef::Port (_) |
 		ValueClassMatchAsRef::Resource (_) |
@@ -1038,6 +1039,7 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 		
 		ValueClassMatchAsRef::Procedure (_) |
 		ValueClassMatchAsRef::Syntax (_) |
+		ValueClassMatchAsRef::RecordKind (_) |
 		ValueClassMatchAsRef::Error (_) |
 		ValueClassMatchAsRef::Port (_) |
 		ValueClassMatchAsRef::Resource (_) |

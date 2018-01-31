@@ -40,6 +40,7 @@ impl fmt::Display for Value {
 			ValueKindMatchAsRef::ArrayMutable (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::Values (self_0) => self_0.fmt (formatter),
 			
+			ValueKindMatchAsRef::RecordKind (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::RecordImmutable (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::RecordMutable (self_0) => self_0.fmt (formatter),
 			
@@ -93,6 +94,7 @@ impl fmt::Debug for Value {
 			ValueKindMatchAsRef::ArrayMutable (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::Values (self_0) => self_0.fmt (formatter),
 			
+			ValueKindMatchAsRef::RecordKind (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::RecordImmutable (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::RecordMutable (self_0) => self_0.fmt (formatter),
 			

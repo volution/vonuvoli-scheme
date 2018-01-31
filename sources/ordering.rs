@@ -84,6 +84,7 @@ impl <'a> ValueKindMatchAsRef2<'a> {
 			ValueKindMatchAsRef2::ArrayMutable (self_0, other_0) => Some (ArrayMutable::eq (self_0, other_0)),
 			ValueKindMatchAsRef2::Values (self_0, other_0) => Some (Values::eq (self_0, other_0)),
 			
+			ValueKindMatchAsRef2::RecordKind (self_0, other_0) => Some (RecordKind::eq (self_0, other_0)),
 			ValueKindMatchAsRef2::RecordImmutable (self_0, other_0) => Some (RecordImmutable::eq (self_0, other_0)),
 			ValueKindMatchAsRef2::RecordMutable (self_0, other_0) => Some (RecordMutable::eq (self_0, other_0)),
 			
@@ -139,6 +140,7 @@ impl <'a> ValueKindMatchAsRef2<'a> {
 			ValueKindMatchAsRef2::ArrayMutable (self_0, other_0) => Some (ArrayMutable::cmp (self_0, other_0)),
 			ValueKindMatchAsRef2::Values (self_0, other_0) => Some (Values::cmp (self_0, other_0)),
 			
+			ValueKindMatchAsRef2::RecordKind (self_0, other_0) => Some (RecordKind::cmp (self_0, other_0)),
 			ValueKindMatchAsRef2::RecordImmutable (self_0, other_0) => Some (RecordImmutable::cmp (self_0, other_0)),
 			ValueKindMatchAsRef2::RecordMutable (self_0, other_0) => Some (RecordMutable::cmp (self_0, other_0)),
 			
