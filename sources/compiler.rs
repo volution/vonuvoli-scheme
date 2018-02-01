@@ -1816,6 +1816,12 @@ impl CompilerContext {
 		succeed! ((this, binding));
 	}
 	
+	fn define_anonymous (self) -> (Outcome<(CompilerContext, CompilerBinding)>) {
+		let mut this = self;
+		let binding = try! (this.bindings.define_anonymous ());
+		succeed! ((this, binding));
+	}
+	
 	fn define_enable (self) -> (Outcome<CompilerContext>) {
 		let mut this = self;
 		try! (this.bindings.define_enable ());
@@ -1844,8 +1850,8 @@ pub enum CompilerBindings {
 #[ derive (Clone, Debug) ]
 pub enum CompilerBinding {
 	Undefined,
-	Binding (Symbol, Binding, Option<BindingTemplate>),
-	Register (Symbol, usize, RegisterTemplate),
+	Binding (Option<Symbol>, Binding, Option<BindingTemplate>),
+	Register (Option<Symbol>, usize, RegisterTemplate),
 }
 
 
@@ -1898,13 +1904,13 @@ impl CompilerBindings {
 				succeed! (CompilerBinding::Undefined),
 			CompilerBindings::Globals1 (ref context, _) =>
 				if let Some (binding) = try! (context.resolve (&identifier)) {
-					succeed! (CompilerBinding::Binding (identifier, binding, None));
+					succeed! (CompilerBinding::Binding (Some (identifier), binding, None));
 				} else {
 					succeed! (CompilerBinding::Undefined);
 				},
 			CompilerBindings::Globals2 (ref mut parent, ref context, _) =>
 				if let Some (binding) = try! (context.resolve (&identifier)) {
-					succeed! (CompilerBinding::Binding (identifier, binding, None));
+					succeed! (CompilerBinding::Binding (Some (identifier), binding, None));
 				} else {
 					return parent.resolve_0 (identifier, force_binding);
 				},
@@ -1926,7 +1932,7 @@ impl CompilerBindings {
 				};
 				if let Some ((index, template)) = transform_into_binding {
 					let template = RegisterTemplate::LocalBinding (template);
-					let binding = CompilerBinding::Register (identifier.clone (), index, template.clone ());
+					let binding = CompilerBinding::Register (Some (identifier.clone ()), index, template.clone ());
 					registers[index] = template;
 					cached.insert (identifier, binding.clone ());
 					succeed! (binding);
@@ -1942,7 +1948,7 @@ impl CompilerBindings {
 						CompilerBinding::Register (_, parent_index, _) => {
 							let self_index = registers.len ();
 							let template = RegisterTemplate::Borrow (parent_index);
-							let self_binding = CompilerBinding::Register (identifier.clone (), self_index, template.clone ());
+							let self_binding = CompilerBinding::Register (Some (identifier.clone ()), self_index, template.clone ());
 							registers.push (template);
 							cached.insert (identifier, self_binding.clone ());
 							succeed! (self_binding);
@@ -1967,6 +1973,14 @@ impl CompilerBindings {
 	
 	
 	fn define (&mut self, identifier : Symbol) -> (Outcome<CompilerBinding>) {
+		return self.define_0 (Some (identifier));
+	}
+	
+	fn define_anonymous (&mut self) -> (Outcome<CompilerBinding>) {
+		return self.define_0 (None);
+	}
+	
+	fn define_0 (&mut self, identifier : Option<Symbol>) -> (Outcome<CompilerBinding>) {
 		match *self {
 			CompilerBindings::None (_) =>
 				fail! (0xd943456d),
@@ -1975,11 +1989,15 @@ impl CompilerBindings {
 					fail! (0x0d9133ab);
 				}
 				let template = BindingTemplate {
-						identifier : Some (identifier.clone ()),
+						identifier : identifier.clone (),
 						value : None,
 						immutable : false,
 					};
-				let binding = try! (context.define (&template));
+				let binding = if let Some (identifier) = identifier {
+					try! (context.define (&template))
+				} else {
+					Binding::new_from_template (&template)
+				};
 				succeed! (CompilerBinding::Binding (identifier, binding, Some (template)));
 			},
 			CompilerBindings::Locals (_, ref mut cached, ref mut registers, force_binding, define_allowed) => {
@@ -1988,14 +2006,20 @@ impl CompilerBindings {
 				}
 				let index = registers.len ();
 				let template = if force_binding {
-					let template = BindingTemplate { identifier : None, value : None, immutable : false };
+					let template = BindingTemplate {
+							identifier : identifier.clone (),
+							value : None,
+							immutable : false,
+						};
 					RegisterTemplate::LocalBinding (template)
 				} else {
 					RegisterTemplate::LocalValue (None, false)
 				};
 				let binding = CompilerBinding::Register (identifier.clone (), index, template.clone ());
 				registers.push (template);
-				cached.insert (identifier, binding.clone ());
+				if let Some (identifier) = identifier {
+					cached.insert (identifier, binding.clone ());
+				}
 				succeed! (binding);
 			},
 		}
@@ -2009,17 +2033,21 @@ impl CompilerBindings {
 			CompilerBinding::Binding (_, _, _) =>
 				fail! (0x06fec793),
 			CompilerBinding::Register (ref identifier, _, _) =>
-				match *self {
-					CompilerBindings::None (_) =>
-						fail_panic! (0x3a1f3306),
-					CompilerBindings::Globals1 (_, _) =>
-						fail_panic! (0xcdf142d8),
-					CompilerBindings::Globals2 (_, _, _) =>
-						fail_panic! (0x382ba35e),
-					CompilerBindings::Locals (_, ref mut cached, _, _, _) => {
-						cached.remove (identifier);
-						succeed! (());
-					},
+				if let Some (ref identifier) = *identifier {
+					match *self {
+						CompilerBindings::None (_) =>
+							fail_panic! (0x3a1f3306),
+						CompilerBindings::Globals1 (_, _) =>
+							fail_panic! (0xcdf142d8),
+						CompilerBindings::Globals2 (_, _, _) =>
+							fail_panic! (0x382ba35e),
+						CompilerBindings::Locals (_, ref mut cached, _, _, _) => {
+							cached.remove (identifier);
+							succeed! (());
+						},
+					}
+				} else {
+					succeed! (());
 				},
 		}
 	}
