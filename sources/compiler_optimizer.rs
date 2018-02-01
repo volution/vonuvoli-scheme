@@ -926,6 +926,47 @@ impl Optimizer {
 					(),
 			}
 		}
+		match inputs.len () {
+			0 =>
+				return self.optimize_procedure_call_0 (optimization, callable),
+			1 => {
+				let mut inputs = StdVec::from (inputs) .into_iter ();
+				let input_1 = inputs.next () .unwrap ();
+				return self.optimize_procedure_call_1 (optimization, callable, input_1);
+			},
+			2 => {
+				let mut inputs = StdVec::from (inputs) .into_iter ();
+				let input_1 = inputs.next () .unwrap ();
+				let input_2 = inputs.next () .unwrap ();
+				return self.optimize_procedure_call_2 (optimization, callable, input_1, input_2);
+			},
+			3 => {
+				let mut inputs = StdVec::from (inputs) .into_iter ();
+				let input_1 = inputs.next () .unwrap ();
+				let input_2 = inputs.next () .unwrap ();
+				let input_3 = inputs.next () .unwrap ();
+				return self.optimize_procedure_call_3 (optimization, callable, input_1, input_2, input_3);
+			},
+			4 => {
+				let mut inputs = StdVec::from (inputs) .into_iter ();
+				let input_1 = inputs.next () .unwrap ();
+				let input_2 = inputs.next () .unwrap ();
+				let input_3 = inputs.next () .unwrap ();
+				let input_4 = inputs.next () .unwrap ();
+				return self.optimize_procedure_call_4 (optimization, callable, input_1, input_2, input_3, input_4);
+			},
+			5 => {
+				let mut inputs = StdVec::from (inputs) .into_iter ();
+				let input_1 = inputs.next () .unwrap ();
+				let input_2 = inputs.next () .unwrap ();
+				let input_3 = inputs.next () .unwrap ();
+				let input_4 = inputs.next () .unwrap ();
+				let input_5 = inputs.next () .unwrap ();
+				return self.optimize_procedure_call_5 (optimization, callable, input_1, input_2, input_3, input_4, input_5);
+			},
+			_ =>
+				(),
+		}
 		let (optimization, inputs) = try! (self.optimize_0_slice (optimization, inputs));
 		let expression = ExpressionForProcedureGenericCall::ProcedureCall (callable.into (), inputs) .into ();
 		let attributes = None;
@@ -1337,6 +1378,7 @@ impl Optimizer {
 				succeed! ((optimization, expression));
 			},
 			_ => {
+				let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
 				let expression = ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall1 (primitive, input_1.into ()) .into ();
 				let attributes = procedure_primitive_1_attributes (primitive);
 				return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
