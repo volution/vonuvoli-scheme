@@ -617,6 +617,19 @@ macro_rules! vec_filter_into {
 
 
 
+macro_rules! string_concatenate {
+	( $( $value : expr ),* ) => (
+		{
+			let buffer = $crate::prelude::StdString::new ();
+			$( buffer.push_str ($value); )*
+			buffer.into ()
+		}
+	);
+}
+
+
+
+
 macro_rules! outcome_map {
 	( $outcome : ident, $expression : expr ) => (
 		outcome_map! ($outcome, $outcome, $expression)
