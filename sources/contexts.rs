@@ -151,12 +151,7 @@ impl Context {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn new_binding (&self, template : &BindingTemplate) -> (Outcome<Binding>) {
-		let binding = Binding::new (
-				template.identifier.clone (),
-				template.value.clone (),
-				template.immutable,
-			);
-		succeed! (binding);
+		succeed! (Binding::new_from_template (template));
 	}
 	
 	
@@ -374,11 +369,7 @@ impl Registers {
 				succeed! (register);
 			},
 			RegisterTemplate::LocalBinding (ref template) => {
-				let binding = Binding::new (
-						template.identifier.clone (),
-						template.value.clone (),
-						template.immutable
-					);
+				let binding = Binding::new_from_template (template);
 				let register = Register::Binding (binding);
 				succeed! (register);
 			},
@@ -460,6 +451,16 @@ impl Binding {
 				handle : bindings_handles_next (),
 			};
 		return Binding (StdRc::new (StdRefCell::new (internals)));
+	}
+	
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new_from_template (template : &BindingTemplate) -> (Binding) {
+		return Binding::new (
+				template.identifier.clone (),
+				template.value.clone (),
+				template.immutable,
+			);
 	}
 	
 	
