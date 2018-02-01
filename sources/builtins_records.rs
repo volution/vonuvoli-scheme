@@ -338,13 +338,18 @@ pub fn record_kind_is_fn (kind : &RecordKind, immutable : Option<bool>) -> (Proc
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_build_fn (kind : &RecordKind, fields : Option<&Value>, immutable : Option<bool>) -> (Outcome<ProcedureExtended>) {
 	let fields = if let Some (fields) = fields {
-		match fields.kind_match_as_ref () {
-			ValueKindMatchAsRef::Boolean (fields) =>
+		match fields.class_match_as_ref () {
+			ValueClassMatchAsRef::Boolean (fields) =>
 				if ! fields.value () {
 					None
 				} else {
 					fail! (0xd31ec4f3);
 				},
+			ValueClassMatchAsRef::Array (class) => {
+				let array = try! (class.array_ref ());
+				let fields = try_vec_map! (array.values_iter (), field, try_as_number_integer_ref! (field) .try_to_usize ());
+				Some (fields.into_boxed_slice ())
+			},
 			_ =>
 				fail_unimplemented! (0x0b12cf86),
 		}
