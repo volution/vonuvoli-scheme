@@ -85,7 +85,7 @@ impl Optimizer {
 					eprint! ("[dd]  optimizing succeeded:\n[  ]      {:?}\n[  ]      {:?}\n", &expression_input, expression_optimized),
 				Ok (_) =>
 					(),
-				Err (ref error) if OPTIMIZER_TRACE_OUTPUT || OPTIMIZER_TRACE_ERROR =>
+				Err (ref error) if (OPTIMIZER_TRACE_OUTPUT || OPTIMIZER_TRACE_ERROR) && error.is_traceable () =>
 					eprint! ("[dd]  optimizing failed:\n[  ]      {:?}\n[  ]      {:?}\n", &expression_input, error),
 				Err (_) =>
 					(),

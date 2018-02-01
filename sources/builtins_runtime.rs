@@ -15,6 +15,7 @@ pub mod exports {
 	pub use super::{
 			error_message, error_arguments_as_list, error_arguments_as_array, error_arguments_as_values,
 			error_build_0, error_build_1, error_build_2, error_build_3, error_build_4, error_build_n,
+			error_exit,
 			error_coerce, error_coerce_from,
 		};
 	
@@ -128,6 +129,44 @@ pub fn error_build_n (code : Option<u64>, message : &Value, arguments : &[&Value
 	let arguments = StdRc::new (arguments.into_boxed_slice ());
 	let error = Error::new_with_message_and_arguments (code, message, arguments);
 	succeed! (error);
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn error_exit (code : Option<&Value>, emergency : bool) -> (Outcome<Error>) {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline (always) ) ]
+	fn build (code : &Value, emergency : bool) -> (Outcome<Error>) {
+		match code.kind_match_as_ref () {
+			ValueKindMatchAsRef::NumberInteger (value) =>
+				succeed! (Error::new_exit (try! (value.try_to_u32 ()), emergency)),
+			ValueKindMatchAsRef::Boolean (value) =>
+				if value.value () {
+					succeed! (Error::new_exit (0, emergency));
+				} else {
+					succeed! (Error::new_exit (1, emergency));
+				},
+			_ =>
+				fail! (0x33ebdcdc),
+		}
+	}
+	
+	if let Some (code) = code {
+		match build (code, emergency) {
+			outcome @ Ok (_) =>
+				return outcome,
+			outcome @ Err (_) =>
+				if ! emergency {
+					return outcome;
+				} else {
+					succeed! (Error::new_exit (1, emergency));
+				},
+		}
+	} else {
+		succeed! (Error::new_exit (0, emergency));
+	}
 }
 
 

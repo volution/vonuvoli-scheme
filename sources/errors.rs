@@ -11,6 +11,7 @@ pub mod exports {
 	
 	pub use super::Outcome;
 	pub use super::Error;
+	pub use super::ErrorInternals;
 	
 	pub use super::error_generic;
 	pub use super::error_unimplemented;
@@ -34,6 +35,7 @@ pub enum ErrorInternals {
 	WithMessage (Option<u64>, StdRc<StdBox<str>>),
 	WithMessageAndArguments (Option<u64>, StdRc<StdBox<str>>, StdRc<StdBox<[Value]>>),
 	WithValue (Option<u64>, Value),
+	Exit (u32, bool),
 }
 
 
@@ -64,6 +66,12 @@ impl Error {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new_exit (code : u32, emergency : bool) -> (Error) {
+		let internals = ErrorInternals::Exit (code, emergency);
+		Error (StdRc::new (internals))
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn into_value (self) -> (Value) {
 		match *self.internals_ref () {
 			ErrorInternals::WithValue (_, _) =>
@@ -90,6 +98,38 @@ impl Error {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn is_interceptable (&self) -> (bool) {
+		match *self.internals_ref () {
+			ErrorInternals::Code (_) =>
+				true,
+			ErrorInternals::WithMessage (_, _) =>
+				true,
+			ErrorInternals::WithMessageAndArguments (_, _, _) =>
+				true,
+			ErrorInternals::WithValue (_, _) =>
+				true,
+			ErrorInternals::Exit (_, _) =>
+				false,
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn is_traceable (&self) -> (bool) {
+		match *self.internals_ref () {
+			ErrorInternals::Code (_) =>
+				true,
+			ErrorInternals::WithMessage (_, _) =>
+				true,
+			ErrorInternals::WithMessageAndArguments (_, _, _) =>
+				true,
+			ErrorInternals::WithValue (_, _) =>
+				true,
+			ErrorInternals::Exit (_, _) =>
+				false,
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn code (&self) -> (u64) {
 		match *self.internals_ref () {
 			ErrorInternals::Code (code) =>
@@ -100,6 +140,8 @@ impl Error {
 				code.unwrap_or (0x0000000000000000),
 			ErrorInternals::WithValue (code, _) =>
 				code.unwrap_or (0x0000000000000000),
+			ErrorInternals::Exit (code, _) =>
+				0xffffffff00000000 | (code as u64),
 		}
 	}
 	
@@ -113,6 +155,8 @@ impl Error {
 			ErrorInternals::WithMessageAndArguments (_, ref message, _) =>
 				Some (message.as_ref ()),
 			ErrorInternals::WithValue (_, _) =>
+				None,
+			ErrorInternals::Exit (_, _) =>
 				None,
 		}
 	}
@@ -128,6 +172,8 @@ impl Error {
 				Some (StringImmutable::clone_rc (message)),
 			ErrorInternals::WithValue (_, _) =>
 				None,
+			ErrorInternals::Exit (_, _) =>
+				None,
 		}
 	}
 	
@@ -141,6 +187,8 @@ impl Error {
 			ErrorInternals::WithMessageAndArguments (_, _, ref arguments) =>
 				Some (arguments.as_ref ()),
 			ErrorInternals::WithValue (_, _) =>
+				None,
+			ErrorInternals::Exit (_, _) =>
 				None,
 		}
 	}
@@ -156,6 +204,8 @@ impl Error {
 				Some (ArrayImmutable::clone_rc (arguments)),
 			ErrorInternals::WithValue (_, _) =>
 				None,
+			ErrorInternals::Exit (_, _) =>
+				None,
 		}
 	}
 	
@@ -169,6 +219,8 @@ impl Error {
 			ErrorInternals::WithMessageAndArguments (_, _, ref arguments) =>
 				Some (Values::clone_rc (arguments)),
 			ErrorInternals::WithValue (_, _) =>
+				None,
+			ErrorInternals::Exit (_, _) =>
 				None,
 		}
 	}

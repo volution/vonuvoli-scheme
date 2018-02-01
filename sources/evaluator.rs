@@ -95,7 +95,7 @@ impl Evaluator {
 					eprint! ("[dd]  evaluating succeeded:\n[  ]      {:?}\n[  ]      {:?}\n", expression, output),
 				Ok (_) =>
 					(),
-				Err (ref error) if EVALUATOR_TRACE_OUTPUT || EVALUATOR_TRACE_ERROR =>
+				Err (ref error) if (EVALUATOR_TRACE_OUTPUT || EVALUATOR_TRACE_ERROR) && error.is_traceable () =>
 					eprint! ("[dd]  evaluating failed:\n[  ]      {:?}\n[  ]      {:?}\n", expression, error),
 				Err (_) =>
 					(),
@@ -874,11 +874,14 @@ impl Evaluator {
 		match outcome {
 			Ok (value) =>
 				succeed! (value),
-			Err (error) => {
-				let error = error.into_value ();
-				try! (self.evaluate_value_consumer (evaluation, error, error_consumer));
-				return self.evaluate (evaluation, error_expression);
-			},
+			Err (error) =>
+				if error.is_interceptable () {
+					let error = error.into_value ();
+					try! (self.evaluate_value_consumer (evaluation, error, error_consumer));
+					return self.evaluate (evaluation, error_expression);
+				} else {
+					return Err (error);
+				},
 		}
 	}
 	

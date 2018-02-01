@@ -86,10 +86,22 @@ fn main_0 () -> (Outcome<()>) {
 	match evaluate_script (&context, expressions.into_iter ()) {
 		Ok (()) =>
 			return Ok (()),
-		Err (error) => {
-			try_or_fail! (write! (transcript, "!! evaluate !! => {:#?}\n", &error), 0xe74be5c8);
-			return Err (error);
-		},
+		Err (error) =>
+			match *error.internals_ref () {
+				ErrorInternals::Exit (code, _) => {
+					let code = if code <= 255 {
+						code
+					} else {
+						try_or_fail! (write! (transcript, "[ee]  exit code out of range {};  using 255!\n", code), 0x2daa4ba6);
+						255
+					};
+					process::exit (code as i32);
+				},
+				_ => {
+					try_or_fail! (write! (transcript, "!! evaluate !! => {:#?}\n", &error), 0xe74be5c8);
+					process::exit (1);
+				}
+			},
 	}
 	
 }

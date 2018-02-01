@@ -89,7 +89,7 @@ impl Compiler {
 					eprint! ("[dd]  compiling succeeded:\n[  ]      {}\n[  ]      {:?}\n", &token_input, expression),
 				Ok (_) =>
 					(),
-				Err (ref error) if COMPILER_TRACE_OUTPUT || COMPILER_TRACE_ERROR =>
+				Err (ref error) if (COMPILER_TRACE_OUTPUT || COMPILER_TRACE_ERROR) && error.is_traceable () =>
 					eprint! ("[dd]  compiling failed:\n[  ]      {}\n[  ]      {:?}\n", &token_input, error),
 				Err (_) =>
 					(),

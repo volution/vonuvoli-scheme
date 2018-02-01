@@ -179,10 +179,10 @@ pub fn runtime_primitive_0_evaluate (primitive : RuntimePrimitive0, _evaluator :
 			fail_unimplemented! (0x3d8c06db), // deferred
 		
 		RuntimePrimitive0::ProcessExit =>
-			fail_unimplemented! (0x6b6e5604), // deferred
+			return Err (try! (error_exit (None, false)) .into ()),
 		
 		RuntimePrimitive0::ProcessExitEmergency =>
-			fail_unimplemented! (0xe1a2c04e), // deferred
+			return Err (try! (error_exit (None, true)) .into ()),
 		
 		RuntimePrimitive0::PosixTimestamp =>
 			return posix_timestamp () .into_0 (),
@@ -228,10 +228,10 @@ pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, input_1 : &V
 			fail_unimplemented! (0x8f801b52), // deferred
 		
 		RuntimePrimitive1::ProcessExit =>
-			fail_unimplemented! (0xf2f39391), // deferred
+			return Err (try! (error_exit (Some (input_1), false)) .into ()),
 		
 		RuntimePrimitive1::ProcessExitEmergency =>
-			fail_unimplemented! (0x7a0fae27), // deferred
+			return Err (try! (error_exit (Some (input_1), true)) .into ()),
 		
 		RuntimePrimitive1::ProcessSpawnExtended =>
 			return process_spawn_extended (input_1, None, None) .into_0 (),
