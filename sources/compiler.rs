@@ -196,14 +196,8 @@ impl Compiler {
 	
 	fn compile_symbol (&self, compilation : CompilerContext, identifier : Symbol) -> (Outcome<(CompilerContext, Expression)>) {
 		let (compilation, binding) = try! (compilation.resolve (identifier));
-		match binding {
-			CompilerBinding::Binding (_, binding, _) =>
-				succeed! ((compilation, ExpressionForContexts::BindingGet1 (binding) .into ())),
-			CompilerBinding::Register (_, index, _) =>
-				succeed! ((compilation, ExpressionForContexts::RegisterGet1 (index) .into ())),
-			CompilerBinding::Undefined =>
-				fail! (0xc6825cfd),
-		}
+		let expression = try! (self.compile_syntax_binding_get (binding));
+		succeed! ((compilation, expression));
 	}
 	
 	
@@ -404,7 +398,16 @@ impl Compiler {
 	
 	fn compile_syntax_sequence (&self, compilation : CompilerContext, operator : ExpressionSequenceOperator, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
-		let (compilation, statements) = try! (self.compile_0_vec (compilation, tokens));
+		let (compilation, statements) = match operator {
+			ExpressionSequenceOperator::ReturnFirst | ExpressionSequenceOperator::ReturnLast =>
+				try! (self.compile_0_vec (compilation, tokens)),
+			ExpressionSequenceOperator::And | ExpressionSequenceOperator::Or => {
+				let compilation = try! (compilation.define_disable ());
+				let (compilation, statements) = try! (self.compile_0_vec (compilation, tokens));
+				let compilation = try! (compilation.define_enable ());
+				(compilation, statements)
+			},
+		};
 		
 		let expression = Expression::Sequence (operator, statements.into_boxed_slice ());
 		
@@ -789,14 +792,7 @@ impl Compiler {
 		
 		let (compilation, registers) = try! (compilation.unfork_locals ());
 		
-		let error_consumer = match error_binding {
-			CompilerBinding::Undefined =>
-				fail_panic! (0xce4f018f),
-			CompilerBinding::Binding (_, binding, _) =>
-				ExpressionValueConsumer::BindingInitialize (binding),
-			CompilerBinding::Register (_, index, _) =>
-				ExpressionValueConsumer::RegisterInitialize (index),
-		};
+		let error_consumer = try! (self.compile_syntax_binding_consumer (error_binding));
 		
 		let expression = Expression::ErrorCatch (statement.into (), error_consumer, error_statement.into ());
 		let expression = ExpressionForContexts::RegisterClosure (expression.into (), registers.into_boxed_slice ()) .into ();
@@ -846,14 +842,7 @@ impl Compiler {
 		
 		let (compilation, registers) = try! (compilation.unfork_locals ());
 		
-		let error_consumer = match error_binding {
-			CompilerBinding::Undefined =>
-				fail_panic! (0xfd6d2099),
-			CompilerBinding::Binding (_, binding, _) =>
-				ExpressionValueConsumer::BindingInitialize (binding),
-			CompilerBinding::Register (_, index, _) =>
-				ExpressionValueConsumer::RegisterInitialize (index),
-		};
+		let error_consumer = try! (self.compile_syntax_binding_consumer (error_binding));
 		
 		let statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, statements.into_boxed_slice ());
 		let expression = Expression::ErrorCatch (statements.into (), error_consumer, error_statement.into ());
@@ -1240,6 +1229,32 @@ impl Compiler {
 		let initializer = try! (self.compile_syntax_binding_set_values_1 (bindings, initializer, false));
 		
 		succeed! ((compilation, initializer));
+	}
+	
+	
+	
+	
+	fn compile_syntax_binding_get (&self, binding : CompilerBinding) -> (Outcome<Expression>) {
+		match binding {
+			CompilerBinding::Binding (_, binding, _) =>
+				succeed! (ExpressionForContexts::BindingGet1 (binding) .into ()),
+			CompilerBinding::Register (_, index, _) =>
+				succeed! (ExpressionForContexts::RegisterGet1 (index) .into ()),
+			CompilerBinding::Undefined =>
+				fail! (0xc6825cfd),
+		}
+	}
+	
+	
+	fn compile_syntax_binding_consumer (&self, binding : CompilerBinding) -> (Outcome<ExpressionValueConsumer>) {
+		match binding {
+			CompilerBinding::Binding (_, binding, _) =>
+				succeed! (ExpressionValueConsumer::BindingInitialize (binding)),
+			CompilerBinding::Register (_, index, _) =>
+				succeed! (ExpressionValueConsumer::RegisterInitialize (index)),
+			CompilerBinding::Undefined =>
+				fail_panic! (0xce4f018f),
+		}
 	}
 	
 	
@@ -1993,7 +2008,7 @@ impl CompilerBindings {
 						value : None,
 						immutable : false,
 					};
-				let binding = if let Some (identifier) = identifier {
+				let binding = if let Some (_) = identifier {
 					try! (context.define (&template))
 				} else {
 					Binding::new_from_template (&template)
