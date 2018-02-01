@@ -47,7 +47,9 @@ def_scheme_tests_from_file! (
 		test__ports_memory => "scheme/ports-memory.sst",
 		test__ports_native => "scheme/ports-native.sst",
 		
-		test__records => "scheme/records.sst",
+		test__records_procedures => "scheme/records-procedures.sst",
+		test__records_syntaxes => "scheme/records-syntaxes.sst",
+		
 		test__errors => "scheme/errors.sst",
 		test__runtime => "scheme/runtime.sst",
 		
@@ -97,7 +99,9 @@ def_scheme_benchmarks_from_file! (
 		benchmark__ports_memory => "scheme/ports-memory.sst",
 		benchmark__ports_native => "scheme/ports-native.sst",
 		
-		benchmark__records => "scheme/records.sst",
+		benchmark__records_procedures => "scheme/records-procedures.sst",
+		benchmark__records_syntaxes => "scheme/records-syntaxes.sst",
+		
 		benchmark__errors => "scheme/errors.sst",
 		benchmark__runtime => "scheme/runtime.sst",
 		

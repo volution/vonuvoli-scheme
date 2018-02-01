@@ -1,0 +1,125 @@
+
+(define-record-type ra0^ #t #t) => !ignore
+(define-record-type ra1^ #t #t f1) => !ignore
+(define-record-type ra2^ #t #t f1 f2) => !ignore
+(define-record-type ra3^ #t #t f1 f2 f3) => !ignore
+(define-record-type ra4^ #t #t f1 f2 f3 f4) => !ignore
+(define-record-type ra5^ #t #t f1 f2 f3 f4 f5) => !ignore
+(define-record-type ra6^ #t #t f1 f2 f3 f4 f5 f6) => !ignore
+
+(define-record-type ra00^ #f #f) => !ignore
+
+
+(~record-type? ra0^) => #t
+(~record-type? ra1^) => #t
+(~record-type? ra6^) => #t
+
+(~record-type? ra00^) => #t
+
+
+(procedure? make-ra0^) => #t
+(procedure? make-ra1^) => #t
+(procedure? make-ra6^) => #t
+
+
+(procedure? ra0^?) => #t
+(procedure? ra1^?) => #t
+(procedure? ra6^?) => #t
+
+(procedure? ra1^-f1) => #t
+(procedure? ra2^-f1) => #t
+(procedure? ra2^-f2) => #t
+(procedure? ra6^-f1) => #t
+(procedure? ra6^-f2) => #t
+(procedure? ra6^-f3) => #t
+(procedure? ra6^-f4) => #t
+(procedure? ra6^-f5) => #t
+(procedure? ra6^-f6) => #t
+
+(procedure? ra1^-f1-set!) => #t
+(procedure? ra2^-f1-set!) => #t
+(procedure? ra2^-f2-set!) => #t
+(procedure? ra6^-f1-set!) => #t
+(procedure? ra6^-f2-set!) => #t
+(procedure? ra6^-f3-set!) => #t
+(procedure? ra6^-f4-set!) => #t
+(procedure? ra6^-f5-set!) => #t
+(procedure? ra6^-f6-set!) => #t
+
+
+
+
+(define-record-type #f #f #f) => !ignore
+(define-record-type #f #f #f #f) => !ignore
+(define-record-type #f #f #f #f (#f)) => !ignore
+(define-record-type #f #f #f #f (#f) (#f #f)) => !ignore
+(define-record-type #f #f #f #f (#f) (#f #f) (#f #f #f)) => !ignore
+
+(define-record-type rb0^ make-rb0 rb0?) => !ignore
+(define-record-type rb1^ make-rb1 rb1? f1) => !ignore
+(define-record-type rb21^ make-rb21 rb21? (f1)) => !ignore
+(define-record-type rb22^ make-rb22 rb22? (f1 #f #f)) => !ignore
+(define-record-type rb31^ make-rb31 rb31? (f1 rb31-f1)) => !ignore
+(define-record-type rb32^ make-rb32 rb32? (f1 rb32-f1 #f)) => !ignore
+(define-record-type rb4^ make-rb4 rb4? (f1 rb4-f1 rb4-f1-set!)) => !ignore
+
+
+(~record-type? rb0^) => #t
+(~record-type? rb1^) => #t
+
+(procedure? make-rb0) => #t
+(procedure? make-rb1) => #t
+
+(procedure? rb0?) => #t
+(procedure? rb1?) => #t
+
+(procedure? rb31-f1) => #t
+(procedure? rb32-f1) => #t
+
+(procedure? rb4-f1-set!) => #t
+
+
+
+
+(define rb4-1 (~record->mutable (make-rb4 1))) => !ignore
+
+(~record? rb4-1) => #t
+(rb4? rb4-1) => #t
+(rb4-f1 rb4-1) => 1
+(rb4-f1-set! rb4-1 2) => 1
+(rb4-f1 rb4-1) => 2
+
+
+
+
+(define-record-type rc0^ (#t) #f) => !ignore
+(define-record-type rc21^ (#t 1 0) #f f1 f2) => !ignore
+(define-record-type rc22^ (#t f2 f1) #f f1 f2) => !ignore
+
+(~record? (make-rc0^)) => #t
+
+(rc21^-f1 (make-rc21^ 2 1)) => 1
+(rc21^-f2 (make-rc21^ 2 1)) => 2
+
+(rc22^-f1 (make-rc22^ 2 1)) => 1
+(rc22^-f2 (make-rc22^ 2 1)) => 2
+
+
+
+
+(define-record-type rd0^ (#t) #f #f) => !ignore
+(define-record-type rd1^ (#t 0) #f #f #f) => !ignore
+(define-record-type rd2^ (#t 0 1) #f #f #f #f) => !ignore
+(define-record-type rd3^ (#t 0 1 2) #f #f #f #f #f) => !ignore
+(define-record-type rd4^ (#t 0 1 2 3) #f #f #f #f #f #f) => !ignore
+(define-record-type rd5^ (#t 0 1 2 3 4) #f #f #f #f #f #f #f) => !ignore
+(define-record-type rd6^ (#t 0 1 2 3 4 5) #f #f #f #f #f #f #f #f) => !ignore
+
+(~record? (make-rd0^)) => #t
+(~record? (make-rd1^ 1)) => #t
+(~record? (make-rd2^ 1 2)) => #t
+(~record? (make-rd3^ 1 2 3)) => #t
+(~record? (make-rd4^ 1 2 3 4)) => #t
+(~record? (make-rd5^ 1 2 3 4 5)) => #t
+(~record? (make-rd6^ 1 2 3 4 5 6)) => #t
+
