@@ -1519,8 +1519,272 @@ impl Compiler {
 	
 	
 	
-	fn compile_syntax_define_record (&self, _compilation : CompilerContext, _tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
-		fail_unimplemented! (0x99820e9d);
+	fn compile_syntax_define_record (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+		
+		if tokens.len () < 3 {
+			fail! (0x69953d45);
+		}
+		
+		let (type_identifier, constructor, predicate, fields) = try! (vec_explode_3n (tokens));
+		
+		let type_identifier = match type_identifier.class_match_into () {
+			ValueClassMatchInto::Symbol (type_identifier) =>
+				Some (type_identifier),
+			ValueClassMatchInto::Boolean (type_identifier) =>
+				if ! type_identifier.value () {
+					None
+				} else {
+					fail! (0xa0795b37);
+				},
+			_ =>
+				fail! (0x6c3b98ed),
+		};
+		
+		let (constructor_identifier, constructor_fields) = match constructor.class_match_into () {
+			ValueClassMatchInto::Symbol (constructor_identifier) =>
+				(Some (constructor_identifier.into ()), None),
+			ValueClassMatchInto::Boolean (constructor_identifier) =>
+				if ! constructor_identifier.value () {
+					(None, None)
+				} else {
+					(Some (constructor_identifier.into ()), None)
+				},
+			ValueClassMatchInto::Pair (tokens) => {
+				let tokens = try! (vec_list_clone (& tokens.value ()));
+				let (constructor_identifier, constructor_fields) = try! (vec_explode_1n (tokens));
+				(Some (constructor_identifier), Some (constructor_fields))
+			},
+			_ =>
+				fail! (0xc5304162),
+		};
+		
+		let constructor_identifier = if let Some (constructor_identifier) = constructor_identifier {
+			match constructor_identifier.class_match_into () {
+				ValueClassMatchInto::Symbol (constructor_identifier) =>
+					Some (constructor_identifier),
+				ValueClassMatchInto::Boolean (constructor_identifier) =>
+					if ! constructor_identifier.value () {
+						None
+					} else if let Some (ref type_identifier) = type_identifier {
+						Some (symbol_new (string_concatenate! ("make-", type_identifier.string_as_str ())))
+					} else {
+						fail! (0xb9fa57b0);
+					},
+				_ =>
+					fail! (0xa29b8e8a),
+			}
+		} else {
+			None
+		};
+		
+		let predicate_identifier = match predicate.class_match_into () {
+			ValueClassMatchInto::Symbol (predicate_identifier) =>
+				Some (predicate_identifier),
+			ValueClassMatchInto::Boolean (predicate_identifier) =>
+				if ! predicate_identifier.value () {
+					None
+				} else if let Some (ref type_identifier) = type_identifier {
+					Some (symbol_new (string_concatenate! (type_identifier.string_as_str (), "?")))
+				} else {
+					fail! (0x2420b024);
+				},
+			_ =>
+				fail! (0xecfa6ca2),
+		};
+		
+		let fields = try_vec_map_into! (fields, field,
+				{
+					let (field_identifier, field_accessor_identifier, field_mutator_identifier) = match field.class_match_into () {
+						ValueClassMatchInto::Symbol (field_identifier) =>
+							(Some (field_identifier.into ()), Some (TRUE_VALUE), Some (TRUE_VALUE)),
+						ValueClassMatchInto::Boolean (field_identifier) =>
+							if ! field_identifier.value () {
+								(None, None, None)
+							} else {
+								fail! (0x06d78cb8);
+							},
+						ValueClassMatchInto::Pair (tokens) => {
+							let tokens = try! (vec_list_clone (& tokens.value ()));
+							match tokens.len () {
+								1 => {
+									let field_identifier = try! (vec_explode_1 (tokens));
+									(Some (field_identifier), None, None)
+								},
+								2 => {
+									let (field_identifier, field_accessor_identifier) = try! (vec_explode_2 (tokens));
+									(Some (field_identifier), Some (field_accessor_identifier), None)
+								},
+								3 => {
+									let (field_identifier, field_accessor_identifier, field_mutator_identifier) = try! (vec_explode_3 (tokens));
+									(Some (field_identifier), Some (field_accessor_identifier), Some (field_mutator_identifier))
+								},
+								_ =>
+									fail! (0x87ca8214),
+							}
+						},
+						_ =>
+							fail! (0xdcf687a0),
+					};
+					let field_identifier = if let Some (field_identifier) = field_identifier {
+						match field_identifier.class_match_into () {
+							ValueClassMatchInto::Symbol (field_identifier) =>
+								Some (field_identifier),
+							ValueClassMatchInto::Boolean (field_identifier) =>
+								if ! field_identifier.value () {
+									None
+								} else {
+									fail! (0x10a7989e);
+								},
+							_ =>
+								fail! (0xb2676cd0),
+						}
+					} else {
+						None
+					};
+					let field_accessor_identifier = if let Some (field_accessor_identifier) = field_accessor_identifier {
+						match field_accessor_identifier.class_match_into () {
+							ValueClassMatchInto::Symbol (field_accessor_identifier) =>
+								Some (field_accessor_identifier),
+							ValueClassMatchInto::Boolean (field_accessor_identifier) =>
+								if ! field_accessor_identifier.value () {
+									None
+								} else if let (&Some (ref type_identifier), &Some (ref field_identifier)) = (&type_identifier, &field_identifier) {
+									Some (symbol_new (string_concatenate! (type_identifier.string_as_str (), "-", field_identifier.string_as_str ())))
+								} else {
+									fail! (0xe445ce71);
+								},
+							_ =>
+								fail! (0x7a86855f),
+						}
+					} else {
+						None
+					};
+					let field_mutator_identifier = if let Some (field_mutator_identifier) = field_mutator_identifier {
+						match field_mutator_identifier.class_match_into () {
+							ValueClassMatchInto::Symbol (field_mutator_identifier) =>
+								Some (field_mutator_identifier),
+							ValueClassMatchInto::Boolean (field_mutator_identifier) =>
+								if ! field_mutator_identifier.value () {
+									None
+								} else if let Some (ref field_accessor_identifier) = field_accessor_identifier {
+									Some (symbol_new (string_concatenate! (field_accessor_identifier.string_as_str (), "-set!")))
+								} else {
+									fail! (0xa509987a);
+								},
+							_ =>
+								fail! (0x63cffa4c),
+						}
+					} else {
+						None
+					};
+					succeed! ((field_identifier, field_accessor_identifier, field_mutator_identifier))
+				}
+			);
+		
+		let fields_count = fields.len ();
+		
+		let constructor_fields = if let Some (constructor_fields) = constructor_fields {
+			let constructor_fields = try_vec_map_into! (constructor_fields, constructor_field,
+					match constructor_field.kind_match_into () {
+						ValueKindMatchInto::Symbol (ref constructor_field) => {
+							let field_index = fields.iter () .position (
+									|&(ref field_identifier, _, _)|
+										if let Some (ref field_identifier) = *field_identifier {
+											Symbol::eq (field_identifier, constructor_field)
+										} else {
+											false
+										});
+							if let Some (field_index) = field_index {
+								succeed! (field_index);
+							} else {
+								fail! (0x4794d106);
+							}
+						},
+						ValueKindMatchInto::NumberInteger (constructor_field) => {
+							let constructor_field_index = try! (constructor_field.try_to_usize ());
+							if constructor_field_index < fields_count {
+								succeed! (constructor_field_index);
+							} else {
+								fail! (0x2af3e21a);
+							}
+						},
+						_ =>
+							fail! (0x3c782983),
+					}
+				);
+			Some (constructor_fields)
+		} else {
+			None
+		};
+		
+		let mut statements : StdVec<Expression> = StdVec::new ();
+		
+		let (compilation, type_binding) = if let Some (ref type_identifier) = type_identifier {
+			try! (compilation.define (type_identifier.clone ()))
+		} else {
+			try! (compilation.define_anonymous ())
+		};
+		
+		{
+			let fields_count = try! (NumberInteger::try_from (fields_count));
+			let expression = if let Some (ref type_identifier) = type_identifier {
+				ExpressionForProcedureGenericCall::ProcedureCall (RecordPrimitiveV::RecordKindBuild.into (), StdBox::new ([type_identifier.clone () .into (), fields_count.into ()])) .into ()
+			} else {
+				ExpressionForProcedureGenericCall::ProcedureCall (RecordPrimitiveV::RecordKindBuild.into (), StdBox::new ([fields_count.into ()])) .into ()
+			};
+			let expression = try! (self.compile_syntax_binding_set_1 (type_binding.clone (), expression, true));
+			statements.push (expression);
+		}
+		
+		let mut compilation = compilation;
+		
+		if let Some (constructor_identifier) = constructor_identifier {
+			let (compilation_1, constructor_binding) = try! (compilation.define (constructor_identifier));
+			let type_binding_get = try! (self.compile_syntax_binding_get (type_binding.clone ()));
+			let expression = if let Some (constructor_fields) = constructor_fields {
+				let constructor_fields = try_vec_map_into! (constructor_fields, constructor_field, NumberInteger::try_from (constructor_field) .into_0 ());
+				let constructor_fields = array_immutable_new (constructor_fields);
+				ExpressionForProcedureGenericCall::ProcedureCall (RecordPrimitiveV::RecordBuildFn.into (), StdBox::new ([type_binding_get, constructor_fields.into ()])) .into ()
+			} else {
+				ExpressionForProcedureGenericCall::ProcedureCall (RecordPrimitiveV::RecordBuildFn.into (), StdBox::new ([type_binding_get])) .into ()
+			};
+			let expression = try! (self.compile_syntax_binding_set_1 (constructor_binding, expression, true));
+			statements.push (expression);
+			compilation = compilation_1;
+		}
+		
+		if let Some (predicate_identifier) = predicate_identifier {
+			let (compilation_1, predicate_binding) = try! (compilation.define (predicate_identifier));
+			let type_binding_get = try! (self.compile_syntax_binding_get (type_binding.clone ()));
+			let expression = ExpressionForProcedureGenericCall::ProcedureCall (RecordPrimitiveV::RecordKindIsFn.into (), StdBox::new ([type_binding_get])) .into ();
+			let expression = try! (self.compile_syntax_binding_set_1 (predicate_binding, expression, true));
+			statements.push (expression);
+			compilation = compilation_1;
+		}
+		
+		for (field_index, &(_, ref field_accessor_identifier, ref field_mutator_identifier)) in fields.iter () .enumerate () {
+			let field_index = try! (NumberInteger::try_from (field_index));
+			if let Some (ref field_accessor_identifier) = *field_accessor_identifier {
+				let (compilation_1, field_accessor_binding) = try! (compilation.define (field_accessor_identifier.clone ()));
+				let type_binding_get = try! (self.compile_syntax_binding_get (type_binding.clone ()));
+				let expression = ExpressionForProcedureGenericCall::ProcedureCall (RecordPrimitiveV::RecordGetFn.into (), StdBox::new ([type_binding_get, field_index.clone () .into ()])) .into ();
+				let expression = try! (self.compile_syntax_binding_set_1 (field_accessor_binding, expression, true));
+				statements.push (expression);
+				compilation = compilation_1;
+			}
+			if let Some (ref field_mutator_identifier) = *field_mutator_identifier {
+				let (compilation_1, field_mutator_binding) = try! (compilation.define (field_mutator_identifier.clone ()));
+				let type_binding_get = try! (self.compile_syntax_binding_get (type_binding.clone ()));
+				let expression = ExpressionForProcedureGenericCall::ProcedureCall (RecordPrimitiveV::RecordSetFn.into (), StdBox::new ([type_binding_get, field_index.clone () .into ()])) .into ();
+				let expression = try! (self.compile_syntax_binding_set_1 (field_mutator_binding, expression, true));
+				statements.push (expression);
+				compilation = compilation_1;
+			}
+		}
+		
+		let expression = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, statements.into_boxed_slice ());
+		
+		succeed! ((compilation, expression));
 	}
 	
 	
