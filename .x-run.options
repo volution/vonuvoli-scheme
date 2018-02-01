@@ -579,7 +579,8 @@
 	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports_native.out' x-run ':: execute / bin / bencher / release' './tests/scheme/ports-native.sst' "${@}"
 	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__processes.out' x-run ':: execute / bin / bencher / release' './tests/scheme/processes.sst' "${@}"
 	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__quotation.out' x-run ':: execute / bin / bencher / release' './tests/scheme/quotation.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__records.out' x-run ':: execute / bin / bencher / release' './tests/scheme/records.sst' "${@}"
+	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__records_procedures.out' x-run ':: execute / bin / bencher / release' './tests/scheme/records-procedures.sst' "${@}"
+	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__records_syntaxes.out' x-run ':: execute / bin / bencher / release' './tests/scheme/records-syntaxes.sst' "${@}"
 	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__runtime.out' x-run ':: execute / bin / bencher / release' './tests/scheme/runtime.sst' "${@}"
 	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__scratchpad.out' x-run ':: execute / bin / bencher / release' './tests/scheme/scratchpad.sst' "${@}"
 	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__strings.out' x-run ':: execute / bin / bencher / release' './tests/scheme/strings.sst' "${@}"
@@ -835,12 +836,20 @@
 	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__quotation.out' x-run ':: execute / bin / bencher / release' './tests/scheme/quotation.sst' "${@}"
 !!
 
-<< execute / bin / bencher / records / debug
-	exec -- taskset -c 2 x-run ':: execute / bin / bencher / debug' './tests/scheme/records.sst' "${@}"
+<< execute / bin / bencher / records-procedures / debug
+	exec -- taskset -c 2 x-run ':: execute / bin / bencher / debug' './tests/scheme/records-procedures.sst' "${@}"
 !!
 
-<< execute / bin / bencher / records / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__records.out' x-run ':: execute / bin / bencher / release' './tests/scheme/records.sst' "${@}"
+<< execute / bin / bencher / records-procedures / release
+	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__records_procedures.out' x-run ':: execute / bin / bencher / release' './tests/scheme/records-procedures.sst' "${@}"
+!!
+
+<< execute / bin / bencher / records-syntaxes / debug
+	exec -- taskset -c 2 x-run ':: execute / bin / bencher / debug' './tests/scheme/records-syntaxes.sst' "${@}"
+!!
+
+<< execute / bin / bencher / records-syntaxes / release
+	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__records_syntaxes.out' x-run ':: execute / bin / bencher / release' './tests/scheme/records-syntaxes.sst' "${@}"
 !!
 
 << execute / bin / bencher / release
@@ -1091,7 +1100,8 @@
 	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/ports-native.sst' "${@}"
 	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/processes.sst' "${@}"
 	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/quotation.sst' "${@}"
-	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/records.sst' "${@}"
+	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/records-procedures.sst' "${@}"
+	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/records-syntaxes.sst' "${@}"
 	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/runtime.sst' "${@}"
 	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/scratchpad.sst' "${@}"
 	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/strings.sst' "${@}"
@@ -1467,16 +1477,28 @@
 	exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/quotation.sst' "${@}"
 !!
 
-<< execute / bin / tester / records / debug
-	exec -- nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/records.sst' "${@}"
+<< execute / bin / tester / records-procedures / debug
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/records-procedures.sst' "${@}"
 !!
 
-<< execute / bin / tester / records / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / bin / tester / records / debug'
+<< execute / bin / tester / records-procedures / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / bin / tester / records-procedures / debug'
 !!
 
-<< execute / bin / tester / records / release
-	exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/records.sst' "${@}"
+<< execute / bin / tester / records-procedures / release
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/records-procedures.sst' "${@}"
+!!
+
+<< execute / bin / tester / records-syntaxes / debug
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/records-syntaxes.sst' "${@}"
+!!
+
+<< execute / bin / tester / records-syntaxes / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / bin / tester / records-syntaxes / debug'
+!!
+
+<< execute / bin / tester / records-syntaxes / release
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/records-syntaxes.sst' "${@}"
 !!
 
 << execute / bin / tester / release
@@ -1618,6 +1640,10 @@
 	x-run ':: compile / test / builtins-lists / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov --test 'builtins-lists' --no-clean-rebuild --no-default-features --jobs 1 --output ./target/kcov -- "${@}"
 !!
 
+<< execute / test / builtins-lists / coverage / all / kcov / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / builtins-lists / coverage / all / kcov'
+!!
+
 << execute / test / builtins-lists / tests / all / debug
 	x-run ':: compile / test / builtins-lists / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test 'builtins-lists' --no-default-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__' "${@}"
 !!
@@ -1644,6 +1670,10 @@
 
 << execute / test / low-level-assertions / coverage / all / kcov
 	x-run ':: compile / test / low-level-assertions / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov --test 'low-level-assertions' --no-clean-rebuild --no-default-features --jobs 1 --output ./target/kcov -- "${@}"
+!!
+
+<< execute / test / low-level-assertions / coverage / all / kcov / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / low-level-assertions / coverage / all / kcov'
 !!
 
 << execute / test / low-level-assertions / tests / all / debug
@@ -1674,6 +1704,10 @@
 	x-run ':: compile / test / low-level-parser / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov --test 'low-level-parser' --no-clean-rebuild --no-default-features --jobs 1 --output ./target/kcov -- "${@}"
 !!
 
+<< execute / test / low-level-parser / coverage / all / kcov / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / low-level-parser / coverage / all / kcov'
+!!
+
 << execute / test / low-level-parser / tests / all / debug
 	x-run ':: compile / test / low-level-parser / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test 'low-level-parser' --no-default-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__' "${@}"
 !!
@@ -1700,6 +1734,10 @@
 
 << execute / test / low-level-r7rs / coverage / all / kcov
 	x-run ':: compile / test / low-level-r7rs / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov --test 'low-level-r7rs' --no-clean-rebuild --no-default-features --jobs 1 --output ./target/kcov -- "${@}"
+!!
+
+<< execute / test / low-level-r7rs / coverage / all / kcov / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / low-level-r7rs / coverage / all / kcov'
 !!
 
 << execute / test / low-level-r7rs / tests / all / debug
@@ -1730,6 +1768,10 @@
 	x-run ':: compile / test / low-level-rust / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov --test 'low-level-rust' --no-clean-rebuild --no-default-features --jobs 1 --output ./target/kcov -- "${@}"
 !!
 
+<< execute / test / low-level-rust / coverage / all / kcov / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / low-level-rust / coverage / all / kcov'
+!!
+
 << execute / test / low-level-rust / tests / all / debug
 	x-run ':: compile / test / low-level-rust / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test 'low-level-rust' --no-default-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__' "${@}"
 !!
@@ -1756,6 +1798,10 @@
 
 << execute / test / low-level-sizes / coverage / all / kcov
 	x-run ':: compile / test / low-level-sizes / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov --test 'low-level-sizes' --no-clean-rebuild --no-default-features --jobs 1 --output ./target/kcov -- "${@}"
+!!
+
+<< execute / test / low-level-sizes / coverage / all / kcov / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / low-level-sizes / coverage / all / kcov'
 !!
 
 << execute / test / low-level-sizes / tests / all / debug
@@ -2022,12 +2068,20 @@
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__quotation' --exact "${@}"
 !!
 
-<< execute / test / scheme / benchmarks / records / debug
-	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__records' --exact "${@}"
+<< execute / test / scheme / benchmarks / records_procedures / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__records_procedures' --exact "${@}"
 !!
 
-<< execute / test / scheme / benchmarks / records / release
-	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__records' --exact "${@}"
+<< execute / test / scheme / benchmarks / records_procedures / release
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__records_procedures' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / records_syntaxes / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__records_syntaxes' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / records_syntaxes / release
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__records_syntaxes' --exact "${@}"
 !!
 
 << execute / test / scheme / benchmarks / runtime / debug
@@ -2072,6 +2126,10 @@
 
 << execute / test / scheme / coverage / all / kcov
 	x-run ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov --test 'scheme' --no-clean-rebuild --no-default-features --jobs 1 --output ./target/kcov -- "${@}"
+!!
+
+<< execute / test / scheme / coverage / all / kcov / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / coverage / all / kcov'
 !!
 
 << execute / test / scheme / tests / all / debug
@@ -2446,16 +2504,28 @@
 	x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__quotation' --exact "${@}"
 !!
 
-<< execute / test / scheme / tests / records / debug
-	x-run ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__records' --exact "${@}"
+<< execute / test / scheme / tests / records_procedures / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__records_procedures' --exact "${@}"
 !!
 
-<< execute / test / scheme / tests / records / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / records / debug' "${@}"
+<< execute / test / scheme / tests / records_procedures / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / records_procedures / debug' "${@}"
 !!
 
-<< execute / test / scheme / tests / records / release
-	x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__records' --exact "${@}"
+<< execute / test / scheme / tests / records_procedures / release
+	x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__records_procedures' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / records_syntaxes / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__records_syntaxes' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / records_syntaxes / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / records_syntaxes / debug' "${@}"
+!!
+
+<< execute / test / scheme / tests / records_syntaxes / release
+	x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__records_syntaxes' --exact "${@}"
 !!
 
 << execute / test / scheme / tests / runtime / debug
@@ -3008,8 +3078,12 @@
 	exec -- sce ./tests/scheme/quotation.sst
 !!
 
-<< files / edit / tests/scheme/records.sst
-	exec -- sce ./tests/scheme/records.sst
+<< files / edit / tests/scheme/records-procedures.sst
+	exec -- sce ./tests/scheme/records-procedures.sst
+!!
+
+<< files / edit / tests/scheme/records-syntaxes.sst
+	exec -- sce ./tests/scheme/records-syntaxes.sst
 !!
 
 << files / edit / tests/scheme/runtime.sst
@@ -3584,8 +3658,12 @@
 	exec -- less -- ./tests/scheme/quotation.sst
 !!
 
-<< files / view / tests/scheme/records.sst
-	exec -- less -- ./tests/scheme/records.sst
+<< files / view / tests/scheme/records-procedures.sst
+	exec -- less -- ./tests/scheme/records-procedures.sst
+!!
+
+<< files / view / tests/scheme/records-syntaxes.sst
+	exec -- less -- ./tests/scheme/records-syntaxes.sst
 !!
 
 << files / view / tests/scheme/runtime.sst

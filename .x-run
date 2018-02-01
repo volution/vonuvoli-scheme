@@ -347,6 +347,7 @@ sed -r -e 's#@\{TEST\}#'"${_test}"'#g' <<'EOS'
 :: execute / test / @{TEST} / benchmarks / all / debug :: x-run ':: compile / test / @{TEST} / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test '@{TEST}' --no-default-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
 :: execute / test / @{TEST} / benchmarks / all / release :: x-run ':: compile / test / @{TEST} / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/@{TEST}--{IDENTIFIER}.out' cargo test --quiet --test '@{TEST}' --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
 :: execute / test / @{TEST} / coverage / all / kcov :: x-run ':: compile / test / @{TEST} / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov --test '@{TEST}' --no-clean-rebuild --no-default-features --jobs 1 --output ./target/kcov -- "${@}"
+:: execute / test / @{TEST} / coverage / all / kcov / watch :: exec -- x-run ':: execute / watch' x-run ':: execute / test / @{TEST} / coverage / all / kcov'
 EOS
 done
 
