@@ -40,6 +40,7 @@ pub mod exports {
 	pub use super::{ListMatchAsRef, ListMatchInto};
 	pub use super::{ValueRef};
 	pub use super::{GenericRef};
+	pub use super::{Keyword, Unique, StringRegex, Parameters, Parameter, Promise};
 }
 
 
@@ -59,6 +60,10 @@ pub enum ValueKind {
 	Character,
 	
 	Symbol,
+	Keyword,
+	Unique,
+	
+	StringRegex,
 	StringImmutable,
 	StringMutable,
 	BytesImmutable,
@@ -91,6 +96,9 @@ pub enum ValueKind {
 	
 	Context,
 	Binding,
+	Parameters,
+	Parameter,
+	Promise,
 	
 }
 
@@ -109,6 +117,10 @@ pub enum ValueKindMatchAsRef <'a> {
 	Character (&'a Character),
 	
 	Symbol (&'a Symbol),
+	Keyword (&'a Keyword),
+	Unique (&'a Unique),
+	
+	StringRegex (&'a StringRegex),
 	StringImmutable (&'a StringImmutable),
 	StringMutable (&'a StringMutable),
 	BytesImmutable (&'a BytesImmutable),
@@ -141,6 +153,9 @@ pub enum ValueKindMatchAsRef <'a> {
 	
 	Context (&'a Context),
 	Binding (&'a Binding),
+	Parameters (&'a Parameters),
+	Parameter (&'a Parameter),
+	Promise (&'a Promise),
 	
 }
 
@@ -159,6 +174,10 @@ pub enum ValueKindMatchInto {
 	Character (Character),
 	
 	Symbol (Symbol),
+	Keyword (Keyword),
+	Unique (Unique),
+	
+	StringRegex (StringRegex),
 	StringImmutable (StringImmutable),
 	StringMutable (StringMutable),
 	BytesImmutable (BytesImmutable),
@@ -191,6 +210,9 @@ pub enum ValueKindMatchInto {
 	
 	Context (Context),
 	Binding (Binding),
+	Parameters (Parameters),
+	Parameter (Parameter),
+	Promise (Promise),
 	
 }
 
@@ -209,6 +231,10 @@ pub enum ValueKindMatchAsRef2 <'a> {
 	Character (&'a Character, &'a Character),
 	
 	Symbol (&'a Symbol, &'a Symbol),
+	Keyword (&'a Keyword, &'a Keyword),
+	Unique (&'a Unique, &'a Unique),
+	
+	StringRegex (&'a StringRegex, &'a StringRegex),
 	StringImmutable (&'a StringImmutable, &'a StringImmutable),
 	StringMutable (&'a StringMutable, &'a StringMutable),
 	BytesImmutable (&'a BytesImmutable, &'a BytesImmutable),
@@ -241,6 +267,9 @@ pub enum ValueKindMatchAsRef2 <'a> {
 	
 	Context (&'a Context, &'a Context),
 	Binding (&'a Binding, &'a Binding),
+	Parameters (&'a Parameters, &'a Parameters),
+	Parameter (&'a Parameter, &'a Parameter),
+	Promise (&'a Promise, &'a Promise),
 	
 	Missmatched,
 	
@@ -262,6 +291,10 @@ pub enum ValueClass {
 	Character,
 	
 	Symbol,
+	Keyword,
+	Unique,
+	
+	StringRegex,
 	String,
 	Bytes,
 	
@@ -299,6 +332,10 @@ pub enum ValueClassMatchAsRef <'a> {
 	Character (&'a Character),
 	
 	Symbol (&'a Symbol),
+	Keyword (&'a Keyword),
+	Unique (&'a Unique),
+	
+	StringRegex (&'a StringRegex),
 	String (StringMatchAsRef<'a>),
 	Bytes (BytesMatchAsRef<'a>),
 	
@@ -336,6 +373,10 @@ pub enum ValueClassMatchInto {
 	Character (Character),
 	
 	Symbol (Symbol),
+	Keyword (Keyword),
+	Unique (Unique),
+	
+	StringRegex (StringRegex),
 	String (StringMatchInto),
 	Bytes (BytesMatchInto),
 	
@@ -373,6 +414,10 @@ pub enum ValueClassMatchAsRef2 <'a> {
 	Character (&'a Character, &'a Character),
 	
 	Symbol (&'a Symbol, &'a Symbol),
+	Keyword (&'a Keyword, &'a Keyword),
+	Unique (&'a Unique, &'a Unique),
+	
+	StringRegex (&'a StringRegex, &'a StringRegex),
 	String (StringMatchAsRef2<'a>),
 	Bytes (BytesMatchAsRef2<'a>),
 	
@@ -453,6 +498,9 @@ pub enum ResourceMatchInto {
 pub enum InternalMatchAsRef <'a> {
 	Context (&'a Context),
 	Binding (&'a Binding),
+	Parameters (&'a Parameters),
+	Parameter (&'a Parameter),
+	Promise (&'a Promise),
 }
 
 
@@ -460,6 +508,9 @@ pub enum InternalMatchAsRef <'a> {
 pub enum InternalMatchInto {
 	Context (Context),
 	Binding (Binding),
+	Parameters (Parameters),
+	Parameter (Parameter),
+	Promise (Promise),
 }
 
 
@@ -494,6 +545,10 @@ pub enum Value {
 	Character ( ValueMeta1, Character, ValueMeta2 ),
 	
 	Symbol ( ValueMeta1, Symbol, ValueMeta2 ),
+	Keyword ( ValueMeta1, Keyword, ValueMeta2 ),
+	Unique ( ValueMeta1, Unique, ValueMeta2 ),
+	
+	StringRegex ( ValueMeta1, StringRegex, ValueMeta2 ),
 	StringImmutable ( ValueMeta1, StringImmutable, ValueMeta2 ),
 	StringMutable ( ValueMeta1, StringMutable, ValueMeta2 ),
 	BytesImmutable ( ValueMeta1, BytesImmutable, ValueMeta2 ),
@@ -526,6 +581,9 @@ pub enum Value {
 	
 	Context ( ValueMeta1, Context, ValueMeta2 ),
 	Binding ( ValueMeta1, Binding, ValueMeta2 ),
+	Parameters ( ValueMeta1, Parameters, ValueMeta2 ),
+	Parameter ( ValueMeta1, Parameter, ValueMeta2 ),
+	Promise ( ValueMeta1, Promise, ValueMeta2 ),
 	
 	__NonExhaustive,
 	
@@ -556,6 +614,10 @@ impl Value {
 			Value::Character (_, _, _) => ValueKind::Character,
 			
 			Value::Symbol (_, _, _) => ValueKind::Symbol,
+			Value::Keyword (_, _, _) => ValueKind::Keyword,
+			Value::Unique (_, _, _) => ValueKind::Unique,
+			
+			Value::StringRegex (_, _, _) => ValueKind::StringRegex,
 			Value::StringImmutable (_, _, _) => ValueKind::StringImmutable,
 			Value::StringMutable (_, _, _) => ValueKind::StringMutable,
 			Value::BytesImmutable (_, _, _) => ValueKind::BytesImmutable,
@@ -588,6 +650,9 @@ impl Value {
 			
 			Value::Context (_, _, _) => ValueKind::Context,
 			Value::Binding (_, _, _) => ValueKind::Binding,
+			Value::Parameters (_, _, _) => ValueKind::Parameters,
+			Value::Parameter (_, _, _) => ValueKind::Parameter,
+			Value::Promise (_, _, _) => ValueKind::Promise,
 			
 			Value::__NonExhaustive => unreachable! (),
 			
@@ -612,6 +677,10 @@ impl Value {
 			Value::Character (_, ref self_0, _) => ValueKindMatchAsRef::Character (self_0),
 			
 			Value::Symbol (_, ref self_0, _) => ValueKindMatchAsRef::Symbol (self_0),
+			Value::Keyword (_, ref self_0, _) => ValueKindMatchAsRef::Keyword (self_0),
+			Value::Unique (_, ref self_0, _) => ValueKindMatchAsRef::Unique (self_0),
+			
+			Value::StringRegex (_, ref self_0, _) => ValueKindMatchAsRef::StringRegex (self_0),
 			Value::StringImmutable (_, ref self_0, _) => ValueKindMatchAsRef::StringImmutable (self_0),
 			Value::StringMutable (_, ref self_0, _) => ValueKindMatchAsRef::StringMutable (self_0),
 			Value::BytesImmutable (_, ref self_0, _) => ValueKindMatchAsRef::BytesImmutable (self_0),
@@ -644,6 +713,9 @@ impl Value {
 			
 			Value::Context (_, ref self_0, _) => ValueKindMatchAsRef::Context (self_0),
 			Value::Binding (_, ref self_0, _) => ValueKindMatchAsRef::Binding (self_0),
+			Value::Parameters (_, ref self_0, _) => ValueKindMatchAsRef::Parameters (self_0),
+			Value::Parameter (_, ref self_0, _) => ValueKindMatchAsRef::Parameter (self_0),
+			Value::Promise (_, ref self_0, _) => ValueKindMatchAsRef::Promise (self_0),
 			
 			Value::__NonExhaustive => unreachable! (),
 			
@@ -668,6 +740,10 @@ impl Value {
 			Value::Character (_, self_0, _) => ValueKindMatchInto::Character (self_0),
 			
 			Value::Symbol (_, self_0, _) => ValueKindMatchInto::Symbol (self_0),
+			Value::Keyword (_, self_0, _) => ValueKindMatchInto::Keyword (self_0),
+			Value::Unique (_, self_0, _) => ValueKindMatchInto::Unique (self_0),
+			
+			Value::StringRegex (_, self_0, _) => ValueKindMatchInto::StringRegex (self_0),
 			Value::StringImmutable (_, self_0, _) => ValueKindMatchInto::StringImmutable (self_0),
 			Value::StringMutable (_, self_0, _) => ValueKindMatchInto::StringMutable (self_0),
 			Value::BytesImmutable (_, self_0, _) => ValueKindMatchInto::BytesImmutable (self_0),
@@ -700,6 +776,9 @@ impl Value {
 			
 			Value::Context (_, self_0, _) => ValueKindMatchInto::Context (self_0),
 			Value::Binding (_, self_0, _) => ValueKindMatchInto::Binding (self_0),
+			Value::Parameters (_, self_0, _) => ValueKindMatchInto::Parameters (self_0),
+			Value::Parameter (_, self_0, _) => ValueKindMatchInto::Parameter (self_0),
+			Value::Promise (_, self_0, _) => ValueKindMatchInto::Promise (self_0),
 			
 			Value::__NonExhaustive => unreachable! (),
 			
@@ -729,6 +808,10 @@ impl Value {
 			(&Value::Character (_, ref self_0, _), &Value::Character (_, ref other_0, _)) => ValueKindMatchAsRef2::Character (self_0, other_0),
 			
 			(&Value::Symbol (_, ref self_0, _), &Value::Symbol (_, ref other_0, _)) => ValueKindMatchAsRef2::Symbol (self_0, other_0),
+			(&Value::Keyword (_, ref self_0, _), &Value::Keyword (_, ref other_0, _)) => ValueKindMatchAsRef2::Keyword (self_0, other_0),
+			(&Value::Unique (_, ref self_0, _), &Value::Unique (_, ref other_0, _)) => ValueKindMatchAsRef2::Unique (self_0, other_0),
+			
+			(&Value::StringRegex (_, ref self_0, _), &Value::StringRegex (_, ref other_0, _)) => ValueKindMatchAsRef2::StringRegex (self_0, other_0),
 			(&Value::StringImmutable (_, ref self_0, _), &Value::StringImmutable (_, ref other_0, _)) => ValueKindMatchAsRef2::StringImmutable (self_0, other_0),
 			(&Value::StringMutable (_, ref self_0, _), &Value::StringMutable (_, ref other_0, _)) => ValueKindMatchAsRef2::StringMutable (self_0, other_0),
 			(&Value::BytesImmutable (_, ref self_0, _), &Value::BytesImmutable (_, ref other_0, _)) => ValueKindMatchAsRef2::BytesImmutable (self_0, other_0),
@@ -761,6 +844,9 @@ impl Value {
 			
 			(&Value::Context (_, ref self_0, _), &Value::Context (_, ref other_0, _)) => ValueKindMatchAsRef2::Context (self_0, other_0),
 			(&Value::Binding (_, ref self_0, _), &Value::Binding (_, ref other_0, _)) => ValueKindMatchAsRef2::Binding (self_0, other_0),
+			(&Value::Parameters (_, ref self_0, _), &Value::Parameters (_, ref other_0, _)) => ValueKindMatchAsRef2::Parameters (self_0, other_0),
+			(&Value::Parameter (_, ref self_0, _), &Value::Parameter (_, ref other_0, _)) => ValueKindMatchAsRef2::Parameter (self_0, other_0),
+			(&Value::Promise (_, ref self_0, _), &Value::Promise (_, ref other_0, _)) => ValueKindMatchAsRef2::Promise (self_0, other_0),
 			
 			(&Value::__NonExhaustive, _) => unreachable! (),
 			(_, &Value::__NonExhaustive) => unreachable! (),
@@ -789,6 +875,10 @@ impl Value {
 			Value::Character (_, _, _) => ValueClass::Character,
 			
 			Value::Symbol (_, _, _) => ValueClass::Symbol,
+			Value::Keyword (_, _, _) => ValueClass::Keyword,
+			Value::Unique (_, _, _) => ValueClass::Unique,
+			
+			Value::StringRegex (_, _, _) => ValueClass::StringRegex,
 			Value::StringImmutable (_, _, _) => ValueClass::String,
 			Value::StringMutable (_, _, _) => ValueClass::String,
 			Value::BytesImmutable (_, _, _) => ValueClass::Bytes,
@@ -821,6 +911,9 @@ impl Value {
 			
 			Value::Context (_, _, _) => ValueClass::Internal,
 			Value::Binding (_, _, _) => ValueClass::Internal,
+			Value::Parameters (_, _, _) => ValueClass::Internal,
+			Value::Parameter (_, _, _) => ValueClass::Internal,
+			Value::Promise (_, _, _) => ValueClass::Internal,
 			
 			Value::__NonExhaustive => unreachable! (),
 			
@@ -845,9 +938,12 @@ impl Value {
 			Value::Character (_, ref self_0, _) => ValueClassMatchAsRef::Character (self_0),
 			
 			Value::Symbol (_, ref self_0, _) => ValueClassMatchAsRef::Symbol (self_0),
+			Value::Keyword (_, ref self_0, _) => ValueClassMatchAsRef::Keyword (self_0),
+			Value::Unique (_, ref self_0, _) => ValueClassMatchAsRef::Unique (self_0),
+			
+			Value::StringRegex (_, ref self_0, _) => ValueClassMatchAsRef::StringRegex (self_0),
 			Value::StringImmutable (_, ref self_0, _) => ValueClassMatchAsRef::String (StringMatchAsRef::Immutable (self_0)),
 			Value::StringMutable (_, ref self_0, _) => ValueClassMatchAsRef::String (StringMatchAsRef::Mutable (self_0)),
-			
 			Value::BytesImmutable (_, ref self_0, _) => ValueClassMatchAsRef::Bytes (BytesMatchAsRef::Immutable (self_0)),
 			Value::BytesMutable (_, ref self_0, _) => ValueClassMatchAsRef::Bytes (BytesMatchAsRef::Mutable (self_0)),
 			
@@ -878,6 +974,9 @@ impl Value {
 			
 			Value::Context (_, ref self_0, _) => ValueClassMatchAsRef::Internal (InternalMatchAsRef::Context (self_0)),
 			Value::Binding (_, ref self_0, _) => ValueClassMatchAsRef::Internal (InternalMatchAsRef::Binding (self_0)),
+			Value::Parameters (_, ref self_0, _) => ValueClassMatchAsRef::Internal (InternalMatchAsRef::Parameters (self_0)),
+			Value::Parameter (_, ref self_0, _) => ValueClassMatchAsRef::Internal (InternalMatchAsRef::Parameter (self_0)),
+			Value::Promise (_, ref self_0, _) => ValueClassMatchAsRef::Internal (InternalMatchAsRef::Promise (self_0)),
 			
 			Value::__NonExhaustive => unreachable! (),
 			
@@ -902,9 +1001,12 @@ impl Value {
 			Value::Character (_, self_0, _) => ValueClassMatchInto::Character (self_0),
 			
 			Value::Symbol (_, self_0, _) => ValueClassMatchInto::Symbol (self_0),
+			Value::Keyword (_, self_0, _) => ValueClassMatchInto::Keyword (self_0),
+			Value::Unique (_, self_0, _) => ValueClassMatchInto::Unique (self_0),
+			
+			Value::StringRegex (_, self_0, _) => ValueClassMatchInto::StringRegex (self_0),
 			Value::StringImmutable (_, self_0, _) => ValueClassMatchInto::String (StringMatchInto::Immutable (self_0)),
 			Value::StringMutable (_, self_0, _) => ValueClassMatchInto::String (StringMatchInto::Mutable (self_0)),
-			
 			Value::BytesImmutable (_, self_0, _) => ValueClassMatchInto::Bytes (BytesMatchInto::Immutable (self_0)),
 			Value::BytesMutable (_, self_0, _) => ValueClassMatchInto::Bytes (BytesMatchInto::Mutable (self_0)),
 			
@@ -935,6 +1037,9 @@ impl Value {
 			
 			Value::Context (_, self_0, _) => ValueClassMatchInto::Internal (InternalMatchInto::Context (self_0)),
 			Value::Binding (_, self_0, _) => ValueClassMatchInto::Internal (InternalMatchInto::Binding (self_0)),
+			Value::Parameters (_, self_0, _) => ValueClassMatchInto::Internal (InternalMatchInto::Parameters (self_0)),
+			Value::Parameter (_, self_0, _) => ValueClassMatchInto::Internal (InternalMatchInto::Parameter (self_0)),
+			Value::Promise (_, self_0, _) => ValueClassMatchInto::Internal (InternalMatchInto::Promise (self_0)),
 			
 			Value::__NonExhaustive => unreachable! (),
 			
@@ -968,6 +1073,10 @@ impl Value {
 			(&Value::Character (_, ref self_0, _), &Value::Character (_, ref other_0, _)) => ValueClassMatchAsRef2::Character (self_0, other_0),
 			
 			(&Value::Symbol (_, ref self_0, _), &Value::Symbol (_, ref other_0, _)) => ValueClassMatchAsRef2::Symbol (self_0, other_0),
+			(&Value::Keyword (_, ref self_0, _), &Value::Keyword (_, ref other_0, _)) => ValueClassMatchAsRef2::Keyword (self_0, other_0),
+			(&Value::Unique (_, ref self_0, _), &Value::Unique (_, ref other_0, _)) => ValueClassMatchAsRef2::Unique (self_0, other_0),
+			
+			(&Value::StringRegex (_, ref self_0, _), &Value::StringRegex (_, ref other_0, _)) => ValueClassMatchAsRef2::StringRegex (self_0, other_0),
 			
 			(&Value::StringImmutable (_, ref self_0, _), &Value::StringImmutable (_, ref other_0, _)) => ValueClassMatchAsRef2::String (StringMatchAsRef2::ImmutableBoth (self_0, other_0)),
 			(&Value::StringMutable (_, ref self_0, _), &Value::StringMutable (_, ref other_0, _)) => ValueClassMatchAsRef2::String (StringMatchAsRef2::MutableBoth (self_0, other_0)),
@@ -1075,6 +1184,10 @@ impl Value {
 			ValueKindMatchAsRef2::Character (self_0, other_0) => Character::eq (self_0, other_0),
 			
 			ValueKindMatchAsRef2::Symbol (self_0, other_0) => Symbol::is_self (self_0, other_0),
+			ValueKindMatchAsRef2::Keyword (self_0, other_0) => Keyword::is_self (self_0, other_0),
+			ValueKindMatchAsRef2::Unique (self_0, other_0) => Unique::is_self (self_0, other_0),
+			
+			ValueKindMatchAsRef2::StringRegex (self_0, other_0) => StringRegex::is_self (self_0, other_0),
 			ValueKindMatchAsRef2::StringImmutable (self_0, other_0) => StringImmutable::is_self (self_0, other_0),
 			ValueKindMatchAsRef2::StringMutable (self_0, other_0) => StringMutable::is_self (self_0, other_0),
 			ValueKindMatchAsRef2::BytesImmutable (self_0, other_0) => BytesImmutable::is_self (self_0, other_0),
@@ -1107,6 +1220,9 @@ impl Value {
 			
 			ValueKindMatchAsRef2::Context (self_0, other_0) => Context::is_self (self_0, other_0),
 			ValueKindMatchAsRef2::Binding (self_0, other_0) => Binding::is_self (self_0, other_0),
+			ValueKindMatchAsRef2::Parameters (self_0, other_0) => Parameters::is_self (self_0, other_0),
+			ValueKindMatchAsRef2::Parameter (self_0, other_0) => Parameter::is_self (self_0, other_0),
+			ValueKindMatchAsRef2::Promise (self_0, other_0) => Promise::is_self (self_0, other_0),
 			
 			ValueKindMatchAsRef2::Missmatched => false,
 			
@@ -1125,6 +1241,10 @@ impl Value {
 			Value::Character (_, ref self_0, _) => self_0.clone () .into_0 (),
 			
 			Value::Symbol (_, ref self_0, _) => self_0.clone () .into_0 (),
+			Value::Keyword (_, ref self_0, _) => self_0.clone () .into_0 (),
+			Value::Unique (_, ref self_0, _) => self_0.clone () .into_0 (),
+			
+			Value::StringRegex (_, ref self_0, _) => self_0.clone () .into_0 (),
 			Value::StringImmutable (_, ref self_0, _) => self_0.clone () .into_0 (),
 			Value::StringMutable (_, ref self_0, _) => self_0.to_immutable () .into_0 (),
 			Value::BytesImmutable (_, ref self_0, _) => self_0.clone () .into_0 (),
@@ -1157,6 +1277,9 @@ impl Value {
 			
 			Value::Context (_, _, _) => fail! (0x7e3a414d),
 			Value::Binding (_, _, _) => fail! (0xcf5a0e0d),
+			Value::Parameters (_, _, _) => fail! (0xf71687af),
+			Value::Parameter (_, _, _) => fail! (0x5e58cbae),
+			Value::Promise (_, _, _) => fail! (0xdb79854e),
 			
 			Value::__NonExhaustive => unreachable! (),
 			
@@ -1210,6 +1333,10 @@ impl ValueKindMatchInto {
 			ValueKindMatchInto::Character (value) => value.into (),
 			
 			ValueKindMatchInto::Symbol (value) => value.into (),
+			ValueKindMatchInto::Keyword (value) => value.into (),
+			ValueKindMatchInto::Unique (value) => value.into (),
+			
+			ValueKindMatchInto::StringRegex (value) => value.into (),
 			ValueKindMatchInto::StringImmutable (value) => value.into (),
 			ValueKindMatchInto::StringMutable (value) => value.into (),
 			ValueKindMatchInto::BytesImmutable (value) => value.into (),
@@ -1242,6 +1369,9 @@ impl ValueKindMatchInto {
 			
 			ValueKindMatchInto::Context (value) => value.into (),
 			ValueKindMatchInto::Binding (value) => value.into (),
+			ValueKindMatchInto::Parameters (value) => value.into (),
+			ValueKindMatchInto::Parameter (value) => value.into (),
+			ValueKindMatchInto::Promise (value) => value.into (),
 			
 		}
 		
@@ -1265,6 +1395,10 @@ impl ValueClassMatchInto {
 			ValueClassMatchInto::Character (value) => value.into (),
 			
 			ValueClassMatchInto::Symbol (value) => value.into (),
+			ValueClassMatchInto::Keyword (value) => value.into (),
+			ValueClassMatchInto::Unique (value) => value.into (),
+			
+			ValueClassMatchInto::StringRegex (value) => value.into (),
 			ValueClassMatchInto::String (class) => class.value (),
 			ValueClassMatchInto::Bytes (class) => class.value (),
 			
@@ -1336,8 +1470,11 @@ impl InternalMatchInto {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn value (self) -> (Value) {
 		match self {
-			InternalMatchInto::Binding (value) => value.into (),
 			InternalMatchInto::Context (value) => value.into (),
+			InternalMatchInto::Binding (value) => value.into (),
+			InternalMatchInto::Parameters (value) => value.into (),
+			InternalMatchInto::Parameter (value) => value.into (),
+			InternalMatchInto::Promise (value) => value.into (),
 		}
 	}
 }
@@ -1659,4 +1796,35 @@ impl <'a, T : 'a> StdAsRef<T> for GenericRef<'a, T> {
 		self.generic_ref ()
 	}
 }
+
+
+
+
+macro_rules! def_value_placeholder {
+	( $identifier : ident ) => (
+		
+		#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+		pub struct $identifier ();
+		
+		impl $identifier {
+			pub fn is_self (&self, _ : &Self) -> (bool) {
+				false
+			}
+		}
+		
+		impl fmt::Display for $identifier {
+			fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+				write! (formatter, "{:?}", self)
+			}
+		}
+	);
+}
+
+
+def_value_placeholder! (Keyword);
+def_value_placeholder! (Unique);
+def_value_placeholder! (StringRegex);
+def_value_placeholder! (Parameters);
+def_value_placeholder! (Parameter);
+def_value_placeholder! (Promise);
 
