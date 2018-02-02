@@ -41,6 +41,9 @@ pub mod exports {
 			number_real_compare_1, number_real_compare_1a,
 			character_compare_1, character_compare_1a,
 			symbol_compare_1, symbol_compare_1a,
+			keyword_compare_1, keyword_compare_1a,
+			unique_compare_1, unique_compare_1a,
+			string_regex_compare_1, string_regex_compare_1a,
 			string_compare_1,
 			string_immutable_compare_1, string_immutable_compare_1a,
 			string_mutable_compare_1, string_mutable_compare_1a,
@@ -71,6 +74,9 @@ pub mod exports {
 			process_compare_1, process_compare_1a,
 			context_compare_1, context_compare_1a,
 			binding_compare_1, binding_compare_1a,
+			parameters_compare_1, parameters_compare_1a,
+			parameter_compare_1, parameter_compare_1a,
+			promise_compare_1, promise_compare_1a,
 			
 			compare_2,
 			value_singleton_compare_2, value_singleton_compare_2a,
@@ -80,6 +86,9 @@ pub mod exports {
 			number_real_compare_2, number_real_compare_2a,
 			character_compare_2, character_compare_2a,
 			symbol_compare_2, symbol_compare_2a,
+			keyword_compare_2, keyword_compare_2a,
+			unique_compare_2, unique_compare_2a,
+			string_regex_compare_2, string_regex_compare_2a,
 			string_compare_2,
 			string_immutable_compare_2, string_immutable_compare_2a,
 			string_mutable_compare_2, string_mutable_compare_2a,
@@ -110,6 +119,9 @@ pub mod exports {
 			process_compare_2, process_compare_2a,
 			context_compare_2, context_compare_2a,
 			binding_compare_2, binding_compare_2a,
+			parameters_compare_2, parameters_compare_2a,
+			parameter_compare_2, parameter_compare_2a,
+			promise_compare_2, promise_compare_2a,
 			
 			compare_3,
 			value_singleton_compare_3, value_singleton_compare_3a,
@@ -119,6 +131,9 @@ pub mod exports {
 			number_real_compare_3, number_real_compare_3a,
 			character_compare_3, character_compare_3a,
 			symbol_compare_3, symbol_compare_3a,
+			keyword_compare_3, keyword_compare_3a,
+			unique_compare_3, unique_compare_3a,
+			string_regex_compare_3, string_regex_compare_3a,
 			string_compare_3,
 			string_immutable_compare_3, string_immutable_compare_3a,
 			string_mutable_compare_3, string_mutable_compare_3a,
@@ -149,6 +164,9 @@ pub mod exports {
 			process_compare_3, process_compare_3a,
 			context_compare_3, context_compare_3a,
 			binding_compare_3, binding_compare_3a,
+			parameters_compare_3, parameters_compare_3a,
+			parameter_compare_3, parameter_compare_3a,
+			promise_compare_3, promise_compare_3a,
 			
 			compare_4,
 			value_singleton_compare_4, value_singleton_compare_4a,
@@ -158,6 +176,9 @@ pub mod exports {
 			number_real_compare_4, number_real_compare_4a,
 			character_compare_4, character_compare_4a,
 			symbol_compare_4, symbol_compare_4a,
+			keyword_compare_4, keyword_compare_4a,
+			unique_compare_4, unique_compare_4a,
+			string_regex_compare_4, string_regex_compare_4a,
 			string_compare_4,
 			string_immutable_compare_4, string_immutable_compare_4a,
 			string_mutable_compare_4, string_mutable_compare_4a,
@@ -188,6 +209,9 @@ pub mod exports {
 			process_compare_4, process_compare_4a,
 			context_compare_4, context_compare_4a,
 			binding_compare_4, binding_compare_4a,
+			parameters_compare_4, parameters_compare_4a,
+			parameter_compare_4, parameter_compare_4a,
+			promise_compare_4, promise_compare_4a,
 			
 			compare_n,
 			value_singleton_compare_n, value_singleton_compare_na,
@@ -197,6 +221,9 @@ pub mod exports {
 			number_real_compare_n, number_real_compare_na,
 			character_compare_n, character_compare_na,
 			symbol_compare_n, symbol_compare_na,
+			keyword_compare_n, keyword_compare_na,
+			unique_compare_n, unique_compare_na,
+			string_regex_compare_n, string_regex_compare_na,
 			string_compare_n,
 			string_immutable_compare_n, string_immutable_compare_na,
 			string_mutable_compare_n, string_mutable_compare_na,
@@ -227,6 +254,9 @@ pub mod exports {
 			process_compare_n, process_compare_na,
 			context_compare_n, context_compare_na,
 			binding_compare_n, binding_compare_na,
+			parameters_compare_n, parameters_compare_na,
+			parameter_compare_n, parameter_compare_na,
+			promise_compare_n, promise_compare_na,
 			
 	};
 	
@@ -481,6 +511,15 @@ pub fn compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Co
 		ValueKindMatchAsRef::Symbol (value) =>
 			return symbol_compare_1a (value, comparison),
 		
+		ValueKindMatchAsRef::Keyword (value) =>
+			return keyword_compare_1a (value, comparison),
+		
+		ValueKindMatchAsRef::Unique (value) =>
+			return unique_compare_1a (value, comparison),
+		
+		ValueKindMatchAsRef::StringRegex (value) =>
+			return string_regex_compare_1a (value, comparison),
+		
 		ValueKindMatchAsRef::StringImmutable (value) =>
 			return string_immutable_compare_1a (value, comparison),
 		
@@ -556,6 +595,15 @@ pub fn compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Co
 		ValueKindMatchAsRef::Binding (value) =>
 			return binding_compare_1a (value, comparison),
 		
+		ValueKindMatchAsRef::Parameters (value) =>
+			return parameters_compare_1a (value, comparison),
+		
+		ValueKindMatchAsRef::Parameter (value) =>
+			return parameter_compare_1a (value, comparison),
+		
+		ValueKindMatchAsRef::Promise (value) =>
+			return promise_compare_1a (value, comparison),
+		
 	}
 	
 }
@@ -589,6 +637,15 @@ pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef
 		
 		ValueKindMatchAsRef2::Symbol (left, right) =>
 			return symbol_compare_2a (left, right, comparison),
+		
+		ValueKindMatchAsRef2::Keyword (left, right) =>
+			return keyword_compare_2a (left, right, comparison),
+		
+		ValueKindMatchAsRef2::Unique (left, right) =>
+			return unique_compare_2a (left, right, comparison),
+		
+		ValueKindMatchAsRef2::StringRegex (left, right) =>
+			return string_regex_compare_2a (left, right, comparison),
 		
 		ValueKindMatchAsRef2::StringImmutable (left, right) =>
 			return string_immutable_compare_2a (left, right, comparison),
@@ -664,6 +721,15 @@ pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef
 		
 		ValueKindMatchAsRef2::Binding (left, right) =>
 			return binding_compare_2a (left, right, comparison),
+		
+		ValueKindMatchAsRef2::Parameters (left, right) =>
+			return parameters_compare_2a (left, right, comparison),
+		
+		ValueKindMatchAsRef2::Parameter (left, right) =>
+			return parameter_compare_2a (left, right, comparison),
+		
+		ValueKindMatchAsRef2::Promise (left, right) =>
+			return promise_compare_2a (left, right, comparison),
 		
 		ValueKindMatchAsRef2::Missmatched =>
 			match Value::class_match_as_ref_2 (left, right) {
@@ -898,6 +964,79 @@ pub fn symbol_compare_2a <ValueRef : StdAsRef<Symbol>> (left : ValueRef, right :
 					fail_unimplemented! (0xc4ef7065), // deferred
 			},
 	}
+}
+
+
+
+
+def_fn_compare! (Keyword,
+		keyword_compare_1, keyword_compare_2, keyword_compare_3, keyword_compare_4, keyword_compare_n,
+		keyword_compare_1a, keyword_compare_2a, keyword_compare_3a, keyword_compare_4a, keyword_compare_na);
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn keyword_compare_1a <ValueRef : StdAsRef<Keyword>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn keyword_compare_2a <ValueRef : StdAsRef<Keyword>> (_left : ValueRef, _right : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
+	/*
+	let left = left.as_ref () .string_as_str ();
+	let right = right.as_ref () .string_as_str ();
+	match comparison {
+		Comparison::Equivalence (_, _, _) =>
+			succeed! (str::eq (left, right)),
+		Comparison::Ordering (ordering, case_sensitivity, _) =>
+			match case_sensitivity {
+				None | Some (true) =>
+					return std_ord_compare_2_ordering_val (left, right, ordering),
+				_ =>
+					fail_unimplemented! (0x3a2cf6b7), // deferred
+			},
+	}
+	*/
+	fail_unimplemented! (0xe54acf39);
+}
+
+
+
+
+def_fn_compare! (Unique,
+		unique_compare_1, unique_compare_2, unique_compare_3, unique_compare_4, unique_compare_n,
+		unique_compare_1a, unique_compare_2a, unique_compare_3a, unique_compare_4a, unique_compare_na);
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn unique_compare_1a <ValueRef : StdAsRef<Unique>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn unique_compare_2a <ValueRef : StdAsRef<Unique>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	let left = left.as_ref ();
+	let right = right.as_ref ();
+	match comparison {
+		Comparison::Equivalence (_, _, _) =>
+			succeed! (Unique::eq (left, right)),
+		Comparison::Ordering (ordering, _, _) =>
+			return std_ord_compare_2_ordering_val (left, right, ordering),
+	}
+}
+
+
+
+
+def_fn_compare! (StringRegex,
+		string_regex_compare_1, string_regex_compare_2, string_regex_compare_3, string_regex_compare_4, string_regex_compare_n,
+		string_regex_compare_1a, string_regex_compare_2a, string_regex_compare_3a, string_regex_compare_4a, string_regex_compare_na);
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn string_regex_compare_1a <ValueRef : StdAsRef<StringRegex>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn string_regex_compare_2a <ValueRef : StdAsRef<StringRegex>> (_left : ValueRef, _right : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
+	fail_unimplemented! (0x06a9dbac);
 }
 
 
@@ -1556,6 +1695,57 @@ pub fn binding_compare_2a <ValueRef : StdAsRef<Binding>> (left : ValueRef, right
 		Comparison::Ordering (_, _, _) =>
 			return std_ord_compare_2_ref (left, right, comparison),
 	}
+}
+
+
+
+
+def_fn_compare! (Parameters,
+		parameters_compare_1, parameters_compare_2, parameters_compare_3, parameters_compare_4, parameters_compare_n,
+		parameters_compare_1a, parameters_compare_2a, parameters_compare_3a, parameters_compare_4a, parameters_compare_na);
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn parameters_compare_1a <ValueRef : StdAsRef<Parameters>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn parameters_compare_2a <ValueRef : StdAsRef<Parameters>> (_left : ValueRef, _right : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
+	fail_unimplemented! (0xe857ac8b);
+}
+
+
+
+
+def_fn_compare! (Parameter,
+		parameter_compare_1, parameter_compare_2, parameter_compare_3, parameter_compare_4, parameter_compare_n,
+		parameter_compare_1a, parameter_compare_2a, parameter_compare_3a, parameter_compare_4a, parameter_compare_na);
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn parameter_compare_1a <ValueRef : StdAsRef<Parameter>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn parameter_compare_2a <ValueRef : StdAsRef<Parameter>> (_left : ValueRef, _right : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
+	fail_unimplemented! (0xc8cd8929);
+}
+
+
+
+
+def_fn_compare! (Promise,
+		promise_compare_1, promise_compare_2, promise_compare_3, promise_compare_4, promise_compare_n,
+		promise_compare_1a, promise_compare_2a, promise_compare_3a, promise_compare_4a, promise_compare_na);
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn promise_compare_1a <ValueRef : StdAsRef<Promise>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn promise_compare_2a <ValueRef : StdAsRef<Promise>> (_left : ValueRef, _right : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
+	fail_unimplemented! (0x48381d6c);
 }
 
 
