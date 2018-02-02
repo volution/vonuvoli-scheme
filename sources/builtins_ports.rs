@@ -749,10 +749,9 @@ pub fn port_output_value_display_0 (port : &mut PortBackendWriter, value : &Valu
 			try! (port.char_write_string (string, true));
 		},
 		
-		ValueClassMatchAsRef::Keyword (_value) => {
-			// let string = value.string_as_str ();
-			// try! (port.char_write_string (string, true));
-			fail_unimplemented! (0xce6a3651);
+		ValueClassMatchAsRef::Keyword (value) => {
+			let string = value.string_as_str ();
+			try! (port.char_write_string (string, true));
 		},
 		
 		ValueClassMatchAsRef::Unique (_value) => {

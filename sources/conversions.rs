@@ -185,8 +185,8 @@ impl_from_for_type! (StringMutable, &'static str, value, string_mutable_clone_st
 impl_from_for_type! (Symbol, StdString, value, symbol_new (value));
 impl_from_for_type! (Symbol, &'static str, value, symbol_clone_str (value));
 
-// impl_from_for_type! (Keyword, StdString, value, keyword_new (value));
-// impl_from_for_type! (Keyword, &'static str, value, keyword_clone_str (value));
+impl_from_for_type! (Keyword, StdString, value, keyword_new (value));
+impl_from_for_type! (Keyword, &'static str, value, keyword_clone_str (value));
 
 impl_from_for_type! (PairImmutable, (Value, Value), value, { let (left, right) = value; pair_immutable_new (left, right) });
 impl_from_for_type! (PairMutable, (Value, Value), value, { let (left, right) = value; pair_mutable_new (left, right) });

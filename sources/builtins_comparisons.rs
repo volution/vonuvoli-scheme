@@ -979,8 +979,7 @@ pub fn keyword_compare_1a <ValueRef : StdAsRef<Keyword>> (_value : ValueRef, _co
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn keyword_compare_2a <ValueRef : StdAsRef<Keyword>> (_left : ValueRef, _right : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	/*
+pub fn keyword_compare_2a <ValueRef : StdAsRef<Keyword>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref () .string_as_str ();
 	let right = right.as_ref () .string_as_str ();
 	match comparison {
@@ -994,8 +993,6 @@ pub fn keyword_compare_2a <ValueRef : StdAsRef<Keyword>> (_left : ValueRef, _rig
 					fail_unimplemented! (0x3a2cf6b7), // deferred
 			},
 	}
-	*/
-	fail_unimplemented! (0xe54acf39);
 }
 
 

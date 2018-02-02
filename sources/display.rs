@@ -272,6 +272,36 @@ impl fmt::Display for Symbol {
 
 
 
+impl fmt::Display for Keyword {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		let string = self.string_as_str ();
+		if string.is_empty () {
+			try! (formatter.write_str ("#:||"));
+		} else {
+			try! (formatter.write_str ("#:|"));
+			for character in string.chars () {
+				match character {
+					'|' | '\\' => {
+						try! (formatter.write_char ('\\'));
+						try! (formatter.write_char (character));
+					},
+					' ' ... '~' =>
+						try! (formatter.write_char (character)),
+					_ =>
+						try! (write! (formatter, "\\x{:02x};", character as u32)),
+				}
+			}
+			try! (formatter.write_char ('|'));
+		}
+		succeed! (());
+	}
+}
+
+
+
+
 impl fmt::Display for StringImmutable {
 	
 	#[ inline (never) ]

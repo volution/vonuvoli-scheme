@@ -8,6 +8,7 @@ pub mod exports {
 	pub use super::super::values_numbers::exports::*;
 	
 	pub use super::super::values_symbols::exports::*;
+	pub use super::super::values_keywords::exports::*;
 	pub use super::super::values_strings::exports::*;
 	pub use super::super::values_bytes::exports::*;
 	
