@@ -560,17 +560,31 @@ pub fn execute_test (test : &TestCaseCompiled, transcript : &mut io::Write, verb
 			(),
 		(Some (ref expected_value_without_optimizations), Some (ref expected_value_with_optimizations)) =>
 			match Value::kind_match_as_ref_2 (expected_value_without_optimizations, expected_value_with_optimizations) {
-				ValueKindMatchAsRef2::ProcedureExtended (_, _) |
-				ValueKindMatchAsRef2::ProcedureLambda (_, _) |
-				ValueKindMatchAsRef2::SyntaxExtended (_, _) |
-				ValueKindMatchAsRef2::SyntaxLambda (_, _) |
-				ValueKindMatchAsRef2::RecordKind (_, _) |
-				ValueKindMatchAsRef2::RecordImmutable (_, _) |
-				ValueKindMatchAsRef2::RecordMutable (_, _) |
-				ValueKindMatchAsRef2::Port (_, _) |
-				ValueKindMatchAsRef2::Process (_, _) =>
-					(),
-				_ => {
+				ValueKindMatchAsRef2::Null |
+				ValueKindMatchAsRef2::Void |
+				ValueKindMatchAsRef2::Undefined |
+				ValueKindMatchAsRef2::Singleton (_) |
+				ValueKindMatchAsRef2::Boolean (_, _) |
+				ValueKindMatchAsRef2::NumberInteger (_, _) |
+				ValueKindMatchAsRef2::NumberReal (_, _) |
+				ValueKindMatchAsRef2::Character (_, _) |
+				ValueKindMatchAsRef2::Symbol (_, _) |
+				ValueKindMatchAsRef2::Keyword (_, _) |
+				ValueKindMatchAsRef2::StringRegex (_, _) |
+				ValueKindMatchAsRef2::StringImmutable (_, _) |
+				ValueKindMatchAsRef2::StringMutable (_, _) |
+				ValueKindMatchAsRef2::BytesImmutable (_, _) |
+				ValueKindMatchAsRef2::BytesMutable (_, _) |
+				ValueKindMatchAsRef2::PairImmutable (_, _) |
+				ValueKindMatchAsRef2::PairMutable (_, _) |
+				ValueKindMatchAsRef2::ArrayImmutable (_, _) |
+				ValueKindMatchAsRef2::ArrayMutable (_, _) |
+				ValueKindMatchAsRef2::Values (_, _) |
+				ValueKindMatchAsRef2::Error (_, _) |
+				ValueKindMatchAsRef2::ProcedurePrimitive (_, _) |
+				ValueKindMatchAsRef2::ProcedureNative (_, _) |
+				ValueKindMatchAsRef2::SyntaxPrimitive (_, _) |
+				ValueKindMatchAsRef2::SyntaxNative (_, _) => {
 					let output_matched = try! (equivalent_by_value_strict_recursive_2 (expected_value_without_optimizations, expected_value_with_optimizations));
 					if !output_matched {
 						header_emitted = try! (test_case_header_emit (&test.source, transcript, verbosity_generic, header_emitted, true));
@@ -580,6 +594,24 @@ pub fn execute_test (test : &TestCaseCompiled, transcript : &mut io::Write, verb
 						fail! (0xc8a2813a);
 					}
 				},
+				ValueKindMatchAsRef2::Unique (_, _) |
+				ValueKindMatchAsRef2::RecordKind (_, _) |
+				ValueKindMatchAsRef2::RecordImmutable (_, _) |
+				ValueKindMatchAsRef2::RecordMutable (_, _) |
+				ValueKindMatchAsRef2::ProcedureExtended (_, _) |
+				ValueKindMatchAsRef2::ProcedureLambda (_, _) |
+				ValueKindMatchAsRef2::SyntaxExtended (_, _) |
+				ValueKindMatchAsRef2::SyntaxLambda (_, _) |
+				ValueKindMatchAsRef2::Port (_, _) |
+				ValueKindMatchAsRef2::Process (_, _) |
+				ValueKindMatchAsRef2::Context (_, _) |
+				ValueKindMatchAsRef2::Binding (_, _) |
+				ValueKindMatchAsRef2::Parameters (_, _) |
+				ValueKindMatchAsRef2::Parameter (_, _) |
+				ValueKindMatchAsRef2::Promise (_, _) =>
+					(),
+				ValueKindMatchAsRef2::Missmatched =>
+					fail! (0x670c12cb),
 			},
 		(_, _) =>
 			fail_panic! (0x2f1f97f3),
