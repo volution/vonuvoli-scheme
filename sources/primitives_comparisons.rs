@@ -52,588 +52,123 @@ pub mod exports {
 
 
 
+macro_rules! def_comparison_primitive_enum {
+	( $identifier : ident ) => (
+		
+		#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+		pub enum $identifier {
+			
+			EquivalentByIdentity,
+			EquivalentByValueStrict,
+			EquivalentByValueStrictRecursive,
+			EquivalentByValueCoerced,
+			EquivalentByValueCoercedRecursive,
+			
+			GenericLesser,
+			GenericLesserOrEqual,
+			GenericEqual,
+			GenericGreaterOrEqual,
+			GenericGreater,
+			
+			BooleanLesser,
+			BooleanLesserOrEqual,
+			BooleanEqual,
+			BooleanGreaterOrEqual,
+			BooleanGreater,
+			
+			NumberLesser,
+			NumberLesserOrEqual,
+			NumberEqual,
+			NumberGreaterOrEqual,
+			NumberGreater,
+			
+			CharacterCaseSensitiveLesser,
+			CharacterCaseSensitiveLesserOrEqual,
+			CharacterCaseSensitiveEqual,
+			CharacterCaseSensitiveGreaterOrEqual,
+			CharacterCaseSensitiveGreater,
+			
+			CharacterCaseInsensitiveLesser,
+			CharacterCaseInsensitiveLesserOrEqual,
+			CharacterCaseInsensitiveEqual,
+			CharacterCaseInsensitiveGreaterOrEqual,
+			CharacterCaseInsensitiveGreater,
+			
+			StringCaseSensitiveLesser,
+			StringCaseSensitiveLesserOrEqual,
+			StringCaseSensitiveEqual,
+			StringCaseSensitiveGreaterOrEqual,
+			StringCaseSensitiveGreater,
+			
+			StringCaseInsensitiveLesser,
+			StringCaseInsensitiveLesserOrEqual,
+			StringCaseInsensitiveEqual,
+			StringCaseInsensitiveGreaterOrEqual,
+			StringCaseInsensitiveGreater,
+			
+			SymbolCaseSensitiveLesser,
+			SymbolCaseSensitiveLesserOrEqual,
+			SymbolCaseSensitiveEqual,
+			SymbolCaseSensitiveGreaterOrEqual,
+			SymbolCaseSensitiveGreater,
+			
+			SymbolCaseInsensitiveLesser,
+			SymbolCaseInsensitiveLesserOrEqual,
+			SymbolCaseInsensitiveEqual,
+			SymbolCaseInsensitiveGreaterOrEqual,
+			SymbolCaseInsensitiveGreater,
+			
+			BytesLesser,
+			BytesLesserOrEqual,
+			BytesEqual,
+			BytesGreaterOrEqual,
+			BytesGreater,
+			
+			PairLesser,
+			PairLesserOrEqual,
+			PairEqual,
+			PairGreaterOrEqual,
+			PairGreater,
+			
+			ArrayLesser,
+			ArrayLesserOrEqual,
+			ArrayEqual,
+			ArrayGreaterOrEqual,
+			ArrayGreater,
+			
+			ValuesLesser,
+			ValuesLesserOrEqual,
+			ValuesEqual,
+			ValuesGreaterOrEqual,
+			ValuesGreater,
+			
+			RecordLesser,
+			RecordLesserOrEqual,
+			RecordEqual,
+			RecordGreaterOrEqual,
+			RecordGreater,
+			
+		}
+		
+	);
+}
+
+
+
+
+def_comparison_primitive_enum! (ComparisonPrimitive1);
+def_comparison_primitive_enum! (ComparisonPrimitive2);
+def_comparison_primitive_enum! (ComparisonPrimitive3);
+def_comparison_primitive_enum! (ComparisonPrimitive4);
+def_comparison_primitive_enum! (ComparisonPrimitiveN);
+def_comparison_primitive_enum! (ComparisonPrimitiveV);
+
+
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ComparisonPrimitive0 {}
 
-
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
-pub enum ComparisonPrimitive1 {
-	
-	EquivalentByIdentity,
-	EquivalentByValueStrict,
-	EquivalentByValueStrictRecursive,
-	EquivalentByValueCoerced,
-	EquivalentByValueCoercedRecursive,
-	
-	GenericLesser,
-	GenericLesserOrEqual,
-	GenericEqual,
-	GenericGreaterOrEqual,
-	GenericGreater,
-	
-	BooleanLesser,
-	BooleanLesserOrEqual,
-	BooleanEqual,
-	BooleanGreaterOrEqual,
-	BooleanGreater,
-	
-	NumberLesser,
-	NumberLesserOrEqual,
-	NumberEqual,
-	NumberGreaterOrEqual,
-	NumberGreater,
-	
-	CharacterCaseSensitiveLesser,
-	CharacterCaseSensitiveLesserOrEqual,
-	CharacterCaseSensitiveEqual,
-	CharacterCaseSensitiveGreaterOrEqual,
-	CharacterCaseSensitiveGreater,
-	
-	CharacterCaseInsensitiveLesser,
-	CharacterCaseInsensitiveLesserOrEqual,
-	CharacterCaseInsensitiveEqual,
-	CharacterCaseInsensitiveGreaterOrEqual,
-	CharacterCaseInsensitiveGreater,
-	
-	StringCaseSensitiveLesser,
-	StringCaseSensitiveLesserOrEqual,
-	StringCaseSensitiveEqual,
-	StringCaseSensitiveGreaterOrEqual,
-	StringCaseSensitiveGreater,
-	
-	StringCaseInsensitiveLesser,
-	StringCaseInsensitiveLesserOrEqual,
-	StringCaseInsensitiveEqual,
-	StringCaseInsensitiveGreaterOrEqual,
-	StringCaseInsensitiveGreater,
-	
-	SymbolCaseSensitiveLesser,
-	SymbolCaseSensitiveLesserOrEqual,
-	SymbolCaseSensitiveEqual,
-	SymbolCaseSensitiveGreaterOrEqual,
-	SymbolCaseSensitiveGreater,
-	
-	SymbolCaseInsensitiveLesser,
-	SymbolCaseInsensitiveLesserOrEqual,
-	SymbolCaseInsensitiveEqual,
-	SymbolCaseInsensitiveGreaterOrEqual,
-	SymbolCaseInsensitiveGreater,
-	
-	BytesLesser,
-	BytesLesserOrEqual,
-	BytesEqual,
-	BytesGreaterOrEqual,
-	BytesGreater,
-	
-	PairLesser,
-	PairLesserOrEqual,
-	PairEqual,
-	PairGreaterOrEqual,
-	PairGreater,
-	
-	ArrayLesser,
-	ArrayLesserOrEqual,
-	ArrayEqual,
-	ArrayGreaterOrEqual,
-	ArrayGreater,
-	
-	ValuesLesser,
-	ValuesLesserOrEqual,
-	ValuesEqual,
-	ValuesGreaterOrEqual,
-	ValuesGreater,
-	
-	RecordLesser,
-	RecordLesserOrEqual,
-	RecordEqual,
-	RecordGreaterOrEqual,
-	RecordGreater,
-	
-}
-
-
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
-pub enum ComparisonPrimitive2 {
-	
-	EquivalentByIdentity,
-	EquivalentByValueStrict,
-	EquivalentByValueStrictRecursive,
-	EquivalentByValueCoerced,
-	EquivalentByValueCoercedRecursive,
-	
-	GenericLesser,
-	GenericLesserOrEqual,
-	GenericEqual,
-	GenericGreaterOrEqual,
-	GenericGreater,
-	
-	BooleanLesser,
-	BooleanLesserOrEqual,
-	BooleanEqual,
-	BooleanGreaterOrEqual,
-	BooleanGreater,
-	
-	NumberLesser,
-	NumberLesserOrEqual,
-	NumberEqual,
-	NumberGreaterOrEqual,
-	NumberGreater,
-	
-	CharacterCaseSensitiveLesser,
-	CharacterCaseSensitiveLesserOrEqual,
-	CharacterCaseSensitiveEqual,
-	CharacterCaseSensitiveGreaterOrEqual,
-	CharacterCaseSensitiveGreater,
-	
-	CharacterCaseInsensitiveLesser,
-	CharacterCaseInsensitiveLesserOrEqual,
-	CharacterCaseInsensitiveEqual,
-	CharacterCaseInsensitiveGreaterOrEqual,
-	CharacterCaseInsensitiveGreater,
-	
-	StringCaseSensitiveLesser,
-	StringCaseSensitiveLesserOrEqual,
-	StringCaseSensitiveEqual,
-	StringCaseSensitiveGreaterOrEqual,
-	StringCaseSensitiveGreater,
-	
-	StringCaseInsensitiveLesser,
-	StringCaseInsensitiveLesserOrEqual,
-	StringCaseInsensitiveEqual,
-	StringCaseInsensitiveGreaterOrEqual,
-	StringCaseInsensitiveGreater,
-	
-	SymbolCaseSensitiveLesser,
-	SymbolCaseSensitiveLesserOrEqual,
-	SymbolCaseSensitiveEqual,
-	SymbolCaseSensitiveGreaterOrEqual,
-	SymbolCaseSensitiveGreater,
-	
-	SymbolCaseInsensitiveLesser,
-	SymbolCaseInsensitiveLesserOrEqual,
-	SymbolCaseInsensitiveEqual,
-	SymbolCaseInsensitiveGreaterOrEqual,
-	SymbolCaseInsensitiveGreater,
-	
-	BytesLesser,
-	BytesLesserOrEqual,
-	BytesEqual,
-	BytesGreaterOrEqual,
-	BytesGreater,
-	
-	PairLesser,
-	PairLesserOrEqual,
-	PairEqual,
-	PairGreaterOrEqual,
-	PairGreater,
-	
-	ArrayLesser,
-	ArrayLesserOrEqual,
-	ArrayEqual,
-	ArrayGreaterOrEqual,
-	ArrayGreater,
-	
-	ValuesLesser,
-	ValuesLesserOrEqual,
-	ValuesEqual,
-	ValuesGreaterOrEqual,
-	ValuesGreater,
-	
-	RecordLesser,
-	RecordLesserOrEqual,
-	RecordEqual,
-	RecordGreaterOrEqual,
-	RecordGreater,
-	
-}
-
-
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
-pub enum ComparisonPrimitive3 {
-	
-	EquivalentByIdentity,
-	EquivalentByValueStrict,
-	EquivalentByValueStrictRecursive,
-	EquivalentByValueCoerced,
-	EquivalentByValueCoercedRecursive,
-	
-	GenericLesser,
-	GenericLesserOrEqual,
-	GenericEqual,
-	GenericGreaterOrEqual,
-	GenericGreater,
-	
-	BooleanLesser,
-	BooleanLesserOrEqual,
-	BooleanEqual,
-	BooleanGreaterOrEqual,
-	BooleanGreater,
-	
-	NumberLesser,
-	NumberLesserOrEqual,
-	NumberEqual,
-	NumberGreaterOrEqual,
-	NumberGreater,
-	
-	CharacterCaseSensitiveLesser,
-	CharacterCaseSensitiveLesserOrEqual,
-	CharacterCaseSensitiveEqual,
-	CharacterCaseSensitiveGreaterOrEqual,
-	CharacterCaseSensitiveGreater,
-	
-	CharacterCaseInsensitiveLesser,
-	CharacterCaseInsensitiveLesserOrEqual,
-	CharacterCaseInsensitiveEqual,
-	CharacterCaseInsensitiveGreaterOrEqual,
-	CharacterCaseInsensitiveGreater,
-	
-	StringCaseSensitiveLesser,
-	StringCaseSensitiveLesserOrEqual,
-	StringCaseSensitiveEqual,
-	StringCaseSensitiveGreaterOrEqual,
-	StringCaseSensitiveGreater,
-	
-	StringCaseInsensitiveLesser,
-	StringCaseInsensitiveLesserOrEqual,
-	StringCaseInsensitiveEqual,
-	StringCaseInsensitiveGreaterOrEqual,
-	StringCaseInsensitiveGreater,
-	
-	SymbolCaseSensitiveLesser,
-	SymbolCaseSensitiveLesserOrEqual,
-	SymbolCaseSensitiveEqual,
-	SymbolCaseSensitiveGreaterOrEqual,
-	SymbolCaseSensitiveGreater,
-	
-	SymbolCaseInsensitiveLesser,
-	SymbolCaseInsensitiveLesserOrEqual,
-	SymbolCaseInsensitiveEqual,
-	SymbolCaseInsensitiveGreaterOrEqual,
-	SymbolCaseInsensitiveGreater,
-	
-	BytesLesser,
-	BytesLesserOrEqual,
-	BytesEqual,
-	BytesGreaterOrEqual,
-	BytesGreater,
-	
-	PairLesser,
-	PairLesserOrEqual,
-	PairEqual,
-	PairGreaterOrEqual,
-	PairGreater,
-	
-	ArrayLesser,
-	ArrayLesserOrEqual,
-	ArrayEqual,
-	ArrayGreaterOrEqual,
-	ArrayGreater,
-	
-	ValuesLesser,
-	ValuesLesserOrEqual,
-	ValuesEqual,
-	ValuesGreaterOrEqual,
-	ValuesGreater,
-	
-	RecordLesser,
-	RecordLesserOrEqual,
-	RecordEqual,
-	RecordGreaterOrEqual,
-	RecordGreater,
-	
-}
-
-
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
-pub enum ComparisonPrimitive4 {
-	
-	EquivalentByIdentity,
-	EquivalentByValueStrict,
-	EquivalentByValueStrictRecursive,
-	EquivalentByValueCoerced,
-	EquivalentByValueCoercedRecursive,
-	
-	GenericLesser,
-	GenericLesserOrEqual,
-	GenericEqual,
-	GenericGreaterOrEqual,
-	GenericGreater,
-	
-	BooleanLesser,
-	BooleanLesserOrEqual,
-	BooleanEqual,
-	BooleanGreaterOrEqual,
-	BooleanGreater,
-	
-	NumberLesser,
-	NumberLesserOrEqual,
-	NumberEqual,
-	NumberGreaterOrEqual,
-	NumberGreater,
-	
-	CharacterCaseSensitiveLesser,
-	CharacterCaseSensitiveLesserOrEqual,
-	CharacterCaseSensitiveEqual,
-	CharacterCaseSensitiveGreaterOrEqual,
-	CharacterCaseSensitiveGreater,
-	
-	CharacterCaseInsensitiveLesser,
-	CharacterCaseInsensitiveLesserOrEqual,
-	CharacterCaseInsensitiveEqual,
-	CharacterCaseInsensitiveGreaterOrEqual,
-	CharacterCaseInsensitiveGreater,
-	
-	StringCaseSensitiveLesser,
-	StringCaseSensitiveLesserOrEqual,
-	StringCaseSensitiveEqual,
-	StringCaseSensitiveGreaterOrEqual,
-	StringCaseSensitiveGreater,
-	
-	StringCaseInsensitiveLesser,
-	StringCaseInsensitiveLesserOrEqual,
-	StringCaseInsensitiveEqual,
-	StringCaseInsensitiveGreaterOrEqual,
-	StringCaseInsensitiveGreater,
-	
-	SymbolCaseSensitiveLesser,
-	SymbolCaseSensitiveLesserOrEqual,
-	SymbolCaseSensitiveEqual,
-	SymbolCaseSensitiveGreaterOrEqual,
-	SymbolCaseSensitiveGreater,
-	
-	SymbolCaseInsensitiveLesser,
-	SymbolCaseInsensitiveLesserOrEqual,
-	SymbolCaseInsensitiveEqual,
-	SymbolCaseInsensitiveGreaterOrEqual,
-	SymbolCaseInsensitiveGreater,
-	
-	BytesLesser,
-	BytesLesserOrEqual,
-	BytesEqual,
-	BytesGreaterOrEqual,
-	BytesGreater,
-	
-	PairLesser,
-	PairLesserOrEqual,
-	PairEqual,
-	PairGreaterOrEqual,
-	PairGreater,
-	
-	ArrayLesser,
-	ArrayLesserOrEqual,
-	ArrayEqual,
-	ArrayGreaterOrEqual,
-	ArrayGreater,
-	
-	ValuesLesser,
-	ValuesLesserOrEqual,
-	ValuesEqual,
-	ValuesGreaterOrEqual,
-	ValuesGreater,
-	
-	RecordLesser,
-	RecordLesserOrEqual,
-	RecordEqual,
-	RecordGreaterOrEqual,
-	RecordGreater,
-	
-}
-
-
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ComparisonPrimitive5 {}
-
-
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
-pub enum ComparisonPrimitiveN {
-	
-	EquivalentByIdentity,
-	EquivalentByValueStrict,
-	EquivalentByValueStrictRecursive,
-	EquivalentByValueCoerced,
-	EquivalentByValueCoercedRecursive,
-	
-	GenericLesser,
-	GenericLesserOrEqual,
-	GenericEqual,
-	GenericGreaterOrEqual,
-	GenericGreater,
-	
-	BooleanLesser,
-	BooleanLesserOrEqual,
-	BooleanEqual,
-	BooleanGreaterOrEqual,
-	BooleanGreater,
-	
-	NumberLesser,
-	NumberLesserOrEqual,
-	NumberEqual,
-	NumberGreaterOrEqual,
-	NumberGreater,
-	
-	CharacterCaseSensitiveLesser,
-	CharacterCaseSensitiveLesserOrEqual,
-	CharacterCaseSensitiveEqual,
-	CharacterCaseSensitiveGreaterOrEqual,
-	CharacterCaseSensitiveGreater,
-	
-	CharacterCaseInsensitiveLesser,
-	CharacterCaseInsensitiveLesserOrEqual,
-	CharacterCaseInsensitiveEqual,
-	CharacterCaseInsensitiveGreaterOrEqual,
-	CharacterCaseInsensitiveGreater,
-	
-	StringCaseSensitiveLesser,
-	StringCaseSensitiveLesserOrEqual,
-	StringCaseSensitiveEqual,
-	StringCaseSensitiveGreaterOrEqual,
-	StringCaseSensitiveGreater,
-	
-	StringCaseInsensitiveLesser,
-	StringCaseInsensitiveLesserOrEqual,
-	StringCaseInsensitiveEqual,
-	StringCaseInsensitiveGreaterOrEqual,
-	StringCaseInsensitiveGreater,
-	
-	SymbolCaseSensitiveLesser,
-	SymbolCaseSensitiveLesserOrEqual,
-	SymbolCaseSensitiveEqual,
-	SymbolCaseSensitiveGreaterOrEqual,
-	SymbolCaseSensitiveGreater,
-	
-	SymbolCaseInsensitiveLesser,
-	SymbolCaseInsensitiveLesserOrEqual,
-	SymbolCaseInsensitiveEqual,
-	SymbolCaseInsensitiveGreaterOrEqual,
-	SymbolCaseInsensitiveGreater,
-	
-	BytesLesser,
-	BytesLesserOrEqual,
-	BytesEqual,
-	BytesGreaterOrEqual,
-	BytesGreater,
-	
-	PairLesser,
-	PairLesserOrEqual,
-	PairEqual,
-	PairGreaterOrEqual,
-	PairGreater,
-	
-	ArrayLesser,
-	ArrayLesserOrEqual,
-	ArrayEqual,
-	ArrayGreaterOrEqual,
-	ArrayGreater,
-	
-	ValuesLesser,
-	ValuesLesserOrEqual,
-	ValuesEqual,
-	ValuesGreaterOrEqual,
-	ValuesGreater,
-	
-	RecordLesser,
-	RecordLesserOrEqual,
-	RecordEqual,
-	RecordGreaterOrEqual,
-	RecordGreater,
-	
-}
-
-
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
-pub enum ComparisonPrimitiveV {
-	
-	EquivalentByIdentity,
-	EquivalentByValueStrict,
-	EquivalentByValueStrictRecursive,
-	EquivalentByValueCoerced,
-	EquivalentByValueCoercedRecursive,
-	
-	GenericLesser,
-	GenericLesserOrEqual,
-	GenericEqual,
-	GenericGreaterOrEqual,
-	GenericGreater,
-	
-	BooleanLesser,
-	BooleanLesserOrEqual,
-	BooleanEqual,
-	BooleanGreaterOrEqual,
-	BooleanGreater,
-	
-	NumberLesser,
-	NumberLesserOrEqual,
-	NumberEqual,
-	NumberGreaterOrEqual,
-	NumberGreater,
-	
-	CharacterCaseSensitiveLesser,
-	CharacterCaseSensitiveLesserOrEqual,
-	CharacterCaseSensitiveEqual,
-	CharacterCaseSensitiveGreaterOrEqual,
-	CharacterCaseSensitiveGreater,
-	
-	CharacterCaseInsensitiveLesser,
-	CharacterCaseInsensitiveLesserOrEqual,
-	CharacterCaseInsensitiveEqual,
-	CharacterCaseInsensitiveGreaterOrEqual,
-	CharacterCaseInsensitiveGreater,
-	
-	StringCaseSensitiveLesser,
-	StringCaseSensitiveLesserOrEqual,
-	StringCaseSensitiveEqual,
-	StringCaseSensitiveGreaterOrEqual,
-	StringCaseSensitiveGreater,
-	
-	StringCaseInsensitiveLesser,
-	StringCaseInsensitiveLesserOrEqual,
-	StringCaseInsensitiveEqual,
-	StringCaseInsensitiveGreaterOrEqual,
-	StringCaseInsensitiveGreater,
-	
-	SymbolCaseSensitiveLesser,
-	SymbolCaseSensitiveLesserOrEqual,
-	SymbolCaseSensitiveEqual,
-	SymbolCaseSensitiveGreaterOrEqual,
-	SymbolCaseSensitiveGreater,
-	
-	SymbolCaseInsensitiveLesser,
-	SymbolCaseInsensitiveLesserOrEqual,
-	SymbolCaseInsensitiveEqual,
-	SymbolCaseInsensitiveGreaterOrEqual,
-	SymbolCaseInsensitiveGreater,
-	
-	BytesLesser,
-	BytesLesserOrEqual,
-	BytesEqual,
-	BytesGreaterOrEqual,
-	BytesGreater,
-	
-	PairLesser,
-	PairLesserOrEqual,
-	PairEqual,
-	PairGreaterOrEqual,
-	PairGreater,
-	
-	ArrayLesser,
-	ArrayLesserOrEqual,
-	ArrayEqual,
-	ArrayGreaterOrEqual,
-	ArrayGreater,
-	
-	ValuesLesser,
-	ValuesLesserOrEqual,
-	ValuesEqual,
-	ValuesGreaterOrEqual,
-	ValuesGreater,
-	
-	RecordLesser,
-	RecordLesserOrEqual,
-	RecordEqual,
-	RecordGreaterOrEqual,
-	RecordGreater,
-	
-}
 
 
 
@@ -1829,1115 +1364,187 @@ pub fn comparison_primitive_n_evaluate (primitive : ComparisonPrimitiveN, inputs
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn comparison_primitive_v_alternative_0 (primitive : ComparisonPrimitiveV) -> (Option<ComparisonPrimitive0>) {
-	match primitive {
-		ComparisonPrimitiveV::EquivalentByIdentity =>
-			None,
-		ComparisonPrimitiveV::EquivalentByValueStrict =>
-			None,
-		ComparisonPrimitiveV::EquivalentByValueStrictRecursive =>
-			None,
-		ComparisonPrimitiveV::EquivalentByValueCoerced =>
-			None,
-		ComparisonPrimitiveV::EquivalentByValueCoercedRecursive =>
-			None,
-		ComparisonPrimitiveV::GenericLesser =>
-			None,
-		ComparisonPrimitiveV::GenericLesserOrEqual =>
-			None,
-		ComparisonPrimitiveV::GenericEqual =>
-			None,
-		ComparisonPrimitiveV::GenericGreaterOrEqual =>
-			None,
-		ComparisonPrimitiveV::GenericGreater =>
-			None,
-		ComparisonPrimitiveV::BooleanLesser =>
-			None,
-		ComparisonPrimitiveV::BooleanLesserOrEqual =>
-			None,
-		ComparisonPrimitiveV::BooleanEqual =>
-			None,
-		ComparisonPrimitiveV::BooleanGreaterOrEqual =>
-			None,
-		ComparisonPrimitiveV::BooleanGreater =>
-			None,
-		ComparisonPrimitiveV::NumberLesser =>
-			None,
-		ComparisonPrimitiveV::NumberLesserOrEqual =>
-			None,
-		ComparisonPrimitiveV::NumberEqual =>
-			None,
-		ComparisonPrimitiveV::NumberGreaterOrEqual =>
-			None,
-		ComparisonPrimitiveV::NumberGreater =>
-			None,
-		ComparisonPrimitiveV::CharacterCaseSensitiveLesser =>
-			None,
-		ComparisonPrimitiveV::CharacterCaseSensitiveLesserOrEqual =>
-			None,
-		ComparisonPrimitiveV::CharacterCaseSensitiveEqual =>
-			None,
-		ComparisonPrimitiveV::CharacterCaseSensitiveGreaterOrEqual =>
-			None,
-		ComparisonPrimitiveV::CharacterCaseSensitiveGreater =>
-			None,
-		ComparisonPrimitiveV::CharacterCaseInsensitiveLesser =>
-			None,
-		ComparisonPrimitiveV::CharacterCaseInsensitiveLesserOrEqual =>
-			None,
-		ComparisonPrimitiveV::CharacterCaseInsensitiveEqual =>
-			None,
-		ComparisonPrimitiveV::CharacterCaseInsensitiveGreaterOrEqual =>
-			None,
-		ComparisonPrimitiveV::CharacterCaseInsensitiveGreater =>
-			None,
-		ComparisonPrimitiveV::StringCaseSensitiveLesser =>
-			None,
-		ComparisonPrimitiveV::StringCaseSensitiveLesserOrEqual =>
-			None,
-		ComparisonPrimitiveV::StringCaseSensitiveEqual =>
-			None,
-		ComparisonPrimitiveV::StringCaseSensitiveGreaterOrEqual =>
-			None,
-		ComparisonPrimitiveV::StringCaseSensitiveGreater =>
-			None,
-		ComparisonPrimitiveV::StringCaseInsensitiveLesser =>
-			None,
-		ComparisonPrimitiveV::StringCaseInsensitiveLesserOrEqual =>
-			None,
-		ComparisonPrimitiveV::StringCaseInsensitiveEqual =>
-			None,
-		ComparisonPrimitiveV::StringCaseInsensitiveGreaterOrEqual =>
-			None,
-		ComparisonPrimitiveV::StringCaseInsensitiveGreater =>
-			None,
-		ComparisonPrimitiveV::SymbolCaseSensitiveLesser =>
-			None,
-		ComparisonPrimitiveV::SymbolCaseSensitiveLesserOrEqual =>
-			None,
-		ComparisonPrimitiveV::SymbolCaseSensitiveEqual =>
-			None,
-		ComparisonPrimitiveV::SymbolCaseSensitiveGreaterOrEqual =>
-			None,
-		ComparisonPrimitiveV::SymbolCaseSensitiveGreater =>
-			None,
-		ComparisonPrimitiveV::SymbolCaseInsensitiveLesser =>
-			None,
-		ComparisonPrimitiveV::SymbolCaseInsensitiveLesserOrEqual =>
-			None,
-		ComparisonPrimitiveV::SymbolCaseInsensitiveEqual =>
-			None,
-		ComparisonPrimitiveV::SymbolCaseInsensitiveGreaterOrEqual =>
-			None,
-		ComparisonPrimitiveV::SymbolCaseInsensitiveGreater =>
-			None,
-		ComparisonPrimitiveV::BytesLesser =>
-			None,
-		ComparisonPrimitiveV::BytesLesserOrEqual =>
-			None,
-		ComparisonPrimitiveV::BytesEqual =>
-			None,
-		ComparisonPrimitiveV::BytesGreaterOrEqual =>
-			None,
-		ComparisonPrimitiveV::BytesGreater =>
-			None,
-		ComparisonPrimitiveV::PairLesser =>
-			None,
-		ComparisonPrimitiveV::PairLesserOrEqual =>
-			None,
-		ComparisonPrimitiveV::PairEqual =>
-			None,
-		ComparisonPrimitiveV::PairGreaterOrEqual =>
-			None,
-		ComparisonPrimitiveV::PairGreater =>
-			None,
-		ComparisonPrimitiveV::ArrayLesser =>
-			None,
-		ComparisonPrimitiveV::ArrayLesserOrEqual =>
-			None,
-		ComparisonPrimitiveV::ArrayEqual =>
-			None,
-		ComparisonPrimitiveV::ArrayGreaterOrEqual =>
-			None,
-		ComparisonPrimitiveV::ArrayGreater =>
-			None,
-		ComparisonPrimitiveV::ValuesLesser =>
-			None,
-		ComparisonPrimitiveV::ValuesLesserOrEqual =>
-			None,
-		ComparisonPrimitiveV::ValuesEqual =>
-			None,
-		ComparisonPrimitiveV::ValuesGreaterOrEqual =>
-			None,
-		ComparisonPrimitiveV::ValuesGreater =>
-			None,
-		ComparisonPrimitiveV::RecordLesser =>
-			None,
-		ComparisonPrimitiveV::RecordLesserOrEqual =>
-			None,
-		ComparisonPrimitiveV::RecordEqual =>
-			None,
-		ComparisonPrimitiveV::RecordGreaterOrEqual =>
-			None,
-		ComparisonPrimitiveV::RecordGreater =>
-			None,
-	}
+macro_rules! def_comparison_primitive_v_alternative_fn {
+	( $identifier : ident, $alternative : ident ) => (
+		
+		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+		pub fn $identifier (primitive : ComparisonPrimitiveV) -> (Option<$alternative>) {
+			match primitive {
+				ComparisonPrimitiveV::EquivalentByIdentity =>
+					Some ($alternative::EquivalentByIdentity),
+				ComparisonPrimitiveV::EquivalentByValueStrict =>
+					Some ($alternative::EquivalentByValueStrict),
+				ComparisonPrimitiveV::EquivalentByValueStrictRecursive =>
+					Some ($alternative::EquivalentByValueStrictRecursive),
+				ComparisonPrimitiveV::EquivalentByValueCoerced =>
+					Some ($alternative::EquivalentByValueCoerced),
+				ComparisonPrimitiveV::EquivalentByValueCoercedRecursive =>
+					Some ($alternative::EquivalentByValueCoercedRecursive),
+				ComparisonPrimitiveV::GenericLesser =>
+					Some ($alternative::GenericLesser),
+				ComparisonPrimitiveV::GenericLesserOrEqual =>
+					Some ($alternative::GenericLesserOrEqual),
+				ComparisonPrimitiveV::GenericEqual =>
+					Some ($alternative::GenericEqual),
+				ComparisonPrimitiveV::GenericGreaterOrEqual =>
+					Some ($alternative::GenericGreaterOrEqual),
+				ComparisonPrimitiveV::GenericGreater =>
+					Some ($alternative::GenericGreater),
+				ComparisonPrimitiveV::BooleanLesser =>
+					Some ($alternative::BooleanLesser),
+				ComparisonPrimitiveV::BooleanLesserOrEqual =>
+					Some ($alternative::BooleanLesserOrEqual),
+				ComparisonPrimitiveV::BooleanEqual =>
+					Some ($alternative::BooleanEqual),
+				ComparisonPrimitiveV::BooleanGreaterOrEqual =>
+					Some ($alternative::BooleanGreaterOrEqual),
+				ComparisonPrimitiveV::BooleanGreater =>
+					Some ($alternative::BooleanGreater),
+				ComparisonPrimitiveV::NumberLesser =>
+					Some ($alternative::NumberLesser),
+				ComparisonPrimitiveV::NumberLesserOrEqual =>
+					Some ($alternative::NumberLesserOrEqual),
+				ComparisonPrimitiveV::NumberEqual =>
+					Some ($alternative::NumberEqual),
+				ComparisonPrimitiveV::NumberGreaterOrEqual =>
+					Some ($alternative::NumberGreaterOrEqual),
+				ComparisonPrimitiveV::NumberGreater =>
+					Some ($alternative::NumberGreater),
+				ComparisonPrimitiveV::CharacterCaseSensitiveLesser =>
+					Some ($alternative::CharacterCaseSensitiveLesser),
+				ComparisonPrimitiveV::CharacterCaseSensitiveLesserOrEqual =>
+					Some ($alternative::CharacterCaseSensitiveLesserOrEqual),
+				ComparisonPrimitiveV::CharacterCaseSensitiveEqual =>
+					Some ($alternative::CharacterCaseSensitiveEqual),
+				ComparisonPrimitiveV::CharacterCaseSensitiveGreaterOrEqual =>
+					Some ($alternative::CharacterCaseSensitiveGreaterOrEqual),
+				ComparisonPrimitiveV::CharacterCaseSensitiveGreater =>
+					Some ($alternative::CharacterCaseSensitiveGreater),
+				ComparisonPrimitiveV::CharacterCaseInsensitiveLesser =>
+					Some ($alternative::CharacterCaseInsensitiveLesser),
+				ComparisonPrimitiveV::CharacterCaseInsensitiveLesserOrEqual =>
+					Some ($alternative::CharacterCaseInsensitiveLesserOrEqual),
+				ComparisonPrimitiveV::CharacterCaseInsensitiveEqual =>
+					Some ($alternative::CharacterCaseInsensitiveEqual),
+				ComparisonPrimitiveV::CharacterCaseInsensitiveGreaterOrEqual =>
+					Some ($alternative::CharacterCaseInsensitiveGreaterOrEqual),
+				ComparisonPrimitiveV::CharacterCaseInsensitiveGreater =>
+					Some ($alternative::CharacterCaseInsensitiveGreater),
+				ComparisonPrimitiveV::StringCaseSensitiveLesser =>
+					Some ($alternative::StringCaseSensitiveLesser),
+				ComparisonPrimitiveV::StringCaseSensitiveLesserOrEqual =>
+					Some ($alternative::StringCaseSensitiveLesserOrEqual),
+				ComparisonPrimitiveV::StringCaseSensitiveEqual =>
+					Some ($alternative::StringCaseSensitiveEqual),
+				ComparisonPrimitiveV::StringCaseSensitiveGreaterOrEqual =>
+					Some ($alternative::StringCaseSensitiveGreaterOrEqual),
+				ComparisonPrimitiveV::StringCaseSensitiveGreater =>
+					Some ($alternative::StringCaseSensitiveGreater),
+				ComparisonPrimitiveV::StringCaseInsensitiveLesser =>
+					Some ($alternative::StringCaseInsensitiveLesser),
+				ComparisonPrimitiveV::StringCaseInsensitiveLesserOrEqual =>
+					Some ($alternative::StringCaseInsensitiveLesserOrEqual),
+				ComparisonPrimitiveV::StringCaseInsensitiveEqual =>
+					Some ($alternative::StringCaseInsensitiveEqual),
+				ComparisonPrimitiveV::StringCaseInsensitiveGreaterOrEqual =>
+					Some ($alternative::StringCaseInsensitiveGreaterOrEqual),
+				ComparisonPrimitiveV::StringCaseInsensitiveGreater =>
+					Some ($alternative::StringCaseInsensitiveGreater),
+				ComparisonPrimitiveV::SymbolCaseSensitiveLesser =>
+					Some ($alternative::SymbolCaseSensitiveLesser),
+				ComparisonPrimitiveV::SymbolCaseSensitiveLesserOrEqual =>
+					Some ($alternative::SymbolCaseSensitiveLesserOrEqual),
+				ComparisonPrimitiveV::SymbolCaseSensitiveEqual =>
+					Some ($alternative::SymbolCaseSensitiveEqual),
+				ComparisonPrimitiveV::SymbolCaseSensitiveGreaterOrEqual =>
+					Some ($alternative::SymbolCaseSensitiveGreaterOrEqual),
+				ComparisonPrimitiveV::SymbolCaseSensitiveGreater =>
+					Some ($alternative::SymbolCaseSensitiveGreater),
+				ComparisonPrimitiveV::SymbolCaseInsensitiveLesser =>
+					Some ($alternative::SymbolCaseInsensitiveLesser),
+				ComparisonPrimitiveV::SymbolCaseInsensitiveLesserOrEqual =>
+					Some ($alternative::SymbolCaseInsensitiveLesserOrEqual),
+				ComparisonPrimitiveV::SymbolCaseInsensitiveEqual =>
+					Some ($alternative::SymbolCaseInsensitiveEqual),
+				ComparisonPrimitiveV::SymbolCaseInsensitiveGreaterOrEqual =>
+					Some ($alternative::SymbolCaseInsensitiveGreaterOrEqual),
+				ComparisonPrimitiveV::SymbolCaseInsensitiveGreater =>
+					Some ($alternative::SymbolCaseInsensitiveGreater),
+				ComparisonPrimitiveV::BytesLesser =>
+					Some ($alternative::BytesLesser),
+				ComparisonPrimitiveV::BytesLesserOrEqual =>
+					Some ($alternative::BytesLesserOrEqual),
+				ComparisonPrimitiveV::BytesEqual =>
+					Some ($alternative::BytesEqual),
+				ComparisonPrimitiveV::BytesGreaterOrEqual =>
+					Some ($alternative::BytesGreaterOrEqual),
+				ComparisonPrimitiveV::BytesGreater =>
+					Some ($alternative::BytesGreater),
+				ComparisonPrimitiveV::PairLesser =>
+					Some ($alternative::PairLesser),
+				ComparisonPrimitiveV::PairLesserOrEqual =>
+					Some ($alternative::PairLesserOrEqual),
+				ComparisonPrimitiveV::PairEqual =>
+					Some ($alternative::PairEqual),
+				ComparisonPrimitiveV::PairGreaterOrEqual =>
+					Some ($alternative::PairGreaterOrEqual),
+				ComparisonPrimitiveV::PairGreater =>
+					Some ($alternative::PairGreater),
+				ComparisonPrimitiveV::ArrayLesser =>
+					Some ($alternative::ArrayLesser),
+				ComparisonPrimitiveV::ArrayLesserOrEqual =>
+					Some ($alternative::ArrayLesserOrEqual),
+				ComparisonPrimitiveV::ArrayEqual =>
+					Some ($alternative::ArrayEqual),
+				ComparisonPrimitiveV::ArrayGreaterOrEqual =>
+					Some ($alternative::ArrayGreaterOrEqual),
+				ComparisonPrimitiveV::ArrayGreater =>
+					Some ($alternative::ArrayGreater),
+				ComparisonPrimitiveV::ValuesLesser =>
+					Some ($alternative::ValuesLesser),
+				ComparisonPrimitiveV::ValuesLesserOrEqual =>
+					Some ($alternative::ValuesLesserOrEqual),
+				ComparisonPrimitiveV::ValuesEqual =>
+					Some ($alternative::ValuesEqual),
+				ComparisonPrimitiveV::ValuesGreaterOrEqual =>
+					Some ($alternative::ValuesGreaterOrEqual),
+				ComparisonPrimitiveV::ValuesGreater =>
+					Some ($alternative::ValuesGreater),
+				ComparisonPrimitiveV::RecordLesser =>
+					Some ($alternative::RecordLesser),
+				ComparisonPrimitiveV::RecordLesserOrEqual =>
+					Some ($alternative::RecordLesserOrEqual),
+				ComparisonPrimitiveV::RecordEqual =>
+					Some ($alternative::RecordEqual),
+				ComparisonPrimitiveV::RecordGreaterOrEqual =>
+					Some ($alternative::RecordGreaterOrEqual),
+				ComparisonPrimitiveV::RecordGreater =>
+					Some ($alternative::RecordGreater),
+			}
+		}
+		
+	);
 }
 
 
-
+def_comparison_primitive_v_alternative_fn! (comparison_primitive_v_alternative_1, ComparisonPrimitive1);
+def_comparison_primitive_v_alternative_fn! (comparison_primitive_v_alternative_2, ComparisonPrimitive2);
+def_comparison_primitive_v_alternative_fn! (comparison_primitive_v_alternative_3, ComparisonPrimitive3);
+def_comparison_primitive_v_alternative_fn! (comparison_primitive_v_alternative_4, ComparisonPrimitive4);
+def_comparison_primitive_v_alternative_fn! (comparison_primitive_v_alternative_n, ComparisonPrimitiveN);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn comparison_primitive_v_alternative_1 (primitive : ComparisonPrimitiveV) -> (Option<ComparisonPrimitive1>) {
-	match primitive {
-		ComparisonPrimitiveV::EquivalentByIdentity =>
-			Some (ComparisonPrimitive1::EquivalentByIdentity),
-		ComparisonPrimitiveV::EquivalentByValueStrict =>
-			Some (ComparisonPrimitive1::EquivalentByValueStrict),
-		ComparisonPrimitiveV::EquivalentByValueStrictRecursive =>
-			Some (ComparisonPrimitive1::EquivalentByValueStrictRecursive),
-		ComparisonPrimitiveV::EquivalentByValueCoerced =>
-			Some (ComparisonPrimitive1::EquivalentByValueCoerced),
-		ComparisonPrimitiveV::EquivalentByValueCoercedRecursive =>
-			Some (ComparisonPrimitive1::EquivalentByValueCoercedRecursive),
-		ComparisonPrimitiveV::GenericLesser =>
-			Some (ComparisonPrimitive1::GenericLesser),
-		ComparisonPrimitiveV::GenericLesserOrEqual =>
-			Some (ComparisonPrimitive1::GenericLesserOrEqual),
-		ComparisonPrimitiveV::GenericEqual =>
-			Some (ComparisonPrimitive1::GenericEqual),
-		ComparisonPrimitiveV::GenericGreaterOrEqual =>
-			Some (ComparisonPrimitive1::GenericGreaterOrEqual),
-		ComparisonPrimitiveV::GenericGreater =>
-			Some (ComparisonPrimitive1::GenericGreater),
-		ComparisonPrimitiveV::BooleanLesser =>
-			Some (ComparisonPrimitive1::BooleanLesser),
-		ComparisonPrimitiveV::BooleanLesserOrEqual =>
-			Some (ComparisonPrimitive1::BooleanLesserOrEqual),
-		ComparisonPrimitiveV::BooleanEqual =>
-			Some (ComparisonPrimitive1::BooleanEqual),
-		ComparisonPrimitiveV::BooleanGreaterOrEqual =>
-			Some (ComparisonPrimitive1::BooleanGreaterOrEqual),
-		ComparisonPrimitiveV::BooleanGreater =>
-			Some (ComparisonPrimitive1::BooleanGreater),
-		ComparisonPrimitiveV::NumberLesser =>
-			Some (ComparisonPrimitive1::NumberLesser),
-		ComparisonPrimitiveV::NumberLesserOrEqual =>
-			Some (ComparisonPrimitive1::NumberLesserOrEqual),
-		ComparisonPrimitiveV::NumberEqual =>
-			Some (ComparisonPrimitive1::NumberEqual),
-		ComparisonPrimitiveV::NumberGreaterOrEqual =>
-			Some (ComparisonPrimitive1::NumberGreaterOrEqual),
-		ComparisonPrimitiveV::NumberGreater =>
-			Some (ComparisonPrimitive1::NumberGreater),
-		ComparisonPrimitiveV::CharacterCaseSensitiveLesser =>
-			Some (ComparisonPrimitive1::CharacterCaseSensitiveLesser),
-		ComparisonPrimitiveV::CharacterCaseSensitiveLesserOrEqual =>
-			Some (ComparisonPrimitive1::CharacterCaseSensitiveLesserOrEqual),
-		ComparisonPrimitiveV::CharacterCaseSensitiveEqual =>
-			Some (ComparisonPrimitive1::CharacterCaseSensitiveEqual),
-		ComparisonPrimitiveV::CharacterCaseSensitiveGreaterOrEqual =>
-			Some (ComparisonPrimitive1::CharacterCaseSensitiveGreaterOrEqual),
-		ComparisonPrimitiveV::CharacterCaseSensitiveGreater =>
-			Some (ComparisonPrimitive1::CharacterCaseSensitiveGreater),
-		ComparisonPrimitiveV::CharacterCaseInsensitiveLesser =>
-			Some (ComparisonPrimitive1::CharacterCaseInsensitiveLesser),
-		ComparisonPrimitiveV::CharacterCaseInsensitiveLesserOrEqual =>
-			Some (ComparisonPrimitive1::CharacterCaseInsensitiveLesserOrEqual),
-		ComparisonPrimitiveV::CharacterCaseInsensitiveEqual =>
-			Some (ComparisonPrimitive1::CharacterCaseInsensitiveEqual),
-		ComparisonPrimitiveV::CharacterCaseInsensitiveGreaterOrEqual =>
-			Some (ComparisonPrimitive1::CharacterCaseInsensitiveGreaterOrEqual),
-		ComparisonPrimitiveV::CharacterCaseInsensitiveGreater =>
-			Some (ComparisonPrimitive1::CharacterCaseInsensitiveGreater),
-		ComparisonPrimitiveV::StringCaseSensitiveLesser =>
-			Some (ComparisonPrimitive1::StringCaseSensitiveLesser),
-		ComparisonPrimitiveV::StringCaseSensitiveLesserOrEqual =>
-			Some (ComparisonPrimitive1::StringCaseSensitiveLesserOrEqual),
-		ComparisonPrimitiveV::StringCaseSensitiveEqual =>
-			Some (ComparisonPrimitive1::StringCaseSensitiveEqual),
-		ComparisonPrimitiveV::StringCaseSensitiveGreaterOrEqual =>
-			Some (ComparisonPrimitive1::StringCaseSensitiveGreaterOrEqual),
-		ComparisonPrimitiveV::StringCaseSensitiveGreater =>
-			Some (ComparisonPrimitive1::StringCaseSensitiveGreater),
-		ComparisonPrimitiveV::StringCaseInsensitiveLesser =>
-			Some (ComparisonPrimitive1::StringCaseInsensitiveLesser),
-		ComparisonPrimitiveV::StringCaseInsensitiveLesserOrEqual =>
-			Some (ComparisonPrimitive1::StringCaseInsensitiveLesserOrEqual),
-		ComparisonPrimitiveV::StringCaseInsensitiveEqual =>
-			Some (ComparisonPrimitive1::StringCaseInsensitiveEqual),
-		ComparisonPrimitiveV::StringCaseInsensitiveGreaterOrEqual =>
-			Some (ComparisonPrimitive1::StringCaseInsensitiveGreaterOrEqual),
-		ComparisonPrimitiveV::StringCaseInsensitiveGreater =>
-			Some (ComparisonPrimitive1::StringCaseInsensitiveGreater),
-		ComparisonPrimitiveV::SymbolCaseSensitiveLesser =>
-			Some (ComparisonPrimitive1::SymbolCaseSensitiveLesser),
-		ComparisonPrimitiveV::SymbolCaseSensitiveLesserOrEqual =>
-			Some (ComparisonPrimitive1::SymbolCaseSensitiveLesserOrEqual),
-		ComparisonPrimitiveV::SymbolCaseSensitiveEqual =>
-			Some (ComparisonPrimitive1::SymbolCaseSensitiveEqual),
-		ComparisonPrimitiveV::SymbolCaseSensitiveGreaterOrEqual =>
-			Some (ComparisonPrimitive1::SymbolCaseSensitiveGreaterOrEqual),
-		ComparisonPrimitiveV::SymbolCaseSensitiveGreater =>
-			Some (ComparisonPrimitive1::SymbolCaseSensitiveGreater),
-		ComparisonPrimitiveV::SymbolCaseInsensitiveLesser =>
-			Some (ComparisonPrimitive1::SymbolCaseInsensitiveLesser),
-		ComparisonPrimitiveV::SymbolCaseInsensitiveLesserOrEqual =>
-			Some (ComparisonPrimitive1::SymbolCaseInsensitiveLesserOrEqual),
-		ComparisonPrimitiveV::SymbolCaseInsensitiveEqual =>
-			Some (ComparisonPrimitive1::SymbolCaseInsensitiveEqual),
-		ComparisonPrimitiveV::SymbolCaseInsensitiveGreaterOrEqual =>
-			Some (ComparisonPrimitive1::SymbolCaseInsensitiveGreaterOrEqual),
-		ComparisonPrimitiveV::SymbolCaseInsensitiveGreater =>
-			Some (ComparisonPrimitive1::SymbolCaseInsensitiveGreater),
-		ComparisonPrimitiveV::BytesLesser =>
-			Some (ComparisonPrimitive1::BytesLesser),
-		ComparisonPrimitiveV::BytesLesserOrEqual =>
-			Some (ComparisonPrimitive1::BytesLesserOrEqual),
-		ComparisonPrimitiveV::BytesEqual =>
-			Some (ComparisonPrimitive1::BytesEqual),
-		ComparisonPrimitiveV::BytesGreaterOrEqual =>
-			Some (ComparisonPrimitive1::BytesGreaterOrEqual),
-		ComparisonPrimitiveV::BytesGreater =>
-			Some (ComparisonPrimitive1::BytesGreater),
-		ComparisonPrimitiveV::PairLesser =>
-			Some (ComparisonPrimitive1::PairLesser),
-		ComparisonPrimitiveV::PairLesserOrEqual =>
-			Some (ComparisonPrimitive1::PairLesserOrEqual),
-		ComparisonPrimitiveV::PairEqual =>
-			Some (ComparisonPrimitive1::PairEqual),
-		ComparisonPrimitiveV::PairGreaterOrEqual =>
-			Some (ComparisonPrimitive1::PairGreaterOrEqual),
-		ComparisonPrimitiveV::PairGreater =>
-			Some (ComparisonPrimitive1::PairGreater),
-		ComparisonPrimitiveV::ArrayLesser =>
-			Some (ComparisonPrimitive1::ArrayLesser),
-		ComparisonPrimitiveV::ArrayLesserOrEqual =>
-			Some (ComparisonPrimitive1::ArrayLesserOrEqual),
-		ComparisonPrimitiveV::ArrayEqual =>
-			Some (ComparisonPrimitive1::ArrayEqual),
-		ComparisonPrimitiveV::ArrayGreaterOrEqual =>
-			Some (ComparisonPrimitive1::ArrayGreaterOrEqual),
-		ComparisonPrimitiveV::ArrayGreater =>
-			Some (ComparisonPrimitive1::ArrayGreater),
-		ComparisonPrimitiveV::ValuesLesser =>
-			Some (ComparisonPrimitive1::ValuesLesser),
-		ComparisonPrimitiveV::ValuesLesserOrEqual =>
-			Some (ComparisonPrimitive1::ValuesLesserOrEqual),
-		ComparisonPrimitiveV::ValuesEqual =>
-			Some (ComparisonPrimitive1::ValuesEqual),
-		ComparisonPrimitiveV::ValuesGreaterOrEqual =>
-			Some (ComparisonPrimitive1::ValuesGreaterOrEqual),
-		ComparisonPrimitiveV::ValuesGreater =>
-			Some (ComparisonPrimitive1::ValuesGreater),
-		ComparisonPrimitiveV::RecordLesser =>
-			Some (ComparisonPrimitive1::RecordLesser),
-		ComparisonPrimitiveV::RecordLesserOrEqual =>
-			Some (ComparisonPrimitive1::RecordLesserOrEqual),
-		ComparisonPrimitiveV::RecordEqual =>
-			Some (ComparisonPrimitive1::RecordEqual),
-		ComparisonPrimitiveV::RecordGreaterOrEqual =>
-			Some (ComparisonPrimitive1::RecordGreaterOrEqual),
-		ComparisonPrimitiveV::RecordGreater =>
-			Some (ComparisonPrimitive1::RecordGreater),
-	}
+pub fn comparison_primitive_v_alternative_0 (_primitive : ComparisonPrimitiveV) -> (Option<ComparisonPrimitive0>) {
+	return None;
 }
 
 
-
-
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn comparison_primitive_v_alternative_2 (primitive : ComparisonPrimitiveV) -> (Option<ComparisonPrimitive2>) {
-	match primitive {
-		ComparisonPrimitiveV::EquivalentByIdentity =>
-			Some (ComparisonPrimitive2::EquivalentByIdentity),
-		ComparisonPrimitiveV::EquivalentByValueStrict =>
-			Some (ComparisonPrimitive2::EquivalentByValueStrict),
-		ComparisonPrimitiveV::EquivalentByValueStrictRecursive =>
-			Some (ComparisonPrimitive2::EquivalentByValueStrictRecursive),
-		ComparisonPrimitiveV::EquivalentByValueCoerced =>
-			Some (ComparisonPrimitive2::EquivalentByValueCoerced),
-		ComparisonPrimitiveV::EquivalentByValueCoercedRecursive =>
-			Some (ComparisonPrimitive2::EquivalentByValueCoercedRecursive),
-		ComparisonPrimitiveV::GenericLesser =>
-			Some (ComparisonPrimitive2::GenericLesser),
-		ComparisonPrimitiveV::GenericLesserOrEqual =>
-			Some (ComparisonPrimitive2::GenericLesserOrEqual),
-		ComparisonPrimitiveV::GenericEqual =>
-			Some (ComparisonPrimitive2::GenericEqual),
-		ComparisonPrimitiveV::GenericGreaterOrEqual =>
-			Some (ComparisonPrimitive2::GenericGreaterOrEqual),
-		ComparisonPrimitiveV::GenericGreater =>
-			Some (ComparisonPrimitive2::GenericGreater),
-		ComparisonPrimitiveV::BooleanLesser =>
-			Some (ComparisonPrimitive2::BooleanLesser),
-		ComparisonPrimitiveV::BooleanLesserOrEqual =>
-			Some (ComparisonPrimitive2::BooleanLesserOrEqual),
-		ComparisonPrimitiveV::BooleanEqual =>
-			Some (ComparisonPrimitive2::BooleanEqual),
-		ComparisonPrimitiveV::BooleanGreaterOrEqual =>
-			Some (ComparisonPrimitive2::BooleanGreaterOrEqual),
-		ComparisonPrimitiveV::BooleanGreater =>
-			Some (ComparisonPrimitive2::BooleanGreater),
-		ComparisonPrimitiveV::NumberLesser =>
-			Some (ComparisonPrimitive2::NumberLesser),
-		ComparisonPrimitiveV::NumberLesserOrEqual =>
-			Some (ComparisonPrimitive2::NumberLesserOrEqual),
-		ComparisonPrimitiveV::NumberEqual =>
-			Some (ComparisonPrimitive2::NumberEqual),
-		ComparisonPrimitiveV::NumberGreaterOrEqual =>
-			Some (ComparisonPrimitive2::NumberGreaterOrEqual),
-		ComparisonPrimitiveV::NumberGreater =>
-			Some (ComparisonPrimitive2::NumberGreater),
-		ComparisonPrimitiveV::CharacterCaseSensitiveLesser =>
-			Some (ComparisonPrimitive2::CharacterCaseSensitiveLesser),
-		ComparisonPrimitiveV::CharacterCaseSensitiveLesserOrEqual =>
-			Some (ComparisonPrimitive2::CharacterCaseSensitiveLesserOrEqual),
-		ComparisonPrimitiveV::CharacterCaseSensitiveEqual =>
-			Some (ComparisonPrimitive2::CharacterCaseSensitiveEqual),
-		ComparisonPrimitiveV::CharacterCaseSensitiveGreaterOrEqual =>
-			Some (ComparisonPrimitive2::CharacterCaseSensitiveGreaterOrEqual),
-		ComparisonPrimitiveV::CharacterCaseSensitiveGreater =>
-			Some (ComparisonPrimitive2::CharacterCaseSensitiveGreater),
-		ComparisonPrimitiveV::CharacterCaseInsensitiveLesser =>
-			Some (ComparisonPrimitive2::CharacterCaseInsensitiveLesser),
-		ComparisonPrimitiveV::CharacterCaseInsensitiveLesserOrEqual =>
-			Some (ComparisonPrimitive2::CharacterCaseInsensitiveLesserOrEqual),
-		ComparisonPrimitiveV::CharacterCaseInsensitiveEqual =>
-			Some (ComparisonPrimitive2::CharacterCaseInsensitiveEqual),
-		ComparisonPrimitiveV::CharacterCaseInsensitiveGreaterOrEqual =>
-			Some (ComparisonPrimitive2::CharacterCaseInsensitiveGreaterOrEqual),
-		ComparisonPrimitiveV::CharacterCaseInsensitiveGreater =>
-			Some (ComparisonPrimitive2::CharacterCaseInsensitiveGreater),
-		ComparisonPrimitiveV::StringCaseSensitiveLesser =>
-			Some (ComparisonPrimitive2::StringCaseSensitiveLesser),
-		ComparisonPrimitiveV::StringCaseSensitiveLesserOrEqual =>
-			Some (ComparisonPrimitive2::StringCaseSensitiveLesserOrEqual),
-		ComparisonPrimitiveV::StringCaseSensitiveEqual =>
-			Some (ComparisonPrimitive2::StringCaseSensitiveEqual),
-		ComparisonPrimitiveV::StringCaseSensitiveGreaterOrEqual =>
-			Some (ComparisonPrimitive2::StringCaseSensitiveGreaterOrEqual),
-		ComparisonPrimitiveV::StringCaseSensitiveGreater =>
-			Some (ComparisonPrimitive2::StringCaseSensitiveGreater),
-		ComparisonPrimitiveV::StringCaseInsensitiveLesser =>
-			Some (ComparisonPrimitive2::StringCaseInsensitiveLesser),
-		ComparisonPrimitiveV::StringCaseInsensitiveLesserOrEqual =>
-			Some (ComparisonPrimitive2::StringCaseInsensitiveLesserOrEqual),
-		ComparisonPrimitiveV::StringCaseInsensitiveEqual =>
-			Some (ComparisonPrimitive2::StringCaseInsensitiveEqual),
-		ComparisonPrimitiveV::StringCaseInsensitiveGreaterOrEqual =>
-			Some (ComparisonPrimitive2::StringCaseInsensitiveGreaterOrEqual),
-		ComparisonPrimitiveV::StringCaseInsensitiveGreater =>
-			Some (ComparisonPrimitive2::StringCaseInsensitiveGreater),
-		ComparisonPrimitiveV::SymbolCaseSensitiveLesser =>
-			Some (ComparisonPrimitive2::SymbolCaseSensitiveLesser),
-		ComparisonPrimitiveV::SymbolCaseSensitiveLesserOrEqual =>
-			Some (ComparisonPrimitive2::SymbolCaseSensitiveLesserOrEqual),
-		ComparisonPrimitiveV::SymbolCaseSensitiveEqual =>
-			Some (ComparisonPrimitive2::SymbolCaseSensitiveEqual),
-		ComparisonPrimitiveV::SymbolCaseSensitiveGreaterOrEqual =>
-			Some (ComparisonPrimitive2::SymbolCaseSensitiveGreaterOrEqual),
-		ComparisonPrimitiveV::SymbolCaseSensitiveGreater =>
-			Some (ComparisonPrimitive2::SymbolCaseSensitiveGreater),
-		ComparisonPrimitiveV::SymbolCaseInsensitiveLesser =>
-			Some (ComparisonPrimitive2::SymbolCaseInsensitiveLesser),
-		ComparisonPrimitiveV::SymbolCaseInsensitiveLesserOrEqual =>
-			Some (ComparisonPrimitive2::SymbolCaseInsensitiveLesserOrEqual),
-		ComparisonPrimitiveV::SymbolCaseInsensitiveEqual =>
-			Some (ComparisonPrimitive2::SymbolCaseInsensitiveEqual),
-		ComparisonPrimitiveV::SymbolCaseInsensitiveGreaterOrEqual =>
-			Some (ComparisonPrimitive2::SymbolCaseInsensitiveGreaterOrEqual),
-		ComparisonPrimitiveV::SymbolCaseInsensitiveGreater =>
-			Some (ComparisonPrimitive2::SymbolCaseInsensitiveGreater),
-		ComparisonPrimitiveV::BytesLesser =>
-			Some (ComparisonPrimitive2::BytesLesser),
-		ComparisonPrimitiveV::BytesLesserOrEqual =>
-			Some (ComparisonPrimitive2::BytesLesserOrEqual),
-		ComparisonPrimitiveV::BytesEqual =>
-			Some (ComparisonPrimitive2::BytesEqual),
-		ComparisonPrimitiveV::BytesGreaterOrEqual =>
-			Some (ComparisonPrimitive2::BytesGreaterOrEqual),
-		ComparisonPrimitiveV::BytesGreater =>
-			Some (ComparisonPrimitive2::BytesGreater),
-		ComparisonPrimitiveV::PairLesser =>
-			Some (ComparisonPrimitive2::PairLesser),
-		ComparisonPrimitiveV::PairLesserOrEqual =>
-			Some (ComparisonPrimitive2::PairLesserOrEqual),
-		ComparisonPrimitiveV::PairEqual =>
-			Some (ComparisonPrimitive2::PairEqual),
-		ComparisonPrimitiveV::PairGreaterOrEqual =>
-			Some (ComparisonPrimitive2::PairGreaterOrEqual),
-		ComparisonPrimitiveV::PairGreater =>
-			Some (ComparisonPrimitive2::PairGreater),
-		ComparisonPrimitiveV::ArrayLesser =>
-			Some (ComparisonPrimitive2::ArrayLesser),
-		ComparisonPrimitiveV::ArrayLesserOrEqual =>
-			Some (ComparisonPrimitive2::ArrayLesserOrEqual),
-		ComparisonPrimitiveV::ArrayEqual =>
-			Some (ComparisonPrimitive2::ArrayEqual),
-		ComparisonPrimitiveV::ArrayGreaterOrEqual =>
-			Some (ComparisonPrimitive2::ArrayGreaterOrEqual),
-		ComparisonPrimitiveV::ArrayGreater =>
-			Some (ComparisonPrimitive2::ArrayGreater),
-		ComparisonPrimitiveV::ValuesLesser =>
-			Some (ComparisonPrimitive2::ValuesLesser),
-		ComparisonPrimitiveV::ValuesLesserOrEqual =>
-			Some (ComparisonPrimitive2::ValuesLesserOrEqual),
-		ComparisonPrimitiveV::ValuesEqual =>
-			Some (ComparisonPrimitive2::ValuesEqual),
-		ComparisonPrimitiveV::ValuesGreaterOrEqual =>
-			Some (ComparisonPrimitive2::ValuesGreaterOrEqual),
-		ComparisonPrimitiveV::ValuesGreater =>
-			Some (ComparisonPrimitive2::ValuesGreater),
-		ComparisonPrimitiveV::RecordLesser =>
-			Some (ComparisonPrimitive2::RecordLesser),
-		ComparisonPrimitiveV::RecordLesserOrEqual =>
-			Some (ComparisonPrimitive2::RecordLesserOrEqual),
-		ComparisonPrimitiveV::RecordEqual =>
-			Some (ComparisonPrimitive2::RecordEqual),
-		ComparisonPrimitiveV::RecordGreaterOrEqual =>
-			Some (ComparisonPrimitive2::RecordGreaterOrEqual),
-		ComparisonPrimitiveV::RecordGreater =>
-			Some (ComparisonPrimitive2::RecordGreater),
-	}
+pub fn comparison_primitive_v_alternative_5 (_primitive : ComparisonPrimitiveV) -> (Option<ComparisonPrimitive5>) {
+	return None;
 }
 
 
-
-
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn comparison_primitive_v_alternative_3 (primitive : ComparisonPrimitiveV) -> (Option<ComparisonPrimitive3>) {
-	match primitive {
-		ComparisonPrimitiveV::EquivalentByIdentity =>
-			Some (ComparisonPrimitive3::EquivalentByIdentity),
-		ComparisonPrimitiveV::EquivalentByValueStrict =>
-			Some (ComparisonPrimitive3::EquivalentByValueStrict),
-		ComparisonPrimitiveV::EquivalentByValueStrictRecursive =>
-			Some (ComparisonPrimitive3::EquivalentByValueStrictRecursive),
-		ComparisonPrimitiveV::EquivalentByValueCoerced =>
-			Some (ComparisonPrimitive3::EquivalentByValueCoerced),
-		ComparisonPrimitiveV::EquivalentByValueCoercedRecursive =>
-			Some (ComparisonPrimitive3::EquivalentByValueCoercedRecursive),
-		ComparisonPrimitiveV::GenericLesser =>
-			Some (ComparisonPrimitive3::GenericLesser),
-		ComparisonPrimitiveV::GenericLesserOrEqual =>
-			Some (ComparisonPrimitive3::GenericLesserOrEqual),
-		ComparisonPrimitiveV::GenericEqual =>
-			Some (ComparisonPrimitive3::GenericEqual),
-		ComparisonPrimitiveV::GenericGreaterOrEqual =>
-			Some (ComparisonPrimitive3::GenericGreaterOrEqual),
-		ComparisonPrimitiveV::GenericGreater =>
-			Some (ComparisonPrimitive3::GenericGreater),
-		ComparisonPrimitiveV::BooleanLesser =>
-			Some (ComparisonPrimitive3::BooleanLesser),
-		ComparisonPrimitiveV::BooleanLesserOrEqual =>
-			Some (ComparisonPrimitive3::BooleanLesserOrEqual),
-		ComparisonPrimitiveV::BooleanEqual =>
-			Some (ComparisonPrimitive3::BooleanEqual),
-		ComparisonPrimitiveV::BooleanGreaterOrEqual =>
-			Some (ComparisonPrimitive3::BooleanGreaterOrEqual),
-		ComparisonPrimitiveV::BooleanGreater =>
-			Some (ComparisonPrimitive3::BooleanGreater),
-		ComparisonPrimitiveV::NumberLesser =>
-			Some (ComparisonPrimitive3::NumberLesser),
-		ComparisonPrimitiveV::NumberLesserOrEqual =>
-			Some (ComparisonPrimitive3::NumberLesserOrEqual),
-		ComparisonPrimitiveV::NumberEqual =>
-			Some (ComparisonPrimitive3::NumberEqual),
-		ComparisonPrimitiveV::NumberGreaterOrEqual =>
-			Some (ComparisonPrimitive3::NumberGreaterOrEqual),
-		ComparisonPrimitiveV::NumberGreater =>
-			Some (ComparisonPrimitive3::NumberGreater),
-		ComparisonPrimitiveV::CharacterCaseSensitiveLesser =>
-			Some (ComparisonPrimitive3::CharacterCaseSensitiveLesser),
-		ComparisonPrimitiveV::CharacterCaseSensitiveLesserOrEqual =>
-			Some (ComparisonPrimitive3::CharacterCaseSensitiveLesserOrEqual),
-		ComparisonPrimitiveV::CharacterCaseSensitiveEqual =>
-			Some (ComparisonPrimitive3::CharacterCaseSensitiveEqual),
-		ComparisonPrimitiveV::CharacterCaseSensitiveGreaterOrEqual =>
-			Some (ComparisonPrimitive3::CharacterCaseSensitiveGreaterOrEqual),
-		ComparisonPrimitiveV::CharacterCaseSensitiveGreater =>
-			Some (ComparisonPrimitive3::CharacterCaseSensitiveGreater),
-		ComparisonPrimitiveV::CharacterCaseInsensitiveLesser =>
-			Some (ComparisonPrimitive3::CharacterCaseInsensitiveLesser),
-		ComparisonPrimitiveV::CharacterCaseInsensitiveLesserOrEqual =>
-			Some (ComparisonPrimitive3::CharacterCaseInsensitiveLesserOrEqual),
-		ComparisonPrimitiveV::CharacterCaseInsensitiveEqual =>
-			Some (ComparisonPrimitive3::CharacterCaseInsensitiveEqual),
-		ComparisonPrimitiveV::CharacterCaseInsensitiveGreaterOrEqual =>
-			Some (ComparisonPrimitive3::CharacterCaseInsensitiveGreaterOrEqual),
-		ComparisonPrimitiveV::CharacterCaseInsensitiveGreater =>
-			Some (ComparisonPrimitive3::CharacterCaseInsensitiveGreater),
-		ComparisonPrimitiveV::StringCaseSensitiveLesser =>
-			Some (ComparisonPrimitive3::StringCaseSensitiveLesser),
-		ComparisonPrimitiveV::StringCaseSensitiveLesserOrEqual =>
-			Some (ComparisonPrimitive3::StringCaseSensitiveLesserOrEqual),
-		ComparisonPrimitiveV::StringCaseSensitiveEqual =>
-			Some (ComparisonPrimitive3::StringCaseSensitiveEqual),
-		ComparisonPrimitiveV::StringCaseSensitiveGreaterOrEqual =>
-			Some (ComparisonPrimitive3::StringCaseSensitiveGreaterOrEqual),
-		ComparisonPrimitiveV::StringCaseSensitiveGreater =>
-			Some (ComparisonPrimitive3::StringCaseSensitiveGreater),
-		ComparisonPrimitiveV::StringCaseInsensitiveLesser =>
-			Some (ComparisonPrimitive3::StringCaseInsensitiveLesser),
-		ComparisonPrimitiveV::StringCaseInsensitiveLesserOrEqual =>
-			Some (ComparisonPrimitive3::StringCaseInsensitiveLesserOrEqual),
-		ComparisonPrimitiveV::StringCaseInsensitiveEqual =>
-			Some (ComparisonPrimitive3::StringCaseInsensitiveEqual),
-		ComparisonPrimitiveV::StringCaseInsensitiveGreaterOrEqual =>
-			Some (ComparisonPrimitive3::StringCaseInsensitiveGreaterOrEqual),
-		ComparisonPrimitiveV::StringCaseInsensitiveGreater =>
-			Some (ComparisonPrimitive3::StringCaseInsensitiveGreater),
-		ComparisonPrimitiveV::SymbolCaseSensitiveLesser =>
-			Some (ComparisonPrimitive3::SymbolCaseSensitiveLesser),
-		ComparisonPrimitiveV::SymbolCaseSensitiveLesserOrEqual =>
-			Some (ComparisonPrimitive3::SymbolCaseSensitiveLesserOrEqual),
-		ComparisonPrimitiveV::SymbolCaseSensitiveEqual =>
-			Some (ComparisonPrimitive3::SymbolCaseSensitiveEqual),
-		ComparisonPrimitiveV::SymbolCaseSensitiveGreaterOrEqual =>
-			Some (ComparisonPrimitive3::SymbolCaseSensitiveGreaterOrEqual),
-		ComparisonPrimitiveV::SymbolCaseSensitiveGreater =>
-			Some (ComparisonPrimitive3::SymbolCaseSensitiveGreater),
-		ComparisonPrimitiveV::SymbolCaseInsensitiveLesser =>
-			Some (ComparisonPrimitive3::SymbolCaseInsensitiveLesser),
-		ComparisonPrimitiveV::SymbolCaseInsensitiveLesserOrEqual =>
-			Some (ComparisonPrimitive3::SymbolCaseInsensitiveLesserOrEqual),
-		ComparisonPrimitiveV::SymbolCaseInsensitiveEqual =>
-			Some (ComparisonPrimitive3::SymbolCaseInsensitiveEqual),
-		ComparisonPrimitiveV::SymbolCaseInsensitiveGreaterOrEqual =>
-			Some (ComparisonPrimitive3::SymbolCaseInsensitiveGreaterOrEqual),
-		ComparisonPrimitiveV::SymbolCaseInsensitiveGreater =>
-			Some (ComparisonPrimitive3::SymbolCaseInsensitiveGreater),
-		ComparisonPrimitiveV::BytesLesser =>
-			Some (ComparisonPrimitive3::BytesLesser),
-		ComparisonPrimitiveV::BytesLesserOrEqual =>
-			Some (ComparisonPrimitive3::BytesLesserOrEqual),
-		ComparisonPrimitiveV::BytesEqual =>
-			Some (ComparisonPrimitive3::BytesEqual),
-		ComparisonPrimitiveV::BytesGreaterOrEqual =>
-			Some (ComparisonPrimitive3::BytesGreaterOrEqual),
-		ComparisonPrimitiveV::BytesGreater =>
-			Some (ComparisonPrimitive3::BytesGreater),
-		ComparisonPrimitiveV::PairLesser =>
-			Some (ComparisonPrimitive3::PairLesser),
-		ComparisonPrimitiveV::PairLesserOrEqual =>
-			Some (ComparisonPrimitive3::PairLesserOrEqual),
-		ComparisonPrimitiveV::PairEqual =>
-			Some (ComparisonPrimitive3::PairEqual),
-		ComparisonPrimitiveV::PairGreaterOrEqual =>
-			Some (ComparisonPrimitive3::PairGreaterOrEqual),
-		ComparisonPrimitiveV::PairGreater =>
-			Some (ComparisonPrimitive3::PairGreater),
-		ComparisonPrimitiveV::ArrayLesser =>
-			Some (ComparisonPrimitive3::ArrayLesser),
-		ComparisonPrimitiveV::ArrayLesserOrEqual =>
-			Some (ComparisonPrimitive3::ArrayLesserOrEqual),
-		ComparisonPrimitiveV::ArrayEqual =>
-			Some (ComparisonPrimitive3::ArrayEqual),
-		ComparisonPrimitiveV::ArrayGreaterOrEqual =>
-			Some (ComparisonPrimitive3::ArrayGreaterOrEqual),
-		ComparisonPrimitiveV::ArrayGreater =>
-			Some (ComparisonPrimitive3::ArrayGreater),
-		ComparisonPrimitiveV::ValuesLesser =>
-			Some (ComparisonPrimitive3::ValuesLesser),
-		ComparisonPrimitiveV::ValuesLesserOrEqual =>
-			Some (ComparisonPrimitive3::ValuesLesserOrEqual),
-		ComparisonPrimitiveV::ValuesEqual =>
-			Some (ComparisonPrimitive3::ValuesEqual),
-		ComparisonPrimitiveV::ValuesGreaterOrEqual =>
-			Some (ComparisonPrimitive3::ValuesGreaterOrEqual),
-		ComparisonPrimitiveV::ValuesGreater =>
-			Some (ComparisonPrimitive3::ValuesGreater),
-		ComparisonPrimitiveV::RecordLesser =>
-			Some (ComparisonPrimitive3::RecordLesser),
-		ComparisonPrimitiveV::RecordLesserOrEqual =>
-			Some (ComparisonPrimitive3::RecordLesserOrEqual),
-		ComparisonPrimitiveV::RecordEqual =>
-			Some (ComparisonPrimitive3::RecordEqual),
-		ComparisonPrimitiveV::RecordGreaterOrEqual =>
-			Some (ComparisonPrimitive3::RecordGreaterOrEqual),
-		ComparisonPrimitiveV::RecordGreater =>
-			Some (ComparisonPrimitive3::RecordGreater),
-	}
-}
-
-
-
-
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn comparison_primitive_v_alternative_4 (primitive : ComparisonPrimitiveV) -> (Option<ComparisonPrimitive4>) {
-	match primitive {
-		ComparisonPrimitiveV::EquivalentByIdentity =>
-			Some (ComparisonPrimitive4::EquivalentByIdentity),
-		ComparisonPrimitiveV::EquivalentByValueStrict =>
-			Some (ComparisonPrimitive4::EquivalentByValueStrict),
-		ComparisonPrimitiveV::EquivalentByValueStrictRecursive =>
-			Some (ComparisonPrimitive4::EquivalentByValueStrictRecursive),
-		ComparisonPrimitiveV::EquivalentByValueCoerced =>
-			Some (ComparisonPrimitive4::EquivalentByValueCoerced),
-		ComparisonPrimitiveV::EquivalentByValueCoercedRecursive =>
-			Some (ComparisonPrimitive4::EquivalentByValueCoercedRecursive),
-		ComparisonPrimitiveV::GenericLesser =>
-			Some (ComparisonPrimitive4::GenericLesser),
-		ComparisonPrimitiveV::GenericLesserOrEqual =>
-			Some (ComparisonPrimitive4::GenericLesserOrEqual),
-		ComparisonPrimitiveV::GenericEqual =>
-			Some (ComparisonPrimitive4::GenericEqual),
-		ComparisonPrimitiveV::GenericGreaterOrEqual =>
-			Some (ComparisonPrimitive4::GenericGreaterOrEqual),
-		ComparisonPrimitiveV::GenericGreater =>
-			Some (ComparisonPrimitive4::GenericGreater),
-		ComparisonPrimitiveV::BooleanLesser =>
-			Some (ComparisonPrimitive4::BooleanLesser),
-		ComparisonPrimitiveV::BooleanLesserOrEqual =>
-			Some (ComparisonPrimitive4::BooleanLesserOrEqual),
-		ComparisonPrimitiveV::BooleanEqual =>
-			Some (ComparisonPrimitive4::BooleanEqual),
-		ComparisonPrimitiveV::BooleanGreaterOrEqual =>
-			Some (ComparisonPrimitive4::BooleanGreaterOrEqual),
-		ComparisonPrimitiveV::BooleanGreater =>
-			Some (ComparisonPrimitive4::BooleanGreater),
-		ComparisonPrimitiveV::NumberLesser =>
-			Some (ComparisonPrimitive4::NumberLesser),
-		ComparisonPrimitiveV::NumberLesserOrEqual =>
-			Some (ComparisonPrimitive4::NumberLesserOrEqual),
-		ComparisonPrimitiveV::NumberEqual =>
-			Some (ComparisonPrimitive4::NumberEqual),
-		ComparisonPrimitiveV::NumberGreaterOrEqual =>
-			Some (ComparisonPrimitive4::NumberGreaterOrEqual),
-		ComparisonPrimitiveV::NumberGreater =>
-			Some (ComparisonPrimitive4::NumberGreater),
-		ComparisonPrimitiveV::CharacterCaseSensitiveLesser =>
-			Some (ComparisonPrimitive4::CharacterCaseSensitiveLesser),
-		ComparisonPrimitiveV::CharacterCaseSensitiveLesserOrEqual =>
-			Some (ComparisonPrimitive4::CharacterCaseSensitiveLesserOrEqual),
-		ComparisonPrimitiveV::CharacterCaseSensitiveEqual =>
-			Some (ComparisonPrimitive4::CharacterCaseSensitiveEqual),
-		ComparisonPrimitiveV::CharacterCaseSensitiveGreaterOrEqual =>
-			Some (ComparisonPrimitive4::CharacterCaseSensitiveGreaterOrEqual),
-		ComparisonPrimitiveV::CharacterCaseSensitiveGreater =>
-			Some (ComparisonPrimitive4::CharacterCaseSensitiveGreater),
-		ComparisonPrimitiveV::CharacterCaseInsensitiveLesser =>
-			Some (ComparisonPrimitive4::CharacterCaseInsensitiveLesser),
-		ComparisonPrimitiveV::CharacterCaseInsensitiveLesserOrEqual =>
-			Some (ComparisonPrimitive4::CharacterCaseInsensitiveLesserOrEqual),
-		ComparisonPrimitiveV::CharacterCaseInsensitiveEqual =>
-			Some (ComparisonPrimitive4::CharacterCaseInsensitiveEqual),
-		ComparisonPrimitiveV::CharacterCaseInsensitiveGreaterOrEqual =>
-			Some (ComparisonPrimitive4::CharacterCaseInsensitiveGreaterOrEqual),
-		ComparisonPrimitiveV::CharacterCaseInsensitiveGreater =>
-			Some (ComparisonPrimitive4::CharacterCaseInsensitiveGreater),
-		ComparisonPrimitiveV::StringCaseSensitiveLesser =>
-			Some (ComparisonPrimitive4::StringCaseSensitiveLesser),
-		ComparisonPrimitiveV::StringCaseSensitiveLesserOrEqual =>
-			Some (ComparisonPrimitive4::StringCaseSensitiveLesserOrEqual),
-		ComparisonPrimitiveV::StringCaseSensitiveEqual =>
-			Some (ComparisonPrimitive4::StringCaseSensitiveEqual),
-		ComparisonPrimitiveV::StringCaseSensitiveGreaterOrEqual =>
-			Some (ComparisonPrimitive4::StringCaseSensitiveGreaterOrEqual),
-		ComparisonPrimitiveV::StringCaseSensitiveGreater =>
-			Some (ComparisonPrimitive4::StringCaseSensitiveGreater),
-		ComparisonPrimitiveV::StringCaseInsensitiveLesser =>
-			Some (ComparisonPrimitive4::StringCaseInsensitiveLesser),
-		ComparisonPrimitiveV::StringCaseInsensitiveLesserOrEqual =>
-			Some (ComparisonPrimitive4::StringCaseInsensitiveLesserOrEqual),
-		ComparisonPrimitiveV::StringCaseInsensitiveEqual =>
-			Some (ComparisonPrimitive4::StringCaseInsensitiveEqual),
-		ComparisonPrimitiveV::StringCaseInsensitiveGreaterOrEqual =>
-			Some (ComparisonPrimitive4::StringCaseInsensitiveGreaterOrEqual),
-		ComparisonPrimitiveV::StringCaseInsensitiveGreater =>
-			Some (ComparisonPrimitive4::StringCaseInsensitiveGreater),
-		ComparisonPrimitiveV::SymbolCaseSensitiveLesser =>
-			Some (ComparisonPrimitive4::SymbolCaseSensitiveLesser),
-		ComparisonPrimitiveV::SymbolCaseSensitiveLesserOrEqual =>
-			Some (ComparisonPrimitive4::SymbolCaseSensitiveLesserOrEqual),
-		ComparisonPrimitiveV::SymbolCaseSensitiveEqual =>
-			Some (ComparisonPrimitive4::SymbolCaseSensitiveEqual),
-		ComparisonPrimitiveV::SymbolCaseSensitiveGreaterOrEqual =>
-			Some (ComparisonPrimitive4::SymbolCaseSensitiveGreaterOrEqual),
-		ComparisonPrimitiveV::SymbolCaseSensitiveGreater =>
-			Some (ComparisonPrimitive4::SymbolCaseSensitiveGreater),
-		ComparisonPrimitiveV::SymbolCaseInsensitiveLesser =>
-			Some (ComparisonPrimitive4::SymbolCaseInsensitiveLesser),
-		ComparisonPrimitiveV::SymbolCaseInsensitiveLesserOrEqual =>
-			Some (ComparisonPrimitive4::SymbolCaseInsensitiveLesserOrEqual),
-		ComparisonPrimitiveV::SymbolCaseInsensitiveEqual =>
-			Some (ComparisonPrimitive4::SymbolCaseInsensitiveEqual),
-		ComparisonPrimitiveV::SymbolCaseInsensitiveGreaterOrEqual =>
-			Some (ComparisonPrimitive4::SymbolCaseInsensitiveGreaterOrEqual),
-		ComparisonPrimitiveV::SymbolCaseInsensitiveGreater =>
-			Some (ComparisonPrimitive4::SymbolCaseInsensitiveGreater),
-		ComparisonPrimitiveV::BytesLesser =>
-			Some (ComparisonPrimitive4::BytesLesser),
-		ComparisonPrimitiveV::BytesLesserOrEqual =>
-			Some (ComparisonPrimitive4::BytesLesserOrEqual),
-		ComparisonPrimitiveV::BytesEqual =>
-			Some (ComparisonPrimitive4::BytesEqual),
-		ComparisonPrimitiveV::BytesGreaterOrEqual =>
-			Some (ComparisonPrimitive4::BytesGreaterOrEqual),
-		ComparisonPrimitiveV::BytesGreater =>
-			Some (ComparisonPrimitive4::BytesGreater),
-		ComparisonPrimitiveV::PairLesser =>
-			Some (ComparisonPrimitive4::PairLesser),
-		ComparisonPrimitiveV::PairLesserOrEqual =>
-			Some (ComparisonPrimitive4::PairLesserOrEqual),
-		ComparisonPrimitiveV::PairEqual =>
-			Some (ComparisonPrimitive4::PairEqual),
-		ComparisonPrimitiveV::PairGreaterOrEqual =>
-			Some (ComparisonPrimitive4::PairGreaterOrEqual),
-		ComparisonPrimitiveV::PairGreater =>
-			Some (ComparisonPrimitive4::PairGreater),
-		ComparisonPrimitiveV::ArrayLesser =>
-			Some (ComparisonPrimitive4::ArrayLesser),
-		ComparisonPrimitiveV::ArrayLesserOrEqual =>
-			Some (ComparisonPrimitive4::ArrayLesserOrEqual),
-		ComparisonPrimitiveV::ArrayEqual =>
-			Some (ComparisonPrimitive4::ArrayEqual),
-		ComparisonPrimitiveV::ArrayGreaterOrEqual =>
-			Some (ComparisonPrimitive4::ArrayGreaterOrEqual),
-		ComparisonPrimitiveV::ArrayGreater =>
-			Some (ComparisonPrimitive4::ArrayGreater),
-		ComparisonPrimitiveV::ValuesLesser =>
-			Some (ComparisonPrimitive4::ValuesLesser),
-		ComparisonPrimitiveV::ValuesLesserOrEqual =>
-			Some (ComparisonPrimitive4::ValuesLesserOrEqual),
-		ComparisonPrimitiveV::ValuesEqual =>
-			Some (ComparisonPrimitive4::ValuesEqual),
-		ComparisonPrimitiveV::ValuesGreaterOrEqual =>
-			Some (ComparisonPrimitive4::ValuesGreaterOrEqual),
-		ComparisonPrimitiveV::ValuesGreater =>
-			Some (ComparisonPrimitive4::ValuesGreater),
-		ComparisonPrimitiveV::RecordLesser =>
-			Some (ComparisonPrimitive4::RecordLesser),
-		ComparisonPrimitiveV::RecordLesserOrEqual =>
-			Some (ComparisonPrimitive4::RecordLesserOrEqual),
-		ComparisonPrimitiveV::RecordEqual =>
-			Some (ComparisonPrimitive4::RecordEqual),
-		ComparisonPrimitiveV::RecordGreaterOrEqual =>
-			Some (ComparisonPrimitive4::RecordGreaterOrEqual),
-		ComparisonPrimitiveV::RecordGreater =>
-			Some (ComparisonPrimitive4::RecordGreater),
-	}
-}
-
-
-
-
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn comparison_primitive_v_alternative_5 (primitive : ComparisonPrimitiveV) -> (Option<ComparisonPrimitive5>) {
-	match primitive {
-		ComparisonPrimitiveV::EquivalentByIdentity =>
-			None,
-		ComparisonPrimitiveV::EquivalentByValueStrict =>
-			None,
-		ComparisonPrimitiveV::EquivalentByValueStrictRecursive =>
-			None,
-		ComparisonPrimitiveV::EquivalentByValueCoerced =>
-			None,
-		ComparisonPrimitiveV::EquivalentByValueCoercedRecursive =>
-			None,
-		ComparisonPrimitiveV::GenericLesser =>
-			None,
-		ComparisonPrimitiveV::GenericLesserOrEqual =>
-			None,
-		ComparisonPrimitiveV::GenericEqual =>
-			None,
-		ComparisonPrimitiveV::GenericGreaterOrEqual =>
-			None,
-		ComparisonPrimitiveV::GenericGreater =>
-			None,
-		ComparisonPrimitiveV::BooleanLesser =>
-			None,
-		ComparisonPrimitiveV::BooleanLesserOrEqual =>
-			None,
-		ComparisonPrimitiveV::BooleanEqual =>
-			None,
-		ComparisonPrimitiveV::BooleanGreaterOrEqual =>
-			None,
-		ComparisonPrimitiveV::BooleanGreater =>
-			None,
-		ComparisonPrimitiveV::NumberLesser =>
-			None,
-		ComparisonPrimitiveV::NumberLesserOrEqual =>
-			None,
-		ComparisonPrimitiveV::NumberEqual =>
-			None,
-		ComparisonPrimitiveV::NumberGreaterOrEqual =>
-			None,
-		ComparisonPrimitiveV::NumberGreater =>
-			None,
-		ComparisonPrimitiveV::CharacterCaseSensitiveLesser =>
-			None,
-		ComparisonPrimitiveV::CharacterCaseSensitiveLesserOrEqual =>
-			None,
-		ComparisonPrimitiveV::CharacterCaseSensitiveEqual =>
-			None,
-		ComparisonPrimitiveV::CharacterCaseSensitiveGreaterOrEqual =>
-			None,
-		ComparisonPrimitiveV::CharacterCaseSensitiveGreater =>
-			None,
-		ComparisonPrimitiveV::CharacterCaseInsensitiveLesser =>
-			None,
-		ComparisonPrimitiveV::CharacterCaseInsensitiveLesserOrEqual =>
-			None,
-		ComparisonPrimitiveV::CharacterCaseInsensitiveEqual =>
-			None,
-		ComparisonPrimitiveV::CharacterCaseInsensitiveGreaterOrEqual =>
-			None,
-		ComparisonPrimitiveV::CharacterCaseInsensitiveGreater =>
-			None,
-		ComparisonPrimitiveV::StringCaseSensitiveLesser =>
-			None,
-		ComparisonPrimitiveV::StringCaseSensitiveLesserOrEqual =>
-			None,
-		ComparisonPrimitiveV::StringCaseSensitiveEqual =>
-			None,
-		ComparisonPrimitiveV::StringCaseSensitiveGreaterOrEqual =>
-			None,
-		ComparisonPrimitiveV::StringCaseSensitiveGreater =>
-			None,
-		ComparisonPrimitiveV::StringCaseInsensitiveLesser =>
-			None,
-		ComparisonPrimitiveV::StringCaseInsensitiveLesserOrEqual =>
-			None,
-		ComparisonPrimitiveV::StringCaseInsensitiveEqual =>
-			None,
-		ComparisonPrimitiveV::StringCaseInsensitiveGreaterOrEqual =>
-			None,
-		ComparisonPrimitiveV::StringCaseInsensitiveGreater =>
-			None,
-		ComparisonPrimitiveV::SymbolCaseSensitiveLesser =>
-			None,
-		ComparisonPrimitiveV::SymbolCaseSensitiveLesserOrEqual =>
-			None,
-		ComparisonPrimitiveV::SymbolCaseSensitiveEqual =>
-			None,
-		ComparisonPrimitiveV::SymbolCaseSensitiveGreaterOrEqual =>
-			None,
-		ComparisonPrimitiveV::SymbolCaseSensitiveGreater =>
-			None,
-		ComparisonPrimitiveV::SymbolCaseInsensitiveLesser =>
-			None,
-		ComparisonPrimitiveV::SymbolCaseInsensitiveLesserOrEqual =>
-			None,
-		ComparisonPrimitiveV::SymbolCaseInsensitiveEqual =>
-			None,
-		ComparisonPrimitiveV::SymbolCaseInsensitiveGreaterOrEqual =>
-			None,
-		ComparisonPrimitiveV::SymbolCaseInsensitiveGreater =>
-			None,
-		ComparisonPrimitiveV::BytesLesser =>
-			None,
-		ComparisonPrimitiveV::BytesLesserOrEqual =>
-			None,
-		ComparisonPrimitiveV::BytesEqual =>
-			None,
-		ComparisonPrimitiveV::BytesGreaterOrEqual =>
-			None,
-		ComparisonPrimitiveV::BytesGreater =>
-			None,
-		ComparisonPrimitiveV::PairLesser =>
-			None,
-		ComparisonPrimitiveV::PairLesserOrEqual =>
-			None,
-		ComparisonPrimitiveV::PairEqual =>
-			None,
-		ComparisonPrimitiveV::PairGreaterOrEqual =>
-			None,
-		ComparisonPrimitiveV::PairGreater =>
-			None,
-		ComparisonPrimitiveV::ArrayLesser =>
-			None,
-		ComparisonPrimitiveV::ArrayLesserOrEqual =>
-			None,
-		ComparisonPrimitiveV::ArrayEqual =>
-			None,
-		ComparisonPrimitiveV::ArrayGreaterOrEqual =>
-			None,
-		ComparisonPrimitiveV::ArrayGreater =>
-			None,
-		ComparisonPrimitiveV::ValuesLesser =>
-			None,
-		ComparisonPrimitiveV::ValuesLesserOrEqual =>
-			None,
-		ComparisonPrimitiveV::ValuesEqual =>
-			None,
-		ComparisonPrimitiveV::ValuesGreaterOrEqual =>
-			None,
-		ComparisonPrimitiveV::ValuesGreater =>
-			None,
-		ComparisonPrimitiveV::RecordLesser =>
-			None,
-		ComparisonPrimitiveV::RecordLesserOrEqual =>
-			None,
-		ComparisonPrimitiveV::RecordEqual =>
-			None,
-		ComparisonPrimitiveV::RecordGreaterOrEqual =>
-			None,
-		ComparisonPrimitiveV::RecordGreater =>
-			None,
-	}
-}
-
-
-
-
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn comparison_primitive_v_alternative_n (primitive : ComparisonPrimitiveV) -> (Option<ComparisonPrimitiveN>) {
-	match primitive {
-		ComparisonPrimitiveV::EquivalentByIdentity =>
-			Some (ComparisonPrimitiveN::EquivalentByIdentity),
-		ComparisonPrimitiveV::EquivalentByValueStrict =>
-			Some (ComparisonPrimitiveN::EquivalentByValueStrict),
-		ComparisonPrimitiveV::EquivalentByValueStrictRecursive =>
-			Some (ComparisonPrimitiveN::EquivalentByValueStrictRecursive),
-		ComparisonPrimitiveV::EquivalentByValueCoerced =>
-			Some (ComparisonPrimitiveN::EquivalentByValueCoerced),
-		ComparisonPrimitiveV::EquivalentByValueCoercedRecursive =>
-			Some (ComparisonPrimitiveN::EquivalentByValueCoercedRecursive),
-		ComparisonPrimitiveV::GenericLesser =>
-			Some (ComparisonPrimitiveN::GenericLesser),
-		ComparisonPrimitiveV::GenericLesserOrEqual =>
-			Some (ComparisonPrimitiveN::GenericLesserOrEqual),
-		ComparisonPrimitiveV::GenericEqual =>
-			Some (ComparisonPrimitiveN::GenericEqual),
-		ComparisonPrimitiveV::GenericGreaterOrEqual =>
-			Some (ComparisonPrimitiveN::GenericGreaterOrEqual),
-		ComparisonPrimitiveV::GenericGreater =>
-			Some (ComparisonPrimitiveN::GenericGreater),
-		ComparisonPrimitiveV::BooleanLesser =>
-			Some (ComparisonPrimitiveN::BooleanLesser),
-		ComparisonPrimitiveV::BooleanLesserOrEqual =>
-			Some (ComparisonPrimitiveN::BooleanLesserOrEqual),
-		ComparisonPrimitiveV::BooleanEqual =>
-			Some (ComparisonPrimitiveN::BooleanEqual),
-		ComparisonPrimitiveV::BooleanGreaterOrEqual =>
-			Some (ComparisonPrimitiveN::BooleanGreaterOrEqual),
-		ComparisonPrimitiveV::BooleanGreater =>
-			Some (ComparisonPrimitiveN::BooleanGreater),
-		ComparisonPrimitiveV::NumberLesser =>
-			Some (ComparisonPrimitiveN::NumberLesser),
-		ComparisonPrimitiveV::NumberLesserOrEqual =>
-			Some (ComparisonPrimitiveN::NumberLesserOrEqual),
-		ComparisonPrimitiveV::NumberEqual =>
-			Some (ComparisonPrimitiveN::NumberEqual),
-		ComparisonPrimitiveV::NumberGreaterOrEqual =>
-			Some (ComparisonPrimitiveN::NumberGreaterOrEqual),
-		ComparisonPrimitiveV::NumberGreater =>
-			Some (ComparisonPrimitiveN::NumberGreater),
-		ComparisonPrimitiveV::CharacterCaseSensitiveLesser =>
-			Some (ComparisonPrimitiveN::CharacterCaseSensitiveLesser),
-		ComparisonPrimitiveV::CharacterCaseSensitiveLesserOrEqual =>
-			Some (ComparisonPrimitiveN::CharacterCaseSensitiveLesserOrEqual),
-		ComparisonPrimitiveV::CharacterCaseSensitiveEqual =>
-			Some (ComparisonPrimitiveN::CharacterCaseSensitiveEqual),
-		ComparisonPrimitiveV::CharacterCaseSensitiveGreaterOrEqual =>
-			Some (ComparisonPrimitiveN::CharacterCaseSensitiveGreaterOrEqual),
-		ComparisonPrimitiveV::CharacterCaseSensitiveGreater =>
-			Some (ComparisonPrimitiveN::CharacterCaseSensitiveGreater),
-		ComparisonPrimitiveV::CharacterCaseInsensitiveLesser =>
-			Some (ComparisonPrimitiveN::CharacterCaseInsensitiveLesser),
-		ComparisonPrimitiveV::CharacterCaseInsensitiveLesserOrEqual =>
-			Some (ComparisonPrimitiveN::CharacterCaseInsensitiveLesserOrEqual),
-		ComparisonPrimitiveV::CharacterCaseInsensitiveEqual =>
-			Some (ComparisonPrimitiveN::CharacterCaseInsensitiveEqual),
-		ComparisonPrimitiveV::CharacterCaseInsensitiveGreaterOrEqual =>
-			Some (ComparisonPrimitiveN::CharacterCaseInsensitiveGreaterOrEqual),
-		ComparisonPrimitiveV::CharacterCaseInsensitiveGreater =>
-			Some (ComparisonPrimitiveN::CharacterCaseInsensitiveGreater),
-		ComparisonPrimitiveV::StringCaseSensitiveLesser =>
-			Some (ComparisonPrimitiveN::StringCaseSensitiveLesser),
-		ComparisonPrimitiveV::StringCaseSensitiveLesserOrEqual =>
-			Some (ComparisonPrimitiveN::StringCaseSensitiveLesserOrEqual),
-		ComparisonPrimitiveV::StringCaseSensitiveEqual =>
-			Some (ComparisonPrimitiveN::StringCaseSensitiveEqual),
-		ComparisonPrimitiveV::StringCaseSensitiveGreaterOrEqual =>
-			Some (ComparisonPrimitiveN::StringCaseSensitiveGreaterOrEqual),
-		ComparisonPrimitiveV::StringCaseSensitiveGreater =>
-			Some (ComparisonPrimitiveN::StringCaseSensitiveGreater),
-		ComparisonPrimitiveV::StringCaseInsensitiveLesser =>
-			Some (ComparisonPrimitiveN::StringCaseInsensitiveLesser),
-		ComparisonPrimitiveV::StringCaseInsensitiveLesserOrEqual =>
-			Some (ComparisonPrimitiveN::StringCaseInsensitiveLesserOrEqual),
-		ComparisonPrimitiveV::StringCaseInsensitiveEqual =>
-			Some (ComparisonPrimitiveN::StringCaseInsensitiveEqual),
-		ComparisonPrimitiveV::StringCaseInsensitiveGreaterOrEqual =>
-			Some (ComparisonPrimitiveN::StringCaseInsensitiveGreaterOrEqual),
-		ComparisonPrimitiveV::StringCaseInsensitiveGreater =>
-			Some (ComparisonPrimitiveN::StringCaseInsensitiveGreater),
-		ComparisonPrimitiveV::SymbolCaseSensitiveLesser =>
-			Some (ComparisonPrimitiveN::SymbolCaseSensitiveLesser),
-		ComparisonPrimitiveV::SymbolCaseSensitiveLesserOrEqual =>
-			Some (ComparisonPrimitiveN::SymbolCaseSensitiveLesserOrEqual),
-		ComparisonPrimitiveV::SymbolCaseSensitiveEqual =>
-			Some (ComparisonPrimitiveN::SymbolCaseSensitiveEqual),
-		ComparisonPrimitiveV::SymbolCaseSensitiveGreaterOrEqual =>
-			Some (ComparisonPrimitiveN::SymbolCaseSensitiveGreaterOrEqual),
-		ComparisonPrimitiveV::SymbolCaseSensitiveGreater =>
-			Some (ComparisonPrimitiveN::SymbolCaseSensitiveGreater),
-		ComparisonPrimitiveV::SymbolCaseInsensitiveLesser =>
-			Some (ComparisonPrimitiveN::SymbolCaseInsensitiveLesser),
-		ComparisonPrimitiveV::SymbolCaseInsensitiveLesserOrEqual =>
-			Some (ComparisonPrimitiveN::SymbolCaseInsensitiveLesserOrEqual),
-		ComparisonPrimitiveV::SymbolCaseInsensitiveEqual =>
-			Some (ComparisonPrimitiveN::SymbolCaseInsensitiveEqual),
-		ComparisonPrimitiveV::SymbolCaseInsensitiveGreaterOrEqual =>
-			Some (ComparisonPrimitiveN::SymbolCaseInsensitiveGreaterOrEqual),
-		ComparisonPrimitiveV::SymbolCaseInsensitiveGreater =>
-			Some (ComparisonPrimitiveN::SymbolCaseInsensitiveGreater),
-		ComparisonPrimitiveV::BytesLesser =>
-			Some (ComparisonPrimitiveN::BytesLesser),
-		ComparisonPrimitiveV::BytesLesserOrEqual =>
-			Some (ComparisonPrimitiveN::BytesLesserOrEqual),
-		ComparisonPrimitiveV::BytesEqual =>
-			Some (ComparisonPrimitiveN::BytesEqual),
-		ComparisonPrimitiveV::BytesGreaterOrEqual =>
-			Some (ComparisonPrimitiveN::BytesGreaterOrEqual),
-		ComparisonPrimitiveV::BytesGreater =>
-			Some (ComparisonPrimitiveN::BytesGreater),
-		ComparisonPrimitiveV::PairLesser =>
-			Some (ComparisonPrimitiveN::PairLesser),
-		ComparisonPrimitiveV::PairLesserOrEqual =>
-			Some (ComparisonPrimitiveN::PairLesserOrEqual),
-		ComparisonPrimitiveV::PairEqual =>
-			Some (ComparisonPrimitiveN::PairEqual),
-		ComparisonPrimitiveV::PairGreaterOrEqual =>
-			Some (ComparisonPrimitiveN::PairGreaterOrEqual),
-		ComparisonPrimitiveV::PairGreater =>
-			Some (ComparisonPrimitiveN::PairGreater),
-		ComparisonPrimitiveV::ArrayLesser =>
-			Some (ComparisonPrimitiveN::ArrayLesser),
-		ComparisonPrimitiveV::ArrayLesserOrEqual =>
-			Some (ComparisonPrimitiveN::ArrayLesserOrEqual),
-		ComparisonPrimitiveV::ArrayEqual =>
-			Some (ComparisonPrimitiveN::ArrayEqual),
-		ComparisonPrimitiveV::ArrayGreaterOrEqual =>
-			Some (ComparisonPrimitiveN::ArrayGreaterOrEqual),
-		ComparisonPrimitiveV::ArrayGreater =>
-			Some (ComparisonPrimitiveN::ArrayGreater),
-		ComparisonPrimitiveV::ValuesLesser =>
-			Some (ComparisonPrimitiveN::ValuesLesser),
-		ComparisonPrimitiveV::ValuesLesserOrEqual =>
-			Some (ComparisonPrimitiveN::ValuesLesserOrEqual),
-		ComparisonPrimitiveV::ValuesEqual =>
-			Some (ComparisonPrimitiveN::ValuesEqual),
-		ComparisonPrimitiveV::ValuesGreaterOrEqual =>
-			Some (ComparisonPrimitiveN::ValuesGreaterOrEqual),
-		ComparisonPrimitiveV::ValuesGreater =>
-			Some (ComparisonPrimitiveN::ValuesGreater),
-		ComparisonPrimitiveV::RecordLesser =>
-			Some (ComparisonPrimitiveN::RecordLesser),
-		ComparisonPrimitiveV::RecordLesserOrEqual =>
-			Some (ComparisonPrimitiveN::RecordLesserOrEqual),
-		ComparisonPrimitiveV::RecordEqual =>
-			Some (ComparisonPrimitiveN::RecordEqual),
-		ComparisonPrimitiveV::RecordGreaterOrEqual =>
-			Some (ComparisonPrimitiveN::RecordGreaterOrEqual),
-		ComparisonPrimitiveV::RecordGreater =>
-			Some (ComparisonPrimitiveN::RecordGreater),
-	}
-}
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
