@@ -897,7 +897,7 @@ pub fn number_real_compare_2a <ValueRef : StdAsRef<NumberReal>> (left : ValueRef
 			if left.is_nan () && right.is_nan () {
 				succeed! (true);
 			} else {
-				succeed! (left == right);
+				succeed! (f64::eq (&left, &right));
 			},
 		Comparison::Ordering (ordering, _, _) =>
 			if left.is_nan () || right.is_nan () {
@@ -926,7 +926,7 @@ pub fn character_compare_2a <ValueRef : StdAsRef<Character>> (left : ValueRef, r
 	let right = right.as_ref () .value ();
 	match comparison {
 		Comparison::Equivalence (_, _, _) =>
-			succeed! (left == right),
+			succeed! (char::eq (&left, &right)),
 		Comparison::Ordering (ordering, case_sensitivity, _) =>
 			match case_sensitivity {
 				None | Some (true) =>
@@ -955,7 +955,7 @@ pub fn symbol_compare_2a <ValueRef : StdAsRef<Symbol>> (left : ValueRef, right :
 	let right = right.as_ref () .string_as_str ();
 	match comparison {
 		Comparison::Equivalence (_, _, _) =>
-			succeed! (left == right),
+			succeed! (str::eq (left, right)),
 		Comparison::Ordering (ordering, case_sensitivity, _) =>
 			match case_sensitivity {
 				None | Some (true) =>
@@ -1086,7 +1086,7 @@ pub(crate) fn string_ref_compare_2a <'a, ValueRef : StdAsRef<StringRef<'a>>> (le
 				Equivalence::ByIdentity =>
 					succeed! (StringRef::is_self (left, right)),
 				Equivalence::ByValue =>
-					succeed! (left == right),
+					succeed! (StringRef::eq (left, right)),
 			},
 		Comparison::Ordering (ordering, case_sensitivity, _) =>
 			match case_sensitivity {
@@ -1145,7 +1145,7 @@ pub(crate) fn bytes_ref_compare_2a <'a, ValueRef : StdAsRef<BytesRef<'a>>> (left
 				Equivalence::ByIdentity =>
 					succeed! (BytesRef::is_self (left, right)),
 				Equivalence::ByValue =>
-					succeed! (left == right),
+					succeed! (BytesRef::eq (left, right)),
 			},
 		Comparison::Ordering (ordering, case_sensitivity, _) =>
 			match case_sensitivity {
@@ -1819,7 +1819,7 @@ pub(crate) fn number_match_as_ref_compare_2a (class : &NumberMatchAsRef2, compar
 						NumberMatchAsRef2::IntegerBoth (left, right) => {
 							let left = left.value ();
 							let right = right.value ();
-							succeed! (left == right);
+							succeed! (i64::eq (&left, &right));
 						},
 						NumberMatchAsRef2::RealBoth (left, right) => {
 							let left = left.value ();
@@ -1827,7 +1827,7 @@ pub(crate) fn number_match_as_ref_compare_2a (class : &NumberMatchAsRef2, compar
 							if left.is_nan () && right.is_nan () {
 								succeed! (true);
 							} else {
-								succeed! (left == right);
+								succeed! (f64::eq (&left, &right));
 							}
 						},
 						NumberMatchAsRef2::IntegerAndReal (_, _) =>
@@ -1839,12 +1839,12 @@ pub(crate) fn number_match_as_ref_compare_2a (class : &NumberMatchAsRef2, compar
 				Some (true) =>
 					match number_coerce_2e (class) {
 						NumberCoercion2::Integer (left, right) =>
-							succeed! (left == right),
+							succeed! (i64::eq (&left, &right)),
 						NumberCoercion2::Real (left, right) =>
 							if left.is_nan () && right.is_nan () {
 								succeed! (true);
 							} else {
-								succeed! (left == right);
+								succeed! (f64::eq (&left, &right));
 							},
 					},
 				
@@ -2081,7 +2081,7 @@ pub(crate) fn std_ord_compare_2_ref <Value, ValueRef : StdAsRef<Value>> (left : 
 {
 	match comparison {
 		Comparison::Equivalence (_, _, _) =>
-			succeed! (left.as_ref () == right.as_ref ()),
+			succeed! (Value::eq (left.as_ref (), right.as_ref ())),
 		Comparison::Ordering (ordering, _, _) =>
 			return std_ord_compare_2_ordering_ref (left, right, ordering),
 	}
@@ -2095,15 +2095,15 @@ pub(crate) fn std_ord_compare_2_ordering_ref <Value, ValueRef : StdAsRef<Value>>
 	let right = right.as_ref ();
 	let output = match ordering {
 		Ordering::Lesser =>
-			left < right,
+			Value::lt (left, right),
 		Ordering::LesserOrEqual =>
-			left <= right,
+			Value::le (left, right),
 		Ordering::Equal =>
-			left == right,
+			Value::eq (left, right),
 		Ordering::GreaterOrEqual =>
-			left >= right,
+			Value::ge (left, right),
 		Ordering::Greater =>
-			left > right,
+			Value::gt (left, right),
 	};
 	succeed! (output);
 }
@@ -2117,7 +2117,7 @@ pub(crate) fn std_ord_compare_2_val <Value> (left : Value, right : Value, compar
 {
 	match comparison {
 		Comparison::Equivalence (_, _, _) =>
-			succeed! (left == right),
+			succeed! (Value::eq (&left, &right)),
 		Comparison::Ordering (ordering, _, _) =>
 			return std_ord_compare_2_ordering_val (left, right, ordering),
 	}
@@ -2129,15 +2129,15 @@ pub(crate) fn std_ord_compare_2_ordering_val <Value> (left : Value, right : Valu
 {
 	let output = match ordering {
 		Ordering::Lesser =>
-			left < right,
+			Value::lt (&left, &right),
 		Ordering::LesserOrEqual =>
-			left <= right,
+			Value::le (&left, &right),
 		Ordering::Equal =>
-			left == right,
+			Value::eq (&left, &right),
 		Ordering::GreaterOrEqual =>
-			left >= right,
+			Value::ge (&left, &right),
 		Ordering::Greater =>
-			left > right,
+			Value::gt (&left, &right),
 	};
 	succeed! (output);
 }
