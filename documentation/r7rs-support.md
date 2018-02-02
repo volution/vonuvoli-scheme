@@ -38,8 +38,8 @@
 |        base        |    modules     |       syntax       | `include                         ` | `Unsupported`
 |        base        |    modules     |       syntax       | `include-ci                      ` | `Unsupported`
 |        base        |    modules     |       syntax       | `cond-expand                     ` | `Unsupported`
-|        base        |   parameters   |       syntax       | `parameterize                    ` | `Unsupported`
-|        base        |   parameters   |     procedure      | `make-parameter                  ` | `Unsupported`
+|        base        |   parameters   |       syntax       | `parameterize                    ` | `Unimplemented`
+|        base        |   parameters   |     procedure      | `make-parameter                  ` | `Unimplemented`
 |        base        |    syntaxes    |       syntax       | `syntax-error                    ` | `Unsupported`
 |        base        |    syntaxes    |       syntax       | `syntax-rules                    ` | `Unsupported`
 |        base        |   evaluator    |       syntax       | `guard                           ` | `PrimitiveV(GuardCond)`
@@ -701,16 +701,16 @@
 |        cxr         |     pairs      |       value        | `cddadr                          ` | `ComposedPrimitive1([List(PairRight), List(PairRight), List(PairLeft), List(PairRight)])`
 |        cxr         |     pairs      |       value        | `cdddar                          ` | `ComposedPrimitive1([List(PairRight), List(PairRight), List(PairRight), List(PairLeft)])`
 |        cxr         |     pairs      |       value        | `cddddr                          ` | `ComposedPrimitive1([List(PairRight), List(PairRight), List(PairRight), List(PairRight)])`
-|        eval        |   evaluator    |     procedure      | `environment                     ` | `Unsupported`
-|        eval        |   evaluator    |     procedure      | `eval                            ` | `Unsupported`
+|        eval        |   evaluator    |     procedure      | `environment                     ` | `Unimplemented`
+|        eval        |   evaluator    |     procedure      | `eval                            ` | `Unimplemented`
 |        file        |     ports      |    procedure-1     | `open-input-file                 ` | `Primitive1(Port(OpenTextualInput))`
 |        file        |     ports      |    procedure-1     | `open-binary-input-file          ` | `Primitive1(Port(OpenBinaryInput))`
 |        file        |     ports      |    procedure-1     | `open-output-file                ` | `Primitive1(Port(OpenTextualOutput))`
 |        file        |     ports      |    procedure-1     | `open-binary-output-file         ` | `Primitive1(Port(OpenBinaryOutput))`
 |        file        |     ports      |    procedure-2     | `call-with-input-file            ` | `Primitive2(Port(OpenTextualInputThenCallAndClose))`
 |        file        |     ports      |    procedure-2     | `call-with-output-file           ` | `Primitive2(Port(OpenTextualOutputThenCallAndClose))`
-|        file        |   parameters   |     procedure      | `with-input-from-file            ` | `Unsupported`
-|        file        |   parameters   |     procedure      | `with-output-to-file             ` | `Unsupported`
+|        file        |   parameters   |     procedure      | `with-input-from-file            ` | `Unimplemented`
+|        file        |   parameters   |     procedure      | `with-output-to-file             ` | `Unimplemented`
 |        file        |     system     |    procedure-1     | `file-exists?                    ` | `Primitive1(Port(FileExists))`
 |        file        |     system     |    procedure-1     | `delete-file                     ` | `Primitive1(Port(FileDelete))`
 |      inexact       |   arithmetic   |    procedure-1     | `sqrt                            ` | `Primitive1(Arithmetic(SquareRoot))`
@@ -725,12 +725,12 @@
 |      inexact       |   arithmetic   |    procedure-1     | `finite?                         ` | `Primitive1(Type(IsNumberFinite))`
 |      inexact       |   arithmetic   |    procedure-1     | `infinite?                       ` | `Primitive1(Type(IsNumberInfinite))`
 |      inexact       |   arithmetic   |    procedure-1     | `nan?                            ` | `Primitive1(Type(IsNumberNan))`
-|        lazy        |    promises    |       syntax       | `delay                           ` | `Unsupported`
-|        lazy        |    promises    |       syntax       | `delay-force                     ` | `Unsupported`
-|        lazy        |    promises    |     procedure      | `promise?                        ` | `Unsupported`
-|        lazy        |    promises    |     procedure      | `make-promise                    ` | `Unsupported`
-|        lazy        |    promises    |     procedure      | `force                           ` | `Unsupported`
-|        load        |    modules     |     procedure      | `load                            ` | `Unsupported`
+|        lazy        |    promises    |       syntax       | `delay                           ` | `Unimplemented`
+|        lazy        |    promises    |       syntax       | `delay-force                     ` | `Unimplemented`
+|        lazy        |    promises    |     procedure      | `promise?                        ` | `Unimplemented`
+|        lazy        |    promises    |     procedure      | `make-promise                    ` | `Unimplemented`
+|        lazy        |    promises    |     procedure      | `force                           ` | `Unimplemented`
+|        load        |    modules     |     procedure      | `load                            ` | `Unimplemented`
 |  process-context   |     system     |    procedure-0     | `command-line                    ` | `Primitive0(Runtime(ProcessArguments))`
 |  process-context   |     system     |    procedure-1     | `get-environment-variable        ` | `Primitive1(Runtime(ProcessEnvironment))`
 |  process-context   |     system     |    procedure-0     | `get-environment-variables       ` | `Primitive0(Runtime(ProcessEnvironment))`
@@ -740,13 +740,13 @@
 |  process-context   |     system     |    procedure-0*    | `emergency-exit                  ` | `Primitive0(Runtime(ProcessExitEmergency))`
 |  process-context   |     system     |    procedure-1*    | `emergency-exit                  ` | `Primitive1(Runtime(ProcessExitEmergency))`
 |  process-context   |     system     |    procedure-v*    | `emergency-exit                  ` | `PrimitiveV(Runtime(ProcessExitEmergency))`
-|        r5rs        |   evaluator    |     procedure      | `interaction-environment         ` | `Unsupported`
-|        r5rs        |   evaluator    |     procedure      | `scheme-report-environment       ` | `Unsupported`
-|        r5rs        |   evaluator    |     procedure      | `null-environment                ` | `Unsupported`
+|        r5rs        |   evaluator    |     procedure      | `interaction-environment         ` | `Unimplemented`
+|        r5rs        |   evaluator    |     procedure      | `scheme-report-environment       ` | `Unimplemented`
+|        r5rs        |   evaluator    |     procedure      | `null-environment                ` | `Unimplemented`
 |        read        |     ports      |    procedure-0*    | `read                            ` | `Primitive0(Port(ValueRead))`
 |        read        |     ports      |    procedure-1*    | `read                            ` | `Primitive1(Port(ValueRead))`
 |        read        |     ports      |    procedure-v*    | `read                            ` | `PrimitiveV(Port(ValueRead))`
-|        repl        |   evaluator    |     procedure      | `interaction-environment         ` | `Unsupported`
+|        repl        |   evaluator    |     procedure      | `interaction-environment         ` | `Unimplemented`
 |        time        |     system     |    procedure-0     | `current-second                  ` | `Primitive0(Runtime(PosixTimestamp))`
 |        time        |     system     |    procedure-0     | `current-jiffy                   ` | `Primitive0(Runtime(JiffiesTimestamp))`
 |        time        |     system     |    procedure-0     | `jiffies-per-second              ` | `Primitive0(Runtime(JiffiesPerSecond))`
@@ -768,11 +768,28 @@
 
 ## Scheme R7RS definitions -- summary
 
-* implemented       298 (100.00% / 88.17%)
+* implemented       298 (95.21% / 88.17%)
 
-* unimplemented       0 (00.00% / 00.00%)
+* unimplemented      15 (04.79% / 04.44%)
+  ```
+    delay
+    delay-force
+    environment
+    eval
+    force
+    interaction-environment
+    load
+    make-parameter
+    make-promise
+    null-environment
+    parameterize
+    promise?
+    scheme-report-environment
+    with-input-from-file
+    with-output-to-file
+  ```
 
-* unsupported        40 (13.42% / 11.83%)
+* unsupported        25 (07.99% / 07.40%)
   ```
     angle
     call-with-current-continuation
@@ -780,40 +797,25 @@
     case-lambda
     cond-expand
     define-syntax
-    delay
-    delay-force
     denominator
     dynamic-wind
-    environment
-    eval
     features
-    force
     imag-part
     import
     include
     include-ci
-    interaction-environment
     let-syntax
     letrec-syntax
-    load
     magnitude
-    make-parameter
     make-polar
-    make-promise
     make-rectangular
-    null-environment
     numerator
-    parameterize
-    promise?
     raise-continuable
     rationalize
     real-part
-    scheme-report-environment
     syntax-error
     syntax-rules
     with-exception-handler
-    with-input-from-file
-    with-output-to-file
   ```
 
 * reserved            0 (00.00% / 00.00%)

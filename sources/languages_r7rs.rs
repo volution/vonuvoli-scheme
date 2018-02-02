@@ -110,8 +110,8 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "modules", "include-ci", SyntaxPrimitive::Unsupported.into ()),
 			("base", "modules", "cond-expand", SyntaxPrimitive::Unsupported.into ()),
 			
-			("base", "parameters", "parameterize", SyntaxPrimitive::Unsupported.into ()),
-			("base", "parameters", "make-parameter", ProcedurePrimitive::Unsupported.into ()),
+			("base", "parameters", "parameterize", SyntaxPrimitive::Unimplemented.into ()),
+			("base", "parameters", "make-parameter", ProcedurePrimitive::Unimplemented.into ()),
 			
 			("base", "syntaxes", "syntax-error", SyntaxPrimitive::Unsupported.into ()),
 			("base", "syntaxes", "syntax-rules", SyntaxPrimitive::Unsupported.into ()),
@@ -593,8 +593,8 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			// (scheme eval)
 			//     --> verified
 			
-			("eval", "evaluator", "environment", ProcedurePrimitive::Unsupported.into ()),
-			("eval", "evaluator", "eval", ProcedurePrimitive::Unsupported.into ()),
+			("eval", "evaluator", "environment", ProcedurePrimitive::Unimplemented.into ()),
+			("eval", "evaluator", "eval", ProcedurePrimitive::Unimplemented.into ()),
 			
 			
 			
@@ -611,8 +611,8 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("file", "ports", "call-with-input-file", PortPrimitive2::OpenTextualInputThenCallAndClose.into ()),
 			("file", "ports", "call-with-output-file", PortPrimitive2::OpenTextualOutputThenCallAndClose.into ()),
 			
-			("file", "parameters", "with-input-from-file", ProcedurePrimitive::Unsupported.into ()),
-			("file", "parameters", "with-output-to-file", ProcedurePrimitive::Unsupported.into ()),
+			("file", "parameters", "with-input-from-file", ProcedurePrimitive::Unimplemented.into ()),
+			("file", "parameters", "with-output-to-file", ProcedurePrimitive::Unimplemented.into ()),
 			
 			("file", "system", "file-exists?", PortPrimitive1::FileExists.into ()),
 			("file", "system", "delete-file", PortPrimitive1::FileDelete.into ()),
@@ -645,12 +645,12 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			// (scheme lazy)
 			//     --> verified
 			
-			("lazy", "promises", "delay", SyntaxPrimitive::Unsupported.into ()),
-			("lazy", "promises", "delay-force", SyntaxPrimitive::Unsupported.into ()),
+			("lazy", "promises", "delay", SyntaxPrimitive::Unimplemented.into ()),
+			("lazy", "promises", "delay-force", SyntaxPrimitive::Unimplemented.into ()),
 			
-			("lazy", "promises", "promise?", ProcedurePrimitive::Unsupported.into ()),
-			("lazy", "promises", "make-promise", ProcedurePrimitive::Unsupported.into ()),
-			("lazy", "promises", "force", ProcedurePrimitive::Unsupported.into ()),
+			("lazy", "promises", "promise?", ProcedurePrimitive::Unimplemented.into ()),
+			("lazy", "promises", "make-promise", ProcedurePrimitive::Unimplemented.into ()),
+			("lazy", "promises", "force", ProcedurePrimitive::Unimplemented.into ()),
 			
 			
 			
@@ -658,7 +658,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			// (scheme load)
 			//     --> verified
 			
-			("load", "modules", "load", ProcedurePrimitive::Unsupported.into ()),
+			("load", "modules", "load", ProcedurePrimitive::Unimplemented.into ()),
 			
 			
 			
@@ -679,9 +679,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			// (scheme r5rs)
 			//     --> verified
 			
-			("r5rs", "evaluator", "interaction-environment", ProcedurePrimitive::Unsupported.into ()),
-			("r5rs", "evaluator", "scheme-report-environment", ProcedurePrimitive::Unsupported.into ()),
-			("r5rs", "evaluator", "null-environment", ProcedurePrimitive::Unsupported.into ()),
+			("r5rs", "evaluator", "interaction-environment", ProcedurePrimitive::Unimplemented.into ()),
+			("r5rs", "evaluator", "scheme-report-environment", ProcedurePrimitive::Unimplemented.into ()),
+			("r5rs", "evaluator", "null-environment", ProcedurePrimitive::Unimplemented.into ()),
 			
 			
 			
@@ -697,7 +697,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			// (scheme repl)
 			//     --> verified
 			
-			("repl", "evaluator", "interaction-environment", ProcedurePrimitive::Unsupported.into ()),
+			("repl", "evaluator", "interaction-environment", ProcedurePrimitive::Unimplemented.into ()),
 			
 			
 			
