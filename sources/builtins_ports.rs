@@ -749,6 +749,22 @@ pub fn port_output_value_display_0 (port : &mut PortBackendWriter, value : &Valu
 			try! (port.char_write_string (string, true));
 		},
 		
+		ValueClassMatchAsRef::Keyword (_value) => {
+			// let string = value.string_as_str ();
+			// try! (port.char_write_string (string, true));
+			fail_unimplemented! (0xce6a3651);
+		},
+		
+		ValueClassMatchAsRef::Unique (_value) => {
+			fail_unimplemented! (0x5702df25);
+		},
+		
+		ValueClassMatchAsRef::StringRegex (_value) => {
+			// let string = value.string_as_str ();
+			// try! (port.char_write_string (string, true));
+			fail_unimplemented! (0xd8a1cb13);
+		},
+		
 		ValueClassMatchAsRef::String (class) => {
 			let string = try! (class.string_ref ());
 			let string = string.string_as_str ();
@@ -945,6 +961,24 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 		},
 		
 		ValueClassMatchAsRef::Symbol (value) => {
+			// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+			let formatted = format! ("{}", value);
+			try! (port.char_write_string (&formatted, true));
+		},
+		
+		ValueClassMatchAsRef::Keyword (value) => {
+			// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+			let formatted = format! ("{}", value);
+			try! (port.char_write_string (&formatted, true));
+		},
+		
+		ValueClassMatchAsRef::Unique (value) => {
+			// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+			let formatted = format! ("{}", value);
+			try! (port.char_write_string (&formatted, true));
+		},
+		
+		ValueClassMatchAsRef::StringRegex (value) => {
 			// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
 			let formatted = format! ("{}", value);
 			try! (port.char_write_string (&formatted, true));

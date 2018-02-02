@@ -129,17 +129,26 @@ impl Compiler {
 			ValueClassMatchInto::Character (value) =>
 				return self.compile_syntax_quote_0 (compilation, value.into ()),
 			
-			ValueClassMatchInto::String (class) =>
-				return self.compile_syntax_quote_0 (compilation, class.value ()),
-			
 			ValueClassMatchInto::Symbol (value) =>
 				return self.compile_symbol (compilation, value),
 			
-			ValueClassMatchInto::Pair (class) =>
-				return self.compile_form (compilation, try! (class.into_immutable ())),
+			ValueClassMatchInto::Keyword (value) =>
+				return self.compile_syntax_quote_0 (compilation, value.into ()),
+			
+			ValueClassMatchInto::Unique (value) =>
+				return self.compile_syntax_quote_0 (compilation, value.into ()),
+			
+			ValueClassMatchInto::StringRegex (value) =>
+				return self.compile_syntax_quote_0 (compilation, value.into ()),
+			
+			ValueClassMatchInto::String (class) =>
+				return self.compile_syntax_quote_0 (compilation, class.value ()),
 			
 			ValueClassMatchInto::Bytes (class) =>
 				return self.compile_syntax_quote_0 (compilation, class.value ()),
+			
+			ValueClassMatchInto::Pair (class) =>
+				return self.compile_form (compilation, try! (class.into_immutable ())),
 			
 			ValueClassMatchInto::Array (class) =>
 				return self.compile_syntax_quote_0 (compilation, class.value ()),
@@ -168,8 +177,8 @@ impl Compiler {
 			ValueClassMatchInto::Resource (class) =>
 				return self.compile_syntax_quote_0 (compilation, class.value ()),
 			
-			ValueClassMatchInto::Internal (_value) =>
-				fail_unimplemented! (0x45661ea2), // deferred
+			ValueClassMatchInto::Internal (class) =>
+				return self.compile_syntax_quote_0 (compilation, class.value ()),
 			
 			ValueClassMatchInto::Opaque (value) =>
 				return self.compile_syntax_quote_0 (compilation, value),
@@ -1848,14 +1857,23 @@ impl Compiler {
 			ValueClassMatchInto::Character (value) =>
 				succeed! ((compilation, splice (value, spliceable))),
 			
+			ValueClassMatchInto::Symbol (value) =>
+				succeed! ((compilation, splice (value, spliceable))),
+			
+			ValueClassMatchInto::Keyword (value) =>
+				succeed! ((compilation, splice (value, spliceable))),
+			
+			ValueClassMatchInto::Unique (value) =>
+				succeed! ((compilation, splice (value, spliceable))),
+			
+			ValueClassMatchInto::StringRegex (value) =>
+				succeed! ((compilation, splice (value, spliceable))),
+			
 			ValueClassMatchInto::String (class) =>
 				succeed! ((compilation, splice (class.value (), spliceable))),
 			
 			ValueClassMatchInto::Bytes (class) =>
 				succeed! ((compilation, splice (class.value (), spliceable))),
-			
-			ValueClassMatchInto::Symbol (value) =>
-				succeed! ((compilation, splice (value, spliceable))),
 			
 			ValueClassMatchInto::Array (class) =>
 				// FIXME:  Add support for quasi-quotation in arrays!
@@ -1877,6 +1895,18 @@ impl Compiler {
 			
 			ValueClassMatchInto::Procedure (class) =>
 				succeed! ((compilation, splice (class.value (), spliceable))),
+			
+			ValueClassMatchInto::Port (value) =>
+				succeed! ((compilation, splice (value, spliceable))),
+			
+			ValueClassMatchInto::Resource (class) =>
+				succeed! ((compilation, splice (class.value (), spliceable))),
+			
+			ValueClassMatchInto::Internal (class) =>
+				succeed! ((compilation, splice (class.value (), spliceable))),
+			
+			ValueClassMatchInto::Opaque (value) =>
+				succeed! ((compilation, splice (value, spliceable))),
 			
 			ValueClassMatchInto::Syntax (class) =>
 				match class {
@@ -1901,18 +1931,6 @@ impl Compiler {
 					_ =>
 						succeed! ((compilation, splice (class.value (), spliceable))),
 				},
-			
-			ValueClassMatchInto::Port (value) =>
-				succeed! ((compilation, splice (value, spliceable))),
-			
-			ValueClassMatchInto::Resource (class) =>
-				succeed! ((compilation, splice (class.value (), spliceable))),
-			
-			ValueClassMatchInto::Internal (_value) =>
-				fail_unimplemented! (0x0bc54733), // deferred
-			
-			ValueClassMatchInto::Opaque (value) =>
-				succeed! ((compilation, splice (value, spliceable))),
 			
 			ValueClassMatchInto::Pair (class) => {
 				

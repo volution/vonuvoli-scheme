@@ -28,6 +28,10 @@ impl hash::Hash for Value {
 			ValueKindMatchAsRef::Character (self_0) => { hasher.write_u32 (0x29e07200); self_0.hash (hasher); },
 			
 			ValueKindMatchAsRef::Symbol (self_0) => { hasher.write_u32 (0x1fcc2d57); self_0.hash (hasher); },
+			ValueKindMatchAsRef::Keyword (self_0) => { hasher.write_u32 (0xc1ebdc4e); self_0.hash (hasher); },
+			ValueKindMatchAsRef::Unique (self_0) => { hasher.write_u32 (0x7e74b485); self_0.hash (hasher); },
+			
+			ValueKindMatchAsRef::StringRegex (self_0) => { hasher.write_u32 (0x3bd45821); self_0.hash (hasher); },
 			ValueKindMatchAsRef::StringImmutable (self_0) => { hasher.write_u32 (0x85932088); self_0.hash (hasher); },
 			ValueKindMatchAsRef::StringMutable (self_0) => { hasher.write_u32 (0x5dffe8a7); self_0.hash (hasher); },
 			ValueKindMatchAsRef::BytesImmutable (self_0) => { hasher.write_u32 (0xd6ec09a4); self_0.hash (hasher); },
@@ -60,6 +64,9 @@ impl hash::Hash for Value {
 			
 			ValueKindMatchAsRef::Context (self_0) => { hasher.write_u32 (0x04ef2744); self_0.hash (hasher); },
 			ValueKindMatchAsRef::Binding (self_0) => { hasher.write_u32 (0x8dd0b6ab); self_0.hash (hasher); },
+			ValueKindMatchAsRef::Parameters (self_0) => { hasher.write_u32 (0x84c616f7); self_0.hash (hasher); },
+			ValueKindMatchAsRef::Parameter (self_0) => { hasher.write_u32 (0x1937881d); self_0.hash (hasher); },
+			ValueKindMatchAsRef::Promise (self_0) => { hasher.write_u32 (0x34b0d53d); self_0.hash (hasher); },
 			
 		}
 	}

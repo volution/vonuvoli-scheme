@@ -110,6 +110,9 @@ impl_from_for_Value_1! (NumberInteger, NumberInteger);
 impl_from_for_Value_1! (NumberReal, NumberReal);
 impl_from_for_Value_1! (Character, Character);
 impl_from_for_Value_1! (Symbol, Symbol);
+impl_from_for_Value_1! (Keyword, Keyword);
+impl_from_for_Value_1! (Unique, Unique);
+impl_from_for_Value_1! (StringRegex, StringRegex);
 impl_from_for_Value_1! (StringImmutable, StringImmutable);
 impl_from_for_Value_1! (StringMutable, StringMutable);
 impl_from_for_Value_1! (BytesImmutable, BytesImmutable);
@@ -135,6 +138,9 @@ impl_from_for_Value_1! (Port, Port);
 impl_from_for_Value_1! (Process, Process);
 impl_from_for_Value_1! (Context, Context);
 impl_from_for_Value_1! (Binding, Binding);
+impl_from_for_Value_1! (Parameters, Parameters);
+impl_from_for_Value_1! (Parameter, Parameter);
+impl_from_for_Value_1! (Promise, Promise);
 
 
 impl_from_for_Value_3! (Singleton, ValueSingleton, (), _value, ValueSingleton::Void);
@@ -178,6 +184,9 @@ impl_from_for_type! (StringMutable, &'static str, value, string_mutable_clone_st
 
 impl_from_for_type! (Symbol, StdString, value, symbol_new (value));
 impl_from_for_type! (Symbol, &'static str, value, symbol_clone_str (value));
+
+// impl_from_for_type! (Keyword, StdString, value, keyword_new (value));
+// impl_from_for_type! (Keyword, &'static str, value, keyword_clone_str (value));
 
 impl_from_for_type! (PairImmutable, (Value, Value), value, { let (left, right) = value; pair_immutable_new (left, right) });
 impl_from_for_type! (PairMutable, (Value, Value), value, { let (left, right) = value; pair_mutable_new (left, right) });
@@ -416,7 +425,8 @@ macro_rules! impl_from_for_ProcedurePrimitiveCall1 {
 				Expression,
 				Value,
 				Boolean, NumberInteger, NumberReal, Character,
-				Symbol, StringImmutable, StringMutable, BytesImmutable, BytesMutable,
+				Symbol, Keyword, Unique,
+				StringRegex, StringImmutable, StringMutable, BytesImmutable, BytesMutable,
 				PairImmutable, PairMutable, ArrayImmutable, ArrayMutable, Values,
 				RecordKind, RecordImmutable, RecordMutable,
 				bool, i64, f64, char,
@@ -437,7 +447,8 @@ macro_rules! impl_from_for_ProcedurePrimitiveCall2 {
 				Expression,
 				Value,
 				Boolean, NumberInteger, NumberReal, Character,
-				Symbol, StringImmutable, StringMutable, BytesImmutable, BytesMutable,
+				Symbol, Keyword, Unique,
+				StringRegex, StringImmutable, StringMutable, BytesImmutable, BytesMutable,
 				PairImmutable, PairMutable, ArrayImmutable, ArrayMutable, Values,
 				RecordKind, RecordImmutable, RecordMutable,
 				bool, i64, f64, char,
@@ -459,7 +470,8 @@ macro_rules! impl_from_for_ProcedurePrimitiveCall3 {
 				Expression,
 				Value,
 				Boolean, NumberInteger, NumberReal, Character,
-				Symbol, StringImmutable, StringMutable, BytesImmutable, BytesMutable,
+				Symbol, Keyword, Unique,
+				StringRegex, StringImmutable, StringMutable, BytesImmutable, BytesMutable,
 				PairImmutable, PairMutable, ArrayImmutable, ArrayMutable, Values,
 				RecordKind, RecordImmutable, RecordMutable,
 				bool, i64, f64, char,
@@ -481,7 +493,8 @@ macro_rules! impl_from_for_ProcedurePrimitiveCall4 {
 				Expression,
 				Value,
 				Boolean, NumberInteger, NumberReal, Character,
-				Symbol, StringImmutable, StringMutable, BytesImmutable, BytesMutable,
+				Symbol, Keyword, Unique,
+				StringRegex, StringImmutable, StringMutable, BytesImmutable, BytesMutable,
 				PairImmutable, PairMutable, ArrayImmutable, ArrayMutable, Values,
 				RecordKind, RecordImmutable, RecordMutable,
 				bool, i64, f64, char,
@@ -503,7 +516,8 @@ macro_rules! impl_from_for_ProcedurePrimitiveCall5 {
 				Expression,
 				Value,
 				Boolean, NumberInteger, NumberReal, Character,
-				Symbol, StringImmutable, StringMutable, BytesImmutable, BytesMutable,
+				Symbol, Keyword, Unique,
+				StringRegex, StringImmutable, StringMutable, BytesImmutable, BytesMutable,
 				PairImmutable, PairMutable, ArrayImmutable, ArrayMutable, Values,
 				RecordKind, RecordImmutable, RecordMutable,
 				bool, i64, f64, char,
@@ -526,7 +540,8 @@ macro_rules! impl_from_for_ProcedurePrimitiveCallN {
 				Expression,
 				Value,
 				Boolean, NumberInteger, NumberReal, Character,
-				Symbol, StringImmutable, StringMutable, BytesImmutable, BytesMutable,
+				Symbol, Keyword, Unique,
+				StringRegex, StringImmutable, StringMutable, BytesImmutable, BytesMutable,
 				PairImmutable, PairMutable, ArrayImmutable, ArrayMutable, Values,
 				RecordKind, RecordImmutable, RecordMutable,
 				bool, i64, f64, char,
@@ -563,7 +578,8 @@ macro_rules! impl_from_for_ProcedurePrimitiveCallV {
 				Expression,
 				Value,
 				Boolean, NumberInteger, NumberReal, Character,
-				Symbol, StringImmutable, StringMutable, BytesImmutable, BytesMutable,
+				Symbol, Keyword, Unique,
+				StringRegex, StringImmutable, StringMutable, BytesImmutable, BytesMutable,
 				PairImmutable, PairMutable, ArrayImmutable, ArrayMutable, Values,
 				RecordKind, RecordImmutable, RecordMutable,
 				bool, i64, f64, char,

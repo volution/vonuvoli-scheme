@@ -29,6 +29,10 @@ impl fmt::Display for Value {
 			ValueKindMatchAsRef::Character (self_0) => self_0.fmt (formatter),
 			
 			ValueKindMatchAsRef::Symbol (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::Keyword (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::Unique (self_0) => self_0.fmt (formatter),
+			
+			ValueKindMatchAsRef::StringRegex (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::StringImmutable (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::StringMutable (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::BytesImmutable (self_0) => self_0.fmt (formatter),
@@ -61,6 +65,9 @@ impl fmt::Display for Value {
 			
 			ValueKindMatchAsRef::Context (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::Binding (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::Parameters (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::Parameter (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::Promise (self_0) => self_0.fmt (formatter),
 			
 		}
 	}
@@ -83,6 +90,10 @@ impl fmt::Debug for Value {
 			ValueKindMatchAsRef::Character (self_0) => self_0.fmt (formatter),
 			
 			ValueKindMatchAsRef::Symbol (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::Keyword (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::Unique (self_0) => self_0.fmt (formatter),
+			
+			ValueKindMatchAsRef::StringRegex (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::StringImmutable (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::StringMutable (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::BytesImmutable (self_0) => self_0.fmt (formatter),
@@ -115,6 +126,9 @@ impl fmt::Debug for Value {
 			
 			ValueKindMatchAsRef::Context (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::Binding (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::Parameters (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::Parameter (self_0) => self_0.fmt (formatter),
+			ValueKindMatchAsRef::Promise (self_0) => self_0.fmt (formatter),
 			
 		}
 	}

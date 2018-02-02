@@ -73,6 +73,10 @@ impl <'a> ValueKindMatchAsRef2<'a> {
 			ValueKindMatchAsRef2::Character (self_0, other_0) => Some (Character::eq (self_0, other_0)),
 			
 			ValueKindMatchAsRef2::Symbol (self_0, other_0) => Some (Symbol::eq (self_0, other_0)),
+			ValueKindMatchAsRef2::Keyword (self_0, other_0) => Some (Keyword::eq (self_0, other_0)),
+			ValueKindMatchAsRef2::Unique (self_0, other_0) => Some (Unique::eq (self_0, other_0)),
+			
+			ValueKindMatchAsRef2::StringRegex (self_0, other_0) => Some (StringRegex::eq (self_0, other_0)),
 			ValueKindMatchAsRef2::StringImmutable (self_0, other_0) => Some (StringImmutable::eq (self_0, other_0)),
 			ValueKindMatchAsRef2::StringMutable (self_0, other_0) => Some (StringMutable::eq (self_0, other_0)),
 			ValueKindMatchAsRef2::BytesImmutable (self_0, other_0) => Some (BytesImmutable::eq (self_0, other_0)),
@@ -105,6 +109,9 @@ impl <'a> ValueKindMatchAsRef2<'a> {
 			
 			ValueKindMatchAsRef2::Context (self_0, other_0) => Some (Context::eq (self_0, other_0)),
 			ValueKindMatchAsRef2::Binding (self_0, other_0) => Some (Binding::eq (self_0, other_0)),
+			ValueKindMatchAsRef2::Parameters (self_0, other_0) => Some (Parameters::eq (self_0, other_0)),
+			ValueKindMatchAsRef2::Parameter (self_0, other_0) => Some (Parameter::eq (self_0, other_0)),
+			ValueKindMatchAsRef2::Promise (self_0, other_0) => Some (Promise::eq (self_0, other_0)),
 			
 			ValueKindMatchAsRef2::Missmatched => None,
 			
@@ -129,6 +136,10 @@ impl <'a> ValueKindMatchAsRef2<'a> {
 			ValueKindMatchAsRef2::Character (self_0, other_0) => Some (Character::cmp (self_0, other_0)),
 			
 			ValueKindMatchAsRef2::Symbol (self_0, other_0) => Some (Symbol::cmp (self_0, other_0)),
+			ValueKindMatchAsRef2::Keyword (self_0, other_0) => Some (Keyword::cmp (self_0, other_0)),
+			ValueKindMatchAsRef2::Unique (self_0, other_0) => Some (Unique::cmp (self_0, other_0)),
+			
+			ValueKindMatchAsRef2::StringRegex (self_0, other_0) => Some (StringRegex::cmp (self_0, other_0)),
 			ValueKindMatchAsRef2::StringImmutable (self_0, other_0) => Some (StringImmutable::cmp (self_0, other_0)),
 			ValueKindMatchAsRef2::StringMutable (self_0, other_0) => Some (StringMutable::cmp (self_0, other_0)),
 			ValueKindMatchAsRef2::BytesImmutable (self_0, other_0) => Some (BytesImmutable::cmp (self_0, other_0)),
@@ -161,6 +172,9 @@ impl <'a> ValueKindMatchAsRef2<'a> {
 			
 			ValueKindMatchAsRef2::Context (self_0, other_0) => Some (Context::cmp (self_0, other_0)),
 			ValueKindMatchAsRef2::Binding (self_0, other_0) => Some (Binding::cmp (self_0, other_0)),
+			ValueKindMatchAsRef2::Parameters (self_0, other_0) => Some (Parameters::cmp (self_0, other_0)),
+			ValueKindMatchAsRef2::Parameter (self_0, other_0) => Some (Parameter::cmp (self_0, other_0)),
+			ValueKindMatchAsRef2::Promise (self_0, other_0) => Some (Promise::cmp (self_0, other_0)),
 			
 			ValueKindMatchAsRef2::Missmatched => None,
 			
