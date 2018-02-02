@@ -779,6 +779,15 @@ def_value_try_into! (try_into_character, value_type! (Character));
 def_value_try_as_ref! (try_as_symbol_ref, value_type! (Symbol));
 def_value_try_into! (try_into_symbol, value_type! (Symbol));
 
+def_value_try_as_ref! (try_as_keyword_ref, value_type! (Keyword));
+def_value_try_into! (try_into_keyword, value_type! (Keyword));
+
+def_value_try_as_ref! (try_as_unique_ref, value_type! (Unique));
+def_value_try_into! (try_into_unique, value_type! (Unique));
+
+def_value_try_as_ref! (try_as_string_regex_ref, value_type! (StringRegex));
+def_value_try_into! (try_into_string_regex, value_type! (StringRegex));
+
 def_value_try_as_ref! (try_as_string_immutable_ref, value_type! (StringImmutable));
 def_value_try_into! (try_into_string_immutable, value_type! (StringImmutable));
 
@@ -853,6 +862,15 @@ def_value_try_into! (try_into_context, value_type! (Context));
 
 def_value_try_as_ref! (try_as_binding_ref, value_type! (Binding));
 def_value_try_into! (try_into_binding, value_type! (Binding));
+
+def_value_try_as_ref! (try_as_parameters_ref, value_type! (Parameters));
+def_value_try_into! (try_into_parameters, value_type! (Parameters));
+
+def_value_try_as_ref! (try_as_parameter_ref, value_type! (Parameter));
+def_value_try_into! (try_into_parameter, value_type! (Parameter));
+
+def_value_try_as_ref! (try_as_promise_ref, value_type! (Promise));
+def_value_try_into! (try_into_promise, value_type! (Promise));
 
 
 
