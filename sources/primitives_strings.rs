@@ -84,6 +84,10 @@ pub enum StringPrimitive1 {
 	
 	StringToSymbol,
 	SymbolToString,
+	StringToKeyword,
+	KeywordToString,
+	SymbolToKeyword,
+	KeywordToSymbol,
 	StringToNumber,
 	NumberToString,
 	CharacterToNumber,
@@ -95,6 +99,9 @@ pub enum StringPrimitive1 {
 	SymbolToUpperCase,
 	SymbolToLowerCase,
 	SymbolToFoldCase,
+	KeywordToUpperCase,
+	KeywordToLowerCase,
+	KeywordToFoldCase,
 	CharacterToUpperCase,
 	CharacterToLowerCase,
 	CharacterToFoldCase,
@@ -285,6 +292,18 @@ pub fn string_primitive_1_evaluate (primitive : StringPrimitive1, input_1 : &Val
 		StringPrimitive1::SymbolToString =>
 			return symbol_to_string (input_1),
 		
+		StringPrimitive1::StringToKeyword =>
+			return string_to_keyword (input_1),
+		
+		StringPrimitive1::KeywordToString =>
+			return keyword_to_string (input_1),
+		
+		StringPrimitive1::SymbolToKeyword =>
+			return symbol_to_keyword (input_1),
+		
+		StringPrimitive1::KeywordToSymbol =>
+			return keyword_to_symbol (input_1),
+		
 		StringPrimitive1::StringToNumber =>
 			return string_to_number (input_1, None),
 		
@@ -314,6 +333,15 @@ pub fn string_primitive_1_evaluate (primitive : StringPrimitive1, input_1 : &Val
 		
 		StringPrimitive1::SymbolToFoldCase =>
 			return symbol_to_fold_case (input_1),
+		
+		StringPrimitive1::KeywordToUpperCase =>
+			return keyword_to_upper_case (input_1),
+		
+		StringPrimitive1::KeywordToLowerCase =>
+			return keyword_to_lower_case (input_1),
+		
+		StringPrimitive1::KeywordToFoldCase =>
+			return keyword_to_fold_case (input_1),
 		
 		StringPrimitive1::CharacterToUpperCase =>
 			return character_to_upper_case (input_1),
