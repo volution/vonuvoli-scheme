@@ -118,6 +118,24 @@ macro_rules! def_comparison_primitive_enum {
 			SymbolCaseInsensitiveGreaterOrEqual,
 			SymbolCaseInsensitiveGreater,
 			
+			KeywordCaseSensitiveLesser,
+			KeywordCaseSensitiveLesserOrEqual,
+			KeywordCaseSensitiveEqual,
+			KeywordCaseSensitiveGreaterOrEqual,
+			KeywordCaseSensitiveGreater,
+			
+			KeywordCaseInsensitiveLesser,
+			KeywordCaseInsensitiveLesserOrEqual,
+			KeywordCaseInsensitiveEqual,
+			KeywordCaseInsensitiveGreaterOrEqual,
+			KeywordCaseInsensitiveGreater,
+			
+			UniqueLesser,
+			UniqueLesserOrEqual,
+			UniqueEqual,
+			UniqueGreaterOrEqual,
+			UniqueGreater,
+			
 			BytesLesser,
 			BytesLesserOrEqual,
 			BytesEqual,
@@ -334,6 +352,51 @@ pub fn comparison_primitive_1_evaluate (primitive : ComparisonPrimitive1, input_
 		
 		ComparisonPrimitive1::SymbolCaseInsensitiveGreater =>
 			return symbol_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, Some (false))) .into_0 (),
+		
+		ComparisonPrimitive1::KeywordCaseSensitiveLesser =>
+			return keyword_compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, Some (true))) .into_0 (),
+		
+		ComparisonPrimitive1::KeywordCaseSensitiveLesserOrEqual =>
+			return keyword_compare_1 (input_1, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true))) .into_0 (),
+		
+		ComparisonPrimitive1::KeywordCaseSensitiveEqual =>
+			return keyword_compare_1 (input_1, Comparison::Ordering (Ordering::Equal, None, Some (true))) .into_0 (),
+		
+		ComparisonPrimitive1::KeywordCaseSensitiveGreaterOrEqual =>
+			return keyword_compare_1 (input_1, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true))) .into_0 (),
+		
+		ComparisonPrimitive1::KeywordCaseSensitiveGreater =>
+			return keyword_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, Some (true))) .into_0 (),
+		
+		ComparisonPrimitive1::KeywordCaseInsensitiveLesser =>
+			return keyword_compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, Some (false))) .into_0 (),
+		
+		ComparisonPrimitive1::KeywordCaseInsensitiveLesserOrEqual =>
+			return keyword_compare_1 (input_1, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false))) .into_0 (),
+		
+		ComparisonPrimitive1::KeywordCaseInsensitiveEqual =>
+			return keyword_compare_1 (input_1, Comparison::Ordering (Ordering::Equal, None, Some (false))) .into_0 (),
+		
+		ComparisonPrimitive1::KeywordCaseInsensitiveGreaterOrEqual =>
+			return keyword_compare_1 (input_1, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false))) .into_0 (),
+		
+		ComparisonPrimitive1::KeywordCaseInsensitiveGreater =>
+			return keyword_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, Some (false))) .into_0 (),
+		
+		ComparisonPrimitive1::UniqueLesser =>
+			return unique_compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
+		
+		ComparisonPrimitive1::UniqueLesserOrEqual =>
+			return unique_compare_1 (input_1, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
+		
+		ComparisonPrimitive1::UniqueEqual =>
+			return unique_compare_1 (input_1, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
+		
+		ComparisonPrimitive1::UniqueGreaterOrEqual =>
+			return unique_compare_1 (input_1, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
+		
+		ComparisonPrimitive1::UniqueGreater =>
+			return unique_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
 		ComparisonPrimitive1::BytesLesser =>
 			return bytes_compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
@@ -570,6 +633,51 @@ pub fn comparison_primitive_2_evaluate (primitive : ComparisonPrimitive2, input_
 		ComparisonPrimitive2::SymbolCaseInsensitiveGreater =>
 			return symbol_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, Some (false))) .into_0 (),
 		
+		ComparisonPrimitive2::KeywordCaseSensitiveLesser =>
+			return keyword_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, Some (true))) .into_0 (),
+		
+		ComparisonPrimitive2::KeywordCaseSensitiveLesserOrEqual =>
+			return keyword_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true))) .into_0 (),
+		
+		ComparisonPrimitive2::KeywordCaseSensitiveEqual =>
+			return keyword_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Equal, None, Some (true))) .into_0 (),
+		
+		ComparisonPrimitive2::KeywordCaseSensitiveGreaterOrEqual =>
+			return keyword_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true))) .into_0 (),
+		
+		ComparisonPrimitive2::KeywordCaseSensitiveGreater =>
+			return keyword_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, Some (true))) .into_0 (),
+		
+		ComparisonPrimitive2::KeywordCaseInsensitiveLesser =>
+			return keyword_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, Some (false))) .into_0 (),
+		
+		ComparisonPrimitive2::KeywordCaseInsensitiveLesserOrEqual =>
+			return keyword_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false))) .into_0 (),
+		
+		ComparisonPrimitive2::KeywordCaseInsensitiveEqual =>
+			return keyword_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Equal, None, Some (false))) .into_0 (),
+		
+		ComparisonPrimitive2::KeywordCaseInsensitiveGreaterOrEqual =>
+			return keyword_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false))) .into_0 (),
+		
+		ComparisonPrimitive2::KeywordCaseInsensitiveGreater =>
+			return keyword_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, Some (false))) .into_0 (),
+		
+		ComparisonPrimitive2::UniqueLesser =>
+			return unique_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
+		
+		ComparisonPrimitive2::UniqueLesserOrEqual =>
+			return unique_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
+		
+		ComparisonPrimitive2::UniqueEqual =>
+			return unique_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
+		
+		ComparisonPrimitive2::UniqueGreaterOrEqual =>
+			return unique_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
+		
+		ComparisonPrimitive2::UniqueGreater =>
+			return unique_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
+		
 		ComparisonPrimitive2::BytesLesser =>
 			return bytes_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
 		
@@ -805,6 +913,51 @@ pub fn comparison_primitive_3_evaluate (primitive : ComparisonPrimitive3, input_
 		ComparisonPrimitive3::SymbolCaseInsensitiveGreater =>
 			return symbol_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, Some (false))) .into_0 (),
 		
+		ComparisonPrimitive3::KeywordCaseSensitiveLesser =>
+			return keyword_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, Some (true))) .into_0 (),
+		
+		ComparisonPrimitive3::KeywordCaseSensitiveLesserOrEqual =>
+			return keyword_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true))) .into_0 (),
+		
+		ComparisonPrimitive3::KeywordCaseSensitiveEqual =>
+			return keyword_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Equal, None, Some (true))) .into_0 (),
+		
+		ComparisonPrimitive3::KeywordCaseSensitiveGreaterOrEqual =>
+			return keyword_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true))) .into_0 (),
+		
+		ComparisonPrimitive3::KeywordCaseSensitiveGreater =>
+			return keyword_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, Some (true))) .into_0 (),
+		
+		ComparisonPrimitive3::KeywordCaseInsensitiveLesser =>
+			return keyword_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, Some (false))) .into_0 (),
+		
+		ComparisonPrimitive3::KeywordCaseInsensitiveLesserOrEqual =>
+			return keyword_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false))) .into_0 (),
+		
+		ComparisonPrimitive3::KeywordCaseInsensitiveEqual =>
+			return keyword_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Equal, None, Some (false))) .into_0 (),
+		
+		ComparisonPrimitive3::KeywordCaseInsensitiveGreaterOrEqual =>
+			return keyword_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false))) .into_0 (),
+		
+		ComparisonPrimitive3::KeywordCaseInsensitiveGreater =>
+			return keyword_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, Some (false))) .into_0 (),
+		
+		ComparisonPrimitive3::UniqueLesser =>
+			return unique_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
+		
+		ComparisonPrimitive3::UniqueLesserOrEqual =>
+			return unique_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
+		
+		ComparisonPrimitive3::UniqueEqual =>
+			return unique_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
+		
+		ComparisonPrimitive3::UniqueGreaterOrEqual =>
+			return unique_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
+		
+		ComparisonPrimitive3::UniqueGreater =>
+			return unique_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
+		
 		ComparisonPrimitive3::BytesLesser =>
 			return bytes_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
 		
@@ -1039,6 +1192,51 @@ pub fn comparison_primitive_4_evaluate (primitive : ComparisonPrimitive4, input_
 		
 		ComparisonPrimitive4::SymbolCaseInsensitiveGreater =>
 			return symbol_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, Some (false))) .into_0 (),
+		
+		ComparisonPrimitive4::KeywordCaseSensitiveLesser =>
+			return keyword_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, Some (true))) .into_0 (),
+		
+		ComparisonPrimitive4::KeywordCaseSensitiveLesserOrEqual =>
+			return keyword_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true))) .into_0 (),
+		
+		ComparisonPrimitive4::KeywordCaseSensitiveEqual =>
+			return keyword_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Equal, None, Some (true))) .into_0 (),
+		
+		ComparisonPrimitive4::KeywordCaseSensitiveGreaterOrEqual =>
+			return keyword_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true))) .into_0 (),
+		
+		ComparisonPrimitive4::KeywordCaseSensitiveGreater =>
+			return keyword_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, Some (true))) .into_0 (),
+		
+		ComparisonPrimitive4::KeywordCaseInsensitiveLesser =>
+			return keyword_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, Some (false))) .into_0 (),
+		
+		ComparisonPrimitive4::KeywordCaseInsensitiveLesserOrEqual =>
+			return keyword_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false))) .into_0 (),
+		
+		ComparisonPrimitive4::KeywordCaseInsensitiveEqual =>
+			return keyword_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Equal, None, Some (false))) .into_0 (),
+		
+		ComparisonPrimitive4::KeywordCaseInsensitiveGreaterOrEqual =>
+			return keyword_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false))) .into_0 (),
+		
+		ComparisonPrimitive4::KeywordCaseInsensitiveGreater =>
+			return keyword_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, Some (false))) .into_0 (),
+		
+		ComparisonPrimitive4::UniqueLesser =>
+			return unique_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
+		
+		ComparisonPrimitive4::UniqueLesserOrEqual =>
+			return unique_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
+		
+		ComparisonPrimitive4::UniqueEqual =>
+			return unique_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
+		
+		ComparisonPrimitive4::UniqueGreaterOrEqual =>
+			return unique_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
+		
+		ComparisonPrimitive4::UniqueGreater =>
+			return unique_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
 		ComparisonPrimitive4::BytesLesser =>
 			return bytes_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
@@ -1283,6 +1481,51 @@ pub fn comparison_primitive_n_evaluate (primitive : ComparisonPrimitiveN, inputs
 		ComparisonPrimitiveN::SymbolCaseInsensitiveGreater =>
 			return symbol_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, Some (false))) .into_0 (),
 		
+		ComparisonPrimitiveN::KeywordCaseSensitiveLesser =>
+			return keyword_compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, Some (true))) .into_0 (),
+		
+		ComparisonPrimitiveN::KeywordCaseSensitiveLesserOrEqual =>
+			return keyword_compare_n (inputs, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true))) .into_0 (),
+		
+		ComparisonPrimitiveN::KeywordCaseSensitiveEqual =>
+			return keyword_compare_n (inputs, Comparison::Ordering (Ordering::Equal, None, Some (true))) .into_0 (),
+		
+		ComparisonPrimitiveN::KeywordCaseSensitiveGreaterOrEqual =>
+			return keyword_compare_n (inputs, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true))) .into_0 (),
+		
+		ComparisonPrimitiveN::KeywordCaseSensitiveGreater =>
+			return keyword_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, Some (true))) .into_0 (),
+		
+		ComparisonPrimitiveN::KeywordCaseInsensitiveLesser =>
+			return keyword_compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, Some (false))) .into_0 (),
+		
+		ComparisonPrimitiveN::KeywordCaseInsensitiveLesserOrEqual =>
+			return keyword_compare_n (inputs, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false))) .into_0 (),
+		
+		ComparisonPrimitiveN::KeywordCaseInsensitiveEqual =>
+			return keyword_compare_n (inputs, Comparison::Ordering (Ordering::Equal, None, Some (false))) .into_0 (),
+		
+		ComparisonPrimitiveN::KeywordCaseInsensitiveGreaterOrEqual =>
+			return keyword_compare_n (inputs, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false))) .into_0 (),
+		
+		ComparisonPrimitiveN::KeywordCaseInsensitiveGreater =>
+			return keyword_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, Some (false))) .into_0 (),
+		
+		ComparisonPrimitiveN::UniqueLesser =>
+			return unique_compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
+		
+		ComparisonPrimitiveN::UniqueLesserOrEqual =>
+			return unique_compare_n (inputs, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
+		
+		ComparisonPrimitiveN::UniqueEqual =>
+			return unique_compare_n (inputs, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
+		
+		ComparisonPrimitiveN::UniqueGreaterOrEqual =>
+			return unique_compare_n (inputs, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
+		
+		ComparisonPrimitiveN::UniqueGreater =>
+			return unique_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
+		
 		ComparisonPrimitiveN::BytesLesser =>
 			return bytes_compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
 		
@@ -1470,6 +1713,36 @@ macro_rules! def_comparison_primitive_v_alternative_fn {
 					Some ($alternative::SymbolCaseInsensitiveGreaterOrEqual),
 				ComparisonPrimitiveV::SymbolCaseInsensitiveGreater =>
 					Some ($alternative::SymbolCaseInsensitiveGreater),
+				ComparisonPrimitiveV::KeywordCaseSensitiveLesser =>
+					Some ($alternative::KeywordCaseSensitiveLesser),
+				ComparisonPrimitiveV::KeywordCaseSensitiveLesserOrEqual =>
+					Some ($alternative::KeywordCaseSensitiveLesserOrEqual),
+				ComparisonPrimitiveV::KeywordCaseSensitiveEqual =>
+					Some ($alternative::KeywordCaseSensitiveEqual),
+				ComparisonPrimitiveV::KeywordCaseSensitiveGreaterOrEqual =>
+					Some ($alternative::KeywordCaseSensitiveGreaterOrEqual),
+				ComparisonPrimitiveV::KeywordCaseSensitiveGreater =>
+					Some ($alternative::KeywordCaseSensitiveGreater),
+				ComparisonPrimitiveV::KeywordCaseInsensitiveLesser =>
+					Some ($alternative::KeywordCaseInsensitiveLesser),
+				ComparisonPrimitiveV::KeywordCaseInsensitiveLesserOrEqual =>
+					Some ($alternative::KeywordCaseInsensitiveLesserOrEqual),
+				ComparisonPrimitiveV::KeywordCaseInsensitiveEqual =>
+					Some ($alternative::KeywordCaseInsensitiveEqual),
+				ComparisonPrimitiveV::KeywordCaseInsensitiveGreaterOrEqual =>
+					Some ($alternative::KeywordCaseInsensitiveGreaterOrEqual),
+				ComparisonPrimitiveV::KeywordCaseInsensitiveGreater =>
+					Some ($alternative::KeywordCaseInsensitiveGreater),
+				ComparisonPrimitiveV::UniqueLesser =>
+					Some ($alternative::UniqueLesser),
+				ComparisonPrimitiveV::UniqueLesserOrEqual =>
+					Some ($alternative::UniqueLesserOrEqual),
+				ComparisonPrimitiveV::UniqueEqual =>
+					Some ($alternative::UniqueEqual),
+				ComparisonPrimitiveV::UniqueGreaterOrEqual =>
+					Some ($alternative::UniqueGreaterOrEqual),
+				ComparisonPrimitiveV::UniqueGreater =>
+					Some ($alternative::UniqueGreater),
 				ComparisonPrimitiveV::BytesLesser =>
 					Some ($alternative::BytesLesser),
 				ComparisonPrimitiveV::BytesLesserOrEqual =>

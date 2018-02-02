@@ -173,6 +173,24 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("symbol-ci<=?", ComparisonPrimitiveV::SymbolCaseInsensitiveLesserOrEqual.into ()),
 			("symbol-ci>=?", ComparisonPrimitiveV::SymbolCaseInsensitiveGreaterOrEqual.into ()),
 			
+			("keyword=?", ComparisonPrimitiveV::KeywordCaseSensitiveEqual.into ()),
+			("keyword<?", ComparisonPrimitiveV::KeywordCaseSensitiveLesser.into ()),
+			("keyword>?", ComparisonPrimitiveV::KeywordCaseSensitiveGreater.into ()),
+			("keyword<=?", ComparisonPrimitiveV::KeywordCaseSensitiveLesserOrEqual.into ()),
+			("keyword>=?", ComparisonPrimitiveV::KeywordCaseSensitiveGreaterOrEqual.into ()),
+			
+			("keyword-ci=?", ComparisonPrimitiveV::KeywordCaseInsensitiveEqual.into ()),
+			("keyword-ci<?", ComparisonPrimitiveV::KeywordCaseInsensitiveLesser.into ()),
+			("keyword-ci>?", ComparisonPrimitiveV::KeywordCaseInsensitiveGreater.into ()),
+			("keyword-ci<=?", ComparisonPrimitiveV::KeywordCaseInsensitiveLesserOrEqual.into ()),
+			("keyword-ci>=?", ComparisonPrimitiveV::KeywordCaseInsensitiveGreaterOrEqual.into ()),
+			
+			("unique=?", ComparisonPrimitiveV::UniqueEqual.into ()),
+			("unique<?", ComparisonPrimitiveV::UniqueLesser.into ()),
+			("unique>?", ComparisonPrimitiveV::UniqueGreater.into ()),
+			("unique<=?", ComparisonPrimitiveV::UniqueLesserOrEqual.into ()),
+			("unique>=?", ComparisonPrimitiveV::UniqueGreaterOrEqual.into ()),
+			
 			("bytevector=?", ComparisonPrimitiveV::BytesEqual.into ()),
 			("bytevector<?", ComparisonPrimitiveV::BytesLesser.into ()),
 			("bytevector>?", ComparisonPrimitiveV::BytesGreater.into ()),
