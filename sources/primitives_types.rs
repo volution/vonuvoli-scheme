@@ -56,21 +56,48 @@ pub enum TypePrimitive1 {
 	IsCharacter,
 	
 	IsSymbol,
+	IsKeyword,
+	IsUnique,
+	
+	IsStringRegex,
 	
 	IsString,
 	IsStringImmutable,
 	IsStringMutable,
+	IsStringEmpty,
+	IsStringImmutableEmpty,
+	IsStringMutableEmpty,
+	IsStringEmptyNot,
+	IsStringImmutableEmptyNot,
+	IsStringMutableEmptyNot,
+	
 	IsBytes,
 	IsBytesImmutable,
 	IsBytesMutable,
+	IsBytesEmpty,
+	IsBytesImmutableEmpty,
+	IsBytesMutableEmpty,
+	IsBytesEmptyNot,
+	IsBytesImmutableEmptyNot,
+	IsBytesMutableEmptyNot,
+	
 	IsPair,
 	IsPairMutable,
 	IsPairImmutable,
+	
 	IsArray,
 	IsArrayMutable,
 	IsArrayImmutable,
+	IsArrayEmpty,
+	IsArrayMutableEmpty,
+	IsArrayImmutableEmpty,
+	IsArrayEmptyNot,
+	IsArrayMutableEmptyNot,
+	IsArrayImmutableEmptyNot,
 	
 	IsValues,
+	IsValuesEmpty,
+	IsValuesEmptyNot,
 	
 	IsRecordKind,
 	IsRecord,
@@ -103,7 +130,14 @@ pub enum TypePrimitive1 {
 	IsPortEof,
 	
 	IsProcess,
+	IsContext,
+	IsBinding,
+	IsParameters,
+	IsParameter,
+	IsPromise,
+	
 	IsResource,
+	IsInternal,
 	IsOpaque,
 	
 	IsNumberZero,
@@ -221,6 +255,15 @@ pub fn type_primitive_1_evaluate_0 (primitive : TypePrimitive1, input_1 : &Value
 		TypePrimitive1::IsSymbol =>
 			return is_symbol (input_1) .into_0 (),
 		
+		TypePrimitive1::IsKeyword =>
+			return is_keyword (input_1) .into_0 (),
+		
+		TypePrimitive1::IsUnique =>
+			return is_unique (input_1) .into_0 (),
+		
+		TypePrimitive1::IsStringRegex =>
+			return is_string_regex (input_1) .into_0 (),
+		
 		TypePrimitive1::IsString =>
 			return is_string (input_1) .into_0 (),
 		
@@ -230,6 +273,24 @@ pub fn type_primitive_1_evaluate_0 (primitive : TypePrimitive1, input_1 : &Value
 		TypePrimitive1::IsStringMutable =>
 			return is_string_mutable (input_1) .into_0 (),
 		
+		TypePrimitive1::IsStringEmpty =>
+			return is_string_empty (input_1) .into_0 (),
+		
+		TypePrimitive1::IsStringImmutableEmpty =>
+			return is_string_immutable_empty (input_1) .into_0 (),
+		
+		TypePrimitive1::IsStringMutableEmpty =>
+			return is_string_mutable_empty (input_1) .into_0 (),
+		
+		TypePrimitive1::IsStringEmptyNot =>
+			return is_string_not_empty (input_1) .into_0 (),
+		
+		TypePrimitive1::IsStringImmutableEmptyNot =>
+			return is_string_immutable_not_empty (input_1) .into_0 (),
+		
+		TypePrimitive1::IsStringMutableEmptyNot =>
+			return is_string_mutable_not_empty (input_1) .into_0 (),
+		
 		TypePrimitive1::IsBytes =>
 			return is_bytes (input_1) .into_0 (),
 		
@@ -238,6 +299,24 @@ pub fn type_primitive_1_evaluate_0 (primitive : TypePrimitive1, input_1 : &Value
 		
 		TypePrimitive1::IsBytesMutable =>
 			return is_bytes_mutable (input_1) .into_0 (),
+		
+		TypePrimitive1::IsBytesEmpty =>
+			return is_bytes_empty (input_1) .into_0 (),
+		
+		TypePrimitive1::IsBytesImmutableEmpty =>
+			return is_bytes_immutable_empty (input_1) .into_0 (),
+		
+		TypePrimitive1::IsBytesMutableEmpty =>
+			return is_bytes_mutable_empty (input_1) .into_0 (),
+		
+		TypePrimitive1::IsBytesEmptyNot =>
+			return is_bytes_not_empty (input_1) .into_0 (),
+		
+		TypePrimitive1::IsBytesImmutableEmptyNot =>
+			return is_bytes_immutable_not_empty (input_1) .into_0 (),
+		
+		TypePrimitive1::IsBytesMutableEmptyNot =>
+			return is_bytes_mutable_not_empty (input_1) .into_0 (),
 		
 		TypePrimitive1::IsPair =>
 			return is_pair (input_1) .into_0 (),
@@ -257,8 +336,32 @@ pub fn type_primitive_1_evaluate_0 (primitive : TypePrimitive1, input_1 : &Value
 		TypePrimitive1::IsArrayMutable =>
 			return is_array_mutable (input_1) .into_0 (),
 		
+		TypePrimitive1::IsArrayEmpty =>
+			return is_array_empty (input_1) .into_0 (),
+		
+		TypePrimitive1::IsArrayImmutableEmpty =>
+			return is_array_immutable_empty (input_1) .into_0 (),
+		
+		TypePrimitive1::IsArrayMutableEmpty =>
+			return is_array_mutable_empty (input_1) .into_0 (),
+		
+		TypePrimitive1::IsArrayEmptyNot =>
+			return is_array_not_empty (input_1) .into_0 (),
+		
+		TypePrimitive1::IsArrayImmutableEmptyNot =>
+			return is_array_immutable_not_empty (input_1) .into_0 (),
+		
+		TypePrimitive1::IsArrayMutableEmptyNot =>
+			return is_array_mutable_not_empty (input_1) .into_0 (),
+		
 		TypePrimitive1::IsValues =>
 			return is_values (input_1) .into_0 (),
+		
+		TypePrimitive1::IsValuesEmpty =>
+			return is_values_empty (input_1) .into_0 (),
+		
+		TypePrimitive1::IsValuesEmptyNot =>
+			return is_values_not_empty (input_1) .into_0 (),
 		
 		TypePrimitive1::IsRecordKind =>
 			return is_record_kind (input_1) .into_0 (),
@@ -338,8 +441,26 @@ pub fn type_primitive_1_evaluate_0 (primitive : TypePrimitive1, input_1 : &Value
 		TypePrimitive1::IsProcess =>
 			return is_process (input_1) .into_0 (),
 		
+		TypePrimitive1::IsContext =>
+			return is_context (input_1) .into_0 (),
+		
+		TypePrimitive1::IsBinding =>
+			return is_binding (input_1) .into_0 (),
+		
+		TypePrimitive1::IsParameters =>
+			return is_parameters (input_1) .into_0 (),
+		
+		TypePrimitive1::IsParameter =>
+			return is_parameter (input_1) .into_0 (),
+		
+		TypePrimitive1::IsPromise =>
+			return is_promise (input_1) .into_0 (),
+		
 		TypePrimitive1::IsResource =>
 			return is_resource (input_1) .into_0 (),
+		
+		TypePrimitive1::IsInternal =>
+			return is_internal (input_1) .into_0 (),
 		
 		TypePrimitive1::IsOpaque =>
 			return is_opaque (input_1) .into_0 (),
