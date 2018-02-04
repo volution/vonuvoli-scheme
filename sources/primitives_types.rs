@@ -157,6 +157,10 @@ macro_rules! def_type_primitive_enum {
 			IsPortOutput,
 			IsPortBinary,
 			IsPortTextual,
+			IsPortInputBinary,
+			IsPortInputTextual,
+			IsPortOutputBinary,
+			IsPortOutputTextual,
 			IsPortEof,
 			
 			IsProcess,
@@ -491,6 +495,18 @@ pub fn type_primitive_1_evaluate_0 (primitive : TypePrimitive1, input_1 : &Value
 		TypePrimitive1::IsPortTextual =>
 			return is_port_textual (input_1) .into_0 (),
 		
+		TypePrimitive1::IsPortInputBinary =>
+			return is_port_input_binary (input_1) .into_0 (),
+		
+		TypePrimitive1::IsPortInputTextual =>
+			return is_port_input_textual (input_1) .into_0 (),
+		
+		TypePrimitive1::IsPortOutputBinary =>
+			return is_port_output_binary (input_1) .into_0 (),
+		
+		TypePrimitive1::IsPortOutputTextual =>
+			return is_port_output_textual (input_1) .into_0 (),
+		
 		TypePrimitive1::IsPortEof =>
 			return is_port_eof (input_1) .into_0 (),
 		
@@ -546,61 +562,61 @@ pub fn type_primitive_1_evaluate_0 (primitive : TypePrimitive1, input_1 : &Value
 			return is_number_odd (input_1) .into_0 (),
 		
 		TypePrimitive1::IsCharacterNumeric =>
-			return character_is_numeric (input_1) .into_0 (),
+			return is_character_numeric (input_1) .into_0 (),
 		
 		TypePrimitive1::IsCharacterAlphabetic =>
-			return character_is_alphabetic (input_1) .into_0 (),
+			return is_character_alphabetic (input_1) .into_0 (),
 		
 		TypePrimitive1::IsCharacterAlphabeticUpperCase =>
-			return character_is_alphabetic_upper_case (input_1) .into_0 (),
+			return is_character_alphabetic_upper_case (input_1) .into_0 (),
 		
 		TypePrimitive1::IsCharacterAlphabeticLowerCase =>
-			return character_is_alphabetic_lower_case (input_1) .into_0 (),
+			return is_character_alphabetic_lower_case (input_1) .into_0 (),
 		
 		TypePrimitive1::IsCharacterAlphabeticOrNumeric =>
-			return character_is_alphabetic_or_numeric (input_1) .into_0 (),
+			return is_character_alphabetic_or_numeric (input_1) .into_0 (),
 		
 		TypePrimitive1::IsCharacterWhitespace =>
-			return character_is_whitespace (input_1) .into_0 (),
+			return is_character_whitespace (input_1) .into_0 (),
 		
 		TypePrimitive1::IsCharacterControl =>
-			return character_is_control (input_1) .into_0 (),
+			return is_character_control (input_1) .into_0 (),
 		
 		TypePrimitive1::IsCharacterAscii =>
-			return character_is_ascii (input_1) .into_0 (),
+			return is_character_ascii (input_1) .into_0 (),
 		
 		TypePrimitive1::IsCharacterAsciiNumeric =>
-			return character_is_ascii_numeric (input_1) .into_0 (),
+			return is_character_ascii_numeric (input_1) .into_0 (),
 		
 		TypePrimitive1::IsCharacterAsciiNumericBase8 =>
-			return character_is_ascii_numeric_base_8 (input_1) .into_0 (),
+			return is_character_ascii_numeric_base_8 (input_1) .into_0 (),
 		
 		TypePrimitive1::IsCharacterAsciiNumericBase16 =>
-			return character_is_ascii_numeric_base_16 (input_1) .into_0 (),
+			return is_character_ascii_numeric_base_16 (input_1) .into_0 (),
 		
 		TypePrimitive1::IsCharacterAsciiAlphabetic =>
-			return character_is_ascii_alphabetic (input_1) .into_0 (),
+			return is_character_ascii_alphabetic (input_1) .into_0 (),
 		
 		TypePrimitive1::IsCharacterAsciiAlphabeticUpperCase =>
-			return character_is_ascii_alphabetic_upper_case (input_1) .into_0 (),
+			return is_character_ascii_alphabetic_upper_case (input_1) .into_0 (),
 		
 		TypePrimitive1::IsCharacterAsciiAlphabeticLowerCase =>
-			return character_is_ascii_alphabetic_lower_case (input_1) .into_0 (),
+			return is_character_ascii_alphabetic_lower_case (input_1) .into_0 (),
 		
 		TypePrimitive1::IsCharacterAsciiAlphabeticOrNumeric =>
-			return character_is_ascii_alphabetic_or_numeric (input_1) .into_0 (),
+			return is_character_ascii_alphabetic_or_numeric (input_1) .into_0 (),
 		
 		TypePrimitive1::IsCharacterAsciiWhitespace =>
-			return character_is_ascii_whitespace (input_1) .into_0 (),
+			return is_character_ascii_whitespace (input_1) .into_0 (),
 		
 		TypePrimitive1::IsCharacterAsciiControl =>
-			return character_is_ascii_control (input_1) .into_0 (),
+			return is_character_ascii_control (input_1) .into_0 (),
 		
 		TypePrimitive1::IsCharacterAsciiPunctuation =>
-			return character_is_ascii_punctuation (input_1) .into_0 (),
+			return is_character_ascii_punctuation (input_1) .into_0 (),
 		
 		TypePrimitive1::IsCharacterAsciiGraphic =>
-			return character_is_ascii_graphic (input_1) .into_0 (),
+			return is_character_ascii_graphic (input_1) .into_0 (),
 		
 	}
 }
@@ -808,6 +824,14 @@ macro_rules! def_type_primitive_v_alternative_fn {
 					Some ($alternative::IsPortBinary),
 				TypePrimitiveV::IsPortTextual =>
 					Some ($alternative::IsPortTextual),
+				TypePrimitiveV::IsPortInputBinary =>
+					Some ($alternative::IsPortInputBinary),
+				TypePrimitiveV::IsPortInputTextual =>
+					Some ($alternative::IsPortInputTextual),
+				TypePrimitiveV::IsPortOutputBinary =>
+					Some ($alternative::IsPortOutputBinary),
+				TypePrimitiveV::IsPortOutputTextual =>
+					Some ($alternative::IsPortOutputTextual),
 				TypePrimitiveV::IsPortEof =>
 					Some ($alternative::IsPortEof),
 				TypePrimitiveV::IsProcess =>
