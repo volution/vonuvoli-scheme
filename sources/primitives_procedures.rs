@@ -106,6 +106,8 @@ pub enum ProcedurePrimitive {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ProcedurePrimitive0 {
 	
+	Type ( TypePrimitive0 ),
+	
 	Boolean ( BooleanPrimitive0 ),
 	Arithmetic ( ArithmeticPrimitive0 ),
 	Bitwise ( BitwisePrimitive0 ),
@@ -150,6 +152,8 @@ pub enum ProcedurePrimitive1 {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ProcedurePrimitive2 {
 	
+	Type ( TypePrimitive2 ),
+	
 	Boolean ( BooleanPrimitive2 ),
 	Arithmetic ( ArithmeticPrimitive2 ),
 	Bitwise ( BitwisePrimitive2 ),
@@ -170,6 +174,8 @@ pub enum ProcedurePrimitive2 {
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ProcedurePrimitive3 {
+	
+	Type ( TypePrimitive3 ),
 	
 	Boolean ( BooleanPrimitive3 ),
 	Arithmetic ( ArithmeticPrimitive3 ),
@@ -192,6 +198,8 @@ pub enum ProcedurePrimitive3 {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ProcedurePrimitive4 {
 	
+	Type ( TypePrimitive4 ),
+	
 	Boolean ( BooleanPrimitive4 ),
 	Arithmetic ( ArithmeticPrimitive4 ),
 	Bitwise ( BitwisePrimitive4 ),
@@ -212,6 +220,8 @@ pub enum ProcedurePrimitive4 {
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ProcedurePrimitive5 {
+	
+	Type ( TypePrimitive5 ),
 	
 	Boolean ( BooleanPrimitive5 ),
 	Arithmetic ( ArithmeticPrimitive5 ),
@@ -234,6 +244,8 @@ pub enum ProcedurePrimitive5 {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ProcedurePrimitiveN {
 	
+	Type ( TypePrimitiveN ),
+	
 	Boolean ( BooleanPrimitiveN ),
 	Arithmetic ( ArithmeticPrimitiveN ),
 	Bitwise ( BitwisePrimitiveN ),
@@ -254,6 +266,8 @@ pub enum ProcedurePrimitiveN {
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ProcedurePrimitiveV {
+	
+	Type ( TypePrimitiveV ),
 	
 	Boolean ( BooleanPrimitiveV ),
 	Arithmetic ( ArithmeticPrimitiveV ),
@@ -304,6 +318,9 @@ pub enum ProcedureOutputAttributes {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_primitive_0_evaluate (primitive : ProcedurePrimitive0, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
+		
+		ProcedurePrimitive0::Type (primitive) =>
+			return type_primitive_0_evaluate (primitive, evaluator),
 		
 		ProcedurePrimitive0::Boolean (primitive) =>
 			return boolean_primitive_0_evaluate (primitive, evaluator),
@@ -400,6 +417,9 @@ pub fn procedure_primitive_1_evaluate (primitive : ProcedurePrimitive1, input_1 
 pub fn procedure_primitive_2_evaluate (primitive : ProcedurePrimitive2, input_1 : &Value, input_2 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
+		ProcedurePrimitive2::Type (primitive) =>
+			return type_primitive_2_evaluate (primitive, input_1, input_2, evaluator),
+		
 		ProcedurePrimitive2::Boolean (primitive) =>
 			return boolean_primitive_2_evaluate (primitive, input_1, input_2, evaluator),
 		
@@ -445,6 +465,9 @@ pub fn procedure_primitive_2_evaluate (primitive : ProcedurePrimitive2, input_1 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_primitive_3_evaluate (primitive : ProcedurePrimitive3, input_1 : &Value, input_2 : &Value, input_3 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
+		
+		ProcedurePrimitive3::Type (primitive) =>
+			return type_primitive_3_evaluate (primitive, input_1, input_2, input_3, evaluator),
 		
 		ProcedurePrimitive3::Boolean (primitive) =>
 			return boolean_primitive_3_evaluate (primitive, input_1, input_2, input_3, evaluator),
@@ -492,6 +515,9 @@ pub fn procedure_primitive_3_evaluate (primitive : ProcedurePrimitive3, input_1 
 pub fn procedure_primitive_4_evaluate (primitive : ProcedurePrimitive4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
+		ProcedurePrimitive4::Type (primitive) =>
+			return type_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4, evaluator),
+		
 		ProcedurePrimitive4::Boolean (primitive) =>
 			return boolean_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4, evaluator),
 		
@@ -538,6 +564,9 @@ pub fn procedure_primitive_4_evaluate (primitive : ProcedurePrimitive4, input_1 
 pub fn procedure_primitive_5_evaluate (primitive : ProcedurePrimitive5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
+		ProcedurePrimitive5::Type (primitive) =>
+			return type_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, evaluator),
+		
 		ProcedurePrimitive5::Boolean (primitive) =>
 			return boolean_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, evaluator),
 		
@@ -583,6 +612,9 @@ pub fn procedure_primitive_5_evaluate (primitive : ProcedurePrimitive5, input_1 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_primitive_n_evaluate (primitive : ProcedurePrimitiveN, inputs : &[&Value], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
+		
+		ProcedurePrimitiveN::Type (primitive) =>
+			return type_primitive_n_evaluate (primitive, inputs, evaluator),
 		
 		ProcedurePrimitiveN::Boolean (primitive) =>
 			return boolean_primitive_n_evaluate (primitive, inputs, evaluator),
@@ -1031,6 +1063,13 @@ pub fn procedure_primitive_g_evaluate_n (primitive : ProcedurePrimitive, inputs 
 pub fn procedure_primitive_v_alternative_0 (primitive : ProcedurePrimitiveV) -> (Option<ProcedurePrimitive0>) {
 	match primitive {
 		
+		ProcedurePrimitiveV::Type (primitive) =>
+			if let Some (primitive) = type_primitive_v_alternative_0 (primitive) {
+				Some (ProcedurePrimitive0::Type (primitive))
+			} else {
+				None
+			},
+		
 		ProcedurePrimitiveV::Boolean (primitive) =>
 			if let Some (primitive) = boolean_primitive_v_alternative_0 (primitive) {
 				Some (ProcedurePrimitive0::Boolean (primitive))
@@ -1124,6 +1163,13 @@ pub fn procedure_primitive_v_alternative_0 (primitive : ProcedurePrimitiveV) -> 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_primitive_v_alternative_1 (primitive : ProcedurePrimitiveV) -> (Option<ProcedurePrimitive1>) {
 	match primitive {
+		
+		ProcedurePrimitiveV::Type (primitive) =>
+			if let Some (primitive) = type_primitive_v_alternative_1 (primitive) {
+				Some (ProcedurePrimitive1::Type (primitive))
+			} else {
+				None
+			},
 		
 		ProcedurePrimitiveV::Boolean (primitive) =>
 			if let Some (primitive) = boolean_primitive_v_alternative_1 (primitive) {
@@ -1219,6 +1265,13 @@ pub fn procedure_primitive_v_alternative_1 (primitive : ProcedurePrimitiveV) -> 
 pub fn procedure_primitive_v_alternative_2 (primitive : ProcedurePrimitiveV) -> (Option<ProcedurePrimitive2>) {
 	match primitive {
 		
+		ProcedurePrimitiveV::Type (primitive) =>
+			if let Some (primitive) = type_primitive_v_alternative_2 (primitive) {
+				Some (ProcedurePrimitive2::Type (primitive))
+			} else {
+				None
+			},
+		
 		ProcedurePrimitiveV::Boolean (primitive) =>
 			if let Some (primitive) = boolean_primitive_v_alternative_2 (primitive) {
 				Some (ProcedurePrimitive2::Boolean (primitive))
@@ -1312,6 +1365,13 @@ pub fn procedure_primitive_v_alternative_2 (primitive : ProcedurePrimitiveV) -> 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_primitive_v_alternative_3 (primitive : ProcedurePrimitiveV) -> (Option<ProcedurePrimitive3>) {
 	match primitive {
+		
+		ProcedurePrimitiveV::Type (primitive) =>
+			if let Some (primitive) = type_primitive_v_alternative_3 (primitive) {
+				Some (ProcedurePrimitive3::Type (primitive))
+			} else {
+				None
+			},
 		
 		ProcedurePrimitiveV::Boolean (primitive) =>
 			if let Some (primitive) = boolean_primitive_v_alternative_3 (primitive) {
@@ -1407,6 +1467,13 @@ pub fn procedure_primitive_v_alternative_3 (primitive : ProcedurePrimitiveV) -> 
 pub fn procedure_primitive_v_alternative_4 (primitive : ProcedurePrimitiveV) -> (Option<ProcedurePrimitive4>) {
 	match primitive {
 		
+		ProcedurePrimitiveV::Type (primitive) =>
+			if let Some (primitive) = type_primitive_v_alternative_4 (primitive) {
+				Some (ProcedurePrimitive4::Type (primitive))
+			} else {
+				None
+			},
+		
 		ProcedurePrimitiveV::Boolean (primitive) =>
 			if let Some (primitive) = boolean_primitive_v_alternative_4 (primitive) {
 				Some (ProcedurePrimitive4::Boolean (primitive))
@@ -1500,6 +1567,13 @@ pub fn procedure_primitive_v_alternative_4 (primitive : ProcedurePrimitiveV) -> 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_primitive_v_alternative_5 (primitive : ProcedurePrimitiveV) -> (Option<ProcedurePrimitive5>) {
 	match primitive {
+		
+		ProcedurePrimitiveV::Type (primitive) =>
+			if let Some (primitive) = type_primitive_v_alternative_5 (primitive) {
+				Some (ProcedurePrimitive5::Type (primitive))
+			} else {
+				None
+			},
 		
 		ProcedurePrimitiveV::Boolean (primitive) =>
 			if let Some (primitive) = boolean_primitive_v_alternative_5 (primitive) {
@@ -1595,6 +1669,13 @@ pub fn procedure_primitive_v_alternative_5 (primitive : ProcedurePrimitiveV) -> 
 pub fn procedure_primitive_v_alternative_n (primitive : ProcedurePrimitiveV) -> (Option<ProcedurePrimitiveN>) {
 	match primitive {
 		
+		ProcedurePrimitiveV::Type (primitive) =>
+			if let Some (primitive) = type_primitive_v_alternative_n (primitive) {
+				Some (ProcedurePrimitiveN::Type (primitive))
+			} else {
+				None
+			},
+		
 		ProcedurePrimitiveV::Boolean (primitive) =>
 			if let Some (primitive) = boolean_primitive_v_alternative_n (primitive) {
 				Some (ProcedurePrimitiveN::Boolean (primitive))
@@ -1688,6 +1769,9 @@ pub fn procedure_primitive_v_alternative_n (primitive : ProcedurePrimitiveV) -> 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_primitive_0_attributes (primitive : ProcedurePrimitive0) -> (Option<ProcedureAttributes>) {
 	match primitive {
+		
+		ProcedurePrimitive0::Type (primitive) =>
+			return type_primitive_0_attributes (primitive),
 		
 		ProcedurePrimitive0::Boolean (primitive) =>
 			return boolean_primitive_0_attributes (primitive),
@@ -1784,6 +1868,9 @@ pub fn procedure_primitive_1_attributes (primitive : ProcedurePrimitive1) -> (Op
 pub fn procedure_primitive_2_attributes (primitive : ProcedurePrimitive2) -> (Option<ProcedureAttributes>) {
 	match primitive {
 		
+		ProcedurePrimitive2::Type (primitive) =>
+			return type_primitive_2_attributes (primitive),
+		
 		ProcedurePrimitive2::Boolean (primitive) =>
 			return boolean_primitive_2_attributes (primitive),
 		
@@ -1829,6 +1916,9 @@ pub fn procedure_primitive_2_attributes (primitive : ProcedurePrimitive2) -> (Op
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_primitive_3_attributes (primitive : ProcedurePrimitive3) -> (Option<ProcedureAttributes>) {
 	match primitive {
+		
+		ProcedurePrimitive3::Type (primitive) =>
+			return type_primitive_3_attributes (primitive),
 		
 		ProcedurePrimitive3::Boolean (primitive) =>
 			return boolean_primitive_3_attributes (primitive),
@@ -1876,6 +1966,9 @@ pub fn procedure_primitive_3_attributes (primitive : ProcedurePrimitive3) -> (Op
 pub fn procedure_primitive_4_attributes (primitive : ProcedurePrimitive4) -> (Option<ProcedureAttributes>) {
 	match primitive {
 		
+		ProcedurePrimitive4::Type (primitive) =>
+			return type_primitive_4_attributes (primitive),
+		
 		ProcedurePrimitive4::Boolean (primitive) =>
 			return boolean_primitive_4_attributes (primitive),
 		
@@ -1922,6 +2015,9 @@ pub fn procedure_primitive_4_attributes (primitive : ProcedurePrimitive4) -> (Op
 pub fn procedure_primitive_5_attributes (primitive : ProcedurePrimitive5) -> (Option<ProcedureAttributes>) {
 	match primitive {
 		
+		ProcedurePrimitive5::Type (primitive) =>
+			return type_primitive_5_attributes (primitive),
+		
 		ProcedurePrimitive5::Boolean (primitive) =>
 			return boolean_primitive_5_attributes (primitive),
 		
@@ -1967,6 +2063,9 @@ pub fn procedure_primitive_5_attributes (primitive : ProcedurePrimitive5) -> (Op
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_primitive_n_attributes (primitive : ProcedurePrimitiveN) -> (Option<ProcedureAttributes>) {
 	match primitive {
+		
+		ProcedurePrimitiveN::Type (primitive) =>
+			return type_primitive_n_attributes (primitive),
 		
 		ProcedurePrimitiveN::Boolean (primitive) =>
 			return boolean_primitive_n_attributes (primitive),

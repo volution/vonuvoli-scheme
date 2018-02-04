@@ -14,161 +14,219 @@ use super::prelude::*;
 
 pub mod exports {
 	
+	pub use super::TypePrimitive0;
 	pub use super::TypePrimitive1;
+	pub use super::TypePrimitive2;
+	pub use super::TypePrimitive3;
+	pub use super::TypePrimitive4;
+	pub use super::TypePrimitive5;
+	pub use super::TypePrimitiveN;
+	pub use super::TypePrimitiveV;
 	
+	pub use super::type_primitive_0_evaluate;
 	pub use super::type_primitive_1_evaluate;
 	pub use super::type_primitive_1_evaluate_0;
+	pub use super::type_primitive_2_evaluate;
+	pub use super::type_primitive_3_evaluate;
+	pub use super::type_primitive_4_evaluate;
+	pub use super::type_primitive_5_evaluate;
+	pub use super::type_primitive_n_evaluate;
 	
+	pub use super::type_primitive_v_alternative_0;
+	pub use super::type_primitive_v_alternative_1;
+	pub use super::type_primitive_v_alternative_2;
+	pub use super::type_primitive_v_alternative_3;
+	pub use super::type_primitive_v_alternative_4;
+	pub use super::type_primitive_v_alternative_5;
+	pub use super::type_primitive_v_alternative_n;
+	
+	pub use super::type_primitive_0_attributes;
 	pub use super::type_primitive_1_attributes;
+	pub use super::type_primitive_2_attributes;
+	pub use super::type_primitive_3_attributes;
+	pub use super::type_primitive_4_attributes;
+	pub use super::type_primitive_5_attributes;
+	pub use super::type_primitive_n_attributes;
 	
 }
 
 
 
 
+macro_rules! def_type_primitive_enum {
+	( $identifier : ident ) => (
+		
+		#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+		pub enum $identifier {
+			
+			IsNull,
+			IsNullNot,
+			IsVoid,
+			IsVoidNot,
+			IsUndefined,
+			IsUndefinedNot,
+			
+			IsBoolean,
+			IsTrue,
+			IsTrueNot,
+			IsFalse,
+			IsFalseNot,
+			IsTrueOrEquivalent,
+			IsFalseOrEquivalent,
+			
+			IsNumber,
+			IsNumberInteger,
+			IsNumberRational,
+			IsNumberReal,
+			IsNumberComplex,
+			IsNumberExact,
+			IsNumberExactInteger,
+			IsNumberInexact,
+			
+			IsCharacter,
+			
+			IsSymbol,
+			IsKeyword,
+			IsUnique,
+			
+			IsStringRegex,
+			
+			IsString,
+			IsStringImmutable,
+			IsStringMutable,
+			IsStringEmpty,
+			IsStringImmutableEmpty,
+			IsStringMutableEmpty,
+			IsStringEmptyNot,
+			IsStringImmutableEmptyNot,
+			IsStringMutableEmptyNot,
+			
+			IsBytes,
+			IsBytesImmutable,
+			IsBytesMutable,
+			IsBytesEmpty,
+			IsBytesImmutableEmpty,
+			IsBytesMutableEmpty,
+			IsBytesEmptyNot,
+			IsBytesImmutableEmptyNot,
+			IsBytesMutableEmptyNot,
+			
+			IsPair,
+			IsPairMutable,
+			IsPairImmutable,
+			
+			IsArray,
+			IsArrayMutable,
+			IsArrayImmutable,
+			IsArrayEmpty,
+			IsArrayMutableEmpty,
+			IsArrayImmutableEmpty,
+			IsArrayEmptyNot,
+			IsArrayMutableEmptyNot,
+			IsArrayImmutableEmptyNot,
+			
+			IsValues,
+			IsValuesEmpty,
+			IsValuesEmptyNot,
+			
+			IsRecordKind,
+			IsRecord,
+			IsRecordImmutable,
+			IsRecordMutable,
+			
+			IsError,
+			IsErrorSyntax,
+			IsErrorFile,
+			IsErrorPort,
+			IsErrorPortInput,
+			IsErrorPortOutput,
+			
+			IsList,
+			IsListProper,
+			IsListProperOrEmpty,
+			IsListDotted,
+			IsListDottedOrEmpty,
+			IsListCyclic,
+			IsListCyclicOrEmpty,
+			
+			IsProcedure,
+			IsSyntax,
+			
+			IsPort,
+			IsPortInput,
+			IsPortOutput,
+			IsPortBinary,
+			IsPortTextual,
+			IsPortEof,
+			
+			IsProcess,
+			IsContext,
+			IsBinding,
+			IsParameters,
+			IsParameter,
+			IsPromise,
+			
+			IsResource,
+			IsInternal,
+			IsOpaque,
+			
+			IsNumberZero,
+			IsNumberPositive,
+			IsNumberNegative,
+			IsNumberFinite,
+			IsNumberInfinite,
+			IsNumberNan,
+			IsNumberEven,
+			IsNumberOdd,
+			
+			IsCharacterNumeric,
+			IsCharacterAlphabetic,
+			IsCharacterAlphabeticUpperCase,
+			IsCharacterAlphabeticLowerCase,
+			IsCharacterAlphabeticOrNumeric,
+			IsCharacterWhitespace,
+			IsCharacterControl,
+			IsCharacterAscii,
+			IsCharacterAsciiNumeric,
+			IsCharacterAsciiNumericBase8,
+			IsCharacterAsciiNumericBase16,
+			IsCharacterAsciiAlphabetic,
+			IsCharacterAsciiAlphabeticUpperCase,
+			IsCharacterAsciiAlphabeticLowerCase,
+			IsCharacterAsciiAlphabeticOrNumeric,
+			IsCharacterAsciiWhitespace,
+			IsCharacterAsciiControl,
+			IsCharacterAsciiPunctuation,
+			IsCharacterAsciiGraphic,
+			
+		}
+		
+	);
+}
+
+
+
+
+def_type_primitive_enum! (TypePrimitive1);
+def_type_primitive_enum! (TypePrimitive2);
+def_type_primitive_enum! (TypePrimitive3);
+def_type_primitive_enum! (TypePrimitive4);
+def_type_primitive_enum! (TypePrimitiveN);
+def_type_primitive_enum! (TypePrimitiveV);
+
+
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
-pub enum TypePrimitive1 {
-	
-	IsNull,
-	IsNullNot,
-	IsVoid,
-	IsVoidNot,
-	IsUndefined,
-	IsUndefinedNot,
-	
-	IsBoolean,
-	IsTrue,
-	IsTrueNot,
-	IsFalse,
-	IsFalseNot,
-	IsTrueOrEquivalent,
-	IsFalseOrEquivalent,
-	
-	IsNumber,
-	IsNumberInteger,
-	IsNumberRational,
-	IsNumberReal,
-	IsNumberComplex,
-	IsNumberExact,
-	IsNumberExactInteger,
-	IsNumberInexact,
-	
-	IsCharacter,
-	
-	IsSymbol,
-	IsKeyword,
-	IsUnique,
-	
-	IsStringRegex,
-	
-	IsString,
-	IsStringImmutable,
-	IsStringMutable,
-	IsStringEmpty,
-	IsStringImmutableEmpty,
-	IsStringMutableEmpty,
-	IsStringEmptyNot,
-	IsStringImmutableEmptyNot,
-	IsStringMutableEmptyNot,
-	
-	IsBytes,
-	IsBytesImmutable,
-	IsBytesMutable,
-	IsBytesEmpty,
-	IsBytesImmutableEmpty,
-	IsBytesMutableEmpty,
-	IsBytesEmptyNot,
-	IsBytesImmutableEmptyNot,
-	IsBytesMutableEmptyNot,
-	
-	IsPair,
-	IsPairMutable,
-	IsPairImmutable,
-	
-	IsArray,
-	IsArrayMutable,
-	IsArrayImmutable,
-	IsArrayEmpty,
-	IsArrayMutableEmpty,
-	IsArrayImmutableEmpty,
-	IsArrayEmptyNot,
-	IsArrayMutableEmptyNot,
-	IsArrayImmutableEmptyNot,
-	
-	IsValues,
-	IsValuesEmpty,
-	IsValuesEmptyNot,
-	
-	IsRecordKind,
-	IsRecord,
-	IsRecordImmutable,
-	IsRecordMutable,
-	
-	IsError,
-	IsErrorSyntax,
-	IsErrorFile,
-	IsErrorPort,
-	IsErrorPortInput,
-	IsErrorPortOutput,
-	
-	IsList,
-	IsListProper,
-	IsListProperOrEmpty,
-	IsListDotted,
-	IsListDottedOrEmpty,
-	IsListCyclic,
-	IsListCyclicOrEmpty,
-	
-	IsProcedure,
-	IsSyntax,
-	
-	IsPort,
-	IsPortInput,
-	IsPortOutput,
-	IsPortBinary,
-	IsPortTextual,
-	IsPortEof,
-	
-	IsProcess,
-	IsContext,
-	IsBinding,
-	IsParameters,
-	IsParameter,
-	IsPromise,
-	
-	IsResource,
-	IsInternal,
-	IsOpaque,
-	
-	IsNumberZero,
-	IsNumberPositive,
-	IsNumberNegative,
-	IsNumberFinite,
-	IsNumberInfinite,
-	IsNumberNan,
-	IsNumberEven,
-	IsNumberOdd,
-	
-	IsCharacterNumeric,
-	IsCharacterAlphabetic,
-	IsCharacterAlphabeticUpperCase,
-	IsCharacterAlphabeticLowerCase,
-	IsCharacterAlphabeticOrNumeric,
-	IsCharacterWhitespace,
-	IsCharacterControl,
-	IsCharacterAscii,
-	IsCharacterAsciiNumeric,
-	IsCharacterAsciiNumericBase8,
-	IsCharacterAsciiNumericBase16,
-	IsCharacterAsciiAlphabetic,
-	IsCharacterAsciiAlphabeticUpperCase,
-	IsCharacterAsciiAlphabeticLowerCase,
-	IsCharacterAsciiAlphabeticOrNumeric,
-	IsCharacterAsciiWhitespace,
-	IsCharacterAsciiControl,
-	IsCharacterAsciiPunctuation,
-	IsCharacterAsciiGraphic,
-	
+pub enum TypePrimitive0 {}
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub enum TypePrimitive5 {}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn type_primitive_0_evaluate (primitive : TypePrimitive0, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	match primitive {}
 }
 
 
@@ -178,8 +236,6 @@ pub enum TypePrimitive1 {
 pub fn type_primitive_1_evaluate (primitive : TypePrimitive1, input_1 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	return type_primitive_1_evaluate_0 (primitive, input_1) .into_0 ();
 }
-
-
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -553,7 +609,97 @@ pub fn type_primitive_1_evaluate_0 (primitive : TypePrimitive1, input_1 : &Value
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn type_primitive_2_evaluate (_primitive : TypePrimitive2, _input_1 : &Value, _input_2 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	fail_unimplemented! (0xcce4932c);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn type_primitive_3_evaluate (_primitive : TypePrimitive3, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	fail_unimplemented! (0x0d047c81);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn type_primitive_4_evaluate (_primitive : TypePrimitive4, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	fail_unimplemented! (0x5936bf08);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn type_primitive_5_evaluate (primitive : TypePrimitive5, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _input_5 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	match primitive {}
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn type_primitive_n_evaluate (_primitive : TypePrimitiveN, _inputs : &[&Value], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	fail_unimplemented! (0x1a44de68);
+}
+
+
+
+
+macro_rules! def_type_primitive_v_alternative_fn {
+	( $identifier : ident, $alternative : ident ) => (
+		
+		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+		pub fn $identifier (_primitive : TypePrimitiveV) -> (Option<$alternative>) {
+			return None;
+		}
+		
+	);
+}
+
+
+def_type_primitive_v_alternative_fn! (type_primitive_v_alternative_1, TypePrimitive1);
+def_type_primitive_v_alternative_fn! (type_primitive_v_alternative_2, TypePrimitive2);
+def_type_primitive_v_alternative_fn! (type_primitive_v_alternative_3, TypePrimitive3);
+def_type_primitive_v_alternative_fn! (type_primitive_v_alternative_4, TypePrimitive4);
+def_type_primitive_v_alternative_fn! (type_primitive_v_alternative_n, TypePrimitiveN);
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn type_primitive_v_alternative_0 (_primitive : TypePrimitiveV) -> (Option<TypePrimitive0>) {
+	return None;
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn type_primitive_v_alternative_5 (_primitive : TypePrimitiveV) -> (Option<TypePrimitive5>) {
+	return None;
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn type_primitive_0_attributes (_primitive : TypePrimitive0) -> (Option<ProcedureAttributes>) {
+	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_0);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn type_primitive_1_attributes (_primitive : TypePrimitive1) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_1);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn type_primitive_2_attributes (_primitive : TypePrimitive2) -> (Option<ProcedureAttributes>) {
+	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_2);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn type_primitive_3_attributes (_primitive : TypePrimitive3) -> (Option<ProcedureAttributes>) {
+	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_3);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn type_primitive_4_attributes (_primitive : TypePrimitive4) -> (Option<ProcedureAttributes>) {
+	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_4);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn type_primitive_5_attributes (_primitive : TypePrimitive5) -> (Option<ProcedureAttributes>) {
+	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_5);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn type_primitive_n_attributes (_primitive : TypePrimitiveN) -> (Option<ProcedureAttributes>) {
+	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_N);
 }
 

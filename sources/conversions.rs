@@ -298,7 +298,14 @@ macro_rules! impl_from_for_primitive_procedure_2 {
 	);
 }
 
+impl_from_for_primitive_procedure_2! (TypePrimitive0, ProcedurePrimitive0, Primitive0, Type);
 impl_from_for_primitive_procedure_2! (TypePrimitive1, ProcedurePrimitive1, Primitive1, Type);
+impl_from_for_primitive_procedure_2! (TypePrimitive2, ProcedurePrimitive2, Primitive2, Type);
+impl_from_for_primitive_procedure_2! (TypePrimitive3, ProcedurePrimitive3, Primitive3, Type);
+impl_from_for_primitive_procedure_2! (TypePrimitive4, ProcedurePrimitive4, Primitive4, Type);
+impl_from_for_primitive_procedure_2! (TypePrimitive5, ProcedurePrimitive5, Primitive5, Type);
+impl_from_for_primitive_procedure_2! (TypePrimitiveN, ProcedurePrimitiveN, PrimitiveN, Type);
+impl_from_for_primitive_procedure_2! (TypePrimitiveV, ProcedurePrimitiveV, PrimitiveV, Type);
 
 impl_from_for_primitive_procedure_2! (BooleanPrimitive0, ProcedurePrimitive0, Primitive0, Boolean);
 impl_from_for_primitive_procedure_2! (BooleanPrimitive1, ProcedurePrimitive1, Primitive1, Boolean);
@@ -610,7 +617,14 @@ macro_rules! impl_from_for_ProcedurePrimitiveCallV {
 }
 
 
+impl_from_for_ProcedurePrimitiveCall0! (TypePrimitive0);
 impl_from_for_ProcedurePrimitiveCall1! (TypePrimitive1);
+impl_from_for_ProcedurePrimitiveCall2! (TypePrimitive2);
+impl_from_for_ProcedurePrimitiveCall3! (TypePrimitive3);
+impl_from_for_ProcedurePrimitiveCall4! (TypePrimitive4);
+impl_from_for_ProcedurePrimitiveCall5! (TypePrimitive5);
+impl_from_for_ProcedurePrimitiveCallN! (TypePrimitiveN);
+impl_from_for_ProcedurePrimitiveCallV! (TypePrimitiveV);
 
 impl_from_for_ProcedurePrimitiveCall0! (BooleanPrimitive0);
 impl_from_for_ProcedurePrimitiveCall1! (BooleanPrimitive1);

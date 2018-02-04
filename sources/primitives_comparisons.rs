@@ -1806,11 +1806,11 @@ def_comparison_primitive_v_alternative_fn! (comparison_primitive_v_alternative_3
 def_comparison_primitive_v_alternative_fn! (comparison_primitive_v_alternative_4, ComparisonPrimitive4);
 def_comparison_primitive_v_alternative_fn! (comparison_primitive_v_alternative_n, ComparisonPrimitiveN);
 
+
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn comparison_primitive_v_alternative_0 (_primitive : ComparisonPrimitiveV) -> (Option<ComparisonPrimitive0>) {
 	return None;
 }
-
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn comparison_primitive_v_alternative_5 (_primitive : ComparisonPrimitiveV) -> (Option<ComparisonPrimitive5>) {
