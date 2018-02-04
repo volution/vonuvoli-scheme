@@ -1,11 +1,5 @@
 
 
-// TODO:  Remove this after exporting all public functions!
-#![ allow (unreachable_pub) ]
-
-
-
-
 use super::errors::exports::*;
 use super::ports::exports::*;
 use super::values::exports::*;
@@ -35,10 +29,15 @@ pub mod exports {
 			is_boolean_any_4, is_true_any_4, is_false_any_4, is_not_true_any_4, is_not_false_any_4,
 			is_boolean_any_n, is_true_any_n, is_false_any_n, is_not_true_any_n, is_not_false_any_n,
 			
-			is_true_or_equivalent_all_2, is_false_or_equivalent_any_2,
-			is_true_or_equivalent_all_3, is_false_or_equivalent_any_3,
-			is_true_or_equivalent_all_4, is_false_or_equivalent_any_4,
-			is_true_or_equivalent_all_n, is_false_or_equivalent_any_n,
+			is_true_or_equivalent_all_2, is_false_or_equivalent_all_2,
+			is_true_or_equivalent_all_3, is_false_or_equivalent_all_3,
+			is_true_or_equivalent_all_4, is_false_or_equivalent_all_4,
+			is_true_or_equivalent_all_n, is_false_or_equivalent_all_n,
+			
+			is_true_or_equivalent_any_2, is_false_or_equivalent_any_2,
+			is_true_or_equivalent_any_3, is_false_or_equivalent_any_3,
+			is_true_or_equivalent_any_4, is_false_or_equivalent_any_4,
+			is_true_or_equivalent_any_n, is_false_or_equivalent_any_n,
 			
 	};
 	
@@ -92,7 +91,30 @@ pub mod exports {
 			is_number_exact_integer_any_2, is_number_exact_integer_any_3, is_number_exact_integer_any_4, is_number_exact_integer_any_n,
 			is_number_inexact_any_2, is_number_inexact_any_3, is_number_inexact_any_4, is_number_inexact_any_n,
 			
-			// TODO:  Add other variants for `is_number_*`!
+			is_number_zero_all_2, is_number_zero_all_3, is_number_zero_all_4, is_number_zero_all_n,
+			is_number_zero_any_2, is_number_zero_any_3, is_number_zero_any_4, is_number_zero_any_n,
+			
+			is_number_positive_all_2, is_number_positive_all_3, is_number_positive_all_4, is_number_positive_all_n,
+			is_number_positive_any_2, is_number_positive_any_3, is_number_positive_any_4, is_number_positive_any_n,
+			
+			is_number_negative_all_2, is_number_negative_all_3, is_number_negative_all_4, is_number_negative_all_n,
+			is_number_negative_any_2, is_number_negative_any_3, is_number_negative_any_4, is_number_negative_any_n,
+			
+			is_number_finite_all_2, is_number_finite_all_3, is_number_finite_all_4, is_number_finite_all_n,
+			is_number_finite_any_2, is_number_finite_any_3, is_number_finite_any_4, is_number_finite_any_n,
+			
+			is_number_infinite_all_2, is_number_infinite_all_3, is_number_infinite_all_4, is_number_infinite_all_n,
+			is_number_infinite_any_2, is_number_infinite_any_3, is_number_infinite_any_4, is_number_infinite_any_n,
+			
+			is_number_nan_all_2, is_number_nan_all_3, is_number_nan_all_4, is_number_nan_all_n,
+			is_number_nan_any_2, is_number_nan_any_3, is_number_nan_any_4, is_number_nan_any_n,
+			
+			is_number_even_all_2, is_number_even_all_3, is_number_even_all_4, is_number_even_all_n,
+			is_number_even_any_2, is_number_even_any_3, is_number_even_any_4, is_number_even_any_n,
+			
+			is_number_odd_all_2, is_number_odd_all_3, is_number_odd_all_4, is_number_odd_all_n,
+			is_number_odd_any_2, is_number_odd_any_3, is_number_odd_any_4, is_number_odd_any_n,
+			
 	};
 	
 	
@@ -102,6 +124,115 @@ pub mod exports {
 			
 			is_character_all_2, is_character_all_3, is_character_all_4, is_character_all_n,
 			is_character_any_2, is_character_any_3, is_character_any_4, is_character_any_n,
+			
+	};
+	
+	pub use super::super::builtins_strings::{
+			
+			character_is_numeric as is_character_numeric,
+			character_is_alphabetic as is_character_alphabetic,
+			character_is_alphabetic_upper_case as is_character_alphabetic_upper_case,
+			character_is_alphabetic_lower_case as is_character_alphabetic_lower_case,
+			character_is_alphabetic_or_numeric as is_character_alphabetic_or_numeric,
+			character_is_whitespace as is_character_whitespace,
+			character_is_control as is_character_control,
+			
+			character_is_ascii as is_character_ascii,
+			character_is_ascii_numeric as is_character_ascii_numeric,
+			character_is_ascii_numeric_base_8 as is_character_ascii_numeric_base_8,
+			character_is_ascii_numeric_base_16 as is_character_ascii_numeric_base_16,
+			character_is_ascii_alphabetic as is_character_ascii_alphabetic,
+			character_is_ascii_alphabetic_upper_case as is_character_ascii_alphabetic_upper_case,
+			character_is_ascii_alphabetic_lower_case as is_character_ascii_alphabetic_lower_case,
+			character_is_ascii_alphabetic_or_numeric as is_character_ascii_alphabetic_or_numeric,
+			character_is_ascii_whitespace as is_character_ascii_whitespace,
+			character_is_ascii_control as is_character_ascii_control,
+			character_is_ascii_punctuation as is_character_ascii_punctuation,
+			character_is_ascii_graphic as is_character_ascii_graphic,
+			
+	};
+	
+	pub use super::{
+			
+			/*
+			is_character_numeric,
+			is_character_alphabetic,
+			is_character_alphabetic_upper_case,
+			is_character_alphabetic_lower_case,
+			is_character_alphabetic_or_numeric,
+			is_character_whitespace,
+			is_character_control,
+			
+			is_character_ascii,
+			is_character_ascii_numeric,
+			is_character_ascii_numeric_base_8,
+			is_character_ascii_numeric_base_16,
+			is_character_ascii_alphabetic,
+			is_character_ascii_alphabetic_upper_case,
+			is_character_ascii_alphabetic_lower_case,
+			is_character_ascii_alphabetic_or_numeric,
+			is_character_ascii_whitespace,
+			is_character_ascii_control,
+			is_character_ascii_punctuation,
+			is_character_ascii_graphic,
+			*/
+			
+			is_character_numeric_all_2, is_character_numeric_all_3, is_character_numeric_all_4, is_character_numeric_all_n,
+			is_character_numeric_any_2, is_character_numeric_any_3, is_character_numeric_any_4, is_character_numeric_any_n,
+			
+			is_character_alphabetic_all_2, is_character_alphabetic_all_3, is_character_alphabetic_all_4, is_character_alphabetic_all_n,
+			is_character_alphabetic_any_2, is_character_alphabetic_any_3, is_character_alphabetic_any_4, is_character_alphabetic_any_n,
+			
+			is_character_alphabetic_upper_case_all_2, is_character_alphabetic_upper_case_all_3, is_character_alphabetic_upper_case_all_4, is_character_alphabetic_upper_case_all_n,
+			is_character_alphabetic_upper_case_any_2, is_character_alphabetic_upper_case_any_3, is_character_alphabetic_upper_case_any_4, is_character_alphabetic_upper_case_any_n,
+			
+			is_character_alphabetic_lower_case_all_2, is_character_alphabetic_lower_case_all_3, is_character_alphabetic_lower_case_all_4, is_character_alphabetic_lower_case_all_n,
+			is_character_alphabetic_lower_case_any_2, is_character_alphabetic_lower_case_any_3, is_character_alphabetic_lower_case_any_4, is_character_alphabetic_lower_case_any_n,
+			
+			is_character_alphabetic_or_numeric_all_2, is_character_alphabetic_or_numeric_all_3, is_character_alphabetic_or_numeric_all_4, is_character_alphabetic_or_numeric_all_n,
+			is_character_alphabetic_or_numeric_any_2, is_character_alphabetic_or_numeric_any_3, is_character_alphabetic_or_numeric_any_4, is_character_alphabetic_or_numeric_any_n,
+			
+			is_character_whitespace_all_2, is_character_whitespace_all_3, is_character_whitespace_all_4, is_character_whitespace_all_n,
+			is_character_whitespace_any_2, is_character_whitespace_any_3, is_character_whitespace_any_4, is_character_whitespace_any_n,
+			
+			is_character_control_all_2, is_character_control_all_3, is_character_control_all_4, is_character_control_all_n,
+			is_character_control_any_2, is_character_control_any_3, is_character_control_any_4, is_character_control_any_n,
+			
+			is_character_ascii_all_2, is_character_ascii_all_3, is_character_ascii_all_4, is_character_ascii_all_n,
+			is_character_ascii_any_2, is_character_ascii_any_3, is_character_ascii_any_4, is_character_ascii_any_n,
+			
+			is_character_ascii_numeric_all_2, is_character_ascii_numeric_all_3, is_character_ascii_numeric_all_4, is_character_ascii_numeric_all_n,
+			is_character_ascii_numeric_any_2, is_character_ascii_numeric_any_3, is_character_ascii_numeric_any_4, is_character_ascii_numeric_any_n,
+			
+			is_character_ascii_numeric_base_8_all_2, is_character_ascii_numeric_base_8_all_3, is_character_ascii_numeric_base_8_all_4, is_character_ascii_numeric_base_8_all_n,
+			is_character_ascii_numeric_base_8_any_2, is_character_ascii_numeric_base_8_any_3, is_character_ascii_numeric_base_8_any_4, is_character_ascii_numeric_base_8_any_n,
+			
+			is_character_ascii_numeric_base_16_all_2, is_character_ascii_numeric_base_16_all_3, is_character_ascii_numeric_base_16_all_4, is_character_ascii_numeric_base_16_all_n,
+			is_character_ascii_numeric_base_16_any_2, is_character_ascii_numeric_base_16_any_3, is_character_ascii_numeric_base_16_any_4, is_character_ascii_numeric_base_16_any_n,
+			
+			is_character_ascii_alphabetic_all_2, is_character_ascii_alphabetic_all_3, is_character_ascii_alphabetic_all_4, is_character_ascii_alphabetic_all_n,
+			is_character_ascii_alphabetic_any_2, is_character_ascii_alphabetic_any_3, is_character_ascii_alphabetic_any_4, is_character_ascii_alphabetic_any_n,
+			
+			is_character_ascii_alphabetic_upper_case_all_2, is_character_ascii_alphabetic_upper_case_all_3, is_character_ascii_alphabetic_upper_case_all_4, is_character_ascii_alphabetic_upper_case_all_n,
+			is_character_ascii_alphabetic_upper_case_any_2, is_character_ascii_alphabetic_upper_case_any_3, is_character_ascii_alphabetic_upper_case_any_4, is_character_ascii_alphabetic_upper_case_any_n,
+			
+			is_character_ascii_alphabetic_lower_case_all_2, is_character_ascii_alphabetic_lower_case_all_3, is_character_ascii_alphabetic_lower_case_all_4, is_character_ascii_alphabetic_lower_case_all_n,
+			is_character_ascii_alphabetic_lower_case_any_2, is_character_ascii_alphabetic_lower_case_any_3, is_character_ascii_alphabetic_lower_case_any_4, is_character_ascii_alphabetic_lower_case_any_n,
+			
+			is_character_ascii_alphabetic_or_numeric_all_2, is_character_ascii_alphabetic_or_numeric_all_3, is_character_ascii_alphabetic_or_numeric_all_4, is_character_ascii_alphabetic_or_numeric_all_n,
+			is_character_ascii_alphabetic_or_numeric_any_2, is_character_ascii_alphabetic_or_numeric_any_3, is_character_ascii_alphabetic_or_numeric_any_4, is_character_ascii_alphabetic_or_numeric_any_n,
+			
+			is_character_ascii_whitespace_all_2, is_character_ascii_whitespace_all_3, is_character_ascii_whitespace_all_4, is_character_ascii_whitespace_all_n,
+			is_character_ascii_whitespace_any_2, is_character_ascii_whitespace_any_3, is_character_ascii_whitespace_any_4, is_character_ascii_whitespace_any_n,
+			
+			is_character_ascii_control_all_2, is_character_ascii_control_all_3, is_character_ascii_control_all_4, is_character_ascii_control_all_n,
+			is_character_ascii_control_any_2, is_character_ascii_control_any_3, is_character_ascii_control_any_4, is_character_ascii_control_any_n,
+			
+			is_character_ascii_punctuation_all_2, is_character_ascii_punctuation_all_3, is_character_ascii_punctuation_all_4, is_character_ascii_punctuation_all_n,
+			is_character_ascii_punctuation_any_2, is_character_ascii_punctuation_any_3, is_character_ascii_punctuation_any_4, is_character_ascii_punctuation_any_n,
+			
+			is_character_ascii_graphic_all_2, is_character_ascii_graphic_all_3, is_character_ascii_graphic_all_4, is_character_ascii_graphic_all_n,
+			is_character_ascii_graphic_any_2, is_character_ascii_graphic_any_3, is_character_ascii_graphic_any_4, is_character_ascii_graphic_any_n,
 			
 	};
 	
@@ -167,10 +298,33 @@ pub mod exports {
 			is_list_dotted, is_list_dotted_or_empty,
 			is_list_cyclic, is_list_cyclic_or_empty,
 			
+			is_list_all_2, is_list_all_3, is_list_all_4, is_list_all_n,
+			is_list_any_2, is_list_any_3, is_list_any_4, is_list_any_n,
+			
 			is_list_empty_all_2, is_list_empty_all_3, is_list_empty_all_4, is_list_empty_all_n,
 			is_list_empty_any_2, is_list_empty_any_3, is_list_empty_any_4, is_list_empty_any_n,
 			
-			// TODO:  Add other variants for `is_list_*`!
+			is_list_or_empty_all_2, is_list_or_empty_all_3, is_list_or_empty_all_4, is_list_or_empty_all_n,
+			is_list_or_empty_any_2, is_list_or_empty_any_3, is_list_or_empty_any_4, is_list_or_empty_any_n,
+			
+			is_list_proper_all_2, is_list_proper_all_3, is_list_proper_all_4, is_list_proper_all_n,
+			is_list_proper_any_2, is_list_proper_any_3, is_list_proper_any_4, is_list_proper_any_n,
+			
+			is_list_proper_or_empty_all_2, is_list_proper_or_empty_all_3, is_list_proper_or_empty_all_4, is_list_proper_or_empty_all_n,
+			is_list_proper_or_empty_any_2, is_list_proper_or_empty_any_3, is_list_proper_or_empty_any_4, is_list_proper_or_empty_any_n,
+			
+			is_list_dotted_all_2, is_list_dotted_all_3, is_list_dotted_all_4, is_list_dotted_all_n,
+			is_list_dotted_any_2, is_list_dotted_any_3, is_list_dotted_any_4, is_list_dotted_any_n,
+			
+			is_list_dotted_or_empty_all_2, is_list_dotted_or_empty_all_3, is_list_dotted_or_empty_all_4, is_list_dotted_or_empty_all_n,
+			is_list_dotted_or_empty_any_2, is_list_dotted_or_empty_any_3, is_list_dotted_or_empty_any_4, is_list_dotted_or_empty_any_n,
+			
+			is_list_cyclic_all_2, is_list_cyclic_all_3, is_list_cyclic_all_4, is_list_cyclic_all_n,
+			is_list_cyclic_any_2, is_list_cyclic_any_3, is_list_cyclic_any_4, is_list_cyclic_any_n,
+			
+			is_list_cyclic_or_empty_all_2, is_list_cyclic_or_empty_all_3, is_list_cyclic_or_empty_all_4, is_list_cyclic_or_empty_all_n,
+			is_list_cyclic_or_empty_any_2, is_list_cyclic_or_empty_any_3, is_list_cyclic_or_empty_any_4, is_list_cyclic_or_empty_any_n,
+			
 	};
 	
 	
@@ -188,21 +342,21 @@ pub mod exports {
 			is_array_immutable_any_2, is_array_immutable_any_3, is_array_immutable_any_4, is_array_immutable_any_n,
 			is_array_mutable_any_2, is_array_mutable_any_3, is_array_mutable_any_4, is_array_mutable_any_n,
 			
-			is_array_empty_all_2, is_array_empty_all_3, is_array_empty_all_4,
-			is_array_immutable_empty_all_2, is_array_immutable_empty_all_3, is_array_immutable_empty_all_4,
-			is_array_mutable_empty_all_2, is_array_mutable_empty_all_3, is_array_mutable_empty_all_4,
+			is_array_empty_all_2, is_array_empty_all_3, is_array_empty_all_4, is_array_empty_all_n,
+			is_array_immutable_empty_all_2, is_array_immutable_empty_all_3, is_array_immutable_empty_all_4, is_array_immutable_empty_all_n,
+			is_array_mutable_empty_all_2, is_array_mutable_empty_all_3, is_array_mutable_empty_all_4, is_array_mutable_empty_all_n,
 			
-			is_array_empty_any_2, is_array_empty_any_3, is_array_empty_any_4,
-			is_array_immutable_empty_any_2, is_array_immutable_empty_any_3, is_array_immutable_empty_any_4,
-			is_array_mutable_empty_any_2, is_array_mutable_empty_any_3, is_array_mutable_empty_any_4,
+			is_array_empty_any_2, is_array_empty_any_3, is_array_empty_any_4, is_array_empty_any_n,
+			is_array_immutable_empty_any_2, is_array_immutable_empty_any_3, is_array_immutable_empty_any_4, is_array_immutable_empty_any_n,
+			is_array_mutable_empty_any_2, is_array_mutable_empty_any_3, is_array_mutable_empty_any_4, is_array_mutable_empty_any_n,
 			
-			is_array_not_empty_all_2, is_array_not_empty_all_3, is_array_not_empty_all_4,
-			is_array_immutable_not_empty_all_2, is_array_immutable_not_empty_all_3, is_array_immutable_not_empty_all_4,
-			is_array_mutable_not_empty_all_2, is_array_mutable_not_empty_all_3, is_array_mutable_not_empty_all_4,
+			is_array_not_empty_all_2, is_array_not_empty_all_3, is_array_not_empty_all_4, is_array_not_empty_all_n,
+			is_array_immutable_not_empty_all_2, is_array_immutable_not_empty_all_3, is_array_immutable_not_empty_all_4, is_array_immutable_not_empty_all_n,
+			is_array_mutable_not_empty_all_2, is_array_mutable_not_empty_all_3, is_array_mutable_not_empty_all_4, is_array_mutable_not_empty_all_n,
 			
-			is_array_not_empty_any_2, is_array_not_empty_any_3, is_array_not_empty_any_4,
-			is_array_immutable_not_empty_any_2, is_array_immutable_not_empty_any_3, is_array_immutable_not_empty_any_4,
-			is_array_mutable_not_empty_any_2, is_array_mutable_not_empty_any_3, is_array_mutable_not_empty_any_4,
+			is_array_not_empty_any_2, is_array_not_empty_any_3, is_array_not_empty_any_4, is_array_not_empty_any_n,
+			is_array_immutable_not_empty_any_2, is_array_immutable_not_empty_any_3, is_array_immutable_not_empty_any_4, is_array_immutable_not_empty_any_n,
+			is_array_mutable_not_empty_any_2, is_array_mutable_not_empty_any_3, is_array_mutable_not_empty_any_4, is_array_mutable_not_empty_any_n,
 			
 	};
 	
@@ -261,21 +415,21 @@ pub mod exports {
 			is_bytes_immutable_any_2, is_bytes_immutable_any_3, is_bytes_immutable_any_4, is_bytes_immutable_any_n,
 			is_bytes_mutable_any_2, is_bytes_mutable_any_3, is_bytes_mutable_any_4, is_bytes_mutable_any_n,
 			
-			is_bytes_empty_all_2, is_bytes_empty_all_3, is_bytes_empty_all_4,
-			is_bytes_immutable_empty_all_2, is_bytes_immutable_empty_all_3, is_bytes_immutable_empty_all_4,
-			is_bytes_mutable_empty_all_2, is_bytes_mutable_empty_all_3, is_bytes_mutable_empty_all_4,
+			is_bytes_empty_all_2, is_bytes_empty_all_3, is_bytes_empty_all_4, is_bytes_empty_all_n,
+			is_bytes_immutable_empty_all_2, is_bytes_immutable_empty_all_3, is_bytes_immutable_empty_all_4, is_bytes_immutable_empty_all_n,
+			is_bytes_mutable_empty_all_2, is_bytes_mutable_empty_all_3, is_bytes_mutable_empty_all_4, is_bytes_mutable_empty_all_n,
 			
-			is_bytes_empty_any_2, is_bytes_empty_any_3, is_bytes_empty_any_4,
-			is_bytes_immutable_empty_any_2, is_bytes_immutable_empty_any_3, is_bytes_immutable_empty_any_4,
-			is_bytes_mutable_empty_any_2, is_bytes_mutable_empty_any_3, is_bytes_mutable_empty_any_4,
+			is_bytes_empty_any_2, is_bytes_empty_any_3, is_bytes_empty_any_4, is_bytes_empty_any_n,
+			is_bytes_immutable_empty_any_2, is_bytes_immutable_empty_any_3, is_bytes_immutable_empty_any_4, is_bytes_immutable_empty_any_n,
+			is_bytes_mutable_empty_any_2, is_bytes_mutable_empty_any_3, is_bytes_mutable_empty_any_4, is_bytes_mutable_empty_any_n,
 			
-			is_bytes_not_empty_all_2, is_bytes_not_empty_all_3, is_bytes_not_empty_all_4,
-			is_bytes_immutable_not_empty_all_2, is_bytes_immutable_not_empty_all_3, is_bytes_immutable_not_empty_all_4,
-			is_bytes_mutable_not_empty_all_2, is_bytes_mutable_not_empty_all_3, is_bytes_mutable_not_empty_all_4,
+			is_bytes_not_empty_all_2, is_bytes_not_empty_all_3, is_bytes_not_empty_all_4, is_bytes_not_empty_all_n,
+			is_bytes_immutable_not_empty_all_2, is_bytes_immutable_not_empty_all_3, is_bytes_immutable_not_empty_all_4, is_bytes_immutable_not_empty_all_n,
+			is_bytes_mutable_not_empty_all_2, is_bytes_mutable_not_empty_all_3, is_bytes_mutable_not_empty_all_4, is_bytes_mutable_not_empty_all_n,
 			
-			is_bytes_not_empty_any_2, is_bytes_not_empty_any_3, is_bytes_not_empty_any_4,
-			is_bytes_immutable_not_empty_any_2, is_bytes_immutable_not_empty_any_3, is_bytes_immutable_not_empty_any_4,
-			is_bytes_mutable_not_empty_any_2, is_bytes_mutable_not_empty_any_3, is_bytes_mutable_not_empty_any_4,
+			is_bytes_not_empty_any_2, is_bytes_not_empty_any_3, is_bytes_not_empty_any_4, is_bytes_not_empty_any_n,
+			is_bytes_immutable_not_empty_any_2, is_bytes_immutable_not_empty_any_3, is_bytes_immutable_not_empty_any_4, is_bytes_immutable_not_empty_any_n,
+			is_bytes_mutable_not_empty_any_2, is_bytes_mutable_not_empty_any_3, is_bytes_mutable_not_empty_any_4, is_bytes_mutable_not_empty_any_n,
 			
 	};
 	
@@ -294,21 +448,21 @@ pub mod exports {
 			is_string_immutable_any_2, is_string_immutable_any_3, is_string_immutable_any_4, is_string_immutable_any_n,
 			is_string_mutable_any_2, is_string_mutable_any_3, is_string_mutable_any_4, is_string_mutable_any_n,
 			
-			is_string_empty_all_2, is_string_empty_all_3, is_string_empty_all_4,
-			is_string_immutable_empty_all_2, is_string_immutable_empty_all_3, is_string_immutable_empty_all_4,
-			is_string_mutable_empty_all_2, is_string_mutable_empty_all_3, is_string_mutable_empty_all_4,
+			is_string_empty_all_2, is_string_empty_all_3, is_string_empty_all_4, is_string_empty_all_n,
+			is_string_immutable_empty_all_2, is_string_immutable_empty_all_3, is_string_immutable_empty_all_4, is_string_immutable_empty_all_n,
+			is_string_mutable_empty_all_2, is_string_mutable_empty_all_3, is_string_mutable_empty_all_4, is_string_mutable_empty_all_n,
 			
-			is_string_empty_any_2, is_string_empty_any_3, is_string_empty_any_4,
-			is_string_immutable_empty_any_2, is_string_immutable_empty_any_3, is_string_immutable_empty_any_4,
-			is_string_mutable_empty_any_2, is_string_mutable_empty_any_3, is_string_mutable_empty_any_4,
+			is_string_empty_any_2, is_string_empty_any_3, is_string_empty_any_4, is_string_empty_any_n,
+			is_string_immutable_empty_any_2, is_string_immutable_empty_any_3, is_string_immutable_empty_any_4, is_string_immutable_empty_any_n,
+			is_string_mutable_empty_any_2, is_string_mutable_empty_any_3, is_string_mutable_empty_any_4, is_string_mutable_empty_any_n,
 			
-			is_string_not_empty_all_2, is_string_not_empty_all_3, is_string_not_empty_all_4,
-			is_string_immutable_not_empty_all_2, is_string_immutable_not_empty_all_3, is_string_immutable_not_empty_all_4,
-			is_string_mutable_not_empty_all_2, is_string_mutable_not_empty_all_3, is_string_mutable_not_empty_all_4,
+			is_string_not_empty_all_2, is_string_not_empty_all_3, is_string_not_empty_all_4, is_string_not_empty_all_n,
+			is_string_immutable_not_empty_all_2, is_string_immutable_not_empty_all_3, is_string_immutable_not_empty_all_4, is_string_immutable_not_empty_all_n,
+			is_string_mutable_not_empty_all_2, is_string_mutable_not_empty_all_3, is_string_mutable_not_empty_all_4, is_string_mutable_not_empty_all_n,
 			
-			is_string_not_empty_any_2, is_string_not_empty_any_3, is_string_not_empty_any_4,
-			is_string_immutable_not_empty_any_2, is_string_immutable_not_empty_any_3, is_string_immutable_not_empty_any_4,
-			is_string_mutable_not_empty_any_2, is_string_mutable_not_empty_any_3, is_string_mutable_not_empty_any_4,
+			is_string_not_empty_any_2, is_string_not_empty_any_3, is_string_not_empty_any_4, is_string_not_empty_any_n,
+			is_string_immutable_not_empty_any_2, is_string_immutable_not_empty_any_3, is_string_immutable_not_empty_any_4, is_string_immutable_not_empty_any_n,
+			is_string_mutable_not_empty_any_2, is_string_mutable_not_empty_any_3, is_string_mutable_not_empty_any_4, is_string_mutable_not_empty_any_n,
 			
 	};
 	
@@ -317,14 +471,14 @@ pub mod exports {
 			
 			is_values, is_values_empty, is_values_not_empty,
 			
-			is_values_all_2, is_values_all_3, is_values_all_4,
-			is_values_any_2, is_values_any_3, is_values_any_4,
+			is_values_all_2, is_values_all_3, is_values_all_4, is_values_all_n,
+			is_values_any_2, is_values_any_3, is_values_any_4, is_values_any_n,
 			
-			is_values_empty_all_2, is_values_empty_all_3, is_values_empty_all_4,
-			is_values_empty_any_2, is_values_empty_any_3, is_values_empty_any_4,
+			is_values_empty_all_2, is_values_empty_all_3, is_values_empty_all_4, is_values_empty_all_n,
+			is_values_empty_any_2, is_values_empty_any_3, is_values_empty_any_4, is_values_empty_any_n,
 			
-			is_values_not_empty_all_2, is_values_not_empty_all_3, is_values_not_empty_all_4,
-			is_values_not_empty_any_2, is_values_not_empty_any_3, is_values_not_empty_any_4,
+			is_values_not_empty_all_2, is_values_not_empty_all_3, is_values_not_empty_all_4, is_values_not_empty_all_n,
+			is_values_not_empty_any_2, is_values_not_empty_any_3, is_values_not_empty_any_4, is_values_not_empty_any_n,
 			
 	};
 	
@@ -355,7 +509,23 @@ pub mod exports {
 			is_error_syntax,
 			is_error_file, is_error_port, is_error_port_input, is_error_port_output,
 			
-			// TODO:  Add other variants for `is_error_*`!
+			is_error_all_2, is_error_all_3, is_error_all_4, is_error_all_n,
+			is_error_any_2, is_error_any_3, is_error_any_4, is_error_any_n,
+			
+			is_error_syntax_all_2, is_error_syntax_all_3, is_error_syntax_all_4, is_error_syntax_all_n,
+			is_error_syntax_any_2, is_error_syntax_any_3, is_error_syntax_any_4, is_error_syntax_any_n,
+			
+			is_error_file_all_2, is_error_file_all_3, is_error_file_all_4, is_error_file_all_n,
+			is_error_file_any_2, is_error_file_any_3, is_error_file_any_4, is_error_file_any_n,
+			
+			is_error_port_all_2, is_error_port_all_3, is_error_port_all_4, is_error_port_all_n,
+			is_error_port_any_2, is_error_port_any_3, is_error_port_any_4, is_error_port_any_n,
+			
+			is_error_port_input_all_2, is_error_port_input_all_3, is_error_port_input_all_4, is_error_port_input_all_n,
+			is_error_port_input_any_2, is_error_port_input_any_3, is_error_port_input_any_4, is_error_port_input_any_n,
+			
+			is_error_port_output_all_2, is_error_port_output_all_3, is_error_port_output_all_4, is_error_port_output_all_n,
+			is_error_port_output_any_2, is_error_port_output_any_3, is_error_port_output_any_4, is_error_port_output_any_n,
 	};
 	
 	
@@ -364,12 +534,39 @@ pub mod exports {
 			is_port,
 			is_port_input, is_port_output,
 			is_port_binary, is_port_textual,
+			is_port_input_binary, is_port_input_textual, is_port_output_binary, is_port_output_textual,
 			is_port_eof,
 			
 			is_port_all_2, is_port_all_3, is_port_all_4, is_port_all_n,
 			is_port_any_2, is_port_any_3, is_port_any_4, is_port_any_n,
 			
-			// TODO:  Add other variants for `is_port_*`!
+			is_port_input_all_2, is_port_input_all_3, is_port_input_all_4, is_port_input_all_n,
+			is_port_input_any_2, is_port_input_any_3, is_port_input_any_4, is_port_input_any_n,
+			
+			is_port_output_all_2, is_port_output_all_3, is_port_output_all_4, is_port_output_all_n,
+			is_port_output_any_2, is_port_output_any_3, is_port_output_any_4, is_port_output_any_n,
+			
+			is_port_binary_all_2, is_port_binary_all_3, is_port_binary_all_4, is_port_binary_all_n,
+			is_port_binary_any_2, is_port_binary_any_3, is_port_binary_any_4, is_port_binary_any_n,
+			
+			is_port_textual_all_2, is_port_textual_all_3, is_port_textual_all_4, is_port_textual_all_n,
+			is_port_textual_any_2, is_port_textual_any_3, is_port_textual_any_4, is_port_textual_any_n,
+			
+			is_port_input_binary_all_2, is_port_input_binary_all_3, is_port_input_binary_all_4, is_port_input_binary_all_n,
+			is_port_input_binary_any_2, is_port_input_binary_any_3, is_port_input_binary_any_4, is_port_input_binary_any_n,
+			
+			is_port_input_textual_all_2, is_port_input_textual_all_3, is_port_input_textual_all_4, is_port_input_textual_all_n,
+			is_port_input_textual_any_2, is_port_input_textual_any_3, is_port_input_textual_any_4, is_port_input_textual_any_n,
+			
+			is_port_output_binary_all_2, is_port_output_binary_all_3, is_port_output_binary_all_4, is_port_output_binary_all_n,
+			is_port_output_binary_any_2, is_port_output_binary_any_3, is_port_output_binary_any_4, is_port_output_binary_any_n,
+			
+			is_port_output_textual_all_2, is_port_output_textual_all_3, is_port_output_textual_all_4, is_port_output_textual_all_n,
+			is_port_output_textual_any_2, is_port_output_textual_any_3, is_port_output_textual_any_4, is_port_output_textual_any_n,
+			
+			is_port_eof_all_2, is_port_eof_all_3, is_port_eof_all_4, is_port_eof_all_n,
+			is_port_eof_any_2, is_port_eof_any_3, is_port_eof_any_4, is_port_eof_any_n,
+			
 	};
 	
 	
@@ -1104,6 +1301,93 @@ pub fn is_character (value : &Value) -> (bool) {
 
 def_fn_predicate_all! (is_character, is_character_all_2, is_character_all_3, is_character_all_4, is_character_all_n);
 def_fn_predicate_any! (is_character, is_character_any_2, is_character_any_3, is_character_any_4, is_character_any_n);
+
+
+
+
+use super::builtins_strings::{
+		
+		character_is_numeric as is_character_numeric,
+		character_is_alphabetic as is_character_alphabetic,
+		character_is_alphabetic_upper_case as is_character_alphabetic_upper_case,
+		character_is_alphabetic_lower_case as is_character_alphabetic_lower_case,
+		character_is_alphabetic_or_numeric as is_character_alphabetic_or_numeric,
+		character_is_whitespace as is_character_whitespace,
+		character_is_control as is_character_control,
+		
+		character_is_ascii as is_character_ascii,
+		character_is_ascii_numeric as is_character_ascii_numeric,
+		character_is_ascii_numeric_base_8 as is_character_ascii_numeric_base_8,
+		character_is_ascii_numeric_base_16 as is_character_ascii_numeric_base_16,
+		character_is_ascii_alphabetic as is_character_ascii_alphabetic,
+		character_is_ascii_alphabetic_upper_case as is_character_ascii_alphabetic_upper_case,
+		character_is_ascii_alphabetic_lower_case as is_character_ascii_alphabetic_lower_case,
+		character_is_ascii_alphabetic_or_numeric as is_character_ascii_alphabetic_or_numeric,
+		character_is_ascii_whitespace as is_character_ascii_whitespace,
+		character_is_ascii_control as is_character_ascii_control,
+		character_is_ascii_punctuation as is_character_ascii_punctuation,
+		character_is_ascii_graphic as is_character_ascii_graphic,
+		
+};
+
+
+def_fn_try_predicate_all! (is_character_numeric, is_character_numeric_all_2, is_character_numeric_all_3, is_character_numeric_all_4, is_character_numeric_all_n);
+def_fn_try_predicate_any! (is_character_numeric, is_character_numeric_any_2, is_character_numeric_any_3, is_character_numeric_any_4, is_character_numeric_any_n);
+
+def_fn_try_predicate_all! (is_character_alphabetic, is_character_alphabetic_all_2, is_character_alphabetic_all_3, is_character_alphabetic_all_4, is_character_alphabetic_all_n);
+def_fn_try_predicate_any! (is_character_alphabetic, is_character_alphabetic_any_2, is_character_alphabetic_any_3, is_character_alphabetic_any_4, is_character_alphabetic_any_n);
+
+def_fn_try_predicate_all! (is_character_alphabetic_upper_case, is_character_alphabetic_upper_case_all_2, is_character_alphabetic_upper_case_all_3, is_character_alphabetic_upper_case_all_4, is_character_alphabetic_upper_case_all_n);
+def_fn_try_predicate_any! (is_character_alphabetic_upper_case, is_character_alphabetic_upper_case_any_2, is_character_alphabetic_upper_case_any_3, is_character_alphabetic_upper_case_any_4, is_character_alphabetic_upper_case_any_n);
+
+def_fn_try_predicate_all! (is_character_alphabetic_lower_case, is_character_alphabetic_lower_case_all_2, is_character_alphabetic_lower_case_all_3, is_character_alphabetic_lower_case_all_4, is_character_alphabetic_lower_case_all_n);
+def_fn_try_predicate_any! (is_character_alphabetic_lower_case, is_character_alphabetic_lower_case_any_2, is_character_alphabetic_lower_case_any_3, is_character_alphabetic_lower_case_any_4, is_character_alphabetic_lower_case_any_n);
+
+def_fn_try_predicate_all! (is_character_alphabetic_or_numeric, is_character_alphabetic_or_numeric_all_2, is_character_alphabetic_or_numeric_all_3, is_character_alphabetic_or_numeric_all_4, is_character_alphabetic_or_numeric_all_n);
+def_fn_try_predicate_any! (is_character_alphabetic_or_numeric, is_character_alphabetic_or_numeric_any_2, is_character_alphabetic_or_numeric_any_3, is_character_alphabetic_or_numeric_any_4, is_character_alphabetic_or_numeric_any_n);
+
+def_fn_try_predicate_all! (is_character_whitespace, is_character_whitespace_all_2, is_character_whitespace_all_3, is_character_whitespace_all_4, is_character_whitespace_all_n);
+def_fn_try_predicate_any! (is_character_whitespace, is_character_whitespace_any_2, is_character_whitespace_any_3, is_character_whitespace_any_4, is_character_whitespace_any_n);
+
+def_fn_try_predicate_all! (is_character_control, is_character_control_all_2, is_character_control_all_3, is_character_control_all_4, is_character_control_all_n);
+def_fn_try_predicate_any! (is_character_control, is_character_control_any_2, is_character_control_any_3, is_character_control_any_4, is_character_control_any_n);
+
+
+def_fn_try_predicate_all! (is_character_ascii, is_character_ascii_all_2, is_character_ascii_all_3, is_character_ascii_all_4, is_character_ascii_all_n);
+def_fn_try_predicate_any! (is_character_ascii, is_character_ascii_any_2, is_character_ascii_any_3, is_character_ascii_any_4, is_character_ascii_any_n);
+
+def_fn_try_predicate_all! (is_character_ascii_numeric, is_character_ascii_numeric_all_2, is_character_ascii_numeric_all_3, is_character_ascii_numeric_all_4, is_character_ascii_numeric_all_n);
+def_fn_try_predicate_any! (is_character_ascii_numeric, is_character_ascii_numeric_any_2, is_character_ascii_numeric_any_3, is_character_ascii_numeric_any_4, is_character_ascii_numeric_any_n);
+
+def_fn_try_predicate_all! (is_character_ascii_numeric_base_8, is_character_ascii_numeric_base_8_all_2, is_character_ascii_numeric_base_8_all_3, is_character_ascii_numeric_base_8_all_4, is_character_ascii_numeric_base_8_all_n);
+def_fn_try_predicate_any! (is_character_ascii_numeric_base_8, is_character_ascii_numeric_base_8_any_2, is_character_ascii_numeric_base_8_any_3, is_character_ascii_numeric_base_8_any_4, is_character_ascii_numeric_base_8_any_n);
+
+def_fn_try_predicate_all! (is_character_ascii_numeric_base_16, is_character_ascii_numeric_base_16_all_2, is_character_ascii_numeric_base_16_all_3, is_character_ascii_numeric_base_16_all_4, is_character_ascii_numeric_base_16_all_n);
+def_fn_try_predicate_any! (is_character_ascii_numeric_base_16, is_character_ascii_numeric_base_16_any_2, is_character_ascii_numeric_base_16_any_3, is_character_ascii_numeric_base_16_any_4, is_character_ascii_numeric_base_16_any_n);
+
+def_fn_try_predicate_all! (is_character_ascii_alphabetic, is_character_ascii_alphabetic_all_2, is_character_ascii_alphabetic_all_3, is_character_ascii_alphabetic_all_4, is_character_ascii_alphabetic_all_n);
+def_fn_try_predicate_any! (is_character_ascii_alphabetic, is_character_ascii_alphabetic_any_2, is_character_ascii_alphabetic_any_3, is_character_ascii_alphabetic_any_4, is_character_ascii_alphabetic_any_n);
+
+def_fn_try_predicate_all! (is_character_ascii_alphabetic_upper_case, is_character_ascii_alphabetic_upper_case_all_2, is_character_ascii_alphabetic_upper_case_all_3, is_character_ascii_alphabetic_upper_case_all_4, is_character_ascii_alphabetic_upper_case_all_n);
+def_fn_try_predicate_any! (is_character_ascii_alphabetic_upper_case, is_character_ascii_alphabetic_upper_case_any_2, is_character_ascii_alphabetic_upper_case_any_3, is_character_ascii_alphabetic_upper_case_any_4, is_character_ascii_alphabetic_upper_case_any_n);
+
+def_fn_try_predicate_all! (is_character_ascii_alphabetic_lower_case, is_character_ascii_alphabetic_lower_case_all_2, is_character_ascii_alphabetic_lower_case_all_3, is_character_ascii_alphabetic_lower_case_all_4, is_character_ascii_alphabetic_lower_case_all_n);
+def_fn_try_predicate_any! (is_character_ascii_alphabetic_lower_case, is_character_ascii_alphabetic_lower_case_any_2, is_character_ascii_alphabetic_lower_case_any_3, is_character_ascii_alphabetic_lower_case_any_4, is_character_ascii_alphabetic_lower_case_any_n);
+
+def_fn_try_predicate_all! (is_character_ascii_alphabetic_or_numeric, is_character_ascii_alphabetic_or_numeric_all_2, is_character_ascii_alphabetic_or_numeric_all_3, is_character_ascii_alphabetic_or_numeric_all_4, is_character_ascii_alphabetic_or_numeric_all_n);
+def_fn_try_predicate_any! (is_character_ascii_alphabetic_or_numeric, is_character_ascii_alphabetic_or_numeric_any_2, is_character_ascii_alphabetic_or_numeric_any_3, is_character_ascii_alphabetic_or_numeric_any_4, is_character_ascii_alphabetic_or_numeric_any_n);
+
+def_fn_try_predicate_all! (is_character_ascii_whitespace, is_character_ascii_whitespace_all_2, is_character_ascii_whitespace_all_3, is_character_ascii_whitespace_all_4, is_character_ascii_whitespace_all_n);
+def_fn_try_predicate_any! (is_character_ascii_whitespace, is_character_ascii_whitespace_any_2, is_character_ascii_whitespace_any_3, is_character_ascii_whitespace_any_4, is_character_ascii_whitespace_any_n);
+
+def_fn_try_predicate_all! (is_character_ascii_control, is_character_ascii_control_all_2, is_character_ascii_control_all_3, is_character_ascii_control_all_4, is_character_ascii_control_all_n);
+def_fn_try_predicate_any! (is_character_ascii_control, is_character_ascii_control_any_2, is_character_ascii_control_any_3, is_character_ascii_control_any_4, is_character_ascii_control_any_n);
+
+def_fn_try_predicate_all! (is_character_ascii_punctuation, is_character_ascii_punctuation_all_2, is_character_ascii_punctuation_all_3, is_character_ascii_punctuation_all_4, is_character_ascii_punctuation_all_n);
+def_fn_try_predicate_any! (is_character_ascii_punctuation, is_character_ascii_punctuation_any_2, is_character_ascii_punctuation_any_3, is_character_ascii_punctuation_any_4, is_character_ascii_punctuation_any_n);
+
+def_fn_try_predicate_all! (is_character_ascii_graphic, is_character_ascii_graphic_all_2, is_character_ascii_graphic_all_3, is_character_ascii_graphic_all_4, is_character_ascii_graphic_all_n);
+def_fn_try_predicate_any! (is_character_ascii_graphic, is_character_ascii_graphic_any_2, is_character_ascii_graphic_any_3, is_character_ascii_graphic_any_4, is_character_ascii_graphic_any_n);
 
 
 
@@ -1843,6 +2127,46 @@ pub fn is_port_textual (value : &Value) -> (Outcome<bool>) {
 
 def_fn_try_predicate_all! (is_port_textual, is_port_textual_all_2, is_port_textual_all_3, is_port_textual_all_4, is_port_textual_all_n);
 def_fn_try_predicate_any! (is_port_textual, is_port_textual_any_2, is_port_textual_any_3, is_port_textual_any_4, is_port_textual_any_n);
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn is_port_input_binary (value : &Value) -> (Outcome<bool>) {
+	let port = try_as_port_ref! (value);
+	succeed! (port.is_read_implemented () && port.is_byte_implemented ());
+}
+
+def_fn_try_predicate_all! (is_port_input_binary, is_port_input_binary_all_2, is_port_input_binary_all_3, is_port_input_binary_all_4, is_port_input_binary_all_n);
+def_fn_try_predicate_any! (is_port_input_binary, is_port_input_binary_any_2, is_port_input_binary_any_3, is_port_input_binary_any_4, is_port_input_binary_any_n);
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn is_port_input_textual (value : &Value) -> (Outcome<bool>) {
+	let port = try_as_port_ref! (value);
+	succeed! (port.is_read_implemented () && port.is_char_implemented ());
+}
+
+def_fn_try_predicate_all! (is_port_input_textual, is_port_input_textual_all_2, is_port_input_textual_all_3, is_port_input_textual_all_4, is_port_input_textual_all_n);
+def_fn_try_predicate_any! (is_port_input_textual, is_port_input_textual_any_2, is_port_input_textual_any_3, is_port_input_textual_any_4, is_port_input_textual_any_n);
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn is_port_output_binary (value : &Value) -> (Outcome<bool>) {
+	let port = try_as_port_ref! (value);
+	succeed! (port.is_write_implemented () && port.is_byte_implemented ());
+}
+
+def_fn_try_predicate_all! (is_port_output_binary, is_port_output_binary_all_2, is_port_output_binary_all_3, is_port_output_binary_all_4, is_port_output_binary_all_n);
+def_fn_try_predicate_any! (is_port_output_binary, is_port_output_binary_any_2, is_port_output_binary_any_3, is_port_output_binary_any_4, is_port_output_binary_any_n);
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn is_port_output_textual (value : &Value) -> (Outcome<bool>) {
+	let port = try_as_port_ref! (value);
+	succeed! (port.is_write_implemented () && port.is_char_implemented ());
+}
+
+def_fn_try_predicate_all! (is_port_output_textual, is_port_output_textual_all_2, is_port_output_textual_all_3, is_port_output_textual_all_4, is_port_output_textual_all_n);
+def_fn_try_predicate_any! (is_port_output_textual, is_port_output_textual_any_2, is_port_output_textual_any_3, is_port_output_textual_any_4, is_port_output_textual_any_n);
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
