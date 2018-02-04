@@ -125,7 +125,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			("base", "modules", "features", ProcedurePrimitive::Unsupported.into ()),
 			
-			("base", "types", "null?", TypePrimitive1::IsNull.into ()),
+			("base", "types", "null?", TypePrimitiveV::IsNull.into ()),
 			
 			
 			
@@ -141,20 +141,20 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			// math
 			
-			("base", "types", "number?", TypePrimitive1::IsNumber.into ()),
-			("base", "types", "integer?", TypePrimitive1::IsNumberInteger.into ()),
-			("base", "types", "real?", TypePrimitive1::IsNumberReal.into ()),
-			("base", "types", "rational?", TypePrimitive1::IsNumberRational.into ()),
-			("base", "types", "complex?", TypePrimitive1::IsNumberComplex.into ()),
-			("base", "types", "exact?", TypePrimitive1::IsNumberExact.into ()),
-			("base", "types", "exact-integer?", TypePrimitive1::IsNumberExactInteger.into ()),
-			("base", "types", "inexact?", TypePrimitive1::IsNumberInexact.into ()),
+			("base", "types", "number?", TypePrimitiveV::IsNumber.into ()),
+			("base", "types", "integer?", TypePrimitiveV::IsNumberInteger.into ()),
+			("base", "types", "real?", TypePrimitiveV::IsNumberReal.into ()),
+			("base", "types", "rational?", TypePrimitiveV::IsNumberRational.into ()),
+			("base", "types", "complex?", TypePrimitiveV::IsNumberComplex.into ()),
+			("base", "types", "exact?", TypePrimitiveV::IsNumberExact.into ()),
+			("base", "types", "exact-integer?", TypePrimitiveV::IsNumberExactInteger.into ()),
+			("base", "types", "inexact?", TypePrimitiveV::IsNumberInexact.into ()),
 			
-			("base", "arithmetic", "zero?", TypePrimitive1::IsNumberZero.into ()),
-			("base", "arithmetic", "positive?", TypePrimitive1::IsNumberPositive.into ()),
-			("base", "arithmetic", "negative?", TypePrimitive1::IsNumberNegative.into ()),
-			("base", "arithmetic", "odd?", TypePrimitive1::IsNumberOdd.into ()),
-			("base", "arithmetic", "even?", TypePrimitive1::IsNumberEven.into ()),
+			("base", "arithmetic", "zero?", TypePrimitiveV::IsNumberZero.into ()),
+			("base", "arithmetic", "positive?", TypePrimitiveV::IsNumberPositive.into ()),
+			("base", "arithmetic", "negative?", TypePrimitiveV::IsNumberNegative.into ()),
+			("base", "arithmetic", "odd?", TypePrimitiveV::IsNumberOdd.into ()),
+			("base", "arithmetic", "even?", TypePrimitiveV::IsNumberEven.into ()),
 			
 			("base", "arithmetic", "+", ArithmeticPrimitiveV::Addition.into ()),
 			("base", "arithmetic", "-", ArithmeticPrimitiveV::Subtraction.into ()),
@@ -208,7 +208,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			// boolean
 			
-			("base", "types", "boolean?", TypePrimitive1::IsBoolean.into ()),
+			("base", "types", "boolean?", TypePrimitiveV::IsBoolean.into ()),
 			
 			("base", "equivalence", "boolean=?", ComparisonPrimitiveV::BooleanEqual.into ()),
 			
@@ -219,7 +219,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			// characters
 			
-			("base", "types", "char?", TypePrimitive1::IsCharacter.into ()),
+			("base", "types", "char?", TypePrimitiveV::IsCharacter.into ()),
 			
 			("base", "characters", "char=?", ComparisonPrimitiveV::CharacterCaseSensitiveEqual.into ()),
 			("base", "characters", "char<?", ComparisonPrimitiveV::CharacterCaseSensitiveLesser.into ()),
@@ -232,7 +232,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			// symbols
 			
-			("base", "types", "symbol?", TypePrimitive1::IsSymbol.into ()),
+			("base", "types", "symbol?", TypePrimitiveV::IsSymbol.into ()),
 			
 			("base", "equivalence", "symbol=?", ComparisonPrimitiveV::SymbolCaseSensitiveEqual.into ()),
 			
@@ -241,7 +241,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			// pairs
 			
-			("base", "types", "pair?", TypePrimitive1::IsPair.into ()),
+			("base", "types", "pair?", TypePrimitiveV::IsPair.into ()),
 			
 			("base", "pairs", "cons", ListPrimitive2::Pair.into ()),
 			("base", "pairs", "car", ListPrimitive1::PairLeft.into ()),
@@ -261,7 +261,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			// lists
 			
-			("base", "types", "list?", TypePrimitive1::IsListProperOrEmpty.into ()),
+			("base", "types", "list?", TypePrimitiveV::IsListProperOrEmpty.into ()),
 			
 			("base", "lists", "list", ListPrimitiveV::ListBuild.into ()),
 			("base", "lists", "make-list", ListPrimitiveV::ListMake.into ()),
@@ -289,7 +289,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			// vectors
 			
-			("base", "types", "vector?", TypePrimitive1::IsArray.into ()),
+			("base", "types", "vector?", TypePrimitiveV::IsArray.into ()),
 			
 			("base", "vectors", "vector", ArrayPrimitiveV::ArrayBuild.into ()),
 			("base", "vectors", "make-vector", ArrayPrimitiveV::ArrayMake.into ()),
@@ -308,7 +308,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			// bytevectors
 			
-			("base", "types", "bytevector?", TypePrimitive1::IsBytes.into ()),
+			("base", "types", "bytevector?", TypePrimitiveV::IsBytes.into ()),
 			
 			("base", "bytes", "bytevector", BytesPrimitiveV::BytesBuild.into ()),
 			("base", "bytes", "make-bytevector", BytesPrimitiveV::BytesMake.into ()),
@@ -326,7 +326,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			// strings
 			
-			("base", "types", "string?", TypePrimitive1::IsString.into ()),
+			("base", "types", "string?", TypePrimitiveV::IsString.into ()),
 			
 			("base", "strings", "string", StringPrimitiveV::StringBuild.into ()),
 			("base", "strings", "make-string", StringPrimitiveV::StringMake.into ()),
@@ -384,7 +384,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			// ???
 			
-			("base", "types", "procedure?", TypePrimitive1::IsProcedure.into ()),
+			("base", "types", "procedure?", TypePrimitiveV::IsProcedure.into ()),
 			
 			("base", "functions", "apply", FunctionsPrimitiveV::Apply.into ()),
 			
@@ -414,11 +414,11 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "evaluator", "raise-continuable", ProcedurePrimitive::Unsupported.into ()),
 			
 			("base", "errors", "error", RuntimePrimitiveV::ErrorRaise.into ()),
-			("base", "errors", "error-object?", TypePrimitive1::IsError.into ()),
+			("base", "errors", "error-object?", TypePrimitiveV::IsError.into ()),
 			("base", "errors", "error-object-message", RuntimePrimitive1::ErrorMessage.into ()),
 			("base", "errors", "error-object-irritants", RuntimePrimitive1::ErrorArgumentsAsList.into ()),
-			("base", "errors", "read-error?", TypePrimitive1::IsErrorPortInput.into ()),
-			("base", "errors", "file-error?", TypePrimitive1::IsErrorFile.into ()),
+			("base", "errors", "read-error?", TypePrimitiveV::IsErrorPortInput.into ()),
+			("base", "errors", "file-error?", TypePrimitiveV::IsErrorFile.into ()),
 			
 			("base", "evaluator", "with-exception-handler", ProcedurePrimitive::Unsupported.into ()),
 			
@@ -433,13 +433,13 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "parameters", "current-output-port", PortPrimitive0::CurrentOutput.into ()),
 			("base", "parameters", "current-error-port", PortPrimitive0::CurrentError.into ()),
 			
-			("base", "ports", "port?", TypePrimitive1::IsPort.into ()),
-			("base", "ports", "input-port?", TypePrimitive1::IsPortInput.into ()),
+			("base", "ports", "port?", TypePrimitiveV::IsPort.into ()),
+			("base", "ports", "input-port?", TypePrimitiveV::IsPortInput.into ()),
 			("base", "ports", "input-port-open?", PortPrimitiveV::IsInputOpen.into ()),
-			("base", "ports", "output-port?", TypePrimitive1::IsPortOutput.into ()),
+			("base", "ports", "output-port?", TypePrimitiveV::IsPortOutput.into ()),
 			("base", "ports", "output-port-open?", PortPrimitiveV::IsOutputOpen.into ()),
-			("base", "ports", "binary-port?", TypePrimitive1::IsPortBinary.into ()),
-			("base", "ports", "textual-port?", TypePrimitive1::IsPortTextual.into ()),
+			("base", "ports", "binary-port?", TypePrimitiveV::IsPortBinary.into ()),
+			("base", "ports", "textual-port?", TypePrimitiveV::IsPortTextual.into ()),
 			
 			("base", "ports", "open-input-string", PortPrimitive1::InputFromString.into ()),
 			("base", "ports", "open-output-string", PortPrimitiveV::OutputToString.into ()),
@@ -472,7 +472,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "ports", "read-line", PortPrimitiveV::StringReadLine.into ()),
 			
 			("base", "ports", "eof-object", PortPrimitive0::Eof.into ()),
-			("base", "ports", "eof-object?", TypePrimitive1::IsPortEof.into ()),
+			("base", "ports", "eof-object?", TypePrimitiveV::IsPortEof.into ()),
 			
 			
 			
@@ -513,11 +513,11 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("char", "strings", "string-ci<=?", ComparisonPrimitiveV::StringCaseInsensitiveLesserOrEqual.into ()),
 			("char", "strings", "string-ci>=?", ComparisonPrimitiveV::StringCaseInsensitiveGreaterOrEqual.into ()),
 			
-			("char", "characters", "char-alphabetic?", TypePrimitive1::IsCharacterAlphabetic.into ()),
-			("char", "characters", "char-upper-case?", TypePrimitive1::IsCharacterAlphabeticUpperCase.into ()),
-			("char", "characters", "char-lower-case?", TypePrimitive1::IsCharacterAlphabeticLowerCase.into ()),
-			("char", "characters", "char-numeric?", TypePrimitive1::IsCharacterNumeric.into ()),
-			("char", "characters", "char-whitespace?", TypePrimitive1::IsCharacterWhitespace.into ()),
+			("char", "characters", "char-alphabetic?", TypePrimitiveV::IsCharacterAlphabetic.into ()),
+			("char", "characters", "char-upper-case?", TypePrimitiveV::IsCharacterAlphabeticUpperCase.into ()),
+			("char", "characters", "char-lower-case?", TypePrimitiveV::IsCharacterAlphabeticLowerCase.into ()),
+			("char", "characters", "char-numeric?", TypePrimitiveV::IsCharacterNumeric.into ()),
+			("char", "characters", "char-whitespace?", TypePrimitiveV::IsCharacterWhitespace.into ()),
 			
 			("char", "characters", "char-upcase", StringPrimitive1::CharacterToUpperCase.into ()),
 			("char", "characters", "char-downcase", StringPrimitive1::CharacterToLowerCase.into ()),
@@ -635,9 +635,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("inexact", "arithmetic", "acos", ArithmeticPrimitive1::Acos.into ()),
 			("inexact", "arithmetic", "atan", ArithmeticPrimitive1::Atan.into ()),
 			
-			("inexact", "arithmetic", "finite?", TypePrimitive1::IsNumberFinite.into ()),
-			("inexact", "arithmetic", "infinite?", TypePrimitive1::IsNumberInfinite.into ()),
-			("inexact", "arithmetic", "nan?", TypePrimitive1::IsNumberNan.into ()),
+			("inexact", "arithmetic", "finite?", TypePrimitiveV::IsNumberFinite.into ()),
+			("inexact", "arithmetic", "infinite?", TypePrimitiveV::IsNumberInfinite.into ()),
+			("inexact", "arithmetic", "nan?", TypePrimitiveV::IsNumberNan.into ()),
 			
 			
 			

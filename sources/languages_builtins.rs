@@ -57,19 +57,19 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("error-object-irritants->vector", RuntimePrimitive1::ErrorArgumentsAsArray.into ()),
 			("error-object-irritants->values", RuntimePrimitive1::ErrorArgumentsAsValues.into ()),
 			
-			("not-null?", TypePrimitive1::IsNullNot.into ()),
+			("not-null?", TypePrimitiveV::IsNullNot.into ()),
 			
-			("void?", TypePrimitive1::IsVoid.into ()),
-			("not-void?", TypePrimitive1::IsVoidNot.into ()),
-			("undefined?", TypePrimitive1::IsUndefined.into ()),
-			("not-undefined?", TypePrimitive1::IsUndefinedNot.into ()),
+			("void?", TypePrimitiveV::IsVoid.into ()),
+			("not-void?", TypePrimitiveV::IsVoidNot.into ()),
+			("undefined?", TypePrimitiveV::IsUndefined.into ()),
+			("not-undefined?", TypePrimitiveV::IsUndefinedNot.into ()),
 			
-			("true?", TypePrimitive1::IsTrue.into ()),
-			("not-true?", TypePrimitive1::IsTrueNot.into ()),
-			("true-or-equivalent?", TypePrimitive1::IsTrueOrEquivalent.into ()),
-			("false?", TypePrimitive1::IsFalse.into ()),
-			("not-false?", TypePrimitive1::IsFalseNot.into ()),
-			("false-or-equivalent?", TypePrimitive1::IsFalseOrEquivalent.into ()),
+			("true?", TypePrimitiveV::IsTrue.into ()),
+			("not-true?", TypePrimitiveV::IsTrueNot.into ()),
+			("true-or-equivalent?", TypePrimitiveV::IsTrueOrEquivalent.into ()),
+			("false?", TypePrimitiveV::IsFalse.into ()),
+			("not-false?", TypePrimitiveV::IsFalseNot.into ()),
+			("false-or-equivalent?", TypePrimitiveV::IsFalseOrEquivalent.into ()),
 			
 			("and*", BooleanPrimitiveV::And.into ()),
 			("or*", BooleanPrimitiveV::Or.into ()),
@@ -82,8 +82,8 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("string-reverse!", StringPrimitiveV::StringRangeReverse.into ()),
 			("string->immutable", StringPrimitive1::StringToImmutable.into ()),
 			("string->mutable", StringPrimitive1::StringToMutable.into ()),
-			("string-immutable?", TypePrimitive1::IsStringImmutable.into ()),
-			("string-mutable?", TypePrimitive1::IsStringMutable.into ()),
+			("string-immutable?", TypePrimitiveV::IsStringImmutable.into ()),
+			("string-mutable?", TypePrimitiveV::IsStringMutable.into ()),
 			
 			("symbol-upcase", StringPrimitive1::SymbolToUpperCase.into ()),
 			("symbol-downcase", StringPrimitive1::SymbolToLowerCase.into ()),
@@ -100,13 +100,13 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("list->bytevector", BytesPrimitiveV::ListRangeToBytes.into ()),
 			("bytevector->immutable", BytesPrimitive1::BytesToImmutable.into ()),
 			("bytevector->mutable", BytesPrimitive1::BytesToMutable.into ()),
-			("bytevector-immutable?", TypePrimitive1::IsBytesImmutable.into ()),
-			("bytevector-mutable?", TypePrimitive1::IsBytesMutable.into ()),
+			("bytevector-immutable?", TypePrimitiveV::IsBytesImmutable.into ()),
+			("bytevector-mutable?", TypePrimitiveV::IsBytesMutable.into ()),
 			
 			("pair->immutable", ListPrimitive1::PairToImmutable.into ()),
 			("pair->mutable", ListPrimitive1::PairToMutable.into ()),
-			("pair-immutable?", TypePrimitive1::IsPairImmutable.into ()),
-			("pair-mutable?", TypePrimitive1::IsPairMutable.into ()),
+			("pair-immutable?", TypePrimitiveV::IsPairImmutable.into ()),
+			("pair-mutable?", TypePrimitiveV::IsPairMutable.into ()),
 			
 			("list->immutable", ListPrimitive1::ListToImmutable.into ()),
 			("list->mutable", ListPrimitive1::ListToMutable.into ()),
@@ -115,12 +115,12 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("vector-reverse!", ArrayPrimitiveV::ArrayRangeReverse.into ()),
 			("vector->immutable", ArrayPrimitive1::ArrayToImmutable.into ()),
 			("vector->mutable", ArrayPrimitive1::ArrayToMutable.into ()),
-			("vector-immutable?", TypePrimitive1::IsArrayImmutable.into ()),
-			("vector-mutable?", TypePrimitive1::IsArrayMutable.into ()),
+			("vector-immutable?", TypePrimitiveV::IsArrayImmutable.into ()),
+			("vector-mutable?", TypePrimitiveV::IsArrayMutable.into ()),
 			
-			("values?", TypePrimitive1::IsValues.into ()),
+			("values?", TypePrimitiveV::IsValues.into ()),
 			
-			("record-type?", TypePrimitive1::IsRecordKind.into ()),
+			("record-type?", TypePrimitiveV::IsRecordKind.into ()),
 			("record-type", RecordPrimitive1::RecordKindGet.into ()),
 			("record-type-predicate", RecordPrimitiveV::RecordKindIsFn.into ()),
 			("record-type-constructor", RecordPrimitiveV::RecordBuildFn.into ()),
@@ -131,8 +131,8 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("make-record-type", RecordPrimitiveV::RecordKindBuild.into ()),
 			
 			("record?", RecordPrimitiveV::RecordKindIs.into ()),
-			("record-immutable?", TypePrimitive1::IsRecordImmutable.into ()),
-			("record-mutable?", TypePrimitive1::IsRecordMutable.into ()),
+			("record-immutable?", TypePrimitiveV::IsRecordImmutable.into ()),
+			("record-mutable?", TypePrimitiveV::IsRecordMutable.into ()),
 			("make-record", RecordPrimitiveV::RecordBuild.into ()),
 			("record-ref", RecordPrimitiveV::RecordGet.into ()),
 			("record-set!", RecordPrimitiveV::RecordSet.into ()),
@@ -243,9 +243,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("process-stdout", RuntimePrimitive1::ProcessStdoutGet.into ()),
 			("process-stderr", RuntimePrimitive1::ProcessStderrGet.into ()),
 			
-			("process?", TypePrimitive1::IsProcess.into ()),
-			("resource?", TypePrimitive1::IsResource.into ()),
-			("opaque?", TypePrimitive1::IsOpaque.into ()),
+			("process?", TypePrimitiveV::IsProcess.into ()),
+			("resource?", TypePrimitiveV::IsResource.into ()),
+			("opaque?", TypePrimitiveV::IsOpaque.into ()),
 			
 		];
 	
