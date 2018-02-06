@@ -134,11 +134,13 @@ impl Context {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn internals_ref (&self) -> (StdRef<ContextInternals>) {
+		// FIXME:  Use `try_borrow`!
 		return StdRefCell::borrow (StdRc::as_ref (&self.0));
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn internals_ref_mut (&self) -> (StdRefMut<ContextInternals>) {
+		// FIXME:  Use `try_borrow`!
 		return StdRefCell::borrow_mut (StdRc::as_ref (&self.0));
 	}
 	
@@ -532,11 +534,13 @@ impl Binding {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn internals_ref (&self) -> (StdRef<BindingInternals>) {
+		// FIXME:  Use `try_borrow`!
 		return StdRefCell::borrow (StdRc::as_ref (&self.0));
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn internals_ref_mut (&self) -> (StdRefMut<BindingInternals>) {
+		// FIXME:  Use `try_borrow`!
 		return StdRefCell::borrow_mut (StdRc::as_ref (&self.0));
 	}
 	

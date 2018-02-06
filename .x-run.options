@@ -2766,6 +2766,10 @@
 	exec -- sce ./sources/ordering.rs
 !!
 
+<< files / edit / sources/parameters.rs
+	exec -- sce ./sources/parameters.rs
+!!
+
 << files / edit / sources/parser.rs
 	exec -- sce ./sources/parser.rs
 !!
@@ -2898,6 +2902,10 @@
 	exec -- sce ./sources/values_characters.rs
 !!
 
+<< files / edit / sources/values_keywords.rs
+	exec -- sce ./sources/values_keywords.rs
+!!
+
 << files / edit / sources/values_numbers.rs
 	exec -- sce ./sources/values_numbers.rs
 !!
@@ -2916,6 +2924,10 @@
 
 << files / edit / sources/values_symbols.rs
 	exec -- sce ./sources/values_symbols.rs
+!!
+
+<< files / edit / sources/values_unique.rs
+	exec -- sce ./sources/values_unique.rs
 !!
 
 << files / edit / sources/values_value.rs
@@ -3346,6 +3358,10 @@
 	exec -- less -- ./sources/ordering.rs
 !!
 
+<< files / view / sources/parameters.rs
+	exec -- less -- ./sources/parameters.rs
+!!
+
 << files / view / sources/parser.rs
 	exec -- less -- ./sources/parser.rs
 !!
@@ -3478,6 +3494,10 @@
 	exec -- less -- ./sources/values_characters.rs
 !!
 
+<< files / view / sources/values_keywords.rs
+	exec -- less -- ./sources/values_keywords.rs
+!!
+
 << files / view / sources/values_numbers.rs
 	exec -- less -- ./sources/values_numbers.rs
 !!
@@ -3496,6 +3516,10 @@
 
 << files / view / sources/values_symbols.rs
 	exec -- less -- ./sources/values_symbols.rs
+!!
+
+<< files / view / sources/values_unique.rs
+	exec -- less -- ./sources/values_unique.rs
 !!
 
 << files / view / sources/values_value.rs
