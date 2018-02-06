@@ -53,7 +53,8 @@ pub mod exports {
 	
 	pub use super::{
 		
-		port_call_and_close,
+		port_call_and_close_0,
+		port_call_and_close_1,
 		
 	};
 	
@@ -502,11 +503,18 @@ pub fn port_output_flush (port : &Value) -> (Outcome<()>) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_call_and_close (port : &Value, callable : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
-	try_as_port_ref! (port);
+pub fn port_call_and_close_0 (port : &Value, callable : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	let port_ref = try_as_port_ref! (port);
+	let outcome = evaluator.evaluate_procedure_call_0 (callable);
+	try! (port_ref.close ());
+	return outcome;
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn port_call_and_close_1 (port : &Value, callable : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	let port_ref = try_as_port_ref! (port);
 	let outcome = evaluator.evaluate_procedure_call_1 (callable, port);
-	let port = try_as_port_ref! (port);
-	try! (port.close ());
+	try! (port_ref.close ());
 	return outcome;
 }
 

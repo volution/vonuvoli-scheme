@@ -167,10 +167,16 @@ pub enum PortPrimitive1 {
 pub enum PortPrimitive2 {
 	
 	CallAndClose,
+	
 	OpenBinaryInputThenCallAndClose,
 	OpenBinaryOutputThenCallAndClose,
 	OpenTextualInputThenCallAndClose,
 	OpenTextualOutputThenCallAndClose,
+	
+	WithOpenBinaryInputThenCallAndClose,
+	WithOpenBinaryOutputThenCallAndClose,
+	WithOpenTextualInputThenCallAndClose,
+	WithOpenTextualOutputThenCallAndClose,
 	
 	BytesReadCopy,
 	BytesReadExtend,
@@ -550,26 +556,54 @@ pub fn port_primitive_2_evaluate (primitive : PortPrimitive2, input_1 : &Value, 
 	match primitive {
 		
 		PortPrimitive2::CallAndClose =>
-			return port_call_and_close (input_1, input_2, evaluator),
+			return port_call_and_close_1 (input_1, input_2, evaluator),
 		
 		PortPrimitive2::OpenBinaryInputThenCallAndClose => {
 			let port = try! (port_primitive_1_evaluate (PortPrimitive1::OpenBinaryInput, input_1, evaluator));
-			return port_call_and_close (&port, input_2, evaluator);
+			return port_call_and_close_1 (&port, input_2, evaluator);
 		},
 		
 		PortPrimitive2::OpenBinaryOutputThenCallAndClose => {
 			let port = try! (port_primitive_1_evaluate (PortPrimitive1::OpenBinaryOutput, input_1, evaluator));
-			return port_call_and_close (&port, input_2, evaluator);
+			return port_call_and_close_1 (&port, input_2, evaluator);
 		},
 		
 		PortPrimitive2::OpenTextualInputThenCallAndClose => {
 			let port = try! (port_primitive_1_evaluate (PortPrimitive1::OpenTextualInput, input_1, evaluator));
-			return port_call_and_close (&port, input_2, evaluator);
+			return port_call_and_close_1 (&port, input_2, evaluator);
 		},
 		
 		PortPrimitive2::OpenTextualOutputThenCallAndClose => {
 			let port = try! (port_primitive_1_evaluate (PortPrimitive1::OpenTextualOutput, input_1, evaluator));
-			return port_call_and_close (&port, input_2, evaluator);
+			return port_call_and_close_1 (&port, input_2, evaluator);
+		},
+		
+		PortPrimitive2::WithOpenBinaryInputThenCallAndClose => {
+			let port = try! (port_primitive_1_evaluate (PortPrimitive1::OpenBinaryInput, input_1, evaluator));
+			let mut evaluator = evaluator.fork_environment ();
+			try! (try! (evaluator.environment_mut ()) .stdin_set (try_as_port_ref! (&port)));
+			return port_call_and_close_0 (&port, input_2, &mut evaluator);
+		},
+		
+		PortPrimitive2::WithOpenBinaryOutputThenCallAndClose => {
+			let port = try! (port_primitive_1_evaluate (PortPrimitive1::OpenBinaryOutput, input_1, evaluator));
+			let mut evaluator = evaluator.fork_environment ();
+			try! (try! (evaluator.environment_mut ()) .stdout_set (try_as_port_ref! (&port)));
+			return port_call_and_close_0 (&port, input_2, &mut evaluator);
+		},
+		
+		PortPrimitive2::WithOpenTextualInputThenCallAndClose => {
+			let port = try! (port_primitive_1_evaluate (PortPrimitive1::OpenTextualInput, input_1, evaluator));
+			let mut evaluator = evaluator.fork_environment ();
+			try! (try! (evaluator.environment_mut ()) .stdin_set (try_as_port_ref! (&port)));
+			return port_call_and_close_0 (&port, input_2, &mut evaluator);
+		},
+		
+		PortPrimitive2::WithOpenTextualOutputThenCallAndClose => {
+			let port = try! (port_primitive_1_evaluate (PortPrimitive1::OpenTextualOutput, input_1, evaluator));
+			let mut evaluator = evaluator.fork_environment ();
+			try! (try! (evaluator.environment_mut ()) .stdout_set (try_as_port_ref! (&port)));
+			return port_call_and_close_0 (&port, input_2, &mut evaluator);
 		},
 		
 		PortPrimitive2::BytesReadCopy =>

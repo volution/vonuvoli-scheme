@@ -611,8 +611,8 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("file", "ports", "call-with-input-file", PortPrimitive2::OpenTextualInputThenCallAndClose.into ()),
 			("file", "ports", "call-with-output-file", PortPrimitive2::OpenTextualOutputThenCallAndClose.into ()),
 			
-			("file", "parameters", "with-input-from-file", ProcedurePrimitive::Unimplemented.into ()),
-			("file", "parameters", "with-output-to-file", ProcedurePrimitive::Unimplemented.into ()),
+			("file", "parameters", "with-input-from-file", PortPrimitive2::WithOpenTextualInputThenCallAndClose.into ()),
+			("file", "parameters", "with-output-to-file", PortPrimitive2::WithOpenTextualOutputThenCallAndClose.into ()),
 			
 			("file", "system", "file-exists?", PortPrimitive1::FileExists.into ()),
 			("file", "system", "delete-file", PortPrimitive1::FileDelete.into ()),
