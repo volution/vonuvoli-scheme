@@ -14,7 +14,7 @@ use super::prelude::*;
 
 pub mod exports {
 	pub use super::{Parameters, ParametersInternals};
-	pub use super::{Parameter, ParameterInternals};
+	pub use super::{Parameter, ParameterInternals, ParameterConversion};
 }
 
 
@@ -54,37 +54,58 @@ impl Parameters {
 	
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn resolve (&self, parameter : &Parameter, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	pub fn resolve (&self, parameter : &Parameter, default : Option<&Value>, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 		let key = parameter.unique_ref ();
+		if let Some (default) = default {
+			return self.resolve_or_default (key, parameter, default, evaluator);
+		}
 		loop {
-			{
-				let self_0 = self.internals_ref ();
-				match self_0.bindings.get (key) {
-					Some (&(ref binding, ref conversion)) => {
-						let value = try! (binding.get ());
-						let value = match *conversion {
-							ParameterConversion::None =>
-								value,
-							ParameterConversion::OnConfigure (_) =>
-								fail_panic! (0x0f94930a),
-							ParameterConversion::OnResolveOnce (_) =>
-								fail_panic! (0x19d8c728),
-							ParameterConversion::OnResolveAlways (ref converter) =>
-								try! (evaluator.evaluate_procedure_call_1 (converter, &value)),
-						};
-						succeed! (value);
-					},
-					None =>
-						(),
-				}
+			if let Some (value) = try! (self.resolve_self (key, evaluator)) {
+				succeed! (value);
+			} else {
+				try! (self.resolve_or_cache (key, parameter, evaluator));
 			}
-			try! (self.resolve_or_cache (key, parameter, evaluator));
 		}
 	}
 	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn resolve_self (&self, key : &Unique, evaluator : &mut EvaluatorContext) -> (Outcome<Option<Value>>) {
+		let self_0 = self.internals_ref ();
+		match self_0.bindings.get (key) {
+			Some (&(ref binding, ref conversion)) => {
+				let value = try! (binding.get ());
+				let value = match *conversion {
+					ParameterConversion::None =>
+						value,
+					ParameterConversion::OnConfigure (_) =>
+						fail_panic! (0x0f94930a),
+					ParameterConversion::OnResolveOnce (_) =>
+						fail_panic! (0x19d8c728),
+					ParameterConversion::OnResolveAlways (ref converter) =>
+						try! (evaluator.evaluate_procedure_call_1 (converter, &value)),
+				};
+				succeed! (Some (value));
+			},
+			None =>
+				succeed! (None),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn resolve_or_default (&self, key : &Unique, parameter : &Parameter, default : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+		if let Some (value) = try! (self.resolve_self (key, evaluator)) {
+			succeed! (value);
+		}
+		let self_0 = self.internals_ref ();
+		if let Some (ref parent) = self_0.parent {
+			return parent.resolve_or_default (key, parameter, default, evaluator);
+		} else {
+			succeed! (default.clone ());
+		};
+	}
 	
 	#[ inline (never) ]
-	pub fn resolve_or_cache (&self, key : &Unique, parameter : &Parameter, evaluator : &mut EvaluatorContext) -> (Outcome<(Value, ParameterConversion)>) {
+	fn resolve_or_cache (&self, key : &Unique, parameter : &Parameter, evaluator : &mut EvaluatorContext) -> (Outcome<(Value, ParameterConversion)>) {
 		let mut self_0 = self.internals_ref_mut ();
 		match self_0.bindings.get (key) {
 			Some (&(ref binding, ref conversion)) => {
