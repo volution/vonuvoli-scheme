@@ -215,7 +215,7 @@ impl Registers {
 	
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new_and_define (templates : &[RegisterTemplate], borrow : &Registers) -> (Outcome<Registers>) {
+	pub fn new_and_define (templates : &[RegisterTemplate], borrow : Option<&Registers>) -> (Outcome<Registers>) {
 		let registers = Registers::new ();
 		try! (registers.define_all (templates, borrow));
 		succeed! (registers);
@@ -323,7 +323,7 @@ impl Registers {
 	
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn define (&self, template : &RegisterTemplate, borrow : &Registers) -> (Outcome<usize>) {
+	pub fn define (&self, template : &RegisterTemplate, borrow : Option<&Registers>) -> (Outcome<usize>) {
 		let mut self_0 = self.internals_ref_mut ();
 		if self_0.immutable {
 			fail! (0xd7cbcdd8);
@@ -336,7 +336,7 @@ impl Registers {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn define_all (&self, templates : &[RegisterTemplate], borrow : &Registers) -> (Outcome<()>) {
+	pub fn define_all (&self, templates : &[RegisterTemplate], borrow : Option<&Registers>) -> (Outcome<()>) {
 		{
 			let mut self_0 = self.internals_ref_mut ();
 			if self_0.immutable {
@@ -362,9 +362,10 @@ impl Registers {
 	
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn new_register (template : &RegisterTemplate, borrow : &Registers) -> (Outcome<Register>) {
+	fn new_register (template : &RegisterTemplate, borrow : Option<&Registers>) -> (Outcome<Register>) {
 		match *template {
 			RegisterTemplate::Borrow (index) => {
+				let borrow = try_some! (borrow, 0x2ac76d05);
 				let binding = try! (borrow.resolve_binding_option (index));
 				let binding = try_some! (binding, 0x2f543c30);
 				let register = Register::Binding (binding);

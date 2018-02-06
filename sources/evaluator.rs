@@ -598,11 +598,13 @@ impl Evaluator {
 				succeed! (None);
 			},
 			ExpressionValueConsumer::RegisterInitialize (index) => {
-				try! (evaluation.registers.initialize_value (index, value));
+				let registers = try_some_ref! (evaluation.registers, 0xa6038927);
+				try! (registers.initialize_value (index, value));
 				succeed! (None);
 			},
 			ExpressionValueConsumer::RegisterSet (index) => {
-				try! (evaluation.registers.update_value (index, value));
+				let registers = try_some_ref! (evaluation.registers, 0xa147d2fc);
+				try! (registers.update_value (index, value));
 				succeed! (None);
 			},
 		}
@@ -764,7 +766,7 @@ impl Evaluator {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_register_closure (&self, evaluation : &mut EvaluatorContext, expression : &Expression, borrows : &[RegisterTemplate]) -> (Outcome<Value>) {
-		let registers = try! (Registers::new_and_define (borrows, &evaluation.registers));
+		let registers = try! (Registers::new_and_define (borrows, evaluation.registers.as_ref ()));
 		let mut evaluation = evaluation.fork_with_registers (registers);
 		return self.evaluate (&mut evaluation, expression);
 	}
@@ -772,7 +774,8 @@ impl Evaluator {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_register_initialize_1 (&self, evaluation : &mut EvaluatorContext, index : usize, expression : &Expression) -> (Outcome<Value>) {
 		let value_new = try! (self.evaluate (evaluation, expression));
-		try! (evaluation.registers.initialize_value (index, value_new.clone ()));
+		let registers = try_some_ref! (evaluation.registers, 0x2ed416ec);
+		try! (registers.initialize_value (index, value_new.clone ()));
 		succeed! (value_new);
 	}
 	
@@ -783,12 +786,14 @@ impl Evaluator {
 		if parallel {
 			let values_new = try_vec_map_into! (expressions, expression, self.evaluate (evaluation, expression));
 			for (index, value_new) in vec_zip_2 (indices, values_new) {
-				try! (evaluation.registers.initialize_value (index, value_new));
+				let registers = try_some_ref! (evaluation.registers, 0x1ba75f00);
+				try! (registers.initialize_value (index, value_new));
 			}
 		} else {
 			for (index, expression) in vec_zip_2 (indices, expressions) {
 				let value_new = try! (self.evaluate (evaluation, expression));
-				try! (evaluation.registers.initialize_value (index, value_new));
+				let registers = try_some_ref! (evaluation.registers, 0x1ba75f00);
+				try! (registers.initialize_value (index, value_new));
 			}
 		}
 		return Ok (VOID.into ());
@@ -801,8 +806,9 @@ impl Evaluator {
 		if values_new.values_length () != indices.len () {
 			fail! (0xb1dce1a7);
 		}
+		let registers = try_some_ref! (evaluation.registers, 0x018c6632);
 		for (index, value_new) in indices.iter () .zip (values_new.values_ref () .iter ()) {
-			try! (evaluation.registers.initialize_value (*index, value_new.clone ()));
+			try! (registers.initialize_value (*index, value_new.clone ()));
 		}
 		return Ok (VOID.into ());
 	}
@@ -810,7 +816,8 @@ impl Evaluator {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_register_set_1 (&self, evaluation : &mut EvaluatorContext, index : usize, expression : &Expression) -> (Outcome<Value>) {
 		let value_new = try! (self.evaluate (evaluation, expression));
-		let value_old = try! (evaluation.registers.update_value (index, value_new));
+		let registers = try_some_ref! (evaluation.registers, 0x01a2c7be);
+		let value_old = try! (registers.update_value (index, value_new));
 		return Ok (value_old);
 	}
 	
@@ -821,12 +828,14 @@ impl Evaluator {
 		if parallel {
 			let values_new = try_vec_map_into! (expressions, expression, self.evaluate (evaluation, expression));
 			for (index, value_new) in vec_zip_2 (indices, values_new) {
-				try! (evaluation.registers.update_value (index, value_new));
+				let registers = try_some_ref! (evaluation.registers, 0x4467b069);
+				try! (registers.update_value (index, value_new));
 			}
 		} else {
 			for (index, expression) in vec_zip_2 (indices, expressions) {
 				let value_new = try! (self.evaluate (evaluation, expression));
-				try! (evaluation.registers.update_value (index, value_new));
+				let registers = try_some_ref! (evaluation.registers, 0x4467b069);
+				try! (registers.update_value (index, value_new));
 			}
 		}
 		return Ok (VOID.into ());
@@ -839,15 +848,17 @@ impl Evaluator {
 		if values_new.values_length () != indices.len () {
 			fail! (0x7257e042);
 		}
+		let registers = try_some_ref! (evaluation.registers, 0x159bc8d2);
 		for (index, value_new) in indices.iter () .zip (values_new.values_ref () .iter ()) {
-			try! (evaluation.registers.update_value (*index, value_new.clone ()));
+			try! (registers.update_value (*index, value_new.clone ()));
 		}
 		return Ok (VOID.into ());
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_register_get_1 (&self, evaluation : &mut EvaluatorContext, index : usize) -> (Outcome<Value>) {
-		let value = try! (evaluation.registers.resolve_value (index));
+		let registers = try_some_ref! (evaluation.registers, 0x153a6512);
+		let value = try! (registers.resolve_value (index));
 		return Ok (value);
 	}
 	
@@ -901,7 +912,7 @@ impl Evaluator {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_lambda_create (&self, evaluation : &mut EvaluatorContext, template : &StdRc<LambdaTemplate>, expression : &StdRc<Expression>, registers_closure : &[RegisterTemplate], registers_local : &StdRc<[RegisterTemplate]>) -> (Outcome<Value>) {
 		let expression = StdRc::clone (expression);
-		let registers_closure = try! (Registers::new_and_define (registers_closure, &evaluation.registers));
+		let registers_closure = try! (Registers::new_and_define (registers_closure, evaluation.registers.as_ref ()));
 		let registers_local = StdRc::clone (registers_local);
 		let template = StdRc::clone (template);
 		let lambda = Lambda::new (template, expression, registers_closure, registers_local);
@@ -938,7 +949,7 @@ impl Evaluator {
 			}
 		}
 		
-		let mut registers = try! (Registers::new_and_define (&lambda_registers_local, lambda_registers_closure));
+		let registers = try! (Registers::new_and_define (&lambda_registers_local, Some (lambda_registers_closure)));
 		
 		let mut inputs_offset = 0;
 		for _ in 0..lambda_arguments_positional {
@@ -1791,8 +1802,8 @@ impl Evaluator {
 pub struct EvaluatorContext <'a> {
 	evaluator : &'a Evaluator,
 	context : Option<Context>,
+	registers : Option<Registers>,
 	parameters : Parameters,
-	registers : Registers,
 	environment : StdRc<EvaluatorEnvironment>,
 }
 
@@ -1805,12 +1816,11 @@ impl <'a> EvaluatorContext<'a> {
 		let parameters = parameters.unwrap_or_else (|| Parameters::new (None));
 		let environment = environment.unwrap_or_else (|| EvaluatorEnvironment::new_empty ());
 		let environment = StdRc::new (environment);
-		let registers = Registers::new ();
 		return EvaluatorContext {
 				evaluator : evaluator,
 				context : context,
+				registers : None,
 				parameters : parameters,
-				registers : registers,
 				environment : environment,
 			}
 	}
@@ -1820,8 +1830,8 @@ impl <'a> EvaluatorContext<'a> {
 		return EvaluatorContext {
 				evaluator : self.evaluator,
 				context : self.context.clone (),
+				registers : Some (registers),
 				parameters : self.parameters.clone (),
-				registers : registers,
 				environment : StdRc::clone (&self.environment),
 			}
 	}
@@ -1831,8 +1841,8 @@ impl <'a> EvaluatorContext<'a> {
 		return EvaluatorContext {
 				evaluator : self.evaluator,
 				context : self.context.clone (),
-				parameters : self.parameters.fork (),
 				registers : self.registers.clone (),
+				parameters : self.parameters.fork (),
 				environment : StdRc::clone (&self.environment),
 			}
 	}
@@ -1842,8 +1852,8 @@ impl <'a> EvaluatorContext<'a> {
 		return EvaluatorContext {
 				evaluator : self.evaluator,
 				context : self.context.clone (),
-				parameters : self.parameters.clone (),
 				registers : self.registers.clone (),
+				parameters : self.parameters.clone (),
 				environment : StdRc::new (EvaluatorEnvironment::new_forked (StdRc::clone (&self.environment))),
 			}
 	}
