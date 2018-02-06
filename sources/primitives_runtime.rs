@@ -57,6 +57,8 @@ pub enum RuntimePrimitive0 {
 	ProcessArguments,
 	ProcessEnvironment,
 	
+	ParameterBuild,
+	
 	ProcessExit,
 	ProcessExitEmergency,
 	
@@ -79,6 +81,9 @@ pub enum RuntimePrimitive1 {
 	ErrorArgumentsAsList,
 	ErrorArgumentsAsArray,
 	ErrorArgumentsAsValues,
+	
+	ParameterBuild,
+	ParameterResolve,
 	
 	ProcessEnvironment,
 	
@@ -103,6 +108,10 @@ pub enum RuntimePrimitive2 {
 	
 	ErrorRaise,
 	ErrorBuild,
+	
+	ParameterBuild,
+	ParameterResolve,
+	ParameterConfigure,
 	
 	ProcessSpawnExtended,
 	
@@ -157,6 +166,10 @@ pub enum RuntimePrimitiveV {
 	ErrorRaise,
 	ErrorBuild,
 	
+	ParameterBuild,
+	ParameterResolve,
+	ParameterConfigure,
+	
 	ProcessExit,
 	ProcessExitEmergency,
 	
@@ -170,6 +183,9 @@ pub enum RuntimePrimitiveV {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn runtime_primitive_0_evaluate (primitive : RuntimePrimitive0, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
+		
+		RuntimePrimitive0::ParameterBuild =>
+			return parameter_build (None, None, None, None, evaluator) .into_0 (),
 		
 		RuntimePrimitive0::ProcessArguments =>
 			fail_unimplemented! (0x1a7fa84a), // deferred
@@ -223,6 +239,12 @@ pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, input_1 : &V
 		RuntimePrimitive1::ErrorArgumentsAsValues =>
 			return error_arguments_as_values (input_1) .into_0 (),
 		
+		RuntimePrimitive1::ParameterBuild =>
+			return parameter_build (None, Some (input_1), None, None, evaluator) .into_0 (),
+		
+		RuntimePrimitive1::ParameterResolve =>
+			return parameter_resolve (input_1, None, evaluator),
+		
 		RuntimePrimitive1::ProcessEnvironment =>
 			fail_unimplemented! (0x8f801b52), // deferred
 		
@@ -268,6 +290,15 @@ pub fn runtime_primitive_2_evaluate (primitive : RuntimePrimitive2, input_1 : &V
 		
 		RuntimePrimitive2::ErrorBuild =>
 			return error_build_1 (None, input_1, input_2) .into_0 (),
+		
+		RuntimePrimitive2::ParameterBuild =>
+			return parameter_build (None, Some (input_1), Some (input_2), None, evaluator) .into_0 (),
+		
+		RuntimePrimitive2::ParameterResolve =>
+			return parameter_resolve (input_1, Some (input_2), evaluator),
+		
+		RuntimePrimitive2::ParameterConfigure =>
+			return parameter_configure (input_1, input_2, evaluator) .into_0 (),
 		
 		RuntimePrimitive2::ProcessSpawnExtended =>
 			return process_spawn_extended (input_1, Some (input_2), None) .into_0 (),
@@ -365,6 +396,12 @@ pub fn runtime_primitive_v_alternative_0 (primitive : RuntimePrimitiveV) -> (Opt
 			None,
 		RuntimePrimitiveV::ErrorBuild =>
 			None,
+		RuntimePrimitiveV::ParameterBuild =>
+			Some (RuntimePrimitive0::ParameterBuild),
+		RuntimePrimitiveV::ParameterResolve =>
+			None,
+		RuntimePrimitiveV::ParameterConfigure =>
+			None,
 		RuntimePrimitiveV::ProcessExit =>
 			Some (RuntimePrimitive0::ProcessExit),
 		RuntimePrimitiveV::ProcessExitEmergency =>
@@ -384,6 +421,12 @@ pub fn runtime_primitive_v_alternative_1 (primitive : RuntimePrimitiveV) -> (Opt
 			Some (RuntimePrimitive1::ErrorRaise),
 		RuntimePrimitiveV::ErrorBuild =>
 			Some (RuntimePrimitive1::ErrorBuild),
+		RuntimePrimitiveV::ParameterBuild =>
+			Some (RuntimePrimitive1::ParameterBuild),
+		RuntimePrimitiveV::ParameterResolve =>
+			Some (RuntimePrimitive1::ParameterResolve),
+		RuntimePrimitiveV::ParameterConfigure =>
+			None,
 		RuntimePrimitiveV::ProcessExit =>
 			Some (RuntimePrimitive1::ProcessExit),
 		RuntimePrimitiveV::ProcessExitEmergency =>
@@ -403,6 +446,12 @@ pub fn runtime_primitive_v_alternative_2 (primitive : RuntimePrimitiveV) -> (Opt
 			Some (RuntimePrimitive2::ErrorRaise),
 		RuntimePrimitiveV::ErrorBuild =>
 			Some (RuntimePrimitive2::ErrorBuild),
+		RuntimePrimitiveV::ParameterBuild =>
+			Some (RuntimePrimitive2::ParameterBuild),
+		RuntimePrimitiveV::ParameterResolve =>
+			Some (RuntimePrimitive2::ParameterResolve),
+		RuntimePrimitiveV::ParameterConfigure =>
+			Some (RuntimePrimitive2::ParameterConfigure),
 		RuntimePrimitiveV::ProcessExit =>
 			None,
 		RuntimePrimitiveV::ProcessExitEmergency =>
@@ -422,6 +471,12 @@ pub fn runtime_primitive_v_alternative_3 (primitive : RuntimePrimitiveV) -> (Opt
 			Some (RuntimePrimitive3::ErrorRaise),
 		RuntimePrimitiveV::ErrorBuild =>
 			Some (RuntimePrimitive3::ErrorBuild),
+		RuntimePrimitiveV::ParameterBuild =>
+			None,
+		RuntimePrimitiveV::ParameterResolve =>
+			None,
+		RuntimePrimitiveV::ParameterConfigure =>
+			None,
 		RuntimePrimitiveV::ProcessExit =>
 			None,
 		RuntimePrimitiveV::ProcessExitEmergency =>
@@ -441,6 +496,12 @@ pub fn runtime_primitive_v_alternative_4 (primitive : RuntimePrimitiveV) -> (Opt
 			Some (RuntimePrimitive4::ErrorRaise),
 		RuntimePrimitiveV::ErrorBuild =>
 			Some (RuntimePrimitive4::ErrorBuild),
+		RuntimePrimitiveV::ParameterBuild =>
+			None,
+		RuntimePrimitiveV::ParameterResolve =>
+			None,
+		RuntimePrimitiveV::ParameterConfigure =>
+			None,
 		RuntimePrimitiveV::ProcessExit =>
 			None,
 		RuntimePrimitiveV::ProcessExitEmergency =>
@@ -460,6 +521,12 @@ pub fn runtime_primitive_v_alternative_5 (primitive : RuntimePrimitiveV) -> (Opt
 			Some (RuntimePrimitive5::ErrorRaise),
 		RuntimePrimitiveV::ErrorBuild =>
 			Some (RuntimePrimitive5::ErrorBuild),
+		RuntimePrimitiveV::ParameterBuild =>
+			None,
+		RuntimePrimitiveV::ParameterResolve =>
+			None,
+		RuntimePrimitiveV::ParameterConfigure =>
+			None,
 		RuntimePrimitiveV::ProcessExit =>
 			None,
 		RuntimePrimitiveV::ProcessExitEmergency =>
@@ -479,6 +546,12 @@ pub fn runtime_primitive_v_alternative_n (primitive : RuntimePrimitiveV) -> (Opt
 			Some (RuntimePrimitiveN::ErrorRaise),
 		RuntimePrimitiveV::ErrorBuild =>
 			Some (RuntimePrimitiveN::ErrorBuild),
+		RuntimePrimitiveV::ParameterBuild =>
+			None,
+		RuntimePrimitiveV::ParameterResolve =>
+			None,
+		RuntimePrimitiveV::ParameterConfigure =>
+			None,
 		RuntimePrimitiveV::ProcessExit =>
 			None,
 		RuntimePrimitiveV::ProcessExitEmergency =>

@@ -14,6 +14,8 @@ pub const RECORD_NEW_IMMUTABLE : bool = true;
 
 pub const PAIR_NEW_IMMUTABLE : bool = true;
 
+pub const PARAMETER_NEW_IMMUTABLE : bool = true;
+
 
 
 

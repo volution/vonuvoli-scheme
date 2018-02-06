@@ -2,6 +2,9 @@
 
 use super::builtins::exports::*;
 use super::errors::exports::*;
+use super::evaluator::exports::*;
+use super::parameters::exports::*;
+use super::primitives::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
 
@@ -17,6 +20,12 @@ pub mod exports {
 			error_build_0, error_build_1, error_build_2, error_build_3, error_build_4, error_build_n,
 			error_exit,
 			error_coerce, error_coerce_from,
+		};
+	
+	pub use super::{
+			parameter_build,
+			parameter_resolve,
+			parameter_configure,
 		};
 	
 	pub use super::{posix_timestamp, jiffies_timestamp, jiffies_per_second};
@@ -188,6 +197,67 @@ pub fn error_coerce_from (code : Option<u64>, value : Value) -> (Error) {
 			let error = Error::new_with_value (code, value);
 			return error;
 		},
+	}
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn parameter_build (identifier : Option<&Value>, global : Option<&Value>, converter : Option<&Value>, immutable : Option<bool>, _evaluator : &mut EvaluatorContext) -> (Outcome<Parameter>) {
+	let identifier = option_map! (identifier, try_as_symbol_ref! (identifier)) .cloned ();
+	let global = global.cloned ();
+	let conversion = if let Some (converter) = converter {
+		ParameterConversion::OnConfigure (converter.clone ())
+	} else {
+		ParameterConversion::None
+	};
+	let immutable = immutable.unwrap_or (PARAMETER_NEW_IMMUTABLE);
+	let parameter = Parameter::new (identifier, global, conversion, immutable);
+	succeed! (parameter);
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn parameter_resolve (parameter : &Value, default : Option<&Value>, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	match parameter.kind_match_as_ref () {
+		ValueKindMatchAsRef::Parameter (parameter) =>
+			return evaluator.parameter_resolve (parameter, default),
+		ValueKindMatchAsRef::ProcedurePrimitive (primitive) =>
+			match *primitive {
+				ProcedurePrimitive::Primitive0 (ProcedurePrimitive0::Port (PortPrimitive0::CurrentInput)) =>
+					return evaluator.environment () .stdin_value_or (default),
+				ProcedurePrimitive::Primitive0 (ProcedurePrimitive0::Port (PortPrimitive0::CurrentOutput)) =>
+					return evaluator.environment () .stdout_value_or (default),
+				ProcedurePrimitive::Primitive0 (ProcedurePrimitive0::Port (PortPrimitive0::CurrentError)) =>
+					return evaluator.environment () .stderr_value_or (default),
+				_ =>
+					fail! (0x4ce4065b),
+			},
+		_ =>
+			fail! (0xf44e6fc0),
+	}
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn parameter_configure (parameter : &Value, value : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<()>) {
+	match parameter.kind_match_as_ref () {
+		ValueKindMatchAsRef::Parameter (parameter) =>
+			return evaluator.parameter_configure (parameter, value),
+		ValueKindMatchAsRef::ProcedurePrimitive (primitive) =>
+			match *primitive {
+				ProcedurePrimitive::Primitive0 (ProcedurePrimitive0::Port (PortPrimitive0::CurrentInput)) =>
+					return try! (evaluator.environment_mut ()) .stdin_set (try_as_port_ref! (value)),
+				ProcedurePrimitive::Primitive0 (ProcedurePrimitive0::Port (PortPrimitive0::CurrentOutput)) =>
+					return try! (evaluator.environment_mut ()) .stdout_set (try_as_port_ref! (value)),
+				ProcedurePrimitive::Primitive0 (ProcedurePrimitive0::Port (PortPrimitive0::CurrentError)) =>
+					return try! (evaluator.environment_mut ()) .stderr_set (try_as_port_ref! (value)),
+				_ =>
+					fail! (0x5970c2fd),
+			},
+		_ =>
+			fail! (0xb05cfc27),
 	}
 }
 
