@@ -179,7 +179,7 @@ pub enum RecordPrimitiveV {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_primitive_0_evaluate (primitive : RecordPrimitive0, _evaluator : &EvaluatorContext) -> (Outcome<Value>) {
+pub fn record_primitive_0_evaluate (primitive : RecordPrimitive0, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
 
@@ -187,7 +187,7 @@ pub fn record_primitive_0_evaluate (primitive : RecordPrimitive0, _evaluator : &
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_primitive_1_evaluate (primitive : RecordPrimitive1, input_1 : &Value, _evaluator : &EvaluatorContext) -> (Outcome<Value>) {
+pub fn record_primitive_1_evaluate (primitive : RecordPrimitive1, input_1 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		RecordPrimitive1::RecordKindBuild =>
@@ -251,7 +251,7 @@ pub fn record_primitive_1_evaluate (primitive : RecordPrimitive1, input_1 : &Val
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_primitive_2_evaluate (primitive : RecordPrimitive2, input_1 : &Value, input_2 : &Value, _evaluator : &EvaluatorContext) -> (Outcome<Value>) {
+pub fn record_primitive_2_evaluate (primitive : RecordPrimitive2, input_1 : &Value, input_2 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		RecordPrimitive2::RecordKindBuild =>
@@ -303,7 +303,7 @@ pub fn record_primitive_2_evaluate (primitive : RecordPrimitive2, input_1 : &Val
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_primitive_3_evaluate (primitive : RecordPrimitive3, input_1 : &Value, input_2 : &Value, input_3 : &Value, _evaluator : &EvaluatorContext) -> (Outcome<Value>) {
+pub fn record_primitive_3_evaluate (primitive : RecordPrimitive3, input_1 : &Value, input_2 : &Value, input_3 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		RecordPrimitive3::RecordBuildFn =>
@@ -328,7 +328,7 @@ pub fn record_primitive_3_evaluate (primitive : RecordPrimitive3, input_1 : &Val
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_primitive_4_evaluate (primitive : RecordPrimitive4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, _evaluator : &EvaluatorContext) -> (Outcome<Value>) {
+pub fn record_primitive_4_evaluate (primitive : RecordPrimitive4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		RecordPrimitive4::RecordSet =>
@@ -344,7 +344,7 @@ pub fn record_primitive_4_evaluate (primitive : RecordPrimitive4, input_1 : &Val
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_primitive_5_evaluate (primitive : RecordPrimitive5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value, _evaluator : &EvaluatorContext) -> (Outcome<Value>) {
+pub fn record_primitive_5_evaluate (primitive : RecordPrimitive5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		RecordPrimitive5::RecordBuild =>
@@ -357,7 +357,7 @@ pub fn record_primitive_5_evaluate (primitive : RecordPrimitive5, input_1 : &Val
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_primitive_n_evaluate (primitive : RecordPrimitiveN, inputs : &[&Value], _evaluator : &EvaluatorContext) -> (Outcome<Value>) {
+pub fn record_primitive_n_evaluate (primitive : RecordPrimitiveN, inputs : &[&Value], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		RecordPrimitiveN::RecordBuild => {

@@ -1,6 +1,5 @@
 
 
-use super::constants::exports::*;
 use super::builtins::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
@@ -169,7 +168,7 @@ pub enum RuntimePrimitiveV {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn runtime_primitive_0_evaluate (primitive : RuntimePrimitive0, _evaluator : &EvaluatorContext) -> (Outcome<Value>) {
+pub fn runtime_primitive_0_evaluate (primitive : RuntimePrimitive0, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		RuntimePrimitive0::ProcessArguments =>
@@ -200,7 +199,7 @@ pub fn runtime_primitive_0_evaluate (primitive : RuntimePrimitive0, _evaluator :
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, input_1 : &Value, _evaluator : &EvaluatorContext) -> (Outcome<Value>) {
+pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, input_1 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		RuntimePrimitive1::ValueRaise =>
@@ -261,7 +260,7 @@ pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, input_1 : &V
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn runtime_primitive_2_evaluate (primitive : RuntimePrimitive2, input_1 : &Value, input_2 : &Value, _evaluator : &EvaluatorContext) -> (Outcome<Value>) {
+pub fn runtime_primitive_2_evaluate (primitive : RuntimePrimitive2, input_1 : &Value, input_2 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		RuntimePrimitive2::ErrorRaise =>
@@ -280,7 +279,7 @@ pub fn runtime_primitive_2_evaluate (primitive : RuntimePrimitive2, input_1 : &V
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn runtime_primitive_3_evaluate (primitive : RuntimePrimitive3, input_1 : &Value, input_2 : &Value, input_3 : &Value, _evaluator : &EvaluatorContext) -> (Outcome<Value>) {
+pub fn runtime_primitive_3_evaluate (primitive : RuntimePrimitive3, input_1 : &Value, input_2 : &Value, input_3 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		RuntimePrimitive3::ErrorRaise =>
@@ -299,7 +298,7 @@ pub fn runtime_primitive_3_evaluate (primitive : RuntimePrimitive3, input_1 : &V
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn runtime_primitive_4_evaluate (primitive : RuntimePrimitive4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, _evaluator : &EvaluatorContext) -> (Outcome<Value>) {
+pub fn runtime_primitive_4_evaluate (primitive : RuntimePrimitive4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		RuntimePrimitive4::ErrorRaise =>
@@ -315,7 +314,7 @@ pub fn runtime_primitive_4_evaluate (primitive : RuntimePrimitive4, input_1 : &V
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn runtime_primitive_5_evaluate (primitive : RuntimePrimitive5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value, _evaluator : &EvaluatorContext) -> (Outcome<Value>) {
+pub fn runtime_primitive_5_evaluate (primitive : RuntimePrimitive5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		RuntimePrimitive5::ErrorRaise =>
@@ -331,7 +330,7 @@ pub fn runtime_primitive_5_evaluate (primitive : RuntimePrimitive5, input_1 : &V
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn runtime_primitive_n_evaluate (primitive : RuntimePrimitiveN, inputs : &[&Value], _evaluator : &EvaluatorContext) -> (Outcome<Value>) {
+pub fn runtime_primitive_n_evaluate (primitive : RuntimePrimitiveN, inputs : &[&Value], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		RuntimePrimitiveN::ErrorRaise => {
@@ -493,25 +492,13 @@ pub fn runtime_primitive_v_alternative_n (primitive : RuntimePrimitiveV) -> (Opt
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn runtime_primitive_0_attributes (primitive : RuntimePrimitive0) -> (Option<ProcedureAttributes>) {
-	match primitive {
-		RuntimePrimitive0::ProcessArguments |
-		RuntimePrimitive0::ProcessEnvironment |
-		RuntimePrimitive0::JiffiesPerSecond =>
-			Some (CONSTANT_PROCEDURE_ATTRIBUTES_0),
-		_ =>
-			None,
-	}
+pub fn runtime_primitive_0_attributes (_primitive : RuntimePrimitive0) -> (Option<ProcedureAttributes>) {
+	return None;
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn runtime_primitive_1_attributes (primitive : RuntimePrimitive1) -> (Option<ProcedureAttributes>) {
-	match primitive {
-		RuntimePrimitive1::ProcessEnvironment =>
-			Some (CONSTANT_PROCEDURE_ATTRIBUTES_1),
-		_ =>
-			None,
-	}
+pub fn runtime_primitive_1_attributes (_primitive : RuntimePrimitive1) -> (Option<ProcedureAttributes>) {
+	return None;
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
