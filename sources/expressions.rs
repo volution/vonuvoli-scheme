@@ -40,7 +40,7 @@ pub mod exports {
 
 
 
-#[ derive (Clone, Debug, Hash) ]
+#[ derive (Clone, Debug) ]
 pub enum Expression {
 	
 	Void,
@@ -70,21 +70,21 @@ pub enum Expression {
 
 
 
-#[ derive (Clone, Debug, Hash) ]
+#[ derive (Clone, Debug) ]
 pub enum ExpressionConditionalIfClauses {
 	Void,
 	Single ( StdBox<ExpressionConditionalIfClause> ),
 	Multiple ( StdBox<[ExpressionConditionalIfClause]> ),
 }
 
-#[ derive (Clone, Debug, Hash) ]
+#[ derive (Clone, Debug) ]
 pub enum ExpressionConditionalIfClause {
 	Void,
 	GuardOnly ( ExpressionConditionalIfGuard, ExpressionValueConsumer ),
 	GuardAndExpression ( ExpressionConditionalIfGuard, ExpressionValueConsumer, Expression ),
 }
 
-#[ derive (Clone, Debug, Hash) ]
+#[ derive (Clone, Debug) ]
 pub enum ExpressionConditionalIfGuard {
 	True,
 	False,
@@ -94,21 +94,21 @@ pub enum ExpressionConditionalIfGuard {
 
 
 
-#[ derive (Clone, Debug, Hash) ]
+#[ derive (Clone, Debug) ]
 pub enum ExpressionConditionalMatchClauses {
 	Void,
 	Single ( StdBox<ExpressionConditionalMatchClause> ),
 	Multiple ( StdBox<[ExpressionConditionalMatchClause]> ),
 }
 
-#[ derive (Clone, Debug, Hash) ]
+#[ derive (Clone, Debug) ]
 pub enum ExpressionConditionalMatchClause {
 	Void,
 	GuardOnly ( ExpressionConditionalMatchGuard, ExpressionValueConsumer ),
 	GuardAndExpression ( ExpressionConditionalMatchGuard, ExpressionValueConsumer, Expression ),
 }
 
-#[ derive (Clone, Debug, Hash) ]
+#[ derive (Clone, Debug) ]
 pub enum ExpressionConditionalMatchGuard {
 	True,
 	False,
@@ -119,7 +119,7 @@ pub enum ExpressionConditionalMatchGuard {
 
 
 
-#[ derive (Clone, Debug, Hash) ]
+#[ derive (Clone, Debug) ]
 pub enum ExpressionValueConsumer {
 	Ignore,
 	Return,
@@ -132,7 +132,7 @@ pub enum ExpressionValueConsumer {
 
 
 
-#[ derive (Clone, Debug, Hash) ]
+#[ derive (Clone, Debug) ]
 pub enum ExpressionForContexts {
 	
 	ContextDefine ( Symbol, ExpressionBox ),
@@ -161,7 +161,7 @@ pub enum ExpressionForContexts {
 
 
 
-#[ derive (Clone, Debug, Hash) ]
+#[ derive (Clone, Debug) ]
 pub enum ExpressionForProcedureGenericCall {
 	
 	ProcedureCall ( ExpressionBox, StdBox<[Expression]> ),
@@ -178,7 +178,7 @@ pub enum ExpressionForProcedureGenericCall {
 
 
 
-#[ derive (Clone, Debug, Hash) ]
+#[ derive (Clone, Debug) ]
 pub enum ExpressionForProcedurePrimitiveCall {
 	
 	ProcedurePrimitiveCall ( ProcedurePrimitive, StdBox<[Expression]> ),
@@ -196,7 +196,7 @@ pub enum ExpressionForProcedurePrimitiveCall {
 
 
 
-#[ derive (Clone, Debug, Hash) ]
+#[ derive (Clone, Debug) ]
 pub enum ExpressionForProcedureExtendedCall {
 	
 	ProcedureExtendedCall ( ProcedureExtended, StdBox<[Expression]> ),
@@ -213,7 +213,7 @@ pub enum ExpressionForProcedureExtendedCall {
 
 
 
-#[ derive (Clone, Debug, Hash) ]
+#[ derive (Clone, Debug) ]
 pub enum ExpressionForProcedureLambdaCall {
 	
 	ProcedureLambdaCall ( StdRc<LambdaInternals>, StdBox<[Expression]> ),
@@ -253,7 +253,7 @@ pub type ExpressionVec = StdVec<Expression>;
 
 
 
-#[ derive (Copy, Clone, Debug, Hash, Eq, PartialEq, Ord, PartialOrd) ]
+#[ derive (Copy, Clone, Debug) ]
 pub enum ExpressionSequenceOperator {
 	ReturnLast,
 	ReturnFirst,

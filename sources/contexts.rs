@@ -179,7 +179,7 @@ pub struct RegistersInternals {
 }
 
 
-#[ derive (Clone, Hash) ]
+#[ derive (Clone) ]
 #[ allow (dead_code) ]
 pub enum Register {
 	Binding (Binding),
@@ -189,7 +189,7 @@ pub enum Register {
 }
 
 
-#[ derive (Clone, Debug, Hash) ]
+#[ derive (Clone, Debug) ]
 pub enum RegisterTemplate {
 	Borrow (usize),
 	LocalBinding (BindingTemplate),
@@ -419,7 +419,7 @@ impl Registers {
 pub struct Binding ( StdRc<StdRefCell<BindingInternals>> );
 
 
-#[ derive (Clone, Debug, Hash) ]
+#[ derive (Clone, Debug) ]
 pub struct BindingInternals {
 	pub identifier : Option<Symbol>,
 	pub value : Value,
@@ -429,7 +429,7 @@ pub struct BindingInternals {
 }
 
 
-#[ derive (Clone, Debug, Hash) ]
+#[ derive (Clone, Debug) ]
 pub struct BindingTemplate {
 	pub identifier : Option<Symbol>,
 	pub value : Option<Value>,

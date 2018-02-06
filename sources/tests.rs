@@ -33,14 +33,14 @@ pub mod exports {
 
 
 
-#[ derive (Clone, Debug, Hash) ]
+#[ derive (Clone, Debug) ]
 pub struct TestCase {
 	pub expression : Value,
 	pub action : TestAction,
 	pub verbosity : TestVerbosity,
 }
 
-#[ derive (Clone, Debug, Hash) ]
+#[ derive (Clone, Debug) ]
 pub enum TestAction {
 	Expect ( Value ),
 	Debug,
@@ -48,7 +48,7 @@ pub enum TestAction {
 	Skip,
 }
 
-#[ derive (Copy, Clone, Debug, Hash, Eq, PartialEq, Ord, PartialOrd) ]
+#[ derive (Copy, Clone, Debug) ]
 pub enum TestVerbosity {
 	Quiet,
 	Verbose,
@@ -59,7 +59,7 @@ pub enum TestVerbosity {
 
 
 
-#[ derive (Debug, Hash) ]
+#[ derive (Clone, Debug) ]
 pub struct TestCaseCompiled {
 	expression_without_optimizations : Expression,
 	expression_with_optimizations : Expression,
