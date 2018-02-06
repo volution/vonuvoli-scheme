@@ -1826,6 +1826,28 @@ impl <'a> EvaluatorContext<'a> {
 			}
 	}
 	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn fork_parameters (&self) -> (EvaluatorContext<'a>) {
+		return EvaluatorContext {
+				evaluator : self.evaluator,
+				context : self.context.clone (),
+				parameters : self.parameters.fork (),
+				registers : self.registers.clone (),
+				environment : StdRc::clone (&self.environment),
+			}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn fork_environment (&self) -> (EvaluatorContext<'a>) {
+		return EvaluatorContext {
+				evaluator : self.evaluator,
+				context : self.context.clone (),
+				parameters : self.parameters.clone (),
+				registers : self.registers.clone (),
+				environment : StdRc::new (EvaluatorEnvironment::new_forked (StdRc::clone (&self.environment))),
+			}
+	}
+	
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn evaluate (&mut self, input : &Expression) -> (Outcome<Value>) {
@@ -1927,6 +1949,7 @@ pub struct EvaluatorEnvironment {
 	stdin : Option<Port>,
 	stdout : Option<Port>,
 	stderr : Option<Port>,
+	parent : Option<StdRc<EvaluatorEnvironment>>,
 }
 
 
@@ -1939,6 +1962,7 @@ impl EvaluatorEnvironment {
 				stdin : None,
 				stdout : None,
 				stderr : None,
+				parent : None,
 			};
 		return environment;
 	}
@@ -1949,8 +1973,20 @@ impl EvaluatorEnvironment {
 				stdin : Some (try! (Port::new_stdin ())),
 				stdout : Some (try! (Port::new_stdout ())),
 				stderr : Some (try! (Port::new_stderr ())),
+				parent : None,
 			};
 		succeed! (environment);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new_forked (parent : StdRc<EvaluatorEnvironment>) -> (EvaluatorEnvironment) {
+		let environment = EvaluatorEnvironment {
+				stdin : None,
+				stdout : None,
+				stderr : None,
+				parent : Some (parent),
+			};
+		return environment;
 	}
 	
 	
