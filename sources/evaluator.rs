@@ -1991,18 +1991,61 @@ impl EvaluatorEnvironment {
 	
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn stdin_option (&self) -> (Outcome<Option<&Port>>) {
+		let mut environment = self;
+		loop {
+			if let Some (ref port) = environment.stdin {
+				succeed! (Some (port));
+			} else if let Some (ref parent) = environment.parent {
+				environment = StdRc::as_ref (parent);
+			} else {
+				succeed! (None);
+			}
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn stdout_option (&self) -> (Outcome<Option<&Port>>) {
+		let mut environment = self;
+		loop {
+			if let Some (ref port) = environment.stdout {
+				succeed! (Some (port));
+			} else if let Some (ref parent) = environment.parent {
+				environment = StdRc::as_ref (parent);
+			} else {
+				succeed! (None);
+			}
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn stderr_option (&self) -> (Outcome<Option<&Port>>) {
+		let mut environment = self;
+		loop {
+			if let Some (ref port) = environment.stderr {
+				succeed! (Some (port));
+			} else if let Some (ref parent) = environment.parent {
+				environment = StdRc::as_ref (parent);
+			} else {
+				succeed! (None);
+			}
+		}
+	}
+	
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn stdin (&self) -> (Outcome<&Port>) {
-		succeed! (try_some_ref! (self.stdin, 0x301c103e));
+		succeed! (try_some_2! (self.stdin_option (), 0x158c7282));
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn stdout (&self) -> (Outcome<&Port>) {
-		succeed! (try_some_ref! (self.stdout, 0x297068f1));
+		succeed! (try_some_2! (self.stdout_option (), 0x8133bc6b));
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn stderr (&self) -> (Outcome<&Port>) {
-		succeed! (try_some_ref! (self.stderr, 0xd5f1ef6f));
+		succeed! (try_some_2! (self.stderr_option (), 0xb4037a1a));
 	}
 	
 	
@@ -2043,22 +2086,22 @@ impl EvaluatorEnvironment {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn stdin_value_or (&self, default : Option<&Value>) -> (Outcome<Value>) {
-		return self.port_value_or (&self.stdin, default);
+		return self.port_value_or (try! (self.stdin_option ()), default);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn stdout_value_or (&self, default : Option<&Value>) -> (Outcome<Value>) {
-		return self.port_value_or (&self.stdout, default);
+		return self.port_value_or (try! (self.stdout_option ()), default);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn stderr_value_or (&self, default : Option<&Value>) -> (Outcome<Value>) {
-		return self.port_value_or (&self.stderr, default);
+		return self.port_value_or (try! (self.stderr_option ()), default);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn port_value_or (&self, port : &Option<Port>, default : Option<&Value>) -> (Outcome<Value>) {
-		if let Some (ref port) = *port {
+	fn port_value_or (&self, port : Option<&Port>, default : Option<&Value>) -> (Outcome<Value>) {
+		if let Some (port) = port {
 			succeed! (port.clone () .into ());
 		} else if let Some (default) = default {
 			succeed! (default.clone ());
