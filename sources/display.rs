@@ -4,6 +4,7 @@ use super::constants::exports::*;
 use super::contexts::exports::*;
 use super::expressions::exports::*;
 use super::lambdas::exports::*;
+use super::parameters::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
 
@@ -296,6 +297,17 @@ impl fmt::Display for Keyword {
 			try! (formatter.write_char ('|'));
 		}
 		succeed! (());
+	}
+}
+
+
+
+
+impl fmt::Display for Unique {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		write! (formatter, "#<unique:{:032x}>", self.fingerprint ())
 	}
 }
 
@@ -912,6 +924,64 @@ impl fmt::Debug for Binding {
 				.debug_struct ("Binding")
 				.field ("identifier", &self_0.identifier)
 				.field ("initialized", &self_0.initialized)
+				.field ("immutable", &self_0.immutable)
+				.field ("handle", &self_0.handle)
+				.finish ()
+	}
+}
+
+
+
+
+impl fmt::Display for Parameters {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		write! (formatter, "#<parameters:{:08x}>", self.handle () .value ())
+	}
+}
+
+impl fmt::Debug for Parameters {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		let self_0 = self.internals_ref ();
+		formatter
+				.debug_struct ("Parameters")
+				.field ("immutable", &self_0.immutable)
+				.field ("handle", &self_0.handle)
+				.field ("bindings", &self_0.bindings)
+				.field ("parent", &self_0.parent)
+				.finish ()
+	}
+}
+
+
+
+
+impl fmt::Display for Parameter {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		let self_0 = self.internals_ref ();
+		if let Some (ref identifier) = self_0.identifier {
+			write! (formatter, "#<parameter:{:08x} {}>", self_0.handle.value (), identifier)
+		} else {
+			write! (formatter, "#<parameter:{:08x}>", self_0.handle.value ())
+		}
+	}
+}
+
+impl fmt::Debug for Parameter {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		let self_0 = self.internals_ref ();
+		formatter
+				.debug_struct ("Parameter")
+				.field ("identifier", &self_0.identifier)
+				.field ("global", &self_0.global)
+				.field ("conversion", &self_0.conversion)
 				.field ("immutable", &self_0.immutable)
 				.field ("handle", &self_0.handle)
 				.finish ()

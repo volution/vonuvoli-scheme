@@ -9,6 +9,8 @@ pub mod exports {
 	
 	pub use super::super::values_symbols::exports::*;
 	pub use super::super::values_keywords::exports::*;
+	pub use super::super::values_unique::exports::*;
+	
 	pub use super::super::values_strings::exports::*;
 	pub use super::super::values_bytes::exports::*;
 	
@@ -18,8 +20,12 @@ pub mod exports {
 	pub use super::super::values_records::exports::*;
 	
 	pub use super::super::errors::exports::Error;
+	
 	pub use super::super::contexts::exports::Context;
 	pub use super::super::contexts::exports::Binding;
+	pub use super::super::parameters::exports::Parameters;
+	pub use super::super::parameters::exports::Parameter;
+	
 	pub use super::super::ports::exports::Port;
 	pub use super::super::processes::exports::Process;
 	

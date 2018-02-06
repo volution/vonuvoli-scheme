@@ -304,6 +304,26 @@ impl hash::Hash for Binding {
 
 
 
+impl hash::Hash for Parameters {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
+		self.handle () .hash (hasher);
+	}
+}
+
+
+impl hash::Hash for Parameter {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
+		self.handle () .hash (hasher);
+	}
+}
+
+
+
+
 impl hash::Hash for ExpressionForProcedureNativeCall {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

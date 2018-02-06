@@ -8,6 +8,7 @@ use super::extended_syntaxes::exports::*;
 use super::lambdas::exports::*;
 use super::native_procedures::exports::*;
 use super::native_syntaxes::exports::*;
+use super::parameters::exports::*;
 use super::ports::exports::*;
 use super::primitives::exports::*;
 use super::processes::exports::*;
@@ -19,8 +20,9 @@ use super::values_keywords::exports::*;
 use super::values_numbers::exports::*;
 use super::values_pairs::exports::*;
 use super::values_records::exports::*;
-use super::values_symbols::exports::*;
 use super::values_strings::exports::*;
+use super::values_symbols::exports::*;
+use super::values_unique::exports::*;
 use super::values_values::exports::*;
 
 use super::prelude::*;
@@ -41,7 +43,7 @@ pub mod exports {
 	pub use super::{ListMatchAsRef, ListMatchInto};
 	pub use super::{ValueRef};
 	pub use super::{GenericRef};
-	pub use super::{Unique, StringRegex, Parameters, Parameter, Promise};
+	pub use super::{StringRegex, Promise};
 }
 
 
@@ -1822,9 +1824,6 @@ macro_rules! def_value_placeholder {
 }
 
 
-def_value_placeholder! (Unique);
 def_value_placeholder! (StringRegex);
-def_value_placeholder! (Parameters);
-def_value_placeholder! (Parameter);
 def_value_placeholder! (Promise);
 

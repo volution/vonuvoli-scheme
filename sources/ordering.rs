@@ -1007,3 +1007,61 @@ impl cmp::PartialOrd for Binding {
 	}
 }
 
+
+
+
+impl cmp::Eq for Parameters {}
+
+impl cmp::PartialEq for Parameters {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn eq (&self, other : &Self) -> (bool) {
+		Handle::eq (&self.handle (), &other.handle ())
+	}
+}
+
+impl cmp::Ord for Parameters {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn cmp (&self, other : &Self) -> (cmp::Ordering) {
+		Handle::cmp (&self.handle (), &other.handle ())
+	}
+}
+
+impl cmp::PartialOrd for Parameters {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn partial_cmp (&self, other : &Self) -> (Option<cmp::Ordering>) {
+		Some (Parameters::cmp (self, other))
+	}
+}
+
+
+
+
+impl cmp::Eq for Parameter {}
+
+impl cmp::PartialEq for Parameter {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn eq (&self, other : &Self) -> (bool) {
+		Handle::eq (&self.handle (), &other.handle ())
+	}
+}
+
+impl cmp::Ord for Parameter {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn cmp (&self, other : &Self) -> (cmp::Ordering) {
+		Handle::cmp (&self.handle (), &other.handle ())
+	}
+}
+
+impl cmp::PartialOrd for Parameter {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn partial_cmp (&self, other : &Self) -> (Option<cmp::Ordering>) {
+		Some (Parameter::cmp (self, other))
+	}
+}
+
