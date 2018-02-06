@@ -110,8 +110,8 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "modules", "include-ci", SyntaxPrimitive::Unsupported.into ()),
 			("base", "modules", "cond-expand", SyntaxPrimitive::Unsupported.into ()),
 			
-			("base", "parameters", "parameterize", SyntaxPrimitive::Unimplemented.into ()),
-			("base", "parameters", "make-parameter", ProcedurePrimitive::Unimplemented.into ()),
+			("base", "parameters", "parameterize", SyntaxPrimitiveV::LetParameters.into ()),
+			("base", "parameters", "make-parameter", RuntimePrimitiveV::ParameterBuild.into ()),
 			
 			("base", "syntaxes", "syntax-error", SyntaxPrimitive::Unsupported.into ()),
 			("base", "syntaxes", "syntax-rules", SyntaxPrimitive::Unsupported.into ()),

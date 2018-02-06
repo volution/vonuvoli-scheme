@@ -367,6 +367,9 @@ impl Compiler {
 					SyntaxPrimitiveV::LetValuesSequential =>
 						return self.compile_syntax_let_values (compilation, syntax, tokens),
 					
+					SyntaxPrimitiveV::LetParameters =>
+						return self.compile_syntax_let_parameters (compilation, tokens),
+					
 					SyntaxPrimitiveV::Define =>
 						return self.compile_syntax_define (compilation, tokens),
 					
@@ -1098,6 +1101,13 @@ impl Compiler {
 		let expression = ExpressionForContexts::RegisterClosure (statements.into (), registers.into_boxed_slice ()) .into ();
 		
 		succeed! ((compilation, expression));
+	}
+	
+	
+	
+	
+	fn compile_syntax_let_parameters (&self, _compilation : CompilerContext, _tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+		fail_unimplemented! (0x45922aaa);
 	}
 	
 	

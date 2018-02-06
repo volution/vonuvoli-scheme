@@ -59,6 +59,7 @@ pub enum SyntaxPrimitiveV {
 	LetRecursiveSequential,
 	LetValuesParallel,
 	LetValuesSequential,
+	LetParameters,
 	
 	Define,
 	DefineValues,
