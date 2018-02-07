@@ -56,7 +56,7 @@ impl LambdaTemplate {
 				identifier : identifier,
 				arguments_positional : arguments_positional,
 				argument_rest : argument_rest,
-				handle : lambdas_handles_next (),
+				handle : lambda_handles_next (),
 			};
 	}
 }
@@ -73,7 +73,7 @@ impl Lambda {
 	pub fn new (template : StdRc<LambdaTemplate>, expression : StdRc<Expression>, registers_closure : Registers, registers_local : StdRc<[RegisterTemplate]>) -> (Lambda) {
 		let internals = LambdaInternals {
 				handle_1 : template.handle,
-				handle_2 : lambdas_handles_next (),
+				handle_2 : lambda_handles_next (),
 				arguments_positional : template.arguments_positional.len (),
 				argument_rest : template.argument_rest.is_some (),
 				expression : expression,

@@ -789,7 +789,7 @@ impl Evaluator {
 		if parallel {
 			let values_new = try_vec_map_into! (expressions, expression, self.evaluate (evaluation, expression));
 			for (index, value_new) in vec_zip_2 (indices, values_new) {
-				let registers = try_some_ref! (evaluation.registers, 0x1ba75f00);
+				let registers = try_some_ref! (evaluation.registers, 0xa488be50);
 				try! (registers.initialize_value (index, value_new));
 			}
 		} else {
@@ -837,7 +837,7 @@ impl Evaluator {
 		} else {
 			for (index, expression) in vec_zip_2 (indices, expressions) {
 				let value_new = try! (self.evaluate (evaluation, expression));
-				let registers = try_some_ref! (evaluation.registers, 0x4467b069);
+				let registers = try_some_ref! (evaluation.registers, 0x3d46b523);
 				try! (registers.update_value (index, value_new));
 			}
 		}

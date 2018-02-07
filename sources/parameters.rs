@@ -49,7 +49,7 @@ impl Parameters {
 				stderr : None,
 				parent : None,
 				immutable : false,
-				handle : context_handles_next (), // FIXME: Replace this!
+				handle : parameters_handles_next (),
 			};
 		return Parameters (StdRc::new (StdRefCell::new (internals)));
 	}
@@ -63,7 +63,7 @@ impl Parameters {
 				stderr : Some (try! (Port::new_stderr ())),
 				parent : None,
 				immutable : false,
-				handle : context_handles_next (), // FIXME: Replace this!
+				handle : parameters_handles_next (),
 			};
 		succeed! (Parameters (StdRc::new (StdRefCell::new (internals))));
 	}
@@ -78,7 +78,7 @@ impl Parameters {
 				stderr : option_ref_map! (self_0.stderr, port, port.clone ()),
 				parent : Some (self.clone ()),
 				immutable : false,
-				handle : context_handles_next (), // FIXME: Replace this!
+				handle : parameters_handles_next (),
 			};
 		succeed! (Parameters (StdRc::new (StdRefCell::new (internals))));
 	}
@@ -361,7 +361,7 @@ impl Parameter {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new (identifier : Option<Symbol>, global : Option<Value>, conversion : ParameterConversion, immutable : bool) -> (Parameter) {
 		let global = Binding::new (identifier.clone (), global, true);
-		let handle = bindings_handles_next (); // FIXME: Replace this!
+		let handle = parameter_handles_next ();
 		let internals = ParameterInternals {
 				identifier : identifier,
 				global : global,

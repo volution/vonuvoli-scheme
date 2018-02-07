@@ -206,7 +206,7 @@ impl Registers {
 				registers : StdVec::new (),
 				count : 0,
 				immutable : false,
-				handle : context_handles_next (),
+				handle : registers_handles_next (),
 			};
 		return Registers (StdRc::new (StdRefCell::new (internals)));
 	}
@@ -449,7 +449,7 @@ impl Binding {
 				value : value,
 				initialized : initialized,
 				immutable : immutable,
-				handle : bindings_handles_next (),
+				handle : binding_handles_next (),
 			};
 		return Binding (StdRc::new (StdRefCell::new (internals)));
 	}

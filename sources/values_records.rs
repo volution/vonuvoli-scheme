@@ -319,7 +319,7 @@ impl RecordKind {
 		let internals = RecordKindInternals {
 				identifier : identifier,
 				fields : fields,
-				handle : records_handles_next (),
+				handle : record_handles_next (),
 				size : size,
 			};
 		succeed! (RecordKind (StdRc::new (internals)));

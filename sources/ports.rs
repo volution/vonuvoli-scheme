@@ -268,7 +268,7 @@ impl Port {
 		let internals = PortInternals {
 				state : PortState::Open,
 				backend : backend,
-				handle : ports_handles_next (),
+				handle : port_handles_next (),
 			};
 		let port = Port (StdRc::new (StdRefCell::new (internals)));
 		succeed! (port);

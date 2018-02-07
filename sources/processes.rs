@@ -149,7 +149,7 @@ impl Process {
 				stdin : stdin,
 				stdout : stdout,
 				stderr : stderr,
-				handle : processes_handles_next (),
+				handle : process_handles_next (),
 			};
 		
 		let process = Process (StdRc::new (StdRefCell::new (internals)));
