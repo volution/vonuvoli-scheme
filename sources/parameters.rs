@@ -215,9 +215,10 @@ impl Parameters {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn configure_stdin (&self, port : &Port) -> (Outcome<()>) {
-		if StdRc::strong_count (&self.0) > 1 {
-			fail! (0x27f16faa);
-		}
+		// TODO:  Find a way to check if the parameters was forked, in which case we shouldn't be able to re-configure the standard ports!
+		//if StdRc::strong_count (&self.0) > 1 {
+		//	fail! (0x27f16faa);
+		//}
 		let mut self_0 = self.internals_ref_mut ();
 		if self_0.immutable {
 			fail! (0x2521a116);
@@ -228,9 +229,10 @@ impl Parameters {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn configure_stdout (&self, port : &Port) -> (Outcome<()>) {
-		if StdRc::strong_count (&self.0) > 1 {
-			fail! (0xf78642ab);
-		}
+		// TODO:  Find a way to check if the parameters was forked, in which case we shouldn't be able to re-configure the standard ports!
+		//if StdRc::strong_count (&self.0) > 1 {
+		//	fail! (0xf78642ab);
+		//}
 		let mut self_0 = self.internals_ref_mut ();
 		if self_0.immutable {
 			fail! (0xa5dd23e6);
@@ -241,9 +243,10 @@ impl Parameters {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn configure_stderr (&self, port : &Port) -> (Outcome<()>) {
-		if StdRc::strong_count (&self.0) > 1 {
-			fail! (0x5443078f);
-		}
+		// TODO:  Find a way to check if the parameters was forked, in which case we shouldn't be able to re-configure the standard ports!
+		//if StdRc::strong_count (&self.0) > 1 {
+		//	fail! (0x5443078f);
+		//}
 		let mut self_0 = self.internals_ref_mut ();
 		if self_0.immutable {
 			fail! (0x93818ef2);
