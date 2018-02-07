@@ -549,45 +549,45 @@
 
 << execute / bin / bencher / all / release
 	x-run ':: compile / bin / bencher / release'
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__arithmetic.out' x-run ':: execute / bin / bencher / release' './tests/scheme/arithmetic.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__arrays.out' x-run ':: execute / bin / bencher / release' './tests/scheme/arrays.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__booleans.out' x-run ':: execute / bin / bencher / release' './tests/scheme/booleans.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__bytes.out' x-run ':: execute / bin / bencher / release' './tests/scheme/bytes.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_identity.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-identity.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-value-coerced.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_recursive.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-value-strict.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_recursive.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-value-strict-recursive.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_objects.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-objects.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_ordering_numbers.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-ordering-numbers.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_ordering_objects.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-ordering-objects.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__contexts.out' x-run ':: execute / bin / bencher / release' './tests/scheme/contexts.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__control.out' x-run ':: execute / bin / bencher / release' './tests/scheme/control.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__errors.out' x-run ':: execute / bin / bencher / release' './tests/scheme/errors.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions.out' x-run ':: execute / bin / bencher / release' './tests/scheme/functions.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_arrays.out' x-run ':: execute / bin / bencher / release' './tests/scheme/functions-arrays.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_bytes.out' x-run ':: execute / bin / bencher / release' './tests/scheme/functions-bytes.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_lists.out' x-run ':: execute / bin / bencher / release' './tests/scheme/functions-lists.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_strings.out' x-run ':: execute / bin / bencher / release' './tests/scheme/functions-strings.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__issues.out' x-run ':: execute / bin / bencher / release' './tests/scheme/issues.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__lambdas.out' x-run ':: execute / bin / bencher / release' './tests/scheme/lambdas.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__lists.out' x-run ':: execute / bin / bencher / release' './tests/scheme/lists.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__loops.out' x-run ':: execute / bin / bencher / release' './tests/scheme/loops.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__pairs.out' x-run ':: execute / bin / bencher / release' './tests/scheme/pairs.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__parameters.out' x-run ':: execute / bin / bencher / release' './tests/scheme/parameters.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports.out' x-run ':: execute / bin / bencher / release' './tests/scheme/ports.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports_memory.out' x-run ':: execute / bin / bencher / release' './tests/scheme/ports-memory.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports_native.out' x-run ':: execute / bin / bencher / release' './tests/scheme/ports-native.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports_parameters.out' x-run ':: execute / bin / bencher / release' './tests/scheme/ports-parameters.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__processes.out' x-run ':: execute / bin / bencher / release' './tests/scheme/processes.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__quotation.out' x-run ':: execute / bin / bencher / release' './tests/scheme/quotation.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__records_procedures.out' x-run ':: execute / bin / bencher / release' './tests/scheme/records-procedures.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__records_syntaxes.out' x-run ':: execute / bin / bencher / release' './tests/scheme/records-syntaxes.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__runtime.out' x-run ':: execute / bin / bencher / release' './tests/scheme/runtime.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__scratchpad.out' x-run ':: execute / bin / bencher / release' './tests/scheme/scratchpad.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__strings.out' x-run ':: execute / bin / bencher / release' './tests/scheme/strings.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__types.out' x-run ':: execute / bin / bencher / release' './tests/scheme/types.sst' "${@}"
-	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__values.out' x-run ':: execute / bin / bencher / release' './tests/scheme/values.sst' "${@}"
+	taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__arithmetic.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/arithmetic.sst' "${@}"
+	taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__arrays.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/arrays.sst' "${@}"
+	taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__booleans.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/booleans.sst' "${@}"
+	taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__bytes.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/bytes.sst' "${@}"
+	taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_identity.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-by-identity.sst' "${@}"
+	taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-by-value-coerced.sst' "${@}"
+	taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_recursive.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst' "${@}"
+	taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-by-value-strict.sst' "${@}"
+	taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_recursive.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-by-value-strict-recursive.sst' "${@}"
+	taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_objects.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-objects.sst' "${@}"
+	taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_ordering_numbers.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-ordering-numbers.sst' "${@}"
+	taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_ordering_objects.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-ordering-objects.sst' "${@}"
+	taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__contexts.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/contexts.sst' "${@}"
+	taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__control.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/control.sst' "${@}"
+	taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__errors.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/errors.sst' "${@}"
+	taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/functions.sst' "${@}"
+	taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_arrays.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/functions-arrays.sst' "${@}"
+	taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_bytes.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/functions-bytes.sst' "${@}"
+	taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_lists.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/functions-lists.sst' "${@}"
+	taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_strings.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/functions-strings.sst' "${@}"
+	taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__issues.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/issues.sst' "${@}"
+	taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__lambdas.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/lambdas.sst' "${@}"
+	taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__lists.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/lists.sst' "${@}"
+	taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__loops.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/loops.sst' "${@}"
+	taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__pairs.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/pairs.sst' "${@}"
+	taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__parameters.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/parameters.sst' "${@}"
+	taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/ports.sst' "${@}"
+	taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports_memory.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/ports-memory.sst' "${@}"
+	taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports_native.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/ports-native.sst' "${@}"
+	taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports_parameters.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/ports-parameters.sst' "${@}"
+	taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__processes.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/processes.sst' "${@}"
+	taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__quotation.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/quotation.sst' "${@}"
+	taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__records_procedures.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/records-procedures.sst' "${@}"
+	taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__records_syntaxes.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/records-syntaxes.sst' "${@}"
+	taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__runtime.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/runtime.sst' "${@}"
+	taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__scratchpad.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/scratchpad.sst' "${@}"
+	taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__strings.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/strings.sst' "${@}"
+	taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__types.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/types.sst' "${@}"
+	taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__values.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/values.sst' "${@}"
 !!
 
 << execute / bin / bencher / arithmetic / debug
@@ -595,7 +595,7 @@
 !!
 
 << execute / bin / bencher / arithmetic / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__arithmetic.out' x-run ':: execute / bin / bencher / release' './tests/scheme/arithmetic.sst' "${@}"
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__arithmetic.out' x-run ':: execute / bin / bencher / release' './tests/scheme/arithmetic.sst' "${@}"
 !!
 
 << execute / bin / bencher / arrays / debug
@@ -603,7 +603,7 @@
 !!
 
 << execute / bin / bencher / arrays / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__arrays.out' x-run ':: execute / bin / bencher / release' './tests/scheme/arrays.sst' "${@}"
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__arrays.out' x-run ':: execute / bin / bencher / release' './tests/scheme/arrays.sst' "${@}"
 !!
 
 << execute / bin / bencher / booleans / debug
@@ -611,7 +611,7 @@
 !!
 
 << execute / bin / bencher / booleans / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__booleans.out' x-run ':: execute / bin / bencher / release' './tests/scheme/booleans.sst' "${@}"
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__booleans.out' x-run ':: execute / bin / bencher / release' './tests/scheme/booleans.sst' "${@}"
 !!
 
 << execute / bin / bencher / bytes / debug
@@ -619,7 +619,7 @@
 !!
 
 << execute / bin / bencher / bytes / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__bytes.out' x-run ':: execute / bin / bencher / release' './tests/scheme/bytes.sst' "${@}"
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__bytes.out' x-run ':: execute / bin / bencher / release' './tests/scheme/bytes.sst' "${@}"
 !!
 
 << execute / bin / bencher / comparisons-equivalent-by-identity / debug
@@ -627,7 +627,7 @@
 !!
 
 << execute / bin / bencher / comparisons-equivalent-by-identity / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_identity.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-identity.sst' "${@}"
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_identity.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-identity.sst' "${@}"
 !!
 
 << execute / bin / bencher / comparisons-equivalent-by-value-coerced / debug
@@ -635,7 +635,7 @@
 !!
 
 << execute / bin / bencher / comparisons-equivalent-by-value-coerced / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-value-coerced.sst' "${@}"
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-value-coerced.sst' "${@}"
 !!
 
 << execute / bin / bencher / comparisons-equivalent-by-value-coerced-recursive / debug
@@ -643,7 +643,7 @@
 !!
 
 << execute / bin / bencher / comparisons-equivalent-by-value-coerced-recursive / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_recursive.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst' "${@}"
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_recursive.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst' "${@}"
 !!
 
 << execute / bin / bencher / comparisons-equivalent-by-value-strict / debug
@@ -651,7 +651,7 @@
 !!
 
 << execute / bin / bencher / comparisons-equivalent-by-value-strict / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-value-strict.sst' "${@}"
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-value-strict.sst' "${@}"
 !!
 
 << execute / bin / bencher / comparisons-equivalent-by-value-strict-recursive / debug
@@ -659,7 +659,7 @@
 !!
 
 << execute / bin / bencher / comparisons-equivalent-by-value-strict-recursive / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_recursive.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-value-strict-recursive.sst' "${@}"
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_recursive.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-value-strict-recursive.sst' "${@}"
 !!
 
 << execute / bin / bencher / comparisons-equivalent-objects / debug
@@ -667,7 +667,7 @@
 !!
 
 << execute / bin / bencher / comparisons-equivalent-objects / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_objects.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-objects.sst' "${@}"
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_objects.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-objects.sst' "${@}"
 !!
 
 << execute / bin / bencher / comparisons-ordering-numbers / debug
@@ -675,7 +675,7 @@
 !!
 
 << execute / bin / bencher / comparisons-ordering-numbers / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_ordering_numbers.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-ordering-numbers.sst' "${@}"
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_ordering_numbers.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-ordering-numbers.sst' "${@}"
 !!
 
 << execute / bin / bencher / comparisons-ordering-objects / debug
@@ -683,7 +683,7 @@
 !!
 
 << execute / bin / bencher / comparisons-ordering-objects / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_ordering_objects.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-ordering-objects.sst' "${@}"
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_ordering_objects.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-ordering-objects.sst' "${@}"
 !!
 
 << execute / bin / bencher / contexts / debug
@@ -691,7 +691,7 @@
 !!
 
 << execute / bin / bencher / contexts / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__contexts.out' x-run ':: execute / bin / bencher / release' './tests/scheme/contexts.sst' "${@}"
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__contexts.out' x-run ':: execute / bin / bencher / release' './tests/scheme/contexts.sst' "${@}"
 !!
 
 << execute / bin / bencher / control / debug
@@ -699,7 +699,7 @@
 !!
 
 << execute / bin / bencher / control / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__control.out' x-run ':: execute / bin / bencher / release' './tests/scheme/control.sst' "${@}"
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__control.out' x-run ':: execute / bin / bencher / release' './tests/scheme/control.sst' "${@}"
 !!
 
 << execute / bin / bencher / debug
@@ -715,7 +715,7 @@
 !!
 
 << execute / bin / bencher / errors / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__errors.out' x-run ':: execute / bin / bencher / release' './tests/scheme/errors.sst' "${@}"
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__errors.out' x-run ':: execute / bin / bencher / release' './tests/scheme/errors.sst' "${@}"
 !!
 
 << execute / bin / bencher / functions / debug
@@ -723,7 +723,7 @@
 !!
 
 << execute / bin / bencher / functions / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions.out' x-run ':: execute / bin / bencher / release' './tests/scheme/functions.sst' "${@}"
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions.out' x-run ':: execute / bin / bencher / release' './tests/scheme/functions.sst' "${@}"
 !!
 
 << execute / bin / bencher / functions-arrays / debug
@@ -731,7 +731,7 @@
 !!
 
 << execute / bin / bencher / functions-arrays / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_arrays.out' x-run ':: execute / bin / bencher / release' './tests/scheme/functions-arrays.sst' "${@}"
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_arrays.out' x-run ':: execute / bin / bencher / release' './tests/scheme/functions-arrays.sst' "${@}"
 !!
 
 << execute / bin / bencher / functions-bytes / debug
@@ -739,7 +739,7 @@
 !!
 
 << execute / bin / bencher / functions-bytes / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_bytes.out' x-run ':: execute / bin / bencher / release' './tests/scheme/functions-bytes.sst' "${@}"
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_bytes.out' x-run ':: execute / bin / bencher / release' './tests/scheme/functions-bytes.sst' "${@}"
 !!
 
 << execute / bin / bencher / functions-lists / debug
@@ -747,7 +747,7 @@
 !!
 
 << execute / bin / bencher / functions-lists / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_lists.out' x-run ':: execute / bin / bencher / release' './tests/scheme/functions-lists.sst' "${@}"
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_lists.out' x-run ':: execute / bin / bencher / release' './tests/scheme/functions-lists.sst' "${@}"
 !!
 
 << execute / bin / bencher / functions-strings / debug
@@ -755,7 +755,7 @@
 !!
 
 << execute / bin / bencher / functions-strings / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_strings.out' x-run ':: execute / bin / bencher / release' './tests/scheme/functions-strings.sst' "${@}"
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_strings.out' x-run ':: execute / bin / bencher / release' './tests/scheme/functions-strings.sst' "${@}"
 !!
 
 << execute / bin / bencher / issues / debug
@@ -763,7 +763,7 @@
 !!
 
 << execute / bin / bencher / issues / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__issues.out' x-run ':: execute / bin / bencher / release' './tests/scheme/issues.sst' "${@}"
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__issues.out' x-run ':: execute / bin / bencher / release' './tests/scheme/issues.sst' "${@}"
 !!
 
 << execute / bin / bencher / lambdas / debug
@@ -771,7 +771,7 @@
 !!
 
 << execute / bin / bencher / lambdas / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__lambdas.out' x-run ':: execute / bin / bencher / release' './tests/scheme/lambdas.sst' "${@}"
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__lambdas.out' x-run ':: execute / bin / bencher / release' './tests/scheme/lambdas.sst' "${@}"
 !!
 
 << execute / bin / bencher / lists / debug
@@ -779,7 +779,7 @@
 !!
 
 << execute / bin / bencher / lists / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__lists.out' x-run ':: execute / bin / bencher / release' './tests/scheme/lists.sst' "${@}"
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__lists.out' x-run ':: execute / bin / bencher / release' './tests/scheme/lists.sst' "${@}"
 !!
 
 << execute / bin / bencher / loops / debug
@@ -787,7 +787,7 @@
 !!
 
 << execute / bin / bencher / loops / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__loops.out' x-run ':: execute / bin / bencher / release' './tests/scheme/loops.sst' "${@}"
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__loops.out' x-run ':: execute / bin / bencher / release' './tests/scheme/loops.sst' "${@}"
 !!
 
 << execute / bin / bencher / pairs / debug
@@ -795,7 +795,7 @@
 !!
 
 << execute / bin / bencher / pairs / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__pairs.out' x-run ':: execute / bin / bencher / release' './tests/scheme/pairs.sst' "${@}"
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__pairs.out' x-run ':: execute / bin / bencher / release' './tests/scheme/pairs.sst' "${@}"
 !!
 
 << execute / bin / bencher / parameters / debug
@@ -803,7 +803,7 @@
 !!
 
 << execute / bin / bencher / parameters / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__parameters.out' x-run ':: execute / bin / bencher / release' './tests/scheme/parameters.sst' "${@}"
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__parameters.out' x-run ':: execute / bin / bencher / release' './tests/scheme/parameters.sst' "${@}"
 !!
 
 << execute / bin / bencher / ports / debug
@@ -811,7 +811,7 @@
 !!
 
 << execute / bin / bencher / ports / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports.out' x-run ':: execute / bin / bencher / release' './tests/scheme/ports.sst' "${@}"
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports.out' x-run ':: execute / bin / bencher / release' './tests/scheme/ports.sst' "${@}"
 !!
 
 << execute / bin / bencher / ports-memory / debug
@@ -819,7 +819,7 @@
 !!
 
 << execute / bin / bencher / ports-memory / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports_memory.out' x-run ':: execute / bin / bencher / release' './tests/scheme/ports-memory.sst' "${@}"
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports_memory.out' x-run ':: execute / bin / bencher / release' './tests/scheme/ports-memory.sst' "${@}"
 !!
 
 << execute / bin / bencher / ports-native / debug
@@ -827,7 +827,7 @@
 !!
 
 << execute / bin / bencher / ports-native / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports_native.out' x-run ':: execute / bin / bencher / release' './tests/scheme/ports-native.sst' "${@}"
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports_native.out' x-run ':: execute / bin / bencher / release' './tests/scheme/ports-native.sst' "${@}"
 !!
 
 << execute / bin / bencher / ports-parameters / debug
@@ -835,7 +835,7 @@
 !!
 
 << execute / bin / bencher / ports-parameters / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports_parameters.out' x-run ':: execute / bin / bencher / release' './tests/scheme/ports-parameters.sst' "${@}"
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports_parameters.out' x-run ':: execute / bin / bencher / release' './tests/scheme/ports-parameters.sst' "${@}"
 !!
 
 << execute / bin / bencher / processes / debug
@@ -843,7 +843,7 @@
 !!
 
 << execute / bin / bencher / processes / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__processes.out' x-run ':: execute / bin / bencher / release' './tests/scheme/processes.sst' "${@}"
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__processes.out' x-run ':: execute / bin / bencher / release' './tests/scheme/processes.sst' "${@}"
 !!
 
 << execute / bin / bencher / quotation / debug
@@ -851,7 +851,7 @@
 !!
 
 << execute / bin / bencher / quotation / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__quotation.out' x-run ':: execute / bin / bencher / release' './tests/scheme/quotation.sst' "${@}"
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__quotation.out' x-run ':: execute / bin / bencher / release' './tests/scheme/quotation.sst' "${@}"
 !!
 
 << execute / bin / bencher / records-procedures / debug
@@ -859,7 +859,7 @@
 !!
 
 << execute / bin / bencher / records-procedures / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__records_procedures.out' x-run ':: execute / bin / bencher / release' './tests/scheme/records-procedures.sst' "${@}"
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__records_procedures.out' x-run ':: execute / bin / bencher / release' './tests/scheme/records-procedures.sst' "${@}"
 !!
 
 << execute / bin / bencher / records-syntaxes / debug
@@ -867,7 +867,7 @@
 !!
 
 << execute / bin / bencher / records-syntaxes / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__records_syntaxes.out' x-run ':: execute / bin / bencher / release' './tests/scheme/records-syntaxes.sst' "${@}"
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__records_syntaxes.out' x-run ':: execute / bin / bencher / release' './tests/scheme/records-syntaxes.sst' "${@}"
 !!
 
 << execute / bin / bencher / release
@@ -879,7 +879,7 @@
 !!
 
 << execute / bin / bencher / runtime / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__runtime.out' x-run ':: execute / bin / bencher / release' './tests/scheme/runtime.sst' "${@}"
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__runtime.out' x-run ':: execute / bin / bencher / release' './tests/scheme/runtime.sst' "${@}"
 !!
 
 << execute / bin / bencher / scratchpad / debug
@@ -887,7 +887,7 @@
 !!
 
 << execute / bin / bencher / scratchpad / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__scratchpad.out' x-run ':: execute / bin / bencher / release' './tests/scheme/scratchpad.sst' "${@}"
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__scratchpad.out' x-run ':: execute / bin / bencher / release' './tests/scheme/scratchpad.sst' "${@}"
 !!
 
 << execute / bin / bencher / strings / debug
@@ -895,7 +895,7 @@
 !!
 
 << execute / bin / bencher / strings / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__strings.out' x-run ':: execute / bin / bencher / release' './tests/scheme/strings.sst' "${@}"
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__strings.out' x-run ':: execute / bin / bencher / release' './tests/scheme/strings.sst' "${@}"
 !!
 
 << execute / bin / bencher / types / debug
@@ -903,7 +903,7 @@
 !!
 
 << execute / bin / bencher / types / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__types.out' x-run ':: execute / bin / bencher / release' './tests/scheme/types.sst' "${@}"
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__types.out' x-run ':: execute / bin / bencher / release' './tests/scheme/types.sst' "${@}"
 !!
 
 << execute / bin / bencher / values / debug
@@ -911,7 +911,7 @@
 !!
 
 << execute / bin / bencher / values / release
-	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__values.out' x-run ':: execute / bin / bencher / release' './tests/scheme/values.sst' "${@}"
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__values.out' x-run ':: execute / bin / bencher / release' './tests/scheme/values.sst' "${@}"
 !!
 
 << execute / bin / compiler / all / debug
@@ -1088,45 +1088,45 @@
 
 << execute / bin / tester / all / debug
 	x-run ':: compile / bin / tester / debug'
-	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/arithmetic.sst' "${@}"
-	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/arrays.sst' "${@}"
-	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/booleans.sst' "${@}"
-	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/bytes.sst' "${@}"
-	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/comparisons-equivalent-by-identity.sst' "${@}"
-	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/comparisons-equivalent-by-value-coerced.sst' "${@}"
-	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst' "${@}"
-	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/comparisons-equivalent-by-value-strict.sst' "${@}"
-	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/comparisons-equivalent-by-value-strict-recursive.sst' "${@}"
-	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/comparisons-equivalent-objects.sst' "${@}"
-	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/comparisons-ordering-numbers.sst' "${@}"
-	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/comparisons-ordering-objects.sst' "${@}"
-	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/contexts.sst' "${@}"
-	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/control.sst' "${@}"
-	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/errors.sst' "${@}"
-	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/functions.sst' "${@}"
-	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/functions-arrays.sst' "${@}"
-	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/functions-bytes.sst' "${@}"
-	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/functions-lists.sst' "${@}"
-	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/functions-strings.sst' "${@}"
-	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/issues.sst' "${@}"
-	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/lambdas.sst' "${@}"
-	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/lists.sst' "${@}"
-	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/loops.sst' "${@}"
-	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/pairs.sst' "${@}"
-	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/parameters.sst' "${@}"
-	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/ports.sst' "${@}"
-	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/ports-memory.sst' "${@}"
-	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/ports-native.sst' "${@}"
-	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/ports-parameters.sst' "${@}"
-	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/processes.sst' "${@}"
-	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/quotation.sst' "${@}"
-	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/records-procedures.sst' "${@}"
-	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/records-syntaxes.sst' "${@}"
-	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/runtime.sst' "${@}"
-	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/scratchpad.sst' "${@}"
-	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/strings.sst' "${@}"
-	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/types.sst' "${@}"
-	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/values.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/arithmetic.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/arrays.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/booleans.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/bytes.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-by-identity.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-by-value-coerced.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-by-value-strict.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-by-value-strict-recursive.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-objects.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-ordering-numbers.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-ordering-objects.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/contexts.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/control.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/errors.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/functions.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/functions-arrays.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/functions-bytes.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/functions-lists.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/functions-strings.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/issues.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/lambdas.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/lists.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/loops.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/pairs.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/parameters.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/ports.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/ports-memory.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/ports-native.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/ports-parameters.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/processes.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/quotation.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/records-procedures.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/records-syntaxes.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/runtime.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/scratchpad.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/strings.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/types.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/values.sst' "${@}"
 !!
 
 << execute / bin / tester / arithmetic / debug

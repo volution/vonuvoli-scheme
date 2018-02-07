@@ -375,7 +375,7 @@ sed -r -e 's#@\{TEST\}#'"${_test}"'#g' -e 's#\{IDENTIFIER\}'#"${_test//-/_}"'#g'
 :: execute / bin / tester / @{TEST} / debug :: exec -- nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/@{TEST}.sst' "${@}"
 :: execute / bin / tester / @{TEST} / release :: exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/@{TEST}.sst' "${@}"
 :: execute / bin / bencher / @{TEST} / debug :: exec -- taskset -c 2 x-run ':: execute / bin / bencher / debug' './tests/scheme/@{TEST}.sst' "${@}"
-:: execute / bin / bencher / @{TEST} / release :: exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__{IDENTIFIER}.out' x-run ':: execute / bin / bencher / release' './tests/scheme/@{TEST}.sst' "${@}"
+:: execute / bin / bencher / @{TEST} / release :: exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__{IDENTIFIER}.out' x-run ':: execute / bin / bencher / release' './tests/scheme/@{TEST}.sst' "${@}"
 EOS
 done
 
@@ -387,7 +387,7 @@ find ./tests/scheme -xdev -type f -name '*.sst' -printf '%f\n' \
 | sort -u \
 | while read _test ; do
 sed -r -e 's#@\{TEST\}#'"${_test}"'#g' -e 's#\{IDENTIFIER\}'#"${_test//-/_}"'#g' <<'EOS'
-nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/@{TEST}.sst' "${@}"
+nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/@{TEST}.sst' "${@}"
 EOS
 done
 printf -- '%s\n' '!!'
@@ -400,7 +400,7 @@ find ./tests/scheme -xdev -type f -name '*.sst' -printf '%f\n' \
 | sort -u \
 | while read _test ; do
 sed -r -e 's#@\{TEST\}#'"${_test}"'#g' -e 's#\{IDENTIFIER\}'#"${_test//-/_}"'#g' <<'EOS'
-taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__{IDENTIFIER}.out' x-run ':: execute / bin / bencher / release' './tests/scheme/@{TEST}.sst' "${@}"
+taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__{IDENTIFIER}.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/@{TEST}.sst' "${@}"
 EOS
 done
 printf -- '%s\n' '!!'
