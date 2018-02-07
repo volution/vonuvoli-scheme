@@ -3,7 +3,7 @@
 (< (current-second) 1893456000) => #t
 
 (> (current-jiffy) 0) => #t
-(> (current-jiffy) 1000) => #t
+(> (current-jiffy) 100) => #t
 (< (current-jiffy) (* 60 60 1000 1000 1000)) => #t
 
 (jiffies-per-second) => 1000000000

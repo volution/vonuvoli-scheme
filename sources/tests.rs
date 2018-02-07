@@ -168,10 +168,10 @@ pub fn benchmark_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, be
 	
 	try_or_fail! (write! (transcript, "## benchmarking `{}`...\n", identifier), 0x0930df0d);
 	
-	let iterations_base = 5;
-	let iterations_warmup = iterations_base / 2;
-	let iterations_without_optimizations = iterations_base / 2;
-	let iterations_with_optimizations = iterations_base * 2;
+	let iterations_base = 20;
+	let iterations_warmup = usize::max (iterations_base / 4, 2);
+	let iterations_without_optimizations = usize::max (iterations_base / 2, 2);
+	let iterations_with_optimizations = usize::max (iterations_base * 2, 4);
 	
 	let memory_leak_threshold = 128 * 1024;
 	let summary_factor = 1.0;
@@ -184,14 +184,22 @@ pub fn benchmark_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, be
 	
 	let (summary_without_optimizations, memory_delta_without_optimizations) =
 			try! (benchmark_bencher_iterate (bencher, iterations_without_optimizations,
-					|| for test in tests {
-						benchmark_test_without_optimizations (test) .expect ("68669f56");
+					|| {
+						let evaluator = Evaluator::new ();
+						let mut evaluation = evaluator.fork (None, Some (Parameters::new_empty ()));
+						for test in tests {
+							benchmark_test_without_optimizations (test, &mut evaluation) .expect ("68669f56");
+						}
 					}));
 	
 	let (summary_with_optimizations, memory_delta_with_optimizations) =
 			try! (benchmark_bencher_iterate (bencher, iterations_with_optimizations,
-					|| for test in tests {
-						benchmark_test_with_optimizations (test) .expect ("fffb0313");
+					|| {
+						let evaluator = Evaluator::new ();
+						let mut evaluation = evaluator.fork (None, Some (Parameters::new_empty ()));
+						for test in tests {
+							benchmark_test_with_optimizations (test, &mut evaluation) .expect ("fffb0313");
+						}
 					}));
 	
 	let memory_leaks_without_optimizations = memory_delta_without_optimizations > memory_leak_threshold;
@@ -636,17 +644,17 @@ pub fn execute_test (test : &TestCaseCompiled, transcript : &mut io::Write, verb
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub(crate) fn benchmark_test_without_optimizations (test : &TestCaseCompiled) -> (Outcome<()>) {
+pub(crate) fn benchmark_test_without_optimizations (test : &TestCaseCompiled, evaluator : &mut EvaluatorContext) -> (Outcome<()>) {
 	
-	try! (evaluate (&test.expression_without_optimizations, test.context_without_optimizations.as_ref (), test.parameters_without_optimizations.as_ref ()));
+	try! (evaluator.evaluate (&test.expression_without_optimizations));
 	
 	succeed! (());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub(crate) fn benchmark_test_with_optimizations (test : &TestCaseCompiled) -> (Outcome<()>) {
+pub(crate) fn benchmark_test_with_optimizations (test : &TestCaseCompiled, evaluator : &mut EvaluatorContext) -> (Outcome<()>) {
 	
-	try! (evaluate (&test.expression_with_optimizations, test.context_with_optimizations.as_ref (), test.parameters_with_optimizations.as_ref ()));
+	try! (evaluator.evaluate (&test.expression_with_optimizations));
 	
 	succeed! (());
 }

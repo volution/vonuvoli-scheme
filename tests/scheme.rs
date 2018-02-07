@@ -68,6 +68,10 @@ def_scheme_tests_from_file! (
 
 def_scheme_benchmarks_from_file! (
 		
+		benchmark__values => "scheme/values.sst",
+		benchmark__contexts => "scheme/contexts.sst",
+		benchmark__quotation => "scheme/quotation.sst",
+		
 		benchmark__types => "scheme/types.sst",
 		benchmark__booleans => "scheme/booleans.sst",
 		benchmark__arithmetic => "scheme/arithmetic.sst",
@@ -88,7 +92,7 @@ def_scheme_benchmarks_from_file! (
 		benchmark__functions_bytes => "scheme/functions-bytes.sst",
 		benchmark__functions_strings => "scheme/functions-strings.sst",
 		
-		// benchmark__parameters => "scheme/parameters.sst",
+		benchmark__parameters => "scheme/parameters.sst",
 		
 		benchmark__comparisons_equivalent_objects => "scheme/comparisons-equivalent-objects.sst",
 		benchmark__comparisons_equivalent_by_identity => "scheme/comparisons-equivalent-by-identity.sst",
