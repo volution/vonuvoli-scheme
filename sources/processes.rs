@@ -34,13 +34,13 @@ pub struct Process ( StdRc<StdRefCell<ProcessInternals>> );
 
 
 pub struct ProcessInternals {
-	state : ProcessState,
-	process : process::Child,
-	process_id : libc::pid_t,
-	stdin : Option<Port>,
-	stdout : Option<Port>,
-	stderr : Option<Port>,
-	handle : Handle,
+	pub state : ProcessState,
+	pub process : process::Child,
+	pub process_id : libc::pid_t,
+	pub stdin : Option<Port>,
+	pub stdout : Option<Port>,
+	pub stderr : Option<Port>,
+	pub handle : Handle,
 }
 
 
@@ -157,21 +157,21 @@ impl Process {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn id (&self) -> (u32) {
-		let self_0 = self.internals_ref ();
-		return self_0.process_id as u32;
+	pub fn id (&self) -> (Outcome<u32>) {
+		let self_0 = try! (self.internals_ref ());
+		succeed! (self_0.process_id as u32);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn status (&self) -> (Outcome<ProcessStatus>) {
-		let self_0 = self.internals_ref ();
+		let self_0 = try! (self.internals_ref ());
 		return self_0.state.status ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn wait (&self, block : bool) -> (Outcome<ProcessStatus>) {
 		{
-			let self_0 = self.internals_ref ();
+			let self_0 = try! (self.internals_ref ());
 			match self_0.state {
 				ProcessState::Running =>
 					if ! block {
@@ -184,7 +184,7 @@ impl Process {
 			}
 		}
 		{
-			let mut self_0 = self.internals_ref_mut ();
+			let mut self_0 = try! (self.internals_ref_mut ());
 			let exit = if block {
 				match self_0.process.wait () {
 					Ok (exit) =>
@@ -215,7 +215,7 @@ impl Process {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn signal (&self, signal : ProcessSignal) -> (Outcome<()>) {
 		{
-			let self_0 = self.internals_ref ();
+			let self_0 = try! (self.internals_ref ());
 			match self_0.state {
 				ProcessState::Running =>
 					(),
@@ -229,37 +229,37 @@ impl Process {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn stdin (&self) -> (Option<Port>) {
-		let self_0 = self.internals_ref ();
-		return self_0.stdin.clone ();
+	pub fn stdin (&self) -> (Outcome<Option<Port>>) {
+		let self_0 = try! (self.internals_ref ());
+		succeed! (self_0.stdin.clone ());
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn stdout (&self) -> (Option<Port>) {
-		let self_0 = self.internals_ref ();
-		return self_0.stdout.clone ();
+	pub fn stdout (&self) -> (Outcome<Option<Port>>) {
+		let self_0 = try! (self.internals_ref ());
+		succeed! (self_0.stdout.clone ());
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn stderr (&self) -> (Option<Port>) {
-		let self_0 = self.internals_ref ();
-		return self_0.stderr.clone ();
+	pub fn stderr (&self) -> (Outcome<Option<Port>>) {
+		let self_0 = try! (self.internals_ref ());
+		succeed! (self_0.stderr.clone ());
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn internals_ref (&self) -> (StdRef<ProcessInternals>) {
-		return StdRefCell::borrow (StdRc::as_ref (&self.0));
+	pub fn internals_ref (&self) -> (Outcome<StdRef<ProcessInternals>>) {
+		succeed! (try_or_fail! (StdRefCell::try_borrow (StdRc::as_ref (&self.0)), 0xb01737f5));
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn internals_ref_mut (&self) -> (StdRefMut<ProcessInternals>) {
-		return StdRefCell::borrow_mut (StdRc::as_ref (&self.0));
+	pub fn internals_ref_mut (&self) -> (Outcome<StdRefMut<ProcessInternals>>) {
+		succeed! (try_or_fail! (StdRefCell::try_borrow_mut (StdRc::as_ref (&self.0)), 0x463b17c3));
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn handle (&self) -> (Handle) {
-		let self_0 = self.internals_ref ();
-		return self_0.handle;
+	pub fn handle (&self) -> (Outcome<Handle>) {
+		let self_0 = try! (self.internals_ref ());
+		succeed! (self_0.handle);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

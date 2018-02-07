@@ -784,7 +784,7 @@ impl Optimizer {
 	}
 	
 	fn optimize_binding_get_1 (&self, optimization : OptimizerContext, binding : Binding) -> (Outcome<(OptimizerContext, Expression)>) {
-		let expression = if binding.is_immutable () {
+		let expression = if try! (binding.is_immutable ()) {
 			let value = try! (binding.get ());
 			Expression::Value (value)
 		} else {

@@ -574,7 +574,7 @@ pub fn port_string_writer_new (buffer : Option<usize>) -> (Outcome<Value>) {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_bytes_writer_finalize (port : &Value) -> (Outcome<Value>) {
 	let port = try_as_port_ref! (port);
-	let mut port = port.internals_ref_mut ();
+	let mut port = try! (port.internals_ref_mut ());
 	let port = port.backend_ref_mut ();
 	match *port {
 		PortBackend::BytesWriter (ref mut backend) => {
@@ -589,7 +589,7 @@ pub fn port_bytes_writer_finalize (port : &Value) -> (Outcome<Value>) {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_string_writer_finalize (port : &Value) -> (Outcome<Value>) {
 	let port = try_as_port_ref! (port);
-	let mut port = port.internals_ref_mut ();
+	let mut port = try! (port.internals_ref_mut ());
 	let port = port.backend_ref_mut ();
 	match *port {
 		PortBackend::BytesWriter (ref mut backend) => {

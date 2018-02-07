@@ -871,7 +871,9 @@ impl cmp::PartialEq for Port {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn eq (&self, other : &Port) -> (bool) {
-		Handle::eq (&self.handle (), &other.handle ())
+		let self_0 = try_or_return! (self.handle (), false);
+		let other_0 = try_or_return! (other.handle (), false);
+		Handle::eq (&self_0, &other_0)
 	}
 }
 
@@ -879,7 +881,9 @@ impl cmp::Ord for Port {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn cmp (&self, other : &Port) -> (cmp::Ordering) {
-		Handle::cmp (&self.handle (), &other.handle ())
+		let self_0 = try_or_return! (self.handle (), cmp::Ordering::Equal);
+		let other_0 = try_or_return! (other.handle (), cmp::Ordering::Equal);
+		Handle::cmp (&self_0, &other_0)
 	}
 }
 
@@ -900,7 +904,9 @@ impl cmp::PartialEq for Process {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn eq (&self, other : &Process) -> (bool) {
-		Handle::eq (&self.handle (), &other.handle ())
+		let self_0 = try_or_return! (self.handle (), false);
+		let other_0 = try_or_return! (other.handle (), false);
+		Handle::eq (&self_0, &other_0)
 	}
 }
 
@@ -908,7 +914,9 @@ impl cmp::Ord for Process {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn cmp (&self, other : &Process) -> (cmp::Ordering) {
-		Handle::cmp (&self.handle (), &other.handle ())
+		let self_0 = try_or_return! (self.handle (), cmp::Ordering::Equal);
+		let other_0 = try_or_return! (other.handle (), cmp::Ordering::Equal);
+		Handle::cmp (&self_0, &other_0)
 	}
 }
 
@@ -929,7 +937,9 @@ impl cmp::PartialEq for Context {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn eq (&self, other : &Self) -> (bool) {
-		Handle::eq (&self.handle (), &other.handle ())
+		let self_0 = try_or_return! (self.handle (), false);
+		let other_0 = try_or_return! (other.handle (), false);
+		Handle::eq (&self_0, &other_0)
 	}
 }
 
@@ -937,7 +947,9 @@ impl cmp::Ord for Context {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn cmp (&self, other : &Self) -> (cmp::Ordering) {
-		Handle::cmp (&self.handle (), &other.handle ())
+		let self_0 = try_or_return! (self.handle (), cmp::Ordering::Equal);
+		let other_0 = try_or_return! (other.handle (), cmp::Ordering::Equal);
+		Handle::cmp (&self_0, &other_0)
 	}
 }
 
@@ -958,7 +970,9 @@ impl cmp::PartialEq for Registers {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn eq (&self, other : &Self) -> (bool) {
-		Handle::eq (&self.handle (), &other.handle ())
+		let self_0 = try_or_return! (self.handle (), false);
+		let other_0 = try_or_return! (other.handle (), false);
+		Handle::eq (&self_0, &other_0)
 	}
 }
 
@@ -966,7 +980,9 @@ impl cmp::Ord for Registers {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn cmp (&self, other : &Self) -> (cmp::Ordering) {
-		Handle::cmp (&self.handle (), &other.handle ())
+		let self_0 = try_or_return! (self.handle (), cmp::Ordering::Equal);
+		let other_0 = try_or_return! (other.handle (), cmp::Ordering::Equal);
+		Handle::cmp (&self_0, &other_0)
 	}
 }
 
@@ -987,7 +1003,9 @@ impl cmp::PartialEq for Binding {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn eq (&self, other : &Self) -> (bool) {
-		Handle::eq (&self.handle (), &other.handle ())
+		let self_0 = try_or_return! (self.handle (), false);
+		let other_0 = try_or_return! (other.handle (), false);
+		Handle::eq (&self_0, &other_0)
 	}
 }
 
@@ -995,7 +1013,9 @@ impl cmp::Ord for Binding {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn cmp (&self, other : &Self) -> (cmp::Ordering) {
-		Handle::cmp (&self.handle (), &other.handle ())
+		let self_0 = try_or_return! (self.handle (), cmp::Ordering::Equal);
+		let other_0 = try_or_return! (other.handle (), cmp::Ordering::Equal);
+		Handle::cmp (&self_0, &other_0)
 	}
 }
 
@@ -1016,7 +1036,9 @@ impl cmp::PartialEq for Parameters {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn eq (&self, other : &Self) -> (bool) {
-		Handle::eq (&self.handle (), &other.handle ())
+		let self_0 = try_or_return! (self.handle (), false);
+		let other_0 = try_or_return! (other.handle (), false);
+		Handle::eq (&self_0, &other_0)
 	}
 }
 
@@ -1024,7 +1046,9 @@ impl cmp::Ord for Parameters {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn cmp (&self, other : &Self) -> (cmp::Ordering) {
-		Handle::cmp (&self.handle (), &other.handle ())
+		let self_0 = try_or_return! (self.handle (), cmp::Ordering::Equal);
+		let other_0 = try_or_return! (other.handle (), cmp::Ordering::Equal);
+		Handle::cmp (&self_0, &other_0)
 	}
 }
 
@@ -1045,7 +1069,9 @@ impl cmp::PartialEq for Parameter {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn eq (&self, other : &Self) -> (bool) {
-		Handle::eq (&self.handle (), &other.handle ())
+		let self_0 = try_or_return! (self.handle (), false);
+		let other_0 = try_or_return! (other.handle (), false);
+		Handle::eq (&self_0, &other_0)
 	}
 }
 
@@ -1053,7 +1079,9 @@ impl cmp::Ord for Parameter {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn cmp (&self, other : &Self) -> (cmp::Ordering) {
-		Handle::cmp (&self.handle (), &other.handle ())
+		let self_0 = try_or_return! (self.handle (), cmp::Ordering::Equal);
+		let other_0 = try_or_return! (other.handle (), cmp::Ordering::Equal);
+		Handle::cmp (&self_0, &other_0)
 	}
 }
 

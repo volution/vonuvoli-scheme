@@ -41,21 +41,6 @@ impl Parameters {
 	
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new (parent : Option<&Parameters>) -> (Parameters) {
-		let parent_0 = option_map! (parent, parent.internals_ref ());
-		let internals = ParametersInternals {
-				bindings : StdMap::new (),
-				stdin : option_ref_and_then! (parent_0, option_ref_map! (parent_0.stdin, port, port.clone ())),
-				stdout : option_ref_and_then! (parent_0, option_ref_map! (parent_0.stdout, port, port.clone ())),
-				stderr : option_ref_and_then! (parent_0, option_ref_map! (parent_0.stderr, port, port.clone ())),
-				parent : option_map! (parent, parent.clone ()),
-				immutable : false,
-				handle : context_handles_next (), // FIXME: Replace this!
-			};
-		return Parameters (StdRc::new (StdRefCell::new (internals)));
-	}
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_empty () -> (Parameters) {
 		let internals = ParametersInternals {
 				bindings : StdMap::new (),
@@ -84,14 +69,24 @@ impl Parameters {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn fork (&self) -> (Parameters) {
-		return Parameters::new (Some (self));
+	pub fn fork (&self) -> (Outcome<Parameters>) {
+		let self_0 = try! (self.internals_ref ());
+		let internals = ParametersInternals {
+				bindings : StdMap::new (),
+				stdin : option_ref_map! (self_0.stdin, port, port.clone ()),
+				stdout : option_ref_map! (self_0.stdout, port, port.clone ()),
+				stderr : option_ref_map! (self_0.stderr, port, port.clone ()),
+				parent : Some (self.clone ()),
+				immutable : false,
+				handle : context_handles_next (), // FIXME: Replace this!
+			};
+		succeed! (Parameters (StdRc::new (StdRefCell::new (internals))));
 	}
 	
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn resolve (&self, parameter : &Parameter, default : Option<&Value>, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
-		let key = parameter.unique_ref ();
+		let key = try! (parameter.unique_ref ());
 		if let Some (default) = default {
 			return self.resolve_or_default (key, parameter, default, evaluator);
 		}
@@ -106,7 +101,7 @@ impl Parameters {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn resolve_self (&self, key : &Unique, evaluator : &mut EvaluatorContext) -> (Outcome<Option<Value>>) {
-		let self_0 = self.internals_ref ();
+		let self_0 = try! (self.internals_ref ());
 		match self_0.bindings.get (key) {
 			Some (&(ref binding, ref conversion)) => {
 				let value = try! (binding.get ());
@@ -132,7 +127,7 @@ impl Parameters {
 		if let Some (value) = try! (self.resolve_self (key, evaluator)) {
 			succeed! (value);
 		}
-		let self_0 = self.internals_ref ();
+		let self_0 = try! (self.internals_ref ());
 		if let Some (ref parent) = self_0.parent {
 			return parent.resolve_or_default (key, parameter, default, evaluator);
 		} else {
@@ -142,7 +137,7 @@ impl Parameters {
 	
 	#[ inline (never) ]
 	fn resolve_or_cache (&self, key : &Unique, parameter : &Parameter, evaluator : &mut EvaluatorContext) -> (Outcome<(Value, ParameterConversion)>) {
-		let mut self_0 = self.internals_ref_mut ();
+		let mut self_0 = try! (self.internals_ref_mut ());
 		match self_0.bindings.get (key) {
 			Some (&(ref binding, ref conversion)) => {
 				let value = try! (binding.get ());
@@ -160,7 +155,7 @@ impl Parameters {
 			StdMapEntry::Occupied (_) =>
 				fail_unreachable! (0x06fa511f),
 			StdMapEntry::Vacant (entry) => {
-				let binding = parameter.new_binding ();
+				let binding = try! (parameter.new_binding ());
 				try! (binding.initialize (value.clone ()));
 				entry.insert ((binding, conversion.clone ()));
 				succeed! ((value, conversion));
@@ -171,8 +166,8 @@ impl Parameters {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn configure (&self, parameter : &Parameter, value : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<()>) {
-		let key = parameter.unique_ref ();
-		let mut self_0 = self.internals_ref_mut ();
+		let key = try! (parameter.unique_ref ());
+		let mut self_0 = try! (self.internals_ref_mut ());
 		if self_0.immutable {
 			fail! (0xce261293);
 		}
@@ -185,7 +180,7 @@ impl Parameters {
 			},
 			StdMapEntry::Vacant (entry) => {
 				let (value, conversion) = try! (parameter.new_conversion (Some (value), evaluator));
-				let binding = parameter.new_binding ();
+				let binding = try! (parameter.new_binding ());
 				try! (binding.initialize (value));
 				entry.insert ((binding, conversion));
 			},
@@ -196,19 +191,19 @@ impl Parameters {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn resolve_stdin (&self) -> (Outcome<Port>) {
-		let self_0 = self.internals_ref ();
+		let self_0 = try! (self.internals_ref ());
 		succeed! (try_some_ref! (self_0.stdin, 0x158c7282) .clone ());
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn resolve_stdout (&self) -> (Outcome<Port>) {
-		let self_0 = self.internals_ref ();
+		let self_0 = try! (self.internals_ref ());
 		succeed! (try_some_ref! (self_0.stdout, 0x8133bc6b) .clone ());
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn resolve_stderr (&self) -> (Outcome<Port>) {
-		let self_0 = self.internals_ref ();
+		let self_0 = try! (self.internals_ref ());
 		succeed! (try_some_ref! (self_0.stderr, 0xb4037a1a) .clone ());
 	}
 	
@@ -219,7 +214,7 @@ impl Parameters {
 		//if StdRc::strong_count (&self.0) > 1 {
 		//	fail! (0x27f16faa);
 		//}
-		let mut self_0 = self.internals_ref_mut ();
+		let mut self_0 = try! (self.internals_ref_mut ());
 		if self_0.immutable {
 			fail! (0x2521a116);
 		}
@@ -233,7 +228,7 @@ impl Parameters {
 		//if StdRc::strong_count (&self.0) > 1 {
 		//	fail! (0xf78642ab);
 		//}
-		let mut self_0 = self.internals_ref_mut ();
+		let mut self_0 = try! (self.internals_ref_mut ());
 		if self_0.immutable {
 			fail! (0xa5dd23e6);
 		}
@@ -247,7 +242,7 @@ impl Parameters {
 		//if StdRc::strong_count (&self.0) > 1 {
 		//	fail! (0x5443078f);
 		//}
-		let mut self_0 = self.internals_ref_mut ();
+		let mut self_0 = try! (self.internals_ref_mut ());
 		if self_0.immutable {
 			fail! (0x93818ef2);
 		}
@@ -274,19 +269,19 @@ impl Parameters {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn resolve_stdin_value_or (&self, default : Option<&Value>) -> (Outcome<Value>) {
-		let self_0 = self.internals_ref ();
+		let self_0 = try! (self.internals_ref ());
 		return Self::resolve_port_value_or (&self_0.stdin, default);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn resolve_stdout_value_or (&self, default : Option<&Value>) -> (Outcome<Value>) {
-		let self_0 = self.internals_ref ();
+		let self_0 = try! (self.internals_ref ());
 		return Self::resolve_port_value_or (&self_0.stdout, default);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn resolve_stderr_value_or (&self, default : Option<&Value>) -> (Outcome<Value>) {
-		let self_0 = self.internals_ref ();
+		let self_0 = try! (self.internals_ref ());
 		return Self::resolve_port_value_or (&self_0.stderr, default);
 	}
 	
@@ -304,28 +299,26 @@ impl Parameters {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn set_immutable (&self) -> (Outcome<()>) {
-		let mut self_0 = self.internals_ref_mut ();
+		let mut self_0 = try! (self.internals_ref_mut ());
 		self_0.immutable = true;
 		succeed! (());
 	}
 	
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn internals_ref (&self) -> (StdRef<ParametersInternals>) {
-		// FIXME:  Use `try_borrow`!
-		return StdRefCell::borrow (StdRc::as_ref (&self.0));
+	pub fn internals_ref (&self) -> (Outcome<StdRef<ParametersInternals>>) {
+		succeed! (try_or_fail! (StdRefCell::try_borrow (StdRc::as_ref (&self.0)), 0x01545833));
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn internals_ref_mut (&self) -> (StdRefMut<ParametersInternals>) {
-		// FIXME:  Use `try_borrow`!
-		return StdRefCell::borrow_mut (StdRc::as_ref (&self.0));
+	pub fn internals_ref_mut (&self) -> (Outcome<StdRefMut<ParametersInternals>>) {
+		succeed! (try_or_fail! (StdRefCell::try_borrow_mut (StdRc::as_ref (&self.0)), 0x37409eea));
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn handle (&self) -> (Handle) {
-		let self_0 = self.internals_ref ();
-		return self_0.handle;
+	pub fn handle (&self) -> (Outcome<Handle>) {
+		let self_0 = try! (self.internals_ref ());
+		succeed! (self_0.handle);
 	}
 	
 	
@@ -382,16 +375,16 @@ impl Parameter {
 	
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new_binding (&self) -> (Binding) {
-		let self_0 = self.internals_ref ();
+	pub fn new_binding (&self) -> (Outcome<Binding>) {
+		let self_0 = try! (self.internals_ref ());
 		let binding = Binding::new (self_0.identifier.clone (), None, self_0.immutable);
-		return binding
+		succeed! (binding);
 	}
 	
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_conversion (&self, value : Option<&Value>, evaluator : &mut EvaluatorContext) -> (Outcome<(Value, ParameterConversion)>) {
-		let self_0 = self.internals_ref ();
+		let self_0 = try! (self.internals_ref ());
 		let (is_configuration, value) = if let Some (value) = value {
 			(true, value.clone ())
 		} else {
@@ -418,20 +411,21 @@ impl Parameter {
 	
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn is_immutable (&self) -> (bool) {
-		return self.internals_ref () .immutable;
+	pub fn is_immutable (&self) -> (Outcome<bool>) {
+		let self_0 = try! (self.internals_ref ());
+		succeed! (self_0.immutable);
 	}
 	
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn internals_ref (&self) -> (&ParameterInternals) {
-		return StdRc::as_ref (&self.0);
+	pub fn internals_ref (&self) -> (Outcome<&ParameterInternals>) {
+		succeed! (StdRc::as_ref (&self.0));
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn handle (&self) -> (Handle) {
-		let self_0 = self.internals_ref ();
-		return self_0.handle;
+	pub fn handle (&self) -> (Outcome<Handle>) {
+		let self_0 = try! (self.internals_ref ());
+		succeed! (self_0.handle);
 	}
 	
 	
@@ -441,15 +435,15 @@ impl Parameter {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn unique_ref (&self) -> (&Unique) {
-		let self_0 = self.internals_ref ();
-		return &self_0.unique;
+	pub fn unique_ref (&self) -> (Outcome<&Unique>) {
+		let self_0 = try! (self.internals_ref ());
+		succeed! (&self_0.unique);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn unique (&self) -> (Unique) {
-		let self_0 = self.internals_ref ();
-		return self_0.unique.clone ();
+	pub fn unique (&self) -> (Outcome<Unique>) {
+		let self_0 = try! (self.internals_ref ());
+		succeed! (self_0.unique.clone ());
 	}
 }
 

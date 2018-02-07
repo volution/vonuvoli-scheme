@@ -37,9 +37,9 @@ pub struct Port ( StdRc<StdRefCell<PortInternals>> );
 
 
 pub struct PortInternals {
-	state : PortState,
-	backend : PortBackend,
-	handle : Handle,
+	pub state : PortState,
+	pub backend : PortBackend,
+	pub handle : Handle,
 }
 
 
@@ -276,25 +276,25 @@ impl Port {
 	
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn internals_ref (&self) -> (StdRef<PortInternals>) {
-		return StdRefCell::borrow (StdRc::as_ref (&self.0));
+	pub fn internals_ref (&self) -> (Outcome<StdRef<PortInternals>>) {
+		succeed! (try_or_fail! (StdRefCell::try_borrow (StdRc::as_ref (&self.0)), 0x853d2bfd));
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn internals_ref_mut (&self) -> (StdRefMut<PortInternals>) {
-		return StdRefCell::borrow_mut (StdRc::as_ref (&self.0));
+	pub fn internals_ref_mut (&self) -> (Outcome<StdRefMut<PortInternals>>) {
+		succeed! (try_or_fail! (StdRefCell::try_borrow_mut (StdRc::as_ref (&self.0)), 0xe174d781));
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn handle (&self) -> (Handle) {
-		let self_0 = self.internals_ref ();
-		return self_0.handle;
+	pub fn handle (&self) -> (Outcome<Handle>) {
+		let self_0 = try! (self.internals_ref ());
+		succeed! (self_0.handle);
 	}
 	
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn internals_ref_if_open (&self) -> (Outcome<Option<StdRef<PortInternals>>>) {
-		let self_0 = self.internals_ref ();
+		let self_0 = try! (self.internals_ref ());
 		match self_0.state {
 			PortState::Open =>
 				(),
@@ -308,7 +308,7 @@ impl Port {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn internals_ref_mut_if_open (&self) -> (Outcome<Option<StdRefMut<PortInternals>>>) {
-		let self_0 = self.internals_ref_mut ();
+		let self_0 = try! (self.internals_ref_mut ());
 		match self_0.state {
 			PortState::Open =>
 				(),
@@ -323,7 +323,7 @@ impl Port {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn internals_ref_check_open (&self) -> (Outcome<StdRef<PortInternals>>) {
-		let self_0 = self.internals_ref ();
+		let self_0 = try! (self.internals_ref ());
 		match self_0.state {
 			PortState::Open =>
 				(),
@@ -337,7 +337,7 @@ impl Port {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn internals_ref_mut_check_open (&self) -> (Outcome<StdRefMut<PortInternals>>) {
-		let self_0 = self.internals_ref_mut ();
+		let self_0 = try! (self.internals_ref_mut ());
 		match self_0.state {
 			PortState::Open =>
 				(),

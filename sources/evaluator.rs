@@ -870,7 +870,7 @@ impl Evaluator {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_parameter_closure (&self, evaluation : &mut EvaluatorContext, expression : &Expression) -> (Outcome<Value>) {
-		let mut evaluation = evaluation.fork_parameters ();
+		let mut evaluation = try! (evaluation.fork_parameters ());
 		return self.evaluate (&mut evaluation, expression);
 	}
 	
@@ -1853,13 +1853,13 @@ impl <'a> EvaluatorContext<'a> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn fork_parameters (&mut self) -> (EvaluatorContext<'a>) {
+	pub fn fork_parameters (&mut self) -> (Outcome<EvaluatorContext<'a>>) {
 		let parameters = if let Some (ref parameters) = self.parameters {
-			parameters.fork ()
+			try! (parameters.fork ())
 		} else {
 			Parameters::new_empty ()
 		};
-		return self.fork_with_parameters (parameters);
+		succeed! (self.fork_with_parameters (parameters));
 	}
 	
 	

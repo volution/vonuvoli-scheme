@@ -599,28 +599,28 @@ pub fn port_primitive_2_evaluate (primitive : PortPrimitive2, input_1 : &Value, 
 		
 		PortPrimitive2::WithOpenBinaryInputThenCallAndClose => {
 			let port = try! (port_primitive_1_evaluate (PortPrimitive1::OpenBinaryInput, input_1, evaluator));
-			let mut evaluator = evaluator.fork_parameters ();
+			let mut evaluator = try! (evaluator.fork_parameters ());
 			try! (try! (evaluator.parameters ()) .configure_stdin (try_as_port_ref! (&port)));
 			return port_call_and_close_0 (&port, input_2, &mut evaluator);
 		},
 		
 		PortPrimitive2::WithOpenBinaryOutputThenCallAndClose => {
 			let port = try! (port_primitive_1_evaluate (PortPrimitive1::OpenBinaryOutput, input_1, evaluator));
-			let mut evaluator = evaluator.fork_parameters ();
+			let mut evaluator = try! (evaluator.fork_parameters ());
 			try! (try! (evaluator.parameters ()) .configure_stdout (try_as_port_ref! (&port)));
 			return port_call_and_close_0 (&port, input_2, &mut evaluator);
 		},
 		
 		PortPrimitive2::WithOpenTextualInputThenCallAndClose => {
 			let port = try! (port_primitive_1_evaluate (PortPrimitive1::OpenTextualInput, input_1, evaluator));
-			let mut evaluator = evaluator.fork_parameters ();
+			let mut evaluator = try! (evaluator.fork_parameters ());
 			try! (try! (evaluator.parameters ()) .configure_stdin (try_as_port_ref! (&port)));
 			return port_call_and_close_0 (&port, input_2, &mut evaluator);
 		},
 		
 		PortPrimitive2::WithOpenTextualOutputThenCallAndClose => {
 			let port = try! (port_primitive_1_evaluate (PortPrimitive1::OpenTextualOutput, input_1, evaluator));
-			let mut evaluator = evaluator.fork_parameters ();
+			let mut evaluator = try! (evaluator.fork_parameters ());
 			try! (try! (evaluator.parameters ()) .configure_stdout (try_as_port_ref! (&port)));
 			return port_call_and_close_0 (&port, input_2, &mut evaluator);
 		},

@@ -23,8 +23,8 @@ pub struct Unique ( StdRc<UniqueData> );
 
 #[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub struct UniqueData {
-	kind : UniqueKind,
-	fingerprint : u128,
+	pub kind : UniqueKind,
+	pub fingerprint : u128,
 }
 
 
