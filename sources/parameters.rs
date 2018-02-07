@@ -367,7 +367,7 @@ impl Parameter {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new (identifier : Option<Symbol>, global : Option<Value>, conversion : ParameterConversion, immutable : bool) -> (Parameter) {
-		let global = Binding::new (identifier.clone (), global, immutable);
+		let global = Binding::new (identifier.clone (), global, true);
 		let handle = bindings_handles_next (); // FIXME: Replace this!
 		let internals = ParameterInternals {
 				identifier : identifier,

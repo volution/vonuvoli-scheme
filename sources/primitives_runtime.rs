@@ -124,6 +124,8 @@ pub enum RuntimePrimitive3 {
 	ErrorRaise,
 	ErrorBuild,
 	
+	ParameterBuild,
+	
 	ProcessSpawnExtended,
 	
 }
@@ -310,7 +312,7 @@ pub fn runtime_primitive_2_evaluate (primitive : RuntimePrimitive2, input_1 : &V
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn runtime_primitive_3_evaluate (primitive : RuntimePrimitive3, input_1 : &Value, input_2 : &Value, input_3 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn runtime_primitive_3_evaluate (primitive : RuntimePrimitive3, input_1 : &Value, input_2 : &Value, input_3 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		RuntimePrimitive3::ErrorRaise =>
@@ -318,6 +320,9 @@ pub fn runtime_primitive_3_evaluate (primitive : RuntimePrimitive3, input_1 : &V
 		
 		RuntimePrimitive3::ErrorBuild =>
 			return error_build_2 (None, input_1, input_2, input_3) .into_0 (),
+		
+		RuntimePrimitive3::ParameterBuild =>
+			return parameter_build (None, Some (input_1), Some (input_2), Some (try_as_boolean_ref! (input_3) .value ()), evaluator) .into_0 (),
 		
 		RuntimePrimitive3::ProcessSpawnExtended =>
 			return process_spawn_extended (input_1, Some (input_2), Some (input_3)) .into_0 (),
@@ -472,7 +477,7 @@ pub fn runtime_primitive_v_alternative_3 (primitive : RuntimePrimitiveV) -> (Opt
 		RuntimePrimitiveV::ErrorBuild =>
 			Some (RuntimePrimitive3::ErrorBuild),
 		RuntimePrimitiveV::ParameterBuild =>
-			None,
+			Some (RuntimePrimitive3::ParameterBuild),
 		RuntimePrimitiveV::ParameterResolve =>
 			None,
 		RuntimePrimitiveV::ParameterConfigure =>

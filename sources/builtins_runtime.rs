@@ -208,7 +208,18 @@ pub fn parameter_build (identifier : Option<&Value>, global : Option<&Value>, co
 	let identifier = option_map! (identifier, try_as_symbol_ref! (identifier)) .cloned ();
 	let global = global.cloned ();
 	let conversion = if let Some (converter) = converter {
-		ParameterConversion::OnConfigure (converter.clone ())
+		match converter.class_match_as_ref () {
+			ValueClassMatchAsRef::Boolean (converter) =>
+				if ! converter.value () {
+					ParameterConversion::None
+				} else {
+					fail! (0x0037d553);
+				},
+			ValueClassMatchAsRef::Procedure (_) =>
+				ParameterConversion::OnConfigure (converter.clone ()),
+			_ =>
+				fail! (0xb3103841),
+		}
 	} else {
 		ParameterConversion::None
 	};
