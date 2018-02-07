@@ -126,10 +126,10 @@ impl Unique {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn from_raw_handle (kind : UniqueKind, fingerprint_base : u128, handle : Handle) -> (Unique) {
 		let mut fingerprint = fingerprint_base;
-		fingerprint &= (handle.value () as u128) << 0;
-		fingerprint &= (handle.value () as u128) << 32;
-		fingerprint &= (handle.value () as u128) << 64;
-		fingerprint &= (handle.value () as u128) << 96;
+		fingerprint ^= (handle.value () as u128) << 0;
+		fingerprint ^= (handle.value () as u128) << 32;
+		fingerprint ^= (handle.value () as u128) << 64;
+		fingerprint ^= (handle.value () as u128) << 96;
 		Unique::from_raw (kind, fingerprint)
 	}
 	

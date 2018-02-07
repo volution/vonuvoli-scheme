@@ -1855,7 +1855,7 @@ impl <'a> EvaluatorContext<'a> {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn fork_parameters (&mut self) -> (EvaluatorContext<'a>) {
 		let parameters = if let Some (ref parameters) = self.parameters {
-			parameters.clone ()
+			parameters.fork ()
 		} else {
 			Parameters::new_empty ()
 		};
