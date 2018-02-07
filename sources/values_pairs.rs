@@ -200,22 +200,22 @@ impl <'a> PairRef<'a> {
 		match (self, other) {
 			
 			(&PairRef::Immutable (self_0, _), &PairRef::Immutable (other_0, _)) =>
-				ptr::eq (self_0.as_ref (), other_0.as_ref ()),
+				StdRc::ptr_eq (self_0, other_0),
 			(&PairRef::ImmutableEmbedded (ref self_0, _), &PairRef::ImmutableEmbedded (ref other_0, _)) =>
-				ptr::eq (self_0.as_ref (), other_0.as_ref ()),
+				StdRc::ptr_eq (self_0, other_0),
 			(&PairRef::Immutable (self_0, _), &PairRef::ImmutableEmbedded (ref other_0, _)) =>
-				ptr::eq (self_0.as_ref (), other_0.as_ref ()),
+				StdRc::ptr_eq (self_0, other_0),
 			(&PairRef::ImmutableEmbedded (ref self_0, _), &PairRef::Immutable (other_0, _)) =>
-				ptr::eq (self_0.as_ref (), other_0.as_ref ()),
+				StdRc::ptr_eq (self_0, other_0),
 			
 			(&PairRef::Mutable (self_0, _), &PairRef::Mutable (other_0, _)) =>
-				ptr::eq (self_0.as_ref (), other_0.as_ref ()),
+				StdRc::ptr_eq (self_0, other_0),
 			(&PairRef::MutableEmbedded (ref self_0, _), &PairRef::MutableEmbedded (ref other_0, _)) =>
-				ptr::eq (self_0.as_ref (), other_0.as_ref ()),
+				StdRc::ptr_eq (self_0, other_0),
 			(&PairRef::Mutable (self_0, _), &PairRef::MutableEmbedded (ref other_0, _)) =>
-				ptr::eq (self_0.as_ref (), other_0.as_ref ()),
+				StdRc::ptr_eq (self_0, other_0),
 			(&PairRef::MutableEmbedded (ref self_0, _), &PairRef::Mutable (other_0, _)) =>
-				ptr::eq (self_0.as_ref (), other_0.as_ref ()),
+				StdRc::ptr_eq (self_0, other_0),
 			
 			_ =>
 				false,
@@ -505,7 +505,7 @@ impl PairImmutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &PairImmutable) -> (bool) {
-		ptr::eq (self.0.as_ref (), other.0.as_ref ())
+		StdRc::ptr_eq (&self.0, &other.0)
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -610,7 +610,7 @@ impl PairMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &PairMutable) -> (bool) {
-		ptr::eq (self.0.as_ref (), other.0.as_ref ())
+		StdRc::ptr_eq (&self.0, &other.0)
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

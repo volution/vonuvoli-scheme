@@ -159,7 +159,7 @@ impl Context {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &Context) -> (bool) {
-		return ptr::eq (self.0.as_ref (), other.0.as_ref ());
+		return StdRc::ptr_eq (&self.0, &other.0);
 	}
 }
 
@@ -409,7 +409,7 @@ impl Registers {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &Registers) -> (bool) {
-		return ptr::eq (self, other);
+		return StdRc::ptr_eq (&self.0, &other.0);
 	}
 }
 
@@ -556,7 +556,7 @@ impl Binding {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &Binding) -> (bool) {
-		return ptr::eq (self.0.as_ref (), other.0.as_ref ());
+		return StdRc::ptr_eq (&self.0, &other.0);
 	}
 }
 

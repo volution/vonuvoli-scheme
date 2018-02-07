@@ -63,7 +63,7 @@ impl ProcedureExtended {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &ProcedureExtended) -> (bool) {
-		ptr::eq (self.0.as_ref (), other.0.as_ref ())
+		StdRc::ptr_eq (&self.0, &other.0)
 	}
 }
 

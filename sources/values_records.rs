@@ -370,7 +370,7 @@ impl RecordKind {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &RecordKind) -> (bool) {
-		ptr::eq (self.0.as_ref (), other.0.as_ref ())
+		StdRc::ptr_eq (&self.0, &other.0)
 	}
 }
 
@@ -396,7 +396,7 @@ impl RecordImmutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &RecordImmutable) -> (bool) {
-		ptr::eq (self.0.as_ref (), other.0.as_ref ())
+		StdRc::ptr_eq (&self.0, &other.0)
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -459,7 +459,7 @@ impl RecordMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &RecordMutable) -> (bool) {
-		ptr::eq (self.0.as_ref (), other.0.as_ref ())
+		StdRc::ptr_eq (&self.0, &other.0)
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

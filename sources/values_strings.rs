@@ -312,7 +312,7 @@ impl StringImmutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &StringImmutable) -> (bool) {
-		ptr::eq (self.0.as_ref (), other.0.as_ref ())
+		StdRc::ptr_eq (&self.0, &other.0)
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -369,7 +369,7 @@ impl StringMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &StringMutable) -> (bool) {
-		ptr::eq (self.0.as_ref (), other.0.as_ref ())
+		StdRc::ptr_eq (&self.0, &other.0)
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

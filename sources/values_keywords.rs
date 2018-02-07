@@ -34,9 +34,7 @@ impl Keyword {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &Keyword) -> (bool) {
-		let self_0 = self.0.as_ref ();
-		let other_0 = other.0.as_ref ();
-		ptr::eq (self_0, other_0) || (self_0 == other_0)
+		StdRc::ptr_eq (&self.0, &other.0) || StdRc::eq (&self.0, &other.0)
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
