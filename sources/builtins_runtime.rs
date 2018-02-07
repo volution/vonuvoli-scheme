@@ -226,11 +226,11 @@ pub fn parameter_resolve (parameter : &Value, default : Option<&Value>, evaluato
 		ValueKindMatchAsRef::ProcedurePrimitive (primitive) =>
 			match *primitive {
 				ProcedurePrimitive::Primitive0 (ProcedurePrimitive0::Port (PortPrimitive0::CurrentInput)) =>
-					return evaluator.environment () .stdin_value_or (default),
+					return try! (evaluator.parameters ()) .resolve_stdin_value_or (default),
 				ProcedurePrimitive::Primitive0 (ProcedurePrimitive0::Port (PortPrimitive0::CurrentOutput)) =>
-					return evaluator.environment () .stdout_value_or (default),
+					return try! (evaluator.parameters ()) .resolve_stdout_value_or (default),
 				ProcedurePrimitive::Primitive0 (ProcedurePrimitive0::Port (PortPrimitive0::CurrentError)) =>
-					return evaluator.environment () .stderr_value_or (default),
+					return try! (evaluator.parameters ()) .resolve_stderr_value_or (default),
 				_ =>
 					fail! (0x4ce4065b),
 			},
@@ -248,11 +248,11 @@ pub fn parameter_configure (parameter : &Value, value : &Value, evaluator : &mut
 		ValueKindMatchAsRef::ProcedurePrimitive (primitive) =>
 			match *primitive {
 				ProcedurePrimitive::Primitive0 (ProcedurePrimitive0::Port (PortPrimitive0::CurrentInput)) =>
-					return try! (evaluator.environment_mut ()) .stdin_set (try_as_port_ref! (value)),
+					return try! (evaluator.parameters ()) .configure_stdin (try_as_port_ref! (value)),
 				ProcedurePrimitive::Primitive0 (ProcedurePrimitive0::Port (PortPrimitive0::CurrentOutput)) =>
-					return try! (evaluator.environment_mut ()) .stdout_set (try_as_port_ref! (value)),
+					return try! (evaluator.parameters ()) .configure_stdout (try_as_port_ref! (value)),
 				ProcedurePrimitive::Primitive0 (ProcedurePrimitive0::Port (PortPrimitive0::CurrentError)) =>
-					return try! (evaluator.environment_mut ()) .stderr_set (try_as_port_ref! (value)),
+					return try! (evaluator.parameters ()) .configure_stderr (try_as_port_ref! (value)),
 				_ =>
 					fail! (0x5970c2fd),
 			},

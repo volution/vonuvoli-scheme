@@ -298,21 +298,40 @@ pub enum PortPrimitiveV {
 
 
 
-macro_rules! stdin {
+macro_rules! stdin_val {
 	( $evaluator : expr ) => (
-		& try! ($evaluator .environment () .stdin_value ())
+		try! (try! ($evaluator .parameters ()) .resolve_stdin_value ())
 	);
 }
 
-macro_rules! stdout {
+macro_rules! stdout_val {
 	( $evaluator : expr ) => (
-		& try! ($evaluator .environment () .stdout_value ())
+		try! (try! ($evaluator .parameters ()) .resolve_stdout_value ())
 	);
 }
 
-macro_rules! stderr {
+macro_rules! stderr_val {
 	( $evaluator : expr ) => (
-		& try! ($evaluator .environment () .stderr_value ())
+		try! (try! ($evaluator .parameters ()) .resolve_stderr_value ())
+	);
+}
+
+
+macro_rules! stdin_ref {
+	( $evaluator : expr ) => (
+		& stdin_val! ($evaluator)
+	);
+}
+
+macro_rules! stdout_ref {
+	( $evaluator : expr ) => (
+		& stdout_val! ($evaluator)
+	);
+}
+
+macro_rules! stderr_ref {
+	( $evaluator : expr ) => (
+		& stderr_val! ($evaluator)
 	);
 }
 
@@ -330,79 +349,79 @@ pub fn port_primitive_0_evaluate (primitive : PortPrimitive0, evaluator : &mut E
 			return port_string_writer_new (None),
 		
 		PortPrimitive0::CurrentInput =>
-			return evaluator.environment () .stdin_value (),
+			succeed! (stdin_val! (evaluator)),
 		
 		PortPrimitive0::CurrentOutput =>
-			return evaluator.environment () .stdout_value (),
+			succeed! (stdout_val! (evaluator)),
 		
 		PortPrimitive0::CurrentError =>
-			return evaluator.environment () .stderr_value (),
+			succeed! (stderr_val! (evaluator)),
 		
 		PortPrimitive0::IsInputOpen =>
-			return is_port_input_open (stdin! (evaluator)) .into_0 (),
+			return is_port_input_open (stdin_ref! (evaluator)) .into_0 (),
 		
 		PortPrimitive0::IsOutputOpen =>
-			return is_port_output_open (stdout! (evaluator)) .into_0 (),
+			return is_port_output_open (stdout_ref! (evaluator)) .into_0 (),
 		
 		PortPrimitive0::Close => {
-			try! (port_input_close (stdin! (evaluator)));
-			try! (port_output_close (stdout! (evaluator)));
+			try! (port_input_close (stdin_ref! (evaluator)));
+			try! (port_output_close (stdout_ref! (evaluator)));
 			succeed! (VOID_VALUE);
 		},
 		
 		PortPrimitive0::CloseInput =>
-			return port_input_close (stdin! (evaluator)) .into_0 (),
+			return port_input_close (stdin_ref! (evaluator)) .into_0 (),
 		
 		PortPrimitive0::CloseOutput =>
-			return port_output_close (stdout! (evaluator)) .into_0 (),
+			return port_output_close (stdout_ref! (evaluator)) .into_0 (),
 		
 		PortPrimitive0::Eof =>
 			return PORT_EOF.into_0 (),
 		
 		PortPrimitive0::ByteReady =>
-			return port_input_byte_ready (stdin! (evaluator)) .into_0 (),
+			return port_input_byte_ready (stdin_ref! (evaluator)) .into_0 (),
 		
 		PortPrimitive0::BytePeek =>
-			return port_input_byte_peek (stdin! (evaluator)),
+			return port_input_byte_peek (stdin_ref! (evaluator)),
 		
 		PortPrimitive0::ByteRead =>
-			return port_input_byte_read (stdin! (evaluator)),
+			return port_input_byte_read (stdin_ref! (evaluator)),
 		
 		PortPrimitive0::CharacterReady =>
-			return port_input_character_ready (stdin! (evaluator)) .into_0 (),
+			return port_input_character_ready (stdin_ref! (evaluator)) .into_0 (),
 		
 		PortPrimitive0::CharacterPeek =>
-			return port_input_character_peek (stdin! (evaluator)),
+			return port_input_character_peek (stdin_ref! (evaluator)),
 		
 		PortPrimitive0::CharacterRead =>
-			return port_input_character_read (stdin! (evaluator)),
+			return port_input_character_read (stdin_ref! (evaluator)),
 		
 		PortPrimitive0::BytesReadCollect =>
-			return port_input_bytes_read_collect (stdin! (evaluator), None, Some (true)),
+			return port_input_bytes_read_collect (stdin_ref! (evaluator), None, Some (true)),
 		
 		PortPrimitive0::BytesReadChunk =>
-			return port_input_bytes_read_collect (stdin! (evaluator), None, Some (false)),
+			return port_input_bytes_read_collect (stdin_ref! (evaluator), None, Some (false)),
 		
 		PortPrimitive0::BytesReadLine =>
-			return port_input_bytes_read_line (stdin! (evaluator), Some (false), None, Some (true)),
+			return port_input_bytes_read_line (stdin_ref! (evaluator), Some (false), None, Some (true)),
 		
 		PortPrimitive0::StringReadCollect =>
-			return port_input_string_read_collect (stdin! (evaluator), None, Some (true)),
+			return port_input_string_read_collect (stdin_ref! (evaluator), None, Some (true)),
 		
 		PortPrimitive0::StringReadChunk =>
-			return port_input_string_read_collect (stdin! (evaluator), None, Some (false)),
+			return port_input_string_read_collect (stdin_ref! (evaluator), None, Some (false)),
 		
 		PortPrimitive0::StringReadLine =>
-			return port_input_string_read_line (stdin! (evaluator), Some (false), None, Some (true)),
+			return port_input_string_read_line (stdin_ref! (evaluator), Some (false), None, Some (true)),
 		
 		PortPrimitive0::ValueRead =>
 			fail_unimplemented! (0x75ffa1de), // deferred
 		
 		PortPrimitive0::NewLine =>
-			return port_output_newline (stdout! (evaluator), None, Some (true)) .into_0 (),
+			return port_output_newline (stdout_ref! (evaluator), None, Some (true)) .into_0 (),
 		
 		PortPrimitive0::FlushOutput =>
-			return port_output_flush (stdout! (evaluator)) .into_0 (),
+			return port_output_flush (stdout_ref! (evaluator)) .into_0 (),
 		
 	}
 }
@@ -478,13 +497,13 @@ pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, input_1 : &Value, 
 			return port_input_character_read (input_1),
 		
 		PortPrimitive1::BytesReadCopy =>
-			return port_input_bytes_read_copy_range (stdin! (evaluator), input_1, None, None, Some (true)),
+			return port_input_bytes_read_copy_range (stdin_ref! (evaluator), input_1, None, None, Some (true)),
 		
 		PortPrimitive1::BytesReadExtend =>
-			return port_input_bytes_read_extend (stdin! (evaluator), input_1, None, Some (false)),
+			return port_input_bytes_read_extend (stdin_ref! (evaluator), input_1, None, Some (false)),
 		
 		PortPrimitive1::BytesReadCollect =>
-			return port_input_bytes_read_collect (stdin! (evaluator), Some (input_1), Some (true)),
+			return port_input_bytes_read_collect (stdin_ref! (evaluator), Some (input_1), Some (true)),
 		
 		PortPrimitive1::BytesReadChunk =>
 			return port_input_bytes_read_collect (input_1, None, Some (false)),
@@ -493,10 +512,10 @@ pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, input_1 : &Value, 
 			return port_input_bytes_read_line (input_1, Some (false), None, Some (true)),
 		
 		PortPrimitive1::StringReadExtend =>
-			return port_input_string_read_extend (stdin! (evaluator), input_1, None, Some (false)),
+			return port_input_string_read_extend (stdin_ref! (evaluator), input_1, None, Some (false)),
 		
 		PortPrimitive1::StringReadCollect =>
-			return port_input_string_read_collect (stdin! (evaluator), Some (input_1), Some (true)),
+			return port_input_string_read_collect (stdin_ref! (evaluator), Some (input_1), Some (true)),
 		
 		PortPrimitive1::StringReadChunk =>
 			return port_input_string_read_collect (input_1, None, Some (false)),
@@ -508,30 +527,30 @@ pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, input_1 : &Value, 
 			fail_unimplemented! (0xae3d8a9f), // deferred
 		
 		PortPrimitive1::ByteWrite =>
-			return port_output_byte_write (stdout! (evaluator), input_1) .into_0 (),
+			return port_output_byte_write (stdout_ref! (evaluator), input_1) .into_0 (),
 		
 		PortPrimitive1::BytesWrite =>
-			return port_output_bytes_write (stdout! (evaluator), input_1) .into_0 (),
+			return port_output_bytes_write (stdout_ref! (evaluator), input_1) .into_0 (),
 		
 		PortPrimitive1::CharacterWrite =>
-			return port_output_character_write (stdout! (evaluator), input_1) .into_0 (),
+			return port_output_character_write (stdout_ref! (evaluator), input_1) .into_0 (),
 		
 		PortPrimitive1::StringWrite =>
-			return port_output_string_write (stdout! (evaluator), input_1) .into_0 (),
+			return port_output_string_write (stdout_ref! (evaluator), input_1) .into_0 (),
 		
 		PortPrimitive1::ValueWrite =>
 			// TODO:  Add support for cyclic objects!
-			return port_output_value_write (stdout! (evaluator), input_1, None, None, None) .into_0 (),
+			return port_output_value_write (stdout_ref! (evaluator), input_1, None, None, None) .into_0 (),
 		
 		PortPrimitive1::ValueWriteShared =>
 			// TODO:  Add support for cyclic objects!
-			return port_output_value_write (stdout! (evaluator), input_1, None, None, None) .into_0 (),
+			return port_output_value_write (stdout_ref! (evaluator), input_1, None, None, None) .into_0 (),
 		
 		PortPrimitive1::ValueWriteSimple =>
-			return port_output_value_write (stdout! (evaluator), input_1, None, None, None) .into_0 (),
+			return port_output_value_write (stdout_ref! (evaluator), input_1, None, None, None) .into_0 (),
 		
 		PortPrimitive1::ValueDisplay =>
-			return port_output_value_display (stdout! (evaluator), input_1, None, None, Some (true)) .into_0 (),
+			return port_output_value_display (stdout_ref! (evaluator), input_1, None, None, Some (true)) .into_0 (),
 		
 		PortPrimitive1::NewLine =>
 			return port_output_newline (input_1, None, Some (true)) .into_0 (),
@@ -580,29 +599,29 @@ pub fn port_primitive_2_evaluate (primitive : PortPrimitive2, input_1 : &Value, 
 		
 		PortPrimitive2::WithOpenBinaryInputThenCallAndClose => {
 			let port = try! (port_primitive_1_evaluate (PortPrimitive1::OpenBinaryInput, input_1, evaluator));
-			let mut evaluator = evaluator.fork_environment ();
-			try! (try! (evaluator.environment_mut ()) .stdin_set (try_as_port_ref! (&port)));
+			let mut evaluator = evaluator.fork_parameters ();
+			try! (try! (evaluator.parameters ()) .configure_stdin (try_as_port_ref! (&port)));
 			return port_call_and_close_0 (&port, input_2, &mut evaluator);
 		},
 		
 		PortPrimitive2::WithOpenBinaryOutputThenCallAndClose => {
 			let port = try! (port_primitive_1_evaluate (PortPrimitive1::OpenBinaryOutput, input_1, evaluator));
-			let mut evaluator = evaluator.fork_environment ();
-			try! (try! (evaluator.environment_mut ()) .stdout_set (try_as_port_ref! (&port)));
+			let mut evaluator = evaluator.fork_parameters ();
+			try! (try! (evaluator.parameters ()) .configure_stdout (try_as_port_ref! (&port)));
 			return port_call_and_close_0 (&port, input_2, &mut evaluator);
 		},
 		
 		PortPrimitive2::WithOpenTextualInputThenCallAndClose => {
 			let port = try! (port_primitive_1_evaluate (PortPrimitive1::OpenTextualInput, input_1, evaluator));
-			let mut evaluator = evaluator.fork_environment ();
-			try! (try! (evaluator.environment_mut ()) .stdin_set (try_as_port_ref! (&port)));
+			let mut evaluator = evaluator.fork_parameters ();
+			try! (try! (evaluator.parameters ()) .configure_stdin (try_as_port_ref! (&port)));
 			return port_call_and_close_0 (&port, input_2, &mut evaluator);
 		},
 		
 		PortPrimitive2::WithOpenTextualOutputThenCallAndClose => {
 			let port = try! (port_primitive_1_evaluate (PortPrimitive1::OpenTextualOutput, input_1, evaluator));
-			let mut evaluator = evaluator.fork_environment ();
-			try! (try! (evaluator.environment_mut ()) .stdout_set (try_as_port_ref! (&port)));
+			let mut evaluator = evaluator.fork_parameters ();
+			try! (try! (evaluator.parameters ()) .configure_stdout (try_as_port_ref! (&port)));
 			return port_call_and_close_0 (&port, input_2, &mut evaluator);
 		},
 		

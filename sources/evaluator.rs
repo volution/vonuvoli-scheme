@@ -10,7 +10,6 @@ use super::extended_procedures::exports::*;
 use super::lambdas::exports::*;
 use super::native_procedures::exports::*;
 use super::parameters::exports::*;
-use super::ports::exports::*;
 use super::primitives::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
@@ -25,7 +24,6 @@ pub mod exports {
 	pub use super::evaluate_script;
 	pub use super::Evaluator;
 	pub use super::EvaluatorContext;
-	pub use super::EvaluatorEnvironment;
 }
 
 
@@ -34,8 +32,8 @@ pub mod exports {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn evaluate (context : &Context, expression : &Expression) -> (Outcome<Value>) {
 	let evaluator = Evaluator::new ();
-	let environment = try! (EvaluatorEnvironment::new_standard ());
-	let mut evaluation = evaluator.fork (Some (context.clone ()), None, Some (environment));
+	let parameters = try! (Parameters::new_standard ());
+	let mut evaluation = evaluator.fork (Some (context.clone ()), Some (parameters));
 	return evaluation.evaluate (expression);
 }
 
@@ -44,8 +42,8 @@ pub fn evaluate_script <Iterator, ExpressionRef> (context : &Context, expression
 		where Iterator : iter::Iterator<Item = ExpressionRef>, ExpressionRef : StdAsRef<Expression>
 {
 	let evaluator = Evaluator::new ();
-	let environment = try! (EvaluatorEnvironment::new_standard ());
-	let mut evaluation = evaluator.fork (Some (context.clone ()), None, Some (environment));
+	let parameters = try! (Parameters::new_standard ());
+	let mut evaluation = evaluator.fork (Some (context.clone ()), Some (parameters));
 	return evaluation.evaluate_script (expressions);
 }
 
@@ -67,13 +65,13 @@ impl Evaluator {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn fork (&self, context : Option<Context>, parameters : Option<Parameters>, environment : Option<EvaluatorEnvironment>) -> (EvaluatorContext) {
-		return EvaluatorContext::new (self, context, parameters, environment);
+	pub fn fork (&self, context : Option<Context>, parameters : Option<Parameters>) -> (EvaluatorContext) {
+		return EvaluatorContext::new (self, context, parameters);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn fork_0 (&self) -> (EvaluatorContext) {
-		return EvaluatorContext::new (self, None, None, None);
+		return EvaluatorContext::new (self, None, None);
 	}
 	
 	
@@ -1803,8 +1801,7 @@ pub struct EvaluatorContext <'a> {
 	evaluator : &'a Evaluator,
 	context : Option<Context>,
 	registers : Option<Registers>,
-	parameters : Parameters,
-	environment : StdRc<EvaluatorEnvironment>,
+	parameters : Option<Parameters>,
 }
 
 
@@ -1812,50 +1809,43 @@ impl <'a> EvaluatorContext<'a> {
 	
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn new (evaluator : &'a Evaluator, context : Option<Context>, parameters : Option<Parameters>, environment : Option<EvaluatorEnvironment>) -> (EvaluatorContext<'a>) {
-		let parameters = parameters.unwrap_or_else (|| Parameters::new (None));
-		let environment = environment.unwrap_or_else (|| EvaluatorEnvironment::new_empty ());
-		let environment = StdRc::new (environment);
+	fn new (evaluator : &'a Evaluator, context : Option<Context>, parameters : Option<Parameters>) -> (EvaluatorContext<'a>) {
 		return EvaluatorContext {
 				evaluator : evaluator,
 				context : context,
 				registers : None,
 				parameters : parameters,
-				environment : environment,
 			}
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn fork_with_registers (&self, registers : Registers) -> (EvaluatorContext<'a>) {
+	fn fork_with_registers (&mut self, registers : Registers) -> (EvaluatorContext<'a>) {
 		return EvaluatorContext {
 				evaluator : self.evaluator,
 				context : self.context.clone (),
 				registers : Some (registers),
 				parameters : self.parameters.clone (),
-				environment : StdRc::clone (&self.environment),
 			}
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn fork_parameters (&self) -> (EvaluatorContext<'a>) {
+	pub fn fork_with_parameters (&mut self, parameters : Parameters) -> (EvaluatorContext<'a>) {
 		return EvaluatorContext {
 				evaluator : self.evaluator,
 				context : self.context.clone (),
 				registers : self.registers.clone (),
-				parameters : self.parameters.fork (),
-				environment : StdRc::clone (&self.environment),
+				parameters : Some (parameters),
 			}
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn fork_environment (&self) -> (EvaluatorContext<'a>) {
-		return EvaluatorContext {
-				evaluator : self.evaluator,
-				context : self.context.clone (),
-				registers : self.registers.clone (),
-				parameters : self.parameters.clone (),
-				environment : StdRc::new (EvaluatorEnvironment::new_forked (StdRc::clone (&self.environment))),
-			}
+	pub fn fork_parameters (&mut self) -> (EvaluatorContext<'a>) {
+		let parameters = if let Some (ref parameters) = self.parameters {
+			parameters.clone ()
+		} else {
+			Parameters::new_empty ()
+		};
+		return self.fork_with_parameters (parameters);
 	}
 	
 	
@@ -1917,207 +1907,22 @@ impl <'a> EvaluatorContext<'a> {
 	
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn parameters (&mut self) -> (&Parameters) {
-		return &self.parameters;
+	pub fn parameters (&mut self) -> (Outcome<&Parameters>) {
+		succeed! (try_some_ref! (self.parameters, 0x5c1eb919));
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn parameter_resolve (&mut self, parameter : &Parameter, default : Option<&Value>) -> (Outcome<Value>) {
 		// NOTE:  The following `transmute` should be safe!
-		let parameters : &Parameters = unsafe { mem::transmute (&self.parameters) };
+		let parameters : &Parameters = unsafe { mem::transmute (try! (self.parameters ())) };
 		return parameters.resolve (parameter, default, self);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn parameter_configure (&mut self, parameter : &Parameter, value : &Value) -> (Outcome<()>) {
 		// NOTE:  The following `transmute` should be safe!
-		let parameters : &Parameters = unsafe { mem::transmute (&self.parameters) };
+		let parameters : &Parameters = unsafe { mem::transmute (try! (self.parameters ())) };
 		return parameters.configure (parameter, value, self);
-	}
-	
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn environment (&mut self) -> (&EvaluatorEnvironment) {
-		return &self.environment;
-	}
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn environment_mut (&mut self) -> (Outcome<&mut EvaluatorEnvironment>) {
-		if let Some (environment) = StdRc::get_mut (&mut self.environment) {
-			succeed! (environment);
-		} else {
-			fail! (0x1ddd0c3d);
-		}
-	}
-}
-
-
-
-
-#[ derive (Debug) ]
-pub struct EvaluatorEnvironment {
-	stdin : Option<Port>,
-	stdout : Option<Port>,
-	stderr : Option<Port>,
-	parent : Option<StdRc<EvaluatorEnvironment>>,
-}
-
-
-impl EvaluatorEnvironment {
-	
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new_empty () -> (EvaluatorEnvironment) {
-		let environment = EvaluatorEnvironment {
-				stdin : None,
-				stdout : None,
-				stderr : None,
-				parent : None,
-			};
-		return environment;
-	}
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new_standard () -> (Outcome<EvaluatorEnvironment>) {
-		let environment = EvaluatorEnvironment {
-				stdin : Some (try! (Port::new_stdin ())),
-				stdout : Some (try! (Port::new_stdout ())),
-				stderr : Some (try! (Port::new_stderr ())),
-				parent : None,
-			};
-		succeed! (environment);
-	}
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new_forked (parent : StdRc<EvaluatorEnvironment>) -> (EvaluatorEnvironment) {
-		let environment = EvaluatorEnvironment {
-				stdin : None,
-				stdout : None,
-				stderr : None,
-				parent : Some (parent),
-			};
-		return environment;
-	}
-	
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn stdin_option (&self) -> (Outcome<Option<&Port>>) {
-		let mut environment = self;
-		loop {
-			if let Some (ref port) = environment.stdin {
-				succeed! (Some (port));
-			} else if let Some (ref parent) = environment.parent {
-				environment = StdRc::as_ref (parent);
-			} else {
-				succeed! (None);
-			}
-		}
-	}
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn stdout_option (&self) -> (Outcome<Option<&Port>>) {
-		let mut environment = self;
-		loop {
-			if let Some (ref port) = environment.stdout {
-				succeed! (Some (port));
-			} else if let Some (ref parent) = environment.parent {
-				environment = StdRc::as_ref (parent);
-			} else {
-				succeed! (None);
-			}
-		}
-	}
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn stderr_option (&self) -> (Outcome<Option<&Port>>) {
-		let mut environment = self;
-		loop {
-			if let Some (ref port) = environment.stderr {
-				succeed! (Some (port));
-			} else if let Some (ref parent) = environment.parent {
-				environment = StdRc::as_ref (parent);
-			} else {
-				succeed! (None);
-			}
-		}
-	}
-	
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn stdin (&self) -> (Outcome<&Port>) {
-		succeed! (try_some_2! (self.stdin_option (), 0x158c7282));
-	}
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn stdout (&self) -> (Outcome<&Port>) {
-		succeed! (try_some_2! (self.stdout_option (), 0x8133bc6b));
-	}
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn stderr (&self) -> (Outcome<&Port>) {
-		succeed! (try_some_2! (self.stderr_option (), 0xb4037a1a));
-	}
-	
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn stdin_set (&mut self, port : &Port) -> (Outcome<()>) {
-		self.stdin = Some (port.clone ());
-		succeed! (());
-	}
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn stdout_set (&mut self, port : &Port) -> (Outcome<()>) {
-		self.stdout = Some (port.clone ());
-		succeed! (());
-	}
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn stderr_set (&mut self, port : &Port) -> (Outcome<()>) {
-		self.stderr = Some (port.clone ());
-		succeed! (());
-	}
-	
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn stdin_value (&self) -> (Outcome<Value>) {
-		succeed! (try! (self.stdin ()) .clone () .into ());
-	}
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn stdout_value (&self) -> (Outcome<Value>) {
-		succeed! (try! (self.stdout ()) .clone () .into ());
-	}
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn stderr_value (&self) -> (Outcome<Value>) {
-		succeed! (try! (self.stderr ()) .clone () .into ());
-	}
-	
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn stdin_value_or (&self, default : Option<&Value>) -> (Outcome<Value>) {
-		return self.port_value_or (try! (self.stdin_option ()), default);
-	}
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn stdout_value_or (&self, default : Option<&Value>) -> (Outcome<Value>) {
-		return self.port_value_or (try! (self.stdout_option ()), default);
-	}
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn stderr_value_or (&self, default : Option<&Value>) -> (Outcome<Value>) {
-		return self.port_value_or (try! (self.stderr_option ()), default);
-	}
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn port_value_or (&self, port : Option<&Port>, default : Option<&Value>) -> (Outcome<Value>) {
-		if let Some (port) = port {
-			succeed! (port.clone () .into ());
-		} else if let Some (default) = default {
-			succeed! (default.clone ());
-		} else {
-			succeed! (UNDEFINED_VALUE);
-		}
 	}
 }
 
