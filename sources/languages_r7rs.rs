@@ -648,7 +648,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("lazy", "promises", "delay", SyntaxPrimitive::Unimplemented.into ()),
 			("lazy", "promises", "delay-force", SyntaxPrimitive::Unimplemented.into ()),
 			
-			("lazy", "promises", "promise?", ProcedurePrimitive::Unimplemented.into ()),
+			("lazy", "promises", "promise?", TypePrimitiveV::IsPromise.into ()),
 			("lazy", "promises", "make-promise", ProcedurePrimitive::Unimplemented.into ()),
 			("lazy", "promises", "force", ProcedurePrimitive::Unimplemented.into ()),
 			
