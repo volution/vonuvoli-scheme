@@ -400,7 +400,7 @@ find ./tests/scheme -xdev -type f -name '*.sst' -printf '%f\n' \
 | sort -u \
 | while read _test ; do
 sed -r -e 's#@\{TEST\}#'"${_test}"'#g' -e 's#\{IDENTIFIER\}'#"${_test//-/_}"'#g' <<'EOS'
-taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__{IDENTIFIER}.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/@{TEST}.sst' "${@}"
+if test './tests/scheme/@{TEST}.sst' -nt './tests/_outputs/scheme--benchmark__{IDENTIFIER}.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__{IDENTIFIER}.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/@{TEST}.sst' "${@}" ; fi
 EOS
 done
 printf -- '%s\n' '!!'
