@@ -1,0 +1,68 @@
+
+
+(define p1 (make-parameter 0 #f #f)) => !ignore
+(define p2 (make-parameter #undefined #f #f)) => !ignore
+(define p3 (make-parameter #undefined #f #f)) => !ignore
+
+(~parameter? p1) => #t
+(~parameter? p2) => #t
+
+
+(~parameter-ref p1) => 0
+(~parameter-ref p2 'a) => 'a
+(~parameter-ref p3 'x) => 'x
+
+(~parameter-set! p1 1) => #void
+(~parameter-set! p2 'b) => #void
+
+
+(~parameter-ref p1) => 1
+(~parameter-ref p2) => 'b
+(~parameter-ref p3 'y) => 'y
+
+(~parameter-set! p1 2) => #void
+(~parameter-set! p2 'c) => #void
+
+(~parameter-ref p1) => 2
+(~parameter-ref p2) => 'c
+(~parameter-ref p3 'z) => 'z
+
+
+
+
+(parameterize ()
+	(values
+		(~parameter-ref p1)
+		(~parameter-set! p1 3)
+		(~parameter-ref p1)
+		(parameterize ()
+			(~parameter-set! p1 4)
+			(~parameter-ref p1))
+		(~parameter-ref p1)
+	))
+=> #values(2 #void 3 4 3)
+
+(~parameter-ref p1) => 2
+(~parameter-ref p2) => 'c
+(~parameter-ref p3 'z) => 'z
+
+
+
+
+(parameterize ((p1 3) (p3 #t))
+	(values
+		(p1)
+		(p3)
+		(parameterize ((p1 4))
+			(p1))
+		(parameterize ((p3 #f))
+			(p3))
+		(p1)
+		(p3)
+	))
+=> #values(3 #t 4 #f 3 #t)
+
+(~parameter-ref p1) => 2
+(~parameter-ref p2) => 'c
+(~parameter-ref p3 'z) => 'z
+

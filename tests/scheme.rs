@@ -33,6 +33,8 @@ def_scheme_tests_from_file! (
 		test__functions_bytes => "scheme/functions-bytes.sst",
 		test__functions_strings => "scheme/functions-strings.sst",
 		
+		test__parameters => "scheme/parameters.sst",
+		
 		test__comparisons_equivalent_objects => "scheme/comparisons-equivalent-objects.sst",
 		test__comparisons_equivalent_by_identity => "scheme/comparisons-equivalent-by-identity.sst",
 		test__comparisons_equivalent_by_value_strict => "scheme/comparisons-equivalent-by-value-strict.sst",
@@ -85,6 +87,8 @@ def_scheme_benchmarks_from_file! (
 		benchmark__functions_arrays => "scheme/functions-arrays.sst",
 		benchmark__functions_bytes => "scheme/functions-bytes.sst",
 		benchmark__functions_strings => "scheme/functions-strings.sst",
+		
+		// benchmark__parameters => "scheme/parameters.sst",
 		
 		benchmark__comparisons_equivalent_objects => "scheme/comparisons-equivalent-objects.sst",
 		benchmark__comparisons_equivalent_by_identity => "scheme/comparisons-equivalent-by-identity.sst",
