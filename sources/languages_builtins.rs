@@ -231,6 +231,11 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("read-string-append!", PortPrimitiveV::StringReadExtend.into ()),
 			
 			
+			("parameter?", TypePrimitiveV::IsParameter.into ()),
+			("parameter-ref", RuntimePrimitiveV::ParameterResolve.into ()),
+			("parameter-set!", RuntimePrimitiveV::ParameterConfigure.into ()),
+			
+			
 			("process-spawn", RuntimePrimitiveN::ProcessSpawn.into ()),
 			("process-spawn*", RuntimePrimitiveV::ProcessSpawnExtended.into ()),
 			("process-wait-poll", RuntimePrimitive1::ProcessWaitPoll.into ()),
