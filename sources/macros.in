@@ -707,15 +707,13 @@ macro_rules! try_option_map {
 }
 
 
-
-
 macro_rules! option_ref_map {
 	( $option : ident, $expression : expr ) => (
 		option_ref_map! ($option, $option, $expression)
 	);
-	( $option : expr, $value : pat, $expression : expr ) => (
-		match $option.as_ref () {
-			Some ($value) =>
+	( $option : expr, $value : ident, $expression : expr ) => (
+		match $option {
+			Some (ref $value) =>
 				Some ($expression),
 			None =>
 				None,
@@ -727,10 +725,70 @@ macro_rules! try_option_ref_map {
 	( $option : ident, $expression : expr ) => (
 		try_option_ref_map! ($option, $option, $expression)
 	);
-	( $option : expr, $value : pat, $expression : expr ) => (
-		match $option.as_ref () {
-			Some ($value) =>
+	( $option : expr, $value : ident, $expression : expr ) => (
+		match $option {
+			Some (ref $value) =>
 				Some (try! ($expression)),
+			None =>
+				None,
+		}
+	);
+}
+
+
+
+
+macro_rules! option_and_then {
+	( $option : ident, $expression : expr ) => (
+		option_and_then! ($option, $option, $expression)
+	);
+	( $option : expr, $value : pat, $expression : expr ) => (
+		match $option {
+			Some ($value) =>
+				$expression,
+			None =>
+				None,
+		}
+	);
+}
+
+macro_rules! try_option_and_then {
+	( $option : ident, $expression : expr ) => (
+		try_option_and_then! ($option, $option, $expression)
+	);
+	( $option : expr, $value : pat, $expression : expr ) => (
+		match $option {
+			Some ($value) =>
+				try! ($expression),
+			None =>
+				None,
+		}
+	);
+}
+
+
+macro_rules! option_ref_and_then {
+	( $option : ident, $expression : expr ) => (
+		option_ref_and_then! ($option, $option, $expression)
+	);
+	( $option : expr, $value : ident, $expression : expr ) => (
+		match $option {
+			Some (ref $value) =>
+				$expression,
+			None =>
+				None,
+		}
+	);
+}
+
+macro_rules! try_option_ref_and_then {
+	( $option : ident, $expression : expr ) => (
+		try_option_ref_and_then! ($option, $option, $expression)
+	);
+	( $option : expr, $value : ident, $expression : expr ) => (
+		match $option {
+			Some (ref $value) =>
+				try! ($expression),
 			None =>
 				None,
 		}
