@@ -38,6 +38,8 @@ fn main_0 () -> (Outcome<()>) {
 	try! (context.define_all (try! (language_r7rs_generate_binding_templates ()) .as_ref ()));
 	try! (context.define_all (try! (language_builtins_generate_binding_templates ()) .as_ref ()));
 	
+	let parameters = try! (Parameters::new_standard ());
+	
 	let mut source = StdString::new ();
 	match
 		if let Some (source_path) = source_path {
@@ -83,7 +85,7 @@ fn main_0 () -> (Outcome<()>) {
 		},
 	};
 	
-	match evaluate_script (&context, expressions.into_iter ()) {
+	match evaluate_script (expressions.into_iter (), Some (&context), Some (&parameters)) {
 		Ok (()) =>
 			return Ok (()),
 		Err (error) =>

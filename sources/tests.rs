@@ -63,8 +63,10 @@ pub enum TestVerbosity {
 pub struct TestCaseCompiled {
 	expression_without_optimizations : Expression,
 	expression_with_optimizations : Expression,
-	context_without_optimizations : Context,
-	context_with_optimizations : Context,
+	context_without_optimizations : Option<Context>,
+	context_with_optimizations : Option<Context>,
+	parameters_without_optimizations : Option<Parameters>,
+	parameters_with_optimizations : Option<Parameters>,
 	action : TestAction,
 	verbosity_without_optimizations : TestVerbosity,
 	verbosity_with_optimizations : TestVerbosity,
@@ -96,13 +98,16 @@ pub fn compile_tests (identifier : &str, tests : &StdVec<TestCase>, context_temp
 	};
 	let (context_without_optimizations, context_with_optimizations) = (context_template.fork (), context_template.fork ());
 	
+	let parameters_without_optimization = Parameters::new_empty ();
+	let parameters_with_optimization = Parameters::new_empty ();
+	
 	let tests = vec_filter_into! (tests.clone (), test,
 		match test.action {
 			TestAction::Skip => false,
 			_ => true
 		});
 	
-	let tests = try_vec_map_into! (tests, test, compile_test (&context_without_optimizations, &context_with_optimizations, &test, transcript, verbosity));
+	let tests = try_vec_map_into! (tests, test, compile_test (&test, &context_without_optimizations, &context_with_optimizations, &parameters_without_optimization, &parameters_with_optimization, transcript, verbosity));
 	
 	succeed! (tests);
 }
@@ -317,7 +322,7 @@ fn benchmark_bencher_report (header : Option<&str>, prefix : &str, summary : &te
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ allow (unused_assignments) ]
-pub fn compile_test (context_without_optimizations : &Context, context_with_optimizations : &Context, test : &TestCase, transcript : &mut io::Write, verbosity_global : TestVerbosity) -> (Outcome<TestCaseCompiled>) {
+pub fn compile_test (test : &TestCase, context_without_optimizations : &Context, context_with_optimizations : &Context, parameters_without_optimizations : &Parameters, parameters_with_optimizations : &Parameters, transcript : &mut io::Write, verbosity_global : TestVerbosity) -> (Outcome<TestCaseCompiled>) {
 	// TODO:  Why does the compiler think we are not using `header_emitted`?
 	
 	
@@ -418,8 +423,10 @@ pub fn compile_test (context_without_optimizations : &Context, context_with_opti
 	let test = TestCaseCompiled {
 			expression_without_optimizations,
 			expression_with_optimizations,
-			context_without_optimizations : context_without_optimizations.clone (),
-			context_with_optimizations : context_with_optimizations.clone (),
+			context_without_optimizations : Some (context_without_optimizations.clone ()),
+			context_with_optimizations : Some (context_with_optimizations.clone ()),
+			parameters_without_optimizations : Some (parameters_without_optimizations.clone ()),
+			parameters_with_optimizations : Some (parameters_with_optimizations.clone ()),
 			action : test.action.clone (),
 			verbosity_without_optimizations,
 			verbosity_with_optimizations,
@@ -460,7 +467,7 @@ pub fn execute_test (test : &TestCaseCompiled, transcript : &mut io::Write, verb
 			(),
 	}
 	
-	let output_value_without_optimizations = match evaluate (&test.context_without_optimizations, &test.expression_without_optimizations) {
+	let output_value_without_optimizations = match evaluate (&test.expression_without_optimizations, test.context_without_optimizations.as_ref (), test.parameters_without_optimizations.as_ref ()) {
 		Ok (output_value) =>
 			output_value,
 		Err (error) => {
@@ -489,7 +496,7 @@ pub fn execute_test (test : &TestCaseCompiled, transcript : &mut io::Write, verb
 			(),
 	}
 	
-	let output_value_with_optimizations = match evaluate (&test.context_with_optimizations, &test.expression_with_optimizations) {
+	let output_value_with_optimizations = match evaluate (&test.expression_with_optimizations, test.context_with_optimizations.as_ref (), test.parameters_with_optimizations.as_ref ()) {
 		Ok (output_value) =>
 			output_value,
 		Err (error) => {
@@ -512,8 +519,9 @@ pub fn execute_test (test : &TestCaseCompiled, transcript : &mut io::Write, verb
 	let expected_value_without_optimizations = match test.action {
 		TestAction::Expect (ref expected_expression) => {
 			// TODO:  Add error reporting for these!
-			let expected_expression = try! (compile (&test.context_without_optimizations, expected_expression));
-			let expected_value = try! (evaluate (&test.context_without_optimizations, &expected_expression));
+			let context = try_some_ref! (test.context_without_optimizations, 0xa65fb508);
+			let expected_expression = try! (compile (context, expected_expression));
+			let expected_value = try! (evaluate (&expected_expression, test.context_without_optimizations.as_ref (), test.parameters_without_optimizations.as_ref ()));
 			Some (expected_value)
 		},
 		_ =>
@@ -535,8 +543,9 @@ pub fn execute_test (test : &TestCaseCompiled, transcript : &mut io::Write, verb
 	let expected_value_with_optimizations = match test.action {
 		TestAction::Expect (ref expected_expression) => {
 			// TODO:  Add error reporting for these!
-			let expected_expression = try! (compile (&test.context_with_optimizations, expected_expression));
-			let expected_value = try! (evaluate (&test.context_with_optimizations, &expected_expression));
+			let context = try_some_ref! (test.context_with_optimizations, 0x0042a4ed);
+			let expected_expression = try! (compile (context, expected_expression));
+			let expected_value = try! (evaluate (&expected_expression, test.context_with_optimizations.as_ref (), test.parameters_with_optimizations.as_ref ()));
 			Some (expected_value)
 		},
 		_ =>
@@ -629,7 +638,7 @@ pub fn execute_test (test : &TestCaseCompiled, transcript : &mut io::Write, verb
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub(crate) fn benchmark_test_without_optimizations (test : &TestCaseCompiled) -> (Outcome<()>) {
 	
-	try! (evaluate (&test.context_without_optimizations, &test.expression_without_optimizations));
+	try! (evaluate (&test.expression_without_optimizations, test.context_without_optimizations.as_ref (), test.parameters_without_optimizations.as_ref ()));
 	
 	succeed! (());
 }
@@ -637,7 +646,7 @@ pub(crate) fn benchmark_test_without_optimizations (test : &TestCaseCompiled) ->
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub(crate) fn benchmark_test_with_optimizations (test : &TestCaseCompiled) -> (Outcome<()>) {
 	
-	try! (evaluate (&test.context_with_optimizations, &test.expression_with_optimizations));
+	try! (evaluate (&test.expression_with_optimizations, test.context_with_optimizations.as_ref (), test.parameters_with_optimizations.as_ref ()));
 	
 	succeed! (());
 }

@@ -30,20 +30,22 @@ pub mod exports {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn evaluate (context : &Context, expression : &Expression) -> (Outcome<Value>) {
+pub fn evaluate (expression : &Expression, context : Option<&Context>, parameters : Option<&Parameters>) -> (Outcome<Value>) {
 	let evaluator = Evaluator::new ();
-	let parameters = try! (Parameters::new_standard ());
-	let mut evaluation = evaluator.fork (Some (context.clone ()), Some (parameters));
+	let context = option_map! (context, context.clone ());
+	let parameters = option_map! (parameters, parameters.clone ());
+	let mut evaluation = evaluator.fork (context, parameters);
 	return evaluation.evaluate (expression);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn evaluate_script <Iterator, ExpressionRef> (context : &Context, expressions : Iterator) -> (Outcome<()>)
+pub fn evaluate_script <Iterator, ExpressionRef> (expressions : Iterator, context : Option<&Context>, parameters : Option<&Parameters>) -> (Outcome<()>)
 		where Iterator : iter::Iterator<Item = ExpressionRef>, ExpressionRef : StdAsRef<Expression>
 {
 	let evaluator = Evaluator::new ();
-	let parameters = try! (Parameters::new_standard ());
-	let mut evaluation = evaluator.fork (Some (context.clone ()), Some (parameters));
+	let context = option_map! (context, context.clone ());
+	let parameters = option_map! (parameters, parameters.clone ());
+	let mut evaluation = evaluator.fork (context, parameters);
 	return evaluation.evaluate_script (expressions);
 }
 
