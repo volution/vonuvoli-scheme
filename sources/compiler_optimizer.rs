@@ -189,6 +189,9 @@ impl Optimizer {
 			ExpressionForContexts::RegisterGet1 (index) =>
 				return self.optimize_register_get_1 (optimization, index),
 			
+			ExpressionForContexts::ParameterClosure (expression) =>
+				return self.optimize_parameter_closure (optimization, *expression),
+			
 		}
 	}
 	
@@ -858,6 +861,15 @@ impl Optimizer {
 	
 	fn optimize_register_get_1 (&self, optimization : OptimizerContext, index : usize) -> (Outcome<(OptimizerContext, Expression)>) {
 		let expression = ExpressionForContexts::RegisterGet1 (index) .into ();
+		succeed! ((optimization, expression));
+	}
+	
+	
+	
+	
+	fn optimize_parameter_closure (&self, optimization : OptimizerContext, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
+		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
+		let expression = ExpressionForContexts::ParameterClosure (expression.into ()) .into ();
 		succeed! ((optimization, expression));
 	}
 	
@@ -2020,6 +2032,9 @@ impl Optimizer {
 					ExpressionForContexts::RegisterGet1 (_) =>
 						false,
 					
+					ExpressionForContexts::ParameterClosure (_) =>
+						false,
+					
 				},
 			
 			Expression::ProcedureGenericCall (ref expression) =>
@@ -2323,6 +2338,9 @@ impl Optimizer {
 					ExpressionForContexts::RegisterGet1 (_) =>
 						None,
 					
+					ExpressionForContexts::ParameterClosure (_) =>
+						None,
+					
 				},
 			
 			Expression::ProcedureGenericCall (ref expression) =>
@@ -2511,6 +2529,9 @@ impl Optimizer {
 					ExpressionForContexts::RegisterSetValues (_, _) =>
 						None,
 					ExpressionForContexts::RegisterGet1 (_) =>
+						None,
+					
+					ExpressionForContexts::ParameterClosure (_) =>
 						None,
 					
 				},

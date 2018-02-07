@@ -197,6 +197,9 @@ impl Evaluator {
 			ExpressionForContexts::RegisterGet1 (index) =>
 				self.evaluate_register_get_1 (evaluation, index),
 			
+			ExpressionForContexts::ParameterClosure (ref expression) =>
+				self.evaluate_parameter_closure (evaluation, expression),
+			
 		}
 	}
 	
@@ -858,6 +861,15 @@ impl Evaluator {
 		let registers = try_some_ref! (evaluation.registers, 0x153a6512);
 		let value = try! (registers.resolve_value (index));
 		return Ok (value);
+	}
+	
+	
+	
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn evaluate_parameter_closure (&self, evaluation : &mut EvaluatorContext, expression : &Expression) -> (Outcome<Value>) {
+		let mut evaluation = evaluation.fork_parameters ();
+		return self.evaluate (&mut evaluation, expression);
 	}
 	
 	

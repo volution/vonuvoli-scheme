@@ -156,6 +156,8 @@ pub enum ExpressionForContexts {
 	RegisterSetValues ( StdBox<[usize]>, ExpressionBox ),
 	RegisterGet1 ( usize ),
 	
+	ParameterClosure ( ExpressionBox ),
+	
 }
 
 

@@ -1106,8 +1106,47 @@ impl Compiler {
 	
 	
 	
-	fn compile_syntax_let_parameters (&self, _compilation : CompilerContext, _tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
-		fail_unimplemented! (0x45922aaa);
+	fn compile_syntax_let_parameters (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+		
+		if tokens.len () < 2 {
+			fail! (0xf101e358);
+		}
+		let (definitions, statements) = try! (vec_explode_1n (tokens));
+		
+		let definitions = match definitions.kind_match_into () {
+			ValueKindMatchInto::Null =>
+				StdVec::new (),
+			ValueKindMatchInto::PairImmutable (pair) =>
+				try! (vec_list_clone (&pair.into ())),
+			ValueKindMatchInto::PairMutable (pair) =>
+				try! (vec_list_clone (&pair.into ())),
+			_ =>
+				fail! (0xb3f3b18a),
+		};
+		
+		let mut compilation = compilation;
+		let mut initializers = StdVec::with_capacity (definitions.len ());
+		for definition in definitions.into_iter () {
+			let definition = try! (vec_list_clone (&definition));
+			if definition.len () != 2 {
+				fail! (0xc077e4a3);
+			}
+			let (parameter, initializer) = try! (vec_explode_2 (definition));
+			let (compilation_1, parameter) = try! (self.compile_0 (compilation, parameter));
+			let (compilation_1, initializer) = try! (self.compile_0 (compilation_1, initializer));
+			compilation = compilation_1;
+			let initializer = ExpressionForProcedureGenericCall::ProcedureCall (RuntimePrimitiveV::ParameterConfigure.into (), StdBox::new ([parameter, initializer]));
+			initializers.push (initializer.into ());
+		}
+		
+		let (compilation, statements) = try! (self.compile_0_vec (compilation, statements));
+		
+		let statements = vec_append_2 (initializers, statements);
+		
+		let statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, statements.into_boxed_slice ());
+		let expression = ExpressionForContexts::ParameterClosure (statements.into ()) .into ();
+		
+		succeed! ((compilation, expression));
 	}
 	
 	
