@@ -577,6 +577,7 @@
 	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports.out' x-run ':: execute / bin / bencher / release' './tests/scheme/ports.sst' "${@}"
 	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports_memory.out' x-run ':: execute / bin / bencher / release' './tests/scheme/ports-memory.sst' "${@}"
 	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports_native.out' x-run ':: execute / bin / bencher / release' './tests/scheme/ports-native.sst' "${@}"
+	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports_parameters.out' x-run ':: execute / bin / bencher / release' './tests/scheme/ports-parameters.sst' "${@}"
 	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__processes.out' x-run ':: execute / bin / bencher / release' './tests/scheme/processes.sst' "${@}"
 	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__quotation.out' x-run ':: execute / bin / bencher / release' './tests/scheme/quotation.sst' "${@}"
 	taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__records_procedures.out' x-run ':: execute / bin / bencher / release' './tests/scheme/records-procedures.sst' "${@}"
@@ -818,6 +819,14 @@
 
 << execute / bin / bencher / ports-native / release
 	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports_native.out' x-run ':: execute / bin / bencher / release' './tests/scheme/ports-native.sst' "${@}"
+!!
+
+<< execute / bin / bencher / ports-parameters / debug
+	exec -- taskset -c 2 x-run ':: execute / bin / bencher / debug' './tests/scheme/ports-parameters.sst' "${@}"
+!!
+
+<< execute / bin / bencher / ports-parameters / release
+	exec -- taskset -c 2 env  VOLUTINO_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports_parameters.out' x-run ':: execute / bin / bencher / release' './tests/scheme/ports-parameters.sst' "${@}"
 !!
 
 << execute / bin / bencher / processes / debug
@@ -1098,6 +1107,7 @@
 	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/ports.sst' "${@}"
 	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/ports-memory.sst' "${@}"
 	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/ports-native.sst' "${@}"
+	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/ports-parameters.sst' "${@}"
 	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/processes.sst' "${@}"
 	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/quotation.sst' "${@}"
 	nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/records-procedures.sst' "${@}"
@@ -1451,6 +1461,18 @@
 
 << execute / bin / tester / ports-native / release
 	exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/ports-native.sst' "${@}"
+!!
+
+<< execute / bin / tester / ports-parameters / debug
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/ports-parameters.sst' "${@}"
+!!
+
+<< execute / bin / tester / ports-parameters / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / bin / tester / ports-parameters / debug'
+!!
+
+<< execute / bin / tester / ports-parameters / release
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/ports-parameters.sst' "${@}"
 !!
 
 << execute / bin / tester / processes / debug
@@ -2052,6 +2074,14 @@
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__ports_native' --exact "${@}"
 !!
 
+<< execute / test / scheme / benchmarks / ports_parameters / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__ports_parameters' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / ports_parameters / release
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__ports_parameters' --exact "${@}"
+!!
+
 << execute / test / scheme / benchmarks / processes / debug
 	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__processes' --exact "${@}"
 !!
@@ -2478,6 +2508,18 @@
 
 << execute / test / scheme / tests / ports_native / release
 	x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__ports_native' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / ports_parameters / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__ports_parameters' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / ports_parameters / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / ports_parameters / debug' "${@}"
+!!
+
+<< execute / test / scheme / tests / ports_parameters / release
+	x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --all-features --jobs 1 -- --nocapture --test-threads 1 --test 'test__ports_parameters' --exact "${@}"
 !!
 
 << execute / test / scheme / tests / processes / debug
@@ -3078,6 +3120,10 @@
 	exec -- sce ./tests/scheme/ports-native.sst
 !!
 
+<< files / edit / tests/scheme/ports-parameters.sst
+	exec -- sce ./tests/scheme/ports-parameters.sst
+!!
+
 << files / edit / tests/scheme/ports.sst
 	exec -- sce ./tests/scheme/ports.sst
 !!
@@ -3668,6 +3714,10 @@
 
 << files / view / tests/scheme/ports-native.sst
 	exec -- less -- ./tests/scheme/ports-native.sst
+!!
+
+<< files / view / tests/scheme/ports-parameters.sst
+	exec -- less -- ./tests/scheme/ports-parameters.sst
 !!
 
 << files / view / tests/scheme/ports.sst

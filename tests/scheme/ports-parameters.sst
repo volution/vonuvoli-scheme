@@ -1,0 +1,70 @@
+
+
+(define tmp-file-path-1 (string-append "/tmp/vonuvoli-scheme--tests--ports-native--1--" (number->string (current-jiffy)) ".txt")) => !ignore
+(define tmp-file-path-2 (string-append "/tmp/vonuvoli-scheme--tests--ports-native--2--" (number->string (current-jiffy)) ".txt")) => !ignore
+
+(file-exists? tmp-file-path-1) => #f
+(file-exists? tmp-file-path-2) => #f
+
+
+
+
+(call-with-output-file tmp-file-path-1
+	(lambda (port)
+		(values
+			(write-char #\a port)
+			(write-u8 98 port)
+			(write-string "c" port)
+			(write-bytevector #u8(100) port)
+		)))
+=> #values(#void #void #void #void)
+
+
+(call-with-input-file tmp-file-path-1
+	(lambda (port)
+		(values
+			(read-char port)
+			(read-u8 port)
+			(read-string 1 port)
+			(read-bytevector 1 port)
+			(eof-object? (read-u8 port))
+		)))
+=> #values(#\a 98 "c" #u8(100) #t)
+
+
+
+
+(with-output-to-file tmp-file-path-2
+	(lambda ()
+		(values
+			(write-char #\a)
+			(write-u8 98)
+			(write-string "c")
+			(write-bytevector #u8(100))
+		)))
+=> #values(#void #void #void #void)
+
+
+(with-input-from-file tmp-file-path-2
+	(lambda ()
+		(values
+			(read-char)
+			(read-u8)
+			(read-string 1)
+			(read-bytevector 1)
+			(eof-object? (read-u8))
+		)))
+=> #values(#\a 98 "c" #u8(100) #t)
+
+
+
+
+(file-exists? tmp-file-path-1) => #t
+(file-exists? tmp-file-path-2) => #t
+
+(delete-file tmp-file-path-1) => #void
+(delete-file tmp-file-path-2) => #void
+
+(file-exists? tmp-file-path-1) => #f
+(file-exists? tmp-file-path-2) => #f
+
