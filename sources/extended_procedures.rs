@@ -90,18 +90,8 @@ pub fn procedure_extended_evaluate_0 (extended : &ProcedureExtended, _evaluator 
 pub fn procedure_extended_evaluate_1 (extended : &ProcedureExtended, input_1 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match *extended.internals_ref () {
 		
-		ProcedureExtendedInternals::ComposedPrimitive1 (ref primitives) => {
-			// FIXME:  Extract this!
-			let primitives = primitives.as_ref ();
-			if primitives.is_empty () {
-				fail! (0x3ba06e9c);
-			}
-			let mut value = input_1.clone ();
-			for primitive in primitives.iter () .rev () {
-				value = try! (procedure_primitive_1_evaluate (*primitive, &value, evaluator));
-			}
-			succeed! (value);
-		}
+		ProcedureExtendedInternals::ComposedPrimitive1 (ref primitives) =>
+			return call_primitives_1 (evaluator, primitives.as_ref (), input_1),
 		
 		ProcedureExtendedInternals::RecordKindIs (ref kind, immutable) =>
 			return record_kind_is (kind, input_1, immutable) .into_0 (),
@@ -199,9 +189,8 @@ pub fn procedure_extended_evaluate_n (extended : &ProcedureExtended, inputs : &[
 	let inputs_count = inputs.len ();
 	match (inputs_count, extended.internals_ref ()) {
 		
-		(1, &ProcedureExtendedInternals::ComposedPrimitive1 (_)) =>
-			// FIXME:  Extract this!
-			return procedure_extended_evaluate_1 (extended, inputs[0], evaluator),
+		(1, &ProcedureExtendedInternals::ComposedPrimitive1 (ref primitives)) =>
+			return call_primitives_1 (evaluator, primitives.as_ref (), inputs[0]),
 		
 		(1, &ProcedureExtendedInternals::RecordKindIs (ref kind, immutable)) =>
 			return record_kind_is (kind, inputs[0], immutable) .into_0 (),

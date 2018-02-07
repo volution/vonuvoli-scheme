@@ -4,6 +4,7 @@ use super::builtins::exports::*;
 use super::constants::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
+use super::primitives::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
 
@@ -16,6 +17,7 @@ pub mod exports {
 	
 	pub use super::{call_with_values, call_with_values_builder};
 	pub use super::{call_0, call_1, call_2, call_3, call_4, call_n};
+	pub use super::{call_primitives_1};
 	pub use super::{apply_0, apply_1, apply_2, apply_3, apply_4, apply_n};
 	
 	pub use super::{lists_map_1, lists_map_2, lists_map_3, lists_map_4, lists_map_n};
@@ -82,6 +84,18 @@ pub fn call_4 (evaluator : &mut EvaluatorContext, callable : &Value, input_1 : &
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn call_n (evaluator : &mut EvaluatorContext, callable : &Value, inputs : &[&Value]) -> (Outcome<Value>) {
 	return evaluator.evaluate_procedure_call_n (callable, inputs);
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn call_primitives_1 (evaluator : &mut EvaluatorContext, primitives : &[ProcedurePrimitive1], input_1 : &Value) -> (Outcome<Value>) {
+	let mut value = input_1.clone ();
+	for primitive in primitives.iter () .rev () {
+		value = try! (procedure_primitive_1_evaluate (*primitive, &value, evaluator));
+	}
+	succeed! (value);
 }
 
 

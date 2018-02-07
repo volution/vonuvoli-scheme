@@ -1925,18 +1925,18 @@ impl Compiler {
 				succeed! ((compilation, splice (class.value (), spliceable))),
 			
 			ValueClassMatchInto::Array (class) =>
-				// FIXME:  Add support for quasi-quotation in arrays!
+				// FIXME:  Add support for quasi-quotation!
 				succeed! ((compilation, splice (class.value (), spliceable))),
 			
 			ValueClassMatchInto::Values (value) =>
-				// FIXME:  Add support for quasi-quotation in values!
+				// FIXME:  Add support for quasi-quotation!
 				succeed! ((compilation, splice (value, spliceable))),
 			
 			ValueClassMatchInto::RecordKind (value) =>
 				succeed! ((compilation, splice (value, spliceable))),
 			
 			ValueClassMatchInto::Record (class) =>
-				// FIXME:  Add support for quasi-quotation in arrays!
+				// FIXME:  Add support for quasi-quotation!
 				succeed! ((compilation, splice (class.value (), spliceable))),
 			
 			ValueClassMatchInto::Error (value) =>

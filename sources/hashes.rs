@@ -2,7 +2,6 @@
 
 use super::constants::exports::*;
 use super::contexts::exports::*;
-use super::expressions::exports::*;
 use super::lambdas::exports::*;
 use super::values::exports::*;
 
@@ -318,18 +317,6 @@ impl hash::Hash for Parameter {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		self.handle () .hash (hasher);
-	}
-}
-
-
-
-
-impl hash::Hash for ExpressionForProcedureNativeCall {
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		// FIXME:  Implement this!
-		hasher.write_u32 (0);
 	}
 }
 
