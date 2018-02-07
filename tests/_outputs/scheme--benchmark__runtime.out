@@ -2,14 +2,14 @@
 ## benchmarking `./tests/scheme/runtime.sst`...
 ## benchmarked `./tests/scheme/runtime.sst`!
      without optimizations:
-       average   :       1716
-         stdev   :         18 /   1.08%
-         median  :       1711 /   1.03%
-       min / max :       1695 / 1704 / 1711 / 1725 / 1762
+       average   :       1522
+         stdev   :          5 /   0.33%
+         median  :       1520 /   0.35%
+       min / max :       1511 / 1519 / 1520 / 1527 / 1529
        mem-leaks :          0 KB
      with optimizations:
-       average   :        688 / +59.94% / 2.50*
-         stdev   :          6 /   0.84%
-         median  :        686 /   0.57%
-       min / max :        680 / 684 / 686 / 689 / 704
+       average   :        657 / +56.85% / 2.32*
+         stdev   :          7 /   1.12%
+         median  :        653 /   0.99%
+       min / max :        649 / 649 / 653 / 664 / 668
        mem-leaks :          0 KB

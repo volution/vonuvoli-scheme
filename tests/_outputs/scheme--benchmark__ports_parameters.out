@@ -1,0 +1,15 @@
+## compiling `./tests/scheme/ports-parameters.sst`...
+## benchmarking `./tests/scheme/ports-parameters.sst`...
+## benchmarked `./tests/scheme/ports-parameters.sst`!
+     without optimizations:
+       average   :      46677
+         stdev   :        196 /   0.42%
+         median  :      46658 /   0.44%
+       min / max :      46362 / 46557 / 46658 / 46806 / 47043
+       mem-leaks :          0 KB
+     with optimizations:
+       average   :      41567 / +10.95% / 1.12*
+         stdev   :        177 /   0.43%
+         median  :      41561 /   0.51%
+       min / max :      41275 / 41431 / 41561 / 41711 / 41847
+       mem-leaks :          0 KB

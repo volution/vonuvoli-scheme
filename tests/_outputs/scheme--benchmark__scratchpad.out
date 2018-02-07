@@ -2,14 +2,14 @@
 ## benchmarking `./tests/scheme/scratchpad.sst`...
 ## benchmarked `./tests/scheme/scratchpad.sst`!
      without optimizations:
-       average   :          2
-         stdev   :          0 /   0.62%
-         median  :          2 /   0.65%
-       min / max :          2 / 2 / 2 / 2 / 2
+       average   :         58
+         stdev   :          0 /   0.49%
+         median  :         58 /   0.65%
+       min / max :         57 / 58 / 58 / 58 / 58
        mem-leaks :          0 KB
      with optimizations:
-       average   :          2 / -1.23% / 0.99*
-         stdev   :          0 /   1.77%
-         median  :          2 /   1.32%
-       min / max :          2 / 2 / 2 / 2 / 2
+       average   :         57 / +0.74% / 1.01*
+         stdev   :          0 /   0.32%
+         median  :         57 /   0.03%
+       min / max :         57 / 57 / 57 / 57 / 58
        mem-leaks :          0 KB

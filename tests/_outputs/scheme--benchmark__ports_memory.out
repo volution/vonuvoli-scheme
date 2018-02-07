@@ -2,14 +2,14 @@
 ## benchmarking `./tests/scheme/ports-memory.sst`...
 ## benchmarked `./tests/scheme/ports-memory.sst`!
      without optimizations:
-       average   :      27435
-         stdev   :        238 /   0.87%
-         median  :      27353 /   0.68%
-       min / max :      27154 / 27271 / 27353 / 27589 / 27918
+       average   :      27831
+         stdev   :         77 /   0.28%
+         median  :      27834 /   0.23%
+       min / max :      27712 / 27769 / 27834 / 27871 / 27974
        mem-leaks :          0 KB
      with optimizations:
-       average   :      15213 / +44.55% / 1.80*
-         stdev   :        194 /   1.27%
-         median  :      15133 /   0.89%
-       min / max :      15018 / 15070 / 15133 / 15307 / 15685
+       average   :      15245 / +45.22% / 1.83*
+         stdev   :         55 /   0.36%
+         median  :      15215 /   0.31%
+       min / max :      15184 / 15201 / 15215 / 15307 / 15333
        mem-leaks :          0 KB

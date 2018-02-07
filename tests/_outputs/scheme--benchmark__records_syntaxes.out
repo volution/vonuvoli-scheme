@@ -1,0 +1,15 @@
+## compiling `./tests/scheme/records-syntaxes.sst`...
+## benchmarking `./tests/scheme/records-syntaxes.sst`...
+## benchmarked `./tests/scheme/records-syntaxes.sst`!
+     without optimizations:
+       average   :      42627
+         stdev   :        131 /   0.31%
+         median  :      42584 /   0.29%
+       min / max :      42474 / 42522 / 42584 / 42697 / 42899
+       mem-leaks :          0 KB
+     with optimizations:
+       average   :      25372 / +40.48% / 1.68*
+         stdev   :        102 /   0.40%
+         median  :      25315 /   0.24%
+       min / max :      25274 / 25285 / 25315 / 25452 / 25580
+       mem-leaks :          0 KB

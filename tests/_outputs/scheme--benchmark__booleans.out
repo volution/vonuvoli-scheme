@@ -2,14 +2,14 @@
 ## benchmarking `./tests/scheme/booleans.sst`...
 ## benchmarked `./tests/scheme/booleans.sst`!
      without optimizations:
-       average   :      29732
-         stdev   :        179 /   0.60%
-         median  :      29695 /   0.52%
-       min / max :      29472 / 29601 / 29695 / 29816 / 30083
+       average   :      23371
+         stdev   :         76 /   0.32%
+         median  :      23323 /   0.14%
+       min / max :      23299 / 23309 / 23323 / 23468 / 23495
        mem-leaks :          0 KB
      with optimizations:
-       average   :       9514 / +68.00% / 3.13*
-         stdev   :         84 /   0.88%
-         median  :       9480 /   0.70%
-       min / max :       9420 / 9462 / 9480 / 9550 / 9702
+       average   :       4765 / +79.61% / 4.90*
+         stdev   :         16 /   0.34%
+         median  :       4758 /   0.27%
+       min / max :       4747 / 4752 / 4758 / 4782 / 4795
        mem-leaks :          0 KB

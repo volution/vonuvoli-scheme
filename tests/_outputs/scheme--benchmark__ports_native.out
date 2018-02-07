@@ -2,14 +2,14 @@
 ## benchmarking `./tests/scheme/ports-native.sst`...
 ## benchmarked `./tests/scheme/ports-native.sst`!
      without optimizations:
-       average   :     144071
-         stdev   :        991 /   0.69%
-         median  :     143910 /   0.75%
-       min / max :     142502 / 143224 / 143910 / 144831 / 146058
+       average   :     141091
+         stdev   :        986 /   0.70%
+         median  :     140791 /   0.82%
+       min / max :     139534 / 140370 / 140791 / 142113 / 142620
        mem-leaks :          0 KB
      with optimizations:
-       average   :     121755 / +15.49% / 1.18*
-         stdev   :        913 /   0.75%
-         median  :     121639 /   0.69%
-       min / max :     119896 / 121174 / 121639 / 122461 / 123374
+       average   :     122265 / +13.34% / 1.15*
+         stdev   :       1445 /   1.18%
+         median  :     122258 /   1.63%
+       min / max :     120025 / 120961 / 122258 / 123603 / 124407
        mem-leaks :          0 KB

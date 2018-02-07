@@ -2,14 +2,14 @@
 ## benchmarking `./tests/scheme/arithmetic.sst`...
 ## benchmarked `./tests/scheme/arithmetic.sst`!
      without optimizations:
-       average   :       5347
-         stdev   :         43 /   0.80%
-         median  :       5334 /   0.57%
-       min / max :       5295 / 5316 / 5334 / 5370 / 5450
+       average   :       4199
+         stdev   :         14 /   0.34%
+         median  :       4196 /   0.30%
+       min / max :       4183 / 4188 / 4196 / 4208 / 4233
        mem-leaks :          0 KB
      with optimizations:
-       average   :       1238 / +76.85% / 4.32*
-         stdev   :         10 /   0.81%
-         median  :       1237 /   0.70%
-       min / max :       1226 / 1231 / 1237 / 1241 / 1261
+       average   :        595 / +85.84% / 7.06*
+         stdev   :          2 /   0.32%
+         median  :        593 /   0.01%
+       min / max :        593 / 593 / 593 / 596 / 598
        mem-leaks :          0 KB

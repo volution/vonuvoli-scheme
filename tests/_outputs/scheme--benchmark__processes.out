@@ -2,14 +2,14 @@
 ## benchmarking `./tests/scheme/processes.sst`...
 ## benchmarked `./tests/scheme/processes.sst`!
      without optimizations:
-       average   :   22617579
-         stdev   :     224467 /   0.99%
-         median  :   22593923 /   0.98%
-       min / max :   22289708 / 22454719 / 22593923 / 22758739 / 23050950
+       average   :   22020129
+         stdev   :      25639 /   0.12%
+         median  :   22015827 /   0.13%
+       min / max :   21985629 / 21997676 / 22015827 / 22037621 / 22068015
        mem-leaks :          0 KB
      with optimizations:
-       average   :   22605698 / +0.05% / 1.00*
-         stdev   :     194934 /   0.86%
-         median  :   22552201 /   0.98%
-       min / max :   22279557 / 22493038 / 22552201 / 22729593 / 22967607
+       average   :   22000081 / +0.09% / 1.00*
+         stdev   :      14583 /   0.07%
+         median  :   21997002 /   0.06%
+       min / max :   21977901 / 21990320 / 21997002 / 22011741 / 22024893
        mem-leaks :          0 KB

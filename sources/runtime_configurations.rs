@@ -29,7 +29,7 @@ pub const OPTIMIZER_TRACE_ERROR : bool = false;
 
 pub const EVALUATOR_TRACE_INPUT : bool = false;
 pub const EVALUATOR_TRACE_OUTPUT : bool = false;
-pub const EVALUATOR_TRACE_ERROR : bool = true;
+pub const EVALUATOR_TRACE_ERROR : bool = false;
 
 
 

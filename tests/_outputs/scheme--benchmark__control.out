@@ -2,14 +2,14 @@
 ## benchmarking `./tests/scheme/control.sst`...
 ## benchmarked `./tests/scheme/control.sst`!
      without optimizations:
-       average   :       9862
-         stdev   :         95 /   0.96%
-         median  :       9822 /   0.71%
-       min / max :       9759 / 9786 / 9822 / 9906 / 10044
+       average   :       7943
+         stdev   :         28 /   0.36%
+         median  :       7923 /   0.09%
+       min / max :       7918 / 7920 / 7923 / 7973 / 8004
        mem-leaks :          0 KB
      with optimizations:
-       average   :       8526 / +13.55% / 1.16*
-         stdev   :         69 /   0.80%
-         median  :       8510 /   0.72%
-       min / max :       8443 / 8469 / 8510 / 8557 / 8661
+       average   :       6680 / +15.90% / 1.19*
+         stdev   :         20 /   0.30%
+         median  :       6667 /   0.13%
+       min / max :       6661 / 6664 / 6667 / 6695 / 6714
        mem-leaks :          0 KB

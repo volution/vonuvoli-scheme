@@ -1,0 +1,15 @@
+## compiling `./tests/scheme/records-procedures.sst`...
+## benchmarking `./tests/scheme/records-procedures.sst`...
+## benchmarked `./tests/scheme/records-procedures.sst`!
+     without optimizations:
+       average   :      52479
+         stdev   :        129 /   0.25%
+         median  :      52500 /   0.33%
+       min / max :      52310 / 52351 / 52500 / 52560 / 52745
+       mem-leaks :          0 KB
+     with optimizations:
+       average   :      29858 / +43.10% / 1.76*
+         stdev   :        111 /   0.37%
+         median  :      29794 /   0.18%
+       min / max :      29750 / 29775 / 29794 / 29991 / 30050
+       mem-leaks :          0 KB
