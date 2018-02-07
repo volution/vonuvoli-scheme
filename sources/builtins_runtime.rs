@@ -206,7 +206,16 @@ pub fn error_coerce_from (code : Option<u64>, value : Value) -> (Error) {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn parameter_build (identifier : Option<&Value>, global : Option<&Value>, converter : Option<&Value>, immutable : Option<bool>, _evaluator : &mut EvaluatorContext) -> (Outcome<Parameter>) {
 	let identifier = option_map! (identifier, try_as_symbol_ref! (identifier)) .cloned ();
-	let global = global.cloned ();
+	let global = if let Some (global) = global {
+		match global.kind () {
+			ValueKind::Undefined =>
+				None,
+			_ =>
+				Some (global.clone ()),
+		}
+	} else {
+		None
+	};
 	let conversion = if let Some (converter) = converter {
 		match converter.class_match_as_ref () {
 			ValueClassMatchAsRef::Boolean (converter) =>
