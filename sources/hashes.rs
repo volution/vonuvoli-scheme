@@ -230,6 +230,36 @@ impl hash::Hash for LambdaInternals {
 }
 
 
+impl hash::Hash for Lambda {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
+		let self_0 = self.internals_ref ();
+		self_0.hash (hasher);
+	}
+}
+
+
+impl hash::Hash for ProcedureLambda {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
+		let self_0 = self.internals_ref ();
+		self_0.hash (hasher);
+	}
+}
+
+
+impl hash::Hash for SyntaxLambda {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
+		let self_0 = self.internals_ref ();
+		self_0.hash (hasher);
+	}
+}
+
+
 
 
 impl hash::Hash for ProcedureNative {

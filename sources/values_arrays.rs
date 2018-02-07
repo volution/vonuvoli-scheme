@@ -21,21 +21,18 @@ pub mod exports {
 
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ArrayMatchAsRef <'a> {
 	Immutable (&'a ArrayImmutable),
 	Mutable (&'a ArrayMutable),
 }
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ArrayMatchInto {
 	Immutable (ArrayImmutable),
 	Mutable (ArrayMutable),
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ArrayMatchAsRef2 <'a> {
 	ImmutableBoth (&'a ArrayImmutable, &'a ArrayImmutable),
 	MutableBoth (&'a ArrayMutable, &'a ArrayMutable),
@@ -125,7 +122,6 @@ pub trait Array {
 
 
 
-#[ derive (Debug) ]
 pub enum ArrayRef <'a> {
 	Immutable (&'a ArrayImmutable, &'a [Value]),
 	Mutable (&'a ArrayMutable, StdRef<'a, [Value]>),
@@ -186,7 +182,6 @@ impl <'a> Array for ArrayRef<'a> {
 
 
 
-#[ derive (Debug) ]
 pub enum ArrayAsRef <'a> {
 	Immutable (&'a ArrayImmutable),
 	Mutable (&'a ArrayMutable),

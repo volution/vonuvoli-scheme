@@ -106,7 +106,6 @@ pub enum ValueKind {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ValueKindMatchAsRef <'a> {
 	
 	Null,
@@ -163,7 +162,6 @@ pub enum ValueKindMatchAsRef <'a> {
 }
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ValueKindMatchInto {
 	
 	Null,
@@ -220,7 +218,6 @@ pub enum ValueKindMatchInto {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ValueKindMatchAsRef2 <'a> {
 	
 	Null,
@@ -322,7 +319,6 @@ pub enum ValueClass {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ValueClassMatchAsRef <'a> {
 	
 	Null,
@@ -363,7 +359,6 @@ pub enum ValueClassMatchAsRef <'a> {
 }
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ValueClassMatchInto {
 	
 	Null,
@@ -404,7 +399,6 @@ pub enum ValueClassMatchInto {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ValueClassMatchAsRef2 <'a> {
 	
 	Null,
@@ -449,7 +443,6 @@ pub enum ValueClassMatchAsRef2 <'a> {
 
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ProcedureMatchAsRef <'a> {
 	Primitive (&'a ProcedurePrimitive),
 	Extended (&'a ProcedureExtended),
@@ -458,7 +451,6 @@ pub enum ProcedureMatchAsRef <'a> {
 }
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ProcedureMatchInto {
 	Primitive (ProcedurePrimitive),
 	Extended (ProcedureExtended),
@@ -467,7 +459,6 @@ pub enum ProcedureMatchInto {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum SyntaxMatchAsRef <'a> {
 	Primitive (&'a SyntaxPrimitive),
 	Extended (&'a SyntaxExtended),
@@ -476,7 +467,6 @@ pub enum SyntaxMatchAsRef <'a> {
 }
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum SyntaxMatchInto {
 	Primitive (SyntaxPrimitive),
 	Extended (SyntaxExtended),
@@ -485,19 +475,16 @@ pub enum SyntaxMatchInto {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ResourceMatchAsRef <'a> {
 	Process (&'a Process),
 }
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ResourceMatchInto {
 	Process (Process),
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum InternalMatchAsRef <'a> {
 	Context (&'a Context),
 	Binding (&'a Binding),
@@ -507,7 +494,6 @@ pub enum InternalMatchAsRef <'a> {
 }
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum InternalMatchInto {
 	Context (Context),
 	Binding (Binding),
@@ -517,7 +503,6 @@ pub enum InternalMatchInto {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ListMatchAsRef <'a> {
 	Null,
 	PairImmutable (&'a PairImmutable),
@@ -526,7 +511,6 @@ pub enum ListMatchAsRef <'a> {
 }
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ListMatchInto {
 	Null,
 	PairImmutable (PairImmutable),
@@ -1526,7 +1510,6 @@ pub enum ValueSingleton {
 
 
 
-#[ derive (Debug) ]
 pub enum ValueRef <'a> {
 	Immutable (&'a Value),
 	ImmutableEmbedded (StdRc<StdAny>, &'a Value),
@@ -1674,7 +1657,6 @@ impl <'a> StdAsRef<Value> for ValueRef<'a> {
 
 
 
-#[ derive (Debug) ]
 pub enum GenericRef <'a, T : 'a> {
 	Immutable (&'a T),
 	ImmutableEmbedded (StdRc<StdAny>, &'a T),

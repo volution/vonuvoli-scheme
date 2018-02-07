@@ -2279,7 +2279,7 @@ def_fn_predicate_any! (is_internal, is_internal_any_2, is_internal_any_3, is_int
 
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum NumberClass {
 	Integer,
 	Real,
@@ -2304,7 +2304,7 @@ pub fn number_class (value : &Value) -> (Option<NumberClass>) {
 
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ListClass {
 	Empty,
 	Proper,
@@ -2366,7 +2366,7 @@ fn list_class_on_0 (value : &Value, cursor : &Value) -> (Outcome<ListClass>) {
 
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ProcedureClass {
 	Primitive,
 	Extended,
@@ -2397,7 +2397,7 @@ pub fn procedure_class (value : &Value) -> (Option<ProcedureClass>) {
 
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum SyntaxClass {
 	Primitive,
 	Extended,

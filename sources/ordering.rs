@@ -778,6 +778,108 @@ impl cmp::PartialOrd for LambdaInternals {
 
 
 
+impl cmp::Eq for Lambda {}
+
+impl cmp::PartialEq for Lambda {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn eq (&self, other : &Lambda) -> (bool) {
+		let self_0 = self.internals_ref ();
+		let other_0 = other.internals_ref ();
+		LambdaInternals::eq (self_0, other_0)
+	}
+}
+
+
+impl cmp::Ord for Lambda {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn cmp (&self, other : &Lambda) -> (cmp::Ordering) {
+		let self_0 = self.internals_ref ();
+		let other_0 = other.internals_ref ();
+		LambdaInternals::cmp (self_0, other_0)
+	}
+}
+
+impl cmp::PartialOrd for Lambda {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn partial_cmp (&self, other : &Lambda) -> (Option<cmp::Ordering>) {
+		Some (Lambda::cmp (self, other))
+	}
+}
+
+
+
+
+impl cmp::Eq for ProcedureLambda {}
+
+impl cmp::PartialEq for ProcedureLambda {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn eq (&self, other : &ProcedureLambda) -> (bool) {
+		let self_0 = self.internals_ref ();
+		let other_0 = other.internals_ref ();
+		LambdaInternals::eq (self_0, other_0)
+	}
+}
+
+
+impl cmp::Ord for ProcedureLambda {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn cmp (&self, other : &ProcedureLambda) -> (cmp::Ordering) {
+		let self_0 = self.internals_ref ();
+		let other_0 = other.internals_ref ();
+		LambdaInternals::cmp (self_0, other_0)
+	}
+}
+
+impl cmp::PartialOrd for ProcedureLambda {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn partial_cmp (&self, other : &ProcedureLambda) -> (Option<cmp::Ordering>) {
+		Some (ProcedureLambda::cmp (self, other))
+	}
+}
+
+
+
+
+impl cmp::Eq for SyntaxLambda {}
+
+impl cmp::PartialEq for SyntaxLambda {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn eq (&self, other : &SyntaxLambda) -> (bool) {
+		let self_0 = self.internals_ref ();
+		let other_0 = other.internals_ref ();
+		LambdaInternals::eq (self_0, other_0)
+	}
+}
+
+
+impl cmp::Ord for SyntaxLambda {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn cmp (&self, other : &SyntaxLambda) -> (cmp::Ordering) {
+		let self_0 = self.internals_ref ();
+		let other_0 = other.internals_ref ();
+		LambdaInternals::cmp (self_0, other_0)
+	}
+}
+
+impl cmp::PartialOrd for SyntaxLambda {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn partial_cmp (&self, other : &SyntaxLambda) -> (Option<cmp::Ordering>) {
+		Some (SyntaxLambda::cmp (self, other))
+	}
+}
+
+
+
+
 impl cmp::Eq for Error {}
 
 impl cmp::PartialEq for Error {

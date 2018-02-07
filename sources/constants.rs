@@ -121,43 +121,6 @@ impl <Value : Copy> Constant<Value> {
 }
 
 
-/*
-impl <Value : cmp::Eq> cmp::Eq for Constant<Value> {}
-
-impl <Value : cmp::PartialEq> cmp::PartialEq for Constant<Value> {
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn eq (&self, other : &Self) -> (bool) {
-		Value::eq (&self.0, &other.0)
-	}
-}
-
-impl <Value : cmp::Ord> cmp::Ord for Constant<Value> {
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn cmp (&self, other : &Self) -> (cmp::Ordering) {
-		Value::cmp (&self.0, &other.0)
-	}
-}
-
-impl <Value : cmp::PartialOrd> cmp::PartialOrd for Constant<Value> {
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn partial_cmp (&self, other : &Self) -> (Option<cmp::Ordering>) {
-		Value::partial_cmp (&self.0, &other.0)
-	}
-}
-
-impl <Value : hash::Hash> hash::Hash for Constant<Value> {
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		self.0.hash (hasher);
-	}
-}
-*/
-
-
 impl cmp::Eq for Constant<i16> {}
 
 impl cmp::Ord for Constant<i16> {

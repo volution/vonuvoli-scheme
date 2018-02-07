@@ -22,21 +22,18 @@ pub mod exports {
 
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum StringMatchAsRef <'a> {
 	Immutable (&'a StringImmutable),
 	Mutable (&'a StringMutable),
 }
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum StringMatchInto {
 	Immutable (StringImmutable),
 	Mutable (StringMutable),
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum StringMatchAsRef2 <'a> {
 	ImmutableBoth (&'a StringImmutable, &'a StringImmutable),
 	MutableBoth (&'a StringMutable, &'a StringMutable),
@@ -146,7 +143,6 @@ pub trait String {
 
 
 
-#[ derive (Debug) ]
 pub enum StringRef <'a> {
 	Immutable (&'a StringImmutable, &'a str),
 	Mutable (&'a StringMutable, StdRef<'a, str>),
@@ -207,7 +203,6 @@ impl <'a> String for StringRef<'a> {
 
 
 
-#[ derive (Debug) ]
 pub enum StringAsRef <'a> {
 	Immutable (&'a StringImmutable),
 	Mutable (&'a StringMutable),

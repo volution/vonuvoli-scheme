@@ -21,21 +21,18 @@ pub mod exports {
 
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum RecordMatchAsRef <'a> {
 	Immutable (&'a RecordImmutable),
 	Mutable (&'a RecordMutable),
 }
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum RecordMatchInto {
 	Immutable (RecordImmutable),
 	Mutable (RecordMutable),
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum RecordMatchAsRef2 <'a> {
 	ImmutableBoth (&'a RecordImmutable, &'a RecordImmutable),
 	MutableBoth (&'a RecordMutable, &'a RecordMutable),
@@ -117,7 +114,6 @@ pub trait Record {
 
 
 
-#[ derive (Debug) ]
 pub enum RecordRef <'a> {
 	Immutable (&'a RecordImmutable, &'a RecordKind, &'a [Value]),
 	Mutable (&'a RecordMutable, &'a RecordKind, StdRef<'a, [Value]>),
@@ -188,7 +184,6 @@ impl <'a> Record for RecordRef<'a> {
 
 
 
-#[ derive (Debug) ]
 pub enum RecordAsRef <'a> {
 	Immutable (&'a RecordImmutable),
 	Mutable (&'a RecordMutable),

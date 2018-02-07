@@ -33,6 +33,7 @@ pub mod exports {
 pub struct Process ( StdRc<StdRefCell<ProcessInternals>> );
 
 
+#[ derive (Debug) ]
 pub struct ProcessInternals {
 	pub state : ProcessState,
 	pub process : process::Child,
@@ -44,6 +45,7 @@ pub struct ProcessInternals {
 }
 
 
+#[ derive (Debug) ]
 pub enum ProcessState {
 	Running,
 	Terminated (process::ExitStatus),
@@ -53,7 +55,7 @@ pub enum ProcessState {
 
 
 
-#[ derive (Clone, Debug) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ProcessStatus {
 	Running,
 	Succeeded,
@@ -62,7 +64,7 @@ pub enum ProcessStatus {
 }
 
 
-#[ derive (Clone, Debug) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ProcessSignal {
 	Terminate,
 	Interrupt,

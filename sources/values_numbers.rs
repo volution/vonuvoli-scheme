@@ -17,21 +17,18 @@ pub mod exports {
 
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum NumberMatchAsRef <'a> {
 	Integer (&'a NumberInteger),
 	Real (&'a NumberReal),
 }
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum NumberMatchInto {
 	Integer (NumberInteger),
 	Real (NumberReal),
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum NumberMatchAsRef2 <'a> {
 	IntegerBoth (&'a NumberInteger, &'a NumberInteger),
 	RealBoth (&'a NumberReal, &'a NumberReal),

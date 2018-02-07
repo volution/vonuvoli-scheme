@@ -39,7 +39,7 @@ pub struct LambdaInternals {
 
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive (Debug) ]
 pub struct LambdaTemplate {
 	pub identifier : Option<Symbol>,
 	pub arguments_positional : StdBox<[Symbol]>,
@@ -64,7 +64,7 @@ impl LambdaTemplate {
 
 
 
-#[ derive (Clone, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive (Clone) ]
 pub struct Lambda ( StdRc<LambdaInternals> );
 
 impl Lambda {
@@ -113,7 +113,7 @@ impl Lambda {
 
 
 
-#[ derive (Clone, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive (Clone) ]
 pub struct ProcedureLambda ( StdRc<LambdaInternals> );
 
 
@@ -154,7 +154,7 @@ impl ProcedureLambda {
 
 
 
-#[ derive (Clone, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive (Clone) ]
 pub struct SyntaxLambda ( StdRc<LambdaInternals> );
 
 

@@ -19,21 +19,18 @@ pub mod exports {
 
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum PairMatchAsRef <'a> {
 	Immutable (&'a PairImmutable),
 	Mutable (&'a PairMutable),
 }
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum PairMatchInto {
 	Immutable (PairImmutable),
 	Mutable (PairMutable),
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum PairMatchAsRef2 <'a> {
 	ImmutableBoth (&'a PairImmutable, &'a PairImmutable),
 	MutableBoth (&'a PairMutable, &'a PairMutable),
@@ -130,7 +127,6 @@ pub trait Pair {
 
 
 
-#[ derive (Debug) ]
 pub enum PairRef <'a> {
 	Immutable (&'a StdRc<PairImmutableInternals>, &'a PairImmutableInternals),
 	ImmutableEmbedded (StdRc<PairImmutableInternals>, &'a PairImmutableInternals),
@@ -300,7 +296,6 @@ impl <'a> Pair for PairRef<'a> {
 
 
 
-#[ derive (Clone, Debug) ]
 pub enum PairAsRef <'a> {
 	// TODO:  Use internals!
 	Immutable (&'a PairImmutable),

@@ -271,7 +271,7 @@ pub mod exports {
 
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum Equivalence {
 	
 	ByIdentity,
@@ -280,7 +280,7 @@ pub enum Equivalence {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum Ordering {
 	
 	Lesser,
@@ -292,7 +292,7 @@ pub enum Ordering {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum Comparison {
 	Equivalence ( Equivalence, Option<bool>, Option<bool> ),
 	Ordering ( Ordering, Option<bool>, Option<bool> ),

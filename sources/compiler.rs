@@ -39,7 +39,6 @@ pub fn compile_script (context : &Context, tokens : &[Value]) -> (Outcome<Expres
 
 
 
-#[ derive (Debug) ]
 pub struct Compiler {}
 
 
@@ -85,7 +84,7 @@ impl Compiler {
 			let outcome = self.compile_00 (compilation, token);
 			
 			match outcome {
-				Ok (ref expression) if COMPILER_TRACE_OUTPUT =>
+				Ok ((_, ref expression)) if COMPILER_TRACE_OUTPUT =>
 					eprint! ("[dd]  compiling succeeded:\n[  ]      {}\n[  ]      {:?}\n", &token_input, expression),
 				Ok (_) =>
 					(),
@@ -2104,7 +2103,6 @@ impl Compiler {
 
 
 
-#[ derive (Debug) ]
 pub struct CompilerContext {
 	bindings : CompilerBindings,
 }
@@ -2184,7 +2182,6 @@ impl CompilerContext {
 
 
 
-#[ derive (Debug) ]
 pub enum CompilerBindings {
 	None (usize),
 	Globals1 (Context, usize),
@@ -2193,7 +2190,7 @@ pub enum CompilerBindings {
 }
 
 
-#[ derive (Clone, Debug) ]
+#[ derive (Clone) ] // TODO:  Verify if `clone` is actually needed!
 pub enum CompilerBinding {
 	Undefined,
 	Binding (Option<Symbol>, Binding, Option<BindingTemplate>),

@@ -22,21 +22,18 @@ pub mod exports {
 
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum BytesMatchAsRef <'a> {
 	Immutable (&'a BytesImmutable),
 	Mutable (&'a BytesMutable),
 }
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum BytesMatchInto {
 	Immutable (BytesImmutable),
 	Mutable (BytesMutable),
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum BytesMatchAsRef2 <'a> {
 	ImmutableBoth (&'a BytesImmutable, &'a BytesImmutable),
 	MutableBoth (&'a BytesMutable, &'a BytesMutable),
@@ -126,7 +123,6 @@ pub trait Bytes {
 
 
 
-#[ derive (Debug) ]
 pub enum BytesRef <'a> {
 	Immutable (&'a BytesImmutable, &'a [u8]),
 	Mutable (&'a BytesMutable, StdRef<'a, [u8]>),
@@ -187,7 +183,6 @@ impl <'a> Bytes for BytesRef<'a> {
 
 
 
-#[ derive (Debug) ]
 pub enum BytesAsRef <'a> {
 	Immutable (&'a BytesImmutable),
 	Mutable (&'a BytesMutable),

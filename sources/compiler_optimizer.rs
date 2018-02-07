@@ -37,7 +37,6 @@ pub fn optimize_script (expressions : ExpressionVec) -> (Outcome<ExpressionVec>)
 
 
 
-#[ derive (Debug) ]
 pub(crate) struct Optimizer {}
 
 
@@ -81,7 +80,7 @@ impl Optimizer {
 			let outcome = self.optimize_00 (optimization, expression);
 			
 			match outcome {
-				Ok (ref expression_optimized) if OPTIMIZER_TRACE_OUTPUT =>
+				Ok ((_, ref expression_optimized)) if OPTIMIZER_TRACE_OUTPUT =>
 					eprint! ("[dd]  optimizing succeeded:\n[  ]      {:?}\n[  ]      {:?}\n", &expression_input, expression_optimized),
 				Ok (_) =>
 					(),
@@ -2696,7 +2695,6 @@ impl Optimizer {
 
 
 
-#[ derive (Debug) ]
 struct OptimizerContext {
 	evaluator : Evaluator,
 }
@@ -2714,7 +2712,7 @@ impl OptimizerContext {
 
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive (Copy, Clone) ]
 pub(crate) enum ExpressionClass {
 	
 	Constant,
@@ -2726,7 +2724,6 @@ pub(crate) enum ExpressionClass {
 
 
 
-#[ derive (Clone) ]
 pub(crate) enum ExpressionProcedureCallCallableRef <'a> {
 	
 	Expression (&'a Expression),

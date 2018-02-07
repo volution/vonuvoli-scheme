@@ -21,7 +21,7 @@ pub mod exports {
 pub struct Unique ( StdRc<UniqueData> );
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub struct UniqueData {
 	pub kind : UniqueKind,
 	pub fingerprint : u128,
