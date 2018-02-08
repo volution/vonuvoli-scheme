@@ -1,6 +1,7 @@
 
 
 #![ feature (test) ]
+#![ feature (i128_type) ]
 #![ no_implicit_prelude ]
 include! ("prelude.in");
 
@@ -43,18 +44,24 @@ def_test! (test__0, {
 	
 	assert_size! (all, report, [
 			Value,
-			ValueMeta1, ValueMeta2,
-			ValueClass, ValueKind,
+			ValueMeta1,
+			ValueMeta2,
 		]);
 	
 	assert_size! (all, (smaller_than, *mut usize), [
 			
 			ValueSingleton,
+			
 			Boolean,
-			NumberInteger, NumberReal,
+			NumberInteger,
+			NumberReal,
 			Character,
 			
 			Symbol,
+			Keyword,
+			Unique,
+			
+			StringRegex,
 			StringImmutable,
 			StringMutable,
 			BytesImmutable,
@@ -66,7 +73,12 @@ def_test! (test__0, {
 			ArrayMutable,
 			Values,
 			
+			RecordKind,
+			RecordImmutable,
+			RecordMutable,
+			
 			Error,
+			
 			ProcedurePrimitive,
 			ProcedureExtended,
 			ProcedureNative,
@@ -81,7 +93,68 @@ def_test! (test__0, {
 			Process,
 			
 			Context,
+			Registers,
 			Binding,
+			Parameters,
+			Parameter,
+			Promise,
+			
+		]);
+	
+	
+	assert_size! (all, report, [
+			
+			UniqueData,
+			
+			// StringInternals,
+			StringMutableInternals,
+			BytesMutableInternals,
+			
+			PairImmutableInternals,
+			PairMutableInternals,
+			
+			ArrayMutableInternals,
+			
+			RecordKindInternals,
+			RecordMutableInternals,
+			
+			ErrorInternals,
+			
+			ProcedureExtendedInternals,
+			ProcedureNativeInternals,
+			
+			SyntaxExtendedInternals,
+			SyntaxNativeInternals,
+			
+			LambdaInternals,
+			
+			PortInternals,
+			PortBackend,
+			
+			ContextInternals,
+			RegistersInternals,
+			BindingInternals,
+			ParametersInternals,
+			ParameterInternals,
+			// PromiseInternals,
+			
+		]);
+	
+	
+	assert_size! (all, report, [
+			
+			ValueKind,
+			ValueClass,
+			
+			UniqueKind,
+			UniqueData,
+			
+			LambdaTemplate,
+			
+			BindingTemplate,
+			RegisterTemplate,
+			
+			Register,
 			
 		]);
 	
@@ -143,11 +216,11 @@ def_test! (test__0, {
 	
 	assert_size! (all, report, [
 			
-			(), u8, u16, u32, u64, usize, *mut usize,
+			(), u8, u16, u32, u64, u128, usize, *mut usize,
 			
-			Option<()>, Option<u8>, Option<u16>, Option<u32>, Option<u64>, Option<usize>, Option<*mut usize>,
+			Option<()>, Option<u8>, Option<u16>, Option<u32>, Option<u64>, Option<u128>, Option<usize>, Option<*mut usize>,
 			
-			Option<Option<()>>, Option<Option<u8>>, Option<Option<u16>>, Option<Option<u32>>, Option<Option<u64>>, Option<Option<usize>>, Option<Option<*mut usize>>,
+			Option<Option<()>>, Option<Option<u8>>, Option<Option<u16>>, Option<Option<u32>>, Option<Option<u64>>, Option<Option<u128>>, Option<Option<usize>>, Option<Option<*mut usize>>,
 			
 		]);
 	
