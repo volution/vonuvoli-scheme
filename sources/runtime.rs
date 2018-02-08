@@ -181,18 +181,18 @@ impl <T, U> StdExpectAsRef0<U> for T where T : StdTryAsRef0<U> {
 
 
 #[ derive (Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash) ]
-pub struct Handle ( u32 );
+pub struct Handle ( u64 );
 
 
 impl Handle {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new (handle : u32) -> (Handle) {
+	pub fn new (handle : u64) -> (Handle) {
 		return Handle ( handle );
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn value (&self) -> (u32) {
+	pub fn value (&self) -> (u64) {
 		return self.0;
 	}
 }

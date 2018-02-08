@@ -915,7 +915,7 @@ impl cmp::PartialEq for ProcedureNative {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn eq (&self, other : &ProcedureNative) -> (bool) {
-		u64::eq (&self.handle_value (), &other.handle_value ())
+		Handle::eq (&self.handle (), &other.handle ())
 	}
 }
 
@@ -923,7 +923,7 @@ impl cmp::Ord for ProcedureNative {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn cmp (&self, other : &ProcedureNative) -> (cmp::Ordering) {
-		u64::cmp (&self.handle_value (), &other.handle_value ())
+		Handle::cmp (&self.handle (), &other.handle ())
 	}
 }
 
@@ -944,7 +944,7 @@ impl cmp::PartialEq for SyntaxNative {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn eq (&self, other : &SyntaxNative) -> (bool) {
-		u64::eq (&self.handle_value (), &other.handle_value ())
+		Handle::eq (&self.handle (), &other.handle ())
 	}
 }
 
@@ -952,7 +952,7 @@ impl cmp::Ord for SyntaxNative {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn cmp (&self, other : &SyntaxNative) -> (cmp::Ordering) {
-		u64::cmp (&self.handle_value (), &other.handle_value ())
+		Handle::cmp (&self.handle (), &other.handle ())
 	}
 }
 

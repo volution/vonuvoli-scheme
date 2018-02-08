@@ -16,6 +16,7 @@ use super::prelude::*;
 
 #[ derive (Clone, Debug, Default) ]
 pub(crate) struct PermutationCounter {
+	pub(crate) count : u64,
 	pub(crate) index : u32,
 	pub(crate) offset : u32,
 	pub(crate) initialized : bool,
@@ -25,14 +26,15 @@ pub(crate) struct PermutationCounter {
 impl PermutationCounter {
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline (always) ) ]
 	pub(crate) fn new () -> (Self) {
 		PermutationCounter::with_seed (0, 0)
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline (always) ) ]
 	pub(crate) fn with_seed (index : u32, offset : u32) -> (Self) {
 		PermutationCounter {
+				count : 0,
 				index : index,
 				offset : offset,
 				initialized : false,
@@ -40,18 +42,20 @@ impl PermutationCounter {
 	}
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline (always) ) ]
 	pub(crate) fn initialize (&mut self) -> () {
 		if !self.initialized {
+			self.count = 0;
 			self.index = self.permute (self.permute (num::Wrapping (self.index)) + FUZZ_2) .0;
 			self.offset = self.permute (self.permute (num::Wrapping (self.offset)) + FUZZ_3) .0;
 			self.initialized = true;
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline (always) ) ]
 	pub(crate) fn next (&mut self) -> (u32) {
 		self.initialize ();
+		self.count += (num::Wrapping (self.count) + num::Wrapping (1)) .0;
 		self.index = (num::Wrapping (self.index) + num::Wrapping (1u32)) .0;
 		let output = self.permute (num::Wrapping (self.index));
 		let output = output + num::Wrapping (self.offset);
@@ -60,7 +64,7 @@ impl PermutationCounter {
 		return output.0;
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline (always) ) ]
 	fn permute (&self, index : num::Wrapping<u32>) -> (num::Wrapping<u32>) {
 		if index >= PRIME {
 			return index;

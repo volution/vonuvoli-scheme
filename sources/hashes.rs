@@ -266,7 +266,7 @@ impl hash::Hash for ProcedureNative {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		self.handle_value () .hash (hasher);
+		self.handle () .hash (hasher);
 	}
 }
 
@@ -275,7 +275,7 @@ impl hash::Hash for SyntaxNative {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		self.handle_value () .hash (hasher);
+		self.handle () .hash (hasher);
 	}
 }
 

@@ -536,9 +536,9 @@ impl fmt::Display for RecordKind {
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = self.internals_ref ();
 		if let Some (ref identifier) = self_0.identifier {
-			write! (formatter, "#<record-type:{:08x}:{}>", self_0.handle.value (), identifier)
+			write! (formatter, "#<record-type:{:016x}:{}>", self_0.handle.value (), identifier)
 		} else {
-			write! (formatter, "#<record-type:{:08x}>", self_0.handle.value ())
+			write! (formatter, "#<record-type:{:016x}>", self_0.handle.value ())
 		}
 	}
 }
@@ -577,9 +577,9 @@ impl fmt::Display for RecordMutable {
 fn record_fmt (kind : &RecordKind, values : &[Value], formatter : &mut fmt::Formatter) -> (fmt::Result) {
 	let kind_0 = kind.internals_ref ();
 	if let Some (ref identifier) = kind_0.identifier {
-		try! (write! (formatter, "#<record:{:08x}:{}>(", kind_0.handle.value (), identifier));
+		try! (write! (formatter, "#<record:{:016x}:{}>(", kind_0.handle.value (), identifier));
 	} else {
-		try! (write! (formatter, "#<record:{:08x}>(", kind_0.handle.value ()));
+		try! (write! (formatter, "#<record:{:016x}>(", kind_0.handle.value ()));
 	}
 	let mut is_first = true;
 	for value in values {
@@ -602,7 +602,7 @@ impl fmt::Display for Lambda {
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = self.internals_ref ();
-		write! (formatter, "#<lambda:{:08x}:{:08x}>", self_0.handle_1.value (), self_0.handle_2.value ())
+		write! (formatter, "#<lambda:{:016x}:{:016x}>", self_0.handle_1.value (), self_0.handle_2.value ())
 	}
 }
 
@@ -623,7 +623,7 @@ impl fmt::Display for ProcedureLambda {
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = self.internals_ref ();
-		write! (formatter, "#<lambda:{:08x}:{:08x}>", self_0.handle_1.value (), self_0.handle_2.value ())
+		write! (formatter, "#<lambda:{:016x}:{:016x}>", self_0.handle_1.value (), self_0.handle_2.value ())
 	}
 }
 
@@ -644,7 +644,7 @@ impl fmt::Display for SyntaxLambda {
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = self.internals_ref ();
-		write! (formatter, "#<lambda:{:08x}:{:08x}>", self_0.handle_1.value (), self_0.handle_2.value ())
+		write! (formatter, "#<lambda:{:016x}:{:016x}>", self_0.handle_1.value (), self_0.handle_2.value ())
 	}
 }
 
@@ -726,7 +726,7 @@ impl fmt::Display for ProcedureNative {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		write! (formatter, "#<procedure-native:{:016x}>", self.handle_value ())
+		write! (formatter, "#<procedure-native:{:016x}>", self.handle () .value ())
 	}
 }
 
@@ -734,7 +734,7 @@ impl fmt::Debug for ProcedureNative {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		formatter.debug_tuple ("ProcedureNative") .field (&self.handle_value ()) .finish ()
+		formatter.debug_tuple ("ProcedureNative") .field (&self.handle ()) .finish ()
 	}
 }
 
@@ -745,7 +745,7 @@ impl fmt::Display for SyntaxNative {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		write! (formatter, "#<syntax-native:{:016x}>", self.handle_value ())
+		write! (formatter, "#<syntax-native:{:016x}>", self.handle () .value ())
 	}
 }
 
@@ -753,7 +753,7 @@ impl fmt::Debug for SyntaxNative {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		formatter.debug_tuple ("SyntaxNative") .field (&self.handle_value ()) .finish ()
+		formatter.debug_tuple ("SyntaxNative") .field (&self.handle ()) .finish ()
 	}
 }
 
@@ -786,7 +786,7 @@ impl fmt::Display for Port {
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = try_or_return! (self.internals_ref (), Err (fmt::Error::default ()));
-		write! (formatter, "#<port:{:08x}>", self_0.handle.value ())
+		write! (formatter, "#<port:{:016x}>", self_0.handle.value ())
 	}
 }
 
@@ -806,7 +806,7 @@ impl fmt::Display for Process {
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = try_or_return! (self.internals_ref (), Err (fmt::Error::default ()));
-		write! (formatter, "#<process:{:08x}:{:09}>", self_0.handle.value (), self_0.process_id)
+		write! (formatter, "#<process:{:016x}:{:09}>", self_0.handle.value (), self_0.process_id)
 	}
 }
 
@@ -826,7 +826,7 @@ impl fmt::Display for Context {
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = try_or_return! (self.internals_ref (), Err (fmt::Error::default ()));
-		write! (formatter, "#<context:{:08x}>", self_0.handle.value ())
+		write! (formatter, "#<context:{:016x}>", self_0.handle.value ())
 	}
 }
 
@@ -853,7 +853,7 @@ impl fmt::Display for Registers {
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = try_or_return! (self.internals_ref (), Err (fmt::Error::default ()));
-		write! (formatter, "#<context:{:08x}>", self_0.handle.value ())
+		write! (formatter, "#<context:{:016x}>", self_0.handle.value ())
 	}
 }
 
@@ -919,9 +919,9 @@ impl fmt::Display for Binding {
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = try_or_return! (self.internals_ref (), Err (fmt::Error::default ()));
 		if let Some (ref identifier) = self_0.identifier {
-			write! (formatter, "#<binding:{:08x} {} {}>", self_0.handle.value (), identifier, self_0.value)
+			write! (formatter, "#<binding:{:016x} {} {}>", self_0.handle.value (), identifier, self_0.value)
 		} else {
-			write! (formatter, "#<binding:{:08x} {}>", self_0.handle.value (), self_0.value)
+			write! (formatter, "#<binding:{:016x} {}>", self_0.handle.value (), self_0.value)
 		}
 	}
 }
@@ -949,7 +949,7 @@ impl fmt::Display for Parameters {
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = try_or_return! (self.internals_ref (), Err (fmt::Error::default ()));
-		write! (formatter, "#<parameters:{:08x}>", self_0.handle.value ())
+		write! (formatter, "#<parameters:{:016x}>", self_0.handle.value ())
 	}
 }
 
@@ -977,9 +977,9 @@ impl fmt::Display for Parameter {
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = try_or_return! (self.internals_ref (), Err (fmt::Error::default ()));
 		if let Some (ref identifier) = self_0.identifier {
-			write! (formatter, "#<parameter:{:08x} {}>", self_0.handle.value (), identifier)
+			write! (formatter, "#<parameter:{:016x} {}>", self_0.handle.value (), identifier)
 		} else {
-			write! (formatter, "#<parameter:{:08x}>", self_0.handle.value ())
+			write! (formatter, "#<parameter:{:016x}>", self_0.handle.value ())
 		}
 	}
 }

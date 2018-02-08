@@ -22,6 +22,7 @@ pub(crate) mod exports {
 
 
 static mut CONTEXT_HANDLES : PermutationCounter = PermutationCounter {
+		count : 0,
 		index : 0x514765cd,
 		offset : 0x4d564bb6,
 		initialized : false,
@@ -30,7 +31,7 @@ static mut CONTEXT_HANDLES : PermutationCounter = PermutationCounter {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub(crate) fn context_handles_next () -> (Handle) {
 	unsafe {
-		Handle::new (CONTEXT_HANDLES.next ())
+		handles_next (&mut CONTEXT_HANDLES, 0xbe57f14a66e40068)
 	}
 }
 
@@ -38,6 +39,7 @@ pub(crate) fn context_handles_next () -> (Handle) {
 
 
 static mut REGISTERS_HANDLES : PermutationCounter = PermutationCounter {
+		count : 0,
 		index : 0x2b6abc57,
 		offset : 0x88b3547d,
 		initialized : false,
@@ -46,7 +48,7 @@ static mut REGISTERS_HANDLES : PermutationCounter = PermutationCounter {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub(crate) fn registers_handles_next () -> (Handle) {
 	unsafe {
-		Handle::new (REGISTERS_HANDLES.next ())
+		handles_next (&mut REGISTERS_HANDLES, 0x09d44b48186625d8)
 	}
 }
 
@@ -54,6 +56,7 @@ pub(crate) fn registers_handles_next () -> (Handle) {
 
 
 static mut BINDING_HANDLES : PermutationCounter = PermutationCounter {
+		count : 0,
 		index : 0xc8b5516d,
 		offset : 0x767a8d5c,
 		initialized : false,
@@ -62,7 +65,7 @@ static mut BINDING_HANDLES : PermutationCounter = PermutationCounter {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub(crate) fn binding_handles_next () -> (Handle) {
 	unsafe {
-		Handle::new (BINDING_HANDLES.next ())
+		handles_next (&mut BINDING_HANDLES, 0xb6f4ec1eb3746759)
 	}
 }
 
@@ -70,6 +73,7 @@ pub(crate) fn binding_handles_next () -> (Handle) {
 
 
 static mut PARAMETERS_HANDLES : PermutationCounter = PermutationCounter {
+		count : 0,
 		index : 0x7f678d4c,
 		offset : 0x182256dd,
 		initialized : false,
@@ -78,7 +82,7 @@ static mut PARAMETERS_HANDLES : PermutationCounter = PermutationCounter {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub(crate) fn parameters_handles_next () -> (Handle) {
 	unsafe {
-		Handle::new (PARAMETERS_HANDLES.next ())
+		handles_next (&mut PARAMETERS_HANDLES, 0xae0a37c517dac5db)
 	}
 }
 
@@ -86,6 +90,7 @@ pub(crate) fn parameters_handles_next () -> (Handle) {
 
 
 static mut PARAMETER_HANDLES : PermutationCounter = PermutationCounter {
+		count : 0,
 		index : 0x5ec9e479,
 		offset : 0x92d12a5f,
 		initialized : false,
@@ -94,7 +99,7 @@ static mut PARAMETER_HANDLES : PermutationCounter = PermutationCounter {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub(crate) fn parameter_handles_next () -> (Handle) {
 	unsafe {
-		Handle::new (PARAMETER_HANDLES.next ())
+		handles_next (&mut PARAMETER_HANDLES, 0x6c6430ddb9c3d635)
 	}
 }
 
@@ -102,6 +107,7 @@ pub(crate) fn parameter_handles_next () -> (Handle) {
 
 
 static mut RECORD_HANDLES : PermutationCounter = PermutationCounter {
+		count : 0,
 		index : 0x8251b601,
 		offset : 0xac4eff38,
 		initialized : false,
@@ -110,7 +116,7 @@ static mut RECORD_HANDLES : PermutationCounter = PermutationCounter {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub(crate) fn record_handles_next () -> (Handle) {
 	unsafe {
-		Handle::new (RECORD_HANDLES.next ())
+		handles_next (&mut RECORD_HANDLES, 0xc94118e6eb43a5ad)
 	}
 }
 
@@ -118,6 +124,7 @@ pub(crate) fn record_handles_next () -> (Handle) {
 
 
 static mut LAMBDA_HANDLES : PermutationCounter = PermutationCounter {
+		count : 0,
 		index : 0x33faad68,
 		offset : 0xe28c918f,
 		initialized : false,
@@ -126,7 +133,7 @@ static mut LAMBDA_HANDLES : PermutationCounter = PermutationCounter {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub(crate) fn lambda_handles_next () -> (Handle) {
 	unsafe {
-		Handle::new (LAMBDA_HANDLES.next ())
+		handles_next (&mut LAMBDA_HANDLES, 0xb80bdab7a2daeefa)
 	}
 }
 
@@ -134,6 +141,7 @@ pub(crate) fn lambda_handles_next () -> (Handle) {
 
 
 static mut PORT_HANDLES : PermutationCounter = PermutationCounter {
+		count : 0,
 		index : 0xa7e6ecf7,
 		offset : 0x1e5c47b7,
 		initialized : false,
@@ -142,7 +150,7 @@ static mut PORT_HANDLES : PermutationCounter = PermutationCounter {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub(crate) fn port_handles_next () -> (Handle) {
 	unsafe {
-		Handle::new (PORT_HANDLES.next ())
+		handles_next (&mut PORT_HANDLES, 0x671b9e29055f5095)
 	}
 }
 
@@ -150,6 +158,7 @@ pub(crate) fn port_handles_next () -> (Handle) {
 
 
 static mut PROCESS_HANDLES : PermutationCounter = PermutationCounter {
+		count : 0,
 		index : 0x30df6208,
 		offset : 0xa58f88be,
 		initialized : false,
@@ -158,7 +167,45 @@ static mut PROCESS_HANDLES : PermutationCounter = PermutationCounter {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub(crate) fn process_handles_next () -> (Handle) {
 	unsafe {
-		Handle::new (PROCESS_HANDLES.next ())
+		handles_next (&mut PROCESS_HANDLES, 0x8a37eaa32ffc5892)
+	}
+}
+
+
+
+
+static mut EPOCH_HANDLES : PermutationCounter = PermutationCounter {
+		count : 0,
+		index : 0,
+		offset : 0,
+		initialized : false,
+	};
+
+static mut EPOCH_HANDLES_RESET : PermutationCounter = PermutationCounter {
+		count : 0,
+		index : 0x7e740a0c,
+		offset : 0x80ea7309,
+		initialized : false,
+	};
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline (always) ) ]
+pub(crate) fn handles_next (counter : &mut PermutationCounter, fuzz : u64) -> (Handle) {
+	loop {
+		let epoch = unsafe {
+			if (EPOCH_HANDLES.count & 0xffff) == 0 {
+				EPOCH_HANDLES.index = EPOCH_HANDLES_RESET.index;
+				EPOCH_HANDLES.offset = EPOCH_HANDLES_RESET.offset;
+				EPOCH_HANDLES.initialized = EPOCH_HANDLES_RESET.initialized;
+				EPOCH_HANDLES_RESET.next ();
+			}
+			EPOCH_HANDLES.next () as u64
+		};
+		if epoch == 0 {
+			continue;
+		}
+		let value = counter.next () as u64;
+		let handle = ((epoch << 32) | (value << 0)) ^ fuzz;
+		return Handle::new (handle)
 	}
 }
 
