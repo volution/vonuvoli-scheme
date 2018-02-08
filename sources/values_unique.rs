@@ -11,6 +11,7 @@ pub mod exports {
 	pub use super::Unique;
 	pub use super::UniqueData;
 	pub use super::UniqueKind;
+	pub use super::UniqueFingerprint;
 }
 
 
@@ -23,8 +24,12 @@ pub struct Unique ( StdRc<UniqueData> );
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub struct UniqueData {
 	pub kind : UniqueKind,
-	pub fingerprint : u128,
+	pub fingerprint : UniqueFingerprint,
 }
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub struct UniqueFingerprint ( u128 );
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
@@ -119,7 +124,7 @@ impl Unique {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn fingerprint (&self) -> (u128) {
+	pub fn fingerprint (&self) -> (UniqueFingerprint) {
 		let self_0 = self.data_ref ();
 		self_0.fingerprint
 	}
@@ -182,10 +187,21 @@ impl UniqueData {
 	const fn for_raw (kind : UniqueKind, fingerprint : u128) -> (UniqueData) {
 		UniqueData {
 				kind : kind,
-				fingerprint :
-					(fingerprint & (! (0xff << 60)))
-					| (((kind as u8) as u128) << 60),
+				fingerprint : UniqueFingerprint (
+						(fingerprint & (! (0xff << 60)))
+						| (((kind as u8) as u128) << 60)),
 			}
+	}
+}
+
+
+
+
+impl UniqueFingerprint {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn value (&self) -> (u128) {
+		self.0
 	}
 }
 

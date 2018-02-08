@@ -308,7 +308,7 @@ impl fmt::Display for Unique {
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = self.data_ref ();
-		write! (formatter, "#<unique:{:032x}>", self_0.fingerprint)
+		write! (formatter, "#<unique:{:032x}>", self_0.fingerprint.value ())
 	}
 }
 
