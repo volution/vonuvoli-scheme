@@ -3,6 +3,7 @@
 use super::errors::exports::*;
 use super::expressions::exports::*;
 use super::compiler::exports::*;
+use super::runtime::exports::*;
 use super::values::exports::*;
 
 use super::prelude::*;
@@ -28,7 +29,7 @@ pub type SyntaxNativeG = fn (CompilerContext, Value) -> (Outcome<(CompilerContex
 
 
 #[ derive (Clone) ]
-pub struct SyntaxNative ( StdBox<SyntaxNativeInternals> );
+pub struct SyntaxNative ( StdRc<SyntaxNativeInternals> );
 
 
 #[ derive (Clone) ]
@@ -43,31 +44,33 @@ impl SyntaxNative {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new (internals : SyntaxNativeInternals) -> (SyntaxNative) {
-		return SyntaxNative (StdBox::new (internals));
+		return SyntaxNative (StdRc::new (internals));
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn internals_ref (&self) -> (&SyntaxNativeInternals) {
-		return &self.0;
+		return StdRc::as_ref (&self.0);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn internals_into (self) -> (SyntaxNativeInternals) {
-		return *self.0;
+		let self_0 = self.internals_ref ();
+		return self_0.clone ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn handle_value (&self) -> (u64) {
+	pub fn handle (&self) -> (Handle) {
 		let self_0 = self.internals_ref ();
-		match *self_0 {
+		let value = match *self_0 {
 			SyntaxNativeInternals::NativeG (ref native) =>
 				unsafe { mem::transmute_copy (native) },
-		}
+		};
+		return Handle::new (value);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &SyntaxNative) -> (bool) {
-		return self.handle_value () == other.handle_value ();
+		StdRc::ptr_eq (&self.0, &other.0) || Handle::eq (&self.handle (), &other.handle ())
 	}
 }
 

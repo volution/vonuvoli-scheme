@@ -2,6 +2,7 @@
 
 use super::errors::exports::*;
 use super::evaluator::exports::*;
+use super::runtime::exports::*;
 use super::values::exports::*;
 
 use super::prelude::*;
@@ -39,7 +40,7 @@ pub type ProcedureNativeN = fn (&[&Value], &mut EvaluatorContext) -> (Outcome<Va
 
 
 #[ derive (Clone) ]
-pub struct ProcedureNative ( StdBox<ProcedureNativeInternals> );
+pub struct ProcedureNative ( StdRc<ProcedureNativeInternals> );
 
 
 #[ derive (Clone) ]
@@ -60,23 +61,24 @@ impl ProcedureNative {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new (internals : ProcedureNativeInternals) -> (ProcedureNative) {
-		return ProcedureNative (StdBox::new (internals));
+		return ProcedureNative (StdRc::new (internals));
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn internals_ref (&self) -> (&ProcedureNativeInternals) {
-		return &self.0;
+		return StdRc::as_ref (&self.0);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn internals_into (self) -> (ProcedureNativeInternals) {
-		return *self.0;
+		let self_0 = self.internals_ref ();
+		return self_0.clone ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn handle_value (&self) -> (u64) {
+	pub fn handle (&self) -> (Handle) {
 		let self_0 = self.internals_ref ();
-		match *self_0 {
+		let value = match *self_0 {
 			ProcedureNativeInternals::Native0 (ref native) =>
 				unsafe { mem::transmute_copy (native) },
 			ProcedureNativeInternals::Native1 (ref native) =>
@@ -91,12 +93,13 @@ impl ProcedureNative {
 				unsafe { mem::transmute_copy (native) },
 			ProcedureNativeInternals::NativeN (ref native) =>
 				unsafe { mem::transmute_copy (native) },
-		}
+		};
+		return Handle::new (value);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &ProcedureNative) -> (bool) {
-		return self.handle_value () == other.handle_value ();
+		StdRc::ptr_eq (&self.0, &other.0) || Handle::eq (&self.handle (), &other.handle ())
 	}
 }
 
