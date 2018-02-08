@@ -105,8 +105,8 @@ impl Unique {
 	
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn for_parameter (handle : Handle) -> (Unique) {
-		Unique::from_raw_handle (UniqueKind::ParameterIdentity, 0xeaed97d750aedb9b82fac1e375b185dc, handle)
+	pub fn new (data : UniqueData) -> (Unique) {
+		Unique (StdRc::new (data))
 	}
 	
 	
@@ -120,27 +120,6 @@ impl Unique {
 	pub fn fingerprint (&self) -> (u128) {
 		let self_0 = self.data_ref ();
 		self_0.fingerprint
-	}
-	
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn from_raw_handle (kind : UniqueKind, fingerprint_base : u128, handle : Handle) -> (Unique) {
-		let mut fingerprint = fingerprint_base;
-		fingerprint ^= (handle.value () as u128) << 0;
-		fingerprint ^= (handle.value () as u128) << 32;
-		fingerprint ^= (handle.value () as u128) << 64;
-		fingerprint ^= (handle.value () as u128) << 96;
-		Unique::from_raw (kind, fingerprint)
-	}
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn from_raw (kind : UniqueKind, fingerprint : u128) -> (Unique) {
-		Unique::from_data (UniqueData {kind, fingerprint})
-	}
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn from_data (data : UniqueData) -> (Unique) {
-		Unique::from_rc (StdRc::new (data))
 	}
 	
 	
@@ -172,6 +151,32 @@ impl Unique {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn data_rc_clone (&self) -> (StdRc<UniqueData>) {
 		StdRc::clone (&self.0)
+	}
+}
+
+
+
+
+impl UniqueData {
+	
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn for_parameter (handle : Handle) -> (UniqueData) {
+		UniqueData::from_raw_handle (UniqueKind::ParameterIdentity, handle.value (), 0xeaed97d750aedb9b82fac1e375b185dc)
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn from_raw_handle (kind : UniqueKind, handle : u64, fuzz : u128) -> (UniqueData) {
+		let fingerprint = (((handle as u128) << 0) | (handle as u128) << 64) ^ fuzz;
+		UniqueData::from_raw (kind, fingerprint)
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn from_raw (kind : UniqueKind, fingerprint : u128) -> (UniqueData) {
+		let kind_fingerprint_mask = ! (0xff << 60);
+		let kind_fingerprint_value = (unsafe { mem::transmute::<_, u8> (kind) } as u128) << 60;
+		let fingerprint = (fingerprint & kind_fingerprint_mask) | kind_fingerprint_value;
+		UniqueData {kind, fingerprint}
 	}
 }
 

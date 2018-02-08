@@ -368,7 +368,7 @@ impl Parameter {
 				conversion : conversion,
 				immutable : immutable,
 				handle : handle,
-				unique : Unique::for_parameter (handle),
+				unique : UniqueData::for_parameter (handle) .into (),
 			};
 		return Parameter (StdRc::new (internals));
 	}

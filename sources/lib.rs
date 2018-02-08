@@ -10,6 +10,7 @@
 #![ feature (str_internals) ]
 #![ feature (char_from_unchecked) ]
 #![ feature (slice_get_slice) ]
+#![ feature (const_fn) ]
 
 #![ no_implicit_prelude ]
 
