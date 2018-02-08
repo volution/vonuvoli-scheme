@@ -89,7 +89,7 @@ pub fn process_spawn_extended (executable : &Value, arguments : Option<&Value>, 
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn process_configure <'a> (executable : &'a str, arguments : Option<&'a [&'a str]>, options : Option<&Value>, _evaluator : Option<&mut EvaluatorContext>) -> (Outcome<ProcessConfiguration<'a>>) {
+pub fn process_configure (executable : &str, arguments : Option<&[&str]>, options : Option<&Value>, _evaluator : Option<&mut EvaluatorContext>) -> (Outcome<ProcessConfiguration>) {
 	
 	let mut configuration_stdin = Some (ProcessConfigurationStream::Null);
 	let mut configuration_stdout = Some (ProcessConfigurationStream::Null);
@@ -156,6 +156,9 @@ pub fn process_configure <'a> (executable : &'a str, arguments : Option<&'a [&'a
 			}
 		}
 	}
+	
+	let executable = StdString::from (executable) .into ();
+	let arguments = option_map! (arguments, vec_map! (arguments.iter (), argument, StdString::from (*argument) .into ()) .into_boxed_slice ());
 	
 	let configuration = ProcessConfiguration {
 			executable :  executable,

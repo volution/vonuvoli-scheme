@@ -76,28 +76,28 @@ pub enum ProcessSignal {
 
 
 #[ derive (Debug, Default) ]
-pub struct ProcessConfiguration <'a> {
-	pub executable : &'a str,
-	pub argument0 : Option<&'a str>,
-	pub arguments : Option<&'a [&'a str]>,
+pub struct ProcessConfiguration {
+	pub executable : ffi::OsString,
+	pub argument0 : Option<ffi::OsString>,
+	pub arguments : Option<StdBox<[ffi::OsString]>>,
 	pub environment_empty : bool,
-	pub environment_include : Option<&'a [(&'a str, &'a str)]>,
-	pub environment_exclude : Option<&'a [&'a str]>,
-	pub working_directory : Option<&'a str>,
-	pub stdin : Option<ProcessConfigurationStream<'a>>,
-	pub stdout : Option<ProcessConfigurationStream<'a>>,
-	pub stderr : Option<ProcessConfigurationStream<'a>>,
+	pub environment_include : Option<StdBox<[(ffi::OsString, ffi::OsString)]>>,
+	pub environment_exclude : Option<StdBox<[ffi::OsString]>>,
+	pub working_directory : Option<ffi::OsString>,
+	pub stdin : Option<ProcessConfigurationStream>,
+	pub stdout : Option<ProcessConfigurationStream>,
+	pub stderr : Option<ProcessConfigurationStream>,
 }
 
 
 #[ derive (Debug) ]
-pub enum ProcessConfigurationStream <'a> {
+pub enum ProcessConfigurationStream {
 	Inherited,
 	Piped,
 	Null,
 	Port (Port),
 	PortDescriptor (PortDescriptor),
-	File (&'a fs::File),
+	File (fs::File),
 }
 
 
@@ -106,7 +106,7 @@ pub enum ProcessConfigurationStream <'a> {
 impl Process {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn spawn <'a> (configuration : &ProcessConfiguration<'a>) -> (Outcome<Process>) {
+	pub fn spawn (configuration : &ProcessConfiguration) -> (Outcome<Process>) {
 		let configuration = try! (configuration.build ());
 		return Process::spawn_command (configuration);
 	}
@@ -360,33 +360,33 @@ impl ProcessSignal {
 
 
 
-impl <'a> ProcessConfiguration<'a> {
+impl ProcessConfiguration {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn build (&self) -> (Outcome<process::Command>) {
-		let mut command = process::Command::new (self.executable);
-		if let Some (_argument0) = self.argument0 {
+		let mut command = process::Command::new (&self.executable);
+		if let Some (ref _argument0) = self.argument0 {
 			fail! (0x6c2f442c);
 		}
-		if let Some (arguments) = self.arguments {
-			for argument in arguments {
+		if let Some (ref arguments) = self.arguments {
+			for argument in arguments.iter () {
 				command.arg (argument);
 			}
 		}
 		if self.environment_empty {
 			command.env_clear ();
 		}
-		if let Some (excludes) = self.environment_exclude {
-			for variable in excludes {
+		if let Some (ref excludes) = self.environment_exclude {
+			for variable in excludes.iter () {
 				command.env_remove (variable);
 			}
 		}
-		if let Some (includes) = self.environment_include {
-			for &(ref variable, ref value) in includes {
+		if let Some (ref includes) = self.environment_include {
+			for &(ref variable, ref value) in includes.iter () {
 				command.env (variable, value);
 			}
 		}
-		if let Some (path) = self.working_directory {
+		if let Some (ref path) = self.working_directory {
 			command.current_dir (path);
 		}
 		if let Some (ref stdin) = self.stdin {
@@ -408,7 +408,7 @@ impl <'a> ProcessConfiguration<'a> {
 
 
 
-impl <'a> ProcessConfigurationStream<'a> {
+impl ProcessConfigurationStream {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn build (&self) -> (Outcome<process::Stdio>) {
