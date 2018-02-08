@@ -257,7 +257,7 @@ pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, input_1 : &V
 			return Err (try! (error_exit (Some (input_1), true)) .into ()),
 		
 		RuntimePrimitive1::ProcessSpawnExtended =>
-			return process_spawn_extended (input_1, None, None) .into_0 (),
+			return process_spawn_extended (input_1, None, None, Some (evaluator)) .into_0 (),
 		
 		RuntimePrimitive1::ProcessWaitPoll =>
 			return process_wait (input_1, false) .into_0 (),
@@ -303,7 +303,7 @@ pub fn runtime_primitive_2_evaluate (primitive : RuntimePrimitive2, input_1 : &V
 			return parameter_configure (input_1, input_2, evaluator) .into_0 (),
 		
 		RuntimePrimitive2::ProcessSpawnExtended =>
-			return process_spawn_extended (input_1, Some (input_2), None) .into_0 (),
+			return process_spawn_extended (input_1, Some (input_2), None, Some (evaluator)) .into_0 (),
 		
 	}
 }
@@ -325,7 +325,7 @@ pub fn runtime_primitive_3_evaluate (primitive : RuntimePrimitive3, input_1 : &V
 			return parameter_build (None, Some (input_1), Some (input_2), Some (try_as_boolean_ref! (input_3) .value ()), evaluator) .into_0 (),
 		
 		RuntimePrimitive3::ProcessSpawnExtended =>
-			return process_spawn_extended (input_1, Some (input_2), Some (input_3)) .into_0 (),
+			return process_spawn_extended (input_1, Some (input_2), Some (input_3), Some (evaluator)) .into_0 (),
 		
 	}
 }
@@ -366,7 +366,7 @@ pub fn runtime_primitive_5_evaluate (primitive : RuntimePrimitive5, input_1 : &V
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn runtime_primitive_n_evaluate (primitive : RuntimePrimitiveN, inputs : &[&Value], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn runtime_primitive_n_evaluate (primitive : RuntimePrimitiveN, inputs : &[&Value], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		RuntimePrimitiveN::ErrorRaise => {
@@ -380,13 +380,13 @@ pub fn runtime_primitive_n_evaluate (primitive : RuntimePrimitiveN, inputs : &[&
 		},
 		
 		RuntimePrimitiveN::ProcessSpawn =>
-			return process_spawn (inputs) .into_0 (),
+			return process_spawn (inputs, Some (evaluator)) .into_0 (),
 		
 		RuntimePrimitiveN::ProcessRunTry =>
-			return process_run (inputs) .into_0 (),
+			return process_run (inputs, Some (evaluator)) .into_0 (),
 		
 		RuntimePrimitiveN::ProcessRunCheck =>
-			return process_run_check (inputs) .into_0 (),
+			return process_run_check (inputs, Some (evaluator)) .into_0 (),
 		
 	}
 }

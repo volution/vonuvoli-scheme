@@ -84,9 +84,9 @@ pub struct ProcessConfiguration <'a> {
 	pub environment_include : Option<&'a [(&'a str, &'a str)]>,
 	pub environment_exclude : Option<&'a [&'a str]>,
 	pub working_directory : Option<&'a str>,
-	pub stdin : Option<&'a ProcessConfigurationStream<'a>>,
-	pub stdout : Option<&'a ProcessConfigurationStream<'a>>,
-	pub stderr : Option<&'a ProcessConfigurationStream<'a>>,
+	pub stdin : Option<ProcessConfigurationStream<'a>>,
+	pub stdout : Option<ProcessConfigurationStream<'a>>,
+	pub stderr : Option<ProcessConfigurationStream<'a>>,
 }
 
 
@@ -389,15 +389,15 @@ impl <'a> ProcessConfiguration<'a> {
 		if let Some (path) = self.working_directory {
 			command.current_dir (path);
 		}
-		if let Some (stdin) = self.stdin {
+		if let Some (ref stdin) = self.stdin {
 			let stdin = try! (stdin.build ());
 			command.stdin (stdin);
 		}
-		if let Some (stdout) = self.stdout {
+		if let Some (ref stdout) = self.stdout {
 			let stdout = try! (stdout.build ());
 			command.stdout (stdout);
 		}
-		if let Some (stderr) = self.stderr {
+		if let Some (ref stderr) = self.stderr {
 			let stderr = try! (stderr.build ());
 			command.stderr (stderr);
 		}
