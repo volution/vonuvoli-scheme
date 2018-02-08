@@ -192,6 +192,11 @@ impl Handle {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub const fn for_builtin (handle : u32) -> (Handle) {
+		return Handle ( handle as u64 );
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn value (&self) -> (u64) {
 		return self.0;
 	}

@@ -375,6 +375,22 @@ impl Parameter {
 	
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn for_builtin (identifier : Symbol, handle : u32, immutable : bool) -> (Parameter) {
+		let global = Binding::new (Some (identifier.clone ()), None, true);
+		let handle = Handle::for_builtin (handle);
+		let internals = ParameterInternals {
+				identifier : Some (identifier),
+				global : global,
+				conversion : ParameterConversion::None,
+				immutable : immutable,
+				handle : handle,
+				unique : UniqueData::for_parameter (handle) .into (),
+			};
+		return Parameter (StdRc::new (internals));
+	}
+	
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_binding (&self) -> (Outcome<Binding>) {
 		let self_0 = try! (self.internals_ref ());
 		let binding = Binding::new (self_0.identifier.clone (), None, self_0.immutable);

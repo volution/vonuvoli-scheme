@@ -1,7 +1,6 @@
 
 
 use super::runtime::exports::*;
-use super::values_value::exports::*;
 
 use super::prelude::*;
 
@@ -31,7 +30,10 @@ pub struct UniqueData {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum UniqueKind {
 	
-	Singleton (ValueSingleton),
+	Null,
+	Undefined,
+	Void,
+	PortEof,
 	
 	Boolean,
 	NumberInteger,
@@ -162,21 +164,33 @@ impl UniqueData {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn for_parameter (handle : Handle) -> (UniqueData) {
-		UniqueData::from_raw_handle (UniqueKind::ParameterIdentity, handle.value (), 0xeaed97d750aedb9b82fac1e375b185dc)
+		UniqueData::for_raw_handle (UniqueKind::ParameterIdentity, handle.value (), UNIQUE_DATA_FUZZ_FOR_PARAMETER)
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn from_raw_handle (kind : UniqueKind, handle : u64, fuzz : u128) -> (UniqueData) {
-		let fingerprint = (((handle as u128) << 0) | (handle as u128) << 64) ^ fuzz;
-		UniqueData::from_raw (kind, fingerprint)
+	pub const fn for_parameter_builtin (handle : u32) -> (UniqueData) {
+		UniqueData::for_raw_handle (UniqueKind::ParameterIdentity, handle as u64, UNIQUE_DATA_FUZZ_FOR_PARAMETER)
+	}
+	
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	const fn for_raw_handle (kind : UniqueKind, handle : u64, fuzz : u128) -> (UniqueData) {
+		UniqueData::for_raw (kind, (((handle as u128) << 64) | (handle as u128) << 0) ^ fuzz)
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn from_raw (kind : UniqueKind, fingerprint : u128) -> (UniqueData) {
-		let kind_fingerprint_mask = ! (0xff << 60);
-		let kind_fingerprint_value = (unsafe { mem::transmute::<_, u8> (kind) } as u128) << 60;
-		let fingerprint = (fingerprint & kind_fingerprint_mask) | kind_fingerprint_value;
-		UniqueData {kind, fingerprint}
+	const fn for_raw (kind : UniqueKind, fingerprint : u128) -> (UniqueData) {
+		UniqueData {
+				kind : kind,
+				fingerprint :
+					(fingerprint & (! (0xff << 60)))
+					| (((kind as u8) as u128) << 60),
+			}
 	}
 }
+
+
+
+
+const UNIQUE_DATA_FUZZ_FOR_PARAMETER : u128 = 0xeaed97d750aedb9b82fac1e375b185dc;
 
