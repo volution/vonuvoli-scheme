@@ -27,7 +27,7 @@ pub struct Parameters ( StdRc<StdRefCell<ParametersInternals>> );
 
 #[ derive (Clone, Debug) ]
 pub struct ParametersInternals {
-	pub bindings : StdMap<Unique, (Binding, ParameterConversion)>,
+	pub bindings : StdMap<UniqueFingerprint, Option<(Binding, ParameterConversion)>>,
 	pub stdin : Option<Port>,
 	pub stdout : Option<Port>,
 	pub stderr : Option<Port>,
@@ -86,24 +86,47 @@ impl Parameters {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn resolve (&self, parameter : &Parameter, default : Option<&Value>, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
-		let key = try! (parameter.unique_ref ());
-		if let Some (default) = default {
-			return self.resolve_or_default (key, parameter, default, evaluator);
+		let key = & try! (parameter.unique_ref ()) .fingerprint ();
+		match try! (self.resolve_0 (key, Some (parameter), evaluator)) {
+			Some (value) =>
+				succeed! (value),
+			None =>
+				if let Some (default) = default {
+					succeed! (default.clone ());
+				} else {
+					succeed! (UNDEFINED_VALUE);
+				},
 		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn resolve_for_builtin (&self, parameter : &UniqueData, evaluator : &mut EvaluatorContext) -> (Outcome<Option<Value>>) {
+		if parameter.kind != UniqueKind::ParameterIdentity {
+			fail! (0x293d378f);
+		}
+		let key = &parameter.fingerprint;
+		return self.resolve_0 (key, None, evaluator);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn resolve_0 (&self, key : &UniqueFingerprint, parameter : Option<&Parameter>, evaluator : &mut EvaluatorContext) -> (Outcome<Option<Value>>) {
 		loop {
-			if let Some (value) = try! (self.resolve_self (key, evaluator)) {
-				succeed! (value);
-			} else {
-				try! (self.resolve_or_cache (key, parameter, evaluator));
+			match try! (self.resolve_self (key, evaluator)) {
+				Some (value) => {
+					succeed! (value);
+				},
+				None => {
+					try! (self.resolve_or_cache (key, parameter, evaluator));
+				},
 			}
 		}
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn resolve_self (&self, key : &Unique, evaluator : &mut EvaluatorContext) -> (Outcome<Option<Value>>) {
+	fn resolve_self (&self, key : &UniqueFingerprint, evaluator : &mut EvaluatorContext) -> (Outcome<Option<Option<Value>>>) {
 		let self_0 = try! (self.internals_ref ());
 		match self_0.bindings.get (key) {
-			Some (&(ref binding, ref conversion)) => {
+			Some (& Some ((ref binding, ref conversion))) => {
 				let value = try! (binding.get ());
 				let value = match *conversion {
 					ParameterConversion::None =>
@@ -115,50 +138,53 @@ impl Parameters {
 					ParameterConversion::OnResolveAlways (ref converter) =>
 						try! (evaluator.evaluate_procedure_call_1 (converter, &value)),
 				};
-				succeed! (Some (value));
+				succeed! (Some (Some (value)));
 			},
+			Some (& None) =>
+				succeed! (Some (None)),
 			None =>
 				succeed! (None),
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn resolve_or_default (&self, key : &Unique, parameter : &Parameter, default : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
-		if let Some (value) = try! (self.resolve_self (key, evaluator)) {
-			succeed! (value);
-		}
-		let self_0 = try! (self.internals_ref ());
-		if let Some (ref parent) = self_0.parent {
-			return parent.resolve_or_default (key, parameter, default, evaluator);
-		} else {
-			succeed! (default.clone ());
-		};
-	}
-	
 	#[ inline (never) ]
-	fn resolve_or_cache (&self, key : &Unique, parameter : &Parameter, evaluator : &mut EvaluatorContext) -> (Outcome<(Value, ParameterConversion)>) {
+	fn resolve_or_cache (&self, key : &UniqueFingerprint, parameter : Option<&Parameter>, evaluator : &mut EvaluatorContext) -> (Outcome<Option<(Value, ParameterConversion)>>) {
 		let mut self_0 = try! (self.internals_ref_mut ());
 		match self_0.bindings.get (key) {
-			Some (&(ref binding, ref conversion)) => {
+			Some (& Some ((ref binding, ref conversion))) => {
 				let value = try! (binding.get ());
-				succeed! ((value, conversion.clone ()));
+				succeed! (Some ((value, conversion.clone ())));
 			},
+			Some (& None) =>
+				succeed! (None),
 			None =>
 				(),
 		}
-		let (value, conversion) = if let Some (ref parent) = self_0.parent {
+		let value_and_conversion = if let Some (ref parent) = self_0.parent {
 			try! (parent.resolve_or_cache (key, parameter, evaluator))
 		} else {
-			try! (parameter.new_conversion (None, evaluator))
+			if let Some (parameter) = parameter {
+				try! (parameter.new_conversion (None, evaluator, true))
+			} else {
+				None
+			}
 		};
 		match self_0.bindings.entry (key.clone ()) {
 			StdMapEntry::Occupied (_) =>
 				fail_unreachable! (0x06fa511f),
 			StdMapEntry::Vacant (entry) => {
-				let binding = try! (parameter.new_binding ());
-				try! (binding.initialize (value.clone ()));
-				entry.insert ((binding, conversion.clone ()));
-				succeed! ((value, conversion));
+				if let Some ((ref value, ref conversion)) = value_and_conversion {
+					let binding = if let Some (parameter) = parameter {
+						try! (parameter.new_binding ())
+					} else {
+						fail_unreachable! (0x3a0cd886);
+					};
+					try! (binding.initialize (value.clone ()));
+					entry.insert (Some ((binding, conversion.clone ())));
+				} else {
+					entry.insert (None);
+				}
+				succeed! (value_and_conversion);
 			},
 		}
 	}
@@ -166,23 +192,38 @@ impl Parameters {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn configure (&self, parameter : &Parameter, value : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<()>) {
-		let key = try! (parameter.unique_ref ());
+		let key = & try! (parameter.unique_ref ()) .fingerprint ();
 		let mut self_0 = try! (self.internals_ref_mut ());
 		if self_0.immutable {
 			fail! (0xce261293);
 		}
 		match self_0.bindings.entry (key.clone ()) {
 			StdMapEntry::Occupied (entry) => {
-				let &mut (ref binding, ref mut conversion) = entry.into_mut ();
-				let (value, conversion_1) = try! (parameter.new_conversion (Some (value), evaluator));
-				try! (binding.set (value));
-				*conversion = conversion_1;
+				let entry = entry.into_mut ();
+				if let Some ((value, conversion_1)) = try! (parameter.new_conversion (Some (value), evaluator, false)) {
+					match *entry {
+						Some ((ref binding, ref mut conversion)) => {
+							try! (binding.set (value));
+							*conversion = conversion_1;
+						},
+						None => {
+							let binding = try! (parameter.new_binding ());
+							try! (binding.initialize (value));
+							*entry = Some ((binding, conversion_1));
+						}
+					}
+				} else {
+					*entry = None;
+				}
 			},
 			StdMapEntry::Vacant (entry) => {
-				let (value, conversion) = try! (parameter.new_conversion (Some (value), evaluator));
-				let binding = try! (parameter.new_binding ());
-				try! (binding.initialize (value));
-				entry.insert ((binding, conversion));
+				if let Some ((value, conversion)) = try! (parameter.new_conversion (Some (value), evaluator, true)) {
+					let binding = try! (parameter.new_binding ());
+					try! (binding.initialize (value));
+					entry.insert (Some ((binding, conversion)));
+				} else {
+					entry.insert (None);
+				}
 			},
 		}
 		succeed! (());
@@ -338,7 +379,7 @@ pub struct Parameter ( StdRc<ParameterInternals> );
 #[ derive (Clone, Debug, Hash) ]
 pub struct ParameterInternals {
 	pub identifier : Option<Symbol>,
-	pub global : Binding,
+	pub global : Option<Binding>,
 	pub conversion : ParameterConversion,
 	pub immutable : bool,
 	pub handle : Handle,
@@ -360,7 +401,7 @@ impl Parameter {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new (identifier : Option<Symbol>, global : Option<Value>, conversion : ParameterConversion, immutable : bool) -> (Parameter) {
-		let global = Binding::new (identifier.clone (), global, true);
+		let global = option_map! (global, Binding::new (identifier.clone (), Some (global), true));
 		let handle = parameter_handles_next ();
 		let internals = ParameterInternals {
 				identifier : identifier,
@@ -376,11 +417,10 @@ impl Parameter {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn for_builtin (identifier : Symbol, handle : u32, immutable : bool) -> (Parameter) {
-		let global = Binding::new (Some (identifier.clone ()), None, true);
 		let handle = Handle::for_builtin (handle);
 		let internals = ParameterInternals {
 				identifier : Some (identifier),
-				global : global,
+				global : None,
 				conversion : ParameterConversion::None,
 				immutable : immutable,
 				handle : handle,
@@ -399,30 +439,36 @@ impl Parameter {
 	
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new_conversion (&self, value : Option<&Value>, evaluator : &mut EvaluatorContext) -> (Outcome<(Value, ParameterConversion)>) {
+	pub fn new_conversion (&self, value : Option<&Value>, evaluator : &mut EvaluatorContext, is_initialization : bool) -> (Outcome<Option<(Value, ParameterConversion)>>) {
 		let self_0 = try! (self.internals_ref ());
+		if ! is_initialization && self_0.immutable {
+			fail! (0x4419c0cc);
+		}
 		let (is_configuration, value) = if let Some (value) = value {
 			(true, value.clone ())
+		} else if let Some (ref global) = self_0.global {
+			(false, try! (global.get ()))
 		} else {
-			(false, try! (self_0.global.get ()))
+			succeed! (None);
 		};
-		match self_0.conversion {
+		let value_and_conversion = match self_0.conversion {
 			ParameterConversion::None =>
-				succeed! ((value, ParameterConversion::None)),
+				(value, ParameterConversion::None),
 			ParameterConversion::OnConfigure (ref converter) =>
 				if is_configuration {
 					let value = try! (evaluator.evaluate_procedure_call_1 (converter, &value));
-					succeed! ((value, ParameterConversion::None));
+					(value, ParameterConversion::None)
 				} else {
-					succeed! ((value, ParameterConversion::None));
+					(value, ParameterConversion::None)
 				},
 			ParameterConversion::OnResolveOnce (ref converter) => {
 				let value = try! (evaluator.evaluate_procedure_call_1 (converter, &value));
-				succeed! ((value, ParameterConversion::None));
+				(value, ParameterConversion::None)
 			},
 			ParameterConversion::OnResolveAlways (_) =>
-				succeed! ((value, self_0.conversion.clone ())),
-		}
+				(value, self_0.conversion.clone ()),
+		};
+		succeed! (Some (value_and_conversion));
 	}
 	
 	

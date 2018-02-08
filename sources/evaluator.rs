@@ -1933,6 +1933,13 @@ impl <'a> EvaluatorContext<'a> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn parameter_resolve_for_builtin (&mut self, parameter : &UniqueData) -> (Outcome<Option<Value>>) {
+		// NOTE:  The following `transmute` should be safe!
+		let parameters : &Parameters = unsafe { mem::transmute (try! (self.parameters ())) };
+		return parameters.resolve_for_builtin (parameter, self);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn parameter_configure (&mut self, parameter : &Parameter, value : &Value) -> (Outcome<()>) {
 		// NOTE:  The following `transmute` should be safe!
 		let parameters : &Parameters = unsafe { mem::transmute (try! (self.parameters ())) };
