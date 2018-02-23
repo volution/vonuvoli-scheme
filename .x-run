@@ -490,7 +490,7 @@ done
 
 printf -- '%s\n' '<< execute / bin / compiler / all / debug'
 printf -- '%s\n' "x-run ':: compile / bin / compiler / debug'"
-find ./examples -xdev -type f \( -name 'optimizer--*.ss' -o -name 'benchmark--*.ss' -o -name 'example--*.ss' \) -printf '%f\n' \
+find ./examples -xdev -type f \( -name 'optimizer--*.ss' -o -name 'benchmark--*.ss' -o -name 'examples--*.ss' \) -printf '%f\n' \
 | sed -r -e 's/\.ss$//' \
 | sort -u \
 | while read _script ; do

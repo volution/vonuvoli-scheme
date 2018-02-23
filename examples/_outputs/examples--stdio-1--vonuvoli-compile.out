@@ -1,0 +1,187 @@
+
+--------------------------------------------------------------------------------
+Contexts(
+    BindingInitialize1(
+        Binding {
+            identifier: Some(
+                Symbol(
+                    "s-in"
+                )
+            ),
+            initialized: false,
+            immutable: false,
+            handle: Handle(258b03aef7f78606)
+        },
+        ProcedurePrimitiveCall(
+            ProcedurePrimitiveCall0(
+                Port(
+                    CurrentInput
+                )
+            )
+        )
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+Contexts(
+    BindingInitialize1(
+        Binding {
+            identifier: Some(
+                Symbol(
+                    "s-out"
+                )
+            ),
+            initialized: false,
+            immutable: false,
+            handle: Handle(7347ee01e25c54fe)
+        },
+        ProcedurePrimitiveCall(
+            ProcedurePrimitiveCall0(
+                Port(
+                    CurrentOutput
+                )
+            )
+        )
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+Contexts(
+    RegisterClosure(
+        Loop(
+            Some(
+                Contexts(
+                    RegisterInitializeN(
+                        [
+                            (
+                                0,
+                                ProcedurePrimitiveCall(
+                                    ProcedurePrimitiveCall1(
+                                        Port(
+                                            StringReadLine
+                                        ),
+                                        Contexts(
+                                            BindingGet1(
+                                                Binding {
+                                                    identifier: Some(
+                                                        Symbol(
+                                                            "s-in"
+                                                        )
+                                                    ),
+                                                    initialized: false,
+                                                    immutable: false,
+                                                    handle: Handle(258b03aef7f78606)
+                                                }
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        ],
+                        true
+                    )
+                )
+            ),
+            Some(
+                Contexts(
+                    RegisterSet1(
+                        0,
+                        ProcedurePrimitiveCall(
+                            ProcedurePrimitiveCall1(
+                                Port(
+                                    StringReadLine
+                                ),
+                                Contexts(
+                                    BindingGet1(
+                                        Binding {
+                                            identifier: Some(
+                                                Symbol(
+                                                    "s-in"
+                                                )
+                                            ),
+                                            initialized: false,
+                                            immutable: false,
+                                            handle: Handle(258b03aef7f78606)
+                                        }
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            ),
+            Some(
+                Sequence(
+                    ReturnLast,
+                    [
+                        ProcedurePrimitiveCall(
+                            ProcedurePrimitiveCall2(
+                                Port(
+                                    StringWrite
+                                ),
+                                Contexts(
+                                    RegisterGet1(
+                                        0
+                                    )
+                                ),
+                                Contexts(
+                                    BindingGet1(
+                                        Binding {
+                                            identifier: Some(
+                                                Symbol(
+                                                    "s-out"
+                                                )
+                                            ),
+                                            initialized: false,
+                                            immutable: false,
+                                            handle: Handle(7347ee01e25c54fe)
+                                        }
+                                    )
+                                )
+                            )
+                        ),
+                        ProcedurePrimitiveCall(
+                            ProcedurePrimitiveCall0(
+                                Port(
+                                    NewLine
+                                )
+                            )
+                        )
+                    ]
+                )
+            ),
+            Single(
+                GuardOnly(
+                    Expression(
+                        ProcedurePrimitiveCall(
+                            ProcedurePrimitiveCall1(
+                                Type(
+                                    IsPortEof
+                                ),
+                                Contexts(
+                                    RegisterGet1(
+                                        0
+                                    )
+                                )
+                            )
+                        ),
+                        false
+                    ),
+                    Return
+                )
+            )
+        ),
+        [
+            LocalValue(
+                None,
+                false
+            )
+        ]
+    )
+)
+--------------------------------------------------------------------------------
+

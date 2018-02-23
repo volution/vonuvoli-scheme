@@ -1,0 +1,290 @@
+
+--------------------------------------------------------------------------------
+Contexts(
+    BindingInitialize1(
+        Binding {
+            identifier: Some(
+                Symbol(
+                    "p"
+                )
+            ),
+            initialized: false,
+            immutable: false,
+            handle: Handle(258b03aef7f78606)
+        },
+        ProcedurePrimitiveCall(
+            ProcedurePrimitiveCall3(
+                Runtime(
+                    ProcessSpawnExtended
+                ),
+                Value(
+                    StringImmutable(
+                        "base64"
+                    )
+                ),
+                Value(
+                    PairImmutable(
+                        PairImmutableInternals {
+                            left: StringImmutable(
+                                "--"
+                            ),
+                            right: PairImmutable(
+                                PairImmutableInternals {
+                                    left: StringImmutable(
+                                        "/etc/services"
+                                    ),
+                                    right: Null
+                                }
+                            )
+                        }
+                    )
+                ),
+                Value(
+                    PairImmutable(
+                        PairImmutableInternals {
+                            left: PairImmutable(
+                                PairImmutableInternals {
+                                    left: Symbol(
+                                        "stdout"
+                                    ),
+                                    right: Symbol(
+                                        "piped"
+                                    )
+                                }
+                            ),
+                            right: Null
+                        }
+                    )
+                )
+            )
+        )
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+Contexts(
+    BindingInitialize1(
+        Binding {
+            identifier: Some(
+                Symbol(
+                    "p-out"
+                )
+            ),
+            initialized: false,
+            immutable: false,
+            handle: Handle(7347ee01e25c54fe)
+        },
+        ProcedurePrimitiveCall(
+            ProcedurePrimitiveCall1(
+                Runtime(
+                    ProcessStdoutGet
+                ),
+                Contexts(
+                    BindingGet1(
+                        Binding {
+                            identifier: Some(
+                                Symbol(
+                                    "p"
+                                )
+                            ),
+                            initialized: false,
+                            immutable: false,
+                            handle: Handle(258b03aef7f78606)
+                        }
+                    )
+                )
+            )
+        )
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+Contexts(
+    BindingInitialize1(
+        Binding {
+            identifier: Some(
+                Symbol(
+                    "s-out"
+                )
+            ),
+            initialized: false,
+            immutable: false,
+            handle: Handle(478e7baf0571ad11)
+        },
+        ProcedurePrimitiveCall(
+            ProcedurePrimitiveCall0(
+                Port(
+                    CurrentOutput
+                )
+            )
+        )
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+Contexts(
+    RegisterClosure(
+        Loop(
+            Some(
+                Contexts(
+                    RegisterInitializeN(
+                        [
+                            (
+                                0,
+                                ProcedurePrimitiveCall(
+                                    ProcedurePrimitiveCall1(
+                                        Port(
+                                            StringReadLine
+                                        ),
+                                        Contexts(
+                                            BindingGet1(
+                                                Binding {
+                                                    identifier: Some(
+                                                        Symbol(
+                                                            "p-out"
+                                                        )
+                                                    ),
+                                                    initialized: false,
+                                                    immutable: false,
+                                                    handle: Handle(7347ee01e25c54fe)
+                                                }
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        ],
+                        true
+                    )
+                )
+            ),
+            Some(
+                Contexts(
+                    RegisterSet1(
+                        0,
+                        ProcedurePrimitiveCall(
+                            ProcedurePrimitiveCall1(
+                                Port(
+                                    StringReadLine
+                                ),
+                                Contexts(
+                                    BindingGet1(
+                                        Binding {
+                                            identifier: Some(
+                                                Symbol(
+                                                    "p-out"
+                                                )
+                                            ),
+                                            initialized: false,
+                                            immutable: false,
+                                            handle: Handle(7347ee01e25c54fe)
+                                        }
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            ),
+            Some(
+                Sequence(
+                    ReturnLast,
+                    [
+                        ProcedurePrimitiveCall(
+                            ProcedurePrimitiveCall2(
+                                Port(
+                                    StringWrite
+                                ),
+                                Contexts(
+                                    RegisterGet1(
+                                        0
+                                    )
+                                ),
+                                Contexts(
+                                    BindingGet1(
+                                        Binding {
+                                            identifier: Some(
+                                                Symbol(
+                                                    "s-out"
+                                                )
+                                            ),
+                                            initialized: false,
+                                            immutable: false,
+                                            handle: Handle(478e7baf0571ad11)
+                                        }
+                                    )
+                                )
+                            )
+                        ),
+                        ProcedurePrimitiveCall(
+                            ProcedurePrimitiveCall0(
+                                Port(
+                                    NewLine
+                                )
+                            )
+                        )
+                    ]
+                )
+            ),
+            Single(
+                GuardOnly(
+                    Expression(
+                        ProcedurePrimitiveCall(
+                            ProcedurePrimitiveCall1(
+                                Type(
+                                    IsPortEof
+                                ),
+                                Contexts(
+                                    RegisterGet1(
+                                        0
+                                    )
+                                )
+                            )
+                        ),
+                        false
+                    ),
+                    Return
+                )
+            )
+        ),
+        [
+            LocalValue(
+                None,
+                false
+            )
+        ]
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+ProcedurePrimitiveCall(
+    ProcedurePrimitiveCall1(
+        Runtime(
+            ProcessWaitCheck
+        ),
+        Contexts(
+            BindingGet1(
+                Binding {
+                    identifier: Some(
+                        Symbol(
+                            "p"
+                        )
+                    ),
+                    initialized: false,
+                    immutable: false,
+                    handle: Handle(258b03aef7f78606)
+                }
+            )
+        )
+    )
+)
+--------------------------------------------------------------------------------
+

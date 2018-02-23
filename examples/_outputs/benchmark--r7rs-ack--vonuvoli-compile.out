@@ -1,0 +1,428 @@
+
+--------------------------------------------------------------------------------
+Contexts(
+    BindingInitialize1(
+        Binding {
+            identifier: Some(
+                Symbol(
+                    "ack"
+                )
+            ),
+            initialized: false,
+            immutable: false,
+            handle: Handle(258b03aef7f78606)
+        },
+        Lambda(
+            LambdaTemplate {
+                identifier: Some(
+                    Symbol(
+                        "ack"
+                    )
+                ),
+                arguments_positional: [
+                    Symbol(
+                        "m"
+                    ),
+                    Symbol(
+                        "n"
+                    )
+                ],
+                argument_rest: None,
+                handle: Handle(7db8d8a89676ad82)
+            },
+            ConditionalIf(
+                Multiple(
+                    [
+                        GuardAndExpression(
+                            Expression(
+                                ProcedurePrimitiveCall(
+                                    ProcedurePrimitiveCall2(
+                                        Comparison(
+                                            NumberEqual
+                                        ),
+                                        Contexts(
+                                            RegisterGet1(
+                                                0
+                                            )
+                                        ),
+                                        Value(
+                                            NumberInteger(
+                                                0
+                                            )
+                                        )
+                                    )
+                                ),
+                                false
+                            ),
+                            Ignore,
+                            ProcedurePrimitiveCall(
+                                ProcedurePrimitiveCall2(
+                                    Arithmetic(
+                                        Addition
+                                    ),
+                                    Contexts(
+                                        RegisterGet1(
+                                            1
+                                        )
+                                    ),
+                                    Value(
+                                        NumberInteger(
+                                            1
+                                        )
+                                    )
+                                )
+                            )
+                        ),
+                        GuardAndExpression(
+                            Expression(
+                                ProcedurePrimitiveCall(
+                                    ProcedurePrimitiveCall2(
+                                        Comparison(
+                                            NumberEqual
+                                        ),
+                                        Contexts(
+                                            RegisterGet1(
+                                                1
+                                            )
+                                        ),
+                                        Value(
+                                            NumberInteger(
+                                                0
+                                            )
+                                        )
+                                    )
+                                ),
+                                false
+                            ),
+                            Ignore,
+                            ProcedureGenericCall(
+                                ProcedureCall2(
+                                    Contexts(
+                                        BindingGet1(
+                                            Binding {
+                                                identifier: Some(
+                                                    Symbol(
+                                                        "ack"
+                                                    )
+                                                ),
+                                                initialized: false,
+                                                immutable: false,
+                                                handle: Handle(258b03aef7f78606)
+                                            }
+                                        )
+                                    ),
+                                    ProcedurePrimitiveCall(
+                                        ProcedurePrimitiveCall2(
+                                            Arithmetic(
+                                                Subtraction
+                                            ),
+                                            Contexts(
+                                                RegisterGet1(
+                                                    0
+                                                )
+                                            ),
+                                            Value(
+                                                NumberInteger(
+                                                    1
+                                                )
+                                            )
+                                        )
+                                    ),
+                                    Value(
+                                        NumberInteger(
+                                            1
+                                        )
+                                    )
+                                )
+                            )
+                        ),
+                        GuardAndExpression(
+                            True,
+                            Ignore,
+                            ProcedureGenericCall(
+                                ProcedureCall2(
+                                    Contexts(
+                                        BindingGet1(
+                                            Binding {
+                                                identifier: Some(
+                                                    Symbol(
+                                                        "ack"
+                                                    )
+                                                ),
+                                                initialized: false,
+                                                immutable: false,
+                                                handle: Handle(258b03aef7f78606)
+                                            }
+                                        )
+                                    ),
+                                    ProcedurePrimitiveCall(
+                                        ProcedurePrimitiveCall2(
+                                            Arithmetic(
+                                                Subtraction
+                                            ),
+                                            Contexts(
+                                                RegisterGet1(
+                                                    0
+                                                )
+                                            ),
+                                            Value(
+                                                NumberInteger(
+                                                    1
+                                                )
+                                            )
+                                        )
+                                    ),
+                                    ProcedureGenericCall(
+                                        ProcedureCall2(
+                                            Contexts(
+                                                BindingGet1(
+                                                    Binding {
+                                                        identifier: Some(
+                                                            Symbol(
+                                                                "ack"
+                                                            )
+                                                        ),
+                                                        initialized: false,
+                                                        immutable: false,
+                                                        handle: Handle(258b03aef7f78606)
+                                                    }
+                                                )
+                                            ),
+                                            Contexts(
+                                                RegisterGet1(
+                                                    0
+                                                )
+                                            ),
+                                            ProcedurePrimitiveCall(
+                                                ProcedurePrimitiveCall2(
+                                                    Arithmetic(
+                                                        Subtraction
+                                                    ),
+                                                    Contexts(
+                                                        RegisterGet1(
+                                                            1
+                                                        )
+                                                    ),
+                                                    Value(
+                                                        NumberInteger(
+                                                            1
+                                                        )
+                                                    )
+                                                )
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    ]
+                )
+            ),
+            [],
+            [
+                LocalValue(
+                    None,
+                    false
+                ),
+                LocalValue(
+                    None,
+                    false
+                )
+            ]
+        )
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+Contexts(
+    RegisterClosure(
+        Loop(
+            Some(
+                Contexts(
+                    RegisterInitializeN(
+                        [
+                            (
+                                0,
+                                ProcedurePrimitiveCall(
+                                    ProcedurePrimitiveCall0(
+                                        Runtime(
+                                            JiffiesTimestamp
+                                        )
+                                    )
+                                )
+                            ),
+                            (
+                                1,
+                                Value(
+                                    NumberInteger(
+                                        1
+                                    )
+                                )
+                            )
+                        ],
+                        true
+                    )
+                )
+            ),
+            Some(
+                Contexts(
+                    RegisterSet1(
+                        1,
+                        ProcedurePrimitiveCall(
+                            ProcedurePrimitiveCall2(
+                                Arithmetic(
+                                    Subtraction
+                                ),
+                                Contexts(
+                                    RegisterGet1(
+                                        1
+                                    )
+                                ),
+                                Value(
+                                    NumberInteger(
+                                        1
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            ),
+            Some(
+                ProcedureGenericCall(
+                    ProcedureCall2(
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "ack"
+                                        )
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(258b03aef7f78606)
+                                }
+                            )
+                        ),
+                        Value(
+                            NumberInteger(
+                                3
+                            )
+                        ),
+                        Value(
+                            NumberInteger(
+                                8
+                            )
+                        )
+                    )
+                )
+            ),
+            Single(
+                GuardAndExpression(
+                    Expression(
+                        ProcedurePrimitiveCall(
+                            ProcedurePrimitiveCall1(
+                                Type(
+                                    IsNumberZero
+                                ),
+                                Contexts(
+                                    RegisterGet1(
+                                        1
+                                    )
+                                )
+                            )
+                        ),
+                        false
+                    ),
+                    Ignore,
+                    Sequence(
+                        ReturnLast,
+                        [
+                            ProcedurePrimitiveCall(
+                                ProcedurePrimitiveCall1(
+                                    Port(
+                                        ValueDisplay
+                                    ),
+                                    ProcedurePrimitiveCall(
+                                        ProcedurePrimitiveCall1(
+                                            Arithmetic(
+                                                Round
+                                            ),
+                                            ProcedurePrimitiveCall(
+                                                ProcedurePrimitiveCall2(
+                                                    Arithmetic(
+                                                        Division
+                                                    ),
+                                                    ProcedurePrimitiveCall(
+                                                        ProcedurePrimitiveCall2(
+                                                            Arithmetic(
+                                                                Multiplication
+                                                            ),
+                                                            ProcedurePrimitiveCall(
+                                                                ProcedurePrimitiveCall2(
+                                                                    Arithmetic(
+                                                                        Subtraction
+                                                                    ),
+                                                                    ProcedurePrimitiveCall(
+                                                                        ProcedurePrimitiveCall0(
+                                                                            Runtime(
+                                                                                JiffiesTimestamp
+                                                                            )
+                                                                        )
+                                                                    ),
+                                                                    Contexts(
+                                                                        RegisterGet1(
+                                                                            0
+                                                                        )
+                                                                    )
+                                                                )
+                                                            ),
+                                                            Value(
+                                                                NumberInteger(
+                                                                    1000
+                                                                )
+                                                            )
+                                                        )
+                                                    ),
+                                                    ProcedurePrimitiveCall(
+                                                        ProcedurePrimitiveCall0(
+                                                            Runtime(
+                                                                JiffiesPerSecond
+                                                            )
+                                                        )
+                                                    )
+                                                )
+                                            )
+                                        )
+                                    )
+                                )
+                            ),
+                            ProcedurePrimitiveCall(
+                                ProcedurePrimitiveCall0(
+                                    Port(
+                                        NewLine
+                                    )
+                                )
+                            )
+                        ]
+                    )
+                )
+            )
+        ),
+        [
+            LocalValue(
+                None,
+                false
+            ),
+            LocalValue(
+                None,
+                false
+            )
+        ]
+    )
+)
+--------------------------------------------------------------------------------
+

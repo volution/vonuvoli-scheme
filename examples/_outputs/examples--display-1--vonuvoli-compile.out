@@ -1,0 +1,238 @@
+
+--------------------------------------------------------------------------------
+ProcedurePrimitiveCall(
+    ProcedurePrimitiveCall1(
+        Port(
+            ValueDisplay
+        ),
+        Value(
+            PairImmutable(
+                PairImmutableInternals {
+                    left: Symbol(
+                        "symbol"
+                    ),
+                    right: PairImmutable(
+                        PairImmutableInternals {
+                            left: StringImmutable(
+                                "string"
+                            ),
+                            right: PairImmutable(
+                                PairImmutableInternals {
+                                    left: NumberInteger(
+                                        0
+                                    ),
+                                    right: PairImmutable(
+                                        PairImmutableInternals {
+                                            left: NumberInteger(
+                                                -1
+                                            ),
+                                            right: PairImmutable(
+                                                PairImmutableInternals {
+                                                    left: PairImmutable(
+                                                        PairImmutableInternals {
+                                                            left: Symbol(
+                                                                "list"
+                                                            ),
+                                                            right: PairImmutable(
+                                                                PairImmutableInternals {
+                                                                    left: Symbol(
+                                                                        "element-1"
+                                                                    ),
+                                                                    right: PairImmutable(
+                                                                        PairImmutableInternals {
+                                                                            left: Symbol(
+                                                                                "element-2"
+                                                                            ),
+                                                                            right: Null
+                                                                        }
+                                                                    )
+                                                                }
+                                                            )
+                                                        }
+                                                    ),
+                                                    right: PairImmutable(
+                                                        PairImmutableInternals {
+                                                            left: PairImmutable(
+                                                                PairImmutableInternals {
+                                                                    left: Symbol(
+                                                                        "cons"
+                                                                    ),
+                                                                    right: PairImmutable(
+                                                                        PairImmutableInternals {
+                                                                            left: Symbol(
+                                                                                "left"
+                                                                            ),
+                                                                            right: PairImmutable(
+                                                                                PairImmutableInternals {
+                                                                                    left: Symbol(
+                                                                                        "right"
+                                                                                    ),
+                                                                                    right: Null
+                                                                                }
+                                                                            )
+                                                                        }
+                                                                    )
+                                                                }
+                                                            ),
+                                                            right: PairImmutable(
+                                                                PairImmutableInternals {
+                                                                    left: NumberInteger(
+                                                                        2
+                                                                    ),
+                                                                    right: PairImmutable(
+                                                                        PairImmutableInternals {
+                                                                            left: NumberInteger(
+                                                                                3
+                                                                            ),
+                                                                            right: Null
+                                                                        }
+                                                                    )
+                                                                }
+                                                            )
+                                                        }
+                                                    )
+                                                }
+                                            )
+                                        }
+                                    )
+                                }
+                            )
+                        }
+                    )
+                }
+            )
+        )
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+ProcedurePrimitiveCall(
+    ProcedurePrimitiveCall0(
+        Port(
+            NewLine
+        )
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+ProcedurePrimitiveCall(
+    ProcedurePrimitiveCall1(
+        Port(
+            ValueWrite
+        ),
+        Value(
+            PairImmutable(
+                PairImmutableInternals {
+                    left: Symbol(
+                        "symbol"
+                    ),
+                    right: PairImmutable(
+                        PairImmutableInternals {
+                            left: StringImmutable(
+                                "string"
+                            ),
+                            right: PairImmutable(
+                                PairImmutableInternals {
+                                    left: NumberInteger(
+                                        0
+                                    ),
+                                    right: PairImmutable(
+                                        PairImmutableInternals {
+                                            left: NumberInteger(
+                                                -1
+                                            ),
+                                            right: PairImmutable(
+                                                PairImmutableInternals {
+                                                    left: PairImmutable(
+                                                        PairImmutableInternals {
+                                                            left: Symbol(
+                                                                "list"
+                                                            ),
+                                                            right: PairImmutable(
+                                                                PairImmutableInternals {
+                                                                    left: Symbol(
+                                                                        "element-1"
+                                                                    ),
+                                                                    right: PairImmutable(
+                                                                        PairImmutableInternals {
+                                                                            left: Symbol(
+                                                                                "element-2"
+                                                                            ),
+                                                                            right: Null
+                                                                        }
+                                                                    )
+                                                                }
+                                                            )
+                                                        }
+                                                    ),
+                                                    right: PairImmutable(
+                                                        PairImmutableInternals {
+                                                            left: PairImmutable(
+                                                                PairImmutableInternals {
+                                                                    left: Symbol(
+                                                                        "cons"
+                                                                    ),
+                                                                    right: PairImmutable(
+                                                                        PairImmutableInternals {
+                                                                            left: Symbol(
+                                                                                "left"
+                                                                            ),
+                                                                            right: PairImmutable(
+                                                                                PairImmutableInternals {
+                                                                                    left: Symbol(
+                                                                                        "right"
+                                                                                    ),
+                                                                                    right: Null
+                                                                                }
+                                                                            )
+                                                                        }
+                                                                    )
+                                                                }
+                                                            ),
+                                                            right: PairImmutable(
+                                                                PairImmutableInternals {
+                                                                    left: NumberInteger(
+                                                                        2
+                                                                    ),
+                                                                    right: PairImmutable(
+                                                                        PairImmutableInternals {
+                                                                            left: NumberInteger(
+                                                                                3
+                                                                            ),
+                                                                            right: Null
+                                                                        }
+                                                                    )
+                                                                }
+                                                            )
+                                                        }
+                                                    )
+                                                }
+                                            )
+                                        }
+                                    )
+                                }
+                            )
+                        }
+                    )
+                }
+            )
+        )
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+ProcedurePrimitiveCall(
+    ProcedurePrimitiveCall0(
+        Port(
+            NewLine
+        )
+    )
+)
+--------------------------------------------------------------------------------
+

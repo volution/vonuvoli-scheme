@@ -95,7 +95,7 @@ Contexts(
                             ProcedurePrimitiveCall(
                                 ProcedurePrimitiveCall1(
                                     Port(
-                                        RsDisplay
+                                        ValueDisplay
                                     ),
                                     ProcedurePrimitiveCall(
                                         ProcedurePrimitiveCall1(
@@ -138,9 +138,11 @@ Contexts(
                                                             )
                                                         )
                                                     ),
-                                                    Value(
-                                                        NumberInteger(
-                                                            1000000000
+                                                    ProcedurePrimitiveCall(
+                                                        ProcedurePrimitiveCall0(
+                                                            Runtime(
+                                                                JiffiesPerSecond
+                                                            )
                                                         )
                                                     )
                                                 )
@@ -152,7 +154,7 @@ Contexts(
                             ProcedurePrimitiveCall(
                                 ProcedurePrimitiveCall0(
                                     Port(
-                                        RsNewLine
+                                        NewLine
                                     )
                                 )
                             )

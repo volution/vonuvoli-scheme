@@ -923,6 +923,11 @@
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/benchmark--r7rs-ack.ss' "${@}" >| './examples/_outputs/benchmark--r7rs-ack--vonuvoli-compile.out'
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/benchmark--r7rs-array1.ss' "${@}" >| './examples/_outputs/benchmark--r7rs-array1--vonuvoli-compile.out'
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/benchmark--r7rs-browse.ss' "${@}" >| './examples/_outputs/benchmark--r7rs-browse--vonuvoli-compile.out'
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/examples--display-1.ss' "${@}" >| './examples/_outputs/examples--display-1--vonuvoli-compile.out'
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/examples--process-1.ss' "${@}" >| './examples/_outputs/examples--process-1--vonuvoli-compile.out'
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/examples--process-2.ss' "${@}" >| './examples/_outputs/examples--process-2--vonuvoli-compile.out'
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/examples--stdio-1.ss' "${@}" >| './examples/_outputs/examples--stdio-1--vonuvoli-compile.out'
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/examples--stdio-2.ss' "${@}" >| './examples/_outputs/examples--stdio-2--vonuvoli-compile.out'
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/optimizer--controls.ss' "${@}" >| './examples/_outputs/optimizer--controls--vonuvoli-compile.out'
 !!
 

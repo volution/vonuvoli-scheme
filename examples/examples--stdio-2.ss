@@ -4,7 +4,7 @@
 
 
 (do
-		((chunk (read-chunk s-in) (read-chunk s-in)))
+		((chunk (read-string-chunk s-in) (read-string-chunk s-in)))
 		((eof-object? chunk))
 	; (newline) (display (string-length chunk)) (newline)
 	(write-string chunk s-out))

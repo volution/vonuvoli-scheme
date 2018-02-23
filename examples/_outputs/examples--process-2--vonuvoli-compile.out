@@ -1,0 +1,549 @@
+
+--------------------------------------------------------------------------------
+Contexts(
+    BindingInitialize1(
+        Binding {
+            identifier: Some(
+                Symbol(
+                    "exec"
+                )
+            ),
+            initialized: false,
+            immutable: false,
+            handle: Handle(258b03aef7f78606)
+        },
+        Lambda(
+            LambdaTemplate {
+                identifier: Some(
+                    Symbol(
+                        "exec"
+                    )
+                ),
+                arguments_positional: [
+                    Symbol(
+                        "_executable"
+                    ),
+                    Symbol(
+                        "_arguments"
+                    ),
+                    Symbol(
+                        "_options"
+                    )
+                ],
+                argument_rest: None,
+                handle: Handle(7db8d8a89676ad82)
+            },
+            Sequence(
+                ReturnLast,
+                [
+                    Contexts(
+                        RegisterInitialize1(
+                            3,
+                            ProcedurePrimitiveCall(
+                                ProcedurePrimitiveCall2(
+                                    List(
+                                        ListAppend
+                                    ),
+                                    Contexts(
+                                        RegisterGet1(
+                                            2
+                                        )
+                                    ),
+                                    Value(
+                                        PairImmutable(
+                                            PairImmutableInternals {
+                                                left: PairImmutable(
+                                                    PairImmutableInternals {
+                                                        left: Symbol(
+                                                            "stdout"
+                                                        ),
+                                                        right: Symbol(
+                                                            "piped"
+                                                        )
+                                                    }
+                                                ),
+                                                right: Null
+                                            }
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    ),
+                    Contexts(
+                        RegisterInitialize1(
+                            4,
+                            ProcedurePrimitiveCall(
+                                ProcedurePrimitiveCall3(
+                                    Runtime(
+                                        ProcessSpawnExtended
+                                    ),
+                                    Contexts(
+                                        RegisterGet1(
+                                            0
+                                        )
+                                    ),
+                                    Contexts(
+                                        RegisterGet1(
+                                            1
+                                        )
+                                    ),
+                                    Contexts(
+                                        RegisterGet1(
+                                            3
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    ),
+                    Contexts(
+                        RegisterInitialize1(
+                            5,
+                            ProcedurePrimitiveCall(
+                                ProcedurePrimitiveCall1(
+                                    Runtime(
+                                        ProcessStdoutGet
+                                    ),
+                                    Contexts(
+                                        RegisterGet1(
+                                            4
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    ),
+                    Contexts(
+                        RegisterClosure(
+                            Loop(
+                                Some(
+                                    Contexts(
+                                        RegisterInitializeN(
+                                            [
+                                                (
+                                                    1,
+                                                    ProcedurePrimitiveCall(
+                                                        ProcedurePrimitiveCall1(
+                                                            Port(
+                                                                StringReadLine
+                                                            ),
+                                                            Contexts(
+                                                                RegisterGet1(
+                                                                    0
+                                                                )
+                                                            )
+                                                        )
+                                                    )
+                                                )
+                                            ],
+                                            true
+                                        )
+                                    )
+                                ),
+                                Some(
+                                    Contexts(
+                                        RegisterSet1(
+                                            1,
+                                            ProcedurePrimitiveCall(
+                                                ProcedurePrimitiveCall1(
+                                                    Port(
+                                                        StringReadLine
+                                                    ),
+                                                    Contexts(
+                                                        RegisterGet1(
+                                                            0
+                                                        )
+                                                    )
+                                                )
+                                            )
+                                        )
+                                    )
+                                ),
+                                Some(
+                                    Sequence(
+                                        ReturnLast,
+                                        [
+                                            ProcedurePrimitiveCall(
+                                                ProcedurePrimitiveCall1(
+                                                    Port(
+                                                        StringWrite
+                                                    ),
+                                                    Value(
+                                                        StringImmutable(
+                                                            "[>>] "
+                                                        )
+                                                    )
+                                                )
+                                            ),
+                                            ProcedurePrimitiveCall(
+                                                ProcedurePrimitiveCall1(
+                                                    Port(
+                                                        StringWrite
+                                                    ),
+                                                    Contexts(
+                                                        RegisterGet1(
+                                                            1
+                                                        )
+                                                    )
+                                                )
+                                            ),
+                                            ProcedurePrimitiveCall(
+                                                ProcedurePrimitiveCall0(
+                                                    Port(
+                                                        NewLine
+                                                    )
+                                                )
+                                            )
+                                        ]
+                                    )
+                                ),
+                                Single(
+                                    GuardOnly(
+                                        Expression(
+                                            ProcedurePrimitiveCall(
+                                                ProcedurePrimitiveCall1(
+                                                    Type(
+                                                        IsPortEof
+                                                    ),
+                                                    Contexts(
+                                                        RegisterGet1(
+                                                            1
+                                                        )
+                                                    )
+                                                )
+                                            ),
+                                            false
+                                        ),
+                                        Return
+                                    )
+                                )
+                            ),
+                            [
+                                Borrow(
+                                    5
+                                ),
+                                LocalValue(
+                                    None,
+                                    false
+                                )
+                            ]
+                        )
+                    ),
+                    ProcedurePrimitiveCall(
+                        ProcedurePrimitiveCall1(
+                            Runtime(
+                                ProcessWaitCheck
+                            ),
+                            Contexts(
+                                RegisterGet1(
+                                    4
+                                )
+                            )
+                        )
+                    )
+                ]
+            ),
+            [],
+            [
+                LocalValue(
+                    None,
+                    false
+                ),
+                LocalValue(
+                    None,
+                    false
+                ),
+                LocalValue(
+                    None,
+                    false
+                ),
+                LocalValue(
+                    None,
+                    false
+                ),
+                LocalValue(
+                    None,
+                    false
+                ),
+                LocalBinding(
+                    BindingTemplate {
+                        identifier: None,
+                        value: None,
+                        immutable: false
+                    }
+                )
+            ]
+        )
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+ProcedureGenericCall(
+    ProcedureCall3(
+        Contexts(
+            BindingGet1(
+                Binding {
+                    identifier: Some(
+                        Symbol(
+                            "exec"
+                        )
+                    ),
+                    initialized: false,
+                    immutable: false,
+                    handle: Handle(258b03aef7f78606)
+                }
+            )
+        ),
+        Value(
+            StringImmutable(
+                "pwd"
+            )
+        ),
+        Value(
+            Null
+        ),
+        Value(
+            Null
+        )
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+ProcedureGenericCall(
+    ProcedureCall3(
+        Contexts(
+            BindingGet1(
+                Binding {
+                    identifier: Some(
+                        Symbol(
+                            "exec"
+                        )
+                    ),
+                    initialized: false,
+                    immutable: false,
+                    handle: Handle(258b03aef7f78606)
+                }
+            )
+        ),
+        Value(
+            StringImmutable(
+                "pwd"
+            )
+        ),
+        Value(
+            Null
+        ),
+        Value(
+            PairImmutable(
+                PairImmutableInternals {
+                    left: PairImmutable(
+                        PairImmutableInternals {
+                            left: Symbol(
+                                "directory"
+                            ),
+                            right: StringImmutable(
+                                "/tmp"
+                            )
+                        }
+                    ),
+                    right: Null
+                }
+            )
+        )
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+ProcedureGenericCall(
+    ProcedureCall3(
+        Contexts(
+            BindingGet1(
+                Binding {
+                    identifier: Some(
+                        Symbol(
+                            "exec"
+                        )
+                    ),
+                    initialized: false,
+                    immutable: false,
+                    handle: Handle(258b03aef7f78606)
+                }
+            )
+        ),
+        Value(
+            StringImmutable(
+                "env"
+            )
+        ),
+        Value(
+            Null
+        ),
+        Value(
+            PairImmutable(
+                PairImmutableInternals {
+                    left: PairImmutable(
+                        PairImmutableInternals {
+                            left: Symbol(
+                                "env-empty"
+                            ),
+                            right: Boolean(
+                                true
+                            )
+                        }
+                    ),
+                    right: Null
+                }
+            )
+        )
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+ProcedureGenericCall(
+    ProcedureCall3(
+        Contexts(
+            BindingGet1(
+                Binding {
+                    identifier: Some(
+                        Symbol(
+                            "exec"
+                        )
+                    ),
+                    initialized: false,
+                    immutable: false,
+                    handle: Handle(258b03aef7f78606)
+                }
+            )
+        ),
+        Value(
+            StringImmutable(
+                "env"
+            )
+        ),
+        Value(
+            Null
+        ),
+        Value(
+            PairImmutable(
+                PairImmutableInternals {
+                    left: PairImmutable(
+                        PairImmutableInternals {
+                            left: Symbol(
+                                "env-empty"
+                            ),
+                            right: Boolean(
+                                true
+                            )
+                        }
+                    ),
+                    right: PairImmutable(
+                        PairImmutableInternals {
+                            left: PairImmutable(
+                                PairImmutableInternals {
+                                    left: Symbol(
+                                        "env-include"
+                                    ),
+                                    right: PairImmutable(
+                                        PairImmutableInternals {
+                                            left: PairImmutable(
+                                                PairImmutableInternals {
+                                                    left: StringImmutable(
+                                                        "a"
+                                                    ),
+                                                    right: StringImmutable(
+                                                        "a"
+                                                    )
+                                                }
+                                            ),
+                                            right: PairImmutable(
+                                                PairImmutableInternals {
+                                                    left: PairImmutable(
+                                                        PairImmutableInternals {
+                                                            left: StringImmutable(
+                                                                "b"
+                                                            ),
+                                                            right: StringImmutable(
+                                                                "b"
+                                                            )
+                                                        }
+                                                    ),
+                                                    right: Null
+                                                }
+                                            )
+                                        }
+                                    )
+                                }
+                            ),
+                            right: Null
+                        }
+                    )
+                }
+            )
+        )
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+ProcedureGenericCall(
+    ProcedureCall3(
+        Contexts(
+            BindingGet1(
+                Binding {
+                    identifier: Some(
+                        Symbol(
+                            "exec"
+                        )
+                    ),
+                    initialized: false,
+                    immutable: false,
+                    handle: Handle(258b03aef7f78606)
+                }
+            )
+        ),
+        Value(
+            StringImmutable(
+                "ls"
+            )
+        ),
+        Value(
+            PairImmutable(
+                PairImmutableInternals {
+                    left: StringImmutable(
+                        "-l"
+                    ),
+                    right: PairImmutable(
+                        PairImmutableInternals {
+                            left: StringImmutable(
+                                "--"
+                            ),
+                            right: PairImmutable(
+                                PairImmutableInternals {
+                                    left: StringImmutable(
+                                        "/proc/self/fd"
+                                    ),
+                                    right: Null
+                                }
+                            )
+                        }
+                    )
+                }
+            )
+        ),
+        Value(
+            Null
+        )
+    )
+)
+--------------------------------------------------------------------------------
+
