@@ -11,6 +11,7 @@
 #![ feature (char_from_unchecked) ]
 #![ feature (slice_get_slice) ]
 #![ feature (const_fn) ]
+#![ feature (stmt_expr_attributes) ]
 
 #![ no_implicit_prelude ]
 

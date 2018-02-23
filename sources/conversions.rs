@@ -922,6 +922,17 @@ pub fn boolean_coerce (boolean : Option<&Value>) -> (Outcome<Option<bool>>) {
 }
 
 
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn string_coerce (string : Option<&Value>) -> (Outcome<Option<StdString>>) {
+	let string = if let Some (string) = string {
+		Some (try_as_string_ref! (string) .string_clone ())
+	} else {
+		None
+	};
+	succeed! (string);
+}
+
+
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

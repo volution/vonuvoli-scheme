@@ -1,7 +1,9 @@
 
 
+use super::builtins::exports::*;
 use super::contexts::exports::*;
 use super::errors::exports::*;
+use super::parameters::exports::*;
 use super::primitives::exports::*;
 use super::values::exports::*;
 
@@ -243,6 +245,14 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("process-wait-try", RuntimePrimitive1::ProcessWaitTry.into ()),
 			("process-run", RuntimePrimitiveN::ProcessRunCheck.into ()),
 			("process-run-try", RuntimePrimitiveN::ProcessRunTry.into ()),
+			
+			("process-spawn:env-empty", Parameter::for_builtin (symbol_clone_str ("process-spawn:environment-empty"), PROCESS_PARAMETER_ENVIRONMENT_EMPTY_HANDLE_VALUE, false) .into ()),
+			("process-spawn:env-include", Parameter::for_builtin (symbol_clone_str ("process-spawn:environment-include"), PROCESS_PARAMETER_ENVIRONMENT_INCLUDE_HANDLE_VALUE, false) .into ()),
+			("process-spawn:env-exclude", Parameter::for_builtin (symbol_clone_str ("process-spawn:environment-exclude"), PROCESS_PARAMETER_ENVIRONMENT_EXCLUDE_HANDLE_VALUE, false) .into ()),
+			("process-spawn:directory", Parameter::for_builtin (symbol_clone_str ("process-spawn:working-directory"), PROCESS_PARAMETER_WORKING_DIRECTORY_HANDLE_VALUE, false) .into ()),
+			("process-spawn:stdin", Parameter::for_builtin (symbol_clone_str ("process-spawn:stdin"), PROCESS_PARAMETER_STDIN_HANDLE_VALUE, false) .into ()),
+			("process-spawn:stdout", Parameter::for_builtin (symbol_clone_str ("process-spawn:stdout"), PROCESS_PARAMETER_STDOUT_HANDLE_VALUE, false) .into ()),
+			("process-spawn:stderr", Parameter::for_builtin (symbol_clone_str ("process-spawn:stderr"), PROCESS_PARAMETER_STDERR_HANDLE_VALUE, false) .into ()),
 			
 			("process-stdin", RuntimePrimitive1::ProcessStdinGet.into ()),
 			("process-stdout", RuntimePrimitive1::ProcessStdoutGet.into ()),

@@ -16,6 +16,7 @@ use super::prelude::*;
 pub mod exports {
 	pub use super::{Parameters, ParametersInternals};
 	pub use super::{Parameter, ParameterInternals, ParameterConversion};
+	pub use super::{parameter_resolve_value};
 }
 
 
@@ -506,6 +507,21 @@ impl Parameter {
 	pub fn unique (&self) -> (Outcome<Unique>) {
 		let self_0 = try! (self.internals_ref ());
 		succeed! (self_0.unique.clone ());
+	}
+}
+
+
+
+
+// TODO:  Rename and move this!
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn parameter_resolve_value (option : Option<Value>, parameter : &UniqueData, evaluator : &mut Option<&mut EvaluatorContext>) -> (Outcome<Option<Value>>) {
+	if let Some (option) = option {
+		succeed! (Some (option))
+	} else if let Some (ref mut evaluator) = *evaluator {
+		evaluator.parameter_resolve_for_builtin (parameter)
+	} else {
+		succeed! (None)
 	}
 }
 
