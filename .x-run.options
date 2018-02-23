@@ -958,8 +958,44 @@
 	exec -- less-exec x-run ':: execute / bin / compiler / debug' <( exec -- x-selection primary output )
 !!
 
-<< execute / bin / compiler / loop / debug
-	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/optimizer--loop.ss' "${@}" >| './examples/_outputs/optimizer--loop--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/optimizer--loop--vonuvoli-compile.out'
+<< execute / bin / compiler / examples / display-1 / debug
+	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/examples--display-1.ss' "${@}" >| './examples/_outputs/optimizer--display-1--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--display-1--vonuvoli-compile.out'
+!!
+
+<< execute / bin / compiler / examples / display-1 / release
+	nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/examples--display-1.ss' "${@}" >| './examples/_outputs/optimizer--display-1--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--display-1--vonuvoli-compile.out'
+!!
+
+<< execute / bin / compiler / examples / process-1 / debug
+	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/examples--process-1.ss' "${@}" >| './examples/_outputs/optimizer--process-1--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--process-1--vonuvoli-compile.out'
+!!
+
+<< execute / bin / compiler / examples / process-1 / release
+	nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/examples--process-1.ss' "${@}" >| './examples/_outputs/optimizer--process-1--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--process-1--vonuvoli-compile.out'
+!!
+
+<< execute / bin / compiler / examples / process-2 / debug
+	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/examples--process-2.ss' "${@}" >| './examples/_outputs/optimizer--process-2--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--process-2--vonuvoli-compile.out'
+!!
+
+<< execute / bin / compiler / examples / process-2 / release
+	nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/examples--process-2.ss' "${@}" >| './examples/_outputs/optimizer--process-2--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--process-2--vonuvoli-compile.out'
+!!
+
+<< execute / bin / compiler / examples / stdio-1 / debug
+	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/examples--stdio-1.ss' "${@}" >| './examples/_outputs/optimizer--stdio-1--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--stdio-1--vonuvoli-compile.out'
+!!
+
+<< execute / bin / compiler / examples / stdio-1 / release
+	nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/examples--stdio-1.ss' "${@}" >| './examples/_outputs/optimizer--stdio-1--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--stdio-1--vonuvoli-compile.out'
+!!
+
+<< execute / bin / compiler / examples / stdio-2 / debug
+	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/examples--stdio-2.ss' "${@}" >| './examples/_outputs/optimizer--stdio-2--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--stdio-2--vonuvoli-compile.out'
+!!
+
+<< execute / bin / compiler / examples / stdio-2 / release
+	nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/examples--stdio-2.ss' "${@}" >| './examples/_outputs/optimizer--stdio-2--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--stdio-2--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / loop / debug
@@ -967,15 +1003,7 @@
 !!
 
 << execute / bin / compiler / loop / release
-	nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/optimizer--loop.ss' "${@}" >| './examples/_outputs/optimizer--loop--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/optimizer--loop--vonuvoli-compile.out'
-!!
-
-<< execute / bin / compiler / loop / release
 	x-run ':: execute / bin / compiler / release' ./examples/benchmark--loop.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--loop--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--loop--vonuvoli-compile.out'
-!!
-
-<< execute / bin / compiler / make-cons / debug
-	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/optimizer--make-cons.ss' "${@}" >| './examples/_outputs/optimizer--make-cons--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/optimizer--make-cons--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / make-cons / debug
@@ -983,15 +1011,7 @@
 !!
 
 << execute / bin / compiler / make-cons / release
-	nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/optimizer--make-cons.ss' "${@}" >| './examples/_outputs/optimizer--make-cons--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/optimizer--make-cons--vonuvoli-compile.out'
-!!
-
-<< execute / bin / compiler / make-cons / release
 	x-run ':: execute / bin / compiler / release' ./examples/benchmark--make-cons.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--make-cons--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--make-cons--vonuvoli-compile.out'
-!!
-
-<< execute / bin / compiler / make-vector / debug
-	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/optimizer--make-vector.ss' "${@}" >| './examples/_outputs/optimizer--make-vector--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/optimizer--make-vector--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / make-vector / debug
@@ -999,15 +1019,7 @@
 !!
 
 << execute / bin / compiler / make-vector / release
-	nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/optimizer--make-vector.ss' "${@}" >| './examples/_outputs/optimizer--make-vector--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/optimizer--make-vector--vonuvoli-compile.out'
-!!
-
-<< execute / bin / compiler / make-vector / release
 	x-run ':: execute / bin / compiler / release' ./examples/benchmark--make-vector.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--make-vector--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--make-vector--vonuvoli-compile.out'
-!!
-
-<< execute / bin / compiler / r7rs-ack / debug
-	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/optimizer--r7rs-ack.ss' "${@}" >| './examples/_outputs/optimizer--r7rs-ack--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/optimizer--r7rs-ack--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / r7rs-ack / debug
@@ -1015,15 +1027,7 @@
 !!
 
 << execute / bin / compiler / r7rs-ack / release
-	nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/optimizer--r7rs-ack.ss' "${@}" >| './examples/_outputs/optimizer--r7rs-ack--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/optimizer--r7rs-ack--vonuvoli-compile.out'
-!!
-
-<< execute / bin / compiler / r7rs-ack / release
 	x-run ':: execute / bin / compiler / release' ./examples/benchmark--r7rs-ack.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--r7rs-ack--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--r7rs-ack--vonuvoli-compile.out'
-!!
-
-<< execute / bin / compiler / r7rs-array1 / debug
-	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/optimizer--r7rs-array1.ss' "${@}" >| './examples/_outputs/optimizer--r7rs-array1--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/optimizer--r7rs-array1--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / r7rs-array1 / debug
@@ -1031,23 +1035,11 @@
 !!
 
 << execute / bin / compiler / r7rs-array1 / release
-	nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/optimizer--r7rs-array1.ss' "${@}" >| './examples/_outputs/optimizer--r7rs-array1--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/optimizer--r7rs-array1--vonuvoli-compile.out'
-!!
-
-<< execute / bin / compiler / r7rs-array1 / release
 	x-run ':: execute / bin / compiler / release' ./examples/benchmark--r7rs-array1.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--r7rs-array1--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--r7rs-array1--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / r7rs-browse / debug
-	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/optimizer--r7rs-browse.ss' "${@}" >| './examples/_outputs/optimizer--r7rs-browse--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/optimizer--r7rs-browse--vonuvoli-compile.out'
-!!
-
-<< execute / bin / compiler / r7rs-browse / debug
 	x-run ':: execute / bin / compiler / debug' './examples/benchmark--r7rs-browse.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--r7rs-browse--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--r7rs-browse--vonuvoli-compile.out'
-!!
-
-<< execute / bin / compiler / r7rs-browse / release
-	nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/optimizer--r7rs-browse.ss' "${@}" >| './examples/_outputs/optimizer--r7rs-browse--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/optimizer--r7rs-browse--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / r7rs-browse / release
@@ -1076,6 +1068,66 @@
 
 << execute / bin / interpreter / debug / x-selection / primary
 	exec -- x-run ':: execute / bin / interpreter / debug' <( exec -- x-selection primary output )
+!!
+
+<< execute / bin / interpreter / examples / display-1 / debug
+	exec -- x-run ':: execute / bin / interpreter / debug' './examples/examples--display-1.ss' "${@}"
+!!
+
+<< execute / bin / interpreter / examples / display-1 / debug / watch
+	exec -- x-run ':: execute / bin / interpreter / debug / watch' './examples/examples--display-1.ss' "${@}"
+!!
+
+<< execute / bin / interpreter / examples / display-1 / release
+	exec -- x-run ':: execute / bin / interpreter / release' './examples/examples--display-1.ss' "${@}"
+!!
+
+<< execute / bin / interpreter / examples / process-1 / debug
+	exec -- x-run ':: execute / bin / interpreter / debug' './examples/examples--process-1.ss' "${@}"
+!!
+
+<< execute / bin / interpreter / examples / process-1 / debug / watch
+	exec -- x-run ':: execute / bin / interpreter / debug / watch' './examples/examples--process-1.ss' "${@}"
+!!
+
+<< execute / bin / interpreter / examples / process-1 / release
+	exec -- x-run ':: execute / bin / interpreter / release' './examples/examples--process-1.ss' "${@}"
+!!
+
+<< execute / bin / interpreter / examples / process-2 / debug
+	exec -- x-run ':: execute / bin / interpreter / debug' './examples/examples--process-2.ss' "${@}"
+!!
+
+<< execute / bin / interpreter / examples / process-2 / debug / watch
+	exec -- x-run ':: execute / bin / interpreter / debug / watch' './examples/examples--process-2.ss' "${@}"
+!!
+
+<< execute / bin / interpreter / examples / process-2 / release
+	exec -- x-run ':: execute / bin / interpreter / release' './examples/examples--process-2.ss' "${@}"
+!!
+
+<< execute / bin / interpreter / examples / stdio-1 / debug
+	exec -- x-run ':: execute / bin / interpreter / debug' './examples/examples--stdio-1.ss' "${@}"
+!!
+
+<< execute / bin / interpreter / examples / stdio-1 / debug / watch
+	exec -- x-run ':: execute / bin / interpreter / debug / watch' './examples/examples--stdio-1.ss' "${@}"
+!!
+
+<< execute / bin / interpreter / examples / stdio-1 / release
+	exec -- x-run ':: execute / bin / interpreter / release' './examples/examples--stdio-1.ss' "${@}"
+!!
+
+<< execute / bin / interpreter / examples / stdio-2 / debug
+	exec -- x-run ':: execute / bin / interpreter / debug' './examples/examples--stdio-2.ss' "${@}"
+!!
+
+<< execute / bin / interpreter / examples / stdio-2 / debug / watch
+	exec -- x-run ':: execute / bin / interpreter / debug / watch' './examples/examples--stdio-2.ss' "${@}"
+!!
+
+<< execute / bin / interpreter / examples / stdio-2 / release
+	exec -- x-run ':: execute / bin / interpreter / release' './examples/examples--stdio-2.ss' "${@}"
 !!
 
 << execute / bin / interpreter / release
@@ -3812,7 +3864,7 @@
 
 << workbench / cargo / install or upgrade
 		test "${#}" -eq 0
-		test -e ./.rust
+		test -e ./.rust/.initialized
 		export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
 		export -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"
 		export -- PATH="${RUST_PATH}"
@@ -3821,7 +3873,7 @@
 
 << workbench / cargo / update
 		test "${#}" -eq 0
-		test -e ./.rust
+		test -e ./.rust/.initialized
 		export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
 		export -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"
 		export -- PATH="${RUST_PATH}"
@@ -3830,21 +3882,23 @@
 
 << workbench / python / initialize
 		test "${#}" -eq 0
-		test ! -e ./.python
+		test ! -e ./.python/.initialized
+		test -e ./.python
 		nice -n 19 -- virtualenv --python python2.7 -- ./.python
+		touch -- ./.python/.initialized
 !!
 
 << workbench / python / install or upgrade
 		test "${#}" -eq 0
-		test -e ./.python
+		test -e ./.python/.initialized
 		# nice -n 19 -- ./.python/bin/pip install --force docutils
 		nice -n 19 -- ./.python/bin/pip install --force restview
 !!
 
 << workbench / rust-up / initialize
 		test "${#}" -eq 0
-		test ! -e ./.rust
-		mkdir -- ./.rust
+		test ! -e ./.rust/.initialized
+		test -e ./.rust
 		mkdir -- ./.rust/rustup
 		mkdir -- ./.rust/cargo
 		curl -s -o ./.rust/rustup-init.tmp -- https://static.rust-lang.org/rustup/dist/x86_64-unknown-linux-gnu/rustup-init
@@ -3853,11 +3907,12 @@
 		export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
 		export -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"
 		nice -n 19 -- ./.rust/rustup-init -y --no-modify-path
+		touch -- ./.rust/.initialized
 !!
 
 << workbench / rust-up / install
 		test "${#}" -eq 0
-		test -e ./.rust
+		test -e ./.rust/.initialized
 		export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
 		export -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"
 		nice -n 19 -- ./.rust/cargo/bin/rustup install stable
@@ -3866,7 +3921,7 @@
 
 << workbench / rust-up / upgrade
 		test "${#}" -eq 0
-		test -e ./.rust
+		test -e ./.rust/.initialized
 		export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
 		export -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"
 		nice -n 19 -- ./.rust/cargo/bin/rustup update

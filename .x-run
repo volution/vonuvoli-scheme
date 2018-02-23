@@ -241,8 +241,8 @@ cat <<'EOS'
 
 << workbench / rust-up / initialize
 	test "${#}" -eq 0
-	test ! -e ./.rust
-	mkdir -- ./.rust
+	test ! -e ./.rust/.initialized
+	test -e ./.rust
 	mkdir -- ./.rust/rustup
 	mkdir -- ./.rust/cargo
 	curl -s -o ./.rust/rustup-init.tmp -- https://static.rust-lang.org/rustup/dist/x86_64-unknown-linux-gnu/rustup-init
@@ -251,11 +251,12 @@ cat <<'EOS'
 	export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
 	export -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"
 	nice -n 19 -- ./.rust/rustup-init -y --no-modify-path
+	touch -- ./.rust/.initialized
 !!
 
 << workbench / rust-up / install
 	test "${#}" -eq 0
-	test -e ./.rust
+	test -e ./.rust/.initialized
 	export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
 	export -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"
 	nice -n 19 -- ./.rust/cargo/bin/rustup install stable
@@ -264,7 +265,7 @@ cat <<'EOS'
 
 << workbench / rust-up / upgrade
 	test "${#}" -eq 0
-	test -e ./.rust
+	test -e ./.rust/.initialized
 	export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
 	export -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"
 	nice -n 19 -- ./.rust/cargo/bin/rustup update
@@ -272,7 +273,7 @@ cat <<'EOS'
 
 << workbench / cargo / install or upgrade
 	test "${#}" -eq 0
-	test -e ./.rust
+	test -e ./.rust/.initialized
 	export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
 	export -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"
 	export -- PATH="${RUST_PATH}"
@@ -281,7 +282,7 @@ cat <<'EOS'
 
 << workbench / cargo / update
 	test "${#}" -eq 0
-	test -e ./.rust
+	test -e ./.rust/.initialized
 	export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
 	export -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"
 	export -- PATH="${RUST_PATH}"
@@ -290,13 +291,15 @@ cat <<'EOS'
 
 << workbench / python / initialize
 	test "${#}" -eq 0
-	test ! -e ./.python
+	test ! -e ./.python/.initialized
+	test -e ./.python
 	nice -n 19 -- virtualenv --python python2.7 -- ./.python
+	touch -- ./.python/.initialized
 !!
 
 << workbench / python / install or upgrade
 	test "${#}" -eq 0
-	test -e ./.python
+	test -e ./.python/.initialized
 	# nice -n 19 -- ./.python/bin/pip install --force docutils
 	nice -n 19 -- ./.python/bin/pip install --force restview
 !!
@@ -474,8 +477,8 @@ done
 printf -- '%s\n' '!!'
 
 
-find ./examples -xdev -type f \( -name 'optimizer--*.ss' -o -name 'benchmark--*.ss' \) -printf '%f\n' \
-| sed -r -e 's/^optimizer--//' -e 's/^benchmark--//' -e 's/\.ss$//' \
+find ./examples -xdev -type f -name 'optimizer--*.ss' -printf '%f\n' \
+| sed -r -e 's/^optimizer--//' -e 's/\.ss$//' \
 | sort -u \
 | while read _script ; do
 sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
@@ -487,7 +490,7 @@ done
 
 printf -- '%s\n' '<< execute / bin / compiler / all / debug'
 printf -- '%s\n' "x-run ':: compile / bin / compiler / debug'"
-find ./examples -xdev -type f \( -name 'optimizer--*.ss' -o -name 'benchmark--*.ss' \) -printf '%f\n' \
+find ./examples -xdev -type f \( -name 'optimizer--*.ss' -o -name 'benchmark--*.ss' -o -name 'example--*.ss' \) -printf '%f\n' \
 | sed -r -e 's/\.ss$//' \
 | sort -u \
 | while read _script ; do
@@ -496,6 +499,22 @@ nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/@{SCRIPT}.ss' 
 EOS
 done
 printf -- '%s\n' '!!'
+
+
+
+
+find ./examples -xdev -type f -name 'examples--*.ss' -printf '%f\n' \
+| sed -r -e 's/^examples--//' -e 's/\.ss$//' \
+| sort -u \
+| while read _script ; do
+sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
+:: execute / bin / interpreter / examples / @{SCRIPT} / debug / watch :: exec -- x-run ':: execute / bin / interpreter / debug / watch' './examples/examples--@{SCRIPT}.ss' "${@}"
+:: execute / bin / interpreter / examples / @{SCRIPT} / debug :: exec -- x-run ':: execute / bin / interpreter / debug' './examples/examples--@{SCRIPT}.ss' "${@}"
+:: execute / bin / interpreter / examples / @{SCRIPT} / release :: exec -- x-run ':: execute / bin / interpreter / release' './examples/examples--@{SCRIPT}.ss' "${@}"
+:: execute / bin / compiler / examples / @{SCRIPT} / debug :: nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/examples--@{SCRIPT}.ss' "${@}" >| './examples/_outputs/optimizer--@{SCRIPT}--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--@{SCRIPT}--vonuvoli-compile.out'
+:: execute / bin / compiler / examples / @{SCRIPT} / release :: nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/examples--@{SCRIPT}.ss' "${@}" >| './examples/_outputs/optimizer--@{SCRIPT}--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--@{SCRIPT}--vonuvoli-compile.out'
+EOS
+done
 
 
 
