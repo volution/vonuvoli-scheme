@@ -47,17 +47,60 @@ doc = true
 doctest = false
 
 
+
+
 [features]
-default = ["vonuvoli_inline"]
+
+default = [
+	"vonuvoli_new_immutable",
+	"vonuvoli_port_output_display_flush",
+	"vonuvoli_port_output_newline_flush",
+	"vonuvoli_backtrace",
+	"vonuvoli_inline",
+]
+
+vonuvoli_debug = [
+	"vonuvoli_new_immutable",
+	"vonuvoli_port_output_display_flush",
+	"vonuvoli_port_output_newline_flush",
+	"vonuvoli_compiler_trace_error",
+	# "vonuvoli_optimizer_trace_error",
+	"vonuvoli_evaluator_trace_error",
+	"vonuvoli_backtrace",
+	"vonuvoli_backtrace_sources",
+	# "vonuvoli_panic_on_failed",
+]
+
+vonuvoli_new_immutable = []
+
+vonuvoli_port_output_write_flush = []
+vonuvoli_port_output_display_flush = []
+vonuvoli_port_output_newline_flush = []
+
+vonuvoli_compiler_trace_error = []
+vonuvoli_optimizer_trace_error = []
+vonuvoli_evaluator_trace_error = []
+
+vonuvoli_backtrace = ["backtrace", "rustc-demangle"]
+vonuvoli_backtrace_sources = []
+
+vonuvoli_panic_on_failed = []
+
 vonuvoli_inline = []
+
+
 
 
 [dependencies.backtrace]
 version = "~0.3.5"
+optional = true
 features = ["cpp_demangle"]
 
 [dependencies.rustc-demangle]
 version = "~0.1.6"
+optional = true
+
+
 
 
 [profile.dev]

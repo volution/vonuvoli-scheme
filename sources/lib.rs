@@ -51,7 +51,13 @@ pub extern crate core;
 pub extern crate libc;
 pub extern crate test;
 
+
+
+
+#[ cfg ( feature = "vonuvoli_backtrace" ) ]
 pub extern crate backtrace;
+
+#[ cfg ( feature = "vonuvoli_backtrace" ) ]
 pub extern crate rustc_demangle;
 
 

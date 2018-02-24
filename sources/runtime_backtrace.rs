@@ -12,9 +12,18 @@ pub mod exports {
 
 
 
-pub struct Backtrace ( backtrace::Backtrace );
+#[ cfg ( feature = "vonuvoli_backtrace" ) ]
+pub struct Backtrace (
+	backtrace::Backtrace
+);
+
+#[ cfg ( not ( feature = "vonuvoli_backtrace" ) ) ]
+pub struct Backtrace ();
 
 
+
+
+#[ cfg ( feature = "vonuvoli_backtrace" ) ]
 impl Backtrace {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -124,11 +133,26 @@ impl Backtrace {
 }
 
 
+#[ cfg ( not ( feature = "vonuvoli_backtrace" ) ) ]
+impl Backtrace {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new () -> (Backtrace) {
+		Backtrace ()
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn report (&self, _transcript : &mut io::Write) -> (io::Result<()>) {
+		succeed! (());
+	}
+}
 
 
-#[ cfg (debug_assertions) ]
+
+
+#[ cfg ( all ( feature = "vonuvoli_backtrace", feature = "vonuvoli_backtrace_sources" ) ) ]
 include! ("../target/lib_sources.in");
 
-#[ cfg (not (debug_assertions)) ]
+#[ cfg ( not ( all ( feature = "vonuvoli_backtrace", feature = "vonuvoli_backtrace_sources" ) ) ) ]
 static SOURCES : &'static [((&'static str, usize), &'static str)] = &[];
 

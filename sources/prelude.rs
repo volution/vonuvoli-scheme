@@ -89,7 +89,13 @@ pub use core::str as core_str;
 pub use libc;
 pub use test;
 
+
+
+
+#[ cfg ( feature = "vonuvoli_backtrace" ) ]
 pub use backtrace;
+
+#[ cfg ( feature = "vonuvoli_backtrace" ) ]
 pub use rustc_demangle;
 
 
