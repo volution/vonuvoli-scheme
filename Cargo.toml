@@ -52,6 +52,14 @@ default = ["vonuvoli_inline"]
 vonuvoli_inline = []
 
 
+[dependencies.backtrace]
+version = "~0.3.5"
+features = ["cpp_demangle"]
+
+[dependencies.rustc-demangle]
+version = "~0.1.6"
+
+
 [profile.dev]
 opt-level = 0
 codegen-units = 32
