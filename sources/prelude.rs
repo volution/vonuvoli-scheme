@@ -89,6 +89,9 @@ pub use core::str as core_str;
 pub use libc;
 pub use test;
 
+pub use backtrace;
+pub use rustc_demangle;
+
 
 
 

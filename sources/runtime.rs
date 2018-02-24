@@ -31,6 +31,7 @@ pub mod exports {
 	pub use super::{libc_kill};
 	pub use super::{libc_memchr};
 	
+	pub use super::super::runtime_backtrace::exports::*;
 	pub use super::super::runtime_configurations::exports::*;
 	pub use super::super::runtime_iterators::exports::*;
 	pub use super::super::runtime_unicode::exports::*;

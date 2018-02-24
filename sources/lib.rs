@@ -51,6 +51,9 @@ pub extern crate core;
 pub extern crate libc;
 pub extern crate test;
 
+pub extern crate backtrace;
+pub extern crate rustc_demangle;
+
 
 
 
@@ -115,6 +118,7 @@ pub(crate) mod primitives_syntaxes;
 pub(crate) mod primitives_types;
 pub(crate) mod processes;
 pub(crate) mod runtime;
+pub(crate) mod runtime_backtrace;
 pub(crate) mod runtime_configurations;
 pub(crate) mod runtime_iterators;
 pub(crate) mod runtime_unicode;
@@ -200,6 +204,7 @@ pub mod internals {
 	pub use super::primitives_types::exports as primitives_types;
 	pub use super::processes::exports as processes;
 	pub use super::runtime::exports as runtime;
+	pub use super::runtime_backtrace::exports as runtime_backtrace;
 	pub use super::runtime_configurations::exports as runtime_configurations;
 	pub use super::runtime_iterators::exports as runtime_iterators;
 	pub use super::runtime_unicode::exports as runtime_unicode;
