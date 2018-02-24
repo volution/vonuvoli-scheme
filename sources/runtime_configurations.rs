@@ -53,3 +53,6 @@ pub const DEFAULT_PORT_BUFFER_SIZE : usize = 16 * 1024;
 pub const PANIC_ON_FAILED : bool = cfg! (feature = "vonuvoli_panic_on_failed");
 pub const ERRORS_WITH_BACKTRACE : bool = cfg! (feature = "vonuvoli_backtrace");
 
+
+pub const TRANSCRIPT_COLOR_ALWAYS : bool = cfg! (feature = "vonuvoli_transcript_color_always");
+

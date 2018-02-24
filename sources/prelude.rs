@@ -55,6 +55,7 @@ pub use super::runtime::StdExpectAsRef0;
 
 
 
+pub use std::borrow;
 pub use std::char;
 pub use std::cmp;
 pub use std::convert;
@@ -97,6 +98,12 @@ pub use backtrace;
 
 #[ cfg ( feature = "vonuvoli_backtrace" ) ]
 pub use rustc_demangle;
+
+#[ cfg ( feature = "vonuvoli_terminal" ) ]
+pub use ansi_term;
+
+#[ cfg ( feature = "vonuvoli_terminal" ) ]
+pub use atty;
 
 
 

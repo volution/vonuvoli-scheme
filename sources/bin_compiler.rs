@@ -34,6 +34,11 @@ fn main_0 () -> (Outcome<()>) {
 	let transcript_backend = io::stdout ();
 	let mut transcript = transcript_backend.lock ();
 	
+	#[ cfg ( feature = "vonuvoli_terminal" ) ]
+	let transcript_color = atty::is (atty:Stream::Stdout) || TRANSCRIPT_COLOR_ALWAYS;
+	#[ cfg ( not ( feature = "vonuvoli_terminal" ) ) ]
+	let transcript_color = false || TRANSCRIPT_COLOR_ALWAYS;
+	
 	let context = Context::new (None);
 	try! (context.define_all (try! (language_r7rs_generate_binding_templates ()) .as_ref ()));
 	try! (context.define_all (try! (language_builtins_generate_binding_templates ()) .as_ref ()));
@@ -61,7 +66,7 @@ fn main_0 () -> (Outcome<()>) {
 			expressions,
 		Err (error) => {
 			try_or_fail! (write! (transcript, "!! parse !! => {:#?}\n", &error), 0xf25f2f7b);
-			try_or_fail! (error.backtrace_report (&mut transcript), 0xa967a8dc);
+			try_or_fail! (error.backtrace_report (&mut transcript, transcript_color), 0xa967a8dc);
 			return Err (error);
 		},
 	};
@@ -71,7 +76,7 @@ fn main_0 () -> (Outcome<()>) {
 			expression,
 		Err (error) => {
 			try_or_fail! (write! (transcript, "!! compile !! => {:#?}\n", &error), 0xb181d326);
-			try_or_fail! (error.backtrace_report (&mut transcript), 0x42fa0705);
+			try_or_fail! (error.backtrace_report (&mut transcript, transcript_color), 0x42fa0705);
 			return Err (error);
 		},
 	};
@@ -81,7 +86,7 @@ fn main_0 () -> (Outcome<()>) {
 			expression,
 		Err (error) => {
 			try_or_fail! (write! (transcript, "!! optimize !! => {:#?}\n", &error), 0xf591ef0e);
-			try_or_fail! (error.backtrace_report (&mut transcript), 0x8ffda0e5);
+			try_or_fail! (error.backtrace_report (&mut transcript, transcript_color), 0x8ffda0e5);
 			return Err (error);
 		},
 	};

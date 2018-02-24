@@ -60,6 +60,12 @@ pub extern crate backtrace;
 #[ cfg ( feature = "vonuvoli_backtrace" ) ]
 pub extern crate rustc_demangle;
 
+#[ cfg ( feature = "vonuvoli_terminal" ) ]
+pub extern crate ansi_term;
+
+#[ cfg ( feature = "vonuvoli_terminal" ) ]
+pub extern crate atty;
+
 
 
 

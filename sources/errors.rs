@@ -268,10 +268,10 @@ impl Error {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn backtrace_report (&self, transcript : &mut io::Write) -> (io::Result<()>) {
+	pub fn backtrace_report (&self, transcript : &mut io::Write, color : bool) -> (io::Result<()>) {
 		match *self.internals_ref () {
 			ErrorInternals::WithBacktrace (_, ref backtrace) =>
-				return backtrace.report (transcript),
+				return backtrace.report (transcript, color),
 			_ =>
 				succeed! (()),
 		}

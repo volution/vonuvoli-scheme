@@ -31,8 +31,13 @@ fn main_0 () -> (Outcome<()>) {
 			fail! (0x1615e2d3),
 	};
 	
-	let transcript_backend = io::stdout ();
+	let transcript_backend = io::stderr ();
 	let mut transcript = transcript_backend.lock ();
+	
+	#[ cfg ( feature = "vonuvoli_terminal" ) ]
+	let transcript_color = atty::is (atty::Stream::Stderr) || TRANSCRIPT_COLOR_ALWAYS;
+	#[ cfg ( not ( feature = "vonuvoli_terminal" ) ) ]
+	let transcript_color = false || TRANSCRIPT_COLOR_ALWAYS;
 	
 	let context = Context::new (None);
 	try! (context.define_all (try! (language_r7rs_generate_binding_templates ()) .as_ref ()));
@@ -63,7 +68,7 @@ fn main_0 () -> (Outcome<()>) {
 			expressions,
 		Err (error) => {
 			try_or_fail! (write! (transcript, "!! parse !! => {:#?}\n", &error), 0x4b546a75);
-			try_or_fail! (error.backtrace_report (&mut transcript), 0xfcb837f6);
+			try_or_fail! (error.backtrace_report (&mut transcript, transcript_color), 0xfcb837f6);
 			return Err (error);
 		},
 	};
@@ -73,7 +78,7 @@ fn main_0 () -> (Outcome<()>) {
 			expression,
 		Err (error) => {
 			try_or_fail! (write! (transcript, "!! compile !! => {:#?}\n", &error), 0xeaf9b7f2);
-			try_or_fail! (error.backtrace_report (&mut transcript), 0x0a87f029);
+			try_or_fail! (error.backtrace_report (&mut transcript, transcript_color), 0x0a87f029);
 			return Err (error);
 		},
 	};
@@ -83,7 +88,7 @@ fn main_0 () -> (Outcome<()>) {
 			expression,
 		Err (error) => {
 			try_or_fail! (write! (transcript, "!! optimize !! => {:#?}\n", &error), 0x89f48a5b);
-			try_or_fail! (error.backtrace_report (&mut transcript), 0x5e46732f);
+			try_or_fail! (error.backtrace_report (&mut transcript, transcript_color), 0x5e46732f);
 			return Err (error);
 		},
 	};
@@ -104,7 +109,7 @@ fn main_0 () -> (Outcome<()>) {
 				},
 				_ => {
 					try_or_fail! (write! (transcript, "!! evaluate !! => {:#?}\n", &error), 0xe74be5c8);
-					try_or_fail! (error.backtrace_report (&mut transcript), 0x5c04a150);
+					try_or_fail! (error.backtrace_report (&mut transcript, transcript_color), 0x5c04a150);
 					process::exit (1);
 				}
 			},
