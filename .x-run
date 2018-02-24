@@ -25,8 +25,8 @@ cat <<'EOS'
 :: compile / all / debug :: x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --no-default-features "${@}"
 :: compile / all / release :: x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --release --all-features "${@}"
 
-:: compile / lib / debug :: x-run ':: compile / peg' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --lib --no-default-features "${@}"
-:: compile / lib / release :: x-run ':: compile / peg' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --lib --release --all-features "${@}"
+:: compile / lib / debug :: x-run ':: compile / peg' ; x-run ':: compile / lib / sources-include' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --lib --no-default-features "${@}"
+:: compile / lib / release :: x-run ':: compile / peg' ; x-run ':: compile / lib / sources-include' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --lib --release --all-features "${@}"
 
 :: compile / bin / interpreter / debug :: x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --bin vonuvoli-scheme-interpreter --no-default-features "${@}"
 :: compile / bin / interpreter / release :: x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --bin vonuvoli-scheme-interpreter --release --all-features "${@}"
@@ -57,7 +57,7 @@ cat <<'EOS'
 << compile / peg
 	test "${#}" -eq 0
 	if test ./sources/parser_peg.peg -nt ./sources/parser_peg.rs ; then
-		printf -- '== compile / peg ==\n' >&2
+		# printf -- '== compile / peg ==\n' >&2
 		if test -e ./sources/parser_peg.rs ; then
 			rm -- ./sources/parser_peg.rs
 		fi
@@ -68,6 +68,49 @@ cat <<'EOS'
 		fi
 		mv -T -- ./sources/.parser_peg.rs.tmp2 ./sources/parser_peg.rs
 		rm -- ./sources/.parser_peg.rs.tmp1
+	fi
+!!
+
+<< compile / lib / sources-include
+	test "${#}" -eq 0
+	if test -e ./target/lib_sources.in ; then
+		_timestamp_previous="$( exec -- date --reference ./target/lib_sources.in -- '+%s' )"
+	else
+		_timestamp_previous=0
+	fi
+	_timestamp_current="$( find ./sources/ -xdev -type f -not -name '.*' -not -name 'lib_sources.in' \( -name '*.rs' -o -name '*.in' \) -printf '%T@\n' | LC_ALL=C sort | tail -n 1 )"
+	_timestamp_current="${_timestamp_current%%.*}"
+	if test "${_timestamp_previous}" -lt "${_timestamp_current}" ; then
+		# printf -- '== compile / lib / sources-include ==\n' >&2
+		if test -e ./target/lib_sources.in ; then
+			rm -- ./target/lib_sources.in
+		fi
+		if test ! -e ./target/lib_sources.files ; then
+			mkdir -- ./target/lib_sources.files
+		fi
+		(
+			printf -- '%s\n' 'static SOURCES : &'\''static [((&'\''static str, usize), &'\''static str)] = &['
+			find ./sources/ -xdev -type f -not -name '.*' -not -name 'lib_sources.in' \( -name '*.rs' -o -name '*.in' \) -printf '%f\n' \
+			| LC_ALL=C sort \
+			| while read _file ; do
+				if test ! -e "./target/lib_sources.files/${_file}" -o "./sources/${_file}" -nt "./target/lib_sources.files/${_file}" ; then
+					(
+						printf -- '\n\n'
+						readarray -t _file_lines < <( exec -- jq -R '.' < "./sources/${_file}" )
+						_lines_count="${#_file_lines[@]}"
+						for (( _line_index = 0 ; _line_index < _lines_count ; _line_index += 1 )) ; do
+							printf '(("%s", %d), %s),\n' "${_file}" "$(( _line_index + 1 ))" "${_file_lines[$_line_index]}"
+						done
+						printf -- '\n\n'
+					) > "./target/lib_sources.files/${_file}.tmp"
+					mv -T -- "./target/lib_sources.files/${_file}.tmp" "./target/lib_sources.files/${_file}"
+				fi
+				cat -- "./target/lib_sources.files/${_file}"
+			done
+			printf -- '];\n'
+		) >| ./target/.lib_sources.in.tmp
+		touch -d "@${_timestamp_current}" -- ./target/.lib_sources.in.tmp
+		mv -T -- ./target/.lib_sources.in.tmp ./target/lib_sources.in
 	fi
 !!
 
