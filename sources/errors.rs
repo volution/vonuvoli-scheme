@@ -1,5 +1,6 @@
 
 
+use super::runtime::exports::*;
 use super::values::exports::*;
 
 use super::prelude::*;
@@ -32,6 +33,7 @@ pub struct Error ( StdRc<ErrorInternals> );
 
 pub enum ErrorInternals {
 	Code (u64),
+	WithBacktrace (u64, Backtrace),
 	WithMessage (Option<u64>, StdRc<StdBox<str>>),
 	WithMessageAndArguments (Option<u64>, StdRc<StdBox<str>>, StdRc<StdBox<[Value]>>),
 	WithValue (Option<u64>, Value),
@@ -43,7 +45,11 @@ impl Error {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new (code : u64) -> (Error) {
-		let internals = ErrorInternals::Code (code);
+		let internals = if ERRORS_WITH_BACKTRACE {
+			ErrorInternals::WithBacktrace (code, Backtrace::new ())
+		} else {
+			ErrorInternals::Code (code)
+		};
 		Error (StdRc::new (internals))
 	}
 	
@@ -102,6 +108,8 @@ impl Error {
 		match *self.internals_ref () {
 			ErrorInternals::Code (_) =>
 				true,
+			ErrorInternals::WithBacktrace (_, _) =>
+				true,
 			ErrorInternals::WithMessage (_, _) =>
 				true,
 			ErrorInternals::WithMessageAndArguments (_, _, _) =>
@@ -117,6 +125,8 @@ impl Error {
 	pub fn is_traceable (&self) -> (bool) {
 		match *self.internals_ref () {
 			ErrorInternals::Code (_) =>
+				true,
+			ErrorInternals::WithBacktrace (_, _) =>
 				true,
 			ErrorInternals::WithMessage (_, _) =>
 				true,
@@ -134,6 +144,8 @@ impl Error {
 		match *self.internals_ref () {
 			ErrorInternals::Code (code) =>
 				code,
+			ErrorInternals::WithBacktrace (code, _) =>
+				code,
 			ErrorInternals::WithMessage (code, _) =>
 				code.unwrap_or (0x0000000000000000),
 			ErrorInternals::WithMessageAndArguments (code, _, _) =>
@@ -149,6 +161,8 @@ impl Error {
 	pub fn message (&self) -> (Option<&str>) {
 		match *self.internals_ref () {
 			ErrorInternals::Code (_) =>
+				None,
+			ErrorInternals::WithBacktrace (_, _) =>
 				None,
 			ErrorInternals::WithMessage (_, ref message) =>
 				Some (message.as_ref ()),
@@ -166,6 +180,8 @@ impl Error {
 		match *self.internals_ref () {
 			ErrorInternals::Code (_) =>
 				None,
+			ErrorInternals::WithBacktrace (_, _) =>
+				None,
 			ErrorInternals::WithMessage (_, ref message) =>
 				Some (StringImmutable::clone_rc (message)),
 			ErrorInternals::WithMessageAndArguments (_, ref message, _) =>
@@ -181,6 +197,8 @@ impl Error {
 	pub fn arguments (&self) -> (Option<&[Value]>) {
 		match *self.internals_ref () {
 			ErrorInternals::Code (_) =>
+				None,
+			ErrorInternals::WithBacktrace (_, _) =>
 				None,
 			ErrorInternals::WithMessage (_, _) =>
 				None,
@@ -198,6 +216,8 @@ impl Error {
 		match *self.internals_ref () {
 			ErrorInternals::Code (_) =>
 				None,
+			ErrorInternals::WithBacktrace (_, _) =>
+				None,
 			ErrorInternals::WithMessage (_, _) =>
 				None,
 			ErrorInternals::WithMessageAndArguments (_, _, ref arguments) =>
@@ -213,6 +233,8 @@ impl Error {
 	pub fn arguments_clone_values (&self) -> (Option<Values>) {
 		match *self.internals_ref () {
 			ErrorInternals::Code (_) =>
+				None,
+			ErrorInternals::WithBacktrace (_, _) =>
 				None,
 			ErrorInternals::WithMessage (_, _) =>
 				None,
@@ -243,6 +265,16 @@ impl Error {
 		let self_code = self.code ();
 		let other_code = other.code ();
 		self_code == other_code
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn backtrace_report (&self, transcript : &mut io::Write) -> (io::Result<()>) {
+		match *self.internals_ref () {
+			ErrorInternals::WithBacktrace (_, ref backtrace) =>
+				return backtrace.report (transcript),
+			_ =>
+				succeed! (()),
+		}
 	}
 }
 

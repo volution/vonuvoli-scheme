@@ -51,4 +51,5 @@ pub const DEFAULT_PORT_BUFFER_SIZE : usize = 16 * 1024;
 
 
 pub const PANIC_ON_FAILED : bool = false;
+pub const ERRORS_WITH_BACKTRACE : bool = true;
 
