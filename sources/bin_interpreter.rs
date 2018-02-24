@@ -63,6 +63,7 @@ fn main_0 () -> (Outcome<()>) {
 			expressions,
 		Err (error) => {
 			try_or_fail! (write! (transcript, "!! parse !! => {:#?}\n", &error), 0x4b546a75);
+			try_or_fail! (error.backtrace_report (&mut transcript), 0xfcb837f6);
 			return Err (error);
 		},
 	};
@@ -72,6 +73,7 @@ fn main_0 () -> (Outcome<()>) {
 			expression,
 		Err (error) => {
 			try_or_fail! (write! (transcript, "!! compile !! => {:#?}\n", &error), 0xeaf9b7f2);
+			try_or_fail! (error.backtrace_report (&mut transcript), 0x0a87f029);
 			return Err (error);
 		},
 	};
@@ -81,6 +83,7 @@ fn main_0 () -> (Outcome<()>) {
 			expression,
 		Err (error) => {
 			try_or_fail! (write! (transcript, "!! optimize !! => {:#?}\n", &error), 0x89f48a5b);
+			try_or_fail! (error.backtrace_report (&mut transcript), 0x5e46732f);
 			return Err (error);
 		},
 	};
@@ -101,6 +104,7 @@ fn main_0 () -> (Outcome<()>) {
 				},
 				_ => {
 					try_or_fail! (write! (transcript, "!! evaluate !! => {:#?}\n", &error), 0xe74be5c8);
+					try_or_fail! (error.backtrace_report (&mut transcript), 0x5c04a150);
 					process::exit (1);
 				}
 			},

@@ -372,6 +372,7 @@ pub fn compile_test (test : &TestCase, context_without_optimizations : &Context,
 		Err (error) => {
 			header_emitted = try! (test_case_header_emit (test, transcript, verbosity_without_optimizations, header_emitted, true));
 			try_or_fail! (write! (transcript, "!! compile-without-optimizations !!\n{:#?}\n!! => !!\n{:#?}\n", &test.expression, &error), 0x495036cb);
+			try_or_fail! (error.backtrace_report (transcript), 0xdb9b3cac);
 			return Err (error);
 		},
 	};
@@ -401,6 +402,7 @@ pub fn compile_test (test : &TestCase, context_without_optimizations : &Context,
 		Err (error) => {
 			header_emitted = try! (test_case_header_emit (test, transcript, verbosity_with_optimizations, header_emitted, true));
 			try_or_fail! (write! (transcript, "!! compile-with-optimizations !!\n{:#?}\n!! => !!\n{:#?}\n", &test.expression, &error), 0x1241fb62);
+			try_or_fail! (error.backtrace_report (transcript), 0xaec53595);
 			return Err (error);
 		},
 	};
@@ -411,6 +413,7 @@ pub fn compile_test (test : &TestCase, context_without_optimizations : &Context,
 		Err (error) => {
 			header_emitted = try! (test_case_header_emit (test, transcript, verbosity_with_optimizations, header_emitted, true));
 			try_or_fail! (write! (transcript, "!! compile-with-optimizations !!\n{:#?}\n!! => !!\n{:#?}\n", &test.expression, &error), 0x4a0986b8);
+			try_or_fail! (error.backtrace_report (transcript), 0xe88f6bf0);
 			return Err (error);
 		},
 	};
@@ -481,6 +484,7 @@ pub fn execute_test (test : &TestCaseCompiled, transcript : &mut io::Write, verb
 		Err (error) => {
 			header_emitted = try! (test_case_header_emit (&test.source, transcript, verbosity_without_optimizations, header_emitted, true));
 			try_or_fail! (write! (transcript, "!! evaluate-without-optimizations !!\n{:#?}\n!! => !!\n{:#?}\n", &test.expression_without_optimizations, &error), 0xd70f287e);
+			try_or_fail! (error.backtrace_report (transcript), 0x78002618);
 			return Err (error);
 		},
 	};
@@ -510,6 +514,7 @@ pub fn execute_test (test : &TestCaseCompiled, transcript : &mut io::Write, verb
 		Err (error) => {
 			header_emitted = try! (test_case_header_emit (&test.source, transcript, verbosity_with_optimizations, header_emitted, true));
 			try_or_fail! (write! (transcript, "!! evaluate-with-optimizations !!\n{:#?}\n!! => !!\n{:#?}\n", &test.expression_with_optimizations, &error), 0x4dfaa3fd);
+			try_or_fail! (error.backtrace_report (transcript), 0x430cfc58);
 			return Err (error);
 		},
 	};
