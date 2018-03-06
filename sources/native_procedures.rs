@@ -31,6 +31,8 @@ pub mod exports {
 	pub use super::ProcedureNative5E;
 	pub use super::ProcedureNativeNE;
 	
+	pub use super::ProcedureNativeV;
+	
 	pub use super::super::conversions::{
 			procedure_native_0, procedure_native_0e,
 			procedure_native_1, procedure_native_1e,
@@ -39,6 +41,7 @@ pub mod exports {
 			procedure_native_4, procedure_native_4e,
 			procedure_native_5, procedure_native_5e,
 			procedure_native_n, procedure_native_ne,
+			procedure_native_v,
 		};
 	
 }
@@ -61,6 +64,8 @@ pub type ProcedureNative3E = fn (&Value, &Value, &Value, &mut EvaluatorContext) 
 pub type ProcedureNative4E = fn (&Value, &Value, &Value, &Value, &mut EvaluatorContext) -> (Outcome<Value>);
 pub type ProcedureNative5E = fn (&Value, &Value, &Value, &Value, &Value, &mut EvaluatorContext) -> (Outcome<Value>);
 pub type ProcedureNativeNE = fn (&[&Value], &mut EvaluatorContext) -> (Outcome<Value>);
+
+pub type ProcedureNativeV = fn (arguments : usize) -> (Outcome<ProcedureNativeInternals>);
 
 
 
@@ -87,6 +92,8 @@ pub enum ProcedureNativeInternals {
 	Native4E (ProcedureNative4E),
 	Native5E (ProcedureNative5E),
 	NativeNE (ProcedureNativeNE),
+	
+	NativeV (ProcedureNativeV),
 	
 }
 
@@ -140,6 +147,8 @@ impl ProcedureNative {
 			ProcedureNativeInternals::Native5E (ref native) =>
 				unsafe { mem::transmute_copy (native) },
 			ProcedureNativeInternals::NativeNE (ref native) =>
+				unsafe { mem::transmute_copy (native) },
+			ProcedureNativeInternals::NativeV (ref native) =>
 				unsafe { mem::transmute_copy (native) },
 		};
 		return Handle::new (value);

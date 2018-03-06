@@ -1694,6 +1694,11 @@ impl Evaluator {
 			ProcedureNativeInternals::NativeNE (native) =>
 				return native (inputs, evaluation),
 			
+			ProcedureNativeInternals::NativeV (native) => {
+				let native = try! (native (inputs_count));
+				return self.evaluate_procedure_native_with_values (evaluation, &native, inputs);
+			},
+			
 		}
 	}
 	

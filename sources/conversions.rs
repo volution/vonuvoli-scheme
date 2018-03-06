@@ -286,6 +286,8 @@ impl_from_for_native_procedure_1! (ProcedureNative4E, Native4E, procedure_native
 impl_from_for_native_procedure_1! (ProcedureNative5E, Native5E, procedure_native_5e);
 impl_from_for_native_procedure_1! (ProcedureNativeNE, NativeNE, procedure_native_ne);
 
+impl_from_for_native_procedure_1! (ProcedureNativeV, NativeV, procedure_native_v);
+
 
 
 

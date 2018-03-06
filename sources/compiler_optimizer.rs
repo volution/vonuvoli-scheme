@@ -298,7 +298,7 @@ impl Optimizer {
 		match expression {
 			
 			ExpressionForProcedureNativeCall::ProcedureNativeCall (native, inputs) =>
-				return self.optimize_procedure_native (optimization, native, inputs),
+				return self.optimize_procedure_native_g (optimization, native, inputs),
 			
 			ExpressionForProcedureNativeCall::ProcedureNativeCall0 (native) =>
 				return self.optimize_procedure_native_0 (optimization, native),
@@ -946,7 +946,7 @@ impl Optimizer {
 				ValueKind::ProcedureExtended =>
 					return self.optimize_procedure_extended (optimization, callable.expect_into_0 (), inputs),
 				ValueKind::ProcedureNative =>
-					return self.optimize_procedure_native (optimization, callable.expect_into_0 (), inputs),
+					return self.optimize_procedure_native_g (optimization, callable.expect_into_0 (), inputs),
 				ValueKind::ProcedureLambda =>
 					return self.optimize_procedure_lambda (optimization, StdExpectInto0::<ProcedureLambda>::expect_into_0 (callable) .internals_rc_into (), inputs),
 				_ =>
@@ -1025,7 +1025,7 @@ impl Optimizer {
 				ValueKind::ProcedureExtended =>
 					return self.optimize_procedure_extended_0 (optimization, callable.expect_into_0 ()),
 				ValueKind::ProcedureNative =>
-					return self.optimize_procedure_native (optimization, callable.expect_into_0 (), StdBox::new ([])),
+					return self.optimize_procedure_native_g (optimization, callable.expect_into_0 (), StdBox::new ([])),
 				ValueKind::ProcedureLambda =>
 					return self.optimize_procedure_lambda_0 (optimization, StdExpectInto0::<ProcedureLambda>::expect_into_0 (callable) .internals_rc_into ()),
 				_ =>
@@ -1062,7 +1062,7 @@ impl Optimizer {
 				ValueKind::ProcedureExtended =>
 					return self.optimize_procedure_extended_1 (optimization, callable.expect_into_0 (), input_1),
 				ValueKind::ProcedureNative =>
-					return self.optimize_procedure_native (optimization, callable.expect_into_0 (), StdBox::new ([input_1])),
+					return self.optimize_procedure_native_g (optimization, callable.expect_into_0 (), StdBox::new ([input_1])),
 				ValueKind::ProcedureLambda =>
 					return self.optimize_procedure_lambda_1 (optimization, StdExpectInto0::<ProcedureLambda>::expect_into_0 (callable) .internals_rc_into (), input_1),
 				_ =>
@@ -1100,7 +1100,7 @@ impl Optimizer {
 				ValueKind::ProcedureExtended =>
 					return self.optimize_procedure_extended_2 (optimization, callable.expect_into_0 (), input_1, input_2),
 				ValueKind::ProcedureNative =>
-					return self.optimize_procedure_native (optimization, callable.expect_into_0 (), StdBox::new ([input_1, input_2])),
+					return self.optimize_procedure_native_g (optimization, callable.expect_into_0 (), StdBox::new ([input_1, input_2])),
 				ValueKind::ProcedureLambda =>
 					return self.optimize_procedure_lambda_2 (optimization, StdExpectInto0::<ProcedureLambda>::expect_into_0 (callable) .internals_rc_into (), input_1, input_2),
 				_ =>
@@ -1139,7 +1139,7 @@ impl Optimizer {
 				ValueKind::ProcedureExtended =>
 					return self.optimize_procedure_extended_3 (optimization, callable.expect_into_0 (), input_1, input_2, input_3),
 				ValueKind::ProcedureNative =>
-					return self.optimize_procedure_native (optimization, callable.expect_into_0 (), StdBox::new ([input_1, input_2, input_3])),
+					return self.optimize_procedure_native_g (optimization, callable.expect_into_0 (), StdBox::new ([input_1, input_2, input_3])),
 				ValueKind::ProcedureLambda =>
 					return self.optimize_procedure_lambda_3 (optimization, StdExpectInto0::<ProcedureLambda>::expect_into_0 (callable) .internals_rc_into (), input_1, input_2, input_3),
 				_ =>
@@ -1179,7 +1179,7 @@ impl Optimizer {
 				ValueKind::ProcedureExtended =>
 					return self.optimize_procedure_extended_4 (optimization, callable.expect_into_0 (), input_1, input_2, input_3, input_4),
 				ValueKind::ProcedureNative =>
-					return self.optimize_procedure_native (optimization, callable.expect_into_0 (), StdBox::new ([input_1, input_2, input_3, input_4])),
+					return self.optimize_procedure_native_g (optimization, callable.expect_into_0 (), StdBox::new ([input_1, input_2, input_3, input_4])),
 				ValueKind::ProcedureLambda =>
 					return self.optimize_procedure_lambda_4 (optimization, StdExpectInto0::<ProcedureLambda>::expect_into_0 (callable) .internals_rc_into (), input_1, input_2, input_3, input_4),
 				_ =>
@@ -1220,7 +1220,7 @@ impl Optimizer {
 				ValueKind::ProcedureExtended =>
 					return self.optimize_procedure_extended_5 (optimization, callable.expect_into_0 (), input_1, input_2, input_3, input_4, input_5),
 				ValueKind::ProcedureNative =>
-					return self.optimize_procedure_native (optimization, callable.expect_into_0 (), StdBox::new ([input_1, input_2, input_3, input_4, input_5])),
+					return self.optimize_procedure_native_g (optimization, callable.expect_into_0 (), StdBox::new ([input_1, input_2, input_3, input_4, input_5])),
 				ValueKind::ProcedureLambda =>
 					return self.optimize_procedure_lambda_5 (optimization, StdExpectInto0::<ProcedureLambda>::expect_into_0 (callable) .internals_rc_into (), input_1, input_2, input_3, input_4, input_5),
 				_ =>
@@ -1258,7 +1258,7 @@ impl Optimizer {
 				ValueKind::ProcedureExtended =>
 					return self.optimize_procedure_extended_n (optimization, callable.expect_into_0 (), inputs),
 				ValueKind::ProcedureNative =>
-					return self.optimize_procedure_native (optimization, callable.expect_into_0 (), inputs),
+					return self.optimize_procedure_native_g (optimization, callable.expect_into_0 (), inputs),
 				ValueKind::ProcedureLambda =>
 					return self.optimize_procedure_lambda_n (optimization, StdExpectInto0::<ProcedureLambda>::expect_into_0 (callable) .internals_rc_into (), inputs),
 				_ =>
@@ -1718,9 +1718,13 @@ impl Optimizer {
 	
 	
 	
-	fn optimize_procedure_native (&self, optimization : OptimizerContext, native : ProcedureNative, inputs : StdBox<[Expression]>) -> (Outcome<(OptimizerContext, Expression)>) {
-		let inputs_count = inputs.len ();
+	fn optimize_procedure_native_g (&self, optimization : OptimizerContext, native : ProcedureNative, inputs : StdBox<[Expression]>) -> (Outcome<(OptimizerContext, Expression)>) {
 		let native = native.internals_into ();
+		return self.optimize_procedure_native_g_0 (optimization, native, inputs);
+	}
+	
+	fn optimize_procedure_native_g_0 (&self, optimization : OptimizerContext, native : ProcedureNativeInternals, inputs : StdBox<[Expression]>) -> (Outcome<(OptimizerContext, Expression)>) {
+		let inputs_count = inputs.len ();
 		match native {
 			
 			ProcedureNativeInternals::Native0 (native) =>
@@ -1845,6 +1849,11 @@ impl Optimizer {
 				return self.optimize_procedure_native_n (optimization, native, inputs),
 			ProcedureNativeInternals::NativeNE (native) =>
 				return self.optimize_procedure_native_ne (optimization, native, inputs),
+			
+			ProcedureNativeInternals::NativeV (native) => {
+				let native = try! (native (inputs_count));
+				return self.optimize_procedure_native_g_0 (optimization, native, inputs);
+			},
 			
 		}
 	}
