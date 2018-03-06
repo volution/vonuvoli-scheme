@@ -14,7 +14,7 @@ pub mod exports {
 
 #[ cfg ( feature = "vonuvoli_backtrace" ) ]
 pub struct Backtrace (
-	backtrace::Backtrace
+	ext::backtrace::Backtrace
 );
 
 #[ cfg ( not ( feature = "vonuvoli_backtrace" ) ) ]
@@ -28,7 +28,7 @@ impl Backtrace {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new () -> (Backtrace) {
-		Backtrace (backtrace::Backtrace::new_unresolved ())
+		Backtrace (ext::backtrace::Backtrace::new_unresolved ())
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -53,12 +53,12 @@ impl Backtrace {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn report_symbol (&self, symbol : &backtrace::BacktraceSymbol, transcript : &mut io::Write, color : bool) -> (io::Result<bool>) {
+	fn report_symbol (&self, symbol : &ext::backtrace::BacktraceSymbol, transcript : &mut io::Write, color : bool) -> (io::Result<bool>) {
 		let name = option_and_then! (symbol.name (), name, name.as_str ());
 		match name {
 			Some (name) => {
 				let mut name_buffer = StdString::new ();
-				let demangled = match rustc_demangle::try_demangle (name) {
+				let demangled = match ext::rustc_demangle::try_demangle (name) {
 					Ok (demangled) =>
 						match write! (name_buffer, "{:#}", demangled) {
 							Ok (()) =>
@@ -161,7 +161,7 @@ static SOURCES : &'static [((&'static str, usize), &'static str)] = &[];
 
 #[ cfg ( feature = "vonuvoli_terminal" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn style_paint <'a, I, S> (input : I, style : ansi_term::Style, color : bool) -> (ansi_term::ANSIGenericString<'a, S>)
+fn style_paint <'a, I, S> (input : I, style : ext::ansi_term::Style, color : bool) -> (ext::ansi_term::ANSIGenericString<'a, S>)
 		where
 			I : StdInto<borrow::Cow<'a, S>>,
 			S : 'a + borrow::ToOwned + ?Sized,
@@ -185,23 +185,23 @@ fn style_paint <I> (input : I, _style : (), _color : bool) -> (I)
 
 
 #[ cfg ( feature = "vonuvoli_terminal" ) ]
-static STYLE_SYMBOL_NAME : ansi_term::Style = ansi_term::Style {
-		foreground : Some (ansi_term::Colour::Yellow),
+static STYLE_SYMBOL_NAME : ext::ansi_term::Style = ext::ansi_term::Style {
+		foreground : Some (ext::ansi_term::Colour::Yellow),
 		background : None,
 		is_bold : true, is_italic : false, is_underline : false, is_strikethrough : false,
 		is_dimmed : false, is_blink : false, is_reverse : false, is_hidden : false,
 	};
 
 #[ cfg ( feature = "vonuvoli_terminal" ) ]
-static STYLE_SYMBOL_LINE_EXACT : ansi_term::Style = ansi_term::Style {
-		foreground : Some (ansi_term::Colour::Red),
+static STYLE_SYMBOL_LINE_EXACT : ext::ansi_term::Style = ext::ansi_term::Style {
+		foreground : Some (ext::ansi_term::Colour::Red),
 		background : None,
 		is_bold : true, is_italic : false, is_underline : false, is_strikethrough : false,
 		is_dimmed : false, is_blink : false, is_reverse : false, is_hidden : false,
 	};
 
 #[ cfg ( feature = "vonuvoli_terminal" ) ]
-static STYLE_NONE : ansi_term::Style = ansi_term::Style {
+static STYLE_NONE : ext::ansi_term::Style = ext::ansi_term::Style {
 		foreground : None,
 		background : None,
 		is_bold : false, is_italic : false, is_underline : false, is_strikethrough : false,

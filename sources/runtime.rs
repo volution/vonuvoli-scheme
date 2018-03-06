@@ -437,10 +437,10 @@ pub fn boxed_slice_to_ref <'a, Element : 'a, ElementRef : StdAsRef<Element> + 'a
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn libc_getrusage_for_thread () -> (libc::rusage) {
+pub fn libc_getrusage_for_thread () -> (ext::libc::rusage) {
 	unsafe {
 		let mut resources = mem::zeroed ();
-		if libc::getrusage (libc::RUSAGE_THREAD, &mut resources) == 0 {
+		if ext::libc::getrusage (ext::libc::RUSAGE_THREAD, &mut resources) == 0 {
 			resources
 		} else {
 			panic! ("fc7fa1cb");
@@ -450,9 +450,9 @@ pub fn libc_getrusage_for_thread () -> (libc::rusage) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn libc_kill (process : libc::pid_t, signal : libc::c_int) -> (Outcome<()>) {
+pub fn libc_kill (process : ext::libc::pid_t, signal : ext::libc::c_int) -> (Outcome<()>) {
 	unsafe {
-		if libc::kill (process, signal) == 0 {
+		if ext::libc::kill (process, signal) == 0 {
 			succeed! (());
 		} else {
 			fail! (0x41a2990d);
@@ -464,10 +464,10 @@ pub fn libc_kill (process : libc::pid_t, signal : libc::c_int) -> (Outcome<()>) 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn libc_memchr (search : u8, buffer : &[u8]) -> (Option<usize>) {
 	unsafe {
-		let buffer_pointer = buffer.as_ptr () as * const libc::c_void;
-		let found_pointer = libc::memchr (
+		let buffer_pointer = buffer.as_ptr () as * const ext::libc::c_void;
+		let found_pointer = ext::libc::memchr (
 				buffer_pointer,
-				search as libc::c_int,
+				search as ext::libc::c_int,
 				buffer.len ()
 			);
 		if found_pointer.is_null () {

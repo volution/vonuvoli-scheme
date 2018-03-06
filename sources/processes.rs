@@ -37,7 +37,7 @@ pub struct Process ( StdRc<StdRefCell<ProcessInternals>> );
 pub struct ProcessInternals {
 	pub state : ProcessState,
 	pub process : process::Child,
-	pub process_id : libc::pid_t,
+	pub process_id : ext::libc::pid_t,
 	pub stdin : Option<Port>,
 	pub stdout : Option<Port>,
 	pub stderr : Option<Port>,
@@ -122,7 +122,7 @@ impl Process {
 	pub fn new (process : process::Child) -> (Outcome<Process>) {
 		
 		let mut process = process;
-		let process_id = process.id () as libc::pid_t;
+		let process_id = process.id () as ext::libc::pid_t;
 		
 		// TODO:  Add support for specifying the stdin/stdout/stderr buffer size!
 		let mut stdin = None;
@@ -342,15 +342,15 @@ impl ProcessSignal {
 	pub fn code (&self) -> (i32) {
 		match *self {
 			ProcessSignal::Interrupt =>
-				libc::SIGINT,
+				ext::libc::SIGINT,
 			ProcessSignal::Terminate =>
-				libc::SIGTERM,
+				ext::libc::SIGTERM,
 			ProcessSignal::Kill =>
-				libc::SIGKILL,
+				ext::libc::SIGKILL,
 			ProcessSignal::Stop =>
-				libc::SIGSTOP,
+				ext::libc::SIGSTOP,
 			ProcessSignal::Continue =>
-				libc::SIGCONT,
+				ext::libc::SIGCONT,
 			ProcessSignal::Opaque (value) =>
 				value as i32,
 		}

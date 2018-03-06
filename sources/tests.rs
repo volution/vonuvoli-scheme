@@ -157,14 +157,14 @@ pub fn execute_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, tran
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn parse_and_benchmark_tests (identifier : &str, source : &str, context : Option<&Context>, bencher : &mut test::Bencher, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
+pub fn parse_and_benchmark_tests (identifier : &str, source : &str, context : Option<&Context>, bencher : &mut ext::test::Bencher, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
 	let tests = try! (parse_and_compile_tests (identifier, source, context, transcript, verbosity));
 	return benchmark_tests (identifier, &tests, bencher, transcript, verbosity);
 }
 
 
 #[ inline (never) ]
-pub fn benchmark_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, bencher : &mut test::Bencher, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
+pub fn benchmark_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, bencher : &mut ext::test::Bencher, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
 	
 	try_or_fail! (write! (transcript, "## benchmarking `{}`...\n", identifier), 0x0930df0d);
 	
@@ -229,7 +229,7 @@ pub fn benchmark_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, be
 
 
 #[ inline (never) ]
-pub fn benchmark_generic <Setup, Iteration, SetupOutput, IterationOutput> (identifier : &str, setup : Setup, iteration : Iteration, bencher : &mut test::Bencher, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>)
+pub fn benchmark_generic <Setup, Iteration, SetupOutput, IterationOutput> (identifier : &str, setup : Setup, iteration : Iteration, bencher : &mut ext::test::Bencher, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>)
 		where
 			Setup : Fn () -> (Outcome<SetupOutput>),
 			Iteration : Fn (&SetupOutput) -> (IterationOutput)
@@ -247,7 +247,7 @@ pub fn benchmark_generic <Setup, Iteration, SetupOutput, IterationOutput> (ident
 	let setup = try! (setup ());
 	
 	for _ in 0 .. iterations_warmup {
-		test::black_box (iteration (&setup));
+		ext::test::black_box (iteration (&setup));
 	}
 	
 	let (summary, memory_delta) = try! (benchmark_bencher_iterate (bencher, iterations_benchmark, || iteration (&setup)));
@@ -270,7 +270,7 @@ pub fn benchmark_generic <Setup, Iteration, SetupOutput, IterationOutput> (ident
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn benchmark_bencher_iterate <Iteration, Output> (bencher : &mut test::Bencher, iterations_count : usize, iteration : Iteration) -> (Outcome<(Option<test::stats::Summary>, usize)>)
+fn benchmark_bencher_iterate <Iteration, Output> (bencher : &mut ext::test::Bencher, iterations_count : usize, iteration : Iteration) -> (Outcome<(Option<ext::test::stats::Summary>, usize)>)
 		where Iteration : Fn () -> (Output)
 {
 	
@@ -301,7 +301,7 @@ fn benchmark_bencher_iterate <Iteration, Output> (bencher : &mut test::Bencher, 
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn benchmark_bencher_report (header : Option<&str>, prefix : &str, summary : &test::stats::Summary, reference : Option<&test::stats::Summary>, factor : f64, memory_delta : usize, memory_leaks : bool, transcript : &mut io::Write, _verbosity : TestVerbosity) -> (Outcome<()>) {
+fn benchmark_bencher_report (header : Option<&str>, prefix : &str, summary : &ext::test::stats::Summary, reference : Option<&ext::test::stats::Summary>, factor : f64, memory_delta : usize, memory_leaks : bool, transcript : &mut io::Write, _verbosity : TestVerbosity) -> (Outcome<()>) {
 	let mut report = StdString::new ();
 	if let Some (header) = header {
 		report.push_str (&format! ("{}{}\n", prefix, header));
@@ -727,7 +727,7 @@ pub fn execute_tests_main (identifier : &str, source : &str, context : Option<&C
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn benchmark_tests_main (identifier : &str, source : &str, context : Option<&Context>, bencher : Option<&mut test::Bencher>, transcript : Option<&mut io::Write>, output : Option<&mut io::Write>, verbosity : Option<TestVerbosity>) -> (Outcome<()>) {
+pub fn benchmark_tests_main (identifier : &str, source : &str, context : Option<&Context>, bencher : Option<&mut ext::test::Bencher>, transcript : Option<&mut io::Write>, output : Option<&mut io::Write>, verbosity : Option<TestVerbosity>) -> (Outcome<()>) {
 	benchmark_main (
 			identifier,
 			|identifier, bencher, transcript, verbosity|
@@ -737,7 +737,7 @@ pub fn benchmark_tests_main (identifier : &str, source : &str, context : Option<
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn benchmark_generic_main <Setup, Iteration, SetupOutput, IterationOutput> (identifier : &str, setup : Setup, iteration : Iteration, bencher : Option<&mut test::Bencher>, transcript : Option<&mut io::Write>, output : Option<&mut io::Write>, verbosity : Option<TestVerbosity>) -> (Outcome<()>)
+pub fn benchmark_generic_main <Setup, Iteration, SetupOutput, IterationOutput> (identifier : &str, setup : Setup, iteration : Iteration, bencher : Option<&mut ext::test::Bencher>, transcript : Option<&mut io::Write>, output : Option<&mut io::Write>, verbosity : Option<TestVerbosity>) -> (Outcome<()>)
 		where
 			Setup : Fn () -> (Outcome<SetupOutput>),
 			Iteration : Fn (&SetupOutput) -> (IterationOutput)
@@ -751,8 +751,8 @@ pub fn benchmark_generic_main <Setup, Iteration, SetupOutput, IterationOutput> (
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub(crate) fn benchmark_main <Benchmark> (identifier : &str, benchmark : Benchmark, bencher : Option<&mut test::Bencher>, transcript : Option<&mut io::Write>, output : Option<&mut io::Write>, verbosity : Option<TestVerbosity>) -> (Outcome<()>)
-		where Benchmark : Fn (&str, &mut test::Bencher, &mut io::Write, TestVerbosity) -> (Outcome<()>)
+pub(crate) fn benchmark_main <Benchmark> (identifier : &str, benchmark : Benchmark, bencher : Option<&mut ext::test::Bencher>, transcript : Option<&mut io::Write>, output : Option<&mut io::Write>, verbosity : Option<TestVerbosity>) -> (Outcome<()>)
+		where Benchmark : Fn (&str, &mut ext::test::Bencher, &mut io::Write, TestVerbosity) -> (Outcome<()>)
 {
 	
 	let mut stdout = io::stdout ();
@@ -781,7 +781,7 @@ pub(crate) fn benchmark_main <Benchmark> (identifier : &str, benchmark : Benchma
 	let (bencher, mut bencher_backend) = if let Some (bencher) = bencher {
 		(Some (bencher), None)
 	} else {
-		let bencher = unsafe { mem::zeroed::<test::Bencher> () };
+		let bencher = unsafe { mem::zeroed::<ext::test::Bencher> () };
 		(None, Some (bencher))
 	};
 	let bencher = match (bencher, &mut bencher_backend) {

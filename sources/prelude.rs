@@ -52,6 +52,8 @@ pub use super::runtime::StdAsRef0;
 pub use super::runtime::StdTryAsRef0;
 pub use super::runtime::StdExpectAsRef0;
 
+pub use super::externals as ext;
+
 
 
 
@@ -86,24 +88,6 @@ pub use std::time;
 
 pub use core::char as core_char;
 pub use core::str as core_str;
-
-pub use libc;
-pub use test;
-
-
-
-
-#[ cfg ( feature = "vonuvoli_backtrace" ) ]
-pub use backtrace;
-
-#[ cfg ( feature = "vonuvoli_backtrace" ) ]
-pub use rustc_demangle;
-
-#[ cfg ( feature = "vonuvoli_terminal" ) ]
-pub use ansi_term;
-
-#[ cfg ( feature = "vonuvoli_terminal" ) ]
-pub use atty;
 
 
 

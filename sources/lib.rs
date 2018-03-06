@@ -66,6 +66,53 @@ pub extern crate ansi_term;
 #[ cfg ( feature = "vonuvoli_terminal" ) ]
 pub extern crate atty;
 
+#[ cfg ( feature = "vonuvoli_builtins_crypto" ) ]
+pub extern crate ring;
+
+#[ cfg ( feature = "vonuvoli_builtins_random" ) ]
+pub extern crate rand;
+
+#[ cfg ( feature = "vonuvoli_builtins_encoding" ) ]
+pub extern crate data_encoding;
+
+#[ cfg ( feature = "vonuvoli_builtins_encoding" ) ]
+pub extern crate base64;
+
+
+
+
+pub mod externals {
+	
+	pub use core;
+	pub use libc;
+	pub use test;
+	
+	#[ cfg ( feature = "vonuvoli_backtrace" ) ]
+	pub use backtrace;
+	
+	#[ cfg ( feature = "vonuvoli_backtrace" ) ]
+	pub use rustc_demangle;
+	
+	#[ cfg ( feature = "vonuvoli_terminal" ) ]
+	pub use ansi_term;
+	
+	#[ cfg ( feature = "vonuvoli_terminal" ) ]
+	pub use atty;
+	
+	#[ cfg ( feature = "vonuvoli_builtins_crypto" ) ]
+	pub use ring;
+	
+	#[ cfg ( feature = "vonuvoli_builtins_random" ) ]
+	pub use rand;
+	
+	#[ cfg ( feature = "vonuvoli_builtins_encoding" ) ]
+	pub use data_encoding;
+	
+	#[ cfg ( feature = "vonuvoli_builtins_encoding" ) ]
+	pub use base64;
+	
+}
+
 
 
 
