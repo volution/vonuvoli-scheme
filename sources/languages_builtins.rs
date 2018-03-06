@@ -44,8 +44,9 @@ pub fn generate_binding_templates () -> (Outcome<StdVec<BindingTemplate>>) {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 	
-	let definitions = vec! [
-			
+	let mut definitions = StdVec::new ();
+	
+	definitions.extend_from_slice (&[
 			
 			("locals", SyntaxPrimitiveV::Locals.into ()),
 			("set!-values", SyntaxPrimitiveV::SetValues.into ()),
@@ -223,7 +224,6 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("generic<=?", ComparisonPrimitiveV::GenericLesserOrEqual.into ()),
 			("generic>=?", ComparisonPrimitiveV::GenericGreaterOrEqual.into ()),
 			
-			
 			("read-bytevector-chunk", PortPrimitiveV::BytesReadChunk.into ()),
 			("read-bytevector-line", PortPrimitiveV::BytesReadLine.into ()),
 			("read-bytevector-append!", PortPrimitiveV::BytesReadExtend.into ()),
@@ -232,11 +232,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("read-string-line", PortPrimitiveV::StringReadLine.into ()),
 			("read-string-append!", PortPrimitiveV::StringReadExtend.into ()),
 			
-			
 			("parameter?", TypePrimitiveV::IsParameter.into ()),
 			("parameter-ref", RuntimePrimitiveV::ParameterResolve.into ()),
 			("parameter-set!", RuntimePrimitiveV::ParameterConfigure.into ()),
-			
 			
 			("process-spawn", RuntimePrimitiveN::ProcessSpawn.into ()),
 			("process-spawn*", RuntimePrimitiveV::ProcessSpawnExtended.into ()),
@@ -262,7 +260,19 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("resource?", TypePrimitiveV::IsResource.into ()),
 			("opaque?", TypePrimitiveV::IsOpaque.into ()),
 			
-		];
+		]);
+	
+	#[ cfg ( feature = "vonuvoli_builtins_crypto" ) ]
+	definitions.extend_from_slice (&[
+		]);
+	
+	#[ cfg ( feature = "vonuvoli_builtins_random" ) ]
+	definitions.extend_from_slice (&[
+		]);
+	
+	#[ cfg ( feature = "vonuvoli_builtins_encoding" ) ]
+	definitions.extend_from_slice (&[
+		]);
 	
 	let definitions = vec_map_into! (
 			definitions,

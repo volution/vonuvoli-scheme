@@ -203,6 +203,16 @@ pub(crate) mod values_values;
 pub(crate) mod parser_peg;
 
 
+#[ cfg ( feature = "vonuvoli_builtins_crypto" ) ]
+pub(crate) mod builtins_crypto;
+
+#[ cfg ( feature = "vonuvoli_builtins_random" ) ]
+pub(crate) mod builtins_random;
+
+#[ cfg ( feature = "vonuvoli_builtins_encoding" ) ]
+pub(crate) mod builtins_encoding;
+
+
 
 
 pub mod prelude;
@@ -282,6 +292,15 @@ pub mod internals {
 	pub use super::values_unique::exports as values_unique;
 	pub use super::values_value::exports as values_value;
 	pub use super::values_values::exports as values_values;
+	
+	#[ cfg ( feature = "vonuvoli_builtins_crypto" ) ]
+	pub use super::builtins_crypto::exports as builtins_crypto;
+	
+	#[ cfg ( feature = "vonuvoli_builtins_random" ) ]
+	pub use super::builtins_random::exports as builtins_random;
+	
+	#[ cfg ( feature = "vonuvoli_builtins_encoding" ) ]
+	pub use super::builtins_encoding::exports as builtins_encoding;
 	
 }
 
