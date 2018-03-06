@@ -1,5 +1,7 @@
 
 
+use super::runtime::exports::*;
+
 use super::prelude::*;
 
 
@@ -7,6 +9,7 @@ use super::prelude::*;
 
 pub mod exports {
 	pub use super::Backtrace;
+	pub use super::BacktraceSymbol;
 }
 
 
@@ -64,6 +67,7 @@ impl Backtrace {
 							Ok (()) =>
 								true,
 							Err (_) => {
+								name_buffer.clear ();
 								name_buffer.push_str (name);
 								false
 							},
@@ -144,6 +148,85 @@ impl Backtrace {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn report (&self, _transcript : &mut io::Write, _color : bool) -> (io::Result<()>) {
 		succeed! (());
+	}
+}
+
+
+
+
+pub struct BacktraceSymbol ( ptr::NonNull<os::raw::c_void> );
+
+
+
+
+impl BacktraceSymbol {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new (address : fn () -> ()) -> (BacktraceSymbol) {
+		let address = unsafe { mem::transmute (address) };
+		if let Some (address) = ptr::NonNull::new (address) {
+			return BacktraceSymbol (address);
+		} else {
+			panic! ("be8eae73");
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn handle (&self) -> (Handle) {
+		let value = unsafe { mem::transmute_copy (&self.0.as_ptr ()) };
+		return Handle::new (value);
+	}
+}
+
+
+
+
+#[ cfg ( feature = "vonuvoli_backtrace" ) ]
+impl BacktraceSymbol {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn resolve_name (&self) -> (StdString) {
+		let mut name_buffer = StdString::new ();
+		ext::backtrace::resolve (self.0.as_ptr (), |symbol| {
+				let name = option_and_then! (symbol.name (), name, name.as_str ());
+				if let Some (name) = name {
+					match ext::rustc_demangle::try_demangle (name) {
+						Ok (demangled) =>
+							match write! (name_buffer, "{:#}", demangled) {
+								Ok (()) =>
+									(),
+								Err (_) => {
+									name_buffer.clear ();
+									name_buffer.push_str (name);
+									()
+								},
+							},
+						Err (_) => {
+							name_buffer.push_str (name);
+							()
+						}
+					}
+				}
+			});
+		if name_buffer.is_empty () {
+			match write! (name_buffer, "{:p}", self.0.as_ptr ()) {
+				Ok (()) =>
+					(),
+				Err (_) =>
+					panic! ("aa3b117f"),
+			}
+		}
+		return name_buffer;
+	}
+}
+
+
+#[ cfg ( not ( feature = "vonuvoli_backtrace" ) ) ]
+impl BacktraceSymbol {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn resolve_name (&self) -> (StdString) {
+		format! ("{:p}", self.0.as_ptr ())
 	}
 }
 

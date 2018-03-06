@@ -73,6 +73,7 @@ pub use std::iter;
 pub use std::mem;
 pub use std::num;
 pub use std::ops;
+pub use std::os;
 pub use std::os::unix::io as unix_io;
 pub use std::os::unix::process as unix_process;
 pub use std::path as fs_path;
