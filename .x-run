@@ -56,13 +56,14 @@ cat <<'EOS'
 
 << compile / peg
 	test "${#}" -eq 0
+	export -- PATH="${RUST_PATH}"
 	if test ./sources/parser_peg.peg -nt ./sources/parser_peg.rs ; then
 		# printf -- '== compile / peg ==\n' >&2
 		if test -e ./sources/parser_peg.rs ; then
 			rm -- ./sources/parser_peg.rs
 		fi
 		rust-peg < ./sources/parser_peg.peg >| ./sources/.parser_peg.rs.tmp1
-		rust-fmt < ./sources/.parser_peg.rs.tmp1 >| ./sources/.parser_peg.rs.tmp2 && _outcome=0 || _outcome="${?}"
+		rustfmt --force < ./sources/.parser_peg.rs.tmp1 >| ./sources/.parser_peg.rs.tmp2 && _outcome=0 || _outcome="${?}"
 		if test "${_outcome}" -ne 3 ; then
 			exit -- "${_outcome}"
 		fi
@@ -73,6 +74,7 @@ cat <<'EOS'
 
 << compile / lib / sources-include
 	test "${#}" -eq 0
+	export -- PATH="${RUST_PATH}"
 	if test -e ./target/lib_sources.in ; then
 		_timestamp_previous="$( exec -- date --reference ./target/lib_sources.in -- '+%s' )"
 	else
@@ -115,29 +117,32 @@ cat <<'EOS'
 !!
 
 << compile / lib / source
+	test "${#}" -eq 0
 	x-run ':: compile / lib / debug'
-	env PATH="${RUST_PATH}" \
-			rustc \
-					-Z unstable-options \
-					--pretty=expanded \
-					-- ./sources/lib.rs \
+	export -- PATH="${RUST_PATH}"
+	rustc \
+			-Z unstable-options \
+			--pretty=expanded \
+			-- ./sources/lib.rs \
 	| x-run ':: execute / rust-fmt'
 !!
 
 << compile / test / scheme / source
+	test "${#}" -eq 0
 	x-run ':: compile / lib / debug'
-	env PATH="${RUST_PATH}" \
-			rustc \
-					--test \
-					--extern vonuvoli_scheme=./target/debug/libvonuvoli_scheme.rlib \
-					-Z unstable-options \
-					--pretty=expanded \
-					-- ./tests/scheme.rs \
+	export -- PATH="${RUST_PATH}"
+	rustc \
+			--test \
+			--extern vonuvoli_scheme=./target/debug/libvonuvoli_scheme.rlib \
+			-Z unstable-options \
+			--pretty=expanded \
+			-- ./tests/scheme.rs \
 	| x-run ':: execute / rust-fmt'
 !!
 
 << execute / rust-fmt
-	( rust-fmt "${@}" 2> /dev/null || true ) \
+	export -- PATH="${RUST_PATH}"
+	( rustfmt --force "${@}" 2> /dev/null || true ) \
 	| sed -r -n \
 			-e ': b' \
 			-e '/^$/ d' \
@@ -321,6 +326,9 @@ cat <<'EOS'
 	export -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"
 	export -- PATH="${RUST_PATH}"
 	nice -n 19 -- cargo install --force cargo-kcov
+	nice -n 19 -- cargo install --force rustfmt
+	# nice -n 19 -- cargo install --force rustfmt-nightly
+	nice -n 19 -- cargo install --force peg
 !!
 
 << workbench / cargo / update
