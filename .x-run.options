@@ -628,6 +628,7 @@
 	if test './tests/scheme/ports-parameters.sst' -nt './tests/_outputs/scheme--benchmark__ports_parameters.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports_parameters.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/ports-parameters.sst' "${@}" ; fi
 	if test './tests/scheme/processes.sst' -nt './tests/_outputs/scheme--benchmark__processes.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__processes.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/processes.sst' "${@}" ; fi
 	if test './tests/scheme/quotation.sst' -nt './tests/_outputs/scheme--benchmark__quotation.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__quotation.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/quotation.sst' "${@}" ; fi
+	if test './tests/scheme/random.sst' -nt './tests/_outputs/scheme--benchmark__random.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__random.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/random.sst' "${@}" ; fi
 	if test './tests/scheme/records-procedures.sst' -nt './tests/_outputs/scheme--benchmark__records_procedures.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__records_procedures.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/records-procedures.sst' "${@}" ; fi
 	if test './tests/scheme/records-syntaxes.sst' -nt './tests/_outputs/scheme--benchmark__records_syntaxes.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__records_syntaxes.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/records-syntaxes.sst' "${@}" ; fi
 	if test './tests/scheme/runtime.sst' -nt './tests/_outputs/scheme--benchmark__runtime.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__runtime.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/runtime.sst' "${@}" ; fi
@@ -899,6 +900,14 @@
 
 << execute / bin / bencher / quotation / release
 	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__quotation.out' x-run ':: execute / bin / bencher / release' './tests/scheme/quotation.sst' "${@}"
+!!
+
+<< execute / bin / bencher / random / debug
+	exec -- taskset -c 2 x-run ':: execute / bin / bencher / debug' './tests/scheme/random.sst' "${@}"
+!!
+
+<< execute / bin / bencher / random / release
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__random.out' x-run ':: execute / bin / bencher / release' './tests/scheme/random.sst' "${@}"
 !!
 
 << execute / bin / bencher / records-procedures / debug
@@ -1245,6 +1254,7 @@
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/ports-parameters.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/processes.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/quotation.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/random.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/records-procedures.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/records-syntaxes.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/runtime.sst' "${@}"
@@ -1644,6 +1654,18 @@
 
 << execute / bin / tester / quotation / release
 	exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/quotation.sst' "${@}"
+!!
+
+<< execute / bin / tester / random / debug
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/random.sst' "${@}"
+!!
+
+<< execute / bin / tester / random / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / bin / tester / random / debug'
+!!
+
+<< execute / bin / tester / random / release
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/random.sst' "${@}"
 !!
 
 << execute / bin / tester / records-procedures / debug
@@ -2254,6 +2276,14 @@
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__quotation' --exact "${@}"
 !!
 
+<< execute / test / scheme / benchmarks / random / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features vonuvoli_debug --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__random' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / random / release
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__random' --exact "${@}"
+!!
+
 << execute / test / scheme / benchmarks / records_procedures / debug
 	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features vonuvoli_debug --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__records_procedures' --exact "${@}"
 !!
@@ -2714,6 +2744,18 @@
 	x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --jobs 1 -- --nocapture --test-threads 1 --test 'test__quotation' --exact "${@}"
 !!
 
+<< execute / test / scheme / tests / random / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features vonuvoli_debug --jobs 1 -- --nocapture --test-threads 1 --test 'test__random' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / random / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / random / debug' "${@}"
+!!
+
+<< execute / test / scheme / tests / random / release
+	x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --jobs 1 -- --nocapture --test-threads 1 --test 'test__random' --exact "${@}"
+!!
+
 << execute / test / scheme / tests / records_procedures / debug
 	x-run ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features vonuvoli_debug --jobs 1 -- --nocapture --test-threads 1 --test 'test__records_procedures' --exact "${@}"
 !!
@@ -2852,6 +2894,14 @@
 	exec -- sce ./sources/builtins_comparisons.rs
 !!
 
+<< files / edit / sources/builtins_crypto.rs
+	exec -- sce ./sources/builtins_crypto.rs
+!!
+
+<< files / edit / sources/builtins_encoding.rs
+	exec -- sce ./sources/builtins_encoding.rs
+!!
+
 << files / edit / sources/builtins_functions.rs
 	exec -- sce ./sources/builtins_functions.rs
 !!
@@ -2866,6 +2916,10 @@
 
 << files / edit / sources/builtins_processes.rs
 	exec -- sce ./sources/builtins_processes.rs
+!!
+
+<< files / edit / sources/builtins_random.rs
+	exec -- sce ./sources/builtins_random.rs
 !!
 
 << files / edit / sources/builtins_records.rs
@@ -3312,6 +3366,10 @@
 	exec -- sce ./tests/scheme/quotation.sst
 !!
 
+<< files / edit / tests/scheme/random.sst
+	exec -- sce ./tests/scheme/random.sst
+!!
+
 << files / edit / tests/scheme/records-procedures.sst
 	exec -- sce ./tests/scheme/records-procedures.sst
 !!
@@ -3456,6 +3514,14 @@
 	exec -- less -- ./sources/builtins_comparisons.rs
 !!
 
+<< files / view / sources/builtins_crypto.rs
+	exec -- less -- ./sources/builtins_crypto.rs
+!!
+
+<< files / view / sources/builtins_encoding.rs
+	exec -- less -- ./sources/builtins_encoding.rs
+!!
+
 << files / view / sources/builtins_functions.rs
 	exec -- less -- ./sources/builtins_functions.rs
 !!
@@ -3470,6 +3536,10 @@
 
 << files / view / sources/builtins_processes.rs
 	exec -- less -- ./sources/builtins_processes.rs
+!!
+
+<< files / view / sources/builtins_random.rs
+	exec -- less -- ./sources/builtins_random.rs
 !!
 
 << files / view / sources/builtins_records.rs
@@ -3914,6 +3984,10 @@
 
 << files / view / tests/scheme/quotation.sst
 	exec -- less -- ./tests/scheme/quotation.sst
+!!
+
+<< files / view / tests/scheme/random.sst
+	exec -- less -- ./tests/scheme/random.sst
 !!
 
 << files / view / tests/scheme/records-procedures.sst
