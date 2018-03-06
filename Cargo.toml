@@ -65,16 +65,37 @@ vonuvoli_defaults = [
 	"vonuvoli_terminal",
 ]
 
+
 vonuvoli_debug = [
+	"vonuvoli_debug_4",
+]
+
+vonuvoli_debug_0 = []
+
+vonuvoli_debug_1 = [
+	"vonuvoli_debug_0",
 	"vonuvoli_defaults",
-	"vonuvoli_builtins",
+]
+
+vonuvoli_debug_2 = [
+	"vonuvoli_debug_1",
 	"vonuvoli_compiler_trace_error",
 	# "vonuvoli_optimizer_trace_error",
 	"vonuvoli_evaluator_trace_error",
-	"vonuvoli_backtrace_sources",
-	"vonuvoli_transcript_color_always",
 	# "vonuvoli_panic_on_failed",
 ]
+
+vonuvoli_debug_3 = [
+	"vonuvoli_debug_2",
+	"vonuvoli_backtrace_sources",
+	"vonuvoli_transcript_color_always",
+]
+
+vonuvoli_debug_4 = [
+	"vonuvoli_debug_3",
+	"vonuvoli_builtins",
+]
+
 
 vonuvoli_new_immutable = []
 
