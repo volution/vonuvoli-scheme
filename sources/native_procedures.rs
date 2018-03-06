@@ -23,18 +23,34 @@ pub mod exports {
 	pub use super::ProcedureNative5;
 	pub use super::ProcedureNativeN;
 	
+	pub use super::ProcedureNative0E;
+	pub use super::ProcedureNative1E;
+	pub use super::ProcedureNative2E;
+	pub use super::ProcedureNative3E;
+	pub use super::ProcedureNative4E;
+	pub use super::ProcedureNative5E;
+	pub use super::ProcedureNativeNE;
+	
 }
 
 
 
 
-pub type ProcedureNative0 = fn (&mut EvaluatorContext) -> (Outcome<Value>);
-pub type ProcedureNative1 = fn (&Value, &mut EvaluatorContext) -> (Outcome<Value>);
-pub type ProcedureNative2 = fn (&Value, &Value, &mut EvaluatorContext) -> (Outcome<Value>);
-pub type ProcedureNative3 = fn (&Value, &Value, &Value, &mut EvaluatorContext) -> (Outcome<Value>);
-pub type ProcedureNative4 = fn (&Value, &Value, &Value, &Value, &mut EvaluatorContext) -> (Outcome<Value>);
-pub type ProcedureNative5 = fn (&Value, &Value, &Value, &Value, &Value, &mut EvaluatorContext) -> (Outcome<Value>);
-pub type ProcedureNativeN = fn (&[&Value], &mut EvaluatorContext) -> (Outcome<Value>);
+pub type ProcedureNative0 = fn () -> (Outcome<Value>);
+pub type ProcedureNative1 = fn (&Value) -> (Outcome<Value>);
+pub type ProcedureNative2 = fn (&Value, &Value) -> (Outcome<Value>);
+pub type ProcedureNative3 = fn (&Value, &Value, &Value) -> (Outcome<Value>);
+pub type ProcedureNative4 = fn (&Value, &Value, &Value, &Value) -> (Outcome<Value>);
+pub type ProcedureNative5 = fn (&Value, &Value, &Value, &Value, &Value) -> (Outcome<Value>);
+pub type ProcedureNativeN = fn (&[&Value]) -> (Outcome<Value>);
+
+pub type ProcedureNative0E = fn (&mut EvaluatorContext) -> (Outcome<Value>);
+pub type ProcedureNative1E = fn (&Value, &mut EvaluatorContext) -> (Outcome<Value>);
+pub type ProcedureNative2E = fn (&Value, &Value, &mut EvaluatorContext) -> (Outcome<Value>);
+pub type ProcedureNative3E = fn (&Value, &Value, &Value, &mut EvaluatorContext) -> (Outcome<Value>);
+pub type ProcedureNative4E = fn (&Value, &Value, &Value, &Value, &mut EvaluatorContext) -> (Outcome<Value>);
+pub type ProcedureNative5E = fn (&Value, &Value, &Value, &Value, &Value, &mut EvaluatorContext) -> (Outcome<Value>);
+pub type ProcedureNativeNE = fn (&[&Value], &mut EvaluatorContext) -> (Outcome<Value>);
 
 
 
@@ -53,6 +69,14 @@ pub enum ProcedureNativeInternals {
 	Native4 (ProcedureNative4),
 	Native5 (ProcedureNative5),
 	NativeN (ProcedureNativeN),
+	
+	Native0E (ProcedureNative0E),
+	Native1E (ProcedureNative1E),
+	Native2E (ProcedureNative2E),
+	Native3E (ProcedureNative3E),
+	Native4E (ProcedureNative4E),
+	Native5E (ProcedureNative5E),
+	NativeNE (ProcedureNativeNE),
 	
 }
 
@@ -92,6 +116,20 @@ impl ProcedureNative {
 			ProcedureNativeInternals::Native5 (ref native) =>
 				unsafe { mem::transmute_copy (native) },
 			ProcedureNativeInternals::NativeN (ref native) =>
+				unsafe { mem::transmute_copy (native) },
+			ProcedureNativeInternals::Native0E (ref native) =>
+				unsafe { mem::transmute_copy (native) },
+			ProcedureNativeInternals::Native1E (ref native) =>
+				unsafe { mem::transmute_copy (native) },
+			ProcedureNativeInternals::Native2E (ref native) =>
+				unsafe { mem::transmute_copy (native) },
+			ProcedureNativeInternals::Native3E (ref native) =>
+				unsafe { mem::transmute_copy (native) },
+			ProcedureNativeInternals::Native4E (ref native) =>
+				unsafe { mem::transmute_copy (native) },
+			ProcedureNativeInternals::Native5E (ref native) =>
+				unsafe { mem::transmute_copy (native) },
+			ProcedureNativeInternals::NativeNE (ref native) =>
 				unsafe { mem::transmute_copy (native) },
 		};
 		return Handle::new (value);

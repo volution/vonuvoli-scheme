@@ -299,6 +299,7 @@ impl Optimizer {
 			
 			ExpressionForProcedureNativeCall::ProcedureNativeCall (native, inputs) =>
 				return self.optimize_procedure_native (optimization, native, inputs),
+			
 			ExpressionForProcedureNativeCall::ProcedureNativeCall0 (native) =>
 				return self.optimize_procedure_native_0 (optimization, native),
 			ExpressionForProcedureNativeCall::ProcedureNativeCall1 (native, input_1) =>
@@ -313,6 +314,21 @@ impl Optimizer {
 				return self.optimize_procedure_native_5 (optimization, native, *input_1, *input_2, *input_3, *input_4, *input_5),
 			ExpressionForProcedureNativeCall::ProcedureNativeCallN (native, inputs) =>
 				return self.optimize_procedure_native_n (optimization, native, inputs),
+			
+			ExpressionForProcedureNativeCall::ProcedureNativeCall0E (native) =>
+				return self.optimize_procedure_native_0e (optimization, native),
+			ExpressionForProcedureNativeCall::ProcedureNativeCall1E (native, input_1) =>
+				return self.optimize_procedure_native_1e (optimization, native, *input_1),
+			ExpressionForProcedureNativeCall::ProcedureNativeCall2E (native, input_1, input_2) =>
+				return self.optimize_procedure_native_2e (optimization, native, *input_1, *input_2),
+			ExpressionForProcedureNativeCall::ProcedureNativeCall3E (native, input_1, input_2, input_3) =>
+				return self.optimize_procedure_native_3e (optimization, native, *input_1, *input_2, *input_3),
+			ExpressionForProcedureNativeCall::ProcedureNativeCall4E (native, input_1, input_2, input_3, input_4) =>
+				return self.optimize_procedure_native_4e (optimization, native, *input_1, *input_2, *input_3, *input_4),
+			ExpressionForProcedureNativeCall::ProcedureNativeCall5E (native, input_1, input_2, input_3, input_4, input_5) =>
+				return self.optimize_procedure_native_5e (optimization, native, *input_1, *input_2, *input_3, *input_4, *input_5),
+			ExpressionForProcedureNativeCall::ProcedureNativeCallNE (native, inputs) =>
+				return self.optimize_procedure_native_ne (optimization, native, inputs),
 			
 		}
 	}
@@ -1706,20 +1722,37 @@ impl Optimizer {
 		let inputs_count = inputs.len ();
 		let native = native.internals_into ();
 		match native {
+			
 			ProcedureNativeInternals::Native0 (native) =>
 				if inputs_count == 0 {
 					return self.optimize_procedure_native_0 (optimization, native);
 				} else {
+					fail! (0xa4a2f821);
+				},
+			ProcedureNativeInternals::Native0E (native) =>
+				if inputs_count == 0 {
+					return self.optimize_procedure_native_0e (optimization, native);
+				} else {
 					fail! (0x0664f4d0);
 				},
+			
 			ProcedureNativeInternals::Native1 (native) =>
 				if inputs_count == 1 {
 					let mut inputs = StdVec::from (inputs) .into_iter ();
 					let input_1 = inputs.next () .unwrap ();
 					return self.optimize_procedure_native_1 (optimization, native, input_1);
 				} else {
+					fail! (0x297b7349);
+				},
+			ProcedureNativeInternals::Native1E (native) =>
+				if inputs_count == 1 {
+					let mut inputs = StdVec::from (inputs) .into_iter ();
+					let input_1 = inputs.next () .unwrap ();
+					return self.optimize_procedure_native_1e (optimization, native, input_1);
+				} else {
 					fail! (0xce8a1f83);
 				},
+			
 			ProcedureNativeInternals::Native2 (native) =>
 				if inputs_count == 2 {
 					let mut inputs = StdVec::from (inputs) .into_iter ();
@@ -1727,8 +1760,18 @@ impl Optimizer {
 					let input_2 = inputs.next () .unwrap ();
 					return self.optimize_procedure_native_2 (optimization, native, input_1, input_2);
 				} else {
+					fail! (0xb8f30814);
+				},
+			ProcedureNativeInternals::Native2E (native) =>
+				if inputs_count == 2 {
+					let mut inputs = StdVec::from (inputs) .into_iter ();
+					let input_1 = inputs.next () .unwrap ();
+					let input_2 = inputs.next () .unwrap ();
+					return self.optimize_procedure_native_2e (optimization, native, input_1, input_2);
+				} else {
 					fail! (0x98c15092);
 				},
+			
 			ProcedureNativeInternals::Native3 (native) =>
 				if inputs_count == 3 {
 					let mut inputs = StdVec::from (inputs) .into_iter ();
@@ -1737,8 +1780,19 @@ impl Optimizer {
 					let input_3 = inputs.next () .unwrap ();
 					return self.optimize_procedure_native_3 (optimization, native, input_1, input_2, input_3);
 				} else {
+					fail! (0xb5054c45);
+				},
+			ProcedureNativeInternals::Native3E (native) =>
+				if inputs_count == 3 {
+					let mut inputs = StdVec::from (inputs) .into_iter ();
+					let input_1 = inputs.next () .unwrap ();
+					let input_2 = inputs.next () .unwrap ();
+					let input_3 = inputs.next () .unwrap ();
+					return self.optimize_procedure_native_3e (optimization, native, input_1, input_2, input_3);
+				} else {
 					fail! (0x6d40d94d);
 				},
+			
 			ProcedureNativeInternals::Native4 (native) =>
 				if inputs_count == 4 {
 					let mut inputs = StdVec::from (inputs) .into_iter ();
@@ -1748,8 +1802,20 @@ impl Optimizer {
 					let input_4 = inputs.next () .unwrap ();
 					return self.optimize_procedure_native_4 (optimization, native, input_1, input_2, input_3, input_4);
 				} else {
+					fail! (0x53f2b73a);
+				},
+			ProcedureNativeInternals::Native4E (native) =>
+				if inputs_count == 4 {
+					let mut inputs = StdVec::from (inputs) .into_iter ();
+					let input_1 = inputs.next () .unwrap ();
+					let input_2 = inputs.next () .unwrap ();
+					let input_3 = inputs.next () .unwrap ();
+					let input_4 = inputs.next () .unwrap ();
+					return self.optimize_procedure_native_4e (optimization, native, input_1, input_2, input_3, input_4);
+				} else {
 					fail! (0x12b4fab7);
 				},
+			
 			ProcedureNativeInternals::Native5 (native) =>
 				if inputs_count == 5 {
 					let mut inputs = StdVec::from (inputs) .into_iter ();
@@ -1760,16 +1826,38 @@ impl Optimizer {
 					let input_5 = inputs.next () .unwrap ();
 					return self.optimize_procedure_native_5 (optimization, native, input_1, input_2, input_3, input_4, input_5);
 				} else {
+					fail! (0x5e505964);
+				},
+			ProcedureNativeInternals::Native5E (native) =>
+				if inputs_count == 5 {
+					let mut inputs = StdVec::from (inputs) .into_iter ();
+					let input_1 = inputs.next () .unwrap ();
+					let input_2 = inputs.next () .unwrap ();
+					let input_3 = inputs.next () .unwrap ();
+					let input_4 = inputs.next () .unwrap ();
+					let input_5 = inputs.next () .unwrap ();
+					return self.optimize_procedure_native_5e (optimization, native, input_1, input_2, input_3, input_4, input_5);
+				} else {
 					fail! (0x7b45d7b6);
 				},
+			
 			ProcedureNativeInternals::NativeN (native) =>
 				return self.optimize_procedure_native_n (optimization, native, inputs),
+			ProcedureNativeInternals::NativeNE (native) =>
+				return self.optimize_procedure_native_ne (optimization, native, inputs),
+			
 		}
 	}
 	
 	
 	fn optimize_procedure_native_0 (&self, optimization : OptimizerContext, native : ProcedureNative0) -> (Outcome<(OptimizerContext, Expression)>) {
 		let expression = ExpressionForProcedureNativeCall::ProcedureNativeCall0 (native) .into ();
+		let attributes = None;
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
+	}
+	
+	fn optimize_procedure_native_0e (&self, optimization : OptimizerContext, native : ProcedureNative0E) -> (Outcome<(OptimizerContext, Expression)>) {
+		let expression = ExpressionForProcedureNativeCall::ProcedureNativeCall0E (native) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
@@ -1782,11 +1870,26 @@ impl Optimizer {
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
+	fn optimize_procedure_native_1e (&self, optimization : OptimizerContext, native : ProcedureNative1E, input_1 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
+		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
+		let expression = ExpressionForProcedureNativeCall::ProcedureNativeCall1E (native, input_1.into ()) .into ();
+		let attributes = None;
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
+	}
+	
 	
 	fn optimize_procedure_native_2 (&self, optimization : OptimizerContext, native : ProcedureNative2, input_1 : Expression, input_2 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
 		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
 		let expression = ExpressionForProcedureNativeCall::ProcedureNativeCall2 (native, input_1.into (), input_2.into ()) .into ();
+		let attributes = None;
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
+	}
+	
+	fn optimize_procedure_native_2e (&self, optimization : OptimizerContext, native : ProcedureNative2E, input_1 : Expression, input_2 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
+		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
+		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
+		let expression = ExpressionForProcedureNativeCall::ProcedureNativeCall2E (native, input_1.into (), input_2.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
@@ -1801,6 +1904,15 @@ impl Optimizer {
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
+	fn optimize_procedure_native_3e (&self, optimization : OptimizerContext, native : ProcedureNative3E, input_1 : Expression, input_2 : Expression, input_3 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
+		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
+		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
+		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
+		let expression = ExpressionForProcedureNativeCall::ProcedureNativeCall3E (native, input_1.into (), input_2.into (), input_3.into ()) .into ();
+		let attributes = None;
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
+	}
+	
 	
 	fn optimize_procedure_native_4 (&self, optimization : OptimizerContext, native : ProcedureNative4, input_1 : Expression, input_2 : Expression, input_3 : Expression, input_4 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
@@ -1808,6 +1920,16 @@ impl Optimizer {
 		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
 		let (optimization, input_4) = try! (self.optimize_0 (optimization, input_4));
 		let expression = ExpressionForProcedureNativeCall::ProcedureNativeCall4 (native, input_1.into (), input_2.into (), input_3.into (), input_4.into ()) .into ();
+		let attributes = None;
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
+	}
+	
+	fn optimize_procedure_native_4e (&self, optimization : OptimizerContext, native : ProcedureNative4E, input_1 : Expression, input_2 : Expression, input_3 : Expression, input_4 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
+		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
+		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
+		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
+		let (optimization, input_4) = try! (self.optimize_0 (optimization, input_4));
+		let expression = ExpressionForProcedureNativeCall::ProcedureNativeCall4E (native, input_1.into (), input_2.into (), input_3.into (), input_4.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
@@ -1824,10 +1946,28 @@ impl Optimizer {
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
+	fn optimize_procedure_native_5e (&self, optimization : OptimizerContext, native : ProcedureNative5E, input_1 : Expression, input_2 : Expression, input_3 : Expression, input_4 : Expression, input_5 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
+		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
+		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
+		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
+		let (optimization, input_4) = try! (self.optimize_0 (optimization, input_4));
+		let (optimization, input_5) = try! (self.optimize_0 (optimization, input_5));
+		let expression = ExpressionForProcedureNativeCall::ProcedureNativeCall5E (native, input_1.into (), input_2.into (), input_3.into (), input_4.into (), input_5.into ()) .into ();
+		let attributes = None;
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
+	}
+	
 	
 	fn optimize_procedure_native_n (&self, optimization : OptimizerContext, native : ProcedureNativeN, inputs : StdBox<[Expression]>) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, inputs) = try! (self.optimize_0_slice (optimization, inputs));
 		let expression = ExpressionForProcedureNativeCall::ProcedureNativeCallN (native, inputs) .into ();
+		let attributes = None;
+		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
+	}
+	
+	fn optimize_procedure_native_ne (&self, optimization : OptimizerContext, native : ProcedureNativeNE, inputs : StdBox<[Expression]>) -> (Outcome<(OptimizerContext, Expression)>) {
+		let (optimization, inputs) = try! (self.optimize_0_slice (optimization, inputs));
+		let expression = ExpressionForProcedureNativeCall::ProcedureNativeCallNE (native, inputs) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
@@ -2131,6 +2271,7 @@ impl Optimizer {
 					
 					ExpressionForProcedureNativeCall::ProcedureNativeCall (_, _) =>
 						false,
+					
 					ExpressionForProcedureNativeCall::ProcedureNativeCall0 (_) =>
 						false,
 					ExpressionForProcedureNativeCall::ProcedureNativeCall1 (_, _) =>
@@ -2144,6 +2285,21 @@ impl Optimizer {
 					ExpressionForProcedureNativeCall::ProcedureNativeCall5 (_, _, _, _, _, _) =>
 						false,
 					ExpressionForProcedureNativeCall::ProcedureNativeCallN (_, _) =>
+						false,
+					
+					ExpressionForProcedureNativeCall::ProcedureNativeCall0E (_) =>
+						false,
+					ExpressionForProcedureNativeCall::ProcedureNativeCall1E (_, _) =>
+						false,
+					ExpressionForProcedureNativeCall::ProcedureNativeCall2E (_, _, _) =>
+						false,
+					ExpressionForProcedureNativeCall::ProcedureNativeCall3E (_, _, _, _) =>
+						false,
+					ExpressionForProcedureNativeCall::ProcedureNativeCall4E (_, _, _, _, _) =>
+						false,
+					ExpressionForProcedureNativeCall::ProcedureNativeCall5E (_, _, _, _, _, _) =>
+						false,
+					ExpressionForProcedureNativeCall::ProcedureNativeCallNE (_, _) =>
 						false,
 					
 				},
@@ -2437,6 +2593,7 @@ impl Optimizer {
 					
 					ExpressionForProcedureNativeCall::ProcedureNativeCall (ref callable, _) =>
 						Some (ExpressionProcedureCallCallableRef::Native (callable.internals_ref () .clone ())),
+					
 					ExpressionForProcedureNativeCall::ProcedureNativeCall0 (callable) =>
 						Some (ExpressionProcedureCallCallableRef::Native (callable.into ())),
 					ExpressionForProcedureNativeCall::ProcedureNativeCall1 (callable, _) =>
@@ -2450,6 +2607,21 @@ impl Optimizer {
 					ExpressionForProcedureNativeCall::ProcedureNativeCall5 (callable, _, _, _, _, _) =>
 						Some (ExpressionProcedureCallCallableRef::Native (callable.into ())),
 					ExpressionForProcedureNativeCall::ProcedureNativeCallN (callable, _) =>
+						Some (ExpressionProcedureCallCallableRef::Native (callable.into ())),
+					
+					ExpressionForProcedureNativeCall::ProcedureNativeCall0E (callable) =>
+						Some (ExpressionProcedureCallCallableRef::Native (callable.into ())),
+					ExpressionForProcedureNativeCall::ProcedureNativeCall1E (callable, _) =>
+						Some (ExpressionProcedureCallCallableRef::Native (callable.into ())),
+					ExpressionForProcedureNativeCall::ProcedureNativeCall2E (callable, _, _) =>
+						Some (ExpressionProcedureCallCallableRef::Native (callable.into ())),
+					ExpressionForProcedureNativeCall::ProcedureNativeCall3E (callable, _, _, _) =>
+						Some (ExpressionProcedureCallCallableRef::Native (callable.into ())),
+					ExpressionForProcedureNativeCall::ProcedureNativeCall4E (callable, _, _, _, _) =>
+						Some (ExpressionProcedureCallCallableRef::Native (callable.into ())),
+					ExpressionForProcedureNativeCall::ProcedureNativeCall5E (callable, _, _, _, _, _) =>
+						Some (ExpressionProcedureCallCallableRef::Native (callable.into ())),
+					ExpressionForProcedureNativeCall::ProcedureNativeCallNE (callable, _) =>
 						Some (ExpressionProcedureCallCallableRef::Native (callable.into ())),
 					
 				},
@@ -2630,6 +2802,7 @@ impl Optimizer {
 					
 					ExpressionForProcedureNativeCall::ProcedureNativeCall (ref _native, ref inputs) =>
 						Some (boxed_slice_to_ref (inputs)),
+					
 					ExpressionForProcedureNativeCall::ProcedureNativeCall0 (ref _native) =>
 						Some (StdBox::new ([])),
 					ExpressionForProcedureNativeCall::ProcedureNativeCall1 (ref _native, ref input_1) =>
@@ -2643,6 +2816,21 @@ impl Optimizer {
 					ExpressionForProcedureNativeCall::ProcedureNativeCall5 (ref _native, ref input_1, ref input_2, ref input_3, ref input_4, ref input_5) =>
 						Some (StdBox::new ([input_1, input_2, input_3, input_4, input_5])),
 					ExpressionForProcedureNativeCall::ProcedureNativeCallN (ref _native, ref inputs) =>
+						Some (boxed_slice_to_ref (inputs)),
+					
+					ExpressionForProcedureNativeCall::ProcedureNativeCall0E (ref _native) =>
+						Some (StdBox::new ([])),
+					ExpressionForProcedureNativeCall::ProcedureNativeCall1E (ref _native, ref input_1) =>
+						Some (StdBox::new ([input_1])),
+					ExpressionForProcedureNativeCall::ProcedureNativeCall2E (ref _native, ref input_1, ref input_2) =>
+						Some (StdBox::new ([input_1, input_2])),
+					ExpressionForProcedureNativeCall::ProcedureNativeCall3E (ref _native, ref input_1, ref input_2, ref input_3) =>
+						Some (StdBox::new ([input_1, input_2, input_3])),
+					ExpressionForProcedureNativeCall::ProcedureNativeCall4E (ref _native, ref input_1, ref input_2, ref input_3, ref input_4) =>
+						Some (StdBox::new ([input_1, input_2, input_3, input_4])),
+					ExpressionForProcedureNativeCall::ProcedureNativeCall5E (ref _native, ref input_1, ref input_2, ref input_3, ref input_4, ref input_5) =>
+						Some (StdBox::new ([input_1, input_2, input_3, input_4, input_5])),
+					ExpressionForProcedureNativeCall::ProcedureNativeCallNE (ref _native, ref inputs) =>
 						Some (boxed_slice_to_ref (inputs)),
 					
 				},

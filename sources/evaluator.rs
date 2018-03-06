@@ -314,6 +314,7 @@ impl Evaluator {
 			
 			ExpressionForProcedureNativeCall::ProcedureNativeCall (ref procedure, ref inputs) =>
 				self.evaluate_procedure_native (evaluation, procedure.internals_ref (), inputs),
+			
 			ExpressionForProcedureNativeCall::ProcedureNativeCall0 (ref procedure) =>
 				self.evaluate_procedure_native_0 (evaluation, procedure),
 			ExpressionForProcedureNativeCall::ProcedureNativeCall1 (ref procedure, ref input_1) =>
@@ -328,6 +329,21 @@ impl Evaluator {
 				self.evaluate_procedure_native_5 (evaluation, procedure, input_1, input_2, input_3, input_4, input_5),
 			ExpressionForProcedureNativeCall::ProcedureNativeCallN (ref procedure, ref inputs) =>
 				self.evaluate_procedure_native_n (evaluation, procedure, inputs),
+			
+			ExpressionForProcedureNativeCall::ProcedureNativeCall0E (ref procedure) =>
+				self.evaluate_procedure_native_0e (evaluation, procedure),
+			ExpressionForProcedureNativeCall::ProcedureNativeCall1E (ref procedure, ref input_1) =>
+				self.evaluate_procedure_native_1e (evaluation, procedure, input_1),
+			ExpressionForProcedureNativeCall::ProcedureNativeCall2E (ref procedure, ref input_1, ref input_2) =>
+				self.evaluate_procedure_native_2e (evaluation, procedure, input_1, input_2),
+			ExpressionForProcedureNativeCall::ProcedureNativeCall3E (ref procedure, ref input_1, ref input_2, ref input_3) =>
+				self.evaluate_procedure_native_3e (evaluation, procedure, input_1, input_2, input_3),
+			ExpressionForProcedureNativeCall::ProcedureNativeCall4E (ref procedure, ref input_1, ref input_2, ref input_3, ref input_4) =>
+				self.evaluate_procedure_native_4e (evaluation, procedure, input_1, input_2, input_3, input_4),
+			ExpressionForProcedureNativeCall::ProcedureNativeCall5E (ref procedure, ref input_1, ref input_2, ref input_3, ref input_4, ref input_5) =>
+				self.evaluate_procedure_native_5e (evaluation, procedure, input_1, input_2, input_3, input_4, input_5),
+			ExpressionForProcedureNativeCall::ProcedureNativeCallNE (ref procedure, ref inputs) =>
+				self.evaluate_procedure_native_ne (evaluation, procedure, inputs),
 			
 		}
 	}
@@ -1595,50 +1611,101 @@ impl Evaluator {
 	fn evaluate_procedure_native_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeInternals, inputs : &[&Value]) -> (Outcome<Value>) {
 		let inputs_count = inputs.len ();
 		match *native {
+			
 			ProcedureNativeInternals::Native0 (native) =>
+				if inputs_count == 0 {
+					return native ();
+				} else {
+					fail! (0xd77d88db);
+				},
+			ProcedureNativeInternals::Native0E (native) =>
 				if inputs_count == 0 {
 					return native (evaluation);
 				} else {
 					fail! (0xd3c0db37);
 				},
+			
 			ProcedureNativeInternals::Native1 (native) =>
+				if inputs_count == 1 {
+					return native (inputs[0]);
+				} else {
+					fail! (0xdba52c0f);
+				},
+			ProcedureNativeInternals::Native1E (native) =>
 				if inputs_count == 1 {
 					return native (inputs[0], evaluation);
 				} else {
 					fail! (0x05b52d20);
 				},
+			
 			ProcedureNativeInternals::Native2 (native) =>
+				if inputs_count == 2 {
+					return native (inputs[0], inputs[1]);
+				} else {
+					fail! (0x07864964);
+				},
+			ProcedureNativeInternals::Native2E (native) =>
 				if inputs_count == 2 {
 					return native (inputs[0], inputs[1], evaluation);
 				} else {
 					fail! (0x5c7dcbe3);
 				},
+			
 			ProcedureNativeInternals::Native3 (native) =>
+				if inputs_count == 3 {
+					return native (inputs[0], inputs[1], inputs[2]);
+				} else {
+					fail! (0x0e221162);
+				},
+			ProcedureNativeInternals::Native3E (native) =>
 				if inputs_count == 3 {
 					return native (inputs[0], inputs[1], inputs[2], evaluation);
 				} else {
 					fail! (0x6a6c5c6b);
 				},
+			
 			ProcedureNativeInternals::Native4 (native) =>
+				if inputs_count == 4 {
+					return native (inputs[0], inputs[1], inputs[2], inputs[3]);
+				} else {
+					fail! (0x7ec98b38);
+				},
+			ProcedureNativeInternals::Native4E (native) =>
 				if inputs_count == 4 {
 					return native (inputs[0], inputs[1], inputs[2], inputs[3], evaluation);
 				} else {
 					fail! (0xefff8476);
 				},
+			
 			ProcedureNativeInternals::Native5 (native) =>
+				if inputs_count == 5 {
+					return native (inputs[0], inputs[1], inputs[2], inputs[3], inputs[4]);
+				} else {
+					fail! (0xa365d03d);
+				},
+			ProcedureNativeInternals::Native5E (native) =>
 				if inputs_count == 5 {
 					return native (inputs[0], inputs[1], inputs[2], inputs[3], inputs[4], evaluation);
 				} else {
 					fail! (0x39ad3d33);
 				},
+			
 			ProcedureNativeInternals::NativeN (native) =>
+				return native (inputs),
+			ProcedureNativeInternals::NativeNE (native) =>
 				return native (inputs, evaluation),
+			
 		}
 	}
 	
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn evaluate_procedure_native_0 (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative0) -> (Outcome<Value>) {
+	fn evaluate_procedure_native_0 (&self, _evaluation : &mut EvaluatorContext, native : &ProcedureNative0) -> (Outcome<Value>) {
+		return native ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn evaluate_procedure_native_0e (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative0E) -> (Outcome<Value>) {
 		return native (evaluation);
 	}
 	
@@ -1646,8 +1713,12 @@ impl Evaluator {
 	fn evaluate_procedure_native_0_g (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeInternals) -> (Outcome<Value>) {
 		match *native {
 			ProcedureNativeInternals::Native0 (native) =>
+				return native (),
+			ProcedureNativeInternals::Native0E (native) =>
 				return native (evaluation),
 			ProcedureNativeInternals::NativeN (native) =>
+				return native (&[]),
+			ProcedureNativeInternals::NativeNE (native) =>
 				return native (&[], evaluation),
 			_ =>
 				fail! (0x3b2b8840),
@@ -1662,7 +1733,18 @@ impl Evaluator {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn evaluate_procedure_native_1_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative1, input_1 : &Value) -> (Outcome<Value>) {
+	fn evaluate_procedure_native_1_with_values (&self, _evaluation : &mut EvaluatorContext, native : &ProcedureNative1, input_1 : &Value) -> (Outcome<Value>) {
+		return native (input_1);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn evaluate_procedure_native_1e (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative1E, input_1 : &Expression) -> (Outcome<Value>) {
+		let input_1 = try! (self.evaluate (evaluation, input_1));
+		return self.evaluate_procedure_native_1e_with_values (evaluation, native, &input_1);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn evaluate_procedure_native_1e_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative1E, input_1 : &Value) -> (Outcome<Value>) {
 		return native (input_1, evaluation);
 	}
 	
@@ -1670,8 +1752,12 @@ impl Evaluator {
 	fn evaluate_procedure_native_1_g_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeInternals, input_1 : &Value) -> (Outcome<Value>) {
 		match *native {
 			ProcedureNativeInternals::Native1 (native) =>
+				return native (input_1),
+			ProcedureNativeInternals::Native1E (native) =>
 				return native (input_1, evaluation),
 			ProcedureNativeInternals::NativeN (native) =>
+				return native (&[input_1]),
+			ProcedureNativeInternals::NativeNE (native) =>
 				return native (&[input_1], evaluation),
 			_ =>
 				fail! (0xee275ee6),
@@ -1687,7 +1773,19 @@ impl Evaluator {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn evaluate_procedure_native_2_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative2, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
+	fn evaluate_procedure_native_2_with_values (&self, _evaluation : &mut EvaluatorContext, native : &ProcedureNative2, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
+		return native (input_1, input_2);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn evaluate_procedure_native_2e (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative2E, input_1 : &Expression, input_2 : &Expression) -> (Outcome<Value>) {
+		let input_1 = try! (self.evaluate (evaluation, input_1));
+		let input_2 = try! (self.evaluate (evaluation, input_2));
+		return self.evaluate_procedure_native_2e_with_values (evaluation, native, &input_1, &input_2);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn evaluate_procedure_native_2e_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative2E, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
 		return native (input_1, input_2, evaluation);
 	}
 	
@@ -1695,8 +1793,12 @@ impl Evaluator {
 	fn evaluate_procedure_native_2_g_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeInternals, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
 		match *native {
 			ProcedureNativeInternals::Native2 (native) =>
+				return native (input_1, input_2),
+			ProcedureNativeInternals::Native2E (native) =>
 				return native (input_1, input_2, evaluation),
 			ProcedureNativeInternals::NativeN (native) =>
+				return native (&[input_1, input_2]),
+			ProcedureNativeInternals::NativeNE (native) =>
 				return native (&[input_1, input_2], evaluation),
 			_ =>
 				fail! (0x45146253),
@@ -1713,7 +1815,20 @@ impl Evaluator {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn evaluate_procedure_native_3_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative3, input_1 : &Value, input_2 : &Value, input_3 : &Value) -> (Outcome<Value>) {
+	fn evaluate_procedure_native_3_with_values (&self, _evaluation : &mut EvaluatorContext, native : &ProcedureNative3, input_1 : &Value, input_2 : &Value, input_3 : &Value) -> (Outcome<Value>) {
+		return native (input_1, input_2, input_3);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn evaluate_procedure_native_3e (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative3E, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression) -> (Outcome<Value>) {
+		let input_1 = try! (self.evaluate (evaluation, input_1));
+		let input_2 = try! (self.evaluate (evaluation, input_2));
+		let input_3 = try! (self.evaluate (evaluation, input_3));
+		return self.evaluate_procedure_native_3e_with_values (evaluation, native, &input_1, &input_2, &input_3);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn evaluate_procedure_native_3e_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative3E, input_1 : &Value, input_2 : &Value, input_3 : &Value) -> (Outcome<Value>) {
 		return native (input_1, input_2, input_3, evaluation);
 	}
 	
@@ -1721,8 +1836,12 @@ impl Evaluator {
 	fn evaluate_procedure_native_3_g_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeInternals, input_1 : &Value, input_2 : &Value, input_3 : &Value) -> (Outcome<Value>) {
 		match *native {
 			ProcedureNativeInternals::Native3 (native) =>
+				return native (input_1, input_2, input_3),
+			ProcedureNativeInternals::Native3E (native) =>
 				return native (input_1, input_2, input_3, evaluation),
 			ProcedureNativeInternals::NativeN (native) =>
+				return native (&[input_1, input_2, input_3]),
+			ProcedureNativeInternals::NativeNE (native) =>
 				return native (&[input_1, input_2, input_3], evaluation),
 			_ =>
 				fail! (0xb6b70b62),
@@ -1740,7 +1859,21 @@ impl Evaluator {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn evaluate_procedure_native_4_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value) -> (Outcome<Value>) {
+	fn evaluate_procedure_native_4_with_values (&self, _evaluation : &mut EvaluatorContext, native : &ProcedureNative4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value) -> (Outcome<Value>) {
+		return native (input_1, input_2, input_3, input_4);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn evaluate_procedure_native_4e (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative4E, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression, input_4 : &Expression) -> (Outcome<Value>) {
+		let input_1 = try! (self.evaluate (evaluation, input_1));
+		let input_2 = try! (self.evaluate (evaluation, input_2));
+		let input_3 = try! (self.evaluate (evaluation, input_3));
+		let input_4 = try! (self.evaluate (evaluation, input_4));
+		return self.evaluate_procedure_native_4e_with_values (evaluation, native, &input_1, &input_2, &input_3, &input_4);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn evaluate_procedure_native_4e_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative4E, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value) -> (Outcome<Value>) {
 		return native (input_1, input_2, input_3, input_4, evaluation);
 	}
 	
@@ -1748,8 +1881,12 @@ impl Evaluator {
 	fn evaluate_procedure_native_4_g_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeInternals, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value) -> (Outcome<Value>) {
 		match *native {
 			ProcedureNativeInternals::Native4 (native) =>
+				return native (input_1, input_2, input_3, input_4),
+			ProcedureNativeInternals::Native4E (native) =>
 				return native (input_1, input_2, input_3, input_4, evaluation),
 			ProcedureNativeInternals::NativeN (native) =>
+				return native (&[input_1, input_2, input_3, input_4]),
+			ProcedureNativeInternals::NativeNE (native) =>
 				return native (&[input_1, input_2, input_3, input_4], evaluation),
 			_ =>
 				fail! (0x28930473),
@@ -1768,7 +1905,22 @@ impl Evaluator {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn evaluate_procedure_native_5_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value) -> (Outcome<Value>) {
+	fn evaluate_procedure_native_5_with_values (&self, _evaluation : &mut EvaluatorContext, native : &ProcedureNative5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value) -> (Outcome<Value>) {
+		return native (input_1, input_2, input_3, input_4, input_5);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn evaluate_procedure_native_5e (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative5E, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression, input_4 : &Expression, input_5 : &Expression) -> (Outcome<Value>) {
+		let input_1 = try! (self.evaluate (evaluation, input_1));
+		let input_2 = try! (self.evaluate (evaluation, input_2));
+		let input_3 = try! (self.evaluate (evaluation, input_3));
+		let input_4 = try! (self.evaluate (evaluation, input_4));
+		let input_5 = try! (self.evaluate (evaluation, input_5));
+		return self.evaluate_procedure_native_5e_with_values (evaluation, native, &input_1, &input_2, &input_3, &input_4, &input_5);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn evaluate_procedure_native_5e_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNative5E, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value) -> (Outcome<Value>) {
 		return native (input_1, input_2, input_3, input_4, input_5, evaluation);
 	}
 	
@@ -1776,8 +1928,12 @@ impl Evaluator {
 	fn evaluate_procedure_native_5_g_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeInternals, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value) -> (Outcome<Value>) {
 		match *native {
 			ProcedureNativeInternals::Native5 (native) =>
+				return native (input_1, input_2, input_3, input_4, input_5),
+			ProcedureNativeInternals::Native5E (native) =>
 				return native (input_1, input_2, input_3, input_4, input_5, evaluation),
 			ProcedureNativeInternals::NativeN (native) =>
+				return native (&[input_1, input_2, input_3, input_4, input_5]),
+			ProcedureNativeInternals::NativeNE (native) =>
 				return native (&[input_1, input_2, input_3, input_4, input_5], evaluation),
 			_ =>
 				fail! (0xb1b016a9),
@@ -1793,7 +1949,19 @@ impl Evaluator {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn evaluate_procedure_native_n_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeN, inputs : &[&Value]) -> (Outcome<Value>) {
+	fn evaluate_procedure_native_n_with_values (&self, _evaluation : &mut EvaluatorContext, native : &ProcedureNativeN, inputs : &[&Value]) -> (Outcome<Value>) {
+		return native (inputs);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn evaluate_procedure_native_ne (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeNE, inputs : &[Expression]) -> (Outcome<Value>) {
+		let inputs = try! (self.evaluate_slice (evaluation, inputs));
+		let inputs = vec_vec_to_ref (&inputs);
+		return self.evaluate_procedure_native_ne_with_values (evaluation, native, &inputs);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn evaluate_procedure_native_ne_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeNE, inputs : &[&Value]) -> (Outcome<Value>) {
 		return native (inputs, evaluation);
 	}
 	

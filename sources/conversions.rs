@@ -274,6 +274,14 @@ impl_from_for_native_procedure_1! (ProcedureNative4, Native4);
 impl_from_for_native_procedure_1! (ProcedureNative5, Native5);
 impl_from_for_native_procedure_1! (ProcedureNativeN, NativeN);
 
+impl_from_for_native_procedure_1! (ProcedureNative0E, Native0E);
+impl_from_for_native_procedure_1! (ProcedureNative1E, Native1E);
+impl_from_for_native_procedure_1! (ProcedureNative2E, Native2E);
+impl_from_for_native_procedure_1! (ProcedureNative3E, Native3E);
+impl_from_for_native_procedure_1! (ProcedureNative4E, Native4E);
+impl_from_for_native_procedure_1! (ProcedureNative5E, Native5E);
+impl_from_for_native_procedure_1! (ProcedureNativeNE, NativeNE);
+
 
 
 

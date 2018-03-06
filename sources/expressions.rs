@@ -236,6 +236,7 @@ pub enum ExpressionForProcedureLambdaCall {
 pub enum ExpressionForProcedureNativeCall {
 	
 	ProcedureNativeCall ( ProcedureNative, StdBox<[Expression]> ),
+	
 	ProcedureNativeCall0 ( ProcedureNative0 ),
 	ProcedureNativeCall1 ( ProcedureNative1, ExpressionBox ),
 	ProcedureNativeCall2 ( ProcedureNative2, ExpressionBox, ExpressionBox ),
@@ -243,6 +244,14 @@ pub enum ExpressionForProcedureNativeCall {
 	ProcedureNativeCall4 ( ProcedureNative4, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
 	ProcedureNativeCall5 ( ProcedureNative5, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
 	ProcedureNativeCallN ( ProcedureNativeN, StdBox<[Expression]> ),
+	
+	ProcedureNativeCall0E ( ProcedureNative0E ),
+	ProcedureNativeCall1E ( ProcedureNative1E, ExpressionBox ),
+	ProcedureNativeCall2E ( ProcedureNative2E, ExpressionBox, ExpressionBox ),
+	ProcedureNativeCall3E ( ProcedureNative3E, ExpressionBox, ExpressionBox, ExpressionBox ),
+	ProcedureNativeCall4E ( ProcedureNative4E, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
+	ProcedureNativeCall5E ( ProcedureNative5E, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
+	ProcedureNativeCallNE ( ProcedureNativeNE, StdBox<[Expression]> ),
 	
 }
 
