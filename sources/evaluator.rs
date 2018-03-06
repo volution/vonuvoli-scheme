@@ -8,7 +8,6 @@ use super::errors::exports::*;
 use super::expressions::exports::*;
 use super::extended_procedures::exports::*;
 use super::lambdas::exports::*;
-use super::native_procedures::exports::*;
 use super::parameters::exports::*;
 use super::primitives::exports::*;
 use super::runtime::exports::*;

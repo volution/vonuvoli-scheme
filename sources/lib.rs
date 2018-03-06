@@ -12,6 +12,7 @@
 #![ feature (slice_get_slice) ]
 #![ feature (const_fn) ]
 #![ feature (stmt_expr_attributes) ]
+#![ feature (type_ascription) ]
 
 #![ no_implicit_prelude ]
 

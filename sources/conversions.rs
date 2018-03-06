@@ -259,28 +259,32 @@ impl_from_for_primitive_syntax! (SyntaxPrimitiveV, PrimitiveV);
 
 
 macro_rules! impl_from_for_native_procedure_1 {
-	( $from : ty, $tag : ident ) => (
+	( $from : ty, $tag : ident, $coercer : ident ) => (
 		impl_from_for_enum! (ProcedureNativeInternals, $tag, $from);
 		impl_from_for_Value_3! (ProcedureNative, ProcedureNative, $from, native, ProcedureNativeInternals::$tag (native) .into ());
 		impl_unwrappers_for_enum_wrapper! (ProcedureNativeInternals, $tag, $from);
+		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+		pub fn $coercer (function : $from) -> ($from) {
+			function
+		}
 	);
 }
 
-impl_from_for_native_procedure_1! (ProcedureNative0, Native0);
-impl_from_for_native_procedure_1! (ProcedureNative1, Native1);
-impl_from_for_native_procedure_1! (ProcedureNative2, Native2);
-impl_from_for_native_procedure_1! (ProcedureNative3, Native3);
-impl_from_for_native_procedure_1! (ProcedureNative4, Native4);
-impl_from_for_native_procedure_1! (ProcedureNative5, Native5);
-impl_from_for_native_procedure_1! (ProcedureNativeN, NativeN);
+impl_from_for_native_procedure_1! (ProcedureNative0, Native0, procedure_native_0);
+impl_from_for_native_procedure_1! (ProcedureNative1, Native1, procedure_native_1);
+impl_from_for_native_procedure_1! (ProcedureNative2, Native2, procedure_native_2);
+impl_from_for_native_procedure_1! (ProcedureNative3, Native3, procedure_native_3);
+impl_from_for_native_procedure_1! (ProcedureNative4, Native4, procedure_native_4);
+impl_from_for_native_procedure_1! (ProcedureNative5, Native5, procedure_native_5);
+impl_from_for_native_procedure_1! (ProcedureNativeN, NativeN, procedure_native_n);
 
-impl_from_for_native_procedure_1! (ProcedureNative0E, Native0E);
-impl_from_for_native_procedure_1! (ProcedureNative1E, Native1E);
-impl_from_for_native_procedure_1! (ProcedureNative2E, Native2E);
-impl_from_for_native_procedure_1! (ProcedureNative3E, Native3E);
-impl_from_for_native_procedure_1! (ProcedureNative4E, Native4E);
-impl_from_for_native_procedure_1! (ProcedureNative5E, Native5E);
-impl_from_for_native_procedure_1! (ProcedureNativeNE, NativeNE);
+impl_from_for_native_procedure_1! (ProcedureNative0E, Native0E, procedure_native_0e);
+impl_from_for_native_procedure_1! (ProcedureNative1E, Native1E, procedure_native_1e);
+impl_from_for_native_procedure_1! (ProcedureNative2E, Native2E, procedure_native_2e);
+impl_from_for_native_procedure_1! (ProcedureNative3E, Native3E, procedure_native_3e);
+impl_from_for_native_procedure_1! (ProcedureNative4E, Native4E, procedure_native_4e);
+impl_from_for_native_procedure_1! (ProcedureNative5E, Native5E, procedure_native_5e);
+impl_from_for_native_procedure_1! (ProcedureNativeNE, NativeNE, procedure_native_ne);
 
 
 

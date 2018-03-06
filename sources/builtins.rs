@@ -1,6 +1,9 @@
 
 pub mod exports {
 	
+	pub use super::super::native_procedures::exports::*;
+	pub use super::super::native_syntaxes::exports::*;
+	
 	pub use super::super::builtins_arrays::exports::*;
 	pub use super::super::builtins_bytes::exports::*;
 	pub use super::super::builtins_comparisons::exports::*;

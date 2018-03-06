@@ -31,6 +31,16 @@ pub mod exports {
 	pub use super::ProcedureNative5E;
 	pub use super::ProcedureNativeNE;
 	
+	pub use super::super::conversions::{
+			procedure_native_0, procedure_native_0e,
+			procedure_native_1, procedure_native_1e,
+			procedure_native_2, procedure_native_2e,
+			procedure_native_3, procedure_native_3e,
+			procedure_native_4, procedure_native_4e,
+			procedure_native_5, procedure_native_5e,
+			procedure_native_n, procedure_native_ne,
+		};
+	
 }
 
 
