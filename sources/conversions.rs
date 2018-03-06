@@ -786,6 +786,27 @@ impl NumberCoercion1 {
 				number.into (),
 		}
 	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn try_to_i64 (self) -> (Outcome<i64>) {
+		match self {
+			NumberCoercion1::Integer (number) =>
+				succeed! (number),
+			NumberCoercion1::Real (_) =>
+				// TODO:  Implement the same method as in `NumberReal::try_to_i64`!
+				fail! (0x53b7b5c8),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn try_to_f64 (self) -> (Outcome<f64>) {
+		match self {
+			NumberCoercion1::Integer (number) =>
+				succeed! (number as f64),
+			NumberCoercion1::Real (number) =>
+				succeed! (number),
+		}
+	}
 }
 
 
