@@ -35,7 +35,7 @@ fn main_0 () -> (Outcome<()>) {
 	let mut transcript = transcript_backend.lock ();
 	
 	#[ cfg ( feature = "vonuvoli_terminal" ) ]
-	let transcript_color = atty::is (atty:Stream::Stdout) || TRANSCRIPT_COLOR_ALWAYS;
+	let transcript_color = ext::atty::is (ext::atty::Stream::Stdout) || TRANSCRIPT_COLOR_ALWAYS;
 	#[ cfg ( not ( feature = "vonuvoli_terminal" ) ) ]
 	let transcript_color = false || TRANSCRIPT_COLOR_ALWAYS;
 	
