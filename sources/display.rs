@@ -2,8 +2,9 @@
 
 use super::constants::exports::*;
 use super::contexts::exports::*;
-use super::expressions::exports::*;
 use super::lambdas::exports::*;
+use super::native_procedures::exports::*;
+use super::native_syntaxes::exports::*;
 use super::parameters::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
@@ -726,15 +727,295 @@ impl fmt::Display for ProcedureNative {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		write! (formatter, "#<procedure-native:{:016x}>", self.handle () .value ())
+		let internals = self.internals_ref ();
+		return internals.fmt (formatter);
 	}
 }
 
-impl fmt::Debug for ProcedureNative {
+impl fmt::Display for ProcedureNativeInternals {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		formatter.debug_tuple ("ProcedureNative") .field (&self.handle ()) .finish ()
+		match *self {
+			ProcedureNativeInternals::Native0 (ref native) =>
+				return native.fmt (formatter),
+			ProcedureNativeInternals::Native1 (ref native) =>
+				return native.fmt (formatter),
+			ProcedureNativeInternals::Native2 (ref native) =>
+				return native.fmt (formatter),
+			ProcedureNativeInternals::Native3 (ref native) =>
+				return native.fmt (formatter),
+			ProcedureNativeInternals::Native4 (ref native) =>
+				return native.fmt (formatter),
+			ProcedureNativeInternals::Native5 (ref native) =>
+				return native.fmt (formatter),
+			ProcedureNativeInternals::NativeN (ref native) =>
+				return native.fmt (formatter),
+			ProcedureNativeInternals::Native0E (ref native) =>
+				return native.fmt (formatter),
+			ProcedureNativeInternals::Native1E (ref native) =>
+				return native.fmt (formatter),
+			ProcedureNativeInternals::Native2E (ref native) =>
+				return native.fmt (formatter),
+			ProcedureNativeInternals::Native3E (ref native) =>
+				return native.fmt (formatter),
+			ProcedureNativeInternals::Native4E (ref native) =>
+				return native.fmt (formatter),
+			ProcedureNativeInternals::Native5E (ref native) =>
+				return native.fmt (formatter),
+			ProcedureNativeInternals::NativeNE (ref native) =>
+				return native.fmt (formatter),
+			ProcedureNativeInternals::NativeV (ref native) =>
+				return native.fmt (formatter),
+		}
+	}
+}
+
+
+impl fmt::Display for ProcedureNative0 {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		write! (formatter, "#<procedure-native-0:{:016x}:({})>", self.handle () .value (), self.symbol () .resolve_name ())
+	}
+}
+
+impl fmt::Display for ProcedureNative1 {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		write! (formatter, "#<procedure-native-1:{:016x}:({})>", self.handle () .value (), self.symbol () .resolve_name ())
+	}
+}
+
+impl fmt::Display for ProcedureNative2 {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		write! (formatter, "#<procedure-native-2:{:016x}:({})>", self.handle () .value (), self.symbol () .resolve_name ())
+	}
+}
+
+impl fmt::Display for ProcedureNative3 {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		write! (formatter, "#<procedure-native-3:{:016x}:({})>", self.handle () .value (), self.symbol () .resolve_name ())
+	}
+}
+
+impl fmt::Display for ProcedureNative4 {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		write! (formatter, "#<procedure-native-4:{:016x}:({})>", self.handle () .value (), self.symbol () .resolve_name ())
+	}
+}
+
+impl fmt::Display for ProcedureNative5 {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		write! (formatter, "#<procedure-native-5:{:016x}:({})>", self.handle () .value (), self.symbol () .resolve_name ())
+	}
+}
+
+impl fmt::Display for ProcedureNativeN {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		write! (formatter, "#<procedure-native-n:{:016x}:({})>", self.handle () .value (), self.symbol () .resolve_name ())
+	}
+}
+
+
+impl fmt::Display for ProcedureNative0E {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		write! (formatter, "#<procedure-native-0:{:016x}:({})>", self.handle () .value (), self.symbol () .resolve_name ())
+	}
+}
+
+impl fmt::Display for ProcedureNative1E {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		write! (formatter, "#<procedure-native-1:{:016x}:({})>", self.handle () .value (), self.symbol () .resolve_name ())
+	}
+}
+
+impl fmt::Display for ProcedureNative2E {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		write! (formatter, "#<procedure-native-2:{:016x}:({})>", self.handle () .value (), self.symbol () .resolve_name ())
+	}
+}
+
+impl fmt::Display for ProcedureNative3E {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		write! (formatter, "#<procedure-native-3:{:016x}:({})>", self.handle () .value (), self.symbol () .resolve_name ())
+	}
+}
+
+impl fmt::Display for ProcedureNative4E {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		write! (formatter, "#<procedure-native-4:{:016x}:({})>", self.handle () .value (), self.symbol () .resolve_name ())
+	}
+}
+
+impl fmt::Display for ProcedureNative5E {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		write! (formatter, "#<procedure-native-5:{:016x}:({})>", self.handle () .value (), self.symbol () .resolve_name ())
+	}
+}
+
+impl fmt::Display for ProcedureNativeNE {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		write! (formatter, "#<procedure-native-n:{:016x}:({})>", self.handle () .value (), self.symbol () .resolve_name ())
+	}
+}
+
+
+impl fmt::Display for ProcedureNativeV {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		write! (formatter, "#<procedure-native-v:{:016x}:({})>", self.handle () .value (), self.symbol () .resolve_name ())
+	}
+}
+
+
+
+
+impl fmt::Debug for ProcedureNative0 {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		formatter.debug_tuple ("ProcedureNative0") .field (&self.symbol () .resolve_name ()) .finish ()
+	}
+}
+
+impl fmt::Debug for ProcedureNative1 {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		formatter.debug_tuple ("ProcedureNative1") .field (&self.symbol () .resolve_name ()) .finish ()
+	}
+}
+
+impl fmt::Debug for ProcedureNative2 {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		formatter.debug_tuple ("ProcedureNative2") .field (&self.symbol () .resolve_name ()) .finish ()
+	}
+}
+
+impl fmt::Debug for ProcedureNative3 {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		formatter.debug_tuple ("ProcedureNative3") .field (&self.symbol () .resolve_name ()) .finish ()
+	}
+}
+
+impl fmt::Debug for ProcedureNative4 {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		formatter.debug_tuple ("ProcedureNative4") .field (&self.symbol () .resolve_name ()) .finish ()
+	}
+}
+
+impl fmt::Debug for ProcedureNative5 {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		formatter.debug_tuple ("ProcedureNative5") .field (&self.symbol () .resolve_name ()) .finish ()
+	}
+}
+
+impl fmt::Debug for ProcedureNativeN {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		formatter.debug_tuple ("ProcedureNativeN") .field (&self.symbol () .resolve_name ()) .finish ()
+	}
+}
+
+
+impl fmt::Debug for ProcedureNative0E {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		formatter.debug_tuple ("ProcedureNative0E") .field (&self.symbol () .resolve_name ()) .finish ()
+	}
+}
+
+impl fmt::Debug for ProcedureNative1E {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		formatter.debug_tuple ("ProcedureNative1E") .field (&self.symbol () .resolve_name ()) .finish ()
+	}
+}
+
+impl fmt::Debug for ProcedureNative2E {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		formatter.debug_tuple ("ProcedureNative2E") .field (&self.symbol () .resolve_name ()) .finish ()
+	}
+}
+
+impl fmt::Debug for ProcedureNative3E {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		formatter.debug_tuple ("ProcedureNative3E") .field (&self.symbol () .resolve_name ()) .finish ()
+	}
+}
+
+impl fmt::Debug for ProcedureNative4E {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		formatter.debug_tuple ("ProcedureNative4E") .field (&self.symbol () .resolve_name ()) .finish ()
+	}
+}
+
+impl fmt::Debug for ProcedureNative5E {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		formatter.debug_tuple ("ProcedureNative5E") .field (&self.symbol () .resolve_name ()) .finish ()
+	}
+}
+
+impl fmt::Debug for ProcedureNativeNE {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		formatter.debug_tuple ("ProcedureNativeNE") .field (&self.symbol () .resolve_name ()) .finish ()
+	}
+}
+
+
+impl fmt::Debug for ProcedureNativeV {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		formatter.debug_tuple ("ProcedureNativeV") .field (&self.symbol () .resolve_name ()) .finish ()
 	}
 }
 
@@ -745,15 +1026,36 @@ impl fmt::Display for SyntaxNative {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		write! (formatter, "#<syntax-native:{:016x}>", self.handle () .value ())
+		let internals = self.internals_ref ();
+		return internals.fmt (formatter);
 	}
 }
 
-impl fmt::Debug for SyntaxNative {
+impl fmt::Display for SyntaxNativeInternals {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		formatter.debug_tuple ("SyntaxNative") .field (&self.handle ()) .finish ()
+		match *self {
+			SyntaxNativeInternals::NativeG (ref native) =>
+				return native.fmt (formatter),
+		}
+	}
+}
+
+
+impl fmt::Display for SyntaxNativeG {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		write! (formatter, "#<syntax-native-g:{:016x}:({})>", self.handle () .value (), self.symbol () .resolve_name ())
+	}
+}
+
+impl fmt::Debug for SyntaxNativeG {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		formatter.debug_tuple ("SyntaxNativeG") .field (&self.symbol () .resolve_name ()) .finish ()
 	}
 }
 
@@ -997,17 +1299,6 @@ impl fmt::Debug for Parameter {
 				.field ("immutable", &self_0.immutable)
 				.field ("handle", &self_0.handle)
 				.finish ()
-	}
-}
-
-
-
-
-impl fmt::Debug for ExpressionForProcedureNativeCall {
-	
-	#[ inline (never) ]
-	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		formatter.write_str ("ProcedureNativeCall")
 	}
 }
 
