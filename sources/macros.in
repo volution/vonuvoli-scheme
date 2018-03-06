@@ -1058,7 +1058,7 @@ macro_rules! def_scheme_benchmarks {
 		#[ bench ]
 		#[ inline (never) ]
 		#[ allow (non_snake_case) ]
-		fn $identifier (bencher : &mut $crate::prelude::test::Bencher) -> () {
+		fn $identifier (bencher : &mut $crate::externals::test::Bencher) -> () {
 			def_scheme_benchmarks_block! ($identifier, $source, bencher);
 		}
 	);
@@ -1120,7 +1120,7 @@ macro_rules! def_benchmark {
 		#[ bench ]
 		#[ inline (never) ]
 		#[ allow (non_snake_case) ]
-		fn $identifier (bencher : &mut $crate::prelude::test::Bencher) -> () {
+		fn $identifier (bencher : &mut $crate::externals::test::Bencher) -> () {
 			def_benchmark_block! ($identifier, $expression, ( $( ( $variable, $initializer ) ),* ), bencher);
 		}
 	);
@@ -1128,7 +1128,7 @@ macro_rules! def_benchmark {
 		#[ bench ]
 		#[ inline (never) ]
 		#[ allow (non_snake_case) ]
-		fn $identifier (bencher : &mut $crate::prelude::test::Bencher) -> () {
+		fn $identifier (bencher : &mut $crate::externals::test::Bencher) -> () {
 			def_benchmark_block! ($identifier, $expression, bencher);
 		}
 	);
@@ -1150,7 +1150,7 @@ macro_rules! def_benchmark_block {
 				|| Ok ( ( $( $initializer, )* ) ),
 				|&( $( ref $variable, )* )| {
 					#[ warn (unused_must_use) ]
-					let _ = ::test::black_box ($expression);
+					let _ = $crate::externals::test::black_box ($expression);
 					()
 				},
 				Some ($bencher), None, None, None);
@@ -1163,7 +1163,7 @@ macro_rules! def_benchmark_block {
 				|| Ok (()),
 				|&()| {
 					#[ warn (unused_must_use) ]
-					let _ = ::test::black_box ($expression);
+					let _ = $crate::externals::test::black_box ($expression);
 					()
 				},
 				Some ($bencher), None, None, None);
