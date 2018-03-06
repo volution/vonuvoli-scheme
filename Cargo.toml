@@ -53,6 +53,7 @@ doctest = false
 
 default = [
 	"vonuvoli_defaults",
+	"vonuvoli_builtins",
 	"vonuvoli_inline",
 ]
 
@@ -66,6 +67,7 @@ vonuvoli_defaults = [
 
 vonuvoli_debug = [
 	"vonuvoli_defaults",
+	"vonuvoli_builtins",
 	"vonuvoli_compiler_trace_error",
 	# "vonuvoli_optimizer_trace_error",
 	"vonuvoli_evaluator_trace_error",
@@ -93,6 +95,16 @@ vonuvoli_panic_on_failed = []
 
 vonuvoli_inline = []
 
+vonuvoli_builtins = [
+	"vonuvoli_builtins_crypto",
+	"vonuvoli_builtins_random",
+	"vonuvoli_builtins_encoding",
+]
+
+vonuvoli_builtins_crypto = ["ring"]
+vonuvoli_builtins_random = ["rand"]
+vonuvoli_builtins_encoding = ["data-encoding", "base64"]
+
 
 
 
@@ -111,6 +123,22 @@ optional = true
 
 [dependencies.atty]
 version = "~0.2.6"
+optional = true
+
+[dependencies.base64]
+version = "~0.9.0"
+optional = true
+
+[dependencies.data-encoding]
+version = "~2.1.1"
+optional = true
+
+[dependencies.ring]
+version = "~0.12.1"
+optional = true
+
+[dependencies.rand]
+version = "~0.4.2"
 optional = true
 
 
