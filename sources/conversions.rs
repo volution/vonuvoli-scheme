@@ -259,47 +259,54 @@ impl_from_for_primitive_syntax! (SyntaxPrimitiveV, PrimitiveV);
 
 
 macro_rules! impl_from_for_native_procedure_1 {
-	( $from : ty, $tag : ident, $coercer : ident ) => (
+	( $from : ident, $from_fn : ty, $tag : ident, $coercer : ident ) => (
 		impl_from_for_enum! (ProcedureNativeInternals, $tag, $from);
 		impl_from_for_Value_3! (ProcedureNative, ProcedureNative, $from, native, ProcedureNativeInternals::$tag (native) .into ());
+		impl_from_for_Value_3! (ProcedureNative, ProcedureNative, $from_fn, native, $coercer (native) .into ());
 		impl_unwrappers_for_enum_wrapper! (ProcedureNativeInternals, $tag, $from);
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-		pub fn $coercer (function : $from) -> ($from) {
-			function
+		pub fn $coercer (native : $from_fn) -> ($from) {
+			$from (native)
 		}
 	);
 }
 
-impl_from_for_native_procedure_1! (ProcedureNative0, Native0, procedure_native_0);
-impl_from_for_native_procedure_1! (ProcedureNative1, Native1, procedure_native_1);
-impl_from_for_native_procedure_1! (ProcedureNative2, Native2, procedure_native_2);
-impl_from_for_native_procedure_1! (ProcedureNative3, Native3, procedure_native_3);
-impl_from_for_native_procedure_1! (ProcedureNative4, Native4, procedure_native_4);
-impl_from_for_native_procedure_1! (ProcedureNative5, Native5, procedure_native_5);
-impl_from_for_native_procedure_1! (ProcedureNativeN, NativeN, procedure_native_n);
+impl_from_for_native_procedure_1! (ProcedureNative0, ProcedureNativeFn0, Native0, procedure_native_0);
+impl_from_for_native_procedure_1! (ProcedureNative1, ProcedureNativeFn1, Native1, procedure_native_1);
+impl_from_for_native_procedure_1! (ProcedureNative2, ProcedureNativeFn2, Native2, procedure_native_2);
+impl_from_for_native_procedure_1! (ProcedureNative3, ProcedureNativeFn3, Native3, procedure_native_3);
+impl_from_for_native_procedure_1! (ProcedureNative4, ProcedureNativeFn4, Native4, procedure_native_4);
+impl_from_for_native_procedure_1! (ProcedureNative5, ProcedureNativeFn5, Native5, procedure_native_5);
+impl_from_for_native_procedure_1! (ProcedureNativeN, ProcedureNativeFnN, NativeN, procedure_native_n);
 
-impl_from_for_native_procedure_1! (ProcedureNative0E, Native0E, procedure_native_0e);
-impl_from_for_native_procedure_1! (ProcedureNative1E, Native1E, procedure_native_1e);
-impl_from_for_native_procedure_1! (ProcedureNative2E, Native2E, procedure_native_2e);
-impl_from_for_native_procedure_1! (ProcedureNative3E, Native3E, procedure_native_3e);
-impl_from_for_native_procedure_1! (ProcedureNative4E, Native4E, procedure_native_4e);
-impl_from_for_native_procedure_1! (ProcedureNative5E, Native5E, procedure_native_5e);
-impl_from_for_native_procedure_1! (ProcedureNativeNE, NativeNE, procedure_native_ne);
+impl_from_for_native_procedure_1! (ProcedureNative0E, ProcedureNativeFn0E, Native0E, procedure_native_0e);
+impl_from_for_native_procedure_1! (ProcedureNative1E, ProcedureNativeFn1E, Native1E, procedure_native_1e);
+impl_from_for_native_procedure_1! (ProcedureNative2E, ProcedureNativeFn2E, Native2E, procedure_native_2e);
+impl_from_for_native_procedure_1! (ProcedureNative3E, ProcedureNativeFn3E, Native3E, procedure_native_3e);
+impl_from_for_native_procedure_1! (ProcedureNative4E, ProcedureNativeFn4E, Native4E, procedure_native_4e);
+impl_from_for_native_procedure_1! (ProcedureNative5E, ProcedureNativeFn5E, Native5E, procedure_native_5e);
+impl_from_for_native_procedure_1! (ProcedureNativeNE, ProcedureNativeFnNE, NativeNE, procedure_native_ne);
 
-impl_from_for_native_procedure_1! (ProcedureNativeV, NativeV, procedure_native_v);
+impl_from_for_native_procedure_1! (ProcedureNativeV, ProcedureNativeFnV, NativeV, procedure_native_v);
 
 
 
 
 macro_rules! impl_from_for_native_syntax_1 {
-	( $from : ty, $tag : ident ) => (
+	( $from : ident, $from_fn : ty, $tag : ident, $coercer : ident ) => (
 		impl_from_for_enum! (SyntaxNativeInternals, $tag, $from);
 		impl_from_for_Value_3! (SyntaxNative, SyntaxNative, $from, native, SyntaxNativeInternals::$tag (native) .into ());
+		impl_from_for_Value_3! (SyntaxNative, SyntaxNative, $from_fn, native, $coercer (native) .into ());
+		// FIXME:  `rustc --explain E0162`
 		// impl_unwrappers_for_enum_wrapper! (SyntaxNativeInternals, $tag, $from);
+		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+		pub fn $coercer (native : $from_fn) -> ($from) {
+			$from (native)
+		}
 	);
 }
 
-impl_from_for_native_syntax_1! (SyntaxNativeG, NativeG);
+impl_from_for_native_syntax_1! (SyntaxNativeG, SyntaxNativeFnG, NativeG, syntax_native_g);
 
 
 

@@ -232,7 +232,7 @@ pub enum ExpressionForProcedureLambdaCall {
 
 
 
-#[ derive (Clone) ]
+#[ derive (Clone, Debug) ]
 pub enum ExpressionForProcedureNativeCall {
 	
 	ProcedureNativeCall ( ProcedureNative, StdBox<[Expression]> ),

@@ -1851,7 +1851,7 @@ impl Optimizer {
 				return self.optimize_procedure_native_ne (optimization, native, inputs),
 			
 			ProcedureNativeInternals::NativeV (native) => {
-				let native = try! (native (inputs_count));
+				let native = try! (native.0 (inputs_count)) .into ();
 				return self.optimize_procedure_native_g_0 (optimization, native, inputs);
 			},
 			
@@ -2603,35 +2603,35 @@ impl Optimizer {
 					ExpressionForProcedureNativeCall::ProcedureNativeCall (ref callable, _) =>
 						Some (ExpressionProcedureCallCallableRef::Native (callable.internals_ref () .clone ())),
 					
-					ExpressionForProcedureNativeCall::ProcedureNativeCall0 (callable) =>
-						Some (ExpressionProcedureCallCallableRef::Native (callable.into ())),
-					ExpressionForProcedureNativeCall::ProcedureNativeCall1 (callable, _) =>
-						Some (ExpressionProcedureCallCallableRef::Native (callable.into ())),
-					ExpressionForProcedureNativeCall::ProcedureNativeCall2 (callable, _, _) =>
-						Some (ExpressionProcedureCallCallableRef::Native (callable.into ())),
-					ExpressionForProcedureNativeCall::ProcedureNativeCall3 (callable, _, _, _) =>
-						Some (ExpressionProcedureCallCallableRef::Native (callable.into ())),
-					ExpressionForProcedureNativeCall::ProcedureNativeCall4 (callable, _, _, _, _) =>
-						Some (ExpressionProcedureCallCallableRef::Native (callable.into ())),
-					ExpressionForProcedureNativeCall::ProcedureNativeCall5 (callable, _, _, _, _, _) =>
-						Some (ExpressionProcedureCallCallableRef::Native (callable.into ())),
-					ExpressionForProcedureNativeCall::ProcedureNativeCallN (callable, _) =>
-						Some (ExpressionProcedureCallCallableRef::Native (callable.into ())),
+					ExpressionForProcedureNativeCall::ProcedureNativeCall0 (ref callable) =>
+						Some (ExpressionProcedureCallCallableRef::Native (callable.clone () .into ())),
+					ExpressionForProcedureNativeCall::ProcedureNativeCall1 (ref callable, _) =>
+						Some (ExpressionProcedureCallCallableRef::Native (callable.clone () .into ())),
+					ExpressionForProcedureNativeCall::ProcedureNativeCall2 (ref callable, _, _) =>
+						Some (ExpressionProcedureCallCallableRef::Native (callable.clone () .into ())),
+					ExpressionForProcedureNativeCall::ProcedureNativeCall3 (ref callable, _, _, _) =>
+						Some (ExpressionProcedureCallCallableRef::Native (callable.clone () .into ())),
+					ExpressionForProcedureNativeCall::ProcedureNativeCall4 (ref callable, _, _, _, _) =>
+						Some (ExpressionProcedureCallCallableRef::Native (callable.clone () .into ())),
+					ExpressionForProcedureNativeCall::ProcedureNativeCall5 (ref callable, _, _, _, _, _) =>
+						Some (ExpressionProcedureCallCallableRef::Native (callable.clone () .into ())),
+					ExpressionForProcedureNativeCall::ProcedureNativeCallN (ref callable, _) =>
+						Some (ExpressionProcedureCallCallableRef::Native (callable.clone () .into ())),
 					
-					ExpressionForProcedureNativeCall::ProcedureNativeCall0E (callable) =>
-						Some (ExpressionProcedureCallCallableRef::Native (callable.into ())),
-					ExpressionForProcedureNativeCall::ProcedureNativeCall1E (callable, _) =>
-						Some (ExpressionProcedureCallCallableRef::Native (callable.into ())),
-					ExpressionForProcedureNativeCall::ProcedureNativeCall2E (callable, _, _) =>
-						Some (ExpressionProcedureCallCallableRef::Native (callable.into ())),
-					ExpressionForProcedureNativeCall::ProcedureNativeCall3E (callable, _, _, _) =>
-						Some (ExpressionProcedureCallCallableRef::Native (callable.into ())),
-					ExpressionForProcedureNativeCall::ProcedureNativeCall4E (callable, _, _, _, _) =>
-						Some (ExpressionProcedureCallCallableRef::Native (callable.into ())),
-					ExpressionForProcedureNativeCall::ProcedureNativeCall5E (callable, _, _, _, _, _) =>
-						Some (ExpressionProcedureCallCallableRef::Native (callable.into ())),
-					ExpressionForProcedureNativeCall::ProcedureNativeCallNE (callable, _) =>
-						Some (ExpressionProcedureCallCallableRef::Native (callable.into ())),
+					ExpressionForProcedureNativeCall::ProcedureNativeCall0E (ref callable) =>
+						Some (ExpressionProcedureCallCallableRef::Native (callable.clone () .into ())),
+					ExpressionForProcedureNativeCall::ProcedureNativeCall1E (ref callable, _) =>
+						Some (ExpressionProcedureCallCallableRef::Native (callable.clone () .into ())),
+					ExpressionForProcedureNativeCall::ProcedureNativeCall2E (ref callable, _, _) =>
+						Some (ExpressionProcedureCallCallableRef::Native (callable.clone () .into ())),
+					ExpressionForProcedureNativeCall::ProcedureNativeCall3E (ref callable, _, _, _) =>
+						Some (ExpressionProcedureCallCallableRef::Native (callable.clone () .into ())),
+					ExpressionForProcedureNativeCall::ProcedureNativeCall4E (ref callable, _, _, _, _) =>
+						Some (ExpressionProcedureCallCallableRef::Native (callable.clone () .into ())),
+					ExpressionForProcedureNativeCall::ProcedureNativeCall5E (ref callable, _, _, _, _, _) =>
+						Some (ExpressionProcedureCallCallableRef::Native (callable.clone () .into ())),
+					ExpressionForProcedureNativeCall::ProcedureNativeCallNE (ref callable, _) =>
+						Some (ExpressionProcedureCallCallableRef::Native (callable.clone () .into ())),
 					
 				},
 			
