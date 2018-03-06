@@ -122,3 +122,13 @@ def_scheme_benchmarks_from_file! (
 		
 	);
 
+
+
+
+#[ cfg ( feature = "vonuvoli_builtins_random" ) ]
+def_scheme_tests_from_file! (
+		
+		test__random => "scheme/random.sst",
+		
+	);
+
