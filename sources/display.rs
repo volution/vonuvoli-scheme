@@ -1310,7 +1310,7 @@ impl fmt::Display for Handle {
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let value = self.value ();
-		write! (formatter, "#<handle:{:08x}>", value)
+		write! (formatter, "#<handle:{:016x}>", value)
 	}
 }
 
@@ -1319,7 +1319,7 @@ impl fmt::Debug for Handle {
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let value = self.value ();
-		write! (formatter, "Handle({:08x})", value)
+		write! (formatter, "Handle({:016x})", value)
 	}
 }
 
