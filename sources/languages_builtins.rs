@@ -272,6 +272,25 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 	definitions.extend_from_slice (&[
 			("random-i64", procedure_native_v (random_generate_i64_v) .into ()),
 			("random-f64", procedure_native_v (random_generate_f64_v) .into ()),
+			("random-u8", procedure_native_0 (random_generate_u8) .into ()),
+			("random-i8", procedure_native_0 (random_generate_i8) .into ()),
+			("random-u16", procedure_native_0 (random_generate_u16) .into ()),
+			("random-i16", procedure_native_0 (random_generate_i16) .into ()),
+			("random-u32", procedure_native_0 (random_generate_u32) .into ()),
+			("random-i32", procedure_native_0 (random_generate_i32) .into ()),
+			("random-u7", procedure_native_0 (random_generate_u7) .into ()),
+			("random-u15", procedure_native_0 (random_generate_u15) .into ()),
+			("random-u31", procedure_native_0 (random_generate_u31) .into ()),
+			("random-u63", procedure_native_0 (random_generate_u63) .into ()),
+			("random-u1", procedure_native_0 (random_generate_u1) .into ()),
+			("random-u2", procedure_native_0 (random_generate_u2) .into ()),
+			("random-u3", procedure_native_0 (random_generate_u3) .into ()),
+			("random-u4", procedure_native_0 (random_generate_u4) .into ()),
+			("random-u5", procedure_native_0 (random_generate_u5) .into ()),
+			("random-u6", procedure_native_0 (random_generate_u6) .into ()),
+			("random-bytevector", procedure_native_1 (random_generate_bytes_build) .into ()),
+			("random-bytevector-append!", procedure_native_2 (random_generate_bytes_extend) .into ()),
+			("random-bytevector-fill!", procedure_native_v (random_generate_bytes_fill_v) .into ()),
 		]);
 	
 	#[ cfg ( feature = "vonuvoli_builtins_encoding" ) ]

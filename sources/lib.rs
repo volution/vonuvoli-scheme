@@ -13,6 +13,7 @@
 #![ feature (const_fn) ]
 #![ feature (stmt_expr_attributes) ]
 #![ feature (type_ascription) ]
+#![ feature (vec_resize_default) ]
 
 #![ no_implicit_prelude ]
 
