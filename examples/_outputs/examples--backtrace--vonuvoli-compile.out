@@ -1,0 +1,25 @@
+
+--------------------------------------------------------------------------------
+ProcedureGenericCall(
+    ProcedureCall0(
+        ProcedureGenericCall(
+            ProcedureCall0(
+                ProcedureGenericCall(
+                    ProcedureCall0(
+                        ProcedureGenericCall(
+                            ProcedureCall0(
+                                Value(
+                                    Symbol(
+                                        "symbol"
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+)
+--------------------------------------------------------------------------------
+

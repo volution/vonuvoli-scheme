@@ -1,0 +1,145 @@
+
+--------------------------------------------------------------------------------
+ProcedurePrimitiveCall(
+    ProcedurePrimitiveCallN(
+        List(
+            ListBuild
+        ),
+        [
+            Void,
+            Value(
+                Boolean(
+                    true
+                )
+            ),
+            Value(
+                NumberInteger(
+                    0
+                )
+            ),
+            Value(
+                NumberInteger(
+                    1
+                )
+            ),
+            Value(
+                Boolean(
+                    true
+                )
+            ),
+            Value(
+                NumberInteger(
+                    0
+                )
+            ),
+            Value(
+                NumberInteger(
+                    1
+                )
+            ),
+            Void,
+            Void,
+            Void
+        ]
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+ProcedurePrimitiveCall(
+    ProcedurePrimitiveCallN(
+        List(
+            ListBuild
+        ),
+        [
+            Value(
+                Boolean(
+                    true
+                )
+            ),
+            Void,
+            Value(
+                Boolean(
+                    true
+                )
+            ),
+            Value(
+                Boolean(
+                    true
+                )
+            ),
+            Value(
+                Boolean(
+                    true
+                )
+            ),
+            Value(
+                Boolean(
+                    true
+                )
+            ),
+            Value(
+                Boolean(
+                    true
+                )
+            ),
+            Value(
+                Boolean(
+                    true
+                )
+            )
+        ]
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+ProcedurePrimitiveCall(
+    ProcedurePrimitiveCallN(
+        List(
+            ListBuild
+        ),
+        [
+            Value(
+                NumberInteger(
+                    1
+                )
+            ),
+            Void,
+            Value(
+                NumberInteger(
+                    1
+                )
+            ),
+            Value(
+                NumberInteger(
+                    2
+                )
+            ),
+            Value(
+                NumberInteger(
+                    1
+                )
+            ),
+            Value(
+                NumberInteger(
+                    3
+                )
+            ),
+            Value(
+                NumberInteger(
+                    1
+                )
+            ),
+            Value(
+                NumberInteger(
+                    2
+                )
+            )
+        ]
+    )
+)
+--------------------------------------------------------------------------------
+

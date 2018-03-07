@@ -10,7 +10,7 @@ Contexts(
             ),
             initialized: false,
             immutable: false,
-            handle: Handle(258b03aef7f78606)
+            handle: Handle(478e7baf0571ad11)
         },
         Lambda(
             LambdaTemplate {
@@ -25,7 +25,7 @@ Contexts(
                     )
                 ],
                 argument_rest: None,
-                handle: Handle(7db8d8a89676ad82)
+                handle: Handle(0ff589649676ad82)
             },
             Sequence(
                 ReturnLast,
@@ -196,7 +196,7 @@ Contexts(
             ),
             initialized: false,
             immutable: false,
-            handle: Handle(478e7bafe25c54fe)
+            handle: Handle(cebfd7c6fbfe191a)
         },
         Lambda(
             LambdaTemplate {
@@ -211,7 +211,7 @@ Contexts(
                     )
                 ],
                 argument_rest: None,
-                handle: Handle(ff58964c49fc1ae)
+                handle: Handle(06781c1fc49fc1ae)
             },
             Contexts(
                 RegisterClosure(
@@ -445,7 +445,7 @@ Contexts(
             ),
             initialized: false,
             immutable: false,
-            handle: Handle(cebfd7c60571ad11)
+            handle: Handle(c4f9a9fb8e48fa41)
         },
         Lambda(
             LambdaTemplate {
@@ -460,7 +460,7 @@ Contexts(
                     )
                 ],
                 argument_rest: None,
-                handle: Handle(6781c1fad278ec0)
+                handle: Handle(5cc2e835ad278ec0)
             },
             ProcedurePrimitiveCall(
                 ProcedurePrimitiveCall1(
@@ -479,7 +479,7 @@ Contexts(
                                         ),
                                         initialized: false,
                                         immutable: false,
-                                        handle: Handle(478e7bafe25c54fe)
+                                        handle: Handle(cebfd7c6fbfe191a)
                                     }
                                 )
                             ),
@@ -495,7 +495,7 @@ Contexts(
                                                 ),
                                                 initialized: false,
                                                 immutable: false,
-                                                handle: Handle(258b03aef7f78606)
+                                                handle: Handle(478e7baf0571ad11)
                                             }
                                         )
                                     ),
@@ -591,7 +591,7 @@ Contexts(
                                     ),
                                     initialized: false,
                                     immutable: false,
-                                    handle: Handle(cebfd7c60571ad11)
+                                    handle: Handle(c4f9a9fb8e48fa41)
                                 }
                             )
                         ),

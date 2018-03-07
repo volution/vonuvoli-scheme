@@ -10,7 +10,7 @@ Contexts(
             ),
             initialized: false,
             immutable: false,
-            handle: Handle(258b03aef7f78606)
+            handle: Handle(478e7baf0571ad11)
         },
         Lambda(
             LambdaTemplate {
@@ -28,7 +28,7 @@ Contexts(
                     )
                 ],
                 argument_rest: None,
-                handle: Handle(49714d06c49fc1ae)
+                handle: Handle(c040e16fc49fc1ae)
             },
             Contexts(
                 RegisterClosure(
@@ -51,7 +51,7 @@ Contexts(
                                                 )
                                             ],
                                             argument_rest: None,
-                                            handle: Handle(7db8d8a89676ad82)
+                                            handle: Handle(0ff589649676ad82)
                                         },
                                         ConditionalIf(
                                             Multiple(
@@ -79,9 +79,7 @@ Contexts(
                                                             )
                                                         )
                                                     ),
-                                                    GuardAndExpression(
-                                                        True,
-                                                        Ignore,
+                                                    ExpressionOnly(
                                                         Contexts(
                                                             RegisterClosure(
                                                                 Sequence(
@@ -147,9 +145,7 @@ Contexts(
                                                                                             )
                                                                                         )
                                                                                     ),
-                                                                                    GuardAndExpression(
-                                                                                        True,
-                                                                                        Ignore,
+                                                                                    ExpressionOnly(
                                                                                         ProcedureGenericCall(
                                                                                             ProcedureCall1(
                                                                                                 Contexts(
@@ -291,7 +287,7 @@ Contexts(
             ),
             initialized: false,
             immutable: false,
-            handle: Handle(10abfcde25c54fe)
+            handle: Handle(08872ab6fbfe191a)
         },
         Value(
             Null
@@ -312,7 +308,7 @@ Contexts(
             ),
             initialized: false,
             immutable: false,
-            handle: Handle(cebfd7c60571ad11)
+            handle: Handle(c4f9a9fb8e48fa41)
         },
         Lambda(
             LambdaTemplate {
@@ -330,7 +326,7 @@ Contexts(
                     )
                 ],
                 argument_rest: None,
-                handle: Handle(6781c1fad278ec0)
+                handle: Handle(5cc2e835ad278ec0)
             },
             Contexts(
                 RegisterClosure(
@@ -354,7 +350,7 @@ Contexts(
                                                                 ),
                                                                 initialized: false,
                                                                 immutable: false,
-                                                                handle: Handle(258b03aef7f78606)
+                                                                handle: Handle(478e7baf0571ad11)
                                                             }
                                                         )
                                                     ),
@@ -373,7 +369,7 @@ Contexts(
                                                                 ),
                                                                 initialized: false,
                                                                 immutable: false,
-                                                                handle: Handle(10abfcde25c54fe)
+                                                                handle: Handle(08872ab6fbfe191a)
                                                             }
                                                         )
                                                     )
@@ -419,7 +415,7 @@ Contexts(
                                                                                                 ),
                                                                                                 initialized: false,
                                                                                                 immutable: false,
-                                                                                                handle: Handle(258b03aef7f78606)
+                                                                                                handle: Handle(478e7baf0571ad11)
                                                                                             }
                                                                                         )
                                                                                     ),
@@ -473,9 +469,7 @@ Contexts(
                                                                                 )
                                                                             )
                                                                         ),
-                                                                        GuardAndExpression(
-                                                                            True,
-                                                                            Ignore,
+                                                                        ExpressionOnly(
                                                                             Value(
                                                                                 Boolean(
                                                                                     false
@@ -502,9 +496,7 @@ Contexts(
                                                 )
                                             )
                                         ),
-                                        GuardAndExpression(
-                                            True,
-                                            Ignore,
+                                        ExpressionOnly(
                                             Value(
                                                 Boolean(
                                                     false
@@ -567,7 +559,7 @@ Contexts(
             ),
             initialized: false,
             immutable: false,
-            handle: Handle(c4f9a9fbfbfe191a)
+            handle: Handle(5e6b4856e991a8b8)
         },
         Lambda(
             LambdaTemplate {
@@ -588,7 +580,7 @@ Contexts(
                     )
                 ],
                 argument_rest: None,
-                handle: Handle(5cc2e83574cba638)
+                handle: Handle(e52ae2fe74cba638)
             },
             Contexts(
                 RegisterClosure(
@@ -612,7 +604,7 @@ Contexts(
                                                                 ),
                                                                 initialized: false,
                                                                 immutable: false,
-                                                                handle: Handle(258b03aef7f78606)
+                                                                handle: Handle(478e7baf0571ad11)
                                                             }
                                                         )
                                                     ),
@@ -631,7 +623,7 @@ Contexts(
                                                                 ),
                                                                 initialized: false,
                                                                 immutable: false,
-                                                                handle: Handle(10abfcde25c54fe)
+                                                                handle: Handle(08872ab6fbfe191a)
                                                             }
                                                         )
                                                     )
@@ -677,7 +669,7 @@ Contexts(
                                                                                                 ),
                                                                                                 initialized: false,
                                                                                                 immutable: false,
-                                                                                                handle: Handle(258b03aef7f78606)
+                                                                                                handle: Handle(478e7baf0571ad11)
                                                                                             }
                                                                                         )
                                                                                     ),
@@ -736,9 +728,7 @@ Contexts(
                                                                                 )
                                                                             )
                                                                         ),
-                                                                        GuardAndExpression(
-                                                                            True,
-                                                                            Ignore,
+                                                                        ExpressionOnly(
                                                                             ProcedurePrimitiveCall(
                                                                                 ProcedurePrimitiveCall2(
                                                                                     List(
@@ -811,9 +801,7 @@ Contexts(
                                                 )
                                             )
                                         ),
-                                        GuardAndExpression(
-                                            True,
-                                            Ignore,
+                                        ExpressionOnly(
                                             Contexts(
                                                 BindingSet1(
                                                     Binding {
@@ -824,7 +812,7 @@ Contexts(
                                                         ),
                                                         initialized: false,
                                                         immutable: false,
-                                                        handle: Handle(10abfcde25c54fe)
+                                                        handle: Handle(08872ab6fbfe191a)
                                                     },
                                                     ProcedurePrimitiveCall(
                                                         ProcedurePrimitiveCall2(
@@ -870,7 +858,7 @@ Contexts(
                                                                         ),
                                                                         initialized: false,
                                                                         immutable: false,
-                                                                        handle: Handle(10abfcde25c54fe)
+                                                                        handle: Handle(08872ab6fbfe191a)
                                                                     }
                                                                 )
                                                             )
@@ -945,7 +933,7 @@ Contexts(
             ),
             initialized: false,
             immutable: false,
-            handle: Handle(5e6b48568e48fa41)
+            handle: Handle(5bd8cc1ca7125c80)
         },
         Value(
             NumberInteger(
@@ -968,7 +956,7 @@ Contexts(
             ),
             initialized: false,
             immutable: false,
-            handle: Handle(ebd5d457e991a8b8)
+            handle: Handle(18e8185b962734fa)
         },
         Lambda(
             LambdaTemplate {
@@ -979,7 +967,7 @@ Contexts(
                 ),
                 arguments_positional: [],
                 argument_rest: None,
-                handle: Handle(5527fab53f873f1e)
+                handle: Handle(51c4b8fe3f873f1e)
             },
             Sequence(
                 ReturnLast,
@@ -994,7 +982,7 @@ Contexts(
                                 ),
                                 initialized: false,
                                 immutable: false,
-                                handle: Handle(5e6b48568e48fa41)
+                                handle: Handle(5bd8cc1ca7125c80)
                             },
                             ProcedurePrimitiveCall(
                                 ProcedurePrimitiveCall2(
@@ -1011,7 +999,7 @@ Contexts(
                                                 ),
                                                 initialized: false,
                                                 immutable: false,
-                                                handle: Handle(5e6b48568e48fa41)
+                                                handle: Handle(5bd8cc1ca7125c80)
                                             }
                                         )
                                     ),
@@ -1044,7 +1032,7 @@ Contexts(
                                                 ),
                                                 initialized: false,
                                                 immutable: false,
-                                                handle: Handle(5e6b48568e48fa41)
+                                                handle: Handle(5bd8cc1ca7125c80)
                                             }
                                         )
                                     )
@@ -1073,7 +1061,7 @@ Contexts(
             ),
             initialized: false,
             immutable: false,
-            handle: Handle(18e8185ba7125c80)
+            handle: Handle(7c306ddfbd066996)
         },
         Lambda(
             LambdaTemplate {
@@ -1091,7 +1079,7 @@ Contexts(
                     )
                 ],
                 argument_rest: None,
-                handle: Handle(51c4b8fe20c43ca2)
+                handle: Handle(e326167c20c43ca2)
             },
             ConditionalIf(
                 Multiple(
@@ -1119,9 +1107,7 @@ Contexts(
                                 )
                             )
                         ),
-                        GuardAndExpression(
-                            True,
-                            Ignore,
+                        ExpressionOnly(
                             Contexts(
                                 RegisterClosure(
                                     Loop(
@@ -1294,7 +1280,7 @@ Contexts(
             ),
             initialized: false,
             immutable: false,
-            handle: Handle(7c306ddf962734fa)
+            handle: Handle(cc1354b8dbeef751)
         },
         Lambda(
             LambdaTemplate {
@@ -1309,7 +1295,7 @@ Contexts(
                     )
                 ],
                 argument_rest: None,
-                handle: Handle(e326167c5a0a107c)
+                handle: Handle(84df9d4c5a0a107c)
             },
             ConditionalIf(
                 Multiple(
@@ -1344,9 +1330,7 @@ Contexts(
                                 )
                             )
                         ),
-                        GuardAndExpression(
-                            True,
-                            Ignore,
+                        ExpressionOnly(
                             ProcedurePrimitiveCall(
                                 ProcedurePrimitiveCall2(
                                     List(
@@ -1364,7 +1348,7 @@ Contexts(
                                                         ),
                                                         initialized: false,
                                                         immutable: false,
-                                                        handle: Handle(7c306ddf962734fa)
+                                                        handle: Handle(cc1354b8dbeef751)
                                                     }
                                                 )
                                             ),
@@ -1394,7 +1378,7 @@ Contexts(
                                                         ),
                                                         initialized: false,
                                                         immutable: false,
-                                                        handle: Handle(7c306ddf962734fa)
+                                                        handle: Handle(cc1354b8dbeef751)
                                                     }
                                                 )
                                             ),
@@ -1442,7 +1426,7 @@ Contexts(
             ),
             initialized: false,
             immutable: false,
-            handle: Handle(cc1354b8bd066996)
+            handle: Handle(b3800e10e8c68dc2)
         },
         Value(
             NumberInteger(
@@ -1465,7 +1449,7 @@ Contexts(
             ),
             initialized: false,
             immutable: false,
-            handle: Handle(8a20abe5dbeef751)
+            handle: Handle(6838712dcaea0345)
         },
         Lambda(
             LambdaTemplate {
@@ -1489,7 +1473,7 @@ Contexts(
                     )
                 ],
                 argument_rest: None,
-                handle: Handle(bd7f38b904953051)
+                handle: Handle(86a8321604953051)
             },
             Contexts(
                 RegisterClosure(
@@ -1513,7 +1497,7 @@ Contexts(
                                                                 ),
                                                                 initialized: false,
                                                                 immutable: false,
-                                                                handle: Handle(7c306ddf962734fa)
+                                                                handle: Handle(cc1354b8dbeef751)
                                                             }
                                                         )
                                                     ),
@@ -1662,7 +1646,7 @@ Contexts(
                                                                                 ),
                                                                                 initialized: false,
                                                                                 immutable: false,
-                                                                                handle: Handle(ebd5d457e991a8b8)
+                                                                                handle: Handle(18e8185b962734fa)
                                                                             }
                                                                         )
                                                                     )
@@ -1732,9 +1716,7 @@ Contexts(
                                                                                 )
                                                                             )
                                                                         ),
-                                                                        GuardAndExpression(
-                                                                            True,
-                                                                            Ignore,
+                                                                        ExpressionOnly(
                                                                             ProcedurePrimitiveCall(
                                                                                 ProcedurePrimitiveCall2(
                                                                                     Arithmetic(
@@ -1771,7 +1753,7 @@ Contexts(
                                                                                 ),
                                                                                 initialized: false,
                                                                                 immutable: false,
-                                                                                handle: Handle(ebd5d457e991a8b8)
+                                                                                handle: Handle(18e8185b962734fa)
                                                                             }
                                                                         )
                                                                     )
@@ -1866,7 +1848,7 @@ Contexts(
                                                                                         ),
                                                                                         initialized: false,
                                                                                         immutable: false,
-                                                                                        handle: Handle(c4f9a9fbfbfe191a)
+                                                                                        handle: Handle(5e6b4856e991a8b8)
                                                                                     }
                                                                                 )
                                                                             ),
@@ -1887,7 +1869,7 @@ Contexts(
                                                                                                 ),
                                                                                                 initialized: false,
                                                                                                 immutable: false,
-                                                                                                handle: Handle(ebd5d457e991a8b8)
+                                                                                                handle: Handle(18e8185b962734fa)
                                                                                             }
                                                                                         )
                                                                                     )
@@ -1948,7 +1930,7 @@ Contexts(
                                                                         ),
                                                                         initialized: false,
                                                                         immutable: false,
-                                                                        handle: Handle(c4f9a9fbfbfe191a)
+                                                                        handle: Handle(5e6b4856e991a8b8)
                                                                     }
                                                                 )
                                                             ),
@@ -2190,7 +2172,7 @@ Contexts(
                                                                                         ),
                                                                                         initialized: false,
                                                                                         immutable: false,
-                                                                                        handle: Handle(c4f9a9fbfbfe191a)
+                                                                                        handle: Handle(5e6b4856e991a8b8)
                                                                                     }
                                                                                 )
                                                                             ),
@@ -2211,7 +2193,7 @@ Contexts(
                                                                                                 ),
                                                                                                 initialized: false,
                                                                                                 immutable: false,
-                                                                                                handle: Handle(ebd5d457e991a8b8)
+                                                                                                handle: Handle(18e8185b962734fa)
                                                                                             }
                                                                                         )
                                                                                     )
@@ -2408,7 +2390,7 @@ Contexts(
             ),
             initialized: false,
             immutable: false,
-            handle: Handle(6838712de8c68dc2)
+            handle: Handle(b2cb991357d2ecbf)
         },
         Lambda(
             LambdaTemplate {
@@ -2419,7 +2401,7 @@ Contexts(
                 ),
                 arguments_positional: [],
                 argument_rest: None,
-                handle: Handle(86a832163c624084)
+                handle: Handle(093f37373c624084)
             },
             Sequence(
                 ReturnLast,
@@ -2434,7 +2416,7 @@ Contexts(
                                 ),
                                 initialized: false,
                                 immutable: false,
-                                handle: Handle(cc1354b8bd066996)
+                                handle: Handle(b3800e10e8c68dc2)
                             },
                             ProcedurePrimitiveCall(
                                 ProcedurePrimitiveCall2(
@@ -2456,7 +2438,7 @@ Contexts(
                                                         ),
                                                         initialized: false,
                                                         immutable: false,
-                                                        handle: Handle(cc1354b8bd066996)
+                                                        handle: Handle(b3800e10e8c68dc2)
                                                     }
                                                 )
                                             ),
@@ -2486,7 +2468,7 @@ Contexts(
                                 ),
                                 initialized: false,
                                 immutable: false,
-                                handle: Handle(cc1354b8bd066996)
+                                handle: Handle(b3800e10e8c68dc2)
                             }
                         )
                     )
@@ -2511,7 +2493,7 @@ Contexts(
             ),
             initialized: false,
             immutable: false,
-            handle: Handle(b2cb9913caea0345)
+            handle: Handle(b27a7a6283df8b42)
         },
         Lambda(
             LambdaTemplate {
@@ -2526,7 +2508,7 @@ Contexts(
                     )
                 ],
                 argument_rest: None,
-                handle: Handle(93f37372c1df32a)
+                handle: Handle(b0ba9f472c1df32a)
             },
             Contexts(
                 RegisterClosure(
@@ -2577,7 +2559,7 @@ Contexts(
                                                                                         ),
                                                                                         initialized: false,
                                                                                         immutable: false,
-                                                                                        handle: Handle(6838712de8c68dc2)
+                                                                                        handle: Handle(b2cb991357d2ecbf)
                                                                                     }
                                                                                 )
                                                                             )
@@ -2679,9 +2661,7 @@ Contexts(
                                                                 ]
                                                             )
                                                         ),
-                                                        GuardAndExpression(
-                                                            True,
-                                                            Ignore,
+                                                        ExpressionOnly(
                                                             Contexts(
                                                                 RegisterClosure(
                                                                     Loop(
@@ -2956,7 +2936,7 @@ Contexts(
             ),
             initialized: false,
             immutable: false,
-            handle: Handle(b27a7a6257d2ecbf)
+            handle: Handle(d0002da6951b69f2)
         },
         Lambda(
             LambdaTemplate {
@@ -2977,7 +2957,7 @@ Contexts(
                     )
                 ],
                 argument_rest: None,
-                handle: Handle(b0ba9f47f02d2f76)
+                handle: Handle(ba9c5cb9f02d2f76)
             },
             ConditionalIf(
                 Multiple(
@@ -3110,7 +3090,7 @@ Contexts(
                                                 ),
                                                 initialized: false,
                                                 immutable: false,
-                                                handle: Handle(b27a7a6257d2ecbf)
+                                                handle: Handle(d0002da6951b69f2)
                                             }
                                         )
                                     ),
@@ -3190,7 +3170,7 @@ Contexts(
                                                         ),
                                                         initialized: false,
                                                         immutable: false,
-                                                        handle: Handle(b27a7a6257d2ecbf)
+                                                        handle: Handle(d0002da6951b69f2)
                                                     }
                                                 )
                                             ),
@@ -3230,7 +3210,7 @@ Contexts(
                                                         ),
                                                         initialized: false,
                                                         immutable: false,
-                                                        handle: Handle(b27a7a6257d2ecbf)
+                                                        handle: Handle(d0002da6951b69f2)
                                                     }
                                                 )
                                             ),
@@ -3277,7 +3257,7 @@ Contexts(
                                                         ),
                                                         initialized: false,
                                                         immutable: false,
-                                                        handle: Handle(b27a7a6257d2ecbf)
+                                                        handle: Handle(d0002da6951b69f2)
                                                     }
                                                 )
                                             ),
@@ -3308,9 +3288,7 @@ Contexts(
                                 ]
                             )
                         ),
-                        GuardAndExpression(
-                            True,
-                            Ignore,
+                        ExpressionOnly(
                             ConditionalIf(
                                 Multiple(
                                     [
@@ -3460,7 +3438,7 @@ Contexts(
                                                                                                                 ),
                                                                                                                 initialized: false,
                                                                                                                 immutable: false,
-                                                                                                                handle: Handle(b27a7a6257d2ecbf)
+                                                                                                                handle: Handle(d0002da6951b69f2)
                                                                                                             }
                                                                                                         )
                                                                                                     ),
@@ -3508,9 +3486,7 @@ Contexts(
                                                                                                 )
                                                                                             )
                                                                                         ),
-                                                                                        GuardAndExpression(
-                                                                                            True,
-                                                                                            Ignore,
+                                                                                        ExpressionOnly(
                                                                                             ProcedureGenericCall(
                                                                                                 ProcedureCall3(
                                                                                                     Contexts(
@@ -3523,7 +3499,7 @@ Contexts(
                                                                                                                 ),
                                                                                                                 initialized: false,
                                                                                                                 immutable: false,
-                                                                                                                handle: Handle(b27a7a6257d2ecbf)
+                                                                                                                handle: Handle(d0002da6951b69f2)
                                                                                                             }
                                                                                                         )
                                                                                                     ),
@@ -3732,7 +3708,7 @@ Contexts(
                                                                                                                 ),
                                                                                                                 initialized: false,
                                                                                                                 immutable: false,
-                                                                                                                handle: Handle(b27a7a6257d2ecbf)
+                                                                                                                handle: Handle(d0002da6951b69f2)
                                                                                                             }
                                                                                                         )
                                                                                                     ),
@@ -3780,9 +3756,7 @@ Contexts(
                                                                                                 )
                                                                                             )
                                                                                         ),
-                                                                                        GuardAndExpression(
-                                                                                            True,
-                                                                                            Ignore,
+                                                                                        ExpressionOnly(
                                                                                             Contexts(
                                                                                                 RegisterClosure(
                                                                                                     Loop(
@@ -3845,7 +3819,7 @@ Contexts(
                                                                                                                                                 ),
                                                                                                                                                 initialized: false,
                                                                                                                                                 immutable: false,
-                                                                                                                                                handle: Handle(18e8185ba7125c80)
+                                                                                                                                                handle: Handle(7c306ddfbd066996)
                                                                                                                                             }
                                                                                                                                         )
                                                                                                                                     ),
@@ -3883,9 +3857,7 @@ Contexts(
                                                                                                                                                                 Null
                                                                                                                                                             )
                                                                                                                                                         ),
-                                                                                                                                                        GuardAndExpression(
-                                                                                                                                                            True,
-                                                                                                                                                            Ignore,
+                                                                                                                                                        ExpressionOnly(
                                                                                                                                                             ProcedurePrimitiveCall(
                                                                                                                                                                 ProcedurePrimitiveCall1(
                                                                                                                                                                     List(
@@ -3951,9 +3923,7 @@ Contexts(
                                                                                                                                                 Null
                                                                                                                                             )
                                                                                                                                         ),
-                                                                                                                                        GuardAndExpression(
-                                                                                                                                            True,
-                                                                                                                                            Ignore,
+                                                                                                                                        ExpressionOnly(
                                                                                                                                             ProcedurePrimitiveCall(
                                                                                                                                                 ProcedurePrimitiveCall1(
                                                                                                                                                     List(
@@ -4007,7 +3977,7 @@ Contexts(
                                                                                                                                                 ),
                                                                                                                                                 initialized: false,
                                                                                                                                                 immutable: false,
-                                                                                                                                                handle: Handle(b27a7a6257d2ecbf)
+                                                                                                                                                handle: Handle(d0002da6951b69f2)
                                                                                                                                             }
                                                                                                                                         )
                                                                                                                                     ),
@@ -4097,9 +4067,7 @@ Contexts(
                                                                                                                                     )
                                                                                                                                 )
                                                                                                                             ),
-                                                                                                                            GuardAndExpression(
-                                                                                                                                True,
-                                                                                                                                Ignore,
+                                                                                                                            ExpressionOnly(
                                                                                                                                 Value(
                                                                                                                                     Boolean(
                                                                                                                                         true
@@ -4161,9 +4129,7 @@ Contexts(
                                                                 )
                                                             )
                                                         ),
-                                                        GuardAndExpression(
-                                                            True,
-                                                            Ignore,
+                                                        ExpressionOnly(
                                                             Value(
                                                                 Boolean(
                                                                     false
@@ -4174,9 +4140,7 @@ Contexts(
                                                 )
                                             )
                                         ),
-                                        GuardAndExpression(
-                                            True,
-                                            Ignore,
+                                        ExpressionOnly(
                                             Sequence(
                                                 And,
                                                 [
@@ -4211,7 +4175,7 @@ Contexts(
                                                                         ),
                                                                         initialized: false,
                                                                         immutable: false,
-                                                                        handle: Handle(b27a7a6257d2ecbf)
+                                                                        handle: Handle(d0002da6951b69f2)
                                                                     }
                                                                 )
                                                             ),
@@ -4258,7 +4222,7 @@ Contexts(
                                                                         ),
                                                                         initialized: false,
                                                                         immutable: false,
-                                                                        handle: Handle(b27a7a6257d2ecbf)
+                                                                        handle: Handle(d0002da6951b69f2)
                                                                     }
                                                                 )
                                                             ),
@@ -4344,7 +4308,7 @@ Contexts(
             ),
             initialized: false,
             immutable: false,
-            handle: Handle(d0002da683df8b42)
+            handle: Handle(9a005c0cf229db17)
         },
         ProcedureGenericCall(
             ProcedureCall1(
@@ -4358,7 +4322,7 @@ Contexts(
                             ),
                             initialized: false,
                             immutable: false,
-                            handle: Handle(b2cb9913caea0345)
+                            handle: Handle(b27a7a6283df8b42)
                         }
                     )
                 ),
@@ -4374,7 +4338,7 @@ Contexts(
                                     ),
                                     initialized: false,
                                     immutable: false,
-                                    handle: Handle(8a20abe5dbeef751)
+                                    handle: Handle(6838712dcaea0345)
                                 }
                             )
                         ),
@@ -4719,7 +4683,7 @@ Contexts(
             ),
             initialized: false,
             immutable: false,
-            handle: Handle(b4636a10951b69f2)
+            handle: Handle(c152a151a1cf2d4c)
         },
         Lambda(
             LambdaTemplate {
@@ -4737,7 +4701,7 @@ Contexts(
                     )
                 ],
                 argument_rest: None,
-                handle: Handle(94ff6aa5c51d88d2)
+                handle: Handle(9809dadcc51d88d2)
             },
             Contexts(
                 RegisterClosure(
@@ -4840,7 +4804,7 @@ Contexts(
                                                                                                 ),
                                                                                                 initialized: false,
                                                                                                 immutable: false,
-                                                                                                handle: Handle(cebfd7c60571ad11)
+                                                                                                handle: Handle(c4f9a9fb8e48fa41)
                                                                                             }
                                                                                         )
                                                                                     ),
@@ -4901,7 +4865,7 @@ Contexts(
                                                                                 ),
                                                                                 initialized: false,
                                                                                 immutable: false,
-                                                                                handle: Handle(b27a7a6257d2ecbf)
+                                                                                handle: Handle(d0002da6951b69f2)
                                                                             }
                                                                         )
                                                                     ),
@@ -5082,7 +5046,7 @@ Contexts(
             ),
             initialized: false,
             immutable: false,
-            handle: Handle(c152a151f229db17)
+            handle: Handle(3db2a2e4597dc97f)
         },
         Lambda(
             LambdaTemplate {
@@ -5097,7 +5061,7 @@ Contexts(
                     )
                 ],
                 argument_rest: None,
-                handle: Handle(9809dadcb36b5141)
+                handle: Handle(b11e7138b36b5141)
             },
             Sequence(
                 ReturnLast,
@@ -5114,7 +5078,7 @@ Contexts(
                                         ),
                                         initialized: false,
                                         immutable: false,
-                                        handle: Handle(b4636a10951b69f2)
+                                        handle: Handle(c152a151a1cf2d4c)
                                     }
                                 )
                             ),
@@ -5128,7 +5092,7 @@ Contexts(
                                         ),
                                         initialized: false,
                                         immutable: false,
-                                        handle: Handle(d0002da683df8b42)
+                                        handle: Handle(9a005c0cf229db17)
                                     }
                                 )
                             ),
@@ -5173,7 +5137,7 @@ Contexts(
                                                 ),
                                                 initialized: false,
                                                 immutable: false,
-                                                handle: Handle(d0002da683df8b42)
+                                                handle: Handle(9a005c0cf229db17)
                                             }
                                         )
                                     )
@@ -5264,7 +5228,7 @@ Contexts(
                                     ),
                                     initialized: false,
                                     immutable: false,
-                                    handle: Handle(c152a151f229db17)
+                                    handle: Handle(3db2a2e4597dc97f)
                                 }
                             )
                         ),
