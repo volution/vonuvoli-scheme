@@ -232,24 +232,26 @@ Contexts(
                     ]
                 )
             ),
-            Single(
-                GuardOnly(
-                    Expression(
-                        ProcedurePrimitiveCall(
-                            ProcedurePrimitiveCall1(
-                                Type(
-                                    IsPortEof
-                                ),
-                                Contexts(
-                                    RegisterGet1(
-                                        0
+            Some(
+                Single(
+                    GuardOnly(
+                        Expression(
+                            ProcedurePrimitiveCall(
+                                ProcedurePrimitiveCall1(
+                                    Type(
+                                        IsPortEof
+                                    ),
+                                    Contexts(
+                                        RegisterGet1(
+                                            0
+                                        )
                                     )
                                 )
-                            )
+                            ),
+                            false
                         ),
-                        false
-                    ),
-                    Return
+                        Return
+                    )
                 )
             )
         ),

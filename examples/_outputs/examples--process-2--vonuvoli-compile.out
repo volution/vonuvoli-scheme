@@ -198,24 +198,26 @@ Contexts(
                                         ]
                                     )
                                 ),
-                                Single(
-                                    GuardOnly(
-                                        Expression(
-                                            ProcedurePrimitiveCall(
-                                                ProcedurePrimitiveCall1(
-                                                    Type(
-                                                        IsPortEof
-                                                    ),
-                                                    Contexts(
-                                                        RegisterGet1(
-                                                            1
+                                Some(
+                                    Single(
+                                        GuardOnly(
+                                            Expression(
+                                                ProcedurePrimitiveCall(
+                                                    ProcedurePrimitiveCall1(
+                                                        Type(
+                                                            IsPortEof
+                                                        ),
+                                                        Contexts(
+                                                            RegisterGet1(
+                                                                1
+                                                            )
                                                         )
                                                     )
-                                                )
+                                                ),
+                                                false
                                             ),
-                                            false
-                                        ),
-                                        Return
+                                            Return
+                                        )
                                     )
                                 )
                             ),
