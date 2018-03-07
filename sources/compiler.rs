@@ -347,6 +347,9 @@ impl Compiler {
 					SyntaxPrimitiveV::UntilCond =>
 						fail_unimplemented! (0x9e9861c0), // deferred
 					
+					SyntaxPrimitiveV::Loop =>
+						return self.compile_syntax_loop (compilation, tokens),
+					
 					SyntaxPrimitiveV::Guard =>
 						return self.compile_syntax_guard (compilation, tokens),
 					
@@ -773,6 +776,26 @@ impl Compiler {
 		} else {
 			(compilation, expression)
 		};
+		
+		succeed! ((compilation, expression));
+	}
+	
+	
+	
+	
+	fn compile_syntax_loop (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+		
+		let (compilation, loop_statement) = if tokens.is_empty () {
+			(compilation, None)
+		} else {
+			let compilation = try! (compilation.define_disable ());
+			let (compilation, loop_statements) = try! (self.compile_0_vec (compilation, tokens));
+			let compilation = try! (compilation.define_enable ());
+			let loop_statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, loop_statements.into_boxed_slice ());
+			(compilation, Some (loop_statements.into ()))
+		};
+		
+		let expression = Expression::Loop (None, None, loop_statement, None);
 		
 		succeed! ((compilation, expression));
 	}

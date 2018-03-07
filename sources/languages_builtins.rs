@@ -51,6 +51,8 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("locals", SyntaxPrimitiveV::Locals.into ()),
 			("set!-values", SyntaxPrimitiveV::SetValues.into ()),
 			
+			("loop", SyntaxPrimitiveV::Loop.into ()),
+			
 			("guard*", SyntaxPrimitiveV::Guard.into ()),
 			
 			("call", FunctionsPrimitiveV::Call.into ()),

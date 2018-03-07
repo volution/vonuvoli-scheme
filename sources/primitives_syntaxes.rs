@@ -48,6 +48,7 @@ pub enum SyntaxPrimitiveV {
 	WhileCond,
 	Until,
 	UntilCond,
+	Loop,
 	
 	Guard,
 	GuardCond,
