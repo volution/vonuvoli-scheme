@@ -44,6 +44,7 @@ pub mod exports {
 	pub use super::{
 			
 			random_generate_bytes_build,
+			random_generate_bytes_permutation,
 			random_generate_bytes_extend,
 			
 			random_generate_bytes_fill_1,
@@ -51,6 +52,12 @@ pub mod exports {
 			random_generate_bytes_fill_3,
 			random_generate_bytes_fill_g,
 			random_generate_bytes_fill_v,
+			
+			random_generate_bytes_shuffle_1,
+			random_generate_bytes_shuffle_2,
+			random_generate_bytes_shuffle_3,
+			random_generate_bytes_shuffle_g,
+			random_generate_bytes_shuffle_v,
 			
 		};
 	
@@ -244,6 +251,16 @@ pub fn random_generate_bytes_build (count : &Value) -> (Outcome<Value>) {
 }
 
 #[ inline (never) ]
+pub fn random_generate_bytes_permutation () -> (Outcome<Value>) {
+	let mut buffer = StdVec::with_capacity (255);
+	for byte in 0 .. 256 {
+		buffer.push (byte as u8)
+	}
+	generator () .shuffle (&mut buffer);
+	succeed! (bytes_new (buffer));
+}
+
+#[ inline (never) ]
 pub fn random_generate_bytes_extend (bytes : &Value, count : &Value) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_mutable_ref! (bytes);
 	let mut buffer = try! (bytes.bytes_ref_mut ());
@@ -295,6 +312,44 @@ pub fn random_generate_bytes_fill_v (arguments : usize) -> (Outcome<ProcedureNat
 }
 
 
+#[ inline (never) ]
+pub fn random_generate_bytes_shuffle_1 (bytes : &Value) -> (Outcome<Value>) {
+	return random_generate_bytes_shuffle_g (bytes, None, None);
+}
+
+#[ inline (never) ]
+pub fn random_generate_bytes_shuffle_2 (bytes : &Value, range_start : &Value) -> (Outcome<Value>) {
+	return random_generate_bytes_shuffle_g (bytes, Some (range_start), None);
+}
+
+#[ inline (never) ]
+pub fn random_generate_bytes_shuffle_3 (bytes : &Value, range_start : &Value, range_end : &Value) -> (Outcome<Value>) {
+	return random_generate_bytes_shuffle_g (bytes, Some (range_start), Some (range_end));
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn random_generate_bytes_shuffle_g (bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
+	let bytes = try_as_bytes_mutable_ref! (bytes);
+	let mut buffer = try! (bytes.bytes_ref_mut ());
+	let (range_start, range_end) = try! (range_coerce (range_start, range_end, buffer.len ()));
+	let buffer = try_some! (buffer.get_mut (range_start .. range_end), 0xfc93cb6d);
+	generator () .shuffle (buffer);
+	succeed! (VOID_VALUE);
+}
+
+#[ inline (never) ]
+pub fn random_generate_bytes_shuffle_v (arguments : usize) -> (Outcome<ProcedureNativeInternals>) {
+	match arguments {
+		1 =>
+			succeed! (procedure_native_1 (random_generate_bytes_shuffle_1) .into ()),
+		2 =>
+			succeed! (procedure_native_2 (random_generate_bytes_shuffle_2) .into ()),
+		3 =>
+			succeed! (procedure_native_3 (random_generate_bytes_shuffle_3) .into ()),
+		_ =>
+			fail! (0xd4f36aab),
+	}
+}
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

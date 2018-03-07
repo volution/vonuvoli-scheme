@@ -289,8 +289,10 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("random-u5", procedure_native_0 (random_generate_u5) .into ()),
 			("random-u6", procedure_native_0 (random_generate_u6) .into ()),
 			("random-bytevector", procedure_native_1 (random_generate_bytes_build) .into ()),
+			("random-bytevector-permutation", procedure_native_0 (random_generate_bytes_permutation) .into ()),
 			("random-bytevector-append!", procedure_native_2 (random_generate_bytes_extend) .into ()),
 			("random-bytevector-fill!", procedure_native_v (random_generate_bytes_fill_v) .into ()),
+			("random-bytevector-shuffle!", procedure_native_v (random_generate_bytes_shuffle_v) .into ()),
 		]);
 	
 	#[ cfg ( feature = "vonuvoli_builtins_encoding" ) ]
