@@ -983,6 +983,7 @@
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/examples--display-1.ss' "${@}" >| './examples/_outputs/examples--display-1--vonuvoli-compile.out'
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/examples--process-1.ss' "${@}" >| './examples/_outputs/examples--process-1--vonuvoli-compile.out'
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/examples--process-2.ss' "${@}" >| './examples/_outputs/examples--process-2--vonuvoli-compile.out'
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/examples--random-1.ss' "${@}" >| './examples/_outputs/examples--random-1--vonuvoli-compile.out'
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/examples--stdio-1.ss' "${@}" >| './examples/_outputs/examples--stdio-1--vonuvoli-compile.out'
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/examples--stdio-2.ss' "${@}" >| './examples/_outputs/examples--stdio-2--vonuvoli-compile.out'
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/optimizer--conditionals.ss' "${@}" >| './examples/_outputs/optimizer--conditionals--vonuvoli-compile.out'
@@ -1063,51 +1064,59 @@
 !!
 
 << execute / bin / compiler / examples / backtrace / debug
-	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/examples--backtrace.ss' "${@}" >| './examples/_outputs/optimizer--backtrace--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--backtrace--vonuvoli-compile.out'
+	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/examples--backtrace.ss' "${@}" >| './examples/_outputs/examples--backtrace--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--backtrace--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / examples / backtrace / release
-	nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/examples--backtrace.ss' "${@}" >| './examples/_outputs/optimizer--backtrace--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--backtrace--vonuvoli-compile.out'
+	nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/examples--backtrace.ss' "${@}" >| './examples/_outputs/examples--backtrace--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--backtrace--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / examples / display-1 / debug
-	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/examples--display-1.ss' "${@}" >| './examples/_outputs/optimizer--display-1--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--display-1--vonuvoli-compile.out'
+	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/examples--display-1.ss' "${@}" >| './examples/_outputs/examples--display-1--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--display-1--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / examples / display-1 / release
-	nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/examples--display-1.ss' "${@}" >| './examples/_outputs/optimizer--display-1--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--display-1--vonuvoli-compile.out'
+	nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/examples--display-1.ss' "${@}" >| './examples/_outputs/examples--display-1--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--display-1--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / examples / process-1 / debug
-	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/examples--process-1.ss' "${@}" >| './examples/_outputs/optimizer--process-1--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--process-1--vonuvoli-compile.out'
+	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/examples--process-1.ss' "${@}" >| './examples/_outputs/examples--process-1--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--process-1--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / examples / process-1 / release
-	nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/examples--process-1.ss' "${@}" >| './examples/_outputs/optimizer--process-1--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--process-1--vonuvoli-compile.out'
+	nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/examples--process-1.ss' "${@}" >| './examples/_outputs/examples--process-1--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--process-1--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / examples / process-2 / debug
-	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/examples--process-2.ss' "${@}" >| './examples/_outputs/optimizer--process-2--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--process-2--vonuvoli-compile.out'
+	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/examples--process-2.ss' "${@}" >| './examples/_outputs/examples--process-2--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--process-2--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / examples / process-2 / release
-	nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/examples--process-2.ss' "${@}" >| './examples/_outputs/optimizer--process-2--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--process-2--vonuvoli-compile.out'
+	nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/examples--process-2.ss' "${@}" >| './examples/_outputs/examples--process-2--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--process-2--vonuvoli-compile.out'
+!!
+
+<< execute / bin / compiler / examples / random-1 / debug
+	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/examples--random-1.ss' "${@}" >| './examples/_outputs/examples--random-1--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--random-1--vonuvoli-compile.out'
+!!
+
+<< execute / bin / compiler / examples / random-1 / release
+	nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/examples--random-1.ss' "${@}" >| './examples/_outputs/examples--random-1--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--random-1--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / examples / stdio-1 / debug
-	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/examples--stdio-1.ss' "${@}" >| './examples/_outputs/optimizer--stdio-1--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--stdio-1--vonuvoli-compile.out'
+	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/examples--stdio-1.ss' "${@}" >| './examples/_outputs/examples--stdio-1--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--stdio-1--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / examples / stdio-1 / release
-	nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/examples--stdio-1.ss' "${@}" >| './examples/_outputs/optimizer--stdio-1--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--stdio-1--vonuvoli-compile.out'
+	nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/examples--stdio-1.ss' "${@}" >| './examples/_outputs/examples--stdio-1--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--stdio-1--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / examples / stdio-2 / debug
-	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/examples--stdio-2.ss' "${@}" >| './examples/_outputs/optimizer--stdio-2--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--stdio-2--vonuvoli-compile.out'
+	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/examples--stdio-2.ss' "${@}" >| './examples/_outputs/examples--stdio-2--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--stdio-2--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / examples / stdio-2 / release
-	nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/examples--stdio-2.ss' "${@}" >| './examples/_outputs/optimizer--stdio-2--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--stdio-2--vonuvoli-compile.out'
+	nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/examples--stdio-2.ss' "${@}" >| './examples/_outputs/examples--stdio-2--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--stdio-2--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / optimizations / conditionals / debug
@@ -1204,6 +1213,18 @@
 
 << execute / bin / interpreter / examples / process-2 / release
 	exec -- x-run ':: execute / bin / interpreter / release' './examples/examples--process-2.ss' "${@}"
+!!
+
+<< execute / bin / interpreter / examples / random-1 / debug
+	exec -- x-run ':: execute / bin / interpreter / debug' './examples/examples--random-1.ss' "${@}"
+!!
+
+<< execute / bin / interpreter / examples / random-1 / debug / watch
+	exec -- x-run ':: execute / bin / interpreter / debug / watch' './examples/examples--random-1.ss' "${@}"
+!!
+
+<< execute / bin / interpreter / examples / random-1 / release
+	exec -- x-run ':: execute / bin / interpreter / release' './examples/examples--random-1.ss' "${@}"
 !!
 
 << execute / bin / interpreter / examples / stdio-1 / debug

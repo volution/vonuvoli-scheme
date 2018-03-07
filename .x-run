@@ -562,8 +562,8 @@ sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
 :: execute / bin / interpreter / examples / @{SCRIPT} / debug / watch :: exec -- x-run ':: execute / bin / interpreter / debug / watch' './examples/examples--@{SCRIPT}.ss' "${@}"
 :: execute / bin / interpreter / examples / @{SCRIPT} / debug :: exec -- x-run ':: execute / bin / interpreter / debug' './examples/examples--@{SCRIPT}.ss' "${@}"
 :: execute / bin / interpreter / examples / @{SCRIPT} / release :: exec -- x-run ':: execute / bin / interpreter / release' './examples/examples--@{SCRIPT}.ss' "${@}"
-:: execute / bin / compiler / examples / @{SCRIPT} / debug :: nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/examples--@{SCRIPT}.ss' "${@}" >| './examples/_outputs/optimizer--@{SCRIPT}--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--@{SCRIPT}--vonuvoli-compile.out'
-:: execute / bin / compiler / examples / @{SCRIPT} / release :: nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/examples--@{SCRIPT}.ss' "${@}" >| './examples/_outputs/optimizer--@{SCRIPT}--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--@{SCRIPT}--vonuvoli-compile.out'
+:: execute / bin / compiler / examples / @{SCRIPT} / debug :: nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/examples--@{SCRIPT}.ss' "${@}" >| './examples/_outputs/examples--@{SCRIPT}--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--@{SCRIPT}--vonuvoli-compile.out'
+:: execute / bin / compiler / examples / @{SCRIPT} / release :: nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/examples--@{SCRIPT}.ss' "${@}" >| './examples/_outputs/examples--@{SCRIPT}--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--@{SCRIPT}--vonuvoli-compile.out'
 EOS
 done
 
