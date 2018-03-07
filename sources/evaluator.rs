@@ -125,7 +125,7 @@ impl Evaluator {
 			Expression::ConditionalMatch (ref actual, ref clauses) =>
 				self.evaluate_conditional_match (evaluation, actual, clauses),
 			Expression::Loop (ref initialize, ref update, ref body, ref clauses) =>
-				self.evaluate_loop (evaluation, option_box_as_ref (initialize), option_box_as_ref (update), option_box_as_ref (body), clauses),
+				self.evaluate_loop (evaluation, option_box_as_ref (initialize), option_box_as_ref (update), option_box_as_ref (body), clauses.as_ref ()),
 			
 			Expression::Contexts (ref expression) =>
 				self.evaluate_for_contexts (evaluation, expression),
@@ -671,7 +671,7 @@ impl Evaluator {
 	
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn evaluate_loop (&self, evaluation : &mut EvaluatorContext, initialize : Option<&Expression>, update : Option<&Expression>, body : Option<&Expression>, clauses : &ExpressionConditionalIfClauses) -> (Outcome<Value>) {
+	fn evaluate_loop (&self, evaluation : &mut EvaluatorContext, initialize : Option<&Expression>, update : Option<&Expression>, body : Option<&Expression>, clauses : Option<&ExpressionConditionalIfClauses>) -> (Outcome<Value>) {
 		
 		if let Some (initialize) = initialize {
 			try! (self.evaluate (evaluation, initialize));
@@ -679,11 +679,13 @@ impl Evaluator {
 		
 		loop {
 			
-			if let Some (output) = try! (self.evaluate_conditional_if_clauses (evaluation, clauses)) {
-				if let Some (output) = output {
-					succeed! (output);
-				} else {
-					succeed! (VOID.into ());
+			if let Some (clauses) = clauses {
+				if let Some (output) = try! (self.evaluate_conditional_if_clauses (evaluation, clauses)) {
+					if let Some (output) = output {
+						succeed! (output);
+					} else {
+						succeed! (VOID.into ());
+					}
 				}
 			}
 			

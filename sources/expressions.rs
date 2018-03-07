@@ -49,7 +49,7 @@ pub enum Expression {
 	Sequence ( ExpressionSequenceOperator, StdBox<[Expression]> ),
 	ConditionalIf ( ExpressionConditionalIfClauses ),
 	ConditionalMatch ( ExpressionBox, ExpressionConditionalMatchClauses ),
-	Loop ( Option<ExpressionBox>, Option<ExpressionBox>, Option<ExpressionBox>, ExpressionConditionalIfClauses ),
+	Loop ( Option<ExpressionBox>, Option<ExpressionBox>, Option<ExpressionBox>, Option<ExpressionConditionalIfClauses> ),
 	
 	Contexts ( ExpressionForContexts ),
 	

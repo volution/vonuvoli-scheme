@@ -876,11 +876,21 @@ impl Optimizer {
 	
 	
 	
-	fn optimize_loop (&self, optimization : OptimizerContext, initialize : Option<Expression>, update : Option<Expression>, body : Option<Expression>, clauses : ExpressionConditionalIfClauses) -> (Outcome<(OptimizerContext, Expression)>) {
+	fn optimize_loop (&self, optimization : OptimizerContext, initialize : Option<Expression>, update : Option<Expression>, body : Option<Expression>, clauses : Option<ExpressionConditionalIfClauses>) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, initialize) = try! (self.optimize_0_option (optimization, initialize));
 		let (optimization, update) = try! (self.optimize_0_option (optimization, update));
 		let (optimization, body) = try! (self.optimize_0_option (optimization, body));
-		let (optimization, clauses) = try! (self.optimize_conditional_if_clauses (optimization, clauses));
+		let (optimization, clauses) = if let Some (clauses) = clauses {
+			let (optimization, clauses) = try! (self.optimize_conditional_if_clauses (optimization, clauses));
+			match clauses {
+				ExpressionConditionalIfClauses::Void =>
+					(optimization, None),
+				_ =>
+					(optimization, Some (clauses)),
+			}
+		} else {
+			(optimization, None)
+		};
 		let expression = Expression::Loop (option_box_new (initialize), option_box_new (update), option_box_new (body), clauses);
 		succeed! ((optimization, expression));
 	}

@@ -723,27 +723,36 @@ impl Compiler {
 		
 		
 		let break_statements = try! (vec_list_clone (&break_statements));
-		let (break_guard, break_statements) = try! (vec_explode_1n (break_statements));
-		
-		let compilation = try! (compilation.define_disable ());
-		let (compilation, break_guard) = try! (self.compile_0 (compilation, break_guard));
-		let compilation = try! (compilation.define_enable ());
-		let break_guard = ExpressionConditionalIfGuard::Expression (break_guard, false);
-		
-		let (compilation, break_clause) = if break_statements.is_empty () {
-			let clause = ExpressionConditionalIfClause::GuardOnly (break_guard, ExpressionValueConsumer::Return);
-			(compilation, clause)
-		} else {
-			// FIXME:  Add support for `(guard => expression)` just like for `cond`!
+		let (compilation, break_clauses) = if ! break_statements.is_empty () {
+			
+			let (break_guard, break_statements) = try! (vec_explode_1n (break_statements));
+			
 			let compilation = try! (compilation.define_disable ());
-			let (compilation, break_statements) = try! (self.compile_0_vec (compilation, break_statements));
+			let (compilation, break_guard) = try! (self.compile_0 (compilation, break_guard));
 			let compilation = try! (compilation.define_enable ());
-			let break_statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, break_statements.into_boxed_slice ());
-			let clause = ExpressionConditionalIfClause::GuardAndExpression (break_guard, ExpressionValueConsumer::Ignore, break_statements);
-			(compilation, clause)
+			let break_guard = ExpressionConditionalIfGuard::Expression (break_guard, false);
+			
+			let (compilation, break_clause) = if break_statements.is_empty () {
+				let clause = ExpressionConditionalIfClause::GuardOnly (break_guard, ExpressionValueConsumer::Return);
+				(compilation, clause)
+			} else {
+				// FIXME:  Add support for `(guard => expression)` just like for `cond`!
+				let compilation = try! (compilation.define_disable ());
+				let (compilation, break_statements) = try! (self.compile_0_vec (compilation, break_statements));
+				let compilation = try! (compilation.define_enable ());
+				let break_statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, break_statements.into_boxed_slice ());
+				let clause = ExpressionConditionalIfClause::GuardAndExpression (break_guard, ExpressionValueConsumer::Ignore, break_statements);
+				(compilation, clause)
+			};
+			
+			let break_clauses = ExpressionConditionalIfClauses::Multiple (StdBox::new ([break_clause]));
+			
+			(compilation, Some (break_clauses))
+			
+		} else {
+			
+			(compilation, None)
 		};
-		
-		let break_clauses = ExpressionConditionalIfClauses::Multiple (StdBox::new ([break_clause]));
 		
 		let (compilation, loop_statement) = if loop_statements.is_empty () {
 			(compilation, None)
