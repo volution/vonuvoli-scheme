@@ -1,5 +1,6 @@
 
 
+use super::builtins::exports::*;
 use super::constants::exports::*;
 use super::contexts::exports::*;
 use super::conversions::exports::*;
@@ -8,7 +9,6 @@ use super::evaluator::exports::*;
 use super::expressions::exports::*;
 use super::extended_procedures::exports::*;
 use super::lambdas::exports::*;
-use super::native_procedures::exports::*;
 use super::primitives::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
@@ -510,19 +510,40 @@ impl Optimizer {
 	
 	fn optimize_conditional_if (&self, optimization : OptimizerContext, clauses : ExpressionConditionalIfClauses) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, clauses) = try! (self.optimize_conditional_if_clauses (optimization, clauses));
-		let expression = Expression::ConditionalIf (clauses);
-		succeed! ((optimization, expression));
+		match clauses {
+			ExpressionConditionalIfClauses::Void =>
+				succeed! ((optimization, Expression::Void)),
+			ExpressionConditionalIfClauses::TrueReturn =>
+				succeed! ((optimization, Expression::Value (TRUE_VALUE))),
+			ExpressionConditionalIfClauses::ExpressionOnly (expression) =>
+				succeed! ((optimization, *expression)),
+			_ => {
+				let expression = Expression::ConditionalIf (clauses);
+				succeed! ((optimization, expression));
+			},
+		}
 	}
 	
 	fn optimize_conditional_if_clauses (&self, optimization : OptimizerContext, clauses : ExpressionConditionalIfClauses) -> (Outcome<(OptimizerContext, ExpressionConditionalIfClauses)>) {
 		match clauses {
 			ExpressionConditionalIfClauses::Void =>
 				succeed! ((optimization, clauses)),
+			ExpressionConditionalIfClauses::TrueReturn =>
+				succeed! ((optimization, clauses)),
+			ExpressionConditionalIfClauses::ExpressionOnly (expression) => {
+				let (optimization, expression) = try! (self.optimize_0 (optimization, *expression));
+				let expression = ExpressionConditionalIfClauses::ExpressionOnly (StdBox::new (expression));
+				succeed! ((optimization, expression));
+			},
 			ExpressionConditionalIfClauses::Single (clause) => {
 				let (optimization, clause) = try! (self.optimize_conditional_if_clause (optimization, *clause));
 				let clauses = match clause {
 					ExpressionConditionalIfClause::Void =>
 						ExpressionConditionalIfClauses::Void,
+					ExpressionConditionalIfClause::TrueReturn =>
+						ExpressionConditionalIfClauses::TrueReturn,
+					ExpressionConditionalIfClause::ExpressionOnly (expression) =>
+						ExpressionConditionalIfClauses::ExpressionOnly (StdBox::new (expression)),
 					_ =>
 						ExpressionConditionalIfClauses::Single (StdBox::new (clause)),
 				};
@@ -531,18 +552,30 @@ impl Optimizer {
 			ExpressionConditionalIfClauses::Multiple (clauses) => {
 				let (optimization, clauses) = try! (self.optimize_0_vec_transform (optimization, StdVec::from (clauses),
 						|optimization, clause| self.optimize_conditional_if_clause (optimization, clause)));
+				let mut clauses_drop = false;
 				let clauses = vec_filter_into! (clauses, clause,
-						match *clause {
-							ExpressionConditionalIfClause::Void =>
-								false,
-							_ =>
-								true,
+						if clauses_drop {
+							false
+						} else {
+							match *clause {
+								ExpressionConditionalIfClause::Void =>
+									false,
+								ExpressionConditionalIfClause::TrueReturn |
+								ExpressionConditionalIfClause::ExpressionOnly (_) => {
+									clauses_drop = true;
+									true
+								},
+								_ =>
+									true,
+							}
 						});
 				let clauses = match clauses.len () {
 					0 =>
 						ExpressionConditionalIfClauses::Void,
-					1 =>
-						ExpressionConditionalIfClauses::Single (StdBox::new (try! (vec_explode_1 (clauses)))),
+					1 => {
+						let clauses = ExpressionConditionalIfClauses::Single (StdBox::new (try! (vec_explode_1 (clauses))));
+						return self.optimize_conditional_if_clauses (optimization, clauses);
+					},
 					_ =>
 						ExpressionConditionalIfClauses::Multiple (clauses.into_boxed_slice ()),
 				};
@@ -555,13 +588,29 @@ impl Optimizer {
 		match clause {
 			ExpressionConditionalIfClause::Void =>
 				succeed! ((optimization, clause)),
+			ExpressionConditionalIfClause::TrueReturn =>
+				succeed! ((optimization, clause)),
+			ExpressionConditionalIfClause::ExpressionOnly (expression) => {
+				let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
+				let expression = ExpressionConditionalIfClause::ExpressionOnly (expression);
+				succeed! ((optimization, expression));
+			},
 			ExpressionConditionalIfClause::GuardOnly (guard, guard_consumer) => {
 				let (optimization, guard) = try! (self.optimize_conditional_if_guard (optimization, guard));
 				let (optimization, guard_consumer) = try! (self.optimize_value_consumer (optimization, guard_consumer));
 				let clause = match guard {
+					ExpressionConditionalIfGuard::True =>
+						match guard_consumer {
+							ExpressionValueConsumer::Return =>
+								ExpressionConditionalIfClause::TrueReturn,
+							_ =>
+								ExpressionConditionalIfClause::GuardOnly (guard, guard_consumer),
+						},
 					ExpressionConditionalIfGuard::False =>
 						match guard_consumer {
 							ExpressionValueConsumer::Return =>
+								ExpressionConditionalIfClause::Void,
+							ExpressionValueConsumer::Ignore =>
 								ExpressionConditionalIfClause::Void,
 							_ =>
 								ExpressionConditionalIfClause::GuardOnly (guard, guard_consumer),
@@ -576,9 +625,20 @@ impl Optimizer {
 				let (optimization, guard_consumer) = try! (self.optimize_value_consumer (optimization, guard_consumer));
 				let (optimization, output) = try! (self.optimize_0 (optimization, output));
 				let clause = match guard {
+					ExpressionConditionalIfGuard::True =>
+						match guard_consumer {
+							ExpressionValueConsumer::Return =>
+								ExpressionConditionalIfClause::ExpressionOnly (output),
+							ExpressionValueConsumer::Ignore =>
+								ExpressionConditionalIfClause::ExpressionOnly (output),
+							_ =>
+								ExpressionConditionalIfClause::GuardAndExpression (guard, guard_consumer, output),
+						},
 					ExpressionConditionalIfGuard::False =>
 						match guard_consumer {
 							ExpressionValueConsumer::Return =>
+								ExpressionConditionalIfClause::Void,
+							ExpressionValueConsumer::Ignore =>
 								ExpressionConditionalIfClause::Void,
 							_ =>
 								ExpressionConditionalIfClause::GuardOnly (guard, guard_consumer),
@@ -597,10 +657,40 @@ impl Optimizer {
 				succeed! ((optimization, guard)),
 			ExpressionConditionalIfGuard::False =>
 				succeed! ((optimization, guard)),
+			ExpressionConditionalIfGuard::Value (value, negated) => {
+				let guard = if is_true (&value) {
+					if ! negated {
+						ExpressionConditionalIfGuard::True
+					} else {
+						ExpressionConditionalIfGuard::False
+					}
+				} else if is_false (&value) {
+					if ! negated {
+						ExpressionConditionalIfGuard::False
+					} else {
+						ExpressionConditionalIfGuard::True
+					}
+				} else if is_not_false (&value) {
+					if ! negated {
+						ExpressionConditionalIfGuard::Value (value, negated)
+					} else {
+						ExpressionConditionalIfGuard::False
+					}
+				} else {
+					ExpressionConditionalIfGuard::Value (value, negated)
+				};
+				succeed! ((optimization, guard));
+			},
 			ExpressionConditionalIfGuard::Expression (expression, negated) => {
 				let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
-				let guard = ExpressionConditionalIfGuard::Expression (expression, negated);
-				succeed! ((optimization, guard));
+				if self.expression_is (&optimization, &expression, ExpressionClass::Constant) {
+					let value = try_some! (self.expression_value_into (&optimization, expression), 0xb19e21ca);
+					let guard = ExpressionConditionalIfGuard::Value (value, negated);
+					return self.optimize_conditional_if_guard (optimization, guard);
+				} else {
+					let guard = ExpressionConditionalIfGuard::Expression (expression, negated);
+					succeed! ((optimization, guard));
+				}
 			},
 		}
 	}
@@ -611,19 +701,40 @@ impl Optimizer {
 	fn optimize_conditional_match (&self, optimization : OptimizerContext, actual : Expression, clauses : ExpressionConditionalMatchClauses) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, actual) = try! (self.optimize_0 (optimization, actual));
 		let (optimization, clauses) = try! (self.optimize_conditional_match_clauses (optimization, clauses));
-		let expression = Expression::ConditionalMatch (actual.into (), clauses);
-		succeed! ((optimization, expression));
+		match clauses {
+			ExpressionConditionalMatchClauses::Void =>
+				succeed! ((optimization, Expression::Void)),
+			ExpressionConditionalMatchClauses::TrueReturn =>
+				succeed! ((optimization, actual)),
+			ExpressionConditionalMatchClauses::ExpressionOnly (expression) =>
+				succeed! ((optimization, *expression)),
+			_ => {
+				let expression = Expression::ConditionalMatch (actual.into (), clauses);
+				succeed! ((optimization, expression));
+			}
+		}
 	}
 	
 	fn optimize_conditional_match_clauses (&self, optimization : OptimizerContext, clauses : ExpressionConditionalMatchClauses) -> (Outcome<(OptimizerContext, ExpressionConditionalMatchClauses)>) {
 		match clauses {
 			ExpressionConditionalMatchClauses::Void =>
 				succeed! ((optimization, clauses)),
+			ExpressionConditionalMatchClauses::TrueReturn =>
+				succeed! ((optimization, clauses)),
+			ExpressionConditionalMatchClauses::ExpressionOnly (expression) => {
+				let (optimization, expression) = try! (self.optimize_0 (optimization, *expression));
+				let expression = ExpressionConditionalMatchClauses::ExpressionOnly (StdBox::new (expression));
+				succeed! ((optimization, expression));
+			},
 			ExpressionConditionalMatchClauses::Single (clause) => {
 				let (optimization, clause) = try! (self.optimize_conditional_match_clause (optimization, *clause));
 				let clauses = match clause {
 					ExpressionConditionalMatchClause::Void =>
 						ExpressionConditionalMatchClauses::Void,
+					ExpressionConditionalMatchClause::TrueReturn =>
+						ExpressionConditionalMatchClauses::TrueReturn,
+					ExpressionConditionalMatchClause::ExpressionOnly (expression) =>
+						ExpressionConditionalMatchClauses::ExpressionOnly (StdBox::new (expression)),
 					_ =>
 						ExpressionConditionalMatchClauses::Single (StdBox::new (clause)),
 				};
@@ -632,18 +743,30 @@ impl Optimizer {
 			ExpressionConditionalMatchClauses::Multiple (clauses) => {
 				let (optimization, clauses) = try! (self.optimize_0_vec_transform (optimization, StdVec::from (clauses),
 						|optimization, clause| self.optimize_conditional_match_clause (optimization, clause)));
+				let mut clauses_drop = false;
 				let clauses = vec_filter_into! (clauses, clause,
-						match *clause {
-							ExpressionConditionalMatchClause::Void =>
-								false,
-							_ =>
-								true,
+						if clauses_drop {
+							false
+						} else {
+							match *clause {
+								ExpressionConditionalMatchClause::Void =>
+									false,
+								ExpressionConditionalMatchClause::TrueReturn |
+								ExpressionConditionalMatchClause::ExpressionOnly (_) => {
+									clauses_drop = true;
+									true
+								},
+								_ =>
+									true,
+							}
 						});
 				let clauses = match clauses.len () {
 					0 =>
 						ExpressionConditionalMatchClauses::Void,
-					1 =>
-						ExpressionConditionalMatchClauses::Single (StdBox::new (try! (vec_explode_1 (clauses)))),
+					1 => {
+						let clauses = ExpressionConditionalMatchClauses::Single (StdBox::new (try! (vec_explode_1 (clauses))));
+						return self.optimize_conditional_match_clauses (optimization, clauses);
+					},
 					_ =>
 						ExpressionConditionalMatchClauses::Multiple (clauses.into_boxed_slice ()),
 				};
@@ -656,13 +779,29 @@ impl Optimizer {
 		match clause {
 			ExpressionConditionalMatchClause::Void =>
 				succeed! ((optimization, clause)),
+			ExpressionConditionalMatchClause::TrueReturn =>
+				succeed! ((optimization, clause)),
+			ExpressionConditionalMatchClause::ExpressionOnly (expression) => {
+				let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
+				let expression = ExpressionConditionalMatchClause::ExpressionOnly (expression);
+				succeed! ((optimization, expression));
+			},
 			ExpressionConditionalMatchClause::GuardOnly (guard, guard_consumer) => {
 				let (optimization, guard) = try! (self.optimize_conditional_match_guard (optimization, guard));
 				let (optimization, guard_consumer) = try! (self.optimize_value_consumer (optimization, guard_consumer));
 				let clause = match guard {
+					ExpressionConditionalMatchGuard::True =>
+						match guard_consumer {
+							ExpressionValueConsumer::Return =>
+								ExpressionConditionalMatchClause::TrueReturn,
+							_ =>
+								ExpressionConditionalMatchClause::GuardOnly (guard, guard_consumer),
+						},
 					ExpressionConditionalMatchGuard::False =>
 						match guard_consumer {
 							ExpressionValueConsumer::Return =>
+								ExpressionConditionalMatchClause::Void,
+							ExpressionValueConsumer::Ignore =>
 								ExpressionConditionalMatchClause::Void,
 							_ =>
 								ExpressionConditionalMatchClause::GuardOnly (guard, guard_consumer),
@@ -677,9 +816,20 @@ impl Optimizer {
 				let (optimization, guard_consumer) = try! (self.optimize_value_consumer (optimization, guard_consumer));
 				let (optimization, output) = try! (self.optimize_0 (optimization, output));
 				let clause = match guard {
+					ExpressionConditionalMatchGuard::True =>
+						match guard_consumer {
+							ExpressionValueConsumer::Return =>
+								ExpressionConditionalMatchClause::ExpressionOnly (output),
+							ExpressionValueConsumer::Ignore =>
+								ExpressionConditionalMatchClause::ExpressionOnly (output),
+							_ =>
+								ExpressionConditionalMatchClause::GuardAndExpression (guard, guard_consumer, output),
+						},
 					ExpressionConditionalMatchGuard::False =>
 						match guard_consumer {
 							ExpressionValueConsumer::Return =>
+								ExpressionConditionalMatchClause::Void,
+							ExpressionValueConsumer::Ignore =>
 								ExpressionConditionalMatchClause::Void,
 							_ =>
 								ExpressionConditionalMatchClause::GuardOnly (guard, guard_consumer),
@@ -2848,6 +2998,19 @@ impl Optimizer {
 	}
 	
 	
+	
+	
+	#[ allow (dead_code) ]
+	fn expression_value_into (&self, _optimization : &OptimizerContext, expression : Expression) -> (Option<Value>) {
+		match expression {
+			Expression::Void =>
+				Some (VOID_VALUE),
+			Expression::Value (value) =>
+				Some (value),
+			_ =>
+				None,
+		}
+	}
 	
 	
 	#[ allow (dead_code) ]

@@ -450,6 +450,12 @@ impl Evaluator {
 		match *clauses {
 			ExpressionConditionalIfClauses::Void =>
 				succeed! (None),
+			ExpressionConditionalIfClauses::TrueReturn =>
+				succeed! (Some (Some (TRUE_VALUE))),
+			ExpressionConditionalIfClauses::ExpressionOnly (ref expression) => {
+				let value = try! (self.evaluate (evaluation, expression));
+				succeed! (Some (Some (value)));
+			},
 			ExpressionConditionalIfClauses::Single (ref clause) =>
 				return self.evaluate_conditional_if_clause (evaluation, clause),
 			ExpressionConditionalIfClauses::Multiple (ref clauses) => {
@@ -469,6 +475,12 @@ impl Evaluator {
 		match *clause {
 			ExpressionConditionalIfClause::Void =>
 				succeed! (None),
+			ExpressionConditionalIfClause::TrueReturn =>
+				succeed! (Some (Some (TRUE_VALUE))),
+			ExpressionConditionalIfClause::ExpressionOnly (ref expression) => {
+				let value = try! (self.evaluate (evaluation, expression));
+				succeed! (Some (Some (value)));
+			},
 			ExpressionConditionalIfClause::GuardOnly (ref guard, ref guard_consumer) =>
 				return self.evaluate_conditional_if_guard (evaluation, guard, guard_consumer),
 			ExpressionConditionalIfClause::GuardAndExpression (ref guard, ref guard_consumer, ref output) =>
@@ -488,6 +500,19 @@ impl Evaluator {
 				succeed! (Some (try! (self.evaluate_value_consumer (evaluation, TRUE.into (), guard_consumer)))),
 			ExpressionConditionalIfGuard::False =>
 				succeed! (None),
+			ExpressionConditionalIfGuard::Value (ref value, negated) => {
+				let output = value.clone ();
+				let (matched, output) = if ! negated {
+					(is_not_false (&output), output)
+				} else {
+					(is_false (&output), TRUE.into ())
+				};
+				if matched {
+					succeed! (Some (try! (self.evaluate_value_consumer (evaluation, output, guard_consumer))));
+				} else {
+					succeed! (None);
+				}
+			},
 			ExpressionConditionalIfGuard::Expression (ref expression, negated) => {
 				let output = try! (self.evaluate (evaluation, expression));
 				let (matched, output) = if ! negated {
@@ -525,6 +550,14 @@ impl Evaluator {
 		match *clauses {
 			ExpressionConditionalMatchClauses::Void =>
 				succeed! (None),
+			ExpressionConditionalMatchClauses::TrueReturn => {
+				let actual = try! (self.evaluate (evaluation, actual));
+				succeed! (Some (Some (actual)));
+			},
+			ExpressionConditionalMatchClauses::ExpressionOnly (ref expression) => {
+				let value = try! (self.evaluate (evaluation, expression));
+				succeed! (Some (Some (value)));
+			},
 			ExpressionConditionalMatchClauses::Single (ref clause) => {
 				let actual = try! (self.evaluate (evaluation, actual));
 				match try! (self.evaluate_conditional_match_clause (evaluation, actual, clause)) {
@@ -554,6 +587,12 @@ impl Evaluator {
 		match *clause {
 			ExpressionConditionalMatchClause::Void =>
 				succeed! (Alternative2::Variant2 (actual)),
+			ExpressionConditionalMatchClause::TrueReturn =>
+				succeed! (Alternative2::Variant1 (Some (actual))),
+			ExpressionConditionalMatchClause::ExpressionOnly (ref expression) => {
+				let value = try! (self.evaluate (evaluation, expression));
+				succeed! (Alternative2::Variant1 (Some (value)));
+			},
 			ExpressionConditionalMatchClause::GuardOnly (ref guard, ref guard_consumer) =>
 				return self.evaluate_conditional_match_guard (evaluation, actual, guard, guard_consumer),
 			ExpressionConditionalMatchClause::GuardAndExpression (ref guard, ref guard_consumer, ref output) =>

@@ -73,6 +73,8 @@ pub enum Expression {
 #[ derive (Clone, Debug) ]
 pub enum ExpressionConditionalIfClauses {
 	Void,
+	TrueReturn,
+	ExpressionOnly ( ExpressionBox ),
 	Single ( StdBox<ExpressionConditionalIfClause> ),
 	Multiple ( StdBox<[ExpressionConditionalIfClause]> ),
 }
@@ -80,6 +82,8 @@ pub enum ExpressionConditionalIfClauses {
 #[ derive (Clone, Debug) ]
 pub enum ExpressionConditionalIfClause {
 	Void,
+	TrueReturn,
+	ExpressionOnly ( Expression ),
 	GuardOnly ( ExpressionConditionalIfGuard, ExpressionValueConsumer ),
 	GuardAndExpression ( ExpressionConditionalIfGuard, ExpressionValueConsumer, Expression ),
 }
@@ -88,6 +92,7 @@ pub enum ExpressionConditionalIfClause {
 pub enum ExpressionConditionalIfGuard {
 	True,
 	False,
+	Value ( Value, bool ),
 	Expression ( Expression, bool ),
 }
 
@@ -97,6 +102,8 @@ pub enum ExpressionConditionalIfGuard {
 #[ derive (Clone, Debug) ]
 pub enum ExpressionConditionalMatchClauses {
 	Void,
+	TrueReturn,
+	ExpressionOnly ( ExpressionBox ),
 	Single ( StdBox<ExpressionConditionalMatchClause> ),
 	Multiple ( StdBox<[ExpressionConditionalMatchClause]> ),
 }
@@ -104,6 +111,8 @@ pub enum ExpressionConditionalMatchClauses {
 #[ derive (Clone, Debug) ]
 pub enum ExpressionConditionalMatchClause {
 	Void,
+	TrueReturn,
+	ExpressionOnly ( Expression ),
 	GuardOnly ( ExpressionConditionalMatchGuard, ExpressionValueConsumer ),
 	GuardAndExpression ( ExpressionConditionalMatchGuard, ExpressionValueConsumer, Expression ),
 }
