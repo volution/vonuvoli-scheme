@@ -341,31 +341,31 @@
 	export -- X_RUN_TRACE=true
 !!
 
-<< execute / benchmark / chibi / controls
+<< execute / benchmark / chibi / benchmarks / controls
 	taskset -c 2 x-run ':: execute / chibi' -- './examples/benchmark--controls.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--controls--chibi.out'
 !!
 
-<< execute / benchmark / chibi / loop
+<< execute / benchmark / chibi / benchmarks / loop
 	taskset -c 2 x-run ':: execute / chibi' -- './examples/benchmark--loop.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--loop--chibi.out'
 !!
 
-<< execute / benchmark / chibi / make-cons
+<< execute / benchmark / chibi / benchmarks / make-cons
 	taskset -c 2 x-run ':: execute / chibi' -- './examples/benchmark--make-cons.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--make-cons--chibi.out'
 !!
 
-<< execute / benchmark / chibi / make-vector
+<< execute / benchmark / chibi / benchmarks / make-vector
 	taskset -c 2 x-run ':: execute / chibi' -- './examples/benchmark--make-vector.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--make-vector--chibi.out'
 !!
 
-<< execute / benchmark / chibi / r7rs-ack
+<< execute / benchmark / chibi / benchmarks / r7rs-ack
 	taskset -c 2 x-run ':: execute / chibi' -- './examples/benchmark--r7rs-ack.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--r7rs-ack--chibi.out'
 !!
 
-<< execute / benchmark / chibi / r7rs-array1
+<< execute / benchmark / chibi / benchmarks / r7rs-array1
 	taskset -c 2 x-run ':: execute / chibi' -- './examples/benchmark--r7rs-array1.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--r7rs-array1--chibi.out'
 !!
 
-<< execute / benchmark / chibi / r7rs-browse
+<< execute / benchmark / chibi / benchmarks / r7rs-browse
 	taskset -c 2 x-run ':: execute / chibi' -- './examples/benchmark--r7rs-browse.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--r7rs-browse--chibi.out'
 !!
 
@@ -379,152 +379,152 @@
 	x-run ':: execute / benchmark / compare / r7rs-browse'
 !!
 
-<< execute / benchmark / compare / controls
+<< execute / benchmark / compare / benchmarks / controls
 		printf -- '\n--------------------------------------------------------------------------------\n' >&2
 		printf -- '\n== %s / vonuvoli / release ==\n' 'controls' >&2
-		x-run ':: execute / benchmark / vonuvoli / controls / release'
+		x-run ':: execute / benchmark / vonuvoli / benchmarks / controls / release'
 		printf -- '\n== %s / chibi ==\n' 'controls' >&2
-		x-run ':: execute / benchmark / chibi / controls'
+		x-run ':: execute / benchmark / chibi / benchmarks / controls'
 		printf -- '\n== %s / gauche ==\n' 'controls' >&2
-		x-run ':: execute / benchmark / gauche / controls'
+		x-run ':: execute / benchmark / gauche / benchmarks / controls'
 		if test -e './examples/benchmark--controls.py' ; then
 			printf -- '\n== %s / python ==\n' 'controls' >&2
-			x-run ':: execute / benchmark / python / controls'
+			x-run ':: execute / benchmark / python / benchmarks / controls'
 		fi
 		printf -- '\n--------------------------------------------------------------------------------\n' >&2
 !!
 
-<< execute / benchmark / compare / loop
+<< execute / benchmark / compare / benchmarks / loop
 		printf -- '\n--------------------------------------------------------------------------------\n' >&2
 		printf -- '\n== %s / vonuvoli / release ==\n' 'loop' >&2
-		x-run ':: execute / benchmark / vonuvoli / loop / release'
+		x-run ':: execute / benchmark / vonuvoli / benchmarks / loop / release'
 		printf -- '\n== %s / chibi ==\n' 'loop' >&2
-		x-run ':: execute / benchmark / chibi / loop'
+		x-run ':: execute / benchmark / chibi / benchmarks / loop'
 		printf -- '\n== %s / gauche ==\n' 'loop' >&2
-		x-run ':: execute / benchmark / gauche / loop'
+		x-run ':: execute / benchmark / gauche / benchmarks / loop'
 		if test -e './examples/benchmark--loop.py' ; then
 			printf -- '\n== %s / python ==\n' 'loop' >&2
-			x-run ':: execute / benchmark / python / loop'
+			x-run ':: execute / benchmark / python / benchmarks / loop'
 		fi
 		printf -- '\n--------------------------------------------------------------------------------\n' >&2
 !!
 
-<< execute / benchmark / compare / make-cons
+<< execute / benchmark / compare / benchmarks / make-cons
 		printf -- '\n--------------------------------------------------------------------------------\n' >&2
 		printf -- '\n== %s / vonuvoli / release ==\n' 'make-cons' >&2
-		x-run ':: execute / benchmark / vonuvoli / make-cons / release'
+		x-run ':: execute / benchmark / vonuvoli / benchmarks / make-cons / release'
 		printf -- '\n== %s / chibi ==\n' 'make-cons' >&2
-		x-run ':: execute / benchmark / chibi / make-cons'
+		x-run ':: execute / benchmark / chibi / benchmarks / make-cons'
 		printf -- '\n== %s / gauche ==\n' 'make-cons' >&2
-		x-run ':: execute / benchmark / gauche / make-cons'
+		x-run ':: execute / benchmark / gauche / benchmarks / make-cons'
 		if test -e './examples/benchmark--make-cons.py' ; then
 			printf -- '\n== %s / python ==\n' 'make-cons' >&2
-			x-run ':: execute / benchmark / python / make-cons'
+			x-run ':: execute / benchmark / python / benchmarks / make-cons'
 		fi
 		printf -- '\n--------------------------------------------------------------------------------\n' >&2
 !!
 
-<< execute / benchmark / compare / make-vector
+<< execute / benchmark / compare / benchmarks / make-vector
 		printf -- '\n--------------------------------------------------------------------------------\n' >&2
 		printf -- '\n== %s / vonuvoli / release ==\n' 'make-vector' >&2
-		x-run ':: execute / benchmark / vonuvoli / make-vector / release'
+		x-run ':: execute / benchmark / vonuvoli / benchmarks / make-vector / release'
 		printf -- '\n== %s / chibi ==\n' 'make-vector' >&2
-		x-run ':: execute / benchmark / chibi / make-vector'
+		x-run ':: execute / benchmark / chibi / benchmarks / make-vector'
 		printf -- '\n== %s / gauche ==\n' 'make-vector' >&2
-		x-run ':: execute / benchmark / gauche / make-vector'
+		x-run ':: execute / benchmark / gauche / benchmarks / make-vector'
 		if test -e './examples/benchmark--make-vector.py' ; then
 			printf -- '\n== %s / python ==\n' 'make-vector' >&2
-			x-run ':: execute / benchmark / python / make-vector'
+			x-run ':: execute / benchmark / python / benchmarks / make-vector'
 		fi
 		printf -- '\n--------------------------------------------------------------------------------\n' >&2
 !!
 
-<< execute / benchmark / compare / r7rs-ack
+<< execute / benchmark / compare / benchmarks / r7rs-ack
 		printf -- '\n--------------------------------------------------------------------------------\n' >&2
 		printf -- '\n== %s / vonuvoli / release ==\n' 'r7rs-ack' >&2
-		x-run ':: execute / benchmark / vonuvoli / r7rs-ack / release'
+		x-run ':: execute / benchmark / vonuvoli / benchmarks / r7rs-ack / release'
 		printf -- '\n== %s / chibi ==\n' 'r7rs-ack' >&2
-		x-run ':: execute / benchmark / chibi / r7rs-ack'
+		x-run ':: execute / benchmark / chibi / benchmarks / r7rs-ack'
 		printf -- '\n== %s / gauche ==\n' 'r7rs-ack' >&2
-		x-run ':: execute / benchmark / gauche / r7rs-ack'
+		x-run ':: execute / benchmark / gauche / benchmarks / r7rs-ack'
 		if test -e './examples/benchmark--r7rs-ack.py' ; then
 			printf -- '\n== %s / python ==\n' 'r7rs-ack' >&2
-			x-run ':: execute / benchmark / python / r7rs-ack'
+			x-run ':: execute / benchmark / python / benchmarks / r7rs-ack'
 		fi
 		printf -- '\n--------------------------------------------------------------------------------\n' >&2
 !!
 
-<< execute / benchmark / compare / r7rs-array1
+<< execute / benchmark / compare / benchmarks / r7rs-array1
 		printf -- '\n--------------------------------------------------------------------------------\n' >&2
 		printf -- '\n== %s / vonuvoli / release ==\n' 'r7rs-array1' >&2
-		x-run ':: execute / benchmark / vonuvoli / r7rs-array1 / release'
+		x-run ':: execute / benchmark / vonuvoli / benchmarks / r7rs-array1 / release'
 		printf -- '\n== %s / chibi ==\n' 'r7rs-array1' >&2
-		x-run ':: execute / benchmark / chibi / r7rs-array1'
+		x-run ':: execute / benchmark / chibi / benchmarks / r7rs-array1'
 		printf -- '\n== %s / gauche ==\n' 'r7rs-array1' >&2
-		x-run ':: execute / benchmark / gauche / r7rs-array1'
+		x-run ':: execute / benchmark / gauche / benchmarks / r7rs-array1'
 		if test -e './examples/benchmark--r7rs-array1.py' ; then
 			printf -- '\n== %s / python ==\n' 'r7rs-array1' >&2
-			x-run ':: execute / benchmark / python / r7rs-array1'
+			x-run ':: execute / benchmark / python / benchmarks / r7rs-array1'
 		fi
 		printf -- '\n--------------------------------------------------------------------------------\n' >&2
 !!
 
-<< execute / benchmark / compare / r7rs-browse
+<< execute / benchmark / compare / benchmarks / r7rs-browse
 		printf -- '\n--------------------------------------------------------------------------------\n' >&2
 		printf -- '\n== %s / vonuvoli / release ==\n' 'r7rs-browse' >&2
-		x-run ':: execute / benchmark / vonuvoli / r7rs-browse / release'
+		x-run ':: execute / benchmark / vonuvoli / benchmarks / r7rs-browse / release'
 		printf -- '\n== %s / chibi ==\n' 'r7rs-browse' >&2
-		x-run ':: execute / benchmark / chibi / r7rs-browse'
+		x-run ':: execute / benchmark / chibi / benchmarks / r7rs-browse'
 		printf -- '\n== %s / gauche ==\n' 'r7rs-browse' >&2
-		x-run ':: execute / benchmark / gauche / r7rs-browse'
+		x-run ':: execute / benchmark / gauche / benchmarks / r7rs-browse'
 		if test -e './examples/benchmark--r7rs-browse.py' ; then
 			printf -- '\n== %s / python ==\n' 'r7rs-browse' >&2
-			x-run ':: execute / benchmark / python / r7rs-browse'
+			x-run ':: execute / benchmark / python / benchmarks / r7rs-browse'
 		fi
 		printf -- '\n--------------------------------------------------------------------------------\n' >&2
 !!
 
-<< execute / benchmark / gauche / controls
+<< execute / benchmark / gauche / benchmarks / controls
 	taskset -c 2 x-run ':: execute / gauche' -- './examples/benchmark--controls.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--controls--gauche.out'
 !!
 
-<< execute / benchmark / gauche / loop
+<< execute / benchmark / gauche / benchmarks / loop
 	taskset -c 2 x-run ':: execute / gauche' -- './examples/benchmark--loop.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--loop--gauche.out'
 !!
 
-<< execute / benchmark / gauche / make-cons
+<< execute / benchmark / gauche / benchmarks / make-cons
 	taskset -c 2 x-run ':: execute / gauche' -- './examples/benchmark--make-cons.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--make-cons--gauche.out'
 !!
 
-<< execute / benchmark / gauche / make-vector
+<< execute / benchmark / gauche / benchmarks / make-vector
 	taskset -c 2 x-run ':: execute / gauche' -- './examples/benchmark--make-vector.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--make-vector--gauche.out'
 !!
 
-<< execute / benchmark / gauche / r7rs-ack
+<< execute / benchmark / gauche / benchmarks / r7rs-ack
 	taskset -c 2 x-run ':: execute / gauche' -- './examples/benchmark--r7rs-ack.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--r7rs-ack--gauche.out'
 !!
 
-<< execute / benchmark / gauche / r7rs-array1
+<< execute / benchmark / gauche / benchmarks / r7rs-array1
 	taskset -c 2 x-run ':: execute / gauche' -- './examples/benchmark--r7rs-array1.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--r7rs-array1--gauche.out'
 !!
 
-<< execute / benchmark / gauche / r7rs-browse
+<< execute / benchmark / gauche / benchmarks / r7rs-browse
 	taskset -c 2 x-run ':: execute / gauche' -- './examples/benchmark--r7rs-browse.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--r7rs-browse--gauche.out'
 !!
 
-<< execute / benchmark / python / controls
+<< execute / benchmark / python / benchmarks / controls
 	taskset -c 2 x-run ':: execute / python' -- './examples/benchmark--controls.py' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--controls--python.out'
 !!
 
-<< execute / benchmark / python / loop
+<< execute / benchmark / python / benchmarks / loop
 	taskset -c 2 x-run ':: execute / python' -- './examples/benchmark--loop.py' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--loop--python.out'
 !!
 
-<< execute / benchmark / python / make-cons
+<< execute / benchmark / python / benchmarks / make-cons
 	taskset -c 2 x-run ':: execute / python' -- './examples/benchmark--make-cons.py' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--make-cons--python.out'
 !!
 
-<< execute / benchmark / python / make-vector
+<< execute / benchmark / python / benchmarks / make-vector
 	taskset -c 2 x-run ':: execute / python' -- './examples/benchmark--make-vector.py' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--make-vector--python.out'
 !!
 
@@ -538,59 +538,59 @@
 	x-run ':: execute / benchmark / vonuvoli / r7rs-browse / release'
 !!
 
-<< execute / benchmark / vonuvoli / controls / debug
+<< execute / benchmark / vonuvoli / benchmarks / controls / debug
 	taskset -c 2 x-run ':: execute / bin / interpreter / debug' './examples/benchmark--controls.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--controls--vonuvoli-debug.out'
 !!
 
-<< execute / benchmark / vonuvoli / controls / release
+<< execute / benchmark / vonuvoli / benchmarks / controls / release
 	taskset -c 2 x-run ':: execute / bin / interpreter / release' './examples/benchmark--controls.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--controls--vonuvoli-release.out'
 !!
 
-<< execute / benchmark / vonuvoli / loop / debug
+<< execute / benchmark / vonuvoli / benchmarks / loop / debug
 	taskset -c 2 x-run ':: execute / bin / interpreter / debug' './examples/benchmark--loop.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--loop--vonuvoli-debug.out'
 !!
 
-<< execute / benchmark / vonuvoli / loop / release
+<< execute / benchmark / vonuvoli / benchmarks / loop / release
 	taskset -c 2 x-run ':: execute / bin / interpreter / release' './examples/benchmark--loop.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--loop--vonuvoli-release.out'
 !!
 
-<< execute / benchmark / vonuvoli / make-cons / debug
+<< execute / benchmark / vonuvoli / benchmarks / make-cons / debug
 	taskset -c 2 x-run ':: execute / bin / interpreter / debug' './examples/benchmark--make-cons.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--make-cons--vonuvoli-debug.out'
 !!
 
-<< execute / benchmark / vonuvoli / make-cons / release
+<< execute / benchmark / vonuvoli / benchmarks / make-cons / release
 	taskset -c 2 x-run ':: execute / bin / interpreter / release' './examples/benchmark--make-cons.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--make-cons--vonuvoli-release.out'
 !!
 
-<< execute / benchmark / vonuvoli / make-vector / debug
+<< execute / benchmark / vonuvoli / benchmarks / make-vector / debug
 	taskset -c 2 x-run ':: execute / bin / interpreter / debug' './examples/benchmark--make-vector.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--make-vector--vonuvoli-debug.out'
 !!
 
-<< execute / benchmark / vonuvoli / make-vector / release
+<< execute / benchmark / vonuvoli / benchmarks / make-vector / release
 	taskset -c 2 x-run ':: execute / bin / interpreter / release' './examples/benchmark--make-vector.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--make-vector--vonuvoli-release.out'
 !!
 
-<< execute / benchmark / vonuvoli / r7rs-ack / debug
+<< execute / benchmark / vonuvoli / benchmarks / r7rs-ack / debug
 	taskset -c 2 x-run ':: execute / bin / interpreter / debug' './examples/benchmark--r7rs-ack.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--r7rs-ack--vonuvoli-debug.out'
 !!
 
-<< execute / benchmark / vonuvoli / r7rs-ack / release
+<< execute / benchmark / vonuvoli / benchmarks / r7rs-ack / release
 	taskset -c 2 x-run ':: execute / bin / interpreter / release' './examples/benchmark--r7rs-ack.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--r7rs-ack--vonuvoli-release.out'
 !!
 
-<< execute / benchmark / vonuvoli / r7rs-array1 / debug
+<< execute / benchmark / vonuvoli / benchmarks / r7rs-array1 / debug
 	taskset -c 2 x-run ':: execute / bin / interpreter / debug' './examples/benchmark--r7rs-array1.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--r7rs-array1--vonuvoli-debug.out'
 !!
 
-<< execute / benchmark / vonuvoli / r7rs-array1 / release
+<< execute / benchmark / vonuvoli / benchmarks / r7rs-array1 / release
 	taskset -c 2 x-run ':: execute / bin / interpreter / release' './examples/benchmark--r7rs-array1.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--r7rs-array1--vonuvoli-release.out'
 !!
 
-<< execute / benchmark / vonuvoli / r7rs-browse / debug
+<< execute / benchmark / vonuvoli / benchmarks / r7rs-browse / debug
 	taskset -c 2 x-run ':: execute / bin / interpreter / debug' './examples/benchmark--r7rs-browse.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--r7rs-browse--vonuvoli-debug.out'
 !!
 
-<< execute / benchmark / vonuvoli / r7rs-browse / release
+<< execute / benchmark / vonuvoli / benchmarks / r7rs-browse / release
 	taskset -c 2 x-run ':: execute / bin / interpreter / release' './examples/benchmark--r7rs-browse.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--r7rs-browse--vonuvoli-release.out'
 !!
 
@@ -985,23 +985,65 @@
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/examples--process-2.ss' "${@}" >| './examples/_outputs/examples--process-2--vonuvoli-compile.out'
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/examples--stdio-1.ss' "${@}" >| './examples/_outputs/examples--stdio-1--vonuvoli-compile.out'
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/examples--stdio-2.ss' "${@}" >| './examples/_outputs/examples--stdio-2--vonuvoli-compile.out'
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/optimizer--conditionals.ss' "${@}" >| './examples/_outputs/optimizer--conditionals--vonuvoli-compile.out'
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/optimizer--controls.ss' "${@}" >| './examples/_outputs/optimizer--controls--vonuvoli-compile.out'
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/optimizer--loops.ss' "${@}" >| './examples/_outputs/optimizer--loops--vonuvoli-compile.out'
 !!
 
-<< execute / bin / compiler / controls / debug
-	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/optimizer--controls.ss' "${@}" >| './examples/_outputs/optimizer--controls--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/optimizer--controls--vonuvoli-compile.out'
-!!
-
-<< execute / bin / compiler / controls / debug
+<< execute / bin / compiler / benchmarks / controls / debug
 	x-run ':: execute / bin / compiler / debug' './examples/benchmark--controls.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--controls--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--controls--vonuvoli-compile.out'
 !!
 
-<< execute / bin / compiler / controls / release
-	nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/optimizer--controls.ss' "${@}" >| './examples/_outputs/optimizer--controls--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/optimizer--controls--vonuvoli-compile.out'
+<< execute / bin / compiler / benchmarks / controls / release
+	x-run ':: execute / bin / compiler / release' ./examples/benchmark--controls.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--controls--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--controls--vonuvoli-compile.out'
 !!
 
-<< execute / bin / compiler / controls / release
-	x-run ':: execute / bin / compiler / release' ./examples/benchmark--controls.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--controls--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--controls--vonuvoli-compile.out'
+<< execute / bin / compiler / benchmarks / loop / debug
+	x-run ':: execute / bin / compiler / debug' './examples/benchmark--loop.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--loop--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--loop--vonuvoli-compile.out'
+!!
+
+<< execute / bin / compiler / benchmarks / loop / release
+	x-run ':: execute / bin / compiler / release' ./examples/benchmark--loop.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--loop--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--loop--vonuvoli-compile.out'
+!!
+
+<< execute / bin / compiler / benchmarks / make-cons / debug
+	x-run ':: execute / bin / compiler / debug' './examples/benchmark--make-cons.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--make-cons--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--make-cons--vonuvoli-compile.out'
+!!
+
+<< execute / bin / compiler / benchmarks / make-cons / release
+	x-run ':: execute / bin / compiler / release' ./examples/benchmark--make-cons.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--make-cons--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--make-cons--vonuvoli-compile.out'
+!!
+
+<< execute / bin / compiler / benchmarks / make-vector / debug
+	x-run ':: execute / bin / compiler / debug' './examples/benchmark--make-vector.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--make-vector--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--make-vector--vonuvoli-compile.out'
+!!
+
+<< execute / bin / compiler / benchmarks / make-vector / release
+	x-run ':: execute / bin / compiler / release' ./examples/benchmark--make-vector.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--make-vector--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--make-vector--vonuvoli-compile.out'
+!!
+
+<< execute / bin / compiler / benchmarks / r7rs-ack / debug
+	x-run ':: execute / bin / compiler / debug' './examples/benchmark--r7rs-ack.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--r7rs-ack--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--r7rs-ack--vonuvoli-compile.out'
+!!
+
+<< execute / bin / compiler / benchmarks / r7rs-ack / release
+	x-run ':: execute / bin / compiler / release' ./examples/benchmark--r7rs-ack.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--r7rs-ack--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--r7rs-ack--vonuvoli-compile.out'
+!!
+
+<< execute / bin / compiler / benchmarks / r7rs-array1 / debug
+	x-run ':: execute / bin / compiler / debug' './examples/benchmark--r7rs-array1.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--r7rs-array1--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--r7rs-array1--vonuvoli-compile.out'
+!!
+
+<< execute / bin / compiler / benchmarks / r7rs-array1 / release
+	x-run ':: execute / bin / compiler / release' ./examples/benchmark--r7rs-array1.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--r7rs-array1--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--r7rs-array1--vonuvoli-compile.out'
+!!
+
+<< execute / bin / compiler / benchmarks / r7rs-browse / debug
+	x-run ':: execute / bin / compiler / debug' './examples/benchmark--r7rs-browse.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--r7rs-browse--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--r7rs-browse--vonuvoli-compile.out'
+!!
+
+<< execute / bin / compiler / benchmarks / r7rs-browse / release
+	x-run ':: execute / bin / compiler / release' ./examples/benchmark--r7rs-browse.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--r7rs-browse--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--r7rs-browse--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / debug
@@ -1068,52 +1110,28 @@
 	nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/examples--stdio-2.ss' "${@}" >| './examples/_outputs/optimizer--stdio-2--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--stdio-2--vonuvoli-compile.out'
 !!
 
-<< execute / bin / compiler / loop / debug
-	x-run ':: execute / bin / compiler / debug' './examples/benchmark--loop.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--loop--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--loop--vonuvoli-compile.out'
+<< execute / bin / compiler / optimizations / conditionals / debug
+	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/optimizer--conditionals.ss' "${@}" >| './examples/_outputs/optimizer--conditionals--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/optimizer--conditionals--vonuvoli-compile.out'
 !!
 
-<< execute / bin / compiler / loop / release
-	x-run ':: execute / bin / compiler / release' ./examples/benchmark--loop.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--loop--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--loop--vonuvoli-compile.out'
+<< execute / bin / compiler / optimizations / conditionals / release
+	nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/optimizer--conditionals.ss' "${@}" >| './examples/_outputs/optimizer--conditionals--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/optimizer--conditionals--vonuvoli-compile.out'
 !!
 
-<< execute / bin / compiler / make-cons / debug
-	x-run ':: execute / bin / compiler / debug' './examples/benchmark--make-cons.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--make-cons--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--make-cons--vonuvoli-compile.out'
+<< execute / bin / compiler / optimizations / controls / debug
+	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/optimizer--controls.ss' "${@}" >| './examples/_outputs/optimizer--controls--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/optimizer--controls--vonuvoli-compile.out'
 !!
 
-<< execute / bin / compiler / make-cons / release
-	x-run ':: execute / bin / compiler / release' ./examples/benchmark--make-cons.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--make-cons--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--make-cons--vonuvoli-compile.out'
+<< execute / bin / compiler / optimizations / controls / release
+	nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/optimizer--controls.ss' "${@}" >| './examples/_outputs/optimizer--controls--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/optimizer--controls--vonuvoli-compile.out'
 !!
 
-<< execute / bin / compiler / make-vector / debug
-	x-run ':: execute / bin / compiler / debug' './examples/benchmark--make-vector.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--make-vector--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--make-vector--vonuvoli-compile.out'
+<< execute / bin / compiler / optimizations / loops / debug
+	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/optimizer--loops.ss' "${@}" >| './examples/_outputs/optimizer--loops--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/optimizer--loops--vonuvoli-compile.out'
 !!
 
-<< execute / bin / compiler / make-vector / release
-	x-run ':: execute / bin / compiler / release' ./examples/benchmark--make-vector.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--make-vector--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--make-vector--vonuvoli-compile.out'
-!!
-
-<< execute / bin / compiler / r7rs-ack / debug
-	x-run ':: execute / bin / compiler / debug' './examples/benchmark--r7rs-ack.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--r7rs-ack--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--r7rs-ack--vonuvoli-compile.out'
-!!
-
-<< execute / bin / compiler / r7rs-ack / release
-	x-run ':: execute / bin / compiler / release' ./examples/benchmark--r7rs-ack.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--r7rs-ack--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--r7rs-ack--vonuvoli-compile.out'
-!!
-
-<< execute / bin / compiler / r7rs-array1 / debug
-	x-run ':: execute / bin / compiler / debug' './examples/benchmark--r7rs-array1.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--r7rs-array1--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--r7rs-array1--vonuvoli-compile.out'
-!!
-
-<< execute / bin / compiler / r7rs-array1 / release
-	x-run ':: execute / bin / compiler / release' ./examples/benchmark--r7rs-array1.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--r7rs-array1--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--r7rs-array1--vonuvoli-compile.out'
-!!
-
-<< execute / bin / compiler / r7rs-browse / debug
-	x-run ':: execute / bin / compiler / debug' './examples/benchmark--r7rs-browse.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--r7rs-browse--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--r7rs-browse--vonuvoli-compile.out'
-!!
-
-<< execute / bin / compiler / r7rs-browse / release
-	x-run ':: execute / bin / compiler / release' ./examples/benchmark--r7rs-browse.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--r7rs-browse--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--r7rs-browse--vonuvoli-compile.out'
+<< execute / bin / compiler / optimizations / loops / release
+	nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/optimizer--loops.ss' "${@}" >| './examples/_outputs/optimizer--loops--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/optimizer--loops--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / release

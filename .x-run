@@ -465,12 +465,12 @@ find ./examples -xdev -type f -name 'benchmark--*.ss' -printf '%f\n' \
 | sort -u \
 | while read _script ; do
 sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
-:: execute / bin / compiler / @{SCRIPT} / debug :: x-run ':: execute / bin / compiler / debug' './examples/benchmark--@{SCRIPT}.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--@{SCRIPT}--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--@{SCRIPT}--vonuvoli-compile.out'
-:: execute / bin / compiler / @{SCRIPT} / release :: x-run ':: execute / bin / compiler / release' ./examples/benchmark--@{SCRIPT}.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--@{SCRIPT}--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--@{SCRIPT}--vonuvoli-compile.out'
-:: execute / benchmark / vonuvoli / @{SCRIPT} / debug :: taskset -c 2 x-run ':: execute / bin / interpreter / debug' './examples/benchmark--@{SCRIPT}.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--@{SCRIPT}--vonuvoli-debug.out'
-:: execute / benchmark / vonuvoli / @{SCRIPT} / release :: taskset -c 2 x-run ':: execute / bin / interpreter / release' './examples/benchmark--@{SCRIPT}.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--@{SCRIPT}--vonuvoli-release.out'
-:: execute / benchmark / chibi / @{SCRIPT} :: taskset -c 2 x-run ':: execute / chibi' -- './examples/benchmark--@{SCRIPT}.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--@{SCRIPT}--chibi.out'
-:: execute / benchmark / gauche / @{SCRIPT} :: taskset -c 2 x-run ':: execute / gauche' -- './examples/benchmark--@{SCRIPT}.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--@{SCRIPT}--gauche.out'
+:: execute / bin / compiler / benchmarks / @{SCRIPT} / debug :: x-run ':: execute / bin / compiler / debug' './examples/benchmark--@{SCRIPT}.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--@{SCRIPT}--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--@{SCRIPT}--vonuvoli-compile.out'
+:: execute / bin / compiler / benchmarks / @{SCRIPT} / release :: x-run ':: execute / bin / compiler / release' ./examples/benchmark--@{SCRIPT}.ss' "${@}" < /dev/null >| './examples/_outputs/benchmark--@{SCRIPT}--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/benchmark--@{SCRIPT}--vonuvoli-compile.out'
+:: execute / benchmark / vonuvoli / benchmarks / @{SCRIPT} / debug :: taskset -c 2 x-run ':: execute / bin / interpreter / debug' './examples/benchmark--@{SCRIPT}.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--@{SCRIPT}--vonuvoli-debug.out'
+:: execute / benchmark / vonuvoli / benchmarks / @{SCRIPT} / release :: taskset -c 2 x-run ':: execute / bin / interpreter / release' './examples/benchmark--@{SCRIPT}.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--@{SCRIPT}--vonuvoli-release.out'
+:: execute / benchmark / chibi / benchmarks / @{SCRIPT} :: taskset -c 2 x-run ':: execute / chibi' -- './examples/benchmark--@{SCRIPT}.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--@{SCRIPT}--chibi.out'
+:: execute / benchmark / gauche / benchmarks / @{SCRIPT} :: taskset -c 2 x-run ':: execute / gauche' -- './examples/benchmark--@{SCRIPT}.ss' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--@{SCRIPT}--gauche.out'
 EOS
 done
 
@@ -480,7 +480,7 @@ find ./examples -xdev -type f -name 'benchmark--*.py' -printf '%f\n' \
 | sort -u \
 | while read _script ; do
 sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
-:: execute / benchmark / python / @{SCRIPT} :: taskset -c 2 x-run ':: execute / python' -- './examples/benchmark--@{SCRIPT}.py' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--@{SCRIPT}--python.out'
+:: execute / benchmark / python / benchmarks / @{SCRIPT} :: taskset -c 2 x-run ':: execute / python' -- './examples/benchmark--@{SCRIPT}.py' "${@}" < /dev/null | tee -- './examples/_outputs/benchmark--@{SCRIPT}--python.out'
 EOS
 done
 
@@ -490,17 +490,17 @@ find ./examples -xdev -type f \( -name 'benchmark--*.ss' -o -name 'benchmark--*.
 | sort -u \
 | while read _script ; do
 sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
-<< execute / benchmark / compare / @{SCRIPT}
+<< execute / benchmark / compare / benchmarks / @{SCRIPT}
 	printf -- '\n--------------------------------------------------------------------------------\n' >&2
 	printf -- '\n== %s / vonuvoli / release ==\n' '@{SCRIPT}' >&2
-	x-run ':: execute / benchmark / vonuvoli / @{SCRIPT} / release'
+	x-run ':: execute / benchmark / vonuvoli / benchmarks / @{SCRIPT} / release'
 	printf -- '\n== %s / chibi ==\n' '@{SCRIPT}' >&2
-	x-run ':: execute / benchmark / chibi / @{SCRIPT}'
+	x-run ':: execute / benchmark / chibi / benchmarks / @{SCRIPT}'
 	printf -- '\n== %s / gauche ==\n' '@{SCRIPT}' >&2
-	x-run ':: execute / benchmark / gauche / @{SCRIPT}'
+	x-run ':: execute / benchmark / gauche / benchmarks / @{SCRIPT}'
 	if test -e './examples/benchmark--@{SCRIPT}.py' ; then
 		printf -- '\n== %s / python ==\n' '@{SCRIPT}' >&2
-		x-run ':: execute / benchmark / python / @{SCRIPT}'
+		x-run ':: execute / benchmark / python / benchmarks / @{SCRIPT}'
 	fi
 	printf -- '\n--------------------------------------------------------------------------------\n' >&2
 !!
@@ -533,8 +533,8 @@ find ./examples -xdev -type f -name 'optimizer--*.ss' -printf '%f\n' \
 | sort -u \
 | while read _script ; do
 sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
-:: execute / bin / compiler / @{SCRIPT} / debug :: nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/optimizer--@{SCRIPT}.ss' "${@}" >| './examples/_outputs/optimizer--@{SCRIPT}--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/optimizer--@{SCRIPT}--vonuvoli-compile.out'
-:: execute / bin / compiler / @{SCRIPT} / release :: nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/optimizer--@{SCRIPT}.ss' "${@}" >| './examples/_outputs/optimizer--@{SCRIPT}--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/optimizer--@{SCRIPT}--vonuvoli-compile.out'
+:: execute / bin / compiler / optimizations / @{SCRIPT} / debug :: nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/optimizer--@{SCRIPT}.ss' "${@}" >| './examples/_outputs/optimizer--@{SCRIPT}--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/optimizer--@{SCRIPT}--vonuvoli-compile.out'
+:: execute / bin / compiler / optimizations / @{SCRIPT} / release :: nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/optimizer--@{SCRIPT}.ss' "${@}" >| './examples/_outputs/optimizer--@{SCRIPT}--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/optimizer--@{SCRIPT}--vonuvoli-compile.out'
 EOS
 done
 
