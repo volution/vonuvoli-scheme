@@ -270,25 +270,37 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 	
 	#[ cfg ( feature = "vonuvoli_builtins_random" ) ]
 	definitions.extend_from_slice (&[
+			
 			("random-i64", procedure_native_v (random_generate_i64_v) .into ()),
 			("random-f64", procedure_native_v (random_generate_f64_v) .into ()),
+			
 			("random-u8", procedure_native_0 (random_generate_u8) .into ()),
 			("random-i8", procedure_native_0 (random_generate_i8) .into ()),
 			("random-u16", procedure_native_0 (random_generate_u16) .into ()),
 			("random-i16", procedure_native_0 (random_generate_i16) .into ()),
 			("random-u32", procedure_native_0 (random_generate_u32) .into ()),
 			("random-i32", procedure_native_0 (random_generate_i32) .into ()),
+			
 			("random-u7", procedure_native_0 (random_generate_u7) .into ()),
 			("random-u15", procedure_native_0 (random_generate_u15) .into ()),
 			("random-u31", procedure_native_0 (random_generate_u31) .into ()),
 			("random-u63", procedure_native_0 (random_generate_u63) .into ()),
+			
 			("random-u1", procedure_native_0 (random_generate_u1) .into ()),
 			("random-u2", procedure_native_0 (random_generate_u2) .into ()),
 			("random-u3", procedure_native_0 (random_generate_u3) .into ()),
 			("random-u4", procedure_native_0 (random_generate_u4) .into ()),
 			("random-u5", procedure_native_0 (random_generate_u5) .into ()),
 			("random-u6", procedure_native_0 (random_generate_u6) .into ()),
+			
+			("random-bytevector", procedure_native_1 (random_generate_bytes_build) .into ()),
+			("random-bytevector-permutation", procedure_native_0 (random_generate_bytes_permutation) .into ()),
+			("random-bytevector-append!", procedure_native_2 (random_generate_bytes_extend) .into ()),
+			("random-bytevector-fill!", procedure_native_v (random_generate_bytes_fill_v) .into ()),
+			("random-bytevector-shuffle!", procedure_native_v (random_generate_bytes_shuffle_v) .into ()),
+			
 			("random-char", procedure_native_v (random_generate_character_v) .into ()),
+			
 			("random-char-ascii", procedure_native_0 (random_generate_character_ascii) .into ()),
 			("random-char-ascii-numeric", procedure_native_0 (random_generate_character_ascii_numeric) .into ()),
 			("random-char-ascii-numeric-8", procedure_native_0 (random_generate_character_ascii_numeric_base_8) .into ()),
@@ -301,11 +313,46 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("random-char-ascii-control", procedure_native_0 (random_generate_character_ascii_control) .into ()),
 			("random-char-ascii-punctuation", procedure_native_0 (random_generate_character_ascii_punctuation) .into ()),
 			("random-char-ascii-graphic", procedure_native_0 (random_generate_character_ascii_graphic) .into ()),
-			("random-bytevector", procedure_native_1 (random_generate_bytes_build) .into ()),
-			("random-bytevector-permutation", procedure_native_0 (random_generate_bytes_permutation) .into ()),
-			("random-bytevector-append!", procedure_native_2 (random_generate_bytes_extend) .into ()),
-			("random-bytevector-fill!", procedure_native_v (random_generate_bytes_fill_v) .into ()),
-			("random-bytevector-shuffle!", procedure_native_v (random_generate_bytes_shuffle_v) .into ()),
+			
+			("random-string-ascii", procedure_native_1 (random_generate_string_build_ascii) .into ()),
+			("random-string-ascii-numeric", procedure_native_1 (random_generate_string_build_ascii_numeric) .into ()),
+			("random-string-ascii-numeric-8", procedure_native_1 (random_generate_string_build_ascii_numeric_base_8) .into ()),
+			("random-string-ascii-numeric-16", procedure_native_1 (random_generate_string_build_ascii_numeric_base_16) .into ()),
+			("random-string-ascii-alphabetic", procedure_native_1 (random_generate_string_build_ascii_alphabetic) .into ()),
+			("random-string-ascii-upper-case", procedure_native_1 (random_generate_string_build_ascii_alphabetic_upper_case) .into ()),
+			("random-string-ascii-lower-case", procedure_native_1 (random_generate_string_build_ascii_alphabetic_lower_case) .into ()),
+			("random-string-ascii-alphabetic-or-numeric", procedure_native_1 (random_generate_string_build_ascii_alphabetic_or_numeric) .into ()),
+			("random-string-ascii-whitespace", procedure_native_1 (random_generate_string_build_ascii_whitespace) .into ()),
+			("random-string-ascii-control", procedure_native_1 (random_generate_string_build_ascii_control) .into ()),
+			("random-string-ascii-punctuation", procedure_native_1 (random_generate_string_build_ascii_punctuation) .into ()),
+			("random-string-ascii-graphic", procedure_native_1 (random_generate_string_build_ascii_graphic) .into ()),
+			
+			("random-string-ascii-permutation", procedure_native_0 (random_generate_string_permutation_ascii) .into ()),
+			("random-string-ascii-numeric-permutation", procedure_native_0 (random_generate_string_permutation_ascii_numeric) .into ()),
+			("random-string-ascii-numeric-8-permutation", procedure_native_0 (random_generate_string_permutation_ascii_numeric_base_8) .into ()),
+			("random-string-ascii-numeric-16-permutation", procedure_native_0 (random_generate_string_permutation_ascii_numeric_base_16) .into ()),
+			("random-string-ascii-alphabetic-permutation", procedure_native_0 (random_generate_string_permutation_ascii_alphabetic) .into ()),
+			("random-string-ascii-upper-case-permutation", procedure_native_0 (random_generate_string_permutation_ascii_alphabetic_upper_case) .into ()),
+			("random-string-ascii-lower-case-permutation", procedure_native_0 (random_generate_string_permutation_ascii_alphabetic_lower_case) .into ()),
+			("random-string-ascii-alphabetic-or-numeric-permutation", procedure_native_0 (random_generate_string_permutation_ascii_alphabetic_or_numeric) .into ()),
+			("random-string-ascii-whitespace-permutation", procedure_native_0 (random_generate_string_permutation_ascii_whitespace) .into ()),
+			("random-string-ascii-control-permutation", procedure_native_0 (random_generate_string_permutation_ascii_control) .into ()),
+			("random-string-ascii-punctuation-permutation", procedure_native_0 (random_generate_string_permutation_ascii_punctuation) .into ()),
+			("random-string-ascii-graphic-permutation", procedure_native_0 (random_generate_string_permutation_ascii_graphic) .into ()),
+			
+			("random-string-ascii-append!", procedure_native_2 (random_generate_string_extend_ascii) .into ()),
+			("random-string-ascii-numeric-append!", procedure_native_2 (random_generate_string_extend_ascii_numeric) .into ()),
+			("random-string-ascii-numeric-8-append!", procedure_native_2 (random_generate_string_extend_ascii_numeric_base_8) .into ()),
+			("random-string-ascii-numeric-16-append!", procedure_native_2 (random_generate_string_extend_ascii_numeric_base_16) .into ()),
+			("random-string-ascii-alphabetic-append!", procedure_native_2 (random_generate_string_extend_ascii_alphabetic) .into ()),
+			("random-string-ascii-upper-case-append!", procedure_native_2 (random_generate_string_extend_ascii_alphabetic_upper_case) .into ()),
+			("random-string-ascii-lower-case-append!", procedure_native_2 (random_generate_string_extend_ascii_alphabetic_lower_case) .into ()),
+			("random-string-ascii-alphabetic-or-numeric-append!", procedure_native_2 (random_generate_string_extend_ascii_alphabetic_or_numeric) .into ()),
+			("random-string-ascii-whitespace-append!", procedure_native_2 (random_generate_string_extend_ascii_whitespace) .into ()),
+			("random-string-ascii-control-append!", procedure_native_2 (random_generate_string_extend_ascii_control) .into ()),
+			("random-string-ascii-punctuation-append!", procedure_native_2 (random_generate_string_extend_ascii_punctuation) .into ()),
+			("random-string-ascii-graphic-append!", procedure_native_2 (random_generate_string_extend_ascii_graphic) .into ()),
+			
 		]);
 	
 	#[ cfg ( feature = "vonuvoli_builtins_encoding" ) ]

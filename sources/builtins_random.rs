@@ -44,8 +44,8 @@ pub mod exports {
 	pub use super::{
 			
 			random_generate_bytes_build,
-			random_generate_bytes_permutation,
 			random_generate_bytes_extend,
+			random_generate_bytes_permutation,
 			
 			random_generate_bytes_fill_1,
 			random_generate_bytes_fill_2,
@@ -80,6 +80,49 @@ pub mod exports {
 			random_generate_character_ascii_control,
 			random_generate_character_ascii_punctuation,
 			random_generate_character_ascii_graphic,
+			
+		};
+	
+	pub use super::{
+			
+			random_generate_string_build_ascii,
+			random_generate_string_build_ascii_numeric,
+			random_generate_string_build_ascii_numeric_base_8,
+			random_generate_string_build_ascii_numeric_base_16,
+			random_generate_string_build_ascii_alphabetic,
+			random_generate_string_build_ascii_alphabetic_upper_case,
+			random_generate_string_build_ascii_alphabetic_lower_case,
+			random_generate_string_build_ascii_alphabetic_or_numeric,
+			random_generate_string_build_ascii_whitespace,
+			random_generate_string_build_ascii_control,
+			random_generate_string_build_ascii_punctuation,
+			random_generate_string_build_ascii_graphic,
+			
+			random_generate_string_extend_ascii,
+			random_generate_string_extend_ascii_numeric,
+			random_generate_string_extend_ascii_numeric_base_8,
+			random_generate_string_extend_ascii_numeric_base_16,
+			random_generate_string_extend_ascii_alphabetic,
+			random_generate_string_extend_ascii_alphabetic_upper_case,
+			random_generate_string_extend_ascii_alphabetic_lower_case,
+			random_generate_string_extend_ascii_alphabetic_or_numeric,
+			random_generate_string_extend_ascii_whitespace,
+			random_generate_string_extend_ascii_control,
+			random_generate_string_extend_ascii_punctuation,
+			random_generate_string_extend_ascii_graphic,
+			
+			random_generate_string_permutation_ascii,
+			random_generate_string_permutation_ascii_numeric,
+			random_generate_string_permutation_ascii_numeric_base_8,
+			random_generate_string_permutation_ascii_numeric_base_16,
+			random_generate_string_permutation_ascii_alphabetic,
+			random_generate_string_permutation_ascii_alphabetic_upper_case,
+			random_generate_string_permutation_ascii_alphabetic_lower_case,
+			random_generate_string_permutation_ascii_alphabetic_or_numeric,
+			random_generate_string_permutation_ascii_whitespace,
+			random_generate_string_permutation_ascii_control,
+			random_generate_string_permutation_ascii_punctuation,
+			random_generate_string_permutation_ascii_graphic,
 			
 		};
 	
@@ -272,15 +315,8 @@ pub fn random_generate_bytes_build (count : &Value) -> (Outcome<Value>) {
 	succeed! (bytes_new (buffer));
 }
 
-#[ inline (never) ]
-pub fn random_generate_bytes_permutation () -> (Outcome<Value>) {
-	let mut buffer = StdVec::with_capacity (255);
-	for byte in 0 .. 256 {
-		buffer.push (byte as u8)
-	}
-	generator () .shuffle (&mut buffer);
-	succeed! (bytes_new (buffer));
-}
+
+
 
 #[ inline (never) ]
 pub fn random_generate_bytes_extend (bytes : &Value, count : &Value) -> (Outcome<Value>) {
@@ -292,6 +328,22 @@ pub fn random_generate_bytes_extend (bytes : &Value, count : &Value) -> (Outcome
 	generator () .fill_bytes (&mut buffer [buffer_offset ..]);
 	succeed! (VOID_VALUE);
 }
+
+
+
+
+#[ inline (never) ]
+pub fn random_generate_bytes_permutation () -> (Outcome<Value>) {
+	let mut buffer = StdVec::with_capacity (255);
+	buffer.extend_from_slice (BYTES_FOR_PERMUTATION);
+	generator () .shuffle (&mut buffer);
+	succeed! (bytes_new (buffer));
+}
+
+// NOTE:  for c in 0 .. 256 { print! ("{}, ", c as u8); }
+static BYTES_FOR_PERMUTATION : &'static [u8] = &[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255, ];
+
+
 
 
 #[ inline (never) ]
@@ -332,6 +384,8 @@ pub fn random_generate_bytes_fill_v (arguments : usize) -> (Outcome<ProcedureNat
 			fail! (0xd4f36aab),
 	}
 }
+
+
 
 
 #[ inline (never) ]
@@ -430,86 +484,62 @@ pub fn random_generate_character_v (arguments : usize) -> (Outcome<ProcedureNati
 
 #[ inline (never) ]
 pub fn random_generate_character_ascii () -> (Outcome<Value>) {
-	// NOTE:  for c in 0u8..128u8 { if c.is_ascii () { print! ("{}, ", c); } }
-	const CHARACTERS : &'static [u8] = &[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, ];
-	return random_generate_character_ascii_from (CHARACTERS);
+	return random_generate_character_ascii_from (CHARACTERS_FOR_ASCII);
 }
 
 #[ inline (never) ]
 pub fn random_generate_character_ascii_numeric () -> (Outcome<Value>) {
-	// NOTE:  for c in 0u8..128u8 { if c.is_ascii_digit () { print! ("{}, ", c); } }
-	const CHARACTERS : &'static [u8] = &[ 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, ];
-	return random_generate_character_ascii_from (CHARACTERS);
+	return random_generate_character_ascii_from (CHARACTERS_FOR_ASCII_NUMERIC);
 }
 
 #[ inline (never) ]
 pub fn random_generate_character_ascii_numeric_base_8 () -> (Outcome<Value>) {
-	// NOTE:  for c in '0' as u8 ..'7' as u8 { print! ("{}, ", c); }
-	const CHARACTERS : &'static [u8] = &[ 48, 49, 50, 51, 52, 53, 54, ];
-	return random_generate_character_ascii_from (CHARACTERS);
+	return random_generate_character_ascii_from (CHARACTERS_FOR_ASCII_NUMERIC_BASE_8);
 }
 
 #[ inline (never) ]
 pub fn random_generate_character_ascii_numeric_base_16 () -> (Outcome<Value>) {
-	// NOTE:  for c in 0u8..128u8 { if c.is_ascii_hexdigit () && (c.is_ascii_digit () || c.is_ascii_lowercase ()) { print! ("{}, ", c); } }
-	const CHARACTERS : &'static [u8] = &[ 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 97, 98, 99, 100, 101, 102, ];
-	return random_generate_character_ascii_from (CHARACTERS);
+	return random_generate_character_ascii_from (CHARACTERS_FOR_ASCII_NUMERIC_BASE_16);
 }
 
 #[ inline (never) ]
 pub fn random_generate_character_ascii_alphabetic () -> (Outcome<Value>) {
-	// NOTE:  for c in 0u8..128u8 { if c.is_ascii_alphabetic () { print! ("{}, ", c); } }
-	const CHARACTERS : &'static [u8] = &[ 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, ];
-	return random_generate_character_ascii_from (CHARACTERS);
+	return random_generate_character_ascii_from (CHARACTERS_FOR_ASCII_ALPHABETIC);
 }
 
 #[ inline (never) ]
 pub fn random_generate_character_ascii_alphabetic_upper_case () -> (Outcome<Value>) {
-	// NOTE:  for c in 0u8..128u8 { if c.is_ascii_uppercase () { print! ("{}, ", c); } }
-	const CHARACTERS : &'static [u8] = &[ 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, ];
-	return random_generate_character_ascii_from (CHARACTERS);
+	return random_generate_character_ascii_from (CHARACTERS_FOR_ASCII_ALPHABETIC_UPPER_CASE);
 }
 
 #[ inline (never) ]
 pub fn random_generate_character_ascii_alphabetic_lower_case () -> (Outcome<Value>) {
-	// NOTE:  for c in 0u8..128u8 { if c.is_ascii_lowercase () { print! ("{}, ", c); } }
-	const CHARACTERS : &'static [u8] = &[ 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, ];
-	return random_generate_character_ascii_from (CHARACTERS);
+	return random_generate_character_ascii_from (CHARACTERS_FOR_ASCII_ALPHABETIC_LOWER_CASE);
 }
 
 #[ inline (never) ]
 pub fn random_generate_character_ascii_alphabetic_or_numeric () -> (Outcome<Value>) {
-	// NOTE:  for c in 0u8..128u8 { if c.is_ascii_alphanumeric () { print! ("{}, ", c); } }
-	const CHARACTERS : &'static [u8] = &[ 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, ];
-	return random_generate_character_ascii_from (CHARACTERS);
+	return random_generate_character_ascii_from (CHARACTERS_FOR_ASCII_ALPHABETIC_OR_NUMERIC);
 }
 
 #[ inline (never) ]
 pub fn random_generate_character_ascii_whitespace () -> (Outcome<Value>) {
-	// NOTE:  for c in 0u8..128u8 { if c.is_ascii_whitespace () { print! ("{}, ", c); } }
-	const CHARACTERS : &'static [u8] = &[ 9, 10, 12, 13, 32, ];
-	return random_generate_character_ascii_from (CHARACTERS);
+	return random_generate_character_ascii_from (CHARACTERS_FOR_ASCII_WHITESPACE);
 }
 
 #[ inline (never) ]
 pub fn random_generate_character_ascii_control () -> (Outcome<Value>) {
-	// NOTE:  for c in 0u8..128u8 { if c.is_ascii_control () { print! ("{}, ", c); } }
-	const CHARACTERS : &'static [u8] = &[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 127, ];
-	return random_generate_character_ascii_from (CHARACTERS);
+	return random_generate_character_ascii_from (CHARACTERS_FOR_ASCII_CONTROL);
 }
 
 #[ inline (never) ]
 pub fn random_generate_character_ascii_punctuation () -> (Outcome<Value>) {
-	// NOTE:  for c in 0u8..128u8 { if c.is_ascii_punctuation () { print! ("{}, ", c); } }
-	const CHARACTERS : &'static [u8] = &[ 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 58, 59, 60, 61, 62, 63, 64, 91, 92, 93, 94, 95, 96, 123, 124, 125, 126, ];
-	return random_generate_character_ascii_from (CHARACTERS);
+	return random_generate_character_ascii_from (CHARACTERS_FOR_ASCII_PUNCTUATION);
 }
 
 #[ inline (never) ]
 pub fn random_generate_character_ascii_graphic () -> (Outcome<Value>) {
-	// NOTE:  for c in 0u8..128u8 { if c.is_ascii_graphic () { print! ("{}, ", c); } }
-	const CHARACTERS : &'static [u8] = &[ 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, ];
-	return random_generate_character_ascii_from (CHARACTERS);
+	return random_generate_character_ascii_from (CHARACTERS_FOR_ASCII_GRAPHIC);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -518,6 +548,273 @@ fn random_generate_character_ascii_from (characters : &[u8]) -> (Outcome<Value>)
 	let character = characters[index] as char;
 	succeed! (character.into ());
 }
+
+
+
+
+#[ inline (never) ]
+pub fn random_generate_string_build_ascii (count : &Value) -> (Outcome<Value>) {
+	return random_generate_string_build_ascii_from (count, CHARACTERS_FOR_ASCII);
+}
+
+#[ inline (never) ]
+pub fn random_generate_string_build_ascii_numeric (count : &Value) -> (Outcome<Value>) {
+	return random_generate_string_build_ascii_from (count, CHARACTERS_FOR_ASCII_NUMERIC);
+}
+
+#[ inline (never) ]
+pub fn random_generate_string_build_ascii_numeric_base_8 (count : &Value) -> (Outcome<Value>) {
+	return random_generate_string_build_ascii_from (count, CHARACTERS_FOR_ASCII_NUMERIC_BASE_8);
+}
+
+#[ inline (never) ]
+pub fn random_generate_string_build_ascii_numeric_base_16 (count : &Value) -> (Outcome<Value>) {
+	return random_generate_string_build_ascii_from (count, CHARACTERS_FOR_ASCII_NUMERIC_BASE_16);
+}
+
+#[ inline (never) ]
+pub fn random_generate_string_build_ascii_alphabetic (count : &Value) -> (Outcome<Value>) {
+	return random_generate_string_build_ascii_from (count, CHARACTERS_FOR_ASCII_ALPHABETIC);
+}
+
+#[ inline (never) ]
+pub fn random_generate_string_build_ascii_alphabetic_upper_case (count : &Value) -> (Outcome<Value>) {
+	return random_generate_string_build_ascii_from (count, CHARACTERS_FOR_ASCII_ALPHABETIC_UPPER_CASE);
+}
+
+#[ inline (never) ]
+pub fn random_generate_string_build_ascii_alphabetic_lower_case (count : &Value) -> (Outcome<Value>) {
+	return random_generate_string_build_ascii_from (count, CHARACTERS_FOR_ASCII_ALPHABETIC_LOWER_CASE);
+}
+
+#[ inline (never) ]
+pub fn random_generate_string_build_ascii_alphabetic_or_numeric (count : &Value) -> (Outcome<Value>) {
+	return random_generate_string_build_ascii_from (count, CHARACTERS_FOR_ASCII_ALPHABETIC_OR_NUMERIC);
+}
+
+#[ inline (never) ]
+pub fn random_generate_string_build_ascii_whitespace (count : &Value) -> (Outcome<Value>) {
+	return random_generate_string_build_ascii_from (count, CHARACTERS_FOR_ASCII_WHITESPACE);
+}
+
+#[ inline (never) ]
+pub fn random_generate_string_build_ascii_control (count : &Value) -> (Outcome<Value>) {
+	return random_generate_string_build_ascii_from (count, CHARACTERS_FOR_ASCII_CONTROL);
+}
+
+#[ inline (never) ]
+pub fn random_generate_string_build_ascii_punctuation (count : &Value) -> (Outcome<Value>) {
+	return random_generate_string_build_ascii_from (count, CHARACTERS_FOR_ASCII_PUNCTUATION);
+}
+
+#[ inline (never) ]
+pub fn random_generate_string_build_ascii_graphic (count : &Value) -> (Outcome<Value>) {
+	return random_generate_string_build_ascii_from (count, CHARACTERS_FOR_ASCII_GRAPHIC);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn random_generate_string_build_ascii_from (count : &Value, characters : &[u8]) -> (Outcome<Value>) {
+	let count = try! (count_coerce (Some (count))) .unwrap_or (DEFAULT_PORT_BUFFER_SIZE);
+	let mut buffer = StdVec::with_capacity (count);
+	let characters_len = characters.len ();
+	let mut generator = generator ();
+	for _ in 0 .. count {
+		let index = generator.gen_range (0, characters_len);
+		let character = characters[index];
+		buffer.push (character);
+	}
+	let string = try_or_fail! (StdString::from_utf8 (buffer), 0x196fdb5a);
+	succeed! (string_new (string));
+}
+
+
+
+
+#[ inline (never) ]
+pub fn random_generate_string_extend_ascii (string : &Value, count : &Value) -> (Outcome<Value>) {
+	return random_generate_string_extend_ascii_from (string, count, CHARACTERS_FOR_ASCII);
+}
+
+#[ inline (never) ]
+pub fn random_generate_string_extend_ascii_numeric (string : &Value, count : &Value) -> (Outcome<Value>) {
+	return random_generate_string_extend_ascii_from (string, count, CHARACTERS_FOR_ASCII_NUMERIC);
+}
+
+#[ inline (never) ]
+pub fn random_generate_string_extend_ascii_numeric_base_8 (string : &Value, count : &Value) -> (Outcome<Value>) {
+	return random_generate_string_extend_ascii_from (string, count, CHARACTERS_FOR_ASCII_NUMERIC_BASE_8);
+}
+
+#[ inline (never) ]
+pub fn random_generate_string_extend_ascii_numeric_base_16 (string : &Value, count : &Value) -> (Outcome<Value>) {
+	return random_generate_string_extend_ascii_from (string, count, CHARACTERS_FOR_ASCII_NUMERIC_BASE_16);
+}
+
+#[ inline (never) ]
+pub fn random_generate_string_extend_ascii_alphabetic (string : &Value, count : &Value) -> (Outcome<Value>) {
+	return random_generate_string_extend_ascii_from (string, count, CHARACTERS_FOR_ASCII_ALPHABETIC);
+}
+
+#[ inline (never) ]
+pub fn random_generate_string_extend_ascii_alphabetic_upper_case (string : &Value, count : &Value) -> (Outcome<Value>) {
+	return random_generate_string_extend_ascii_from (string, count, CHARACTERS_FOR_ASCII_ALPHABETIC_UPPER_CASE);
+}
+
+#[ inline (never) ]
+pub fn random_generate_string_extend_ascii_alphabetic_lower_case (string : &Value, count : &Value) -> (Outcome<Value>) {
+	return random_generate_string_extend_ascii_from (string, count, CHARACTERS_FOR_ASCII_ALPHABETIC_LOWER_CASE);
+}
+
+#[ inline (never) ]
+pub fn random_generate_string_extend_ascii_alphabetic_or_numeric (string : &Value, count : &Value) -> (Outcome<Value>) {
+	return random_generate_string_extend_ascii_from (string, count, CHARACTERS_FOR_ASCII_ALPHABETIC_OR_NUMERIC);
+}
+
+#[ inline (never) ]
+pub fn random_generate_string_extend_ascii_whitespace (string : &Value, count : &Value) -> (Outcome<Value>) {
+	return random_generate_string_extend_ascii_from (string, count, CHARACTERS_FOR_ASCII_WHITESPACE);
+}
+
+#[ inline (never) ]
+pub fn random_generate_string_extend_ascii_control (string : &Value, count : &Value) -> (Outcome<Value>) {
+	return random_generate_string_extend_ascii_from (string, count, CHARACTERS_FOR_ASCII_CONTROL);
+}
+
+#[ inline (never) ]
+pub fn random_generate_string_extend_ascii_punctuation (string : &Value, count : &Value) -> (Outcome<Value>) {
+	return random_generate_string_extend_ascii_from (string, count, CHARACTERS_FOR_ASCII_PUNCTUATION);
+}
+
+#[ inline (never) ]
+pub fn random_generate_string_extend_ascii_graphic (string : &Value, count : &Value) -> (Outcome<Value>) {
+	return random_generate_string_extend_ascii_from (string, count, CHARACTERS_FOR_ASCII_GRAPHIC);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn random_generate_string_extend_ascii_from (string : &Value, count : &Value, characters : &[u8]) -> (Outcome<Value>) {
+	let string = try_as_string_mutable_ref! (string);
+	let mut buffer = try! (string.string_ref_mut ());
+	let count = try! (count_coerce (Some (count))) .unwrap_or (DEFAULT_PORT_BUFFER_SIZE);
+	let characters_len = characters.len ();
+	let mut generator = generator ();
+	for _ in 0 .. count {
+		let index = generator.gen_range (0, characters_len);
+		let character = characters[index];
+		buffer.push (character as char);
+	}
+	succeed! (VOID_VALUE);
+}
+
+
+
+
+#[ inline (never) ]
+pub fn random_generate_string_permutation_ascii () -> (Outcome<Value>) {
+	return random_generate_string_permutation_ascii_from (CHARACTERS_FOR_ASCII);
+}
+
+#[ inline (never) ]
+pub fn random_generate_string_permutation_ascii_numeric () -> (Outcome<Value>) {
+	return random_generate_string_permutation_ascii_from (CHARACTERS_FOR_ASCII_NUMERIC);
+}
+
+#[ inline (never) ]
+pub fn random_generate_string_permutation_ascii_numeric_base_8 () -> (Outcome<Value>) {
+	return random_generate_string_permutation_ascii_from (CHARACTERS_FOR_ASCII_NUMERIC_BASE_8);
+}
+
+#[ inline (never) ]
+pub fn random_generate_string_permutation_ascii_numeric_base_16 () -> (Outcome<Value>) {
+	return random_generate_string_permutation_ascii_from (CHARACTERS_FOR_ASCII_NUMERIC_BASE_16);
+}
+
+#[ inline (never) ]
+pub fn random_generate_string_permutation_ascii_alphabetic () -> (Outcome<Value>) {
+	return random_generate_string_permutation_ascii_from (CHARACTERS_FOR_ASCII_ALPHABETIC);
+}
+
+#[ inline (never) ]
+pub fn random_generate_string_permutation_ascii_alphabetic_upper_case () -> (Outcome<Value>) {
+	return random_generate_string_permutation_ascii_from (CHARACTERS_FOR_ASCII_ALPHABETIC_UPPER_CASE);
+}
+
+#[ inline (never) ]
+pub fn random_generate_string_permutation_ascii_alphabetic_lower_case () -> (Outcome<Value>) {
+	return random_generate_string_permutation_ascii_from (CHARACTERS_FOR_ASCII_ALPHABETIC_LOWER_CASE);
+}
+
+#[ inline (never) ]
+pub fn random_generate_string_permutation_ascii_alphabetic_or_numeric () -> (Outcome<Value>) {
+	return random_generate_string_permutation_ascii_from (CHARACTERS_FOR_ASCII_ALPHABETIC_OR_NUMERIC);
+}
+
+#[ inline (never) ]
+pub fn random_generate_string_permutation_ascii_whitespace () -> (Outcome<Value>) {
+	return random_generate_string_permutation_ascii_from (CHARACTERS_FOR_ASCII_WHITESPACE);
+}
+
+#[ inline (never) ]
+pub fn random_generate_string_permutation_ascii_control () -> (Outcome<Value>) {
+	return random_generate_string_permutation_ascii_from (CHARACTERS_FOR_ASCII_CONTROL);
+}
+
+#[ inline (never) ]
+pub fn random_generate_string_permutation_ascii_punctuation () -> (Outcome<Value>) {
+	return random_generate_string_permutation_ascii_from (CHARACTERS_FOR_ASCII_PUNCTUATION);
+}
+
+#[ inline (never) ]
+pub fn random_generate_string_permutation_ascii_graphic () -> (Outcome<Value>) {
+	return random_generate_string_permutation_ascii_from (CHARACTERS_FOR_ASCII_GRAPHIC);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn random_generate_string_permutation_ascii_from (characters : &[u8]) -> (Outcome<Value>) {
+	let mut buffer = StdVec::with_capacity (characters.len ());
+	buffer.extend_from_slice (characters);
+	generator () .shuffle (&mut buffer);
+	let string = try_or_fail! (StdString::from_utf8 (buffer), 0xf03951db);
+	succeed! (string_new (string));
+}
+
+
+
+
+// NOTE:  for c in 0u8 .. 128u8 { if c.is_ascii () { print! ("{}, ", c); } }
+const CHARACTERS_FOR_ASCII : &'static [u8] = &[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, ];
+
+// NOTE:  for c in 0u8 .. 128u8 { if c.is_ascii_digit () { print! ("{}, ", c); } }
+const CHARACTERS_FOR_ASCII_NUMERIC : &'static [u8] = &[ 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, ];
+
+// NOTE:  for c in '0' as u8 .. '7' as u8 { print! ("{}, ", c); }
+const CHARACTERS_FOR_ASCII_NUMERIC_BASE_8 : &'static [u8] = &[ 48, 49, 50, 51, 52, 53, 54, ];
+
+// NOTE:  for c in 0u8 .. 128u8 { if c.is_ascii_hexdigit () && (c.is_ascii_digit () || c.is_ascii_lowercase ()) { print! ("{}, ", c); } }
+const CHARACTERS_FOR_ASCII_NUMERIC_BASE_16 : &'static [u8] = &[ 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 97, 98, 99, 100, 101, 102, ];
+
+// NOTE:  for c in 0u8 .. 128u8 { if c.is_ascii_alphabetic () { print! ("{}, ", c); } }
+const CHARACTERS_FOR_ASCII_ALPHABETIC : &'static [u8] = &[ 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, ];
+
+// NOTE:  for c in 0u8 .. 128u8 { if c.is_ascii_uppercase () { print! ("{}, ", c); } }
+const CHARACTERS_FOR_ASCII_ALPHABETIC_UPPER_CASE : &'static [u8] = &[ 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, ];
+
+// NOTE:  for c in 0u8 .. 128u8 { if c.is_ascii_lowercase () { print! ("{}, ", c); } }
+const CHARACTERS_FOR_ASCII_ALPHABETIC_LOWER_CASE : &'static [u8] = &[ 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, ];
+
+// NOTE:  for c in 0u8 .. 128u8 { if c.is_ascii_alphanumeric () { print! ("{}, ", c); } }
+const CHARACTERS_FOR_ASCII_ALPHABETIC_OR_NUMERIC : &'static [u8] = &[ 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, ];
+
+// NOTE:  for c in 0u8 .. 128u8 { if c.is_ascii_whitespace () { print! ("{}, ", c); } }
+const CHARACTERS_FOR_ASCII_WHITESPACE : &'static [u8] = &[ 9, 10, 12, 13, 32, ];
+
+// NOTE:  for c in 0u8 .. 128u8 { if c.is_ascii_control () { print! ("{}, ", c); } }
+const CHARACTERS_FOR_ASCII_CONTROL : &'static [u8] = &[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 127, ];
+
+// NOTE:  for c in 0u8 .. 128u8 { if c.is_ascii_punctuation () { print! ("{}, ", c); } }
+const CHARACTERS_FOR_ASCII_PUNCTUATION : &'static [u8] = &[ 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 58, 59, 60, 61, 62, 63, 64, 91, 92, 93, 94, 95, 96, 123, 124, 125, 126, ];
+
+// NOTE:  for c in 0u8 .. 128u8 { if c.is_ascii_graphic () { print! ("{}, ", c); } }
+const CHARACTERS_FOR_ASCII_GRAPHIC : &'static [u8] = &[ 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, ];
 
 
 
