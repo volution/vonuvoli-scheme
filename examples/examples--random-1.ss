@@ -11,19 +11,29 @@
 		(write-char #\newline)))
 
 
-(define (write-characters)
+(define (write-characters-1)
 	(loop
 		(write-char (random-char))
 		(write-char #\newline)))
 
-(define (write-characters-ascii)
+(define (write-characters-ascii-1)
 	(loop
 		(write-char (random-char-ascii))
 		(write-char #\newline)))
 
-(define (write-characters-ascii-alphabetic)
+(define (write-characters-ascii-alphabetic-1)
 	(loop
 		(write-char (random-char-ascii-alphabetic))
+		(write-char #\newline)))
+
+(define (write-characters-ascii-alphabetic-buffer size)
+	(loop
+		(write-string (random-string-ascii-alphabetic size))
+		(write-char #\newline)))
+
+(define (write-characters-ascii-alphabetic-permutation)
+	(loop
+		(write-string (random-string-ascii-alphabetic-permutation))
 		(write-char #\newline)))
 
 
@@ -47,14 +57,18 @@
 
 
 
-(case 'write-characters-ascii-alphabetic
+(case 'write-characters-ascii-alphabetic-permutation
 	
 	((write-integers) (write-integers))
 	((write-reals) (write-reals))
 	
-	((write-characters) (write-characters))
-	((write-characters-ascii) (write-characters-ascii))
-	((write-characters-ascii-alphabetic) (write-characters-ascii-alphabetic))
+	((write-characters-1) (write-characters-1))
+	((write-characters-ascii-1) (write-characters-ascii-1))
+	((write-characters-ascii-alphabetic-1) (write-characters-ascii-alphabetic-1))
+	((write-characters-ascii-alphabetic-buffer-128) (write-characters-ascii-alphabetic-buffer 128))
+	((write-characters-ascii-alphabetic-buffer-128-kib) (write-characters-ascii-alphabetic-buffer (* 128 1024)))
+	((write-characters-ascii-alphabetic-buffer-4-mib) (write-characters-ascii-alphabetic-buffer (* 4 1024 1024)))
+	((write-characters-ascii-alphabetic-permutation) (write-characters-ascii-alphabetic-permutation))
 	
 	((write-bytes-1) (write-bytes-1))
 	((write-bytes-buffer-1-kib) (write-bytes-buffer (* 1 1024)))
