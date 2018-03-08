@@ -269,8 +269,10 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			
 			("hex-encode", procedure_native_1 (encode_hex_build) .into ()),
 			("hex-encode-append!", procedure_native_2 (encode_hex_extend) .into ()),
+			("hex-encode-fill!", procedure_native_2 (encode_hex_fill) .into ()),
 			("hex-decode", procedure_native_1 (decode_hex_build) .into ()),
 			("hex-decode-append!", procedure_native_2 (decode_hex_extend) .into ()),
+			("hex-decode-fill!", procedure_native_2 (decode_hex_fill) .into ()),
 			
 		]);
 	
