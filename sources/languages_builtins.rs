@@ -274,8 +274,10 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("random-boolean", procedure_native_0 (random_generate_boolean) .into ()),
 			("random-boolean-weighted", procedure_native_1 (random_generate_boolean_weighted) .into ()),
 			
-			("random-i64", procedure_native_v (random_generate_i64_v) .into ()),
-			("random-f64", procedure_native_v (random_generate_f64_v) .into ()),
+			("random-i64", procedure_native_0 (random_generate_i64_0) .into ()),
+			("random-i64*", procedure_native_v (random_generate_i64_v) .into ()),
+			("random-f64", procedure_native_0 (random_generate_f64_0) .into ()),
+			("random-f64*", procedure_native_v (random_generate_f64_v) .into ()),
 			
 			("random-u8", procedure_native_0 (random_generate_u8) .into ()),
 			("random-i8", procedure_native_0 (random_generate_i8) .into ()),
@@ -302,7 +304,8 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("random-bytevector-fill!", procedure_native_v (random_generate_bytes_fill_v) .into ()),
 			("random-bytevector-shuffle!", procedure_native_v (random_generate_bytes_shuffle_v) .into ()),
 			
-			("random-char", procedure_native_v (random_generate_character_v) .into ()),
+			("random-char", procedure_native_0 (random_generate_character_0) .into ()),
+			("random-char*", procedure_native_v (random_generate_character_v) .into ()),
 			
 			("random-char-ascii", procedure_native_0 (random_generate_character_ascii) .into ()),
 			("random-char-ascii-numeric", procedure_native_0 (random_generate_character_ascii_numeric) .into ()),
