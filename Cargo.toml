@@ -130,33 +130,53 @@ vonuvoli_builtins_encoding = ["data-encoding"]
 
 
 [dependencies.backtrace]
+# https://github.com/alexcrichton/backtrace-rs
 version = "~0.3.5"
 optional = true
-features = ["cpp_demangle"]
+features = ["backtrace-sys"]
+default-features = false
 
 [dependencies.rustc-demangle]
+# https://github.com/alexcrichton/rustc-demangle
 version = "~0.1.6"
 optional = true
+features = []
+default-features = false
 
 [dependencies.ansi_term]
+# https://github.com/ogham/rust-ansi-term
 version = "~0.10.2"
 optional = true
+features = []
+default-features = false
 
 [dependencies.atty]
+# https://github.com/softprops/atty
 version = "~0.2.6"
 optional = true
+features = []
+default-features = false
 
 [dependencies.data-encoding]
+# https://github.com/ia0/data-encoding
 version = "~2.1.1"
 optional = true
+features = []
+default-features = false
 
 [dependencies.ring]
+# https://github.com/briansmith/ring
 version = "~0.12.1"
 optional = true
+features = ["dev_urandom_fallback"]
+default-features = false
 
 [dependencies.rand]
+# https://github.com/rust-lang-nursery/rand
 version = "~0.4.2"
 optional = true
+features = ["std"]
+default-features = false
 
 
 
