@@ -18,6 +18,13 @@ pub mod exports {
 	
 	pub use super::{
 			
+			random_generate_boolean,
+			random_generate_boolean_weighted,
+			
+		};
+	
+	pub use super::{
+			
 			random_generate_i64_0, random_generate_f64_0,
 			random_generate_i64_1, random_generate_f64_1,
 			random_generate_i64_2, random_generate_f64_2,
@@ -126,6 +133,52 @@ pub mod exports {
 			
 		};
 	
+}
+
+
+
+
+#[ inline (never) ]
+pub fn random_generate_boolean () -> (Outcome<Value>) {
+	succeed! (boolean (generator () .gen ()) .into ());
+}
+
+#[ inline (never) ]
+pub fn random_generate_boolean_weighted (weight : &Value) -> (Outcome<Value>) {
+	match try! (number_coerce_1a (weight)) {
+		NumberCoercion1::Integer (weight) =>
+			if weight > 0 {
+				if weight <= (0 + u32::max_value () as i64) {
+					succeed! (boolean (generator () .gen_weighted_bool ((0 + weight) as u32)) .into ());
+				} else {
+					fail! (0xa6708b35);
+				}
+			} else if weight < 0 {
+				if weight >= (0 - u32::max_value () as i64) {
+					succeed! (boolean (! generator () .gen_weighted_bool ((0 - weight) as u32)) .into ());
+				} else {
+					fail! (0x99d438a2);
+				}
+			} else {
+				fail! (0x1f6be8ce);
+			},
+		NumberCoercion1::Real (weight) =>
+			if weight > 0.0 {
+				if weight <= (0.0 + 1.0) {
+					succeed! (boolean (generator () .gen::<f64> () <= (0.0 + weight)) .into ());
+				} else {
+					fail! (0xe466a299);
+				}
+			} else if weight < 0.0 {
+				if weight >= (0.0 - 1.0) {
+					succeed! (boolean (! (generator () .gen::<f64> () <= (0.0 - weight))) .into ());
+				} else {
+					fail! (0x72cfa94e);
+				}
+			} else {
+				fail! (0x660e9fbf);
+			},
+	}
 }
 
 
@@ -442,8 +495,9 @@ pub fn random_generate_character_1 (max : &Value) -> (Outcome<Value>) {
 	if min >= max {
 		fail! (0x9dcab850);
 	}
+	let mut generator = generator ();
 	loop {
-		let character = generator () .gen_range (min, max);
+		let character = generator.gen_range (min, max);
 		if let Some (character) = char::from_u32 (character) {
 			succeed! (character.into ());
 		}
@@ -457,8 +511,9 @@ pub fn random_generate_character_2 (min : &Value, max : &Value) -> (Outcome<Valu
 	if min >= max {
 		fail! (0x76b6213d);
 	}
+	let mut generator = generator ();
 	loop {
-		let character = generator () .gen_range (min, max);
+		let character = generator.gen_range (min, max);
 		if let Some (character) = char::from_u32 (character) {
 			succeed! (character.into ());
 		}

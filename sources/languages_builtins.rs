@@ -271,6 +271,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 	#[ cfg ( feature = "vonuvoli_builtins_random" ) ]
 	definitions.extend_from_slice (&[
 			
+			("random-boolean", procedure_native_0 (random_generate_boolean) .into ()),
+			("random-boolean-weighted", procedure_native_1 (random_generate_boolean_weighted) .into ()),
+			
 			("random-i64", procedure_native_v (random_generate_i64_v) .into ()),
 			("random-f64", procedure_native_v (random_generate_f64_v) .into ()),
 			
