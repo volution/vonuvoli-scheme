@@ -610,6 +610,8 @@
 	if test './tests/scheme/comparisons-ordering-objects.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_ordering_objects.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_ordering_objects.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-ordering-objects.sst' "${@}" ; fi
 	if test './tests/scheme/contexts.sst' -nt './tests/_outputs/scheme--benchmark__contexts.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__contexts.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/contexts.sst' "${@}" ; fi
 	if test './tests/scheme/control.sst' -nt './tests/_outputs/scheme--benchmark__control.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__control.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/control.sst' "${@}" ; fi
+	if test './tests/scheme/crypto.sst' -nt './tests/_outputs/scheme--benchmark__crypto.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__crypto.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/crypto.sst' "${@}" ; fi
+	if test './tests/scheme/encoding.sst' -nt './tests/_outputs/scheme--benchmark__encoding.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__encoding.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/encoding.sst' "${@}" ; fi
 	if test './tests/scheme/errors.sst' -nt './tests/_outputs/scheme--benchmark__errors.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__errors.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/errors.sst' "${@}" ; fi
 	if test './tests/scheme/functions.sst' -nt './tests/_outputs/scheme--benchmark__functions.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/functions.sst' "${@}" ; fi
 	if test './tests/scheme/functions-arrays.sst' -nt './tests/_outputs/scheme--benchmark__functions_arrays.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_arrays.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/functions-arrays.sst' "${@}" ; fi
@@ -750,12 +752,28 @@
 	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__control.out' x-run ':: execute / bin / bencher / release' './tests/scheme/control.sst' "${@}"
 !!
 
+<< execute / bin / bencher / crypto / debug
+	exec -- taskset -c 2 x-run ':: execute / bin / bencher / debug' './tests/scheme/crypto.sst' "${@}"
+!!
+
+<< execute / bin / bencher / crypto / release
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__crypto.out' x-run ':: execute / bin / bencher / release' './tests/scheme/crypto.sst' "${@}"
+!!
+
 << execute / bin / bencher / debug
 	x-run ':: compile / bin / bencher / debug' ; exec -- ./target/debug/vonuvoli-scheme-bencher "${@}"
 !!
 
 << execute / bin / bencher / debug / watch
 	exec -- x-run ':: execute / watch' x-run ':: execute / bin / bencher / debug' "${@}"
+!!
+
+<< execute / bin / bencher / encoding / debug
+	exec -- taskset -c 2 x-run ':: execute / bin / bencher / debug' './tests/scheme/encoding.sst' "${@}"
+!!
+
+<< execute / bin / bencher / encoding / release
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__encoding.out' x-run ':: execute / bin / bencher / release' './tests/scheme/encoding.sst' "${@}"
 !!
 
 << execute / bin / bencher / errors / debug
@@ -1275,6 +1293,8 @@
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-ordering-objects.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/contexts.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/control.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/crypto.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/encoding.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/errors.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/functions.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/functions-arrays.sst' "${@}"
@@ -1471,12 +1491,36 @@
 	exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/control.sst' "${@}"
 !!
 
+<< execute / bin / tester / crypto / debug
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/crypto.sst' "${@}"
+!!
+
+<< execute / bin / tester / crypto / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / bin / tester / crypto / debug'
+!!
+
+<< execute / bin / tester / crypto / release
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/crypto.sst' "${@}"
+!!
+
 << execute / bin / tester / debug
 	x-run ':: compile / bin / tester / debug' ; exec -- ./target/debug/vonuvoli-scheme-tester "${@}"
 !!
 
 << execute / bin / tester / debug / watch
 	exec -- x-run ':: execute / watch' x-run ':: execute / bin / tester / debug' "${@}"
+!!
+
+<< execute / bin / tester / encoding / debug
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/encoding.sst' "${@}"
+!!
+
+<< execute / bin / tester / encoding / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / bin / tester / encoding / debug'
+!!
+
+<< execute / bin / tester / encoding / release
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/encoding.sst' "${@}"
 !!
 
 << execute / bin / tester / errors / debug
@@ -2171,6 +2215,22 @@
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__control' --exact "${@}"
 !!
 
+<< execute / test / scheme / benchmarks / crypto / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features vonuvoli_debug --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__crypto' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / crypto / release
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__crypto' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / encoding / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features vonuvoli_debug --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__encoding' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / encoding / release
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__encoding' --exact "${@}"
+!!
+
 << execute / test / scheme / benchmarks / errors / debug
 	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features vonuvoli_debug --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__errors' --exact "${@}"
 !!
@@ -2565,6 +2625,30 @@
 
 << execute / test / scheme / tests / control / release
 	x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --jobs 1 -- --nocapture --test-threads 1 --test 'test__control' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / crypto / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features vonuvoli_debug --jobs 1 -- --nocapture --test-threads 1 --test 'test__crypto' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / crypto / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / crypto / debug' "${@}"
+!!
+
+<< execute / test / scheme / tests / crypto / release
+	x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --jobs 1 -- --nocapture --test-threads 1 --test 'test__crypto' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / encoding / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features vonuvoli_debug --jobs 1 -- --nocapture --test-threads 1 --test 'test__encoding' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / encoding / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / encoding / debug' "${@}"
+!!
+
+<< execute / test / scheme / tests / encoding / release
+	x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --jobs 1 -- --nocapture --test-threads 1 --test 'test__encoding' --exact "${@}"
 !!
 
 << execute / test / scheme / tests / errors / debug
@@ -3401,6 +3485,14 @@
 	exec -- sce ./tests/scheme/control.sst
 !!
 
+<< files / edit / tests/scheme/crypto.sst
+	exec -- sce ./tests/scheme/crypto.sst
+!!
+
+<< files / edit / tests/scheme/encoding.sst
+	exec -- sce ./tests/scheme/encoding.sst
+!!
+
 << files / edit / tests/scheme/errors.sst
 	exec -- sce ./tests/scheme/errors.sst
 !!
@@ -4087,6 +4179,14 @@
 
 << files / view / tests/scheme/control.sst
 	exec -- less -- ./tests/scheme/control.sst
+!!
+
+<< files / view / tests/scheme/crypto.sst
+	exec -- less -- ./tests/scheme/crypto.sst
+!!
+
+<< files / view / tests/scheme/encoding.sst
+	exec -- less -- ./tests/scheme/encoding.sst
 !!
 
 << files / view / tests/scheme/errors.sst
