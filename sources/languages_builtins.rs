@@ -266,6 +266,12 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 	
 	#[ cfg ( feature = "vonuvoli_builtins_crypto" ) ]
 	definitions.extend_from_slice (&[
+			
+			("hex-encode", procedure_native_1 (encode_hex_build) .into ()),
+			("hex-encode-append!", procedure_native_2 (encode_hex_extend) .into ()),
+			("hex-decode", procedure_native_1 (decode_hex_build) .into ()),
+			("hex-decode-append!", procedure_native_2 (decode_hex_extend) .into ()),
+			
 		]);
 	
 	#[ cfg ( feature = "vonuvoli_builtins_random" ) ]
