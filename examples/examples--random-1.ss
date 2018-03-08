@@ -66,9 +66,16 @@
 		(write-bytevector buffer)))
 
 
+(define (write-bytes-crypto size)
+	(define buffer (bytevector->mutable (make-bytevector size)))
+	(loop
+		(crypto-bytevector-fill! buffer)
+		(write-bytevector buffer)))
 
 
-(case 'write-booleans
+
+
+(case 'write-bytes-buffer-1-mib
 	
 	((write-integers) (write-integers))
 	((write-reals) (write-reals))
@@ -98,6 +105,7 @@
 	((write-characters-ascii-alphabetic-permutation) (write-characters-ascii-alphabetic-permutation))
 	
 	((write-bytes-1) (write-bytes-1))
+	
 	((write-bytes-buffer-1-kib) (write-bytes-buffer (* 1 1024)))
 	((write-bytes-buffer-128-kib) (write-bytes-buffer (* 128 1024)))
 	((write-bytes-buffer-1-mib) (write-bytes-buffer (* 1 1024 1024)))
@@ -105,6 +113,13 @@
 	((write-bytes-buffer-16-mib) (write-bytes-buffer (* 16 1024 1024)))
 	((write-bytes-buffer-128-mib) (write-bytes-buffer (* 128 1024 1024)))
 	((write-bytes-permutation) (write-bytes-permutation))
+	
+	((write-bytes-crypto-1-kib) (write-bytes-crypto (* 1 1024)))
+	((write-bytes-crypto-128-kib) (write-bytes-crypto (* 128 1024)))
+	((write-bytes-crypto-1-mib) (write-bytes-crypto (* 1 1024 1024)))
+	((write-bytes-crypto-4-mib) (write-bytes-crypto (* 4 1024 1024)))
+	((write-bytes-crypto-16-mib) (write-bytes-crypto (* 16 1024 1024)))
+	((write-bytes-crypto-128-mib) (write-bytes-crypto (* 128 1024 1024)))
 	
 	(else (error "e80849ad")))
 
