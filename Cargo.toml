@@ -107,9 +107,15 @@ vonuvoli_compiler_trace_error = []
 vonuvoli_optimizer_trace_error = []
 vonuvoli_evaluator_trace_error = []
 
-vonuvoli_backtrace = ["backtrace", "rustc-demangle"]
+vonuvoli_backtrace = [
+	"backtrace",
+	"rustc-demangle",
+]
 vonuvoli_backtrace_sources = []
-vonuvoli_terminal = ["ansi_term", "atty"]
+vonuvoli_terminal = [
+	"ansi_term",
+	"atty",
+]
 vonuvoli_transcript_color_always = []
 
 vonuvoli_panic_on_failed = []
@@ -122,9 +128,21 @@ vonuvoli_builtins = [
 	"vonuvoli_builtins_encoding",
 ]
 
-vonuvoli_builtins_crypto = ["ring"]
-vonuvoli_builtins_random = ["rand"]
-vonuvoli_builtins_encoding = ["data-encoding"]
+vonuvoli_builtins_crypto = [
+	"ring",
+	"digest",
+	"sha-1",
+	"sha2",
+	"sha3",
+	"md-5",
+	"blake2",
+]
+vonuvoli_builtins_random = [
+	"rand",
+]
+vonuvoli_builtins_encoding = [
+	"data-encoding",
+]
 
 
 
@@ -169,6 +187,52 @@ default-features = false
 version = "~0.12.1"
 optional = true
 features = ["dev_urandom_fallback"]
+default-features = false
+
+[dependencies.digest]
+# https://github.com/RustCrypto/traits
+version = "~0.7.2"
+optional = true
+features = []
+default-features = false
+
+[dependencies.sha-1]
+# https://github.com/RustCrypto/hashes
+version = "~0.7.0"
+optional = true
+features = ["asm"]
+default-features = false
+
+[dependencies.sha2]
+# https://github.com/RustCrypto/hashes
+version = "~0.7.0"
+optional = true
+# FIXME:  Broken!
+# features = ["asm"]
+features = []
+default-features = false
+
+[dependencies.sha3]
+# https://github.com/RustCrypto/hashes
+version = "~0.7.2"
+optional = true
+features = []
+default-features = false
+
+[dependencies.md-5]
+# https://github.com/RustCrypto/hashes
+version = "~0.7.0"
+optional = true
+features = ["asm"]
+default-features = false
+
+[dependencies.blake2]
+# https://github.com/RustCrypto/hashes
+version = "~0.7.0"
+optional = true
+# FIXME:  Broken!
+# features = ["simd_asm"]
+features = []
 default-features = false
 
 [dependencies.rand]
