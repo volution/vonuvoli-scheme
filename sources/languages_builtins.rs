@@ -267,12 +267,82 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 	#[ cfg ( feature = "vonuvoli_builtins_crypto" ) ]
 	definitions.extend_from_slice (&[
 			
-			("hex-encode", procedure_native_1 (encode_hex_build) .into ()),
-			("hex-encode-append!", procedure_native_2 (encode_hex_extend) .into ()),
-			("hex-encode-fill!", procedure_native_2 (encode_hex_fill) .into ()),
+			("hex-lower-encode", procedure_native_1 (encode_hex_lower_build) .into ()),
+			("hex-lower-encode-append!", procedure_native_2 (encode_hex_lower_extend) .into ()),
+			("hex-lower-encode-fill!", procedure_native_2 (encode_hex_lower_fill) .into ()),
+			("hex-upper-encode", procedure_native_1 (encode_hex_upper_build) .into ()),
+			("hex-upper-encode-append!", procedure_native_2 (encode_hex_upper_extend) .into ()),
+			("hex-upper-encode-fill!", procedure_native_2 (encode_hex_upper_fill) .into ()),
+			
+			("hex-encode", procedure_native_1 (encode_hex_lower_build) .into ()),
+			("hex-encode-append!", procedure_native_2 (encode_hex_lower_extend) .into ()),
+			("hex-encode-fill!", procedure_native_2 (encode_hex_lower_fill) .into ()),
 			("hex-decode", procedure_native_1 (decode_hex_build) .into ()),
 			("hex-decode-append!", procedure_native_2 (decode_hex_extend) .into ()),
 			("hex-decode-fill!", procedure_native_2 (decode_hex_fill) .into ()),
+			
+			("base32-encode", procedure_native_1 (encode_base32_build) .into ()),
+			("base32-encode-append!", procedure_native_2 (encode_base32_extend) .into ()),
+			("base32-encode-fill!", procedure_native_2 (encode_base32_fill) .into ()),
+			("base32-decode", procedure_native_1 (decode_base32_build) .into ()),
+			("base32-decode-append!", procedure_native_2 (decode_base32_extend) .into ()),
+			("base32-decode-fill!", procedure_native_2 (decode_base32_fill) .into ()),
+			
+			("base32-nopad-encode", procedure_native_1 (encode_base32_nopad_build) .into ()),
+			("base32-nopad-encode-append!", procedure_native_2 (encode_base32_nopad_extend) .into ()),
+			("base32-nopad-encode-fill!", procedure_native_2 (encode_base32_nopad_fill) .into ()),
+			("base32-nopad-decode", procedure_native_1 (decode_base32_nopad_build) .into ()),
+			("base32-nopad-decode-append!", procedure_native_2 (decode_base32_nopad_extend) .into ()),
+			("base32-nopad-decode-fill!", procedure_native_2 (decode_base32_nopad_fill) .into ()),
+			
+			("base32-hex-encode", procedure_native_1 (encode_base32_hex_build) .into ()),
+			("base32-hex-encode-append!", procedure_native_2 (encode_base32_hex_extend) .into ()),
+			("base32-hex-encode-fill!", procedure_native_2 (encode_base32_hex_fill) .into ()),
+			("base32-hex-decode", procedure_native_1 (decode_base32_hex_build) .into ()),
+			("base32-hex-decode-append!", procedure_native_2 (decode_base32_hex_extend) .into ()),
+			("base32-hex-decode-fill!", procedure_native_2 (decode_base32_hex_fill) .into ()),
+			
+			("base32-hex-nopad-encode", procedure_native_1 (encode_base32_hex_nopad_build) .into ()),
+			("base32-hex-nopad-encode-append!", procedure_native_2 (encode_base32_hex_nopad_extend) .into ()),
+			("base32-hex-nopad-encode-fill!", procedure_native_2 (encode_base32_hex_nopad_fill) .into ()),
+			("base32-hex-nopad-decode", procedure_native_1 (decode_base32_hex_nopad_build) .into ()),
+			("base32-hex-nopad-decode-append!", procedure_native_2 (decode_base32_hex_nopad_extend) .into ()),
+			("base32-hex-nopad-decode-fill!", procedure_native_2 (decode_base32_hex_nopad_fill) .into ()),
+			
+			("base64-encode", procedure_native_1 (encode_base64_build) .into ()),
+			("base64-encode-append!", procedure_native_2 (encode_base64_extend) .into ()),
+			("base64-encode-fill!", procedure_native_2 (encode_base64_fill) .into ()),
+			("base64-decode", procedure_native_1 (decode_base64_build) .into ()),
+			("base64-decode-append!", procedure_native_2 (decode_base64_extend) .into ()),
+			("base64-decode-fill!", procedure_native_2 (decode_base64_fill) .into ()),
+			
+			("base64-nopad-encode", procedure_native_1 (encode_base64_nopad_build) .into ()),
+			("base64-nopad-encode-append!", procedure_native_2 (encode_base64_nopad_extend) .into ()),
+			("base64-nopad-encode-fill!", procedure_native_2 (encode_base64_nopad_fill) .into ()),
+			("base64-nopad-decode", procedure_native_1 (decode_base64_nopad_build) .into ()),
+			("base64-nopad-decode-append!", procedure_native_2 (decode_base64_nopad_extend) .into ()),
+			("base64-nopad-decode-fill!", procedure_native_2 (decode_base64_nopad_fill) .into ()),
+			
+			("base64-url-encode", procedure_native_1 (encode_base64_url_build) .into ()),
+			("base64-url-encode-append!", procedure_native_2 (encode_base64_url_extend) .into ()),
+			("base64-url-encode-fill!", procedure_native_2 (encode_base64_url_fill) .into ()),
+			("base64-url-decode", procedure_native_1 (decode_base64_url_build) .into ()),
+			("base64-url-decode-append!", procedure_native_2 (decode_base64_url_extend) .into ()),
+			("base64-url-decode-fill!", procedure_native_2 (decode_base64_url_fill) .into ()),
+			
+			("base64-url-nopad-encode", procedure_native_1 (encode_base64_url_nopad_build) .into ()),
+			("base64-url-nopad-encode-append!", procedure_native_2 (encode_base64_url_nopad_extend) .into ()),
+			("base64-url-nopad-encode-fill!", procedure_native_2 (encode_base64_url_nopad_fill) .into ()),
+			("base64-url-nopad-decode", procedure_native_1 (decode_base64_url_nopad_build) .into ()),
+			("base64-url-nopad-decode-append!", procedure_native_2 (decode_base64_url_nopad_extend) .into ()),
+			("base64-url-nopad-decode-fill!", procedure_native_2 (decode_base64_url_nopad_fill) .into ()),
+			
+			("base64-mime-encode", procedure_native_1 (encode_base64_mime_build) .into ()),
+			("base64-mime-encode-append!", procedure_native_2 (encode_base64_mime_extend) .into ()),
+			("base64-mime-encode-fill!", procedure_native_2 (encode_base64_mime_fill) .into ()),
+			("base64-mime-decode", procedure_native_1 (decode_base64_mime_build) .into ()),
+			("base64-mime-decode-append!", procedure_native_2 (decode_base64_mime_extend) .into ()),
+			("base64-mime-decode-fill!", procedure_native_2 (decode_base64_mime_fill) .into ()),
 			
 		]);
 	
