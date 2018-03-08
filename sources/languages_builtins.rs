@@ -267,6 +267,10 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 	#[ cfg ( feature = "vonuvoli_builtins_crypto" ) ]
 	definitions.extend_from_slice (&[
 			
+			("crypto-bytevector", procedure_native_1 (crypto_generate_bytes_build) .into ()),
+			("crypto-bytevector-append!", procedure_native_2 (crypto_generate_bytes_extend) .into ()),
+			("crypto-bytevector-fill!", procedure_native_v (crypto_generate_bytes_fill_v) .into ()),
+			
 		]);
 	
 	#[ cfg ( feature = "vonuvoli_builtins_random" ) ]

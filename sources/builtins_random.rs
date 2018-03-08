@@ -461,7 +461,7 @@ pub fn random_generate_bytes_shuffle_g (bytes : &Value, range_start : Option<&Va
 	let bytes = try_as_bytes_mutable_ref! (bytes);
 	let mut buffer = try! (bytes.bytes_ref_mut ());
 	let (range_start, range_end) = try! (range_coerce (range_start, range_end, buffer.len ()));
-	let buffer = try_some! (buffer.get_mut (range_start .. range_end), 0xfc93cb6d);
+	let buffer = try_some! (buffer.get_mut (range_start .. range_end), 0xfe7ac5d7);
 	generator () .shuffle (buffer);
 	succeed! (VOID_VALUE);
 }
@@ -476,7 +476,7 @@ pub fn random_generate_bytes_shuffle_v (arguments : usize) -> (Outcome<Procedure
 		3 =>
 			succeed! (procedure_native_3 (random_generate_bytes_shuffle_3) .into ()),
 		_ =>
-			fail! (0xd4f36aab),
+			fail! (0x83d4e2fe),
 	}
 }
 
