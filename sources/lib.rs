@@ -77,9 +77,6 @@ pub extern crate rand;
 #[ cfg ( feature = "vonuvoli_builtins_encoding" ) ]
 pub extern crate data_encoding;
 
-#[ cfg ( feature = "vonuvoli_builtins_encoding" ) ]
-pub extern crate base64;
-
 
 
 
@@ -109,9 +106,6 @@ pub mod externals {
 	
 	#[ cfg ( feature = "vonuvoli_builtins_encoding" ) ]
 	pub use data_encoding;
-	
-	#[ cfg ( feature = "vonuvoli_builtins_encoding" ) ]
-	pub use base64;
 	
 }
 
