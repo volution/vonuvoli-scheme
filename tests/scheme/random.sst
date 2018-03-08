@@ -10,14 +10,14 @@
 (do
 	(
 		(i 10000 (- i 1))
-		(ok #t (and ok (<= 0 (~random-i64 1000) 999))))
+		(ok #t (and ok (<= 0 (~random-i64* 1000) 999))))
 	((zero? i) ok))
 => #t
 
 (do
 	(
 		(i 10000 (- i 1))
-		(ok #t (and ok (<= -1000 (~random-i64 -1000 1000) 999))))
+		(ok #t (and ok (<= -1000 (~random-i64* -1000 1000) 999))))
 	((zero? i) ok))
 => #t
 
@@ -25,14 +25,14 @@
 (do
 	(
 		(i 1000000 (- i 1))
-		(ok #f (or ok (= -100 (~random-i64 -100 100)))))
+		(ok #f (or ok (= -100 (~random-i64* -100 100)))))
 	((or ok (zero? i)) ok))
 => #t
 
 (do
 	(
 		(i 1000000 (- i 1))
-		(ok #f (or ok (= 99 (~random-i64 -100 100)))))
+		(ok #f (or ok (= 99 (~random-i64* -100 100)))))
 	((or ok (zero? i)) ok))
 => #t
 
@@ -49,14 +49,14 @@
 (do
 	(
 		(i 10000 (- i 1))
-		(ok #t (and ok (<= 0.0 (~random-f64 1000.0) 1000.0))))
+		(ok #t (and ok (<= 0.0 (~random-f64* 1000.0) 1000.0))))
 	((zero? i) ok))
 => #t
 
 (do
 	(
 		(i 10000 (- i 1))
-		(ok #t (and ok (<= -1000.0 (~random-f64 -1000.0 1000.0) 1000.0))))
+		(ok #t (and ok (<= -1000.0 (~random-f64* -1000.0 1000.0) 1000.0))))
 	((zero? i) ok))
 => #t
 
@@ -64,14 +64,14 @@
 (do
 	(
 		(i 1000000 (- i 1))
-		(ok #f (or ok (> -99.99 (~random-f64 -100.0 100.0)))))
+		(ok #f (or ok (> -99.99 (~random-f64* -100.0 100.0)))))
 	((or ok (zero? i)) ok))
 => #t
 
 (do
 	(
 		(i 1000000 (- i 1))
-		(ok #f (or ok (< 99.99 (~random-f64 -100.0 100.0)))))
+		(ok #f (or ok (< 99.99 (~random-f64* -100.0 100.0)))))
 	((or ok (zero? i)) ok))
 => #t
 

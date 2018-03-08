@@ -125,6 +125,14 @@ def_scheme_benchmarks_from_file! (
 
 
 
+#[ cfg ( feature = "vonuvoli_builtins_crypto" ) ]
+def_scheme_tests_from_file! (
+		
+		test__crypto => "scheme/crypto.sst",
+		
+	);
+
+
 #[ cfg ( feature = "vonuvoli_builtins_random" ) ]
 def_scheme_tests_from_file! (
 		

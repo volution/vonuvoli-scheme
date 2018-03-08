@@ -26,14 +26,39 @@
 
 
 (define (test-coders encoder decoder input output)
-	(and
-		(equal? (encoder input) output)
-		(equal? (decoder output) input)
-	))
+	(cond
+		((not (equal? (encoder input) output))
+			(encoder input))
+		((not (equal? (decoder output) input))
+			(decoder output))
+		(else #t)))
 => !ignore
+
 
 (define (test-hex input output)
 	(test-coders ~hex-encode ~hex-decode input output))
+=> !ignore
+
+
+(define (test-base32 input output)
+	(test-coders ~base32-encode ~base32-decode input output))
+=> !ignore
+
+(define (test-base32-nopad input output)
+	(test-coders ~base32-nopad-encode ~base32-nopad-decode input output))
+=> !ignore
+
+
+(define (test-base64 input output)
+	(test-coders ~base64-encode ~base64-decode input output))
+=> !ignore
+
+(define (test-base64-nopad input output)
+	(test-coders ~base64-nopad-encode ~base64-nopad-decode input output))
+=> !ignore
+
+(define (test-base64-mime input output)
+	(test-coders ~base64-mime-encode ~base64-mime-decode input output))
 => !ignore
 
 
@@ -59,5 +84,125 @@
 
 (test-hex b-1 "cbcd2605ef0461beb068136d3d33234f279bab88982b6548dab67dd9d95ef16535afcf342fbf53d258d92da0e2072563cd52e51b5040ca79ae9afbfd45ebcf6de89893f200a76526de3299cc4bfcce2a34ebaa91e8df4741aec56d5059e2d1d70ca4e26e") => #t
 (test-hex b-2 "23c71ca8a5ec29402b8ccf49e12974b579cf0f45ac090035527772e8c7789462018f2ad8d14ec8da3d914eb1cf02b812bc1749b836fad276ee8753711c832ddc32b43f7aa0474e28e438843de137ed06f2aa3c51d27a6e9c3127692288b3fddfec7abd74e616d7254bc83432a25f3e5b85f712e9b5aa725bdd214d8fa01a3503ded4973af454ccf67ef7b5f020c733b04ebc44f72344dfd88de5cc436e") => #t
+
+
+
+
+(test-base32 a-1 "") => #t
+(test-base32 a-2 "AA======") => #t
+(test-base32 a-3 "AAAQ====") => #t
+(test-base32 a-4 "AAAQE===") => #t
+(test-base32 a-5 "AAAQEAY=") => #t
+(test-base32 a-6 "AAAQEAYE") => #t
+(test-base32 a-7 "AAAQEAYEAU======") => #t
+(test-base32 a-8 "AAAQEAYEAUDA====") => #t
+(test-base32 a-9 "AAAQEAYEAUDAO===") => #t
+(test-base32 a-10 "AAAQEAYEAUDAOCA=") => #t
+(test-base32 a-11 "AAAQEAYEAUDAOCAJ") => #t
+(test-base32 a-12 "AAAQEAYEAUDAOCAJBI======") => #t
+(test-base32 a-13 "AAAQEAYEAUDAOCAJBIFQ====") => #t
+(test-base32 a-14 "AAAQEAYEAUDAOCAJBIFQY===") => #t
+(test-base32 a-15 "AAAQEAYEAUDAOCAJBIFQYDI=") => #t
+(test-base32 a-16 "AAAQEAYEAUDAOCAJBIFQYDIO") => #t
+(test-base32 a-17 "AAAQEAYEAUDAOCAJBIFQYDIOB4======") => #t
+
+(test-base32 b-1 "ZPGSMBPPARQ35MDICNWT2MZDJ4TZXK4ITAVWKSG2WZ65TWK66FSTLL6PGQX36U6SLDMS3IHCA4SWHTKS4UNVAQGKPGXJV675IXV463PITCJ7EAFHMUTN4MUZZRF7ZTRKGTV2VEPI35DUDLWFNVIFTYWR24GKJYTO") => #t
+(test-base32 b-2 "EPDRZKFF5QUUAK4MZ5E6CKLUWV446D2FVQEQANKSO5ZORR3YSRRADDZK3DIU5SG2HWIU5MOPAK4BFPAXJG4DN6WSO3XIOU3RDSBS3XBSWQ7XVICHJYUOIOEEHXQTP3IG6KVDYUOSPJXJYMJHNERIRM7537WHVPLU4YLNOJKLZA2DFIS7HZNYL5YS5G22U4S33UQU3D5ADI2QHXWUS45PIVGM6Z7PPNPQEDDTHMCOXRCPOI2E37MI3ZOMINXA====") => #t
+
+
+
+
+(test-base32-nopad a-1 "") => #t
+(test-base32-nopad a-2 "AA") => #t
+(test-base32-nopad a-3 "AAAQ") => #t
+(test-base32-nopad a-4 "AAAQE") => #t
+(test-base32-nopad a-5 "AAAQEAY") => #t
+(test-base32-nopad a-6 "AAAQEAYE") => #t
+(test-base32-nopad a-7 "AAAQEAYEAU") => #t
+(test-base32-nopad a-8 "AAAQEAYEAUDA") => #t
+(test-base32-nopad a-9 "AAAQEAYEAUDAO") => #t
+(test-base32-nopad a-10 "AAAQEAYEAUDAOCA") => #t
+(test-base32-nopad a-11 "AAAQEAYEAUDAOCAJ") => #t
+(test-base32-nopad a-12 "AAAQEAYEAUDAOCAJBI") => #t
+(test-base32-nopad a-13 "AAAQEAYEAUDAOCAJBIFQ") => #t
+(test-base32-nopad a-14 "AAAQEAYEAUDAOCAJBIFQY") => #t
+(test-base32-nopad a-15 "AAAQEAYEAUDAOCAJBIFQYDI") => #t
+(test-base32-nopad a-16 "AAAQEAYEAUDAOCAJBIFQYDIO") => #t
+(test-base32-nopad a-17 "AAAQEAYEAUDAOCAJBIFQYDIOB4") => #t
+
+(test-base32-nopad b-1 "ZPGSMBPPARQ35MDICNWT2MZDJ4TZXK4ITAVWKSG2WZ65TWK66FSTLL6PGQX36U6SLDMS3IHCA4SWHTKS4UNVAQGKPGXJV675IXV463PITCJ7EAFHMUTN4MUZZRF7ZTRKGTV2VEPI35DUDLWFNVIFTYWR24GKJYTO") => #t
+(test-base32-nopad b-2 "EPDRZKFF5QUUAK4MZ5E6CKLUWV446D2FVQEQANKSO5ZORR3YSRRADDZK3DIU5SG2HWIU5MOPAK4BFPAXJG4DN6WSO3XIOU3RDSBS3XBSWQ7XVICHJYUOIOEEHXQTP3IG6KVDYUOSPJXJYMJHNERIRM7537WHVPLU4YLNOJKLZA2DFIS7HZNYL5YS5G22U4S33UQU3D5ADI2QHXWUS45PIVGM6Z7PPNPQEDDTHMCOXRCPOI2E37MI3ZOMINXA") => #t
+
+
+
+
+(test-base64 a-1 "") => #t
+(test-base64 a-2 "AA==") => #t
+(test-base64 a-3 "AAE=") => #t
+(test-base64 a-4 "AAEC") => #t
+(test-base64 a-5 "AAECAw==") => #t
+(test-base64 a-6 "AAECAwQ=") => #t
+(test-base64 a-7 "AAECAwQF") => #t
+(test-base64 a-8 "AAECAwQFBg==") => #t
+(test-base64 a-9 "AAECAwQFBgc=") => #t
+(test-base64 a-10 "AAECAwQFBgcI") => #t
+(test-base64 a-11 "AAECAwQFBgcICQ==") => #t
+(test-base64 a-12 "AAECAwQFBgcICQo=") => #t
+(test-base64 a-13 "AAECAwQFBgcICQoL") => #t
+(test-base64 a-14 "AAECAwQFBgcICQoLDA==") => #t
+(test-base64 a-15 "AAECAwQFBgcICQoLDA0=") => #t
+(test-base64 a-16 "AAECAwQFBgcICQoLDA0O") => #t
+(test-base64 a-17 "AAECAwQFBgcICQoLDA0ODw==") => #t
+
+(test-base64 b-1 "y80mBe8EYb6waBNtPTMjTyebq4iYK2VI2rZ92dle8WU1r880L79T0ljZLaDiByVjzVLlG1BAynmumvv9RevPbeiYk/IAp2Um3jKZzEv8zio066qR6N9HQa7FbVBZ4tHXDKTibg==") => #t
+(test-base64 b-2 "I8ccqKXsKUArjM9J4Sl0tXnPD0WsCQA1Undy6Md4lGIBjyrY0U7I2j2RTrHPArgSvBdJuDb60nbuh1NxHIMt3DK0P3qgR04o5DiEPeE37QbyqjxR0npunDEnaSKIs/3f7Hq9dOYW1yVLyDQyol8+W4X3Eum1qnJb3SFNj6AaNQPe1Jc69FTM9n73tfAgxzOwTrxE9yNE39iN5cxDbg==") => #t
+
+
+
+
+(test-base64-nopad a-1 "") => #t
+(test-base64-nopad a-2 "AA") => #t
+(test-base64-nopad a-3 "AAE") => #t
+(test-base64-nopad a-4 "AAEC") => #t
+(test-base64-nopad a-5 "AAECAw") => #t
+(test-base64-nopad a-6 "AAECAwQ") => #t
+(test-base64-nopad a-7 "AAECAwQF") => #t
+(test-base64-nopad a-8 "AAECAwQFBg") => #t
+(test-base64-nopad a-9 "AAECAwQFBgc") => #t
+(test-base64-nopad a-10 "AAECAwQFBgcI") => #t
+(test-base64-nopad a-11 "AAECAwQFBgcICQ") => #t
+(test-base64-nopad a-12 "AAECAwQFBgcICQo") => #t
+(test-base64-nopad a-13 "AAECAwQFBgcICQoL") => #t
+(test-base64-nopad a-14 "AAECAwQFBgcICQoLDA") => #t
+(test-base64-nopad a-15 "AAECAwQFBgcICQoLDA0") => #t
+(test-base64-nopad a-16 "AAECAwQFBgcICQoLDA0O") => #t
+(test-base64-nopad a-17 "AAECAwQFBgcICQoLDA0ODw") => #t
+
+(test-base64-nopad b-1 "y80mBe8EYb6waBNtPTMjTyebq4iYK2VI2rZ92dle8WU1r880L79T0ljZLaDiByVjzVLlG1BAynmumvv9RevPbeiYk/IAp2Um3jKZzEv8zio066qR6N9HQa7FbVBZ4tHXDKTibg") => #t
+(test-base64-nopad b-2 "I8ccqKXsKUArjM9J4Sl0tXnPD0WsCQA1Undy6Md4lGIBjyrY0U7I2j2RTrHPArgSvBdJuDb60nbuh1NxHIMt3DK0P3qgR04o5DiEPeE37QbyqjxR0npunDEnaSKIs/3f7Hq9dOYW1yVLyDQyol8+W4X3Eum1qnJb3SFNj6AaNQPe1Jc69FTM9n73tfAgxzOwTrxE9yNE39iN5cxDbg") => #t
+
+
+
+
+(test-base64-mime a-1 "") => #t
+(test-base64-mime a-2 "AA==\x0d;\x0a;") => #t
+(test-base64-mime a-3 "AAE=\x0d;\x0a;") => #t
+(test-base64-mime a-4 "AAEC\x0d;\x0a;") => #t
+(test-base64-mime a-5 "AAECAw==\x0d;\x0a;") => #t
+(test-base64-mime a-6 "AAECAwQ=\x0d;\x0a;") => #t
+(test-base64-mime a-7 "AAECAwQF\x0d;\x0a;") => #t
+(test-base64-mime a-8 "AAECAwQFBg==\x0d;\x0a;") => #t
+(test-base64-mime a-9 "AAECAwQFBgc=\x0d;\x0a;") => #t
+(test-base64-mime a-10 "AAECAwQFBgcI\x0d;\x0a;") => #t
+(test-base64-mime a-11 "AAECAwQFBgcICQ==\x0d;\x0a;") => #t
+(test-base64-mime a-12 "AAECAwQFBgcICQo=\x0d;\x0a;") => #t
+(test-base64-mime a-13 "AAECAwQFBgcICQoL\x0d;\x0a;") => #t
+(test-base64-mime a-14 "AAECAwQFBgcICQoLDA==\x0d;\x0a;") => #t
+(test-base64-mime a-15 "AAECAwQFBgcICQoLDA0=\x0d;\x0a;") => #t
+(test-base64-mime a-16 "AAECAwQFBgcICQoLDA0O\x0d;\x0a;") => #t
+(test-base64-mime a-17 "AAECAwQFBgcICQoLDA0ODw==\x0d;\x0a;") => #t
+
+(test-base64-mime b-1 "y80mBe8EYb6waBNtPTMjTyebq4iYK2VI2rZ92dle8WU1r880L79T0ljZLaDiByVjzVLlG1BAynmu\x0d;\x0a;mvv9RevPbeiYk/IAp2Um3jKZzEv8zio066qR6N9HQa7FbVBZ4tHXDKTibg==\x0d;\x0a;") => #t
+(test-base64-mime b-2 "I8ccqKXsKUArjM9J4Sl0tXnPD0WsCQA1Undy6Md4lGIBjyrY0U7I2j2RTrHPArgSvBdJuDb60nbu\r\nh1NxHIMt3DK0P3qgR04o5DiEPeE37QbyqjxR0npunDEnaSKIs/3f7Hq9dOYW1yVLyDQyol8+W4X3\r\nEum1qnJb3SFNj6AaNQPe1Jc69FTM9n73tfAgxzOwTrxE9yNE39iN5cxDbg==\r\n") => #t
 
 
