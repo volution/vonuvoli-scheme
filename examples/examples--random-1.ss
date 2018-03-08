@@ -11,6 +11,17 @@
 		(write-char #\newline)))
 
 
+(define (write-booleans)
+	(loop
+		(write (random-boolean))
+		(write-char #\newline)))
+
+(define (write-booleans-weighted weight)
+	(loop
+		(write (random-boolean-weighted weight))
+		(write-char #\newline)))
+
+
 (define (write-characters-1)
 	(loop
 		(write-char (random-char))
@@ -57,10 +68,26 @@
 
 
 
-(case 'write-characters-ascii-alphabetic-permutation
+(case 'write-booleans
 	
 	((write-integers) (write-integers))
 	((write-reals) (write-reals))
+	
+	((write-booleans) (write-booleans))
+	((write-booleans-weighted-t-1) (write-booleans-weighted +1))
+	((write-booleans-weighted-t-2) (write-booleans-weighted +2))
+	((write-booleans-weighted-t-3) (write-booleans-weighted +3))
+	((write-booleans-weighted-t-10) (write-booleans-weighted +10))
+	((write-booleans-weighted-t-100) (write-booleans-weighted +100))
+	((write-booleans-weighted-f-1) (write-booleans-weighted -1))
+	((write-booleans-weighted-f-2) (write-booleans-weighted -2))
+	((write-booleans-weighted-f-3) (write-booleans-weighted -3))
+	((write-booleans-weighted-f-10) (write-booleans-weighted -10))
+	((write-booleans-weighted-f-100) (write-booleans-weighted -100))
+	((write-booleans-weighted-t-1.0) (write-booleans-weighted +1.0))
+	((write-booleans-weighted-f-1.0) (write-booleans-weighted -1.0))
+	((write-booleans-weighted-t-0.3) (write-booleans-weighted +0.3))
+	((write-booleans-weighted-f-0.3) (write-booleans-weighted -0.3))
 	
 	((write-characters-1) (write-characters-1))
 	((write-characters-ascii-1) (write-characters-ascii-1))
