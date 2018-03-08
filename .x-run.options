@@ -2901,6 +2901,74 @@
 		done
 !!
 
+<< files / edit / examples/benchmark--controls.ss
+	exec -- sce ./examples/benchmark--controls.ss
+!!
+
+<< files / edit / examples/benchmark--loop.ss
+	exec -- sce ./examples/benchmark--loop.ss
+!!
+
+<< files / edit / examples/benchmark--make-cons.ss
+	exec -- sce ./examples/benchmark--make-cons.ss
+!!
+
+<< files / edit / examples/benchmark--make-vector.ss
+	exec -- sce ./examples/benchmark--make-vector.ss
+!!
+
+<< files / edit / examples/benchmark--r7rs-ack.ss
+	exec -- sce ./examples/benchmark--r7rs-ack.ss
+!!
+
+<< files / edit / examples/benchmark--r7rs-array1.ss
+	exec -- sce ./examples/benchmark--r7rs-array1.ss
+!!
+
+<< files / edit / examples/benchmark--r7rs-browse.ss
+	exec -- sce ./examples/benchmark--r7rs-browse.ss
+!!
+
+<< files / edit / examples/examples--backtrace.ss
+	exec -- sce ./examples/examples--backtrace.ss
+!!
+
+<< files / edit / examples/examples--display-1.ss
+	exec -- sce ./examples/examples--display-1.ss
+!!
+
+<< files / edit / examples/examples--process-1.ss
+	exec -- sce ./examples/examples--process-1.ss
+!!
+
+<< files / edit / examples/examples--process-2.ss
+	exec -- sce ./examples/examples--process-2.ss
+!!
+
+<< files / edit / examples/examples--random-1.ss
+	exec -- sce ./examples/examples--random-1.ss
+!!
+
+<< files / edit / examples/examples--stdio-1.ss
+	exec -- sce ./examples/examples--stdio-1.ss
+!!
+
+<< files / edit / examples/examples--stdio-2.ss
+	exec -- sce ./examples/examples--stdio-2.ss
+!!
+
+<< files / edit / examples/optimizer--conditionals.ss
+	exec -- sce ./examples/optimizer--conditionals.ss
+!!
+
+<< files / edit / examples/optimizer--controls.ss
+	exec -- sce ./examples/optimizer--controls.ss
+!!
+
+<< files / edit / examples/optimizer--loops.ss
+	exec -- sce ./examples/optimizer--loops.ss
+!!
+
 << files / edit / sources/bin_bencher.rs
 	exec -- sce ./sources/bin_bencher.rs
 !!
@@ -3521,6 +3589,74 @@
 	exec -- find ./sources ./tests -xdev -type f \( -name '*.rs' -o -name '*.in' \) -exec sed -r -e 's!^(\s*)(#\[ inline \(always\) \])$!\1#[ inline ]!' -e 's!^(\s*)(#\[ cfg_attr \( feature = "vonuvoli_inline", inline \(always\) \) \])$!\1#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]!' -i -- {} \;
 !!
 
+<< files / view / examples/benchmark--controls.ss
+	exec -- less -- ./examples/benchmark--controls.ss
+!!
+
+<< files / view / examples/benchmark--loop.ss
+	exec -- less -- ./examples/benchmark--loop.ss
+!!
+
+<< files / view / examples/benchmark--make-cons.ss
+	exec -- less -- ./examples/benchmark--make-cons.ss
+!!
+
+<< files / view / examples/benchmark--make-vector.ss
+	exec -- less -- ./examples/benchmark--make-vector.ss
+!!
+
+<< files / view / examples/benchmark--r7rs-ack.ss
+	exec -- less -- ./examples/benchmark--r7rs-ack.ss
+!!
+
+<< files / view / examples/benchmark--r7rs-array1.ss
+	exec -- less -- ./examples/benchmark--r7rs-array1.ss
+!!
+
+<< files / view / examples/benchmark--r7rs-browse.ss
+	exec -- less -- ./examples/benchmark--r7rs-browse.ss
+!!
+
+<< files / view / examples/examples--backtrace.ss
+	exec -- less -- ./examples/examples--backtrace.ss
+!!
+
+<< files / view / examples/examples--display-1.ss
+	exec -- less -- ./examples/examples--display-1.ss
+!!
+
+<< files / view / examples/examples--process-1.ss
+	exec -- less -- ./examples/examples--process-1.ss
+!!
+
+<< files / view / examples/examples--process-2.ss
+	exec -- less -- ./examples/examples--process-2.ss
+!!
+
+<< files / view / examples/examples--random-1.ss
+	exec -- less -- ./examples/examples--random-1.ss
+!!
+
+<< files / view / examples/examples--stdio-1.ss
+	exec -- less -- ./examples/examples--stdio-1.ss
+!!
+
+<< files / view / examples/examples--stdio-2.ss
+	exec -- less -- ./examples/examples--stdio-2.ss
+!!
+
+<< files / view / examples/optimizer--conditionals.ss
+	exec -- less -- ./examples/optimizer--conditionals.ss
+!!
+
+<< files / view / examples/optimizer--controls.ss
+	exec -- less -- ./examples/optimizer--controls.ss
+!!
+
+<< files / view / examples/optimizer--loops.ss
+	exec -- less -- ./examples/optimizer--loops.ss
+!!
+
 << files / view / sources/bin_bencher.rs
 	exec -- less -- ./sources/bin_bencher.rs
 !!
@@ -4055,6 +4191,10 @@
 
 << files / view / tests/scheme/values.sst
 	exec -- less -- ./tests/scheme/values.sst
+!!
+
+<< git
+	exec -- git-w
 !!
 
 << workbench / cargo / install or upgrade

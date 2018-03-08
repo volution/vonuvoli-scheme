@@ -22,6 +22,11 @@ cat <<'EOS'
 
 
 
+:: git :: exec -- git-w
+
+
+
+
 :: compile / all / debug :: x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --no-default-features --features vonuvoli_debug "${@}"
 :: compile / all / release :: x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --release "${@}"
 
@@ -379,7 +384,7 @@ EOS
 
 
 find ./ -xdev -type f \
-		\( -path './sources/*' -o -path './tests/*' \) \
+		\( -path './sources/*' -o -path './tests/*' -o -path './examples/*' \) \
 		\( -name '*.rs' -o -name '*.in' -o -name '*.ss' -o -name '*.sst' \) \
 		-printf ':: files / edit / %P :: exec -- sce %p\n' \
 		-printf ':: files / view / %P :: exec -- less -- %p\n' \
