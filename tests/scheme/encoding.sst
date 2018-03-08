@@ -1,0 +1,63 @@
+
+
+(define a-1 #u8()) => !ignore
+(define a-2 #u8( 0 )) => !ignore
+(define a-3 #u8( 0 1 )) => !ignore
+(define a-4 #u8( 0 1 2 )) => !ignore
+(define a-5 #u8( 0 1 2 3 )) => !ignore
+(define a-6 #u8( 0 1 2 3 4 )) => !ignore
+(define a-7 #u8( 0 1 2 3 4 5 )) => !ignore
+(define a-8 #u8( 0 1 2 3 4 5 6 )) => !ignore
+(define a-9 #u8( 0 1 2 3 4 5 6 7 )) => !ignore
+(define a-10 #u8( 0 1 2 3 4 5 6 7 8 )) => !ignore
+(define a-11 #u8( 0 1 2 3 4 5 6 7 8 9 )) => !ignore
+(define a-12 #u8( 0 1 2 3 4 5 6 7 8 9 10 )) => !ignore
+(define a-13 #u8( 0 1 2 3 4 5 6 7 8 9 10 11 )) => !ignore
+(define a-14 #u8( 0 1 2 3 4 5 6 7 8 9 10 11 12 )) => !ignore
+(define a-15 #u8( 0 1 2 3 4 5 6 7 8 9 10 11 12 13 )) => !ignore
+(define a-16 #u8( 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 )) => !ignore
+(define a-17 #u8( 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 )) => !ignore
+
+; NOTE:  " ".join ([str (random.randint (0, 255)) for i in xrange (157)])
+(define b-1 #u8( 203 205 38 5 239 4 97 190 176 104 19 109 61 51 35 79 39 155 171 136 152 43 101 72 218 182 125 217 217 94 241 101 53 175 207 52 47 191 83 210 88 217 45 160 226 7 37 99 205 82 229 27 80 64 202 121 174 154 251 253 69 235 207 109 232 152 147 242 0 167 101 38 222 50 153 204 75 252 206 42 52 235 170 145 232 223 71 65 174 197 109 80 89 226 209 215 12 164 226 110 )) => !ignore
+(define b-2 #u8( 35 199 28 168 165 236 41 64 43 140 207 73 225 41 116 181 121 207 15 69 172 9 0 53 82 119 114 232 199 120 148 98 1 143 42 216 209 78 200 218 61 145 78 177 207 2 184 18 188 23 73 184 54 250 210 118 238 135 83 113 28 131 45 220 50 180 63 122 160 71 78 40 228 56 132 61 225 55 237 6 242 170 60 81 210 122 110 156 49 39 105 34 136 179 253 223 236 122 189 116 230 22 215 37 75 200 52 50 162 95 62 91 133 247 18 233 181 170 114 91 221 33 77 143 160 26 53 3 222 212 151 58 244 84 204 246 126 247 181 240 32 199 51 176 78 188 68 247 35 68 223 216 141 229 204 67 110 )) => !ignore
+
+
+
+
+(define (test-coders encoder decoder input output)
+	(and
+		(equal? (encoder input) output)
+		(equal? (decoder output) input)
+	))
+=> !ignore
+
+(define (test-hex input output)
+	(test-coders ~hex-encode ~hex-decode input output))
+=> !ignore
+
+
+
+
+(test-hex a-1 "") => #t
+(test-hex a-2 "00") => #t
+(test-hex a-3 "0001") => #t
+(test-hex a-4 "000102") => #t
+(test-hex a-5 "00010203") => #t
+(test-hex a-6 "0001020304") => #t
+(test-hex a-7 "000102030405") => #t
+(test-hex a-8 "00010203040506") => #t
+(test-hex a-9 "0001020304050607") => #t
+(test-hex a-10 "000102030405060708") => #t
+(test-hex a-11 "00010203040506070809") => #t
+(test-hex a-12 "000102030405060708090a") => #t
+(test-hex a-13 "000102030405060708090a0b") => #t
+(test-hex a-14 "000102030405060708090a0b0c") => #t
+(test-hex a-15 "000102030405060708090a0b0c0d") => #t
+(test-hex a-16 "000102030405060708090a0b0c0d0e") => #t
+(test-hex a-17 "000102030405060708090a0b0c0d0e0f") => #t
+
+(test-hex b-1 "cbcd2605ef0461beb068136d3d33234f279bab88982b6548dab67dd9d95ef16535afcf342fbf53d258d92da0e2072563cd52e51b5040ca79ae9afbfd45ebcf6de89893f200a76526de3299cc4bfcce2a34ebaa91e8df4741aec56d5059e2d1d70ca4e26e") => #t
+(test-hex b-2 "23c71ca8a5ec29402b8ccf49e12974b579cf0f45ac090035527772e8c7789462018f2ad8d14ec8da3d914eb1cf02b812bc1749b836fad276ee8753711c832ddc32b43f7aa0474e28e438843de137ed06f2aa3c51d27a6e9c3127692288b3fddfec7abd74e616d7254bc83432a25f3e5b85f712e9b5aa725bdd214d8fa01a3503ded4973af454ccf67ef7b5f020c733b04ebc44f72344dfd88de5cc436e") => #t
+
+

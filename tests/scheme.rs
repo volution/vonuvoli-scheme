@@ -132,3 +132,11 @@ def_scheme_tests_from_file! (
 		
 	);
 
+
+#[ cfg ( feature = "vonuvoli_builtins_encoding" ) ]
+def_scheme_tests_from_file! (
+		
+		test__encoding => "scheme/encoding.sst",
+		
+	);
+
