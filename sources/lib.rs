@@ -58,18 +58,28 @@ pub extern crate test;
 
 #[ cfg ( feature = "vonuvoli_backtrace" ) ]
 pub extern crate backtrace;
-
 #[ cfg ( feature = "vonuvoli_backtrace" ) ]
 pub extern crate rustc_demangle;
 
 #[ cfg ( feature = "vonuvoli_terminal" ) ]
 pub extern crate ansi_term;
-
 #[ cfg ( feature = "vonuvoli_terminal" ) ]
 pub extern crate atty;
 
 #[ cfg ( feature = "vonuvoli_builtins_crypto" ) ]
 pub extern crate ring;
+#[ cfg ( feature = "vonuvoli_builtins_crypto" ) ]
+pub extern crate digest;
+#[ cfg ( feature = "vonuvoli_builtins_crypto" ) ]
+pub extern crate sha1;
+#[ cfg ( feature = "vonuvoli_builtins_crypto" ) ]
+pub extern crate sha2;
+#[ cfg ( feature = "vonuvoli_builtins_crypto" ) ]
+pub extern crate sha3;
+#[ cfg ( feature = "vonuvoli_builtins_crypto" ) ]
+pub extern crate md5;
+#[ cfg ( feature = "vonuvoli_builtins_crypto" ) ]
+pub extern crate blake2;
 
 #[ cfg ( feature = "vonuvoli_builtins_random" ) ]
 pub extern crate rand;
@@ -87,25 +97,37 @@ pub mod externals {
 	pub use test;
 	
 	#[ cfg ( feature = "vonuvoli_backtrace" ) ]
-	pub use backtrace;
-	
-	#[ cfg ( feature = "vonuvoli_backtrace" ) ]
-	pub use rustc_demangle;
-	
-	#[ cfg ( feature = "vonuvoli_terminal" ) ]
-	pub use ansi_term;
+	pub use {
+		backtrace,
+		rustc_demangle,
+	};
 	
 	#[ cfg ( feature = "vonuvoli_terminal" ) ]
-	pub use atty;
+	pub use {
+		ansi_term,
+		atty,
+	};
 	
 	#[ cfg ( feature = "vonuvoli_builtins_crypto" ) ]
-	pub use ring;
+	pub use {
+		ring,
+		digest,
+		sha1,
+		sha2,
+		sha3,
+		md5,
+		blake2,
+	};
 	
 	#[ cfg ( feature = "vonuvoli_builtins_random" ) ]
-	pub use rand;
+	pub use {
+		rand,
+	};
 	
 	#[ cfg ( feature = "vonuvoli_builtins_encoding" ) ]
-	pub use data_encoding;
+	pub use {
+		data_encoding,
+	};
 	
 }
 

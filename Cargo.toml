@@ -193,7 +193,7 @@ default-features = false
 # https://github.com/RustCrypto/traits
 version = "~0.7.2"
 optional = true
-features = []
+features = ["std"]
 default-features = false
 
 [dependencies.sha-1]

@@ -9,7 +9,7 @@ use super::values::exports::*;
 
 use super::prelude::*;
 
-use super::externals::ring::rand::SecureRandom;
+use super::externals::ring::rand::SecureRandom as TraitImportSecureRandom;
 
 
 
@@ -26,6 +26,42 @@ pub mod exports {
 			crypto_generate_bytes_fill_3,
 			crypto_generate_bytes_fill_g,
 			crypto_generate_bytes_fill_v,
+			
+		};
+	
+	pub use super::{
+			
+			crypto_hash_md5,
+			
+			crypto_hash_sha1,
+			
+			crypto_hash_sha2_256,
+			crypto_hash_sha2_256_224,
+			crypto_hash_sha2_512,
+			crypto_hash_sha2_512_224,
+			crypto_hash_sha2_512_256,
+			crypto_hash_sha2_512_384,
+			
+			crypto_hash_sha3_224,
+			crypto_hash_sha3_256,
+			crypto_hash_sha3_384,
+			crypto_hash_sha3_512,
+			
+			crypto_hash_blake2b_64,
+			crypto_hash_blake2b_128,
+			crypto_hash_blake2b_192,
+			crypto_hash_blake2b_224,
+			crypto_hash_blake2b_256,
+			crypto_hash_blake2b_320,
+			crypto_hash_blake2b_384,
+			crypto_hash_blake2b_448,
+			crypto_hash_blake2b_512,
+			
+			crypto_hash_blake2s_64,
+			crypto_hash_blake2s_128,
+			crypto_hash_blake2s_192,
+			crypto_hash_blake2s_224,
+			crypto_hash_blake2s_256,
 			
 		};
 	
@@ -97,5 +133,188 @@ pub fn crypto_generate_bytes_fill_v (arguments : usize) -> (Outcome<ProcedureNat
 		_ =>
 			fail! (0x36b83e70),
 	}
+}
+
+
+
+
+#[ inline (never) ]
+pub fn crypto_hash_md5 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_0::<ext::md5::Md5> (data);
+}
+
+
+
+
+#[ inline (never) ]
+pub fn crypto_hash_sha1 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_0::<ext::sha1::Sha1> (data);
+}
+
+
+
+
+#[ inline (never) ]
+pub fn crypto_hash_sha2_256 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_0::<ext::sha2::Sha256> (data);
+}
+
+#[ inline (never) ]
+pub fn crypto_hash_sha2_256_224 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_0::<ext::sha2::Sha224> (data);
+}
+
+#[ inline (never) ]
+pub fn crypto_hash_sha2_512 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_0::<ext::sha2::Sha512> (data);
+}
+
+#[ inline (never) ]
+pub fn crypto_hash_sha2_512_224 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_0::<ext::sha2::Sha512Trunc224> (data);
+}
+
+#[ inline (never) ]
+pub fn crypto_hash_sha2_512_256 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_0::<ext::sha2::Sha512Trunc256> (data);
+}
+
+#[ inline (never) ]
+pub fn crypto_hash_sha2_512_384 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_0::<ext::sha2::Sha384> (data);
+}
+
+
+
+
+#[ inline (never) ]
+pub fn crypto_hash_sha3_224 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_0::<ext::sha3::Sha3_224> (data);
+}
+
+#[ inline (never) ]
+pub fn crypto_hash_sha3_256 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_0::<ext::sha3::Sha3_256> (data);
+}
+
+#[ inline (never) ]
+pub fn crypto_hash_sha3_384 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_0::<ext::sha3::Sha3_384> (data);
+}
+
+#[ inline (never) ]
+pub fn crypto_hash_sha3_512 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_0::<ext::sha3::Sha3_512> (data);
+}
+
+
+
+
+#[ inline (never) ]
+pub fn crypto_hash_blake2b_64 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_blake2b_0 (64, data);
+}
+
+#[ inline (never) ]
+pub fn crypto_hash_blake2b_128 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_blake2b_0 (128, data);
+}
+
+#[ inline (never) ]
+pub fn crypto_hash_blake2b_192 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_blake2b_0 (192, data);
+}
+
+#[ inline (never) ]
+pub fn crypto_hash_blake2b_224 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_blake2b_0 (224, data);
+}
+
+#[ inline (never) ]
+pub fn crypto_hash_blake2b_256 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_blake2b_0 (256, data);
+}
+
+#[ inline (never) ]
+pub fn crypto_hash_blake2b_320 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_blake2b_0 (320, data);
+}
+
+#[ inline (never) ]
+pub fn crypto_hash_blake2b_384 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_blake2b_0 (384, data);
+}
+
+#[ inline (never) ]
+pub fn crypto_hash_blake2b_448 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_blake2b_0 (448, data);
+}
+
+#[ inline (never) ]
+pub fn crypto_hash_blake2b_512 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_blake2b_0 (512, data);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn crypto_hash_blake2b_0 (bits : usize, data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_blake2_0::<ext::blake2::Blake2b> (bits, data);
+}
+
+
+
+
+#[ inline (never) ]
+pub fn crypto_hash_blake2s_64 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_blake2s_0 (64, data);
+}
+
+#[ inline (never) ]
+pub fn crypto_hash_blake2s_128 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_blake2s_0 (128, data);
+}
+
+#[ inline (never) ]
+pub fn crypto_hash_blake2s_192 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_blake2s_0 (192, data);
+}
+
+#[ inline (never) ]
+pub fn crypto_hash_blake2s_224 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_blake2s_0 (224, data);
+}
+
+#[ inline (never) ]
+pub fn crypto_hash_blake2s_256 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_blake2s_0 (256, data);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn crypto_hash_blake2s_0 (bits : usize, data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_blake2_0::<ext::blake2::Blake2s> (bits, data);
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn crypto_hash_blake2_0 <Hasher : ext::digest::Input + ext::digest::VariableOutput> (bits : usize, data : &Value) -> (Outcome<Value>) {
+	let data = try! (bytes_slice_coerce_1a (data));
+	let size = bits / 8;
+	let mut hasher = try_or_fail! (Hasher::new (size), 0xc5ffb9f6);
+	hasher.process (&data);
+	let mut hash = StdVec::new ();
+	hash.resize_default (size);
+	try_or_fail! (hasher.variable_result (&mut hash), 0x695c706a);
+	succeed! (bytes_new (hash));
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn crypto_hash_0 <Hasher : ext::digest::Digest> (data : &Value) -> (Outcome<Value>) {
+	let data = try! (bytes_slice_coerce_1a (data));
+	let mut hasher = Hasher::new ();
+	hasher.input (&data);
+	let hash = hasher.result ();
+	succeed! (bytes_clone_slice (&hash));
 }
 

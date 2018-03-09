@@ -9,7 +9,7 @@ use super::values::exports::*;
 
 use super::prelude::*;
 
-use super::externals::rand::Rng;
+use super::externals::rand::Rng as TraitImportRng;
 
 
 
