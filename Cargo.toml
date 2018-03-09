@@ -52,6 +52,10 @@ doctest = false
 [features]
 
 default = [
+	"vonuvoli_release",
+]
+
+vonuvoli_release = [
 	"vonuvoli_defaults",
 	"vonuvoli_builtins",
 	"vonuvoli_inline",
