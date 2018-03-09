@@ -1313,6 +1313,31 @@ pub fn bytes_slice_coerce_1a (value : &Value) -> (Outcome<BytesSliceRef>) {
 
 
 
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn bytes_consume <Consumer> (value : &Value, consumer : &mut Consumer) -> (Outcome<()>)
+		where Consumer : FnMut (&[u8]) -> (Outcome<()>)
+{
+	match value.kind_match_as_ref () {
+		ValueKindMatchAsRef::BytesImmutable (value) =>
+			return consumer (value.bytes_as_slice ()),
+		ValueKindMatchAsRef::BytesMutable (value) =>
+			return consumer (try_or_fail! (value.bytes_ref (), 0x31df3caf) .bytes_as_slice ()),
+		ValueKindMatchAsRef::StringImmutable (value) =>
+			return consumer (value.string_as_bytes ()),
+		ValueKindMatchAsRef::StringMutable (value) =>
+			return consumer (try_or_fail! (value.string_ref (), 0xf1ab5928) .string_as_bytes ()),
+		ValueKindMatchAsRef::Port (value) => {
+			try! (value.byte_consume (consumer));
+			succeed! (());
+		},
+		_ =>
+			fail! (0xcd705412),
+	}
+}
+
+
+
+
 /*
 impl <From, To> StdInto0<Outcome<To>> for From where From : StdInto<To> {
 	

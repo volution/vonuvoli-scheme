@@ -11,9 +11,12 @@
 
 
 (define (test-hash hasher input output)
+	(define output-actual (~hex-encode (hasher input)))
 	(cond
-		((not (equal? (hasher input) (~hex-decode output)))
-			(cons (~hex-encode input) (~hex-encode (hasher input))))
+		((not (equal? output-actual output))
+			(cons
+				(if (not (port? input)) (~hex-encode input) input)
+				output-actual))
 		(else #t)))
 => !ignore
 
@@ -116,4 +119,10 @@
 (test-hash ~crypto-blake2s-256 a-3 "ddad9ab15dac4549ba42f49d262496bef6c0bae1dd342a8808f8ea267c6e210c") => #t
 (test-hash ~crypto-blake2s-256 a-4 "e8f91c6ef232a041452ab0e149070cdd7dd1769e75b3a5921be37876c45c9900") => #t
 (test-hash ~crypto-blake2s-256 c-1 "19213bacc58dee6dbde3ceb9a47cbb330b3d86f8cca8997eb00be456f140ca25") => #t
+
+
+
+
+(test-hash ~crypto-md5 (open-input-string "hello") "5d41402abc4b2a76b9719d911017c592") => #t
+(test-hash ~crypto-md5 (open-input-file "/dev/null") "d41d8cd98f00b204e9800998ecf8427e") => #t
 

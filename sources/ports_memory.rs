@@ -153,6 +153,24 @@ impl PortBackendReader for PortBackendBytesReader {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn byte_consume <Consumer> (&mut self, consumer : &mut Consumer) -> (Outcome<usize>) where Consumer : FnMut (&[u8]) -> (Outcome<()>) {
+		let (count, offset_increment) = if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
+			let buffer = &buffer;
+			try! (consumer (buffer));
+			let limit = buffer.len ();
+			(Some (limit), limit)
+		} else {
+			(None, 0)
+		};
+		self.offset += offset_increment;
+		if let Some (count) = count {
+			succeed! (count);
+		} else {
+			succeed! (0);
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn char_ready (&mut self) -> (Outcome<bool>) {
 		succeed! (true);
 	}

@@ -98,6 +98,7 @@ pub trait PortReader {
 	fn byte_read_string (&self, buffer : &mut StdString, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>);
 	fn byte_read_extend_until (&self, buffer : &mut StdVec<u8>, delimiter : u8, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>);
 	fn byte_read_string_until (&self, buffer : &mut StdString, delimiter : u8, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>);
+	fn byte_consume <Consumer> (&self, consumer : &mut Consumer) -> (Outcome<usize>) where Consumer : FnMut (&[u8]) -> (Outcome<()>);
 	
 	fn char_ready (&self) -> (Outcome<bool>);
 	fn char_peek (&self) -> (Outcome<Option<char>>);
@@ -125,6 +126,7 @@ pub trait PortBackendReader {
 	fn byte_read_string (&mut self, buffer : &mut StdString, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>);
 	fn byte_read_extend_until (&mut self, buffer : &mut StdVec<u8>, delimiter : u8, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>);
 	fn byte_read_string_until (&mut self, buffer : &mut StdString, delimiter : u8, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>);
+	fn byte_consume <Consumer> (&mut self, consumer : &mut Consumer) -> (Outcome<usize>) where Consumer : FnMut (&[u8]) -> (Outcome<()>);
 	
 	fn char_ready (&mut self) -> (Outcome<bool>);
 	fn char_peek (&mut self) -> (Outcome<Option<char>>);
@@ -577,6 +579,16 @@ impl PortReader for Port {
 			return self_0.process_outcome (outcome);
 		} else {
 			succeed! (None);
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn byte_consume <Consumer> (&self, consumer : &mut Consumer) -> (Outcome<usize>) where Consumer : FnMut (&[u8]) -> (Outcome<()>) {
+		if let Some (mut self_0) = try! (self.internals_ref_mut_if_open ()) {
+			let outcome = self_0.backend.byte_consume (consumer);
+			return self_0.process_outcome (outcome);
+		} else {
+			succeed! (0);
 		}
 	}
 	
@@ -1090,6 +1102,26 @@ impl PortBackendReader for PortBackend {
 			
 			PortBackend::Descriptor (_) =>
 				fail! (0x4b3f6dea),
+			
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn byte_consume <Consumer> (&mut self, consumer : &mut Consumer) -> (Outcome<usize>) where Consumer : FnMut (&[u8]) -> (Outcome<()>) {
+		match *self {
+			
+			PortBackend::BytesReader (ref mut backend) =>
+				return backend.byte_consume (consumer),
+			PortBackend::BytesWriter (_) =>
+				fail! (0xfdb50452),
+			
+			PortBackend::NativeReader (ref mut backend) =>
+				return backend.byte_consume (consumer),
+			PortBackend::NativeWriter (_) =>
+				fail! (0x7f62b9fb),
+			
+			PortBackend::Descriptor (_) =>
+				fail! (0x890b8324),
 			
 		}
 	}

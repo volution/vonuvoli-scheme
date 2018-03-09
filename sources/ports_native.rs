@@ -262,6 +262,32 @@ impl PortBackendReader for PortBackendNativeReader {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn byte_consume <Consumer> (&mut self, consumer : &mut Consumer) -> (Outcome<usize>) where Consumer : FnMut (&[u8]) -> (Outcome<()>) {
+		if let Some (mut reader) = try! (self.reader_ref_mut_if_open ()) {
+			let mut count_accumulated = 0;
+			loop {
+				let increments = if let Some (buffer) = try! (reader.buffer_ref ()) {
+					let limit = buffer.len ();
+					// TODO:  If the `consumer` failed we should still consume the entire buffer!
+					try! (consumer (buffer));
+					Some ((limit, limit))
+				} else {
+					None
+				};
+				if let Some ((count_increment, buffer_increment)) = increments {
+					try! (reader.buffer_consume (buffer_increment));
+					count_accumulated += count_increment;
+				}
+				if increments.is_none () {
+					succeed! (count_accumulated);
+				}
+			}
+		} else {
+			succeed! (0);
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn char_ready (&mut self) -> (Outcome<bool>) {
 		if let Some (mut reader) = try! (self.reader_ref_mut_if_open ()) {
 			if let Some (buffer) = try! (reader.buffer_ref ()) {
