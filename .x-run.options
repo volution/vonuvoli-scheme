@@ -165,16 +165,13 @@
 << compile / peg
 		test "${#}" -eq 0
 		export -- PATH="${RUST_PATH}"
-		if test ./sources/parser_peg.peg -nt ./sources/parser_peg.rs ; then
+		if test ! -e ./sources/parser_peg.rs -o ./sources/parser_peg.peg -nt ./sources/parser_peg.rs ; then
 			# printf -- '== compile / peg ==\n' >&2
 			if test -e ./sources/parser_peg.rs ; then
 				rm -- ./sources/parser_peg.rs
 			fi
 			rust-peg < ./sources/parser_peg.peg >| ./sources/.parser_peg.rs.tmp1
-			rustfmt --force < ./sources/.parser_peg.rs.tmp1 >| ./sources/.parser_peg.rs.tmp2 && _outcome=0 || _outcome="${?}"
-			if test "${_outcome}" -ne 3 ; then
-				exit -- "${_outcome}"
-			fi
+			rustfmt < ./sources/.parser_peg.rs.tmp1 >| ./sources/.parser_peg.rs.tmp2
 			mv -T -- ./sources/.parser_peg.rs.tmp2 ./sources/parser_peg.rs
 			rm -- ./sources/.parser_peg.rs.tmp1
 		fi
@@ -1865,7 +1862,7 @@
 
 << execute / rust-fmt
 		export -- PATH="${RUST_PATH}"
-		( rustfmt --force "${@}" 2> /dev/null || true ) \
+		rustfmt "${@}" \
 		| sed -r -n \
 				-e ': b' \
 				-e '/^$/ d' \
@@ -4303,10 +4300,8 @@
 		export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
 		export -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"
 		export -- PATH="${RUST_PATH}"
-		nice -n 19 -- cargo install --force cargo-kcov
-		nice -n 19 -- cargo install --force rustfmt
-		# nice -n 19 -- cargo install --force rustfmt-nightly
 		nice -n 19 -- cargo install --force peg
+		nice -n 19 -- cargo install --force cargo-kcov
 !!
 
 << workbench / cargo / update
@@ -4353,8 +4348,10 @@
 		test -e ./.rust/.initialized
 		export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
 		export -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"
-		nice -n 19 -- ./.rust/cargo/bin/rustup install stable
-		nice -n 19 -- ./.rust/cargo/bin/rustup install nightly
+		nice -n 19 -- ./.rust/cargo/bin/rustup install -- stable
+		nice -n 19 -- ./.rust/cargo/bin/rustup install -- nightly
+		nice -n 19 -- ./.rust/cargo/bin/rustup component add --toolchain stable -- rustfmt-preview
+		nice -n 19 -- ./.rust/cargo/bin/rustup component add --toolchain nightly -- rustfmt-preview
 !!
 
 << workbench / rust-up / upgrade
