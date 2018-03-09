@@ -1,6 +1,7 @@
 
 
 use super::constants::exports::*;
+use super::conversions::exports::*;
 use super::errors::exports::*;
 use super::values::exports::*;
 
@@ -416,38 +417,36 @@ pub fn decode_base64_mime_fill (string : &Value, buffer : &Value) -> (Outcome<Va
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn encode_build_0 (encoding : &ext::data_encoding::Encoding, bytes : &Value) -> (Outcome<Value>) {
-	let bytes = try_as_bytes_ref! (bytes);
-	let bytes = bytes.bytes_as_slice ();
+fn encode_build_0 (encoding : &ext::data_encoding::Encoding, data : &Value) -> (Outcome<Value>) {
 	let mut buffer = StdString::new ();
-	try! (encode_0 (encoding, bytes, &mut buffer, false));
+	try! (encode_0 (encoding, data, &mut buffer, false));
 	succeed! (string_new (buffer));
 }
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn encode_extend_0 (encoding : &ext::data_encoding::Encoding, bytes : &Value, buffer : &Value, clear : bool) -> (Outcome<Value>) {
-	let bytes = try_as_bytes_ref! (bytes);
-	let bytes = bytes.bytes_as_slice ();
+fn encode_extend_0 (encoding : &ext::data_encoding::Encoding, data : &Value, buffer : &Value, clear : bool) -> (Outcome<Value>) {
 	let buffer = try_as_string_mutable_ref! (buffer);
 	let mut buffer = try! (buffer.string_ref_mut ());
-	try! (encode_0 (encoding, bytes, &mut buffer, clear));
+	try! (encode_0 (encoding, data, &mut buffer, clear));
 	succeed! (VOID_VALUE);
 }
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn encode_0 (encoding : &ext::data_encoding::Encoding, bytes : &[u8], buffer : &mut StdString, clear : bool) -> (Outcome<()>) {
+fn encode_0 (encoding : &ext::data_encoding::Encoding, data : &Value, buffer : &mut StdString, clear : bool) -> (Outcome<()>) {
 	if clear {
 		buffer.clear ();
 	}
-	let buffer_size = encoding.encode_len (bytes.len ());
+	let data = try! (bytes_slice_coerce_1a (data));
+	let data = &data;
+	let buffer_size = encoding.encode_len (data.len ());
 	let buffer_offset = buffer.len ();
 	let buffer = unsafe { buffer.as_mut_vec () };
 	buffer.resize_default (buffer_offset + buffer_size);
 	let buffer = buffer.as_mut_slice ();
 	let buffer = &mut buffer [buffer_offset ..];
-	encoding.encode_mut (bytes, buffer);
+	encoding.encode_mut (data, buffer);
 	succeed! (());
 }
 
@@ -455,38 +454,36 @@ fn encode_0 (encoding : &ext::data_encoding::Encoding, bytes : &[u8], buffer : &
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn decode_build_0 (encoding : &ext::data_encoding::Encoding, string : &Value) -> (Outcome<Value>) {
-	let string = try_as_string_ref! (string);
-	let string = string.string_as_bytes ();
+fn decode_build_0 (encoding : &ext::data_encoding::Encoding, data : &Value) -> (Outcome<Value>) {
 	let mut buffer = StdVec::new ();
-	try! (decode_0 (encoding, string, &mut buffer, false));
+	try! (decode_0 (encoding, data, &mut buffer, false));
 	succeed! (bytes_new (buffer));
 }
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn decode_extend_0 (encoding : &ext::data_encoding::Encoding, string : &Value, buffer : &Value, clear : bool) -> (Outcome<Value>) {
-	let string = try_as_string_ref! (string);
-	let string = string.string_as_bytes ();
+fn decode_extend_0 (encoding : &ext::data_encoding::Encoding, data : &Value, buffer : &Value, clear : bool) -> (Outcome<Value>) {
 	let buffer = try_as_bytes_mutable_ref! (buffer);
 	let mut buffer = try! (buffer.bytes_ref_mut ());
-	try! (decode_0 (encoding, string, &mut buffer, clear));
+	try! (decode_0 (encoding, data, &mut buffer, clear));
 	succeed! (VOID_VALUE);
 }
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn decode_0 (encoding : &ext::data_encoding::Encoding, string : &[u8], buffer : &mut StdVec<u8>, clear : bool) -> (Outcome<()>) {
+fn decode_0 (encoding : &ext::data_encoding::Encoding, data : &Value, buffer : &mut StdVec<u8>, clear : bool) -> (Outcome<()>) {
 	if clear {
 		buffer.clear ();
 	}
-	let buffer_size = try_or_fail! (encoding.decode_len (string.len ()), 0x88b50880);
+	let data = try! (bytes_slice_coerce_1a (data));
+	let data = &data;
+	let buffer_size = try_or_fail! (encoding.decode_len (data.len ()), 0x88b50880);
 	let buffer_offset = buffer.len ();
 	buffer.resize_default (buffer_offset + buffer_size);
 	let buffer_size = {
 		let buffer = buffer.as_mut_slice ();
 		let buffer = &mut buffer [buffer_offset ..];
-		let buffer_size = try_or_fail! (encoding.decode_mut (string, buffer), 0xa2903464);
+		let buffer_size = try_or_fail! (encoding.decode_mut (data, buffer), 0xa2903464);
 		buffer_size
 	};
 	buffer.truncate (buffer_offset + buffer_size);

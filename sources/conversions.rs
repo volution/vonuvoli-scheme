@@ -1254,6 +1254,65 @@ impl <'a> StdFrom<StringRef<'a>> for BytesSliceRef<'a> {
 
 
 
+impl <'a> StdFrom<&'a BytesImmutable> for BytesSliceRef<'a> {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn from (value : &'a BytesImmutable) -> (BytesSliceRef<'a>) {
+		value.bytes_as_slice () .into ()
+	}
+}
+
+impl <'a> StdTryFrom<&'a BytesMutable> for BytesSliceRef<'a> {
+	
+	type Error = Error;
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn try_from (value : &'a BytesMutable) -> (Result<BytesSliceRef<'a>, Self::Error>) {
+		succeed! (try_or_fail! (value.bytes_ref (), 0x65baf4e9) .into ());
+	}
+}
+
+
+impl <'a> StdFrom<&'a StringImmutable> for BytesSliceRef<'a> {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn from (value : &'a StringImmutable) -> (BytesSliceRef<'a>) {
+		value.string_as_str () .into ()
+	}
+}
+
+impl <'a> StdTryFrom<&'a StringMutable> for BytesSliceRef<'a> {
+	
+	type Error = Error;
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn try_from (value : &'a StringMutable) -> (Result<BytesSliceRef<'a>, Self::Error>) {
+		succeed! (try_or_fail! (value.string_ref (), 0x37d56111) .into ());
+	}
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn bytes_slice_coerce_1a (value : &Value) -> (Outcome<BytesSliceRef>) {
+	match value.kind_match_as_ref () {
+		ValueKindMatchAsRef::BytesImmutable (value) =>
+			succeed! (value.into ()),
+		ValueKindMatchAsRef::BytesMutable (value) =>
+			value.try_into (),
+		ValueKindMatchAsRef::StringImmutable (value) =>
+			succeed! (value.into ()),
+		ValueKindMatchAsRef::StringMutable (value) =>
+			value.try_into (),
+		_ =>
+			fail! (0x1a3502e4),
+	}
+}
+
+
+
+
 /*
 impl <From, To> StdInto0<Outcome<To>> for From where From : StdInto<To> {
 	
