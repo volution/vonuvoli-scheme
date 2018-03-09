@@ -155,7 +155,7 @@ vonuvoli_builtins_encoding = [
 # https://github.com/alexcrichton/backtrace-rs
 version = "~0.3.5"
 optional = true
-features = ["backtrace-sys"]
+features = ["libbacktrace", "libunwind", "dladdr"]
 default-features = false
 
 [dependencies.rustc-demangle]
