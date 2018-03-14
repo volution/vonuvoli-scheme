@@ -36,6 +36,7 @@ pub mod exports {
 pub struct Port ( StdRc<StdRefCell<PortInternals>> );
 
 
+#[ derive (Debug) ]
 pub struct PortInternals {
 	pub state : PortState,
 	pub backend : PortBackend,
@@ -43,6 +44,7 @@ pub struct PortInternals {
 }
 
 
+#[ derive (Debug) ]
 pub enum PortState {
 	Open,
 	Closed,
@@ -50,6 +52,7 @@ pub enum PortState {
 }
 
 
+#[ derive (Debug) ]
 pub enum PortBackend {
 	
 	BytesReader ( PortBackendBytesReader ),

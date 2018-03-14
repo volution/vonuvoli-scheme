@@ -21,6 +21,7 @@ pub mod exports {
 
 
 
+#[ derive (Debug) ]
 pub struct PortBackendBytesReader {
 	source : PortBackendBytesReaderSource,
 	range_start : usize,
@@ -28,6 +29,7 @@ pub struct PortBackendBytesReader {
 	offset : usize,
 }
 
+#[ derive (Debug) ]
 enum PortBackendBytesReaderSource {
 	BytesImmutable ( StdRc<StdBox<[u8]>> ),
 	BytesMutable ( StdRc<StdRefCell<BytesMutableInternals>> ),
@@ -374,6 +376,7 @@ impl PortBackendBytesReader {
 
 
 
+#[ derive (Debug) ]
 pub struct PortBackendBytesWriter {
 	buffer : Option<StdVec<u8>>,
 }

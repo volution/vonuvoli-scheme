@@ -1076,7 +1076,11 @@ impl fmt::Debug for Error {
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let (code_1, code_2) = self.code_2 ();
-		write! (formatter, "#<error:{:08x}:{:08x}>", code_1, code_2)
+		let self_0 = self.internals_ref ();
+		formatter.debug_struct ("Error")
+				.field ("code", &format! ("{:08x}:{:08x}", code_1, code_2))
+				.field ("internals", &self_0)
+				.finish ()
 	}
 }
 
@@ -1096,7 +1100,8 @@ impl fmt::Debug for Port {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		formatter.write_str ("#<port>")
+		let self_0 = try_or_return! (self.internals_ref (), Err (fmt::Error::default ()));
+		self_0.fmt (formatter)
 	}
 }
 
@@ -1116,7 +1121,8 @@ impl fmt::Debug for Process {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		formatter.write_str ("#<process>")
+		let self_0 = try_or_return! (self.internals_ref (), Err (fmt::Error::default ()));
+		self_0.fmt (formatter)
 	}
 }
 
@@ -1318,8 +1324,7 @@ impl fmt::Debug for Handle {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		let value = self.value ();
-		write! (formatter, "Handle({:016x})", value)
+		formatter.debug_tuple ("Handle") .field (&format! ("{:016x}", self.value ())) .finish ()
 	}
 }
 

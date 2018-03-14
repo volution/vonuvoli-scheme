@@ -31,6 +31,7 @@ pub type Outcome<T> = Result<T, Error>;
 #[ derive (Clone) ]
 pub struct Error ( StdRc<ErrorInternals> );
 
+#[ derive (Debug) ]
 pub enum ErrorInternals {
 	Code (u64),
 	WithBacktrace (u64, Backtrace),

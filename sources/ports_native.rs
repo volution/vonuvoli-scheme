@@ -19,17 +19,20 @@ pub mod exports {
 
 
 
+#[ derive (Debug) ]
 pub struct PortBackendNativeReader {
 	reader : PortBackendNativeReaderTarget,
 	descriptor : Option<PortDescriptor>,
 }
 
+// TODO:  #[ derive (Debug) ]
 pub enum PortBackendNativeReaderTarget {
 	Buffered (io::BufReader<StdBox<io::Read>>),
 	Stdin,
 	Closed,
 }
 
+// TODO:  #[ derive (Debug) ]
 pub enum PortBackendNativeReaderTargetRef<'a> {
 	Buffered (&'a mut io::BufReader<StdBox<io::Read>>),
 	Stdin (io::Stdin, io::StdinLock<'a>),
@@ -627,12 +630,13 @@ impl <'a> PortBackendNativeReaderTargetRef<'a> {
 
 
 
-
+#[ derive (Debug) ]
 pub struct PortBackendNativeWriter {
 	writer : PortBackendNativeWriterTarget,
 	descriptor : Option<PortDescriptor>,
 }
 
+// TODO:  #[ derive (Debug) ]
 pub enum PortBackendNativeWriterTarget {
 	Buffered (io::BufWriter<StdBox<io::Write>>),
 	Stdout,
@@ -640,6 +644,7 @@ pub enum PortBackendNativeWriterTarget {
 	Closed,
 }
 
+// TODO:  #[ derive (Debug) ]
 pub enum PortBackendNativeWriterTargetRef<'a> {
 	Buffered (&'a mut io::BufWriter<StdBox<io::Write>>),
 	Stdout (io::Stdout, io::StdoutLock<'a>),
@@ -864,6 +869,28 @@ impl <'a> PortBackendNativeWriterTargetRef<'a> {
 			PortBackendNativeWriterTargetRef::Stderr (_, ref mut writer) =>
 				writer,
 		}
+	}
+}
+
+
+
+
+impl fmt::Debug for PortBackendNativeReaderTarget {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		// TODO:  Imlement this!
+		formatter.debug_tuple ("PortBackendNativeReaderTarget") .finish ()
+	}
+}
+
+
+impl fmt::Debug for PortBackendNativeWriterTarget {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		// TODO:  Imlement this!
+		formatter.debug_tuple ("PortBackendNativeWriterTarget") .finish ()
 	}
 }
 
