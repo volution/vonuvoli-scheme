@@ -15,6 +15,8 @@ use super::values::exports::*;
 
 use super::prelude::*;
 
+def_transcript! (transcript);
+
 
 
 
@@ -74,18 +76,18 @@ impl Optimizer {
 			let expression_input = expression.clone ();
 			
 			if OPTIMIZER_TRACE_INPUT {
-				eprint! ("[dd]  optimizing: {:?}\n", &expression_input);
+				trace_debugging! (transcript, 0xf246eaa8 => "optimizing:\u{1e}{:#?}" => (&expression_input));
 			}
 			
 			let outcome = self.optimize_00 (optimization, expression);
 			
 			match outcome {
 				Ok ((_, ref expression_optimized)) if OPTIMIZER_TRACE_OUTPUT =>
-					eprint! ("[dd]  optimizing succeeded:\n[  ]      {:?}\n[  ]      {:?}\n", &expression_input, expression_optimized),
+					trace_debugging! (transcript, 0x11196ecc => "optimizing succeeded:\u{1e}{:#?}\u{1e}{:#?}" => (&expression_input, expression_optimized)),
 				Ok (_) =>
 					(),
 				Err (ref error) if (OPTIMIZER_TRACE_OUTPUT || OPTIMIZER_TRACE_ERROR) && error.is_traceable () =>
-					eprint! ("[dd]  optimizing failed:\n[  ]      {:?}\n[  ]      {:?}\n", &expression_input, error),
+					trace_error! (transcript, 0xcdc5372b => "optimizing failed:\u{1e}{:#?}\u{1e}{:#?}" => (&expression_input, error)),
 				Err (_) =>
 					(),
 			}

@@ -12,6 +12,8 @@ use super::values::exports::*;
 
 use super::prelude::*;
 
+def_transcript! (transcript);
+
 
 
 
@@ -78,18 +80,18 @@ impl Compiler {
 			let token_input = token.clone ();
 			
 			if COMPILER_TRACE_INPUT {
-				eprint! ("[dd]  compiling: {}\n", &token_input);
+				trace_debugging! (transcript, 0x1d44f3ad => "compiling:\u{1e}{}" => (&token_input));
 			}
 			
 			let outcome = self.compile_00 (compilation, token);
 			
 			match outcome {
 				Ok ((_, ref expression)) if COMPILER_TRACE_OUTPUT =>
-					eprint! ("[dd]  compiling succeeded:\n[  ]      {}\n[  ]      {:?}\n", &token_input, expression),
+					trace_debugging! (transcript, 0x1307865e => "compiling succeeded:\u{1e}{}\u{1e}{:#?}" => (&token_input, expression)),
 				Ok (_) =>
 					(),
 				Err (ref error) if (COMPILER_TRACE_OUTPUT || COMPILER_TRACE_ERROR) && error.is_traceable () =>
-					eprint! ("[dd]  compiling failed:\n[  ]      {}\n[  ]      {:?}\n", &token_input, error),
+					trace_error! (transcript, 0xb1511d7c => "compiling failed:\u{1e}{}\u{1e}{:#?}" => (&token_input, error)),
 				Err (_) =>
 					(),
 			}

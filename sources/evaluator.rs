@@ -15,6 +15,8 @@ use super::values::exports::*;
 
 use super::prelude::*;
 
+def_transcript! (transcript);
+
 
 
 
@@ -84,18 +86,18 @@ impl Evaluator {
 		if EVALUATOR_TRACE_INPUT || EVALUATOR_TRACE_OUTPUT || EVALUATOR_TRACE_ERROR {
 			
 			if EVALUATOR_TRACE_INPUT {
-				eprint! ("[dd]  evaluating: {:?}\n", expression);
+				trace_debugging! (transcript, 0xc9ab7675 => "evaluating:\u{1e}{:#?}" => (expression));
 			}
 			
 			let outcome = self.evaluate_00 (evaluation, expression);
 			
 			match outcome {
 				Ok (ref output) if EVALUATOR_TRACE_OUTPUT =>
-					eprint! ("[dd]  evaluating succeeded:\n[  ]      {:?}\n[  ]      {:?}\n", expression, output),
+					trace_debugging! (transcript, 0x3a69ec68 => "evaluating succeeded:\u{1e}{:#?}\u{1e}{:#?}" => (expression, output)),
 				Ok (_) =>
 					(),
 				Err (ref error) if (EVALUATOR_TRACE_OUTPUT || EVALUATOR_TRACE_ERROR) && error.is_traceable () =>
-					eprint! ("[dd]  evaluating failed:\n[  ]      {:?}\n[  ]      {:?}\n", expression, error),
+					trace_error! (transcript, 0xde839a96 => "evaluating failed:\u{1e}{:#?}\u{1e}{:#?}" => (expression, error)),
 				Err (_) =>
 					(),
 			}
