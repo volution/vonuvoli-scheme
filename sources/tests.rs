@@ -9,9 +9,12 @@ use super::expressions::exports::*;
 use super::languages::exports::*;
 use super::parser::exports::*;
 use super::runtime::exports::*;
+use super::transcript::exports::*;
 use super::values::exports::*;
 
 use super::prelude::*;
+
+def_transcript! (transcript);
 
 
 
@@ -77,16 +80,16 @@ pub struct TestCaseCompiled {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn parse_and_compile_tests (identifier : &str, source : &str, context : Option<&Context>, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<(StdVec<TestCaseCompiled>)>) {
+pub fn parse_and_compile_tests (identifier : &str, source : &str, context : Option<&Context>, transcript_backend : &TranscriptBackend, verbosity : TestVerbosity) -> (Outcome<(StdVec<TestCaseCompiled>)>) {
 	let tests = try! (parse_tests (source));
-	return compile_tests (identifier, &tests, context, transcript, verbosity);
+	return compile_tests (identifier, &tests, context, transcript_backend, verbosity);
 }
 
 
 #[ inline (never) ]
-pub fn compile_tests (identifier : &str, tests : &StdVec<TestCase>, context_template : Option<&Context>, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<(StdVec<TestCaseCompiled>)>) {
+pub fn compile_tests (identifier : &str, tests : &StdVec<TestCase>, context_template : Option<&Context>, transcript_backend : &TranscriptBackend, verbosity : TestVerbosity) -> (Outcome<(StdVec<TestCaseCompiled>)>) {
 	
-	try_or_fail! (write! (transcript, "## compiling `{}`...\n", identifier), 0xb1d307bd);
+	trace_notice! (transcript, 0xb1d307bd => "compiling `{}`..." => (identifier), backend = transcript_backend);
 	
 	let context_template = if let Some (context) = context_template {
 		context.clone ()
@@ -107,7 +110,7 @@ pub fn compile_tests (identifier : &str, tests : &StdVec<TestCase>, context_temp
 			_ => true
 		});
 	
-	let tests = try_vec_map_into! (tests, test, compile_test (&test, &context_without_optimizations, &context_with_optimizations, &parameters_without_optimization, &parameters_with_optimization, transcript, verbosity));
+	let tests = try_vec_map_into! (tests, test, compile_test (&test, &context_without_optimizations, &context_with_optimizations, &parameters_without_optimization, &parameters_with_optimization, transcript_backend, verbosity));
 	
 	succeed! (tests);
 }
@@ -116,23 +119,23 @@ pub fn compile_tests (identifier : &str, tests : &StdVec<TestCase>, context_temp
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn parse_and_execute_tests (identifier : &str, source : &str, context : Option<&Context>, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
-	let tests = try! (parse_and_compile_tests (identifier, source, context, transcript, verbosity));
-	return execute_tests (identifier, &tests, transcript, verbosity);
+pub fn parse_and_execute_tests (identifier : &str, source : &str, context : Option<&Context>, transcript_backend : &TranscriptBackend, verbosity : TestVerbosity) -> (Outcome<()>) {
+	let tests = try! (parse_and_compile_tests (identifier, source, context, transcript_backend, verbosity));
+	return execute_tests (identifier, &tests, transcript_backend, verbosity);
 }
 
 
 #[ inline (never) ]
-pub fn execute_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
+pub fn execute_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, transcript_backend : &TranscriptBackend, verbosity : TestVerbosity) -> (Outcome<()>) {
 	
-	try_or_fail! (write! (transcript, "## executing `{}`...\n", identifier), 0x450c3e03);
+	trace_notice! (transcript, 0x450c3e03 => "executing `{}`..." => (identifier), backend = transcript_backend);
 	
 	let mut tests_succeeded = 0;
 	let mut tests_failed = 0;
 	let mut tests_error = None;
 	
 	for test in tests {
-		match execute_test (test, transcript, verbosity) {
+		match execute_test (test, transcript_backend, verbosity) {
 			Ok (()) =>
 				tests_succeeded += 1,
 			Err (error) => {
@@ -144,7 +147,11 @@ pub fn execute_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, tran
 		}
 	}
 	
-	try_or_fail! (write! (transcript, "## executed `{}`: succeeded {} / failed {}!\n", identifier, tests_succeeded, tests_failed), 0xbf6a7cd1);
+	if tests_failed == 0 {
+		trace_notice! (transcript, 0xbf6a7cd1 => "executed `{}`: succeeded {} / failed {};" => (identifier, tests_succeeded, tests_failed), backend = transcript_backend);
+	} else {
+		trace_warning! (transcript, 0x89d2290b => "executed `{}`: succeeded {} / failed {};" => (identifier, tests_succeeded, tests_failed), backend = transcript_backend);
+	}
 	
 	if tests_error.is_none () {
 		succeed! (());
@@ -157,16 +164,16 @@ pub fn execute_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, tran
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn parse_and_benchmark_tests (identifier : &str, source : &str, context : Option<&Context>, bencher : &mut ext::test::Bencher, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
-	let tests = try! (parse_and_compile_tests (identifier, source, context, transcript, verbosity));
-	return benchmark_tests (identifier, &tests, bencher, transcript, verbosity);
+pub fn parse_and_benchmark_tests (identifier : &str, source : &str, context : Option<&Context>, bencher : &mut ext::test::Bencher, transcript_backend : &TranscriptBackend, output : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
+	let tests = try! (parse_and_compile_tests (identifier, source, context, transcript_backend, verbosity));
+	return benchmark_tests (identifier, &tests, bencher, transcript_backend, output, verbosity);
 }
 
 
 #[ inline (never) ]
-pub fn benchmark_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, bencher : &mut ext::test::Bencher, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
+pub fn benchmark_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, bencher : &mut ext::test::Bencher, transcript_backend : &TranscriptBackend, output : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
 	
-	try_or_fail! (write! (transcript, "## benchmarking `{}`...\n", identifier), 0x0930df0d);
+	trace_notice! (transcript, 0x0930df0d => "benchmarking `{}`..." => (identifier), backend = transcript_backend);
 	
 	let iterations_base = 20;
 	let iterations_warmup = usize::max (iterations_base / 4, 2);
@@ -178,7 +185,7 @@ pub fn benchmark_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, be
 	
 	for _ in 0 .. iterations_warmup {
 		for test in tests {
-			try! (execute_test (test, transcript, verbosity));
+			try! (execute_test (test, transcript_backend, verbosity));
 		}
 	}
 	
@@ -205,13 +212,13 @@ pub fn benchmark_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, be
 	let memory_leaks_without_optimizations = memory_delta_without_optimizations > memory_leak_threshold;
 	let memory_leaks_with_optimizations = memory_delta_with_optimizations > memory_leak_threshold;
 	
-	try_or_fail! (write! (transcript, "## benchmarked `{}`!\n", identifier), 0x3748dc5d);
+	trace_notice! (transcript, 0x3748dc5d => "benchmarked `{}`;" => (identifier), backend = transcript_backend);
 	if let Some (summary_without_optimizations) = summary_without_optimizations {
 		try! (benchmark_bencher_report (
 				Some ("without optimizations:"), "     ",
 				&summary_without_optimizations, None, summary_factor,
 				memory_delta_without_optimizations, memory_leaks_without_optimizations,
-				transcript, verbosity));
+				transcript_backend, output, verbosity));
 	}
 	
 	if let Some (summary_with_optimizations) = summary_with_optimizations {
@@ -219,7 +226,7 @@ pub fn benchmark_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, be
 				Some ("with optimizations:"), "     ",
 				&summary_with_optimizations, summary_without_optimizations.as_ref (), summary_factor,
 				memory_delta_with_optimizations, memory_leaks_with_optimizations,
-				transcript, verbosity));
+				transcript_backend, output, verbosity));
 	}
 	
 	succeed! (());
@@ -229,13 +236,13 @@ pub fn benchmark_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, be
 
 
 #[ inline (never) ]
-pub fn benchmark_generic <Setup, Iteration, SetupOutput, IterationOutput> (identifier : &str, setup : Setup, iteration : Iteration, bencher : &mut ext::test::Bencher, transcript : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>)
+pub fn benchmark_generic <Setup, Iteration, SetupOutput, IterationOutput> (identifier : &str, setup : Setup, iteration : Iteration, bencher : &mut ext::test::Bencher, transcript_backend : &TranscriptBackend, output : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>)
 		where
 			Setup : Fn () -> (Outcome<SetupOutput>),
 			Iteration : Fn (&SetupOutput) -> (IterationOutput)
 {
 	
-	try_or_fail! (write! (transcript, "## benchmarking `{}`...\n", identifier), 0xf25e5c5b);
+	trace_notice! (transcript, 0xf25e5c5b => "benchmarking `{}`..." => (identifier), backend = transcript_backend);
 	
 	let iterations_base = 5;
 	let iterations_warmup = iterations_base / 2;
@@ -254,13 +261,13 @@ pub fn benchmark_generic <Setup, Iteration, SetupOutput, IterationOutput> (ident
 	
 	let memory_leaks = memory_delta > memory_leak_threshold;
 	
-	try_or_fail! (write! (transcript, "## benchmarked `{}`!\n", identifier), 0xb5993dbd);
+	trace_notice! (transcript, 0xb5993dbd => "benchmarked `{}`;" => (identifier), backend = transcript_backend);
 	if let Some (summary) = summary {
 		try! (benchmark_bencher_report (
 				None, "     ",
 				&summary, None, summary_factor,
 				memory_delta, memory_leaks,
-				transcript, verbosity));
+				transcript_backend, output, verbosity));
 	}
 	
 	succeed! (());
@@ -301,7 +308,7 @@ fn benchmark_bencher_iterate <Iteration, Output> (bencher : &mut ext::test::Benc
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn benchmark_bencher_report (header : Option<&str>, prefix : &str, summary : &ext::test::stats::Summary, reference : Option<&ext::test::stats::Summary>, factor : f64, memory_delta : usize, memory_leaks : bool, transcript : &mut io::Write, _verbosity : TestVerbosity) -> (Outcome<()>) {
+fn benchmark_bencher_report (header : Option<&str>, prefix : &str, summary : &ext::test::stats::Summary, reference : Option<&ext::test::stats::Summary>, factor : f64, memory_delta : usize, memory_leaks : bool, _transcript_backend : &TranscriptBackend, output : &mut io::Write, _verbosity : TestVerbosity) -> (Outcome<()>) {
 	let mut report = StdString::new ();
 	if let Some (header) = header {
 		report.push_str (&format! ("{}{}\n", prefix, header));
@@ -321,7 +328,7 @@ fn benchmark_bencher_report (header : Option<&str>, prefix : &str, summary : &ex
 	} else {
 		report.push_str (&format! ("{}  mem-leaks : {:10.0} KB\n", prefix, (memory_delta as f64) / 1024.0 * factor));
 	}
-	try_or_fail! (write! (transcript, "{}", report), 0x9b631c5f);
+	try_or_fail! (output.write_all (report.as_bytes ()), 0x9b631c5f);
 	succeed! (());
 }
 
@@ -330,7 +337,7 @@ fn benchmark_bencher_report (header : Option<&str>, prefix : &str, summary : &ex
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ allow (unused_assignments) ]
-pub fn compile_test (test : &TestCase, context_without_optimizations : &Context, context_with_optimizations : &Context, parameters_without_optimizations : &Parameters, parameters_with_optimizations : &Parameters, transcript : &mut io::Write, verbosity_global : TestVerbosity) -> (Outcome<TestCaseCompiled>) {
+pub fn compile_test (test : &TestCase, context_without_optimizations : &Context, context_with_optimizations : &Context, parameters_without_optimizations : &Parameters, parameters_with_optimizations : &Parameters, transcript_backend : &TranscriptBackend, verbosity_global : TestVerbosity) -> (Outcome<TestCaseCompiled>) {
 	// TODO:  Why does the compiler think we are not using `header_emitted`?
 	
 	
@@ -344,23 +351,13 @@ pub fn compile_test (test : &TestCase, context_without_optimizations : &Context,
 	let verbosity_generic = verbosity_global;
 	
 	
-	let mut header_emitted = try! (test_case_header_emit (test, transcript, verbosity_generic, false, false));
+	let mut header_emitted = try! (test_case_header_emit (test, transcript_backend, verbosity_generic, false, false));
 	
 	
 	match verbosity_generic {
 		TestVerbosity::Debug => {
-			header_emitted = try! (test_case_header_emit (test, transcript, verbosity_generic, header_emitted, true));
-			try_or_fail! (write! (transcript, "-- parse --\n{:#?}\n", &test.expression), 0xa70973e0);
-		},
-		_ =>
-			(),
-	}
-	
-	
-	match verbosity_generic {
-		TestVerbosity::Debug => {
-			header_emitted = try! (test_case_header_emit (test, transcript, verbosity_generic, header_emitted, true));
-			try_or_fail! (write! (transcript, "-- compile-without-optimizations ...\n"), 0x72ea2b99);
+			header_emitted = try! (test_case_header_emit (test, transcript_backend, verbosity_generic, header_emitted, true));
+			trace_internal! (transcript, 0x72ea2b99 => "compiling without optimizations..." => (), backend = transcript_backend);
 		},
 		_ =>
 			(),
@@ -370,17 +367,17 @@ pub fn compile_test (test : &TestCase, context_without_optimizations : &Context,
 		Ok (expression) =>
 			expression,
 		Err (error) => {
-			header_emitted = try! (test_case_header_emit (test, transcript, verbosity_without_optimizations, header_emitted, true));
-			try_or_fail! (write! (transcript, "!! compile-without-optimizations !!\n{:#?}\n!! => !!\n{:#?}\n", &test.expression, &error), 0x495036cb);
-			try_or_fail! (error.backtrace_report (transcript, false), 0xdb9b3cac);
+			header_emitted = try! (test_case_header_emit (test, transcript_backend, verbosity_without_optimizations, header_emitted, true));
+			trace_error! (transcript, 0x495036cb => "failed compiling without optimizations!\u{1e}{:#?}" => (&test.expression), error = &error, backend = transcript_backend);
+			error.backtrace_report (tracer_error! (transcript, transcript_backend, 0xdb9b3cac));
 			return Err (error);
 		},
 	};
 	
 	match verbosity_without_optimizations {
 		TestVerbosity::Debug => {
-			header_emitted = try! (test_case_header_emit (test, transcript, verbosity_without_optimizations, header_emitted, true));
-			try_or_fail! (write! (transcript, "-- compile-without-optimizations --\n{:#?}\n", &expression_without_optimizations), 0xebf8f59e);
+			header_emitted = try! (test_case_header_emit (test, transcript_backend, verbosity_without_optimizations, header_emitted, true));
+			trace_internal! (transcript, 0xebf8f59e => "succeeded compiling without optimizations;\u{1e}{:#?}" => (&expression_without_optimizations), backend = transcript_backend);
 		},
 		_ =>
 			(),
@@ -389,8 +386,8 @@ pub fn compile_test (test : &TestCase, context_without_optimizations : &Context,
 	
 	match verbosity_generic {
 		TestVerbosity::Debug => {
-			header_emitted = try! (test_case_header_emit (test, transcript, verbosity_generic, header_emitted, true));
-			try_or_fail! (write! (transcript, "-- compile-with-optimizations ...\n"), 0xe66eecff);
+			header_emitted = try! (test_case_header_emit (test, transcript_backend, verbosity_generic, header_emitted, true));
+			trace_internal! (transcript, 0xe66eecff => "compiling with optimizations..." => (), backend = transcript_backend);
 		},
 		_ =>
 			(),
@@ -400,9 +397,9 @@ pub fn compile_test (test : &TestCase, context_without_optimizations : &Context,
 		Ok (expression) =>
 			expression,
 		Err (error) => {
-			header_emitted = try! (test_case_header_emit (test, transcript, verbosity_with_optimizations, header_emitted, true));
-			try_or_fail! (write! (transcript, "!! compile-with-optimizations !!\n{:#?}\n!! => !!\n{:#?}\n", &test.expression, &error), 0x1241fb62);
-			try_or_fail! (error.backtrace_report (transcript, false), 0xaec53595);
+			header_emitted = try! (test_case_header_emit (test, transcript_backend, verbosity_with_optimizations, header_emitted, true));
+			trace_error! (transcript, 0x1241fb62 => "failed compiling with optimizations:  compilation error!\u{1e}{:#?}" => (&test.expression), error = &error, backend = transcript_backend);
+			error.backtrace_report (tracer_error! (transcript, transcript_backend, 0xaec53595));
 			return Err (error);
 		},
 	};
@@ -411,24 +408,24 @@ pub fn compile_test (test : &TestCase, context_without_optimizations : &Context,
 		Ok (expression) =>
 			expression,
 		Err (error) => {
-			header_emitted = try! (test_case_header_emit (test, transcript, verbosity_with_optimizations, header_emitted, true));
-			try_or_fail! (write! (transcript, "!! compile-with-optimizations !!\n{:#?}\n!! => !!\n{:#?}\n", &test.expression, &error), 0x4a0986b8);
-			try_or_fail! (error.backtrace_report (transcript, false), 0xe88f6bf0);
+			header_emitted = try! (test_case_header_emit (test, transcript_backend, verbosity_with_optimizations, header_emitted, true));
+			trace_error! (transcript, 0x4a0986b8 => "failed compiling with optimizations:  optimization error!\u{1e}{:#?}" => (&test.expression), error = &error, backend = transcript_backend);
+			error.backtrace_report (tracer_error! (transcript, transcript_backend, 0xe88f6bf0));
 			return Err (error);
 		},
 	};
 	
 	match verbosity_with_optimizations {
 		TestVerbosity::Debug => {
-			header_emitted = try! (test_case_header_emit (test, transcript, verbosity_with_optimizations, header_emitted, true));
-			try_or_fail! (write! (transcript, "-- compile-with-optimizations --\n{:#?}\n", &expression_with_optimizations), 0xaacf1561);
+			header_emitted = try! (test_case_header_emit (test, transcript_backend, verbosity_with_optimizations, header_emitted, true));
+			trace_internal! (transcript, 0xaacf1561 => "succeeded compiling with optimizations;\u{1e}{:#?}" => (&expression_with_optimizations), backend = transcript_backend);
 		},
 		_ =>
 			(),
 	}
 	
 	
-	try! (test_case_footer_emit (test, transcript, verbosity_generic, header_emitted, false));
+	try! (test_case_footer_emit (test, transcript_backend, verbosity_generic, header_emitted, false));
 	
 	
 	let test = TestCaseCompiled {
@@ -452,7 +449,7 @@ pub fn compile_test (test : &TestCase, context_without_optimizations : &Context,
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ allow (unused_assignments) ]
-pub fn execute_test (test : &TestCaseCompiled, transcript : &mut io::Write, verbosity_global : TestVerbosity) -> (Outcome<()>) {
+pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptBackend, verbosity_global : TestVerbosity) -> (Outcome<()>) {
 	// TODO:  Why does the compiler think we are not using `header_emitted`?
 	
 	
@@ -466,13 +463,13 @@ pub fn execute_test (test : &TestCaseCompiled, transcript : &mut io::Write, verb
 	let verbosity_generic = verbosity_global;
 	
 	
-	let mut header_emitted = try! (test_case_header_emit (&test.source, transcript, verbosity_generic, false, false));
+	let mut header_emitted = try! (test_case_header_emit (&test.source, transcript_backend, verbosity_generic, false, false));
 	
 	
 	match verbosity_generic {
 		TestVerbosity::Debug => {
-			header_emitted = try! (test_case_header_emit (&test.source, transcript, verbosity_generic, header_emitted, true));
-			try_or_fail! (write! (transcript, "-- evaluate-without-optimizations ...\n"), 0xad17507e);
+			header_emitted = try! (test_case_header_emit (&test.source, transcript_backend, verbosity_generic, header_emitted, true));
+			trace_internal! (transcript, 0xad17507e => "evaluating without optimizations..." => (), backend = transcript_backend);
 		},
 		_ =>
 			(),
@@ -482,17 +479,17 @@ pub fn execute_test (test : &TestCaseCompiled, transcript : &mut io::Write, verb
 		Ok (output_value) =>
 			output_value,
 		Err (error) => {
-			header_emitted = try! (test_case_header_emit (&test.source, transcript, verbosity_without_optimizations, header_emitted, true));
-			try_or_fail! (write! (transcript, "!! evaluate-without-optimizations !!\n{:#?}\n!! => !!\n{:#?}\n", &test.expression_without_optimizations, &error), 0xd70f287e);
-			try_or_fail! (error.backtrace_report (transcript, false), 0x78002618);
+			header_emitted = try! (test_case_header_emit (&test.source, transcript_backend, verbosity_without_optimizations, header_emitted, true));
+			trace_error! (transcript, 0xd70f287e => "failed evaluating without optimizations!\u{1e}{:#?}" => (&test.expression_without_optimizations), error = &error, backend = transcript_backend);
+			error.backtrace_report (tracer_error! (transcript, transcript_backend, 0x78002618));
 			return Err (error);
 		},
 	};
 	
 	match verbosity_without_optimizations {
 		TestVerbosity::Debug => {
-			header_emitted = try! (test_case_header_emit (&test.source, transcript, verbosity_without_optimizations, header_emitted, true));
-			try_or_fail! (write! (transcript, "-- evaluate-without-optimizations --\n{:#?}\n", &output_value_without_optimizations), 0x4e1189d7);
+			header_emitted = try! (test_case_header_emit (&test.source, transcript_backend, verbosity_without_optimizations, header_emitted, true));
+			trace_internal! (transcript, 0x4e1189d7 => "succeeded evaluating without optimizations;\u{1e}{:#?}" => (&output_value_without_optimizations), backend = transcript_backend);
 		},
 		_ =>
 			(),
@@ -501,8 +498,8 @@ pub fn execute_test (test : &TestCaseCompiled, transcript : &mut io::Write, verb
 	
 	match verbosity_generic {
 		TestVerbosity::Debug => {
-			header_emitted = try! (test_case_header_emit (&test.source, transcript, verbosity_generic, header_emitted, true));
-			try_or_fail! (write! (transcript, "-- evaluate-with-optimizations ...\n"), 0xecf07fc4);
+			header_emitted = try! (test_case_header_emit (&test.source, transcript_backend, verbosity_generic, header_emitted, true));
+			trace_internal! (transcript, 0xecf07fc4 => "evaluating with optimizations..." => (), backend = transcript_backend);
 		},
 		_ =>
 			(),
@@ -512,17 +509,17 @@ pub fn execute_test (test : &TestCaseCompiled, transcript : &mut io::Write, verb
 		Ok (output_value) =>
 			output_value,
 		Err (error) => {
-			header_emitted = try! (test_case_header_emit (&test.source, transcript, verbosity_with_optimizations, header_emitted, true));
-			try_or_fail! (write! (transcript, "!! evaluate-with-optimizations !!\n{:#?}\n!! => !!\n{:#?}\n", &test.expression_with_optimizations, &error), 0x4dfaa3fd);
-			try_or_fail! (error.backtrace_report (transcript, false), 0x430cfc58);
+			header_emitted = try! (test_case_header_emit (&test.source, transcript_backend, verbosity_with_optimizations, header_emitted, true));
+			trace_error! (transcript, 0x4dfaa3fd => "failed evaluating with optimizations!\u{1e}{:#?}" => (&test.expression_with_optimizations), error = &error, backend = transcript_backend);
+			error.backtrace_report (tracer_error! (transcript, transcript_backend, 0x430cfc58));
 			return Err (error);
 		},
 	};
 	
 	match verbosity_with_optimizations {
 		TestVerbosity::Debug => {
-			header_emitted = try! (test_case_header_emit (&test.source, transcript, verbosity_with_optimizations, header_emitted, true));
-			try_or_fail! (write! (transcript, "-- evaluate-with-optimizations --\n{:#?}\n", &output_value_with_optimizations), 0xa410b78a);
+			header_emitted = try! (test_case_header_emit (&test.source, transcript_backend, verbosity_with_optimizations, header_emitted, true));
+			trace_internal! (transcript, 0xa410b78a => "succeeded evaluating with optimizations!\u{1e}{:#?}" => (&output_value_with_optimizations), backend = transcript_backend);
 		},
 		_ =>
 			(),
@@ -544,10 +541,8 @@ pub fn execute_test (test : &TestCaseCompiled, transcript : &mut io::Write, verb
 	if let Some (ref expected_value) = expected_value_without_optimizations {
 		let output_matched = try! (equivalent_by_value_strict_recursive_2 (&output_value_without_optimizations, expected_value));
 		if !output_matched {
-			header_emitted = try! (test_case_header_emit (&test.source, transcript, verbosity_without_optimizations, header_emitted, true));
-			try_or_fail! (write! (transcript, "!! assertion-without-optimizations !! {} => {}\n", &output_value_without_optimizations, expected_value), 0xdcdf61a8);
-			try_or_fail! (write! (transcript, "!! assertion-without-optimizations !!\n{:#?}\n!! => !!\n{:#?}\n", &output_value_without_optimizations, &expected_value), 0x64d71b63);
-			try_or_fail! (write! (transcript, "!! failed\n"), 0xd2c3f278);
+			header_emitted = try! (test_case_header_emit (&test.source, transcript_backend, verbosity_without_optimizations, header_emitted, true));
+			trace_error! (transcript, 0xdcdf61a8 => "failed assertion without optimizations!\u{1e}{0}\u{1e}{1}\u{1e}{0:#?}\u{1e}{1:#?}" => (&output_value_without_optimizations, expected_value), backend = transcript_backend);
 			fail! (0x67419241);
 		}
 	}
@@ -568,10 +563,8 @@ pub fn execute_test (test : &TestCaseCompiled, transcript : &mut io::Write, verb
 	if let Some (ref expected_value) = expected_value_with_optimizations {
 		let output_matched = try! (equivalent_by_value_strict_recursive_2 (&output_value_with_optimizations, expected_value));
 		if !output_matched {
-			header_emitted = try! (test_case_header_emit (&test.source, transcript, verbosity_with_optimizations, header_emitted, true));
-			try_or_fail! (write! (transcript, "!! assertion-with-optimizations !! {} => {}\n", &output_value_with_optimizations, expected_value), 0xb66640e5);
-			try_or_fail! (write! (transcript, "!! assertion-with-optimizations !!\n{:#?}\n!! => !!\n{:#?}\n", &output_value_with_optimizations, &expected_value), 0xe650c868);
-			try_or_fail! (write! (transcript, "!! failed\n"), 0xf7d88757);
+			header_emitted = try! (test_case_header_emit (&test.source, transcript_backend, verbosity_with_optimizations, header_emitted, true));
+			trace_error! (transcript, 0xb66640e5 => "failed assertion with optimizations!\u{1e}{0}\u{1e}{1}\u{1e}{0:#?}\u{1e}{1:#?}" => (&output_value_with_optimizations, expected_value), backend = transcript_backend);
 			fail! (0xe52ddb4f);
 		}
 	}
@@ -609,10 +602,8 @@ pub fn execute_test (test : &TestCaseCompiled, transcript : &mut io::Write, verb
 				ValueKindMatchAsRef2::SyntaxNative (_, _) => {
 					let output_matched = try! (equivalent_by_value_strict_recursive_2 (expected_value_without_optimizations, expected_value_with_optimizations));
 					if !output_matched {
-						header_emitted = try! (test_case_header_emit (&test.source, transcript, verbosity_generic, header_emitted, true));
-						try_or_fail! (write! (transcript, "!! assertion-with/without-optimizations !! {} => {}\n", expected_value_without_optimizations, expected_value_with_optimizations), 0xe003610f);
-						try_or_fail! (write! (transcript, "!! assertion-with/without-optimizations !!\n{:#?}\n!! => !!\n{:#?}\n", expected_value_without_optimizations, expected_value_with_optimizations), 0x91335537);
-						try_or_fail! (write! (transcript, "!! failed\n"), 0x8459f31b);
+						header_emitted = try! (test_case_header_emit (&test.source, transcript_backend, verbosity_generic, header_emitted, true));
+						trace_error! (transcript, 0xe003610f => "failed assertion between with and without optimizations!\u{1e}{0}\u{1e}{1}\u{1e}{0:#?}\u{1e}{1:#?}" => (expected_value_without_optimizations, expected_value_with_optimizations), backend = transcript_backend);
 						fail! (0xc8a2813a);
 					}
 				},
@@ -640,7 +631,7 @@ pub fn execute_test (test : &TestCaseCompiled, transcript : &mut io::Write, verb
 	}
 	
 	
-	try! (test_case_footer_emit (&test.source, transcript, verbosity_global, header_emitted, false));
+	try! (test_case_footer_emit (&test.source, transcript_backend, verbosity_global, header_emitted, false));
 	
 	succeed! (());
 }
@@ -668,7 +659,7 @@ pub(crate) fn benchmark_test_with_optimizations (test : &TestCaseCompiled, evalu
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn test_case_header_emit (test : &TestCase, transcript : &mut io::Write, verbosity : TestVerbosity, emitted : bool, forced : bool) -> (Outcome<bool>) {
+fn test_case_header_emit (test : &TestCase, transcript_backend : &TranscriptBackend, verbosity : TestVerbosity, emitted : bool, forced : bool) -> (Outcome<bool>) {
 	if emitted {
 		succeed! (true);
 	}
@@ -679,12 +670,12 @@ fn test_case_header_emit (test : &TestCase, transcript : &mut io::Write, verbosi
 			forced,
 	};
 	if forced {
-		try_or_fail! (write! (transcript, "\n--------------------------------------------------------------------------------\n"), 0xccf80728);
+		// TODO:  trace_internal! (transcript, 0xccf80728 => "--------------------------------------------------------------------------------" => (), backend = transcript_backend);
 		match test.action {
 			TestAction::Expect (ref expected) =>
-				try_or_fail! (write! (transcript, ">> {} => {};\n", &test.expression, expected), 0xf1bf16d3),
+				trace_internal! (transcript, 0xf1bf16d3 => ">> {} => {}" => (&test.expression, expected), backend = transcript_backend),
 			TestAction::Debug | TestAction::Ignore | TestAction::Skip =>
-				try_or_fail! (write! (transcript, ">> {} => #ignore;\n", &test.expression), 0x01fdbf40),
+				trace_internal! (transcript, 0x01fdbf40 => ">> {} => #ignore" => (&test.expression), backend = transcript_backend),
 		}
 		succeed! (true);
 	} else {
@@ -694,10 +685,10 @@ fn test_case_header_emit (test : &TestCase, transcript : &mut io::Write, verbosi
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn test_case_footer_emit (test : &TestCase, transcript : &mut io::Write, verbosity : TestVerbosity, emitted : bool, forced : bool) -> (Outcome<bool>) {
-	let emitted = try! (test_case_header_emit (test, transcript, verbosity, emitted, forced));
+fn test_case_footer_emit (test : &TestCase, transcript_backend : &TranscriptBackend, verbosity : TestVerbosity, emitted : bool, forced : bool) -> (Outcome<bool>) {
+	let emitted = try! (test_case_header_emit (test, transcript_backend, verbosity, emitted, forced));
 	if emitted {
-		try_or_fail! (write! (transcript, "--------------------------------------------------------------------------------\n\n\n\n"), 0x3d63834c);
+		// TODO:  trace_internal! (transcript, 0x3d63834c => "--------------------------------------------------------------------------------" => (), backend = transcript_backend);
 	}
 	succeed! (emitted);
 }
@@ -706,20 +697,17 @@ fn test_case_footer_emit (test : &TestCase, transcript : &mut io::Write, verbosi
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn execute_tests_main (identifier : &str, source : &str, context : Option<&Context>, transcript : Option<&mut io::Write>, verbosity : Option<TestVerbosity>) -> (Outcome<()>) {
+pub fn execute_tests_main (identifier : &str, source : &str, context : Option<&Context>, transcript_backend : Option<&TranscriptBackend>, verbosity : Option<TestVerbosity>) -> (Outcome<()>) {
 	
-	let mut stdout = io::stdout ();
-	let transcript = if let Some (transcript) = transcript { transcript } else { &mut stdout };
+	let transcript_backend = if let Some (transcript_backend) = transcript_backend { transcript_backend } else { transcript.backend () };
 	let verbosity = if let Some (verbosity) = verbosity { verbosity } else {
 		let verbosity = env::var ("VONUVOLI_SCHEME_TESTS_DEBUG") .unwrap_or (string::String::from ("false"));
 		let verbosity = if verbosity == "true" { TestVerbosity::Debug } else { TestVerbosity::Quiet };
 		verbosity
 	};
 	
-	try_or_fail! (write! (transcript, "\n\n"), 0x5afde5da);
-	let outcome = parse_and_execute_tests (identifier, source, context, transcript, verbosity);
-	try_or_fail! (write! (transcript, "\n"), 0x216bb5ee);
-	try_or_fail! (transcript.flush (), 0xa05200ec);
+	let outcome = parse_and_execute_tests (identifier, source, context, transcript_backend, verbosity);
+	
 	return outcome;
 }
 
@@ -727,36 +715,35 @@ pub fn execute_tests_main (identifier : &str, source : &str, context : Option<&C
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn benchmark_tests_main (identifier : &str, source : &str, context : Option<&Context>, bencher : Option<&mut ext::test::Bencher>, transcript : Option<&mut io::Write>, output : Option<&mut io::Write>, verbosity : Option<TestVerbosity>) -> (Outcome<()>) {
+pub fn benchmark_tests_main (identifier : &str, source : &str, context : Option<&Context>, bencher : Option<&mut ext::test::Bencher>, transcript_backend : Option<&TranscriptBackend>, output : Option<&mut io::Write>, verbosity : Option<TestVerbosity>) -> (Outcome<()>) {
 	benchmark_main (
 			identifier,
-			|identifier, bencher, transcript, verbosity|
-					parse_and_benchmark_tests (identifier, source, context.clone (), bencher, transcript, verbosity),
-			bencher, transcript, output, verbosity)
+			|identifier, bencher, transcript_backend, output, verbosity|
+					parse_and_benchmark_tests (identifier, source, context.clone (), bencher, transcript_backend, output, verbosity),
+			bencher, transcript_backend, output, verbosity)
 }
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn benchmark_generic_main <Setup, Iteration, SetupOutput, IterationOutput> (identifier : &str, setup : Setup, iteration : Iteration, bencher : Option<&mut ext::test::Bencher>, transcript : Option<&mut io::Write>, output : Option<&mut io::Write>, verbosity : Option<TestVerbosity>) -> (Outcome<()>)
+pub fn benchmark_generic_main <Setup, Iteration, SetupOutput, IterationOutput> (identifier : &str, setup : Setup, iteration : Iteration, bencher : Option<&mut ext::test::Bencher>, transcript_backend : Option<&TranscriptBackend>, output : Option<&mut io::Write>, verbosity : Option<TestVerbosity>) -> (Outcome<()>)
 		where
 			Setup : Fn () -> (Outcome<SetupOutput>),
 			Iteration : Fn (&SetupOutput) -> (IterationOutput)
 {
 	benchmark_main (
 			identifier,
-			|identifier, bencher, transcript, verbosity|
-					benchmark_generic (identifier, &setup, &iteration, bencher, transcript, verbosity),
-			bencher, transcript, output, verbosity)
+			|identifier, bencher, transcript_backend, output, verbosity|
+					benchmark_generic (identifier, &setup, &iteration, bencher, transcript_backend, output, verbosity),
+			bencher, transcript_backend, output, verbosity)
 }
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub(crate) fn benchmark_main <Benchmark> (identifier : &str, benchmark : Benchmark, bencher : Option<&mut ext::test::Bencher>, transcript : Option<&mut io::Write>, output : Option<&mut io::Write>, verbosity : Option<TestVerbosity>) -> (Outcome<()>)
-		where Benchmark : Fn (&str, &mut ext::test::Bencher, &mut io::Write, TestVerbosity) -> (Outcome<()>)
+pub(crate) fn benchmark_main <Benchmark> (identifier : &str, benchmark : Benchmark, bencher : Option<&mut ext::test::Bencher>, transcript_backend : Option<&TranscriptBackend>, output : Option<&mut io::Write>, verbosity : Option<TestVerbosity>) -> (Outcome<()>)
+		where Benchmark : Fn (&str, &mut ext::test::Bencher, &TranscriptBackend, &mut io::Write, TestVerbosity) -> (Outcome<()>)
 {
 	
-	let mut stdout = io::stdout ();
-	let transcript = if let Some (transcript) = transcript { transcript } else { &mut stdout };
+	let transcript_backend = if let Some (transcript_backend) = transcript_backend { transcript_backend } else { transcript.backend () };
 	let verbosity = if let Some (verbosity) = verbosity { verbosity } else {
 		let verbosity = env::var ("VONUVOLI_SCHEME_BENCHMARKS_DEBUG") .unwrap_or (string::String::from ("false"));
 		let verbosity = if verbosity == "true" { TestVerbosity::Debug } else { TestVerbosity::Quiet };
@@ -793,18 +780,17 @@ pub(crate) fn benchmark_main <Benchmark> (identifier : &str, benchmark : Benchma
 			fail_panic! (0x5e76028c),
 	};
 	
-	try_or_fail! (write! (transcript, "\n\n"), 0x42d6a453);
-	let outcome = if let Some (output) = output {
-		let mut buffer = StdVec::new ();
-		let outcome = benchmark (identifier, bencher, &mut buffer, verbosity);
-		try_or_fail! (transcript.write_all (&buffer), 0xe987851f);
-		try_or_fail! (output.write_all (&buffer), 0x41e00f08);
-		outcome
-	} else {
-		benchmark (identifier, bencher, transcript, verbosity)
-	};
-	try_or_fail! (write! (transcript, "\n"), 0x276ffb09);
-	try_or_fail! (transcript.flush (), 0x39279869);
-	return outcome;
+	let mut output_buffer = StdVec::with_capacity (1024);
+	try! (benchmark (identifier, bencher, transcript_backend, &mut output_buffer, verbosity));
+	
+	let output_buffer = try_or_fail! (StdString::from_utf8 (output_buffer), 0x48004fa7);
+	
+	trace_notice! (transcript, 0x1643f2b2, message = &output_buffer, backend = transcript_backend);
+	
+	if let Some (output) = output {
+		try_or_fail! (output.write_all (output_buffer.as_bytes ()), 0x41e00f08);
+	}
+	
+	succeed! (());
 }
 
