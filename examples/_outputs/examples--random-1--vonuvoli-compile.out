@@ -1,0 +1,2358 @@
+
+--------------------------------------------------------------------------------
+Contexts(
+    BindingInitialize1(
+        Binding {
+            identifier: Some(
+                Symbol(
+                    "write-integers"
+                )
+            ),
+            initialized: false,
+            immutable: false,
+            handle: Handle(
+                "ab747e762dce2cd2"
+            )
+        },
+        Lambda(
+            LambdaTemplate {
+                identifier: Some(
+                    Symbol(
+                        "write-integers"
+                    )
+                ),
+                arguments_positional: [],
+                argument_rest: None,
+                handle: Handle(
+                    "7ee36dbb9676ad82"
+                )
+            },
+            Loop(
+                None,
+                None,
+                Some(
+                    Sequence(
+                        ReturnLast,
+                        [
+                            ProcedurePrimitiveCall(
+                                ProcedurePrimitiveCall1(
+                                    Port(
+                                        ValueWrite
+                                    ),
+                                    ProcedureNativeCall(
+                                        ProcedureNativeCall0(
+                                            ProcedureNative0(
+                                                "vonuvoli_scheme::builtins_random::random_generate_i64_0"
+                                            )
+                                        )
+                                    )
+                                )
+                            ),
+                            ProcedurePrimitiveCall(
+                                ProcedurePrimitiveCall1(
+                                    Port(
+                                        CharacterWrite
+                                    ),
+                                    Value(
+                                        Character(
+                                            '\n'
+                                        )
+                                    )
+                                )
+                            )
+                        ]
+                    )
+                ),
+                None
+            ),
+            [],
+            []
+        )
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+Contexts(
+    BindingInitialize1(
+        Binding {
+            identifier: Some(
+                Symbol(
+                    "write-reals"
+                )
+            ),
+            initialized: false,
+            immutable: false,
+            handle: Handle(
+                "39c589fa9a559e30"
+            )
+        },
+        Lambda(
+            LambdaTemplate {
+                identifier: Some(
+                    Symbol(
+                        "write-reals"
+                    )
+                ),
+                arguments_positional: [],
+                argument_rest: None,
+                handle: Handle(
+                    "c75513f8c49fc1ae"
+                )
+            },
+            Loop(
+                None,
+                None,
+                Some(
+                    Sequence(
+                        ReturnLast,
+                        [
+                            ProcedurePrimitiveCall(
+                                ProcedurePrimitiveCall1(
+                                    Port(
+                                        ValueWrite
+                                    ),
+                                    ProcedureNativeCall(
+                                        ProcedureNativeCall0(
+                                            ProcedureNative0(
+                                                "vonuvoli_scheme::builtins_random::random_generate_f64_0"
+                                            )
+                                        )
+                                    )
+                                )
+                            ),
+                            ProcedurePrimitiveCall(
+                                ProcedurePrimitiveCall1(
+                                    Port(
+                                        CharacterWrite
+                                    ),
+                                    Value(
+                                        Character(
+                                            '\n'
+                                        )
+                                    )
+                                )
+                            )
+                        ]
+                    )
+                ),
+                None
+            ),
+            [],
+            []
+        )
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+Contexts(
+    BindingInitialize1(
+        Binding {
+            identifier: Some(
+                Symbol(
+                    "write-booleans"
+                )
+            ),
+            initialized: false,
+            immutable: false,
+            handle: Handle(
+                "e85c2da99e32c46a"
+            )
+        },
+        Lambda(
+            LambdaTemplate {
+                identifier: Some(
+                    Symbol(
+                        "write-booleans"
+                    )
+                ),
+                arguments_positional: [],
+                argument_rest: None,
+                handle: Handle(
+                    "3e782ad7ad278ec0"
+                )
+            },
+            Loop(
+                None,
+                None,
+                Some(
+                    Sequence(
+                        ReturnLast,
+                        [
+                            ProcedurePrimitiveCall(
+                                ProcedurePrimitiveCall1(
+                                    Port(
+                                        ValueWrite
+                                    ),
+                                    ProcedureNativeCall(
+                                        ProcedureNativeCall0(
+                                            ProcedureNative0(
+                                                "vonuvoli_scheme::builtins_random::random_generate_boolean"
+                                            )
+                                        )
+                                    )
+                                )
+                            ),
+                            ProcedurePrimitiveCall(
+                                ProcedurePrimitiveCall1(
+                                    Port(
+                                        CharacterWrite
+                                    ),
+                                    Value(
+                                        Character(
+                                            '\n'
+                                        )
+                                    )
+                                )
+                            )
+                        ]
+                    )
+                ),
+                None
+            ),
+            [],
+            []
+        )
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+Contexts(
+    BindingInitialize1(
+        Binding {
+            identifier: Some(
+                Symbol(
+                    "write-booleans-weighted"
+                )
+            ),
+            initialized: false,
+            immutable: false,
+            handle: Handle(
+                "1f217e0b730423bb"
+            )
+        },
+        Lambda(
+            LambdaTemplate {
+                identifier: Some(
+                    Symbol(
+                        "write-booleans-weighted"
+                    )
+                ),
+                arguments_positional: [
+                    Symbol(
+                        "weight"
+                    )
+                ],
+                argument_rest: None,
+                handle: Handle(
+                    "a2e166aa74cba638"
+                )
+            },
+            Loop(
+                None,
+                None,
+                Some(
+                    Sequence(
+                        ReturnLast,
+                        [
+                            ProcedurePrimitiveCall(
+                                ProcedurePrimitiveCall1(
+                                    Port(
+                                        ValueWrite
+                                    ),
+                                    ProcedureNativeCall(
+                                        ProcedureNativeCall1(
+                                            ProcedureNative1(
+                                                "vonuvoli_scheme::builtins_random::random_generate_boolean_weighted"
+                                            ),
+                                            Contexts(
+                                                RegisterGet1(
+                                                    0
+                                                )
+                                            )
+                                        )
+                                    )
+                                )
+                            ),
+                            ProcedurePrimitiveCall(
+                                ProcedurePrimitiveCall1(
+                                    Port(
+                                        CharacterWrite
+                                    ),
+                                    Value(
+                                        Character(
+                                            '\n'
+                                        )
+                                    )
+                                )
+                            )
+                        ]
+                    )
+                ),
+                None
+            ),
+            [],
+            [
+                LocalValue(
+                    None,
+                    false
+                )
+            ]
+        )
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+Contexts(
+    BindingInitialize1(
+        Binding {
+            identifier: Some(
+                Symbol(
+                    "write-characters-1"
+                )
+            ),
+            initialized: false,
+            immutable: false,
+            handle: Handle(
+                "b44d43a9a4109c8d"
+            )
+        },
+        Lambda(
+            LambdaTemplate {
+                identifier: Some(
+                    Symbol(
+                        "write-characters-1"
+                    )
+                ),
+                arguments_positional: [],
+                argument_rest: None,
+                handle: Handle(
+                    "b52eb2ed3f873f1e"
+                )
+            },
+            Loop(
+                None,
+                None,
+                Some(
+                    Sequence(
+                        ReturnLast,
+                        [
+                            ProcedurePrimitiveCall(
+                                ProcedurePrimitiveCall1(
+                                    Port(
+                                        CharacterWrite
+                                    ),
+                                    ProcedureNativeCall(
+                                        ProcedureNativeCall0(
+                                            ProcedureNative0(
+                                                "vonuvoli_scheme::builtins_random::random_generate_character_0"
+                                            )
+                                        )
+                                    )
+                                )
+                            ),
+                            ProcedurePrimitiveCall(
+                                ProcedurePrimitiveCall1(
+                                    Port(
+                                        CharacterWrite
+                                    ),
+                                    Value(
+                                        Character(
+                                            '\n'
+                                        )
+                                    )
+                                )
+                            )
+                        ]
+                    )
+                ),
+                None
+            ),
+            [],
+            []
+        )
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+Contexts(
+    BindingInitialize1(
+        Binding {
+            identifier: Some(
+                Symbol(
+                    "write-characters-ascii-1"
+                )
+            ),
+            initialized: false,
+            immutable: false,
+            handle: Handle(
+                "0c9903eee93cc8d2"
+            )
+        },
+        Lambda(
+            LambdaTemplate {
+                identifier: Some(
+                    Symbol(
+                        "write-characters-ascii-1"
+                    )
+                ),
+                arguments_positional: [],
+                argument_rest: None,
+                handle: Handle(
+                    "4216a19120c43ca2"
+                )
+            },
+            Loop(
+                None,
+                None,
+                Some(
+                    Sequence(
+                        ReturnLast,
+                        [
+                            ProcedurePrimitiveCall(
+                                ProcedurePrimitiveCall1(
+                                    Port(
+                                        CharacterWrite
+                                    ),
+                                    ProcedureNativeCall(
+                                        ProcedureNativeCall0(
+                                            ProcedureNative0(
+                                                "vonuvoli_scheme::builtins_random::random_generate_character_ascii"
+                                            )
+                                        )
+                                    )
+                                )
+                            ),
+                            ProcedurePrimitiveCall(
+                                ProcedurePrimitiveCall1(
+                                    Port(
+                                        CharacterWrite
+                                    ),
+                                    Value(
+                                        Character(
+                                            '\n'
+                                        )
+                                    )
+                                )
+                            )
+                        ]
+                    )
+                ),
+                None
+            ),
+            [],
+            []
+        )
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+Contexts(
+    BindingInitialize1(
+        Binding {
+            identifier: Some(
+                Symbol(
+                    "write-characters-ascii-alphabetic-1"
+                )
+            ),
+            initialized: false,
+            immutable: false,
+            handle: Handle(
+                "4684ec50fec0d1dd"
+            )
+        },
+        Lambda(
+            LambdaTemplate {
+                identifier: Some(
+                    Symbol(
+                        "write-characters-ascii-alphabetic-1"
+                    )
+                ),
+                arguments_positional: [],
+                argument_rest: None,
+                handle: Handle(
+                    "167f9b7c5a0a107c"
+                )
+            },
+            Loop(
+                None,
+                None,
+                Some(
+                    Sequence(
+                        ReturnLast,
+                        [
+                            ProcedurePrimitiveCall(
+                                ProcedurePrimitiveCall1(
+                                    Port(
+                                        CharacterWrite
+                                    ),
+                                    ProcedureNativeCall(
+                                        ProcedureNativeCall0(
+                                            ProcedureNative0(
+                                                "vonuvoli_scheme::builtins_random::random_generate_character_ascii_alphabetic"
+                                            )
+                                        )
+                                    )
+                                )
+                            ),
+                            ProcedurePrimitiveCall(
+                                ProcedurePrimitiveCall1(
+                                    Port(
+                                        CharacterWrite
+                                    ),
+                                    Value(
+                                        Character(
+                                            '\n'
+                                        )
+                                    )
+                                )
+                            )
+                        ]
+                    )
+                ),
+                None
+            ),
+            [],
+            []
+        )
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+Contexts(
+    BindingInitialize1(
+        Binding {
+            identifier: Some(
+                Symbol(
+                    "write-characters-ascii-alphabetic-buffer"
+                )
+            ),
+            initialized: false,
+            immutable: false,
+            handle: Handle(
+                "569d10da81b761b3"
+            )
+        },
+        Lambda(
+            LambdaTemplate {
+                identifier: Some(
+                    Symbol(
+                        "write-characters-ascii-alphabetic-buffer"
+                    )
+                ),
+                arguments_positional: [
+                    Symbol(
+                        "size"
+                    )
+                ],
+                argument_rest: None,
+                handle: Handle(
+                    "1c8bcf8404953051"
+                )
+            },
+            Loop(
+                None,
+                None,
+                Some(
+                    Sequence(
+                        ReturnLast,
+                        [
+                            ProcedurePrimitiveCall(
+                                ProcedurePrimitiveCall1(
+                                    Port(
+                                        StringWrite
+                                    ),
+                                    ProcedureNativeCall(
+                                        ProcedureNativeCall1(
+                                            ProcedureNative1(
+                                                "vonuvoli_scheme::builtins_random::random_generate_string_build_ascii_alphabetic"
+                                            ),
+                                            Contexts(
+                                                RegisterGet1(
+                                                    0
+                                                )
+                                            )
+                                        )
+                                    )
+                                )
+                            ),
+                            ProcedurePrimitiveCall(
+                                ProcedurePrimitiveCall1(
+                                    Port(
+                                        CharacterWrite
+                                    ),
+                                    Value(
+                                        Character(
+                                            '\n'
+                                        )
+                                    )
+                                )
+                            )
+                        ]
+                    )
+                ),
+                None
+            ),
+            [],
+            [
+                LocalValue(
+                    None,
+                    false
+                )
+            ]
+        )
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+Contexts(
+    BindingInitialize1(
+        Binding {
+            identifier: Some(
+                Symbol(
+                    "write-characters-ascii-alphabetic-permutation"
+                )
+            ),
+            initialized: false,
+            immutable: false,
+            handle: Handle(
+                "7f6ce2300b12b9d3"
+            )
+        },
+        Lambda(
+            LambdaTemplate {
+                identifier: Some(
+                    Symbol(
+                        "write-characters-ascii-alphabetic-permutation"
+                    )
+                ),
+                arguments_positional: [],
+                argument_rest: None,
+                handle: Handle(
+                    "a2624d263c624084"
+                )
+            },
+            Loop(
+                None,
+                None,
+                Some(
+                    Sequence(
+                        ReturnLast,
+                        [
+                            ProcedurePrimitiveCall(
+                                ProcedurePrimitiveCall1(
+                                    Port(
+                                        StringWrite
+                                    ),
+                                    ProcedureNativeCall(
+                                        ProcedureNativeCall0(
+                                            ProcedureNative0(
+                                                "vonuvoli_scheme::builtins_random::random_generate_string_permutation_ascii_alphabetic"
+                                            )
+                                        )
+                                    )
+                                )
+                            ),
+                            ProcedurePrimitiveCall(
+                                ProcedurePrimitiveCall1(
+                                    Port(
+                                        CharacterWrite
+                                    ),
+                                    Value(
+                                        Character(
+                                            '\n'
+                                        )
+                                    )
+                                )
+                            )
+                        ]
+                    )
+                ),
+                None
+            ),
+            [],
+            []
+        )
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+Contexts(
+    BindingInitialize1(
+        Binding {
+            identifier: Some(
+                Symbol(
+                    "write-bytes-1"
+                )
+            ),
+            initialized: false,
+            immutable: false,
+            handle: Handle(
+                "cbe890c94cd84c25"
+            )
+        },
+        Lambda(
+            LambdaTemplate {
+                identifier: Some(
+                    Symbol(
+                        "write-bytes-1"
+                    )
+                ),
+                arguments_positional: [],
+                argument_rest: None,
+                handle: Handle(
+                    "365ace582c1df32a"
+                )
+            },
+            Loop(
+                None,
+                None,
+                Some(
+                    ProcedurePrimitiveCall(
+                        ProcedurePrimitiveCall1(
+                            Port(
+                                ByteWrite
+                            ),
+                            ProcedureNativeCall(
+                                ProcedureNativeCall0(
+                                    ProcedureNative0(
+                                        "vonuvoli_scheme::builtins_random::random_generate_u8"
+                                    )
+                                )
+                            )
+                        )
+                    )
+                ),
+                None
+            ),
+            [],
+            []
+        )
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+Contexts(
+    BindingInitialize1(
+        Binding {
+            identifier: Some(
+                Symbol(
+                    "write-bytes-buffer"
+                )
+            ),
+            initialized: false,
+            immutable: false,
+            handle: Handle(
+                "ad37db41747da2bc"
+            )
+        },
+        Lambda(
+            LambdaTemplate {
+                identifier: Some(
+                    Symbol(
+                        "write-bytes-buffer"
+                    )
+                ),
+                arguments_positional: [
+                    Symbol(
+                        "size"
+                    )
+                ],
+                argument_rest: None,
+                handle: Handle(
+                    "23d42bc6f02d2f76"
+                )
+            },
+            Sequence(
+                ReturnLast,
+                [
+                    Contexts(
+                        RegisterInitialize1(
+                            1,
+                            ProcedurePrimitiveCall(
+                                ProcedurePrimitiveCall1(
+                                    Bytes(
+                                        BytesToMutable
+                                    ),
+                                    ProcedurePrimitiveCall(
+                                        ProcedurePrimitiveCall1(
+                                            Bytes(
+                                                BytesMake
+                                            ),
+                                            Contexts(
+                                                RegisterGet1(
+                                                    0
+                                                )
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    ),
+                    Loop(
+                        None,
+                        None,
+                        Some(
+                            Sequence(
+                                ReturnLast,
+                                [
+                                    ProcedureNativeCall(
+                                        ProcedureNativeCall1(
+                                            ProcedureNative1(
+                                                "vonuvoli_scheme::builtins_random::random_generate_bytes_fill_1"
+                                            ),
+                                            Contexts(
+                                                RegisterGet1(
+                                                    1
+                                                )
+                                            )
+                                        )
+                                    ),
+                                    ProcedurePrimitiveCall(
+                                        ProcedurePrimitiveCall1(
+                                            Port(
+                                                BytesWrite
+                                            ),
+                                            Contexts(
+                                                RegisterGet1(
+                                                    1
+                                                )
+                                            )
+                                        )
+                                    )
+                                ]
+                            )
+                        ),
+                        None
+                    )
+                ]
+            ),
+            [],
+            [
+                LocalValue(
+                    None,
+                    false
+                ),
+                LocalValue(
+                    None,
+                    false
+                )
+            ]
+        )
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+Contexts(
+    BindingInitialize1(
+        Binding {
+            identifier: Some(
+                Symbol(
+                    "write-bytes-permutation"
+                )
+            ),
+            initialized: false,
+            immutable: false,
+            handle: Handle(
+                "05a5849dbeb18d9e"
+            )
+        },
+        Lambda(
+            LambdaTemplate {
+                identifier: Some(
+                    Symbol(
+                        "write-bytes-permutation"
+                    )
+                ),
+                arguments_positional: [],
+                argument_rest: None,
+                handle: Handle(
+                    "1c5cd1bec51d88d2"
+                )
+            },
+            Sequence(
+                ReturnLast,
+                [
+                    Contexts(
+                        RegisterInitialize1(
+                            0,
+                            ProcedurePrimitiveCall(
+                                ProcedurePrimitiveCall1(
+                                    Bytes(
+                                        BytesToMutable
+                                    ),
+                                    ProcedureNativeCall(
+                                        ProcedureNativeCall0(
+                                            ProcedureNative0(
+                                                "vonuvoli_scheme::builtins_random::random_generate_bytes_permutation"
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    ),
+                    Loop(
+                        None,
+                        None,
+                        Some(
+                            Sequence(
+                                ReturnLast,
+                                [
+                                    ProcedureNativeCall(
+                                        ProcedureNativeCall1(
+                                            ProcedureNative1(
+                                                "vonuvoli_scheme::builtins_random::random_generate_bytes_shuffle_1"
+                                            ),
+                                            Contexts(
+                                                RegisterGet1(
+                                                    0
+                                                )
+                                            )
+                                        )
+                                    ),
+                                    ProcedurePrimitiveCall(
+                                        ProcedurePrimitiveCall1(
+                                            Port(
+                                                BytesWrite
+                                            ),
+                                            Contexts(
+                                                RegisterGet1(
+                                                    0
+                                                )
+                                            )
+                                        )
+                                    )
+                                ]
+                            )
+                        ),
+                        None
+                    )
+                ]
+            ),
+            [],
+            [
+                LocalValue(
+                    None,
+                    false
+                )
+            ]
+        )
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+Contexts(
+    BindingInitialize1(
+        Binding {
+            identifier: Some(
+                Symbol(
+                    "write-bytes-crypto"
+                )
+            ),
+            initialized: false,
+            immutable: false,
+            handle: Handle(
+                "2171c0e581c6a865"
+            )
+        },
+        Lambda(
+            LambdaTemplate {
+                identifier: Some(
+                    Symbol(
+                        "write-bytes-crypto"
+                    )
+                ),
+                arguments_positional: [
+                    Symbol(
+                        "size"
+                    )
+                ],
+                argument_rest: None,
+                handle: Handle(
+                    "7aedb4dbb36b5141"
+                )
+            },
+            Sequence(
+                ReturnLast,
+                [
+                    Contexts(
+                        RegisterInitialize1(
+                            1,
+                            ProcedurePrimitiveCall(
+                                ProcedurePrimitiveCall1(
+                                    Bytes(
+                                        BytesToMutable
+                                    ),
+                                    ProcedurePrimitiveCall(
+                                        ProcedurePrimitiveCall1(
+                                            Bytes(
+                                                BytesMake
+                                            ),
+                                            Contexts(
+                                                RegisterGet1(
+                                                    0
+                                                )
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    ),
+                    Loop(
+                        None,
+                        None,
+                        Some(
+                            Sequence(
+                                ReturnLast,
+                                [
+                                    ProcedureNativeCall(
+                                        ProcedureNativeCall1(
+                                            ProcedureNative1(
+                                                "vonuvoli_scheme::builtins_crypto::crypto_generate_bytes_fill_1"
+                                            ),
+                                            Contexts(
+                                                RegisterGet1(
+                                                    1
+                                                )
+                                            )
+                                        )
+                                    ),
+                                    ProcedurePrimitiveCall(
+                                        ProcedurePrimitiveCall1(
+                                            Port(
+                                                BytesWrite
+                                            ),
+                                            Contexts(
+                                                RegisterGet1(
+                                                    1
+                                                )
+                                            )
+                                        )
+                                    )
+                                ]
+                            )
+                        ),
+                        None
+                    )
+                ]
+            ),
+            [],
+            [
+                LocalValue(
+                    None,
+                    false
+                ),
+                LocalValue(
+                    None,
+                    false
+                )
+            ]
+        )
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+ConditionalMatch(
+    Value(
+        Symbol(
+            "write-bytes-buffer-1-mib"
+        )
+    ),
+    Multiple(
+        [
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "write-integers"
+                    ),
+                    false
+                ),
+                Ignore,
+                ProcedureGenericCall(
+                    ProcedureCall0(
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "write-integers"
+                                        )
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "ab747e762dce2cd2"
+                                    )
+                                }
+                            )
+                        )
+                    )
+                )
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "write-reals"
+                    ),
+                    false
+                ),
+                Ignore,
+                ProcedureGenericCall(
+                    ProcedureCall0(
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "write-reals"
+                                        )
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "39c589fa9a559e30"
+                                    )
+                                }
+                            )
+                        )
+                    )
+                )
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "write-booleans"
+                    ),
+                    false
+                ),
+                Ignore,
+                ProcedureGenericCall(
+                    ProcedureCall0(
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "write-booleans"
+                                        )
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "e85c2da99e32c46a"
+                                    )
+                                }
+                            )
+                        )
+                    )
+                )
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "write-booleans-weighted-t-1"
+                    ),
+                    false
+                ),
+                Ignore,
+                ProcedureGenericCall(
+                    ProcedureCall1(
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "write-booleans-weighted"
+                                        )
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "1f217e0b730423bb"
+                                    )
+                                }
+                            )
+                        ),
+                        Value(
+                            NumberInteger(
+                                1
+                            )
+                        )
+                    )
+                )
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "write-booleans-weighted-t-2"
+                    ),
+                    false
+                ),
+                Ignore,
+                ProcedureGenericCall(
+                    ProcedureCall1(
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "write-booleans-weighted"
+                                        )
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "1f217e0b730423bb"
+                                    )
+                                }
+                            )
+                        ),
+                        Value(
+                            NumberInteger(
+                                2
+                            )
+                        )
+                    )
+                )
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "write-booleans-weighted-t-3"
+                    ),
+                    false
+                ),
+                Ignore,
+                ProcedureGenericCall(
+                    ProcedureCall1(
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "write-booleans-weighted"
+                                        )
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "1f217e0b730423bb"
+                                    )
+                                }
+                            )
+                        ),
+                        Value(
+                            NumberInteger(
+                                3
+                            )
+                        )
+                    )
+                )
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "write-booleans-weighted-t-10"
+                    ),
+                    false
+                ),
+                Ignore,
+                ProcedureGenericCall(
+                    ProcedureCall1(
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "write-booleans-weighted"
+                                        )
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "1f217e0b730423bb"
+                                    )
+                                }
+                            )
+                        ),
+                        Value(
+                            NumberInteger(
+                                10
+                            )
+                        )
+                    )
+                )
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "write-booleans-weighted-t-100"
+                    ),
+                    false
+                ),
+                Ignore,
+                ProcedureGenericCall(
+                    ProcedureCall1(
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "write-booleans-weighted"
+                                        )
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "1f217e0b730423bb"
+                                    )
+                                }
+                            )
+                        ),
+                        Value(
+                            NumberInteger(
+                                100
+                            )
+                        )
+                    )
+                )
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "write-booleans-weighted-f-1"
+                    ),
+                    false
+                ),
+                Ignore,
+                ProcedureGenericCall(
+                    ProcedureCall1(
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "write-booleans-weighted"
+                                        )
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "1f217e0b730423bb"
+                                    )
+                                }
+                            )
+                        ),
+                        Value(
+                            NumberInteger(
+                                -1
+                            )
+                        )
+                    )
+                )
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "write-booleans-weighted-f-2"
+                    ),
+                    false
+                ),
+                Ignore,
+                ProcedureGenericCall(
+                    ProcedureCall1(
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "write-booleans-weighted"
+                                        )
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "1f217e0b730423bb"
+                                    )
+                                }
+                            )
+                        ),
+                        Value(
+                            NumberInteger(
+                                -2
+                            )
+                        )
+                    )
+                )
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "write-booleans-weighted-f-3"
+                    ),
+                    false
+                ),
+                Ignore,
+                ProcedureGenericCall(
+                    ProcedureCall1(
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "write-booleans-weighted"
+                                        )
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "1f217e0b730423bb"
+                                    )
+                                }
+                            )
+                        ),
+                        Value(
+                            NumberInteger(
+                                -3
+                            )
+                        )
+                    )
+                )
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "write-booleans-weighted-f-10"
+                    ),
+                    false
+                ),
+                Ignore,
+                ProcedureGenericCall(
+                    ProcedureCall1(
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "write-booleans-weighted"
+                                        )
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "1f217e0b730423bb"
+                                    )
+                                }
+                            )
+                        ),
+                        Value(
+                            NumberInteger(
+                                -10
+                            )
+                        )
+                    )
+                )
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "write-booleans-weighted-f-100"
+                    ),
+                    false
+                ),
+                Ignore,
+                ProcedureGenericCall(
+                    ProcedureCall1(
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "write-booleans-weighted"
+                                        )
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "1f217e0b730423bb"
+                                    )
+                                }
+                            )
+                        ),
+                        Value(
+                            NumberInteger(
+                                -100
+                            )
+                        )
+                    )
+                )
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "write-booleans-weighted-t-1.0"
+                    ),
+                    false
+                ),
+                Ignore,
+                ProcedureGenericCall(
+                    ProcedureCall1(
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "write-booleans-weighted"
+                                        )
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "1f217e0b730423bb"
+                                    )
+                                }
+                            )
+                        ),
+                        Value(
+                            NumberReal(
+                                1.0
+                            )
+                        )
+                    )
+                )
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "write-booleans-weighted-f-1.0"
+                    ),
+                    false
+                ),
+                Ignore,
+                ProcedureGenericCall(
+                    ProcedureCall1(
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "write-booleans-weighted"
+                                        )
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "1f217e0b730423bb"
+                                    )
+                                }
+                            )
+                        ),
+                        Value(
+                            NumberReal(
+                                -1.0
+                            )
+                        )
+                    )
+                )
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "write-booleans-weighted-t-0.3"
+                    ),
+                    false
+                ),
+                Ignore,
+                ProcedureGenericCall(
+                    ProcedureCall1(
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "write-booleans-weighted"
+                                        )
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "1f217e0b730423bb"
+                                    )
+                                }
+                            )
+                        ),
+                        Value(
+                            NumberReal(
+                                0.3
+                            )
+                        )
+                    )
+                )
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "write-booleans-weighted-f-0.3"
+                    ),
+                    false
+                ),
+                Ignore,
+                ProcedureGenericCall(
+                    ProcedureCall1(
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "write-booleans-weighted"
+                                        )
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "1f217e0b730423bb"
+                                    )
+                                }
+                            )
+                        ),
+                        Value(
+                            NumberReal(
+                                -0.3
+                            )
+                        )
+                    )
+                )
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "write-characters-1"
+                    ),
+                    false
+                ),
+                Ignore,
+                ProcedureGenericCall(
+                    ProcedureCall0(
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "write-characters-1"
+                                        )
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "b44d43a9a4109c8d"
+                                    )
+                                }
+                            )
+                        )
+                    )
+                )
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "write-characters-ascii-1"
+                    ),
+                    false
+                ),
+                Ignore,
+                ProcedureGenericCall(
+                    ProcedureCall0(
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "write-characters-ascii-1"
+                                        )
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "0c9903eee93cc8d2"
+                                    )
+                                }
+                            )
+                        )
+                    )
+                )
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "write-characters-ascii-alphabetic-1"
+                    ),
+                    false
+                ),
+                Ignore,
+                ProcedureGenericCall(
+                    ProcedureCall0(
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "write-characters-ascii-alphabetic-1"
+                                        )
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "4684ec50fec0d1dd"
+                                    )
+                                }
+                            )
+                        )
+                    )
+                )
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "write-characters-ascii-alphabetic-buffer-128"
+                    ),
+                    false
+                ),
+                Ignore,
+                ProcedureGenericCall(
+                    ProcedureCall1(
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "write-characters-ascii-alphabetic-buffer"
+                                        )
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "569d10da81b761b3"
+                                    )
+                                }
+                            )
+                        ),
+                        Value(
+                            NumberInteger(
+                                128
+                            )
+                        )
+                    )
+                )
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "write-characters-ascii-alphabetic-buffer-128-kib"
+                    ),
+                    false
+                ),
+                Ignore,
+                ProcedureGenericCall(
+                    ProcedureCall1(
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "write-characters-ascii-alphabetic-buffer"
+                                        )
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "569d10da81b761b3"
+                                    )
+                                }
+                            )
+                        ),
+                        Value(
+                            NumberInteger(
+                                131072
+                            )
+                        )
+                    )
+                )
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "write-characters-ascii-alphabetic-buffer-4-mib"
+                    ),
+                    false
+                ),
+                Ignore,
+                ProcedureGenericCall(
+                    ProcedureCall1(
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "write-characters-ascii-alphabetic-buffer"
+                                        )
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "569d10da81b761b3"
+                                    )
+                                }
+                            )
+                        ),
+                        Value(
+                            NumberInteger(
+                                4194304
+                            )
+                        )
+                    )
+                )
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "write-characters-ascii-alphabetic-permutation"
+                    ),
+                    false
+                ),
+                Ignore,
+                ProcedureGenericCall(
+                    ProcedureCall0(
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "write-characters-ascii-alphabetic-permutation"
+                                        )
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "7f6ce2300b12b9d3"
+                                    )
+                                }
+                            )
+                        )
+                    )
+                )
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "write-bytes-1"
+                    ),
+                    false
+                ),
+                Ignore,
+                ProcedureGenericCall(
+                    ProcedureCall0(
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "write-bytes-1"
+                                        )
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "cbe890c94cd84c25"
+                                    )
+                                }
+                            )
+                        )
+                    )
+                )
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "write-bytes-buffer-1-kib"
+                    ),
+                    false
+                ),
+                Ignore,
+                ProcedureGenericCall(
+                    ProcedureCall1(
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "write-bytes-buffer"
+                                        )
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "ad37db41747da2bc"
+                                    )
+                                }
+                            )
+                        ),
+                        Value(
+                            NumberInteger(
+                                1024
+                            )
+                        )
+                    )
+                )
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "write-bytes-buffer-128-kib"
+                    ),
+                    false
+                ),
+                Ignore,
+                ProcedureGenericCall(
+                    ProcedureCall1(
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "write-bytes-buffer"
+                                        )
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "ad37db41747da2bc"
+                                    )
+                                }
+                            )
+                        ),
+                        Value(
+                            NumberInteger(
+                                131072
+                            )
+                        )
+                    )
+                )
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "write-bytes-buffer-1-mib"
+                    ),
+                    false
+                ),
+                Ignore,
+                ProcedureGenericCall(
+                    ProcedureCall1(
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "write-bytes-buffer"
+                                        )
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "ad37db41747da2bc"
+                                    )
+                                }
+                            )
+                        ),
+                        Value(
+                            NumberInteger(
+                                1048576
+                            )
+                        )
+                    )
+                )
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "write-bytes-buffer-4-mib"
+                    ),
+                    false
+                ),
+                Ignore,
+                ProcedureGenericCall(
+                    ProcedureCall1(
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "write-bytes-buffer"
+                                        )
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "ad37db41747da2bc"
+                                    )
+                                }
+                            )
+                        ),
+                        Value(
+                            NumberInteger(
+                                4194304
+                            )
+                        )
+                    )
+                )
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "write-bytes-buffer-16-mib"
+                    ),
+                    false
+                ),
+                Ignore,
+                ProcedureGenericCall(
+                    ProcedureCall1(
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "write-bytes-buffer"
+                                        )
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "ad37db41747da2bc"
+                                    )
+                                }
+                            )
+                        ),
+                        Value(
+                            NumberInteger(
+                                16777216
+                            )
+                        )
+                    )
+                )
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "write-bytes-buffer-128-mib"
+                    ),
+                    false
+                ),
+                Ignore,
+                ProcedureGenericCall(
+                    ProcedureCall1(
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "write-bytes-buffer"
+                                        )
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "ad37db41747da2bc"
+                                    )
+                                }
+                            )
+                        ),
+                        Value(
+                            NumberInteger(
+                                134217728
+                            )
+                        )
+                    )
+                )
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "write-bytes-permutation"
+                    ),
+                    false
+                ),
+                Ignore,
+                ProcedureGenericCall(
+                    ProcedureCall0(
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "write-bytes-permutation"
+                                        )
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "05a5849dbeb18d9e"
+                                    )
+                                }
+                            )
+                        )
+                    )
+                )
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "write-bytes-crypto-1-kib"
+                    ),
+                    false
+                ),
+                Ignore,
+                ProcedureGenericCall(
+                    ProcedureCall1(
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "write-bytes-crypto"
+                                        )
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "2171c0e581c6a865"
+                                    )
+                                }
+                            )
+                        ),
+                        Value(
+                            NumberInteger(
+                                1024
+                            )
+                        )
+                    )
+                )
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "write-bytes-crypto-128-kib"
+                    ),
+                    false
+                ),
+                Ignore,
+                ProcedureGenericCall(
+                    ProcedureCall1(
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "write-bytes-crypto"
+                                        )
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "2171c0e581c6a865"
+                                    )
+                                }
+                            )
+                        ),
+                        Value(
+                            NumberInteger(
+                                131072
+                            )
+                        )
+                    )
+                )
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "write-bytes-crypto-1-mib"
+                    ),
+                    false
+                ),
+                Ignore,
+                ProcedureGenericCall(
+                    ProcedureCall1(
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "write-bytes-crypto"
+                                        )
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "2171c0e581c6a865"
+                                    )
+                                }
+                            )
+                        ),
+                        Value(
+                            NumberInteger(
+                                1048576
+                            )
+                        )
+                    )
+                )
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "write-bytes-crypto-4-mib"
+                    ),
+                    false
+                ),
+                Ignore,
+                ProcedureGenericCall(
+                    ProcedureCall1(
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "write-bytes-crypto"
+                                        )
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "2171c0e581c6a865"
+                                    )
+                                }
+                            )
+                        ),
+                        Value(
+                            NumberInteger(
+                                4194304
+                            )
+                        )
+                    )
+                )
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "write-bytes-crypto-16-mib"
+                    ),
+                    false
+                ),
+                Ignore,
+                ProcedureGenericCall(
+                    ProcedureCall1(
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "write-bytes-crypto"
+                                        )
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "2171c0e581c6a865"
+                                    )
+                                }
+                            )
+                        ),
+                        Value(
+                            NumberInteger(
+                                16777216
+                            )
+                        )
+                    )
+                )
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "write-bytes-crypto-128-mib"
+                    ),
+                    false
+                ),
+                Ignore,
+                ProcedureGenericCall(
+                    ProcedureCall1(
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "write-bytes-crypto"
+                                        )
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "2171c0e581c6a865"
+                                    )
+                                }
+                            )
+                        ),
+                        Value(
+                            NumberInteger(
+                                134217728
+                            )
+                        )
+                    )
+                )
+            ),
+            ExpressionOnly(
+                ErrorThrow(
+                    ProcedurePrimitiveCall(
+                        ProcedurePrimitiveCall1(
+                            Runtime(
+                                ErrorBuild
+                            ),
+                            Value(
+                                StringImmutable(
+                                    "e80849ad"
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        ]
+    )
+)
+--------------------------------------------------------------------------------
+

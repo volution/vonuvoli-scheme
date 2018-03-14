@@ -10,7 +10,9 @@ Contexts(
             ),
             initialized: false,
             immutable: false,
-            handle: Handle(478e7baf0571ad11)
+            handle: Handle(
+                "ab747e762dce2cd2"
+            )
         },
         ProcedurePrimitiveCall(
             ProcedurePrimitiveCall3(
@@ -74,7 +76,9 @@ Contexts(
             ),
             initialized: false,
             immutable: false,
-            handle: Handle(010abfcdfbfe191a)
+            handle: Handle(
+                "701c5b129a559e30"
+            )
         },
         ProcedurePrimitiveCall(
             ProcedurePrimitiveCall1(
@@ -91,7 +95,9 @@ Contexts(
                             ),
                             initialized: false,
                             immutable: false,
-                            handle: Handle(478e7baf0571ad11)
+                            handle: Handle(
+                                "ab747e762dce2cd2"
+                            )
                         }
                     )
                 )
@@ -113,7 +119,9 @@ Contexts(
             ),
             initialized: false,
             immutable: false,
-            handle: Handle(cebfd7c68e48fa41)
+            handle: Handle(
+                "39c589fa9e32c46a"
+            )
         },
         ProcedurePrimitiveCall(
             ProcedurePrimitiveCall0(
@@ -152,7 +160,9 @@ Contexts(
                                                     ),
                                                     initialized: false,
                                                     immutable: false,
-                                                    handle: Handle(010abfcdfbfe191a)
+                                                    handle: Handle(
+                                                        "701c5b129a559e30"
+                                                    )
                                                 }
                                             )
                                         )
@@ -183,7 +193,9 @@ Contexts(
                                             ),
                                             initialized: false,
                                             immutable: false,
-                                            handle: Handle(010abfcdfbfe191a)
+                                            handle: Handle(
+                                                "701c5b129a559e30"
+                                            )
                                         }
                                     )
                                 )
@@ -216,7 +228,9 @@ Contexts(
                                             ),
                                             initialized: false,
                                             immutable: false,
-                                            handle: Handle(cebfd7c68e48fa41)
+                                            handle: Handle(
+                                                "39c589fa9e32c46a"
+                                            )
                                         }
                                     )
                                 )
@@ -282,7 +296,9 @@ ProcedurePrimitiveCall(
                     ),
                     initialized: false,
                     immutable: false,
-                    handle: Handle(478e7baf0571ad11)
+                    handle: Handle(
+                        "ab747e762dce2cd2"
+                    )
                 }
             )
         )

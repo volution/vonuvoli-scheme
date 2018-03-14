@@ -10,7 +10,9 @@ Contexts(
             ),
             initialized: false,
             immutable: false,
-            handle: Handle(478e7baf0571ad11)
+            handle: Handle(
+                "ab747e762dce2cd2"
+            )
         },
         Lambda(
             LambdaTemplate {
@@ -31,7 +33,9 @@ Contexts(
                     )
                 ],
                 argument_rest: None,
-                handle: Handle(0ff589649676ad82)
+                handle: Handle(
+                    "7ee36dbb9676ad82"
+                )
             },
             Sequence(
                 ReturnLast,
@@ -295,7 +299,9 @@ ProcedureGenericCall(
                     ),
                     initialized: false,
                     immutable: false,
-                    handle: Handle(478e7baf0571ad11)
+                    handle: Handle(
+                        "ab747e762dce2cd2"
+                    )
                 }
             )
         ),
@@ -328,7 +334,9 @@ ProcedureGenericCall(
                     ),
                     initialized: false,
                     immutable: false,
-                    handle: Handle(478e7baf0571ad11)
+                    handle: Handle(
+                        "ab747e762dce2cd2"
+                    )
                 }
             )
         ),
@@ -375,7 +383,9 @@ ProcedureGenericCall(
                     ),
                     initialized: false,
                     immutable: false,
-                    handle: Handle(478e7baf0571ad11)
+                    handle: Handle(
+                        "ab747e762dce2cd2"
+                    )
                 }
             )
         ),
@@ -422,7 +432,9 @@ ProcedureGenericCall(
                     ),
                     initialized: false,
                     immutable: false,
-                    handle: Handle(478e7baf0571ad11)
+                    handle: Handle(
+                        "ab747e762dce2cd2"
+                    )
                 }
             )
         ),
@@ -509,7 +521,9 @@ ProcedureGenericCall(
                     ),
                     initialized: false,
                     immutable: false,
-                    handle: Handle(478e7baf0571ad11)
+                    handle: Handle(
+                        "ab747e762dce2cd2"
+                    )
                 }
             )
         ),
