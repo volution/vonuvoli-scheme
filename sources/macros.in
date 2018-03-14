@@ -1017,6 +1017,239 @@ macro_rules! try_as_record_as_ref {
 
 
 #[ macro_export ]
+macro_rules! def_transcript_root {
+	( $identifier : ident ) => (
+		#[ allow (non_upper_case_globals) ]
+		pub(crate) static $identifier : $crate::exports::TranscriptForModule
+				= $crate::exports::TranscriptForModule::new_root (module_path! (), $crate::prelude::Option::None);
+	);
+}
+
+#[ macro_export ]
+macro_rules! def_transcript {
+	( $identifier : ident ) => (
+		#[ allow (non_upper_case_globals) ]
+		pub(crate) static $identifier : $crate::exports::TranscriptForModule
+				= $crate::exports::TranscriptForModule::new (module_path! (), &$crate::TRANSCRIPT);
+	);
+}
+
+
+macro_rules! def_trace_for_level {
+	( $identifier : ident, $level : ident ) => (
+		#[ macro_export ]
+		macro_rules! $identifier {
+			( $transcript : expr, $code : expr => $format : tt => $arguments : tt ) => (
+				{
+					#[ allow (unused_imports) ]
+					use $crate::exports::Transcript as TraitImportTranscript;
+					$transcript.trace_format (
+							$crate::exports::TranscriptLevel::$level,
+							$crate::prelude::Option::Some ($crate::exports::transcript_code_for_source (
+									$code,
+									$crate::prelude::Option::Some (file! ()),
+									$crate::prelude::Option::Some (line! () as usize),
+								)),
+							trace_format_args! ($format, $arguments),
+							true,
+							$crate::prelude::Option::None,
+							$crate::prelude::Option::None,
+						);
+				}
+			);
+			( $transcript : expr, $code : expr => $format : tt => $arguments : tt, backend = $backend : expr ) => (
+				{
+					#[ allow (unused_imports) ]
+					use $crate::exports::Transcript as TraitImportTranscript;
+					$transcript.trace_format (
+							$crate::exports::TranscriptLevel::$level,
+							$crate::prelude::Option::Some ($crate::exports::transcript_code_for_source (
+									$code,
+									$crate::prelude::Option::Some (file! ()),
+									$crate::prelude::Option::Some (line! () as usize),
+								)),
+							trace_format_args! ($format, $arguments),
+							true,
+							$crate::prelude::Option::None,
+							$crate::prelude::Option::Some ($backend),
+						);
+				}
+			);
+			( $transcript : expr, $code : expr => $format : tt => $arguments : tt, error = $error : expr ) => (
+				{
+					#[ allow (unused_imports) ]
+					use $crate::exports::Transcript as TraitImportTranscript;
+					$transcript.trace_format (
+							$crate::exports::TranscriptLevel::$level,
+							$crate::prelude::Option::Some ($crate::exports::transcript_code_for_source (
+									$code,
+									$crate::prelude::Option::Some (file! ()),
+									$crate::prelude::Option::Some (line! () as usize),
+								)),
+							trace_format_args! ($format, $arguments),
+							true,
+							$crate::prelude::Option::Some ($error),
+							$crate::prelude::Option::None,
+						);
+				}
+			);
+			( $transcript : expr, $code : expr => $format : tt => $arguments : tt, error = $error : expr, backend = $backend : expr ) => (
+				{
+					#[ allow (unused_imports) ]
+					use $crate::exports::Transcript as TraitImportTranscript;
+					$transcript.trace_format (
+							$crate::exports::TranscriptLevel::$level,
+							$crate::prelude::Option::Some ($crate::exports::transcript_code_for_source (
+									$code,
+									$crate::prelude::Option::Some (file! ()),
+									$crate::prelude::Option::Some (line! () as usize),
+								)),
+							trace_format_args! ($format, $arguments),
+							true,
+							$crate::prelude::Option::Some ($error),
+							$crate::prelude::Option::Some ($backend),
+						);
+				}
+			);
+			( $transcript : expr, $code : expr, message = $message : expr ) => (
+				{
+					#[ allow (unused_imports) ]
+					use $crate::exports::Transcript as TraitImportTranscript;
+					$transcript.trace_message (
+							$crate::exports::TranscriptLevel::$level,
+							$crate::prelude::Option::Some ($crate::exports::transcript_code_for_source (
+									$code,
+									$crate::prelude::Option::Some (file! ()),
+									$crate::prelude::Option::Some (line! () as usize),
+								)),
+							$message,
+							true,
+							$crate::prelude::Option::None,
+							$crate::prelude::Option::None,
+						);
+				}
+			);
+			( $transcript : expr, $code : expr, message = $message : expr, backend = $backend : expr ) => (
+				{
+					#[ allow (unused_imports) ]
+					use $crate::exports::Transcript as TraitImportTranscript;
+					$transcript.trace_message (
+							$crate::exports::TranscriptLevel::$level,
+							$crate::prelude::Option::Some ($crate::exports::transcript_code_for_source (
+									$code,
+									$crate::prelude::Option::Some (file! ()),
+									$crate::prelude::Option::Some (line! () as usize),
+								)),
+							$message,
+							true,
+							$crate::prelude::Option::None,
+							$crate::prelude::Option::Some ($backend),
+						);
+				}
+			);
+			( $transcript : expr, $code : expr, message = $message : expr, error = $error : expr ) => (
+				{
+					#[ allow (unused_imports) ]
+					use $crate::exports::Transcript as TraitImportTranscript;
+					$transcript.trace_message (
+							$crate::exports::TranscriptLevel::$level,
+							$crate::prelude::Option::Some ($crate::exports::transcript_code_for_source (
+									$code,
+									$crate::prelude::Option::Some (file! ()),
+									$crate::prelude::Option::Some (line! () as usize),
+								)),
+							$message,
+							true,
+							$crate::prelude::Option::Some ($error),
+							$crate::prelude::Option::None,
+						);
+				}
+			);
+			( $transcript : expr, $code : expr, message = $message : expr, error = $error : expr, backend = $backend : expr ) => (
+				{
+					#[ allow (unused_imports) ]
+					use $crate::exports::Transcript as TraitImportTranscript;
+					$transcript.trace_message (
+							$crate::exports::TranscriptLevel::$level,
+							$crate::prelude::Option::Some ($crate::exports::transcript_code_for_source (
+									$code,
+									$crate::prelude::Option::Some (file! ()),
+									$crate::prelude::Option::Some (line! () as usize),
+								)),
+							$message,
+							true,
+							$crate::prelude::Option::Some ($error),
+							$crate::prelude::Option::Some ($backend),
+						);
+				}
+			);
+		}
+	);
+}
+
+macro_rules! def_tracer_for_level {
+	( $identifier : ident, $level : ident ) => (
+		#[ macro_export ]
+		macro_rules! $identifier {
+			( $transcript : expr, $code : expr ) => (
+				{
+					#[ allow (unused_imports) ]
+					use $crate::exports::Transcript as TraitImportTranscript;
+					&$transcript.tracer (
+							$crate::exports::TranscriptLevel::$level,
+							$crate::prelude::Option::Some ($crate::exports::transcript_code_for_source (
+									$code,
+									$crate::prelude::Option::Some (file! ()),
+									$crate::prelude::Option::Some (line! () as usize),
+								)),
+							$crate::prelude::Option::None,
+						)
+				}
+			);
+			( $transcript : expr, $backend : expr, $code : expr ) => (
+				{
+					#[ allow (unused_imports) ]
+					use $crate::exports::Transcript as TraitImportTranscript;
+					&$transcript.tracer (
+							$crate::exports::TranscriptLevel::$level,
+							$crate::prelude::Option::Some ($crate::exports::transcript_code_for_source (
+									$code,
+									$crate::prelude::Option::Some (file! ()),
+									$crate::prelude::Option::Some (line! () as usize),
+								)),
+							$crate::prelude::Option::Some ($backend),
+						)
+				}
+			);
+		}
+	);
+}
+
+#[ macro_export ]
+macro_rules! trace_format_args {
+	( $format : tt, ( $( $argument : tt )* ) ) => (
+		format_args! ( $format, $( $argument )* )
+	);
+}
+
+def_trace_for_level! (trace_critical, Critical);
+def_trace_for_level! (trace_error, Error);
+def_trace_for_level! (trace_warning, Warning);
+def_trace_for_level! (trace_notice, Notice);
+def_trace_for_level! (trace_internal, Internal);
+def_trace_for_level! (trace_debugging, Debugging);
+
+def_tracer_for_level! (tracer_critical, Critical);
+def_tracer_for_level! (tracer_error, Error);
+def_tracer_for_level! (tracer_warning, Warning);
+def_tracer_for_level! (tracer_notice, Notice);
+def_tracer_for_level! (tracer_internal, Internal);
+def_tracer_for_level! (tracer_debugging, Debugging);
+
+
+
+
+#[ macro_export ]
 macro_rules! def_scheme_tests {
 	( $identifier : ident, $source : expr ) => (
 		#[ test ]
