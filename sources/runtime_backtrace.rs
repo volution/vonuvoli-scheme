@@ -1,6 +1,7 @@
 
 
 use super::runtime::exports::*;
+use super::transcript::exports::*;
 
 use super::prelude::*;
 
@@ -35,28 +36,23 @@ impl Backtrace {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn report (&self, transcript : &mut io::Write, color : bool) -> (io::Result<()>) {
+	pub fn report <T : Transcript + ?Sized> (&self, transcript : &TranscriptTracer<T>) -> () {
 		let mut backtrace = self.0.clone ();
 		backtrace.resolve ();
-		try! (write! (transcript, "[ee]      ---------------------------------------\n"));
+		let mut transcript_buffer = transcript.buffer ();
 		'done : for frame in backtrace.frames () {
 			for symbol in frame.symbols () {
-				match self.report_symbol (symbol, transcript, color) {
-					Ok (true) =>
-						(),
-					Ok (false) =>
-						break 'done,
-					Err (error) =>
-						return Err (error),
+				if ! self.report_symbol (symbol, &mut transcript_buffer) {
+					break 'done;
 				}
 			}
 		}
-		try! (write! (transcript, "[ee]      ---------------------------------------\n"));
-		succeed! (());
+		transcript.trace_buffer (transcript_buffer, false);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn report_symbol (&self, symbol : &ext::backtrace::BacktraceSymbol, transcript : &mut io::Write, color : bool) -> (io::Result<bool>) {
+	fn report_symbol <T : Transcript + ?Sized> (&self, symbol : &ext::backtrace::BacktraceSymbol, transcript_buffer : &mut TranscriptBuffer<T>) -> (bool) {
+		let transcript_color = transcript_buffer.output_supports_ansi_sequences ();
 		let name = option_and_then! (symbol.name (), name, name.as_str ());
 		match name {
 			Some (name) => {
@@ -86,7 +82,7 @@ impl Backtrace {
 							"vonuvoli_scheme::errors::error_panic" |
 							"vonuvoli_scheme::errors::error_unimplemented" |
 							"__unreachable__" =>
-								succeed! (true),
+								return true,
 							_ =>
 								(),
 						}
@@ -94,43 +90,60 @@ impl Backtrace {
 						let file = option_and_then! (file, file.file_name ());
 						let file = option_and_then! (file, file.to_str ());
 						let line = symbol.lineno ();
-						try! (write! (transcript, "[ee]      -- {}\n", style_paint (name_buffer, STYLE_SYMBOL_NAME, color)));
+						transcript_buffer.push_fmt (format_args! ("-- {}\n", transcript_style (name_buffer, STYLE_SYMBOL_NAME, transcript_color)));
 						if file.is_some () && line.is_some () {
 							let file = file.unwrap_or ("<invalid>");
 							let line = line.unwrap_or (0);
-							try! (write! (transcript, "[ee]           @ {} : {}\n", file, line));
+							transcript_buffer.push_fmt (format_args! ("     @ {} : {}\n", file, line));
 							// TODO:  Optimize this!
 							let line = line as i32;
 							for &((source_file, source_line), source_data) in SOURCES {
 								let source_line = source_line as i32;
 								if (source_file == file) && (source_line >= (line - 5)) && (source_line <= (line + 5)) {
 									if source_line == line {
-										try! (write! (transcript, "[ee]           >> {}\n", style_paint (source_data, STYLE_SYMBOL_LINE_EXACT, color)));
+										transcript_buffer.push_fmt (format_args! ("     >> {}\n", transcript_style (source_data, STYLE_SYMBOL_LINE_EXACT, transcript_color)));
 									} else {
-										try! (write! (transcript, "[ee]           :  {}\n", source_data));
+										if source_line == (line + 5) {
+											transcript_buffer.push_fmt (format_args! ("     :  {}", source_data));
+											break;
+										} else {
+											transcript_buffer.push_fmt (format_args! ("     :  {}\n", source_data));
+										}
 									}
 								}
 							}
 						}
-						succeed! (true);
+						transcript_buffer.push_str ("\u{1e}");
+						return true;
 					} else if name_buffer.starts_with ("backtrace::") {
 						// NOTE:  These frames were captured while creating the backtrace!
-						succeed! (true);
+						return true;
 					} else if name_buffer.starts_with ("std::rt::lang_start::") {
 						// NOTE:  After this there doesn't seem to be anything interesting for us!
-						succeed! (false);
+						return false;
 					} else {
-						try! (write! (transcript, "[ee]         {}\n", style_paint (name_buffer, STYLE_SYMBOL_NAME, color)));
-						succeed! (true);
+						match name_buffer.as_str () {
+							// NOTE:  These frames are not interesting!
+							"core::ops::function::Fn::call" |
+							"__unreachable__" =>
+								(),
+							_ => {
+								transcript_buffer.push_fmt (format_args! (".. {}\n", transcript_style (name_buffer, STYLE_SYMBOL_NAME, transcript_color)));
+								transcript_buffer.push_str ("\u{1e}");
+							},
+						}
+						return true;
 					}
 				} else {
-					try! (write! (transcript, "[ee]         {}\n", style_paint (name_buffer, STYLE_SYMBOL_NAME, color)));
-					succeed! (true);
+					transcript_buffer.push_fmt (format_args! (".. {}\n", transcript_style (name_buffer, STYLE_SYMBOL_NAME, transcript_color)));
+					transcript_buffer.push_str ("\u{1e}");
+					return true;
 				}
 			},
 			_ => {
-				try! (write! (transcript, "[ee]         {}\n", style_paint ("???", STYLE_SYMBOL_NAME, color)));
-				succeed! (true);
+				transcript_buffer.push_fmt (format_args! (".. {}\n", transcript_style ("???", STYLE_SYMBOL_NAME, transcript_color)));
+				transcript_buffer.push_str ("\u{1e}");
+				return true;
 			},
 		}
 	}
@@ -146,8 +159,17 @@ impl Backtrace {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn report (&self, _transcript : &mut io::Write, _color : bool) -> (io::Result<()>) {
+	pub fn report <T : Transcript + ?Sized> (&self, _transcript : &TranscriptTracer<T>) -> () {
 		succeed! (());
+	}
+}
+
+
+impl fmt::Debug for Backtrace {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		formatter.debug_tuple ("Backtrace") .finish ()
 	}
 }
 
@@ -242,59 +264,7 @@ static SOURCES : &'static [((&'static str, usize), &'static str)] = &[];
 
 
 
-#[ cfg ( feature = "vonuvoli_terminal" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn style_paint <'a, I, S> (input : I, style : ext::ansi_term::Style, color : bool) -> (ext::ansi_term::ANSIGenericString<'a, S>)
-		where
-			I : StdInto<borrow::Cow<'a, S>>,
-			S : 'a + borrow::ToOwned + ?Sized,
-			<S as borrow::ToOwned>::Owned : fmt::Debug
-{
-	if color {
-		style.paint (input)
-	} else {
-		STYLE_NONE.paint (input)
-	}
-}
-
-#[ cfg ( not ( feature = "vonuvoli_terminal" ) ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn style_paint <I> (input : I, _style : (), _color : bool) -> (I)
-{
-	input
-}
-
-
-
-
-#[ cfg ( feature = "vonuvoli_terminal" ) ]
-static STYLE_SYMBOL_NAME : ext::ansi_term::Style = ext::ansi_term::Style {
-		foreground : Some (ext::ansi_term::Colour::Yellow),
-		background : None,
-		is_bold : true, is_italic : false, is_underline : false, is_strikethrough : false,
-		is_dimmed : false, is_blink : false, is_reverse : false, is_hidden : false,
-	};
-
-#[ cfg ( feature = "vonuvoli_terminal" ) ]
-static STYLE_SYMBOL_LINE_EXACT : ext::ansi_term::Style = ext::ansi_term::Style {
-		foreground : Some (ext::ansi_term::Colour::Red),
-		background : None,
-		is_bold : true, is_italic : false, is_underline : false, is_strikethrough : false,
-		is_dimmed : false, is_blink : false, is_reverse : false, is_hidden : false,
-	};
-
-#[ cfg ( feature = "vonuvoli_terminal" ) ]
-static STYLE_NONE : ext::ansi_term::Style = ext::ansi_term::Style {
-		foreground : None,
-		background : None,
-		is_bold : false, is_italic : false, is_underline : false, is_strikethrough : false,
-		is_dimmed : false, is_blink : false, is_reverse : false, is_hidden : false,
-	};
-
-
-#[ cfg ( not ( feature = "vonuvoli_terminal" ) ) ]
-static STYLE_SYMBOL_NAME : () = ();
-
-#[ cfg ( not ( feature = "vonuvoli_terminal" ) ) ]
-static STYLE_SYMBOL_LINE_EXACT : () = ();
+static STYLE_SYMBOL_NAME : TranscriptStyle = TRANSCRIPT_STYLE_YELLOW_BOLD;
+static STYLE_SYMBOL_LINE_EXACT : TranscriptStyle = TRANSCRIPT_STYLE_RED_BOLD;
+static STYLE_NONE : TranscriptStyle = TRANSCRIPT_STYLE_NONE;
 

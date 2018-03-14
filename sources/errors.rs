@@ -1,6 +1,7 @@
 
 
 use super::runtime::exports::*;
+use super::transcript::exports::*;
 use super::values::exports::*;
 
 use super::prelude::*;
@@ -269,12 +270,12 @@ impl Error {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn backtrace_report (&self, transcript : &mut io::Write, color : bool) -> (io::Result<()>) {
+	pub fn backtrace_report <T : Transcript + ?Sized> (&self, transcript : &TranscriptTracer<T>) -> () {
 		match *self.internals_ref () {
 			ErrorInternals::WithBacktrace (_, ref backtrace) =>
-				return backtrace.report (transcript, color),
+				backtrace.report (transcript),
 			_ =>
-				succeed! (()),
+				(),
 		}
 	}
 }
