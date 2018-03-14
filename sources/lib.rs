@@ -200,6 +200,7 @@ pub(crate) mod runtime_configurations;
 pub(crate) mod runtime_iterators;
 pub(crate) mod runtime_unicode;
 pub(crate) mod tests;
+pub(crate) mod transcript;
 pub(crate) mod values;
 pub(crate) mod values_arrays;
 pub(crate) mod values_booleans;
@@ -296,6 +297,7 @@ pub mod internals {
 	pub use super::runtime_iterators::exports as runtime_iterators;
 	pub use super::runtime_unicode::exports as runtime_unicode;
 	pub use super::tests::exports as tests;
+	pub use super::transcript::exports as transcript;
 	pub use super::values::exports as values;
 	pub use super::values_arrays::exports as values_arrays;
 	pub use super::values_booleans::exports as values_booleans;
