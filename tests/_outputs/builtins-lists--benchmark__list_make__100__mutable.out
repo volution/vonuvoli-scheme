@@ -1,7 +1,5 @@
-## benchmarking `benchmark__list_make__100__mutable`...
-## benchmarked `benchmark__list_make__100__mutable`!
-       average   :       4202
-         stdev   :         19 /   0.45%
-         median  :       4200 /   0.53%
-       min / max :       4183 / 4185 / 4200 / 4214 / 4243
+       average   :       4413
+         stdev   :         47 /   1.07%
+         median  :       4405 /   1.39%
+       min / max :       4354 / 4368 / 4405 / 4451 / 4487
        mem-leaks :          0 KB

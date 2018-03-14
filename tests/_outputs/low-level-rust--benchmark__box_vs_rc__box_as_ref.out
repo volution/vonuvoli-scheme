@@ -1,7 +1,5 @@
-## benchmarking `benchmark__box_vs_rc__box_as_ref`...
-## benchmarked `benchmark__box_vs_rc__box_as_ref`!
        average   :          0
-         stdev   :          0 /   2.35%
-         median  :          0 /   1.29%
+         stdev   :          0 /   2.43%
+         median  :          0 /   2.19%
        min / max :          0 / 0 / 0 / 0 / 0
        mem-leaks :          0 KB

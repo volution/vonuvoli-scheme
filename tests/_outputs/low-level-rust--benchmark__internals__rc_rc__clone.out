@@ -1,7 +1,5 @@
-## benchmarking `benchmark__internals__rc_rc__clone`...
-## benchmarked `benchmark__internals__rc_rc__clone`!
        average   :          4
-         stdev   :          0 /   2.57%
-         median  :          4 /   1.11%
-       min / max :          4 / 4 / 4 / 4 / 4
+         stdev   :          0 /   1.26%
+         median  :          4 /   1.09%
+       min / max :          4 / 4 / 4 / 5 / 5
        mem-leaks :          0 KB

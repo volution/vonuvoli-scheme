@@ -1,7 +1,5 @@
-## benchmarking `benchmark__list_empty`...
-## benchmarked `benchmark__list_empty`!
-       average   :          9
-         stdev   :          0 /   0.86%
-         median  :          9 /   1.10%
-       min / max :          9 / 9 / 9 / 10 / 10
+       average   :         10
+         stdev   :          0 /   1.81%
+         median  :         10 /   0.70%
+       min / max :         10 / 10 / 10 / 10 / 10
        mem-leaks :          0 KB

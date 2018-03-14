@@ -1,7 +1,5 @@
-## benchmarking `benchmark__list_reverse__1000__immutable`...
-## benchmarked `benchmark__list_reverse__1000__immutable`!
-       average   :     120176
-         stdev   :        800 /   0.67%
-         median  :     119904 /   0.36%
-       min / max :     119280 / 119748 / 119904 / 120229 / 122050
+       average   :     107187
+         stdev   :       1508 /   1.41%
+         median  :     106527 /   0.66%
+       min / max :     105440 / 106398 / 106527 / 107325 / 110916
        mem-leaks :          0 KB
