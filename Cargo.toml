@@ -59,6 +59,7 @@ vonuvoli_release = [
 	"vonuvoli_defaults",
 	"vonuvoli_builtins",
 	"vonuvoli_inline",
+	"vonuvoli_transcript_ansi_enabled",
 ]
 
 vonuvoli_defaults = [
@@ -92,7 +93,9 @@ vonuvoli_debug_2 = [
 vonuvoli_debug_3 = [
 	"vonuvoli_debug_2",
 	"vonuvoli_backtrace_sources",
-	"vonuvoli_transcript_color_always",
+	"vonuvoli_transcript_compact",
+	"vonuvoli_transcript_ansi_enabled",
+	"vonuvoli_transcript_ansi_always",
 ]
 
 vonuvoli_debug_4 = [
@@ -120,7 +123,9 @@ vonuvoli_terminal = [
 	"ansi_term",
 	"atty",
 ]
-vonuvoli_transcript_color_always = []
+vonuvoli_transcript_compact = []
+vonuvoli_transcript_ansi_enabled = []
+vonuvoli_transcript_ansi_always = []
 
 vonuvoli_panic_on_failed = []
 

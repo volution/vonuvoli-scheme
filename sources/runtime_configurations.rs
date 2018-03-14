@@ -54,5 +54,17 @@ pub const PANIC_ON_FAILED : bool = cfg! (feature = "vonuvoli_panic_on_failed");
 pub const ERRORS_WITH_BACKTRACE : bool = cfg! (feature = "vonuvoli_backtrace");
 
 
-pub const TRANSCRIPT_COLOR_ALWAYS : bool = cfg! (feature = "vonuvoli_transcript_color_always");
+pub const TRANSCRIPT_OUTPUT_COMPACT : bool = cfg! (feature = "vonuvoli_transcript_compact");
+
+pub const TRANSCRIPT_OUTPUT_MULTILINE_ALIGN_RIGHT : bool = false || TRANSCRIPT_OUTPUT_COMPACT;
+pub const TRANSCRIPT_OUTPUT_MULTILINE_BREAK_BEFORE : bool = true && ! TRANSCRIPT_OUTPUT_COMPACT;
+pub const TRANSCRIPT_OUTPUT_MULTILINE_BREAK_HEADER : bool = true && ! TRANSCRIPT_OUTPUT_COMPACT;
+pub const TRANSCRIPT_OUTPUT_MULTILINE_BREAK_AFTER : bool = true && ! TRANSCRIPT_OUTPUT_COMPACT;
+
+pub const TRANSCRIPT_OUTPUT_SEPARATOR_UNIT_BREAK : bool = true && ! TRANSCRIPT_OUTPUT_COMPACT;
+
+pub const TRANSCRIPT_OUTPUT_SUPPORTS_ANSI_SEQUENCES_ENABLED : bool = cfg! (feature = "vonuvoli_transcript_ansi_enabled");
+pub const TRANSCRIPT_OUTPUT_SUPPORTS_ANSI_SEQUENCES_ALWAYS : bool = cfg! (feature = "vonuvoli_transcript_ansi_always") && TRANSCRIPT_OUTPUT_SUPPORTS_ANSI_SEQUENCES_ENABLED;
+
+pub const TRANSCRIPT_BUFFER_SIZE : usize = 1 * 1024;
 
