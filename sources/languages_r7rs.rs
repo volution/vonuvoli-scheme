@@ -8,6 +8,8 @@ use super::values::exports::*;
 
 use super::prelude::*;
 
+def_transcript! (transcript);
+
 
 
 
@@ -801,7 +803,7 @@ pub fn verify_definitions (definitions : &StdVec<(Symbol, Symbol, Symbol, Value)
 	for &(_, _, ref identifier, ref value) in definitions {
 		if let Some (existing) = mappings.insert (identifier.clone (), value) {
 			if existing != value {
-				eprintln! ("[ee]  duplicate missmatched mapping for `{}`!", identifier.string_as_str ());
+				trace_error! (transcript, 0x470d2ba5 => "duplicate missmatched mapping for `{}`!" => (identifier.string_as_str ()));
 				errors = true;
 			}
 		}
@@ -811,26 +813,26 @@ pub fn verify_definitions (definitions : &StdVec<(Symbol, Symbol, Symbol, Value)
 		if let Some (count) = libraries.get_mut (library) {
 			*count += 1;
 		} else {
-			eprintln! ("[ee]  unknown library `{}`!", library.string_as_str ());
+			trace_error! (transcript, 0x6bcf5b92 => "unknown library `{}`!" => (library.string_as_str ()));
 			errors = true;
 		}
 		if let Some (count) = categories.get_mut (category) {
 			*count += 1;
 		} else {
-			eprintln! ("[ee]  unknown category `{}`!", category.string_as_str ());
+			trace_error! (transcript, 0x915ff763 => "unknown category `{}`!" => (category.string_as_str ()));
 			errors = true;
 		}
 	}
 	
 	for (library, count) in libraries {
 		if count == 0 {
-			eprintln! ("[ee]  unused library `{}`!", library.string_as_str ());
+			trace_warning! (transcript, 0x17d45f75 => "unused library `{}`!" => (library.string_as_str ()));
 			errors = true;
 		}
 	}
 	for (category, count) in categories {
 		if count == 0 {
-			eprintln! ("[ee]  unused category `{}`!", category.string_as_str ());
+			trace_warning! (transcript, 0xc4227311 => "unused category `{}`!" => (category.string_as_str ()));
 			errors = true;
 		}
 	}

@@ -351,7 +351,13 @@ pub mod exports {
 	pub use super::processes::exports::*;
 	pub use super::runtime::exports::*;
 	pub use super::tests::exports::*;
+	pub use super::transcript::exports::*;
 	pub use super::values::exports::*;
 	
 }
+
+
+
+
+def_transcript_root! (TRANSCRIPT);
 
