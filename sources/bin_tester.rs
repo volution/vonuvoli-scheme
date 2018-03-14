@@ -8,16 +8,18 @@ extern crate vonuvoli_scheme;
 use vonuvoli_scheme::exports::*;
 use vonuvoli_scheme::prelude::*;
 
+def_transcript_root! (transcript);
+
 
 
 
 fn main () -> () {
-	main_0 () .expect ("060ada92");
+	execute_main (main_0, &transcript);
 }
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn main_0 () -> (Outcome<()>) {
+fn main_0 () -> (Outcome<u32>) {
 	
 	let arguments = env::args () .collect::<StdVec<_>> ();
 	let (identifier, source_path) = match arguments.len () {
@@ -30,9 +32,6 @@ fn main_0 () -> (Outcome<()>) {
 		_ =>
 			fail! (0x9f085526),
 	};
-	
-	let transcript_backend = io::stdout ();
-	let mut transcript = transcript_backend.lock ();
 	
 	let context = Context::new (None);
 	try! (context.define_all (try! (language_r7rs_generate_binding_templates ()) .as_ref ()));
@@ -52,11 +51,19 @@ fn main_0 () -> (Outcome<()>) {
 		Ok (_) =>
 			(),
 		Err (error) => {
-			try_or_fail! (write! (transcript, "!! input !! => {:#?}\n", &error), 0x367496ef);
-			fail! (0xde26b339);
+			trace_error! (transcript, 0x367496ef => "failed loading script!" => (), error = &error);
+			succeed! (1);
 		},
 	}
 	
-	return execute_tests_main (identifier, &source, Some (&context), Some (&mut transcript), None);
+	match execute_tests_main (identifier, &source, Some (&context), Some (transcript.backend ()), None) {
+		Ok (()) =>
+			succeed! (0),
+		Err (error) => {
+			trace_error! (transcript, 0x367496ef => "failed testing script!" => (), error = &error);
+			error.backtrace_report (tracer_error! (transcript, 0x5681c4ca));
+			succeed! (1);
+		},
+	}
 }
 

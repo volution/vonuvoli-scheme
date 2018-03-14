@@ -1,6 +1,7 @@
 
 
 use super::errors::exports::*;
+use super::transcript::exports::*;
 
 use super::prelude::*;
 
@@ -30,6 +31,8 @@ pub mod exports {
 	pub use super::{libc_getrusage_for_thread};
 	pub use super::{libc_kill};
 	pub use super::{libc_memchr};
+	
+	pub use super::{execute_main};
 	
 	pub use super::super::runtime_backtrace::exports::*;
 	pub use super::super::runtime_configurations::exports::*;
@@ -475,6 +478,33 @@ pub fn libc_memchr (search : u8, buffer : &[u8]) -> (Option<usize>) {
 		} else {
 			return Some ((found_pointer as usize) - (buffer_pointer as usize));
 		}
+	}
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn execute_main <Main, Tracer> (main : Main, transcript : &Tracer) -> ()
+		where
+			Main : Fn () -> (Outcome<u32>),
+			Tracer : Transcript + ?Sized,
+{
+	match main () {
+		Ok (code) => {
+			let code = if code <= 255 {
+				code
+			} else {
+				trace_error! (transcript, 0x2daa4ba6 => "exit code (`{}`) out of range;  using `255`!" => (code));
+				255
+			};
+			process::exit (code as i32);
+		},
+		Err (error) => {
+			trace_error! (transcript, 0x4354c758 => "unexpected error encountered;  aborting!" => (), error = &error);
+			error.backtrace_report (tracer_error! (transcript, 0x6ec79d16));
+			process::exit (1);
+		},
 	}
 }
 
