@@ -27,29 +27,29 @@ cat <<'EOS'
 
 
 
-:: compile / all / debug :: x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug}" "${@}"
-:: compile / all / release :: x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" "${@}"
+:: compile / all / debug :: x-run ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" "${@}"
+:: compile / all / release :: x-run ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" "${@}"
 
-:: compile / lib / debug :: x-run ':: compile / peg' ; x-run ':: compile / lib / sources-include' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --lib --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug}" "${@}"
-:: compile / lib / release :: x-run ':: compile / peg' ; x-run ':: compile / lib / sources-include' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --lib --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" "${@}"
+:: compile / lib / debug :: x-run ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --lib --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" "${@}"
+:: compile / lib / release :: x-run ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --lib --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" "${@}"
 
-:: compile / bin / interpreter / debug :: x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --bin vonuvoli-scheme-interpreter --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug}" "${@}"
-:: compile / bin / interpreter / release :: x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --bin vonuvoli-scheme-interpreter --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" "${@}"
+:: compile / bin / interpreter / debug :: x-run ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --bin vonuvoli-scheme-interpreter --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_binaries}" "${@}"
+:: compile / bin / interpreter / release :: x-run ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --bin vonuvoli-scheme-interpreter --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" "${@}"
 
-:: compile / bin / compiler / debug :: x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --bin vonuvoli-scheme-compiler --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug}" "${@}"
-:: compile / bin / compiler / release :: x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --bin vonuvoli-scheme-compiler --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" "${@}"
+:: compile / bin / compiler / debug :: x-run ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --bin vonuvoli-scheme-compiler --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_binaries}" "${@}"
+:: compile / bin / compiler / release :: x-run ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --bin vonuvoli-scheme-compiler --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" "${@}"
 
-:: compile / bin / tester / debug :: x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --bin vonuvoli-scheme-tester --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug}" "${@}"
-:: compile / bin / tester / release :: x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --bin vonuvoli-scheme-tester --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" "${@}"
+:: compile / bin / tester / debug :: x-run ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --bin vonuvoli-scheme-tester --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_binaries}" "${@}"
+:: compile / bin / tester / release :: x-run ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --bin vonuvoli-scheme-tester --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" "${@}"
 
-:: compile / bin / bencher / debug :: x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --bin vonuvoli-scheme-bencher --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug}" "${@}"
-:: compile / bin / bencher / release :: x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --bin vonuvoli-scheme-bencher --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" "${@}"
+:: compile / bin / bencher / debug :: x-run ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --bin vonuvoli-scheme-bencher --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_binaries}" "${@}"
+:: compile / bin / bencher / release :: x-run ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --bin vonuvoli-scheme-bencher --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" "${@}"
 
-:: compile / test / all / debug :: x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug}" --no-run "${@}"
-:: compile / test / all / release :: x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --no-run "${@}"
+:: compile / test / all / debug :: x-run ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --no-run "${@}"
+:: compile / test / all / release :: x-run ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --no-run "${@}"
 
-:: compile / doc / debug :: x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo doc --quiet --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug}" --no-deps "${@}"
-:: compile / doc / release :: x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo doc --quiet --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --no-deps "${@}"
+:: compile / doc / debug :: x-run ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo doc --quiet --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --no-deps "${@}"
+:: compile / doc / release :: x-run ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo doc --quiet --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --no-deps "${@}"
 
 :: compile / clean :: exec -- find ./target/ -mindepth 1 -xdev -depth -print -delete
 
@@ -59,7 +59,31 @@ cat <<'EOS'
 
 
 
-<< compile / peg
+:: compile / bin / all / debug / watch :: exec -- x-run ':: execute / watch' x-run ':: compile / bin / all / debug' "${@}"
+<< compile / bin / all / debug
+	x-run ':: compile / bin / interpreter / debug' "${@}"
+	x-run ':: compile / bin / compiler / debug' "${@}"
+	x-run ':: compile / bin / tester / debug' "${@}"
+	x-run ':: compile / bin / bencher / debug' "${@}"
+!!
+
+:: compile / bin / all / release / watch :: exec -- x-run ':: execute / watch' x-run ':: compile / bin / all / release' "${@}"
+<< compile / bin / all / release
+	x-run ':: compile / bin / interpreter / release' "${@}"
+	x-run ':: compile / bin / compiler / release' "${@}"
+	x-run ':: compile / bin / tester / release' "${@}"
+	x-run ':: compile / bin / bencher / release' "${@}"
+!!
+
+
+
+
+<< compile / lib / dependencies
+	x-run ':: compile / lib / peg'
+	x-run ':: compile / lib / sources-include'
+!!
+
+<< compile / lib / peg
 	test "${#}" -eq 0
 	export -- PATH="${RUST_PATH}"
 	if test ! -e ./sources/parser_peg.rs -o ./sources/parser_peg.peg -nt ./sources/parser_peg.rs ; then
@@ -120,7 +144,7 @@ cat <<'EOS'
 
 << compile / lib / source
 	test "${#}" -eq 0
-	x-run ':: compile / lib / debug'
+	x-run ':: compile / lib / dependencies'
 	export -- PATH="${RUST_PATH}"
 	rustc \
 			-Z unstable-options \
@@ -131,7 +155,7 @@ cat <<'EOS'
 
 << compile / test / scheme / source
 	test "${#}" -eq 0
-	x-run ':: compile / lib / debug'
+	x-run ':: compile / lib / dependencies'
 	export -- PATH="${RUST_PATH}"
 	rustc \
 			--test \
@@ -173,11 +197,11 @@ cat <<'EOS'
 :: execute / bin / bencher / debug :: x-run ':: compile / bin / bencher / debug' ; exec -- ./target/debug/vonuvoli-scheme-bencher "${@}"
 :: execute / bin / bencher / release :: x-run ':: compile / bin / bencher / release' ; exec -- ./target/release/vonuvoli-scheme-bencher "${@}"
 
-:: execute / test / all / debug :: x-run ':: compile / test / all / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug}" --jobs 1 -- --test-threads 1 --test 'test__' "${@}"
-:: execute / test / all / release :: x-run ':: compile / test / all / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --test-threads 1 --test 'test__' "${@}"
+:: execute / test / all / debug :: x-run ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --test-threads 1 --test 'test__' "${@}"
+:: execute / test / all / release :: x-run ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --test-threads 1 --test 'test__' "${@}"
 
-:: execute / test / all / benchmark :: x-run ':: compile / test / all / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --test-threads 1 --bench 'benchmark__' "${@}"
-:: execute / test / all / coverage / kcov :: x-run ':: compile / test / all / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug}" --jobs 1 --output ./target/kcov -- "${@}"
+:: execute / test / all / benchmark :: x-run ':: compile / lib / dependencies' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --test-threads 1 --bench 'benchmark__' "${@}"
+:: execute / test / all / coverage / kcov :: x-run ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov -- "${@}"
 
 
 :: execute / chibi :: exec -- chibi-scheme -m scheme.base -m scheme.case-lambda -m scheme.char -m scheme.complex -m scheme.cxr -m scheme.eval -m scheme.file -m scheme.inexact -m scheme.lazy -m scheme.load -m scheme.process-context -m scheme.r5rs -m scheme.read -m scheme.repl -m scheme.time -m scheme.write "${@}"
@@ -214,12 +238,11 @@ cat <<'EOS'
 :: compile / bin / bencher / debug / watch :: exec -- x-run ':: execute / watch' x-run ':: compile / bin / bencher / debug' "${@}"
 :: compile / test / all / debug / watch :: exec -- x-run ':: execute / watch' x-run ':: compile / test / all / debug' "${@}"
 
-:: execute / test / all / debug / watch :: exec -- x-run ':: execute / watch' x-run ':: execute / test / all / debug' "${@}"
-
 :: execute / bin / interpreter / debug / watch :: exec -- x-run ':: execute / watch' x-run ':: execute / bin / interpreter / debug' "${@}"
 :: execute / bin / compiler / debug / watch :: exec -- x-run ':: execute / watch' x-run ':: execute / bin / compiler / debug' "${@}"
 :: execute / bin / tester / debug / watch :: exec -- x-run ':: execute / watch' x-run ':: execute / bin / tester / debug' "${@}"
 :: execute / bin / bencher / debug / watch :: exec -- x-run ':: execute / watch' x-run ':: execute / bin / bencher / debug' "${@}"
+:: execute / test / all / debug / watch :: exec -- x-run ':: execute / watch' x-run ':: execute / test / all / debug' "${@}"
 
 
 
@@ -369,12 +392,13 @@ cat <<'EOS'
 :: environment / tests / debug / disable :: export -- VONUVOLI_SCHEME_TESTS_DEBUG=false
 
 :: environment / features / release :: export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_release
-:: environment / features / debug :: export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug
-:: environment / features / debug-0 :: export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_0
-:: environment / features / debug-1 :: export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_1
-:: environment / features / debug-2 :: export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_2
-:: environment / features / debug-3 :: export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_3
-:: environment / features / debug-4 :: export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_4
+:: environment / features / debug / binaries :: export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_for_binaries
+:: environment / features / debug / tests :: export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_for_tests
+:: environment / features / debug / level-0 :: export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_level_0
+:: environment / features / debug / level-1 :: export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_level_1
+:: environment / features / debug / level-2 :: export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_level_2
+:: environment / features / debug / level-3 :: export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_level_3
+:: environment / features / debug / level-4 :: export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_level_4
 
 :: environment / x-run / trace / enable :: export -- X_RUN_TRACE=true
 :: environment / x-run / trace / disable :: export -- X_RUN_TRACE=false
@@ -402,16 +426,16 @@ for _test in scheme builtins-lists low-level-r7rs low-level-parser low-level-siz
 test -f "./tests/${_test}.rs"
 sed -r -e 's#@\{TEST\}#'"${_test}"'#g' <<'EOS'
 :: compile / test / @{TEST} / debug / watch :: exec -- x-run ':: execute / watch' x-run ':: compile / test / @{TEST} / debug' "${@}"
-:: compile / test / @{TEST} / debug :: x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --test '@{TEST}' --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug}"
+:: compile / test / @{TEST} / debug :: x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --test '@{TEST}' --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}"
 :: compile / test / @{TEST} / release :: x-run ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --test '@{TEST}' --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}"
 :: execute / test / @{TEST} / tests / all / debug / watch :: exec -- x-run ':: execute / watch' x-run ':: execute / test / @{TEST} / tests / all / debug' "${@}"
-:: execute / test / @{TEST} / tests / all / debug :: x-run ':: compile / test / @{TEST} / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test '@{TEST}' --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__' "${@}"
+:: execute / test / @{TEST} / tests / all / debug :: x-run ':: compile / test / @{TEST} / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test '@{TEST}' --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__' "${@}"
 :: execute / test / @{TEST} / tests / all / release :: x-run ':: compile / test / @{TEST} / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test '@{TEST}' --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__' "${@}"
 :: execute / test / @{TEST} / benchmarks / all / debug / watch :: exec -- x-run ':: execute / watch' x-run ':: execute / test / @{TEST} / benchmarks / all / debug' "${@}"
-:: execute / test / @{TEST} / benchmarks / all / debug :: x-run ':: compile / test / @{TEST} / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test '@{TEST}' --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
+:: execute / test / @{TEST} / benchmarks / all / debug :: x-run ':: compile / test / @{TEST} / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test '@{TEST}' --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
 :: execute / test / @{TEST} / benchmarks / all / release :: x-run ':: compile / test / @{TEST} / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/@{TEST}--{IDENTIFIER}.out' cargo test --quiet --test '@{TEST}' --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
-:: execute / test / @{TEST} / coverage / all / kcov :: x-run ':: compile / test / @{TEST} / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov --test '@{TEST}' --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug}" --jobs 1 --output ./target/kcov -- "${@}"
 :: execute / test / @{TEST} / coverage / all / kcov / watch :: exec -- x-run ':: execute / watch' x-run ':: execute / test / @{TEST} / coverage / all / kcov'
+:: execute / test / @{TEST} / coverage / all / kcov :: x-run ':: compile / test / @{TEST} / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov --test '@{TEST}' --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov -- "${@}"
 EOS
 done
 
@@ -422,9 +446,9 @@ find ./tests/scheme -xdev -type f -name '*.sst' -printf '%f\n' \
 | while read _test ; do
 sed -r -e 's#@\{TEST\}#'"${_test}"'#g' <<'EOS'
 :: execute / test / scheme / tests / @{TEST} / debug / watch :: exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / @{TEST} / debug' "${@}"
-:: execute / test / scheme / tests / @{TEST} / debug :: x-run ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__@{TEST}' --exact "${@}"
+:: execute / test / scheme / tests / @{TEST} / debug :: x-run ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__@{TEST}' --exact "${@}"
 :: execute / test / scheme / tests / @{TEST} / release :: x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__@{TEST}' --exact "${@}"
-:: execute / test / scheme / benchmarks / @{TEST} / debug :: x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__@{TEST}' --exact "${@}"
+:: execute / test / scheme / benchmarks / @{TEST} / debug :: x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__@{TEST}' --exact "${@}"
 :: execute / test / scheme / benchmarks / @{TEST} / release :: x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__@{TEST}' --exact "${@}"
 EOS
 done
@@ -438,6 +462,7 @@ sed -r -e 's#@\{TEST\}#'"${_test}"'#g' -e 's#\{IDENTIFIER\}'#"${_test//-/_}"'#g'
 :: execute / bin / tester / @{TEST} / debug / watch :: exec -- x-run ':: execute / watch' x-run ':: execute / bin / tester / @{TEST} / debug'
 :: execute / bin / tester / @{TEST} / debug :: exec -- nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/@{TEST}.sst' "${@}"
 :: execute / bin / tester / @{TEST} / release :: exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/@{TEST}.sst' "${@}"
+:: execute / bin / bencher / @{TEST} / debug / watch :: exec -- x-run ':: execute / watch' x-run ':: execute / bin / bencher / @{TEST} / debug'
 :: execute / bin / bencher / @{TEST} / debug :: exec -- taskset -c 2 x-run ':: execute / bin / bencher / debug' './tests/scheme/@{TEST}.sst' "${@}"
 :: execute / bin / bencher / @{TEST} / release :: exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__{IDENTIFIER}.out' x-run ':: execute / bin / bencher / release' './tests/scheme/@{TEST}.sst' "${@}"
 EOS
@@ -518,12 +543,12 @@ EOS
 done
 
 
-printf -- '%s\n' '<< execute / benchmark / compare / all'
+printf -- '%s\n' '<< execute / benchmark / compare / benchmarks / all'
 find ./examples -xdev -type f -name 'benchmark--*.ss' -printf '%f\n' \
 | sed -r -e 's/^benchmark--//' -e 's/\.ss$//' \
 | sort -u \
 | while read _script ; do
-printf -- '%s\n' "x-run ':: execute / benchmark / compare / ${_script}'"
+printf -- '%s\n' "x-run ':: execute / benchmark / compare / benchmarks / ${_script}'"
 done
 printf -- '%s\n' '!!'
 
