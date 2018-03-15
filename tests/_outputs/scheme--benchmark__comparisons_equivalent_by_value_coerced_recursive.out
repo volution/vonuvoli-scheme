@@ -1,15 +1,12 @@
-## compiling `./tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst`...
-## benchmarking `./tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst`...
-## benchmarked `./tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst`!
      without optimizations:
-       average   :      36040
-         stdev   :        126 /   0.35%
-         median  :      36025 /   0.36%
-       min / max :      35902 / 35937 / 36025 / 36090 / 36312
+       average   :      38699
+         stdev   :        220 /   0.57%
+         median  :      38671 /   0.39%
+       min / max :      38324 / 38593 / 38671 / 38784 / 39263
        mem-leaks :          0 KB
      with optimizations:
-       average   :      23869 / +33.77% / 1.51*
-         stdev   :         68 /   0.29%
-         median  :      23863 /   0.28%
-       min / max :      23757 / 23825 / 23863 / 23922 / 23991
+       average   :      25153 / +35.00% / 1.54*
+         stdev   :        716 /   2.84%
+         median  :      24878 /   1.02%
+       min / max :      24558 / 24715 / 24878 / 25043 / 27015
        mem-leaks :          0 KB

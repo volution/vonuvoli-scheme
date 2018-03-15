@@ -1,15 +1,12 @@
-## compiling `./tests/scheme/lists.sst`...
-## benchmarking `./tests/scheme/lists.sst`...
-## benchmarked `./tests/scheme/lists.sst`!
      without optimizations:
-       average   :      52245
-         stdev   :        156 /   0.30%
-         median  :      52152 /   0.23%
-       min / max :      52071 / 52107 / 52152 / 52375 / 52555
+       average   :      55406
+         stdev   :        828 /   1.49%
+         median  :      55257 /   2.04%
+       min / max :      54424 / 54599 / 55257 / 56248 / 56626
        mem-leaks :          0 KB
      with optimizations:
-       average   :      39710 / +23.99% / 1.32*
-         stdev   :        143 /   0.36%
-         median  :      39620 /   0.14%
-       min / max :      39575 / 39594 / 39620 / 39887 / 39960
+       average   :      41138 / +25.75% / 1.35*
+         stdev   :       1097 /   2.67%
+         median  :      40687 /   0.98%
+       min / max :      40255 / 40437 / 40687 / 41156 / 43904
        mem-leaks :          0 KB

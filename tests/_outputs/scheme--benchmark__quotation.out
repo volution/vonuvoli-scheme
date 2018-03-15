@@ -1,15 +1,12 @@
-## compiling `./tests/scheme/quotation.sst`...
-## benchmarking `./tests/scheme/quotation.sst`...
-## benchmarked `./tests/scheme/quotation.sst`!
      without optimizations:
-       average   :      16572
-         stdev   :         52 /   0.32%
-         median  :      16550 /   0.30%
-       min / max :      16511 / 16532 / 16550 / 16607 / 16662
+       average   :      16805
+         stdev   :        274 /   1.63%
+         median  :      16673 /   0.62%
+       min / max :      16574 / 16607 / 16673 / 16982 / 17300
        mem-leaks :          0 KB
      with optimizations:
-       average   :       8989 / +45.76% / 1.84*
-         stdev   :         33 /   0.37%
-         median  :       8967 /   0.19%
-       min / max :       8955 / 8959 / 8967 / 9027 / 9044
+       average   :       9247 / +44.97% / 1.82*
+         stdev   :        269 /   2.91%
+         median  :       9134 /   1.83%
+       min / max :       8973 / 9054 / 9134 / 9423 / 9868
        mem-leaks :          0 KB

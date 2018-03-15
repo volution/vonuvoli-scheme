@@ -1,15 +1,12 @@
-## compiling `./tests/scheme/contexts.sst`...
-## benchmarking `./tests/scheme/contexts.sst`...
-## benchmarked `./tests/scheme/contexts.sst`!
      without optimizations:
-       average   :      32642
-         stdev   :        113 /   0.35%
-         median  :      32637 /   0.33%
-       min / max :      32496 / 32539 / 32637 / 32693 / 32893
+       average   :      36898
+         stdev   :        831 /   2.25%
+         median  :      36511 /   0.96%
+       min / max :      36141 / 36316 / 36511 / 37061 / 38803
        mem-leaks :          0 KB
      with optimizations:
-       average   :      21673 / +33.60% / 1.51*
-         stdev   :         69 /   0.32%
-         median  :      21637 /   0.28%
-       min / max :      21596 / 21613 / 21637 / 21733 / 21785
+       average   :      24638 / +33.23% / 1.50*
+         stdev   :        565 /   2.29%
+         median  :      24384 /   0.97%
+       min / max :      24111 / 24300 / 24384 / 24871 / 25949
        mem-leaks :          0 KB

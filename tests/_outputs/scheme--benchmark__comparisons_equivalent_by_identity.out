@@ -1,15 +1,12 @@
-## compiling `./tests/scheme/comparisons-equivalent-by-identity.sst`...
-## benchmarking `./tests/scheme/comparisons-equivalent-by-identity.sst`...
-## benchmarked `./tests/scheme/comparisons-equivalent-by-identity.sst`!
      without optimizations:
-       average   :      33800
-         stdev   :         74 /   0.22%
-         median  :      33809 /   0.15%
-       min / max :      33689 / 33734 / 33809 / 33831 / 33957
+       average   :      35926
+         stdev   :        179 /   0.50%
+         median  :      35876 /   0.34%
+       min / max :      35668 / 35814 / 35876 / 36009 / 36366
        mem-leaks :          0 KB
      with optimizations:
-       average   :      20912 / +38.13% / 1.62*
-         stdev   :         78 /   0.37%
-         median  :      20866 /   0.23%
-       min / max :      20834 / 20847 / 20866 / 20992 / 21070
+       average   :      23057 / +35.82% / 1.56*
+         stdev   :        265 /   1.15%
+         median  :      23023 /   1.57%
+       min / max :      22715 / 22797 / 23023 / 23287 / 23436
        mem-leaks :          0 KB

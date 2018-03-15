@@ -1,15 +1,12 @@
-## compiling `./tests/scheme/values.sst`...
-## benchmarking `./tests/scheme/values.sst`...
-## benchmarked `./tests/scheme/values.sst`!
      without optimizations:
-       average   :       1490
-         stdev   :         43 /   2.86%
-         median  :       1466 /   0.80%
-       min / max :       1458 / 1464 / 1466 / 1511 / 1589
+       average   :       1409
+         stdev   :          8 /   0.53%
+         median  :       1411 /   0.55%
+       min / max :       1395 / 1405 / 1411 / 1415 / 1421
        mem-leaks :          0 KB
      with optimizations:
-       average   :       1498 / -0.55% / 0.99*
-         stdev   :         47 /   3.15%
-         median  :       1476 /   1.10%
-       min / max :       1458 / 1470 / 1476 / 1497 / 1601
+       average   :       1436 / -1.90% / 0.98*
+         stdev   :         42 /   2.92%
+         median  :       1414 /   1.26%
+       min / max :       1394 / 1405 / 1414 / 1475 / 1524
        mem-leaks :          0 KB

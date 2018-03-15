@@ -1,15 +1,12 @@
-## compiling `./tests/scheme/pairs.sst`...
-## benchmarking `./tests/scheme/pairs.sst`...
-## benchmarked `./tests/scheme/pairs.sst`!
      without optimizations:
-       average   :      18391
-         stdev   :         61 /   0.33%
-         median  :      18389 /   0.37%
-       min / max :      18302 / 18338 / 18389 / 18428 / 18512
+       average   :      18341
+         stdev   :        419 /   2.29%
+         median  :      18190 /   1.29%
+       min / max :      17937 / 18058 / 18190 / 18383 / 19327
        mem-leaks :          0 KB
      with optimizations:
-       average   :       8481 / +53.89% / 2.17*
-         stdev   :         28 /   0.32%
-         median  :       8468 /   0.29%
-       min / max :       8451 / 8458 / 8468 / 8505 / 8529
+       average   :       8106 / +55.80% / 2.26*
+         stdev   :        210 /   2.59%
+         median  :       8010 /   0.91%
+       min / max :       7930 / 7976 / 8010 / 8130 / 8628
        mem-leaks :          0 KB

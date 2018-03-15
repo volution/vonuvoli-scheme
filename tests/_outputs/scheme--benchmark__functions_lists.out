@@ -1,15 +1,12 @@
-## compiling `./tests/scheme/functions-lists.sst`...
-## benchmarking `./tests/scheme/functions-lists.sst`...
-## benchmarked `./tests/scheme/functions-lists.sst`!
      without optimizations:
-       average   :      60274
-         stdev   :        147 /   0.24%
-         median  :      60301 /   0.23%
-       min / max :      60059 / 60131 / 60301 / 60351 / 60575
+       average   :      63799
+         stdev   :       2083 /   3.27%
+         median  :      63006 /   1.84%
+       min / max :      62131 / 62306 / 63006 / 64142 / 69249
        mem-leaks :          0 KB
      with optimizations:
-       average   :      47656 / +20.94% / 1.26*
-         stdev   :        180 /   0.38%
-         median  :      47540 /   0.18%
-       min / max :      47480 / 47507 / 47540 / 47761 / 47978
+       average   :      52213 / +18.16% / 1.22*
+         stdev   :        886 /   1.70%
+         median  :      51765 /   0.72%
+       min / max :      51471 / 51587 / 51765 / 52494 / 53926
        mem-leaks :          0 KB

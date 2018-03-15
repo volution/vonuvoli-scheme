@@ -1,15 +1,12 @@
-## compiling `./tests/scheme/types.sst`...
-## benchmarking `./tests/scheme/types.sst`...
-## benchmarked `./tests/scheme/types.sst`!
      without optimizations:
-       average   :      38173
-         stdev   :       1409 /   3.69%
-         median  :      37361 /   0.88%
-       min / max :      37080 / 37265 / 37361 / 38511 / 41136
+       average   :      37741
+         stdev   :        384 /   1.02%
+         median  :      37632 /   0.66%
+       min / max :      37414 / 37467 / 37632 / 37794 / 38862
        mem-leaks :          0 KB
      with optimizations:
-       average   :      11282 / +70.45% / 3.38*
-         stdev   :        388 /   3.44%
-         median  :      11065 /   0.79%
-       min / max :      11001 / 11051 / 11065 / 11423 / 12171
+       average   :       7712 / +79.57% / 4.89*
+         stdev   :        197 /   2.56%
+         median  :       7623 /   0.78%
+       min / max :       7555 / 7586 / 7623 / 7740 / 8186
        mem-leaks :          0 KB

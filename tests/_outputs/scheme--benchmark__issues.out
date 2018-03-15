@@ -1,15 +1,12 @@
-## compiling `./tests/scheme/issues.sst`...
-## benchmarking `./tests/scheme/issues.sst`...
-## benchmarked `./tests/scheme/issues.sst`!
      without optimizations:
-       average   :       5411
-         stdev   :        188 /   3.47%
-         median  :       5361 /   0.40%
-       min / max :       5335 / 5342 / 5361 / 5370 / 6041
-       mem-leaks :        142 KB (!!!! DETECTED !!!!)
+       average   :       6615
+         stdev   :        284 /   4.29%
+         median  :       6472 /   0.88%
+       min / max :       6405 / 6440 / 6472 / 6661 / 7233
+       mem-leaks :       1388 KB (!!!! DETECTED !!!!)
      with optimizations:
-       average   :       4710 / +12.96% / 1.15*
-         stdev   :        178 /   3.77%
-         median  :       4637 /   0.24%
-       min / max :       4629 / 4634 / 4637 / 4671 / 5187
-       mem-leaks :        537 KB (!!!! DETECTED !!!!)
+       average   :       5759 / +12.94% / 1.15*
+         stdev   :        231 /   4.00%
+         median  :       5634 /   1.05%
+       min / max :       5561 / 5609 / 5634 / 5875 / 6219
+       mem-leaks :       2680 KB (!!!! DETECTED !!!!)

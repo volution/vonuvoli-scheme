@@ -1,15 +1,12 @@
-## compiling `./tests/scheme/loops.sst`...
-## benchmarking `./tests/scheme/loops.sst`...
-## benchmarked `./tests/scheme/loops.sst`!
      without optimizations:
-       average   :      16460
-         stdev   :         51 /   0.31%
-         median  :      16461 /   0.46%
-       min / max :      16397 / 16410 / 16461 / 16480 / 16547
+       average   :      18329
+         stdev   :         71 /   0.39%
+         median  :      18320 /   0.36%
+       min / max :      18216 / 18283 / 18320 / 18372 / 18472
        mem-leaks :          0 KB
      with optimizations:
-       average   :       7210 / +56.19% / 2.28*
-         stdev   :         23 /   0.32%
-         median  :       7194 /   0.10%
-       min / max :       7189 / 7191 / 7194 / 7237 / 7248
+       average   :       7942 / +56.67% / 2.31*
+         stdev   :        261 /   3.29%
+         median  :       7812 /   1.41%
+       min / max :       7702 / 7766 / 7812 / 8042 / 8507
        mem-leaks :          0 KB
