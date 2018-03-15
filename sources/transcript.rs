@@ -27,6 +27,9 @@ pub mod exports {
 	pub use super::{
 			
 			TranscriptForModule,
+			TranscriptForScript,
+			
+			transcript_for_script,
 			
 		};
 	
@@ -748,6 +751,85 @@ impl TranscriptContext for TranscriptForModule {
 			None
 		}
 	}
+}
+
+
+
+
+pub struct TranscriptForScript {
+	module : &'static str,
+	activation_level : Option<TranscriptLevel>,
+	backend : TranscriptBackendForStderr,
+}
+
+
+impl TranscriptForScript {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub const fn new (module : &'static str) -> (TranscriptForScript) {
+		TranscriptForScript {
+				module : module,
+				activation_level : None,
+				backend : TranscriptBackendForStderr::new (),
+			}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub const fn new_with_level (module : &'static str, activation_level : TranscriptLevel) -> (TranscriptForScript) {
+		TranscriptForScript {
+				module : module,
+				activation_level : Some (activation_level),
+				backend : TranscriptBackendForStderr::new (),
+			}
+	}
+}
+
+
+impl TranscriptFrontend for TranscriptForScript {
+	
+	type Context = TranscriptForScript;
+	type Backend = TranscriptBackendForStderr;
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn context (&self) -> (&Self::Context) {
+		self
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn backend (&self) -> (&Self::Backend) {
+		&self.backend
+	}
+}
+
+
+impl TranscriptContext for TranscriptForScript {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn identifier (&self) -> (&str) {
+		self.module
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn activation_level (&self) -> (Option<TranscriptLevel>) {
+		self.activation_level
+	}
+}
+
+
+impl fmt::Debug for TranscriptForScript {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		// TODO:  Imlement this!
+		formatter.debug_tuple ("TranscriptForScript") .finish ()
+	}
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn transcript_for_script () -> (StdRc<TranscriptForScript>) {
+	let transcript = TranscriptForScript::new ("<script>");
+	return StdRc::new (transcript);
 }
 
 

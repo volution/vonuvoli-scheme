@@ -6,6 +6,7 @@ use super::errors::exports::*;
 use super::evaluator::exports::*;
 use super::globals::exports::*;
 use super::runtime::exports::*;
+use super::transcript::exports::*;
 use super::values::exports::*;
 
 use super::prelude::*;
@@ -32,6 +33,7 @@ pub struct ParametersInternals {
 	pub stdin : Option<Port>,
 	pub stdout : Option<Port>,
 	pub stderr : Option<Port>,
+	pub transcript : StdRc<TranscriptForScript>,
 	pub parent : Option<Parameters>,
 	pub immutable : bool,
 	pub handle : Handle,
@@ -48,6 +50,7 @@ impl Parameters {
 				stdin : None,
 				stdout : None,
 				stderr : None,
+				transcript : transcript_for_script (),
 				parent : None,
 				immutable : false,
 				handle : parameters_handles_next (),
@@ -62,6 +65,7 @@ impl Parameters {
 				stdin : Some (try! (Port::new_stdin ())),
 				stdout : Some (try! (Port::new_stdout ())),
 				stderr : Some (try! (Port::new_stderr ())),
+				transcript : transcript_for_script (),
 				parent : None,
 				immutable : false,
 				handle : parameters_handles_next (),
@@ -77,6 +81,7 @@ impl Parameters {
 				stdin : option_ref_map! (self_0.stdin, port, port.clone ()),
 				stdout : option_ref_map! (self_0.stdout, port, port.clone ()),
 				stderr : option_ref_map! (self_0.stderr, port, port.clone ()),
+				transcript : transcript_for_script (),
 				parent : Some (self.clone ()),
 				immutable : false,
 				handle : parameters_handles_next (),
@@ -336,6 +341,13 @@ impl Parameters {
 		} else {
 			succeed! (UNDEFINED_VALUE);
 		}
+	}
+	
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn resolve_transcript (&self) -> (Outcome<StdRc<TranscriptForScript>>) {
+		let self_0 = try! (self.internals_ref ());
+		succeed! (StdRc::clone (&self_0.transcript));
 	}
 	
 	
