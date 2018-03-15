@@ -139,6 +139,25 @@ impl fmt::Debug for Value {
 
 
 
+pub(crate) struct ValueSliceDisplay <'a> ( pub(crate) &'a [&'a Value] );
+
+impl <'a> fmt::Display for ValueSliceDisplay<'a> {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		try! (formatter.write_str ("[ "));
+		for value in self.0 {
+			try! (value.fmt (formatter));
+			try! (formatter.write_str (" "));
+		}
+		try! (formatter.write_str ("]"));
+		succeed! (());
+	}
+}
+
+
+
+
 impl fmt::Display for ValueSingleton {
 	
 	#[ inline (never) ]

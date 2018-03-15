@@ -1,5 +1,6 @@
 
 
+use super::errors::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
 
@@ -83,7 +84,7 @@ pub trait Transcript {
 	
 	fn trace_format (&self, level : TranscriptLevel, code : Option<TranscriptCode>, arguments : fmt::Arguments, stylize : bool, error : Option<&TranscriptOutputable>, backend : Option<&TranscriptBackend>) -> ();
 	fn trace_message (&self, level : TranscriptLevel, code : Option<TranscriptCode>, message : &str, stylize : bool, error : Option<&TranscriptOutputable>, backend : Option<&TranscriptBackend>) -> ();
-	fn trace_values (&self, level : TranscriptLevel, code : Option<TranscriptCode>, format : &str, values : &[&Values], backend : Option<&TranscriptBackend>) -> ();
+	fn trace_values (&self, level : TranscriptLevel, code : Option<TranscriptCode>, format : &str, values : &[&Value], backend : Option<&TranscriptBackend>) -> (Outcome<()>);
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn trace_buffer (&self, level : TranscriptLevel, code : Option<TranscriptCode>, buffer : TranscriptBuffer<Self>, stylize : bool, backend : Option<&TranscriptBackend>) -> () {
@@ -138,8 +139,8 @@ impl <'a, T : Transcript + ?Sized + 'a> TranscriptTracer<'a, T> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn trace_values (&self, format : &str, values : &[&Values]) -> () {
-		self.transcript.trace_values (self.level, self.code, format, values, self.backend);
+	pub fn trace_values (&self, format : &str, values : &[&Value]) -> (Outcome<()>) {
+		return self.transcript.trace_values (self.level, self.code, format, values, self.backend);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -282,7 +283,48 @@ impl <Frontent : TranscriptFrontend + ?Sized> Transcript for Frontent {
 		let code = code.or_else (|| transcript_code_for_message_value (format, None, None));
 		let backend = backend.unwrap_or_else (|| self.backend ());
 		// FIXME:  Add support for actual formatting!
-		backend.trace_push (context, level, code, &format_args! ("{} || {:?}", format, values), true, None);
+		
+		let format_parts = format.split ("{}") .collect::<StdVec<_>> ();
+		let format_parts = format_parts.as_slice ();
+		let parts_count = format_parts.len () - 1;
+		if parts_count != values.len () {
+			fail! (0x95af0ca0);
+		}
+		
+		macro_rules! trace_push {
+			( $( $argument : tt )* ) => (
+				backend.trace_push (context, level, code, & format_args! ( $( $argument )* ), true, None)
+			);
+		}
+		
+		match parts_count {
+			0 =>
+				trace_push! ("{}", format_parts[0]),
+			1 =>
+				trace_push! ("{}{}{}", format_parts[0], values[0], format_parts[1]),
+			2 =>
+				trace_push! ("{}{}{}{}{}", format_parts[0], values[0], format_parts[1], values[1], format_parts[2]),
+			3 =>
+				trace_push! ("{}{}{}{}{}{}{}", format_parts[0], values[0], format_parts[1], values[1], format_parts[2], values[2], format_parts[3]),
+			4 =>
+				trace_push! ("{}{}{}{}{}{}{}{}{}", format_parts[0], values[0], format_parts[1], values[1], format_parts[2], values[2], format_parts[3], values[3], format_parts[4]),
+			5 =>
+				trace_push! ("{}{}{}{}{}{}{}{}{}{}{}", format_parts[0], values[0], format_parts[1], values[1], format_parts[2], values[2], format_parts[3], values[3], format_parts[4], values[4], format_parts[5]),
+			6 =>
+				trace_push! ("{}{}{}{}{}{}{}{}{}{}{}{}{}", format_parts[0], values[0], format_parts[1], values[1], format_parts[2], values[2], format_parts[3], values[3], format_parts[4], values[4], format_parts[5], values[5], format_parts[6]),
+			7 =>
+				trace_push! ("{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}", format_parts[0], values[0], format_parts[1], values[1], format_parts[2], values[2], format_parts[3], values[3], format_parts[4], values[4], format_parts[5], values[5], format_parts[6], values[6], format_parts[7]),
+			8 =>
+				trace_push! ("{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}", format_parts[0], values[0], format_parts[1], values[1], format_parts[2], values[2], format_parts[3], values[3], format_parts[4], values[4], format_parts[5], values[5], format_parts[6], values[6], format_parts[7], values[7], format_parts[8]),
+			9 =>
+				trace_push! ("{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}", format_parts[0], values[0], format_parts[1], values[1], format_parts[2], values[2], format_parts[3], values[3], format_parts[4], values[4], format_parts[5], values[5], format_parts[6], values[6], format_parts[7], values[7], format_parts[8], values[8], format_parts[9]),
+			10 =>
+				trace_push! ("{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}", format_parts[0], values[0], format_parts[1], values[1], format_parts[2], values[2], format_parts[3], values[3], format_parts[4], values[4], format_parts[5], values[5], format_parts[6], values[6], format_parts[7], values[7], format_parts[8], values[8], format_parts[9], values[9], format_parts[10]),
+			_ =>
+				trace_push! ("{} >> {}", format, super::display::ValueSliceDisplay (values)),
+		}
+		
+		succeed! (());
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
