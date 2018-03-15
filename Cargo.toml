@@ -62,6 +62,7 @@ vonuvoli_release = [
 	"vonuvoli_inline",
 	"vonuvoli_terminal",
 	"vonuvoli_transcript_ansi_enabled",
+	"vonuvoli_transcript_code_hashes",
 ]
 
 vonuvoli_debug_for_binaries = [
@@ -106,6 +107,7 @@ vonuvoli_debug_level_4 = [
 	"vonuvoli_debug_level_3",
 	"vonuvoli_terminal",
 	"vonuvoli_transcript_ansi_enabled",
+	"vonuvoli_transcript_code_hashes",
 	"vonuvoli_backtrace_sources",
 ]
 
@@ -132,6 +134,9 @@ vonuvoli_terminal = [
 vonuvoli_transcript_compact = []
 vonuvoli_transcript_ansi_enabled = []
 vonuvoli_transcript_ansi_always = []
+vonuvoli_transcript_code_hashes = [
+	"blake2-rfc",
+]
 
 vonuvoli_panic_on_failed = []
 
@@ -255,6 +260,13 @@ default-features = false
 version = "~0.4.2"
 optional = true
 features = ["std"]
+default-features = false
+
+[dependencies.blake2-rfc]
+# https://github.com/cesarb/blake2-rfc
+version = "~0.2.18"
+optional = true
+features = ["simd_asm"]
 default-features = false
 
 

@@ -87,6 +87,9 @@ pub extern crate rand;
 #[ cfg ( feature = "vonuvoli_builtins_encoding" ) ]
 pub extern crate data_encoding;
 
+#[ cfg ( feature = "vonuvoli_transcript_code_hashes" ) ]
+pub extern crate blake2_rfc;
+
 
 
 
@@ -129,6 +132,10 @@ pub mod externals {
 		data_encoding,
 	};
 	
+	#[ cfg ( feature = "vonuvoli_transcript_code_hashes" ) ]
+	pub use {
+		blake2_rfc,
+	};
 }
 
 
