@@ -1045,11 +1045,11 @@ macro_rules! def_trace_for_level {
 					use $crate::exports::Transcript as TraitImportTranscript;
 					$transcript.trace_format (
 							$crate::exports::TranscriptLevel::$level,
-							$crate::prelude::Option::Some ($crate::exports::transcript_code_for_source (
+							$crate::exports::transcript_code_for_source (
 									$code,
 									$crate::prelude::Option::Some (file! ()),
 									$crate::prelude::Option::Some (line! () as usize),
-								)),
+								),
 							trace_format_args! ($format, $arguments),
 							true,
 							$crate::prelude::Option::None,
@@ -1063,11 +1063,11 @@ macro_rules! def_trace_for_level {
 					use $crate::exports::Transcript as TraitImportTranscript;
 					$transcript.trace_format (
 							$crate::exports::TranscriptLevel::$level,
-							$crate::prelude::Option::Some ($crate::exports::transcript_code_for_source (
+							$crate::exports::transcript_code_for_source (
 									$code,
 									$crate::prelude::Option::Some (file! ()),
 									$crate::prelude::Option::Some (line! () as usize),
-								)),
+								),
 							trace_format_args! ($format, $arguments),
 							true,
 							$crate::prelude::Option::None,
@@ -1081,11 +1081,11 @@ macro_rules! def_trace_for_level {
 					use $crate::exports::Transcript as TraitImportTranscript;
 					$transcript.trace_format (
 							$crate::exports::TranscriptLevel::$level,
-							$crate::prelude::Option::Some ($crate::exports::transcript_code_for_source (
+							$crate::exports::transcript_code_for_source (
 									$code,
 									$crate::prelude::Option::Some (file! ()),
 									$crate::prelude::Option::Some (line! () as usize),
-								)),
+								),
 							trace_format_args! ($format, $arguments),
 							true,
 							$crate::prelude::Option::Some ($error),
@@ -1099,11 +1099,11 @@ macro_rules! def_trace_for_level {
 					use $crate::exports::Transcript as TraitImportTranscript;
 					$transcript.trace_format (
 							$crate::exports::TranscriptLevel::$level,
-							$crate::prelude::Option::Some ($crate::exports::transcript_code_for_source (
+							$crate::exports::transcript_code_for_source (
 									$code,
 									$crate::prelude::Option::Some (file! ()),
 									$crate::prelude::Option::Some (line! () as usize),
-								)),
+								),
 							trace_format_args! ($format, $arguments),
 							true,
 							$crate::prelude::Option::Some ($error),
@@ -1117,11 +1117,11 @@ macro_rules! def_trace_for_level {
 					use $crate::exports::Transcript as TraitImportTranscript;
 					$transcript.trace_message (
 							$crate::exports::TranscriptLevel::$level,
-							$crate::prelude::Option::Some ($crate::exports::transcript_code_for_source (
+							$crate::exports::transcript_code_for_source (
 									$code,
 									$crate::prelude::Option::Some (file! ()),
 									$crate::prelude::Option::Some (line! () as usize),
-								)),
+								),
 							$message,
 							true,
 							$crate::prelude::Option::None,
@@ -1135,11 +1135,11 @@ macro_rules! def_trace_for_level {
 					use $crate::exports::Transcript as TraitImportTranscript;
 					$transcript.trace_message (
 							$crate::exports::TranscriptLevel::$level,
-							$crate::prelude::Option::Some ($crate::exports::transcript_code_for_source (
+							$crate::exports::transcript_code_for_source (
 									$code,
 									$crate::prelude::Option::Some (file! ()),
 									$crate::prelude::Option::Some (line! () as usize),
-								)),
+								),
 							$message,
 							true,
 							$crate::prelude::Option::None,
@@ -1153,11 +1153,11 @@ macro_rules! def_trace_for_level {
 					use $crate::exports::Transcript as TraitImportTranscript;
 					$transcript.trace_message (
 							$crate::exports::TranscriptLevel::$level,
-							$crate::prelude::Option::Some ($crate::exports::transcript_code_for_source (
+							$crate::exports::transcript_code_for_source (
 									$code,
 									$crate::prelude::Option::Some (file! ()),
 									$crate::prelude::Option::Some (line! () as usize),
-								)),
+								),
 							$message,
 							true,
 							$crate::prelude::Option::Some ($error),
@@ -1171,11 +1171,11 @@ macro_rules! def_trace_for_level {
 					use $crate::exports::Transcript as TraitImportTranscript;
 					$transcript.trace_message (
 							$crate::exports::TranscriptLevel::$level,
-							$crate::prelude::Option::Some ($crate::exports::transcript_code_for_source (
+							$crate::exports::transcript_code_for_source (
 									$code,
 									$crate::prelude::Option::Some (file! ()),
 									$crate::prelude::Option::Some (line! () as usize),
-								)),
+								),
 							$message,
 							true,
 							$crate::prelude::Option::Some ($error),
@@ -1197,11 +1197,11 @@ macro_rules! def_tracer_for_level {
 					use $crate::exports::Transcript as TraitImportTranscript;
 					&$transcript.tracer (
 							$crate::exports::TranscriptLevel::$level,
-							$crate::prelude::Option::Some ($crate::exports::transcript_code_for_source (
+							$crate::exports::transcript_code_for_source (
 									$code,
 									$crate::prelude::Option::Some (file! ()),
 									$crate::prelude::Option::Some (line! () as usize),
-								)),
+								),
 							$crate::prelude::Option::None,
 						)
 				}
@@ -1212,11 +1212,11 @@ macro_rules! def_tracer_for_level {
 					use $crate::exports::Transcript as TraitImportTranscript;
 					&$transcript.tracer (
 							$crate::exports::TranscriptLevel::$level,
-							$crate::prelude::Option::Some ($crate::exports::transcript_code_for_source (
+							$crate::exports::transcript_code_for_source (
 									$code,
 									$crate::prelude::Option::Some (file! ()),
 									$crate::prelude::Option::Some (line! () as usize),
-								)),
+								),
 							$crate::prelude::Option::Some ($backend),
 						)
 				}

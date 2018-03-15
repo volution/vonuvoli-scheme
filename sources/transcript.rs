@@ -39,8 +39,9 @@ pub mod exports {
 	
 	pub use super::{
 			
-			transcript_code_for_message,
 			transcript_code_for_source,
+			transcript_code_for_message_static,
+			transcript_code_for_message_value,
 			
 		};
 	
@@ -88,6 +89,8 @@ pub trait Transcript {
 	fn trace_buffer (&self, level : TranscriptLevel, code : Option<TranscriptCode>, buffer : TranscriptBuffer<Self>, stylize : bool, backend : Option<&TranscriptBackend>) -> () {
 		self.trace_message (level, code, &buffer.buffer, stylize, None, backend);
 	}
+	
+	fn is_active (&self, level : TranscriptLevel) -> (bool);
 	
 	fn output_supports_ansi_sequences (&self, backend : Option<&TranscriptBackend>) -> (bool);
 	
@@ -142,6 +145,11 @@ impl <'a, T : Transcript + ?Sized + 'a> TranscriptTracer<'a, T> {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn trace_buffer (&self, buffer : TranscriptBuffer<T>, stylize : bool) -> () {
 		self.transcript.trace_buffer (self.level, self.code, buffer, stylize, self.backend);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn is_active (&self, level : TranscriptLevel) -> (bool) {
+		return self.transcript.is_active (level);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -246,35 +254,41 @@ impl <Frontent : TranscriptFrontend + ?Sized> Transcript for Frontent {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn trace_format (&self, level : TranscriptLevel, code : Option<TranscriptCode>, arguments : fmt::Arguments, stylize : bool, error : Option<&TranscriptOutputable>, backend : Option<&TranscriptBackend>) -> () {
-		let context = self.context ();
-		if ! level.is_active (context.activation_level ()) {
+		if ! self.is_active (level) {
 			return;
 		}
+		let context = self.context ();
 		let backend = backend.unwrap_or_else (|| self.backend ());
 		backend.trace_push (context, level, code, &arguments, stylize, error);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn trace_message (&self, level : TranscriptLevel, code : Option<TranscriptCode>, message : &str, stylize : bool, error : Option<&TranscriptOutputable>, backend : Option<&TranscriptBackend>) -> () {
-		let context = self.context ();
-		if ! level.is_active (context.activation_level ()) {
+		if ! self.is_active (level) {
 			return;
 		}
-		let code = code.or_else (|| Some (transcript_code_for_message (message, None, None)));
+		let context = self.context ();
+		let code = code.or_else (|| transcript_code_for_message_value (message, None, None));
 		let backend = backend.unwrap_or_else (|| self.backend ());
 		backend.trace_push (context, level, code, &message, stylize, error);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn trace_values (&self, level : TranscriptLevel, code : Option<TranscriptCode>, format : &str, values : &[&Values], backend : Option<&TranscriptBackend>) -> () {
-		let context = self.context ();
-		if ! level.is_active (context.activation_level ()) {
-			return;
+	fn trace_values (&self, level : TranscriptLevel, code : Option<TranscriptCode>, format : &str, values : &[&Value], backend : Option<&TranscriptBackend>) -> (Outcome<()>) {
+		if ! self.is_active (level) {
+			succeed! (());
 		}
-		let code = code.or_else (|| Some (transcript_code_for_message (format, None, None)));
+		let context = self.context ();
+		let code = code.or_else (|| transcript_code_for_message_value (format, None, None));
 		let backend = backend.unwrap_or_else (|| self.backend ());
 		// FIXME:  Add support for actual formatting!
 		backend.trace_push (context, level, code, &format_args! ("{} || {:?}", format, values), true, None);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn is_active (&self, level : TranscriptLevel) -> (bool) {
+		let context = self.context ();
+		return level.is_active (context.activation_level ());
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -718,14 +732,27 @@ pub(crate) fn transcript_level_styles (level : TranscriptLevel) -> (&'static str
 }
 
 
+
+
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn transcript_code_for_message (message : &str, _file : Option<&str>, _line : Option<usize>) -> (TranscriptCode) {
-	TranscriptCode (unsafe { mem::transmute (message.as_ptr ()) })
+pub fn transcript_code_for_source (code : u32, _file : Option<&'static str>, _line : Option<usize>) -> (Option<TranscriptCode>) {
+	let code = code as u64;
+	Some (TranscriptCode (code))
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn transcript_code_for_source (code : u32, _file : Option<&str>, _line : Option<usize>) -> (TranscriptCode) {
-	TranscriptCode (code as u64)
+pub fn transcript_code_for_message_static (message : &'static str, _file : Option<&'static str>, _line : Option<usize>) -> (Option<TranscriptCode>) {
+	let code = unsafe { mem::transmute (message.as_ptr ()) };
+	Some (TranscriptCode (code))
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn transcript_code_for_message_value (message : &str, _file : Option<&str>, _line : Option<usize>) -> (Option<TranscriptCode>) {
+	let hash = ext::blake2_rfc::blake2s::blake2s (64 / 8, &[], message.as_bytes ());
+	let hash = hash.as_bytes ();
+	let hash = [hash[0], hash[1], hash[2], hash[3], hash[4], hash[5], hash[6], hash[7]];
+	let code = unsafe { mem::transmute (hash) };
+	Some (TranscriptCode (code))
 }
 
 
