@@ -4,6 +4,7 @@ use super::builtins::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
 use super::primitives_procedures::exports::*;
+use super::transcript::exports::*;
 use super::values::exports::*;
 
 use super::prelude::*;
@@ -85,6 +86,14 @@ pub enum RuntimePrimitive1 {
 	ParameterBuild,
 	ParameterResolve,
 	
+	TranscriptTraceCritical,
+	TranscriptTraceError,
+	TranscriptTraceWarning,
+	TranscriptTraceNotice,
+	TranscriptTraceInformation,
+	TranscriptTraceInternal,
+	TranscriptTraceDebugging,
+	
 	ProcessEnvironment,
 	
 	ProcessExit,
@@ -113,6 +122,14 @@ pub enum RuntimePrimitive2 {
 	ParameterResolve,
 	ParameterConfigure,
 	
+	TranscriptTraceCritical,
+	TranscriptTraceError,
+	TranscriptTraceWarning,
+	TranscriptTraceNotice,
+	TranscriptTraceInformation,
+	TranscriptTraceInternal,
+	TranscriptTraceDebugging,
+	
 	ProcessSpawnExtended,
 	
 }
@@ -126,6 +143,14 @@ pub enum RuntimePrimitive3 {
 	
 	ParameterBuild,
 	
+	TranscriptTraceCritical,
+	TranscriptTraceError,
+	TranscriptTraceWarning,
+	TranscriptTraceNotice,
+	TranscriptTraceInformation,
+	TranscriptTraceInternal,
+	TranscriptTraceDebugging,
+	
 	ProcessSpawnExtended,
 	
 }
@@ -137,6 +162,14 @@ pub enum RuntimePrimitive4 {
 	ErrorRaise,
 	ErrorBuild,
 	
+	TranscriptTraceCritical,
+	TranscriptTraceError,
+	TranscriptTraceWarning,
+	TranscriptTraceNotice,
+	TranscriptTraceInformation,
+	TranscriptTraceInternal,
+	TranscriptTraceDebugging,
+	
 }
 
 
@@ -146,6 +179,14 @@ pub enum RuntimePrimitive5 {
 	ErrorRaise,
 	ErrorBuild,
 	
+	TranscriptTraceCritical,
+	TranscriptTraceError,
+	TranscriptTraceWarning,
+	TranscriptTraceNotice,
+	TranscriptTraceInformation,
+	TranscriptTraceInternal,
+	TranscriptTraceDebugging,
+	
 }
 
 
@@ -154,6 +195,14 @@ pub enum RuntimePrimitiveN {
 	
 	ErrorRaise,
 	ErrorBuild,
+	
+	TranscriptTraceCritical,
+	TranscriptTraceError,
+	TranscriptTraceWarning,
+	TranscriptTraceNotice,
+	TranscriptTraceInformation,
+	TranscriptTraceInternal,
+	TranscriptTraceDebugging,
 	
 	ProcessSpawn,
 	ProcessRunTry,
@@ -171,6 +220,14 @@ pub enum RuntimePrimitiveV {
 	ParameterBuild,
 	ParameterResolve,
 	ParameterConfigure,
+	
+	TranscriptTraceCritical,
+	TranscriptTraceError,
+	TranscriptTraceWarning,
+	TranscriptTraceNotice,
+	TranscriptTraceInformation,
+	TranscriptTraceInternal,
+	TranscriptTraceDebugging,
 	
 	ProcessExit,
 	ProcessExitEmergency,
@@ -247,6 +304,27 @@ pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, input_1 : &V
 		RuntimePrimitive1::ParameterResolve =>
 			return parameter_resolve (input_1, None, evaluator),
 		
+		RuntimePrimitive1::TranscriptTraceCritical =>
+			return transcript_trace_g (TranscriptLevel::Critical, &[input_1], evaluator) .into_0 (),
+		
+		RuntimePrimitive1::TranscriptTraceError =>
+			return transcript_trace_g (TranscriptLevel::Error, &[input_1], evaluator) .into_0 (),
+		
+		RuntimePrimitive1::TranscriptTraceWarning =>
+			return transcript_trace_g (TranscriptLevel::Warning, &[input_1], evaluator) .into_0 (),
+		
+		RuntimePrimitive1::TranscriptTraceNotice =>
+			return transcript_trace_g (TranscriptLevel::Notice, &[input_1], evaluator) .into_0 (),
+		
+		RuntimePrimitive1::TranscriptTraceInformation =>
+			return transcript_trace_g (TranscriptLevel::Information, &[input_1], evaluator) .into_0 (),
+		
+		RuntimePrimitive1::TranscriptTraceInternal =>
+			return transcript_trace_g (TranscriptLevel::Internal, &[input_1], evaluator) .into_0 (),
+		
+		RuntimePrimitive1::TranscriptTraceDebugging =>
+			return transcript_trace_g (TranscriptLevel::Debugging, &[input_1], evaluator) .into_0 (),
+		
 		RuntimePrimitive1::ProcessEnvironment =>
 			fail_unimplemented! (0x8f801b52), // deferred
 		
@@ -302,6 +380,27 @@ pub fn runtime_primitive_2_evaluate (primitive : RuntimePrimitive2, input_1 : &V
 		RuntimePrimitive2::ParameterConfigure =>
 			return parameter_configure (input_1, input_2, evaluator) .into_0 (),
 		
+		RuntimePrimitive2::TranscriptTraceCritical =>
+			return transcript_trace_g (TranscriptLevel::Critical, &[input_1, input_2], evaluator) .into_0 (),
+		
+		RuntimePrimitive2::TranscriptTraceError =>
+			return transcript_trace_g (TranscriptLevel::Error, &[input_1, input_2], evaluator) .into_0 (),
+		
+		RuntimePrimitive2::TranscriptTraceWarning =>
+			return transcript_trace_g (TranscriptLevel::Warning, &[input_1, input_2], evaluator) .into_0 (),
+		
+		RuntimePrimitive2::TranscriptTraceNotice =>
+			return transcript_trace_g (TranscriptLevel::Notice, &[input_1, input_2], evaluator) .into_0 (),
+		
+		RuntimePrimitive2::TranscriptTraceInformation =>
+			return transcript_trace_g (TranscriptLevel::Information, &[input_1, input_2], evaluator) .into_0 (),
+		
+		RuntimePrimitive2::TranscriptTraceInternal =>
+			return transcript_trace_g (TranscriptLevel::Internal, &[input_1, input_2], evaluator) .into_0 (),
+		
+		RuntimePrimitive2::TranscriptTraceDebugging =>
+			return transcript_trace_g (TranscriptLevel::Debugging, &[input_1, input_2], evaluator) .into_0 (),
+		
 		RuntimePrimitive2::ProcessSpawnExtended =>
 			return process_spawn_extended (input_1, Some (input_2), None, &mut Some (evaluator)) .into_0 (),
 		
@@ -324,6 +423,27 @@ pub fn runtime_primitive_3_evaluate (primitive : RuntimePrimitive3, input_1 : &V
 		RuntimePrimitive3::ParameterBuild =>
 			return parameter_build (None, Some (input_1), Some (input_2), Some (try_as_boolean_ref! (input_3) .value ()), evaluator) .into_0 (),
 		
+		RuntimePrimitive3::TranscriptTraceCritical =>
+			return transcript_trace_g (TranscriptLevel::Critical, &[input_1, input_2, input_3], evaluator) .into_0 (),
+		
+		RuntimePrimitive3::TranscriptTraceError =>
+			return transcript_trace_g (TranscriptLevel::Error, &[input_1, input_2, input_3], evaluator) .into_0 (),
+		
+		RuntimePrimitive3::TranscriptTraceWarning =>
+			return transcript_trace_g (TranscriptLevel::Warning, &[input_1, input_2, input_3], evaluator) .into_0 (),
+		
+		RuntimePrimitive3::TranscriptTraceNotice =>
+			return transcript_trace_g (TranscriptLevel::Notice, &[input_1, input_2, input_3], evaluator) .into_0 (),
+		
+		RuntimePrimitive3::TranscriptTraceInformation =>
+			return transcript_trace_g (TranscriptLevel::Information, &[input_1, input_2, input_3], evaluator) .into_0 (),
+		
+		RuntimePrimitive3::TranscriptTraceInternal =>
+			return transcript_trace_g (TranscriptLevel::Internal, &[input_1, input_2, input_3], evaluator) .into_0 (),
+		
+		RuntimePrimitive3::TranscriptTraceDebugging =>
+			return transcript_trace_g (TranscriptLevel::Debugging, &[input_1, input_2, input_3], evaluator) .into_0 (),
+		
 		RuntimePrimitive3::ProcessSpawnExtended =>
 			return process_spawn_extended (input_1, Some (input_2), Some (input_3), &mut Some (evaluator)) .into_0 (),
 		
@@ -334,7 +454,7 @@ pub fn runtime_primitive_3_evaluate (primitive : RuntimePrimitive3, input_1 : &V
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn runtime_primitive_4_evaluate (primitive : RuntimePrimitive4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn runtime_primitive_4_evaluate (primitive : RuntimePrimitive4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		RuntimePrimitive4::ErrorRaise =>
@@ -343,6 +463,27 @@ pub fn runtime_primitive_4_evaluate (primitive : RuntimePrimitive4, input_1 : &V
 		RuntimePrimitive4::ErrorBuild =>
 			return error_build_3 (None, input_1, input_2, input_3, input_4) .into_0 (),
 		
+		RuntimePrimitive4::TranscriptTraceCritical =>
+			return transcript_trace_g (TranscriptLevel::Critical, &[input_1, input_2, input_3, input_4], evaluator) .into_0 (),
+		
+		RuntimePrimitive4::TranscriptTraceError =>
+			return transcript_trace_g (TranscriptLevel::Error, &[input_1, input_2, input_3, input_4], evaluator) .into_0 (),
+		
+		RuntimePrimitive4::TranscriptTraceWarning =>
+			return transcript_trace_g (TranscriptLevel::Warning, &[input_1, input_2, input_3, input_4], evaluator) .into_0 (),
+		
+		RuntimePrimitive4::TranscriptTraceNotice =>
+			return transcript_trace_g (TranscriptLevel::Notice, &[input_1, input_2, input_3, input_4], evaluator) .into_0 (),
+		
+		RuntimePrimitive4::TranscriptTraceInformation =>
+			return transcript_trace_g (TranscriptLevel::Information, &[input_1, input_2, input_3, input_4], evaluator) .into_0 (),
+		
+		RuntimePrimitive4::TranscriptTraceInternal =>
+			return transcript_trace_g (TranscriptLevel::Internal, &[input_1, input_2, input_3, input_4], evaluator) .into_0 (),
+		
+		RuntimePrimitive4::TranscriptTraceDebugging =>
+			return transcript_trace_g (TranscriptLevel::Debugging, &[input_1, input_2, input_3, input_4], evaluator) .into_0 (),
+		
 	}
 }
 
@@ -350,7 +491,7 @@ pub fn runtime_primitive_4_evaluate (primitive : RuntimePrimitive4, input_1 : &V
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn runtime_primitive_5_evaluate (primitive : RuntimePrimitive5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn runtime_primitive_5_evaluate (primitive : RuntimePrimitive5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		RuntimePrimitive5::ErrorRaise =>
@@ -358,6 +499,27 @@ pub fn runtime_primitive_5_evaluate (primitive : RuntimePrimitive5, input_1 : &V
 		
 		RuntimePrimitive5::ErrorBuild =>
 			return error_build_4 (None, input_1, input_2, input_3, input_4, input_5) .into_0 (),
+		
+		RuntimePrimitive5::TranscriptTraceCritical =>
+			return transcript_trace_g (TranscriptLevel::Critical, &[input_1, input_2, input_3, input_4, input_5], evaluator) .into_0 (),
+		
+		RuntimePrimitive5::TranscriptTraceError =>
+			return transcript_trace_g (TranscriptLevel::Error, &[input_1, input_2, input_3, input_4, input_5], evaluator) .into_0 (),
+		
+		RuntimePrimitive5::TranscriptTraceWarning =>
+			return transcript_trace_g (TranscriptLevel::Warning, &[input_1, input_2, input_3, input_4, input_5], evaluator) .into_0 (),
+		
+		RuntimePrimitive5::TranscriptTraceNotice =>
+			return transcript_trace_g (TranscriptLevel::Notice, &[input_1, input_2, input_3, input_4, input_5], evaluator) .into_0 (),
+		
+		RuntimePrimitive5::TranscriptTraceInformation =>
+			return transcript_trace_g (TranscriptLevel::Information, &[input_1, input_2, input_3, input_4, input_5], evaluator) .into_0 (),
+		
+		RuntimePrimitive5::TranscriptTraceInternal =>
+			return transcript_trace_g (TranscriptLevel::Internal, &[input_1, input_2, input_3, input_4, input_5], evaluator) .into_0 (),
+		
+		RuntimePrimitive5::TranscriptTraceDebugging =>
+			return transcript_trace_g (TranscriptLevel::Debugging, &[input_1, input_2, input_3, input_4, input_5], evaluator) .into_0 (),
 		
 	}
 }
@@ -378,6 +540,27 @@ pub fn runtime_primitive_n_evaluate (primitive : RuntimePrimitiveN, inputs : &[&
 			let (message, inputs) = try_some! (inputs.split_first (), 0x87db450f);
 			return error_build_n (None, message, inputs) .into_0 ();
 		},
+		
+		RuntimePrimitiveN::TranscriptTraceCritical =>
+			return transcript_trace_g (TranscriptLevel::Critical, inputs, evaluator) .into_0 (),
+		
+		RuntimePrimitiveN::TranscriptTraceError =>
+			return transcript_trace_g (TranscriptLevel::Error, inputs, evaluator) .into_0 (),
+		
+		RuntimePrimitiveN::TranscriptTraceWarning =>
+			return transcript_trace_g (TranscriptLevel::Warning, inputs, evaluator) .into_0 (),
+		
+		RuntimePrimitiveN::TranscriptTraceNotice =>
+			return transcript_trace_g (TranscriptLevel::Notice, inputs, evaluator) .into_0 (),
+		
+		RuntimePrimitiveN::TranscriptTraceInformation =>
+			return transcript_trace_g (TranscriptLevel::Information, inputs, evaluator) .into_0 (),
+		
+		RuntimePrimitiveN::TranscriptTraceInternal =>
+			return transcript_trace_g (TranscriptLevel::Internal, inputs, evaluator) .into_0 (),
+		
+		RuntimePrimitiveN::TranscriptTraceDebugging =>
+			return transcript_trace_g (TranscriptLevel::Debugging, inputs, evaluator) .into_0 (),
 		
 		RuntimePrimitiveN::ProcessSpawn =>
 			return process_spawn (inputs, &mut Some (evaluator)) .into_0 (),
@@ -407,6 +590,20 @@ pub fn runtime_primitive_v_alternative_0 (primitive : RuntimePrimitiveV) -> (Opt
 			None,
 		RuntimePrimitiveV::ParameterConfigure =>
 			None,
+		RuntimePrimitiveV::TranscriptTraceCritical =>
+			None,
+		RuntimePrimitiveV::TranscriptTraceError =>
+			None,
+		RuntimePrimitiveV::TranscriptTraceWarning =>
+			None,
+		RuntimePrimitiveV::TranscriptTraceNotice =>
+			None,
+		RuntimePrimitiveV::TranscriptTraceInformation =>
+			None,
+		RuntimePrimitiveV::TranscriptTraceInternal =>
+			None,
+		RuntimePrimitiveV::TranscriptTraceDebugging =>
+			None,
 		RuntimePrimitiveV::ProcessExit =>
 			Some (RuntimePrimitive0::ProcessExit),
 		RuntimePrimitiveV::ProcessExitEmergency =>
@@ -432,6 +629,20 @@ pub fn runtime_primitive_v_alternative_1 (primitive : RuntimePrimitiveV) -> (Opt
 			Some (RuntimePrimitive1::ParameterResolve),
 		RuntimePrimitiveV::ParameterConfigure =>
 			None,
+		RuntimePrimitiveV::TranscriptTraceCritical =>
+			Some (RuntimePrimitive1::TranscriptTraceCritical),
+		RuntimePrimitiveV::TranscriptTraceError =>
+			Some (RuntimePrimitive1::TranscriptTraceError),
+		RuntimePrimitiveV::TranscriptTraceWarning =>
+			Some (RuntimePrimitive1::TranscriptTraceWarning),
+		RuntimePrimitiveV::TranscriptTraceNotice =>
+			Some (RuntimePrimitive1::TranscriptTraceNotice),
+		RuntimePrimitiveV::TranscriptTraceInformation =>
+			Some (RuntimePrimitive1::TranscriptTraceInformation),
+		RuntimePrimitiveV::TranscriptTraceInternal =>
+			Some (RuntimePrimitive1::TranscriptTraceInternal),
+		RuntimePrimitiveV::TranscriptTraceDebugging =>
+			Some (RuntimePrimitive1::TranscriptTraceDebugging),
 		RuntimePrimitiveV::ProcessExit =>
 			Some (RuntimePrimitive1::ProcessExit),
 		RuntimePrimitiveV::ProcessExitEmergency =>
@@ -457,6 +668,20 @@ pub fn runtime_primitive_v_alternative_2 (primitive : RuntimePrimitiveV) -> (Opt
 			Some (RuntimePrimitive2::ParameterResolve),
 		RuntimePrimitiveV::ParameterConfigure =>
 			Some (RuntimePrimitive2::ParameterConfigure),
+		RuntimePrimitiveV::TranscriptTraceCritical =>
+			Some (RuntimePrimitive2::TranscriptTraceCritical),
+		RuntimePrimitiveV::TranscriptTraceError =>
+			Some (RuntimePrimitive2::TranscriptTraceError),
+		RuntimePrimitiveV::TranscriptTraceWarning =>
+			Some (RuntimePrimitive2::TranscriptTraceWarning),
+		RuntimePrimitiveV::TranscriptTraceNotice =>
+			Some (RuntimePrimitive2::TranscriptTraceNotice),
+		RuntimePrimitiveV::TranscriptTraceInformation =>
+			Some (RuntimePrimitive2::TranscriptTraceInformation),
+		RuntimePrimitiveV::TranscriptTraceInternal =>
+			Some (RuntimePrimitive2::TranscriptTraceInternal),
+		RuntimePrimitiveV::TranscriptTraceDebugging =>
+			Some (RuntimePrimitive2::TranscriptTraceDebugging),
 		RuntimePrimitiveV::ProcessExit =>
 			None,
 		RuntimePrimitiveV::ProcessExitEmergency =>
@@ -482,6 +707,20 @@ pub fn runtime_primitive_v_alternative_3 (primitive : RuntimePrimitiveV) -> (Opt
 			None,
 		RuntimePrimitiveV::ParameterConfigure =>
 			None,
+		RuntimePrimitiveV::TranscriptTraceCritical =>
+			Some (RuntimePrimitive3::TranscriptTraceCritical),
+		RuntimePrimitiveV::TranscriptTraceError =>
+			Some (RuntimePrimitive3::TranscriptTraceError),
+		RuntimePrimitiveV::TranscriptTraceWarning =>
+			Some (RuntimePrimitive3::TranscriptTraceWarning),
+		RuntimePrimitiveV::TranscriptTraceNotice =>
+			Some (RuntimePrimitive3::TranscriptTraceNotice),
+		RuntimePrimitiveV::TranscriptTraceInformation =>
+			Some (RuntimePrimitive3::TranscriptTraceInformation),
+		RuntimePrimitiveV::TranscriptTraceInternal =>
+			Some (RuntimePrimitive3::TranscriptTraceInternal),
+		RuntimePrimitiveV::TranscriptTraceDebugging =>
+			Some (RuntimePrimitive3::TranscriptTraceDebugging),
 		RuntimePrimitiveV::ProcessExit =>
 			None,
 		RuntimePrimitiveV::ProcessExitEmergency =>
@@ -507,6 +746,20 @@ pub fn runtime_primitive_v_alternative_4 (primitive : RuntimePrimitiveV) -> (Opt
 			None,
 		RuntimePrimitiveV::ParameterConfigure =>
 			None,
+		RuntimePrimitiveV::TranscriptTraceCritical =>
+			Some (RuntimePrimitive4::TranscriptTraceCritical),
+		RuntimePrimitiveV::TranscriptTraceError =>
+			Some (RuntimePrimitive4::TranscriptTraceError),
+		RuntimePrimitiveV::TranscriptTraceWarning =>
+			Some (RuntimePrimitive4::TranscriptTraceWarning),
+		RuntimePrimitiveV::TranscriptTraceNotice =>
+			Some (RuntimePrimitive4::TranscriptTraceNotice),
+		RuntimePrimitiveV::TranscriptTraceInformation =>
+			Some (RuntimePrimitive4::TranscriptTraceInformation),
+		RuntimePrimitiveV::TranscriptTraceInternal =>
+			Some (RuntimePrimitive4::TranscriptTraceInternal),
+		RuntimePrimitiveV::TranscriptTraceDebugging =>
+			Some (RuntimePrimitive4::TranscriptTraceDebugging),
 		RuntimePrimitiveV::ProcessExit =>
 			None,
 		RuntimePrimitiveV::ProcessExitEmergency =>
@@ -532,6 +785,20 @@ pub fn runtime_primitive_v_alternative_5 (primitive : RuntimePrimitiveV) -> (Opt
 			None,
 		RuntimePrimitiveV::ParameterConfigure =>
 			None,
+		RuntimePrimitiveV::TranscriptTraceCritical =>
+			Some (RuntimePrimitive5::TranscriptTraceCritical),
+		RuntimePrimitiveV::TranscriptTraceError =>
+			Some (RuntimePrimitive5::TranscriptTraceError),
+		RuntimePrimitiveV::TranscriptTraceWarning =>
+			Some (RuntimePrimitive5::TranscriptTraceWarning),
+		RuntimePrimitiveV::TranscriptTraceNotice =>
+			Some (RuntimePrimitive5::TranscriptTraceNotice),
+		RuntimePrimitiveV::TranscriptTraceInformation =>
+			Some (RuntimePrimitive5::TranscriptTraceInformation),
+		RuntimePrimitiveV::TranscriptTraceInternal =>
+			Some (RuntimePrimitive5::TranscriptTraceInternal),
+		RuntimePrimitiveV::TranscriptTraceDebugging =>
+			Some (RuntimePrimitive5::TranscriptTraceDebugging),
 		RuntimePrimitiveV::ProcessExit =>
 			None,
 		RuntimePrimitiveV::ProcessExitEmergency =>
@@ -557,6 +824,20 @@ pub fn runtime_primitive_v_alternative_n (primitive : RuntimePrimitiveV) -> (Opt
 			None,
 		RuntimePrimitiveV::ParameterConfigure =>
 			None,
+		RuntimePrimitiveV::TranscriptTraceCritical =>
+			Some (RuntimePrimitiveN::TranscriptTraceCritical),
+		RuntimePrimitiveV::TranscriptTraceError =>
+			Some (RuntimePrimitiveN::TranscriptTraceError),
+		RuntimePrimitiveV::TranscriptTraceWarning =>
+			Some (RuntimePrimitiveN::TranscriptTraceWarning),
+		RuntimePrimitiveV::TranscriptTraceNotice =>
+			Some (RuntimePrimitiveN::TranscriptTraceNotice),
+		RuntimePrimitiveV::TranscriptTraceInformation =>
+			Some (RuntimePrimitiveN::TranscriptTraceInformation),
+		RuntimePrimitiveV::TranscriptTraceInternal =>
+			Some (RuntimePrimitiveN::TranscriptTraceInternal),
+		RuntimePrimitiveV::TranscriptTraceDebugging =>
+			Some (RuntimePrimitiveN::TranscriptTraceDebugging),
 		RuntimePrimitiveV::ProcessExit =>
 			None,
 		RuntimePrimitiveV::ProcessExitEmergency =>

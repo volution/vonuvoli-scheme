@@ -6,6 +6,7 @@ use super::evaluator::exports::*;
 use super::parameters::exports::*;
 use super::primitives::exports::*;
 use super::runtime::exports::*;
+use super::transcript::exports::*;
 use super::values::exports::*;
 
 use super::prelude::*;
@@ -28,7 +29,15 @@ pub mod exports {
 			parameter_configure,
 		};
 	
-	pub use super::{posix_timestamp, jiffies_timestamp, jiffies_per_second};
+	pub use super::{
+			transcript_trace_g,
+		};
+	
+	pub use super::{
+			posix_timestamp,
+			jiffies_timestamp,
+			jiffies_per_second,
+		};
 	
 }
 
@@ -279,6 +288,27 @@ pub fn parameter_configure (parameter : &Value, value : &Value, evaluator : &mut
 		_ =>
 			fail! (0xb05cfc27),
 	}
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn transcript_trace_g (level : TranscriptLevel, arguments : &[&Value], evaluator : &mut EvaluatorContext) -> (Outcome<()>) {
+	if arguments.is_empty () {
+		fail! (0xdd72e2ce);
+	}
+	let transcript = try! (try! (evaluator.parameters ()) .resolve_transcript ());
+	if ! transcript.is_active (level) {
+		succeed! (());
+	}
+	let format = arguments[0];
+	let format = try_as_string_ref! (format);
+	let format = format.string_as_str ();
+	let arguments = &arguments[1..];
+	let code = transcript_code_for_message_value (format, None, None);
+	try! (transcript.trace_values (level, code, format, arguments, None));
+	succeed! (());
 }
 
 

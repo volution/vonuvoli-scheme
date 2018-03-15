@@ -238,6 +238,14 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("parameter-ref", RuntimePrimitiveV::ParameterResolve.into ()),
 			("parameter-set!", RuntimePrimitiveV::ParameterConfigure.into ()),
 			
+			("trace-critical", RuntimePrimitiveV::TranscriptTraceCritical.into ()),
+			("trace-error", RuntimePrimitiveV::TranscriptTraceError.into ()),
+			("trace-warning", RuntimePrimitiveV::TranscriptTraceWarning.into ()),
+			("trace-notice", RuntimePrimitiveV::TranscriptTraceNotice.into ()),
+			("trace-information", RuntimePrimitiveV::TranscriptTraceInformation.into ()),
+			("trace-internal", RuntimePrimitiveV::TranscriptTraceInternal.into ()),
+			("trace-debugging", RuntimePrimitiveV::TranscriptTraceDebugging.into ()),
+			
 			("process-spawn", RuntimePrimitiveN::ProcessSpawn.into ()),
 			("process-spawn*", RuntimePrimitiveV::ProcessSpawnExtended.into ()),
 			("process-wait-poll", RuntimePrimitive1::ProcessWaitPoll.into ()),
