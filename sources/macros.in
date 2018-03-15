@@ -1236,6 +1236,7 @@ def_trace_for_level! (trace_critical, Critical);
 def_trace_for_level! (trace_error, Error);
 def_trace_for_level! (trace_warning, Warning);
 def_trace_for_level! (trace_notice, Notice);
+def_trace_for_level! (trace_information, Information);
 def_trace_for_level! (trace_internal, Internal);
 def_trace_for_level! (trace_debugging, Debugging);
 
@@ -1243,6 +1244,7 @@ def_tracer_for_level! (tracer_critical, Critical);
 def_tracer_for_level! (tracer_error, Error);
 def_tracer_for_level! (tracer_warning, Warning);
 def_tracer_for_level! (tracer_notice, Notice);
+def_tracer_for_level! (tracer_information, Information);
 def_tracer_for_level! (tracer_internal, Internal);
 def_tracer_for_level! (tracer_debugging, Debugging);
 

@@ -51,17 +51,23 @@ pub mod exports {
 			transcript_style_push_initialize,
 			transcript_style_push_finalize,
 			
-			TRANSCRIPT_STYLE_RED_BOLD,
-			TRANSCRIPT_STYLE_YELLOW_BOLD,
-			TRANSCRIPT_STYLE_GREEN_BOLD,
-			TRANSCRIPT_STYLE_BLUE_BOLD,
-			TRANSCRIPT_STYLE_WHITE_BOLD,
+			TRANSCRIPT_STYLE_BLACK, TRANSCRIPT_STYLE_BLACK_BOLD,
+			TRANSCRIPT_STYLE_RED, TRANSCRIPT_STYLE_RED_BOLD,
+			TRANSCRIPT_STYLE_GREEN, TRANSCRIPT_STYLE_GREEN_BOLD,
+			TRANSCRIPT_STYLE_YELLOW, TRANSCRIPT_STYLE_YELLOW_BOLD,
+			TRANSCRIPT_STYLE_BLUE, TRANSCRIPT_STYLE_BLUE_BOLD,
+			TRANSCRIPT_STYLE_PURPLE, TRANSCRIPT_STYLE_PURPLE_BOLD,
+			TRANSCRIPT_STYLE_CYAN, TRANSCRIPT_STYLE_CYAN_BOLD,
+			TRANSCRIPT_STYLE_WHITE, TRANSCRIPT_STYLE_WHITE_BOLD,
 			
-			TRANSCRIPT_STYLE_RED,
-			TRANSCRIPT_STYLE_YELLOW,
-			TRANSCRIPT_STYLE_GREEN,
-			TRANSCRIPT_STYLE_BLUE,
-			TRANSCRIPT_STYLE_WHITE,
+			TRANSCRIPT_STYLE_GRAY, TRANSCRIPT_STYLE_GRAY_BOLD,
+			TRANSCRIPT_STYLE_RED_2, TRANSCRIPT_STYLE_RED_2_BOLD,
+			TRANSCRIPT_STYLE_GREEN_2, TRANSCRIPT_STYLE_GREEN_2_BOLD,
+			TRANSCRIPT_STYLE_YELLOW_2, TRANSCRIPT_STYLE_YELLOW_2_BOLD,
+			TRANSCRIPT_STYLE_BLUE_2, TRANSCRIPT_STYLE_BLUE_2_BOLD,
+			TRANSCRIPT_STYLE_PURPLE_2, TRANSCRIPT_STYLE_PURPLE_2_BOLD,
+			TRANSCRIPT_STYLE_CYAN_2, TRANSCRIPT_STYLE_CYAN_2_BOLD,
+			TRANSCRIPT_STYLE_WHITE_2, TRANSCRIPT_STYLE_WHITE_2_BOLD,
 			
 			TRANSCRIPT_STYLE_NONE,
 			
@@ -206,6 +212,7 @@ pub enum TranscriptLevel {
 	Error,
 	Warning,
 	Notice,
+	Information,
 	Internal,
 	Debugging,
 }
@@ -701,6 +708,8 @@ pub(crate) fn transcript_level_styles (level : TranscriptLevel) -> (&'static str
 			("[ww]", TRANSCRIPT_HEADER_STYLE_FOR_WARNING, TRANSCRIPT_MESSAGE_STYLE_FOR_WARNING),
 		TranscriptLevel::Notice =>
 			("[ii]", TRANSCRIPT_HEADER_STYLE_FOR_NOTICE, TRANSCRIPT_MESSAGE_STYLE_FOR_NOTICE),
+		TranscriptLevel::Information =>
+			("[ii]", TRANSCRIPT_HEADER_STYLE_FOR_INFORMATION, TRANSCRIPT_MESSAGE_STYLE_FOR_INFORMATION),
 		TranscriptLevel::Internal =>
 			("[dd]", TRANSCRIPT_HEADER_STYLE_FOR_INTERNAL, TRANSCRIPT_MESSAGE_STYLE_FOR_INTERNAL),
 		TranscriptLevel::Debugging =>
@@ -725,16 +734,18 @@ pub fn transcript_code_for_source (code : u32, _file : Option<&str>, _line : Opt
 static TRANSCRIPT_HEADER_STYLE_FOR_CRITICAL : TranscriptStyle = TRANSCRIPT_STYLE_RED;
 static TRANSCRIPT_HEADER_STYLE_FOR_ERROR : TranscriptStyle = TRANSCRIPT_STYLE_RED;
 static TRANSCRIPT_HEADER_STYLE_FOR_WARNING : TranscriptStyle = TRANSCRIPT_STYLE_YELLOW;
-static TRANSCRIPT_HEADER_STYLE_FOR_NOTICE : TranscriptStyle = TRANSCRIPT_STYLE_BLUE;
-static TRANSCRIPT_HEADER_STYLE_FOR_INTERNAL : TranscriptStyle = TRANSCRIPT_STYLE_NONE;
-static TRANSCRIPT_HEADER_STYLE_FOR_DEBUGGING : TranscriptStyle = TRANSCRIPT_STYLE_NONE;
+static TRANSCRIPT_HEADER_STYLE_FOR_NOTICE : TranscriptStyle = TRANSCRIPT_STYLE_GREEN;
+static TRANSCRIPT_HEADER_STYLE_FOR_INFORMATION : TranscriptStyle = TRANSCRIPT_STYLE_WHITE;
+static TRANSCRIPT_HEADER_STYLE_FOR_INTERNAL : TranscriptStyle = TRANSCRIPT_STYLE_WHITE;
+static TRANSCRIPT_HEADER_STYLE_FOR_DEBUGGING : TranscriptStyle = TRANSCRIPT_STYLE_WHITE;
 
 static TRANSCRIPT_MESSAGE_STYLE_FOR_CRITICAL : TranscriptStyle = TRANSCRIPT_STYLE_RED_BOLD;
 static TRANSCRIPT_MESSAGE_STYLE_FOR_ERROR : TranscriptStyle = TRANSCRIPT_STYLE_RED_BOLD;
 static TRANSCRIPT_MESSAGE_STYLE_FOR_WARNING : TranscriptStyle = TRANSCRIPT_STYLE_YELLOW_BOLD;
-static TRANSCRIPT_MESSAGE_STYLE_FOR_NOTICE : TranscriptStyle = TRANSCRIPT_STYLE_BLUE_BOLD;
-static TRANSCRIPT_MESSAGE_STYLE_FOR_INTERNAL : TranscriptStyle = TRANSCRIPT_STYLE_NONE;
-static TRANSCRIPT_MESSAGE_STYLE_FOR_DEBUGGING : TranscriptStyle = TRANSCRIPT_STYLE_NONE;
+static TRANSCRIPT_MESSAGE_STYLE_FOR_NOTICE : TranscriptStyle = TRANSCRIPT_STYLE_GREEN_BOLD;
+static TRANSCRIPT_MESSAGE_STYLE_FOR_INFORMATION : TranscriptStyle = TRANSCRIPT_STYLE_WHITE_BOLD;
+static TRANSCRIPT_MESSAGE_STYLE_FOR_INTERNAL : TranscriptStyle = TRANSCRIPT_STYLE_WHITE;
+static TRANSCRIPT_MESSAGE_STYLE_FOR_DEBUGGING : TranscriptStyle = TRANSCRIPT_STYLE_WHITE;
 
 
 
@@ -802,88 +813,52 @@ pub type TranscriptStyle = ();
 
 
 
-#[ cfg ( all ( feature = "vonuvoli_terminal", feature = "vonuvoli_transcript_ansi_enabled" ) ) ]
-pub const TRANSCRIPT_STYLE_YELLOW_BOLD : &'static ext::ansi_term::Style = & ext::ansi_term::Style {
-		foreground : Some (ext::ansi_term::Colour::Yellow),
-		background : None,
-		is_bold : true, is_italic : false, is_underline : false, is_strikethrough : false,
-		is_dimmed : false, is_blink : false, is_reverse : false, is_hidden : false,
-	};
-
-#[ cfg ( all ( feature = "vonuvoli_terminal", feature = "vonuvoli_transcript_ansi_enabled" ) ) ]
-pub const TRANSCRIPT_STYLE_RED_BOLD : &'static ext::ansi_term::Style = & ext::ansi_term::Style {
-		foreground : Some (ext::ansi_term::Colour::Red),
-		background : None,
-		is_bold : true, is_italic : false, is_underline : false, is_strikethrough : false,
-		is_dimmed : false, is_blink : false, is_reverse : false, is_hidden : false,
-	};
-
-#[ cfg ( all ( feature = "vonuvoli_terminal", feature = "vonuvoli_transcript_ansi_enabled" ) ) ]
-pub const TRANSCRIPT_STYLE_GREEN_BOLD : &'static ext::ansi_term::Style = & ext::ansi_term::Style {
-		foreground : Some (ext::ansi_term::Colour::Green),
-		background : None,
-		is_bold : true, is_italic : false, is_underline : false, is_strikethrough : false,
-		is_dimmed : false, is_blink : false, is_reverse : false, is_hidden : false,
-	};
-
-#[ cfg ( all ( feature = "vonuvoli_terminal", feature = "vonuvoli_transcript_ansi_enabled" ) ) ]
-pub const TRANSCRIPT_STYLE_BLUE_BOLD : &'static ext::ansi_term::Style = & ext::ansi_term::Style {
-		foreground : Some (ext::ansi_term::Colour::Blue),
-		background : None,
-		is_bold : true, is_italic : false, is_underline : false, is_strikethrough : false,
-		is_dimmed : false, is_blink : false, is_reverse : false, is_hidden : false,
-	};
-
-#[ cfg ( all ( feature = "vonuvoli_terminal", feature = "vonuvoli_transcript_ansi_enabled" ) ) ]
-pub const TRANSCRIPT_STYLE_WHITE_BOLD : &'static ext::ansi_term::Style = & ext::ansi_term::Style {
-		foreground : Some (ext::ansi_term::Colour::White),
-		background : None,
-		is_bold : true, is_italic : false, is_underline : false, is_strikethrough : false,
-		is_dimmed : false, is_blink : false, is_reverse : false, is_hidden : false,
-	};
+macro_rules! def_transcript_style {
+	( $identifier_normal : ident, $identifier_bold : ident, $color : expr ) => (
+		
+		#[ cfg ( all ( feature = "vonuvoli_terminal", feature = "vonuvoli_transcript_ansi_enabled" ) ) ]
+		pub const $identifier_normal : &'static ext::ansi_term::Style = & ext::ansi_term::Style {
+				foreground : Some (ext::ansi_term::Colour::Fixed ($color)),
+				background : None,
+				is_bold : false, is_italic : false, is_underline : false, is_strikethrough : false,
+				is_dimmed : false, is_blink : false, is_reverse : false, is_hidden : false,
+			};
+		
+		#[ cfg ( all ( feature = "vonuvoli_terminal", feature = "vonuvoli_transcript_ansi_enabled" ) ) ]
+		pub const $identifier_bold : &'static ext::ansi_term::Style = & ext::ansi_term::Style {
+				foreground : Some (ext::ansi_term::Colour::Fixed ($color)),
+				background : None,
+				is_bold : true, is_italic : false, is_underline : false, is_strikethrough : false,
+				is_dimmed : false, is_blink : false, is_reverse : false, is_hidden : false,
+			};
+		
+		#[ cfg ( not ( all ( feature = "vonuvoli_terminal", feature = "vonuvoli_transcript_ansi_enabled" ) ) ) ]
+		pub const $identifier_normal : () = ();
+		
+		#[ cfg ( not ( all ( feature = "vonuvoli_terminal", feature = "vonuvoli_transcript_ansi_enabled" ) ) ) ]
+		pub const $identifier_bold : () = ();
+		
+	);
+}
 
 
+def_transcript_style! (TRANSCRIPT_STYLE_BLACK, TRANSCRIPT_STYLE_BLACK_BOLD, 0);
+def_transcript_style! (TRANSCRIPT_STYLE_RED, TRANSCRIPT_STYLE_RED_BOLD, 1);
+def_transcript_style! (TRANSCRIPT_STYLE_GREEN, TRANSCRIPT_STYLE_GREEN_BOLD, 2);
+def_transcript_style! (TRANSCRIPT_STYLE_YELLOW, TRANSCRIPT_STYLE_YELLOW_BOLD, 3);
+def_transcript_style! (TRANSCRIPT_STYLE_BLUE, TRANSCRIPT_STYLE_BLUE_BOLD, 4);
+def_transcript_style! (TRANSCRIPT_STYLE_PURPLE, TRANSCRIPT_STYLE_PURPLE_BOLD, 5);
+def_transcript_style! (TRANSCRIPT_STYLE_CYAN, TRANSCRIPT_STYLE_CYAN_BOLD, 6);
+def_transcript_style! (TRANSCRIPT_STYLE_WHITE, TRANSCRIPT_STYLE_WHITE_BOLD, 7);
 
-
-#[ cfg ( all ( feature = "vonuvoli_terminal", feature = "vonuvoli_transcript_ansi_enabled" ) ) ]
-pub const TRANSCRIPT_STYLE_YELLOW : &'static ext::ansi_term::Style = & ext::ansi_term::Style {
-		foreground : Some (ext::ansi_term::Colour::Yellow),
-		background : None,
-		is_bold : false, is_italic : false, is_underline : false, is_strikethrough : false,
-		is_dimmed : false, is_blink : false, is_reverse : false, is_hidden : false,
-	};
-
-#[ cfg ( all ( feature = "vonuvoli_terminal", feature = "vonuvoli_transcript_ansi_enabled" ) ) ]
-pub const TRANSCRIPT_STYLE_RED : &'static ext::ansi_term::Style = & ext::ansi_term::Style {
-		foreground : Some (ext::ansi_term::Colour::Red),
-		background : None,
-		is_bold : false, is_italic : false, is_underline : false, is_strikethrough : false,
-		is_dimmed : false, is_blink : false, is_reverse : false, is_hidden : false,
-	};
-
-#[ cfg ( all ( feature = "vonuvoli_terminal", feature = "vonuvoli_transcript_ansi_enabled" ) ) ]
-pub const TRANSCRIPT_STYLE_GREEN : &'static ext::ansi_term::Style = & ext::ansi_term::Style {
-		foreground : Some (ext::ansi_term::Colour::Green),
-		background : None,
-		is_bold : false, is_italic : false, is_underline : false, is_strikethrough : false,
-		is_dimmed : false, is_blink : false, is_reverse : false, is_hidden : false,
-	};
-
-#[ cfg ( all ( feature = "vonuvoli_terminal", feature = "vonuvoli_transcript_ansi_enabled" ) ) ]
-pub const TRANSCRIPT_STYLE_BLUE : &'static ext::ansi_term::Style = & ext::ansi_term::Style {
-		foreground : Some (ext::ansi_term::Colour::Blue),
-		background : None,
-		is_bold : false, is_italic : false, is_underline : false, is_strikethrough : false,
-		is_dimmed : false, is_blink : false, is_reverse : false, is_hidden : false,
-	};
-
-#[ cfg ( all ( feature = "vonuvoli_terminal", feature = "vonuvoli_transcript_ansi_enabled" ) ) ]
-pub const TRANSCRIPT_STYLE_WHITE : &'static ext::ansi_term::Style = & ext::ansi_term::Style {
-		foreground : Some (ext::ansi_term::Colour::White),
-		background : None,
-		is_bold : false, is_italic : false, is_underline : false, is_strikethrough : false,
-		is_dimmed : false, is_blink : false, is_reverse : false, is_hidden : false,
-	};
+def_transcript_style! (TRANSCRIPT_STYLE_GRAY, TRANSCRIPT_STYLE_GRAY_BOLD, 8);
+def_transcript_style! (TRANSCRIPT_STYLE_RED_2, TRANSCRIPT_STYLE_RED_2_BOLD, 9);
+def_transcript_style! (TRANSCRIPT_STYLE_GREEN_2, TRANSCRIPT_STYLE_GREEN_2_BOLD, 10);
+def_transcript_style! (TRANSCRIPT_STYLE_YELLOW_2, TRANSCRIPT_STYLE_YELLOW_2_BOLD, 11);
+def_transcript_style! (TRANSCRIPT_STYLE_BLUE_2, TRANSCRIPT_STYLE_BLUE_2_BOLD, 12);
+def_transcript_style! (TRANSCRIPT_STYLE_PURPLE_2, TRANSCRIPT_STYLE_PURPLE_2_BOLD, 13);
+def_transcript_style! (TRANSCRIPT_STYLE_CYAN_2, TRANSCRIPT_STYLE_CYAN_2_BOLD, 14);
+def_transcript_style! (TRANSCRIPT_STYLE_WHITE_2, TRANSCRIPT_STYLE_WHITE_2_BOLD, 15);
 
 
 
@@ -895,41 +870,6 @@ pub const TRANSCRIPT_STYLE_NONE : &'static ext::ansi_term::Style = & ext::ansi_t
 		is_bold : false, is_italic : false, is_underline : false, is_strikethrough : false,
 		is_dimmed : false, is_blink : false, is_reverse : false, is_hidden : false,
 	};
-
-
-
-
-#[ cfg ( not ( all ( feature = "vonuvoli_terminal", feature = "vonuvoli_transcript_ansi_enabled" ) ) ) ]
-pub const TRANSCRIPT_STYLE_YELLOW_BOLD : () = ();
-
-#[ cfg ( not ( all ( feature = "vonuvoli_terminal", feature = "vonuvoli_transcript_ansi_enabled" ) ) ) ]
-pub const TRANSCRIPT_STYLE_RED_BOLD : () = ();
-
-#[ cfg ( not ( all ( feature = "vonuvoli_terminal", feature = "vonuvoli_transcript_ansi_enabled" ) ) ) ]
-pub const TRANSCRIPT_STYLE_GREEN_BOLD : () = ();
-
-#[ cfg ( not ( all ( feature = "vonuvoli_terminal", feature = "vonuvoli_transcript_ansi_enabled" ) ) ) ]
-pub const TRANSCRIPT_STYLE_BLUE_BOLD : () = ();
-
-#[ cfg ( not ( all ( feature = "vonuvoli_terminal", feature = "vonuvoli_transcript_ansi_enabled" ) ) ) ]
-pub const TRANSCRIPT_STYLE_WHITE_BOLD : () = ();
-
-
-#[ cfg ( not ( all ( feature = "vonuvoli_terminal", feature = "vonuvoli_transcript_ansi_enabled" ) ) ) ]
-pub const TRANSCRIPT_STYLE_YELLOW : () = ();
-
-#[ cfg ( not ( all ( feature = "vonuvoli_terminal", feature = "vonuvoli_transcript_ansi_enabled" ) ) ) ]
-pub const TRANSCRIPT_STYLE_RED : () = ();
-
-#[ cfg ( not ( all ( feature = "vonuvoli_terminal", feature = "vonuvoli_transcript_ansi_enabled" ) ) ) ]
-pub const TRANSCRIPT_STYLE_GREEN : () = ();
-
-#[ cfg ( not ( all ( feature = "vonuvoli_terminal", feature = "vonuvoli_transcript_ansi_enabled" ) ) ) ]
-pub const TRANSCRIPT_STYLE_BLUE : () = ();
-
-#[ cfg ( not ( all ( feature = "vonuvoli_terminal", feature = "vonuvoli_transcript_ansi_enabled" ) ) ) ]
-pub const TRANSCRIPT_STYLE_WHITE : () = ();
-
 
 #[ cfg ( not ( all ( feature = "vonuvoli_terminal", feature = "vonuvoli_transcript_ansi_enabled" ) ) ) ]
 pub const TRANSCRIPT_STYLE_NONE : () = ();

@@ -89,7 +89,7 @@ pub fn parse_and_compile_tests (identifier : &str, source : &str, context : Opti
 #[ inline (never) ]
 pub fn compile_tests (identifier : &str, tests : &StdVec<TestCase>, context_template : Option<&Context>, transcript_backend : &TranscriptBackend, verbosity : TestVerbosity) -> (Outcome<(StdVec<TestCaseCompiled>)>) {
 	
-	trace_notice! (transcript, 0xb1d307bd => "compiling `{}`..." => (identifier), backend = transcript_backend);
+	trace_information! (transcript, 0xb1d307bd => "compiling `{}`..." => (identifier), backend = transcript_backend);
 	
 	let context_template = if let Some (context) = context_template {
 		context.clone ()
@@ -128,7 +128,7 @@ pub fn parse_and_execute_tests (identifier : &str, source : &str, context : Opti
 #[ inline (never) ]
 pub fn execute_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, transcript_backend : &TranscriptBackend, verbosity : TestVerbosity) -> (Outcome<()>) {
 	
-	trace_notice! (transcript, 0x450c3e03 => "executing `{}`..." => (identifier), backend = transcript_backend);
+	trace_information! (transcript, 0x450c3e03 => "executing `{}`..." => (identifier), backend = transcript_backend);
 	
 	let mut tests_succeeded = 0;
 	let mut tests_failed = 0;
@@ -173,7 +173,7 @@ pub fn parse_and_benchmark_tests (identifier : &str, source : &str, context : Op
 #[ inline (never) ]
 pub fn benchmark_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, bencher : &mut ext::test::Bencher, transcript_backend : &TranscriptBackend, output : &mut io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
 	
-	trace_notice! (transcript, 0x0930df0d => "benchmarking `{}`..." => (identifier), backend = transcript_backend);
+	trace_information! (transcript, 0x0930df0d => "benchmarking `{}`..." => (identifier), backend = transcript_backend);
 	
 	let iterations_base = 20;
 	let iterations_warmup = usize::max (iterations_base / 4, 2);
@@ -242,7 +242,7 @@ pub fn benchmark_generic <Setup, Iteration, SetupOutput, IterationOutput> (ident
 			Iteration : Fn (&SetupOutput) -> (IterationOutput)
 {
 	
-	trace_notice! (transcript, 0xf25e5c5b => "benchmarking `{}`..." => (identifier), backend = transcript_backend);
+	trace_information! (transcript, 0xf25e5c5b => "benchmarking `{}`..." => (identifier), backend = transcript_backend);
 	
 	let iterations_base = 5;
 	let iterations_warmup = iterations_base / 2;
@@ -785,7 +785,7 @@ pub(crate) fn benchmark_main <Benchmark> (identifier : &str, benchmark : Benchma
 	
 	let output_buffer = try_or_fail! (StdString::from_utf8 (output_buffer), 0x48004fa7);
 	
-	trace_notice! (transcript, 0x1643f2b2, message = &output_buffer, backend = transcript_backend);
+	trace_information! (transcript, 0x1643f2b2, message = &output_buffer, backend = transcript_backend);
 	
 	if let Some (output) = output {
 		try_or_fail! (output.write_all (output_buffer.as_bytes ()), 0x41e00f08);
