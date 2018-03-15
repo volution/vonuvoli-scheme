@@ -159,9 +159,7 @@ impl Backtrace {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn report <T : Transcript + ?Sized> (&self, _transcript : &TranscriptTracer<T>) -> () {
-		succeed! (());
-	}
+	pub fn report <T : Transcript + ?Sized> (&self, _transcript : &TranscriptTracer<T>) -> () {}
 }
 
 

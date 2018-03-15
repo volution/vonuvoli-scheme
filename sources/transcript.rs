@@ -870,6 +870,8 @@ pub fn transcript_code_for_message_static (message : &'static str, _file : Optio
 	Some (TranscriptCode (code))
 }
 
+
+#[ cfg ( feature = "vonuvoli_transcript_code_hashes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn transcript_code_for_message_value (message : &str, _file : Option<&str>, _line : Option<usize>) -> (Option<TranscriptCode>) {
 	let hash = ext::blake2_rfc::blake2s::blake2s (64 / 8, &[], message.as_bytes ());
@@ -877,6 +879,12 @@ pub fn transcript_code_for_message_value (message : &str, _file : Option<&str>, 
 	let hash = [hash[0], hash[1], hash[2], hash[3], hash[4], hash[5], hash[6], hash[7]];
 	let code = unsafe { mem::transmute (hash) };
 	Some (TranscriptCode (code))
+}
+
+#[ cfg ( not ( feature = "vonuvoli_transcript_code_hashes" ) ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn transcript_code_for_message_value (_message : &str, _file : Option<&str>, _line : Option<usize>) -> (Option<TranscriptCode>) {
+	None
 }
 
 
@@ -935,7 +943,7 @@ pub fn transcript_style_push_initialize <W : fmt::Write> (writer : &mut W, style
 
 #[ cfg ( not ( all ( feature = "vonuvoli_terminal", feature = "vonuvoli_transcript_ansi_enabled" ) ) ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn transcript_style_push_initialize <W : fmt::Write> (_writer : &mut W, _style : &ext::ansi_term::Style, _color : bool) -> () {}
+pub fn transcript_style_push_initialize <W : fmt::Write> (_writer : &mut W, _style : TranscriptStyle, _color : bool) -> () {}
 
 
 #[ cfg ( all ( feature = "vonuvoli_terminal", feature = "vonuvoli_transcript_ansi_enabled" ) ) ]
@@ -950,7 +958,7 @@ pub fn transcript_style_push_finalize <W : fmt::Write> (writer : &mut W, style :
 
 #[ cfg ( not ( all ( feature = "vonuvoli_terminal", feature = "vonuvoli_transcript_ansi_enabled" ) ) ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn transcript_style_push_finalize <W : fmt::Write> (_writer : &mut W, _style : &ext::ansi_term::Style, _color : bool) -> () {}
+pub fn transcript_style_push_finalize <W : fmt::Write> (_writer : &mut W, _style : TranscriptStyle, _color : bool) -> () {}
 
 
 
