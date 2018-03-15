@@ -1,0 +1,710 @@
+
+--------------------------------------------------------------------------------
+ProcedurePrimitiveCall(
+    ProcedurePrimitiveCall1(
+        Runtime(
+            TranscriptTraceCritical
+        ),
+        Value(
+            StringImmutable(
+                "critical!"
+            )
+        )
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+ProcedurePrimitiveCall(
+    ProcedurePrimitiveCall1(
+        Runtime(
+            TranscriptTraceError
+        ),
+        Value(
+            StringImmutable(
+                "error!"
+            )
+        )
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+ProcedurePrimitiveCall(
+    ProcedurePrimitiveCall1(
+        Runtime(
+            TranscriptTraceWarning
+        ),
+        Value(
+            StringImmutable(
+                "warning!"
+            )
+        )
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+ProcedurePrimitiveCall(
+    ProcedurePrimitiveCall1(
+        Runtime(
+            TranscriptTraceNotice
+        ),
+        Value(
+            StringImmutable(
+                "notice;"
+            )
+        )
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+ProcedurePrimitiveCall(
+    ProcedurePrimitiveCall1(
+        Runtime(
+            TranscriptTraceInformation
+        ),
+        Value(
+            StringImmutable(
+                "information;"
+            )
+        )
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+ProcedurePrimitiveCall(
+    ProcedurePrimitiveCall1(
+        Runtime(
+            TranscriptTraceInternal
+        ),
+        Value(
+            StringImmutable(
+                "internal..."
+            )
+        )
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+ProcedurePrimitiveCall(
+    ProcedurePrimitiveCall1(
+        Runtime(
+            TranscriptTraceDebugging
+        ),
+        Value(
+            StringImmutable(
+                "debugging..."
+            )
+        )
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+ProcedurePrimitiveCall(
+    ProcedurePrimitiveCall2(
+        Runtime(
+            TranscriptTraceInformation
+        ),
+        Value(
+            StringImmutable(
+                "a:{}:a"
+            )
+        ),
+        Value(
+            NumberInteger(
+                1
+            )
+        )
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+ProcedurePrimitiveCall(
+    ProcedurePrimitiveCall3(
+        Runtime(
+            TranscriptTraceInformation
+        ),
+        Value(
+            StringImmutable(
+                "a:{}:a b:{}:b"
+            )
+        ),
+        Value(
+            NumberInteger(
+                1
+            )
+        ),
+        Value(
+            NumberInteger(
+                2
+            )
+        )
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+ProcedurePrimitiveCall(
+    ProcedurePrimitiveCall4(
+        Runtime(
+            TranscriptTraceInformation
+        ),
+        Value(
+            StringImmutable(
+                "a:{}:a b:{}:b c:{}:c"
+            )
+        ),
+        Value(
+            NumberInteger(
+                1
+            )
+        ),
+        Value(
+            NumberInteger(
+                2
+            )
+        ),
+        Value(
+            NumberInteger(
+                3
+            )
+        )
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+ProcedurePrimitiveCall(
+    ProcedurePrimitiveCall5(
+        Runtime(
+            TranscriptTraceInformation
+        ),
+        Value(
+            StringImmutable(
+                "a:{}:a b:{}:b c:{}:c d:{}:d"
+            )
+        ),
+        Value(
+            NumberInteger(
+                1
+            )
+        ),
+        Value(
+            NumberInteger(
+                2
+            )
+        ),
+        Value(
+            NumberInteger(
+                3
+            )
+        ),
+        Value(
+            NumberInteger(
+                4
+            )
+        )
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+ProcedurePrimitiveCall(
+    ProcedurePrimitiveCallN(
+        Runtime(
+            TranscriptTraceInformation
+        ),
+        [
+            Value(
+                StringImmutable(
+                    "a:{}:a b:{}:b c:{}:c d:{}:d e:{}:e"
+                )
+            ),
+            Value(
+                NumberInteger(
+                    1
+                )
+            ),
+            Value(
+                NumberInteger(
+                    2
+                )
+            ),
+            Value(
+                NumberInteger(
+                    3
+                )
+            ),
+            Value(
+                NumberInteger(
+                    4
+                )
+            ),
+            Value(
+                NumberInteger(
+                    5
+                )
+            )
+        ]
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+ProcedurePrimitiveCall(
+    ProcedurePrimitiveCallN(
+        Runtime(
+            TranscriptTraceInformation
+        ),
+        [
+            Value(
+                StringImmutable(
+                    "a:{}:a b:{}:b c:{}:c d:{}:d e:{}:e f:{}:f"
+                )
+            ),
+            Value(
+                NumberInteger(
+                    1
+                )
+            ),
+            Value(
+                NumberInteger(
+                    2
+                )
+            ),
+            Value(
+                NumberInteger(
+                    3
+                )
+            ),
+            Value(
+                NumberInteger(
+                    4
+                )
+            ),
+            Value(
+                NumberInteger(
+                    5
+                )
+            ),
+            Value(
+                NumberInteger(
+                    6
+                )
+            )
+        ]
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+ProcedurePrimitiveCall(
+    ProcedurePrimitiveCallN(
+        Runtime(
+            TranscriptTraceInformation
+        ),
+        [
+            Value(
+                StringImmutable(
+                    "a:{}:a b:{}:b c:{}:c d:{}:d e:{}:e f:{}:f g:{}:g"
+                )
+            ),
+            Value(
+                NumberInteger(
+                    1
+                )
+            ),
+            Value(
+                NumberInteger(
+                    2
+                )
+            ),
+            Value(
+                NumberInteger(
+                    3
+                )
+            ),
+            Value(
+                NumberInteger(
+                    4
+                )
+            ),
+            Value(
+                NumberInteger(
+                    5
+                )
+            ),
+            Value(
+                NumberInteger(
+                    6
+                )
+            ),
+            Value(
+                NumberInteger(
+                    7
+                )
+            )
+        ]
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+ProcedurePrimitiveCall(
+    ProcedurePrimitiveCallN(
+        Runtime(
+            TranscriptTraceInformation
+        ),
+        [
+            Value(
+                StringImmutable(
+                    "a:{}:a b:{}:b c:{}:c d:{}:d e:{}:e f:{}:f g:{}:g h:{}:h"
+                )
+            ),
+            Value(
+                NumberInteger(
+                    1
+                )
+            ),
+            Value(
+                NumberInteger(
+                    2
+                )
+            ),
+            Value(
+                NumberInteger(
+                    3
+                )
+            ),
+            Value(
+                NumberInteger(
+                    4
+                )
+            ),
+            Value(
+                NumberInteger(
+                    5
+                )
+            ),
+            Value(
+                NumberInteger(
+                    6
+                )
+            ),
+            Value(
+                NumberInteger(
+                    7
+                )
+            ),
+            Value(
+                NumberInteger(
+                    8
+                )
+            )
+        ]
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+ProcedurePrimitiveCall(
+    ProcedurePrimitiveCallN(
+        Runtime(
+            TranscriptTraceInformation
+        ),
+        [
+            Value(
+                StringImmutable(
+                    "a:{}:a b:{}:b c:{}:c d:{}:d e:{}:e f:{}:f g:{}:g h:{}:h i:{}:i"
+                )
+            ),
+            Value(
+                NumberInteger(
+                    1
+                )
+            ),
+            Value(
+                NumberInteger(
+                    2
+                )
+            ),
+            Value(
+                NumberInteger(
+                    3
+                )
+            ),
+            Value(
+                NumberInteger(
+                    4
+                )
+            ),
+            Value(
+                NumberInteger(
+                    5
+                )
+            ),
+            Value(
+                NumberInteger(
+                    6
+                )
+            ),
+            Value(
+                NumberInteger(
+                    7
+                )
+            ),
+            Value(
+                NumberInteger(
+                    8
+                )
+            ),
+            Value(
+                NumberInteger(
+                    9
+                )
+            )
+        ]
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+ProcedurePrimitiveCall(
+    ProcedurePrimitiveCallN(
+        Runtime(
+            TranscriptTraceInformation
+        ),
+        [
+            Value(
+                StringImmutable(
+                    "a:{}:a b:{}:b c:{}:c d:{}:d e:{}:e f:{}:f g:{}:g h:{}:h i:{}:i j:{}:j"
+                )
+            ),
+            Value(
+                NumberInteger(
+                    1
+                )
+            ),
+            Value(
+                NumberInteger(
+                    2
+                )
+            ),
+            Value(
+                NumberInteger(
+                    3
+                )
+            ),
+            Value(
+                NumberInteger(
+                    4
+                )
+            ),
+            Value(
+                NumberInteger(
+                    5
+                )
+            ),
+            Value(
+                NumberInteger(
+                    6
+                )
+            ),
+            Value(
+                NumberInteger(
+                    7
+                )
+            ),
+            Value(
+                NumberInteger(
+                    8
+                )
+            ),
+            Value(
+                NumberInteger(
+                    9
+                )
+            ),
+            Value(
+                NumberInteger(
+                    10
+                )
+            )
+        ]
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+ProcedurePrimitiveCall(
+    ProcedurePrimitiveCallN(
+        Runtime(
+            TranscriptTraceInformation
+        ),
+        [
+            Value(
+                StringImmutable(
+                    "a:{}:a b:{}:b c:{}:c d:{}:d e:{}:e f:{}:f g:{}:g h:{}:h i:{}:i j:{}:j k:{}:k"
+                )
+            ),
+            Value(
+                NumberInteger(
+                    1
+                )
+            ),
+            Value(
+                NumberInteger(
+                    2
+                )
+            ),
+            Value(
+                NumberInteger(
+                    3
+                )
+            ),
+            Value(
+                NumberInteger(
+                    4
+                )
+            ),
+            Value(
+                NumberInteger(
+                    5
+                )
+            ),
+            Value(
+                NumberInteger(
+                    6
+                )
+            ),
+            Value(
+                NumberInteger(
+                    7
+                )
+            ),
+            Value(
+                NumberInteger(
+                    8
+                )
+            ),
+            Value(
+                NumberInteger(
+                    9
+                )
+            ),
+            Value(
+                NumberInteger(
+                    10
+                )
+            ),
+            Value(
+                NumberInteger(
+                    11
+                )
+            )
+        ]
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+ProcedurePrimitiveCall(
+    ProcedurePrimitiveCallN(
+        Runtime(
+            TranscriptTraceInformation
+        ),
+        [
+            Value(
+                StringImmutable(
+                    "a:{}:a b:{}:b c:{}:c d:{}:d e:{}:e f:{}:f g:{}:g h:{}:h i:{}:i j:{}:j k:{}:k l:{}:l"
+                )
+            ),
+            Value(
+                NumberInteger(
+                    1
+                )
+            ),
+            Value(
+                NumberInteger(
+                    2
+                )
+            ),
+            Value(
+                NumberInteger(
+                    3
+                )
+            ),
+            Value(
+                NumberInteger(
+                    4
+                )
+            ),
+            Value(
+                NumberInteger(
+                    5
+                )
+            ),
+            Value(
+                NumberInteger(
+                    6
+                )
+            ),
+            Value(
+                NumberInteger(
+                    7
+                )
+            ),
+            Value(
+                NumberInteger(
+                    8
+                )
+            ),
+            Value(
+                NumberInteger(
+                    9
+                )
+            ),
+            Value(
+                NumberInteger(
+                    10
+                )
+            ),
+            Value(
+                NumberInteger(
+                    11
+                )
+            ),
+            Value(
+                NumberInteger(
+                    12
+                )
+            )
+        ]
+    )
+)
+--------------------------------------------------------------------------------
+

@@ -1,0 +1,22 @@
+
+(trace-critical "critical!")
+(trace-error "error!")
+(trace-warning "warning!")
+(trace-notice "notice;")
+(trace-information "information;")
+(trace-internal "internal...")
+(trace-debugging "debugging...")
+
+(trace-information "a:{}:a" 1)
+(trace-information "a:{}:a b:{}:b" 1 2)
+(trace-information "a:{}:a b:{}:b c:{}:c" 1 2 3)
+(trace-information "a:{}:a b:{}:b c:{}:c d:{}:d" 1 2 3 4)
+(trace-information "a:{}:a b:{}:b c:{}:c d:{}:d e:{}:e" 1 2 3 4 5)
+(trace-information "a:{}:a b:{}:b c:{}:c d:{}:d e:{}:e f:{}:f" 1 2 3 4 5 6)
+(trace-information "a:{}:a b:{}:b c:{}:c d:{}:d e:{}:e f:{}:f g:{}:g" 1 2 3 4 5 6 7)
+(trace-information "a:{}:a b:{}:b c:{}:c d:{}:d e:{}:e f:{}:f g:{}:g h:{}:h" 1 2 3 4 5 6 7 8)
+(trace-information "a:{}:a b:{}:b c:{}:c d:{}:d e:{}:e f:{}:f g:{}:g h:{}:h i:{}:i" 1 2 3 4 5 6 7 8 9)
+(trace-information "a:{}:a b:{}:b c:{}:c d:{}:d e:{}:e f:{}:f g:{}:g h:{}:h i:{}:i j:{}:j" 1 2 3 4 5 6 7 8 9 10)
+(trace-information "a:{}:a b:{}:b c:{}:c d:{}:d e:{}:e f:{}:f g:{}:g h:{}:h i:{}:i j:{}:j k:{}:k" 1 2 3 4 5 6 7 8 9 10 11)
+(trace-information "a:{}:a b:{}:b c:{}:c d:{}:d e:{}:e f:{}:f g:{}:g h:{}:h i:{}:i j:{}:j k:{}:k l:{}:l" 1 2 3 4 5 6 7 8 9 10 11 12)
+

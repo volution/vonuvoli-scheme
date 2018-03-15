@@ -1126,6 +1126,7 @@
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/examples--random-1.ss' "${@}" >| './examples/_outputs/examples--random-1--vonuvoli-compile.out'
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/examples--stdio-1.ss' "${@}" >| './examples/_outputs/examples--stdio-1--vonuvoli-compile.out'
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/examples--stdio-2.ss' "${@}" >| './examples/_outputs/examples--stdio-2--vonuvoli-compile.out'
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/examples--transcript.ss' "${@}" >| './examples/_outputs/examples--transcript--vonuvoli-compile.out'
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/optimizer--conditionals.ss' "${@}" >| './examples/_outputs/optimizer--conditionals--vonuvoli-compile.out'
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/optimizer--controls.ss' "${@}" >| './examples/_outputs/optimizer--controls--vonuvoli-compile.out'
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/optimizer--loops.ss' "${@}" >| './examples/_outputs/optimizer--loops--vonuvoli-compile.out'
@@ -1233,6 +1234,14 @@
 
 << execute / bin / compiler / examples / stdio-2 / release
 	nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/examples--stdio-2.ss' "${@}" >| './examples/_outputs/examples--stdio-2--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--stdio-2--vonuvoli-compile.out'
+!!
+
+<< execute / bin / compiler / examples / transcript / debug
+	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/examples--transcript.ss' "${@}" >| './examples/_outputs/examples--transcript--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--transcript--vonuvoli-compile.out'
+!!
+
+<< execute / bin / compiler / examples / transcript / release
+	nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/examples--transcript.ss' "${@}" >| './examples/_outputs/examples--transcript--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--transcript--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / optimizations / conditionals / debug
@@ -1365,6 +1374,18 @@
 
 << execute / bin / interpreter / examples / stdio-2 / release
 	exec -- x-run ':: execute / bin / interpreter / release' './examples/examples--stdio-2.ss' "${@}"
+!!
+
+<< execute / bin / interpreter / examples / transcript / debug
+	exec -- x-run ':: execute / bin / interpreter / debug' './examples/examples--transcript.ss' "${@}"
+!!
+
+<< execute / bin / interpreter / examples / transcript / debug / watch
+	exec -- x-run ':: execute / bin / interpreter / debug / watch' './examples/examples--transcript.ss' "${@}"
+!!
+
+<< execute / bin / interpreter / examples / transcript / release
+	exec -- x-run ':: execute / bin / interpreter / release' './examples/examples--transcript.ss' "${@}"
 !!
 
 << execute / bin / interpreter / release
@@ -3127,6 +3148,10 @@
 	exec -- sce ./examples/examples--stdio-2.ss
 !!
 
+<< files / edit / examples/examples--transcript.ss
+	exec -- sce ./examples/examples--transcript.ss
+!!
+
 << files / edit / examples/optimizer--conditionals.ss
 	exec -- sce ./examples/optimizer--conditionals.ss
 !!
@@ -3813,6 +3838,10 @@
 
 << files / view / examples/examples--stdio-2.ss
 	exec -- less -- ./examples/examples--stdio-2.ss
+!!
+
+<< files / view / examples/examples--transcript.ss
+	exec -- less -- ./examples/examples--transcript.ss
 !!
 
 << files / view / examples/optimizer--conditionals.ss
