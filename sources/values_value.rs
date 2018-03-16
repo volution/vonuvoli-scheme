@@ -9,6 +9,7 @@ use super::lambdas::exports::*;
 use super::native_procedures::exports::*;
 use super::native_syntaxes::exports::*;
 use super::parameters::exports::*;
+use super::paths::exports::*;
 use super::ports::exports::*;
 use super::primitives::exports::*;
 use super::processes::exports::*;
@@ -43,7 +44,7 @@ pub mod exports {
 	pub use super::{ListMatchAsRef, ListMatchInto};
 	pub use super::{ValueRef};
 	pub use super::{GenericRef};
-	pub use super::{StringRegex, Promise, Path};
+	pub use super::{StringRegex, Promise};
 }
 
 
@@ -1828,6 +1829,5 @@ macro_rules! def_value_placeholder {
 
 
 def_value_placeholder! (StringRegex);
-def_value_placeholder! (Path);
 def_value_placeholder! (Promise);
 

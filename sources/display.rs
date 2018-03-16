@@ -1108,6 +1108,19 @@ impl fmt::Debug for Error {
 
 
 
+impl fmt::Display for Path {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		let path = self.path_ref ();
+		let path = path.to_string_lossy ();
+		return string_fmt (&path, "#<path:\"", "\">", formatter);
+	}
+}
+
+
+
+
 impl fmt::Display for Port {
 	
 	#[ inline (never) ]

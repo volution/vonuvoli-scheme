@@ -109,5 +109,5 @@ pub use std::iter::Iterator as TraitImportIterator;
 pub use std::ops::Deref as TraitImportDeref;
 pub use std::str::FromStr as TraitImportFromStr;
 pub use std::string::ToString as TraitImportToString;
-
+pub use std::os::unix::ffi::OsStrExt as TraitImportOsStrExt;
 

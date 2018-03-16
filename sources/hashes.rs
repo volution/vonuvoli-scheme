@@ -283,6 +283,18 @@ impl hash::Hash for SyntaxNative {
 
 
 
+impl hash::Hash for Path {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
+		let path = self.path_ref ();
+		path.hash (hasher);
+	}
+}
+
+
+
+
 impl hash::Hash for Port {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

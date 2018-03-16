@@ -969,6 +969,39 @@ impl cmp::PartialOrd for SyntaxNative {
 
 
 
+impl cmp::Eq for Path {}
+
+impl cmp::PartialEq for Path {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn eq (&self, other : &Path) -> (bool) {
+		let self_0 = self.path_ref ();
+		let other_0 = other.path_ref ();
+		fs_path::Path::eq (self_0, other_0)
+	}
+}
+
+impl cmp::Ord for Path {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn cmp (&self, other : &Path) -> (cmp::Ordering) {
+		let self_0 = self.path_ref ();
+		let other_0 = other.path_ref ();
+		fs_path::Path::cmp (self_0, other_0)
+	}
+}
+
+impl cmp::PartialOrd for Path {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn partial_cmp (&self, other : &Path) -> (Option<cmp::Ordering>) {
+		Some (Path::cmp (self, other))
+	}
+}
+
+
+
+
 impl cmp::Eq for Port {}
 
 impl cmp::PartialEq for Port {

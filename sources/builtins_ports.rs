@@ -806,8 +806,11 @@ pub fn port_output_value_display_0 (port : &mut PortBackendWriter, value : &Valu
 			}
 		},
 		
-		ValueClassMatchAsRef::Path (_) =>
-			fail_unimplemented! (0x8366ad65),
+		ValueClassMatchAsRef::Path (value) => {
+			let path = value.path_ref ();
+			let path = path.to_string_lossy ();
+			try! (port.char_write_string (&path, true));
+		},
 		
 		ValueClassMatchAsRef::Procedure (_) |
 		ValueClassMatchAsRef::Syntax (_) |
@@ -1061,8 +1064,11 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 			}
 		},
 		
-		ValueClassMatchAsRef::Path (_) =>
-			fail_unimplemented! (0x9d2f174e),
+		ValueClassMatchAsRef::Path (value) => {
+			// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+			let formatted = format! ("{}", value);
+			try! (port.char_write_string (&formatted, true));
+		},
 		
 		ValueClassMatchAsRef::Procedure (_) |
 		ValueClassMatchAsRef::Syntax (_) |

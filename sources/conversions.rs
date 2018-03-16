@@ -1324,8 +1324,8 @@ pub fn bytes_slice_coerce_1a (value : &Value) -> (Outcome<BytesSliceRef>) {
 			succeed! (value.into ()),
 		ValueKindMatchAsRef::StringMutable (value) =>
 			value.try_into (),
-		ValueKindMatchAsRef::Path (_value) =>
-			fail_unimplemented! (0x086a5a2e),
+		ValueKindMatchAsRef::Path (value) =>
+			succeed! (value.path_ref () .as_os_str () .as_bytes () .into ()),
 		_ =>
 			fail! (0x1a3502e4),
 	}
@@ -1347,8 +1347,8 @@ pub fn bytes_consume <Consumer> (value : &Value, consumer : &mut Consumer) -> (O
 			return consumer (value.string_as_bytes ()),
 		ValueKindMatchAsRef::StringMutable (value) =>
 			return consumer (try_or_fail! (value.string_ref (), 0xf1ab5928) .string_as_bytes ()),
-		ValueKindMatchAsRef::Path (_value) =>
-			fail_unimplemented! (0x885aa607),
+		ValueKindMatchAsRef::Path (value) =>
+			return consumer (value.path_ref () .as_os_str () .as_bytes ()),
 		ValueKindMatchAsRef::Port (value) => {
 			try! (value.byte_consume (consumer));
 			succeed! (());

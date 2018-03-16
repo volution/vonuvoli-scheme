@@ -1622,8 +1622,25 @@ pub fn path_compare_1a <ValueRef : StdAsRef<Path>> (_value : ValueRef, _comparis
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn path_compare_2a <ValueRef : StdAsRef<Path>> (_left : ValueRef, _right : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	fail_unimplemented! (0x06a9dbac);
+pub fn path_compare_2a <ValueRef : StdAsRef<Path>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	let left = left.as_ref ();
+	let right = right.as_ref ();
+	match comparison {
+		Comparison::Equivalence (equivalence, _, _) =>
+			match equivalence {
+				Equivalence::ByIdentity =>
+					succeed! (Path::is_self (left, right)),
+				Equivalence::ByValue =>
+					succeed! (Path::eq (left, right)),
+			},
+		Comparison::Ordering (ordering, case_sensitivity, _) =>
+			match case_sensitivity {
+				None | Some (true) =>
+					return std_ord_compare_2_ordering_ref::<fs_path::Path, _> (left.path_ref (), right.path_ref (), ordering),
+				_ =>
+					fail_unimplemented! (0x17fe4dd5), // deferred
+			},
+	}
 }
 
 
@@ -2101,7 +2118,7 @@ pub fn vec_compare_2 (left : &[Value], right : &[Value], comparison : Comparison
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub(crate) fn std_ord_compare_2_ref <Value, ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>)
+pub(crate) fn std_ord_compare_2_ref <Value : ?Sized, ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>)
 		where Value : cmp::PartialOrd
 {
 	match comparison {
@@ -2113,7 +2130,7 @@ pub(crate) fn std_ord_compare_2_ref <Value, ValueRef : StdAsRef<Value>> (left : 
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub(crate) fn std_ord_compare_2_ordering_ref <Value, ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, ordering : Ordering) -> (Outcome<bool>)
+pub(crate) fn std_ord_compare_2_ordering_ref <Value : ?Sized, ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, ordering : Ordering) -> (Outcome<bool>)
 		where Value : cmp::PartialOrd
 {
 	let left = left.as_ref ();
