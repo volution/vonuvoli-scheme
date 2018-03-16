@@ -52,6 +52,16 @@ impl <'a> RecordMatchAsRef<'a> {
 				return value.record_ref (),
 		}
 	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn record_as_ref (self) -> (RecordAsRef<'a>) {
+		match self {
+			RecordMatchAsRef::Immutable (value) =>
+				RecordAsRef::Immutable (value),
+			RecordMatchAsRef::Mutable (value) =>
+				RecordAsRef::Mutable (value),
+		}
+	}
 }
 
 

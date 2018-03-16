@@ -53,6 +53,16 @@ impl <'a> StringMatchAsRef<'a> {
 				return value.string_ref (),
 		}
 	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn string_as_ref (self) -> (StringAsRef<'a>) {
+		match self {
+			StringMatchAsRef::Immutable (value) =>
+				StringAsRef::Immutable (value),
+			StringMatchAsRef::Mutable (value) =>
+				StringAsRef::Mutable (value),
+		}
+	}
 }
 
 

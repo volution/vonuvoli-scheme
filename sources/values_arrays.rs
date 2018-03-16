@@ -52,6 +52,16 @@ impl <'a> ArrayMatchAsRef<'a> {
 				return value.array_ref (),
 		}
 	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn array_as_ref (self) -> (ArrayAsRef<'a>) {
+		match self {
+			ArrayMatchAsRef::Immutable (value) =>
+				ArrayAsRef::Immutable (value),
+			ArrayMatchAsRef::Mutable (value) =>
+				ArrayAsRef::Mutable (value),
+		}
+	}
 }
 
 

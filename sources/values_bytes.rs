@@ -53,6 +53,16 @@ impl <'a> BytesMatchAsRef<'a> {
 				return value.bytes_ref (),
 		}
 	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn bytes_as_ref (self) -> (BytesAsRef<'a>) {
+		match self {
+			BytesMatchAsRef::Immutable (value) =>
+				BytesAsRef::Immutable (value),
+			BytesMatchAsRef::Mutable (value) =>
+				BytesAsRef::Mutable (value),
+		}
+	}
 }
 
 

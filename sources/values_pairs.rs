@@ -50,6 +50,16 @@ impl <'a> PairMatchAsRef<'a> {
 				return value.pair_ref (),
 		}
 	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn pair_as_ref (self) -> (PairAsRef<'a>) {
+		match self {
+			PairMatchAsRef::Immutable (value) =>
+				PairAsRef::Immutable (value),
+			PairMatchAsRef::Mutable (value) =>
+				PairAsRef::Mutable (value),
+		}
+	}
 }
 
 
