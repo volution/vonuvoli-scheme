@@ -806,6 +806,9 @@ pub fn port_output_value_display_0 (port : &mut PortBackendWriter, value : &Valu
 			}
 		},
 		
+		ValueClassMatchAsRef::Path (_) =>
+			fail_unimplemented! (0x8366ad65),
+		
 		ValueClassMatchAsRef::Procedure (_) |
 		ValueClassMatchAsRef::Syntax (_) |
 		ValueClassMatchAsRef::RecordKind (_) |
@@ -1057,6 +1060,9 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 				try! (port.char_write_string (&formatted, true));
 			}
 		},
+		
+		ValueClassMatchAsRef::Path (_) =>
+			fail_unimplemented! (0x9d2f174e),
 		
 		ValueClassMatchAsRef::Procedure (_) |
 		ValueClassMatchAsRef::Syntax (_) |

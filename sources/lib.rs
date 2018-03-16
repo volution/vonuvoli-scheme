@@ -182,6 +182,7 @@ pub(crate) mod native_syntaxes;
 pub(crate) mod ordering;
 pub(crate) mod parameters;
 pub(crate) mod parser;
+pub(crate) mod paths;
 pub(crate) mod ports;
 pub(crate) mod ports_memory;
 pub(crate) mod ports_native;
@@ -281,6 +282,7 @@ pub mod internals {
 	pub use super::native_syntaxes::exports as native_syntaxes;
 	pub use super::parameters::exports as parameters;
 	pub use super::parser::exports as parser;
+	pub use super::paths::exports as paths;
 	pub use super::ports::exports as ports;
 	pub use super::ports_memory::exports as ports_memory;
 	pub use super::ports_native::exports as ports_native;
@@ -357,6 +359,7 @@ pub mod exports {
 	pub use super::native_syntaxes::exports::*;
 	pub use super::parameters::exports::*;
 	pub use super::parser::exports::*;
+	pub use super::paths::exports::*;
 	pub use super::ports::exports::*;
 	pub use super::primitives::exports::*;
 	pub use super::processes::exports::*;

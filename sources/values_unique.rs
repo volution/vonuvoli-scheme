@@ -94,6 +94,9 @@ pub enum UniqueKind {
 	SyntaxNativeIdentity,
 	SyntaxLambdaIdentity,
 	
+	PathFingerprint,
+	PathIdentity,
+	
 	PortIdentity,
 	ProcessIdentity,
 	

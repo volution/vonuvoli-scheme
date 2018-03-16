@@ -26,6 +26,7 @@ pub mod exports {
 	pub use super::super::parameters::exports::Parameters;
 	pub use super::super::parameters::exports::Parameter;
 	
+	// pub use super::super::paths::exports::Path;
 	pub use super::super::ports::exports::Port;
 	pub use super::super::processes::exports::Process;
 	

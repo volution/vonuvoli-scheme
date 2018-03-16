@@ -58,6 +58,7 @@ impl hash::Hash for Value {
 			ValueKindMatchAsRef::SyntaxNative (self_0) => { hasher.write_u32 (0xf018c0a5); self_0.hash (hasher); },
 			ValueKindMatchAsRef::SyntaxLambda (self_0) => { hasher.write_u32 (0xd5b61513); self_0.hash (hasher); },
 			
+			ValueKindMatchAsRef::Path (self_0) => { hasher.write_u32 (0x8e9b2f47); self_0.hash (hasher); },
 			ValueKindMatchAsRef::Port (self_0) => { hasher.write_u32 (0xd25641d0); self_0.hash (hasher); },
 			ValueKindMatchAsRef::Process (self_0) => { hasher.write_u32 (0x87b9167c); self_0.hash (hasher); },
 			

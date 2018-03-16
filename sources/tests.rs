@@ -599,7 +599,8 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 				ValueKindMatchAsRef2::ProcedurePrimitive (_, _) |
 				ValueKindMatchAsRef2::ProcedureNative (_, _) |
 				ValueKindMatchAsRef2::SyntaxPrimitive (_, _) |
-				ValueKindMatchAsRef2::SyntaxNative (_, _) => {
+				ValueKindMatchAsRef2::SyntaxNative (_, _) |
+				ValueKindMatchAsRef2::Path (_, _) => {
 					let output_matched = try! (equivalent_by_value_strict_recursive_2 (expected_value_without_optimizations, expected_value_with_optimizations));
 					if !output_matched {
 						header_emitted = try! (test_case_header_emit (&test.source, transcript_backend, verbosity_generic, header_emitted, true));

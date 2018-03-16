@@ -3348,6 +3348,10 @@
 	exec -- sce ./sources/parser_peg.rs
 !!
 
+<< files / edit / sources/paths.rs
+	exec -- sce ./sources/paths.rs
+!!
+
 << files / edit / sources/ports.rs
 	exec -- sce ./sources/ports.rs
 !!
@@ -4046,6 +4050,10 @@
 
 << files / view / sources/parser_peg.rs
 	exec -- less -- ./sources/parser_peg.rs
+!!
+
+<< files / view / sources/paths.rs
+	exec -- less -- ./sources/paths.rs
 !!
 
 << files / view / sources/ports.rs

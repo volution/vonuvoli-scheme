@@ -163,6 +163,7 @@ macro_rules! def_type_primitive_enum {
 			IsPortOutputTextual,
 			IsPortEof,
 			
+			IsPath,
 			IsProcess,
 			IsContext,
 			IsBinding,
@@ -509,6 +510,9 @@ pub fn type_primitive_1_evaluate_0 (primitive : TypePrimitive1, input_1 : &Value
 		
 		TypePrimitive1::IsPortEof =>
 			return is_port_eof (input_1) .into_0 (),
+		
+		TypePrimitive1::IsPath =>
+			return is_path (input_1) .into_0 (),
 		
 		TypePrimitive1::IsProcess =>
 			return is_process (input_1) .into_0 (),
@@ -892,6 +896,9 @@ pub fn type_primitive_2_evaluate (primitive : TypePrimitive2, input_1 : &Value, 
 		TypePrimitive2::IsPortEof =>
 			return is_port_eof_all_2 (input_1, input_2) .into_0 (),
 		
+		TypePrimitive2::IsPath =>
+			return is_path_all_2 (input_1, input_2) .into_0 (),
+		
 		TypePrimitive2::IsProcess =>
 			return is_process_all_2 (input_1, input_2) .into_0 (),
 		
@@ -1274,6 +1281,9 @@ pub fn type_primitive_3_evaluate (primitive : TypePrimitive3, input_1 : &Value, 
 		TypePrimitive3::IsPortEof =>
 			return is_port_eof_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		TypePrimitive3::IsPath =>
+			return is_path_all_3 (input_1, input_2, input_3) .into_0 (),
+		
 		TypePrimitive3::IsProcess =>
 			return is_process_all_3 (input_1, input_2, input_3) .into_0 (),
 		
@@ -1655,6 +1665,9 @@ pub fn type_primitive_4_evaluate (primitive : TypePrimitive4, input_1 : &Value, 
 		
 		TypePrimitive4::IsPortEof =>
 			return is_port_eof_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
+		
+		TypePrimitive4::IsPath =>
+			return is_path_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
 		TypePrimitive4::IsProcess =>
 			return is_process_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
@@ -2046,6 +2059,9 @@ pub fn type_primitive_n_evaluate (primitive : TypePrimitiveN, inputs : &[&Value]
 		TypePrimitiveN::IsPortEof =>
 			return is_port_eof_all_n (inputs) .into_0 (),
 		
+		TypePrimitiveN::IsPath =>
+			return is_path_all_n (inputs) .into_0 (),
+		
 		TypePrimitiveN::IsProcess =>
 			return is_process_all_n (inputs) .into_0 (),
 		
@@ -2342,6 +2358,8 @@ macro_rules! def_type_primitive_v_alternative_fn {
 					Some ($alternative::IsPortOutputTextual),
 				TypePrimitiveV::IsPortEof =>
 					Some ($alternative::IsPortEof),
+				TypePrimitiveV::IsPath =>
+					Some ($alternative::IsPath),
 				TypePrimitiveV::IsProcess =>
 					Some ($alternative::IsProcess),
 				TypePrimitiveV::IsContext =>

@@ -62,6 +62,7 @@ impl fmt::Display for Value {
 			ValueKindMatchAsRef::SyntaxNative (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::SyntaxLambda (self_0) => self_0.fmt (formatter),
 			
+			ValueKindMatchAsRef::Path (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::Port (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::Process (self_0) => self_0.fmt (formatter),
 			
@@ -123,6 +124,7 @@ impl fmt::Debug for Value {
 			ValueKindMatchAsRef::SyntaxNative (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::SyntaxLambda (self_0) => self_0.fmt (formatter),
 			
+			ValueKindMatchAsRef::Path (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::Port (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::Process (self_0) => self_0.fmt (formatter),
 			

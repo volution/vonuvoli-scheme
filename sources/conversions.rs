@@ -134,6 +134,7 @@ impl_from_for_Value_1! (SyntaxPrimitive, SyntaxPrimitive);
 impl_from_for_Value_1! (SyntaxExtended, SyntaxExtended);
 impl_from_for_Value_1! (SyntaxNative, SyntaxNative);
 impl_from_for_Value_1! (SyntaxLambda, SyntaxLambda);
+impl_from_for_Value_1! (Path, Path);
 impl_from_for_Value_1! (Port, Port);
 impl_from_for_Value_1! (Process, Process);
 impl_from_for_Value_1! (Context, Context);
@@ -465,7 +466,7 @@ macro_rules! impl_from_for_ProcedurePrimitiveCall1 {
 				Value,
 				Boolean, NumberInteger, NumberReal, Character,
 				Symbol, Keyword, Unique,
-				StringRegex, StringImmutable, StringMutable, BytesImmutable, BytesMutable,
+				StringRegex, StringImmutable, StringMutable, BytesImmutable, BytesMutable, Path,
 				PairImmutable, PairMutable, ArrayImmutable, ArrayMutable, Values,
 				RecordKind, RecordImmutable, RecordMutable,
 				bool, i64, f64, char,
@@ -487,7 +488,7 @@ macro_rules! impl_from_for_ProcedurePrimitiveCall2 {
 				Value,
 				Boolean, NumberInteger, NumberReal, Character,
 				Symbol, Keyword, Unique,
-				StringRegex, StringImmutable, StringMutable, BytesImmutable, BytesMutable,
+				StringRegex, StringImmutable, StringMutable, BytesImmutable, BytesMutable, Path,
 				PairImmutable, PairMutable, ArrayImmutable, ArrayMutable, Values,
 				RecordKind, RecordImmutable, RecordMutable,
 				bool, i64, f64, char,
@@ -510,7 +511,7 @@ macro_rules! impl_from_for_ProcedurePrimitiveCall3 {
 				Value,
 				Boolean, NumberInteger, NumberReal, Character,
 				Symbol, Keyword, Unique,
-				StringRegex, StringImmutable, StringMutable, BytesImmutable, BytesMutable,
+				StringRegex, StringImmutable, StringMutable, BytesImmutable, BytesMutable, Path,
 				PairImmutable, PairMutable, ArrayImmutable, ArrayMutable, Values,
 				RecordKind, RecordImmutable, RecordMutable,
 				bool, i64, f64, char,
@@ -533,7 +534,7 @@ macro_rules! impl_from_for_ProcedurePrimitiveCall4 {
 				Value,
 				Boolean, NumberInteger, NumberReal, Character,
 				Symbol, Keyword, Unique,
-				StringRegex, StringImmutable, StringMutable, BytesImmutable, BytesMutable,
+				StringRegex, StringImmutable, StringMutable, BytesImmutable, BytesMutable, Path,
 				PairImmutable, PairMutable, ArrayImmutable, ArrayMutable, Values,
 				RecordKind, RecordImmutable, RecordMutable,
 				bool, i64, f64, char,
@@ -556,7 +557,7 @@ macro_rules! impl_from_for_ProcedurePrimitiveCall5 {
 				Value,
 				Boolean, NumberInteger, NumberReal, Character,
 				Symbol, Keyword, Unique,
-				StringRegex, StringImmutable, StringMutable, BytesImmutable, BytesMutable,
+				StringRegex, StringImmutable, StringMutable, BytesImmutable, BytesMutable, Path,
 				PairImmutable, PairMutable, ArrayImmutable, ArrayMutable, Values,
 				RecordKind, RecordImmutable, RecordMutable,
 				bool, i64, f64, char,
@@ -580,7 +581,7 @@ macro_rules! impl_from_for_ProcedurePrimitiveCallN {
 				Value,
 				Boolean, NumberInteger, NumberReal, Character,
 				Symbol, Keyword, Unique,
-				StringRegex, StringImmutable, StringMutable, BytesImmutable, BytesMutable,
+				StringRegex, StringImmutable, StringMutable, BytesImmutable, BytesMutable, Path,
 				PairImmutable, PairMutable, ArrayImmutable, ArrayMutable, Values,
 				RecordKind, RecordImmutable, RecordMutable,
 				bool, i64, f64, char,
@@ -618,7 +619,7 @@ macro_rules! impl_from_for_ProcedurePrimitiveCallV {
 				Value,
 				Boolean, NumberInteger, NumberReal, Character,
 				Symbol, Keyword, Unique,
-				StringRegex, StringImmutable, StringMutable, BytesImmutable, BytesMutable,
+				StringRegex, StringImmutable, StringMutable, BytesImmutable, BytesMutable, Path,
 				PairImmutable, PairMutable, ArrayImmutable, ArrayMutable, Values,
 				RecordKind, RecordImmutable, RecordMutable,
 				bool, i64, f64, char,
@@ -1323,6 +1324,8 @@ pub fn bytes_slice_coerce_1a (value : &Value) -> (Outcome<BytesSliceRef>) {
 			succeed! (value.into ()),
 		ValueKindMatchAsRef::StringMutable (value) =>
 			value.try_into (),
+		ValueKindMatchAsRef::Path (_value) =>
+			fail_unimplemented! (0x086a5a2e),
 		_ =>
 			fail! (0x1a3502e4),
 	}
@@ -1344,6 +1347,8 @@ pub fn bytes_consume <Consumer> (value : &Value, consumer : &mut Consumer) -> (O
 			return consumer (value.string_as_bytes ()),
 		ValueKindMatchAsRef::StringMutable (value) =>
 			return consumer (try_or_fail! (value.string_ref (), 0xf1ab5928) .string_as_bytes ()),
+		ValueKindMatchAsRef::Path (_value) =>
+			fail_unimplemented! (0x885aa607),
 		ValueKindMatchAsRef::Port (value) => {
 			try! (value.byte_consume (consumer));
 			succeed! (());

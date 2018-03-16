@@ -70,6 +70,7 @@ pub mod exports {
 			syntax_extended_compare_1, syntax_extended_compare_1a,
 			syntax_native_compare_1, syntax_native_compare_1a,
 			syntax_lambda_compare_1, syntax_lambda_compare_1a,
+			path_compare_1, path_compare_1a,
 			port_compare_1, port_compare_1a,
 			process_compare_1, process_compare_1a,
 			context_compare_1, context_compare_1a,
@@ -115,6 +116,7 @@ pub mod exports {
 			syntax_extended_compare_2, syntax_extended_compare_2a,
 			syntax_native_compare_2, syntax_native_compare_2a,
 			syntax_lambda_compare_2, syntax_lambda_compare_2a,
+			path_compare_2, path_compare_2a,
 			port_compare_2, port_compare_2a,
 			process_compare_2, process_compare_2a,
 			context_compare_2, context_compare_2a,
@@ -160,6 +162,7 @@ pub mod exports {
 			syntax_extended_compare_3, syntax_extended_compare_3a,
 			syntax_native_compare_3, syntax_native_compare_3a,
 			syntax_lambda_compare_3, syntax_lambda_compare_3a,
+			path_compare_3, path_compare_3a,
 			port_compare_3, port_compare_3a,
 			process_compare_3, process_compare_3a,
 			context_compare_3, context_compare_3a,
@@ -205,6 +208,7 @@ pub mod exports {
 			syntax_extended_compare_4, syntax_extended_compare_4a,
 			syntax_native_compare_4, syntax_native_compare_4a,
 			syntax_lambda_compare_4, syntax_lambda_compare_4a,
+			path_compare_4, path_compare_4a,
 			port_compare_4, port_compare_4a,
 			process_compare_4, process_compare_4a,
 			context_compare_4, context_compare_4a,
@@ -250,6 +254,7 @@ pub mod exports {
 			syntax_extended_compare_n, syntax_extended_compare_na,
 			syntax_native_compare_n, syntax_native_compare_na,
 			syntax_lambda_compare_n, syntax_lambda_compare_na,
+			path_compare_n, path_compare_na,
 			port_compare_n, port_compare_na,
 			process_compare_n, process_compare_na,
 			context_compare_n, context_compare_na,
@@ -583,6 +588,9 @@ pub fn compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Co
 		ValueKindMatchAsRef::SyntaxLambda (value) =>
 			return syntax_lambda_compare_1a (value, comparison),
 		
+		ValueKindMatchAsRef::Path (value) =>
+			return path_compare_1a (value, comparison),
+		
 		ValueKindMatchAsRef::Port (value) =>
 			return port_compare_1a (value, comparison),
 		
@@ -709,6 +717,9 @@ pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef
 		
 		ValueKindMatchAsRef2::SyntaxLambda (left, right) =>
 			return syntax_lambda_compare_2a (left, right, comparison),
+		
+		ValueKindMatchAsRef2::Path (left, right) =>
+			return path_compare_2a (left, right, comparison),
 		
 		ValueKindMatchAsRef2::Port (left, right) =>
 			return port_compare_2a (left, right, comparison),
@@ -1596,6 +1607,23 @@ pub fn syntax_lambda_compare_2a <ValueRef : StdAsRef<SyntaxLambda>> (left : Valu
 		Comparison::Ordering (_, _, _) =>
 			return std_ord_compare_2_ref (left, right, comparison),
 	}
+}
+
+
+
+
+def_fn_compare! (Path,
+		path_compare_1, path_compare_2, path_compare_3, path_compare_4, path_compare_n,
+		path_compare_1a, path_compare_2a, path_compare_3a, path_compare_4a, path_compare_na);
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn path_compare_1a <ValueRef : StdAsRef<Path>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn path_compare_2a <ValueRef : StdAsRef<Path>> (_left : ValueRef, _right : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
+	fail_unimplemented! (0x06a9dbac);
 }
 
 

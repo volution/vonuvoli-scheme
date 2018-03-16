@@ -89,6 +89,7 @@ def_test! (test__0, {
 			SyntaxNative,
 			SyntaxLambda,
 			
+			Path,
 			Port,
 			Process,
 			

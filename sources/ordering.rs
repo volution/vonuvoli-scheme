@@ -104,6 +104,7 @@ impl <'a> ValueKindMatchAsRef2<'a> {
 			ValueKindMatchAsRef2::SyntaxNative (self_0, other_0) => Some (SyntaxNative::eq (self_0, other_0)),
 			ValueKindMatchAsRef2::SyntaxLambda (self_0, other_0) => Some (SyntaxLambda::eq (self_0, other_0)),
 			
+			ValueKindMatchAsRef2::Path (self_0, other_0) => Some (Path::eq (self_0, other_0)),
 			ValueKindMatchAsRef2::Port (self_0, other_0) => Some (Port::eq (self_0, other_0)),
 			ValueKindMatchAsRef2::Process (self_0, other_0) => Some (Process::eq (self_0, other_0)),
 			
@@ -167,6 +168,7 @@ impl <'a> ValueKindMatchAsRef2<'a> {
 			ValueKindMatchAsRef2::SyntaxNative (self_0, other_0) => Some (SyntaxNative::cmp (self_0, other_0)),
 			ValueKindMatchAsRef2::SyntaxLambda (self_0, other_0) => Some (SyntaxLambda::cmp (self_0, other_0)),
 			
+			ValueKindMatchAsRef2::Path (self_0, other_0) => Some (Path::cmp (self_0, other_0)),
 			ValueKindMatchAsRef2::Port (self_0, other_0) => Some (Port::cmp (self_0, other_0)),
 			ValueKindMatchAsRef2::Process (self_0, other_0) => Some (Process::cmp (self_0, other_0)),
 			

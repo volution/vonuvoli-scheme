@@ -43,7 +43,7 @@ pub mod exports {
 	pub use super::{ListMatchAsRef, ListMatchInto};
 	pub use super::{ValueRef};
 	pub use super::{GenericRef};
-	pub use super::{StringRegex, Promise};
+	pub use super::{StringRegex, Promise, Path};
 }
 
 
@@ -94,6 +94,7 @@ pub enum ValueKind {
 	SyntaxNative,
 	SyntaxLambda,
 	
+	Path,
 	Port,
 	Process,
 	
@@ -150,6 +151,7 @@ pub enum ValueKindMatchAsRef <'a> {
 	SyntaxNative (&'a SyntaxNative),
 	SyntaxLambda (&'a SyntaxLambda),
 	
+	Path (&'a Path),
 	Port (&'a Port),
 	Process (&'a Process),
 	
@@ -206,6 +208,7 @@ pub enum ValueKindMatchInto {
 	SyntaxNative (SyntaxNative),
 	SyntaxLambda (SyntaxLambda),
 	
+	Path (Path),
 	Port (Port),
 	Process (Process),
 	
@@ -262,6 +265,7 @@ pub enum ValueKindMatchAsRef2 <'a> {
 	SyntaxNative (&'a SyntaxNative, &'a SyntaxNative),
 	SyntaxLambda (&'a SyntaxLambda, &'a SyntaxLambda),
 	
+	Path (&'a Path, &'a Path),
 	Port (&'a Port, &'a Port),
 	Process (&'a Process, &'a Process),
 	
@@ -310,6 +314,7 @@ pub enum ValueClass {
 	Procedure,
 	Syntax,
 	
+	Path,
 	Port,
 	Resource,
 	
@@ -350,6 +355,7 @@ pub enum ValueClassMatchAsRef <'a> {
 	Procedure (ProcedureMatchAsRef<'a>),
 	Syntax (SyntaxMatchAsRef<'a>),
 	
+	Path (&'a Path),
 	Port (&'a Port),
 	Resource (ResourceMatchAsRef<'a>),
 	
@@ -390,6 +396,7 @@ pub enum ValueClassMatchInto {
 	Procedure (ProcedureMatchInto),
 	Syntax (SyntaxMatchInto),
 	
+	Path (Path),
 	Port (Port),
 	Resource (ResourceMatchInto),
 	
@@ -430,6 +437,7 @@ pub enum ValueClassMatchAsRef2 <'a> {
 	Procedure (ProcedureMatchAsRef<'a>, ProcedureMatchAsRef<'a>),
 	Syntax (SyntaxMatchAsRef<'a>, SyntaxMatchAsRef<'a>),
 	
+	Path (&'a Path, &'a Path),
 	Port (&'a Port, &'a Port),
 	Resource (ResourceMatchAsRef<'a>, ResourceMatchAsRef<'a>),
 	
@@ -563,6 +571,7 @@ pub enum Value {
 	SyntaxNative ( ValueMeta1, SyntaxNative, ValueMeta2, ),
 	SyntaxLambda ( ValueMeta1, SyntaxLambda, ValueMeta2, ),
 	
+	Path ( ValueMeta1, Path, ValueMeta2, ),
 	Port ( ValueMeta1, Port, ValueMeta2, ),
 	Process ( ValueMeta1, Process, ValueMeta2, ),
 	
@@ -632,6 +641,7 @@ impl Value {
 			Value::SyntaxNative (_, _, _) => ValueKind::SyntaxNative,
 			Value::SyntaxLambda (_, _, _) => ValueKind::SyntaxLambda,
 			
+			Value::Path (_, _, _) => ValueKind::Path,
 			Value::Port (_, _, _) => ValueKind::Port,
 			Value::Process (_, _, _) => ValueKind::Process,
 			
@@ -695,6 +705,7 @@ impl Value {
 			Value::SyntaxNative (_, ref self_0, _) => ValueKindMatchAsRef::SyntaxNative (self_0),
 			Value::SyntaxLambda (_, ref self_0, _) => ValueKindMatchAsRef::SyntaxLambda (self_0),
 			
+			Value::Path (_, ref self_0, _) => ValueKindMatchAsRef::Path (self_0),
 			Value::Port (_, ref self_0, _) => ValueKindMatchAsRef::Port (self_0),
 			Value::Process (_, ref self_0, _) => ValueKindMatchAsRef::Process (self_0),
 			
@@ -758,6 +769,7 @@ impl Value {
 			Value::SyntaxNative (_, self_0, _) => ValueKindMatchInto::SyntaxNative (self_0),
 			Value::SyntaxLambda (_, self_0, _) => ValueKindMatchInto::SyntaxLambda (self_0),
 			
+			Value::Path (_, self_0, _) => ValueKindMatchInto::Path (self_0),
 			Value::Port (_, self_0, _) => ValueKindMatchInto::Port (self_0),
 			Value::Process (_, self_0, _) => ValueKindMatchInto::Process (self_0),
 			
@@ -826,6 +838,7 @@ impl Value {
 			(&Value::SyntaxNative (_, ref self_0, _), &Value::SyntaxNative (_, ref other_0, _)) => ValueKindMatchAsRef2::SyntaxNative (self_0, other_0),
 			(&Value::SyntaxLambda (_, ref self_0, _), &Value::SyntaxLambda (_, ref other_0, _)) => ValueKindMatchAsRef2::SyntaxLambda (self_0, other_0),
 			
+			(&Value::Path (_, ref self_0, _), &Value::Path (_, ref other_0, _)) => ValueKindMatchAsRef2::Path (self_0, other_0),
 			(&Value::Port (_, ref self_0, _), &Value::Port (_, ref other_0, _)) => ValueKindMatchAsRef2::Port (self_0, other_0),
 			(&Value::Process (_, ref self_0, _), &Value::Process (_, ref other_0, _)) => ValueKindMatchAsRef2::Process (self_0, other_0),
 			
@@ -893,6 +906,7 @@ impl Value {
 			Value::SyntaxNative (_, _, _) => ValueClass::Syntax,
 			Value::SyntaxLambda (_, _, _) => ValueClass::Syntax,
 			
+			Value::Path (_, _, _) => ValueClass::Path,
 			Value::Port (_, _, _) => ValueClass::Port,
 			Value::Process (_, _, _) => ValueClass::Resource,
 			
@@ -956,6 +970,7 @@ impl Value {
 			Value::SyntaxNative (_, ref self_0, _) => ValueClassMatchAsRef::Syntax (SyntaxMatchAsRef::Native (self_0)),
 			Value::SyntaxLambda (_, ref self_0, _) => ValueClassMatchAsRef::Syntax (SyntaxMatchAsRef::Lambda (self_0)),
 			
+			Value::Path (_, ref self_0, _) => ValueClassMatchAsRef::Path (self_0),
 			Value::Port (_, ref self_0, _) => ValueClassMatchAsRef::Port (self_0),
 			Value::Process (_, ref self_0, _) => ValueClassMatchAsRef::Resource (ResourceMatchAsRef::Process (self_0)),
 			
@@ -1019,6 +1034,7 @@ impl Value {
 			Value::SyntaxNative (_, self_0, _) => ValueClassMatchInto::Syntax (SyntaxMatchInto::Native (self_0)),
 			Value::SyntaxLambda (_, self_0, _) => ValueClassMatchInto::Syntax (SyntaxMatchInto::Lambda (self_0)),
 			
+			Value::Path (_, self_0, _) => ValueClassMatchInto::Path (self_0),
 			Value::Port (_, self_0, _) => ValueClassMatchInto::Port (self_0),
 			Value::Process (_, self_0, _) => ValueClassMatchInto::Resource (ResourceMatchInto::Process (self_0)),
 			
@@ -1095,6 +1111,7 @@ impl Value {
 			
 			(&Value::Error (_, ref self_0, _), &Value::Error (_, ref other_0, _)) => ValueClassMatchAsRef2::Error (self_0, other_0),
 			
+			(&Value::Path (_, ref self_0, _), &Value::Path (_, ref other_0, _)) => ValueClassMatchAsRef2::Path (self_0, other_0),
 			(&Value::Port (_, ref self_0, _), &Value::Port (_, ref other_0, _)) => ValueClassMatchAsRef2::Port (self_0, other_0),
 			
 			(&Value::__NonExhaustive, _) => unreachable! (),
@@ -1202,6 +1219,7 @@ impl Value {
 			ValueKindMatchAsRef2::SyntaxNative (self_0, other_0) => SyntaxNative::is_self (self_0, other_0),
 			ValueKindMatchAsRef2::SyntaxLambda (self_0, other_0) => SyntaxLambda::is_self (self_0, other_0),
 			
+			ValueKindMatchAsRef2::Path (self_0, other_0) => Path::is_self (self_0, other_0),
 			ValueKindMatchAsRef2::Port (self_0, other_0) => Port::is_self (self_0, other_0),
 			ValueKindMatchAsRef2::Process (self_0, other_0) => Process::is_self (self_0, other_0),
 			
@@ -1259,6 +1277,7 @@ impl Value {
 			Value::SyntaxNative (_, ref self_0, _) => self_0.clone () .into_0 (),
 			Value::SyntaxLambda (_, ref self_0, _) => self_0.clone () .into_0 (),
 			
+			Value::Path (_, ref self_0, _) => self_0.clone () .into_0 (),
 			Value::Port (_, _, _) => fail! (0xe4de734c),
 			Value::Process (_, _, _) => fail! (0x629f6149),
 			
@@ -1351,6 +1370,7 @@ impl ValueKindMatchInto {
 			ValueKindMatchInto::SyntaxNative (value) => value.into (),
 			ValueKindMatchInto::SyntaxLambda (value) => value.into (),
 			
+			ValueKindMatchInto::Path (value) => value.into (),
 			ValueKindMatchInto::Port (value) => value.into (),
 			ValueKindMatchInto::Process (value) => value.into (),
 			
@@ -1401,6 +1421,7 @@ impl ValueClassMatchInto {
 			ValueClassMatchInto::Procedure (class) => class.value (),
 			ValueClassMatchInto::Syntax (class) => class.value (),
 			
+			ValueClassMatchInto::Path (value) => value.into (),
 			ValueClassMatchInto::Port (value) => value.into (),
 			ValueClassMatchInto::Resource (class) => class.value (),
 			
@@ -1807,5 +1828,6 @@ macro_rules! def_value_placeholder {
 
 
 def_value_placeholder! (StringRegex);
+def_value_placeholder! (Path);
 def_value_placeholder! (Promise);
 
