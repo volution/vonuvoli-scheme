@@ -3204,6 +3204,10 @@
 	exec -- sce ./sources/builtins_encoding.rs
 !!
 
+<< files / edit / sources/builtins_filesystem.rs
+	exec -- sce ./sources/builtins_filesystem.rs
+!!
+
 << files / edit / sources/builtins_functions.rs
 	exec -- sce ./sources/builtins_functions.rs
 !!
@@ -3386,6 +3390,10 @@
 
 << files / edit / sources/primitives_comparisons.rs
 	exec -- sce ./sources/primitives_comparisons.rs
+!!
+
+<< files / edit / sources/primitives_filesystem.rs
+	exec -- sce ./sources/primitives_filesystem.rs
 !!
 
 << files / edit / sources/primitives_functions.rs
@@ -3896,6 +3904,10 @@
 	exec -- less -- ./sources/builtins_encoding.rs
 !!
 
+<< files / view / sources/builtins_filesystem.rs
+	exec -- less -- ./sources/builtins_filesystem.rs
+!!
+
 << files / view / sources/builtins_functions.rs
 	exec -- less -- ./sources/builtins_functions.rs
 !!
@@ -4078,6 +4090,10 @@
 
 << files / view / sources/primitives_comparisons.rs
 	exec -- less -- ./sources/primitives_comparisons.rs
+!!
+
+<< files / view / sources/primitives_filesystem.rs
+	exec -- less -- ./sources/primitives_filesystem.rs
 !!
 
 << files / view / sources/primitives_functions.rs

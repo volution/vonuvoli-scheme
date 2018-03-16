@@ -438,6 +438,15 @@ impl_from_for_primitive_procedure_2! (PortPrimitive5, ProcedurePrimitive5, Primi
 impl_from_for_primitive_procedure_2! (PortPrimitiveN, ProcedurePrimitiveN, PrimitiveN, Port);
 impl_from_for_primitive_procedure_2! (PortPrimitiveV, ProcedurePrimitiveV, PrimitiveV, Port);
 
+impl_from_for_primitive_procedure_2! (FileSystemPrimitive0, ProcedurePrimitive0, Primitive0, FileSystem);
+impl_from_for_primitive_procedure_2! (FileSystemPrimitive1, ProcedurePrimitive1, Primitive1, FileSystem);
+impl_from_for_primitive_procedure_2! (FileSystemPrimitive2, ProcedurePrimitive2, Primitive2, FileSystem);
+impl_from_for_primitive_procedure_2! (FileSystemPrimitive3, ProcedurePrimitive3, Primitive3, FileSystem);
+impl_from_for_primitive_procedure_2! (FileSystemPrimitive4, ProcedurePrimitive4, Primitive4, FileSystem);
+impl_from_for_primitive_procedure_2! (FileSystemPrimitive5, ProcedurePrimitive5, Primitive5, FileSystem);
+impl_from_for_primitive_procedure_2! (FileSystemPrimitiveN, ProcedurePrimitiveN, PrimitiveN, FileSystem);
+impl_from_for_primitive_procedure_2! (FileSystemPrimitiveV, ProcedurePrimitiveV, PrimitiveV, FileSystem);
+
 
 
 
@@ -756,6 +765,15 @@ impl_from_for_ProcedurePrimitiveCall4! (PortPrimitive4);
 impl_from_for_ProcedurePrimitiveCall5! (PortPrimitive5);
 impl_from_for_ProcedurePrimitiveCallN! (PortPrimitiveN);
 impl_from_for_ProcedurePrimitiveCallV! (PortPrimitiveV);
+
+impl_from_for_ProcedurePrimitiveCall0! (FileSystemPrimitive0);
+impl_from_for_ProcedurePrimitiveCall1! (FileSystemPrimitive1);
+impl_from_for_ProcedurePrimitiveCall2! (FileSystemPrimitive2);
+impl_from_for_ProcedurePrimitiveCall3! (FileSystemPrimitive3);
+impl_from_for_ProcedurePrimitiveCall4! (FileSystemPrimitive4);
+impl_from_for_ProcedurePrimitiveCall5! (FileSystemPrimitive5);
+impl_from_for_ProcedurePrimitiveCallN! (FileSystemPrimitiveN);
+impl_from_for_ProcedurePrimitiveCallV! (FileSystemPrimitiveV);
 
 / * ----- */
 

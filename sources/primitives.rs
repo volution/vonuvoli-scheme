@@ -7,6 +7,7 @@ pub mod exports {
 	pub use super::super::primitives_boolean::exports::*;
 	pub use super::super::primitives_bytes::exports::*;
 	pub use super::super::primitives_comparisons::exports::*;
+	pub use super::super::primitives_filesystem::exports::*;
 	pub use super::super::primitives_functions::exports::*;
 	pub use super::super::primitives_lists::exports::*;
 	pub use super::super::primitives_ports::exports::*;
