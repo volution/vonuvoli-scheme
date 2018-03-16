@@ -342,7 +342,7 @@ impl fmt::Display for StringImmutable {
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let string = self.string_ref ();
-		return string_fmt (string.string_as_str (), formatter);
+		return string_fmt (string.string_as_str (), "\"", "\"", formatter);
 	}
 }
 
@@ -351,13 +351,13 @@ impl fmt::Display for StringMutable {
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let string = try_or_return! (self.string_ref (), Err (fmt::Error::default ()));
-		return string_fmt (string.string_as_str (), formatter);
+		return string_fmt (string.string_as_str (), "\"", "\"", formatter);
 	}
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn string_fmt (string : &str, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-	try! (formatter.write_char ('"'));
+fn string_fmt (string : &str, prefix : &str, suffix : &str, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+	try! (formatter.write_str (prefix));
 	for character in string.chars () {
 		match character {
 			'"' | '\\' => {
@@ -370,7 +370,7 @@ fn string_fmt (string : &str, formatter : &mut fmt::Formatter) -> (fmt::Result) 
 				try! (write! (formatter, "\\x{:02x};", character as u32)),
 		}
 	}
-	try! (formatter.write_char ('"'));
+	try! (formatter.write_str (suffix));
 	succeed! (());
 }
 
