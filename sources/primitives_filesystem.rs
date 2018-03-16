@@ -1,5 +1,6 @@
 
 
+use super::builtins::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
 use super::primitives_procedures::exports::*;
@@ -55,7 +56,12 @@ pub enum FileSystemPrimitive0 {}
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
-pub enum FileSystemPrimitive1 {}
+pub enum FileSystemPrimitive1 {
+	
+	FileExists,
+	FileDelete,
+	
+}
 
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
@@ -93,8 +99,16 @@ pub fn filesystem_primitive_0_evaluate (primitive : FileSystemPrimitive0, _evalu
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn filesystem_primitive_1_evaluate (primitive : FileSystemPrimitive1, _input_1 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
-	match primitive {}
+pub fn filesystem_primitive_1_evaluate (primitive : FileSystemPrimitive1, input_1 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	match primitive {
+		
+		FileSystemPrimitive1::FileExists =>
+			return filesystem_file_exists (input_1) .into_0 (),
+		
+		FileSystemPrimitive1::FileDelete =>
+			return filesystem_file_delete (input_1) .into_0 (),
+		
+	}
 }
 
 

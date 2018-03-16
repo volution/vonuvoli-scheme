@@ -73,9 +73,6 @@ pub mod exports {
 		port_file_reader_open, port_file_reader_open_with_options,
 		port_file_writer_open, port_file_writer_open_with_options,
 		
-		port_file_exists,
-		port_file_delete,
-		
 	};
 	
 	pub use super::{
@@ -665,23 +662,6 @@ pub(crate) fn port_file_open_with_options (path : &Value, options : &fs::OpenOpt
 	let path = fs_path::Path::new (path.string_as_str ());
 	let file = try_or_fail! (options.open (path), 0xbe1989bd);
 	succeed! (file);
-}
-
-
-
-
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_file_exists (path : &Value) -> (Outcome<bool>) {
-	let path = try_as_string_ref! (path);
-	let path = fs_path::Path::new (path.string_as_str ());
-	succeed! (path.exists ());
-}
-
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_file_delete (path : &Value) -> (Outcome<()>) {
-	let path = try_as_string_ref! (path);
-	let path = fs_path::Path::new (path.string_as_str ());
-	succeed_or_fail! (fs::remove_file (path), 0xa1653696);
 }
 
 

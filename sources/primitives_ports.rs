@@ -157,9 +157,6 @@ pub enum PortPrimitive1 {
 	NewLine,
 	FlushOutput,
 	
-	FileExists,
-	FileDelete,
-	
 }
 
 
@@ -557,12 +554,6 @@ pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, input_1 : &Value, 
 		
 		PortPrimitive1::FlushOutput =>
 			return port_output_flush (input_1) .into_0 (),
-		
-		PortPrimitive1::FileExists =>
-			return port_file_exists (input_1) .into_0 (),
-		
-		PortPrimitive1::FileDelete =>
-			return port_file_delete (input_1) .into_0 (),
 		
 	}
 }
