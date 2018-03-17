@@ -246,6 +246,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("trace-internal", RuntimePrimitiveV::TranscriptTraceInternal.into ()),
 			("trace-debugging", RuntimePrimitiveV::TranscriptTraceDebugging.into ()),
 			
+			("path", FileSystemPrimitive1::PathCoerce.into ()),
+			("path?", TypePrimitiveV::IsPath.into ()),
+			
 			("process-spawn", RuntimePrimitiveN::ProcessSpawn.into ()),
 			("process-spawn*", RuntimePrimitiveV::ProcessSpawnExtended.into ()),
 			("process-wait-poll", RuntimePrimitive1::ProcessWaitPoll.into ()),

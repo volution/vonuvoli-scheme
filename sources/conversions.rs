@@ -189,6 +189,12 @@ impl_from_for_type! (Symbol, &'static str, value, symbol_clone_str (value));
 impl_from_for_type! (Keyword, StdString, value, keyword_new (value));
 impl_from_for_type! (Keyword, &'static str, value, keyword_clone_str (value));
 
+impl_from_for_Value_3! (Path, Path, fs_path::PathBuf, value, Path::new (value));
+impl_from_for_Value_3! (Path, Path, &'static fs_path::Path, value, Path::new (value.to_path_buf ()));
+
+impl_from_for_type! (Path, StdString, value, Path::new (fs_path::PathBuf::from (value)));
+impl_from_for_type! (Path, &'static str, value, Path::new (fs_path::Path::new (value) .to_path_buf ()));
+
 impl_from_for_Value_3! (Unique, Unique, UniqueData, data, Unique::new (data));
 
 impl_from_for_type! (PairImmutable, (Value, Value), value, { let (left, right) = value; pair_immutable_new (left, right) });

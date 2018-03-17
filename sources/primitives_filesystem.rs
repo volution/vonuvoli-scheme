@@ -61,6 +61,8 @@ pub enum FileSystemPrimitive1 {
 	FileExists,
 	FileDelete,
 	
+	PathCoerce,
+	
 }
 
 
@@ -107,6 +109,9 @@ pub fn filesystem_primitive_1_evaluate (primitive : FileSystemPrimitive1, input_
 		
 		FileSystemPrimitive1::FileDelete =>
 			return filesystem_file_delete (input_1) .into_0 (),
+		
+		FileSystemPrimitive1::PathCoerce =>
+			return filesystem_path_coerce (input_1) .into_0 (),
 		
 	}
 }
