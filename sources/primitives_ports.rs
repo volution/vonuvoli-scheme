@@ -6,6 +6,7 @@ use super::conversions::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
 use super::primitives_procedures::exports::*;
+use super::runtime::exports::*;
 use super::values::exports::*;
 
 use super::prelude::*;
@@ -154,6 +155,9 @@ pub enum PortPrimitive1 {
 	ValueWriteSimple,
 	ValueDisplay,
 	
+	ValueWriteAndNewLine,
+	ValueDisplayAndNewLine,
+	
 	NewLine,
 	FlushOutput,
 	
@@ -196,6 +200,9 @@ pub enum PortPrimitive2 {
 	ValueWriteShared,
 	ValueWriteSimple,
 	ValueDisplay,
+	
+	ValueWriteAndNewLine,
+	ValueDisplayAndNewLine,
 	
 }
 
@@ -286,6 +293,9 @@ pub enum PortPrimitiveV {
 	ValueWriteShared,
 	ValueWriteSimple,
 	ValueDisplay,
+	
+	ValueWriteAndNewLine,
+	ValueDisplayAndNewLine,
 	
 	NewLine,
 	FlushOutput,
@@ -537,17 +547,24 @@ pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, input_1 : &Value, 
 		
 		PortPrimitive1::ValueWrite =>
 			// TODO:  Add support for cyclic objects!
-			return port_output_value_write (stdout_ref! (evaluator), input_1, None, None, None) .into_0 (),
+			return port_output_value_write (stdout_ref! (evaluator), input_1, None, None, None, None) .into_0 (),
 		
 		PortPrimitive1::ValueWriteShared =>
 			// TODO:  Add support for cyclic objects!
-			return port_output_value_write (stdout_ref! (evaluator), input_1, None, None, None) .into_0 (),
+			return port_output_value_write (stdout_ref! (evaluator), input_1, None, None, None, None) .into_0 (),
 		
 		PortPrimitive1::ValueWriteSimple =>
-			return port_output_value_write (stdout_ref! (evaluator), input_1, None, None, None) .into_0 (),
+			return port_output_value_write (stdout_ref! (evaluator), input_1, None, None, None, None) .into_0 (),
 		
 		PortPrimitive1::ValueDisplay =>
-			return port_output_value_display (stdout_ref! (evaluator), input_1, None, None, Some (true)) .into_0 (),
+			return port_output_value_display (stdout_ref! (evaluator), input_1, None, None, None, Some (true)) .into_0 (),
+		
+		PortPrimitive1::ValueWriteAndNewLine =>
+			// TODO:  Add support for cyclic objects!
+			return port_output_value_write (stdout_ref! (evaluator), input_1, None, None, Some (DEFAULT_PORT_OUTPUT_NEWLINE_SEPARATOR), None) .into_0 (),
+		
+		PortPrimitive1::ValueDisplayAndNewLine =>
+			return port_output_value_display (stdout_ref! (evaluator), input_1, None, None, Some (DEFAULT_PORT_OUTPUT_NEWLINE_SEPARATOR), Some (true)) .into_0 (),
 		
 		PortPrimitive1::NewLine =>
 			return port_output_newline (input_1, None, Some (true)) .into_0 (),
@@ -657,17 +674,24 @@ pub fn port_primitive_2_evaluate (primitive : PortPrimitive2, input_1 : &Value, 
 		
 		PortPrimitive2::ValueWrite =>
 			// TODO:  Add support for cyclic objects!
-			return port_output_value_write (input_2, input_1, None, None, None) .into_0 (),
+			return port_output_value_write (input_2, input_1, None, None, None, None) .into_0 (),
 		
 		PortPrimitive2::ValueWriteShared =>
 			// TODO:  Add support for cyclic objects!
-			return port_output_value_write (input_2, input_1, None, None, None) .into_0 (),
+			return port_output_value_write (input_2, input_1, None, None, None, None) .into_0 (),
 		
 		PortPrimitive2::ValueWriteSimple =>
-			return port_output_value_write (input_2, input_1, None, None, None) .into_0 (),
+			return port_output_value_write (input_2, input_1, None, None, None, None) .into_0 (),
 		
 		PortPrimitive2::ValueDisplay =>
-			return port_output_value_display (input_2, input_1, None, None, Some (true)) .into_0 (),
+			return port_output_value_display (input_2, input_1, None, None, None, Some (true)) .into_0 (),
+		
+		PortPrimitive2::ValueWriteAndNewLine =>
+			// TODO:  Add support for cyclic objects!
+			return port_output_value_write (input_2, input_1, None, None, Some (DEFAULT_PORT_OUTPUT_NEWLINE_SEPARATOR), None) .into_0 (),
+		
+		PortPrimitive2::ValueDisplayAndNewLine =>
+			return port_output_value_display (input_2, input_1, None, None, Some (DEFAULT_PORT_OUTPUT_NEWLINE_SEPARATOR), Some (true)) .into_0 (),
 		
 	}
 }
@@ -811,6 +835,10 @@ pub fn port_primitive_v_alternative_0 (primitive : PortPrimitiveV) -> (Option<Po
 			None,
 		PortPrimitiveV::ValueDisplay =>
 			None,
+		PortPrimitiveV::ValueWriteAndNewLine =>
+			None,
+		PortPrimitiveV::ValueDisplayAndNewLine =>
+			None,
 		PortPrimitiveV::NewLine =>
 			Some (PortPrimitive0::NewLine),
 		PortPrimitiveV::FlushOutput =>
@@ -886,6 +914,10 @@ pub fn port_primitive_v_alternative_1 (primitive : PortPrimitiveV) -> (Option<Po
 			Some (PortPrimitive1::ValueWriteSimple),
 		PortPrimitiveV::ValueDisplay =>
 			Some (PortPrimitive1::ValueDisplay),
+		PortPrimitiveV::ValueWriteAndNewLine =>
+			Some (PortPrimitive1::ValueWriteAndNewLine),
+		PortPrimitiveV::ValueDisplayAndNewLine =>
+			Some (PortPrimitive1::ValueDisplayAndNewLine),
 		PortPrimitiveV::NewLine =>
 			Some (PortPrimitive1::NewLine),
 		PortPrimitiveV::FlushOutput =>
@@ -961,6 +993,10 @@ pub fn port_primitive_v_alternative_2 (primitive : PortPrimitiveV) -> (Option<Po
 			Some (PortPrimitive2::ValueWriteSimple),
 		PortPrimitiveV::ValueDisplay =>
 			Some (PortPrimitive2::ValueDisplay),
+		PortPrimitiveV::ValueWriteAndNewLine =>
+			Some (PortPrimitive2::ValueWriteAndNewLine),
+		PortPrimitiveV::ValueDisplayAndNewLine =>
+			Some (PortPrimitive2::ValueDisplayAndNewLine),
 		PortPrimitiveV::NewLine =>
 			None,
 		PortPrimitiveV::FlushOutput =>
@@ -1035,6 +1071,10 @@ pub fn port_primitive_v_alternative_3 (primitive : PortPrimitiveV) -> (Option<Po
 		PortPrimitiveV::ValueWriteSimple =>
 			None,
 		PortPrimitiveV::ValueDisplay =>
+			None,
+		PortPrimitiveV::ValueWriteAndNewLine =>
+			None,
+		PortPrimitiveV::ValueDisplayAndNewLine =>
 			None,
 		PortPrimitiveV::NewLine =>
 			None,
@@ -1111,6 +1151,10 @@ pub fn port_primitive_v_alternative_4 (primitive : PortPrimitiveV) -> (Option<Po
 			None,
 		PortPrimitiveV::ValueDisplay =>
 			None,
+		PortPrimitiveV::ValueWriteAndNewLine =>
+			None,
+		PortPrimitiveV::ValueDisplayAndNewLine =>
+			None,
 		PortPrimitiveV::NewLine =>
 			None,
 		PortPrimitiveV::FlushOutput =>
@@ -1186,6 +1230,10 @@ pub fn port_primitive_v_alternative_5 (primitive : PortPrimitiveV) -> (Option<Po
 			None,
 		PortPrimitiveV::ValueDisplay =>
 			None,
+		PortPrimitiveV::ValueWriteAndNewLine =>
+			None,
+		PortPrimitiveV::ValueDisplayAndNewLine =>
+			None,
 		PortPrimitiveV::NewLine =>
 			None,
 		PortPrimitiveV::FlushOutput =>
@@ -1260,6 +1308,10 @@ pub fn port_primitive_v_alternative_n (primitive : PortPrimitiveV) -> (Option<Po
 		PortPrimitiveV::ValueWriteSimple =>
 			None,
 		PortPrimitiveV::ValueDisplay =>
+			None,
+		PortPrimitiveV::ValueWriteAndNewLine =>
+			None,
+		PortPrimitiveV::ValueDisplayAndNewLine =>
 			None,
 		PortPrimitiveV::NewLine =>
 			None,

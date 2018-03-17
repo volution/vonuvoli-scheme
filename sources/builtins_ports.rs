@@ -668,11 +668,16 @@ pub(crate) fn port_file_open_with_options (path : &Value, options : &fs::OpenOpt
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_output_value_display (port : &Value, value : &Value, flatten : Option<bool>, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
+pub fn port_output_value_display (port : &Value, value : &Value, flatten : Option<bool>, separator : Option<char>, newline : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
 	let port = try_as_port_ref! (port);
 	let mut port = try! (port.backend_ref_mut_check_open ());
 	let port = port.deref_mut ();
-	return port_output_value_display_0 (port, value, flatten, separator, flush);
+	if newline.is_none () {
+		return port_output_value_display_0 (port, value, flatten, separator, flush);
+	} else {
+		try! (port_output_value_display_0 (port, value, flatten, separator, Some (false)));
+		return port_output_newline_0 (port, newline, flush);
+	}
 }
 
 
@@ -887,11 +892,16 @@ pub fn port_output_value_display_0_iterable <'a, Iterator> (port : &mut PortBack
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_output_value_write (port : &Value, value : &Value, flatten : Option<bool>, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
+pub fn port_output_value_write (port : &Value, value : &Value, flatten : Option<bool>, separator : Option<char>, newline : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
 	let port = try_as_port_ref! (port);
 	let mut port = try! (port.backend_ref_mut_check_open ());
 	let port = port.deref_mut ();
-	return port_output_value_write_0 (port, value, flatten, separator, flush);
+	if newline.is_none () {
+		return port_output_value_write_0 (port, value, flatten, separator, flush);
+	} else {
+		try! (port_output_value_write_0 (port, value, flatten, separator, Some (false)));
+		return port_output_newline_0 (port, newline, flush);
+	}
 }
 
 

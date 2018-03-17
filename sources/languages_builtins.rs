@@ -234,6 +234,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("read-string-line", PortPrimitiveV::StringReadLine.into ()),
 			("read-string-append!", PortPrimitiveV::StringReadExtend.into ()),
 			
+			("write-line", PortPrimitiveV::ValueWriteAndNewLine.into ()),
+			("display-line", PortPrimitiveV::ValueDisplayAndNewLine.into ()),
+			
 			("parameter?", TypePrimitiveV::IsParameter.into ()),
 			("parameter-ref", RuntimePrimitiveV::ParameterResolve.into ()),
 			("parameter-set!", RuntimePrimitiveV::ParameterConfigure.into ()),
