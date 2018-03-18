@@ -581,6 +581,7 @@
 	if test './tests/scheme/loops.sst' -nt './tests/_outputs/scheme--benchmark__loops.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__loops.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/loops.sst' "${@}" ; fi
 	if test './tests/scheme/pairs.sst' -nt './tests/_outputs/scheme--benchmark__pairs.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__pairs.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/pairs.sst' "${@}" ; fi
 	if test './tests/scheme/parameters.sst' -nt './tests/_outputs/scheme--benchmark__parameters.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__parameters.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/parameters.sst' "${@}" ; fi
+	if test './tests/scheme/paths.sst' -nt './tests/_outputs/scheme--benchmark__paths.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__paths.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/paths.sst' "${@}" ; fi
 	if test './tests/scheme/ports.sst' -nt './tests/_outputs/scheme--benchmark__ports.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/ports.sst' "${@}" ; fi
 	if test './tests/scheme/ports-memory.sst' -nt './tests/_outputs/scheme--benchmark__ports_memory.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports_memory.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/ports-memory.sst' "${@}" ; fi
 	if test './tests/scheme/ports-native.sst' -nt './tests/_outputs/scheme--benchmark__ports_native.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports_native.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/ports-native.sst' "${@}" ; fi
@@ -939,6 +940,18 @@
 
 << execute / bin / bencher / parameters / release
 	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__parameters.out' x-run ':: execute / bin / bencher / release' './tests/scheme/parameters.sst' "${@}"
+!!
+
+<< execute / bin / bencher / paths / debug
+	exec -- taskset -c 2 x-run ':: execute / bin / bencher / debug' './tests/scheme/paths.sst' "${@}"
+!!
+
+<< execute / bin / bencher / paths / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / bin / bencher / paths / debug'
+!!
+
+<< execute / bin / bencher / paths / release
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__paths.out' x-run ':: execute / bin / bencher / release' './tests/scheme/paths.sst' "${@}"
 !!
 
 << execute / bin / bencher / ports / debug
@@ -1426,6 +1439,7 @@
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/loops.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/pairs.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/parameters.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/paths.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/ports.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/ports-memory.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/ports-native.sst' "${@}"
@@ -1784,6 +1798,18 @@
 
 << execute / bin / tester / parameters / release
 	exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/parameters.sst' "${@}"
+!!
+
+<< execute / bin / tester / paths / debug
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/paths.sst' "${@}"
+!!
+
+<< execute / bin / tester / paths / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / bin / tester / paths / debug'
+!!
+
+<< execute / bin / tester / paths / release
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/paths.sst' "${@}"
 !!
 
 << execute / bin / tester / ports / debug
@@ -2446,6 +2472,14 @@
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__parameters' --exact "${@}"
 !!
 
+<< execute / test / scheme / benchmarks / paths / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__paths' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / paths / release
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__paths' --exact "${@}"
+!!
+
 << execute / test / scheme / benchmarks / ports / debug
 	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__ports' --exact "${@}"
 !!
@@ -2912,6 +2946,18 @@
 
 << execute / test / scheme / tests / parameters / release
 	x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__parameters' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / paths / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__paths' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / paths / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / paths / debug' "${@}"
+!!
+
+<< execute / test / scheme / tests / paths / release
+	x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__paths' --exact "${@}"
 !!
 
 << execute / test / scheme / tests / ports / debug
@@ -3668,6 +3714,10 @@
 	exec -- sce ./tests/scheme/parameters.sst
 !!
 
+<< files / edit / tests/scheme/paths.sst
+	exec -- sce ./tests/scheme/paths.sst
+!!
+
 << files / edit / tests/scheme/ports-memory.sst
 	exec -- sce ./tests/scheme/ports-memory.sst
 !!
@@ -4370,6 +4420,10 @@
 
 << files / view / tests/scheme/parameters.sst
 	exec -- less -- ./tests/scheme/parameters.sst
+!!
+
+<< files / view / tests/scheme/paths.sst
+	exec -- less -- ./tests/scheme/paths.sst
 !!
 
 << files / view / tests/scheme/ports-memory.sst

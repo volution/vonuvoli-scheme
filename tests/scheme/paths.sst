@@ -1,0 +1,86 @@
+
+
+(~path->string (~path 'root)) => "/"
+(~path->string (~path 'current)) => "."
+(~path->string (~path 'parent)) => ".."
+
+(~path->string (~path '|/|)) => "/"
+(~path->string (~path '|.|)) => "."
+(~path->string (~path '|..|)) => ".."
+
+(~path->string (~path "/")) => "/"
+(~path->string (~path ".")) => "."
+(~path->string (~path "..")) => ".."
+
+(~path->string (~path "./.")) => "./."
+(~path->string (~path "././.")) => "././."
+(~path->string (~path "./././.")) => "./././."
+
+(~path->string (~path "../..")) => "../.."
+(~path->string (~path "../../..")) => "../../.."
+(~path->string (~path "../../../..")) => "../../../.."
+
+
+(~path? (~path 'home)) => #t
+(~path? (~path 'temporary)) => #t
+(~path? (~path 'working-directory)) => #t
+(~path? (~path 'current-working-directory)) => #t
+
+(equal? (~path 'home) (~path '~)) => #t
+(equal? (~path 'temporary) (~path 'tmp)) => #t
+(equal? (~path 'working-directory) (~path 'wd)) => #t
+(equal? (~path 'current-working-directory) (~path 'cwd)) => #t
+(equal? (~path 'cwd) (~path 'cwd)) => #t
+
+
+(not (equal? (~path 'working-directory) (~path 'current))) => #t
+
+
+
+
+(~path-absolute? (~path 'root)) => #t
+(~path-relative? (~path 'root)) => #f
+
+(~path-absolute? (~path 'current)) => #f
+(~path-relative? (~path 'current)) => #t
+
+(~path-absolute? (~path 'parent)) => #f
+(~path-relative? (~path 'parent)) => #t
+
+(~path-absolute? (~path 'home)) => #t
+(~path-relative? (~path 'home)) => #f
+
+(~path-absolute? (~path 'temporary)) => #t
+(~path-relative? (~path 'temporary)) => #f
+
+(~path-absolute? (~path 'working-directory)) => #t
+(~path-relative? (~path 'working-directory)) => #f
+
+
+
+
+(~path? (~path-parent (~path '/))) => #f
+(false? (~path-parent (~path '/))) => #t
+
+(~path? (~path-parent (~path 'current))) => #f
+(false? (~path-parent (~path 'current))) => #t
+
+(~path? (~path-parent (~path 'parent))) => #f
+(false? (~path-parent (~path 'parent))) => #t
+
+(~path? (~path-parent (~path 'home))) => #t
+(~path? (~path-parent (~path 'temporary))) => #t
+(~path? (~path-parent (~path 'working-directory))) => #t
+
+(~path-parent (~path "a")) => #f
+(~path->string (~path-parent (~path "a/b"))) => "a"
+(~path->string (~path-parent (~path "a/b/c"))) => "a/b"
+
+(~path-parent (~path ".")) => #f
+(~path-parent (~path "./.")) => #f
+(~path-parent (~path "././.")) => #f
+
+(~path-parent (~path "..")) => #f
+(~path->string (~path-parent (~path "../.."))) => ".."
+(~path->string (~path-parent (~path "../../.."))) => "../.."
+
