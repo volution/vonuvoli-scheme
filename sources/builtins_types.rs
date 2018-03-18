@@ -572,8 +572,23 @@ pub mod exports {
 	
 	pub use super::{
 			
+			is_path, is_path_absolute, is_path_relative,
+			
+			is_path_all_2, is_path_all_3, is_path_all_4, is_path_all_n,
+			is_path_any_2, is_path_any_3, is_path_any_4, is_path_any_n,
+			
+			is_path_absolute_all_2, is_path_absolute_all_3, is_path_absolute_all_4, is_path_absolute_all_n,
+			is_path_absolute_any_2, is_path_absolute_any_3, is_path_absolute_any_4, is_path_absolute_any_n,
+			
+			is_path_relative_all_2, is_path_relative_all_3, is_path_relative_all_4, is_path_relative_all_n,
+			is_path_relative_any_2, is_path_relative_any_3, is_path_relative_any_4, is_path_relative_any_n,
+			
+	};
+	
+	
+	pub use super::{
+			
 			is_string_regex,
-			is_path,
 			is_process,
 			is_context,
 			is_binding,
@@ -583,9 +598,6 @@ pub mod exports {
 			
 			is_string_regex_all_2, is_string_regex_all_3, is_string_regex_all_4, is_string_regex_all_n,
 			is_string_regex_any_2, is_string_regex_any_3, is_string_regex_any_4, is_string_regex_any_n,
-			
-			is_path_all_2, is_path_all_3, is_path_all_4, is_path_all_n,
-			is_path_any_2, is_path_any_3, is_path_any_4, is_path_any_n,
 			
 			is_process_all_2, is_process_all_3, is_process_all_4, is_process_all_n,
 			is_process_any_2, is_process_any_3, is_process_any_4, is_process_any_n,
@@ -2190,21 +2202,41 @@ def_fn_predicate_any! (is_port_eof, is_port_eof_any_2, is_port_eof_any_3, is_por
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn is_path (value : &Value) -> (bool) {
+	return value.is_kind (ValueKind::Path);
+}
+
+def_fn_predicate_all! (is_path, is_path_all_2, is_path_all_3, is_path_all_4, is_path_all_n);
+def_fn_predicate_any! (is_path, is_path_any_2, is_path_any_3, is_path_any_4, is_path_any_n);
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn is_path_absolute (value : &Value) -> (Outcome<bool>) {
+	succeed! (try_as_path_ref! (value) .is_absolute ());
+}
+
+def_fn_try_predicate_all! (is_path_absolute, is_path_absolute_all_2, is_path_absolute_all_3, is_path_absolute_all_4, is_path_absolute_all_n);
+def_fn_try_predicate_any! (is_path_absolute, is_path_absolute_any_2, is_path_absolute_any_3, is_path_absolute_any_4, is_path_absolute_any_n);
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn is_path_relative (value : &Value) -> (Outcome<bool>) {
+	succeed! (try_as_path_ref! (value) .is_relative ());
+}
+
+def_fn_try_predicate_all! (is_path_relative, is_path_relative_all_2, is_path_relative_all_3, is_path_relative_all_4, is_path_relative_all_n);
+def_fn_try_predicate_any! (is_path_relative, is_path_relative_any_2, is_path_relative_any_3, is_path_relative_any_4, is_path_relative_any_n);
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_string_regex (value : &Value) -> (bool) {
 	return value.is_kind (ValueKind::StringRegex);
 }
 
 def_fn_predicate_all! (is_string_regex, is_string_regex_all_2, is_string_regex_all_3, is_string_regex_all_4, is_string_regex_all_n);
 def_fn_predicate_any! (is_string_regex, is_string_regex_any_2, is_string_regex_any_3, is_string_regex_any_4, is_string_regex_any_n);
-
-
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn is_path (value : &Value) -> (bool) {
-	return value.is_kind (ValueKind::Process);
-}
-
-def_fn_predicate_all! (is_path, is_path_all_2, is_path_all_3, is_path_all_4, is_path_all_n);
-def_fn_predicate_any! (is_path, is_path_any_2, is_path_any_3, is_path_any_4, is_path_any_n);
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

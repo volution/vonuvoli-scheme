@@ -26,14 +26,48 @@ impl Path {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new (path : fs_path::PathBuf) -> (Path) {
+		if path.as_os_str () .is_empty () {
+			panic! ("ba1ee991");
+		}
 		Path (StdRc::new (path.into_boxed_path ()))
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new_from_path (path : &fs_path::Path) -> (Path) {
+		let buffer = path.to_path_buf ();
+		Path::new (buffer)
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new_from_component (path : &fs_path::Component) -> (Path) {
+		let mut buffer = fs_path::PathBuf::new ();
+		buffer.push (path.as_os_str ());
+		Path::new (buffer)
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_root () -> (Path) {
-		let mut path = fs_path::PathBuf::new ();
-		path.push (fs_path::Component::RootDir);
-		Path::new (path)
+		Path::new_from_component (&fs_path::Component::RootDir)
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new_current () -> (Path) {
+		Path::new_from_component (&fs_path::Component::CurDir)
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new_parent () -> (Path) {
+		Path::new_from_component (&fs_path::Component::ParentDir)
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn is_absolute (&self) -> (bool) {
+		self.path_ref () .is_absolute ()
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn is_relative (&self) -> (bool) {
+		self.path_ref () .is_relative ()
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -43,6 +77,9 @@ impl Path {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn from_string_rc (rc : StdRc<StdBox<str>>) -> (Path) {
+		if rc.is_empty () {
+			panic! ("6f442154");
+		}
 		let rc = unsafe { mem::transmute (rc) };
 		Path (rc)
 	}
@@ -54,6 +91,9 @@ impl Path {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn from_rc (rc : StdRc<StdBox<fs_path::Path>>) -> (Path) {
+		if rc.as_os_str () .is_empty () {
+			panic! ("e4a2aadd");
+		}
 		Path (rc)
 	}
 	

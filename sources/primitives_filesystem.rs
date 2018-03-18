@@ -62,6 +62,12 @@ pub enum FileSystemPrimitive1 {
 	FileDelete,
 	
 	PathCoerce,
+	PathParent,
+	
+	PathToString,
+	StringToPath,
+	PathToBytes,
+	BytesToPath,
 	
 }
 
@@ -112,6 +118,21 @@ pub fn filesystem_primitive_1_evaluate (primitive : FileSystemPrimitive1, input_
 		
 		FileSystemPrimitive1::PathCoerce =>
 			return filesystem_path_coerce (input_1) .into_0 (),
+		
+		FileSystemPrimitive1::PathParent =>
+			return filesystem_path_parent (input_1),
+		
+		FileSystemPrimitive1::PathToString =>
+			return filesystem_path_to_string (input_1, false) .into (),
+		
+		FileSystemPrimitive1::StringToPath =>
+			return filesystem_string_to_path (input_1) .into (),
+		
+		FileSystemPrimitive1::PathToBytes =>
+			return filesystem_path_to_bytes (input_1) .into (),
+		
+		FileSystemPrimitive1::BytesToPath =>
+			return filesystem_bytes_to_path (input_1) .into (),
 		
 	}
 }

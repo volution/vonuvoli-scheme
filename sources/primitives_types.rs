@@ -164,6 +164,9 @@ macro_rules! def_type_primitive_enum {
 			IsPortEof,
 			
 			IsPath,
+			IsPathAbsolute,
+			IsPathRelative,
+			
 			IsProcess,
 			IsContext,
 			IsBinding,
@@ -513,6 +516,12 @@ pub fn type_primitive_1_evaluate_0 (primitive : TypePrimitive1, input_1 : &Value
 		
 		TypePrimitive1::IsPath =>
 			return is_path (input_1) .into_0 (),
+		
+		TypePrimitive1::IsPathAbsolute =>
+			return is_path_absolute (input_1) .into_0 (),
+		
+		TypePrimitive1::IsPathRelative =>
+			return is_path_relative (input_1) .into_0 (),
 		
 		TypePrimitive1::IsProcess =>
 			return is_process (input_1) .into_0 (),
@@ -899,6 +908,12 @@ pub fn type_primitive_2_evaluate (primitive : TypePrimitive2, input_1 : &Value, 
 		TypePrimitive2::IsPath =>
 			return is_path_all_2 (input_1, input_2) .into_0 (),
 		
+		TypePrimitive2::IsPathAbsolute =>
+			return is_path_absolute_all_2 (input_1, input_2) .into_0 (),
+		
+		TypePrimitive2::IsPathRelative =>
+			return is_path_relative_all_2 (input_1, input_2) .into_0 (),
+		
 		TypePrimitive2::IsProcess =>
 			return is_process_all_2 (input_1, input_2) .into_0 (),
 		
@@ -1284,6 +1299,12 @@ pub fn type_primitive_3_evaluate (primitive : TypePrimitive3, input_1 : &Value, 
 		TypePrimitive3::IsPath =>
 			return is_path_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		TypePrimitive3::IsPathAbsolute =>
+			return is_path_absolute_all_3 (input_1, input_2, input_3) .into_0 (),
+		
+		TypePrimitive3::IsPathRelative =>
+			return is_path_relative_all_3 (input_1, input_2, input_3) .into_0 (),
+		
 		TypePrimitive3::IsProcess =>
 			return is_process_all_3 (input_1, input_2, input_3) .into_0 (),
 		
@@ -1668,6 +1689,12 @@ pub fn type_primitive_4_evaluate (primitive : TypePrimitive4, input_1 : &Value, 
 		
 		TypePrimitive4::IsPath =>
 			return is_path_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
+		
+		TypePrimitive4::IsPathAbsolute =>
+			return is_path_absolute_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
+		
+		TypePrimitive4::IsPathRelative =>
+			return is_path_relative_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
 		TypePrimitive4::IsProcess =>
 			return is_process_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
@@ -2062,6 +2089,12 @@ pub fn type_primitive_n_evaluate (primitive : TypePrimitiveN, inputs : &[&Value]
 		TypePrimitiveN::IsPath =>
 			return is_path_all_n (inputs) .into_0 (),
 		
+		TypePrimitiveN::IsPathAbsolute =>
+			return is_path_absolute_all_n (inputs) .into_0 (),
+		
+		TypePrimitiveN::IsPathRelative =>
+			return is_path_relative_all_n (inputs) .into_0 (),
+		
 		TypePrimitiveN::IsProcess =>
 			return is_process_all_n (inputs) .into_0 (),
 		
@@ -2360,6 +2393,10 @@ macro_rules! def_type_primitive_v_alternative_fn {
 					Some ($alternative::IsPortEof),
 				TypePrimitiveV::IsPath =>
 					Some ($alternative::IsPath),
+				TypePrimitiveV::IsPathAbsolute =>
+					Some ($alternative::IsPathAbsolute),
+				TypePrimitiveV::IsPathRelative =>
+					Some ($alternative::IsPathRelative),
 				TypePrimitiveV::IsProcess =>
 					Some ($alternative::IsProcess),
 				TypePrimitiveV::IsContext =>
