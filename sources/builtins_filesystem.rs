@@ -14,7 +14,9 @@ pub mod exports {
 	pub use super::{
 		
 		filesystem_path_coerce,
+		filesystem_path_join_n,
 		filesystem_path_parent,
+		filesystem_path_canonicalize,
 		
 		filesystem_path_to_string,
 		filesystem_string_to_path,
@@ -27,6 +29,12 @@ pub mod exports {
 		
 		filesystem_file_exists,
 		filesystem_file_delete,
+		
+	};
+	
+	pub use super::{
+		
+		filesystem_link_resolve,
 		
 	};
 	
@@ -76,7 +84,91 @@ pub fn filesystem_path_coerce (value : &Value) -> (Outcome<Path>) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_path_join_n (values : &[&Value]) -> (Outcome<Path>) {
+	if values.is_empty () {
+		fail! (0xc5b87dea);
+	}
+	let mut buffer = fs_path::PathBuf::new ();
+	let mut is_first = true;
+	for value in values {
+		match value.class_match_as_ref () {
+			ValueClassMatchAsRef::Path (value) => {
+				let path = value.path_ref ();
+				if path.is_absolute () {
+					if is_first {
+						buffer.push (path);
+					} else {
+						fail! (0xd12579e0);
+					}
+				} else {
+					buffer.push (path);
+				}
+			},
+			ValueClassMatchAsRef::Symbol (value) =>
+				match value.string_as_str () {
+					"root" | "/" =>
+						if is_first {
+							buffer.push (fs_path::Component::RootDir.as_os_str ());
+						} else {
+							fail! (0x11a0d385);
+						},
+					"current" | "." =>
+						buffer.push (fs_path::Component::CurDir.as_os_str ()),
+					"parent" | ".." =>
+						buffer.push (fs_path::Component::ParentDir.as_os_str ()),
+					"home" | "~" =>
+						if is_first {
+							buffer.push (try_some! (env::home_dir (), 0xf9959c59));
+						} else {
+							fail! (0x05969271);
+						},
+					"temporary" | "tmp" =>
+						if is_first {
+							buffer.push (env::temp_dir ());
+						} else {
+							fail! (0x887ed229);
+						},
+					"working-directory" | "current-working-directory" | "wd" | "cwd" =>
+						if is_first {
+							buffer.push (try_or_fail! (env::current_dir (), 0x62fa7232));
+						} else {
+							fail! (0xc1419284);
+						},
+					_ =>
+						fail! (0x1912686e),
+				},
+			ValueClassMatchAsRef::String (value) => {
+				let path = try! (value.string_ref ());
+				let path = path.string_as_str ();
+				if ! path.is_empty () {
+					let path = fs_path::Path::new (path);
+					if path.is_absolute () {
+						if is_first {
+							buffer.push (path);
+						} else {
+							fail! (0x6e7ff09e);
+						}
+					} else {
+						buffer.push (path);
+					}
+				} else {
+					fail! (0x76377671);
+				}
+			},
+		_ =>
+			fail! (0x20b5d1a2),
+		}
+		is_first = false;
+	}
+	succeed! (Path::new_from_buffer (buffer));
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_path_parent (path : &Value) -> (Outcome<Value>) {
+	// TODO:  Add support for string objects!
 	let path = try_as_path_ref! (path);
 	let path = path.path_ref ();
 	if let Some (parent) = path.parent () {
@@ -87,6 +179,54 @@ pub fn filesystem_path_parent (path : &Value) -> (Outcome<Value>) {
 		}
 	} else {
 		succeed! (FALSE_VALUE);
+	}
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_path_canonicalize (path : &Value) -> (Outcome<Value>) {
+	// TODO:  Add support for string objects!
+	let path = try_as_path_ref! (path);
+	let path = path.path_ref ();
+	match fs::canonicalize (path) {
+		Ok (path) =>
+			succeed! (Path::new_from_raw (path) .into ()),
+		Err (error) =>
+			match error.raw_os_error () {
+				Some (ext::libc::ENOENT) =>
+					succeed! (FALSE_VALUE),
+				_ =>
+					fail! (0xc7060401),
+			},
+	}
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_link_resolve (path : &Value, relativize : bool) -> (Outcome<Value>) {
+	// TODO:  Add support for string objects!
+	let path = try_as_path_ref! (path);
+	let path = path.path_ref ();
+	match fs::read_link (path) {
+		Ok (resolved) =>
+			if ! relativize {
+				succeed! (Path::new_from_raw (resolved) .into ());
+			} else {
+				if let Some (parent) = path.parent () {
+					succeed! (Path::new_from_buffer (parent.join (resolved)) .into ());
+				} else {
+					succeed! (Path::new_from_buffer (resolved) .into ());
+				}
+			},
+		Err (error) =>
+			match error.raw_os_error () {
+				Some (ext::libc::EINVAL) =>
+					succeed! (FALSE_VALUE),
+				_ =>
+					fail! (0x65a36326),
+			},
 	}
 }
 

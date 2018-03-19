@@ -251,13 +251,16 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			
 			("path?", TypePrimitiveV::IsPath.into ()),
 			("path", FileSystemPrimitive1::PathCoerce.into ()),
+			("path-join", FileSystemPrimitiveV::PathJoin.into ()),
 			("path-parent", FileSystemPrimitive1::PathParent.into ()),
+			("path-canonicalize", FileSystemPrimitive1::PathCanonicalize.into ()),
 			("path-absolute?", TypePrimitiveV::IsPathAbsolute.into ()),
 			("path-relative?", TypePrimitiveV::IsPathRelative.into ()),
 			("path->string", FileSystemPrimitive1::PathToString.into ()),
 			("string->path", FileSystemPrimitive1::StringToPath.into ()),
 			("path->bytevector", FileSystemPrimitive1::PathToBytes.into ()),
 			("bytevector->path", FileSystemPrimitive1::BytesToPath.into ()),
+			("fs-link-resolve", FileSystemPrimitiveV::LinkResolve.into ()),
 			
 			("process-spawn", RuntimePrimitiveN::ProcessSpawn.into ()),
 			("process-spawn*", RuntimePrimitiveV::ProcessSpawnExtended.into ()),

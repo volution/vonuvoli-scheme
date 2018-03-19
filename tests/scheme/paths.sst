@@ -38,6 +38,52 @@
 
 
 
+(~path-join 'root) => (~path 'root)
+(~path-join 'current) => (~path 'current)
+(~path-join 'parent) => (~path 'parent)
+
+(~path-join 'home) => (~path 'home)
+(~path-join 'temporary) => (~path 'temporary)
+(~path-join 'working-directory) => (~path 'working-directory)
+
+(~path-join "/") => (~path "/")
+(~path-join ".") => (~path ".")
+(~path-join "..") => (~path "..")
+(~path-join "../..") => (~path "../..")
+(~path-join "a") => (~path "a")
+(~path-join "a/b") => (~path "a/b")
+(~path-join "a/b/c") => (~path "a/b/c")
+
+(~path->string (~path-join 'root "a")) => "/a"
+(~path->string (~path-join 'root "a" "b")) => "/a/b"
+
+(~path->string (~path-join 'root "a/b")) => "/a/b"
+(~path->string (~path-join 'root "a/./b")) => "/a/b"
+(~path->string (~path-join 'root "a//b")) => "/a/b"
+(~path->string (~path-join 'root "./a/b/.")) => "/a/b"
+
+(~path->string (~path-join 'root 'current 'current "a" 'current)) => "/a"
+(~path->string (~path-join 'root 'parent 'current "a" 'current)) => "/../a"
+(~path->string (~path-join 'root 'parent 'parent "a" 'parent)) => "/../../a/.."
+
+(~path->string (~path-join "/tmp" 'current 'current "a" 'current 'parent)) => "/tmp/a/.."
+
+(~path->string (~path-join (~path "/"))) => "/"
+(~path->string (~path-join (~path "/") (~path "a"))) => "/a"
+(~path->string (~path-join (~path "/") (~path "a") (~path "b"))) => "/a/b"
+
+(~path->string (~path-join "0")) => "0"
+(~path->string (~path-join "0" "1")) => "0/1"
+(~path->string (~path-join "0" "1" "2")) => "0/1/2"
+(~path->string (~path-join "0" "1" "2" "3")) => "0/1/2/3"
+(~path->string (~path-join "0" "1" "2" "3" "4")) => "0/1/2/3/4"
+(~path->string (~path-join "0" "1" "2" "3" "4" "5")) => "0/1/2/3/4/5"
+(~path->string (~path-join "0" "1" "2" "3" "4" "5" "6")) => "0/1/2/3/4/5/6"
+(~path->string (~path-join "0" "1" "2" "3" "4" "5" "6" "7")) => "0/1/2/3/4/5/6/7"
+
+
+
+
 (~path->string (~path "//")) => "/"
 (~path->string (~path "././././.")) => "."
 (~path->string (~path "./././././")) => "."
@@ -100,4 +146,19 @@
 (~path-parent (~path "..")) => #f
 (~path->string (~path-parent (~path "../.."))) => ".."
 (~path->string (~path-parent (~path "../../.."))) => "../.."
+
+
+
+
+(~path->string (~path-canonicalize (~path '/))) => "/"
+(~path->string (~path-canonicalize (~path 'current))) => (~path->string (~path 'working-directory))
+
+(~path->string (~path-canonicalize (~path "/tmp"))) => "/tmp"
+(false? (~path-canonicalize (~path "/tmp/__does_not_exist__"))) => #t
+
+
+
+
+(false? (~fs-link-resolve (~path "/"))) => #t
+(~path? (~fs-link-resolve (~path "/proc/self"))) => #t
 
