@@ -25,7 +25,7 @@ pub struct Path ( StdRc<StdBox<fs_path::Path>> );
 impl Path {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new (path : fs_path::PathBuf) -> (Path) {
+	pub fn new_from_raw (path : fs_path::PathBuf) -> (Path) {
 		if path.as_os_str () .is_empty () {
 			panic! ("ba1ee991");
 		}
@@ -33,16 +33,29 @@ impl Path {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new_from_path (path : &fs_path::Path) -> (Path) {
-		let buffer = path.to_path_buf ();
-		Path::new (buffer)
+	pub fn new_from_buffer (path : fs_path::PathBuf) -> (Path) {
+		Path::new_from_components (&mut path.components ())
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new_from_ref (path : &fs_path::Path) -> (Path) {
+		Path::new_from_components (&mut path.components ())
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new_from_components (path : &mut iter::Iterator<Item = fs_path::Component>) -> (Path) {
+		let mut buffer = fs_path::PathBuf::new ();
+		for component in path {
+			buffer.push (component.as_os_str ());
+		}
+		Path::new_from_raw (buffer)
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_from_component (path : &fs_path::Component) -> (Path) {
 		let mut buffer = fs_path::PathBuf::new ();
 		buffer.push (path.as_os_str ());
-		Path::new (buffer)
+		Path::new_from_raw (buffer)
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

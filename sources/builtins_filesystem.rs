@@ -58,11 +58,13 @@ pub fn filesystem_path_coerce (value : &Value) -> (Outcome<Path>) {
 					fail! (0x1912686e),
 			},
 		ValueClassMatchAsRef::String (value) => {
-			let path = try! (value.string_as_ref () .string_rc_clone ());
+			let path = try! (value.string_ref ());
+			let path = path.string_as_str ();
 			if ! path.is_empty () {
-				succeed! (Path::from_string_rc (path));
+				let path = fs_path::Path::new (path);
+				succeed! (Path::new_from_ref (path));
 			} else {
-				fail! (0x6f26e7ef);
+				fail! (0xb68cf8f4);
 			}
 		},
 		_ =>
@@ -79,7 +81,7 @@ pub fn filesystem_path_parent (path : &Value) -> (Outcome<Value>) {
 	let path = path.path_ref ();
 	if let Some (parent) = path.parent () {
 		if ! parent.as_os_str () .is_empty () {
-			succeed! (Path::new_from_path (parent) .into ());
+			succeed! (Path::new_from_ref (parent) .into ());
 		} else {
 			succeed! (FALSE_VALUE);
 		}

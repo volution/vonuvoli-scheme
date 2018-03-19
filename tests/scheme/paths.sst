@@ -12,9 +12,9 @@
 (~path->string (~path ".")) => "."
 (~path->string (~path "..")) => ".."
 
-(~path->string (~path "./.")) => "./."
-(~path->string (~path "././.")) => "././."
-(~path->string (~path "./././.")) => "./././."
+(~path->string (~path "./.")) => "."
+(~path->string (~path "././.")) => "."
+(~path->string (~path "./././.")) => "."
 
 (~path->string (~path "../..")) => "../.."
 (~path->string (~path "../../..")) => "../../.."
@@ -34,6 +34,23 @@
 
 
 (not (equal? (~path 'working-directory) (~path 'current))) => #t
+
+
+
+
+(~path->string (~path "//")) => "/"
+(~path->string (~path "././././.")) => "."
+(~path->string (~path "./././././")) => "."
+(~path->string (~path "./.././../.")) => "./../.."
+(~path->string (~path "./.././.././")) => "./../.."
+
+(~path->string (~path "/a/b/c")) => "/a/b/c"
+(~path->string (~path "/a/b/c/")) => "/a/b/c"
+(~path->string (~path "//a//b//c//")) => "/a/b/c"
+(~path->string (~path "/./a/./b/./c/./")) => "/a/b/c"
+(~path->string (~path "./a/./b/./c/./")) => "./a/b/c"
+(~path->string (~path "../a/./b/./c/./")) => "../a/b/c"
+(~path->string (~path "/a/../b/../c/../")) => "/a/../b/../c/.."
 
 
 
