@@ -77,12 +77,16 @@ impl Backtrace {
 					if name_buffer.starts_with ("vonuvoli_scheme") {
 						match name_buffer.as_str () {
 							"vonuvoli_scheme::runtime_backtrace::Backtrace::new" |
+							"vonuvoli_scheme::runtime::execute_main::{{closure}}" |
+							"vonuvoli_scheme::runtime::panic_with_error" |
 							"vonuvoli_scheme::errors::Error::new" |
 							"vonuvoli_scheme::errors::error_generic" |
 							"vonuvoli_scheme::errors::error_panic" |
-							"vonuvoli_scheme::errors::error_unimplemented" |
-							"__unreachable__" =>
+							"vonuvoli_scheme::errors::error_unimplemented" =>
 								return true,
+							"vonuvoli_scheme::runtime::execute_main" =>
+								// NOTE:  After this there doesn't seem to be anything interesting for us!
+								return false,
 							_ =>
 								(),
 						}
@@ -118,14 +122,18 @@ impl Backtrace {
 					} else if name_buffer.starts_with ("backtrace::") {
 						// NOTE:  These frames were captured while creating the backtrace!
 						return true;
-					} else if name_buffer.starts_with ("std::rt::lang_start::") {
-						// NOTE:  After this there doesn't seem to be anything interesting for us!
-						return false;
 					} else {
 						match name_buffer.as_str () {
 							// NOTE:  These frames are not interesting!
 							"core::ops::function::Fn::call" |
-							"__unreachable__" =>
+							"core::ops::function::FnMut::call_mut" |
+							"core::ops::function::FnOnce::call_once" |
+							// NOTE:  These frames are part of the error handling mechanism!
+							"std::panic::catch_unwind" |
+							"std::panicking::begin_panic" |
+							"std::panicking::try" |
+							"std::panicking::try::do_call" |
+							"std::panicking::rust_panic_with_hook" =>
 								(),
 							_ => {
 								transcript_buffer.push_fmt (format_args! (".. {}\n", transcript_style (name_buffer, STYLE_SYMBOL_NAME, transcript_color)));
@@ -135,8 +143,15 @@ impl Backtrace {
 						return true;
 					}
 				} else {
-					transcript_buffer.push_fmt (format_args! (".. {}\n", transcript_style (name_buffer, STYLE_SYMBOL_NAME, transcript_color)));
-					transcript_buffer.push_str ("\u{1e}");
+					match name_buffer.as_str () {
+						// NOTE:  These frames are part of the error handling mechanism!
+						"__rust_maybe_catch_panic" =>
+							(),
+						_ => {
+							transcript_buffer.push_fmt (format_args! (".. {}\n", transcript_style (name_buffer, STYLE_SYMBOL_NAME, transcript_color)));
+							transcript_buffer.push_str ("\u{1e}");
+						},
+					}
 					return true;
 				}
 			},
