@@ -63,10 +63,12 @@ vonuvoli_release = [
 	"vonuvoli_terminal",
 	"vonuvoli_transcript_ansi_enabled",
 	"vonuvoli_transcript_code_hashes",
+	"vonuvoli_abort_on_panic",
 ]
 
 vonuvoli_debug_for_binaries = [
 	"vonuvoli_debug_level_4",
+	"vonuvoli_abort_on_panic",
 ]
 
 vonuvoli_debug_for_tests = [
@@ -139,6 +141,7 @@ vonuvoli_transcript_code_hashes = [
 ]
 
 vonuvoli_panic_on_failed = []
+vonuvoli_abort_on_panic = []
 
 vonuvoli_inline = []
 
