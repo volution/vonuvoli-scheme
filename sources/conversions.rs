@@ -966,37 +966,37 @@ pub fn range_coerce_unbounded (start : Option<&Value>, end : Option<&Value>) -> 
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn count_coerce (count : Option<&Value>) -> (Outcome<Option<usize>>) {
-	let count = if let Some (count) = count {
-		Some (try! (try_as_number_integer_ref! (count) .try_to_usize ()))
-	} else {
-		None
-	};
-	succeed! (count);
+pub fn count_coerce (count : &Value) -> (Outcome<usize>) {
+	succeed! (try! (try_as_number_integer_ref! (count) .try_to_usize ()));
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn count_coerce_option (count : Option<&Value>) -> (Outcome<Option<usize>>) {
+	succeed! (try_option_map! (count, count_coerce (count)));
 }
 
 
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn boolean_coerce (boolean : Option<&Value>) -> (Outcome<Option<bool>>) {
-	let boolean = if let Some (boolean) = boolean {
-		Some (try_as_boolean_ref! (boolean) .value ())
-	} else {
-		None
-	};
-	succeed! (boolean);
+pub fn boolean_coerce (boolean : &Value) -> (Outcome<bool>) {
+	succeed! (try_as_boolean_ref! (boolean) .value ());
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn boolean_coerce_option (boolean : Option<&Value>) -> (Outcome<Option<bool>>) {
+	succeed! (try_option_map! (boolean, boolean_coerce (boolean)));
 }
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn string_coerce (string : Option<&Value>) -> (Outcome<Option<StdString>>) {
-	let string = if let Some (string) = string {
-		Some (try_as_string_ref! (string) .string_clone ())
-	} else {
-		None
-	};
-	succeed! (string);
+pub fn string_clone_coerce (string : &Value) -> (Outcome<StdString>) {
+	succeed! (try_as_string_ref! (string) .string_clone ());
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn string_clone_coerce_option (string : Option<&Value>) -> (Outcome<Option<StdString>>) {
+	succeed! (try_option_map! (string, string_clone_coerce (string)));
 }
 
 

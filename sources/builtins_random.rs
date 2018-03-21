@@ -4,7 +4,6 @@ use super::builtins::exports::*;
 use super::constants::exports::*;
 use super::conversions::exports::*;
 use super::errors::exports::*;
-use super::runtime::exports::*;
 use super::values::exports::*;
 
 use super::prelude::*;
@@ -361,7 +360,7 @@ pub fn random_generate_u6 () -> (Outcome<Value>) {
 
 #[ inline (never) ]
 pub fn random_generate_bytes_build (count : &Value) -> (Outcome<Value>) {
-	let count = try! (count_coerce (Some (count))) .unwrap_or (DEFAULT_PORT_BUFFER_SIZE);
+	let count = try! (count_coerce (count));
 	let mut buffer = StdVec::new ();
 	buffer.resize_default (count);
 	generator () .fill_bytes (&mut buffer);
@@ -375,7 +374,7 @@ pub fn random_generate_bytes_build (count : &Value) -> (Outcome<Value>) {
 pub fn random_generate_bytes_extend (bytes : &Value, count : &Value) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_mutable_ref! (bytes);
 	let mut buffer = try! (bytes.bytes_ref_mut ());
-	let count = try! (count_coerce (Some (count))) .unwrap_or (DEFAULT_PORT_BUFFER_SIZE);
+	let count = try! (count_coerce (count));
 	let buffer_offset = buffer.len ();
 	buffer.resize_default (buffer_offset + count);
 	generator () .fill_bytes (&mut buffer [buffer_offset ..]);
@@ -669,7 +668,7 @@ pub fn random_generate_string_build_ascii_graphic (count : &Value) -> (Outcome<V
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn random_generate_string_build_ascii_from (count : &Value, characters : &[u8]) -> (Outcome<Value>) {
-	let count = try! (count_coerce (Some (count))) .unwrap_or (DEFAULT_PORT_BUFFER_SIZE);
+	let count = try! (count_coerce (count));
 	let mut buffer = StdVec::with_capacity (count);
 	let characters_len = characters.len ();
 	let mut generator = generator ();
@@ -749,7 +748,7 @@ pub fn random_generate_string_extend_ascii_graphic (string : &Value, count : &Va
 fn random_generate_string_extend_ascii_from (string : &Value, count : &Value, characters : &[u8]) -> (Outcome<Value>) {
 	let string = try_as_string_mutable_ref! (string);
 	let mut buffer = try! (string.string_ref_mut ());
-	let count = try! (count_coerce (Some (count))) .unwrap_or (DEFAULT_PORT_BUFFER_SIZE);
+	let count = try! (count_coerce (count));
 	let characters_len = characters.len ();
 	let mut generator = generator ();
 	for _ in 0 .. count {

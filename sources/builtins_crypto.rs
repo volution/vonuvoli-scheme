@@ -4,7 +4,6 @@ use super::builtins::exports::*;
 use super::constants::exports::*;
 use super::conversions::exports::*;
 use super::errors::exports::*;
-use super::runtime::exports::*;
 use super::values::exports::*;
 
 use super::prelude::*;
@@ -72,7 +71,7 @@ pub mod exports {
 
 #[ inline (never) ]
 pub fn crypto_generate_bytes_build (count : &Value) -> (Outcome<Value>) {
-	let count = try! (count_coerce (Some (count))) .unwrap_or (DEFAULT_PORT_BUFFER_SIZE);
+	let count = try! (count_coerce (count));
 	let mut buffer = StdVec::new ();
 	buffer.resize_default (count);
 	try_or_fail! (ext::ring::rand::SystemRandom::new () .fill (&mut buffer), 0x4089517c);
@@ -86,7 +85,7 @@ pub fn crypto_generate_bytes_build (count : &Value) -> (Outcome<Value>) {
 pub fn crypto_generate_bytes_extend (bytes : &Value, count : &Value) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_mutable_ref! (bytes);
 	let mut buffer = try! (bytes.bytes_ref_mut ());
-	let count = try! (count_coerce (Some (count))) .unwrap_or (DEFAULT_PORT_BUFFER_SIZE);
+	let count = try! (count_coerce (count));
 	let buffer_offset = buffer.len ();
 	buffer.resize_default (buffer_offset + count);
 	try_or_fail! (ext::ring::rand::SystemRandom::new () .fill (&mut buffer [buffer_offset ..]), 0xf64cfb24);

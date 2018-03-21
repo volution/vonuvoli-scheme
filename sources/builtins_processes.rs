@@ -193,10 +193,10 @@ pub fn process_configure (executable : &str, arguments : Option<&[&str]>, option
 	let arguments = option_map! (arguments, vec_map! (arguments.iter (), argument, StdString::from (*argument) .into ()) .into_boxed_slice ());
 	
 	// TODO:  Replace `value.into ()` by using `.into_0 ()`!
-	let argument0 = option_map! (try! (string_coerce (argument0.as_ref ())), value, value.into ());
-	let working_directory = option_map! (try! (string_coerce (working_directory.as_ref ())), value, value.into ());
+	let argument0 = option_map! (try! (string_clone_coerce_option (argument0.as_ref ())), value, value.into ());
+	let working_directory = option_map! (try! (string_clone_coerce_option (working_directory.as_ref ())), value, value.into ());
 	
-	let environment_empty = try! (boolean_coerce (environment_empty.as_ref ()));
+	let environment_empty = try! (boolean_coerce_option (environment_empty.as_ref ()));
 	
 	let environment_include = option_map! (environment_include, try! (vec_list_clone (&environment_include)));
 	#[ allow (trivial_casts) ]

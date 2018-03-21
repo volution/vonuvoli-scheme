@@ -221,7 +221,7 @@ pub fn port_input_coerce_arguments <'a> (port : &'a Value, count : Option<&'a Va
 	//!    * `count == Some (0)` -- makes no sense!
 	
 	let port = try_as_port_ref! (port);
-	let count = try! (count_coerce (count));
+	let count = try! (count_coerce_option (count));
 	
 	let (count, full) = (
 			count.or_else (|| if full.is_none () && ! full_default { Some (DEFAULT_PORT_BUFFER_SIZE) } else { None }),

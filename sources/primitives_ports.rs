@@ -732,10 +732,10 @@ pub fn port_primitive_4_evaluate (primitive : PortPrimitive4, input_1 : &Value, 
 			return port_input_bytes_read_copy_range (input_2, input_1, Some (input_3), Some (input_4), Some (true)),
 		
 		PortPrimitive4::BytesReadExtend =>
-			return port_input_bytes_read_extend (input_2, input_1, Some (input_3), try! (boolean_coerce (Some (input_4)))),
+			return port_input_bytes_read_extend (input_2, input_1, Some (input_3), Some (try! (boolean_coerce (input_4)))),
 		
 		PortPrimitive4::StringReadExtend =>
-			return port_input_string_read_extend (input_2, input_1, Some (input_3), try! (boolean_coerce (Some (input_4)))),
+			return port_input_string_read_extend (input_2, input_1, Some (input_3), Some (try! (boolean_coerce (input_4)))),
 		
 		PortPrimitive4::BytesWrite =>
 			fail_unimplemented! (0x2e16ec86),
@@ -754,7 +754,7 @@ pub fn port_primitive_5_evaluate (primitive : PortPrimitive5, input_1 : &Value, 
 	match primitive {
 		
 		PortPrimitive5::BytesReadCopy =>
-			return port_input_bytes_read_copy_range (input_2, input_1, Some (input_3), Some (input_4), try! (boolean_coerce (Some (input_5)))),
+			return port_input_bytes_read_copy_range (input_2, input_1, Some (input_3), Some (input_4), Some (try! (boolean_coerce (input_5)))),
 		
 	}
 }

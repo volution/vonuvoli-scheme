@@ -231,7 +231,7 @@ pub fn filesystem_primitive_2_evaluate (primitive : FileSystemPrimitive2, input_
 			return filesystem_path_join (&[input_1, input_2], true) .into_0 (),
 		
 		FileSystemPrimitive2::PathSplit =>
-			return filesystem_path_split (input_1, try! (boolean_coerce (Some (input_2))) .unwrap_or (false)) .into_0 (),
+			return filesystem_path_split (input_1, try! (boolean_coerce (input_2))) .into_0 (),
 		
 		FileSystemPrimitive2::PathHasPrefix =>
 			return filesystem_path_has_prefix (input_1, input_2) .into_0 (),
@@ -243,10 +243,10 @@ pub fn filesystem_primitive_2_evaluate (primitive : FileSystemPrimitive2, input_
 			return filesystem_path_name_join (&[input_1, input_2]) .into_0 (),
 		
 		FileSystemPrimitive2::PathNameSplit =>
-			return filesystem_path_name_split (input_1, try! (boolean_coerce (Some (input_2))) .unwrap_or (false)) .into_0 (),
+			return filesystem_path_name_split (input_1, try! (boolean_coerce (input_2))) .into_0 (),
 		
 		FileSystemPrimitive2::LinkResolve =>
-			return filesystem_link_resolve (input_1, try! (boolean_coerce (Some (input_2))) .unwrap_or (false), false),
+			return filesystem_link_resolve (input_1, try! (boolean_coerce (input_2)), false),
 		
 		FileSystemPrimitive2::PathNameIs =>
 			return filesystem_path_name_is (input_1, input_2) .into_0 (),
