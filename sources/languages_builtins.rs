@@ -220,6 +220,12 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("values<=?", ComparisonPrimitiveV::ValuesLesserOrEqual.into ()),
 			("values>=?", ComparisonPrimitiveV::ValuesGreaterOrEqual.into ()),
 			
+			("path=?", ComparisonPrimitiveV::PathEqual.into ()),
+			("path<?", ComparisonPrimitiveV::PathLesser.into ()),
+			("path>?", ComparisonPrimitiveV::PathGreater.into ()),
+			("path<=?", ComparisonPrimitiveV::PathLesserOrEqual.into ()),
+			("path>=?", ComparisonPrimitiveV::PathGreaterOrEqual.into ()),
+			
 			("generic=?", ComparisonPrimitiveV::GenericEqual.into ()),
 			("generic<?", ComparisonPrimitiveV::GenericLesser.into ()),
 			("generic>?", ComparisonPrimitiveV::GenericGreater.into ()),

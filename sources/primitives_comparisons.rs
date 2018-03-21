@@ -166,6 +166,12 @@ macro_rules! def_comparison_primitive_enum {
 			RecordGreaterOrEqual,
 			RecordGreater,
 			
+			PathLesser,
+			PathLesserOrEqual,
+			PathEqual,
+			PathGreaterOrEqual,
+			PathGreater,
+			
 		}
 		
 	);
@@ -473,6 +479,21 @@ pub fn comparison_primitive_1_evaluate (primitive : ComparisonPrimitive1, input_
 		ComparisonPrimitive1::RecordGreater =>
 			return record_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
+		ComparisonPrimitive1::PathLesser =>
+			return path_compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
+		
+		ComparisonPrimitive1::PathLesserOrEqual =>
+			return path_compare_1 (input_1, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
+		
+		ComparisonPrimitive1::PathEqual =>
+			return path_compare_1 (input_1, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
+		
+		ComparisonPrimitive1::PathGreaterOrEqual =>
+			return path_compare_1 (input_1, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
+		
+		ComparisonPrimitive1::PathGreater =>
+			return path_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
+		
 	}
 }
 
@@ -752,6 +773,21 @@ pub fn comparison_primitive_2_evaluate (primitive : ComparisonPrimitive2, input_
 		
 		ComparisonPrimitive2::RecordGreater =>
 			return record_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
+		
+		ComparisonPrimitive2::PathLesser =>
+			return path_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
+		
+		ComparisonPrimitive2::PathLesserOrEqual =>
+			return path_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
+		
+		ComparisonPrimitive2::PathEqual =>
+			return path_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
+		
+		ComparisonPrimitive2::PathGreaterOrEqual =>
+			return path_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
+		
+		ComparisonPrimitive2::PathGreater =>
+			return path_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
 	}
 }
@@ -1033,6 +1069,21 @@ pub fn comparison_primitive_3_evaluate (primitive : ComparisonPrimitive3, input_
 		ComparisonPrimitive3::RecordGreater =>
 			return record_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
+		ComparisonPrimitive3::PathLesser =>
+			return path_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
+		
+		ComparisonPrimitive3::PathLesserOrEqual =>
+			return path_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
+		
+		ComparisonPrimitive3::PathEqual =>
+			return path_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
+		
+		ComparisonPrimitive3::PathGreaterOrEqual =>
+			return path_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
+		
+		ComparisonPrimitive3::PathGreater =>
+			return path_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
+		
 	}
 }
 
@@ -1312,6 +1363,21 @@ pub fn comparison_primitive_4_evaluate (primitive : ComparisonPrimitive4, input_
 		
 		ComparisonPrimitive4::RecordGreater =>
 			return record_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
+		
+		ComparisonPrimitive4::PathLesser =>
+			return path_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
+		
+		ComparisonPrimitive4::PathLesserOrEqual =>
+			return path_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
+		
+		ComparisonPrimitive4::PathEqual =>
+			return path_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
+		
+		ComparisonPrimitive4::PathGreaterOrEqual =>
+			return path_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
+		
+		ComparisonPrimitive4::PathGreater =>
+			return path_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
 	}
 }
@@ -1601,6 +1667,21 @@ pub fn comparison_primitive_n_evaluate (primitive : ComparisonPrimitiveN, inputs
 		ComparisonPrimitiveN::RecordGreater =>
 			return record_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
 		
+		ComparisonPrimitiveN::PathLesser =>
+			return path_compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, None)) .into_0 (),
+		
+		ComparisonPrimitiveN::PathLesserOrEqual =>
+			return path_compare_n (inputs, Comparison::Ordering (Ordering::LesserOrEqual, None, None)) .into_0 (),
+		
+		ComparisonPrimitiveN::PathEqual =>
+			return path_compare_n (inputs, Comparison::Ordering (Ordering::Equal, None, None)) .into_0 (),
+		
+		ComparisonPrimitiveN::PathGreaterOrEqual =>
+			return path_compare_n (inputs, Comparison::Ordering (Ordering::GreaterOrEqual, None, None)) .into_0 (),
+		
+		ComparisonPrimitiveN::PathGreater =>
+			return path_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, None)) .into_0 (),
+		
 	}
 }
 
@@ -1793,6 +1874,16 @@ macro_rules! def_comparison_primitive_v_alternative_fn {
 					Some ($alternative::RecordGreaterOrEqual),
 				ComparisonPrimitiveV::RecordGreater =>
 					Some ($alternative::RecordGreater),
+				ComparisonPrimitiveV::PathLesser =>
+					Some ($alternative::PathLesser),
+				ComparisonPrimitiveV::PathLesserOrEqual =>
+					Some ($alternative::PathLesserOrEqual),
+				ComparisonPrimitiveV::PathEqual =>
+					Some ($alternative::PathEqual),
+				ComparisonPrimitiveV::PathGreaterOrEqual =>
+					Some ($alternative::PathGreaterOrEqual),
+				ComparisonPrimitiveV::PathGreater =>
+					Some ($alternative::PathGreater),
 			}
 		}
 		
