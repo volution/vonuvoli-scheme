@@ -2029,7 +2029,7 @@
 !!
 
 << execute / test / all / coverage / kcov
-	x-run ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov -- "${@}"
+	x-run ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov kcov --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov -- "${@}"
 !!
 
 << execute / test / all / debug
@@ -2057,7 +2057,7 @@
 !!
 
 << execute / test / builtins-lists / coverage / all / kcov
-	x-run ':: compile / test / builtins-lists / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov --test 'builtins-lists' --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov -- "${@}"
+	x-run ':: compile / test / builtins-lists / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov kcov --test 'builtins-lists' --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov -- "${@}"
 !!
 
 << execute / test / builtins-lists / coverage / all / kcov / watch
@@ -2089,7 +2089,7 @@
 !!
 
 << execute / test / low-level-assertions / coverage / all / kcov
-	x-run ':: compile / test / low-level-assertions / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov --test 'low-level-assertions' --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov -- "${@}"
+	x-run ':: compile / test / low-level-assertions / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov kcov --test 'low-level-assertions' --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov -- "${@}"
 !!
 
 << execute / test / low-level-assertions / coverage / all / kcov / watch
@@ -2121,7 +2121,7 @@
 !!
 
 << execute / test / low-level-parser / coverage / all / kcov
-	x-run ':: compile / test / low-level-parser / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov --test 'low-level-parser' --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov -- "${@}"
+	x-run ':: compile / test / low-level-parser / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov kcov --test 'low-level-parser' --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov -- "${@}"
 !!
 
 << execute / test / low-level-parser / coverage / all / kcov / watch
@@ -2153,7 +2153,7 @@
 !!
 
 << execute / test / low-level-r7rs / coverage / all / kcov
-	x-run ':: compile / test / low-level-r7rs / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov --test 'low-level-r7rs' --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov -- "${@}"
+	x-run ':: compile / test / low-level-r7rs / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov kcov --test 'low-level-r7rs' --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov -- "${@}"
 !!
 
 << execute / test / low-level-r7rs / coverage / all / kcov / watch
@@ -2185,7 +2185,7 @@
 !!
 
 << execute / test / low-level-rust / coverage / all / kcov
-	x-run ':: compile / test / low-level-rust / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov --test 'low-level-rust' --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov -- "${@}"
+	x-run ':: compile / test / low-level-rust / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov kcov --test 'low-level-rust' --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov -- "${@}"
 !!
 
 << execute / test / low-level-rust / coverage / all / kcov / watch
@@ -2217,7 +2217,7 @@
 !!
 
 << execute / test / low-level-sizes / coverage / all / kcov
-	x-run ':: compile / test / low-level-sizes / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov --test 'low-level-sizes' --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov -- "${@}"
+	x-run ':: compile / test / low-level-sizes / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov kcov --test 'low-level-sizes' --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov -- "${@}"
 !!
 
 << execute / test / low-level-sizes / coverage / all / kcov / watch
@@ -2593,7 +2593,7 @@
 !!
 
 << execute / test / scheme / coverage / all / kcov
-	x-run ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov --test 'scheme' --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov -- "${@}"
+	x-run ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov kcov --test 'scheme' --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov -- "${@}"
 !!
 
 << execute / test / scheme / coverage / all / kcov / watch
