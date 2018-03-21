@@ -21,6 +21,7 @@ pub mod exports {
 			
 			TranscriptTracer,
 			TranscriptBuffer,
+			TranscriptOutputable,
 			
 		};
 	
@@ -184,9 +185,9 @@ impl <'a, T : Transcript + ?Sized + 'a> TranscriptBuffer<'a, T> {
 		match self.buffer.write_fmt (arguments) {
 			Ok (()) =>
 				(),
-			Err (error) =>
+			Err (_error) =>
 				// FIXME:  Handle this error and do not panic!
-				panic! (error),
+				panic_0! (0x232a35a0),
 		}
 	}
 	
@@ -195,9 +196,9 @@ impl <'a, T : Transcript + ?Sized + 'a> TranscriptBuffer<'a, T> {
 		match self.buffer.write_str (message) {
 			Ok (()) =>
 				(),
-			Err (error) =>
+			Err (_error) =>
 				// FIXME:  Handle this error and do not panic!
-				panic! (error),
+				panic_0! (0x4308fce7),
 		}
 	}
 	
@@ -645,9 +646,9 @@ impl TranscriptBackendForStderr {
 		match outcome {
 			Ok (()) =>
 				(),
-			Err (error) =>
+			Err (_error) =>
 				// FIXME:  Handle this error and do not panic!
-				panic! (error),
+				panic_0! (0x89a3e336),
 		}
 	}
 }

@@ -187,7 +187,7 @@ impl BacktraceSymbol {
 		if let Some (address) = ptr::NonNull::new (address) {
 			return BacktraceSymbol (address);
 		} else {
-			panic! ("be8eae73");
+			panic_0! (0xbe8eae73);
 		}
 	}
 	
@@ -233,7 +233,7 @@ impl BacktraceSymbol {
 				Ok (()) =>
 					(),
 				Err (_) =>
-					panic! ("aa3b117f"),
+					panic_0! (0xaa3b117f),
 			}
 		}
 		return name_buffer;

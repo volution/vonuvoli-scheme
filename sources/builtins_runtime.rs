@@ -321,7 +321,7 @@ pub fn posix_timestamp () -> (NumberReal) {
 			elapsed,
 		Err (_) =>
 			// NOTE:  It is impossible for the clock to be before the epoch!
-			panic! ("09bcf425"),
+			panic_0! (0x09bcf425),
 	};
 	let elapsed =
 			(elapsed.as_secs () as f64)
@@ -346,7 +346,7 @@ pub fn jiffies_timestamp () -> (NumberInteger) {
 							+ (elapsed.subsec_nanos () as u64);
 					return elapsed.expect_into_0 ();
 				} else {
-					panic! ("70f11280");
+					panic_0! (0x70f11280);
 				}
 			},
 			None => {

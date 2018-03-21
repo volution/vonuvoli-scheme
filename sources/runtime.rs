@@ -1,6 +1,7 @@
 
 
 use super::errors::exports::*;
+use super::runtime_configurations::exports::*;
 use super::transcript::exports::*;
 
 use super::prelude::*;
@@ -33,6 +34,7 @@ pub mod exports {
 	pub use super::{libc_memchr};
 	
 	pub use super::{execute_main};
+	pub use super::{panic_with_error};
 	
 	pub use super::super::runtime_backtrace::exports::*;
 	pub use super::super::runtime_configurations::exports::*;
@@ -123,7 +125,7 @@ impl <T, U> StdExpectInto0<U> for T where T : StdTryInto0<U> {
 				value,
 			Err (_) =>
 				// TODO:  Report the actual error!
-				panic! ("073cc689"),
+				panic_0! (0x073cc689),
 		}
 	}
 }
@@ -176,7 +178,7 @@ impl <T, U> StdExpectAsRef0<U> for T where T : StdTryAsRef0<U> {
 				value,
 			Err (_) =>
 				// TODO:  Report the actual error!
-				panic! ("dd0868fb"),
+				panic_0! (0xdd0868fb),
 		}
 	}
 }
@@ -309,7 +311,7 @@ pub fn vec_explode_3n <Element> (vector : StdVec<Element>) -> (Outcome<(Element,
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn vec_zip_2 <Element1, Element2> (vector_1 : StdVec<Element1>, vector_2 : StdVec<Element2>) -> (StdVec<(Element1, Element2)>) {
 	if vector_1.len () != vector_2.len () {
-		panic! ("a8f6ee9e");
+		panic_0! (0xa8f6ee9e);
 	}
 	let mut vector = StdVec::with_capacity (vector_1.len ());
 	let mut vector_1 = vector_1.into_iter ();
@@ -321,9 +323,9 @@ pub fn vec_zip_2 <Element1, Element2> (vector_1 : StdVec<Element1>, vector_2 : S
 			(None, None) =>
 				return vector,
 			(Some (_), None) =>
-				panic! ("7c360c22"),
+				panic_0! (0x7c360c22),
 			(None, Some (_)) =>
-				panic! ("aac907db"),
+				panic_0! (0xaac907db),
 		}
 	}
 }
@@ -446,7 +448,7 @@ pub fn libc_getrusage_for_thread () -> (ext::libc::rusage) {
 		if ext::libc::getrusage (ext::libc::RUSAGE_THREAD, &mut resources) == 0 {
 			resources
 		} else {
-			panic! ("fc7fa1cb");
+			panic_0! (0xfc7fa1cb);
 		}
 	}
 }
@@ -485,26 +487,73 @@ pub fn libc_memchr (search : u8, buffer : &[u8]) -> (Option<usize>) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn execute_main <Main, Tracer> (main : Main, transcript : &Tracer) -> ()
+pub fn execute_main <Main, Tracer> (main : Main, transcript : &Tracer) -> !
 		where
-			Main : Fn () -> (Outcome<u32>),
+			Main : Fn () -> (Outcome<u32>) + panic::UnwindSafe,
 			Tracer : Transcript + ?Sized,
 {
-	match main () {
-		Ok (code) => {
-			let code = if code <= 255 {
-				code
-			} else {
-				trace_error! (transcript, 0x2daa4ba6 => "exit code (`{}`) out of range;  using `255`!" => (code));
-				255
-			};
-			process::exit (code as i32);
-		},
+	panic::set_hook (StdBox::new (|_| {
+			let backtrace = super::runtime_backtrace::Backtrace::new ();
+			backtrace.report (tracer_error! (super::TRANSCRIPT, 0x7f5eeb6e));
+			if ABORT_ON_PANIC_GENERIC {
+				process::exit (1);
+			}
+		}));
+	match panic::catch_unwind (main) {
+		Ok (outcome) =>
+			match outcome {
+				Ok (code) => {
+					let code = if code <= 255 {
+						code
+					} else {
+						trace_warning! (transcript, 0x2daa4ba6 => "exit code (`{}`) out of range;  using `255`!" => (code));
+						255
+					};
+					process::exit (code as i32);
+				},
+				Err (error) => {
+					trace_critical! (transcript, 0x4354c758 => "unexpected error encountered;  aborting!" => (), error = &error);
+					error.backtrace_report (tracer_error! (transcript, 0x6ec79d16));
+					process::exit (1);
+				},
+			},
 		Err (error) => {
-			trace_error! (transcript, 0x4354c758 => "unexpected error encountered;  aborting!" => (), error = &error);
-			error.backtrace_report (tracer_error! (transcript, 0x6ec79d16));
+			let error = match error.downcast::<Error> () {
+				Ok (error) => {
+					trace_critical! (transcript, 0x8c0fc747 => "unexpected panic encountered;  aborting!" => (), error = &error);
+					error.backtrace_report (tracer_error! (transcript, 0x29b62906));
+					process::exit (1);
+				},
+				Err (error) =>
+					error,
+			};
+			let error = match error.downcast::<StdString> () {
+				Ok (error) => {
+					trace_critical! (transcript, 0x4981dad6 => "unexpected panic encountered;  aborting!\u{1d}{}" => (&error));
+					process::exit (1);
+				},
+				Err (error) =>
+					error,
+			};
+			let _error = error;
+			trace_critical! (transcript, 0x5006e6bf => "unexpected panic encountered;  aborting!" => ());
 			process::exit (1);
 		},
+	}
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn panic_with_error (error : Error, source : &(&'static str, u32, u32)) -> ! {
+	trace_critical! (super::TRANSCRIPT, 0x6be7d1b0 => "unexpected panic encountered;  aborting!" => (), error = &error);
+	if ABORT_ON_PANIC_WITH_ERROR {
+		error.backtrace_report (tracer_error! (super::TRANSCRIPT, 0xf0766ceb));
+		process::exit (1);
+	} else {
+		let error = format! ("{}", error);
+		::std::rt::begin_panic (error, source);
 	}
 }
 

@@ -93,14 +93,14 @@ impl Error {
 					ErrorInternals::WithValue (_, value) =>
 						return value,
 					_ =>
-						unreachable! (),
+						unreachable_0! (0x3411e156),
 				},
 			Err (internals) =>
 				match *internals.as_ref () {
 					ErrorInternals::WithValue (_, ref value) =>
 						return value.clone (),
 					_ =>
-						unreachable! (),
+						unreachable_0! (0xd2d8f3b9),
 				},
 		}
 	}

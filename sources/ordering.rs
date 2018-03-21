@@ -39,7 +39,7 @@ impl cmp::Ord for Value {
 				ordering @ cmp::Ordering::Less | ordering @ cmp::Ordering::Greater =>
 					return ordering,
 				cmp::Ordering::Equal =>
-					panic! ("610d52ed"),
+					panic_0! (0x610d52ed),
 			}
 		}
 	}

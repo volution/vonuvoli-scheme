@@ -652,7 +652,7 @@ impl Value {
 			Value::Parameter (_, _, _) => ValueKind::Parameter,
 			Value::Promise (_, _, _) => ValueKind::Promise,
 			
-			Value::__NonExhaustive => unreachable! (),
+			Value::__NonExhaustive => unreachable_0! (0x7bbc0f95),
 			
 		}
 	}
@@ -716,7 +716,7 @@ impl Value {
 			Value::Parameter (_, ref self_0, _) => ValueKindMatchAsRef::Parameter (self_0),
 			Value::Promise (_, ref self_0, _) => ValueKindMatchAsRef::Promise (self_0),
 			
-			Value::__NonExhaustive => unreachable! (),
+			Value::__NonExhaustive => unreachable_0! (0x60a44540),
 			
 		}
 	}
@@ -780,7 +780,7 @@ impl Value {
 			Value::Parameter (_, self_0, _) => ValueKindMatchInto::Parameter (self_0),
 			Value::Promise (_, self_0, _) => ValueKindMatchInto::Promise (self_0),
 			
-			Value::__NonExhaustive => unreachable! (),
+			Value::__NonExhaustive => unreachable_0! (0x91f4d229),
 			
 		}
 	}
@@ -849,8 +849,8 @@ impl Value {
 			(&Value::Parameter (_, ref self_0, _), &Value::Parameter (_, ref other_0, _)) => ValueKindMatchAsRef2::Parameter (self_0, other_0),
 			(&Value::Promise (_, ref self_0, _), &Value::Promise (_, ref other_0, _)) => ValueKindMatchAsRef2::Promise (self_0, other_0),
 			
-			(&Value::__NonExhaustive, _) => unreachable! (),
-			(_, &Value::__NonExhaustive) => unreachable! (),
+			(&Value::__NonExhaustive, _) => unreachable_0! (0x13867aa3),
+			(_, &Value::__NonExhaustive) => unreachable_0! (0x5285f71e),
 			
 			// NOTE:  !!! match-fallback !!!
 			(_, _) => ValueKindMatchAsRef2::Missmatched,
@@ -917,7 +917,7 @@ impl Value {
 			Value::Parameter (_, _, _) => ValueClass::Internal,
 			Value::Promise (_, _, _) => ValueClass::Internal,
 			
-			Value::__NonExhaustive => unreachable! (),
+			Value::__NonExhaustive => unreachable_0! (0x5f4a0853),
 			
 		}
 	}
@@ -981,7 +981,7 @@ impl Value {
 			Value::Parameter (_, ref self_0, _) => ValueClassMatchAsRef::Internal (InternalMatchAsRef::Parameter (self_0)),
 			Value::Promise (_, ref self_0, _) => ValueClassMatchAsRef::Internal (InternalMatchAsRef::Promise (self_0)),
 			
-			Value::__NonExhaustive => unreachable! (),
+			Value::__NonExhaustive => unreachable_0! (0xeb981b3d),
 			
 		}
 	}
@@ -1045,7 +1045,7 @@ impl Value {
 			Value::Parameter (_, self_0, _) => ValueClassMatchInto::Internal (InternalMatchInto::Parameter (self_0)),
 			Value::Promise (_, self_0, _) => ValueClassMatchInto::Internal (InternalMatchInto::Promise (self_0)),
 			
-			Value::__NonExhaustive => unreachable! (),
+			Value::__NonExhaustive => unreachable_0! (0xcb4d88e4),
 			
 		}
 	}
@@ -1115,8 +1115,8 @@ impl Value {
 			(&Value::Path (_, ref self_0, _), &Value::Path (_, ref other_0, _)) => ValueClassMatchAsRef2::Path (self_0, other_0),
 			(&Value::Port (_, ref self_0, _), &Value::Port (_, ref other_0, _)) => ValueClassMatchAsRef2::Port (self_0, other_0),
 			
-			(&Value::__NonExhaustive, _) => unreachable! (),
-			(_, &Value::__NonExhaustive) => unreachable! (),
+			(&Value::__NonExhaustive, _) => unreachable_0! (0x15e280a3),
+			(_, &Value::__NonExhaustive) => unreachable_0! (0xf9cc335c),
 			
 			// NOTE:  !!! match-fallback !!!
 			_ =>
@@ -1146,7 +1146,7 @@ impl Value {
 			Value::Singleton (_, ValueSingleton::Null, _) => ListMatchAsRef::Null,
 			Value::PairImmutable (_, ref self_0, _) => ListMatchAsRef::PairImmutable (self_0),
 			Value::PairMutable (_, ref self_0, _) => ListMatchAsRef::PairMutable (self_0),
-			Value::__NonExhaustive => unreachable! (),
+			Value::__NonExhaustive => unreachable_0! (0x2d521611),
 			// NOTE:  !!! match-fallback !!!
 			_ => ListMatchAsRef::Value (self),
 		}
@@ -1158,7 +1158,7 @@ impl Value {
 			Value::Singleton (_, ValueSingleton::Null, _) => ListMatchInto::Null,
 			Value::PairImmutable (_, self_0, _) => ListMatchInto::PairImmutable (self_0),
 			Value::PairMutable (_, self_0, _) => ListMatchInto::PairMutable (self_0),
-			Value::__NonExhaustive => unreachable! (),
+			Value::__NonExhaustive => unreachable_0! (0xa32b87fa),
 			// NOTE:  !!! match-fallback !!!
 			_ => ListMatchInto::Value (self),
 		}
@@ -1288,7 +1288,7 @@ impl Value {
 			Value::Parameter (_, _, _) => fail! (0x5e58cbae),
 			Value::Promise (_, _, _) => fail! (0xdb79854e),
 			
-			Value::__NonExhaustive => unreachable! (),
+			Value::__NonExhaustive => unreachable_0! (0xe6a3ce23),
 			
 		}
 	}
@@ -1313,7 +1313,7 @@ impl Value {
 			Value::Port (_, ref self_0, _) => self_0.clone () .into_0 (),
 			Value::Process (_, ref self_0, _) => self_0.clone () .into_0 (),
 			
-			Value::__NonExhaustive => unreachable! (),
+			Value::__NonExhaustive => unreachable_0! (0xdbf88c4a),
 			
 			// NOTE:  !!! match-fallback !!!
 			_ => fail! (0x34e2a415),

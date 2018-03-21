@@ -51,6 +51,8 @@ pub const DEFAULT_PORT_BUFFER_SIZE : usize = 16 * 1024;
 
 
 pub const PANIC_ON_FAILED : bool = cfg! (feature = "vonuvoli_panic_on_failed");
+pub const ABORT_ON_PANIC_WITH_ERROR : bool = cfg! (feature = "vonuvoli_abort_on_panic");
+pub const ABORT_ON_PANIC_GENERIC : bool =  cfg! (feature = "vonuvoli_abort_on_panic");
 pub const ERRORS_WITH_BACKTRACE : bool = cfg! (feature = "vonuvoli_backtrace");
 
 

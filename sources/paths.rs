@@ -27,7 +27,7 @@ impl Path {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_from_raw (path : fs_path::PathBuf) -> (Path) {
 		if path.as_os_str () .is_empty () {
-			panic! ("ba1ee991");
+			panic_0! (0xba1ee991);
 		}
 		Path (StdRc::new (path.into_boxed_path ()))
 	}
@@ -91,7 +91,7 @@ impl Path {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn from_string_rc (rc : StdRc<StdBox<str>>) -> (Path) {
 		if rc.is_empty () {
-			panic! ("6f442154");
+			panic_0! (0x6f442154);
 		}
 		let rc = unsafe { mem::transmute (rc) };
 		Path (rc)
@@ -105,7 +105,7 @@ impl Path {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn from_rc (rc : StdRc<StdBox<fs_path::Path>>) -> (Path) {
 		if rc.as_os_str () .is_empty () {
-			panic! ("e4a2aadd");
+			panic_0! (0xe4a2aadd);
 		}
 		Path (rc)
 	}

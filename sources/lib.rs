@@ -14,6 +14,7 @@
 #![ feature (stmt_expr_attributes) ]
 #![ feature (type_ascription) ]
 #![ feature (vec_resize_default) ]
+#![ feature (libstd_sys_internals) ]
 
 #![ no_implicit_prelude ]
 

@@ -1,6 +1,70 @@
 
 
 #[ macro_export ]
+macro_rules! panic_with_error {
+	( $error : expr ) => (
+		$crate::exports::panic_with_error ($error, &(file! (), line! (), 0))
+	);
+}
+
+
+#[ macro_export ]
+macro_rules! panic_0 {
+	( $code : expr ) => (
+		panic_with_error! ($crate::exports::error_panic ($code))
+	);
+}
+
+// #[ macro_export ]
+macro_rules! panic {
+//	( $code : expr ) => (
+//		panic_0! ($code)
+//	);
+	( $( _ : tt )* ) => (
+		compiler_error! (0x359c8d4b)
+	);
+}
+
+
+#[ macro_export ]
+macro_rules! unreachable_0 {
+	( $code : expr ) => (
+		panic_with_error! ($crate::exports::error_panic ($code))
+	);
+}
+
+// #[ macro_export ]
+macro_rules! unreachable {
+//	( $code : expr ) => (
+//		unreachable_0! ($code)
+//	);
+	( $( _ : tt )* ) => (
+		compiler_error! (0xe1450afa)
+	);
+}
+
+
+#[ macro_export ]
+macro_rules! unimplemented_0 {
+	( $code : expr ) => (
+		panic_with_error! ($crate::exports::error_unimplemented ($code))
+	);
+}
+
+// #[ macro_export ]
+macro_rules! unimplemented {
+//	( $code : expr ) => (
+//		unimplemented_0! ($code)
+//	);
+	( $( _ : tt )* ) => (
+		compiler_error! (0x3bdc969f)
+	);
+}
+
+
+
+
+#[ macro_export ]
 macro_rules! succeeded {
 	( $outcome : expr ) => (
 		$crate::prelude::Result::Ok ($outcome)
@@ -11,8 +75,7 @@ macro_rules! succeeded {
 macro_rules! failed_or_panic {
 	( $code : expr, $outcome : expr ) => (
 		if $crate::internals::runtime_configurations::PANIC_ON_FAILED {
-			let code : u64 = $code;
-			panic! ("{:08x}", code);
+			panic_0! ($code);
 		} else {
 			$outcome
 		}
