@@ -108,7 +108,7 @@ def_test! (test__0, {
 							ProcedurePrimitive::Primitive4 (_) => '4',
 							ProcedurePrimitive::Primitive5 (_) => '5',
 							ProcedurePrimitive::PrimitiveN (_) => 'n',
-							_ => panic! ("7e5d3d15"),
+							_ => panic_0! (0x7e5d3d15),
 						};
 						if print_procedures && print_implemented {
 							print_definition! (library, category, format! ("procedure-{}", arity), identifier, primitive);
@@ -150,7 +150,7 @@ def_test! (test__0, {
 							if has_alternatives {
 								print_definition! (library, category, "procedure-v*", identifier, primitive);
 							} else {
-								panic! ("ed9c74b7");
+								panic_0! (0xed9c74b7);
 							}
 						} else {
 							if print_procedures && print_implemented {

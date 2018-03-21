@@ -20,6 +20,10 @@
 (~path->string (~path "../../..")) => "../../.."
 (~path->string (~path "../../../..")) => "../../../.."
 
+(~path->string (~path (~path 'root))) => "/"
+(~path->string (~path (~path 'current))) => "."
+(~path->string (~path (~path 'parent))) => ".."
+
 
 (~path? (~path 'home)) => #t
 (~path? (~path 'temporary)) => #t
@@ -72,6 +76,7 @@
 (~path->string (~path-join (~path "/") (~path "a"))) => "/a"
 (~path->string (~path-join (~path "/") (~path "a") (~path "b"))) => "/a/b"
 
+
 (~path->string (~path-join "0")) => "0"
 (~path->string (~path-join "0" "1")) => "0/1"
 (~path->string (~path-join "0" "1" "2")) => "0/1/2"
@@ -80,6 +85,36 @@
 (~path->string (~path-join "0" "1" "2" "3" "4" "5")) => "0/1/2/3/4/5"
 (~path->string (~path-join "0" "1" "2" "3" "4" "5" "6")) => "0/1/2/3/4/5/6"
 (~path->string (~path-join "0" "1" "2" "3" "4" "5" "6" "7")) => "0/1/2/3/4/5/6/7"
+
+
+
+
+(map ~path->string (~path-split (~path "/"))) => '("/")
+(map ~path->string (~path-split (~path "/a"))) => '("/" "a")
+(map ~path->string (~path-split (~path "/a/b"))) => '("/" "a" "b")
+
+(map ~path->string (~path-split (~path "."))) => '(".")
+(map ~path->string (~path-split (~path "./a"))) => '("." "a")
+(map ~path->string (~path-split (~path "./a/b"))) => '("." "a" "b")
+
+(map ~path->string (~path-split (~path ".."))) => '("..")
+(map ~path->string (~path-split (~path "../a"))) => '(".." "a")
+(map ~path->string (~path-split (~path "../a/b"))) => '(".." "a" "b")
+
+(map ~path->string (~path-split (~path "./../.."))) => '("." ".." "..")
+(map ~path->string (~path-split (~path "././.././.."))) => '("." ".." "..")
+
+(map ~path->string (~path-split (~path "../../."))) => '(".." "..")
+(map ~path->string (~path-split (~path ".././../."))) => '(".." "..")
+
+(map ~path->string (~path-split (~path "0"))) => '("0")
+(map ~path->string (~path-split (~path "0/1"))) => '("0" "1")
+(map ~path->string (~path-split (~path "0/1/2"))) => '("0" "1" "2")
+(map ~path->string (~path-split (~path "0/1/2/3"))) => '("0" "1" "2" "3")
+(map ~path->string (~path-split (~path "0/1/2/3/4"))) => '("0" "1" "2" "3" "4")
+(map ~path->string (~path-split (~path "0/1/2/3/4/5"))) => '("0" "1" "2" "3" "4" "5")
+(map ~path->string (~path-split (~path "0/1/2/3/4/5/6"))) => '("0" "1" "2" "3" "4" "5" "6")
+(map ~path->string (~path-split (~path "0/1/2/3/4/5/6/7"))) => '("0" "1" "2" "3" "4" "5" "6" "7")
 
 
 
@@ -123,13 +158,13 @@
 
 
 (~path? (~path-parent (~path '/))) => #f
-(false? (~path-parent (~path '/))) => #t
+(~false? (~path-parent (~path '/))) => #t
 
 (~path? (~path-parent (~path 'current))) => #f
-(false? (~path-parent (~path 'current))) => #t
+(~false? (~path-parent (~path 'current))) => #t
 
 (~path? (~path-parent (~path 'parent))) => #f
-(false? (~path-parent (~path 'parent))) => #t
+(~false? (~path-parent (~path 'parent))) => #t
 
 (~path? (~path-parent (~path 'home))) => #t
 (~path? (~path-parent (~path 'temporary))) => #t
@@ -150,15 +185,1311 @@
 
 
 
-(~path->string (~path-canonicalize (~path '/))) => "/"
-(~path->string (~path-canonicalize (~path 'current))) => (~path->string (~path 'working-directory))
+(~path-prefix? (~path 'root) (~path 'root)) => #t
+(~path-prefix? (~path-join 'root "a") (~path 'root)) => #t
+(~path-prefix? (~path 'root) (~path-join 'root "a")) => #f
+(~path-prefix? (~path "a") (~path-join 'root "a")) => #f
+(~path-prefix? (~path-join 'root "a") (~path "a")) => #f
 
-(~path->string (~path-canonicalize (~path "/tmp"))) => "/tmp"
-(false? (~path-canonicalize (~path "/tmp/__does_not_exist__"))) => #t
+(~path-suffix? (~path 'root) (~path 'root)) => #t
+(~path-suffix? (~path-join 'root "a") (~path 'root)) => #f
+(~path-suffix? (~path 'root) (~path-join 'root "a")) => #f
+(~path-suffix? (~path "a") (~path-join 'root "a")) => #f
+(~path-suffix? (~path-join 'root "a") (~path "a")) => #t
+
+
+(~path-prefix? (~path 'current) (~path 'current)) => #t
+(~path-prefix? (~path-join 'current "a") (~path 'current)) => #t
+(~path-prefix? (~path 'current) (~path-join 'current "a")) => #f
+(~path-prefix? (~path "a") (~path-join 'current "a")) => #f
+(~path-prefix? (~path-join 'current "a") (~path "a")) => #f
+
+(~path-suffix? (~path 'current) (~path 'current)) => #t
+(~path-suffix? (~path-join 'current "a") (~path 'current)) => #f
+(~path-suffix? (~path 'current) (~path-join 'current "a")) => #f
+(~path-suffix? (~path "a") (~path-join 'current "a")) => #f
+(~path-suffix? (~path-join 'current "a") (~path "a")) => #t
+
+
+(~path-prefix? (~path 'parent) (~path 'parent)) => #t
+(~path-prefix? (~path-join 'parent "a") (~path 'parent)) => #t
+(~path-prefix? (~path 'parent) (~path-join 'parent "a")) => #f
+(~path-prefix? (~path "a") (~path-join 'parent "a")) => #f
+(~path-prefix? (~path-join 'parent "a") (~path "a")) => #f
+
+(~path-suffix? (~path 'parent) (~path 'parent)) => #t
+(~path-suffix? (~path-join 'parent "a") (~path 'parent)) => #f
+(~path-suffix? (~path 'parent) (~path-join 'parent "a")) => #f
+(~path-suffix? (~path "a") (~path-join 'parent "a")) => #f
+(~path-suffix? (~path-join 'parent "a") (~path "a")) => #t
+
+
+(~path-prefix? (~path "./../a/../b") (~path 'current)) => #t
+(~path-prefix? (~path "./../a/../b") (~path-join 'current 'parent)) => #t
+(~path-prefix? (~path "./../a/../b") (~path-join 'current 'parent "a")) => #t
+(~path-prefix? (~path "./../a/../b") (~path-join 'current 'parent "a" 'parent)) => #t
+(~path-prefix? (~path "./../a/../b") (~path-join 'current 'parent "a" 'parent "b")) => #t
+
+(~path-suffix? (~path "./../a/../b") (~path "b")) => #t
+(~path-suffix? (~path "./../a/../b") (~path-join 'parent "b")) => #t
+(~path-suffix? (~path "./../a/../b") (~path-join "a" 'parent "b")) => #t
+(~path-suffix? (~path "./../a/../b") (~path-join 'parent "a" 'parent "b")) => #t
+(~path-suffix? (~path "./../a/../b") (~path-join 'current 'parent "a" 'parent "b")) => #t
+
+
+(~path-prefix? (~path "aa/bb/cc") (~path "a")) => #f
+(~path-prefix? (~path "aa/bb/cc") (~path "aa/b")) => #f
+(~path-prefix? (~path "aa/bb/cc") (~path "aa/bb/c")) => #f
+
+(~path-suffix? (~path "aa/bb/cc") (~path "c")) => #f
+(~path-suffix? (~path "aa/bb/cc") (~path "b/cc")) => #f
+(~path-suffix? (~path "aa/bb/cc") (~path "a/bb/cc")) => #f
+
+
+(~path-prefix? (~path "/a") (~path "/")) => #t
+(~path-suffix? (~path "/a") (~path "a")) => #t
 
 
 
 
-(false? (~fs-link-resolve (~path "/"))) => #t
+(~path-name (~path "/")) => #f
+(~path-name (~path ".")) => #f
+(~path-name (~path "..")) => #f
+(~path->string (~path-name (~path "..."))) => "..."
+
+
+(~path->string (~path-name (~path "a"))) => "a"
+(~path->string (~path-name (~path "/a"))) => "a"
+(~path->string (~path-name (~path "./a"))) => "a"
+(~path->string (~path-name (~path "../a"))) => "a"
+(~path->string (~path-name (~path ".../a"))) => "a"
+
+(~path->string (~path-name (~path ".a"))) => ".a"
+(~path->string (~path-name (~path "/.a"))) => ".a"
+(~path->string (~path-name (~path "./.a"))) => ".a"
+(~path->string (~path-name (~path "../.a"))) => ".a"
+(~path->string (~path-name (~path ".../.a"))) => ".a"
+
+(~path->string (~path-name (~path "..a"))) => "..a"
+(~path->string (~path-name (~path "/..a"))) => "..a"
+(~path->string (~path-name (~path "./..a"))) => "..a"
+(~path->string (~path-name (~path "../..a"))) => "..a"
+(~path->string (~path-name (~path ".../..a"))) => "..a"
+
+(~path->string (~path-name (~path "...a"))) => "...a"
+(~path->string (~path-name (~path "/...a"))) => "...a"
+(~path->string (~path-name (~path "./...a"))) => "...a"
+(~path->string (~path-name (~path "../...a"))) => "...a"
+(~path->string (~path-name (~path ".../...a"))) => "...a"
+
+
+(~path->string (~path-name (~path "a/b"))) => "b"
+(~path->string (~path-name (~path "/a/b"))) => "b"
+(~path->string (~path-name (~path "./a/b"))) => "b"
+(~path->string (~path-name (~path "../a/b"))) => "b"
+(~path->string (~path-name (~path ".../a/b"))) => "b"
+
+(~path->string (~path-name (~path "a/.b"))) => ".b"
+(~path->string (~path-name (~path "/a/.b"))) => ".b"
+(~path->string (~path-name (~path "./a/.b"))) => ".b"
+(~path->string (~path-name (~path "../a/.b"))) => ".b"
+(~path->string (~path-name (~path ".../a/.b"))) => ".b"
+
+(~path->string (~path-name (~path "a/..b"))) => "..b"
+(~path->string (~path-name (~path "/a/..b"))) => "..b"
+(~path->string (~path-name (~path "./a/..b"))) => "..b"
+(~path->string (~path-name (~path "../a/..b"))) => "..b"
+(~path->string (~path-name (~path ".../a/..b"))) => "..b"
+
+(~path->string (~path-name (~path "a/...b"))) => "...b"
+(~path->string (~path-name (~path "/a/...b"))) => "...b"
+(~path->string (~path-name (~path "./a/...b"))) => "...b"
+(~path->string (~path-name (~path "../a/...b"))) => "...b"
+(~path->string (~path-name (~path ".../a/...b"))) => "...b"
+
+
+(~path->string (~path-name (~path "a.b"))) => "a.b"
+(~path->string (~path-name (~path "/a.b"))) => "a.b"
+(~path->string (~path-name (~path "./a.b"))) => "a.b"
+(~path->string (~path-name (~path "../a.b"))) => "a.b"
+(~path->string (~path-name (~path ".../a.b"))) => "a.b"
+
+(~path->string (~path-name (~path ".a.b"))) => ".a.b"
+(~path->string (~path-name (~path "/.a.b"))) => ".a.b"
+(~path->string (~path-name (~path "./.a.b"))) => ".a.b"
+(~path->string (~path-name (~path "../.a.b"))) => ".a.b"
+(~path->string (~path-name (~path ".../.a.b"))) => ".a.b"
+
+(~path->string (~path-name (~path "..a.b"))) => "..a.b"
+(~path->string (~path-name (~path "/..a.b"))) => "..a.b"
+(~path->string (~path-name (~path "./..a.b"))) => "..a.b"
+(~path->string (~path-name (~path "../..a.b"))) => "..a.b"
+(~path->string (~path-name (~path ".../..a.b"))) => "..a.b"
+
+(~path->string (~path-name (~path "...a.b"))) => "...a.b"
+(~path->string (~path-name (~path "/...a.b"))) => "...a.b"
+(~path->string (~path-name (~path "./...a.b"))) => "...a.b"
+(~path->string (~path-name (~path "../...a.b"))) => "...a.b"
+(~path->string (~path-name (~path ".../...a.b"))) => "...a.b"
+
+
+(~path->string (~path-name (~path "a.b.c"))) => "a.b.c"
+(~path->string (~path-name (~path "/a.b.c"))) => "a.b.c"
+(~path->string (~path-name (~path "./a.b.c"))) => "a.b.c"
+(~path->string (~path-name (~path "../a.b.c"))) => "a.b.c"
+(~path->string (~path-name (~path ".../a.b.c"))) => "a.b.c"
+
+(~path->string (~path-name (~path ".a.b.c"))) => ".a.b.c"
+(~path->string (~path-name (~path "/.a.b.c"))) => ".a.b.c"
+(~path->string (~path-name (~path "./.a.b.c"))) => ".a.b.c"
+(~path->string (~path-name (~path "../.a.b.c"))) => ".a.b.c"
+(~path->string (~path-name (~path ".../.a.b.c"))) => ".a.b.c"
+
+(~path->string (~path-name (~path "..a.b.c"))) => "..a.b.c"
+(~path->string (~path-name (~path "/..a.b.c"))) => "..a.b.c"
+(~path->string (~path-name (~path "./..a.b.c"))) => "..a.b.c"
+(~path->string (~path-name (~path "../..a.b.c"))) => "..a.b.c"
+(~path->string (~path-name (~path ".../..a.b.c"))) => "..a.b.c"
+
+(~path->string (~path-name (~path "...a.b.c"))) => "...a.b.c"
+(~path->string (~path-name (~path "/...a.b.c"))) => "...a.b.c"
+(~path->string (~path-name (~path "./...a.b.c"))) => "...a.b.c"
+(~path->string (~path-name (~path "../...a.b.c"))) => "...a.b.c"
+(~path->string (~path-name (~path ".../...a.b.c"))) => "...a.b.c"
+
+
+
+
+(~path-name-without-extension (~path "/")) => #f
+(~path-name-without-extension (~path ".")) => #f
+(~path-name-without-extension (~path "..")) => #f
+(~path->string (~path-name-without-extension (~path "..."))) => "..."
+
+
+(~path->string (~path-name-without-extension (~path "a"))) => "a"
+(~path->string (~path-name-without-extension (~path "/a"))) => "a"
+(~path->string (~path-name-without-extension (~path "./a"))) => "a"
+(~path->string (~path-name-without-extension (~path "../a"))) => "a"
+(~path->string (~path-name-without-extension (~path ".../a"))) => "a"
+
+(~path->string (~path-name-without-extension (~path "a."))) => "a"
+(~path->string (~path-name-without-extension (~path "/a."))) => "a"
+(~path->string (~path-name-without-extension (~path "./a."))) => "a"
+(~path->string (~path-name-without-extension (~path "../a."))) => "a"
+(~path->string (~path-name-without-extension (~path ".../a."))) => "a"
+
+(~path->string (~path-name-without-extension (~path "a.."))) => "a."
+(~path->string (~path-name-without-extension (~path "/a.."))) => "a."
+(~path->string (~path-name-without-extension (~path "./a.."))) => "a."
+(~path->string (~path-name-without-extension (~path "../a.."))) => "a."
+(~path->string (~path-name-without-extension (~path ".../a.."))) => "a."
+
+
+(~path->string (~path-name-without-extension (~path ".a"))) => ".a"
+(~path->string (~path-name-without-extension (~path "/.a"))) => ".a"
+(~path->string (~path-name-without-extension (~path "./.a"))) => ".a"
+(~path->string (~path-name-without-extension (~path "../.a"))) => ".a"
+(~path->string (~path-name-without-extension (~path ".../.a"))) => ".a"
+
+(~path->string (~path-name-without-extension (~path ".a."))) => ".a"
+(~path->string (~path-name-without-extension (~path "/.a."))) => ".a"
+(~path->string (~path-name-without-extension (~path "./.a."))) => ".a"
+(~path->string (~path-name-without-extension (~path "../.a."))) => ".a"
+(~path->string (~path-name-without-extension (~path ".../.a."))) => ".a"
+
+(~path->string (~path-name-without-extension (~path ".a.."))) => ".a."
+(~path->string (~path-name-without-extension (~path "/.a.."))) => ".a."
+(~path->string (~path-name-without-extension (~path "./.a.."))) => ".a."
+(~path->string (~path-name-without-extension (~path "../.a.."))) => ".a."
+(~path->string (~path-name-without-extension (~path ".../.a.."))) => ".a."
+
+
+(~path->string (~path-name-without-extension (~path "..a"))) => "..a"
+(~path->string (~path-name-without-extension (~path "/..a"))) => "..a"
+(~path->string (~path-name-without-extension (~path "./..a"))) => "..a"
+(~path->string (~path-name-without-extension (~path "../..a"))) => "..a"
+(~path->string (~path-name-without-extension (~path ".../..a"))) => "..a"
+
+(~path->string (~path-name-without-extension (~path "..a."))) => "..a"
+(~path->string (~path-name-without-extension (~path "/..a."))) => "..a"
+(~path->string (~path-name-without-extension (~path "./..a."))) => "..a"
+(~path->string (~path-name-without-extension (~path "../..a."))) => "..a"
+(~path->string (~path-name-without-extension (~path ".../..a."))) => "..a"
+
+(~path->string (~path-name-without-extension (~path "..a.."))) => "..a."
+(~path->string (~path-name-without-extension (~path "/..a.."))) => "..a."
+(~path->string (~path-name-without-extension (~path "./..a.."))) => "..a."
+(~path->string (~path-name-without-extension (~path "../..a.."))) => "..a."
+(~path->string (~path-name-without-extension (~path ".../..a.."))) => "..a."
+
+
+(~path->string (~path-name-without-extension (~path "...a"))) => "...a"
+(~path->string (~path-name-without-extension (~path "/...a"))) => "...a"
+(~path->string (~path-name-without-extension (~path "./...a"))) => "...a"
+(~path->string (~path-name-without-extension (~path "../...a"))) => "...a"
+(~path->string (~path-name-without-extension (~path ".../...a"))) => "...a"
+
+(~path->string (~path-name-without-extension (~path "...a."))) => "...a"
+(~path->string (~path-name-without-extension (~path "/...a."))) => "...a"
+(~path->string (~path-name-without-extension (~path "./...a."))) => "...a"
+(~path->string (~path-name-without-extension (~path "../...a."))) => "...a"
+(~path->string (~path-name-without-extension (~path ".../...a."))) => "...a"
+
+(~path->string (~path-name-without-extension (~path "...a.."))) => "...a."
+(~path->string (~path-name-without-extension (~path "/...a.."))) => "...a."
+(~path->string (~path-name-without-extension (~path "./...a.."))) => "...a."
+(~path->string (~path-name-without-extension (~path "../...a.."))) => "...a."
+(~path->string (~path-name-without-extension (~path ".../...a.."))) => "...a."
+
+
+(~path->string (~path-name-without-extension (~path "a/b"))) => "b"
+(~path->string (~path-name-without-extension (~path "/a/b"))) => "b"
+(~path->string (~path-name-without-extension (~path "./a/b"))) => "b"
+(~path->string (~path-name-without-extension (~path "../a/b"))) => "b"
+(~path->string (~path-name-without-extension (~path ".../a/b"))) => "b"
+
+(~path->string (~path-name-without-extension (~path "a/b."))) => "b"
+(~path->string (~path-name-without-extension (~path "/a/b."))) => "b"
+(~path->string (~path-name-without-extension (~path "./a/b."))) => "b"
+(~path->string (~path-name-without-extension (~path "../a/b."))) => "b"
+(~path->string (~path-name-without-extension (~path ".../a/b."))) => "b"
+
+(~path->string (~path-name-without-extension (~path "a/b.."))) => "b."
+(~path->string (~path-name-without-extension (~path "/a/b.."))) => "b."
+(~path->string (~path-name-without-extension (~path "./a/b.."))) => "b."
+(~path->string (~path-name-without-extension (~path "../a/b.."))) => "b."
+(~path->string (~path-name-without-extension (~path ".../a/b.."))) => "b."
+
+
+(~path->string (~path-name-without-extension (~path "a/.b"))) => ".b"
+(~path->string (~path-name-without-extension (~path "/a/.b"))) => ".b"
+(~path->string (~path-name-without-extension (~path "./a/.b"))) => ".b"
+(~path->string (~path-name-without-extension (~path "../a/.b"))) => ".b"
+(~path->string (~path-name-without-extension (~path ".../a/.b"))) => ".b"
+
+(~path->string (~path-name-without-extension (~path "a/.b."))) => ".b"
+(~path->string (~path-name-without-extension (~path "/a/.b."))) => ".b"
+(~path->string (~path-name-without-extension (~path "./a/.b."))) => ".b"
+(~path->string (~path-name-without-extension (~path "../a/.b."))) => ".b"
+(~path->string (~path-name-without-extension (~path ".../a/.b."))) => ".b"
+
+(~path->string (~path-name-without-extension (~path "a/.b.."))) => ".b."
+(~path->string (~path-name-without-extension (~path "/a/.b.."))) => ".b."
+(~path->string (~path-name-without-extension (~path "./a/.b.."))) => ".b."
+(~path->string (~path-name-without-extension (~path "../a/.b.."))) => ".b."
+(~path->string (~path-name-without-extension (~path ".../a/.b.."))) => ".b."
+
+
+(~path->string (~path-name-without-extension (~path "a/..b"))) => "..b"
+(~path->string (~path-name-without-extension (~path "/a/..b"))) => "..b"
+(~path->string (~path-name-without-extension (~path "./a/..b"))) => "..b"
+(~path->string (~path-name-without-extension (~path "../a/..b"))) => "..b"
+(~path->string (~path-name-without-extension (~path ".../a/..b"))) => "..b"
+
+(~path->string (~path-name-without-extension (~path "a/..b."))) => "..b"
+(~path->string (~path-name-without-extension (~path "/a/..b."))) => "..b"
+(~path->string (~path-name-without-extension (~path "./a/..b."))) => "..b"
+(~path->string (~path-name-without-extension (~path "../a/..b."))) => "..b"
+(~path->string (~path-name-without-extension (~path ".../a/..b."))) => "..b"
+
+(~path->string (~path-name-without-extension (~path "a/..b.."))) => "..b."
+(~path->string (~path-name-without-extension (~path "/a/..b.."))) => "..b."
+(~path->string (~path-name-without-extension (~path "./a/..b.."))) => "..b."
+(~path->string (~path-name-without-extension (~path "../a/..b.."))) => "..b."
+(~path->string (~path-name-without-extension (~path ".../a/..b.."))) => "..b."
+
+
+(~path->string (~path-name-without-extension (~path "a/...b"))) => "...b"
+(~path->string (~path-name-without-extension (~path "/a/...b"))) => "...b"
+(~path->string (~path-name-without-extension (~path "./a/...b"))) => "...b"
+(~path->string (~path-name-without-extension (~path "../a/...b"))) => "...b"
+(~path->string (~path-name-without-extension (~path ".../a/...b"))) => "...b"
+
+(~path->string (~path-name-without-extension (~path "a/...b."))) => "...b"
+(~path->string (~path-name-without-extension (~path "/a/...b."))) => "...b"
+(~path->string (~path-name-without-extension (~path "./a/...b."))) => "...b"
+(~path->string (~path-name-without-extension (~path "../a/...b."))) => "...b"
+(~path->string (~path-name-without-extension (~path ".../a/...b."))) => "...b"
+
+(~path->string (~path-name-without-extension (~path "a/...b.."))) => "...b."
+(~path->string (~path-name-without-extension (~path "/a/...b.."))) => "...b."
+(~path->string (~path-name-without-extension (~path "./a/...b.."))) => "...b."
+(~path->string (~path-name-without-extension (~path "../a/...b.."))) => "...b."
+(~path->string (~path-name-without-extension (~path ".../a/...b.."))) => "...b."
+
+
+(~path->string (~path-name-without-extension (~path "a.b"))) => "a"
+(~path->string (~path-name-without-extension (~path "/a.b"))) => "a"
+(~path->string (~path-name-without-extension (~path "./a.b"))) => "a"
+(~path->string (~path-name-without-extension (~path "../a.b"))) => "a"
+(~path->string (~path-name-without-extension (~path ".../a.b"))) => "a"
+
+(~path->string (~path-name-without-extension (~path "a.b."))) => "a.b"
+(~path->string (~path-name-without-extension (~path "/a.b."))) => "a.b"
+(~path->string (~path-name-without-extension (~path "./a.b."))) => "a.b"
+(~path->string (~path-name-without-extension (~path "../a.b."))) => "a.b"
+(~path->string (~path-name-without-extension (~path ".../a.b."))) => "a.b"
+
+(~path->string (~path-name-without-extension (~path "a.b.."))) => "a.b."
+(~path->string (~path-name-without-extension (~path "/a.b.."))) => "a.b."
+(~path->string (~path-name-without-extension (~path "./a.b.."))) => "a.b."
+(~path->string (~path-name-without-extension (~path "../a.b.."))) => "a.b."
+(~path->string (~path-name-without-extension (~path ".../a.b.."))) => "a.b."
+
+
+(~path->string (~path-name-without-extension (~path ".a.b"))) => ".a"
+(~path->string (~path-name-without-extension (~path "/.a.b"))) => ".a"
+(~path->string (~path-name-without-extension (~path "./.a.b"))) => ".a"
+(~path->string (~path-name-without-extension (~path "../.a.b"))) => ".a"
+(~path->string (~path-name-without-extension (~path ".../.a.b"))) => ".a"
+
+(~path->string (~path-name-without-extension (~path ".a.b."))) => ".a.b"
+(~path->string (~path-name-without-extension (~path "/.a.b."))) => ".a.b"
+(~path->string (~path-name-without-extension (~path "./.a.b."))) => ".a.b"
+(~path->string (~path-name-without-extension (~path "../.a.b."))) => ".a.b"
+(~path->string (~path-name-without-extension (~path ".../.a.b."))) => ".a.b"
+
+(~path->string (~path-name-without-extension (~path ".a.b.."))) => ".a.b."
+(~path->string (~path-name-without-extension (~path "/.a.b.."))) => ".a.b."
+(~path->string (~path-name-without-extension (~path "./.a.b.."))) => ".a.b."
+(~path->string (~path-name-without-extension (~path "../.a.b.."))) => ".a.b."
+(~path->string (~path-name-without-extension (~path ".../.a.b.."))) => ".a.b."
+
+
+(~path->string (~path-name-without-extension (~path "..a.b"))) => "..a"
+(~path->string (~path-name-without-extension (~path "/..a.b"))) => "..a"
+(~path->string (~path-name-without-extension (~path "./..a.b"))) => "..a"
+(~path->string (~path-name-without-extension (~path "../..a.b"))) => "..a"
+(~path->string (~path-name-without-extension (~path ".../..a.b"))) => "..a"
+
+(~path->string (~path-name-without-extension (~path "..a.b."))) => "..a.b"
+(~path->string (~path-name-without-extension (~path "/..a.b."))) => "..a.b"
+(~path->string (~path-name-without-extension (~path "./..a.b."))) => "..a.b"
+(~path->string (~path-name-without-extension (~path "../..a.b."))) => "..a.b"
+(~path->string (~path-name-without-extension (~path ".../..a.b."))) => "..a.b"
+
+(~path->string (~path-name-without-extension (~path "..a.b.."))) => "..a.b."
+(~path->string (~path-name-without-extension (~path "/..a.b.."))) => "..a.b."
+(~path->string (~path-name-without-extension (~path "./..a.b.."))) => "..a.b."
+(~path->string (~path-name-without-extension (~path "../..a.b.."))) => "..a.b."
+(~path->string (~path-name-without-extension (~path ".../..a.b.."))) => "..a.b."
+
+
+(~path->string (~path-name-without-extension (~path "...a.b"))) => "...a"
+(~path->string (~path-name-without-extension (~path "/...a.b"))) => "...a"
+(~path->string (~path-name-without-extension (~path "./...a.b"))) => "...a"
+(~path->string (~path-name-without-extension (~path "../...a.b"))) => "...a"
+(~path->string (~path-name-without-extension (~path ".../...a.b"))) => "...a"
+
+(~path->string (~path-name-without-extension (~path "...a.b."))) => "...a.b"
+(~path->string (~path-name-without-extension (~path "/...a.b."))) => "...a.b"
+(~path->string (~path-name-without-extension (~path "./...a.b."))) => "...a.b"
+(~path->string (~path-name-without-extension (~path "../...a.b."))) => "...a.b"
+(~path->string (~path-name-without-extension (~path ".../...a.b."))) => "...a.b"
+
+(~path->string (~path-name-without-extension (~path "...a.b.."))) => "...a.b."
+(~path->string (~path-name-without-extension (~path "/...a.b.."))) => "...a.b."
+(~path->string (~path-name-without-extension (~path "./...a.b.."))) => "...a.b."
+(~path->string (~path-name-without-extension (~path "../...a.b.."))) => "...a.b."
+(~path->string (~path-name-without-extension (~path ".../...a.b.."))) => "...a.b."
+
+
+(~path->string (~path-name-without-extension (~path "a.b.c"))) => "a.b"
+(~path->string (~path-name-without-extension (~path "/a.b.c"))) => "a.b"
+(~path->string (~path-name-without-extension (~path "./a.b.c"))) => "a.b"
+(~path->string (~path-name-without-extension (~path "../a.b.c"))) => "a.b"
+(~path->string (~path-name-without-extension (~path ".../a.b.c"))) => "a.b"
+
+(~path->string (~path-name-without-extension (~path "a.b.c."))) => "a.b.c"
+(~path->string (~path-name-without-extension (~path "/a.b.c."))) => "a.b.c"
+(~path->string (~path-name-without-extension (~path "./a.b.c."))) => "a.b.c"
+(~path->string (~path-name-without-extension (~path "../a.b.c."))) => "a.b.c"
+(~path->string (~path-name-without-extension (~path ".../a.b.c."))) => "a.b.c"
+
+(~path->string (~path-name-without-extension (~path "a.b.c.."))) => "a.b.c."
+(~path->string (~path-name-without-extension (~path "/a.b.c.."))) => "a.b.c."
+(~path->string (~path-name-without-extension (~path "./a.b.c.."))) => "a.b.c."
+(~path->string (~path-name-without-extension (~path "../a.b.c.."))) => "a.b.c."
+(~path->string (~path-name-without-extension (~path ".../a.b.c.."))) => "a.b.c."
+
+
+(~path->string (~path-name-without-extension (~path ".a.b.c"))) => ".a.b"
+(~path->string (~path-name-without-extension (~path "/.a.b.c"))) => ".a.b"
+(~path->string (~path-name-without-extension (~path "./.a.b.c"))) => ".a.b"
+(~path->string (~path-name-without-extension (~path "../.a.b.c"))) => ".a.b"
+(~path->string (~path-name-without-extension (~path ".../.a.b.c"))) => ".a.b"
+
+(~path->string (~path-name-without-extension (~path ".a.b.c."))) => ".a.b.c"
+(~path->string (~path-name-without-extension (~path "/.a.b.c."))) => ".a.b.c"
+(~path->string (~path-name-without-extension (~path "./.a.b.c."))) => ".a.b.c"
+(~path->string (~path-name-without-extension (~path "../.a.b.c."))) => ".a.b.c"
+(~path->string (~path-name-without-extension (~path ".../.a.b.c."))) => ".a.b.c"
+
+(~path->string (~path-name-without-extension (~path ".a.b.c.."))) => ".a.b.c."
+(~path->string (~path-name-without-extension (~path "/.a.b.c.."))) => ".a.b.c."
+(~path->string (~path-name-without-extension (~path "./.a.b.c.."))) => ".a.b.c."
+(~path->string (~path-name-without-extension (~path "../.a.b.c.."))) => ".a.b.c."
+(~path->string (~path-name-without-extension (~path ".../.a.b.c.."))) => ".a.b.c."
+
+
+(~path->string (~path-name-without-extension (~path "..a.b.c"))) => "..a.b"
+(~path->string (~path-name-without-extension (~path "/..a.b.c"))) => "..a.b"
+(~path->string (~path-name-without-extension (~path "./..a.b.c"))) => "..a.b"
+(~path->string (~path-name-without-extension (~path "../..a.b.c"))) => "..a.b"
+(~path->string (~path-name-without-extension (~path ".../..a.b.c"))) => "..a.b"
+
+(~path->string (~path-name-without-extension (~path "..a.b.c."))) => "..a.b.c"
+(~path->string (~path-name-without-extension (~path "/..a.b.c."))) => "..a.b.c"
+(~path->string (~path-name-without-extension (~path "./..a.b.c."))) => "..a.b.c"
+(~path->string (~path-name-without-extension (~path "../..a.b.c."))) => "..a.b.c"
+(~path->string (~path-name-without-extension (~path ".../..a.b.c."))) => "..a.b.c"
+
+(~path->string (~path-name-without-extension (~path "..a.b.c.."))) => "..a.b.c."
+(~path->string (~path-name-without-extension (~path "/..a.b.c.."))) => "..a.b.c."
+(~path->string (~path-name-without-extension (~path "./..a.b.c.."))) => "..a.b.c."
+(~path->string (~path-name-without-extension (~path "../..a.b.c.."))) => "..a.b.c."
+(~path->string (~path-name-without-extension (~path ".../..a.b.c.."))) => "..a.b.c."
+
+
+(~path->string (~path-name-without-extension (~path "...a.b.c"))) => "...a.b"
+(~path->string (~path-name-without-extension (~path "/...a.b.c"))) => "...a.b"
+(~path->string (~path-name-without-extension (~path "./...a.b.c"))) => "...a.b"
+(~path->string (~path-name-without-extension (~path "../...a.b.c"))) => "...a.b"
+(~path->string (~path-name-without-extension (~path ".../...a.b.c"))) => "...a.b"
+
+(~path->string (~path-name-without-extension (~path "...a.b.c."))) => "...a.b.c"
+(~path->string (~path-name-without-extension (~path "/...a.b.c."))) => "...a.b.c"
+(~path->string (~path-name-without-extension (~path "./...a.b.c."))) => "...a.b.c"
+(~path->string (~path-name-without-extension (~path "../...a.b.c."))) => "...a.b.c"
+(~path->string (~path-name-without-extension (~path ".../...a.b.c."))) => "...a.b.c"
+
+(~path->string (~path-name-without-extension (~path "...a.b.c.."))) => "...a.b.c."
+(~path->string (~path-name-without-extension (~path "/...a.b.c.."))) => "...a.b.c."
+(~path->string (~path-name-without-extension (~path "./...a.b.c.."))) => "...a.b.c."
+(~path->string (~path-name-without-extension (~path "../...a.b.c.."))) => "...a.b.c."
+(~path->string (~path-name-without-extension (~path ".../...a.b.c.."))) => "...a.b.c."
+
+
+(~path->string (~path-name-without-extension (~path "...a.b..c"))) => "...a.b."
+(~path->string (~path-name-without-extension (~path "/...a.b..c"))) => "...a.b."
+(~path->string (~path-name-without-extension (~path "./...a.b..c"))) => "...a.b."
+(~path->string (~path-name-without-extension (~path "../...a.b..c"))) => "...a.b."
+(~path->string (~path-name-without-extension (~path ".../...a.b..c"))) => "...a.b."
+
+(~path->string (~path-name-without-extension (~path "...a.b..c."))) => "...a.b..c"
+(~path->string (~path-name-without-extension (~path "/...a.b..c."))) => "...a.b..c"
+(~path->string (~path-name-without-extension (~path "./...a.b..c."))) => "...a.b..c"
+(~path->string (~path-name-without-extension (~path "../...a.b..c."))) => "...a.b..c"
+(~path->string (~path-name-without-extension (~path ".../...a.b..c."))) => "...a.b..c"
+
+(~path->string (~path-name-without-extension (~path "...a.b..c.."))) => "...a.b..c."
+(~path->string (~path-name-without-extension (~path "/...a.b..c.."))) => "...a.b..c."
+(~path->string (~path-name-without-extension (~path "./...a.b..c.."))) => "...a.b..c."
+(~path->string (~path-name-without-extension (~path "../...a.b..c.."))) => "...a.b..c."
+(~path->string (~path-name-without-extension (~path ".../...a.b..c.."))) => "...a.b..c."
+
+
+
+
+(~path-name-only-extension (~path "/")) => #f
+(~path-name-only-extension (~path ".")) => #f
+(~path-name-only-extension (~path "..")) => #f
+(~path-name-only-extension (~path "...")) => #f
+
+
+(~path-name-only-extension (~path "a")) => #f
+(~path-name-only-extension (~path "/a")) => #f
+(~path-name-only-extension (~path "./a")) => #f
+(~path-name-only-extension (~path "../a")) => #f
+(~path-name-only-extension (~path ".../a")) => #f
+
+(~path->string (~path-name-only-extension (~path "a."))) => ""
+(~path->string (~path-name-only-extension (~path "/a."))) => ""
+(~path->string (~path-name-only-extension (~path "./a."))) => ""
+(~path->string (~path-name-only-extension (~path "../a."))) => ""
+(~path->string (~path-name-only-extension (~path ".../a."))) => ""
+
+(~path->string (~path-name-only-extension (~path "a.."))) => ""
+(~path->string (~path-name-only-extension (~path "/a.."))) => ""
+(~path->string (~path-name-only-extension (~path "./a.."))) => ""
+(~path->string (~path-name-only-extension (~path "../a.."))) => ""
+(~path->string (~path-name-only-extension (~path ".../a.."))) => ""
+
+
+(~path-name-only-extension (~path ".a")) => #f
+(~path-name-only-extension (~path "/.a")) => #f
+(~path-name-only-extension (~path "./.a")) => #f
+(~path-name-only-extension (~path "../.a")) => #f
+(~path-name-only-extension (~path ".../.a")) => #f
+
+(~path->string (~path-name-only-extension (~path ".a."))) => ""
+(~path->string (~path-name-only-extension (~path "/.a."))) => ""
+(~path->string (~path-name-only-extension (~path "./.a."))) => ""
+(~path->string (~path-name-only-extension (~path "../.a."))) => ""
+(~path->string (~path-name-only-extension (~path ".../.a."))) => ""
+
+(~path->string (~path-name-only-extension (~path ".a.."))) => ""
+(~path->string (~path-name-only-extension (~path "/.a.."))) => ""
+(~path->string (~path-name-only-extension (~path "./.a.."))) => ""
+(~path->string (~path-name-only-extension (~path "../.a.."))) => ""
+(~path->string (~path-name-only-extension (~path ".../.a.."))) => ""
+
+
+(~path-name-only-extension (~path "..a")) => #f
+(~path-name-only-extension (~path "/..a")) => #f
+(~path-name-only-extension (~path "./..a")) => #f
+(~path-name-only-extension (~path "../..a")) => #f
+(~path-name-only-extension (~path ".../..a")) => #f
+
+(~path->string (~path-name-only-extension (~path "..a."))) => ""
+(~path->string (~path-name-only-extension (~path "/..a."))) => ""
+(~path->string (~path-name-only-extension (~path "./..a."))) => ""
+(~path->string (~path-name-only-extension (~path "../..a."))) => ""
+(~path->string (~path-name-only-extension (~path ".../..a."))) => ""
+
+(~path->string (~path-name-only-extension (~path "..a.."))) => ""
+(~path->string (~path-name-only-extension (~path "/..a.."))) => ""
+(~path->string (~path-name-only-extension (~path "./..a.."))) => ""
+(~path->string (~path-name-only-extension (~path "../..a.."))) => ""
+(~path->string (~path-name-only-extension (~path ".../..a.."))) => ""
+
+
+(~path-name-only-extension (~path "...a")) => #f
+(~path-name-only-extension (~path "/...a")) => #f
+(~path-name-only-extension (~path "./...a")) => #f
+(~path-name-only-extension (~path "../...a")) => #f
+(~path-name-only-extension (~path ".../...a")) => #f
+
+(~path->string (~path-name-only-extension (~path "...a."))) => ""
+(~path->string (~path-name-only-extension (~path "/...a."))) => ""
+(~path->string (~path-name-only-extension (~path "./...a."))) => ""
+(~path->string (~path-name-only-extension (~path "../...a."))) => ""
+(~path->string (~path-name-only-extension (~path ".../...a."))) => ""
+
+(~path->string (~path-name-only-extension (~path "...a.."))) => ""
+(~path->string (~path-name-only-extension (~path "/...a.."))) => ""
+(~path->string (~path-name-only-extension (~path "./...a.."))) => ""
+(~path->string (~path-name-only-extension (~path "../...a.."))) => ""
+(~path->string (~path-name-only-extension (~path ".../...a.."))) => ""
+
+
+(~path-name-only-extension (~path "a/b")) => #f
+(~path-name-only-extension (~path "/a/b")) => #f
+(~path-name-only-extension (~path "./a/b")) => #f
+(~path-name-only-extension (~path "../a/b")) => #f
+(~path-name-only-extension (~path ".../a/b")) => #f
+
+(~path->string (~path-name-only-extension (~path "a/b."))) => ""
+(~path->string (~path-name-only-extension (~path "/a/b."))) => ""
+(~path->string (~path-name-only-extension (~path "./a/b."))) => ""
+(~path->string (~path-name-only-extension (~path "../a/b."))) => ""
+(~path->string (~path-name-only-extension (~path ".../a/b."))) => ""
+
+(~path->string (~path-name-only-extension (~path "a/b.."))) => ""
+(~path->string (~path-name-only-extension (~path "/a/b.."))) => ""
+(~path->string (~path-name-only-extension (~path "./a/b.."))) => ""
+(~path->string (~path-name-only-extension (~path "../a/b.."))) => ""
+(~path->string (~path-name-only-extension (~path ".../a/b.."))) => ""
+
+
+(~path-name-only-extension (~path "a/.b")) => #f
+(~path-name-only-extension (~path "/a/.b")) => #f
+(~path-name-only-extension (~path "./a/.b")) => #f
+(~path-name-only-extension (~path "../a/.b")) => #f
+(~path-name-only-extension (~path ".../a/.b")) => #f
+
+(~path->string (~path-name-only-extension (~path "a/.b."))) => ""
+(~path->string (~path-name-only-extension (~path "/a/.b."))) => ""
+(~path->string (~path-name-only-extension (~path "./a/.b."))) => ""
+(~path->string (~path-name-only-extension (~path "../a/.b."))) => ""
+(~path->string (~path-name-only-extension (~path ".../a/.b."))) => ""
+
+(~path->string (~path-name-only-extension (~path "a/.b.."))) => ""
+(~path->string (~path-name-only-extension (~path "/a/.b.."))) => ""
+(~path->string (~path-name-only-extension (~path "./a/.b.."))) => ""
+(~path->string (~path-name-only-extension (~path "../a/.b.."))) => ""
+(~path->string (~path-name-only-extension (~path ".../a/.b.."))) => ""
+
+
+(~path-name-only-extension (~path "a/..b")) => #f
+(~path-name-only-extension (~path "/a/..b")) => #f
+(~path-name-only-extension (~path "./a/..b")) => #f
+(~path-name-only-extension (~path "../a/..b")) => #f
+(~path-name-only-extension (~path ".../a/..b")) => #f
+
+(~path->string (~path-name-only-extension (~path "a/..b."))) => ""
+(~path->string (~path-name-only-extension (~path "/a/..b."))) => ""
+(~path->string (~path-name-only-extension (~path "./a/..b."))) => ""
+(~path->string (~path-name-only-extension (~path "../a/..b."))) => ""
+(~path->string (~path-name-only-extension (~path ".../a/..b."))) => ""
+
+(~path->string (~path-name-only-extension (~path "a/..b.."))) => ""
+(~path->string (~path-name-only-extension (~path "/a/..b.."))) => ""
+(~path->string (~path-name-only-extension (~path "./a/..b.."))) => ""
+(~path->string (~path-name-only-extension (~path "../a/..b.."))) => ""
+(~path->string (~path-name-only-extension (~path ".../a/..b.."))) => ""
+
+
+(~path-name-only-extension (~path "a/...b")) => #f
+(~path-name-only-extension (~path "/a/...b")) => #f
+(~path-name-only-extension (~path "./a/...b")) => #f
+(~path-name-only-extension (~path "../a/...b")) => #f
+(~path-name-only-extension (~path ".../a/...b")) => #f
+
+(~path->string (~path-name-only-extension (~path "a/...b."))) => ""
+(~path->string (~path-name-only-extension (~path "/a/...b."))) => ""
+(~path->string (~path-name-only-extension (~path "./a/...b."))) => ""
+(~path->string (~path-name-only-extension (~path "../a/...b."))) => ""
+(~path->string (~path-name-only-extension (~path ".../a/...b."))) => ""
+
+(~path->string (~path-name-only-extension (~path "a/...b.."))) => ""
+(~path->string (~path-name-only-extension (~path "/a/...b.."))) => ""
+(~path->string (~path-name-only-extension (~path "./a/...b.."))) => ""
+(~path->string (~path-name-only-extension (~path "../a/...b.."))) => ""
+(~path->string (~path-name-only-extension (~path ".../a/...b.."))) => ""
+
+
+(~path->string (~path-name-only-extension (~path "a.b"))) => "b"
+(~path->string (~path-name-only-extension (~path "/a.b"))) => "b"
+(~path->string (~path-name-only-extension (~path "./a.b"))) => "b"
+(~path->string (~path-name-only-extension (~path "../a.b"))) => "b"
+(~path->string (~path-name-only-extension (~path ".../a.b"))) => "b"
+
+(~path->string (~path-name-only-extension (~path "a.b."))) => ""
+(~path->string (~path-name-only-extension (~path "/a.b."))) => ""
+(~path->string (~path-name-only-extension (~path "./a.b."))) => ""
+(~path->string (~path-name-only-extension (~path "../a.b."))) => ""
+(~path->string (~path-name-only-extension (~path ".../a.b."))) => ""
+
+(~path->string (~path-name-only-extension (~path "a.b.."))) => ""
+(~path->string (~path-name-only-extension (~path "/a.b.."))) => ""
+(~path->string (~path-name-only-extension (~path "./a.b.."))) => ""
+(~path->string (~path-name-only-extension (~path "../a.b."))) => ""
+(~path->string (~path-name-only-extension (~path ".../a.b.."))) => ""
+
+
+(~path->string (~path-name-only-extension (~path ".a.b"))) => "b"
+(~path->string (~path-name-only-extension (~path "/.a.b"))) => "b"
+(~path->string (~path-name-only-extension (~path "./.a.b"))) => "b"
+(~path->string (~path-name-only-extension (~path "../.a.b"))) => "b"
+(~path->string (~path-name-only-extension (~path ".../.a.b"))) => "b"
+
+(~path->string (~path-name-only-extension (~path ".a.b."))) => ""
+(~path->string (~path-name-only-extension (~path "/.a.b."))) => ""
+(~path->string (~path-name-only-extension (~path "./.a.b."))) => ""
+(~path->string (~path-name-only-extension (~path "../.a.b."))) => ""
+(~path->string (~path-name-only-extension (~path ".../.a.b."))) => ""
+
+(~path->string (~path-name-only-extension (~path ".a.b.."))) => ""
+(~path->string (~path-name-only-extension (~path "/.a.b.."))) => ""
+(~path->string (~path-name-only-extension (~path "./.a.b.."))) => ""
+(~path->string (~path-name-only-extension (~path "../.a.b.."))) => ""
+(~path->string (~path-name-only-extension (~path ".../.a.b.."))) => ""
+
+
+(~path->string (~path-name-only-extension (~path "..a.b"))) => "b"
+(~path->string (~path-name-only-extension (~path "/..a.b"))) => "b"
+(~path->string (~path-name-only-extension (~path "./..a.b"))) => "b"
+(~path->string (~path-name-only-extension (~path "../..a.b"))) => "b"
+(~path->string (~path-name-only-extension (~path ".../..a.b"))) => "b"
+
+(~path->string (~path-name-only-extension (~path "..a.b."))) => ""
+(~path->string (~path-name-only-extension (~path "/..a.b."))) => ""
+(~path->string (~path-name-only-extension (~path "./..a.b."))) => ""
+(~path->string (~path-name-only-extension (~path "../..a.b."))) => ""
+(~path->string (~path-name-only-extension (~path ".../..a.b."))) => ""
+
+(~path->string (~path-name-only-extension (~path "..a.b.."))) => ""
+(~path->string (~path-name-only-extension (~path "/..a.b.."))) => ""
+(~path->string (~path-name-only-extension (~path "./..a.b.."))) => ""
+(~path->string (~path-name-only-extension (~path "../..a.b.."))) => ""
+(~path->string (~path-name-only-extension (~path ".../..a.b.."))) => ""
+
+
+(~path->string (~path-name-only-extension (~path "...a.b"))) => "b"
+(~path->string (~path-name-only-extension (~path "/...a.b"))) => "b"
+(~path->string (~path-name-only-extension (~path "./...a.b"))) => "b"
+(~path->string (~path-name-only-extension (~path "../...a.b"))) => "b"
+(~path->string (~path-name-only-extension (~path ".../...a.b"))) => "b"
+
+(~path->string (~path-name-only-extension (~path "...a.b."))) => ""
+(~path->string (~path-name-only-extension (~path "/...a.b."))) => ""
+(~path->string (~path-name-only-extension (~path "./...a.b."))) => ""
+(~path->string (~path-name-only-extension (~path "../...a.b."))) => ""
+(~path->string (~path-name-only-extension (~path ".../...a.b."))) => ""
+
+(~path->string (~path-name-only-extension (~path "...a.b.."))) => ""
+(~path->string (~path-name-only-extension (~path "/...a.b.."))) => ""
+(~path->string (~path-name-only-extension (~path "./...a.b.."))) => ""
+(~path->string (~path-name-only-extension (~path "../...a.b.."))) => ""
+(~path->string (~path-name-only-extension (~path ".../...a.b.."))) => ""
+
+
+(~path->string (~path-name-only-extension (~path "a.b.c"))) => "c"
+(~path->string (~path-name-only-extension (~path "/a.b.c"))) => "c"
+(~path->string (~path-name-only-extension (~path "./a.b.c"))) => "c"
+(~path->string (~path-name-only-extension (~path "../a.b.c"))) => "c"
+(~path->string (~path-name-only-extension (~path ".../a.b.c"))) => "c"
+
+(~path->string (~path-name-only-extension (~path "a.b.c."))) => ""
+(~path->string (~path-name-only-extension (~path "/a.b.c."))) => ""
+(~path->string (~path-name-only-extension (~path "./a.b.c."))) => ""
+(~path->string (~path-name-only-extension (~path "../a.b.c."))) => ""
+(~path->string (~path-name-only-extension (~path ".../a.b.c."))) => ""
+
+(~path->string (~path-name-only-extension (~path "a.b.c.."))) => ""
+(~path->string (~path-name-only-extension (~path "/a.b.c.."))) => ""
+(~path->string (~path-name-only-extension (~path "./a.b.c.."))) => ""
+(~path->string (~path-name-only-extension (~path "../a.b.c.."))) => ""
+(~path->string (~path-name-only-extension (~path ".../a.b.c.."))) => ""
+
+
+(~path->string (~path-name-only-extension (~path ".a.b.c"))) => "c"
+(~path->string (~path-name-only-extension (~path "/.a.b.c"))) => "c"
+(~path->string (~path-name-only-extension (~path "./.a.b.c"))) => "c"
+(~path->string (~path-name-only-extension (~path "../.a.b.c"))) => "c"
+(~path->string (~path-name-only-extension (~path ".../.a.b.c"))) => "c"
+
+(~path->string (~path-name-only-extension (~path ".a.b.c."))) => ""
+(~path->string (~path-name-only-extension (~path "/.a.b.c."))) => ""
+(~path->string (~path-name-only-extension (~path "./.a.b.c."))) => ""
+(~path->string (~path-name-only-extension (~path "../.a.b.c."))) => ""
+(~path->string (~path-name-only-extension (~path ".../.a.b.c."))) => ""
+
+(~path->string (~path-name-only-extension (~path ".a.b.c.."))) => ""
+(~path->string (~path-name-only-extension (~path "/.a.b.c.."))) => ""
+(~path->string (~path-name-only-extension (~path "./.a.b.c.."))) => ""
+(~path->string (~path-name-only-extension (~path "../.a.b.c.."))) => ""
+(~path->string (~path-name-only-extension (~path ".../.a.b.c.."))) => ""
+
+
+(~path->string (~path-name-only-extension (~path "..a.b.c"))) => "c"
+(~path->string (~path-name-only-extension (~path "/..a.b.c"))) => "c"
+(~path->string (~path-name-only-extension (~path "./..a.b.c"))) => "c"
+(~path->string (~path-name-only-extension (~path "../..a.b.c"))) => "c"
+(~path->string (~path-name-only-extension (~path ".../..a.b.c"))) => "c"
+
+(~path->string (~path-name-only-extension (~path "..a.b.c."))) => ""
+(~path->string (~path-name-only-extension (~path "/..a.b.c."))) => ""
+(~path->string (~path-name-only-extension (~path "./..a.b.c."))) => ""
+(~path->string (~path-name-only-extension (~path "../..a.b.c."))) => ""
+(~path->string (~path-name-only-extension (~path ".../..a.b.c."))) => ""
+
+(~path->string (~path-name-only-extension (~path "..a.b.c.."))) => ""
+(~path->string (~path-name-only-extension (~path "/..a.b.c.."))) => ""
+(~path->string (~path-name-only-extension (~path "./..a.b.c.."))) => ""
+(~path->string (~path-name-only-extension (~path "../..a.b.c.."))) => ""
+(~path->string (~path-name-only-extension (~path ".../..a.b.c.."))) => ""
+
+
+(~path->string (~path-name-only-extension (~path "...a.b.c"))) => "c"
+(~path->string (~path-name-only-extension (~path "/...a.b.c"))) => "c"
+(~path->string (~path-name-only-extension (~path "./...a.b.c"))) => "c"
+(~path->string (~path-name-only-extension (~path "../...a.b.c"))) => "c"
+(~path->string (~path-name-only-extension (~path ".../...a.b.c"))) => "c"
+
+(~path->string (~path-name-only-extension (~path "...a.b.c."))) => ""
+(~path->string (~path-name-only-extension (~path "/...a.b.c."))) => ""
+(~path->string (~path-name-only-extension (~path "./...a.b.c."))) => ""
+(~path->string (~path-name-only-extension (~path "../...a.b.c."))) => ""
+(~path->string (~path-name-only-extension (~path ".../...a.b.c."))) => ""
+
+(~path->string (~path-name-only-extension (~path "...a.b.c.."))) => ""
+(~path->string (~path-name-only-extension (~path "/...a.b.c.."))) => ""
+(~path->string (~path-name-only-extension (~path "./...a.b.c.."))) => ""
+(~path->string (~path-name-only-extension (~path "../...a.b.c.."))) => ""
+(~path->string (~path-name-only-extension (~path ".../...a.b.c.."))) => ""
+
+
+(~path->string (~path-name-only-extension (~path "...a.b..c"))) => "c"
+(~path->string (~path-name-only-extension (~path "/...a.b..c"))) => "c"
+(~path->string (~path-name-only-extension (~path "./...a.b..c"))) => "c"
+(~path->string (~path-name-only-extension (~path "../...a.b..c"))) => "c"
+(~path->string (~path-name-only-extension (~path ".../...a.b..c"))) => "c"
+
+(~path->string (~path-name-only-extension (~path "...a.b..c."))) => ""
+(~path->string (~path-name-only-extension (~path "/...a.b..c."))) => ""
+(~path->string (~path-name-only-extension (~path "./...a.b..c."))) => ""
+(~path->string (~path-name-only-extension (~path "../...a.b..c."))) => ""
+(~path->string (~path-name-only-extension (~path ".../...a.b..c."))) => ""
+
+(~path->string (~path-name-only-extension (~path "...a.b..c.."))) => ""
+(~path->string (~path-name-only-extension (~path "/...a.b..c.."))) => ""
+(~path->string (~path-name-only-extension (~path "./...a.b..c.."))) => ""
+(~path->string (~path-name-only-extension (~path "../...a.b..c.."))) => ""
+(~path->string (~path-name-only-extension (~path ".../...a.b..c.."))) => ""
+
+
+
+
+(~path->string (~path-name-join "0")) => "0"
+(~path->string (~path-name-join "0" "1")) => "0.1"
+(~path->string (~path-name-join "0" "1" "2")) => "0.1.2"
+(~path->string (~path-name-join "0" "1" "2" "3")) => "0.1.2.3"
+(~path->string (~path-name-join "0" "1" "2" "3" "4")) => "0.1.2.3.4"
+(~path->string (~path-name-join "0" "1" "2" "3" "4" "5")) => "0.1.2.3.4.5"
+(~path->string (~path-name-join "0" "1" "2" "3" "4" "5" "6")) => "0.1.2.3.4.5.6"
+(~path->string (~path-name-join "0" "1" "2" "3" "4" "5" "6" "7")) => "0.1.2.3.4.5.6.7"
+
+
+(~path->string (~path-name-join ".a")) => ".a"
+(~path->string (~path-name-join ".a" ".b")) => ".a..b"
+(~path->string (~path-name-join ".a" ".b" ".c")) => ".a..b..c"
+
+
+(~path->string (~path-name-join "/a")) => "/a"
+(~path->string (~path-name-join "/a" "b")) => "/a.b"
+(~path->string (~path-name-join "/a" "b" "c")) => "/a.b.c"
+
+(~path->string (~path-name-join "./a")) => "./a"
+(~path->string (~path-name-join "./a" "b")) => "./a.b"
+(~path->string (~path-name-join "./a" "b" "c")) => "./a.b.c"
+
+(~path->string (~path-name-join "../a")) => "../a"
+(~path->string (~path-name-join "../a" "b")) => "../a.b"
+(~path->string (~path-name-join "../a" "b" "c")) => "../a.b.c"
+
+(~path->string (~path-name-join "x/a")) => "x/a"
+(~path->string (~path-name-join "x/a" "b")) => "x/a.b"
+(~path->string (~path-name-join "x/a" "b" "c")) => "x/a.b.c"
+
+(~path->string (~path-name-join "x/y/a")) => "x/y/a"
+(~path->string (~path-name-join "x/y/a" "b")) => "x/y/a.b"
+(~path->string (~path-name-join "x/y/a" "b" "c")) => "x/y/a.b.c"
+
+
+
+
+(~path-name-split (~path "/")) => #f
+(~path-name-split (~path ".")) => #f
+(~path-name-split (~path "..")) => #f
+(map ~path->string (~path-name-split (~path "..."))) => '("...")
+
+
+(map ~path->string (~path-name-split (~path "a"))) => '("a")
+(map ~path->string (~path-name-split (~path "/a"))) => '("a")
+(map ~path->string (~path-name-split (~path "./a"))) => '("a")
+(map ~path->string (~path-name-split (~path "../a"))) => '("a")
+
+(map ~path->string (~path-name-split (~path "a."))) => '("a" "")
+(map ~path->string (~path-name-split (~path "/a."))) => '("a" "")
+(map ~path->string (~path-name-split (~path "./a."))) => '("a" "")
+(map ~path->string (~path-name-split (~path "../a."))) => '("a" "")
+
+(map ~path->string (~path-name-split (~path "a.."))) => '("a" "" "")
+(map ~path->string (~path-name-split (~path "/a.."))) => '("a" "" "")
+(map ~path->string (~path-name-split (~path "./a.."))) => '("a" "" "")
+(map ~path->string (~path-name-split (~path "../a.."))) => '("a" "" "")
+
+
+(map ~path->string (~path-name-split (~path ".a"))) => '(".a")
+(map ~path->string (~path-name-split (~path "/.a"))) => '(".a")
+(map ~path->string (~path-name-split (~path "./.a"))) => '(".a")
+(map ~path->string (~path-name-split (~path "../.a"))) => '(".a")
+
+(map ~path->string (~path-name-split (~path ".a."))) => '(".a" "")
+(map ~path->string (~path-name-split (~path "/.a."))) => '(".a" "")
+(map ~path->string (~path-name-split (~path "./.a."))) => '(".a" "")
+(map ~path->string (~path-name-split (~path "../.a."))) => '(".a" "")
+
+(map ~path->string (~path-name-split (~path ".a.."))) => '(".a" "" "")
+(map ~path->string (~path-name-split (~path "/.a.."))) => '(".a" "" "")
+(map ~path->string (~path-name-split (~path "./.a.."))) => '(".a" "" "")
+(map ~path->string (~path-name-split (~path "../.a.."))) => '(".a" "" "")
+
+
+(map ~path->string (~path-name-split (~path "..a"))) => '("..a")
+(map ~path->string (~path-name-split (~path "/..a"))) => '("..a")
+(map ~path->string (~path-name-split (~path "./..a"))) => '("..a")
+(map ~path->string (~path-name-split (~path "../..a"))) => '("..a")
+
+(map ~path->string (~path-name-split (~path "..a."))) => '("..a" "")
+(map ~path->string (~path-name-split (~path "/..a."))) => '("..a" "")
+(map ~path->string (~path-name-split (~path "./..a."))) => '("..a" "")
+(map ~path->string (~path-name-split (~path "../..a."))) => '("..a" "")
+
+(map ~path->string (~path-name-split (~path "..a.."))) => '("..a" "" "")
+(map ~path->string (~path-name-split (~path "/..a.."))) => '("..a" "" "")
+(map ~path->string (~path-name-split (~path "./..a.."))) => '("..a" "" "")
+(map ~path->string (~path-name-split (~path "../..a.."))) => '("..a" "" "")
+
+
+(map ~path->string (~path-name-split (~path "...a"))) => '("...a")
+(map ~path->string (~path-name-split (~path "/...a"))) => '("...a")
+(map ~path->string (~path-name-split (~path "./...a"))) => '("...a")
+(map ~path->string (~path-name-split (~path "../...a"))) => '("...a")
+
+(map ~path->string (~path-name-split (~path "...a."))) => '("...a" "")
+(map ~path->string (~path-name-split (~path "/...a."))) => '("...a" "")
+(map ~path->string (~path-name-split (~path "./...a."))) => '("...a" "")
+(map ~path->string (~path-name-split (~path "../...a."))) => '("...a" "")
+
+(map ~path->string (~path-name-split (~path "...a.."))) => '("...a" "" "")
+(map ~path->string (~path-name-split (~path "/...a.."))) => '("...a" "" "")
+(map ~path->string (~path-name-split (~path "./...a.."))) => '("...a" "" "")
+(map ~path->string (~path-name-split (~path "../...a.."))) => '("...a" "" "")
+
+
+(map ~path->string (~path-name-split (~path "a/b"))) => '("b")
+(map ~path->string (~path-name-split (~path "/a/b"))) => '("b")
+(map ~path->string (~path-name-split (~path "./a/b"))) => '("b")
+(map ~path->string (~path-name-split (~path "../a/b"))) => '("b")
+
+(map ~path->string (~path-name-split (~path "a/b."))) => '("b" "")
+(map ~path->string (~path-name-split (~path "/a/b."))) => '("b" "")
+(map ~path->string (~path-name-split (~path "./a/b."))) => '("b" "")
+(map ~path->string (~path-name-split (~path "../a/b."))) => '("b" "")
+
+(map ~path->string (~path-name-split (~path "a/b.."))) => '("b" "" "")
+(map ~path->string (~path-name-split (~path "/a/b.."))) => '("b" "" "")
+(map ~path->string (~path-name-split (~path "./a/b.."))) => '("b" "" "")
+(map ~path->string (~path-name-split (~path "../a/b.."))) => '("b" "" "")
+
+
+(map ~path->string (~path-name-split (~path "a/.b"))) => '(".b")
+(map ~path->string (~path-name-split (~path "/a/.b"))) => '(".b")
+(map ~path->string (~path-name-split (~path "./a/.b"))) => '(".b")
+(map ~path->string (~path-name-split (~path "../a/.b"))) => '(".b")
+
+(map ~path->string (~path-name-split (~path "a/.b."))) => '(".b" "")
+(map ~path->string (~path-name-split (~path "/a/.b."))) => '(".b" "")
+(map ~path->string (~path-name-split (~path "./a/.b."))) => '(".b" "")
+(map ~path->string (~path-name-split (~path "../a/.b."))) => '(".b" "")
+
+(map ~path->string (~path-name-split (~path "a/.b.."))) => '(".b" "" "")
+(map ~path->string (~path-name-split (~path "/a/.b.."))) => '(".b" "" "")
+(map ~path->string (~path-name-split (~path "./a/.b.."))) => '(".b" "" "")
+(map ~path->string (~path-name-split (~path "../a/.b.."))) => '(".b" "" "")
+
+
+(map ~path->string (~path-name-split (~path "a/..b"))) => '("..b")
+(map ~path->string (~path-name-split (~path "/a/..b"))) => '("..b")
+(map ~path->string (~path-name-split (~path "./a/..b"))) => '("..b")
+(map ~path->string (~path-name-split (~path "../a/..b"))) => '("..b")
+
+(map ~path->string (~path-name-split (~path "a/..b."))) => '("..b" "")
+(map ~path->string (~path-name-split (~path "/a/..b."))) => '("..b" "")
+(map ~path->string (~path-name-split (~path "./a/..b."))) => '("..b" "")
+(map ~path->string (~path-name-split (~path "../a/..b."))) => '("..b" "")
+
+(map ~path->string (~path-name-split (~path "a/..b.."))) => '("..b" "" "")
+(map ~path->string (~path-name-split (~path "/a/..b.."))) => '("..b" "" "")
+(map ~path->string (~path-name-split (~path "./a/..b.."))) => '("..b" "" "")
+(map ~path->string (~path-name-split (~path "../a/..b.."))) => '("..b" "" "")
+
+
+(map ~path->string (~path-name-split (~path "a/...b"))) => '("...b")
+(map ~path->string (~path-name-split (~path "/a/...b"))) => '("...b")
+(map ~path->string (~path-name-split (~path "./a/...b"))) => '("...b")
+(map ~path->string (~path-name-split (~path "../a/...b"))) => '("...b")
+
+(map ~path->string (~path-name-split (~path "a/...b."))) => '("...b" "")
+(map ~path->string (~path-name-split (~path "/a/...b."))) => '("...b" "")
+(map ~path->string (~path-name-split (~path "./a/...b."))) => '("...b" "")
+(map ~path->string (~path-name-split (~path "../a/...b."))) => '("...b" "")
+
+(map ~path->string (~path-name-split (~path "a/...b.."))) => '("...b" "" "")
+(map ~path->string (~path-name-split (~path "/a/...b.."))) => '("...b" "" "")
+(map ~path->string (~path-name-split (~path "./a/...b.."))) => '("...b" "" "")
+(map ~path->string (~path-name-split (~path "../a/...b.."))) => '("...b" "" "")
+
+
+(map ~path->string (~path-name-split (~path "a.b"))) => '("a" "b")
+(map ~path->string (~path-name-split (~path "/a.b"))) => '("a" "b")
+(map ~path->string (~path-name-split (~path "./a.b"))) => '("a" "b")
+(map ~path->string (~path-name-split (~path "../a.b"))) => '("a" "b")
+
+(map ~path->string (~path-name-split (~path "a.b."))) => '("a" "b" "")
+(map ~path->string (~path-name-split (~path "/a.b."))) => '("a" "b" "")
+(map ~path->string (~path-name-split (~path "./a.b."))) => '("a" "b" "")
+(map ~path->string (~path-name-split (~path "../a.b."))) => '("a" "b" "")
+
+(map ~path->string (~path-name-split (~path "a.b.."))) => '("a" "b" "" "")
+(map ~path->string (~path-name-split (~path "/a.b.."))) => '("a" "b" "" "")
+(map ~path->string (~path-name-split (~path "./a.b.."))) => '("a" "b" "" "")
+(map ~path->string (~path-name-split (~path "../a.b.."))) => '("a" "b" "" "")
+
+
+(map ~path->string (~path-name-split (~path ".a.b"))) => '(".a" "b")
+(map ~path->string (~path-name-split (~path "/.a.b"))) => '(".a" "b")
+(map ~path->string (~path-name-split (~path "./.a.b"))) => '(".a" "b")
+(map ~path->string (~path-name-split (~path "../.a.b"))) => '(".a" "b")
+
+(map ~path->string (~path-name-split (~path ".a.b."))) => '(".a" "b" "")
+(map ~path->string (~path-name-split (~path "/.a.b."))) => '(".a" "b" "")
+(map ~path->string (~path-name-split (~path "./.a.b."))) => '(".a" "b" "")
+(map ~path->string (~path-name-split (~path "../.a.b."))) => '(".a" "b" "")
+
+(map ~path->string (~path-name-split (~path ".a.b.."))) => '(".a" "b" "" "")
+(map ~path->string (~path-name-split (~path "/.a.b.."))) => '(".a" "b" "" "")
+(map ~path->string (~path-name-split (~path "./.a.b.."))) => '(".a" "b" "" "")
+(map ~path->string (~path-name-split (~path "../.a.b.."))) => '(".a" "b" "" "")
+
+
+(map ~path->string (~path-name-split (~path "..a.b"))) => '("..a" "b")
+(map ~path->string (~path-name-split (~path "/..a.b"))) => '("..a" "b")
+(map ~path->string (~path-name-split (~path "./..a.b"))) => '("..a" "b")
+(map ~path->string (~path-name-split (~path "../..a.b"))) => '("..a" "b")
+
+(map ~path->string (~path-name-split (~path "..a.b."))) => '("..a" "b" "")
+(map ~path->string (~path-name-split (~path "/..a.b."))) => '("..a" "b" "")
+(map ~path->string (~path-name-split (~path "./..a.b."))) => '("..a" "b" "")
+(map ~path->string (~path-name-split (~path "../..a.b."))) => '("..a" "b" "")
+
+(map ~path->string (~path-name-split (~path "..a.b.."))) => '("..a" "b" "" "")
+(map ~path->string (~path-name-split (~path "/..a.b.."))) => '("..a" "b" "" "")
+(map ~path->string (~path-name-split (~path "./..a.b.."))) => '("..a" "b" "" "")
+(map ~path->string (~path-name-split (~path "../..a.b.."))) => '("..a" "b" "" "")
+
+
+(map ~path->string (~path-name-split (~path "...a.b"))) => '("...a" "b")
+(map ~path->string (~path-name-split (~path "/...a.b"))) => '("...a" "b")
+(map ~path->string (~path-name-split (~path "./...a.b"))) => '("...a" "b")
+(map ~path->string (~path-name-split (~path "../...a.b"))) => '("...a" "b")
+
+(map ~path->string (~path-name-split (~path "...a.b."))) => '("...a" "b" "")
+(map ~path->string (~path-name-split (~path "/...a.b."))) => '("...a" "b" "")
+(map ~path->string (~path-name-split (~path "./...a.b."))) => '("...a" "b" "")
+(map ~path->string (~path-name-split (~path "../...a.b."))) => '("...a" "b" "")
+
+(map ~path->string (~path-name-split (~path "...a.b.."))) => '("...a" "b" "" "")
+(map ~path->string (~path-name-split (~path "/...a.b.."))) => '("...a" "b" "" "")
+(map ~path->string (~path-name-split (~path "./...a.b.."))) => '("...a" "b" "" "")
+(map ~path->string (~path-name-split (~path "../...a.b.."))) => '("...a" "b" "" "")
+
+
+(map ~path->string (~path-name-split (~path "a.b.c"))) => '("a" "b" "c")
+(map ~path->string (~path-name-split (~path "/a.b.c"))) => '("a" "b" "c")
+(map ~path->string (~path-name-split (~path "./a.b.c"))) => '("a" "b" "c")
+(map ~path->string (~path-name-split (~path "../a.b.c"))) => '("a" "b" "c")
+
+(map ~path->string (~path-name-split (~path "a.b.c."))) => '("a" "b" "c" "")
+(map ~path->string (~path-name-split (~path "/a.b.c."))) => '("a" "b" "c" "")
+(map ~path->string (~path-name-split (~path "./a.b.c."))) => '("a" "b" "c" "")
+(map ~path->string (~path-name-split (~path "../a.b.c."))) => '("a" "b" "c" "")
+
+(map ~path->string (~path-name-split (~path "a.b.c.."))) => '("a" "b" "c" "" "")
+(map ~path->string (~path-name-split (~path "/a.b.c.."))) => '("a" "b" "c" "" "")
+(map ~path->string (~path-name-split (~path "./a.b.c.."))) => '("a" "b" "c" "" "")
+(map ~path->string (~path-name-split (~path "../a.b.c.."))) => '("a" "b" "c" "" "")
+
+
+(map ~path->string (~path-name-split (~path ".a.b.c"))) => '(".a" "b" "c")
+(map ~path->string (~path-name-split (~path "/.a.b.c"))) => '(".a" "b" "c")
+(map ~path->string (~path-name-split (~path "./.a.b.c"))) => '(".a" "b" "c")
+(map ~path->string (~path-name-split (~path "../.a.b.c"))) => '(".a" "b" "c")
+
+(map ~path->string (~path-name-split (~path ".a.b.c."))) => '(".a" "b" "c" "")
+(map ~path->string (~path-name-split (~path "/.a.b.c."))) => '(".a" "b" "c" "")
+(map ~path->string (~path-name-split (~path "./.a.b.c."))) => '(".a" "b" "c" "")
+(map ~path->string (~path-name-split (~path "../.a.b.c."))) => '(".a" "b" "c" "")
+
+(map ~path->string (~path-name-split (~path ".a.b.c.."))) => '(".a" "b" "c" "" "")
+(map ~path->string (~path-name-split (~path "/.a.b.c.."))) => '(".a" "b" "c" "" "")
+(map ~path->string (~path-name-split (~path "./.a.b.c.."))) => '(".a" "b" "c" "" "")
+(map ~path->string (~path-name-split (~path "../.a.b.c.."))) => '(".a" "b" "c" "" "")
+
+
+(map ~path->string (~path-name-split (~path "..a.b.c"))) => '("..a" "b" "c")
+(map ~path->string (~path-name-split (~path "/..a.b.c"))) => '("..a" "b" "c")
+(map ~path->string (~path-name-split (~path "./..a.b.c"))) => '("..a" "b" "c")
+(map ~path->string (~path-name-split (~path "../..a.b.c"))) => '("..a" "b" "c")
+
+(map ~path->string (~path-name-split (~path "..a.b.c."))) => '("..a" "b" "c" "")
+(map ~path->string (~path-name-split (~path "/..a.b.c."))) => '("..a" "b" "c" "")
+(map ~path->string (~path-name-split (~path "./..a.b.c."))) => '("..a" "b" "c" "")
+(map ~path->string (~path-name-split (~path "../..a.b.c."))) => '("..a" "b" "c" "")
+
+(map ~path->string (~path-name-split (~path "..a.b.c.."))) => '("..a" "b" "c" "" "")
+(map ~path->string (~path-name-split (~path "/..a.b.c.."))) => '("..a" "b" "c" "" "")
+(map ~path->string (~path-name-split (~path "./..a.b.c.."))) => '("..a" "b" "c" "" "")
+(map ~path->string (~path-name-split (~path "../..a.b.c.."))) => '("..a" "b" "c" "" "")
+
+
+(map ~path->string (~path-name-split (~path "...a.b.c"))) => '("...a" "b" "c")
+(map ~path->string (~path-name-split (~path "/...a.b.c"))) => '("...a" "b" "c")
+(map ~path->string (~path-name-split (~path "./...a.b.c"))) => '("...a" "b" "c")
+(map ~path->string (~path-name-split (~path "../...a.b.c"))) => '("...a" "b" "c")
+
+(map ~path->string (~path-name-split (~path "...a.b.c."))) => '("...a" "b" "c" "")
+(map ~path->string (~path-name-split (~path "/...a.b.c."))) => '("...a" "b" "c" "")
+(map ~path->string (~path-name-split (~path "./...a.b.c."))) => '("...a" "b" "c" "")
+(map ~path->string (~path-name-split (~path "../...a.b.c."))) => '("...a" "b" "c" "")
+
+(map ~path->string (~path-name-split (~path "...a.b.c.."))) => '("...a" "b" "c" "" "")
+(map ~path->string (~path-name-split (~path "/...a.b.c.."))) => '("...a" "b" "c" "" "")
+(map ~path->string (~path-name-split (~path "./...a.b.c.."))) => '("...a" "b" "c" "" "")
+(map ~path->string (~path-name-split (~path "../...a.b.c.."))) => '("...a" "b" "c" "" "")
+
+
+(map ~path->string (~path-name-split (~path "...a.b..c"))) => '("...a" "b" "" "c")
+(map ~path->string (~path-name-split (~path "/...a.b..c"))) => '("...a" "b" "" "c")
+(map ~path->string (~path-name-split (~path "./...a.b..c"))) => '("...a" "b" "" "c")
+(map ~path->string (~path-name-split (~path "../...a.b..c"))) => '("...a" "b" "" "c")
+
+(map ~path->string (~path-name-split (~path "...a.b..c."))) => '("...a" "b" "" "c" "")
+(map ~path->string (~path-name-split (~path "/...a.b..c."))) => '("...a" "b" "" "c" "")
+(map ~path->string (~path-name-split (~path "./...a.b..c."))) => '("...a" "b" "" "c" "")
+(map ~path->string (~path-name-split (~path "../...a.b..c."))) => '("...a" "b" "" "c" "")
+
+(map ~path->string (~path-name-split (~path "...a.b..c.."))) => '("...a" "b" "" "c" "" "")
+(map ~path->string (~path-name-split (~path "/...a.b..c.."))) => '("...a" "b" "" "c" "" "")
+(map ~path->string (~path-name-split (~path "./...a.b..c.."))) => '("...a" "b" "" "c" "" "")
+(map ~path->string (~path-name-split (~path "../...a.b..c.."))) => '("...a" "b" "" "c" "" "")
+
+
+
+
+(~path-name? (~path "a") (~path "a")) => #t
+(~path-name? (~path "/a") (~path "a")) => #t
+(~path-name? (~path "./a") (~path "a")) => #t
+(~path-name? (~path "../a") (~path "a")) => #t
+(~path-name? (~path ".../a") (~path "a")) => #t
+
+(~path-name-prefix? (~path "a") (~path "a")) => #t
+(~path-name-prefix? (~path "/a") (~path "a")) => #t
+(~path-name-prefix? (~path "./a") (~path "a")) => #t
+(~path-name-prefix? (~path "../a") (~path "a")) => #t
+(~path-name-prefix? (~path ".../a") (~path "a")) => #t
+
+(~path-name-suffix? (~path "a") (~path "a")) => #t
+(~path-name-suffix? (~path "/a") (~path "a")) => #t
+(~path-name-suffix? (~path "./a") (~path "a")) => #t
+(~path-name-suffix? (~path "../a") (~path "a")) => #t
+(~path-name-suffix? (~path ".../a") (~path "a")) => #t
+
+
+(~path-name? (~path ".a") (~path ".a")) => #t
+(~path-name? (~path "/.a") (~path ".a")) => #t
+(~path-name? (~path "./.a") (~path ".a")) => #t
+(~path-name? (~path "../.a") (~path ".a")) => #t
+(~path-name? (~path ".../.a") (~path ".a")) => #t
+
+(~path-name-prefix? (~path ".a") (~path ".a")) => #t
+(~path-name-prefix? (~path "/.a") (~path ".a")) => #t
+(~path-name-prefix? (~path "./.a") (~path ".a")) => #t
+(~path-name-prefix? (~path "../.a") (~path ".a")) => #t
+(~path-name-prefix? (~path ".../.a") (~path ".a")) => #t
+
+(~path-name-suffix? (~path ".a") (~path ".a")) => #t
+(~path-name-suffix? (~path "/.a") (~path ".a")) => #t
+(~path-name-suffix? (~path "./.a") (~path ".a")) => #t
+(~path-name-suffix? (~path "../.a") (~path ".a")) => #t
+(~path-name-suffix? (~path ".../.a") (~path ".a")) => #t
+
+
+(~path-name? (~path "aa") (~path "a")) => #f
+(~path-name? (~path "/aa") (~path "a")) => #f
+(~path-name? (~path "./aa") (~path "a")) => #f
+(~path-name? (~path "../aa") (~path "a")) => #f
+(~path-name? (~path ".../aa") (~path "a")) => #f
+
+(~path-name-prefix? (~path "aa") (~path "a")) => #t
+(~path-name-prefix? (~path "/aa") (~path "a")) => #t
+(~path-name-prefix? (~path "./aa") (~path "a")) => #t
+(~path-name-prefix? (~path "../aa") (~path "a")) => #t
+(~path-name-prefix? (~path ".../aa") (~path "a")) => #t
+
+(~path-name-suffix? (~path "aa") (~path "a")) => #t
+(~path-name-suffix? (~path "/aa") (~path "a")) => #t
+(~path-name-suffix? (~path "./aa") (~path "a")) => #t
+(~path-name-suffix? (~path "../aa") (~path "a")) => #t
+(~path-name-suffix? (~path ".../aa") (~path "a")) => #t
+
+
+(~path-name? (~path ".aa.") (~path ".aa.")) => #t
+(~path-name? (~path "/.aa.") (~path ".aa.")) => #t
+(~path-name? (~path "./.aa.") (~path ".aa.")) => #t
+(~path-name? (~path "../.aa.") (~path ".aa.")) => #t
+(~path-name? (~path ".../.aa.") (~path ".aa.")) => #t
+
+(~path-name-prefix? (~path ".aa.") (~path ".a")) => #t
+(~path-name-prefix? (~path "/.aa.") (~path ".a")) => #t
+(~path-name-prefix? (~path "./.aa.") (~path ".a")) => #t
+(~path-name-prefix? (~path "../.aa.") (~path ".a")) => #t
+(~path-name-prefix? (~path ".../.aa.") (~path ".a")) => #t
+
+(~path-name-suffix? (~path ".aa.") (~path "a.")) => #t
+(~path-name-suffix? (~path "/.aa.") (~path "a.")) => #t
+(~path-name-suffix? (~path "./.aa.") (~path "a.")) => #t
+(~path-name-suffix? (~path "../.aa.") (~path "a.")) => #t
+(~path-name-suffix? (~path ".../.aa.") (~path "a.")) => #t
+
+
+(~path-name-prefix? (~path "ab") (~path "a")) => #t
+(~path-name-prefix? (~path "/ab") (~path "a")) => #t
+(~path-name-prefix? (~path "./ab") (~path "a")) => #t
+(~path-name-prefix? (~path "../ab") (~path "a")) => #t
+(~path-name-prefix? (~path ".../ab") (~path "a")) => #t
+
+(~path-name-suffix? (~path "ba") (~path "a")) => #t
+(~path-name-suffix? (~path "/ba") (~path "a")) => #t
+(~path-name-suffix? (~path "./ba") (~path "a")) => #t
+(~path-name-suffix? (~path "../ba") (~path "a")) => #t
+(~path-name-suffix? (~path ".../ba") (~path "a")) => #t
+
+
+(~path-name-prefix? (~path "ba") (~path "a")) => #f
+(~path-name-prefix? (~path "/ba") (~path "a")) => #f
+(~path-name-prefix? (~path "./ba") (~path "a")) => #f
+(~path-name-prefix? (~path "../ba") (~path "a")) => #f
+(~path-name-prefix? (~path ".../ba") (~path "a")) => #f
+
+(~path-name-suffix? (~path "ab") (~path "a")) => #f
+(~path-name-suffix? (~path "/ab") (~path "a")) => #f
+(~path-name-suffix? (~path "./ab") (~path "a")) => #f
+(~path-name-suffix? (~path "../ab") (~path "a")) => #f
+(~path-name-suffix? (~path ".../ab") (~path "a")) => #f
+
+
+(~path-name? (~path "...") (~path "...")) => #t
+(~path-name-prefix? (~path "...") (~path "...")) => #t
+(~path-name-suffix? (~path "...") (~path "...")) => #t
+
+;(~path-name-prefix? (~path "...") "..") => #t
+(~path-name-prefix? (~path "....") (~path "...")) => #t
+
+;(~path-name-suffix? (~path "...") "..") => #t
+(~path-name-suffix? (~path "....") (~path "...")) => #t
+
+(~path-name? (~path "....") (~path "....")) => #t
+(~path-name-prefix? (~path "....") (~path "....")) => #t
+(~path-name-suffix? (~path "....") (~path "....")) => #t
+
+
+
+
+(~path->string (~fs-canonicalize (~path '/))) => "/"
+(~path->string (~fs-canonicalize (~path 'current))) => (~path->string (~path 'working-directory))
+
+(~path->string (~fs-canonicalize (~path "/tmp"))) => "/tmp"
+(~false? (~fs-canonicalize (~path "/tmp/__does_not_exist__"))) => #t
+
+
+
+
+(~false? (~fs-link-resolve (~path "/"))) => #t
 (~path? (~fs-link-resolve (~path "/proc/self"))) => #t
+
+(~false? (~fs-link-resolve (~path "/") #f)) => #t
+(~path? (~fs-link-resolve (~path "/proc/self") #f)) => #t
+
+(~false? (~fs-link-resolve (~path "/") #t)) => #t
+(~path? (~fs-link-resolve (~path "/proc/self") #t)) => #t
+
+
+(~path-absolute? (~fs-link-resolve (~path "/proc/self"))) => #f
+(~path-absolute? (~fs-link-resolve (~path "/proc/self") #f)) => #f
+(~path-absolute? (~fs-link-resolve (~path "/proc/self") #t)) => #t
+
+(~path-relative? (~fs-link-resolve (~path "/proc/self"))) => #t
+(~path-relative? (~fs-link-resolve (~path "/proc/self") #f)) => #t
+(~path-relative? (~fs-link-resolve (~path "/proc/self") #t)) => #f
+
+(~false? (~path-parent (~fs-link-resolve (~path "/proc/self")))) => #t
+(~false? (~path-parent (~fs-link-resolve (~path "/proc/self") #f))) => #t
+(~false? (~path-parent (~fs-link-resolve (~path "/proc/self") #t))) => #f
+
+(~path-prefix? (~fs-link-resolve (~path "/proc/self") #t) (~path "/proc")) => #t
+(~path-prefix? (~fs-link-resolve (~path "/proc/self") #t) (~path "/proc/self")) => #f
 
