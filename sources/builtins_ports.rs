@@ -658,8 +658,8 @@ pub fn port_file_writer_open_with_options (path : &Value, options : &fs::OpenOpt
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub(crate) fn port_file_open_with_options (path : &Value, options : &fs::OpenOptions) -> (Outcome<fs::File>) {
-	let path = try_as_string_ref! (path);
-	let path = fs_path::Path::new (path.string_as_str ());
+	let path = try! (path_slice_coerce (path));
+	let path = path.deref ();
 	let file = try_or_fail! (options.open (path), 0xbe1989bd);
 	succeed! (file);
 }

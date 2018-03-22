@@ -2,6 +2,7 @@
 
 use super::builtins::exports::*;
 use super::constants::exports::*;
+use super::conversions::exports::*;
 use super::errors::exports::*;
 use super::values::exports::*;
 
@@ -73,13 +74,13 @@ pub fn filesystem_path_coerce (value : &Value, normalize : bool) -> (Outcome<Pat
 				"parent" | ".." =>
 					succeed! (Path::new_parent ()),
 				"home" | "~" =>
-					succeed! (Path::new_from_buffer (try_some! (env::home_dir (), 0xf9959c59), normalize)),
+					succeed! (Path::new_from_buffer (try_some! (env::home_dir (), 0xab8aa16c), normalize)),
 				"temporary" | "tmp" =>
 					succeed! (Path::new_from_buffer (env::temp_dir (), normalize)),
 				"working-directory" | "current-working-directory" | "wd" | "cwd" =>
 					succeed! (Path::new_from_buffer (try_or_fail! (env::current_dir (), 0x1ad5c430), normalize)),
 				_ =>
-					fail! (0x1912686e),
+					fail! (0xa2667867),
 			},
 		ValueClassMatchAsRef::String (value) => {
 			let value = value.string_as_ref ();
@@ -181,9 +182,8 @@ pub fn filesystem_path_join (values : &[&Value], normalize : bool) -> (Outcome<P
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_path_split (path : &Value, return_array : bool) -> (Outcome<Value>) {
-	// TODO:  Add support for string objects!
-	let path = try_as_path_ref! (path);
-	let path = path.path_ref ();
+	let path = try! (path_slice_coerce (path));
+	let path = path.deref ();
 	let mut components = StdVec::new ();
 	for component in path.components () {
 		let component = Path::new_from_component (&component, false);
@@ -201,9 +201,8 @@ pub fn filesystem_path_split (path : &Value, return_array : bool) -> (Outcome<Va
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_path_parent (path : &Value) -> (Outcome<Value>) {
-	// TODO:  Add support for string objects!
-	let path = try_as_path_ref! (path);
-	let path = path.path_ref ();
+	let path = try! (path_slice_coerce (path));
+	let path = path.deref ();
 	if let Some (parent) = path.parent () {
 		if ! parent.as_os_str () .is_empty () {
 			succeed! (Path::new_from_ref (parent, false) .into ());
@@ -221,9 +220,8 @@ pub fn filesystem_path_parent (path : &Value) -> (Outcome<Value>) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_path_name (path : &Value) -> (Outcome<Value>) {
-	// TODO:  Add support for string objects!
-	let path = try_as_path_ref! (path);
-	let path = path.path_ref ();
+	let path = try! (path_slice_coerce (path));
+	let path = path.deref ();
 	if let Some (name) = path.file_name () {
 		if name.is_empty () {
 			fail_panic! (0x97c85be5);
@@ -237,9 +235,8 @@ pub fn filesystem_path_name (path : &Value) -> (Outcome<Value>) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_path_name_without_extension (path : &Value) -> (Outcome<Value>) {
-	// TODO:  Add support for string objects!
-	let path = try_as_path_ref! (path);
-	let path = path.path_ref ();
+	let path = try! (path_slice_coerce (path));
+	let path = path.deref ();
 	let name = if let Some (name) = path.file_name () {
 		if name.is_empty () {
 			fail_panic! (0xc3e91299);
@@ -266,9 +263,8 @@ pub fn filesystem_path_name_without_extension (path : &Value) -> (Outcome<Value>
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_path_name_only_extension (path : &Value) -> (Outcome<Value>) {
-	// TODO:  Add support for string objects!
-	let path = try_as_path_ref! (path);
-	let path = path.path_ref ();
+	let path = try! (path_slice_coerce (path));
+	let path = path.deref ();
 	let name = if let Some (name) = path.file_name () {
 		if name.is_empty () {
 			fail_panic! (0xfafb61b7);
@@ -301,9 +297,8 @@ pub fn filesystem_path_name_only_extension (path : &Value) -> (Outcome<Value>) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_path_name_split (path : &Value, return_array : bool) -> (Outcome<Value>) {
-	// TODO:  Add support for string objects!
-	let path = try_as_path_ref! (path);
-	let path = path.path_ref ();
+	let path = try! (path_slice_coerce (path));
+	let path = path.deref ();
 	let mut name = if let Some (name) = path.file_name () {
 		if name.is_empty () {
 			fail_panic! (0x6c0dff54);
@@ -419,22 +414,20 @@ pub fn filesystem_path_name_join (values : &[&Value]) -> (Outcome<Path>) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_path_has_prefix (path : &Value, prefix : &Value) -> (Outcome<bool>) {
-	// TODO:  Add support for string objects!
-	let path = try_as_path_ref! (path);
-	let path = path.path_ref ();
-	let prefix = try_as_path_ref! (prefix);
-	let prefix = prefix.path_ref ();
+	let path = try! (path_slice_coerce (path));
+	let path = path.deref ();
+	let prefix = try! (path_slice_coerce (prefix));
+	let prefix = prefix.deref ();
 	succeed! (path.starts_with (prefix));
 }
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_path_has_suffix (path : &Value, suffix : &Value) -> (Outcome<bool>) {
-	// TODO:  Add support for string objects!
-	let path = try_as_path_ref! (path);
-	let path = path.path_ref ();
-	let suffix = try_as_path_ref! (suffix);
-	let suffix = suffix.path_ref ();
+	let path = try! (path_slice_coerce (path));
+	let path = path.deref ();
+	let suffix = try! (path_slice_coerce (suffix));
+	let suffix = suffix.deref ();
 	succeed! (path.ends_with (suffix));
 }
 
@@ -444,11 +437,10 @@ pub fn filesystem_path_has_suffix (path : &Value, suffix : &Value) -> (Outcome<b
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_path_name_is (path : &Value, expected : &Value) -> (Outcome<bool>) {
 	// TODO:  Refactor `path_name_is`, `path_name_has_prefix` and `path_name_has_suffix`!
-	// TODO:  Add support for string objects!
-	let path = try_as_path_ref! (path);
-	let path = path.path_ref ();
-	let expected = try_as_path_ref! (expected);
-	let expected = expected.path_ref ();
+	let path = try! (path_slice_coerce (path));
+	let path = path.deref ();
+	let expected = try! (path_slice_coerce (expected));
+	let expected = expected.deref ();
 	let path_name = if let Some (path_name) = path.file_name () {
 		if path_name.is_empty () {
 			fail_panic! (0x68aa0374);
@@ -474,43 +466,49 @@ pub fn filesystem_path_name_is (path : &Value, expected : &Value) -> (Outcome<bo
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_path_name_has_prefix (path : &Value, prefix : &Value) -> (Outcome<bool>) {
-	// TODO:  Add support for string objects!
-	let path = try_as_path_ref! (path);
-	let path = path.path_ref ();
-	let prefix = try_as_path_ref! (prefix);
-	let prefix = prefix.path_ref ();
+	let path = try! (path_slice_coerce (path));
+	let path = path.deref ();
+	let prefix = try! (path_slice_coerce (prefix));
+	let prefix = prefix.deref ();
 	let path_name = if let Some (path_name) = path.file_name () {
 		if path_name.is_empty () {
-			fail_panic! (0x2e54c28a);
+			fail_panic! (0x01f73eaf);
 		}
 		path_name
 	} else {
-		fail! (0xe4042ca5);
-	};
-	let prefix_name = if let Some (prefix_name) = prefix.file_name () {
-		if prefix_name.is_empty () {
-			fail_panic! (0xe5482553);
-		}
-		if prefix_name != prefix {
-			fail! (0x9a1ae18e);
-		}
-		prefix_name
-	} else {
-		fail! (0xe958ac00);
+		fail! (0x1e2367c6);
 	};
 	let path_name = path_name.as_bytes ();
-	let prefix_name = prefix_name.as_bytes ();
+	let prefix_name = if let Some (prefix_name) = prefix.file_name () {
+		if prefix_name.is_empty () {
+			fail_panic! (0x81b12ef4);
+		}
+		if prefix_name != prefix {
+			fail! (0x4ec40ed6);
+		}
+		prefix_name.as_bytes ()
+	} else {
+		const DOT : u8 = '.' as u8;
+		match prefix.as_os_str () .as_bytes () {
+			// NOTE:  This is a corner case in which we check for `` or `.` or `..`!
+			prefix_name @ &[] |
+			prefix_name @ &[DOT] |
+			prefix_name @ &[DOT, DOT] =>
+				prefix_name,
+			_ =>
+				fail! (0xe958ac00),
+		}
+	};
 	succeed! (path_name.starts_with (prefix_name));
 }
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_path_name_has_suffix (path : &Value, suffix : &Value) -> (Outcome<bool>) {
-	// TODO:  Add support for string objects!
-	let path = try_as_path_ref! (path);
-	let path = path.path_ref ();
-	let suffix = try_as_path_ref! (suffix);
-	let suffix = suffix.path_ref ();
+	let path = try! (path_slice_coerce (path));
+	let path = path.deref ();
+	let suffix = try! (path_slice_coerce (suffix));
+	let suffix = suffix.deref ();
 	let path_name = if let Some (path_name) = path.file_name () {
 		if path_name.is_empty () {
 			fail_panic! (0x2e54c28a);
@@ -519,6 +517,7 @@ pub fn filesystem_path_name_has_suffix (path : &Value, suffix : &Value) -> (Outc
 	} else {
 		fail! (0xe4042ca5);
 	};
+	let path_name = path_name.as_bytes ();
 	let suffix_name = if let Some (suffix_name) = suffix.file_name () {
 		if suffix_name.is_empty () {
 			fail_panic! (0xe5482553);
@@ -526,12 +525,19 @@ pub fn filesystem_path_name_has_suffix (path : &Value, suffix : &Value) -> (Outc
 		if suffix_name != suffix {
 			fail! (0x9a1ae18e);
 		}
-		suffix_name
+		suffix_name.as_bytes ()
 	} else {
-		fail! (0xe958ac00);
+		const DOT : u8 = '.' as u8;
+		match suffix.as_os_str () .as_bytes () {
+			// NOTE:  This is a corner case in which we check for `` or `.` or `..`!
+			suffix_name @ &[] |
+			suffix_name @ &[DOT] |
+			suffix_name @ &[DOT, DOT] =>
+				suffix_name,
+			_ =>
+				fail! (0xe1929d8d),
+		}
 	};
-	let path_name = path_name.as_bytes ();
-	let suffix_name = suffix_name.as_bytes ();
 	succeed! (path_name.ends_with (suffix_name));
 }
 
@@ -540,9 +546,8 @@ pub fn filesystem_path_name_has_suffix (path : &Value, suffix : &Value) -> (Outc
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_path_canonicalize (path : &Value) -> (Outcome<Value>) {
-	// TODO:  Add support for string objects!
-	let path = try_as_path_ref! (path);
-	let path = path.path_ref ();
+	let path = try! (path_slice_coerce (path));
+	let path = path.deref ();
 	match fs::canonicalize (path) {
 		Ok (path) =>
 			succeed! (Path::new_from_raw (path, false) .into ()),
@@ -559,9 +564,8 @@ pub fn filesystem_path_canonicalize (path : &Value) -> (Outcome<Value>) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_link_resolve (path : &Value, relativize : bool, normalize : bool) -> (Outcome<Value>) {
-	// TODO:  Add support for string objects!
-	let path = try_as_path_ref! (path);
-	let path = path.path_ref ();
+	let path = try! (path_slice_coerce (path));
+	let path = path.deref ();
 	match fs::read_link (path) {
 		Ok (resolved) => {
 			if normalize && resolved.as_os_str () .is_empty () {
@@ -638,7 +642,7 @@ pub fn filesystem_bytes_to_path (value : &Value) -> (Outcome<Value>) {
 	let value = try_as_bytes_as_ref! (value);
 	let value = try! (value.bytes_rc_clone ());
 	if value.is_empty () {
-		fail! (0x853e68e9);
+		fail! (0x3dd3eb28);
 	}
 	let value = unsafe { mem::transmute (value) };
 	let value = Path::from_rc (value, false);
@@ -650,17 +654,15 @@ pub fn filesystem_bytes_to_path (value : &Value) -> (Outcome<Value>) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_file_exists (path : &Value) -> (Outcome<bool>) {
-	// TODO:  Add support for path objects!
-	let path = try_as_string_ref! (path);
-	let path = fs_path::Path::new (path.string_as_str ());
+	let path = try! (path_slice_coerce (path));
+	let path = path.deref ();
 	succeed! (path.exists ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_file_delete (path : &Value) -> (Outcome<()>) {
-	// TODO:  Add support for path objects!
-	let path = try_as_string_ref! (path);
-	let path = fs_path::Path::new (path.string_as_str ());
+	let path = try! (path_slice_coerce (path));
+	let path = path.deref ();
 	succeed_or_fail! (fs::remove_file (path), 0xa1653696);
 }
 

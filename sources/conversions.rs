@@ -989,6 +989,8 @@ pub fn boolean_coerce_option (boolean : Option<&Value>) -> (Outcome<Option<bool>
 }
 
 
+
+
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_clone_coerce (string : &Value) -> (Outcome<StdString>) {
 	succeed! (try_as_string_ref! (string) .string_clone ());
@@ -1126,6 +1128,15 @@ impl <'a> StdDeref for BytesSliceRef<'a> {
 			BytesSliceRef::Mutable (ref reference) =>
 				&reference,
 		}
+	}
+}
+
+
+impl <'a> StdAsRef<[u8]> for BytesSliceRef<'a> {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn as_ref (&self) -> (&[u8]) {
+		return self.deref ();
 	}
 }
 
@@ -1362,6 +1373,40 @@ pub fn bytes_consume <Consumer> (value : &Value, consumer : &mut Consumer) -> (O
 		_ =>
 			fail! (0xcd705412),
 	}
+}
+
+
+
+
+#[ derive (Debug) ]
+pub struct PathSliceRef<'a> ( BytesSliceRef<'a> );
+
+
+impl <'a> StdDeref for PathSliceRef<'a> {
+	
+	type Target = fs_path::Path;
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn deref (&self) -> (&fs_path::Path) {
+		fs_path::Path::new (ffi::OsStr::from_bytes (self.0.deref ()))
+	}
+}
+
+
+impl <'a> StdAsRef<fs_path::Path> for PathSliceRef<'a> {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn as_ref (&self) -> (&fs_path::Path) {
+		return self.deref ();
+	}
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn path_slice_coerce (value : &Value) -> (Outcome<PathSliceRef>) {
+	succeed! (PathSliceRef (try! (bytes_slice_coerce_1a (value))));
 }
 
 
