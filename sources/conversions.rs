@@ -966,39 +966,90 @@ pub fn range_coerce_unbounded (start : Option<&Value>, end : Option<&Value>) -> 
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn count_coerce (count : &Value) -> (Outcome<usize>) {
-	succeed! (try! (try_as_number_integer_ref! (count) .try_to_usize ()));
+pub fn count_coerce (value : &Value) -> (Outcome<usize>) {
+	succeed! (try! (try_as_number_integer_ref! (value) .try_to_usize ()));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn count_coerce_option (count : Option<&Value>) -> (Outcome<Option<usize>>) {
-	succeed! (try_option_map! (count, count_coerce (count)));
-}
-
-
-
-
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn boolean_coerce (boolean : &Value) -> (Outcome<bool>) {
-	succeed! (try_as_boolean_ref! (boolean) .value ());
-}
-
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn boolean_coerce_option (boolean : Option<&Value>) -> (Outcome<Option<bool>>) {
-	succeed! (try_option_map! (boolean, boolean_coerce (boolean)));
+pub fn count_coerce_option (value : Option<&Value>) -> (Outcome<Option<usize>>) {
+	succeed! (try_option_map! (value, count_coerce (value)));
 }
 
 
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn string_clone_coerce (string : &Value) -> (Outcome<StdString>) {
-	succeed! (try_as_string_ref! (string) .string_clone ());
+pub fn boolean_coerce (value : &Value) -> (Outcome<bool>) {
+	succeed! (try_as_boolean_ref! (value) .value ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn string_clone_coerce_option (string : Option<&Value>) -> (Outcome<Option<StdString>>) {
-	succeed! (try_option_map! (string, string_clone_coerce (string)));
+pub fn boolean_coerce_option (value : Option<&Value>) -> (Outcome<Option<bool>>) {
+	succeed! (try_option_map! (value, boolean_coerce (value)));
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn string_clone_coerce (value : &Value) -> (Outcome<StdString>) {
+	match value.kind_match_as_ref () {
+		ValueKindMatchAsRef::StringImmutable (value) =>
+			succeed! (value.string_clone ()),
+		ValueKindMatchAsRef::StringMutable (value) =>
+			succeed! (try! (value.string_ref ()) .string_clone ()),
+		ValueKindMatchAsRef::Path (value) =>
+			if let Some (value) = value.path_ref () .to_str () {
+				succeed! (StdString::from (value));
+			} else {
+				fail! (0x268a7dee);
+			},
+		ValueKindMatchAsRef::BytesImmutable (value) =>
+			if let Ok (value) = str::from_utf8 (value.bytes_as_slice ()) {
+				succeed! (StdString::from (value));
+			} else {
+				fail! (0x5a40beb0);
+			},
+		ValueKindMatchAsRef::BytesMutable (value) =>
+			if let Ok (value) = str::from_utf8 (try! (value.bytes_ref ()) .bytes_as_slice ()) {
+				succeed! (StdString::from (value));
+			} else {
+				fail! (0x4c4b175a);
+			},
+		_ =>
+			fail! (0x9e0d3c33),
+	}
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn string_clone_coerce_option (value : Option<&Value>) -> (Outcome<Option<StdString>>) {
+	succeed! (try_option_map! (value, string_clone_coerce (value)));
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn os_string_clone_coerce (value : &Value) -> (Outcome<ffi::OsString>) {
+	match value.kind_match_as_ref () {
+		ValueKindMatchAsRef::StringImmutable (value) =>
+			succeed! (value.string_clone () .into ()),
+		ValueKindMatchAsRef::StringMutable (value) =>
+			succeed! (try! (value.string_ref ()) .string_clone () .into ()),
+		ValueKindMatchAsRef::Path (value) =>
+			succeed! (value.path_ref () .as_os_str () .to_os_string ()),
+		ValueKindMatchAsRef::BytesImmutable (value) =>
+			succeed! (ffi::OsStr::from_bytes (value.bytes_as_slice ()) .to_os_string ()),
+		ValueKindMatchAsRef::BytesMutable (value) =>
+			succeed! (ffi::OsStr::from_bytes (try! (value.bytes_ref ()) .bytes_as_slice ()) .to_os_string ()),
+		_ =>
+			fail! (0x048ce1e9),
+	}
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn os_string_clone_coerce_option (value : Option<&Value>) -> (Outcome<Option<ffi::OsString>>) {
+	succeed! (try_option_map! (value, os_string_clone_coerce (value)));
 }
 
 

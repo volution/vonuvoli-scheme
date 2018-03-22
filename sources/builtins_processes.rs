@@ -52,19 +52,16 @@ pub mod exports {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_spawn (arguments : &[&Value], evaluator : &mut Option<&mut EvaluatorContext>) -> (Outcome<Process>) {
+	// TODO:  Accept arrays as arguments!
 	
 	if arguments.is_empty () {
 		fail! (0x1a08f645);
 	}
 	
-	let executable = try_as_string_ref! (arguments[0]);
-	let executable = executable.string_as_str ();
+	let executable = try! (os_string_clone_coerce (arguments[0]));
+	let arguments = try_vec_map! (arguments[1..].iter (), argument, os_string_clone_coerce (argument)) .into_boxed_slice ();
 	
-	let arguments = try_vec_map! (arguments[1..].iter (), argument, StringRef::try (argument));
-	let arguments = vec_map! (arguments.iter (), argument, argument.string_as_str ());
-	let arguments  = Some (arguments.as_ref ());
-	
-	let configuration = try! (process_configure (executable, arguments, None, evaluator));
+	let configuration = try! (process_configure (executable, Some (arguments), None, evaluator));
 	
 	return Process::spawn (&configuration);
 }
@@ -74,15 +71,11 @@ pub fn process_spawn (arguments : &[&Value], evaluator : &mut Option<&mut Evalua
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_spawn_extended (executable : &Value, arguments : Option<&Value>, options : Option<&Value>, evaluator : &mut Option<&mut EvaluatorContext>) -> (Outcome<Process>) {
-	
-	let executable = try_as_string_ref! (executable);
-	let executable = executable.string_as_str ();
-	
 	// TODO:  Accept arrays as arguments!
+	
+	let executable = try! (os_string_clone_coerce (executable));
 	let arguments = option_map! (arguments, try! (vec_list_clone (arguments)));
-	let arguments = option_ref_map! (arguments, try_vec_map! (arguments.iter (), argument, StringRef::try (argument)));
-	let arguments = option_ref_map! (arguments, vec_map! (arguments.iter (), argument, argument.string_as_str ()));
-	let arguments = option_ref_map! (arguments, arguments.as_ref ());
+	let arguments = option_map! (arguments, try_vec_map_into! (arguments, argument, os_string_clone_coerce (&argument)) .into_boxed_slice ());
 	
 	let configuration = try! (process_configure (executable, arguments, options, evaluator));
 	
@@ -93,7 +86,7 @@ pub fn process_spawn_extended (executable : &Value, arguments : Option<&Value>, 
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn process_configure (executable : &str, arguments : Option<&[&str]>, options : Option<&Value>, evaluator : &mut Option<&mut EvaluatorContext>) -> (Outcome<ProcessConfiguration>) {
+pub fn process_configure (executable : ffi::OsString, arguments : Option<StdBox<[ffi::OsString]>>, options : Option<&Value>, evaluator : &mut Option<&mut EvaluatorContext>) -> (Outcome<ProcessConfiguration>) {
 	
 	let mut option_argument0 = None;
 	let mut option_working_directory = None;
@@ -188,38 +181,31 @@ pub fn process_configure (executable : &str, arguments : Option<&[&str]>, option
 	let environment_include = try! (parameter_resolve_value (option_environment_include, &PROCESS_PARAMETER_ENVIRONMENT_INCLUDE_UNIQUE, evaluator));
 	let environment_exclude = try! (parameter_resolve_value (option_environment_exclude, &PROCESS_PARAMETER_ENVIRONMENT_EXCLUDE_UNIQUE, evaluator));
 	
-	
-	let executable = StdString::from (executable) .into ();
-	let arguments = option_map! (arguments, vec_map! (arguments.iter (), argument, StdString::from (*argument) .into ()) .into_boxed_slice ());
-	
-	// TODO:  Replace `value.into ()` by using `.into_0 ()`!
-	let argument0 = option_map! (try! (string_clone_coerce_option (argument0.as_ref ())), value, value.into ());
-	let working_directory = option_map! (try! (string_clone_coerce_option (working_directory.as_ref ())), value, value.into ());
+	let argument0 = try! (os_string_clone_coerce_option (argument0.as_ref ()));
+	let working_directory = try! (os_string_clone_coerce_option (working_directory.as_ref ()));
 	
 	let environment_empty = try! (boolean_coerce_option (environment_empty.as_ref ()));
 	
 	let environment_include = option_map! (environment_include, try! (vec_list_clone (&environment_include)));
 	#[ allow (trivial_casts) ]
-	let environment_include = option_map! (environment_include, try_vec_map! (environment_include.iter (), pair, {
-			let pair = try_as_pair_ref! (pair);
+	let environment_include = option_map! (environment_include, try_vec_map_into! (environment_include, pair, {
+			let pair = try_as_pair_ref! (&pair);
 			let (name, value) = pair.left_and_right ();
-			let name = try_as_string_ref! (name) .string_clone () .into ();
-			let value = try_as_string_ref! (value) .string_clone () .into ();
+			let name = try! (os_string_clone_coerce (name));
+			let value = try! (os_string_clone_coerce (value));
 			succeeded! ((name, value)) as Outcome<(ffi::OsString, ffi::OsString)>
 		}) .into_boxed_slice ());
 	
 	let environment_exclude = option_map! (environment_exclude, try! (vec_list_clone (&environment_exclude)));
 	#[ allow (trivial_casts) ]
-	let environment_exclude = option_map! (environment_exclude, try_vec_map! (environment_exclude.iter (), name, {
-			let name = try_as_string_ref! (name) .string_clone () .into ();
+	let environment_exclude = option_map! (environment_exclude, try_vec_map_into! (environment_exclude, name, {
+			let name = try! (os_string_clone_coerce (&name));
 			succeeded! (name) as Outcome<ffi::OsString>
 		}) .into_boxed_slice ());
-	
 	
 	let configuration_stdin = try! (process_configure_stream_0 (option_stdin, Some (ProcessConfigurationStream::Null), &PROCESS_PARAMETER_STDIN_UNIQUE, evaluator));
 	let configuration_stdout = try! (process_configure_stream_0 (option_stdout, Some (ProcessConfigurationStream::Null), &PROCESS_PARAMETER_STDOUT_UNIQUE, evaluator));
 	let configuration_stderr = try! (process_configure_stream_0 (option_stderr, Some (ProcessConfigurationStream::Inherited), &PROCESS_PARAMETER_STDERR_UNIQUE, evaluator));
-	
 	
 	let configuration = ProcessConfiguration {
 			executable :  executable,
