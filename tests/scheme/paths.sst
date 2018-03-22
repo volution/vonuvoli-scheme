@@ -1442,19 +1442,25 @@
 (~path-name-suffix? (~path ".../ab") (~path "a")) => #f
 
 
+
+
 (~path-name? (~path "...") (~path "...")) => #t
 (~path-name-prefix? (~path "...") (~path "...")) => #t
 (~path-name-suffix? (~path "...") (~path "...")) => #t
 
-;(~path-name-prefix? (~path "...") "..") => #t
-(~path-name-prefix? (~path "....") (~path "...")) => #t
-
-;(~path-name-suffix? (~path "...") "..") => #t
-(~path-name-suffix? (~path "....") (~path "...")) => #t
-
 (~path-name? (~path "....") (~path "....")) => #t
 (~path-name-prefix? (~path "....") (~path "....")) => #t
 (~path-name-suffix? (~path "....") (~path "....")) => #t
+
+(~path-name-prefix? (~path "....") "") => #t
+(~path-name-prefix? (~path "....") ".") => #t
+(~path-name-prefix? (~path "....") "..") => #t
+(~path-name-prefix? (~path "....") (~path "...")) => #t
+
+(~path-name-suffix? (~path "....") "") => #t
+(~path-name-suffix? (~path "....") ".") => #t
+(~path-name-suffix? (~path "....") "..") => #t
+(~path-name-suffix? (~path "....") (~path "...")) => #t
 
 
 
