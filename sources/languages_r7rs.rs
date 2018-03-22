@@ -668,9 +668,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			// (scheme process-context)
 			//     --> verified
 			
-			("process-context", "system", "command-line", RuntimePrimitive0::ProcessArguments.into ()),
-			("process-context", "system", "get-environment-variable", RuntimePrimitive1::ProcessEnvironment.into ()),
-			("process-context", "system", "get-environment-variables", RuntimePrimitive0::ProcessEnvironment.into ()),
+			("process-context", "system", "command-line", RuntimePrimitive0::ProcessArgumentsAsList.into ()),
+			("process-context", "system", "get-environment-variable", RuntimePrimitive1::ProcessEnvironmentVariable.into ()),
+			("process-context", "system", "get-environment-variables", RuntimePrimitive0::ProcessEnvironmentVariablesAsList.into ()),
 			
 			("process-context", "system", "exit", RuntimePrimitiveV::ProcessExit.into ()),
 			("process-context", "system", "emergency-exit", RuntimePrimitiveV::ProcessExitEmergency.into ()),

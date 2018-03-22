@@ -1056,6 +1056,18 @@ pub fn os_string_clone_coerce_option (value : Option<&Value>) -> (Outcome<Option
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn os_string_clone_into_value (string : &ffi::OsStr) -> (Value) {
+	if let Some (string) = string.to_str () {
+		return string_clone_str (string) .into ();
+	} else {
+		return bytes_clone_slice (string.as_bytes ()) .into ();
+	}
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn outcome_as_ref <T> (outcome : &Outcome<T>) -> (Outcome<&T>) {
 	match *outcome {
 		Ok (ref value) =>
@@ -1453,11 +1465,41 @@ impl <'a> StdAsRef<fs_path::Path> for PathSliceRef<'a> {
 }
 
 
-
-
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn path_slice_coerce (value : &Value) -> (Outcome<PathSliceRef>) {
 	succeed! (PathSliceRef (try! (bytes_slice_coerce_1a (value))));
+}
+
+
+
+
+#[ derive (Debug) ]
+pub struct OsStrSliceRef<'a> ( BytesSliceRef<'a> );
+
+
+impl <'a> StdDeref for OsStrSliceRef<'a> {
+	
+	type Target = ffi::OsStr;
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn deref (&self) -> (&ffi::OsStr) {
+		ffi::OsStr::from_bytes (self.0.deref ())
+	}
+}
+
+
+impl <'a> StdAsRef<ffi::OsStr> for OsStrSliceRef<'a> {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn as_ref (&self) -> (&ffi::OsStr) {
+		return self.deref ();
+	}
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn os_str_slice_coerce (value : &Value) -> (Outcome<OsStrSliceRef>) {
+	succeed! (OsStrSliceRef (try! (bytes_slice_coerce_1a (value))));
 }
 
 

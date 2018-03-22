@@ -55,10 +55,12 @@ pub mod exports {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum RuntimePrimitive0 {
 	
-	ProcessArguments,
-	ProcessEnvironment,
-	
 	ParameterBuild,
+	
+	ProcessArgumentsAsList,
+	ProcessArgumentsAsArray,
+	ProcessEnvironmentVariablesAsList,
+	ProcessEnvironmentVariablesAsArray,
 	
 	ProcessExit,
 	ProcessExitEmergency,
@@ -94,7 +96,8 @@ pub enum RuntimePrimitive1 {
 	TranscriptTraceInternal,
 	TranscriptTraceDebugging,
 	
-	ProcessEnvironment,
+	ProcessArgument,
+	ProcessEnvironmentVariable,
 	
 	ProcessExit,
 	ProcessExitEmergency,
@@ -246,11 +249,17 @@ pub fn runtime_primitive_0_evaluate (primitive : RuntimePrimitive0, evaluator : 
 		RuntimePrimitive0::ParameterBuild =>
 			return parameter_build (None, None, None, None, evaluator) .into_0 (),
 		
-		RuntimePrimitive0::ProcessArguments =>
-			fail_unimplemented! (0x1a7fa84a), // deferred
+		RuntimePrimitive0::ProcessArgumentsAsList =>
+			return process_arguments (evaluator, false),
 		
-		RuntimePrimitive0::ProcessEnvironment =>
-			fail_unimplemented! (0x3d8c06db), // deferred
+		RuntimePrimitive0::ProcessArgumentsAsArray =>
+			return process_arguments (evaluator, true),
+		
+		RuntimePrimitive0::ProcessEnvironmentVariablesAsList =>
+			return process_environment_variables (evaluator, false),
+		
+		RuntimePrimitive0::ProcessEnvironmentVariablesAsArray =>
+			return process_environment_variables (evaluator, true),
 		
 		RuntimePrimitive0::ProcessExit =>
 			return Err (try! (error_exit (None, false)) .into ()),
@@ -325,8 +334,11 @@ pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, input_1 : &V
 		RuntimePrimitive1::TranscriptTraceDebugging =>
 			return transcript_trace_g (TranscriptLevel::Debugging, &[input_1], evaluator) .into_0 (),
 		
-		RuntimePrimitive1::ProcessEnvironment =>
-			fail_unimplemented! (0x8f801b52), // deferred
+		RuntimePrimitive1::ProcessArgument =>
+			return process_argument (input_1, evaluator),
+		
+		RuntimePrimitive1::ProcessEnvironmentVariable =>
+			return process_environment_variable (input_1, evaluator),
 		
 		RuntimePrimitive1::ProcessExit =>
 			return Err (try! (error_exit (Some (input_1), false)) .into ()),

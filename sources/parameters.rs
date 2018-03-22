@@ -33,6 +33,8 @@ pub struct ParametersInternals {
 	pub stdin : Option<Port>,
 	pub stdout : Option<Port>,
 	pub stderr : Option<Port>,
+	pub process_arguments : Option<StdRc<StdBox<[StdBox<ffi::OsStr>]>>>,
+	pub process_environment : Option<StdRc<StdBox<[(StdBox<ffi::OsStr>, StdBox<ffi::OsStr>)]>>>,
 	pub transcript : StdRc<TranscriptForScript>,
 	pub parent : Option<Parameters>,
 	pub immutable : bool,
@@ -50,6 +52,8 @@ impl Parameters {
 				stdin : None,
 				stdout : None,
 				stderr : None,
+				process_arguments : None,
+				process_environment : None,
 				transcript : transcript_for_script (),
 				parent : None,
 				immutable : false,
@@ -65,6 +69,8 @@ impl Parameters {
 				stdin : Some (try! (Port::new_stdin ())),
 				stdout : Some (try! (Port::new_stdout ())),
 				stderr : Some (try! (Port::new_stderr ())),
+				process_arguments : Some (StdRc::new (vec_map_into! (env::args_os (), value, value.into_boxed_os_str ()) .into_boxed_slice ())),
+				process_environment : Some (StdRc::new (vec_map_into! (env::vars_os (), (name, value), (name.into_boxed_os_str (), value.into_boxed_os_str ())) .into_boxed_slice ())),
 				transcript : transcript_for_script (),
 				parent : None,
 				immutable : false,
@@ -81,7 +87,9 @@ impl Parameters {
 				stdin : option_ref_map! (self_0.stdin, port, port.clone ()),
 				stdout : option_ref_map! (self_0.stdout, port, port.clone ()),
 				stderr : option_ref_map! (self_0.stderr, port, port.clone ()),
-				transcript : transcript_for_script (),
+				process_arguments : option_ref_map! (self_0.process_arguments, rc, StdRc::clone (rc)),
+				process_environment : option_ref_map! (self_0.process_environment, rc, StdRc::clone (rc)),
+				transcript : StdRc::clone (&self_0.transcript),
 				parent : Some (self.clone ()),
 				immutable : false,
 				handle : parameters_handles_next (),
@@ -341,6 +349,19 @@ impl Parameters {
 		} else {
 			succeed! (UNDEFINED_VALUE);
 		}
+	}
+	
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn resolve_process_arguments (&self) -> (Outcome<StdRc<StdBox<[StdBox<ffi::OsStr>]>>>) {
+		let self_0 = try! (self.internals_ref ());
+		succeed! (StdRc::clone (try_some! (self_0.process_arguments.as_ref (), 0x3dcd4501)));
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn resolve_process_environment (&self) -> (Outcome<StdRc<StdBox<[(StdBox<ffi::OsStr>, StdBox<ffi::OsStr>)]>>>) {
+		let self_0 = try! (self.internals_ref ());
+		succeed! (StdRc::clone (try_some! (self_0.process_environment.as_ref (), 0xa4f5a1a9)));
 	}
 	
 	

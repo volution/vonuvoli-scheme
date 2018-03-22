@@ -280,6 +280,10 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("fs-canonicalize", FileSystemPrimitive1::PathCanonicalize.into ()),
 			("fs-link-resolve", FileSystemPrimitiveV::LinkResolve.into ()),
 			
+			("command-line-ref", RuntimePrimitive1::ProcessArgument.into ()),
+			("command-line->vector", RuntimePrimitive0::ProcessArgumentsAsArray.into ()),
+			("get-environment-variables->vector", RuntimePrimitive0::ProcessEnvironmentVariablesAsArray.into ()),
+			
 			("process-spawn", RuntimePrimitiveN::ProcessSpawn.into ()),
 			("process-spawn*", RuntimePrimitiveV::ProcessSpawnExtended.into ()),
 			("process-wait-poll", RuntimePrimitive1::ProcessWaitPoll.into ()),

@@ -1,6 +1,8 @@
 
 
 use super::builtins::exports::*;
+use super::constants::exports::*;
+use super::conversions::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
 use super::parameters::exports::*;
@@ -31,6 +33,13 @@ pub mod exports {
 	
 	pub use super::{
 			transcript_trace_g,
+		};
+	
+	pub use super::{
+			process_argument,
+			process_arguments,
+			process_environment_variable,
+			process_environment_variables,
 		};
 	
 	pub use super::{
@@ -287,6 +296,55 @@ pub fn parameter_configure (parameter : &Value, value : &Value, evaluator : &mut
 			},
 		_ =>
 			fail! (0xb05cfc27),
+	}
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn process_argument (index : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	let index = try! (count_coerce (index));
+	let arguments = try! (try! (evaluator.parameters ()) .resolve_process_arguments ());
+	let argument = try_some! (arguments.get (index), 0x4a3957c9);
+	let argument = os_string_clone_into_value (argument);
+	succeed! (argument);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn process_arguments (evaluator : &mut EvaluatorContext, return_array : bool) -> (Outcome<Value>) {
+	let arguments = try! (try! (evaluator.parameters ()) .resolve_process_arguments ());
+	let arguments = vec_map! (arguments.iter (), argument, os_string_clone_into_value (argument));
+	if return_array {
+		succeed! (array_new (arguments) .into ());
+	} else {
+		succeed! (list_collect (arguments, None));
+	}
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn process_environment_variable (variable : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	let variable = try! (os_str_slice_coerce (variable));
+	let variable = variable.deref ();
+	let variables = try! (try! (evaluator.parameters ()) .resolve_process_environment ());
+	for &(ref name, ref value) in variables.iter () {
+		if ffi::OsStr::eq (name, variable) {
+			let value = os_string_clone_into_value (value);
+			succeed! (value);
+		}
+	}
+	succeed! (FALSE_VALUE);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn process_environment_variables (evaluator : &mut EvaluatorContext, return_array : bool) -> (Outcome<Value>) {
+	let variables = try! (try! (evaluator.parameters ()) .resolve_process_environment ());
+	let variables = vec_map! (variables.iter (), &(ref name, ref value), pair_new (os_string_clone_into_value (name), os_string_clone_into_value (value), None));
+	if return_array {
+		succeed! (array_new (variables) .into ());
+	} else {
+		succeed! (list_collect (variables, None));
 	}
 }
 
