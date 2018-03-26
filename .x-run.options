@@ -593,6 +593,7 @@
 	if test './tests/scheme/records-syntaxes.sst' -nt './tests/_outputs/scheme--benchmark__records_syntaxes.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__records_syntaxes.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/records-syntaxes.sst' "${@}" ; fi
 	if test './tests/scheme/runtime.sst' -nt './tests/_outputs/scheme--benchmark__runtime.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__runtime.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/runtime.sst' "${@}" ; fi
 	if test './tests/scheme/scratchpad.sst' -nt './tests/_outputs/scheme--benchmark__scratchpad.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__scratchpad.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/scratchpad.sst' "${@}" ; fi
+	if test './tests/scheme/srfi-1.sst' -nt './tests/_outputs/scheme--benchmark__srfi_1.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__srfi_1.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/srfi-1.sst' "${@}" ; fi
 	if test './tests/scheme/strings.sst' -nt './tests/_outputs/scheme--benchmark__strings.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__strings.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/strings.sst' "${@}" ; fi
 	if test './tests/scheme/types.sst' -nt './tests/_outputs/scheme--benchmark__types.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__types.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/types.sst' "${@}" ; fi
 	if test './tests/scheme/values.sst' -nt './tests/_outputs/scheme--benchmark__values.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__values.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/values.sst' "${@}" ; fi
@@ -1090,6 +1091,18 @@
 	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__scratchpad.out' x-run ':: execute / bin / bencher / release' './tests/scheme/scratchpad.sst' "${@}"
 !!
 
+<< execute / bin / bencher / srfi-1 / debug
+	exec -- taskset -c 2 x-run ':: execute / bin / bencher / debug' './tests/scheme/srfi-1.sst' "${@}"
+!!
+
+<< execute / bin / bencher / srfi-1 / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / bin / bencher / srfi-1 / debug'
+!!
+
+<< execute / bin / bencher / srfi-1 / release
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__srfi_1.out' x-run ':: execute / bin / bencher / release' './tests/scheme/srfi-1.sst' "${@}"
+!!
+
 << execute / bin / bencher / strings / debug
 	exec -- taskset -c 2 x-run ':: execute / bin / bencher / debug' './tests/scheme/strings.sst' "${@}"
 !!
@@ -1451,6 +1464,7 @@
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/records-syntaxes.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/runtime.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/scratchpad.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/srfi-1.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/strings.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/types.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/values.sst' "${@}"
@@ -1946,6 +1960,18 @@
 
 << execute / bin / tester / scratchpad / release
 	exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/scratchpad.sst' "${@}"
+!!
+
+<< execute / bin / tester / srfi-1 / debug
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/srfi-1.sst' "${@}"
+!!
+
+<< execute / bin / tester / srfi-1 / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / bin / tester / srfi-1 / debug'
+!!
+
+<< execute / bin / tester / srfi-1 / release
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/srfi-1.sst' "${@}"
 !!
 
 << execute / bin / tester / strings / debug
@@ -2568,6 +2594,14 @@
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__scratchpad' --exact "${@}"
 !!
 
+<< execute / test / scheme / benchmarks / srfi_1 / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__srfi_1' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / srfi_1 / release
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__srfi_1' --exact "${@}"
+!!
+
 << execute / test / scheme / benchmarks / strings / debug
 	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__strings' --exact "${@}"
 !!
@@ -3090,6 +3124,18 @@
 
 << execute / test / scheme / tests / scratchpad / release
 	x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__scratchpad' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / srfi_1 / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__srfi_1' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / srfi_1 / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / srfi_1 / debug' "${@}"
+!!
+
+<< execute / test / scheme / tests / srfi_1 / release
+	x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__srfi_1' --exact "${@}"
 !!
 
 << execute / test / scheme / tests / strings / debug
@@ -3760,6 +3806,10 @@
 
 << files / edit / tests/scheme/scratchpad.sst
 	exec -- sce ./tests/scheme/scratchpad.sst
+!!
+
+<< files / edit / tests/scheme/srfi-1.sst
+	exec -- sce ./tests/scheme/srfi-1.sst
 !!
 
 << files / edit / tests/scheme/strings.sst
@@ -4468,6 +4518,10 @@
 
 << files / view / tests/scheme/scratchpad.sst
 	exec -- less -- ./tests/scheme/scratchpad.sst
+!!
+
+<< files / view / tests/scheme/srfi-1.sst
+	exec -- less -- ./tests/scheme/srfi-1.sst
 !!
 
 << files / view / tests/scheme/strings.sst

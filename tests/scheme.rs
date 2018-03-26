@@ -23,6 +23,8 @@ def_scheme_tests_from_file! (
 		test__bytes => "scheme/bytes.sst",
 		test__strings => "scheme/strings.sst",
 		
+		test__lists_srfi_1 => "scheme/lists-srfi-1.sst",
+		
 		test__control => "scheme/control.sst",
 		test__loops => "scheme/loops.sst",
 		
@@ -82,6 +84,8 @@ def_scheme_benchmarks_from_file! (
 		benchmark__arrays => "scheme/arrays.sst",
 		benchmark__bytes => "scheme/bytes.sst",
 		benchmark__strings => "scheme/strings.sst",
+		
+		benchmark__lists_srfi_1 => "scheme/lists-srfi-1.sst",
 		
 		benchmark__control => "scheme/control.sst",
 		benchmark__loops => "scheme/loops.sst",

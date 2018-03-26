@@ -1,0 +1,216 @@
+
+
+; legend
+; * `function !!` -- to be implemented;
+; * `~~ function` -- not implemented;
+; * `function (**)` -- extension;
+
+
+
+
+; cons -> r7rs
+
+; list -> r7rs
+
+; xcons
+(~xcons 0 1) => '(1 . 0)
+
+; cons* !!
+; make-list -> r7rs
+; list-tabulate !!
+; list-copy -> r7rs
+; circular-list !!
+; iota !!
+
+
+
+
+; proper-list? !!
+; circular-list? !!
+; dotted-list? !!
+; pair? -> r7rs
+; null? -> r7rs
+; null-list? !!
+; not-pair? !!
+; list= !!
+; list<, lset<=, lset>, lset>= !! (**)
+
+
+
+
+; car, cdr, ... -> r7rs
+; list-ref -> r7rs
+
+; first, second, third, fourth, fifth, sixth, seventh, eighth, ninth, tenth
+(~first '(1 2 3 4 5 6 7 8 9 10)) => 1
+(~second '(1 2 3 4 5 6 7 8 9 10)) => 2
+(~third '(1 2 3 4 5 6 7 8 9 10)) => 3
+(~fourth '(1 2 3 4 5 6 7 8 9 10)) => 4
+(~fifth '(1 2 3 4 5 6 7 8 9 10)) => 5
+(~sixth '(1 2 3 4 5 6 7 8 9 10)) => 6
+(~seventh '(1 2 3 4 5 6 7 8 9 10)) => 7
+(~eighth '(1 2 3 4 5 6 7 8 9 10)) => 8
+(~ninth '(1 2 3 4 5 6 7 8 9 10)) => 9
+(~tenth '(1 2 3 4 5 6 7 8 9 10)) => 10
+
+; first-tail, second-tail, third-tail, fourth-tail, fifth-tail, sixth-tail, seventh-tail, eighth-tail, ninth-tail, tenth-tail (**)
+(~first-tail '(1 2 3 4 5 6 7 8 9 10)) => '(2 3 4 5 6 7 8 9 10)
+(~second-tail '(1 2 3 4 5 6 7 8 9 10)) => '(3 4 5 6 7 8 9 10)
+(~third-tail '(1 2 3 4 5 6 7 8 9 10)) => '(4 5 6 7 8 9 10)
+(~fourth-tail '(1 2 3 4 5 6 7 8 9 10)) => '(5 6 7 8 9 10)
+(~fifth-tail '(1 2 3 4 5 6 7 8 9 10)) => '(6 7 8 9 10)
+(~sixth-tail '(1 2 3 4 5 6 7 8 9 10)) => '(7 8 9 10)
+(~seventh-tail '(1 2 3 4 5 6 7 8 9 10)) => '(8 9 10)
+(~eighth-tail '(1 2 3 4 5 6 7 8 9 10)) => '(9 10)
+(~ninth-tail '(1 2 3 4 5 6 7 8 9 10)) => '(10)
+(~tenth-tail '(1 2 3 4 5 6 7 8 9 10)) => '()
+
+; first-pair, second-pair, third-pair, fourth-pair, fifth-pair, sixth-pair, seventh-pair, eighth-pair, ninth-pair, tenth-pair (**)
+(~first-pair '(1 2 3 4 5 6 7 8 9 10)) => '(1 2 3 4 5 6 7 8 9 10)
+(~second-pair '(1 2 3 4 5 6 7 8 9 10)) => '(2 3 4 5 6 7 8 9 10)
+(~third-pair '(1 2 3 4 5 6 7 8 9 10)) => '(3 4 5 6 7 8 9 10)
+(~fourth-pair '(1 2 3 4 5 6 7 8 9 10)) => '(4 5 6 7 8 9 10)
+(~fifth-pair '(1 2 3 4 5 6 7 8 9 10)) => '(5 6 7 8 9 10)
+(~sixth-pair '(1 2 3 4 5 6 7 8 9 10)) => '(6 7 8 9 10)
+(~seventh-pair '(1 2 3 4 5 6 7 8 9 10)) => '(7 8 9 10)
+(~eighth-pair '(1 2 3 4 5 6 7 8 9 10)) => '(8 9 10)
+(~ninth-pair '(1 2 3 4 5 6 7 8 9 10)) => '(9 10)
+(~tenth-pair '(1 2 3 4 5 6 7 8 9 10)) => '(10)
+
+; ~~ car+cdr
+
+; take !!
+; drop !!
+; take-right !!
+; drop-right !!
+; split-at !!
+; ~~ take!
+; ~~ take-right!
+; ~~ drop-right!
+; ~~ split-at!
+
+; last !!
+; last-pair !!
+
+
+
+; length -> r7rs
+; ~~ length+
+
+; append -> r7rs
+; concatenate !!
+; reverse -> r7rs
+; append-reverse !!
+; ~~ append!
+; ~~ concatenate!
+; ~~ reverse!
+; ~~ append-reverse!
+
+; zip !!
+; unzip1, ..., unzip5 !!
+; unzip* !! (**)
+
+; count !!
+
+
+
+
+; fold !!
+; fold-right !!
+; pair-fold !!
+; pair-fold-right !!
+; reduce !!
+; reduce-right !!
+; unfold !!
+; unfold-right !!
+; for-each -> r7rs
+; map -> r7rs
+; ~~ map!
+; map-in-order -> map (r7rs)
+; append-map !!
+; ~~ append-map!
+; pair-for-each !!
+; filter-map !!
+
+
+
+
+; filter !!
+; partition !!
+; remove !!
+; ~~ filter!
+; ~~ partition!
+; ~~ remove!
+
+
+
+
+; find
+(~find symbol? '()) => #f
+(~find symbol? '(0 1 2)) => #f
+(~find symbol? '(a b c)) => 'a
+(~find symbol? '(0 a 1 b 2 c)) => 'a
+(~find symbol? '(0 1 2 a)) => 'a
+
+; find-tail !!
+; find-pair !! (**)
+; take-while !!
+; drop-while !!
+; span !!
+; break !!
+; ~~ take-while!
+; ~~ drop-while!
+; ~~ span!
+; ~~ break!
+
+; any !!
+; every !!
+; list-index !!
+
+; member -> r7rs
+; memq -> r7rs
+; memv -> r7rs
+
+
+
+
+; delete !!
+; delete-duplicates !!
+; ~~ delete!
+; ~~ delete-duplicates!
+
+
+
+
+; assoc -> r7rs
+; assq -> r7rs
+; assv -> r7rs
+; alist-cons !!
+; alist-copy !!
+; alist-delete !!
+; ~~ alist-delete!
+
+
+
+
+; ~~ lset<=
+; ~~ lset=
+; ~~ lset<, lset>, lset>= (**)
+; ~~ lset-adjoin
+; ~~ lset-union
+; ~~ lset-intersection
+; ~~ lset-difference
+; ~~ lset-xor
+; ~~ lset-diff+intersection
+; ~~ lset-union!
+; ~~ lset-intersection!
+; ~~ lset-difference!
+; ~~ lset-xor!
+; ~~ lset-diff+intersection!
+
+
+
+
+; set-car! -> r7rs
+; set-cdr! -> r7rs
+
