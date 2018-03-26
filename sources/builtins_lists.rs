@@ -42,6 +42,8 @@ pub mod exports {
 	pub use super::{list_member_by_comparison, list_member_by_comparator};
 	pub use super::{list_assoc_by_comparison, list_assoc_by_comparator};
 	
+	pub use super::{list_find};
+	
 	pub use super::{vec_list_append_2, vec_list_append_3, vec_list_append_4, vec_list_append_n};
 	pub use super::{vec_list_append_2_dotted, vec_list_append_3_dotted, vec_list_append_4_dotted, vec_list_append_n_dotted};
 	pub use super::{vec_list_clone, vec_list_clone_dotted, vec_list_drain, vec_list_drain_dotted};
@@ -500,6 +502,28 @@ pub fn list_assoc_by_comparator (list : &Value, value : &Value, comparator : &Va
 				let comparison = try! (evaluator.evaluate_procedure_call_2 (comparator, value, pair.left ()));
 				if is_not_false (&comparison) {
 					succeed! (pair.value_clone () .into ());
+				}
+			},
+			Some (Err (error)) =>
+				return Err (error),
+			None =>
+				succeed! (false.into ()),
+		}
+	}
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn list_find (list : &Value, predicate : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	let mut iterator = try! (ListIterator::new (list, false));
+	loop {
+		match iterator.next () {
+			Some (Ok (value)) => {
+				let comparison = try! (evaluator.evaluate_procedure_call_1 (predicate, &value));
+				if is_not_false (&comparison) {
+					succeed! (value.value_clone ());
 				}
 			},
 			Some (Err (error)) =>

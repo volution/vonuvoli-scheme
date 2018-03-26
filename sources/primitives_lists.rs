@@ -70,8 +70,38 @@ pub enum ListPrimitive1 {
 	ListFirstOfFirst,
 	ListRestOfFirst,
 	
+	ListPairAt1,
+	ListPairAt2,
+	ListPairAt3,
+	ListPairAt4,
+	ListPairAt5,
+	ListPairAt6,
+	ListPairAt7,
+	ListPairAt8,
+	ListPairAt9,
+	ListPairAt10,
+	
+	ListFirstAt1,
 	ListFirstAt2,
+	ListFirstAt3,
+	ListFirstAt4,
+	ListFirstAt5,
+	ListFirstAt6,
+	ListFirstAt7,
+	ListFirstAt8,
+	ListFirstAt9,
+	ListFirstAt10,
+	
+	ListRestAt1,
 	ListRestAt2,
+	ListRestAt3,
+	ListRestAt4,
+	ListRestAt5,
+	ListRestAt6,
+	ListRestAt7,
+	ListRestAt8,
+	ListRestAt9,
+	ListRestAt10,
 	
 	ListLength,
 	ListClone,
@@ -97,6 +127,7 @@ pub enum ListPrimitive1 {
 pub enum ListPrimitive2 {
 	
 	Pair,
+	PairExchanged,
 	
 	PairLeftSet,
 	PairRightSet,
@@ -120,6 +151,8 @@ pub enum ListPrimitive2 {
 	ListAssocByIdentity,
 	ListAssocByValue,
 	ListAssocByValueRecursive,
+	
+	ListFind,
 	
 }
 
@@ -217,11 +250,95 @@ pub fn list_primitive_1_evaluate (primitive : ListPrimitive1, input_1 : &Value, 
 		ListPrimitive1::PairRight =>
 			return list_rest (input_1),
 		
+		ListPrimitive1::ListPairAt1 =>
+			return list_pair_at (input_1, 0),
+		
+		ListPrimitive1::ListPairAt2 =>
+			return list_pair_at (input_1, 1),
+		
+		ListPrimitive1::ListPairAt3 =>
+			return list_pair_at (input_1, 2),
+		
+		ListPrimitive1::ListPairAt4 =>
+			return list_pair_at (input_1, 3),
+		
+		ListPrimitive1::ListPairAt5 =>
+			return list_pair_at (input_1, 4),
+		
+		ListPrimitive1::ListPairAt6 =>
+			return list_pair_at (input_1, 5),
+		
+		ListPrimitive1::ListPairAt7 =>
+			return list_pair_at (input_1, 6),
+		
+		ListPrimitive1::ListPairAt8 =>
+			return list_pair_at (input_1, 7),
+		
+		ListPrimitive1::ListPairAt9 =>
+			return list_pair_at (input_1, 8),
+		
+		ListPrimitive1::ListPairAt10 =>
+			return list_pair_at (input_1, 9),
+		
+		ListPrimitive1::ListFirstAt1 =>
+			return list_first_at (input_1, 0),
+		
 		ListPrimitive1::ListFirstAt2 =>
 			return list_first_at (input_1, 1),
 		
+		ListPrimitive1::ListFirstAt3 =>
+			return list_first_at (input_1, 2),
+		
+		ListPrimitive1::ListFirstAt4 =>
+			return list_first_at (input_1, 3),
+		
+		ListPrimitive1::ListFirstAt5 =>
+			return list_first_at (input_1, 4),
+		
+		ListPrimitive1::ListFirstAt6 =>
+			return list_first_at (input_1, 5),
+		
+		ListPrimitive1::ListFirstAt7 =>
+			return list_first_at (input_1, 6),
+		
+		ListPrimitive1::ListFirstAt8 =>
+			return list_first_at (input_1, 7),
+		
+		ListPrimitive1::ListFirstAt9 =>
+			return list_first_at (input_1, 8),
+		
+		ListPrimitive1::ListFirstAt10 =>
+			return list_first_at (input_1, 9),
+		
+		ListPrimitive1::ListRestAt1 =>
+			return list_rest_at (input_1, 0),
+		
 		ListPrimitive1::ListRestAt2 =>
 			return list_rest_at (input_1, 1),
+		
+		ListPrimitive1::ListRestAt3 =>
+			return list_rest_at (input_1, 2),
+		
+		ListPrimitive1::ListRestAt4 =>
+			return list_rest_at (input_1, 3),
+		
+		ListPrimitive1::ListRestAt5 =>
+			return list_rest_at (input_1, 4),
+		
+		ListPrimitive1::ListRestAt6 =>
+			return list_rest_at (input_1, 5),
+		
+		ListPrimitive1::ListRestAt7 =>
+			return list_rest_at (input_1, 6),
+		
+		ListPrimitive1::ListRestAt8 =>
+			return list_rest_at (input_1, 7),
+		
+		ListPrimitive1::ListRestAt9 =>
+			return list_rest_at (input_1, 8),
+		
+		ListPrimitive1::ListRestAt10 =>
+			return list_rest_at (input_1, 9),
 		
 		ListPrimitive1::ListFirstOfFirst =>
 			return list_first (try! (list_first_ref (input_1))),
@@ -269,11 +386,14 @@ pub fn list_primitive_1_evaluate (primitive : ListPrimitive1, input_1 : &Value, 
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn list_primitive_2_evaluate (primitive : ListPrimitive2, input_1 : &Value, input_2 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn list_primitive_2_evaluate (primitive : ListPrimitive2, input_1 : &Value, input_2 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		ListPrimitive2::Pair =>
 			return pair (input_1, input_2, None) .into_0 (),
+		
+		ListPrimitive2::PairExchanged =>
+			return pair (input_2, input_1, None) .into_0 (),
 		
 		ListPrimitive2::PairLeftSet =>
 			return pair_left_set (input_1, input_2),
@@ -325,6 +445,9 @@ pub fn list_primitive_2_evaluate (primitive : ListPrimitive2, input_1 : &Value, 
 		
 		ListPrimitive2::ListAssocByValueRecursive =>
 			return list_assoc_by_comparison (input_2, input_1, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (true))),
+		
+		ListPrimitive2::ListFind =>
+			return list_find (input_2, input_1, evaluator),
 		
 	}
 }
