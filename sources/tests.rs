@@ -622,7 +622,8 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 				ValueKindMatchAsRef2::Binding (_, _) |
 				ValueKindMatchAsRef2::Parameters (_, _) |
 				ValueKindMatchAsRef2::Parameter (_, _) |
-				ValueKindMatchAsRef2::Promise (_, _) =>
+				ValueKindMatchAsRef2::Promise (_, _) |
+				ValueKindMatchAsRef2::Opaque (_, _) =>
 					(),
 				ValueKindMatchAsRef2::Missmatched =>
 					fail! (0x670c12cb),

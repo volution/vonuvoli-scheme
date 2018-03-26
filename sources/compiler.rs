@@ -185,7 +185,7 @@ impl Compiler {
 				return self.compile_syntax_quote_0 (compilation, class.value ()),
 			
 			ValueClassMatchInto::Opaque (value) =>
-				return self.compile_syntax_quote_0 (compilation, value),
+				return self.compile_syntax_quote_0 (compilation, value.into ()),
 			
 		}
 	}

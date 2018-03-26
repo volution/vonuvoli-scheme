@@ -1013,6 +1013,9 @@ def_value_try_into! (try_into_parameter, value_type! (Parameter));
 def_value_try_as_ref! (try_as_promise_ref, value_type! (Promise));
 def_value_try_into! (try_into_promise, value_type! (Promise));
 
+def_value_try_as_ref! (try_as_opaque_ref, value_type! (Opaque));
+def_value_try_into! (try_into_opaque, value_type! (Opaque));
+
 
 
 

@@ -142,6 +142,7 @@ impl_from_for_Value_1! (Binding, Binding);
 impl_from_for_Value_1! (Parameters, Parameters);
 impl_from_for_Value_1! (Parameter, Parameter);
 impl_from_for_Value_1! (Promise, Promise);
+impl_from_for_Value_1! (Opaque, Opaque);
 
 
 impl_from_for_Value_3! (Singleton, ValueSingleton, (), _value, ValueSingleton::Void);

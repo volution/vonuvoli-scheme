@@ -78,6 +78,7 @@ pub mod exports {
 			parameters_compare_1, parameters_compare_1a,
 			parameter_compare_1, parameter_compare_1a,
 			promise_compare_1, promise_compare_1a,
+			opaque_compare_1, opaque_compare_1a,
 			
 			compare_2,
 			value_singleton_compare_2, value_singleton_compare_2a,
@@ -124,6 +125,7 @@ pub mod exports {
 			parameters_compare_2, parameters_compare_2a,
 			parameter_compare_2, parameter_compare_2a,
 			promise_compare_2, promise_compare_2a,
+			opaque_compare_2, opaque_compare_2a,
 			
 			compare_3,
 			value_singleton_compare_3, value_singleton_compare_3a,
@@ -170,6 +172,7 @@ pub mod exports {
 			parameters_compare_3, parameters_compare_3a,
 			parameter_compare_3, parameter_compare_3a,
 			promise_compare_3, promise_compare_3a,
+			opaque_compare_3, opaque_compare_3a,
 			
 			compare_4,
 			value_singleton_compare_4, value_singleton_compare_4a,
@@ -216,6 +219,7 @@ pub mod exports {
 			parameters_compare_4, parameters_compare_4a,
 			parameter_compare_4, parameter_compare_4a,
 			promise_compare_4, promise_compare_4a,
+			opaque_compare_4, opaque_compare_4a,
 			
 			compare_n,
 			value_singleton_compare_n, value_singleton_compare_na,
@@ -262,6 +266,7 @@ pub mod exports {
 			parameters_compare_n, parameters_compare_na,
 			parameter_compare_n, parameter_compare_na,
 			promise_compare_n, promise_compare_na,
+			opaque_compare_n, opaque_compare_na,
 			
 	};
 	
@@ -612,6 +617,9 @@ pub fn compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Co
 		ValueKindMatchAsRef::Promise (value) =>
 			return promise_compare_1a (value, comparison),
 		
+		ValueKindMatchAsRef::Opaque (value) =>
+			return opaque_compare_1a (value, comparison),
+		
 	}
 	
 }
@@ -741,6 +749,9 @@ pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef
 		
 		ValueKindMatchAsRef2::Promise (left, right) =>
 			return promise_compare_2a (left, right, comparison),
+		
+		ValueKindMatchAsRef2::Opaque (left, right) =>
+			return opaque_compare_2a (left, right, comparison),
 		
 		ValueKindMatchAsRef2::Missmatched =>
 			match Value::class_match_as_ref_2 (left, right) {
@@ -1788,6 +1799,23 @@ pub fn promise_compare_1a <ValueRef : StdAsRef<Promise>> (_value : ValueRef, _co
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn promise_compare_2a <ValueRef : StdAsRef<Promise>> (_left : ValueRef, _right : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
 	fail_unimplemented! (0x48381d6c);
+}
+
+
+
+
+def_fn_compare! (Opaque,
+		opaque_compare_1, opaque_compare_2, opaque_compare_3, opaque_compare_4, opaque_compare_n,
+		opaque_compare_1a, opaque_compare_2a, opaque_compare_3a, opaque_compare_4a, opaque_compare_na);
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn opaque_compare_1a <ValueRef : StdAsRef<Opaque>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn opaque_compare_2a <ValueRef : StdAsRef<Opaque>> (_left : ValueRef, _right : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
+	fail_unimplemented! (0x2cde5f59);
 }
 
 

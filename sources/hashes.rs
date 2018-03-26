@@ -67,6 +67,7 @@ impl hash::Hash for Value {
 			ValueKindMatchAsRef::Parameters (self_0) => { hasher.write_u32 (0x84c616f7); self_0.hash (hasher); },
 			ValueKindMatchAsRef::Parameter (self_0) => { hasher.write_u32 (0x1937881d); self_0.hash (hasher); },
 			ValueKindMatchAsRef::Promise (self_0) => { hasher.write_u32 (0x34b0d53d); self_0.hash (hasher); },
+			ValueKindMatchAsRef::Opaque (self_0) => { hasher.write_u32 (0xc749410b); self_0.hash (hasher); },
 			
 		}
 	}

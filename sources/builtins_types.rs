@@ -595,6 +595,7 @@ pub mod exports {
 			is_parameters,
 			is_parameter,
 			is_promise,
+			is_opaque,
 			
 			is_string_regex_all_2, is_string_regex_all_3, is_string_regex_all_4, is_string_regex_all_n,
 			is_string_regex_any_2, is_string_regex_any_3, is_string_regex_any_4, is_string_regex_any_n,
@@ -617,6 +618,9 @@ pub mod exports {
 			is_promise_all_2, is_promise_all_3, is_promise_all_4, is_promise_all_n,
 			is_promise_any_2, is_promise_any_3, is_promise_any_4, is_promise_any_n,
 			
+			is_opaque_all_2, is_opaque_all_3, is_opaque_all_4, is_opaque_all_n,
+			is_opaque_any_2, is_opaque_any_3, is_opaque_any_4, is_opaque_any_n,
+			
 	};
 	
 	
@@ -624,16 +628,12 @@ pub mod exports {
 			
 			is_resource,
 			is_internal,
-			is_opaque,
 			
 			is_resource_all_2, is_resource_all_3, is_resource_all_4, is_resource_all_n,
 			is_resource_any_2, is_resource_any_3, is_resource_any_4, is_resource_any_n,
 			
 			is_internal_all_2, is_internal_all_3, is_internal_all_4, is_internal_all_n,
 			is_internal_any_2, is_internal_any_3, is_internal_any_4, is_internal_any_n,
-			
-			is_opaque_all_2, is_opaque_all_3, is_opaque_all_4, is_opaque_all_n,
-			is_opaque_any_2, is_opaque_any_3, is_opaque_any_4, is_opaque_any_n,
 			
 	};
 	
@@ -2293,6 +2293,15 @@ def_fn_predicate_all! (is_promise, is_promise_all_2, is_promise_all_3, is_promis
 def_fn_predicate_any! (is_promise, is_promise_any_2, is_promise_any_3, is_promise_any_4, is_promise_any_n);
 
 
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn is_opaque (value : &Value) -> (bool) {
+	return value.is_class (ValueClass::Opaque);
+}
+
+def_fn_predicate_all! (is_opaque, is_opaque_all_2, is_opaque_all_3, is_opaque_all_4, is_opaque_all_n);
+def_fn_predicate_any! (is_opaque, is_opaque_any_2, is_opaque_any_3, is_opaque_any_4, is_opaque_any_n);
+
+
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -2302,15 +2311,6 @@ pub fn is_resource (value : &Value) -> (bool) {
 
 def_fn_predicate_all! (is_resource, is_resource_all_2, is_resource_all_3, is_resource_all_4, is_resource_all_n);
 def_fn_predicate_any! (is_resource, is_resource_any_2, is_resource_any_3, is_resource_any_4, is_resource_any_n);
-
-
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn is_opaque (value : &Value) -> (bool) {
-	return value.is_class (ValueClass::Opaque);
-}
-
-def_fn_predicate_all! (is_opaque, is_opaque_all_2, is_opaque_all_3, is_opaque_all_4, is_opaque_all_n);
-def_fn_predicate_any! (is_opaque, is_opaque_any_2, is_opaque_any_3, is_opaque_any_4, is_opaque_any_n);
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

@@ -72,6 +72,8 @@ impl fmt::Display for Value {
 			ValueKindMatchAsRef::Parameter (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::Promise (self_0) => self_0.fmt (formatter),
 			
+			ValueKindMatchAsRef::Opaque (self_0) => self_0.fmt (formatter),
+			
 		}
 	}
 }
@@ -133,6 +135,8 @@ impl fmt::Debug for Value {
 			ValueKindMatchAsRef::Parameters (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::Parameter (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::Promise (self_0) => self_0.fmt (formatter),
+			
+			ValueKindMatchAsRef::Opaque (self_0) => self_0.fmt (formatter),
 			
 		}
 	}

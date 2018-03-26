@@ -44,7 +44,7 @@ pub mod exports {
 	pub use super::{ListMatchAsRef, ListMatchInto};
 	pub use super::{ValueRef};
 	pub use super::{GenericRef};
-	pub use super::{StringRegex, Promise};
+	pub use super::{StringRegex, Promise, Opaque};
 }
 
 
@@ -105,6 +105,8 @@ pub enum ValueKind {
 	Parameter,
 	Promise,
 	
+	Opaque,
+	
 }
 
 
@@ -161,6 +163,8 @@ pub enum ValueKindMatchAsRef <'a> {
 	Parameters (&'a Parameters),
 	Parameter (&'a Parameter),
 	Promise (&'a Promise),
+	
+	Opaque (&'a Opaque),
 	
 }
 
@@ -219,6 +223,8 @@ pub enum ValueKindMatchInto {
 	Parameter (Parameter),
 	Promise (Promise),
 	
+	Opaque (Opaque),
+	
 }
 
 
@@ -276,6 +282,8 @@ pub enum ValueKindMatchAsRef2 <'a> {
 	Parameter (&'a Parameter, &'a Parameter),
 	Promise (&'a Promise, &'a Promise),
 	
+	Opaque (&'a Opaque, &'a Opaque),
+	
 	Missmatched,
 	
 }
@@ -319,8 +327,9 @@ pub enum ValueClass {
 	Port,
 	Resource,
 	
-	Internal,
 	Opaque,
+	
+	Internal,
 	
 }
 
@@ -360,8 +369,9 @@ pub enum ValueClassMatchAsRef <'a> {
 	Port (&'a Port),
 	Resource (ResourceMatchAsRef<'a>),
 	
+	Opaque (&'a Opaque),
+	
 	Internal (InternalMatchAsRef<'a>),
-	Opaque (&'a Value),
 	
 }
 
@@ -401,8 +411,9 @@ pub enum ValueClassMatchInto {
 	Port (Port),
 	Resource (ResourceMatchInto),
 	
+	Opaque (Opaque),
+	
 	Internal (InternalMatchInto),
-	Opaque (Value),
 	
 }
 
@@ -442,8 +453,9 @@ pub enum ValueClassMatchAsRef2 <'a> {
 	Port (&'a Port, &'a Port),
 	Resource (ResourceMatchAsRef<'a>, ResourceMatchAsRef<'a>),
 	
+	Opaque (&'a Opaque, &'a Opaque),
+	
 	Internal (InternalMatchAsRef<'a>, InternalMatchAsRef<'a>),
-	Opaque (&'a Value, &'a Value),
 	
 	Missmatched (ValueClassMatchAsRef<'a>, ValueClassMatchAsRef<'a>),
 	
@@ -582,6 +594,8 @@ pub enum Value {
 	Parameter ( ValueMeta1, Parameter, ValueMeta2 ),
 	Promise ( ValueMeta1, Promise, ValueMeta2 ),
 	
+	Opaque ( ValueMeta1, Opaque, ValueMeta2 ),
+	
 	__NonExhaustive,
 	
 }
@@ -652,6 +666,8 @@ impl Value {
 			Value::Parameter (_, _, _) => ValueKind::Parameter,
 			Value::Promise (_, _, _) => ValueKind::Promise,
 			
+			Value::Opaque (_, _, _) => ValueKind::Opaque,
+			
 			Value::__NonExhaustive => unreachable_0! (0x7bbc0f95),
 			
 		}
@@ -716,6 +732,8 @@ impl Value {
 			Value::Parameter (_, ref self_0, _) => ValueKindMatchAsRef::Parameter (self_0),
 			Value::Promise (_, ref self_0, _) => ValueKindMatchAsRef::Promise (self_0),
 			
+			Value::Opaque (_, ref self_0, _) => ValueKindMatchAsRef::Opaque (self_0),
+			
 			Value::__NonExhaustive => unreachable_0! (0x60a44540),
 			
 		}
@@ -779,6 +797,8 @@ impl Value {
 			Value::Parameters (_, self_0, _) => ValueKindMatchInto::Parameters (self_0),
 			Value::Parameter (_, self_0, _) => ValueKindMatchInto::Parameter (self_0),
 			Value::Promise (_, self_0, _) => ValueKindMatchInto::Promise (self_0),
+			
+			Value::Opaque (_, self_0, _) => ValueKindMatchInto::Opaque (self_0),
 			
 			Value::__NonExhaustive => unreachable_0! (0x91f4d229),
 			
@@ -849,6 +869,8 @@ impl Value {
 			(&Value::Parameter (_, ref self_0, _), &Value::Parameter (_, ref other_0, _)) => ValueKindMatchAsRef2::Parameter (self_0, other_0),
 			(&Value::Promise (_, ref self_0, _), &Value::Promise (_, ref other_0, _)) => ValueKindMatchAsRef2::Promise (self_0, other_0),
 			
+			(&Value::Opaque (_, ref self_0, _), &Value::Opaque (_, ref other_0, _)) => ValueKindMatchAsRef2::Opaque (self_0, other_0),
+			
 			(&Value::__NonExhaustive, _) => unreachable_0! (0x13867aa3),
 			(_, &Value::__NonExhaustive) => unreachable_0! (0x5285f71e),
 			
@@ -917,6 +939,8 @@ impl Value {
 			Value::Parameter (_, _, _) => ValueClass::Internal,
 			Value::Promise (_, _, _) => ValueClass::Internal,
 			
+			Value::Opaque (_, _, _) => ValueClass::Opaque,
+			
 			Value::__NonExhaustive => unreachable_0! (0x5f4a0853),
 			
 		}
@@ -981,6 +1005,8 @@ impl Value {
 			Value::Parameter (_, ref self_0, _) => ValueClassMatchAsRef::Internal (InternalMatchAsRef::Parameter (self_0)),
 			Value::Promise (_, ref self_0, _) => ValueClassMatchAsRef::Internal (InternalMatchAsRef::Promise (self_0)),
 			
+			Value::Opaque (_, ref self_0, _) => ValueClassMatchAsRef::Opaque (self_0),
+			
 			Value::__NonExhaustive => unreachable_0! (0xeb981b3d),
 			
 		}
@@ -1044,6 +1070,8 @@ impl Value {
 			Value::Parameters (_, self_0, _) => ValueClassMatchInto::Internal (InternalMatchInto::Parameters (self_0)),
 			Value::Parameter (_, self_0, _) => ValueClassMatchInto::Internal (InternalMatchInto::Parameter (self_0)),
 			Value::Promise (_, self_0, _) => ValueClassMatchInto::Internal (InternalMatchInto::Promise (self_0)),
+			
+			Value::Opaque (_, self_0, _) => ValueClassMatchInto::Opaque (self_0),
 			
 			Value::__NonExhaustive => unreachable_0! (0xcb4d88e4),
 			
@@ -1115,6 +1143,8 @@ impl Value {
 			(&Value::Path (_, ref self_0, _), &Value::Path (_, ref other_0, _)) => ValueClassMatchAsRef2::Path (self_0, other_0),
 			(&Value::Port (_, ref self_0, _), &Value::Port (_, ref other_0, _)) => ValueClassMatchAsRef2::Port (self_0, other_0),
 			
+			(&Value::Opaque (_, ref self_0, _), &Value::Opaque (_, ref other_0, _)) => ValueClassMatchAsRef2::Opaque (self_0, other_0),
+			
 			(&Value::__NonExhaustive, _) => unreachable_0! (0x15e280a3),
 			(_, &Value::__NonExhaustive) => unreachable_0! (0xf9cc335c),
 			
@@ -1128,8 +1158,6 @@ impl Value {
 						ValueClassMatchAsRef2::Syntax (self_0, other_0),
 					(ValueClassMatchAsRef::Resource (self_0), ValueClassMatchAsRef::Resource (other_0)) =>
 						ValueClassMatchAsRef2::Resource (self_0, other_0),
-					(ValueClassMatchAsRef::Opaque (self_0), ValueClassMatchAsRef::Opaque (other_0)) =>
-						ValueClassMatchAsRef2::Opaque (self_0, other_0),
 					
 					// NOTE:  !!! match-fallback !!!
 					(self_0, other_0) =>
@@ -1230,6 +1258,8 @@ impl Value {
 			ValueKindMatchAsRef2::Parameter (self_0, other_0) => Parameter::is_self (self_0, other_0),
 			ValueKindMatchAsRef2::Promise (self_0, other_0) => Promise::is_self (self_0, other_0),
 			
+			ValueKindMatchAsRef2::Opaque (self_0, other_0) => Opaque::is_self (self_0, other_0),
+			
 			ValueKindMatchAsRef2::Missmatched => false,
 			
 		}
@@ -1288,6 +1318,8 @@ impl Value {
 			Value::Parameter (_, _, _) => fail! (0x5e58cbae),
 			Value::Promise (_, _, _) => fail! (0xdb79854e),
 			
+			Value::Opaque (_, _, _) => fail! (0x3a5f06fc),
+			
 			Value::__NonExhaustive => unreachable_0! (0xe6a3ce23),
 			
 		}
@@ -1312,6 +1344,8 @@ impl Value {
 			
 			Value::Port (_, ref self_0, _) => self_0.clone () .into_0 (),
 			Value::Process (_, ref self_0, _) => self_0.clone () .into_0 (),
+			
+			Value::Opaque (_, _, _) => fail! (0x1f7ae54b),
 			
 			Value::__NonExhaustive => unreachable_0! (0xdbf88c4a),
 			
@@ -1381,6 +1415,8 @@ impl ValueKindMatchInto {
 			ValueKindMatchInto::Parameter (value) => value.into (),
 			ValueKindMatchInto::Promise (value) => value.into (),
 			
+			ValueKindMatchInto::Opaque (value) => value.into (),
+			
 		}
 		
 	}
@@ -1426,8 +1462,9 @@ impl ValueClassMatchInto {
 			ValueClassMatchInto::Port (value) => value.into (),
 			ValueClassMatchInto::Resource (class) => class.value (),
 			
+			ValueClassMatchInto::Opaque (value) => value.into (),
+			
 			ValueClassMatchInto::Internal (class) => class.value (),
-			ValueClassMatchInto::Opaque (value) => value,
 			
 		}
 		
@@ -1830,4 +1867,5 @@ macro_rules! def_value_placeholder {
 
 def_value_placeholder! (StringRegex);
 def_value_placeholder! (Promise);
+def_value_placeholder! (Opaque);
 
