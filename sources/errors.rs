@@ -298,14 +298,3 @@ pub fn error_panic (code : u32) -> (Error) {
 	Error::new (code as u64)
 }
 
-
-
-
-impl StdFrom<convert::Infallible> for Error {
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn from (_error : convert::Infallible) -> (Error) {
-		return error_panic (0xddde3965);
-	}
-}
-

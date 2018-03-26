@@ -160,7 +160,7 @@ impl <T, U> StdAsRef0<U> for T where T : StdAsRef<U> {
 
 impl <T, U> StdTryAsRef0<U> for T where T : StdAsRef0<U> {
 	
-	type Error = convert::Infallible;
+	type Error = !;
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn try_as_ref_0 (&self) -> (Result<&U, Self::Error>) {
