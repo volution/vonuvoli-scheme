@@ -4,7 +4,6 @@
 #![ feature (libc) ]
 #![ feature (test) ]
 
-#![ feature (i128_type) ]
 #![ feature (try_from) ]
 #![ feature (ascii_ctype) ]
 #![ feature (str_internals) ]

@@ -380,8 +380,8 @@ cat <<'EOS'
 	nice -n 19 -- ./.python/bin/pip install --force restview
 !!
 
-:: environment / rust-up / use / stable :: export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}"
-:: environment / rust-up / use / nightly :: export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}"
+:: environment / rust-up / use / stable :: export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin ):${PATH}"
+:: environment / rust-up / use / nightly :: export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):${PATH}"
 
 :: environment / rust / stack / 128M :: export -- RUST_MIN_STACK=134217728
 :: environment / rust / stack / 1024M :: export -- RUST_MIN_STACK=1073741824
