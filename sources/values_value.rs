@@ -19,6 +19,7 @@ use super::values_bytes::exports::*;
 use super::values_characters::exports::*;
 use super::values_keywords::exports::*;
 use super::values_numbers::exports::*;
+use super::values_opaque::exports::*;
 use super::values_pairs::exports::*;
 use super::values_records::exports::*;
 use super::values_strings::exports::*;
@@ -44,7 +45,7 @@ pub mod exports {
 	pub use super::{ListMatchAsRef, ListMatchInto};
 	pub use super::{ValueRef};
 	pub use super::{GenericRef};
-	pub use super::{StringRegex, Promise, Opaque};
+	pub use super::{StringRegex, Promise};
 }
 
 
@@ -1867,5 +1868,4 @@ macro_rules! def_value_placeholder {
 
 def_value_placeholder! (StringRegex);
 def_value_placeholder! (Promise);
-def_value_placeholder! (Opaque);
 

@@ -3588,6 +3588,10 @@
 	exec -- sce ./sources/values_numbers.rs
 !!
 
+<< files / edit / sources/values_opaque.rs
+	exec -- sce ./sources/values_opaque.rs
+!!
+
 << files / edit / sources/values_pairs.rs
 	exec -- sce ./sources/values_pairs.rs
 !!
@@ -4298,6 +4302,10 @@
 
 << files / view / sources/values_numbers.rs
 	exec -- less -- ./sources/values_numbers.rs
+!!
+
+<< files / view / sources/values_opaque.rs
+	exec -- less -- ./sources/values_opaque.rs
 !!
 
 << files / view / sources/values_pairs.rs

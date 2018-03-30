@@ -364,3 +364,14 @@ impl hash::Hash for Parameter {
 	}
 }
 
+
+
+
+impl hash::Hash for Opaque {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
+		self.handle () .hash (hasher);
+	}
+}
+

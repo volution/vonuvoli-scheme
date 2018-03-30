@@ -219,6 +219,7 @@ pub(crate) mod values_bytes;
 pub(crate) mod values_characters;
 pub(crate) mod values_keywords;
 pub(crate) mod values_numbers;
+pub(crate) mod values_opaque;
 pub(crate) mod values_pairs;
 pub(crate) mod values_records;
 pub(crate) mod values_strings;
@@ -319,6 +320,7 @@ pub mod internals {
 	pub use super::values_characters::exports as values_characters;
 	pub use super::values_numbers::exports as values_numbers;
 	pub use super::values_keywords::exports as values_keywords;
+	pub use super::values_opaque::exports as values_opaque;
 	pub use super::values_pairs::exports as values_pairs;
 	pub use super::values_records::exports as values_records;
 	pub use super::values_strings::exports as values_strings;

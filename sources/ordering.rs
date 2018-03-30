@@ -1234,3 +1234,36 @@ impl cmp::PartialOrd for Parameter {
 	}
 }
 
+
+
+
+impl cmp::Eq for Opaque {}
+
+impl cmp::PartialEq for Opaque {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn eq (&self, other : &Self) -> (bool) {
+		let self_0 = self.handle ();
+		let other_0 = other.handle ();
+		Handle::eq (&self_0, &other_0)
+	}
+}
+
+impl cmp::Ord for Opaque {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn cmp (&self, other : &Self) -> (cmp::Ordering) {
+		let self_0 = self.handle ();
+		let other_0 = other.handle ();
+		Handle::cmp (&self_0, &other_0)
+	}
+}
+
+impl cmp::PartialOrd for Opaque {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn partial_cmp (&self, other : &Self) -> (Option<cmp::Ordering>) {
+		Some (Opaque::cmp (self, other))
+	}
+}
+

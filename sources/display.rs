@@ -1349,6 +1349,28 @@ impl fmt::Debug for Parameter {
 
 
 
+impl fmt::Display for Opaque {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		write! (formatter, "#<opaque:{:016x}>", self.handle () .value ())
+	}
+}
+
+impl fmt::Debug for Opaque {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		formatter
+				.debug_struct ("Opaque")
+				.field ("handle", &self.handle ())
+				.finish ()
+	}
+}
+
+
+
+
 impl fmt::Display for Handle {
 	
 	#[ inline (never) ]

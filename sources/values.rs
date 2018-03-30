@@ -19,6 +19,8 @@ pub mod exports {
 	pub use super::super::values_values::exports::*;
 	pub use super::super::values_records::exports::*;
 	
+	pub use super::super::values_opaque::exports::*;
+	
 	pub use super::super::errors::exports::Error;
 	
 	pub use super::super::contexts::exports::Context;
