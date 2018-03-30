@@ -46,6 +46,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 	
 	let mut definitions = StdVec::new ();
 	
+	// NOTE:  R7RS extensions (natural extensions to existing constructs)
 	definitions.extend_from_slice (&[
 			
 			("locals", SyntaxPrimitiveV::Locals.into ()),
@@ -116,41 +117,6 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("list->immutable", ListPrimitive1::ListToImmutable.into ()),
 			("list->mutable", ListPrimitive1::ListToMutable.into ()),
 			
-			("first", ListPrimitive1::ListFirstAt1.into ()),
-			("first-tail", ListPrimitive1::ListRestAt1.into ()),
-			("first-pair", ListPrimitive1::ListPairAt1.into ()),
-			("second", ListPrimitive1::ListFirstAt2.into ()),
-			("second-tail", ListPrimitive1::ListRestAt2.into ()),
-			("second-pair", ListPrimitive1::ListPairAt2.into ()),
-			("third", ListPrimitive1::ListFirstAt3.into ()),
-			("third-tail", ListPrimitive1::ListRestAt3.into ()),
-			("third-pair", ListPrimitive1::ListPairAt3.into ()),
-			("fourth", ListPrimitive1::ListFirstAt4.into ()),
-			("fourth-tail", ListPrimitive1::ListRestAt4.into ()),
-			("fourth-pair", ListPrimitive1::ListPairAt4.into ()),
-			("fifth", ListPrimitive1::ListFirstAt5.into ()),
-			("fifth-tail", ListPrimitive1::ListRestAt5.into ()),
-			("fifth-pair", ListPrimitive1::ListPairAt5.into ()),
-			("sixth", ListPrimitive1::ListFirstAt6.into ()),
-			("sixth-tail", ListPrimitive1::ListRestAt6.into ()),
-			("sixth-pair", ListPrimitive1::ListPairAt6.into ()),
-			("seventh", ListPrimitive1::ListFirstAt7.into ()),
-			("seventh-tail", ListPrimitive1::ListRestAt7.into ()),
-			("seventh-pair", ListPrimitive1::ListPairAt7.into ()),
-			("eighth", ListPrimitive1::ListFirstAt8.into ()),
-			("eighth-tail", ListPrimitive1::ListRestAt8.into ()),
-			("eighth-pair", ListPrimitive1::ListPairAt8.into ()),
-			("ninth", ListPrimitive1::ListFirstAt9.into ()),
-			("ninth-tail", ListPrimitive1::ListRestAt9.into ()),
-			("ninth-pair", ListPrimitive1::ListPairAt9.into ()),
-			("tenth", ListPrimitive1::ListFirstAt10.into ()),
-			("tenth-tail", ListPrimitive1::ListRestAt10.into ()),
-			("tenth-pair", ListPrimitive1::ListPairAt10.into ()),
-			
-			("find", ListPrimitive2::ListFind.into ()),
-			("xcons", ListPrimitive2::PairExchanged.into ()),
-			("map-in-order", FunctionsPrimitive2::ListsMap.into ()),
-			
 			("vector-reverse", ArrayPrimitive1::ArrayCloneReverse.into ()),
 			("vector-reverse!", ArrayPrimitiveV::ArrayRangeReverse.into ()),
 			("vector->immutable", ArrayPrimitive1::ArrayToImmutable.into ()),
@@ -213,24 +179,6 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("symbol-ci<=?", ComparisonPrimitiveV::SymbolCaseInsensitiveLesserOrEqual.into ()),
 			("symbol-ci>=?", ComparisonPrimitiveV::SymbolCaseInsensitiveGreaterOrEqual.into ()),
 			
-			("keyword=?", ComparisonPrimitiveV::KeywordCaseSensitiveEqual.into ()),
-			("keyword<?", ComparisonPrimitiveV::KeywordCaseSensitiveLesser.into ()),
-			("keyword>?", ComparisonPrimitiveV::KeywordCaseSensitiveGreater.into ()),
-			("keyword<=?", ComparisonPrimitiveV::KeywordCaseSensitiveLesserOrEqual.into ()),
-			("keyword>=?", ComparisonPrimitiveV::KeywordCaseSensitiveGreaterOrEqual.into ()),
-			
-			("keyword-ci=?", ComparisonPrimitiveV::KeywordCaseInsensitiveEqual.into ()),
-			("keyword-ci<?", ComparisonPrimitiveV::KeywordCaseInsensitiveLesser.into ()),
-			("keyword-ci>?", ComparisonPrimitiveV::KeywordCaseInsensitiveGreater.into ()),
-			("keyword-ci<=?", ComparisonPrimitiveV::KeywordCaseInsensitiveLesserOrEqual.into ()),
-			("keyword-ci>=?", ComparisonPrimitiveV::KeywordCaseInsensitiveGreaterOrEqual.into ()),
-			
-			("unique=?", ComparisonPrimitiveV::UniqueEqual.into ()),
-			("unique<?", ComparisonPrimitiveV::UniqueLesser.into ()),
-			("unique>?", ComparisonPrimitiveV::UniqueGreater.into ()),
-			("unique<=?", ComparisonPrimitiveV::UniqueLesserOrEqual.into ()),
-			("unique>=?", ComparisonPrimitiveV::UniqueGreaterOrEqual.into ()),
-			
 			("bytevector=?", ComparisonPrimitiveV::BytesEqual.into ()),
 			("bytevector<?", ComparisonPrimitiveV::BytesLesser.into ()),
 			("bytevector>?", ComparisonPrimitiveV::BytesGreater.into ()),
@@ -255,12 +203,6 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("values<=?", ComparisonPrimitiveV::ValuesLesserOrEqual.into ()),
 			("values>=?", ComparisonPrimitiveV::ValuesGreaterOrEqual.into ()),
 			
-			("path=?", ComparisonPrimitiveV::PathEqual.into ()),
-			("path<?", ComparisonPrimitiveV::PathLesser.into ()),
-			("path>?", ComparisonPrimitiveV::PathGreater.into ()),
-			("path<=?", ComparisonPrimitiveV::PathLesserOrEqual.into ()),
-			("path>=?", ComparisonPrimitiveV::PathGreaterOrEqual.into ()),
-			
 			("generic=?", ComparisonPrimitiveV::GenericEqual.into ()),
 			("generic<?", ComparisonPrimitiveV::GenericLesser.into ()),
 			("generic>?", ComparisonPrimitiveV::GenericGreater.into ()),
@@ -282,23 +224,62 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("parameter-ref", RuntimePrimitiveV::ParameterResolve.into ()),
 			("parameter-set!", RuntimePrimitiveV::ParameterConfigure.into ()),
 			
-			("trace-critical", RuntimePrimitiveV::TranscriptTraceCritical.into ()),
-			("trace-error", RuntimePrimitiveV::TranscriptTraceError.into ()),
-			("trace-warning", RuntimePrimitiveV::TranscriptTraceWarning.into ()),
-			("trace-notice", RuntimePrimitiveV::TranscriptTraceNotice.into ()),
-			("trace-information", RuntimePrimitiveV::TranscriptTraceInformation.into ()),
-			("trace-internal", RuntimePrimitiveV::TranscriptTraceInternal.into ()),
-			("trace-debugging", RuntimePrimitiveV::TranscriptTraceDebugging.into ()),
+			("command-line-ref", RuntimePrimitive1::ProcessArgument.into ()),
+			("command-line->vector", RuntimePrimitive0::ProcessArgumentsAsArray.into ()),
+			("get-environment-variables->vector", RuntimePrimitive0::ProcessEnvironmentVariablesAsArray.into ()),
+			
+		]);
+	
+	// NOTE:  value extensions
+	definitions.extend_from_slice (&[
+			
+			("keyword=?", ComparisonPrimitiveV::KeywordCaseSensitiveEqual.into ()),
+			("keyword<?", ComparisonPrimitiveV::KeywordCaseSensitiveLesser.into ()),
+			("keyword>?", ComparisonPrimitiveV::KeywordCaseSensitiveGreater.into ()),
+			("keyword<=?", ComparisonPrimitiveV::KeywordCaseSensitiveLesserOrEqual.into ()),
+			("keyword>=?", ComparisonPrimitiveV::KeywordCaseSensitiveGreaterOrEqual.into ()),
+			
+			("keyword-ci=?", ComparisonPrimitiveV::KeywordCaseInsensitiveEqual.into ()),
+			("keyword-ci<?", ComparisonPrimitiveV::KeywordCaseInsensitiveLesser.into ()),
+			("keyword-ci>?", ComparisonPrimitiveV::KeywordCaseInsensitiveGreater.into ()),
+			("keyword-ci<=?", ComparisonPrimitiveV::KeywordCaseInsensitiveLesserOrEqual.into ()),
+			("keyword-ci>=?", ComparisonPrimitiveV::KeywordCaseInsensitiveGreaterOrEqual.into ()),
+			
+			("unique=?", ComparisonPrimitiveV::UniqueEqual.into ()),
+			("unique<?", ComparisonPrimitiveV::UniqueLesser.into ()),
+			("unique>?", ComparisonPrimitiveV::UniqueGreater.into ()),
+			("unique<=?", ComparisonPrimitiveV::UniqueLesserOrEqual.into ()),
+			("unique>=?", ComparisonPrimitiveV::UniqueGreaterOrEqual.into ()),
+			
+			("resource?", TypePrimitiveV::IsResource.into ()),
+			("opaque?", TypePrimitiveV::IsOpaque.into ()),
+			
+		]);
+	
+	// NOTE:  file-system operations
+	definitions.extend_from_slice (&[
+			
+			("fs-canonicalize", FileSystemPrimitive1::PathCanonicalize.into ()),
+			("fs-link-resolve", FileSystemPrimitiveV::LinkResolve.into ()),
+			
+		]);
+	
+	// NOTE:  file-system paths
+	definitions.extend_from_slice (&[
 			
 			("path?", TypePrimitiveV::IsPath.into ()),
+			
 			("path", FileSystemPrimitive1::PathCoerce.into ()),
+			
 			("path-absolute?", TypePrimitiveV::IsPathAbsolute.into ()),
 			("path-relative?", TypePrimitiveV::IsPathRelative.into ()),
+			
 			("path-parent", FileSystemPrimitive1::PathParent.into ()),
 			("path-join", FileSystemPrimitiveV::PathJoin.into ()),
 			("path-split", FileSystemPrimitiveV::PathSplit.into ()),
 			("path-prefix?", FileSystemPrimitive2::PathHasPrefix.into ()),
 			("path-suffix?", FileSystemPrimitive2::PathHasSuffix.into ()),
+			
 			("path-name", FileSystemPrimitive1::PathName.into ()),
 			("path-name-without-extension", FileSystemPrimitive1::PathNameWithoutExtension.into ()),
 			("path-name-only-extension", FileSystemPrimitive1::PathNameOnlyExtension.into ()),
@@ -307,17 +288,24 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("path-name?", FileSystemPrimitive2::PathNameIs.into ()),
 			("path-name-prefix?", FileSystemPrimitive2::PathNameHasPrefix.into ()),
 			("path-name-suffix?", FileSystemPrimitive2::PathNameHasSuffix.into ()),
+			
 			("path->string", FileSystemPrimitive1::PathToString.into ()),
 			("string->path", FileSystemPrimitive1::StringToPath.into ()),
 			("path->bytevector", FileSystemPrimitive1::PathToBytes.into ()),
 			("bytevector->path", FileSystemPrimitive1::BytesToPath.into ()),
 			
-			("fs-canonicalize", FileSystemPrimitive1::PathCanonicalize.into ()),
-			("fs-link-resolve", FileSystemPrimitiveV::LinkResolve.into ()),
+			("path=?", ComparisonPrimitiveV::PathEqual.into ()),
+			("path<?", ComparisonPrimitiveV::PathLesser.into ()),
+			("path>?", ComparisonPrimitiveV::PathGreater.into ()),
+			("path<=?", ComparisonPrimitiveV::PathLesserOrEqual.into ()),
+			("path>=?", ComparisonPrimitiveV::PathGreaterOrEqual.into ()),
 			
-			("command-line-ref", RuntimePrimitive1::ProcessArgument.into ()),
-			("command-line->vector", RuntimePrimitive0::ProcessArgumentsAsArray.into ()),
-			("get-environment-variables->vector", RuntimePrimitive0::ProcessEnvironmentVariablesAsArray.into ()),
+		]);
+	
+	// NOTE:  sub-processes
+	definitions.extend_from_slice (&[
+			
+			("process?", TypePrimitiveV::IsProcess.into ()),
 			
 			("process-spawn", RuntimePrimitiveN::ProcessSpawn.into ()),
 			("process-spawn*", RuntimePrimitiveV::ProcessSpawnExtended.into ()),
@@ -339,9 +327,58 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("process-stdout", RuntimePrimitive1::ProcessStdoutGet.into ()),
 			("process-stderr", RuntimePrimitive1::ProcessStderrGet.into ()),
 			
-			("process?", TypePrimitiveV::IsProcess.into ()),
-			("resource?", TypePrimitiveV::IsResource.into ()),
-			("opaque?", TypePrimitiveV::IsOpaque.into ()),
+		]);
+	
+	// NOTE:  transcripts
+	definitions.extend_from_slice (&[
+			
+			("trace-critical", RuntimePrimitiveV::TranscriptTraceCritical.into ()),
+			("trace-error", RuntimePrimitiveV::TranscriptTraceError.into ()),
+			("trace-warning", RuntimePrimitiveV::TranscriptTraceWarning.into ()),
+			("trace-notice", RuntimePrimitiveV::TranscriptTraceNotice.into ()),
+			("trace-information", RuntimePrimitiveV::TranscriptTraceInformation.into ()),
+			("trace-internal", RuntimePrimitiveV::TranscriptTraceInternal.into ()),
+			("trace-debugging", RuntimePrimitiveV::TranscriptTraceDebugging.into ()),
+			
+		]);
+	
+	// NOTE:  SRFI-1
+	definitions.extend_from_slice (&[
+			
+			("first", ListPrimitive1::ListFirstAt1.into ()),
+			("first-tail", ListPrimitive1::ListRestAt1.into ()),
+			("first-pair", ListPrimitive1::ListPairAt1.into ()),
+			("second", ListPrimitive1::ListFirstAt2.into ()),
+			("second-tail", ListPrimitive1::ListRestAt2.into ()),
+			("second-pair", ListPrimitive1::ListPairAt2.into ()),
+			("third", ListPrimitive1::ListFirstAt3.into ()),
+			("third-tail", ListPrimitive1::ListRestAt3.into ()),
+			("third-pair", ListPrimitive1::ListPairAt3.into ()),
+			("fourth", ListPrimitive1::ListFirstAt4.into ()),
+			("fourth-tail", ListPrimitive1::ListRestAt4.into ()),
+			("fourth-pair", ListPrimitive1::ListPairAt4.into ()),
+			("fifth", ListPrimitive1::ListFirstAt5.into ()),
+			("fifth-tail", ListPrimitive1::ListRestAt5.into ()),
+			("fifth-pair", ListPrimitive1::ListPairAt5.into ()),
+			("sixth", ListPrimitive1::ListFirstAt6.into ()),
+			("sixth-tail", ListPrimitive1::ListRestAt6.into ()),
+			("sixth-pair", ListPrimitive1::ListPairAt6.into ()),
+			("seventh", ListPrimitive1::ListFirstAt7.into ()),
+			("seventh-tail", ListPrimitive1::ListRestAt7.into ()),
+			("seventh-pair", ListPrimitive1::ListPairAt7.into ()),
+			("eighth", ListPrimitive1::ListFirstAt8.into ()),
+			("eighth-tail", ListPrimitive1::ListRestAt8.into ()),
+			("eighth-pair", ListPrimitive1::ListPairAt8.into ()),
+			("ninth", ListPrimitive1::ListFirstAt9.into ()),
+			("ninth-tail", ListPrimitive1::ListRestAt9.into ()),
+			("ninth-pair", ListPrimitive1::ListPairAt9.into ()),
+			("tenth", ListPrimitive1::ListFirstAt10.into ()),
+			("tenth-tail", ListPrimitive1::ListRestAt10.into ()),
+			("tenth-pair", ListPrimitive1::ListPairAt10.into ()),
+			
+			("find", ListPrimitive2::ListFind.into ()),
+			("xcons", ListPrimitive2::PairExchanged.into ()),
+			("map-in-order", FunctionsPrimitive2::ListsMap.into ()),
 			
 			// NOTE:  SRFI-1 unimplemented procedures!
 			("cons*", ProcedurePrimitive::Unimplemented.into ()),
@@ -403,11 +440,11 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("alist-copy", ProcedurePrimitive::Unimplemented.into ()),
 			("alist-delete", ProcedurePrimitive::Unimplemented.into ()),
 			
-			// NOTE:  SRFI-1 unsupported linear-update procedures!
+			// NOTE:  SRFI-1 unsupported miscellaneous procedures!
 			("car+cdr", ProcedurePrimitive::Unsupported.into ()),
 			("length+", ProcedurePrimitive::Unsupported.into ()),
 			
-			// NOTE:  SRFI-1 unsupported miscellaneous procedures!
+			// NOTE:  SRFI-1 unsupported linear-update procedures!
 			("take!", ProcedurePrimitive::Unsupported.into ()),
 			("take-right!", ProcedurePrimitive::Unsupported.into ()),
 			("drop-right!", ProcedurePrimitive::Unsupported.into ()),
