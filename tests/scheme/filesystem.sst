@@ -45,3 +45,38 @@
 (~fs-metadata-kind? "/dev/null" 'character-device) => #t
 (~fs-metadata-character-device? "/dev/null") => #t
 
+
+(~fs-metadata-readonly? "./tests") => #f
+(~fs-metadata-readable? "./tests") => #t
+(~fs-metadata-writeable? "./tests") => #t
+(~fs-metadata-directory-traversable? "./tests") => #t
+
+(~fs-metadata-readonly? "./tests/scheme.rs") => #f
+(~fs-metadata-readable? "./tests/scheme.rs") => #t
+(~fs-metadata-writeable? "./tests/scheme.rs") => #t
+(~fs-metadata-file-executable? "./tests/scheme.rs") => #f
+
+(integer? (~fs-metadata-file-size "./tests/scheme.rs")) => #t
+(~fs-metadata-file-empty? "./tests/scheme.rs") => #f
+(~fs-metadata-file-not-empty? "./tests/scheme.rs") => #t
+
+
+(integer? (~fs-metadata-unix-mode "/dev/null")) => #t
+(integer? (~fs-metadata-unix-type "/dev/null")) => #t
+(integer? (~fs-metadata-unix-permissions "/dev/null")) => #t
+(integer? (~fs-metadata-unix-user-identifier "/dev/null")) => #t
+(integer? (~fs-metadata-unix-group-identifier "/dev/null")) => #t
+(integer? (~fs-metadata-unix-data-accessed-at "/dev/null")) => #t
+(integer? (~fs-metadata-unix-data-modified-at "/dev/null")) => #t
+(integer? (~fs-metadata-unix-inode-changed-at "/dev/null")) => #t
+(integer? (~fs-metadata-unix-inode-device "/dev/null")) => #t
+(integer? (~fs-metadata-unix-inode-number "/dev/null")) => #t
+(integer? (~fs-metadata-unix-inode-links "/dev/null")) => #t
+
+(~fs-metadata-unix-mode "/dev/null") => #o20666
+(~fs-metadata-unix-type "/dev/null") => #o20000
+(~fs-metadata-unix-permissions "/dev/null") => #o666
+(~fs-metadata-unix-user-identifier "/dev/null") => 0
+(~fs-metadata-unix-group-identifier "/dev/null") => 0
+(~fs-metadata-unix-inode-links "/dev/null") => 1
+
