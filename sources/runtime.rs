@@ -32,6 +32,9 @@ pub mod exports {
 	pub use super::{libc_getrusage_for_thread};
 	pub use super::{libc_kill};
 	pub use super::{libc_memchr};
+	pub use super::{libc_geteuid};
+	pub use super::{libc_getegid};
+	pub use super::{libc_getgroups};
 	
 	pub use super::{execute_main};
 	pub use super::{panic_with_error};
@@ -481,6 +484,47 @@ pub fn libc_memchr (search : u8, buffer : &[u8]) -> (Option<usize>) {
 			return Some ((found_pointer as usize) - (buffer_pointer as usize));
 		}
 	}
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn libc_geteuid () -> (u32) {
+	unsafe {
+		ext::libc::geteuid ()
+	}
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn libc_getegid () -> (u32) {
+	unsafe {
+		ext::libc::getegid ()
+	}
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn libc_getgroups () -> (StdBox<[u32]>) {
+	let groups_count = unsafe {
+		let outcome = ext::libc::getgroups (0, 0 as *mut u32);
+		if outcome < 0 {
+			panic_0! (0xa42932ca);
+		}
+		outcome as usize
+	};
+	let mut groups = StdVec::with_capacity (groups_count);
+	unsafe {
+		let outcome = ext::libc::getgroups (groups_count as i32, groups.as_mut_ptr ());
+		if outcome < 0 {
+			panic_0! (0xcb1afa65);
+		}
+		if outcome as usize != groups_count {
+			panic_0! (0x78984a31);
+		}
+		groups.set_len (groups_count);
+	}
+	let groups = groups.into_boxed_slice ();
+	return groups;
 }
 
 

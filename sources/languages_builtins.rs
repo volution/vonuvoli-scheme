@@ -273,6 +273,28 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("fs-metadata-block-device?", FileSystemPrimitive1::MetadataKindIsBlockDevice.into ()),
 			("fs-metadata-character-device?", FileSystemPrimitive1::MetadataKindIsCharacterDevice.into ()),
 			
+			("fs-metadata-file-size", FileSystemPrimitiveV::MetadataFileGetSize.into ()),
+			("fs-metadata-file-empty?", FileSystemPrimitiveV::MetadataFileIsEmpty.into ()),
+			("fs-metadata-file-not-empty?", FileSystemPrimitiveV::MetadataFileIsEmptyNot.into ()),
+			
+			("fs-metadata-readonly?", FileSystemPrimitiveV::MetadataIsReadonly.into ()),
+			("fs-metadata-readable?", FileSystemPrimitiveV::MetadataIsReadable.into ()),
+			("fs-metadata-writeable?", FileSystemPrimitiveV::MetadataIsWriteable.into ()),
+			("fs-metadata-file-executable?", FileSystemPrimitiveV::MetadataFileIsExecutable.into ()),
+			("fs-metadata-directory-traversable?", FileSystemPrimitiveV::MetadataDirectoryIsTraversable.into ()),
+			
+			("fs-metadata-unix-mode", FileSystemPrimitiveV::MetadataUnixGetMode.into ()),
+			("fs-metadata-unix-type", FileSystemPrimitiveV::MetadataUnixGetType.into ()),
+			("fs-metadata-unix-permissions", FileSystemPrimitiveV::MetadataUnixGetPermissions.into ()),
+			("fs-metadata-unix-user-identifier", FileSystemPrimitiveV::MetadataUnixGetUserIdentifier.into ()),
+			("fs-metadata-unix-group-identifier", FileSystemPrimitiveV::MetadataUnixGetGroupIdentifier.into ()),
+			("fs-metadata-unix-data-accessed-at", FileSystemPrimitiveV::MetadataUnixGetDataAccessedAt.into ()),
+			("fs-metadata-unix-data-modified-at", FileSystemPrimitiveV::MetadataUnixGetDataModifiedAt.into ()),
+			("fs-metadata-unix-inode-changed-at", FileSystemPrimitiveV::MetadataUnixGetInodeChangedAt.into ()),
+			("fs-metadata-unix-inode-device", FileSystemPrimitiveV::MetadataUnixGetInodeDevice.into ()),
+			("fs-metadata-unix-inode-number", FileSystemPrimitiveV::MetadataUnixGetInodeNumber.into ()),
+			("fs-metadata-unix-inode-links", FileSystemPrimitiveV::MetadataUnixGetInodeLinks.into ()),
+			
 		]);
 	
 	// NOTE:  file-system paths

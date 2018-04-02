@@ -72,6 +72,28 @@ pub enum FileSystemPrimitive1 {
 	MetadataKindIsBlockDevice,
 	MetadataKindIsCharacterDevice,
 	
+	MetadataFileGetSize,
+	MetadataFileIsEmpty,
+	MetadataFileIsEmptyNot,
+	
+	MetadataIsReadonly,
+	MetadataIsReadable,
+	MetadataIsWriteable,
+	MetadataFileIsExecutable,
+	MetadataDirectoryIsTraversable,
+	
+	MetadataUnixGetMode,
+	MetadataUnixGetType,
+	MetadataUnixGetPermissions,
+	MetadataUnixGetUserIdentifier,
+	MetadataUnixGetGroupIdentifier,
+	MetadataUnixGetDataAccessedAt,
+	MetadataUnixGetDataModifiedAt,
+	MetadataUnixGetInodeChangedAt,
+	MetadataUnixGetInodeDevice,
+	MetadataUnixGetInodeNumber,
+	MetadataUnixGetInodeLinks,
+	
 	LinkResolve,
 	PathCanonicalize,
 	
@@ -111,6 +133,28 @@ pub enum FileSystemPrimitive2 {
 	MetadataResolve,
 	MetadataKindGet,
 	MetadataKindHas,
+	
+	MetadataFileGetSize,
+	MetadataFileIsEmpty,
+	MetadataFileIsEmptyNot,
+	
+	MetadataIsReadonly,
+	MetadataIsReadable,
+	MetadataIsWriteable,
+	MetadataFileIsExecutable,
+	MetadataDirectoryIsTraversable,
+	
+	MetadataUnixGetMode,
+	MetadataUnixGetType,
+	MetadataUnixGetPermissions,
+	MetadataUnixGetUserIdentifier,
+	MetadataUnixGetGroupIdentifier,
+	MetadataUnixGetDataAccessedAt,
+	MetadataUnixGetDataModifiedAt,
+	MetadataUnixGetInodeChangedAt,
+	MetadataUnixGetInodeDevice,
+	MetadataUnixGetInodeNumber,
+	MetadataUnixGetInodeLinks,
 	
 	LinkResolve,
 	
@@ -164,6 +208,28 @@ pub enum FileSystemPrimitiveV {
 	MetadataResolve,
 	MetadataKindGet,
 	
+	MetadataFileGetSize,
+	MetadataFileIsEmpty,
+	MetadataFileIsEmptyNot,
+	
+	MetadataIsReadonly,
+	MetadataIsReadable,
+	MetadataIsWriteable,
+	MetadataFileIsExecutable,
+	MetadataDirectoryIsTraversable,
+	
+	MetadataUnixGetMode,
+	MetadataUnixGetType,
+	MetadataUnixGetPermissions,
+	MetadataUnixGetUserIdentifier,
+	MetadataUnixGetGroupIdentifier,
+	MetadataUnixGetDataAccessedAt,
+	MetadataUnixGetDataModifiedAt,
+	MetadataUnixGetInodeChangedAt,
+	MetadataUnixGetInodeDevice,
+	MetadataUnixGetInodeNumber,
+	MetadataUnixGetInodeLinks,
+	
 	LinkResolve,
 	
 }
@@ -215,6 +281,63 @@ pub fn filesystem_primitive_1_evaluate (primitive : FileSystemPrimitive1, input_
 		
 		FileSystemPrimitive1::MetadataKindIsCharacterDevice =>
 			return filesystem_metadata_has_kind (input_1, FileSystemMetadataKind::CharacterDevice, true) .into_0 (),
+		
+		FileSystemPrimitive1::MetadataFileGetSize =>
+			return filesystem_metadata_file_get_size (input_1, true) .into_0 (),
+		
+		FileSystemPrimitive1::MetadataFileIsEmpty =>
+			return filesystem_metadata_file_is_empty (input_1, true) .into_0 (),
+		
+		FileSystemPrimitive1::MetadataFileIsEmptyNot =>
+			return filesystem_metadata_file_is_not_empty (input_1, true) .into_0 (),
+		
+		FileSystemPrimitive1::MetadataIsReadonly =>
+			return filesystem_metadata_is_readonly (input_1, true) .into_0 (),
+		
+		FileSystemPrimitive1::MetadataIsReadable =>
+			return filesystem_metadata_is_readable (input_1, true) .into_0 (),
+		
+		FileSystemPrimitive1::MetadataIsWriteable =>
+			return filesystem_metadata_is_writeable (input_1, true) .into_0 (),
+		
+		FileSystemPrimitive1::MetadataFileIsExecutable =>
+			return filesystem_metadata_file_is_executable (input_1, true) .into_0 (),
+		
+		FileSystemPrimitive1::MetadataDirectoryIsTraversable =>
+			return filesystem_metadata_directory_is_traversable (input_1, true) .into_0 (),
+		
+		FileSystemPrimitive1::MetadataUnixGetMode =>
+			return filesystem_metadata_unix_get_mode (input_1, true) .into_0 (),
+		
+		FileSystemPrimitive1::MetadataUnixGetType =>
+			return filesystem_metadata_unix_get_type (input_1, true) .into_0 (),
+		
+		FileSystemPrimitive1::MetadataUnixGetPermissions =>
+			return filesystem_metadata_unix_get_permissions (input_1, true) .into_0 (),
+		
+		FileSystemPrimitive1::MetadataUnixGetUserIdentifier =>
+			return filesystem_metadata_unix_get_user_identifier (input_1, true) .into_0 (),
+		
+		FileSystemPrimitive1::MetadataUnixGetGroupIdentifier =>
+			return filesystem_metadata_unix_get_group_identifier (input_1, true) .into_0 (),
+		
+		FileSystemPrimitive1::MetadataUnixGetDataAccessedAt =>
+			return filesystem_metadata_unix_get_data_accessed_at (input_1, true) .into_0 (),
+		
+		FileSystemPrimitive1::MetadataUnixGetDataModifiedAt =>
+			return filesystem_metadata_unix_get_data_modified_at (input_1, true) .into_0 (),
+		
+		FileSystemPrimitive1::MetadataUnixGetInodeChangedAt =>
+			return filesystem_metadata_unix_get_inode_changed_at (input_1, true) .into_0 (),
+		
+		FileSystemPrimitive1::MetadataUnixGetInodeDevice =>
+			return filesystem_metadata_unix_get_inode_device (input_1, true) .into_0 (),
+		
+		FileSystemPrimitive1::MetadataUnixGetInodeNumber =>
+			return filesystem_metadata_unix_get_inode_number (input_1, true) .into_0 (),
+		
+		FileSystemPrimitive1::MetadataUnixGetInodeLinks =>
+			return filesystem_metadata_unix_get_inode_links (input_1, true) .into_0 (),
 		
 		FileSystemPrimitive1::LinkResolve =>
 			return filesystem_link_resolve (input_1, false, false),
@@ -297,6 +420,63 @@ pub fn filesystem_primitive_2_evaluate (primitive : FileSystemPrimitive2, input_
 		
 		FileSystemPrimitive2::MetadataKindHas =>
 			return filesystem_metadata_has_kind_symbol (input_1, input_2, false) .into_0 (),
+		
+		FileSystemPrimitive2::MetadataFileGetSize =>
+			return filesystem_metadata_file_get_size (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+		
+		FileSystemPrimitive2::MetadataFileIsEmpty =>
+			return filesystem_metadata_file_is_empty (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+		
+		FileSystemPrimitive2::MetadataFileIsEmptyNot =>
+			return filesystem_metadata_file_is_not_empty (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+		
+		FileSystemPrimitive2::MetadataIsReadonly =>
+			return filesystem_metadata_is_readonly (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+		
+		FileSystemPrimitive2::MetadataIsReadable =>
+			return filesystem_metadata_is_readable (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+		
+		FileSystemPrimitive2::MetadataIsWriteable =>
+			return filesystem_metadata_is_writeable (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+		
+		FileSystemPrimitive2::MetadataFileIsExecutable =>
+			return filesystem_metadata_file_is_executable (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+		
+		FileSystemPrimitive2::MetadataDirectoryIsTraversable =>
+			return filesystem_metadata_directory_is_traversable (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+		
+		FileSystemPrimitive2::MetadataUnixGetMode =>
+			return filesystem_metadata_unix_get_mode (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+		
+		FileSystemPrimitive2::MetadataUnixGetType =>
+			return filesystem_metadata_unix_get_type (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+		
+		FileSystemPrimitive2::MetadataUnixGetPermissions =>
+			return filesystem_metadata_unix_get_permissions (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+		
+		FileSystemPrimitive2::MetadataUnixGetUserIdentifier =>
+			return filesystem_metadata_unix_get_user_identifier (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+		
+		FileSystemPrimitive2::MetadataUnixGetGroupIdentifier =>
+			return filesystem_metadata_unix_get_group_identifier (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+		
+		FileSystemPrimitive2::MetadataUnixGetDataAccessedAt =>
+			return filesystem_metadata_unix_get_data_accessed_at (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+		
+		FileSystemPrimitive2::MetadataUnixGetDataModifiedAt =>
+			return filesystem_metadata_unix_get_data_modified_at (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+		
+		FileSystemPrimitive2::MetadataUnixGetInodeChangedAt =>
+			return filesystem_metadata_unix_get_inode_changed_at (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+		
+		FileSystemPrimitive2::MetadataUnixGetInodeDevice =>
+			return filesystem_metadata_unix_get_inode_device (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+		
+		FileSystemPrimitive2::MetadataUnixGetInodeNumber =>
+			return filesystem_metadata_unix_get_inode_number (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+		
+		FileSystemPrimitive2::MetadataUnixGetInodeLinks =>
+			return filesystem_metadata_unix_get_inode_links (input_1, try! (boolean_coerce (input_2))) .into_0 (),
 		
 		FileSystemPrimitive2::LinkResolve =>
 			return filesystem_link_resolve (input_1, try! (boolean_coerce (input_2)), false),
@@ -395,6 +575,44 @@ pub fn filesystem_primitive_v_alternative_0 (primitive : FileSystemPrimitiveV) -
 			None,
 		FileSystemPrimitiveV::MetadataKindGet =>
 			None,
+		FileSystemPrimitiveV::MetadataFileGetSize =>
+			None,
+		FileSystemPrimitiveV::MetadataFileIsEmpty =>
+			None,
+		FileSystemPrimitiveV::MetadataFileIsEmptyNot =>
+			None,
+		FileSystemPrimitiveV::MetadataIsReadonly =>
+			None,
+		FileSystemPrimitiveV::MetadataIsReadable =>
+			None,
+		FileSystemPrimitiveV::MetadataIsWriteable =>
+			None,
+		FileSystemPrimitiveV::MetadataFileIsExecutable =>
+			None,
+		FileSystemPrimitiveV::MetadataDirectoryIsTraversable =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetMode =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetType =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetPermissions =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetUserIdentifier =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetGroupIdentifier =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetDataAccessedAt =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetDataModifiedAt =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetInodeChangedAt =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetInodeDevice =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetInodeNumber =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetInodeLinks =>
+			None,
 		FileSystemPrimitiveV::LinkResolve =>
 			None,
 	}
@@ -418,6 +636,44 @@ pub fn filesystem_primitive_v_alternative_1 (primitive : FileSystemPrimitiveV) -
 			Some (FileSystemPrimitive1::MetadataResolve),
 		FileSystemPrimitiveV::MetadataKindGet =>
 			Some (FileSystemPrimitive1::MetadataKindGet),
+		FileSystemPrimitiveV::MetadataFileGetSize =>
+			Some (FileSystemPrimitive1::MetadataFileGetSize),
+		FileSystemPrimitiveV::MetadataFileIsEmpty =>
+			Some (FileSystemPrimitive1::MetadataFileIsEmpty),
+		FileSystemPrimitiveV::MetadataFileIsEmptyNot =>
+			Some (FileSystemPrimitive1::MetadataFileIsEmptyNot),
+		FileSystemPrimitiveV::MetadataIsReadonly =>
+			Some (FileSystemPrimitive1::MetadataIsReadonly),
+		FileSystemPrimitiveV::MetadataIsReadable =>
+			Some (FileSystemPrimitive1::MetadataIsReadable),
+		FileSystemPrimitiveV::MetadataIsWriteable =>
+			Some (FileSystemPrimitive1::MetadataIsWriteable),
+		FileSystemPrimitiveV::MetadataFileIsExecutable =>
+			Some (FileSystemPrimitive1::MetadataFileIsExecutable),
+		FileSystemPrimitiveV::MetadataDirectoryIsTraversable =>
+			Some (FileSystemPrimitive1::MetadataDirectoryIsTraversable),
+		FileSystemPrimitiveV::MetadataUnixGetMode =>
+			Some (FileSystemPrimitive1::MetadataUnixGetMode),
+		FileSystemPrimitiveV::MetadataUnixGetType =>
+			Some (FileSystemPrimitive1::MetadataUnixGetType),
+		FileSystemPrimitiveV::MetadataUnixGetPermissions =>
+			Some (FileSystemPrimitive1::MetadataUnixGetPermissions),
+		FileSystemPrimitiveV::MetadataUnixGetUserIdentifier =>
+			Some (FileSystemPrimitive1::MetadataUnixGetUserIdentifier),
+		FileSystemPrimitiveV::MetadataUnixGetGroupIdentifier =>
+			Some (FileSystemPrimitive1::MetadataUnixGetGroupIdentifier),
+		FileSystemPrimitiveV::MetadataUnixGetDataAccessedAt =>
+			Some (FileSystemPrimitive1::MetadataUnixGetDataAccessedAt),
+		FileSystemPrimitiveV::MetadataUnixGetDataModifiedAt =>
+			Some (FileSystemPrimitive1::MetadataUnixGetDataModifiedAt),
+		FileSystemPrimitiveV::MetadataUnixGetInodeChangedAt =>
+			Some (FileSystemPrimitive1::MetadataUnixGetInodeChangedAt),
+		FileSystemPrimitiveV::MetadataUnixGetInodeDevice =>
+			Some (FileSystemPrimitive1::MetadataUnixGetInodeDevice),
+		FileSystemPrimitiveV::MetadataUnixGetInodeNumber =>
+			Some (FileSystemPrimitive1::MetadataUnixGetInodeNumber),
+		FileSystemPrimitiveV::MetadataUnixGetInodeLinks =>
+			Some (FileSystemPrimitive1::MetadataUnixGetInodeLinks),
 		FileSystemPrimitiveV::LinkResolve =>
 			Some (FileSystemPrimitive1::LinkResolve),
 	}
@@ -441,6 +697,44 @@ pub fn filesystem_primitive_v_alternative_2 (primitive : FileSystemPrimitiveV) -
 			Some (FileSystemPrimitive2::MetadataResolve),
 		FileSystemPrimitiveV::MetadataKindGet =>
 			Some (FileSystemPrimitive2::MetadataKindGet),
+		FileSystemPrimitiveV::MetadataFileGetSize =>
+			Some (FileSystemPrimitive2::MetadataFileGetSize),
+		FileSystemPrimitiveV::MetadataFileIsEmpty =>
+			Some (FileSystemPrimitive2::MetadataFileIsEmpty),
+		FileSystemPrimitiveV::MetadataFileIsEmptyNot =>
+			Some (FileSystemPrimitive2::MetadataFileIsEmptyNot),
+		FileSystemPrimitiveV::MetadataIsReadonly =>
+			Some (FileSystemPrimitive2::MetadataIsReadonly),
+		FileSystemPrimitiveV::MetadataIsReadable =>
+			Some (FileSystemPrimitive2::MetadataIsReadable),
+		FileSystemPrimitiveV::MetadataIsWriteable =>
+			Some (FileSystemPrimitive2::MetadataIsWriteable),
+		FileSystemPrimitiveV::MetadataFileIsExecutable =>
+			Some (FileSystemPrimitive2::MetadataFileIsExecutable),
+		FileSystemPrimitiveV::MetadataDirectoryIsTraversable =>
+			Some (FileSystemPrimitive2::MetadataDirectoryIsTraversable),
+		FileSystemPrimitiveV::MetadataUnixGetMode =>
+			Some (FileSystemPrimitive2::MetadataUnixGetMode),
+		FileSystemPrimitiveV::MetadataUnixGetType =>
+			Some (FileSystemPrimitive2::MetadataUnixGetType),
+		FileSystemPrimitiveV::MetadataUnixGetPermissions =>
+			Some (FileSystemPrimitive2::MetadataUnixGetPermissions),
+		FileSystemPrimitiveV::MetadataUnixGetUserIdentifier =>
+			Some (FileSystemPrimitive2::MetadataUnixGetUserIdentifier),
+		FileSystemPrimitiveV::MetadataUnixGetGroupIdentifier =>
+			Some (FileSystemPrimitive2::MetadataUnixGetGroupIdentifier),
+		FileSystemPrimitiveV::MetadataUnixGetDataAccessedAt =>
+			Some (FileSystemPrimitive2::MetadataUnixGetDataAccessedAt),
+		FileSystemPrimitiveV::MetadataUnixGetDataModifiedAt =>
+			Some (FileSystemPrimitive2::MetadataUnixGetDataModifiedAt),
+		FileSystemPrimitiveV::MetadataUnixGetInodeChangedAt =>
+			Some (FileSystemPrimitive2::MetadataUnixGetInodeChangedAt),
+		FileSystemPrimitiveV::MetadataUnixGetInodeDevice =>
+			Some (FileSystemPrimitive2::MetadataUnixGetInodeDevice),
+		FileSystemPrimitiveV::MetadataUnixGetInodeNumber =>
+			Some (FileSystemPrimitive2::MetadataUnixGetInodeNumber),
+		FileSystemPrimitiveV::MetadataUnixGetInodeLinks =>
+			Some (FileSystemPrimitive2::MetadataUnixGetInodeLinks),
 		FileSystemPrimitiveV::LinkResolve =>
 			Some (FileSystemPrimitive2::LinkResolve),
 	}
@@ -463,6 +757,44 @@ pub fn filesystem_primitive_v_alternative_3 (primitive : FileSystemPrimitiveV) -
 		FileSystemPrimitiveV::MetadataResolve =>
 			None,
 		FileSystemPrimitiveV::MetadataKindGet =>
+			None,
+		FileSystemPrimitiveV::MetadataFileGetSize =>
+			None,
+		FileSystemPrimitiveV::MetadataFileIsEmpty =>
+			None,
+		FileSystemPrimitiveV::MetadataFileIsEmptyNot =>
+			None,
+		FileSystemPrimitiveV::MetadataIsReadonly =>
+			None,
+		FileSystemPrimitiveV::MetadataIsReadable =>
+			None,
+		FileSystemPrimitiveV::MetadataIsWriteable =>
+			None,
+		FileSystemPrimitiveV::MetadataFileIsExecutable =>
+			None,
+		FileSystemPrimitiveV::MetadataDirectoryIsTraversable =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetMode =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetType =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetPermissions =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetUserIdentifier =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetGroupIdentifier =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetDataAccessedAt =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetDataModifiedAt =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetInodeChangedAt =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetInodeDevice =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetInodeNumber =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetInodeLinks =>
 			None,
 		FileSystemPrimitiveV::LinkResolve =>
 			None,
@@ -487,6 +819,44 @@ pub fn filesystem_primitive_v_alternative_4 (primitive : FileSystemPrimitiveV) -
 			None,
 		FileSystemPrimitiveV::MetadataKindGet =>
 			None,
+		FileSystemPrimitiveV::MetadataFileGetSize =>
+			None,
+		FileSystemPrimitiveV::MetadataFileIsEmpty =>
+			None,
+		FileSystemPrimitiveV::MetadataFileIsEmptyNot =>
+			None,
+		FileSystemPrimitiveV::MetadataIsReadonly =>
+			None,
+		FileSystemPrimitiveV::MetadataIsReadable =>
+			None,
+		FileSystemPrimitiveV::MetadataIsWriteable =>
+			None,
+		FileSystemPrimitiveV::MetadataFileIsExecutable =>
+			None,
+		FileSystemPrimitiveV::MetadataDirectoryIsTraversable =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetMode =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetType =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetPermissions =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetUserIdentifier =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetGroupIdentifier =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetDataAccessedAt =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetDataModifiedAt =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetInodeChangedAt =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetInodeDevice =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetInodeNumber =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetInodeLinks =>
+			None,
 		FileSystemPrimitiveV::LinkResolve =>
 			None,
 	}
@@ -510,6 +880,44 @@ pub fn filesystem_primitive_v_alternative_5 (primitive : FileSystemPrimitiveV) -
 			None,
 		FileSystemPrimitiveV::MetadataKindGet =>
 			None,
+		FileSystemPrimitiveV::MetadataFileGetSize =>
+			None,
+		FileSystemPrimitiveV::MetadataFileIsEmpty =>
+			None,
+		FileSystemPrimitiveV::MetadataFileIsEmptyNot =>
+			None,
+		FileSystemPrimitiveV::MetadataIsReadonly =>
+			None,
+		FileSystemPrimitiveV::MetadataIsReadable =>
+			None,
+		FileSystemPrimitiveV::MetadataIsWriteable =>
+			None,
+		FileSystemPrimitiveV::MetadataFileIsExecutable =>
+			None,
+		FileSystemPrimitiveV::MetadataDirectoryIsTraversable =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetMode =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetType =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetPermissions =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetUserIdentifier =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetGroupIdentifier =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetDataAccessedAt =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetDataModifiedAt =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetInodeChangedAt =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetInodeDevice =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetInodeNumber =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetInodeLinks =>
+			None,
 		FileSystemPrimitiveV::LinkResolve =>
 			None,
 	}
@@ -532,6 +940,44 @@ pub fn filesystem_primitive_v_alternative_n (primitive : FileSystemPrimitiveV) -
 		FileSystemPrimitiveV::MetadataResolve =>
 			None,
 		FileSystemPrimitiveV::MetadataKindGet =>
+			None,
+		FileSystemPrimitiveV::MetadataFileGetSize =>
+			None,
+		FileSystemPrimitiveV::MetadataFileIsEmpty =>
+			None,
+		FileSystemPrimitiveV::MetadataFileIsEmptyNot =>
+			None,
+		FileSystemPrimitiveV::MetadataIsReadonly =>
+			None,
+		FileSystemPrimitiveV::MetadataIsReadable =>
+			None,
+		FileSystemPrimitiveV::MetadataIsWriteable =>
+			None,
+		FileSystemPrimitiveV::MetadataFileIsExecutable =>
+			None,
+		FileSystemPrimitiveV::MetadataDirectoryIsTraversable =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetMode =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetType =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetPermissions =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetUserIdentifier =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetGroupIdentifier =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetDataAccessedAt =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetDataModifiedAt =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetInodeChangedAt =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetInodeDevice =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetInodeNumber =>
+			None,
+		FileSystemPrimitiveV::MetadataUnixGetInodeLinks =>
 			None,
 		FileSystemPrimitiveV::LinkResolve =>
 			None,

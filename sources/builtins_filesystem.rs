@@ -4,6 +4,7 @@ use super::builtins::exports::*;
 use super::constants::exports::*;
 use super::conversions::exports::*;
 use super::errors::exports::*;
+use super::runtime::exports::*;
 use super::values::exports::*;
 
 use super::prelude::*;
@@ -65,6 +66,31 @@ pub mod exports {
 		filesystem_metadata_get_kind_symbol,
 		filesystem_metadata_has_kind,
 		filesystem_metadata_has_kind_symbol,
+		
+		filesystem_metadata_file_get_size,
+		filesystem_metadata_file_get_size_0,
+		filesystem_metadata_file_is_empty,
+		filesystem_metadata_file_is_not_empty,
+		
+		filesystem_metadata_is_readonly,
+		filesystem_metadata_is_readable,
+		filesystem_metadata_is_writeable,
+		filesystem_metadata_file_is_executable,
+		filesystem_metadata_directory_is_traversable,
+		
+		filesystem_metadata_unix_get_permissions_for_current_process,
+		
+		filesystem_metadata_unix_get_mode,
+		filesystem_metadata_unix_get_type,
+		filesystem_metadata_unix_get_permissions,
+		filesystem_metadata_unix_get_user_identifier,
+		filesystem_metadata_unix_get_group_identifier,
+		filesystem_metadata_unix_get_data_accessed_at,
+		filesystem_metadata_unix_get_data_modified_at,
+		filesystem_metadata_unix_get_inode_changed_at,
+		filesystem_metadata_unix_get_inode_device,
+		filesystem_metadata_unix_get_inode_number,
+		filesystem_metadata_unix_get_inode_links,
 		
 		FileSystemMetadataKind,
 	};
@@ -837,6 +863,251 @@ pub fn filesystem_metadata_has_kind (metadata : &Value, kind : FileSystemMetadat
 pub fn filesystem_metadata_has_kind_symbol (metadata : &Value, kind : &Value, follow : bool) -> (Outcome<bool>) {
 	let kind = try! (FileSystemMetadataKind::try_from (kind));
 	return filesystem_metadata_has_kind (metadata, kind, follow);
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_metadata_file_get_size (metadata : &Value, follow : bool) -> (Outcome<Value>) {
+	let size = try! (filesystem_metadata_file_get_size_0 (metadata, follow));
+	// TODO:  Add support for `u64` numbers!
+	let size = try! (NumberInteger::try_from (size));
+	succeed! (size.into ());
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_metadata_file_get_size_0 (metadata : &Value, follow : bool) -> (Outcome<u64>) {
+	let metadata = try! (filesystem_metadata_coerce (metadata, follow));
+	let metadata = metadata.deref ();
+	if ! metadata.is_file () {
+		fail! (0x128abc17);
+	}
+	let size = metadata.len ();
+	succeed! (size);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_metadata_file_is_empty (metadata : &Value, follow : bool) -> (Outcome<bool>) {
+	let size = try! (filesystem_metadata_file_get_size_0 (metadata, follow));
+	succeed! (size == 0);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_metadata_file_is_not_empty (metadata : &Value, follow : bool) -> (Outcome<bool>) {
+	let size = try! (filesystem_metadata_file_get_size_0 (metadata, follow));
+	succeed! (size != 0);
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_metadata_is_readonly (metadata : &Value, follow : bool) -> (Outcome<bool>) {
+	let metadata = try! (filesystem_metadata_coerce (metadata, follow));
+	let metadata = metadata.deref ();
+	let permissions = metadata.permissions ();
+	let readonly = permissions.readonly ();
+	succeed! (readonly);
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_metadata_is_readable (metadata : &Value, follow : bool) -> (Outcome<bool>) {
+	let metadata = try! (filesystem_metadata_coerce (metadata, follow));
+	let metadata = metadata.deref ();
+	let permissions = try! (filesystem_metadata_unix_get_permissions_for_current_process (&metadata));
+	if (permissions & 0b100) != 0 {
+		succeed! (true);
+	} else {
+		succeed! (false);
+	}
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_metadata_is_writeable (metadata : &Value, follow : bool) -> (Outcome<bool>) {
+	let metadata = try! (filesystem_metadata_coerce (metadata, follow));
+	let metadata = metadata.deref ();
+	let permissions = try! (filesystem_metadata_unix_get_permissions_for_current_process (&metadata));
+	if (permissions & 0b010) != 0 {
+		succeed! (true);
+	} else {
+		succeed! (false);
+	}
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_metadata_file_is_executable (metadata : &Value, follow : bool) -> (Outcome<bool>) {
+	let metadata = try! (filesystem_metadata_coerce (metadata, follow));
+	let metadata = metadata.deref ();
+	if ! metadata.is_file () {
+		fail! (0x1f73f72c);
+	}
+	let permissions = try! (filesystem_metadata_unix_get_permissions_for_current_process (&metadata));
+	if (permissions & 0b001) != 0 {
+		succeed! (true);
+	} else {
+		succeed! (false);
+	}
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_metadata_directory_is_traversable (metadata : &Value, follow : bool) -> (Outcome<bool>) {
+	let metadata = try! (filesystem_metadata_coerce (metadata, follow));
+	let metadata = metadata.deref ();
+	if ! metadata.is_dir () {
+		fail! (0xd42d667f);
+	}
+	let permissions = try! (filesystem_metadata_unix_get_permissions_for_current_process (&metadata));
+	if (permissions & 0b001) != 0 {
+		succeed! (true);
+	} else {
+		succeed! (false);
+	}
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_metadata_unix_get_permissions_for_current_process (metadata : &fs::Metadata) -> (Outcome<u8>) {
+	let permissions = metadata.mode () & 0b111_000_000;
+	let process_uid = libc_geteuid ();
+	let metadata_uid = metadata.uid ();
+	if process_uid == metadata_uid {
+		let permissions = (permissions & 0b111_000_000) >> 6;
+		succeed! (permissions as u8);
+	}
+	let process_gid = libc_getegid ();
+	let metadata_gid = metadata.gid ();
+	if process_gid == metadata_gid {
+		let permissions = (permissions & 0b000_111_000) >> 3;
+		succeed! (permissions as u8);
+	}
+	for process_gid in libc_getgroups () .iter () {
+		if *process_gid == metadata_gid {
+			let permissions = (permissions & 0b000_111_000) >> 3;
+			succeed! (permissions as u8);
+		}
+	}
+	let permissions = (permissions & 0b000_000_111) >> 0;
+	succeed! (permissions as u8);
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_metadata_unix_get_mode (metadata : &Value, follow : bool) -> (Outcome<Value>) {
+	let metadata = try! (filesystem_metadata_coerce (metadata, follow));
+	let metadata = metadata.deref ();
+	let mode = metadata.mode ();
+	let mode = NumberInteger::from (mode);
+	succeed! (mode.into ());
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_metadata_unix_get_type (metadata : &Value, follow : bool) -> (Outcome<Value>) {
+	let metadata = try! (filesystem_metadata_coerce (metadata, follow));
+	let metadata = metadata.deref ();
+	let kind = metadata.mode () & ext::libc::S_IFMT;
+	let kind = NumberInteger::from (kind);
+	succeed! (kind.into ());
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_metadata_unix_get_permissions (metadata : &Value, follow : bool) -> (Outcome<Value>) {
+	let metadata = try! (filesystem_metadata_coerce (metadata, follow));
+	let metadata = metadata.deref ();
+	let permissions = metadata.mode () & 0b111_111_111_111;
+	let permissions = NumberInteger::from (permissions);
+	succeed! (permissions.into ());
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_metadata_unix_get_user_identifier (metadata : &Value, follow : bool) -> (Outcome<Value>) {
+	let metadata = try! (filesystem_metadata_coerce (metadata, follow));
+	let metadata = metadata.deref ();
+	let identifier = metadata.uid ();
+	let identifier = NumberInteger::from (identifier);
+	succeed! (identifier.into ());
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_metadata_unix_get_group_identifier (metadata : &Value, follow : bool) -> (Outcome<Value>) {
+	let metadata = try! (filesystem_metadata_coerce (metadata, follow));
+	let metadata = metadata.deref ();
+	let identifier = metadata.gid ();
+	let identifier = NumberInteger::from (identifier);
+	succeed! (identifier.into ());
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_metadata_unix_get_data_accessed_at (metadata : &Value, follow : bool) -> (Outcome<Value>) {
+	let metadata = try! (filesystem_metadata_coerce (metadata, follow));
+	let metadata = metadata.deref ();
+	let timestamp = metadata.atime ();
+	if timestamp < 0 {
+		fail_panic! (0x689c9eb8);
+	}
+	let timestamp = NumberInteger::from (timestamp);
+	succeed! (timestamp.into ());
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_metadata_unix_get_data_modified_at (metadata : &Value, follow : bool) -> (Outcome<Value>) {
+	let metadata = try! (filesystem_metadata_coerce (metadata, follow));
+	let metadata = metadata.deref ();
+	let timestamp = metadata.mtime ();
+	if timestamp < 0 {
+		fail_panic! (0x01d8a0c5);
+	}
+	let timestamp = NumberInteger::from (timestamp);
+	succeed! (timestamp.into ());
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_metadata_unix_get_inode_changed_at (metadata : &Value, follow : bool) -> (Outcome<Value>) {
+	let metadata = try! (filesystem_metadata_coerce (metadata, follow));
+	let metadata = metadata.deref ();
+	let timestamp = metadata.ctime ();
+	if timestamp < 0 {
+		fail_panic! (0x29b73822);
+	}
+	let timestamp = NumberInteger::from (timestamp);
+	succeed! (timestamp.into ());
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_metadata_unix_get_inode_device (metadata : &Value, follow : bool) -> (Outcome<Value>) {
+	let metadata = try! (filesystem_metadata_coerce (metadata, follow));
+	let metadata = metadata.deref ();
+	let device = metadata.dev ();
+	// TODO:  Add support for `u64` numbers!
+	let device = try! (NumberInteger::try_from (device));
+	succeed! (device.into ());
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_metadata_unix_get_inode_number (metadata : &Value, follow : bool) -> (Outcome<Value>) {
+	let metadata = try! (filesystem_metadata_coerce (metadata, follow));
+	let metadata = metadata.deref ();
+	let number = metadata.ino ();
+	// TODO:  Add support for `u64` numbers!
+	let number = try! (NumberInteger::try_from (number));
+	succeed! (number.into ());
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_metadata_unix_get_inode_links (metadata : &Value, follow : bool) -> (Outcome<Value>) {
+	let metadata = try! (filesystem_metadata_coerce (metadata, follow));
+	let metadata = metadata.deref ();
+	let links = metadata.nlink ();
+	// TODO:  Add support for `u64` numbers!
+	let links = try! (NumberInteger::try_from (links));
+	succeed! (links.into ());
 }
 
 

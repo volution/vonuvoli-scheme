@@ -112,4 +112,6 @@ pub use std::str::FromStr as TraitImportFromStr;
 pub use std::string::ToString as TraitImportToString;
 pub use std::os::unix::ffi::OsStrExt as TraitImportOsStrExt;
 pub use std::os::unix::fs::FileTypeExt as TraitImportFileTypeExt;
+pub use std::os::unix::fs::MetadataExt as TraitImportMetadataExt;
+pub use std::os::unix::fs::PermissionsExt as TraitImportPermissionsExt;
 
