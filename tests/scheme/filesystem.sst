@@ -1,8 +1,12 @@
 
 
-(file-exists? "./tests") => #t
-(file-exists? "./tests/scheme.rs") => #t
-(file-exists? "./tests/__does_not_exist__") => #f
+(~fs-directory-exists? "./tests") => #t
+(~fs-file-exists? "./tests/scheme.rs") => #t
+(~fs-symlink-exists? "/proc/self") => #t
+
+(~fs-directory-exists? "./tests/__does_not_exist__") => #f
+(~fs-file-exists? "./tests/__does_not_exist__") => #f
+(~fs-symlink-exists? "./tests/__does_not_exist__") => #f
 
 
 

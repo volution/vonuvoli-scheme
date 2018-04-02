@@ -48,11 +48,16 @@ pub mod exports {
 		filesystem_file_exists,
 		filesystem_file_delete,
 		
+		filesystem_directory_exists,
+		filesystem_directory_delete,
+		
+		filesystem_symlink_exists,
+		
 	};
 	
 	pub use super::{
 		
-		filesystem_link_resolve,
+		filesystem_symlink_resolve,
 		
 	};
 	
@@ -603,7 +608,7 @@ pub fn filesystem_path_canonicalize (path : &Value) -> (Outcome<Value>) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn filesystem_link_resolve (path : &Value, relativize : bool, normalize : bool) -> (Outcome<Value>) {
+pub fn filesystem_symlink_resolve (path : &Value, relativize : bool, normalize : bool) -> (Outcome<Value>) {
 	let path = try! (path_slice_coerce (path));
 	let path = path.deref ();
 	match fs::read_link (path) {
@@ -1114,10 +1119,30 @@ pub fn filesystem_metadata_unix_get_inode_links (metadata : &Value, follow : boo
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn filesystem_file_exists (path : &Value) -> (Outcome<bool>) {
+pub fn filesystem_file_exists (path : &Value, follow : bool) -> (Outcome<bool>) {
 	let path = try! (path_slice_coerce (path));
 	let path = path.deref ();
-	succeed! (path.exists ());
+	match
+			if follow {
+				fs::metadata (path)
+			} else {
+				fs::symlink_metadata (path)
+			}
+	{
+		Ok (metadata) =>
+			if metadata.is_file () {
+				succeed! (true);
+			} else {
+				fail! (0xf2e70d12);
+			},
+		Err (error) =>
+			match error.raw_os_error () {
+				Some (ext::libc::ENOENT) =>
+					succeed! (false),
+				_ =>
+					fail! (0x7b7860f8),
+			},
+	}
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1125,5 +1150,66 @@ pub fn filesystem_file_delete (path : &Value) -> (Outcome<()>) {
 	let path = try! (path_slice_coerce (path));
 	let path = path.deref ();
 	succeed_or_fail! (fs::remove_file (path), 0xa1653696);
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_directory_exists (path : &Value, follow : bool) -> (Outcome<bool>) {
+	let path = try! (path_slice_coerce (path));
+	let path = path.deref ();
+	match
+			if follow {
+				fs::metadata (path)
+			} else {
+				fs::symlink_metadata (path)
+			}
+	{
+		Ok (metadata) =>
+			if metadata.is_dir () {
+				succeed! (true);
+			} else {
+				fail! (0x0a0ddaa7);
+			},
+		Err (error) =>
+			match error.raw_os_error () {
+				Some (ext::libc::ENOENT) =>
+					succeed! (false),
+				_ =>
+					fail! (0x06e80918),
+			},
+	}
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_directory_delete (path : &Value) -> (Outcome<()>) {
+	let path = try! (path_slice_coerce (path));
+	let path = path.deref ();
+	succeed_or_fail! (fs::remove_dir (path), 0x9f527eb4);
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_symlink_exists (path : &Value) -> (Outcome<bool>) {
+	let path = try! (path_slice_coerce (path));
+	let path = path.deref ();
+	match fs::symlink_metadata (path) {
+		Ok (metadata) =>
+			if metadata.file_type () .is_symlink () {
+				succeed! (true);
+			} else {
+				fail! (0x1028079e);
+			},
+		Err (error) =>
+			match error.raw_os_error () {
+				Some (ext::libc::ENOENT) =>
+					succeed! (false),
+				_ =>
+					fail! (0xe277c8cb),
+			},
+	}
 }
 

@@ -61,6 +61,9 @@ pub enum FileSystemPrimitive1 {
 	
 	FileExists,
 	FileDelete,
+	DirectoryExists,
+	DirectoryDelete,
+	SymLinkExists,
 	
 	MetadataResolve,
 	MetadataKindGet,
@@ -94,7 +97,7 @@ pub enum FileSystemPrimitive1 {
 	MetadataUnixGetInodeNumber,
 	MetadataUnixGetInodeLinks,
 	
-	LinkResolve,
+	SymLinkResolve,
 	PathCanonicalize,
 	
 	PathCoerce,
@@ -118,6 +121,9 @@ pub enum FileSystemPrimitive1 {
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum FileSystemPrimitive2 {
+	
+	FileExists,
+	DirectoryExists,
 	
 	PathJoin,
 	PathSplit,
@@ -156,7 +162,7 @@ pub enum FileSystemPrimitive2 {
 	MetadataUnixGetInodeNumber,
 	MetadataUnixGetInodeLinks,
 	
-	LinkResolve,
+	SymLinkResolve,
 	
 }
 
@@ -200,6 +206,9 @@ pub enum FileSystemPrimitiveN {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum FileSystemPrimitiveV {
 	
+	FileExists,
+	DirectoryExists,
+	
 	PathJoin,
 	PathSplit,
 	PathNameJoin,
@@ -230,7 +239,7 @@ pub enum FileSystemPrimitiveV {
 	MetadataUnixGetInodeNumber,
 	MetadataUnixGetInodeLinks,
 	
-	LinkResolve,
+	SymLinkResolve,
 	
 }
 
@@ -250,10 +259,19 @@ pub fn filesystem_primitive_1_evaluate (primitive : FileSystemPrimitive1, input_
 	match primitive {
 		
 		FileSystemPrimitive1::FileExists =>
-			return filesystem_file_exists (input_1) .into_0 (),
+			return filesystem_file_exists (input_1, true) .into_0 (),
 		
 		FileSystemPrimitive1::FileDelete =>
 			return filesystem_file_delete (input_1) .into_0 (),
+		
+		FileSystemPrimitive1::DirectoryExists =>
+			return filesystem_directory_exists (input_1, true) .into_0 (),
+		
+		FileSystemPrimitive1::DirectoryDelete =>
+			return filesystem_directory_delete (input_1) .into_0 (),
+		
+		FileSystemPrimitive1::SymLinkExists =>
+			return filesystem_symlink_exists (input_1) .into_0 (),
 		
 		FileSystemPrimitive1::MetadataResolve =>
 			return filesystem_metadata_resolve (input_1, true),
@@ -339,8 +357,8 @@ pub fn filesystem_primitive_1_evaluate (primitive : FileSystemPrimitive1, input_
 		FileSystemPrimitive1::MetadataUnixGetInodeLinks =>
 			return filesystem_metadata_unix_get_inode_links (input_1, true) .into_0 (),
 		
-		FileSystemPrimitive1::LinkResolve =>
-			return filesystem_link_resolve (input_1, false, false),
+		FileSystemPrimitive1::SymLinkResolve =>
+			return filesystem_symlink_resolve (input_1, false, false),
 		
 		FileSystemPrimitive1::PathCanonicalize =>
 			return filesystem_path_canonicalize (input_1),
@@ -393,6 +411,12 @@ pub fn filesystem_primitive_1_evaluate (primitive : FileSystemPrimitive1, input_
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_2_evaluate (primitive : FileSystemPrimitive2, input_1 : &Value, input_2 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
+		
+		FileSystemPrimitive2::FileExists =>
+			return filesystem_file_exists (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+		
+		FileSystemPrimitive2::DirectoryExists =>
+			return filesystem_directory_exists (input_1, try! (boolean_coerce (input_2))) .into_0 (),
 		
 		FileSystemPrimitive2::PathJoin =>
 			return filesystem_path_join (&[input_1, input_2], true) .into_0 (),
@@ -478,8 +502,8 @@ pub fn filesystem_primitive_2_evaluate (primitive : FileSystemPrimitive2, input_
 		FileSystemPrimitive2::MetadataUnixGetInodeLinks =>
 			return filesystem_metadata_unix_get_inode_links (input_1, try! (boolean_coerce (input_2))) .into_0 (),
 		
-		FileSystemPrimitive2::LinkResolve =>
-			return filesystem_link_resolve (input_1, try! (boolean_coerce (input_2)), false),
+		FileSystemPrimitive2::SymLinkResolve =>
+			return filesystem_symlink_resolve (input_1, try! (boolean_coerce (input_2)), false),
 		
 		FileSystemPrimitive2::PathNameIs =>
 			return filesystem_path_name_is (input_1, input_2) .into_0 (),
@@ -563,6 +587,10 @@ pub fn filesystem_primitive_n_evaluate (primitive : FileSystemPrimitiveN, inputs
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_v_alternative_0 (primitive : FileSystemPrimitiveV) -> (Option<FileSystemPrimitive0>) {
 	match primitive {
+		FileSystemPrimitiveV::FileExists =>
+			None,
+		FileSystemPrimitiveV::DirectoryExists =>
+			None,
 		FileSystemPrimitiveV::PathJoin =>
 			None,
 		FileSystemPrimitiveV::PathSplit =>
@@ -613,7 +641,7 @@ pub fn filesystem_primitive_v_alternative_0 (primitive : FileSystemPrimitiveV) -
 			None,
 		FileSystemPrimitiveV::MetadataUnixGetInodeLinks =>
 			None,
-		FileSystemPrimitiveV::LinkResolve =>
+		FileSystemPrimitiveV::SymLinkResolve =>
 			None,
 	}
 }
@@ -624,6 +652,10 @@ pub fn filesystem_primitive_v_alternative_0 (primitive : FileSystemPrimitiveV) -
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_v_alternative_1 (primitive : FileSystemPrimitiveV) -> (Option<FileSystemPrimitive1>) {
 	match primitive {
+		FileSystemPrimitiveV::FileExists =>
+			Some (FileSystemPrimitive1::FileExists),
+		FileSystemPrimitiveV::DirectoryExists =>
+			Some (FileSystemPrimitive1::DirectoryExists),
 		FileSystemPrimitiveV::PathJoin =>
 			Some (FileSystemPrimitive1::PathJoin),
 		FileSystemPrimitiveV::PathSplit =>
@@ -674,8 +706,8 @@ pub fn filesystem_primitive_v_alternative_1 (primitive : FileSystemPrimitiveV) -
 			Some (FileSystemPrimitive1::MetadataUnixGetInodeNumber),
 		FileSystemPrimitiveV::MetadataUnixGetInodeLinks =>
 			Some (FileSystemPrimitive1::MetadataUnixGetInodeLinks),
-		FileSystemPrimitiveV::LinkResolve =>
-			Some (FileSystemPrimitive1::LinkResolve),
+		FileSystemPrimitiveV::SymLinkResolve =>
+			Some (FileSystemPrimitive1::SymLinkResolve),
 	}
 }
 
@@ -685,6 +717,10 @@ pub fn filesystem_primitive_v_alternative_1 (primitive : FileSystemPrimitiveV) -
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_v_alternative_2 (primitive : FileSystemPrimitiveV) -> (Option<FileSystemPrimitive2>) {
 	match primitive {
+		FileSystemPrimitiveV::FileExists =>
+			Some (FileSystemPrimitive2::FileExists),
+		FileSystemPrimitiveV::DirectoryExists =>
+			Some (FileSystemPrimitive2::DirectoryExists),
 		FileSystemPrimitiveV::PathJoin =>
 			Some (FileSystemPrimitive2::PathJoin),
 		FileSystemPrimitiveV::PathSplit =>
@@ -735,8 +771,8 @@ pub fn filesystem_primitive_v_alternative_2 (primitive : FileSystemPrimitiveV) -
 			Some (FileSystemPrimitive2::MetadataUnixGetInodeNumber),
 		FileSystemPrimitiveV::MetadataUnixGetInodeLinks =>
 			Some (FileSystemPrimitive2::MetadataUnixGetInodeLinks),
-		FileSystemPrimitiveV::LinkResolve =>
-			Some (FileSystemPrimitive2::LinkResolve),
+		FileSystemPrimitiveV::SymLinkResolve =>
+			Some (FileSystemPrimitive2::SymLinkResolve),
 	}
 }
 
@@ -746,6 +782,10 @@ pub fn filesystem_primitive_v_alternative_2 (primitive : FileSystemPrimitiveV) -
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_v_alternative_3 (primitive : FileSystemPrimitiveV) -> (Option<FileSystemPrimitive3>) {
 	match primitive {
+		FileSystemPrimitiveV::FileExists =>
+			None,
+		FileSystemPrimitiveV::DirectoryExists =>
+			None,
 		FileSystemPrimitiveV::PathJoin =>
 			Some (FileSystemPrimitive3::PathJoin),
 		FileSystemPrimitiveV::PathSplit =>
@@ -796,7 +836,7 @@ pub fn filesystem_primitive_v_alternative_3 (primitive : FileSystemPrimitiveV) -
 			None,
 		FileSystemPrimitiveV::MetadataUnixGetInodeLinks =>
 			None,
-		FileSystemPrimitiveV::LinkResolve =>
+		FileSystemPrimitiveV::SymLinkResolve =>
 			None,
 	}
 }
@@ -807,6 +847,10 @@ pub fn filesystem_primitive_v_alternative_3 (primitive : FileSystemPrimitiveV) -
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_v_alternative_4 (primitive : FileSystemPrimitiveV) -> (Option<FileSystemPrimitive4>) {
 	match primitive {
+		FileSystemPrimitiveV::FileExists =>
+			None,
+		FileSystemPrimitiveV::DirectoryExists =>
+			None,
 		FileSystemPrimitiveV::PathJoin =>
 			Some (FileSystemPrimitive4::PathJoin),
 		FileSystemPrimitiveV::PathSplit =>
@@ -857,7 +901,7 @@ pub fn filesystem_primitive_v_alternative_4 (primitive : FileSystemPrimitiveV) -
 			None,
 		FileSystemPrimitiveV::MetadataUnixGetInodeLinks =>
 			None,
-		FileSystemPrimitiveV::LinkResolve =>
+		FileSystemPrimitiveV::SymLinkResolve =>
 			None,
 	}
 }
@@ -868,6 +912,10 @@ pub fn filesystem_primitive_v_alternative_4 (primitive : FileSystemPrimitiveV) -
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_v_alternative_5 (primitive : FileSystemPrimitiveV) -> (Option<FileSystemPrimitive5>) {
 	match primitive {
+		FileSystemPrimitiveV::FileExists =>
+			None,
+		FileSystemPrimitiveV::DirectoryExists =>
+			None,
 		FileSystemPrimitiveV::PathJoin =>
 			Some (FileSystemPrimitive5::PathJoin),
 		FileSystemPrimitiveV::PathSplit =>
@@ -918,7 +966,7 @@ pub fn filesystem_primitive_v_alternative_5 (primitive : FileSystemPrimitiveV) -
 			None,
 		FileSystemPrimitiveV::MetadataUnixGetInodeLinks =>
 			None,
-		FileSystemPrimitiveV::LinkResolve =>
+		FileSystemPrimitiveV::SymLinkResolve =>
 			None,
 	}
 }
@@ -929,6 +977,10 @@ pub fn filesystem_primitive_v_alternative_5 (primitive : FileSystemPrimitiveV) -
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_v_alternative_n (primitive : FileSystemPrimitiveV) -> (Option<FileSystemPrimitiveN>) {
 	match primitive {
+		FileSystemPrimitiveV::FileExists =>
+			None,
+		FileSystemPrimitiveV::DirectoryExists =>
+			None,
 		FileSystemPrimitiveV::PathJoin =>
 			Some (FileSystemPrimitiveN::PathJoin),
 		FileSystemPrimitiveV::PathSplit =>
@@ -979,7 +1031,7 @@ pub fn filesystem_primitive_v_alternative_n (primitive : FileSystemPrimitiveV) -
 			None,
 		FileSystemPrimitiveV::MetadataUnixGetInodeLinks =>
 			None,
-		FileSystemPrimitiveV::LinkResolve =>
+		FileSystemPrimitiveV::SymLinkResolve =>
 			None,
 	}
 }

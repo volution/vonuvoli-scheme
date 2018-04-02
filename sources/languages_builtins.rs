@@ -260,7 +260,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 	definitions.extend_from_slice (&[
 			
 			("fs-canonicalize", FileSystemPrimitive1::PathCanonicalize.into ()),
-			("fs-link-resolve", FileSystemPrimitiveV::LinkResolve.into ()),
+			("fs-link-resolve", FileSystemPrimitiveV::SymLinkResolve.into ()),
 			("fs-metadata", FileSystemPrimitiveV::MetadataResolve.into ()),
 			
 			("fs-metadata-kind", FileSystemPrimitiveV::MetadataKindGet.into ()),
@@ -294,6 +294,12 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("fs-metadata-unix-inode-device", FileSystemPrimitiveV::MetadataUnixGetInodeDevice.into ()),
 			("fs-metadata-unix-inode-number", FileSystemPrimitiveV::MetadataUnixGetInodeNumber.into ()),
 			("fs-metadata-unix-inode-links", FileSystemPrimitiveV::MetadataUnixGetInodeLinks.into ()),
+			
+			("fs-file-exists?", FileSystemPrimitiveV::FileExists.into ()),
+			("fs-file-delete", FileSystemPrimitive1::FileDelete.into ()),
+			("fs-directory-exists?", FileSystemPrimitiveV::DirectoryExists.into ()),
+			("fs-directory-delete", FileSystemPrimitive1::DirectoryDelete.into ()),
+			("fs-symlink-exists?", FileSystemPrimitive1::SymLinkExists.into ()),
 			
 		]);
 	
