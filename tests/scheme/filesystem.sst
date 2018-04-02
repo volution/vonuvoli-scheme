@@ -1,0 +1,47 @@
+
+
+(file-exists? "./tests") => #t
+(file-exists? "./tests/scheme.rs") => #t
+(file-exists? "./tests/__does_not_exist__") => #f
+
+
+
+
+(~opaque? (~fs-metadata "./tests")) => #t
+(~opaque? (~fs-metadata "./tests/scheme.rs")) => #t
+(~opaque? (~fs-metadata "./__does_not_exist__")) => #f
+(~fs-metadata "./__does_not_exist__") => #f
+
+(~opaque? (~fs-metadata "/proc/self")) => #t
+(~opaque? (~fs-metadata "/proc/self" #t)) => #t
+(~opaque? (~fs-metadata "/proc/self" #f)) => #t
+
+
+(~fs-metadata-kind "./tests") => 'directory
+(~fs-metadata-kind "./tests/scheme.rs") => 'file
+
+(~fs-metadata-directory? "./tests") => #t
+(~fs-metadata-file? "./tests/scheme.rs") => #t
+
+(~fs-metadata-file? "./tests") => #f
+(~fs-metadata-directory? "./tests/scheme.rs") => #f
+
+(~fs-metadata-kind? "./tests" 'directory) => #t
+(~fs-metadata-kind? "./tests/scheme.rs" 'file) => #t
+
+(~fs-metadata-kind? "./tests" 'file) => #f
+(~fs-metadata-kind? "./tests/scheme.rs" 'directory) => #f
+
+
+(~fs-metadata-kind "/proc/self") => 'directory
+(~fs-metadata-kind "/proc/self" #t) => 'directory
+(~fs-metadata-kind "/proc/self" #f) => 'symlink
+
+(~fs-metadata-directory? "/proc/self") => #t
+(~fs-metadata-symlink? "/proc/self") => #t
+(~fs-metadata-file? "/proc/self") => #f
+
+(~fs-metadata-kind "/dev/null") => 'character-device
+(~fs-metadata-kind? "/dev/null" 'character-device) => #t
+(~fs-metadata-character-device? "/dev/null") => #t
+
