@@ -1506,6 +1506,90 @@ pub fn os_str_slice_coerce (value : &Value) -> (Outcome<OsStrSliceRef>) {
 
 
 
+#[ derive (Debug) ]
+pub enum CoercedRef <'a, Value : 'a> {
+	Reference ( &'a Value ),
+	Value ( Value ),
+	StdRef ( StdRef<'a, StdAny>, &'a Value ),
+	StdBox ( StdBox<StdAny>, &'a Value ),
+	StdRc ( StdRc<StdAny>, &'a Value ),
+}
+
+
+impl <'a, Value> CoercedRef<'a, Value> {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new_reference (value : &'a Value) -> (CoercedRef<'a, Value>) {
+		CoercedRef::Reference (value)
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new_value (value : Value) -> (CoercedRef<'a, Value>) {
+		CoercedRef::Value (value)
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new_cell <U : 'static, Accessor> (value : StdRef<'a, U>, accessor : Accessor) -> (CoercedRef<'a, Value>)
+			where Accessor : FnOnce (&'a U) -> (&'a Value)
+	{
+		let value_ref = unsafe { mem::transmute (StdRef::deref (&value)) };
+		let value_ref = accessor (value_ref);
+		CoercedRef::StdRef (value, value_ref)
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new_box <U : 'static, Accessor> (value : StdBox<U>, accessor : Accessor) -> (CoercedRef<'a, Value>)
+			where Accessor : FnOnce (&'a U) -> (&'a Value)
+	{
+		let value_ref = unsafe { mem::transmute (StdBox::deref (&value)) };
+		let value_ref = accessor (value_ref);
+		CoercedRef::StdBox (value, value_ref)
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new_rc <U : 'static, Accessor> (value : StdRc<U>, accessor : Accessor) -> (CoercedRef<'a, Value>)
+			where Accessor : FnOnce (&'a U) -> (&'a Value)
+	{
+		let value_ref = unsafe { mem::transmute (StdRc::deref (&value)) };
+		let value_ref = accessor (value_ref);
+		CoercedRef::StdRc (value, value_ref)
+	}
+}
+
+
+impl <'a, Value> StdDeref for CoercedRef<'a, Value> {
+	
+	type Target = Value;
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn deref (&self) -> (&Value) {
+		match *self {
+			CoercedRef::Reference (value) =>
+				value,
+			CoercedRef::Value (ref value) =>
+				value,
+			CoercedRef::StdRef (_, value_ref) =>
+				value_ref,
+			CoercedRef::StdBox (_, value_ref) =>
+				value_ref,
+			CoercedRef::StdRc (_, value_ref) =>
+				value_ref,
+		}
+	}
+}
+
+
+impl <'a, Value> StdAsRef<Value> for CoercedRef<'a, Value> {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn as_ref (&self) -> (&Value) {
+		return self.deref ();
+	}
+}
+
+
+
+
 /*
 impl <From, To> StdInto0<Outcome<To>> for From where From : StdInto<To> {
 	
