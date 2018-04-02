@@ -1,7 +1,6 @@
 
 
 #![ feature (test) ]
-#![ feature (i128_type) ]
 #![ no_implicit_prelude ]
 include! ("prelude.in");
 
@@ -99,6 +98,8 @@ def_test! (test__0, {
 			Parameters,
 			Parameter,
 			Promise,
+			
+			Opaque,
 			
 		]);
 	
@@ -201,6 +202,9 @@ def_test! (test__0, {
 			(Option<StdBox<StdAny>>, (like, [*mut usize; 2])),
 			(StdRc<StdAny>, (like, [*mut usize; 2])),
 			(Option<StdRc<StdAny>>, (like, [*mut usize; 2])),
+			
+			(StdRc<StdBox<StdAny>>, (like, [*mut usize; 1])),
+			(Option<StdRc<StdBox<StdAny>>>, (like, [*mut usize; 1])),
 			
 		]);
 	

@@ -16,18 +16,18 @@ pub mod exports {
 
 
 #[ derive (Clone) ]
-pub struct Opaque ( StdRc<StdAny> );
+pub struct Opaque ( StdRc<StdBox<StdAny>> );
 
 
 impl Opaque {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn from_rc (rc : StdRc<StdAny>) -> (Opaque) {
+	pub fn from_rc (rc : StdRc<StdBox<StdAny>>) -> (Opaque) {
 		Opaque (rc)
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn clone_rc (rc : &StdRc<StdAny>) -> (Opaque) {
+	pub fn clone_rc (rc : &StdRc<StdBox<StdAny>>) -> (Opaque) {
 		Opaque::from_rc (StdRc::clone (rc))
 	}
 	
@@ -37,13 +37,13 @@ impl Opaque {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn any_rc_clone (&self) -> (StdRc<StdAny>) {
-		self.0.clone ()
+	pub fn any_rc_clone (&self) -> (StdRc<StdBox<StdAny>>) {
+		StdRc::clone (&self.0)
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn any_as_ref (&self) -> (&StdAny) {
-		StdRc::as_ref (&self.0)
+		StdBox::deref (StdRc::deref (&self.0))
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -72,6 +72,6 @@ impl Opaque {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn opaque_new <Value : StdAny> (value : Value) -> (Opaque) {
-	Opaque (StdRc::new (value))
+	Opaque (StdRc::new (StdBox::new (value)))
 }
 
