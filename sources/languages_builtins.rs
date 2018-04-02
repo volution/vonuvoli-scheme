@@ -261,6 +261,17 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			
 			("fs-canonicalize", FileSystemPrimitive1::PathCanonicalize.into ()),
 			("fs-link-resolve", FileSystemPrimitiveV::LinkResolve.into ()),
+			("fs-metadata", FileSystemPrimitiveV::MetadataResolve.into ()),
+			
+			("fs-metadata-kind", FileSystemPrimitiveV::MetadataKindGet.into ()),
+			("fs-metadata-kind?", FileSystemPrimitive2::MetadataKindHas.into ()),
+			("fs-metadata-file?", FileSystemPrimitive1::MetadataKindIsFile.into ()),
+			("fs-metadata-directory?", FileSystemPrimitive1::MetadataKindIsDirectory.into ()),
+			("fs-metadata-symlink?", FileSystemPrimitive1::MetadataKindIsSymLink.into ()),
+			("fs-metadata-fifo?", FileSystemPrimitive1::MetadataKindIsFifo.into ()),
+			("fs-metadata-socket?", FileSystemPrimitive1::MetadataKindIsSocket.into ()),
+			("fs-metadata-block-device?", FileSystemPrimitive1::MetadataKindIsBlockDevice.into ()),
+			("fs-metadata-character-device?", FileSystemPrimitive1::MetadataKindIsCharacterDevice.into ()),
 			
 		]);
 	

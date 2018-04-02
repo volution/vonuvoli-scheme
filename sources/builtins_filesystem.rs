@@ -55,6 +55,20 @@ pub mod exports {
 		
 	};
 	
+	
+	pub use super::{
+		
+		filesystem_metadata_resolve,
+		filesystem_metadata_coerce,
+		
+		filesystem_metadata_get_kind,
+		filesystem_metadata_get_kind_symbol,
+		filesystem_metadata_has_kind,
+		filesystem_metadata_has_kind_symbol,
+		
+		FileSystemMetadataKind,
+	};
+	
 }
 
 
@@ -647,6 +661,182 @@ pub fn filesystem_bytes_to_path (value : &Value) -> (Outcome<Value>) {
 	let value = unsafe { mem::transmute (value) };
 	let value = Path::from_rc (value, false);
 	succeed! (value.into ());
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_metadata_resolve (path : &Value, follow : bool) -> (Outcome<Value>) {
+	let path = try! (path_slice_coerce (path));
+	let path = path.deref ();
+	match
+			if follow {
+				fs::metadata (path)
+			} else {
+				fs::symlink_metadata (path)
+			}
+	{
+		Ok (metadata) =>
+			succeed! (opaque_new (metadata) .into ()),
+		Err (error) =>
+			match error.raw_os_error () {
+				Some (ext::libc::ENOENT) =>
+					succeed! (FALSE_VALUE),
+				_ =>
+					fail! (0x3ff7b86e),
+			},
+	}
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_metadata_coerce (value : &Value, follow : bool) -> (Outcome<CoercedRef<fs::Metadata>>) {
+	match value.kind_match_as_ref () {
+		ValueKindMatchAsRef::Opaque (value) =>
+			succeed! (CoercedRef::new_reference (try_some! (value.downcast (), 0x102f7d24))),
+		_ => {
+			let path = try! (path_slice_coerce (value));
+			let path = path.deref ();
+			let metadata = if follow {
+				try_or_fail! (fs::metadata (path), 0x3b6116ee)
+			} else {
+				try_or_fail! (fs::symlink_metadata (path), 0xa73b2fd0)
+			};
+			succeed! (CoercedRef::new_value (metadata));
+		},
+	}
+}
+
+
+
+
+#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+pub enum FileSystemMetadataKind {
+	File,
+	Directory,
+	SymLink,
+	Fifo,
+	Socket,
+	BlockDevice,
+	CharacterDevice,
+}
+
+
+impl <'a> StdTryFrom<&'a fs::FileType> for FileSystemMetadataKind {
+	
+	type Error = Error;
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn try_from (kind : &'a fs::FileType) -> (Outcome<FileSystemMetadataKind>) {
+		let kind = if kind.is_file () {
+			FileSystemMetadataKind::File
+		} else if kind.is_dir () {
+			FileSystemMetadataKind::Directory
+		} else if kind.is_symlink () {
+			FileSystemMetadataKind::SymLink
+		} else if kind.is_fifo () {
+			FileSystemMetadataKind::Fifo
+		} else if kind.is_socket () {
+			FileSystemMetadataKind::Socket
+		} else if kind.is_block_device () {
+			FileSystemMetadataKind::BlockDevice
+		} else if kind.is_char_device () {
+			FileSystemMetadataKind::CharacterDevice
+		} else {
+			fail_panic! (0x27130fff);
+		};
+		succeed! (kind);
+	}
+}
+
+
+impl <'a> StdTryFrom<&'a Value> for FileSystemMetadataKind {
+	
+	type Error = Error;
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn try_from (value : &'a Value) -> (Outcome<FileSystemMetadataKind>) {
+		let kind = try_as_symbol_ref! (value);
+		let kind = kind.string_as_str ();
+		let kind = match kind {
+			"file" =>
+				FileSystemMetadataKind::File,
+			"directory" =>
+				FileSystemMetadataKind::Directory,
+			"symlink" =>
+				FileSystemMetadataKind::SymLink,
+			"fifo" =>
+				FileSystemMetadataKind::Fifo,
+			"socket" =>
+				FileSystemMetadataKind::Socket,
+			"block-device" =>
+				FileSystemMetadataKind::BlockDevice,
+			"character-device" | "char-device" =>
+				FileSystemMetadataKind::CharacterDevice,
+			_ =>
+				fail! (0x8bf649ca),
+		};
+		succeed! (kind);
+	}
+}
+
+
+impl <'a> StdFrom<&'a FileSystemMetadataKind> for Symbol {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn from (kind : &'a FileSystemMetadataKind) -> (Symbol) {
+		let kind = match kind {
+			FileSystemMetadataKind::File =>
+				"file",
+			FileSystemMetadataKind::Directory =>
+				"directory",
+			FileSystemMetadataKind::SymLink =>
+				"symlink",
+			FileSystemMetadataKind::Fifo =>
+				"fifo",
+			FileSystemMetadataKind::Socket =>
+				"socket",
+			FileSystemMetadataKind::BlockDevice =>
+				"block-device",
+			FileSystemMetadataKind::CharacterDevice =>
+				"character-device",
+		};
+		let kind = symbol_clone_str (kind);
+		return kind;
+	}
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_metadata_get_kind (metadata : &Value, follow : bool) -> (Outcome<FileSystemMetadataKind>) {
+	let metadata = try! (filesystem_metadata_coerce (metadata, follow));
+	let metadata = metadata.deref ();
+	let kind = metadata.file_type ();
+	let kind = try! (FileSystemMetadataKind::try_from (&kind));
+	succeed! (kind);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_metadata_get_kind_symbol (metadata : &Value, follow : bool) -> (Outcome<Symbol>) {
+	let kind = try! (filesystem_metadata_get_kind (metadata, follow));
+	let kind = Symbol::from (&kind);
+	succeed! (kind);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_metadata_has_kind (metadata : &Value, kind : FileSystemMetadataKind, follow : bool) -> (Outcome<bool>) {
+	let follow = follow && (kind != FileSystemMetadataKind::SymLink);
+	let actual = try! (filesystem_metadata_get_kind (metadata, follow));
+	succeed! (actual == kind);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_metadata_has_kind_symbol (metadata : &Value, kind : &Value, follow : bool) -> (Outcome<bool>) {
+	let kind = try! (FileSystemMetadataKind::try_from (kind));
+	return filesystem_metadata_has_kind (metadata, kind, follow);
 }
 
 

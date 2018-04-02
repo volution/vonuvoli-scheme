@@ -62,6 +62,16 @@ pub enum FileSystemPrimitive1 {
 	FileExists,
 	FileDelete,
 	
+	MetadataResolve,
+	MetadataKindGet,
+	MetadataKindIsFile,
+	MetadataKindIsDirectory,
+	MetadataKindIsSymLink,
+	MetadataKindIsFifo,
+	MetadataKindIsSocket,
+	MetadataKindIsBlockDevice,
+	MetadataKindIsCharacterDevice,
+	
 	LinkResolve,
 	PathCanonicalize,
 	
@@ -97,6 +107,10 @@ pub enum FileSystemPrimitive2 {
 	PathNameIs,
 	PathNameHasPrefix,
 	PathNameHasSuffix,
+	
+	MetadataResolve,
+	MetadataKindGet,
+	MetadataKindHas,
 	
 	LinkResolve,
 	
@@ -147,6 +161,9 @@ pub enum FileSystemPrimitiveV {
 	PathNameJoin,
 	PathNameSplit,
 	
+	MetadataResolve,
+	MetadataKindGet,
+	
 	LinkResolve,
 	
 }
@@ -171,6 +188,33 @@ pub fn filesystem_primitive_1_evaluate (primitive : FileSystemPrimitive1, input_
 		
 		FileSystemPrimitive1::FileDelete =>
 			return filesystem_file_delete (input_1) .into_0 (),
+		
+		FileSystemPrimitive1::MetadataResolve =>
+			return filesystem_metadata_resolve (input_1, true),
+		
+		FileSystemPrimitive1::MetadataKindGet =>
+			return filesystem_metadata_get_kind_symbol (input_1, true) .into_0 (),
+		
+		FileSystemPrimitive1::MetadataKindIsFile =>
+			return filesystem_metadata_has_kind (input_1, FileSystemMetadataKind::File, true) .into_0 (),
+		
+		FileSystemPrimitive1::MetadataKindIsDirectory =>
+			return filesystem_metadata_has_kind (input_1, FileSystemMetadataKind::Directory, true) .into_0 (),
+		
+		FileSystemPrimitive1::MetadataKindIsSymLink =>
+			return filesystem_metadata_has_kind (input_1, FileSystemMetadataKind::SymLink, true) .into_0 (),
+		
+		FileSystemPrimitive1::MetadataKindIsFifo =>
+			return filesystem_metadata_has_kind (input_1, FileSystemMetadataKind::Fifo, true) .into_0 (),
+		
+		FileSystemPrimitive1::MetadataKindIsSocket =>
+			return filesystem_metadata_has_kind (input_1, FileSystemMetadataKind::Socket, true) .into_0 (),
+		
+		FileSystemPrimitive1::MetadataKindIsBlockDevice =>
+			return filesystem_metadata_has_kind (input_1, FileSystemMetadataKind::BlockDevice, true) .into_0 (),
+		
+		FileSystemPrimitive1::MetadataKindIsCharacterDevice =>
+			return filesystem_metadata_has_kind (input_1, FileSystemMetadataKind::CharacterDevice, true) .into_0 (),
 		
 		FileSystemPrimitive1::LinkResolve =>
 			return filesystem_link_resolve (input_1, false, false),
@@ -244,6 +288,15 @@ pub fn filesystem_primitive_2_evaluate (primitive : FileSystemPrimitive2, input_
 		
 		FileSystemPrimitive2::PathNameSplit =>
 			return filesystem_path_name_split (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+		
+		FileSystemPrimitive2::MetadataResolve =>
+			return filesystem_metadata_resolve (input_1, try! (boolean_coerce (input_2))),
+		
+		FileSystemPrimitive2::MetadataKindGet =>
+			return filesystem_metadata_get_kind_symbol (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+		
+		FileSystemPrimitive2::MetadataKindHas =>
+			return filesystem_metadata_has_kind_symbol (input_1, input_2, false) .into_0 (),
 		
 		FileSystemPrimitive2::LinkResolve =>
 			return filesystem_link_resolve (input_1, try! (boolean_coerce (input_2)), false),
@@ -338,6 +391,10 @@ pub fn filesystem_primitive_v_alternative_0 (primitive : FileSystemPrimitiveV) -
 			None,
 		FileSystemPrimitiveV::PathNameSplit =>
 			None,
+		FileSystemPrimitiveV::MetadataResolve =>
+			None,
+		FileSystemPrimitiveV::MetadataKindGet =>
+			None,
 		FileSystemPrimitiveV::LinkResolve =>
 			None,
 	}
@@ -357,6 +414,10 @@ pub fn filesystem_primitive_v_alternative_1 (primitive : FileSystemPrimitiveV) -
 			Some (FileSystemPrimitive1::PathNameJoin),
 		FileSystemPrimitiveV::PathNameSplit =>
 			Some (FileSystemPrimitive1::PathNameSplit),
+		FileSystemPrimitiveV::MetadataResolve =>
+			Some (FileSystemPrimitive1::MetadataResolve),
+		FileSystemPrimitiveV::MetadataKindGet =>
+			Some (FileSystemPrimitive1::MetadataKindGet),
 		FileSystemPrimitiveV::LinkResolve =>
 			Some (FileSystemPrimitive1::LinkResolve),
 	}
@@ -376,6 +437,10 @@ pub fn filesystem_primitive_v_alternative_2 (primitive : FileSystemPrimitiveV) -
 			Some (FileSystemPrimitive2::PathNameJoin),
 		FileSystemPrimitiveV::PathNameSplit =>
 			Some (FileSystemPrimitive2::PathNameSplit),
+		FileSystemPrimitiveV::MetadataResolve =>
+			Some (FileSystemPrimitive2::MetadataResolve),
+		FileSystemPrimitiveV::MetadataKindGet =>
+			Some (FileSystemPrimitive2::MetadataKindGet),
 		FileSystemPrimitiveV::LinkResolve =>
 			Some (FileSystemPrimitive2::LinkResolve),
 	}
@@ -394,6 +459,10 @@ pub fn filesystem_primitive_v_alternative_3 (primitive : FileSystemPrimitiveV) -
 		FileSystemPrimitiveV::PathNameJoin =>
 			Some (FileSystemPrimitive3::PathNameJoin),
 		FileSystemPrimitiveV::PathNameSplit =>
+			None,
+		FileSystemPrimitiveV::MetadataResolve =>
+			None,
+		FileSystemPrimitiveV::MetadataKindGet =>
 			None,
 		FileSystemPrimitiveV::LinkResolve =>
 			None,
@@ -414,6 +483,10 @@ pub fn filesystem_primitive_v_alternative_4 (primitive : FileSystemPrimitiveV) -
 			Some (FileSystemPrimitive4::PathNameJoin),
 		FileSystemPrimitiveV::PathNameSplit =>
 			None,
+		FileSystemPrimitiveV::MetadataResolve =>
+			None,
+		FileSystemPrimitiveV::MetadataKindGet =>
+			None,
 		FileSystemPrimitiveV::LinkResolve =>
 			None,
 	}
@@ -433,6 +506,10 @@ pub fn filesystem_primitive_v_alternative_5 (primitive : FileSystemPrimitiveV) -
 			Some (FileSystemPrimitive5::PathNameJoin),
 		FileSystemPrimitiveV::PathNameSplit =>
 			None,
+		FileSystemPrimitiveV::MetadataResolve =>
+			None,
+		FileSystemPrimitiveV::MetadataKindGet =>
+			None,
 		FileSystemPrimitiveV::LinkResolve =>
 			None,
 	}
@@ -451,6 +528,10 @@ pub fn filesystem_primitive_v_alternative_n (primitive : FileSystemPrimitiveV) -
 		FileSystemPrimitiveV::PathNameJoin =>
 			Some (FileSystemPrimitiveN::PathNameJoin),
 		FileSystemPrimitiveV::PathNameSplit =>
+			None,
+		FileSystemPrimitiveV::MetadataResolve =>
+			None,
+		FileSystemPrimitiveV::MetadataKindGet =>
 			None,
 		FileSystemPrimitiveV::LinkResolve =>
 			None,
