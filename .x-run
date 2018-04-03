@@ -576,7 +576,7 @@ done
 
 printf -- '%s\n' '<< execute / bin / compiler / all / debug'
 printf -- '%s\n' "x-run ':: compile / bin / compiler / debug'"
-find ./examples -xdev -type f \( -name 'optimizer--*.ss' -o -name 'benchmark--*.ss' -o -name 'examples--*.ss' \) -printf '%f\n' \
+find ./examples -xdev -type f \( -name 'optimizer--*.ss' -o -name 'benchmark--*.ss' -o -name 'examples--*.ss' \) -not \( -name '*--chibi.ss' -o -name '*--gauche.ss' \) -printf '%f\n' \
 | sed -r -e 's/\.ss$//' \
 | sort -u \
 | while read _script ; do
@@ -589,7 +589,7 @@ printf -- '%s\n' '!!'
 
 
 
-find ./examples -xdev -type f -name 'examples--*.ss' -printf '%f\n' \
+find ./examples -xdev -type f -name 'examples--*.ss' -not \( -name '*--chibi.ss' -o -name '*--gauche.ss' \) -printf '%f\n' \
 | sed -r -e 's/^examples--//' -e 's/\.ss$//' \
 | sort -u \
 | while read _script ; do
@@ -597,8 +597,34 @@ sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
 :: execute / bin / interpreter / examples / @{SCRIPT} / debug / watch :: exec -- x-run ':: execute / bin / interpreter / debug / watch' './examples/examples--@{SCRIPT}.ss' "${@}"
 :: execute / bin / interpreter / examples / @{SCRIPT} / debug :: exec -- x-run ':: execute / bin / interpreter / debug' './examples/examples--@{SCRIPT}.ss' "${@}"
 :: execute / bin / interpreter / examples / @{SCRIPT} / release :: exec -- x-run ':: execute / bin / interpreter / release' './examples/examples--@{SCRIPT}.ss' "${@}"
+:: execute / bin / interpreter / examples / @{SCRIPT} / debug / time :: exec -- x-run ':: execute / bin / interpreter / debug / time' './examples/examples--@{SCRIPT}.ss' "${@}"
+:: execute / bin / interpreter / examples / @{SCRIPT} / release / time :: exec -- x-run ':: execute / bin / interpreter / release / time' './examples/examples--@{SCRIPT}.ss' "${@}"
 :: execute / bin / compiler / examples / @{SCRIPT} / debug :: nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/examples--@{SCRIPT}.ss' "${@}" >| './examples/_outputs/examples--@{SCRIPT}--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--@{SCRIPT}--vonuvoli-compile.out'
 :: execute / bin / compiler / examples / @{SCRIPT} / release :: nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/examples--@{SCRIPT}.ss' "${@}" >| './examples/_outputs/examples--@{SCRIPT}--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--@{SCRIPT}--vonuvoli-compile.out'
+EOS
+done
+
+
+
+
+find ./examples -xdev -type f -name 'examples--*.ss' -name '*--chibi.ss' -printf '%f\n' \
+| sed -r -e 's/^examples--//' -e 's/\.ss$//' -e 's/--chibi$//' \
+| sort -u \
+| while read _script ; do
+sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
+:: execute / chibi / examples / @{SCRIPT} :: exec -- x-run ':: execute / chibi' -- './examples/examples--@{SCRIPT}--chibi.ss' "${@}"
+:: execute / chibi / time / examples / @{SCRIPT} :: exec -- x-run ':: execute / chibi / time' -- './examples/examples--@{SCRIPT}--chibi.ss' "${@}"
+EOS
+done
+
+
+find ./examples -xdev -type f -name 'examples--*.ss' -name '*--gauche.ss' -printf '%f\n' \
+| sed -r -e 's/^examples--//' -e 's/\.ss$//' -e 's/--gauche$//' \
+| sort -u \
+| while read _script ; do
+sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
+:: execute / gauche / examples / @{SCRIPT} :: exec -- x-run ':: execute / gauche' -- './examples/examples--@{SCRIPT}--gauche.ss' "${@}"
+:: execute / gauche / time / examples / @{SCRIPT} :: exec -- x-run ':: execute / gauche / time' -- './examples/examples--@{SCRIPT}--gauche.ss' "${@}"
 EOS
 done
 

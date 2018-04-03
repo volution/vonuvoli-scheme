@@ -1159,6 +1159,7 @@
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/benchmark--make-cons.ss' "${@}" >| './examples/_outputs/benchmark--make-cons--vonuvoli-compile.out'
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/benchmark--make-vector.ss' "${@}" >| './examples/_outputs/benchmark--make-vector--vonuvoli-compile.out'
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/examples--backtrace.ss' "${@}" >| './examples/_outputs/examples--backtrace--vonuvoli-compile.out'
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/examples--disk-usage.ss' "${@}" >| './examples/_outputs/examples--disk-usage--vonuvoli-compile.out'
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/examples--display-1.ss' "${@}" >| './examples/_outputs/examples--display-1--vonuvoli-compile.out'
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/examples--process-1.ss' "${@}" >| './examples/_outputs/examples--process-1--vonuvoli-compile.out'
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/examples--process-2.ss' "${@}" >| './examples/_outputs/examples--process-2--vonuvoli-compile.out'
@@ -1225,6 +1226,14 @@
 
 << execute / bin / compiler / examples / backtrace / release
 	nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/examples--backtrace.ss' "${@}" >| './examples/_outputs/examples--backtrace--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--backtrace--vonuvoli-compile.out'
+!!
+
+<< execute / bin / compiler / examples / disk-usage / debug
+	nice -n 19 -- x-run ':: execute / bin / compiler / debug' './examples/examples--disk-usage.ss' "${@}" >| './examples/_outputs/examples--disk-usage--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--disk-usage--vonuvoli-compile.out'
+!!
+
+<< execute / bin / compiler / examples / disk-usage / release
+	nice -n 19 -- x-run ':: execute / bin / compiler / release' './examples/examples--disk-usage.ss' "${@}" >| './examples/_outputs/examples--disk-usage--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--disk-usage--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / examples / display-1 / debug
@@ -1335,6 +1344,10 @@
 	exec -- x-run ':: execute / bin / interpreter / debug' './examples/examples--backtrace.ss' "${@}"
 !!
 
+<< execute / bin / interpreter / examples / backtrace / debug / time
+	exec -- x-run ':: execute / bin / interpreter / debug / time' './examples/examples--backtrace.ss' "${@}"
+!!
+
 << execute / bin / interpreter / examples / backtrace / debug / watch
 	exec -- x-run ':: execute / bin / interpreter / debug / watch' './examples/examples--backtrace.ss' "${@}"
 !!
@@ -1343,8 +1356,36 @@
 	exec -- x-run ':: execute / bin / interpreter / release' './examples/examples--backtrace.ss' "${@}"
 !!
 
+<< execute / bin / interpreter / examples / backtrace / release / time
+	exec -- x-run ':: execute / bin / interpreter / release / time' './examples/examples--backtrace.ss' "${@}"
+!!
+
+<< execute / bin / interpreter / examples / disk-usage / debug
+	exec -- x-run ':: execute / bin / interpreter / debug' './examples/examples--disk-usage.ss' "${@}"
+!!
+
+<< execute / bin / interpreter / examples / disk-usage / debug / time
+	exec -- x-run ':: execute / bin / interpreter / debug / time' './examples/examples--disk-usage.ss' "${@}"
+!!
+
+<< execute / bin / interpreter / examples / disk-usage / debug / watch
+	exec -- x-run ':: execute / bin / interpreter / debug / watch' './examples/examples--disk-usage.ss' "${@}"
+!!
+
+<< execute / bin / interpreter / examples / disk-usage / release
+	exec -- x-run ':: execute / bin / interpreter / release' './examples/examples--disk-usage.ss' "${@}"
+!!
+
+<< execute / bin / interpreter / examples / disk-usage / release / time
+	exec -- x-run ':: execute / bin / interpreter / release / time' './examples/examples--disk-usage.ss' "${@}"
+!!
+
 << execute / bin / interpreter / examples / display-1 / debug
 	exec -- x-run ':: execute / bin / interpreter / debug' './examples/examples--display-1.ss' "${@}"
+!!
+
+<< execute / bin / interpreter / examples / display-1 / debug / time
+	exec -- x-run ':: execute / bin / interpreter / debug / time' './examples/examples--display-1.ss' "${@}"
 !!
 
 << execute / bin / interpreter / examples / display-1 / debug / watch
@@ -1355,8 +1396,16 @@
 	exec -- x-run ':: execute / bin / interpreter / release' './examples/examples--display-1.ss' "${@}"
 !!
 
+<< execute / bin / interpreter / examples / display-1 / release / time
+	exec -- x-run ':: execute / bin / interpreter / release / time' './examples/examples--display-1.ss' "${@}"
+!!
+
 << execute / bin / interpreter / examples / process-1 / debug
 	exec -- x-run ':: execute / bin / interpreter / debug' './examples/examples--process-1.ss' "${@}"
+!!
+
+<< execute / bin / interpreter / examples / process-1 / debug / time
+	exec -- x-run ':: execute / bin / interpreter / debug / time' './examples/examples--process-1.ss' "${@}"
 !!
 
 << execute / bin / interpreter / examples / process-1 / debug / watch
@@ -1367,8 +1416,16 @@
 	exec -- x-run ':: execute / bin / interpreter / release' './examples/examples--process-1.ss' "${@}"
 !!
 
+<< execute / bin / interpreter / examples / process-1 / release / time
+	exec -- x-run ':: execute / bin / interpreter / release / time' './examples/examples--process-1.ss' "${@}"
+!!
+
 << execute / bin / interpreter / examples / process-2 / debug
 	exec -- x-run ':: execute / bin / interpreter / debug' './examples/examples--process-2.ss' "${@}"
+!!
+
+<< execute / bin / interpreter / examples / process-2 / debug / time
+	exec -- x-run ':: execute / bin / interpreter / debug / time' './examples/examples--process-2.ss' "${@}"
 !!
 
 << execute / bin / interpreter / examples / process-2 / debug / watch
@@ -1379,8 +1436,16 @@
 	exec -- x-run ':: execute / bin / interpreter / release' './examples/examples--process-2.ss' "${@}"
 !!
 
+<< execute / bin / interpreter / examples / process-2 / release / time
+	exec -- x-run ':: execute / bin / interpreter / release / time' './examples/examples--process-2.ss' "${@}"
+!!
+
 << execute / bin / interpreter / examples / random-1 / debug
 	exec -- x-run ':: execute / bin / interpreter / debug' './examples/examples--random-1.ss' "${@}"
+!!
+
+<< execute / bin / interpreter / examples / random-1 / debug / time
+	exec -- x-run ':: execute / bin / interpreter / debug / time' './examples/examples--random-1.ss' "${@}"
 !!
 
 << execute / bin / interpreter / examples / random-1 / debug / watch
@@ -1391,8 +1456,16 @@
 	exec -- x-run ':: execute / bin / interpreter / release' './examples/examples--random-1.ss' "${@}"
 !!
 
+<< execute / bin / interpreter / examples / random-1 / release / time
+	exec -- x-run ':: execute / bin / interpreter / release / time' './examples/examples--random-1.ss' "${@}"
+!!
+
 << execute / bin / interpreter / examples / stdio-1 / debug
 	exec -- x-run ':: execute / bin / interpreter / debug' './examples/examples--stdio-1.ss' "${@}"
+!!
+
+<< execute / bin / interpreter / examples / stdio-1 / debug / time
+	exec -- x-run ':: execute / bin / interpreter / debug / time' './examples/examples--stdio-1.ss' "${@}"
 !!
 
 << execute / bin / interpreter / examples / stdio-1 / debug / watch
@@ -1403,8 +1476,16 @@
 	exec -- x-run ':: execute / bin / interpreter / release' './examples/examples--stdio-1.ss' "${@}"
 !!
 
+<< execute / bin / interpreter / examples / stdio-1 / release / time
+	exec -- x-run ':: execute / bin / interpreter / release / time' './examples/examples--stdio-1.ss' "${@}"
+!!
+
 << execute / bin / interpreter / examples / stdio-2 / debug
 	exec -- x-run ':: execute / bin / interpreter / debug' './examples/examples--stdio-2.ss' "${@}"
+!!
+
+<< execute / bin / interpreter / examples / stdio-2 / debug / time
+	exec -- x-run ':: execute / bin / interpreter / debug / time' './examples/examples--stdio-2.ss' "${@}"
 !!
 
 << execute / bin / interpreter / examples / stdio-2 / debug / watch
@@ -1415,8 +1496,16 @@
 	exec -- x-run ':: execute / bin / interpreter / release' './examples/examples--stdio-2.ss' "${@}"
 !!
 
+<< execute / bin / interpreter / examples / stdio-2 / release / time
+	exec -- x-run ':: execute / bin / interpreter / release / time' './examples/examples--stdio-2.ss' "${@}"
+!!
+
 << execute / bin / interpreter / examples / transcript / debug
 	exec -- x-run ':: execute / bin / interpreter / debug' './examples/examples--transcript.ss' "${@}"
+!!
+
+<< execute / bin / interpreter / examples / transcript / debug / time
+	exec -- x-run ':: execute / bin / interpreter / debug / time' './examples/examples--transcript.ss' "${@}"
 !!
 
 << execute / bin / interpreter / examples / transcript / debug / watch
@@ -1425,6 +1514,10 @@
 
 << execute / bin / interpreter / examples / transcript / release
 	exec -- x-run ':: execute / bin / interpreter / release' './examples/examples--transcript.ss' "${@}"
+!!
+
+<< execute / bin / interpreter / examples / transcript / release / time
+	exec -- x-run ':: execute / bin / interpreter / release / time' './examples/examples--transcript.ss' "${@}"
 !!
 
 << execute / bin / interpreter / release
@@ -2040,8 +2133,16 @@
 	exec -- chibi-scheme -m scheme.base -m scheme.case-lambda -m scheme.char -m scheme.complex -m scheme.cxr -m scheme.eval -m scheme.file -m scheme.inexact -m scheme.lazy -m scheme.load -m scheme.process-context -m scheme.r5rs -m scheme.read -m scheme.repl -m scheme.time -m scheme.write "${@}"
 !!
 
+<< execute / chibi / examples / disk-usage
+	exec -- x-run ':: execute / chibi' -- './examples/examples--disk-usage--chibi.ss' "${@}"
+!!
+
 << execute / chibi / time
 	exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- chibi-scheme -m scheme.base -m scheme.case-lambda -m scheme.char -m scheme.complex -m scheme.cxr -m scheme.eval -m scheme.file -m scheme.inexact -m scheme.lazy -m scheme.load -m scheme.process-context -m scheme.r5rs -m scheme.read -m scheme.repl -m scheme.time -m scheme.write "${@}"
+!!
+
+<< execute / chibi / time / examples / disk-usage
+	exec -- x-run ':: execute / chibi / time' -- './examples/examples--disk-usage--chibi.ss' "${@}"
 !!
 
 << execute / gauche
@@ -3262,6 +3363,14 @@
 	exec -- sce ./examples/examples--backtrace.ss
 !!
 
+<< files / edit / examples/examples--disk-usage--chibi.ss
+	exec -- sce ./examples/examples--disk-usage--chibi.ss
+!!
+
+<< files / edit / examples/examples--disk-usage.ss
+	exec -- sce ./examples/examples--disk-usage.ss
+!!
+
 << files / edit / examples/examples--display-1.ss
 	exec -- sce ./examples/examples--display-1.ss
 !!
@@ -3980,6 +4089,14 @@
 
 << files / view / examples/examples--backtrace.ss
 	exec -- less -- ./examples/examples--backtrace.ss
+!!
+
+<< files / view / examples/examples--disk-usage--chibi.ss
+	exec -- less -- ./examples/examples--disk-usage--chibi.ss
+!!
+
+<< files / view / examples/examples--disk-usage.ss
+	exec -- less -- ./examples/examples--disk-usage.ss
 !!
 
 << files / view / examples/examples--display-1.ss
