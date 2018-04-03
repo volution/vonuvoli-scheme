@@ -11,6 +11,24 @@
 
 
 
+(~fs-mount? "/") => #t
+(~fs-mount? "/" #t) => #t
+(~fs-mount? "/" #f) => #t
+
+(~fs-mount? "/proc") => #t
+(~fs-mount? "/proc" #t) => #t
+(~fs-mount? "/proc" #f) => #t
+
+(~fs-mount? "/proc/self") => #f
+(~fs-mount? "/proc/self" #t) => #f
+
+(~fs-mount? "/proc/1") => #f
+(~fs-mount? "/proc/1" #t) => #f
+(~fs-mount? "/proc/1" #f) => #f
+
+
+
+
 (~opaque? (~fs-metadata "./tests")) => #t
 (~opaque? (~fs-metadata "./tests/scheme.rs")) => #t
 (~opaque? (~fs-metadata "./__does_not_exist__")) => #f
@@ -19,6 +37,11 @@
 (~opaque? (~fs-metadata "/proc/self")) => #t
 (~opaque? (~fs-metadata "/proc/self" #t)) => #t
 (~opaque? (~fs-metadata "/proc/self" #f)) => #t
+
+
+(~fs-metadata-eq? "/proc/self" (~fs-link-resolve "/proc/self" #t)) => #t
+(~fs-metadata-eq? "/proc/self" (~fs-link-resolve "/proc/self" #t) #t) => #t
+(~fs-metadata-eq? "/proc/self" (~fs-link-resolve "/proc/self" #t) #f) => #f
 
 
 (~fs-metadata-kind "./tests") => 'directory

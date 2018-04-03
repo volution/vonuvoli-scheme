@@ -261,7 +261,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			
 			("fs-canonicalize", FileSystemPrimitive1::PathCanonicalize.into ()),
 			("fs-link-resolve", FileSystemPrimitiveV::SymLinkResolve.into ()),
+			
 			("fs-metadata", FileSystemPrimitiveV::MetadataResolve.into ()),
+			("fs-metadata-eq?", FileSystemPrimitiveV::MetadataIsSelf.into ()),
 			
 			("fs-metadata-kind", FileSystemPrimitiveV::MetadataKindGet.into ()),
 			("fs-metadata-kind?", FileSystemPrimitive2::MetadataKindHas.into ()),
@@ -300,6 +302,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("fs-directory-exists?", FileSystemPrimitiveV::DirectoryExists.into ()),
 			("fs-directory-delete", FileSystemPrimitive1::DirectoryDelete.into ()),
 			("fs-symlink-exists?", FileSystemPrimitive1::SymLinkExists.into ()),
+			("fs-mount?", FileSystemPrimitiveV::MountPointIs.into ()),
 			
 		]);
 	

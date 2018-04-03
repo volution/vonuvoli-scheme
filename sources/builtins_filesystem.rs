@@ -64,8 +64,17 @@ pub mod exports {
 	
 	pub use super::{
 		
+		filesystem_mountpoint_is,
+		
+	};
+	
+	
+	pub use super::{
+		
 		filesystem_metadata_resolve,
 		filesystem_metadata_coerce,
+		
+		filesystem_metadata_is_self,
 		
 		filesystem_metadata_get_kind,
 		filesystem_metadata_get_kind_symbol,
@@ -645,6 +654,34 @@ pub fn filesystem_symlink_resolve (path : &Value, relativize : bool, normalize :
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_mountpoint_is (path : &Value, follow : bool) -> (Outcome<bool>) {
+	//  NOTE:  Implementation inspired by Python's `os.path.Path.is_mount` at:
+	//           https://github.com/python/cpython/blob/master/Lib/pathlib.py
+	let path = try! (path_slice_coerce (path));
+	let path = path.deref ();
+	let path_metadata = try_or_fail! (if follow { fs::metadata (path) } else { fs::symlink_metadata (path) }, 0x849f27cb);
+	if ! path_metadata.is_dir () {
+		fail! (0xaa0728e0);
+	}
+	let parent = path.join (&fs_path::Component::ParentDir);
+	let parent = &parent;
+	let parent_metadata = try_or_fail! (if follow { fs::metadata (parent) } else { fs::symlink_metadata (parent) }, 0xa1d88e96);
+	if ! parent_metadata.is_dir () {
+		fail! (0xbe8ff62c);
+	}
+	if path_metadata.dev () != parent_metadata.dev () {
+		succeed! (true);
+	}
+	if path_metadata.ino () == parent_metadata.ino () {
+		succeed! (true);
+	}
+	succeed! (false);
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_path_to_string (value : &Value, lossy : bool) -> (Outcome<Value>) {
 	let value = try_as_path_ref! (value);
 	let value = value.internal_rc_clone ();
@@ -1113,6 +1150,24 @@ pub fn filesystem_metadata_unix_get_inode_links (metadata : &Value, follow : boo
 	// TODO:  Add support for `u64` numbers!
 	let links = try! (NumberInteger::try_from (links));
 	succeed! (links.into ());
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_metadata_is_self (left : &Value, right : &Value, follow : bool) -> (Outcome<bool>) {
+	let left = try! (filesystem_metadata_coerce (left, follow));
+	let right = try! (filesystem_metadata_coerce (right, follow));
+	let left = left.deref ();
+	let right = right.deref ();
+	if left.dev () != right.dev () {
+		succeed! (false);
+	}
+	if left.ino () != right.ino () {
+		succeed! (false);
+	}
+	succeed! (true);
 }
 
 

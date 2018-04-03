@@ -64,8 +64,10 @@ pub enum FileSystemPrimitive1 {
 	DirectoryExists,
 	DirectoryDelete,
 	SymLinkExists,
+	MountPointIs,
 	
 	MetadataResolve,
+	
 	MetadataKindGet,
 	MetadataKindIsFile,
 	MetadataKindIsDirectory,
@@ -124,6 +126,7 @@ pub enum FileSystemPrimitive2 {
 	
 	FileExists,
 	DirectoryExists,
+	MountPointIs,
 	
 	PathJoin,
 	PathSplit,
@@ -137,6 +140,8 @@ pub enum FileSystemPrimitive2 {
 	PathNameHasSuffix,
 	
 	MetadataResolve,
+	MetadataIsSelf,
+	
 	MetadataKindGet,
 	MetadataKindHas,
 	
@@ -173,6 +178,8 @@ pub enum FileSystemPrimitive3 {
 	PathJoin,
 	PathNameJoin,
 	
+	MetadataIsSelf,
+	
 }
 
 
@@ -208,6 +215,7 @@ pub enum FileSystemPrimitiveV {
 	
 	FileExists,
 	DirectoryExists,
+	MountPointIs,
 	
 	PathJoin,
 	PathSplit,
@@ -215,6 +223,8 @@ pub enum FileSystemPrimitiveV {
 	PathNameSplit,
 	
 	MetadataResolve,
+	MetadataIsSelf,
+	
 	MetadataKindGet,
 	
 	MetadataFileGetSize,
@@ -272,6 +282,9 @@ pub fn filesystem_primitive_1_evaluate (primitive : FileSystemPrimitive1, input_
 		
 		FileSystemPrimitive1::SymLinkExists =>
 			return filesystem_symlink_exists (input_1) .into_0 (),
+		
+		FileSystemPrimitive1::MountPointIs =>
+			return filesystem_mountpoint_is (input_1, true) .into_0 (),
 		
 		FileSystemPrimitive1::MetadataResolve =>
 			return filesystem_metadata_resolve (input_1, true),
@@ -418,6 +431,9 @@ pub fn filesystem_primitive_2_evaluate (primitive : FileSystemPrimitive2, input_
 		FileSystemPrimitive2::DirectoryExists =>
 			return filesystem_directory_exists (input_1, try! (boolean_coerce (input_2))) .into_0 (),
 		
+		FileSystemPrimitive2::MountPointIs =>
+			return filesystem_mountpoint_is (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+		
 		FileSystemPrimitive2::PathJoin =>
 			return filesystem_path_join (&[input_1, input_2], true) .into_0 (),
 		
@@ -438,6 +454,9 @@ pub fn filesystem_primitive_2_evaluate (primitive : FileSystemPrimitive2, input_
 		
 		FileSystemPrimitive2::MetadataResolve =>
 			return filesystem_metadata_resolve (input_1, try! (boolean_coerce (input_2))),
+		
+		FileSystemPrimitive2::MetadataIsSelf =>
+			return filesystem_metadata_is_self (input_1, input_2, true) .into_0 (),
 		
 		FileSystemPrimitive2::MetadataKindGet =>
 			return filesystem_metadata_get_kind_symbol (input_1, try! (boolean_coerce (input_2))) .into_0 (),
@@ -524,6 +543,9 @@ pub fn filesystem_primitive_2_evaluate (primitive : FileSystemPrimitive2, input_
 pub fn filesystem_primitive_3_evaluate (primitive : FileSystemPrimitive3, input_1 : &Value, input_2 : &Value, input_3 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
+		FileSystemPrimitive3::MetadataIsSelf =>
+			return filesystem_metadata_is_self (input_1, input_2, try! (boolean_coerce (input_3))) .into_0 (),
+		
 		FileSystemPrimitive3::PathJoin =>
 			return filesystem_path_join (&[input_1, input_2, input_3], true) .into_0 (),
 		
@@ -591,6 +613,8 @@ pub fn filesystem_primitive_v_alternative_0 (primitive : FileSystemPrimitiveV) -
 			None,
 		FileSystemPrimitiveV::DirectoryExists =>
 			None,
+		FileSystemPrimitiveV::MountPointIs =>
+			None,
 		FileSystemPrimitiveV::PathJoin =>
 			None,
 		FileSystemPrimitiveV::PathSplit =>
@@ -600,6 +624,8 @@ pub fn filesystem_primitive_v_alternative_0 (primitive : FileSystemPrimitiveV) -
 		FileSystemPrimitiveV::PathNameSplit =>
 			None,
 		FileSystemPrimitiveV::MetadataResolve =>
+			None,
+		FileSystemPrimitiveV::MetadataIsSelf =>
 			None,
 		FileSystemPrimitiveV::MetadataKindGet =>
 			None,
@@ -656,6 +682,8 @@ pub fn filesystem_primitive_v_alternative_1 (primitive : FileSystemPrimitiveV) -
 			Some (FileSystemPrimitive1::FileExists),
 		FileSystemPrimitiveV::DirectoryExists =>
 			Some (FileSystemPrimitive1::DirectoryExists),
+		FileSystemPrimitiveV::MountPointIs =>
+			Some (FileSystemPrimitive1::MountPointIs),
 		FileSystemPrimitiveV::PathJoin =>
 			Some (FileSystemPrimitive1::PathJoin),
 		FileSystemPrimitiveV::PathSplit =>
@@ -666,6 +694,8 @@ pub fn filesystem_primitive_v_alternative_1 (primitive : FileSystemPrimitiveV) -
 			Some (FileSystemPrimitive1::PathNameSplit),
 		FileSystemPrimitiveV::MetadataResolve =>
 			Some (FileSystemPrimitive1::MetadataResolve),
+		FileSystemPrimitiveV::MetadataIsSelf =>
+			None,
 		FileSystemPrimitiveV::MetadataKindGet =>
 			Some (FileSystemPrimitive1::MetadataKindGet),
 		FileSystemPrimitiveV::MetadataFileGetSize =>
@@ -721,6 +751,8 @@ pub fn filesystem_primitive_v_alternative_2 (primitive : FileSystemPrimitiveV) -
 			Some (FileSystemPrimitive2::FileExists),
 		FileSystemPrimitiveV::DirectoryExists =>
 			Some (FileSystemPrimitive2::DirectoryExists),
+		FileSystemPrimitiveV::MountPointIs =>
+			Some (FileSystemPrimitive2::MountPointIs),
 		FileSystemPrimitiveV::PathJoin =>
 			Some (FileSystemPrimitive2::PathJoin),
 		FileSystemPrimitiveV::PathSplit =>
@@ -731,6 +763,8 @@ pub fn filesystem_primitive_v_alternative_2 (primitive : FileSystemPrimitiveV) -
 			Some (FileSystemPrimitive2::PathNameSplit),
 		FileSystemPrimitiveV::MetadataResolve =>
 			Some (FileSystemPrimitive2::MetadataResolve),
+		FileSystemPrimitiveV::MetadataIsSelf =>
+			Some (FileSystemPrimitive2::MetadataIsSelf),
 		FileSystemPrimitiveV::MetadataKindGet =>
 			Some (FileSystemPrimitive2::MetadataKindGet),
 		FileSystemPrimitiveV::MetadataFileGetSize =>
@@ -786,6 +820,8 @@ pub fn filesystem_primitive_v_alternative_3 (primitive : FileSystemPrimitiveV) -
 			None,
 		FileSystemPrimitiveV::DirectoryExists =>
 			None,
+		FileSystemPrimitiveV::MountPointIs =>
+			None,
 		FileSystemPrimitiveV::PathJoin =>
 			Some (FileSystemPrimitive3::PathJoin),
 		FileSystemPrimitiveV::PathSplit =>
@@ -796,6 +832,8 @@ pub fn filesystem_primitive_v_alternative_3 (primitive : FileSystemPrimitiveV) -
 			None,
 		FileSystemPrimitiveV::MetadataResolve =>
 			None,
+		FileSystemPrimitiveV::MetadataIsSelf =>
+			Some (FileSystemPrimitive3::MetadataIsSelf),
 		FileSystemPrimitiveV::MetadataKindGet =>
 			None,
 		FileSystemPrimitiveV::MetadataFileGetSize =>
@@ -851,6 +889,8 @@ pub fn filesystem_primitive_v_alternative_4 (primitive : FileSystemPrimitiveV) -
 			None,
 		FileSystemPrimitiveV::DirectoryExists =>
 			None,
+		FileSystemPrimitiveV::MountPointIs =>
+			None,
 		FileSystemPrimitiveV::PathJoin =>
 			Some (FileSystemPrimitive4::PathJoin),
 		FileSystemPrimitiveV::PathSplit =>
@@ -860,6 +900,8 @@ pub fn filesystem_primitive_v_alternative_4 (primitive : FileSystemPrimitiveV) -
 		FileSystemPrimitiveV::PathNameSplit =>
 			None,
 		FileSystemPrimitiveV::MetadataResolve =>
+			None,
+		FileSystemPrimitiveV::MetadataIsSelf =>
 			None,
 		FileSystemPrimitiveV::MetadataKindGet =>
 			None,
@@ -916,6 +958,8 @@ pub fn filesystem_primitive_v_alternative_5 (primitive : FileSystemPrimitiveV) -
 			None,
 		FileSystemPrimitiveV::DirectoryExists =>
 			None,
+		FileSystemPrimitiveV::MountPointIs =>
+			None,
 		FileSystemPrimitiveV::PathJoin =>
 			Some (FileSystemPrimitive5::PathJoin),
 		FileSystemPrimitiveV::PathSplit =>
@@ -925,6 +969,8 @@ pub fn filesystem_primitive_v_alternative_5 (primitive : FileSystemPrimitiveV) -
 		FileSystemPrimitiveV::PathNameSplit =>
 			None,
 		FileSystemPrimitiveV::MetadataResolve =>
+			None,
+		FileSystemPrimitiveV::MetadataIsSelf =>
 			None,
 		FileSystemPrimitiveV::MetadataKindGet =>
 			None,
@@ -981,6 +1027,8 @@ pub fn filesystem_primitive_v_alternative_n (primitive : FileSystemPrimitiveV) -
 			None,
 		FileSystemPrimitiveV::DirectoryExists =>
 			None,
+		FileSystemPrimitiveV::MountPointIs =>
+			None,
 		FileSystemPrimitiveV::PathJoin =>
 			Some (FileSystemPrimitiveN::PathJoin),
 		FileSystemPrimitiveV::PathSplit =>
@@ -990,6 +1038,8 @@ pub fn filesystem_primitive_v_alternative_n (primitive : FileSystemPrimitiveV) -
 		FileSystemPrimitiveV::PathNameSplit =>
 			None,
 		FileSystemPrimitiveV::MetadataResolve =>
+			None,
+		FileSystemPrimitiveV::MetadataIsSelf =>
 			None,
 		FileSystemPrimitiveV::MetadataKindGet =>
 			None,
