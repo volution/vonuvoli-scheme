@@ -1,6 +1,7 @@
 
 
 use super::builtins::exports::*;
+use super::constants::exports::*;
 use super::conversions::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
@@ -184,6 +185,7 @@ pub enum FileSystemPrimitive3 {
 	DirectoryListAsList,
 	DirectoryListAsArray,
 	DirectoryListFold,
+	DirectoryListFoldRecursive,
 	
 	PathJoin,
 	PathNameJoin,
@@ -199,6 +201,7 @@ pub enum FileSystemPrimitive4 {
 	DirectoryListAsList,
 	DirectoryListAsArray,
 	DirectoryListFold,
+	DirectoryListFoldRecursive,
 	
 	PathJoin,
 	PathNameJoin,
@@ -212,6 +215,7 @@ pub enum FileSystemPrimitive5 {
 	DirectoryListAsList,
 	DirectoryListAsArray,
 	DirectoryListFold,
+	DirectoryListFoldRecursive,
 	
 	PathJoin,
 	PathNameJoin,
@@ -222,7 +226,10 @@ pub enum FileSystemPrimitive5 {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum FileSystemPrimitiveN {
 	
+	DirectoryListAsList,
+	DirectoryListAsArray,
 	DirectoryListFold,
+	DirectoryListFoldRecursive,
 	
 	PathJoin,
 	PathNameJoin,
@@ -240,6 +247,7 @@ pub enum FileSystemPrimitiveV {
 	DirectoryListAsList,
 	DirectoryListAsArray,
 	DirectoryListFold,
+	DirectoryListFoldRecursive,
 	
 	PathJoin,
 	PathSplit,
@@ -311,10 +319,10 @@ pub fn filesystem_primitive_1_evaluate (primitive : FileSystemPrimitive1, input_
 			return filesystem_mountpoint_is (input_1, true) .into_0 (),
 		
 		FileSystemPrimitive1::DirectoryListAsList =>
-			return filesystem_directory_list (input_1, false, false, false, true, false),
+			return filesystem_directory_list (input_1, false, false, false, true, true, false),
 		
 		FileSystemPrimitive1::DirectoryListAsArray =>
-			return filesystem_directory_list (input_1, false, false, false, true, true),
+			return filesystem_directory_list (input_1, false, false, false, true, true, true),
 		
 		FileSystemPrimitive1::MetadataResolve =>
 			return filesystem_metadata_resolve (input_1, true),
@@ -465,10 +473,10 @@ pub fn filesystem_primitive_2_evaluate (primitive : FileSystemPrimitive2, input_
 			return filesystem_mountpoint_is (input_1, try! (boolean_coerce (input_2))) .into_0 (),
 		
 		FileSystemPrimitive2::DirectoryListAsList =>
-			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), false, false, true, false),
+			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), false, false, true, true, false),
 		
 		FileSystemPrimitive2::DirectoryListAsArray =>
-			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), false, false, true, true),
+			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), false, false, true, true, true),
 		
 		FileSystemPrimitive2::PathJoin =>
 			return filesystem_path_join (&[input_1, input_2], true) .into_0 (),
@@ -580,13 +588,16 @@ pub fn filesystem_primitive_3_evaluate (primitive : FileSystemPrimitive3, input_
 	match primitive {
 		
 		FileSystemPrimitive3::DirectoryListAsList =>
-			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), try! (boolean_coerce (input_3)), false, true, false),
+			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), try! (boolean_coerce (input_3)), false, true, true, false),
 		
 		FileSystemPrimitive3::DirectoryListAsArray =>
-			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), try! (boolean_coerce (input_3)), false, true, true),
+			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), try! (boolean_coerce (input_3)), false, true, true, true),
 		
 		FileSystemPrimitive3::DirectoryListFold =>
-			return filesystem_directory_fold (input_1, input_2, input_3, false, false, false, evaluator),
+			return filesystem_directory_fold (input_1, input_2, input_3, false, false, false, true, evaluator),
+		
+		FileSystemPrimitive3::DirectoryListFoldRecursive =>
+			return filesystem_directory_fold_recursive (input_1, input_2, &FALSE_VALUE, input_3, false, false, false, true, evaluator),
 		
 		FileSystemPrimitive3::MetadataIsSelf =>
 			return filesystem_metadata_is_self (input_1, input_2, try! (boolean_coerce (input_3))) .into_0 (),
@@ -608,13 +619,16 @@ pub fn filesystem_primitive_4_evaluate (primitive : FileSystemPrimitive4, input_
 	match primitive {
 		
 		FileSystemPrimitive4::DirectoryListAsList =>
-			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), try! (boolean_coerce (input_3)), try! (boolean_coerce (input_4)), true, false),
+			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), try! (boolean_coerce (input_3)), try! (boolean_coerce (input_4)), true, true, false),
 		
 		FileSystemPrimitive4::DirectoryListAsArray =>
-			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), try! (boolean_coerce (input_3)), try! (boolean_coerce (input_4)), true, true),
+			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), try! (boolean_coerce (input_3)), try! (boolean_coerce (input_4)), true, true, true),
 		
 		FileSystemPrimitive4::DirectoryListFold =>
-			return filesystem_directory_fold (input_1, input_2, input_3, try! (boolean_coerce (input_4)), false, false, evaluator),
+			return filesystem_directory_fold (input_1, input_2, input_3, try! (boolean_coerce (input_4)), false, false, true, evaluator),
+		
+		FileSystemPrimitive4::DirectoryListFoldRecursive =>
+			return filesystem_directory_fold_recursive (input_1, input_2, input_3, input_4, false, false, false, true, evaluator),
 		
 		FileSystemPrimitive4::PathJoin =>
 			return filesystem_path_join (&[input_1, input_2, input_3, input_4], true) .into_0 (),
@@ -633,13 +647,16 @@ pub fn filesystem_primitive_5_evaluate (primitive : FileSystemPrimitive5, input_
 	match primitive {
 		
 		FileSystemPrimitive5::DirectoryListAsList =>
-			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), try! (boolean_coerce (input_3)), try! (boolean_coerce (input_4)), try! (boolean_coerce (input_5)), false),
+			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), try! (boolean_coerce (input_3)), try! (boolean_coerce (input_4)), try! (boolean_coerce (input_5)), true, false),
 		
 		FileSystemPrimitive5::DirectoryListAsArray =>
-			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), try! (boolean_coerce (input_3)), try! (boolean_coerce (input_4)), try! (boolean_coerce (input_5)), true),
+			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), try! (boolean_coerce (input_3)), try! (boolean_coerce (input_4)), try! (boolean_coerce (input_5)), true, true),
 		
 		FileSystemPrimitive5::DirectoryListFold =>
-			return filesystem_directory_fold (input_1, input_2, input_3, try! (boolean_coerce (input_4)), try! (boolean_coerce (input_5)), false, evaluator),
+			return filesystem_directory_fold (input_1, input_2, input_3, try! (boolean_coerce (input_4)), try! (boolean_coerce (input_5)), false, true, evaluator),
+		
+		FileSystemPrimitive5::DirectoryListFoldRecursive =>
+			return filesystem_directory_fold_recursive (input_1, input_2, input_3, input_4, try! (boolean_coerce (input_5)), false, false, true, evaluator),
 		
 		FileSystemPrimitive5::PathJoin =>
 			return filesystem_path_join (&[input_1, input_2, input_3, input_4, input_5], true) .into_0 (),
@@ -657,11 +674,42 @@ pub fn filesystem_primitive_5_evaluate (primitive : FileSystemPrimitive5, input_
 pub fn filesystem_primitive_n_evaluate (primitive : FileSystemPrimitiveN, inputs : &[&Value], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
+		FileSystemPrimitiveN::DirectoryListAsList =>
+			match inputs.len () {
+				6 =>
+					return filesystem_directory_list (inputs[0], try! (boolean_coerce (inputs[1])), try! (boolean_coerce (inputs[2])), try! (boolean_coerce (inputs[3])), try! (boolean_coerce (inputs[4])), try! (boolean_coerce (inputs[5])), false),
+				_ =>
+					fail! (0xecd0caf3),
+			},
+		
+		FileSystemPrimitiveN::DirectoryListAsArray =>
+			match inputs.len () {
+				6 =>
+					return filesystem_directory_list (inputs[0], try! (boolean_coerce (inputs[1])), try! (boolean_coerce (inputs[2])), try! (boolean_coerce (inputs[3])), try! (boolean_coerce (inputs[4])), try! (boolean_coerce (inputs[5])), true),
+				_ =>
+					fail! (0x33a0d15b),
+			},
+		
 		FileSystemPrimitiveN::DirectoryListFold =>
-			if inputs.len () == 6 {
-				return filesystem_directory_fold (inputs[0], inputs[1], inputs[2], try! (boolean_coerce (inputs[3])), try! (boolean_coerce (inputs[4])), try! (boolean_coerce (inputs[5])), evaluator);
-			} else {
-				fail! (0x1e69d076);
+			match inputs.len () {
+				6 =>
+					return filesystem_directory_fold (inputs[0], inputs[1], inputs[2], try! (boolean_coerce (inputs[3])), try! (boolean_coerce (inputs[4])), try! (boolean_coerce (inputs[5])), true, evaluator),
+				7 =>
+					return filesystem_directory_fold (inputs[0], inputs[1], inputs[2], try! (boolean_coerce (inputs[3])), try! (boolean_coerce (inputs[4])), try! (boolean_coerce (inputs[5])), try! (boolean_coerce (inputs[6])), evaluator),
+				_ =>
+					fail! (0x1e69d076),
+			},
+		
+		FileSystemPrimitiveN::DirectoryListFoldRecursive =>
+			match inputs.len () {
+				6 =>
+					return filesystem_directory_fold_recursive (inputs[0], inputs[1], inputs[2], inputs[3], try! (boolean_coerce (inputs[4])), try! (boolean_coerce (inputs[5])), false, true, evaluator),
+				7 =>
+					return filesystem_directory_fold_recursive (inputs[0], inputs[1], inputs[2], inputs[3], try! (boolean_coerce (inputs[4])), try! (boolean_coerce (inputs[5])), try! (boolean_coerce (inputs[6])), true, evaluator),
+				8 =>
+					return filesystem_directory_fold_recursive (inputs[0], inputs[1], inputs[2], inputs[3], try! (boolean_coerce (inputs[4])), try! (boolean_coerce (inputs[5])), try! (boolean_coerce (inputs[6])), try! (boolean_coerce (inputs[7])), evaluator),
+				_ =>
+					fail! (0x8cc36965),
 			},
 		
 		FileSystemPrimitiveN::PathJoin =>
@@ -690,6 +738,8 @@ pub fn filesystem_primitive_v_alternative_0 (primitive : FileSystemPrimitiveV) -
 		FileSystemPrimitiveV::DirectoryListAsArray =>
 			None,
 		FileSystemPrimitiveV::DirectoryListFold =>
+			None,
+		FileSystemPrimitiveV::DirectoryListFoldRecursive =>
 			None,
 		FileSystemPrimitiveV::PathJoin =>
 			None,
@@ -766,6 +816,8 @@ pub fn filesystem_primitive_v_alternative_1 (primitive : FileSystemPrimitiveV) -
 			Some (FileSystemPrimitive1::DirectoryListAsArray),
 		FileSystemPrimitiveV::DirectoryListFold =>
 			None,
+		FileSystemPrimitiveV::DirectoryListFoldRecursive =>
+			None,
 		FileSystemPrimitiveV::PathJoin =>
 			Some (FileSystemPrimitive1::PathJoin),
 		FileSystemPrimitiveV::PathSplit =>
@@ -840,6 +892,8 @@ pub fn filesystem_primitive_v_alternative_2 (primitive : FileSystemPrimitiveV) -
 		FileSystemPrimitiveV::DirectoryListAsArray =>
 			Some (FileSystemPrimitive2::DirectoryListAsArray),
 		FileSystemPrimitiveV::DirectoryListFold =>
+			None,
+		FileSystemPrimitiveV::DirectoryListFoldRecursive =>
 			None,
 		FileSystemPrimitiveV::PathJoin =>
 			Some (FileSystemPrimitive2::PathJoin),
@@ -916,6 +970,8 @@ pub fn filesystem_primitive_v_alternative_3 (primitive : FileSystemPrimitiveV) -
 			Some (FileSystemPrimitive3::DirectoryListAsArray),
 		FileSystemPrimitiveV::DirectoryListFold =>
 			Some (FileSystemPrimitive3::DirectoryListFold),
+		FileSystemPrimitiveV::DirectoryListFoldRecursive =>
+			Some (FileSystemPrimitive3::DirectoryListFoldRecursive),
 		FileSystemPrimitiveV::PathJoin =>
 			Some (FileSystemPrimitive3::PathJoin),
 		FileSystemPrimitiveV::PathSplit =>
@@ -991,6 +1047,8 @@ pub fn filesystem_primitive_v_alternative_4 (primitive : FileSystemPrimitiveV) -
 			Some (FileSystemPrimitive4::DirectoryListAsArray),
 		FileSystemPrimitiveV::DirectoryListFold =>
 			Some (FileSystemPrimitive4::DirectoryListFold),
+		FileSystemPrimitiveV::DirectoryListFoldRecursive =>
+			Some (FileSystemPrimitive4::DirectoryListFoldRecursive),
 		FileSystemPrimitiveV::PathJoin =>
 			Some (FileSystemPrimitive4::PathJoin),
 		FileSystemPrimitiveV::PathSplit =>
@@ -1066,6 +1124,8 @@ pub fn filesystem_primitive_v_alternative_5 (primitive : FileSystemPrimitiveV) -
 			Some (FileSystemPrimitive5::DirectoryListAsArray),
 		FileSystemPrimitiveV::DirectoryListFold =>
 			Some (FileSystemPrimitive5::DirectoryListFold),
+		FileSystemPrimitiveV::DirectoryListFoldRecursive =>
+			Some (FileSystemPrimitive5::DirectoryListFoldRecursive),
 		FileSystemPrimitiveV::PathJoin =>
 			Some (FileSystemPrimitive5::PathJoin),
 		FileSystemPrimitiveV::PathSplit =>
@@ -1136,11 +1196,13 @@ pub fn filesystem_primitive_v_alternative_n (primitive : FileSystemPrimitiveV) -
 		FileSystemPrimitiveV::MountPointIs =>
 			None,
 		FileSystemPrimitiveV::DirectoryListAsList =>
-			None,
+			Some (FileSystemPrimitiveN::DirectoryListAsList),
 		FileSystemPrimitiveV::DirectoryListAsArray =>
-			None,
+			Some (FileSystemPrimitiveN::DirectoryListAsArray),
 		FileSystemPrimitiveV::DirectoryListFold =>
 			Some (FileSystemPrimitiveN::DirectoryListFold),
+		FileSystemPrimitiveV::DirectoryListFoldRecursive =>
+			Some (FileSystemPrimitiveN::DirectoryListFoldRecursive),
 		FileSystemPrimitiveV::PathJoin =>
 			Some (FileSystemPrimitiveN::PathJoin),
 		FileSystemPrimitiveV::PathSplit =>

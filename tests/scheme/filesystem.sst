@@ -141,3 +141,54 @@
 (~fs-directory-fold "./tests" (lambda (count name metadata) (if (~fs-metadata-file? metadata) (+ count 1) count)) 0 #f #f #t) => 8
 (~fs-directory-fold "./tests" (lambda (count name kind metadata) (if (~fs-metadata-file? metadata) (+ count 1) count)) 0 #f #t #t) => 8
 
+
+(~fs-directory-fold-recursive "./tests" (lambda (count parent name) (+ count 1)) 0) => 157
+(~fs-directory-fold-recursive "./tests" (lambda (count parent name) (+ count 1)) #f 0) => 157
+
+(~fs-directory-fold-recursive "./tests"
+		(lambda (count parent name) (+ count 1))
+		(lambda (count parent name) #t)
+		0)
+	=> 157
+
+(~fs-directory-fold-recursive "./tests"
+		(lambda (count parent name) (+ count 1))
+		(lambda (count parent name) #f)
+		0)
+	=> 10
+
+(~fs-directory-fold-recursive "./tests"
+		(lambda (count path) (+ count 1))
+		(lambda (count path) #f)
+		0
+		#t)
+	=> 10
+
+(~fs-directory-fold-recursive "./tests"
+		(lambda (count parent name kind) (if (eq? kind 'file) (+ count 1) count))
+		(lambda (count parent name kind) #f)
+		0
+		#f #t)
+	=> 8
+
+(~fs-directory-fold-recursive "./tests"
+		(lambda (count parent name kind metadata) (if (eq? kind 'file) (+ count 1) count))
+		(lambda (count parent name kind metadata) #f)
+		0
+		#f #t #t)
+	=> 8
+
+(~fs-directory-fold-recursive "./tests"
+		(lambda (count parent name metadata) (if (~fs-metadata-file? metadata) (+ count 1) count))
+		(lambda (count parent name metadata) #f)
+		0
+		#f #f #t)
+	=> 8
+
+(~fs-directory-fold-recursive "./tests"
+		(lambda (count parent name kind metadata) (if (~fs-metadata-file? metadata) (+ count 1) count))
+		(lambda (count parent name kind metadata) #f)
+		0
+		#f #t #t)
+	=> 8
+

@@ -63,6 +63,8 @@ pub mod exports {
 		filesystem_directory_list,
 		filesystem_directory_fold,
 		
+		filesystem_directory_fold_recursive,
+		
 	};
 	
 	pub use super::{
@@ -656,13 +658,13 @@ pub fn filesystem_symlink_resolve (path : &Value, relativize : bool, normalize :
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn filesystem_directory_list (path : &Value, join_parent : bool, include_kind : bool, include_metadata : bool, sort : bool, return_array : bool) -> (Outcome<Value>) {
+pub fn filesystem_directory_list (path : &Value, join_parent : bool, include_kind : bool, include_metadata : bool, follow : bool, sort : bool, return_array : bool) -> (Outcome<Value>) {
 	let path = try! (path_slice_coerce (path));
 	let path = path.deref ();
 	let mut entries = StdVec::new ();
 	for entry in try_or_fail! (fs::read_dir (path), 0xc28bc39c) {
 		let entry = try_or_fail! (entry, 0xeea94f1d);
-		let (entry_path, entry_kind, entry_metadata) = try! (filesystem_directory_entry_extract (&entry, join_parent, include_kind, include_metadata));
+		let (entry_path, entry_kind, entry_metadata) = try! (filesystem_directory_entry_extract (&entry, join_parent, include_kind, include_metadata, follow));
 		let entry = try! (filesystem_directory_entry_value (None, entry_path, entry_kind, entry_metadata));
 		entries.push (entry);
 	}
@@ -678,13 +680,13 @@ pub fn filesystem_directory_list (path : &Value, join_parent : bool, include_kin
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn filesystem_directory_fold (path : &Value, callable : &Value, accumulator : &Value, join_parent : bool, include_kind : bool, include_metadata : bool, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn filesystem_directory_fold (path : &Value, callable : &Value, accumulator : &Value, join_parent : bool, include_kind : bool, include_metadata : bool, follow : bool, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let path = try! (path_slice_coerce (path));
 	let path = path.deref ();
 	let mut accumulator = accumulator.clone ();
 	for entry in try_or_fail! (fs::read_dir (path), 0xc28bc39c) {
 		let entry = try_or_fail! (entry, 0xeea94f1d);
-		let (entry_path, entry_kind, entry_metadata) = try! (filesystem_directory_entry_extract (&entry, join_parent, include_kind, include_metadata));
+		let (entry_path, entry_kind, entry_metadata) = try! (filesystem_directory_entry_extract (&entry, join_parent, include_kind, include_metadata, follow));
 		accumulator = try! (filesystem_directory_entry_fold (None, entry_path, entry_kind, entry_metadata, callable, &accumulator, evaluator));
 	}
 	succeed! (accumulator);
@@ -692,21 +694,108 @@ pub fn filesystem_directory_fold (path : &Value, callable : &Value, accumulator 
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn filesystem_directory_entry_extract (entry : &fs::DirEntry, join_parent : bool, include_kind : bool, include_metadata : bool) -> (Outcome<(fs_path::PathBuf, Option<fs::FileType>, Option<fs::Metadata>)>) {
+pub fn filesystem_directory_fold_recursive (path : &Value, callable : &Value, recurse : &Value, accumulator : &Value, join_parent : bool, include_kind : bool, include_metadata : bool, follow : bool, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	let path = try! (path_slice_coerce (path));
+	let path = path.deref ();
+	let mut accumulator = accumulator.clone ();
+	let recurse = if is_false (recurse) { None } else { Some (recurse) };
+	let mut stack = StdVec::new ();
+	stack.push ((path.to_path_buf (), try_or_fail! (fs::read_dir (path), 0xa7282b4e)));
+	loop {
+		let (pop, push) = if let Some (&mut (ref path, ref mut entries)) = stack.last_mut () {
+			if let Some (entry) = entries.next () {
+				let entry = try_or_fail! (entry, 0x0a10646f);
+				let parent_path = if join_parent { None } else { Some (Path::new_from_ref (path, false) .into ()) };
+				let parent_path = parent_path.as_ref ();
+				let (entry_path, entry_kind, entry_metadata) = try! (filesystem_directory_entry_extract (&entry, join_parent, true, include_metadata, follow));
+				let entry_kind_for_evaluation = if include_kind { entry_kind } else { None };
+				let entry_kind = entry_kind.unwrap ();
+				if entry_kind.is_dir () {
+					if let Some (recurse) = recurse {
+						accumulator = try! (filesystem_directory_entry_fold (parent_path, entry_path.clone (), entry_kind_for_evaluation, entry_metadata.clone (), callable, &accumulator, evaluator));
+						let outcome = try! (filesystem_directory_entry_fold (parent_path, entry_path.clone (), entry_kind_for_evaluation, entry_metadata, recurse, &accumulator, evaluator));
+						if is_false (&outcome) {
+							(false, None)
+						} else {
+							(false, Some (entry.path ()))
+						}
+					} else {
+						accumulator = try! (filesystem_directory_entry_fold (parent_path, entry_path, entry_kind_for_evaluation, entry_metadata, callable, &accumulator, evaluator));
+						(false, Some (entry.path ()))
+					}
+				} else {
+					accumulator = try! (filesystem_directory_entry_fold (parent_path, entry_path, entry_kind_for_evaluation, entry_metadata, callable, &accumulator, evaluator));
+					(false, None)
+				}
+			} else {
+				(true, None)
+			}
+		} else {
+			break;
+		};
+		if pop {
+			stack.pop ();
+		}
+		if let Some (path) = push {
+			let entries = try_or_fail! (fs::read_dir (&path), 0x7e0522c8);
+			stack.push ((path, entries));
+		}
+	}
+	succeed! (accumulator);
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn filesystem_directory_entry_extract (entry : &fs::DirEntry, join_parent : bool, include_kind : bool, include_metadata : bool, follow : bool) -> (Outcome<(fs_path::PathBuf, Option<fs::FileType>, Option<fs::Metadata>)>) {
 	let entry_path = if join_parent {
 		entry.path ()
 	} else {
 		entry.file_name () .into ()
 	};
-	let entry_kind = if include_kind {
+	
+	let (entry_kind, entry_metadata) = if include_kind {
 		let entry_kind = try_or_fail! (entry.file_type (), 0x0f94cd6c);
-		Some (entry_kind)
+		if follow && entry_kind.is_symlink () {
+			match fs::metadata (& entry.path ()) {
+				Ok (entry_metadata) => {
+					let entry_kind = entry_metadata.file_type ();
+					(Some (entry_kind), Some (entry_metadata))
+				},
+				Err (error) =>
+					match error.raw_os_error () {
+						Some (ext::libc::ENOENT) =>
+							(Some (entry_kind), None),
+						_ =>
+							fail! (0xcd07dbae),
+					},
+			}
+		} else {
+			(Some (entry_kind), None)
+		}
 	} else {
-		None
+		(None, None)
 	};
 	let entry_metadata = if include_metadata {
-		let entry_metadata = try_or_fail! (entry.metadata (), 0xe4f53f27);
-		Some (entry_metadata)
+		if let Some (entry_metadata) = entry_metadata {
+			Some (entry_metadata)
+		} else {
+			let entry_metadata = if ! follow {
+				try_or_fail! (entry.metadata (), 0xe4f53f27)
+			} else {
+				match fs::metadata (& entry.path ()) {
+					Ok (entry_metadata) =>
+						entry_metadata,
+					Err (error) =>
+						match error.raw_os_error () {
+							Some (ext::libc::ENOENT) =>
+								try_or_fail! (entry.metadata (), 0xa34903bc),
+							_ =>
+								fail! (0x23262f7f),
+						},
+				}
+			};
+			Some (entry_metadata)
+		}
 	} else {
 		None
 	};
