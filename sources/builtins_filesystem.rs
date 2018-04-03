@@ -59,15 +59,15 @@ pub mod exports {
 		
 		filesystem_symlink_resolve,
 		
+		filesystem_directory_list,
+		
 	};
-	
 	
 	pub use super::{
 		
 		filesystem_mountpoint_is,
 		
 	};
-	
 	
 	pub use super::{
 		
@@ -647,6 +647,60 @@ pub fn filesystem_symlink_resolve (path : &Value, relativize : bool, normalize :
 				_ =>
 					fail! (0x65a36326),
 			},
+	}
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_directory_list (path : &Value, join_parent : bool, include_type : bool, include_metadata : bool, sort : bool, return_array : bool) -> (Outcome<Value>) {
+	let path = try! (path_slice_coerce (path));
+	let path = path.deref ();
+	let mut entries = StdVec::new ();
+	for entry in try_or_fail! (fs::read_dir (path), 0xc28bc39c) {
+		let entry = try_or_fail! (entry, 0xeea94f1d);
+		let entry_path = if join_parent {
+			Path::new_from_buffer (entry.path (), false)
+		} else {
+			Path::new_from_buffer (entry.file_name () .into (), false)
+		};
+		let entry_kind = if include_type {
+			let entry_kind = try_or_fail! (entry.file_type (), 0x0f94cd6c);
+			let entry_kind = try! (FileSystemMetadataKind::try_from (&entry_kind));
+			Some (Symbol::from (&entry_kind))
+		} else {
+			None
+		};
+		let entry_metadata = if include_metadata {
+			let entry_metadata = try_or_fail! (entry.metadata (), 0xe4f53f27);
+			Some (entry_metadata)
+		} else {
+			None
+		};
+		let entry = match (entry_kind, entry_metadata) {
+			(Some (entry_kind), Some (entry_metadata)) =>
+				pair_new (
+						entry_path.into (),
+						pair_new (entry_kind.into (), opaque_new (entry_metadata) .into (), None) .into (),
+						None,
+					) .into (),
+			(Some (entry_kind), None) =>
+				pair_new (entry_path.into (), entry_kind.into (), None) .into (),
+			(None, Some (entry_metadata)) =>
+				pair_new (entry_path.into (), opaque_new (entry_metadata) .into (), None) .into (),
+			(None, None) =>
+				entry_path.into (),
+		};
+		entries.push (entry);
+	}
+	if sort {
+		entries.sort ();
+	}
+	if return_array {
+		succeed! (array_new (entries) .into ());
+	} else {
+		succeed! (list_collect (entries, None));
 	}
 }
 

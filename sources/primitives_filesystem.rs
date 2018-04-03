@@ -66,6 +66,9 @@ pub enum FileSystemPrimitive1 {
 	SymLinkExists,
 	MountPointIs,
 	
+	DirectoryListAsList,
+	DirectoryListAsArray,
+	
 	MetadataResolve,
 	
 	MetadataKindGet,
@@ -128,6 +131,9 @@ pub enum FileSystemPrimitive2 {
 	DirectoryExists,
 	MountPointIs,
 	
+	DirectoryListAsList,
+	DirectoryListAsArray,
+	
 	PathJoin,
 	PathSplit,
 	PathHasPrefix,
@@ -175,6 +181,9 @@ pub enum FileSystemPrimitive2 {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum FileSystemPrimitive3 {
 	
+	DirectoryListAsList,
+	DirectoryListAsArray,
+	
 	PathJoin,
 	PathNameJoin,
 	
@@ -186,6 +195,9 @@ pub enum FileSystemPrimitive3 {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum FileSystemPrimitive4 {
 	
+	DirectoryListAsList,
+	DirectoryListAsArray,
+	
 	PathJoin,
 	PathNameJoin,
 	
@@ -194,6 +206,9 @@ pub enum FileSystemPrimitive4 {
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum FileSystemPrimitive5 {
+	
+	DirectoryListAsList,
+	DirectoryListAsArray,
 	
 	PathJoin,
 	PathNameJoin,
@@ -216,6 +231,9 @@ pub enum FileSystemPrimitiveV {
 	FileExists,
 	DirectoryExists,
 	MountPointIs,
+	
+	DirectoryListAsList,
+	DirectoryListAsArray,
 	
 	PathJoin,
 	PathSplit,
@@ -285,6 +303,12 @@ pub fn filesystem_primitive_1_evaluate (primitive : FileSystemPrimitive1, input_
 		
 		FileSystemPrimitive1::MountPointIs =>
 			return filesystem_mountpoint_is (input_1, true) .into_0 (),
+		
+		FileSystemPrimitive1::DirectoryListAsList =>
+			return filesystem_directory_list (input_1, false, false, false, true, false),
+		
+		FileSystemPrimitive1::DirectoryListAsArray =>
+			return filesystem_directory_list (input_1, false, false, false, true, true),
 		
 		FileSystemPrimitive1::MetadataResolve =>
 			return filesystem_metadata_resolve (input_1, true),
@@ -434,6 +458,12 @@ pub fn filesystem_primitive_2_evaluate (primitive : FileSystemPrimitive2, input_
 		FileSystemPrimitive2::MountPointIs =>
 			return filesystem_mountpoint_is (input_1, try! (boolean_coerce (input_2))) .into_0 (),
 		
+		FileSystemPrimitive2::DirectoryListAsList =>
+			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), false, false, true, false),
+		
+		FileSystemPrimitive2::DirectoryListAsArray =>
+			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), false, false, true, true),
+		
 		FileSystemPrimitive2::PathJoin =>
 			return filesystem_path_join (&[input_1, input_2], true) .into_0 (),
 		
@@ -543,6 +573,12 @@ pub fn filesystem_primitive_2_evaluate (primitive : FileSystemPrimitive2, input_
 pub fn filesystem_primitive_3_evaluate (primitive : FileSystemPrimitive3, input_1 : &Value, input_2 : &Value, input_3 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
+		FileSystemPrimitive3::DirectoryListAsList =>
+			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), try! (boolean_coerce (input_3)), false, true, false),
+		
+		FileSystemPrimitive3::DirectoryListAsArray =>
+			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), try! (boolean_coerce (input_3)), false, true, true),
+		
 		FileSystemPrimitive3::MetadataIsSelf =>
 			return filesystem_metadata_is_self (input_1, input_2, try! (boolean_coerce (input_3))) .into_0 (),
 		
@@ -562,6 +598,12 @@ pub fn filesystem_primitive_3_evaluate (primitive : FileSystemPrimitive3, input_
 pub fn filesystem_primitive_4_evaluate (primitive : FileSystemPrimitive4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
+		FileSystemPrimitive4::DirectoryListAsList =>
+			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), try! (boolean_coerce (input_3)), try! (boolean_coerce (input_4)), true, false),
+		
+		FileSystemPrimitive4::DirectoryListAsArray =>
+			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), try! (boolean_coerce (input_3)), try! (boolean_coerce (input_4)), true, true),
+		
 		FileSystemPrimitive4::PathJoin =>
 			return filesystem_path_join (&[input_1, input_2, input_3, input_4], true) .into_0 (),
 		
@@ -577,6 +619,12 @@ pub fn filesystem_primitive_4_evaluate (primitive : FileSystemPrimitive4, input_
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_5_evaluate (primitive : FileSystemPrimitive5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
+		
+		FileSystemPrimitive5::DirectoryListAsList =>
+			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), try! (boolean_coerce (input_3)), try! (boolean_coerce (input_4)), try! (boolean_coerce (input_5)), false),
+		
+		FileSystemPrimitive5::DirectoryListAsArray =>
+			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), try! (boolean_coerce (input_3)), try! (boolean_coerce (input_4)), try! (boolean_coerce (input_5)), true),
 		
 		FileSystemPrimitive5::PathJoin =>
 			return filesystem_path_join (&[input_1, input_2, input_3, input_4, input_5], true) .into_0 (),
@@ -614,6 +662,10 @@ pub fn filesystem_primitive_v_alternative_0 (primitive : FileSystemPrimitiveV) -
 		FileSystemPrimitiveV::DirectoryExists =>
 			None,
 		FileSystemPrimitiveV::MountPointIs =>
+			None,
+		FileSystemPrimitiveV::DirectoryListAsList =>
+			None,
+		FileSystemPrimitiveV::DirectoryListAsArray =>
 			None,
 		FileSystemPrimitiveV::PathJoin =>
 			None,
@@ -684,6 +736,10 @@ pub fn filesystem_primitive_v_alternative_1 (primitive : FileSystemPrimitiveV) -
 			Some (FileSystemPrimitive1::DirectoryExists),
 		FileSystemPrimitiveV::MountPointIs =>
 			Some (FileSystemPrimitive1::MountPointIs),
+		FileSystemPrimitiveV::DirectoryListAsList =>
+			Some (FileSystemPrimitive1::DirectoryListAsList),
+		FileSystemPrimitiveV::DirectoryListAsArray =>
+			Some (FileSystemPrimitive1::DirectoryListAsArray),
 		FileSystemPrimitiveV::PathJoin =>
 			Some (FileSystemPrimitive1::PathJoin),
 		FileSystemPrimitiveV::PathSplit =>
@@ -753,6 +809,10 @@ pub fn filesystem_primitive_v_alternative_2 (primitive : FileSystemPrimitiveV) -
 			Some (FileSystemPrimitive2::DirectoryExists),
 		FileSystemPrimitiveV::MountPointIs =>
 			Some (FileSystemPrimitive2::MountPointIs),
+		FileSystemPrimitiveV::DirectoryListAsList =>
+			Some (FileSystemPrimitive2::DirectoryListAsList),
+		FileSystemPrimitiveV::DirectoryListAsArray =>
+			Some (FileSystemPrimitive2::DirectoryListAsArray),
 		FileSystemPrimitiveV::PathJoin =>
 			Some (FileSystemPrimitive2::PathJoin),
 		FileSystemPrimitiveV::PathSplit =>
@@ -822,6 +882,10 @@ pub fn filesystem_primitive_v_alternative_3 (primitive : FileSystemPrimitiveV) -
 			None,
 		FileSystemPrimitiveV::MountPointIs =>
 			None,
+		FileSystemPrimitiveV::DirectoryListAsList =>
+			Some (FileSystemPrimitive3::DirectoryListAsList),
+		FileSystemPrimitiveV::DirectoryListAsArray =>
+			Some (FileSystemPrimitive3::DirectoryListAsArray),
 		FileSystemPrimitiveV::PathJoin =>
 			Some (FileSystemPrimitive3::PathJoin),
 		FileSystemPrimitiveV::PathSplit =>
@@ -891,6 +955,10 @@ pub fn filesystem_primitive_v_alternative_4 (primitive : FileSystemPrimitiveV) -
 			None,
 		FileSystemPrimitiveV::MountPointIs =>
 			None,
+		FileSystemPrimitiveV::DirectoryListAsList =>
+			Some (FileSystemPrimitive4::DirectoryListAsList),
+		FileSystemPrimitiveV::DirectoryListAsArray =>
+			Some (FileSystemPrimitive4::DirectoryListAsArray),
 		FileSystemPrimitiveV::PathJoin =>
 			Some (FileSystemPrimitive4::PathJoin),
 		FileSystemPrimitiveV::PathSplit =>
@@ -960,6 +1028,10 @@ pub fn filesystem_primitive_v_alternative_5 (primitive : FileSystemPrimitiveV) -
 			None,
 		FileSystemPrimitiveV::MountPointIs =>
 			None,
+		FileSystemPrimitiveV::DirectoryListAsList =>
+			Some (FileSystemPrimitive5::DirectoryListAsList),
+		FileSystemPrimitiveV::DirectoryListAsArray =>
+			Some (FileSystemPrimitive5::DirectoryListAsArray),
 		FileSystemPrimitiveV::PathJoin =>
 			Some (FileSystemPrimitive5::PathJoin),
 		FileSystemPrimitiveV::PathSplit =>
@@ -1028,6 +1100,10 @@ pub fn filesystem_primitive_v_alternative_n (primitive : FileSystemPrimitiveV) -
 		FileSystemPrimitiveV::DirectoryExists =>
 			None,
 		FileSystemPrimitiveV::MountPointIs =>
+			None,
+		FileSystemPrimitiveV::DirectoryListAsList =>
+			None,
+		FileSystemPrimitiveV::DirectoryListAsArray =>
 			None,
 		FileSystemPrimitiveV::PathJoin =>
 			Some (FileSystemPrimitiveN::PathJoin),

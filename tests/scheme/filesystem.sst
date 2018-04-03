@@ -107,3 +107,26 @@
 (~fs-metadata-unix-group-identifier "/dev/null") => 0
 (~fs-metadata-unix-inode-links "/dev/null") => 1
 
+
+
+
+(list? (~fs-directory-list "./tests")) => #t
+(length (~fs-directory-list "./tests")) => 10
+
+(vector? (~fs-directory-list->vector "./tests")) => #t
+(vector-length (~fs-directory-list->vector "./tests")) => 10
+
+(~path->string (~first (~fs-directory-list "./tests"))) => "_outputs"
+
+(~path->string (~first (~fs-directory-list "./tests" #f))) => "_outputs"
+(~path->string (~first (~fs-directory-list "./tests" #t))) => "./tests/_outputs"
+
+(~path->string (car (~first (~fs-directory-list "./tests" #f #t #t)))) => "_outputs"
+(~path->string (car (~first (~fs-directory-list "./tests" #t #t #t)))) => "./tests/_outputs"
+
+(cdr (~first (~fs-directory-list "./tests" #f #t #f))) => 'directory
+(cadr (~first (~fs-directory-list "./tests" #f #t #t))) => 'directory
+
+(~fs-metadata-directory? (cdr (~first (~fs-directory-list "./tests" #f #f #t)))) => #t
+(~fs-metadata-directory? (cddr (~first (~fs-directory-list "./tests" #f #t #t)))) => #t
+

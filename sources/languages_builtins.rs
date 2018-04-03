@@ -262,6 +262,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("fs-canonicalize", FileSystemPrimitive1::PathCanonicalize.into ()),
 			("fs-link-resolve", FileSystemPrimitiveV::SymLinkResolve.into ()),
 			
+			("fs-directory-list", FileSystemPrimitiveV::DirectoryListAsList.into ()),
+			("fs-directory-list->vector", FileSystemPrimitiveV::DirectoryListAsArray.into ()),
+			
 			("fs-metadata", FileSystemPrimitiveV::MetadataResolve.into ()),
 			("fs-metadata-eq?", FileSystemPrimitiveV::MetadataIsSelf.into ()),
 			
