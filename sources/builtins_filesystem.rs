@@ -4,6 +4,7 @@ use super::builtins::exports::*;
 use super::constants::exports::*;
 use super::conversions::exports::*;
 use super::errors::exports::*;
+use super::evaluator::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
 
@@ -60,6 +61,7 @@ pub mod exports {
 		filesystem_symlink_resolve,
 		
 		filesystem_directory_list,
+		filesystem_directory_fold,
 		
 	};
 	
@@ -654,44 +656,14 @@ pub fn filesystem_symlink_resolve (path : &Value, relativize : bool, normalize :
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn filesystem_directory_list (path : &Value, join_parent : bool, include_type : bool, include_metadata : bool, sort : bool, return_array : bool) -> (Outcome<Value>) {
+pub fn filesystem_directory_list (path : &Value, join_parent : bool, include_kind : bool, include_metadata : bool, sort : bool, return_array : bool) -> (Outcome<Value>) {
 	let path = try! (path_slice_coerce (path));
 	let path = path.deref ();
 	let mut entries = StdVec::new ();
 	for entry in try_or_fail! (fs::read_dir (path), 0xc28bc39c) {
 		let entry = try_or_fail! (entry, 0xeea94f1d);
-		let entry_path = if join_parent {
-			Path::new_from_buffer (entry.path (), false)
-		} else {
-			Path::new_from_buffer (entry.file_name () .into (), false)
-		};
-		let entry_kind = if include_type {
-			let entry_kind = try_or_fail! (entry.file_type (), 0x0f94cd6c);
-			let entry_kind = try! (FileSystemMetadataKind::try_from (&entry_kind));
-			Some (Symbol::from (&entry_kind))
-		} else {
-			None
-		};
-		let entry_metadata = if include_metadata {
-			let entry_metadata = try_or_fail! (entry.metadata (), 0xe4f53f27);
-			Some (entry_metadata)
-		} else {
-			None
-		};
-		let entry = match (entry_kind, entry_metadata) {
-			(Some (entry_kind), Some (entry_metadata)) =>
-				pair_new (
-						entry_path.into (),
-						pair_new (entry_kind.into (), opaque_new (entry_metadata) .into (), None) .into (),
-						None,
-					) .into (),
-			(Some (entry_kind), None) =>
-				pair_new (entry_path.into (), entry_kind.into (), None) .into (),
-			(None, Some (entry_metadata)) =>
-				pair_new (entry_path.into (), opaque_new (entry_metadata) .into (), None) .into (),
-			(None, None) =>
-				entry_path.into (),
-		};
+		let (entry_path, entry_kind, entry_metadata) = try! (filesystem_directory_entry_extract (&entry, join_parent, include_kind, include_metadata));
+		let entry = try! (filesystem_directory_entry_value (None, entry_path, entry_kind, entry_metadata));
 		entries.push (entry);
 	}
 	if sort {
@@ -701,6 +673,149 @@ pub fn filesystem_directory_list (path : &Value, join_parent : bool, include_typ
 		succeed! (array_new (entries) .into ());
 	} else {
 		succeed! (list_collect (entries, None));
+	}
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_directory_fold (path : &Value, callable : &Value, accumulator : &Value, join_parent : bool, include_kind : bool, include_metadata : bool, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	let path = try! (path_slice_coerce (path));
+	let path = path.deref ();
+	let mut accumulator = accumulator.clone ();
+	for entry in try_or_fail! (fs::read_dir (path), 0xc28bc39c) {
+		let entry = try_or_fail! (entry, 0xeea94f1d);
+		let (entry_path, entry_kind, entry_metadata) = try! (filesystem_directory_entry_extract (&entry, join_parent, include_kind, include_metadata));
+		accumulator = try! (filesystem_directory_entry_fold (None, entry_path, entry_kind, entry_metadata, callable, &accumulator, evaluator));
+	}
+	succeed! (accumulator);
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn filesystem_directory_entry_extract (entry : &fs::DirEntry, join_parent : bool, include_kind : bool, include_metadata : bool) -> (Outcome<(fs_path::PathBuf, Option<fs::FileType>, Option<fs::Metadata>)>) {
+	let entry_path = if join_parent {
+		entry.path ()
+	} else {
+		entry.file_name () .into ()
+	};
+	let entry_kind = if include_kind {
+		let entry_kind = try_or_fail! (entry.file_type (), 0x0f94cd6c);
+		Some (entry_kind)
+	} else {
+		None
+	};
+	let entry_metadata = if include_metadata {
+		let entry_metadata = try_or_fail! (entry.metadata (), 0xe4f53f27);
+		Some (entry_metadata)
+	} else {
+		None
+	};
+	succeed! ((entry_path, entry_kind, entry_metadata));
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn filesystem_directory_entry_value (parent : Option<&Value>, entry_path : fs_path::PathBuf, entry_kind : Option<fs::FileType>, entry_metadata : Option<fs::Metadata>) -> (Outcome<Value>) {
+	let entry_path = Path::new_from_buffer (entry_path, false);
+	let entry_path = if let Some (parent) = parent {
+		pair_new (parent.clone (), entry_path.into (), None) .into ()
+	} else {
+		entry_path.into ()
+	};
+	let entry = match (entry_kind, entry_metadata) {
+		(Some (entry_kind), Some (entry_metadata)) =>
+			pair_new (
+					entry_path,
+					pair_new (
+							Symbol::from (& try! (FileSystemMetadataKind::try_from (&entry_kind))) .into (),
+							opaque_new (entry_metadata) .into (),
+							None,
+						) .into (),
+					None,
+				) .into (),
+		(Some (entry_kind), None) =>
+			pair_new (
+					entry_path,
+					Symbol::from (& try! (FileSystemMetadataKind::try_from (&entry_kind))) .into (),
+					None,
+				) .into (),
+		(None, Some (entry_metadata)) =>
+			pair_new (
+					entry_path,
+					opaque_new (entry_metadata) .into (),
+					None,
+				) .into (),
+		(None, None) =>
+			entry_path.into (),
+	};
+	succeed! (entry);
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn filesystem_directory_entry_fold (parent : Option<&Value>, entry_path : fs_path::PathBuf, entry_kind : Option<fs::FileType>, entry_metadata : Option<fs::Metadata>, callable : &Value, accumulator : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	let entry_path = Path::new_from_buffer (entry_path, false);
+	match (parent, entry_kind, entry_metadata) {
+		(Some (parent), Some (entry_kind), Some (entry_metadata)) =>
+			return evaluator.evaluate_procedure_call_5 (
+					callable,
+					accumulator,
+					parent,
+					& entry_path.into (),
+					& Symbol::from (& try! (FileSystemMetadataKind::try_from (&entry_kind))) .into (),
+					& opaque_new (entry_metadata) .into (),
+				),
+		(None, Some (entry_kind), Some (entry_metadata)) =>
+			return evaluator.evaluate_procedure_call_4 (
+					callable,
+					accumulator,
+					& entry_path.into (),
+					& Symbol::from (& try! (FileSystemMetadataKind::try_from (&entry_kind))) .into (),
+					& opaque_new (entry_metadata) .into (),
+				),
+		(Some (parent), Some (entry_kind), None) =>
+			return evaluator.evaluate_procedure_call_4 (
+					callable,
+					accumulator,
+					parent,
+					& entry_path.into (),
+					& Symbol::from (& try! (FileSystemMetadataKind::try_from (&entry_kind))) .into (),
+				),
+		(None, Some (entry_kind), None) =>
+			return evaluator.evaluate_procedure_call_3 (
+					callable,
+					accumulator,
+					& entry_path.into (),
+					& Symbol::from (& try! (FileSystemMetadataKind::try_from (&entry_kind))) .into (),
+				),
+		(Some (parent), None, Some (entry_metadata)) =>
+			return evaluator.evaluate_procedure_call_4 (
+					callable,
+					accumulator,
+					parent,
+					& entry_path.into (),
+					& opaque_new (entry_metadata) .into (),
+				),
+		(None, None, Some (entry_metadata)) =>
+			return evaluator.evaluate_procedure_call_3 (
+					callable,
+					accumulator,
+					& entry_path.into (),
+					& opaque_new (entry_metadata) .into (),
+				),
+		(Some (parent), None, None) =>
+			return evaluator.evaluate_procedure_call_3 (
+					callable,
+					accumulator,
+					parent,
+					& entry_path.into (),
+				),
+		(None, None, None) =>
+			return evaluator.evaluate_procedure_call_2 (
+					callable,
+					accumulator,
+					& entry_path.into (),
+				),
 	}
 }
 
