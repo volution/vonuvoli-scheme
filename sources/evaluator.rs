@@ -617,13 +617,13 @@ impl Evaluator {
 			ExpressionConditionalMatchGuard::False =>
 				succeed! (Alternative2::Variant2 (actual)),
 			ExpressionConditionalMatchGuard::Value (ref expected, negated) => {
-				let matched = try! (equivalent_by_value_strict_2 (&actual, expected));
+				let matched = try! (equivalent_by_value_strict_2 (&actual, expected, false));
 				(matched, negated)
 			},
 			ExpressionConditionalMatchGuard::Values (ref expected, negated) => {
 				let mut matched = false;
 				for expected in expected.iter () {
-					matched = try! (equivalent_by_value_strict_2 (&actual, expected));
+					matched = try! (equivalent_by_value_strict_2 (&actual, expected, false));
 					if matched {
 						break;
 					}

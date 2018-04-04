@@ -304,8 +304,8 @@ pub enum Ordering {
 
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum Comparison {
-	Equivalence ( Equivalence, Option<bool>, Option<bool> ),
-	Ordering ( Ordering, Option<bool>, Option<bool> ),
+	Equivalence ( Equivalence, Option<bool>, Option<bool>, bool ), // ( equivalence, coercion, recursive, negated )
+	Ordering ( Ordering, Option<bool>, Option<bool>, bool ), // ( ordering, case_sensitivity, recursive, negated )
 }
 
 
@@ -315,20 +315,20 @@ impl Comparison {
 	pub fn for_aggregated (&self, last : bool) -> (Comparison) {
 		match *self {
 			
-			Comparison::Equivalence (equivalence, coercion, recursive) =>
+			Comparison::Equivalence (equivalence, coercion, recursive, negated) =>
 				match equivalence {
 					Equivalence::ByIdentity =>
-						Comparison::Equivalence (Equivalence::ByIdentity, coercion, Some (false)),
+						Comparison::Equivalence (Equivalence::ByIdentity, coercion, Some (false), negated),
 					Equivalence::ByValue =>
 						match recursive {
 							None | Some (false) =>
-								Comparison::Equivalence (Equivalence::ByIdentity, coercion, Some (false)),
+								Comparison::Equivalence (Equivalence::ByIdentity, coercion, Some (false), negated),
 							Some (true) =>
-								Comparison::Equivalence (Equivalence::ByValue, coercion, Some (true)),
+								Comparison::Equivalence (Equivalence::ByValue, coercion, Some (true), negated),
 						},
 				},
 			
-			Comparison::Ordering (ordering, case_sensitivity, recursive) => {
+			Comparison::Ordering (ordering, case_sensitivity, recursive, negated) => {
 				let ordering = if ! last {
 					Ordering::Equal
 				} else {
@@ -336,12 +336,22 @@ impl Comparison {
 				};
 				match recursive {
 					None | Some (false) =>
-						Comparison::Ordering (ordering, case_sensitivity, Some (false)),
+						Comparison::Ordering (ordering, case_sensitivity, Some (false), negated),
 					Some (true) =>
-						Comparison::Ordering (ordering, case_sensitivity, Some (true)),
+						Comparison::Ordering (ordering, case_sensitivity, Some (true), negated),
 				}
 			},
 			
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn negated (&self) -> (bool) {
+		match *self {
+			Comparison::Equivalence (_, _, _, negated) =>
+				negated,
+			Comparison::Ordering (_, _, _, negated) =>
+				negated,
 		}
 	}
 }
@@ -350,28 +360,28 @@ impl Comparison {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn equivalent_by_identity_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef) -> (Outcome<bool>) {
-	return compare_2 (left, right, Comparison::Equivalence (Equivalence::ByIdentity, None, None));
+pub fn equivalent_by_identity_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, negated : bool) -> (Outcome<bool>) {
+	return compare_2 (left, right, Comparison::Equivalence (Equivalence::ByIdentity, None, None, negated));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn equivalent_by_value_strict_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef) -> (Outcome<bool>) {
-	return compare_2 (left, right, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (false)));
+pub fn equivalent_by_value_strict_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, negated : bool) -> (Outcome<bool>) {
+	return compare_2 (left, right, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (false), negated));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn equivalent_by_value_strict_recursive_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef) -> (Outcome<bool>) {
-	return compare_2 (left, right, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (true)));
+pub fn equivalent_by_value_strict_recursive_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, negated : bool) -> (Outcome<bool>) {
+	return compare_2 (left, right, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (true), negated));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn equivalent_by_value_coerced_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef) -> (Outcome<bool>) {
-	return compare_2 (left, right, Comparison::Equivalence (Equivalence::ByValue, Some (true), Some (false)));
+pub fn equivalent_by_value_coerced_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, negated : bool) -> (Outcome<bool>) {
+	return compare_2 (left, right, Comparison::Equivalence (Equivalence::ByValue, Some (true), Some (false), negated));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn equivalent_by_value_coerced_recursive_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef) -> (Outcome<bool>) {
-	return compare_2 (left, right, Comparison::Equivalence (Equivalence::ByValue, Some (true), Some (true)));
+pub fn equivalent_by_value_coerced_recursive_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, negated : bool) -> (Outcome<bool>) {
+	return compare_2 (left, right, Comparison::Equivalence (Equivalence::ByValue, Some (true), Some (true), negated));
 }
 
 
@@ -786,12 +796,12 @@ pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef
 				
 				_ =>
 					match comparison {
-						Comparison::Equivalence (_, _, _) =>
-							succeed! (false),
-						Comparison::Ordering (ordering, _, _) => {
+						Comparison::Equivalence (_, _, _, negated) =>
+							succeed! (false ^ negated),
+						Comparison::Ordering (ordering, _, _, negated) => {
 							let left_kind = left.kind ();
 							let right_kind = right.kind ();
-							return value_kind_compare_2a_ordering (left_kind, right_kind, ordering);
+							return value_kind_compare_2a_ordering (left_kind, right_kind, ordering, negated);
 						},
 					},
 				
@@ -813,13 +823,13 @@ pub fn value_singleton_compare_1a <ValueRef : StdAsRef<ValueSingleton>> (value :
 	match *value {
 		ValueSingleton::Undefined =>
 			match comparison {
-				Comparison::Equivalence (_, _, _) =>
-					succeed! (true),
-				Comparison::Ordering (_, _, _) =>
+				Comparison::Equivalence (_, _, _, negated) =>
+					succeed! (true ^ negated),
+				Comparison::Ordering (_, _, _, _) =>
 					fail! (0x534ee60c),
 			},
 		_ =>
-			succeed! (true),
+			succeed! (true ^ comparison.negated ()),
 	}
 }
 
@@ -830,23 +840,23 @@ pub fn value_singleton_compare_2a <ValueRef : StdAsRef<ValueSingleton>> (left : 
 	match (*left, *right) {
 		(ValueSingleton::Undefined, ValueSingleton::Undefined) =>
 			match comparison {
-				Comparison::Equivalence (_, _, _) =>
-					succeed! (true),
-				Comparison::Ordering (_, _, _) =>
+				Comparison::Equivalence (_, _, _, negated) =>
+					succeed! (true ^ negated),
+				Comparison::Ordering (_, _, _, _) =>
 					fail! (0xec7931c0),
 			},
 		(ValueSingleton::Undefined, _) =>
 			match comparison {
-				Comparison::Equivalence (_, _, _) =>
-					succeed! (false),
-				Comparison::Ordering (_, _, _) =>
+				Comparison::Equivalence (_, _, _, negated) =>
+					succeed! (false ^ negated),
+				Comparison::Ordering (_, _, _, _) =>
 					fail! (0xa7c9f145),
 			},
 		(_, ValueSingleton::Undefined) =>
 			match comparison {
-				Comparison::Equivalence (_, _, _) =>
-					succeed! (false),
-				Comparison::Ordering (_, _, _) =>
+				Comparison::Equivalence (_, _, _, negated) =>
+					succeed! (false ^ negated),
+				Comparison::Ordering (_, _, _, _) =>
 					fail! (0xb57c53eb),
 			},
 		_ =>
@@ -862,8 +872,8 @@ def_fn_compare! (Boolean,
 		boolean_compare_1a, boolean_compare_2a, boolean_compare_3a, boolean_compare_4a, boolean_compare_na);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn boolean_compare_1a <ValueRef : StdAsRef<Boolean>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	succeed! (true);
+pub fn boolean_compare_1a <ValueRef : StdAsRef<Boolean>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -879,8 +889,8 @@ def_fn_compare! (NumberInteger,
 		number_integer_compare_1a, number_integer_compare_2a, number_integer_compare_3a, number_integer_compare_4a, number_integer_compare_na);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn number_integer_compare_1a <ValueRef : StdAsRef<NumberInteger>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	succeed! (true);
+pub fn number_integer_compare_1a <ValueRef : StdAsRef<NumberInteger>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -900,13 +910,13 @@ pub fn number_real_compare_1a <ValueRef : StdAsRef<NumberReal>> (value : ValueRe
 	let value = value.as_ref () .value ();
 	if value.is_nan () {
 		match comparison {
-			Comparison::Equivalence (_, _, _) =>
-				succeed! (true),
-			Comparison::Ordering (_, _, _) =>
-				succeed! (false),
+			Comparison::Equivalence (_, _, _, negated) =>
+				succeed! (true ^ negated),
+			Comparison::Ordering (_, _, _, negated) =>
+				succeed! (false ^ negated),
 		}
 	} else {
-		succeed! (true);
+		succeed! (true ^ comparison.negated ());
 	}
 }
 
@@ -915,17 +925,17 @@ pub fn number_real_compare_2a <ValueRef : StdAsRef<NumberReal>> (left : ValueRef
 	let left = left.as_ref () .value ();
 	let right = right.as_ref () .value ();
 	match comparison {
-		Comparison::Equivalence (_, _, _) =>
+		Comparison::Equivalence (_, _, _, negated) =>
 			if left.is_nan () && right.is_nan () {
-				succeed! (true);
+				succeed! (true ^ negated);
 			} else {
-				succeed! (f64::eq (&left, &right));
+				succeed! (f64::eq (&left, &right) ^ negated);
 			},
-		Comparison::Ordering (ordering, _, _) =>
+		Comparison::Ordering (ordering, _, _, negated) =>
 			if left.is_nan () || right.is_nan () {
-				succeed! (false);
+				succeed! (false ^ negated);
 			} else {
-				return std_ord_compare_2_ordering_val (left, right, ordering);
+				return std_ord_compare_2_ordering_val (left, right, ordering, negated);
 			},
 	}
 }
@@ -938,8 +948,8 @@ def_fn_compare! (Character,
 		character_compare_1a, character_compare_2a, character_compare_3a, character_compare_4a, character_compare_na);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn character_compare_1a <ValueRef : StdAsRef<Character>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	succeed! (true);
+pub fn character_compare_1a <ValueRef : StdAsRef<Character>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -947,12 +957,12 @@ pub fn character_compare_2a <ValueRef : StdAsRef<Character>> (left : ValueRef, r
 	let left = left.as_ref () .value ();
 	let right = right.as_ref () .value ();
 	match comparison {
-		Comparison::Equivalence (_, _, _) =>
-			succeed! (char::eq (&left, &right)),
-		Comparison::Ordering (ordering, case_sensitivity, _) =>
+		Comparison::Equivalence (_, _, _, negated) =>
+			succeed! (char::eq (&left, &right) ^ negated),
+		Comparison::Ordering (ordering, case_sensitivity, _, negated) =>
 			match case_sensitivity {
 				None | Some (true) =>
-					return std_ord_compare_2_ordering_val (left, right, ordering),
+					return std_ord_compare_2_ordering_val (left, right, ordering, negated),
 				_ =>
 					fail_unimplemented! (0xea3c51f1), // deferred
 			},
@@ -967,8 +977,8 @@ def_fn_compare! (Symbol,
 		symbol_compare_1a, symbol_compare_2a, symbol_compare_3a, symbol_compare_4a, symbol_compare_na);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn symbol_compare_1a <ValueRef : StdAsRef<Symbol>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	succeed! (true);
+pub fn symbol_compare_1a <ValueRef : StdAsRef<Symbol>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -976,12 +986,12 @@ pub fn symbol_compare_2a <ValueRef : StdAsRef<Symbol>> (left : ValueRef, right :
 	let left = left.as_ref () .string_as_str ();
 	let right = right.as_ref () .string_as_str ();
 	match comparison {
-		Comparison::Equivalence (_, _, _) =>
-			succeed! (str::eq (left, right)),
-		Comparison::Ordering (ordering, case_sensitivity, _) =>
+		Comparison::Equivalence (_, _, _, negated) =>
+			succeed! (str::eq (left, right) ^ negated),
+		Comparison::Ordering (ordering, case_sensitivity, _, negated) =>
 			match case_sensitivity {
 				None | Some (true) =>
-					return std_ord_compare_2_ordering_val (left, right, ordering),
+					return std_ord_compare_2_ordering_val (left, right, ordering, negated),
 				_ =>
 					fail_unimplemented! (0xc4ef7065), // deferred
 			},
@@ -996,8 +1006,8 @@ def_fn_compare! (Keyword,
 		keyword_compare_1a, keyword_compare_2a, keyword_compare_3a, keyword_compare_4a, keyword_compare_na);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn keyword_compare_1a <ValueRef : StdAsRef<Keyword>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	succeed! (true);
+pub fn keyword_compare_1a <ValueRef : StdAsRef<Keyword>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1005,12 +1015,12 @@ pub fn keyword_compare_2a <ValueRef : StdAsRef<Keyword>> (left : ValueRef, right
 	let left = left.as_ref () .string_as_str ();
 	let right = right.as_ref () .string_as_str ();
 	match comparison {
-		Comparison::Equivalence (_, _, _) =>
-			succeed! (str::eq (left, right)),
-		Comparison::Ordering (ordering, case_sensitivity, _) =>
+		Comparison::Equivalence (_, _, _, negated) =>
+			succeed! (str::eq (left, right) ^ negated),
+		Comparison::Ordering (ordering, case_sensitivity, _, negated) =>
 			match case_sensitivity {
 				None | Some (true) =>
-					return std_ord_compare_2_ordering_val (left, right, ordering),
+					return std_ord_compare_2_ordering_val (left, right, ordering, negated),
 				_ =>
 					fail_unimplemented! (0x3a2cf6b7), // deferred
 			},
@@ -1025,8 +1035,8 @@ def_fn_compare! (Unique,
 		unique_compare_1a, unique_compare_2a, unique_compare_3a, unique_compare_4a, unique_compare_na);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn unique_compare_1a <ValueRef : StdAsRef<Unique>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	succeed! (true);
+pub fn unique_compare_1a <ValueRef : StdAsRef<Unique>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1034,10 +1044,10 @@ pub fn unique_compare_2a <ValueRef : StdAsRef<Unique>> (left : ValueRef, right :
 	let left = left.as_ref ();
 	let right = right.as_ref ();
 	match comparison {
-		Comparison::Equivalence (_, _, _) =>
-			succeed! (Unique::eq (left, right)),
-		Comparison::Ordering (ordering, _, _) =>
-			return std_ord_compare_2_ordering_val (left, right, ordering),
+		Comparison::Equivalence (_, _, _, negated) =>
+			succeed! (Unique::eq (left, right) ^ negated),
+		Comparison::Ordering (ordering, _, _, negated) =>
+			return std_ord_compare_2_ordering_val (left, right, ordering, negated),
 	}
 }
 
@@ -1049,8 +1059,8 @@ def_fn_compare! (StringRegex,
 		string_regex_compare_1a, string_regex_compare_2a, string_regex_compare_3a, string_regex_compare_4a, string_regex_compare_na);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn string_regex_compare_1a <ValueRef : StdAsRef<StringRegex>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	succeed! (true);
+pub fn string_regex_compare_1a <ValueRef : StdAsRef<StringRegex>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1066,8 +1076,8 @@ def_fn_compare! (StringImmutable,
 		string_immutable_compare_1a, string_immutable_compare_2a, string_immutable_compare_3a, string_immutable_compare_4a, string_immutable_compare_na);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn string_immutable_compare_1a <ValueRef : StdAsRef<StringImmutable>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	succeed! (true);
+pub fn string_immutable_compare_1a <ValueRef : StdAsRef<StringImmutable>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1083,8 +1093,8 @@ def_fn_compare! (StringMutable,
 		string_mutable_compare_1a, string_mutable_compare_2a, string_mutable_compare_3a, string_mutable_compare_4a, string_mutable_compare_na);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn string_mutable_compare_1a <ValueRef : StdAsRef<StringMutable>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	succeed! (true);
+pub fn string_mutable_compare_1a <ValueRef : StdAsRef<StringMutable>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1100,17 +1110,17 @@ pub(crate) fn string_ref_compare_2a <'a, ValueRef : StdAsRef<StringRef<'a>>> (le
 	let left = left.as_ref ();
 	let right = right.as_ref ();
 	match comparison {
-		Comparison::Equivalence (equivalence, _, _) =>
+		Comparison::Equivalence (equivalence, _, _, negated) =>
 			match equivalence {
 				Equivalence::ByIdentity =>
-					succeed! (StringRef::is_self (left, right)),
+					succeed! (StringRef::is_self (left, right) ^ negated),
 				Equivalence::ByValue =>
-					succeed! (StringRef::eq (left, right)),
+					succeed! (StringRef::eq (left, right) ^ negated),
 			},
-		Comparison::Ordering (ordering, case_sensitivity, _) =>
+		Comparison::Ordering (ordering, case_sensitivity, _, negated) =>
 			match case_sensitivity {
 				None | Some (true) =>
-					return std_ord_compare_2_ordering_ref (left, right, ordering),
+					return std_ord_compare_2_ordering_ref (left, right, ordering, negated),
 				_ =>
 					fail_unimplemented! (0x2736b1f6), // deferred
 			},
@@ -1125,8 +1135,8 @@ def_fn_compare! (BytesImmutable,
 		bytes_immutable_compare_1a, bytes_immutable_compare_2a, bytes_immutable_compare_3a, bytes_immutable_compare_4a, bytes_immutable_compare_na);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn bytes_immutable_compare_1a <ValueRef : StdAsRef<BytesImmutable>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	succeed! (true);
+pub fn bytes_immutable_compare_1a <ValueRef : StdAsRef<BytesImmutable>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1142,8 +1152,8 @@ def_fn_compare! (BytesMutable,
 		bytes_mutable_compare_1a, bytes_mutable_compare_2a, bytes_mutable_compare_3a, bytes_mutable_compare_4a, bytes_mutable_compare_na);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn bytes_mutable_compare_1a <ValueRef : StdAsRef<BytesMutable>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	succeed! (true);
+pub fn bytes_mutable_compare_1a <ValueRef : StdAsRef<BytesMutable>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1159,17 +1169,17 @@ pub(crate) fn bytes_ref_compare_2a <'a, ValueRef : StdAsRef<BytesRef<'a>>> (left
 	let left = left.as_ref ();
 	let right = right.as_ref ();
 	match comparison {
-		Comparison::Equivalence (equivalence, _, _) =>
+		Comparison::Equivalence (equivalence, _, _, negated) =>
 			match equivalence {
 				Equivalence::ByIdentity =>
-					succeed! (BytesRef::is_self (left, right)),
+					succeed! (BytesRef::is_self (left, right) ^ negated),
 				Equivalence::ByValue =>
-					succeed! (BytesRef::eq (left, right)),
+					succeed! (BytesRef::eq (left, right) ^ negated),
 			},
-		Comparison::Ordering (ordering, case_sensitivity, _) =>
+		Comparison::Ordering (ordering, case_sensitivity, _, negated) =>
 			match case_sensitivity {
 				None | Some (true) =>
-					return std_ord_compare_2_ordering_ref (left, right, ordering),
+					return std_ord_compare_2_ordering_ref (left, right, ordering, negated),
 				_ =>
 					fail_unimplemented! (0x5be9ea91), // deferred
 			},
@@ -1184,8 +1194,8 @@ def_fn_compare! (PairImmutable,
 		pair_immutable_compare_1a, pair_immutable_compare_2a, pair_immutable_compare_3a, pair_immutable_compare_4a, pair_immutable_compare_na);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn pair_immutable_compare_1a <ValueRef : StdAsRef<PairImmutable>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	succeed! (true);
+pub fn pair_immutable_compare_1a <ValueRef : StdAsRef<PairImmutable>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1201,8 +1211,8 @@ def_fn_compare! (PairMutable,
 		pair_mutable_compare_1a, pair_mutable_compare_2a, pair_mutable_compare_3a, pair_mutable_compare_4a, pair_mutable_compare_na);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn pair_mutable_compare_1a <ValueRef : StdAsRef<PairMutable>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	succeed! (true);
+pub fn pair_mutable_compare_1a <ValueRef : StdAsRef<PairMutable>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1219,25 +1229,33 @@ pub(crate) fn pair_ref_compare_2a <'a, ValueRef : StdAsRef<PairRef<'a>>> (left :
 	let right = right.as_ref ();
 	match comparison {
 		
-		Comparison::Equivalence (equivalence, _, _) =>
+		Comparison::Equivalence (equivalence, _, _, negated) =>
 			match equivalence {
 				Equivalence::ByIdentity =>
-					succeed! (PairRef::value_is_self (left, right)),
+					succeed! (PairRef::value_is_self (left, right) ^ negated),
 				Equivalence::ByValue => {
+					// TODO:  Check the correctness in case of negation!
 					let comparison = comparison.for_aggregated (false);
-					succeed! (
-							try! (compare_2 (left.left (), right.left (), comparison)) &&
-							try! (compare_2 (left.right (), right.right (), comparison)));
+					if ! negated {
+						succeed! (
+								try! (compare_2 (left.left (), right.left (), comparison)) &&
+								try! (compare_2 (left.right (), right.right (), comparison)));
+					} else {
+						succeed! (
+								try! (compare_2 (left.left (), right.left (), comparison)) ||
+								try! (compare_2 (left.right (), right.right (), comparison)));
+					}
 				},
 			},
 		
-		Comparison::Ordering (_, _, _) => {
+		Comparison::Ordering (_, _, _, negated) => {
+			// TODO:  Check the correctness in case of negation!
 			let comparison_for_last = comparison.for_aggregated (true);
 			let comparison_for_non_last = comparison.for_aggregated (false);
 			
 			if ! try! (compare_2 (left.left (), right.left (), comparison_for_non_last)) {
 				if comparison_for_non_last == comparison_for_last {
-					succeed! (false);
+					succeed! (false ^ negated);
 				} else {
 					if try! (compare_2 (left.left (), right.left (), comparison_for_last)) {
 						succeed! (true);
@@ -1266,8 +1284,8 @@ def_fn_compare! (ArrayImmutable,
 		array_immutable_compare_1a, array_immutable_compare_2a, array_immutable_compare_3a, array_immutable_compare_4a, array_immutable_compare_na);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn array_immutable_compare_1a <ValueRef : StdAsRef<ArrayImmutable>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	succeed! (true);
+pub fn array_immutable_compare_1a <ValueRef : StdAsRef<ArrayImmutable>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1283,8 +1301,8 @@ def_fn_compare! (ArrayMutable,
 		array_mutable_compare_1a, array_mutable_compare_2a, array_mutable_compare_3a, array_mutable_compare_4a, array_mutable_compare_na);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn array_mutable_compare_1a <ValueRef : StdAsRef<ArrayMutable>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	succeed! (true);
+pub fn array_mutable_compare_1a <ValueRef : StdAsRef<ArrayMutable>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1300,14 +1318,14 @@ pub(crate) fn array_ref_compare_2a <'a, ValueRef : StdAsRef<ArrayRef<'a>>> (left
 	let left = left.as_ref ();
 	let right = right.as_ref ();
 	match comparison {
-		Comparison::Equivalence (equivalence, _, _) =>
+		Comparison::Equivalence (equivalence, _, _, negated) =>
 			match equivalence {
 				Equivalence::ByIdentity =>
-					succeed! (ArrayRef::is_self (left, right)),
+					succeed! (ArrayRef::is_self (left, right) ^ negated),
 				Equivalence::ByValue =>
 					return vec_compare_2 (left.values_as_slice (), right.values_as_slice (), comparison),
 			},
-		Comparison::Ordering (_, _, _) =>
+		Comparison::Ordering (_, _, _, _) =>
 			return vec_compare_2 (left.values_as_slice (), right.values_as_slice (), comparison),
 	}
 }
@@ -1320,8 +1338,8 @@ def_fn_compare! (Values,
 		values_compare_1a, values_compare_2a, values_compare_3a, values_compare_4a, values_compare_na);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn values_compare_1a <ValueRef : StdAsRef<Values>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	succeed! (true);
+pub fn values_compare_1a <ValueRef : StdAsRef<Values>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1329,14 +1347,14 @@ pub fn values_compare_2a <ValueRef : StdAsRef<Values>> (left : ValueRef, right :
 	let left = left.as_ref ();
 	let right = right.as_ref ();
 	match comparison {
-		Comparison::Equivalence (equivalence, _, _) =>
+		Comparison::Equivalence (equivalence, _, _, negated) =>
 			match equivalence {
 				Equivalence::ByIdentity =>
-					succeed! (Values::is_self (left, right)),
+					succeed! (Values::is_self (left, right) ^ negated),
 				Equivalence::ByValue =>
 					return vec_compare_2 (left.values_as_slice (), right.values_as_slice (), comparison),
 			},
-		Comparison::Ordering (_, _, _) =>
+		Comparison::Ordering (_, _, _, _) =>
 			return vec_compare_2 (left.values_as_slice (), right.values_as_slice (), comparison),
 	}
 }
@@ -1349,8 +1367,8 @@ def_fn_compare! (RecordKind,
 		record_kind_compare_1a, record_kind_compare_2a, record_kind_compare_3a, record_kind_compare_4a, record_kind_compare_na);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_kind_compare_1a <ValueRef : StdAsRef<RecordKind>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	succeed! (true);
+pub fn record_kind_compare_1a <ValueRef : StdAsRef<RecordKind>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1358,9 +1376,9 @@ pub fn record_kind_compare_2a <ValueRef : StdAsRef<RecordKind>> (left : ValueRef
 	let left = left.as_ref ();
 	let right = right.as_ref ();
 	match comparison {
-		Comparison::Equivalence (_, _, _) =>
-			succeed! (RecordKind::is_self (left, right)),
-		Comparison::Ordering (_, _, _) =>
+		Comparison::Equivalence (_, _, _, negated) =>
+			succeed! (RecordKind::is_self (left, right) ^ negated),
+		Comparison::Ordering (_, _, _, _) =>
 			return std_ord_compare_2_ref (left, right, comparison),
 	}
 }
@@ -1373,8 +1391,8 @@ def_fn_compare! (RecordImmutable,
 		record_immutable_compare_1a, record_immutable_compare_2a, record_immutable_compare_3a, record_immutable_compare_4a, record_immutable_compare_na);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_immutable_compare_1a <ValueRef : StdAsRef<RecordImmutable>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	succeed! (true);
+pub fn record_immutable_compare_1a <ValueRef : StdAsRef<RecordImmutable>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1390,8 +1408,8 @@ def_fn_compare! (RecordMutable,
 		record_mutable_compare_1a, record_mutable_compare_2a, record_mutable_compare_3a, record_mutable_compare_4a, record_mutable_compare_na);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_mutable_compare_1a <ValueRef : StdAsRef<RecordMutable>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	succeed! (true);
+pub fn record_mutable_compare_1a <ValueRef : StdAsRef<RecordMutable>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1407,18 +1425,18 @@ pub(crate) fn record_ref_compare_2a <'a, ValueRef : StdAsRef<RecordRef<'a>>> (le
 	let left = left.as_ref ();
 	let right = right.as_ref ();
 	match comparison {
-		Comparison::Equivalence (equivalence, _, _) =>
+		Comparison::Equivalence (equivalence, _, _, negated) =>
 			match equivalence {
 				Equivalence::ByIdentity =>
-					succeed! (RecordRef::is_self (left, right)),
+					succeed! (RecordRef::is_self (left, right) ^ negated),
 				Equivalence::ByValue =>
 					if RecordKind::is_self (left.kind (), right.kind ()) {
 						return vec_compare_2 (left.values_as_slice (), right.values_as_slice (), comparison);
 					} else {
-						succeed! (false);
+						succeed! (false ^ negated);
 					},
 			},
-		Comparison::Ordering (_, _, _) => {
+		Comparison::Ordering (_, _, _, _) => {
 			let left_kind = left.kind ();
 			let right_kind = right.kind ();
 			if RecordKind::is_self (left_kind, right_kind) {
@@ -1438,8 +1456,8 @@ def_fn_compare! (Error,
 		error_compare_1a, error_compare_2a, error_compare_3a, error_compare_4a, error_compare_na);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn error_compare_1a <ValueRef : StdAsRef<Error>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	succeed! (true);
+pub fn error_compare_1a <ValueRef : StdAsRef<Error>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1447,10 +1465,10 @@ pub fn error_compare_2a <ValueRef : StdAsRef<Error>> (left : ValueRef, right : V
 	let left = left.as_ref ();
 	let right = right.as_ref ();
 	match comparison {
-		Comparison::Equivalence (_, _, _) =>
-			succeed! (Error::is_self (left, right)),
-		Comparison::Ordering (ordering, _, _) =>
-			return std_ord_compare_2_ordering_val (left.code (), right.code (), ordering),
+		Comparison::Equivalence (_, _, _, negated) =>
+			succeed! (Error::is_self (left, right) ^ negated),
+		Comparison::Ordering (ordering, _, _, negated) =>
+			return std_ord_compare_2_ordering_val (left.code (), right.code (), ordering, negated),
 	}
 }
 
@@ -1462,8 +1480,8 @@ def_fn_compare! (ProcedurePrimitive,
 		procedure_primitive_compare_1a, procedure_primitive_compare_2a, procedure_primitive_compare_3a, procedure_primitive_compare_4a, procedure_primitive_compare_na);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn procedure_primitive_compare_1a <ValueRef : StdAsRef<ProcedurePrimitive>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	succeed! (true);
+pub fn procedure_primitive_compare_1a <ValueRef : StdAsRef<ProcedurePrimitive>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1477,8 +1495,8 @@ def_fn_compare! (ProcedureExtended,
 		procedure_extended_compare_1a, procedure_extended_compare_2a, procedure_extended_compare_3a, procedure_extended_compare_4a, procedure_extended_compare_na);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn procedure_extended_compare_1a <ValueRef : StdAsRef<ProcedureExtended>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	succeed! (true);
+pub fn procedure_extended_compare_1a <ValueRef : StdAsRef<ProcedureExtended>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1486,9 +1504,9 @@ pub fn procedure_extended_compare_2a <ValueRef : StdAsRef<ProcedureExtended>> (l
 	let left = left.as_ref ();
 	let right = right.as_ref ();
 	match comparison {
-		Comparison::Equivalence (_, _, _) =>
-			succeed! (ProcedureExtended::is_self (left, right)),
-		Comparison::Ordering (_, _, _) =>
+		Comparison::Equivalence (_, _, _, negated) =>
+			succeed! (ProcedureExtended::is_self (left, right) ^ negated),
+		Comparison::Ordering (_, _, _, _) =>
 			return std_ord_compare_2_ref (left, right, comparison),
 	}
 }
@@ -1499,8 +1517,8 @@ def_fn_compare! (ProcedureNative,
 		procedure_native_compare_1a, procedure_native_compare_2a, procedure_native_compare_3a, procedure_native_compare_4a, procedure_native_compare_na);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn procedure_native_compare_1a <ValueRef : StdAsRef<ProcedureNative>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	succeed! (true);
+pub fn procedure_native_compare_1a <ValueRef : StdAsRef<ProcedureNative>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1508,9 +1526,9 @@ pub fn procedure_native_compare_2a <ValueRef : StdAsRef<ProcedureNative>> (left 
 	let left = left.as_ref ();
 	let right = right.as_ref ();
 	match comparison {
-		Comparison::Equivalence (_, _, _) =>
-			succeed! (ProcedureNative::is_self (left, right)),
-		Comparison::Ordering (_, _, _) =>
+		Comparison::Equivalence (_, _, _, negated) =>
+			succeed! (ProcedureNative::is_self (left, right) ^ negated),
+		Comparison::Ordering (_, _, _, _) =>
 			return std_ord_compare_2_ref (left, right, comparison),
 	}
 }
@@ -1521,8 +1539,8 @@ def_fn_compare! (ProcedureLambda,
 		procedure_lambda_compare_1a, procedure_lambda_compare_2a, procedure_lambda_compare_3a, procedure_lambda_compare_4a, procedure_lambda_compare_na);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn procedure_lambda_compare_1a <ValueRef : StdAsRef<ProcedureLambda>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	succeed! (true);
+pub fn procedure_lambda_compare_1a <ValueRef : StdAsRef<ProcedureLambda>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1530,9 +1548,9 @@ pub fn procedure_lambda_compare_2a <ValueRef : StdAsRef<ProcedureLambda>> (left 
 	let left = left.as_ref ();
 	let right = right.as_ref ();
 	match comparison {
-		Comparison::Equivalence (_, _, _) =>
-			succeed! (ProcedureLambda::is_self (left, right)),
-		Comparison::Ordering (_, _, _) =>
+		Comparison::Equivalence (_, _, _, negated) =>
+			succeed! (ProcedureLambda::is_self (left, right) ^ negated),
+		Comparison::Ordering (_, _, _, _) =>
 			return std_ord_compare_2_ref (left, right, comparison),
 	}
 }
@@ -1545,8 +1563,8 @@ def_fn_compare! (SyntaxPrimitive,
 		syntax_primitive_compare_1a, syntax_primitive_compare_2a, syntax_primitive_compare_3a, syntax_primitive_compare_4a, syntax_primitive_compare_na);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn syntax_primitive_compare_1a <ValueRef : StdAsRef<SyntaxPrimitive>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	succeed! (true);
+pub fn syntax_primitive_compare_1a <ValueRef : StdAsRef<SyntaxPrimitive>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1560,8 +1578,8 @@ def_fn_compare! (SyntaxExtended,
 		syntax_extended_compare_1a, syntax_extended_compare_2a, syntax_extended_compare_3a, syntax_extended_compare_4a, syntax_extended_compare_na);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn syntax_extended_compare_1a <ValueRef : StdAsRef<SyntaxExtended>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	succeed! (true);
+pub fn syntax_extended_compare_1a <ValueRef : StdAsRef<SyntaxExtended>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1569,9 +1587,9 @@ pub fn syntax_extended_compare_2a <ValueRef : StdAsRef<SyntaxExtended>> (left : 
 	let left = left.as_ref ();
 	let right = right.as_ref ();
 	match comparison {
-		Comparison::Equivalence (_, _, _) =>
-			succeed! (SyntaxExtended::is_self (left, right)),
-		Comparison::Ordering (_, _, _) =>
+		Comparison::Equivalence (_, _, _, negated) =>
+			succeed! (SyntaxExtended::is_self (left, right) ^ negated),
+		Comparison::Ordering (_, _, _, _) =>
 			return std_ord_compare_2_ref (left, right, comparison),
 	}
 }
@@ -1582,8 +1600,8 @@ def_fn_compare! (SyntaxNative,
 		syntax_native_compare_1a, syntax_native_compare_2a, syntax_native_compare_3a, syntax_native_compare_4a, syntax_native_compare_na);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn syntax_native_compare_1a <ValueRef : StdAsRef<SyntaxNative>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	succeed! (true);
+pub fn syntax_native_compare_1a <ValueRef : StdAsRef<SyntaxNative>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1591,9 +1609,9 @@ pub fn syntax_native_compare_2a <ValueRef : StdAsRef<SyntaxNative>> (left : Valu
 	let left = left.as_ref ();
 	let right = right.as_ref ();
 	match comparison {
-		Comparison::Equivalence (_, _, _) =>
-			succeed! (SyntaxNative::is_self (left, right)),
-		Comparison::Ordering (_, _, _) =>
+		Comparison::Equivalence (_, _, _, negated) =>
+			succeed! (SyntaxNative::is_self (left, right) ^ negated),
+		Comparison::Ordering (_, _, _, _) =>
 			return std_ord_compare_2_ref (left, right, comparison),
 	}
 }
@@ -1604,8 +1622,8 @@ def_fn_compare! (SyntaxLambda,
 		syntax_lambda_compare_1a, syntax_lambda_compare_2a, syntax_lambda_compare_3a, syntax_lambda_compare_4a, syntax_lambda_compare_na);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn syntax_lambda_compare_1a <ValueRef : StdAsRef<SyntaxLambda>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	succeed! (true);
+pub fn syntax_lambda_compare_1a <ValueRef : StdAsRef<SyntaxLambda>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1613,9 +1631,9 @@ pub fn syntax_lambda_compare_2a <ValueRef : StdAsRef<SyntaxLambda>> (left : Valu
 	let left = left.as_ref ();
 	let right = right.as_ref ();
 	match comparison {
-		Comparison::Equivalence (_, _, _) =>
-			succeed! (SyntaxLambda::is_self (left, right)),
-		Comparison::Ordering (_, _, _) =>
+		Comparison::Equivalence (_, _, _, negated) =>
+			succeed! (SyntaxLambda::is_self (left, right) ^ negated),
+		Comparison::Ordering (_, _, _, _) =>
 			return std_ord_compare_2_ref (left, right, comparison),
 	}
 }
@@ -1628,8 +1646,8 @@ def_fn_compare! (Path,
 		path_compare_1a, path_compare_2a, path_compare_3a, path_compare_4a, path_compare_na);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn path_compare_1a <ValueRef : StdAsRef<Path>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	succeed! (true);
+pub fn path_compare_1a <ValueRef : StdAsRef<Path>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1637,17 +1655,17 @@ pub fn path_compare_2a <ValueRef : StdAsRef<Path>> (left : ValueRef, right : Val
 	let left = left.as_ref ();
 	let right = right.as_ref ();
 	match comparison {
-		Comparison::Equivalence (equivalence, _, _) =>
+		Comparison::Equivalence (equivalence, _, _, negated) =>
 			match equivalence {
 				Equivalence::ByIdentity =>
-					succeed! (Path::is_self (left, right)),
+					succeed! (Path::is_self (left, right) ^ negated),
 				Equivalence::ByValue =>
-					succeed! (Path::eq (left, right)),
+					succeed! (Path::eq (left, right) ^ negated),
 			},
-		Comparison::Ordering (ordering, case_sensitivity, _) =>
+		Comparison::Ordering (ordering, case_sensitivity, _, negated) =>
 			match case_sensitivity {
 				None | Some (true) =>
-					return std_ord_compare_2_ordering_ref::<fs_path::Path, _> (left.path_ref (), right.path_ref (), ordering),
+					return std_ord_compare_2_ordering_ref::<fs_path::Path, _> (left.path_ref (), right.path_ref (), ordering, negated),
 				_ =>
 					fail_unimplemented! (0x17fe4dd5), // deferred
 			},
@@ -1662,8 +1680,8 @@ def_fn_compare! (Port,
 		port_compare_1a, port_compare_2a, port_compare_3a, port_compare_4a, port_compare_na);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_compare_1a <ValueRef : StdAsRef<Port>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	succeed! (true);
+pub fn port_compare_1a <ValueRef : StdAsRef<Port>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1671,9 +1689,9 @@ pub fn port_compare_2a <ValueRef : StdAsRef<Port>> (left : ValueRef, right : Val
 	let left = left.as_ref ();
 	let right = right.as_ref ();
 	match comparison {
-		Comparison::Equivalence (_, _, _) =>
-			succeed! (Port::is_self (left, right)),
-		Comparison::Ordering (_, _, _) =>
+		Comparison::Equivalence (_, _, _, negated) =>
+			succeed! (Port::is_self (left, right) ^ negated),
+		Comparison::Ordering (_, _, _, _) =>
 			return std_ord_compare_2_ref (left, right, comparison),
 	}
 }
@@ -1686,8 +1704,8 @@ def_fn_compare! (Process,
 		process_compare_1a, process_compare_2a, process_compare_3a, process_compare_4a, process_compare_na);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn process_compare_1a <ValueRef : StdAsRef<Process>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	succeed! (true);
+pub fn process_compare_1a <ValueRef : StdAsRef<Process>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1695,9 +1713,9 @@ pub fn process_compare_2a <ValueRef : StdAsRef<Process>> (left : ValueRef, right
 	let left = left.as_ref ();
 	let right = right.as_ref ();
 	match comparison {
-		Comparison::Equivalence (_, _, _) =>
-			succeed! (Process::is_self (left, right)),
-		Comparison::Ordering (_, _, _) =>
+		Comparison::Equivalence (_, _, _, negated) =>
+			succeed! (Process::is_self (left, right) ^ negated),
+		Comparison::Ordering (_, _, _, _) =>
 			return std_ord_compare_2_ref (left, right, comparison),
 	}
 }
@@ -1710,8 +1728,8 @@ def_fn_compare! (Context,
 		context_compare_1a, context_compare_2a, context_compare_3a, context_compare_4a, context_compare_na);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn context_compare_1a <ValueRef : StdAsRef<Context>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	succeed! (true);
+pub fn context_compare_1a <ValueRef : StdAsRef<Context>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1719,9 +1737,9 @@ pub fn context_compare_2a <ValueRef : StdAsRef<Context>> (left : ValueRef, right
 	let left = left.as_ref ();
 	let right = right.as_ref ();
 	match comparison {
-		Comparison::Equivalence (_, _, _) =>
-			succeed! (Context::is_self (left, right)),
-		Comparison::Ordering (_, _, _) =>
+		Comparison::Equivalence (_, _, _, negated) =>
+			succeed! (Context::is_self (left, right) ^ negated),
+		Comparison::Ordering (_, _, _, _) =>
 			return std_ord_compare_2_ref (left, right, comparison),
 	}
 }
@@ -1734,8 +1752,8 @@ def_fn_compare! (Binding,
 		binding_compare_1a, binding_compare_2a, binding_compare_3a, binding_compare_4a, binding_compare_na);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn binding_compare_1a <ValueRef : StdAsRef<Binding>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	succeed! (true);
+pub fn binding_compare_1a <ValueRef : StdAsRef<Binding>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1743,9 +1761,9 @@ pub fn binding_compare_2a <ValueRef : StdAsRef<Binding>> (left : ValueRef, right
 	let left = left.as_ref ();
 	let right = right.as_ref ();
 	match comparison {
-		Comparison::Equivalence (_, _, _) =>
-			succeed! (Binding::is_self (left, right)),
-		Comparison::Ordering (_, _, _) =>
+		Comparison::Equivalence (_, _, _, negated) =>
+			succeed! (Binding::is_self (left, right) ^ negated),
+		Comparison::Ordering (_, _, _, _) =>
 			return std_ord_compare_2_ref (left, right, comparison),
 	}
 }
@@ -1758,8 +1776,8 @@ def_fn_compare! (Parameters,
 		parameters_compare_1a, parameters_compare_2a, parameters_compare_3a, parameters_compare_4a, parameters_compare_na);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn parameters_compare_1a <ValueRef : StdAsRef<Parameters>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	succeed! (true);
+pub fn parameters_compare_1a <ValueRef : StdAsRef<Parameters>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1775,8 +1793,8 @@ def_fn_compare! (Parameter,
 		parameter_compare_1a, parameter_compare_2a, parameter_compare_3a, parameter_compare_4a, parameter_compare_na);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn parameter_compare_1a <ValueRef : StdAsRef<Parameter>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	succeed! (true);
+pub fn parameter_compare_1a <ValueRef : StdAsRef<Parameter>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1792,8 +1810,8 @@ def_fn_compare! (Promise,
 		promise_compare_1a, promise_compare_2a, promise_compare_3a, promise_compare_4a, promise_compare_na);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn promise_compare_1a <ValueRef : StdAsRef<Promise>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	succeed! (true);
+pub fn promise_compare_1a <ValueRef : StdAsRef<Promise>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1809,8 +1827,8 @@ def_fn_compare! (Opaque,
 		opaque_compare_1a, opaque_compare_2a, opaque_compare_3a, opaque_compare_4a, opaque_compare_na);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn opaque_compare_1a <ValueRef : StdAsRef<Opaque>> (_value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	succeed! (true);
+pub fn opaque_compare_1a <ValueRef : StdAsRef<Opaque>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1852,24 +1870,24 @@ pub fn number_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : V
 pub(crate) fn number_match_as_ref_compare_1a (class : &NumberMatchAsRef, comparison : Comparison) -> (Outcome<bool>) {
 	match comparison {
 		
-		Comparison::Equivalence (_, _, _) =>
+		Comparison::Equivalence (_, _, _, negated) =>
 			match *class {
 				NumberMatchAsRef::Integer (_) =>
-					succeed! (true),
+					succeed! (true ^ negated),
 				NumberMatchAsRef::Real (_) =>
-					succeed! (true),
+					succeed! (true ^ negated),
 			},
 		
-		Comparison::Ordering (_, _, _) =>
+		Comparison::Ordering (_, _, _, negated) =>
 			match *class {
 				NumberMatchAsRef::Integer (_) =>
-					succeed! (true),
+					succeed! (true ^ negated),
 				NumberMatchAsRef::Real (value) => {
 					let value = value.value ();
 					if value.is_nan () {
-						succeed! (false);
+						succeed! (false ^ negated);
 					} else {
-						succeed! (true);
+						succeed! (true ^ negated);
 					}
 				},
 			},
@@ -1881,7 +1899,7 @@ pub(crate) fn number_match_as_ref_compare_1a (class : &NumberMatchAsRef, compari
 pub(crate) fn number_match_as_ref_compare_2a (class : &NumberMatchAsRef2, comparison : Comparison) -> (Outcome<bool>) {
 	match comparison {
 		
-		Comparison::Equivalence (_, coercion, _) =>
+		Comparison::Equivalence (_, coercion, _, negated) =>
 			match coercion {
 				
 				None | Some (false) =>
@@ -1889,46 +1907,46 @@ pub(crate) fn number_match_as_ref_compare_2a (class : &NumberMatchAsRef2, compar
 						NumberMatchAsRef2::IntegerBoth (left, right) => {
 							let left = left.value ();
 							let right = right.value ();
-							succeed! (i64::eq (&left, &right));
+							succeed! (i64::eq (&left, &right) ^ negated);
 						},
 						NumberMatchAsRef2::RealBoth (left, right) => {
 							let left = left.value ();
 							let right = right.value ();
 							if left.is_nan () && right.is_nan () {
-								succeed! (true);
+								succeed! (true ^ negated);
 							} else {
-								succeed! (f64::eq (&left, &right));
+								succeed! (f64::eq (&left, &right) ^ negated);
 							}
 						},
 						NumberMatchAsRef2::IntegerAndReal (_, _) =>
-							succeed! (false),
+							succeed! (false ^ negated),
 						NumberMatchAsRef2::RealAndInteger (_, _) =>
-							succeed! (false),
+							succeed! (false ^ negated),
 					},
 				
 				Some (true) =>
 					match number_coerce_2e (class) {
 						NumberCoercion2::Integer (left, right) =>
-							succeed! (i64::eq (&left, &right)),
+							succeed! (i64::eq (&left, &right) ^ negated),
 						NumberCoercion2::Real (left, right) =>
 							if left.is_nan () && right.is_nan () {
-								succeed! (true);
+								succeed! (true ^ negated);
 							} else {
-								succeed! (f64::eq (&left, &right));
+								succeed! (f64::eq (&left, &right) ^ negated);
 							},
 					},
 				
 			},
 		
-		Comparison::Ordering (ordering, _, _) =>
+		Comparison::Ordering (ordering, _, _, negated) =>
 			match number_coerce_2e (class) {
 				NumberCoercion2::Integer (left, right) =>
-					return std_ord_compare_2_ordering_val (left, right, ordering),
+					return std_ord_compare_2_ordering_val (left, right, ordering, negated),
 				NumberCoercion2::Real (left, right) =>
 					if left.is_nan () || right.is_nan () {
-						succeed! (false);
+						succeed! (false ^ negated);
 					} else {
-						return std_ord_compare_2_ordering_val (left, right, ordering);
+						return std_ord_compare_2_ordering_val (left, right, ordering, negated);
 					},
 			},
 		
@@ -1942,9 +1960,9 @@ def_fn_compare! (Value,
 		string_compare_1, string_compare_2, string_compare_3, string_compare_4, string_compare_n);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn string_compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
+pub fn string_compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let _value = try! (StringRef::try (value.as_ref ()));
-	succeed! (true);
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1961,9 +1979,9 @@ def_fn_compare! (Value,
 		bytes_compare_1, bytes_compare_2, bytes_compare_3, bytes_compare_4, bytes_compare_n);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn bytes_compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
+pub fn bytes_compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let _value = try! (BytesRef::try (value.as_ref ()));
-	succeed! (true);
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1980,9 +1998,9 @@ def_fn_compare! (Value,
 		pair_compare_1, pair_compare_2, pair_compare_3, pair_compare_4, pair_compare_n);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn pair_compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
+pub fn pair_compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let _value = try! (PairRef::try_ref (value.as_ref ()));
-	succeed! (true);
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1999,9 +2017,9 @@ def_fn_compare! (Value,
 		array_compare_1, array_compare_2, array_compare_3, array_compare_4, array_compare_n);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn array_compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
+pub fn array_compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let _value = try! (ArrayRef::try (value.as_ref ()));
-	succeed! (true);
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -2018,9 +2036,9 @@ def_fn_compare! (Value,
 		record_compare_1, record_compare_2, record_compare_3, record_compare_4, record_compare_n);
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
+pub fn record_compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let _value = try! (RecordRef::try (value.as_ref ()));
-	succeed! (true);
+	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -2034,13 +2052,13 @@ pub fn record_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : V
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub(crate) fn value_kind_compare_2a_ordering (left : ValueKind, right : ValueKind, ordering : Ordering) -> (Outcome<bool>) {
-	return std_ord_compare_2_ordering_val (left, right, ordering);
+pub(crate) fn value_kind_compare_2a_ordering (left : ValueKind, right : ValueKind, ordering : Ordering, negated : bool) -> (Outcome<bool>) {
+	return std_ord_compare_2_ordering_val (left, right, ordering, negated);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub(crate) fn value_class_compare_2a_ordering (left : ValueClass, right : ValueClass, ordering : Ordering) -> (Outcome<bool>) {
-	return std_ord_compare_2_ordering_val (left, right, ordering);
+pub(crate) fn value_class_compare_2a_ordering (left : ValueClass, right : ValueClass, ordering : Ordering, negated : bool) -> (Outcome<bool>) {
+	return std_ord_compare_2_ordering_val (left, right, ordering, negated);
 }
 
 
@@ -2054,20 +2072,20 @@ pub fn vec_compare_2 (left : &[Value], right : &[Value], comparison : Comparison
 	
 	match comparison {
 		
-		Comparison::Equivalence (_, _, _) =>
+		Comparison::Equivalence (_, _, _, negated) =>
 			if left_length != right_length {
-				succeed! (false);
+				succeed! (false ^ negated);
 			} else if (left_length == 0) && (right_length == 0) {
-				succeed! (true);
+				succeed! (true ^ negated);
 			},
 		
-		Comparison::Ordering (ordering, _, _) =>
+		Comparison::Ordering (ordering, _, _, negated) =>
 			if (left_length == 0) && (right_length == 0) {
 				match ordering {
 					Ordering::LesserOrEqual | Ordering::Equal | Ordering::GreaterOrEqual =>
-						succeed! (true),
+						succeed! (true ^ negated),
 					Ordering::Lesser | Ordering::Greater =>
-						succeed! (false),
+						succeed! (false ^ negated),
 				}
 			},
 		
@@ -2083,6 +2101,8 @@ pub fn vec_compare_2 (left : &[Value], right : &[Value], comparison : Comparison
 		let left_next = left_iterator.next ();
 		let right_next = right_iterator.next ();
 		match (left_next, right_next) {
+			
+			// TODO:  Check the correctness in case of negation!
 			
 			(Some (left_next), Some (right_next)) =>
 				if index_next == index_last {
@@ -2104,35 +2124,35 @@ pub fn vec_compare_2 (left : &[Value], right : &[Value], comparison : Comparison
 			
 			(None, None) =>
 				match comparison {
-					Comparison::Equivalence (_, _, _) =>
-						succeed! (true),
-					Comparison::Ordering (_, _, _) =>
-						succeed! (true),
+					Comparison::Equivalence (_, _, _, negated) =>
+						succeed! (true ^ negated),
+					Comparison::Ordering (_, _, _, negated) =>
+						succeed! (true ^ negated),
 				},
 			
 			(None, Some (_)) =>
 				match comparison {
-					Comparison::Equivalence (_, _, _) =>
+					Comparison::Equivalence (_, _, _, _) =>
 						fail_unreachable! (0x97e8a0c7),
-					Comparison::Ordering (ordering, _, _) =>
+					Comparison::Ordering (ordering, _, _, negated) =>
 						match ordering {
 							Ordering::Lesser | Ordering::LesserOrEqual =>
-								succeed! (true),
+								succeed! (true ^ negated),
 							Ordering::Equal | Ordering::GreaterOrEqual | Ordering::Greater =>
-								succeed! (false),
+								succeed! (false ^ negated),
 						},
 				},
 			
 			(Some (_), None) =>
 				match comparison {
-					Comparison::Equivalence (_, _, _) =>
+					Comparison::Equivalence (_, _, _, _) =>
 						fail_unreachable! (0x2558c7ee),
-					Comparison::Ordering (ordering, _, _) =>
+					Comparison::Ordering (ordering, _, _, negated) =>
 						match ordering {
 							Ordering::Greater | Ordering::GreaterOrEqual =>
-								succeed! (true),
+								succeed! (true ^ negated),
 							Ordering::Equal | Ordering::LesserOrEqual | Ordering::Lesser =>
-								succeed! (false),
+								succeed! (false ^ negated),
 						},
 				},
 			
@@ -2150,15 +2170,15 @@ pub(crate) fn std_ord_compare_2_ref <Value : ?Sized, ValueRef : StdAsRef<Value>>
 		where Value : cmp::PartialOrd
 {
 	match comparison {
-		Comparison::Equivalence (_, _, _) =>
-			succeed! (Value::eq (left.as_ref (), right.as_ref ())),
-		Comparison::Ordering (ordering, _, _) =>
-			return std_ord_compare_2_ordering_ref (left, right, ordering),
+		Comparison::Equivalence (_, _, _, negated) =>
+			succeed! (Value::eq (left.as_ref (), right.as_ref ()) ^ negated),
+		Comparison::Ordering (ordering, _, _, negated) =>
+			return std_ord_compare_2_ordering_ref (left, right, ordering, negated),
 	}
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub(crate) fn std_ord_compare_2_ordering_ref <Value : ?Sized, ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, ordering : Ordering) -> (Outcome<bool>)
+pub(crate) fn std_ord_compare_2_ordering_ref <Value : ?Sized, ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, ordering : Ordering, negated : bool) -> (Outcome<bool>)
 		where Value : cmp::PartialOrd
 {
 	let left = left.as_ref ();
@@ -2175,7 +2195,7 @@ pub(crate) fn std_ord_compare_2_ordering_ref <Value : ?Sized, ValueRef : StdAsRe
 		Ordering::Greater =>
 			Value::gt (left, right),
 	};
-	succeed! (output);
+	succeed! (output ^ negated);
 }
 
 
@@ -2186,15 +2206,15 @@ pub(crate) fn std_ord_compare_2_val <Value> (left : Value, right : Value, compar
 		where Value : cmp::PartialOrd
 {
 	match comparison {
-		Comparison::Equivalence (_, _, _) =>
-			succeed! (Value::eq (&left, &right)),
-		Comparison::Ordering (ordering, _, _) =>
-			return std_ord_compare_2_ordering_val (left, right, ordering),
+		Comparison::Equivalence (_, _, _, negated) =>
+			succeed! (Value::eq (&left, &right) ^ negated),
+		Comparison::Ordering (ordering, _, _, negated) =>
+			return std_ord_compare_2_ordering_val (left, right, ordering, negated),
 	}
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub(crate) fn std_ord_compare_2_ordering_val <Value> (left : Value, right : Value, ordering : Ordering) -> (Outcome<bool>)
+pub(crate) fn std_ord_compare_2_ordering_val <Value> (left : Value, right : Value, ordering : Ordering, negated : bool) -> (Outcome<bool>)
 		where Value : cmp::PartialOrd
 {
 	let output = match ordering {
@@ -2209,6 +2229,6 @@ pub(crate) fn std_ord_compare_2_ordering_val <Value> (left : Value, right : Valu
 		Ordering::Greater =>
 			Value::gt (&left, &right),
 	};
-	succeed! (output);
+	succeed! (output ^ negated);
 }
 
