@@ -32,6 +32,7 @@ def_scheme_tests_from_file! (
 		test__functions_arrays => "scheme/functions-arrays.sst",
 		test__functions_bytes => "scheme/functions-bytes.sst",
 		test__functions_strings => "scheme/functions-strings.sst",
+		test__functions_higher => "scheme/functions-higher.sst",
 		
 		test__parameters => "scheme/parameters.sst",
 		
@@ -96,6 +97,7 @@ def_scheme_benchmarks_from_file! (
 		benchmark__functions_arrays => "scheme/functions-arrays.sst",
 		benchmark__functions_bytes => "scheme/functions-bytes.sst",
 		benchmark__functions_strings => "scheme/functions-strings.sst",
+		benchmark__functions_higher => "scheme/functions-higher.sst",
 		
 		benchmark__parameters => "scheme/parameters.sst",
 		

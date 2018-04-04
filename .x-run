@@ -445,7 +445,7 @@ find ./tests/scheme -xdev -type f -name '*.sst' -printf '%f\n' \
 | sort -u \
 | while read _test ; do
 sed -r -e 's#@\{TEST\}#'"${_test}"'#g' <<'EOS'
-:: execute / test / scheme / tests / @{TEST} / debug / watch :: exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / @{TEST} / debug' "${@}"
+:: execute / test / scheme / tests / @{TEST} / debug / watch :: exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / @{TEST} / debug' "${@}"
 :: execute / test / scheme / tests / @{TEST} / debug :: x-run ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__@{TEST}' --exact "${@}"
 :: execute / test / scheme / tests / @{TEST} / release :: x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__@{TEST}' --exact "${@}"
 :: execute / test / scheme / benchmarks / @{TEST} / debug :: x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__@{TEST}' --exact "${@}"

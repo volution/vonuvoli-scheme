@@ -1,0 +1,145 @@
+
+(~identity 0) => 0
+(~identity 1) => 1
+
+
+((~constant-fn 'a)) => 'a
+
+((~constant-fn* 'a)) => 'a
+((~constant-fn* 'a) 0) => 'a
+((~constant-fn* 'a) 0 1) => 'a
+((~constant-fn* 'a) 0 1 2) => 'a
+((~constant-fn* 'a) 0 1 2 3) => 'a
+((~constant-fn* 'a) 0 1 2 3 4) => 'a
+((~constant-fn* 'a) 0 1 2 3 4 5) => 'a
+((~constant-fn* 'a) 0 1 2 3 4 5 6) => 'a
+
+
+
+
+((~curry list)) => '()
+
+((~curry list 1)) => '(1)
+((~curry list 1 2)) => '(1 2)
+((~curry list 1 2 3)) => '(1 2 3)
+((~curry list 1 2 3 4)) => '(1 2 3 4)
+((~curry list 1 2 3 4 5)) => '(1 2 3 4 5)
+((~curry list 1 2 3 4 5 6)) => '(1 2 3 4 5 6)
+
+((~curry list) 1) => '(1)
+((~curry list) 1 2) => '(1 2)
+((~curry list) 1 2 3) => '(1 2 3)
+((~curry list) 1 2 3 4) => '(1 2 3 4)
+((~curry list) 1 2 3 4 5) => '(1 2 3 4 5)
+((~curry list) 1 2 3 4 5 6) => '(1 2 3 4 5 6)
+
+((~curry list 1) 2) => '(1 2)
+((~curry list 1) 2 3) => '(1 2 3)
+((~curry list 1) 2 3 4) => '(1 2 3 4)
+((~curry list 1) 2 3 4 5) => '(1 2 3 4 5)
+((~curry list 1) 2 3 4 5 6) => '(1 2 3 4 5 6)
+((~curry list 1) 2 3 4 5 6 7) => '(1 2 3 4 5 6 7)
+
+((~curry list 1 2) 3) => '(1 2 3)
+((~curry list 1 2) 3 4) => '(1 2 3 4)
+((~curry list 1 2) 3 4 5) => '(1 2 3 4 5)
+((~curry list 1 2) 3 4 5 6) => '(1 2 3 4 5 6)
+((~curry list 1 2) 3 4 5 6 7) => '(1 2 3 4 5 6 7)
+((~curry list 1 2) 3 4 5 6 7 8) => '(1 2 3 4 5 6 7 8)
+
+((~curry list 1 2 3) 4) => '(1 2 3 4)
+((~curry list 1 2 3) 4 5) => '(1 2 3 4 5)
+((~curry list 1 2 3) 4 5 6) => '(1 2 3 4 5 6)
+((~curry list 1 2 3) 4 5 6 7) => '(1 2 3 4 5 6 7)
+((~curry list 1 2 3) 4 5 6 7 8) => '(1 2 3 4 5 6 7 8)
+((~curry list 1 2 3) 4 5 6 7 8 9) => '(1 2 3 4 5 6 7 8 9)
+
+((~curry list 1 2 3 4) 5) => '(1 2 3 4 5)
+((~curry list 1 2 3 4) 5 6) => '(1 2 3 4 5 6)
+((~curry list 1 2 3 4) 5 6 7) => '(1 2 3 4 5 6 7)
+((~curry list 1 2 3 4) 5 6 7 8) => '(1 2 3 4 5 6 7 8)
+((~curry list 1 2 3 4) 5 6 7 8 9) => '(1 2 3 4 5 6 7 8 9)
+((~curry list 1 2 3 4) 5 6 7 8 9 10) => '(1 2 3 4 5 6 7 8 9 10)
+
+((~curry list 1 2 3 4 5) 6) => '(1 2 3 4 5 6)
+((~curry list 1 2 3 4 5) 6 7) => '(1 2 3 4 5 6 7)
+((~curry list 1 2 3 4 5) 6 7 8) => '(1 2 3 4 5 6 7 8)
+((~curry list 1 2 3 4 5) 6 7 8 9) => '(1 2 3 4 5 6 7 8 9)
+((~curry list 1 2 3 4 5) 6 7 8 9 10) => '(1 2 3 4 5 6 7 8 9 10)
+((~curry list 1 2 3 4 5) 6 7 8 9 10 11) => '(1 2 3 4 5 6 7 8 9 10 11)
+
+
+((~curry-last list)) => '()
+
+((~curry-last list 1)) => '(1)
+((~curry-last list 1 2)) => '(1 2)
+((~curry-last list 1 2 3)) => '(1 2 3)
+((~curry-last list 1 2 3 4)) => '(1 2 3 4)
+((~curry-last list 1 2 3 4 5)) => '(1 2 3 4 5)
+((~curry-last list 1 2 3 4 5 6)) => '(1 2 3 4 5 6)
+
+((~curry-last list) 1) => '(1)
+((~curry-last list) 1 2) => '(1 2)
+((~curry-last list) 1 2 3) => '(1 2 3)
+((~curry-last list) 1 2 3 4) => '(1 2 3 4)
+((~curry-last list) 1 2 3 4 5) => '(1 2 3 4 5)
+((~curry-last list) 1 2 3 4 5 6) => '(1 2 3 4 5 6)
+
+((~curry-last list 1) 2) => '(2 1)
+((~curry-last list 1) 2 3) => '(2 3 1)
+((~curry-last list 1) 2 3 4) => '(2 3 4 1)
+((~curry-last list 1) 2 3 4 5) => '(2 3 4 5 1)
+((~curry-last list 1) 2 3 4 5 6) => '(2 3 4 5 6 1)
+((~curry-last list 1) 2 3 4 5 6 7) => '(2 3 4 5 6 7 1)
+
+((~curry-last list 1 2) 3) => '(3 1 2)
+((~curry-last list 1 2) 3 4) => '(3 4 1 2)
+((~curry-last list 1 2) 3 4 5) => '(3 4 5 1 2)
+((~curry-last list 1 2) 3 4 5 6) => '(3 4 5 6 1 2)
+((~curry-last list 1 2) 3 4 5 6 7) => '(3 4 5 6 7 1 2)
+((~curry-last list 1 2) 3 4 5 6 7 8) => '(3 4 5 6 7 8 1 2)
+
+((~curry-last list 1 2 3) 4) => '(4 1 2 3)
+((~curry-last list 1 2 3) 4 5) => '(4 5 1 2 3)
+((~curry-last list 1 2 3) 4 5 6) => '(4 5 6 1 2 3)
+((~curry-last list 1 2 3) 4 5 6 7) => '(4 5 6 7 1 2 3)
+((~curry-last list 1 2 3) 4 5 6 7 8) => '(4 5 6 7 8 1 2 3)
+((~curry-last list 1 2 3) 4 5 6 7 8 9) => '(4 5 6 7 8 9 1 2 3)
+
+((~curry-last list 1 2 3 4) 5) => '(5 1 2 3 4)
+((~curry-last list 1 2 3 4) 5 6) => '(5 6 1 2 3 4)
+((~curry-last list 1 2 3 4) 5 6 7) => '(5 6 7 1 2 3 4)
+((~curry-last list 1 2 3 4) 5 6 7 8) => '(5 6 7 8 1 2 3 4)
+((~curry-last list 1 2 3 4) 5 6 7 8 9) => '(5 6 7 8 9 1 2 3 4)
+((~curry-last list 1 2 3 4) 5 6 7 8 9 10) => '(5 6 7 8 9 10 1 2 3 4)
+
+((~curry-last list 1 2 3 4 5) 6) => '(6 1 2 3 4 5)
+((~curry-last list 1 2 3 4 5) 6 7) => '(6 7 1 2 3 4 5)
+((~curry-last list 1 2 3 4 5) 6 7 8) => '(6 7 8 1 2 3 4 5)
+((~curry-last list 1 2 3 4 5) 6 7 8 9) => '(6 7 8 9 1 2 3 4 5)
+((~curry-last list 1 2 3 4 5) 6 7 8 9 10) => '(6 7 8 9 10 1 2 3 4 5)
+((~curry-last list 1 2 3 4 5) 6 7 8 9 10 11) => '(6 7 8 9 10 11 1 2 3 4 5)
+
+
+
+
+((~compose not symbol?) 'a) => #f
+((~compose not symbol?) 0) => #t
+
+((~compose not symbol? symbol->string) 'a) => #t
+((~compose not string? symbol->string) 'a) => #f
+
+((~compose -) 1) => -1
+((~compose - -) 1) => +1
+((~compose - - -) 1) => -1
+((~compose - - - -) 1) => +1
+((~compose - - - - -) 1) => -1
+((~compose - - - - - -) 1) => +1
+
+
+((~not-fn ~true?) #t) => #f
+((~not-fn ~true?) #f) => #t
+
+((~not-fn symbol?) 'a) => #f
+((~not-fn symbol?) 0) => #t
+

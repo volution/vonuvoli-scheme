@@ -574,6 +574,7 @@
 	if test './tests/scheme/functions.sst' -nt './tests/_outputs/scheme--benchmark__functions.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/functions.sst' "${@}" ; fi
 	if test './tests/scheme/functions-arrays.sst' -nt './tests/_outputs/scheme--benchmark__functions_arrays.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_arrays.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/functions-arrays.sst' "${@}" ; fi
 	if test './tests/scheme/functions-bytes.sst' -nt './tests/_outputs/scheme--benchmark__functions_bytes.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_bytes.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/functions-bytes.sst' "${@}" ; fi
+	if test './tests/scheme/functions-higher.sst' -nt './tests/_outputs/scheme--benchmark__functions_higher.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_higher.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/functions-higher.sst' "${@}" ; fi
 	if test './tests/scheme/functions-lists.sst' -nt './tests/_outputs/scheme--benchmark__functions_lists.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_lists.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/functions-lists.sst' "${@}" ; fi
 	if test './tests/scheme/functions-strings.sst' -nt './tests/_outputs/scheme--benchmark__functions_strings.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_strings.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/functions-strings.sst' "${@}" ; fi
 	if test './tests/scheme/issues.sst' -nt './tests/_outputs/scheme--benchmark__issues.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__issues.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/issues.sst' "${@}" ; fi
@@ -858,6 +859,18 @@
 
 << execute / bin / bencher / functions-bytes / release
 	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_bytes.out' x-run ':: execute / bin / bencher / release' './tests/scheme/functions-bytes.sst' "${@}"
+!!
+
+<< execute / bin / bencher / functions-higher / debug
+	exec -- taskset -c 2 x-run ':: execute / bin / bencher / debug' './tests/scheme/functions-higher.sst' "${@}"
+!!
+
+<< execute / bin / bencher / functions-higher / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / bin / bencher / functions-higher / debug'
+!!
+
+<< execute / bin / bencher / functions-higher / release
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_higher.out' x-run ':: execute / bin / bencher / release' './tests/scheme/functions-higher.sst' "${@}"
 !!
 
 << execute / bin / bencher / functions-lists / debug
@@ -1551,6 +1564,7 @@
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/functions.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/functions-arrays.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/functions-bytes.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/functions-higher.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/functions-lists.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/functions-strings.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/issues.sst' "${@}"
@@ -1835,6 +1849,18 @@
 
 << execute / bin / tester / functions-bytes / release
 	exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/functions-bytes.sst' "${@}"
+!!
+
+<< execute / bin / tester / functions-higher / debug
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/functions-higher.sst' "${@}"
+!!
+
+<< execute / bin / tester / functions-higher / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / bin / tester / functions-higher / debug'
+!!
+
+<< execute / bin / tester / functions-higher / release
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/functions-higher.sst' "${@}"
 !!
 
 << execute / bin / tester / functions-lists / debug
@@ -2569,6 +2595,14 @@
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__functions_bytes' --exact "${@}"
 !!
 
+<< execute / test / scheme / benchmarks / functions_higher / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__functions_higher' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / functions_higher / release
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__functions_higher' --exact "${@}"
+!!
+
 << execute / test / scheme / benchmarks / functions_lists / debug
 	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__functions_lists' --exact "${@}"
 !!
@@ -2786,7 +2820,7 @@
 !!
 
 << execute / test / scheme / tests / arithmetic / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / arithmetic / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / arithmetic / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / arithmetic / release
@@ -2798,7 +2832,7 @@
 !!
 
 << execute / test / scheme / tests / arrays / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / arrays / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / arrays / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / arrays / release
@@ -2810,7 +2844,7 @@
 !!
 
 << execute / test / scheme / tests / booleans / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / booleans / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / booleans / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / booleans / release
@@ -2822,7 +2856,7 @@
 !!
 
 << execute / test / scheme / tests / bytes / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / bytes / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / bytes / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / bytes / release
@@ -2834,7 +2868,7 @@
 !!
 
 << execute / test / scheme / tests / comparisons_equivalent_by_identity / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / comparisons_equivalent_by_identity / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / comparisons_equivalent_by_identity / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / comparisons_equivalent_by_identity / release
@@ -2846,7 +2880,7 @@
 !!
 
 << execute / test / scheme / tests / comparisons_equivalent_by_value_coerced / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / comparisons_equivalent_by_value_coerced / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / comparisons_equivalent_by_value_coerced / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / comparisons_equivalent_by_value_coerced / release
@@ -2858,7 +2892,7 @@
 !!
 
 << execute / test / scheme / tests / comparisons_equivalent_by_value_coerced_recursive / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / comparisons_equivalent_by_value_coerced_recursive / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / comparisons_equivalent_by_value_coerced_recursive / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / comparisons_equivalent_by_value_coerced_recursive / release
@@ -2870,7 +2904,7 @@
 !!
 
 << execute / test / scheme / tests / comparisons_equivalent_by_value_strict / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / comparisons_equivalent_by_value_strict / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / comparisons_equivalent_by_value_strict / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / comparisons_equivalent_by_value_strict / release
@@ -2882,7 +2916,7 @@
 !!
 
 << execute / test / scheme / tests / comparisons_equivalent_by_value_strict_recursive / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / comparisons_equivalent_by_value_strict_recursive / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / comparisons_equivalent_by_value_strict_recursive / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / comparisons_equivalent_by_value_strict_recursive / release
@@ -2894,7 +2928,7 @@
 !!
 
 << execute / test / scheme / tests / comparisons_equivalent_objects / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / comparisons_equivalent_objects / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / comparisons_equivalent_objects / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / comparisons_equivalent_objects / release
@@ -2906,7 +2940,7 @@
 !!
 
 << execute / test / scheme / tests / comparisons_ordering_numbers / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / comparisons_ordering_numbers / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / comparisons_ordering_numbers / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / comparisons_ordering_numbers / release
@@ -2918,7 +2952,7 @@
 !!
 
 << execute / test / scheme / tests / comparisons_ordering_objects / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / comparisons_ordering_objects / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / comparisons_ordering_objects / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / comparisons_ordering_objects / release
@@ -2930,7 +2964,7 @@
 !!
 
 << execute / test / scheme / tests / contexts / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / contexts / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / contexts / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / contexts / release
@@ -2942,7 +2976,7 @@
 !!
 
 << execute / test / scheme / tests / control / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / control / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / control / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / control / release
@@ -2954,7 +2988,7 @@
 !!
 
 << execute / test / scheme / tests / crypto / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / crypto / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / crypto / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / crypto / release
@@ -2966,7 +3000,7 @@
 !!
 
 << execute / test / scheme / tests / encoding / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / encoding / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / encoding / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / encoding / release
@@ -2978,7 +3012,7 @@
 !!
 
 << execute / test / scheme / tests / errors / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / errors / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / errors / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / errors / release
@@ -2990,7 +3024,7 @@
 !!
 
 << execute / test / scheme / tests / filesystem / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / filesystem / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / filesystem / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / filesystem / release
@@ -3002,7 +3036,7 @@
 !!
 
 << execute / test / scheme / tests / functions / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / functions / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / functions / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / functions / release
@@ -3014,7 +3048,7 @@
 !!
 
 << execute / test / scheme / tests / functions_arrays / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / functions_arrays / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / functions_arrays / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / functions_arrays / release
@@ -3026,11 +3060,23 @@
 !!
 
 << execute / test / scheme / tests / functions_bytes / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / functions_bytes / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / functions_bytes / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / functions_bytes / release
 	x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__functions_bytes' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / functions_higher / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__functions_higher' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / functions_higher / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / functions_higher / debug' "${@}"
+!!
+
+<< execute / test / scheme / tests / functions_higher / release
+	x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__functions_higher' --exact "${@}"
 !!
 
 << execute / test / scheme / tests / functions_lists / debug
@@ -3038,7 +3084,7 @@
 !!
 
 << execute / test / scheme / tests / functions_lists / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / functions_lists / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / functions_lists / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / functions_lists / release
@@ -3050,7 +3096,7 @@
 !!
 
 << execute / test / scheme / tests / functions_strings / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / functions_strings / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / functions_strings / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / functions_strings / release
@@ -3062,7 +3108,7 @@
 !!
 
 << execute / test / scheme / tests / issues / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / issues / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / issues / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / issues / release
@@ -3074,7 +3120,7 @@
 !!
 
 << execute / test / scheme / tests / lambdas / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / lambdas / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / lambdas / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / lambdas / release
@@ -3086,7 +3132,7 @@
 !!
 
 << execute / test / scheme / tests / lists / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / lists / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / lists / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / lists / release
@@ -3098,7 +3144,7 @@
 !!
 
 << execute / test / scheme / tests / loops / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / loops / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / loops / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / loops / release
@@ -3110,7 +3156,7 @@
 !!
 
 << execute / test / scheme / tests / pairs / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / pairs / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / pairs / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / pairs / release
@@ -3122,7 +3168,7 @@
 !!
 
 << execute / test / scheme / tests / parameters / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / parameters / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / parameters / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / parameters / release
@@ -3134,7 +3180,7 @@
 !!
 
 << execute / test / scheme / tests / paths / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / paths / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / paths / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / paths / release
@@ -3146,7 +3192,7 @@
 !!
 
 << execute / test / scheme / tests / ports / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / ports / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / ports / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / ports / release
@@ -3158,7 +3204,7 @@
 !!
 
 << execute / test / scheme / tests / ports_memory / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / ports_memory / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / ports_memory / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / ports_memory / release
@@ -3170,7 +3216,7 @@
 !!
 
 << execute / test / scheme / tests / ports_native / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / ports_native / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / ports_native / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / ports_native / release
@@ -3182,7 +3228,7 @@
 !!
 
 << execute / test / scheme / tests / ports_parameters / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / ports_parameters / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / ports_parameters / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / ports_parameters / release
@@ -3194,7 +3240,7 @@
 !!
 
 << execute / test / scheme / tests / processes / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / processes / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / processes / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / processes / release
@@ -3206,7 +3252,7 @@
 !!
 
 << execute / test / scheme / tests / quotation / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / quotation / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / quotation / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / quotation / release
@@ -3218,7 +3264,7 @@
 !!
 
 << execute / test / scheme / tests / random / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / random / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / random / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / random / release
@@ -3230,7 +3276,7 @@
 !!
 
 << execute / test / scheme / tests / records_procedures / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / records_procedures / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / records_procedures / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / records_procedures / release
@@ -3242,7 +3288,7 @@
 !!
 
 << execute / test / scheme / tests / records_syntaxes / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / records_syntaxes / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / records_syntaxes / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / records_syntaxes / release
@@ -3254,7 +3300,7 @@
 !!
 
 << execute / test / scheme / tests / runtime / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / runtime / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / runtime / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / runtime / release
@@ -3266,7 +3312,7 @@
 !!
 
 << execute / test / scheme / tests / scratchpad / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / scratchpad / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / scratchpad / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / scratchpad / release
@@ -3278,7 +3324,7 @@
 !!
 
 << execute / test / scheme / tests / srfi_1 / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / srfi_1 / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / srfi_1 / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / srfi_1 / release
@@ -3290,7 +3336,7 @@
 !!
 
 << execute / test / scheme / tests / strings / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / strings / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / strings / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / strings / release
@@ -3302,7 +3348,7 @@
 !!
 
 << execute / test / scheme / tests / types / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / types / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / types / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / types / release
@@ -3314,7 +3360,7 @@
 !!
 
 << execute / test / scheme / tests / values / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / values / debug' "${@}"
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / values / debug' "${@}"
 !!
 
 << execute / test / scheme / tests / values / release
@@ -3885,6 +3931,10 @@
 
 << files / edit / tests/scheme/functions-bytes.sst
 	exec -- sce ./tests/scheme/functions-bytes.sst
+!!
+
+<< files / edit / tests/scheme/functions-higher.sst
+	exec -- sce ./tests/scheme/functions-higher.sst
 !!
 
 << files / edit / tests/scheme/functions-lists.sst
@@ -4613,6 +4663,10 @@
 
 << files / view / tests/scheme/functions-bytes.sst
 	exec -- less -- ./tests/scheme/functions-bytes.sst
+!!
+
+<< files / view / tests/scheme/functions-higher.sst
+	exec -- less -- ./tests/scheme/functions-higher.sst
 !!
 
 << files / view / tests/scheme/functions-lists.sst
