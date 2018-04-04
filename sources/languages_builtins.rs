@@ -256,6 +256,22 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			
 		]);
 	
+	// NOTE:  R7RS functional equivalents
+	definitions.extend_from_slice (&[
+			
+			("curry", FunctionsPrimitiveV::CurryLeft.into ()),
+			("curry-last", FunctionsPrimitiveV::CurryRight.into ()),
+			("compose", FunctionsPrimitiveV::Compose1.into ()),
+			("compose-with-values", FunctionsPrimitiveV::ComposeV.into ()),
+			
+			("identity", FunctionsPrimitive1::Identity.into ()),
+			("constant-fn", FunctionsPrimitive1::Constant.into ()),
+			("constant-fn*", FunctionsPrimitive1::ConstantStar.into ()),
+			
+			("not-fn", FunctionsPrimitive1::Not.into ()),
+			
+		]);
+	
 	// NOTE:  file-system operations
 	definitions.extend_from_slice (&[
 			
