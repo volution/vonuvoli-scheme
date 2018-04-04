@@ -269,6 +269,58 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("constant-fn*", FunctionsPrimitive1::ConstantStar.into ()),
 			
 			("not-fn", FunctionsPrimitive1::Not.into ()),
+			("and-fn", ProcedurePrimitive::Unimplemented.into ()),
+			("or-fn", ProcedurePrimitive::Unimplemented.into ()),
+			("xor-fn", ProcedurePrimitive::Unimplemented.into ()),
+			("nand-fn", ProcedurePrimitive::Unimplemented.into ()),
+			("nor-fn", ProcedurePrimitive::Unimplemented.into ()),
+			("nxor-fn", ProcedurePrimitive::Unimplemented.into ()),
+			
+			("map-fn", ProcedurePrimitive::Unimplemented.into ()),
+			("for-each-fn", ProcedurePrimitive::Unimplemented.into ()),
+			("vector-map-fn", ProcedurePrimitive::Unimplemented.into ()),
+			("vector-for-each-fn", ProcedurePrimitive::Unimplemented.into ()),
+			("string-map-fn", ProcedurePrimitive::Unimplemented.into ()),
+			("string-for-each-fn", ProcedurePrimitive::Unimplemented.into ()),
+			("bytevector-u8-map-fn", ProcedurePrimitive::Unimplemented.into ()),
+			("bytevector-u8-for-each-fn", ProcedurePrimitive::Unimplemented.into ()),
+			
+			("if-fn", ProcedurePrimitive::Unimplemented.into ()),
+			("unless-fn", ProcedurePrimitive::Unimplemented.into ()),
+			("when-fn", ProcedurePrimitive::Unimplemented.into ()),
+			("cond-fn", ProcedurePrimitive::Unimplemented.into ()),
+			("case-fn", ProcedurePrimitive::Unimplemented.into ()),
+			("do-fn", ProcedurePrimitive::Unimplemented.into ()),
+			("begin-fn", ProcedurePrimitive::Unimplemented.into ()),
+			
+			("eq-fn", ProcedurePrimitive::Unimplemented.into ()),
+			("eqv-fn", ProcedurePrimitive::Unimplemented.into ()),
+			("equal-fn", ProcedurePrimitive::Unimplemented.into ()),
+			
+			("<fn", ProcedurePrimitive::Unimplemented.into ()),
+			("<=fn", ProcedurePrimitive::Unimplemented.into ()),
+			("=fn", ProcedurePrimitive::Unimplemented.into ()),
+			(">=fn", ProcedurePrimitive::Unimplemented.into ()),
+			(">fn", ProcedurePrimitive::Unimplemented.into ()),
+			
+			("+fn", ProcedurePrimitive::Unimplemented.into ()),
+			("-fn", ProcedurePrimitive::Unimplemented.into ()),
+			("-fn-last", ProcedurePrimitive::Unimplemented.into ()),
+			("*fn", ProcedurePrimitive::Unimplemented.into ()),
+			("/fn", ProcedurePrimitive::Unimplemented.into ()),
+			("/fn-last", ProcedurePrimitive::Unimplemented.into ()),
+			
+			("cons-car-fn", ProcedurePrimitive::Unimplemented.into ()),
+			("cons-cdr-fn", ProcedurePrimitive::Unimplemented.into ()),
+			
+			("member-fn", ProcedurePrimitive::Unimplemented.into ()),
+			("assoc-fn", ProcedurePrimitive::Unimplemented.into ()),
+			
+			("vector-ref-fn", ProcedurePrimitive::Unimplemented.into ()),
+			("vector-set-fn", ProcedurePrimitive::Unimplemented.into ()),
+			
+			("bytevector-u8-ref-fn", ProcedurePrimitive::Unimplemented.into ()),
+			("bytevector-u8-set-fn", ProcedurePrimitive::Unimplemented.into ()),
 			
 		]);
 	
