@@ -4,6 +4,7 @@ use super::builtins::exports::*;
 use super::constants::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
+use super::extended_procedures::exports::*;
 use super::primitives::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
@@ -16,9 +17,11 @@ use super::prelude::*;
 pub mod exports {
 	
 	pub use super::{call_with_values, call_with_values_builder};
-	pub use super::{call_0, call_1, call_2, call_3, call_4, call_n};
-	pub use super::{call_primitives_1};
+	pub use super::{call_0, call_1, call_2, call_3, call_4, call_n, call_n_n};
 	pub use super::{apply_0, apply_1, apply_2, apply_3, apply_4, apply_n};
+	
+	pub use super::{call_primitives_1};
+	pub use super::{call_composed_1, call_composed_v};
 	
 	pub use super::{lists_map_1, lists_map_2, lists_map_3, lists_map_4, lists_map_n};
 	pub use super::{lists_iterate_1, lists_iterate_2, lists_iterate_3, lists_iterate_4, lists_iterate_n};
@@ -33,6 +36,9 @@ pub mod exports {
 	pub use super::{strings_iterate_1, strings_iterate_2, strings_iterate_3, strings_iterate_4, strings_iterate_n};
 	
 	pub use super::{values_build_0, values_build_1, values_build_2, values_build_3, values_build_4, values_build_n};
+	
+	pub use super::{curry_1, curry_2, curry_3, curry_4, curry_n};
+	pub use super::{compose_2, compose_3, compose_4, compose_n};
 	
 }
 
@@ -87,15 +93,68 @@ pub fn call_n (evaluator : &mut EvaluatorContext, callable : &Value, inputs : &[
 }
 
 
-
-
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn call_primitives_1 (evaluator : &mut EvaluatorContext, primitives : &[ProcedurePrimitive1], input_1 : &Value) -> (Outcome<Value>) {
-	let mut value = input_1.clone ();
-	for primitive in primitives.iter () .rev () {
-		value = try! (procedure_primitive_1_evaluate (*primitive, &value, evaluator));
+pub fn call_n_n <LeftValueRef : StdAsRef<Value>, RightValueRef : StdAsRef<Value>> (evaluator : &mut EvaluatorContext, callable : &Value, inputs_left : &[LeftValueRef], inputs_right : &[RightValueRef]) -> (Outcome<Value>) {
+	match (inputs_left.len (), inputs_right.len ()) {
+		
+		(0, 0) =>
+			return evaluator.evaluate_procedure_call_0 (callable),
+		
+		(1, 0) =>
+			return evaluator.evaluate_procedure_call_1 (callable, inputs_left[0].as_ref ()),
+		(2, 0) =>
+			return evaluator.evaluate_procedure_call_2 (callable, inputs_left[0].as_ref (), inputs_left[1].as_ref ()),
+		(3, 0) =>
+			return evaluator.evaluate_procedure_call_3 (callable, inputs_left[0].as_ref (), inputs_left[1].as_ref (), inputs_left[2].as_ref ()),
+		(4, 0) =>
+			return evaluator.evaluate_procedure_call_4 (callable, inputs_left[0].as_ref (), inputs_left[1].as_ref (), inputs_left[2].as_ref (), inputs_left[3].as_ref ()),
+		(5, 0) =>
+			return evaluator.evaluate_procedure_call_5 (callable, inputs_left[0].as_ref (), inputs_left[1].as_ref (), inputs_left[2].as_ref (), inputs_left[3].as_ref (), inputs_left[4].as_ref ()),
+		
+		(0, 1) =>
+			return evaluator.evaluate_procedure_call_1 (callable, inputs_right[0].as_ref ()),
+		(0, 2) =>
+			return evaluator.evaluate_procedure_call_2 (callable, inputs_right[0].as_ref (), inputs_right[1].as_ref ()),
+		(0, 3) =>
+			return evaluator.evaluate_procedure_call_3 (callable, inputs_right[0].as_ref (), inputs_right[1].as_ref (), inputs_right[2].as_ref ()),
+		(0, 4) =>
+			return evaluator.evaluate_procedure_call_4 (callable, inputs_right[0].as_ref (), inputs_right[1].as_ref (), inputs_right[2].as_ref (), inputs_right[3].as_ref ()),
+		(0, 5) =>
+			return evaluator.evaluate_procedure_call_5 (callable, inputs_right[0].as_ref (), inputs_right[1].as_ref (), inputs_right[2].as_ref (), inputs_right[3].as_ref (), inputs_right[4].as_ref ()),
+		
+		(1, 1) =>
+			return evaluator.evaluate_procedure_call_2 (callable, inputs_left[0].as_ref (), inputs_right[0].as_ref ()),
+		
+		(1, 2) =>
+			return evaluator.evaluate_procedure_call_3 (callable, inputs_left[0].as_ref (), inputs_right[0].as_ref (), inputs_right[1].as_ref ()),
+		(2, 1) =>
+			return evaluator.evaluate_procedure_call_3 (callable, inputs_left[0].as_ref (), inputs_left[1].as_ref (), inputs_right[0].as_ref ()),
+		
+		(1, 3) =>
+			return evaluator.evaluate_procedure_call_4 (callable, inputs_left[0].as_ref (), inputs_right[0].as_ref (), inputs_right[1].as_ref (), inputs_right[2].as_ref ()),
+		(2, 2) =>
+			return evaluator.evaluate_procedure_call_4 (callable, inputs_left[0].as_ref (), inputs_left[1].as_ref (), inputs_right[0].as_ref (), inputs_right[1].as_ref ()),
+		(3, 1) =>
+			return evaluator.evaluate_procedure_call_4 (callable, inputs_left[0].as_ref (), inputs_left[1].as_ref (), inputs_left[2].as_ref (), inputs_right[0].as_ref ()),
+		
+		(1, 4) =>
+			return evaluator.evaluate_procedure_call_5 (callable, inputs_left[0].as_ref (), inputs_right[0].as_ref (), inputs_right[1].as_ref (), inputs_right[2].as_ref (), inputs_right[3].as_ref ()),
+		(2, 3) =>
+			return evaluator.evaluate_procedure_call_5 (callable, inputs_left[0].as_ref (), inputs_left[1].as_ref (), inputs_right[0].as_ref (), inputs_right[1].as_ref (), inputs_right[2].as_ref ()),
+		(3, 2) =>
+			return evaluator.evaluate_procedure_call_5 (callable, inputs_left[0].as_ref (), inputs_left[1].as_ref (), inputs_left[2].as_ref (), inputs_right[0].as_ref (), inputs_right[1].as_ref ()),
+		(4, 1) =>
+			return evaluator.evaluate_procedure_call_5 (callable, inputs_left[0].as_ref (), inputs_left[1].as_ref (), inputs_left[2].as_ref (), inputs_left[3].as_ref (), inputs_right[0].as_ref ()),
+		
+		(inputs_left_count, inputs_right_count) => {
+			// TODO:  Optimize implementation to take into account empty inputs (at left or right)!
+			let mut inputs = StdVec::with_capacity (inputs_left_count + inputs_right_count);
+			inputs.extend (inputs_left.iter () .map (|value| value.as_ref ()));
+			inputs.extend (inputs_right.iter () .map (|value| value.as_ref ()));
+			return evaluator.evaluate_procedure_call_n (callable, inputs.as_ref ());
+		},
+		
 	}
-	succeed! (value);
 }
 
 
@@ -139,6 +198,35 @@ pub fn apply_n (evaluator : &mut EvaluatorContext, callable : &Value, inputs : &
 	let inputs = try! (vec_list_ref_append_n (inputs));
 	let inputs = vec_vec_to_ref (&inputs);
 	return call_n (evaluator, callable, &inputs);
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn call_primitives_1 (evaluator : &mut EvaluatorContext, primitives : &[ProcedurePrimitive1], input_1 : &Value) -> (Outcome<Value>) {
+	let mut value = input_1.clone ();
+	for primitive in primitives.iter () .rev () {
+		value = try! (procedure_primitive_1_evaluate (*primitive, &value, evaluator));
+	}
+	succeed! (value);
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn call_composed_1 <CallableRef : StdAsRef<Value>> (evaluator : &mut EvaluatorContext, callables : &[CallableRef], input_1 : &Value) -> (Outcome<Value>) {
+	let mut value = input_1.clone ();
+	for callable in callables.iter () .rev () {
+		let callable = callable.as_ref ();
+		value = try! (evaluator.evaluate_procedure_call_1 (callable, &value));
+	}
+	succeed! (value);
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn call_composed_v <CallableRef : StdAsRef<Value>, ValueRef : StdAsRef<Value>> (_evaluator : &mut EvaluatorContext, _callables : &[CallableRef], _inputs : &[ValueRef]) -> (Outcome<Value>) {
+	fail_unimplemented! (0x35389b82);
 }
 
 
@@ -856,5 +944,80 @@ pub fn values_build_n (values : &[&Value]) -> (Value) {
 		return values_build_0 ();
 	}
 	return values_clone_slice_ref (values) .into ();
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn curry_1 (callable : &Value, input_1 : &Value, right : bool) -> (Value) {
+	return curry_n (callable, &[input_1], right) .unwrap ();
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn curry_2 (callable : &Value, input_1 : &Value, input_2 : &Value, right : bool) -> (Value) {
+	return curry_n (callable, &[input_1, input_2], right) .unwrap ();
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn curry_3 (callable : &Value, input_1 : &Value, input_2 : &Value, input_3 : &Value, right : bool) -> (Value) {
+	return curry_n (callable, &[input_1, input_2, input_3], right) .unwrap ();
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn curry_4 (callable : &Value, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, right : bool) -> (Value) {
+	return curry_n (callable, &[input_1, input_2, input_3, input_4], right) .unwrap ();
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn curry_n <ValueRef : StdAsRef<Value>> (callable : &Value, inputs : &[ValueRef], right : bool) -> (Outcome<Value>) {
+	if inputs.is_empty () {
+		succeed! (callable.clone ());
+	}
+	let callable = callable.clone ();
+	let inputs = vec_clone_slice_ref (inputs) .into_boxed_slice ();
+	let curried = if right {
+		ProcedureExtendedInternals::CurryRight (callable, inputs) .into ()
+	} else {
+		ProcedureExtendedInternals::CurryLeft (callable, inputs) .into ()
+	};
+	succeed! (curried);
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn compose_2 (callable_1 : &Value, callable_2 : &Value, with_values : bool) -> (Value) {
+	return compose_n (&[callable_1, callable_2], with_values) .unwrap ();
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn compose_3 (callable_1 : &Value, callable_2 : &Value, callable_3 : &Value, with_values : bool) -> (Value) {
+	return compose_n (&[callable_1, callable_2, callable_3], with_values) .unwrap ();
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn compose_4 (callable_1 : &Value, callable_2 : &Value, callable_3 : &Value, callable_4 : &Value, with_values : bool) -> (Value) {
+	return compose_n (&[callable_1, callable_2, callable_3, callable_4], with_values) .unwrap ();
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn compose_n <ValueRef : StdAsRef<Value>> (callables : &[ValueRef], with_values : bool) -> (Outcome<Value>) {
+	match callables.len () {
+		0 =>
+			fail! (0xe989ef3c),
+		1 =>
+			succeed! (callables[0].as_ref () .clone ()),
+		_ =>
+			(),
+	}
+	let callables = vec_clone_slice_ref (callables) .into_boxed_slice ();
+	let composed = if with_values {
+		ProcedureExtendedInternals::ComposedV (callables) .into ()
+	} else {
+		ProcedureExtendedInternals::Composed1 (callables) .into ()
+	};
+	succeed! (composed);
 }
 
