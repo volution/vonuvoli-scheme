@@ -113,6 +113,7 @@ pub enum ProcedurePrimitive0 {
 	Arithmetic ( ArithmeticPrimitive0 ),
 	Bitwise ( BitwisePrimitive0 ),
 	Comparison ( ComparisonPrimitive0 ),
+	ComparisonNegated ( ComparisonPrimitive0 ),
 	
 	List ( ListPrimitive0 ),
 	Array ( ArrayPrimitive0 ),
@@ -137,6 +138,7 @@ pub enum ProcedurePrimitive1 {
 	Arithmetic ( ArithmeticPrimitive1 ),
 	Bitwise ( BitwisePrimitive1 ),
 	Comparison ( ComparisonPrimitive1 ),
+	ComparisonNegated ( ComparisonPrimitive1 ),
 	
 	List ( ListPrimitive1 ),
 	Array ( ArrayPrimitive1 ),
@@ -161,6 +163,7 @@ pub enum ProcedurePrimitive2 {
 	Arithmetic ( ArithmeticPrimitive2 ),
 	Bitwise ( BitwisePrimitive2 ),
 	Comparison ( ComparisonPrimitive2 ),
+	ComparisonNegated ( ComparisonPrimitive2 ),
 	
 	List ( ListPrimitive2 ),
 	Array ( ArrayPrimitive2 ),
@@ -185,6 +188,7 @@ pub enum ProcedurePrimitive3 {
 	Arithmetic ( ArithmeticPrimitive3 ),
 	Bitwise ( BitwisePrimitive3 ),
 	Comparison ( ComparisonPrimitive3 ),
+	ComparisonNegated ( ComparisonPrimitive3 ),
 	
 	List ( ListPrimitive3 ),
 	Array ( ArrayPrimitive3 ),
@@ -209,6 +213,7 @@ pub enum ProcedurePrimitive4 {
 	Arithmetic ( ArithmeticPrimitive4 ),
 	Bitwise ( BitwisePrimitive4 ),
 	Comparison ( ComparisonPrimitive4 ),
+	ComparisonNegated ( ComparisonPrimitive4 ),
 	
 	List ( ListPrimitive4 ),
 	Array ( ArrayPrimitive4 ),
@@ -233,6 +238,7 @@ pub enum ProcedurePrimitive5 {
 	Arithmetic ( ArithmeticPrimitive5 ),
 	Bitwise ( BitwisePrimitive5 ),
 	Comparison ( ComparisonPrimitive5 ),
+	ComparisonNegated ( ComparisonPrimitive5 ),
 	
 	List ( ListPrimitive5 ),
 	Array ( ArrayPrimitive5 ),
@@ -257,6 +263,7 @@ pub enum ProcedurePrimitiveN {
 	Arithmetic ( ArithmeticPrimitiveN ),
 	Bitwise ( BitwisePrimitiveN ),
 	Comparison ( ComparisonPrimitiveN ),
+	ComparisonNegated ( ComparisonPrimitiveN ),
 	
 	List ( ListPrimitiveN ),
 	Array ( ArrayPrimitiveN ),
@@ -281,6 +288,7 @@ pub enum ProcedurePrimitiveV {
 	Arithmetic ( ArithmeticPrimitiveV ),
 	Bitwise ( BitwisePrimitiveV ),
 	Comparison ( ComparisonPrimitiveV ),
+	ComparisonNegated ( ComparisonPrimitiveV ),
 	
 	List ( ListPrimitiveV ),
 	Array ( ArrayPrimitiveV ),
@@ -341,7 +349,10 @@ pub fn procedure_primitive_0_evaluate (primitive : ProcedurePrimitive0, evaluato
 			return bitwise_primitive_0_evaluate (primitive, evaluator),
 		
 		ProcedurePrimitive0::Comparison (primitive) =>
-			return comparison_primitive_0_evaluate (primitive, evaluator),
+			return comparison_primitive_0_evaluate (primitive, false, evaluator),
+		
+		ProcedurePrimitive0::ComparisonNegated (primitive) =>
+			return comparison_primitive_0_evaluate (primitive, true, evaluator),
 		
 		ProcedurePrimitive0::List (primitive) =>
 			return list_primitive_0_evaluate (primitive, evaluator),
@@ -393,7 +404,10 @@ pub fn procedure_primitive_1_evaluate (primitive : ProcedurePrimitive1, input_1 
 			return bitwise_primitive_1_evaluate (primitive, input_1, evaluator),
 		
 		ProcedurePrimitive1::Comparison (primitive) =>
-			return comparison_primitive_1_evaluate (primitive, input_1, evaluator),
+			return comparison_primitive_1_evaluate (primitive, input_1, false, evaluator),
+		
+		ProcedurePrimitive1::ComparisonNegated (primitive) =>
+			return comparison_primitive_1_evaluate (primitive, input_1, true, evaluator),
 		
 		ProcedurePrimitive1::List (primitive) =>
 			return list_primitive_1_evaluate (primitive, input_1, evaluator),
@@ -445,7 +459,10 @@ pub fn procedure_primitive_2_evaluate (primitive : ProcedurePrimitive2, input_1 
 			return bitwise_primitive_2_evaluate (primitive, input_1, input_2, evaluator),
 		
 		ProcedurePrimitive2::Comparison (primitive) =>
-			return comparison_primitive_2_evaluate (primitive, input_1, input_2, evaluator),
+			return comparison_primitive_2_evaluate (primitive, input_1, input_2, false, evaluator),
+		
+		ProcedurePrimitive2::ComparisonNegated (primitive) =>
+			return comparison_primitive_2_evaluate (primitive, input_1, input_2, true, evaluator),
 		
 		ProcedurePrimitive2::List (primitive) =>
 			return list_primitive_2_evaluate (primitive, input_1, input_2, evaluator),
@@ -497,7 +514,10 @@ pub fn procedure_primitive_3_evaluate (primitive : ProcedurePrimitive3, input_1 
 			return bitwise_primitive_3_evaluate (primitive, input_1, input_2, input_3, evaluator),
 		
 		ProcedurePrimitive3::Comparison (primitive) =>
-			return comparison_primitive_3_evaluate (primitive, input_1, input_2, input_3, evaluator),
+			return comparison_primitive_3_evaluate (primitive, input_1, input_2, input_3, false, evaluator),
+		
+		ProcedurePrimitive3::ComparisonNegated (primitive) =>
+			return comparison_primitive_3_evaluate (primitive, input_1, input_2, input_3, true, evaluator),
 		
 		ProcedurePrimitive3::List (primitive) =>
 			return list_primitive_3_evaluate (primitive, input_1, input_2, input_3, evaluator),
@@ -549,7 +569,10 @@ pub fn procedure_primitive_4_evaluate (primitive : ProcedurePrimitive4, input_1 
 			return bitwise_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4, evaluator),
 		
 		ProcedurePrimitive4::Comparison (primitive) =>
-			return comparison_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4, evaluator),
+			return comparison_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4, false, evaluator),
+		
+		ProcedurePrimitive4::ComparisonNegated (primitive) =>
+			return comparison_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4, true, evaluator),
 		
 		ProcedurePrimitive4::List (primitive) =>
 			return list_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4, evaluator),
@@ -601,7 +624,10 @@ pub fn procedure_primitive_5_evaluate (primitive : ProcedurePrimitive5, input_1 
 			return bitwise_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, evaluator),
 		
 		ProcedurePrimitive5::Comparison (primitive) =>
-			return comparison_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, evaluator),
+			return comparison_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, false, evaluator),
+		
+		ProcedurePrimitive5::ComparisonNegated (primitive) =>
+			return comparison_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, true, evaluator),
 		
 		ProcedurePrimitive5::List (primitive) =>
 			return list_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, evaluator),
@@ -653,7 +679,10 @@ pub fn procedure_primitive_n_evaluate (primitive : ProcedurePrimitiveN, inputs :
 			return bitwise_primitive_n_evaluate (primitive, inputs, evaluator),
 		
 		ProcedurePrimitiveN::Comparison (primitive) =>
-			return comparison_primitive_n_evaluate (primitive, inputs, evaluator),
+			return comparison_primitive_n_evaluate (primitive, inputs, false, evaluator),
+		
+		ProcedurePrimitiveN::ComparisonNegated (primitive) =>
+			return comparison_primitive_n_evaluate (primitive, inputs, true, evaluator),
 		
 		ProcedurePrimitiveN::List (primitive) =>
 			return list_primitive_n_evaluate (primitive, inputs, evaluator),
@@ -1128,6 +1157,13 @@ pub fn procedure_primitive_v_alternative_0 (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		ProcedurePrimitiveV::ComparisonNegated (primitive) =>
+			if let Some (primitive) = comparison_primitive_v_alternative_0 (primitive) {
+				Some (ProcedurePrimitive0::ComparisonNegated (primitive))
+			} else {
+				None
+			},
+		
 		ProcedurePrimitiveV::List (primitive) =>
 			if let Some (primitive) = list_primitive_v_alternative_0 (primitive) {
 				Some (ProcedurePrimitive0::List (primitive))
@@ -1232,6 +1268,13 @@ pub fn procedure_primitive_v_alternative_1 (primitive : ProcedurePrimitiveV) -> 
 		ProcedurePrimitiveV::Comparison (primitive) =>
 			if let Some (primitive) = comparison_primitive_v_alternative_1 (primitive) {
 				Some (ProcedurePrimitive1::Comparison (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveV::ComparisonNegated (primitive) =>
+			if let Some (primitive) = comparison_primitive_v_alternative_1 (primitive) {
+				Some (ProcedurePrimitive1::ComparisonNegated (primitive))
 			} else {
 				None
 			},
@@ -1344,6 +1387,13 @@ pub fn procedure_primitive_v_alternative_2 (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		ProcedurePrimitiveV::ComparisonNegated (primitive) =>
+			if let Some (primitive) = comparison_primitive_v_alternative_2 (primitive) {
+				Some (ProcedurePrimitive2::ComparisonNegated (primitive))
+			} else {
+				None
+			},
+		
 		ProcedurePrimitiveV::List (primitive) =>
 			if let Some (primitive) = list_primitive_v_alternative_2 (primitive) {
 				Some (ProcedurePrimitive2::List (primitive))
@@ -1448,6 +1498,13 @@ pub fn procedure_primitive_v_alternative_3 (primitive : ProcedurePrimitiveV) -> 
 		ProcedurePrimitiveV::Comparison (primitive) =>
 			if let Some (primitive) = comparison_primitive_v_alternative_3 (primitive) {
 				Some (ProcedurePrimitive3::Comparison (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveV::ComparisonNegated (primitive) =>
+			if let Some (primitive) = comparison_primitive_v_alternative_3 (primitive) {
+				Some (ProcedurePrimitive3::ComparisonNegated (primitive))
 			} else {
 				None
 			},
@@ -1560,6 +1617,13 @@ pub fn procedure_primitive_v_alternative_4 (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		ProcedurePrimitiveV::ComparisonNegated (primitive) =>
+			if let Some (primitive) = comparison_primitive_v_alternative_4 (primitive) {
+				Some (ProcedurePrimitive4::ComparisonNegated (primitive))
+			} else {
+				None
+			},
+		
 		ProcedurePrimitiveV::List (primitive) =>
 			if let Some (primitive) = list_primitive_v_alternative_4 (primitive) {
 				Some (ProcedurePrimitive4::List (primitive))
@@ -1664,6 +1728,13 @@ pub fn procedure_primitive_v_alternative_5 (primitive : ProcedurePrimitiveV) -> 
 		ProcedurePrimitiveV::Comparison (primitive) =>
 			if let Some (primitive) = comparison_primitive_v_alternative_5 (primitive) {
 				Some (ProcedurePrimitive5::Comparison (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveV::ComparisonNegated (primitive) =>
+			if let Some (primitive) = comparison_primitive_v_alternative_5 (primitive) {
+				Some (ProcedurePrimitive5::ComparisonNegated (primitive))
 			} else {
 				None
 			},
@@ -1776,6 +1847,13 @@ pub fn procedure_primitive_v_alternative_n (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		ProcedurePrimitiveV::ComparisonNegated (primitive) =>
+			if let Some (primitive) = comparison_primitive_v_alternative_n (primitive) {
+				Some (ProcedurePrimitiveN::ComparisonNegated (primitive))
+			} else {
+				None
+			},
+		
 		ProcedurePrimitiveV::List (primitive) =>
 			if let Some (primitive) = list_primitive_v_alternative_n (primitive) {
 				Some (ProcedurePrimitiveN::List (primitive))
@@ -1864,6 +1942,9 @@ pub fn procedure_primitive_0_attributes (primitive : ProcedurePrimitive0) -> (Op
 		ProcedurePrimitive0::Comparison (primitive) =>
 			return comparison_primitive_0_attributes (primitive),
 		
+		ProcedurePrimitive0::ComparisonNegated (primitive) =>
+			return comparison_primitive_0_attributes (primitive),
+		
 		ProcedurePrimitive0::List (primitive) =>
 			return list_primitive_0_attributes (primitive),
 		
@@ -1914,6 +1995,9 @@ pub fn procedure_primitive_1_attributes (primitive : ProcedurePrimitive1) -> (Op
 			return bitwise_primitive_1_attributes (primitive),
 		
 		ProcedurePrimitive1::Comparison (primitive) =>
+			return comparison_primitive_1_attributes (primitive),
+		
+		ProcedurePrimitive1::ComparisonNegated (primitive) =>
 			return comparison_primitive_1_attributes (primitive),
 		
 		ProcedurePrimitive1::List (primitive) =>
@@ -1968,6 +2052,9 @@ pub fn procedure_primitive_2_attributes (primitive : ProcedurePrimitive2) -> (Op
 		ProcedurePrimitive2::Comparison (primitive) =>
 			return comparison_primitive_2_attributes (primitive),
 		
+		ProcedurePrimitive2::ComparisonNegated (primitive) =>
+			return comparison_primitive_2_attributes (primitive),
+		
 		ProcedurePrimitive2::List (primitive) =>
 			return list_primitive_2_attributes (primitive),
 		
@@ -2018,6 +2105,9 @@ pub fn procedure_primitive_3_attributes (primitive : ProcedurePrimitive3) -> (Op
 			return bitwise_primitive_3_attributes (primitive),
 		
 		ProcedurePrimitive3::Comparison (primitive) =>
+			return comparison_primitive_3_attributes (primitive),
+		
+		ProcedurePrimitive3::ComparisonNegated (primitive) =>
 			return comparison_primitive_3_attributes (primitive),
 		
 		ProcedurePrimitive3::List (primitive) =>
@@ -2072,6 +2162,9 @@ pub fn procedure_primitive_4_attributes (primitive : ProcedurePrimitive4) -> (Op
 		ProcedurePrimitive4::Comparison (primitive) =>
 			return comparison_primitive_4_attributes (primitive),
 		
+		ProcedurePrimitive4::ComparisonNegated (primitive) =>
+			return comparison_primitive_4_attributes (primitive),
+		
 		ProcedurePrimitive4::List (primitive) =>
 			return list_primitive_4_attributes (primitive),
 		
@@ -2124,6 +2217,9 @@ pub fn procedure_primitive_5_attributes (primitive : ProcedurePrimitive5) -> (Op
 		ProcedurePrimitive5::Comparison (primitive) =>
 			return comparison_primitive_5_attributes (primitive),
 		
+		ProcedurePrimitive5::ComparisonNegated (primitive) =>
+			return comparison_primitive_5_attributes (primitive),
+		
 		ProcedurePrimitive5::List (primitive) =>
 			return list_primitive_5_attributes (primitive),
 		
@@ -2174,6 +2270,9 @@ pub fn procedure_primitive_n_attributes (primitive : ProcedurePrimitiveN) -> (Op
 			return bitwise_primitive_n_attributes (primitive),
 		
 		ProcedurePrimitiveN::Comparison (primitive) =>
+			return comparison_primitive_n_attributes (primitive),
+		
+		ProcedurePrimitiveN::ComparisonNegated (primitive) =>
 			return comparison_primitive_n_attributes (primitive),
 		
 		ProcedurePrimitiveN::List (primitive) =>

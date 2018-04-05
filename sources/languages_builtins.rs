@@ -151,11 +151,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("record->list", RecordPrimitiveV::RecordToList.into ()),
 			("list->record", RecordPrimitiveV::RecordFromList.into ()),
 			
-			("record=?", ComparisonPrimitiveV::RecordEqual.into ()),
-			("record<?", ComparisonPrimitiveV::RecordLesser.into ()),
-			("record>?", ComparisonPrimitiveV::RecordGreater.into ()),
-			("record<=?", ComparisonPrimitiveV::RecordLesserOrEqual.into ()),
-			("record>=?", ComparisonPrimitiveV::RecordGreaterOrEqual.into ()),
+			("not-eq?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::EquivalentByIdentity) .into ()),
+			("not-eqv?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::EquivalentByValueStrict) .into ()),
+			("not-equal?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::EquivalentByValueStrictRecursive) .into ()),
 			
 			("equivalent-by-identity?", ComparisonPrimitiveV::EquivalentByIdentity.into ()),
 			("equivalent-by-value-strict?", ComparisonPrimitiveV::EquivalentByValueStrict.into ()),
@@ -163,15 +161,63 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("equivalent-by-value-coerced?", ComparisonPrimitiveV::EquivalentByValueCoerced.into ()),
 			("equivalent-by-value-coerced-recursive?", ComparisonPrimitiveV::EquivalentByValueCoercedRecursive.into ()),
 			
+			("not-equivalent-by-identity?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::EquivalentByIdentity) .into ()),
+			("not-equivalent-by-value-strict?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::EquivalentByValueStrict) .into ()),
+			("not-equivalent-by-value-strict-recursive?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::EquivalentByValueStrictRecursive) .into ()),
+			("not-equivalent-by-value-coerced?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::EquivalentByValueCoerced) .into ()),
+			("not-equivalent-by-value-coerced-recursive?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::EquivalentByValueCoercedRecursive) .into ()),
+			
+			("not-=", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::NumberEqual) .into ()),
+			("not-<", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::NumberLesser) .into ()),
+			("not->", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::NumberGreater) .into ()),
+			("not-<=", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::NumberLesserOrEqual) .into ()),
+			("not->=", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::NumberGreaterOrEqual) .into ()),
+			
 			("boolean<?", ComparisonPrimitiveV::BooleanLesser.into ()),
 			("boolean>?", ComparisonPrimitiveV::BooleanGreater.into ()),
 			("boolean<=?", ComparisonPrimitiveV::BooleanLesserOrEqual.into ()),
 			("boolean>=?", ComparisonPrimitiveV::BooleanGreaterOrEqual.into ()),
 			
+			("not-boolean=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::BooleanEqual) .into ()),
+			("not-boolean<?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::BooleanLesser) .into ()),
+			("not-boolean>?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::BooleanGreater) .into ()),
+			("not-boolean<=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::BooleanLesserOrEqual) .into ()),
+			("not-boolean>=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::BooleanGreaterOrEqual) .into ()),
+			
+			("not-char=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::CharacterCaseSensitiveEqual) .into ()),
+			("not-char<?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::CharacterCaseSensitiveLesser) .into ()),
+			("not-char>?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::CharacterCaseSensitiveGreater) .into ()),
+			("not-char<=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::CharacterCaseSensitiveLesserOrEqual) .into ()),
+			("not-char>=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::CharacterCaseSensitiveGreaterOrEqual) .into ()),
+			
+			("not-char-ci=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::CharacterCaseInsensitiveEqual) .into ()),
+			("not-char-ci<?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::CharacterCaseInsensitiveLesser) .into ()),
+			("not-char-ci>?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::CharacterCaseInsensitiveGreater) .into ()),
+			("not-char-ci<=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::CharacterCaseInsensitiveLesserOrEqual) .into ()),
+			("not-char-ci>=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::CharacterCaseInsensitiveGreaterOrEqual) .into ()),
+			
+			("not-string=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::StringCaseSensitiveEqual) .into ()),
+			("not-string<?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::StringCaseSensitiveLesser) .into ()),
+			("not-string>?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::StringCaseSensitiveGreater) .into ()),
+			("not-string<=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::StringCaseSensitiveLesserOrEqual) .into ()),
+			("not-string>=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::StringCaseSensitiveGreaterOrEqual) .into ()),
+			
+			("not-string-ci=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::StringCaseInsensitiveEqual) .into ()),
+			("not-string-ci<?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::StringCaseInsensitiveLesser) .into ()),
+			("not-string-ci>?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::StringCaseInsensitiveGreater) .into ()),
+			("not-string-ci<=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::StringCaseInsensitiveLesserOrEqual) .into ()),
+			("not-string-ci>=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::StringCaseInsensitiveGreaterOrEqual) .into ()),
+			
 			("symbol<?", ComparisonPrimitiveV::SymbolCaseSensitiveLesser.into ()),
 			("symbol>?", ComparisonPrimitiveV::SymbolCaseSensitiveGreater.into ()),
 			("symbol<=?", ComparisonPrimitiveV::SymbolCaseSensitiveLesserOrEqual.into ()),
 			("symbol>=?", ComparisonPrimitiveV::SymbolCaseSensitiveGreaterOrEqual.into ()),
+			
+			("not-symbol=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::SymbolCaseSensitiveEqual) .into ()),
+			("not-symbol<?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::SymbolCaseSensitiveLesser) .into ()),
+			("not-symbol>?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::SymbolCaseSensitiveGreater) .into ()),
+			("not-symbol<=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::SymbolCaseSensitiveLesserOrEqual) .into ()),
+			("not-symbol>=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::SymbolCaseSensitiveGreaterOrEqual) .into ()),
 			
 			("symbol-ci=?", ComparisonPrimitiveV::SymbolCaseInsensitiveEqual.into ()),
 			("symbol-ci<?", ComparisonPrimitiveV::SymbolCaseInsensitiveLesser.into ()),
@@ -179,11 +225,23 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("symbol-ci<=?", ComparisonPrimitiveV::SymbolCaseInsensitiveLesserOrEqual.into ()),
 			("symbol-ci>=?", ComparisonPrimitiveV::SymbolCaseInsensitiveGreaterOrEqual.into ()),
 			
+			("not-symbol-ci=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::SymbolCaseInsensitiveEqual) .into ()),
+			("not-symbol-ci<?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::SymbolCaseInsensitiveLesser) .into ()),
+			("not-symbol-ci>?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::SymbolCaseInsensitiveGreater) .into ()),
+			("not-symbol-ci<=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::SymbolCaseInsensitiveLesserOrEqual) .into ()),
+			("not-symbol-ci>=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::SymbolCaseInsensitiveGreaterOrEqual) .into ()),
+			
 			("bytevector=?", ComparisonPrimitiveV::BytesEqual.into ()),
 			("bytevector<?", ComparisonPrimitiveV::BytesLesser.into ()),
 			("bytevector>?", ComparisonPrimitiveV::BytesGreater.into ()),
 			("bytevector<=?", ComparisonPrimitiveV::BytesLesserOrEqual.into ()),
 			("bytevector>=?", ComparisonPrimitiveV::BytesGreaterOrEqual.into ()),
+			
+			("not-bytevector=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::BytesEqual) .into ()),
+			("not-bytevector<?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::BytesLesser) .into ()),
+			("not-bytevector>?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::BytesGreater) .into ()),
+			("not-bytevector<=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::BytesLesserOrEqual) .into ()),
+			("not-bytevector>=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::BytesGreaterOrEqual) .into ()),
 			
 			("pair=?", ComparisonPrimitiveV::PairEqual.into ()),
 			("pair<?", ComparisonPrimitiveV::PairLesser.into ()),
@@ -191,11 +249,23 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("pair<=?", ComparisonPrimitiveV::PairLesserOrEqual.into ()),
 			("pair>=?", ComparisonPrimitiveV::PairGreaterOrEqual.into ()),
 			
+			("not-pair=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::PairEqual) .into ()),
+			("not-pair<?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::PairLesser) .into ()),
+			("not-pair>?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::PairGreater) .into ()),
+			("not-pair<=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::PairLesserOrEqual) .into ()),
+			("not-pair>=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::PairGreaterOrEqual) .into ()),
+			
 			("vector=?", ComparisonPrimitiveV::ArrayEqual.into ()),
 			("vector<?", ComparisonPrimitiveV::ArrayLesser.into ()),
 			("vector>?", ComparisonPrimitiveV::ArrayGreater.into ()),
 			("vector<=?", ComparisonPrimitiveV::ArrayLesserOrEqual.into ()),
 			("vector>=?", ComparisonPrimitiveV::ArrayGreaterOrEqual.into ()),
+			
+			("not-vector=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::ArrayEqual) .into ()),
+			("not-vector<?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::ArrayLesser) .into ()),
+			("not-vector>?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::ArrayGreater) .into ()),
+			("not-vector<=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::ArrayLesserOrEqual) .into ()),
+			("not-vector>=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::ArrayGreaterOrEqual) .into ()),
 			
 			("values=?", ComparisonPrimitiveV::ValuesEqual.into ()),
 			("values<?", ComparisonPrimitiveV::ValuesLesser.into ()),
@@ -203,11 +273,35 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("values<=?", ComparisonPrimitiveV::ValuesLesserOrEqual.into ()),
 			("values>=?", ComparisonPrimitiveV::ValuesGreaterOrEqual.into ()),
 			
+			("not-values=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::ValuesEqual) .into ()),
+			("not-values<?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::ValuesLesser) .into ()),
+			("not-values>?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::ValuesGreater) .into ()),
+			("not-values<=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::ValuesLesserOrEqual) .into ()),
+			("not-values>=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::ValuesGreaterOrEqual) .into ()),
+			
+			("record=?", ComparisonPrimitiveV::RecordEqual.into ()),
+			("record<?", ComparisonPrimitiveV::RecordLesser.into ()),
+			("record>?", ComparisonPrimitiveV::RecordGreater.into ()),
+			("record<=?", ComparisonPrimitiveV::RecordLesserOrEqual.into ()),
+			("record>=?", ComparisonPrimitiveV::RecordGreaterOrEqual.into ()),
+			
+			("not-record=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::RecordEqual) .into ()),
+			("not-record<?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::RecordLesser) .into ()),
+			("not-record>?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::RecordGreater) .into ()),
+			("not-record<=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::RecordLesserOrEqual) .into ()),
+			("not-record>=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::RecordGreaterOrEqual) .into ()),
+			
 			("generic=?", ComparisonPrimitiveV::GenericEqual.into ()),
 			("generic<?", ComparisonPrimitiveV::GenericLesser.into ()),
 			("generic>?", ComparisonPrimitiveV::GenericGreater.into ()),
 			("generic<=?", ComparisonPrimitiveV::GenericLesserOrEqual.into ()),
 			("generic>=?", ComparisonPrimitiveV::GenericGreaterOrEqual.into ()),
+			
+			("not-generic=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::GenericEqual) .into ()),
+			("not-generic<?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::GenericLesser) .into ()),
+			("not-generic>?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::GenericGreater) .into ()),
+			("not-generic<=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::GenericLesserOrEqual) .into ()),
+			("not-generic>=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::GenericGreaterOrEqual) .into ()),
 			
 			("read-bytevector-chunk", PortPrimitiveV::BytesReadChunk.into ()),
 			("read-bytevector-line", PortPrimitiveV::BytesReadLine.into ()),
@@ -239,17 +333,35 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("keyword<=?", ComparisonPrimitiveV::KeywordCaseSensitiveLesserOrEqual.into ()),
 			("keyword>=?", ComparisonPrimitiveV::KeywordCaseSensitiveGreaterOrEqual.into ()),
 			
+			("not-keyword=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::KeywordCaseSensitiveEqual) .into ()),
+			("not-keyword<?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::KeywordCaseSensitiveLesser) .into ()),
+			("not-keyword>?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::KeywordCaseSensitiveGreater) .into ()),
+			("not-keyword<=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::KeywordCaseSensitiveLesserOrEqual) .into ()),
+			("not-keyword>=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::KeywordCaseSensitiveGreaterOrEqual) .into ()),
+			
 			("keyword-ci=?", ComparisonPrimitiveV::KeywordCaseInsensitiveEqual.into ()),
 			("keyword-ci<?", ComparisonPrimitiveV::KeywordCaseInsensitiveLesser.into ()),
 			("keyword-ci>?", ComparisonPrimitiveV::KeywordCaseInsensitiveGreater.into ()),
 			("keyword-ci<=?", ComparisonPrimitiveV::KeywordCaseInsensitiveLesserOrEqual.into ()),
 			("keyword-ci>=?", ComparisonPrimitiveV::KeywordCaseInsensitiveGreaterOrEqual.into ()),
 			
+			("not-keyword-ci=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::KeywordCaseInsensitiveEqual) .into ()),
+			("not-keyword-ci<?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::KeywordCaseInsensitiveLesser) .into ()),
+			("not-keyword-ci>?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::KeywordCaseInsensitiveGreater) .into ()),
+			("not-keyword-ci<=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::KeywordCaseInsensitiveLesserOrEqual) .into ()),
+			("not-keyword-ci>=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::KeywordCaseInsensitiveGreaterOrEqual) .into ()),
+			
 			("unique=?", ComparisonPrimitiveV::UniqueEqual.into ()),
 			("unique<?", ComparisonPrimitiveV::UniqueLesser.into ()),
 			("unique>?", ComparisonPrimitiveV::UniqueGreater.into ()),
 			("unique<=?", ComparisonPrimitiveV::UniqueLesserOrEqual.into ()),
 			("unique>=?", ComparisonPrimitiveV::UniqueGreaterOrEqual.into ()),
+			
+			("not-unique=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::UniqueEqual) .into ()),
+			("not-unique<?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::UniqueLesser) .into ()),
+			("not-unique>?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::UniqueGreater) .into ()),
+			("not-unique<=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::UniqueLesserOrEqual) .into ()),
+			("not-unique>=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::UniqueGreaterOrEqual) .into ()),
 			
 			("resource?", TypePrimitiveV::IsResource.into ()),
 			("opaque?", TypePrimitiveV::IsOpaque.into ()),
@@ -414,6 +526,12 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("path>?", ComparisonPrimitiveV::PathGreater.into ()),
 			("path<=?", ComparisonPrimitiveV::PathLesserOrEqual.into ()),
 			("path>=?", ComparisonPrimitiveV::PathGreaterOrEqual.into ()),
+			
+			("not-path=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::PathEqual) .into ()),
+			("not-path<?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::PathLesser) .into ()),
+			("not-path>?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::PathGreater) .into ()),
+			("not-path<=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::PathLesserOrEqual) .into ()),
+			("not-path>=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::PathGreaterOrEqual) .into ()),
 			
 		]);
 	
