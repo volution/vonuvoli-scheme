@@ -606,6 +606,7 @@
 	if test './tests/scheme/srfi-1.sst' -nt './tests/_outputs/scheme--benchmark__srfi_1.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__srfi_1.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/srfi-1.sst' "${@}" ; fi
 	if test './tests/scheme/strings.sst' -nt './tests/_outputs/scheme--benchmark__strings.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__strings.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/strings.sst' "${@}" ; fi
 	if test './tests/scheme/types.sst' -nt './tests/_outputs/scheme--benchmark__types.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__types.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/types.sst' "${@}" ; fi
+	if test './tests/scheme/types-negated.sst' -nt './tests/_outputs/scheme--benchmark__types_negated.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__types_negated.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/types-negated.sst' "${@}" ; fi
 	if test './tests/scheme/values.sst' -nt './tests/_outputs/scheme--benchmark__values.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__values.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/values.sst' "${@}" ; fi
 !!
 
@@ -1257,6 +1258,18 @@
 	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__types.out' x-run ':: execute / bin / bencher / release' './tests/scheme/types.sst' "${@}"
 !!
 
+<< execute / bin / bencher / types-negated / debug
+	exec -- taskset -c 2 x-run ':: execute / bin / bencher / debug' './tests/scheme/types-negated.sst' "${@}"
+!!
+
+<< execute / bin / bencher / types-negated / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / bin / bencher / types-negated / debug'
+!!
+
+<< execute / bin / bencher / types-negated / release
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__types_negated.out' x-run ':: execute / bin / bencher / release' './tests/scheme/types-negated.sst' "${@}"
+!!
+
 << execute / bin / bencher / values / debug
 	exec -- taskset -c 2 x-run ':: execute / bin / bencher / debug' './tests/scheme/values.sst' "${@}"
 !!
@@ -1700,6 +1713,7 @@
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/srfi-1.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/strings.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/types.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/types-negated.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/values.sst' "${@}"
 !!
 
@@ -2349,6 +2363,18 @@
 
 << execute / bin / tester / types / release
 	exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/types.sst' "${@}"
+!!
+
+<< execute / bin / tester / types-negated / debug
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/types-negated.sst' "${@}"
+!!
+
+<< execute / bin / tester / types-negated / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / bin / tester / types-negated / debug'
+!!
+
+<< execute / bin / tester / types-negated / release
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/types-negated.sst' "${@}"
 !!
 
 << execute / bin / tester / values / debug
@@ -3059,6 +3085,14 @@
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__types' --exact "${@}"
 !!
 
+<< execute / test / scheme / benchmarks / types_negated / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__types_negated' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / types_negated / release
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__types_negated' --exact "${@}"
+!!
+
 << execute / test / scheme / benchmarks / values / debug
 	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__values' --exact "${@}"
 !!
@@ -3721,6 +3755,18 @@
 
 << execute / test / scheme / tests / types / release
 	x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__types' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / types_negated / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__types_negated' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / types_negated / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / types_negated / debug' "${@}"
+!!
+
+<< execute / test / scheme / tests / types_negated / release
+	x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__types_negated' --exact "${@}"
 !!
 
 << execute / test / scheme / tests / values / debug
@@ -4427,6 +4473,10 @@
 
 << files / edit / tests/scheme/strings.sst
 	exec -- sce ./tests/scheme/strings.sst
+!!
+
+<< files / edit / tests/scheme/types-negated.sst
+	exec -- sce ./tests/scheme/types-negated.sst
 !!
 
 << files / edit / tests/scheme/types.sst
@@ -5191,6 +5241,10 @@
 
 << files / view / tests/scheme/strings.sst
 	exec -- less -- ./tests/scheme/strings.sst
+!!
+
+<< files / view / tests/scheme/types-negated.sst
+	exec -- less -- ./tests/scheme/types-negated.sst
 !!
 
 << files / view / tests/scheme/types.sst

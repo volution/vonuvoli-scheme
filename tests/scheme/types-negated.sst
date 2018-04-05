@@ -1,0 +1,234 @@
+
+(~not-null? #null) => #f
+(~not-null? #void) => #t
+(~not-null? #undefined) => #t
+(~not-null? #t) => #t
+(~not-null? #f) => #t
+(~not-null? 0) => #t
+(~not-null? 0.0) => #t
+(~not-null? #\c) => #t
+(~not-null? 'symbol) => #t
+(~not-null? "string") => #t
+(~not-null? #u8()) => #t
+(~not-null? #()) => #t
+(~not-null? '(0 . 1)) => #t
+(~not-null? '(0 1)) => #t
+(~not-null? +) => #t
+(~not-null? (lambda _ _)) => #t
+
+
+(~not-boolean? #null) => #t
+(~not-boolean? #void) => #t
+(~not-boolean? #undefined) => #t
+(~not-boolean? #t) => #f
+(~not-boolean? #f) => #f
+(~not-boolean? 0) => #t
+(~not-boolean? 0.0) => #t
+(~not-boolean? #\c) => #t
+(~not-boolean? 'symbol) => #t
+(~not-boolean? "string") => #t
+(~not-boolean? #u8()) => #t
+(~not-boolean? #()) => #t
+(~not-boolean? '(0 . 1)) => #t
+(~not-boolean? '(0 1)) => #t
+(~not-boolean? +) => #t
+(~not-boolean? (lambda _ _)) => #t
+
+
+(~not-number? #null) => #t
+(~not-number? #void) => #t
+(~not-number? #undefined) => #t
+(~not-number? #t) => #t
+(~not-number? #f) => #t
+(~not-number? 0) => #f
+(~not-number? 0.0) => #f
+(~not-number? #\c) => #t
+(~not-number? 'symbol) => #t
+(~not-number? "string") => #t
+(~not-number? #u8()) => #t
+(~not-number? #()) => #t
+(~not-number? '(0 . 1)) => #t
+(~not-number? '(0 1)) => #t
+(~not-number? +) => #t
+(~not-number? (lambda _ _)) => #t
+
+
+(~not-char? #null) => #t
+(~not-char? #void) => #t
+(~not-char? #undefined) => #t
+(~not-char? #t) => #t
+(~not-char? #f) => #t
+(~not-char? 0) => #t
+(~not-char? 0.0) => #t
+(~not-char? #\c) => #f
+(~not-char? 'symbol) => #t
+(~not-char? "string") => #t
+(~not-char? #u8()) => #t
+(~not-char? #()) => #t
+(~not-char? '(0 . 1)) => #t
+(~not-char? '(0 1)) => #t
+(~not-char? +) => #t
+(~not-char? (lambda _ _)) => #t
+
+
+(~not-symbol? #null) => #t
+(~not-symbol? #void) => #t
+(~not-symbol? #undefined) => #t
+(~not-symbol? #t) => #t
+(~not-symbol? #f) => #t
+(~not-symbol? 0) => #t
+(~not-symbol? 0.0) => #t
+(~not-symbol? #\c) => #t
+(~not-symbol? 'symbol) => #f
+(~not-symbol? "string") => #t
+(~not-symbol? #u8()) => #t
+(~not-symbol? #()) => #t
+(~not-symbol? '(0 . 1)) => #t
+(~not-symbol? '(0 1)) => #t
+(~not-symbol? +) => #t
+(~not-symbol? (lambda _ _)) => #t
+
+
+(~not-string? #null) => #t
+(~not-string? #void) => #t
+(~not-string? #undefined) => #t
+(~not-string? #t) => #t
+(~not-string? #f) => #t
+(~not-string? 0) => #t
+(~not-string? 0.0) => #t
+(~not-string? #\c) => #t
+(~not-string? 'symbol) => #t
+(~not-string? "string") => #f
+(~not-string? #u8()) => #t
+(~not-string? #()) => #t
+(~not-string? '(0 . 1)) => #t
+(~not-string? '(0 1)) => #t
+(~not-string? +) => #t
+(~not-string? (lambda _ _)) => #t
+
+
+(~not-bytevector? #null) => #t
+(~not-bytevector? #void) => #t
+(~not-bytevector? #undefined) => #t
+(~not-bytevector? #t) => #t
+(~not-bytevector? #f) => #t
+(~not-bytevector? 0) => #t
+(~not-bytevector? 0.0) => #t
+(~not-bytevector? #\c) => #t
+(~not-bytevector? 'symbol) => #t
+(~not-bytevector? "string") => #t
+(~not-bytevector? #u8()) => #f
+(~not-bytevector? #()) => #t
+(~not-bytevector? '(0 . 1)) => #t
+(~not-bytevector? '(0 1)) => #t
+(~not-bytevector? +) => #t
+(~not-bytevector? (lambda _ _)) => #t
+
+
+(~not-pair? #null) => #t
+(~not-pair? #void) => #t
+(~not-pair? #undefined) => #t
+(~not-pair? #t) => #t
+(~not-pair? #f) => #t
+(~not-pair? 0) => #t
+(~not-pair? 0.0) => #t
+(~not-pair? #\c) => #t
+(~not-pair? 'symbol) => #t
+(~not-pair? "string") => #t
+(~not-pair? #u8()) => #t
+(~not-pair? #()) => #t
+(~not-pair? '(0 . 1)) => #f
+(~not-pair? '(0 1)) => #f
+(~not-pair? +) => #t
+(~not-pair? (lambda _ _)) => #t
+
+
+(~not-vector? #null) => #t
+(~not-vector? #void) => #t
+(~not-vector? #undefined) => #t
+(~not-vector? #t) => #t
+(~not-vector? #f) => #t
+(~not-vector? 0) => #t
+(~not-vector? 0.0) => #t
+(~not-vector? #\c) => #t
+(~not-vector? 'symbol) => #t
+(~not-vector? "string") => #t
+(~not-vector? #u8()) => #t
+(~not-vector? #()) => #f
+(~not-vector? '(0 . 1)) => #t
+(~not-vector? '(0 1)) => #t
+(~not-vector? +) => #t
+(~not-vector? (lambda _ _)) => #t
+
+
+(~not-list? #null) => #f
+(~not-list? #void) => #t
+(~not-list? #undefined) => #t
+(~not-list? #t) => #t
+(~not-list? #f) => #t
+(~not-list? 0) => #t
+(~not-list? 0.0) => #t
+(~not-list? #\c) => #t
+(~not-list? 'symbol) => #t
+(~not-list? "string") => #t
+(~not-list? #u8()) => #t
+(~not-list? #()) => #t
+(~not-list? '(0 . 1)) => #t
+(~not-list? '(0 1)) => #f
+(~not-list? +) => #t
+(~not-list? (lambda _ _)) => #t
+
+
+(~not-procedure? #null) => #t
+(~not-procedure? #void) => #t
+(~not-procedure? #undefined) => #t
+(~not-procedure? #t) => #t
+(~not-procedure? #f) => #t
+(~not-procedure? 0) => #t
+(~not-procedure? 0.0) => #t
+(~not-procedure? #\c) => #t
+(~not-procedure? 'symbol) => #t
+(~not-procedure? "string") => #t
+(~not-procedure? #u8()) => #t
+(~not-procedure? #()) => #t
+(~not-procedure? '(0 . 1)) => #t
+(~not-procedure? '(0 1)) => #t
+(~not-procedure? +) => #f
+(~not-procedure? (lambda _ _)) => #f
+
+
+(~not-void? #null) => #t
+(~not-void? #void) => #f
+(~not-void? #undefined) => #t
+(~not-void? #t) => #t
+(~not-void? #f) => #t
+(~not-void? 0) => #t
+(~not-void? 0.0) => #t
+(~not-void? #\c) => #t
+(~not-void? 'symbol) => #t
+(~not-void? "string") => #t
+(~not-void? #u8()) => #t
+(~not-void? #()) => #t
+(~not-void? '(0 . 1)) => #t
+(~not-void? '(0 1)) => #t
+(~not-void? +) => #t
+(~not-void? (lambda _ _)) => #t
+
+
+(~not-undefined? #null) => #t
+(~not-undefined? #void) => #t
+(~not-undefined? #undefined) => #f
+(~not-undefined? #t) => #t
+(~not-undefined? #f) => #t
+(~not-undefined? 0) => #t
+(~not-undefined? 0.0) => #t
+(~not-undefined? #\c) => #t
+(~not-undefined? 'symbol) => #t
+(~not-undefined? "string") => #t
+(~not-undefined? #u8()) => #t
+(~not-undefined? #()) => #t
+(~not-undefined? '(0 . 1)) => #t
+(~not-undefined? '(0 1)) => #t
+(~not-undefined? +) => #t
+(~not-undefined? (lambda _ _)) => #t
+

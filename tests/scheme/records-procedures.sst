@@ -179,14 +179,16 @@
 
 
 (~record? rb1-1) => #t
-(~record? rb1^ rb1-1) => #t
-(~record? rb1^ rb1-1 #t) => #t
-(~record? rb1^ rb1-1 #f) => #f
+(~record-of? rb1-1) => #t
+(~record-of? rb1^ rb1-1) => #t
+(~record-of? rb1^ rb1-1 #t) => #t
+(~record-of? rb1^ rb1-1 #f) => #f
 
 (~record? rb1-2) => #t
-(~record? rb1^ rb1-2) => #t
-(~record? rb1^ rb1-2 #t) => #f
-(~record? rb1^ rb1-2 #f) => #t
+(~record-of? rb1-2) => #t
+(~record-of? rb1^ rb1-2) => #t
+(~record-of? rb1^ rb1-2 #t) => #f
+(~record-of? rb1^ rb1-2 #f) => #t
 
 
 

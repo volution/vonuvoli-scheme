@@ -14,6 +14,8 @@ def_scheme_tests_from_file! (
 		test__quotation => "scheme/quotation.sst",
 		
 		test__types => "scheme/types.sst",
+		test__types_negated => "scheme/types-negated.sst",
+		
 		test__booleans => "scheme/booleans.sst",
 		test__arithmetic => "scheme/arithmetic.sst",
 		
@@ -86,6 +88,8 @@ def_scheme_benchmarks_from_file! (
 		benchmark__quotation => "scheme/quotation.sst",
 		
 		benchmark__types => "scheme/types.sst",
+		benchmark__types_negated => "scheme/types-negated.sst",
+		
 		benchmark__booleans => "scheme/booleans.sst",
 		benchmark__arithmetic => "scheme/arithmetic.sst",
 		

@@ -84,6 +84,7 @@
 (define rb4-1 (~record->mutable (make-rb4 1))) => !ignore
 
 (~record? rb4-1) => #t
+(~record-of? rb4-1) => #t
 (rb4? rb4-1) => #t
 (rb4-f1 rb4-1) => 1
 (rb4-f1-set! rb4-1 2) => 1
@@ -97,6 +98,7 @@
 (define-record-type rc22^ (#t f2 f1) #f f1 f2) => !ignore
 
 (~record? (make-rc0^)) => #t
+(~record-of? (make-rc0^)) => #t
 
 (rc21^-f1 (make-rc21^ 2 1)) => 1
 (rc21^-f2 (make-rc21^ 2 1)) => 2
@@ -122,4 +124,12 @@
 (~record? (make-rd4^ 1 2 3 4)) => #t
 (~record? (make-rd5^ 1 2 3 4 5)) => #t
 (~record? (make-rd6^ 1 2 3 4 5 6)) => #t
+
+(~record-of? (make-rd0^)) => #t
+(~record-of? (make-rd1^ 1)) => #t
+(~record-of? (make-rd2^ 1 2)) => #t
+(~record-of? (make-rd3^ 1 2 3)) => #t
+(~record-of? (make-rd4^ 1 2 3 4)) => #t
+(~record-of? (make-rd5^ 1 2 3 4 5)) => #t
+(~record-of? (make-rd6^ 1 2 3 4 5 6)) => #t
 
