@@ -558,13 +558,21 @@
 	if test './tests/scheme/booleans.sst' -nt './tests/_outputs/scheme--benchmark__booleans.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__booleans.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/booleans.sst' "${@}" ; fi
 	if test './tests/scheme/bytes.sst' -nt './tests/_outputs/scheme--benchmark__bytes.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__bytes.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/bytes.sst' "${@}" ; fi
 	if test './tests/scheme/comparisons-equivalent-by-identity.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_equivalent_by_identity.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_identity.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-by-identity.sst' "${@}" ; fi
-	if test './tests/scheme/comparisons-equivalent-by-value-coerced.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-by-value-coerced.sst' "${@}" ; fi
+	if test './tests/scheme/comparisons-equivalent-by-identity-negated.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_equivalent_by_identity_negated.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_identity_negated.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-by-identity-negated.sst' "${@}" ; fi
 	if test './tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_recursive.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_recursive.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst' "${@}" ; fi
-	if test './tests/scheme/comparisons-equivalent-by-value-strict.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-by-value-strict.sst' "${@}" ; fi
+	if test './tests/scheme/comparisons-equivalent-by-value-coerced-recursive-negated.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_recursive_negated.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_recursive_negated.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-by-value-coerced-recursive-negated.sst' "${@}" ; fi
+	if test './tests/scheme/comparisons-equivalent-by-value-coerced-shallow.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_shallow.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_shallow.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-by-value-coerced-shallow.sst' "${@}" ; fi
+	if test './tests/scheme/comparisons-equivalent-by-value-coerced-shallow-negated.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_shallow_negated.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_shallow_negated.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-by-value-coerced-shallow-negated.sst' "${@}" ; fi
 	if test './tests/scheme/comparisons-equivalent-by-value-strict-recursive.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_recursive.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_recursive.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-by-value-strict-recursive.sst' "${@}" ; fi
+	if test './tests/scheme/comparisons-equivalent-by-value-strict-recursive-negated.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_recursive_negated.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_recursive_negated.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-by-value-strict-recursive-negated.sst' "${@}" ; fi
+	if test './tests/scheme/comparisons-equivalent-by-value-strict-shallow.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_shallow.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_shallow.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-by-value-strict-shallow.sst' "${@}" ; fi
+	if test './tests/scheme/comparisons-equivalent-by-value-strict-shallow-negated.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_shallow_negated.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_shallow_negated.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-by-value-strict-shallow-negated.sst' "${@}" ; fi
 	if test './tests/scheme/comparisons-equivalent-objects.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_equivalent_objects.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_objects.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-objects.sst' "${@}" ; fi
+	if test './tests/scheme/comparisons-equivalent-objects-negated.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_equivalent_objects_negated.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_objects_negated.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-objects-negated.sst' "${@}" ; fi
 	if test './tests/scheme/comparisons-ordering-numbers.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_ordering_numbers.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_ordering_numbers.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-ordering-numbers.sst' "${@}" ; fi
+	if test './tests/scheme/comparisons-ordering-numbers-negated.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_ordering_numbers_negated.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_ordering_numbers_negated.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-ordering-numbers-negated.sst' "${@}" ; fi
 	if test './tests/scheme/comparisons-ordering-objects.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_ordering_objects.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_ordering_objects.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-ordering-objects.sst' "${@}" ; fi
+	if test './tests/scheme/comparisons-ordering-objects-negated.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_ordering_objects_negated.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_ordering_objects_negated.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-ordering-objects-negated.sst' "${@}" ; fi
 	if test './tests/scheme/contexts.sst' -nt './tests/_outputs/scheme--benchmark__contexts.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__contexts.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/contexts.sst' "${@}" ; fi
 	if test './tests/scheme/control.sst' -nt './tests/_outputs/scheme--benchmark__control.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__control.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/control.sst' "${@}" ; fi
 	if test './tests/scheme/crypto.sst' -nt './tests/_outputs/scheme--benchmark__crypto.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__crypto.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/crypto.sst' "${@}" ; fi
@@ -661,16 +669,16 @@
 	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_identity.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-identity.sst' "${@}"
 !!
 
-<< execute / bin / bencher / comparisons-equivalent-by-value-coerced / debug
-	exec -- taskset -c 2 x-run ':: execute / bin / bencher / debug' './tests/scheme/comparisons-equivalent-by-value-coerced.sst' "${@}"
+<< execute / bin / bencher / comparisons-equivalent-by-identity-negated / debug
+	exec -- taskset -c 2 x-run ':: execute / bin / bencher / debug' './tests/scheme/comparisons-equivalent-by-identity-negated.sst' "${@}"
 !!
 
-<< execute / bin / bencher / comparisons-equivalent-by-value-coerced / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / bin / bencher / comparisons-equivalent-by-value-coerced / debug'
+<< execute / bin / bencher / comparisons-equivalent-by-identity-negated / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / bin / bencher / comparisons-equivalent-by-identity-negated / debug'
 !!
 
-<< execute / bin / bencher / comparisons-equivalent-by-value-coerced / release
-	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-value-coerced.sst' "${@}"
+<< execute / bin / bencher / comparisons-equivalent-by-identity-negated / release
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_identity_negated.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-identity-negated.sst' "${@}"
 !!
 
 << execute / bin / bencher / comparisons-equivalent-by-value-coerced-recursive / debug
@@ -685,16 +693,40 @@
 	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_recursive.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst' "${@}"
 !!
 
-<< execute / bin / bencher / comparisons-equivalent-by-value-strict / debug
-	exec -- taskset -c 2 x-run ':: execute / bin / bencher / debug' './tests/scheme/comparisons-equivalent-by-value-strict.sst' "${@}"
+<< execute / bin / bencher / comparisons-equivalent-by-value-coerced-recursive-negated / debug
+	exec -- taskset -c 2 x-run ':: execute / bin / bencher / debug' './tests/scheme/comparisons-equivalent-by-value-coerced-recursive-negated.sst' "${@}"
 !!
 
-<< execute / bin / bencher / comparisons-equivalent-by-value-strict / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / bin / bencher / comparisons-equivalent-by-value-strict / debug'
+<< execute / bin / bencher / comparisons-equivalent-by-value-coerced-recursive-negated / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / bin / bencher / comparisons-equivalent-by-value-coerced-recursive-negated / debug'
 !!
 
-<< execute / bin / bencher / comparisons-equivalent-by-value-strict / release
-	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-value-strict.sst' "${@}"
+<< execute / bin / bencher / comparisons-equivalent-by-value-coerced-recursive-negated / release
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_recursive_negated.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-value-coerced-recursive-negated.sst' "${@}"
+!!
+
+<< execute / bin / bencher / comparisons-equivalent-by-value-coerced-shallow / debug
+	exec -- taskset -c 2 x-run ':: execute / bin / bencher / debug' './tests/scheme/comparisons-equivalent-by-value-coerced-shallow.sst' "${@}"
+!!
+
+<< execute / bin / bencher / comparisons-equivalent-by-value-coerced-shallow / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / bin / bencher / comparisons-equivalent-by-value-coerced-shallow / debug'
+!!
+
+<< execute / bin / bencher / comparisons-equivalent-by-value-coerced-shallow / release
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_shallow.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-value-coerced-shallow.sst' "${@}"
+!!
+
+<< execute / bin / bencher / comparisons-equivalent-by-value-coerced-shallow-negated / debug
+	exec -- taskset -c 2 x-run ':: execute / bin / bencher / debug' './tests/scheme/comparisons-equivalent-by-value-coerced-shallow-negated.sst' "${@}"
+!!
+
+<< execute / bin / bencher / comparisons-equivalent-by-value-coerced-shallow-negated / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / bin / bencher / comparisons-equivalent-by-value-coerced-shallow-negated / debug'
+!!
+
+<< execute / bin / bencher / comparisons-equivalent-by-value-coerced-shallow-negated / release
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_shallow_negated.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-value-coerced-shallow-negated.sst' "${@}"
 !!
 
 << execute / bin / bencher / comparisons-equivalent-by-value-strict-recursive / debug
@@ -709,6 +741,42 @@
 	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_recursive.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-value-strict-recursive.sst' "${@}"
 !!
 
+<< execute / bin / bencher / comparisons-equivalent-by-value-strict-recursive-negated / debug
+	exec -- taskset -c 2 x-run ':: execute / bin / bencher / debug' './tests/scheme/comparisons-equivalent-by-value-strict-recursive-negated.sst' "${@}"
+!!
+
+<< execute / bin / bencher / comparisons-equivalent-by-value-strict-recursive-negated / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / bin / bencher / comparisons-equivalent-by-value-strict-recursive-negated / debug'
+!!
+
+<< execute / bin / bencher / comparisons-equivalent-by-value-strict-recursive-negated / release
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_recursive_negated.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-value-strict-recursive-negated.sst' "${@}"
+!!
+
+<< execute / bin / bencher / comparisons-equivalent-by-value-strict-shallow / debug
+	exec -- taskset -c 2 x-run ':: execute / bin / bencher / debug' './tests/scheme/comparisons-equivalent-by-value-strict-shallow.sst' "${@}"
+!!
+
+<< execute / bin / bencher / comparisons-equivalent-by-value-strict-shallow / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / bin / bencher / comparisons-equivalent-by-value-strict-shallow / debug'
+!!
+
+<< execute / bin / bencher / comparisons-equivalent-by-value-strict-shallow / release
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_shallow.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-value-strict-shallow.sst' "${@}"
+!!
+
+<< execute / bin / bencher / comparisons-equivalent-by-value-strict-shallow-negated / debug
+	exec -- taskset -c 2 x-run ':: execute / bin / bencher / debug' './tests/scheme/comparisons-equivalent-by-value-strict-shallow-negated.sst' "${@}"
+!!
+
+<< execute / bin / bencher / comparisons-equivalent-by-value-strict-shallow-negated / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / bin / bencher / comparisons-equivalent-by-value-strict-shallow-negated / debug'
+!!
+
+<< execute / bin / bencher / comparisons-equivalent-by-value-strict-shallow-negated / release
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_shallow_negated.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-by-value-strict-shallow-negated.sst' "${@}"
+!!
+
 << execute / bin / bencher / comparisons-equivalent-objects / debug
 	exec -- taskset -c 2 x-run ':: execute / bin / bencher / debug' './tests/scheme/comparisons-equivalent-objects.sst' "${@}"
 !!
@@ -719,6 +787,18 @@
 
 << execute / bin / bencher / comparisons-equivalent-objects / release
 	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_objects.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-objects.sst' "${@}"
+!!
+
+<< execute / bin / bencher / comparisons-equivalent-objects-negated / debug
+	exec -- taskset -c 2 x-run ':: execute / bin / bencher / debug' './tests/scheme/comparisons-equivalent-objects-negated.sst' "${@}"
+!!
+
+<< execute / bin / bencher / comparisons-equivalent-objects-negated / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / bin / bencher / comparisons-equivalent-objects-negated / debug'
+!!
+
+<< execute / bin / bencher / comparisons-equivalent-objects-negated / release
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_objects_negated.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-equivalent-objects-negated.sst' "${@}"
 !!
 
 << execute / bin / bencher / comparisons-ordering-numbers / debug
@@ -733,6 +813,18 @@
 	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_ordering_numbers.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-ordering-numbers.sst' "${@}"
 !!
 
+<< execute / bin / bencher / comparisons-ordering-numbers-negated / debug
+	exec -- taskset -c 2 x-run ':: execute / bin / bencher / debug' './tests/scheme/comparisons-ordering-numbers-negated.sst' "${@}"
+!!
+
+<< execute / bin / bencher / comparisons-ordering-numbers-negated / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / bin / bencher / comparisons-ordering-numbers-negated / debug'
+!!
+
+<< execute / bin / bencher / comparisons-ordering-numbers-negated / release
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_ordering_numbers_negated.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-ordering-numbers-negated.sst' "${@}"
+!!
+
 << execute / bin / bencher / comparisons-ordering-objects / debug
 	exec -- taskset -c 2 x-run ':: execute / bin / bencher / debug' './tests/scheme/comparisons-ordering-objects.sst' "${@}"
 !!
@@ -743,6 +835,18 @@
 
 << execute / bin / bencher / comparisons-ordering-objects / release
 	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_ordering_objects.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-ordering-objects.sst' "${@}"
+!!
+
+<< execute / bin / bencher / comparisons-ordering-objects-negated / debug
+	exec -- taskset -c 2 x-run ':: execute / bin / bencher / debug' './tests/scheme/comparisons-ordering-objects-negated.sst' "${@}"
+!!
+
+<< execute / bin / bencher / comparisons-ordering-objects-negated / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / bin / bencher / comparisons-ordering-objects-negated / debug'
+!!
+
+<< execute / bin / bencher / comparisons-ordering-objects-negated / release
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_ordering_objects_negated.out' x-run ':: execute / bin / bencher / release' './tests/scheme/comparisons-ordering-objects-negated.sst' "${@}"
 !!
 
 << execute / bin / bencher / contexts / debug
@@ -1548,13 +1652,21 @@
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/booleans.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/bytes.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-by-identity.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-by-value-coerced.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-by-identity-negated.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-by-value-strict.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-by-value-coerced-recursive-negated.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-by-value-coerced-shallow.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-by-value-coerced-shallow-negated.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-by-value-strict-recursive.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-by-value-strict-recursive-negated.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-by-value-strict-shallow.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-by-value-strict-shallow-negated.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-objects.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-objects-negated.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-ordering-numbers.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-ordering-numbers-negated.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-ordering-objects.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-ordering-objects-negated.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/contexts.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/control.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/crypto.sst' "${@}"
@@ -1651,16 +1763,16 @@
 	exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/comparisons-equivalent-by-identity.sst' "${@}"
 !!
 
-<< execute / bin / tester / comparisons-equivalent-by-value-coerced / debug
-	exec -- nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/comparisons-equivalent-by-value-coerced.sst' "${@}"
+<< execute / bin / tester / comparisons-equivalent-by-identity-negated / debug
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/comparisons-equivalent-by-identity-negated.sst' "${@}"
 !!
 
-<< execute / bin / tester / comparisons-equivalent-by-value-coerced / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / bin / tester / comparisons-equivalent-by-value-coerced / debug'
+<< execute / bin / tester / comparisons-equivalent-by-identity-negated / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / bin / tester / comparisons-equivalent-by-identity-negated / debug'
 !!
 
-<< execute / bin / tester / comparisons-equivalent-by-value-coerced / release
-	exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/comparisons-equivalent-by-value-coerced.sst' "${@}"
+<< execute / bin / tester / comparisons-equivalent-by-identity-negated / release
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/comparisons-equivalent-by-identity-negated.sst' "${@}"
 !!
 
 << execute / bin / tester / comparisons-equivalent-by-value-coerced-recursive / debug
@@ -1675,16 +1787,40 @@
 	exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst' "${@}"
 !!
 
-<< execute / bin / tester / comparisons-equivalent-by-value-strict / debug
-	exec -- nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/comparisons-equivalent-by-value-strict.sst' "${@}"
+<< execute / bin / tester / comparisons-equivalent-by-value-coerced-recursive-negated / debug
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/comparisons-equivalent-by-value-coerced-recursive-negated.sst' "${@}"
 !!
 
-<< execute / bin / tester / comparisons-equivalent-by-value-strict / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / bin / tester / comparisons-equivalent-by-value-strict / debug'
+<< execute / bin / tester / comparisons-equivalent-by-value-coerced-recursive-negated / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / bin / tester / comparisons-equivalent-by-value-coerced-recursive-negated / debug'
 !!
 
-<< execute / bin / tester / comparisons-equivalent-by-value-strict / release
-	exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/comparisons-equivalent-by-value-strict.sst' "${@}"
+<< execute / bin / tester / comparisons-equivalent-by-value-coerced-recursive-negated / release
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/comparisons-equivalent-by-value-coerced-recursive-negated.sst' "${@}"
+!!
+
+<< execute / bin / tester / comparisons-equivalent-by-value-coerced-shallow / debug
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/comparisons-equivalent-by-value-coerced-shallow.sst' "${@}"
+!!
+
+<< execute / bin / tester / comparisons-equivalent-by-value-coerced-shallow / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / bin / tester / comparisons-equivalent-by-value-coerced-shallow / debug'
+!!
+
+<< execute / bin / tester / comparisons-equivalent-by-value-coerced-shallow / release
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/comparisons-equivalent-by-value-coerced-shallow.sst' "${@}"
+!!
+
+<< execute / bin / tester / comparisons-equivalent-by-value-coerced-shallow-negated / debug
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/comparisons-equivalent-by-value-coerced-shallow-negated.sst' "${@}"
+!!
+
+<< execute / bin / tester / comparisons-equivalent-by-value-coerced-shallow-negated / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / bin / tester / comparisons-equivalent-by-value-coerced-shallow-negated / debug'
+!!
+
+<< execute / bin / tester / comparisons-equivalent-by-value-coerced-shallow-negated / release
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/comparisons-equivalent-by-value-coerced-shallow-negated.sst' "${@}"
 !!
 
 << execute / bin / tester / comparisons-equivalent-by-value-strict-recursive / debug
@@ -1699,6 +1835,42 @@
 	exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/comparisons-equivalent-by-value-strict-recursive.sst' "${@}"
 !!
 
+<< execute / bin / tester / comparisons-equivalent-by-value-strict-recursive-negated / debug
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/comparisons-equivalent-by-value-strict-recursive-negated.sst' "${@}"
+!!
+
+<< execute / bin / tester / comparisons-equivalent-by-value-strict-recursive-negated / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / bin / tester / comparisons-equivalent-by-value-strict-recursive-negated / debug'
+!!
+
+<< execute / bin / tester / comparisons-equivalent-by-value-strict-recursive-negated / release
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/comparisons-equivalent-by-value-strict-recursive-negated.sst' "${@}"
+!!
+
+<< execute / bin / tester / comparisons-equivalent-by-value-strict-shallow / debug
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/comparisons-equivalent-by-value-strict-shallow.sst' "${@}"
+!!
+
+<< execute / bin / tester / comparisons-equivalent-by-value-strict-shallow / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / bin / tester / comparisons-equivalent-by-value-strict-shallow / debug'
+!!
+
+<< execute / bin / tester / comparisons-equivalent-by-value-strict-shallow / release
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/comparisons-equivalent-by-value-strict-shallow.sst' "${@}"
+!!
+
+<< execute / bin / tester / comparisons-equivalent-by-value-strict-shallow-negated / debug
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/comparisons-equivalent-by-value-strict-shallow-negated.sst' "${@}"
+!!
+
+<< execute / bin / tester / comparisons-equivalent-by-value-strict-shallow-negated / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / bin / tester / comparisons-equivalent-by-value-strict-shallow-negated / debug'
+!!
+
+<< execute / bin / tester / comparisons-equivalent-by-value-strict-shallow-negated / release
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/comparisons-equivalent-by-value-strict-shallow-negated.sst' "${@}"
+!!
+
 << execute / bin / tester / comparisons-equivalent-objects / debug
 	exec -- nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/comparisons-equivalent-objects.sst' "${@}"
 !!
@@ -1709,6 +1881,18 @@
 
 << execute / bin / tester / comparisons-equivalent-objects / release
 	exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/comparisons-equivalent-objects.sst' "${@}"
+!!
+
+<< execute / bin / tester / comparisons-equivalent-objects-negated / debug
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/comparisons-equivalent-objects-negated.sst' "${@}"
+!!
+
+<< execute / bin / tester / comparisons-equivalent-objects-negated / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / bin / tester / comparisons-equivalent-objects-negated / debug'
+!!
+
+<< execute / bin / tester / comparisons-equivalent-objects-negated / release
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/comparisons-equivalent-objects-negated.sst' "${@}"
 !!
 
 << execute / bin / tester / comparisons-ordering-numbers / debug
@@ -1723,6 +1907,18 @@
 	exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/comparisons-ordering-numbers.sst' "${@}"
 !!
 
+<< execute / bin / tester / comparisons-ordering-numbers-negated / debug
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/comparisons-ordering-numbers-negated.sst' "${@}"
+!!
+
+<< execute / bin / tester / comparisons-ordering-numbers-negated / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / bin / tester / comparisons-ordering-numbers-negated / debug'
+!!
+
+<< execute / bin / tester / comparisons-ordering-numbers-negated / release
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/comparisons-ordering-numbers-negated.sst' "${@}"
+!!
+
 << execute / bin / tester / comparisons-ordering-objects / debug
 	exec -- nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/comparisons-ordering-objects.sst' "${@}"
 !!
@@ -1733,6 +1929,18 @@
 
 << execute / bin / tester / comparisons-ordering-objects / release
 	exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/comparisons-ordering-objects.sst' "${@}"
+!!
+
+<< execute / bin / tester / comparisons-ordering-objects-negated / debug
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / debug' './tests/scheme/comparisons-ordering-objects-negated.sst' "${@}"
+!!
+
+<< execute / bin / tester / comparisons-ordering-objects-negated / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / bin / tester / comparisons-ordering-objects-negated / debug'
+!!
+
+<< execute / bin / tester / comparisons-ordering-objects-negated / release
+	exec -- nice -n 19 -- x-run ':: execute / bin / tester / release' './tests/scheme/comparisons-ordering-objects-negated.sst' "${@}"
 !!
 
 << execute / bin / tester / contexts / debug
@@ -2467,12 +2675,12 @@
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_by_identity' --exact "${@}"
 !!
 
-<< execute / test / scheme / benchmarks / comparisons_equivalent_by_value_coerced / debug
-	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_by_value_coerced' --exact "${@}"
+<< execute / test / scheme / benchmarks / comparisons_equivalent_by_identity_negated / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_by_identity_negated' --exact "${@}"
 !!
 
-<< execute / test / scheme / benchmarks / comparisons_equivalent_by_value_coerced / release
-	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_by_value_coerced' --exact "${@}"
+<< execute / test / scheme / benchmarks / comparisons_equivalent_by_identity_negated / release
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_by_identity_negated' --exact "${@}"
 !!
 
 << execute / test / scheme / benchmarks / comparisons_equivalent_by_value_coerced_recursive / debug
@@ -2483,12 +2691,28 @@
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_by_value_coerced_recursive' --exact "${@}"
 !!
 
-<< execute / test / scheme / benchmarks / comparisons_equivalent_by_value_strict / debug
-	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_by_value_strict' --exact "${@}"
+<< execute / test / scheme / benchmarks / comparisons_equivalent_by_value_coerced_recursive_negated / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_by_value_coerced_recursive_negated' --exact "${@}"
 !!
 
-<< execute / test / scheme / benchmarks / comparisons_equivalent_by_value_strict / release
-	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_by_value_strict' --exact "${@}"
+<< execute / test / scheme / benchmarks / comparisons_equivalent_by_value_coerced_recursive_negated / release
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_by_value_coerced_recursive_negated' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / comparisons_equivalent_by_value_coerced_shallow / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_by_value_coerced_shallow' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / comparisons_equivalent_by_value_coerced_shallow / release
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_by_value_coerced_shallow' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / comparisons_equivalent_by_value_coerced_shallow_negated / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_by_value_coerced_shallow_negated' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / comparisons_equivalent_by_value_coerced_shallow_negated / release
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_by_value_coerced_shallow_negated' --exact "${@}"
 !!
 
 << execute / test / scheme / benchmarks / comparisons_equivalent_by_value_strict_recursive / debug
@@ -2499,12 +2723,44 @@
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_by_value_strict_recursive' --exact "${@}"
 !!
 
+<< execute / test / scheme / benchmarks / comparisons_equivalent_by_value_strict_recursive_negated / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_by_value_strict_recursive_negated' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / comparisons_equivalent_by_value_strict_recursive_negated / release
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_by_value_strict_recursive_negated' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / comparisons_equivalent_by_value_strict_shallow / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_by_value_strict_shallow' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / comparisons_equivalent_by_value_strict_shallow / release
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_by_value_strict_shallow' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / comparisons_equivalent_by_value_strict_shallow_negated / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_by_value_strict_shallow_negated' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / comparisons_equivalent_by_value_strict_shallow_negated / release
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_by_value_strict_shallow_negated' --exact "${@}"
+!!
+
 << execute / test / scheme / benchmarks / comparisons_equivalent_objects / debug
 	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_objects' --exact "${@}"
 !!
 
 << execute / test / scheme / benchmarks / comparisons_equivalent_objects / release
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_objects' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / comparisons_equivalent_objects_negated / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_objects_negated' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / comparisons_equivalent_objects_negated / release
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_equivalent_objects_negated' --exact "${@}"
 !!
 
 << execute / test / scheme / benchmarks / comparisons_ordering_numbers / debug
@@ -2515,12 +2771,28 @@
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_ordering_numbers' --exact "${@}"
 !!
 
+<< execute / test / scheme / benchmarks / comparisons_ordering_numbers_negated / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_ordering_numbers_negated' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / comparisons_ordering_numbers_negated / release
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_ordering_numbers_negated' --exact "${@}"
+!!
+
 << execute / test / scheme / benchmarks / comparisons_ordering_objects / debug
 	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_ordering_objects' --exact "${@}"
 !!
 
 << execute / test / scheme / benchmarks / comparisons_ordering_objects / release
 	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_ordering_objects' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / comparisons_ordering_objects_negated / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_ordering_objects_negated' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / comparisons_ordering_objects_negated / release
+	x-run ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__comparisons_ordering_objects_negated' --exact "${@}"
 !!
 
 << execute / test / scheme / benchmarks / contexts / debug
@@ -2875,16 +3147,16 @@
 	x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_equivalent_by_identity' --exact "${@}"
 !!
 
-<< execute / test / scheme / tests / comparisons_equivalent_by_value_coerced / debug
-	x-run ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_equivalent_by_value_coerced' --exact "${@}"
+<< execute / test / scheme / tests / comparisons_equivalent_by_identity_negated / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_equivalent_by_identity_negated' --exact "${@}"
 !!
 
-<< execute / test / scheme / tests / comparisons_equivalent_by_value_coerced / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / comparisons_equivalent_by_value_coerced / debug' "${@}"
+<< execute / test / scheme / tests / comparisons_equivalent_by_identity_negated / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / comparisons_equivalent_by_identity_negated / debug' "${@}"
 !!
 
-<< execute / test / scheme / tests / comparisons_equivalent_by_value_coerced / release
-	x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_equivalent_by_value_coerced' --exact "${@}"
+<< execute / test / scheme / tests / comparisons_equivalent_by_identity_negated / release
+	x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_equivalent_by_identity_negated' --exact "${@}"
 !!
 
 << execute / test / scheme / tests / comparisons_equivalent_by_value_coerced_recursive / debug
@@ -2899,16 +3171,40 @@
 	x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_equivalent_by_value_coerced_recursive' --exact "${@}"
 !!
 
-<< execute / test / scheme / tests / comparisons_equivalent_by_value_strict / debug
-	x-run ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_equivalent_by_value_strict' --exact "${@}"
+<< execute / test / scheme / tests / comparisons_equivalent_by_value_coerced_recursive_negated / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_equivalent_by_value_coerced_recursive_negated' --exact "${@}"
 !!
 
-<< execute / test / scheme / tests / comparisons_equivalent_by_value_strict / debug / watch
-	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / comparisons_equivalent_by_value_strict / debug' "${@}"
+<< execute / test / scheme / tests / comparisons_equivalent_by_value_coerced_recursive_negated / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / comparisons_equivalent_by_value_coerced_recursive_negated / debug' "${@}"
 !!
 
-<< execute / test / scheme / tests / comparisons_equivalent_by_value_strict / release
-	x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_equivalent_by_value_strict' --exact "${@}"
+<< execute / test / scheme / tests / comparisons_equivalent_by_value_coerced_recursive_negated / release
+	x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_equivalent_by_value_coerced_recursive_negated' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / comparisons_equivalent_by_value_coerced_shallow / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_equivalent_by_value_coerced_shallow' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / comparisons_equivalent_by_value_coerced_shallow / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / comparisons_equivalent_by_value_coerced_shallow / debug' "${@}"
+!!
+
+<< execute / test / scheme / tests / comparisons_equivalent_by_value_coerced_shallow / release
+	x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_equivalent_by_value_coerced_shallow' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / comparisons_equivalent_by_value_coerced_shallow_negated / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_equivalent_by_value_coerced_shallow_negated' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / comparisons_equivalent_by_value_coerced_shallow_negated / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / comparisons_equivalent_by_value_coerced_shallow_negated / debug' "${@}"
+!!
+
+<< execute / test / scheme / tests / comparisons_equivalent_by_value_coerced_shallow_negated / release
+	x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_equivalent_by_value_coerced_shallow_negated' --exact "${@}"
 !!
 
 << execute / test / scheme / tests / comparisons_equivalent_by_value_strict_recursive / debug
@@ -2923,6 +3219,42 @@
 	x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_equivalent_by_value_strict_recursive' --exact "${@}"
 !!
 
+<< execute / test / scheme / tests / comparisons_equivalent_by_value_strict_recursive_negated / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_equivalent_by_value_strict_recursive_negated' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / comparisons_equivalent_by_value_strict_recursive_negated / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / comparisons_equivalent_by_value_strict_recursive_negated / debug' "${@}"
+!!
+
+<< execute / test / scheme / tests / comparisons_equivalent_by_value_strict_recursive_negated / release
+	x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_equivalent_by_value_strict_recursive_negated' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / comparisons_equivalent_by_value_strict_shallow / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_equivalent_by_value_strict_shallow' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / comparisons_equivalent_by_value_strict_shallow / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / comparisons_equivalent_by_value_strict_shallow / debug' "${@}"
+!!
+
+<< execute / test / scheme / tests / comparisons_equivalent_by_value_strict_shallow / release
+	x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_equivalent_by_value_strict_shallow' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / comparisons_equivalent_by_value_strict_shallow_negated / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_equivalent_by_value_strict_shallow_negated' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / comparisons_equivalent_by_value_strict_shallow_negated / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / comparisons_equivalent_by_value_strict_shallow_negated / debug' "${@}"
+!!
+
+<< execute / test / scheme / tests / comparisons_equivalent_by_value_strict_shallow_negated / release
+	x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_equivalent_by_value_strict_shallow_negated' --exact "${@}"
+!!
+
 << execute / test / scheme / tests / comparisons_equivalent_objects / debug
 	x-run ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_equivalent_objects' --exact "${@}"
 !!
@@ -2933,6 +3265,18 @@
 
 << execute / test / scheme / tests / comparisons_equivalent_objects / release
 	x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_equivalent_objects' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / comparisons_equivalent_objects_negated / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_equivalent_objects_negated' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / comparisons_equivalent_objects_negated / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / comparisons_equivalent_objects_negated / debug' "${@}"
+!!
+
+<< execute / test / scheme / tests / comparisons_equivalent_objects_negated / release
+	x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_equivalent_objects_negated' --exact "${@}"
 !!
 
 << execute / test / scheme / tests / comparisons_ordering_numbers / debug
@@ -2947,6 +3291,18 @@
 	x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_ordering_numbers' --exact "${@}"
 !!
 
+<< execute / test / scheme / tests / comparisons_ordering_numbers_negated / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_ordering_numbers_negated' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / comparisons_ordering_numbers_negated / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / comparisons_ordering_numbers_negated / debug' "${@}"
+!!
+
+<< execute / test / scheme / tests / comparisons_ordering_numbers_negated / release
+	x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_ordering_numbers_negated' --exact "${@}"
+!!
+
 << execute / test / scheme / tests / comparisons_ordering_objects / debug
 	x-run ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_ordering_objects' --exact "${@}"
 !!
@@ -2957,6 +3313,18 @@
 
 << execute / test / scheme / tests / comparisons_ordering_objects / release
 	x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_ordering_objects' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / comparisons_ordering_objects_negated / debug
+	x-run ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_ordering_objects_negated' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / comparisons_ordering_objects_negated / debug / watch
+	exec -- x-run ':: execute / watch' x-run ':: execute / test / scheme / tests / comparisons_ordering_objects_negated / debug' "${@}"
+!!
+
+<< execute / test / scheme / tests / comparisons_ordering_objects_negated / release
+	x-run ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__comparisons_ordering_objects_negated' --exact "${@}"
 !!
 
 << execute / test / scheme / tests / contexts / debug
@@ -3869,32 +4237,64 @@
 	exec -- sce ./tests/scheme/bytes.sst
 !!
 
+<< files / edit / tests/scheme/comparisons-equivalent-by-identity-negated.sst
+	exec -- sce ./tests/scheme/comparisons-equivalent-by-identity-negated.sst
+!!
+
 << files / edit / tests/scheme/comparisons-equivalent-by-identity.sst
 	exec -- sce ./tests/scheme/comparisons-equivalent-by-identity.sst
+!!
+
+<< files / edit / tests/scheme/comparisons-equivalent-by-value-coerced-recursive-negated.sst
+	exec -- sce ./tests/scheme/comparisons-equivalent-by-value-coerced-recursive-negated.sst
 !!
 
 << files / edit / tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst
 	exec -- sce ./tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst
 !!
 
-<< files / edit / tests/scheme/comparisons-equivalent-by-value-coerced.sst
-	exec -- sce ./tests/scheme/comparisons-equivalent-by-value-coerced.sst
+<< files / edit / tests/scheme/comparisons-equivalent-by-value-coerced-shallow-negated.sst
+	exec -- sce ./tests/scheme/comparisons-equivalent-by-value-coerced-shallow-negated.sst
+!!
+
+<< files / edit / tests/scheme/comparisons-equivalent-by-value-coerced-shallow.sst
+	exec -- sce ./tests/scheme/comparisons-equivalent-by-value-coerced-shallow.sst
+!!
+
+<< files / edit / tests/scheme/comparisons-equivalent-by-value-strict-recursive-negated.sst
+	exec -- sce ./tests/scheme/comparisons-equivalent-by-value-strict-recursive-negated.sst
 !!
 
 << files / edit / tests/scheme/comparisons-equivalent-by-value-strict-recursive.sst
 	exec -- sce ./tests/scheme/comparisons-equivalent-by-value-strict-recursive.sst
 !!
 
-<< files / edit / tests/scheme/comparisons-equivalent-by-value-strict.sst
-	exec -- sce ./tests/scheme/comparisons-equivalent-by-value-strict.sst
+<< files / edit / tests/scheme/comparisons-equivalent-by-value-strict-shallow-negated.sst
+	exec -- sce ./tests/scheme/comparisons-equivalent-by-value-strict-shallow-negated.sst
+!!
+
+<< files / edit / tests/scheme/comparisons-equivalent-by-value-strict-shallow.sst
+	exec -- sce ./tests/scheme/comparisons-equivalent-by-value-strict-shallow.sst
+!!
+
+<< files / edit / tests/scheme/comparisons-equivalent-objects-negated.sst
+	exec -- sce ./tests/scheme/comparisons-equivalent-objects-negated.sst
 !!
 
 << files / edit / tests/scheme/comparisons-equivalent-objects.sst
 	exec -- sce ./tests/scheme/comparisons-equivalent-objects.sst
 !!
 
+<< files / edit / tests/scheme/comparisons-ordering-numbers-negated.sst
+	exec -- sce ./tests/scheme/comparisons-ordering-numbers-negated.sst
+!!
+
 << files / edit / tests/scheme/comparisons-ordering-numbers.sst
 	exec -- sce ./tests/scheme/comparisons-ordering-numbers.sst
+!!
+
+<< files / edit / tests/scheme/comparisons-ordering-objects-negated.sst
+	exec -- sce ./tests/scheme/comparisons-ordering-objects-negated.sst
 !!
 
 << files / edit / tests/scheme/comparisons-ordering-objects.sst
@@ -4601,32 +5001,64 @@
 	exec -- less -- ./tests/scheme/bytes.sst
 !!
 
+<< files / view / tests/scheme/comparisons-equivalent-by-identity-negated.sst
+	exec -- less -- ./tests/scheme/comparisons-equivalent-by-identity-negated.sst
+!!
+
 << files / view / tests/scheme/comparisons-equivalent-by-identity.sst
 	exec -- less -- ./tests/scheme/comparisons-equivalent-by-identity.sst
+!!
+
+<< files / view / tests/scheme/comparisons-equivalent-by-value-coerced-recursive-negated.sst
+	exec -- less -- ./tests/scheme/comparisons-equivalent-by-value-coerced-recursive-negated.sst
 !!
 
 << files / view / tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst
 	exec -- less -- ./tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst
 !!
 
-<< files / view / tests/scheme/comparisons-equivalent-by-value-coerced.sst
-	exec -- less -- ./tests/scheme/comparisons-equivalent-by-value-coerced.sst
+<< files / view / tests/scheme/comparisons-equivalent-by-value-coerced-shallow-negated.sst
+	exec -- less -- ./tests/scheme/comparisons-equivalent-by-value-coerced-shallow-negated.sst
+!!
+
+<< files / view / tests/scheme/comparisons-equivalent-by-value-coerced-shallow.sst
+	exec -- less -- ./tests/scheme/comparisons-equivalent-by-value-coerced-shallow.sst
+!!
+
+<< files / view / tests/scheme/comparisons-equivalent-by-value-strict-recursive-negated.sst
+	exec -- less -- ./tests/scheme/comparisons-equivalent-by-value-strict-recursive-negated.sst
 !!
 
 << files / view / tests/scheme/comparisons-equivalent-by-value-strict-recursive.sst
 	exec -- less -- ./tests/scheme/comparisons-equivalent-by-value-strict-recursive.sst
 !!
 
-<< files / view / tests/scheme/comparisons-equivalent-by-value-strict.sst
-	exec -- less -- ./tests/scheme/comparisons-equivalent-by-value-strict.sst
+<< files / view / tests/scheme/comparisons-equivalent-by-value-strict-shallow-negated.sst
+	exec -- less -- ./tests/scheme/comparisons-equivalent-by-value-strict-shallow-negated.sst
+!!
+
+<< files / view / tests/scheme/comparisons-equivalent-by-value-strict-shallow.sst
+	exec -- less -- ./tests/scheme/comparisons-equivalent-by-value-strict-shallow.sst
+!!
+
+<< files / view / tests/scheme/comparisons-equivalent-objects-negated.sst
+	exec -- less -- ./tests/scheme/comparisons-equivalent-objects-negated.sst
 !!
 
 << files / view / tests/scheme/comparisons-equivalent-objects.sst
 	exec -- less -- ./tests/scheme/comparisons-equivalent-objects.sst
 !!
 
+<< files / view / tests/scheme/comparisons-ordering-numbers-negated.sst
+	exec -- less -- ./tests/scheme/comparisons-ordering-numbers-negated.sst
+!!
+
 << files / view / tests/scheme/comparisons-ordering-numbers.sst
 	exec -- less -- ./tests/scheme/comparisons-ordering-numbers.sst
+!!
+
+<< files / view / tests/scheme/comparisons-ordering-objects-negated.sst
+	exec -- less -- ./tests/scheme/comparisons-ordering-objects-negated.sst
 !!
 
 << files / view / tests/scheme/comparisons-ordering-objects.sst

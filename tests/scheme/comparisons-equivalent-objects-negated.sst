@@ -1,0 +1,86 @@
+
+(~not-boolean=?) => #f
+
+(~not-boolean=? #t) => #f
+(~not-boolean=? #t #t) => #f
+(~not-boolean=? #t #t #t) => #f
+(~not-boolean=? #t #t #t #t) => #f
+(~not-boolean=? #t #t #t #t #t) => #f
+
+(~not-boolean=? #f) => #f
+(~not-boolean=? #f #f) => #f
+(~not-boolean=? #f #f #f) => #f
+(~not-boolean=? #f #f #f #f) => #f
+(~not-boolean=? #f #f #f #f #f) => #f
+
+(~not-boolean=? #t #f) => #t
+
+
+(~not-symbol=?) => #f
+(~not-symbol=? '||) => #f
+(~not-symbol=? '|| '||) => #f
+(~not-symbol=? '|| '|| '||) => #f
+(~not-symbol=? '|| '|| '|| '||) => #f
+(~not-symbol=? '|| '|| '|| '|| '||) => #f
+
+(~not-symbol=? 'abc 'abc) => #f
+(~not-symbol=? 'abc 'def) => #t
+
+
+(~not-string=?) => #f
+(~not-string=? "") => #f
+(~not-string=? "" "") => #f
+(~not-string=? "" "" "") => #f
+(~not-string=? "" "" "" "") => #f
+(~not-string=? "" "" "" "" "") => #f
+
+(~not-string=? "abc" "abc") => #f
+(~not-string=? "abc" "def") => #t
+
+
+(~not-bytevector=?) => #f
+(~not-bytevector=? #u8()) => #f
+(~not-bytevector=? #u8() #u8()) => #f
+(~not-bytevector=? #u8() #u8() #u8()) => #f
+(~not-bytevector=? #u8() #u8() #u8() #u8()) => #f
+(~not-bytevector=? #u8() #u8() #u8() #u8() #u8()) => #f
+
+(~not-bytevector=? #u8(0 1 2) #u8(0 1 2)) => #f
+(~not-bytevector=? #u8(0 1 2) #u8(3 4 5)) => #t
+
+
+(~not-pair=?) => #f
+(~not-pair=? '(0 . 0)) => #f
+(~not-pair=? '(0 . 0) '(0 . 0)) => #f
+(~not-pair=? '(0 . 0) '(0 . 0) '(0 . 0)) => #f
+(~not-pair=? '(0 . 0) '(0 . 0) '(0 . 0) '(0 . 0)) => #f
+(~not-pair=? '(0 . 0) '(0 . 0) '(0 . 0) '(0 . 0) '(0 . 0)) => #f
+
+(~not-pair=? '(0 . 1) '(0 . 1)) => #f
+(~not-pair=? '(0 . 1) '(2 . 3)) => #t
+(~not-pair=? '((0) . 1) '((0) . 1)) => #f
+(~not-pair=? '(0 . (1)) '(0 . (1))) => #f
+
+
+(~not-vector=?) => #f
+(~not-vector=? #()) => #f
+(~not-vector=? #() #()) => #f
+(~not-vector=? #() #() #()) => #f
+(~not-vector=? #() #() #() #()) => #f
+(~not-vector=? #() #() #() #() #()) => #f
+
+(~not-vector=? #(0 1 2) #(0 1 2)) => #f
+(~not-vector=? #(0 1 2) #(3 4 5)) => #t
+(~not-vector=? #((0) (1) (2)) #((0) (1) (2))) => #f
+
+
+(~not-values=? #values()) => #f
+(~not-values=? #values() #values()) => #f
+(~not-values=? #values() #values() #values()) => #f
+(~not-values=? #values() #values() #values() #values()) => #f
+(~not-values=? #values() #values() #values() #values() #values()) => #f
+
+(~not-values=? #values(0 1 2) #values(0 1 2)) => #f
+(~not-values=? #values(0 1 2) #values(3 4 5)) => #t
+(~not-values=? #values((0) (1) (2)) #values((0) (1) (2))) => #f
+

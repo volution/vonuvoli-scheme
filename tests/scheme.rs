@@ -38,10 +38,17 @@ def_scheme_tests_from_file! (
 		
 		test__comparisons_equivalent_objects => "scheme/comparisons-equivalent-objects.sst",
 		test__comparisons_equivalent_by_identity => "scheme/comparisons-equivalent-by-identity.sst",
-		test__comparisons_equivalent_by_value_strict => "scheme/comparisons-equivalent-by-value-strict.sst",
+		test__comparisons_equivalent_by_value_strict_shallow => "scheme/comparisons-equivalent-by-value-strict-shallow.sst",
 		test__comparisons_equivalent_by_value_strict_recursive => "scheme/comparisons-equivalent-by-value-strict-recursive.sst",
-		test__comparisons_equivalent_by_value_coerced => "scheme/comparisons-equivalent-by-value-coerced.sst",
+		test__comparisons_equivalent_by_value_coerced_shallow => "scheme/comparisons-equivalent-by-value-coerced-shallow.sst",
 		test__comparisons_equivalent_by_value_coerced_recursive => "scheme/comparisons-equivalent-by-value-coerced-recursive.sst",
+		
+		test__comparisons_equivalent_objects_negated => "scheme/comparisons-equivalent-objects-negated.sst",
+		test__comparisons_equivalent_by_identity_negated => "scheme/comparisons-equivalent-by-identity-negated.sst",
+		test__comparisons_equivalent_by_value_strict_shallow_negated => "scheme/comparisons-equivalent-by-value-strict-shallow-negated.sst",
+		test__comparisons_equivalent_by_value_strict_recursive_negated => "scheme/comparisons-equivalent-by-value-strict-recursive-negated.sst",
+		test__comparisons_equivalent_by_value_coerced_shallow_negated => "scheme/comparisons-equivalent-by-value-coerced-shallow-negated.sst",
+		test__comparisons_equivalent_by_value_coerced_recursive_negated => "scheme/comparisons-equivalent-by-value-coerced-recursive-negated.sst",
 		
 		test__comparisons_ordering_numbers => "scheme/comparisons-ordering-numbers.sst",
 		test__comparisons_ordering_objects => "scheme/comparisons-ordering-objects.sst",
@@ -103,10 +110,17 @@ def_scheme_benchmarks_from_file! (
 		
 		benchmark__comparisons_equivalent_objects => "scheme/comparisons-equivalent-objects.sst",
 		benchmark__comparisons_equivalent_by_identity => "scheme/comparisons-equivalent-by-identity.sst",
-		benchmark__comparisons_equivalent_by_value_strict => "scheme/comparisons-equivalent-by-value-strict.sst",
+		benchmark__comparisons_equivalent_by_value_strict_shallow => "scheme/comparisons-equivalent-by-value-strict-shallow.sst",
 		benchmark__comparisons_equivalent_by_value_strict_recursive => "scheme/comparisons-equivalent-by-value-strict-recursive.sst",
-		benchmark__comparisons_equivalent_by_value_coerced => "scheme/comparisons-equivalent-by-value-coerced.sst",
+		benchmark__comparisons_equivalent_by_value_coerced_shallow => "scheme/comparisons-equivalent-by-value-coerced-shallow.sst",
 		benchmark__comparisons_equivalent_by_value_coerced_recursive => "scheme/comparisons-equivalent-by-value-coerced-recursive.sst",
+		
+		benchmark__comparisons_equivalent_objects_negated => "scheme/comparisons-equivalent-objects-negated.sst",
+		benchmark__comparisons_equivalent_by_identity_negated => "scheme/comparisons-equivalent-by-identity-negated.sst",
+		benchmark__comparisons_equivalent_by_value_strict_shallow_negated => "scheme/comparisons-equivalent-by-value-strict-shallow-negated.sst",
+		benchmark__comparisons_equivalent_by_value_strict_recursive_negated => "scheme/comparisons-equivalent-by-value-strict-recursive-negated.sst",
+		benchmark__comparisons_equivalent_by_value_coerced_shallow_negated => "scheme/comparisons-equivalent-by-value-coerced-shallow-negated.sst",
+		benchmark__comparisons_equivalent_by_value_coerced_recursive_negated => "scheme/comparisons-equivalent-by-value-coerced-recursive-negated.sst",
 		
 		benchmark__comparisons_ordering_numbers => "scheme/comparisons-ordering-numbers.sst",
 		benchmark__comparisons_ordering_objects => "scheme/comparisons-ordering-objects.sst",
