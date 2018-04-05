@@ -397,8 +397,9 @@ macro_rules! def_fn_compare {
 			let input_1 = input_1.as_ref ();
 			let input_2 = input_2.as_ref ();
 			let input_3 = input_3.as_ref ();
-			if ! try! ($compare_2 (input_1, input_2, comparison)) {
-				succeed! (false);
+			let negated = comparison.negated ();
+			if ! try! ($compare_2 (input_1, input_2, comparison)) ^ negated {
+				succeed! (false ^ negated);
 			}
 			return $compare_2 (input_2, input_3, comparison);
 		}
@@ -408,20 +409,22 @@ macro_rules! def_fn_compare {
 			let input_2 = input_2.as_ref ();
 			let input_3 = input_3.as_ref ();
 			let input_4 = input_4.as_ref ();
-			if ! try! ($compare_2 (input_1, input_2, comparison)) {
-				succeed! (false);
+			let negated = comparison.negated ();
+			if ! try! ($compare_2 (input_1, input_2, comparison)) ^ negated {
+				succeed! (false ^ negated);
 			}
-			if ! try! ($compare_2 (input_2, input_3, comparison)) {
-				succeed! (false);
+			if ! try! ($compare_2 (input_2, input_3, comparison)) ^ negated {
+				succeed! (false ^ negated);
 			}
 			return $compare_2 (input_3, input_4, comparison);
 		}
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		pub fn $compare_n <ValueRef : StdAsRef<$type>> (inputs : &[ValueRef], comparison : Comparison) -> (Outcome<bool>) {
 			let inputs_count = inputs.len ();
+			let negated = comparison.negated ();
 			match inputs_count {
 				0 =>
-					succeed! (true),
+					succeed! (true ^ negated),
 				1 =>
 					return $compare_1 (inputs[0].as_ref (), comparison),
 				_ =>
@@ -430,12 +433,12 @@ macro_rules! def_fn_compare {
 			let mut inputs_iterator = inputs.iter ();
 			let mut input_previous = inputs_iterator.next () .unwrap ();
 			for input_current in inputs_iterator {
-				if ! try! ($compare_2 (input_previous, input_current, comparison)) {
-					succeed! (false);
+				if ! try! ($compare_2 (input_previous, input_current, comparison)) ^ negated {
+					succeed! (false ^ negated);
 				}
 				input_previous = input_current;
 			}
-			succeed! (true);
+			succeed! (true ^ negated);
 		}
 	);
 	(
@@ -472,9 +475,10 @@ macro_rules! def_fn_compare {
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		pub fn $compare_n <ValueRef : StdAsRef<Value>> (inputs : &[ValueRef], comparison : Comparison) -> (Outcome<bool>) {
 			let inputs_count = inputs.len ();
+			let negated = comparison.negated ();
 			match inputs_count {
 				0 =>
-					succeed! (true),
+					succeed! (true ^ negated),
 				1 =>
 					return $compare_1 (inputs[0].as_ref (), comparison),
 				_ =>
@@ -485,12 +489,12 @@ macro_rules! def_fn_compare {
 			let mut inputs_iterator = inputs.iter ();
 			let mut input_previous = inputs_iterator.next () .unwrap ();
 			for input_current in inputs_iterator {
-				if ! try! ($compare_2a (input_previous, input_current, comparison)) {
-					succeed! (false);
+				if ! try! ($compare_2a (input_previous, input_current, comparison)) ^ negated {
+					succeed! (false ^ negated);
 				}
 				input_previous = input_current;
 			}
-			succeed! (true);
+			succeed! (true ^ negated);
 		}
 		def_fn_compare! ($type, $compare_1a, $compare_2a, $compare_3a, $compare_4a, $compare_na);
 	);
@@ -1227,6 +1231,22 @@ pub fn pair_mutable_compare_2a <ValueRef : StdAsRef<PairMutable>> (left : ValueR
 pub(crate) fn pair_ref_compare_2a <'a, ValueRef : StdAsRef<PairRef<'a>>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
+	
+	if false {
+		// NOTE:  This is a semantically equivalent implementation;  although less efficient!
+		match comparison {
+			Comparison::Equivalence (equivalence, _, _, negated) =>
+				match equivalence {
+					Equivalence::ByIdentity =>
+						succeed! (PairRef::value_is_self (left, right) ^ negated),
+					Equivalence::ByValue =>
+						return vec_compare_2 (left.values_as_slice (), right.values_as_slice (), comparison),
+				},
+			Comparison::Ordering (_, _, _, _) =>
+				return vec_compare_2 (left.values_as_slice (), right.values_as_slice (), comparison),
+		}
+	}
+	
 	match comparison {
 		
 		Comparison::Equivalence (equivalence, _, _, negated) =>
@@ -1234,7 +1254,6 @@ pub(crate) fn pair_ref_compare_2a <'a, ValueRef : StdAsRef<PairRef<'a>>> (left :
 				Equivalence::ByIdentity =>
 					succeed! (PairRef::value_is_self (left, right) ^ negated),
 				Equivalence::ByValue => {
-					// TODO:  Check the correctness in case of negation!
 					let comparison = comparison.for_aggregated (false);
 					if ! negated {
 						succeed! (
@@ -1249,26 +1268,25 @@ pub(crate) fn pair_ref_compare_2a <'a, ValueRef : StdAsRef<PairRef<'a>>> (left :
 			},
 		
 		Comparison::Ordering (_, _, _, negated) => {
-			// TODO:  Check the correctness in case of negation!
 			let comparison_for_last = comparison.for_aggregated (true);
 			let comparison_for_non_last = comparison.for_aggregated (false);
 			
-			if ! try! (compare_2 (left.left (), right.left (), comparison_for_non_last)) {
+			if ! try! (compare_2 (left.left (), right.left (), comparison_for_non_last)) ^ negated {
 				if comparison_for_non_last == comparison_for_last {
 					succeed! (false ^ negated);
 				} else {
-					if try! (compare_2 (left.left (), right.left (), comparison_for_last)) {
-						succeed! (true);
+					if ! try! (compare_2 (left.left (), right.left (), comparison_for_last)) ^ negated {
+						succeed! (false ^ negated);
 					} else {
-						succeed! (false);
+						succeed! (true ^ negated);
 					}
 				}
 			}
 			
-			if try! (compare_2 (left.right (), right.right (), comparison_for_last)) {
-				succeed! (true);
+			if ! try! (compare_2 (left.right (), right.right (), comparison_for_last)) ^ negated {
+				succeed! (false ^ negated);
 			} else {
-				succeed! (false);
+				succeed! (true ^ negated);
 			}
 			
 		},
@@ -2095,6 +2113,7 @@ pub fn vec_compare_2 (left : &[Value], right : &[Value], comparison : Comparison
 	let mut right_iterator = right.iter ();
 	let comparison_for_last = comparison.for_aggregated (true);
 	let comparison_for_non_last = comparison.for_aggregated (false);
+	let negated = comparison.negated ();
 	let index_last = usize::max (left_length, right_length) - 1;
 	let mut index_next = 0;
 	loop {
@@ -2102,22 +2121,20 @@ pub fn vec_compare_2 (left : &[Value], right : &[Value], comparison : Comparison
 		let right_next = right_iterator.next ();
 		match (left_next, right_next) {
 			
-			// TODO:  Check the correctness in case of negation!
-			
 			(Some (left_next), Some (right_next)) =>
 				if index_next == index_last {
-					if ! try! (compare_2 (left_next, right_next, comparison_for_last)) {
-						succeed! (false);
+					if ! try! (compare_2 (left_next, right_next, comparison_for_last)) ^ negated {
+						succeed! (false ^ negated);
 					}
 				} else {
-					if ! try! (compare_2 (left_next, right_next, comparison_for_non_last)) {
+					if ! try! (compare_2 (left_next, right_next, comparison_for_non_last)) ^ negated {
 						if comparison_for_non_last == comparison_for_last {
-							succeed! (false);
+							succeed! (false ^ negated);
 						}
-						if try! (compare_2 (left_next, right_next, comparison_for_last)) {
-							succeed! (true);
+						if ! try! (compare_2 (left_next, right_next, comparison_for_last)) ^ negated {
+							succeed! (false ^ negated);
 						} else {
-							succeed! (false);
+							succeed! (true ^ negated);
 						}
 					}
 				},
