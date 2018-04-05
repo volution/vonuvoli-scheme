@@ -2,6 +2,7 @@
 
 use super::errors::exports::*;
 use super::runtime::exports::*;
+use super::values_arrays::exports::*;
 use super::values_value::exports::*;
 
 use super::prelude::*;
@@ -132,6 +133,44 @@ pub trait Pair {
 	fn left (&self) -> (&Value);
 	fn right (&self) -> (&Value);
 	fn left_and_right (&self) -> ((&Value, &Value));
+	fn left_and_right_as_slice (&self) -> (&[Value]);
+}
+
+
+
+
+impl <PairObject : Pair> Array for PairObject {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn values_as_slice (&self) -> (&[Value]) {
+		self.left_and_right_as_slice ()
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn values_iter (&self) -> (slice::Iter<Value>) {
+		self.left_and_right_as_slice () .iter ()
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn values_clone (&self) -> (StdVec<Value>) {
+		let (left, right) = self.left_and_right ();
+		vec! [left.clone (), right.clone ()]
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn values_is_empty (&self) -> (bool) {
+		false
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn values_is_not_empty (&self) -> (bool) {
+		true
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn values_length (&self) -> (usize) {
+		2
+	}
 }
 
 
@@ -299,6 +338,20 @@ impl <'a> Pair for PairRef<'a> {
 				internals.left_and_right (),
 			PairRef::MutableEmbedded (_, ref internals) =>
 				internals.left_and_right (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn left_and_right_as_slice (&self) -> (&[Value]) {
+		match *self {
+			PairRef::Immutable (_, internals) =>
+				internals.left_and_right_as_slice (),
+			PairRef::ImmutableEmbedded (_, internals) =>
+				internals.left_and_right_as_slice (),
+			PairRef::Mutable (_, ref internals) =>
+				internals.left_and_right_as_slice (),
+			PairRef::MutableEmbedded (_, ref internals) =>
+				internals.left_and_right_as_slice (),
 		}
 	}
 }
@@ -577,6 +630,11 @@ impl Pair for PairImmutable {
 	fn left_and_right (&self) -> ((&Value, &Value)) {
 		self.0.as_ref () .left_and_right ()
 	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn left_and_right_as_slice (&self) -> (&[Value]) {
+		self.0.as_ref () .left_and_right_as_slice ()
+	}
 }
 
 
@@ -595,6 +653,12 @@ impl Pair for PairImmutableInternals {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn left_and_right (&self) -> ((&Value, &Value)) {
 		(&self.left, &self.right)
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn left_and_right_as_slice (&self) -> (&[Value]) {
+		let tuple : &[Value; 2] = unsafe { mem::transmute (self) };
+		tuple
 	}
 }
 
@@ -693,6 +757,12 @@ impl Pair for PairMutableInternals {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn left_and_right (&self) -> ((&Value, &Value)) {
 		(&self.left, &self.right)
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn left_and_right_as_slice (&self) -> (&[Value]) {
+		let tuple : &[Value; 2] = unsafe { mem::transmute (self) };
+		tuple
 	}
 }
 
