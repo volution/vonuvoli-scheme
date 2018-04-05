@@ -77,6 +77,51 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("not-false?", TypePrimitiveV::IsFalseNot.into ()),
 			("false-or-equivalent?", TypePrimitiveV::IsFalseOrEquivalent.into ()),
 			
+			("not-boolean?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsBoolean) .into ()),
+			("not-char?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsCharacter) .into ()),
+			("not-symbol?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsSymbol) .into ()),
+			("not-pair?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsPair) .into ()),
+			("not-list?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsListProperOrEmpty) .into ()),
+			("not-vector?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsArray) .into ()),
+			("not-bytevector?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsBytes) .into ()),
+			("not-string?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsString) .into ()),
+			("not-procedure?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsProcedure) .into ()),
+			("not-error-object?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsError) .into ()),
+			("not-read-error?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsErrorPortInput) .into ()),
+			("not-file-error?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsErrorFile) .into ()),
+			("not-port?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsPort) .into ()),
+			("not-input-port?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsPortInput) .into ()),
+			("not-output-port?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsPortOutput) .into ()),
+			("not-binary-port?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsPortBinary) .into ()),
+			("not-textual-port?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsPortTextual) .into ()),
+			("not-eof-object?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsPortEof) .into ()),
+			("not-promise?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsPromise) .into ()),
+			
+			("not-char-alphabetic?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsCharacterAlphabetic) .into ()),
+			("not-char-upper-case?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsCharacterAlphabeticUpperCase) .into ()),
+			("not-char-lower-case?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsCharacterAlphabeticLowerCase) .into ()),
+			("not-char-numeric?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsCharacterNumeric) .into ()),
+			("not-char-whitespace?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsCharacterWhitespace) .into ()),
+			
+			("not-number?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsNumber) .into ()),
+			("not-integer?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsNumberInteger) .into ()),
+			("not-real?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsNumberReal) .into ()),
+			("not-rational?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsNumberRational) .into ()),
+			("not-complex?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsNumberComplex) .into ()),
+			("not-exact?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsNumberExact) .into ()),
+			("not-exact-integer?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsNumberExactInteger) .into ()),
+			("not-inexact?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsNumberInexact) .into ()),
+			
+			("not-finite?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsNumberFinite) .into ()),
+			("not-infinite?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsNumberInfinite) .into ()),
+			("not-nan?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsNumberNan) .into ()),
+			
+			("not-zero?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsNumberZero) .into ()),
+			("not-positive?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsNumberPositive) .into ()),
+			("not-negative?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsNumberNegative) .into ()),
+			("not-odd?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsNumberOdd) .into ()),
+			("not-even?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsNumberEven) .into ()),
+			
 			("and*", BooleanPrimitiveV::And.into ()),
 			("or*", BooleanPrimitiveV::Or.into ()),
 			("xor*", BooleanPrimitiveV::Xor.into ()),
@@ -125,8 +170,10 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("vector-mutable?", TypePrimitiveV::IsArrayMutable.into ()),
 			
 			("values?", TypePrimitiveV::IsValues.into ()),
+			("not-values?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsValues) .into ()),
 			
 			("record-type?", TypePrimitiveV::IsRecordKind.into ()),
+			("not-record-type?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsRecordKind) .into ()),
 			("record-type", RecordPrimitive1::RecordKindGet.into ()),
 			("record-type-predicate", RecordPrimitiveV::RecordKindIsFn.into ()),
 			("record-type-constructor", RecordPrimitiveV::RecordBuildFn.into ()),
@@ -136,7 +183,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("record-type-size", RecordPrimitive1::RecordKindSize.into ()),
 			("make-record-type", RecordPrimitiveV::RecordKindBuild.into ()),
 			
-			("record?", RecordPrimitiveV::RecordKindIs.into ()),
+			("record?", TypePrimitiveV::IsRecord.into ()),
+			("not-record?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsRecord) .into ()),
+			("record-of?", RecordPrimitiveV::RecordKindIs.into ()),
 			("record-immutable?", TypePrimitiveV::IsRecordImmutable.into ()),
 			("record-mutable?", TypePrimitiveV::IsRecordMutable.into ()),
 			("make-record", RecordPrimitiveV::RecordBuild.into ()),
@@ -315,6 +364,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("display-line", PortPrimitiveV::ValueDisplayAndNewLine.into ()),
 			
 			("parameter?", TypePrimitiveV::IsParameter.into ()),
+			("not-parameter?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsParameter) .into ()),
 			("parameter-ref", RuntimePrimitiveV::ParameterResolve.into ()),
 			("parameter-set!", RuntimePrimitiveV::ParameterConfigure.into ()),
 			
@@ -364,7 +414,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("not-unique>=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::UniqueGreaterOrEqual) .into ()),
 			
 			("resource?", TypePrimitiveV::IsResource.into ()),
+			("not-resource?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsResource) .into ()),
 			("opaque?", TypePrimitiveV::IsOpaque.into ()),
+			("not-opaque?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsOpaque) .into ()),
 			
 		]);
 	
@@ -495,6 +547,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 	definitions.extend_from_slice (&[
 			
 			("path?", TypePrimitiveV::IsPath.into ()),
+			("not-path?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsPath) .into ()),
 			
 			("path", FileSystemPrimitive1::PathCoerce.into ()),
 			
@@ -539,6 +592,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 	definitions.extend_from_slice (&[
 			
 			("process?", TypePrimitiveV::IsProcess.into ()),
+			("not-process?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsProcess) .into ()),
 			
 			("process-spawn", RuntimePrimitiveN::ProcessSpawn.into ()),
 			("process-spawn*", RuntimePrimitiveV::ProcessSpawnExtended.into ()),
@@ -622,7 +676,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("circular-list?", ProcedurePrimitive::Unimplemented.into ()),
 			("dotted-list?", ProcedurePrimitive::Unimplemented.into ()),
 			("null-list?", ProcedurePrimitive::Unimplemented.into ()),
-			("not-pair?", ProcedurePrimitive::Unimplemented.into ()),
+			// ("not-pair?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsPair) .into ()),
 			("list<=", ProcedurePrimitive::Unimplemented.into ()),
 			("list<", ProcedurePrimitive::Unimplemented.into ()),
 			("list=", ProcedurePrimitive::Unimplemented.into ()),
