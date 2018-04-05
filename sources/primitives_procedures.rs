@@ -108,10 +108,12 @@ pub enum ProcedurePrimitive {
 pub enum ProcedurePrimitive0 {
 	
 	Type ( TypePrimitive0 ),
+	TypeNegated ( TypePrimitive0 ),
 	
 	Boolean ( BooleanPrimitive0 ),
 	Arithmetic ( ArithmeticPrimitive0 ),
 	Bitwise ( BitwisePrimitive0 ),
+	
 	Comparison ( ComparisonPrimitive0 ),
 	ComparisonNegated ( ComparisonPrimitive0 ),
 	
@@ -133,10 +135,12 @@ pub enum ProcedurePrimitive0 {
 pub enum ProcedurePrimitive1 {
 	
 	Type ( TypePrimitive1 ),
+	TypeNegated ( TypePrimitive1 ),
 	
 	Boolean ( BooleanPrimitive1 ),
 	Arithmetic ( ArithmeticPrimitive1 ),
 	Bitwise ( BitwisePrimitive1 ),
+	
 	Comparison ( ComparisonPrimitive1 ),
 	ComparisonNegated ( ComparisonPrimitive1 ),
 	
@@ -158,10 +162,12 @@ pub enum ProcedurePrimitive1 {
 pub enum ProcedurePrimitive2 {
 	
 	Type ( TypePrimitive2 ),
+	TypeNegated ( TypePrimitive2 ),
 	
 	Boolean ( BooleanPrimitive2 ),
 	Arithmetic ( ArithmeticPrimitive2 ),
 	Bitwise ( BitwisePrimitive2 ),
+	
 	Comparison ( ComparisonPrimitive2 ),
 	ComparisonNegated ( ComparisonPrimitive2 ),
 	
@@ -183,10 +189,12 @@ pub enum ProcedurePrimitive2 {
 pub enum ProcedurePrimitive3 {
 	
 	Type ( TypePrimitive3 ),
+	TypeNegated ( TypePrimitive3 ),
 	
 	Boolean ( BooleanPrimitive3 ),
 	Arithmetic ( ArithmeticPrimitive3 ),
 	Bitwise ( BitwisePrimitive3 ),
+	
 	Comparison ( ComparisonPrimitive3 ),
 	ComparisonNegated ( ComparisonPrimitive3 ),
 	
@@ -208,10 +216,12 @@ pub enum ProcedurePrimitive3 {
 pub enum ProcedurePrimitive4 {
 	
 	Type ( TypePrimitive4 ),
+	TypeNegated ( TypePrimitive4 ),
 	
 	Boolean ( BooleanPrimitive4 ),
 	Arithmetic ( ArithmeticPrimitive4 ),
 	Bitwise ( BitwisePrimitive4 ),
+	
 	Comparison ( ComparisonPrimitive4 ),
 	ComparisonNegated ( ComparisonPrimitive4 ),
 	
@@ -233,10 +243,12 @@ pub enum ProcedurePrimitive4 {
 pub enum ProcedurePrimitive5 {
 	
 	Type ( TypePrimitive5 ),
+	TypeNegated ( TypePrimitive5 ),
 	
 	Boolean ( BooleanPrimitive5 ),
 	Arithmetic ( ArithmeticPrimitive5 ),
 	Bitwise ( BitwisePrimitive5 ),
+	
 	Comparison ( ComparisonPrimitive5 ),
 	ComparisonNegated ( ComparisonPrimitive5 ),
 	
@@ -258,10 +270,12 @@ pub enum ProcedurePrimitive5 {
 pub enum ProcedurePrimitiveN {
 	
 	Type ( TypePrimitiveN ),
+	TypeNegated ( TypePrimitiveN ),
 	
 	Boolean ( BooleanPrimitiveN ),
 	Arithmetic ( ArithmeticPrimitiveN ),
 	Bitwise ( BitwisePrimitiveN ),
+	
 	Comparison ( ComparisonPrimitiveN ),
 	ComparisonNegated ( ComparisonPrimitiveN ),
 	
@@ -283,10 +297,12 @@ pub enum ProcedurePrimitiveN {
 pub enum ProcedurePrimitiveV {
 	
 	Type ( TypePrimitiveV ),
+	TypeNegated ( TypePrimitiveV ),
 	
 	Boolean ( BooleanPrimitiveV ),
 	Arithmetic ( ArithmeticPrimitiveV ),
 	Bitwise ( BitwisePrimitiveV ),
+	
 	Comparison ( ComparisonPrimitiveV ),
 	ComparisonNegated ( ComparisonPrimitiveV ),
 	
@@ -337,7 +353,10 @@ pub fn procedure_primitive_0_evaluate (primitive : ProcedurePrimitive0, evaluato
 	match primitive {
 		
 		ProcedurePrimitive0::Type (primitive) =>
-			return type_primitive_0_evaluate (primitive, evaluator),
+			return type_primitive_0_evaluate (primitive, false, evaluator),
+		
+		ProcedurePrimitive0::TypeNegated (primitive) =>
+			return type_primitive_0_evaluate (primitive, true, evaluator),
 		
 		ProcedurePrimitive0::Boolean (primitive) =>
 			return boolean_primitive_0_evaluate (primitive, evaluator),
@@ -392,7 +411,10 @@ pub fn procedure_primitive_1_evaluate (primitive : ProcedurePrimitive1, input_1 
 	match primitive {
 		
 		ProcedurePrimitive1::Type (primitive) =>
-			return type_primitive_1_evaluate (primitive, input_1, evaluator),
+			return type_primitive_1_evaluate (primitive, input_1, false, evaluator),
+		
+		ProcedurePrimitive1::TypeNegated (primitive) =>
+			return type_primitive_1_evaluate (primitive, input_1, true, evaluator),
 		
 		ProcedurePrimitive1::Boolean (primitive) =>
 			return boolean_primitive_1_evaluate (primitive, input_1, evaluator),
@@ -447,7 +469,10 @@ pub fn procedure_primitive_2_evaluate (primitive : ProcedurePrimitive2, input_1 
 	match primitive {
 		
 		ProcedurePrimitive2::Type (primitive) =>
-			return type_primitive_2_evaluate (primitive, input_1, input_2, evaluator),
+			return type_primitive_2_evaluate (primitive, input_1, input_2, false, evaluator),
+		
+		ProcedurePrimitive2::TypeNegated (primitive) =>
+			return type_primitive_2_evaluate (primitive, input_1, input_2, true, evaluator),
 		
 		ProcedurePrimitive2::Boolean (primitive) =>
 			return boolean_primitive_2_evaluate (primitive, input_1, input_2, evaluator),
@@ -502,7 +527,10 @@ pub fn procedure_primitive_3_evaluate (primitive : ProcedurePrimitive3, input_1 
 	match primitive {
 		
 		ProcedurePrimitive3::Type (primitive) =>
-			return type_primitive_3_evaluate (primitive, input_1, input_2, input_3, evaluator),
+			return type_primitive_3_evaluate (primitive, input_1, input_2, input_3, false, evaluator),
+		
+		ProcedurePrimitive3::TypeNegated (primitive) =>
+			return type_primitive_3_evaluate (primitive, input_1, input_2, input_3, true, evaluator),
 		
 		ProcedurePrimitive3::Boolean (primitive) =>
 			return boolean_primitive_3_evaluate (primitive, input_1, input_2, input_3, evaluator),
@@ -557,7 +585,10 @@ pub fn procedure_primitive_4_evaluate (primitive : ProcedurePrimitive4, input_1 
 	match primitive {
 		
 		ProcedurePrimitive4::Type (primitive) =>
-			return type_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4, evaluator),
+			return type_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4, false, evaluator),
+		
+		ProcedurePrimitive4::TypeNegated (primitive) =>
+			return type_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4, true, evaluator),
 		
 		ProcedurePrimitive4::Boolean (primitive) =>
 			return boolean_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4, evaluator),
@@ -612,7 +643,10 @@ pub fn procedure_primitive_5_evaluate (primitive : ProcedurePrimitive5, input_1 
 	match primitive {
 		
 		ProcedurePrimitive5::Type (primitive) =>
-			return type_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, evaluator),
+			return type_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, false, evaluator),
+		
+		ProcedurePrimitive5::TypeNegated (primitive) =>
+			return type_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, true, evaluator),
 		
 		ProcedurePrimitive5::Boolean (primitive) =>
 			return boolean_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, evaluator),
@@ -667,7 +701,10 @@ pub fn procedure_primitive_n_evaluate (primitive : ProcedurePrimitiveN, inputs :
 	match primitive {
 		
 		ProcedurePrimitiveN::Type (primitive) =>
-			return type_primitive_n_evaluate (primitive, inputs, evaluator),
+			return type_primitive_n_evaluate (primitive, inputs, false, evaluator),
+		
+		ProcedurePrimitiveN::TypeNegated (primitive) =>
+			return type_primitive_n_evaluate (primitive, inputs, true, evaluator),
 		
 		ProcedurePrimitiveN::Boolean (primitive) =>
 			return boolean_primitive_n_evaluate (primitive, inputs, evaluator),
@@ -1129,6 +1166,13 @@ pub fn procedure_primitive_v_alternative_0 (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		ProcedurePrimitiveV::TypeNegated (primitive) =>
+			if let Some (primitive) = type_primitive_v_alternative_0 (primitive) {
+				Some (ProcedurePrimitive0::TypeNegated (primitive))
+			} else {
+				None
+			},
+		
 		ProcedurePrimitiveV::Boolean (primitive) =>
 			if let Some (primitive) = boolean_primitive_v_alternative_0 (primitive) {
 				Some (ProcedurePrimitive0::Boolean (primitive))
@@ -1240,6 +1284,13 @@ pub fn procedure_primitive_v_alternative_1 (primitive : ProcedurePrimitiveV) -> 
 		ProcedurePrimitiveV::Type (primitive) =>
 			if let Some (primitive) = type_primitive_v_alternative_1 (primitive) {
 				Some (ProcedurePrimitive1::Type (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveV::TypeNegated (primitive) =>
+			if let Some (primitive) = type_primitive_v_alternative_1 (primitive) {
+				Some (ProcedurePrimitive1::TypeNegated (primitive))
 			} else {
 				None
 			},
@@ -1359,6 +1410,13 @@ pub fn procedure_primitive_v_alternative_2 (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		ProcedurePrimitiveV::TypeNegated (primitive) =>
+			if let Some (primitive) = type_primitive_v_alternative_2 (primitive) {
+				Some (ProcedurePrimitive2::TypeNegated (primitive))
+			} else {
+				None
+			},
+		
 		ProcedurePrimitiveV::Boolean (primitive) =>
 			if let Some (primitive) = boolean_primitive_v_alternative_2 (primitive) {
 				Some (ProcedurePrimitive2::Boolean (primitive))
@@ -1470,6 +1528,13 @@ pub fn procedure_primitive_v_alternative_3 (primitive : ProcedurePrimitiveV) -> 
 		ProcedurePrimitiveV::Type (primitive) =>
 			if let Some (primitive) = type_primitive_v_alternative_3 (primitive) {
 				Some (ProcedurePrimitive3::Type (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveV::TypeNegated (primitive) =>
+			if let Some (primitive) = type_primitive_v_alternative_3 (primitive) {
+				Some (ProcedurePrimitive3::TypeNegated (primitive))
 			} else {
 				None
 			},
@@ -1589,6 +1654,13 @@ pub fn procedure_primitive_v_alternative_4 (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		ProcedurePrimitiveV::TypeNegated (primitive) =>
+			if let Some (primitive) = type_primitive_v_alternative_4 (primitive) {
+				Some (ProcedurePrimitive4::TypeNegated (primitive))
+			} else {
+				None
+			},
+		
 		ProcedurePrimitiveV::Boolean (primitive) =>
 			if let Some (primitive) = boolean_primitive_v_alternative_4 (primitive) {
 				Some (ProcedurePrimitive4::Boolean (primitive))
@@ -1700,6 +1772,13 @@ pub fn procedure_primitive_v_alternative_5 (primitive : ProcedurePrimitiveV) -> 
 		ProcedurePrimitiveV::Type (primitive) =>
 			if let Some (primitive) = type_primitive_v_alternative_5 (primitive) {
 				Some (ProcedurePrimitive5::Type (primitive))
+			} else {
+				None
+			},
+		
+		ProcedurePrimitiveV::TypeNegated (primitive) =>
+			if let Some (primitive) = type_primitive_v_alternative_5 (primitive) {
+				Some (ProcedurePrimitive5::TypeNegated (primitive))
 			} else {
 				None
 			},
@@ -1819,6 +1898,13 @@ pub fn procedure_primitive_v_alternative_n (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		ProcedurePrimitiveV::TypeNegated (primitive) =>
+			if let Some (primitive) = type_primitive_v_alternative_n (primitive) {
+				Some (ProcedurePrimitiveN::TypeNegated (primitive))
+			} else {
+				None
+			},
+		
 		ProcedurePrimitiveV::Boolean (primitive) =>
 			if let Some (primitive) = boolean_primitive_v_alternative_n (primitive) {
 				Some (ProcedurePrimitiveN::Boolean (primitive))
@@ -1930,6 +2016,9 @@ pub fn procedure_primitive_0_attributes (primitive : ProcedurePrimitive0) -> (Op
 		ProcedurePrimitive0::Type (primitive) =>
 			return type_primitive_0_attributes (primitive),
 		
+		ProcedurePrimitive0::TypeNegated (primitive) =>
+			return type_primitive_0_attributes (primitive),
+		
 		ProcedurePrimitive0::Boolean (primitive) =>
 			return boolean_primitive_0_attributes (primitive),
 		
@@ -1983,6 +2072,9 @@ pub fn procedure_primitive_1_attributes (primitive : ProcedurePrimitive1) -> (Op
 	match primitive {
 		
 		ProcedurePrimitive1::Type (primitive) =>
+			return type_primitive_1_attributes (primitive),
+		
+		ProcedurePrimitive1::TypeNegated (primitive) =>
 			return type_primitive_1_attributes (primitive),
 		
 		ProcedurePrimitive1::Boolean (primitive) =>
@@ -2040,6 +2132,9 @@ pub fn procedure_primitive_2_attributes (primitive : ProcedurePrimitive2) -> (Op
 		ProcedurePrimitive2::Type (primitive) =>
 			return type_primitive_2_attributes (primitive),
 		
+		ProcedurePrimitive2::TypeNegated (primitive) =>
+			return type_primitive_2_attributes (primitive),
+		
 		ProcedurePrimitive2::Boolean (primitive) =>
 			return boolean_primitive_2_attributes (primitive),
 		
@@ -2093,6 +2188,9 @@ pub fn procedure_primitive_3_attributes (primitive : ProcedurePrimitive3) -> (Op
 	match primitive {
 		
 		ProcedurePrimitive3::Type (primitive) =>
+			return type_primitive_3_attributes (primitive),
+		
+		ProcedurePrimitive3::TypeNegated (primitive) =>
 			return type_primitive_3_attributes (primitive),
 		
 		ProcedurePrimitive3::Boolean (primitive) =>
@@ -2150,6 +2248,9 @@ pub fn procedure_primitive_4_attributes (primitive : ProcedurePrimitive4) -> (Op
 		ProcedurePrimitive4::Type (primitive) =>
 			return type_primitive_4_attributes (primitive),
 		
+		ProcedurePrimitive4::TypeNegated (primitive) =>
+			return type_primitive_4_attributes (primitive),
+		
 		ProcedurePrimitive4::Boolean (primitive) =>
 			return boolean_primitive_4_attributes (primitive),
 		
@@ -2205,6 +2306,9 @@ pub fn procedure_primitive_5_attributes (primitive : ProcedurePrimitive5) -> (Op
 		ProcedurePrimitive5::Type (primitive) =>
 			return type_primitive_5_attributes (primitive),
 		
+		ProcedurePrimitive5::TypeNegated (primitive) =>
+			return type_primitive_5_attributes (primitive),
+		
 		ProcedurePrimitive5::Boolean (primitive) =>
 			return boolean_primitive_5_attributes (primitive),
 		
@@ -2258,6 +2362,9 @@ pub fn procedure_primitive_n_attributes (primitive : ProcedurePrimitiveN) -> (Op
 	match primitive {
 		
 		ProcedurePrimitiveN::Type (primitive) =>
+			return type_primitive_n_attributes (primitive),
+		
+		ProcedurePrimitiveN::TypeNegated (primitive) =>
 			return type_primitive_n_attributes (primitive),
 		
 		ProcedurePrimitiveN::Boolean (primitive) =>
