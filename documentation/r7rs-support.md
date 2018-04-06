@@ -42,6 +42,7 @@
 |        base        |   parameters   |    procedure-0*    | `make-parameter                  ` | `Primitive0(Runtime(ParameterBuild))`
 |        base        |   parameters   |    procedure-1*    | `make-parameter                  ` | `Primitive1(Runtime(ParameterBuild))`
 |        base        |   parameters   |    procedure-2*    | `make-parameter                  ` | `Primitive2(Runtime(ParameterBuild))`
+|        base        |   parameters   |    procedure-3*    | `make-parameter                  ` | `Primitive3(Runtime(ParameterBuild))`
 |        base        |   parameters   |    procedure-v*    | `make-parameter                  ` | `PrimitiveV(Runtime(ParameterBuild))`
 |        base        |    syntaxes    |       syntax       | `syntax-error                    ` | `Unsupported`
 |        base        |    syntaxes    |       syntax       | `syntax-rules                    ` | `Unsupported`
@@ -899,8 +900,8 @@
 |        file        |     ports      |    procedure-2     | `call-with-output-file           ` | `Primitive2(Port(OpenTextualOutputThenCallAndClose))`
 |        file        |   parameters   |    procedure-2     | `with-input-from-file            ` | `Primitive2(Port(WithOpenTextualInputThenCallAndClose))`
 |        file        |   parameters   |    procedure-2     | `with-output-to-file             ` | `Primitive2(Port(WithOpenTextualOutputThenCallAndClose))`
-|        file        |     system     |    procedure-1     | `file-exists?                    ` | `Primitive1(Port(FileExists))`
-|        file        |     system     |    procedure-1     | `delete-file                     ` | `Primitive1(Port(FileDelete))`
+|        file        |     system     |    procedure-1     | `file-exists?                    ` | `Primitive1(FileSystem(FileExists))`
+|        file        |     system     |    procedure-1     | `delete-file                     ` | `Primitive1(FileSystem(FileDelete))`
 |      inexact       |   arithmetic   |    procedure-1     | `sqrt                            ` | `Primitive1(Arithmetic(SquareRoot))`
 |      inexact       |   arithmetic   |    procedure-1     | `exp                             ` | `Primitive1(Arithmetic(Exponential))`
 |      inexact       |   arithmetic   |    procedure-1     | `log                             ` | `Primitive1(Arithmetic(Logarithm))`
@@ -939,9 +940,9 @@
 |        lazy        |    promises    |     procedure      | `make-promise                    ` | `Unimplemented`
 |        lazy        |    promises    |     procedure      | `force                           ` | `Unimplemented`
 |        load        |    modules     |     procedure      | `load                            ` | `Unimplemented`
-|  process-context   |     system     |    procedure-0     | `command-line                    ` | `Primitive0(Runtime(ProcessArguments))`
-|  process-context   |     system     |    procedure-1     | `get-environment-variable        ` | `Primitive1(Runtime(ProcessEnvironment))`
-|  process-context   |     system     |    procedure-0     | `get-environment-variables       ` | `Primitive0(Runtime(ProcessEnvironment))`
+|  process-context   |     system     |    procedure-0     | `command-line                    ` | `Primitive0(Runtime(ProcessArgumentsAsList))`
+|  process-context   |     system     |    procedure-1     | `get-environment-variable        ` | `Primitive1(Runtime(ProcessEnvironmentVariable))`
+|  process-context   |     system     |    procedure-0     | `get-environment-variables       ` | `Primitive0(Runtime(ProcessEnvironmentVariablesAsList))`
 |  process-context   |     system     |    procedure-0*    | `exit                            ` | `Primitive0(Runtime(ProcessExit))`
 |  process-context   |     system     |    procedure-1*    | `exit                            ` | `Primitive1(Runtime(ProcessExit))`
 |  process-context   |     system     |    procedure-v*    | `exit                            ` | `PrimitiveV(Runtime(ProcessExit))`
