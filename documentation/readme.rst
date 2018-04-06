@@ -214,7 +214,7 @@ For example, executing all benchmark scripts:
 
   ::
 
-    find ./tests/scripts -type f -name '*.ss' -exec ./target/debug/vonuvoli-scheme-interpreter '{}' \;
+    find ./examples -type f -name 'benchmark--*.ss' -print -exec ./target/debug/vonuvoli-scheme-interpreter '{}' \;
 
 
 
@@ -235,7 +235,7 @@ For example, compiling all benchmark scripts:
 
   ::
 
-    find ./tests/scripts -type f -name '*.ss' -exec ./target/debug/vonuvoli-scheme-compiler '{}' \;
+    find ./examples -type f -name 'benchmark--*.ss' -print -exec ./target/debug/vonuvoli-scheme-compiler '{}' \;
 
 
 
@@ -425,6 +425,10 @@ The snippets bellow describe a "manual" ``rustup`` deployment method, one which 
 Build the project in debug mode (optional step)
 ...............................................
 
+If this step fails please submit an issue on GitHub.
+
+(This step will take quite a while, on my computer around 3 minutes.)
+
 ::
 
   cargo build
@@ -433,17 +437,39 @@ Build the project in debug mode (optional step)
 Test the project in debug mode (optional step)
 ..............................................
 
+If this step fails please submit an issue on GitHub.
+
+(If you have not executed the previous step, it will take quite a while, see above.)
+
 ::
 
-  cargo test
+  env RUST_MIN_STACK=134217728 cargo test
 
 
 Build the project in release mode
 .................................
 
+If this step fails please submit an issue on GitHub.
+
+(This step will take quite a while, on my computer around 9 minutes.)
+
 ::
 
   cargo build --release
+
+
+Test the project in release mode (optional step)
+................................................
+
+You can safely skip this step, especially if you have run the tests in the debug mode.
+
+If this step fails please submit an issue on GitHub.
+
+(If you have not executed the previous step, it will take quite a while, see above.)
+
+::
+
+  env RUST_MIN_STACK=134217728 cargo test --release
 
 
 Deploy the binaries
