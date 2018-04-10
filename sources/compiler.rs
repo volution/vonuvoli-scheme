@@ -181,6 +181,7 @@ impl Compiler {
 			ValueClassMatchInto::Path (value) =>
 				return self.compile_syntax_quote_0 (compilation, value.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			ValueClassMatchInto::Port (value) =>
 				return self.compile_syntax_quote_0 (compilation, value.into ()),
 			
@@ -1996,6 +1997,7 @@ impl Compiler {
 			ValueClassMatchInto::Path (value) =>
 				succeed! ((compilation, splice (value, spliceable))),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			ValueClassMatchInto::Port (value) =>
 				succeed! ((compilation, splice (value, spliceable))),
 			

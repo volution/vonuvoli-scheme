@@ -9,7 +9,6 @@ use super::lambdas::exports::*;
 use super::native_procedures::exports::*;
 use super::native_syntaxes::exports::*;
 use super::parameters::exports::*;
-use super::ports::exports::*;
 use super::primitives::exports::*;
 use super::values_arrays::exports::*;
 use super::values_booleans::exports::*;
@@ -27,6 +26,9 @@ use super::values_values::exports::*;
 
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 use super::regularex::exports::*;
+
+#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+use super::ports::exports::*;
 
 #[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 use super::paths::exports::*;
@@ -109,6 +111,7 @@ pub enum ValueKind {
 	
 	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	Path,
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	Port,
 	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	Process,
@@ -174,6 +177,7 @@ pub enum ValueKindMatchAsRef <'a> {
 	
 	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	Path (&'a Path),
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	Port (&'a Port),
 	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	Process (&'a Process),
@@ -239,6 +243,7 @@ pub enum ValueKindMatchInto {
 	
 	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	Path (Path),
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	Port (Port),
 	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	Process (Process),
@@ -304,6 +309,7 @@ pub enum ValueKindMatchAsRef2 <'a> {
 	
 	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	Path (&'a Path, &'a Path),
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	Port (&'a Port, &'a Port),
 	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	Process (&'a Process, &'a Process),
@@ -361,6 +367,7 @@ pub enum ValueClass {
 	
 	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	Path,
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	Port,
 	Resource,
 	
@@ -408,6 +415,7 @@ pub enum ValueClassMatchAsRef <'a> {
 	
 	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	Path (&'a Path),
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	Port (&'a Port),
 	Resource (ResourceMatchAsRef<'a>),
 	
@@ -455,6 +463,7 @@ pub enum ValueClassMatchInto {
 	
 	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	Path (Path),
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	Port (Port),
 	Resource (ResourceMatchInto),
 	
@@ -502,6 +511,7 @@ pub enum ValueClassMatchAsRef2 <'a> {
 	
 	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	Path (&'a Path, &'a Path),
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	Port (&'a Port, &'a Port),
 	Resource (ResourceMatchAsRef<'a>, ResourceMatchAsRef<'a>),
 	
@@ -646,6 +656,7 @@ pub enum Value {
 	
 	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	Path ( ValueMeta1, Path, ValueMeta2, ),
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	Port ( ValueMeta1, Port, ValueMeta2, ),
 	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	Process ( ValueMeta1, Process, ValueMeta2, ),
@@ -678,6 +689,7 @@ impl Value {
 					ValueSingleton::Null => ValueKind::Null,
 					ValueSingleton::Void => ValueKind::Void,
 					ValueSingleton::Undefined => ValueKind::Undefined,
+					#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 					ValueSingleton::PortEof => ValueKind::Singleton,
 				},
 			
@@ -724,6 +736,7 @@ impl Value {
 			
 			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			Value::Path (_, _, _) => ValueKind::Path,
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			Value::Port (_, _, _) => ValueKind::Port,
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			Value::Process (_, _, _) => ValueKind::Process,
@@ -750,6 +763,7 @@ impl Value {
 					ValueSingleton::Null => ValueKindMatchAsRef::Null,
 					ValueSingleton::Void => ValueKindMatchAsRef::Void,
 					ValueSingleton::Undefined => ValueKindMatchAsRef::Undefined,
+					#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 					ValueSingleton::PortEof => ValueKindMatchAsRef::Singleton (*self_0),
 				},
 			
@@ -796,6 +810,7 @@ impl Value {
 			
 			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			Value::Path (_, ref self_0, _) => ValueKindMatchAsRef::Path (self_0),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			Value::Port (_, ref self_0, _) => ValueKindMatchAsRef::Port (self_0),
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			Value::Process (_, ref self_0, _) => ValueKindMatchAsRef::Process (self_0),
@@ -822,6 +837,7 @@ impl Value {
 					ValueSingleton::Null => ValueKindMatchInto::Null,
 					ValueSingleton::Void => ValueKindMatchInto::Void,
 					ValueSingleton::Undefined => ValueKindMatchInto::Undefined,
+					#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 					ValueSingleton::PortEof => ValueKindMatchInto::Singleton (self_0),
 				},
 			
@@ -868,6 +884,7 @@ impl Value {
 			
 			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			Value::Path (_, self_0, _) => ValueKindMatchInto::Path (self_0),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			Value::Port (_, self_0, _) => ValueKindMatchInto::Port (self_0),
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			Value::Process (_, self_0, _) => ValueKindMatchInto::Process (self_0),
@@ -945,6 +962,7 @@ impl Value {
 			
 			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			(&Value::Path (_, ref self_0, _), &Value::Path (_, ref other_0, _)) => ValueKindMatchAsRef2::Path (self_0, other_0),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			(&Value::Port (_, ref self_0, _), &Value::Port (_, ref other_0, _)) => ValueKindMatchAsRef2::Port (self_0, other_0),
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			(&Value::Process (_, ref self_0, _), &Value::Process (_, ref other_0, _)) => ValueKindMatchAsRef2::Process (self_0, other_0),
@@ -975,6 +993,7 @@ impl Value {
 					ValueSingleton::Null => ValueClass::Null,
 					ValueSingleton::Void => ValueClass::Void,
 					ValueSingleton::Undefined => ValueClass::Undefined,
+					#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 					ValueSingleton::PortEof => ValueClass::Singleton,
 				},
 			
@@ -1021,6 +1040,7 @@ impl Value {
 			
 			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			Value::Path (_, _, _) => ValueClass::Path,
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			Value::Port (_, _, _) => ValueClass::Port,
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			Value::Process (_, _, _) => ValueClass::Resource,
@@ -1047,6 +1067,7 @@ impl Value {
 					ValueSingleton::Null => ValueClassMatchAsRef::Null,
 					ValueSingleton::Void => ValueClassMatchAsRef::Void,
 					ValueSingleton::Undefined => ValueClassMatchAsRef::Undefined,
+					#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 					ValueSingleton::PortEof => ValueClassMatchAsRef::Singleton (*self_0),
 				},
 			
@@ -1093,6 +1114,7 @@ impl Value {
 			
 			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			Value::Path (_, ref self_0, _) => ValueClassMatchAsRef::Path (self_0),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			Value::Port (_, ref self_0, _) => ValueClassMatchAsRef::Port (self_0),
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			Value::Process (_, ref self_0, _) => ValueClassMatchAsRef::Resource (ResourceMatchAsRef::Process (self_0)),
@@ -1119,6 +1141,7 @@ impl Value {
 					ValueSingleton::Null => ValueClassMatchInto::Null,
 					ValueSingleton::Void => ValueClassMatchInto::Void,
 					ValueSingleton::Undefined => ValueClassMatchInto::Undefined,
+					#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 					ValueSingleton::PortEof => ValueClassMatchInto::Singleton (self_0),
 				},
 			
@@ -1165,6 +1188,7 @@ impl Value {
 			
 			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			Value::Path (_, self_0, _) => ValueClassMatchInto::Path (self_0),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			Value::Port (_, self_0, _) => ValueClassMatchInto::Port (self_0),
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			Value::Process (_, self_0, _) => ValueClassMatchInto::Resource (ResourceMatchInto::Process (self_0)),
@@ -1249,6 +1273,7 @@ impl Value {
 			
 			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			(&Value::Path (_, ref self_0, _), &Value::Path (_, ref other_0, _)) => ValueClassMatchAsRef2::Path (self_0, other_0),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			(&Value::Port (_, ref self_0, _), &Value::Port (_, ref other_0, _)) => ValueClassMatchAsRef2::Port (self_0, other_0),
 			
 			(&Value::Opaque (_, ref self_0, _), &Value::Opaque (_, ref other_0, _)) => ValueClassMatchAsRef2::Opaque (self_0, other_0),
@@ -1362,6 +1387,7 @@ impl Value {
 			
 			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			ValueKindMatchAsRef2::Path (self_0, other_0) => Path::is_self (self_0, other_0),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			ValueKindMatchAsRef2::Port (self_0, other_0) => Port::is_self (self_0, other_0),
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			ValueKindMatchAsRef2::Process (self_0, other_0) => Process::is_self (self_0, other_0),
@@ -1428,6 +1454,7 @@ impl Value {
 			
 			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			Value::Path (_, ref self_0, _) => self_0.clone () .into_0 (),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			Value::Port (_, _, _) => fail! (0xe4de734c),
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			Value::Process (_, _, _) => fail! (0x629f6149),
@@ -1462,6 +1489,7 @@ impl Value {
 			Value::RecordImmutable (_, ref self_0, _) => self_0.to_mutable () .into_0 (),
 			Value::RecordMutable (_, ref self_0, _) => self_0.clone () .into_0 (),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			Value::Port (_, ref self_0, _) => self_0.clone () .into_0 (),
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			Value::Process (_, ref self_0, _) => self_0.clone () .into_0 (),
@@ -1532,6 +1560,7 @@ impl ValueKindMatchInto {
 			
 			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			ValueKindMatchInto::Path (value) => value.into (),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			ValueKindMatchInto::Port (value) => value.into (),
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			ValueKindMatchInto::Process (value) => value.into (),
@@ -1591,6 +1620,7 @@ impl ValueClassMatchInto {
 			
 			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			ValueClassMatchInto::Path (value) => value.into (),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			ValueClassMatchInto::Port (value) => value.into (),
 			ValueClassMatchInto::Resource (class) => class.value (),
 			
@@ -1697,6 +1727,7 @@ pub enum ValueSingleton {
 	Null,
 	Undefined,
 	Void,
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	PortEof,
 }
 

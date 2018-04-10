@@ -30,8 +30,11 @@ pub struct Parameters ( StdRc<StdRefCell<ParametersInternals>> );
 #[ derive (Clone, Debug) ]
 pub struct ParametersInternals {
 	pub bindings : StdMap<UniqueFingerprint, Option<(Binding, ParameterConversion)>>,
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	pub stdin : Option<Port>,
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	pub stdout : Option<Port>,
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	pub stderr : Option<Port>,
 	pub process_arguments : Option<StdRc<StdBox<[StdBox<ffi::OsStr>]>>>,
 	pub process_environment : Option<StdRc<StdBox<[(StdBox<ffi::OsStr>, StdBox<ffi::OsStr>)]>>>,
@@ -49,8 +52,11 @@ impl Parameters {
 	pub fn new_empty () -> (Parameters) {
 		let internals = ParametersInternals {
 				bindings : StdMap::new (),
+				#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 				stdin : None,
+				#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 				stdout : None,
+				#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 				stderr : None,
 				process_arguments : None,
 				process_environment : None,
@@ -66,8 +72,11 @@ impl Parameters {
 	pub fn new_standard () -> (Outcome<Parameters>) {
 		let internals = ParametersInternals {
 				bindings : StdMap::new (),
+				#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 				stdin : Some (try! (Port::new_stdin ())),
+				#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 				stdout : Some (try! (Port::new_stdout ())),
+				#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 				stderr : Some (try! (Port::new_stderr ())),
 				process_arguments : Some (StdRc::new (vec_map_into! (env::args_os (), value, value.into_boxed_os_str ()) .into_boxed_slice ())),
 				process_environment : Some (StdRc::new (vec_map_into! (env::vars_os (), (name, value), (name.into_boxed_os_str (), value.into_boxed_os_str ())) .into_boxed_slice ())),
@@ -84,8 +93,11 @@ impl Parameters {
 		let self_0 = try! (self.internals_ref ());
 		let internals = ParametersInternals {
 				bindings : StdMap::new (),
+				#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 				stdin : option_ref_map! (self_0.stdin, port, port.clone ()),
+				#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 				stdout : option_ref_map! (self_0.stdout, port, port.clone ()),
+				#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 				stderr : option_ref_map! (self_0.stderr, port, port.clone ()),
 				process_arguments : option_ref_map! (self_0.process_arguments, rc, StdRc::clone (rc)),
 				process_environment : option_ref_map! (self_0.process_environment, rc, StdRc::clone (rc)),
@@ -244,18 +256,21 @@ impl Parameters {
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn resolve_stdin (&self) -> (Outcome<Port>) {
 		let self_0 = try! (self.internals_ref ());
 		succeed! (try_some_ref! (self_0.stdin, 0x158c7282) .clone ());
 	}
 	
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn resolve_stdout (&self) -> (Outcome<Port>) {
 		let self_0 = try! (self.internals_ref ());
 		succeed! (try_some_ref! (self_0.stdout, 0x8133bc6b) .clone ());
 	}
 	
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn resolve_stderr (&self) -> (Outcome<Port>) {
 		let self_0 = try! (self.internals_ref ());
@@ -263,6 +278,7 @@ impl Parameters {
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn configure_stdin (&self, port : &Port) -> (Outcome<()>) {
 		// TODO:  Find a way to check if the parameters was forked, in which case we shouldn't be able to re-configure the standard ports!
@@ -277,6 +293,7 @@ impl Parameters {
 		succeed! (());
 	}
 	
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn configure_stdout (&self, port : &Port) -> (Outcome<()>) {
 		// TODO:  Find a way to check if the parameters was forked, in which case we shouldn't be able to re-configure the standard ports!
@@ -291,6 +308,7 @@ impl Parameters {
 		succeed! (());
 	}
 	
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn configure_stderr (&self, port : &Port) -> (Outcome<()>) {
 		// TODO:  Find a way to check if the parameters was forked, in which case we shouldn't be able to re-configure the standard ports!
@@ -306,40 +324,47 @@ impl Parameters {
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn resolve_stdin_value (&self) -> (Outcome<Value>) {
 		succeed! (try! (self.resolve_stdin ()) .clone () .into ());
 	}
 	
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn resolve_stdout_value (&self) -> (Outcome<Value>) {
 		succeed! (try! (self.resolve_stdout ()) .clone () .into ());
 	}
 	
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn resolve_stderr_value (&self) -> (Outcome<Value>) {
 		succeed! (try! (self.resolve_stderr ()) .clone () .into ());
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn resolve_stdin_value_or (&self, default : Option<&Value>) -> (Outcome<Value>) {
 		let self_0 = try! (self.internals_ref ());
 		return Self::resolve_port_value_or (&self_0.stdin, default);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn resolve_stdout_value_or (&self, default : Option<&Value>) -> (Outcome<Value>) {
 		let self_0 = try! (self.internals_ref ());
 		return Self::resolve_port_value_or (&self_0.stdout, default);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn resolve_stderr_value_or (&self, default : Option<&Value>) -> (Outcome<Value>) {
 		let self_0 = try! (self.internals_ref ());
 		return Self::resolve_port_value_or (&self_0.stderr, default);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn resolve_port_value_or (port : &Option<Port>, default : Option<&Value>) -> (Outcome<Value>) {
 		if let Some (ref port) = *port {

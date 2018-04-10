@@ -118,3 +118,7 @@ pub use std::os::unix::fs::FileTypeExt as TraitImportFileTypeExt;
 pub use std::os::unix::fs::MetadataExt as TraitImportMetadataExt;
 pub use std::os::unix::fs::PermissionsExt as TraitImportPermissionsExt;
 
+
+#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+pub use super::ports::PortQueries as TraitImportPortQueries;
+

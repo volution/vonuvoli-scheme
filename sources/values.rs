@@ -30,6 +30,7 @@ pub mod exports {
 	
 	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	pub use super::super::paths::exports::Path;
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	pub use super::super::ports::exports::Port;
 	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	pub use super::super::processes::exports::Process;

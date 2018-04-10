@@ -8,9 +8,11 @@ use super::extended_syntaxes::exports::*;
 use super::lambdas::exports::*;
 use super::native_procedures::exports::*;
 use super::native_syntaxes::exports::*;
-use super::ports::exports::*;
 use super::primitives::exports::*;
 use super::values::exports::*;
+
+#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+use super::ports::exports::*;
 
 #[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 use super::processes::exports::*;
@@ -141,6 +143,7 @@ impl_from_for_Value_1! (SyntaxNative, SyntaxNative);
 impl_from_for_Value_1! (SyntaxLambda, SyntaxLambda);
 #[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 impl_from_for_Value_1! (Path, Path);
+#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 impl_from_for_Value_1! (Port, Port);
 #[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 impl_from_for_Value_1! (Process, Process);
@@ -449,13 +452,21 @@ impl_from_for_primitive_procedure_2! (RuntimePrimitive5, ProcedurePrimitive5, Pr
 impl_from_for_primitive_procedure_2! (RuntimePrimitiveN, ProcedurePrimitiveN, PrimitiveN, Runtime);
 impl_from_for_primitive_procedure_2! (RuntimePrimitiveV, ProcedurePrimitiveV, PrimitiveV, Runtime);
 
+#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 impl_from_for_primitive_procedure_2! (PortPrimitive0, ProcedurePrimitive0, Primitive0, Port);
+#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 impl_from_for_primitive_procedure_2! (PortPrimitive1, ProcedurePrimitive1, Primitive1, Port);
+#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 impl_from_for_primitive_procedure_2! (PortPrimitive2, ProcedurePrimitive2, Primitive2, Port);
+#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 impl_from_for_primitive_procedure_2! (PortPrimitive3, ProcedurePrimitive3, Primitive3, Port);
+#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 impl_from_for_primitive_procedure_2! (PortPrimitive4, ProcedurePrimitive4, Primitive4, Port);
+#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 impl_from_for_primitive_procedure_2! (PortPrimitive5, ProcedurePrimitive5, Primitive5, Port);
+#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 impl_from_for_primitive_procedure_2! (PortPrimitiveN, ProcedurePrimitiveN, PrimitiveN, Port);
+#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 impl_from_for_primitive_procedure_2! (PortPrimitiveV, ProcedurePrimitiveV, PrimitiveV, Port);
 
 #[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
@@ -1124,6 +1135,7 @@ pub fn bytes_consume <Consumer> (value : &Value, consumer : &mut Consumer) -> (O
 		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		ValueKindMatchAsRef::Path (value) =>
 			return consumer (value.path_ref () .as_os_str () .as_bytes ()),
+		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		ValueKindMatchAsRef::Port (value) => {
 			try! (value.byte_consume (consumer));
 			succeed! (());

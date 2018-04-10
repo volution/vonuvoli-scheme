@@ -68,6 +68,7 @@ impl fmt::Display for Value {
 			
 			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			ValueKindMatchAsRef::Path (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			ValueKindMatchAsRef::Port (self_0) => self_0.fmt (formatter),
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			ValueKindMatchAsRef::Process (self_0) => self_0.fmt (formatter),
@@ -138,6 +139,7 @@ impl fmt::Debug for Value {
 			
 			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			ValueKindMatchAsRef::Path (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			ValueKindMatchAsRef::Port (self_0) => self_0.fmt (formatter),
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			ValueKindMatchAsRef::Process (self_0) => self_0.fmt (formatter),
@@ -184,6 +186,7 @@ impl fmt::Display for ValueSingleton {
 			ValueSingleton::Null => formatter.write_str ("#null"),
 			ValueSingleton::Void => formatter.write_str ("#void"),
 			ValueSingleton::Undefined => formatter.write_str ("#undefined"),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			ValueSingleton::PortEof => formatter.write_str ("#enf-of-file"),
 		}
 	}
@@ -197,6 +200,7 @@ impl fmt::Debug for ValueSingleton {
 			ValueSingleton::Null => formatter.debug_struct ("Null") .finish (),
 			ValueSingleton::Void => formatter.debug_struct ("Void") .finish (),
 			ValueSingleton::Undefined => formatter.debug_struct ("Undefined") .finish (),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			ValueSingleton::PortEof => formatter.debug_struct ("PortEof") .finish (),
 		}
 	}
@@ -1162,6 +1166,7 @@ impl fmt::Display for Path {
 
 
 
+#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 impl fmt::Display for Port {
 	
 	#[ inline (never) ]
@@ -1171,6 +1176,7 @@ impl fmt::Display for Port {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 impl fmt::Debug for Port {
 	
 	#[ inline (never) ]

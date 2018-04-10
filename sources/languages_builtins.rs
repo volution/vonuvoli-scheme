@@ -91,14 +91,26 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("not-string?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsString) .into ()),
 			("not-procedure?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsProcedure) .into ()),
 			("not-error-object?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsError) .into ()),
+			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("not-read-error?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsErrorPortInput) .into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("not-file-error?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsErrorFile) .into ()),
+			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("not-port?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsPort) .into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("not-input-port?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsPortInput) .into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("not-output-port?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsPortOutput) .into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("not-binary-port?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsPortBinary) .into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("not-textual-port?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsPortTextual) .into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("not-eof-object?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsPortEof) .into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			
 			("not-promise?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsPromise) .into ()),
 			
 			("not-char-alphabetic?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsCharacterAlphabetic) .into ()),
@@ -356,15 +368,23 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("not-generic<=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::GenericLesserOrEqual) .into ()),
 			("not-generic>=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::GenericGreaterOrEqual) .into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("read-bytevector-chunk", PortPrimitiveV::BytesReadChunk.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("read-bytevector-line", PortPrimitiveV::BytesReadLine.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("read-bytevector-append!", PortPrimitiveV::BytesReadExtend.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("read-string-chunk", PortPrimitiveV::StringReadChunk.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("read-string-line", PortPrimitiveV::StringReadLine.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("read-string-append!", PortPrimitiveV::StringReadExtend.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("write-line", PortPrimitiveV::ValueWriteAndNewLine.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("display-line", PortPrimitiveV::ValueDisplayAndNewLine.into ()),
 			
 			("parameter?", TypePrimitiveV::IsParameter.into ()),

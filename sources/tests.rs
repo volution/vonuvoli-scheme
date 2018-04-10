@@ -615,13 +615,15 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 				ValueKindMatchAsRef2::ProcedureLambda (_, _) |
 				ValueKindMatchAsRef2::SyntaxExtended (_, _) |
 				ValueKindMatchAsRef2::SyntaxLambda (_, _) |
-				ValueKindMatchAsRef2::Port (_, _) |
 				ValueKindMatchAsRef2::Context (_, _) |
 				ValueKindMatchAsRef2::Binding (_, _) |
 				ValueKindMatchAsRef2::Parameters (_, _) |
 				ValueKindMatchAsRef2::Parameter (_, _) |
 				ValueKindMatchAsRef2::Promise (_, _) |
 				ValueKindMatchAsRef2::Opaque (_, _) =>
+					false,
+				#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+				ValueKindMatchAsRef2::Port (_, _) =>
 					false,
 				#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 				ValueKindMatchAsRef2::Process (_, _) =>

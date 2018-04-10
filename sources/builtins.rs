@@ -9,7 +9,6 @@ pub mod exports {
 	pub use super::super::builtins_comparisons::exports::*;
 	pub use super::super::builtins_functions::exports::*;
 	pub use super::super::builtins_lists::exports::*;
-	pub use super::super::builtins_ports::exports::*;
 	pub use super::super::builtins_records::exports::*;
 	pub use super::super::builtins_runtime::exports::*;
 	pub use super::super::builtins_strings::exports::*;
@@ -17,6 +16,9 @@ pub mod exports {
 	
 	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 	pub use super::super::builtins_regularex::exports::*;
+	
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+	pub use super::super::builtins_ports::exports::*;
 	
 	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	pub use super::super::builtins_filesystem::exports::*;

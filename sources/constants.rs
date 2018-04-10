@@ -18,6 +18,7 @@ pub mod exports {
 pub const NULL : ValueSingleton = ValueSingleton::Null;
 pub const VOID : ValueSingleton = ValueSingleton::Void;
 pub const UNDEFINED : ValueSingleton = ValueSingleton::Undefined;
+#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 pub const PORT_EOF : ValueSingleton = ValueSingleton::PortEof;
 
 pub const TRUE : Boolean = Boolean (true);
@@ -27,6 +28,7 @@ pub const FALSE : Boolean = Boolean (false);
 pub const NULL_VALUE : Value = Value::Singleton (VALUE_META_1, NULL, VALUE_META_2);
 pub const VOID_VALUE : Value = Value::Singleton (VALUE_META_1, VOID, VALUE_META_2);
 pub const UNDEFINED_VALUE : Value = Value::Singleton (VALUE_META_1, UNDEFINED, VALUE_META_2);
+#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 pub const PORT_EOF_VALUE : Value = Value::Singleton (VALUE_META_1, PORT_EOF, VALUE_META_2);
 
 pub const TRUE_VALUE : Value = Value::Boolean (VALUE_META_1, TRUE, VALUE_META_2);

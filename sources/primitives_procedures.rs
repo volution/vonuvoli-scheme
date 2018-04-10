@@ -10,12 +10,14 @@ use super::primitives_bytes::exports::*;
 use super::primitives_comparisons::exports::*;
 use super::primitives_functions::exports::*;
 use super::primitives_lists::exports::*;
-use super::primitives_ports::exports::*;
 use super::primitives_records::exports::*;
 use super::primitives_runtime::exports::*;
 use super::primitives_strings::exports::*;
 use super::primitives_types::exports::*;
 use super::values::exports::*;
+
+#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+use super::primitives_ports::exports::*;
 
 #[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 use super::primitives_filesystem::exports::*;
@@ -128,6 +130,7 @@ pub enum ProcedurePrimitive0 {
 	Record ( RecordPrimitive0 ),
 	Runtime ( RuntimePrimitive0 ),
 	
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	Port ( PortPrimitive0 ),
 	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	FileSystem ( FileSystemPrimitive0 ),
@@ -157,6 +160,7 @@ pub enum ProcedurePrimitive1 {
 	Record ( RecordPrimitive1 ),
 	Runtime ( RuntimePrimitive1 ),
 	
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	Port ( PortPrimitive1 ),
 	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	FileSystem ( FileSystemPrimitive1 ),
@@ -186,6 +190,7 @@ pub enum ProcedurePrimitive2 {
 	Record ( RecordPrimitive2 ),
 	Runtime ( RuntimePrimitive2 ),
 	
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	Port ( PortPrimitive2 ),
 	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	FileSystem ( FileSystemPrimitive2 ),
@@ -215,6 +220,7 @@ pub enum ProcedurePrimitive3 {
 	Record ( RecordPrimitive3 ),
 	Runtime ( RuntimePrimitive3 ),
 	
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	Port ( PortPrimitive3 ),
 	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	FileSystem ( FileSystemPrimitive3 ),
@@ -244,6 +250,7 @@ pub enum ProcedurePrimitive4 {
 	Record ( RecordPrimitive4 ),
 	Runtime ( RuntimePrimitive4 ),
 	
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	Port ( PortPrimitive4 ),
 	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	FileSystem ( FileSystemPrimitive4 ),
@@ -273,6 +280,7 @@ pub enum ProcedurePrimitive5 {
 	Record ( RecordPrimitive5 ),
 	Runtime ( RuntimePrimitive5 ),
 	
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	Port ( PortPrimitive5 ),
 	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	FileSystem ( FileSystemPrimitive5 ),
@@ -302,6 +310,7 @@ pub enum ProcedurePrimitiveN {
 	Record ( RecordPrimitiveN ),
 	Runtime ( RuntimePrimitiveN ),
 	
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	Port ( PortPrimitiveN ),
 	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	FileSystem ( FileSystemPrimitiveN ),
@@ -331,6 +340,7 @@ pub enum ProcedurePrimitiveV {
 	Record ( RecordPrimitiveV ),
 	Runtime ( RuntimePrimitiveV ),
 	
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	Port ( PortPrimitiveV ),
 	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	FileSystem ( FileSystemPrimitiveV ),
@@ -412,6 +422,7 @@ pub fn procedure_primitive_0_evaluate (primitive : ProcedurePrimitive0, evaluato
 		ProcedurePrimitive0::Runtime (primitive) =>
 			return runtime_primitive_0_evaluate (primitive, evaluator),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		ProcedurePrimitive0::Port (primitive) =>
 			return port_primitive_0_evaluate (primitive, evaluator),
 		
@@ -471,6 +482,7 @@ pub fn procedure_primitive_1_evaluate (primitive : ProcedurePrimitive1, input_1 
 		ProcedurePrimitive1::Runtime (primitive) =>
 			return runtime_primitive_1_evaluate (primitive, input_1, evaluator),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		ProcedurePrimitive1::Port (primitive) =>
 			return port_primitive_1_evaluate (primitive, input_1, evaluator),
 		
@@ -530,6 +542,7 @@ pub fn procedure_primitive_2_evaluate (primitive : ProcedurePrimitive2, input_1 
 		ProcedurePrimitive2::Runtime (primitive) =>
 			return runtime_primitive_2_evaluate (primitive, input_1, input_2, evaluator),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		ProcedurePrimitive2::Port (primitive) =>
 			return port_primitive_2_evaluate (primitive, input_1, input_2, evaluator),
 		
@@ -589,6 +602,7 @@ pub fn procedure_primitive_3_evaluate (primitive : ProcedurePrimitive3, input_1 
 		ProcedurePrimitive3::Runtime (primitive) =>
 			return runtime_primitive_3_evaluate (primitive, input_1, input_2, input_3, evaluator),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		ProcedurePrimitive3::Port (primitive) =>
 			return port_primitive_3_evaluate (primitive, input_1, input_2, input_3, evaluator),
 		
@@ -648,6 +662,7 @@ pub fn procedure_primitive_4_evaluate (primitive : ProcedurePrimitive4, input_1 
 		ProcedurePrimitive4::Runtime (primitive) =>
 			return runtime_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4, evaluator),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		ProcedurePrimitive4::Port (primitive) =>
 			return port_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4, evaluator),
 		
@@ -707,6 +722,7 @@ pub fn procedure_primitive_5_evaluate (primitive : ProcedurePrimitive5, input_1 
 		ProcedurePrimitive5::Runtime (primitive) =>
 			return runtime_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, evaluator),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		ProcedurePrimitive5::Port (primitive) =>
 			return port_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, evaluator),
 		
@@ -766,6 +782,7 @@ pub fn procedure_primitive_n_evaluate (primitive : ProcedurePrimitiveN, inputs :
 		ProcedurePrimitiveN::Runtime (primitive) =>
 			return runtime_primitive_n_evaluate (primitive, inputs, evaluator),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		ProcedurePrimitiveN::Port (primitive) =>
 			return port_primitive_n_evaluate (primitive, inputs, evaluator),
 		
@@ -1282,6 +1299,7 @@ pub fn procedure_primitive_v_alternative_0 (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		ProcedurePrimitiveV::Port (primitive) =>
 			if let Some (primitive) = port_primitive_v_alternative_0 (primitive) {
 				Some (ProcedurePrimitive0::Port (primitive))
@@ -1405,6 +1423,7 @@ pub fn procedure_primitive_v_alternative_1 (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		ProcedurePrimitiveV::Port (primitive) =>
 			if let Some (primitive) = port_primitive_v_alternative_1 (primitive) {
 				Some (ProcedurePrimitive1::Port (primitive))
@@ -1528,6 +1547,7 @@ pub fn procedure_primitive_v_alternative_2 (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		ProcedurePrimitiveV::Port (primitive) =>
 			if let Some (primitive) = port_primitive_v_alternative_2 (primitive) {
 				Some (ProcedurePrimitive2::Port (primitive))
@@ -1651,6 +1671,7 @@ pub fn procedure_primitive_v_alternative_3 (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		ProcedurePrimitiveV::Port (primitive) =>
 			if let Some (primitive) = port_primitive_v_alternative_3 (primitive) {
 				Some (ProcedurePrimitive3::Port (primitive))
@@ -1774,6 +1795,7 @@ pub fn procedure_primitive_v_alternative_4 (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		ProcedurePrimitiveV::Port (primitive) =>
 			if let Some (primitive) = port_primitive_v_alternative_4 (primitive) {
 				Some (ProcedurePrimitive4::Port (primitive))
@@ -1897,6 +1919,7 @@ pub fn procedure_primitive_v_alternative_5 (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		ProcedurePrimitiveV::Port (primitive) =>
 			if let Some (primitive) = port_primitive_v_alternative_5 (primitive) {
 				Some (ProcedurePrimitive5::Port (primitive))
@@ -2020,6 +2043,7 @@ pub fn procedure_primitive_v_alternative_n (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		ProcedurePrimitiveV::Port (primitive) =>
 			if let Some (primitive) = port_primitive_v_alternative_n (primitive) {
 				Some (ProcedurePrimitiveN::Port (primitive))
@@ -2087,6 +2111,7 @@ pub fn procedure_primitive_0_attributes (primitive : ProcedurePrimitive0) -> (Op
 		ProcedurePrimitive0::Runtime (primitive) =>
 			return runtime_primitive_0_attributes (primitive),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		ProcedurePrimitive0::Port (primitive) =>
 			return port_primitive_0_attributes (primitive),
 		
@@ -2146,6 +2171,7 @@ pub fn procedure_primitive_1_attributes (primitive : ProcedurePrimitive1) -> (Op
 		ProcedurePrimitive1::Runtime (primitive) =>
 			return runtime_primitive_1_attributes (primitive),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		ProcedurePrimitive1::Port (primitive) =>
 			return port_primitive_1_attributes (primitive),
 		
@@ -2205,6 +2231,7 @@ pub fn procedure_primitive_2_attributes (primitive : ProcedurePrimitive2) -> (Op
 		ProcedurePrimitive2::Runtime (primitive) =>
 			return runtime_primitive_2_attributes (primitive),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		ProcedurePrimitive2::Port (primitive) =>
 			return port_primitive_2_attributes (primitive),
 		
@@ -2264,6 +2291,7 @@ pub fn procedure_primitive_3_attributes (primitive : ProcedurePrimitive3) -> (Op
 		ProcedurePrimitive3::Runtime (primitive) =>
 			return runtime_primitive_3_attributes (primitive),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		ProcedurePrimitive3::Port (primitive) =>
 			return port_primitive_3_attributes (primitive),
 		
@@ -2323,6 +2351,7 @@ pub fn procedure_primitive_4_attributes (primitive : ProcedurePrimitive4) -> (Op
 		ProcedurePrimitive4::Runtime (primitive) =>
 			return runtime_primitive_4_attributes (primitive),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		ProcedurePrimitive4::Port (primitive) =>
 			return port_primitive_4_attributes (primitive),
 		
@@ -2382,6 +2411,7 @@ pub fn procedure_primitive_5_attributes (primitive : ProcedurePrimitive5) -> (Op
 		ProcedurePrimitive5::Runtime (primitive) =>
 			return runtime_primitive_5_attributes (primitive),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		ProcedurePrimitive5::Port (primitive) =>
 			return port_primitive_5_attributes (primitive),
 		
@@ -2441,6 +2471,7 @@ pub fn procedure_primitive_n_attributes (primitive : ProcedurePrimitiveN) -> (Op
 		ProcedurePrimitiveN::Runtime (primitive) =>
 			return runtime_primitive_n_attributes (primitive),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		ProcedurePrimitiveN::Port (primitive) =>
 			return port_primitive_n_attributes (primitive),
 		

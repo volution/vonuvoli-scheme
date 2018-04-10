@@ -996,10 +996,14 @@ def_value_try_into! (try_into_syntax_extended, value_type! (SyntaxNative));
 def_value_try_as_ref! (try_as_syntax_lambda_ref, value_type! (SyntaxLambda));
 def_value_try_into! (try_into_syntax_lambda, value_type! (SyntaxLambda));
 
+#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 def_value_try_as_ref! (try_as_path_ref, value_type! (Path));
+#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 def_value_try_into! (try_into_path, value_type! (Path));
 
+#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 def_value_try_as_ref! (try_as_port_ref, value_type! (Port));
+#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 def_value_try_into! (try_into_port, value_type! (Port));
 
 #[ cfg ( feature = "vonuvoli_builtins_processes" ) ]

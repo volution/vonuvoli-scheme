@@ -419,7 +419,10 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "errors", "error-object?", TypePrimitiveV::IsError.into ()),
 			("base", "errors", "error-object-message", RuntimePrimitive1::ErrorMessage.into ()),
 			("base", "errors", "error-object-irritants", RuntimePrimitive1::ErrorArgumentsAsList.into ()),
+			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "errors", "read-error?", TypePrimitiveV::IsErrorPortInput.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "errors", "file-error?", TypePrimitiveV::IsErrorFile.into ()),
 			
 			("base", "evaluator", "with-exception-handler", ProcedurePrimitive::Unsupported.into ()),
@@ -429,30 +432,50 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			// ports
 			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "ports", "call-with-port", PortPrimitive2::CallAndClose.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "parameters", "current-input-port", PortPrimitive0::CurrentInput.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "parameters", "current-output-port", PortPrimitive0::CurrentOutput.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "parameters", "current-error-port", PortPrimitive0::CurrentError.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "ports", "port?", TypePrimitiveV::IsPort.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "ports", "input-port?", TypePrimitiveV::IsPortInput.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "ports", "input-port-open?", PortPrimitiveV::IsInputOpen.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "ports", "output-port?", TypePrimitiveV::IsPortOutput.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "ports", "output-port-open?", PortPrimitiveV::IsOutputOpen.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "ports", "binary-port?", TypePrimitiveV::IsPortBinary.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "ports", "textual-port?", TypePrimitiveV::IsPortTextual.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "ports", "open-input-string", PortPrimitive1::InputFromString.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "ports", "open-output-string", PortPrimitiveV::OutputToString.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "ports", "get-output-string", PortPrimitive1::OutputToStringFinalize.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "ports", "open-input-bytevector", PortPrimitive1::InputFromBytes.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "ports", "open-output-bytevector", PortPrimitiveV::OutputToBytes.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "ports", "get-output-bytevector", PortPrimitive1::OutputToBytesFinalize.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "ports", "close-port", PortPrimitiveV::Close.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "ports", "close-input-port", PortPrimitiveV::CloseInput.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "ports", "close-output-port", PortPrimitiveV::CloseOutput.into ()),
 			
 			
@@ -460,20 +483,32 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			// ports input
 			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "ports", "char-ready?", PortPrimitiveV::CharacterReady.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "ports", "peek-char", PortPrimitiveV::CharacterPeek.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "ports", "read-char", PortPrimitiveV::CharacterRead.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "ports", "read-string", PortPrimitiveV::StringReadCollect.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "ports", "u8-ready?", PortPrimitiveV::ByteReady.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "ports", "peek-u8", PortPrimitiveV::BytePeek.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "ports", "read-u8", PortPrimitiveV::ByteRead.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "ports", "read-bytevector", PortPrimitiveV::BytesReadCollect.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "ports", "read-bytevector!", PortPrimitiveV::BytesReadCopy.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "ports", "read-line", PortPrimitiveV::StringReadLine.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "ports", "eof-object", PortPrimitive0::Eof.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "ports", "eof-object?", TypePrimitiveV::IsPortEof.into ()),
 			
 			
@@ -481,14 +516,20 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			// ports output
 			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "ports", "write-char", PortPrimitiveV::CharacterWrite.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "ports", "write-string", PortPrimitiveV::StringWrite.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "ports", "write-u8", PortPrimitiveV::ByteWrite.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "ports", "write-bytevector", PortPrimitiveV::BytesWrite.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "ports", "newline", PortPrimitiveV::NewLine.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "ports", "flush-output-port", PortPrimitiveV::FlushOutput.into ()),
 			
 			
@@ -604,16 +645,24 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			// (scheme file)
 			//     --> verified
 			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("file", "ports", "open-input-file", PortPrimitive1::OpenTextualInput.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("file", "ports", "open-binary-input-file", PortPrimitive1::OpenBinaryInput.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("file", "ports", "open-output-file", PortPrimitive1::OpenTextualOutput.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("file", "ports", "open-binary-output-file", PortPrimitive1::OpenBinaryOutput.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("file", "ports", "call-with-input-file", PortPrimitive2::OpenTextualInputThenCallAndClose.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("file", "ports", "call-with-output-file", PortPrimitive2::OpenTextualOutputThenCallAndClose.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("file", "parameters", "with-input-from-file", PortPrimitive2::WithOpenTextualInputThenCallAndClose.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("file", "parameters", "with-output-to-file", PortPrimitive2::WithOpenTextualOutputThenCallAndClose.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
@@ -693,6 +742,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			// (scheme read)
 			//     --> verified
 			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("read", "ports", "read", PortPrimitiveV::ValueRead.into ()),
 			
 			
@@ -719,9 +769,13 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			// (scheme write)
 			//     --> verified
 			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("write", "ports", "write", PortPrimitiveV::ValueWrite.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("write", "ports", "write-shared", PortPrimitiveV::ValueWriteShared.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("write", "ports", "write-simple", PortPrimitiveV::ValueWriteSimple.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("write", "ports", "display", PortPrimitiveV::ValueDisplay.into ()),
 			
 			

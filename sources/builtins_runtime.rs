@@ -6,10 +6,12 @@ use super::conversions::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
 use super::parameters::exports::*;
-use super::primitives::exports::*;
 use super::runtime::exports::*;
 use super::transcript::exports::*;
 use super::values::exports::*;
+
+#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+use super::primitives::exports::*;
 
 use super::prelude::*;
 
@@ -263,10 +265,13 @@ pub fn parameter_resolve (parameter : &Value, default : Option<&Value>, evaluato
 			return evaluator.parameter_resolve (parameter, default),
 		ValueKindMatchAsRef::ProcedurePrimitive (primitive) =>
 			match *primitive {
+				#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 				ProcedurePrimitive::Primitive0 (ProcedurePrimitive0::Port (PortPrimitive0::CurrentInput)) =>
 					return try! (evaluator.parameters ()) .resolve_stdin_value_or (default),
+				#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 				ProcedurePrimitive::Primitive0 (ProcedurePrimitive0::Port (PortPrimitive0::CurrentOutput)) =>
 					return try! (evaluator.parameters ()) .resolve_stdout_value_or (default),
+				#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 				ProcedurePrimitive::Primitive0 (ProcedurePrimitive0::Port (PortPrimitive0::CurrentError)) =>
 					return try! (evaluator.parameters ()) .resolve_stderr_value_or (default),
 				_ =>
@@ -285,10 +290,13 @@ pub fn parameter_configure (parameter : &Value, value : &Value, evaluator : &mut
 			return evaluator.parameter_configure (parameter, value),
 		ValueKindMatchAsRef::ProcedurePrimitive (primitive) =>
 			match *primitive {
+				#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 				ProcedurePrimitive::Primitive0 (ProcedurePrimitive0::Port (PortPrimitive0::CurrentInput)) =>
 					return try! (evaluator.parameters ()) .configure_stdin (try_as_port_ref! (value)),
+				#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 				ProcedurePrimitive::Primitive0 (ProcedurePrimitive0::Port (PortPrimitive0::CurrentOutput)) =>
 					return try! (evaluator.parameters ()) .configure_stdout (try_as_port_ref! (value)),
+				#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 				ProcedurePrimitive::Primitive0 (ProcedurePrimitive0::Port (PortPrimitive0::CurrentError)) =>
 					return try! (evaluator.parameters ()) .configure_stderr (try_as_port_ref! (value)),
 				_ =>
