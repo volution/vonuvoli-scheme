@@ -66,6 +66,9 @@ pub extern crate ansi_term;
 #[ cfg ( feature = "vonuvoli_terminal" ) ]
 pub extern crate atty;
 
+#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+pub extern crate regex;
+
 #[ cfg ( feature = "vonuvoli_builtins_crypto" ) ]
 pub extern crate ring;
 #[ cfg ( feature = "vonuvoli_builtins_crypto" ) ]
@@ -109,6 +112,11 @@ pub mod externals {
 	pub use {
 		ansi_term,
 		atty,
+	};
+	
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	pub use {
+		regex,
 	};
 	
 	#[ cfg ( feature = "vonuvoli_builtins_crypto" ) ]
@@ -156,6 +164,7 @@ pub(crate) mod builtins_lists;
 pub(crate) mod builtins_ports;
 pub(crate) mod builtins_processes;
 pub(crate) mod builtins_records;
+pub(crate) mod builtins_regularex;
 pub(crate) mod builtins_runtime;
 pub(crate) mod builtins_strings;
 pub(crate) mod builtins_types;
@@ -204,6 +213,7 @@ pub(crate) mod primitives_strings;
 pub(crate) mod primitives_syntaxes;
 pub(crate) mod primitives_types;
 pub(crate) mod processes;
+pub(crate) mod regularex;
 pub(crate) mod runtime;
 pub(crate) mod runtime_backtrace;
 pub(crate) mod runtime_configurations;
@@ -262,6 +272,7 @@ pub mod internals {
 	pub use super::builtins_ports::exports as builtins_ports;
 	pub use super::builtins_processes::exports as builtins_processes;
 	pub use super::builtins_records::exports as builtins_records;
+	pub use super::builtins_regularex::exports as builtins_regularex;
 	pub use super::builtins_runtime::exports as builtins_runtime;
 	pub use super::builtins_strings::exports as builtins_strings;
 	pub use super::builtins_types::exports as builtins_types;
@@ -305,6 +316,7 @@ pub mod internals {
 	pub use super::primitives_syntaxes::exports as primitives_syntaxes;
 	pub use super::primitives_types::exports as primitives_types;
 	pub use super::processes::exports as processes;
+	pub use super::regularex::exports as regularex;
 	pub use super::runtime::exports as runtime;
 	pub use super::runtime_backtrace::exports as runtime_backtrace;
 	pub use super::runtime_configurations::exports as runtime_configurations;
@@ -365,6 +377,7 @@ pub mod exports {
 	pub use super::ports::exports::*;
 	pub use super::primitives::exports::*;
 	pub use super::processes::exports::*;
+	pub use super::regularex::exports::*;
 	pub use super::runtime::exports::*;
 	pub use super::tests::exports::*;
 	pub use super::transcript::exports::*;

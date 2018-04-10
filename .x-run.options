@@ -3939,6 +3939,10 @@
 	exec -- sce ./sources/builtins_records.rs
 !!
 
+<< files / edit / sources/builtins_regularex.rs
+	exec -- sce ./sources/builtins_regularex.rs
+!!
+
 << files / edit / sources/builtins_runtime.rs
 	exec -- sce ./sources/builtins_runtime.rs
 !!
@@ -4145,6 +4149,10 @@
 
 << files / edit / sources/processes.rs
 	exec -- sce ./sources/processes.rs
+!!
+
+<< files / edit / sources/regularex.rs
+	exec -- sce ./sources/regularex.rs
 !!
 
 << files / edit / sources/runtime.rs
@@ -4707,6 +4715,10 @@
 	exec -- less -- ./sources/builtins_records.rs
 !!
 
+<< files / view / sources/builtins_regularex.rs
+	exec -- less -- ./sources/builtins_regularex.rs
+!!
+
 << files / view / sources/builtins_runtime.rs
 	exec -- less -- ./sources/builtins_runtime.rs
 !!
@@ -4913,6 +4925,10 @@
 
 << files / view / sources/processes.rs
 	exec -- less -- ./sources/processes.rs
+!!
+
+<< files / view / sources/regularex.rs
+	exec -- less -- ./sources/regularex.rs
 !!
 
 << files / view / sources/runtime.rs

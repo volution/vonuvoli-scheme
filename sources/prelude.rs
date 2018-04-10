@@ -53,6 +53,7 @@ pub use super::runtime::StdTryAsRef0;
 pub use super::runtime::StdExpectAsRef0;
 
 pub use super::externals as ext;
+pub use super::externals::regex as regex;
 
 
 
