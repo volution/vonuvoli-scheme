@@ -589,6 +589,7 @@ pub mod exports {
 	pub use super::{
 			
 			is_string_regex,
+			is_bytes_regex,
 			is_process,
 			is_context,
 			is_binding,
@@ -599,6 +600,9 @@ pub mod exports {
 			
 			is_string_regex_all_2, is_string_regex_all_3, is_string_regex_all_4, is_string_regex_all_n,
 			is_string_regex_any_2, is_string_regex_any_3, is_string_regex_any_4, is_string_regex_any_n,
+			
+			is_bytes_regex_all_2, is_bytes_regex_all_3, is_bytes_regex_all_4, is_bytes_regex_all_n,
+			is_bytes_regex_any_2, is_bytes_regex_any_3, is_bytes_regex_any_4, is_bytes_regex_any_n,
 			
 			is_process_all_2, is_process_all_3, is_process_all_4, is_process_all_n,
 			is_process_any_2, is_process_any_3, is_process_any_4, is_process_any_n,
@@ -2237,6 +2241,15 @@ pub fn is_string_regex (value : &Value) -> (bool) {
 
 def_fn_predicate_all! (is_string_regex, is_string_regex_all_2, is_string_regex_all_3, is_string_regex_all_4, is_string_regex_all_n);
 def_fn_predicate_any! (is_string_regex, is_string_regex_any_2, is_string_regex_any_3, is_string_regex_any_4, is_string_regex_any_n);
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn is_bytes_regex (value : &Value) -> (bool) {
+	return value.is_kind (ValueKind::BytesRegex);
+}
+
+def_fn_predicate_all! (is_bytes_regex, is_bytes_regex_all_2, is_bytes_regex_all_3, is_bytes_regex_all_4, is_bytes_regex_all_n);
+def_fn_predicate_any! (is_bytes_regex, is_bytes_regex_any_2, is_bytes_regex_any_3, is_bytes_regex_any_4, is_bytes_regex_any_n);
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

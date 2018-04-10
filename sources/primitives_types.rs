@@ -94,8 +94,6 @@ macro_rules! def_type_primitive_enum {
 			IsKeyword,
 			IsUnique,
 			
-			IsStringRegex,
-			
 			IsString,
 			IsStringImmutable,
 			IsStringMutable,
@@ -115,6 +113,9 @@ macro_rules! def_type_primitive_enum {
 			IsBytesEmptyNot,
 			IsBytesImmutableEmptyNot,
 			IsBytesMutableEmptyNot,
+			
+			IsStringRegex,
+			IsBytesRegex,
 			
 			IsPair,
 			IsPairMutable,
@@ -332,9 +333,6 @@ pub fn type_primitive_1_evaluate_0 (primitive : TypePrimitive1, input_1 : &Value
 		TypePrimitive1::IsUnique =>
 			return is_unique (input_1) .into_0 (),
 		
-		TypePrimitive1::IsStringRegex =>
-			return is_string_regex (input_1) .into_0 (),
-		
 		TypePrimitive1::IsString =>
 			return is_string (input_1) .into_0 (),
 		
@@ -388,6 +386,12 @@ pub fn type_primitive_1_evaluate_0 (primitive : TypePrimitive1, input_1 : &Value
 		
 		TypePrimitive1::IsBytesMutableEmptyNot =>
 			return is_bytes_mutable_not_empty (input_1) .into_0 (),
+		
+		TypePrimitive1::IsStringRegex =>
+			return is_string_regex (input_1) .into_0 (),
+		
+		TypePrimitive1::IsBytesRegex =>
+			return is_bytes_regex (input_1) .into_0 (),
 		
 		TypePrimitive1::IsPair =>
 			return is_pair (input_1) .into_0 (),
@@ -731,9 +735,6 @@ pub fn type_primitive_2_evaluate_0 (primitive : TypePrimitive2, input_1 : &Value
 		TypePrimitive2::IsUnique =>
 			return is_unique_all_2 (input_1, input_2) .into_0 (),
 		
-		TypePrimitive2::IsStringRegex =>
-			return is_string_regex_all_2 (input_1, input_2) .into_0 (),
-		
 		TypePrimitive2::IsString =>
 			return is_string_all_2 (input_1, input_2) .into_0 (),
 		
@@ -787,6 +788,12 @@ pub fn type_primitive_2_evaluate_0 (primitive : TypePrimitive2, input_1 : &Value
 		
 		TypePrimitive2::IsBytesMutableEmptyNot =>
 			return is_bytes_mutable_not_empty_all_2 (input_1, input_2) .into_0 (),
+		
+		TypePrimitive2::IsStringRegex =>
+			return is_string_regex_all_2 (input_1, input_2) .into_0 (),
+		
+		TypePrimitive2::IsBytesRegex =>
+			return is_bytes_regex_all_2 (input_1, input_2) .into_0 (),
 		
 		TypePrimitive2::IsPair =>
 			return is_pair_all_2 (input_1, input_2) .into_0 (),
@@ -1130,9 +1137,6 @@ pub fn type_primitive_3_evaluate_0 (primitive : TypePrimitive3, input_1 : &Value
 		TypePrimitive3::IsUnique =>
 			return is_unique_all_3 (input_1, input_2, input_3) .into_0 (),
 		
-		TypePrimitive3::IsStringRegex =>
-			return is_string_regex_all_3 (input_1, input_2, input_3) .into_0 (),
-		
 		TypePrimitive3::IsString =>
 			return is_string_all_3 (input_1, input_2, input_3) .into_0 (),
 		
@@ -1186,6 +1190,12 @@ pub fn type_primitive_3_evaluate_0 (primitive : TypePrimitive3, input_1 : &Value
 		
 		TypePrimitive3::IsBytesMutableEmptyNot =>
 			return is_bytes_mutable_not_empty_all_3 (input_1, input_2, input_3) .into_0 (),
+		
+		TypePrimitive3::IsStringRegex =>
+			return is_string_regex_all_3 (input_1, input_2, input_3) .into_0 (),
+		
+		TypePrimitive3::IsBytesRegex =>
+			return is_bytes_regex_all_3 (input_1, input_2, input_3) .into_0 (),
 		
 		TypePrimitive3::IsPair =>
 			return is_pair_all_3 (input_1, input_2, input_3) .into_0 (),
@@ -1529,9 +1539,6 @@ pub fn type_primitive_4_evaluate_0 (primitive : TypePrimitive4, input_1 : &Value
 		TypePrimitive4::IsUnique =>
 			return is_unique_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
-		TypePrimitive4::IsStringRegex =>
-			return is_string_regex_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
-		
 		TypePrimitive4::IsString =>
 			return is_string_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
@@ -1585,6 +1592,12 @@ pub fn type_primitive_4_evaluate_0 (primitive : TypePrimitive4, input_1 : &Value
 		
 		TypePrimitive4::IsBytesMutableEmptyNot =>
 			return is_bytes_mutable_not_empty_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
+		
+		TypePrimitive4::IsStringRegex =>
+			return is_string_regex_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
+		
+		TypePrimitive4::IsBytesRegex =>
+			return is_bytes_regex_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
 		TypePrimitive4::IsPair =>
 			return is_pair_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
@@ -1936,9 +1949,6 @@ pub fn type_primitive_n_evaluate_0 (primitive : TypePrimitiveN, inputs : &[&Valu
 		TypePrimitiveN::IsUnique =>
 			return is_unique_all_n (inputs) .into_0 (),
 		
-		TypePrimitiveN::IsStringRegex =>
-			return is_string_regex_all_n (inputs) .into_0 (),
-		
 		TypePrimitiveN::IsString =>
 			return is_string_all_n (inputs) .into_0 (),
 		
@@ -1992,6 +2002,12 @@ pub fn type_primitive_n_evaluate_0 (primitive : TypePrimitiveN, inputs : &[&Valu
 		
 		TypePrimitiveN::IsBytesMutableEmptyNot =>
 			return is_bytes_mutable_not_empty_all_n (inputs) .into_0 (),
+		
+		TypePrimitiveN::IsStringRegex =>
+			return is_string_regex_all_n (inputs) .into_0 (),
+		
+		TypePrimitiveN::IsBytesRegex =>
+			return is_bytes_regex_all_n (inputs) .into_0 (),
 		
 		TypePrimitiveN::IsPair =>
 			return is_pair_all_n (inputs) .into_0 (),
@@ -2304,8 +2320,6 @@ macro_rules! def_type_primitive_v_alternative_fn {
 					Some ($alternative::IsKeyword),
 				TypePrimitiveV::IsUnique =>
 					Some ($alternative::IsUnique),
-				TypePrimitiveV::IsStringRegex =>
-					Some ($alternative::IsStringRegex),
 				TypePrimitiveV::IsString =>
 					Some ($alternative::IsString),
 				TypePrimitiveV::IsStringImmutable =>
@@ -2342,6 +2356,10 @@ macro_rules! def_type_primitive_v_alternative_fn {
 					Some ($alternative::IsBytesImmutableEmptyNot),
 				TypePrimitiveV::IsBytesMutableEmptyNot =>
 					Some ($alternative::IsBytesMutableEmptyNot),
+				TypePrimitiveV::IsStringRegex =>
+					Some ($alternative::IsStringRegex),
+				TypePrimitiveV::IsBytesRegex =>
+					Some ($alternative::IsBytesRegex),
 				TypePrimitiveV::IsPair =>
 					Some ($alternative::IsPair),
 				TypePrimitiveV::IsPairMutable =>
