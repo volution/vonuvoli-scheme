@@ -932,6 +932,9 @@ def_value_try_into! (try_into_string_immutable, value_type! (StringImmutable));
 def_value_try_as_ref! (try_as_string_mutable_ref, value_type! (StringMutable));
 def_value_try_into! (try_into_string_mutable, value_type! (StringMutable));
 
+def_value_try_as_ref! (try_as_bytes_regex_ref, value_type! (BytesRegex));
+def_value_try_into! (try_into_bytes_regex, value_type! (BytesRegex));
+
 def_value_try_as_ref! (try_as_bytes_immutable_ref, value_type! (BytesImmutable));
 def_value_try_into! (try_into_bytes_immutable, value_type! (BytesImmutable));
 

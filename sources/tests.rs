@@ -588,6 +588,7 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 				ValueKindMatchAsRef2::StringRegex (_, _) |
 				ValueKindMatchAsRef2::StringImmutable (_, _) |
 				ValueKindMatchAsRef2::StringMutable (_, _) |
+				ValueKindMatchAsRef2::BytesRegex (_, _) |
 				ValueKindMatchAsRef2::BytesImmutable (_, _) |
 				ValueKindMatchAsRef2::BytesMutable (_, _) |
 				ValueKindMatchAsRef2::PairImmutable (_, _) |

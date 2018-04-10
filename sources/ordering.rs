@@ -79,6 +79,8 @@ impl <'a> ValueKindMatchAsRef2<'a> {
 			ValueKindMatchAsRef2::StringRegex (self_0, other_0) => Some (StringRegex::eq (self_0, other_0)),
 			ValueKindMatchAsRef2::StringImmutable (self_0, other_0) => Some (StringImmutable::eq (self_0, other_0)),
 			ValueKindMatchAsRef2::StringMutable (self_0, other_0) => Some (StringMutable::eq (self_0, other_0)),
+			
+			ValueKindMatchAsRef2::BytesRegex (self_0, other_0) => Some (BytesRegex::eq (self_0, other_0)),
 			ValueKindMatchAsRef2::BytesImmutable (self_0, other_0) => Some (BytesImmutable::eq (self_0, other_0)),
 			ValueKindMatchAsRef2::BytesMutable (self_0, other_0) => Some (BytesMutable::eq (self_0, other_0)),
 			
@@ -145,6 +147,8 @@ impl <'a> ValueKindMatchAsRef2<'a> {
 			ValueKindMatchAsRef2::StringRegex (self_0, other_0) => Some (StringRegex::cmp (self_0, other_0)),
 			ValueKindMatchAsRef2::StringImmutable (self_0, other_0) => Some (StringImmutable::cmp (self_0, other_0)),
 			ValueKindMatchAsRef2::StringMutable (self_0, other_0) => Some (StringMutable::cmp (self_0, other_0)),
+			
+			ValueKindMatchAsRef2::BytesRegex (self_0, other_0) => Some (BytesRegex::cmp (self_0, other_0)),
 			ValueKindMatchAsRef2::BytesImmutable (self_0, other_0) => Some (BytesImmutable::cmp (self_0, other_0)),
 			ValueKindMatchAsRef2::BytesMutable (self_0, other_0) => Some (BytesMutable::cmp (self_0, other_0)),
 			
@@ -228,6 +232,39 @@ impl cmp::PartialOrd for NumberReal {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn partial_cmp (&self, other : &NumberReal) -> (Option<cmp::Ordering>) {
 		Some (NumberReal::cmp (self, other))
+	}
+}
+
+
+
+
+impl cmp::Eq for StringRegex {}
+
+impl cmp::PartialEq for StringRegex {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn eq (&self, other : &StringRegex) -> (bool) {
+		let self_0 = self.regex_ref () .as_str ();
+		let other_0 = other.regex_ref () .as_str ();
+		str::eq (self_0, other_0)
+	}
+}
+
+impl cmp::Ord for StringRegex {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn cmp (&self, other : &StringRegex) -> (cmp::Ordering) {
+		let self_0 = self.regex_ref () .as_str ();
+		let other_0 = other.regex_ref () .as_str ();
+		str::cmp (self_0, other_0)
+	}
+}
+
+impl cmp::PartialOrd for StringRegex {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn partial_cmp (&self, other : &StringRegex) -> (Option<cmp::Ordering>) {
+		Some (StringRegex::cmp (self, other))
 	}
 }
 
@@ -323,6 +360,39 @@ impl <'a> cmp::PartialOrd for StringRef<'a> {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn partial_cmp (&self, other : &StringRef) -> (Option<cmp::Ordering>) {
 		Some (StringRef::cmp (self, other))
+	}
+}
+
+
+
+
+impl cmp::Eq for BytesRegex {}
+
+impl cmp::PartialEq for BytesRegex {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn eq (&self, other : &BytesRegex) -> (bool) {
+		let self_0 = self.regex_ref () .as_str ();
+		let other_0 = other.regex_ref () .as_str ();
+		str::eq (self_0, other_0)
+	}
+}
+
+impl cmp::Ord for BytesRegex {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn cmp (&self, other : &BytesRegex) -> (cmp::Ordering) {
+		let self_0 = self.regex_ref () .as_str ();
+		let other_0 = other.regex_ref () .as_str ();
+		str::cmp (self_0, other_0)
+	}
+}
+
+impl cmp::PartialOrd for BytesRegex {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn partial_cmp (&self, other : &BytesRegex) -> (Option<cmp::Ordering>) {
+		Some (BytesRegex::cmp (self, other))
 	}
 }
 

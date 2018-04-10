@@ -752,8 +752,6 @@ pub fn port_output_value_display_0 (port : &mut PortBackendWriter, value : &Valu
 		},
 		
 		ValueClassMatchAsRef::StringRegex (_value) => {
-			// let string = value.string_as_str ();
-			// try! (port.char_write_string (string, true));
 			fail_unimplemented! (0xd8a1cb13);
 		},
 		
@@ -761,6 +759,10 @@ pub fn port_output_value_display_0 (port : &mut PortBackendWriter, value : &Valu
 			let string = try! (class.string_ref ());
 			let string = string.string_as_str ();
 			try! (port.char_write_string (string, true));
+		},
+		
+		ValueClassMatchAsRef::BytesRegex (_value) => {
+			fail_unimplemented! (0x992efa31);
 		},
 		
 		ValueClassMatchAsRef::Bytes (class) => {
@@ -995,6 +997,12 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 				StringMatchAsRef::Mutable (value) =>
 					format! ("{}", value),
 			};
+			try! (port.char_write_string (&formatted, true));
+		},
+		
+		ValueClassMatchAsRef::BytesRegex (value) => {
+			// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+			let formatted = format! ("{}", value);
 			try! (port.char_write_string (&formatted, true));
 		},
 		

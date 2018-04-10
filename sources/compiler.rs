@@ -145,6 +145,9 @@ impl Compiler {
 			ValueClassMatchInto::String (class) =>
 				return self.compile_syntax_quote_0 (compilation, class.value ()),
 			
+			ValueClassMatchInto::BytesRegex (value) =>
+				return self.compile_syntax_quote_0 (compilation, value.into ()),
+			
 			ValueClassMatchInto::Bytes (class) =>
 				return self.compile_syntax_quote_0 (compilation, class.value ()),
 			
@@ -1956,6 +1959,9 @@ impl Compiler {
 			
 			ValueClassMatchInto::String (class) =>
 				succeed! ((compilation, splice (class.value (), spliceable))),
+			
+			ValueClassMatchInto::BytesRegex (value) =>
+				succeed! ((compilation, splice (value, spliceable))),
 			
 			ValueClassMatchInto::Bytes (class) =>
 				succeed! ((compilation, splice (class.value (), spliceable))),
