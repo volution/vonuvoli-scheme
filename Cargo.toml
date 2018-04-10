@@ -146,11 +146,15 @@ vonuvoli_abort_on_panic = []
 vonuvoli_inline = []
 
 vonuvoli_builtins = [
+	"vonuvoli_builtins_regex",
 	"vonuvoli_builtins_crypto",
 	"vonuvoli_builtins_random",
 	"vonuvoli_builtins_encoding",
 ]
 
+vonuvoli_builtins_regex = [
+	"regex",
+]
 vonuvoli_builtins_crypto = [
 	"ring",
 	"digest",
@@ -169,6 +173,13 @@ vonuvoli_builtins_encoding = [
 
 
 
+
+[dependencies.regex]
+# https://github.com/rust-lang/regex
+version = "~0.2.10"
+optional = true
+features = ["unstable"]
+default-features = false
 
 [dependencies.backtrace]
 # https://github.com/alexcrichton/backtrace-rs
