@@ -43,11 +43,9 @@ pub mod exports {
 			symbol_compare_1, symbol_compare_1a,
 			keyword_compare_1, keyword_compare_1a,
 			unique_compare_1, unique_compare_1a,
-			string_regex_compare_1, string_regex_compare_1a,
 			string_compare_1,
 			string_immutable_compare_1, string_immutable_compare_1a,
 			string_mutable_compare_1, string_mutable_compare_1a,
-			bytes_regex_compare_1, bytes_regex_compare_1a,
 			bytes_compare_1,
 			bytes_immutable_compare_1, bytes_immutable_compare_1a,
 			bytes_mutable_compare_1, bytes_mutable_compare_1a,
@@ -91,11 +89,9 @@ pub mod exports {
 			symbol_compare_2, symbol_compare_2a,
 			keyword_compare_2, keyword_compare_2a,
 			unique_compare_2, unique_compare_2a,
-			string_regex_compare_2, string_regex_compare_2a,
 			string_compare_2,
 			string_immutable_compare_2, string_immutable_compare_2a,
 			string_mutable_compare_2, string_mutable_compare_2a,
-			bytes_regex_compare_2, bytes_regex_compare_2a,
 			bytes_compare_2,
 			bytes_immutable_compare_2, bytes_immutable_compare_2a,
 			bytes_mutable_compare_2, bytes_mutable_compare_2a,
@@ -139,11 +135,9 @@ pub mod exports {
 			symbol_compare_3, symbol_compare_3a,
 			keyword_compare_3, keyword_compare_3a,
 			unique_compare_3, unique_compare_3a,
-			string_regex_compare_3, string_regex_compare_3a,
 			string_compare_3,
 			string_immutable_compare_3, string_immutable_compare_3a,
 			string_mutable_compare_3, string_mutable_compare_3a,
-			bytes_regex_compare_3, bytes_regex_compare_3a,
 			bytes_compare_3,
 			bytes_immutable_compare_3, bytes_immutable_compare_3a,
 			bytes_mutable_compare_3, bytes_mutable_compare_3a,
@@ -187,11 +181,9 @@ pub mod exports {
 			symbol_compare_4, symbol_compare_4a,
 			keyword_compare_4, keyword_compare_4a,
 			unique_compare_4, unique_compare_4a,
-			string_regex_compare_4, string_regex_compare_4a,
 			string_compare_4,
 			string_immutable_compare_4, string_immutable_compare_4a,
 			string_mutable_compare_4, string_mutable_compare_4a,
-			bytes_regex_compare_4, bytes_regex_compare_4a,
 			bytes_compare_4,
 			bytes_immutable_compare_4, bytes_immutable_compare_4a,
 			bytes_mutable_compare_4, bytes_mutable_compare_4a,
@@ -235,11 +227,9 @@ pub mod exports {
 			symbol_compare_n, symbol_compare_na,
 			keyword_compare_n, keyword_compare_na,
 			unique_compare_n, unique_compare_na,
-			string_regex_compare_n, string_regex_compare_na,
 			string_compare_n,
 			string_immutable_compare_n, string_immutable_compare_na,
 			string_mutable_compare_n, string_mutable_compare_na,
-			bytes_regex_compare_n, bytes_regex_compare_na,
 			bytes_compare_n,
 			bytes_immutable_compare_n, bytes_immutable_compare_na,
 			bytes_mutable_compare_n, bytes_mutable_compare_na,
@@ -272,6 +262,26 @@ pub mod exports {
 			parameter_compare_n, parameter_compare_na,
 			promise_compare_n, promise_compare_na,
 			opaque_compare_n, opaque_compare_na,
+			
+	};
+	
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	pub use super::{
+			
+			string_regex_compare_1, string_regex_compare_1a,
+			bytes_regex_compare_1, bytes_regex_compare_1a,
+			
+			string_regex_compare_2, string_regex_compare_2a,
+			bytes_regex_compare_2, bytes_regex_compare_2a,
+			
+			string_regex_compare_3, string_regex_compare_3a,
+			bytes_regex_compare_3, bytes_regex_compare_3a,
+			
+			string_regex_compare_4, string_regex_compare_4a,
+			bytes_regex_compare_4, bytes_regex_compare_4a,
+			
+			string_regex_compare_n, string_regex_compare_na,
+			bytes_regex_compare_n, bytes_regex_compare_na,
 			
 	};
 	
@@ -546,23 +556,25 @@ pub fn compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Co
 		ValueKindMatchAsRef::Unique (value) =>
 			return unique_compare_1a (value, comparison),
 		
-		ValueKindMatchAsRef::StringRegex (value) =>
-			return string_regex_compare_1a (value, comparison),
-		
 		ValueKindMatchAsRef::StringImmutable (value) =>
 			return string_immutable_compare_1a (value, comparison),
 		
 		ValueKindMatchAsRef::StringMutable (value) =>
 			return string_mutable_compare_1a (value, comparison),
 		
-		ValueKindMatchAsRef::BytesRegex (value) =>
-			return bytes_regex_compare_1a (value, comparison),
-		
 		ValueKindMatchAsRef::BytesImmutable (value) =>
 			return bytes_immutable_compare_1a (value, comparison),
 		
 		ValueKindMatchAsRef::BytesMutable (value) =>
 			return bytes_mutable_compare_1a (value, comparison),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		ValueKindMatchAsRef::StringRegex (value) =>
+			return string_regex_compare_1a (value, comparison),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		ValueKindMatchAsRef::BytesRegex (value) =>
+			return bytes_regex_compare_1a (value, comparison),
 		
 		ValueKindMatchAsRef::PairImmutable (value) =>
 			return pair_immutable_compare_1a (value, comparison),
@@ -682,23 +694,25 @@ pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef
 		ValueKindMatchAsRef2::Unique (left, right) =>
 			return unique_compare_2a (left, right, comparison),
 		
-		ValueKindMatchAsRef2::StringRegex (left, right) =>
-			return string_regex_compare_2a (left, right, comparison),
-		
 		ValueKindMatchAsRef2::StringImmutable (left, right) =>
 			return string_immutable_compare_2a (left, right, comparison),
 		
 		ValueKindMatchAsRef2::StringMutable (left, right) =>
 			return string_mutable_compare_2a (left, right, comparison),
 		
-		ValueKindMatchAsRef2::BytesRegex (left, right) =>
-			return bytes_regex_compare_2a (left, right, comparison),
-		
 		ValueKindMatchAsRef2::BytesImmutable (left, right) =>
 			return bytes_immutable_compare_2a (left, right, comparison),
 		
 		ValueKindMatchAsRef2::BytesMutable (left, right) =>
 			return bytes_mutable_compare_2a (left, right, comparison),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		ValueKindMatchAsRef2::StringRegex (left, right) =>
+			return string_regex_compare_2a (left, right, comparison),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		ValueKindMatchAsRef2::BytesRegex (left, right) =>
+			return bytes_regex_compare_2a (left, right, comparison),
 		
 		ValueKindMatchAsRef2::PairImmutable (left, right) =>
 			return pair_immutable_compare_2a (left, right, comparison),
@@ -1069,23 +1083,6 @@ pub fn unique_compare_2a <ValueRef : StdAsRef<Unique>> (left : ValueRef, right :
 
 
 
-def_fn_compare! (StringRegex,
-		string_regex_compare_1, string_regex_compare_2, string_regex_compare_3, string_regex_compare_4, string_regex_compare_n,
-		string_regex_compare_1a, string_regex_compare_2a, string_regex_compare_3a, string_regex_compare_4a, string_regex_compare_na);
-
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn string_regex_compare_1a <ValueRef : StdAsRef<StringRegex>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
-	succeed! (true ^ comparison.negated ());
-}
-
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn string_regex_compare_2a <ValueRef : StdAsRef<StringRegex>> (_left : ValueRef, _right : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	fail_unimplemented! (0x06a9dbac);
-}
-
-
-
-
 def_fn_compare! (StringImmutable,
 		string_immutable_compare_1, string_immutable_compare_2, string_immutable_compare_3, string_immutable_compare_4, string_immutable_compare_n,
 		string_immutable_compare_1a, string_immutable_compare_2a, string_immutable_compare_3a, string_immutable_compare_4a, string_immutable_compare_na);
@@ -1145,23 +1142,6 @@ pub(crate) fn string_ref_compare_2a <'a, ValueRef : StdAsRef<StringRef<'a>>> (le
 
 
 
-def_fn_compare! (BytesRegex,
-		bytes_regex_compare_1, bytes_regex_compare_2, bytes_regex_compare_3, bytes_regex_compare_4, bytes_regex_compare_n,
-		bytes_regex_compare_1a, bytes_regex_compare_2a, bytes_regex_compare_3a, bytes_regex_compare_4a, bytes_regex_compare_na);
-
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn bytes_regex_compare_1a <ValueRef : StdAsRef<BytesRegex>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
-	succeed! (true ^ comparison.negated ());
-}
-
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn bytes_regex_compare_2a <ValueRef : StdAsRef<BytesRegex>> (_left : ValueRef, _right : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	fail_unimplemented! (0x35ee0e57);
-}
-
-
-
-
 def_fn_compare! (BytesImmutable,
 		bytes_immutable_compare_1, bytes_immutable_compare_2, bytes_immutable_compare_3, bytes_immutable_compare_4, bytes_immutable_compare_n,
 		bytes_immutable_compare_1a, bytes_immutable_compare_2a, bytes_immutable_compare_3a, bytes_immutable_compare_4a, bytes_immutable_compare_na);
@@ -1216,6 +1196,46 @@ pub(crate) fn bytes_ref_compare_2a <'a, ValueRef : StdAsRef<BytesRef<'a>>> (left
 					fail_unimplemented! (0x5be9ea91), // deferred
 			},
 	}
+}
+
+
+
+
+#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+def_fn_compare! (StringRegex,
+		string_regex_compare_1, string_regex_compare_2, string_regex_compare_3, string_regex_compare_4, string_regex_compare_n,
+		string_regex_compare_1a, string_regex_compare_2a, string_regex_compare_3a, string_regex_compare_4a, string_regex_compare_na);
+
+#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn string_regex_compare_1a <ValueRef : StdAsRef<StringRegex>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true ^ comparison.negated ());
+}
+
+#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn string_regex_compare_2a <ValueRef : StdAsRef<StringRegex>> (_left : ValueRef, _right : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
+	fail_unimplemented! (0x06a9dbac);
+}
+
+
+
+
+#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+def_fn_compare! (BytesRegex,
+		bytes_regex_compare_1, bytes_regex_compare_2, bytes_regex_compare_3, bytes_regex_compare_4, bytes_regex_compare_n,
+		bytes_regex_compare_1a, bytes_regex_compare_2a, bytes_regex_compare_3a, bytes_regex_compare_4a, bytes_regex_compare_na);
+
+#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn bytes_regex_compare_1a <ValueRef : StdAsRef<BytesRegex>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	succeed! (true ^ comparison.negated ());
+}
+
+#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn bytes_regex_compare_2a <ValueRef : StdAsRef<BytesRegex>> (_left : ValueRef, _right : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
+	fail_unimplemented! (0x35ee0e57);
 }
 
 

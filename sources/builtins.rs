@@ -13,10 +13,12 @@ pub mod exports {
 	pub use super::super::builtins_ports::exports::*;
 	pub use super::super::builtins_processes::exports::*;
 	pub use super::super::builtins_records::exports::*;
-	pub use super::super::builtins_regularex::exports::*;
 	pub use super::super::builtins_runtime::exports::*;
 	pub use super::super::builtins_strings::exports::*;
 	pub use super::super::builtins_types::exports::*;
+	
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	pub use super::super::builtins_regularex::exports::*;
 	
 	#[ cfg ( feature = "vonuvoli_builtins_crypto" ) ]
 	pub use super::super::builtins_crypto::exports::*;

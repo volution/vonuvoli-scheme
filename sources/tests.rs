@@ -570,10 +570,10 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 	}
 	
 	
-	match (expected_value_without_optimizations, expected_value_with_optimizations) {
+	if match (expected_value_without_optimizations.as_ref (), &expected_value_with_optimizations.as_ref ()) {
 		(None, None) =>
-			(),
-		(Some (ref expected_value_without_optimizations), Some (ref expected_value_with_optimizations)) =>
+			false,
+		(Some (expected_value_without_optimizations), Some (expected_value_with_optimizations)) =>
 			match Value::kind_match_as_ref_2 (expected_value_without_optimizations, expected_value_with_optimizations) {
 				ValueKindMatchAsRef2::Null |
 				ValueKindMatchAsRef2::Void |
@@ -585,10 +585,8 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 				ValueKindMatchAsRef2::Character (_, _) |
 				ValueKindMatchAsRef2::Symbol (_, _) |
 				ValueKindMatchAsRef2::Keyword (_, _) |
-				ValueKindMatchAsRef2::StringRegex (_, _) |
 				ValueKindMatchAsRef2::StringImmutable (_, _) |
 				ValueKindMatchAsRef2::StringMutable (_, _) |
-				ValueKindMatchAsRef2::BytesRegex (_, _) |
 				ValueKindMatchAsRef2::BytesImmutable (_, _) |
 				ValueKindMatchAsRef2::BytesMutable (_, _) |
 				ValueKindMatchAsRef2::PairImmutable (_, _) |
@@ -601,14 +599,12 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 				ValueKindMatchAsRef2::ProcedureNative (_, _) |
 				ValueKindMatchAsRef2::SyntaxPrimitive (_, _) |
 				ValueKindMatchAsRef2::SyntaxNative (_, _) |
-				ValueKindMatchAsRef2::Path (_, _) => {
-					let output_matched = try! (equivalent_by_value_strict_recursive_2 (expected_value_without_optimizations, expected_value_with_optimizations, false));
-					if !output_matched {
-						header_emitted = try! (test_case_header_emit (&test.source, transcript_backend, verbosity_generic, header_emitted, true));
-						trace_error! (transcript, 0xe003610f => "failed assertion between with and without optimizations!\u{1e}{0}\u{1e}{1}\u{1e}{0:#?}\u{1e}{1:#?}" => (expected_value_without_optimizations, expected_value_with_optimizations), backend = transcript_backend);
-						fail! (0xc8a2813a);
-					}
-				},
+				ValueKindMatchAsRef2::Path (_, _) =>
+					true,
+				#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+				ValueKindMatchAsRef2::StringRegex (_, _) |
+				ValueKindMatchAsRef2::BytesRegex (_, _) =>
+					true,
 				ValueKindMatchAsRef2::Unique (_, _) |
 				ValueKindMatchAsRef2::RecordKind (_, _) |
 				ValueKindMatchAsRef2::RecordImmutable (_, _) |
@@ -625,14 +621,22 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 				ValueKindMatchAsRef2::Parameter (_, _) |
 				ValueKindMatchAsRef2::Promise (_, _) |
 				ValueKindMatchAsRef2::Opaque (_, _) =>
-					(),
+					false,
 				ValueKindMatchAsRef2::Missmatched =>
 					fail! (0x670c12cb),
 			},
 		(_, _) =>
 			fail_panic! (0x2f1f97f3),
+	} {
+		let expected_value_without_optimizations = expected_value_without_optimizations.as_ref () .unwrap ();
+		let expected_value_with_optimizations = expected_value_with_optimizations.as_ref () .unwrap ();
+		let output_matched = try! (equivalent_by_value_strict_recursive_2 (expected_value_without_optimizations, expected_value_with_optimizations, false));
+		if !output_matched {
+			header_emitted = try! (test_case_header_emit (&test.source, transcript_backend, verbosity_generic, header_emitted, true));
+			trace_error! (transcript, 0xe003610f => "failed assertion between with and without optimizations!\u{1e}{0}\u{1e}{1}\u{1e}{0:#?}\u{1e}{1:#?}" => (expected_value_without_optimizations, expected_value_with_optimizations), backend = transcript_backend);
+			fail! (0xc8a2813a);
+		}
 	}
-	
 	
 	try! (test_case_footer_emit (&test.source, transcript_backend, verbosity_global, header_emitted, false));
 	

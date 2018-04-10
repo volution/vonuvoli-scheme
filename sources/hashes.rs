@@ -30,13 +30,15 @@ impl hash::Hash for Value {
 			ValueKindMatchAsRef::Keyword (self_0) => { hasher.write_u32 (0xc1ebdc4e); self_0.hash (hasher); },
 			ValueKindMatchAsRef::Unique (self_0) => { hasher.write_u32 (0x7e74b485); self_0.hash (hasher); },
 			
-			ValueKindMatchAsRef::StringRegex (self_0) => { hasher.write_u32 (0x3bd45821); self_0.hash (hasher); },
 			ValueKindMatchAsRef::StringImmutable (self_0) => { hasher.write_u32 (0x85932088); self_0.hash (hasher); },
 			ValueKindMatchAsRef::StringMutable (self_0) => { hasher.write_u32 (0x5dffe8a7); self_0.hash (hasher); },
-			
-			ValueKindMatchAsRef::BytesRegex (self_0) => { hasher.write_u32 (0xd4a63fee); self_0.hash (hasher); },
 			ValueKindMatchAsRef::BytesImmutable (self_0) => { hasher.write_u32 (0xd6ec09a4); self_0.hash (hasher); },
 			ValueKindMatchAsRef::BytesMutable (self_0) => { hasher.write_u32 (0x15527940); self_0.hash (hasher); },
+			
+			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			ValueKindMatchAsRef::StringRegex (self_0) => { hasher.write_u32 (0x3bd45821); self_0.hash (hasher); },
+			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			ValueKindMatchAsRef::BytesRegex (self_0) => { hasher.write_u32 (0xd4a63fee); self_0.hash (hasher); },
 			
 			ValueKindMatchAsRef::PairImmutable (self_0) => { hasher.write_u32 (0x1064fab6); self_0.hash (hasher); },
 			ValueKindMatchAsRef::PairMutable (self_0) => { hasher.write_u32 (0x4bac60cf); self_0.hash (hasher); },
@@ -89,16 +91,6 @@ impl hash::Hash for NumberReal {
 
 
 
-impl hash::Hash for StringRegex {
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		let string = self.regex_ref () .as_str ();
-		string.hash (hasher);
-	}
-}
-
-
 impl hash::Hash for StringImmutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -121,16 +113,6 @@ impl hash::Hash for StringMutable {
 
 
 
-impl hash::Hash for BytesRegex {
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		let string = self.regex_ref () .as_str ();
-		string.hash (hasher);
-	}
-}
-
-
 impl hash::Hash for BytesImmutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -147,6 +129,30 @@ impl hash::Hash for BytesMutable {
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		let bytes = try_or_return! (self.bytes_ref (), ());
 		bytes.bytes_as_slice () .hash (hasher);
+	}
+}
+
+
+
+
+#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+impl hash::Hash for StringRegex {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
+		let string = self.regex_ref () .as_str ();
+		string.hash (hasher);
+	}
+}
+
+
+#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+impl hash::Hash for BytesRegex {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
+		let string = self.regex_ref () .as_str ();
+		string.hash (hasher);
 	}
 }
 

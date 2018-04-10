@@ -139,17 +139,19 @@ impl Compiler {
 			ValueClassMatchInto::Unique (value) =>
 				return self.compile_syntax_quote_0 (compilation, value.into ()),
 			
-			ValueClassMatchInto::StringRegex (value) =>
-				return self.compile_syntax_quote_0 (compilation, value.into ()),
-			
 			ValueClassMatchInto::String (class) =>
 				return self.compile_syntax_quote_0 (compilation, class.value ()),
 			
-			ValueClassMatchInto::BytesRegex (value) =>
-				return self.compile_syntax_quote_0 (compilation, value.into ()),
-			
 			ValueClassMatchInto::Bytes (class) =>
 				return self.compile_syntax_quote_0 (compilation, class.value ()),
+			
+			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			ValueClassMatchInto::StringRegex (value) =>
+				return self.compile_syntax_quote_0 (compilation, value.into ()),
+			
+			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			ValueClassMatchInto::BytesRegex (value) =>
+				return self.compile_syntax_quote_0 (compilation, value.into ()),
 			
 			ValueClassMatchInto::Pair (class) =>
 				return self.compile_form (compilation, try! (class.into_immutable ())),
@@ -1954,17 +1956,19 @@ impl Compiler {
 			ValueClassMatchInto::Unique (value) =>
 				succeed! ((compilation, splice (value, spliceable))),
 			
-			ValueClassMatchInto::StringRegex (value) =>
-				succeed! ((compilation, splice (value, spliceable))),
-			
 			ValueClassMatchInto::String (class) =>
 				succeed! ((compilation, splice (class.value (), spliceable))),
 			
-			ValueClassMatchInto::BytesRegex (value) =>
-				succeed! ((compilation, splice (value, spliceable))),
-			
 			ValueClassMatchInto::Bytes (class) =>
 				succeed! ((compilation, splice (class.value (), spliceable))),
+			
+			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			ValueClassMatchInto::StringRegex (value) =>
+				succeed! ((compilation, splice (value, spliceable))),
+			
+			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			ValueClassMatchInto::BytesRegex (value) =>
+				succeed! ((compilation, splice (value, spliceable))),
 			
 			ValueClassMatchInto::Array (class) =>
 				// FIXME:  Add support for quasi-quotation!

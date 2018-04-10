@@ -34,13 +34,15 @@ impl fmt::Display for Value {
 			ValueKindMatchAsRef::Keyword (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::Unique (self_0) => self_0.fmt (formatter),
 			
-			ValueKindMatchAsRef::StringRegex (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::StringImmutable (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::StringMutable (self_0) => self_0.fmt (formatter),
-			
-			ValueKindMatchAsRef::BytesRegex (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::BytesImmutable (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::BytesMutable (self_0) => self_0.fmt (formatter),
+			
+			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			ValueKindMatchAsRef::StringRegex (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			ValueKindMatchAsRef::BytesRegex (self_0) => self_0.fmt (formatter),
 			
 			ValueKindMatchAsRef::PairImmutable (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::PairMutable (self_0) => self_0.fmt (formatter),
@@ -100,13 +102,15 @@ impl fmt::Debug for Value {
 			ValueKindMatchAsRef::Keyword (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::Unique (self_0) => self_0.fmt (formatter),
 			
-			ValueKindMatchAsRef::StringRegex (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::StringImmutable (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::StringMutable (self_0) => self_0.fmt (formatter),
-			
-			ValueKindMatchAsRef::BytesRegex (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::BytesImmutable (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::BytesMutable (self_0) => self_0.fmt (formatter),
+			
+			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			ValueKindMatchAsRef::StringRegex (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			ValueKindMatchAsRef::BytesRegex (self_0) => self_0.fmt (formatter),
 			
 			ValueKindMatchAsRef::PairImmutable (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::PairMutable (self_0) => self_0.fmt (formatter),
@@ -345,18 +349,6 @@ impl fmt::Display for Unique {
 
 
 
-impl fmt::Display for StringRegex {
-	
-	#[ inline (never) ]
-	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		// FIXME:  Implement this!
-		write! (formatter, "#<string-regex>")
-	}
-}
-
-
-
-
 impl fmt::Display for StringImmutable {
 	
 	#[ inline (never) ]
@@ -397,18 +389,6 @@ fn string_fmt (string : &str, prefix : &str, suffix : &str, formatter : &mut fmt
 
 
 
-impl fmt::Display for BytesRegex {
-	
-	#[ inline (never) ]
-	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		// FIXME:  Implement this!
-		write! (formatter, "#<bytes-regex>")
-	}
-}
-
-
-
-
 impl fmt::Display for BytesImmutable {
 	
 	#[ inline (never) ]
@@ -441,6 +421,30 @@ fn bytes_fmt (bytes : &[u8], formatter : &mut fmt::Formatter) -> (fmt::Result) {
 	}
 	try! (formatter.write_char (')'));
 	succeed! (());
+}
+
+
+
+
+#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+impl fmt::Display for StringRegex {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		// FIXME:  Implement this!
+		write! (formatter, "#<string-regex>")
+	}
+}
+
+
+#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+impl fmt::Display for BytesRegex {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		// FIXME:  Implement this!
+		write! (formatter, "#<bytes-regex>")
+	}
 }
 
 

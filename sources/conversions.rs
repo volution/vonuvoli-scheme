@@ -112,12 +112,14 @@ impl_from_for_Value_1! (Character, Character);
 impl_from_for_Value_1! (Symbol, Symbol);
 impl_from_for_Value_1! (Keyword, Keyword);
 impl_from_for_Value_1! (Unique, Unique);
-impl_from_for_Value_1! (StringRegex, StringRegex);
 impl_from_for_Value_1! (StringImmutable, StringImmutable);
 impl_from_for_Value_1! (StringMutable, StringMutable);
-impl_from_for_Value_1! (BytesRegex, BytesRegex);
 impl_from_for_Value_1! (BytesImmutable, BytesImmutable);
 impl_from_for_Value_1! (BytesMutable, BytesMutable);
+#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+impl_from_for_Value_1! (StringRegex, StringRegex);
+#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+impl_from_for_Value_1! (BytesRegex, BytesRegex);
 impl_from_for_Value_1! (PairImmutable, PairImmutable);
 impl_from_for_Value_1! (PairMutable, PairMutable);
 impl_from_for_Value_1! (ArrayImmutable, ArrayImmutable);

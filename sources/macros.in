@@ -923,23 +923,25 @@ def_value_try_into! (try_into_keyword, value_type! (Keyword));
 def_value_try_as_ref! (try_as_unique_ref, value_type! (Unique));
 def_value_try_into! (try_into_unique, value_type! (Unique));
 
-def_value_try_as_ref! (try_as_string_regex_ref, value_type! (StringRegex));
-def_value_try_into! (try_into_string_regex, value_type! (StringRegex));
-
 def_value_try_as_ref! (try_as_string_immutable_ref, value_type! (StringImmutable));
 def_value_try_into! (try_into_string_immutable, value_type! (StringImmutable));
 
 def_value_try_as_ref! (try_as_string_mutable_ref, value_type! (StringMutable));
 def_value_try_into! (try_into_string_mutable, value_type! (StringMutable));
 
-def_value_try_as_ref! (try_as_bytes_regex_ref, value_type! (BytesRegex));
-def_value_try_into! (try_into_bytes_regex, value_type! (BytesRegex));
-
 def_value_try_as_ref! (try_as_bytes_immutable_ref, value_type! (BytesImmutable));
 def_value_try_into! (try_into_bytes_immutable, value_type! (BytesImmutable));
 
 def_value_try_as_ref! (try_as_bytes_mutable_ref, value_type! (BytesMutable));
 def_value_try_into! (try_into_bytes_mutable, value_type! (BytesMutable));
+
+#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+def_value_try_as_ref! (try_as_string_regex_ref, value_type! (StringRegex));
+def_value_try_into! (try_into_string_regex, value_type! (StringRegex));
+
+#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+def_value_try_as_ref! (try_as_bytes_regex_ref, value_type! (BytesRegex));
+def_value_try_into! (try_into_bytes_regex, value_type! (BytesRegex));
 
 def_value_try_as_ref! (try_as_pair_immutable_ref, value_type! (PairImmutable));
 def_value_try_into! (try_into_pair_immutable, value_type! (PairImmutable));
