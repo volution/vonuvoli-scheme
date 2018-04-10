@@ -588,16 +588,12 @@ pub mod exports {
 	
 	pub use super::{
 			
-			is_process,
 			is_context,
 			is_binding,
 			is_parameters,
 			is_parameter,
 			is_promise,
 			is_opaque,
-			
-			is_process_all_2, is_process_all_3, is_process_all_4, is_process_all_n,
-			is_process_any_2, is_process_any_3, is_process_any_4, is_process_any_n,
 			
 			is_context_all_2, is_context_all_3, is_context_all_4, is_context_all_n,
 			is_context_any_2, is_context_any_3, is_context_any_4, is_context_any_n,
@@ -631,6 +627,17 @@ pub mod exports {
 			
 			is_bytes_regex_all_2, is_bytes_regex_all_3, is_bytes_regex_all_4, is_bytes_regex_all_n,
 			is_bytes_regex_any_2, is_bytes_regex_any_3, is_bytes_regex_any_4, is_bytes_regex_any_n,
+			
+	};
+	
+	
+	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
+	pub use super::{
+			
+			is_process,
+			
+			is_process_all_2, is_process_all_3, is_process_all_4, is_process_all_n,
+			is_process_any_2, is_process_any_3, is_process_any_4, is_process_any_n,
 			
 	};
 	
@@ -2265,12 +2272,15 @@ def_fn_predicate_all! (is_bytes_regex, is_bytes_regex_all_2, is_bytes_regex_all_
 def_fn_predicate_any! (is_bytes_regex, is_bytes_regex_any_2, is_bytes_regex_any_3, is_bytes_regex_any_4, is_bytes_regex_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_process (value : &Value) -> (bool) {
 	return value.is_kind (ValueKind::Process);
 }
 
+#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 def_fn_predicate_all! (is_process, is_process_all_2, is_process_all_3, is_process_all_4, is_process_all_n);
+#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 def_fn_predicate_any! (is_process, is_process_any_2, is_process_any_3, is_process_any_4, is_process_any_n);
 
 

@@ -12,7 +12,6 @@ use super::parameters::exports::*;
 use super::paths::exports::*;
 use super::ports::exports::*;
 use super::primitives::exports::*;
-use super::processes::exports::*;
 use super::values_arrays::exports::*;
 use super::values_booleans::exports::*;
 use super::values_bytes::exports::*;
@@ -26,6 +25,9 @@ use super::values_strings::exports::*;
 use super::values_symbols::exports::*;
 use super::values_unique::exports::*;
 use super::values_values::exports::*;
+
+#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
+use super::processes::exports::*;
 
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 use super::regularex::exports::*;
@@ -105,6 +107,7 @@ pub enum ValueKind {
 	
 	Path,
 	Port,
+	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	Process,
 	
 	Context,
@@ -168,6 +171,7 @@ pub enum ValueKindMatchAsRef <'a> {
 	
 	Path (&'a Path),
 	Port (&'a Port),
+	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	Process (&'a Process),
 	
 	Context (&'a Context),
@@ -231,6 +235,7 @@ pub enum ValueKindMatchInto {
 	
 	Path (Path),
 	Port (Port),
+	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	Process (Process),
 	
 	Context (Context),
@@ -294,6 +299,7 @@ pub enum ValueKindMatchAsRef2 <'a> {
 	
 	Path (&'a Path, &'a Path),
 	Port (&'a Port, &'a Port),
+	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	Process (&'a Process, &'a Process),
 	
 	Context (&'a Context, &'a Context),
@@ -533,12 +539,16 @@ pub enum SyntaxMatchInto {
 
 
 pub enum ResourceMatchAsRef <'a> {
+	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	Process (&'a Process),
+	Other (&'a Value),   // NOTE:  this should never be used!
 }
 
 
 pub enum ResourceMatchInto {
+	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	Process (Process),
+	Other (Value),  // NOTE:  this should never be used!
 }
 
 
@@ -626,6 +636,7 @@ pub enum Value {
 	
 	Path ( ValueMeta1, Path, ValueMeta2, ),
 	Port ( ValueMeta1, Port, ValueMeta2, ),
+	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	Process ( ValueMeta1, Process, ValueMeta2, ),
 	
 	Context ( ValueMeta1, Context, ValueMeta2 ),
@@ -702,6 +713,7 @@ impl Value {
 			
 			Value::Path (_, _, _) => ValueKind::Path,
 			Value::Port (_, _, _) => ValueKind::Port,
+			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			Value::Process (_, _, _) => ValueKind::Process,
 			
 			Value::Context (_, _, _) => ValueKind::Context,
@@ -772,6 +784,7 @@ impl Value {
 			
 			Value::Path (_, ref self_0, _) => ValueKindMatchAsRef::Path (self_0),
 			Value::Port (_, ref self_0, _) => ValueKindMatchAsRef::Port (self_0),
+			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			Value::Process (_, ref self_0, _) => ValueKindMatchAsRef::Process (self_0),
 			
 			Value::Context (_, ref self_0, _) => ValueKindMatchAsRef::Context (self_0),
@@ -842,6 +855,7 @@ impl Value {
 			
 			Value::Path (_, self_0, _) => ValueKindMatchInto::Path (self_0),
 			Value::Port (_, self_0, _) => ValueKindMatchInto::Port (self_0),
+			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			Value::Process (_, self_0, _) => ValueKindMatchInto::Process (self_0),
 			
 			Value::Context (_, self_0, _) => ValueKindMatchInto::Context (self_0),
@@ -917,6 +931,7 @@ impl Value {
 			
 			(&Value::Path (_, ref self_0, _), &Value::Path (_, ref other_0, _)) => ValueKindMatchAsRef2::Path (self_0, other_0),
 			(&Value::Port (_, ref self_0, _), &Value::Port (_, ref other_0, _)) => ValueKindMatchAsRef2::Port (self_0, other_0),
+			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			(&Value::Process (_, ref self_0, _), &Value::Process (_, ref other_0, _)) => ValueKindMatchAsRef2::Process (self_0, other_0),
 			
 			(&Value::Context (_, ref self_0, _), &Value::Context (_, ref other_0, _)) => ValueKindMatchAsRef2::Context (self_0, other_0),
@@ -991,6 +1006,7 @@ impl Value {
 			
 			Value::Path (_, _, _) => ValueClass::Path,
 			Value::Port (_, _, _) => ValueClass::Port,
+			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			Value::Process (_, _, _) => ValueClass::Resource,
 			
 			Value::Context (_, _, _) => ValueClass::Internal,
@@ -1061,6 +1077,7 @@ impl Value {
 			
 			Value::Path (_, ref self_0, _) => ValueClassMatchAsRef::Path (self_0),
 			Value::Port (_, ref self_0, _) => ValueClassMatchAsRef::Port (self_0),
+			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			Value::Process (_, ref self_0, _) => ValueClassMatchAsRef::Resource (ResourceMatchAsRef::Process (self_0)),
 			
 			Value::Context (_, ref self_0, _) => ValueClassMatchAsRef::Internal (InternalMatchAsRef::Context (self_0)),
@@ -1131,6 +1148,7 @@ impl Value {
 			
 			Value::Path (_, self_0, _) => ValueClassMatchInto::Path (self_0),
 			Value::Port (_, self_0, _) => ValueClassMatchInto::Port (self_0),
+			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			Value::Process (_, self_0, _) => ValueClassMatchInto::Resource (ResourceMatchInto::Process (self_0)),
 			
 			Value::Context (_, self_0, _) => ValueClassMatchInto::Internal (InternalMatchInto::Context (self_0)),
@@ -1325,6 +1343,7 @@ impl Value {
 			
 			ValueKindMatchAsRef2::Path (self_0, other_0) => Path::is_self (self_0, other_0),
 			ValueKindMatchAsRef2::Port (self_0, other_0) => Port::is_self (self_0, other_0),
+			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			ValueKindMatchAsRef2::Process (self_0, other_0) => Process::is_self (self_0, other_0),
 			
 			ValueKindMatchAsRef2::Context (self_0, other_0) => Context::is_self (self_0, other_0),
@@ -1389,6 +1408,7 @@ impl Value {
 			
 			Value::Path (_, ref self_0, _) => self_0.clone () .into_0 (),
 			Value::Port (_, _, _) => fail! (0xe4de734c),
+			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			Value::Process (_, _, _) => fail! (0x629f6149),
 			
 			Value::Context (_, _, _) => fail! (0x7e3a414d),
@@ -1422,6 +1442,7 @@ impl Value {
 			Value::RecordMutable (_, ref self_0, _) => self_0.clone () .into_0 (),
 			
 			Value::Port (_, ref self_0, _) => self_0.clone () .into_0 (),
+			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			Value::Process (_, ref self_0, _) => self_0.clone () .into_0 (),
 			
 			Value::Opaque (_, _, _) => fail! (0x1f7ae54b),
@@ -1490,6 +1511,7 @@ impl ValueKindMatchInto {
 			
 			ValueKindMatchInto::Path (value) => value.into (),
 			ValueKindMatchInto::Port (value) => value.into (),
+			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			ValueKindMatchInto::Process (value) => value.into (),
 			
 			ValueKindMatchInto::Context (value) => value.into (),
@@ -1592,7 +1614,9 @@ impl ResourceMatchInto {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn value (self) -> (Value) {
 		match self {
+			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			ResourceMatchInto::Process (value) => value.into (),
+			ResourceMatchInto::Other (value) => value,
 		}
 	}
 }

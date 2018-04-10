@@ -1,11 +1,15 @@
 
 
-use super::builtins::exports::*;
 use super::contexts::exports::*;
 use super::errors::exports::*;
-use super::parameters::exports::*;
 use super::primitives::exports::*;
 use super::values::exports::*;
+
+#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
+use super::builtins::exports::*;
+
+#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
+use super::parameters::exports::*;
 
 use super::prelude::*;
 
@@ -589,6 +593,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 		]);
 	
 	// NOTE:  sub-processes
+	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	definitions.extend_from_slice (&[
 			
 			("process?", TypePrimitiveV::IsProcess.into ()),

@@ -68,6 +68,7 @@ impl fmt::Display for Value {
 			
 			ValueKindMatchAsRef::Path (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::Port (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			ValueKindMatchAsRef::Process (self_0) => self_0.fmt (formatter),
 			
 			ValueKindMatchAsRef::Context (self_0) => self_0.fmt (formatter),
@@ -136,6 +137,7 @@ impl fmt::Debug for Value {
 			
 			ValueKindMatchAsRef::Path (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::Port (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			ValueKindMatchAsRef::Process (self_0) => self_0.fmt (formatter),
 			
 			ValueKindMatchAsRef::Context (self_0) => self_0.fmt (formatter),
@@ -1178,6 +1180,7 @@ impl fmt::Debug for Port {
 
 
 
+#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 impl fmt::Display for Process {
 	
 	#[ inline (never) ]
@@ -1187,6 +1190,7 @@ impl fmt::Display for Process {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 impl fmt::Debug for Process {
 	
 	#[ inline (never) ]

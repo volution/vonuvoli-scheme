@@ -937,10 +937,12 @@ def_value_try_into! (try_into_bytes_mutable, value_type! (BytesMutable));
 
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 def_value_try_as_ref! (try_as_string_regex_ref, value_type! (StringRegex));
+#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 def_value_try_into! (try_into_string_regex, value_type! (StringRegex));
 
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 def_value_try_as_ref! (try_as_bytes_regex_ref, value_type! (BytesRegex));
+#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 def_value_try_into! (try_into_bytes_regex, value_type! (BytesRegex));
 
 def_value_try_as_ref! (try_as_pair_immutable_ref, value_type! (PairImmutable));
@@ -1000,7 +1002,9 @@ def_value_try_into! (try_into_path, value_type! (Path));
 def_value_try_as_ref! (try_as_port_ref, value_type! (Port));
 def_value_try_into! (try_into_port, value_type! (Port));
 
+#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 def_value_try_as_ref! (try_as_process_ref, value_type! (Process));
+#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 def_value_try_into! (try_into_process, value_type! (Process));
 
 def_value_try_as_ref! (try_as_context_ref, value_type! (Context));

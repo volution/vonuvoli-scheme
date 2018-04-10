@@ -64,6 +64,7 @@ impl hash::Hash for Value {
 			
 			ValueKindMatchAsRef::Path (self_0) => { hasher.write_u32 (0x8e9b2f47); self_0.hash (hasher); },
 			ValueKindMatchAsRef::Port (self_0) => { hasher.write_u32 (0xd25641d0); self_0.hash (hasher); },
+			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			ValueKindMatchAsRef::Process (self_0) => { hasher.write_u32 (0x87b9167c); self_0.hash (hasher); },
 			
 			ValueKindMatchAsRef::Context (self_0) => { hasher.write_u32 (0x04ef2744); self_0.hash (hasher); },
@@ -335,6 +336,7 @@ impl hash::Hash for Port {
 
 
 
+#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 impl hash::Hash for Process {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

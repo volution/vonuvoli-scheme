@@ -162,6 +162,7 @@ pub(crate) mod builtins_filesystem;
 pub(crate) mod builtins_functions;
 pub(crate) mod builtins_lists;
 pub(crate) mod builtins_ports;
+#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 pub(crate) mod builtins_processes;
 pub(crate) mod builtins_records;
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
@@ -213,6 +214,7 @@ pub(crate) mod primitives_runtime;
 pub(crate) mod primitives_strings;
 pub(crate) mod primitives_syntaxes;
 pub(crate) mod primitives_types;
+#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 pub(crate) mod processes;
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 pub(crate) mod regularex;
@@ -272,6 +274,7 @@ pub mod internals {
 	pub use super::builtins_functions::exports as builtins_functions;
 	pub use super::builtins_lists::exports as builtins_lists;
 	pub use super::builtins_ports::exports as builtins_ports;
+	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	pub use super::builtins_processes::exports as builtins_processes;
 	pub use super::builtins_records::exports as builtins_records;
 	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
@@ -318,6 +321,7 @@ pub mod internals {
 	pub use super::primitives_strings::exports as primitives_strings;
 	pub use super::primitives_syntaxes::exports as primitives_syntaxes;
 	pub use super::primitives_types::exports as primitives_types;
+	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	pub use super::processes::exports as processes;
 	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 	pub use super::regularex::exports as regularex;
@@ -380,6 +384,7 @@ pub mod exports {
 	pub use super::paths::exports::*;
 	pub use super::ports::exports::*;
 	pub use super::primitives::exports::*;
+	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	pub use super::processes::exports::*;
 	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 	pub use super::regularex::exports::*;

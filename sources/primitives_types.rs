@@ -175,7 +175,9 @@ macro_rules! def_type_primitive_enum {
 			IsPathAbsolute,
 			IsPathRelative,
 			
+			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			IsProcess,
+			
 			IsContext,
 			IsBinding,
 			IsParameters,
@@ -538,6 +540,7 @@ pub fn type_primitive_1_evaluate_0 (primitive : TypePrimitive1, input_1 : &Value
 		TypePrimitive1::IsPathRelative =>
 			return is_path_relative (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		TypePrimitive1::IsProcess =>
 			return is_process (input_1) .into_0 (),
 		
@@ -942,6 +945,7 @@ pub fn type_primitive_2_evaluate_0 (primitive : TypePrimitive2, input_1 : &Value
 		TypePrimitive2::IsPathRelative =>
 			return is_path_relative_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		TypePrimitive2::IsProcess =>
 			return is_process_all_2 (input_1, input_2) .into_0 (),
 		
@@ -1346,6 +1350,7 @@ pub fn type_primitive_3_evaluate_0 (primitive : TypePrimitive3, input_1 : &Value
 		TypePrimitive3::IsPathRelative =>
 			return is_path_relative_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		TypePrimitive3::IsProcess =>
 			return is_process_all_3 (input_1, input_2, input_3) .into_0 (),
 		
@@ -1750,6 +1755,7 @@ pub fn type_primitive_4_evaluate_0 (primitive : TypePrimitive4, input_1 : &Value
 		TypePrimitive4::IsPathRelative =>
 			return is_path_relative_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		TypePrimitive4::IsProcess =>
 			return is_process_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
@@ -2162,6 +2168,7 @@ pub fn type_primitive_n_evaluate_0 (primitive : TypePrimitiveN, inputs : &[&Valu
 		TypePrimitiveN::IsPathRelative =>
 			return is_path_relative_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		TypePrimitiveN::IsProcess =>
 			return is_process_all_n (inputs) .into_0 (),
 		
@@ -2468,6 +2475,7 @@ macro_rules! def_type_primitive_v_alternative_fn {
 					Some ($alternative::IsPathAbsolute),
 				TypePrimitiveV::IsPathRelative =>
 					Some ($alternative::IsPathRelative),
+				#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 				TypePrimitiveV::IsProcess =>
 					Some ($alternative::IsProcess),
 				TypePrimitiveV::IsContext =>

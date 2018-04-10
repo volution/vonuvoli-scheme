@@ -15,6 +15,7 @@ pub(crate) mod exports {
 	pub(crate) use super::record_handles_next;
 	pub(crate) use super::lambda_handles_next;
 	pub(crate) use super::port_handles_next;
+	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	pub(crate) use super::process_handles_next;
 }
 
@@ -157,6 +158,7 @@ pub(crate) fn port_handles_next () -> (Handle) {
 
 
 
+#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 static mut PROCESS_HANDLES : PermutationCounter = PermutationCounter {
 		count : 0,
 		index : 0x30df6208,
@@ -164,6 +166,7 @@ static mut PROCESS_HANDLES : PermutationCounter = PermutationCounter {
 		initialized : false,
 	};
 
+#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub(crate) fn process_handles_next () -> (Handle) {
 	unsafe {

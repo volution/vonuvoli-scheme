@@ -11,8 +11,10 @@ use super::native_procedures::exports::*;
 use super::native_syntaxes::exports::*;
 use super::ports::exports::*;
 use super::primitives::exports::*;
-use super::processes::exports::*;
 use super::values::exports::*;
+
+#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
+use super::processes::exports::*;
 
 use super::prelude::*;
 
@@ -71,7 +73,6 @@ pub mod exports {
 			syntax_lambda_compare_1, syntax_lambda_compare_1a,
 			path_compare_1, path_compare_1a,
 			port_compare_1, port_compare_1a,
-			process_compare_1, process_compare_1a,
 			context_compare_1, context_compare_1a,
 			binding_compare_1, binding_compare_1a,
 			parameters_compare_1, parameters_compare_1a,
@@ -117,7 +118,6 @@ pub mod exports {
 			syntax_lambda_compare_2, syntax_lambda_compare_2a,
 			path_compare_2, path_compare_2a,
 			port_compare_2, port_compare_2a,
-			process_compare_2, process_compare_2a,
 			context_compare_2, context_compare_2a,
 			binding_compare_2, binding_compare_2a,
 			parameters_compare_2, parameters_compare_2a,
@@ -163,7 +163,6 @@ pub mod exports {
 			syntax_lambda_compare_3, syntax_lambda_compare_3a,
 			path_compare_3, path_compare_3a,
 			port_compare_3, port_compare_3a,
-			process_compare_3, process_compare_3a,
 			context_compare_3, context_compare_3a,
 			binding_compare_3, binding_compare_3a,
 			parameters_compare_3, parameters_compare_3a,
@@ -209,7 +208,6 @@ pub mod exports {
 			syntax_lambda_compare_4, syntax_lambda_compare_4a,
 			path_compare_4, path_compare_4a,
 			port_compare_4, port_compare_4a,
-			process_compare_4, process_compare_4a,
 			context_compare_4, context_compare_4a,
 			binding_compare_4, binding_compare_4a,
 			parameters_compare_4, parameters_compare_4a,
@@ -255,7 +253,6 @@ pub mod exports {
 			syntax_lambda_compare_n, syntax_lambda_compare_na,
 			path_compare_n, path_compare_na,
 			port_compare_n, port_compare_na,
-			process_compare_n, process_compare_na,
 			context_compare_n, context_compare_na,
 			binding_compare_n, binding_compare_na,
 			parameters_compare_n, parameters_compare_na,
@@ -282,6 +279,17 @@ pub mod exports {
 			
 			string_regex_compare_n, string_regex_compare_na,
 			bytes_regex_compare_n, bytes_regex_compare_na,
+			
+	};
+	
+	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
+	pub use super::{
+			
+			process_compare_1, process_compare_1a,
+			process_compare_2, process_compare_2a,
+			process_compare_3, process_compare_3a,
+			process_compare_4, process_compare_4a,
+			process_compare_n, process_compare_na,
 			
 	};
 	
@@ -633,6 +641,7 @@ pub fn compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Co
 		ValueKindMatchAsRef::Port (value) =>
 			return port_compare_1a (value, comparison),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		ValueKindMatchAsRef::Process (value) =>
 			return process_compare_1a (value, comparison),
 		
@@ -771,6 +780,7 @@ pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef
 		ValueKindMatchAsRef2::Port (left, right) =>
 			return port_compare_2a (left, right, comparison),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		ValueKindMatchAsRef2::Process (left, right) =>
 			return process_compare_2a (left, right, comparison),
 		
@@ -1765,15 +1775,18 @@ pub fn port_compare_2a <ValueRef : StdAsRef<Port>> (left : ValueRef, right : Val
 
 
 
+#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 def_fn_compare! (Process,
 		process_compare_1, process_compare_2, process_compare_3, process_compare_4, process_compare_n,
 		process_compare_1a, process_compare_2a, process_compare_3a, process_compare_4a, process_compare_na);
 
+#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_compare_1a <ValueRef : StdAsRef<Process>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
+#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_compare_2a <ValueRef : StdAsRef<Process>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();

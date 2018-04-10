@@ -10,8 +10,10 @@ use super::native_procedures::exports::*;
 use super::native_syntaxes::exports::*;
 use super::ports::exports::*;
 use super::primitives::exports::*;
-use super::processes::exports::*;
 use super::values::exports::*;
+
+#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
+use super::processes::exports::*;
 
 use super::prelude::*;
 
@@ -139,6 +141,7 @@ impl_from_for_Value_1! (SyntaxNative, SyntaxNative);
 impl_from_for_Value_1! (SyntaxLambda, SyntaxLambda);
 impl_from_for_Value_1! (Path, Path);
 impl_from_for_Value_1! (Port, Port);
+#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 impl_from_for_Value_1! (Process, Process);
 impl_from_for_Value_1! (Context, Context);
 impl_from_for_Value_1! (Binding, Binding);
@@ -222,6 +225,7 @@ impl_as_ref_for_type_wlt! (RecordRef<'a>, 'a);
 
 
 
+#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 impl_from_for_type! (Value, ProcessStatus, status, status.value ());
 
 

@@ -102,14 +102,21 @@ pub enum RuntimePrimitive1 {
 	ProcessExit,
 	ProcessExitEmergency,
 	
+	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	ProcessSpawnExtended,
 	
+	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	ProcessWaitPoll,
+	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	ProcessWaitTry,
+	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	ProcessWaitCheck,
 	
+	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	ProcessStdinGet,
+	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	ProcessStdoutGet,
+	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	ProcessStderrGet,
 	
 }
@@ -133,6 +140,7 @@ pub enum RuntimePrimitive2 {
 	TranscriptTraceInternal,
 	TranscriptTraceDebugging,
 	
+	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	ProcessSpawnExtended,
 	
 }
@@ -154,6 +162,7 @@ pub enum RuntimePrimitive3 {
 	TranscriptTraceInternal,
 	TranscriptTraceDebugging,
 	
+	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	ProcessSpawnExtended,
 	
 }
@@ -207,8 +216,11 @@ pub enum RuntimePrimitiveN {
 	TranscriptTraceInternal,
 	TranscriptTraceDebugging,
 	
+	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	ProcessSpawn,
+	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	ProcessRunTry,
+	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	ProcessRunCheck,
 	
 }
@@ -235,6 +247,7 @@ pub enum RuntimePrimitiveV {
 	ProcessExit,
 	ProcessExitEmergency,
 	
+	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	ProcessSpawnExtended,
 	
 }
@@ -346,24 +359,31 @@ pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, input_1 : &V
 		RuntimePrimitive1::ProcessExitEmergency =>
 			return Err (try! (error_exit (Some (input_1), true)) .into ()),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitive1::ProcessSpawnExtended =>
 			return process_spawn_extended (input_1, None, None, &mut Some (evaluator)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitive1::ProcessWaitPoll =>
 			return process_wait (input_1, false) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitive1::ProcessWaitTry =>
 			return process_wait (input_1, true) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitive1::ProcessWaitCheck =>
 			return process_wait_check (input_1, true) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitive1::ProcessStdinGet =>
 			return process_stdin_get (input_1),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitive1::ProcessStdoutGet =>
 			return process_stdout_get (input_1),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitive1::ProcessStderrGet =>
 			return process_stderr_get (input_1),
 		
@@ -413,6 +433,7 @@ pub fn runtime_primitive_2_evaluate (primitive : RuntimePrimitive2, input_1 : &V
 		RuntimePrimitive2::TranscriptTraceDebugging =>
 			return transcript_trace_g (TranscriptLevel::Debugging, &[input_1, input_2], evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitive2::ProcessSpawnExtended =>
 			return process_spawn_extended (input_1, Some (input_2), None, &mut Some (evaluator)) .into_0 (),
 		
@@ -456,6 +477,7 @@ pub fn runtime_primitive_3_evaluate (primitive : RuntimePrimitive3, input_1 : &V
 		RuntimePrimitive3::TranscriptTraceDebugging =>
 			return transcript_trace_g (TranscriptLevel::Debugging, &[input_1, input_2, input_3], evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitive3::ProcessSpawnExtended =>
 			return process_spawn_extended (input_1, Some (input_2), Some (input_3), &mut Some (evaluator)) .into_0 (),
 		
@@ -574,12 +596,15 @@ pub fn runtime_primitive_n_evaluate (primitive : RuntimePrimitiveN, inputs : &[&
 		RuntimePrimitiveN::TranscriptTraceDebugging =>
 			return transcript_trace_g (TranscriptLevel::Debugging, inputs, evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitiveN::ProcessSpawn =>
 			return process_spawn (inputs, &mut Some (evaluator)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitiveN::ProcessRunTry =>
 			return process_run (inputs, &mut Some (evaluator)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitiveN::ProcessRunCheck =>
 			return process_run_check (inputs, &mut Some (evaluator)) .into_0 (),
 		
@@ -620,6 +645,7 @@ pub fn runtime_primitive_v_alternative_0 (primitive : RuntimePrimitiveV) -> (Opt
 			Some (RuntimePrimitive0::ProcessExit),
 		RuntimePrimitiveV::ProcessExitEmergency =>
 			Some (RuntimePrimitive0::ProcessExitEmergency),
+		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitiveV::ProcessSpawnExtended =>
 			None,
 	}
@@ -659,6 +685,7 @@ pub fn runtime_primitive_v_alternative_1 (primitive : RuntimePrimitiveV) -> (Opt
 			Some (RuntimePrimitive1::ProcessExit),
 		RuntimePrimitiveV::ProcessExitEmergency =>
 			Some (RuntimePrimitive1::ProcessExitEmergency),
+		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitiveV::ProcessSpawnExtended =>
 			Some (RuntimePrimitive1::ProcessSpawnExtended),
 	}
@@ -698,6 +725,7 @@ pub fn runtime_primitive_v_alternative_2 (primitive : RuntimePrimitiveV) -> (Opt
 			None,
 		RuntimePrimitiveV::ProcessExitEmergency =>
 			None,
+		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitiveV::ProcessSpawnExtended =>
 			Some (RuntimePrimitive2::ProcessSpawnExtended),
 	}
@@ -737,6 +765,7 @@ pub fn runtime_primitive_v_alternative_3 (primitive : RuntimePrimitiveV) -> (Opt
 			None,
 		RuntimePrimitiveV::ProcessExitEmergency =>
 			None,
+		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitiveV::ProcessSpawnExtended =>
 			Some (RuntimePrimitive3::ProcessSpawnExtended),
 	}
@@ -776,6 +805,7 @@ pub fn runtime_primitive_v_alternative_4 (primitive : RuntimePrimitiveV) -> (Opt
 			None,
 		RuntimePrimitiveV::ProcessExitEmergency =>
 			None,
+		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitiveV::ProcessSpawnExtended =>
 			None,
 	}
@@ -815,6 +845,7 @@ pub fn runtime_primitive_v_alternative_5 (primitive : RuntimePrimitiveV) -> (Opt
 			None,
 		RuntimePrimitiveV::ProcessExitEmergency =>
 			None,
+		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitiveV::ProcessSpawnExtended =>
 			None,
 	}
@@ -854,6 +885,7 @@ pub fn runtime_primitive_v_alternative_n (primitive : RuntimePrimitiveV) -> (Opt
 			None,
 		RuntimePrimitiveV::ProcessExitEmergency =>
 			None,
+		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitiveV::ProcessSpawnExtended =>
 			None,
 	}

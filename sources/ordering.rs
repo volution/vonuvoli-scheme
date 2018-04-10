@@ -110,6 +110,7 @@ impl <'a> ValueKindMatchAsRef2<'a> {
 			
 			ValueKindMatchAsRef2::Path (self_0, other_0) => Some (Path::eq (self_0, other_0)),
 			ValueKindMatchAsRef2::Port (self_0, other_0) => Some (Port::eq (self_0, other_0)),
+			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			ValueKindMatchAsRef2::Process (self_0, other_0) => Some (Process::eq (self_0, other_0)),
 			
 			ValueKindMatchAsRef2::Context (self_0, other_0) => Some (Context::eq (self_0, other_0)),
@@ -180,6 +181,7 @@ impl <'a> ValueKindMatchAsRef2<'a> {
 			
 			ValueKindMatchAsRef2::Path (self_0, other_0) => Some (Path::cmp (self_0, other_0)),
 			ValueKindMatchAsRef2::Port (self_0, other_0) => Some (Port::cmp (self_0, other_0)),
+			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			ValueKindMatchAsRef2::Process (self_0, other_0) => Some (Process::cmp (self_0, other_0)),
 			
 			ValueKindMatchAsRef2::Context (self_0, other_0) => Some (Context::cmp (self_0, other_0)),
@@ -1121,8 +1123,10 @@ impl cmp::PartialOrd for Port {
 
 
 
+#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 impl cmp::Eq for Process {}
 
+#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 impl cmp::PartialEq for Process {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1133,6 +1137,7 @@ impl cmp::PartialEq for Process {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 impl cmp::Ord for Process {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1143,6 +1148,7 @@ impl cmp::Ord for Process {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 impl cmp::PartialOrd for Process {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
