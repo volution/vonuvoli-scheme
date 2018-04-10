@@ -9,7 +9,6 @@ use super::lambdas::exports::*;
 use super::native_procedures::exports::*;
 use super::native_syntaxes::exports::*;
 use super::parameters::exports::*;
-use super::paths::exports::*;
 use super::ports::exports::*;
 use super::primitives::exports::*;
 use super::values_arrays::exports::*;
@@ -26,11 +25,14 @@ use super::values_symbols::exports::*;
 use super::values_unique::exports::*;
 use super::values_values::exports::*;
 
-#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
-use super::processes::exports::*;
-
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 use super::regularex::exports::*;
+
+#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
+use super::paths::exports::*;
+
+#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
+use super::processes::exports::*;
 
 use super::prelude::*;
 
@@ -105,6 +107,7 @@ pub enum ValueKind {
 	SyntaxNative,
 	SyntaxLambda,
 	
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	Path,
 	Port,
 	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
@@ -169,6 +172,7 @@ pub enum ValueKindMatchAsRef <'a> {
 	SyntaxNative (&'a SyntaxNative),
 	SyntaxLambda (&'a SyntaxLambda),
 	
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	Path (&'a Path),
 	Port (&'a Port),
 	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
@@ -233,6 +237,7 @@ pub enum ValueKindMatchInto {
 	SyntaxNative (SyntaxNative),
 	SyntaxLambda (SyntaxLambda),
 	
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	Path (Path),
 	Port (Port),
 	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
@@ -297,6 +302,7 @@ pub enum ValueKindMatchAsRef2 <'a> {
 	SyntaxNative (&'a SyntaxNative, &'a SyntaxNative),
 	SyntaxLambda (&'a SyntaxLambda, &'a SyntaxLambda),
 	
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	Path (&'a Path, &'a Path),
 	Port (&'a Port, &'a Port),
 	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
@@ -353,6 +359,7 @@ pub enum ValueClass {
 	Procedure,
 	Syntax,
 	
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	Path,
 	Port,
 	Resource,
@@ -399,6 +406,7 @@ pub enum ValueClassMatchAsRef <'a> {
 	Procedure (ProcedureMatchAsRef<'a>),
 	Syntax (SyntaxMatchAsRef<'a>),
 	
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	Path (&'a Path),
 	Port (&'a Port),
 	Resource (ResourceMatchAsRef<'a>),
@@ -445,6 +453,7 @@ pub enum ValueClassMatchInto {
 	Procedure (ProcedureMatchInto),
 	Syntax (SyntaxMatchInto),
 	
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	Path (Path),
 	Port (Port),
 	Resource (ResourceMatchInto),
@@ -491,6 +500,7 @@ pub enum ValueClassMatchAsRef2 <'a> {
 	Procedure (ProcedureMatchAsRef<'a>, ProcedureMatchAsRef<'a>),
 	Syntax (SyntaxMatchAsRef<'a>, SyntaxMatchAsRef<'a>),
 	
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	Path (&'a Path, &'a Path),
 	Port (&'a Port, &'a Port),
 	Resource (ResourceMatchAsRef<'a>, ResourceMatchAsRef<'a>),
@@ -634,6 +644,7 @@ pub enum Value {
 	SyntaxNative ( ValueMeta1, SyntaxNative, ValueMeta2, ),
 	SyntaxLambda ( ValueMeta1, SyntaxLambda, ValueMeta2, ),
 	
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	Path ( ValueMeta1, Path, ValueMeta2, ),
 	Port ( ValueMeta1, Port, ValueMeta2, ),
 	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
@@ -711,6 +722,7 @@ impl Value {
 			Value::SyntaxNative (_, _, _) => ValueKind::SyntaxNative,
 			Value::SyntaxLambda (_, _, _) => ValueKind::SyntaxLambda,
 			
+			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			Value::Path (_, _, _) => ValueKind::Path,
 			Value::Port (_, _, _) => ValueKind::Port,
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
@@ -782,6 +794,7 @@ impl Value {
 			Value::SyntaxNative (_, ref self_0, _) => ValueKindMatchAsRef::SyntaxNative (self_0),
 			Value::SyntaxLambda (_, ref self_0, _) => ValueKindMatchAsRef::SyntaxLambda (self_0),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			Value::Path (_, ref self_0, _) => ValueKindMatchAsRef::Path (self_0),
 			Value::Port (_, ref self_0, _) => ValueKindMatchAsRef::Port (self_0),
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
@@ -853,6 +866,7 @@ impl Value {
 			Value::SyntaxNative (_, self_0, _) => ValueKindMatchInto::SyntaxNative (self_0),
 			Value::SyntaxLambda (_, self_0, _) => ValueKindMatchInto::SyntaxLambda (self_0),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			Value::Path (_, self_0, _) => ValueKindMatchInto::Path (self_0),
 			Value::Port (_, self_0, _) => ValueKindMatchInto::Port (self_0),
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
@@ -929,6 +943,7 @@ impl Value {
 			(&Value::SyntaxNative (_, ref self_0, _), &Value::SyntaxNative (_, ref other_0, _)) => ValueKindMatchAsRef2::SyntaxNative (self_0, other_0),
 			(&Value::SyntaxLambda (_, ref self_0, _), &Value::SyntaxLambda (_, ref other_0, _)) => ValueKindMatchAsRef2::SyntaxLambda (self_0, other_0),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			(&Value::Path (_, ref self_0, _), &Value::Path (_, ref other_0, _)) => ValueKindMatchAsRef2::Path (self_0, other_0),
 			(&Value::Port (_, ref self_0, _), &Value::Port (_, ref other_0, _)) => ValueKindMatchAsRef2::Port (self_0, other_0),
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
@@ -1004,6 +1019,7 @@ impl Value {
 			Value::SyntaxNative (_, _, _) => ValueClass::Syntax,
 			Value::SyntaxLambda (_, _, _) => ValueClass::Syntax,
 			
+			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			Value::Path (_, _, _) => ValueClass::Path,
 			Value::Port (_, _, _) => ValueClass::Port,
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
@@ -1075,6 +1091,7 @@ impl Value {
 			Value::SyntaxNative (_, ref self_0, _) => ValueClassMatchAsRef::Syntax (SyntaxMatchAsRef::Native (self_0)),
 			Value::SyntaxLambda (_, ref self_0, _) => ValueClassMatchAsRef::Syntax (SyntaxMatchAsRef::Lambda (self_0)),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			Value::Path (_, ref self_0, _) => ValueClassMatchAsRef::Path (self_0),
 			Value::Port (_, ref self_0, _) => ValueClassMatchAsRef::Port (self_0),
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
@@ -1146,6 +1163,7 @@ impl Value {
 			Value::SyntaxNative (_, self_0, _) => ValueClassMatchInto::Syntax (SyntaxMatchInto::Native (self_0)),
 			Value::SyntaxLambda (_, self_0, _) => ValueClassMatchInto::Syntax (SyntaxMatchInto::Lambda (self_0)),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			Value::Path (_, self_0, _) => ValueClassMatchInto::Path (self_0),
 			Value::Port (_, self_0, _) => ValueClassMatchInto::Port (self_0),
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
@@ -1229,6 +1247,7 @@ impl Value {
 			
 			(&Value::Error (_, ref self_0, _), &Value::Error (_, ref other_0, _)) => ValueClassMatchAsRef2::Error (self_0, other_0),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			(&Value::Path (_, ref self_0, _), &Value::Path (_, ref other_0, _)) => ValueClassMatchAsRef2::Path (self_0, other_0),
 			(&Value::Port (_, ref self_0, _), &Value::Port (_, ref other_0, _)) => ValueClassMatchAsRef2::Port (self_0, other_0),
 			
@@ -1341,6 +1360,7 @@ impl Value {
 			ValueKindMatchAsRef2::SyntaxNative (self_0, other_0) => SyntaxNative::is_self (self_0, other_0),
 			ValueKindMatchAsRef2::SyntaxLambda (self_0, other_0) => SyntaxLambda::is_self (self_0, other_0),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			ValueKindMatchAsRef2::Path (self_0, other_0) => Path::is_self (self_0, other_0),
 			ValueKindMatchAsRef2::Port (self_0, other_0) => Port::is_self (self_0, other_0),
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
@@ -1406,6 +1426,7 @@ impl Value {
 			Value::SyntaxNative (_, ref self_0, _) => self_0.clone () .into_0 (),
 			Value::SyntaxLambda (_, ref self_0, _) => self_0.clone () .into_0 (),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			Value::Path (_, ref self_0, _) => self_0.clone () .into_0 (),
 			Value::Port (_, _, _) => fail! (0xe4de734c),
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
@@ -1509,6 +1530,7 @@ impl ValueKindMatchInto {
 			ValueKindMatchInto::SyntaxNative (value) => value.into (),
 			ValueKindMatchInto::SyntaxLambda (value) => value.into (),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			ValueKindMatchInto::Path (value) => value.into (),
 			ValueKindMatchInto::Port (value) => value.into (),
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
@@ -1567,6 +1589,7 @@ impl ValueClassMatchInto {
 			ValueClassMatchInto::Procedure (class) => class.value (),
 			ValueClassMatchInto::Syntax (class) => class.value (),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			ValueClassMatchInto::Path (value) => value.into (),
 			ValueClassMatchInto::Port (value) => value.into (),
 			ValueClassMatchInto::Resource (class) => class.value (),

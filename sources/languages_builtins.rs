@@ -493,6 +493,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 		]);
 	
 	// NOTE:  file-system operations
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	definitions.extend_from_slice (&[
 			
 			("fs-canonicalize", FileSystemPrimitive1::PathCanonicalize.into ()),
@@ -548,6 +549,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 		]);
 	
 	// NOTE:  file-system paths
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	definitions.extend_from_slice (&[
 			
 			("path?", TypePrimitiveV::IsPath.into ()),

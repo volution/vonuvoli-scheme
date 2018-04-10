@@ -166,10 +166,15 @@ macro_rules! def_comparison_primitive_enum {
 			RecordGreaterOrEqual,
 			RecordGreater,
 			
+			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			PathLesser,
+			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			PathLesserOrEqual,
+			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			PathEqual,
+			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			PathGreaterOrEqual,
+			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			PathGreater,
 			
 		}
@@ -479,18 +484,23 @@ pub fn comparison_primitive_1_evaluate (primitive : ComparisonPrimitive1, input_
 		ComparisonPrimitive1::RecordGreater =>
 			return record_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		ComparisonPrimitive1::PathLesser =>
 			return path_compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		ComparisonPrimitive1::PathLesserOrEqual =>
 			return path_compare_1 (input_1, Comparison::Ordering (Ordering::LesserOrEqual, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		ComparisonPrimitive1::PathEqual =>
 			return path_compare_1 (input_1, Comparison::Ordering (Ordering::Equal, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		ComparisonPrimitive1::PathGreaterOrEqual =>
 			return path_compare_1 (input_1, Comparison::Ordering (Ordering::GreaterOrEqual, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		ComparisonPrimitive1::PathGreater =>
 			return path_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
@@ -774,18 +784,23 @@ pub fn comparison_primitive_2_evaluate (primitive : ComparisonPrimitive2, input_
 		ComparisonPrimitive2::RecordGreater =>
 			return record_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		ComparisonPrimitive2::PathLesser =>
 			return path_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		ComparisonPrimitive2::PathLesserOrEqual =>
 			return path_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::LesserOrEqual, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		ComparisonPrimitive2::PathEqual =>
 			return path_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Equal, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		ComparisonPrimitive2::PathGreaterOrEqual =>
 			return path_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::GreaterOrEqual, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		ComparisonPrimitive2::PathGreater =>
 			return path_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
@@ -1069,18 +1084,23 @@ pub fn comparison_primitive_3_evaluate (primitive : ComparisonPrimitive3, input_
 		ComparisonPrimitive3::RecordGreater =>
 			return record_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		ComparisonPrimitive3::PathLesser =>
 			return path_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		ComparisonPrimitive3::PathLesserOrEqual =>
 			return path_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::LesserOrEqual, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		ComparisonPrimitive3::PathEqual =>
 			return path_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Equal, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		ComparisonPrimitive3::PathGreaterOrEqual =>
 			return path_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::GreaterOrEqual, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		ComparisonPrimitive3::PathGreater =>
 			return path_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
@@ -1364,18 +1384,23 @@ pub fn comparison_primitive_4_evaluate (primitive : ComparisonPrimitive4, input_
 		ComparisonPrimitive4::RecordGreater =>
 			return record_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		ComparisonPrimitive4::PathLesser =>
 			return path_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		ComparisonPrimitive4::PathLesserOrEqual =>
 			return path_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::LesserOrEqual, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		ComparisonPrimitive4::PathEqual =>
 			return path_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Equal, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		ComparisonPrimitive4::PathGreaterOrEqual =>
 			return path_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::GreaterOrEqual, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		ComparisonPrimitive4::PathGreater =>
 			return path_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
@@ -1667,18 +1692,23 @@ pub fn comparison_primitive_n_evaluate (primitive : ComparisonPrimitiveN, inputs
 		ComparisonPrimitiveN::RecordGreater =>
 			return record_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		ComparisonPrimitiveN::PathLesser =>
 			return path_compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		ComparisonPrimitiveN::PathLesserOrEqual =>
 			return path_compare_n (inputs, Comparison::Ordering (Ordering::LesserOrEqual, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		ComparisonPrimitiveN::PathEqual =>
 			return path_compare_n (inputs, Comparison::Ordering (Ordering::Equal, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		ComparisonPrimitiveN::PathGreaterOrEqual =>
 			return path_compare_n (inputs, Comparison::Ordering (Ordering::GreaterOrEqual, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		ComparisonPrimitiveN::PathGreater =>
 			return path_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
@@ -1874,14 +1904,19 @@ macro_rules! def_comparison_primitive_v_alternative_fn {
 					Some ($alternative::RecordGreaterOrEqual),
 				ComparisonPrimitiveV::RecordGreater =>
 					Some ($alternative::RecordGreater),
+				#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 				ComparisonPrimitiveV::PathLesser =>
 					Some ($alternative::PathLesser),
+				#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 				ComparisonPrimitiveV::PathLesserOrEqual =>
 					Some ($alternative::PathLesserOrEqual),
+				#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 				ComparisonPrimitiveV::PathEqual =>
 					Some ($alternative::PathEqual),
+				#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 				ComparisonPrimitiveV::PathGreaterOrEqual =>
 					Some ($alternative::PathGreaterOrEqual),
+				#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 				ComparisonPrimitiveV::PathGreater =>
 					Some ($alternative::PathGreater),
 			}

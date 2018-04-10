@@ -66,6 +66,7 @@ impl fmt::Display for Value {
 			ValueKindMatchAsRef::SyntaxNative (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::SyntaxLambda (self_0) => self_0.fmt (formatter),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			ValueKindMatchAsRef::Path (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::Port (self_0) => self_0.fmt (formatter),
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
@@ -135,6 +136,7 @@ impl fmt::Debug for Value {
 			ValueKindMatchAsRef::SyntaxNative (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::SyntaxLambda (self_0) => self_0.fmt (formatter),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			ValueKindMatchAsRef::Path (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::Port (self_0) => self_0.fmt (formatter),
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
@@ -1146,6 +1148,7 @@ impl fmt::Debug for Error {
 
 
 
+#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 impl fmt::Display for Path {
 	
 	#[ inline (never) ]

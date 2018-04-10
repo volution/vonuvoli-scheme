@@ -139,6 +139,7 @@ impl_from_for_Value_1! (SyntaxPrimitive, SyntaxPrimitive);
 impl_from_for_Value_1! (SyntaxExtended, SyntaxExtended);
 impl_from_for_Value_1! (SyntaxNative, SyntaxNative);
 impl_from_for_Value_1! (SyntaxLambda, SyntaxLambda);
+#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 impl_from_for_Value_1! (Path, Path);
 impl_from_for_Value_1! (Port, Port);
 #[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
@@ -196,10 +197,14 @@ impl_from_for_type! (Symbol, &'static str, value, symbol_clone_str (value));
 impl_from_for_type! (Keyword, StdString, value, keyword_new (value));
 impl_from_for_type! (Keyword, &'static str, value, keyword_clone_str (value));
 
+#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 impl_from_for_Value_3! (Path, Path, fs_path::PathBuf, value, Path::new_from_buffer (value, true));
+#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 impl_from_for_Value_3! (Path, Path, &'static fs_path::Path, value, Path::new_from_ref (value, true));
 
+#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 impl_from_for_type! (Path, StdString, value, Path::new_from_buffer (fs_path::PathBuf::from (value), true));
+#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 impl_from_for_type! (Path, &'static str, value, Path::new_from_ref (fs_path::Path::new (value), true));
 
 impl_from_for_Value_3! (Unique, Unique, UniqueData, data, Unique::new (data));
@@ -453,13 +458,21 @@ impl_from_for_primitive_procedure_2! (PortPrimitive5, ProcedurePrimitive5, Primi
 impl_from_for_primitive_procedure_2! (PortPrimitiveN, ProcedurePrimitiveN, PrimitiveN, Port);
 impl_from_for_primitive_procedure_2! (PortPrimitiveV, ProcedurePrimitiveV, PrimitiveV, Port);
 
+#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 impl_from_for_primitive_procedure_2! (FileSystemPrimitive0, ProcedurePrimitive0, Primitive0, FileSystem);
+#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 impl_from_for_primitive_procedure_2! (FileSystemPrimitive1, ProcedurePrimitive1, Primitive1, FileSystem);
+#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 impl_from_for_primitive_procedure_2! (FileSystemPrimitive2, ProcedurePrimitive2, Primitive2, FileSystem);
+#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 impl_from_for_primitive_procedure_2! (FileSystemPrimitive3, ProcedurePrimitive3, Primitive3, FileSystem);
+#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 impl_from_for_primitive_procedure_2! (FileSystemPrimitive4, ProcedurePrimitive4, Primitive4, FileSystem);
+#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 impl_from_for_primitive_procedure_2! (FileSystemPrimitive5, ProcedurePrimitive5, Primitive5, FileSystem);
+#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 impl_from_for_primitive_procedure_2! (FileSystemPrimitiveN, ProcedurePrimitiveN, PrimitiveN, FileSystem);
+#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 impl_from_for_primitive_procedure_2! (FileSystemPrimitiveV, ProcedurePrimitiveV, PrimitiveV, FileSystem);
 
 
@@ -676,6 +689,7 @@ pub fn string_clone_coerce (value : &Value) -> (Outcome<StdString>) {
 			succeed! (value.string_clone ()),
 		ValueKindMatchAsRef::StringMutable (value) =>
 			succeed! (try! (value.string_ref ()) .string_clone ()),
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		ValueKindMatchAsRef::Path (value) =>
 			if let Some (value) = value.path_ref () .to_str () {
 				succeed! (StdString::from (value));
@@ -714,6 +728,7 @@ pub fn os_string_clone_coerce (value : &Value) -> (Outcome<ffi::OsString>) {
 			succeed! (value.string_clone () .into ()),
 		ValueKindMatchAsRef::StringMutable (value) =>
 			succeed! (try! (value.string_ref ()) .string_clone () .into ()),
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		ValueKindMatchAsRef::Path (value) =>
 			succeed! (value.path_ref () .as_os_str () .to_os_string ()),
 		ValueKindMatchAsRef::BytesImmutable (value) =>
@@ -1082,6 +1097,7 @@ pub fn bytes_slice_coerce_1a (value : &Value) -> (Outcome<BytesSliceRef>) {
 			succeed! (value.into ()),
 		ValueKindMatchAsRef::StringMutable (value) =>
 			value.try_into (),
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		ValueKindMatchAsRef::Path (value) =>
 			succeed! (value.path_ref () .as_os_str () .as_bytes () .into ()),
 		_ =>
@@ -1105,6 +1121,7 @@ pub fn bytes_consume <Consumer> (value : &Value, consumer : &mut Consumer) -> (O
 			return consumer (value.string_as_bytes ()),
 		ValueKindMatchAsRef::StringMutable (value) =>
 			return consumer (try_or_fail! (value.string_ref (), 0xf1ab5928) .string_as_bytes ()),
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		ValueKindMatchAsRef::Path (value) =>
 			return consumer (value.path_ref () .as_os_str () .as_bytes ()),
 		ValueKindMatchAsRef::Port (value) => {
@@ -1119,10 +1136,12 @@ pub fn bytes_consume <Consumer> (value : &Value, consumer : &mut Consumer) -> (O
 
 
 
+#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 #[ derive (Debug) ]
 pub struct PathSliceRef<'a> ( BytesSliceRef<'a> );
 
 
+#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 impl <'a> StdDeref for PathSliceRef<'a> {
 	
 	type Target = fs_path::Path;
@@ -1134,6 +1153,7 @@ impl <'a> StdDeref for PathSliceRef<'a> {
 }
 
 
+#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 impl <'a> StdAsRef<fs_path::Path> for PathSliceRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1143,6 +1163,7 @@ impl <'a> StdAsRef<fs_path::Path> for PathSliceRef<'a> {
 }
 
 
+#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn path_slice_coerce (value : &Value) -> (Outcome<PathSliceRef>) {
 	succeed! (PathSliceRef (try! (bytes_slice_coerce_1a (value))));

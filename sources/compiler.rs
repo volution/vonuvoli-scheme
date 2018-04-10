@@ -177,6 +177,7 @@ impl Compiler {
 			ValueClassMatchInto::Syntax (_class) =>
 				fail_unimplemented! (0xc617f3c7), // deferred
 			
+			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			ValueClassMatchInto::Path (value) =>
 				return self.compile_syntax_quote_0 (compilation, value.into ()),
 			
@@ -1991,6 +1992,7 @@ impl Compiler {
 			ValueClassMatchInto::Procedure (class) =>
 				succeed! ((compilation, splice (class.value (), spliceable))),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			ValueClassMatchInto::Path (value) =>
 				succeed! ((compilation, splice (value, spliceable))),
 			

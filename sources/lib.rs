@@ -158,6 +158,7 @@ pub(crate) mod builtins;
 pub(crate) mod builtins_arrays;
 pub(crate) mod builtins_bytes;
 pub(crate) mod builtins_comparisons;
+#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 pub(crate) mod builtins_filesystem;
 pub(crate) mod builtins_functions;
 pub(crate) mod builtins_lists;
@@ -193,6 +194,7 @@ pub(crate) mod native_syntaxes;
 pub(crate) mod ordering;
 pub(crate) mod parameters;
 pub(crate) mod parser;
+#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 pub(crate) mod paths;
 pub(crate) mod ports;
 pub(crate) mod ports_memory;
@@ -204,6 +206,7 @@ pub(crate) mod primitives_bitwise;
 pub(crate) mod primitives_boolean;
 pub(crate) mod primitives_bytes;
 pub(crate) mod primitives_comparisons;
+#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 pub(crate) mod primitives_filesystem;
 pub(crate) mod primitives_functions;
 pub(crate) mod primitives_lists;
@@ -270,6 +273,7 @@ pub mod internals {
 	pub use super::builtins_arrays::exports as builtins_arrays;
 	pub use super::builtins_bytes::exports as builtins_bytes;
 	pub use super::builtins_comparisons::exports as builtins_comparisons;
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	pub use super::builtins_filesystem::exports as builtins_filesystem;
 	pub use super::builtins_functions::exports as builtins_functions;
 	pub use super::builtins_lists::exports as builtins_lists;
@@ -300,6 +304,7 @@ pub mod internals {
 	pub use super::native_syntaxes::exports as native_syntaxes;
 	pub use super::parameters::exports as parameters;
 	pub use super::parser::exports as parser;
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	pub use super::paths::exports as paths;
 	pub use super::ports::exports as ports;
 	pub use super::ports_memory::exports as ports_memory;
@@ -311,6 +316,7 @@ pub mod internals {
 	pub use super::primitives_boolean::exports as primitives_boolean;
 	pub use super::primitives_bytes::exports as primitives_bytes;
 	pub use super::primitives_comparisons::exports as primitives_comparisons;
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	pub use super::primitives_filesystem::exports as primitives_filesystem;
 	pub use super::primitives_functions::exports as primitives_functions;
 	pub use super::primitives_lists::exports as primitives_lists;
@@ -381,6 +387,7 @@ pub mod exports {
 	pub use super::native_syntaxes::exports::*;
 	pub use super::parameters::exports::*;
 	pub use super::parser::exports::*;
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	pub use super::paths::exports::*;
 	pub use super::ports::exports::*;
 	pub use super::primitives::exports::*;

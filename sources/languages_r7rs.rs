@@ -616,7 +616,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("file", "parameters", "with-input-from-file", PortPrimitive2::WithOpenTextualInputThenCallAndClose.into ()),
 			("file", "parameters", "with-output-to-file", PortPrimitive2::WithOpenTextualOutputThenCallAndClose.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			("file", "system", "file-exists?", FileSystemPrimitive1::FileExists.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			("file", "system", "delete-file", FileSystemPrimitive1::FileDelete.into ()),
 			
 			

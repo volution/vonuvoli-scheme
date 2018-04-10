@@ -62,6 +62,7 @@ impl hash::Hash for Value {
 			ValueKindMatchAsRef::SyntaxNative (self_0) => { hasher.write_u32 (0xf018c0a5); self_0.hash (hasher); },
 			ValueKindMatchAsRef::SyntaxLambda (self_0) => { hasher.write_u32 (0xd5b61513); self_0.hash (hasher); },
 			
+			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			ValueKindMatchAsRef::Path (self_0) => { hasher.write_u32 (0x8e9b2f47); self_0.hash (hasher); },
 			ValueKindMatchAsRef::Port (self_0) => { hasher.write_u32 (0xd25641d0); self_0.hash (hasher); },
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
@@ -313,6 +314,7 @@ impl hash::Hash for SyntaxNative {
 
 
 
+#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 impl hash::Hash for Path {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

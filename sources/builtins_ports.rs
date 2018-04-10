@@ -658,8 +658,17 @@ pub fn port_file_writer_open_with_options (path : &Value, options : &fs::OpenOpt
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub(crate) fn port_file_open_with_options (path : &Value, options : &fs::OpenOptions) -> (Outcome<fs::File>) {
+	
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	let path = try! (path_slice_coerce (path));
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	let path = path.deref ();
+	
+	#[ cfg ( not ( feature = "vonuvoli_builtins_filesystem" ) ) ]
+	let path = try! (bytes_slice_coerce_1a (path));
+	#[ cfg ( not ( feature = "vonuvoli_builtins_filesystem" ) ) ]
+	let path = fs_path::Path::new (ffi::OsStr::from_bytes (path.deref ()));
+	
 	let file = try_or_fail! (options.open (path), 0xbe1989bd);
 	succeed! (file);
 }
@@ -815,6 +824,7 @@ pub fn port_output_value_display_0 (port : &mut PortBackendWriter, value : &Valu
 			}
 		},
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		ValueClassMatchAsRef::Path (value) => {
 			let path = value.path_ref ();
 			let path = path.to_string_lossy ();
@@ -1086,6 +1096,7 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 			}
 		},
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		ValueClassMatchAsRef::Path (value) => {
 			// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
 			let formatted = format! ("{}", value);

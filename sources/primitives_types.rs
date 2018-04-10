@@ -171,8 +171,11 @@ macro_rules! def_type_primitive_enum {
 			IsPortOutputTextual,
 			IsPortEof,
 			
+			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			IsPath,
+			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			IsPathAbsolute,
+			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			IsPathRelative,
 			
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
@@ -531,12 +534,15 @@ pub fn type_primitive_1_evaluate_0 (primitive : TypePrimitive1, input_1 : &Value
 		TypePrimitive1::IsPortEof =>
 			return is_port_eof (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		TypePrimitive1::IsPath =>
 			return is_path (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		TypePrimitive1::IsPathAbsolute =>
 			return is_path_absolute (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		TypePrimitive1::IsPathRelative =>
 			return is_path_relative (input_1) .into_0 (),
 		
@@ -936,12 +942,15 @@ pub fn type_primitive_2_evaluate_0 (primitive : TypePrimitive2, input_1 : &Value
 		TypePrimitive2::IsPortEof =>
 			return is_port_eof_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		TypePrimitive2::IsPath =>
 			return is_path_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		TypePrimitive2::IsPathAbsolute =>
 			return is_path_absolute_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		TypePrimitive2::IsPathRelative =>
 			return is_path_relative_all_2 (input_1, input_2) .into_0 (),
 		
@@ -1341,12 +1350,15 @@ pub fn type_primitive_3_evaluate_0 (primitive : TypePrimitive3, input_1 : &Value
 		TypePrimitive3::IsPortEof =>
 			return is_port_eof_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		TypePrimitive3::IsPath =>
 			return is_path_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		TypePrimitive3::IsPathAbsolute =>
 			return is_path_absolute_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		TypePrimitive3::IsPathRelative =>
 			return is_path_relative_all_3 (input_1, input_2, input_3) .into_0 (),
 		
@@ -1746,12 +1758,15 @@ pub fn type_primitive_4_evaluate_0 (primitive : TypePrimitive4, input_1 : &Value
 		TypePrimitive4::IsPortEof =>
 			return is_port_eof_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		TypePrimitive4::IsPath =>
 			return is_path_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		TypePrimitive4::IsPathAbsolute =>
 			return is_path_absolute_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		TypePrimitive4::IsPathRelative =>
 			return is_path_relative_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
@@ -2159,12 +2174,15 @@ pub fn type_primitive_n_evaluate_0 (primitive : TypePrimitiveN, inputs : &[&Valu
 		TypePrimitiveN::IsPortEof =>
 			return is_port_eof_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		TypePrimitiveN::IsPath =>
 			return is_path_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		TypePrimitiveN::IsPathAbsolute =>
 			return is_path_absolute_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		TypePrimitiveN::IsPathRelative =>
 			return is_path_relative_all_n (inputs) .into_0 (),
 		
@@ -2469,10 +2487,13 @@ macro_rules! def_type_primitive_v_alternative_fn {
 					Some ($alternative::IsPortOutputTextual),
 				TypePrimitiveV::IsPortEof =>
 					Some ($alternative::IsPortEof),
+				#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 				TypePrimitiveV::IsPath =>
 					Some ($alternative::IsPath),
+				#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 				TypePrimitiveV::IsPathAbsolute =>
 					Some ($alternative::IsPathAbsolute),
+				#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 				TypePrimitiveV::IsPathRelative =>
 					Some ($alternative::IsPathRelative),
 				#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]

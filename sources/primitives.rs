@@ -7,7 +7,6 @@ pub mod exports {
 	pub use super::super::primitives_boolean::exports::*;
 	pub use super::super::primitives_bytes::exports::*;
 	pub use super::super::primitives_comparisons::exports::*;
-	pub use super::super::primitives_filesystem::exports::*;
 	pub use super::super::primitives_functions::exports::*;
 	pub use super::super::primitives_lists::exports::*;
 	pub use super::super::primitives_ports::exports::*;
@@ -17,6 +16,9 @@ pub mod exports {
 	pub use super::super::primitives_strings::exports::*;
 	pub use super::super::primitives_syntaxes::exports::*;
 	pub use super::super::primitives_types::exports::*;
+	
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
+	pub use super::super::primitives_filesystem::exports::*;
 	
 }
 

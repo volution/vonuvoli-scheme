@@ -598,12 +598,14 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 				ValueKindMatchAsRef2::ProcedurePrimitive (_, _) |
 				ValueKindMatchAsRef2::ProcedureNative (_, _) |
 				ValueKindMatchAsRef2::SyntaxPrimitive (_, _) |
-				ValueKindMatchAsRef2::SyntaxNative (_, _) |
-				ValueKindMatchAsRef2::Path (_, _) =>
+				ValueKindMatchAsRef2::SyntaxNative (_, _) =>
 					true,
 				#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 				ValueKindMatchAsRef2::StringRegex (_, _) |
 				ValueKindMatchAsRef2::BytesRegex (_, _) =>
+					true,
+				#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
+				ValueKindMatchAsRef2::Path (_, _) =>
 					true,
 				ValueKindMatchAsRef2::Unique (_, _) |
 				ValueKindMatchAsRef2::RecordKind (_, _) |
