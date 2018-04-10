@@ -129,8 +129,11 @@ impl_from_for_Value_1! (PairMutable, PairMutable);
 impl_from_for_Value_1! (ArrayImmutable, ArrayImmutable);
 impl_from_for_Value_1! (ArrayMutable, ArrayMutable);
 impl_from_for_Value_1! (Values, Values);
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl_from_for_Value_1! (RecordKind, RecordKind);
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl_from_for_Value_1! (RecordImmutable, RecordImmutable);
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl_from_for_Value_1! (RecordMutable, RecordMutable);
 impl_from_for_Value_1! (Error, Error);
 impl_from_for_Value_1! (ProcedurePrimitive, ProcedurePrimitive);
@@ -228,6 +231,7 @@ impl_as_ref_for_type_wlt! (StringRef<'a>, 'a);
 impl_as_ref_for_type_wlt! (BytesRef<'a>, 'a);
 impl_as_ref_for_type_wlt! (PairRef<'a>, 'a);
 impl_as_ref_for_type_wlt! (ArrayRef<'a>, 'a);
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl_as_ref_for_type_wlt! (RecordRef<'a>, 'a);
 
 
@@ -434,13 +438,21 @@ impl_from_for_primitive_procedure_2! (FunctionsPrimitive5, ProcedurePrimitive5, 
 impl_from_for_primitive_procedure_2! (FunctionsPrimitiveN, ProcedurePrimitiveN, PrimitiveN, Functions);
 impl_from_for_primitive_procedure_2! (FunctionsPrimitiveV, ProcedurePrimitiveV, PrimitiveV, Functions);
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl_from_for_primitive_procedure_2! (RecordPrimitive0, ProcedurePrimitive0, Primitive0, Record);
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl_from_for_primitive_procedure_2! (RecordPrimitive1, ProcedurePrimitive1, Primitive1, Record);
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl_from_for_primitive_procedure_2! (RecordPrimitive2, ProcedurePrimitive2, Primitive2, Record);
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl_from_for_primitive_procedure_2! (RecordPrimitive3, ProcedurePrimitive3, Primitive3, Record);
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl_from_for_primitive_procedure_2! (RecordPrimitive4, ProcedurePrimitive4, Primitive4, Record);
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl_from_for_primitive_procedure_2! (RecordPrimitive5, ProcedurePrimitive5, Primitive5, Record);
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl_from_for_primitive_procedure_2! (RecordPrimitiveN, ProcedurePrimitiveN, PrimitiveN, Record);
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl_from_for_primitive_procedure_2! (RecordPrimitiveV, ProcedurePrimitiveV, PrimitiveV, Record);
 
 impl_from_for_primitive_procedure_2! (RuntimePrimitive0, ProcedurePrimitive0, Primitive0, Runtime);

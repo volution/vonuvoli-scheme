@@ -50,8 +50,11 @@ impl fmt::Display for Value {
 			ValueKindMatchAsRef::ArrayMutable (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::Values (self_0) => self_0.fmt (formatter),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			ValueKindMatchAsRef::RecordKind (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			ValueKindMatchAsRef::RecordImmutable (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			ValueKindMatchAsRef::RecordMutable (self_0) => self_0.fmt (formatter),
 			
 			ValueKindMatchAsRef::Error (self_0) => self_0.fmt (formatter),
@@ -121,8 +124,11 @@ impl fmt::Debug for Value {
 			ValueKindMatchAsRef::ArrayMutable (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::Values (self_0) => self_0.fmt (formatter),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			ValueKindMatchAsRef::RecordKind (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			ValueKindMatchAsRef::RecordImmutable (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			ValueKindMatchAsRef::RecordMutable (self_0) => self_0.fmt (formatter),
 			
 			ValueKindMatchAsRef::Error (self_0) => self_0.fmt (formatter),
@@ -596,6 +602,7 @@ impl fmt::Display for Values {
 
 
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl fmt::Display for RecordKind {
 	
 	#[ inline (never) ]
@@ -609,6 +616,7 @@ impl fmt::Display for RecordKind {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl fmt::Debug for RecordKind {
 	
 	#[ inline (never) ]
@@ -621,6 +629,7 @@ impl fmt::Debug for RecordKind {
 
 
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl fmt::Display for RecordImmutable {
 	
 	#[ inline (never) ]
@@ -630,6 +639,7 @@ impl fmt::Display for RecordImmutable {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl fmt::Display for RecordMutable {
 	
 	#[ inline (never) ]
@@ -639,6 +649,7 @@ impl fmt::Display for RecordMutable {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn record_fmt (kind : &RecordKind, values : &[Value], formatter : &mut fmt::Formatter) -> (fmt::Result) {
 	let kind_0 = kind.internals_ref ();

@@ -162,9 +162,11 @@ impl Compiler {
 			ValueClassMatchInto::Values (value) =>
 				return self.compile_syntax_quote_0 (compilation, value.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			ValueClassMatchInto::RecordKind (value) =>
 				return self.compile_syntax_quote_0 (compilation, value.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			ValueClassMatchInto::Record (class) =>
 				return self.compile_syntax_quote_0 (compilation, class.value ()),
 			
@@ -399,6 +401,7 @@ impl Compiler {
 					SyntaxPrimitiveV::Lambda =>
 						return self.compile_syntax_lambda (compilation, None, tokens),
 					
+					#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 					SyntaxPrimitiveV::DefineRecord =>
 						return self.compile_syntax_define_record (compilation, tokens),
 					
@@ -1620,6 +1623,7 @@ impl Compiler {
 	
 	
 	
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	fn compile_syntax_define_record (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		if tokens.len () < 3 {
@@ -1980,9 +1984,11 @@ impl Compiler {
 				// FIXME:  Add support for quasi-quotation!
 				succeed! ((compilation, splice (value, spliceable))),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			ValueClassMatchInto::RecordKind (value) =>
 				succeed! ((compilation, splice (value, spliceable))),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			ValueClassMatchInto::Record (class) =>
 				// FIXME:  Add support for quasi-quotation!
 				succeed! ((compilation, splice (class.value (), spliceable))),

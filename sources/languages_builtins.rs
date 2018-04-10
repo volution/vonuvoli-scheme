@@ -188,32 +188,58 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("values?", TypePrimitiveV::IsValues.into ()),
 			("not-values?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsValues) .into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("record-type?", TypePrimitiveV::IsRecordKind.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("not-record-type?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsRecordKind) .into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("record-type", RecordPrimitive1::RecordKindGet.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("record-type-predicate", RecordPrimitiveV::RecordKindIsFn.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("record-type-constructor", RecordPrimitiveV::RecordBuildFn.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("record-type-accessor", RecordPrimitiveV::RecordGetFn.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("record-type-mutator", RecordPrimitiveV::RecordSetFn.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("record-type-identifier", RecordPrimitive1::RecordKindIdentifier.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("record-type-size", RecordPrimitive1::RecordKindSize.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("make-record-type", RecordPrimitiveV::RecordKindBuild.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("record?", TypePrimitiveV::IsRecord.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("not-record?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsRecord) .into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("record-of?", RecordPrimitiveV::RecordKindIs.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("record-immutable?", TypePrimitiveV::IsRecordImmutable.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("record-mutable?", TypePrimitiveV::IsRecordMutable.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("make-record", RecordPrimitiveV::RecordBuild.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("record-ref", RecordPrimitiveV::RecordGet.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("record-set!", RecordPrimitiveV::RecordSet.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("record->immutable", RecordPrimitive1::RecordToImmutable.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("record->mutable", RecordPrimitive1::RecordToMutable.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("record->array", RecordPrimitiveV::RecordToArray.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("array->record", RecordPrimitiveV::RecordFromArray.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("record->values", RecordPrimitiveV::RecordToValues.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("values->record", RecordPrimitiveV::RecordFromValues.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("record->list", RecordPrimitiveV::RecordToList.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("list->record", RecordPrimitiveV::RecordFromList.into ()),
 			
 			("not-eq?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::EquivalentByIdentity) .into ()),
@@ -344,16 +370,26 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("not-values<=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::ValuesLesserOrEqual) .into ()),
 			("not-values>=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::ValuesGreaterOrEqual) .into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("record=?", ComparisonPrimitiveV::RecordEqual.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("record<?", ComparisonPrimitiveV::RecordLesser.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("record>?", ComparisonPrimitiveV::RecordGreater.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("record<=?", ComparisonPrimitiveV::RecordLesserOrEqual.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("record>=?", ComparisonPrimitiveV::RecordGreaterOrEqual.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("not-record=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::RecordEqual) .into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("not-record<?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::RecordLesser) .into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("not-record>?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::RecordGreater) .into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("not-record<=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::RecordLesserOrEqual) .into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("not-record>=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::RecordGreaterOrEqual) .into ()),
 			
 			("generic=?", ComparisonPrimitiveV::GenericEqual.into ()),

@@ -360,6 +360,7 @@ pub mod exports {
 	};
 	
 	
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	pub use super::{
 			
 			is_record_kind,
@@ -370,6 +371,7 @@ pub mod exports {
 	};
 	
 	
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	pub use super::{
 			
 			is_record, is_record_immutable, is_record_mutable,
@@ -385,6 +387,7 @@ pub mod exports {
 	};
 	
 	
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	pub use super::{
 			
 			is_record_of_kind, is_record_of_kind_immutable, is_record_of_kind_mutable,
@@ -1747,46 +1750,59 @@ def_fn_try_predicate_any! (is_array_mutable_not_empty, is_array_mutable_not_empt
 
 
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_record_kind (value : &Value) -> (bool) {
 	return value.is_kind (ValueKind::RecordKind);
 }
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 def_fn_predicate_all! (is_record_kind, is_record_kind_all_2, is_record_kind_all_3, is_record_kind_all_4, is_record_kind_all_n);
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 def_fn_predicate_any! (is_record_kind, is_record_kind_any_2, is_record_kind_any_3, is_record_kind_any_4, is_record_kind_any_n);
 
 
 
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_record (value : &Value) -> (bool) {
 	return value.is_class (ValueClass::Record);
 }
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 def_fn_predicate_all! (is_record, is_record_all_2, is_record_all_3, is_record_all_4, is_record_all_n);
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 def_fn_predicate_any! (is_record, is_record_any_2, is_record_any_3, is_record_any_4, is_record_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_record_immutable (value : &Value) -> (bool) {
 	return value.is_kind (ValueKind::RecordImmutable);
 }
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 def_fn_predicate_all! (is_record_immutable, is_record_immutable_all_2, is_record_immutable_all_3, is_record_immutable_all_4, is_record_immutable_all_n);
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 def_fn_predicate_any! (is_record_immutable, is_record_immutable_any_2, is_record_immutable_any_3, is_record_immutable_any_4, is_record_immutable_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_record_mutable (value : &Value) -> (bool) {
 	return value.is_kind (ValueKind::RecordMutable);
 }
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 def_fn_predicate_all! (is_record_mutable, is_record_mutable_all_2, is_record_mutable_all_3, is_record_mutable_all_4, is_record_mutable_all_n);
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 def_fn_predicate_any! (is_record_mutable, is_record_mutable_any_2, is_record_mutable_any_3, is_record_mutable_any_4, is_record_mutable_any_n);
 
 
 
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_record_of_kind (kind : &RecordKind, value : &Value) -> (bool) {
 	match value.kind_match_as_ref () {
@@ -1799,10 +1815,13 @@ pub fn is_record_of_kind (kind : &RecordKind, value : &Value) -> (bool) {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 def_fn_predicate_all_x1! (is_record_of_kind, &RecordKind, is_record_of_kind_all_2, is_record_of_kind_all_3, is_record_of_kind_all_4, is_record_of_kind_all_n);
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 def_fn_predicate_any_x1! (is_record_of_kind, &RecordKind, is_record_of_kind_any_2, is_record_of_kind_any_3, is_record_of_kind_any_4, is_record_of_kind_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_record_of_kind_immutable (kind : &RecordKind, value : &Value) -> (bool) {
 	match value.kind_match_as_ref () {
@@ -1815,10 +1834,13 @@ pub fn is_record_of_kind_immutable (kind : &RecordKind, value : &Value) -> (bool
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 def_fn_predicate_all_x1! (is_record_of_kind_immutable, &RecordKind, is_record_of_kind_immutable_all_2, is_record_of_kind_immutable_all_3, is_record_of_kind_immutable_all_4, is_record_of_kind_immutable_all_n);
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 def_fn_predicate_any_x1! (is_record_of_kind_immutable, &RecordKind, is_record_of_kind_immutable_any_2, is_record_of_kind_immutable_any_3, is_record_of_kind_immutable_any_4, is_record_of_kind_immutable_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_record_of_kind_mutable (kind : &RecordKind, value : &Value) -> (bool) {
 	match value.kind_match_as_ref () {
@@ -1831,7 +1853,9 @@ pub fn is_record_of_kind_mutable (kind : &RecordKind, value : &Value) -> (bool) 
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 def_fn_predicate_all_x1! (is_record_of_kind_mutable, &RecordKind, is_record_of_kind_mutable_all_2, is_record_of_kind_mutable_all_3, is_record_of_kind_mutable_all_4, is_record_of_kind_mutable_all_n);
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 def_fn_predicate_any_x1! (is_record_of_kind_mutable, &RecordKind, is_record_of_kind_mutable_any_2, is_record_of_kind_mutable_any_3, is_record_of_kind_mutable_any_4, is_record_of_kind_mutable_any_n);
 
 

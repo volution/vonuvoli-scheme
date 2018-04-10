@@ -160,10 +160,15 @@ macro_rules! def_comparison_primitive_enum {
 			ValuesGreaterOrEqual,
 			ValuesGreater,
 			
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			RecordLesser,
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			RecordLesserOrEqual,
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			RecordEqual,
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			RecordGreaterOrEqual,
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			RecordGreater,
 			
 			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
@@ -469,18 +474,23 @@ pub fn comparison_primitive_1_evaluate (primitive : ComparisonPrimitive1, input_
 		ComparisonPrimitive1::ValuesGreater =>
 			return values_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		ComparisonPrimitive1::RecordLesser =>
 			return record_compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		ComparisonPrimitive1::RecordLesserOrEqual =>
 			return record_compare_1 (input_1, Comparison::Ordering (Ordering::LesserOrEqual, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		ComparisonPrimitive1::RecordEqual =>
 			return record_compare_1 (input_1, Comparison::Ordering (Ordering::Equal, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		ComparisonPrimitive1::RecordGreaterOrEqual =>
 			return record_compare_1 (input_1, Comparison::Ordering (Ordering::GreaterOrEqual, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		ComparisonPrimitive1::RecordGreater =>
 			return record_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
@@ -769,18 +779,23 @@ pub fn comparison_primitive_2_evaluate (primitive : ComparisonPrimitive2, input_
 		ComparisonPrimitive2::ValuesGreater =>
 			return values_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		ComparisonPrimitive2::RecordLesser =>
 			return record_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		ComparisonPrimitive2::RecordLesserOrEqual =>
 			return record_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::LesserOrEqual, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		ComparisonPrimitive2::RecordEqual =>
 			return record_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Equal, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		ComparisonPrimitive2::RecordGreaterOrEqual =>
 			return record_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::GreaterOrEqual, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		ComparisonPrimitive2::RecordGreater =>
 			return record_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
@@ -1069,18 +1084,23 @@ pub fn comparison_primitive_3_evaluate (primitive : ComparisonPrimitive3, input_
 		ComparisonPrimitive3::ValuesGreater =>
 			return values_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		ComparisonPrimitive3::RecordLesser =>
 			return record_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		ComparisonPrimitive3::RecordLesserOrEqual =>
 			return record_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::LesserOrEqual, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		ComparisonPrimitive3::RecordEqual =>
 			return record_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Equal, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		ComparisonPrimitive3::RecordGreaterOrEqual =>
 			return record_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::GreaterOrEqual, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		ComparisonPrimitive3::RecordGreater =>
 			return record_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
@@ -1369,18 +1389,23 @@ pub fn comparison_primitive_4_evaluate (primitive : ComparisonPrimitive4, input_
 		ComparisonPrimitive4::ValuesGreater =>
 			return values_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		ComparisonPrimitive4::RecordLesser =>
 			return record_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		ComparisonPrimitive4::RecordLesserOrEqual =>
 			return record_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::LesserOrEqual, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		ComparisonPrimitive4::RecordEqual =>
 			return record_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Equal, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		ComparisonPrimitive4::RecordGreaterOrEqual =>
 			return record_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::GreaterOrEqual, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		ComparisonPrimitive4::RecordGreater =>
 			return record_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
@@ -1677,18 +1702,23 @@ pub fn comparison_primitive_n_evaluate (primitive : ComparisonPrimitiveN, inputs
 		ComparisonPrimitiveN::ValuesGreater =>
 			return values_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		ComparisonPrimitiveN::RecordLesser =>
 			return record_compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		ComparisonPrimitiveN::RecordLesserOrEqual =>
 			return record_compare_n (inputs, Comparison::Ordering (Ordering::LesserOrEqual, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		ComparisonPrimitiveN::RecordEqual =>
 			return record_compare_n (inputs, Comparison::Ordering (Ordering::Equal, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		ComparisonPrimitiveN::RecordGreaterOrEqual =>
 			return record_compare_n (inputs, Comparison::Ordering (Ordering::GreaterOrEqual, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		ComparisonPrimitiveN::RecordGreater =>
 			return record_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
@@ -1894,14 +1924,19 @@ macro_rules! def_comparison_primitive_v_alternative_fn {
 					Some ($alternative::ValuesGreaterOrEqual),
 				ComparisonPrimitiveV::ValuesGreater =>
 					Some ($alternative::ValuesGreater),
+				#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 				ComparisonPrimitiveV::RecordLesser =>
 					Some ($alternative::RecordLesser),
+				#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 				ComparisonPrimitiveV::RecordLesserOrEqual =>
 					Some ($alternative::RecordLesserOrEqual),
+				#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 				ComparisonPrimitiveV::RecordEqual =>
 					Some ($alternative::RecordEqual),
+				#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 				ComparisonPrimitiveV::RecordGreaterOrEqual =>
 					Some ($alternative::RecordGreaterOrEqual),
+				#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 				ComparisonPrimitiveV::RecordGreater =>
 					Some ($alternative::RecordGreater),
 				#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]

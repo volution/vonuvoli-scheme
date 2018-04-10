@@ -608,9 +608,6 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 				ValueKindMatchAsRef2::Path (_, _) =>
 					true,
 				ValueKindMatchAsRef2::Unique (_, _) |
-				ValueKindMatchAsRef2::RecordKind (_, _) |
-				ValueKindMatchAsRef2::RecordImmutable (_, _) |
-				ValueKindMatchAsRef2::RecordMutable (_, _) |
 				ValueKindMatchAsRef2::ProcedureExtended (_, _) |
 				ValueKindMatchAsRef2::ProcedureLambda (_, _) |
 				ValueKindMatchAsRef2::SyntaxExtended (_, _) |
@@ -621,6 +618,11 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 				ValueKindMatchAsRef2::Parameter (_, _) |
 				ValueKindMatchAsRef2::Promise (_, _) |
 				ValueKindMatchAsRef2::Opaque (_, _) =>
+					false,
+				#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+				ValueKindMatchAsRef2::RecordKind (_, _) |
+				ValueKindMatchAsRef2::RecordImmutable (_, _) |
+				ValueKindMatchAsRef2::RecordMutable (_, _) =>
 					false,
 				#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 				ValueKindMatchAsRef2::Port (_, _) =>

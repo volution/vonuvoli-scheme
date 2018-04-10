@@ -46,8 +46,11 @@ impl hash::Hash for Value {
 			ValueKindMatchAsRef::ArrayMutable (self_0) => { hasher.write_u32 (0xb20f12de); self_0.hash (hasher); },
 			ValueKindMatchAsRef::Values (self_0) => { hasher.write_u32 (0xb5f3786a); self_0.hash (hasher); },
 			
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			ValueKindMatchAsRef::RecordKind (self_0) => { hasher.write_u32 (0x0a3b7d37); self_0.hash (hasher); },
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			ValueKindMatchAsRef::RecordImmutable (self_0) => { hasher.write_u32 (0x296684da); self_0.hash (hasher); },
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			ValueKindMatchAsRef::RecordMutable (self_0) => { hasher.write_u32 (0xea85f2fa); self_0.hash (hasher); },
 			
 			ValueKindMatchAsRef::Error (self_0) => { hasher.write_u32 (0x15f15501); self_0.hash (hasher); },
@@ -210,6 +213,7 @@ impl hash::Hash for ArrayMutable {
 
 
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl hash::Hash for RecordKind {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -219,6 +223,7 @@ impl hash::Hash for RecordKind {
 }
 
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl hash::Hash for RecordImmutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -230,6 +235,7 @@ impl hash::Hash for RecordImmutable {
 }
 
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl hash::Hash for RecordMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

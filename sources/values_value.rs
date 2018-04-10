@@ -18,11 +18,13 @@ use super::values_keywords::exports::*;
 use super::values_numbers::exports::*;
 use super::values_opaque::exports::*;
 use super::values_pairs::exports::*;
-use super::values_records::exports::*;
 use super::values_strings::exports::*;
 use super::values_symbols::exports::*;
 use super::values_unique::exports::*;
 use super::values_values::exports::*;
+
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+use super::values_records::exports::*;
 
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 use super::regularex::exports::*;
@@ -93,8 +95,11 @@ pub enum ValueKind {
 	ArrayMutable,
 	Values,
 	
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	RecordKind,
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	RecordImmutable,
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	RecordMutable,
 	
 	Error,
@@ -159,8 +164,11 @@ pub enum ValueKindMatchAsRef <'a> {
 	ArrayMutable (&'a ArrayMutable),
 	Values (&'a Values),
 	
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	RecordKind (&'a RecordKind),
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	RecordImmutable (&'a RecordImmutable),
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	RecordMutable (&'a RecordMutable),
 	
 	Error (&'a Error),
@@ -225,8 +233,11 @@ pub enum ValueKindMatchInto {
 	ArrayMutable (ArrayMutable),
 	Values (Values),
 	
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	RecordKind (RecordKind),
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	RecordImmutable (RecordImmutable),
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	RecordMutable (RecordMutable),
 	
 	Error (Error),
@@ -291,8 +302,11 @@ pub enum ValueKindMatchAsRef2 <'a> {
 	ArrayMutable (&'a ArrayMutable, &'a ArrayMutable),
 	Values (&'a Values, &'a Values),
 	
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	RecordKind (&'a RecordKind, &'a RecordKind),
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	RecordImmutable (&'a RecordImmutable, &'a RecordImmutable),
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	RecordMutable (&'a RecordMutable, &'a RecordMutable),
 	
 	Error (&'a Error, &'a Error),
@@ -357,7 +371,9 @@ pub enum ValueClass {
 	Array,
 	Values,
 	
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	RecordKind,
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	Record,
 	
 	Error,
@@ -405,7 +421,9 @@ pub enum ValueClassMatchAsRef <'a> {
 	Array (ArrayMatchAsRef<'a>),
 	Values (&'a Values),
 	
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	RecordKind (&'a RecordKind),
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	Record (RecordMatchAsRef<'a>),
 	
 	Error (&'a Error),
@@ -453,7 +471,9 @@ pub enum ValueClassMatchInto {
 	Array (ArrayMatchInto),
 	Values (Values),
 	
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	RecordKind (RecordKind),
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	Record (RecordMatchInto),
 	
 	Error (Error),
@@ -501,7 +521,9 @@ pub enum ValueClassMatchAsRef2 <'a> {
 	Array (ArrayMatchAsRef2<'a>),
 	Values (&'a Values, &'a Values),
 	
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	RecordKind (&'a RecordKind, &'a RecordKind),
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	Record (RecordMatchAsRef2<'a>),
 	
 	Error (&'a Error, &'a Error),
@@ -638,8 +660,11 @@ pub enum Value {
 	ArrayMutable ( ValueMeta1, ArrayMutable, ValueMeta2 ),
 	Values ( ValueMeta1, Values, ValueMeta2 ),
 	
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	RecordKind ( ValueMeta1, RecordKind, ValueMeta2 ),
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	RecordImmutable ( ValueMeta1, RecordImmutable, ValueMeta2 ),
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	RecordMutable ( ValueMeta1, RecordMutable, ValueMeta2 ),
 	
 	Error ( ValueMeta1, Error, ValueMeta2 ),
@@ -718,8 +743,11 @@ impl Value {
 			Value::ArrayMutable (_, _, _) => ValueKind::ArrayMutable,
 			Value::Values (_, _, _) => ValueKind::Values,
 			
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			Value::RecordKind (_, _, _) => ValueKind::RecordKind,
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			Value::RecordImmutable (_, _, _) => ValueKind::RecordImmutable,
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			Value::RecordMutable (_, _, _) => ValueKind::RecordMutable,
 			
 			Value::Error (_, _, _) => ValueKind::Error,
@@ -792,8 +820,11 @@ impl Value {
 			Value::ArrayMutable (_, ref self_0, _) => ValueKindMatchAsRef::ArrayMutable (self_0),
 			Value::Values (_, ref self_0, _) => ValueKindMatchAsRef::Values (self_0),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			Value::RecordKind (_, ref self_0, _) => ValueKindMatchAsRef::RecordKind (self_0),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			Value::RecordImmutable (_, ref self_0, _) => ValueKindMatchAsRef::RecordImmutable (self_0),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			Value::RecordMutable (_, ref self_0, _) => ValueKindMatchAsRef::RecordMutable (self_0),
 			
 			Value::Error (_, ref self_0, _) => ValueKindMatchAsRef::Error (self_0),
@@ -866,8 +897,11 @@ impl Value {
 			Value::ArrayMutable (_, self_0, _) => ValueKindMatchInto::ArrayMutable (self_0),
 			Value::Values (_, self_0, _) => ValueKindMatchInto::Values (self_0),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			Value::RecordKind (_, self_0, _) => ValueKindMatchInto::RecordKind (self_0),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			Value::RecordImmutable (_, self_0, _) => ValueKindMatchInto::RecordImmutable (self_0),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			Value::RecordMutable (_, self_0, _) => ValueKindMatchInto::RecordMutable (self_0),
 			
 			Value::Error (_, self_0, _) => ValueKindMatchInto::Error (self_0),
@@ -944,8 +978,11 @@ impl Value {
 			(&Value::ArrayMutable (_, ref self_0, _), &Value::ArrayMutable (_, ref other_0, _)) => ValueKindMatchAsRef2::ArrayMutable (self_0, other_0),
 			(&Value::Values (_, ref self_0, _), &Value::Values (_, ref other_0, _)) => ValueKindMatchAsRef2::Values (self_0, other_0),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			(&Value::RecordKind (_, ref self_0, _), &Value::RecordKind (_, ref other_0, _)) => ValueKindMatchAsRef2::RecordKind (self_0, other_0),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			(&Value::RecordImmutable (_, ref self_0, _), &Value::RecordImmutable (_, ref other_0, _)) => ValueKindMatchAsRef2::RecordImmutable (self_0, other_0),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			(&Value::RecordMutable (_, ref self_0, _), &Value::RecordMutable (_, ref other_0, _)) => ValueKindMatchAsRef2::RecordMutable (self_0, other_0),
 			
 			(&Value::Error (_, ref self_0, _), &Value::Error (_, ref other_0, _)) => ValueKindMatchAsRef2::Error (self_0, other_0),
@@ -1022,8 +1059,11 @@ impl Value {
 			Value::ArrayMutable (_, _, _) => ValueClass::Array,
 			Value::Values (_, _, _) => ValueClass::Values,
 			
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			Value::RecordKind (_, _, _) => ValueClass::RecordKind,
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			Value::RecordImmutable (_, _, _) => ValueClass::Record,
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			Value::RecordMutable (_, _, _) => ValueClass::Record,
 			
 			Value::Error (_, _, _) => ValueClass::Error,
@@ -1096,8 +1136,11 @@ impl Value {
 			Value::ArrayMutable (_, ref self_0, _) => ValueClassMatchAsRef::Array (ArrayMatchAsRef::Mutable (self_0)),
 			Value::Values (_, ref self_0, _) => ValueClassMatchAsRef::Values (self_0),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			Value::RecordKind (_, ref self_0, _) => ValueClassMatchAsRef::RecordKind (self_0),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			Value::RecordImmutable (_, ref self_0, _) => ValueClassMatchAsRef::Record (RecordMatchAsRef::Immutable (self_0)),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			Value::RecordMutable (_, ref self_0, _) => ValueClassMatchAsRef::Record (RecordMatchAsRef::Mutable (self_0)),
 			
 			Value::Error (_, ref self_0, _) => ValueClassMatchAsRef::Error (self_0),
@@ -1170,8 +1213,11 @@ impl Value {
 			Value::ArrayMutable (_, self_0, _) => ValueClassMatchInto::Array (ArrayMatchInto::Mutable (self_0)),
 			Value::Values (_, self_0, _) => ValueClassMatchInto::Values (self_0),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			Value::RecordKind (_, self_0, _) => ValueClassMatchInto::RecordKind (self_0),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			Value::RecordImmutable (_, self_0, _) => ValueClassMatchInto::Record (RecordMatchInto::Immutable (self_0)),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			Value::RecordMutable (_, self_0, _) => ValueClassMatchInto::Record (RecordMatchInto::Mutable (self_0)),
 			
 			Value::Error (_, self_0, _) => ValueClassMatchInto::Error (self_0),
@@ -1263,10 +1309,15 @@ impl Value {
 			
 			(&Value::Values (_, ref self_0, _), &Value::Values (_, ref other_0, _)) => ValueClassMatchAsRef2::Values (self_0, other_0),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			(&Value::RecordKind (_, ref self_0, _), &Value::RecordKind (_, ref other_0, _)) => ValueClassMatchAsRef2::RecordKind (self_0, other_0),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			(&Value::RecordImmutable (_, ref self_0, _), &Value::RecordImmutable (_, ref other_0, _)) => ValueClassMatchAsRef2::Record (RecordMatchAsRef2::ImmutableBoth (self_0, other_0)),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			(&Value::RecordMutable (_, ref self_0, _), &Value::RecordMutable (_, ref other_0, _)) => ValueClassMatchAsRef2::Record (RecordMatchAsRef2::MutableBoth (self_0, other_0)),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			(&Value::RecordImmutable (_, ref self_0, _), &Value::RecordMutable (_, ref other_0, _)) => ValueClassMatchAsRef2::Record (RecordMatchAsRef2::ImmutableAndMutable (self_0, other_0)),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			(&Value::RecordMutable (_, ref self_0, _), &Value::RecordImmutable (_, ref other_0, _)) => ValueClassMatchAsRef2::Record (RecordMatchAsRef2::MutableAndImmutable (self_0, other_0)),
 			
 			(&Value::Error (_, ref self_0, _), &Value::Error (_, ref other_0, _)) => ValueClassMatchAsRef2::Error (self_0, other_0),
@@ -1369,8 +1420,11 @@ impl Value {
 			ValueKindMatchAsRef2::ArrayMutable (self_0, other_0) => ArrayMutable::is_self (self_0, other_0),
 			ValueKindMatchAsRef2::Values (self_0, other_0) => Values::is_self (self_0, other_0),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			ValueKindMatchAsRef2::RecordKind (self_0, other_0) => RecordKind::is_self (self_0, other_0),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			ValueKindMatchAsRef2::RecordImmutable (self_0, other_0) => RecordImmutable::is_self (self_0, other_0),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			ValueKindMatchAsRef2::RecordMutable (self_0, other_0) => RecordMutable::is_self (self_0, other_0),
 			
 			ValueKindMatchAsRef2::Error (self_0, other_0) => Error::is_self (self_0, other_0),
@@ -1436,8 +1490,11 @@ impl Value {
 			Value::ArrayMutable (_, ref self_0, _) => self_0.to_immutable () .into_0 (),
 			Value::Values (_, ref self_0, _) => self_0.clone () .into_0 (),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			Value::RecordKind (_, ref self_0, _) => self_0.clone () .into_0 (),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			Value::RecordImmutable (_, ref self_0, _) => self_0.clone () .into_0 (),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			Value::RecordMutable (_, ref self_0, _) => self_0.to_immutable () .into_0 (),
 			
 			Value::Error (_, ref self_0, _) => self_0.clone () .into_0 (),
@@ -1486,7 +1543,9 @@ impl Value {
 			Value::ArrayImmutable (_, ref self_0, _) => self_0.to_mutable () .into_0 (),
 			Value::ArrayMutable (_, ref self_0, _) => self_0.clone () .into_0 (),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			Value::RecordImmutable (_, ref self_0, _) => self_0.to_mutable () .into_0 (),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			Value::RecordMutable (_, ref self_0, _) => self_0.clone () .into_0 (),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
@@ -1542,8 +1601,11 @@ impl ValueKindMatchInto {
 			ValueKindMatchInto::ArrayMutable (value) => value.into (),
 			ValueKindMatchInto::Values (value) => value.into (),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			ValueKindMatchInto::RecordKind (value) => value.into (),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			ValueKindMatchInto::RecordImmutable (value) => value.into (),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			ValueKindMatchInto::RecordMutable (value) => value.into (),
 			
 			ValueKindMatchInto::Error (value) => value.into (),
@@ -1610,7 +1672,9 @@ impl ValueClassMatchInto {
 			ValueClassMatchInto::Array (class) => class.value (),
 			ValueClassMatchInto::Values (value) => value.into (),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			ValueClassMatchInto::RecordKind (value) => value.into (),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			ValueClassMatchInto::Record (class) => class.value (),
 			
 			ValueClassMatchInto::Error (value) => value.into (),

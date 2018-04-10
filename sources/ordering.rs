@@ -92,8 +92,11 @@ impl <'a> ValueKindMatchAsRef2<'a> {
 			ValueKindMatchAsRef2::ArrayMutable (self_0, other_0) => Some (ArrayMutable::eq (self_0, other_0)),
 			ValueKindMatchAsRef2::Values (self_0, other_0) => Some (Values::eq (self_0, other_0)),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			ValueKindMatchAsRef2::RecordKind (self_0, other_0) => Some (RecordKind::eq (self_0, other_0)),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			ValueKindMatchAsRef2::RecordImmutable (self_0, other_0) => Some (RecordImmutable::eq (self_0, other_0)),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			ValueKindMatchAsRef2::RecordMutable (self_0, other_0) => Some (RecordMutable::eq (self_0, other_0)),
 			
 			ValueKindMatchAsRef2::Error (self_0, other_0) => Some (Error::eq (self_0, other_0)),
@@ -165,8 +168,11 @@ impl <'a> ValueKindMatchAsRef2<'a> {
 			ValueKindMatchAsRef2::ArrayMutable (self_0, other_0) => Some (ArrayMutable::cmp (self_0, other_0)),
 			ValueKindMatchAsRef2::Values (self_0, other_0) => Some (Values::cmp (self_0, other_0)),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			ValueKindMatchAsRef2::RecordKind (self_0, other_0) => Some (RecordKind::cmp (self_0, other_0)),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			ValueKindMatchAsRef2::RecordImmutable (self_0, other_0) => Some (RecordImmutable::cmp (self_0, other_0)),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			ValueKindMatchAsRef2::RecordMutable (self_0, other_0) => Some (RecordMutable::cmp (self_0, other_0)),
 			
 			ValueKindMatchAsRef2::Error (self_0, other_0) => Some (Error::cmp (self_0, other_0)),
@@ -711,8 +717,10 @@ impl <'a> cmp::PartialOrd for ArrayRef<'a> {
 
 
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl cmp::Eq for RecordKind {}
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl cmp::PartialEq for RecordKind {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -721,6 +729,7 @@ impl cmp::PartialEq for RecordKind {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl cmp::Ord for RecordKind {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -729,6 +738,7 @@ impl cmp::Ord for RecordKind {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl cmp::PartialOrd for RecordKind {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -738,8 +748,10 @@ impl cmp::PartialOrd for RecordKind {
 }
 
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl cmp::Eq for RecordImmutable {}
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl cmp::PartialEq for RecordImmutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -750,6 +762,7 @@ impl cmp::PartialEq for RecordImmutable {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl cmp::Ord for RecordImmutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -760,6 +773,7 @@ impl cmp::Ord for RecordImmutable {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl cmp::PartialOrd for RecordImmutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -769,8 +783,10 @@ impl cmp::PartialOrd for RecordImmutable {
 }
 
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl cmp::Eq for RecordMutable {}
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl cmp::PartialEq for RecordMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -781,6 +797,7 @@ impl cmp::PartialEq for RecordMutable {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl cmp::Ord for RecordMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -791,6 +808,7 @@ impl cmp::Ord for RecordMutable {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl cmp::PartialOrd for RecordMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -800,8 +818,10 @@ impl cmp::PartialOrd for RecordMutable {
 }
 
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl <'a> cmp::Eq for RecordRef<'a> {}
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl <'a> cmp::PartialEq for RecordRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -814,6 +834,7 @@ impl <'a> cmp::PartialEq for RecordRef<'a> {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl <'a> cmp::Ord for RecordRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -831,6 +852,7 @@ impl <'a> cmp::Ord for RecordRef<'a> {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl <'a> cmp::PartialOrd for RecordRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

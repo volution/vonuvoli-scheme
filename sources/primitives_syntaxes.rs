@@ -70,6 +70,7 @@ pub enum SyntaxPrimitiveV {
 	
 	Lambda,
 	
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	DefineRecord,
 	
 }

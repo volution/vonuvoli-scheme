@@ -166,6 +166,7 @@ pub(crate) mod builtins_lists;
 pub(crate) mod builtins_ports;
 #[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 pub(crate) mod builtins_processes;
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 pub(crate) mod builtins_records;
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 pub(crate) mod builtins_regularex;
@@ -217,6 +218,7 @@ pub(crate) mod primitives_lists;
 #[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 pub(crate) mod primitives_ports;
 pub(crate) mod primitives_procedures;
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 pub(crate) mod primitives_records;
 pub(crate) mod primitives_runtime;
 pub(crate) mod primitives_strings;
@@ -242,6 +244,7 @@ pub(crate) mod values_keywords;
 pub(crate) mod values_numbers;
 pub(crate) mod values_opaque;
 pub(crate) mod values_pairs;
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 pub(crate) mod values_records;
 pub(crate) mod values_strings;
 pub(crate) mod values_symbols;
@@ -286,6 +289,7 @@ pub mod internals {
 	pub use super::builtins_ports::exports as builtins_ports;
 	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	pub use super::builtins_processes::exports as builtins_processes;
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	pub use super::builtins_records::exports as builtins_records;
 	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 	pub use super::builtins_regularex::exports as builtins_regularex;
@@ -332,6 +336,7 @@ pub mod internals {
 	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	pub use super::primitives_ports::exports as primitives_ports;
 	pub use super::primitives_procedures::exports as primitives_procedures;
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	pub use super::primitives_records::exports as primitives_records;
 	pub use super::primitives_runtime::exports as primitives_runtime;
 	pub use super::primitives_strings::exports as primitives_strings;
@@ -357,6 +362,7 @@ pub mod internals {
 	pub use super::values_keywords::exports as values_keywords;
 	pub use super::values_opaque::exports as values_opaque;
 	pub use super::values_pairs::exports as values_pairs;
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	pub use super::values_records::exports as values_records;
 	pub use super::values_strings::exports as values_strings;
 	pub use super::values_symbols::exports as values_symbols;

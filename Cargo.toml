@@ -146,6 +146,7 @@ vonuvoli_abort_on_panic = []
 vonuvoli_inline = []
 
 vonuvoli_builtins = [
+	"vonuvoli_builtins_records",
 	"vonuvoli_builtins_regex",
 	"vonuvoli_builtins_ports",
 	"vonuvoli_builtins_filesystem",
@@ -155,6 +156,7 @@ vonuvoli_builtins = [
 	"vonuvoli_builtins_encoding",
 ]
 
+vonuvoli_builtins_records = []
 vonuvoli_builtins_regex = [
 	"regex",
 ]

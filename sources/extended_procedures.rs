@@ -1,11 +1,13 @@
 
 
 use super::builtins::exports::*;
-use super::conversions::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
 use super::primitives::exports::*;
 use super::values::exports::*;
+
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+use super::conversions::exports::*;
 
 use super::prelude::*;
 
@@ -44,11 +46,17 @@ pub enum ProcedureExtendedInternals {
 	CurryLeft (Value, StdBox<[Value]>),
 	CurryRight (Value, StdBox<[Value]>),
 	
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	RecordKindIs (RecordKind, Option<bool>),
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	RecordBuild (RecordKind, Option<StdBox<[usize]>>, Option<bool>),
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	RecordGet (Option<RecordKind>, usize),
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	RecordGetX (Option<RecordKind>, Value),
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	RecordSet (Option<RecordKind>, usize),
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	RecordSetX (Option<RecordKind>, Value),
 	
 	Constant (Value, bool),
@@ -82,6 +90,7 @@ impl ProcedureExtended {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_extended_evaluate_0 (extended : &ProcedureExtended, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	const INPUTS_EMPTY : &'static [&'static Value] = &[];
+	#[ allow (unreachable_patterns) ]
 	match *extended.internals_ref () {
 		
 		ProcedureExtendedInternals::CurryLeft (ref callable, ref values) =>
@@ -90,6 +99,7 @@ pub fn procedure_extended_evaluate_0 (extended : &ProcedureExtended, evaluator :
 		ProcedureExtendedInternals::CurryRight (ref callable, ref values) =>
 			return call_n_n (evaluator, callable, INPUTS_EMPTY, values.as_ref ()),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		ProcedureExtendedInternals::RecordBuild (ref kind, ref fields, immutable) =>
 			return record_build_0 (kind, option_box_as_ref (fields), immutable),
 		
@@ -110,6 +120,7 @@ pub fn procedure_extended_evaluate_0 (extended : &ProcedureExtended, evaluator :
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_extended_evaluate_1 (extended : &ProcedureExtended, input_1 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	#[ allow (unreachable_patterns) ]
 	match *extended.internals_ref () {
 		
 		ProcedureExtendedInternals::ComposedPrimitive1 (ref primitives) =>
@@ -127,15 +138,19 @@ pub fn procedure_extended_evaluate_1 (extended : &ProcedureExtended, input_1 : &
 		ProcedureExtendedInternals::CurryRight (ref callable, ref values) =>
 			return call_n_n (evaluator, callable, &[input_1], values.as_ref ()),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		ProcedureExtendedInternals::RecordKindIs (ref kind, immutable) =>
 			return record_kind_is (kind, input_1, immutable) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		ProcedureExtendedInternals::RecordBuild (ref kind, ref fields, immutable) =>
 			return record_build_1 (kind, option_box_as_ref (fields), input_1, immutable),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		ProcedureExtendedInternals::RecordGet (ref kind, field) =>
 			return record_get (kind.as_ref (), field, input_1),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		ProcedureExtendedInternals::RecordGetX (ref kind, ref field) =>
 			return record_get_x (kind.as_ref (), field, input_1),
 		
@@ -160,6 +175,7 @@ pub fn procedure_extended_evaluate_1 (extended : &ProcedureExtended, input_1 : &
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_extended_evaluate_2 (extended : &ProcedureExtended, input_1 : &Value, input_2 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	#[ allow (unreachable_patterns) ]
 	match *extended.internals_ref () {
 		
 		ProcedureExtendedInternals::CurryLeft (ref callable, ref values) =>
@@ -168,12 +184,15 @@ pub fn procedure_extended_evaluate_2 (extended : &ProcedureExtended, input_1 : &
 		ProcedureExtendedInternals::CurryRight (ref callable, ref values) =>
 			return call_n_n (evaluator, callable, &[input_1, input_2], values.as_ref ()),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		ProcedureExtendedInternals::RecordBuild (ref kind, ref fields, immutable) =>
 			return record_build_2 (kind, option_box_as_ref (fields), input_1, input_2, immutable),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		ProcedureExtendedInternals::RecordSet (ref kind, field) =>
 			return record_set (kind.as_ref (), field, input_1, input_2),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		ProcedureExtendedInternals::RecordSetX (ref kind, ref field) =>
 			return record_set_x (kind.as_ref (), field, input_1, input_2),
 		
@@ -198,6 +217,7 @@ pub fn procedure_extended_evaluate_2 (extended : &ProcedureExtended, input_1 : &
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_extended_evaluate_3 (extended : &ProcedureExtended, input_1 : &Value, input_2 : &Value, input_3 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	#[ allow (unreachable_patterns) ]
 	match *extended.internals_ref () {
 		
 		ProcedureExtendedInternals::CurryLeft (ref callable, ref values) =>
@@ -206,6 +226,7 @@ pub fn procedure_extended_evaluate_3 (extended : &ProcedureExtended, input_1 : &
 		ProcedureExtendedInternals::CurryRight (ref callable, ref values) =>
 			return call_n_n (evaluator, callable, &[input_1, input_2, input_3], values.as_ref ()),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		ProcedureExtendedInternals::RecordBuild (ref kind, ref fields, immutable) =>
 			return record_build_3 (kind, option_box_as_ref (fields), input_1, input_2, input_3, immutable),
 		
@@ -230,6 +251,7 @@ pub fn procedure_extended_evaluate_3 (extended : &ProcedureExtended, input_1 : &
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_extended_evaluate_4 (extended : &ProcedureExtended, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	#[ allow (unreachable_patterns) ]
 	match *extended.internals_ref () {
 		
 		ProcedureExtendedInternals::CurryLeft (ref callable, ref values) =>
@@ -238,6 +260,7 @@ pub fn procedure_extended_evaluate_4 (extended : &ProcedureExtended, input_1 : &
 		ProcedureExtendedInternals::CurryRight (ref callable, ref values) =>
 			return call_n_n (evaluator, callable, &[input_1, input_2, input_3, input_4], values.as_ref ()),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		ProcedureExtendedInternals::RecordBuild (ref kind, ref fields, immutable) =>
 			return record_build_4 (kind, option_box_as_ref (fields), input_1, input_2, input_3, input_4, immutable),
 		
@@ -262,6 +285,7 @@ pub fn procedure_extended_evaluate_4 (extended : &ProcedureExtended, input_1 : &
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_extended_evaluate_5 (extended : &ProcedureExtended, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	#[ allow (unreachable_patterns) ]
 	match *extended.internals_ref () {
 		
 		ProcedureExtendedInternals::CurryLeft (ref callable, ref values) =>
@@ -270,6 +294,7 @@ pub fn procedure_extended_evaluate_5 (extended : &ProcedureExtended, input_1 : &
 		ProcedureExtendedInternals::CurryRight (ref callable, ref values) =>
 			return call_n_n (evaluator, callable, &[input_1, input_2, input_3, input_4, input_5], values.as_ref ()),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		ProcedureExtendedInternals::RecordBuild (ref kind, ref fields, immutable) =>
 			return record_build_n (kind, option_box_as_ref (fields), &[input_1, input_2, input_3, input_4, input_5], immutable),
 		
@@ -295,6 +320,7 @@ pub fn procedure_extended_evaluate_5 (extended : &ProcedureExtended, input_1 : &
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_extended_evaluate_n (extended : &ProcedureExtended, inputs : &[&Value], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let inputs_count = inputs.len ();
+	#[ allow (unreachable_patterns) ]
 	match (inputs_count, extended.internals_ref ()) {
 		
 		(1, &ProcedureExtendedInternals::ComposedPrimitive1 (ref primitives)) =>
@@ -312,21 +338,27 @@ pub fn procedure_extended_evaluate_n (extended : &ProcedureExtended, inputs : &[
 		(_, &ProcedureExtendedInternals::CurryRight (ref callable, ref values)) =>
 			return call_n_n (evaluator, callable, inputs, values.as_ref ()),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		(1, &ProcedureExtendedInternals::RecordKindIs (ref kind, immutable)) =>
 			return record_kind_is (kind, inputs[0], immutable) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		(1, &ProcedureExtendedInternals::RecordGet (ref kind, field)) =>
 			return record_get (kind.as_ref (), field, inputs[0]),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		(1, &ProcedureExtendedInternals::RecordGetX (ref kind, ref field)) =>
 			return record_get_x (kind.as_ref (), field, inputs[0]),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		(2, &ProcedureExtendedInternals::RecordSet (ref kind, field)) =>
 			return record_set (kind.as_ref (), field, inputs[0], inputs[1]),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		(2, &ProcedureExtendedInternals::RecordSetX (ref kind, ref field)) =>
 			return record_set_x (kind.as_ref (), field, inputs[0], inputs[1]),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		(_, &ProcedureExtendedInternals::RecordBuild (ref kind, ref fields, immutable)) =>
 			return record_build_n (kind, option_box_as_ref (fields), inputs, immutable),
 		

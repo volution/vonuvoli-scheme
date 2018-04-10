@@ -137,9 +137,13 @@ macro_rules! def_type_primitive_enum {
 			IsValuesEmpty,
 			IsValuesEmptyNot,
 			
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			IsRecordKind,
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			IsRecord,
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			IsRecordImmutable,
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			IsRecordMutable,
 			
 			IsError,
@@ -462,15 +466,19 @@ pub fn type_primitive_1_evaluate_0 (primitive : TypePrimitive1, input_1 : &Value
 		TypePrimitive1::IsValuesEmptyNot =>
 			return is_values_not_empty (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		TypePrimitive1::IsRecordKind =>
 			return is_record_kind (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		TypePrimitive1::IsRecord =>
 			return is_record (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		TypePrimitive1::IsRecordImmutable =>
 			return is_record_immutable (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		TypePrimitive1::IsRecordMutable =>
 			return is_record_mutable (input_1) .into_0 (),
 		
@@ -884,15 +892,19 @@ pub fn type_primitive_2_evaluate_0 (primitive : TypePrimitive2, input_1 : &Value
 		TypePrimitive2::IsValuesEmptyNot =>
 			return is_values_not_empty_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		TypePrimitive2::IsRecordKind =>
 			return is_record_kind_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		TypePrimitive2::IsRecord =>
 			return is_record_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		TypePrimitive2::IsRecordImmutable =>
 			return is_record_immutable_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		TypePrimitive2::IsRecordMutable =>
 			return is_record_mutable_all_2 (input_1, input_2) .into_0 (),
 		
@@ -1306,15 +1318,19 @@ pub fn type_primitive_3_evaluate_0 (primitive : TypePrimitive3, input_1 : &Value
 		TypePrimitive3::IsValuesEmptyNot =>
 			return is_values_not_empty_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		TypePrimitive3::IsRecordKind =>
 			return is_record_kind_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		TypePrimitive3::IsRecord =>
 			return is_record_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		TypePrimitive3::IsRecordImmutable =>
 			return is_record_immutable_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		TypePrimitive3::IsRecordMutable =>
 			return is_record_mutable_all_3 (input_1, input_2, input_3) .into_0 (),
 		
@@ -1728,15 +1744,19 @@ pub fn type_primitive_4_evaluate_0 (primitive : TypePrimitive4, input_1 : &Value
 		TypePrimitive4::IsValuesEmptyNot =>
 			return is_values_not_empty_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		TypePrimitive4::IsRecordKind =>
 			return is_record_kind_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		TypePrimitive4::IsRecord =>
 			return is_record_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		TypePrimitive4::IsRecordImmutable =>
 			return is_record_immutable_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		TypePrimitive4::IsRecordMutable =>
 			return is_record_mutable_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
@@ -2158,15 +2178,19 @@ pub fn type_primitive_n_evaluate_0 (primitive : TypePrimitiveN, inputs : &[&Valu
 		TypePrimitiveN::IsValuesEmptyNot =>
 			return is_values_not_empty_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		TypePrimitiveN::IsRecordKind =>
 			return is_record_kind_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		TypePrimitiveN::IsRecord =>
 			return is_record_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		TypePrimitiveN::IsRecordImmutable =>
 			return is_record_immutable_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		TypePrimitiveN::IsRecordMutable =>
 			return is_record_mutable_all_n (inputs) .into_0 (),
 		
@@ -2514,12 +2538,16 @@ macro_rules! def_type_primitive_v_alternative_fn {
 					Some ($alternative::IsValuesEmpty),
 				TypePrimitiveV::IsValuesEmptyNot =>
 					Some ($alternative::IsValuesEmptyNot),
+				#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 				TypePrimitiveV::IsRecordKind =>
 					Some ($alternative::IsRecordKind),
+				#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 				TypePrimitiveV::IsRecord =>
 					Some ($alternative::IsRecord),
+				#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 				TypePrimitiveV::IsRecordImmutable =>
 					Some ($alternative::IsRecordImmutable),
+				#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 				TypePrimitiveV::IsRecordMutable =>
 					Some ($alternative::IsRecordMutable),
 				TypePrimitiveV::IsError =>

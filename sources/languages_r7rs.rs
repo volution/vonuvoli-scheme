@@ -94,6 +94,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "contexts", "define", SyntaxPrimitiveV::Define.into ()),
 			("base", "values", "define-values", SyntaxPrimitiveV::DefineValues.into ()),
 			("base", "syntaxes", "define-syntax", SyntaxPrimitive::Unsupported.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("base", "records", "define-record-type", SyntaxPrimitiveV::DefineRecord.into ()),
 			
 			("base", "contexts", "let", SyntaxPrimitiveV::LetParallel.into ()),
