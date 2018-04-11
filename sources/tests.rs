@@ -616,8 +616,10 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 				ValueKindMatchAsRef2::ArrayMutable (_, _) |
 				ValueKindMatchAsRef2::Values (_, _) |
 				ValueKindMatchAsRef2::ProcedurePrimitive (_, _) |
+				ValueKindMatchAsRef2::SyntaxPrimitive (_, _) =>
+					true,
+				#[ cfg ( feature = "vonuvoli_values_native" ) ]
 				ValueKindMatchAsRef2::ProcedureNative (_, _) |
-				ValueKindMatchAsRef2::SyntaxPrimitive (_, _) |
 				ValueKindMatchAsRef2::SyntaxNative (_, _) =>
 					true,
 				#[ cfg ( feature = "vonuvoli_values_keyword" ) ]

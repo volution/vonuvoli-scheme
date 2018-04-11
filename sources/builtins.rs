@@ -1,7 +1,10 @@
 
 pub mod exports {
 	
+	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	pub use super::super::native_procedures::exports::*;
+	
+	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	pub use super::super::native_syntaxes::exports::*;
 	
 	pub use super::super::builtins_arrays::exports::*;

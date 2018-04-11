@@ -3,6 +3,7 @@
 use super::contexts::exports::*;
 use super::extended_procedures::exports::*;
 use super::lambdas::exports::*;
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 use super::native_procedures::exports::*;
 use super::primitives::exports::*;
 use super::values::exports::*;
@@ -31,6 +32,7 @@ pub mod exports {
 	pub use super::ExpressionForProcedurePrimitiveCall;
 	pub use super::ExpressionForProcedureExtendedCall;
 	pub use super::ExpressionForProcedureLambdaCall;
+	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	pub use super::ExpressionForProcedureNativeCall;
 	
 	pub use super::ExpressionSequenceOperator;
@@ -57,6 +59,7 @@ pub enum Expression {
 	ProcedurePrimitiveCall ( ExpressionForProcedurePrimitiveCall ),
 	ProcedureExtendedCall ( ExpressionForProcedureExtendedCall ),
 	ProcedureLambdaCall ( ExpressionForProcedureLambdaCall ),
+	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	ProcedureNativeCall ( ExpressionForProcedureNativeCall ),
 	
 	Lambda ( StdRc<LambdaTemplate>, StdRc<Expression>, StdBox<[RegisterTemplate]>, StdRc<[RegisterTemplate]> ),
@@ -245,6 +248,7 @@ pub enum ExpressionForProcedureLambdaCall {
 
 
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 #[ derive (Clone, Debug) ]
 pub enum ExpressionForProcedureNativeCall {
 	

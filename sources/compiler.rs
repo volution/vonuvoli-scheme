@@ -276,6 +276,7 @@ impl Compiler {
 						succeed! ((compilation, Alternative2::Variant1 (syntax))),
 					SyntaxMatchInto::Extended (_syntax) =>
 						fail_unimplemented! (0xb9915ee0), // deferred
+					#[ cfg ( feature = "vonuvoli_values_native" ) ]
 					SyntaxMatchInto::Native (_syntax) =>
 						fail_unimplemented! (0x09bdd94b), // deferred
 					SyntaxMatchInto::Lambda (_syntax) =>

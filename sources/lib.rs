@@ -191,7 +191,9 @@ pub(crate) mod lambdas;
 pub(crate) mod languages;
 pub(crate) mod languages_builtins;
 pub(crate) mod languages_r7rs;
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 pub(crate) mod native_procedures;
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 pub(crate) mod native_syntaxes;
 pub(crate) mod ordering;
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
@@ -314,7 +316,9 @@ pub mod internals {
 	pub use super::languages::exports as languages;
 	pub use super::languages_builtins::exports as languages_builtins;
 	pub use super::languages_r7rs::exports as languages_r7rs;
+	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	pub use super::native_procedures::exports as native_procedures;
+	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	pub use super::native_syntaxes::exports as native_syntaxes;
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	pub use super::parameters::exports as parameters;
@@ -407,7 +411,9 @@ pub mod exports {
 	pub use super::extended_syntaxes::exports::*;
 	pub use super::lambdas::exports::*;
 	pub use super::languages::exports::*;
+	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	pub use super::native_procedures::exports::*;
+	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	pub use super::native_syntaxes::exports::*;
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	pub use super::parameters::exports::*;

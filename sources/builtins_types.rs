@@ -2620,6 +2620,7 @@ fn list_class_on_0 (value : &Value, cursor : &Value) -> (Outcome<ListClass>) {
 pub enum ProcedureClass {
 	Primitive,
 	Extended,
+	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	Native,
 	Lambda,
 }
@@ -2634,6 +2635,7 @@ pub fn procedure_class (value : &Value) -> (Option<ProcedureClass>) {
 					return Some (ProcedureClass::Primitive),
 				ProcedureMatchAsRef::Extended (_) =>
 					return Some (ProcedureClass::Extended),
+				#[ cfg ( feature = "vonuvoli_values_native" ) ]
 				ProcedureMatchAsRef::Native (_) =>
 					return Some (ProcedureClass::Native),
 				ProcedureMatchAsRef::Lambda (_) =>
@@ -2651,6 +2653,7 @@ pub fn procedure_class (value : &Value) -> (Option<ProcedureClass>) {
 pub enum SyntaxClass {
 	Primitive,
 	Extended,
+	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	Native,
 	Lambda,
 }
@@ -2665,6 +2668,7 @@ pub fn syntax_class (value : &Value) -> (Option<SyntaxClass>) {
 					return Some (SyntaxClass::Primitive),
 				SyntaxMatchAsRef::Extended (_) =>
 					return Some (SyntaxClass::Extended),
+				#[ cfg ( feature = "vonuvoli_values_native" ) ]
 				SyntaxMatchAsRef::Native (_) =>
 					return Some (SyntaxClass::Native),
 				SyntaxMatchAsRef::Lambda (_) =>

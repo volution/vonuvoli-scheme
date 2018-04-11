@@ -60,11 +60,13 @@ impl hash::Hash for Value {
 			
 			ValueKindMatchAsRef::ProcedurePrimitive (self_0) => { hasher.write_u32 (0x23a51f00); self_0.hash (hasher); },
 			ValueKindMatchAsRef::ProcedureExtended (self_0) => { hasher.write_u32 (0x50c5d416); self_0.hash (hasher); },
+			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ValueKindMatchAsRef::ProcedureNative (self_0) => { hasher.write_u32 (0xfe96b2d7); self_0.hash (hasher); },
 			ValueKindMatchAsRef::ProcedureLambda (self_0) => { hasher.write_u32 (0x3f65eccb); self_0.hash (hasher); },
 			
 			ValueKindMatchAsRef::SyntaxPrimitive (self_0) => { hasher.write_u32 (0xda6585c6); self_0.hash (hasher); },
 			ValueKindMatchAsRef::SyntaxExtended (self_0) => { hasher.write_u32 (0x3f07734c); self_0.hash (hasher); },
+			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ValueKindMatchAsRef::SyntaxNative (self_0) => { hasher.write_u32 (0xf018c0a5); self_0.hash (hasher); },
 			ValueKindMatchAsRef::SyntaxLambda (self_0) => { hasher.write_u32 (0xd5b61513); self_0.hash (hasher); },
 			
@@ -310,6 +312,7 @@ impl hash::Hash for SyntaxLambda {
 
 
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl hash::Hash for ProcedureNative {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -319,6 +322,7 @@ impl hash::Hash for ProcedureNative {
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl hash::Hash for SyntaxNative {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

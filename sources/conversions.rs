@@ -5,13 +5,17 @@ use super::expressions::exports::*;
 use super::extended_procedures::exports::*;
 use super::extended_syntaxes::exports::*;
 use super::lambdas::exports::*;
-use super::native_procedures::exports::*;
-use super::native_syntaxes::exports::*;
 use super::primitives::exports::*;
 use super::values::exports::*;
 
 #[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 use super::contexts::exports::*;
+
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
+use super::native_procedures::exports::*;
+
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
+use super::native_syntaxes::exports::*;
 
 #[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 use super::ports::exports::*;
@@ -102,6 +106,7 @@ impl_from_for_Expression_1! (ProcedureGenericCall, ExpressionForProcedureGeneric
 impl_from_for_Expression_1! (ProcedurePrimitiveCall, ExpressionForProcedurePrimitiveCall);
 impl_from_for_Expression_1! (ProcedureExtendedCall, ExpressionForProcedureExtendedCall);
 impl_from_for_Expression_1! (ProcedureLambdaCall, ExpressionForProcedureLambdaCall);
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl_from_for_Expression_1! (ProcedureNativeCall, ExpressionForProcedureNativeCall);
 
 
@@ -143,10 +148,12 @@ impl_from_for_Value_1! (RecordMutable, RecordMutable);
 impl_from_for_Value_1! (Error, Error);
 impl_from_for_Value_1! (ProcedurePrimitive, ProcedurePrimitive);
 impl_from_for_Value_1! (ProcedureExtended, ProcedureExtended);
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl_from_for_Value_1! (ProcedureNative, ProcedureNative);
 impl_from_for_Value_1! (ProcedureLambda, ProcedureLambda);
 impl_from_for_Value_1! (SyntaxPrimitive, SyntaxPrimitive);
 impl_from_for_Value_1! (SyntaxExtended, SyntaxExtended);
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl_from_for_Value_1! (SyntaxNative, SyntaxNative);
 impl_from_for_Value_1! (SyntaxLambda, SyntaxLambda);
 #[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
@@ -237,7 +244,9 @@ impl_from_for_type! (PairMutable, (Value, Value), value, { let (left, right) = v
 impl_from_for_Value_3! (ProcedureExtended, ProcedureExtended, ProcedureExtendedInternals, internals, ProcedureExtended::new (internals));
 impl_from_for_Value_3! (SyntaxExtended, SyntaxExtended, SyntaxExtendedInternals, internals, SyntaxExtended::new (internals));
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl_from_for_Value_3! (ProcedureNative, ProcedureNative, ProcedureNativeInternals, internals, ProcedureNative::new (internals));
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl_from_for_Value_3! (SyntaxNative, SyntaxNative, SyntaxNativeInternals, internals, SyntaxNative::new (internals));
 
 
@@ -301,6 +310,7 @@ impl_from_for_primitive_syntax! (SyntaxPrimitiveV, PrimitiveV);
 
 
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 macro_rules! impl_from_for_native_procedure_1 {
 	( $from : ident, $from_fn : ty, $tag : ident, $coercer : ident ) => (
 		impl_from_for_enum! (ProcedureNativeInternals, $tag, $from);
@@ -314,27 +324,43 @@ macro_rules! impl_from_for_native_procedure_1 {
 	);
 }
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl_from_for_native_procedure_1! (ProcedureNative0, ProcedureNativeFn0, Native0, procedure_native_0);
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl_from_for_native_procedure_1! (ProcedureNative1, ProcedureNativeFn1, Native1, procedure_native_1);
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl_from_for_native_procedure_1! (ProcedureNative2, ProcedureNativeFn2, Native2, procedure_native_2);
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl_from_for_native_procedure_1! (ProcedureNative3, ProcedureNativeFn3, Native3, procedure_native_3);
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl_from_for_native_procedure_1! (ProcedureNative4, ProcedureNativeFn4, Native4, procedure_native_4);
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl_from_for_native_procedure_1! (ProcedureNative5, ProcedureNativeFn5, Native5, procedure_native_5);
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl_from_for_native_procedure_1! (ProcedureNativeN, ProcedureNativeFnN, NativeN, procedure_native_n);
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl_from_for_native_procedure_1! (ProcedureNative0E, ProcedureNativeFn0E, Native0E, procedure_native_0e);
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl_from_for_native_procedure_1! (ProcedureNative1E, ProcedureNativeFn1E, Native1E, procedure_native_1e);
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl_from_for_native_procedure_1! (ProcedureNative2E, ProcedureNativeFn2E, Native2E, procedure_native_2e);
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl_from_for_native_procedure_1! (ProcedureNative3E, ProcedureNativeFn3E, Native3E, procedure_native_3e);
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl_from_for_native_procedure_1! (ProcedureNative4E, ProcedureNativeFn4E, Native4E, procedure_native_4e);
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl_from_for_native_procedure_1! (ProcedureNative5E, ProcedureNativeFn5E, Native5E, procedure_native_5e);
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl_from_for_native_procedure_1! (ProcedureNativeNE, ProcedureNativeFnNE, NativeNE, procedure_native_ne);
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl_from_for_native_procedure_1! (ProcedureNativeV, ProcedureNativeFnV, NativeV, procedure_native_v);
 
 
 
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 macro_rules! impl_from_for_native_syntax_1 {
 	( $from : ident, $from_fn : ty, $tag : ident, $coercer : ident ) => (
 		impl_from_for_enum! (SyntaxNativeInternals, $tag, $from);
@@ -349,6 +375,7 @@ macro_rules! impl_from_for_native_syntax_1 {
 	);
 }
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl_from_for_native_syntax_1! (SyntaxNativeG, SyntaxNativeFnG, NativeG, syntax_native_g);
 
 

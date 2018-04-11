@@ -3,10 +3,14 @@
 use super::constants::exports::*;
 use super::contexts::exports::*;
 use super::lambdas::exports::*;
-use super::native_procedures::exports::*;
-use super::native_syntaxes::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
+
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
+use super::native_procedures::exports::*;
+
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
+use super::native_syntaxes::exports::*;
 
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 use super::parameters::exports::*;
@@ -66,11 +70,13 @@ impl fmt::Display for Value {
 			
 			ValueKindMatchAsRef::ProcedurePrimitive (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::ProcedureExtended (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ValueKindMatchAsRef::ProcedureNative (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::ProcedureLambda (self_0) => self_0.fmt (formatter),
 			
 			ValueKindMatchAsRef::SyntaxPrimitive (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::SyntaxExtended (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ValueKindMatchAsRef::SyntaxNative (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::SyntaxLambda (self_0) => self_0.fmt (formatter),
 			
@@ -149,11 +155,13 @@ impl fmt::Debug for Value {
 			
 			ValueKindMatchAsRef::ProcedurePrimitive (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::ProcedureExtended (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ValueKindMatchAsRef::ProcedureNative (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::ProcedureLambda (self_0) => self_0.fmt (formatter),
 			
 			ValueKindMatchAsRef::SyntaxPrimitive (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::SyntaxExtended (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ValueKindMatchAsRef::SyntaxNative (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::SyntaxLambda (self_0) => self_0.fmt (formatter),
 			
@@ -821,6 +829,7 @@ impl fmt::Debug for SyntaxExtended {
 
 
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNative {
 	
 	#[ inline (never) ]
@@ -830,6 +839,7 @@ impl fmt::Display for ProcedureNative {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNativeInternals {
 	
 	#[ inline (never) ]
@@ -870,6 +880,7 @@ impl fmt::Display for ProcedureNativeInternals {
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNative0 {
 	
 	#[ inline (never) ]
@@ -878,6 +889,7 @@ impl fmt::Display for ProcedureNative0 {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNative1 {
 	
 	#[ inline (never) ]
@@ -886,6 +898,7 @@ impl fmt::Display for ProcedureNative1 {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNative2 {
 	
 	#[ inline (never) ]
@@ -894,6 +907,7 @@ impl fmt::Display for ProcedureNative2 {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNative3 {
 	
 	#[ inline (never) ]
@@ -902,6 +916,7 @@ impl fmt::Display for ProcedureNative3 {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNative4 {
 	
 	#[ inline (never) ]
@@ -910,6 +925,7 @@ impl fmt::Display for ProcedureNative4 {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNative5 {
 	
 	#[ inline (never) ]
@@ -918,6 +934,7 @@ impl fmt::Display for ProcedureNative5 {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNativeN {
 	
 	#[ inline (never) ]
@@ -927,6 +944,7 @@ impl fmt::Display for ProcedureNativeN {
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNative0E {
 	
 	#[ inline (never) ]
@@ -935,6 +953,7 @@ impl fmt::Display for ProcedureNative0E {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNative1E {
 	
 	#[ inline (never) ]
@@ -943,6 +962,7 @@ impl fmt::Display for ProcedureNative1E {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNative2E {
 	
 	#[ inline (never) ]
@@ -951,6 +971,7 @@ impl fmt::Display for ProcedureNative2E {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNative3E {
 	
 	#[ inline (never) ]
@@ -959,6 +980,7 @@ impl fmt::Display for ProcedureNative3E {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNative4E {
 	
 	#[ inline (never) ]
@@ -967,6 +989,7 @@ impl fmt::Display for ProcedureNative4E {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNative5E {
 	
 	#[ inline (never) ]
@@ -975,6 +998,7 @@ impl fmt::Display for ProcedureNative5E {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNativeNE {
 	
 	#[ inline (never) ]
@@ -984,6 +1008,7 @@ impl fmt::Display for ProcedureNativeNE {
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNativeV {
 	
 	#[ inline (never) ]
@@ -995,6 +1020,7 @@ impl fmt::Display for ProcedureNativeV {
 
 
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNative0 {
 	
 	#[ inline (never) ]
@@ -1003,6 +1029,7 @@ impl fmt::Debug for ProcedureNative0 {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNative1 {
 	
 	#[ inline (never) ]
@@ -1011,6 +1038,7 @@ impl fmt::Debug for ProcedureNative1 {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNative2 {
 	
 	#[ inline (never) ]
@@ -1019,6 +1047,7 @@ impl fmt::Debug for ProcedureNative2 {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNative3 {
 	
 	#[ inline (never) ]
@@ -1027,6 +1056,7 @@ impl fmt::Debug for ProcedureNative3 {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNative4 {
 	
 	#[ inline (never) ]
@@ -1035,6 +1065,7 @@ impl fmt::Debug for ProcedureNative4 {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNative5 {
 	
 	#[ inline (never) ]
@@ -1043,6 +1074,7 @@ impl fmt::Debug for ProcedureNative5 {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNativeN {
 	
 	#[ inline (never) ]
@@ -1052,6 +1084,7 @@ impl fmt::Debug for ProcedureNativeN {
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNative0E {
 	
 	#[ inline (never) ]
@@ -1060,6 +1093,7 @@ impl fmt::Debug for ProcedureNative0E {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNative1E {
 	
 	#[ inline (never) ]
@@ -1068,6 +1102,7 @@ impl fmt::Debug for ProcedureNative1E {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNative2E {
 	
 	#[ inline (never) ]
@@ -1076,6 +1111,7 @@ impl fmt::Debug for ProcedureNative2E {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNative3E {
 	
 	#[ inline (never) ]
@@ -1084,6 +1120,7 @@ impl fmt::Debug for ProcedureNative3E {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNative4E {
 	
 	#[ inline (never) ]
@@ -1092,6 +1129,7 @@ impl fmt::Debug for ProcedureNative4E {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNative5E {
 	
 	#[ inline (never) ]
@@ -1100,6 +1138,7 @@ impl fmt::Debug for ProcedureNative5E {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNativeNE {
 	
 	#[ inline (never) ]
@@ -1109,6 +1148,7 @@ impl fmt::Debug for ProcedureNativeNE {
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNativeV {
 	
 	#[ inline (never) ]
@@ -1120,6 +1160,7 @@ impl fmt::Debug for ProcedureNativeV {
 
 
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for SyntaxNative {
 	
 	#[ inline (never) ]
@@ -1129,6 +1170,7 @@ impl fmt::Display for SyntaxNative {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for SyntaxNativeInternals {
 	
 	#[ inline (never) ]
@@ -1141,6 +1183,7 @@ impl fmt::Display for SyntaxNativeInternals {
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for SyntaxNativeG {
 	
 	#[ inline (never) ]
@@ -1149,6 +1192,7 @@ impl fmt::Display for SyntaxNativeG {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for SyntaxNativeG {
 	
 	#[ inline (never) ]

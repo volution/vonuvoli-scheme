@@ -6,13 +6,17 @@ use super::errors::exports::*;
 use super::extended_procedures::exports::*;
 use super::extended_syntaxes::exports::*;
 use super::lambdas::exports::*;
-use super::native_procedures::exports::*;
-use super::native_syntaxes::exports::*;
 use super::primitives::exports::*;
 use super::values::exports::*;
 
 #[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 use super::contexts::exports::*;
+
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
+use super::native_procedures::exports::*;
+
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
+use super::native_syntaxes::exports::*;
 
 #[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 use super::ports::exports::*;
@@ -62,11 +66,9 @@ pub mod exports {
 			values_compare_1, values_compare_1a,
 			procedure_primitive_compare_1, procedure_primitive_compare_1a,
 			procedure_extended_compare_1, procedure_extended_compare_1a,
-			procedure_native_compare_1, procedure_native_compare_1a,
 			procedure_lambda_compare_1, procedure_lambda_compare_1a,
 			syntax_primitive_compare_1, syntax_primitive_compare_1a,
 			syntax_extended_compare_1, syntax_extended_compare_1a,
-			syntax_native_compare_1, syntax_native_compare_1a,
 			syntax_lambda_compare_1, syntax_lambda_compare_1a,
 			
 			compare_2,
@@ -92,11 +94,9 @@ pub mod exports {
 			values_compare_2, values_compare_2a,
 			procedure_primitive_compare_2, procedure_primitive_compare_2a,
 			procedure_extended_compare_2, procedure_extended_compare_2a,
-			procedure_native_compare_2, procedure_native_compare_2a,
 			procedure_lambda_compare_2, procedure_lambda_compare_2a,
 			syntax_primitive_compare_2, syntax_primitive_compare_2a,
 			syntax_extended_compare_2, syntax_extended_compare_2a,
-			syntax_native_compare_2, syntax_native_compare_2a,
 			syntax_lambda_compare_2, syntax_lambda_compare_2a,
 			
 			compare_3,
@@ -122,11 +122,9 @@ pub mod exports {
 			values_compare_3, values_compare_3a,
 			procedure_primitive_compare_3, procedure_primitive_compare_3a,
 			procedure_extended_compare_3, procedure_extended_compare_3a,
-			procedure_native_compare_3, procedure_native_compare_3a,
 			procedure_lambda_compare_3, procedure_lambda_compare_3a,
 			syntax_primitive_compare_3, syntax_primitive_compare_3a,
 			syntax_extended_compare_3, syntax_extended_compare_3a,
-			syntax_native_compare_3, syntax_native_compare_3a,
 			syntax_lambda_compare_3, syntax_lambda_compare_3a,
 			
 			compare_4,
@@ -152,11 +150,9 @@ pub mod exports {
 			values_compare_4, values_compare_4a,
 			procedure_primitive_compare_4, procedure_primitive_compare_4a,
 			procedure_extended_compare_4, procedure_extended_compare_4a,
-			procedure_native_compare_4, procedure_native_compare_4a,
 			procedure_lambda_compare_4, procedure_lambda_compare_4a,
 			syntax_primitive_compare_4, syntax_primitive_compare_4a,
 			syntax_extended_compare_4, syntax_extended_compare_4a,
-			syntax_native_compare_4, syntax_native_compare_4a,
 			syntax_lambda_compare_4, syntax_lambda_compare_4a,
 			
 			compare_n,
@@ -182,12 +178,31 @@ pub mod exports {
 			values_compare_n, values_compare_na,
 			procedure_primitive_compare_n, procedure_primitive_compare_na,
 			procedure_extended_compare_n, procedure_extended_compare_na,
-			procedure_native_compare_n, procedure_native_compare_na,
 			procedure_lambda_compare_n, procedure_lambda_compare_na,
 			syntax_primitive_compare_n, syntax_primitive_compare_na,
 			syntax_extended_compare_n, syntax_extended_compare_na,
-			syntax_native_compare_n, syntax_native_compare_na,
 			syntax_lambda_compare_n, syntax_lambda_compare_na,
+			
+	};
+	
+	
+	#[ cfg ( feature = "vonuvoli_values_native" ) ]
+	pub use super::{
+			
+			procedure_native_compare_1, procedure_native_compare_1a,
+			syntax_native_compare_1, syntax_native_compare_1a,
+			
+			procedure_native_compare_2, procedure_native_compare_2a,
+			syntax_native_compare_2, syntax_native_compare_2a,
+			
+			procedure_native_compare_3, procedure_native_compare_3a,
+			syntax_native_compare_3, syntax_native_compare_3a,
+			
+			procedure_native_compare_4, procedure_native_compare_4a,
+			syntax_native_compare_4, syntax_native_compare_4a,
+			
+			procedure_native_compare_n, procedure_native_compare_na,
+			syntax_native_compare_n, syntax_native_compare_na,
 			
 	};
 	
@@ -703,6 +718,7 @@ pub fn compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Co
 		ValueKindMatchAsRef::ProcedureExtended (value) =>
 			return procedure_extended_compare_1a (value, comparison),
 		
+		#[ cfg ( feature = "vonuvoli_values_native" ) ]
 		ValueKindMatchAsRef::ProcedureNative (value) =>
 			return procedure_native_compare_1a (value, comparison),
 		
@@ -715,6 +731,7 @@ pub fn compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Co
 		ValueKindMatchAsRef::SyntaxExtended (value) =>
 			return syntax_extended_compare_1a (value, comparison),
 		
+		#[ cfg ( feature = "vonuvoli_values_native" ) ]
 		ValueKindMatchAsRef::SyntaxNative (value) =>
 			return syntax_native_compare_1a (value, comparison),
 		
@@ -856,6 +873,7 @@ pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef
 		ValueKindMatchAsRef2::ProcedureExtended (left, right) =>
 			return procedure_extended_compare_2a (left, right, comparison),
 		
+		#[ cfg ( feature = "vonuvoli_values_native" ) ]
 		ValueKindMatchAsRef2::ProcedureNative (left, right) =>
 			return procedure_native_compare_2a (left, right, comparison),
 		
@@ -868,6 +886,7 @@ pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef
 		ValueKindMatchAsRef2::SyntaxExtended (left, right) =>
 			return syntax_extended_compare_2a (left, right, comparison),
 		
+		#[ cfg ( feature = "vonuvoli_values_native" ) ]
 		ValueKindMatchAsRef2::SyntaxNative (left, right) =>
 			return syntax_native_compare_2a (left, right, comparison),
 		
@@ -1716,15 +1735,18 @@ pub fn procedure_extended_compare_2a <ValueRef : StdAsRef<ProcedureExtended>> (l
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 def_fn_compare! (ProcedureNative,
 		procedure_native_compare_1, procedure_native_compare_2, procedure_native_compare_3, procedure_native_compare_4, procedure_native_compare_n,
 		procedure_native_compare_1a, procedure_native_compare_2a, procedure_native_compare_3a, procedure_native_compare_4a, procedure_native_compare_na);
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_native_compare_1a <ValueRef : StdAsRef<ProcedureNative>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_native_compare_2a <ValueRef : StdAsRef<ProcedureNative>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
@@ -1799,15 +1821,18 @@ pub fn syntax_extended_compare_2a <ValueRef : StdAsRef<SyntaxExtended>> (left : 
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 def_fn_compare! (SyntaxNative,
 		syntax_native_compare_1, syntax_native_compare_2, syntax_native_compare_3, syntax_native_compare_4, syntax_native_compare_n,
 		syntax_native_compare_1a, syntax_native_compare_2a, syntax_native_compare_3a, syntax_native_compare_4a, syntax_native_compare_na);
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn syntax_native_compare_1a <ValueRef : StdAsRef<SyntaxNative>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn syntax_native_compare_2a <ValueRef : StdAsRef<SyntaxNative>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();

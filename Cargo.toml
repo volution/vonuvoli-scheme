@@ -153,12 +153,14 @@ vonuvoli_values_all = [
 	"vonuvoli_values_unique",
 	"vonuvoli_values_contexts",
 	"vonuvoli_values_opaque",
+	"vonuvoli_values_native",
 ]
 vonuvoli_values_error = []
 vonuvoli_values_keyword = []
 vonuvoli_values_unique = []
 vonuvoli_values_contexts = []
 vonuvoli_values_opaque = []
+vonuvoli_values_native = []
 
 vonuvoli_builtins_all = [
 	"vonuvoli_builtins_parameters",
@@ -187,6 +189,7 @@ vonuvoli_builtins_processes = [
 	"vonuvoli_builtins_ports",
 ]
 vonuvoli_builtins_crypto = [
+	"vonuvoli_values_native",
 	"ring",
 	"digest",
 	"sha-1",
@@ -196,9 +199,11 @@ vonuvoli_builtins_crypto = [
 	"blake2",
 ]
 vonuvoli_builtins_random = [
+	"vonuvoli_values_native",
 	"rand",
 ]
 vonuvoli_builtins_encoding = [
+	"vonuvoli_values_native",
 	"data-encoding",
 ]
 

@@ -129,6 +129,7 @@ impl Optimizer {
 				return self.optimize_for_procedure_extended_call (optimization, expression),
 			Expression::ProcedureLambdaCall (expression) =>
 				return self.optimize_for_procedure_lambda_call (optimization, expression),
+			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			Expression::ProcedureNativeCall (expression) =>
 				return self.optimize_for_procedure_native_call (optimization, expression),
 			
@@ -300,6 +301,7 @@ impl Optimizer {
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	fn optimize_for_procedure_native_call (&self, optimization : OptimizerContext, expression : ExpressionForProcedureNativeCall) -> (Outcome<(OptimizerContext, Expression)>) {
 		match expression {
 			
@@ -1115,6 +1117,7 @@ impl Optimizer {
 					return self.optimize_procedure_primitive (optimization, callable.expect_into_0 (), inputs),
 				ValueKind::ProcedureExtended =>
 					return self.optimize_procedure_extended (optimization, callable.expect_into_0 (), inputs),
+				#[ cfg ( feature = "vonuvoli_values_native" ) ]
 				ValueKind::ProcedureNative =>
 					return self.optimize_procedure_native_g (optimization, callable.expect_into_0 (), inputs),
 				ValueKind::ProcedureLambda =>
@@ -1194,6 +1197,7 @@ impl Optimizer {
 					},
 				ValueKind::ProcedureExtended =>
 					return self.optimize_procedure_extended_0 (optimization, callable.expect_into_0 ()),
+				#[ cfg ( feature = "vonuvoli_values_native" ) ]
 				ValueKind::ProcedureNative =>
 					return self.optimize_procedure_native_g (optimization, callable.expect_into_0 (), StdBox::new ([])),
 				ValueKind::ProcedureLambda =>
@@ -1231,6 +1235,7 @@ impl Optimizer {
 					},
 				ValueKind::ProcedureExtended =>
 					return self.optimize_procedure_extended_1 (optimization, callable.expect_into_0 (), input_1),
+				#[ cfg ( feature = "vonuvoli_values_native" ) ]
 				ValueKind::ProcedureNative =>
 					return self.optimize_procedure_native_g (optimization, callable.expect_into_0 (), StdBox::new ([input_1])),
 				ValueKind::ProcedureLambda =>
@@ -1269,6 +1274,7 @@ impl Optimizer {
 					},
 				ValueKind::ProcedureExtended =>
 					return self.optimize_procedure_extended_2 (optimization, callable.expect_into_0 (), input_1, input_2),
+				#[ cfg ( feature = "vonuvoli_values_native" ) ]
 				ValueKind::ProcedureNative =>
 					return self.optimize_procedure_native_g (optimization, callable.expect_into_0 (), StdBox::new ([input_1, input_2])),
 				ValueKind::ProcedureLambda =>
@@ -1308,6 +1314,7 @@ impl Optimizer {
 					},
 				ValueKind::ProcedureExtended =>
 					return self.optimize_procedure_extended_3 (optimization, callable.expect_into_0 (), input_1, input_2, input_3),
+				#[ cfg ( feature = "vonuvoli_values_native" ) ]
 				ValueKind::ProcedureNative =>
 					return self.optimize_procedure_native_g (optimization, callable.expect_into_0 (), StdBox::new ([input_1, input_2, input_3])),
 				ValueKind::ProcedureLambda =>
@@ -1348,6 +1355,7 @@ impl Optimizer {
 					},
 				ValueKind::ProcedureExtended =>
 					return self.optimize_procedure_extended_4 (optimization, callable.expect_into_0 (), input_1, input_2, input_3, input_4),
+				#[ cfg ( feature = "vonuvoli_values_native" ) ]
 				ValueKind::ProcedureNative =>
 					return self.optimize_procedure_native_g (optimization, callable.expect_into_0 (), StdBox::new ([input_1, input_2, input_3, input_4])),
 				ValueKind::ProcedureLambda =>
@@ -1389,6 +1397,7 @@ impl Optimizer {
 					},
 				ValueKind::ProcedureExtended =>
 					return self.optimize_procedure_extended_5 (optimization, callable.expect_into_0 (), input_1, input_2, input_3, input_4, input_5),
+				#[ cfg ( feature = "vonuvoli_values_native" ) ]
 				ValueKind::ProcedureNative =>
 					return self.optimize_procedure_native_g (optimization, callable.expect_into_0 (), StdBox::new ([input_1, input_2, input_3, input_4, input_5])),
 				ValueKind::ProcedureLambda =>
@@ -1427,6 +1436,7 @@ impl Optimizer {
 					},
 				ValueKind::ProcedureExtended =>
 					return self.optimize_procedure_extended_n (optimization, callable.expect_into_0 (), inputs),
+				#[ cfg ( feature = "vonuvoli_values_native" ) ]
 				ValueKind::ProcedureNative =>
 					return self.optimize_procedure_native_g (optimization, callable.expect_into_0 (), inputs),
 				ValueKind::ProcedureLambda =>
@@ -1469,6 +1479,7 @@ impl Optimizer {
 				(),
 			ExpressionProcedureCallCallableRef::Extended (_) =>
 				(),
+			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ExpressionProcedureCallCallableRef::Native (_) =>
 				(),
 			ExpressionProcedureCallCallableRef::Lambda (_) =>
@@ -1895,11 +1906,13 @@ impl Optimizer {
 	
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	fn optimize_procedure_native_g (&self, optimization : OptimizerContext, native : ProcedureNative, inputs : StdBox<[Expression]>) -> (Outcome<(OptimizerContext, Expression)>) {
 		let native = native.internals_into ();
 		return self.optimize_procedure_native_g_0 (optimization, native, inputs);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	fn optimize_procedure_native_g_0 (&self, optimization : OptimizerContext, native : ProcedureNativeInternals, inputs : StdBox<[Expression]>) -> (Outcome<(OptimizerContext, Expression)>) {
 		let inputs_count = inputs.len ();
 		match native {
@@ -2036,12 +2049,14 @@ impl Optimizer {
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	fn optimize_procedure_native_0 (&self, optimization : OptimizerContext, native : ProcedureNative0) -> (Outcome<(OptimizerContext, Expression)>) {
 		let expression = ExpressionForProcedureNativeCall::ProcedureNativeCall0 (native) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	fn optimize_procedure_native_0e (&self, optimization : OptimizerContext, native : ProcedureNative0E) -> (Outcome<(OptimizerContext, Expression)>) {
 		let expression = ExpressionForProcedureNativeCall::ProcedureNativeCall0E (native) .into ();
 		let attributes = None;
@@ -2049,6 +2064,7 @@ impl Optimizer {
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	fn optimize_procedure_native_1 (&self, optimization : OptimizerContext, native : ProcedureNative1, input_1 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
 		let expression = ExpressionForProcedureNativeCall::ProcedureNativeCall1 (native, input_1.into ()) .into ();
@@ -2056,6 +2072,7 @@ impl Optimizer {
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	fn optimize_procedure_native_1e (&self, optimization : OptimizerContext, native : ProcedureNative1E, input_1 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
 		let expression = ExpressionForProcedureNativeCall::ProcedureNativeCall1E (native, input_1.into ()) .into ();
@@ -2064,6 +2081,7 @@ impl Optimizer {
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	fn optimize_procedure_native_2 (&self, optimization : OptimizerContext, native : ProcedureNative2, input_1 : Expression, input_2 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
 		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
@@ -2072,6 +2090,7 @@ impl Optimizer {
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	fn optimize_procedure_native_2e (&self, optimization : OptimizerContext, native : ProcedureNative2E, input_1 : Expression, input_2 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
 		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
@@ -2081,6 +2100,7 @@ impl Optimizer {
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	fn optimize_procedure_native_3 (&self, optimization : OptimizerContext, native : ProcedureNative3, input_1 : Expression, input_2 : Expression, input_3 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
 		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
@@ -2090,6 +2110,7 @@ impl Optimizer {
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	fn optimize_procedure_native_3e (&self, optimization : OptimizerContext, native : ProcedureNative3E, input_1 : Expression, input_2 : Expression, input_3 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
 		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
@@ -2100,6 +2121,7 @@ impl Optimizer {
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	fn optimize_procedure_native_4 (&self, optimization : OptimizerContext, native : ProcedureNative4, input_1 : Expression, input_2 : Expression, input_3 : Expression, input_4 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
 		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
@@ -2110,6 +2132,7 @@ impl Optimizer {
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	fn optimize_procedure_native_4e (&self, optimization : OptimizerContext, native : ProcedureNative4E, input_1 : Expression, input_2 : Expression, input_3 : Expression, input_4 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
 		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
@@ -2121,6 +2144,7 @@ impl Optimizer {
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	fn optimize_procedure_native_5 (&self, optimization : OptimizerContext, native : ProcedureNative5, input_1 : Expression, input_2 : Expression, input_3 : Expression, input_4 : Expression, input_5 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
 		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
@@ -2132,6 +2156,7 @@ impl Optimizer {
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	fn optimize_procedure_native_5e (&self, optimization : OptimizerContext, native : ProcedureNative5E, input_1 : Expression, input_2 : Expression, input_3 : Expression, input_4 : Expression, input_5 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
 		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
@@ -2144,6 +2169,7 @@ impl Optimizer {
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	fn optimize_procedure_native_n (&self, optimization : OptimizerContext, native : ProcedureNativeN, inputs : StdBox<[Expression]>) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, inputs) = try! (self.optimize_0_slice (optimization, inputs));
 		let expression = ExpressionForProcedureNativeCall::ProcedureNativeCallN (native, inputs) .into ();
@@ -2151,6 +2177,7 @@ impl Optimizer {
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	fn optimize_procedure_native_ne (&self, optimization : OptimizerContext, native : ProcedureNativeNE, inputs : StdBox<[Expression]>) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, inputs) = try! (self.optimize_0_slice (optimization, inputs));
 		let expression = ExpressionForProcedureNativeCall::ProcedureNativeCallNE (native, inputs) .into ();
@@ -2456,6 +2483,7 @@ impl Optimizer {
 					
 				},
 			
+			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			Expression::ProcedureNativeCall (ref expression) =>
 				match *expression {
 					
@@ -2782,6 +2810,7 @@ impl Optimizer {
 					
 				},
 			
+			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			Expression::ProcedureNativeCall (ref expression) =>
 				match *expression {
 					
@@ -2995,6 +3024,7 @@ impl Optimizer {
 					
 				},
 			
+			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			Expression::ProcedureNativeCall (ref expression) =>
 				match *expression {
 					
@@ -3128,6 +3158,7 @@ pub(crate) enum ExpressionProcedureCallCallableRef <'a> {
 	Expression (&'a Expression),
 	Primitive (ProcedurePrimitive),
 	Extended (&'a ProcedureExtendedInternals),
+	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	Native (ProcedureNativeInternals),
 	Lambda (&'a LambdaInternals),
 	
