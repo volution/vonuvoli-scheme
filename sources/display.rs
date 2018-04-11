@@ -5,9 +5,11 @@ use super::contexts::exports::*;
 use super::lambdas::exports::*;
 use super::native_procedures::exports::*;
 use super::native_syntaxes::exports::*;
-use super::parameters::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
+
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
+use super::parameters::exports::*;
 
 use super::prelude::*;
 
@@ -78,7 +80,9 @@ impl fmt::Display for Value {
 			
 			ValueKindMatchAsRef::Context (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::Binding (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			ValueKindMatchAsRef::Parameters (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			ValueKindMatchAsRef::Parameter (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::Promise (self_0) => self_0.fmt (formatter),
 			
@@ -152,7 +156,9 @@ impl fmt::Debug for Value {
 			
 			ValueKindMatchAsRef::Context (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::Binding (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			ValueKindMatchAsRef::Parameters (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			ValueKindMatchAsRef::Parameter (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::Promise (self_0) => self_0.fmt (formatter),
 			
@@ -1346,6 +1352,7 @@ impl fmt::Debug for Binding {
 
 
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 impl fmt::Display for Parameters {
 	
 	#[ inline (never) ]
@@ -1355,6 +1362,7 @@ impl fmt::Display for Parameters {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 impl fmt::Debug for Parameters {
 	
 	#[ inline (never) ]
@@ -1373,6 +1381,7 @@ impl fmt::Debug for Parameters {
 
 
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 impl fmt::Display for Parameter {
 	
 	#[ inline (never) ]
@@ -1386,6 +1395,7 @@ impl fmt::Display for Parameter {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 impl fmt::Debug for Parameter {
 	
 	#[ inline (never) ]

@@ -194,6 +194,7 @@ pub(crate) mod languages_r7rs;
 pub(crate) mod native_procedures;
 pub(crate) mod native_syntaxes;
 pub(crate) mod ordering;
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 pub(crate) mod parameters;
 pub(crate) mod parser;
 #[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
@@ -312,6 +313,7 @@ pub mod internals {
 	pub use super::languages_r7rs::exports as languages_r7rs;
 	pub use super::native_procedures::exports as native_procedures;
 	pub use super::native_syntaxes::exports as native_syntaxes;
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	pub use super::parameters::exports as parameters;
 	pub use super::parser::exports as parser;
 	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
@@ -401,6 +403,7 @@ pub mod exports {
 	pub use super::languages::exports::*;
 	pub use super::native_procedures::exports::*;
 	pub use super::native_syntaxes::exports::*;
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	pub use super::parameters::exports::*;
 	pub use super::parser::exports::*;
 	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]

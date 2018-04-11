@@ -4,10 +4,14 @@ use super::builtins::exports::*;
 use super::conversions::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
-use super::parameters::exports::*;
 use super::processes::exports::*;
-use super::runtime::exports::*;
 use super::values::exports::*;
+
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
+use super::runtime::exports::*;
+
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
+use super::parameters::exports::*;
 
 use super::prelude::*;
 
@@ -33,6 +37,7 @@ pub mod exports {
 		
 	};
 	
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	pub use super::{
 		
 		PROCESS_PARAMETER_ENVIRONMENT_EMPTY_HANDLE_VALUE, PROCESS_PARAMETER_ENVIRONMENT_EMPTY_HANDLE, PROCESS_PARAMETER_ENVIRONMENT_EMPTY_UNIQUE,
@@ -176,10 +181,24 @@ pub fn process_configure (executable : ffi::OsString, arguments : Option<StdBox<
 	}
 	
 	let argument0 = option_argument0;
+	
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	let working_directory = try! (parameter_resolve_value (option_working_directory, &PROCESS_PARAMETER_WORKING_DIRECTORY_UNIQUE, evaluator));
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	let environment_empty = try! (parameter_resolve_value (option_environment_empty, &PROCESS_PARAMETER_ENVIRONMENT_EMPTY_UNIQUE, evaluator));
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	let environment_include = try! (parameter_resolve_value (option_environment_include, &PROCESS_PARAMETER_ENVIRONMENT_INCLUDE_UNIQUE, evaluator));
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	let environment_exclude = try! (parameter_resolve_value (option_environment_exclude, &PROCESS_PARAMETER_ENVIRONMENT_EXCLUDE_UNIQUE, evaluator));
+	
+	#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
+	let working_directory = option_working_directory;
+	#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
+	let environment_empty = option_environment_empty;
+	#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
+	let environment_include = option_environment_include;
+	#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
+	let environment_exclude = option_environment_exclude;
 	
 	let argument0 = try! (os_string_clone_coerce_option (argument0.as_ref ()));
 	let working_directory = try! (os_string_clone_coerce_option (working_directory.as_ref ()));
@@ -203,9 +222,19 @@ pub fn process_configure (executable : ffi::OsString, arguments : Option<StdBox<
 			succeeded! (name) as Outcome<ffi::OsString>
 		}) .into_boxed_slice ());
 	
-	let configuration_stdin = try! (process_configure_stream_0 (option_stdin, Some (ProcessConfigurationStream::Null), &PROCESS_PARAMETER_STDIN_UNIQUE, evaluator));
-	let configuration_stdout = try! (process_configure_stream_0 (option_stdout, Some (ProcessConfigurationStream::Null), &PROCESS_PARAMETER_STDOUT_UNIQUE, evaluator));
-	let configuration_stderr = try! (process_configure_stream_0 (option_stderr, Some (ProcessConfigurationStream::Inherited), &PROCESS_PARAMETER_STDERR_UNIQUE, evaluator));
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
+	let configuration_stdin = try! (process_configure_stream_0 (option_stdin, Some (ProcessConfigurationStream::Null), Some (&PROCESS_PARAMETER_STDIN_UNIQUE), evaluator));
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
+	let configuration_stdout = try! (process_configure_stream_0 (option_stdout, Some (ProcessConfigurationStream::Null), Some (&PROCESS_PARAMETER_STDOUT_UNIQUE), evaluator));
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
+	let configuration_stderr = try! (process_configure_stream_0 (option_stderr, Some (ProcessConfigurationStream::Inherited), Some (&PROCESS_PARAMETER_STDERR_UNIQUE), evaluator));
+	
+	#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
+	let configuration_stdin = try! (process_configure_stream_0 (option_stdin, Some (ProcessConfigurationStream::Null), None, evaluator));
+	#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
+	let configuration_stdout = try! (process_configure_stream_0 (option_stdout, Some (ProcessConfigurationStream::Null), None, evaluator));
+	#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
+	let configuration_stderr = try! (process_configure_stream_0 (option_stderr, Some (ProcessConfigurationStream::Inherited), None, evaluator));
 	
 	let configuration = ProcessConfiguration {
 			executable :  executable,
@@ -250,8 +279,18 @@ pub fn process_configure_stream (option : Value, _evaluator : &mut Option<&mut E
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn process_configure_stream_0 (option : Option<Value>, default : Option<ProcessConfigurationStream>, parameter : &UniqueData, evaluator : &mut Option<&mut EvaluatorContext>) -> (Outcome<Option<ProcessConfigurationStream>>) {
-	let value = try! (parameter_resolve_value (option, parameter, evaluator));
+fn process_configure_stream_0 (option : Option<Value>, default : Option<ProcessConfigurationStream>, parameter : Option<&UniqueData>, evaluator : &mut Option<&mut EvaluatorContext>) -> (Outcome<Option<ProcessConfigurationStream>>) {
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
+	let value = if let Some (parameter) = parameter {
+		try! (parameter_resolve_value (option, parameter, evaluator))
+	} else {
+		None
+	};
+	#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
+	let value = {
+		let _parameter = parameter;
+		option
+	};
 	if let Some (value) = value {
 		succeed! (Some (try! (process_configure_stream (value, evaluator))));
 	} else if let Some (default) = default {
@@ -339,31 +378,52 @@ pub fn process_stderr_get (process : &Value) -> (Outcome<Value>) {
 
 
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 pub const PROCESS_PARAMETER_ENVIRONMENT_EMPTY_HANDLE_VALUE : u32 = 0xc1bbf12d;
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 pub const PROCESS_PARAMETER_ENVIRONMENT_EMPTY_HANDLE : Handle = Handle::for_builtin (PROCESS_PARAMETER_ENVIRONMENT_EMPTY_HANDLE_VALUE);
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 pub const PROCESS_PARAMETER_ENVIRONMENT_EMPTY_UNIQUE : UniqueData = UniqueData::for_parameter_builtin (PROCESS_PARAMETER_ENVIRONMENT_EMPTY_HANDLE_VALUE);
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 pub const PROCESS_PARAMETER_ENVIRONMENT_INCLUDE_HANDLE_VALUE : u32 = 0xa9d0d6c4;
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 pub const PROCESS_PARAMETER_ENVIRONMENT_INCLUDE_HANDLE : Handle = Handle::for_builtin (PROCESS_PARAMETER_ENVIRONMENT_INCLUDE_HANDLE_VALUE);
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 pub const PROCESS_PARAMETER_ENVIRONMENT_INCLUDE_UNIQUE : UniqueData = UniqueData::for_parameter_builtin (PROCESS_PARAMETER_ENVIRONMENT_INCLUDE_HANDLE_VALUE);
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 pub const PROCESS_PARAMETER_ENVIRONMENT_EXCLUDE_HANDLE_VALUE : u32 = 0x1d10c0c4;
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 pub const PROCESS_PARAMETER_ENVIRONMENT_EXCLUDE_HANDLE : Handle = Handle::for_builtin (PROCESS_PARAMETER_ENVIRONMENT_EXCLUDE_HANDLE_VALUE);
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 pub const PROCESS_PARAMETER_ENVIRONMENT_EXCLUDE_UNIQUE : UniqueData = UniqueData::for_parameter_builtin (PROCESS_PARAMETER_ENVIRONMENT_EXCLUDE_HANDLE_VALUE);
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 pub const PROCESS_PARAMETER_WORKING_DIRECTORY_HANDLE_VALUE : u32 = 0x59078131;
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 pub const PROCESS_PARAMETER_WORKING_DIRECTORY_HANDLE : Handle = Handle::for_builtin (PROCESS_PARAMETER_WORKING_DIRECTORY_HANDLE_VALUE);
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 pub const PROCESS_PARAMETER_WORKING_DIRECTORY_UNIQUE : UniqueData = UniqueData::for_parameter_builtin (PROCESS_PARAMETER_WORKING_DIRECTORY_HANDLE_VALUE);
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 pub const PROCESS_PARAMETER_STDIN_HANDLE_VALUE : u32 = 0xade85184;
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 pub const PROCESS_PARAMETER_STDIN_HANDLE : Handle = Handle::for_builtin (PROCESS_PARAMETER_STDIN_HANDLE_VALUE);
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 pub const PROCESS_PARAMETER_STDIN_UNIQUE : UniqueData = UniqueData::for_parameter_builtin (PROCESS_PARAMETER_STDIN_HANDLE_VALUE);
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 pub const PROCESS_PARAMETER_STDOUT_HANDLE_VALUE : u32 = 0xb2c1af1e;
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 pub const PROCESS_PARAMETER_STDOUT_HANDLE : Handle = Handle::for_builtin (PROCESS_PARAMETER_STDOUT_HANDLE_VALUE);
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 pub const PROCESS_PARAMETER_STDOUT_UNIQUE : UniqueData = UniqueData::for_parameter_builtin (PROCESS_PARAMETER_STDOUT_HANDLE_VALUE);
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 pub const PROCESS_PARAMETER_STDERR_HANDLE_VALUE : u32 = 0x75d7d8fa;
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 pub const PROCESS_PARAMETER_STDERR_HANDLE : Handle = Handle::for_builtin (PROCESS_PARAMETER_STDERR_HANDLE_VALUE);
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 pub const PROCESS_PARAMETER_STDERR_UNIQUE : UniqueData = UniqueData::for_parameter_builtin (PROCESS_PARAMETER_STDERR_HANDLE_VALUE);
 

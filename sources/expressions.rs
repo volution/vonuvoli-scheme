@@ -165,6 +165,7 @@ pub enum ExpressionForContexts {
 	RegisterSetValues ( StdBox<[usize]>, ExpressionBox ),
 	RegisterGet1 ( usize ),
 	
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	ParameterClosure ( ExpressionBox ),
 	
 }

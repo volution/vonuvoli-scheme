@@ -120,7 +120,9 @@ impl <'a> ValueKindMatchAsRef2<'a> {
 			
 			ValueKindMatchAsRef2::Context (self_0, other_0) => Some (Context::eq (self_0, other_0)),
 			ValueKindMatchAsRef2::Binding (self_0, other_0) => Some (Binding::eq (self_0, other_0)),
+			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			ValueKindMatchAsRef2::Parameters (self_0, other_0) => Some (Parameters::eq (self_0, other_0)),
+			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			ValueKindMatchAsRef2::Parameter (self_0, other_0) => Some (Parameter::eq (self_0, other_0)),
 			ValueKindMatchAsRef2::Promise (self_0, other_0) => Some (Promise::eq (self_0, other_0)),
 			
@@ -196,7 +198,9 @@ impl <'a> ValueKindMatchAsRef2<'a> {
 			
 			ValueKindMatchAsRef2::Context (self_0, other_0) => Some (Context::cmp (self_0, other_0)),
 			ValueKindMatchAsRef2::Binding (self_0, other_0) => Some (Binding::cmp (self_0, other_0)),
+			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			ValueKindMatchAsRef2::Parameters (self_0, other_0) => Some (Parameters::cmp (self_0, other_0)),
+			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			ValueKindMatchAsRef2::Parameter (self_0, other_0) => Some (Parameter::cmp (self_0, other_0)),
 			ValueKindMatchAsRef2::Promise (self_0, other_0) => Some (Promise::cmp (self_0, other_0)),
 			
@@ -1293,8 +1297,10 @@ impl cmp::PartialOrd for Binding {
 
 
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 impl cmp::Eq for Parameters {}
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 impl cmp::PartialEq for Parameters {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1305,6 +1311,7 @@ impl cmp::PartialEq for Parameters {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 impl cmp::Ord for Parameters {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1315,6 +1322,7 @@ impl cmp::Ord for Parameters {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 impl cmp::PartialOrd for Parameters {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1326,8 +1334,10 @@ impl cmp::PartialOrd for Parameters {
 
 
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 impl cmp::Eq for Parameter {}
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 impl cmp::PartialEq for Parameter {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1338,6 +1348,7 @@ impl cmp::PartialEq for Parameter {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 impl cmp::Ord for Parameter {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1348,6 +1359,7 @@ impl cmp::Ord for Parameter {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 impl cmp::PartialOrd for Parameter {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

@@ -383,6 +383,7 @@ impl Compiler {
 					SyntaxPrimitiveV::LetValuesSequential =>
 						return self.compile_syntax_let_values (compilation, syntax, tokens),
 					
+					#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 					SyntaxPrimitiveV::LetParameters =>
 						return self.compile_syntax_let_parameters (compilation, tokens),
 					
@@ -1152,6 +1153,7 @@ impl Compiler {
 	
 	
 	
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	fn compile_syntax_let_parameters (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		if tokens.len () < 2 {

@@ -36,6 +36,12 @@ pub mod exports {
 
 
 
+#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
+type Parameters = !;
+
+
+
+
 #[ derive (Clone, Debug) ]
 pub struct TestCase {
 	pub expression : Value,
@@ -101,8 +107,15 @@ pub fn compile_tests (identifier : &str, tests : &StdVec<TestCase>, context_temp
 	};
 	let (context_without_optimizations, context_with_optimizations) = (context_template.fork (), context_template.fork ());
 	
-	let parameters_without_optimization = Parameters::new_empty ();
-	let parameters_with_optimization = Parameters::new_empty ();
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
+	let parameters_without_optimization = Some (Parameters::new_empty ());
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
+	let parameters_with_optimization = Some (Parameters::new_empty ());
+	
+	#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
+	let parameters_without_optimization = None;
+	#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
+	let parameters_with_optimization = None;
 	
 	let tests = vec_filter_into! (tests.clone (), test,
 		match test.action {
@@ -110,7 +123,7 @@ pub fn compile_tests (identifier : &str, tests : &StdVec<TestCase>, context_temp
 			_ => true
 		});
 	
-	let tests = try_vec_map_into! (tests, test, compile_test (&test, &context_without_optimizations, &context_with_optimizations, &parameters_without_optimization, &parameters_with_optimization, transcript_backend, verbosity));
+	let tests = try_vec_map_into! (tests, test, compile_test (&test, &context_without_optimizations, &context_with_optimizations, parameters_without_optimization.as_ref (), parameters_with_optimization.as_ref (), transcript_backend, verbosity));
 	
 	succeed! (tests);
 }
@@ -192,8 +205,12 @@ pub fn benchmark_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, be
 	let (summary_without_optimizations, memory_delta_without_optimizations) =
 			try! (benchmark_bencher_iterate (bencher, iterations_without_optimizations,
 					|| {
+						#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
+						let parameters = Some (Parameters::new_empty ());
+						#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
+						let parameters = None;
 						let evaluator = Evaluator::new ();
-						let mut evaluation = evaluator.fork (None, Some (Parameters::new_empty ()));
+						let mut evaluation = evaluator.fork (None, parameters);
 						for test in tests {
 							benchmark_test_without_optimizations (test, &mut evaluation) .expect ("68669f56");
 						}
@@ -202,8 +219,12 @@ pub fn benchmark_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, be
 	let (summary_with_optimizations, memory_delta_with_optimizations) =
 			try! (benchmark_bencher_iterate (bencher, iterations_with_optimizations,
 					|| {
+						#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
+						let parameters = Some (Parameters::new_empty ());
+						#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
+						let parameters = None;
 						let evaluator = Evaluator::new ();
-						let mut evaluation = evaluator.fork (None, Some (Parameters::new_empty ()));
+						let mut evaluation = evaluator.fork (None, parameters);
 						for test in tests {
 							benchmark_test_with_optimizations (test, &mut evaluation) .expect ("fffb0313");
 						}
@@ -337,7 +358,7 @@ fn benchmark_bencher_report (header : Option<&str>, prefix : &str, summary : &ex
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ allow (unused_assignments) ]
-pub fn compile_test (test : &TestCase, context_without_optimizations : &Context, context_with_optimizations : &Context, parameters_without_optimizations : &Parameters, parameters_with_optimizations : &Parameters, transcript_backend : &TranscriptBackend, verbosity_global : TestVerbosity) -> (Outcome<TestCaseCompiled>) {
+pub fn compile_test (test : &TestCase, context_without_optimizations : &Context, context_with_optimizations : &Context, parameters_without_optimizations : Option<&Parameters>, parameters_with_optimizations : Option<&Parameters>, transcript_backend : &TranscriptBackend, verbosity_global : TestVerbosity) -> (Outcome<TestCaseCompiled>) {
 	// TODO:  Why does the compiler think we are not using `header_emitted`?
 	
 	
@@ -433,8 +454,8 @@ pub fn compile_test (test : &TestCase, context_without_optimizations : &Context,
 			expression_with_optimizations,
 			context_without_optimizations : Some (context_without_optimizations.clone ()),
 			context_with_optimizations : Some (context_with_optimizations.clone ()),
-			parameters_without_optimizations : Some (parameters_without_optimizations.clone ()),
-			parameters_with_optimizations : Some (parameters_with_optimizations.clone ()),
+			parameters_without_optimizations : parameters_without_optimizations.cloned (),
+			parameters_with_optimizations : parameters_with_optimizations.cloned (),
 			action : test.action.clone (),
 			verbosity_without_optimizations,
 			verbosity_with_optimizations,
@@ -614,8 +635,6 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 				ValueKindMatchAsRef2::SyntaxLambda (_, _) |
 				ValueKindMatchAsRef2::Context (_, _) |
 				ValueKindMatchAsRef2::Binding (_, _) |
-				ValueKindMatchAsRef2::Parameters (_, _) |
-				ValueKindMatchAsRef2::Parameter (_, _) |
 				ValueKindMatchAsRef2::Promise (_, _) |
 				ValueKindMatchAsRef2::Opaque (_, _) =>
 					false,
@@ -623,6 +642,10 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 				ValueKindMatchAsRef2::RecordKind (_, _) |
 				ValueKindMatchAsRef2::RecordImmutable (_, _) |
 				ValueKindMatchAsRef2::RecordMutable (_, _) =>
+					false,
+				#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
+				ValueKindMatchAsRef2::Parameters (_, _) |
+				ValueKindMatchAsRef2::Parameter (_, _) =>
 					false,
 				#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 				ValueKindMatchAsRef2::Port (_, _) =>

@@ -1017,10 +1017,14 @@ def_value_try_into! (try_into_context, value_type! (Context));
 def_value_try_as_ref! (try_as_binding_ref, value_type! (Binding));
 def_value_try_into! (try_into_binding, value_type! (Binding));
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 def_value_try_as_ref! (try_as_parameters_ref, value_type! (Parameters));
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 def_value_try_into! (try_into_parameters, value_type! (Parameters));
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 def_value_try_as_ref! (try_as_parameter_ref, value_type! (Parameter));
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 def_value_try_into! (try_into_parameter, value_type! (Parameter));
 
 def_value_try_as_ref! (try_as_promise_ref, value_type! (Promise));

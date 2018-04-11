@@ -190,6 +190,7 @@ impl Optimizer {
 			ExpressionForContexts::RegisterGet1 (index) =>
 				return self.optimize_register_get_1 (optimization, index),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			ExpressionForContexts::ParameterClosure (expression) =>
 				return self.optimize_parameter_closure (optimization, *expression),
 			
@@ -1044,6 +1045,7 @@ impl Optimizer {
 	
 	
 	
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	fn optimize_parameter_closure (&self, optimization : OptimizerContext, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
 		let expression = ExpressionForContexts::ParameterClosure (expression.into ()) .into ();
@@ -2342,6 +2344,7 @@ impl Optimizer {
 					ExpressionForContexts::RegisterGet1 (_) =>
 						false,
 					
+					#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 					ExpressionForContexts::ParameterClosure (_) =>
 						false,
 					
@@ -2664,6 +2667,7 @@ impl Optimizer {
 					ExpressionForContexts::RegisterGet1 (_) =>
 						None,
 					
+					#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 					ExpressionForContexts::ParameterClosure (_) =>
 						None,
 					
@@ -2873,6 +2877,7 @@ impl Optimizer {
 					ExpressionForContexts::RegisterGet1 (_) =>
 						None,
 					
+					#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 					ExpressionForContexts::ParameterClosure (_) =>
 						None,
 					

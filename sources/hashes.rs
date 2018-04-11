@@ -74,7 +74,9 @@ impl hash::Hash for Value {
 			
 			ValueKindMatchAsRef::Context (self_0) => { hasher.write_u32 (0x04ef2744); self_0.hash (hasher); },
 			ValueKindMatchAsRef::Binding (self_0) => { hasher.write_u32 (0x8dd0b6ab); self_0.hash (hasher); },
+			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			ValueKindMatchAsRef::Parameters (self_0) => { hasher.write_u32 (0x84c616f7); self_0.hash (hasher); },
+			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			ValueKindMatchAsRef::Parameter (self_0) => { hasher.write_u32 (0x1937881d); self_0.hash (hasher); },
 			ValueKindMatchAsRef::Promise (self_0) => { hasher.write_u32 (0x34b0d53d); self_0.hash (hasher); },
 			ValueKindMatchAsRef::Opaque (self_0) => { hasher.write_u32 (0xc749410b); self_0.hash (hasher); },
@@ -387,6 +389,7 @@ impl hash::Hash for Binding {
 
 
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 impl hash::Hash for Parameters {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -396,6 +399,7 @@ impl hash::Hash for Parameters {
 }
 
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 impl hash::Hash for Parameter {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

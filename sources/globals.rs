@@ -10,7 +10,9 @@ pub(crate) mod exports {
 	pub(crate) use super::context_handles_next;
 	pub(crate) use super::registers_handles_next;
 	pub(crate) use super::binding_handles_next;
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	pub(crate) use super::parameters_handles_next;
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	pub(crate) use super::parameter_handles_next;
 	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	pub(crate) use super::record_handles_next;
@@ -75,6 +77,7 @@ pub(crate) fn binding_handles_next () -> (Handle) {
 
 
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 static mut PARAMETERS_HANDLES : PermutationCounter = PermutationCounter {
 		count : 0,
 		index : 0x7f678d4c,
@@ -82,6 +85,7 @@ static mut PARAMETERS_HANDLES : PermutationCounter = PermutationCounter {
 		initialized : false,
 	};
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub(crate) fn parameters_handles_next () -> (Handle) {
 	unsafe {
@@ -92,6 +96,7 @@ pub(crate) fn parameters_handles_next () -> (Handle) {
 
 
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 static mut PARAMETER_HANDLES : PermutationCounter = PermutationCounter {
 		count : 0,
 		index : 0x5ec9e479,
@@ -99,6 +104,7 @@ static mut PARAMETER_HANDLES : PermutationCounter = PermutationCounter {
 		initialized : false,
 	};
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub(crate) fn parameter_handles_next () -> (Handle) {
 	unsafe {

@@ -9,6 +9,7 @@ use super::values::exports::*;
 use super::builtins::exports::*;
 
 #[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 use super::parameters::exports::*;
 
 use super::prelude::*;
@@ -423,9 +424,13 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("display-line", PortPrimitiveV::ValueDisplayAndNewLine.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			("parameter?", TypePrimitiveV::IsParameter.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			("not-parameter?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsParameter) .into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			("parameter-ref", RuntimePrimitiveV::ParameterResolve.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			("parameter-set!", RuntimePrimitiveV::ParameterConfigure.into ()),
 			
 			("command-line-ref", RuntimePrimitive1::ProcessArgument.into ()),
@@ -665,12 +670,19 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("process-run", RuntimePrimitiveN::ProcessRunCheck.into ()),
 			("process-run-try", RuntimePrimitiveN::ProcessRunTry.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			("process-spawn:env-empty", Parameter::for_builtin (symbol_clone_str ("process-spawn:environment-empty"), PROCESS_PARAMETER_ENVIRONMENT_EMPTY_HANDLE_VALUE, false) .into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			("process-spawn:env-include", Parameter::for_builtin (symbol_clone_str ("process-spawn:environment-include"), PROCESS_PARAMETER_ENVIRONMENT_INCLUDE_HANDLE_VALUE, false) .into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			("process-spawn:env-exclude", Parameter::for_builtin (symbol_clone_str ("process-spawn:environment-exclude"), PROCESS_PARAMETER_ENVIRONMENT_EXCLUDE_HANDLE_VALUE, false) .into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			("process-spawn:directory", Parameter::for_builtin (symbol_clone_str ("process-spawn:working-directory"), PROCESS_PARAMETER_WORKING_DIRECTORY_HANDLE_VALUE, false) .into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			("process-spawn:stdin", Parameter::for_builtin (symbol_clone_str ("process-spawn:stdin"), PROCESS_PARAMETER_STDIN_HANDLE_VALUE, false) .into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			("process-spawn:stdout", Parameter::for_builtin (symbol_clone_str ("process-spawn:stdout"), PROCESS_PARAMETER_STDOUT_HANDLE_VALUE, false) .into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			("process-spawn:stderr", Parameter::for_builtin (symbol_clone_str ("process-spawn:stderr"), PROCESS_PARAMETER_STDERR_HANDLE_VALUE, false) .into ()),
 			
 			("process-stdin", RuntimePrimitive1::ProcessStdinGet.into ()),

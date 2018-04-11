@@ -60,6 +60,7 @@ pub enum SyntaxPrimitiveV {
 	LetRecursiveSequential,
 	LetValuesParallel,
 	LetValuesSequential,
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	LetParameters,
 	
 	Define,

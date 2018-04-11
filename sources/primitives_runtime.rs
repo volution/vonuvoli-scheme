@@ -55,6 +55,7 @@ pub mod exports {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum RuntimePrimitive0 {
 	
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	ParameterBuild,
 	
 	ProcessArgumentsAsList,
@@ -85,7 +86,9 @@ pub enum RuntimePrimitive1 {
 	ErrorArgumentsAsArray,
 	ErrorArgumentsAsValues,
 	
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	ParameterBuild,
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	ParameterResolve,
 	
 	TranscriptTraceCritical,
@@ -128,8 +131,11 @@ pub enum RuntimePrimitive2 {
 	ErrorRaise,
 	ErrorBuild,
 	
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	ParameterBuild,
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	ParameterResolve,
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	ParameterConfigure,
 	
 	TranscriptTraceCritical,
@@ -152,6 +158,7 @@ pub enum RuntimePrimitive3 {
 	ErrorRaise,
 	ErrorBuild,
 	
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	ParameterBuild,
 	
 	TranscriptTraceCritical,
@@ -232,8 +239,11 @@ pub enum RuntimePrimitiveV {
 	ErrorRaise,
 	ErrorBuild,
 	
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	ParameterBuild,
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	ParameterResolve,
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	ParameterConfigure,
 	
 	TranscriptTraceCritical,
@@ -259,6 +269,7 @@ pub enum RuntimePrimitiveV {
 pub fn runtime_primitive_0_evaluate (primitive : RuntimePrimitive0, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		RuntimePrimitive0::ParameterBuild =>
 			return parameter_build (None, None, None, None, evaluator) .into_0 (),
 		
@@ -320,9 +331,11 @@ pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, input_1 : &V
 		RuntimePrimitive1::ErrorArgumentsAsValues =>
 			return error_arguments_as_values (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		RuntimePrimitive1::ParameterBuild =>
 			return parameter_build (None, Some (input_1), None, None, evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		RuntimePrimitive1::ParameterResolve =>
 			return parameter_resolve (input_1, None, evaluator),
 		
@@ -403,12 +416,15 @@ pub fn runtime_primitive_2_evaluate (primitive : RuntimePrimitive2, input_1 : &V
 		RuntimePrimitive2::ErrorBuild =>
 			return error_build_1 (None, input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		RuntimePrimitive2::ParameterBuild =>
 			return parameter_build (None, Some (input_1), Some (input_2), None, evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		RuntimePrimitive2::ParameterResolve =>
 			return parameter_resolve (input_1, Some (input_2), evaluator),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		RuntimePrimitive2::ParameterConfigure =>
 			return parameter_configure (input_1, input_2, evaluator) .into_0 (),
 		
@@ -453,6 +469,7 @@ pub fn runtime_primitive_3_evaluate (primitive : RuntimePrimitive3, input_1 : &V
 		RuntimePrimitive3::ErrorBuild =>
 			return error_build_2 (None, input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		RuntimePrimitive3::ParameterBuild =>
 			return parameter_build (None, Some (input_1), Some (input_2), Some (try_as_boolean_ref! (input_3) .value ()), evaluator) .into_0 (),
 		
@@ -621,10 +638,13 @@ pub fn runtime_primitive_v_alternative_0 (primitive : RuntimePrimitiveV) -> (Opt
 			None,
 		RuntimePrimitiveV::ErrorBuild =>
 			None,
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		RuntimePrimitiveV::ParameterBuild =>
 			Some (RuntimePrimitive0::ParameterBuild),
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		RuntimePrimitiveV::ParameterResolve =>
 			None,
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		RuntimePrimitiveV::ParameterConfigure =>
 			None,
 		RuntimePrimitiveV::TranscriptTraceCritical =>
@@ -661,10 +681,13 @@ pub fn runtime_primitive_v_alternative_1 (primitive : RuntimePrimitiveV) -> (Opt
 			Some (RuntimePrimitive1::ErrorRaise),
 		RuntimePrimitiveV::ErrorBuild =>
 			Some (RuntimePrimitive1::ErrorBuild),
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		RuntimePrimitiveV::ParameterBuild =>
 			Some (RuntimePrimitive1::ParameterBuild),
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		RuntimePrimitiveV::ParameterResolve =>
 			Some (RuntimePrimitive1::ParameterResolve),
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		RuntimePrimitiveV::ParameterConfigure =>
 			None,
 		RuntimePrimitiveV::TranscriptTraceCritical =>
@@ -701,10 +724,13 @@ pub fn runtime_primitive_v_alternative_2 (primitive : RuntimePrimitiveV) -> (Opt
 			Some (RuntimePrimitive2::ErrorRaise),
 		RuntimePrimitiveV::ErrorBuild =>
 			Some (RuntimePrimitive2::ErrorBuild),
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		RuntimePrimitiveV::ParameterBuild =>
 			Some (RuntimePrimitive2::ParameterBuild),
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		RuntimePrimitiveV::ParameterResolve =>
 			Some (RuntimePrimitive2::ParameterResolve),
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		RuntimePrimitiveV::ParameterConfigure =>
 			Some (RuntimePrimitive2::ParameterConfigure),
 		RuntimePrimitiveV::TranscriptTraceCritical =>
@@ -741,10 +767,13 @@ pub fn runtime_primitive_v_alternative_3 (primitive : RuntimePrimitiveV) -> (Opt
 			Some (RuntimePrimitive3::ErrorRaise),
 		RuntimePrimitiveV::ErrorBuild =>
 			Some (RuntimePrimitive3::ErrorBuild),
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		RuntimePrimitiveV::ParameterBuild =>
 			Some (RuntimePrimitive3::ParameterBuild),
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		RuntimePrimitiveV::ParameterResolve =>
 			None,
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		RuntimePrimitiveV::ParameterConfigure =>
 			None,
 		RuntimePrimitiveV::TranscriptTraceCritical =>
@@ -781,10 +810,13 @@ pub fn runtime_primitive_v_alternative_4 (primitive : RuntimePrimitiveV) -> (Opt
 			Some (RuntimePrimitive4::ErrorRaise),
 		RuntimePrimitiveV::ErrorBuild =>
 			Some (RuntimePrimitive4::ErrorBuild),
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		RuntimePrimitiveV::ParameterBuild =>
 			None,
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		RuntimePrimitiveV::ParameterResolve =>
 			None,
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		RuntimePrimitiveV::ParameterConfigure =>
 			None,
 		RuntimePrimitiveV::TranscriptTraceCritical =>
@@ -821,10 +853,13 @@ pub fn runtime_primitive_v_alternative_5 (primitive : RuntimePrimitiveV) -> (Opt
 			Some (RuntimePrimitive5::ErrorRaise),
 		RuntimePrimitiveV::ErrorBuild =>
 			Some (RuntimePrimitive5::ErrorBuild),
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		RuntimePrimitiveV::ParameterBuild =>
 			None,
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		RuntimePrimitiveV::ParameterResolve =>
 			None,
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		RuntimePrimitiveV::ParameterConfigure =>
 			None,
 		RuntimePrimitiveV::TranscriptTraceCritical =>
@@ -861,10 +896,13 @@ pub fn runtime_primitive_v_alternative_n (primitive : RuntimePrimitiveV) -> (Opt
 			Some (RuntimePrimitiveN::ErrorRaise),
 		RuntimePrimitiveV::ErrorBuild =>
 			Some (RuntimePrimitiveN::ErrorBuild),
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		RuntimePrimitiveV::ParameterBuild =>
 			None,
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		RuntimePrimitiveV::ParameterResolve =>
 			None,
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		RuntimePrimitiveV::ParameterConfigure =>
 			None,
 		RuntimePrimitiveV::TranscriptTraceCritical =>

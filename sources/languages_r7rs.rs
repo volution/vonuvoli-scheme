@@ -113,7 +113,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "modules", "include-ci", SyntaxPrimitive::Unsupported.into ()),
 			("base", "modules", "cond-expand", SyntaxPrimitive::Unsupported.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			("base", "parameters", "parameterize", SyntaxPrimitiveV::LetParameters.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			("base", "parameters", "make-parameter", RuntimePrimitiveV::ParameterBuild.into ()),
 			
 			("base", "syntaxes", "syntax-error", SyntaxPrimitive::Unsupported.into ()),
@@ -662,8 +664,10 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("file", "ports", "call-with-output-file", PortPrimitive2::OpenTextualOutputThenCallAndClose.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			("file", "parameters", "with-input-from-file", PortPrimitive2::WithOpenTextualInputThenCallAndClose.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			("file", "parameters", "with-output-to-file", PortPrimitive2::WithOpenTextualOutputThenCallAndClose.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]

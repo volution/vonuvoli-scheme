@@ -152,7 +152,9 @@ impl_from_for_Value_1! (Port, Port);
 impl_from_for_Value_1! (Process, Process);
 impl_from_for_Value_1! (Context, Context);
 impl_from_for_Value_1! (Binding, Binding);
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 impl_from_for_Value_1! (Parameters, Parameters);
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 impl_from_for_Value_1! (Parameter, Parameter);
 impl_from_for_Value_1! (Promise, Promise);
 impl_from_for_Value_1! (Opaque, Opaque);

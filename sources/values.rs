@@ -19,14 +19,16 @@ pub mod exports {
 	pub use super::super::values_values::exports::*;
 	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	pub use super::super::values_records::exports::*;
-	
 	pub use super::super::values_opaque::exports::*;
 	
 	pub use super::super::errors::exports::Error;
 	
 	pub use super::super::contexts::exports::Context;
 	pub use super::super::contexts::exports::Binding;
+	
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	pub use super::super::parameters::exports::Parameters;
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	pub use super::super::parameters::exports::Parameter;
 	
 	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]

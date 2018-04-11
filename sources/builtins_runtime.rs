@@ -1,16 +1,23 @@
 
 
 use super::builtins::exports::*;
-use super::constants::exports::*;
-use super::conversions::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
-use super::parameters::exports::*;
 use super::runtime::exports::*;
 use super::transcript::exports::*;
 use super::values::exports::*;
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
+use super::constants::exports::*;
+
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
+use super::conversions::exports::*;
+
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
+use super::parameters::exports::*;
+
 #[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 use super::primitives::exports::*;
 
 use super::prelude::*;
@@ -27,6 +34,7 @@ pub mod exports {
 			error_coerce, error_coerce_from,
 		};
 	
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	pub use super::{
 			parameter_build,
 			parameter_resolve,
@@ -223,6 +231,7 @@ pub fn error_coerce_from (code : Option<u64>, value : Value) -> (Error) {
 
 
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn parameter_build (identifier : Option<&Value>, global : Option<&Value>, converter : Option<&Value>, immutable : Option<bool>, _evaluator : &mut EvaluatorContext) -> (Outcome<Parameter>) {
 	let identifier = option_map! (identifier, try_as_symbol_ref! (identifier)) .cloned ();
@@ -258,6 +267,7 @@ pub fn parameter_build (identifier : Option<&Value>, global : Option<&Value>, co
 }
 
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn parameter_resolve (parameter : &Value, default : Option<&Value>, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match parameter.kind_match_as_ref () {
@@ -283,6 +293,7 @@ pub fn parameter_resolve (parameter : &Value, default : Option<&Value>, evaluato
 }
 
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn parameter_configure (parameter : &Value, value : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<()>) {
 	match parameter.kind_match_as_ref () {
@@ -310,6 +321,7 @@ pub fn parameter_configure (parameter : &Value, value : &Value, evaluator : &mut
 
 
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_argument (index : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let index = try! (count_coerce (index));
@@ -319,6 +331,7 @@ pub fn process_argument (index : &Value, evaluator : &mut EvaluatorContext) -> (
 	succeed! (argument);
 }
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_arguments (evaluator : &mut EvaluatorContext, return_array : bool) -> (Outcome<Value>) {
 	let arguments = try! (try! (evaluator.parameters ()) .resolve_process_arguments ());
@@ -331,6 +344,7 @@ pub fn process_arguments (evaluator : &mut EvaluatorContext, return_array : bool
 }
 
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_environment_variable (variable : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let variable = try! (os_str_slice_coerce (variable));
@@ -345,6 +359,7 @@ pub fn process_environment_variable (variable : &Value, evaluator : &mut Evaluat
 	succeed! (FALSE_VALUE);
 }
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_environment_variables (evaluator : &mut EvaluatorContext, return_array : bool) -> (Outcome<Value>) {
 	let variables = try! (try! (evaluator.parameters ()) .resolve_process_environment ());
@@ -359,12 +374,45 @@ pub fn process_environment_variables (evaluator : &mut EvaluatorContext, return_
 
 
 
+#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn process_argument (_index : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	fail_unimplemented! (0x281325c0);
+}
+
+#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn process_arguments (_evaluator : &mut EvaluatorContext, _return_array : bool) -> (Outcome<Value>) {
+	fail_unimplemented! (0xf1e93d2d);
+}
+
+
+#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn process_environment_variable (_variable : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	fail_unimplemented! (0x8b409a18);
+}
+
+#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn process_environment_variables (_evaluator : &mut EvaluatorContext, _return_array : bool) -> (Outcome<Value>) {
+	fail_unimplemented! (0x0aa2b0bf);
+}
+
+
+
+
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn transcript_trace_g (level : TranscriptLevel, arguments : &[&Value], evaluator : &mut EvaluatorContext) -> (Outcome<()>) {
 	if arguments.is_empty () {
 		fail! (0xdd72e2ce);
 	}
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	let transcript = try! (try! (evaluator.parameters ()) .resolve_transcript ());
+	#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
+	let transcript = transcript_for_script ();
+	#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
+	let _evaluator = evaluator;
 	if ! transcript.is_active (level) {
 		succeed! (());
 	}

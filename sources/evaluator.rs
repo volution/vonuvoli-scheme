@@ -8,10 +8,12 @@ use super::errors::exports::*;
 use super::expressions::exports::*;
 use super::extended_procedures::exports::*;
 use super::lambdas::exports::*;
-use super::parameters::exports::*;
 use super::primitives::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
+
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
+use super::parameters::exports::*;
 
 use super::prelude::*;
 
@@ -30,11 +32,17 @@ pub mod exports {
 
 
 
+#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
+type Parameters = !;
+
+
+
+
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn evaluate (expression : &Expression, context : Option<&Context>, parameters : Option<&Parameters>) -> (Outcome<Value>) {
 	let evaluator = Evaluator::new ();
-	let context = option_map! (context, context.clone ());
-	let parameters = option_map! (parameters, parameters.clone ());
+	let context = context.cloned ();
+	let parameters = parameters.cloned ();
 	let mut evaluation = evaluator.fork (context, parameters);
 	return evaluation.evaluate (expression);
 }
@@ -44,8 +52,8 @@ pub fn evaluate_script <Iterator, ExpressionRef> (expressions : Iterator, contex
 		where Iterator : iter::Iterator<Item = ExpressionRef>, ExpressionRef : StdAsRef<Expression>
 {
 	let evaluator = Evaluator::new ();
-	let context = option_map! (context, context.clone ());
-	let parameters = option_map! (parameters, parameters.clone ());
+	let context = context.cloned ();
+	let parameters = parameters.cloned ();
 	let mut evaluation = evaluator.fork (context, parameters);
 	return evaluation.evaluate_script (expressions);
 }
@@ -200,6 +208,7 @@ impl Evaluator {
 			ExpressionForContexts::RegisterGet1 (index) =>
 				self.evaluate_register_get_1 (evaluation, index),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			ExpressionForContexts::ParameterClosure (ref expression) =>
 				self.evaluate_parameter_closure (evaluation, expression),
 			
@@ -926,6 +935,7 @@ impl Evaluator {
 	
 	
 	
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_parameter_closure (&self, evaluation : &mut EvaluatorContext, expression : &Expression) -> (Outcome<Value>) {
 		let mut evaluation = try! (evaluation.fork_parameters ());
@@ -1151,6 +1161,7 @@ impl Evaluator {
 				return self.evaluate_procedure_native_with_values (evaluation, callable.internals_ref (), inputs),
 			ValueKindMatchAsRef::ProcedureLambda (callable) =>
 				return self.evaluate_procedure_lambda_with_values (evaluation, callable.internals_ref (), inputs),
+			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			ValueKindMatchAsRef::Parameter (parameter) =>
 				if inputs.is_empty () {
 					return evaluation.parameter_resolve (parameter, None);
@@ -1185,6 +1196,7 @@ impl Evaluator {
 				return self.evaluate_procedure_native_0_g (evaluation, callable.internals_ref ()),
 			ValueKindMatchAsRef::ProcedureLambda (callable) =>
 				return self.evaluate_procedure_lambda_0 (evaluation, callable.internals_ref ()),
+			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			ValueKindMatchAsRef::Parameter (parameter) =>
 				return evaluation.parameter_resolve (parameter, None),
 			_ =>
@@ -1372,6 +1384,7 @@ impl Evaluator {
 				return self.evaluate_procedure_native_n_g_with_values (evaluation, callable.internals_ref (), inputs),
 			ValueKindMatchAsRef::ProcedureLambda (callable) =>
 				return self.evaluate_procedure_lambda_n_with_values (evaluation, callable.internals_ref (), inputs),
+			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			ValueKindMatchAsRef::Parameter (parameter) =>
 				if inputs.is_empty () {
 					return evaluation.parameter_resolve (parameter, None);
@@ -2057,6 +2070,7 @@ impl <'a> EvaluatorContext<'a> {
 			}
 	}
 	
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn fork_with_parameters (&mut self, parameters : Parameters) -> (EvaluatorContext<'a>) {
 		return EvaluatorContext {
@@ -2067,6 +2081,7 @@ impl <'a> EvaluatorContext<'a> {
 			}
 	}
 	
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn fork_parameters (&mut self) -> (Outcome<EvaluatorContext<'a>>) {
 		let parameters = if let Some (ref parameters) = self.parameters {
@@ -2135,11 +2150,13 @@ impl <'a> EvaluatorContext<'a> {
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn parameters (&mut self) -> (Outcome<&Parameters>) {
 		succeed! (try_some_ref! (self.parameters, 0x5c1eb919));
 	}
 	
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn parameter_resolve (&mut self, parameter : &Parameter, default : Option<&Value>) -> (Outcome<Value>) {
 		// NOTE:  The following `transmute` should be safe!
@@ -2147,6 +2164,7 @@ impl <'a> EvaluatorContext<'a> {
 		return parameters.resolve (parameter, default, self);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn parameter_resolve_for_builtin (&mut self, parameter : &UniqueData) -> (Outcome<Option<Value>>) {
 		// NOTE:  The following `transmute` should be safe!
@@ -2154,6 +2172,7 @@ impl <'a> EvaluatorContext<'a> {
 		return parameters.resolve_for_builtin (parameter, self);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn parameter_configure (&mut self, parameter : &Parameter, value : &Value) -> (Outcome<()>) {
 		// NOTE:  The following `transmute` should be safe!

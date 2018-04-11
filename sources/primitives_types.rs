@@ -202,7 +202,9 @@ macro_rules! def_type_primitive_enum {
 			
 			IsContext,
 			IsBinding,
+			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			IsParameters,
+			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			IsParameter,
 			IsPromise,
 			
@@ -593,9 +595,11 @@ pub fn type_primitive_1_evaluate_0 (primitive : TypePrimitive1, input_1 : &Value
 		TypePrimitive1::IsBinding =>
 			return is_binding (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		TypePrimitive1::IsParameters =>
 			return is_parameters (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		TypePrimitive1::IsParameter =>
 			return is_parameter (input_1) .into_0 (),
 		
@@ -1019,9 +1023,11 @@ pub fn type_primitive_2_evaluate_0 (primitive : TypePrimitive2, input_1 : &Value
 		TypePrimitive2::IsBinding =>
 			return is_binding_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		TypePrimitive2::IsParameters =>
 			return is_parameters_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		TypePrimitive2::IsParameter =>
 			return is_parameter_all_2 (input_1, input_2) .into_0 (),
 		
@@ -1445,9 +1451,11 @@ pub fn type_primitive_3_evaluate_0 (primitive : TypePrimitive3, input_1 : &Value
 		TypePrimitive3::IsBinding =>
 			return is_binding_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		TypePrimitive3::IsParameters =>
 			return is_parameters_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		TypePrimitive3::IsParameter =>
 			return is_parameter_all_3 (input_1, input_2, input_3) .into_0 (),
 		
@@ -1871,9 +1879,11 @@ pub fn type_primitive_4_evaluate_0 (primitive : TypePrimitive4, input_1 : &Value
 		TypePrimitive4::IsBinding =>
 			return is_binding_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		TypePrimitive4::IsParameters =>
 			return is_parameters_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		TypePrimitive4::IsParameter =>
 			return is_parameter_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
@@ -2305,9 +2315,11 @@ pub fn type_primitive_n_evaluate_0 (primitive : TypePrimitiveN, inputs : &[&Valu
 		TypePrimitiveN::IsBinding =>
 			return is_binding_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		TypePrimitiveN::IsParameters =>
 			return is_parameters_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		TypePrimitiveN::IsParameter =>
 			return is_parameter_all_n (inputs) .into_0 (),
 		
@@ -2630,8 +2642,10 @@ macro_rules! def_type_primitive_v_alternative_fn {
 					Some ($alternative::IsContext),
 				TypePrimitiveV::IsBinding =>
 					Some ($alternative::IsBinding),
+				#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 				TypePrimitiveV::IsParameters =>
 					Some ($alternative::IsParameters),
+				#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 				TypePrimitiveV::IsParameter =>
 					Some ($alternative::IsParameter),
 				TypePrimitiveV::IsPromise =>

@@ -585,8 +585,6 @@ pub mod exports {
 			
 			is_context,
 			is_binding,
-			is_parameters,
-			is_parameter,
 			is_promise,
 			is_opaque,
 			
@@ -596,17 +594,26 @@ pub mod exports {
 			is_binding_all_2, is_binding_all_3, is_binding_all_4, is_binding_all_n,
 			is_binding_any_2, is_binding_any_3, is_binding_any_4, is_binding_any_n,
 			
-			is_parameters_all_2, is_parameters_all_3, is_parameters_all_4, is_parameters_all_n,
-			is_parameters_any_2, is_parameters_any_3, is_parameters_any_4, is_parameters_any_n,
-			
-			is_parameter_all_2, is_parameter_all_3, is_parameter_all_4, is_parameter_all_n,
-			is_parameter_any_2, is_parameter_any_3, is_parameter_any_4, is_parameter_any_n,
-			
 			is_promise_all_2, is_promise_all_3, is_promise_all_4, is_promise_all_n,
 			is_promise_any_2, is_promise_any_3, is_promise_any_4, is_promise_any_n,
 			
 			is_opaque_all_2, is_opaque_all_3, is_opaque_all_4, is_opaque_all_n,
 			is_opaque_any_2, is_opaque_any_3, is_opaque_any_4, is_opaque_any_n,
+			
+	};
+	
+	
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
+	pub use super::{
+			
+			is_parameters,
+			is_parameter,
+			
+			is_parameters_all_2, is_parameters_all_3, is_parameters_all_4, is_parameters_all_n,
+			is_parameters_any_2, is_parameters_any_3, is_parameters_any_4, is_parameters_any_n,
+			
+			is_parameter_all_2, is_parameter_all_3, is_parameter_all_4, is_parameter_all_n,
+			is_parameter_any_2, is_parameter_any_3, is_parameter_any_4, is_parameter_any_n,
 			
 	};
 	
@@ -2388,22 +2395,30 @@ def_fn_predicate_all! (is_binding, is_binding_all_2, is_binding_all_3, is_bindin
 def_fn_predicate_any! (is_binding, is_binding_any_2, is_binding_any_3, is_binding_any_4, is_binding_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_parameters (value : &Value) -> (bool) {
 	return value.is_kind (ValueKind::Parameters);
 }
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 def_fn_predicate_all! (is_parameters, is_parameters_all_2, is_parameters_all_3, is_parameters_all_4, is_parameters_all_n);
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 def_fn_predicate_any! (is_parameters, is_parameters_any_2, is_parameters_any_3, is_parameters_any_4, is_parameters_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_parameter (value : &Value) -> (bool) {
 	return value.is_kind (ValueKind::Parameter);
 }
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 def_fn_predicate_all! (is_parameter, is_parameter_all_2, is_parameter_all_3, is_parameter_all_4, is_parameter_all_n);
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 def_fn_predicate_any! (is_parameter, is_parameter_any_2, is_parameter_any_3, is_parameter_any_4, is_parameter_any_n);
+
+
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

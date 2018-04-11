@@ -71,8 +71,6 @@ pub mod exports {
 			syntax_lambda_compare_1, syntax_lambda_compare_1a,
 			context_compare_1, context_compare_1a,
 			binding_compare_1, binding_compare_1a,
-			parameters_compare_1, parameters_compare_1a,
-			parameter_compare_1, parameter_compare_1a,
 			promise_compare_1, promise_compare_1a,
 			opaque_compare_1, opaque_compare_1a,
 			
@@ -110,8 +108,6 @@ pub mod exports {
 			syntax_lambda_compare_2, syntax_lambda_compare_2a,
 			context_compare_2, context_compare_2a,
 			binding_compare_2, binding_compare_2a,
-			parameters_compare_2, parameters_compare_2a,
-			parameter_compare_2, parameter_compare_2a,
 			promise_compare_2, promise_compare_2a,
 			opaque_compare_2, opaque_compare_2a,
 			
@@ -149,8 +145,6 @@ pub mod exports {
 			syntax_lambda_compare_3, syntax_lambda_compare_3a,
 			context_compare_3, context_compare_3a,
 			binding_compare_3, binding_compare_3a,
-			parameters_compare_3, parameters_compare_3a,
-			parameter_compare_3, parameter_compare_3a,
 			promise_compare_3, promise_compare_3a,
 			opaque_compare_3, opaque_compare_3a,
 			
@@ -188,8 +182,6 @@ pub mod exports {
 			syntax_lambda_compare_4, syntax_lambda_compare_4a,
 			context_compare_4, context_compare_4a,
 			binding_compare_4, binding_compare_4a,
-			parameters_compare_4, parameters_compare_4a,
-			parameter_compare_4, parameter_compare_4a,
 			promise_compare_4, promise_compare_4a,
 			opaque_compare_4, opaque_compare_4a,
 			
@@ -227,8 +219,6 @@ pub mod exports {
 			syntax_lambda_compare_n, syntax_lambda_compare_na,
 			context_compare_n, context_compare_na,
 			binding_compare_n, binding_compare_na,
-			parameters_compare_n, parameters_compare_na,
-			parameter_compare_n, parameter_compare_na,
 			promise_compare_n, promise_compare_na,
 			opaque_compare_n, opaque_compare_na,
 			
@@ -261,6 +251,26 @@ pub mod exports {
 			record_compare_n,
 			record_immutable_compare_n, record_immutable_compare_na,
 			record_mutable_compare_n, record_mutable_compare_na,
+			
+	};
+	
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
+	pub use super::{
+			
+			parameters_compare_1, parameters_compare_1a,
+			parameter_compare_1, parameter_compare_1a,
+			
+			parameters_compare_2, parameters_compare_2a,
+			parameter_compare_2, parameter_compare_2a,
+			
+			parameters_compare_3, parameters_compare_3a,
+			parameter_compare_3, parameter_compare_3a,
+			
+			parameters_compare_4, parameters_compare_4a,
+			parameter_compare_4, parameter_compare_4a,
+			
+			parameters_compare_n, parameters_compare_na,
+			parameter_compare_n, parameter_compare_na,
 			
 	};
 	
@@ -680,9 +690,11 @@ pub fn compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Co
 		ValueKindMatchAsRef::Binding (value) =>
 			return binding_compare_1a (value, comparison),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		ValueKindMatchAsRef::Parameters (value) =>
 			return parameters_compare_1a (value, comparison),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		ValueKindMatchAsRef::Parameter (value) =>
 			return parameter_compare_1a (value, comparison),
 		
@@ -824,9 +836,11 @@ pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef
 		ValueKindMatchAsRef2::Binding (left, right) =>
 			return binding_compare_2a (left, right, comparison),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		ValueKindMatchAsRef2::Parameters (left, right) =>
 			return parameters_compare_2a (left, right, comparison),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		ValueKindMatchAsRef2::Parameter (left, right) =>
 			return parameter_compare_2a (left, right, comparison),
 		
@@ -1901,15 +1915,18 @@ pub fn binding_compare_2a <ValueRef : StdAsRef<Binding>> (left : ValueRef, right
 
 
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 def_fn_compare! (Parameters,
 		parameters_compare_1, parameters_compare_2, parameters_compare_3, parameters_compare_4, parameters_compare_n,
 		parameters_compare_1a, parameters_compare_2a, parameters_compare_3a, parameters_compare_4a, parameters_compare_na);
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn parameters_compare_1a <ValueRef : StdAsRef<Parameters>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn parameters_compare_2a <ValueRef : StdAsRef<Parameters>> (_left : ValueRef, _right : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
 	fail_unimplemented! (0xe857ac8b);
@@ -1918,15 +1935,18 @@ pub fn parameters_compare_2a <ValueRef : StdAsRef<Parameters>> (_left : ValueRef
 
 
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 def_fn_compare! (Parameter,
 		parameter_compare_1, parameter_compare_2, parameter_compare_3, parameter_compare_4, parameter_compare_n,
 		parameter_compare_1a, parameter_compare_2a, parameter_compare_3a, parameter_compare_4a, parameter_compare_na);
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn parameter_compare_1a <ValueRef : StdAsRef<Parameter>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn parameter_compare_2a <ValueRef : StdAsRef<Parameter>> (_left : ValueRef, _right : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
 	fail_unimplemented! (0xc8cd8929);
