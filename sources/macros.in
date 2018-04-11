@@ -71,16 +71,33 @@ macro_rules! succeeded {
 	);
 }
 
+// #[ macro_export ]
+// macro_rules! failed_or_panic {
+//	( $code : expr, $outcome : expr ) => (
+//		if $crate::internals::runtime_configurations::PANIC_ON_FAILED {
+//			panic_0! ($code);
+//		} else {
+//			$outcome
+//		}
+//	);
+// }
+
+#[ cfg ( feature = "vonuvoli_panic_on_failed" ) ]
 #[ macro_export ]
 macro_rules! failed_or_panic {
 	( $code : expr, $outcome : expr ) => (
-		if $crate::internals::runtime_configurations::PANIC_ON_FAILED {
-			panic_0! ($code);
-		} else {
-			$outcome
-		}
+		panic_0! ($code);
 	);
 }
+
+#[ cfg ( not ( feature = "vonuvoli_panic_on_failed" ) ) ]
+#[ macro_export ]
+macro_rules! failed_or_panic {
+	( $code : expr, $outcome : expr ) => (
+		$outcome
+	);
+}
+
 
 #[ macro_export ]
 macro_rules! failed {
