@@ -71,7 +71,6 @@ pub mod exports {
 			syntax_lambda_compare_1, syntax_lambda_compare_1a,
 			context_compare_1, context_compare_1a,
 			binding_compare_1, binding_compare_1a,
-			promise_compare_1, promise_compare_1a,
 			opaque_compare_1, opaque_compare_1a,
 			
 			compare_2,
@@ -108,7 +107,6 @@ pub mod exports {
 			syntax_lambda_compare_2, syntax_lambda_compare_2a,
 			context_compare_2, context_compare_2a,
 			binding_compare_2, binding_compare_2a,
-			promise_compare_2, promise_compare_2a,
 			opaque_compare_2, opaque_compare_2a,
 			
 			compare_3,
@@ -145,7 +143,6 @@ pub mod exports {
 			syntax_lambda_compare_3, syntax_lambda_compare_3a,
 			context_compare_3, context_compare_3a,
 			binding_compare_3, binding_compare_3a,
-			promise_compare_3, promise_compare_3a,
 			opaque_compare_3, opaque_compare_3a,
 			
 			compare_4,
@@ -182,7 +179,6 @@ pub mod exports {
 			syntax_lambda_compare_4, syntax_lambda_compare_4a,
 			context_compare_4, context_compare_4a,
 			binding_compare_4, binding_compare_4a,
-			promise_compare_4, promise_compare_4a,
 			opaque_compare_4, opaque_compare_4a,
 			
 			compare_n,
@@ -219,7 +215,6 @@ pub mod exports {
 			syntax_lambda_compare_n, syntax_lambda_compare_na,
 			context_compare_n, context_compare_na,
 			binding_compare_n, binding_compare_na,
-			promise_compare_n, promise_compare_na,
 			opaque_compare_n, opaque_compare_na,
 			
 	};
@@ -271,6 +266,17 @@ pub mod exports {
 			
 			parameters_compare_n, parameters_compare_na,
 			parameter_compare_n, parameter_compare_na,
+			
+	};
+	
+	#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
+	pub use super::{
+			
+			promise_compare_1, promise_compare_1a,
+			promise_compare_2, promise_compare_2a,
+			promise_compare_3, promise_compare_3a,
+			promise_compare_4, promise_compare_4a,
+			promise_compare_n, promise_compare_na,
 			
 	};
 	
@@ -698,6 +704,7 @@ pub fn compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Co
 		ValueKindMatchAsRef::Parameter (value) =>
 			return parameter_compare_1a (value, comparison),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 		ValueKindMatchAsRef::Promise (value) =>
 			return promise_compare_1a (value, comparison),
 		
@@ -844,6 +851,7 @@ pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef
 		ValueKindMatchAsRef2::Parameter (left, right) =>
 			return parameter_compare_2a (left, right, comparison),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 		ValueKindMatchAsRef2::Promise (left, right) =>
 			return promise_compare_2a (left, right, comparison),
 		
@@ -1955,15 +1963,18 @@ pub fn parameter_compare_2a <ValueRef : StdAsRef<Parameter>> (_left : ValueRef, 
 
 
 
+#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 def_fn_compare! (Promise,
 		promise_compare_1, promise_compare_2, promise_compare_3, promise_compare_4, promise_compare_n,
 		promise_compare_1a, promise_compare_2a, promise_compare_3a, promise_compare_4a, promise_compare_na);
 
+#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn promise_compare_1a <ValueRef : StdAsRef<Promise>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
+#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn promise_compare_2a <ValueRef : StdAsRef<Promise>> (_left : ValueRef, _right : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
 	fail_unimplemented! (0x48381d6c);

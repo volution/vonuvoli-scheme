@@ -635,7 +635,6 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 				ValueKindMatchAsRef2::SyntaxLambda (_, _) |
 				ValueKindMatchAsRef2::Context (_, _) |
 				ValueKindMatchAsRef2::Binding (_, _) |
-				ValueKindMatchAsRef2::Promise (_, _) |
 				ValueKindMatchAsRef2::Opaque (_, _) =>
 					false,
 				#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
@@ -646,6 +645,9 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 				#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 				ValueKindMatchAsRef2::Parameters (_, _) |
 				ValueKindMatchAsRef2::Parameter (_, _) =>
+					false,
+				#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
+				ValueKindMatchAsRef2::Promise (_, _) =>
 					false,
 				#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 				ValueKindMatchAsRef2::Port (_, _) =>

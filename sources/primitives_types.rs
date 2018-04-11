@@ -206,6 +206,7 @@ macro_rules! def_type_primitive_enum {
 			IsParameters,
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			IsParameter,
+			#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 			IsPromise,
 			
 			IsResource,
@@ -603,6 +604,7 @@ pub fn type_primitive_1_evaluate_0 (primitive : TypePrimitive1, input_1 : &Value
 		TypePrimitive1::IsParameter =>
 			return is_parameter (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 		TypePrimitive1::IsPromise =>
 			return is_promise (input_1) .into_0 (),
 		
@@ -1031,6 +1033,7 @@ pub fn type_primitive_2_evaluate_0 (primitive : TypePrimitive2, input_1 : &Value
 		TypePrimitive2::IsParameter =>
 			return is_parameter_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 		TypePrimitive2::IsPromise =>
 			return is_promise_all_2 (input_1, input_2) .into_0 (),
 		
@@ -1459,6 +1462,7 @@ pub fn type_primitive_3_evaluate_0 (primitive : TypePrimitive3, input_1 : &Value
 		TypePrimitive3::IsParameter =>
 			return is_parameter_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 		TypePrimitive3::IsPromise =>
 			return is_promise_all_3 (input_1, input_2, input_3) .into_0 (),
 		
@@ -1887,6 +1891,7 @@ pub fn type_primitive_4_evaluate_0 (primitive : TypePrimitive4, input_1 : &Value
 		TypePrimitive4::IsParameter =>
 			return is_parameter_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 		TypePrimitive4::IsPromise =>
 			return is_promise_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
@@ -2323,6 +2328,7 @@ pub fn type_primitive_n_evaluate_0 (primitive : TypePrimitiveN, inputs : &[&Valu
 		TypePrimitiveN::IsParameter =>
 			return is_parameter_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 		TypePrimitiveN::IsPromise =>
 			return is_promise_all_n (inputs) .into_0 (),
 		
@@ -2648,6 +2654,7 @@ macro_rules! def_type_primitive_v_alternative_fn {
 				#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 				TypePrimitiveV::IsParameter =>
 					Some ($alternative::IsParameter),
+				#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 				TypePrimitiveV::IsPromise =>
 					Some ($alternative::IsPromise),
 				TypePrimitiveV::IsResource =>

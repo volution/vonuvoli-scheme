@@ -156,6 +156,7 @@ impl_from_for_Value_1! (Binding, Binding);
 impl_from_for_Value_1! (Parameters, Parameters);
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 impl_from_for_Value_1! (Parameter, Parameter);
+#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 impl_from_for_Value_1! (Promise, Promise);
 impl_from_for_Value_1! (Opaque, Opaque);
 

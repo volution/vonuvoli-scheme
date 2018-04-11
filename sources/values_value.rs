@@ -58,6 +58,7 @@ pub mod exports {
 	pub use super::{ListMatchAsRef, ListMatchInto};
 	pub use super::{ValueRef};
 	pub use super::{GenericRef};
+	#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 	pub use super::{Promise};
 }
 
@@ -129,6 +130,7 @@ pub enum ValueKind {
 	Parameters,
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	Parameter,
+	#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 	Promise,
 	
 	Opaque,
@@ -200,6 +202,7 @@ pub enum ValueKindMatchAsRef <'a> {
 	Parameters (&'a Parameters),
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	Parameter (&'a Parameter),
+	#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 	Promise (&'a Promise),
 	
 	Opaque (&'a Opaque),
@@ -271,6 +274,7 @@ pub enum ValueKindMatchInto {
 	Parameters (Parameters),
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	Parameter (Parameter),
+	#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 	Promise (Promise),
 	
 	Opaque (Opaque),
@@ -342,6 +346,7 @@ pub enum ValueKindMatchAsRef2 <'a> {
 	Parameters (&'a Parameters, &'a Parameters),
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	Parameter (&'a Parameter, &'a Parameter),
+	#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 	Promise (&'a Promise, &'a Promise),
 	
 	Opaque (&'a Opaque, &'a Opaque),
@@ -611,6 +616,7 @@ pub enum InternalMatchAsRef <'a> {
 	Parameters (&'a Parameters),
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	Parameter (&'a Parameter),
+	#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 	Promise (&'a Promise),
 }
 
@@ -622,6 +628,7 @@ pub enum InternalMatchInto {
 	Parameters (Parameters),
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	Parameter (Parameter),
+	#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 	Promise (Promise),
 }
 
@@ -706,6 +713,7 @@ pub enum Value {
 	Parameters ( ValueMeta1, Parameters, ValueMeta2 ),
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	Parameter ( ValueMeta1, Parameter, ValueMeta2 ),
+	#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 	Promise ( ValueMeta1, Promise, ValueMeta2 ),
 	
 	Opaque ( ValueMeta1, Opaque, ValueMeta2 ),
@@ -791,6 +799,7 @@ impl Value {
 			Value::Parameters (_, _, _) => ValueKind::Parameters,
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			Value::Parameter (_, _, _) => ValueKind::Parameter,
+			#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 			Value::Promise (_, _, _) => ValueKind::Promise,
 			
 			Value::Opaque (_, _, _) => ValueKind::Opaque,
@@ -870,6 +879,7 @@ impl Value {
 			Value::Parameters (_, ref self_0, _) => ValueKindMatchAsRef::Parameters (self_0),
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			Value::Parameter (_, ref self_0, _) => ValueKindMatchAsRef::Parameter (self_0),
+			#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 			Value::Promise (_, ref self_0, _) => ValueKindMatchAsRef::Promise (self_0),
 			
 			Value::Opaque (_, ref self_0, _) => ValueKindMatchAsRef::Opaque (self_0),
@@ -949,6 +959,7 @@ impl Value {
 			Value::Parameters (_, self_0, _) => ValueKindMatchInto::Parameters (self_0),
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			Value::Parameter (_, self_0, _) => ValueKindMatchInto::Parameter (self_0),
+			#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 			Value::Promise (_, self_0, _) => ValueKindMatchInto::Promise (self_0),
 			
 			Value::Opaque (_, self_0, _) => ValueKindMatchInto::Opaque (self_0),
@@ -1032,6 +1043,7 @@ impl Value {
 			(&Value::Parameters (_, ref self_0, _), &Value::Parameters (_, ref other_0, _)) => ValueKindMatchAsRef2::Parameters (self_0, other_0),
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			(&Value::Parameter (_, ref self_0, _), &Value::Parameter (_, ref other_0, _)) => ValueKindMatchAsRef2::Parameter (self_0, other_0),
+			#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 			(&Value::Promise (_, ref self_0, _), &Value::Promise (_, ref other_0, _)) => ValueKindMatchAsRef2::Promise (self_0, other_0),
 			
 			(&Value::Opaque (_, ref self_0, _), &Value::Opaque (_, ref other_0, _)) => ValueKindMatchAsRef2::Opaque (self_0, other_0),
@@ -1115,6 +1127,7 @@ impl Value {
 			Value::Parameters (_, _, _) => ValueClass::Internal,
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			Value::Parameter (_, _, _) => ValueClass::Internal,
+			#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 			Value::Promise (_, _, _) => ValueClass::Internal,
 			
 			Value::Opaque (_, _, _) => ValueClass::Opaque,
@@ -1194,6 +1207,7 @@ impl Value {
 			Value::Parameters (_, ref self_0, _) => ValueClassMatchAsRef::Internal (InternalMatchAsRef::Parameters (self_0)),
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			Value::Parameter (_, ref self_0, _) => ValueClassMatchAsRef::Internal (InternalMatchAsRef::Parameter (self_0)),
+			#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 			Value::Promise (_, ref self_0, _) => ValueClassMatchAsRef::Internal (InternalMatchAsRef::Promise (self_0)),
 			
 			Value::Opaque (_, ref self_0, _) => ValueClassMatchAsRef::Opaque (self_0),
@@ -1273,6 +1287,7 @@ impl Value {
 			Value::Parameters (_, self_0, _) => ValueClassMatchInto::Internal (InternalMatchInto::Parameters (self_0)),
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			Value::Parameter (_, self_0, _) => ValueClassMatchInto::Internal (InternalMatchInto::Parameter (self_0)),
+			#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 			Value::Promise (_, self_0, _) => ValueClassMatchInto::Internal (InternalMatchInto::Promise (self_0)),
 			
 			Value::Opaque (_, self_0, _) => ValueClassMatchInto::Opaque (self_0),
@@ -1482,6 +1497,7 @@ impl Value {
 			ValueKindMatchAsRef2::Parameters (self_0, other_0) => Parameters::is_self (self_0, other_0),
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			ValueKindMatchAsRef2::Parameter (self_0, other_0) => Parameter::is_self (self_0, other_0),
+			#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 			ValueKindMatchAsRef2::Promise (self_0, other_0) => Promise::is_self (self_0, other_0),
 			
 			ValueKindMatchAsRef2::Opaque (self_0, other_0) => Opaque::is_self (self_0, other_0),
@@ -1554,6 +1570,7 @@ impl Value {
 			Value::Parameters (_, _, _) => fail! (0xf71687af),
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			Value::Parameter (_, _, _) => fail! (0x5e58cbae),
+			#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 			Value::Promise (_, _, _) => fail! (0xdb79854e),
 			
 			Value::Opaque (_, _, _) => fail! (0x3a5f06fc),
@@ -1667,6 +1684,7 @@ impl ValueKindMatchInto {
 			ValueKindMatchInto::Parameters (value) => value.into (),
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			ValueKindMatchInto::Parameter (value) => value.into (),
+			#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 			ValueKindMatchInto::Promise (value) => value.into (),
 			
 			ValueKindMatchInto::Opaque (value) => value.into (),
@@ -1786,6 +1804,7 @@ impl InternalMatchInto {
 			InternalMatchInto::Parameters (value) => value.into (),
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			InternalMatchInto::Parameter (value) => value.into (),
+			#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 			InternalMatchInto::Promise (value) => value.into (),
 		}
 	}
@@ -2132,5 +2151,6 @@ macro_rules! def_value_placeholder {
 }
 
 
+#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 def_value_placeholder! (Promise);
 

@@ -147,6 +147,7 @@ vonuvoli_inline = []
 
 vonuvoli_builtins = [
 	"vonuvoli_builtins_parameters",
+	"vonuvoli_builtins_promises",
 	"vonuvoli_builtins_records",
 	"vonuvoli_builtins_regex",
 	"vonuvoli_builtins_ports",
@@ -157,13 +158,17 @@ vonuvoli_builtins = [
 	"vonuvoli_builtins_encoding",
 ]
 
+vonuvoli_builtins_parameters = []
+vonuvoli_builtins_promises = []
 vonuvoli_builtins_records = []
 vonuvoli_builtins_regex = [
 	"regex",
 ]
 vonuvoli_builtins_ports = []
 vonuvoli_builtins_filesystem = []
-vonuvoli_builtins_processes = []
+vonuvoli_builtins_processes = [
+	"vonuvoli_builtins_ports",
+]
 vonuvoli_builtins_crypto = [
 	"ring",
 	"digest",

@@ -124,6 +124,7 @@ impl <'a> ValueKindMatchAsRef2<'a> {
 			ValueKindMatchAsRef2::Parameters (self_0, other_0) => Some (Parameters::eq (self_0, other_0)),
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			ValueKindMatchAsRef2::Parameter (self_0, other_0) => Some (Parameter::eq (self_0, other_0)),
+			#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 			ValueKindMatchAsRef2::Promise (self_0, other_0) => Some (Promise::eq (self_0, other_0)),
 			
 			ValueKindMatchAsRef2::Opaque (self_0, other_0) => Some (Opaque::eq (self_0, other_0)),
@@ -202,6 +203,7 @@ impl <'a> ValueKindMatchAsRef2<'a> {
 			ValueKindMatchAsRef2::Parameters (self_0, other_0) => Some (Parameters::cmp (self_0, other_0)),
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			ValueKindMatchAsRef2::Parameter (self_0, other_0) => Some (Parameter::cmp (self_0, other_0)),
+			#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 			ValueKindMatchAsRef2::Promise (self_0, other_0) => Some (Promise::cmp (self_0, other_0)),
 			
 			ValueKindMatchAsRef2::Opaque (self_0, other_0) => Some (Opaque::cmp (self_0, other_0)),

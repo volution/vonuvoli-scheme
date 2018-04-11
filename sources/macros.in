@@ -1027,7 +1027,9 @@ def_value_try_as_ref! (try_as_parameter_ref, value_type! (Parameter));
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 def_value_try_into! (try_into_parameter, value_type! (Parameter));
 
+#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 def_value_try_as_ref! (try_as_promise_ref, value_type! (Promise));
+#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 def_value_try_into! (try_into_promise, value_type! (Promise));
 
 def_value_try_as_ref! (try_as_opaque_ref, value_type! (Opaque));

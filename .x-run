@@ -197,6 +197,7 @@ cat <<'EOS-31f6e6b1'
 	|	import itertools, sys
 	|	_options = [
 	|		"vonuvoli_builtins_parameters",
+	|		"vonuvoli_builtins_promises",
 	|		"vonuvoli_builtins_records",
 	|		"vonuvoli_builtins_regex",
 	|		"vonuvoli_builtins_ports",

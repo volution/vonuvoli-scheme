@@ -703,11 +703,16 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			// (scheme lazy)
 			//     --> verified
 			
+			#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 			("lazy", "promises", "delay", SyntaxPrimitive::Unimplemented.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 			("lazy", "promises", "delay-force", SyntaxPrimitive::Unimplemented.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 			("lazy", "promises", "promise?", TypePrimitiveV::IsPromise.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 			("lazy", "promises", "make-promise", ProcedurePrimitive::Unimplemented.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 			("lazy", "promises", "force", ProcedurePrimitive::Unimplemented.into ()),
 			
 			

@@ -5,11 +5,14 @@ use super::errors::exports::*;
 use super::primitives::exports::*;
 use super::values::exports::*;
 
-#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
+#[ allow (unused_imports) ]
 use super::builtins::exports::*;
 
-#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
+#[ allow (unused_imports) ]
+use super::conversions::exports::*;
+
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
+#[ allow (unused_imports) ]
 use super::parameters::exports::*;
 
 use super::prelude::*;
@@ -112,6 +115,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("not-eof-object?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsPortEof) .into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			
+			#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 			("not-promise?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsPromise) .into ()),
 			
 			("not-char-alphabetic?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsCharacterAlphabetic) .into ()),
