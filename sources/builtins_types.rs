@@ -581,6 +581,7 @@ pub mod exports {
 	};
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 	pub use super::{
 			
 			is_opaque,
@@ -2459,12 +2460,15 @@ def_fn_predicate_any! (is_promise, is_promise_any_2, is_promise_any_3, is_promis
 
 
 
+#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_opaque (value : &Value) -> (bool) {
 	return value.is_class (ValueClass::Opaque);
 }
 
+#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 def_fn_predicate_all! (is_opaque, is_opaque_all_2, is_opaque_all_3, is_opaque_all_4, is_opaque_all_n);
+#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 def_fn_predicate_any! (is_opaque, is_opaque_any_2, is_opaque_any_3, is_opaque_any_4, is_opaque_any_n);
 
 

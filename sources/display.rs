@@ -89,6 +89,7 @@ impl fmt::Display for Value {
 			#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 			ValueKindMatchAsRef::Promise (self_0) => self_0.fmt (formatter),
 			
+			#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 			ValueKindMatchAsRef::Opaque (self_0) => self_0.fmt (formatter),
 			
 		}
@@ -168,6 +169,7 @@ impl fmt::Debug for Value {
 			#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 			ValueKindMatchAsRef::Promise (self_0) => self_0.fmt (formatter),
 			
+			#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 			ValueKindMatchAsRef::Opaque (self_0) => self_0.fmt (formatter),
 			
 		}
@@ -1421,6 +1423,7 @@ impl fmt::Debug for Parameter {
 
 
 
+#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 impl fmt::Display for Opaque {
 	
 	#[ inline (never) ]
@@ -1429,6 +1432,7 @@ impl fmt::Display for Opaque {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 impl fmt::Debug for Opaque {
 	
 	#[ inline (never) ]

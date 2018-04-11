@@ -1032,7 +1032,9 @@ def_value_try_as_ref! (try_as_promise_ref, value_type! (Promise));
 #[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 def_value_try_into! (try_into_promise, value_type! (Promise));
 
+#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 def_value_try_as_ref! (try_as_opaque_ref, value_type! (Opaque));
+#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 def_value_try_into! (try_into_opaque, value_type! (Opaque));
 
 

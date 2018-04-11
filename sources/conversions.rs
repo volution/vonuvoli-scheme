@@ -162,6 +162,7 @@ impl_from_for_Value_1! (Parameters, Parameters);
 impl_from_for_Value_1! (Parameter, Parameter);
 #[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 impl_from_for_Value_1! (Promise, Promise);
+#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 impl_from_for_Value_1! (Opaque, Opaque);
 
 

@@ -129,6 +129,7 @@ impl <'a> ValueKindMatchAsRef2<'a> {
 			#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 			ValueKindMatchAsRef2::Promise (self_0, other_0) => Some (Promise::eq (self_0, other_0)),
 			
+			#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 			ValueKindMatchAsRef2::Opaque (self_0, other_0) => Some (Opaque::eq (self_0, other_0)),
 			
 			ValueKindMatchAsRef2::Missmatched => None,
@@ -210,6 +211,7 @@ impl <'a> ValueKindMatchAsRef2<'a> {
 			#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 			ValueKindMatchAsRef2::Promise (self_0, other_0) => Some (Promise::cmp (self_0, other_0)),
 			
+			#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 			ValueKindMatchAsRef2::Opaque (self_0, other_0) => Some (Opaque::cmp (self_0, other_0)),
 			
 			ValueKindMatchAsRef2::Missmatched => None,
@@ -1377,8 +1379,10 @@ impl cmp::PartialOrd for Parameter {
 
 
 
+#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 impl cmp::Eq for Opaque {}
 
+#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 impl cmp::PartialEq for Opaque {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1389,6 +1393,7 @@ impl cmp::PartialEq for Opaque {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 impl cmp::Ord for Opaque {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1399,6 +1404,7 @@ impl cmp::Ord for Opaque {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 impl cmp::PartialOrd for Opaque {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

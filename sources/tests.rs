@@ -632,8 +632,7 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 				ValueKindMatchAsRef2::ProcedureExtended (_, _) |
 				ValueKindMatchAsRef2::ProcedureLambda (_, _) |
 				ValueKindMatchAsRef2::SyntaxExtended (_, _) |
-				ValueKindMatchAsRef2::SyntaxLambda (_, _) |
-				ValueKindMatchAsRef2::Opaque (_, _) =>
+				ValueKindMatchAsRef2::SyntaxLambda (_, _) =>
 					false,
 				#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 				ValueKindMatchAsRef2::RecordKind (_, _) |
@@ -656,6 +655,9 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 					false,
 				#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 				ValueKindMatchAsRef2::Process (_, _) =>
+					false,
+				#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
+				ValueKindMatchAsRef2::Opaque (_, _) =>
 					false,
 				ValueKindMatchAsRef2::Missmatched =>
 					fail! (0x670c12cb),

@@ -14,12 +14,14 @@ use super::values_bytes::exports::*;
 use super::values_characters::exports::*;
 use super::values_keywords::exports::*;
 use super::values_numbers::exports::*;
-use super::values_opaque::exports::*;
 use super::values_pairs::exports::*;
 use super::values_strings::exports::*;
 use super::values_symbols::exports::*;
 use super::values_unique::exports::*;
 use super::values_values::exports::*;
+
+#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
+use super::values_opaque::exports::*;
 
 #[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 use super::contexts::exports::*;
@@ -137,6 +139,7 @@ pub enum ValueKind {
 	#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 	Promise,
 	
+	#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 	Opaque,
 	
 }
@@ -211,6 +214,7 @@ pub enum ValueKindMatchAsRef <'a> {
 	#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 	Promise (&'a Promise),
 	
+	#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 	Opaque (&'a Opaque),
 	
 }
@@ -285,6 +289,7 @@ pub enum ValueKindMatchInto {
 	#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 	Promise (Promise),
 	
+	#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 	Opaque (Opaque),
 	
 }
@@ -359,6 +364,7 @@ pub enum ValueKindMatchAsRef2 <'a> {
 	#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 	Promise (&'a Promise, &'a Promise),
 	
+	#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 	Opaque (&'a Opaque, &'a Opaque),
 	
 	Missmatched,
@@ -412,6 +418,7 @@ pub enum ValueClass {
 	Port,
 	Resource,
 	
+	#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 	Opaque,
 	
 	Internal,
@@ -462,6 +469,7 @@ pub enum ValueClassMatchAsRef <'a> {
 	Port (&'a Port),
 	Resource (ResourceMatchAsRef<'a>),
 	
+	#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 	Opaque (&'a Opaque),
 	
 	Internal (InternalMatchAsRef<'a>),
@@ -512,6 +520,7 @@ pub enum ValueClassMatchInto {
 	Port (Port),
 	Resource (ResourceMatchInto),
 	
+	#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 	Opaque (Opaque),
 	
 	Internal (InternalMatchInto),
@@ -562,6 +571,7 @@ pub enum ValueClassMatchAsRef2 <'a> {
 	Port (&'a Port, &'a Port),
 	Resource (ResourceMatchAsRef<'a>, ResourceMatchAsRef<'a>),
 	
+	#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 	Opaque (&'a Opaque, &'a Opaque),
 	
 	Internal (InternalMatchAsRef<'a>, InternalMatchAsRef<'a>),
@@ -734,6 +744,7 @@ pub enum Value {
 	#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 	Promise ( ValueMeta1, Promise, ValueMeta2 ),
 	
+	#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 	Opaque ( ValueMeta1, Opaque, ValueMeta2 ),
 	
 	__NonExhaustive,
@@ -822,6 +833,7 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 			Value::Promise (_, _, _) => ValueKind::Promise,
 			
+			#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 			Value::Opaque (_, _, _) => ValueKind::Opaque,
 			
 			Value::__NonExhaustive => unreachable_0! (0x7bbc0f95),
@@ -904,6 +916,7 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 			Value::Promise (_, ref self_0, _) => ValueKindMatchAsRef::Promise (self_0),
 			
+			#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 			Value::Opaque (_, ref self_0, _) => ValueKindMatchAsRef::Opaque (self_0),
 			
 			Value::__NonExhaustive => unreachable_0! (0x60a44540),
@@ -986,6 +999,7 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 			Value::Promise (_, self_0, _) => ValueKindMatchInto::Promise (self_0),
 			
+			#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 			Value::Opaque (_, self_0, _) => ValueKindMatchInto::Opaque (self_0),
 			
 			Value::__NonExhaustive => unreachable_0! (0x91f4d229),
@@ -1072,6 +1086,7 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 			(&Value::Promise (_, ref self_0, _), &Value::Promise (_, ref other_0, _)) => ValueKindMatchAsRef2::Promise (self_0, other_0),
 			
+			#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 			(&Value::Opaque (_, ref self_0, _), &Value::Opaque (_, ref other_0, _)) => ValueKindMatchAsRef2::Opaque (self_0, other_0),
 			
 			(&Value::__NonExhaustive, _) => unreachable_0! (0x13867aa3),
@@ -1158,6 +1173,7 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 			Value::Promise (_, _, _) => ValueClass::Internal,
 			
+			#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 			Value::Opaque (_, _, _) => ValueClass::Opaque,
 			
 			Value::__NonExhaustive => unreachable_0! (0x5f4a0853),
@@ -1240,6 +1256,7 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 			Value::Promise (_, ref self_0, _) => ValueClassMatchAsRef::Internal (InternalMatchAsRef::Promise (self_0)),
 			
+			#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 			Value::Opaque (_, ref self_0, _) => ValueClassMatchAsRef::Opaque (self_0),
 			
 			Value::__NonExhaustive => unreachable_0! (0xeb981b3d),
@@ -1322,6 +1339,7 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 			Value::Promise (_, self_0, _) => ValueClassMatchInto::Internal (InternalMatchInto::Promise (self_0)),
 			
+			#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 			Value::Opaque (_, self_0, _) => ValueClassMatchInto::Opaque (self_0),
 			
 			Value::__NonExhaustive => unreachable_0! (0xcb4d88e4),
@@ -1404,6 +1422,7 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			(&Value::Port (_, ref self_0, _), &Value::Port (_, ref other_0, _)) => ValueClassMatchAsRef2::Port (self_0, other_0),
 			
+			#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 			(&Value::Opaque (_, ref self_0, _), &Value::Opaque (_, ref other_0, _)) => ValueClassMatchAsRef2::Opaque (self_0, other_0),
 			
 			(&Value::__NonExhaustive, _) => unreachable_0! (0x15e280a3),
@@ -1534,6 +1553,7 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 			ValueKindMatchAsRef2::Promise (self_0, other_0) => Promise::is_self (self_0, other_0),
 			
+			#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 			ValueKindMatchAsRef2::Opaque (self_0, other_0) => Opaque::is_self (self_0, other_0),
 			
 			ValueKindMatchAsRef2::Missmatched => false,
@@ -1609,6 +1629,7 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 			Value::Promise (_, _, _) => fail! (0xdb79854e),
 			
+			#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 			Value::Opaque (_, _, _) => fail! (0x3a5f06fc),
 			
 			Value::__NonExhaustive => unreachable_0! (0xe6a3ce23),
@@ -1640,6 +1661,7 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			Value::Process (_, ref self_0, _) => self_0.clone () .into_0 (),
 			
+			#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 			Value::Opaque (_, _, _) => fail! (0x1f7ae54b),
 			
 			Value::__NonExhaustive => unreachable_0! (0xdbf88c4a),
@@ -1725,6 +1747,7 @@ impl ValueKindMatchInto {
 			#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 			ValueKindMatchInto::Promise (value) => value.into (),
 			
+			#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 			ValueKindMatchInto::Opaque (value) => value.into (),
 			
 		}
@@ -1780,6 +1803,7 @@ impl ValueClassMatchInto {
 			ValueClassMatchInto::Port (value) => value.into (),
 			ValueClassMatchInto::Resource (class) => class.value (),
 			
+			#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 			ValueClassMatchInto::Opaque (value) => value.into (),
 			
 			ValueClassMatchInto::Internal (class) => class.value (),

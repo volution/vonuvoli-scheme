@@ -828,14 +828,19 @@ pub fn port_output_value_display_0 (port : &mut PortBackendWriter, value : &Valu
 		ValueClassMatchAsRef::Error (_) |
 		ValueClassMatchAsRef::Port (_) |
 		ValueClassMatchAsRef::Resource (_) |
-		ValueClassMatchAsRef::Internal (_) |
-		ValueClassMatchAsRef::Opaque (_) => {
+		ValueClassMatchAsRef::Internal (_) => {
 			let formatted = format! ("{}", value);
 			try! (port.char_write_string (&formatted, true));
 		},
 		
 		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		ValueClassMatchAsRef::RecordKind (_) => {
+			let formatted = format! ("{}", value);
+			try! (port.char_write_string (&formatted, true));
+		},
+		
+		#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
+		ValueClassMatchAsRef::Opaque (_) => {
 			let formatted = format! ("{}", value);
 			try! (port.char_write_string (&formatted, true));
 		},
@@ -1106,8 +1111,7 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 		ValueClassMatchAsRef::Error (_) |
 		ValueClassMatchAsRef::Port (_) |
 		ValueClassMatchAsRef::Resource (_) |
-		ValueClassMatchAsRef::Internal (_) |
-		ValueClassMatchAsRef::Opaque (_) => {
+		ValueClassMatchAsRef::Internal (_) => {
 			// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
 			let formatted = format! ("{}", value);
 			try! (port.char_write_string (&formatted, true));
@@ -1115,6 +1119,13 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 		
 		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		ValueClassMatchAsRef::RecordKind (_) => {
+			// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+			let formatted = format! ("{}", value);
+			try! (port.char_write_string (&formatted, true));
+		},
+		
+		#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
+		ValueClassMatchAsRef::Opaque (_) => {
 			// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
 			let formatted = format! ("{}", value);
 			try! (port.char_write_string (&formatted, true));

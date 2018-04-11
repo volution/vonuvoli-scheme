@@ -71,7 +71,6 @@ pub mod exports {
 			syntax_extended_compare_1, syntax_extended_compare_1a,
 			syntax_native_compare_1, syntax_native_compare_1a,
 			syntax_lambda_compare_1, syntax_lambda_compare_1a,
-			opaque_compare_1, opaque_compare_1a,
 			
 			compare_2,
 			value_singleton_compare_2, value_singleton_compare_2a,
@@ -105,7 +104,6 @@ pub mod exports {
 			syntax_extended_compare_2, syntax_extended_compare_2a,
 			syntax_native_compare_2, syntax_native_compare_2a,
 			syntax_lambda_compare_2, syntax_lambda_compare_2a,
-			opaque_compare_2, opaque_compare_2a,
 			
 			compare_3,
 			value_singleton_compare_3, value_singleton_compare_3a,
@@ -139,7 +137,6 @@ pub mod exports {
 			syntax_extended_compare_3, syntax_extended_compare_3a,
 			syntax_native_compare_3, syntax_native_compare_3a,
 			syntax_lambda_compare_3, syntax_lambda_compare_3a,
-			opaque_compare_3, opaque_compare_3a,
 			
 			compare_4,
 			value_singleton_compare_4, value_singleton_compare_4a,
@@ -173,7 +170,6 @@ pub mod exports {
 			syntax_extended_compare_4, syntax_extended_compare_4a,
 			syntax_native_compare_4, syntax_native_compare_4a,
 			syntax_lambda_compare_4, syntax_lambda_compare_4a,
-			opaque_compare_4, opaque_compare_4a,
 			
 			compare_n,
 			value_singleton_compare_n, value_singleton_compare_na,
@@ -207,6 +203,16 @@ pub mod exports {
 			syntax_extended_compare_n, syntax_extended_compare_na,
 			syntax_native_compare_n, syntax_native_compare_na,
 			syntax_lambda_compare_n, syntax_lambda_compare_na,
+			
+	};
+	
+	#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
+	pub use super::{
+			
+			opaque_compare_1, opaque_compare_1a,
+			opaque_compare_2, opaque_compare_2a,
+			opaque_compare_3, opaque_compare_3a,
+			opaque_compare_4, opaque_compare_4a,
 			opaque_compare_n, opaque_compare_na,
 			
 	};
@@ -722,6 +728,7 @@ pub fn compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Co
 		ValueKindMatchAsRef::Promise (value) =>
 			return promise_compare_1a (value, comparison),
 		
+		#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 		ValueKindMatchAsRef::Opaque (value) =>
 			return opaque_compare_1a (value, comparison),
 		
@@ -871,6 +878,7 @@ pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef
 		ValueKindMatchAsRef2::Promise (left, right) =>
 			return promise_compare_2a (left, right, comparison),
 		
+		#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 		ValueKindMatchAsRef2::Opaque (left, right) =>
 			return opaque_compare_2a (left, right, comparison),
 		
@@ -2005,15 +2013,18 @@ pub fn promise_compare_2a <ValueRef : StdAsRef<Promise>> (_left : ValueRef, _rig
 
 
 
+#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 def_fn_compare! (Opaque,
 		opaque_compare_1, opaque_compare_2, opaque_compare_3, opaque_compare_4, opaque_compare_n,
 		opaque_compare_1a, opaque_compare_2a, opaque_compare_3a, opaque_compare_4a, opaque_compare_na);
 
+#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn opaque_compare_1a <ValueRef : StdAsRef<Opaque>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn opaque_compare_2a <ValueRef : StdAsRef<Opaque>> (_left : ValueRef, _right : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
 	fail_unimplemented! (0x2cde5f59);

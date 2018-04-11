@@ -82,6 +82,7 @@ impl hash::Hash for Value {
 			ValueKindMatchAsRef::Parameter (self_0) => { hasher.write_u32 (0x1937881d); self_0.hash (hasher); },
 			#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 			ValueKindMatchAsRef::Promise (self_0) => { hasher.write_u32 (0x34b0d53d); self_0.hash (hasher); },
+			#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 			ValueKindMatchAsRef::Opaque (self_0) => { hasher.write_u32 (0xc749410b); self_0.hash (hasher); },
 			
 		}
@@ -414,6 +415,7 @@ impl hash::Hash for Parameter {
 
 
 
+#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 impl hash::Hash for Opaque {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

@@ -193,6 +193,7 @@ impl Compiler {
 			ValueClassMatchInto::Internal (class) =>
 				return self.compile_syntax_quote_0 (compilation, class.value ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 			ValueClassMatchInto::Opaque (value) =>
 				return self.compile_syntax_quote_0 (compilation, value.into ()),
 			
@@ -2015,6 +2016,7 @@ impl Compiler {
 			ValueClassMatchInto::Internal (class) =>
 				succeed! ((compilation, splice (class.value (), spliceable))),
 			
+			#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 			ValueClassMatchInto::Opaque (value) =>
 				succeed! ((compilation, splice (value, spliceable))),
 			

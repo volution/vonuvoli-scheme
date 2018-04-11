@@ -484,7 +484,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			
 			("resource?", TypePrimitiveV::IsResource.into ()),
 			("not-resource?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsResource) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 			("opaque?", TypePrimitiveV::IsOpaque.into ()),
+			#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 			("not-opaque?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsOpaque) .into ()),
 			
 		]);

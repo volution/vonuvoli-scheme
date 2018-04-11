@@ -149,8 +149,10 @@ vonuvoli_inline = []
 
 vonuvoli_values_all = [
 	"vonuvoli_values_contexts",
+	"vonuvoli_values_opaque",
 ]
 vonuvoli_values_contexts = []
+vonuvoli_values_opaque = []
 
 vonuvoli_builtins_all = [
 	"vonuvoli_builtins_parameters",
@@ -172,7 +174,9 @@ vonuvoli_builtins_regex = [
 	"regex",
 ]
 vonuvoli_builtins_ports = []
-vonuvoli_builtins_filesystem = []
+vonuvoli_builtins_filesystem = [
+	"vonuvoli_values_opaque",
+]
 vonuvoli_builtins_processes = [
 	"vonuvoli_builtins_ports",
 ]
