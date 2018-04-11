@@ -490,16 +490,26 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			("not-keyword-ci>=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::KeywordCaseInsensitiveGreaterOrEqual) .into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			("unique=?", ComparisonPrimitiveV::UniqueEqual.into ()),
+			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			("unique<?", ComparisonPrimitiveV::UniqueLesser.into ()),
+			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			("unique>?", ComparisonPrimitiveV::UniqueGreater.into ()),
+			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			("unique<=?", ComparisonPrimitiveV::UniqueLesserOrEqual.into ()),
+			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			("unique>=?", ComparisonPrimitiveV::UniqueGreaterOrEqual.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			("not-unique=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::UniqueEqual) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			("not-unique<?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::UniqueLesser) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			("not-unique>?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::UniqueGreater) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			("not-unique<=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::UniqueLesserOrEqual) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			("not-unique>=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::UniqueGreaterOrEqual) .into ()),
 			
 			("resource?", TypePrimitiveV::IsResource.into ()),

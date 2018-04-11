@@ -16,11 +16,13 @@ use super::values_numbers::exports::*;
 use super::values_pairs::exports::*;
 use super::values_strings::exports::*;
 use super::values_symbols::exports::*;
-use super::values_unique::exports::*;
 use super::values_values::exports::*;
 
 #[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 use super::values_keywords::exports::*;
+
+#[ cfg ( feature = "vonuvoli_values_unique" ) ]
+use super::values_unique::exports::*;
 
 #[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 use super::values_opaque::exports::*;
@@ -87,6 +89,7 @@ pub enum ValueKind {
 	Symbol,
 	#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 	Keyword,
+	#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 	Unique,
 	
 	StringImmutable,
@@ -163,6 +166,7 @@ pub enum ValueKindMatchAsRef <'a> {
 	Symbol (&'a Symbol),
 	#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 	Keyword (&'a Keyword),
+	#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 	Unique (&'a Unique),
 	
 	StringImmutable (&'a StringImmutable),
@@ -239,6 +243,7 @@ pub enum ValueKindMatchInto {
 	Symbol (Symbol),
 	#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 	Keyword (Keyword),
+	#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 	Unique (Unique),
 	
 	StringImmutable (StringImmutable),
@@ -315,6 +320,7 @@ pub enum ValueKindMatchAsRef2 <'a> {
 	Symbol (&'a Symbol, &'a Symbol),
 	#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 	Keyword (&'a Keyword, &'a Keyword),
+	#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 	Unique (&'a Unique, &'a Unique),
 	
 	StringImmutable (&'a StringImmutable, &'a StringImmutable),
@@ -395,6 +401,7 @@ pub enum ValueClass {
 	Symbol,
 	#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 	Keyword,
+	#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 	Unique,
 	
 	String,
@@ -447,6 +454,7 @@ pub enum ValueClassMatchAsRef <'a> {
 	Symbol (&'a Symbol),
 	#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 	Keyword (&'a Keyword),
+	#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 	Unique (&'a Unique),
 	
 	String (StringMatchAsRef<'a>),
@@ -499,6 +507,7 @@ pub enum ValueClassMatchInto {
 	Symbol (Symbol),
 	#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 	Keyword (Keyword),
+	#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 	Unique (Unique),
 	
 	String (StringMatchInto),
@@ -551,6 +560,7 @@ pub enum ValueClassMatchAsRef2 <'a> {
 	Symbol (&'a Symbol, &'a Symbol),
 	#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 	Keyword (&'a Keyword, &'a Keyword),
+	#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 	Unique (&'a Unique, &'a Unique),
 	
 	String (StringMatchAsRef2<'a>),
@@ -700,6 +710,7 @@ pub enum Value {
 	Symbol ( ValueMeta1, Symbol, ValueMeta2 ),
 	#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 	Keyword ( ValueMeta1, Keyword, ValueMeta2 ),
+	#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 	Unique ( ValueMeta1, Unique, ValueMeta2 ),
 	
 	StringImmutable ( ValueMeta1, StringImmutable, ValueMeta2 ),
@@ -790,6 +801,7 @@ impl Value {
 			Value::Symbol (_, _, _) => ValueKind::Symbol,
 			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			Value::Keyword (_, _, _) => ValueKind::Keyword,
+			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			Value::Unique (_, _, _) => ValueKind::Unique,
 			
 			Value::StringImmutable (_, _, _) => ValueKind::StringImmutable,
@@ -874,6 +886,7 @@ impl Value {
 			Value::Symbol (_, ref self_0, _) => ValueKindMatchAsRef::Symbol (self_0),
 			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			Value::Keyword (_, ref self_0, _) => ValueKindMatchAsRef::Keyword (self_0),
+			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			Value::Unique (_, ref self_0, _) => ValueKindMatchAsRef::Unique (self_0),
 			
 			Value::StringImmutable (_, ref self_0, _) => ValueKindMatchAsRef::StringImmutable (self_0),
@@ -958,6 +971,7 @@ impl Value {
 			Value::Symbol (_, self_0, _) => ValueKindMatchInto::Symbol (self_0),
 			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			Value::Keyword (_, self_0, _) => ValueKindMatchInto::Keyword (self_0),
+			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			Value::Unique (_, self_0, _) => ValueKindMatchInto::Unique (self_0),
 			
 			Value::StringImmutable (_, self_0, _) => ValueKindMatchInto::StringImmutable (self_0),
@@ -1046,6 +1060,7 @@ impl Value {
 			(&Value::Symbol (_, ref self_0, _), &Value::Symbol (_, ref other_0, _)) => ValueKindMatchAsRef2::Symbol (self_0, other_0),
 			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			(&Value::Keyword (_, ref self_0, _), &Value::Keyword (_, ref other_0, _)) => ValueKindMatchAsRef2::Keyword (self_0, other_0),
+			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			(&Value::Unique (_, ref self_0, _), &Value::Unique (_, ref other_0, _)) => ValueKindMatchAsRef2::Unique (self_0, other_0),
 			
 			(&Value::StringImmutable (_, ref self_0, _), &Value::StringImmutable (_, ref other_0, _)) => ValueKindMatchAsRef2::StringImmutable (self_0, other_0),
@@ -1134,6 +1149,7 @@ impl Value {
 			Value::Symbol (_, _, _) => ValueClass::Symbol,
 			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			Value::Keyword (_, _, _) => ValueClass::Keyword,
+			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			Value::Unique (_, _, _) => ValueClass::Unique,
 			
 			Value::StringImmutable (_, _, _) => ValueClass::String,
@@ -1218,6 +1234,7 @@ impl Value {
 			Value::Symbol (_, ref self_0, _) => ValueClassMatchAsRef::Symbol (self_0),
 			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			Value::Keyword (_, ref self_0, _) => ValueClassMatchAsRef::Keyword (self_0),
+			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			Value::Unique (_, ref self_0, _) => ValueClassMatchAsRef::Unique (self_0),
 			
 			Value::StringImmutable (_, ref self_0, _) => ValueClassMatchAsRef::String (StringMatchAsRef::Immutable (self_0)),
@@ -1302,6 +1319,7 @@ impl Value {
 			Value::Symbol (_, self_0, _) => ValueClassMatchInto::Symbol (self_0),
 			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			Value::Keyword (_, self_0, _) => ValueClassMatchInto::Keyword (self_0),
+			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			Value::Unique (_, self_0, _) => ValueClassMatchInto::Unique (self_0),
 			
 			Value::StringImmutable (_, self_0, _) => ValueClassMatchInto::String (StringMatchInto::Immutable (self_0)),
@@ -1394,6 +1412,7 @@ impl Value {
 			(&Value::Symbol (_, ref self_0, _), &Value::Symbol (_, ref other_0, _)) => ValueClassMatchAsRef2::Symbol (self_0, other_0),
 			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			(&Value::Keyword (_, ref self_0, _), &Value::Keyword (_, ref other_0, _)) => ValueClassMatchAsRef2::Keyword (self_0, other_0),
+			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			(&Value::Unique (_, ref self_0, _), &Value::Unique (_, ref other_0, _)) => ValueClassMatchAsRef2::Unique (self_0, other_0),
 			
 			(&Value::StringImmutable (_, ref self_0, _), &Value::StringImmutable (_, ref other_0, _)) => ValueClassMatchAsRef2::String (StringMatchAsRef2::ImmutableBoth (self_0, other_0)),
@@ -1518,6 +1537,7 @@ impl Value {
 			ValueKindMatchAsRef2::Symbol (self_0, other_0) => Symbol::is_self (self_0, other_0),
 			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			ValueKindMatchAsRef2::Keyword (self_0, other_0) => Keyword::is_self (self_0, other_0),
+			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			ValueKindMatchAsRef2::Unique (self_0, other_0) => Unique::is_self (self_0, other_0),
 			
 			ValueKindMatchAsRef2::StringImmutable (self_0, other_0) => StringImmutable::is_self (self_0, other_0),
@@ -1595,6 +1615,7 @@ impl Value {
 			Value::Symbol (_, ref self_0, _) => self_0.clone () .into_0 (),
 			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			Value::Keyword (_, ref self_0, _) => self_0.clone () .into_0 (),
+			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			Value::Unique (_, ref self_0, _) => self_0.clone () .into_0 (),
 			
 			Value::StringImmutable (_, ref self_0, _) => self_0.clone () .into_0 (),
@@ -1714,6 +1735,7 @@ impl ValueKindMatchInto {
 			ValueKindMatchInto::Symbol (value) => value.into (),
 			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			ValueKindMatchInto::Keyword (value) => value.into (),
+			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			ValueKindMatchInto::Unique (value) => value.into (),
 			
 			ValueKindMatchInto::StringImmutable (value) => value.into (),
@@ -1796,6 +1818,7 @@ impl ValueClassMatchInto {
 			ValueClassMatchInto::Symbol (value) => value.into (),
 			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			ValueClassMatchInto::Keyword (value) => value.into (),
+			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			ValueClassMatchInto::Unique (value) => value.into (),
 			
 			ValueClassMatchInto::String (class) => class.value (),

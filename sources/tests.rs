@@ -596,6 +596,7 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 			false,
 		(Some (expected_value_without_optimizations), Some (expected_value_with_optimizations)) =>
 			match Value::kind_match_as_ref_2 (expected_value_without_optimizations, expected_value_with_optimizations) {
+				
 				ValueKindMatchAsRef2::Null |
 				ValueKindMatchAsRef2::Void |
 				ValueKindMatchAsRef2::Undefined |
@@ -630,11 +631,14 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 				#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 				ValueKindMatchAsRef2::Path (_, _) =>
 					true,
-				ValueKindMatchAsRef2::Unique (_, _) |
+				
 				ValueKindMatchAsRef2::ProcedureExtended (_, _) |
 				ValueKindMatchAsRef2::ProcedureLambda (_, _) |
 				ValueKindMatchAsRef2::SyntaxExtended (_, _) |
 				ValueKindMatchAsRef2::SyntaxLambda (_, _) =>
+					false,
+				#[ cfg ( feature = "vonuvoli_values_unique" ) ]
+				ValueKindMatchAsRef2::Unique (_, _) =>
 					false,
 				#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 				ValueKindMatchAsRef2::RecordKind (_, _) |
@@ -661,8 +665,10 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 				#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 				ValueKindMatchAsRef2::Opaque (_, _) =>
 					false,
+				
 				ValueKindMatchAsRef2::Missmatched =>
 					fail! (0x670c12cb),
+				
 			},
 		(_, _) =>
 			fail_panic! (0x2f1f97f3),

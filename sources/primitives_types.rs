@@ -93,6 +93,7 @@ macro_rules! def_type_primitive_enum {
 			IsSymbol,
 			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			IsKeyword,
+			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			IsUnique,
 			
 			IsString,
@@ -364,6 +365,7 @@ pub fn type_primitive_1_evaluate_0 (primitive : TypePrimitive1, input_1 : &Value
 		TypePrimitive1::IsKeyword =>
 			return is_keyword (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 		TypePrimitive1::IsUnique =>
 			return is_unique (input_1) .into_0 (),
 		
@@ -797,6 +799,7 @@ pub fn type_primitive_2_evaluate_0 (primitive : TypePrimitive2, input_1 : &Value
 		TypePrimitive2::IsKeyword =>
 			return is_keyword_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 		TypePrimitive2::IsUnique =>
 			return is_unique_all_2 (input_1, input_2) .into_0 (),
 		
@@ -1230,6 +1233,7 @@ pub fn type_primitive_3_evaluate_0 (primitive : TypePrimitive3, input_1 : &Value
 		TypePrimitive3::IsKeyword =>
 			return is_keyword_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 		TypePrimitive3::IsUnique =>
 			return is_unique_all_3 (input_1, input_2, input_3) .into_0 (),
 		
@@ -1663,6 +1667,7 @@ pub fn type_primitive_4_evaluate_0 (primitive : TypePrimitive4, input_1 : &Value
 		TypePrimitive4::IsKeyword =>
 			return is_keyword_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 		TypePrimitive4::IsUnique =>
 			return is_unique_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
@@ -2104,6 +2109,7 @@ pub fn type_primitive_n_evaluate_0 (primitive : TypePrimitiveN, inputs : &[&Valu
 		TypePrimitiveN::IsKeyword =>
 			return is_keyword_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 		TypePrimitiveN::IsUnique =>
 			return is_unique_all_n (inputs) .into_0 (),
 		
@@ -2507,6 +2513,7 @@ macro_rules! def_type_primitive_v_alternative_fn {
 				#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 				TypePrimitiveV::IsKeyword =>
 					Some ($alternative::IsKeyword),
+				#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 				TypePrimitiveV::IsUnique =>
 					Some ($alternative::IsUnique),
 				TypePrimitiveV::IsString =>

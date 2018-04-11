@@ -29,6 +29,7 @@ impl hash::Hash for Value {
 			ValueKindMatchAsRef::Symbol (self_0) => { hasher.write_u32 (0x1fcc2d57); self_0.hash (hasher); },
 			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			ValueKindMatchAsRef::Keyword (self_0) => { hasher.write_u32 (0xc1ebdc4e); self_0.hash (hasher); },
+			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			ValueKindMatchAsRef::Unique (self_0) => { hasher.write_u32 (0x7e74b485); self_0.hash (hasher); },
 			
 			ValueKindMatchAsRef::StringImmutable (self_0) => { hasher.write_u32 (0x85932088); self_0.hash (hasher); },

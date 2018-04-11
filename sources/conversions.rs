@@ -118,6 +118,7 @@ impl_from_for_Value_1! (Character, Character);
 impl_from_for_Value_1! (Symbol, Symbol);
 #[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 impl_from_for_Value_1! (Keyword, Keyword);
+#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 impl_from_for_Value_1! (Unique, Unique);
 impl_from_for_Value_1! (StringImmutable, StringImmutable);
 impl_from_for_Value_1! (StringMutable, StringMutable);
@@ -224,7 +225,10 @@ impl_from_for_type! (Path, StdString, value, Path::new_from_buffer (fs_path::Pat
 #[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 impl_from_for_type! (Path, &'static str, value, Path::new_from_ref (fs_path::Path::new (value), true));
 
+#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 impl_from_for_Value_3! (Unique, Unique, UniqueData, data, Unique::new (data));
+#[ cfg ( any ( feature = "vonuvoli_values_unique", feature = "vonuvoli_builtins_parameters" ) ) ]
+impl_from_for_type! (Unique, UniqueData, data, Unique::new (data));
 
 impl_from_for_type! (PairImmutable, (Value, Value), value, { let (left, right) = value; pair_immutable_new (left, right) });
 impl_from_for_type! (PairMutable, (Value, Value), value, { let (left, right) = value; pair_mutable_new (left, right) });

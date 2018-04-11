@@ -263,6 +263,7 @@ pub mod exports {
 	};
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 	pub use super::{
 			
 			is_unique, is_unique_eq,
@@ -1517,15 +1518,19 @@ def_fn_predicate_any_x1! (is_keyword_eq, &str, is_keyword_eq_any_2, is_keyword_e
 
 
 
+#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_unique (value : &Value) -> (bool) {
 	return value.is_kind (ValueKind::Unique);
 }
 
+#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 def_fn_predicate_all! (is_unique, is_unique_all_2, is_unique_all_3, is_unique_all_4, is_unique_all_n);
+#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 def_fn_predicate_any! (is_unique, is_unique_any_2, is_unique_any_3, is_unique_any_4, is_unique_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_unique_eq (expected : &Unique, value : &Value) -> (bool) {
 	match value.kind_match_as_ref () {
@@ -1536,7 +1541,9 @@ pub fn is_unique_eq (expected : &Unique, value : &Value) -> (bool) {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 def_fn_predicate_all_x1! (is_unique_eq, &Unique, is_unique_eq_all_2, is_unique_eq_all_3, is_unique_eq_all_4, is_unique_eq_all_n);
+#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 def_fn_predicate_any_x1! (is_unique_eq, &Unique, is_unique_eq_any_2, is_unique_eq_any_3, is_unique_eq_any_4, is_unique_eq_any_n);
 
 

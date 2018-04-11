@@ -35,6 +35,7 @@ impl fmt::Display for Value {
 			ValueKindMatchAsRef::Symbol (self_0) => self_0.fmt (formatter),
 			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			ValueKindMatchAsRef::Keyword (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			ValueKindMatchAsRef::Unique (self_0) => self_0.fmt (formatter),
 			
 			ValueKindMatchAsRef::StringImmutable (self_0) => self_0.fmt (formatter),
@@ -116,6 +117,7 @@ impl fmt::Debug for Value {
 			ValueKindMatchAsRef::Symbol (self_0) => self_0.fmt (formatter),
 			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			ValueKindMatchAsRef::Keyword (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			ValueKindMatchAsRef::Unique (self_0) => self_0.fmt (formatter),
 			
 			ValueKindMatchAsRef::StringImmutable (self_0) => self_0.fmt (formatter),
@@ -368,6 +370,7 @@ impl fmt::Display for Keyword {
 
 
 
+#[ cfg ( any ( feature = "vonuvoli_values_unique", feature = "vonuvoli_builtins_parameters" ) ) ]
 impl fmt::Display for Unique {
 	
 	#[ inline (never) ]

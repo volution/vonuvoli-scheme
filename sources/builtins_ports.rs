@@ -748,6 +748,7 @@ pub fn port_output_value_display_0 (port : &mut PortBackendWriter, value : &Valu
 			try! (port.char_write_string (string, true));
 		},
 		
+		#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 		ValueClassMatchAsRef::Unique (_value) => {
 			fail_unimplemented! (0x5702df25);
 		},
@@ -993,6 +994,7 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 			try! (port.char_write_string (&formatted, true));
 		},
 		
+		#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 		ValueClassMatchAsRef::Unique (value) => {
 			// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
 			let formatted = format! ("{}", value);

@@ -251,6 +251,7 @@ pub(crate) mod values_pairs;
 pub(crate) mod values_records;
 pub(crate) mod values_strings;
 pub(crate) mod values_symbols;
+#[ cfg ( any ( feature = "vonuvoli_values_unique", feature = "vonuvoli_builtins_parameters" ) ) ]
 pub(crate) mod values_unique;
 pub(crate) mod values_value;
 pub(crate) mod values_values;
@@ -372,6 +373,7 @@ pub mod internals {
 	pub use super::values_records::exports as values_records;
 	pub use super::values_strings::exports as values_strings;
 	pub use super::values_symbols::exports as values_symbols;
+	#[ cfg ( any ( feature = "vonuvoli_values_unique", feature = "vonuvoli_builtins_parameters" ) ) ]
 	pub use super::values_unique::exports as values_unique;
 	pub use super::values_value::exports as values_value;
 	pub use super::values_values::exports as values_values;

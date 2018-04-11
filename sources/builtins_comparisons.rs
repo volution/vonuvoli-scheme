@@ -47,7 +47,6 @@ pub mod exports {
 			number_real_compare_1, number_real_compare_1a,
 			character_compare_1, character_compare_1a,
 			symbol_compare_1, symbol_compare_1a,
-			unique_compare_1, unique_compare_1a,
 			string_compare_1,
 			string_immutable_compare_1, string_immutable_compare_1a,
 			string_mutable_compare_1, string_mutable_compare_1a,
@@ -79,7 +78,6 @@ pub mod exports {
 			number_real_compare_2, number_real_compare_2a,
 			character_compare_2, character_compare_2a,
 			symbol_compare_2, symbol_compare_2a,
-			unique_compare_2, unique_compare_2a,
 			string_compare_2,
 			string_immutable_compare_2, string_immutable_compare_2a,
 			string_mutable_compare_2, string_mutable_compare_2a,
@@ -111,7 +109,6 @@ pub mod exports {
 			number_real_compare_3, number_real_compare_3a,
 			character_compare_3, character_compare_3a,
 			symbol_compare_3, symbol_compare_3a,
-			unique_compare_3, unique_compare_3a,
 			string_compare_3,
 			string_immutable_compare_3, string_immutable_compare_3a,
 			string_mutable_compare_3, string_mutable_compare_3a,
@@ -143,7 +140,6 @@ pub mod exports {
 			number_real_compare_4, number_real_compare_4a,
 			character_compare_4, character_compare_4a,
 			symbol_compare_4, symbol_compare_4a,
-			unique_compare_4, unique_compare_4a,
 			string_compare_4,
 			string_immutable_compare_4, string_immutable_compare_4a,
 			string_mutable_compare_4, string_mutable_compare_4a,
@@ -175,7 +171,6 @@ pub mod exports {
 			number_real_compare_n, number_real_compare_na,
 			character_compare_n, character_compare_na,
 			symbol_compare_n, symbol_compare_na,
-			unique_compare_n, unique_compare_na,
 			string_compare_n,
 			string_immutable_compare_n, string_immutable_compare_na,
 			string_mutable_compare_n, string_mutable_compare_na,
@@ -210,6 +205,18 @@ pub mod exports {
 			keyword_compare_3, keyword_compare_3a,
 			keyword_compare_4, keyword_compare_4a,
 			keyword_compare_n, keyword_compare_na,
+			
+	};
+	
+	
+	#[ cfg ( feature = "vonuvoli_values_unique" ) ]
+	pub use super::{
+			
+			unique_compare_1, unique_compare_1a,
+			unique_compare_2, unique_compare_2a,
+			unique_compare_3, unique_compare_3a,
+			unique_compare_4, unique_compare_4a,
+			unique_compare_n, unique_compare_na,
 			
 	};
 	
@@ -628,6 +635,7 @@ pub fn compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Co
 		ValueKindMatchAsRef::Keyword (value) =>
 			return keyword_compare_1a (value, comparison),
 		
+		#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 		ValueKindMatchAsRef::Unique (value) =>
 			return unique_compare_1a (value, comparison),
 		
@@ -779,6 +787,7 @@ pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef
 		ValueKindMatchAsRef2::Keyword (left, right) =>
 			return keyword_compare_2a (left, right, comparison),
 		
+		#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 		ValueKindMatchAsRef2::Unique (left, right) =>
 			return unique_compare_2a (left, right, comparison),
 		
@@ -1163,15 +1172,18 @@ pub fn keyword_compare_2a <ValueRef : StdAsRef<Keyword>> (left : ValueRef, right
 
 
 
+#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 def_fn_compare! (Unique,
 		unique_compare_1, unique_compare_2, unique_compare_3, unique_compare_4, unique_compare_n,
 		unique_compare_1a, unique_compare_2a, unique_compare_3a, unique_compare_4a, unique_compare_na);
 
+#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn unique_compare_1a <ValueRef : StdAsRef<Unique>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn unique_compare_2a <ValueRef : StdAsRef<Unique>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
