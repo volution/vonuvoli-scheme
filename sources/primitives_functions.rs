@@ -3,9 +3,11 @@
 use super::builtins::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
-use super::extended_procedures::exports::*;
 use super::primitives_procedures::exports::*;
 use super::values::exports::*;
+
+#[ cfg ( feature = "vonuvoli_values_extended" ) ]
+use super::extended_procedures::exports::*;
 
 use super::prelude::*;
 
@@ -69,13 +71,20 @@ pub enum FunctionsPrimitive1 {
 	Values,
 	Identity,
 	
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	CurryLeft,
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	CurryRight,
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	Compose1,
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	ComposeV,
 	
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	Constant,
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	ConstantStar,
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	Not,
 	
 }
@@ -104,9 +113,13 @@ pub enum FunctionsPrimitive2 {
 	
 	Values,
 	
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	CurryLeft,
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	CurryRight,
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	Compose1,
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	ComposeV,
 	
 }
@@ -132,9 +145,13 @@ pub enum FunctionsPrimitive3 {
 	
 	Values,
 	
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	CurryLeft,
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	CurryRight,
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	Compose1,
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	ComposeV,
 	
 }
@@ -160,9 +177,13 @@ pub enum FunctionsPrimitive4 {
 	
 	Values,
 	
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	CurryLeft,
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	CurryRight,
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	Compose1,
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	ComposeV,
 	
 }
@@ -186,7 +207,9 @@ pub enum FunctionsPrimitive5 {
 	StringsMap,
 	StringsIterate,
 	
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	CurryLeft,
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	CurryRight,
 	
 }
@@ -212,9 +235,13 @@ pub enum FunctionsPrimitiveN {
 	
 	Values,
 	
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	CurryLeft,
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	CurryRight,
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	Compose1,
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	ComposeV,
 	
 }
@@ -240,9 +267,13 @@ pub enum FunctionsPrimitiveV {
 	
 	Values,
 	
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	CurryLeft,
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	CurryRight,
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	Compose1,
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	ComposeV,
 	
 }
@@ -276,27 +307,34 @@ pub fn functions_primitive_1_evaluate (primitive : FunctionsPrimitive1, input_1 
 		FunctionsPrimitive1::Values =>
 			return values_build_1 (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitive1::CurryLeft =>
 			succeed! (input_1.clone ()),
 		
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitive1::CurryRight =>
 			succeed! (input_1.clone ()),
 		
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitive1::Compose1 =>
 			succeed! (input_1.clone ()),
 		
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitive1::ComposeV =>
 			succeed! (input_1.clone ()),
 		
 		FunctionsPrimitive1::Identity =>
 			succeed! (input_1.clone ()),
 		
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitive1::Constant =>
 			succeed! (ProcedureExtendedInternals::Constant (input_1.clone (), false) .into ()),
 		
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitive1::ConstantStar =>
 			succeed! (ProcedureExtendedInternals::Constant (input_1.clone (), true) .into ()),
 		
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitive1::Not =>
 			succeed! (ProcedureExtendedInternals::Not (input_1.clone ()) .into ()),
 		
@@ -349,15 +387,19 @@ pub fn functions_primitive_2_evaluate (primitive : FunctionsPrimitive2, input_1 
 		FunctionsPrimitive2::Values =>
 			return values_build_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitive2::CurryLeft =>
 			return curry_1 (input_1, input_2, false) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitive2::CurryRight =>
 			return curry_1 (input_1, input_2, true) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitive2::Compose1 =>
 			return compose_2 (input_1, input_2, false) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitive2::ComposeV =>
 			return compose_2 (input_1, input_2, true) .into_0 (),
 		
@@ -404,15 +446,19 @@ pub fn functions_primitive_3_evaluate (primitive : FunctionsPrimitive3, input_1 
 		FunctionsPrimitive3::Values =>
 			return values_build_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitive3::CurryLeft =>
 			return curry_2 (input_1, input_2, input_3, false) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitive3::CurryRight =>
 			return curry_2 (input_1, input_2, input_3, true) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitive3::Compose1 =>
 			return compose_3 (input_1, input_2, input_3, false) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitive3::ComposeV =>
 			return compose_3 (input_1, input_2, input_3, true) .into_0 (),
 		
@@ -459,15 +505,19 @@ pub fn functions_primitive_4_evaluate (primitive : FunctionsPrimitive4, input_1 
 		FunctionsPrimitive4::Values =>
 			return values_build_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitive4::CurryLeft =>
 			return curry_3 (input_1, input_2, input_3, input_4, false) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitive4::CurryRight =>
 			return curry_3 (input_1, input_2, input_3, input_4, true) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitive4::Compose1 =>
 			return compose_4 (input_1, input_2, input_3, input_4, false) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitive4::ComposeV =>
 			return compose_4 (input_1, input_2, input_3, input_4, true) .into_0 (),
 		
@@ -511,9 +561,11 @@ pub fn functions_primitive_5_evaluate (primitive : FunctionsPrimitive5, input_1 
 		FunctionsPrimitive5::StringsIterate =>
 			return strings_iterate_4 (evaluator, input_1, input_2, input_3, input_4, input_5),
 		
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitive5::CurryLeft =>
 			return curry_4 (input_1, input_2, input_3, input_4, input_5, false) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitive5::CurryRight =>
 			return curry_4 (input_1, input_2, input_3, input_4, input_5, true) .into_0 (),
 		
@@ -580,19 +632,23 @@ pub fn functions_primitive_n_evaluate (primitive : FunctionsPrimitiveN, inputs :
 		FunctionsPrimitiveN::Values =>
 			return values_build_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitiveN::CurryLeft => {
 			let (callable, inputs) = try_some! (inputs.split_first (), 0xd0ecd544);
 			return curry_n (callable, inputs, false);
 		},
 		
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitiveN::CurryRight => {
 			let (callable, inputs) = try_some! (inputs.split_first (), 0x1a8aea63);
 			return curry_n (callable, inputs, true);
 		},
 		
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitiveN::Compose1 =>
 			return compose_n (inputs, false),
 		
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitiveN::ComposeV =>
 			return compose_n (inputs, true),
 		
@@ -627,12 +683,16 @@ pub fn functions_primitive_v_alternative_0 (primitive : FunctionsPrimitiveV) -> 
 			None,
 		FunctionsPrimitiveV::Values =>
 			Some (FunctionsPrimitive0::Values),
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitiveV::CurryLeft =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitiveV::CurryRight =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitiveV::Compose1 =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitiveV::ComposeV =>
 			None,
 	}
@@ -666,12 +726,16 @@ pub fn functions_primitive_v_alternative_1 (primitive : FunctionsPrimitiveV) -> 
 			None,
 		FunctionsPrimitiveV::Values =>
 			Some (FunctionsPrimitive1::Values),
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitiveV::CurryLeft =>
 			Some (FunctionsPrimitive1::CurryLeft),
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitiveV::CurryRight =>
 			Some (FunctionsPrimitive1::CurryRight),
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitiveV::Compose1 =>
 			Some (FunctionsPrimitive1::Compose1),
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitiveV::ComposeV =>
 			Some (FunctionsPrimitive1::ComposeV),
 	}
@@ -705,12 +769,16 @@ pub fn functions_primitive_v_alternative_2 (primitive : FunctionsPrimitiveV) -> 
 			Some (FunctionsPrimitive2::StringsIterate),
 		FunctionsPrimitiveV::Values =>
 			Some (FunctionsPrimitive2::Values),
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitiveV::CurryLeft =>
 			Some (FunctionsPrimitive2::CurryLeft),
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitiveV::CurryRight =>
 			Some (FunctionsPrimitive2::CurryRight),
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitiveV::Compose1 =>
 			Some (FunctionsPrimitive2::Compose1),
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitiveV::ComposeV =>
 			Some (FunctionsPrimitive2::ComposeV),
 	}
@@ -744,12 +812,16 @@ pub fn functions_primitive_v_alternative_3 (primitive : FunctionsPrimitiveV) -> 
 			Some (FunctionsPrimitive3::StringsIterate),
 		FunctionsPrimitiveV::Values =>
 			Some (FunctionsPrimitive3::Values),
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitiveV::CurryLeft =>
 			Some (FunctionsPrimitive3::CurryLeft),
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitiveV::CurryRight =>
 			Some (FunctionsPrimitive3::CurryRight),
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitiveV::Compose1 =>
 			Some (FunctionsPrimitive3::Compose1),
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitiveV::ComposeV =>
 			Some (FunctionsPrimitive3::ComposeV),
 	}
@@ -783,12 +855,16 @@ pub fn functions_primitive_v_alternative_4 (primitive : FunctionsPrimitiveV) -> 
 			Some (FunctionsPrimitive4::StringsIterate),
 		FunctionsPrimitiveV::Values =>
 			Some (FunctionsPrimitive4::Values),
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitiveV::CurryLeft =>
 			Some (FunctionsPrimitive4::CurryLeft),
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitiveV::CurryRight =>
 			Some (FunctionsPrimitive4::CurryRight),
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitiveV::Compose1 =>
 			Some (FunctionsPrimitive4::Compose1),
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitiveV::ComposeV =>
 			Some (FunctionsPrimitive4::ComposeV),
 	}
@@ -822,12 +898,16 @@ pub fn functions_primitive_v_alternative_5 (primitive : FunctionsPrimitiveV) -> 
 			Some (FunctionsPrimitive5::StringsIterate),
 		FunctionsPrimitiveV::Values =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitiveV::CurryLeft =>
 			Some (FunctionsPrimitive5::CurryLeft),
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitiveV::CurryRight =>
 			Some (FunctionsPrimitive5::CurryRight),
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitiveV::Compose1 =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitiveV::ComposeV =>
 			None,
 	}
@@ -861,12 +941,16 @@ pub fn functions_primitive_v_alternative_n (primitive : FunctionsPrimitiveV) -> 
 			Some (FunctionsPrimitiveN::StringsIterate),
 		FunctionsPrimitiveV::Values =>
 			Some (FunctionsPrimitiveN::Values),
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitiveV::CurryLeft =>
 			Some (FunctionsPrimitiveN::CurryLeft),
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitiveV::CurryRight =>
 			Some (FunctionsPrimitiveN::CurryRight),
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitiveV::Compose1 =>
 			Some (FunctionsPrimitiveN::Compose1),
+		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitiveV::ComposeV =>
 			Some (FunctionsPrimitiveN::ComposeV),
 	}

@@ -4,10 +4,12 @@ use super::builtins::exports::*;
 use super::constants::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
-use super::extended_procedures::exports::*;
 use super::primitives::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
+
+#[ cfg ( feature = "vonuvoli_values_extended" ) ]
+use super::extended_procedures::exports::*;
 
 use super::prelude::*;
 
@@ -37,7 +39,9 @@ pub mod exports {
 	
 	pub use super::{values_build_0, values_build_1, values_build_2, values_build_3, values_build_4, values_build_n};
 	
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	pub use super::{curry_1, curry_2, curry_3, curry_4, curry_n};
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	pub use super::{compose_2, compose_3, compose_4, compose_n};
 	
 }
@@ -949,26 +953,31 @@ pub fn values_build_n (values : &[&Value]) -> (Value) {
 
 
 
+#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn curry_1 (callable : &Value, input_1 : &Value, right : bool) -> (Value) {
 	return curry_n (callable, &[input_1], right) .unwrap ();
 }
 
+#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn curry_2 (callable : &Value, input_1 : &Value, input_2 : &Value, right : bool) -> (Value) {
 	return curry_n (callable, &[input_1, input_2], right) .unwrap ();
 }
 
+#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn curry_3 (callable : &Value, input_1 : &Value, input_2 : &Value, input_3 : &Value, right : bool) -> (Value) {
 	return curry_n (callable, &[input_1, input_2, input_3], right) .unwrap ();
 }
 
+#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn curry_4 (callable : &Value, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, right : bool) -> (Value) {
 	return curry_n (callable, &[input_1, input_2, input_3, input_4], right) .unwrap ();
 }
 
+#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn curry_n <ValueRef : StdAsRef<Value>> (callable : &Value, inputs : &[ValueRef], right : bool) -> (Outcome<Value>) {
 	if inputs.is_empty () {
@@ -987,21 +996,25 @@ pub fn curry_n <ValueRef : StdAsRef<Value>> (callable : &Value, inputs : &[Value
 
 
 
+#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn compose_2 (callable_1 : &Value, callable_2 : &Value, with_values : bool) -> (Value) {
 	return compose_n (&[callable_1, callable_2], with_values) .unwrap ();
 }
 
+#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn compose_3 (callable_1 : &Value, callable_2 : &Value, callable_3 : &Value, with_values : bool) -> (Value) {
 	return compose_n (&[callable_1, callable_2, callable_3], with_values) .unwrap ();
 }
 
+#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn compose_4 (callable_1 : &Value, callable_2 : &Value, callable_3 : &Value, callable_4 : &Value, with_values : bool) -> (Value) {
 	return compose_n (&[callable_1, callable_2, callable_3, callable_4], with_values) .unwrap ();
 }
 
+#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn compose_n <ValueRef : StdAsRef<Value>> (callables : &[ValueRef], with_values : bool) -> (Outcome<Value>) {
 	match callables.len () {

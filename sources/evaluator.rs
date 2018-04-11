@@ -6,11 +6,13 @@ use super::contexts::exports::*;
 use super::conversions::exports::*;
 use super::errors::exports::*;
 use super::expressions::exports::*;
-use super::extended_procedures::exports::*;
 use super::lambdas::exports::*;
 use super::primitives::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
+
+#[ cfg ( feature = "vonuvoli_values_extended" ) ]
+use super::extended_procedures::exports::*;
 
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 use super::parameters::exports::*;
@@ -144,6 +146,7 @@ impl Evaluator {
 				self.evaluate_for_procedure_generic_call (evaluation, expression),
 			Expression::ProcedurePrimitiveCall (ref expression) =>
 				self.evaluate_for_procedure_primitive_call (evaluation, expression),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			Expression::ProcedureExtendedCall (ref expression) =>
 				self.evaluate_for_procedure_extended_call (evaluation, expression),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
@@ -272,6 +275,7 @@ impl Evaluator {
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_for_procedure_extended_call (&self, evaluation : &mut EvaluatorContext, input : &ExpressionForProcedureExtendedCall) -> (Outcome<Value>) {
 		match *input {
@@ -1163,6 +1167,7 @@ impl Evaluator {
 		match callable.kind_match_as_ref () {
 			ValueKindMatchAsRef::ProcedurePrimitive (callable) =>
 				return self.evaluate_procedure_primitive_with_values (evaluation, *callable, inputs),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			ValueKindMatchAsRef::ProcedureExtended (callable) =>
 				return self.evaluate_procedure_extended_with_values (evaluation, callable, inputs),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
@@ -1199,6 +1204,7 @@ impl Evaluator {
 					primitive =>
 						return self.evaluate_procedure_primitive_0_g (evaluation, primitive),
 				},
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			ValueKindMatchAsRef::ProcedureExtended (callable) =>
 				return self.evaluate_procedure_extended_0 (evaluation, callable),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
@@ -1232,6 +1238,7 @@ impl Evaluator {
 					primitive =>
 						return self.evaluate_procedure_primitive_1_g_with_values (evaluation, primitive, input_1),
 				},
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			ValueKindMatchAsRef::ProcedureExtended (callable) =>
 				return self.evaluate_procedure_extended_1_with_values (evaluation, callable, input_1),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
@@ -1263,6 +1270,7 @@ impl Evaluator {
 					primitive =>
 						return self.evaluate_procedure_primitive_2_g_with_values (evaluation, primitive, input_1, input_2),
 				},
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			ValueKindMatchAsRef::ProcedureExtended (callable) =>
 				return self.evaluate_procedure_extended_2_with_values (evaluation, callable, input_1, input_2),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
@@ -1295,6 +1303,7 @@ impl Evaluator {
 					primitive =>
 						return self.evaluate_procedure_primitive_3_g_with_values (evaluation, primitive, input_1, input_2, input_3),
 				},
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			ValueKindMatchAsRef::ProcedureExtended (callable) =>
 				return self.evaluate_procedure_extended_3_with_values (evaluation, callable, input_1, input_2, input_3),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
@@ -1328,6 +1337,7 @@ impl Evaluator {
 					primitive =>
 						return self.evaluate_procedure_primitive_4_g_with_values (evaluation, primitive, input_1, input_2, input_3, input_4),
 				},
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			ValueKindMatchAsRef::ProcedureExtended (callable) =>
 				return self.evaluate_procedure_extended_4_with_values (evaluation, callable, input_1, input_2, input_3, input_4),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
@@ -1362,6 +1372,7 @@ impl Evaluator {
 					primitive =>
 						return self.evaluate_procedure_primitive_5_g_with_values (evaluation, primitive, input_1, input_2, input_3, input_4, input_5),
 				},
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			ValueKindMatchAsRef::ProcedureExtended (callable) =>
 				return self.evaluate_procedure_extended_5_with_values (evaluation, callable, input_1, input_2, input_3, input_4, input_5),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
@@ -1393,6 +1404,7 @@ impl Evaluator {
 					primitive =>
 						return self.evaluate_procedure_primitive_n_g_with_values (evaluation, primitive, inputs),
 				},
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			ValueKindMatchAsRef::ProcedureExtended (callable) =>
 				return self.evaluate_procedure_extended_n_with_values (evaluation, callable, inputs),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
@@ -1567,6 +1579,7 @@ impl Evaluator {
 	
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_extended (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, inputs : &[Expression]) -> (Outcome<Value>) {
 		let inputs = try! (self.evaluate_slice (evaluation, inputs));
@@ -1574,30 +1587,35 @@ impl Evaluator {
 		return self.evaluate_procedure_extended_with_values (evaluation, extended, &inputs);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_extended_with_values (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, inputs : &[&Value]) -> (Outcome<Value>) {
 		return procedure_extended_evaluate_n (extended, inputs, evaluation);
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_extended_0 (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended) -> (Outcome<Value>) {
 		return procedure_extended_evaluate_0 (extended, evaluation);
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_extended_1 (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, input_1 : &Expression) -> (Outcome<Value>) {
 		let input_1 = try! (self.evaluate (evaluation, input_1));
 		return self.evaluate_procedure_extended_1_with_values (evaluation, extended, &input_1);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_extended_1_with_values (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, input_1 : &Value) -> (Outcome<Value>) {
 		return procedure_extended_evaluate_1 (extended, input_1, evaluation);
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_extended_2 (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, input_1 : &Expression, input_2 : &Expression) -> (Outcome<Value>) {
 		let input_1 = try! (self.evaluate (evaluation, input_1));
@@ -1605,12 +1623,14 @@ impl Evaluator {
 		return self.evaluate_procedure_extended_2_with_values (evaluation, extended, &input_1, &input_2);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_extended_2_with_values (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
 		return procedure_extended_evaluate_2 (extended, input_1, input_2, evaluation);
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_extended_3 (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression) -> (Outcome<Value>) {
 		let input_1 = try! (self.evaluate (evaluation, input_1));
@@ -1619,12 +1639,14 @@ impl Evaluator {
 		return self.evaluate_procedure_extended_3_with_values (evaluation, extended, &input_1, &input_2, &input_3);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_extended_3_with_values (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, input_1 : &Value, input_2 : &Value, input_3 : &Value) -> (Outcome<Value>) {
 		return procedure_extended_evaluate_3 (extended, input_1, input_2, input_3, evaluation);
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_extended_4 (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression, input_4 : &Expression) -> (Outcome<Value>) {
 		let input_1 = try! (self.evaluate (evaluation, input_1));
@@ -1634,12 +1656,14 @@ impl Evaluator {
 		return self.evaluate_procedure_extended_4_with_values (evaluation, extended, &input_1, &input_2, &input_3, &input_4);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_extended_4_with_values (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value) -> (Outcome<Value>) {
 		return procedure_extended_evaluate_4 (extended, input_1, input_2, input_3, input_4, evaluation);
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_extended_5 (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression, input_4 : &Expression, input_5 : &Expression) -> (Outcome<Value>) {
 		let input_1 = try! (self.evaluate (evaluation, input_1));
@@ -1650,12 +1674,14 @@ impl Evaluator {
 		return self.evaluate_procedure_extended_5_with_values (evaluation, extended, &input_1, &input_2, &input_3, &input_4, &input_5);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_extended_5_with_values (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value) -> (Outcome<Value>) {
 		return procedure_extended_evaluate_5 (extended, input_1, input_2, input_3, input_4, input_5, evaluation);
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_extended_n (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, inputs : &[Expression]) -> (Outcome<Value>) {
 		let inputs = try! (self.evaluate_slice (evaluation, inputs));
@@ -1663,6 +1689,7 @@ impl Evaluator {
 		return self.evaluate_procedure_extended_n_with_values (evaluation, extended, &inputs);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_extended_n_with_values (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, inputs : &[&Value]) -> (Outcome<Value>) {
 		return procedure_extended_evaluate_n (extended, inputs, evaluation);

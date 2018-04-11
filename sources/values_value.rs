@@ -2,8 +2,6 @@
 
 use super::constants::exports::*;
 use super::errors::exports::*;
-use super::extended_procedures::exports::*;
-use super::extended_syntaxes::exports::*;
 use super::lambdas::exports::*;
 use super::primitives::exports::*;
 use super::values_arrays::exports::*;
@@ -30,6 +28,12 @@ use super::contexts::exports::*;
 
 #[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 use super::values_records::exports::*;
+
+#[ cfg ( feature = "vonuvoli_values_extended" ) ]
+use super::extended_procedures::exports::*;
+
+#[ cfg ( feature = "vonuvoli_values_extended" ) ]
+use super::extended_syntaxes::exports::*;
 
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 use super::native_procedures::exports::*;
@@ -123,12 +127,14 @@ pub enum ValueKind {
 	Error,
 	
 	ProcedurePrimitive,
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	ProcedureExtended,
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	ProcedureNative,
 	ProcedureLambda,
 	
 	SyntaxPrimitive,
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	SyntaxExtended,
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	SyntaxNative,
@@ -203,12 +209,14 @@ pub enum ValueKindMatchAsRef <'a> {
 	Error (&'a Error),
 	
 	ProcedurePrimitive (&'a ProcedurePrimitive),
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	ProcedureExtended (&'a ProcedureExtended),
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	ProcedureNative (&'a ProcedureNative),
 	ProcedureLambda (&'a ProcedureLambda),
 	
 	SyntaxPrimitive (&'a SyntaxPrimitive),
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	SyntaxExtended (&'a SyntaxExtended),
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	SyntaxNative (&'a SyntaxNative),
@@ -283,12 +291,14 @@ pub enum ValueKindMatchInto {
 	Error (Error),
 	
 	ProcedurePrimitive (ProcedurePrimitive),
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	ProcedureExtended (ProcedureExtended),
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	ProcedureNative (ProcedureNative),
 	ProcedureLambda (ProcedureLambda),
 	
 	SyntaxPrimitive (SyntaxPrimitive),
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	SyntaxExtended (SyntaxExtended),
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	SyntaxNative (SyntaxNative),
@@ -363,12 +373,14 @@ pub enum ValueKindMatchAsRef2 <'a> {
 	Error (&'a Error, &'a Error),
 	
 	ProcedurePrimitive (&'a ProcedurePrimitive, &'a ProcedurePrimitive),
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	ProcedureExtended (&'a ProcedureExtended, &'a ProcedureExtended),
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	ProcedureNative (&'a ProcedureNative, &'a ProcedureNative),
 	ProcedureLambda (&'a ProcedureLambda, &'a ProcedureLambda),
 	
 	SyntaxPrimitive (&'a SyntaxPrimitive, &'a SyntaxPrimitive),
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	SyntaxExtended (&'a SyntaxExtended, &'a SyntaxExtended),
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	SyntaxNative (&'a SyntaxNative, &'a SyntaxNative),
@@ -625,6 +637,7 @@ pub enum ValueClassMatchAsRef2 <'a> {
 
 pub enum ProcedureMatchAsRef <'a> {
 	Primitive (&'a ProcedurePrimitive),
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	Extended (&'a ProcedureExtended),
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	Native (&'a ProcedureNative),
@@ -634,6 +647,7 @@ pub enum ProcedureMatchAsRef <'a> {
 
 pub enum ProcedureMatchInto {
 	Primitive (ProcedurePrimitive),
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	Extended (ProcedureExtended),
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	Native (ProcedureNative),
@@ -643,6 +657,7 @@ pub enum ProcedureMatchInto {
 
 pub enum SyntaxMatchAsRef <'a> {
 	Primitive (&'a SyntaxPrimitive),
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	Extended (&'a SyntaxExtended),
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	Native (&'a SyntaxNative),
@@ -652,6 +667,7 @@ pub enum SyntaxMatchAsRef <'a> {
 
 pub enum SyntaxMatchInto {
 	Primitive (SyntaxPrimitive),
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	Extended (SyntaxExtended),
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	Native (SyntaxNative),
@@ -764,12 +780,14 @@ pub enum Value {
 	Error ( ValueMeta1, Error, ValueMeta2 ),
 	
 	ProcedurePrimitive ( ValueMeta1, ProcedurePrimitive, ValueMeta2 ),
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	ProcedureExtended ( ValueMeta1, ProcedureExtended, ValueMeta2 ),
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	ProcedureNative ( ValueMeta1, ProcedureNative, ValueMeta2 ),
 	ProcedureLambda ( ValueMeta1, ProcedureLambda, ValueMeta2 ),
 	
 	SyntaxPrimitive ( ValueMeta1, SyntaxPrimitive, ValueMeta2, ),
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	SyntaxExtended ( ValueMeta1, SyntaxExtended, ValueMeta2, ),
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	SyntaxNative ( ValueMeta1, SyntaxNative, ValueMeta2, ),
@@ -858,12 +876,14 @@ impl Value {
 			Value::Error (_, _, _) => ValueKind::Error,
 			
 			Value::ProcedurePrimitive (_, _, _) => ValueKind::ProcedurePrimitive,
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			Value::ProcedureExtended (_, _, _) => ValueKind::ProcedureExtended,
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			Value::ProcedureNative (_, _, _) => ValueKind::ProcedureNative,
 			Value::ProcedureLambda (_, _, _) => ValueKind::ProcedureLambda,
 			
 			Value::SyntaxPrimitive (_, _, _) => ValueKind::SyntaxPrimitive,
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			Value::SyntaxExtended (_, _, _) => ValueKind::SyntaxExtended,
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			Value::SyntaxNative (_, _, _) => ValueKind::SyntaxNative,
@@ -946,12 +966,14 @@ impl Value {
 			Value::Error (_, ref self_0, _) => ValueKindMatchAsRef::Error (self_0),
 			
 			Value::ProcedurePrimitive (_, ref self_0, _) => ValueKindMatchAsRef::ProcedurePrimitive (self_0),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			Value::ProcedureExtended (_, ref self_0, _) => ValueKindMatchAsRef::ProcedureExtended (self_0),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			Value::ProcedureNative (_, ref self_0, _) => ValueKindMatchAsRef::ProcedureNative (self_0),
 			Value::ProcedureLambda (_, ref self_0, _) => ValueKindMatchAsRef::ProcedureLambda (self_0),
 			
 			Value::SyntaxPrimitive (_, ref self_0, _) => ValueKindMatchAsRef::SyntaxPrimitive (self_0),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			Value::SyntaxExtended (_, ref self_0, _) => ValueKindMatchAsRef::SyntaxExtended (self_0),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			Value::SyntaxNative (_, ref self_0, _) => ValueKindMatchAsRef::SyntaxNative (self_0),
@@ -1034,12 +1056,14 @@ impl Value {
 			Value::Error (_, self_0, _) => ValueKindMatchInto::Error (self_0),
 			
 			Value::ProcedurePrimitive (_, self_0, _) => ValueKindMatchInto::ProcedurePrimitive (self_0),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			Value::ProcedureExtended (_, self_0, _) => ValueKindMatchInto::ProcedureExtended (self_0),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			Value::ProcedureNative (_, self_0, _) => ValueKindMatchInto::ProcedureNative (self_0),
 			Value::ProcedureLambda (_, self_0, _) => ValueKindMatchInto::ProcedureLambda (self_0),
 			
 			Value::SyntaxPrimitive (_, self_0, _) => ValueKindMatchInto::SyntaxPrimitive (self_0),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			Value::SyntaxExtended (_, self_0, _) => ValueKindMatchInto::SyntaxExtended (self_0),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			Value::SyntaxNative (_, self_0, _) => ValueKindMatchInto::SyntaxNative (self_0),
@@ -1126,12 +1150,14 @@ impl Value {
 			(&Value::Error (_, ref self_0, _), &Value::Error (_, ref other_0, _)) => ValueKindMatchAsRef2::Error (self_0, other_0),
 			
 			(&Value::ProcedurePrimitive (_, ref self_0, _), &Value::ProcedurePrimitive (_, ref other_0, _)) => ValueKindMatchAsRef2::ProcedurePrimitive (self_0, other_0),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			(&Value::ProcedureExtended (_, ref self_0, _), &Value::ProcedureExtended (_, ref other_0, _)) => ValueKindMatchAsRef2::ProcedureExtended (self_0, other_0),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			(&Value::ProcedureNative (_, ref self_0, _), &Value::ProcedureNative (_, ref other_0, _)) => ValueKindMatchAsRef2::ProcedureNative (self_0, other_0),
 			(&Value::ProcedureLambda (_, ref self_0, _), &Value::ProcedureLambda (_, ref other_0, _)) => ValueKindMatchAsRef2::ProcedureLambda (self_0, other_0),
 			
 			(&Value::SyntaxPrimitive (_, ref self_0, _), &Value::SyntaxPrimitive (_, ref other_0, _)) => ValueKindMatchAsRef2::SyntaxPrimitive (self_0, other_0),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			(&Value::SyntaxExtended (_, ref self_0, _), &Value::SyntaxExtended (_, ref other_0, _)) => ValueKindMatchAsRef2::SyntaxExtended (self_0, other_0),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			(&Value::SyntaxNative (_, ref self_0, _), &Value::SyntaxNative (_, ref other_0, _)) => ValueKindMatchAsRef2::SyntaxNative (self_0, other_0),
@@ -1218,12 +1244,14 @@ impl Value {
 			Value::Error (_, _, _) => ValueClass::Error,
 			
 			Value::ProcedurePrimitive (_, _, _) => ValueClass::Procedure,
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			Value::ProcedureExtended (_, _, _) => ValueClass::Procedure,
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			Value::ProcedureNative (_, _, _) => ValueClass::Procedure,
 			Value::ProcedureLambda (_, _, _) => ValueClass::Procedure,
 			
 			Value::SyntaxPrimitive (_, _, _) => ValueClass::Syntax,
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			Value::SyntaxExtended (_, _, _) => ValueClass::Syntax,
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			Value::SyntaxNative (_, _, _) => ValueClass::Syntax,
@@ -1306,12 +1334,14 @@ impl Value {
 			Value::Error (_, ref self_0, _) => ValueClassMatchAsRef::Error (self_0),
 			
 			Value::ProcedurePrimitive (_, ref self_0, _) => ValueClassMatchAsRef::Procedure (ProcedureMatchAsRef::Primitive (self_0)),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			Value::ProcedureExtended (_, ref self_0, _) => ValueClassMatchAsRef::Procedure (ProcedureMatchAsRef::Extended (self_0)),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			Value::ProcedureNative (_, ref self_0, _) => ValueClassMatchAsRef::Procedure (ProcedureMatchAsRef::Native (self_0)),
 			Value::ProcedureLambda (_, ref self_0, _) => ValueClassMatchAsRef::Procedure (ProcedureMatchAsRef::Lambda (self_0)),
 			
 			Value::SyntaxPrimitive (_, ref self_0, _) => ValueClassMatchAsRef::Syntax (SyntaxMatchAsRef::Primitive (self_0)),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			Value::SyntaxExtended (_, ref self_0, _) => ValueClassMatchAsRef::Syntax (SyntaxMatchAsRef::Extended (self_0)),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			Value::SyntaxNative (_, ref self_0, _) => ValueClassMatchAsRef::Syntax (SyntaxMatchAsRef::Native (self_0)),
@@ -1394,12 +1424,14 @@ impl Value {
 			Value::Error (_, self_0, _) => ValueClassMatchInto::Error (self_0),
 			
 			Value::ProcedurePrimitive (_, self_0, _) => ValueClassMatchInto::Procedure (ProcedureMatchInto::Primitive (self_0)),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			Value::ProcedureExtended (_, self_0, _) => ValueClassMatchInto::Procedure (ProcedureMatchInto::Extended (self_0)),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			Value::ProcedureNative (_, self_0, _) => ValueClassMatchInto::Procedure (ProcedureMatchInto::Native (self_0)),
 			Value::ProcedureLambda (_, self_0, _) => ValueClassMatchInto::Procedure (ProcedureMatchInto::Lambda (self_0)),
 			
 			Value::SyntaxPrimitive (_, self_0, _) => ValueClassMatchInto::Syntax (SyntaxMatchInto::Primitive (self_0)),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			Value::SyntaxExtended (_, self_0, _) => ValueClassMatchInto::Syntax (SyntaxMatchInto::Extended (self_0)),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			Value::SyntaxNative (_, self_0, _) => ValueClassMatchInto::Syntax (SyntaxMatchInto::Native (self_0)),
@@ -1616,12 +1648,14 @@ impl Value {
 			ValueKindMatchAsRef2::Error (self_0, other_0) => Error::is_self (self_0, other_0),
 			
 			ValueKindMatchAsRef2::ProcedurePrimitive (self_0, other_0) => ProcedurePrimitive::is_self (self_0, other_0),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			ValueKindMatchAsRef2::ProcedureExtended (self_0, other_0) => ProcedureExtended::is_self (self_0, other_0),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ValueKindMatchAsRef2::ProcedureNative (self_0, other_0) => ProcedureNative::is_self (self_0, other_0),
 			ValueKindMatchAsRef2::ProcedureLambda (self_0, other_0) => ProcedureLambda::is_self (self_0, other_0),
 			
 			ValueKindMatchAsRef2::SyntaxPrimitive (self_0, other_0) => SyntaxPrimitive::is_self (self_0, other_0),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			ValueKindMatchAsRef2::SyntaxExtended (self_0, other_0) => SyntaxExtended::is_self (self_0, other_0),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ValueKindMatchAsRef2::SyntaxNative (self_0, other_0) => SyntaxNative::is_self (self_0, other_0),
@@ -1697,12 +1731,14 @@ impl Value {
 			Value::Error (_, ref self_0, _) => self_0.clone () .into_0 (),
 			
 			Value::ProcedurePrimitive (_, ref self_0, _) => self_0.clone () .into_0 (),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			Value::ProcedureExtended (_, ref self_0, _) => self_0.clone () .into_0 (),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			Value::ProcedureNative (_, ref self_0, _) => self_0.clone () .into_0 (),
 			Value::ProcedureLambda (_, ref self_0, _) => self_0.clone () .into_0 (),
 			
 			Value::SyntaxPrimitive (_, ref self_0, _) => self_0.clone () .into_0 (),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			Value::SyntaxExtended (_, ref self_0, _) => self_0.clone () .into_0 (),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			Value::SyntaxNative (_, ref self_0, _) => self_0.clone () .into_0 (),
@@ -1820,12 +1856,14 @@ impl ValueKindMatchInto {
 			ValueKindMatchInto::Error (value) => value.into (),
 			
 			ValueKindMatchInto::ProcedurePrimitive (value) => value.into (),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			ValueKindMatchInto::ProcedureExtended (value) => value.into (),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ValueKindMatchInto::ProcedureNative (value) => value.into (),
 			ValueKindMatchInto::ProcedureLambda (value) => value.into (),
 			
 			ValueKindMatchInto::SyntaxPrimitive (value) => value.into (),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			ValueKindMatchInto::SyntaxExtended (value) => value.into (),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ValueKindMatchInto::SyntaxNative (value) => value.into (),
@@ -1925,6 +1963,7 @@ impl ProcedureMatchInto {
 	pub fn value (self) -> (Value) {
 		match self {
 			ProcedureMatchInto::Primitive (value) => value.into (),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			ProcedureMatchInto::Extended (value) => value.into (),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ProcedureMatchInto::Native (value) => value.into (),
@@ -1940,6 +1979,7 @@ impl SyntaxMatchInto {
 	pub fn value (self) -> (Value) {
 		match self {
 			SyntaxMatchInto::Primitive (value) => value.into (),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			SyntaxMatchInto::Extended (value) => value.into (),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			SyntaxMatchInto::Native (value) => value.into (),

@@ -69,12 +69,14 @@ impl fmt::Display for Value {
 			ValueKindMatchAsRef::Error (self_0) => self_0.fmt (formatter),
 			
 			ValueKindMatchAsRef::ProcedurePrimitive (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			ValueKindMatchAsRef::ProcedureExtended (self_0) => self_0.fmt (formatter),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ValueKindMatchAsRef::ProcedureNative (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::ProcedureLambda (self_0) => self_0.fmt (formatter),
 			
 			ValueKindMatchAsRef::SyntaxPrimitive (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			ValueKindMatchAsRef::SyntaxExtended (self_0) => self_0.fmt (formatter),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ValueKindMatchAsRef::SyntaxNative (self_0) => self_0.fmt (formatter),
@@ -154,12 +156,14 @@ impl fmt::Debug for Value {
 			ValueKindMatchAsRef::Error (self_0) => self_0.fmt (formatter),
 			
 			ValueKindMatchAsRef::ProcedurePrimitive (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			ValueKindMatchAsRef::ProcedureExtended (self_0) => self_0.fmt (formatter),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ValueKindMatchAsRef::ProcedureNative (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::ProcedureLambda (self_0) => self_0.fmt (formatter),
 			
 			ValueKindMatchAsRef::SyntaxPrimitive (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			ValueKindMatchAsRef::SyntaxExtended (self_0) => self_0.fmt (formatter),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ValueKindMatchAsRef::SyntaxNative (self_0) => self_0.fmt (formatter),
@@ -789,6 +793,7 @@ impl fmt::Display for SyntaxPrimitive {
 
 
 
+#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 impl fmt::Display for ProcedureExtended {
 	
 	#[ inline (never) ]
@@ -797,6 +802,7 @@ impl fmt::Display for ProcedureExtended {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 impl fmt::Debug for ProcedureExtended {
 	
 	#[ inline (never) ]
@@ -809,6 +815,7 @@ impl fmt::Debug for ProcedureExtended {
 
 
 
+#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 impl fmt::Display for SyntaxExtended {
 	
 	#[ inline (never) ]
@@ -817,6 +824,7 @@ impl fmt::Display for SyntaxExtended {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 impl fmt::Debug for SyntaxExtended {
 	
 	#[ inline (never) ]

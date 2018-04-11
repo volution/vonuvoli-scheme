@@ -2633,6 +2633,7 @@ pub fn procedure_class (value : &Value) -> (Option<ProcedureClass>) {
 			match class {
 				ProcedureMatchAsRef::Primitive (_) =>
 					return Some (ProcedureClass::Primitive),
+				#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 				ProcedureMatchAsRef::Extended (_) =>
 					return Some (ProcedureClass::Extended),
 				#[ cfg ( feature = "vonuvoli_values_native" ) ]
@@ -2666,6 +2667,7 @@ pub fn syntax_class (value : &Value) -> (Option<SyntaxClass>) {
 			match class {
 				SyntaxMatchAsRef::Primitive (_) =>
 					return Some (SyntaxClass::Primitive),
+				#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 				SyntaxMatchAsRef::Extended (_) =>
 					return Some (SyntaxClass::Extended),
 				#[ cfg ( feature = "vonuvoli_values_native" ) ]

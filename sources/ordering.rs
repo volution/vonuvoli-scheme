@@ -105,12 +105,14 @@ impl <'a> ValueKindMatchAsRef2<'a> {
 			ValueKindMatchAsRef2::Error (self_0, other_0) => Some (Error::eq (self_0, other_0)),
 			
 			ValueKindMatchAsRef2::ProcedurePrimitive (self_0, other_0) => Some (ProcedurePrimitive::eq (self_0, other_0)),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			ValueKindMatchAsRef2::ProcedureExtended (self_0, other_0) => Some (ProcedureExtended::eq (self_0, other_0)),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ValueKindMatchAsRef2::ProcedureNative (self_0, other_0) => Some (ProcedureNative::eq (self_0, other_0)),
 			ValueKindMatchAsRef2::ProcedureLambda (self_0, other_0) => Some (ProcedureLambda::eq (self_0, other_0)),
 			
 			ValueKindMatchAsRef2::SyntaxPrimitive (self_0, other_0) => Some (SyntaxPrimitive::eq (self_0, other_0)),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			ValueKindMatchAsRef2::SyntaxExtended (self_0, other_0) => Some (SyntaxExtended::eq (self_0, other_0)),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ValueKindMatchAsRef2::SyntaxNative (self_0, other_0) => Some (SyntaxNative::eq (self_0, other_0)),
@@ -192,12 +194,14 @@ impl <'a> ValueKindMatchAsRef2<'a> {
 			ValueKindMatchAsRef2::Error (self_0, other_0) => Some (Error::cmp (self_0, other_0)),
 			
 			ValueKindMatchAsRef2::ProcedurePrimitive (self_0, other_0) => Some (ProcedurePrimitive::cmp (self_0, other_0)),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			ValueKindMatchAsRef2::ProcedureExtended (self_0, other_0) => Some (ProcedureExtended::cmp (self_0, other_0)),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ValueKindMatchAsRef2::ProcedureNative (self_0, other_0) => Some (ProcedureNative::cmp (self_0, other_0)),
 			ValueKindMatchAsRef2::ProcedureLambda (self_0, other_0) => Some (ProcedureLambda::cmp (self_0, other_0)),
 			
 			ValueKindMatchAsRef2::SyntaxPrimitive (self_0, other_0) => Some (SyntaxPrimitive::cmp (self_0, other_0)),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			ValueKindMatchAsRef2::SyntaxExtended (self_0, other_0) => Some (SyntaxExtended::cmp (self_0, other_0)),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ValueKindMatchAsRef2::SyntaxNative (self_0, other_0) => Some (SyntaxNative::cmp (self_0, other_0)),

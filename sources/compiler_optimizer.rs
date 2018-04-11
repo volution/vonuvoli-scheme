@@ -7,11 +7,13 @@ use super::conversions::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
 use super::expressions::exports::*;
-use super::extended_procedures::exports::*;
 use super::lambdas::exports::*;
 use super::primitives::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
+
+#[ cfg ( feature = "vonuvoli_values_extended" ) ]
+use super::extended_procedures::exports::*;
 
 use super::prelude::*;
 
@@ -125,6 +127,7 @@ impl Optimizer {
 				return self.optimize_for_procedure_generic_call (optimization, expression),
 			Expression::ProcedurePrimitiveCall (expression) =>
 				return self.optimize_for_procedure_primitive_call (optimization, expression),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			Expression::ProcedureExtendedCall (expression) =>
 				return self.optimize_for_procedure_extended_call (optimization, expression),
 			Expression::ProcedureLambdaCall (expression) =>
@@ -253,6 +256,7 @@ impl Optimizer {
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	fn optimize_for_procedure_extended_call (&self, optimization : OptimizerContext, expression : ExpressionForProcedureExtendedCall) -> (Outcome<(OptimizerContext, Expression)>) {
 		match expression {
 			
@@ -1115,6 +1119,7 @@ impl Optimizer {
 			match class {
 				ValueKind::ProcedurePrimitive =>
 					return self.optimize_procedure_primitive (optimization, callable.expect_into_0 (), inputs),
+				#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 				ValueKind::ProcedureExtended =>
 					return self.optimize_procedure_extended (optimization, callable.expect_into_0 (), inputs),
 				#[ cfg ( feature = "vonuvoli_values_native" ) ]
@@ -1195,6 +1200,7 @@ impl Optimizer {
 						_ =>
 							fail! (0xc262ceb2),
 					},
+				#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 				ValueKind::ProcedureExtended =>
 					return self.optimize_procedure_extended_0 (optimization, callable.expect_into_0 ()),
 				#[ cfg ( feature = "vonuvoli_values_native" ) ]
@@ -1233,6 +1239,7 @@ impl Optimizer {
 						_ =>
 							fail! (0xa8613b5a),
 					},
+				#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 				ValueKind::ProcedureExtended =>
 					return self.optimize_procedure_extended_1 (optimization, callable.expect_into_0 (), input_1),
 				#[ cfg ( feature = "vonuvoli_values_native" ) ]
@@ -1272,6 +1279,7 @@ impl Optimizer {
 						_ =>
 							fail! (0x246ed89d),
 					},
+				#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 				ValueKind::ProcedureExtended =>
 					return self.optimize_procedure_extended_2 (optimization, callable.expect_into_0 (), input_1, input_2),
 				#[ cfg ( feature = "vonuvoli_values_native" ) ]
@@ -1312,6 +1320,7 @@ impl Optimizer {
 						_ =>
 							fail! (0x2b3e2453),
 					},
+				#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 				ValueKind::ProcedureExtended =>
 					return self.optimize_procedure_extended_3 (optimization, callable.expect_into_0 (), input_1, input_2, input_3),
 				#[ cfg ( feature = "vonuvoli_values_native" ) ]
@@ -1353,6 +1362,7 @@ impl Optimizer {
 						_ =>
 							fail! (0x47994db4),
 					},
+				#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 				ValueKind::ProcedureExtended =>
 					return self.optimize_procedure_extended_4 (optimization, callable.expect_into_0 (), input_1, input_2, input_3, input_4),
 				#[ cfg ( feature = "vonuvoli_values_native" ) ]
@@ -1395,6 +1405,7 @@ impl Optimizer {
 						_ =>
 							fail! (0x71fe0ce5),
 					},
+				#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 				ValueKind::ProcedureExtended =>
 					return self.optimize_procedure_extended_5 (optimization, callable.expect_into_0 (), input_1, input_2, input_3, input_4, input_5),
 				#[ cfg ( feature = "vonuvoli_values_native" ) ]
@@ -1434,6 +1445,7 @@ impl Optimizer {
 						_ =>
 							fail! (0xd891d200),
 					},
+				#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 				ValueKind::ProcedureExtended =>
 					return self.optimize_procedure_extended_n (optimization, callable.expect_into_0 (), inputs),
 				#[ cfg ( feature = "vonuvoli_values_native" ) ]
@@ -1477,6 +1489,7 @@ impl Optimizer {
 				(),
 			ExpressionProcedureCallCallableRef::Primitive (_) =>
 				(),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			ExpressionProcedureCallCallableRef::Extended (_) =>
 				(),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
@@ -1793,6 +1806,7 @@ impl Optimizer {
 	
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	fn optimize_procedure_extended (&self, optimization : OptimizerContext, extended : ProcedureExtended, inputs : StdBox<[Expression]>) -> (Outcome<(OptimizerContext, Expression)>) {
 		let input_count = inputs.len ();
 		match input_count {
@@ -1839,6 +1853,7 @@ impl Optimizer {
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	fn optimize_procedure_extended_0 (&self, optimization : OptimizerContext, extended : ProcedureExtended) -> (Outcome<(OptimizerContext, Expression)>) {
 		let expression = ExpressionForProcedureExtendedCall::ProcedureExtendedCall0 (extended) .into ();
 		let attributes = None;
@@ -1846,6 +1861,7 @@ impl Optimizer {
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	fn optimize_procedure_extended_1 (&self, optimization : OptimizerContext, extended : ProcedureExtended, input_1 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
 		let expression = ExpressionForProcedureExtendedCall::ProcedureExtendedCall1 (extended, input_1.into ()) .into ();
@@ -1854,6 +1870,7 @@ impl Optimizer {
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	fn optimize_procedure_extended_2 (&self, optimization : OptimizerContext, extended : ProcedureExtended, input_1 : Expression, input_2 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
 		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
@@ -1863,6 +1880,7 @@ impl Optimizer {
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	fn optimize_procedure_extended_3 (&self, optimization : OptimizerContext, extended : ProcedureExtended, input_1 : Expression, input_2 : Expression, input_3 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
 		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
@@ -1873,6 +1891,7 @@ impl Optimizer {
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	fn optimize_procedure_extended_4 (&self, optimization : OptimizerContext, extended : ProcedureExtended, input_1 : Expression, input_2 : Expression, input_3 : Expression, input_4 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
 		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
@@ -1884,6 +1903,7 @@ impl Optimizer {
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	fn optimize_procedure_extended_5 (&self, optimization : OptimizerContext, extended : ProcedureExtended, input_1 : Expression, input_2 : Expression, input_3 : Expression, input_4 : Expression, input_5 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
 		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
@@ -1896,6 +1916,7 @@ impl Optimizer {
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	fn optimize_procedure_extended_n (&self, optimization : OptimizerContext, extended : ProcedureExtended, inputs : StdBox<[Expression]>) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, inputs) = try! (self.optimize_0_slice (optimization, inputs));
 		let expression = ExpressionForProcedureExtendedCall::ProcedureExtendedCallN (extended, inputs) .into ();
@@ -2439,6 +2460,7 @@ impl Optimizer {
 					
 				},
 			
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			Expression::ProcedureExtendedCall (ref expression) =>
 				match *expression {
 					
@@ -2766,6 +2788,7 @@ impl Optimizer {
 					
 				},
 			
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			Expression::ProcedureExtendedCall (ref expression) =>
 				match *expression {
 					
@@ -2980,6 +3003,7 @@ impl Optimizer {
 					
 				},
 			
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			Expression::ProcedureExtendedCall (ref expression) =>
 				match *expression {
 					
@@ -3157,6 +3181,7 @@ pub(crate) enum ExpressionProcedureCallCallableRef <'a> {
 	
 	Expression (&'a Expression),
 	Primitive (ProcedurePrimitive),
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	Extended (&'a ProcedureExtendedInternals),
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	Native (ProcedureNativeInternals),

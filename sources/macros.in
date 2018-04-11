@@ -981,10 +981,14 @@ def_value_try_into! (try_into_error, value_type! (Error));
 def_value_try_as_ref! (try_as_procedure_primitive_ref, value_type! (ProcedurePrimitive));
 def_value_try_into! (try_into_procedure_primitive, value_type! (ProcedurePrimitive));
 
+#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 def_value_try_as_ref! (try_as_procedure_extended_ref, value_type! (ProcedureExtended));
+#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 def_value_try_into! (try_into_procedure_extended, value_type! (ProcedureExtended));
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 def_value_try_as_ref! (try_as_procedure_extended_ref, value_type! (ProcedureNative));
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 def_value_try_into! (try_into_procedure_extended, value_type! (ProcedureNative));
 
 def_value_try_as_ref! (try_as_procedure_lambda_ref, value_type! (ProcedureLambda));
@@ -993,10 +997,14 @@ def_value_try_into! (try_into_procedure_lambda, value_type! (ProcedureLambda));
 def_value_try_as_ref! (try_as_syntax_primitive_ref, value_type! (SyntaxPrimitive));
 def_value_try_into! (try_into_syntax_primitive, value_type! (SyntaxPrimitive));
 
+#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 def_value_try_as_ref! (try_as_syntax_extended_ref, value_type! (SyntaxExtended));
+#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 def_value_try_into! (try_into_syntax_extended, value_type! (SyntaxExtended));
 
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 def_value_try_as_ref! (try_as_syntax_extended_ref, value_type! (SyntaxNative));
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
 def_value_try_into! (try_into_syntax_extended, value_type! (SyntaxNative));
 
 def_value_try_as_ref! (try_as_syntax_lambda_ref, value_type! (SyntaxLambda));

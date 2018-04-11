@@ -531,15 +531,22 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 	// NOTE:  R7RS functional equivalents
 	definitions.extend_from_slice (&[
 			
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			("curry", FunctionsPrimitiveV::CurryLeft.into ()),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			("curry-last", FunctionsPrimitiveV::CurryRight.into ()),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			("compose", FunctionsPrimitiveV::Compose1.into ()),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			("compose-with-values", FunctionsPrimitiveV::ComposeV.into ()),
 			
 			("identity", FunctionsPrimitive1::Identity.into ()),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			("constant-fn", FunctionsPrimitive1::Constant.into ()),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			("constant-fn*", FunctionsPrimitive1::ConstantStar.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			("not-fn", FunctionsPrimitive1::Not.into ()),
 			("and-fn", ProcedurePrimitive::Unimplemented.into ()),
 			("or-fn", ProcedurePrimitive::Unimplemented.into ()),

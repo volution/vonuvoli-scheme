@@ -636,10 +636,12 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 				ValueKindMatchAsRef2::Error (_, _) =>
 					true,
 				
-				ValueKindMatchAsRef2::ProcedureExtended (_, _) |
 				ValueKindMatchAsRef2::ProcedureLambda (_, _) |
-				ValueKindMatchAsRef2::SyntaxExtended (_, _) |
 				ValueKindMatchAsRef2::SyntaxLambda (_, _) =>
+					false,
+				#[ cfg ( feature = "vonuvoli_values_extended" ) ]
+				ValueKindMatchAsRef2::ProcedureExtended (_, _) |
+				ValueKindMatchAsRef2::SyntaxExtended (_, _) =>
 					false,
 				#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 				ValueKindMatchAsRef2::Unique (_, _) =>

@@ -274,6 +274,7 @@ impl Compiler {
 				match class {
 					SyntaxMatchInto::Primitive (syntax) =>
 						succeed! ((compilation, Alternative2::Variant1 (syntax))),
+					#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 					SyntaxMatchInto::Extended (_syntax) =>
 						fail_unimplemented! (0xb9915ee0), // deferred
 					#[ cfg ( feature = "vonuvoli_values_native" ) ]

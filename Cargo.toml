@@ -153,6 +153,7 @@ vonuvoli_values_all = [
 	"vonuvoli_values_unique",
 	"vonuvoli_values_contexts",
 	"vonuvoli_values_opaque",
+	"vonuvoli_values_extended",
 	"vonuvoli_values_native",
 ]
 vonuvoli_values_error = []
@@ -160,6 +161,7 @@ vonuvoli_values_keyword = []
 vonuvoli_values_unique = []
 vonuvoli_values_contexts = []
 vonuvoli_values_opaque = []
+vonuvoli_values_extended = []
 vonuvoli_values_native = []
 
 vonuvoli_builtins_all = [
@@ -177,7 +179,9 @@ vonuvoli_builtins_all = [
 
 vonuvoli_builtins_parameters = []
 vonuvoli_builtins_promises = []
-vonuvoli_builtins_records = []
+vonuvoli_builtins_records = [
+	"vonuvoli_values_extended",
+]
 vonuvoli_builtins_regex = [
 	"regex",
 ]

@@ -2,14 +2,18 @@
 
 use super::errors::exports::*;
 use super::expressions::exports::*;
-use super::extended_procedures::exports::*;
-use super::extended_syntaxes::exports::*;
 use super::lambdas::exports::*;
 use super::primitives::exports::*;
 use super::values::exports::*;
 
 #[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 use super::contexts::exports::*;
+
+#[ cfg ( feature = "vonuvoli_values_extended" ) ]
+use super::extended_procedures::exports::*;
+
+#[ cfg ( feature = "vonuvoli_values_extended" ) ]
+use super::extended_syntaxes::exports::*;
 
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 use super::native_procedures::exports::*;
@@ -104,6 +108,7 @@ impl_from_for_Expression_1! (Value, Value);
 impl_from_for_Expression_1! (Contexts, ExpressionForContexts);
 impl_from_for_Expression_1! (ProcedureGenericCall, ExpressionForProcedureGenericCall);
 impl_from_for_Expression_1! (ProcedurePrimitiveCall, ExpressionForProcedurePrimitiveCall);
+#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 impl_from_for_Expression_1! (ProcedureExtendedCall, ExpressionForProcedureExtendedCall);
 impl_from_for_Expression_1! (ProcedureLambdaCall, ExpressionForProcedureLambdaCall);
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
@@ -147,11 +152,13 @@ impl_from_for_Value_1! (RecordMutable, RecordMutable);
 #[ cfg ( feature = "vonuvoli_values_error" ) ]
 impl_from_for_Value_1! (Error, Error);
 impl_from_for_Value_1! (ProcedurePrimitive, ProcedurePrimitive);
+#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 impl_from_for_Value_1! (ProcedureExtended, ProcedureExtended);
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl_from_for_Value_1! (ProcedureNative, ProcedureNative);
 impl_from_for_Value_1! (ProcedureLambda, ProcedureLambda);
 impl_from_for_Value_1! (SyntaxPrimitive, SyntaxPrimitive);
+#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 impl_from_for_Value_1! (SyntaxExtended, SyntaxExtended);
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl_from_for_Value_1! (SyntaxNative, SyntaxNative);
@@ -241,7 +248,9 @@ impl_from_for_type! (Unique, UniqueData, data, Unique::new (data));
 impl_from_for_type! (PairImmutable, (Value, Value), value, { let (left, right) = value; pair_immutable_new (left, right) });
 impl_from_for_type! (PairMutable, (Value, Value), value, { let (left, right) = value; pair_mutable_new (left, right) });
 
+#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 impl_from_for_Value_3! (ProcedureExtended, ProcedureExtended, ProcedureExtendedInternals, internals, ProcedureExtended::new (internals));
+#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 impl_from_for_Value_3! (SyntaxExtended, SyntaxExtended, SyntaxExtendedInternals, internals, SyntaxExtended::new (internals));
 
 #[ cfg ( feature = "vonuvoli_values_native" ) ]

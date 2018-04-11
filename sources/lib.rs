@@ -183,7 +183,9 @@ pub(crate) mod display;
 pub(crate) mod errors;
 pub(crate) mod evaluator;
 pub(crate) mod expressions;
+#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 pub(crate) mod extended_procedures;
+#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 pub(crate) mod extended_syntaxes;
 pub(crate) mod globals;
 pub(crate) mod hashes;
@@ -310,7 +312,9 @@ pub mod internals {
 	pub use super::errors::exports as errors;
 	pub use super::evaluator::exports as evaluator;
 	pub use super::expressions::exports as expressions;
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	pub use super::extended_procedures::exports as extended_procedures;
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	pub use super::extended_syntaxes::exports as extended_syntaxes;
 	pub use super::lambdas::exports as lambdas;
 	pub use super::languages::exports as languages;
@@ -407,7 +411,9 @@ pub mod exports {
 	pub use super::errors::exports::*;
 	pub use super::evaluator::exports::*;
 	pub use super::expressions::exports::*;
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	pub use super::extended_procedures::exports::*;
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	pub use super::extended_syntaxes::exports::*;
 	pub use super::lambdas::exports::*;
 	pub use super::languages::exports::*;

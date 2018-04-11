@@ -1,12 +1,15 @@
 
 
 use super::contexts::exports::*;
-use super::extended_procedures::exports::*;
 use super::lambdas::exports::*;
-#[ cfg ( feature = "vonuvoli_values_native" ) ]
-use super::native_procedures::exports::*;
 use super::primitives::exports::*;
 use super::values::exports::*;
+
+#[ cfg ( feature = "vonuvoli_values_extended" ) ]
+use super::extended_procedures::exports::*;
+
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
+use super::native_procedures::exports::*;
 
 use super::prelude::*;
 
@@ -30,6 +33,7 @@ pub mod exports {
 	pub use super::ExpressionForContexts;
 	pub use super::ExpressionForProcedureGenericCall;
 	pub use super::ExpressionForProcedurePrimitiveCall;
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	pub use super::ExpressionForProcedureExtendedCall;
 	pub use super::ExpressionForProcedureLambdaCall;
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
@@ -57,6 +61,7 @@ pub enum Expression {
 	
 	ProcedureGenericCall ( ExpressionForProcedureGenericCall ),
 	ProcedurePrimitiveCall ( ExpressionForProcedurePrimitiveCall ),
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	ProcedureExtendedCall ( ExpressionForProcedureExtendedCall ),
 	ProcedureLambdaCall ( ExpressionForProcedureLambdaCall ),
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
@@ -214,6 +219,7 @@ pub enum ExpressionForProcedurePrimitiveCall {
 
 
 
+#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 #[ derive (Clone, Debug) ]
 pub enum ExpressionForProcedureExtendedCall {
 	

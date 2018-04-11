@@ -2,9 +2,11 @@
 
 use super::contexts::exports::*;
 use super::errors::exports::*;
-use super::extended_procedures::exports::*;
 use super::primitives::exports::*;
 use super::values::exports::*;
+
+#[ cfg ( feature = "vonuvoli_values_extended" ) ]
+use super::extended_procedures::exports::*;
 
 use super::prelude::*;
 
@@ -607,40 +609,64 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			// (scheme cxr)
 			//     --> verified
 			
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			("cxr", "pairs", "caaar", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairLeft.into (), ListPrimitive1::PairLeft.into (), ListPrimitive1::PairLeft.into ()])) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			("cxr", "pairs", "caadr", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairLeft.into (), ListPrimitive1::PairLeft.into (), ListPrimitive1::PairRight.into ()])) .into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			("cxr", "pairs", "cadar", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairLeft.into (), ListPrimitive1::PairRight.into (), ListPrimitive1::PairLeft.into ()])) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			("cxr", "pairs", "caddr", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairLeft.into (), ListPrimitive1::PairRight.into (), ListPrimitive1::PairRight.into ()])) .into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			("cxr", "pairs", "cdaar", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairRight.into (), ListPrimitive1::PairLeft.into (), ListPrimitive1::PairLeft.into ()])) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			("cxr", "pairs", "cdadr", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairRight.into (), ListPrimitive1::PairLeft.into (), ListPrimitive1::PairRight.into ()])) .into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			("cxr", "pairs", "cddar", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairRight.into (), ListPrimitive1::PairRight.into (), ListPrimitive1::PairLeft.into ()])) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			("cxr", "pairs", "cdddr", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairRight.into (), ListPrimitive1::PairRight.into (), ListPrimitive1::PairRight.into ()])) .into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			("cxr", "pairs", "caaaar", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairLeft.into (), ListPrimitive1::PairLeft.into (), ListPrimitive1::PairLeft.into (), ListPrimitive1::PairLeft.into ()])) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			("cxr", "pairs", "caaadr", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairLeft.into (), ListPrimitive1::PairLeft.into (), ListPrimitive1::PairLeft.into (), ListPrimitive1::PairRight.into ()])) .into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			("cxr", "pairs", "caadar", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairLeft.into (), ListPrimitive1::PairLeft.into (), ListPrimitive1::PairRight.into (), ListPrimitive1::PairLeft.into ()])) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			("cxr", "pairs", "caaddr", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairLeft.into (), ListPrimitive1::PairLeft.into (), ListPrimitive1::PairRight.into (), ListPrimitive1::PairRight.into ()])) .into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			("cxr", "pairs", "cadaar", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairLeft.into (), ListPrimitive1::PairRight.into (), ListPrimitive1::PairLeft.into (), ListPrimitive1::PairLeft.into ()])) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			("cxr", "pairs", "cadadr", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairLeft.into (), ListPrimitive1::PairRight.into (), ListPrimitive1::PairLeft.into (), ListPrimitive1::PairRight.into ()])) .into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			("cxr", "pairs", "caddar", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairLeft.into (), ListPrimitive1::PairRight.into (), ListPrimitive1::PairRight.into (), ListPrimitive1::PairLeft.into ()])) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			("cxr", "pairs", "cadddr", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairLeft.into (), ListPrimitive1::PairRight.into (), ListPrimitive1::PairRight.into (), ListPrimitive1::PairRight.into ()])) .into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			("cxr", "pairs", "cdaaar", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairRight.into (), ListPrimitive1::PairLeft.into (), ListPrimitive1::PairLeft.into (), ListPrimitive1::PairLeft.into ()])) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			("cxr", "pairs", "cdaadr", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairRight.into (), ListPrimitive1::PairLeft.into (), ListPrimitive1::PairLeft.into (), ListPrimitive1::PairRight.into ()])) .into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			("cxr", "pairs", "cdadar", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairRight.into (), ListPrimitive1::PairLeft.into (), ListPrimitive1::PairRight.into (), ListPrimitive1::PairLeft.into ()])) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			("cxr", "pairs", "cdaddr", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairRight.into (), ListPrimitive1::PairLeft.into (), ListPrimitive1::PairRight.into (), ListPrimitive1::PairRight.into ()])) .into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			("cxr", "pairs", "cddaar", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairRight.into (), ListPrimitive1::PairRight.into (), ListPrimitive1::PairLeft.into (), ListPrimitive1::PairLeft.into ()])) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			("cxr", "pairs", "cddadr", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairRight.into (), ListPrimitive1::PairRight.into (), ListPrimitive1::PairLeft.into (), ListPrimitive1::PairRight.into ()])) .into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			("cxr", "pairs", "cdddar", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairRight.into (), ListPrimitive1::PairRight.into (), ListPrimitive1::PairRight.into (), ListPrimitive1::PairLeft.into ()])) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			("cxr", "pairs", "cddddr", ProcedureExtendedInternals::ComposedPrimitive1 (StdBox::new ([ListPrimitive1::PairRight.into (), ListPrimitive1::PairRight.into (), ListPrimitive1::PairRight.into (), ListPrimitive1::PairRight.into ()])) .into ()),
 			
 			
