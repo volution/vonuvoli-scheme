@@ -18,7 +18,9 @@ use super::prelude::*;
 
 pub mod exports {
 	
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	pub use super::{call_with_values, call_with_values_builder};
+	
 	pub use super::{call_0, call_1, call_2, call_3, call_4, call_n, call_n_n};
 	pub use super::{apply_0, apply_1, apply_2, apply_3, apply_4, apply_n};
 	
@@ -39,6 +41,7 @@ pub mod exports {
 	pub use super::{strings_map_1, strings_map_2, strings_map_3, strings_map_4, strings_map_n};
 	pub use super::{strings_iterate_1, strings_iterate_2, strings_iterate_3, strings_iterate_4, strings_iterate_n};
 	
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	pub use super::{values_build_0, values_build_1, values_build_2, values_build_3, values_build_4, values_build_n};
 	
 	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
@@ -51,6 +54,7 @@ pub mod exports {
 
 
 
+#[ cfg ( feature = "vonuvoli_values_values" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn call_with_values (evaluator : &mut EvaluatorContext, callable : &Value, values : &Value) -> (Outcome<Value>) {
 	let values = try_as_values_ref! (values);
@@ -59,6 +63,7 @@ pub fn call_with_values (evaluator : &mut EvaluatorContext, callable : &Value, v
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_values" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn call_with_values_builder (evaluator : &mut EvaluatorContext, callable : &Value, builder : &Value) -> (Outcome<Value>) {
 	let values = try! (evaluator.evaluate_procedure_call_0 (builder));
@@ -929,31 +934,37 @@ pub(crate) fn iterators_iterate_n <Iterators, ValueRef> (evaluator : &mut Evalua
 
 
 
+#[ cfg ( feature = "vonuvoli_values_values" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn values_build_0 () -> (Value) {
 	return values_new_empty () .into ();
 }
 
+#[ cfg ( feature = "vonuvoli_values_values" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn values_build_1 (value_1 : &Value) -> (Value) {
 	return values_new (StdBox::new ([value_1.clone ()])) .into ();
 }
 
+#[ cfg ( feature = "vonuvoli_values_values" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn values_build_2 (value_1 : &Value, value_2 : &Value) -> (Value) {
 	return values_new (StdBox::new ([value_1.clone (), value_2.clone ()])) .into ();
 }
 
+#[ cfg ( feature = "vonuvoli_values_values" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn values_build_3 (value_1 : &Value, value_2 : &Value, value_3 : &Value) -> (Value) {
 	return values_new (StdBox::new ([value_1.clone (), value_2.clone (), value_3.clone ()])) .into ();
 }
 
+#[ cfg ( feature = "vonuvoli_values_values" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn values_build_4 (value_1 : &Value, value_2 : &Value, value_3 : &Value, value_4 : &Value) -> (Value) {
 	return values_new (StdBox::new ([value_1.clone (), value_2.clone (), value_3.clone (), value_4.clone ()])) .into ();
 }
 
+#[ cfg ( feature = "vonuvoli_values_values" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn values_build_n (values : &[&Value]) -> (Value) {
 	if values.is_empty () {

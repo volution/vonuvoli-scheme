@@ -48,6 +48,7 @@ impl hash::Hash for Value {
 			ValueKindMatchAsRef::ArrayImmutable (self_0) => { hasher.write_u32 (0x0b86fd20); self_0.hash (hasher); },
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			ValueKindMatchAsRef::ArrayMutable (self_0) => { hasher.write_u32 (0xb20f12de); self_0.hash (hasher); },
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			ValueKindMatchAsRef::Values (self_0) => { hasher.write_u32 (0xb5f3786a); self_0.hash (hasher); },
 			
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]

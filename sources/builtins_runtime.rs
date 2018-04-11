@@ -36,14 +36,16 @@ pub mod exports {
 	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	pub use super::{
 			error_message, error_arguments_as_list,
-			error_arguments_as_values,
 			error_build_0, error_build_1, error_build_2, error_build_3, error_build_4, error_build_n,
 			error_coerce, error_coerce_from,
 		};
-	
 	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	pub use super::{
 			error_arguments_as_array,
+		};
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
+	pub use super::{
+			error_arguments_as_values,
 		};
 	
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
@@ -114,6 +116,7 @@ pub fn error_arguments_as_array (error : &Value) -> (Outcome<ArrayImmutable>) {
 
 
 #[ cfg ( feature = "vonuvoli_values_error" ) ]
+#[ cfg ( feature = "vonuvoli_values_values" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_arguments_as_values (error : &Value) -> (Outcome<Values>) {
 	let error = try_as_error_ref! (error);

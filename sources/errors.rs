@@ -255,6 +255,7 @@ impl Error {
 	}
 	
 	#[ cfg ( feature = "vonuvoli_values_error" ) ]
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn arguments_clone_values (&self) -> (Option<Values>) {
 		match *self.internals_ref () {

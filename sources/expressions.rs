@@ -161,18 +161,22 @@ pub enum ExpressionForContexts {
 	
 	BindingInitialize1 ( Binding, ExpressionBox ),
 	BindingInitializeN ( StdBox<[(Binding, Expression)]>, bool ),
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	BindingInitializeValues ( StdBox<[Binding]>, ExpressionBox ),
 	BindingSet1 ( Binding, ExpressionBox ),
 	BindingSetN ( StdBox<[(Binding, Expression)]>, bool ),
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	BindingSetValues ( StdBox<[Binding]>, ExpressionBox ),
 	BindingGet1 ( Binding ),
 	
 	RegisterClosure ( ExpressionBox, StdBox<[RegisterTemplate]> ),
 	RegisterInitialize1 ( usize, ExpressionBox ),
 	RegisterInitializeN ( StdBox<[(usize, Expression)]>, bool ),
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	RegisterInitializeValues ( StdBox<[usize]>, ExpressionBox ),
 	RegisterSet1 ( usize, ExpressionBox ),
 	RegisterSetN ( StdBox<[(usize, Expression)]>, bool ),
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	RegisterSetValues ( StdBox<[usize]>, ExpressionBox ),
 	RegisterGet1 ( usize ),
 	

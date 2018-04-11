@@ -60,15 +60,19 @@ pub enum SyntaxPrimitiveV {
 	LetSequential,
 	LetRecursiveParallel,
 	LetRecursiveSequential,
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	LetValuesParallel,
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	LetValuesSequential,
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	LetParameters,
 	
 	Define,
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	DefineValues,
 	
 	Set,
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	SetValues,
 	
 	Lambda,

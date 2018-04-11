@@ -144,6 +144,7 @@ impl_from_for_Value_1! (PairMutable, PairMutable);
 impl_from_for_Value_1! (ArrayImmutable, ArrayImmutable);
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
 impl_from_for_Value_1! (ArrayMutable, ArrayMutable);
+#[ cfg ( feature = "vonuvoli_values_values" ) ]
 impl_from_for_Value_1! (Values, Values);
 #[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl_from_for_Value_1! (RecordKind, RecordKind);

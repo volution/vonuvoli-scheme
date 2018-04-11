@@ -144,8 +144,11 @@ macro_rules! def_type_primitive_enum {
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			IsArrayImmutableEmptyNot,
 			
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			IsValues,
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			IsValuesEmpty,
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			IsValuesEmptyNot,
 			
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
@@ -491,12 +494,15 @@ pub fn type_primitive_1_evaluate_0 (primitive : TypePrimitive1, input_1 : &Value
 		TypePrimitive1::IsArrayMutableEmptyNot =>
 			return is_array_mutable_not_empty (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		TypePrimitive1::IsValues =>
 			return is_values (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		TypePrimitive1::IsValuesEmpty =>
 			return is_values_empty (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		TypePrimitive1::IsValuesEmptyNot =>
 			return is_values_not_empty (input_1) .into_0 (),
 		
@@ -940,12 +946,15 @@ pub fn type_primitive_2_evaluate_0 (primitive : TypePrimitive2, input_1 : &Value
 		TypePrimitive2::IsArrayMutableEmptyNot =>
 			return is_array_mutable_not_empty_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		TypePrimitive2::IsValues =>
 			return is_values_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		TypePrimitive2::IsValuesEmpty =>
 			return is_values_empty_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		TypePrimitive2::IsValuesEmptyNot =>
 			return is_values_not_empty_all_2 (input_1, input_2) .into_0 (),
 		
@@ -1389,12 +1398,15 @@ pub fn type_primitive_3_evaluate_0 (primitive : TypePrimitive3, input_1 : &Value
 		TypePrimitive3::IsArrayMutableEmptyNot =>
 			return is_array_mutable_not_empty_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		TypePrimitive3::IsValues =>
 			return is_values_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		TypePrimitive3::IsValuesEmpty =>
 			return is_values_empty_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		TypePrimitive3::IsValuesEmptyNot =>
 			return is_values_not_empty_all_3 (input_1, input_2, input_3) .into_0 (),
 		
@@ -1838,12 +1850,15 @@ pub fn type_primitive_4_evaluate_0 (primitive : TypePrimitive4, input_1 : &Value
 		TypePrimitive4::IsArrayMutableEmptyNot =>
 			return is_array_mutable_not_empty_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		TypePrimitive4::IsValues =>
 			return is_values_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		TypePrimitive4::IsValuesEmpty =>
 			return is_values_empty_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		TypePrimitive4::IsValuesEmptyNot =>
 			return is_values_not_empty_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
@@ -2295,12 +2310,15 @@ pub fn type_primitive_n_evaluate_0 (primitive : TypePrimitiveN, inputs : &[&Valu
 		TypePrimitiveN::IsArrayMutableEmptyNot =>
 			return is_array_mutable_not_empty_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		TypePrimitiveN::IsValues =>
 			return is_values_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		TypePrimitiveN::IsValuesEmpty =>
 			return is_values_empty_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		TypePrimitiveN::IsValuesEmptyNot =>
 			return is_values_not_empty_all_n (inputs) .into_0 (),
 		
@@ -2681,10 +2699,13 @@ macro_rules! def_type_primitive_v_alternative_fn {
 				#[ cfg ( feature = "vonuvoli_values_array" ) ]
 				TypePrimitiveV::IsArrayImmutableEmptyNot =>
 					Some ($alternative::IsArrayImmutableEmptyNot),
+				#[ cfg ( feature = "vonuvoli_values_values" ) ]
 				TypePrimitiveV::IsValues =>
 					Some ($alternative::IsValues),
+				#[ cfg ( feature = "vonuvoli_values_values" ) ]
 				TypePrimitiveV::IsValuesEmpty =>
 					Some ($alternative::IsValuesEmpty),
+				#[ cfg ( feature = "vonuvoli_values_values" ) ]
 				TypePrimitiveV::IsValuesEmptyNot =>
 					Some ($alternative::IsValuesEmptyNot),
 				#[ cfg ( feature = "vonuvoli_builtins_records" ) ]

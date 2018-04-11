@@ -169,12 +169,14 @@ impl Optimizer {
 				return self.optimize_binding_initialize_1 (optimization, binding, *expression),
 			ExpressionForContexts::BindingInitializeN (initializers, parallel) =>
 				return self.optimize_binding_initialize_n (optimization, initializers, parallel),
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			ExpressionForContexts::BindingInitializeValues (bindings, expression) =>
 				return self.optimize_binding_initialize_values (optimization, bindings, *expression),
 			ExpressionForContexts::BindingSet1 (binding, expression) =>
 				return self.optimize_binding_set_1 (optimization, binding, *expression),
 			ExpressionForContexts::BindingSetN (initializers, parallel) =>
 				return self.optimize_binding_set_n (optimization, initializers, parallel),
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			ExpressionForContexts::BindingSetValues (bindings, expression) =>
 				return self.optimize_binding_set_values (optimization, bindings, *expression),
 			ExpressionForContexts::BindingGet1 (binding) =>
@@ -186,12 +188,14 @@ impl Optimizer {
 				return self.optimize_register_initialize_1 (optimization, index, *expression),
 			ExpressionForContexts::RegisterInitializeN (initializers, parallel) =>
 				return self.optimize_register_initialize_n (optimization, initializers, parallel),
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			ExpressionForContexts::RegisterInitializeValues (indices, expression) =>
 				return self.optimize_register_initialize_values (optimization, indices, *expression),
 			ExpressionForContexts::RegisterSet1 (index, expression) =>
 				return self.optimize_register_set_1 (optimization, index, *expression),
 			ExpressionForContexts::RegisterSetN (initializers, parallel) =>
 				return self.optimize_register_set_n (optimization, initializers, parallel),
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			ExpressionForContexts::RegisterSetValues (indices, expression) =>
 				return self.optimize_register_set_values (optimization, indices, *expression),
 			ExpressionForContexts::RegisterGet1 (index) =>
@@ -944,6 +948,7 @@ impl Optimizer {
 		succeed! ((optimization, expression));
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	fn optimize_binding_initialize_values (&self, optimization : OptimizerContext, bindings : StdBox<[Binding]>, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
 		let expression = ExpressionForContexts::BindingInitializeValues (bindings, expression.into ()) .into ();
@@ -964,6 +969,7 @@ impl Optimizer {
 		succeed! ((optimization, expression));
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	fn optimize_binding_set_values (&self, optimization : OptimizerContext, bindings : StdBox<[Binding]>, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
 		let expression = ExpressionForContexts::BindingSetValues (bindings, expression.into ()) .into ();
@@ -1003,6 +1009,7 @@ impl Optimizer {
 		succeed! ((optimization, expression));
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	fn optimize_register_initialize_values (&self, optimization : OptimizerContext, indices : StdBox<[usize]>, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
 		let expression = ExpressionForContexts::RegisterInitializeValues (indices, expression.into ()) .into ();
@@ -1040,6 +1047,7 @@ impl Optimizer {
 		succeed! ((optimization, expression));
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	fn optimize_register_set_values (&self, optimization : OptimizerContext, indices : StdBox<[usize]>, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
 		let expression = ExpressionForContexts::RegisterSetValues (indices, expression.into ()) .into ();
@@ -2380,12 +2388,14 @@ impl Optimizer {
 						false,
 					ExpressionForContexts::BindingInitializeN (_, _) =>
 						false,
+					#[ cfg ( feature = "vonuvoli_values_values" ) ]
 					ExpressionForContexts::BindingInitializeValues (_, _) =>
 						false,
 					ExpressionForContexts::BindingSet1 (_, _) =>
 						false,
 					ExpressionForContexts::BindingSetN (_, _) =>
 						false,
+					#[ cfg ( feature = "vonuvoli_values_values" ) ]
 					ExpressionForContexts::BindingSetValues (_, _) =>
 						false,
 					ExpressionForContexts::BindingGet1 (_) =>
@@ -2397,12 +2407,14 @@ impl Optimizer {
 						false,
 					ExpressionForContexts::RegisterInitializeN (_, _) =>
 						false,
+					#[ cfg ( feature = "vonuvoli_values_values" ) ]
 					ExpressionForContexts::RegisterInitializeValues (_, _) =>
 						false,
 					ExpressionForContexts::RegisterSet1 (_, _) =>
 						false,
 					ExpressionForContexts::RegisterSetN (_, _) =>
 						false,
+					#[ cfg ( feature = "vonuvoli_values_values" ) ]
 					ExpressionForContexts::RegisterSetValues (_, _) =>
 						false,
 					ExpressionForContexts::RegisterGet1 (_) =>
@@ -2708,12 +2720,14 @@ impl Optimizer {
 						None,
 					ExpressionForContexts::BindingInitializeN (_, _) =>
 						None,
+					#[ cfg ( feature = "vonuvoli_values_values" ) ]
 					ExpressionForContexts::BindingInitializeValues (_, _) =>
 						None,
 					ExpressionForContexts::BindingSet1 (_, _) =>
 						None,
 					ExpressionForContexts::BindingSetN (_, _) =>
 						None,
+					#[ cfg ( feature = "vonuvoli_values_values" ) ]
 					ExpressionForContexts::BindingSetValues (_, _) =>
 						None,
 					ExpressionForContexts::BindingGet1 (_) =>
@@ -2725,12 +2739,14 @@ impl Optimizer {
 						None,
 					ExpressionForContexts::RegisterInitializeN (_, _) =>
 						None,
+					#[ cfg ( feature = "vonuvoli_values_values" ) ]
 					ExpressionForContexts::RegisterInitializeValues (_, _) =>
 						None,
 					ExpressionForContexts::RegisterSet1 (_, _) =>
 						None,
 					ExpressionForContexts::RegisterSetN (_, _) =>
 						None,
+					#[ cfg ( feature = "vonuvoli_values_values" ) ]
 					ExpressionForContexts::RegisterSetValues (_, _) =>
 						None,
 					ExpressionForContexts::RegisterGet1 (_) =>
@@ -2923,12 +2939,14 @@ impl Optimizer {
 						None,
 					ExpressionForContexts::BindingInitializeN (_, _) =>
 						None,
+					#[ cfg ( feature = "vonuvoli_values_values" ) ]
 					ExpressionForContexts::BindingInitializeValues (_, _) =>
 						None,
 					ExpressionForContexts::BindingSet1 (_, _) =>
 						None,
 					ExpressionForContexts::BindingSetN (_, _) =>
 						None,
+					#[ cfg ( feature = "vonuvoli_values_values" ) ]
 					ExpressionForContexts::BindingSetValues (_, _) =>
 						None,
 					ExpressionForContexts::BindingGet1 (_) =>
@@ -2940,12 +2958,14 @@ impl Optimizer {
 						None,
 					ExpressionForContexts::RegisterInitializeN (_, _) =>
 						None,
+					#[ cfg ( feature = "vonuvoli_values_values" ) ]
 					ExpressionForContexts::RegisterInitializeValues (_, _) =>
 						None,
 					ExpressionForContexts::RegisterSet1 (_, _) =>
 						None,
 					ExpressionForContexts::RegisterSetN (_, _) =>
 						None,
+					#[ cfg ( feature = "vonuvoli_values_values" ) ]
 					ExpressionForContexts::RegisterSetValues (_, _) =>
 						None,
 					ExpressionForContexts::RegisterGet1 (_) =>

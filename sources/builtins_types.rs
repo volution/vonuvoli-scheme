@@ -472,6 +472,7 @@ pub mod exports {
 	};
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	pub use super::{
 			
 			is_values, is_values_empty, is_values_not_empty,
@@ -2106,30 +2107,39 @@ def_fn_try_predicate_any! (is_string_mutable_not_empty, is_string_mutable_not_em
 
 
 
+#[ cfg ( feature = "vonuvoli_values_values" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_values (value : &Value) -> (bool) {
 	return value.is_kind (ValueKind::Values);
 }
 
+#[ cfg ( feature = "vonuvoli_values_values" ) ]
 def_fn_predicate_all! (is_values, is_values_all_2, is_values_all_3, is_values_all_4, is_values_all_n);
+#[ cfg ( feature = "vonuvoli_values_values" ) ]
 def_fn_predicate_any! (is_values, is_values_any_2, is_values_any_3, is_values_any_4, is_values_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_values_values" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_values_empty (value : &Value) -> (Outcome<bool>) {
 	succeed! (try_as_values_ref! (value) .values_is_empty ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_values" ) ]
 def_fn_try_predicate_all! (is_values_empty, is_values_empty_all_2, is_values_empty_all_3, is_values_empty_all_4, is_values_empty_all_n);
+#[ cfg ( feature = "vonuvoli_values_values" ) ]
 def_fn_try_predicate_any! (is_values_empty, is_values_empty_any_2, is_values_empty_any_3, is_values_empty_any_4, is_values_empty_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_values_values" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_values_not_empty (value : &Value) -> (Outcome<bool>) {
 	succeed! (try_as_values_ref! (value) .values_is_not_empty ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_values" ) ]
 def_fn_try_predicate_all! (is_values_not_empty, is_values_not_empty_all_2, is_values_not_empty_all_3, is_values_not_empty_all_4, is_values_not_empty_all_n);
+#[ cfg ( feature = "vonuvoli_values_values" ) ]
 def_fn_try_predicate_any! (is_values_not_empty, is_values_not_empty_any_2, is_values_not_empty_any_3, is_values_not_empty_any_4, is_values_not_empty_any_n);
 
 

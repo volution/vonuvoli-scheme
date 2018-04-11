@@ -187,12 +187,14 @@ impl Evaluator {
 				self.evaluate_binding_initialize_1 (evaluation, binding, expression),
 			ExpressionForContexts::BindingInitializeN (ref initializers, parallel) =>
 				self.evaluate_binding_initialize_n (evaluation, initializers, parallel),
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			ExpressionForContexts::BindingInitializeValues (ref bindings, ref expression) =>
 				self.evaluate_binding_initialize_values (evaluation, bindings, expression),
 			ExpressionForContexts::BindingSet1 (ref binding, ref expression) =>
 				self.evaluate_binding_set_1 (evaluation, binding, expression),
 			ExpressionForContexts::BindingSetN (ref initializers, parallel) =>
 				self.evaluate_binding_set_n (evaluation, initializers, parallel),
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			ExpressionForContexts::BindingSetValues (ref bindings, ref expression) =>
 				self.evaluate_binding_set_values (evaluation, bindings, expression),
 			ExpressionForContexts::BindingGet1 (ref binding) =>
@@ -204,12 +206,14 @@ impl Evaluator {
 				self.evaluate_register_initialize_1 (evaluation, index, expression),
 			ExpressionForContexts::RegisterInitializeN (ref initializers, parallel) =>
 				self.evaluate_register_initialize_n (evaluation, initializers, parallel),
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			ExpressionForContexts::RegisterInitializeValues (ref indices, ref expression) =>
 				self.evaluate_register_initialize_values (evaluation, indices, expression),
 			ExpressionForContexts::RegisterSet1 (index, ref expression) =>
 				self.evaluate_register_set_1 (evaluation, index, expression),
 			ExpressionForContexts::RegisterSetN (ref initializers, parallel) =>
 				self.evaluate_register_set_n (evaluation, initializers, parallel),
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			ExpressionForContexts::RegisterSetValues (ref indices, ref expression) =>
 				self.evaluate_register_set_values (evaluation, indices, expression),
 			ExpressionForContexts::RegisterGet1 (index) =>
@@ -781,6 +785,7 @@ impl Evaluator {
 		return Ok (VOID.into ());
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_binding_initialize_values (&self, evaluation : &mut EvaluatorContext, bindings : &[Binding], expression : &Expression) -> (Outcome<Value>) {
 		let values_new = try! (self.evaluate (evaluation, expression));
@@ -821,6 +826,7 @@ impl Evaluator {
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_binding_set_values (&self, evaluation : &mut EvaluatorContext, bindings : &[Binding], expression : &Expression) -> (Outcome<Value>) {
 		let values_new = try! (self.evaluate (evaluation, expression));
@@ -878,6 +884,7 @@ impl Evaluator {
 		return Ok (VOID.into ());
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_register_initialize_values (&self, evaluation : &mut EvaluatorContext, indices : &[usize], expression : &Expression) -> (Outcome<Value>) {
 		let values_new = try! (self.evaluate (evaluation, expression));
@@ -920,6 +927,7 @@ impl Evaluator {
 		return Ok (VOID.into ());
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_register_set_values (&self, evaluation : &mut EvaluatorContext, indices : &[usize], expression : &Expression) -> (Outcome<Value>) {
 		let values_new = try! (self.evaluate (evaluation, expression));

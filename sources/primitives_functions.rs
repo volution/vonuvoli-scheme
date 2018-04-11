@@ -57,6 +57,7 @@ pub mod exports {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum FunctionsPrimitive0 {
 	
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	Values,
 	
 }
@@ -68,6 +69,7 @@ pub enum FunctionsPrimitive1 {
 	Call,
 	Apply,
 	
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	Values,
 	Identity,
 	
@@ -93,7 +95,9 @@ pub enum FunctionsPrimitive1 {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum FunctionsPrimitive2 {
 	
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	CallWithValues,
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	CallWithValuesBuilder,
 	
 	Call,
@@ -113,6 +117,7 @@ pub enum FunctionsPrimitive2 {
 	StringsMap,
 	StringsIterate,
 	
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	Values,
 	
 	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
@@ -147,6 +152,7 @@ pub enum FunctionsPrimitive3 {
 	StringsMap,
 	StringsIterate,
 	
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	Values,
 	
 	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
@@ -181,6 +187,7 @@ pub enum FunctionsPrimitive4 {
 	StringsMap,
 	StringsIterate,
 	
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	Values,
 	
 	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
@@ -243,6 +250,7 @@ pub enum FunctionsPrimitiveN {
 	StringsMap,
 	StringsIterate,
 	
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	Values,
 	
 	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
@@ -277,6 +285,7 @@ pub enum FunctionsPrimitiveV {
 	StringsMap,
 	StringsIterate,
 	
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	Values,
 	
 	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
@@ -297,6 +306,7 @@ pub enum FunctionsPrimitiveV {
 pub fn functions_primitive_0_evaluate (primitive : FunctionsPrimitive0, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		FunctionsPrimitive0::Values =>
 			return values_build_0 () .into_0 (),
 		
@@ -316,6 +326,7 @@ pub fn functions_primitive_1_evaluate (primitive : FunctionsPrimitive1, input_1 
 		FunctionsPrimitive1::Apply =>
 			return apply_0 (evaluator, input_1),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		FunctionsPrimitive1::Values =>
 			return values_build_1 (input_1) .into_0 (),
 		
@@ -360,9 +371,11 @@ pub fn functions_primitive_1_evaluate (primitive : FunctionsPrimitive1, input_1 
 pub fn functions_primitive_2_evaluate (primitive : FunctionsPrimitive2, input_1 : &Value, input_2 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		FunctionsPrimitive2::CallWithValues =>
 			return call_with_values (evaluator, input_1, input_2),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		FunctionsPrimitive2::CallWithValuesBuilder =>
 			return call_with_values_builder (evaluator, input_2, input_1),
 		
@@ -398,6 +411,7 @@ pub fn functions_primitive_2_evaluate (primitive : FunctionsPrimitive2, input_1 
 		FunctionsPrimitive2::StringsIterate =>
 			return strings_iterate_1 (evaluator, input_1, input_2),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		FunctionsPrimitive2::Values =>
 			return values_build_2 (input_1, input_2) .into_0 (),
 		
@@ -459,6 +473,7 @@ pub fn functions_primitive_3_evaluate (primitive : FunctionsPrimitive3, input_1 
 		FunctionsPrimitive3::StringsIterate =>
 			return strings_iterate_2 (evaluator, input_1, input_2, input_3),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		FunctionsPrimitive3::Values =>
 			return values_build_3 (input_1, input_2, input_3) .into_0 (),
 		
@@ -520,6 +535,7 @@ pub fn functions_primitive_4_evaluate (primitive : FunctionsPrimitive4, input_1 
 		FunctionsPrimitive4::StringsIterate =>
 			return strings_iterate_3 (evaluator, input_1, input_2, input_3, input_4),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		FunctionsPrimitive4::Values =>
 			return values_build_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
@@ -651,6 +667,7 @@ pub fn functions_primitive_n_evaluate (primitive : FunctionsPrimitiveN, inputs :
 			return strings_iterate_n (evaluator, callable, inputs);
 		},
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		FunctionsPrimitiveN::Values =>
 			return values_build_n (inputs) .into_0 (),
 		
@@ -705,6 +722,7 @@ pub fn functions_primitive_v_alternative_0 (primitive : FunctionsPrimitiveV) -> 
 			None,
 		FunctionsPrimitiveV::StringsIterate =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		FunctionsPrimitiveV::Values =>
 			Some (FunctionsPrimitive0::Values),
 		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
@@ -750,6 +768,7 @@ pub fn functions_primitive_v_alternative_1 (primitive : FunctionsPrimitiveV) -> 
 			None,
 		FunctionsPrimitiveV::StringsIterate =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		FunctionsPrimitiveV::Values =>
 			Some (FunctionsPrimitive1::Values),
 		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
@@ -795,6 +814,7 @@ pub fn functions_primitive_v_alternative_2 (primitive : FunctionsPrimitiveV) -> 
 			Some (FunctionsPrimitive2::StringsMap),
 		FunctionsPrimitiveV::StringsIterate =>
 			Some (FunctionsPrimitive2::StringsIterate),
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		FunctionsPrimitiveV::Values =>
 			Some (FunctionsPrimitive2::Values),
 		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
@@ -840,6 +860,7 @@ pub fn functions_primitive_v_alternative_3 (primitive : FunctionsPrimitiveV) -> 
 			Some (FunctionsPrimitive3::StringsMap),
 		FunctionsPrimitiveV::StringsIterate =>
 			Some (FunctionsPrimitive3::StringsIterate),
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		FunctionsPrimitiveV::Values =>
 			Some (FunctionsPrimitive3::Values),
 		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
@@ -885,6 +906,7 @@ pub fn functions_primitive_v_alternative_4 (primitive : FunctionsPrimitiveV) -> 
 			Some (FunctionsPrimitive4::StringsMap),
 		FunctionsPrimitiveV::StringsIterate =>
 			Some (FunctionsPrimitive4::StringsIterate),
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		FunctionsPrimitiveV::Values =>
 			Some (FunctionsPrimitive4::Values),
 		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
@@ -930,6 +952,7 @@ pub fn functions_primitive_v_alternative_5 (primitive : FunctionsPrimitiveV) -> 
 			Some (FunctionsPrimitive5::StringsMap),
 		FunctionsPrimitiveV::StringsIterate =>
 			Some (FunctionsPrimitive5::StringsIterate),
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		FunctionsPrimitiveV::Values =>
 			None,
 		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
@@ -975,6 +998,7 @@ pub fn functions_primitive_v_alternative_n (primitive : FunctionsPrimitiveV) -> 
 			Some (FunctionsPrimitiveN::StringsMap),
 		FunctionsPrimitiveV::StringsIterate =>
 			Some (FunctionsPrimitiveN::StringsIterate),
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		FunctionsPrimitiveV::Values =>
 			Some (FunctionsPrimitiveN::Values),
 		#[ cfg ( feature = "vonuvoli_values_extended" ) ]

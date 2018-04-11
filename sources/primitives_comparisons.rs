@@ -174,10 +174,15 @@ macro_rules! def_comparison_primitive_enum {
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			ArrayGreater,
 			
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			ValuesLesser,
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			ValuesLesserOrEqual,
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			ValuesEqual,
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			ValuesGreaterOrEqual,
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			ValuesGreater,
 			
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
@@ -499,18 +504,23 @@ pub fn comparison_primitive_1_evaluate (primitive : ComparisonPrimitive1, input_
 		ComparisonPrimitive1::ArrayGreater =>
 			return array_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		ComparisonPrimitive1::ValuesLesser =>
 			return values_compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		ComparisonPrimitive1::ValuesLesserOrEqual =>
 			return values_compare_1 (input_1, Comparison::Ordering (Ordering::LesserOrEqual, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		ComparisonPrimitive1::ValuesEqual =>
 			return values_compare_1 (input_1, Comparison::Ordering (Ordering::Equal, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		ComparisonPrimitive1::ValuesGreaterOrEqual =>
 			return values_compare_1 (input_1, Comparison::Ordering (Ordering::GreaterOrEqual, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		ComparisonPrimitive1::ValuesGreater =>
 			return values_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
@@ -824,18 +834,23 @@ pub fn comparison_primitive_2_evaluate (primitive : ComparisonPrimitive2, input_
 		ComparisonPrimitive2::ArrayGreater =>
 			return array_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		ComparisonPrimitive2::ValuesLesser =>
 			return values_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		ComparisonPrimitive2::ValuesLesserOrEqual =>
 			return values_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::LesserOrEqual, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		ComparisonPrimitive2::ValuesEqual =>
 			return values_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Equal, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		ComparisonPrimitive2::ValuesGreaterOrEqual =>
 			return values_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::GreaterOrEqual, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		ComparisonPrimitive2::ValuesGreater =>
 			return values_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
@@ -1149,18 +1164,23 @@ pub fn comparison_primitive_3_evaluate (primitive : ComparisonPrimitive3, input_
 		ComparisonPrimitive3::ArrayGreater =>
 			return array_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		ComparisonPrimitive3::ValuesLesser =>
 			return values_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		ComparisonPrimitive3::ValuesLesserOrEqual =>
 			return values_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::LesserOrEqual, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		ComparisonPrimitive3::ValuesEqual =>
 			return values_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Equal, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		ComparisonPrimitive3::ValuesGreaterOrEqual =>
 			return values_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::GreaterOrEqual, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		ComparisonPrimitive3::ValuesGreater =>
 			return values_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
@@ -1474,18 +1494,23 @@ pub fn comparison_primitive_4_evaluate (primitive : ComparisonPrimitive4, input_
 		ComparisonPrimitive4::ArrayGreater =>
 			return array_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		ComparisonPrimitive4::ValuesLesser =>
 			return values_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		ComparisonPrimitive4::ValuesLesserOrEqual =>
 			return values_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::LesserOrEqual, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		ComparisonPrimitive4::ValuesEqual =>
 			return values_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Equal, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		ComparisonPrimitive4::ValuesGreaterOrEqual =>
 			return values_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::GreaterOrEqual, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		ComparisonPrimitive4::ValuesGreater =>
 			return values_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
@@ -1807,18 +1832,23 @@ pub fn comparison_primitive_n_evaluate (primitive : ComparisonPrimitiveN, inputs
 		ComparisonPrimitiveN::ArrayGreater =>
 			return array_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		ComparisonPrimitiveN::ValuesLesser =>
 			return values_compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		ComparisonPrimitiveN::ValuesLesserOrEqual =>
 			return values_compare_n (inputs, Comparison::Ordering (Ordering::LesserOrEqual, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		ComparisonPrimitiveN::ValuesEqual =>
 			return values_compare_n (inputs, Comparison::Ordering (Ordering::Equal, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		ComparisonPrimitiveN::ValuesGreaterOrEqual =>
 			return values_compare_n (inputs, Comparison::Ordering (Ordering::GreaterOrEqual, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		ComparisonPrimitiveN::ValuesGreater =>
 			return values_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
@@ -2054,14 +2084,19 @@ macro_rules! def_comparison_primitive_v_alternative_fn {
 				#[ cfg ( feature = "vonuvoli_values_array" ) ]
 				ComparisonPrimitiveV::ArrayGreater =>
 					Some ($alternative::ArrayGreater),
+				#[ cfg ( feature = "vonuvoli_values_values" ) ]
 				ComparisonPrimitiveV::ValuesLesser =>
 					Some ($alternative::ValuesLesser),
+				#[ cfg ( feature = "vonuvoli_values_values" ) ]
 				ComparisonPrimitiveV::ValuesLesserOrEqual =>
 					Some ($alternative::ValuesLesserOrEqual),
+				#[ cfg ( feature = "vonuvoli_values_values" ) ]
 				ComparisonPrimitiveV::ValuesEqual =>
 					Some ($alternative::ValuesEqual),
+				#[ cfg ( feature = "vonuvoli_values_values" ) ]
 				ComparisonPrimitiveV::ValuesGreaterOrEqual =>
 					Some ($alternative::ValuesGreaterOrEqual),
+				#[ cfg ( feature = "vonuvoli_values_values" ) ]
 				ComparisonPrimitiveV::ValuesGreater =>
 					Some ($alternative::ValuesGreater),
 				#[ cfg ( feature = "vonuvoli_builtins_records" ) ]

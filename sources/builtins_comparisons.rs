@@ -64,7 +64,6 @@ pub mod exports {
 			pair_compare_1,
 			pair_immutable_compare_1, pair_immutable_compare_1a,
 			pair_mutable_compare_1, pair_mutable_compare_1a,
-			values_compare_1, values_compare_1a,
 			procedure_primitive_compare_1, procedure_primitive_compare_1a,
 			procedure_lambda_compare_1, procedure_lambda_compare_1a,
 			syntax_primitive_compare_1, syntax_primitive_compare_1a,
@@ -87,7 +86,6 @@ pub mod exports {
 			pair_compare_2,
 			pair_immutable_compare_2, pair_immutable_compare_2a,
 			pair_mutable_compare_2, pair_mutable_compare_2a,
-			values_compare_2, values_compare_2a,
 			procedure_primitive_compare_2, procedure_primitive_compare_2a,
 			procedure_lambda_compare_2, procedure_lambda_compare_2a,
 			syntax_primitive_compare_2, syntax_primitive_compare_2a,
@@ -110,7 +108,6 @@ pub mod exports {
 			pair_compare_3,
 			pair_immutable_compare_3, pair_immutable_compare_3a,
 			pair_mutable_compare_3, pair_mutable_compare_3a,
-			values_compare_3, values_compare_3a,
 			procedure_primitive_compare_3, procedure_primitive_compare_3a,
 			procedure_lambda_compare_3, procedure_lambda_compare_3a,
 			syntax_primitive_compare_3, syntax_primitive_compare_3a,
@@ -133,7 +130,6 @@ pub mod exports {
 			pair_compare_4,
 			pair_immutable_compare_4, pair_immutable_compare_4a,
 			pair_mutable_compare_4, pair_mutable_compare_4a,
-			values_compare_4, values_compare_4a,
 			procedure_primitive_compare_4, procedure_primitive_compare_4a,
 			procedure_lambda_compare_4, procedure_lambda_compare_4a,
 			syntax_primitive_compare_4, syntax_primitive_compare_4a,
@@ -156,7 +152,6 @@ pub mod exports {
 			pair_compare_n,
 			pair_immutable_compare_n, pair_immutable_compare_na,
 			pair_mutable_compare_n, pair_mutable_compare_na,
-			values_compare_n, values_compare_na,
 			procedure_primitive_compare_n, procedure_primitive_compare_na,
 			procedure_lambda_compare_n, procedure_lambda_compare_na,
 			syntax_primitive_compare_n, syntax_primitive_compare_na,
@@ -190,6 +185,17 @@ pub mod exports {
 			
 	};
 	
+	
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
+	pub use super::{
+			
+			values_compare_1, values_compare_1a,
+			values_compare_2, values_compare_2a,
+			values_compare_3, values_compare_3a,
+			values_compare_4, values_compare_4a,
+			values_compare_n, values_compare_na,
+			
+	};
 	
 	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	pub use super::{
@@ -721,6 +727,7 @@ pub fn compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Co
 		ValueKindMatchAsRef::ArrayMutable (value) =>
 			return array_mutable_compare_1a (value, comparison),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		ValueKindMatchAsRef::Values (value) =>
 			return values_compare_1a (value, comparison),
 		
@@ -880,6 +887,7 @@ pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef
 		ValueKindMatchAsRef2::ArrayMutable (left, right) =>
 			return array_mutable_compare_2a (left, right, comparison),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		ValueKindMatchAsRef2::Values (left, right) =>
 			return values_compare_2a (left, right, comparison),
 		
@@ -1586,15 +1594,18 @@ pub(crate) fn array_ref_compare_2a <'a, ValueRef : StdAsRef<ArrayRef<'a>>> (left
 
 
 
+#[ cfg ( feature = "vonuvoli_values_values" ) ]
 def_fn_compare! (Values,
 		values_compare_1, values_compare_2, values_compare_3, values_compare_4, values_compare_n,
 		values_compare_1a, values_compare_2a, values_compare_3a, values_compare_4a, values_compare_na);
 
+#[ cfg ( feature = "vonuvoli_values_values" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn values_compare_1a <ValueRef : StdAsRef<Values>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_values" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn values_compare_2a <ValueRef : StdAsRef<Values>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();

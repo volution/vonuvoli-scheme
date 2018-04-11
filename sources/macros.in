@@ -982,7 +982,9 @@ def_value_try_as_ref! (try_as_array_mutable_ref, value_type! (ArrayMutable));
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
 def_value_try_into! (try_into_array_mutable, value_type! (ArrayMutable));
 
+#[ cfg ( feature = "vonuvoli_values_values" ) ]
 def_value_try_as_ref! (try_as_values_ref, value_type! (Values));
+#[ cfg ( feature = "vonuvoli_values_values" ) ]
 def_value_try_into! (try_into_values, value_type! (Values));
 
 def_value_try_as_ref! (try_as_record_kind_ref, value_type! (RecordKind));

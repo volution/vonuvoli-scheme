@@ -94,6 +94,7 @@ impl <'a> ValueKindMatchAsRef2<'a> {
 			ValueKindMatchAsRef2::ArrayImmutable (self_0, other_0) => Some (ArrayImmutable::eq (self_0, other_0)),
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			ValueKindMatchAsRef2::ArrayMutable (self_0, other_0) => Some (ArrayMutable::eq (self_0, other_0)),
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			ValueKindMatchAsRef2::Values (self_0, other_0) => Some (Values::eq (self_0, other_0)),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
@@ -185,6 +186,7 @@ impl <'a> ValueKindMatchAsRef2<'a> {
 			ValueKindMatchAsRef2::ArrayImmutable (self_0, other_0) => Some (ArrayImmutable::cmp (self_0, other_0)),
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			ValueKindMatchAsRef2::ArrayMutable (self_0, other_0) => Some (ArrayMutable::cmp (self_0, other_0)),
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			ValueKindMatchAsRef2::Values (self_0, other_0) => Some (Values::cmp (self_0, other_0)),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]

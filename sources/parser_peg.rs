@@ -647,7 +647,20 @@ fn __parse_values<'input>(
 											Matched(__pos, _) => {
 												let __seq_res = slice_eq(__input, __state, __pos, ")");
 												match __seq_res {
-													Matched(__pos, _) => Matched(__pos, { values::values_new_from_vec(elements).into() }),
+													Matched(__pos, _) =>
+														match {
+															#[cfg(feature = "vonuvoli_values_values")]
+															let outcome = Ok(values::values_new_from_vec(elements).into());
+															#[cfg(not(feature = "vonuvoli_values_values"))]
+															let outcome = Err("values not supported");
+															outcome
+														} {
+															Ok(res) => Matched(__pos, res),
+															Err(expected) => {
+																__state.mark_failure(__pos, expected);
+																Failed
+															},
+														},
 													Failed => Failed,
 												}
 											},

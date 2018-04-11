@@ -94,6 +94,7 @@ pub enum RuntimePrimitive1 {
 	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ErrorArgumentsAsArray,
 	#[ cfg ( feature = "vonuvoli_values_error" ) ]
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	ErrorArgumentsAsValues,
 	
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
@@ -360,6 +361,7 @@ pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, input_1 : &V
 			return error_arguments_as_array (input_1) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_values_error" ) ]
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		RuntimePrimitive1::ErrorArgumentsAsValues =>
 			return error_arguments_as_values (input_1) .into_0 (),
 		

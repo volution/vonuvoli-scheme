@@ -149,6 +149,7 @@ vonuvoli_inline = []
 
 vonuvoli_values_all = [
 	"vonuvoli_values_array",
+	"vonuvoli_values_values",
 	"vonuvoli_values_error",
 	"vonuvoli_values_keyword",
 	"vonuvoli_values_unique",
@@ -158,6 +159,7 @@ vonuvoli_values_all = [
 	"vonuvoli_values_native",
 ]
 vonuvoli_values_array = []
+vonuvoli_values_values = []
 vonuvoli_values_error = []
 vonuvoli_values_keyword = []
 vonuvoli_values_unique = []

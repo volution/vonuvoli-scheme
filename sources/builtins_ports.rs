@@ -799,6 +799,7 @@ pub fn port_output_value_display_0 (port : &mut PortBackendWriter, value : &Valu
 			}
 		},
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		ValueClassMatchAsRef::Values (values) => {
 			if flatten.unwrap_or (DEFAULT_PORT_OUTPUT_VALUE_DISPLAY_FLATTEN) {
 				let values = values.values_as_slice ();
@@ -1081,6 +1082,7 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 			}
 		},
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		ValueClassMatchAsRef::Values (value) => {
 			if flatten.unwrap_or (DEFAULT_PORT_OUTPUT_VALUE_WRITE_FLATTEN) {
 				let values = value.values_as_slice ();

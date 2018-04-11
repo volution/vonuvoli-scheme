@@ -58,6 +58,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 	definitions.extend_from_slice (&[
 			
 			("locals", SyntaxPrimitiveV::Locals.into ()),
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			("set!-values", SyntaxPrimitiveV::SetValues.into ()),
 			
 			("loop", SyntaxPrimitiveV::Loop.into ()),
@@ -66,6 +67,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("guard*", SyntaxPrimitiveV::Guard.into ()),
 			
 			("call", FunctionsPrimitiveV::Call.into ()),
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			("call-with-values*", FunctionsPrimitive2::CallWithValues.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_values_error" ) ]
@@ -74,6 +76,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("error-object-irritants->vector", RuntimePrimitive1::ErrorArgumentsAsArray.into ()),
 			#[ cfg ( feature = "vonuvoli_values_error" ) ]
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			("error-object-irritants->values", RuntimePrimitive1::ErrorArgumentsAsValues.into ()),
 			
 			("not-null?", TypePrimitiveV::IsNullNot.into ()),
@@ -207,7 +210,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("vector-mutable?", TypePrimitiveV::IsArrayMutable.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			("values?", TypePrimitiveV::IsValues.into ()),
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			("not-values?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsValues) .into ()),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
@@ -258,8 +263,10 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("array->record", RecordPrimitiveV::RecordFromArray.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			("record->values", RecordPrimitiveV::RecordToValues.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			("values->record", RecordPrimitiveV::RecordFromValues.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("record->list", RecordPrimitiveV::RecordToList.into ()),
@@ -392,16 +399,26 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("not-vector>=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::ArrayGreaterOrEqual) .into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			("values=?", ComparisonPrimitiveV::ValuesEqual.into ()),
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			("values<?", ComparisonPrimitiveV::ValuesLesser.into ()),
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			("values>?", ComparisonPrimitiveV::ValuesGreater.into ()),
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			("values<=?", ComparisonPrimitiveV::ValuesLesserOrEqual.into ()),
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			("values>=?", ComparisonPrimitiveV::ValuesGreaterOrEqual.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			("not-values=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::ValuesEqual) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			("not-values<?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::ValuesLesser) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			("not-values>?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::ValuesGreater) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			("not-values<=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::ValuesLesserOrEqual) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			("not-values>=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::ValuesGreaterOrEqual) .into ()),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]

@@ -36,7 +36,13 @@ array -> values::Value = ( "#array" / "#" ) "(" space? elements : value ** space
 	outcome
 }
 
-values -> values::Value = ( "#values" / "#" ) "(" space? elements : value ** space space? ")" {  values::values_new_from_vec (elements) .into () }
+values -> values::Value = ( "#values" / "#" ) "(" space? elements : value ** space space? ")" {?
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
+	let outcome = Ok (values::values_new_from_vec (elements) .into ());
+	#[ cfg ( not ( feature = "vonuvoli_values_values" ) ) ]
+	let outcome = Err ("values not supported");
+	outcome
+}
 
 abbreviation -> values::Value = abbreviation : abbreviation_prefix whitespace? value : value { builtins::list_collect (vec! [abbreviation, value], Some (true)) }
 abbreviation_prefix -> values::Value = value : $( "'" / "`" / ",@" / "," ) {?

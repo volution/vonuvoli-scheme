@@ -162,6 +162,7 @@ impl Compiler {
 			ValueClassMatchInto::Array (class) =>
 				return self.compile_syntax_quote_0 (compilation, class.value ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			ValueClassMatchInto::Values (value) =>
 				return self.compile_syntax_quote_0 (compilation, value.into ()),
 			
@@ -388,6 +389,7 @@ impl Compiler {
 					SyntaxPrimitiveV::LetRecursiveSequential =>
 						return self.compile_syntax_let (compilation, syntax, tokens),
 					
+					#[ cfg ( feature = "vonuvoli_values_values" ) ]
 					SyntaxPrimitiveV::LetValuesParallel |
 					SyntaxPrimitiveV::LetValuesSequential =>
 						return self.compile_syntax_let_values (compilation, syntax, tokens),
@@ -399,12 +401,14 @@ impl Compiler {
 					SyntaxPrimitiveV::Define =>
 						return self.compile_syntax_define (compilation, tokens),
 					
+					#[ cfg ( feature = "vonuvoli_values_values" ) ]
 					SyntaxPrimitiveV::DefineValues =>
 						return self.compile_syntax_define_values (compilation, tokens),
 					
 					SyntaxPrimitiveV::Set =>
 						return self.compile_syntax_set (compilation, tokens),
 					
+					#[ cfg ( feature = "vonuvoli_values_values" ) ]
 					SyntaxPrimitiveV::SetValues =>
 						return self.compile_syntax_set_values (compilation, tokens),
 					
@@ -1071,6 +1075,7 @@ impl Compiler {
 	
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	fn compile_syntax_let_values (&self, compilation : CompilerContext, syntax : SyntaxPrimitiveV, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		if tokens.len () < 2 {
@@ -1269,6 +1274,7 @@ impl Compiler {
 	
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	fn compile_syntax_define_values (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		if tokens.len () != 2 {
@@ -1322,6 +1328,7 @@ impl Compiler {
 	
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	fn compile_syntax_set_values (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		if tokens.len () != 2 {
@@ -1464,6 +1471,7 @@ impl Compiler {
 	
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	fn compile_syntax_binding_set_values_1 (&self, bindings : StdVec<CompilerBinding>, expression : Expression, initialize : bool) -> (Outcome<Expression>) {
 		
 		if bindings.len () == 0 {
@@ -1515,6 +1523,7 @@ impl Compiler {
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	fn compile_syntax_binding_set_values_n (&self, bindings : StdVec<StdVec<CompilerBinding>>, expressions : StdVec<Expression>, initialize : bool) -> (Outcome<StdVec<Expression>>) {
 		
 		if bindings.len () == 0 {
@@ -1997,6 +2006,7 @@ impl Compiler {
 				// FIXME:  Add support for quasi-quotation!
 				succeed! ((compilation, splice (class.value (), spliceable))),
 			
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			ValueClassMatchInto::Values (value) =>
 				// FIXME:  Add support for quasi-quotation!
 				succeed! ((compilation, splice (value, spliceable))),

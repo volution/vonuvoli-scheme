@@ -612,13 +612,15 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 				ValueKindMatchAsRef2::BytesMutable (_, _) |
 				ValueKindMatchAsRef2::PairImmutable (_, _) |
 				ValueKindMatchAsRef2::PairMutable (_, _) |
-				ValueKindMatchAsRef2::Values (_, _) |
 				ValueKindMatchAsRef2::ProcedurePrimitive (_, _) |
 				ValueKindMatchAsRef2::SyntaxPrimitive (_, _) =>
 					true,
 				#[ cfg ( feature = "vonuvoli_values_array" ) ]
 				ValueKindMatchAsRef2::ArrayImmutable (_, _) |
 				ValueKindMatchAsRef2::ArrayMutable (_, _) =>
+					true,
+				#[ cfg ( feature = "vonuvoli_values_values" ) ]
+				ValueKindMatchAsRef2::Values (_, _) =>
 					true,
 				#[ cfg ( feature = "vonuvoli_values_native" ) ]
 				ValueKindMatchAsRef2::ProcedureNative (_, _) |

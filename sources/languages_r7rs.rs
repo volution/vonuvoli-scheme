@@ -94,6 +94,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "lambda", "lambda", SyntaxPrimitiveV::Lambda.into ()),
 			
 			("base", "contexts", "define", SyntaxPrimitiveV::Define.into ()),
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			("base", "values", "define-values", SyntaxPrimitiveV::DefineValues.into ()),
 			("base", "syntaxes", "define-syntax", SyntaxPrimitive::Unsupported.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
@@ -103,7 +104,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "contexts", "let*", SyntaxPrimitiveV::LetSequential.into ()),
 			("base", "contexts", "letrec", SyntaxPrimitiveV::LetRecursiveParallel.into ()),
 			("base", "contexts", "letrec*", SyntaxPrimitiveV::LetRecursiveSequential.into ()),
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			("base", "values", "let-values", SyntaxPrimitiveV::LetValuesParallel.into ()),
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			("base", "values", "let*-values", SyntaxPrimitiveV::LetValuesSequential.into ()),
 			("base", "syntaxes", "let-syntax", SyntaxPrimitive::Unsupported.into ()),
 			("base", "syntaxes", "letrec-syntax", SyntaxPrimitive::Unsupported.into ()),
@@ -421,7 +424,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "functions", "string-map", FunctionsPrimitiveV::StringsMap.into ()),
 			("base", "functions", "string-for-each", FunctionsPrimitiveV::StringsIterate.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			("base", "values", "values", FunctionsPrimitiveV::Values.into ()),
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			("base", "values", "call-with-values", FunctionsPrimitive2::CallWithValuesBuilder.into ()),
 			
 			("base", "evaluator", "call-with-current-continuation", ProcedurePrimitive::Unsupported.into ()),
