@@ -1160,12 +1160,10 @@ pub fn bytes_consume <Consumer> (value : &Value, consumer : &mut Consumer) -> (O
 
 
 
-#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 #[ derive (Debug) ]
 pub struct PathSliceRef<'a> ( BytesSliceRef<'a> );
 
 
-#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 impl <'a> StdDeref for PathSliceRef<'a> {
 	
 	type Target = fs_path::Path;
@@ -1177,7 +1175,6 @@ impl <'a> StdDeref for PathSliceRef<'a> {
 }
 
 
-#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 impl <'a> StdAsRef<fs_path::Path> for PathSliceRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1187,7 +1184,6 @@ impl <'a> StdAsRef<fs_path::Path> for PathSliceRef<'a> {
 }
 
 
-#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn path_slice_coerce (value : &Value) -> (Outcome<PathSliceRef>) {
 	succeed! (PathSliceRef (try! (bytes_slice_coerce_1a (value))));
