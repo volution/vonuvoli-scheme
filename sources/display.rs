@@ -78,7 +78,9 @@ impl fmt::Display for Value {
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			ValueKindMatchAsRef::Process (self_0) => self_0.fmt (formatter),
 			
+			#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 			ValueKindMatchAsRef::Context (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 			ValueKindMatchAsRef::Binding (self_0) => self_0.fmt (formatter),
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			ValueKindMatchAsRef::Parameters (self_0) => self_0.fmt (formatter),
@@ -155,7 +157,9 @@ impl fmt::Debug for Value {
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			ValueKindMatchAsRef::Process (self_0) => self_0.fmt (formatter),
 			
+			#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 			ValueKindMatchAsRef::Context (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 			ValueKindMatchAsRef::Binding (self_0) => self_0.fmt (formatter),
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			ValueKindMatchAsRef::Parameters (self_0) => self_0.fmt (formatter),

@@ -118,7 +118,9 @@ impl <'a> ValueKindMatchAsRef2<'a> {
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			ValueKindMatchAsRef2::Process (self_0, other_0) => Some (Process::eq (self_0, other_0)),
 			
+			#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 			ValueKindMatchAsRef2::Context (self_0, other_0) => Some (Context::eq (self_0, other_0)),
+			#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 			ValueKindMatchAsRef2::Binding (self_0, other_0) => Some (Binding::eq (self_0, other_0)),
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			ValueKindMatchAsRef2::Parameters (self_0, other_0) => Some (Parameters::eq (self_0, other_0)),
@@ -197,7 +199,9 @@ impl <'a> ValueKindMatchAsRef2<'a> {
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			ValueKindMatchAsRef2::Process (self_0, other_0) => Some (Process::cmp (self_0, other_0)),
 			
+			#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 			ValueKindMatchAsRef2::Context (self_0, other_0) => Some (Context::cmp (self_0, other_0)),
+			#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 			ValueKindMatchAsRef2::Binding (self_0, other_0) => Some (Binding::cmp (self_0, other_0)),
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			ValueKindMatchAsRef2::Parameters (self_0, other_0) => Some (Parameters::cmp (self_0, other_0)),

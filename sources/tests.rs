@@ -633,14 +633,16 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 				ValueKindMatchAsRef2::ProcedureLambda (_, _) |
 				ValueKindMatchAsRef2::SyntaxExtended (_, _) |
 				ValueKindMatchAsRef2::SyntaxLambda (_, _) |
-				ValueKindMatchAsRef2::Context (_, _) |
-				ValueKindMatchAsRef2::Binding (_, _) |
 				ValueKindMatchAsRef2::Opaque (_, _) =>
 					false,
 				#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 				ValueKindMatchAsRef2::RecordKind (_, _) |
 				ValueKindMatchAsRef2::RecordImmutable (_, _) |
 				ValueKindMatchAsRef2::RecordMutable (_, _) =>
+					false,
+				#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
+				ValueKindMatchAsRef2::Context (_, _) |
+				ValueKindMatchAsRef2::Binding (_, _) =>
 					false,
 				#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 				ValueKindMatchAsRef2::Parameters (_, _) |

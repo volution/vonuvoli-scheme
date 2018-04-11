@@ -58,7 +58,8 @@ default = [
 
 vonuvoli_release = [
 	"vonuvoli_defaults",
-	"vonuvoli_builtins",
+	"vonuvoli_values_all",
+	"vonuvoli_builtins_all",
 	"vonuvoli_inline",
 	"vonuvoli_terminal",
 	"vonuvoli_transcript_ansi_enabled",
@@ -102,7 +103,8 @@ vonuvoli_debug_level_2 = [
 
 vonuvoli_debug_level_3 = [
 	"vonuvoli_debug_level_2",
-	"vonuvoli_builtins",
+	"vonuvoli_values_all",
+	"vonuvoli_builtins_all",
 ]
 
 vonuvoli_debug_level_4 = [
@@ -145,7 +147,12 @@ vonuvoli_abort_on_panic = []
 
 vonuvoli_inline = []
 
-vonuvoli_builtins = [
+vonuvoli_values_all = [
+	"vonuvoli_values_contexts",
+]
+vonuvoli_values_contexts = []
+
+vonuvoli_builtins_all = [
 	"vonuvoli_builtins_parameters",
 	"vonuvoli_builtins_promises",
 	"vonuvoli_builtins_records",

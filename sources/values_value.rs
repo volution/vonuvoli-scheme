@@ -1,7 +1,6 @@
 
 
 use super::constants::exports::*;
-use super::contexts::exports::*;
 use super::errors::exports::*;
 use super::extended_procedures::exports::*;
 use super::extended_syntaxes::exports::*;
@@ -21,6 +20,9 @@ use super::values_strings::exports::*;
 use super::values_symbols::exports::*;
 use super::values_unique::exports::*;
 use super::values_values::exports::*;
+
+#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
+use super::contexts::exports::*;
 
 #[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 use super::values_records::exports::*;
@@ -124,7 +126,9 @@ pub enum ValueKind {
 	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	Process,
 	
+	#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 	Context,
+	#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 	Binding,
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	Parameters,
@@ -196,7 +200,9 @@ pub enum ValueKindMatchAsRef <'a> {
 	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	Process (&'a Process),
 	
+	#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 	Context (&'a Context),
+	#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 	Binding (&'a Binding),
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	Parameters (&'a Parameters),
@@ -268,7 +274,9 @@ pub enum ValueKindMatchInto {
 	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	Process (Process),
 	
+	#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 	Context (Context),
+	#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 	Binding (Binding),
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	Parameters (Parameters),
@@ -340,7 +348,9 @@ pub enum ValueKindMatchAsRef2 <'a> {
 	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	Process (&'a Process, &'a Process),
 	
+	#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 	Context (&'a Context, &'a Context),
+	#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 	Binding (&'a Binding, &'a Binding),
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	Parameters (&'a Parameters, &'a Parameters),
@@ -610,7 +620,9 @@ pub enum ResourceMatchInto {
 
 
 pub enum InternalMatchAsRef <'a> {
+	#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 	Context (&'a Context),
+	#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 	Binding (&'a Binding),
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	Parameters (&'a Parameters),
@@ -618,11 +630,14 @@ pub enum InternalMatchAsRef <'a> {
 	Parameter (&'a Parameter),
 	#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 	Promise (&'a Promise),
+	Other (&'a Value),  // NOTE:  this should never be used!
 }
 
 
 pub enum InternalMatchInto {
+	#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 	Context (Context),
+	#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 	Binding (Binding),
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	Parameters (Parameters),
@@ -630,6 +645,7 @@ pub enum InternalMatchInto {
 	Parameter (Parameter),
 	#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 	Promise (Promise),
+	Other (Value),  // NOTE:  this should never be used!
 }
 
 
@@ -707,7 +723,9 @@ pub enum Value {
 	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	Process ( ValueMeta1, Process, ValueMeta2, ),
 	
+	#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 	Context ( ValueMeta1, Context, ValueMeta2 ),
+	#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 	Binding ( ValueMeta1, Binding, ValueMeta2 ),
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	Parameters ( ValueMeta1, Parameters, ValueMeta2 ),
@@ -793,7 +811,9 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			Value::Process (_, _, _) => ValueKind::Process,
 			
+			#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 			Value::Context (_, _, _) => ValueKind::Context,
+			#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 			Value::Binding (_, _, _) => ValueKind::Binding,
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			Value::Parameters (_, _, _) => ValueKind::Parameters,
@@ -873,7 +893,9 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			Value::Process (_, ref self_0, _) => ValueKindMatchAsRef::Process (self_0),
 			
+			#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 			Value::Context (_, ref self_0, _) => ValueKindMatchAsRef::Context (self_0),
+			#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 			Value::Binding (_, ref self_0, _) => ValueKindMatchAsRef::Binding (self_0),
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			Value::Parameters (_, ref self_0, _) => ValueKindMatchAsRef::Parameters (self_0),
@@ -953,7 +975,9 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			Value::Process (_, self_0, _) => ValueKindMatchInto::Process (self_0),
 			
+			#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 			Value::Context (_, self_0, _) => ValueKindMatchInto::Context (self_0),
+			#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 			Value::Binding (_, self_0, _) => ValueKindMatchInto::Binding (self_0),
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			Value::Parameters (_, self_0, _) => ValueKindMatchInto::Parameters (self_0),
@@ -1037,7 +1061,9 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			(&Value::Process (_, ref self_0, _), &Value::Process (_, ref other_0, _)) => ValueKindMatchAsRef2::Process (self_0, other_0),
 			
+			#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 			(&Value::Context (_, ref self_0, _), &Value::Context (_, ref other_0, _)) => ValueKindMatchAsRef2::Context (self_0, other_0),
+			#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 			(&Value::Binding (_, ref self_0, _), &Value::Binding (_, ref other_0, _)) => ValueKindMatchAsRef2::Binding (self_0, other_0),
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			(&Value::Parameters (_, ref self_0, _), &Value::Parameters (_, ref other_0, _)) => ValueKindMatchAsRef2::Parameters (self_0, other_0),
@@ -1121,7 +1147,9 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			Value::Process (_, _, _) => ValueClass::Resource,
 			
+			#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 			Value::Context (_, _, _) => ValueClass::Internal,
+			#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 			Value::Binding (_, _, _) => ValueClass::Internal,
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			Value::Parameters (_, _, _) => ValueClass::Internal,
@@ -1201,7 +1229,9 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			Value::Process (_, ref self_0, _) => ValueClassMatchAsRef::Resource (ResourceMatchAsRef::Process (self_0)),
 			
+			#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 			Value::Context (_, ref self_0, _) => ValueClassMatchAsRef::Internal (InternalMatchAsRef::Context (self_0)),
+			#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 			Value::Binding (_, ref self_0, _) => ValueClassMatchAsRef::Internal (InternalMatchAsRef::Binding (self_0)),
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			Value::Parameters (_, ref self_0, _) => ValueClassMatchAsRef::Internal (InternalMatchAsRef::Parameters (self_0)),
@@ -1281,7 +1311,9 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			Value::Process (_, self_0, _) => ValueClassMatchInto::Resource (ResourceMatchInto::Process (self_0)),
 			
+			#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 			Value::Context (_, self_0, _) => ValueClassMatchInto::Internal (InternalMatchInto::Context (self_0)),
+			#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 			Value::Binding (_, self_0, _) => ValueClassMatchInto::Internal (InternalMatchInto::Binding (self_0)),
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			Value::Parameters (_, self_0, _) => ValueClassMatchInto::Internal (InternalMatchInto::Parameters (self_0)),
@@ -1491,7 +1523,9 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			ValueKindMatchAsRef2::Process (self_0, other_0) => Process::is_self (self_0, other_0),
 			
+			#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 			ValueKindMatchAsRef2::Context (self_0, other_0) => Context::is_self (self_0, other_0),
+			#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 			ValueKindMatchAsRef2::Binding (self_0, other_0) => Binding::is_self (self_0, other_0),
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			ValueKindMatchAsRef2::Parameters (self_0, other_0) => Parameters::is_self (self_0, other_0),
@@ -1564,7 +1598,9 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			Value::Process (_, _, _) => fail! (0x629f6149),
 			
+			#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 			Value::Context (_, _, _) => fail! (0x7e3a414d),
+			#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 			Value::Binding (_, _, _) => fail! (0xcf5a0e0d),
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			Value::Parameters (_, _, _) => fail! (0xf71687af),
@@ -1678,7 +1714,9 @@ impl ValueKindMatchInto {
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			ValueKindMatchInto::Process (value) => value.into (),
 			
+			#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 			ValueKindMatchInto::Context (value) => value.into (),
+			#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 			ValueKindMatchInto::Binding (value) => value.into (),
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			ValueKindMatchInto::Parameters (value) => value.into (),
@@ -1798,7 +1836,9 @@ impl InternalMatchInto {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn value (self) -> (Value) {
 		match self {
+			#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 			InternalMatchInto::Context (value) => value.into (),
+			#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 			InternalMatchInto::Binding (value) => value.into (),
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			InternalMatchInto::Parameters (value) => value.into (),
@@ -1806,6 +1846,7 @@ impl InternalMatchInto {
 			InternalMatchInto::Parameter (value) => value.into (),
 			#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 			InternalMatchInto::Promise (value) => value.into (),
+			InternalMatchInto::Other (value) => value,
 		}
 	}
 }

@@ -1,6 +1,5 @@
 
 
-use super::contexts::exports::*;
 use super::errors::exports::*;
 use super::expressions::exports::*;
 use super::extended_procedures::exports::*;
@@ -10,6 +9,9 @@ use super::native_procedures::exports::*;
 use super::native_syntaxes::exports::*;
 use super::primitives::exports::*;
 use super::values::exports::*;
+
+#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
+use super::contexts::exports::*;
 
 #[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 use super::ports::exports::*;
@@ -150,7 +152,9 @@ impl_from_for_Value_1! (Path, Path);
 impl_from_for_Value_1! (Port, Port);
 #[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 impl_from_for_Value_1! (Process, Process);
+#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 impl_from_for_Value_1! (Context, Context);
+#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 impl_from_for_Value_1! (Binding, Binding);
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 impl_from_for_Value_1! (Parameters, Parameters);

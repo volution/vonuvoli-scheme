@@ -200,7 +200,9 @@ macro_rules! def_type_primitive_enum {
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			IsProcess,
 			
+			#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 			IsContext,
+			#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 			IsBinding,
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			IsParameters,
@@ -590,9 +592,11 @@ pub fn type_primitive_1_evaluate_0 (primitive : TypePrimitive1, input_1 : &Value
 		TypePrimitive1::IsProcess =>
 			return is_process (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 		TypePrimitive1::IsContext =>
 			return is_context (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 		TypePrimitive1::IsBinding =>
 			return is_binding (input_1) .into_0 (),
 		
@@ -1019,9 +1023,11 @@ pub fn type_primitive_2_evaluate_0 (primitive : TypePrimitive2, input_1 : &Value
 		TypePrimitive2::IsProcess =>
 			return is_process_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 		TypePrimitive2::IsContext =>
 			return is_context_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 		TypePrimitive2::IsBinding =>
 			return is_binding_all_2 (input_1, input_2) .into_0 (),
 		
@@ -1448,9 +1454,11 @@ pub fn type_primitive_3_evaluate_0 (primitive : TypePrimitive3, input_1 : &Value
 		TypePrimitive3::IsProcess =>
 			return is_process_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 		TypePrimitive3::IsContext =>
 			return is_context_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 		TypePrimitive3::IsBinding =>
 			return is_binding_all_3 (input_1, input_2, input_3) .into_0 (),
 		
@@ -1877,9 +1885,11 @@ pub fn type_primitive_4_evaluate_0 (primitive : TypePrimitive4, input_1 : &Value
 		TypePrimitive4::IsProcess =>
 			return is_process_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 		TypePrimitive4::IsContext =>
 			return is_context_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 		TypePrimitive4::IsBinding =>
 			return is_binding_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
@@ -2314,9 +2324,11 @@ pub fn type_primitive_n_evaluate_0 (primitive : TypePrimitiveN, inputs : &[&Valu
 		TypePrimitiveN::IsProcess =>
 			return is_process_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 		TypePrimitiveN::IsContext =>
 			return is_context_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 		TypePrimitiveN::IsBinding =>
 			return is_binding_all_n (inputs) .into_0 (),
 		
@@ -2644,8 +2656,10 @@ macro_rules! def_type_primitive_v_alternative_fn {
 				#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 				TypePrimitiveV::IsProcess =>
 					Some ($alternative::IsProcess),
+				#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 				TypePrimitiveV::IsContext =>
 					Some ($alternative::IsContext),
+				#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 				TypePrimitiveV::IsBinding =>
 					Some ($alternative::IsBinding),
 				#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]

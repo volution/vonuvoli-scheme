@@ -1,7 +1,6 @@
 
 
 use super::constants::exports::*;
-use super::contexts::exports::*;
 use super::conversions::exports::*;
 use super::errors::exports::*;
 use super::extended_procedures::exports::*;
@@ -11,6 +10,9 @@ use super::native_procedures::exports::*;
 use super::native_syntaxes::exports::*;
 use super::primitives::exports::*;
 use super::values::exports::*;
+
+#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
+use super::contexts::exports::*;
 
 #[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 use super::ports::exports::*;
@@ -69,8 +71,6 @@ pub mod exports {
 			syntax_extended_compare_1, syntax_extended_compare_1a,
 			syntax_native_compare_1, syntax_native_compare_1a,
 			syntax_lambda_compare_1, syntax_lambda_compare_1a,
-			context_compare_1, context_compare_1a,
-			binding_compare_1, binding_compare_1a,
 			opaque_compare_1, opaque_compare_1a,
 			
 			compare_2,
@@ -105,8 +105,6 @@ pub mod exports {
 			syntax_extended_compare_2, syntax_extended_compare_2a,
 			syntax_native_compare_2, syntax_native_compare_2a,
 			syntax_lambda_compare_2, syntax_lambda_compare_2a,
-			context_compare_2, context_compare_2a,
-			binding_compare_2, binding_compare_2a,
 			opaque_compare_2, opaque_compare_2a,
 			
 			compare_3,
@@ -141,8 +139,6 @@ pub mod exports {
 			syntax_extended_compare_3, syntax_extended_compare_3a,
 			syntax_native_compare_3, syntax_native_compare_3a,
 			syntax_lambda_compare_3, syntax_lambda_compare_3a,
-			context_compare_3, context_compare_3a,
-			binding_compare_3, binding_compare_3a,
 			opaque_compare_3, opaque_compare_3a,
 			
 			compare_4,
@@ -177,8 +173,6 @@ pub mod exports {
 			syntax_extended_compare_4, syntax_extended_compare_4a,
 			syntax_native_compare_4, syntax_native_compare_4a,
 			syntax_lambda_compare_4, syntax_lambda_compare_4a,
-			context_compare_4, context_compare_4a,
-			binding_compare_4, binding_compare_4a,
 			opaque_compare_4, opaque_compare_4a,
 			
 			compare_n,
@@ -213,9 +207,27 @@ pub mod exports {
 			syntax_extended_compare_n, syntax_extended_compare_na,
 			syntax_native_compare_n, syntax_native_compare_na,
 			syntax_lambda_compare_n, syntax_lambda_compare_na,
+			opaque_compare_n, opaque_compare_na,
+			
+	};
+	
+	#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
+	pub use super::{
+			
+			context_compare_1, context_compare_1a,
+			binding_compare_1, binding_compare_1a,
+			
+			context_compare_2, context_compare_2a,
+			binding_compare_2, binding_compare_2a,
+			
+			context_compare_3, context_compare_3a,
+			binding_compare_3, binding_compare_3a,
+			
+			context_compare_4, context_compare_4a,
+			binding_compare_4, binding_compare_4a,
+			
 			context_compare_n, context_compare_na,
 			binding_compare_n, binding_compare_na,
-			opaque_compare_n, opaque_compare_na,
 			
 	};
 	
@@ -690,9 +702,11 @@ pub fn compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Co
 		ValueKindMatchAsRef::Process (value) =>
 			return process_compare_1a (value, comparison),
 		
+		#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 		ValueKindMatchAsRef::Context (value) =>
 			return context_compare_1a (value, comparison),
 		
+		#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 		ValueKindMatchAsRef::Binding (value) =>
 			return binding_compare_1a (value, comparison),
 		
@@ -837,9 +851,11 @@ pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef
 		ValueKindMatchAsRef2::Process (left, right) =>
 			return process_compare_2a (left, right, comparison),
 		
+		#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 		ValueKindMatchAsRef2::Context (left, right) =>
 			return context_compare_2a (left, right, comparison),
 		
+		#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 		ValueKindMatchAsRef2::Binding (left, right) =>
 			return binding_compare_2a (left, right, comparison),
 		
@@ -1875,15 +1891,18 @@ pub fn process_compare_2a <ValueRef : StdAsRef<Process>> (left : ValueRef, right
 
 
 
+#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 def_fn_compare! (Context,
 		context_compare_1, context_compare_2, context_compare_3, context_compare_4, context_compare_n,
 		context_compare_1a, context_compare_2a, context_compare_3a, context_compare_4a, context_compare_na);
 
+#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn context_compare_1a <ValueRef : StdAsRef<Context>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn context_compare_2a <ValueRef : StdAsRef<Context>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
@@ -1899,15 +1918,18 @@ pub fn context_compare_2a <ValueRef : StdAsRef<Context>> (left : ValueRef, right
 
 
 
+#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 def_fn_compare! (Binding,
 		binding_compare_1, binding_compare_2, binding_compare_3, binding_compare_4, binding_compare_n,
 		binding_compare_1a, binding_compare_2a, binding_compare_3a, binding_compare_4a, binding_compare_na);
 
+#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn binding_compare_1a <ValueRef : StdAsRef<Binding>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn binding_compare_2a <ValueRef : StdAsRef<Binding>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();

@@ -72,7 +72,9 @@ impl hash::Hash for Value {
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			ValueKindMatchAsRef::Process (self_0) => { hasher.write_u32 (0x87b9167c); self_0.hash (hasher); },
 			
+			#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 			ValueKindMatchAsRef::Context (self_0) => { hasher.write_u32 (0x04ef2744); self_0.hash (hasher); },
+			#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 			ValueKindMatchAsRef::Binding (self_0) => { hasher.write_u32 (0x8dd0b6ab); self_0.hash (hasher); },
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			ValueKindMatchAsRef::Parameters (self_0) => { hasher.write_u32 (0x84c616f7); self_0.hash (hasher); },

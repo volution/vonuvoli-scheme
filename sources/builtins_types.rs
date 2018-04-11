@@ -583,18 +583,25 @@ pub mod exports {
 	
 	pub use super::{
 			
+			is_opaque,
+			
+			is_opaque_all_2, is_opaque_all_3, is_opaque_all_4, is_opaque_all_n,
+			is_opaque_any_2, is_opaque_any_3, is_opaque_any_4, is_opaque_any_n,
+			
+	};
+	
+	
+	#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
+	pub use super::{
+			
 			is_context,
 			is_binding,
-			is_opaque,
 			
 			is_context_all_2, is_context_all_3, is_context_all_4, is_context_all_n,
 			is_context_any_2, is_context_any_3, is_context_any_4, is_context_any_n,
 			
 			is_binding_all_2, is_binding_all_3, is_binding_all_4, is_binding_all_n,
 			is_binding_any_2, is_binding_any_3, is_binding_any_4, is_binding_any_n,
-			
-			is_opaque_all_2, is_opaque_all_3, is_opaque_all_4, is_opaque_all_n,
-			is_opaque_any_2, is_opaque_any_3, is_opaque_any_4, is_opaque_any_n,
 			
 	};
 	
@@ -2386,22 +2393,30 @@ def_fn_predicate_any! (is_process, is_process_any_2, is_process_any_3, is_proces
 
 
 
+#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_context (value : &Value) -> (bool) {
 	return value.is_kind (ValueKind::Context);
 }
 
+#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 def_fn_predicate_all! (is_context, is_context_all_2, is_context_all_3, is_context_all_4, is_context_all_n);
+#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 def_fn_predicate_any! (is_context, is_context_any_2, is_context_any_3, is_context_any_4, is_context_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_binding (value : &Value) -> (bool) {
 	return value.is_kind (ValueKind::Binding);
 }
 
+#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 def_fn_predicate_all! (is_binding, is_binding_all_2, is_binding_all_3, is_binding_all_4, is_binding_all_n);
+#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 def_fn_predicate_any! (is_binding, is_binding_any_2, is_binding_any_3, is_binding_any_4, is_binding_any_n);
+
+
 
 
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
