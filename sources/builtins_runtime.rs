@@ -39,10 +39,12 @@ pub mod exports {
 			error_build_0, error_build_1, error_build_2, error_build_3, error_build_4, error_build_n,
 			error_coerce, error_coerce_from,
 		};
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	pub use super::{
 			error_arguments_as_array,
 		};
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	pub use super::{
 			error_arguments_as_values,
