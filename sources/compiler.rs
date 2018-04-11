@@ -158,6 +158,7 @@ impl Compiler {
 			ValueClassMatchInto::Pair (class) =>
 				return self.compile_form (compilation, try! (class.into_immutable ())),
 			
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			ValueClassMatchInto::Array (class) =>
 				return self.compile_syntax_quote_0 (compilation, class.value ()),
 			
@@ -1991,6 +1992,7 @@ impl Compiler {
 			ValueClassMatchInto::BytesRegex (value) =>
 				succeed! ((compilation, splice (value, spliceable))),
 			
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			ValueClassMatchInto::Array (class) =>
 				// FIXME:  Add support for quasi-quotation!
 				succeed! ((compilation, splice (class.value (), spliceable))),

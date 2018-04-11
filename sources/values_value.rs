@@ -4,7 +4,6 @@ use super::constants::exports::*;
 use super::errors::exports::*;
 use super::lambdas::exports::*;
 use super::primitives::exports::*;
-use super::values_arrays::exports::*;
 use super::values_booleans::exports::*;
 use super::values_bytes::exports::*;
 use super::values_characters::exports::*;
@@ -13,6 +12,9 @@ use super::values_pairs::exports::*;
 use super::values_strings::exports::*;
 use super::values_symbols::exports::*;
 use super::values_values::exports::*;
+
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
+use super::values_arrays::exports::*;
 
 #[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 use super::values_keywords::exports::*;
@@ -112,7 +114,9 @@ pub enum ValueKind {
 	
 	PairImmutable,
 	PairMutable,
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ArrayImmutable,
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ArrayMutable,
 	Values,
 	
@@ -194,7 +198,9 @@ pub enum ValueKindMatchAsRef <'a> {
 	
 	PairImmutable (&'a PairImmutable),
 	PairMutable (&'a PairMutable),
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ArrayImmutable (&'a ArrayImmutable),
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ArrayMutable (&'a ArrayMutable),
 	Values (&'a Values),
 	
@@ -276,7 +282,9 @@ pub enum ValueKindMatchInto {
 	
 	PairImmutable (PairImmutable),
 	PairMutable (PairMutable),
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ArrayImmutable (ArrayImmutable),
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ArrayMutable (ArrayMutable),
 	Values (Values),
 	
@@ -358,7 +366,9 @@ pub enum ValueKindMatchAsRef2 <'a> {
 	
 	PairImmutable (&'a PairImmutable, &'a PairImmutable),
 	PairMutable (&'a PairMutable, &'a PairMutable),
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ArrayImmutable (&'a ArrayImmutable, &'a ArrayImmutable),
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ArrayMutable (&'a ArrayMutable, &'a ArrayMutable),
 	Values (&'a Values, &'a Values),
 	
@@ -441,6 +451,7 @@ pub enum ValueClass {
 	BytesRegex,
 	
 	Pair,
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	Array,
 	Values,
 	
@@ -495,6 +506,7 @@ pub enum ValueClassMatchAsRef <'a> {
 	BytesRegex (&'a BytesRegex),
 	
 	Pair (PairMatchAsRef<'a>),
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	Array (ArrayMatchAsRef<'a>),
 	Values (&'a Values),
 	
@@ -549,6 +561,7 @@ pub enum ValueClassMatchInto {
 	BytesRegex (BytesRegex),
 	
 	Pair (PairMatchInto),
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	Array (ArrayMatchInto),
 	Values (Values),
 	
@@ -603,6 +616,7 @@ pub enum ValueClassMatchAsRef2 <'a> {
 	BytesRegex (&'a BytesRegex, &'a BytesRegex),
 	
 	Pair (PairMatchAsRef2<'a>),
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	Array (ArrayMatchAsRef2<'a>),
 	Values (&'a Values, &'a Values),
 	
@@ -765,7 +779,9 @@ pub enum Value {
 	
 	PairImmutable ( ValueMeta1, PairImmutable, ValueMeta2 ),
 	PairMutable ( ValueMeta1, PairMutable, ValueMeta2 ),
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ArrayImmutable ( ValueMeta1, ArrayImmutable, ValueMeta2 ),
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ArrayMutable ( ValueMeta1, ArrayMutable, ValueMeta2 ),
 	Values ( ValueMeta1, Values, ValueMeta2 ),
 	
@@ -861,7 +877,9 @@ impl Value {
 			
 			Value::PairImmutable (_, _, _) => ValueKind::PairImmutable,
 			Value::PairMutable (_, _, _) => ValueKind::PairMutable,
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			Value::ArrayImmutable (_, _, _) => ValueKind::ArrayImmutable,
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			Value::ArrayMutable (_, _, _) => ValueKind::ArrayMutable,
 			Value::Values (_, _, _) => ValueKind::Values,
 			
@@ -951,7 +969,9 @@ impl Value {
 			
 			Value::PairImmutable (_, ref self_0, _) => ValueKindMatchAsRef::PairImmutable (self_0),
 			Value::PairMutable (_, ref self_0, _) => ValueKindMatchAsRef::PairMutable (self_0),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			Value::ArrayImmutable (_, ref self_0, _) => ValueKindMatchAsRef::ArrayImmutable (self_0),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			Value::ArrayMutable (_, ref self_0, _) => ValueKindMatchAsRef::ArrayMutable (self_0),
 			Value::Values (_, ref self_0, _) => ValueKindMatchAsRef::Values (self_0),
 			
@@ -1041,7 +1061,9 @@ impl Value {
 			
 			Value::PairImmutable (_, self_0, _) => ValueKindMatchInto::PairImmutable (self_0),
 			Value::PairMutable (_, self_0, _) => ValueKindMatchInto::PairMutable (self_0),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			Value::ArrayImmutable (_, self_0, _) => ValueKindMatchInto::ArrayImmutable (self_0),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			Value::ArrayMutable (_, self_0, _) => ValueKindMatchInto::ArrayMutable (self_0),
 			Value::Values (_, self_0, _) => ValueKindMatchInto::Values (self_0),
 			
@@ -1135,7 +1157,9 @@ impl Value {
 			
 			(&Value::PairImmutable (_, ref self_0, _), &Value::PairImmutable (_, ref other_0, _)) => ValueKindMatchAsRef2::PairImmutable (self_0, other_0),
 			(&Value::PairMutable (_, ref self_0, _), &Value::PairMutable (_, ref other_0, _)) => ValueKindMatchAsRef2::PairMutable (self_0, other_0),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			(&Value::ArrayImmutable (_, ref self_0, _), &Value::ArrayImmutable (_, ref other_0, _)) => ValueKindMatchAsRef2::ArrayImmutable (self_0, other_0),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			(&Value::ArrayMutable (_, ref self_0, _), &Value::ArrayMutable (_, ref other_0, _)) => ValueKindMatchAsRef2::ArrayMutable (self_0, other_0),
 			(&Value::Values (_, ref self_0, _), &Value::Values (_, ref other_0, _)) => ValueKindMatchAsRef2::Values (self_0, other_0),
 			
@@ -1229,7 +1253,9 @@ impl Value {
 			
 			Value::PairImmutable (_, _, _) => ValueClass::Pair,
 			Value::PairMutable (_, _, _) => ValueClass::Pair,
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			Value::ArrayImmutable (_, _, _) => ValueClass::Array,
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			Value::ArrayMutable (_, _, _) => ValueClass::Array,
 			Value::Values (_, _, _) => ValueClass::Values,
 			
@@ -1319,7 +1345,9 @@ impl Value {
 			
 			Value::PairImmutable (_, ref self_0, _) => ValueClassMatchAsRef::Pair (PairMatchAsRef::Immutable (self_0)),
 			Value::PairMutable (_, ref self_0, _) => ValueClassMatchAsRef::Pair (PairMatchAsRef::Mutable (self_0)),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			Value::ArrayImmutable (_, ref self_0, _) => ValueClassMatchAsRef::Array (ArrayMatchAsRef::Immutable (self_0)),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			Value::ArrayMutable (_, ref self_0, _) => ValueClassMatchAsRef::Array (ArrayMatchAsRef::Mutable (self_0)),
 			Value::Values (_, ref self_0, _) => ValueClassMatchAsRef::Values (self_0),
 			
@@ -1409,7 +1437,9 @@ impl Value {
 			
 			Value::PairImmutable (_, self_0, _) => ValueClassMatchInto::Pair (PairMatchInto::Immutable (self_0)),
 			Value::PairMutable (_, self_0, _) => ValueClassMatchInto::Pair (PairMatchInto::Mutable (self_0)),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			Value::ArrayImmutable (_, self_0, _) => ValueClassMatchInto::Array (ArrayMatchInto::Immutable (self_0)),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			Value::ArrayMutable (_, self_0, _) => ValueClassMatchInto::Array (ArrayMatchInto::Mutable (self_0)),
 			Value::Values (_, self_0, _) => ValueClassMatchInto::Values (self_0),
 			
@@ -1515,9 +1545,13 @@ impl Value {
 			(&Value::PairImmutable (_, ref self_0, _), &Value::PairMutable (_, ref other_0, _)) => ValueClassMatchAsRef2::Pair (PairMatchAsRef2::ImmutableAndMutable (self_0, other_0)),
 			(&Value::PairMutable (_, ref self_0, _), &Value::PairImmutable (_, ref other_0, _)) => ValueClassMatchAsRef2::Pair (PairMatchAsRef2::MutableAndImmutable (self_0, other_0)),
 			
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			(&Value::ArrayImmutable (_, ref self_0, _), &Value::ArrayImmutable (_, ref other_0, _)) => ValueClassMatchAsRef2::Array (ArrayMatchAsRef2::ImmutableBoth (self_0, other_0)),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			(&Value::ArrayMutable (_, ref self_0, _), &Value::ArrayMutable (_, ref other_0, _)) => ValueClassMatchAsRef2::Array (ArrayMatchAsRef2::MutableBoth (self_0, other_0)),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			(&Value::ArrayImmutable (_, ref self_0, _), &Value::ArrayMutable (_, ref other_0, _)) => ValueClassMatchAsRef2::Array (ArrayMatchAsRef2::ImmutableAndMutable (self_0, other_0)),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			(&Value::ArrayMutable (_, ref self_0, _), &Value::ArrayImmutable (_, ref other_0, _)) => ValueClassMatchAsRef2::Array (ArrayMatchAsRef2::MutableAndImmutable (self_0, other_0)),
 			
 			(&Value::Values (_, ref self_0, _), &Value::Values (_, ref other_0, _)) => ValueClassMatchAsRef2::Values (self_0, other_0),
@@ -1633,7 +1667,9 @@ impl Value {
 			
 			ValueKindMatchAsRef2::PairImmutable (self_0, other_0) => PairImmutable::is_self (self_0, other_0),
 			ValueKindMatchAsRef2::PairMutable (self_0, other_0) => PairMutable::is_self (self_0, other_0),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			ValueKindMatchAsRef2::ArrayImmutable (self_0, other_0) => ArrayImmutable::is_self (self_0, other_0),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			ValueKindMatchAsRef2::ArrayMutable (self_0, other_0) => ArrayMutable::is_self (self_0, other_0),
 			ValueKindMatchAsRef2::Values (self_0, other_0) => Values::is_self (self_0, other_0),
 			
@@ -1716,7 +1752,9 @@ impl Value {
 			
 			Value::PairImmutable (_, ref self_0, _) => self_0.clone () .into_0 (),
 			Value::PairMutable (_, ref self_0, _) => self_0.to_immutable () .into_0 (),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			Value::ArrayImmutable (_, ref self_0, _) => self_0.clone () .into_0 (),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			Value::ArrayMutable (_, ref self_0, _) => self_0.to_immutable () .into_0 (),
 			Value::Values (_, ref self_0, _) => self_0.clone () .into_0 (),
 			
@@ -1781,7 +1819,9 @@ impl Value {
 			
 			Value::PairImmutable (_, ref self_0, _) => self_0.to_mutable () .into_0 (),
 			Value::PairMutable (_, ref self_0, _) => self_0.clone () .into_0 (),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			Value::ArrayImmutable (_, ref self_0, _) => self_0.to_mutable () .into_0 (),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			Value::ArrayMutable (_, ref self_0, _) => self_0.clone () .into_0 (),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
@@ -1841,7 +1881,9 @@ impl ValueKindMatchInto {
 			
 			ValueKindMatchInto::PairImmutable (value) => value.into (),
 			ValueKindMatchInto::PairMutable (value) => value.into (),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			ValueKindMatchInto::ArrayImmutable (value) => value.into (),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			ValueKindMatchInto::ArrayMutable (value) => value.into (),
 			ValueKindMatchInto::Values (value) => value.into (),
 			
@@ -1926,6 +1968,7 @@ impl ValueClassMatchInto {
 			ValueClassMatchInto::BytesRegex (value) => value.into (),
 			
 			ValueClassMatchInto::Pair (class) => class.value (),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			ValueClassMatchInto::Array (class) => class.value (),
 			ValueClassMatchInto::Values (value) => value.into (),
 			

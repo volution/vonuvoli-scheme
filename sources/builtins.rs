@@ -7,7 +7,6 @@ pub mod exports {
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	pub use super::super::native_syntaxes::exports::*;
 	
-	pub use super::super::builtins_arrays::exports::*;
 	pub use super::super::builtins_bytes::exports::*;
 	pub use super::super::builtins_comparisons::exports::*;
 	pub use super::super::builtins_functions::exports::*;
@@ -15,6 +14,9 @@ pub mod exports {
 	pub use super::super::builtins_runtime::exports::*;
 	pub use super::super::builtins_strings::exports::*;
 	pub use super::super::builtins_types::exports::*;
+	
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
+	pub use super::super::builtins_arrays::exports::*;
 	
 	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	pub use super::super::builtins_records::exports::*;

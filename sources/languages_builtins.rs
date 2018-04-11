@@ -71,6 +71,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			("make-error", RuntimePrimitiveV::ErrorBuild.into ()),
 			#[ cfg ( feature = "vonuvoli_values_error" ) ]
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("error-object-irritants->vector", RuntimePrimitive1::ErrorArgumentsAsArray.into ()),
 			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			("error-object-irritants->values", RuntimePrimitive1::ErrorArgumentsAsValues.into ()),
@@ -94,6 +95,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("not-symbol?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsSymbol) .into ()),
 			("not-pair?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsPair) .into ()),
 			("not-list?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsListProperOrEmpty) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("not-vector?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsArray) .into ()),
 			("not-bytevector?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsBytes) .into ()),
 			("not-string?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsString) .into ()),
@@ -173,7 +175,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("bytevector-u8-fill!", BytesPrimitiveV::BytesRangeFill.into ()),
 			("bytevector-u8-map", FunctionsPrimitiveV::BytesMap.into ()),
 			("bytevector-u8-for-each", FunctionsPrimitiveV::BytesIterate.into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("bytevector->vector", BytesPrimitiveV::BytesRangeToArray.into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("vector->bytevector", BytesPrimitiveV::ArrayRangeToBytes.into ()),
 			("bytevector->list", BytesPrimitiveV::BytesRangeToList.into ()),
 			("list->bytevector", BytesPrimitiveV::ListRangeToBytes.into ()),
@@ -190,11 +194,17 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("list->immutable", ListPrimitive1::ListToImmutable.into ()),
 			("list->mutable", ListPrimitive1::ListToMutable.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("vector-reverse", ArrayPrimitive1::ArrayCloneReverse.into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("vector-reverse!", ArrayPrimitiveV::ArrayRangeReverse.into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("vector->immutable", ArrayPrimitive1::ArrayToImmutable.into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("vector->mutable", ArrayPrimitive1::ArrayToMutable.into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("vector-immutable?", TypePrimitiveV::IsArrayImmutable.into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("vector-mutable?", TypePrimitiveV::IsArrayMutable.into ()),
 			
 			("values?", TypePrimitiveV::IsValues.into ()),
@@ -242,8 +252,10 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("record->mutable", RecordPrimitive1::RecordToMutable.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("record->array", RecordPrimitiveV::RecordToArray.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("array->record", RecordPrimitiveV::RecordFromArray.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("record->values", RecordPrimitiveV::RecordToValues.into ()),
@@ -358,16 +370,26 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("not-pair<=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::PairLesserOrEqual) .into ()),
 			("not-pair>=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::PairGreaterOrEqual) .into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("vector=?", ComparisonPrimitiveV::ArrayEqual.into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("vector<?", ComparisonPrimitiveV::ArrayLesser.into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("vector>?", ComparisonPrimitiveV::ArrayGreater.into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("vector<=?", ComparisonPrimitiveV::ArrayLesserOrEqual.into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("vector>=?", ComparisonPrimitiveV::ArrayGreaterOrEqual.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("not-vector=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::ArrayEqual) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("not-vector<?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::ArrayLesser) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("not-vector>?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::ArrayGreater) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("not-vector<=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::ArrayLesserOrEqual) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("not-vector>=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::ArrayGreaterOrEqual) .into ()),
 			
 			("values=?", ComparisonPrimitiveV::ValuesEqual.into ()),
@@ -445,7 +467,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("parameter-set!", RuntimePrimitiveV::ParameterConfigure.into ()),
 			
 			("command-line-ref", RuntimePrimitive1::ProcessArgument.into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("command-line->vector", RuntimePrimitive0::ProcessArgumentsAsArray.into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("get-environment-variables->vector", RuntimePrimitive0::ProcessEnvironmentVariablesAsArray.into ()),
 			
 		]);
@@ -611,6 +635,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("fs-link-resolve", FileSystemPrimitiveV::SymLinkResolve.into ()),
 			
 			("fs-directory-list", FileSystemPrimitiveV::DirectoryListAsList.into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("fs-directory-list->vector", FileSystemPrimitiveV::DirectoryListAsArray.into ()),
 			("fs-directory-fold", FileSystemPrimitiveV::DirectoryListFold.into ()),
 			("fs-directory-fold-recursive", FileSystemPrimitiveV::DirectoryListFoldRecursive.into ()),

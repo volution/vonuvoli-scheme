@@ -54,7 +54,9 @@ impl fmt::Display for Value {
 			
 			ValueKindMatchAsRef::PairImmutable (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::PairMutable (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			ValueKindMatchAsRef::ArrayImmutable (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			ValueKindMatchAsRef::ArrayMutable (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::Values (self_0) => self_0.fmt (formatter),
 			
@@ -141,7 +143,9 @@ impl fmt::Debug for Value {
 			
 			ValueKindMatchAsRef::PairImmutable (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::PairMutable (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			ValueKindMatchAsRef::ArrayImmutable (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			ValueKindMatchAsRef::ArrayMutable (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::Values (self_0) => self_0.fmt (formatter),
 			
@@ -576,6 +580,7 @@ fn pair_fmt_0 (head : (&Value, &Value), cursor : (&Value, &Value), formatter : &
 
 
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 impl fmt::Display for ArrayImmutable {
 	
 	#[ inline (never) ]
@@ -585,6 +590,7 @@ impl fmt::Display for ArrayImmutable {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 impl fmt::Display for ArrayMutable {
 	
 	#[ inline (never) ]

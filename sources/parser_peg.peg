@@ -28,7 +28,13 @@ list_proper -> values::Value = "(" space? elements : value ** space space? ")" {
 list_dotted -> values::Value = "(" space? elements : value ++ space space "." space last : value space? ")" { builtins::list_collect_dotted (elements, Some (last), Some (true)) }
 list_empty -> values::Value = ( "(" space? ")" / "#null" ) { builtins::list_empty () }
 
-array -> values::Value = ( "#array" / "#" ) "(" space? elements : value ** space space? ")" {  values::array_immutable_new (elements) .into () }
+array -> values::Value = ( "#array" / "#" ) "(" space? elements : value ** space space? ")" {?
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
+	let outcome = Ok (values::array_immutable_new (elements) .into ());
+	#[ cfg ( not ( feature = "vonuvoli_values_array" ) ) ]
+	let outcome = Err ("arrays not supported");
+	outcome
+}
 
 values -> values::Value = ( "#values" / "#" ) "(" space? elements : value ** space space? ")" {  values::values_new_from_vec (elements) .into () }
 

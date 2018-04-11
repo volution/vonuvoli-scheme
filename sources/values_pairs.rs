@@ -2,8 +2,10 @@
 
 use super::errors::exports::*;
 use super::runtime::exports::*;
-use super::values_arrays::exports::*;
 use super::values_value::exports::*;
+
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
+use super::values_arrays::exports::*;
 
 use super::prelude::*;
 
@@ -139,6 +141,7 @@ pub trait Pair {
 
 
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 impl <PairObject : Pair> Array for PairObject {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

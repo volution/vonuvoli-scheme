@@ -297,18 +297,28 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			// vectors
 			
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("base", "types", "vector?", TypePrimitiveV::IsArray.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("base", "vectors", "vector", ArrayPrimitiveV::ArrayBuild.into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("base", "vectors", "make-vector", ArrayPrimitiveV::ArrayMake.into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("base", "vectors", "vector-copy", ArrayPrimitiveV::ArrayRangeClone.into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("base", "vectors", "vector-append", ArrayPrimitiveV::ArrayAppend.into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("base", "vectors", "vector-length", ArrayPrimitive1::ArrayLength.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("base", "vectors", "vector-ref", ArrayPrimitive2::ArrayAt.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("base", "vectors", "vector-set!", ArrayPrimitive3::ArrayAtSet.into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("base", "vectors", "vector-fill!", ArrayPrimitiveV::ArrayRangeFill.into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("base", "vectors", "vector-copy!", ArrayPrimitiveV::ArrayRangeCopy.into ()),
 			
 			
@@ -373,7 +383,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "strings", "utf8->string", StringPrimitiveV::BytesRangeToString.into ()),
 			("base", "strings", "string->utf8", StringPrimitiveV::StringRangeToBytes.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("base", "strings", "vector->string", StringPrimitiveV::ArrayRangeToString.into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("base", "strings", "string->vector", StringPrimitiveV::StringRangeToArray.into ()),
 			
 			
@@ -384,7 +396,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "characters", "char->integer", StringPrimitive1::CharacterToNumber.into ()),
 			("base", "characters", "integer->char", StringPrimitive1::NumberToCharacter.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("base", "vectors", "vector->list", ArrayPrimitiveV::ArrayRangeToList.into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("base", "vectors", "list->vector", ArrayPrimitiveV::ListRangeToArray.into ()),
 			
 			
@@ -399,7 +413,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "functions", "map", FunctionsPrimitiveV::ListsMap.into ()),
 			("base", "functions", "for-each", FunctionsPrimitiveV::ListsIterate.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("base", "functions", "vector-map", FunctionsPrimitiveV::ArraysMap.into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("base", "functions", "vector-for-each", FunctionsPrimitiveV::ArraysIterate.into ()),
 			
 			("base", "functions", "string-map", FunctionsPrimitiveV::StringsMap.into ()),

@@ -77,7 +77,9 @@ pub enum StringPrimitive1 {
 	
 	StringToList,
 	ListToString,
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	StringToArray,
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ArrayToString,
 	StringToBytes,
 	BytesToString,
@@ -139,7 +141,9 @@ pub enum StringPrimitive2 {
 	
 	StringRangeToList,
 	ListRangeToString,
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	StringRangeToArray,
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ArrayRangeToString,
 	StringRangeToBytes,
 	BytesRangeToString,
@@ -166,7 +170,9 @@ pub enum StringPrimitive3 {
 	
 	StringRangeToList,
 	ListRangeToString,
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	StringRangeToArray,
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ArrayRangeToString,
 	StringRangeToBytes,
 	BytesRangeToString,
@@ -219,7 +225,9 @@ pub enum StringPrimitiveV {
 	
 	StringRangeToList,
 	ListRangeToString,
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	StringRangeToArray,
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ArrayRangeToString,
 	StringRangeToBytes,
 	BytesRangeToString,
@@ -283,9 +291,11 @@ pub fn string_primitive_1_evaluate (primitive : StringPrimitive1, input_1 : &Val
 		StringPrimitive1::ListToString =>
 			return list_range_to_string (input_1, None, None),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		StringPrimitive1::StringToArray =>
 			return string_range_to_array (input_1, None, None),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		StringPrimitive1::ArrayToString =>
 			return array_range_to_string (input_1, None, None),
 		
@@ -417,9 +427,11 @@ pub fn string_primitive_2_evaluate (primitive : StringPrimitive2, input_1 : &Val
 		StringPrimitive2::ListRangeToString =>
 			return list_range_to_string (input_1, Some (input_2), None),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		StringPrimitive2::StringRangeToArray =>
 			return string_range_to_array (input_1, Some (input_2), None),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		StringPrimitive2::ArrayRangeToString =>
 			return array_range_to_string (input_1, Some (input_2), None),
 		
@@ -475,9 +487,11 @@ pub fn string_primitive_3_evaluate (primitive : StringPrimitive3, input_1 : &Val
 		StringPrimitive3::ListRangeToString =>
 			return list_range_to_string (input_1, Some (input_2), Some (input_3)),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		StringPrimitive3::StringRangeToArray =>
 			return string_range_to_array (input_1, Some (input_2), Some (input_3)),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		StringPrimitive3::ArrayRangeToString =>
 			return array_range_to_string (input_1, Some (input_2), Some (input_3)),
 		
@@ -568,8 +582,10 @@ pub fn string_primitive_v_alternative_0 (primitive : StringPrimitiveV) -> (Optio
 			None,
 		StringPrimitiveV::ListRangeToString =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		StringPrimitiveV::StringRangeToArray =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		StringPrimitiveV::ArrayRangeToString =>
 			None,
 		StringPrimitiveV::StringRangeToBytes =>
@@ -607,8 +623,10 @@ pub fn string_primitive_v_alternative_1 (primitive : StringPrimitiveV) -> (Optio
 			Some (StringPrimitive1::StringToList),
 		StringPrimitiveV::ListRangeToString =>
 			Some (StringPrimitive1::ListToString),
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		StringPrimitiveV::StringRangeToArray =>
 			Some (StringPrimitive1::StringToArray),
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		StringPrimitiveV::ArrayRangeToString =>
 			Some (StringPrimitive1::ArrayToString),
 		StringPrimitiveV::StringRangeToBytes =>
@@ -646,8 +664,10 @@ pub fn string_primitive_v_alternative_2 (primitive : StringPrimitiveV) -> (Optio
 			Some (StringPrimitive2::StringRangeToList),
 		StringPrimitiveV::ListRangeToString =>
 			Some (StringPrimitive2::ListRangeToString),
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		StringPrimitiveV::StringRangeToArray =>
 			Some (StringPrimitive2::StringRangeToArray),
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		StringPrimitiveV::ArrayRangeToString =>
 			Some (StringPrimitive2::ArrayRangeToString),
 		StringPrimitiveV::StringRangeToBytes =>
@@ -685,8 +705,10 @@ pub fn string_primitive_v_alternative_3 (primitive : StringPrimitiveV) -> (Optio
 			Some (StringPrimitive3::StringRangeToList),
 		StringPrimitiveV::ListRangeToString =>
 			Some (StringPrimitive3::ListRangeToString),
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		StringPrimitiveV::StringRangeToArray =>
 			Some (StringPrimitive3::StringRangeToArray),
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		StringPrimitiveV::ArrayRangeToString =>
 			Some (StringPrimitive3::ArrayRangeToString),
 		StringPrimitiveV::StringRangeToBytes =>
@@ -724,8 +746,10 @@ pub fn string_primitive_v_alternative_4 (primitive : StringPrimitiveV) -> (Optio
 			None,
 		StringPrimitiveV::ListRangeToString =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		StringPrimitiveV::StringRangeToArray =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		StringPrimitiveV::ArrayRangeToString =>
 			None,
 		StringPrimitiveV::StringRangeToBytes =>
@@ -763,8 +787,10 @@ pub fn string_primitive_v_alternative_5 (primitive : StringPrimitiveV) -> (Optio
 			None,
 		StringPrimitiveV::ListRangeToString =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		StringPrimitiveV::StringRangeToArray =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		StringPrimitiveV::ArrayRangeToString =>
 			None,
 		StringPrimitiveV::StringRangeToBytes =>
@@ -802,8 +828,10 @@ pub fn string_primitive_v_alternative_n (primitive : StringPrimitiveV) -> (Optio
 			None,
 		StringPrimitiveV::ListRangeToString =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		StringPrimitiveV::StringRangeToArray =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		StringPrimitiveV::ArrayRangeToString =>
 			None,
 		StringPrimitiveV::StringRangeToBytes =>

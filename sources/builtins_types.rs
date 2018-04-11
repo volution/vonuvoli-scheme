@@ -329,6 +329,7 @@ pub mod exports {
 	};
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	pub use super::{
 			
 			is_array, is_array_empty, is_array_not_empty,
@@ -1700,52 +1701,68 @@ def_fn_try_predicate_any! (is_list_cyclic_or_empty, is_list_cyclic_or_empty_any_
 
 
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_array (value : &Value) -> (bool) {
 	return value.is_class (ValueClass::Array);
 }
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 def_fn_predicate_all! (is_array, is_array_all_2, is_array_all_3, is_array_all_4, is_array_all_n);
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 def_fn_predicate_any! (is_array, is_array_any_2, is_array_any_3, is_array_any_4, is_array_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_array_immutable (value : &Value) -> (bool) {
 	return value.is_kind (ValueKind::ArrayImmutable);
 }
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 def_fn_predicate_all! (is_array_immutable, is_array_immutable_all_2, is_array_immutable_all_3, is_array_immutable_all_4, is_array_immutable_all_n);
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 def_fn_predicate_any! (is_array_immutable, is_array_immutable_any_2, is_array_immutable_any_3, is_array_immutable_any_4, is_array_immutable_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_array_mutable (value : &Value) -> (bool) {
 	return value.is_kind (ValueKind::ArrayMutable);
 }
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 def_fn_predicate_all! (is_array_mutable, is_array_mutable_all_2, is_array_mutable_all_3, is_array_mutable_all_4, is_array_mutable_all_n);
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 def_fn_predicate_any! (is_array_mutable, is_array_mutable_any_2, is_array_mutable_any_3, is_array_mutable_any_4, is_array_mutable_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_array_empty (value : &Value) -> (Outcome<bool>) {
 	succeed! (try_as_array_ref! (value) .values_is_empty ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 def_fn_try_predicate_all! (is_array_empty, is_array_empty_all_2, is_array_empty_all_3, is_array_empty_all_4, is_array_empty_all_n);
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 def_fn_try_predicate_any! (is_array_empty, is_array_empty_any_2, is_array_empty_any_3, is_array_empty_any_4, is_array_empty_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_array_immutable_empty (value : &Value) -> (Outcome<bool>) {
 	let value = try_as_array_immutable_ref! (value);
 	succeed! (value.array_ref () .values_is_empty ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 def_fn_try_predicate_all! (is_array_immutable_empty, is_array_immutable_empty_all_2, is_array_immutable_empty_all_3, is_array_immutable_empty_all_4, is_array_immutable_empty_all_n);
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 def_fn_try_predicate_any! (is_array_immutable_empty, is_array_immutable_empty_any_2, is_array_immutable_empty_any_3, is_array_immutable_empty_any_4, is_array_immutable_empty_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_array_mutable_empty (value : &Value) -> (Outcome<bool>) {
 	let value = try_as_array_mutable_ref! (value);
@@ -1753,29 +1770,38 @@ pub fn is_array_mutable_empty (value : &Value) -> (Outcome<bool>) {
 	succeed! (value.values_is_empty ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 def_fn_try_predicate_all! (is_array_mutable_empty, is_array_mutable_empty_all_2, is_array_mutable_empty_all_3, is_array_mutable_empty_all_4, is_array_mutable_empty_all_n);
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 def_fn_try_predicate_any! (is_array_mutable_empty, is_array_mutable_empty_any_2, is_array_mutable_empty_any_3, is_array_mutable_empty_any_4, is_array_mutable_empty_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_array_not_empty (value : &Value) -> (Outcome<bool>) {
 	succeed! (try_as_array_ref! (value) .values_is_not_empty ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 def_fn_try_predicate_all! (is_array_not_empty, is_array_not_empty_all_2, is_array_not_empty_all_3, is_array_not_empty_all_4, is_array_not_empty_all_n);
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 def_fn_try_predicate_any! (is_array_not_empty, is_array_not_empty_any_2, is_array_not_empty_any_3, is_array_not_empty_any_4, is_array_not_empty_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_array_immutable_not_empty (value : &Value) -> (Outcome<bool>) {
 	let value = try_as_array_immutable_ref! (value);
 	succeed! (value.array_ref () .values_is_not_empty ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 def_fn_try_predicate_all! (is_array_immutable_not_empty, is_array_immutable_not_empty_all_2, is_array_immutable_not_empty_all_3, is_array_immutable_not_empty_all_4, is_array_immutable_not_empty_all_n);
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 def_fn_try_predicate_any! (is_array_immutable_not_empty, is_array_immutable_not_empty_any_2, is_array_immutable_not_empty_any_3, is_array_immutable_not_empty_any_4, is_array_immutable_not_empty_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_array_mutable_not_empty (value : &Value) -> (Outcome<bool>) {
 	let value = try_as_array_mutable_ref! (value);
@@ -1783,7 +1809,9 @@ pub fn is_array_mutable_not_empty (value : &Value) -> (Outcome<bool>) {
 	succeed! (value.values_is_not_empty ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 def_fn_try_predicate_all! (is_array_mutable_not_empty, is_array_mutable_not_empty_all_2, is_array_mutable_not_empty_all_3, is_array_mutable_not_empty_all_4, is_array_mutable_not_empty_all_n);
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 def_fn_try_predicate_any! (is_array_mutable_not_empty, is_array_mutable_not_empty_any_2, is_array_mutable_not_empty_any_3, is_array_mutable_not_empty_any_4, is_array_mutable_not_empty_any_n);
 
 

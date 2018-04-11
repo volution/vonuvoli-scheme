@@ -23,6 +23,7 @@ pub mod exports {
 	pub use super::{string_make, string_clone, string_reverse};
 	pub use super::{string_fill_range, string_reverse_range, string_copy_range, string_clone_range};
 	pub use super::{string_range_to_list, list_range_to_string};
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	pub use super::{string_range_to_array, array_range_to_string};
 	pub use super::{string_range_to_bytes, bytes_range_to_string};
 	pub use super::{string_range_iterator};
@@ -371,12 +372,14 @@ pub fn list_range_to_string (list : &Value, range_start : Option<&Value>, range_
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_range_to_array (string : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let characters = try! (string_range_iterator (string, range_start, range_end));
 	return array_collect_from_generator (characters);
 }
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_range_to_string (array : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let characters = try! (array_range_iterator (array, range_start, range_end));

@@ -28,7 +28,9 @@ pub mod exports {
 	pub use super::{lists_map_1, lists_map_2, lists_map_3, lists_map_4, lists_map_n};
 	pub use super::{lists_iterate_1, lists_iterate_2, lists_iterate_3, lists_iterate_4, lists_iterate_n};
 	
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	pub use super::{arrays_map_1, arrays_map_2, arrays_map_3, arrays_map_4, arrays_map_n};
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	pub use super::{arrays_iterate_1, arrays_iterate_2, arrays_iterate_3, arrays_iterate_4, arrays_iterate_n};
 	
 	pub use super::{bytes_map_1, bytes_map_2, bytes_map_3, bytes_map_4, bytes_map_n};
@@ -355,6 +357,7 @@ pub fn lists_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, li
 
 
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn arrays_map_1 (evaluator : &mut EvaluatorContext, callable : &Value, array : &Value) -> (Outcome<Value>) {
 	if try! (is_array_empty (array)) {
@@ -365,6 +368,7 @@ pub fn arrays_map_1 (evaluator : &mut EvaluatorContext, callable : &Value, array
 	succeed! (array_collect (outputs));
 }
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn arrays_iterate_1 (evaluator : &mut EvaluatorContext, callable : &Value, array : &Value) -> (Outcome<Value>) {
 	if try! (is_array_empty (array)) {
@@ -376,6 +380,7 @@ pub fn arrays_iterate_1 (evaluator : &mut EvaluatorContext, callable : &Value, a
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn arrays_map_2 (evaluator : &mut EvaluatorContext, callable : &Value, array_1 : &Value, array_2 : &Value) -> (Outcome<Value>) {
 	if try! (is_array_empty_all_2 (array_1, array_2)) {
@@ -387,6 +392,7 @@ pub fn arrays_map_2 (evaluator : &mut EvaluatorContext, callable : &Value, array
 	succeed! (array_collect (outputs));
 }
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn arrays_iterate_2 (evaluator : &mut EvaluatorContext, callable : &Value, array_1 : &Value, array_2 : &Value) -> (Outcome<Value>) {
 	if try! (is_array_empty_all_2 (array_1, array_2)) {
@@ -399,6 +405,7 @@ pub fn arrays_iterate_2 (evaluator : &mut EvaluatorContext, callable : &Value, a
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn arrays_map_3 (evaluator : &mut EvaluatorContext, callable : &Value, array_1 : &Value, array_2 : &Value, array_3 : &Value) -> (Outcome<Value>) {
 	if try! (is_array_empty_all_3 (array_1, array_2, array_3)) {
@@ -411,6 +418,7 @@ pub fn arrays_map_3 (evaluator : &mut EvaluatorContext, callable : &Value, array
 	succeed! (array_collect (outputs));
 }
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn arrays_iterate_3 (evaluator : &mut EvaluatorContext, callable : &Value, array_1 : &Value, array_2 : &Value, array_3 : &Value) -> (Outcome<Value>) {
 	if try! (is_array_empty_all_3 (array_1, array_2, array_3)) {
@@ -424,6 +432,7 @@ pub fn arrays_iterate_3 (evaluator : &mut EvaluatorContext, callable : &Value, a
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn arrays_map_4 (evaluator : &mut EvaluatorContext, callable : &Value, array_1 : &Value, array_2 : &Value, array_3 : &Value, array_4 : &Value) -> (Outcome<Value>) {
 	if try! (is_array_empty_all_4 (array_1, array_2, array_3, array_4)) {
@@ -437,6 +446,7 @@ pub fn arrays_map_4 (evaluator : &mut EvaluatorContext, callable : &Value, array
 	succeed! (array_collect (outputs));
 }
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn arrays_iterate_4 (evaluator : &mut EvaluatorContext, callable : &Value, array_1 : &Value, array_2 : &Value, array_3 : &Value, array_4 : &Value) -> (Outcome<Value>) {
 	if try! (is_array_empty_all_4 (array_1, array_2, array_3, array_4)) {
@@ -451,6 +461,7 @@ pub fn arrays_iterate_4 (evaluator : &mut EvaluatorContext, callable : &Value, a
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn arrays_map_n (evaluator : &mut EvaluatorContext, callable : &Value, arrays : &[&Value]) -> (Outcome<Value>) {
 	if arrays.is_empty () {
@@ -461,6 +472,7 @@ pub fn arrays_map_n (evaluator : &mut EvaluatorContext, callable : &Value, array
 	succeed! (array_collect (outputs));
 }
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn arrays_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, arrays : &[&Value]) -> (Outcome<Value>) {
 	if arrays.is_empty () {

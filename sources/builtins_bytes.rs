@@ -23,6 +23,7 @@ pub mod exports {
 	pub use super::{bytes_make, bytes_clone, bytes_reverse};
 	pub use super::{bytes_fill_range, bytes_reverse_range, bytes_copy_range, bytes_clone_range};
 	pub use super::{bytes_range_to_list, list_range_to_bytes};
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	pub use super::{bytes_range_to_array, array_range_to_bytes};
 	pub use super::{bytes_range_iterator};
 	pub use super::{bytes_length};
@@ -310,12 +311,14 @@ pub fn list_range_to_bytes (list : &Value, range_start : Option<&Value>, range_e
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_range_to_array (bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let iterator = try! (bytes_range_iterator (bytes, range_start, range_end));
 	return array_collect_from_generator (iterator);
 }
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_range_to_bytes (array : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let iterator = try! (array_range_iterator (array, range_start, range_end));

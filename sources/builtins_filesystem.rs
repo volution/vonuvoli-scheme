@@ -247,11 +247,7 @@ pub fn filesystem_path_split (path : &Value, return_array : bool) -> (Outcome<Va
 		let component = Path::new_from_component (&component, false);
 		components.push (component.into ());
 	}
-	if return_array {
-		succeed! (array_new (components) .into ());
-	} else {
-		succeed! (list_collect (components, None));
-	}
+	return build_list_or_array (components, return_array);
 }
 
 
@@ -392,11 +388,7 @@ pub fn filesystem_path_name_split (path : &Value, return_array : bool) -> (Outco
 		}
 	}
 	components.reverse ();
-	if return_array {
-		succeed! (array_new (components) .into ());
-	} else {
-		succeed! (list_collect (components, None));
-	}
+	return build_list_or_array (components, return_array);
 }
 
 
@@ -671,11 +663,7 @@ pub fn filesystem_directory_list (path : &Value, join_parent : bool, include_kin
 	if sort {
 		entries.sort ();
 	}
-	if return_array {
-		succeed! (array_new (entries) .into ());
-	} else {
-		succeed! (list_collect (entries, None));
-	}
+	return build_list_or_array (entries, return_array);
 }
 
 

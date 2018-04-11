@@ -125,14 +125,23 @@ macro_rules! def_type_primitive_enum {
 			IsPairMutable,
 			IsPairImmutable,
 			
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			IsArray,
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			IsArrayMutable,
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			IsArrayImmutable,
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			IsArrayEmpty,
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			IsArrayMutableEmpty,
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			IsArrayImmutableEmpty,
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			IsArrayEmptyNot,
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			IsArrayMutableEmptyNot,
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			IsArrayImmutableEmptyNot,
 			
 			IsValues,
@@ -446,30 +455,39 @@ pub fn type_primitive_1_evaluate_0 (primitive : TypePrimitive1, input_1 : &Value
 		TypePrimitive1::IsPairMutable =>
 			return is_pair_mutable (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitive1::IsArray =>
 			return is_array (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitive1::IsArrayImmutable =>
 			return is_array_immutable (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitive1::IsArrayMutable =>
 			return is_array_mutable (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitive1::IsArrayEmpty =>
 			return is_array_empty (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitive1::IsArrayImmutableEmpty =>
 			return is_array_immutable_empty (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitive1::IsArrayMutableEmpty =>
 			return is_array_mutable_empty (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitive1::IsArrayEmptyNot =>
 			return is_array_not_empty (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitive1::IsArrayImmutableEmptyNot =>
 			return is_array_immutable_not_empty (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitive1::IsArrayMutableEmptyNot =>
 			return is_array_mutable_not_empty (input_1) .into_0 (),
 		
@@ -886,30 +904,39 @@ pub fn type_primitive_2_evaluate_0 (primitive : TypePrimitive2, input_1 : &Value
 		TypePrimitive2::IsPairMutable =>
 			return is_pair_mutable_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitive2::IsArray =>
 			return is_array_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitive2::IsArrayImmutable =>
 			return is_array_immutable_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitive2::IsArrayMutable =>
 			return is_array_mutable_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitive2::IsArrayEmpty =>
 			return is_array_empty_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitive2::IsArrayImmutableEmpty =>
 			return is_array_immutable_empty_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitive2::IsArrayMutableEmpty =>
 			return is_array_mutable_empty_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitive2::IsArrayEmptyNot =>
 			return is_array_not_empty_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitive2::IsArrayImmutableEmptyNot =>
 			return is_array_immutable_not_empty_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitive2::IsArrayMutableEmptyNot =>
 			return is_array_mutable_not_empty_all_2 (input_1, input_2) .into_0 (),
 		
@@ -1326,30 +1353,39 @@ pub fn type_primitive_3_evaluate_0 (primitive : TypePrimitive3, input_1 : &Value
 		TypePrimitive3::IsPairMutable =>
 			return is_pair_mutable_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitive3::IsArray =>
 			return is_array_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitive3::IsArrayImmutable =>
 			return is_array_immutable_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitive3::IsArrayMutable =>
 			return is_array_mutable_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitive3::IsArrayEmpty =>
 			return is_array_empty_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitive3::IsArrayImmutableEmpty =>
 			return is_array_immutable_empty_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitive3::IsArrayMutableEmpty =>
 			return is_array_mutable_empty_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitive3::IsArrayEmptyNot =>
 			return is_array_not_empty_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitive3::IsArrayImmutableEmptyNot =>
 			return is_array_immutable_not_empty_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitive3::IsArrayMutableEmptyNot =>
 			return is_array_mutable_not_empty_all_3 (input_1, input_2, input_3) .into_0 (),
 		
@@ -1766,30 +1802,39 @@ pub fn type_primitive_4_evaluate_0 (primitive : TypePrimitive4, input_1 : &Value
 		TypePrimitive4::IsPairMutable =>
 			return is_pair_mutable_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitive4::IsArray =>
 			return is_array_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitive4::IsArrayImmutable =>
 			return is_array_immutable_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitive4::IsArrayMutable =>
 			return is_array_mutable_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitive4::IsArrayEmpty =>
 			return is_array_empty_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitive4::IsArrayImmutableEmpty =>
 			return is_array_immutable_empty_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitive4::IsArrayMutableEmpty =>
 			return is_array_mutable_empty_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitive4::IsArrayEmptyNot =>
 			return is_array_not_empty_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitive4::IsArrayImmutableEmptyNot =>
 			return is_array_immutable_not_empty_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitive4::IsArrayMutableEmptyNot =>
 			return is_array_mutable_not_empty_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
@@ -2214,30 +2259,39 @@ pub fn type_primitive_n_evaluate_0 (primitive : TypePrimitiveN, inputs : &[&Valu
 		TypePrimitiveN::IsPairMutable =>
 			return is_pair_mutable_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitiveN::IsArray =>
 			return is_array_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitiveN::IsArrayImmutable =>
 			return is_array_immutable_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitiveN::IsArrayMutable =>
 			return is_array_mutable_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitiveN::IsArrayEmpty =>
 			return is_array_empty_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitiveN::IsArrayImmutableEmpty =>
 			return is_array_immutable_empty_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitiveN::IsArrayMutableEmpty =>
 			return is_array_mutable_empty_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitiveN::IsArrayEmptyNot =>
 			return is_array_not_empty_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitiveN::IsArrayImmutableEmptyNot =>
 			return is_array_immutable_not_empty_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		TypePrimitiveN::IsArrayMutableEmptyNot =>
 			return is_array_mutable_not_empty_all_n (inputs) .into_0 (),
 		
@@ -2600,22 +2654,31 @@ macro_rules! def_type_primitive_v_alternative_fn {
 					Some ($alternative::IsPairMutable),
 				TypePrimitiveV::IsPairImmutable =>
 					Some ($alternative::IsPairImmutable),
+				#[ cfg ( feature = "vonuvoli_values_array" ) ]
 				TypePrimitiveV::IsArray =>
 					Some ($alternative::IsArray),
+				#[ cfg ( feature = "vonuvoli_values_array" ) ]
 				TypePrimitiveV::IsArrayMutable =>
 					Some ($alternative::IsArrayMutable),
+				#[ cfg ( feature = "vonuvoli_values_array" ) ]
 				TypePrimitiveV::IsArrayImmutable =>
 					Some ($alternative::IsArrayImmutable),
+				#[ cfg ( feature = "vonuvoli_values_array" ) ]
 				TypePrimitiveV::IsArrayEmpty =>
 					Some ($alternative::IsArrayEmpty),
+				#[ cfg ( feature = "vonuvoli_values_array" ) ]
 				TypePrimitiveV::IsArrayMutableEmpty =>
 					Some ($alternative::IsArrayMutableEmpty),
+				#[ cfg ( feature = "vonuvoli_values_array" ) ]
 				TypePrimitiveV::IsArrayImmutableEmpty =>
 					Some ($alternative::IsArrayImmutableEmpty),
+				#[ cfg ( feature = "vonuvoli_values_array" ) ]
 				TypePrimitiveV::IsArrayEmptyNot =>
 					Some ($alternative::IsArrayEmptyNot),
+				#[ cfg ( feature = "vonuvoli_values_array" ) ]
 				TypePrimitiveV::IsArrayMutableEmptyNot =>
 					Some ($alternative::IsArrayMutableEmptyNot),
+				#[ cfg ( feature = "vonuvoli_values_array" ) ]
 				TypePrimitiveV::IsArrayImmutableEmptyNot =>
 					Some ($alternative::IsArrayImmutableEmptyNot),
 				TypePrimitiveV::IsValues =>

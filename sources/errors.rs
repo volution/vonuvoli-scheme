@@ -235,6 +235,7 @@ impl Error {
 	}
 	
 	#[ cfg ( feature = "vonuvoli_values_error" ) ]
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn arguments_clone_array (&self) -> (Option<ArrayImmutable>) {
 		match *self.internals_ref () {

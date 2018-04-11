@@ -52,6 +52,8 @@ pub mod exports {
 	pub use super::{vec_list_ref_append_2_dotted, vec_list_ref_append_3_dotted, vec_list_ref_append_4_dotted, vec_list_ref_append_n_dotted};
 	pub use super::{vec_list_ref_clone, vec_list_ref_clone_dotted, vec_list_ref_drain, vec_list_ref_drain_dotted};
 	
+	pub use super::{build_list_or_array};
+	
 }
 
 
@@ -833,6 +835,21 @@ pub fn vec_list_ref_drain_dotted <'a : 'b, 'b> (buffer : &'b mut StdVec<ValueRef
 			None =>
 				return Ok (iterator.dotted ()),
 		}
+	}
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn build_list_or_array (values : StdVec<Value>, return_array : bool) -> (Outcome<Value>) {
+	if return_array {
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
+		succeed! (array_new (values) .into ());
+		#[ cfg ( not ( feature = "vonuvoli_values_array" ) ) ]
+		fail_panic! (0x2b2ec760);
+	} else {
+		succeed! (list_collect (values, None));
 	}
 }
 

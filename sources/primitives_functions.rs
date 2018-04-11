@@ -102,7 +102,9 @@ pub enum FunctionsPrimitive2 {
 	ListsMap,
 	ListsIterate,
 	
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ArraysMap,
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ArraysIterate,
 	
 	BytesMap,
@@ -134,7 +136,9 @@ pub enum FunctionsPrimitive3 {
 	ListsMap,
 	ListsIterate,
 	
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ArraysMap,
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ArraysIterate,
 	
 	BytesMap,
@@ -166,7 +170,9 @@ pub enum FunctionsPrimitive4 {
 	ListsMap,
 	ListsIterate,
 	
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ArraysMap,
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ArraysIterate,
 	
 	BytesMap,
@@ -198,7 +204,9 @@ pub enum FunctionsPrimitive5 {
 	ListsMap,
 	ListsIterate,
 	
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ArraysMap,
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ArraysIterate,
 	
 	BytesMap,
@@ -224,7 +232,9 @@ pub enum FunctionsPrimitiveN {
 	ListsMap,
 	ListsIterate,
 	
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ArraysMap,
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ArraysIterate,
 	
 	BytesMap,
@@ -256,7 +266,9 @@ pub enum FunctionsPrimitiveV {
 	ListsMap,
 	ListsIterate,
 	
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ArraysMap,
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ArraysIterate,
 	
 	BytesMap,
@@ -366,9 +378,11 @@ pub fn functions_primitive_2_evaluate (primitive : FunctionsPrimitive2, input_1 
 		FunctionsPrimitive2::ListsIterate =>
 			return lists_iterate_1 (evaluator, input_1, input_2),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		FunctionsPrimitive2::ArraysMap =>
 			return arrays_map_1 (evaluator, input_1, input_2),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		FunctionsPrimitive2::ArraysIterate =>
 			return arrays_iterate_1 (evaluator, input_1, input_2),
 		
@@ -425,9 +439,11 @@ pub fn functions_primitive_3_evaluate (primitive : FunctionsPrimitive3, input_1 
 		FunctionsPrimitive3::ListsIterate =>
 			return lists_iterate_2 (evaluator, input_1, input_2, input_3),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		FunctionsPrimitive3::ArraysMap =>
 			return arrays_map_2 (evaluator, input_1, input_2, input_3),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		FunctionsPrimitive3::ArraysIterate =>
 			return arrays_iterate_2 (evaluator, input_1, input_2, input_3),
 		
@@ -484,9 +500,11 @@ pub fn functions_primitive_4_evaluate (primitive : FunctionsPrimitive4, input_1 
 		FunctionsPrimitive4::ListsIterate =>
 			return lists_iterate_3 (evaluator, input_1, input_2, input_3, input_4),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		FunctionsPrimitive4::ArraysMap =>
 			return arrays_map_3 (evaluator, input_1, input_2, input_3, input_4),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		FunctionsPrimitive4::ArraysIterate =>
 			return arrays_iterate_3 (evaluator, input_1, input_2, input_3, input_4),
 		
@@ -543,9 +561,11 @@ pub fn functions_primitive_5_evaluate (primitive : FunctionsPrimitive5, input_1 
 		FunctionsPrimitive5::ListsIterate =>
 			return lists_iterate_4 (evaluator, input_1, input_2, input_3, input_4, input_5),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		FunctionsPrimitive5::ArraysMap =>
 			return arrays_map_4 (evaluator, input_1, input_2, input_3, input_4, input_5),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		FunctionsPrimitive5::ArraysIterate =>
 			return arrays_iterate_4 (evaluator, input_1, input_2, input_3, input_4, input_5),
 		
@@ -599,11 +619,13 @@ pub fn functions_primitive_n_evaluate (primitive : FunctionsPrimitiveN, inputs :
 			return lists_iterate_n (evaluator, callable, inputs);
 		},
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		FunctionsPrimitiveN::ArraysMap => {
 			let (callable, inputs) = try_some! (inputs.split_first (), 0xe284e2bf);
 			return arrays_map_n (evaluator, callable, inputs);
 		},
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		FunctionsPrimitiveN::ArraysIterate => {
 			let (callable, inputs) = try_some! (inputs.split_first (), 0xc7077329);
 			return arrays_iterate_n (evaluator, callable, inputs);
@@ -669,8 +691,10 @@ pub fn functions_primitive_v_alternative_0 (primitive : FunctionsPrimitiveV) -> 
 			None,
 		FunctionsPrimitiveV::ListsIterate =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		FunctionsPrimitiveV::ArraysMap =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		FunctionsPrimitiveV::ArraysIterate =>
 			None,
 		FunctionsPrimitiveV::BytesMap =>
@@ -712,8 +736,10 @@ pub fn functions_primitive_v_alternative_1 (primitive : FunctionsPrimitiveV) -> 
 			None,
 		FunctionsPrimitiveV::ListsIterate =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		FunctionsPrimitiveV::ArraysMap =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		FunctionsPrimitiveV::ArraysIterate =>
 			None,
 		FunctionsPrimitiveV::BytesMap =>
@@ -755,8 +781,10 @@ pub fn functions_primitive_v_alternative_2 (primitive : FunctionsPrimitiveV) -> 
 			Some (FunctionsPrimitive2::ListsMap),
 		FunctionsPrimitiveV::ListsIterate =>
 			Some (FunctionsPrimitive2::ListsIterate),
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		FunctionsPrimitiveV::ArraysMap =>
 			Some (FunctionsPrimitive2::ArraysMap),
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		FunctionsPrimitiveV::ArraysIterate =>
 			Some (FunctionsPrimitive2::ArraysIterate),
 		FunctionsPrimitiveV::BytesMap =>
@@ -798,8 +826,10 @@ pub fn functions_primitive_v_alternative_3 (primitive : FunctionsPrimitiveV) -> 
 			Some (FunctionsPrimitive3::ListsMap),
 		FunctionsPrimitiveV::ListsIterate =>
 			Some (FunctionsPrimitive3::ListsIterate),
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		FunctionsPrimitiveV::ArraysMap =>
 			Some (FunctionsPrimitive3::ArraysMap),
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		FunctionsPrimitiveV::ArraysIterate =>
 			Some (FunctionsPrimitive3::ArraysIterate),
 		FunctionsPrimitiveV::BytesMap =>
@@ -841,8 +871,10 @@ pub fn functions_primitive_v_alternative_4 (primitive : FunctionsPrimitiveV) -> 
 			Some (FunctionsPrimitive4::ListsMap),
 		FunctionsPrimitiveV::ListsIterate =>
 			Some (FunctionsPrimitive4::ListsIterate),
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		FunctionsPrimitiveV::ArraysMap =>
 			Some (FunctionsPrimitive4::ArraysMap),
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		FunctionsPrimitiveV::ArraysIterate =>
 			Some (FunctionsPrimitive4::ArraysIterate),
 		FunctionsPrimitiveV::BytesMap =>
@@ -884,8 +916,10 @@ pub fn functions_primitive_v_alternative_5 (primitive : FunctionsPrimitiveV) -> 
 			Some (FunctionsPrimitive5::ListsMap),
 		FunctionsPrimitiveV::ListsIterate =>
 			Some (FunctionsPrimitive5::ListsIterate),
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		FunctionsPrimitiveV::ArraysMap =>
 			Some (FunctionsPrimitive5::ArraysMap),
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		FunctionsPrimitiveV::ArraysIterate =>
 			Some (FunctionsPrimitive5::ArraysIterate),
 		FunctionsPrimitiveV::BytesMap =>
@@ -927,8 +961,10 @@ pub fn functions_primitive_v_alternative_n (primitive : FunctionsPrimitiveV) -> 
 			Some (FunctionsPrimitiveN::ListsMap),
 		FunctionsPrimitiveV::ListsIterate =>
 			Some (FunctionsPrimitiveN::ListsIterate),
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		FunctionsPrimitiveV::ArraysMap =>
 			Some (FunctionsPrimitiveN::ArraysMap),
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		FunctionsPrimitiveV::ArraysIterate =>
 			Some (FunctionsPrimitiveN::ArraysIterate),
 		FunctionsPrimitiveV::BytesMap =>

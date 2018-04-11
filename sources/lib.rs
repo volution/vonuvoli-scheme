@@ -155,6 +155,7 @@ include! ("macros.in");
 
 
 pub(crate) mod builtins;
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 pub(crate) mod builtins_arrays;
 pub(crate) mod builtins_bytes;
 pub(crate) mod builtins_comparisons;
@@ -211,6 +212,7 @@ pub(crate) mod ports_memory;
 pub(crate) mod ports_native;
 pub(crate) mod primitives;
 pub(crate) mod primitives_arithmetic;
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 pub(crate) mod primitives_arrays;
 pub(crate) mod primitives_bitwise;
 pub(crate) mod primitives_boolean;
@@ -241,6 +243,7 @@ pub(crate) mod runtime_unicode;
 pub(crate) mod tests;
 pub(crate) mod transcript;
 pub(crate) mod values;
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 pub(crate) mod values_arrays;
 pub(crate) mod values_booleans;
 pub(crate) mod values_bytes;
@@ -286,6 +289,7 @@ pub mod prelude;
 pub mod internals {
 	
 	pub use super::builtins::exports as builtins;
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	pub use super::builtins_arrays::exports as builtins_arrays;
 	pub use super::builtins_bytes::exports as builtins_bytes;
 	pub use super::builtins_comparisons::exports as builtins_comparisons;
@@ -337,6 +341,7 @@ pub mod internals {
 	pub use super::ports_native::exports as ports_native;
 	pub use super::primitives::exports as primitives;
 	pub use super::primitives_arithmetic::exports as primitives_arithmetic;
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	pub use super::primitives_arrays::exports as primitives_arrays;
 	pub use super::primitives_bitwise::exports as primitives_bitwise;
 	pub use super::primitives_boolean::exports as primitives_boolean;
@@ -367,6 +372,7 @@ pub mod internals {
 	pub use super::tests::exports as tests;
 	pub use super::transcript::exports as transcript;
 	pub use super::values::exports as values;
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	pub use super::values_arrays::exports as values_arrays;
 	pub use super::values_booleans::exports as values_booleans;
 	pub use super::values_bytes::exports as values_bytes;

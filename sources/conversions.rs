@@ -140,7 +140,9 @@ impl_from_for_Value_1! (StringRegex, StringRegex);
 impl_from_for_Value_1! (BytesRegex, BytesRegex);
 impl_from_for_Value_1! (PairImmutable, PairImmutable);
 impl_from_for_Value_1! (PairMutable, PairMutable);
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 impl_from_for_Value_1! (ArrayImmutable, ArrayImmutable);
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 impl_from_for_Value_1! (ArrayMutable, ArrayMutable);
 impl_from_for_Value_1! (Values, Values);
 #[ cfg ( feature = "vonuvoli_builtins_records" ) ]
@@ -264,6 +266,7 @@ impl_from_for_Value_3! (SyntaxNative, SyntaxNative, SyntaxNativeInternals, inter
 impl_as_ref_for_type_wlt! (StringRef<'a>, 'a);
 impl_as_ref_for_type_wlt! (BytesRef<'a>, 'a);
 impl_as_ref_for_type_wlt! (PairRef<'a>, 'a);
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 impl_as_ref_for_type_wlt! (ArrayRef<'a>, 'a);
 #[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl_as_ref_for_type_wlt! (RecordRef<'a>, 'a);
@@ -454,13 +457,21 @@ impl_from_for_primitive_procedure_2! (ListPrimitive5, ProcedurePrimitive5, Primi
 impl_from_for_primitive_procedure_2! (ListPrimitiveN, ProcedurePrimitiveN, PrimitiveN, List);
 impl_from_for_primitive_procedure_2! (ListPrimitiveV, ProcedurePrimitiveV, PrimitiveV, List);
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 impl_from_for_primitive_procedure_2! (ArrayPrimitive0, ProcedurePrimitive0, Primitive0, Array);
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 impl_from_for_primitive_procedure_2! (ArrayPrimitive1, ProcedurePrimitive1, Primitive1, Array);
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 impl_from_for_primitive_procedure_2! (ArrayPrimitive2, ProcedurePrimitive2, Primitive2, Array);
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 impl_from_for_primitive_procedure_2! (ArrayPrimitive3, ProcedurePrimitive3, Primitive3, Array);
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 impl_from_for_primitive_procedure_2! (ArrayPrimitive4, ProcedurePrimitive4, Primitive4, Array);
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 impl_from_for_primitive_procedure_2! (ArrayPrimitive5, ProcedurePrimitive5, Primitive5, Array);
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 impl_from_for_primitive_procedure_2! (ArrayPrimitiveN, ProcedurePrimitiveN, PrimitiveN, Array);
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 impl_from_for_primitive_procedure_2! (ArrayPrimitiveV, ProcedurePrimitiveV, PrimitiveV, Array);
 
 impl_from_for_primitive_procedure_2! (BytesPrimitive0, ProcedurePrimitive0, Primitive0, Bytes);

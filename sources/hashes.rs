@@ -44,7 +44,9 @@ impl hash::Hash for Value {
 			
 			ValueKindMatchAsRef::PairImmutable (self_0) => { hasher.write_u32 (0x1064fab6); self_0.hash (hasher); },
 			ValueKindMatchAsRef::PairMutable (self_0) => { hasher.write_u32 (0x4bac60cf); self_0.hash (hasher); },
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			ValueKindMatchAsRef::ArrayImmutable (self_0) => { hasher.write_u32 (0x0b86fd20); self_0.hash (hasher); },
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			ValueKindMatchAsRef::ArrayMutable (self_0) => { hasher.write_u32 (0xb20f12de); self_0.hash (hasher); },
 			ValueKindMatchAsRef::Values (self_0) => { hasher.write_u32 (0xb5f3786a); self_0.hash (hasher); },
 			
@@ -204,6 +206,7 @@ impl hash::Hash for PairMutable {
 
 
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 impl hash::Hash for ArrayImmutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -214,6 +217,7 @@ impl hash::Hash for ArrayImmutable {
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 impl hash::Hash for ArrayMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

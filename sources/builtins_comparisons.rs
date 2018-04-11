@@ -64,9 +64,6 @@ pub mod exports {
 			pair_compare_1,
 			pair_immutable_compare_1, pair_immutable_compare_1a,
 			pair_mutable_compare_1, pair_mutable_compare_1a,
-			array_compare_1,
-			array_immutable_compare_1, array_immutable_compare_1a,
-			array_mutable_compare_1, array_mutable_compare_1a,
 			values_compare_1, values_compare_1a,
 			procedure_primitive_compare_1, procedure_primitive_compare_1a,
 			procedure_lambda_compare_1, procedure_lambda_compare_1a,
@@ -90,9 +87,6 @@ pub mod exports {
 			pair_compare_2,
 			pair_immutable_compare_2, pair_immutable_compare_2a,
 			pair_mutable_compare_2, pair_mutable_compare_2a,
-			array_compare_2,
-			array_immutable_compare_2, array_immutable_compare_2a,
-			array_mutable_compare_2, array_mutable_compare_2a,
 			values_compare_2, values_compare_2a,
 			procedure_primitive_compare_2, procedure_primitive_compare_2a,
 			procedure_lambda_compare_2, procedure_lambda_compare_2a,
@@ -116,9 +110,6 @@ pub mod exports {
 			pair_compare_3,
 			pair_immutable_compare_3, pair_immutable_compare_3a,
 			pair_mutable_compare_3, pair_mutable_compare_3a,
-			array_compare_3,
-			array_immutable_compare_3, array_immutable_compare_3a,
-			array_mutable_compare_3, array_mutable_compare_3a,
 			values_compare_3, values_compare_3a,
 			procedure_primitive_compare_3, procedure_primitive_compare_3a,
 			procedure_lambda_compare_3, procedure_lambda_compare_3a,
@@ -142,9 +133,6 @@ pub mod exports {
 			pair_compare_4,
 			pair_immutable_compare_4, pair_immutable_compare_4a,
 			pair_mutable_compare_4, pair_mutable_compare_4a,
-			array_compare_4,
-			array_immutable_compare_4, array_immutable_compare_4a,
-			array_mutable_compare_4, array_mutable_compare_4a,
 			values_compare_4, values_compare_4a,
 			procedure_primitive_compare_4, procedure_primitive_compare_4a,
 			procedure_lambda_compare_4, procedure_lambda_compare_4a,
@@ -168,14 +156,37 @@ pub mod exports {
 			pair_compare_n,
 			pair_immutable_compare_n, pair_immutable_compare_na,
 			pair_mutable_compare_n, pair_mutable_compare_na,
-			array_compare_n,
-			array_immutable_compare_n, array_immutable_compare_na,
-			array_mutable_compare_n, array_mutable_compare_na,
 			values_compare_n, values_compare_na,
 			procedure_primitive_compare_n, procedure_primitive_compare_na,
 			procedure_lambda_compare_n, procedure_lambda_compare_na,
 			syntax_primitive_compare_n, syntax_primitive_compare_na,
 			syntax_lambda_compare_n, syntax_lambda_compare_na,
+			
+	};
+	
+	
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
+	pub use super::{
+			
+			array_compare_1,
+			array_immutable_compare_1, array_immutable_compare_1a,
+			array_mutable_compare_1, array_mutable_compare_1a,
+			
+			array_compare_2,
+			array_immutable_compare_2, array_immutable_compare_2a,
+			array_mutable_compare_2, array_mutable_compare_2a,
+			
+			array_compare_3,
+			array_immutable_compare_3, array_immutable_compare_3a,
+			array_mutable_compare_3, array_mutable_compare_3a,
+			
+			array_compare_4,
+			array_immutable_compare_4, array_immutable_compare_4a,
+			array_mutable_compare_4, array_mutable_compare_4a,
+			
+			array_compare_n,
+			array_immutable_compare_n, array_immutable_compare_na,
+			array_mutable_compare_n, array_mutable_compare_na,
 			
 	};
 	
@@ -702,9 +713,11 @@ pub fn compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Co
 		ValueKindMatchAsRef::PairMutable (value) =>
 			return pair_mutable_compare_1a (value, comparison),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		ValueKindMatchAsRef::ArrayImmutable (value) =>
 			return array_immutable_compare_1a (value, comparison),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		ValueKindMatchAsRef::ArrayMutable (value) =>
 			return array_mutable_compare_1a (value, comparison),
 		
@@ -859,9 +872,11 @@ pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef
 		ValueKindMatchAsRef2::PairMutable (left, right) =>
 			return pair_mutable_compare_2a (left, right, comparison),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		ValueKindMatchAsRef2::ArrayImmutable (left, right) =>
 			return array_immutable_compare_2a (left, right, comparison),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		ValueKindMatchAsRef2::ArrayMutable (left, right) =>
 			return array_mutable_compare_2a (left, right, comparison),
 		
@@ -969,6 +984,7 @@ pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef
 					return pair_ref_compare_2a (&left, &right, comparison);
 				},
 				
+				#[ cfg ( feature = "vonuvoli_values_array" ) ]
 				ValueClassMatchAsRef2::Array (ref class) => {
 					let (left, right) = try! (class.array_ref ());
 					return array_ref_compare_2a (&left, &right, comparison);
@@ -1443,7 +1459,8 @@ pub(crate) fn pair_ref_compare_2a <'a, ValueRef : StdAsRef<PairRef<'a>>> (left :
 	let left = left.as_ref ();
 	let right = right.as_ref ();
 	
-	if false {
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
+	{ if false {
 		// NOTE:  This is a semantically equivalent implementation;  although less efficient!
 		match comparison {
 			Comparison::Equivalence (equivalence, _, _, negated) =>
@@ -1456,7 +1473,7 @@ pub(crate) fn pair_ref_compare_2a <'a, ValueRef : StdAsRef<PairRef<'a>>> (left :
 			Comparison::Ordering (_, _, _, _) =>
 				return vec_compare_2 (left.values_as_slice (), right.values_as_slice (), comparison),
 		}
-	}
+	} }
 	
 	match comparison {
 		
@@ -1508,15 +1525,18 @@ pub(crate) fn pair_ref_compare_2a <'a, ValueRef : StdAsRef<PairRef<'a>>> (left :
 
 
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 def_fn_compare! (ArrayImmutable,
 		array_immutable_compare_1, array_immutable_compare_2, array_immutable_compare_3, array_immutable_compare_4, array_immutable_compare_n,
 		array_immutable_compare_1a, array_immutable_compare_2a, array_immutable_compare_3a, array_immutable_compare_4a, array_immutable_compare_na);
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_immutable_compare_1a <ValueRef : StdAsRef<ArrayImmutable>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_immutable_compare_2a <ValueRef : StdAsRef<ArrayImmutable>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref () .array_ref ();
@@ -1525,15 +1545,18 @@ pub fn array_immutable_compare_2a <ValueRef : StdAsRef<ArrayImmutable>> (left : 
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 def_fn_compare! (ArrayMutable,
 		array_mutable_compare_1, array_mutable_compare_2, array_mutable_compare_3, array_mutable_compare_4, array_mutable_compare_n,
 		array_mutable_compare_1a, array_mutable_compare_2a, array_mutable_compare_3a, array_mutable_compare_4a, array_mutable_compare_na);
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_mutable_compare_1a <ValueRef : StdAsRef<ArrayMutable>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_mutable_compare_2a <ValueRef : StdAsRef<ArrayMutable>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = try! (left.as_ref () .array_ref ());
@@ -1542,6 +1565,7 @@ pub fn array_mutable_compare_2a <ValueRef : StdAsRef<ArrayMutable>> (left : Valu
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub(crate) fn array_ref_compare_2a <'a, ValueRef : StdAsRef<ArrayRef<'a>>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
@@ -2294,15 +2318,18 @@ pub fn pair_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : Val
 
 
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 def_fn_compare! (Value,
 		array_compare_1, array_compare_2, array_compare_3, array_compare_4, array_compare_n);
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let _value = try! (ArrayRef::try (value.as_ref ()));
 	succeed! (true ^ comparison.negated ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = try! (ArrayRef::try (left.as_ref ()));

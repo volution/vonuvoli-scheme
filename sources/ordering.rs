@@ -90,7 +90,9 @@ impl <'a> ValueKindMatchAsRef2<'a> {
 			
 			ValueKindMatchAsRef2::PairImmutable (self_0, other_0) => Some (PairImmutable::eq (self_0, other_0)),
 			ValueKindMatchAsRef2::PairMutable (self_0, other_0) => Some (PairMutable::eq (self_0, other_0)),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			ValueKindMatchAsRef2::ArrayImmutable (self_0, other_0) => Some (ArrayImmutable::eq (self_0, other_0)),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			ValueKindMatchAsRef2::ArrayMutable (self_0, other_0) => Some (ArrayMutable::eq (self_0, other_0)),
 			ValueKindMatchAsRef2::Values (self_0, other_0) => Some (Values::eq (self_0, other_0)),
 			
@@ -179,7 +181,9 @@ impl <'a> ValueKindMatchAsRef2<'a> {
 			
 			ValueKindMatchAsRef2::PairImmutable (self_0, other_0) => Some (PairImmutable::cmp (self_0, other_0)),
 			ValueKindMatchAsRef2::PairMutable (self_0, other_0) => Some (PairMutable::cmp (self_0, other_0)),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			ValueKindMatchAsRef2::ArrayImmutable (self_0, other_0) => Some (ArrayImmutable::cmp (self_0, other_0)),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			ValueKindMatchAsRef2::ArrayMutable (self_0, other_0) => Some (ArrayMutable::cmp (self_0, other_0)),
 			ValueKindMatchAsRef2::Values (self_0, other_0) => Some (Values::cmp (self_0, other_0)),
 			
@@ -648,8 +652,10 @@ impl <'a> cmp::PartialOrd for PairRef<'a> {
 
 
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 impl cmp::Eq for ArrayImmutable {}
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 impl cmp::PartialEq for ArrayImmutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -660,6 +666,7 @@ impl cmp::PartialEq for ArrayImmutable {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 impl cmp::Ord for ArrayImmutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -670,6 +677,7 @@ impl cmp::Ord for ArrayImmutable {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 impl cmp::PartialOrd for ArrayImmutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -679,8 +687,10 @@ impl cmp::PartialOrd for ArrayImmutable {
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 impl cmp::Eq for ArrayMutable {}
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 impl cmp::PartialEq for ArrayMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -691,6 +701,7 @@ impl cmp::PartialEq for ArrayMutable {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 impl cmp::Ord for ArrayMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -701,6 +712,7 @@ impl cmp::Ord for ArrayMutable {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 impl cmp::PartialOrd for ArrayMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -710,8 +722,10 @@ impl cmp::PartialOrd for ArrayMutable {
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 impl <'a> cmp::Eq for ArrayRef<'a> {}
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 impl <'a> cmp::PartialEq for ArrayRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -722,6 +736,7 @@ impl <'a> cmp::PartialEq for ArrayRef<'a> {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 impl <'a> cmp::Ord for ArrayRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -732,6 +747,7 @@ impl <'a> cmp::Ord for ArrayRef<'a> {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 impl <'a> cmp::PartialOrd for ArrayRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

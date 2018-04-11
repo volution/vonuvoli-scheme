@@ -77,7 +77,9 @@ pub enum BytesPrimitive1 {
 	
 	BytesToList,
 	ListToBytes,
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	BytesToArray,
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ArrayToBytes,
 	
 	BytesToImmutable,
@@ -103,7 +105,9 @@ pub enum BytesPrimitive2 {
 	
 	BytesRangeToList,
 	ListRangeToBytes,
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	BytesRangeToArray,
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ArrayRangeToBytes,
 	
 }
@@ -124,7 +128,9 @@ pub enum BytesPrimitive3 {
 	
 	BytesRangeToList,
 	ListRangeToBytes,
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	BytesRangeToArray,
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ArrayRangeToBytes,
 	
 }
@@ -173,7 +179,9 @@ pub enum BytesPrimitiveV {
 	
 	BytesRangeToList,
 	ListRangeToBytes,
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	BytesRangeToArray,
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ArrayRangeToBytes,
 	
 }
@@ -231,9 +239,11 @@ pub fn bytes_primitive_1_evaluate (primitive : BytesPrimitive1, input_1 : &Value
 		BytesPrimitive1::ListToBytes =>
 			return list_range_to_bytes (input_1, None, None),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		BytesPrimitive1::BytesToArray =>
 			return bytes_range_to_array (input_1, None, None),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		BytesPrimitive1::ArrayToBytes =>
 			return array_range_to_bytes (input_1, None, None),
 		
@@ -283,9 +293,11 @@ pub fn bytes_primitive_2_evaluate (primitive : BytesPrimitive2, input_1 : &Value
 		BytesPrimitive2::ListRangeToBytes =>
 			return list_range_to_bytes (input_1, Some (input_2), None),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		BytesPrimitive2::BytesRangeToArray =>
 			return bytes_range_to_array (input_1, Some (input_2), None),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		BytesPrimitive2::ArrayRangeToBytes =>
 			return array_range_to_bytes (input_1, Some (input_2), None),
 		
@@ -326,9 +338,11 @@ pub fn bytes_primitive_3_evaluate (primitive : BytesPrimitive3, input_1 : &Value
 		BytesPrimitive3::ListRangeToBytes =>
 			return list_range_to_bytes (input_1, Some (input_2), Some (input_3)),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		BytesPrimitive3::BytesRangeToArray =>
 			return bytes_range_to_array (input_1, Some (input_2), Some (input_3)),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		BytesPrimitive3::ArrayRangeToBytes =>
 			return array_range_to_bytes (input_1, Some (input_2), Some (input_3)),
 		
@@ -410,8 +424,10 @@ pub fn bytes_primitive_v_alternative_0 (primitive : BytesPrimitiveV) -> (Option<
 			None,
 		BytesPrimitiveV::ListRangeToBytes =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		BytesPrimitiveV::BytesRangeToArray =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		BytesPrimitiveV::ArrayRangeToBytes =>
 			None,
 	}
@@ -441,8 +457,10 @@ pub fn bytes_primitive_v_alternative_1 (primitive : BytesPrimitiveV) -> (Option<
 			Some (BytesPrimitive1::BytesToList),
 		BytesPrimitiveV::ListRangeToBytes =>
 			Some (BytesPrimitive1::ListToBytes),
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		BytesPrimitiveV::BytesRangeToArray =>
 			Some (BytesPrimitive1::BytesToArray),
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		BytesPrimitiveV::ArrayRangeToBytes =>
 			Some (BytesPrimitive1::ArrayToBytes),
 	}
@@ -472,8 +490,10 @@ pub fn bytes_primitive_v_alternative_2 (primitive : BytesPrimitiveV) -> (Option<
 			Some (BytesPrimitive2::BytesRangeToList),
 		BytesPrimitiveV::ListRangeToBytes =>
 			Some (BytesPrimitive2::ListRangeToBytes),
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		BytesPrimitiveV::BytesRangeToArray =>
 			Some (BytesPrimitive2::BytesRangeToArray),
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		BytesPrimitiveV::ArrayRangeToBytes =>
 			Some (BytesPrimitive2::ArrayRangeToBytes),
 	}
@@ -503,8 +523,10 @@ pub fn bytes_primitive_v_alternative_3 (primitive : BytesPrimitiveV) -> (Option<
 			Some (BytesPrimitive3::BytesRangeToList),
 		BytesPrimitiveV::ListRangeToBytes =>
 			Some (BytesPrimitive3::ListRangeToBytes),
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		BytesPrimitiveV::BytesRangeToArray =>
 			Some (BytesPrimitive3::BytesRangeToArray),
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		BytesPrimitiveV::ArrayRangeToBytes =>
 			Some (BytesPrimitive3::ArrayRangeToBytes),
 	}
@@ -534,8 +556,10 @@ pub fn bytes_primitive_v_alternative_4 (primitive : BytesPrimitiveV) -> (Option<
 			None,
 		BytesPrimitiveV::ListRangeToBytes =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		BytesPrimitiveV::BytesRangeToArray =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		BytesPrimitiveV::ArrayRangeToBytes =>
 			None,
 	}
@@ -565,8 +589,10 @@ pub fn bytes_primitive_v_alternative_5 (primitive : BytesPrimitiveV) -> (Option<
 			None,
 		BytesPrimitiveV::ListRangeToBytes =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		BytesPrimitiveV::BytesRangeToArray =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		BytesPrimitiveV::ArrayRangeToBytes =>
 			None,
 	}
@@ -596,8 +622,10 @@ pub fn bytes_primitive_v_alternative_n (primitive : BytesPrimitiveV) -> (Option<
 			None,
 		BytesPrimitiveV::ListRangeToBytes =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		BytesPrimitiveV::BytesRangeToArray =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		BytesPrimitiveV::ArrayRangeToBytes =>
 			None,
 	}

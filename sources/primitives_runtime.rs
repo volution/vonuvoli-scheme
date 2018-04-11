@@ -59,8 +59,10 @@ pub enum RuntimePrimitive0 {
 	ParameterBuild,
 	
 	ProcessArgumentsAsList,
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ProcessArgumentsAsArray,
 	ProcessEnvironmentVariablesAsList,
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ProcessEnvironmentVariablesAsArray,
 	
 	ProcessExit,
@@ -89,6 +91,7 @@ pub enum RuntimePrimitive1 {
 	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	ErrorArgumentsAsList,
 	#[ cfg ( feature = "vonuvoli_values_error" ) ]
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ErrorArgumentsAsArray,
 	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	ErrorArgumentsAsValues,
@@ -295,12 +298,14 @@ pub fn runtime_primitive_0_evaluate (primitive : RuntimePrimitive0, evaluator : 
 		RuntimePrimitive0::ProcessArgumentsAsList =>
 			return process_arguments (evaluator, false),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		RuntimePrimitive0::ProcessArgumentsAsArray =>
 			return process_arguments (evaluator, true),
 		
 		RuntimePrimitive0::ProcessEnvironmentVariablesAsList =>
 			return process_environment_variables (evaluator, false),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		RuntimePrimitive0::ProcessEnvironmentVariablesAsArray =>
 			return process_environment_variables (evaluator, true),
 		
@@ -350,6 +355,7 @@ pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, input_1 : &V
 			return error_arguments_as_list (input_1) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_values_error" ) ]
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		RuntimePrimitive1::ErrorArgumentsAsArray =>
 			return error_arguments_as_array (input_1) .into_0 (),
 		

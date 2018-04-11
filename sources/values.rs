@@ -17,6 +17,7 @@ pub mod exports {
 	pub use super::super::values_bytes::exports::*;
 	
 	pub use super::super::values_pairs::exports::*;
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	pub use super::super::values_arrays::exports::*;
 	pub use super::super::values_values::exports::*;
 	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]

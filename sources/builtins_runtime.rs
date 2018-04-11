@@ -35,9 +35,15 @@ pub mod exports {
 	
 	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	pub use super::{
-			error_message, error_arguments_as_list, error_arguments_as_array, error_arguments_as_values,
+			error_message, error_arguments_as_list,
+			error_arguments_as_values,
 			error_build_0, error_build_1, error_build_2, error_build_3, error_build_4, error_build_n,
 			error_coerce, error_coerce_from,
+		};
+	
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
+	pub use super::{
+			error_arguments_as_array,
 		};
 	
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
@@ -95,6 +101,7 @@ pub fn error_arguments_as_list (error : &Value) -> (Outcome<Value>) {
 
 
 #[ cfg ( feature = "vonuvoli_values_error" ) ]
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_arguments_as_array (error : &Value) -> (Outcome<ArrayImmutable>) {
 	let error = try_as_error_ref! (error);
@@ -354,11 +361,7 @@ pub fn process_argument (index : &Value, evaluator : &mut EvaluatorContext) -> (
 pub fn process_arguments (evaluator : &mut EvaluatorContext, return_array : bool) -> (Outcome<Value>) {
 	let arguments = try! (try! (evaluator.parameters ()) .resolve_process_arguments ());
 	let arguments = vec_map! (arguments.iter (), argument, os_string_clone_into_value (argument));
-	if return_array {
-		succeed! (array_new (arguments) .into ());
-	} else {
-		succeed! (list_collect (arguments, None));
-	}
+	return build_list_or_array (arguments, return_array);
 }
 
 
@@ -382,11 +385,7 @@ pub fn process_environment_variable (variable : &Value, evaluator : &mut Evaluat
 pub fn process_environment_variables (evaluator : &mut EvaluatorContext, return_array : bool) -> (Outcome<Value>) {
 	let variables = try! (try! (evaluator.parameters ()) .resolve_process_environment ());
 	let variables = vec_map! (variables.iter (), &(ref name, ref value), pair_new (os_string_clone_into_value (name), os_string_clone_into_value (value), None));
-	if return_array {
-		succeed! (array_new (variables) .into ());
-	} else {
-		succeed! (list_collect (variables, None));
-	}
+	return build_list_or_array (variables, return_array);
 }
 
 
