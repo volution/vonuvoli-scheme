@@ -228,7 +228,7 @@ impl_from_for_type! (Path, &'static str, value, Path::new_from_ref (fs_path::Pat
 
 #[ cfg ( feature = "vonuvoli_values_unique" ) ]
 impl_from_for_Value_3! (Unique, Unique, UniqueData, data, Unique::new (data));
-#[ cfg ( any ( feature = "vonuvoli_values_unique", feature = "vonuvoli_builtins_parameters" ) ) ]
+#[ cfg ( all ( not ( feature = "vonuvoli_values_unique" ), feature = "vonuvoli_builtins_parameters" ) ) ]
 impl_from_for_type! (Unique, UniqueData, data, Unique::new (data));
 
 impl_from_for_type! (PairImmutable, (Value, Value), value, { let (left, right) = value; pair_immutable_new (left, right) });

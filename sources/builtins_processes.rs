@@ -55,6 +55,12 @@ pub mod exports {
 
 
 
+#[ cfg ( not ( any ( feature = "vonuvoli_values_unique", feature = "vonuvoli_builtins_parameters" ) ) ) ]
+type UniqueData = !;
+
+
+
+
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_spawn (arguments : &[&Value], evaluator : &mut Option<&mut EvaluatorContext>) -> (Outcome<Process>) {
 	// TODO:  Accept arrays as arguments!
