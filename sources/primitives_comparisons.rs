@@ -118,16 +118,26 @@ macro_rules! def_comparison_primitive_enum {
 			SymbolCaseInsensitiveGreaterOrEqual,
 			SymbolCaseInsensitiveGreater,
 			
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			KeywordCaseSensitiveLesser,
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			KeywordCaseSensitiveLesserOrEqual,
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			KeywordCaseSensitiveEqual,
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			KeywordCaseSensitiveGreaterOrEqual,
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			KeywordCaseSensitiveGreater,
 			
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			KeywordCaseInsensitiveLesser,
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			KeywordCaseInsensitiveLesserOrEqual,
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			KeywordCaseInsensitiveEqual,
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			KeywordCaseInsensitiveGreaterOrEqual,
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			KeywordCaseInsensitiveGreater,
 			
 			UniqueLesser,
@@ -369,33 +379,43 @@ pub fn comparison_primitive_1_evaluate (primitive : ComparisonPrimitive1, input_
 		ComparisonPrimitive1::SymbolCaseInsensitiveGreater =>
 			return symbol_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitive1::KeywordCaseSensitiveLesser =>
 			return keyword_compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitive1::KeywordCaseSensitiveLesserOrEqual =>
 			return keyword_compare_1 (input_1, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitive1::KeywordCaseSensitiveEqual =>
 			return keyword_compare_1 (input_1, Comparison::Ordering (Ordering::Equal, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitive1::KeywordCaseSensitiveGreaterOrEqual =>
 			return keyword_compare_1 (input_1, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitive1::KeywordCaseSensitiveGreater =>
 			return keyword_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitive1::KeywordCaseInsensitiveLesser =>
 			return keyword_compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitive1::KeywordCaseInsensitiveLesserOrEqual =>
 			return keyword_compare_1 (input_1, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitive1::KeywordCaseInsensitiveEqual =>
 			return keyword_compare_1 (input_1, Comparison::Ordering (Ordering::Equal, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitive1::KeywordCaseInsensitiveGreaterOrEqual =>
 			return keyword_compare_1 (input_1, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitive1::KeywordCaseInsensitiveGreater =>
 			return keyword_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, Some (false), negated)) .into_0 (),
 		
@@ -674,33 +694,43 @@ pub fn comparison_primitive_2_evaluate (primitive : ComparisonPrimitive2, input_
 		ComparisonPrimitive2::SymbolCaseInsensitiveGreater =>
 			return symbol_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitive2::KeywordCaseSensitiveLesser =>
 			return keyword_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitive2::KeywordCaseSensitiveLesserOrEqual =>
 			return keyword_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitive2::KeywordCaseSensitiveEqual =>
 			return keyword_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Equal, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitive2::KeywordCaseSensitiveGreaterOrEqual =>
 			return keyword_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitive2::KeywordCaseSensitiveGreater =>
 			return keyword_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitive2::KeywordCaseInsensitiveLesser =>
 			return keyword_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitive2::KeywordCaseInsensitiveLesserOrEqual =>
 			return keyword_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitive2::KeywordCaseInsensitiveEqual =>
 			return keyword_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Equal, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitive2::KeywordCaseInsensitiveGreaterOrEqual =>
 			return keyword_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitive2::KeywordCaseInsensitiveGreater =>
 			return keyword_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, Some (false), negated)) .into_0 (),
 		
@@ -979,33 +1009,43 @@ pub fn comparison_primitive_3_evaluate (primitive : ComparisonPrimitive3, input_
 		ComparisonPrimitive3::SymbolCaseInsensitiveGreater =>
 			return symbol_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitive3::KeywordCaseSensitiveLesser =>
 			return keyword_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitive3::KeywordCaseSensitiveLesserOrEqual =>
 			return keyword_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitive3::KeywordCaseSensitiveEqual =>
 			return keyword_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Equal, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitive3::KeywordCaseSensitiveGreaterOrEqual =>
 			return keyword_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitive3::KeywordCaseSensitiveGreater =>
 			return keyword_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitive3::KeywordCaseInsensitiveLesser =>
 			return keyword_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitive3::KeywordCaseInsensitiveLesserOrEqual =>
 			return keyword_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitive3::KeywordCaseInsensitiveEqual =>
 			return keyword_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Equal, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitive3::KeywordCaseInsensitiveGreaterOrEqual =>
 			return keyword_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitive3::KeywordCaseInsensitiveGreater =>
 			return keyword_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, Some (false), negated)) .into_0 (),
 		
@@ -1284,33 +1324,43 @@ pub fn comparison_primitive_4_evaluate (primitive : ComparisonPrimitive4, input_
 		ComparisonPrimitive4::SymbolCaseInsensitiveGreater =>
 			return symbol_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitive4::KeywordCaseSensitiveLesser =>
 			return keyword_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitive4::KeywordCaseSensitiveLesserOrEqual =>
 			return keyword_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitive4::KeywordCaseSensitiveEqual =>
 			return keyword_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Equal, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitive4::KeywordCaseSensitiveGreaterOrEqual =>
 			return keyword_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitive4::KeywordCaseSensitiveGreater =>
 			return keyword_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitive4::KeywordCaseInsensitiveLesser =>
 			return keyword_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitive4::KeywordCaseInsensitiveLesserOrEqual =>
 			return keyword_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitive4::KeywordCaseInsensitiveEqual =>
 			return keyword_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Equal, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitive4::KeywordCaseInsensitiveGreaterOrEqual =>
 			return keyword_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitive4::KeywordCaseInsensitiveGreater =>
 			return keyword_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, Some (false), negated)) .into_0 (),
 		
@@ -1597,33 +1647,43 @@ pub fn comparison_primitive_n_evaluate (primitive : ComparisonPrimitiveN, inputs
 		ComparisonPrimitiveN::SymbolCaseInsensitiveGreater =>
 			return symbol_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitiveN::KeywordCaseSensitiveLesser =>
 			return keyword_compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitiveN::KeywordCaseSensitiveLesserOrEqual =>
 			return keyword_compare_n (inputs, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitiveN::KeywordCaseSensitiveEqual =>
 			return keyword_compare_n (inputs, Comparison::Ordering (Ordering::Equal, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitiveN::KeywordCaseSensitiveGreaterOrEqual =>
 			return keyword_compare_n (inputs, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitiveN::KeywordCaseSensitiveGreater =>
 			return keyword_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitiveN::KeywordCaseInsensitiveLesser =>
 			return keyword_compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitiveN::KeywordCaseInsensitiveLesserOrEqual =>
 			return keyword_compare_n (inputs, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitiveN::KeywordCaseInsensitiveEqual =>
 			return keyword_compare_n (inputs, Comparison::Ordering (Ordering::Equal, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitiveN::KeywordCaseInsensitiveGreaterOrEqual =>
 			return keyword_compare_n (inputs, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ComparisonPrimitiveN::KeywordCaseInsensitiveGreater =>
 			return keyword_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, Some (false), negated)) .into_0 (),
 		
@@ -1854,24 +1914,34 @@ macro_rules! def_comparison_primitive_v_alternative_fn {
 					Some ($alternative::SymbolCaseInsensitiveGreaterOrEqual),
 				ComparisonPrimitiveV::SymbolCaseInsensitiveGreater =>
 					Some ($alternative::SymbolCaseInsensitiveGreater),
+				#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 				ComparisonPrimitiveV::KeywordCaseSensitiveLesser =>
 					Some ($alternative::KeywordCaseSensitiveLesser),
+				#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 				ComparisonPrimitiveV::KeywordCaseSensitiveLesserOrEqual =>
 					Some ($alternative::KeywordCaseSensitiveLesserOrEqual),
+				#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 				ComparisonPrimitiveV::KeywordCaseSensitiveEqual =>
 					Some ($alternative::KeywordCaseSensitiveEqual),
+				#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 				ComparisonPrimitiveV::KeywordCaseSensitiveGreaterOrEqual =>
 					Some ($alternative::KeywordCaseSensitiveGreaterOrEqual),
+				#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 				ComparisonPrimitiveV::KeywordCaseSensitiveGreater =>
 					Some ($alternative::KeywordCaseSensitiveGreater),
+				#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 				ComparisonPrimitiveV::KeywordCaseInsensitiveLesser =>
 					Some ($alternative::KeywordCaseInsensitiveLesser),
+				#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 				ComparisonPrimitiveV::KeywordCaseInsensitiveLesserOrEqual =>
 					Some ($alternative::KeywordCaseInsensitiveLesserOrEqual),
+				#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 				ComparisonPrimitiveV::KeywordCaseInsensitiveEqual =>
 					Some ($alternative::KeywordCaseInsensitiveEqual),
+				#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 				ComparisonPrimitiveV::KeywordCaseInsensitiveGreaterOrEqual =>
 					Some ($alternative::KeywordCaseInsensitiveGreaterOrEqual),
+				#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 				ComparisonPrimitiveV::KeywordCaseInsensitiveGreater =>
 					Some ($alternative::KeywordCaseInsensitiveGreater),
 				ComparisonPrimitiveV::UniqueLesser =>

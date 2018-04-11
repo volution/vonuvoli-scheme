@@ -73,6 +73,7 @@ impl <'a> ValueKindMatchAsRef2<'a> {
 			ValueKindMatchAsRef2::Character (self_0, other_0) => Some (Character::eq (self_0, other_0)),
 			
 			ValueKindMatchAsRef2::Symbol (self_0, other_0) => Some (Symbol::eq (self_0, other_0)),
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			ValueKindMatchAsRef2::Keyword (self_0, other_0) => Some (Keyword::eq (self_0, other_0)),
 			ValueKindMatchAsRef2::Unique (self_0, other_0) => Some (Unique::eq (self_0, other_0)),
 			
@@ -155,6 +156,7 @@ impl <'a> ValueKindMatchAsRef2<'a> {
 			ValueKindMatchAsRef2::Character (self_0, other_0) => Some (Character::cmp (self_0, other_0)),
 			
 			ValueKindMatchAsRef2::Symbol (self_0, other_0) => Some (Symbol::cmp (self_0, other_0)),
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			ValueKindMatchAsRef2::Keyword (self_0, other_0) => Some (Keyword::cmp (self_0, other_0)),
 			ValueKindMatchAsRef2::Unique (self_0, other_0) => Some (Unique::cmp (self_0, other_0)),
 			

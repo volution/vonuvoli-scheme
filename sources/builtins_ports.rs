@@ -742,6 +742,7 @@ pub fn port_output_value_display_0 (port : &mut PortBackendWriter, value : &Valu
 			try! (port.char_write_string (string, true));
 		},
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ValueClassMatchAsRef::Keyword (value) => {
 			let string = value.string_as_str ();
 			try! (port.char_write_string (string, true));
@@ -985,6 +986,7 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 			try! (port.char_write_string (&formatted, true));
 		},
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ValueClassMatchAsRef::Keyword (value) => {
 			// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
 			let formatted = format! ("{}", value);

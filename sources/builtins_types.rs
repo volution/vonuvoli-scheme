@@ -249,6 +249,7 @@ pub mod exports {
 	};
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 	pub use super::{
 			
 			is_keyword, is_keyword_eq,
@@ -1485,15 +1486,19 @@ def_fn_predicate_any_x1! (is_symbol_eq, &str, is_symbol_eq_any_2, is_symbol_eq_a
 
 
 
+#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_keyword (value : &Value) -> (bool) {
 	return value.is_kind (ValueKind::Keyword);
 }
 
+#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 def_fn_predicate_all! (is_keyword, is_keyword_all_2, is_keyword_all_3, is_keyword_all_4, is_keyword_all_n);
+#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 def_fn_predicate_any! (is_keyword, is_keyword_any_2, is_keyword_any_3, is_keyword_any_4, is_keyword_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_keyword_eq (expected : &str, value : &Value) -> (bool) {
 	match value.kind_match_as_ref () {
@@ -1504,7 +1509,9 @@ pub fn is_keyword_eq (expected : &str, value : &Value) -> (bool) {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 def_fn_predicate_all_x1! (is_keyword_eq, &str, is_keyword_eq_all_2, is_keyword_eq_all_3, is_keyword_eq_all_4, is_keyword_eq_all_n);
+#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 def_fn_predicate_any_x1! (is_keyword_eq, &str, is_keyword_eq_any_2, is_keyword_eq_any_3, is_keyword_eq_any_4, is_keyword_eq_any_n);
 
 

@@ -116,6 +116,7 @@ impl_from_for_Value_1! (NumberInteger, NumberInteger);
 impl_from_for_Value_1! (NumberReal, NumberReal);
 impl_from_for_Value_1! (Character, Character);
 impl_from_for_Value_1! (Symbol, Symbol);
+#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 impl_from_for_Value_1! (Keyword, Keyword);
 impl_from_for_Value_1! (Unique, Unique);
 impl_from_for_Value_1! (StringImmutable, StringImmutable);
@@ -208,7 +209,9 @@ impl_from_for_type! (StringMutable, &'static str, value, string_mutable_clone_st
 impl_from_for_type! (Symbol, StdString, value, symbol_new (value));
 impl_from_for_type! (Symbol, &'static str, value, symbol_clone_str (value));
 
+#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 impl_from_for_type! (Keyword, StdString, value, keyword_new (value));
+#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 impl_from_for_type! (Keyword, &'static str, value, keyword_clone_str (value));
 
 #[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]

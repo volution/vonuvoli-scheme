@@ -148,9 +148,11 @@ vonuvoli_abort_on_panic = []
 vonuvoli_inline = []
 
 vonuvoli_values_all = [
+	"vonuvoli_values_keyword",
 	"vonuvoli_values_contexts",
 	"vonuvoli_values_opaque",
 ]
+vonuvoli_values_keyword = []
 vonuvoli_values_contexts = []
 vonuvoli_values_opaque = []
 

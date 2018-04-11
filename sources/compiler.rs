@@ -133,6 +133,7 @@ impl Compiler {
 			ValueClassMatchInto::Symbol (value) =>
 				return self.compile_symbol (compilation, value),
 			
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			ValueClassMatchInto::Keyword (value) =>
 				return self.compile_syntax_quote_0 (compilation, value.into ()),
 			
@@ -1959,6 +1960,7 @@ impl Compiler {
 			ValueClassMatchInto::Symbol (value) =>
 				succeed! ((compilation, splice (value, spliceable))),
 			
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			ValueClassMatchInto::Keyword (value) =>
 				succeed! ((compilation, splice (value, spliceable))),
 			

@@ -446,28 +446,48 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 	// NOTE:  value extensions
 	definitions.extend_from_slice (&[
 			
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			("keyword=?", ComparisonPrimitiveV::KeywordCaseSensitiveEqual.into ()),
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			("keyword<?", ComparisonPrimitiveV::KeywordCaseSensitiveLesser.into ()),
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			("keyword>?", ComparisonPrimitiveV::KeywordCaseSensitiveGreater.into ()),
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			("keyword<=?", ComparisonPrimitiveV::KeywordCaseSensitiveLesserOrEqual.into ()),
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			("keyword>=?", ComparisonPrimitiveV::KeywordCaseSensitiveGreaterOrEqual.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			("not-keyword=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::KeywordCaseSensitiveEqual) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			("not-keyword<?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::KeywordCaseSensitiveLesser) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			("not-keyword>?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::KeywordCaseSensitiveGreater) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			("not-keyword<=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::KeywordCaseSensitiveLesserOrEqual) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			("not-keyword>=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::KeywordCaseSensitiveGreaterOrEqual) .into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			("keyword-ci=?", ComparisonPrimitiveV::KeywordCaseInsensitiveEqual.into ()),
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			("keyword-ci<?", ComparisonPrimitiveV::KeywordCaseInsensitiveLesser.into ()),
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			("keyword-ci>?", ComparisonPrimitiveV::KeywordCaseInsensitiveGreater.into ()),
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			("keyword-ci<=?", ComparisonPrimitiveV::KeywordCaseInsensitiveLesserOrEqual.into ()),
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			("keyword-ci>=?", ComparisonPrimitiveV::KeywordCaseInsensitiveGreaterOrEqual.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			("not-keyword-ci=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::KeywordCaseInsensitiveEqual) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			("not-keyword-ci<?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::KeywordCaseInsensitiveLesser) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			("not-keyword-ci>?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::KeywordCaseInsensitiveGreater) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			("not-keyword-ci<=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::KeywordCaseInsensitiveLesserOrEqual) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			("not-keyword-ci>=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::KeywordCaseInsensitiveGreaterOrEqual) .into ()),
 			
 			("unique=?", ComparisonPrimitiveV::UniqueEqual.into ()),

@@ -241,6 +241,7 @@ pub(crate) mod values_arrays;
 pub(crate) mod values_booleans;
 pub(crate) mod values_bytes;
 pub(crate) mod values_characters;
+#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 pub(crate) mod values_keywords;
 pub(crate) mod values_numbers;
 #[ cfg ( feature = "vonuvoli_values_opaque" ) ]
@@ -362,6 +363,7 @@ pub mod internals {
 	pub use super::values_bytes::exports as values_bytes;
 	pub use super::values_characters::exports as values_characters;
 	pub use super::values_numbers::exports as values_numbers;
+	#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 	pub use super::values_keywords::exports as values_keywords;
 	#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 	pub use super::values_opaque::exports as values_opaque;

@@ -917,7 +917,9 @@ def_value_try_into! (try_into_character, value_type! (Character));
 def_value_try_as_ref! (try_as_symbol_ref, value_type! (Symbol));
 def_value_try_into! (try_into_symbol, value_type! (Symbol));
 
+#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 def_value_try_as_ref! (try_as_keyword_ref, value_type! (Keyword));
+#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 def_value_try_into! (try_into_keyword, value_type! (Keyword));
 
 def_value_try_as_ref! (try_as_unique_ref, value_type! (Unique));

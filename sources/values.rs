@@ -8,6 +8,7 @@ pub mod exports {
 	pub use super::super::values_numbers::exports::*;
 	
 	pub use super::super::values_symbols::exports::*;
+	#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 	pub use super::super::values_keywords::exports::*;
 	pub use super::super::values_unique::exports::*;
 	

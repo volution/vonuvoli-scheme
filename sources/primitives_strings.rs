@@ -84,14 +84,19 @@ pub enum StringPrimitive1 {
 	
 	StringToSymbol,
 	SymbolToString,
-	StringToKeyword,
-	KeywordToString,
-	SymbolToKeyword,
-	KeywordToSymbol,
 	StringToNumber,
 	NumberToString,
 	CharacterToNumber,
 	NumberToCharacter,
+	
+	#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
+	StringToKeyword,
+	#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
+	KeywordToString,
+	#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
+	SymbolToKeyword,
+	#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
+	KeywordToSymbol,
 	
 	StringToUpperCase,
 	StringToLowerCase,
@@ -99,13 +104,17 @@ pub enum StringPrimitive1 {
 	SymbolToUpperCase,
 	SymbolToLowerCase,
 	SymbolToFoldCase,
-	KeywordToUpperCase,
-	KeywordToLowerCase,
-	KeywordToFoldCase,
 	CharacterToUpperCase,
 	CharacterToLowerCase,
 	CharacterToFoldCase,
 	CharacterToDigitNumber,
+	
+	#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
+	KeywordToUpperCase,
+	#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
+	KeywordToLowerCase,
+	#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
+	KeywordToFoldCase,
 	
 	StringToImmutable,
 	StringToMutable,
@@ -292,15 +301,19 @@ pub fn string_primitive_1_evaluate (primitive : StringPrimitive1, input_1 : &Val
 		StringPrimitive1::SymbolToString =>
 			return symbol_to_string (input_1),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		StringPrimitive1::StringToKeyword =>
 			return string_to_keyword (input_1),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		StringPrimitive1::KeywordToString =>
 			return keyword_to_string (input_1),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		StringPrimitive1::SymbolToKeyword =>
 			return symbol_to_keyword (input_1),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		StringPrimitive1::KeywordToSymbol =>
 			return keyword_to_symbol (input_1),
 		
@@ -334,12 +347,15 @@ pub fn string_primitive_1_evaluate (primitive : StringPrimitive1, input_1 : &Val
 		StringPrimitive1::SymbolToFoldCase =>
 			return symbol_to_fold_case (input_1),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		StringPrimitive1::KeywordToUpperCase =>
 			return keyword_to_upper_case (input_1),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		StringPrimitive1::KeywordToLowerCase =>
 			return keyword_to_lower_case (input_1),
 		
+		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		StringPrimitive1::KeywordToFoldCase =>
 			return keyword_to_fold_case (input_1),
 		

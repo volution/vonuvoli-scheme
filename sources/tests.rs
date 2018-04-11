@@ -605,7 +605,6 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 				ValueKindMatchAsRef2::NumberReal (_, _) |
 				ValueKindMatchAsRef2::Character (_, _) |
 				ValueKindMatchAsRef2::Symbol (_, _) |
-				ValueKindMatchAsRef2::Keyword (_, _) |
 				ValueKindMatchAsRef2::StringImmutable (_, _) |
 				ValueKindMatchAsRef2::StringMutable (_, _) |
 				ValueKindMatchAsRef2::BytesImmutable (_, _) |
@@ -620,6 +619,9 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 				ValueKindMatchAsRef2::ProcedureNative (_, _) |
 				ValueKindMatchAsRef2::SyntaxPrimitive (_, _) |
 				ValueKindMatchAsRef2::SyntaxNative (_, _) =>
+					true,
+				#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
+				ValueKindMatchAsRef2::Keyword (_, _) =>
 					true,
 				#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 				ValueKindMatchAsRef2::StringRegex (_, _) |

@@ -34,16 +34,20 @@ pub mod exports {
 	pub use super::{
 			string_to_upper_case, string_to_lower_case, string_to_fold_case,
 			symbol_to_upper_case, symbol_to_lower_case, symbol_to_fold_case,
-			keyword_to_upper_case, keyword_to_lower_case, keyword_to_fold_case,
 			character_to_upper_case, character_to_lower_case, character_to_fold_case,
 	};
 	
 	pub use super::{
 			string_to_symbol, symbol_to_string,
-			string_to_keyword, keyword_to_string,
-			symbol_to_keyword, keyword_to_symbol,
 			string_to_number, number_to_string,
 			character_to_number, number_to_character, character_to_digit_number,
+	};
+	
+	#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
+	pub use super::{
+			keyword_to_upper_case, keyword_to_lower_case, keyword_to_fold_case,
+			string_to_keyword, keyword_to_string,
+			symbol_to_keyword, keyword_to_symbol,
 	};
 	
 	pub use super::{
@@ -542,6 +546,7 @@ pub fn symbol_to_fold_case (symbol : &Value) -> (Outcome<Value>) {
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn keyword_to_upper_case (keyword : &Value) -> (Outcome<Value>) {
 	let string = try_as_keyword_ref! (keyword);
@@ -550,6 +555,7 @@ pub fn keyword_to_upper_case (keyword : &Value) -> (Outcome<Value>) {
 	succeed! (keyword_new (string) .into ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn keyword_to_lower_case (keyword : &Value) -> (Outcome<Value>) {
 	let string = try_as_keyword_ref! (keyword);
@@ -558,6 +564,7 @@ pub fn keyword_to_lower_case (keyword : &Value) -> (Outcome<Value>) {
 	succeed! (keyword_new (string) .into ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn keyword_to_fold_case (keyword : &Value) -> (Outcome<Value>) {
 	// TODO:  Actually implement Unicode case-folding instead of delegating to lower-case!
@@ -619,6 +626,7 @@ pub fn symbol_to_string (symbol : &Value) -> (Outcome<Value>) {
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_to_keyword (string : &Value) -> (Outcome<Value>) {
 	let string = try_as_string_ref! (string);
@@ -626,6 +634,7 @@ pub fn string_to_keyword (string : &Value) -> (Outcome<Value>) {
 	succeed! (keyword_clone_str (string) .into ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn keyword_to_string (keyword : &Value) -> (Outcome<Value>) {
 	let string = try_as_keyword_ref! (keyword);
@@ -634,6 +643,7 @@ pub fn keyword_to_string (keyword : &Value) -> (Outcome<Value>) {
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn symbol_to_keyword (symbol : &Value) -> (Outcome<Value>) {
 	let string = try_as_symbol_ref! (symbol);
@@ -641,6 +651,7 @@ pub fn symbol_to_keyword (symbol : &Value) -> (Outcome<Value>) {
 	succeed! (keyword_clone_str (string) .into ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn keyword_to_symbol (keyword : &Value) -> (Outcome<Value>) {
 	let string = try_as_keyword_ref! (keyword);
