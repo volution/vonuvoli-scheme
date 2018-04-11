@@ -507,6 +507,7 @@ pub mod exports {
 	};
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	pub use super::{
 			
 			is_error,
@@ -521,6 +522,7 @@ pub mod exports {
 	};
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	pub use super::{
 			
@@ -1035,6 +1037,7 @@ pub fn is_false_or_equivalent (value : &Value) -> (bool) {
 			return true,
 		ValueKindMatchAsRef::Boolean (value) =>
 			return ! value.value (),
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		ValueKindMatchAsRef::Error (_) =>
 			return true,
 		_ =>
@@ -2126,25 +2129,32 @@ def_fn_predicate_any! (is_syntax, is_syntax_any_2, is_syntax_any_3, is_syntax_an
 
 
 
+#[ cfg ( feature = "vonuvoli_values_error" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_error (value : &Value) -> (bool) {
 	return value.is_kind (ValueKind::Error);
 }
 
+#[ cfg ( feature = "vonuvoli_values_error" ) ]
 def_fn_predicate_all! (is_error, is_error_all_2, is_error_all_3, is_error_all_4, is_error_all_n);
+#[ cfg ( feature = "vonuvoli_values_error" ) ]
 def_fn_predicate_any! (is_error, is_error_any_2, is_error_any_3, is_error_any_4, is_error_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_values_error" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_error_syntax (value : &Value) -> (Outcome<bool>) {
 	let _value = try_as_error_ref! (value);
 	fail_unimplemented! (0x18d9951d); // deferred
 }
 
+#[ cfg ( feature = "vonuvoli_values_error" ) ]
 def_fn_try_predicate_all! (is_error_syntax, is_error_syntax_all_2, is_error_syntax_all_3, is_error_syntax_all_4, is_error_syntax_all_n);
+#[ cfg ( feature = "vonuvoli_values_error" ) ]
 def_fn_try_predicate_any! (is_error_syntax, is_error_syntax_any_2, is_error_syntax_any_3, is_error_syntax_any_4, is_error_syntax_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_values_error" ) ]
 #[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_error_file (value : &Value) -> (Outcome<bool>) {
@@ -2152,12 +2162,15 @@ pub fn is_error_file (value : &Value) -> (Outcome<bool>) {
 	fail_unimplemented! (0xdc61fd91); // deferred
 }
 
+#[ cfg ( feature = "vonuvoli_values_error" ) ]
 #[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 def_fn_try_predicate_all! (is_error_file, is_error_file_all_2, is_error_file_all_3, is_error_file_all_4, is_error_file_all_n);
+#[ cfg ( feature = "vonuvoli_values_error" ) ]
 #[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 def_fn_try_predicate_any! (is_error_file, is_error_file_any_2, is_error_file_any_3, is_error_file_any_4, is_error_file_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_values_error" ) ]
 #[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_error_port (value : &Value) -> (Outcome<bool>) {
@@ -2165,12 +2178,15 @@ pub fn is_error_port (value : &Value) -> (Outcome<bool>) {
 	fail_unimplemented! (0xc1084d3e); // deferred
 }
 
+#[ cfg ( feature = "vonuvoli_values_error" ) ]
 #[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 def_fn_try_predicate_all! (is_error_port, is_error_port_all_2, is_error_port_all_3, is_error_port_all_4, is_error_port_all_n);
+#[ cfg ( feature = "vonuvoli_values_error" ) ]
 #[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 def_fn_try_predicate_any! (is_error_port, is_error_port_any_2, is_error_port_any_3, is_error_port_any_4, is_error_port_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_values_error" ) ]
 #[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_error_port_input (value : &Value) -> (Outcome<bool>) {
@@ -2178,12 +2194,15 @@ pub fn is_error_port_input (value : &Value) -> (Outcome<bool>) {
 	fail_unimplemented! (0xb0f9d9e5); // deferred
 }
 
+#[ cfg ( feature = "vonuvoli_values_error" ) ]
 #[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 def_fn_try_predicate_all! (is_error_port_input, is_error_port_input_all_2, is_error_port_input_all_3, is_error_port_input_all_4, is_error_port_input_all_n);
+#[ cfg ( feature = "vonuvoli_values_error" ) ]
 #[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 def_fn_try_predicate_any! (is_error_port_input, is_error_port_input_any_2, is_error_port_input_any_3, is_error_port_input_any_4, is_error_port_input_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_values_error" ) ]
 #[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_error_port_output (value : &Value) -> (Outcome<bool>) {
@@ -2191,8 +2210,10 @@ pub fn is_error_port_output (value : &Value) -> (Outcome<bool>) {
 	fail_unimplemented! (0x2ec6d6b7); // deferred
 }
 
+#[ cfg ( feature = "vonuvoli_values_error" ) ]
 #[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 def_fn_try_predicate_all! (is_error_port_output, is_error_port_output_all_2, is_error_port_output_all_3, is_error_port_output_all_4, is_error_port_output_all_n);
+#[ cfg ( feature = "vonuvoli_values_error" ) ]
 #[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 def_fn_try_predicate_any! (is_error_port_output, is_error_port_output_any_2, is_error_port_output_any_3, is_error_port_output_any_4, is_error_port_output_any_n);
 

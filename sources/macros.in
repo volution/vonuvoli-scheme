@@ -973,7 +973,9 @@ def_value_try_into! (try_into_record_immutable, value_type! (RecordImmutable));
 def_value_try_as_ref! (try_as_record_mutable_ref, value_type! (RecordMutable));
 def_value_try_into! (try_into_record_mutable, value_type! (RecordMutable));
 
+#[ cfg ( feature = "vonuvoli_values_error" ) ]
 def_value_try_as_ref! (try_as_error_ref, value_type! (Error));
+#[ cfg ( feature = "vonuvoli_values_error" ) ]
 def_value_try_into! (try_into_error, value_type! (Error));
 
 def_value_try_as_ref! (try_as_procedure_primitive_ref, value_type! (ProcedurePrimitive));

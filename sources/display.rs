@@ -61,6 +61,7 @@ impl fmt::Display for Value {
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			ValueKindMatchAsRef::RecordMutable (self_0) => self_0.fmt (formatter),
 			
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ValueKindMatchAsRef::Error (self_0) => self_0.fmt (formatter),
 			
 			ValueKindMatchAsRef::ProcedurePrimitive (self_0) => self_0.fmt (formatter),
@@ -143,6 +144,7 @@ impl fmt::Debug for Value {
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			ValueKindMatchAsRef::RecordMutable (self_0) => self_0.fmt (formatter),
 			
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ValueKindMatchAsRef::Error (self_0) => self_0.fmt (formatter),
 			
 			ValueKindMatchAsRef::ProcedurePrimitive (self_0) => self_0.fmt (formatter),

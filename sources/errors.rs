@@ -2,6 +2,8 @@
 
 use super::runtime::exports::*;
 use super::transcript::exports::*;
+
+#[ cfg ( feature = "vonuvoli_values_error" ) ]
 use super::values::exports::*;
 
 use super::prelude::*;
@@ -36,8 +38,11 @@ pub struct Error ( StdRc<ErrorInternals> );
 pub enum ErrorInternals {
 	Code (u64),
 	WithBacktrace (u64, Backtrace),
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	WithMessage (Option<u64>, StdRc<StdBox<str>>),
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	WithMessageAndArguments (Option<u64>, StdRc<StdBox<str>>, StdRc<StdBox<[Value]>>),
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	WithValue (Option<u64>, Value),
 	Exit (u32, bool),
 }
@@ -55,18 +60,21 @@ impl Error {
 		Error (StdRc::new (internals))
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_with_message (code : Option<u64>, message : StdRc<StdBox<str>>) -> (Error) {
 		let internals = ErrorInternals::WithMessage (code, message);
 		Error (StdRc::new (internals))
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_with_message_and_arguments (code : Option<u64>, message : StdRc<StdBox<str>>, arguments : StdRc<StdBox<[Value]>>) -> (Error) {
 		let internals = ErrorInternals::WithMessageAndArguments (code, message, arguments);
 		Error (StdRc::new (internals))
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_with_value (code : Option<u64>, value : Value) -> (Error) {
 		let internals = ErrorInternals::WithValue (code, value);
@@ -79,6 +87,7 @@ impl Error {
 		Error (StdRc::new (internals))
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn into_value (self) -> (Value) {
 		match *self.internals_ref () {
@@ -112,10 +121,13 @@ impl Error {
 				true,
 			ErrorInternals::WithBacktrace (_, _) =>
 				true,
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ErrorInternals::WithMessage (_, _) =>
 				true,
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ErrorInternals::WithMessageAndArguments (_, _, _) =>
 				true,
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ErrorInternals::WithValue (_, _) =>
 				true,
 			ErrorInternals::Exit (_, _) =>
@@ -130,10 +142,13 @@ impl Error {
 				true,
 			ErrorInternals::WithBacktrace (_, _) =>
 				true,
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ErrorInternals::WithMessage (_, _) =>
 				true,
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ErrorInternals::WithMessageAndArguments (_, _, _) =>
 				true,
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ErrorInternals::WithValue (_, _) =>
 				true,
 			ErrorInternals::Exit (_, _) =>
@@ -148,10 +163,13 @@ impl Error {
 				code,
 			ErrorInternals::WithBacktrace (code, _) =>
 				code,
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ErrorInternals::WithMessage (code, _) =>
 				code.unwrap_or (0x0000000000000000),
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ErrorInternals::WithMessageAndArguments (code, _, _) =>
 				code.unwrap_or (0x0000000000000000),
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ErrorInternals::WithValue (code, _) =>
 				code.unwrap_or (0x0000000000000000),
 			ErrorInternals::Exit (code, _) =>
@@ -159,6 +177,7 @@ impl Error {
 		}
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn message (&self) -> (Option<&str>) {
 		match *self.internals_ref () {
@@ -177,6 +196,7 @@ impl Error {
 		}
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn message_clone (&self) -> (Option<StringImmutable>) {
 		match *self.internals_ref () {
@@ -195,6 +215,7 @@ impl Error {
 		}
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn arguments (&self) -> (Option<&[Value]>) {
 		match *self.internals_ref () {
@@ -213,6 +234,7 @@ impl Error {
 		}
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn arguments_clone_array (&self) -> (Option<ArrayImmutable>) {
 		match *self.internals_ref () {
@@ -231,6 +253,7 @@ impl Error {
 		}
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn arguments_clone_values (&self) -> (Option<Values>) {
 		match *self.internals_ref () {

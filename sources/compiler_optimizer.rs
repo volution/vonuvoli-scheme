@@ -135,10 +135,13 @@ impl Optimizer {
 			Expression::Lambda (lambda, expression, registers_closure, registers_local) =>
 				return self.optimize_lambda_create (optimization, lambda, expression, registers_closure, registers_local),
 			
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			Expression::ErrorReturn (expression) =>
 				return self.optimize_error_return (optimization, *expression),
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			Expression::ErrorCatch (expression, error_consumer, error_expression) =>
 				return self.optimize_error_catch (optimization, *expression, error_consumer, *error_expression),
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			Expression::ErrorThrow (expression) =>
 				return self.optimize_error_throw (optimization, *expression),
 			
@@ -1055,6 +1058,7 @@ impl Optimizer {
 	
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	fn optimize_error_return (&self, optimization : OptimizerContext, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
 		let expression = Expression::ErrorReturn (expression.into ());
@@ -1064,6 +1068,7 @@ impl Optimizer {
 	
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	fn optimize_error_catch (&self, optimization : OptimizerContext, expression : Expression, error_consumer : ExpressionValueConsumer, error_expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
 		let (optimization, error_consumer) = try! (self.optimize_value_consumer (optimization, error_consumer));
@@ -1075,6 +1080,7 @@ impl Optimizer {
 	
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	fn optimize_error_throw (&self, optimization : OptimizerContext, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
 		let expression = Expression::ErrorThrow (expression.into ());
@@ -1558,11 +1564,13 @@ impl Optimizer {
 		match primitive {
 			ProcedurePrimitive1::Functions (FunctionsPrimitive1::Call) =>
 				return self.optimize_procedure_call_0 (optimization, input_1),
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ProcedurePrimitive1::Runtime (RuntimePrimitive1::ValueRaise) => {
 				let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
 				let expression = Expression::ErrorThrow (input_1.into ()) .into ();
 				succeed! ((optimization, expression));
 			},
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ProcedurePrimitive1::Runtime (RuntimePrimitive1::ErrorRaise) => {
 				let (optimization, expression) = try! (self.optimize_procedure_primitive_1 (optimization, RuntimePrimitive1::ErrorBuild.into (), input_1));
 				let expression = Expression::ErrorThrow (expression.into ()) .into ();
@@ -1582,6 +1590,7 @@ impl Optimizer {
 		match primitive {
 			ProcedurePrimitive2::Functions (FunctionsPrimitive2::Call) =>
 				return self.optimize_procedure_call_1 (optimization, input_1, input_2),
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ProcedurePrimitive2::Runtime (RuntimePrimitive2::ErrorRaise) => {
 				let (optimization, expression) = try! (self.optimize_procedure_primitive_2 (optimization, RuntimePrimitive2::ErrorBuild.into (), input_1, input_2));
 				let expression = Expression::ErrorThrow (expression.into ()) .into ();
@@ -1602,6 +1611,7 @@ impl Optimizer {
 		match primitive {
 			ProcedurePrimitive3::Functions (FunctionsPrimitive3::Call) =>
 				return self.optimize_procedure_call_2 (optimization, input_1, input_2, input_3),
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ProcedurePrimitive3::Runtime (RuntimePrimitive3::ErrorRaise) => {
 				let (optimization, expression) = try! (self.optimize_procedure_primitive_3 (optimization, RuntimePrimitive3::ErrorBuild.into (), input_1, input_2, input_3));
 				let expression = Expression::ErrorThrow (expression.into ()) .into ();
@@ -1623,6 +1633,7 @@ impl Optimizer {
 		match primitive {
 			ProcedurePrimitive4::Functions (FunctionsPrimitive4::Call) =>
 				return self.optimize_procedure_call_3 (optimization, input_1, input_2, input_3, input_4),
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ProcedurePrimitive4::Runtime (RuntimePrimitive4::ErrorRaise) => {
 				let (optimization, expression) = try! (self.optimize_procedure_primitive_4 (optimization, RuntimePrimitive4::ErrorBuild.into (), input_1, input_2, input_3, input_4));
 				let expression = Expression::ErrorThrow (expression.into ()) .into ();
@@ -1645,6 +1656,7 @@ impl Optimizer {
 		match primitive {
 			ProcedurePrimitive5::Functions (FunctionsPrimitive5::Call) =>
 				return self.optimize_procedure_call_4 (optimization, input_1, input_2, input_3, input_4, input_5),
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ProcedurePrimitive5::Runtime (RuntimePrimitive5::ErrorRaise) => {
 				let (optimization, expression) = try! (self.optimize_procedure_primitive_5 (optimization, RuntimePrimitive5::ErrorBuild.into (), input_1, input_2, input_3, input_4, input_5));
 				let expression = Expression::ErrorThrow (expression.into ()) .into ();
@@ -1671,6 +1683,7 @@ impl Optimizer {
 				let (callable, inputs) = try! (vec_explode_1n (inputs));
 				return self.optimize_procedure_call (optimization, callable, inputs.into_boxed_slice ());
 			},
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ProcedurePrimitiveN::Runtime (RuntimePrimitiveN::ErrorRaise) => {
 				let (optimization, expression) = try! (self.optimize_procedure_primitive_n (optimization, RuntimePrimitiveN::ErrorBuild.into (), inputs));
 				let expression = Expression::ErrorThrow (expression.into ()) .into ();
@@ -2295,10 +2308,13 @@ impl Optimizer {
 			Expression::Lambda (_, _, _, _) =>
 				false,
 			
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			Expression::ErrorReturn (_) =>
 				false,
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			Expression::ErrorCatch (_, _, _) =>
 				false,
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			Expression::ErrorThrow (_) =>
 				false,
 			
@@ -2618,10 +2634,13 @@ impl Optimizer {
 			Expression::Lambda (_, _, _, _) =>
 				None,
 			
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			Expression::ErrorReturn (_) =>
 				None,
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			Expression::ErrorCatch (_, _, _) =>
 				None,
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			Expression::ErrorThrow (_) =>
 				None,
 			
@@ -2828,10 +2847,13 @@ impl Optimizer {
 			Expression::Lambda (_, _, _, _) =>
 				None,
 			
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			Expression::ErrorReturn (_) =>
 				None,
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			Expression::ErrorCatch (_, _, _) =>
 				None,
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			Expression::ErrorThrow (_) =>
 				None,
 			

@@ -1,11 +1,13 @@
 
 
-use super::builtins::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
 use super::runtime::exports::*;
 use super::transcript::exports::*;
 use super::values::exports::*;
+
+#[ allow (unused_imports) ]
+use super::builtins::exports::*;
 
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 use super::constants::exports::*;
@@ -28,9 +30,13 @@ use super::prelude::*;
 pub mod exports {
 	
 	pub use super::{
+			error_exit,
+		};
+	
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
+	pub use super::{
 			error_message, error_arguments_as_list, error_arguments_as_array, error_arguments_as_values,
 			error_build_0, error_build_1, error_build_2, error_build_3, error_build_4, error_build_n,
-			error_exit,
 			error_coerce, error_coerce_from,
 		};
 	
@@ -63,6 +69,7 @@ pub mod exports {
 
 
 
+#[ cfg ( feature = "vonuvoli_values_error" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_message (error : &Value) -> (Outcome<StringImmutable>) {
 	let error = try_as_error_ref! (error);
@@ -74,6 +81,7 @@ pub fn error_message (error : &Value) -> (Outcome<StringImmutable>) {
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_error" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_arguments_as_list (error : &Value) -> (Outcome<Value>) {
 	let error = try_as_error_ref! (error);
@@ -86,6 +94,7 @@ pub fn error_arguments_as_list (error : &Value) -> (Outcome<Value>) {
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_error" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_arguments_as_array (error : &Value) -> (Outcome<ArrayImmutable>) {
 	let error = try_as_error_ref! (error);
@@ -97,6 +106,7 @@ pub fn error_arguments_as_array (error : &Value) -> (Outcome<ArrayImmutable>) {
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_error" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_arguments_as_values (error : &Value) -> (Outcome<Values>) {
 	let error = try_as_error_ref! (error);
@@ -110,6 +120,7 @@ pub fn error_arguments_as_values (error : &Value) -> (Outcome<Values>) {
 
 
 
+#[ cfg ( feature = "vonuvoli_values_error" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_build_0 (code : Option<u64>, message : &Value) -> (Outcome<Error>) {
 	let message = try_as_string_as_ref! (message);
@@ -118,6 +129,7 @@ pub fn error_build_0 (code : Option<u64>, message : &Value) -> (Outcome<Error>) 
 	succeed! (error);
 }
 
+#[ cfg ( feature = "vonuvoli_values_error" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_build_1 (code : Option<u64>, message : &Value, argument_1 : &Value) -> (Outcome<Error>) {
 	let message = try_as_string_as_ref! (message);
@@ -128,6 +140,7 @@ pub fn error_build_1 (code : Option<u64>, message : &Value, argument_1 : &Value)
 	succeed! (error);
 }
 
+#[ cfg ( feature = "vonuvoli_values_error" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_build_2 (code : Option<u64>, message : &Value, argument_1 : &Value, argument_2 : &Value) -> (Outcome<Error>) {
 	let message = try_as_string_as_ref! (message);
@@ -138,6 +151,7 @@ pub fn error_build_2 (code : Option<u64>, message : &Value, argument_1 : &Value,
 	succeed! (error);
 }
 
+#[ cfg ( feature = "vonuvoli_values_error" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_build_3 (code : Option<u64>, message : &Value, argument_1 : &Value, argument_2 : &Value, argument_3 : &Value) -> (Outcome<Error>) {
 	let message = try_as_string_as_ref! (message);
@@ -148,6 +162,7 @@ pub fn error_build_3 (code : Option<u64>, message : &Value, argument_1 : &Value,
 	succeed! (error);
 }
 
+#[ cfg ( feature = "vonuvoli_values_error" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_build_4 (code : Option<u64>, message : &Value, argument_1 : &Value, argument_2 : &Value, argument_3 : &Value, argument_4 : &Value) -> (Outcome<Error>) {
 	let message = try_as_string_as_ref! (message);
@@ -158,6 +173,7 @@ pub fn error_build_4 (code : Option<u64>, message : &Value, argument_1 : &Value,
 	succeed! (error);
 }
 
+#[ cfg ( feature = "vonuvoli_values_error" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_build_n (code : Option<u64>, message : &Value, arguments : &[&Value]) -> (Outcome<Error>) {
 	let message = try_as_string_as_ref! (message);
@@ -209,12 +225,14 @@ pub fn error_exit (code : Option<&Value>, emergency : bool) -> (Outcome<Error>) 
 
 
 
+#[ cfg ( feature = "vonuvoli_values_error" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_coerce (code : Option<u64>, value : &Value) -> (Error) {
 	let value = value.clone ();
 	return error_coerce_from (code, value);
 }
 
+#[ cfg ( feature = "vonuvoli_values_error" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_coerce_from (code : Option<u64>, value : Value) -> (Error) {
 	match value.kind_match_into () {

@@ -61,8 +61,11 @@ pub enum Expression {
 	
 	Lambda ( StdRc<LambdaTemplate>, StdRc<Expression>, StdBox<[RegisterTemplate]>, StdRc<[RegisterTemplate]> ),
 	
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	ErrorReturn ( ExpressionBox ),
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	ErrorCatch ( ExpressionBox, ExpressionValueConsumer, ExpressionBox ),
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	ErrorThrow ( ExpressionBox ),
 	
 }

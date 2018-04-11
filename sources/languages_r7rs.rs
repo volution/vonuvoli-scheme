@@ -121,6 +121,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "syntaxes", "syntax-error", SyntaxPrimitive::Unsupported.into ()),
 			("base", "syntaxes", "syntax-rules", SyntaxPrimitive::Unsupported.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			("base", "evaluator", "guard", SyntaxPrimitiveV::GuardCond.into ()),
 			
 			
@@ -415,19 +416,28 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			// ???
 			
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			("base", "errors", "raise", RuntimePrimitive1::ValueRaise.into ()),
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			("base", "evaluator", "raise-continuable", ProcedurePrimitive::Unsupported.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			("base", "errors", "error", RuntimePrimitiveV::ErrorRaise.into ()),
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			("base", "errors", "error-object?", TypePrimitiveV::IsError.into ()),
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			("base", "errors", "error-object-message", RuntimePrimitive1::ErrorMessage.into ()),
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			("base", "errors", "error-object-irritants", RuntimePrimitive1::ErrorArgumentsAsList.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "errors", "read-error?", TypePrimitiveV::IsErrorPortInput.into ()),
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("base", "errors", "file-error?", TypePrimitiveV::IsErrorFile.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			("base", "evaluator", "with-exception-handler", ProcedurePrimitive::Unsupported.into ()),
 			
 			

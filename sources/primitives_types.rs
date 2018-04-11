@@ -148,15 +148,21 @@ macro_rules! def_type_primitive_enum {
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			IsRecordMutable,
 			
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			IsError,
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			IsErrorSyntax,
 			
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			IsErrorFile,
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			IsErrorPort,
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			IsErrorPortInput,
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			IsErrorPortOutput,
 			
@@ -492,24 +498,30 @@ pub fn type_primitive_1_evaluate_0 (primitive : TypePrimitive1, input_1 : &Value
 		TypePrimitive1::IsRecordMutable =>
 			return is_record_mutable (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		TypePrimitive1::IsError =>
 			return is_error (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		TypePrimitive1::IsErrorSyntax =>
 			return is_error_syntax (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		TypePrimitive1::IsErrorFile =>
 			return is_error_file (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		TypePrimitive1::IsErrorPort =>
 			return is_error_port (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		TypePrimitive1::IsErrorPortInput =>
 			return is_error_port_input (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		TypePrimitive1::IsErrorPortOutput =>
 			return is_error_port_output (input_1) .into_0 (),
@@ -926,24 +938,30 @@ pub fn type_primitive_2_evaluate_0 (primitive : TypePrimitive2, input_1 : &Value
 		TypePrimitive2::IsRecordMutable =>
 			return is_record_mutable_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		TypePrimitive2::IsError =>
 			return is_error_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		TypePrimitive2::IsErrorSyntax =>
 			return is_error_syntax_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		TypePrimitive2::IsErrorFile =>
 			return is_error_file_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		TypePrimitive2::IsErrorPort =>
 			return is_error_port_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		TypePrimitive2::IsErrorPortInput =>
 			return is_error_port_input_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		TypePrimitive2::IsErrorPortOutput =>
 			return is_error_port_output_all_2 (input_1, input_2) .into_0 (),
@@ -1360,24 +1378,30 @@ pub fn type_primitive_3_evaluate_0 (primitive : TypePrimitive3, input_1 : &Value
 		TypePrimitive3::IsRecordMutable =>
 			return is_record_mutable_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		TypePrimitive3::IsError =>
 			return is_error_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		TypePrimitive3::IsErrorSyntax =>
 			return is_error_syntax_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		TypePrimitive3::IsErrorFile =>
 			return is_error_file_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		TypePrimitive3::IsErrorPort =>
 			return is_error_port_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		TypePrimitive3::IsErrorPortInput =>
 			return is_error_port_input_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		TypePrimitive3::IsErrorPortOutput =>
 			return is_error_port_output_all_3 (input_1, input_2, input_3) .into_0 (),
@@ -1794,24 +1818,30 @@ pub fn type_primitive_4_evaluate_0 (primitive : TypePrimitive4, input_1 : &Value
 		TypePrimitive4::IsRecordMutable =>
 			return is_record_mutable_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		TypePrimitive4::IsError =>
 			return is_error_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		TypePrimitive4::IsErrorSyntax =>
 			return is_error_syntax_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		TypePrimitive4::IsErrorFile =>
 			return is_error_file_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		TypePrimitive4::IsErrorPort =>
 			return is_error_port_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		TypePrimitive4::IsErrorPortInput =>
 			return is_error_port_input_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		TypePrimitive4::IsErrorPortOutput =>
 			return is_error_port_output_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
@@ -2236,24 +2266,30 @@ pub fn type_primitive_n_evaluate_0 (primitive : TypePrimitiveN, inputs : &[&Valu
 		TypePrimitiveN::IsRecordMutable =>
 			return is_record_mutable_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		TypePrimitiveN::IsError =>
 			return is_error_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		TypePrimitiveN::IsErrorSyntax =>
 			return is_error_syntax_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		TypePrimitiveN::IsErrorFile =>
 			return is_error_file_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		TypePrimitiveN::IsErrorPort =>
 			return is_error_port_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		TypePrimitiveN::IsErrorPortInput =>
 			return is_error_port_input_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		TypePrimitiveN::IsErrorPortOutput =>
 			return is_error_port_output_all_n (inputs) .into_0 (),
@@ -2600,19 +2636,25 @@ macro_rules! def_type_primitive_v_alternative_fn {
 				#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 				TypePrimitiveV::IsRecordMutable =>
 					Some ($alternative::IsRecordMutable),
+				#[ cfg ( feature = "vonuvoli_values_error" ) ]
 				TypePrimitiveV::IsError =>
 					Some ($alternative::IsError),
+				#[ cfg ( feature = "vonuvoli_values_error" ) ]
 				TypePrimitiveV::IsErrorSyntax =>
 					Some ($alternative::IsErrorSyntax),
+				#[ cfg ( feature = "vonuvoli_values_error" ) ]
 				#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 				TypePrimitiveV::IsErrorFile =>
 					Some ($alternative::IsErrorFile),
+				#[ cfg ( feature = "vonuvoli_values_error" ) ]
 				#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 				TypePrimitiveV::IsErrorPort =>
 					Some ($alternative::IsErrorPort),
+				#[ cfg ( feature = "vonuvoli_values_error" ) ]
 				#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 				TypePrimitiveV::IsErrorPortInput =>
 					Some ($alternative::IsErrorPortInput),
+				#[ cfg ( feature = "vonuvoli_values_error" ) ]
 				#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 				TypePrimitiveV::IsErrorPortOutput =>
 					Some ($alternative::IsErrorPortOutput),

@@ -62,13 +62,17 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			
 			("loop", SyntaxPrimitiveV::Loop.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			("guard*", SyntaxPrimitiveV::Guard.into ()),
 			
 			("call", FunctionsPrimitiveV::Call.into ()),
 			("call-with-values*", FunctionsPrimitive2::CallWithValues.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			("make-error", RuntimePrimitiveV::ErrorBuild.into ()),
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			("error-object-irritants->vector", RuntimePrimitive1::ErrorArgumentsAsArray.into ()),
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			("error-object-irritants->values", RuntimePrimitive1::ErrorArgumentsAsValues.into ()),
 			
 			("not-null?", TypePrimitiveV::IsNullNot.into ()),
@@ -94,10 +98,13 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("not-bytevector?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsBytes) .into ()),
 			("not-string?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsString) .into ()),
 			("not-procedure?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsProcedure) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			("not-error-object?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsError) .into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("not-read-error?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsErrorPortInput) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("not-file-error?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsErrorFile) .into ()),
 			

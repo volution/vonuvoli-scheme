@@ -115,6 +115,7 @@ pub enum ValueKind {
 	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	RecordMutable,
 	
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	Error,
 	
 	ProcedurePrimitive,
@@ -192,6 +193,7 @@ pub enum ValueKindMatchAsRef <'a> {
 	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	RecordMutable (&'a RecordMutable),
 	
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	Error (&'a Error),
 	
 	ProcedurePrimitive (&'a ProcedurePrimitive),
@@ -269,6 +271,7 @@ pub enum ValueKindMatchInto {
 	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	RecordMutable (RecordMutable),
 	
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	Error (Error),
 	
 	ProcedurePrimitive (ProcedurePrimitive),
@@ -346,6 +349,7 @@ pub enum ValueKindMatchAsRef2 <'a> {
 	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	RecordMutable (&'a RecordMutable, &'a RecordMutable),
 	
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	Error (&'a Error, &'a Error),
 	
 	ProcedurePrimitive (&'a ProcedurePrimitive, &'a ProcedurePrimitive),
@@ -421,6 +425,7 @@ pub enum ValueClass {
 	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	Record,
 	
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	Error,
 	
 	Procedure,
@@ -474,6 +479,7 @@ pub enum ValueClassMatchAsRef <'a> {
 	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	Record (RecordMatchAsRef<'a>),
 	
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	Error (&'a Error),
 	
 	Procedure (ProcedureMatchAsRef<'a>),
@@ -527,6 +533,7 @@ pub enum ValueClassMatchInto {
 	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	Record (RecordMatchInto),
 	
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	Error (Error),
 	
 	Procedure (ProcedureMatchInto),
@@ -580,6 +587,7 @@ pub enum ValueClassMatchAsRef2 <'a> {
 	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	Record (RecordMatchAsRef2<'a>),
 	
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	Error (&'a Error, &'a Error),
 	
 	Procedure (ProcedureMatchAsRef<'a>, ProcedureMatchAsRef<'a>),
@@ -736,6 +744,7 @@ pub enum Value {
 	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	RecordMutable ( ValueMeta1, RecordMutable, ValueMeta2 ),
 	
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	Error ( ValueMeta1, Error, ValueMeta2 ),
 	
 	ProcedurePrimitive ( ValueMeta1, ProcedurePrimitive, ValueMeta2 ),
@@ -827,6 +836,7 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			Value::RecordMutable (_, _, _) => ValueKind::RecordMutable,
 			
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			Value::Error (_, _, _) => ValueKind::Error,
 			
 			Value::ProcedurePrimitive (_, _, _) => ValueKind::ProcedurePrimitive,
@@ -912,6 +922,7 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			Value::RecordMutable (_, ref self_0, _) => ValueKindMatchAsRef::RecordMutable (self_0),
 			
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			Value::Error (_, ref self_0, _) => ValueKindMatchAsRef::Error (self_0),
 			
 			Value::ProcedurePrimitive (_, ref self_0, _) => ValueKindMatchAsRef::ProcedurePrimitive (self_0),
@@ -997,6 +1008,7 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			Value::RecordMutable (_, self_0, _) => ValueKindMatchInto::RecordMutable (self_0),
 			
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			Value::Error (_, self_0, _) => ValueKindMatchInto::Error (self_0),
 			
 			Value::ProcedurePrimitive (_, self_0, _) => ValueKindMatchInto::ProcedurePrimitive (self_0),
@@ -1086,6 +1098,7 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			(&Value::RecordMutable (_, ref self_0, _), &Value::RecordMutable (_, ref other_0, _)) => ValueKindMatchAsRef2::RecordMutable (self_0, other_0),
 			
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			(&Value::Error (_, ref self_0, _), &Value::Error (_, ref other_0, _)) => ValueKindMatchAsRef2::Error (self_0, other_0),
 			
 			(&Value::ProcedurePrimitive (_, ref self_0, _), &Value::ProcedurePrimitive (_, ref other_0, _)) => ValueKindMatchAsRef2::ProcedurePrimitive (self_0, other_0),
@@ -1175,6 +1188,7 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			Value::RecordMutable (_, _, _) => ValueClass::Record,
 			
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			Value::Error (_, _, _) => ValueClass::Error,
 			
 			Value::ProcedurePrimitive (_, _, _) => ValueClass::Procedure,
@@ -1260,6 +1274,7 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			Value::RecordMutable (_, ref self_0, _) => ValueClassMatchAsRef::Record (RecordMatchAsRef::Mutable (self_0)),
 			
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			Value::Error (_, ref self_0, _) => ValueClassMatchAsRef::Error (self_0),
 			
 			Value::ProcedurePrimitive (_, ref self_0, _) => ValueClassMatchAsRef::Procedure (ProcedureMatchAsRef::Primitive (self_0)),
@@ -1345,6 +1360,7 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			Value::RecordMutable (_, self_0, _) => ValueClassMatchInto::Record (RecordMatchInto::Mutable (self_0)),
 			
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			Value::Error (_, self_0, _) => ValueClassMatchInto::Error (self_0),
 			
 			Value::ProcedurePrimitive (_, self_0, _) => ValueClassMatchInto::Procedure (ProcedureMatchInto::Primitive (self_0)),
@@ -1453,6 +1469,7 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			(&Value::RecordMutable (_, ref self_0, _), &Value::RecordImmutable (_, ref other_0, _)) => ValueClassMatchAsRef2::Record (RecordMatchAsRef2::MutableAndImmutable (self_0, other_0)),
 			
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			(&Value::Error (_, ref self_0, _), &Value::Error (_, ref other_0, _)) => ValueClassMatchAsRef2::Error (self_0, other_0),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
@@ -1563,6 +1580,7 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			ValueKindMatchAsRef2::RecordMutable (self_0, other_0) => RecordMutable::is_self (self_0, other_0),
 			
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ValueKindMatchAsRef2::Error (self_0, other_0) => Error::is_self (self_0, other_0),
 			
 			ValueKindMatchAsRef2::ProcedurePrimitive (self_0, other_0) => ProcedurePrimitive::is_self (self_0, other_0),
@@ -1641,6 +1659,7 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			Value::RecordMutable (_, ref self_0, _) => self_0.to_immutable () .into_0 (),
 			
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			Value::Error (_, ref self_0, _) => self_0.clone () .into_0 (),
 			
 			Value::ProcedurePrimitive (_, ref self_0, _) => self_0.clone () .into_0 (),
@@ -1761,6 +1780,7 @@ impl ValueKindMatchInto {
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			ValueKindMatchInto::RecordMutable (value) => value.into (),
 			
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ValueKindMatchInto::Error (value) => value.into (),
 			
 			ValueKindMatchInto::ProcedurePrimitive (value) => value.into (),
@@ -1838,6 +1858,7 @@ impl ValueClassMatchInto {
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			ValueClassMatchInto::Record (class) => class.value (),
 			
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ValueClassMatchInto::Error (value) => value.into (),
 			
 			ValueClassMatchInto::Procedure (class) => class.value (),

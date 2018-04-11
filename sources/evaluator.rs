@@ -154,10 +154,13 @@ impl Evaluator {
 			Expression::Lambda (ref lambda, ref expression, ref registers_closure, ref registers_local) =>
 				self.evaluate_lambda_create (evaluation, lambda, expression, registers_closure, registers_local),
 			
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			Expression::ErrorReturn (ref expression) =>
 				self.evaluate_error_return (evaluation, expression),
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			Expression::ErrorCatch (ref expression, ref error_consumer, ref error_expression) =>
 				self.evaluate_error_catch (evaluation, expression, error_consumer, error_expression),
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			Expression::ErrorThrow (ref expression) =>
 				self.evaluate_error_throw (evaluation, expression),
 			
@@ -945,6 +948,7 @@ impl Evaluator {
 	
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_error_return (&self, evaluation : &mut EvaluatorContext, expression : &Expression) -> (Outcome<Value>) {
 		let outcome = self.evaluate (evaluation, expression);
@@ -959,6 +963,7 @@ impl Evaluator {
 	
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_error_catch (&self, evaluation : &mut EvaluatorContext, expression : &Expression, error_consumer : &ExpressionValueConsumer, error_expression : &Expression) -> (Outcome<Value>) {
 		let outcome = self.evaluate (evaluation, expression);
@@ -979,6 +984,7 @@ impl Evaluator {
 	
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_error_throw (&self, evaluation : &mut EvaluatorContext, expression : &Expression) -> (Outcome<Value>) {
 		let value = try! (self.evaluate (evaluation, expression));

@@ -172,6 +172,7 @@ impl Compiler {
 			ValueClassMatchInto::Record (class) =>
 				return self.compile_syntax_quote_0 (compilation, class.value ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ValueClassMatchInto::Error (value) =>
 				return self.compile_syntax_quote_0 (compilation, value.into ()),
 			
@@ -367,9 +368,11 @@ impl Compiler {
 					SyntaxPrimitiveV::Loop =>
 						return self.compile_syntax_loop (compilation, tokens),
 					
+					#[ cfg ( feature = "vonuvoli_values_error" ) ]
 					SyntaxPrimitiveV::Guard =>
 						return self.compile_syntax_guard (compilation, tokens),
 					
+					#[ cfg ( feature = "vonuvoli_values_error" ) ]
 					SyntaxPrimitiveV::GuardCond =>
 						return self.compile_syntax_guard_cond (compilation, tokens),
 					
@@ -822,6 +825,7 @@ impl Compiler {
 	
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	fn compile_syntax_guard (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		match tokens.len () {
@@ -865,6 +869,7 @@ impl Compiler {
 	
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	fn compile_syntax_guard_cond (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		match tokens.len () {
@@ -916,6 +921,7 @@ impl Compiler {
 	
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	fn compile_syntax_guard_return (&self, compilation : CompilerContext, token : Value) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		let compilation = try! (compilation.define_disable ());
@@ -2000,6 +2006,7 @@ impl Compiler {
 				// FIXME:  Add support for quasi-quotation!
 				succeed! ((compilation, splice (class.value (), spliceable))),
 			
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ValueClassMatchInto::Error (value) =>
 				succeed! ((compilation, splice (value, spliceable))),
 			

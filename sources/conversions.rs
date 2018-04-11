@@ -139,6 +139,7 @@ impl_from_for_Value_1! (RecordKind, RecordKind);
 impl_from_for_Value_1! (RecordImmutable, RecordImmutable);
 #[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl_from_for_Value_1! (RecordMutable, RecordMutable);
+#[ cfg ( feature = "vonuvoli_values_error" ) ]
 impl_from_for_Value_1! (Error, Error);
 impl_from_for_Value_1! (ProcedurePrimitive, ProcedurePrimitive);
 impl_from_for_Value_1! (ProcedureExtended, ProcedureExtended);

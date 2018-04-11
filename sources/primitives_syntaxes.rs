@@ -50,7 +50,9 @@ pub enum SyntaxPrimitiveV {
 	UntilCond,
 	Loop,
 	
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	Guard,
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	GuardCond,
 	
 	Locals,

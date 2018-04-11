@@ -615,7 +615,6 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 				ValueKindMatchAsRef2::ArrayImmutable (_, _) |
 				ValueKindMatchAsRef2::ArrayMutable (_, _) |
 				ValueKindMatchAsRef2::Values (_, _) |
-				ValueKindMatchAsRef2::Error (_, _) |
 				ValueKindMatchAsRef2::ProcedurePrimitive (_, _) |
 				ValueKindMatchAsRef2::ProcedureNative (_, _) |
 				ValueKindMatchAsRef2::SyntaxPrimitive (_, _) |
@@ -630,6 +629,9 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 					true,
 				#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 				ValueKindMatchAsRef2::Path (_, _) =>
+					true,
+				#[ cfg ( feature = "vonuvoli_values_error" ) ]
+				ValueKindMatchAsRef2::Error (_, _) =>
 					true,
 				
 				ValueKindMatchAsRef2::ProcedureExtended (_, _) |

@@ -60,7 +60,6 @@ pub mod exports {
 			array_immutable_compare_1, array_immutable_compare_1a,
 			array_mutable_compare_1, array_mutable_compare_1a,
 			values_compare_1, values_compare_1a,
-			error_compare_1, error_compare_1a,
 			procedure_primitive_compare_1, procedure_primitive_compare_1a,
 			procedure_extended_compare_1, procedure_extended_compare_1a,
 			procedure_native_compare_1, procedure_native_compare_1a,
@@ -91,7 +90,6 @@ pub mod exports {
 			array_immutable_compare_2, array_immutable_compare_2a,
 			array_mutable_compare_2, array_mutable_compare_2a,
 			values_compare_2, values_compare_2a,
-			error_compare_2, error_compare_2a,
 			procedure_primitive_compare_2, procedure_primitive_compare_2a,
 			procedure_extended_compare_2, procedure_extended_compare_2a,
 			procedure_native_compare_2, procedure_native_compare_2a,
@@ -122,7 +120,6 @@ pub mod exports {
 			array_immutable_compare_3, array_immutable_compare_3a,
 			array_mutable_compare_3, array_mutable_compare_3a,
 			values_compare_3, values_compare_3a,
-			error_compare_3, error_compare_3a,
 			procedure_primitive_compare_3, procedure_primitive_compare_3a,
 			procedure_extended_compare_3, procedure_extended_compare_3a,
 			procedure_native_compare_3, procedure_native_compare_3a,
@@ -153,7 +150,6 @@ pub mod exports {
 			array_immutable_compare_4, array_immutable_compare_4a,
 			array_mutable_compare_4, array_mutable_compare_4a,
 			values_compare_4, values_compare_4a,
-			error_compare_4, error_compare_4a,
 			procedure_primitive_compare_4, procedure_primitive_compare_4a,
 			procedure_extended_compare_4, procedure_extended_compare_4a,
 			procedure_native_compare_4, procedure_native_compare_4a,
@@ -184,7 +180,6 @@ pub mod exports {
 			array_immutable_compare_n, array_immutable_compare_na,
 			array_mutable_compare_n, array_mutable_compare_na,
 			values_compare_n, values_compare_na,
-			error_compare_n, error_compare_na,
 			procedure_primitive_compare_n, procedure_primitive_compare_na,
 			procedure_extended_compare_n, procedure_extended_compare_na,
 			procedure_native_compare_n, procedure_native_compare_na,
@@ -193,6 +188,18 @@ pub mod exports {
 			syntax_extended_compare_n, syntax_extended_compare_na,
 			syntax_native_compare_n, syntax_native_compare_na,
 			syntax_lambda_compare_n, syntax_lambda_compare_na,
+			
+	};
+	
+	
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
+	pub use super::{
+			
+			error_compare_1, error_compare_1a,
+			error_compare_2, error_compare_2a,
+			error_compare_3, error_compare_3a,
+			error_compare_4, error_compare_4a,
+			error_compare_n, error_compare_na,
 			
 	};
 	
@@ -686,6 +693,7 @@ pub fn compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Co
 		ValueKindMatchAsRef::RecordMutable (value) =>
 			return record_mutable_compare_1a (value, comparison),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		ValueKindMatchAsRef::Error (value) =>
 			return error_compare_1a (value, comparison),
 		
@@ -838,6 +846,7 @@ pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef
 		ValueKindMatchAsRef2::RecordMutable (left, right) =>
 			return record_mutable_compare_2a (left, right, comparison),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		ValueKindMatchAsRef2::Error (left, right) =>
 			return error_compare_2a (left, right, comparison),
 		
@@ -1643,15 +1652,18 @@ pub(crate) fn record_ref_compare_2a <'a, ValueRef : StdAsRef<RecordRef<'a>>> (le
 
 
 
+#[ cfg ( feature = "vonuvoli_values_error" ) ]
 def_fn_compare! (Error,
 		error_compare_1, error_compare_2, error_compare_3, error_compare_4, error_compare_n,
 		error_compare_1a, error_compare_2a, error_compare_3a, error_compare_4a, error_compare_na);
 
+#[ cfg ( feature = "vonuvoli_values_error" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_compare_1a <ValueRef : StdAsRef<Error>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_error" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_compare_2a <ValueRef : StdAsRef<Error>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();

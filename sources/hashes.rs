@@ -55,6 +55,7 @@ impl hash::Hash for Value {
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			ValueKindMatchAsRef::RecordMutable (self_0) => { hasher.write_u32 (0xea85f2fa); self_0.hash (hasher); },
 			
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ValueKindMatchAsRef::Error (self_0) => { hasher.write_u32 (0x15f15501); self_0.hash (hasher); },
 			
 			ValueKindMatchAsRef::ProcedurePrimitive (self_0) => { hasher.write_u32 (0x23a51f00); self_0.hash (hasher); },

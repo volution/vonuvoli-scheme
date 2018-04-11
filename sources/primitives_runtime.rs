@@ -77,13 +77,20 @@ pub enum RuntimePrimitive0 {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum RuntimePrimitive1 {
 	
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	ValueRaise,
 	
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	ErrorRaise,
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	ErrorBuild,
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	ErrorMessage,
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	ErrorArgumentsAsList,
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	ErrorArgumentsAsArray,
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	ErrorArgumentsAsValues,
 	
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
@@ -128,7 +135,9 @@ pub enum RuntimePrimitive1 {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum RuntimePrimitive2 {
 	
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	ErrorRaise,
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	ErrorBuild,
 	
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
@@ -155,7 +164,9 @@ pub enum RuntimePrimitive2 {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum RuntimePrimitive3 {
 	
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	ErrorRaise,
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	ErrorBuild,
 	
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
@@ -178,7 +189,9 @@ pub enum RuntimePrimitive3 {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum RuntimePrimitive4 {
 	
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	ErrorRaise,
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	ErrorBuild,
 	
 	TranscriptTraceCritical,
@@ -195,7 +208,9 @@ pub enum RuntimePrimitive4 {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum RuntimePrimitive5 {
 	
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	ErrorRaise,
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	ErrorBuild,
 	
 	TranscriptTraceCritical,
@@ -212,7 +227,9 @@ pub enum RuntimePrimitive5 {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum RuntimePrimitiveN {
 	
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	ErrorRaise,
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	ErrorBuild,
 	
 	TranscriptTraceCritical,
@@ -236,7 +253,9 @@ pub enum RuntimePrimitiveN {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum RuntimePrimitiveV {
 	
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	ErrorRaise,
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	ErrorBuild,
 	
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
@@ -310,24 +329,31 @@ pub fn runtime_primitive_0_evaluate (primitive : RuntimePrimitive0, evaluator : 
 pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, input_1 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitive1::ValueRaise =>
 			return Err (error_coerce (None, input_1)),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitive1::ErrorRaise =>
 			return Err (try! (error_build_0 (None, input_1))),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitive1::ErrorBuild =>
 			return error_build_0 (None, input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitive1::ErrorMessage =>
 			return error_message (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitive1::ErrorArgumentsAsList =>
 			return error_arguments_as_list (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitive1::ErrorArgumentsAsArray =>
 			return error_arguments_as_array (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitive1::ErrorArgumentsAsValues =>
 			return error_arguments_as_values (input_1) .into_0 (),
 		
@@ -410,9 +436,11 @@ pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, input_1 : &V
 pub fn runtime_primitive_2_evaluate (primitive : RuntimePrimitive2, input_1 : &Value, input_2 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitive2::ErrorRaise =>
 			return Err (try! (error_build_1 (None, input_1, input_2))),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitive2::ErrorBuild =>
 			return error_build_1 (None, input_1, input_2) .into_0 (),
 		
@@ -463,9 +491,11 @@ pub fn runtime_primitive_2_evaluate (primitive : RuntimePrimitive2, input_1 : &V
 pub fn runtime_primitive_3_evaluate (primitive : RuntimePrimitive3, input_1 : &Value, input_2 : &Value, input_3 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitive3::ErrorRaise =>
 			return Err (try! (error_build_2 (None, input_1, input_2, input_3))),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitive3::ErrorBuild =>
 			return error_build_2 (None, input_1, input_2, input_3) .into_0 (),
 		
@@ -508,9 +538,11 @@ pub fn runtime_primitive_3_evaluate (primitive : RuntimePrimitive3, input_1 : &V
 pub fn runtime_primitive_4_evaluate (primitive : RuntimePrimitive4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitive4::ErrorRaise =>
 			return Err (try! (error_build_3 (None, input_1, input_2, input_3, input_4))),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitive4::ErrorBuild =>
 			return error_build_3 (None, input_1, input_2, input_3, input_4) .into_0 (),
 		
@@ -545,9 +577,11 @@ pub fn runtime_primitive_4_evaluate (primitive : RuntimePrimitive4, input_1 : &V
 pub fn runtime_primitive_5_evaluate (primitive : RuntimePrimitive5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitive5::ErrorRaise =>
 			return Err (try! (error_build_4 (None, input_1, input_2, input_3, input_4, input_5))),
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitive5::ErrorBuild =>
 			return error_build_4 (None, input_1, input_2, input_3, input_4, input_5) .into_0 (),
 		
@@ -582,11 +616,13 @@ pub fn runtime_primitive_5_evaluate (primitive : RuntimePrimitive5, input_1 : &V
 pub fn runtime_primitive_n_evaluate (primitive : RuntimePrimitiveN, inputs : &[&Value], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitiveN::ErrorRaise => {
 			let (message, inputs) = try_some! (inputs.split_first (), 0x84aec603);
 			return Err (try! (error_build_n (None, message, inputs)));
 		},
 		
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitiveN::ErrorBuild => {
 			let (message, inputs) = try_some! (inputs.split_first (), 0x87db450f);
 			return error_build_n (None, message, inputs) .into_0 ();
@@ -634,8 +670,10 @@ pub fn runtime_primitive_n_evaluate (primitive : RuntimePrimitiveN, inputs : &[&
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn runtime_primitive_v_alternative_0 (primitive : RuntimePrimitiveV) -> (Option<RuntimePrimitive0>) {
 	match primitive {
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitiveV::ErrorRaise =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitiveV::ErrorBuild =>
 			None,
 		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
@@ -677,8 +715,10 @@ pub fn runtime_primitive_v_alternative_0 (primitive : RuntimePrimitiveV) -> (Opt
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn runtime_primitive_v_alternative_1 (primitive : RuntimePrimitiveV) -> (Option<RuntimePrimitive1>) {
 	match primitive {
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitiveV::ErrorRaise =>
 			Some (RuntimePrimitive1::ErrorRaise),
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitiveV::ErrorBuild =>
 			Some (RuntimePrimitive1::ErrorBuild),
 		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
@@ -720,8 +760,10 @@ pub fn runtime_primitive_v_alternative_1 (primitive : RuntimePrimitiveV) -> (Opt
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn runtime_primitive_v_alternative_2 (primitive : RuntimePrimitiveV) -> (Option<RuntimePrimitive2>) {
 	match primitive {
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitiveV::ErrorRaise =>
 			Some (RuntimePrimitive2::ErrorRaise),
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitiveV::ErrorBuild =>
 			Some (RuntimePrimitive2::ErrorBuild),
 		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
@@ -763,8 +805,10 @@ pub fn runtime_primitive_v_alternative_2 (primitive : RuntimePrimitiveV) -> (Opt
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn runtime_primitive_v_alternative_3 (primitive : RuntimePrimitiveV) -> (Option<RuntimePrimitive3>) {
 	match primitive {
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitiveV::ErrorRaise =>
 			Some (RuntimePrimitive3::ErrorRaise),
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitiveV::ErrorBuild =>
 			Some (RuntimePrimitive3::ErrorBuild),
 		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
@@ -806,8 +850,10 @@ pub fn runtime_primitive_v_alternative_3 (primitive : RuntimePrimitiveV) -> (Opt
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn runtime_primitive_v_alternative_4 (primitive : RuntimePrimitiveV) -> (Option<RuntimePrimitive4>) {
 	match primitive {
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitiveV::ErrorRaise =>
 			Some (RuntimePrimitive4::ErrorRaise),
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitiveV::ErrorBuild =>
 			Some (RuntimePrimitive4::ErrorBuild),
 		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
@@ -849,8 +895,10 @@ pub fn runtime_primitive_v_alternative_4 (primitive : RuntimePrimitiveV) -> (Opt
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn runtime_primitive_v_alternative_5 (primitive : RuntimePrimitiveV) -> (Option<RuntimePrimitive5>) {
 	match primitive {
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitiveV::ErrorRaise =>
 			Some (RuntimePrimitive5::ErrorRaise),
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitiveV::ErrorBuild =>
 			Some (RuntimePrimitive5::ErrorBuild),
 		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
@@ -892,8 +940,10 @@ pub fn runtime_primitive_v_alternative_5 (primitive : RuntimePrimitiveV) -> (Opt
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn runtime_primitive_v_alternative_n (primitive : RuntimePrimitiveV) -> (Option<RuntimePrimitiveN>) {
 	match primitive {
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitiveV::ErrorRaise =>
 			Some (RuntimePrimitiveN::ErrorRaise),
+		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitiveV::ErrorBuild =>
 			Some (RuntimePrimitiveN::ErrorBuild),
 		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
