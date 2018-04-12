@@ -3,7 +3,6 @@
 use super::errors::exports::*;
 use super::evaluator::exports::*;
 use super::runtime::exports::*;
-use super::transcript::exports::*;
 use super::values::exports::*;
 
 #[ allow (unused_imports) ]
@@ -21,6 +20,9 @@ use super::parameters::exports::*;
 #[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 use super::primitives::exports::*;
+
+#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
+use super::transcript::exports::*;
 
 use super::prelude::*;
 
@@ -57,6 +59,7 @@ pub mod exports {
 			parameter_configure,
 		};
 	
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	pub use super::{
 			transcript_trace_g,
 		};
@@ -445,6 +448,7 @@ pub fn process_environment_variables (_evaluator : &mut EvaluatorContext, _retur
 
 
 
+#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn transcript_trace_g (level : TranscriptLevel, arguments : &[&Value], evaluator : &mut EvaluatorContext) -> (Outcome<()>) {
 	if arguments.is_empty () {

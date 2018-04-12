@@ -180,6 +180,7 @@ vonuvoli_builtins_all = [
 	"vonuvoli_builtins_ports",
 	"vonuvoli_builtins_filesystem",
 	"vonuvoli_builtins_processes",
+	"vonuvoli_builtins_transcript",
 	"vonuvoli_builtins_crypto",
 	"vonuvoli_builtins_random",
 	"vonuvoli_builtins_encoding",
@@ -202,6 +203,9 @@ vonuvoli_builtins_filesystem = [
 ]
 vonuvoli_builtins_processes = [
 	"vonuvoli_builtins_ports",
+]
+vonuvoli_builtins_transcript = [
+	"vonuvoli_values_string",
 ]
 vonuvoli_builtins_crypto = [
 	"vonuvoli_values_native",

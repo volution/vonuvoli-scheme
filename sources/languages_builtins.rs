@@ -854,6 +854,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 		]);
 	
 	// NOTE:  transcripts
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	definitions.extend_from_slice (&[
 			
 			("trace-critical", RuntimePrimitiveV::TranscriptTraceCritical.into ()),

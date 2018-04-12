@@ -102,12 +102,19 @@ pub enum RuntimePrimitive1 {
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	ParameterResolve,
 	
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceCritical,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceError,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceWarning,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceNotice,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceInformation,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceInternal,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceDebugging,
 	
 	ProcessArgument,
@@ -151,12 +158,19 @@ pub enum RuntimePrimitive2 {
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	ParameterConfigure,
 	
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceCritical,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceError,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceWarning,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceNotice,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceInformation,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceInternal,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceDebugging,
 	
 	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
@@ -176,12 +190,19 @@ pub enum RuntimePrimitive3 {
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	ParameterBuild,
 	
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceCritical,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceError,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceWarning,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceNotice,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceInformation,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceInternal,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceDebugging,
 	
 	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
@@ -198,12 +219,19 @@ pub enum RuntimePrimitive4 {
 	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	ErrorBuild,
 	
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceCritical,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceError,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceWarning,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceNotice,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceInformation,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceInternal,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceDebugging,
 	
 }
@@ -217,12 +245,19 @@ pub enum RuntimePrimitive5 {
 	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	ErrorBuild,
 	
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceCritical,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceError,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceWarning,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceNotice,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceInformation,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceInternal,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceDebugging,
 	
 }
@@ -236,12 +271,19 @@ pub enum RuntimePrimitiveN {
 	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	ErrorBuild,
 	
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceCritical,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceError,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceWarning,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceNotice,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceInformation,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceInternal,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceDebugging,
 	
 	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
@@ -269,12 +311,19 @@ pub enum RuntimePrimitiveV {
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	ParameterConfigure,
 	
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceCritical,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceError,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceWarning,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceNotice,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceInformation,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceInternal,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceDebugging,
 	
 	ProcessExit,
@@ -373,24 +422,31 @@ pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, input_1 : &V
 		RuntimePrimitive1::ParameterResolve =>
 			return parameter_resolve (input_1, None, evaluator),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitive1::TranscriptTraceCritical =>
 			return transcript_trace_g (TranscriptLevel::Critical, &[input_1], evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitive1::TranscriptTraceError =>
 			return transcript_trace_g (TranscriptLevel::Error, &[input_1], evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitive1::TranscriptTraceWarning =>
 			return transcript_trace_g (TranscriptLevel::Warning, &[input_1], evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitive1::TranscriptTraceNotice =>
 			return transcript_trace_g (TranscriptLevel::Notice, &[input_1], evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitive1::TranscriptTraceInformation =>
 			return transcript_trace_g (TranscriptLevel::Information, &[input_1], evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitive1::TranscriptTraceInternal =>
 			return transcript_trace_g (TranscriptLevel::Internal, &[input_1], evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitive1::TranscriptTraceDebugging =>
 			return transcript_trace_g (TranscriptLevel::Debugging, &[input_1], evaluator) .into_0 (),
 		
@@ -464,24 +520,31 @@ pub fn runtime_primitive_2_evaluate (primitive : RuntimePrimitive2, input_1 : &V
 		RuntimePrimitive2::ParameterConfigure =>
 			return parameter_configure (input_1, input_2, evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitive2::TranscriptTraceCritical =>
 			return transcript_trace_g (TranscriptLevel::Critical, &[input_1, input_2], evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitive2::TranscriptTraceError =>
 			return transcript_trace_g (TranscriptLevel::Error, &[input_1, input_2], evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitive2::TranscriptTraceWarning =>
 			return transcript_trace_g (TranscriptLevel::Warning, &[input_1, input_2], evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitive2::TranscriptTraceNotice =>
 			return transcript_trace_g (TranscriptLevel::Notice, &[input_1, input_2], evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitive2::TranscriptTraceInformation =>
 			return transcript_trace_g (TranscriptLevel::Information, &[input_1, input_2], evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitive2::TranscriptTraceInternal =>
 			return transcript_trace_g (TranscriptLevel::Internal, &[input_1, input_2], evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitive2::TranscriptTraceDebugging =>
 			return transcript_trace_g (TranscriptLevel::Debugging, &[input_1, input_2], evaluator) .into_0 (),
 		
@@ -511,24 +574,31 @@ pub fn runtime_primitive_3_evaluate (primitive : RuntimePrimitive3, input_1 : &V
 		RuntimePrimitive3::ParameterBuild =>
 			return parameter_build (None, Some (input_1), Some (input_2), Some (try_as_boolean_ref! (input_3) .value ()), evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitive3::TranscriptTraceCritical =>
 			return transcript_trace_g (TranscriptLevel::Critical, &[input_1, input_2, input_3], evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitive3::TranscriptTraceError =>
 			return transcript_trace_g (TranscriptLevel::Error, &[input_1, input_2, input_3], evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitive3::TranscriptTraceWarning =>
 			return transcript_trace_g (TranscriptLevel::Warning, &[input_1, input_2, input_3], evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitive3::TranscriptTraceNotice =>
 			return transcript_trace_g (TranscriptLevel::Notice, &[input_1, input_2, input_3], evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitive3::TranscriptTraceInformation =>
 			return transcript_trace_g (TranscriptLevel::Information, &[input_1, input_2, input_3], evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitive3::TranscriptTraceInternal =>
 			return transcript_trace_g (TranscriptLevel::Internal, &[input_1, input_2, input_3], evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitive3::TranscriptTraceDebugging =>
 			return transcript_trace_g (TranscriptLevel::Debugging, &[input_1, input_2, input_3], evaluator) .into_0 (),
 		
@@ -554,24 +624,31 @@ pub fn runtime_primitive_4_evaluate (primitive : RuntimePrimitive4, input_1 : &V
 		RuntimePrimitive4::ErrorBuild =>
 			return error_build_3 (None, input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitive4::TranscriptTraceCritical =>
 			return transcript_trace_g (TranscriptLevel::Critical, &[input_1, input_2, input_3, input_4], evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitive4::TranscriptTraceError =>
 			return transcript_trace_g (TranscriptLevel::Error, &[input_1, input_2, input_3, input_4], evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitive4::TranscriptTraceWarning =>
 			return transcript_trace_g (TranscriptLevel::Warning, &[input_1, input_2, input_3, input_4], evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitive4::TranscriptTraceNotice =>
 			return transcript_trace_g (TranscriptLevel::Notice, &[input_1, input_2, input_3, input_4], evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitive4::TranscriptTraceInformation =>
 			return transcript_trace_g (TranscriptLevel::Information, &[input_1, input_2, input_3, input_4], evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitive4::TranscriptTraceInternal =>
 			return transcript_trace_g (TranscriptLevel::Internal, &[input_1, input_2, input_3, input_4], evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitive4::TranscriptTraceDebugging =>
 			return transcript_trace_g (TranscriptLevel::Debugging, &[input_1, input_2, input_3, input_4], evaluator) .into_0 (),
 		
@@ -593,24 +670,31 @@ pub fn runtime_primitive_5_evaluate (primitive : RuntimePrimitive5, input_1 : &V
 		RuntimePrimitive5::ErrorBuild =>
 			return error_build_4 (None, input_1, input_2, input_3, input_4, input_5) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitive5::TranscriptTraceCritical =>
 			return transcript_trace_g (TranscriptLevel::Critical, &[input_1, input_2, input_3, input_4, input_5], evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitive5::TranscriptTraceError =>
 			return transcript_trace_g (TranscriptLevel::Error, &[input_1, input_2, input_3, input_4, input_5], evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitive5::TranscriptTraceWarning =>
 			return transcript_trace_g (TranscriptLevel::Warning, &[input_1, input_2, input_3, input_4, input_5], evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitive5::TranscriptTraceNotice =>
 			return transcript_trace_g (TranscriptLevel::Notice, &[input_1, input_2, input_3, input_4, input_5], evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitive5::TranscriptTraceInformation =>
 			return transcript_trace_g (TranscriptLevel::Information, &[input_1, input_2, input_3, input_4, input_5], evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitive5::TranscriptTraceInternal =>
 			return transcript_trace_g (TranscriptLevel::Internal, &[input_1, input_2, input_3, input_4, input_5], evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitive5::TranscriptTraceDebugging =>
 			return transcript_trace_g (TranscriptLevel::Debugging, &[input_1, input_2, input_3, input_4, input_5], evaluator) .into_0 (),
 		
@@ -636,24 +720,31 @@ pub fn runtime_primitive_n_evaluate (primitive : RuntimePrimitiveN, inputs : &[&
 			return error_build_n (None, message, inputs) .into_0 ();
 		},
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveN::TranscriptTraceCritical =>
 			return transcript_trace_g (TranscriptLevel::Critical, inputs, evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveN::TranscriptTraceError =>
 			return transcript_trace_g (TranscriptLevel::Error, inputs, evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveN::TranscriptTraceWarning =>
 			return transcript_trace_g (TranscriptLevel::Warning, inputs, evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveN::TranscriptTraceNotice =>
 			return transcript_trace_g (TranscriptLevel::Notice, inputs, evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveN::TranscriptTraceInformation =>
 			return transcript_trace_g (TranscriptLevel::Information, inputs, evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveN::TranscriptTraceInternal =>
 			return transcript_trace_g (TranscriptLevel::Internal, inputs, evaluator) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveN::TranscriptTraceDebugging =>
 			return transcript_trace_g (TranscriptLevel::Debugging, inputs, evaluator) .into_0 (),
 		
@@ -693,18 +784,25 @@ pub fn runtime_primitive_v_alternative_0 (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		RuntimePrimitiveV::ParameterConfigure =>
 			None,
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceCritical =>
 			None,
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceError =>
 			None,
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceWarning =>
 			None,
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceNotice =>
 			None,
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceInformation =>
 			None,
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceInternal =>
 			None,
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceDebugging =>
 			None,
 		RuntimePrimitiveV::ProcessExit =>
@@ -738,18 +836,25 @@ pub fn runtime_primitive_v_alternative_1 (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		RuntimePrimitiveV::ParameterConfigure =>
 			None,
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceCritical =>
 			Some (RuntimePrimitive1::TranscriptTraceCritical),
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceError =>
 			Some (RuntimePrimitive1::TranscriptTraceError),
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceWarning =>
 			Some (RuntimePrimitive1::TranscriptTraceWarning),
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceNotice =>
 			Some (RuntimePrimitive1::TranscriptTraceNotice),
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceInformation =>
 			Some (RuntimePrimitive1::TranscriptTraceInformation),
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceInternal =>
 			Some (RuntimePrimitive1::TranscriptTraceInternal),
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceDebugging =>
 			Some (RuntimePrimitive1::TranscriptTraceDebugging),
 		RuntimePrimitiveV::ProcessExit =>
@@ -783,18 +888,25 @@ pub fn runtime_primitive_v_alternative_2 (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		RuntimePrimitiveV::ParameterConfigure =>
 			Some (RuntimePrimitive2::ParameterConfigure),
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceCritical =>
 			Some (RuntimePrimitive2::TranscriptTraceCritical),
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceError =>
 			Some (RuntimePrimitive2::TranscriptTraceError),
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceWarning =>
 			Some (RuntimePrimitive2::TranscriptTraceWarning),
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceNotice =>
 			Some (RuntimePrimitive2::TranscriptTraceNotice),
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceInformation =>
 			Some (RuntimePrimitive2::TranscriptTraceInformation),
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceInternal =>
 			Some (RuntimePrimitive2::TranscriptTraceInternal),
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceDebugging =>
 			Some (RuntimePrimitive2::TranscriptTraceDebugging),
 		RuntimePrimitiveV::ProcessExit =>
@@ -828,18 +940,25 @@ pub fn runtime_primitive_v_alternative_3 (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		RuntimePrimitiveV::ParameterConfigure =>
 			None,
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceCritical =>
 			Some (RuntimePrimitive3::TranscriptTraceCritical),
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceError =>
 			Some (RuntimePrimitive3::TranscriptTraceError),
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceWarning =>
 			Some (RuntimePrimitive3::TranscriptTraceWarning),
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceNotice =>
 			Some (RuntimePrimitive3::TranscriptTraceNotice),
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceInformation =>
 			Some (RuntimePrimitive3::TranscriptTraceInformation),
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceInternal =>
 			Some (RuntimePrimitive3::TranscriptTraceInternal),
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceDebugging =>
 			Some (RuntimePrimitive3::TranscriptTraceDebugging),
 		RuntimePrimitiveV::ProcessExit =>
@@ -873,18 +992,25 @@ pub fn runtime_primitive_v_alternative_4 (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		RuntimePrimitiveV::ParameterConfigure =>
 			None,
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceCritical =>
 			Some (RuntimePrimitive4::TranscriptTraceCritical),
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceError =>
 			Some (RuntimePrimitive4::TranscriptTraceError),
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceWarning =>
 			Some (RuntimePrimitive4::TranscriptTraceWarning),
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceNotice =>
 			Some (RuntimePrimitive4::TranscriptTraceNotice),
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceInformation =>
 			Some (RuntimePrimitive4::TranscriptTraceInformation),
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceInternal =>
 			Some (RuntimePrimitive4::TranscriptTraceInternal),
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceDebugging =>
 			Some (RuntimePrimitive4::TranscriptTraceDebugging),
 		RuntimePrimitiveV::ProcessExit =>
@@ -918,18 +1044,25 @@ pub fn runtime_primitive_v_alternative_5 (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		RuntimePrimitiveV::ParameterConfigure =>
 			None,
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceCritical =>
 			Some (RuntimePrimitive5::TranscriptTraceCritical),
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceError =>
 			Some (RuntimePrimitive5::TranscriptTraceError),
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceWarning =>
 			Some (RuntimePrimitive5::TranscriptTraceWarning),
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceNotice =>
 			Some (RuntimePrimitive5::TranscriptTraceNotice),
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceInformation =>
 			Some (RuntimePrimitive5::TranscriptTraceInformation),
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceInternal =>
 			Some (RuntimePrimitive5::TranscriptTraceInternal),
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceDebugging =>
 			Some (RuntimePrimitive5::TranscriptTraceDebugging),
 		RuntimePrimitiveV::ProcessExit =>
@@ -963,18 +1096,25 @@ pub fn runtime_primitive_v_alternative_n (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		RuntimePrimitiveV::ParameterConfigure =>
 			None,
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceCritical =>
 			Some (RuntimePrimitiveN::TranscriptTraceCritical),
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceError =>
 			Some (RuntimePrimitiveN::TranscriptTraceError),
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceWarning =>
 			Some (RuntimePrimitiveN::TranscriptTraceWarning),
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceNotice =>
 			Some (RuntimePrimitiveN::TranscriptTraceNotice),
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceInformation =>
 			Some (RuntimePrimitiveN::TranscriptTraceInformation),
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceInternal =>
 			Some (RuntimePrimitiveN::TranscriptTraceInternal),
+		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceDebugging =>
 			Some (RuntimePrimitiveN::TranscriptTraceDebugging),
 		RuntimePrimitiveV::ProcessExit =>
