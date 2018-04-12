@@ -117,7 +117,9 @@ pub enum FileSystemPrimitive1 {
 	PathNameJoin,
 	PathNameSplit,
 	
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	PathToString,
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	StringToPath,
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	PathToBytes,
@@ -443,9 +445,11 @@ pub fn filesystem_primitive_1_evaluate (primitive : FileSystemPrimitive1, input_
 		FileSystemPrimitive1::PathNameSplit =>
 			return filesystem_path_name_split (input_1, false) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		FileSystemPrimitive1::PathToString =>
 			return filesystem_path_to_string (input_1, false) .into (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		FileSystemPrimitive1::StringToPath =>
 			return filesystem_string_to_path (input_1) .into (),
 		

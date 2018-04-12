@@ -55,9 +55,6 @@ pub mod exports {
 			number_real_compare_1, number_real_compare_1a,
 			character_compare_1, character_compare_1a,
 			symbol_compare_1, symbol_compare_1a,
-			string_compare_1,
-			string_immutable_compare_1, string_immutable_compare_1a,
-			string_mutable_compare_1, string_mutable_compare_1a,
 			pair_compare_1,
 			pair_immutable_compare_1, pair_immutable_compare_1a,
 			pair_mutable_compare_1, pair_mutable_compare_1a,
@@ -74,9 +71,6 @@ pub mod exports {
 			number_real_compare_2, number_real_compare_2a,
 			character_compare_2, character_compare_2a,
 			symbol_compare_2, symbol_compare_2a,
-			string_compare_2,
-			string_immutable_compare_2, string_immutable_compare_2a,
-			string_mutable_compare_2, string_mutable_compare_2a,
 			pair_compare_2,
 			pair_immutable_compare_2, pair_immutable_compare_2a,
 			pair_mutable_compare_2, pair_mutable_compare_2a,
@@ -93,9 +87,6 @@ pub mod exports {
 			number_real_compare_3, number_real_compare_3a,
 			character_compare_3, character_compare_3a,
 			symbol_compare_3, symbol_compare_3a,
-			string_compare_3,
-			string_immutable_compare_3, string_immutable_compare_3a,
-			string_mutable_compare_3, string_mutable_compare_3a,
 			pair_compare_3,
 			pair_immutable_compare_3, pair_immutable_compare_3a,
 			pair_mutable_compare_3, pair_mutable_compare_3a,
@@ -112,9 +103,6 @@ pub mod exports {
 			number_real_compare_4, number_real_compare_4a,
 			character_compare_4, character_compare_4a,
 			symbol_compare_4, symbol_compare_4a,
-			string_compare_4,
-			string_immutable_compare_4, string_immutable_compare_4a,
-			string_mutable_compare_4, string_mutable_compare_4a,
 			pair_compare_4,
 			pair_immutable_compare_4, pair_immutable_compare_4a,
 			pair_mutable_compare_4, pair_mutable_compare_4a,
@@ -131,9 +119,6 @@ pub mod exports {
 			number_real_compare_n, number_real_compare_na,
 			character_compare_n, character_compare_na,
 			symbol_compare_n, symbol_compare_na,
-			string_compare_n,
-			string_immutable_compare_n, string_immutable_compare_na,
-			string_mutable_compare_n, string_mutable_compare_na,
 			pair_compare_n,
 			pair_immutable_compare_n, pair_immutable_compare_na,
 			pair_mutable_compare_n, pair_mutable_compare_na,
@@ -141,6 +126,32 @@ pub mod exports {
 			procedure_lambda_compare_n, procedure_lambda_compare_na,
 			syntax_primitive_compare_n, syntax_primitive_compare_na,
 			syntax_lambda_compare_n, syntax_lambda_compare_na,
+			
+	};
+	
+	
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
+	pub use super::{
+			
+			string_compare_1,
+			string_immutable_compare_1, string_immutable_compare_1a,
+			string_mutable_compare_1, string_mutable_compare_1a,
+			
+			string_compare_2,
+			string_immutable_compare_2, string_immutable_compare_2a,
+			string_mutable_compare_2, string_mutable_compare_2a,
+			
+			string_compare_3,
+			string_immutable_compare_3, string_immutable_compare_3a,
+			string_mutable_compare_3, string_mutable_compare_3a,
+			
+			string_compare_4,
+			string_immutable_compare_4, string_immutable_compare_4a,
+			string_mutable_compare_4, string_mutable_compare_4a,
+			
+			string_compare_n,
+			string_immutable_compare_n, string_immutable_compare_na,
+			string_mutable_compare_n, string_mutable_compare_na,
 			
 	};
 	
@@ -704,9 +715,11 @@ pub fn compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Co
 		ValueKindMatchAsRef::Unique (value) =>
 			return unique_compare_1a (value, comparison),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ValueKindMatchAsRef::StringImmutable (value) =>
 			return string_immutable_compare_1a (value, comparison),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ValueKindMatchAsRef::StringMutable (value) =>
 			return string_mutable_compare_1a (value, comparison),
 		
@@ -866,9 +879,11 @@ pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef
 		ValueKindMatchAsRef2::Unique (left, right) =>
 			return unique_compare_2a (left, right, comparison),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ValueKindMatchAsRef2::StringImmutable (left, right) =>
 			return string_immutable_compare_2a (left, right, comparison),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ValueKindMatchAsRef2::StringMutable (left, right) =>
 			return string_mutable_compare_2a (left, right, comparison),
 		
@@ -992,6 +1007,7 @@ pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef
 				ValueClassMatchAsRef2::Number (ref class) =>
 					return number_match_as_ref_compare_2a (class, comparison),
 				
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				ValueClassMatchAsRef2::String (ref class) => {
 					let (left, right) = try! (class.string_ref ());
 					return string_ref_compare_2a (&left, &right, comparison);
@@ -1286,15 +1302,18 @@ pub fn unique_compare_2a <ValueRef : StdAsRef<Unique>> (left : ValueRef, right :
 
 
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_compare! (StringImmutable,
 		string_immutable_compare_1, string_immutable_compare_2, string_immutable_compare_3, string_immutable_compare_4, string_immutable_compare_n,
 		string_immutable_compare_1a, string_immutable_compare_2a, string_immutable_compare_3a, string_immutable_compare_4a, string_immutable_compare_na);
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_immutable_compare_1a <ValueRef : StdAsRef<StringImmutable>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_immutable_compare_2a <ValueRef : StdAsRef<StringImmutable>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref () .string_ref ();
@@ -1303,15 +1322,18 @@ pub fn string_immutable_compare_2a <ValueRef : StdAsRef<StringImmutable>> (left 
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_compare! (StringMutable,
 		string_mutable_compare_1, string_mutable_compare_2, string_mutable_compare_3, string_mutable_compare_4, string_mutable_compare_n,
 		string_mutable_compare_1a, string_mutable_compare_2a, string_mutable_compare_3a, string_mutable_compare_4a, string_mutable_compare_na);
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_mutable_compare_1a <ValueRef : StdAsRef<StringMutable>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_mutable_compare_2a <ValueRef : StdAsRef<StringMutable>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = try! (left.as_ref () .string_ref ());
@@ -1320,6 +1342,7 @@ pub fn string_mutable_compare_2a <ValueRef : StdAsRef<StringMutable>> (left : Va
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub(crate) fn string_ref_compare_2a <'a, ValueRef : StdAsRef<StringRef<'a>>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
@@ -2295,15 +2318,18 @@ pub(crate) fn number_match_as_ref_compare_2a (class : &NumberMatchAsRef2, compar
 
 
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_compare! (Value,
 		string_compare_1, string_compare_2, string_compare_3, string_compare_4, string_compare_n);
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let _value = try! (StringRef::try (value.as_ref ()));
 	succeed! (true ^ comparison.negated ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = try! (StringRef::try (left.as_ref ()));

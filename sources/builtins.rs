@@ -11,8 +11,10 @@ pub mod exports {
 	pub use super::super::builtins_functions::exports::*;
 	pub use super::super::builtins_lists::exports::*;
 	pub use super::super::builtins_runtime::exports::*;
-	pub use super::super::builtins_strings::exports::*;
 	pub use super::super::builtins_types::exports::*;
+	
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
+	pub use super::super::builtins_strings::exports::*;
 	
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	pub use super::super::builtins_bytes::exports::*;

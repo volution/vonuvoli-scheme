@@ -40,7 +40,9 @@ pub mod exports {
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	pub use super::{bytes_iterate_1, bytes_iterate_2, bytes_iterate_3, bytes_iterate_4, bytes_iterate_n};
 	
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	pub use super::{strings_map_1, strings_map_2, strings_map_3, strings_map_4, strings_map_n};
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	pub use super::{strings_iterate_1, strings_iterate_2, strings_iterate_3, strings_iterate_4, strings_iterate_n};
 	
 	#[ cfg ( feature = "vonuvoli_values_values" ) ]
@@ -622,6 +624,7 @@ pub fn bytes_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, by
 
 
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn strings_map_1 (evaluator : &mut EvaluatorContext, callable : &Value, string : &Value) -> (Outcome<Value>) {
 	if try! (is_string_empty (string)) {
@@ -632,6 +635,7 @@ pub fn strings_map_1 (evaluator : &mut EvaluatorContext, callable : &Value, stri
 	return string_collect_values (outputs);
 }
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn strings_iterate_1 (evaluator : &mut EvaluatorContext, callable : &Value, string : &Value) -> (Outcome<Value>) {
 	if try! (is_string_empty (string)) {
@@ -643,6 +647,7 @@ pub fn strings_iterate_1 (evaluator : &mut EvaluatorContext, callable : &Value, 
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn strings_map_2 (evaluator : &mut EvaluatorContext, callable : &Value, string_1 : &Value, string_2 : &Value) -> (Outcome<Value>) {
 	if try! (is_string_empty_all_2 (string_1, string_2)) {
@@ -654,6 +659,7 @@ pub fn strings_map_2 (evaluator : &mut EvaluatorContext, callable : &Value, stri
 	return string_collect_values (outputs);
 }
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn strings_iterate_2 (evaluator : &mut EvaluatorContext, callable : &Value, string_1 : &Value, string_2 : &Value) -> (Outcome<Value>) {
 	if try! (is_string_empty_all_2 (string_1, string_2)) {
@@ -666,6 +672,7 @@ pub fn strings_iterate_2 (evaluator : &mut EvaluatorContext, callable : &Value, 
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn strings_map_3 (evaluator : &mut EvaluatorContext, callable : &Value, string_1 : &Value, string_2 : &Value, string_3 : &Value) -> (Outcome<Value>) {
 	if try! (is_string_empty_all_3 (string_1, string_2, string_3)) {
@@ -678,6 +685,7 @@ pub fn strings_map_3 (evaluator : &mut EvaluatorContext, callable : &Value, stri
 	return string_collect_values (outputs);
 }
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn strings_iterate_3 (evaluator : &mut EvaluatorContext, callable : &Value, string_1 : &Value, string_2 : &Value, string_3 : &Value) -> (Outcome<Value>) {
 	if try! (is_string_empty_all_3 (string_1, string_2, string_3)) {
@@ -691,6 +699,7 @@ pub fn strings_iterate_3 (evaluator : &mut EvaluatorContext, callable : &Value, 
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn strings_map_4 (evaluator : &mut EvaluatorContext, callable : &Value, string_1 : &Value, string_2 : &Value, string_3 : &Value, string_4 : &Value) -> (Outcome<Value>) {
 	if try! (is_string_empty_all_4 (string_1, string_2, string_3, string_4)) {
@@ -704,6 +713,7 @@ pub fn strings_map_4 (evaluator : &mut EvaluatorContext, callable : &Value, stri
 	return string_collect_values (outputs);
 }
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn strings_iterate_4 (evaluator : &mut EvaluatorContext, callable : &Value, string_1 : &Value, string_2 : &Value, string_3 : &Value, string_4 : &Value) -> (Outcome<Value>) {
 	if try! (is_string_empty_all_4 (string_1, string_2, string_3, string_4)) {
@@ -718,6 +728,7 @@ pub fn strings_iterate_4 (evaluator : &mut EvaluatorContext, callable : &Value, 
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn strings_map_n (evaluator : &mut EvaluatorContext, callable : &Value, strings : &[&Value]) -> (Outcome<Value>) {
 	if strings.is_empty () {
@@ -728,6 +739,7 @@ pub fn strings_map_n (evaluator : &mut EvaluatorContext, callable : &Value, stri
 	return string_collect_values (outputs);
 }
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn strings_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, strings : &[&Value]) -> (Outcome<Value>) {
 	if strings.is_empty () {

@@ -88,6 +88,7 @@ macro_rules! def_type_primitive_enum {
 			IsNumberExactInteger,
 			IsNumberInexact,
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			IsCharacter,
 			
 			IsSymbol,
@@ -96,14 +97,23 @@ macro_rules! def_type_primitive_enum {
 			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			IsUnique,
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			IsString,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			IsStringImmutable,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			IsStringMutable,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			IsStringEmpty,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			IsStringImmutableEmpty,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			IsStringMutableEmpty,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			IsStringEmptyNot,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			IsStringImmutableEmptyNot,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			IsStringMutableEmptyNot,
 			
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
@@ -254,24 +264,43 @@ macro_rules! def_type_primitive_enum {
 			IsNumberEven,
 			IsNumberOdd,
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			IsCharacterNumeric,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			IsCharacterAlphabetic,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			IsCharacterAlphabeticUpperCase,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			IsCharacterAlphabeticLowerCase,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			IsCharacterAlphabeticOrNumeric,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			IsCharacterWhitespace,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			IsCharacterControl,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			IsCharacterAscii,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			IsCharacterAsciiNumeric,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			IsCharacterAsciiNumericBase8,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			IsCharacterAsciiNumericBase16,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			IsCharacterAsciiAlphabetic,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			IsCharacterAsciiAlphabeticUpperCase,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			IsCharacterAsciiAlphabeticLowerCase,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			IsCharacterAsciiAlphabeticOrNumeric,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			IsCharacterAsciiWhitespace,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			IsCharacterAsciiControl,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			IsCharacterAsciiPunctuation,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			IsCharacterAsciiGraphic,
 			
 		}
@@ -382,6 +411,7 @@ pub fn type_primitive_1_evaluate_0 (primitive : TypePrimitive1, input_1 : &Value
 		TypePrimitive1::IsNumberInexact =>
 			return is_number_inexact (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive1::IsCharacter =>
 			return is_character (input_1) .into_0 (),
 		
@@ -396,30 +426,39 @@ pub fn type_primitive_1_evaluate_0 (primitive : TypePrimitive1, input_1 : &Value
 		TypePrimitive1::IsUnique =>
 			return is_unique (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive1::IsString =>
 			return is_string (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive1::IsStringImmutable =>
 			return is_string_immutable (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive1::IsStringMutable =>
 			return is_string_mutable (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive1::IsStringEmpty =>
 			return is_string_empty (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive1::IsStringImmutableEmpty =>
 			return is_string_immutable_empty (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive1::IsStringMutableEmpty =>
 			return is_string_mutable_empty (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive1::IsStringEmptyNot =>
 			return is_string_not_empty (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive1::IsStringImmutableEmptyNot =>
 			return is_string_immutable_not_empty (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive1::IsStringMutableEmptyNot =>
 			return is_string_mutable_not_empty (input_1) .into_0 (),
 		
@@ -705,60 +744,79 @@ pub fn type_primitive_1_evaluate_0 (primitive : TypePrimitive1, input_1 : &Value
 		TypePrimitive1::IsNumberOdd =>
 			return is_number_odd (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive1::IsCharacterNumeric =>
 			return is_character_numeric (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive1::IsCharacterAlphabetic =>
 			return is_character_alphabetic (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive1::IsCharacterAlphabeticUpperCase =>
 			return is_character_alphabetic_upper_case (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive1::IsCharacterAlphabeticLowerCase =>
 			return is_character_alphabetic_lower_case (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive1::IsCharacterAlphabeticOrNumeric =>
 			return is_character_alphabetic_or_numeric (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive1::IsCharacterWhitespace =>
 			return is_character_whitespace (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive1::IsCharacterControl =>
 			return is_character_control (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive1::IsCharacterAscii =>
 			return is_character_ascii (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive1::IsCharacterAsciiNumeric =>
 			return is_character_ascii_numeric (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive1::IsCharacterAsciiNumericBase8 =>
 			return is_character_ascii_numeric_base_8 (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive1::IsCharacterAsciiNumericBase16 =>
 			return is_character_ascii_numeric_base_16 (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive1::IsCharacterAsciiAlphabetic =>
 			return is_character_ascii_alphabetic (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive1::IsCharacterAsciiAlphabeticUpperCase =>
 			return is_character_ascii_alphabetic_upper_case (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive1::IsCharacterAsciiAlphabeticLowerCase =>
 			return is_character_ascii_alphabetic_lower_case (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive1::IsCharacterAsciiAlphabeticOrNumeric =>
 			return is_character_ascii_alphabetic_or_numeric (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive1::IsCharacterAsciiWhitespace =>
 			return is_character_ascii_whitespace (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive1::IsCharacterAsciiControl =>
 			return is_character_ascii_control (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive1::IsCharacterAsciiPunctuation =>
 			return is_character_ascii_punctuation (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive1::IsCharacterAsciiGraphic =>
 			return is_character_ascii_graphic (input_1) .into_0 (),
 		
@@ -843,6 +901,7 @@ pub fn type_primitive_2_evaluate_0 (primitive : TypePrimitive2, input_1 : &Value
 		TypePrimitive2::IsNumberInexact =>
 			return is_number_inexact_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive2::IsCharacter =>
 			return is_character_all_2 (input_1, input_2) .into_0 (),
 		
@@ -857,30 +916,39 @@ pub fn type_primitive_2_evaluate_0 (primitive : TypePrimitive2, input_1 : &Value
 		TypePrimitive2::IsUnique =>
 			return is_unique_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive2::IsString =>
 			return is_string_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive2::IsStringImmutable =>
 			return is_string_immutable_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive2::IsStringMutable =>
 			return is_string_mutable_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive2::IsStringEmpty =>
 			return is_string_empty_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive2::IsStringImmutableEmpty =>
 			return is_string_immutable_empty_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive2::IsStringMutableEmpty =>
 			return is_string_mutable_empty_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive2::IsStringEmptyNot =>
 			return is_string_not_empty_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive2::IsStringImmutableEmptyNot =>
 			return is_string_immutable_not_empty_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive2::IsStringMutableEmptyNot =>
 			return is_string_mutable_not_empty_all_2 (input_1, input_2) .into_0 (),
 		
@@ -1166,60 +1234,79 @@ pub fn type_primitive_2_evaluate_0 (primitive : TypePrimitive2, input_1 : &Value
 		TypePrimitive2::IsNumberOdd =>
 			return is_number_odd_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive2::IsCharacterNumeric =>
 			return is_character_numeric_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive2::IsCharacterAlphabetic =>
 			return is_character_alphabetic_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive2::IsCharacterAlphabeticUpperCase =>
 			return is_character_alphabetic_upper_case_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive2::IsCharacterAlphabeticLowerCase =>
 			return is_character_alphabetic_lower_case_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive2::IsCharacterAlphabeticOrNumeric =>
 			return is_character_alphabetic_or_numeric_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive2::IsCharacterWhitespace =>
 			return is_character_whitespace_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive2::IsCharacterControl =>
 			return is_character_control_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive2::IsCharacterAscii =>
 			return is_character_ascii_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive2::IsCharacterAsciiNumeric =>
 			return is_character_ascii_numeric_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive2::IsCharacterAsciiNumericBase8 =>
 			return is_character_ascii_numeric_base_8_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive2::IsCharacterAsciiNumericBase16 =>
 			return is_character_ascii_numeric_base_16_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive2::IsCharacterAsciiAlphabetic =>
 			return is_character_ascii_alphabetic_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive2::IsCharacterAsciiAlphabeticUpperCase =>
 			return is_character_ascii_alphabetic_upper_case_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive2::IsCharacterAsciiAlphabeticLowerCase =>
 			return is_character_ascii_alphabetic_lower_case_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive2::IsCharacterAsciiAlphabeticOrNumeric =>
 			return is_character_ascii_alphabetic_or_numeric_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive2::IsCharacterAsciiWhitespace =>
 			return is_character_ascii_whitespace_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive2::IsCharacterAsciiControl =>
 			return is_character_ascii_control_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive2::IsCharacterAsciiPunctuation =>
 			return is_character_ascii_punctuation_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive2::IsCharacterAsciiGraphic =>
 			return is_character_ascii_graphic_all_2 (input_1, input_2) .into_0 (),
 		
@@ -1304,6 +1391,7 @@ pub fn type_primitive_3_evaluate_0 (primitive : TypePrimitive3, input_1 : &Value
 		TypePrimitive3::IsNumberInexact =>
 			return is_number_inexact_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive3::IsCharacter =>
 			return is_character_all_3 (input_1, input_2, input_3) .into_0 (),
 		
@@ -1318,30 +1406,39 @@ pub fn type_primitive_3_evaluate_0 (primitive : TypePrimitive3, input_1 : &Value
 		TypePrimitive3::IsUnique =>
 			return is_unique_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive3::IsString =>
 			return is_string_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive3::IsStringImmutable =>
 			return is_string_immutable_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive3::IsStringMutable =>
 			return is_string_mutable_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive3::IsStringEmpty =>
 			return is_string_empty_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive3::IsStringImmutableEmpty =>
 			return is_string_immutable_empty_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive3::IsStringMutableEmpty =>
 			return is_string_mutable_empty_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive3::IsStringEmptyNot =>
 			return is_string_not_empty_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive3::IsStringImmutableEmptyNot =>
 			return is_string_immutable_not_empty_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive3::IsStringMutableEmptyNot =>
 			return is_string_mutable_not_empty_all_3 (input_1, input_2, input_3) .into_0 (),
 		
@@ -1627,60 +1724,79 @@ pub fn type_primitive_3_evaluate_0 (primitive : TypePrimitive3, input_1 : &Value
 		TypePrimitive3::IsNumberOdd =>
 			return is_number_odd_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive3::IsCharacterNumeric =>
 			return is_character_numeric_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive3::IsCharacterAlphabetic =>
 			return is_character_alphabetic_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive3::IsCharacterAlphabeticUpperCase =>
 			return is_character_alphabetic_upper_case_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive3::IsCharacterAlphabeticLowerCase =>
 			return is_character_alphabetic_lower_case_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive3::IsCharacterAlphabeticOrNumeric =>
 			return is_character_alphabetic_or_numeric_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive3::IsCharacterWhitespace =>
 			return is_character_whitespace_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive3::IsCharacterControl =>
 			return is_character_control_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive3::IsCharacterAscii =>
 			return is_character_ascii_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive3::IsCharacterAsciiNumeric =>
 			return is_character_ascii_numeric_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive3::IsCharacterAsciiNumericBase8 =>
 			return is_character_ascii_numeric_base_8_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive3::IsCharacterAsciiNumericBase16 =>
 			return is_character_ascii_numeric_base_16_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive3::IsCharacterAsciiAlphabetic =>
 			return is_character_ascii_alphabetic_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive3::IsCharacterAsciiAlphabeticUpperCase =>
 			return is_character_ascii_alphabetic_upper_case_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive3::IsCharacterAsciiAlphabeticLowerCase =>
 			return is_character_ascii_alphabetic_lower_case_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive3::IsCharacterAsciiAlphabeticOrNumeric =>
 			return is_character_ascii_alphabetic_or_numeric_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive3::IsCharacterAsciiWhitespace =>
 			return is_character_ascii_whitespace_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive3::IsCharacterAsciiControl =>
 			return is_character_ascii_control_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive3::IsCharacterAsciiPunctuation =>
 			return is_character_ascii_punctuation_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive3::IsCharacterAsciiGraphic =>
 			return is_character_ascii_graphic_all_3 (input_1, input_2, input_3) .into_0 (),
 		
@@ -1765,6 +1881,7 @@ pub fn type_primitive_4_evaluate_0 (primitive : TypePrimitive4, input_1 : &Value
 		TypePrimitive4::IsNumberInexact =>
 			return is_number_inexact_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive4::IsCharacter =>
 			return is_character_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
@@ -1779,30 +1896,39 @@ pub fn type_primitive_4_evaluate_0 (primitive : TypePrimitive4, input_1 : &Value
 		TypePrimitive4::IsUnique =>
 			return is_unique_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive4::IsString =>
 			return is_string_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive4::IsStringImmutable =>
 			return is_string_immutable_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive4::IsStringMutable =>
 			return is_string_mutable_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive4::IsStringEmpty =>
 			return is_string_empty_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive4::IsStringImmutableEmpty =>
 			return is_string_immutable_empty_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive4::IsStringMutableEmpty =>
 			return is_string_mutable_empty_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive4::IsStringEmptyNot =>
 			return is_string_not_empty_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive4::IsStringImmutableEmptyNot =>
 			return is_string_immutable_not_empty_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive4::IsStringMutableEmptyNot =>
 			return is_string_mutable_not_empty_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
@@ -2088,60 +2214,79 @@ pub fn type_primitive_4_evaluate_0 (primitive : TypePrimitive4, input_1 : &Value
 		TypePrimitive4::IsNumberOdd =>
 			return is_number_odd_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive4::IsCharacterNumeric =>
 			return is_character_numeric_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive4::IsCharacterAlphabetic =>
 			return is_character_alphabetic_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive4::IsCharacterAlphabeticUpperCase =>
 			return is_character_alphabetic_upper_case_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive4::IsCharacterAlphabeticLowerCase =>
 			return is_character_alphabetic_lower_case_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive4::IsCharacterAlphabeticOrNumeric =>
 			return is_character_alphabetic_or_numeric_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive4::IsCharacterWhitespace =>
 			return is_character_whitespace_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive4::IsCharacterControl =>
 			return is_character_control_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive4::IsCharacterAscii =>
 			return is_character_ascii_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive4::IsCharacterAsciiNumeric =>
 			return is_character_ascii_numeric_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive4::IsCharacterAsciiNumericBase8 =>
 			return is_character_ascii_numeric_base_8_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive4::IsCharacterAsciiNumericBase16 =>
 			return is_character_ascii_numeric_base_16_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive4::IsCharacterAsciiAlphabetic =>
 			return is_character_ascii_alphabetic_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive4::IsCharacterAsciiAlphabeticUpperCase =>
 			return is_character_ascii_alphabetic_upper_case_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive4::IsCharacterAsciiAlphabeticLowerCase =>
 			return is_character_ascii_alphabetic_lower_case_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive4::IsCharacterAsciiAlphabeticOrNumeric =>
 			return is_character_ascii_alphabetic_or_numeric_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive4::IsCharacterAsciiWhitespace =>
 			return is_character_ascii_whitespace_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive4::IsCharacterAsciiControl =>
 			return is_character_ascii_control_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive4::IsCharacterAsciiPunctuation =>
 			return is_character_ascii_punctuation_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive4::IsCharacterAsciiGraphic =>
 			return is_character_ascii_graphic_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
@@ -2234,6 +2379,7 @@ pub fn type_primitive_n_evaluate_0 (primitive : TypePrimitiveN, inputs : &[&Valu
 		TypePrimitiveN::IsNumberInexact =>
 			return is_number_inexact_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitiveN::IsCharacter =>
 			return is_character_all_n (inputs) .into_0 (),
 		
@@ -2248,30 +2394,39 @@ pub fn type_primitive_n_evaluate_0 (primitive : TypePrimitiveN, inputs : &[&Valu
 		TypePrimitiveN::IsUnique =>
 			return is_unique_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitiveN::IsString =>
 			return is_string_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitiveN::IsStringImmutable =>
 			return is_string_immutable_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitiveN::IsStringMutable =>
 			return is_string_mutable_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitiveN::IsStringEmpty =>
 			return is_string_empty_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitiveN::IsStringImmutableEmpty =>
 			return is_string_immutable_empty_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitiveN::IsStringMutableEmpty =>
 			return is_string_mutable_empty_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitiveN::IsStringEmptyNot =>
 			return is_string_not_empty_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitiveN::IsStringImmutableEmptyNot =>
 			return is_string_immutable_not_empty_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitiveN::IsStringMutableEmptyNot =>
 			return is_string_mutable_not_empty_all_n (inputs) .into_0 (),
 		
@@ -2557,60 +2712,79 @@ pub fn type_primitive_n_evaluate_0 (primitive : TypePrimitiveN, inputs : &[&Valu
 		TypePrimitiveN::IsNumberOdd =>
 			return is_number_odd_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitiveN::IsCharacterNumeric =>
 			return is_character_numeric_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitiveN::IsCharacterAlphabetic =>
 			return is_character_alphabetic_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitiveN::IsCharacterAlphabeticUpperCase =>
 			return is_character_alphabetic_upper_case_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitiveN::IsCharacterAlphabeticLowerCase =>
 			return is_character_alphabetic_lower_case_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitiveN::IsCharacterAlphabeticOrNumeric =>
 			return is_character_alphabetic_or_numeric_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitiveN::IsCharacterWhitespace =>
 			return is_character_whitespace_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitiveN::IsCharacterControl =>
 			return is_character_control_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitiveN::IsCharacterAscii =>
 			return is_character_ascii_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitiveN::IsCharacterAsciiNumeric =>
 			return is_character_ascii_numeric_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitiveN::IsCharacterAsciiNumericBase8 =>
 			return is_character_ascii_numeric_base_8_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitiveN::IsCharacterAsciiNumericBase16 =>
 			return is_character_ascii_numeric_base_16_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitiveN::IsCharacterAsciiAlphabetic =>
 			return is_character_ascii_alphabetic_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitiveN::IsCharacterAsciiAlphabeticUpperCase =>
 			return is_character_ascii_alphabetic_upper_case_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitiveN::IsCharacterAsciiAlphabeticLowerCase =>
 			return is_character_ascii_alphabetic_lower_case_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitiveN::IsCharacterAsciiAlphabeticOrNumeric =>
 			return is_character_ascii_alphabetic_or_numeric_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitiveN::IsCharacterAsciiWhitespace =>
 			return is_character_ascii_whitespace_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitiveN::IsCharacterAsciiControl =>
 			return is_character_ascii_control_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitiveN::IsCharacterAsciiPunctuation =>
 			return is_character_ascii_punctuation_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitiveN::IsCharacterAsciiGraphic =>
 			return is_character_ascii_graphic_all_n (inputs) .into_0 (),
 		
@@ -2668,6 +2842,7 @@ macro_rules! def_type_primitive_v_alternative_fn {
 					Some ($alternative::IsNumberExactInteger),
 				TypePrimitiveV::IsNumberInexact =>
 					Some ($alternative::IsNumberInexact),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				TypePrimitiveV::IsCharacter =>
 					Some ($alternative::IsCharacter),
 				TypePrimitiveV::IsSymbol =>
@@ -2678,22 +2853,31 @@ macro_rules! def_type_primitive_v_alternative_fn {
 				#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 				TypePrimitiveV::IsUnique =>
 					Some ($alternative::IsUnique),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				TypePrimitiveV::IsString =>
 					Some ($alternative::IsString),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				TypePrimitiveV::IsStringImmutable =>
 					Some ($alternative::IsStringImmutable),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				TypePrimitiveV::IsStringMutable =>
 					Some ($alternative::IsStringMutable),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				TypePrimitiveV::IsStringEmpty =>
 					Some ($alternative::IsStringEmpty),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				TypePrimitiveV::IsStringImmutableEmpty =>
 					Some ($alternative::IsStringImmutableEmpty),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				TypePrimitiveV::IsStringMutableEmpty =>
 					Some ($alternative::IsStringMutableEmpty),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				TypePrimitiveV::IsStringEmptyNot =>
 					Some ($alternative::IsStringEmptyNot),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				TypePrimitiveV::IsStringImmutableEmptyNot =>
 					Some ($alternative::IsStringImmutableEmptyNot),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				TypePrimitiveV::IsStringMutableEmptyNot =>
 					Some ($alternative::IsStringMutableEmptyNot),
 				#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
@@ -2903,42 +3087,61 @@ macro_rules! def_type_primitive_v_alternative_fn {
 					Some ($alternative::IsNumberEven),
 				TypePrimitiveV::IsNumberOdd =>
 					Some ($alternative::IsNumberOdd),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				TypePrimitiveV::IsCharacterNumeric =>
 					Some ($alternative::IsCharacterNumeric),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				TypePrimitiveV::IsCharacterAlphabetic =>
 					Some ($alternative::IsCharacterAlphabetic),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				TypePrimitiveV::IsCharacterAlphabeticUpperCase =>
 					Some ($alternative::IsCharacterAlphabeticUpperCase),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				TypePrimitiveV::IsCharacterAlphabeticLowerCase =>
 					Some ($alternative::IsCharacterAlphabeticLowerCase),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				TypePrimitiveV::IsCharacterAlphabeticOrNumeric =>
 					Some ($alternative::IsCharacterAlphabeticOrNumeric),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				TypePrimitiveV::IsCharacterWhitespace =>
 					Some ($alternative::IsCharacterWhitespace),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				TypePrimitiveV::IsCharacterControl =>
 					Some ($alternative::IsCharacterControl),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				TypePrimitiveV::IsCharacterAscii =>
 					Some ($alternative::IsCharacterAscii),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				TypePrimitiveV::IsCharacterAsciiNumeric =>
 					Some ($alternative::IsCharacterAsciiNumeric),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				TypePrimitiveV::IsCharacterAsciiNumericBase8 =>
 					Some ($alternative::IsCharacterAsciiNumericBase8),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				TypePrimitiveV::IsCharacterAsciiNumericBase16 =>
 					Some ($alternative::IsCharacterAsciiNumericBase16),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				TypePrimitiveV::IsCharacterAsciiAlphabetic =>
 					Some ($alternative::IsCharacterAsciiAlphabetic),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				TypePrimitiveV::IsCharacterAsciiAlphabeticUpperCase =>
 					Some ($alternative::IsCharacterAsciiAlphabeticUpperCase),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				TypePrimitiveV::IsCharacterAsciiAlphabeticLowerCase =>
 					Some ($alternative::IsCharacterAsciiAlphabeticLowerCase),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				TypePrimitiveV::IsCharacterAsciiAlphabeticOrNumeric =>
 					Some ($alternative::IsCharacterAsciiAlphabeticOrNumeric),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				TypePrimitiveV::IsCharacterAsciiWhitespace =>
 					Some ($alternative::IsCharacterAsciiWhitespace),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				TypePrimitiveV::IsCharacterAsciiControl =>
 					Some ($alternative::IsCharacterAsciiControl),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				TypePrimitiveV::IsCharacterAsciiPunctuation =>
 					Some ($alternative::IsCharacterAsciiPunctuation),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				TypePrimitiveV::IsCharacterAsciiGraphic =>
 					Some ($alternative::IsCharacterAsciiGraphic),
 			}

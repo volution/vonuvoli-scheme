@@ -1,6 +1,8 @@
 
 
 use super::runtime::exports::*;
+
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 use super::values_strings::exports::*;
 
 use super::prelude::*;
@@ -44,6 +46,7 @@ impl Symbol {
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 impl String for Symbol {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

@@ -40,6 +40,7 @@ pub mod exports {
 		
 	};
 	
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	pub use super::{
 		
 		port_input_character_peek, port_input_character_read, port_input_character_ready,
@@ -65,6 +66,7 @@ pub mod exports {
 		
 	};
 	
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	pub use super::{
 		
 		port_string_reader_new, port_string_writer_new, port_string_writer_finalize,
@@ -156,6 +158,7 @@ pub fn port_input_byte_ready (port : &Value) -> (Outcome<bool>) {
 	return port.byte_ready ();
 }
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_character_peek (port : &Value) -> (Outcome<Value>) {
 	let port = try_as_port_ref! (port);
@@ -166,6 +169,7 @@ pub fn port_input_character_peek (port : &Value) -> (Outcome<Value>) {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_character_read (port : &Value) -> (Outcome<Value>) {
 	let port = try_as_port_ref! (port);
@@ -176,6 +180,7 @@ pub fn port_input_character_read (port : &Value) -> (Outcome<Value>) {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_character_ready (port : &Value) -> (Outcome<bool>) {
 	let port = try_as_port_ref! (port);
@@ -276,6 +281,7 @@ pub fn port_input_bytes_read_extend (port : &Value, bytes : &Value, count : Opti
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_string_read_collect (port : &Value, count : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
@@ -288,6 +294,7 @@ pub fn port_input_string_read_collect (port : &Value, count : Option<&Value>, fu
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_string_read_extend (port : &Value, string : &Value, count : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
@@ -363,6 +370,7 @@ pub fn port_input_bytes_read_extend_until (port : &Value, bytes : &Value, delimi
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_string_read_collect_until (port : &Value, delimiter : Option<&Value>, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
@@ -386,6 +394,7 @@ pub fn port_input_string_read_collect_until (port : &Value, delimiter : Option<&
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_string_read_extend_until (port : &Value, string : &Value, delimiter : Option<&Value>, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
@@ -445,6 +454,7 @@ pub fn port_input_bytes_read_line (port : &Value, include_delimiter : Option<boo
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_string_read_line (port : &Value, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
@@ -490,6 +500,7 @@ pub fn port_output_bytes_write (port : &Value, bytes : &Value) -> (Outcome<()>) 
 	succeed! (());
 }
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_output_character_write (port : &Value, char : &Value) -> (Outcome<()>) {
 	let port = try_as_port_ref! (port);
@@ -498,6 +509,7 @@ pub fn port_output_character_write (port : &Value, char : &Value) -> (Outcome<()
 	return port.char_write (char);
 }
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_output_string_write (port : &Value, string : &Value) -> (Outcome<()>) {
 	let port = try_as_port_ref! (port);
@@ -552,6 +564,7 @@ pub fn port_bytes_reader_new (bytes : &Value) -> (Outcome<Value>) {
 	succeed! (port.into ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_string_reader_new (string : &Value) -> (Outcome<Value>) {
 	let string = try_as_string_ref! (string);
@@ -578,6 +591,7 @@ pub fn port_bytes_writer_new (buffer : Option<usize>) -> (Outcome<Value>) {
 	succeed! (port.into ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_string_writer_new (buffer : Option<usize>) -> (Outcome<Value>) {
 	let port = try! (Port::new_bytes_writer (buffer));
@@ -603,6 +617,7 @@ pub fn port_bytes_writer_finalize (port : &Value) -> (Outcome<Value>) {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_string_writer_finalize (port : &Value) -> (Outcome<Value>) {
 	let port = try_as_port_ref! (port);
@@ -752,6 +767,7 @@ pub fn port_output_value_display_0 (port : &mut PortBackendWriter, value : &Valu
 			try! (port.char_write_string (&formatted, true));
 		},
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ValueClassMatchAsRef::Character (value) => {
 			let value = value.value ();
 			try! (port.char_write (value));
@@ -778,6 +794,7 @@ pub fn port_output_value_display_0 (port : &mut PortBackendWriter, value : &Valu
 			fail_unimplemented! (0xd8a1cb13);
 		},
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ValueClassMatchAsRef::String (class) => {
 			let string = try! (class.string_ref ());
 			let string = string.string_as_str ();
@@ -1003,6 +1020,7 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 			try! (port.char_write_string (&formatted, true));
 		},
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ValueClassMatchAsRef::Character (value) => {
 			// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
 			let formatted = format! ("{}", value);
@@ -1036,6 +1054,7 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 			try! (port.char_write_string (&formatted, true));
 		},
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ValueClassMatchAsRef::String (class) => {
 			// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
 			let formatted = match class {

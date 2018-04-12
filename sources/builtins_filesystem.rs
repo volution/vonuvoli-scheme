@@ -37,6 +37,11 @@ pub mod exports {
 		
 		filesystem_path_canonicalize,
 		
+	};
+	
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
+	pub use super::{
+		
 		filesystem_path_to_string,
 		filesystem_string_to_path,
 		
@@ -146,6 +151,8 @@ pub fn filesystem_path_coerce (value : &Value, normalize : bool) -> (Outcome<Pat
 				_ =>
 					fail! (0xa2667867),
 			},
+		// FIXME:  Add support for bytes!
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ValueClassMatchAsRef::String (value) => {
 			let value = value.string_as_ref ();
 			let value = try! (value.string_rc_clone ());
@@ -216,6 +223,8 @@ pub fn filesystem_path_join (values : &[&Value], normalize : bool) -> (Outcome<P
 					_ =>
 						fail! (0x1912686e),
 				},
+			// FIXME:  Add support for bytes!
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ValueClassMatchAsRef::String (value) => {
 				let path = try! (value.string_ref ());
 				let path = path.string_as_str ();
@@ -432,6 +441,8 @@ pub fn filesystem_path_name_join (values : &[&Value]) -> (Outcome<Path>) {
 					}
 				}
 			},
+			// FIXME:  Add support for bytes!
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ValueClassMatchAsRef::String (value) => {
 				let path = try! (value.string_ref ());
 				let path = path.string_as_str ();
@@ -933,6 +944,7 @@ pub fn filesystem_mountpoint_is (path : &Value, follow : bool) -> (Outcome<bool>
 
 
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_path_to_string (value : &Value, lossy : bool) -> (Outcome<Value>) {
 	let value = try_as_path_ref! (value);
@@ -951,6 +963,7 @@ pub fn filesystem_path_to_string (value : &Value, lossy : bool) -> (Outcome<Valu
 	succeed! (value.into ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_string_to_path (value : &Value) -> (Outcome<Value>) {
 	let value = try_as_string_as_ref! (value);

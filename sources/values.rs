@@ -13,6 +13,7 @@ pub mod exports {
 	#[ cfg ( any ( feature = "vonuvoli_values_unique", feature = "vonuvoli_builtins_parameters" ) ) ]
 	pub use super::super::values_unique::exports::*;
 	
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	pub use super::super::values_strings::exports::*;
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	pub use super::super::values_bytes::exports::*;

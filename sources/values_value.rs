@@ -8,8 +8,10 @@ use super::values_booleans::exports::*;
 use super::values_characters::exports::*;
 use super::values_numbers::exports::*;
 use super::values_pairs::exports::*;
-use super::values_strings::exports::*;
 use super::values_symbols::exports::*;
+
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
+use super::values_strings::exports::*;
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 use super::values_bytes::exports::*;
@@ -98,6 +100,7 @@ pub enum ValueKind {
 	Boolean,
 	NumberInteger,
 	NumberReal,
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	Character,
 	
 	Symbol,
@@ -106,7 +109,9 @@ pub enum ValueKind {
 	#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 	Unique,
 	
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	StringImmutable,
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	StringMutable,
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	BytesImmutable,
@@ -185,6 +190,7 @@ pub enum ValueKindMatchAsRef <'a> {
 	Boolean (&'a Boolean),
 	NumberInteger (&'a NumberInteger),
 	NumberReal (&'a NumberReal),
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	Character (&'a Character),
 	
 	Symbol (&'a Symbol),
@@ -193,7 +199,9 @@ pub enum ValueKindMatchAsRef <'a> {
 	#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 	Unique (&'a Unique),
 	
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	StringImmutable (&'a StringImmutable),
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	StringMutable (&'a StringMutable),
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	BytesImmutable (&'a BytesImmutable),
@@ -272,6 +280,7 @@ pub enum ValueKindMatchInto {
 	Boolean (Boolean),
 	NumberInteger (NumberInteger),
 	NumberReal (NumberReal),
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	Character (Character),
 	
 	Symbol (Symbol),
@@ -280,7 +289,9 @@ pub enum ValueKindMatchInto {
 	#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 	Unique (Unique),
 	
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	StringImmutable (StringImmutable),
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	StringMutable (StringMutable),
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	BytesImmutable (BytesImmutable),
@@ -359,6 +370,7 @@ pub enum ValueKindMatchAsRef2 <'a> {
 	Boolean (&'a Boolean, &'a Boolean),
 	NumberInteger (&'a NumberInteger, &'a NumberInteger),
 	NumberReal (&'a NumberReal, &'a NumberReal),
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	Character (&'a Character, &'a Character),
 	
 	Symbol (&'a Symbol, &'a Symbol),
@@ -367,7 +379,9 @@ pub enum ValueKindMatchAsRef2 <'a> {
 	#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 	Unique (&'a Unique, &'a Unique),
 	
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	StringImmutable (&'a StringImmutable, &'a StringImmutable),
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	StringMutable (&'a StringMutable, &'a StringMutable),
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	BytesImmutable (&'a BytesImmutable, &'a BytesImmutable),
@@ -450,6 +464,7 @@ pub enum ValueClass {
 	
 	Boolean,
 	Number,
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	Character,
 	
 	Symbol,
@@ -458,6 +473,7 @@ pub enum ValueClass {
 	#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 	Unique,
 	
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	String,
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	Bytes,
@@ -507,6 +523,7 @@ pub enum ValueClassMatchAsRef <'a> {
 	
 	Boolean (&'a Boolean),
 	Number (NumberMatchAsRef<'a>),
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	Character (&'a Character),
 	
 	Symbol (&'a Symbol),
@@ -515,6 +532,7 @@ pub enum ValueClassMatchAsRef <'a> {
 	#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 	Unique (&'a Unique),
 	
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	String (StringMatchAsRef<'a>),
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	Bytes (BytesMatchAsRef<'a>),
@@ -564,6 +582,7 @@ pub enum ValueClassMatchInto {
 	
 	Boolean (Boolean),
 	Number (NumberMatchInto),
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	Character (Character),
 	
 	Symbol (Symbol),
@@ -572,6 +591,7 @@ pub enum ValueClassMatchInto {
 	#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 	Unique (Unique),
 	
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	String (StringMatchInto),
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	Bytes (BytesMatchInto),
@@ -621,6 +641,7 @@ pub enum ValueClassMatchAsRef2 <'a> {
 	
 	Boolean (&'a Boolean, &'a Boolean),
 	Number (NumberMatchAsRef2<'a>),
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	Character (&'a Character, &'a Character),
 	
 	Symbol (&'a Symbol, &'a Symbol),
@@ -629,6 +650,7 @@ pub enum ValueClassMatchAsRef2 <'a> {
 	#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 	Unique (&'a Unique, &'a Unique),
 	
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	String (StringMatchAsRef2<'a>),
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	Bytes (BytesMatchAsRef2<'a>),
@@ -783,6 +805,7 @@ pub enum Value {
 	Boolean ( ValueMeta1, Boolean, ValueMeta2 ),
 	NumberInteger ( ValueMeta1, NumberInteger, ValueMeta2 ),
 	NumberReal ( ValueMeta1, NumberReal, ValueMeta2 ),
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	Character ( ValueMeta1, Character, ValueMeta2 ),
 	
 	Symbol ( ValueMeta1, Symbol, ValueMeta2 ),
@@ -791,7 +814,9 @@ pub enum Value {
 	#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 	Unique ( ValueMeta1, Unique, ValueMeta2 ),
 	
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	StringImmutable ( ValueMeta1, StringImmutable, ValueMeta2 ),
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	StringMutable ( ValueMeta1, StringMutable, ValueMeta2 ),
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	BytesImmutable ( ValueMeta1, BytesImmutable, ValueMeta2 ),
@@ -884,6 +909,7 @@ impl Value {
 			Value::Boolean (_, _, _) => ValueKind::Boolean,
 			Value::NumberInteger (_, _, _) => ValueKind::NumberInteger,
 			Value::NumberReal (_, _, _) => ValueKind::NumberReal,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			Value::Character (_, _, _) => ValueKind::Character,
 			
 			Value::Symbol (_, _, _) => ValueKind::Symbol,
@@ -892,7 +918,9 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			Value::Unique (_, _, _) => ValueKind::Unique,
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			Value::StringImmutable (_, _, _) => ValueKind::StringImmutable,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			Value::StringMutable (_, _, _) => ValueKind::StringMutable,
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			Value::BytesImmutable (_, _, _) => ValueKind::BytesImmutable,
@@ -979,6 +1007,7 @@ impl Value {
 			Value::Boolean (_, ref self_0, _) => ValueKindMatchAsRef::Boolean (self_0),
 			Value::NumberInteger (_, ref self_0, _) => ValueKindMatchAsRef::NumberInteger (self_0),
 			Value::NumberReal (_, ref self_0, _) => ValueKindMatchAsRef::NumberReal (self_0),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			Value::Character (_, ref self_0, _) => ValueKindMatchAsRef::Character (self_0),
 			
 			Value::Symbol (_, ref self_0, _) => ValueKindMatchAsRef::Symbol (self_0),
@@ -987,7 +1016,9 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			Value::Unique (_, ref self_0, _) => ValueKindMatchAsRef::Unique (self_0),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			Value::StringImmutable (_, ref self_0, _) => ValueKindMatchAsRef::StringImmutable (self_0),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			Value::StringMutable (_, ref self_0, _) => ValueKindMatchAsRef::StringMutable (self_0),
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			Value::BytesImmutable (_, ref self_0, _) => ValueKindMatchAsRef::BytesImmutable (self_0),
@@ -1074,6 +1105,7 @@ impl Value {
 			Value::Boolean (_, self_0, _) => ValueKindMatchInto::Boolean (self_0),
 			Value::NumberInteger (_, self_0, _) => ValueKindMatchInto::NumberInteger (self_0),
 			Value::NumberReal (_, self_0, _) => ValueKindMatchInto::NumberReal (self_0),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			Value::Character (_, self_0, _) => ValueKindMatchInto::Character (self_0),
 			
 			Value::Symbol (_, self_0, _) => ValueKindMatchInto::Symbol (self_0),
@@ -1082,7 +1114,9 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			Value::Unique (_, self_0, _) => ValueKindMatchInto::Unique (self_0),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			Value::StringImmutable (_, self_0, _) => ValueKindMatchInto::StringImmutable (self_0),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			Value::StringMutable (_, self_0, _) => ValueKindMatchInto::StringMutable (self_0),
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			Value::BytesImmutable (_, self_0, _) => ValueKindMatchInto::BytesImmutable (self_0),
@@ -1173,6 +1207,7 @@ impl Value {
 			(&Value::Boolean (_, ref self_0, _), &Value::Boolean (_, ref other_0, _)) => ValueKindMatchAsRef2::Boolean (self_0, other_0),
 			(&Value::NumberInteger (_, ref self_0, _), &Value::NumberInteger (_, ref other_0, _)) => ValueKindMatchAsRef2::NumberInteger (self_0, other_0),
 			(&Value::NumberReal (_, ref self_0, _), &Value::NumberReal (_, ref other_0, _)) => ValueKindMatchAsRef2::NumberReal (self_0, other_0),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			(&Value::Character (_, ref self_0, _), &Value::Character (_, ref other_0, _)) => ValueKindMatchAsRef2::Character (self_0, other_0),
 			
 			(&Value::Symbol (_, ref self_0, _), &Value::Symbol (_, ref other_0, _)) => ValueKindMatchAsRef2::Symbol (self_0, other_0),
@@ -1181,7 +1216,9 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			(&Value::Unique (_, ref self_0, _), &Value::Unique (_, ref other_0, _)) => ValueKindMatchAsRef2::Unique (self_0, other_0),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			(&Value::StringImmutable (_, ref self_0, _), &Value::StringImmutable (_, ref other_0, _)) => ValueKindMatchAsRef2::StringImmutable (self_0, other_0),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			(&Value::StringMutable (_, ref self_0, _), &Value::StringMutable (_, ref other_0, _)) => ValueKindMatchAsRef2::StringMutable (self_0, other_0),
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			(&Value::BytesImmutable (_, ref self_0, _), &Value::BytesImmutable (_, ref other_0, _)) => ValueKindMatchAsRef2::BytesImmutable (self_0, other_0),
@@ -1272,6 +1309,7 @@ impl Value {
 			Value::Boolean (_, _, _) => ValueClass::Boolean,
 			Value::NumberInteger (_, _, _) => ValueClass::Number,
 			Value::NumberReal (_, _, _) => ValueClass::Number,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			Value::Character (_, _, _) => ValueClass::Character,
 			
 			Value::Symbol (_, _, _) => ValueClass::Symbol,
@@ -1280,7 +1318,9 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			Value::Unique (_, _, _) => ValueClass::Unique,
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			Value::StringImmutable (_, _, _) => ValueClass::String,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			Value::StringMutable (_, _, _) => ValueClass::String,
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			Value::BytesImmutable (_, _, _) => ValueClass::Bytes,
@@ -1367,6 +1407,7 @@ impl Value {
 			Value::Boolean (_, ref self_0, _) => ValueClassMatchAsRef::Boolean (self_0),
 			Value::NumberInteger (_, ref self_0, _) => ValueClassMatchAsRef::Number (NumberMatchAsRef::Integer (self_0)),
 			Value::NumberReal (_, ref self_0, _) => ValueClassMatchAsRef::Number (NumberMatchAsRef::Real (self_0)),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			Value::Character (_, ref self_0, _) => ValueClassMatchAsRef::Character (self_0),
 			
 			Value::Symbol (_, ref self_0, _) => ValueClassMatchAsRef::Symbol (self_0),
@@ -1375,7 +1416,9 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			Value::Unique (_, ref self_0, _) => ValueClassMatchAsRef::Unique (self_0),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			Value::StringImmutable (_, ref self_0, _) => ValueClassMatchAsRef::String (StringMatchAsRef::Immutable (self_0)),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			Value::StringMutable (_, ref self_0, _) => ValueClassMatchAsRef::String (StringMatchAsRef::Mutable (self_0)),
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			Value::BytesImmutable (_, ref self_0, _) => ValueClassMatchAsRef::Bytes (BytesMatchAsRef::Immutable (self_0)),
@@ -1462,6 +1505,7 @@ impl Value {
 			Value::Boolean (_, self_0, _) => ValueClassMatchInto::Boolean (self_0),
 			Value::NumberInteger (_, self_0, _) => ValueClassMatchInto::Number (NumberMatchInto::Integer (self_0)),
 			Value::NumberReal (_, self_0, _) => ValueClassMatchInto::Number (NumberMatchInto::Real (self_0)),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			Value::Character (_, self_0, _) => ValueClassMatchInto::Character (self_0),
 			
 			Value::Symbol (_, self_0, _) => ValueClassMatchInto::Symbol (self_0),
@@ -1470,7 +1514,9 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			Value::Unique (_, self_0, _) => ValueClassMatchInto::Unique (self_0),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			Value::StringImmutable (_, self_0, _) => ValueClassMatchInto::String (StringMatchInto::Immutable (self_0)),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			Value::StringMutable (_, self_0, _) => ValueClassMatchInto::String (StringMatchInto::Mutable (self_0)),
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			Value::BytesImmutable (_, self_0, _) => ValueClassMatchInto::Bytes (BytesMatchInto::Immutable (self_0)),
@@ -1565,6 +1611,7 @@ impl Value {
 			(&Value::NumberInteger (_, ref self_0, _), &Value::NumberReal (_, ref other_0, _)) => ValueClassMatchAsRef2::Number (NumberMatchAsRef2::IntegerAndReal (self_0, other_0)),
 			(&Value::NumberReal (_, ref self_0, _), &Value::NumberInteger (_, ref other_0, _)) => ValueClassMatchAsRef2::Number (NumberMatchAsRef2::RealAndInteger (self_0, other_0)),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			(&Value::Character (_, ref self_0, _), &Value::Character (_, ref other_0, _)) => ValueClassMatchAsRef2::Character (self_0, other_0),
 			
 			(&Value::Symbol (_, ref self_0, _), &Value::Symbol (_, ref other_0, _)) => ValueClassMatchAsRef2::Symbol (self_0, other_0),
@@ -1573,9 +1620,13 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			(&Value::Unique (_, ref self_0, _), &Value::Unique (_, ref other_0, _)) => ValueClassMatchAsRef2::Unique (self_0, other_0),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			(&Value::StringImmutable (_, ref self_0, _), &Value::StringImmutable (_, ref other_0, _)) => ValueClassMatchAsRef2::String (StringMatchAsRef2::ImmutableBoth (self_0, other_0)),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			(&Value::StringMutable (_, ref self_0, _), &Value::StringMutable (_, ref other_0, _)) => ValueClassMatchAsRef2::String (StringMatchAsRef2::MutableBoth (self_0, other_0)),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			(&Value::StringImmutable (_, ref self_0, _), &Value::StringMutable (_, ref other_0, _)) => ValueClassMatchAsRef2::String (StringMatchAsRef2::ImmutableAndMutable (self_0, other_0)),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			(&Value::StringMutable (_, ref self_0, _), &Value::StringImmutable (_, ref other_0, _)) => ValueClassMatchAsRef2::String (StringMatchAsRef2::MutableAndImmutable (self_0, other_0)),
 			
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
@@ -1700,6 +1751,7 @@ impl Value {
 			ValueKindMatchAsRef2::Boolean (self_0, other_0) => Boolean::eq (self_0, other_0),
 			ValueKindMatchAsRef2::NumberInteger (self_0, other_0) => NumberInteger::eq (self_0, other_0),
 			ValueKindMatchAsRef2::NumberReal (self_0, other_0) => NumberReal::eq (self_0, other_0),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ValueKindMatchAsRef2::Character (self_0, other_0) => Character::eq (self_0, other_0),
 			
 			ValueKindMatchAsRef2::Symbol (self_0, other_0) => Symbol::is_self (self_0, other_0),
@@ -1708,7 +1760,9 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			ValueKindMatchAsRef2::Unique (self_0, other_0) => Unique::is_self (self_0, other_0),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ValueKindMatchAsRef2::StringImmutable (self_0, other_0) => StringImmutable::is_self (self_0, other_0),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ValueKindMatchAsRef2::StringMutable (self_0, other_0) => StringMutable::is_self (self_0, other_0),
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			ValueKindMatchAsRef2::BytesImmutable (self_0, other_0) => BytesImmutable::is_self (self_0, other_0),
@@ -1788,6 +1842,7 @@ impl Value {
 			Value::Boolean (_, ref self_0, _) => self_0.clone () .into_0 (),
 			Value::NumberInteger (_, ref self_0, _) => self_0.clone () .into_0 (),
 			Value::NumberReal (_, ref self_0, _) => self_0.clone () .into_0 (),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			Value::Character (_, ref self_0, _) => self_0.clone () .into_0 (),
 			
 			Value::Symbol (_, ref self_0, _) => self_0.clone () .into_0 (),
@@ -1796,7 +1851,9 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			Value::Unique (_, ref self_0, _) => self_0.clone () .into_0 (),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			Value::StringImmutable (_, ref self_0, _) => self_0.clone () .into_0 (),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			Value::StringMutable (_, ref self_0, _) => self_0.to_immutable () .into_0 (),
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			Value::BytesImmutable (_, ref self_0, _) => self_0.clone () .into_0 (),
@@ -1871,7 +1928,9 @@ impl Value {
 	pub fn to_mutable (&self) -> (Outcome<Value>) {
 		match *self {
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			Value::StringImmutable (_, ref self_0, _) => self_0.to_mutable () .into_0 (),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			Value::StringMutable (_, ref self_0, _) => self_0.clone () .into_0 (),
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			Value::BytesImmutable (_, ref self_0, _) => self_0.to_mutable () .into_0 (),
@@ -1922,6 +1981,7 @@ impl ValueKindMatchInto {
 			ValueKindMatchInto::Boolean (value) => value.into (),
 			ValueKindMatchInto::NumberInteger (value) => value.into (),
 			ValueKindMatchInto::NumberReal (value) => value.into (),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ValueKindMatchInto::Character (value) => value.into (),
 			
 			ValueKindMatchInto::Symbol (value) => value.into (),
@@ -1930,7 +1990,9 @@ impl ValueKindMatchInto {
 			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			ValueKindMatchInto::Unique (value) => value.into (),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ValueKindMatchInto::StringImmutable (value) => value.into (),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ValueKindMatchInto::StringMutable (value) => value.into (),
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			ValueKindMatchInto::BytesImmutable (value) => value.into (),
@@ -2015,6 +2077,7 @@ impl ValueClassMatchInto {
 			
 			ValueClassMatchInto::Boolean (value) => value.into (),
 			ValueClassMatchInto::Number (class) => class.value (),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ValueClassMatchInto::Character (value) => value.into (),
 			
 			ValueClassMatchInto::Symbol (value) => value.into (),
@@ -2023,6 +2086,7 @@ impl ValueClassMatchInto {
 			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			ValueClassMatchInto::Unique (value) => value.into (),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ValueClassMatchInto::String (class) => class.value (),
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			ValueClassMatchInto::Bytes (class) => class.value (),

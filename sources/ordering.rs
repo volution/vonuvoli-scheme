@@ -70,6 +70,7 @@ impl <'a> ValueKindMatchAsRef2<'a> {
 			ValueKindMatchAsRef2::Boolean (self_0, other_0) => Some (Boolean::eq (self_0, other_0)),
 			ValueKindMatchAsRef2::NumberInteger (self_0, other_0) => Some (NumberInteger::eq (self_0, other_0)),
 			ValueKindMatchAsRef2::NumberReal (self_0, other_0) => Some (NumberReal::eq (self_0, other_0)),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ValueKindMatchAsRef2::Character (self_0, other_0) => Some (Character::eq (self_0, other_0)),
 			
 			ValueKindMatchAsRef2::Symbol (self_0, other_0) => Some (Symbol::eq (self_0, other_0)),
@@ -78,7 +79,9 @@ impl <'a> ValueKindMatchAsRef2<'a> {
 			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			ValueKindMatchAsRef2::Unique (self_0, other_0) => Some (Unique::eq (self_0, other_0)),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ValueKindMatchAsRef2::StringImmutable (self_0, other_0) => Some (StringImmutable::eq (self_0, other_0)),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ValueKindMatchAsRef2::StringMutable (self_0, other_0) => Some (StringMutable::eq (self_0, other_0)),
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			ValueKindMatchAsRef2::BytesImmutable (self_0, other_0) => Some (BytesImmutable::eq (self_0, other_0)),
@@ -164,6 +167,7 @@ impl <'a> ValueKindMatchAsRef2<'a> {
 			ValueKindMatchAsRef2::Boolean (self_0, other_0) => Some (Boolean::cmp (self_0, other_0)),
 			ValueKindMatchAsRef2::NumberInteger (self_0, other_0) => Some (NumberInteger::cmp (self_0, other_0)),
 			ValueKindMatchAsRef2::NumberReal (self_0, other_0) => Some (NumberReal::cmp (self_0, other_0)),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ValueKindMatchAsRef2::Character (self_0, other_0) => Some (Character::cmp (self_0, other_0)),
 			
 			ValueKindMatchAsRef2::Symbol (self_0, other_0) => Some (Symbol::cmp (self_0, other_0)),
@@ -172,7 +176,9 @@ impl <'a> ValueKindMatchAsRef2<'a> {
 			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			ValueKindMatchAsRef2::Unique (self_0, other_0) => Some (Unique::cmp (self_0, other_0)),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ValueKindMatchAsRef2::StringImmutable (self_0, other_0) => Some (StringImmutable::cmp (self_0, other_0)),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ValueKindMatchAsRef2::StringMutable (self_0, other_0) => Some (StringMutable::cmp (self_0, other_0)),
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			ValueKindMatchAsRef2::BytesImmutable (self_0, other_0) => Some (BytesImmutable::cmp (self_0, other_0)),
@@ -290,8 +296,10 @@ impl cmp::PartialOrd for NumberReal {
 
 
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 impl cmp::Eq for StringImmutable {}
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 impl cmp::PartialEq for StringImmutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -302,6 +310,7 @@ impl cmp::PartialEq for StringImmutable {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 impl cmp::Ord for StringImmutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -312,6 +321,7 @@ impl cmp::Ord for StringImmutable {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 impl cmp::PartialOrd for StringImmutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -321,8 +331,10 @@ impl cmp::PartialOrd for StringImmutable {
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 impl cmp::Eq for StringMutable {}
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 impl cmp::PartialEq for StringMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -333,6 +345,7 @@ impl cmp::PartialEq for StringMutable {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 impl cmp::Ord for StringMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -343,6 +356,7 @@ impl cmp::Ord for StringMutable {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 impl cmp::PartialOrd for StringMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -352,8 +366,10 @@ impl cmp::PartialOrd for StringMutable {
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 impl <'a> cmp::Eq for StringRef<'a> {}
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 impl <'a> cmp::PartialEq for StringRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -364,6 +380,7 @@ impl <'a> cmp::PartialEq for StringRef<'a> {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 impl <'a> cmp::Ord for StringRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -374,6 +391,7 @@ impl <'a> cmp::Ord for StringRef<'a> {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 impl <'a> cmp::PartialOrd for StringRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

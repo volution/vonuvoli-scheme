@@ -16,6 +16,8 @@ pub mod exports {
 	pub use super::Outcome;
 	pub use super::Error;
 	pub use super::ErrorInternals;
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
+	pub use super::ErrorMessage;
 	
 	pub use super::error_generic;
 	pub use super::error_unimplemented;
@@ -46,6 +48,14 @@ pub enum ErrorInternals {
 	WithValue (Option<u64>, Value),
 	Exit (u32, bool),
 }
+
+#[ cfg ( feature = "vonuvoli_values_error" ) ]
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
+pub type ErrorMessage = StringImmutable;
+
+#[ cfg ( feature = "vonuvoli_values_error" ) ]
+#[ cfg ( not ( feature = "vonuvoli_values_string" ) ) ]
+pub type ErrorMessage = Symbol;
 
 
 impl Error {
@@ -198,16 +208,24 @@ impl Error {
 	
 	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn message_clone (&self) -> (Option<StringImmutable>) {
+	pub fn message_clone (&self) -> (Option<ErrorMessage>) {
 		match *self.internals_ref () {
 			ErrorInternals::Code (_) =>
 				None,
 			ErrorInternals::WithBacktrace (_, _) =>
 				None,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ErrorInternals::WithMessage (_, ref message) =>
 				Some (StringImmutable::clone_rc (message)),
+			#[ cfg ( not ( feature = "vonuvoli_values_string" ) ) ]
+			ErrorInternals::WithMessage (_, ref message) =>
+				Some (Symbol::clone_rc (message)),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ErrorInternals::WithMessageAndArguments (_, ref message, _) =>
 				Some (StringImmutable::clone_rc (message)),
+			#[ cfg ( not ( feature = "vonuvoli_values_string" ) ) ]
+			ErrorInternals::WithMessageAndArguments (_, ref message, _) =>
+				Some (Symbol::clone_rc (message)),
 			ErrorInternals::WithValue (_, _) =>
 				None,
 			ErrorInternals::Exit (_, _) =>

@@ -230,12 +230,18 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			// characters
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "types", "char?", TypePrimitiveV::IsCharacter.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "characters", "char=?", ComparisonPrimitiveV::CharacterCaseSensitiveEqual.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "characters", "char<?", ComparisonPrimitiveV::CharacterCaseSensitiveLesser.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "characters", "char>?", ComparisonPrimitiveV::CharacterCaseSensitiveGreater.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "characters", "char<=?", ComparisonPrimitiveV::CharacterCaseSensitiveLesserOrEqual.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "characters", "char>=?", ComparisonPrimitiveV::CharacterCaseSensitiveGreaterOrEqual.into ()),
 			
 			
@@ -356,26 +362,42 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			// strings
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "types", "string?", TypePrimitiveV::IsString.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "strings", "string", StringPrimitiveV::StringBuild.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "strings", "make-string", StringPrimitiveV::StringMake.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "strings", "string-copy", StringPrimitiveV::StringRangeClone.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "strings", "string-append", StringPrimitiveV::StringAppend.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "strings", "string-length", StringPrimitive1::StringLength.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "strings", "string-ref", StringPrimitive2::StringAt.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "strings", "string-set!", StringPrimitive3::StringAtSet.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "strings", "string-fill!", StringPrimitiveV::StringRangeFill.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "strings", "string-copy!", StringPrimitiveV::StringRangeCopy.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "strings", "substring", StringPrimitiveV::StringRangeClone.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "strings", "string=?", ComparisonPrimitiveV::StringCaseSensitiveEqual.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "strings", "string<?", ComparisonPrimitiveV::StringCaseSensitiveLesser.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "strings", "string>?", ComparisonPrimitiveV::StringCaseSensitiveGreater.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "strings", "string<=?", ComparisonPrimitiveV::StringCaseSensitiveLesserOrEqual.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "strings", "string>=?", ComparisonPrimitiveV::StringCaseSensitiveGreaterOrEqual.into ()),
 			
 			
@@ -383,22 +405,32 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			// converters to and from strings
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "strings", "number->string", StringPrimitiveV::NumberToString.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "strings", "string->number", StringPrimitiveV::StringToNumber.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "strings", "symbol->string", StringPrimitive1::SymbolToString.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "strings", "string->symbol", StringPrimitive1::StringToSymbol.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "strings", "list->string", StringPrimitiveV::ListRangeToString.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "strings", "string->list", StringPrimitiveV::StringRangeToList.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("base", "strings", "utf8->string", StringPrimitiveV::BytesRangeToString.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("base", "strings", "string->utf8", StringPrimitiveV::StringRangeToBytes.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("base", "strings", "vector->string", StringPrimitiveV::ArrayRangeToString.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("base", "strings", "string->vector", StringPrimitiveV::StringRangeToArray.into ()),
 			
@@ -407,7 +439,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			// converters miscellaneous
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "characters", "char->integer", StringPrimitive1::CharacterToNumber.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "characters", "integer->char", StringPrimitive1::NumberToCharacter.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
@@ -432,7 +466,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("base", "functions", "vector-for-each", FunctionsPrimitiveV::ArraysIterate.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "functions", "string-map", FunctionsPrimitiveV::StringsMap.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "functions", "string-for-each", FunctionsPrimitiveV::StringsIterate.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_values_values" ) ]
@@ -505,10 +541,13 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "ports", "textual-port?", TypePrimitiveV::IsPortTextual.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "ports", "open-input-string", PortPrimitive1::InputFromString.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "ports", "open-output-string", PortPrimitiveV::OutputToString.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "ports", "get-output-string", PortPrimitive1::OutputToStringFinalize.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
@@ -534,12 +573,16 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			// ports input
 			
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "ports", "char-ready?", PortPrimitiveV::CharacterReady.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "ports", "peek-char", PortPrimitiveV::CharacterPeek.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "ports", "read-char", PortPrimitiveV::CharacterRead.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "ports", "read-string", PortPrimitiveV::StringReadCollect.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
@@ -559,6 +602,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "ports", "read-bytevector!", PortPrimitiveV::BytesReadCopy.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "ports", "read-line", PortPrimitiveV::StringReadLine.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
@@ -572,8 +616,10 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			// ports output
 			
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "ports", "write-char", PortPrimitiveV::CharacterWrite.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "ports", "write-string", PortPrimitiveV::StringWrite.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
@@ -603,32 +649,54 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			// (scheme char)
 			//     --> verified
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("char", "strings", "string-upcase", StringPrimitive1::StringToUpperCase.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("char", "strings", "string-downcase", StringPrimitive1::StringToLowerCase.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("char", "strings", "string-foldcase", StringPrimitive1::StringToFoldCase.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("char", "strings", "string-ci=?", ComparisonPrimitiveV::StringCaseInsensitiveEqual.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("char", "strings", "string-ci<?", ComparisonPrimitiveV::StringCaseInsensitiveLesser.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("char", "strings", "string-ci>?", ComparisonPrimitiveV::StringCaseInsensitiveGreater.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("char", "strings", "string-ci<=?", ComparisonPrimitiveV::StringCaseInsensitiveLesserOrEqual.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("char", "strings", "string-ci>=?", ComparisonPrimitiveV::StringCaseInsensitiveGreaterOrEqual.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("char", "characters", "char-alphabetic?", TypePrimitiveV::IsCharacterAlphabetic.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("char", "characters", "char-upper-case?", TypePrimitiveV::IsCharacterAlphabeticUpperCase.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("char", "characters", "char-lower-case?", TypePrimitiveV::IsCharacterAlphabeticLowerCase.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("char", "characters", "char-numeric?", TypePrimitiveV::IsCharacterNumeric.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("char", "characters", "char-whitespace?", TypePrimitiveV::IsCharacterWhitespace.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("char", "characters", "char-upcase", StringPrimitive1::CharacterToUpperCase.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("char", "characters", "char-downcase", StringPrimitive1::CharacterToLowerCase.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("char", "characters", "char-foldcase", StringPrimitive1::CharacterToFoldCase.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("char", "characters", "char-ci=?", ComparisonPrimitiveV::CharacterCaseInsensitiveEqual.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("char", "characters", "char-ci<?", ComparisonPrimitiveV::CharacterCaseInsensitiveLesser.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("char", "characters", "char-ci>?", ComparisonPrimitiveV::CharacterCaseInsensitiveGreater.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("char", "characters", "char-ci<=?", ComparisonPrimitiveV::CharacterCaseInsensitiveLesserOrEqual.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("char", "characters", "char-ci>=?", ComparisonPrimitiveV::CharacterCaseInsensitiveGreaterOrEqual.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("char", "characters", "digit-value", StringPrimitiveV::CharacterToDigitNumber.into ()),
 			
 			

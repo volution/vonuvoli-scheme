@@ -9,9 +9,11 @@ pub mod exports {
 	pub use super::super::primitives_lists::exports::*;
 	pub use super::super::primitives_procedures::exports::*;
 	pub use super::super::primitives_runtime::exports::*;
-	pub use super::super::primitives_strings::exports::*;
 	pub use super::super::primitives_syntaxes::exports::*;
 	pub use super::super::primitives_types::exports::*;
+	
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
+	pub use super::super::primitives_strings::exports::*;
 	
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	pub use super::super::primitives_bytes::exports::*;

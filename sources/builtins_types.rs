@@ -126,6 +126,7 @@ pub mod exports {
 			
 	};
 	
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	pub use super::super::builtins_strings::{
 			
 			character_is_numeric as is_character_numeric,
@@ -151,6 +152,7 @@ pub mod exports {
 			
 	};
 	
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	pub use super::{
 			
 			/*
@@ -440,6 +442,7 @@ pub mod exports {
 	};
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	pub use super::{
 			
 			is_string, is_string_empty, is_string_not_empty,
@@ -1381,6 +1384,8 @@ def_fn_predicate_any! (is_character, is_character_any_2, is_character_any_3, is_
 
 
 
+
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 use super::builtins_strings::{
 		
 		character_is_numeric as is_character_numeric,
@@ -1407,62 +1412,100 @@ use super::builtins_strings::{
 };
 
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_all! (is_character_numeric, is_character_numeric_all_2, is_character_numeric_all_3, is_character_numeric_all_4, is_character_numeric_all_n);
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_any! (is_character_numeric, is_character_numeric_any_2, is_character_numeric_any_3, is_character_numeric_any_4, is_character_numeric_any_n);
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_all! (is_character_alphabetic, is_character_alphabetic_all_2, is_character_alphabetic_all_3, is_character_alphabetic_all_4, is_character_alphabetic_all_n);
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_any! (is_character_alphabetic, is_character_alphabetic_any_2, is_character_alphabetic_any_3, is_character_alphabetic_any_4, is_character_alphabetic_any_n);
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_all! (is_character_alphabetic_upper_case, is_character_alphabetic_upper_case_all_2, is_character_alphabetic_upper_case_all_3, is_character_alphabetic_upper_case_all_4, is_character_alphabetic_upper_case_all_n);
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_any! (is_character_alphabetic_upper_case, is_character_alphabetic_upper_case_any_2, is_character_alphabetic_upper_case_any_3, is_character_alphabetic_upper_case_any_4, is_character_alphabetic_upper_case_any_n);
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_all! (is_character_alphabetic_lower_case, is_character_alphabetic_lower_case_all_2, is_character_alphabetic_lower_case_all_3, is_character_alphabetic_lower_case_all_4, is_character_alphabetic_lower_case_all_n);
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_any! (is_character_alphabetic_lower_case, is_character_alphabetic_lower_case_any_2, is_character_alphabetic_lower_case_any_3, is_character_alphabetic_lower_case_any_4, is_character_alphabetic_lower_case_any_n);
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_all! (is_character_alphabetic_or_numeric, is_character_alphabetic_or_numeric_all_2, is_character_alphabetic_or_numeric_all_3, is_character_alphabetic_or_numeric_all_4, is_character_alphabetic_or_numeric_all_n);
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_any! (is_character_alphabetic_or_numeric, is_character_alphabetic_or_numeric_any_2, is_character_alphabetic_or_numeric_any_3, is_character_alphabetic_or_numeric_any_4, is_character_alphabetic_or_numeric_any_n);
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_all! (is_character_whitespace, is_character_whitespace_all_2, is_character_whitespace_all_3, is_character_whitespace_all_4, is_character_whitespace_all_n);
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_any! (is_character_whitespace, is_character_whitespace_any_2, is_character_whitespace_any_3, is_character_whitespace_any_4, is_character_whitespace_any_n);
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_all! (is_character_control, is_character_control_all_2, is_character_control_all_3, is_character_control_all_4, is_character_control_all_n);
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_any! (is_character_control, is_character_control_any_2, is_character_control_any_3, is_character_control_any_4, is_character_control_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_all! (is_character_ascii, is_character_ascii_all_2, is_character_ascii_all_3, is_character_ascii_all_4, is_character_ascii_all_n);
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_any! (is_character_ascii, is_character_ascii_any_2, is_character_ascii_any_3, is_character_ascii_any_4, is_character_ascii_any_n);
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_all! (is_character_ascii_numeric, is_character_ascii_numeric_all_2, is_character_ascii_numeric_all_3, is_character_ascii_numeric_all_4, is_character_ascii_numeric_all_n);
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_any! (is_character_ascii_numeric, is_character_ascii_numeric_any_2, is_character_ascii_numeric_any_3, is_character_ascii_numeric_any_4, is_character_ascii_numeric_any_n);
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_all! (is_character_ascii_numeric_base_8, is_character_ascii_numeric_base_8_all_2, is_character_ascii_numeric_base_8_all_3, is_character_ascii_numeric_base_8_all_4, is_character_ascii_numeric_base_8_all_n);
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_any! (is_character_ascii_numeric_base_8, is_character_ascii_numeric_base_8_any_2, is_character_ascii_numeric_base_8_any_3, is_character_ascii_numeric_base_8_any_4, is_character_ascii_numeric_base_8_any_n);
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_all! (is_character_ascii_numeric_base_16, is_character_ascii_numeric_base_16_all_2, is_character_ascii_numeric_base_16_all_3, is_character_ascii_numeric_base_16_all_4, is_character_ascii_numeric_base_16_all_n);
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_any! (is_character_ascii_numeric_base_16, is_character_ascii_numeric_base_16_any_2, is_character_ascii_numeric_base_16_any_3, is_character_ascii_numeric_base_16_any_4, is_character_ascii_numeric_base_16_any_n);
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_all! (is_character_ascii_alphabetic, is_character_ascii_alphabetic_all_2, is_character_ascii_alphabetic_all_3, is_character_ascii_alphabetic_all_4, is_character_ascii_alphabetic_all_n);
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_any! (is_character_ascii_alphabetic, is_character_ascii_alphabetic_any_2, is_character_ascii_alphabetic_any_3, is_character_ascii_alphabetic_any_4, is_character_ascii_alphabetic_any_n);
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_all! (is_character_ascii_alphabetic_upper_case, is_character_ascii_alphabetic_upper_case_all_2, is_character_ascii_alphabetic_upper_case_all_3, is_character_ascii_alphabetic_upper_case_all_4, is_character_ascii_alphabetic_upper_case_all_n);
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_any! (is_character_ascii_alphabetic_upper_case, is_character_ascii_alphabetic_upper_case_any_2, is_character_ascii_alphabetic_upper_case_any_3, is_character_ascii_alphabetic_upper_case_any_4, is_character_ascii_alphabetic_upper_case_any_n);
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_all! (is_character_ascii_alphabetic_lower_case, is_character_ascii_alphabetic_lower_case_all_2, is_character_ascii_alphabetic_lower_case_all_3, is_character_ascii_alphabetic_lower_case_all_4, is_character_ascii_alphabetic_lower_case_all_n);
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_any! (is_character_ascii_alphabetic_lower_case, is_character_ascii_alphabetic_lower_case_any_2, is_character_ascii_alphabetic_lower_case_any_3, is_character_ascii_alphabetic_lower_case_any_4, is_character_ascii_alphabetic_lower_case_any_n);
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_all! (is_character_ascii_alphabetic_or_numeric, is_character_ascii_alphabetic_or_numeric_all_2, is_character_ascii_alphabetic_or_numeric_all_3, is_character_ascii_alphabetic_or_numeric_all_4, is_character_ascii_alphabetic_or_numeric_all_n);
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_any! (is_character_ascii_alphabetic_or_numeric, is_character_ascii_alphabetic_or_numeric_any_2, is_character_ascii_alphabetic_or_numeric_any_3, is_character_ascii_alphabetic_or_numeric_any_4, is_character_ascii_alphabetic_or_numeric_any_n);
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_all! (is_character_ascii_whitespace, is_character_ascii_whitespace_all_2, is_character_ascii_whitespace_all_3, is_character_ascii_whitespace_all_4, is_character_ascii_whitespace_all_n);
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_any! (is_character_ascii_whitespace, is_character_ascii_whitespace_any_2, is_character_ascii_whitespace_any_3, is_character_ascii_whitespace_any_4, is_character_ascii_whitespace_any_n);
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_all! (is_character_ascii_control, is_character_ascii_control_all_2, is_character_ascii_control_all_3, is_character_ascii_control_all_4, is_character_ascii_control_all_n);
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_any! (is_character_ascii_control, is_character_ascii_control_any_2, is_character_ascii_control_any_3, is_character_ascii_control_any_4, is_character_ascii_control_any_n);
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_all! (is_character_ascii_punctuation, is_character_ascii_punctuation_all_2, is_character_ascii_punctuation_all_3, is_character_ascii_punctuation_all_4, is_character_ascii_punctuation_all_n);
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_any! (is_character_ascii_punctuation, is_character_ascii_punctuation_any_2, is_character_ascii_punctuation_any_3, is_character_ascii_punctuation_any_4, is_character_ascii_punctuation_any_n);
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_all! (is_character_ascii_graphic, is_character_ascii_graphic_all_2, is_character_ascii_graphic_all_3, is_character_ascii_graphic_all_4, is_character_ascii_graphic_all_n);
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_any! (is_character_ascii_graphic, is_character_ascii_graphic_any_2, is_character_ascii_graphic_any_3, is_character_ascii_graphic_any_4, is_character_ascii_graphic_any_n);
 
 
@@ -2046,52 +2089,68 @@ def_fn_try_predicate_any! (is_bytes_mutable_not_empty, is_bytes_mutable_not_empt
 
 
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_string (value : &Value) -> (bool) {
 	return value.is_class (ValueClass::String);
 }
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_predicate_all! (is_string, is_string_all_2, is_string_all_3, is_string_all_4, is_string_all_n);
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_predicate_any! (is_string, is_string_any_2, is_string_any_3, is_string_any_4, is_string_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_string_immutable (value : &Value) -> (bool) {
 	return value.is_kind (ValueKind::StringImmutable);
 }
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_predicate_all! (is_string_immutable, is_string_immutable_all_2, is_string_immutable_all_3, is_string_immutable_all_4, is_string_immutable_all_n);
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_predicate_any! (is_string_immutable, is_string_immutable_any_2, is_string_immutable_any_3, is_string_immutable_any_4, is_string_immutable_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_string_mutable (value : &Value) -> (bool) {
 	return value.is_kind (ValueKind::StringMutable);
 }
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_predicate_all! (is_string_mutable, is_string_mutable_all_2, is_string_mutable_all_3, is_string_mutable_all_4, is_string_mutable_all_n);
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_predicate_any! (is_string_mutable, is_string_mutable_any_2, is_string_mutable_any_3, is_string_mutable_any_4, is_string_mutable_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_string_empty (value : &Value) -> (Outcome<bool>) {
 	succeed! (try_as_string_ref! (value) .string_is_empty ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_all! (is_string_empty, is_string_empty_all_2, is_string_empty_all_3, is_string_empty_all_4, is_string_empty_all_n);
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_any! (is_string_empty, is_string_empty_any_2, is_string_empty_any_3, is_string_empty_any_4, is_string_empty_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_string_immutable_empty (value : &Value) -> (Outcome<bool>) {
 	let value = try_as_string_immutable_ref! (value);
 	succeed! (value.string_ref () .string_is_empty ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_all! (is_string_immutable_empty, is_string_immutable_empty_all_2, is_string_immutable_empty_all_3, is_string_immutable_empty_all_4, is_string_immutable_empty_all_n);
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_any! (is_string_immutable_empty, is_string_immutable_empty_any_2, is_string_immutable_empty_any_3, is_string_immutable_empty_any_4, is_string_immutable_empty_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_string_mutable_empty (value : &Value) -> (Outcome<bool>) {
 	let value = try_as_string_mutable_ref! (value);
@@ -2099,29 +2158,38 @@ pub fn is_string_mutable_empty (value : &Value) -> (Outcome<bool>) {
 	succeed! (value.string_is_empty ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_all! (is_string_mutable_empty, is_string_mutable_empty_all_2, is_string_mutable_empty_all_3, is_string_mutable_empty_all_4, is_string_mutable_empty_all_n);
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_any! (is_string_mutable_empty, is_string_mutable_empty_any_2, is_string_mutable_empty_any_3, is_string_mutable_empty_any_4, is_string_mutable_empty_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_string_not_empty (value : &Value) -> (Outcome<bool>) {
 	succeed! (try_as_string_ref! (value) .string_is_not_empty ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_all! (is_string_not_empty, is_string_not_empty_all_2, is_string_not_empty_all_3, is_string_not_empty_all_4, is_string_not_empty_all_n);
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_any! (is_string_not_empty, is_string_not_empty_any_2, is_string_not_empty_any_3, is_string_not_empty_any_4, is_string_not_empty_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_string_immutable_not_empty (value : &Value) -> (Outcome<bool>) {
 	let value = try_as_string_immutable_ref! (value);
 	succeed! (value.string_ref () .string_is_not_empty ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_all! (is_string_immutable_not_empty, is_string_immutable_not_empty_all_2, is_string_immutable_not_empty_all_3, is_string_immutable_not_empty_all_4, is_string_immutable_not_empty_all_n);
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_any! (is_string_immutable_not_empty, is_string_immutable_not_empty_any_2, is_string_immutable_not_empty_any_3, is_string_immutable_not_empty_any_4, is_string_immutable_not_empty_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_string_mutable_not_empty (value : &Value) -> (Outcome<bool>) {
 	let value = try_as_string_mutable_ref! (value);
@@ -2129,7 +2197,9 @@ pub fn is_string_mutable_not_empty (value : &Value) -> (Outcome<bool>) {
 	succeed! (value.string_is_not_empty ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_all! (is_string_mutable_not_empty, is_string_mutable_not_empty_all_2, is_string_mutable_not_empty_all_3, is_string_mutable_not_empty_all_4, is_string_mutable_not_empty_all_n);
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_try_predicate_any! (is_string_mutable_not_empty, is_string_mutable_not_empty_any_2, is_string_mutable_not_empty_any_3, is_string_mutable_not_empty_any_4, is_string_mutable_not_empty_any_n);
 
 

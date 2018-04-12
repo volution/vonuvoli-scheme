@@ -9,9 +9,11 @@ use super::primitives_comparisons::exports::*;
 use super::primitives_functions::exports::*;
 use super::primitives_lists::exports::*;
 use super::primitives_runtime::exports::*;
-use super::primitives_strings::exports::*;
 use super::primitives_types::exports::*;
 use super::values::exports::*;
+
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
+use super::primitives_strings::exports::*;
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 use super::primitives_bytes::exports::*;
@@ -132,6 +134,7 @@ pub enum ProcedurePrimitive0 {
 	Array ( ArrayPrimitive0 ),
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	Bytes ( BytesPrimitive0 ),
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	String ( StringPrimitive0 ),
 	
 	Functions ( FunctionsPrimitive0 ),
@@ -165,6 +168,7 @@ pub enum ProcedurePrimitive1 {
 	Array ( ArrayPrimitive1 ),
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	Bytes ( BytesPrimitive1 ),
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	String ( StringPrimitive1 ),
 	
 	Functions ( FunctionsPrimitive1 ),
@@ -198,6 +202,7 @@ pub enum ProcedurePrimitive2 {
 	Array ( ArrayPrimitive2 ),
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	Bytes ( BytesPrimitive2 ),
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	String ( StringPrimitive2 ),
 	
 	Functions ( FunctionsPrimitive2 ),
@@ -231,6 +236,7 @@ pub enum ProcedurePrimitive3 {
 	Array ( ArrayPrimitive3 ),
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	Bytes ( BytesPrimitive3 ),
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	String ( StringPrimitive3 ),
 	
 	Functions ( FunctionsPrimitive3 ),
@@ -264,6 +270,7 @@ pub enum ProcedurePrimitive4 {
 	Array ( ArrayPrimitive4 ),
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	Bytes ( BytesPrimitive4 ),
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	String ( StringPrimitive4 ),
 	
 	Functions ( FunctionsPrimitive4 ),
@@ -297,6 +304,7 @@ pub enum ProcedurePrimitive5 {
 	Array ( ArrayPrimitive5 ),
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	Bytes ( BytesPrimitive5 ),
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	String ( StringPrimitive5 ),
 	
 	Functions ( FunctionsPrimitive5 ),
@@ -330,6 +338,7 @@ pub enum ProcedurePrimitiveN {
 	Array ( ArrayPrimitiveN ),
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	Bytes ( BytesPrimitiveN ),
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	String ( StringPrimitiveN ),
 	
 	Functions ( FunctionsPrimitiveN ),
@@ -363,6 +372,7 @@ pub enum ProcedurePrimitiveV {
 	Array ( ArrayPrimitiveV ),
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	Bytes ( BytesPrimitiveV ),
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	String ( StringPrimitiveV ),
 	
 	Functions ( FunctionsPrimitiveV ),
@@ -442,6 +452,7 @@ pub fn procedure_primitive_0_evaluate (primitive : ProcedurePrimitive0, evaluato
 		ProcedurePrimitive0::Bytes (primitive) =>
 			return bytes_primitive_0_evaluate (primitive, evaluator),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ProcedurePrimitive0::String (primitive) =>
 			return string_primitive_0_evaluate (primitive, evaluator),
 		
@@ -505,6 +516,7 @@ pub fn procedure_primitive_1_evaluate (primitive : ProcedurePrimitive1, input_1 
 		ProcedurePrimitive1::Bytes (primitive) =>
 			return bytes_primitive_1_evaluate (primitive, input_1, evaluator),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ProcedurePrimitive1::String (primitive) =>
 			return string_primitive_1_evaluate (primitive, input_1, evaluator),
 		
@@ -568,6 +580,7 @@ pub fn procedure_primitive_2_evaluate (primitive : ProcedurePrimitive2, input_1 
 		ProcedurePrimitive2::Bytes (primitive) =>
 			return bytes_primitive_2_evaluate (primitive, input_1, input_2, evaluator),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ProcedurePrimitive2::String (primitive) =>
 			return string_primitive_2_evaluate (primitive, input_1, input_2, evaluator),
 		
@@ -631,6 +644,7 @@ pub fn procedure_primitive_3_evaluate (primitive : ProcedurePrimitive3, input_1 
 		ProcedurePrimitive3::Bytes (primitive) =>
 			return bytes_primitive_3_evaluate (primitive, input_1, input_2, input_3, evaluator),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ProcedurePrimitive3::String (primitive) =>
 			return string_primitive_3_evaluate (primitive, input_1, input_2, input_3, evaluator),
 		
@@ -694,6 +708,7 @@ pub fn procedure_primitive_4_evaluate (primitive : ProcedurePrimitive4, input_1 
 		ProcedurePrimitive4::Bytes (primitive) =>
 			return bytes_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4, evaluator),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ProcedurePrimitive4::String (primitive) =>
 			return string_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4, evaluator),
 		
@@ -757,6 +772,7 @@ pub fn procedure_primitive_5_evaluate (primitive : ProcedurePrimitive5, input_1 
 		ProcedurePrimitive5::Bytes (primitive) =>
 			return bytes_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, evaluator),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ProcedurePrimitive5::String (primitive) =>
 			return string_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, evaluator),
 		
@@ -820,6 +836,7 @@ pub fn procedure_primitive_n_evaluate (primitive : ProcedurePrimitiveN, inputs :
 		ProcedurePrimitiveN::Bytes (primitive) =>
 			return bytes_primitive_n_evaluate (primitive, inputs, evaluator),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ProcedurePrimitiveN::String (primitive) =>
 			return string_primitive_n_evaluate (primitive, inputs, evaluator),
 		
@@ -1324,6 +1341,7 @@ pub fn procedure_primitive_v_alternative_0 (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ProcedurePrimitiveV::String (primitive) =>
 			if let Some (primitive) = string_primitive_v_alternative_0 (primitive) {
 				Some (ProcedurePrimitive0::String (primitive))
@@ -1451,6 +1469,7 @@ pub fn procedure_primitive_v_alternative_1 (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ProcedurePrimitiveV::String (primitive) =>
 			if let Some (primitive) = string_primitive_v_alternative_1 (primitive) {
 				Some (ProcedurePrimitive1::String (primitive))
@@ -1578,6 +1597,7 @@ pub fn procedure_primitive_v_alternative_2 (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ProcedurePrimitiveV::String (primitive) =>
 			if let Some (primitive) = string_primitive_v_alternative_2 (primitive) {
 				Some (ProcedurePrimitive2::String (primitive))
@@ -1705,6 +1725,7 @@ pub fn procedure_primitive_v_alternative_3 (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ProcedurePrimitiveV::String (primitive) =>
 			if let Some (primitive) = string_primitive_v_alternative_3 (primitive) {
 				Some (ProcedurePrimitive3::String (primitive))
@@ -1832,6 +1853,7 @@ pub fn procedure_primitive_v_alternative_4 (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ProcedurePrimitiveV::String (primitive) =>
 			if let Some (primitive) = string_primitive_v_alternative_4 (primitive) {
 				Some (ProcedurePrimitive4::String (primitive))
@@ -1959,6 +1981,7 @@ pub fn procedure_primitive_v_alternative_5 (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ProcedurePrimitiveV::String (primitive) =>
 			if let Some (primitive) = string_primitive_v_alternative_5 (primitive) {
 				Some (ProcedurePrimitive5::String (primitive))
@@ -2086,6 +2109,7 @@ pub fn procedure_primitive_v_alternative_n (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ProcedurePrimitiveV::String (primitive) =>
 			if let Some (primitive) = string_primitive_v_alternative_n (primitive) {
 				Some (ProcedurePrimitiveN::String (primitive))
@@ -2173,6 +2197,7 @@ pub fn procedure_primitive_0_attributes (primitive : ProcedurePrimitive0) -> (Op
 		ProcedurePrimitive0::Bytes (primitive) =>
 			return bytes_primitive_0_attributes (primitive),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ProcedurePrimitive0::String (primitive) =>
 			return string_primitive_0_attributes (primitive),
 		
@@ -2236,6 +2261,7 @@ pub fn procedure_primitive_1_attributes (primitive : ProcedurePrimitive1) -> (Op
 		ProcedurePrimitive1::Bytes (primitive) =>
 			return bytes_primitive_1_attributes (primitive),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ProcedurePrimitive1::String (primitive) =>
 			return string_primitive_1_attributes (primitive),
 		
@@ -2299,6 +2325,7 @@ pub fn procedure_primitive_2_attributes (primitive : ProcedurePrimitive2) -> (Op
 		ProcedurePrimitive2::Bytes (primitive) =>
 			return bytes_primitive_2_attributes (primitive),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ProcedurePrimitive2::String (primitive) =>
 			return string_primitive_2_attributes (primitive),
 		
@@ -2362,6 +2389,7 @@ pub fn procedure_primitive_3_attributes (primitive : ProcedurePrimitive3) -> (Op
 		ProcedurePrimitive3::Bytes (primitive) =>
 			return bytes_primitive_3_attributes (primitive),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ProcedurePrimitive3::String (primitive) =>
 			return string_primitive_3_attributes (primitive),
 		
@@ -2425,6 +2453,7 @@ pub fn procedure_primitive_4_attributes (primitive : ProcedurePrimitive4) -> (Op
 		ProcedurePrimitive4::Bytes (primitive) =>
 			return bytes_primitive_4_attributes (primitive),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ProcedurePrimitive4::String (primitive) =>
 			return string_primitive_4_attributes (primitive),
 		
@@ -2488,6 +2517,7 @@ pub fn procedure_primitive_5_attributes (primitive : ProcedurePrimitive5) -> (Op
 		ProcedurePrimitive5::Bytes (primitive) =>
 			return bytes_primitive_5_attributes (primitive),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ProcedurePrimitive5::String (primitive) =>
 			return string_primitive_5_attributes (primitive),
 		
@@ -2551,6 +2581,7 @@ pub fn procedure_primitive_n_attributes (primitive : ProcedurePrimitiveN) -> (Op
 		ProcedurePrimitiveN::Bytes (primitive) =>
 			return bytes_primitive_n_attributes (primitive),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ProcedurePrimitiveN::String (primitive) =>
 			return string_primitive_n_attributes (primitive),
 		

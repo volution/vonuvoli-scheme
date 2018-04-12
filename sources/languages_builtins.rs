@@ -94,6 +94,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("false-or-equivalent?", TypePrimitiveV::IsFalseOrEquivalent.into ()),
 			
 			("not-boolean?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsBoolean) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("not-char?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsCharacter) .into ()),
 			("not-symbol?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsSymbol) .into ()),
 			("not-pair?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsPair) .into ()),
@@ -102,6 +103,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("not-vector?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsArray) .into ()),
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("not-bytevector?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsBytes) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("not-string?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsString) .into ()),
 			("not-procedure?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsProcedure) .into ()),
 			#[ cfg ( feature = "vonuvoli_values_error" ) ]
@@ -131,10 +133,15 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 			("not-promise?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsPromise) .into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("not-char-alphabetic?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsCharacterAlphabetic) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("not-char-upper-case?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsCharacterAlphabeticUpperCase) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("not-char-lower-case?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsCharacterAlphabeticLowerCase) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("not-char-numeric?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsCharacterNumeric) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("not-char-whitespace?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsCharacterWhitespace) .into ()),
 			
 			("not-number?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsNumber) .into ()),
@@ -163,15 +170,24 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("nor*", BooleanPrimitiveV::Nor.into ()),
 			("nxor*", BooleanPrimitiveV::Nxor.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("string-reverse", StringPrimitive1::StringCloneReverse.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("string-reverse!", StringPrimitiveV::StringRangeReverse.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("string->immutable", StringPrimitive1::StringToImmutable.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("string->mutable", StringPrimitive1::StringToMutable.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("string-immutable?", TypePrimitiveV::IsStringImmutable.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("string-mutable?", TypePrimitiveV::IsStringMutable.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("symbol-upcase", StringPrimitive1::SymbolToUpperCase.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("symbol-downcase", StringPrimitive1::SymbolToLowerCase.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("symbol-foldcase", StringPrimitive1::SymbolToFoldCase.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
@@ -320,28 +336,48 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("not-boolean<=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::BooleanLesserOrEqual) .into ()),
 			("not-boolean>=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::BooleanGreaterOrEqual) .into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("not-char=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::CharacterCaseSensitiveEqual) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("not-char<?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::CharacterCaseSensitiveLesser) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("not-char>?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::CharacterCaseSensitiveGreater) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("not-char<=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::CharacterCaseSensitiveLesserOrEqual) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("not-char>=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::CharacterCaseSensitiveGreaterOrEqual) .into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("not-char-ci=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::CharacterCaseInsensitiveEqual) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("not-char-ci<?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::CharacterCaseInsensitiveLesser) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("not-char-ci>?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::CharacterCaseInsensitiveGreater) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("not-char-ci<=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::CharacterCaseInsensitiveLesserOrEqual) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("not-char-ci>=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::CharacterCaseInsensitiveGreaterOrEqual) .into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("not-string=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::StringCaseSensitiveEqual) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("not-string<?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::StringCaseSensitiveLesser) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("not-string>?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::StringCaseSensitiveGreater) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("not-string<=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::StringCaseSensitiveLesserOrEqual) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("not-string>=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::StringCaseSensitiveGreaterOrEqual) .into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("not-string-ci=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::StringCaseInsensitiveEqual) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("not-string-ci<?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::StringCaseInsensitiveLesser) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("not-string-ci>?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::StringCaseInsensitiveGreater) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("not-string-ci<=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::StringCaseInsensitiveLesserOrEqual) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("not-string-ci>=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::StringCaseInsensitiveGreaterOrEqual) .into ()),
 			
 			("symbol<?", ComparisonPrimitiveV::SymbolCaseSensitiveLesser.into ()),
@@ -490,10 +526,13 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("read-bytevector-append!", PortPrimitiveV::BytesReadExtend.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("read-string-chunk", PortPrimitiveV::StringReadChunk.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("read-string-line", PortPrimitiveV::StringReadLine.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("read-string-append!", PortPrimitiveV::StringReadExtend.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
@@ -755,7 +794,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("path-name-prefix?", FileSystemPrimitive2::PathNameHasPrefix.into ()),
 			("path-name-suffix?", FileSystemPrimitive2::PathNameHasSuffix.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("path->string", FileSystemPrimitive1::PathToString.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("string->path", FileSystemPrimitive1::StringToPath.into ()),
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("path->bytevector", FileSystemPrimitive1::PathToBytes.into ()),
@@ -1053,59 +1094,109 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("random-bytevector-shuffle!", procedure_native_v (random_generate_bytes_shuffle_v) .into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-char", procedure_native_0 (random_generate_character_0) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-char*", procedure_native_v (random_generate_character_v) .into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-char-ascii", procedure_native_0 (random_generate_character_ascii) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-char-ascii-numeric", procedure_native_0 (random_generate_character_ascii_numeric) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-char-ascii-numeric-8", procedure_native_0 (random_generate_character_ascii_numeric_base_8) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-char-ascii-numeric-16", procedure_native_0 (random_generate_character_ascii_numeric_base_16) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-char-ascii-alphabetic", procedure_native_0 (random_generate_character_ascii_alphabetic) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-char-ascii-upper-case", procedure_native_0 (random_generate_character_ascii_alphabetic_upper_case) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-char-ascii-lower-case", procedure_native_0 (random_generate_character_ascii_alphabetic_lower_case) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-char-ascii-alphabetic-or-numeric", procedure_native_0 (random_generate_character_ascii_alphabetic_or_numeric) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-char-ascii-whitespace", procedure_native_0 (random_generate_character_ascii_whitespace) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-char-ascii-control", procedure_native_0 (random_generate_character_ascii_control) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-char-ascii-punctuation", procedure_native_0 (random_generate_character_ascii_punctuation) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-char-ascii-graphic", procedure_native_0 (random_generate_character_ascii_graphic) .into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-string-ascii", procedure_native_1 (random_generate_string_build_ascii) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-string-ascii-numeric", procedure_native_1 (random_generate_string_build_ascii_numeric) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-string-ascii-numeric-8", procedure_native_1 (random_generate_string_build_ascii_numeric_base_8) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-string-ascii-numeric-16", procedure_native_1 (random_generate_string_build_ascii_numeric_base_16) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-string-ascii-alphabetic", procedure_native_1 (random_generate_string_build_ascii_alphabetic) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-string-ascii-upper-case", procedure_native_1 (random_generate_string_build_ascii_alphabetic_upper_case) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-string-ascii-lower-case", procedure_native_1 (random_generate_string_build_ascii_alphabetic_lower_case) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-string-ascii-alphabetic-or-numeric", procedure_native_1 (random_generate_string_build_ascii_alphabetic_or_numeric) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-string-ascii-whitespace", procedure_native_1 (random_generate_string_build_ascii_whitespace) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-string-ascii-control", procedure_native_1 (random_generate_string_build_ascii_control) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-string-ascii-punctuation", procedure_native_1 (random_generate_string_build_ascii_punctuation) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-string-ascii-graphic", procedure_native_1 (random_generate_string_build_ascii_graphic) .into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-string-ascii-permutation", procedure_native_0 (random_generate_string_permutation_ascii) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-string-ascii-numeric-permutation", procedure_native_0 (random_generate_string_permutation_ascii_numeric) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-string-ascii-numeric-8-permutation", procedure_native_0 (random_generate_string_permutation_ascii_numeric_base_8) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-string-ascii-numeric-16-permutation", procedure_native_0 (random_generate_string_permutation_ascii_numeric_base_16) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-string-ascii-alphabetic-permutation", procedure_native_0 (random_generate_string_permutation_ascii_alphabetic) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-string-ascii-upper-case-permutation", procedure_native_0 (random_generate_string_permutation_ascii_alphabetic_upper_case) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-string-ascii-lower-case-permutation", procedure_native_0 (random_generate_string_permutation_ascii_alphabetic_lower_case) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-string-ascii-alphabetic-or-numeric-permutation", procedure_native_0 (random_generate_string_permutation_ascii_alphabetic_or_numeric) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-string-ascii-whitespace-permutation", procedure_native_0 (random_generate_string_permutation_ascii_whitespace) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-string-ascii-control-permutation", procedure_native_0 (random_generate_string_permutation_ascii_control) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-string-ascii-punctuation-permutation", procedure_native_0 (random_generate_string_permutation_ascii_punctuation) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-string-ascii-graphic-permutation", procedure_native_0 (random_generate_string_permutation_ascii_graphic) .into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-string-ascii-append!", procedure_native_2 (random_generate_string_extend_ascii) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-string-ascii-numeric-append!", procedure_native_2 (random_generate_string_extend_ascii_numeric) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-string-ascii-numeric-8-append!", procedure_native_2 (random_generate_string_extend_ascii_numeric_base_8) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-string-ascii-numeric-16-append!", procedure_native_2 (random_generate_string_extend_ascii_numeric_base_16) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-string-ascii-alphabetic-append!", procedure_native_2 (random_generate_string_extend_ascii_alphabetic) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-string-ascii-upper-case-append!", procedure_native_2 (random_generate_string_extend_ascii_alphabetic_upper_case) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-string-ascii-lower-case-append!", procedure_native_2 (random_generate_string_extend_ascii_alphabetic_lower_case) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-string-ascii-alphabetic-or-numeric-append!", procedure_native_2 (random_generate_string_extend_ascii_alphabetic_or_numeric) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-string-ascii-whitespace-append!", procedure_native_2 (random_generate_string_extend_ascii_whitespace) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-string-ascii-control-append!", procedure_native_2 (random_generate_string_extend_ascii_control) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-string-ascii-punctuation-append!", procedure_native_2 (random_generate_string_extend_ascii_punctuation) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("random-string-ascii-graphic-append!", procedure_native_2 (random_generate_string_extend_ascii_graphic) .into ()),
 			
 		]);

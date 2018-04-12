@@ -944,10 +944,14 @@ def_value_try_as_ref! (try_as_unique_ref, value_type! (Unique));
 #[ cfg ( feature = "vonuvoli_values_unique" ) ]
 def_value_try_into! (try_into_unique, value_type! (Unique));
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_value_try_as_ref! (try_as_string_immutable_ref, value_type! (StringImmutable));
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_value_try_into! (try_into_string_immutable, value_type! (StringImmutable));
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_value_try_as_ref! (try_as_string_mutable_ref, value_type! (StringMutable));
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_value_try_into! (try_into_string_mutable, value_type! (StringMutable));
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
@@ -1081,6 +1085,7 @@ def_value_try_into! (try_into_opaque, value_type! (Opaque));
 
 
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 macro_rules! try_as_string_ref {
 	( $value : expr ) => {
 		try! ($crate::values::exports::StringRef::try ($value))
@@ -1116,6 +1121,7 @@ macro_rules! try_as_record_ref {
 
 
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 macro_rules! try_as_string_as_ref {
 	( $value : expr ) => {
 		try! ($crate::values::exports::StringAsRef::try ($value))

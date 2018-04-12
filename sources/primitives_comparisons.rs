@@ -82,28 +82,48 @@ macro_rules! def_comparison_primitive_enum {
 			NumberGreaterOrEqual,
 			NumberGreater,
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			CharacterCaseSensitiveLesser,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			CharacterCaseSensitiveLesserOrEqual,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			CharacterCaseSensitiveEqual,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			CharacterCaseSensitiveGreaterOrEqual,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			CharacterCaseSensitiveGreater,
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			CharacterCaseInsensitiveLesser,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			CharacterCaseInsensitiveLesserOrEqual,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			CharacterCaseInsensitiveEqual,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			CharacterCaseInsensitiveGreaterOrEqual,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			CharacterCaseInsensitiveGreater,
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			StringCaseSensitiveLesser,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			StringCaseSensitiveLesserOrEqual,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			StringCaseSensitiveEqual,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			StringCaseSensitiveGreaterOrEqual,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			StringCaseSensitiveGreater,
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			StringCaseInsensitiveLesser,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			StringCaseInsensitiveLesserOrEqual,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			StringCaseInsensitiveEqual,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			StringCaseInsensitiveGreaterOrEqual,
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			StringCaseInsensitiveGreater,
 			
 			SymbolCaseSensitiveLesser,
@@ -309,63 +329,83 @@ pub fn comparison_primitive_1_evaluate (primitive : ComparisonPrimitive1, input_
 		ComparisonPrimitive1::NumberGreater =>
 			return number_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive1::CharacterCaseSensitiveLesser =>
 			return character_compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive1::CharacterCaseSensitiveLesserOrEqual =>
 			return character_compare_1 (input_1, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive1::CharacterCaseSensitiveEqual =>
 			return character_compare_1 (input_1, Comparison::Ordering (Ordering::Equal, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive1::CharacterCaseSensitiveGreaterOrEqual =>
 			return character_compare_1 (input_1, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive1::CharacterCaseSensitiveGreater =>
 			return character_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive1::CharacterCaseInsensitiveLesser =>
 			return character_compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive1::CharacterCaseInsensitiveLesserOrEqual =>
 			return character_compare_1 (input_1, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive1::CharacterCaseInsensitiveEqual =>
 			return character_compare_1 (input_1, Comparison::Ordering (Ordering::Equal, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive1::CharacterCaseInsensitiveGreaterOrEqual =>
 			return character_compare_1 (input_1, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive1::CharacterCaseInsensitiveGreater =>
 			return character_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive1::StringCaseSensitiveLesser =>
 			return string_compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive1::StringCaseSensitiveLesserOrEqual =>
 			return string_compare_1 (input_1, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive1::StringCaseSensitiveEqual =>
 			return string_compare_1 (input_1, Comparison::Ordering (Ordering::Equal, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive1::StringCaseSensitiveGreaterOrEqual =>
 			return string_compare_1 (input_1, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive1::StringCaseSensitiveGreater =>
 			return string_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive1::StringCaseInsensitiveLesser =>
 			return string_compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive1::StringCaseInsensitiveLesserOrEqual =>
 			return string_compare_1 (input_1, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive1::StringCaseInsensitiveEqual =>
 			return string_compare_1 (input_1, Comparison::Ordering (Ordering::Equal, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive1::StringCaseInsensitiveGreaterOrEqual =>
 			return string_compare_1 (input_1, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive1::StringCaseInsensitiveGreater =>
 			return string_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, Some (false), negated)) .into_0 (),
 		
@@ -644,63 +684,83 @@ pub fn comparison_primitive_2_evaluate (primitive : ComparisonPrimitive2, input_
 		ComparisonPrimitive2::NumberGreater =>
 			return number_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive2::CharacterCaseSensitiveLesser =>
 			return character_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive2::CharacterCaseSensitiveLesserOrEqual =>
 			return character_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive2::CharacterCaseSensitiveEqual =>
 			return character_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Equal, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive2::CharacterCaseSensitiveGreaterOrEqual =>
 			return character_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive2::CharacterCaseSensitiveGreater =>
 			return character_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive2::CharacterCaseInsensitiveLesser =>
 			return character_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive2::CharacterCaseInsensitiveLesserOrEqual =>
 			return character_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive2::CharacterCaseInsensitiveEqual =>
 			return character_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Equal, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive2::CharacterCaseInsensitiveGreaterOrEqual =>
 			return character_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive2::CharacterCaseInsensitiveGreater =>
 			return character_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive2::StringCaseSensitiveLesser =>
 			return string_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive2::StringCaseSensitiveLesserOrEqual =>
 			return string_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive2::StringCaseSensitiveEqual =>
 			return string_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Equal, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive2::StringCaseSensitiveGreaterOrEqual =>
 			return string_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive2::StringCaseSensitiveGreater =>
 			return string_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive2::StringCaseInsensitiveLesser =>
 			return string_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive2::StringCaseInsensitiveLesserOrEqual =>
 			return string_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive2::StringCaseInsensitiveEqual =>
 			return string_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Equal, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive2::StringCaseInsensitiveGreaterOrEqual =>
 			return string_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive2::StringCaseInsensitiveGreater =>
 			return string_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, Some (false), negated)) .into_0 (),
 		
@@ -979,63 +1039,83 @@ pub fn comparison_primitive_3_evaluate (primitive : ComparisonPrimitive3, input_
 		ComparisonPrimitive3::NumberGreater =>
 			return number_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive3::CharacterCaseSensitiveLesser =>
 			return character_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive3::CharacterCaseSensitiveLesserOrEqual =>
 			return character_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive3::CharacterCaseSensitiveEqual =>
 			return character_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Equal, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive3::CharacterCaseSensitiveGreaterOrEqual =>
 			return character_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive3::CharacterCaseSensitiveGreater =>
 			return character_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive3::CharacterCaseInsensitiveLesser =>
 			return character_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive3::CharacterCaseInsensitiveLesserOrEqual =>
 			return character_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive3::CharacterCaseInsensitiveEqual =>
 			return character_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Equal, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive3::CharacterCaseInsensitiveGreaterOrEqual =>
 			return character_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive3::CharacterCaseInsensitiveGreater =>
 			return character_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive3::StringCaseSensitiveLesser =>
 			return string_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive3::StringCaseSensitiveLesserOrEqual =>
 			return string_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive3::StringCaseSensitiveEqual =>
 			return string_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Equal, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive3::StringCaseSensitiveGreaterOrEqual =>
 			return string_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive3::StringCaseSensitiveGreater =>
 			return string_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive3::StringCaseInsensitiveLesser =>
 			return string_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive3::StringCaseInsensitiveLesserOrEqual =>
 			return string_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive3::StringCaseInsensitiveEqual =>
 			return string_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Equal, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive3::StringCaseInsensitiveGreaterOrEqual =>
 			return string_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive3::StringCaseInsensitiveGreater =>
 			return string_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, Some (false), negated)) .into_0 (),
 		
@@ -1314,63 +1394,83 @@ pub fn comparison_primitive_4_evaluate (primitive : ComparisonPrimitive4, input_
 		ComparisonPrimitive4::NumberGreater =>
 			return number_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive4::CharacterCaseSensitiveLesser =>
 			return character_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive4::CharacterCaseSensitiveLesserOrEqual =>
 			return character_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive4::CharacterCaseSensitiveEqual =>
 			return character_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Equal, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive4::CharacterCaseSensitiveGreaterOrEqual =>
 			return character_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive4::CharacterCaseSensitiveGreater =>
 			return character_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive4::CharacterCaseInsensitiveLesser =>
 			return character_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive4::CharacterCaseInsensitiveLesserOrEqual =>
 			return character_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive4::CharacterCaseInsensitiveEqual =>
 			return character_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Equal, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive4::CharacterCaseInsensitiveGreaterOrEqual =>
 			return character_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive4::CharacterCaseInsensitiveGreater =>
 			return character_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive4::StringCaseSensitiveLesser =>
 			return string_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive4::StringCaseSensitiveLesserOrEqual =>
 			return string_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive4::StringCaseSensitiveEqual =>
 			return string_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Equal, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive4::StringCaseSensitiveGreaterOrEqual =>
 			return string_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive4::StringCaseSensitiveGreater =>
 			return string_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive4::StringCaseInsensitiveLesser =>
 			return string_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive4::StringCaseInsensitiveLesserOrEqual =>
 			return string_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive4::StringCaseInsensitiveEqual =>
 			return string_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Equal, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive4::StringCaseInsensitiveGreaterOrEqual =>
 			return string_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitive4::StringCaseInsensitiveGreater =>
 			return string_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, Some (false), negated)) .into_0 (),
 		
@@ -1657,63 +1757,83 @@ pub fn comparison_primitive_n_evaluate (primitive : ComparisonPrimitiveN, inputs
 		ComparisonPrimitiveN::NumberGreater =>
 			return number_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitiveN::CharacterCaseSensitiveLesser =>
 			return character_compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitiveN::CharacterCaseSensitiveLesserOrEqual =>
 			return character_compare_n (inputs, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitiveN::CharacterCaseSensitiveEqual =>
 			return character_compare_n (inputs, Comparison::Ordering (Ordering::Equal, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitiveN::CharacterCaseSensitiveGreaterOrEqual =>
 			return character_compare_n (inputs, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitiveN::CharacterCaseSensitiveGreater =>
 			return character_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitiveN::CharacterCaseInsensitiveLesser =>
 			return character_compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitiveN::CharacterCaseInsensitiveLesserOrEqual =>
 			return character_compare_n (inputs, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitiveN::CharacterCaseInsensitiveEqual =>
 			return character_compare_n (inputs, Comparison::Ordering (Ordering::Equal, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitiveN::CharacterCaseInsensitiveGreaterOrEqual =>
 			return character_compare_n (inputs, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitiveN::CharacterCaseInsensitiveGreater =>
 			return character_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitiveN::StringCaseSensitiveLesser =>
 			return string_compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitiveN::StringCaseSensitiveLesserOrEqual =>
 			return string_compare_n (inputs, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitiveN::StringCaseSensitiveEqual =>
 			return string_compare_n (inputs, Comparison::Ordering (Ordering::Equal, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitiveN::StringCaseSensitiveGreaterOrEqual =>
 			return string_compare_n (inputs, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitiveN::StringCaseSensitiveGreater =>
 			return string_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, Some (true), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitiveN::StringCaseInsensitiveLesser =>
 			return string_compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitiveN::StringCaseInsensitiveLesserOrEqual =>
 			return string_compare_n (inputs, Comparison::Ordering (Ordering::LesserOrEqual, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitiveN::StringCaseInsensitiveEqual =>
 			return string_compare_n (inputs, Comparison::Ordering (Ordering::Equal, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitiveN::StringCaseInsensitiveGreaterOrEqual =>
 			return string_compare_n (inputs, Comparison::Ordering (Ordering::GreaterOrEqual, None, Some (false), negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ComparisonPrimitiveN::StringCaseInsensitiveGreater =>
 			return string_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, Some (false), negated)) .into_0 (),
 		
@@ -1974,44 +2094,64 @@ macro_rules! def_comparison_primitive_v_alternative_fn {
 					Some ($alternative::NumberGreaterOrEqual),
 				ComparisonPrimitiveV::NumberGreater =>
 					Some ($alternative::NumberGreater),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				ComparisonPrimitiveV::CharacterCaseSensitiveLesser =>
 					Some ($alternative::CharacterCaseSensitiveLesser),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				ComparisonPrimitiveV::CharacterCaseSensitiveLesserOrEqual =>
 					Some ($alternative::CharacterCaseSensitiveLesserOrEqual),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				ComparisonPrimitiveV::CharacterCaseSensitiveEqual =>
 					Some ($alternative::CharacterCaseSensitiveEqual),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				ComparisonPrimitiveV::CharacterCaseSensitiveGreaterOrEqual =>
 					Some ($alternative::CharacterCaseSensitiveGreaterOrEqual),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				ComparisonPrimitiveV::CharacterCaseSensitiveGreater =>
 					Some ($alternative::CharacterCaseSensitiveGreater),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				ComparisonPrimitiveV::CharacterCaseInsensitiveLesser =>
 					Some ($alternative::CharacterCaseInsensitiveLesser),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				ComparisonPrimitiveV::CharacterCaseInsensitiveLesserOrEqual =>
 					Some ($alternative::CharacterCaseInsensitiveLesserOrEqual),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				ComparisonPrimitiveV::CharacterCaseInsensitiveEqual =>
 					Some ($alternative::CharacterCaseInsensitiveEqual),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				ComparisonPrimitiveV::CharacterCaseInsensitiveGreaterOrEqual =>
 					Some ($alternative::CharacterCaseInsensitiveGreaterOrEqual),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				ComparisonPrimitiveV::CharacterCaseInsensitiveGreater =>
 					Some ($alternative::CharacterCaseInsensitiveGreater),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				ComparisonPrimitiveV::StringCaseSensitiveLesser =>
 					Some ($alternative::StringCaseSensitiveLesser),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				ComparisonPrimitiveV::StringCaseSensitiveLesserOrEqual =>
 					Some ($alternative::StringCaseSensitiveLesserOrEqual),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				ComparisonPrimitiveV::StringCaseSensitiveEqual =>
 					Some ($alternative::StringCaseSensitiveEqual),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				ComparisonPrimitiveV::StringCaseSensitiveGreaterOrEqual =>
 					Some ($alternative::StringCaseSensitiveGreaterOrEqual),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				ComparisonPrimitiveV::StringCaseSensitiveGreater =>
 					Some ($alternative::StringCaseSensitiveGreater),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				ComparisonPrimitiveV::StringCaseInsensitiveLesser =>
 					Some ($alternative::StringCaseInsensitiveLesser),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				ComparisonPrimitiveV::StringCaseInsensitiveLesserOrEqual =>
 					Some ($alternative::StringCaseInsensitiveLesserOrEqual),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				ComparisonPrimitiveV::StringCaseInsensitiveEqual =>
 					Some ($alternative::StringCaseInsensitiveEqual),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				ComparisonPrimitiveV::StringCaseInsensitiveGreaterOrEqual =>
 					Some ($alternative::StringCaseInsensitiveGreaterOrEqual),
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				ComparisonPrimitiveV::StringCaseInsensitiveGreater =>
 					Some ($alternative::StringCaseInsensitiveGreater),
 				ComparisonPrimitiveV::SymbolCaseSensitiveLesser =>

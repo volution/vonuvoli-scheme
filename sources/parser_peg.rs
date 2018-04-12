@@ -2083,7 +2083,20 @@ fn __parse_character_glyph<'input>(
 							}
 						};
 						match __seq_res {
-							Matched(__pos, _) => Matched(__pos, { values::character(glyph.chars().next().expect("36da249a")).into() }),
+							Matched(__pos, _) =>
+								match {
+									#[cfg(feature = "vonuvoli_values_string")]
+									let outcome = Ok(values::character(glyph.chars().next().expect("36da249a")).into());
+									#[cfg(not(feature = "vonuvoli_values_string"))]
+									let outcome = Err("strings are not supported");
+									outcome
+								} {
+									Ok(res) => Matched(__pos, res),
+									Err(expected) => {
+										__state.mark_failure(__pos, expected);
+										Failed
+									},
+								},
 							Failed => Failed,
 						}
 					},
@@ -2150,7 +2163,13 @@ fn __parse_character_escaped<'input>(
 				};
 				match __seq_res {
 					Matched(__pos, value) =>
-						match { u32::from_str_radix(value, 16).map_err(|_| "invalid character syntax").and_then(|value| char::from_u32(value).ok_or("invalid character value")).map(|character| values::character(character).into()) } {
+						match {
+							#[cfg(feature = "vonuvoli_values_string")]
+							let outcome = u32::from_str_radix(value, 16).map_err(|_| "invalid character syntax").and_then(|value| char::from_u32(value).ok_or("invalid character value")).map(|character| values::character(character).into());
+							#[cfg(not(feature = "vonuvoli_values_string"))]
+							let outcome = Err("strings are not supported");
+							outcome
+						} {
 							Ok(res) => Matched(__pos, res),
 							Err(expected) => {
 								__state.mark_failure(__pos, expected);
@@ -2234,7 +2253,8 @@ fn __parse_character_named<'input>(
 				match __seq_res {
 					Matched(__pos, value) =>
 						match {
-							match value {
+							#[cfg(feature = "vonuvoli_values_string")]
+							let outcome = match value {
 								"alarm" => Ok(values::character(7 as char).into()),
 								"backspace" => Ok(values::character(8 as char).into()),
 								"delete" => Ok(values::character(127 as char).into()),
@@ -2245,7 +2265,10 @@ fn __parse_character_named<'input>(
 								"space" => Ok(values::character(32 as char).into()),
 								"tab" => Ok(values::character(9 as char).into()),
 								_ => Err("fcfc68be"),
-							}
+							};
+							#[cfg(not(feature = "vonuvoli_values_string"))]
+							let outcome = Err("strings are not supported");
+							outcome
 						} {
 							Ok(res) => Matched(__pos, res),
 							Err(expected) => {
@@ -2575,7 +2598,20 @@ fn __parse_string_quoted<'input>(
 					Matched(__pos, elements) => {
 						let __seq_res = slice_eq(__input, __state, __pos, "\"");
 						match __seq_res {
-							Matched(__pos, _) => Matched(__pos, { values::string_immutable_clone_characters(elements.as_slice()).into() }),
+							Matched(__pos, _) =>
+								match {
+									#[cfg(feature = "vonuvoli_values_string")]
+									let outcome = Ok(values::string_immutable_clone_characters(elements.as_slice()).into());
+									#[cfg(not(feature = "vonuvoli_values_string"))]
+									let outcome = Err("strings are not supported");
+									outcome
+								} {
+									Ok(res) => Matched(__pos, res),
+									Err(expected) => {
+										__state.mark_failure(__pos, expected);
+										Failed
+									},
+								},
 							Failed => Failed,
 						}
 					},
@@ -2840,7 +2876,20 @@ fn __parse_string_array<'input>(
 											Matched(__pos, _) => {
 												let __seq_res = slice_eq(__input, __state, __pos, ")");
 												match __seq_res {
-													Matched(__pos, _) => Matched(__pos, { values::string_immutable_clone_characters(elements.as_slice()).into() }),
+													Matched(__pos, _) =>
+														match {
+															#[cfg(feature = "vonuvoli_values_string")]
+															let outcome = Ok(values::string_immutable_clone_characters(elements.as_slice()).into());
+															#[cfg(not(feature = "vonuvoli_values_string"))]
+															let outcome = Err("strings are not supported");
+															outcome
+														} {
+															Ok(res) => Matched(__pos, res),
+															Err(expected) => {
+																__state.mark_failure(__pos, expected);
+																Failed
+															},
+														},
 													Failed => Failed,
 												}
 											},

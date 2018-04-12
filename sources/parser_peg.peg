@@ -85,10 +85,23 @@ number_real_epsilon_negative -> values::Value = &"-" number_sign "epsilon" ".0"?
 number_real_exponent = ( "e" / "E" ) number_sign? [0-9]+
 
 character -> values::Value = character_glyph / character_escaped / character_named
-character_glyph -> values::Value = "#\\" glyph : $( . ) !atom { values::character (glyph.chars () .next () .expect ("36da249a")) .into () }
-character_escaped -> values::Value = ( "#\\x" / "#\\X" ) value : $( [0-9a-fA-F]+ ) {? u32::from_str_radix (value, 16) .map_err (|_| "invalid character syntax") .and_then (|value| char::from_u32 (value) .ok_or ("invalid character value")) .map (|character| values::character (character) .into ()) }
+character_glyph -> values::Value = "#\\" glyph : $( . ) !atom {?
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
+	let outcome = Ok (values::character (glyph.chars () .next () .expect ("36da249a")) .into ());
+	#[ cfg ( not ( feature = "vonuvoli_values_string" ) ) ]
+	let outcome = Err ("strings are not supported");
+	outcome
+}
+character_escaped -> values::Value = ( "#\\x" / "#\\X" ) value : $( [0-9a-fA-F]+ ) {?
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
+	let outcome = u32::from_str_radix (value, 16) .map_err (|_| "invalid character syntax") .and_then (|value| char::from_u32 (value) .ok_or ("invalid character value")) .map (|character| values::character (character) .into ());
+	#[ cfg ( not ( feature = "vonuvoli_values_string" ) ) ]
+	let outcome = Err ("strings are not supported");
+	outcome
+}
 character_named -> values::Value = "#\\" value : $( "alarm" / "backspace" / "delete" / "escape" / "newline" / "null" / "return" / "space" / "tab" ) {?
-		match value {
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
+		let outcome = match value {
 			"alarm" => Ok (values::character (7 as char) .into ()),
 			"backspace" => Ok (values::character (8 as char) .into ()),
 			"delete" => Ok (values::character (127 as char) .into ()),
@@ -99,7 +112,10 @@ character_named -> values::Value = "#\\" value : $( "alarm" / "backspace" / "del
 			"space" => Ok (values::character (32 as char) .into ()),
 			"tab" => Ok (values::character (9 as char) .into ()),
 			_ => Err ("fcfc68be"),
-		}
+		};
+		#[ cfg ( not ( feature = "vonuvoli_values_string" ) ) ]
+		let outcome = Err ("strings are not supported");
+		outcome
 	}
 
 symbol -> values::Value = symbol_multiple_characters / symbol_single_character / symbol_string
@@ -112,7 +128,13 @@ symbol_string_character -> char = symbol_string_character_glyph / string_charact
 symbol_string_character_glyph -> char = glyph : $( [^|\\] ) { glyph.chars () .next () .expect ("56031166") }
 
 string -> values::Value = string_quoted / string_array
-string_quoted -> values::Value = "\"" elements : string_character* "\"" { values::string_immutable_clone_characters (elements.as_slice ()) .into () }
+string_quoted -> values::Value = "\"" elements : string_character* "\"" {?
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
+		let outcome = Ok (values::string_immutable_clone_characters (elements.as_slice ()) .into ());
+		#[ cfg ( not ( feature = "vonuvoli_values_string" ) ) ]
+		let outcome = Err ("strings are not supported");
+		outcome
+	}
 string_character -> char = string_character_glyph / string_character_escaped / string_character_named
 string_character_glyph -> char = glyph : $( [^"\\] ) { glyph.chars () .next () .expect ("61d18567") }
 string_character_escaped -> char = ( "\\x" / "\\X" ) value : $( [0-9a-fA-F]+ ) ";" {? u32::from_str_radix (value, 16) .map_err (|_| "invalid character syntax") .and_then (|value| char::from_u32 (value) .ok_or ("invalid character value")) }
@@ -126,7 +148,13 @@ string_character_named -> char = "\\" value : $( "a" / "b" / "t" / "n" / "r" ) {
 			_ => Err ("285687fe"),
 		}
 	}
-string_array -> values::Value = "#string" "(" space? elements : string_array_character ** space space?  ")" { values::string_immutable_clone_characters (elements.as_slice ()) .into () }
+string_array -> values::Value = "#string" "(" space? elements : string_array_character ** space space?  ")" {?
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
+		let outcome = Ok (values::string_immutable_clone_characters (elements.as_slice ()) .into ());
+		#[ cfg ( not ( feature = "vonuvoli_values_string" ) ) ]
+		let outcome = Err ("strings are not supported");
+		outcome
+	}
 string_array_character -> char = value : $( [0-9]+ ) {? u32::from_str (value) .map_err (|_| "invalid character syntax") .and_then (|value| char::from_u32 (value) .ok_or ("invalid character value")) }
 
 bytes -> values::Value = ( "#u8" / "#U8" / "#bytes" ) "(" space? elements : bytes_byte ** space space?  ")" {?

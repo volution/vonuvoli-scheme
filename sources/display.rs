@@ -34,6 +34,7 @@ impl fmt::Display for Value {
 			ValueKindMatchAsRef::Boolean (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::NumberInteger (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::NumberReal (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ValueKindMatchAsRef::Character (self_0) => self_0.fmt (formatter),
 			
 			ValueKindMatchAsRef::Symbol (self_0) => self_0.fmt (formatter),
@@ -42,7 +43,9 @@ impl fmt::Display for Value {
 			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			ValueKindMatchAsRef::Unique (self_0) => self_0.fmt (formatter),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ValueKindMatchAsRef::StringImmutable (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ValueKindMatchAsRef::StringMutable (self_0) => self_0.fmt (formatter),
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			ValueKindMatchAsRef::BytesImmutable (self_0) => self_0.fmt (formatter),
@@ -126,6 +129,7 @@ impl fmt::Debug for Value {
 			ValueKindMatchAsRef::Boolean (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::NumberInteger (self_0) => self_0.fmt (formatter),
 			ValueKindMatchAsRef::NumberReal (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ValueKindMatchAsRef::Character (self_0) => self_0.fmt (formatter),
 			
 			ValueKindMatchAsRef::Symbol (self_0) => self_0.fmt (formatter),
@@ -134,7 +138,9 @@ impl fmt::Debug for Value {
 			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			ValueKindMatchAsRef::Unique (self_0) => self_0.fmt (formatter),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ValueKindMatchAsRef::StringImmutable (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ValueKindMatchAsRef::StringMutable (self_0) => self_0.fmt (formatter),
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			ValueKindMatchAsRef::BytesImmutable (self_0) => self_0.fmt (formatter),
@@ -313,6 +319,7 @@ impl fmt::Display for NumberReal {
 
 
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 impl fmt::Display for Character {
 	
 	#[ inline (never) ]
@@ -407,6 +414,7 @@ impl fmt::Display for Unique {
 
 
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 impl fmt::Display for StringImmutable {
 	
 	#[ inline (never) ]
@@ -416,6 +424,7 @@ impl fmt::Display for StringImmutable {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 impl fmt::Display for StringMutable {
 	
 	#[ inline (never) ]
