@@ -1,5 +1,6 @@
 
 
+#[ allow (unused_imports) ]
 use super::runtime::exports::*;
 
 #[ cfg ( feature = "vonuvoli_values_error" ) ]
@@ -41,6 +42,7 @@ pub struct Error ( StdRc<ErrorInternals> );
 #[ derive (Debug) ]
 pub enum ErrorInternals {
 	Code (u64),
+	#[ cfg ( feature = "vonuvoli_backtrace" ) ]
 	WithBacktrace (u64, Backtrace),
 	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	WithMessage (Option<u64>, StdRc<StdBox<str>>),
@@ -64,11 +66,14 @@ impl Error {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new (code : u64) -> (Error) {
+		#[ cfg ( feature = "vonuvoli_backtrace" ) ]
 		let internals = if ERRORS_WITH_BACKTRACE {
 			ErrorInternals::WithBacktrace (code, Backtrace::new ())
 		} else {
 			ErrorInternals::Code (code)
 		};
+		#[ cfg ( not ( feature = "vonuvoli_backtrace" ) ) ]
+		let internals = ErrorInternals::Code (code);
 		Error (StdRc::new (internals))
 	}
 	
@@ -131,6 +136,7 @@ impl Error {
 		match *self.internals_ref () {
 			ErrorInternals::Code (_) =>
 				true,
+			#[ cfg ( feature = "vonuvoli_backtrace" ) ]
 			ErrorInternals::WithBacktrace (_, _) =>
 				true,
 			#[ cfg ( feature = "vonuvoli_values_error" ) ]
@@ -152,6 +158,7 @@ impl Error {
 		match *self.internals_ref () {
 			ErrorInternals::Code (_) =>
 				true,
+			#[ cfg ( feature = "vonuvoli_backtrace" ) ]
 			ErrorInternals::WithBacktrace (_, _) =>
 				true,
 			#[ cfg ( feature = "vonuvoli_values_error" ) ]
@@ -173,6 +180,7 @@ impl Error {
 		match *self.internals_ref () {
 			ErrorInternals::Code (code) =>
 				code,
+			#[ cfg ( feature = "vonuvoli_backtrace" ) ]
 			ErrorInternals::WithBacktrace (code, _) =>
 				code,
 			#[ cfg ( feature = "vonuvoli_values_error" ) ]
@@ -195,6 +203,7 @@ impl Error {
 		match *self.internals_ref () {
 			ErrorInternals::Code (_) =>
 				None,
+			#[ cfg ( feature = "vonuvoli_backtrace" ) ]
 			ErrorInternals::WithBacktrace (_, _) =>
 				None,
 			ErrorInternals::WithMessage (_, ref message) =>
@@ -214,6 +223,7 @@ impl Error {
 		match *self.internals_ref () {
 			ErrorInternals::Code (_) =>
 				None,
+			#[ cfg ( feature = "vonuvoli_backtrace" ) ]
 			ErrorInternals::WithBacktrace (_, _) =>
 				None,
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
@@ -241,6 +251,7 @@ impl Error {
 		match *self.internals_ref () {
 			ErrorInternals::Code (_) =>
 				None,
+			#[ cfg ( feature = "vonuvoli_backtrace" ) ]
 			ErrorInternals::WithBacktrace (_, _) =>
 				None,
 			ErrorInternals::WithMessage (_, _) =>
@@ -261,6 +272,7 @@ impl Error {
 		match *self.internals_ref () {
 			ErrorInternals::Code (_) =>
 				None,
+			#[ cfg ( feature = "vonuvoli_backtrace" ) ]
 			ErrorInternals::WithBacktrace (_, _) =>
 				None,
 			ErrorInternals::WithMessage (_, _) =>
@@ -281,6 +293,7 @@ impl Error {
 		match *self.internals_ref () {
 			ErrorInternals::Code (_) =>
 				None,
+			#[ cfg ( feature = "vonuvoli_backtrace" ) ]
 			ErrorInternals::WithBacktrace (_, _) =>
 				None,
 			ErrorInternals::WithMessage (_, _) =>
@@ -318,6 +331,7 @@ impl Error {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn backtrace_report <T : Transcript + ?Sized> (&self, transcript : &TranscriptTracer<T>) -> () {
 		match *self.internals_ref () {
+			#[ cfg ( feature = "vonuvoli_backtrace" ) ]
 			ErrorInternals::WithBacktrace (_, ref backtrace) =>
 				backtrace.report (transcript),
 			_ =>
