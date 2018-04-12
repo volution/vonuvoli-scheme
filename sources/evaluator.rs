@@ -21,8 +21,6 @@ use super::parameters::exports::*;
 
 use super::prelude::*;
 
-def_transcript! (transcript);
-
 
 
 
@@ -32,6 +30,12 @@ pub mod exports {
 	pub use super::Evaluator;
 	pub use super::EvaluatorContext;
 }
+
+
+
+
+#[ cfg ( feature = "vonuvoli_transcript" ) ]
+def_transcript! (transcript);
 
 
 
@@ -95,7 +99,8 @@ impl Evaluator {
 	#[ inline (never) ]
 	fn evaluate (&self, evaluation : &mut EvaluatorContext, expression : &Expression) -> (Outcome<Value>) {
 		
-		if EVALUATOR_TRACE_INPUT || EVALUATOR_TRACE_OUTPUT || EVALUATOR_TRACE_ERROR {
+		#[ cfg ( feature = "vonuvoli_transcript" ) ]
+		{ if EVALUATOR_TRACE_INPUT || EVALUATOR_TRACE_OUTPUT || EVALUATOR_TRACE_ERROR {
 			
 			if EVALUATOR_TRACE_INPUT {
 				trace_debugging! (transcript, 0xc9ab7675 => "evaluating:\u{1e}{:#?}" => (expression));
@@ -119,7 +124,10 @@ impl Evaluator {
 		} else {
 			
 			return self.evaluate_00 (evaluation, expression);
-		}
+		} }
+		
+		#[ cfg ( not ( feature = "vonuvoli_transcript" ) ) ]
+		return self.evaluate_00 (evaluation, expression);
 	}
 	
 	

@@ -2,6 +2,8 @@
 
 use super::errors::exports::*;
 use super::runtime_configurations::exports::*;
+
+#[ cfg ( feature = "vonuvoli_transcript" ) ]
 use super::transcript::exports::*;
 
 use super::prelude::*;
@@ -531,13 +533,16 @@ pub fn libc_getgroups () -> (StdBox<[u32]>) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ allow (unused_variables) ]
 pub fn execute_main <Main, Tracer> (main : Main, transcript : &Tracer) -> !
 		where
 			Main : Fn () -> (Outcome<u32>) + panic::UnwindSafe,
 			Tracer : Transcript + ?Sized,
 {
 	panic::set_hook (StdBox::new (|_| {
+			#[ cfg ( feature = "vonuvoli_transcript" ) ]
 			let backtrace = super::runtime_backtrace::Backtrace::new ();
+			#[ cfg ( feature = "vonuvoli_transcript" ) ]
 			backtrace.report (tracer_error! (super::TRANSCRIPT, 0x7f5eeb6e));
 			if ABORT_ON_PANIC_GENERIC {
 				process::exit (1);
@@ -550,13 +555,16 @@ pub fn execute_main <Main, Tracer> (main : Main, transcript : &Tracer) -> !
 					let code = if code <= 255 {
 						code
 					} else {
+						#[ cfg ( feature = "vonuvoli_transcript" ) ]
 						trace_warning! (transcript, 0x2daa4ba6 => "exit code (`{}`) out of range;  using `255`!" => (code));
 						255
 					};
 					process::exit (code as i32);
 				},
 				Err (error) => {
+					#[ cfg ( feature = "vonuvoli_transcript" ) ]
 					trace_critical! (transcript, 0x4354c758 => "unexpected error encountered;  aborting!" => (), error = &error);
+					#[ cfg ( feature = "vonuvoli_transcript" ) ]
 					error.backtrace_report (tracer_error! (transcript, 0x6ec79d16));
 					process::exit (1);
 				},
@@ -564,7 +572,9 @@ pub fn execute_main <Main, Tracer> (main : Main, transcript : &Tracer) -> !
 		Err (error) => {
 			let error = match error.downcast::<Error> () {
 				Ok (error) => {
+					#[ cfg ( feature = "vonuvoli_transcript" ) ]
 					trace_critical! (transcript, 0x8c0fc747 => "unexpected panic encountered;  aborting!" => (), error = &error);
+					#[ cfg ( feature = "vonuvoli_transcript" ) ]
 					error.backtrace_report (tracer_error! (transcript, 0x29b62906));
 					process::exit (1);
 				},
@@ -573,6 +583,7 @@ pub fn execute_main <Main, Tracer> (main : Main, transcript : &Tracer) -> !
 			};
 			let error = match error.downcast::<StdString> () {
 				Ok (error) => {
+					#[ cfg ( feature = "vonuvoli_transcript" ) ]
 					trace_critical! (transcript, 0x4981dad6 => "unexpected panic encountered;  aborting!\u{1d}{}" => (&error));
 					process::exit (1);
 				},
@@ -580,6 +591,7 @@ pub fn execute_main <Main, Tracer> (main : Main, transcript : &Tracer) -> !
 					error,
 			};
 			let _error = error;
+			#[ cfg ( feature = "vonuvoli_transcript" ) ]
 			trace_critical! (transcript, 0x5006e6bf => "unexpected panic encountered;  aborting!" => ());
 			process::exit (1);
 		},
@@ -591,8 +603,10 @@ pub fn execute_main <Main, Tracer> (main : Main, transcript : &Tracer) -> !
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn panic_with_error (error : Error, source : &(&'static str, u32, u32)) -> ! {
+	#[ cfg ( feature = "vonuvoli_transcript" ) ]
 	trace_critical! (super::TRANSCRIPT, 0x6be7d1b0 => "unexpected panic encountered;  aborting!" => (), error = &error);
 	if ABORT_ON_PANIC_WITH_ERROR {
+		#[ cfg ( feature = "vonuvoli_transcript" ) ]
 		error.backtrace_report (tracer_error! (super::TRANSCRIPT, 0xf0766ceb));
 		process::exit (1);
 	} else {
@@ -600,4 +614,10 @@ pub fn panic_with_error (error : Error, source : &(&'static str, u32, u32)) -> !
 		::std::rt::begin_panic (error, source);
 	}
 }
+
+
+
+
+#[ cfg ( not ( feature = "vonuvoli_transcript" ) ) ]
+pub trait Transcript : StdAny {}
 

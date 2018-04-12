@@ -1,6 +1,8 @@
 
 
 use super::runtime::exports::*;
+
+#[ cfg ( feature = "vonuvoli_transcript" ) ]
 use super::transcript::exports::*;
 
 use super::prelude::*;
@@ -35,6 +37,7 @@ impl Backtrace {
 		Backtrace (ext::backtrace::Backtrace::new_unresolved ())
 	}
 	
+	#[ cfg ( feature = "vonuvoli_transcript" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn report <T : Transcript + ?Sized> (&self, transcript : &TranscriptTracer<T>) -> () {
 		let mut backtrace = self.0.clone ();
@@ -50,6 +53,7 @@ impl Backtrace {
 		transcript.trace_buffer (transcript_buffer, false);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_transcript" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn report_symbol <T : Transcript + ?Sized> (&self, symbol : &ext::backtrace::BacktraceSymbol, transcript_buffer : &mut TranscriptBuffer<T>) -> (bool) {
 		let transcript_color = transcript_buffer.output_supports_ansi_sequences ();
@@ -173,6 +177,7 @@ impl Backtrace {
 		Backtrace ()
 	}
 	
+	#[ cfg ( feature = "vonuvoli_transcript" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn report <T : Transcript + ?Sized> (&self, _transcript : &TranscriptTracer<T>) -> () {}
 }
@@ -277,7 +282,10 @@ static SOURCES : &'static [((&'static str, usize), &'static str)] = &[];
 
 
 
+#[ cfg ( feature = "vonuvoli_transcript" ) ]
 static STYLE_SYMBOL_NAME : TranscriptStyle = TRANSCRIPT_STYLE_YELLOW_BOLD;
+#[ cfg ( feature = "vonuvoli_transcript" ) ]
 static STYLE_SYMBOL_LINE_EXACT : TranscriptStyle = TRANSCRIPT_STYLE_RED_BOLD;
+#[ cfg ( feature = "vonuvoli_transcript" ) ]
 static STYLE_NONE : TranscriptStyle = TRANSCRIPT_STYLE_NONE;
 

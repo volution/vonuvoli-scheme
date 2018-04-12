@@ -90,6 +90,7 @@ pub extern crate rand;
 #[ cfg ( feature = "vonuvoli_builtins_encoding" ) ]
 pub extern crate data_encoding;
 
+#[ cfg ( feature = "vonuvoli_transcript" ) ]
 #[ cfg ( feature = "vonuvoli_transcript_code_hashes" ) ]
 pub extern crate blake2_rfc;
 
@@ -140,6 +141,7 @@ pub mod externals {
 		data_encoding,
 	};
 	
+	#[ cfg ( feature = "vonuvoli_transcript" ) ]
 	#[ cfg ( feature = "vonuvoli_transcript_code_hashes" ) ]
 	pub use {
 		blake2_rfc,
@@ -248,6 +250,7 @@ pub(crate) mod runtime_iterators;
 pub(crate) mod runtime_unicode;
 #[ cfg ( feature = "vonuvoli_tests" ) ]
 pub(crate) mod tests;
+#[ cfg ( feature = "vonuvoli_transcript" ) ]
 pub(crate) mod transcript;
 pub(crate) mod values;
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
@@ -389,6 +392,7 @@ pub mod internals {
 	pub use super::runtime_unicode::exports as runtime_unicode;
 	#[ cfg ( feature = "vonuvoli_tests" ) ]
 	pub use super::tests::exports as tests;
+	#[ cfg ( feature = "vonuvoli_transcript" ) ]
 	pub use super::transcript::exports as transcript;
 	pub use super::values::exports as values;
 	#[ cfg ( feature = "vonuvoli_values_array" ) ]
@@ -467,6 +471,7 @@ pub mod exports {
 	pub use super::runtime::exports::*;
 	#[ cfg ( feature = "vonuvoli_tests" ) ]
 	pub use super::tests::exports::*;
+	#[ cfg ( feature = "vonuvoli_transcript" ) ]
 	pub use super::transcript::exports::*;
 	pub use super::values::exports::*;
 	
@@ -475,5 +480,6 @@ pub mod exports {
 
 
 
+#[ cfg ( feature = "vonuvoli_transcript" ) ]
 def_transcript_root! (TRANSCRIPT);
 

@@ -1161,6 +1161,7 @@ macro_rules! try_as_record_as_ref {
 
 
 
+#[ cfg ( feature = "vonuvoli_transcript" ) ]
 #[ macro_export ]
 macro_rules! def_transcript_root {
 	( $identifier : ident ) => (
@@ -1170,6 +1171,7 @@ macro_rules! def_transcript_root {
 	);
 }
 
+#[ cfg ( feature = "vonuvoli_transcript" ) ]
 #[ macro_export ]
 macro_rules! def_transcript {
 	( $identifier : ident ) => (
@@ -1180,6 +1182,7 @@ macro_rules! def_transcript {
 }
 
 
+#[ cfg ( feature = "vonuvoli_transcript" ) ]
 macro_rules! def_trace_for_level {
 	( $identifier : ident, $level : ident ) => (
 		#[ macro_export ]
@@ -1332,6 +1335,7 @@ macro_rules! def_trace_for_level {
 	);
 }
 
+#[ cfg ( feature = "vonuvoli_transcript" ) ]
 macro_rules! def_tracer_for_level {
 	( $identifier : ident, $level : ident ) => (
 		#[ macro_export ]
@@ -1370,6 +1374,7 @@ macro_rules! def_tracer_for_level {
 	);
 }
 
+#[ cfg ( feature = "vonuvoli_transcript" ) ]
 #[ macro_export ]
 macro_rules! trace_format_args {
 	( $format : tt, ( $( $argument : tt )* ) ) => (
@@ -1377,20 +1382,34 @@ macro_rules! trace_format_args {
 	);
 }
 
+#[ cfg ( feature = "vonuvoli_transcript" ) ]
 def_trace_for_level! (trace_critical, Critical);
+#[ cfg ( feature = "vonuvoli_transcript" ) ]
 def_trace_for_level! (trace_error, Error);
+#[ cfg ( feature = "vonuvoli_transcript" ) ]
 def_trace_for_level! (trace_warning, Warning);
+#[ cfg ( feature = "vonuvoli_transcript" ) ]
 def_trace_for_level! (trace_notice, Notice);
+#[ cfg ( feature = "vonuvoli_transcript" ) ]
 def_trace_for_level! (trace_information, Information);
+#[ cfg ( feature = "vonuvoli_transcript" ) ]
 def_trace_for_level! (trace_internal, Internal);
+#[ cfg ( feature = "vonuvoli_transcript" ) ]
 def_trace_for_level! (trace_debugging, Debugging);
 
+#[ cfg ( feature = "vonuvoli_transcript" ) ]
 def_tracer_for_level! (tracer_critical, Critical);
+#[ cfg ( feature = "vonuvoli_transcript" ) ]
 def_tracer_for_level! (tracer_error, Error);
+#[ cfg ( feature = "vonuvoli_transcript" ) ]
 def_tracer_for_level! (tracer_warning, Warning);
+#[ cfg ( feature = "vonuvoli_transcript" ) ]
 def_tracer_for_level! (tracer_notice, Notice);
+#[ cfg ( feature = "vonuvoli_transcript" ) ]
 def_tracer_for_level! (tracer_information, Information);
+#[ cfg ( feature = "vonuvoli_transcript" ) ]
 def_tracer_for_level! (tracer_internal, Internal);
+#[ cfg ( feature = "vonuvoli_transcript" ) ]
 def_tracer_for_level! (tracer_debugging, Debugging);
 
 

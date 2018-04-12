@@ -10,8 +10,6 @@ use super::extended_procedures::exports::*;
 
 use super::prelude::*;
 
-def_transcript! (transcript);
-
 
 
 
@@ -20,6 +18,12 @@ pub mod exports {
 	pub use super::generate_definitions as language_r7rs_generate_definitions;
 	pub use super::verify_definitions as language_r7rs_verify_definitions;
 }
+
+
+
+
+#[ cfg ( feature = "vonuvoli_transcript" ) ]
+def_transcript! (transcript);
 
 
 
@@ -953,6 +957,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 
 
 #[ inline (never) ]
+#[ allow (unused_variables) ]
 pub fn verify_definitions (definitions : &StdVec<(Symbol, Symbol, Symbol, Value)>) -> (Outcome<()>) {
 	
 	
@@ -1017,6 +1022,7 @@ pub fn verify_definitions (definitions : &StdVec<(Symbol, Symbol, Symbol, Value)
 	for &(_, _, ref identifier, ref value) in definitions {
 		if let Some (existing) = mappings.insert (identifier.clone (), value) {
 			if existing != value {
+				#[ cfg ( feature = "vonuvoli_transcript" ) ]
 				trace_error! (transcript, 0x470d2ba5 => "duplicate missmatched mapping for `{}`!" => (identifier.string_as_str ()));
 				errors = true;
 			}
@@ -1027,12 +1033,14 @@ pub fn verify_definitions (definitions : &StdVec<(Symbol, Symbol, Symbol, Value)
 		if let Some (count) = libraries.get_mut (library) {
 			*count += 1;
 		} else {
+			#[ cfg ( feature = "vonuvoli_transcript" ) ]
 			trace_error! (transcript, 0x6bcf5b92 => "unknown library `{}`!" => (library.string_as_str ()));
 			errors = true;
 		}
 		if let Some (count) = categories.get_mut (category) {
 			*count += 1;
 		} else {
+			#[ cfg ( feature = "vonuvoli_transcript" ) ]
 			trace_error! (transcript, 0x915ff763 => "unknown category `{}`!" => (category.string_as_str ()));
 			errors = true;
 		}
@@ -1040,12 +1048,14 @@ pub fn verify_definitions (definitions : &StdVec<(Symbol, Symbol, Symbol, Value)
 	
 	for (library, count) in libraries {
 		if count == 0 {
+			#[ cfg ( feature = "vonuvoli_transcript" ) ]
 			trace_warning! (transcript, 0x17d45f75 => "unused library `{}`!" => (library.string_as_str ()));
 			errors = true;
 		}
 	}
 	for (category, count) in categories {
 		if count == 0 {
+			#[ cfg ( feature = "vonuvoli_transcript" ) ]
 			trace_warning! (transcript, 0xc4227311 => "unused category `{}`!" => (category.string_as_str ()));
 			errors = true;
 		}

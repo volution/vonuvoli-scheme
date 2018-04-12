@@ -19,8 +19,6 @@ use super::extended_procedures::exports::*;
 
 use super::prelude::*;
 
-def_transcript! (transcript);
-
 
 
 
@@ -28,6 +26,12 @@ pub mod exports {
 	pub use super::optimize;
 	pub use super::optimize_script;
 }
+
+
+
+
+#[ cfg ( feature = "vonuvoli_transcript" ) ]
+def_transcript! (transcript);
 
 
 
@@ -75,7 +79,8 @@ impl Optimizer {
 	
 	fn optimize_0 (&self, optimization : OptimizerContext, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		
-		if OPTIMIZER_TRACE_INPUT || OPTIMIZER_TRACE_OUTPUT || OPTIMIZER_TRACE_ERROR {
+		#[ cfg ( feature = "vonuvoli_transcript" ) ]
+		{ if OPTIMIZER_TRACE_INPUT || OPTIMIZER_TRACE_OUTPUT || OPTIMIZER_TRACE_ERROR {
 			
 			let expression_input = expression.clone ();
 			
@@ -101,7 +106,10 @@ impl Optimizer {
 		} else {
 			
 			return self.optimize_00 (optimization, expression);
-		}
+		} }
+		
+		#[ cfg ( not ( feature = "vonuvoli_transcript" ) ) ]
+		return self.optimize_00 (optimization, expression);
 	}
 	
 	

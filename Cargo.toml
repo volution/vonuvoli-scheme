@@ -89,6 +89,7 @@ vonuvoli_defaults = [
 	"vonuvoli_port_output_display_flush",
 	"vonuvoli_port_output_newline_flush",
 	"vonuvoli_backtrace",
+	"vonuvoli_transcript",
 ]
 
 
@@ -143,11 +144,13 @@ vonuvoli_transcript_ansi_always = []
 vonuvoli_transcript_code_hashes = [
 	"blake2-rfc",
 ]
+vonuvoli_transcript = []
 vonuvoli_parser = [
 	"vonuvoli_tests",
 ]
 vonuvoli_tests = [
 	"vonuvoli_parser",
+	"vonuvoli_transcript",
 ]
 
 vonuvoli_panic_on_failed = []
@@ -216,6 +219,7 @@ vonuvoli_builtins_processes = [
 ]
 vonuvoli_builtins_transcript = [
 	"vonuvoli_values_string",
+	"vonuvoli_transcript",
 ]
 vonuvoli_builtins_crypto = [
 	"vonuvoli_values_native",

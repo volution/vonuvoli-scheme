@@ -14,8 +14,6 @@ use super::lambdas::exports::*;
 
 use super::prelude::*;
 
-def_transcript! (transcript);
-
 
 
 
@@ -28,6 +26,12 @@ pub mod exports {
 	pub use super::CompilerBinding;
 	pub use super::super::compiler_optimizer::exports::*;
 }
+
+
+
+
+#[ cfg ( feature = "vonuvoli_transcript" ) ]
+def_transcript! (transcript);
 
 
 
@@ -77,7 +81,8 @@ impl Compiler {
 	
 	fn compile_0 (&self, compilation : CompilerContext, token : Value) -> (Outcome<(CompilerContext, Expression)>) {
 		
-		if COMPILER_TRACE_INPUT || COMPILER_TRACE_OUTPUT || COMPILER_TRACE_ERROR {
+		#[ cfg ( feature = "vonuvoli_transcript" ) ]
+		{ if COMPILER_TRACE_INPUT || COMPILER_TRACE_OUTPUT || COMPILER_TRACE_ERROR {
 			
 			let token_input = token.clone ();
 			
@@ -103,7 +108,10 @@ impl Compiler {
 		} else {
 			
 			return self.compile_00 (compilation, token);
-		}
+		} }
+		
+		#[ cfg ( not ( feature = "vonuvoli_transcript" ) ) ]
+		return self.compile_00 (compilation, token);
 	}
 	
 	
