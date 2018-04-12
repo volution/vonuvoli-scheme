@@ -463,9 +463,9 @@ macro_rules! stderr_ref {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ allow (unused_variables) ]
 pub fn port_primitive_0_evaluate (primitive : PortPrimitive0, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
-	let _evaluator = evaluator;
 	match primitive {
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
@@ -570,9 +570,9 @@ pub fn port_primitive_0_evaluate (primitive : PortPrimitive0, evaluator : &mut E
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ allow (unused_variables) ]
 pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, input_1 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
-	let _evaluator = evaluator;
 	match primitive {
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
@@ -937,7 +937,7 @@ pub fn port_primitive_4_evaluate (primitive : PortPrimitive4, input_1 : &Value, 
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-#[ cfg_attr ( not ( feature = "vonuvoli_values_bytes" ), allow (unused_variables) ) ]
+#[ allow (unused_variables) ]
 pub fn port_primitive_5_evaluate (primitive : PortPrimitive5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		

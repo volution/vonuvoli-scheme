@@ -117,6 +117,7 @@ pub mod exports {
 	};
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	pub use super::{
 			
 			is_character,
@@ -1373,12 +1374,15 @@ def_fn_try_predicate_any! (is_number_odd, is_number_odd_any_2, is_number_odd_any
 
 
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_character (value : &Value) -> (bool) {
 	return value.is_kind (ValueKind::Character);
 }
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_predicate_all! (is_character, is_character_all_2, is_character_all_3, is_character_all_4, is_character_all_n);
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_predicate_any! (is_character, is_character_any_2, is_character_any_3, is_character_any_4, is_character_any_n);
 
 

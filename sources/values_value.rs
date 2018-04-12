@@ -5,10 +5,12 @@ use super::errors::exports::*;
 use super::lambdas::exports::*;
 use super::primitives::exports::*;
 use super::values_booleans::exports::*;
-use super::values_characters::exports::*;
 use super::values_numbers::exports::*;
 use super::values_pairs::exports::*;
 use super::values_symbols::exports::*;
+
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
+use super::values_characters::exports::*;
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 use super::values_strings::exports::*;

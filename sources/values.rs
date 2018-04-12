@@ -4,8 +4,9 @@ pub mod exports {
 	pub use super::super::values_value::exports::*;
 	
 	pub use super::super::values_booleans::exports::*;
-	pub use super::super::values_characters::exports::*;
 	pub use super::super::values_numbers::exports::*;
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
+	pub use super::super::values_characters::exports::*;
 	
 	pub use super::super::values_symbols::exports::*;
 	#[ cfg ( feature = "vonuvoli_values_keyword" ) ]

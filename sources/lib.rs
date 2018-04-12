@@ -252,6 +252,7 @@ pub(crate) mod values_arrays;
 pub(crate) mod values_booleans;
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 pub(crate) mod values_bytes;
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 pub(crate) mod values_characters;
 #[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 pub(crate) mod values_keywords;
@@ -388,6 +389,7 @@ pub mod internals {
 	pub use super::values_booleans::exports as values_booleans;
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	pub use super::values_bytes::exports as values_bytes;
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	pub use super::values_characters::exports as values_characters;
 	pub use super::values_numbers::exports as values_numbers;
 	#[ cfg ( feature = "vonuvoli_values_keyword" ) ]

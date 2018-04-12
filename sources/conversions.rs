@@ -124,6 +124,7 @@ impl_from_for_Value_1! (Singleton, ValueSingleton);
 impl_from_for_Value_1! (Boolean, Boolean);
 impl_from_for_Value_1! (NumberInteger, NumberInteger);
 impl_from_for_Value_1! (NumberReal, NumberReal);
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 impl_from_for_Value_1! (Character, Character);
 impl_from_for_Value_1! (Symbol, Symbol);
 #[ cfg ( feature = "vonuvoli_values_keyword" ) ]
@@ -193,6 +194,7 @@ impl_from_for_Value_1! (Opaque, Opaque);
 impl_from_for_Value_3! (Singleton, ValueSingleton, (), _value, ValueSingleton::Void);
 
 impl_from_for_Value_2! (Boolean, Boolean, bool);
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 impl_from_for_Value_2! (Character, Character, char);
 
 impl_from_for_Value_2! (NumberInteger, NumberInteger, i64);
@@ -870,15 +872,16 @@ pub fn os_string_clone_coerce_option (value : Option<&Value>) -> (Outcome<Option
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ allow (unused_variables) ]
 pub fn os_string_clone_into_value (string : &ffi::OsStr) -> (Outcome<Value>) {
-	if let Some (string) = string.to_str () {
+	#[ cfg ( feature = "vonuvoli_values_strings" ) ]
+	{ if let Some (string) = string.to_str () {
 		succeed! (string_clone_str (string) .into ());
-	} else {
-		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-		succeed! (bytes_clone_slice (string.as_bytes ()) .into ());
-		#[ cfg ( not ( feature = "vonuvoli_values_bytes" ) ) ]
-		fail! (0x4eefc5ee);
-	}
+	} }
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	succeed! (bytes_clone_slice (string.as_bytes ()) .into ());
+	#[ cfg ( not ( any ( feature = "vonuvoli_values_string", feature = "vonuvoli_values_bytes" ) ) ) ]
+	fail! (0x4eefc5ee);
 }
 
 
@@ -1245,6 +1248,7 @@ pub fn bytes_slice_coerce_1a (value : &Value) -> (Outcome<BytesSliceRef>) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ allow (unused_variables) ]
 pub fn bytes_consume <Consumer> (value : &Value, consumer : &mut Consumer) -> (Outcome<()>)
 		where Consumer : FnMut (&[u8]) -> (Outcome<()>)
 {

@@ -127,6 +127,7 @@ impl Compiler {
 			ValueClassMatchInto::Number (class) =>
 				return self.compile_syntax_quote_0 (compilation, class.value ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ValueClassMatchInto::Character (value) =>
 				return self.compile_syntax_quote_0 (compilation, value.into ()),
 			
@@ -141,6 +142,7 @@ impl Compiler {
 			ValueClassMatchInto::Unique (value) =>
 				return self.compile_syntax_quote_0 (compilation, value.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ValueClassMatchInto::String (class) =>
 				return self.compile_syntax_quote_0 (compilation, class.value ()),
 			
@@ -1974,6 +1976,7 @@ impl Compiler {
 			ValueClassMatchInto::Number (class) =>
 				succeed! ((compilation, splice (class.value (), spliceable))),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ValueClassMatchInto::Character (value) =>
 				succeed! ((compilation, splice (value, spliceable))),
 			
@@ -1988,6 +1991,7 @@ impl Compiler {
 			ValueClassMatchInto::Unique (value) =>
 				succeed! ((compilation, splice (value, spliceable))),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ValueClassMatchInto::String (class) =>
 				succeed! ((compilation, splice (class.value (), spliceable))),
 			

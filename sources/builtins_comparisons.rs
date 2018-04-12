@@ -53,7 +53,6 @@ pub mod exports {
 			number_compare_1,
 			number_integer_compare_1, number_integer_compare_1a,
 			number_real_compare_1, number_real_compare_1a,
-			character_compare_1, character_compare_1a,
 			symbol_compare_1, symbol_compare_1a,
 			pair_compare_1,
 			pair_immutable_compare_1, pair_immutable_compare_1a,
@@ -69,7 +68,6 @@ pub mod exports {
 			number_compare_2,
 			number_integer_compare_2, number_integer_compare_2a,
 			number_real_compare_2, number_real_compare_2a,
-			character_compare_2, character_compare_2a,
 			symbol_compare_2, symbol_compare_2a,
 			pair_compare_2,
 			pair_immutable_compare_2, pair_immutable_compare_2a,
@@ -85,7 +83,6 @@ pub mod exports {
 			number_compare_3,
 			number_integer_compare_3, number_integer_compare_3a,
 			number_real_compare_3, number_real_compare_3a,
-			character_compare_3, character_compare_3a,
 			symbol_compare_3, symbol_compare_3a,
 			pair_compare_3,
 			pair_immutable_compare_3, pair_immutable_compare_3a,
@@ -101,7 +98,6 @@ pub mod exports {
 			number_compare_4,
 			number_integer_compare_4, number_integer_compare_4a,
 			number_real_compare_4, number_real_compare_4a,
-			character_compare_4, character_compare_4a,
 			symbol_compare_4, symbol_compare_4a,
 			pair_compare_4,
 			pair_immutable_compare_4, pair_immutable_compare_4a,
@@ -117,7 +113,6 @@ pub mod exports {
 			number_compare_n,
 			number_integer_compare_n, number_integer_compare_na,
 			number_real_compare_n, number_real_compare_na,
-			character_compare_n, character_compare_na,
 			symbol_compare_n, symbol_compare_na,
 			pair_compare_n,
 			pair_immutable_compare_n, pair_immutable_compare_na,
@@ -126,6 +121,18 @@ pub mod exports {
 			procedure_lambda_compare_n, procedure_lambda_compare_na,
 			syntax_primitive_compare_n, syntax_primitive_compare_na,
 			syntax_lambda_compare_n, syntax_lambda_compare_na,
+			
+	};
+	
+	
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
+	pub use super::{
+			
+			character_compare_1, character_compare_1a,
+			character_compare_2, character_compare_2a,
+			character_compare_3, character_compare_3a,
+			character_compare_4, character_compare_4a,
+			character_compare_n, character_compare_na,
 			
 	};
 	
@@ -701,6 +708,7 @@ pub fn compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Co
 		ValueKindMatchAsRef::NumberReal (value) =>
 			return number_real_compare_1a (value, comparison),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ValueKindMatchAsRef::Character (value) =>
 			return character_compare_1a (value, comparison),
 		
@@ -865,6 +873,7 @@ pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef
 		ValueKindMatchAsRef2::NumberReal (left, right) =>
 			return number_real_compare_2a (left, right, comparison),
 		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ValueKindMatchAsRef2::Character (left, right) =>
 			return character_compare_2a (left, right, comparison),
 		
@@ -1185,15 +1194,18 @@ pub fn number_real_compare_2a <ValueRef : StdAsRef<NumberReal>> (left : ValueRef
 
 
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_compare! (Character,
 		character_compare_1, character_compare_2, character_compare_3, character_compare_4, character_compare_n,
 		character_compare_1a, character_compare_2a, character_compare_3a, character_compare_4a, character_compare_na);
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn character_compare_1a <ValueRef : StdAsRef<Character>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn character_compare_2a <ValueRef : StdAsRef<Character>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref () .value ();

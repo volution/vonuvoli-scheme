@@ -450,6 +450,7 @@ pub fn process_environment_variables (_evaluator : &mut EvaluatorContext, _retur
 
 #[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ allow (unused_variables) ]
 pub fn transcript_trace_g (level : TranscriptLevel, arguments : &[&Value], evaluator : &mut EvaluatorContext) -> (Outcome<()>) {
 	if arguments.is_empty () {
 		fail! (0xdd72e2ce);
@@ -458,8 +459,6 @@ pub fn transcript_trace_g (level : TranscriptLevel, arguments : &[&Value], evalu
 	let transcript = try! (try! (evaluator.parameters ()) .resolve_transcript ());
 	#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
 	let transcript = transcript_for_script ();
-	#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
-	let _evaluator = evaluator;
 	if ! transcript.is_active (level) {
 		succeed! (());
 	}

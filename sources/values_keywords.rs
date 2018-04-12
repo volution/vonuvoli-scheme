@@ -55,6 +55,20 @@ impl String for Keyword {
 	}
 }
 
+#[ cfg ( not ( feature = "vonuvoli_values_string" ) ) ]
+impl Keyword {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn string_as_str (&self) -> (&str) {
+		self.0.as_ref ()
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn string_eq (&self, other : &str) -> (bool) {
+		self.string_as_str () .eq (other)
+	}
+}
+
 
 
 
