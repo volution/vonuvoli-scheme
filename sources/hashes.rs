@@ -34,7 +34,9 @@ impl hash::Hash for Value {
 			
 			ValueKindMatchAsRef::StringImmutable (self_0) => { hasher.write_u32 (0x85932088); self_0.hash (hasher); },
 			ValueKindMatchAsRef::StringMutable (self_0) => { hasher.write_u32 (0x5dffe8a7); self_0.hash (hasher); },
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			ValueKindMatchAsRef::BytesImmutable (self_0) => { hasher.write_u32 (0xd6ec09a4); self_0.hash (hasher); },
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			ValueKindMatchAsRef::BytesMutable (self_0) => { hasher.write_u32 (0x15527940); self_0.hash (hasher); },
 			
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
@@ -135,6 +137,7 @@ impl hash::Hash for StringMutable {
 
 
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 impl hash::Hash for BytesImmutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -145,6 +148,7 @@ impl hash::Hash for BytesImmutable {
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 impl hash::Hash for BytesMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

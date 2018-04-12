@@ -406,6 +406,7 @@ pub mod exports {
 	};
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	pub use super::{
 			
 			is_bytes, is_bytes_empty, is_bytes_not_empty,
@@ -1929,52 +1930,68 @@ def_fn_predicate_any_x1! (is_record_of_kind_mutable, &RecordKind, is_record_of_k
 
 
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_bytes (value : &Value) -> (bool) {
 	return value.is_class (ValueClass::Bytes);
 }
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 def_fn_predicate_all! (is_bytes, is_bytes_all_2, is_bytes_all_3, is_bytes_all_4, is_bytes_all_n);
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 def_fn_predicate_any! (is_bytes, is_bytes_any_2, is_bytes_any_3, is_bytes_any_4, is_bytes_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_bytes_immutable (value : &Value) -> (bool) {
 	return value.is_kind (ValueKind::BytesImmutable);
 }
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 def_fn_predicate_all! (is_bytes_immutable, is_bytes_immutable_all_2, is_bytes_immutable_all_3, is_bytes_immutable_all_4, is_bytes_immutable_all_n);
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 def_fn_predicate_any! (is_bytes_immutable, is_bytes_immutable_any_2, is_bytes_immutable_any_3, is_bytes_immutable_any_4, is_bytes_immutable_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_bytes_mutable (value : &Value) -> (bool) {
 	return value.is_kind (ValueKind::BytesMutable);
 }
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 def_fn_predicate_all! (is_bytes_mutable, is_bytes_mutable_all_2, is_bytes_mutable_all_3, is_bytes_mutable_all_4, is_bytes_mutable_all_n);
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 def_fn_predicate_any! (is_bytes_mutable, is_bytes_mutable_any_2, is_bytes_mutable_any_3, is_bytes_mutable_any_4, is_bytes_mutable_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_bytes_empty (value : &Value) -> (Outcome<bool>) {
 	succeed! (try_as_bytes_ref! (value) .bytes_is_empty ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 def_fn_try_predicate_all! (is_bytes_empty, is_bytes_empty_all_2, is_bytes_empty_all_3, is_bytes_empty_all_4, is_bytes_empty_all_n);
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 def_fn_try_predicate_any! (is_bytes_empty, is_bytes_empty_any_2, is_bytes_empty_any_3, is_bytes_empty_any_4, is_bytes_empty_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_bytes_immutable_empty (value : &Value) -> (Outcome<bool>) {
 	let value = try_as_bytes_immutable_ref! (value);
 	succeed! (value.bytes_ref () .bytes_is_empty ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 def_fn_try_predicate_all! (is_bytes_immutable_empty, is_bytes_immutable_empty_all_2, is_bytes_immutable_empty_all_3, is_bytes_immutable_empty_all_4, is_bytes_immutable_empty_all_n);
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 def_fn_try_predicate_any! (is_bytes_immutable_empty, is_bytes_immutable_empty_any_2, is_bytes_immutable_empty_any_3, is_bytes_immutable_empty_any_4, is_bytes_immutable_empty_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_bytes_mutable_empty (value : &Value) -> (Outcome<bool>) {
 	let value = try_as_bytes_mutable_ref! (value);
@@ -1982,29 +1999,38 @@ pub fn is_bytes_mutable_empty (value : &Value) -> (Outcome<bool>) {
 	succeed! (value.bytes_is_empty ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 def_fn_try_predicate_all! (is_bytes_mutable_empty, is_bytes_mutable_empty_all_2, is_bytes_mutable_empty_all_3, is_bytes_mutable_empty_all_4, is_bytes_mutable_empty_all_n);
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 def_fn_try_predicate_any! (is_bytes_mutable_empty, is_bytes_mutable_empty_any_2, is_bytes_mutable_empty_any_3, is_bytes_mutable_empty_any_4, is_bytes_mutable_empty_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_bytes_not_empty (value : &Value) -> (Outcome<bool>) {
 	succeed! (try_as_bytes_ref! (value) .bytes_is_not_empty ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 def_fn_try_predicate_all! (is_bytes_not_empty, is_bytes_not_empty_all_2, is_bytes_not_empty_all_3, is_bytes_not_empty_all_4, is_bytes_not_empty_all_n);
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 def_fn_try_predicate_any! (is_bytes_not_empty, is_bytes_not_empty_any_2, is_bytes_not_empty_any_3, is_bytes_not_empty_any_4, is_bytes_not_empty_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_bytes_immutable_not_empty (value : &Value) -> (Outcome<bool>) {
 	let value = try_as_bytes_immutable_ref! (value);
 	succeed! (value.bytes_ref () .bytes_is_not_empty ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 def_fn_try_predicate_all! (is_bytes_immutable_not_empty, is_bytes_immutable_not_empty_all_2, is_bytes_immutable_not_empty_all_3, is_bytes_immutable_not_empty_all_4, is_bytes_immutable_not_empty_all_n);
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 def_fn_try_predicate_any! (is_bytes_immutable_not_empty, is_bytes_immutable_not_empty_any_2, is_bytes_immutable_not_empty_any_3, is_bytes_immutable_not_empty_any_4, is_bytes_immutable_not_empty_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_bytes_mutable_not_empty (value : &Value) -> (Outcome<bool>) {
 	let value = try_as_bytes_mutable_ref! (value);
@@ -2012,7 +2038,9 @@ pub fn is_bytes_mutable_not_empty (value : &Value) -> (Outcome<bool>) {
 	succeed! (value.bytes_is_not_empty ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 def_fn_try_predicate_all! (is_bytes_mutable_not_empty, is_bytes_mutable_not_empty_all_2, is_bytes_mutable_not_empty_all_3, is_bytes_mutable_not_empty_all_4, is_bytes_mutable_not_empty_all_n);
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 def_fn_try_predicate_any! (is_bytes_mutable_not_empty, is_bytes_mutable_not_empty_any_2, is_bytes_mutable_not_empty_any_3, is_bytes_mutable_not_empty_any_4, is_bytes_mutable_not_empty_any_n);
 
 

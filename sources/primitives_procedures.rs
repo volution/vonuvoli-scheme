@@ -5,7 +5,6 @@ use super::evaluator::exports::*;
 use super::primitives_arithmetic::exports::*;
 use super::primitives_bitwise::exports::*;
 use super::primitives_boolean::exports::*;
-use super::primitives_bytes::exports::*;
 use super::primitives_comparisons::exports::*;
 use super::primitives_functions::exports::*;
 use super::primitives_lists::exports::*;
@@ -13,6 +12,9 @@ use super::primitives_runtime::exports::*;
 use super::primitives_strings::exports::*;
 use super::primitives_types::exports::*;
 use super::values::exports::*;
+
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+use super::primitives_bytes::exports::*;
 
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
 use super::primitives_arrays::exports::*;
@@ -128,6 +130,7 @@ pub enum ProcedurePrimitive0 {
 	List ( ListPrimitive0 ),
 	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	Array ( ArrayPrimitive0 ),
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	Bytes ( BytesPrimitive0 ),
 	String ( StringPrimitive0 ),
 	
@@ -160,6 +163,7 @@ pub enum ProcedurePrimitive1 {
 	List ( ListPrimitive1 ),
 	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	Array ( ArrayPrimitive1 ),
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	Bytes ( BytesPrimitive1 ),
 	String ( StringPrimitive1 ),
 	
@@ -192,6 +196,7 @@ pub enum ProcedurePrimitive2 {
 	List ( ListPrimitive2 ),
 	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	Array ( ArrayPrimitive2 ),
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	Bytes ( BytesPrimitive2 ),
 	String ( StringPrimitive2 ),
 	
@@ -224,6 +229,7 @@ pub enum ProcedurePrimitive3 {
 	List ( ListPrimitive3 ),
 	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	Array ( ArrayPrimitive3 ),
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	Bytes ( BytesPrimitive3 ),
 	String ( StringPrimitive3 ),
 	
@@ -256,6 +262,7 @@ pub enum ProcedurePrimitive4 {
 	List ( ListPrimitive4 ),
 	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	Array ( ArrayPrimitive4 ),
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	Bytes ( BytesPrimitive4 ),
 	String ( StringPrimitive4 ),
 	
@@ -288,6 +295,7 @@ pub enum ProcedurePrimitive5 {
 	List ( ListPrimitive5 ),
 	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	Array ( ArrayPrimitive5 ),
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	Bytes ( BytesPrimitive5 ),
 	String ( StringPrimitive5 ),
 	
@@ -320,6 +328,7 @@ pub enum ProcedurePrimitiveN {
 	List ( ListPrimitiveN ),
 	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	Array ( ArrayPrimitiveN ),
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	Bytes ( BytesPrimitiveN ),
 	String ( StringPrimitiveN ),
 	
@@ -352,6 +361,7 @@ pub enum ProcedurePrimitiveV {
 	List ( ListPrimitiveV ),
 	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	Array ( ArrayPrimitiveV ),
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	Bytes ( BytesPrimitiveV ),
 	String ( StringPrimitiveV ),
 	
@@ -428,6 +438,7 @@ pub fn procedure_primitive_0_evaluate (primitive : ProcedurePrimitive0, evaluato
 		ProcedurePrimitive0::Array (primitive) =>
 			return array_primitive_0_evaluate (primitive, evaluator),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ProcedurePrimitive0::Bytes (primitive) =>
 			return bytes_primitive_0_evaluate (primitive, evaluator),
 		
@@ -490,6 +501,7 @@ pub fn procedure_primitive_1_evaluate (primitive : ProcedurePrimitive1, input_1 
 		ProcedurePrimitive1::Array (primitive) =>
 			return array_primitive_1_evaluate (primitive, input_1, evaluator),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ProcedurePrimitive1::Bytes (primitive) =>
 			return bytes_primitive_1_evaluate (primitive, input_1, evaluator),
 		
@@ -552,6 +564,7 @@ pub fn procedure_primitive_2_evaluate (primitive : ProcedurePrimitive2, input_1 
 		ProcedurePrimitive2::Array (primitive) =>
 			return array_primitive_2_evaluate (primitive, input_1, input_2, evaluator),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ProcedurePrimitive2::Bytes (primitive) =>
 			return bytes_primitive_2_evaluate (primitive, input_1, input_2, evaluator),
 		
@@ -614,6 +627,7 @@ pub fn procedure_primitive_3_evaluate (primitive : ProcedurePrimitive3, input_1 
 		ProcedurePrimitive3::Array (primitive) =>
 			return array_primitive_3_evaluate (primitive, input_1, input_2, input_3, evaluator),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ProcedurePrimitive3::Bytes (primitive) =>
 			return bytes_primitive_3_evaluate (primitive, input_1, input_2, input_3, evaluator),
 		
@@ -676,6 +690,7 @@ pub fn procedure_primitive_4_evaluate (primitive : ProcedurePrimitive4, input_1 
 		ProcedurePrimitive4::Array (primitive) =>
 			return array_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4, evaluator),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ProcedurePrimitive4::Bytes (primitive) =>
 			return bytes_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4, evaluator),
 		
@@ -738,6 +753,7 @@ pub fn procedure_primitive_5_evaluate (primitive : ProcedurePrimitive5, input_1 
 		ProcedurePrimitive5::Array (primitive) =>
 			return array_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, evaluator),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ProcedurePrimitive5::Bytes (primitive) =>
 			return bytes_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, evaluator),
 		
@@ -800,6 +816,7 @@ pub fn procedure_primitive_n_evaluate (primitive : ProcedurePrimitiveN, inputs :
 		ProcedurePrimitiveN::Array (primitive) =>
 			return array_primitive_n_evaluate (primitive, inputs, evaluator),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ProcedurePrimitiveN::Bytes (primitive) =>
 			return bytes_primitive_n_evaluate (primitive, inputs, evaluator),
 		
@@ -1299,6 +1316,7 @@ pub fn procedure_primitive_v_alternative_0 (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ProcedurePrimitiveV::Bytes (primitive) =>
 			if let Some (primitive) = bytes_primitive_v_alternative_0 (primitive) {
 				Some (ProcedurePrimitive0::Bytes (primitive))
@@ -1425,6 +1443,7 @@ pub fn procedure_primitive_v_alternative_1 (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ProcedurePrimitiveV::Bytes (primitive) =>
 			if let Some (primitive) = bytes_primitive_v_alternative_1 (primitive) {
 				Some (ProcedurePrimitive1::Bytes (primitive))
@@ -1551,6 +1570,7 @@ pub fn procedure_primitive_v_alternative_2 (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ProcedurePrimitiveV::Bytes (primitive) =>
 			if let Some (primitive) = bytes_primitive_v_alternative_2 (primitive) {
 				Some (ProcedurePrimitive2::Bytes (primitive))
@@ -1677,6 +1697,7 @@ pub fn procedure_primitive_v_alternative_3 (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ProcedurePrimitiveV::Bytes (primitive) =>
 			if let Some (primitive) = bytes_primitive_v_alternative_3 (primitive) {
 				Some (ProcedurePrimitive3::Bytes (primitive))
@@ -1803,6 +1824,7 @@ pub fn procedure_primitive_v_alternative_4 (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ProcedurePrimitiveV::Bytes (primitive) =>
 			if let Some (primitive) = bytes_primitive_v_alternative_4 (primitive) {
 				Some (ProcedurePrimitive4::Bytes (primitive))
@@ -1929,6 +1951,7 @@ pub fn procedure_primitive_v_alternative_5 (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ProcedurePrimitiveV::Bytes (primitive) =>
 			if let Some (primitive) = bytes_primitive_v_alternative_5 (primitive) {
 				Some (ProcedurePrimitive5::Bytes (primitive))
@@ -2055,6 +2078,7 @@ pub fn procedure_primitive_v_alternative_n (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ProcedurePrimitiveV::Bytes (primitive) =>
 			if let Some (primitive) = bytes_primitive_v_alternative_n (primitive) {
 				Some (ProcedurePrimitiveN::Bytes (primitive))
@@ -2145,6 +2169,7 @@ pub fn procedure_primitive_0_attributes (primitive : ProcedurePrimitive0) -> (Op
 		ProcedurePrimitive0::Array (primitive) =>
 			return array_primitive_0_attributes (primitive),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ProcedurePrimitive0::Bytes (primitive) =>
 			return bytes_primitive_0_attributes (primitive),
 		
@@ -2207,6 +2232,7 @@ pub fn procedure_primitive_1_attributes (primitive : ProcedurePrimitive1) -> (Op
 		ProcedurePrimitive1::Array (primitive) =>
 			return array_primitive_1_attributes (primitive),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ProcedurePrimitive1::Bytes (primitive) =>
 			return bytes_primitive_1_attributes (primitive),
 		
@@ -2269,6 +2295,7 @@ pub fn procedure_primitive_2_attributes (primitive : ProcedurePrimitive2) -> (Op
 		ProcedurePrimitive2::Array (primitive) =>
 			return array_primitive_2_attributes (primitive),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ProcedurePrimitive2::Bytes (primitive) =>
 			return bytes_primitive_2_attributes (primitive),
 		
@@ -2331,6 +2358,7 @@ pub fn procedure_primitive_3_attributes (primitive : ProcedurePrimitive3) -> (Op
 		ProcedurePrimitive3::Array (primitive) =>
 			return array_primitive_3_attributes (primitive),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ProcedurePrimitive3::Bytes (primitive) =>
 			return bytes_primitive_3_attributes (primitive),
 		
@@ -2393,6 +2421,7 @@ pub fn procedure_primitive_4_attributes (primitive : ProcedurePrimitive4) -> (Op
 		ProcedurePrimitive4::Array (primitive) =>
 			return array_primitive_4_attributes (primitive),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ProcedurePrimitive4::Bytes (primitive) =>
 			return bytes_primitive_4_attributes (primitive),
 		
@@ -2455,6 +2484,7 @@ pub fn procedure_primitive_5_attributes (primitive : ProcedurePrimitive5) -> (Op
 		ProcedurePrimitive5::Array (primitive) =>
 			return array_primitive_5_attributes (primitive),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ProcedurePrimitive5::Bytes (primitive) =>
 			return bytes_primitive_5_attributes (primitive),
 		
@@ -2517,6 +2547,7 @@ pub fn procedure_primitive_n_attributes (primitive : ProcedurePrimitiveN) -> (Op
 		ProcedurePrimitiveN::Array (primitive) =>
 			return array_primitive_n_attributes (primitive),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ProcedurePrimitiveN::Bytes (primitive) =>
 			return bytes_primitive_n_attributes (primitive),
 		

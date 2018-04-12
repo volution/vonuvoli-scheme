@@ -357,7 +357,7 @@ pub fn process_argument (index : &Value, evaluator : &mut EvaluatorContext) -> (
 	let index = try! (count_coerce (index));
 	let arguments = try! (try! (evaluator.parameters ()) .resolve_process_arguments ());
 	let argument = try_some! (arguments.get (index), 0x4a3957c9);
-	let argument = os_string_clone_into_value (argument);
+	let argument = try! (os_string_clone_into_value (argument));
 	succeed! (argument);
 }
 
@@ -365,7 +365,7 @@ pub fn process_argument (index : &Value, evaluator : &mut EvaluatorContext) -> (
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_arguments (evaluator : &mut EvaluatorContext, return_array : bool) -> (Outcome<Value>) {
 	let arguments = try! (try! (evaluator.parameters ()) .resolve_process_arguments ());
-	let arguments = vec_map! (arguments.iter (), argument, os_string_clone_into_value (argument));
+	let arguments = try_vec_map! (arguments.iter (), argument, os_string_clone_into_value (argument));
 	return build_list_or_array (arguments, return_array);
 }
 
@@ -378,7 +378,7 @@ pub fn process_environment_variable (variable : &Value, evaluator : &mut Evaluat
 	let variables = try! (try! (evaluator.parameters ()) .resolve_process_environment ());
 	for &(ref name, ref value) in variables.iter () {
 		if ffi::OsStr::eq (name, variable) {
-			let value = os_string_clone_into_value (value);
+			let value = try! (os_string_clone_into_value (value));
 			succeed! (value);
 		}
 	}
@@ -389,7 +389,7 @@ pub fn process_environment_variable (variable : &Value, evaluator : &mut Evaluat
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_environment_variables (evaluator : &mut EvaluatorContext, return_array : bool) -> (Outcome<Value>) {
 	let variables = try! (try! (evaluator.parameters ()) .resolve_process_environment ());
-	let variables = vec_map! (variables.iter (), &(ref name, ref value), pair_new (os_string_clone_into_value (name), os_string_clone_into_value (value), None));
+	let variables = try_vec_map! (variables.iter (), &(ref name, ref value), succeeded! (pair_new (try! (os_string_clone_into_value (name)), try! (os_string_clone_into_value (value)), None)));
 	return build_list_or_array (variables, return_array);
 }
 

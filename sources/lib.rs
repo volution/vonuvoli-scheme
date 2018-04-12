@@ -157,6 +157,7 @@ include! ("macros.in");
 pub(crate) mod builtins;
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
 pub(crate) mod builtins_arrays;
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 pub(crate) mod builtins_bytes;
 pub(crate) mod builtins_comparisons;
 #[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
@@ -216,6 +217,7 @@ pub(crate) mod primitives_arithmetic;
 pub(crate) mod primitives_arrays;
 pub(crate) mod primitives_bitwise;
 pub(crate) mod primitives_boolean;
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 pub(crate) mod primitives_bytes;
 pub(crate) mod primitives_comparisons;
 #[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
@@ -246,6 +248,7 @@ pub(crate) mod values;
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
 pub(crate) mod values_arrays;
 pub(crate) mod values_booleans;
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 pub(crate) mod values_bytes;
 pub(crate) mod values_characters;
 #[ cfg ( feature = "vonuvoli_values_keyword" ) ]
@@ -292,6 +295,7 @@ pub mod internals {
 	pub use super::builtins::exports as builtins;
 	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	pub use super::builtins_arrays::exports as builtins_arrays;
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	pub use super::builtins_bytes::exports as builtins_bytes;
 	pub use super::builtins_comparisons::exports as builtins_comparisons;
 	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
@@ -346,6 +350,7 @@ pub mod internals {
 	pub use super::primitives_arrays::exports as primitives_arrays;
 	pub use super::primitives_bitwise::exports as primitives_bitwise;
 	pub use super::primitives_boolean::exports as primitives_boolean;
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	pub use super::primitives_bytes::exports as primitives_bytes;
 	pub use super::primitives_comparisons::exports as primitives_comparisons;
 	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
@@ -376,6 +381,7 @@ pub mod internals {
 	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	pub use super::values_arrays::exports as values_arrays;
 	pub use super::values_booleans::exports as values_booleans;
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	pub use super::values_bytes::exports as values_bytes;
 	pub use super::values_characters::exports as values_characters;
 	pub use super::values_numbers::exports as values_numbers;

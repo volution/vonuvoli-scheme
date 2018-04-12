@@ -25,6 +25,7 @@ pub mod exports {
 	pub use super::{string_range_to_list, list_range_to_string};
 	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	pub use super::{string_range_to_array, array_range_to_string};
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	pub use super::{string_range_to_bytes, bytes_range_to_string};
 	pub use super::{string_range_iterator};
 	pub use super::{string_length};
@@ -387,6 +388,7 @@ pub fn array_range_to_string (array : &Value, range_start : Option<&Value>, rang
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_range_to_bytes (string : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let string = try_as_string_ref! (string);
@@ -399,6 +401,7 @@ pub fn string_range_to_bytes (string : &Value, range_start : Option<&Value>, ran
 	succeed! (bytes_new (buffer.into_bytes ()) .into ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_range_to_string (bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_ref! (bytes);

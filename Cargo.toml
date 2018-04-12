@@ -148,6 +148,7 @@ vonuvoli_abort_on_panic = []
 vonuvoli_inline = []
 
 vonuvoli_values_all = [
+	"vonuvoli_values_bytes",
 	"vonuvoli_values_array",
 	"vonuvoli_values_values",
 	"vonuvoli_values_error",
@@ -158,6 +159,7 @@ vonuvoli_values_all = [
 	"vonuvoli_values_extended",
 	"vonuvoli_values_native",
 ]
+vonuvoli_values_bytes = []
 vonuvoli_values_array = []
 vonuvoli_values_values = []
 vonuvoli_values_error = []
@@ -188,6 +190,7 @@ vonuvoli_builtins_records = [
 	"vonuvoli_values_array", # FIXME: Remove this dependency!
 ]
 vonuvoli_builtins_regex = [
+	"vonuvoli_values_bytes", # FIXME: Remove this dependency!
 	"regex",
 ]
 vonuvoli_builtins_ports = []
@@ -199,6 +202,7 @@ vonuvoli_builtins_processes = [
 ]
 vonuvoli_builtins_crypto = [
 	"vonuvoli_values_native",
+	"vonuvoli_values_bytes",
 	"ring",
 	"digest",
 	"sha-1",
@@ -213,6 +217,7 @@ vonuvoli_builtins_random = [
 ]
 vonuvoli_builtins_encoding = [
 	"vonuvoli_values_native",
+	"vonuvoli_values_bytes",
 	"data-encoding",
 ]
 

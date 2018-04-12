@@ -129,7 +129,13 @@ string_character_named -> char = "\\" value : $( "a" / "b" / "t" / "n" / "r" ) {
 string_array -> values::Value = "#string" "(" space? elements : string_array_character ** space space?  ")" { values::string_immutable_clone_characters (elements.as_slice ()) .into () }
 string_array_character -> char = value : $( [0-9]+ ) {? u32::from_str (value) .map_err (|_| "invalid character syntax") .and_then (|value| char::from_u32 (value) .ok_or ("invalid character value")) }
 
-bytes -> values::Value = ( "#u8" / "#U8" / "#bytes" ) "(" space? elements : bytes_byte ** space space?  ")" { values::bytes_immutable_new (elements) .into () }
+bytes -> values::Value = ( "#u8" / "#U8" / "#bytes" ) "(" space? elements : bytes_byte ** space space?  ")" {?
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	let outcome = Ok (values::bytes_immutable_new (elements) .into ());
+	#[ cfg ( not ( feature = "vonuvoli_values_bytes" ) ) ]
+	let outcome = Err ("bytes not supported");
+	outcome
+}
 bytes_byte -> u8 = value : $( [0-9]+ ) {? u8::from_str (value) .map_err (|_| "invalid byte syntax") }
 
 constant -> values::Value = "#void" { constants::VOID.into () } / "#undefined" { constants::UNDEFINED.into () }

@@ -2988,7 +2988,20 @@ fn __parse_bytes<'input>(
 											Matched(__pos, _) => {
 												let __seq_res = slice_eq(__input, __state, __pos, ")");
 												match __seq_res {
-													Matched(__pos, _) => Matched(__pos, { values::bytes_immutable_new(elements).into() }),
+													Matched(__pos, _) =>
+														match {
+															#[cfg(feature = "vonuvoli_values_bytes")]
+															let outcome = Ok(values::bytes_immutable_new(elements).into());
+															#[cfg(not(feature = "vonuvoli_values_bytes"))]
+															let outcome = Err("bytes not supported");
+															outcome
+														} {
+															Ok(res) => Matched(__pos, res),
+															Err(expected) => {
+																__state.mark_failure(__pos, expected);
+																Failed
+															},
+														},
 													Failed => Failed,
 												}
 											},

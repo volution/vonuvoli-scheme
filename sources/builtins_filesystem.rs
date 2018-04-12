@@ -39,6 +39,12 @@ pub mod exports {
 		
 		filesystem_path_to_string,
 		filesystem_string_to_path,
+		
+	};
+	
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	pub use super::{
+		
 		filesystem_path_to_bytes,
 		filesystem_bytes_to_path,
 		
@@ -956,6 +962,7 @@ pub fn filesystem_string_to_path (value : &Value) -> (Outcome<Value>) {
 	succeed! (value.into ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_path_to_bytes (value : &Value) -> (Outcome<Value>) {
 	let value = try_as_path_ref! (value);
@@ -965,6 +972,7 @@ pub fn filesystem_path_to_bytes (value : &Value) -> (Outcome<Value>) {
 	succeed! (value.into ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_bytes_to_path (value : &Value) -> (Outcome<Value>) {
 	let value = try_as_bytes_as_ref! (value);

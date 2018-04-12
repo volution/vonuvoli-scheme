@@ -100,6 +100,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("not-list?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsListProperOrEmpty) .into ()),
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("not-vector?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsArray) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("not-bytevector?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsBytes) .into ()),
 			("not-string?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsString) .into ()),
 			("not-procedure?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsProcedure) .into ()),
@@ -173,20 +174,33 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("symbol-downcase", StringPrimitive1::SymbolToLowerCase.into ()),
 			("symbol-foldcase", StringPrimitive1::SymbolToFoldCase.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("bytevector-reverse", BytesPrimitive1::BytesCloneReverse.into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("bytevector-reverse!", BytesPrimitiveV::BytesRangeReverse.into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("bytevector-u8-fill!", BytesPrimitiveV::BytesRangeFill.into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("bytevector-u8-map", FunctionsPrimitiveV::BytesMap.into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("bytevector-u8-for-each", FunctionsPrimitiveV::BytesIterate.into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("bytevector->vector", BytesPrimitiveV::BytesRangeToArray.into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("vector->bytevector", BytesPrimitiveV::ArrayRangeToBytes.into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("bytevector->list", BytesPrimitiveV::BytesRangeToList.into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("list->bytevector", BytesPrimitiveV::ListRangeToBytes.into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("bytevector->immutable", BytesPrimitive1::BytesToImmutable.into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("bytevector->mutable", BytesPrimitive1::BytesToMutable.into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("bytevector-immutable?", TypePrimitiveV::IsBytesImmutable.into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("bytevector-mutable?", TypePrimitiveV::IsBytesMutable.into ()),
 			
 			("pair->immutable", ListPrimitive1::PairToImmutable.into ()),
@@ -353,16 +367,26 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("not-symbol-ci<=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::SymbolCaseInsensitiveLesserOrEqual) .into ()),
 			("not-symbol-ci>=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::SymbolCaseInsensitiveGreaterOrEqual) .into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("bytevector=?", ComparisonPrimitiveV::BytesEqual.into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("bytevector<?", ComparisonPrimitiveV::BytesLesser.into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("bytevector>?", ComparisonPrimitiveV::BytesGreater.into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("bytevector<=?", ComparisonPrimitiveV::BytesLesserOrEqual.into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("bytevector>=?", ComparisonPrimitiveV::BytesGreaterOrEqual.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("not-bytevector=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::BytesEqual) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("not-bytevector<?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::BytesLesser) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("not-bytevector>?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::BytesGreater) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("not-bytevector<=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::BytesLesserOrEqual) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("not-bytevector>=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::BytesGreaterOrEqual) .into ()),
 			
 			("pair=?", ComparisonPrimitiveV::PairEqual.into ()),
@@ -456,10 +480,13 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("not-generic>=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::GenericGreaterOrEqual) .into ()),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("read-bytevector-chunk", PortPrimitiveV::BytesReadChunk.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("read-bytevector-line", PortPrimitiveV::BytesReadLine.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("read-bytevector-append!", PortPrimitiveV::BytesReadExtend.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
@@ -730,7 +757,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			
 			("path->string", FileSystemPrimitive1::PathToString.into ()),
 			("string->path", FileSystemPrimitive1::StringToPath.into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("path->bytevector", FileSystemPrimitive1::PathToBytes.into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("bytevector->path", FileSystemPrimitive1::BytesToPath.into ()),
 			
 			("path=?", ComparisonPrimitiveV::PathEqual.into ()),
@@ -945,8 +974,11 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 	#[ cfg ( feature = "vonuvoli_builtins_crypto" ) ]
 	definitions.extend_from_slice (&[
 			
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("crypto-bytevector", procedure_native_1 (crypto_generate_bytes_build) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("crypto-bytevector-append!", procedure_native_2 (crypto_generate_bytes_extend) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("crypto-bytevector-fill!", procedure_native_v (crypto_generate_bytes_fill_v) .into ()),
 			
 			("crypto-md5", procedure_native_1 (crypto_hash_md5) .into ()),
@@ -1010,10 +1042,15 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("random-u5", procedure_native_0 (random_generate_u5) .into ()),
 			("random-u6", procedure_native_0 (random_generate_u6) .into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("random-bytevector", procedure_native_1 (random_generate_bytes_build) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("random-bytevector-permutation", procedure_native_0 (random_generate_bytes_permutation) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("random-bytevector-append!", procedure_native_2 (random_generate_bytes_extend) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("random-bytevector-fill!", procedure_native_v (random_generate_bytes_fill_v) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("random-bytevector-shuffle!", procedure_native_v (random_generate_bytes_shuffle_v) .into ()),
 			
 			("random-char", procedure_native_0 (random_generate_character_0) .into ()),

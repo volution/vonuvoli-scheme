@@ -608,12 +608,14 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 				ValueKindMatchAsRef2::Symbol (_, _) |
 				ValueKindMatchAsRef2::StringImmutable (_, _) |
 				ValueKindMatchAsRef2::StringMutable (_, _) |
-				ValueKindMatchAsRef2::BytesImmutable (_, _) |
-				ValueKindMatchAsRef2::BytesMutable (_, _) |
 				ValueKindMatchAsRef2::PairImmutable (_, _) |
 				ValueKindMatchAsRef2::PairMutable (_, _) |
 				ValueKindMatchAsRef2::ProcedurePrimitive (_, _) |
 				ValueKindMatchAsRef2::SyntaxPrimitive (_, _) =>
+					true,
+				#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+				ValueKindMatchAsRef2::BytesImmutable (_, _) |
+				ValueKindMatchAsRef2::BytesMutable (_, _) =>
 					true,
 				#[ cfg ( feature = "vonuvoli_values_array" ) ]
 				ValueKindMatchAsRef2::ArrayImmutable (_, _) |

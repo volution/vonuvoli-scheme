@@ -81,7 +81,9 @@ pub enum StringPrimitive1 {
 	StringToArray,
 	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ArrayToString,
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	StringToBytes,
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	BytesToString,
 	
 	StringToSymbol,
@@ -145,7 +147,9 @@ pub enum StringPrimitive2 {
 	StringRangeToArray,
 	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ArrayRangeToString,
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	StringRangeToBytes,
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	BytesRangeToString,
 	
 	StringToNumber,
@@ -174,7 +178,9 @@ pub enum StringPrimitive3 {
 	StringRangeToArray,
 	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ArrayRangeToString,
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	StringRangeToBytes,
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	BytesRangeToString,
 	
 	NumberToString,
@@ -229,7 +235,9 @@ pub enum StringPrimitiveV {
 	StringRangeToArray,
 	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ArrayRangeToString,
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	StringRangeToBytes,
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	BytesRangeToString,
 	
 	StringToNumber,
@@ -299,9 +307,11 @@ pub fn string_primitive_1_evaluate (primitive : StringPrimitive1, input_1 : &Val
 		StringPrimitive1::ArrayToString =>
 			return array_range_to_string (input_1, None, None),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		StringPrimitive1::StringToBytes =>
 			return string_range_to_bytes (input_1, None, None),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		StringPrimitive1::BytesToString =>
 			return bytes_range_to_string (input_1, None, None),
 		
@@ -435,9 +445,11 @@ pub fn string_primitive_2_evaluate (primitive : StringPrimitive2, input_1 : &Val
 		StringPrimitive2::ArrayRangeToString =>
 			return array_range_to_string (input_1, Some (input_2), None),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		StringPrimitive2::StringRangeToBytes =>
 			return string_range_to_bytes (input_1, Some (input_2), None),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		StringPrimitive2::BytesRangeToString =>
 			return bytes_range_to_string (input_1, Some (input_2), None),
 		
@@ -495,9 +507,11 @@ pub fn string_primitive_3_evaluate (primitive : StringPrimitive3, input_1 : &Val
 		StringPrimitive3::ArrayRangeToString =>
 			return array_range_to_string (input_1, Some (input_2), Some (input_3)),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		StringPrimitive3::StringRangeToBytes =>
 			return string_range_to_bytes (input_1, Some (input_2), Some (input_3)),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		StringPrimitive3::BytesRangeToString =>
 			return bytes_range_to_string (input_1, Some (input_2), Some (input_3)),
 		
@@ -588,8 +602,10 @@ pub fn string_primitive_v_alternative_0 (primitive : StringPrimitiveV) -> (Optio
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		StringPrimitiveV::ArrayRangeToString =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		StringPrimitiveV::StringRangeToBytes =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		StringPrimitiveV::BytesRangeToString =>
 			None,
 		StringPrimitiveV::StringToNumber =>
@@ -629,8 +645,10 @@ pub fn string_primitive_v_alternative_1 (primitive : StringPrimitiveV) -> (Optio
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		StringPrimitiveV::ArrayRangeToString =>
 			Some (StringPrimitive1::ArrayToString),
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		StringPrimitiveV::StringRangeToBytes =>
 			Some (StringPrimitive1::StringToBytes),
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		StringPrimitiveV::BytesRangeToString =>
 			Some (StringPrimitive1::BytesToString),
 		StringPrimitiveV::StringToNumber =>
@@ -670,8 +688,10 @@ pub fn string_primitive_v_alternative_2 (primitive : StringPrimitiveV) -> (Optio
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		StringPrimitiveV::ArrayRangeToString =>
 			Some (StringPrimitive2::ArrayRangeToString),
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		StringPrimitiveV::StringRangeToBytes =>
 			Some (StringPrimitive2::StringRangeToBytes),
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		StringPrimitiveV::BytesRangeToString =>
 			Some (StringPrimitive2::BytesRangeToString),
 		StringPrimitiveV::StringToNumber =>
@@ -711,8 +731,10 @@ pub fn string_primitive_v_alternative_3 (primitive : StringPrimitiveV) -> (Optio
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		StringPrimitiveV::ArrayRangeToString =>
 			Some (StringPrimitive3::ArrayRangeToString),
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		StringPrimitiveV::StringRangeToBytes =>
 			Some (StringPrimitive3::StringRangeToBytes),
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		StringPrimitiveV::BytesRangeToString =>
 			Some (StringPrimitive3::BytesRangeToString),
 		StringPrimitiveV::StringToNumber =>
@@ -752,8 +774,10 @@ pub fn string_primitive_v_alternative_4 (primitive : StringPrimitiveV) -> (Optio
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		StringPrimitiveV::ArrayRangeToString =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		StringPrimitiveV::StringRangeToBytes =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		StringPrimitiveV::BytesRangeToString =>
 			None,
 		StringPrimitiveV::StringToNumber =>
@@ -793,8 +817,10 @@ pub fn string_primitive_v_alternative_5 (primitive : StringPrimitiveV) -> (Optio
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		StringPrimitiveV::ArrayRangeToString =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		StringPrimitiveV::StringRangeToBytes =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		StringPrimitiveV::BytesRangeToString =>
 			None,
 		StringPrimitiveV::StringToNumber =>
@@ -834,8 +860,10 @@ pub fn string_primitive_v_alternative_n (primitive : StringPrimitiveV) -> (Optio
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		StringPrimitiveV::ArrayRangeToString =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		StringPrimitiveV::StringRangeToBytes =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		StringPrimitiveV::BytesRangeToString =>
 			None,
 		StringPrimitiveV::StringToNumber =>

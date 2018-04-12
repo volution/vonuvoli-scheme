@@ -35,7 +35,9 @@ pub mod exports {
 	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	pub use super::{arrays_iterate_1, arrays_iterate_2, arrays_iterate_3, arrays_iterate_4, arrays_iterate_n};
 	
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	pub use super::{bytes_map_1, bytes_map_2, bytes_map_3, bytes_map_4, bytes_map_n};
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	pub use super::{bytes_iterate_1, bytes_iterate_2, bytes_iterate_3, bytes_iterate_4, bytes_iterate_n};
 	
 	pub use super::{strings_map_1, strings_map_2, strings_map_3, strings_map_4, strings_map_n};
@@ -491,6 +493,7 @@ pub fn arrays_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, a
 
 
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_map_1 (evaluator : &mut EvaluatorContext, callable : &Value, bytes : &Value) -> (Outcome<Value>) {
 	if try! (is_bytes_empty (bytes)) {
@@ -501,6 +504,7 @@ pub fn bytes_map_1 (evaluator : &mut EvaluatorContext, callable : &Value, bytes 
 	return bytes_collect_values (outputs);
 }
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_iterate_1 (evaluator : &mut EvaluatorContext, callable : &Value, bytes : &Value) -> (Outcome<Value>) {
 	if try! (is_bytes_empty (bytes)) {
@@ -512,6 +516,7 @@ pub fn bytes_iterate_1 (evaluator : &mut EvaluatorContext, callable : &Value, by
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_map_2 (evaluator : &mut EvaluatorContext, callable : &Value, bytes_1 : &Value, bytes_2 : &Value) -> (Outcome<Value>) {
 	if try! (is_bytes_empty_all_2 (bytes_1, bytes_2)) {
@@ -523,6 +528,7 @@ pub fn bytes_map_2 (evaluator : &mut EvaluatorContext, callable : &Value, bytes_
 	return bytes_collect_values (outputs);
 }
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_iterate_2 (evaluator : &mut EvaluatorContext, callable : &Value, bytes_1 : &Value, bytes_2 : &Value) -> (Outcome<Value>) {
 	if try! (is_bytes_empty_all_2 (bytes_1, bytes_2)) {
@@ -535,6 +541,7 @@ pub fn bytes_iterate_2 (evaluator : &mut EvaluatorContext, callable : &Value, by
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_map_3 (evaluator : &mut EvaluatorContext, callable : &Value, bytes_1 : &Value, bytes_2 : &Value, bytes_3 : &Value) -> (Outcome<Value>) {
 	if try! (is_bytes_empty_all_3 (bytes_1, bytes_2, bytes_3)) {
@@ -547,6 +554,7 @@ pub fn bytes_map_3 (evaluator : &mut EvaluatorContext, callable : &Value, bytes_
 	return bytes_collect_values (outputs);
 }
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_iterate_3 (evaluator : &mut EvaluatorContext, callable : &Value, bytes_1 : &Value, bytes_2 : &Value, bytes_3 : &Value) -> (Outcome<Value>) {
 	if try! (is_bytes_empty_all_3 (bytes_1, bytes_2, bytes_3)) {
@@ -560,6 +568,7 @@ pub fn bytes_iterate_3 (evaluator : &mut EvaluatorContext, callable : &Value, by
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_map_4 (evaluator : &mut EvaluatorContext, callable : &Value, bytes_1 : &Value, bytes_2 : &Value, bytes_3 : &Value, bytes_4 : &Value) -> (Outcome<Value>) {
 	if try! (is_bytes_empty_all_4 (bytes_1, bytes_2, bytes_3, bytes_4)) {
@@ -573,6 +582,7 @@ pub fn bytes_map_4 (evaluator : &mut EvaluatorContext, callable : &Value, bytes_
 	return bytes_collect_values (outputs);
 }
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_iterate_4 (evaluator : &mut EvaluatorContext, callable : &Value, bytes_1 : &Value, bytes_2 : &Value, bytes_3 : &Value, bytes_4 : &Value) -> (Outcome<Value>) {
 	if try! (is_bytes_empty_all_4 (bytes_1, bytes_2, bytes_3, bytes_4)) {
@@ -587,6 +597,7 @@ pub fn bytes_iterate_4 (evaluator : &mut EvaluatorContext, callable : &Value, by
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_map_n (evaluator : &mut EvaluatorContext, callable : &Value, bytes : &[&Value]) -> (Outcome<Value>) {
 	if bytes.is_empty () {
@@ -597,6 +608,7 @@ pub fn bytes_map_n (evaluator : &mut EvaluatorContext, callable : &Value, bytes 
 	return bytes_collect_values (outputs);
 }
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, bytes : &[&Value]) -> (Outcome<Value>) {
 	if bytes.is_empty () {

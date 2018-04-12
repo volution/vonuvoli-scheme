@@ -151,10 +151,15 @@ macro_rules! def_comparison_primitive_enum {
 			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			UniqueGreater,
 			
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			BytesLesser,
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			BytesLesserOrEqual,
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			BytesEqual,
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			BytesGreaterOrEqual,
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			BytesGreater,
 			
 			PairLesser,
@@ -454,18 +459,23 @@ pub fn comparison_primitive_1_evaluate (primitive : ComparisonPrimitive1, input_
 		ComparisonPrimitive1::UniqueGreater =>
 			return unique_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ComparisonPrimitive1::BytesLesser =>
 			return bytes_compare_1 (input_1, Comparison::Ordering (Ordering::Lesser, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ComparisonPrimitive1::BytesLesserOrEqual =>
 			return bytes_compare_1 (input_1, Comparison::Ordering (Ordering::LesserOrEqual, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ComparisonPrimitive1::BytesEqual =>
 			return bytes_compare_1 (input_1, Comparison::Ordering (Ordering::Equal, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ComparisonPrimitive1::BytesGreaterOrEqual =>
 			return bytes_compare_1 (input_1, Comparison::Ordering (Ordering::GreaterOrEqual, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ComparisonPrimitive1::BytesGreater =>
 			return bytes_compare_1 (input_1, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
@@ -784,18 +794,23 @@ pub fn comparison_primitive_2_evaluate (primitive : ComparisonPrimitive2, input_
 		ComparisonPrimitive2::UniqueGreater =>
 			return unique_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ComparisonPrimitive2::BytesLesser =>
 			return bytes_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Lesser, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ComparisonPrimitive2::BytesLesserOrEqual =>
 			return bytes_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::LesserOrEqual, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ComparisonPrimitive2::BytesEqual =>
 			return bytes_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Equal, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ComparisonPrimitive2::BytesGreaterOrEqual =>
 			return bytes_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::GreaterOrEqual, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ComparisonPrimitive2::BytesGreater =>
 			return bytes_compare_2 (input_1, input_2, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
@@ -1114,18 +1129,23 @@ pub fn comparison_primitive_3_evaluate (primitive : ComparisonPrimitive3, input_
 		ComparisonPrimitive3::UniqueGreater =>
 			return unique_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ComparisonPrimitive3::BytesLesser =>
 			return bytes_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Lesser, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ComparisonPrimitive3::BytesLesserOrEqual =>
 			return bytes_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::LesserOrEqual, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ComparisonPrimitive3::BytesEqual =>
 			return bytes_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Equal, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ComparisonPrimitive3::BytesGreaterOrEqual =>
 			return bytes_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::GreaterOrEqual, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ComparisonPrimitive3::BytesGreater =>
 			return bytes_compare_3 (input_1, input_2, input_3, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
@@ -1444,18 +1464,23 @@ pub fn comparison_primitive_4_evaluate (primitive : ComparisonPrimitive4, input_
 		ComparisonPrimitive4::UniqueGreater =>
 			return unique_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ComparisonPrimitive4::BytesLesser =>
 			return bytes_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Lesser, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ComparisonPrimitive4::BytesLesserOrEqual =>
 			return bytes_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::LesserOrEqual, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ComparisonPrimitive4::BytesEqual =>
 			return bytes_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Equal, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ComparisonPrimitive4::BytesGreaterOrEqual =>
 			return bytes_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::GreaterOrEqual, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ComparisonPrimitive4::BytesGreater =>
 			return bytes_compare_4 (input_1, input_2, input_3, input_4, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
@@ -1782,18 +1807,23 @@ pub fn comparison_primitive_n_evaluate (primitive : ComparisonPrimitiveN, inputs
 		ComparisonPrimitiveN::UniqueGreater =>
 			return unique_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ComparisonPrimitiveN::BytesLesser =>
 			return bytes_compare_n (inputs, Comparison::Ordering (Ordering::Lesser, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ComparisonPrimitiveN::BytesLesserOrEqual =>
 			return bytes_compare_n (inputs, Comparison::Ordering (Ordering::LesserOrEqual, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ComparisonPrimitiveN::BytesEqual =>
 			return bytes_compare_n (inputs, Comparison::Ordering (Ordering::Equal, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ComparisonPrimitiveN::BytesGreaterOrEqual =>
 			return bytes_compare_n (inputs, Comparison::Ordering (Ordering::GreaterOrEqual, None, None, negated)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ComparisonPrimitiveN::BytesGreater =>
 			return bytes_compare_n (inputs, Comparison::Ordering (Ordering::Greater, None, None, negated)) .into_0 (),
 		
@@ -2049,14 +2079,19 @@ macro_rules! def_comparison_primitive_v_alternative_fn {
 				#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 				ComparisonPrimitiveV::UniqueGreater =>
 					Some ($alternative::UniqueGreater),
+				#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 				ComparisonPrimitiveV::BytesLesser =>
 					Some ($alternative::BytesLesser),
+				#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 				ComparisonPrimitiveV::BytesLesserOrEqual =>
 					Some ($alternative::BytesLesserOrEqual),
+				#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 				ComparisonPrimitiveV::BytesEqual =>
 					Some ($alternative::BytesEqual),
+				#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 				ComparisonPrimitiveV::BytesGreaterOrEqual =>
 					Some ($alternative::BytesGreaterOrEqual),
+				#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 				ComparisonPrimitiveV::BytesGreater =>
 					Some ($alternative::BytesGreater),
 				ComparisonPrimitiveV::PairLesser =>

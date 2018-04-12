@@ -106,14 +106,23 @@ macro_rules! def_type_primitive_enum {
 			IsStringImmutableEmptyNot,
 			IsStringMutableEmptyNot,
 			
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			IsBytes,
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			IsBytesImmutable,
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			IsBytesMutable,
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			IsBytesEmpty,
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			IsBytesImmutableEmpty,
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			IsBytesMutableEmpty,
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			IsBytesEmptyNot,
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			IsBytesImmutableEmptyNot,
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			IsBytesMutableEmptyNot,
 			
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
@@ -414,30 +423,39 @@ pub fn type_primitive_1_evaluate_0 (primitive : TypePrimitive1, input_1 : &Value
 		TypePrimitive1::IsStringMutableEmptyNot =>
 			return is_string_mutable_not_empty (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitive1::IsBytes =>
 			return is_bytes (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitive1::IsBytesImmutable =>
 			return is_bytes_immutable (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitive1::IsBytesMutable =>
 			return is_bytes_mutable (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitive1::IsBytesEmpty =>
 			return is_bytes_empty (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitive1::IsBytesImmutableEmpty =>
 			return is_bytes_immutable_empty (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitive1::IsBytesMutableEmpty =>
 			return is_bytes_mutable_empty (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitive1::IsBytesEmptyNot =>
 			return is_bytes_not_empty (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitive1::IsBytesImmutableEmptyNot =>
 			return is_bytes_immutable_not_empty (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitive1::IsBytesMutableEmptyNot =>
 			return is_bytes_mutable_not_empty (input_1) .into_0 (),
 		
@@ -866,30 +884,39 @@ pub fn type_primitive_2_evaluate_0 (primitive : TypePrimitive2, input_1 : &Value
 		TypePrimitive2::IsStringMutableEmptyNot =>
 			return is_string_mutable_not_empty_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitive2::IsBytes =>
 			return is_bytes_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitive2::IsBytesImmutable =>
 			return is_bytes_immutable_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitive2::IsBytesMutable =>
 			return is_bytes_mutable_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitive2::IsBytesEmpty =>
 			return is_bytes_empty_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitive2::IsBytesImmutableEmpty =>
 			return is_bytes_immutable_empty_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitive2::IsBytesMutableEmpty =>
 			return is_bytes_mutable_empty_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitive2::IsBytesEmptyNot =>
 			return is_bytes_not_empty_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitive2::IsBytesImmutableEmptyNot =>
 			return is_bytes_immutable_not_empty_all_2 (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitive2::IsBytesMutableEmptyNot =>
 			return is_bytes_mutable_not_empty_all_2 (input_1, input_2) .into_0 (),
 		
@@ -1318,30 +1345,39 @@ pub fn type_primitive_3_evaluate_0 (primitive : TypePrimitive3, input_1 : &Value
 		TypePrimitive3::IsStringMutableEmptyNot =>
 			return is_string_mutable_not_empty_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitive3::IsBytes =>
 			return is_bytes_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitive3::IsBytesImmutable =>
 			return is_bytes_immutable_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitive3::IsBytesMutable =>
 			return is_bytes_mutable_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitive3::IsBytesEmpty =>
 			return is_bytes_empty_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitive3::IsBytesImmutableEmpty =>
 			return is_bytes_immutable_empty_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitive3::IsBytesMutableEmpty =>
 			return is_bytes_mutable_empty_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitive3::IsBytesEmptyNot =>
 			return is_bytes_not_empty_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitive3::IsBytesImmutableEmptyNot =>
 			return is_bytes_immutable_not_empty_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitive3::IsBytesMutableEmptyNot =>
 			return is_bytes_mutable_not_empty_all_3 (input_1, input_2, input_3) .into_0 (),
 		
@@ -1770,30 +1806,39 @@ pub fn type_primitive_4_evaluate_0 (primitive : TypePrimitive4, input_1 : &Value
 		TypePrimitive4::IsStringMutableEmptyNot =>
 			return is_string_mutable_not_empty_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitive4::IsBytes =>
 			return is_bytes_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitive4::IsBytesImmutable =>
 			return is_bytes_immutable_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitive4::IsBytesMutable =>
 			return is_bytes_mutable_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitive4::IsBytesEmpty =>
 			return is_bytes_empty_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitive4::IsBytesImmutableEmpty =>
 			return is_bytes_immutable_empty_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitive4::IsBytesMutableEmpty =>
 			return is_bytes_mutable_empty_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitive4::IsBytesEmptyNot =>
 			return is_bytes_not_empty_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitive4::IsBytesImmutableEmptyNot =>
 			return is_bytes_immutable_not_empty_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitive4::IsBytesMutableEmptyNot =>
 			return is_bytes_mutable_not_empty_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
@@ -2230,30 +2275,39 @@ pub fn type_primitive_n_evaluate_0 (primitive : TypePrimitiveN, inputs : &[&Valu
 		TypePrimitiveN::IsStringMutableEmptyNot =>
 			return is_string_mutable_not_empty_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitiveN::IsBytes =>
 			return is_bytes_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitiveN::IsBytesImmutable =>
 			return is_bytes_immutable_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitiveN::IsBytesMutable =>
 			return is_bytes_mutable_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitiveN::IsBytesEmpty =>
 			return is_bytes_empty_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitiveN::IsBytesImmutableEmpty =>
 			return is_bytes_immutable_empty_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitiveN::IsBytesMutableEmpty =>
 			return is_bytes_mutable_empty_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitiveN::IsBytesEmptyNot =>
 			return is_bytes_not_empty_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitiveN::IsBytesImmutableEmptyNot =>
 			return is_bytes_immutable_not_empty_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitiveN::IsBytesMutableEmptyNot =>
 			return is_bytes_mutable_not_empty_all_n (inputs) .into_0 (),
 		
@@ -2642,22 +2696,31 @@ macro_rules! def_type_primitive_v_alternative_fn {
 					Some ($alternative::IsStringImmutableEmptyNot),
 				TypePrimitiveV::IsStringMutableEmptyNot =>
 					Some ($alternative::IsStringMutableEmptyNot),
+				#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 				TypePrimitiveV::IsBytes =>
 					Some ($alternative::IsBytes),
+				#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 				TypePrimitiveV::IsBytesImmutable =>
 					Some ($alternative::IsBytesImmutable),
+				#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 				TypePrimitiveV::IsBytesMutable =>
 					Some ($alternative::IsBytesMutable),
+				#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 				TypePrimitiveV::IsBytesEmpty =>
 					Some ($alternative::IsBytesEmpty),
+				#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 				TypePrimitiveV::IsBytesImmutableEmpty =>
 					Some ($alternative::IsBytesImmutableEmpty),
+				#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 				TypePrimitiveV::IsBytesMutableEmpty =>
 					Some ($alternative::IsBytesMutableEmpty),
+				#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 				TypePrimitiveV::IsBytesEmptyNot =>
 					Some ($alternative::IsBytesEmptyNot),
+				#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 				TypePrimitiveV::IsBytesImmutableEmptyNot =>
 					Some ($alternative::IsBytesImmutableEmptyNot),
+				#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 				TypePrimitiveV::IsBytesMutableEmptyNot =>
 					Some ($alternative::IsBytesMutableEmptyNot),
 				#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]

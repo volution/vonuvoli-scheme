@@ -132,7 +132,9 @@ impl_from_for_Value_1! (Keyword, Keyword);
 impl_from_for_Value_1! (Unique, Unique);
 impl_from_for_Value_1! (StringImmutable, StringImmutable);
 impl_from_for_Value_1! (StringMutable, StringMutable);
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 impl_from_for_Value_1! (BytesImmutable, BytesImmutable);
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 impl_from_for_Value_1! (BytesMutable, BytesMutable);
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 impl_from_for_Value_1! (StringRegex, StringRegex);
@@ -265,6 +267,7 @@ impl_from_for_Value_3! (SyntaxNative, SyntaxNative, SyntaxNativeInternals, inter
 
 
 impl_as_ref_for_type_wlt! (StringRef<'a>, 'a);
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 impl_as_ref_for_type_wlt! (BytesRef<'a>, 'a);
 impl_as_ref_for_type_wlt! (PairRef<'a>, 'a);
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
@@ -475,13 +478,21 @@ impl_from_for_primitive_procedure_2! (ArrayPrimitiveN, ProcedurePrimitiveN, Prim
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
 impl_from_for_primitive_procedure_2! (ArrayPrimitiveV, ProcedurePrimitiveV, PrimitiveV, Array);
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 impl_from_for_primitive_procedure_2! (BytesPrimitive0, ProcedurePrimitive0, Primitive0, Bytes);
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 impl_from_for_primitive_procedure_2! (BytesPrimitive1, ProcedurePrimitive1, Primitive1, Bytes);
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 impl_from_for_primitive_procedure_2! (BytesPrimitive2, ProcedurePrimitive2, Primitive2, Bytes);
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 impl_from_for_primitive_procedure_2! (BytesPrimitive3, ProcedurePrimitive3, Primitive3, Bytes);
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 impl_from_for_primitive_procedure_2! (BytesPrimitive4, ProcedurePrimitive4, Primitive4, Bytes);
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 impl_from_for_primitive_procedure_2! (BytesPrimitive5, ProcedurePrimitive5, Primitive5, Bytes);
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 impl_from_for_primitive_procedure_2! (BytesPrimitiveN, ProcedurePrimitiveN, PrimitiveN, Bytes);
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 impl_from_for_primitive_procedure_2! (BytesPrimitiveV, ProcedurePrimitiveV, PrimitiveV, Bytes);
 
 impl_from_for_primitive_procedure_2! (StringPrimitive0, ProcedurePrimitive0, Primitive0, String);
@@ -783,12 +794,14 @@ pub fn string_clone_coerce (value : &Value) -> (Outcome<StdString>) {
 			} else {
 				fail! (0x268a7dee);
 			},
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ValueKindMatchAsRef::BytesImmutable (value) =>
 			if let Ok (value) = str::from_utf8 (value.bytes_as_slice ()) {
 				succeed! (StdString::from (value));
 			} else {
 				fail! (0x5a40beb0);
 			},
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ValueKindMatchAsRef::BytesMutable (value) =>
 			if let Ok (value) = str::from_utf8 (try! (value.bytes_ref ()) .bytes_as_slice ()) {
 				succeed! (StdString::from (value));
@@ -818,8 +831,10 @@ pub fn os_string_clone_coerce (value : &Value) -> (Outcome<ffi::OsString>) {
 		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		ValueKindMatchAsRef::Path (value) =>
 			succeed! (value.path_ref () .as_os_str () .to_os_string ()),
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ValueKindMatchAsRef::BytesImmutable (value) =>
 			succeed! (ffi::OsStr::from_bytes (value.bytes_as_slice ()) .to_os_string ()),
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ValueKindMatchAsRef::BytesMutable (value) =>
 			succeed! (ffi::OsStr::from_bytes (try! (value.bytes_ref ()) .bytes_as_slice ()) .to_os_string ()),
 		_ =>
@@ -836,11 +851,14 @@ pub fn os_string_clone_coerce_option (value : Option<&Value>) -> (Outcome<Option
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn os_string_clone_into_value (string : &ffi::OsStr) -> (Value) {
+pub fn os_string_clone_into_value (string : &ffi::OsStr) -> (Outcome<Value>) {
 	if let Some (string) = string.to_str () {
-		return string_clone_str (string) .into ();
+		succeed! (string_clone_str (string) .into ());
 	} else {
-		return bytes_clone_slice (string.as_bytes ()) .into ();
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		succeed! (bytes_clone_slice (string.as_bytes ()) .into ());
+		#[ cfg ( not ( feature = "vonuvoli_values_bytes" ) ) ]
+		fail! (0x4eefc5ee);
 	}
 }
 
@@ -1034,6 +1052,7 @@ impl <'a> StdFrom<StdRef<'a, StdVec<u8>>> for BytesSliceRef<'a> {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 impl <'a> StdFrom<StdRef<'a, BytesMutableInternals>> for BytesSliceRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1104,6 +1123,7 @@ impl <'a> StdFrom<StdRef<'a, StringMutableInternals>> for BytesSliceRef<'a> {
 
 
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 impl <'a> StdFrom<BytesRef<'a>> for BytesSliceRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1133,6 +1153,7 @@ impl <'a> StdFrom<StringRef<'a>> for BytesSliceRef<'a> {
 
 
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 impl <'a> StdFrom<&'a BytesImmutable> for BytesSliceRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1141,6 +1162,7 @@ impl <'a> StdFrom<&'a BytesImmutable> for BytesSliceRef<'a> {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 impl <'a> StdTryFrom<&'a BytesMutable> for BytesSliceRef<'a> {
 	
 	type Error = Error;
@@ -1176,8 +1198,10 @@ impl <'a> StdTryFrom<&'a StringMutable> for BytesSliceRef<'a> {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_slice_coerce_1a (value : &Value) -> (Outcome<BytesSliceRef>) {
 	match value.kind_match_as_ref () {
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ValueKindMatchAsRef::BytesImmutable (value) =>
 			succeed! (value.into ()),
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ValueKindMatchAsRef::BytesMutable (value) =>
 			value.try_into (),
 		ValueKindMatchAsRef::StringImmutable (value) =>
@@ -1200,8 +1224,10 @@ pub fn bytes_consume <Consumer> (value : &Value, consumer : &mut Consumer) -> (O
 		where Consumer : FnMut (&[u8]) -> (Outcome<()>)
 {
 	match value.kind_match_as_ref () {
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ValueKindMatchAsRef::BytesImmutable (value) =>
 			return consumer (value.bytes_as_slice ()),
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ValueKindMatchAsRef::BytesMutable (value) =>
 			return consumer (try_or_fail! (value.bytes_ref (), 0x31df3caf) .bytes_as_slice ()),
 		ValueKindMatchAsRef::StringImmutable (value) =>

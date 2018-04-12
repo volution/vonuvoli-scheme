@@ -58,9 +58,6 @@ pub mod exports {
 			string_compare_1,
 			string_immutable_compare_1, string_immutable_compare_1a,
 			string_mutable_compare_1, string_mutable_compare_1a,
-			bytes_compare_1,
-			bytes_immutable_compare_1, bytes_immutable_compare_1a,
-			bytes_mutable_compare_1, bytes_mutable_compare_1a,
 			pair_compare_1,
 			pair_immutable_compare_1, pair_immutable_compare_1a,
 			pair_mutable_compare_1, pair_mutable_compare_1a,
@@ -80,9 +77,6 @@ pub mod exports {
 			string_compare_2,
 			string_immutable_compare_2, string_immutable_compare_2a,
 			string_mutable_compare_2, string_mutable_compare_2a,
-			bytes_compare_2,
-			bytes_immutable_compare_2, bytes_immutable_compare_2a,
-			bytes_mutable_compare_2, bytes_mutable_compare_2a,
 			pair_compare_2,
 			pair_immutable_compare_2, pair_immutable_compare_2a,
 			pair_mutable_compare_2, pair_mutable_compare_2a,
@@ -102,9 +96,6 @@ pub mod exports {
 			string_compare_3,
 			string_immutable_compare_3, string_immutable_compare_3a,
 			string_mutable_compare_3, string_mutable_compare_3a,
-			bytes_compare_3,
-			bytes_immutable_compare_3, bytes_immutable_compare_3a,
-			bytes_mutable_compare_3, bytes_mutable_compare_3a,
 			pair_compare_3,
 			pair_immutable_compare_3, pair_immutable_compare_3a,
 			pair_mutable_compare_3, pair_mutable_compare_3a,
@@ -124,9 +115,6 @@ pub mod exports {
 			string_compare_4,
 			string_immutable_compare_4, string_immutable_compare_4a,
 			string_mutable_compare_4, string_mutable_compare_4a,
-			bytes_compare_4,
-			bytes_immutable_compare_4, bytes_immutable_compare_4a,
-			bytes_mutable_compare_4, bytes_mutable_compare_4a,
 			pair_compare_4,
 			pair_immutable_compare_4, pair_immutable_compare_4a,
 			pair_mutable_compare_4, pair_mutable_compare_4a,
@@ -146,9 +134,6 @@ pub mod exports {
 			string_compare_n,
 			string_immutable_compare_n, string_immutable_compare_na,
 			string_mutable_compare_n, string_mutable_compare_na,
-			bytes_compare_n,
-			bytes_immutable_compare_n, bytes_immutable_compare_na,
-			bytes_mutable_compare_n, bytes_mutable_compare_na,
 			pair_compare_n,
 			pair_immutable_compare_n, pair_immutable_compare_na,
 			pair_mutable_compare_n, pair_mutable_compare_na,
@@ -156,6 +141,32 @@ pub mod exports {
 			procedure_lambda_compare_n, procedure_lambda_compare_na,
 			syntax_primitive_compare_n, syntax_primitive_compare_na,
 			syntax_lambda_compare_n, syntax_lambda_compare_na,
+			
+	};
+	
+	
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	pub use super::{
+			
+			bytes_compare_1,
+			bytes_immutable_compare_1, bytes_immutable_compare_1a,
+			bytes_mutable_compare_1, bytes_mutable_compare_1a,
+			
+			bytes_compare_2,
+			bytes_immutable_compare_2, bytes_immutable_compare_2a,
+			bytes_mutable_compare_2, bytes_mutable_compare_2a,
+			
+			bytes_compare_3,
+			bytes_immutable_compare_3, bytes_immutable_compare_3a,
+			bytes_mutable_compare_3, bytes_mutable_compare_3a,
+			
+			bytes_compare_4,
+			bytes_immutable_compare_4, bytes_immutable_compare_4a,
+			bytes_mutable_compare_4, bytes_mutable_compare_4a,
+			
+			bytes_compare_n,
+			bytes_immutable_compare_n, bytes_immutable_compare_na,
+			bytes_mutable_compare_n, bytes_mutable_compare_na,
 			
 	};
 	
@@ -699,9 +710,11 @@ pub fn compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Co
 		ValueKindMatchAsRef::StringMutable (value) =>
 			return string_mutable_compare_1a (value, comparison),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ValueKindMatchAsRef::BytesImmutable (value) =>
 			return bytes_immutable_compare_1a (value, comparison),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ValueKindMatchAsRef::BytesMutable (value) =>
 			return bytes_mutable_compare_1a (value, comparison),
 		
@@ -859,9 +872,11 @@ pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef
 		ValueKindMatchAsRef2::StringMutable (left, right) =>
 			return string_mutable_compare_2a (left, right, comparison),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ValueKindMatchAsRef2::BytesImmutable (left, right) =>
 			return bytes_immutable_compare_2a (left, right, comparison),
 		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ValueKindMatchAsRef2::BytesMutable (left, right) =>
 			return bytes_mutable_compare_2a (left, right, comparison),
 		
@@ -982,6 +997,7 @@ pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef
 					return string_ref_compare_2a (&left, &right, comparison);
 				},
 				
+				#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 				ValueClassMatchAsRef2::Bytes (ref class) => {
 					let (left, right) = try! (class.bytes_ref ());
 					return bytes_ref_compare_2a (&left, &right, comparison);
@@ -1329,15 +1345,18 @@ pub(crate) fn string_ref_compare_2a <'a, ValueRef : StdAsRef<StringRef<'a>>> (le
 
 
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 def_fn_compare! (BytesImmutable,
 		bytes_immutable_compare_1, bytes_immutable_compare_2, bytes_immutable_compare_3, bytes_immutable_compare_4, bytes_immutable_compare_n,
 		bytes_immutable_compare_1a, bytes_immutable_compare_2a, bytes_immutable_compare_3a, bytes_immutable_compare_4a, bytes_immutable_compare_na);
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_immutable_compare_1a <ValueRef : StdAsRef<BytesImmutable>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_immutable_compare_2a <ValueRef : StdAsRef<BytesImmutable>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref () .bytes_ref ();
@@ -1346,15 +1365,18 @@ pub fn bytes_immutable_compare_2a <ValueRef : StdAsRef<BytesImmutable>> (left : 
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 def_fn_compare! (BytesMutable,
 		bytes_mutable_compare_1, bytes_mutable_compare_2, bytes_mutable_compare_3, bytes_mutable_compare_4, bytes_mutable_compare_n,
 		bytes_mutable_compare_1a, bytes_mutable_compare_2a, bytes_mutable_compare_3a, bytes_mutable_compare_4a, bytes_mutable_compare_na);
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_mutable_compare_1a <ValueRef : StdAsRef<BytesMutable>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_mutable_compare_2a <ValueRef : StdAsRef<BytesMutable>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = try! (left.as_ref () .bytes_ref ());
@@ -1363,6 +1385,7 @@ pub fn bytes_mutable_compare_2a <ValueRef : StdAsRef<BytesMutable>> (left : Valu
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub(crate) fn bytes_ref_compare_2a <'a, ValueRef : StdAsRef<BytesRef<'a>>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
@@ -2291,15 +2314,18 @@ pub fn string_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : V
 
 
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 def_fn_compare! (Value,
 		bytes_compare_1, bytes_compare_2, bytes_compare_3, bytes_compare_4, bytes_compare_n);
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let _value = try! (BytesRef::try (value.as_ref ()));
 	succeed! (true ^ comparison.negated ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = try! (BytesRef::try (left.as_ref ()));

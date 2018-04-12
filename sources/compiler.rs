@@ -144,6 +144,7 @@ impl Compiler {
 			ValueClassMatchInto::String (class) =>
 				return self.compile_syntax_quote_0 (compilation, class.value ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			ValueClassMatchInto::Bytes (class) =>
 				return self.compile_syntax_quote_0 (compilation, class.value ()),
 			
@@ -1990,6 +1991,7 @@ impl Compiler {
 			ValueClassMatchInto::String (class) =>
 				succeed! ((compilation, splice (class.value (), spliceable))),
 			
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			ValueClassMatchInto::Bytes (class) =>
 				succeed! ((compilation, splice (class.value (), spliceable))),
 			

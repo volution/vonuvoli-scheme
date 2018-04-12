@@ -190,6 +190,7 @@ pub trait PortBackendWriter {
 impl Port {
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_bytes_reader_from_bytes_immutable (buffer : StdRc<StdBox<[u8]>>, range_start : usize, range_end : Option<usize>) -> (Outcome<Port>) {
 		let backend = try! (PortBackendBytesReader::new_from_bytes_immutable (buffer, range_start, range_end));
@@ -197,6 +198,7 @@ impl Port {
 		return Port::new_from_backend (backend);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_bytes_reader_from_bytes_mutable (buffer : StdRc<StdRefCell<BytesMutableInternals>>, range_start : usize, range_end : Option<usize>) -> (Outcome<Port>) {
 		let backend = try! (PortBackendBytesReader::new_from_bytes_mutable (buffer, range_start, range_end));

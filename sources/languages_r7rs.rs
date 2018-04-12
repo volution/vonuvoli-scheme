@@ -329,17 +329,26 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			// bytevectors
 			
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("base", "types", "bytevector?", TypePrimitiveV::IsBytes.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("base", "bytes", "bytevector", BytesPrimitiveV::BytesBuild.into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("base", "bytes", "make-bytevector", BytesPrimitiveV::BytesMake.into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("base", "bytes", "bytevector-copy", BytesPrimitiveV::BytesRangeClone.into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("base", "bytes", "bytevector-append", BytesPrimitiveV::BytesAppend.into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("base", "bytes", "bytevector-length", BytesPrimitive1::BytesLength.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("base", "bytes", "bytevector-u8-ref", BytesPrimitive2::BytesAt.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("base", "bytes", "bytevector-u8-set!", BytesPrimitive3::BytesAtSet.into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("base", "bytes", "bytevector-copy!", BytesPrimitiveV::BytesRangeCopy.into ()),
 			
 			
@@ -383,7 +392,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "strings", "list->string", StringPrimitiveV::ListRangeToString.into ()),
 			("base", "strings", "string->list", StringPrimitiveV::StringRangeToList.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("base", "strings", "utf8->string", StringPrimitiveV::BytesRangeToString.into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("base", "strings", "string->utf8", StringPrimitiveV::StringRangeToBytes.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
@@ -501,10 +512,13 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "ports", "get-output-string", PortPrimitive1::OutputToStringFinalize.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("base", "ports", "open-input-bytevector", PortPrimitive1::InputFromBytes.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("base", "ports", "open-output-bytevector", PortPrimitiveV::OutputToBytes.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("base", "ports", "get-output-bytevector", PortPrimitive1::OutputToBytesFinalize.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
@@ -529,14 +543,19 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "ports", "read-string", PortPrimitiveV::StringReadCollect.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("base", "ports", "u8-ready?", PortPrimitiveV::ByteReady.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("base", "ports", "peek-u8", PortPrimitiveV::BytePeek.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("base", "ports", "read-u8", PortPrimitiveV::ByteRead.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("base", "ports", "read-bytevector", PortPrimitiveV::BytesReadCollect.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("base", "ports", "read-bytevector!", PortPrimitiveV::BytesReadCopy.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
@@ -558,8 +577,10 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "ports", "write-string", PortPrimitiveV::StringWrite.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("base", "ports", "write-u8", PortPrimitiveV::ByteWrite.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("base", "ports", "write-bytevector", PortPrimitiveV::BytesWrite.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]

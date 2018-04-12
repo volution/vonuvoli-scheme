@@ -31,7 +31,9 @@ pub struct PortBackendBytesReader {
 
 #[ derive (Debug) ]
 enum PortBackendBytesReaderSource {
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	BytesImmutable ( StdRc<StdBox<[u8]>> ),
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	BytesMutable ( StdRc<StdRefCell<BytesMutableInternals>> ),
 	StringImmutable ( StdRc<StdBox<str>> ),
 	StringMutable ( StdRc<StdRefCell<StringMutableInternals>> ),
@@ -290,8 +292,10 @@ impl PortBackendReader for PortBackendBytesReader {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn is_input_open (&mut self) -> (bool) {
 		match self.source {
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			PortBackendBytesReaderSource::BytesImmutable (_) =>
 				return true,
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			PortBackendBytesReaderSource::BytesMutable (_) =>
 				return true,
 			PortBackendBytesReaderSource::StringImmutable (_) =>
@@ -307,11 +311,13 @@ impl PortBackendReader for PortBackendBytesReader {
 
 impl PortBackendBytesReader {
 	
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_from_bytes_immutable (bytes : StdRc<StdBox<[u8]>>, range_start : usize, range_end : Option<usize>) -> (Outcome<PortBackendBytesReader>) {
 		return PortBackendBytesReader::new_from_source (PortBackendBytesReaderSource::BytesImmutable (bytes), range_start, range_end);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_from_bytes_mutable (bytes : StdRc<StdRefCell<BytesMutableInternals>>, range_start : usize, range_end : Option<usize>) -> (Outcome<PortBackendBytesReader>) {
 		return PortBackendBytesReader::new_from_source (PortBackendBytesReaderSource::BytesMutable (bytes), range_start, range_end);
@@ -347,8 +353,10 @@ impl PortBackendBytesReader {
 	fn buffer_ref_if_open (&mut self) -> (Outcome<Option<BytesSliceRef>>) {
 		
 		let buffer : BytesSliceRef = match self.source {
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			PortBackendBytesReaderSource::BytesImmutable (ref source) =>
 				source.as_ref () .into (),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			PortBackendBytesReaderSource::BytesMutable (ref source) =>
 				try_or_fail! (source.as_ref () .try_borrow (), 0xcc774fa3) .into (),
 			PortBackendBytesReaderSource::StringImmutable (ref source) =>

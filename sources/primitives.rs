@@ -4,7 +4,6 @@ pub mod exports {
 	pub use super::super::primitives_arithmetic::exports::*;
 	pub use super::super::primitives_bitwise::exports::*;
 	pub use super::super::primitives_boolean::exports::*;
-	pub use super::super::primitives_bytes::exports::*;
 	pub use super::super::primitives_comparisons::exports::*;
 	pub use super::super::primitives_functions::exports::*;
 	pub use super::super::primitives_lists::exports::*;
@@ -13,6 +12,9 @@ pub mod exports {
 	pub use super::super::primitives_strings::exports::*;
 	pub use super::super::primitives_syntaxes::exports::*;
 	pub use super::super::primitives_types::exports::*;
+	
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	pub use super::super::primitives_bytes::exports::*;
 	
 	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	pub use super::super::primitives_arrays::exports::*;
