@@ -6,10 +6,12 @@ use super::contexts::exports::*;
 use super::conversions::exports::*;
 use super::errors::exports::*;
 use super::expressions::exports::*;
-use super::lambdas::exports::*;
 use super::primitives::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
+
+#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
+use super::lambdas::exports::*;
 
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 use super::extended_procedures::exports::*;
@@ -152,9 +154,11 @@ impl Evaluator {
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			Expression::ProcedureNativeCall (ref expression) =>
 				self.evaluate_for_procedure_native_call (evaluation, expression),
+			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			Expression::ProcedureLambdaCall (ref expression) =>
 				self.evaluate_for_procedure_lambda_call (evaluation, expression),
 			
+			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			Expression::Lambda (ref lambda, ref expression, ref registers_closure, ref registers_local) =>
 				self.evaluate_lambda_create (evaluation, lambda, expression, registers_closure, registers_local),
 			
@@ -305,6 +309,7 @@ impl Evaluator {
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_for_procedure_lambda_call (&self, evaluation : &mut EvaluatorContext, input : &ExpressionForProcedureLambdaCall) -> (Outcome<Value>) {
 		match *input {
@@ -1009,6 +1014,7 @@ impl Evaluator {
 	
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_lambda_create (&self, evaluation : &mut EvaluatorContext, template : &StdRc<LambdaTemplate>, expression : &StdRc<Expression>, registers_closure : &[RegisterTemplate], registers_local : &StdRc<[RegisterTemplate]>) -> (Outcome<Value>) {
 		let expression = StdRc::clone (expression);
@@ -1022,6 +1028,7 @@ impl Evaluator {
 	
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_lambda (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, inputs : &[Expression]) -> (Outcome<Value>) {
 		let inputs = try! (self.evaluate_slice (evaluation, inputs));
@@ -1029,6 +1036,7 @@ impl Evaluator {
 		return self.evaluate_procedure_lambda_with_values (evaluation, lambda, &inputs);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	#[ inline (never) ]
 	fn evaluate_procedure_lambda_with_values (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, inputs : &[&Value]) -> (Outcome<Value>) {
 		
@@ -1071,24 +1079,28 @@ impl Evaluator {
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_lambda_0 (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals) -> (Outcome<Value>) {
 		return self.evaluate_procedure_lambda_with_values (evaluation, lambda, &[]);
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_lambda_1 (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, input_1 : &Expression) -> (Outcome<Value>) {
 		let input_1 = try! (self.evaluate (evaluation, input_1));
 		return self.evaluate_procedure_lambda_1_with_values (evaluation, lambda, &input_1);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_lambda_1_with_values (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, input_1 : &Value) -> (Outcome<Value>) {
 		return self.evaluate_procedure_lambda_with_values (evaluation, lambda, &[input_1]);
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_lambda_2 (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, input_1 : &Expression, input_2 : &Expression) -> (Outcome<Value>) {
 		let input_1 = try! (self.evaluate (evaluation, input_1));
@@ -1096,12 +1108,14 @@ impl Evaluator {
 		return self.evaluate_procedure_lambda_2_with_values (evaluation, lambda, &input_1, &input_2);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_lambda_2_with_values (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
 		return self.evaluate_procedure_lambda_with_values (evaluation, lambda, &[input_1, input_2]);
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_lambda_3 (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression) -> (Outcome<Value>) {
 		let input_1 = try! (self.evaluate (evaluation, input_1));
@@ -1110,12 +1124,14 @@ impl Evaluator {
 		return self.evaluate_procedure_lambda_3_with_values (evaluation, lambda, &input_1, &input_2, &input_3);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_lambda_3_with_values (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, input_1 : &Value, input_2 : &Value, input_3 : &Value) -> (Outcome<Value>) {
 		return self.evaluate_procedure_lambda_with_values (evaluation, lambda, &[input_1, input_2, input_3]);
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_lambda_4 (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression, input_4 : &Expression) -> (Outcome<Value>) {
 		let input_1 = try! (self.evaluate (evaluation, input_1));
@@ -1125,12 +1141,14 @@ impl Evaluator {
 		return self.evaluate_procedure_lambda_4_with_values (evaluation, lambda, &input_1, &input_2, &input_3, &input_4);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_lambda_4_with_values (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value) -> (Outcome<Value>) {
 		return self.evaluate_procedure_lambda_with_values (evaluation, lambda, &[input_1, input_2, input_3, input_4]);
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_lambda_5 (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, input_1 : &Expression, input_2 : &Expression, input_3 : &Expression, input_4 : &Expression, input_5 : &Expression) -> (Outcome<Value>) {
 		let input_1 = try! (self.evaluate (evaluation, input_1));
@@ -1141,12 +1159,14 @@ impl Evaluator {
 		return self.evaluate_procedure_lambda_5_with_values (evaluation, lambda, &input_1, &input_2, &input_3, &input_4, &input_5);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_lambda_5_with_values (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value) -> (Outcome<Value>) {
 		return self.evaluate_procedure_lambda_with_values (evaluation, lambda, &[input_1, input_2, input_3, input_4, input_5]);
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_lambda_n (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, inputs : &[Expression]) -> (Outcome<Value>) {
 		let inputs = try! (self.evaluate_slice (evaluation, inputs));
@@ -1154,6 +1174,7 @@ impl Evaluator {
 		return self.evaluate_procedure_lambda_n_with_values (evaluation, lambda, &inputs);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_lambda_n_with_values (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, inputs : &[&Value]) -> (Outcome<Value>) {
 		return self.evaluate_procedure_lambda_with_values (evaluation, lambda, inputs);
@@ -1181,6 +1202,7 @@ impl Evaluator {
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ValueKindMatchAsRef::ProcedureNative (callable) =>
 				return self.evaluate_procedure_native_with_values (evaluation, callable.internals_ref (), inputs),
+			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			ValueKindMatchAsRef::ProcedureLambda (callable) =>
 				return self.evaluate_procedure_lambda_with_values (evaluation, callable.internals_ref (), inputs),
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
@@ -1218,6 +1240,7 @@ impl Evaluator {
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ValueKindMatchAsRef::ProcedureNative (callable) =>
 				return self.evaluate_procedure_native_0_g (evaluation, callable.internals_ref ()),
+			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			ValueKindMatchAsRef::ProcedureLambda (callable) =>
 				return self.evaluate_procedure_lambda_0 (evaluation, callable.internals_ref ()),
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
@@ -1252,6 +1275,7 @@ impl Evaluator {
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ValueKindMatchAsRef::ProcedureNative (callable) =>
 				return self.evaluate_procedure_native_1_g_with_values (evaluation, callable.internals_ref (), input_1),
+			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			ValueKindMatchAsRef::ProcedureLambda (callable) =>
 				return self.evaluate_procedure_lambda_1_with_values (evaluation, callable.internals_ref (), input_1),
 			_ =>
@@ -1284,6 +1308,7 @@ impl Evaluator {
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ValueKindMatchAsRef::ProcedureNative (callable) =>
 				return self.evaluate_procedure_native_2_g_with_values (evaluation, callable.internals_ref (), input_1, input_2),
+			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			ValueKindMatchAsRef::ProcedureLambda (callable) =>
 				return self.evaluate_procedure_lambda_2_with_values (evaluation, callable.internals_ref (), input_1, input_2),
 			_ =>
@@ -1317,6 +1342,7 @@ impl Evaluator {
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ValueKindMatchAsRef::ProcedureNative (callable) =>
 				return self.evaluate_procedure_native_3_g_with_values (evaluation, callable.internals_ref (), input_1, input_2, input_3),
+			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			ValueKindMatchAsRef::ProcedureLambda (callable) =>
 				return self.evaluate_procedure_lambda_3_with_values (evaluation, callable.internals_ref (), input_1, input_2, input_3),
 			_ =>
@@ -1351,6 +1377,7 @@ impl Evaluator {
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ValueKindMatchAsRef::ProcedureNative (callable) =>
 				return self.evaluate_procedure_native_4_g_with_values (evaluation, callable.internals_ref (), input_1, input_2, input_3, input_4),
+			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			ValueKindMatchAsRef::ProcedureLambda (callable) =>
 				return self.evaluate_procedure_lambda_4_with_values (evaluation, callable.internals_ref (), input_1, input_2, input_3, input_4),
 			_ =>
@@ -1386,6 +1413,7 @@ impl Evaluator {
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ValueKindMatchAsRef::ProcedureNative (callable) =>
 				return self.evaluate_procedure_native_5_g_with_values (evaluation, callable.internals_ref (), input_1, input_2, input_3, input_4, input_5),
+			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			ValueKindMatchAsRef::ProcedureLambda (callable) =>
 				return self.evaluate_procedure_lambda_5_with_values (evaluation, callable.internals_ref (), input_1, input_2, input_3, input_4, input_5),
 			_ =>
@@ -1418,6 +1446,7 @@ impl Evaluator {
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ValueKindMatchAsRef::ProcedureNative (callable) =>
 				return self.evaluate_procedure_native_n_g_with_values (evaluation, callable.internals_ref (), inputs),
+			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			ValueKindMatchAsRef::ProcedureLambda (callable) =>
 				return self.evaluate_procedure_lambda_n_with_values (evaluation, callable.internals_ref (), inputs),
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]

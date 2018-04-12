@@ -7,10 +7,12 @@ use super::conversions::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
 use super::expressions::exports::*;
-use super::lambdas::exports::*;
 use super::primitives::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
+
+#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
+use super::lambdas::exports::*;
 
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 use super::extended_procedures::exports::*;
@@ -130,12 +132,14 @@ impl Optimizer {
 			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			Expression::ProcedureExtendedCall (expression) =>
 				return self.optimize_for_procedure_extended_call (optimization, expression),
+			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			Expression::ProcedureLambdaCall (expression) =>
 				return self.optimize_for_procedure_lambda_call (optimization, expression),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			Expression::ProcedureNativeCall (expression) =>
 				return self.optimize_for_procedure_native_call (optimization, expression),
 			
+			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			Expression::Lambda (lambda, expression, registers_closure, registers_local) =>
 				return self.optimize_lambda_create (optimization, lambda, expression, registers_closure, registers_local),
 			
@@ -285,6 +289,7 @@ impl Optimizer {
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	fn optimize_for_procedure_lambda_call (&self, optimization : OptimizerContext, expression : ExpressionForProcedureLambdaCall) -> (Outcome<(OptimizerContext, Expression)>) {
 		match expression {
 			
@@ -1104,6 +1109,7 @@ impl Optimizer {
 	
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	fn optimize_lambda_create (&self, optimization : OptimizerContext, template : StdRc<LambdaTemplate>, expression : StdRc<Expression>, registers_closure : StdBox<[RegisterTemplate]>, registers_local : StdRc<[RegisterTemplate]>) -> (Outcome<(OptimizerContext, Expression)>) {
 		let expression = match StdRc::try_unwrap (expression) {
 			Ok (expression) =>
@@ -1133,6 +1139,7 @@ impl Optimizer {
 				#[ cfg ( feature = "vonuvoli_values_native" ) ]
 				ValueKind::ProcedureNative =>
 					return self.optimize_procedure_native_g (optimization, callable.expect_into_0 (), inputs),
+				#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 				ValueKind::ProcedureLambda =>
 					return self.optimize_procedure_lambda (optimization, StdExpectInto0::<ProcedureLambda>::expect_into_0 (callable) .internals_rc_into (), inputs),
 				_ =>
@@ -1214,6 +1221,7 @@ impl Optimizer {
 				#[ cfg ( feature = "vonuvoli_values_native" ) ]
 				ValueKind::ProcedureNative =>
 					return self.optimize_procedure_native_g (optimization, callable.expect_into_0 (), StdBox::new ([])),
+				#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 				ValueKind::ProcedureLambda =>
 					return self.optimize_procedure_lambda_0 (optimization, StdExpectInto0::<ProcedureLambda>::expect_into_0 (callable) .internals_rc_into ()),
 				_ =>
@@ -1253,6 +1261,7 @@ impl Optimizer {
 				#[ cfg ( feature = "vonuvoli_values_native" ) ]
 				ValueKind::ProcedureNative =>
 					return self.optimize_procedure_native_g (optimization, callable.expect_into_0 (), StdBox::new ([input_1])),
+				#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 				ValueKind::ProcedureLambda =>
 					return self.optimize_procedure_lambda_1 (optimization, StdExpectInto0::<ProcedureLambda>::expect_into_0 (callable) .internals_rc_into (), input_1),
 				_ =>
@@ -1293,6 +1302,7 @@ impl Optimizer {
 				#[ cfg ( feature = "vonuvoli_values_native" ) ]
 				ValueKind::ProcedureNative =>
 					return self.optimize_procedure_native_g (optimization, callable.expect_into_0 (), StdBox::new ([input_1, input_2])),
+				#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 				ValueKind::ProcedureLambda =>
 					return self.optimize_procedure_lambda_2 (optimization, StdExpectInto0::<ProcedureLambda>::expect_into_0 (callable) .internals_rc_into (), input_1, input_2),
 				_ =>
@@ -1334,6 +1344,7 @@ impl Optimizer {
 				#[ cfg ( feature = "vonuvoli_values_native" ) ]
 				ValueKind::ProcedureNative =>
 					return self.optimize_procedure_native_g (optimization, callable.expect_into_0 (), StdBox::new ([input_1, input_2, input_3])),
+				#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 				ValueKind::ProcedureLambda =>
 					return self.optimize_procedure_lambda_3 (optimization, StdExpectInto0::<ProcedureLambda>::expect_into_0 (callable) .internals_rc_into (), input_1, input_2, input_3),
 				_ =>
@@ -1376,6 +1387,7 @@ impl Optimizer {
 				#[ cfg ( feature = "vonuvoli_values_native" ) ]
 				ValueKind::ProcedureNative =>
 					return self.optimize_procedure_native_g (optimization, callable.expect_into_0 (), StdBox::new ([input_1, input_2, input_3, input_4])),
+				#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 				ValueKind::ProcedureLambda =>
 					return self.optimize_procedure_lambda_4 (optimization, StdExpectInto0::<ProcedureLambda>::expect_into_0 (callable) .internals_rc_into (), input_1, input_2, input_3, input_4),
 				_ =>
@@ -1419,6 +1431,7 @@ impl Optimizer {
 				#[ cfg ( feature = "vonuvoli_values_native" ) ]
 				ValueKind::ProcedureNative =>
 					return self.optimize_procedure_native_g (optimization, callable.expect_into_0 (), StdBox::new ([input_1, input_2, input_3, input_4, input_5])),
+				#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 				ValueKind::ProcedureLambda =>
 					return self.optimize_procedure_lambda_5 (optimization, StdExpectInto0::<ProcedureLambda>::expect_into_0 (callable) .internals_rc_into (), input_1, input_2, input_3, input_4, input_5),
 				_ =>
@@ -1459,6 +1472,7 @@ impl Optimizer {
 				#[ cfg ( feature = "vonuvoli_values_native" ) ]
 				ValueKind::ProcedureNative =>
 					return self.optimize_procedure_native_g (optimization, callable.expect_into_0 (), inputs),
+				#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 				ValueKind::ProcedureLambda =>
 					return self.optimize_procedure_lambda_n (optimization, StdExpectInto0::<ProcedureLambda>::expect_into_0 (callable) .internals_rc_into (), inputs),
 				_ =>
@@ -1503,6 +1517,7 @@ impl Optimizer {
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ExpressionProcedureCallCallableRef::Native (_) =>
 				(),
+			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			ExpressionProcedureCallCallableRef::Lambda (_) =>
 				(),
 		}
@@ -2217,6 +2232,7 @@ impl Optimizer {
 	
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	fn optimize_procedure_lambda (&self, optimization : OptimizerContext, lambda : StdRc<LambdaInternals>, inputs : StdBox<[Expression]>) -> (Outcome<(OptimizerContext, Expression)>) {
 		let input_count = inputs.len ();
 		match input_count {
@@ -2262,12 +2278,14 @@ impl Optimizer {
 		}
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	fn optimize_procedure_lambda_0 (&self, optimization : OptimizerContext, lambda : StdRc<LambdaInternals>) -> (Outcome<(OptimizerContext, Expression)>) {
 		let expression = ExpressionForProcedureLambdaCall::ProcedureLambdaCall0 (lambda) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	fn optimize_procedure_lambda_1 (&self, optimization : OptimizerContext, lambda : StdRc<LambdaInternals>, input_1 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
 		let expression = ExpressionForProcedureLambdaCall::ProcedureLambdaCall1 (lambda, input_1.into ()) .into ();
@@ -2275,6 +2293,7 @@ impl Optimizer {
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	fn optimize_procedure_lambda_2 (&self, optimization : OptimizerContext, lambda : StdRc<LambdaInternals>, input_1 : Expression, input_2 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
 		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
@@ -2283,6 +2302,7 @@ impl Optimizer {
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	fn optimize_procedure_lambda_3 (&self, optimization : OptimizerContext, lambda : StdRc<LambdaInternals>, input_1 : Expression, input_2 : Expression, input_3 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
 		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
@@ -2292,6 +2312,7 @@ impl Optimizer {
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	fn optimize_procedure_lambda_4 (&self, optimization : OptimizerContext, lambda : StdRc<LambdaInternals>, input_1 : Expression, input_2 : Expression, input_3 : Expression, input_4 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
 		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
@@ -2302,6 +2323,7 @@ impl Optimizer {
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	fn optimize_procedure_lambda_5 (&self, optimization : OptimizerContext, lambda : StdRc<LambdaInternals>, input_1 : Expression, input_2 : Expression, input_3 : Expression, input_4 : Expression, input_5 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
 		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
@@ -2313,6 +2335,7 @@ impl Optimizer {
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	fn optimize_procedure_lambda_n (&self, optimization : OptimizerContext, lambda : StdRc<LambdaInternals>, inputs : StdBox<[Expression]>) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, inputs) = try! (self.optimize_0_slice (optimization, inputs));
 		let expression = ExpressionForProcedureLambdaCall::ProcedureLambdaCallN (lambda, inputs) .into ();
@@ -2361,6 +2384,7 @@ impl Optimizer {
 			Expression::Loop (_, _, _, _) =>
 				false,
 			
+			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			Expression::Lambda (_, _, _, _) =>
 				false,
 			
@@ -2495,6 +2519,7 @@ impl Optimizer {
 					
 				},
 			
+			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			Expression::ProcedureLambdaCall (ref expression) =>
 				match *expression {
 					
@@ -2693,6 +2718,7 @@ impl Optimizer {
 			Expression::Loop (_, _, _, _) =>
 				None,
 			
+			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			Expression::Lambda (_, _, _, _) =>
 				None,
 			
@@ -2827,6 +2853,7 @@ impl Optimizer {
 					
 				},
 			
+			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			Expression::ProcedureLambdaCall (ref expression) =>
 				match *expression {
 					
@@ -2912,6 +2939,7 @@ impl Optimizer {
 			Expression::Loop (_, _, _, _) =>
 				None,
 			
+			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			Expression::Lambda (_, _, _, _) =>
 				None,
 			
@@ -3046,6 +3074,7 @@ impl Optimizer {
 					
 				},
 			
+			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			Expression::ProcedureLambdaCall (ref expression) =>
 				match *expression {
 					
@@ -3205,6 +3234,7 @@ pub(crate) enum ExpressionProcedureCallCallableRef <'a> {
 	Extended (&'a ProcedureExtendedInternals),
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	Native (ProcedureNativeInternals),
+	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	Lambda (&'a LambdaInternals),
 	
 }

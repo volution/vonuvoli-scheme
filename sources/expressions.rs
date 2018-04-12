@@ -1,9 +1,11 @@
 
 
 use super::contexts::exports::*;
-use super::lambdas::exports::*;
 use super::primitives::exports::*;
 use super::values::exports::*;
+
+#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
+use super::lambdas::exports::*;
 
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 use super::extended_procedures::exports::*;
@@ -35,6 +37,7 @@ pub mod exports {
 	pub use super::ExpressionForProcedurePrimitiveCall;
 	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	pub use super::ExpressionForProcedureExtendedCall;
+	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	pub use super::ExpressionForProcedureLambdaCall;
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	pub use super::ExpressionForProcedureNativeCall;
@@ -63,10 +66,12 @@ pub enum Expression {
 	ProcedurePrimitiveCall ( ExpressionForProcedurePrimitiveCall ),
 	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	ProcedureExtendedCall ( ExpressionForProcedureExtendedCall ),
+	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	ProcedureLambdaCall ( ExpressionForProcedureLambdaCall ),
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	ProcedureNativeCall ( ExpressionForProcedureNativeCall ),
 	
+	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	Lambda ( StdRc<LambdaTemplate>, StdRc<Expression>, StdBox<[RegisterTemplate]>, StdRc<[RegisterTemplate]> ),
 	
 	#[ cfg ( feature = "vonuvoli_values_error" ) ]
@@ -241,6 +246,7 @@ pub enum ExpressionForProcedureExtendedCall {
 
 
 
+#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 #[ derive (Clone, Debug) ]
 pub enum ExpressionForProcedureLambdaCall {
 	

@@ -2,9 +2,11 @@
 
 use super::constants::exports::*;
 use super::contexts::exports::*;
-use super::lambdas::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
+
+#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
+use super::lambdas::exports::*;
 
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 use super::native_procedures::exports::*;
@@ -81,6 +83,7 @@ impl fmt::Display for Value {
 			ValueKindMatchAsRef::ProcedureExtended (self_0) => self_0.fmt (formatter),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ValueKindMatchAsRef::ProcedureNative (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			ValueKindMatchAsRef::ProcedureLambda (self_0) => self_0.fmt (formatter),
 			
 			ValueKindMatchAsRef::SyntaxPrimitive (self_0) => self_0.fmt (formatter),
@@ -88,6 +91,7 @@ impl fmt::Display for Value {
 			ValueKindMatchAsRef::SyntaxExtended (self_0) => self_0.fmt (formatter),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ValueKindMatchAsRef::SyntaxNative (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			ValueKindMatchAsRef::SyntaxLambda (self_0) => self_0.fmt (formatter),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
@@ -176,6 +180,7 @@ impl fmt::Debug for Value {
 			ValueKindMatchAsRef::ProcedureExtended (self_0) => self_0.fmt (formatter),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ValueKindMatchAsRef::ProcedureNative (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			ValueKindMatchAsRef::ProcedureLambda (self_0) => self_0.fmt (formatter),
 			
 			ValueKindMatchAsRef::SyntaxPrimitive (self_0) => self_0.fmt (formatter),
@@ -183,6 +188,7 @@ impl fmt::Debug for Value {
 			ValueKindMatchAsRef::SyntaxExtended (self_0) => self_0.fmt (formatter),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ValueKindMatchAsRef::SyntaxNative (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			ValueKindMatchAsRef::SyntaxLambda (self_0) => self_0.fmt (formatter),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
@@ -733,6 +739,7 @@ fn record_fmt (kind : &RecordKind, values : &[Value], formatter : &mut fmt::Form
 
 
 
+#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 impl fmt::Display for Lambda {
 	
 	#[ inline (never) ]
@@ -742,6 +749,7 @@ impl fmt::Display for Lambda {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 impl fmt::Debug for Lambda {
 	
 	#[ inline (never) ]
@@ -754,6 +762,7 @@ impl fmt::Debug for Lambda {
 
 
 
+#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 impl fmt::Display for ProcedureLambda {
 	
 	#[ inline (never) ]
@@ -763,6 +772,7 @@ impl fmt::Display for ProcedureLambda {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 impl fmt::Debug for ProcedureLambda {
 	
 	#[ inline (never) ]
@@ -775,6 +785,7 @@ impl fmt::Debug for ProcedureLambda {
 
 
 
+#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 impl fmt::Display for SyntaxLambda {
 	
 	#[ inline (never) ]
@@ -784,6 +795,7 @@ impl fmt::Display for SyntaxLambda {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 impl fmt::Debug for SyntaxLambda {
 	
 	#[ inline (never) ]

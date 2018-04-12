@@ -157,6 +157,7 @@ vonuvoli_values_all = [
 	"vonuvoli_values_unique",
 	"vonuvoli_values_contexts",
 	"vonuvoli_values_opaque",
+	"vonuvoli_values_lambda",
 	"vonuvoli_values_extended",
 	"vonuvoli_values_native",
 ]
@@ -169,6 +170,7 @@ vonuvoli_values_keyword = []
 vonuvoli_values_unique = []
 vonuvoli_values_contexts = []
 vonuvoli_values_opaque = []
+vonuvoli_values_lambda = []
 vonuvoli_values_extended = []
 vonuvoli_values_native = []
 

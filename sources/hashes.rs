@@ -2,8 +2,10 @@
 
 use super::constants::exports::*;
 use super::contexts::exports::*;
-use super::lambdas::exports::*;
 use super::values::exports::*;
+
+#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
+use super::lambdas::exports::*;
 
 use super::prelude::*;
 
@@ -71,6 +73,7 @@ impl hash::Hash for Value {
 			ValueKindMatchAsRef::ProcedureExtended (self_0) => { hasher.write_u32 (0x50c5d416); self_0.hash (hasher); },
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ValueKindMatchAsRef::ProcedureNative (self_0) => { hasher.write_u32 (0xfe96b2d7); self_0.hash (hasher); },
+			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			ValueKindMatchAsRef::ProcedureLambda (self_0) => { hasher.write_u32 (0x3f65eccb); self_0.hash (hasher); },
 			
 			ValueKindMatchAsRef::SyntaxPrimitive (self_0) => { hasher.write_u32 (0xda6585c6); self_0.hash (hasher); },
@@ -78,6 +81,7 @@ impl hash::Hash for Value {
 			ValueKindMatchAsRef::SyntaxExtended (self_0) => { hasher.write_u32 (0x3f07734c); self_0.hash (hasher); },
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ValueKindMatchAsRef::SyntaxNative (self_0) => { hasher.write_u32 (0xf018c0a5); self_0.hash (hasher); },
+			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			ValueKindMatchAsRef::SyntaxLambda (self_0) => { hasher.write_u32 (0xd5b61513); self_0.hash (hasher); },
 			
 			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
@@ -287,6 +291,7 @@ impl hash::Hash for Error {
 
 
 
+#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 impl hash::Hash for LambdaInternals {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -296,6 +301,7 @@ impl hash::Hash for LambdaInternals {
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 impl hash::Hash for Lambda {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -306,6 +312,7 @@ impl hash::Hash for Lambda {
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 impl hash::Hash for ProcedureLambda {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -316,6 +323,7 @@ impl hash::Hash for ProcedureLambda {
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 impl hash::Hash for SyntaxLambda {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

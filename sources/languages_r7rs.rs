@@ -91,6 +91,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "control", "and", SyntaxPrimitiveV::And.into ()),
 			("base", "control", "or", SyntaxPrimitiveV::Or.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			("base", "lambda", "lambda", SyntaxPrimitiveV::Lambda.into ()),
 			
 			("base", "contexts", "define", SyntaxPrimitiveV::Define.into ()),
@@ -641,6 +642,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			// (scheme case-lambda)
 			//     --> verified
 			
+			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			("case-lambda", "lambda", "case-lambda", SyntaxPrimitive::Unsupported.into ()),
 			
 			

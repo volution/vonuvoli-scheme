@@ -2759,9 +2759,11 @@ fn list_class_on_0 (value : &Value, cursor : &Value) -> (Outcome<ListClass>) {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum ProcedureClass {
 	Primitive,
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	Extended,
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	Native,
+	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	Lambda,
 }
 
@@ -2779,6 +2781,7 @@ pub fn procedure_class (value : &Value) -> (Option<ProcedureClass>) {
 				#[ cfg ( feature = "vonuvoli_values_native" ) ]
 				ProcedureMatchAsRef::Native (_) =>
 					return Some (ProcedureClass::Native),
+				#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 				ProcedureMatchAsRef::Lambda (_) =>
 					return Some (ProcedureClass::Lambda),
 			},
@@ -2793,9 +2796,11 @@ pub fn procedure_class (value : &Value) -> (Option<ProcedureClass>) {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum SyntaxClass {
 	Primitive,
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	Extended,
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	Native,
+	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	Lambda,
 }
 
@@ -2813,6 +2818,7 @@ pub fn syntax_class (value : &Value) -> (Option<SyntaxClass>) {
 				#[ cfg ( feature = "vonuvoli_values_native" ) ]
 				SyntaxMatchAsRef::Native (_) =>
 					return Some (SyntaxClass::Native),
+				#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 				SyntaxMatchAsRef::Lambda (_) =>
 					return Some (SyntaxClass::Lambda),
 			},

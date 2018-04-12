@@ -1022,7 +1022,9 @@ def_value_try_as_ref! (try_as_procedure_extended_ref, value_type! (ProcedureNati
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 def_value_try_into! (try_into_procedure_extended, value_type! (ProcedureNative));
 
+#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 def_value_try_as_ref! (try_as_procedure_lambda_ref, value_type! (ProcedureLambda));
+#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 def_value_try_into! (try_into_procedure_lambda, value_type! (ProcedureLambda));
 
 def_value_try_as_ref! (try_as_syntax_primitive_ref, value_type! (SyntaxPrimitive));
@@ -1038,7 +1040,9 @@ def_value_try_as_ref! (try_as_syntax_extended_ref, value_type! (SyntaxNative));
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 def_value_try_into! (try_into_syntax_extended, value_type! (SyntaxNative));
 
+#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 def_value_try_as_ref! (try_as_syntax_lambda_ref, value_type! (SyntaxLambda));
+#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 def_value_try_into! (try_into_syntax_lambda, value_type! (SyntaxLambda));
 
 #[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]

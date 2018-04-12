@@ -2,12 +2,14 @@
 
 use super::errors::exports::*;
 use super::expressions::exports::*;
-use super::lambdas::exports::*;
 use super::primitives::exports::*;
 use super::values::exports::*;
 
 #[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 use super::contexts::exports::*;
+
+#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
+use super::lambdas::exports::*;
 
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 use super::extended_procedures::exports::*;
@@ -110,6 +112,7 @@ impl_from_for_Expression_1! (ProcedureGenericCall, ExpressionForProcedureGeneric
 impl_from_for_Expression_1! (ProcedurePrimitiveCall, ExpressionForProcedurePrimitiveCall);
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 impl_from_for_Expression_1! (ProcedureExtendedCall, ExpressionForProcedureExtendedCall);
+#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 impl_from_for_Expression_1! (ProcedureLambdaCall, ExpressionForProcedureLambdaCall);
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl_from_for_Expression_1! (ProcedureNativeCall, ExpressionForProcedureNativeCall);
@@ -164,12 +167,14 @@ impl_from_for_Value_1! (ProcedurePrimitive, ProcedurePrimitive);
 impl_from_for_Value_1! (ProcedureExtended, ProcedureExtended);
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl_from_for_Value_1! (ProcedureNative, ProcedureNative);
+#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 impl_from_for_Value_1! (ProcedureLambda, ProcedureLambda);
 impl_from_for_Value_1! (SyntaxPrimitive, SyntaxPrimitive);
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 impl_from_for_Value_1! (SyntaxExtended, SyntaxExtended);
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl_from_for_Value_1! (SyntaxNative, SyntaxNative);
+#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 impl_from_for_Value_1! (SyntaxLambda, SyntaxLambda);
 #[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 impl_from_for_Value_1! (Path, Path);

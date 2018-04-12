@@ -644,6 +644,7 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 				ValueKindMatchAsRef2::Error (_, _) =>
 					true,
 				
+				#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 				ValueKindMatchAsRef2::ProcedureLambda (_, _) |
 				ValueKindMatchAsRef2::SyntaxLambda (_, _) =>
 					false,

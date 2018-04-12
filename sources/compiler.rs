@@ -5,10 +5,12 @@ use super::constants::exports::*;
 use super::contexts::exports::*;
 use super::errors::exports::*;
 use super::expressions::exports::*;
-use super::lambdas::exports::*;
 use super::primitives::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
+
+#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
+use super::lambdas::exports::*;
 
 use super::prelude::*;
 
@@ -285,6 +287,7 @@ impl Compiler {
 					#[ cfg ( feature = "vonuvoli_values_native" ) ]
 					SyntaxMatchInto::Native (_syntax) =>
 						fail_unimplemented! (0x09bdd94b), // deferred
+					#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 					SyntaxMatchInto::Lambda (_syntax) =>
 						fail_unimplemented! (0xd3517f42), // deferred
 				},
@@ -415,6 +418,7 @@ impl Compiler {
 					SyntaxPrimitiveV::SetValues =>
 						return self.compile_syntax_set_values (compilation, tokens),
 					
+					#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 					SyntaxPrimitiveV::Lambda =>
 						return self.compile_syntax_lambda (compilation, None, tokens),
 					
@@ -971,10 +975,14 @@ impl Compiler {
 		let definitions = match definitions.kind_match_into () {
 			ValueKindMatchInto::Null =>
 				return self.compile_syntax_locals (compilation, statements),
+			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			ValueKindMatchInto::Symbol (symbol) => {
 				let (definitions, statements) = try! (vec_explode_1n (statements));
 				return self.compile_syntax_lambda_let (compilation, symbol, definitions, statements);
 			},
+			#[ cfg ( not ( feature = "vonuvoli_values_lambda" ) ) ]
+			ValueKindMatchInto::Symbol (_) =>
+				fail! (0xf38dbfa0),
 			ValueKindMatchInto::PairImmutable (pair) =>
 				try! (vec_list_clone (&pair.into ())),
 			ValueKindMatchInto::PairMutable (pair) =>
@@ -1246,6 +1254,7 @@ impl Compiler {
 				(compilation, binding, expression)
 			},
 			
+			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			ValueClassMatchInto::Pair (signature) => {
 				
 				if statements.len () < 1 {
@@ -1264,6 +1273,10 @@ impl Compiler {
 				
 				(compilation, binding, expression)
 			},
+			
+			#[ cfg ( not ( feature = "vonuvoli_values_lambda" ) ) ]
+			ValueClassMatchInto::Pair (_) =>
+				fail! (0x6d722cc0),
 			
 			_ =>
 				fail! (0x0f0edc26),
@@ -1549,6 +1562,7 @@ impl Compiler {
 	
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	fn compile_syntax_lambda (&self, compilation : CompilerContext, identifier : Option<Symbol>, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		if tokens.len () < 2 {
@@ -1575,6 +1589,7 @@ impl Compiler {
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	fn compile_syntax_lambda_let (&self, compilation : CompilerContext, identifier : Symbol, definitions : Value, statements : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		let definitions = try! (vec_list_clone (&definitions));
@@ -1614,6 +1629,7 @@ impl Compiler {
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	fn compile_syntax_lambda_0 (&self, compilation : CompilerContext, identifier : Option<Symbol>, arguments_positional : StdVec<Symbol>, argument_rest : Option<Symbol>, statements : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		let compilation = try! (compilation.fork_locals_with_bindings ());
@@ -2052,6 +2068,7 @@ impl Compiler {
 				succeed! ((compilation, splice (value, spliceable))),
 			
 			ValueClassMatchInto::Syntax (class) =>
+				#[ allow (unreachable_patterns) ]
 				match class {
 					SyntaxMatchInto::Primitive (syntax) =>
 						match syntax {
