@@ -204,6 +204,7 @@ pub(crate) mod native_syntaxes;
 pub(crate) mod ordering;
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 pub(crate) mod parameters;
+#[ cfg ( feature = "vonuvoli_parser" ) ]
 pub(crate) mod parser;
 #[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 pub(crate) mod paths;
@@ -245,6 +246,7 @@ pub(crate) mod runtime_backtrace;
 pub(crate) mod runtime_configurations;
 pub(crate) mod runtime_iterators;
 pub(crate) mod runtime_unicode;
+#[ cfg ( feature = "vonuvoli_tests" ) ]
 pub(crate) mod tests;
 pub(crate) mod transcript;
 pub(crate) mod values;
@@ -274,6 +276,7 @@ pub(crate) mod values_values;
 
 
 // NOTE:  This module is generated thus we can't easily change its members visibility...
+#[ cfg ( feature = "vonuvoli_parser" ) ]
 #[ allow (unreachable_pub) ]
 pub(crate) mod parser_peg;
 
@@ -342,6 +345,7 @@ pub mod internals {
 	pub use super::native_syntaxes::exports as native_syntaxes;
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	pub use super::parameters::exports as parameters;
+	#[ cfg ( feature = "vonuvoli_parser" ) ]
 	pub use super::parser::exports as parser;
 	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	pub use super::paths::exports as paths;
@@ -383,6 +387,7 @@ pub mod internals {
 	pub use super::runtime_configurations::exports as runtime_configurations;
 	pub use super::runtime_iterators::exports as runtime_iterators;
 	pub use super::runtime_unicode::exports as runtime_unicode;
+	#[ cfg ( feature = "vonuvoli_tests" ) ]
 	pub use super::tests::exports as tests;
 	pub use super::transcript::exports as transcript;
 	pub use super::values::exports as values;
@@ -448,6 +453,7 @@ pub mod exports {
 	pub use super::native_syntaxes::exports::*;
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	pub use super::parameters::exports::*;
+	#[ cfg ( feature = "vonuvoli_parser" ) ]
 	pub use super::parser::exports::*;
 	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	pub use super::paths::exports::*;
@@ -459,6 +465,7 @@ pub mod exports {
 	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 	pub use super::regularex::exports::*;
 	pub use super::runtime::exports::*;
+	#[ cfg ( feature = "vonuvoli_tests" ) ]
 	pub use super::tests::exports::*;
 	pub use super::transcript::exports::*;
 	pub use super::values::exports::*;

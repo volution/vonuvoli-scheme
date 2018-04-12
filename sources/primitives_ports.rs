@@ -465,7 +465,6 @@ macro_rules! stderr_ref {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ allow (unused_variables) ]
 pub fn port_primitive_0_evaluate (primitive : PortPrimitive0, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
-	#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
 	match primitive {
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
@@ -572,7 +571,6 @@ pub fn port_primitive_0_evaluate (primitive : PortPrimitive0, evaluator : &mut E
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ allow (unused_variables) ]
 pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, input_1 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
-	#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
 	match primitive {
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]

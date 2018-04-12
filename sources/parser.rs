@@ -1,8 +1,10 @@
 
 
 use super::errors::exports::*;
-use super::tests::exports::*;
 use super::values::exports::*;
+
+#[ cfg ( feature = "vonuvoli_tests" ) ]
+use super::tests::exports::*;
 
 use super::prelude::*;
 
@@ -17,6 +19,8 @@ pub mod exports {
 	
 	pub use super::parse_value;
 	pub use super::parse_script;
+	
+	#[ cfg ( feature = "vonuvoli_tests" ) ]
 	pub use super::{parse_tests, parse_test};
 	
 }
@@ -56,6 +60,7 @@ pub fn parse_script (input : &str) -> (Outcome<ValueVec>) {
 
 
 
+#[ cfg ( feature = "vonuvoli_tests" ) ]
 #[ inline (never) ]
 pub fn parse_tests (input : &str) -> (Outcome<StdVec<TestCase>>) {
 	match peg::tests (input) {
@@ -69,6 +74,7 @@ pub fn parse_tests (input : &str) -> (Outcome<StdVec<TestCase>>) {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_tests" ) ]
 #[ inline (never) ]
 pub fn parse_test (input : &str) -> (Outcome<TestCase>) {
 	match peg::test (input) {

@@ -1396,6 +1396,7 @@ def_tracer_for_level! (tracer_debugging, Debugging);
 
 
 
+#[ cfg ( feature = "vonuvoli_tests" ) ]
 #[ macro_export ]
 macro_rules! def_scheme_tests {
 	( $identifier : ident, $source : expr ) => (
@@ -1408,6 +1409,7 @@ macro_rules! def_scheme_tests {
 	);
 }
 
+#[ cfg ( feature = "vonuvoli_tests" ) ]
 #[ macro_export ]
 macro_rules! def_scheme_tests_from_file {
 	( $( $identifier : ident => $source : expr, )+ ) => (
@@ -1418,6 +1420,7 @@ macro_rules! def_scheme_tests_from_file {
 	);
 }
 
+#[ cfg ( feature = "vonuvoli_tests" ) ]
 #[ macro_export ]
 macro_rules! def_scheme_tests_block {
 	( $identifier : ident, $source : expr ) => ({
@@ -1432,6 +1435,7 @@ macro_rules! def_scheme_tests_block {
 
 
 
+#[ cfg ( feature = "vonuvoli_tests" ) ]
 #[ macro_export ]
 macro_rules! def_scheme_benchmarks {
 	( $identifier : ident, $source : expr ) => (
@@ -1444,6 +1448,7 @@ macro_rules! def_scheme_benchmarks {
 	);
 }
 
+#[ cfg ( feature = "vonuvoli_tests" ) ]
 #[ macro_export ]
 macro_rules! def_scheme_benchmarks_from_file {
 	( $( $identifier : ident => $source : expr, )+ ) => (
@@ -1454,6 +1459,7 @@ macro_rules! def_scheme_benchmarks_from_file {
 	);
 }
 
+#[ cfg ( feature = "vonuvoli_tests" ) ]
 #[ macro_export ]
 macro_rules! def_scheme_benchmarks_block {
 	( $identifier : ident, $source : expr, $bencher : expr ) => ({
@@ -1468,6 +1474,7 @@ macro_rules! def_scheme_benchmarks_block {
 
 
 
+#[ cfg ( feature = "vonuvoli_tests" ) ]
 #[ macro_export ]
 macro_rules! def_test {
 	( $identifier : ident, $expression : expr ) => (
@@ -1484,6 +1491,7 @@ macro_rules! def_test {
 	);
 }
 
+#[ cfg ( feature = "vonuvoli_tests" ) ]
 #[ macro_export ]
 macro_rules! def_tests {
 	( $( $identifier : ident => $expression : block, )+ ) => (
@@ -1494,6 +1502,7 @@ macro_rules! def_tests {
 
 
 
+#[ cfg ( feature = "vonuvoli_tests" ) ]
 #[ macro_export ]
 macro_rules! def_benchmark {
 	( $identifier : ident, { with_values $expression : expr, $( $variable : ident => $initializer : expr, )+ } ) => (
@@ -1514,6 +1523,7 @@ macro_rules! def_benchmark {
 	);
 }
 
+#[ cfg ( feature = "vonuvoli_tests" ) ]
 #[ macro_export ]
 macro_rules! def_benchmarks {
 	( $( $identifier : ident => $token : tt, )+ ) => (
@@ -1521,6 +1531,7 @@ macro_rules! def_benchmarks {
 	);
 }
 
+#[ cfg ( feature = "vonuvoli_tests" ) ]
 #[ macro_export ]
 macro_rules! def_benchmark_block {
 	( $identifier : ident, $expression : expr, ( $( ( $variable : ident, $initializer : expr ) ),+ ), $bencher : expr ) => ({
