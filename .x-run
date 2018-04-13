@@ -217,7 +217,7 @@ cat <<'EOS-31f6e6b1'
 << environment / features / list / targets
 	test "${#}" -eq 0
 	_features=(
-			vonuvoli_debug_level_0
+			'vonuvoli_debug_level_0 vonuvoli_transcript vonuvoli_parser vonuvoli_tests'
 			vonuvoli_debug_level_1
 			vonuvoli_debug_level_2
 			vonuvoli_debug_level_3

@@ -37,7 +37,10 @@ fn main_0 () -> (Outcome<u32>) {
 	try! (context.define_all (try! (language_r7rs_generate_binding_templates ()) .as_ref ()));
 	try! (context.define_all (try! (language_builtins_generate_binding_templates ()) .as_ref ()));
 	
-	let parameters = try! (Parameters::new_standard ());
+	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
+	let parameters = Some (try! (Parameters::new_standard ()));
+	#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
+	let parameters = None;
 	
 	let mut source = StdString::new ();
 	match
@@ -87,7 +90,7 @@ fn main_0 () -> (Outcome<u32>) {
 		},
 	};
 	
-	match evaluate_script (expressions.into_iter (), Some (&context), Some (&parameters)) {
+	match evaluate_script (expressions.into_iter (), Some (&context), parameters.as_ref ()) {
 		Ok (()) =>
 			succeed! (0),
 		Err (error) =>
