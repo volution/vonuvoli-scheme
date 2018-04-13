@@ -19,8 +19,8 @@
 	x-run ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" "${@}"
 !!
 
-<< compile / all / debug / features / random
-	exec -- x-run ':: execute / features / random' x-run ':: compile / all / debug' "${@}"
+<< compile / all / debug / features / targets
+	exec -- x-run ':: execute / features / targets' x-run ':: compile / all / debug' "${@}"
 !!
 
 << compile / all / debug / watch
@@ -137,6 +137,10 @@
 	exec -- x-run ':: execute / features / random' x-run ':: compile / lib / debug' "${@}"
 !!
 
+<< compile / lib / debug / features / targets
+	exec -- x-run ':: execute / features / targets' x-run ':: compile / lib / debug' "${@}"
+!!
+
 << compile / lib / debug / watch
 	exec -- x-run ':: execute / watch' x-run ':: compile / lib / debug' "${@}"
 !!
@@ -225,8 +229,8 @@
 	x-run ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --no-run "${@}"
 !!
 
-<< compile / test / all / debug / features / random
-	exec -- x-run ':: execute / features / random' x-run ':: compile / test / all / debug' "${@}"
+<< compile / test / all / debug / features / targets
+	exec -- x-run ':: execute / features / targets' x-run ':: compile / test / all / debug' "${@}"
 !!
 
 << compile / test / all / debug / watch
@@ -313,8 +317,8 @@
 	x-run ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --test 'scheme' --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}"
 !!
 
-<< compile / test / scheme / debug / features / random
-	exec -- x-run ':: execute / features / random' x-run ':: compile / test / scheme / debug' "${@}"
+<< compile / test / scheme / debug / features / targets
+	exec -- x-run ':: execute / features / targets' x-run ':: compile / test / scheme / debug' "${@}"
 !!
 
 << compile / test / scheme / debug / watch
@@ -366,18 +370,23 @@
 	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_for_tests
 !!
 
-<< environment / features / list
+<< environment / features / list / all
 		test "${#}" -eq 0
 		python2 -- <(
 			exec -- sed -r -e 's/^\t+\|\t//' <<<'
 		|	import itertools, sys
 		|	_options = [
 		|		
+		|		"vonuvoli_values_string",
+		|		"vonuvoli_values_bytes",
+		|		"vonuvoli_values_array",
+		|		"vonuvoli_values_values",
 		|		"vonuvoli_values_error",
 		|		"vonuvoli_values_keyword",
 		|		"vonuvoli_values_unique",
 		|		"vonuvoli_values_contexts",
 		|		"vonuvoli_values_opaque",
+		|		"vonuvoli_values_lambda",
 		|		"vonuvoli_values_extended",
 		|		"vonuvoli_values_native",
 		|		
@@ -388,10 +397,14 @@
 		|		"vonuvoli_builtins_ports",
 		|		"vonuvoli_builtins_filesystem",
 		|		"vonuvoli_builtins_processes",
+		|		"vonuvoli_builtins_transcript",
+		|		"vonuvoli_builtins_crypto",
+		|		"vonuvoli_builtins_random",
+		|		"vonuvoli_builtins_encoding",
 		|		
-		|		# "vonuvoli_builtins_crypto",
-		|		# "vonuvoli_builtins_random",
-		|		# "vonuvoli_builtins_encoding",
+		|		"vonuvoli_transcript",
+		|		"vonuvoli_backtrace",
+		|		"vonuvoli_tests",
 		|		
 		|	]
 		|	_options_count = 2 # len (_options)
@@ -399,6 +412,23 @@
 		|		for _variants in itertools.combinations (_options, _count) :
 		|			print " ".join (_variants)
 	' )
+!!
+
+<< environment / features / list / targets
+		test "${#}" -eq 0
+		_features=(
+				vonuvoli_debug_level_0
+				vonuvoli_debug_level_1
+				vonuvoli_debug_level_2
+				vonuvoli_debug_level_3
+				vonuvoli_debug_level_4
+				vonuvoli_debug_for_tests
+				vonuvoli_debug_for_binaries
+				vonuvoli_release
+			)
+		for _feature in "${_features[@]}" ; do
+			printf -- '%s\n' "${_feature}"
+		done
 !!
 
 << environment / features / release
@@ -2474,7 +2504,19 @@
 !!
 
 << execute / features / random
-		readarray -t -- VONUVOLI_SCHEME_FEATURES < <( x-run ':: environment / features / list' | sort -R )
+		readarray -t -- VONUVOLI_SCHEME_FEATURES < <( x-run ':: environment / features / list / all' | sort -R )
+		for VONUVOLI_SCHEME_FEATURES in "${VONUVOLI_SCHEME_FEATURES[@]}" ; do
+			printf -- '[ii]  using features `%s`...\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
+			if ! env VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" "${@}" ; then
+				printf -- '[ee]  failed using features `%s`!\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
+				exit -- 1
+			fi
+			printf -- '[--]\n' >&2
+		done
+!!
+
+<< execute / features / targets
+		readarray -t -- VONUVOLI_SCHEME_FEATURES < <( exec -- x-run ':: environment / features / list / targets' )
 		for VONUVOLI_SCHEME_FEATURES in "${VONUVOLI_SCHEME_FEATURES[@]}" ; do
 			printf -- '[ii]  using features `%s`...\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
 			if ! env VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" "${@}" ; then
