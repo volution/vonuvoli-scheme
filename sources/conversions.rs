@@ -143,8 +143,10 @@ impl_from_for_Value_1! (BytesImmutable, BytesImmutable);
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 impl_from_for_Value_1! (BytesMutable, BytesMutable);
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 impl_from_for_Value_1! (StringRegex, StringRegex);
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 impl_from_for_Value_1! (BytesRegex, BytesRegex);
 impl_from_for_Value_1! (PairImmutable, PairImmutable);
 impl_from_for_Value_1! (PairMutable, PairMutable);

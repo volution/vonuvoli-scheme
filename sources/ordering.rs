@@ -91,8 +91,10 @@ impl <'a> ValueKindMatchAsRef2<'a> {
 			ValueKindMatchAsRef2::BytesMutable (self_0, other_0) => Some (BytesMutable::eq (self_0, other_0)),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ValueKindMatchAsRef2::StringRegex (self_0, other_0) => Some (StringRegex::eq (self_0, other_0)),
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			ValueKindMatchAsRef2::BytesRegex (self_0, other_0) => Some (BytesRegex::eq (self_0, other_0)),
 			
 			ValueKindMatchAsRef2::PairImmutable (self_0, other_0) => Some (PairImmutable::eq (self_0, other_0)),
@@ -190,8 +192,10 @@ impl <'a> ValueKindMatchAsRef2<'a> {
 			ValueKindMatchAsRef2::BytesMutable (self_0, other_0) => Some (BytesMutable::cmp (self_0, other_0)),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ValueKindMatchAsRef2::StringRegex (self_0, other_0) => Some (StringRegex::cmp (self_0, other_0)),
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			ValueKindMatchAsRef2::BytesRegex (self_0, other_0) => Some (BytesRegex::cmp (self_0, other_0)),
 			
 			ValueKindMatchAsRef2::PairImmutable (self_0, other_0) => Some (PairImmutable::cmp (self_0, other_0)),
@@ -517,9 +521,11 @@ impl <'a> cmp::PartialOrd for BytesRef<'a> {
 
 
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 impl cmp::Eq for StringRegex {}
 
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 impl cmp::PartialEq for StringRegex {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -531,6 +537,7 @@ impl cmp::PartialEq for StringRegex {
 }
 
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 impl cmp::Ord for StringRegex {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -542,6 +549,7 @@ impl cmp::Ord for StringRegex {
 }
 
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 impl cmp::PartialOrd for StringRegex {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -554,9 +562,11 @@ impl cmp::PartialOrd for StringRegex {
 
 
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 impl cmp::Eq for BytesRegex {}
 
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 impl cmp::PartialEq for BytesRegex {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -568,6 +578,7 @@ impl cmp::PartialEq for BytesRegex {
 }
 
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 impl cmp::Ord for BytesRegex {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -579,6 +590,7 @@ impl cmp::Ord for BytesRegex {
 }
 
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 impl cmp::PartialOrd for BytesRegex {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

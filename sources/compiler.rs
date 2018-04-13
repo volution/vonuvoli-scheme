@@ -161,10 +161,12 @@ impl Compiler {
 				return self.compile_syntax_quote_0 (compilation, class.value ()),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ValueClassMatchInto::StringRegex (value) =>
 				return self.compile_syntax_quote_0 (compilation, value.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			ValueClassMatchInto::BytesRegex (value) =>
 				return self.compile_syntax_quote_0 (compilation, value.into ()),
 			
@@ -2024,10 +2026,12 @@ impl Compiler {
 				succeed! ((compilation, splice (class.value (), spliceable))),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ValueClassMatchInto::StringRegex (value) =>
 				succeed! ((compilation, splice (value, spliceable))),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			ValueClassMatchInto::BytesRegex (value) =>
 				succeed! ((compilation, splice (value, spliceable))),
 			

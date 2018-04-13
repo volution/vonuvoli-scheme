@@ -47,8 +47,10 @@ pub mod exports {
 	pub use super::super::processes::exports::Process;
 	
 	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	pub use super::super::regularex::exports::StringRegex;
 	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	pub use super::super::regularex::exports::BytesRegex;
 	
 	pub use super::super::primitives::exports::ProcedurePrimitive;

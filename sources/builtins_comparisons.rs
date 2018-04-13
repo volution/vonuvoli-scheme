@@ -411,21 +411,25 @@ pub mod exports {
 	};
 	
 	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	pub use super::{
 			
 			string_regex_compare_1, string_regex_compare_1a,
-			bytes_regex_compare_1, bytes_regex_compare_1a,
-			
 			string_regex_compare_2, string_regex_compare_2a,
-			bytes_regex_compare_2, bytes_regex_compare_2a,
-			
 			string_regex_compare_3, string_regex_compare_3a,
-			bytes_regex_compare_3, bytes_regex_compare_3a,
-			
 			string_regex_compare_4, string_regex_compare_4a,
-			bytes_regex_compare_4, bytes_regex_compare_4a,
-			
 			string_regex_compare_n, string_regex_compare_na,
+			
+	};
+	
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	pub use super::{
+			
+			bytes_regex_compare_1, bytes_regex_compare_1a,
+			bytes_regex_compare_2, bytes_regex_compare_2a,
+			bytes_regex_compare_3, bytes_regex_compare_3a,
+			bytes_regex_compare_4, bytes_regex_compare_4a,
 			bytes_regex_compare_n, bytes_regex_compare_na,
 			
 	};
@@ -754,10 +758,12 @@ pub fn compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Co
 			return bytes_mutable_compare_1a (value, comparison),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ValueKindMatchAsRef::StringRegex (value) =>
 			return string_regex_compare_1a (value, comparison),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ValueKindMatchAsRef::BytesRegex (value) =>
 			return bytes_regex_compare_1a (value, comparison),
 		
@@ -921,10 +927,12 @@ pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef
 			return bytes_mutable_compare_2a (left, right, comparison),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ValueKindMatchAsRef2::StringRegex (left, right) =>
 			return string_regex_compare_2a (left, right, comparison),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ValueKindMatchAsRef2::BytesRegex (left, right) =>
 			return bytes_regex_compare_2a (left, right, comparison),
 		
@@ -1465,17 +1473,20 @@ pub(crate) fn bytes_ref_compare_2a <'a, ValueRef : StdAsRef<BytesRef<'a>>> (left
 
 
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_compare! (StringRegex,
 		string_regex_compare_1, string_regex_compare_2, string_regex_compare_3, string_regex_compare_4, string_regex_compare_n,
 		string_regex_compare_1a, string_regex_compare_2a, string_regex_compare_3a, string_regex_compare_4a, string_regex_compare_na);
 
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_regex_compare_1a <ValueRef : StdAsRef<StringRegex>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_regex_compare_2a <ValueRef : StdAsRef<StringRegex>> (_left : ValueRef, _right : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
 	fail_unimplemented! (0x06a9dbac);
@@ -1485,17 +1496,20 @@ pub fn string_regex_compare_2a <ValueRef : StdAsRef<StringRegex>> (_left : Value
 
 
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 def_fn_compare! (BytesRegex,
 		bytes_regex_compare_1, bytes_regex_compare_2, bytes_regex_compare_3, bytes_regex_compare_4, bytes_regex_compare_n,
 		bytes_regex_compare_1a, bytes_regex_compare_2a, bytes_regex_compare_3a, bytes_regex_compare_4a, bytes_regex_compare_na);
 
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_regex_compare_1a <ValueRef : StdAsRef<BytesRegex>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_regex_compare_2a <ValueRef : StdAsRef<BytesRegex>> (_left : ValueRef, _right : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
 	fail_unimplemented! (0x35ee0e57);

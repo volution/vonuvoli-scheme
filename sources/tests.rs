@@ -634,7 +634,11 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 				ValueKindMatchAsRef2::Keyword (_, _) =>
 					true,
 				#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
-				ValueKindMatchAsRef2::StringRegex (_, _) |
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
+				ValueKindMatchAsRef2::StringRegex (_, _) =>
+					true,
+				#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+				#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 				ValueKindMatchAsRef2::BytesRegex (_, _) =>
 					true,
 				#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]

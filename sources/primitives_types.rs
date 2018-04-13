@@ -136,8 +136,10 @@ macro_rules! def_type_primitive_enum {
 			IsBytesMutableEmptyNot,
 			
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			IsStringRegex,
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			IsBytesRegex,
 			
 			IsPair,
@@ -499,10 +501,12 @@ pub fn type_primitive_1_evaluate_0 (primitive : TypePrimitive1, input_1 : &Value
 			return is_bytes_mutable_not_empty (input_1) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive1::IsStringRegex =>
 			return is_string_regex (input_1) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitive1::IsBytesRegex =>
 			return is_bytes_regex (input_1) .into_0 (),
 		
@@ -989,10 +993,12 @@ pub fn type_primitive_2_evaluate_0 (primitive : TypePrimitive2, input_1 : &Value
 			return is_bytes_mutable_not_empty_all_2 (input_1, input_2) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive2::IsStringRegex =>
 			return is_string_regex_all_2 (input_1, input_2) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitive2::IsBytesRegex =>
 			return is_bytes_regex_all_2 (input_1, input_2) .into_0 (),
 		
@@ -1479,10 +1485,12 @@ pub fn type_primitive_3_evaluate_0 (primitive : TypePrimitive3, input_1 : &Value
 			return is_bytes_mutable_not_empty_all_3 (input_1, input_2, input_3) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive3::IsStringRegex =>
 			return is_string_regex_all_3 (input_1, input_2, input_3) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitive3::IsBytesRegex =>
 			return is_bytes_regex_all_3 (input_1, input_2, input_3) .into_0 (),
 		
@@ -1969,10 +1977,12 @@ pub fn type_primitive_4_evaluate_0 (primitive : TypePrimitive4, input_1 : &Value
 			return is_bytes_mutable_not_empty_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive4::IsStringRegex =>
 			return is_string_regex_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitive4::IsBytesRegex =>
 			return is_bytes_regex_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
@@ -2467,10 +2477,12 @@ pub fn type_primitive_n_evaluate_0 (primitive : TypePrimitiveN, inputs : &[&Valu
 			return is_bytes_mutable_not_empty_all_n (inputs) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitiveN::IsStringRegex =>
 			return is_string_regex_all_n (inputs) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		TypePrimitiveN::IsBytesRegex =>
 			return is_bytes_regex_all_n (inputs) .into_0 (),
 		
@@ -2908,9 +2920,11 @@ macro_rules! def_type_primitive_v_alternative_fn {
 				TypePrimitiveV::IsBytesMutableEmptyNot =>
 					Some ($alternative::IsBytesMutableEmptyNot),
 				#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				TypePrimitiveV::IsStringRegex =>
 					Some ($alternative::IsStringRegex),
 				#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+				#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 				TypePrimitiveV::IsBytesRegex =>
 					Some ($alternative::IsBytesRegex),
 				TypePrimitiveV::IsPair =>

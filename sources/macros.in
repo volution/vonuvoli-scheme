@@ -965,13 +965,17 @@ def_value_try_as_ref! (try_as_bytes_mutable_ref, value_type! (BytesMutable));
 def_value_try_into! (try_into_bytes_mutable, value_type! (BytesMutable));
 
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_value_try_as_ref! (try_as_string_regex_ref, value_type! (StringRegex));
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_value_try_into! (try_into_string_regex, value_type! (StringRegex));
 
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 def_value_try_as_ref! (try_as_bytes_regex_ref, value_type! (BytesRegex));
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 def_value_try_into! (try_into_bytes_regex, value_type! (BytesRegex));
 
 def_value_try_as_ref! (try_as_pair_immutable_ref, value_type! (PairImmutable));

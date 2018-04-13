@@ -7,8 +7,13 @@ use super::prelude::*;
 
 pub mod exports {
 	
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	pub use super::{
 		StringRegex,
+	};
+	
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	pub use super::{
 		BytesRegex,
 	};
 	
@@ -63,6 +68,9 @@ macro_rules! define_regex {
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 define_regex! (StringRegex, regex::Regex);
+
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 define_regex! (BytesRegex, regex::bytes::Regex);
 

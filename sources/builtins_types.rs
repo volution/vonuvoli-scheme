@@ -645,13 +645,21 @@ pub mod exports {
 	
 	
 	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	pub use super::{
 			
 			is_string_regex,
-			is_bytes_regex,
 			
 			is_string_regex_all_2, is_string_regex_all_3, is_string_regex_all_4, is_string_regex_all_n,
 			is_string_regex_any_2, is_string_regex_any_3, is_string_regex_any_4, is_string_regex_any_n,
+			
+	};
+	
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	pub use super::{
+			
+			is_bytes_regex,
 			
 			is_bytes_regex_all_2, is_bytes_regex_all_3, is_bytes_regex_all_4, is_bytes_regex_all_n,
 			is_bytes_regex_any_2, is_bytes_regex_any_3, is_bytes_regex_any_4, is_bytes_regex_any_n,
@@ -2492,26 +2500,32 @@ def_fn_predicate_any! (is_port_eof, is_port_eof_any_2, is_port_eof_any_3, is_por
 
 
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_string_regex (value : &Value) -> (bool) {
 	return value.is_kind (ValueKind::StringRegex);
 }
 
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_predicate_all! (is_string_regex, is_string_regex_all_2, is_string_regex_all_3, is_string_regex_all_4, is_string_regex_all_n);
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 def_fn_predicate_any! (is_string_regex, is_string_regex_any_2, is_string_regex_any_3, is_string_regex_any_4, is_string_regex_any_n);
 
 
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_bytes_regex (value : &Value) -> (bool) {
 	return value.is_kind (ValueKind::BytesRegex);
 }
 
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 def_fn_predicate_all! (is_bytes_regex, is_bytes_regex_all_2, is_bytes_regex_all_3, is_bytes_regex_all_4, is_bytes_regex_all_n);
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 def_fn_predicate_any! (is_bytes_regex, is_bytes_regex_any_2, is_bytes_regex_any_3, is_bytes_regex_any_4, is_bytes_regex_any_n);
 
 

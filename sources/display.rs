@@ -55,8 +55,10 @@ impl fmt::Display for Value {
 			ValueKindMatchAsRef::BytesMutable (self_0) => self_0.fmt (formatter),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ValueKindMatchAsRef::StringRegex (self_0) => self_0.fmt (formatter),
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			ValueKindMatchAsRef::BytesRegex (self_0) => self_0.fmt (formatter),
 			
 			ValueKindMatchAsRef::PairImmutable (self_0) => self_0.fmt (formatter),
@@ -152,8 +154,10 @@ impl fmt::Debug for Value {
 			ValueKindMatchAsRef::BytesMutable (self_0) => self_0.fmt (formatter),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ValueKindMatchAsRef::StringRegex (self_0) => self_0.fmt (formatter),
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			ValueKindMatchAsRef::BytesRegex (self_0) => self_0.fmt (formatter),
 			
 			ValueKindMatchAsRef::PairImmutable (self_0) => self_0.fmt (formatter),
@@ -503,6 +507,7 @@ fn bytes_fmt (bytes : &[u8], formatter : &mut fmt::Formatter) -> (fmt::Result) {
 
 
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 impl fmt::Display for StringRegex {
 	
 	#[ inline (never) ]
@@ -514,6 +519,7 @@ impl fmt::Display for StringRegex {
 
 
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 impl fmt::Display for BytesRegex {
 	
 	#[ inline (never) ]

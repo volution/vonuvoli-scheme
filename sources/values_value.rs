@@ -123,8 +123,10 @@ pub enum ValueKind {
 	BytesMutable,
 	
 	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	StringRegex,
 	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	BytesRegex,
 	
 	PairImmutable,
@@ -215,8 +217,10 @@ pub enum ValueKindMatchAsRef <'a> {
 	BytesMutable (&'a BytesMutable),
 	
 	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	StringRegex (&'a StringRegex),
 	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	BytesRegex (&'a BytesRegex),
 	
 	PairImmutable (&'a PairImmutable),
@@ -307,8 +311,10 @@ pub enum ValueKindMatchInto {
 	BytesMutable (BytesMutable),
 	
 	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	StringRegex (StringRegex),
 	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	BytesRegex (BytesRegex),
 	
 	PairImmutable (PairImmutable),
@@ -399,8 +405,10 @@ pub enum ValueKindMatchAsRef2 <'a> {
 	BytesMutable (&'a BytesMutable, &'a BytesMutable),
 	
 	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	StringRegex (&'a StringRegex, &'a StringRegex),
 	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	BytesRegex (&'a BytesRegex, &'a BytesRegex),
 	
 	PairImmutable (&'a PairImmutable, &'a PairImmutable),
@@ -491,8 +499,10 @@ pub enum ValueClass {
 	Bytes,
 	
 	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	StringRegex,
 	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	BytesRegex,
 	
 	Pair,
@@ -550,8 +560,10 @@ pub enum ValueClassMatchAsRef <'a> {
 	Bytes (BytesMatchAsRef<'a>),
 	
 	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	StringRegex (&'a StringRegex),
 	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	BytesRegex (&'a BytesRegex),
 	
 	Pair (PairMatchAsRef<'a>),
@@ -609,8 +621,10 @@ pub enum ValueClassMatchInto {
 	Bytes (BytesMatchInto),
 	
 	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	StringRegex (StringRegex),
 	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	BytesRegex (BytesRegex),
 	
 	Pair (PairMatchInto),
@@ -668,8 +682,10 @@ pub enum ValueClassMatchAsRef2 <'a> {
 	Bytes (BytesMatchAsRef2<'a>),
 	
 	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	StringRegex (&'a StringRegex, &'a StringRegex),
 	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	BytesRegex (&'a BytesRegex, &'a BytesRegex),
 	
 	Pair (PairMatchAsRef2<'a>),
@@ -840,8 +856,10 @@ pub enum Value {
 	BytesMutable ( ValueMeta1, BytesMutable, ValueMeta2 ),
 	
 	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	StringRegex ( ValueMeta1, StringRegex, ValueMeta2 ),
 	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	BytesRegex ( ValueMeta1, BytesRegex, ValueMeta2 ),
 	
 	PairImmutable ( ValueMeta1, PairImmutable, ValueMeta2 ),
@@ -946,8 +964,10 @@ impl Value {
 			Value::BytesMutable (_, _, _) => ValueKind::BytesMutable,
 			
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			Value::StringRegex (_, _, _) => ValueKind::StringRegex,
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			Value::BytesRegex (_, _, _) => ValueKind::BytesRegex,
 			
 			Value::PairImmutable (_, _, _) => ValueKind::PairImmutable,
@@ -1046,8 +1066,10 @@ impl Value {
 			Value::BytesMutable (_, ref self_0, _) => ValueKindMatchAsRef::BytesMutable (self_0),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			Value::StringRegex (_, ref self_0, _) => ValueKindMatchAsRef::StringRegex (self_0),
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			Value::BytesRegex (_, ref self_0, _) => ValueKindMatchAsRef::BytesRegex (self_0),
 			
 			Value::PairImmutable (_, ref self_0, _) => ValueKindMatchAsRef::PairImmutable (self_0),
@@ -1146,8 +1168,10 @@ impl Value {
 			Value::BytesMutable (_, self_0, _) => ValueKindMatchInto::BytesMutable (self_0),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			Value::StringRegex (_, self_0, _) => ValueKindMatchInto::StringRegex (self_0),
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			Value::BytesRegex (_, self_0, _) => ValueKindMatchInto::BytesRegex (self_0),
 			
 			Value::PairImmutable (_, self_0, _) => ValueKindMatchInto::PairImmutable (self_0),
@@ -1250,8 +1274,10 @@ impl Value {
 			(&Value::BytesMutable (_, ref self_0, _), &Value::BytesMutable (_, ref other_0, _)) => ValueKindMatchAsRef2::BytesMutable (self_0, other_0),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			(&Value::StringRegex (_, ref self_0, _), &Value::StringRegex (_, ref other_0, _)) => ValueKindMatchAsRef2::StringRegex (self_0, other_0),
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			(&Value::BytesRegex (_, ref self_0, _), &Value::BytesRegex (_, ref other_0, _)) => ValueKindMatchAsRef2::BytesRegex (self_0, other_0),
 			
 			(&Value::PairImmutable (_, ref self_0, _), &Value::PairImmutable (_, ref other_0, _)) => ValueKindMatchAsRef2::PairImmutable (self_0, other_0),
@@ -1354,8 +1380,10 @@ impl Value {
 			Value::BytesMutable (_, _, _) => ValueClass::Bytes,
 			
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			Value::StringRegex (_, _, _) => ValueClass::StringRegex,
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			Value::BytesRegex (_, _, _) => ValueClass::BytesRegex,
 			
 			Value::PairImmutable (_, _, _) => ValueClass::Pair,
@@ -1454,8 +1482,10 @@ impl Value {
 			Value::BytesMutable (_, ref self_0, _) => ValueClassMatchAsRef::Bytes (BytesMatchAsRef::Mutable (self_0)),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			Value::StringRegex (_, ref self_0, _) => ValueClassMatchAsRef::StringRegex (self_0),
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			Value::BytesRegex (_, ref self_0, _) => ValueClassMatchAsRef::BytesRegex (self_0),
 			
 			Value::PairImmutable (_, ref self_0, _) => ValueClassMatchAsRef::Pair (PairMatchAsRef::Immutable (self_0)),
@@ -1554,8 +1584,10 @@ impl Value {
 			Value::BytesMutable (_, self_0, _) => ValueClassMatchInto::Bytes (BytesMatchInto::Mutable (self_0)),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			Value::StringRegex (_, self_0, _) => ValueClassMatchInto::StringRegex (self_0),
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			Value::BytesRegex (_, self_0, _) => ValueClassMatchInto::BytesRegex (self_0),
 			
 			Value::PairImmutable (_, self_0, _) => ValueClassMatchInto::Pair (PairMatchInto::Immutable (self_0)),
@@ -1671,8 +1703,10 @@ impl Value {
 			(&Value::BytesMutable (_, ref self_0, _), &Value::BytesImmutable (_, ref other_0, _)) => ValueClassMatchAsRef2::Bytes (BytesMatchAsRef2::MutableAndImmutable (self_0, other_0)),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			(&Value::StringRegex (_, ref self_0, _), &Value::StringRegex (_, ref other_0, _)) => ValueClassMatchAsRef2::StringRegex (self_0, other_0),
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			(&Value::BytesRegex (_, ref self_0, _), &Value::BytesRegex (_, ref other_0, _)) => ValueClassMatchAsRef2::BytesRegex (self_0, other_0),
 			
 			(&Value::PairImmutable (_, ref self_0, _), &Value::PairImmutable (_, ref other_0, _)) => ValueClassMatchAsRef2::Pair (PairMatchAsRef2::ImmutableBoth (self_0, other_0)),
@@ -1802,8 +1836,10 @@ impl Value {
 			ValueKindMatchAsRef2::BytesMutable (self_0, other_0) => BytesMutable::is_self (self_0, other_0),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ValueKindMatchAsRef2::StringRegex (self_0, other_0) => StringRegex::is_self (self_0, other_0),
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			ValueKindMatchAsRef2::BytesRegex (self_0, other_0) => BytesRegex::is_self (self_0, other_0),
 			
 			ValueKindMatchAsRef2::PairImmutable (self_0, other_0) => PairImmutable::is_self (self_0, other_0),
@@ -1895,8 +1931,10 @@ impl Value {
 			Value::BytesMutable (_, ref self_0, _) => self_0.to_immutable () .into_0 (),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			Value::StringRegex (_, ref self_0, _) => self_0.clone () .into_0 (),
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			Value::BytesRegex (_, ref self_0, _) => self_0.clone () .into_0 (),
 			
 			Value::PairImmutable (_, ref self_0, _) => self_0.clone () .into_0 (),
@@ -2036,8 +2074,10 @@ impl ValueKindMatchInto {
 			ValueKindMatchInto::BytesMutable (value) => value.into (),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ValueKindMatchInto::StringRegex (value) => value.into (),
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			ValueKindMatchInto::BytesRegex (value) => value.into (),
 			
 			ValueKindMatchInto::PairImmutable (value) => value.into (),
@@ -2130,8 +2170,10 @@ impl ValueClassMatchInto {
 			ValueClassMatchInto::Bytes (class) => class.value (),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ValueClassMatchInto::StringRegex (value) => value.into (),
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			ValueClassMatchInto::BytesRegex (value) => value.into (),
 			
 			ValueClassMatchInto::Pair (class) => class.value (),
