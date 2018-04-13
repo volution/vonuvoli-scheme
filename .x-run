@@ -30,6 +30,9 @@ cat <<'EOS-31f6e6b1'
 :: compile / all / debug :: x-run ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" "${@}"
 :: compile / all / release :: x-run ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" "${@}"
 
+:: compile / tree / debug :: x-run ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo tree --quiet --all --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" "${@}"
+:: compile / tree / release :: x-run ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo tree --quiet --all --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" "${@}"
+
 :: compile / lib / debug :: x-run ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --lib --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" "${@}"
 :: compile / lib / release :: x-run ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --lib --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" "${@}"
 
@@ -112,6 +115,7 @@ cat <<'EOS-31f6e6b1'
 	done
 !!
 
+:: compile / tree / debug / features / targets :: exec -- x-run ':: execute / features / targets' x-run ':: compile / tree / debug' "${@}"
 :: compile / all / debug / features / targets :: exec -- x-run ':: execute / features / targets' x-run ':: compile / all / debug' "${@}"
 :: compile / lib / debug / features / targets :: exec -- x-run ':: execute / features / targets' x-run ':: compile / lib / debug' "${@}"
 :: compile / test / all / debug / features / targets :: exec -- x-run ':: execute / features / targets' x-run ':: compile / test / all / debug' "${@}"
@@ -464,6 +468,7 @@ cat <<'EOS-31f6e6b1'
 	export -- PATH="${RUST_PATH}"
 	nice -n 19 -- cargo install --force peg
 	nice -n 19 -- cargo install --force cargo-kcov
+	nice -n 19 -- cargo install --force cargo-tree
 !!
 
 << workbench / cargo / update
@@ -490,8 +495,8 @@ cat <<'EOS-31f6e6b1'
 	nice -n 19 -- ./.python/bin/pip install --force restview
 !!
 
-:: environment / rust-up / use / stable :: export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin ):${PATH}"
-:: environment / rust-up / use / nightly :: export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):${PATH}"
+:: environment / rust-up / use / stable :: export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}"
+:: environment / rust-up / use / nightly :: export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}"
 
 :: environment / rust / stack / 128M :: export -- RUST_MIN_STACK=134217728
 :: environment / rust / stack / 1024M :: export -- RUST_MIN_STACK=1073741824
