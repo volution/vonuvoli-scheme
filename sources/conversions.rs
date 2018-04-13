@@ -881,7 +881,7 @@ pub fn os_string_clone_coerce_option (value : Option<&Value>) -> (Outcome<Option
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ allow (unused_variables) ]
 pub fn os_string_clone_into_value (string : &ffi::OsStr) -> (Outcome<Value>) {
-	#[ cfg ( feature = "vonuvoli_values_strings" ) ]
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	{ if let Some (string) = string.to_str () {
 		succeed! (string_clone_str (string) .into ());
 	} }

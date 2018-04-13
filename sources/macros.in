@@ -131,6 +131,7 @@ macro_rules! succeed {
 #[ macro_export ]
 macro_rules! fail {
 	( $code : expr ) => (
+		#[ allow ( unreachable_code ) ]
 		return failed! ($code);
 	);
 }
@@ -138,6 +139,7 @@ macro_rules! fail {
 #[ macro_export ]
 macro_rules! fail_unimplemented {
 	( $code : expr ) => (
+		#[ allow ( unreachable_code ) ]
 		return failed_unimplemented! ($code); // OK
 	);
 }
@@ -145,6 +147,7 @@ macro_rules! fail_unimplemented {
 #[ macro_export ]
 macro_rules! fail_panic {
 	( $code : expr ) => (
+		#[ allow ( unreachable_code ) ]
 		return failed_panic! ($code);
 	);
 }
@@ -152,6 +155,7 @@ macro_rules! fail_panic {
 #[ macro_export ]
 macro_rules! fail_unreachable {
 	( $code : expr ) => (
+		#[ allow ( unreachable_code ) ]
 		return failed_panic! ($code);
 	);
 }

@@ -53,6 +53,7 @@ impl <Value, IteratorDelegate> iter::Iterator for RangeIterator<Value, IteratorD
 			if let Some (_) = self.iterator.next () {
 				self.index += 1;
 			} else {
+				#[ allow (unreachable_code) ]
 				return Some (failed! (0xb0d17971));
 			}
 		}
@@ -70,6 +71,7 @@ impl <Value, IteratorDelegate> iter::Iterator for RangeIterator<Value, IteratorD
 				if self.index == range_end {
 					return None;
 				} else {
+					#[ allow (unreachable_code) ]
 					return Some (failed! (0x75a86cb5));
 				}
 			} else {
@@ -125,6 +127,7 @@ impl <Value, IteratorDelegate> iter::Iterator for RangeIteratorForOutcome<Value,
 						return Some (error),
 				}
 			} else {
+				#[ allow (unreachable_code) ]
 				return Some (failed! (0xe26d72ae));
 			}
 		}
@@ -148,6 +151,7 @@ impl <Value, IteratorDelegate> iter::Iterator for RangeIteratorForOutcome<Value,
 				if self.index == range_end {
 					return None;
 				} else {
+					#[ allow (unreachable_code) ]
 					return Some (failed! (0x9a76c55c));
 				}
 			} else {

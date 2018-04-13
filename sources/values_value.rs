@@ -57,6 +57,7 @@ use super::native_syntaxes::exports::*;
 use super::parameters::exports::*;
 
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+#[ allow (unused_imports) ]
 use super::regularex::exports::*;
 
 #[ cfg ( feature = "vonuvoli_builtins_ports" ) ]

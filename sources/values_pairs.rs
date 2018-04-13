@@ -850,11 +850,13 @@ impl <'a> iter::Iterator for ListPairIterator <'a> {
 					if self.1 {
 						return None;
 					} else {
+						#[ allow (unreachable_code) ]
 						return Some (failed! (0x1f8fea4c));
 					},
 			};
 			if let Some (ref cursor) = cursor {
 				if previous.value_is_self (cursor) {
+					#[ allow (unreachable_code) ]
 					return Some (failed! (0xa8ab23fb));
 				}
 			}
@@ -927,11 +929,13 @@ impl <'a> iter::Iterator for ListIterator <'a> {
 					if self.1 {
 						return None;
 					} else {
+						#[ allow (unreachable_code) ]
 						return Some (failed! (0xed511f9c));
 					},
 			};
 			if let Some (ref cursor) = cursor {
 				if previous.value_is_self (cursor) {
+					#[ allow (unreachable_code) ]
 					return Some (failed! (0x2f6495d9));
 				}
 			}
