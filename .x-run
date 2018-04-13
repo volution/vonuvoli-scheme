@@ -88,8 +88,8 @@ cat <<'EOS-31f6e6b1'
 
 
 
-<< execute / features / random
-	readarray -t -- VONUVOLI_SCHEME_FEATURES < <( x-run ':: environment / features / list / all' | sort -R )
+<< execute / features / individual
+	readarray -t -- VONUVOLI_SCHEME_FEATURES < <( x-run ':: environment / features / list / individual' | sort -R )
 	for VONUVOLI_SCHEME_FEATURES in "${VONUVOLI_SCHEME_FEATURES[@]}" ; do
 		printf -- '[ii]  using features `%s`...\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
 		if ! env VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" "${@}" ; then
@@ -100,7 +100,22 @@ cat <<'EOS-31f6e6b1'
 	done
 !!
 
-:: compile / lib / debug / features / random :: exec -- x-run ':: execute / features / random' x-run ':: compile / lib / debug' "${@}"
+:: compile / lib / debug / features / individual :: exec -- x-run ':: execute / features / individual' x-run ':: compile / lib / debug' "${@}"
+
+
+<< execute / features / combinations
+	readarray -t -- VONUVOLI_SCHEME_FEATURES < <( x-run ':: environment / features / list / combinations' | sort -R )
+	for VONUVOLI_SCHEME_FEATURES in "${VONUVOLI_SCHEME_FEATURES[@]}" ; do
+		printf -- '[ii]  using features `%s`...\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
+		if ! env VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" "${@}" ; then
+			printf -- '[ee]  failed using features `%s`!\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
+			exit -- 1
+		fi
+		printf -- '[--]\n' >&2
+	done
+!!
+
+:: compile / lib / debug / features / combinations :: exec -- x-run ':: execute / features / combinations' x-run ':: compile / lib / debug' "${@}"
 
 
 << execute / features / targets
@@ -218,65 +233,89 @@ cat <<'EOS-31f6e6b1'
 !!
 
 
+
+
 << environment / features / list / targets
 	test "${#}" -eq 0
-	_features=(
-			'vonuvoli_debug_level_0 vonuvoli_transcript vonuvoli_parser vonuvoli_tests'
-			vonuvoli_debug_level_1
-			vonuvoli_debug_level_2
-			vonuvoli_debug_level_3
-			vonuvoli_debug_level_4
-			vonuvoli_debug_for_tests
-			vonuvoli_debug_for_binaries
-			vonuvoli_release
-		)
-	for _feature in "${_features[@]}" ; do
-		printf -- '%s\n' "${_feature}"
-	done
+	exec -- sed -r -e 's/^\t+\|\t//' -e '/^\t*$/d' -e '/^\t*#/d' <<<'
+	|	vonuvoli_debug_level_0 vonuvoli_transcript vonuvoli_parser vonuvoli_tests
+	|	vonuvoli_debug_level_1
+	|	vonuvoli_debug_level_2
+	|	vonuvoli_debug_level_3
+	|	vonuvoli_debug_level_4
+	|	vonuvoli_debug_for_tests
+	|	vonuvoli_debug_for_binaries
+	|	vonuvoli_release
+	'
 !!
 
-<< environment / features / list / all
+<< environment / features / list / individual
 	test "${#}" -eq 0
-	python2 -- <(
-		exec -- sed -r -e 's/^\t+\|\t//' <<<'
-	|	import itertools, sys
-	|	_options = [
-	|		
-	|		"vonuvoli_values_string",
-	|		"vonuvoli_values_bytes",
-	|		"vonuvoli_values_array",
-	|		"vonuvoli_values_values",
-	|		"vonuvoli_values_error",
-	|		"vonuvoli_values_keyword",
-	|		"vonuvoli_values_unique",
-	|		"vonuvoli_values_contexts",
-	|		"vonuvoli_values_opaque",
-	|		"vonuvoli_values_lambda",
-	|		"vonuvoli_values_extended",
-	|		"vonuvoli_values_native",
-	|		
-	|		"vonuvoli_builtins_parameters",
-	|		"vonuvoli_builtins_promises",
-	|		"vonuvoli_builtins_records",
-	|		"vonuvoli_builtins_regex",
-	|		"vonuvoli_builtins_ports",
-	|		"vonuvoli_builtins_filesystem",
-	|		"vonuvoli_builtins_processes",
-	|		"vonuvoli_builtins_transcript",
-	|		"vonuvoli_builtins_crypto",
-	|		"vonuvoli_builtins_random",
-	|		"vonuvoli_builtins_encoding",
-	|		
-	|		"vonuvoli_transcript",
-	|		"vonuvoli_backtrace",
-	|		"vonuvoli_tests",
-	|		
-	|	]
-	|	_options_count = 2 # len (_options)
-	|	for _count in xrange (0, _options_count + 1) :
-	|		for _variants in itertools.combinations (_options, _count) :
-	|			print " ".join (_variants)
-' )
+	exec -- sed -r -e 's/^\t+\|\t//' -e '/^\t*$/d' -e '/^\t*#/d' <<<'
+	|	# vonuvoli_abort_on_panic
+	|	vonuvoli_backtrace
+	|	# vonuvoli_backtrace_sources
+	|	vonuvoli_builtins_crypto
+	|	vonuvoli_builtins_encoding
+	|	vonuvoli_builtins_filesystem
+	|	vonuvoli_builtins_parameters
+	|	vonuvoli_builtins_ports
+	|	vonuvoli_builtins_processes
+	|	vonuvoli_builtins_promises
+	|	vonuvoli_builtins_random
+	|	vonuvoli_builtins_records
+	|	vonuvoli_builtins_regex
+	|	vonuvoli_builtins_transcript
+	|	# vonuvoli_compiler_trace_error
+	|	# vonuvoli_evaluator_trace_error
+	|	# vonuvoli_inline
+	|	# vonuvoli_new_immutable
+	|	# vonuvoli_optimizer_trace_error
+	|	vonuvoli_panic_on_failed
+	|	vonuvoli_parser
+	|	# vonuvoli_port_output_display_flush
+	|	# vonuvoli_port_output_newline_flush
+	|	# vonuvoli_port_output_write_flush
+	|	vonuvoli_terminal
+	|	vonuvoli_tests
+	|	vonuvoli_transcript
+	|	# vonuvoli_transcript_ansi_always
+	|	vonuvoli_transcript_ansi_enabled
+	|	vonuvoli_transcript_code_hashes
+	|	# vonuvoli_transcript_compact
+	|	vonuvoli_values_array
+	|	vonuvoli_values_bytes
+	|	vonuvoli_values_contexts
+	|	vonuvoli_values_error
+	|	vonuvoli_values_extended
+	|	vonuvoli_values_keyword
+	|	vonuvoli_values_lambda
+	|	vonuvoli_values_native
+	|	vonuvoli_values_opaque
+	|	vonuvoli_values_string
+	|	vonuvoli_values_unique
+	|	vonuvoli_values_values
+'
+!!
+
+<< environment / features / list / combinations
+	test "${#}" -eq 0
+	exec -- python2 -- \
+		<(
+			exec -- sed -r -e 's/^\t+\|\t//' <<<'
+			|	import itertools, sys
+			|	with open (sys.argv[1]) as _stream :
+			|		_options = [_option.strip () for _option in _stream]
+			|	_options_count_min = 1
+			|	_options_count_max = 3 # len (_options)
+			|	for _count in xrange (_options_count_min, _options_count_max + 1) :
+			|		for _variants in itertools.combinations (_options, _count) :
+			|			print " ".join (_variants)
+			' \
+		) \
+		<( \
+			x-run ':: environment / features / list / individual' \
+		)
 !!
 
 
@@ -416,6 +455,8 @@ cat <<'EOS-31f6e6b1'
 :: files / grep / sources / errors / improper / list :: grep -o -P -e '(?<=0x)([0-9a-f]{3,7}|[0-9a-f]{9,})(?=[)])|(?<=")([0-9a-f]{3,7}|[0-9a-f]{9,})(?=")' -h -r ./sources -r ./tests --include '*.rs' --include '*.in' | sort -u
 :: files / grep / sources / errors / improper / show :: x-run ':: files / grep / sources / errors / improper / list' | git grep --no-index -C2 -F -f /dev/stdin -- ./sources ./tests
 
+:: files / grep / sources / features / list :: grep -o -P -e '(?<=feature = ")[^"]+(?=")' -h -r ./sources -r ./tests --include '*.rs' --include '*.in' | sort -u
+
 :: files / sed / sources / inline-always / disable :: exec -- find ./sources ./tests -xdev -type f \( -name '*.rs' -o -name '*.in' \) -exec sed -r -e 's!^(\s*)(#\[ inline \(always\) \])$!\1#[ inline (never) ] // __inline_always__!' -i -- {} \;
 :: files / sed / sources / inline-always / enable :: exec -- find ./sources ./tests -xdev -type f \( -name '*.rs' -o -name '*.in' \) -exec sed -r -e 's!^(\s*)(#\[ inline \(never\) \] // __inline_always__)$!\1#[ inline (always) ]!' -i -- {} \;
 :: files / sed / sources / inline-always / configurable :: exec -- find ./sources ./tests -xdev -type f \( -name '*.rs' -o -name '*.in' \) -exec sed -r -e 's!^(\s*)(#\[ inline \(always\) \])$!\1#[ cfg_attr ( feature = "vonuvoli_inline", inline (always) ) ]!' -i -- {} \;
@@ -506,8 +547,8 @@ cat <<'EOS-31f6e6b1'
 :: environment / tests / debug / enable :: export -- VONUVOLI_SCHEME_TESTS_DEBUG=true
 :: environment / tests / debug / disable :: export -- VONUVOLI_SCHEME_TESTS_DEBUG=false
 
+:: environment / features / all :: export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_features_all
 :: environment / features / release :: export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_release
-
 :: environment / features / debug / binaries :: export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_for_binaries
 :: environment / features / debug / tests :: export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_for_tests
 :: environment / features / debug / level-0 :: export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_level_0
