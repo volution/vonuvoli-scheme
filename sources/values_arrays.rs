@@ -476,7 +476,7 @@ pub fn array_mutable_new_empty () -> (ArrayMutable) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_new_empty () -> (Value) {
-	if BYTES_NEW_IMMUTABLE {
+	if ARRAY_NEW_IMMUTABLE {
 		array_immutable_new_empty () .into ()
 	} else {
 		array_mutable_new_empty () .into ()

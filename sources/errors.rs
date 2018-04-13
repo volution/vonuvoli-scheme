@@ -19,7 +19,7 @@ pub mod exports {
 	pub use super::Outcome;
 	pub use super::Error;
 	pub use super::ErrorInternals;
-	#[ cfg ( feature = "vonuvoli_values_string" ) ]
+	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	pub use super::ErrorMessage;
 	
 	pub use super::error_generic;
@@ -329,6 +329,7 @@ impl Error {
 	
 	#[ cfg ( feature = "vonuvoli_transcript" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	#[ allow (unused_variables) ]
 	pub fn backtrace_report <T : Transcript + ?Sized> (&self, transcript : &TranscriptTracer<T>) -> () {
 		match *self.internals_ref () {
 			#[ cfg ( feature = "vonuvoli_backtrace" ) ]

@@ -5,6 +5,8 @@ use super::globals::exports::*;
 use super::ports_memory::exports::*;
 use super::ports_native::exports::*;
 use super::runtime::exports::*;
+
+#[ allow (unused_imports) ]
 use super::values::exports::*;
 
 use super::prelude::*;
@@ -206,6 +208,7 @@ impl Port {
 		return Port::new_from_backend (backend);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_bytes_reader_from_string_immutable (buffer : StdRc<StdBox<str>>, range_start : usize, range_end : Option<usize>) -> (Outcome<Port>) {
 		let backend = try! (PortBackendBytesReader::new_from_string_immutable (buffer, range_start, range_end));
@@ -213,6 +216,7 @@ impl Port {
 		return Port::new_from_backend (backend);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_bytes_reader_from_string_mutable (buffer : StdRc<StdRefCell<StringMutableInternals>>, range_start : usize, range_end : Option<usize>) -> (Outcome<Port>) {
 		let backend = try! (PortBackendBytesReader::new_from_string_mutable (buffer, range_start, range_end));

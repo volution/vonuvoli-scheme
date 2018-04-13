@@ -885,7 +885,7 @@ pub fn os_string_clone_into_value (string : &ffi::OsStr) -> (Outcome<Value>) {
 	} }
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	succeed! (bytes_clone_slice (string.as_bytes ()) .into ());
-	#[ cfg ( not ( any ( feature = "vonuvoli_values_string", feature = "vonuvoli_values_bytes" ) ) ) ]
+	#[ cfg ( not ( feature = "vonuvoli_values_bytes" ) ) ]
 	fail! (0x4eefc5ee);
 }
 

@@ -142,10 +142,9 @@ pub fn error_arguments_as_values (error : &Value) -> (Outcome<Values>) {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_build_0 (code : Option<u64>, message : &Value) -> (Outcome<Error>) {
 	#[ cfg ( feature = "vonuvoli_values_string" ) ]
-	let message = try_as_string_as_ref! (message);
+	let message = try! (try_as_string_as_ref! (message) .string_rc_clone ());
 	#[ cfg ( not ( feature = "vonuvoli_values_string" ) ) ]
-	let message = try_as_symbol_ref! (message);
-	let message = try! (message.string_rc_clone ());
+	let message = try_as_symbol_ref! (message) .string_rc_clone ();
 	let error = Error::new_with_message (code, message);
 	succeed! (error);
 }
@@ -154,10 +153,9 @@ pub fn error_build_0 (code : Option<u64>, message : &Value) -> (Outcome<Error>) 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_build_1 (code : Option<u64>, message : &Value, argument_1 : &Value) -> (Outcome<Error>) {
 	#[ cfg ( feature = "vonuvoli_values_string" ) ]
-	let message = try_as_string_as_ref! (message);
+	let message = try! (try_as_string_as_ref! (message) .string_rc_clone ());
 	#[ cfg ( not ( feature = "vonuvoli_values_string" ) ) ]
-	let message = try_as_symbol_ref! (message);
-	let message = try! (message.string_rc_clone ());
+	let message = try_as_symbol_ref! (message) .string_rc_clone ();
 	let arguments : StdBox<[Value]> = StdBox::new ([argument_1.clone ()]);
 	let arguments = StdRc::new (arguments);
 	let error = Error::new_with_message_and_arguments (code, message, arguments);
@@ -168,10 +166,9 @@ pub fn error_build_1 (code : Option<u64>, message : &Value, argument_1 : &Value)
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_build_2 (code : Option<u64>, message : &Value, argument_1 : &Value, argument_2 : &Value) -> (Outcome<Error>) {
 	#[ cfg ( feature = "vonuvoli_values_string" ) ]
-	let message = try_as_string_as_ref! (message);
+	let message = try! (try_as_string_as_ref! (message) .string_rc_clone ());
 	#[ cfg ( not ( feature = "vonuvoli_values_string" ) ) ]
-	let message = try_as_symbol_ref! (message);
-	let message = try! (message.string_rc_clone ());
+	let message = try_as_symbol_ref! (message) .string_rc_clone ();
 	let arguments : StdBox<[Value]> = StdBox::new ([argument_1.clone (), argument_2.clone ()]);
 	let arguments = StdRc::new (arguments);
 	let error = Error::new_with_message_and_arguments (code, message, arguments);
@@ -182,10 +179,9 @@ pub fn error_build_2 (code : Option<u64>, message : &Value, argument_1 : &Value,
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_build_3 (code : Option<u64>, message : &Value, argument_1 : &Value, argument_2 : &Value, argument_3 : &Value) -> (Outcome<Error>) {
 	#[ cfg ( feature = "vonuvoli_values_string" ) ]
-	let message = try_as_string_as_ref! (message);
+	let message = try! (try_as_string_as_ref! (message) .string_rc_clone ());
 	#[ cfg ( not ( feature = "vonuvoli_values_string" ) ) ]
-	let message = try_as_symbol_ref! (message);
-	let message = try! (message.string_rc_clone ());
+	let message = try_as_symbol_ref! (message) .string_rc_clone ();
 	let arguments : StdBox<[Value]> = StdBox::new ([argument_1.clone (), argument_2.clone (), argument_3.clone ()]);
 	let arguments = StdRc::new (arguments);
 	let error = Error::new_with_message_and_arguments (code, message, arguments);
@@ -196,10 +192,9 @@ pub fn error_build_3 (code : Option<u64>, message : &Value, argument_1 : &Value,
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_build_4 (code : Option<u64>, message : &Value, argument_1 : &Value, argument_2 : &Value, argument_3 : &Value, argument_4 : &Value) -> (Outcome<Error>) {
 	#[ cfg ( feature = "vonuvoli_values_string" ) ]
-	let message = try_as_string_as_ref! (message);
+	let message = try! (try_as_string_as_ref! (message) .string_rc_clone ());
 	#[ cfg ( not ( feature = "vonuvoli_values_string" ) ) ]
-	let message = try_as_symbol_ref! (message);
-	let message = try! (message.string_rc_clone ());
+	let message = try_as_symbol_ref! (message) .string_rc_clone ();
 	let arguments : StdBox<[Value]> = StdBox::new ([argument_1.clone (), argument_2.clone (), argument_3.clone (), argument_4.clone ()]);
 	let arguments = StdRc::new (arguments);
 	let error = Error::new_with_message_and_arguments (code, message, arguments);
@@ -210,10 +205,9 @@ pub fn error_build_4 (code : Option<u64>, message : &Value, argument_1 : &Value,
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_build_n (code : Option<u64>, message : &Value, arguments : &[&Value]) -> (Outcome<Error>) {
 	#[ cfg ( feature = "vonuvoli_values_string" ) ]
-	let message = try_as_string_as_ref! (message);
+	let message = try! (try_as_string_as_ref! (message) .string_rc_clone ());
 	#[ cfg ( not ( feature = "vonuvoli_values_string" ) ) ]
-	let message = try_as_symbol_ref! (message);
-	let message = try! (message.string_rc_clone ());
+	let message = try_as_symbol_ref! (message) .string_rc_clone ();
 	let arguments = vec_clone_slice_ref (arguments);
 	let arguments = StdRc::new (arguments.into_boxed_slice ());
 	let error = Error::new_with_message_and_arguments (code, message, arguments);

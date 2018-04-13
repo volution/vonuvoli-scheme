@@ -15,7 +15,7 @@ pub const STRING_NEW_IMMUTABLE : bool = DEFAULT_NEW_IMMUTABLE && true;
 pub const BYTES_NEW_IMMUTABLE : bool = DEFAULT_NEW_IMMUTABLE && true;
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
 pub const ARRAY_NEW_IMMUTABLE : bool = DEFAULT_NEW_IMMUTABLE && true;
-#[ cfg ( feature = "vonuvoli_values_record" ) ]
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 pub const RECORD_NEW_IMMUTABLE : bool = DEFAULT_NEW_IMMUTABLE && true;
 
 pub const PAIR_NEW_IMMUTABLE : bool = DEFAULT_NEW_IMMUTABLE && true;

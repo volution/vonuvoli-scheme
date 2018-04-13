@@ -6,8 +6,10 @@ use super::errors::exports::*;
 use super::evaluator::exports::*;
 use super::globals::exports::*;
 use super::runtime::exports::*;
-use super::transcript::exports::*;
 use super::values::exports::*;
+
+#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
+use super::transcript::exports::*;
 
 use super::prelude::*;
 
@@ -38,6 +40,7 @@ pub struct ParametersInternals {
 	pub stderr : Option<Port>,
 	pub process_arguments : Option<StdRc<StdBox<[StdBox<ffi::OsStr>]>>>,
 	pub process_environment : Option<StdRc<StdBox<[(StdBox<ffi::OsStr>, StdBox<ffi::OsStr>)]>>>,
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	pub transcript : StdRc<TranscriptForScript>,
 	pub parent : Option<Parameters>,
 	pub immutable : bool,
@@ -60,6 +63,7 @@ impl Parameters {
 				stderr : None,
 				process_arguments : None,
 				process_environment : None,
+				#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 				transcript : transcript_for_script (),
 				parent : None,
 				immutable : false,
@@ -80,6 +84,7 @@ impl Parameters {
 				stderr : Some (try! (Port::new_stderr ())),
 				process_arguments : Some (StdRc::new (vec_map_into! (env::args_os (), value, value.into_boxed_os_str ()) .into_boxed_slice ())),
 				process_environment : Some (StdRc::new (vec_map_into! (env::vars_os (), (name, value), (name.into_boxed_os_str (), value.into_boxed_os_str ())) .into_boxed_slice ())),
+				#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 				transcript : transcript_for_script (),
 				parent : None,
 				immutable : false,
@@ -101,6 +106,7 @@ impl Parameters {
 				stderr : option_ref_map! (self_0.stderr, port, port.clone ()),
 				process_arguments : option_ref_map! (self_0.process_arguments, rc, StdRc::clone (rc)),
 				process_environment : option_ref_map! (self_0.process_environment, rc, StdRc::clone (rc)),
+				#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 				transcript : StdRc::clone (&self_0.transcript),
 				parent : Some (self.clone ()),
 				immutable : false,
@@ -390,6 +396,7 @@ impl Parameters {
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn resolve_transcript (&self) -> (Outcome<StdRc<TranscriptForScript>>) {
 		let self_0 = try! (self.internals_ref ());
