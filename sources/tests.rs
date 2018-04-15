@@ -606,21 +606,32 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 				ValueKindMatchAsRef2::NumberReal (_, _) |
 				ValueKindMatchAsRef2::Symbol (_, _) |
 				ValueKindMatchAsRef2::PairImmutable (_, _) |
-				ValueKindMatchAsRef2::PairMutable (_, _) |
 				ValueKindMatchAsRef2::ProcedurePrimitive (_, _) |
 				ValueKindMatchAsRef2::SyntaxPrimitive (_, _) =>
 					true,
+				#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+				ValueKindMatchAsRef2::PairMutable (_, _) =>
+					true,
 				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				ValueKindMatchAsRef2::Character (_, _) |
-				ValueKindMatchAsRef2::StringImmutable (_, _) |
+				ValueKindMatchAsRef2::StringImmutable (_, _) =>
+					true,
+				#[ cfg ( feature = "vonuvoli_values_string" ) ]
+				#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 				ValueKindMatchAsRef2::StringMutable (_, _) =>
 					true,
 				#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-				ValueKindMatchAsRef2::BytesImmutable (_, _) |
+				ValueKindMatchAsRef2::BytesImmutable (_, _) =>
+					true,
+				#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+				#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 				ValueKindMatchAsRef2::BytesMutable (_, _) =>
 					true,
 				#[ cfg ( feature = "vonuvoli_values_array" ) ]
-				ValueKindMatchAsRef2::ArrayImmutable (_, _) |
+				ValueKindMatchAsRef2::ArrayImmutable (_, _) =>
+					true,
+				#[ cfg ( feature = "vonuvoli_values_array" ) ]
+				#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 				ValueKindMatchAsRef2::ArrayMutable (_, _) =>
 					true,
 				#[ cfg ( feature = "vonuvoli_values_values" ) ]
@@ -661,7 +672,10 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 					false,
 				#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 				ValueKindMatchAsRef2::RecordKind (_, _) |
-				ValueKindMatchAsRef2::RecordImmutable (_, _) |
+				ValueKindMatchAsRef2::RecordImmutable (_, _) =>
+					false,
+				#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+				#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 				ValueKindMatchAsRef2::RecordMutable (_, _) =>
 					false,
 				#[ cfg ( feature = "vonuvoli_values_contexts" ) ]

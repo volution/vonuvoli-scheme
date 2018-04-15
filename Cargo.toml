@@ -171,6 +171,7 @@ vonuvoli_values_all = [
 	"vonuvoli_values_lambda",
 	"vonuvoli_values_extended",
 	"vonuvoli_values_native",
+	"vonuvoli_values_mutable",
 ]
 vonuvoli_values_string = []
 vonuvoli_values_bytes = []
@@ -184,6 +185,7 @@ vonuvoli_values_opaque = []
 vonuvoli_values_lambda = []
 vonuvoli_values_extended = []
 vonuvoli_values_native = []
+vonuvoli_values_mutable = []
 
 vonuvoli_builtins_all = [
 	"vonuvoli_builtins_parameters",
@@ -268,6 +270,7 @@ vonuvoli_features_all = [
 	"vonuvoli_values_lambda",
 	"vonuvoli_values_extended",
 	"vonuvoli_values_native",
+	"vonuvoli_values_mutable",
 	
 	"vonuvoli_builtins_parameters",
 	"vonuvoli_builtins_promises",

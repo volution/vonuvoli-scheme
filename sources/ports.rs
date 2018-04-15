@@ -201,6 +201,7 @@ impl Port {
 	}
 	
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_bytes_reader_from_bytes_mutable (buffer : StdRc<StdRefCell<BytesMutableInternals>>, range_start : usize, range_end : Option<usize>) -> (Outcome<Port>) {
 		let backend = try! (PortBackendBytesReader::new_from_bytes_mutable (buffer, range_start, range_end));
@@ -217,6 +218,7 @@ impl Port {
 	}
 	
 	#[ cfg ( feature = "vonuvoli_values_string" ) ]
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_bytes_reader_from_string_mutable (buffer : StdRc<StdRefCell<StringMutableInternals>>, range_start : usize, range_end : Option<usize>) -> (Outcome<Port>) {
 		let backend = try! (PortBackendBytesReader::new_from_string_mutable (buffer, range_start, range_end));

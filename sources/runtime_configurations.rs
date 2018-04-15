@@ -7,17 +7,23 @@ pub mod exports {
 
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 pub const DEFAULT_NEW_IMMUTABLE : bool = cfg! (feature = "vonuvoli_new_immutable");
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 pub const STRING_NEW_IMMUTABLE : bool = DEFAULT_NEW_IMMUTABLE && true;
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 pub const BYTES_NEW_IMMUTABLE : bool = DEFAULT_NEW_IMMUTABLE && true;
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 pub const ARRAY_NEW_IMMUTABLE : bool = DEFAULT_NEW_IMMUTABLE && true;
 #[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 pub const RECORD_NEW_IMMUTABLE : bool = DEFAULT_NEW_IMMUTABLE && true;
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 pub const PAIR_NEW_IMMUTABLE : bool = DEFAULT_NEW_IMMUTABLE && true;
 
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]

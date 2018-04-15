@@ -48,10 +48,12 @@ impl fmt::Display for Value {
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ValueKindMatchAsRef::StringImmutable (self_0) => self_0.fmt (formatter),
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ValueKindMatchAsRef::StringMutable (self_0) => self_0.fmt (formatter),
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			ValueKindMatchAsRef::BytesImmutable (self_0) => self_0.fmt (formatter),
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ValueKindMatchAsRef::BytesMutable (self_0) => self_0.fmt (formatter),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
@@ -62,10 +64,12 @@ impl fmt::Display for Value {
 			ValueKindMatchAsRef::BytesRegex (self_0) => self_0.fmt (formatter),
 			
 			ValueKindMatchAsRef::PairImmutable (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ValueKindMatchAsRef::PairMutable (self_0) => self_0.fmt (formatter),
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			ValueKindMatchAsRef::ArrayImmutable (self_0) => self_0.fmt (formatter),
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ValueKindMatchAsRef::ArrayMutable (self_0) => self_0.fmt (formatter),
 			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			ValueKindMatchAsRef::Values (self_0) => self_0.fmt (formatter),
@@ -75,6 +79,7 @@ impl fmt::Display for Value {
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			ValueKindMatchAsRef::RecordImmutable (self_0) => self_0.fmt (formatter),
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ValueKindMatchAsRef::RecordMutable (self_0) => self_0.fmt (formatter),
 			
 			#[ cfg ( feature = "vonuvoli_values_error" ) ]
@@ -147,10 +152,12 @@ impl fmt::Debug for Value {
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ValueKindMatchAsRef::StringImmutable (self_0) => self_0.fmt (formatter),
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ValueKindMatchAsRef::StringMutable (self_0) => self_0.fmt (formatter),
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			ValueKindMatchAsRef::BytesImmutable (self_0) => self_0.fmt (formatter),
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ValueKindMatchAsRef::BytesMutable (self_0) => self_0.fmt (formatter),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
@@ -161,10 +168,12 @@ impl fmt::Debug for Value {
 			ValueKindMatchAsRef::BytesRegex (self_0) => self_0.fmt (formatter),
 			
 			ValueKindMatchAsRef::PairImmutable (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ValueKindMatchAsRef::PairMutable (self_0) => self_0.fmt (formatter),
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			ValueKindMatchAsRef::ArrayImmutable (self_0) => self_0.fmt (formatter),
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ValueKindMatchAsRef::ArrayMutable (self_0) => self_0.fmt (formatter),
 			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			ValueKindMatchAsRef::Values (self_0) => self_0.fmt (formatter),
@@ -174,6 +183,7 @@ impl fmt::Debug for Value {
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			ValueKindMatchAsRef::RecordImmutable (self_0) => self_0.fmt (formatter),
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ValueKindMatchAsRef::RecordMutable (self_0) => self_0.fmt (formatter),
 			
 			#[ cfg ( feature = "vonuvoli_values_error" ) ]
@@ -435,6 +445,7 @@ impl fmt::Display for StringImmutable {
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 impl fmt::Display for StringMutable {
 	
 	#[ inline (never) ]
@@ -477,6 +488,7 @@ impl fmt::Display for BytesImmutable {
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 impl fmt::Display for BytesMutable {
 	
 	#[ inline (never) ]
@@ -541,6 +553,7 @@ impl fmt::Display for PairImmutable {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 impl fmt::Display for PairMutable {
 	
 	#[ inline (never) ]
@@ -560,6 +573,7 @@ fn pair_fmt (pair : PairRef, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ allow (unused_variables) ]
 fn pair_fmt_0 (head : (&Value, &Value), cursor : (&Value, &Value), formatter : &mut fmt::Formatter) -> (fmt::Result) {
 	let mut cursor = cursor;
 	loop {
@@ -579,6 +593,7 @@ fn pair_fmt_0 (head : (&Value, &Value), cursor : (&Value, &Value), formatter : &
 				cursor = pair.left_and_right ();
 			},
 			
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ListMatchAsRef::PairMutable (pair) => {
 				try! (formatter.write_char (' '));
 				let pair = try_or_return! (pair.pair_ref (), Err (fmt::Error::default ()));
@@ -621,6 +636,7 @@ impl fmt::Display for ArrayImmutable {
 }
 
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 impl fmt::Display for ArrayMutable {
 	
 	#[ inline (never) ]
@@ -711,6 +727,7 @@ impl fmt::Display for RecordImmutable {
 }
 
 #[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 impl fmt::Display for RecordMutable {
 	
 	#[ inline (never) ]

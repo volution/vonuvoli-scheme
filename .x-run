@@ -290,6 +290,7 @@ cat <<'EOS-31f6e6b1'
 	|	vonuvoli_values_extended
 	|	vonuvoli_values_keyword
 	|	vonuvoli_values_lambda
+	|	vonuvoli_values_mutable
 	|	vonuvoli_values_native
 	|	vonuvoli_values_opaque
 	|	vonuvoli_values_string

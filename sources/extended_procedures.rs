@@ -55,8 +55,10 @@ pub enum ProcedureExtendedInternals {
 	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	RecordGetX (Option<RecordKind>, Value),
 	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	RecordSet (Option<RecordKind>, usize),
 	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	RecordSetX (Option<RecordKind>, Value),
 	
 	Constant (Value, bool),
@@ -189,10 +191,12 @@ pub fn procedure_extended_evaluate_2 (extended : &ProcedureExtended, input_1 : &
 			return record_build_2 (kind, option_box_as_ref (fields), input_1, input_2, immutable),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ProcedureExtendedInternals::RecordSet (ref kind, field) =>
 			return record_set (kind.as_ref (), field, input_1, input_2),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ProcedureExtendedInternals::RecordSetX (ref kind, ref field) =>
 			return record_set_x (kind.as_ref (), field, input_1, input_2),
 		
@@ -351,10 +355,12 @@ pub fn procedure_extended_evaluate_n (extended : &ProcedureExtended, inputs : &[
 			return record_get_x (kind.as_ref (), field, inputs[0]),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		(2, &ProcedureExtendedInternals::RecordSet (ref kind, field)) =>
 			return record_set (kind.as_ref (), field, inputs[0], inputs[1]),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		(2, &ProcedureExtendedInternals::RecordSetX (ref kind, ref field)) =>
 			return record_set_x (kind.as_ref (), field, inputs[0], inputs[1]),
 		

@@ -171,7 +171,13 @@ impl Compiler {
 				return self.compile_syntax_quote_0 (compilation, value.into ()),
 			
 			ValueClassMatchInto::Pair (class) =>
-				return self.compile_form (compilation, try! (class.into_immutable ())),
+				match class {
+					PairMatchInto::Immutable (value) =>
+						return self.compile_form (compilation, value),
+					#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+					PairMatchInto::Mutable (value) =>
+						return self.compile_form (compilation, try! (value.into_immutable ())),
+				},
 			
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			ValueClassMatchInto::Array (class) =>
@@ -995,6 +1001,7 @@ impl Compiler {
 				fail! (0xf38dbfa0),
 			ValueKindMatchInto::PairImmutable (pair) =>
 				try! (vec_list_clone (&pair.into ())),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ValueKindMatchInto::PairMutable (pair) =>
 				try! (vec_list_clone (&pair.into ())),
 			_ =>
@@ -1109,6 +1116,7 @@ impl Compiler {
 				return self.compile_syntax_locals (compilation, statements),
 			ValueKindMatchInto::PairImmutable (pair) =>
 				try! (vec_list_clone (&pair.into ())),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ValueKindMatchInto::PairMutable (pair) =>
 				try! (vec_list_clone (&pair.into ())),
 			_ =>
@@ -1204,6 +1212,7 @@ impl Compiler {
 				StdVec::new (),
 			ValueKindMatchInto::PairImmutable (pair) =>
 				try! (vec_list_clone (&pair.into ())),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ValueKindMatchInto::PairMutable (pair) =>
 				try! (vec_list_clone (&pair.into ())),
 			_ =>
@@ -1929,14 +1938,19 @@ impl Compiler {
 				statements.push (expression);
 				compilation = compilation_1;
 			}
-			if let Some (ref field_mutator_identifier) = *field_mutator_identifier {
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			{ if let Some (ref field_mutator_identifier) = *field_mutator_identifier {
 				let (compilation_1, field_mutator_binding) = try! (compilation.define (field_mutator_identifier.clone ()));
 				let type_binding_get = try! (self.compile_syntax_binding_get (type_binding.clone ()));
 				let expression = ExpressionForProcedureGenericCall::ProcedureCall (RecordPrimitiveV::RecordSetFn.into (), StdBox::new ([type_binding_get, field_index.clone () .into ()])) .into ();
 				let expression = try! (self.compile_syntax_binding_set_1 (field_mutator_binding, expression, true));
 				statements.push (expression);
 				compilation = compilation_1;
-			}
+			} }
+			#[ cfg ( not ( feature = "vonuvoli_values_mutable" ) ) ]
+			{ if let Some (_) = *field_mutator_identifier {
+				fail! (0x0e100970);
+			} }
 		}
 		
 		let expression = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, statements.into_boxed_slice ());

@@ -954,8 +954,10 @@ def_value_try_as_ref! (try_as_string_immutable_ref, value_type! (StringImmutable
 def_value_try_into! (try_into_string_immutable, value_type! (StringImmutable));
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 def_value_try_as_ref! (try_as_string_mutable_ref, value_type! (StringMutable));
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 def_value_try_into! (try_into_string_mutable, value_type! (StringMutable));
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
@@ -964,8 +966,10 @@ def_value_try_as_ref! (try_as_bytes_immutable_ref, value_type! (BytesImmutable))
 def_value_try_into! (try_into_bytes_immutable, value_type! (BytesImmutable));
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 def_value_try_as_ref! (try_as_bytes_mutable_ref, value_type! (BytesMutable));
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 def_value_try_into! (try_into_bytes_mutable, value_type! (BytesMutable));
 
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
@@ -985,7 +989,9 @@ def_value_try_into! (try_into_bytes_regex, value_type! (BytesRegex));
 def_value_try_as_ref! (try_as_pair_immutable_ref, value_type! (PairImmutable));
 def_value_try_into! (try_into_pair_immutable, value_type! (PairImmutable));
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 def_value_try_as_ref! (try_as_pair_mutable_ref, value_type! (PairMutable));
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 def_value_try_into! (try_into_pair_mutable, value_type! (PairMutable));
 
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
@@ -994,8 +1000,10 @@ def_value_try_as_ref! (try_as_array_immutable_ref, value_type! (ArrayImmutable))
 def_value_try_into! (try_into_array_immutable, value_type! (ArrayImmutable));
 
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 def_value_try_as_ref! (try_as_array_mutable_ref, value_type! (ArrayMutable));
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 def_value_try_into! (try_into_array_mutable, value_type! (ArrayMutable));
 
 #[ cfg ( feature = "vonuvoli_values_values" ) ]
@@ -1003,13 +1011,21 @@ def_value_try_as_ref! (try_as_values_ref, value_type! (Values));
 #[ cfg ( feature = "vonuvoli_values_values" ) ]
 def_value_try_into! (try_into_values, value_type! (Values));
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 def_value_try_as_ref! (try_as_record_kind_ref, value_type! (RecordKind));
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 def_value_try_into! (try_into_record_kind, value_type! (RecordKind));
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 def_value_try_as_ref! (try_as_record_immutable_ref, value_type! (RecordImmutable));
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 def_value_try_into! (try_into_record_immutable, value_type! (RecordImmutable));
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 def_value_try_as_ref! (try_as_record_mutable_ref, value_type! (RecordMutable));
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 def_value_try_into! (try_into_record_mutable, value_type! (RecordMutable));
 
 #[ cfg ( feature = "vonuvoli_values_error" ) ]
@@ -1124,6 +1140,7 @@ macro_rules! try_as_array_ref {
 	};
 }
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 macro_rules! try_as_record_ref {
 	( $value : expr ) => {
 		try! ($crate::values::exports::RecordRef::try ($value))
@@ -1160,6 +1177,7 @@ macro_rules! try_as_array_as_ref {
 	};
 }
 
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 macro_rules! try_as_record_as_ref {
 	( $value : expr ) => {
 		try! ($crate::values::exports::RecordAsRef::try ($value))
