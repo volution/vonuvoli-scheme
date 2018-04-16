@@ -10,9 +10,12 @@ use super::prelude::*;
 
 
 pub mod exports {
-	pub use super::{Array, ArrayRef, ArrayAsRef, ArrayImmutable, ArrayMutable, ArrayMutableInternals};
+	pub use super::{Array, ArrayRef, ArrayAsRef, ArrayImmutable};
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	pub use super::{ArrayMutable, ArrayMutableInternals};
 	pub use super::{ArrayMatchAsRef, ArrayMatchInto, ArrayMatchAsRef2};
 	pub use super::{array_immutable_new, array_immutable_new_empty, array_immutable_clone_slice, array_immutable_clone_slice_ref};
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	pub use super::{array_mutable_new, array_mutable_new_empty, array_mutable_clone_slice, array_mutable_clone_slice_ref};
 	pub use super::{array_new, array_new_empty, array_clone_slice, array_clone_slice_ref};
 	pub use super::{ArrayIterator, ArrayIterators};
@@ -23,20 +26,25 @@ pub mod exports {
 
 pub enum ArrayMatchAsRef <'a> {
 	Immutable (&'a ArrayImmutable),
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	Mutable (&'a ArrayMutable),
 }
 
 
 pub enum ArrayMatchInto {
 	Immutable (ArrayImmutable),
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	Mutable (ArrayMutable),
 }
 
 
 pub enum ArrayMatchAsRef2 <'a> {
 	ImmutableBoth (&'a ArrayImmutable, &'a ArrayImmutable),
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	MutableBoth (&'a ArrayMutable, &'a ArrayMutable),
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	ImmutableAndMutable (&'a ArrayImmutable, &'a ArrayMutable),
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	MutableAndImmutable (&'a ArrayMutable, &'a ArrayImmutable),
 }
 
@@ -48,6 +56,7 @@ impl <'a> ArrayMatchAsRef<'a> {
 		match *self {
 			ArrayMatchAsRef::Immutable (value) =>
 				succeed! (value.array_ref ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ArrayMatchAsRef::Mutable (value) =>
 				return value.array_ref (),
 		}
@@ -58,6 +67,7 @@ impl <'a> ArrayMatchAsRef<'a> {
 		match self {
 			ArrayMatchAsRef::Immutable (value) =>
 				ArrayAsRef::Immutable (value),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ArrayMatchAsRef::Mutable (value) =>
 				ArrayAsRef::Mutable (value),
 		}
@@ -72,10 +82,13 @@ impl <'a> ArrayMatchAsRef2<'a> {
 		match *self {
 			ArrayMatchAsRef2::ImmutableBoth (left, right) =>
 				succeed! ((left.array_ref (), right.array_ref ())),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ArrayMatchAsRef2::MutableBoth (left, right) =>
 				succeed! ((try! (left.array_ref ()), try! (right.array_ref ()))),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ArrayMatchAsRef2::ImmutableAndMutable (left, right) =>
 				succeed! ((left.array_ref (), try! (right.array_ref ()))),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ArrayMatchAsRef2::MutableAndImmutable (left, right) =>
 				succeed! ((try! (left.array_ref ()), right.array_ref ())),
 		}
@@ -90,6 +103,7 @@ impl ArrayMatchInto {
 		match self {
 			ArrayMatchInto::Immutable (value) =>
 				value.into (),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ArrayMatchInto::Mutable (value) =>
 				value.into (),
 		}
@@ -134,6 +148,7 @@ pub trait Array {
 
 pub enum ArrayRef <'a> {
 	Immutable (&'a ArrayImmutable, &'a [Value]),
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	Mutable (&'a ArrayMutable, StdRef<'a, [Value]>),
 }
 
@@ -145,6 +160,7 @@ impl <'a> ArrayRef<'a> {
 		match value.kind_match_as_ref () {
 			ValueKindMatchAsRef::ArrayImmutable (value) =>
 				succeed! (value.array_ref ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ValueKindMatchAsRef::ArrayMutable (value) =>
 				return value.array_ref (),
 			_ =>
@@ -157,6 +173,7 @@ impl <'a> ArrayRef<'a> {
 		match *self {
 			ArrayRef::Immutable (value, _) =>
 				(*value) .clone () .into (),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ArrayRef::Mutable (value, _) =>
 				(*value) .clone () .into (),
 		}
@@ -164,9 +181,11 @@ impl <'a> ArrayRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &ArrayRef) -> (bool) {
+		#[ allow (unreachable_patterns) ]
 		match (self, other) {
 			(&ArrayRef::Immutable (self_0, _), &ArrayRef::Immutable (other_0, _)) =>
 				ArrayImmutable::is_self (self_0, other_0),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			(&ArrayRef::Mutable (self_0, _), &ArrayRef::Mutable (other_0, _)) =>
 				ArrayMutable::is_self (self_0, other_0),
 			_ =>
@@ -183,6 +202,7 @@ impl <'a> Array for ArrayRef<'a> {
 		match *self {
 			ArrayRef::Immutable (_, values) =>
 				values,
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ArrayRef::Mutable (_, ref values) =>
 				values,
 		}
@@ -194,6 +214,7 @@ impl <'a> Array for ArrayRef<'a> {
 
 pub enum ArrayAsRef <'a> {
 	Immutable (&'a ArrayImmutable),
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	Mutable (&'a ArrayMutable),
 }
 
@@ -205,6 +226,7 @@ impl <'a> ArrayAsRef<'a> {
 		match value.kind_match_as_ref () {
 			ValueKindMatchAsRef::ArrayImmutable (value) =>
 				succeed! (ArrayAsRef::Immutable (value)),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ValueKindMatchAsRef::ArrayMutable (value) =>
 				succeed! (ArrayAsRef::Mutable (value)),
 			_ =>
@@ -217,6 +239,7 @@ impl <'a> ArrayAsRef<'a> {
 		match *self {
 			ArrayAsRef::Immutable (value) =>
 				succeed! (value.array_ref ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ArrayAsRef::Mutable (value) =>
 				return value.array_ref (),
 		}
@@ -227,6 +250,7 @@ impl <'a> ArrayAsRef<'a> {
 		match *self {
 			ArrayAsRef::Immutable (value) =>
 				(*value) .clone () .into (),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ArrayAsRef::Mutable (value) =>
 				(*value) .clone () .into (),
 		}
@@ -237,11 +261,13 @@ impl <'a> ArrayAsRef<'a> {
 		match *self {
 			ArrayAsRef::Immutable (value) =>
 				succeed! (value.values_rc_clone ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ArrayAsRef::Mutable (value) =>
 				succeed! (try_or_fail! ((value.0) .as_ref () .try_borrow_mut (), 0xe525f806) .to_cow ()),
 		}
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn to_immutable (&self) -> (Outcome<ArrayImmutable>) {
 		match *self {
@@ -252,6 +278,7 @@ impl <'a> ArrayAsRef<'a> {
 		}
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn to_mutable (&self) -> (ArrayMutable) {
 		match *self {
@@ -264,9 +291,11 @@ impl <'a> ArrayAsRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &ArrayAsRef) -> (bool) {
+		#[ allow (unreachable_patterns) ]
 		match (self, other) {
 			(&ArrayAsRef::Immutable (self_0), &ArrayAsRef::Immutable (other_0)) =>
 				ArrayImmutable::is_self (self_0, other_0),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			(&ArrayAsRef::Mutable (self_0), &ArrayAsRef::Mutable (other_0)) =>
 				ArrayMutable::is_self (self_0, other_0),
 			_ =>
@@ -309,6 +338,7 @@ impl ArrayImmutable {
 		self.0.clone ()
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn to_mutable (&self) -> (ArrayMutable) {
 		ArrayMutable::from_rc (self.values_rc_clone ())
@@ -327,10 +357,12 @@ impl Array for ArrayImmutable {
 
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ derive (Clone, Debug) ]
 pub struct ArrayMutable ( StdRc<StdRefCell<ArrayMutableInternals>> );
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ derive (Debug) ]
 pub enum ArrayMutableInternals {
 	Owned (StdVec<Value>),
@@ -338,6 +370,7 @@ pub enum ArrayMutableInternals {
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 impl ArrayMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -375,6 +408,7 @@ impl ArrayMutable {
 		succeed! (reference);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn to_immutable (&self) -> (Outcome<ArrayImmutable>) {
 		let mut reference = try_or_fail! (self.0.as_ref () .try_borrow_mut (), 0x7a1c7802);
@@ -384,6 +418,7 @@ impl ArrayMutable {
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 impl ArrayMutableInternals {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -404,6 +439,7 @@ impl ArrayMutableInternals {
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 impl StdAsRef<[Value]> for ArrayMutableInternals {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -418,6 +454,7 @@ impl StdAsRef<[Value]> for ArrayMutableInternals {
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 impl StdAsRefMut<StdVec<Value>> for ArrayMutableInternals {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -446,6 +483,7 @@ pub fn array_immutable_new (values : StdVec<Value>) -> (ArrayImmutable) {
 	ArrayImmutable (StdRc::new (values.into_boxed_slice ()))
 }
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_mutable_new (values : StdVec<Value>) -> (ArrayMutable) {
 	let internals = ArrayMutableInternals::Owned (values);
@@ -454,11 +492,14 @@ pub fn array_mutable_new (values : StdVec<Value>) -> (ArrayMutable) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_new (values : StdVec<Value>) -> (Value) {
-	if ARRAY_NEW_IMMUTABLE {
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	{ if ARRAY_NEW_IMMUTABLE {
 		array_immutable_new (values) .into ()
 	} else {
 		array_mutable_new (values) .into ()
-	}
+	} }
+	#[ cfg ( not ( feature = "vonuvoli_values_mutable" ) ) ]
+	array_immutable_new (values) .into ()
 }
 
 
@@ -469,6 +510,7 @@ pub fn array_immutable_new_empty () -> (ArrayImmutable) {
 	array_immutable_new (StdVec::new ())
 }
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_mutable_new_empty () -> (ArrayMutable) {
 	array_mutable_new (StdVec::new ())
@@ -476,11 +518,14 @@ pub fn array_mutable_new_empty () -> (ArrayMutable) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_new_empty () -> (Value) {
-	if ARRAY_NEW_IMMUTABLE {
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	{ if ARRAY_NEW_IMMUTABLE {
 		array_immutable_new_empty () .into ()
 	} else {
 		array_mutable_new_empty () .into ()
-	}
+	} }
+	#[ cfg ( not ( feature = "vonuvoli_values_mutable" ) ) ]
+	array_immutable_new_empty () .into ()
 }
 
 
@@ -491,6 +536,7 @@ pub fn array_immutable_clone_slice (values : &[Value]) -> (ArrayImmutable) {
 	array_immutable_new (vec_clone_slice (values))
 }
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_mutable_clone_slice (values : &[Value]) -> (ArrayMutable) {
 	array_mutable_new (vec_clone_slice (values))
@@ -498,11 +544,14 @@ pub fn array_mutable_clone_slice (values : &[Value]) -> (ArrayMutable) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_clone_slice (values : &[Value]) -> (Value) {
-	if ARRAY_NEW_IMMUTABLE {
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	{ if ARRAY_NEW_IMMUTABLE {
 		array_immutable_clone_slice (values) .into ()
 	} else {
 		array_mutable_clone_slice (values) .into ()
-	}
+	} }
+	#[ cfg ( not ( feature = "vonuvoli_values_mutable" ) ) ]
+	array_immutable_clone_slice (values) .into ()
 }
 
 
@@ -513,6 +562,7 @@ pub fn array_immutable_clone_slice_ref (values : &[&Value]) -> (ArrayImmutable) 
 	array_immutable_new (vec_clone_slice_ref (values))
 }
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_mutable_clone_slice_ref (values : &[&Value]) -> (ArrayMutable) {
 	array_mutable_new (vec_clone_slice_ref (values))
@@ -520,11 +570,14 @@ pub fn array_mutable_clone_slice_ref (values : &[&Value]) -> (ArrayMutable) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_clone_slice_ref (values : &[&Value]) -> (Value) {
-	if ARRAY_NEW_IMMUTABLE {
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	{ if ARRAY_NEW_IMMUTABLE {
 		array_immutable_clone_slice_ref (values) .into ()
 	} else {
 		array_mutable_clone_slice_ref (values) .into ()
-	}
+	} }
+	#[ cfg ( not ( feature = "vonuvoli_values_mutable" ) ) ]
+	array_immutable_clone_slice_ref (values) .into ()
 }
 
 

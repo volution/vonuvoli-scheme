@@ -11,9 +11,12 @@ use super::prelude::*;
 
 
 pub mod exports {
-	pub use super::{Record, RecordRef, RecordAsRef, RecordKind, RecordKindInternals, RecordImmutable, RecordMutable, RecordMutableInternals};
+	pub use super::{Record, RecordRef, RecordAsRef, RecordKind, RecordKindInternals, RecordImmutable};
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	pub use super::{RecordMutable, RecordMutableInternals};
 	pub use super::{RecordMatchAsRef, RecordMatchInto, RecordMatchAsRef2};
 	pub use super::{record_immutable_new, record_immutable_clone_slice, record_immutable_clone_slice_ref};
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	pub use super::{record_mutable_new, record_mutable_clone_slice, record_mutable_clone_slice_ref};
 	pub use super::{record_new, record_clone_slice, record_clone_slice_ref};
 }
@@ -23,20 +26,25 @@ pub mod exports {
 
 pub enum RecordMatchAsRef <'a> {
 	Immutable (&'a RecordImmutable),
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	Mutable (&'a RecordMutable),
 }
 
 
 pub enum RecordMatchInto {
 	Immutable (RecordImmutable),
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	Mutable (RecordMutable),
 }
 
 
 pub enum RecordMatchAsRef2 <'a> {
 	ImmutableBoth (&'a RecordImmutable, &'a RecordImmutable),
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	MutableBoth (&'a RecordMutable, &'a RecordMutable),
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	ImmutableAndMutable (&'a RecordImmutable, &'a RecordMutable),
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	MutableAndImmutable (&'a RecordMutable, &'a RecordImmutable),
 }
 
@@ -48,6 +56,7 @@ impl <'a> RecordMatchAsRef<'a> {
 		match *self {
 			RecordMatchAsRef::Immutable (value) =>
 				succeed! (value.record_ref ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			RecordMatchAsRef::Mutable (value) =>
 				return value.record_ref (),
 		}
@@ -58,6 +67,7 @@ impl <'a> RecordMatchAsRef<'a> {
 		match self {
 			RecordMatchAsRef::Immutable (value) =>
 				RecordAsRef::Immutable (value),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			RecordMatchAsRef::Mutable (value) =>
 				RecordAsRef::Mutable (value),
 		}
@@ -72,10 +82,13 @@ impl <'a> RecordMatchAsRef2<'a> {
 		match *self {
 			RecordMatchAsRef2::ImmutableBoth (left, right) =>
 				succeed! ((left.record_ref (), right.record_ref ())),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			RecordMatchAsRef2::MutableBoth (left, right) =>
 				succeed! ((try! (left.record_ref ()), try! (right.record_ref ()))),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			RecordMatchAsRef2::ImmutableAndMutable (left, right) =>
 				succeed! ((left.record_ref (), try! (right.record_ref ()))),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			RecordMatchAsRef2::MutableAndImmutable (left, right) =>
 				succeed! ((try! (left.record_ref ()), right.record_ref ())),
 		}
@@ -90,6 +103,7 @@ impl RecordMatchInto {
 		match self {
 			RecordMatchInto::Immutable (value) =>
 				value.into (),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			RecordMatchInto::Mutable (value) =>
 				value.into (),
 		}
@@ -126,6 +140,7 @@ pub trait Record {
 
 pub enum RecordRef <'a> {
 	Immutable (&'a RecordImmutable, &'a RecordKind, &'a [Value]),
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	Mutable (&'a RecordMutable, &'a RecordKind, StdRef<'a, [Value]>),
 }
 
@@ -137,6 +152,7 @@ impl <'a> RecordRef<'a> {
 		match value.kind_match_as_ref () {
 			ValueKindMatchAsRef::RecordImmutable (value) =>
 				succeed! (value.record_ref ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ValueKindMatchAsRef::RecordMutable (value) =>
 				return value.record_ref (),
 			_ =>
@@ -149,6 +165,7 @@ impl <'a> RecordRef<'a> {
 		match *self {
 			RecordRef::Immutable (value, _, _) =>
 				(*value) .clone () .into (),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			RecordRef::Mutable (value, _, _) =>
 				(*value) .clone () .into (),
 		}
@@ -156,9 +173,11 @@ impl <'a> RecordRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &RecordRef) -> (bool) {
+		#[ allow (unreachable_patterns) ]
 		match (self, other) {
 			(&RecordRef::Immutable (self_0, _, _), &RecordRef::Immutable (other_0, _, _)) =>
 				RecordImmutable::is_self (self_0, other_0),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			(&RecordRef::Mutable (self_0, _, _), &RecordRef::Mutable (other_0, _, _)) =>
 				RecordMutable::is_self (self_0, other_0),
 			_ =>
@@ -175,6 +194,7 @@ impl <'a> Record for RecordRef<'a> {
 		match *self {
 			RecordRef::Immutable (_, kind, _) =>
 				kind,
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			RecordRef::Mutable (_, kind, _) =>
 				kind,
 		}
@@ -185,6 +205,7 @@ impl <'a> Record for RecordRef<'a> {
 		match *self {
 			RecordRef::Immutable (_, _, values) =>
 				values,
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			RecordRef::Mutable (_, _, ref values) =>
 				values,
 		}
@@ -196,6 +217,7 @@ impl <'a> Record for RecordRef<'a> {
 
 pub enum RecordAsRef <'a> {
 	Immutable (&'a RecordImmutable),
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	Mutable (&'a RecordMutable),
 }
 
@@ -207,6 +229,7 @@ impl <'a> RecordAsRef<'a> {
 		match value.kind_match_as_ref () {
 			ValueKindMatchAsRef::RecordImmutable (value) =>
 				succeed! (RecordAsRef::Immutable (value)),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ValueKindMatchAsRef::RecordMutable (value) =>
 				succeed! (RecordAsRef::Mutable (value)),
 			_ =>
@@ -219,6 +242,7 @@ impl <'a> RecordAsRef<'a> {
 		match *self {
 			RecordAsRef::Immutable (value) =>
 				succeed! (value.record_ref ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			RecordAsRef::Mutable (value) =>
 				return value.record_ref (),
 		}
@@ -229,6 +253,7 @@ impl <'a> RecordAsRef<'a> {
 		match *self {
 			RecordAsRef::Immutable (value) =>
 				(*value) .clone () .into (),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			RecordAsRef::Mutable (value) =>
 				(*value) .clone () .into (),
 		}
@@ -239,11 +264,13 @@ impl <'a> RecordAsRef<'a> {
 		match *self {
 			RecordAsRef::Immutable (value) =>
 				succeed! (value.values_rc_clone ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			RecordAsRef::Mutable (value) =>
 				succeed! (try_or_fail! (((value.0).1) .as_ref () .try_borrow_mut (), 0x2b6ee4f1) .to_cow ()),
 		}
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn to_immutable (&self) -> (Outcome<RecordImmutable>) {
 		match *self {
@@ -254,6 +281,7 @@ impl <'a> RecordAsRef<'a> {
 		}
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn to_mutable (&self) -> (RecordMutable) {
 		match *self {
@@ -266,9 +294,11 @@ impl <'a> RecordAsRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &RecordAsRef) -> (bool) {
+		#[ allow (unreachable_patterns) ]
 		match (self, other) {
 			(&RecordAsRef::Immutable (self_0), &RecordAsRef::Immutable (other_0)) =>
 				RecordImmutable::is_self (self_0, other_0),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			(&RecordAsRef::Mutable (self_0), &RecordAsRef::Mutable (other_0)) =>
 				RecordMutable::is_self (self_0, other_0),
 			_ =>
@@ -414,6 +444,7 @@ impl RecordImmutable {
 		(self.0).1.clone ()
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn to_mutable (&self) -> (RecordMutable) {
 		RecordMutable::from_rc (&(self.0).0, self.values_rc_clone ())
@@ -437,10 +468,12 @@ impl Record for RecordImmutable {
 
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ derive (Clone, Debug) ]
 pub struct RecordMutable ( StdRc<(RecordKind, StdRc<StdRefCell<RecordMutableInternals>>)> );
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ derive (Debug) ]
 pub enum RecordMutableInternals {
 	Owned (StdVec<Value>),
@@ -448,6 +481,7 @@ pub enum RecordMutableInternals {
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 impl RecordMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -486,6 +520,7 @@ impl RecordMutable {
 		succeed! (reference);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn to_immutable (&self) -> (Outcome<RecordImmutable>) {
 		let mut reference = try_or_fail! ((self.0).1.as_ref () .try_borrow_mut (), 0xe88d42b2);
@@ -495,6 +530,7 @@ impl RecordMutable {
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 impl RecordMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -509,6 +545,7 @@ impl RecordMutable {
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 impl RecordMutableInternals {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -529,6 +566,7 @@ impl RecordMutableInternals {
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 impl StdAsRef<[Value]> for RecordMutableInternals {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -543,6 +581,7 @@ impl StdAsRef<[Value]> for RecordMutableInternals {
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 impl StdAsRefMut<StdVec<Value>> for RecordMutableInternals {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -576,6 +615,7 @@ pub fn record_immutable_new (kind : &RecordKind, values : StdVec<Value>) -> (Out
 	succeed! (record);
 }
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_mutable_new (kind : &RecordKind, values : StdVec<Value>) -> (Outcome<RecordMutable>) {
 	if kind.values_count () != values.len () {
@@ -588,12 +628,16 @@ pub fn record_mutable_new (kind : &RecordKind, values : StdVec<Value>) -> (Outco
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ allow (unused_variables) ]
 pub fn record_new (kind : &RecordKind, values : StdVec<Value>, immutable : Option<bool>) -> (Outcome<Value>) {
-	if immutable.unwrap_or (RECORD_NEW_IMMUTABLE) {
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	{ if immutable.unwrap_or (RECORD_NEW_IMMUTABLE) {
 		succeed! (try! (record_immutable_new (kind, values)) .into ());
 	} else {
 		succeed! (try! (record_mutable_new (kind, values)) .into ());
-	}
+	} }
+	#[ cfg ( not ( feature = "vonuvoli_values_mutable" ) ) ]
+	succeed! (try! (record_immutable_new (kind, values)) .into ());
 }
 
 
@@ -604,18 +648,23 @@ pub fn record_immutable_clone_slice (kind : &RecordKind, values : &[Value]) -> (
 	record_immutable_new (kind, vec_clone_slice (values))
 }
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_mutable_clone_slice (kind : &RecordKind, values : &[Value]) -> (Outcome<RecordMutable>) {
 	record_mutable_new (kind, vec_clone_slice (values))
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ allow (unused_variables) ]
 pub fn record_clone_slice (kind : &RecordKind, values : &[Value], immutable : Option<bool>) -> (Outcome<Value>) {
-	if immutable.unwrap_or (RECORD_NEW_IMMUTABLE) {
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	{ if immutable.unwrap_or (RECORD_NEW_IMMUTABLE) {
 		succeed! (try! (record_immutable_clone_slice (kind, values)) .into ());
 	} else {
 		succeed! (try! (record_mutable_clone_slice (kind, values)) .into ());
-	}
+	} }
+	#[ cfg ( not ( feature = "vonuvoli_values_mutable" ) ) ]
+	succeed! (try! (record_immutable_clone_slice (kind, values)) .into ());
 }
 
 
@@ -626,17 +675,22 @@ pub fn record_immutable_clone_slice_ref (kind : &RecordKind, values : &[&Value])
 	record_immutable_new (kind, vec_clone_slice_ref (values))
 }
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_mutable_clone_slice_ref (kind : &RecordKind, values : &[&Value]) -> (Outcome<RecordMutable>) {
 	record_mutable_new (kind, vec_clone_slice_ref (values))
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ allow (unused_variables) ]
 pub fn record_clone_slice_ref (kind : &RecordKind, values : &[&Value], immutable : Option<bool>) -> (Outcome<Value>) {
-	if immutable.unwrap_or (RECORD_NEW_IMMUTABLE) {
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	{ if immutable.unwrap_or (RECORD_NEW_IMMUTABLE) {
 		succeed! (try! (record_immutable_clone_slice_ref (kind, values)) .into ());
 	} else {
 		succeed! (try! (record_mutable_clone_slice_ref (kind, values)) .into ());
-	}
+	} }
+	#[ cfg ( not ( feature = "vonuvoli_values_mutable" ) ) ]
+	succeed! (try! (record_immutable_clone_slice_ref (kind, values)) .into ());
 }
 

@@ -11,9 +11,12 @@ use super::prelude::*;
 
 
 pub mod exports {
-	pub use super::{String, StringRef, StringAsRef, StringImmutable, StringMutable, StringMutableInternals};
+	pub use super::{String, StringRef, StringAsRef, StringImmutable};
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	pub use super::{StringMutable, StringMutableInternals};
 	pub use super::{StringMatchAsRef, StringMatchInto, StringMatchAsRef2};
 	pub use super::{string_immutable_new, string_immutable_new_empty, string_immutable_clone_str, string_immutable_clone_characters};
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	pub use super::{string_mutable_new, string_mutable_new_empty, string_mutable_clone_str, string_mutable_clone_characters};
 	pub use super::{string_new, string_new_empty, string_clone_str, string_clone_characters};
 	pub use super::{StringIterator, StringIterators};
@@ -24,20 +27,25 @@ pub mod exports {
 
 pub enum StringMatchAsRef <'a> {
 	Immutable (&'a StringImmutable),
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	Mutable (&'a StringMutable),
 }
 
 
 pub enum StringMatchInto {
 	Immutable (StringImmutable),
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	Mutable (StringMutable),
 }
 
 
 pub enum StringMatchAsRef2 <'a> {
 	ImmutableBoth (&'a StringImmutable, &'a StringImmutable),
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	MutableBoth (&'a StringMutable, &'a StringMutable),
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	ImmutableAndMutable (&'a StringImmutable, &'a StringMutable),
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	MutableAndImmutable (&'a StringMutable, &'a StringImmutable),
 }
 
@@ -49,6 +57,7 @@ impl <'a> StringMatchAsRef<'a> {
 		match *self {
 			StringMatchAsRef::Immutable (value) =>
 				succeed! (value.string_ref ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			StringMatchAsRef::Mutable (value) =>
 				return value.string_ref (),
 		}
@@ -59,6 +68,7 @@ impl <'a> StringMatchAsRef<'a> {
 		match self {
 			StringMatchAsRef::Immutable (value) =>
 				StringAsRef::Immutable (value),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			StringMatchAsRef::Mutable (value) =>
 				StringAsRef::Mutable (value),
 		}
@@ -73,10 +83,13 @@ impl <'a> StringMatchAsRef2<'a> {
 		match *self {
 			StringMatchAsRef2::ImmutableBoth (left, right) =>
 				succeed! ((left.string_ref (), right.string_ref ())),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			StringMatchAsRef2::MutableBoth (left, right) =>
 				succeed! ((try! (left.string_ref ()), try! (right.string_ref ()))),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			StringMatchAsRef2::ImmutableAndMutable (left, right) =>
 				succeed! ((left.string_ref (), try! (right.string_ref ()))),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			StringMatchAsRef2::MutableAndImmutable (left, right) =>
 				succeed! ((try! (left.string_ref ()), right.string_ref ())),
 		}
@@ -91,6 +104,7 @@ impl StringMatchInto {
 		match self {
 			StringMatchInto::Immutable (value) =>
 				value.into (),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			StringMatchInto::Mutable (value) =>
 				value.into (),
 		}
@@ -155,6 +169,7 @@ pub trait String {
 
 pub enum StringRef <'a> {
 	Immutable (&'a StringImmutable, &'a str),
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	Mutable (&'a StringMutable, StdRef<'a, str>),
 }
 
@@ -166,6 +181,7 @@ impl <'a> StringRef<'a> {
 		match value.kind_match_as_ref () {
 			ValueKindMatchAsRef::StringImmutable (value) =>
 				succeed! (value.string_ref ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ValueKindMatchAsRef::StringMutable (value) =>
 				return value.string_ref (),
 			_ =>
@@ -178,6 +194,7 @@ impl <'a> StringRef<'a> {
 		match *self {
 			StringRef::Immutable (value, _) =>
 				(*value) .clone () .into (),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			StringRef::Mutable (value, _) =>
 				(*value) .clone () .into (),
 		}
@@ -185,9 +202,11 @@ impl <'a> StringRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &StringRef) -> (bool) {
+		#[ allow (unreachable_patterns) ]
 		match (self, other) {
 			(&StringRef::Immutable (self_0, _), &StringRef::Immutable (other_0, _)) =>
 				StringImmutable::is_self (self_0, other_0),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			(&StringRef::Mutable (self_0, _), &StringRef::Mutable (other_0, _)) =>
 				StringMutable::is_self (self_0, other_0),
 			_ =>
@@ -204,6 +223,7 @@ impl <'a> String for StringRef<'a> {
 		match *self {
 			StringRef::Immutable (_, string) =>
 				string,
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			StringRef::Mutable (_, ref string) =>
 				string,
 		}
@@ -215,6 +235,7 @@ impl <'a> String for StringRef<'a> {
 
 pub enum StringAsRef <'a> {
 	Immutable (&'a StringImmutable),
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	Mutable (&'a StringMutable),
 }
 
@@ -226,6 +247,7 @@ impl <'a> StringAsRef<'a> {
 		match value.kind_match_as_ref () {
 			ValueKindMatchAsRef::StringImmutable (value) =>
 				succeed! (StringAsRef::Immutable (value)),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ValueKindMatchAsRef::StringMutable (value) =>
 				succeed! (StringAsRef::Mutable (value)),
 			_ =>
@@ -238,6 +260,7 @@ impl <'a> StringAsRef<'a> {
 		match *self {
 			StringAsRef::Immutable (value) =>
 				succeed! (value.string_ref ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			StringAsRef::Mutable (value) =>
 				return value.string_ref (),
 		}
@@ -248,6 +271,7 @@ impl <'a> StringAsRef<'a> {
 		match *self {
 			StringAsRef::Immutable (value) =>
 				(*value) .clone () .into (),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			StringAsRef::Mutable (value) =>
 				(*value) .clone () .into (),
 		}
@@ -258,11 +282,13 @@ impl <'a> StringAsRef<'a> {
 		match *self {
 			StringAsRef::Immutable (value) =>
 				succeed! (value.string_rc_clone ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			StringAsRef::Mutable (value) =>
 				succeed! (try_or_fail! ((value.0) .as_ref () .try_borrow_mut (), 0xf34ad2b8) .to_cow ()),
 		}
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn to_immutable (&self) -> (Outcome<StringImmutable>) {
 		match *self {
@@ -273,6 +299,7 @@ impl <'a> StringAsRef<'a> {
 		}
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn to_mutable (&self) -> (StringMutable) {
 		match *self {
@@ -285,9 +312,11 @@ impl <'a> StringAsRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &StringAsRef) -> (bool) {
+		#[ allow (unreachable_patterns) ]
 		match (self, other) {
 			(&StringAsRef::Immutable (self_0), &StringAsRef::Immutable (other_0)) =>
 				StringImmutable::is_self (self_0, other_0),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			(&StringAsRef::Mutable (self_0), &StringAsRef::Mutable (other_0)) =>
 				StringMutable::is_self (self_0, other_0),
 			_ =>
@@ -330,6 +359,7 @@ impl StringImmutable {
 		self.0.clone ()
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn to_mutable (&self) -> (StringMutable) {
 		StringMutable::from_rc (self.string_rc_clone ())
@@ -348,10 +378,12 @@ impl String for StringImmutable {
 
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ derive (Clone, Debug) ]
 pub struct StringMutable ( StdRc<StdRefCell<StringMutableInternals>> );
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ derive (Debug) ]
 pub enum StringMutableInternals {
 	Owned (StdString),
@@ -359,6 +391,7 @@ pub enum StringMutableInternals {
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 impl StringMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -396,6 +429,7 @@ impl StringMutable {
 		succeed! (reference);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn to_immutable (&self) -> (Outcome<StringImmutable>) {
 		let mut reference = try_or_fail! (self.0.as_ref () .try_borrow_mut (), 0xfb81994f);
@@ -405,6 +439,7 @@ impl StringMutable {
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 impl StringMutableInternals {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -425,6 +460,7 @@ impl StringMutableInternals {
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 impl StdAsRef<str> for StringMutableInternals {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -439,6 +475,7 @@ impl StdAsRef<str> for StringMutableInternals {
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 impl StdAsRefMut<StdString> for StringMutableInternals {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -467,6 +504,7 @@ pub fn string_immutable_new (string : StdString) -> (StringImmutable) {
 	StringImmutable (StdRc::new (string.into_boxed_str ()))
 }
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_mutable_new (string : StdString) -> (StringMutable) {
 	let internals = StringMutableInternals::Owned (string);
@@ -475,11 +513,14 @@ pub fn string_mutable_new (string : StdString) -> (StringMutable) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_new (string : StdString) -> (Value) {
-	if STRING_NEW_IMMUTABLE {
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	{ if STRING_NEW_IMMUTABLE {
 		string_immutable_new (string) .into ()
 	} else {
 		string_mutable_new (string) .into ()
-	}
+	} }
+	#[ cfg ( not ( feature = "vonuvoli_values_mutable" ) ) ]
+	string_immutable_new (string) .into ()
 }
 
 
@@ -490,6 +531,7 @@ pub fn string_immutable_new_empty () -> (StringImmutable) {
 	string_immutable_new (StdString::new ())
 }
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_mutable_new_empty () -> (StringMutable) {
 	string_mutable_new (StdString::new ())
@@ -497,11 +539,14 @@ pub fn string_mutable_new_empty () -> (StringMutable) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_new_empty () -> (Value) {
-	if STRING_NEW_IMMUTABLE {
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	{ if STRING_NEW_IMMUTABLE {
 		string_immutable_new_empty () .into ()
 	} else {
 		string_mutable_new_empty () .into ()
-	}
+	} }
+	#[ cfg ( not ( feature = "vonuvoli_values_mutable" ) ) ]
+	string_immutable_new_empty () .into ()
 }
 
 
@@ -512,6 +557,7 @@ pub fn string_immutable_clone_str (string : &str) -> (StringImmutable) {
 	string_immutable_new (StdString::from (string))
 }
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_mutable_clone_str (string : &str) -> (StringMutable) {
 	string_mutable_new (StdString::from (string))
@@ -519,11 +565,14 @@ pub fn string_mutable_clone_str (string : &str) -> (StringMutable) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_clone_str (string : &str) -> (Value) {
-	if STRING_NEW_IMMUTABLE {
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	{ if STRING_NEW_IMMUTABLE {
 		string_immutable_clone_str (string) .into ()
 	} else {
 		string_mutable_clone_str (string) .into ()
-	}
+	} }
+	#[ cfg ( not ( feature = "vonuvoli_values_mutable" ) ) ]
+	string_immutable_clone_str (string) .into ()
 }
 
 
@@ -534,6 +583,7 @@ pub fn string_immutable_clone_characters (characters : &[char]) -> (StringImmuta
 	string_immutable_new (unicode_utf8_chars_clone_string (characters))
 }
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_mutable_clone_characters (characters : &[char]) -> (StringMutable) {
 	string_mutable_new (unicode_utf8_chars_clone_string (characters))
@@ -541,11 +591,14 @@ pub fn string_mutable_clone_characters (characters : &[char]) -> (StringMutable)
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_clone_characters (characters : &[char]) -> (Value) {
-	if STRING_NEW_IMMUTABLE {
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	{ if STRING_NEW_IMMUTABLE {
 		string_immutable_clone_characters (characters) .into ()
 	} else {
 		string_mutable_clone_characters (characters) .into ()
-	}
+	} }
+	#[ cfg ( not ( feature = "vonuvoli_values_mutable" ) ) ]
+	string_immutable_clone_characters (characters) .into ()
 }
 
 

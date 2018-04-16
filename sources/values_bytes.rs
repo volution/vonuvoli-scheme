@@ -11,9 +11,12 @@ use super::prelude::*;
 
 
 pub mod exports {
-	pub use super::{Bytes, BytesRef, BytesAsRef, BytesImmutable, BytesMutable, BytesMutableInternals};
+	pub use super::{Bytes, BytesRef, BytesAsRef, BytesImmutable};
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	pub use super::{BytesMutable, BytesMutableInternals};
 	pub use super::{BytesMatchAsRef, BytesMatchInto, BytesMatchAsRef2};
 	pub use super::{bytes_immutable_new, bytes_immutable_new_empty, bytes_immutable_clone_slice, bytes_immutable_clone_str, bytes_immutable_clone_characters};
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	pub use super::{bytes_mutable_new, bytes_mutable_new_empty, bytes_mutable_clone_slice, bytes_mutable_clone_str, bytes_mutable_clone_characters};
 	pub use super::{bytes_new, bytes_new_empty, bytes_clone_slice, bytes_clone_str, bytes_clone_characters};
 	pub use super::{BytesIterator, BytesIterators};
@@ -24,20 +27,25 @@ pub mod exports {
 
 pub enum BytesMatchAsRef <'a> {
 	Immutable (&'a BytesImmutable),
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	Mutable (&'a BytesMutable),
 }
 
 
 pub enum BytesMatchInto {
 	Immutable (BytesImmutable),
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	Mutable (BytesMutable),
 }
 
 
 pub enum BytesMatchAsRef2 <'a> {
 	ImmutableBoth (&'a BytesImmutable, &'a BytesImmutable),
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	MutableBoth (&'a BytesMutable, &'a BytesMutable),
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	ImmutableAndMutable (&'a BytesImmutable, &'a BytesMutable),
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	MutableAndImmutable (&'a BytesMutable, &'a BytesImmutable),
 }
 
@@ -49,6 +57,7 @@ impl <'a> BytesMatchAsRef<'a> {
 		match *self {
 			BytesMatchAsRef::Immutable (value) =>
 				succeed! (value.bytes_ref ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			BytesMatchAsRef::Mutable (value) =>
 				return value.bytes_ref (),
 		}
@@ -59,6 +68,7 @@ impl <'a> BytesMatchAsRef<'a> {
 		match self {
 			BytesMatchAsRef::Immutable (value) =>
 				BytesAsRef::Immutable (value),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			BytesMatchAsRef::Mutable (value) =>
 				BytesAsRef::Mutable (value),
 		}
@@ -73,10 +83,13 @@ impl <'a> BytesMatchAsRef2<'a> {
 		match *self {
 			BytesMatchAsRef2::ImmutableBoth (left, right) =>
 				succeed! ((left.bytes_ref (), right.bytes_ref ())),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			BytesMatchAsRef2::MutableBoth (left, right) =>
 				succeed! ((try! (left.bytes_ref ()), try! (right.bytes_ref ()))),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			BytesMatchAsRef2::ImmutableAndMutable (left, right) =>
 				succeed! ((left.bytes_ref (), try! (right.bytes_ref ()))),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			BytesMatchAsRef2::MutableAndImmutable (left, right) =>
 				succeed! ((try! (left.bytes_ref ()), right.bytes_ref ())),
 		}
@@ -91,6 +104,7 @@ impl BytesMatchInto {
 		match self {
 			BytesMatchInto::Immutable (value) =>
 				value.into (),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			BytesMatchInto::Mutable (value) =>
 				value.into (),
 		}
@@ -135,6 +149,7 @@ pub trait Bytes {
 
 pub enum BytesRef <'a> {
 	Immutable (&'a BytesImmutable, &'a [u8]),
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	Mutable (&'a BytesMutable, StdRef<'a, [u8]>),
 }
 
@@ -146,6 +161,7 @@ impl <'a> BytesRef<'a> {
 		match value.kind_match_as_ref () {
 			ValueKindMatchAsRef::BytesImmutable (value) =>
 				succeed! (value.bytes_ref ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ValueKindMatchAsRef::BytesMutable (value) =>
 				return value.bytes_ref (),
 			_ =>
@@ -158,6 +174,7 @@ impl <'a> BytesRef<'a> {
 		match *self {
 			BytesRef::Immutable (value, _) =>
 				(*value) .clone () .into (),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			BytesRef::Mutable (value, _) =>
 				(*value) .clone () .into (),
 		}
@@ -165,9 +182,11 @@ impl <'a> BytesRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &BytesRef) -> (bool) {
+		#[ allow (unreachable_patterns) ]
 		match (self, other) {
 			(&BytesRef::Immutable (self_0, _), &BytesRef::Immutable (other_0, _)) =>
 				BytesImmutable::is_self (self_0, other_0),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			(&BytesRef::Mutable (self_0, _), &BytesRef::Mutable (other_0, _)) =>
 				BytesMutable::is_self (self_0, other_0),
 			_ =>
@@ -184,6 +203,7 @@ impl <'a> Bytes for BytesRef<'a> {
 		match *self {
 			BytesRef::Immutable (_, bytes) =>
 				bytes,
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			BytesRef::Mutable (_, ref bytes) =>
 				bytes,
 		}
@@ -195,6 +215,7 @@ impl <'a> Bytes for BytesRef<'a> {
 
 pub enum BytesAsRef <'a> {
 	Immutable (&'a BytesImmutable),
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	Mutable (&'a BytesMutable),
 }
 
@@ -206,6 +227,7 @@ impl <'a> BytesAsRef<'a> {
 		match value.kind_match_as_ref () {
 			ValueKindMatchAsRef::BytesImmutable (value) =>
 				succeed! (BytesAsRef::Immutable (value)),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ValueKindMatchAsRef::BytesMutable (value) =>
 				succeed! (BytesAsRef::Mutable (value)),
 			_ =>
@@ -218,6 +240,7 @@ impl <'a> BytesAsRef<'a> {
 		match *self {
 			BytesAsRef::Immutable (value) =>
 				succeed! (value.bytes_ref ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			BytesAsRef::Mutable (value) =>
 				return value.bytes_ref (),
 		}
@@ -228,6 +251,7 @@ impl <'a> BytesAsRef<'a> {
 		match *self {
 			BytesAsRef::Immutable (value) =>
 				(*value) .clone () .into (),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			BytesAsRef::Mutable (value) =>
 				(*value) .clone () .into (),
 		}
@@ -238,11 +262,13 @@ impl <'a> BytesAsRef<'a> {
 		match *self {
 			BytesAsRef::Immutable (value) =>
 				succeed! (value.bytes_rc_clone ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			BytesAsRef::Mutable (value) =>
 				succeed! (try_or_fail! ((value.0) .as_ref () .try_borrow_mut (), 0x42fd45a6) .to_cow ()),
 		}
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn to_immutable (&self) -> (Outcome<BytesImmutable>) {
 		match *self {
@@ -253,6 +279,7 @@ impl <'a> BytesAsRef<'a> {
 		}
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn to_mutable (&self) -> (BytesMutable) {
 		match *self {
@@ -265,9 +292,11 @@ impl <'a> BytesAsRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &BytesAsRef) -> (bool) {
+		#[ allow (unreachable_patterns) ]
 		match (self, other) {
 			(&BytesAsRef::Immutable (self_0), &BytesAsRef::Immutable (other_0)) =>
 				BytesImmutable::is_self (self_0, other_0),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			(&BytesAsRef::Mutable (self_0), &BytesAsRef::Mutable (other_0)) =>
 				BytesMutable::is_self (self_0, other_0),
 			_ =>
@@ -310,6 +339,7 @@ impl BytesImmutable {
 		self.0.clone ()
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn to_mutable (&self) -> (BytesMutable) {
 		BytesMutable::from_rc (self.bytes_rc_clone ())
@@ -328,10 +358,12 @@ impl Bytes for BytesImmutable {
 
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ derive (Clone, Debug) ]
 pub struct BytesMutable ( StdRc<StdRefCell<BytesMutableInternals>> );
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ derive (Debug) ]
 pub enum BytesMutableInternals {
 	Owned (StdVec<u8>),
@@ -339,6 +371,7 @@ pub enum BytesMutableInternals {
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 impl BytesMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -376,6 +409,7 @@ impl BytesMutable {
 		succeed! (reference);
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn to_immutable (&self) -> (Outcome<BytesImmutable>) {
 		let mut reference = try_or_fail! (self.0.as_ref () .try_borrow_mut (), 0x46cd7c85);
@@ -385,6 +419,7 @@ impl BytesMutable {
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 impl BytesMutableInternals {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -405,6 +440,7 @@ impl BytesMutableInternals {
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 impl StdAsRef<[u8]> for BytesMutableInternals {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -419,6 +455,7 @@ impl StdAsRef<[u8]> for BytesMutableInternals {
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 impl StdAsRefMut<StdVec<u8>> for BytesMutableInternals {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -447,6 +484,7 @@ pub fn bytes_immutable_new (bytes : StdVec<u8>) -> (BytesImmutable) {
 	BytesImmutable (StdRc::new (bytes.into_boxed_slice ()))
 }
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_mutable_new (bytes : StdVec<u8>) -> (BytesMutable) {
 	let internals = BytesMutableInternals::Owned (bytes);
@@ -455,11 +493,14 @@ pub fn bytes_mutable_new (bytes : StdVec<u8>) -> (BytesMutable) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_new (bytes : StdVec<u8>) -> (Value) {
-	if BYTES_NEW_IMMUTABLE {
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	{ if BYTES_NEW_IMMUTABLE {
 		bytes_immutable_new (bytes) .into ()
 	} else {
 		bytes_mutable_new (bytes) .into ()
-	}
+	} }
+	#[ cfg ( not ( feature = "vonuvoli_values_mutable" ) ) ]
+	bytes_immutable_new (bytes) .into ()
 }
 
 
@@ -470,6 +511,7 @@ pub fn bytes_immutable_new_empty () -> (BytesImmutable) {
 	bytes_immutable_new (StdVec::new ())
 }
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_mutable_new_empty () -> (BytesMutable) {
 	bytes_mutable_new (StdVec::new ())
@@ -477,11 +519,14 @@ pub fn bytes_mutable_new_empty () -> (BytesMutable) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_new_empty () -> (Value) {
-	if BYTES_NEW_IMMUTABLE {
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	{ if BYTES_NEW_IMMUTABLE {
 		bytes_immutable_new_empty () .into ()
 	} else {
 		bytes_mutable_new_empty () .into ()
-	}
+	} }
+	#[ cfg ( not ( feature = "vonuvoli_values_mutable" ) ) ]
+	bytes_immutable_new_empty () .into ()
 }
 
 
@@ -492,6 +537,7 @@ pub fn bytes_immutable_clone_slice (bytes : &[u8]) -> (BytesImmutable) {
 	bytes_immutable_new (vec_clone_slice (bytes))
 }
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_mutable_clone_slice (bytes : &[u8]) -> (BytesMutable) {
 	bytes_mutable_new (vec_clone_slice (bytes))
@@ -499,11 +545,14 @@ pub fn bytes_mutable_clone_slice (bytes : &[u8]) -> (BytesMutable) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_clone_slice (bytes : &[u8]) -> (Value) {
-	if BYTES_NEW_IMMUTABLE {
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	{ if BYTES_NEW_IMMUTABLE {
 		bytes_immutable_clone_slice (bytes) .into ()
 	} else {
 		bytes_mutable_clone_slice (bytes) .into ()
-	}
+	} }
+	#[ cfg ( not ( feature = "vonuvoli_values_mutable" ) ) ]
+	bytes_immutable_clone_slice (bytes) .into ()
 }
 
 
@@ -514,6 +563,7 @@ pub fn bytes_immutable_clone_str (string : &str) -> (BytesImmutable) {
 	bytes_immutable_new (StdString::from (string) .into_bytes ())
 }
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_mutable_clone_str (string : &str) -> (BytesMutable) {
 	bytes_mutable_new (StdString::from (string) .into_bytes ())
@@ -521,11 +571,14 @@ pub fn bytes_mutable_clone_str (string : &str) -> (BytesMutable) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_clone_str (string : &str) -> (Value) {
-	if BYTES_NEW_IMMUTABLE {
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	{ if BYTES_NEW_IMMUTABLE {
 		bytes_immutable_clone_str (string) .into ()
 	} else {
 		bytes_mutable_clone_str (string) .into ()
-	}
+	} }
+	#[ cfg ( not ( feature = "vonuvoli_values_mutable" ) ) ]
+	bytes_immutable_clone_str (string) .into ()
 }
 
 
@@ -536,6 +589,7 @@ pub fn bytes_immutable_clone_characters (characters : &[char]) -> (BytesImmutabl
 	bytes_immutable_new (unicode_utf8_chars_clone_string (characters) .into_bytes ())
 }
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_mutable_clone_characters (characters : &[char]) -> (BytesMutable) {
 	bytes_mutable_new (unicode_utf8_chars_clone_string (characters) .into_bytes ())
@@ -543,11 +597,14 @@ pub fn bytes_mutable_clone_characters (characters : &[char]) -> (BytesMutable) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_clone_characters (characters : &[char]) -> (Value) {
-	if BYTES_NEW_IMMUTABLE {
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	{ if BYTES_NEW_IMMUTABLE {
 		bytes_immutable_clone_characters (characters) .into ()
 	} else {
 		bytes_mutable_clone_characters (characters) .into ()
-	}
+	} }
+	#[ cfg ( not ( feature = "vonuvoli_values_mutable" ) ) ]
+	bytes_immutable_clone_characters (characters) .into ()
 }
 
 
