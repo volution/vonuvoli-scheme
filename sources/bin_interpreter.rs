@@ -1,6 +1,7 @@
 
 
 #![ no_implicit_prelude ]
+#![ feature (stmt_expr_attributes) ]
 
 #[ macro_use ]
 extern crate vonuvoli_scheme;
