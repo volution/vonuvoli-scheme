@@ -72,7 +72,9 @@ pub enum BytesPrimitive1 {
 	BytesBuild,
 	BytesAppend,
 	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	BytesFill,
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	BytesReverse,
 	
 	BytesToList,
@@ -82,7 +84,9 @@ pub enum BytesPrimitive1 {
 	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ArrayToBytes,
 	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	BytesToImmutable,
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	BytesToMutable,
 	
 }
@@ -98,9 +102,12 @@ pub enum BytesPrimitive2 {
 	BytesBuild,
 	BytesAppend,
 	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	BytesFill,
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	BytesCopy,
 	BytesRangeClone,
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	BytesRangeReverse,
 	
 	BytesRangeToList,
@@ -116,14 +123,18 @@ pub enum BytesPrimitive2 {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum BytesPrimitive3 {
 	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	BytesAtSet,
 	
 	BytesBuild,
 	BytesAppend,
 	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	BytesRangeFill,
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	BytesRangeCopy,
 	BytesRangeClone,
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	BytesRangeReverse,
 	
 	BytesRangeToList,
@@ -142,7 +153,9 @@ pub enum BytesPrimitive4 {
 	BytesBuild,
 	BytesAppend,
 	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	BytesRangeFill,
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	BytesRangeCopy,
 	
 }
@@ -151,6 +164,7 @@ pub enum BytesPrimitive4 {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum BytesPrimitive5 {
 	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	BytesRangeCopy,
 	
 }
@@ -172,9 +186,12 @@ pub enum BytesPrimitiveV {
 	BytesBuild,
 	BytesAppend,
 	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	BytesRangeFill,
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	BytesRangeCopy,
 	BytesRangeClone,
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	BytesRangeReverse,
 	
 	BytesRangeToList,
@@ -227,9 +244,11 @@ pub fn bytes_primitive_1_evaluate (primitive : BytesPrimitive1, input_1 : &Value
 		BytesPrimitive1::BytesAppend =>
 			return bytes_clone (input_1),
 		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitive1::BytesFill =>
 			return bytes_fill_range (input_1, None, None, None) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitive1::BytesReverse =>
 			return bytes_reverse_range (input_1, None, None) .into_0 (),
 		
@@ -247,9 +266,11 @@ pub fn bytes_primitive_1_evaluate (primitive : BytesPrimitive1, input_1 : &Value
 		BytesPrimitive1::ArrayToBytes =>
 			return array_range_to_bytes (input_1, None, None),
 		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitive1::BytesToImmutable =>
 			return try_as_bytes_as_ref! (input_1) .to_immutable () .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitive1::BytesToMutable =>
 			return try_as_bytes_as_ref! (input_1) .to_mutable () .into_0 (),
 		
@@ -275,15 +296,18 @@ pub fn bytes_primitive_2_evaluate (primitive : BytesPrimitive2, input_1 : &Value
 		BytesPrimitive2::BytesAppend =>
 			return bytes_append_2 (input_1, input_2),
 		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitive2::BytesFill =>
 			return bytes_fill_range (input_1, Some (input_2), None, None) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitive2::BytesCopy =>
 			return bytes_copy_range (input_1, None, input_2, None, None) .into_0 (),
 		
 		BytesPrimitive2::BytesRangeClone =>
 			return bytes_clone_range (input_1, Some (input_2), None),
 		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitive2::BytesRangeReverse =>
 			return bytes_reverse_range (input_1, Some (input_2), None) .into_0 (),
 		
@@ -311,6 +335,7 @@ pub fn bytes_primitive_2_evaluate (primitive : BytesPrimitive2, input_1 : &Value
 pub fn bytes_primitive_3_evaluate (primitive : BytesPrimitive3, input_1 : &Value, input_2 : &Value, input_3 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitive3::BytesAtSet =>
 			return bytes_at_set (input_1, try! (try_as_number_integer_ref! (input_2) .try_to_usize ()), input_3),
 		
@@ -320,15 +345,18 @@ pub fn bytes_primitive_3_evaluate (primitive : BytesPrimitive3, input_1 : &Value
 		BytesPrimitive3::BytesAppend =>
 			return bytes_append_3 (input_1, input_2, input_3),
 		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitive3::BytesRangeFill =>
 			return bytes_fill_range (input_1, Some (input_2), Some (input_3), None) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitive3::BytesRangeCopy =>
 			return bytes_copy_range (input_1, Some (input_2), input_3, None, None) .into_0 (),
 		
 		BytesPrimitive3::BytesRangeClone =>
 			return bytes_clone_range (input_1, Some (input_2), Some (input_3)),
 		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitive3::BytesRangeReverse =>
 			return bytes_reverse_range (input_1, Some (input_2), Some (input_3)) .into_0 (),
 		
@@ -362,9 +390,11 @@ pub fn bytes_primitive_4_evaluate (primitive : BytesPrimitive4, input_1 : &Value
 		BytesPrimitive4::BytesAppend =>
 			return bytes_append_4 (input_1, input_2, input_3, input_4),
 		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitive4::BytesRangeFill =>
 			return bytes_fill_range (input_1, Some (input_2), Some (input_3), Some (input_4)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitive4::BytesRangeCopy =>
 			return bytes_copy_range (input_1, Some (input_2), input_3, Some (input_4), None) .into_0 (),
 		
@@ -375,9 +405,11 @@ pub fn bytes_primitive_4_evaluate (primitive : BytesPrimitive4, input_1 : &Value
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ allow (unused_variables) ]
 pub fn bytes_primitive_5_evaluate (primitive : BytesPrimitive5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitive5::BytesRangeCopy =>
 			return bytes_copy_range (input_1, Some (input_2), input_3, Some (input_4), Some (input_5)) .into_0 (),
 		
@@ -412,12 +444,15 @@ pub fn bytes_primitive_v_alternative_0 (primitive : BytesPrimitiveV) -> (Option<
 			Some (BytesPrimitive0::BytesBuild),
 		BytesPrimitiveV::BytesAppend =>
 			Some (BytesPrimitive0::BytesAppend),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitiveV::BytesRangeFill =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitiveV::BytesRangeCopy =>
 			None,
 		BytesPrimitiveV::BytesRangeClone =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitiveV::BytesRangeReverse =>
 			None,
 		BytesPrimitiveV::BytesRangeToList =>
@@ -445,12 +480,15 @@ pub fn bytes_primitive_v_alternative_1 (primitive : BytesPrimitiveV) -> (Option<
 			Some (BytesPrimitive1::BytesBuild),
 		BytesPrimitiveV::BytesAppend =>
 			Some (BytesPrimitive1::BytesAppend),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitiveV::BytesRangeFill =>
 			Some (BytesPrimitive1::BytesFill),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitiveV::BytesRangeCopy =>
 			None,
 		BytesPrimitiveV::BytesRangeClone =>
 			Some (BytesPrimitive1::BytesClone),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitiveV::BytesRangeReverse =>
 			Some (BytesPrimitive1::BytesReverse),
 		BytesPrimitiveV::BytesRangeToList =>
@@ -478,12 +516,15 @@ pub fn bytes_primitive_v_alternative_2 (primitive : BytesPrimitiveV) -> (Option<
 			Some (BytesPrimitive2::BytesBuild),
 		BytesPrimitiveV::BytesAppend =>
 			Some (BytesPrimitive2::BytesAppend),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitiveV::BytesRangeFill =>
 			Some (BytesPrimitive2::BytesFill),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitiveV::BytesRangeCopy =>
 			Some (BytesPrimitive2::BytesCopy),
 		BytesPrimitiveV::BytesRangeClone =>
 			Some (BytesPrimitive2::BytesRangeClone),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitiveV::BytesRangeReverse =>
 			Some (BytesPrimitive2::BytesRangeReverse),
 		BytesPrimitiveV::BytesRangeToList =>
@@ -511,12 +552,15 @@ pub fn bytes_primitive_v_alternative_3 (primitive : BytesPrimitiveV) -> (Option<
 			Some (BytesPrimitive3::BytesBuild),
 		BytesPrimitiveV::BytesAppend =>
 			Some (BytesPrimitive3::BytesAppend),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitiveV::BytesRangeFill =>
 			Some (BytesPrimitive3::BytesRangeFill),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitiveV::BytesRangeCopy =>
 			Some (BytesPrimitive3::BytesRangeCopy),
 		BytesPrimitiveV::BytesRangeClone =>
 			Some (BytesPrimitive3::BytesRangeClone),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitiveV::BytesRangeReverse =>
 			Some (BytesPrimitive3::BytesRangeReverse),
 		BytesPrimitiveV::BytesRangeToList =>
@@ -544,12 +588,15 @@ pub fn bytes_primitive_v_alternative_4 (primitive : BytesPrimitiveV) -> (Option<
 			Some (BytesPrimitive4::BytesBuild),
 		BytesPrimitiveV::BytesAppend =>
 			Some (BytesPrimitive4::BytesAppend),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitiveV::BytesRangeFill =>
 			Some (BytesPrimitive4::BytesRangeFill),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitiveV::BytesRangeCopy =>
 			Some (BytesPrimitive4::BytesRangeCopy),
 		BytesPrimitiveV::BytesRangeClone =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitiveV::BytesRangeReverse =>
 			None,
 		BytesPrimitiveV::BytesRangeToList =>
@@ -577,12 +624,15 @@ pub fn bytes_primitive_v_alternative_5 (primitive : BytesPrimitiveV) -> (Option<
 			None,
 		BytesPrimitiveV::BytesAppend =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitiveV::BytesRangeFill =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitiveV::BytesRangeCopy =>
 			Some (BytesPrimitive5::BytesRangeCopy),
 		BytesPrimitiveV::BytesRangeClone =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitiveV::BytesRangeReverse =>
 			None,
 		BytesPrimitiveV::BytesRangeToList =>
@@ -610,12 +660,15 @@ pub fn bytes_primitive_v_alternative_n (primitive : BytesPrimitiveV) -> (Option<
 			Some (BytesPrimitiveN::BytesBuild),
 		BytesPrimitiveV::BytesAppend =>
 			Some (BytesPrimitiveN::BytesAppend),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitiveV::BytesRangeFill =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitiveV::BytesRangeCopy =>
 			None,
 		BytesPrimitiveV::BytesRangeClone =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitiveV::BytesRangeReverse =>
 			None,
 		BytesPrimitiveV::BytesRangeToList =>

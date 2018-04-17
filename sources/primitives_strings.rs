@@ -72,7 +72,9 @@ pub enum StringPrimitive1 {
 	StringBuild,
 	StringAppend,
 	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	StringFill,
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	StringReverse,
 	
 	StringToList,
@@ -120,7 +122,9 @@ pub enum StringPrimitive1 {
 	#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 	KeywordToFoldCase,
 	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	StringToImmutable,
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	StringToMutable,
 	
 }
@@ -136,9 +140,12 @@ pub enum StringPrimitive2 {
 	StringBuild,
 	StringAppend,
 	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	StringFill,
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	StringCopy,
 	StringRangeClone,
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	StringRangeReverse,
 	
 	StringRangeToList,
@@ -162,14 +169,18 @@ pub enum StringPrimitive2 {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum StringPrimitive3 {
 	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	StringAtSet,
 	
 	StringBuild,
 	StringAppend,
 	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	StringRangeFill,
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	StringRangeCopy,
 	StringRangeClone,
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	StringRangeReverse,
 	
 	StringRangeToList,
@@ -194,7 +205,9 @@ pub enum StringPrimitive4 {
 	StringBuild,
 	StringAppend,
 	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	StringRangeFill,
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	StringRangeCopy,
 	
 }
@@ -203,6 +216,7 @@ pub enum StringPrimitive4 {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum StringPrimitive5 {
 	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	StringRangeCopy,
 	
 }
@@ -224,9 +238,12 @@ pub enum StringPrimitiveV {
 	StringBuild,
 	StringAppend,
 	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	StringRangeFill,
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	StringRangeCopy,
 	StringRangeClone,
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	StringRangeReverse,
 	
 	StringRangeToList,
@@ -287,9 +304,11 @@ pub fn string_primitive_1_evaluate (primitive : StringPrimitive1, input_1 : &Val
 		StringPrimitive1::StringAppend =>
 			return string_clone (input_1),
 		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitive1::StringFill =>
 			return string_fill_range (input_1, None, None, None) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitive1::StringReverse =>
 			return string_reverse_range (input_1, None, None) .into_0 (),
 		
@@ -391,9 +410,11 @@ pub fn string_primitive_1_evaluate (primitive : StringPrimitive1, input_1 : &Val
 		StringPrimitive1::CharacterToDigitNumber =>
 			return character_to_digit_number (input_1, None),
 		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitive1::StringToImmutable =>
 			return try_as_string_as_ref! (input_1) .to_immutable () .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitive1::StringToMutable =>
 			return try_as_string_as_ref! (input_1) .to_mutable () .into_0 (),
 		
@@ -419,15 +440,18 @@ pub fn string_primitive_2_evaluate (primitive : StringPrimitive2, input_1 : &Val
 		StringPrimitive2::StringAppend =>
 			return string_append_2 (input_1, input_2),
 		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitive2::StringFill =>
 			return string_fill_range (input_1, Some (input_2), None, None) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitive2::StringCopy =>
 			return string_copy_range (input_1, None, input_2, None, None) .into_0 (),
 		
 		StringPrimitive2::StringRangeClone =>
 			return string_clone_range (input_1, Some (input_2), None),
 		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitive2::StringRangeReverse =>
 			return string_reverse_range (input_1, Some (input_2), None) .into_0 (),
 		
@@ -472,6 +496,7 @@ pub fn string_primitive_2_evaluate (primitive : StringPrimitive2, input_1 : &Val
 pub fn string_primitive_3_evaluate (primitive : StringPrimitive3, input_1 : &Value, input_2 : &Value, input_3 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitive3::StringAtSet =>
 			return string_at_set (input_1, try! (try_as_number_integer_ref! (input_2) .try_to_usize ()), input_3),
 		
@@ -481,15 +506,18 @@ pub fn string_primitive_3_evaluate (primitive : StringPrimitive3, input_1 : &Val
 		StringPrimitive3::StringAppend =>
 			return string_append_3 (input_1, input_2, input_3),
 		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitive3::StringRangeFill =>
 			return string_fill_range (input_1, Some (input_2), Some (input_3), None) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitive3::StringRangeCopy =>
 			return string_copy_range (input_1, Some (input_2), input_3, None, None) .into_0 (),
 		
 		StringPrimitive3::StringRangeClone =>
 			return string_clone_range (input_1, Some (input_2), Some (input_3)),
 		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitive3::StringRangeReverse =>
 			return string_reverse_range (input_1, Some (input_2), Some (input_3)) .into_0 (),
 		
@@ -534,9 +562,11 @@ pub fn string_primitive_4_evaluate (primitive : StringPrimitive4, input_1 : &Val
 		StringPrimitive4::StringAppend =>
 			return string_append_4 (input_1, input_2, input_3, input_4),
 		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitive4::StringRangeFill =>
 			return string_fill_range (input_1, Some (input_2), Some (input_3), Some (input_4)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitive4::StringRangeCopy =>
 			return string_copy_range (input_1, Some (input_2), input_3, Some (input_4), None) .into_0 (),
 		
@@ -547,9 +577,11 @@ pub fn string_primitive_4_evaluate (primitive : StringPrimitive4, input_1 : &Val
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ allow (unused_variables) ]
 pub fn string_primitive_5_evaluate (primitive : StringPrimitive5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitive5::StringRangeCopy =>
 			return string_copy_range (input_1, Some (input_2), input_3, Some (input_4), Some (input_5)) .into_0 (),
 		
@@ -584,12 +616,15 @@ pub fn string_primitive_v_alternative_0 (primitive : StringPrimitiveV) -> (Optio
 			Some (StringPrimitive0::StringBuild),
 		StringPrimitiveV::StringAppend =>
 			Some (StringPrimitive0::StringAppend),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitiveV::StringRangeFill =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitiveV::StringRangeCopy =>
 			None,
 		StringPrimitiveV::StringRangeClone =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitiveV::StringRangeReverse =>
 			None,
 		StringPrimitiveV::StringRangeToList =>
@@ -627,12 +662,15 @@ pub fn string_primitive_v_alternative_1 (primitive : StringPrimitiveV) -> (Optio
 			Some (StringPrimitive1::StringBuild),
 		StringPrimitiveV::StringAppend =>
 			Some (StringPrimitive1::StringAppend),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitiveV::StringRangeFill =>
 			Some (StringPrimitive1::StringFill),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitiveV::StringRangeCopy =>
 			None,
 		StringPrimitiveV::StringRangeClone =>
 			Some (StringPrimitive1::StringClone),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitiveV::StringRangeReverse =>
 			Some (StringPrimitive1::StringReverse),
 		StringPrimitiveV::StringRangeToList =>
@@ -670,12 +708,15 @@ pub fn string_primitive_v_alternative_2 (primitive : StringPrimitiveV) -> (Optio
 			Some (StringPrimitive2::StringBuild),
 		StringPrimitiveV::StringAppend =>
 			Some (StringPrimitive2::StringAppend),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitiveV::StringRangeFill =>
 			Some (StringPrimitive2::StringFill),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitiveV::StringRangeCopy =>
 			Some (StringPrimitive2::StringCopy),
 		StringPrimitiveV::StringRangeClone =>
 			Some (StringPrimitive2::StringRangeClone),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitiveV::StringRangeReverse =>
 			Some (StringPrimitive2::StringRangeReverse),
 		StringPrimitiveV::StringRangeToList =>
@@ -713,12 +754,15 @@ pub fn string_primitive_v_alternative_3 (primitive : StringPrimitiveV) -> (Optio
 			Some (StringPrimitive3::StringBuild),
 		StringPrimitiveV::StringAppend =>
 			Some (StringPrimitive3::StringAppend),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitiveV::StringRangeFill =>
 			Some (StringPrimitive3::StringRangeFill),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitiveV::StringRangeCopy =>
 			Some (StringPrimitive3::StringRangeCopy),
 		StringPrimitiveV::StringRangeClone =>
 			Some (StringPrimitive3::StringRangeClone),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitiveV::StringRangeReverse =>
 			Some (StringPrimitive3::StringRangeReverse),
 		StringPrimitiveV::StringRangeToList =>
@@ -756,12 +800,15 @@ pub fn string_primitive_v_alternative_4 (primitive : StringPrimitiveV) -> (Optio
 			Some (StringPrimitive4::StringBuild),
 		StringPrimitiveV::StringAppend =>
 			Some (StringPrimitive4::StringAppend),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitiveV::StringRangeFill =>
 			Some (StringPrimitive4::StringRangeFill),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitiveV::StringRangeCopy =>
 			Some (StringPrimitive4::StringRangeCopy),
 		StringPrimitiveV::StringRangeClone =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitiveV::StringRangeReverse =>
 			None,
 		StringPrimitiveV::StringRangeToList =>
@@ -799,12 +846,15 @@ pub fn string_primitive_v_alternative_5 (primitive : StringPrimitiveV) -> (Optio
 			None,
 		StringPrimitiveV::StringAppend =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitiveV::StringRangeFill =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitiveV::StringRangeCopy =>
 			Some (StringPrimitive5::StringRangeCopy),
 		StringPrimitiveV::StringRangeClone =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitiveV::StringRangeReverse =>
 			None,
 		StringPrimitiveV::StringRangeToList =>
@@ -842,12 +892,15 @@ pub fn string_primitive_v_alternative_n (primitive : StringPrimitiveV) -> (Optio
 			Some (StringPrimitiveN::StringBuild),
 		StringPrimitiveV::StringAppend =>
 			Some (StringPrimitiveN::StringAppend),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitiveV::StringRangeFill =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitiveV::StringRangeCopy =>
 			None,
 		StringPrimitiveV::StringRangeClone =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitiveV::StringRangeReverse =>
 			None,
 		StringPrimitiveV::StringRangeToList =>
