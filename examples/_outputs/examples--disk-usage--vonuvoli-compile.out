@@ -1,0 +1,181 @@
+
+--------------------------------------------------------------------------------
+Contexts(
+    BindingInitialize1(
+        Binding {
+            identifier: Some(
+                Symbol(
+                    "size"
+                )
+            ),
+            initialized: false,
+            immutable: false,
+            handle: Handle(
+                "3f1418c4dc444b6a"
+            )
+        },
+        ProcedurePrimitiveCall(
+            ProcedurePrimitiveCallN(
+                FileSystem(
+                    DirectoryListFoldRecursive
+                ),
+                [
+                    Value(
+                        StringImmutable(
+                            "/usr/share/doc"
+                        )
+                    ),
+                    Lambda(
+                        LambdaTemplate {
+                            identifier: None,
+                            arguments_positional: [
+                                Symbol(
+                                    "accumulator"
+                                ),
+                                Symbol(
+                                    "entry"
+                                ),
+                                Symbol(
+                                    "metadata"
+                                )
+                            ],
+                            argument_rest: None,
+                            handle: Handle(
+                                "9742d6a09676ad82"
+                            )
+                        },
+                        ConditionalIf(
+                            Multiple(
+                                [
+                                    GuardAndExpression(
+                                        Expression(
+                                            ProcedurePrimitiveCall(
+                                                ProcedurePrimitiveCall1(
+                                                    FileSystem(
+                                                        MetadataKindIsFile
+                                                    ),
+                                                    Contexts(
+                                                        RegisterGet1(
+                                                            2
+                                                        )
+                                                    )
+                                                )
+                                            ),
+                                            false
+                                        ),
+                                        Ignore,
+                                        ProcedurePrimitiveCall(
+                                            ProcedurePrimitiveCall2(
+                                                Arithmetic(
+                                                    Addition
+                                                ),
+                                                Contexts(
+                                                    RegisterGet1(
+                                                        0
+                                                    )
+                                                ),
+                                                ProcedurePrimitiveCall(
+                                                    ProcedurePrimitiveCall1(
+                                                        FileSystem(
+                                                            MetadataFileGetSize
+                                                        ),
+                                                        Contexts(
+                                                            RegisterGet1(
+                                                                2
+                                                            )
+                                                        )
+                                                    )
+                                                )
+                                            )
+                                        )
+                                    ),
+                                    ExpressionOnly(
+                                        Contexts(
+                                            RegisterGet1(
+                                                0
+                                            )
+                                        )
+                                    )
+                                ]
+                            )
+                        ),
+                        [],
+                        [
+                            LocalValue(
+                                None,
+                                false
+                            ),
+                            LocalValue(
+                                None,
+                                false
+                            ),
+                            LocalValue(
+                                None,
+                                false
+                            )
+                        ]
+                    ),
+                    Value(
+                        Boolean(
+                            false
+                        )
+                    ),
+                    Value(
+                        NumberInteger(
+                            0
+                        )
+                    ),
+                    Value(
+                        Boolean(
+                            true
+                        )
+                    ),
+                    Value(
+                        Boolean(
+                            false
+                        )
+                    ),
+                    Value(
+                        Boolean(
+                            true
+                        )
+                    ),
+                    Value(
+                        Boolean(
+                            true
+                        )
+                    )
+                ]
+            )
+        )
+    )
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+ProcedurePrimitiveCall(
+    ProcedurePrimitiveCall1(
+        Port(
+            ValueWriteAndNewLine
+        ),
+        Contexts(
+            BindingGet1(
+                Binding {
+                    identifier: Some(
+                        Symbol(
+                            "size"
+                        )
+                    ),
+                    initialized: false,
+                    immutable: false,
+                    handle: Handle(
+                        "3f1418c4dc444b6a"
+                    )
+                }
+            )
+        )
+    )
+)
+--------------------------------------------------------------------------------
+
