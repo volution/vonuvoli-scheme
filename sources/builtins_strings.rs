@@ -13,7 +13,9 @@ use super::prelude::*;
 
 pub mod exports {
 	
-	pub use super::{string_at, string_at_set};
+	pub use super::{string_at};
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	pub use super::{string_at_set};
 	
 	pub use super::{string_empty};
 	pub use super::{string_collect_chars, string_collect_values, string_collect_values_ref};
@@ -21,7 +23,9 @@ pub mod exports {
 	pub use super::{string_build_1, string_build_2, string_build_3, string_build_4, string_build_n};
 	pub use super::{string_append_2, string_append_3, string_append_4, string_append_n};
 	pub use super::{string_make, string_clone, string_reverse};
-	pub use super::{string_fill_range, string_reverse_range, string_copy_range, string_clone_range};
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	pub use super::{string_fill_range, string_reverse_range, string_copy_range};
+	pub use super::{string_clone_range};
 	pub use super::{string_range_to_list, list_range_to_string};
 	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	pub use super::{string_range_to_array, array_range_to_string};
@@ -82,6 +86,7 @@ pub fn string_at (string : &Value, index : usize) -> (Outcome<Value>) {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_at_set (string : &Value, index : usize, char : &Value) -> (Outcome<Value>) {
 	let string = try_as_string_mutable_ref! (string);
@@ -281,6 +286,7 @@ pub fn string_reverse (string : &Value) -> (Outcome<Value>) {
 
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_fill_range (string : &Value, fill : Option<&Value>, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<()>) {
 	let string = try_as_string_mutable_ref! (string);
@@ -304,6 +310,7 @@ pub fn string_fill_range (string : &Value, fill : Option<&Value>, range_start : 
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_reverse_range (string : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<()>) {
 	let string = try_as_string_mutable_ref! (string);
@@ -320,6 +327,7 @@ pub fn string_reverse_range (string : &Value, range_start : Option<&Value>, rang
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_copy_range (target_string : &Value, target_start : Option<&Value>, source_string : &Value, source_start : Option<&Value>, source_end : Option<&Value>) -> (Outcome<()>) {
 	let target_string = try_as_string_mutable_ref! (target_string);

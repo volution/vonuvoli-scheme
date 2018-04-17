@@ -33,12 +33,21 @@ pub mod exports {
 	pub use super::{
 		
 		port_input_byte_peek, port_input_byte_read, port_input_byte_ready,
-		port_input_bytes_read_copy_range,
-		port_input_bytes_read_collect, port_input_bytes_read_extend,
-		port_input_bytes_read_collect_until, port_input_bytes_read_extend_until,
+		port_input_bytes_read_collect,
+		port_input_bytes_read_collect_until,
 		port_input_bytes_read_line,
 		
 		port_output_byte_write, port_output_bytes_write,
+		
+	};
+	
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	pub use super::{
+		
+		port_input_bytes_read_copy_range,
+		port_input_bytes_read_extend,
+		port_input_bytes_read_extend_until,
 		
 	};
 	
@@ -46,11 +55,20 @@ pub mod exports {
 	pub use super::{
 		
 		port_input_character_peek, port_input_character_read, port_input_character_ready,
-		port_input_string_read_collect, port_input_string_read_extend,
-		port_input_string_read_collect_until, port_input_string_read_extend_until,
+		port_input_string_read_collect,
+		port_input_string_read_collect_until,
 		port_input_string_read_line,
 		
 		port_output_character_write, port_output_string_write,
+		
+	};
+	
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	pub use super::{
+		
+		port_input_string_read_extend,
+		port_input_string_read_extend_until,
 		
 	};
 	
@@ -193,6 +211,7 @@ pub fn port_input_character_ready (port : &Value) -> (Outcome<bool>) {
 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_bytes_read_copy_range (port : &Value, bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  `full` defaults to `Some(true)` if `range_end` is not `None`;
@@ -267,6 +286,7 @@ pub fn port_input_bytes_read_collect (port : &Value, count : Option<&Value>, ful
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_bytes_read_extend (port : &Value, bytes : &Value, count : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
@@ -297,6 +317,7 @@ pub fn port_input_string_read_collect (port : &Value, count : Option<&Value>, fu
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_string_read_extend (port : &Value, string : &Value, count : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
@@ -340,6 +361,7 @@ pub fn port_input_bytes_read_collect_until (port : &Value, delimiter : Option<&V
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_bytes_read_extend_until (port : &Value, bytes : &Value, delimiter : Option<&Value>, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
@@ -397,6 +419,7 @@ pub fn port_input_string_read_collect_until (port : &Value, delimiter : Option<&
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_string_read_extend_until (port : &Value, string : &Value, delimiter : Option<&Value>, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
@@ -558,6 +581,7 @@ pub fn port_bytes_reader_new (bytes : &Value) -> (Outcome<Value>) {
 			let bytes = bytes.bytes_rc_clone ();
 			try! (Port::new_bytes_reader_from_bytes_immutable (bytes, 0, None))
 		},
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesRef::Mutable (ref bytes, _) => {
 			let bytes = bytes.bytes_rc_clone ();
 			try! (Port::new_bytes_reader_from_bytes_mutable (bytes, 0, None))
@@ -575,6 +599,7 @@ pub fn port_string_reader_new (string : &Value) -> (Outcome<Value>) {
 			let string = string.string_rc_clone ();
 			try! (Port::new_bytes_reader_from_string_immutable (string, 0, None))
 		},
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringRef::Mutable (ref string, _) => {
 			let string = string.string_rc_clone ();
 			try! (Port::new_bytes_reader_from_string_mutable (string, 0, None))
@@ -1065,6 +1090,7 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 			let formatted = match class {
 				StringMatchAsRef::Immutable (value) =>
 					format! ("{}", value),
+				#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 				StringMatchAsRef::Mutable (value) =>
 					format! ("{}", value),
 			};
@@ -1085,6 +1111,7 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 			let formatted = match class {
 				BytesMatchAsRef::Immutable (value) =>
 					format! ("{}", value),
+				#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 				BytesMatchAsRef::Mutable (value) =>
 					format! ("{}", value),
 			};
@@ -1104,6 +1131,7 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 				let formatted = match class {
 					PairMatchAsRef::Immutable (value) =>
 						format! ("{}", value),
+					#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 					PairMatchAsRef::Mutable (value) =>
 						format! ("{}", value),
 				};
@@ -1122,6 +1150,7 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 				let formatted = match class {
 					ArrayMatchAsRef::Immutable (value) =>
 						format! ("{}", value),
+					#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 					ArrayMatchAsRef::Mutable (value) =>
 						format! ("{}", value),
 				};
@@ -1152,6 +1181,7 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 				let formatted = match class {
 					RecordMatchAsRef::Immutable (value) =>
 						format! ("{}", value),
+					#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 					RecordMatchAsRef::Mutable (value) =>
 						format! ("{}", value),
 				};

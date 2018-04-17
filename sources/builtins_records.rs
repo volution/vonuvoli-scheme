@@ -28,8 +28,16 @@ pub mod exports {
 			
 			record_build_0, record_build_1, record_build_2, record_build_3, record_build_4, record_build_n,
 			
-			record_get, record_set,
-			record_get_x, record_set_x,
+			record_get,
+			record_get_x,
+			
+		};
+	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	pub use super::{
+			
+			record_set,
+			record_set_x,
 			
 		};
 	
@@ -47,8 +55,20 @@ pub mod exports {
 			
 			record_build_fn,
 			
-			record_get_fn, record_set_fn,
-			record_get_x_fn, record_set_x_fn,
+		};
+	
+	pub use super::{
+			
+			record_get_fn,
+			record_get_x_fn,
+			
+		};
+	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	pub use super::{
+			
+			record_set_fn,
+			record_set_x_fn,
 			
 		};
 	
@@ -111,6 +131,7 @@ pub fn record_kind_get (value : &Value) -> (Outcome<RecordKind>) {
 	match value.kind_match_as_ref () {
 		ValueKindMatchAsRef::RecordImmutable (value) =>
 			succeed! (value.kind () .clone () .into ()),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ValueKindMatchAsRef::RecordMutable (value) =>
 			succeed! (value.kind () .clone () .into ()),
 		_ =>
@@ -123,6 +144,7 @@ pub fn record_kind_is (kind : &RecordKind, value : &Value, immutable : Option<bo
 	match value.kind_match_as_ref () {
 		ValueKindMatchAsRef::RecordImmutable (value) =>
 			return RecordKind::is_self (value.kind (), kind) && immutable.unwrap_or (true),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ValueKindMatchAsRef::RecordMutable (value) =>
 			return RecordKind::is_self (value.kind (), kind) && ! immutable.unwrap_or (false),
 		_ =>
@@ -247,6 +269,7 @@ pub fn record_get (kind : Option<&RecordKind>, field : usize, record : &Value) -
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_set (kind : Option<&RecordKind>, field : usize, record : &Value, value : &Value) -> (Outcome<Value>) {
 	let record = try_as_record_mutable_ref! (record);
@@ -278,6 +301,7 @@ pub fn record_get_x (kind : Option<&RecordKind>, field : &Value, record : &Value
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_set_x (kind : Option<&RecordKind>, field : &Value, record : &Value, value : &Value) -> (Outcome<Value>) {
 	match field.kind_match_as_ref () {
@@ -374,6 +398,7 @@ pub fn record_get_fn (kind : Option<&RecordKind>, field : usize) -> (Outcome<Pro
 	succeed! (ProcedureExtendedInternals::RecordGet (kind, field) .into ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_set_fn (kind : Option<&RecordKind>, field : usize) -> (Outcome<ProcedureExtended>) {
 	if let Some (kind) = kind {
@@ -398,6 +423,7 @@ pub fn record_get_x_fn (kind : Option<&RecordKind>, field : &Value) -> (Outcome<
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_set_x_fn (kind : Option<&RecordKind>, field : &Value) -> (Outcome<ProcedureExtended>) {
 	match field.kind_match_as_ref () {

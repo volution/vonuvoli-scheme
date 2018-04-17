@@ -14,7 +14,9 @@ use super::prelude::*;
 
 pub mod exports {
 	
-	pub use super::{array_at, array_at_set};
+	pub use super::{array_at};
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	pub use super::{array_at_set};
 	
 	pub use super::{array_empty};
 	pub use super::{array_collect};
@@ -22,7 +24,9 @@ pub mod exports {
 	pub use super::{array_build_1, array_build_2, array_build_3, array_build_4, array_build_n};
 	pub use super::{array_append_2, array_append_3, array_append_4, array_append_n};
 	pub use super::{array_make, array_clone, array_reverse};
-	pub use super::{array_fill_range, array_reverse_range, array_copy_range, array_clone_range};
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	pub use super::{array_fill_range, array_reverse_range, array_copy_range};
+	pub use super::{array_clone_range};
 	pub use super::{array_range_to_list, list_range_to_array};
 	pub use super::{array_range_iterator};
 	pub use super::{array_length};
@@ -46,6 +50,7 @@ pub fn array_at (array : &Value, index : usize) -> (Outcome<Value>) {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_at_set (array : &Value, index : usize, value : &Value) -> (Outcome<Value>) {
 	let array = try_as_array_mutable_ref! (array);
@@ -200,6 +205,7 @@ pub fn array_reverse (array : &Value) -> (Outcome<Value>) {
 
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_fill_range (array : &Value, fill : Option<&Value>, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<()>) {
 	let array = try_as_array_mutable_ref! (array);
@@ -218,6 +224,7 @@ pub fn array_fill_range (array : &Value, fill : Option<&Value>, range_start : Op
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_reverse_range (array : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<()>) {
 	let array = try_as_array_mutable_ref! (array);
@@ -229,6 +236,7 @@ pub fn array_reverse_range (array : &Value, range_start : Option<&Value>, range_
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_copy_range (target_array : &Value, target_start : Option<&Value>, source_array : &Value, source_start : Option<&Value>, source_end : Option<&Value>) -> (Outcome<()>) {
 	let target_array = try_as_array_mutable_ref! (target_array);

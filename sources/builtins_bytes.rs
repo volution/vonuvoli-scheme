@@ -13,7 +13,9 @@ use super::prelude::*;
 
 pub mod exports {
 	
-	pub use super::{bytes_at, bytes_at_set};
+	pub use super::{bytes_at};
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	pub use super::{bytes_at_set};
 	
 	pub use super::{bytes_empty};
 	pub use super::{bytes_collect_bytes, bytes_collect_values, bytes_collect_values_ref};
@@ -21,7 +23,9 @@ pub mod exports {
 	pub use super::{bytes_build_1, bytes_build_2, bytes_build_3, bytes_build_4, bytes_build_n};
 	pub use super::{bytes_append_2, bytes_append_3, bytes_append_4, bytes_append_n};
 	pub use super::{bytes_make, bytes_clone, bytes_reverse};
-	pub use super::{bytes_fill_range, bytes_reverse_range, bytes_copy_range, bytes_clone_range};
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	pub use super::{bytes_fill_range, bytes_reverse_range, bytes_copy_range};
+	pub use super::{bytes_clone_range};
 	pub use super::{bytes_range_to_list, list_range_to_bytes};
 	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	pub use super::{bytes_range_to_array, array_range_to_bytes};
@@ -47,6 +51,7 @@ pub fn bytes_at (bytes : &Value, index : usize) -> (Outcome<Value>) {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_at_set (bytes : &Value, index : usize, byte : &Value) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_mutable_ref! (bytes);
@@ -239,6 +244,7 @@ pub fn bytes_reverse (bytes : &Value) -> (Outcome<Value>) {
 
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_fill_range (bytes : &Value, fill : Option<&Value>, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<()>) {
 	let bytes = try_as_bytes_mutable_ref! (bytes);
@@ -257,6 +263,7 @@ pub fn bytes_fill_range (bytes : &Value, fill : Option<&Value>, range_start : Op
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_reverse_range (bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<()>) {
 	let bytes = try_as_bytes_mutable_ref! (bytes);
@@ -268,6 +275,7 @@ pub fn bytes_reverse_range (bytes : &Value, range_start : Option<&Value>, range_
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_copy_range (target_bytes : &Value, target_start : Option<&Value>, source_bytes : &Value, source_start : Option<&Value>, source_end : Option<&Value>) -> (Outcome<()>) {
 	let target_bytes = try_as_bytes_mutable_ref! (target_bytes);

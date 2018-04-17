@@ -53,8 +53,15 @@ pub mod exports {
 	pub use super::{
 			
 			random_generate_bytes_build,
-			random_generate_bytes_extend,
 			random_generate_bytes_permutation,
+			
+		};
+	
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	pub use super::{
+			
+			random_generate_bytes_extend,
 			
 			random_generate_bytes_fill_1,
 			random_generate_bytes_fill_2,
@@ -109,19 +116,6 @@ pub mod exports {
 			random_generate_string_build_ascii_punctuation,
 			random_generate_string_build_ascii_graphic,
 			
-			random_generate_string_extend_ascii,
-			random_generate_string_extend_ascii_numeric,
-			random_generate_string_extend_ascii_numeric_base_8,
-			random_generate_string_extend_ascii_numeric_base_16,
-			random_generate_string_extend_ascii_alphabetic,
-			random_generate_string_extend_ascii_alphabetic_upper_case,
-			random_generate_string_extend_ascii_alphabetic_lower_case,
-			random_generate_string_extend_ascii_alphabetic_or_numeric,
-			random_generate_string_extend_ascii_whitespace,
-			random_generate_string_extend_ascii_control,
-			random_generate_string_extend_ascii_punctuation,
-			random_generate_string_extend_ascii_graphic,
-			
 			random_generate_string_permutation_ascii,
 			random_generate_string_permutation_ascii_numeric,
 			random_generate_string_permutation_ascii_numeric_base_8,
@@ -134,6 +128,25 @@ pub mod exports {
 			random_generate_string_permutation_ascii_control,
 			random_generate_string_permutation_ascii_punctuation,
 			random_generate_string_permutation_ascii_graphic,
+			
+		};
+	
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	pub use super::{
+			
+			random_generate_string_extend_ascii,
+			random_generate_string_extend_ascii_numeric,
+			random_generate_string_extend_ascii_numeric_base_8,
+			random_generate_string_extend_ascii_numeric_base_16,
+			random_generate_string_extend_ascii_alphabetic,
+			random_generate_string_extend_ascii_alphabetic_upper_case,
+			random_generate_string_extend_ascii_alphabetic_lower_case,
+			random_generate_string_extend_ascii_alphabetic_or_numeric,
+			random_generate_string_extend_ascii_whitespace,
+			random_generate_string_extend_ascii_control,
+			random_generate_string_extend_ascii_punctuation,
+			random_generate_string_extend_ascii_graphic,
 			
 		};
 	
@@ -377,6 +390,7 @@ pub fn random_generate_bytes_build (count : &Value) -> (Outcome<Value>) {
 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ inline (never) ]
 pub fn random_generate_bytes_extend (bytes : &Value, count : &Value) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_mutable_ref! (bytes);
@@ -408,24 +422,28 @@ const BYTES_FOR_PERMUTATION : &'static [u8] = &[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1
 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ inline (never) ]
 pub fn random_generate_bytes_fill_1 (bytes : &Value) -> (Outcome<Value>) {
 	return random_generate_bytes_fill_g (bytes, None, None);
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ inline (never) ]
 pub fn random_generate_bytes_fill_2 (bytes : &Value, range_start : &Value) -> (Outcome<Value>) {
 	return random_generate_bytes_fill_g (bytes, Some (range_start), None);
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ inline (never) ]
 pub fn random_generate_bytes_fill_3 (bytes : &Value, range_start : &Value, range_end : &Value) -> (Outcome<Value>) {
 	return random_generate_bytes_fill_g (bytes, Some (range_start), Some (range_end));
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn random_generate_bytes_fill_g (bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_mutable_ref! (bytes);
@@ -437,6 +455,7 @@ pub fn random_generate_bytes_fill_g (bytes : &Value, range_start : Option<&Value
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ inline (never) ]
 pub fn random_generate_bytes_fill_v (arguments : usize) -> (Outcome<ProcedureNativeInternals>) {
 	match arguments {
@@ -455,24 +474,28 @@ pub fn random_generate_bytes_fill_v (arguments : usize) -> (Outcome<ProcedureNat
 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ inline (never) ]
 pub fn random_generate_bytes_shuffle_1 (bytes : &Value) -> (Outcome<Value>) {
 	return random_generate_bytes_shuffle_g (bytes, None, None);
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ inline (never) ]
 pub fn random_generate_bytes_shuffle_2 (bytes : &Value, range_start : &Value) -> (Outcome<Value>) {
 	return random_generate_bytes_shuffle_g (bytes, Some (range_start), None);
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ inline (never) ]
 pub fn random_generate_bytes_shuffle_3 (bytes : &Value, range_start : &Value, range_end : &Value) -> (Outcome<Value>) {
 	return random_generate_bytes_shuffle_g (bytes, Some (range_start), Some (range_end));
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn random_generate_bytes_shuffle_g (bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_mutable_ref! (bytes);
@@ -484,6 +507,7 @@ pub fn random_generate_bytes_shuffle_g (bytes : &Value, range_start : Option<&Va
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ inline (never) ]
 pub fn random_generate_bytes_shuffle_v (arguments : usize) -> (Outcome<ProcedureNativeInternals>) {
 	match arguments {
@@ -734,78 +758,91 @@ fn random_generate_string_build_ascii_from (count : &Value, characters : &[u8]) 
 
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ inline (never) ]
 pub fn random_generate_string_extend_ascii (string : &Value, count : &Value) -> (Outcome<Value>) {
 	return random_generate_string_extend_ascii_from (string, count, CHARACTERS_FOR_ASCII);
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ inline (never) ]
 pub fn random_generate_string_extend_ascii_numeric (string : &Value, count : &Value) -> (Outcome<Value>) {
 	return random_generate_string_extend_ascii_from (string, count, CHARACTERS_FOR_ASCII_NUMERIC);
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ inline (never) ]
 pub fn random_generate_string_extend_ascii_numeric_base_8 (string : &Value, count : &Value) -> (Outcome<Value>) {
 	return random_generate_string_extend_ascii_from (string, count, CHARACTERS_FOR_ASCII_NUMERIC_BASE_8);
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ inline (never) ]
 pub fn random_generate_string_extend_ascii_numeric_base_16 (string : &Value, count : &Value) -> (Outcome<Value>) {
 	return random_generate_string_extend_ascii_from (string, count, CHARACTERS_FOR_ASCII_NUMERIC_BASE_16);
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ inline (never) ]
 pub fn random_generate_string_extend_ascii_alphabetic (string : &Value, count : &Value) -> (Outcome<Value>) {
 	return random_generate_string_extend_ascii_from (string, count, CHARACTERS_FOR_ASCII_ALPHABETIC);
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ inline (never) ]
 pub fn random_generate_string_extend_ascii_alphabetic_upper_case (string : &Value, count : &Value) -> (Outcome<Value>) {
 	return random_generate_string_extend_ascii_from (string, count, CHARACTERS_FOR_ASCII_ALPHABETIC_UPPER_CASE);
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ inline (never) ]
 pub fn random_generate_string_extend_ascii_alphabetic_lower_case (string : &Value, count : &Value) -> (Outcome<Value>) {
 	return random_generate_string_extend_ascii_from (string, count, CHARACTERS_FOR_ASCII_ALPHABETIC_LOWER_CASE);
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ inline (never) ]
 pub fn random_generate_string_extend_ascii_alphabetic_or_numeric (string : &Value, count : &Value) -> (Outcome<Value>) {
 	return random_generate_string_extend_ascii_from (string, count, CHARACTERS_FOR_ASCII_ALPHABETIC_OR_NUMERIC);
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ inline (never) ]
 pub fn random_generate_string_extend_ascii_whitespace (string : &Value, count : &Value) -> (Outcome<Value>) {
 	return random_generate_string_extend_ascii_from (string, count, CHARACTERS_FOR_ASCII_WHITESPACE);
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ inline (never) ]
 pub fn random_generate_string_extend_ascii_control (string : &Value, count : &Value) -> (Outcome<Value>) {
 	return random_generate_string_extend_ascii_from (string, count, CHARACTERS_FOR_ASCII_CONTROL);
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ inline (never) ]
 pub fn random_generate_string_extend_ascii_punctuation (string : &Value, count : &Value) -> (Outcome<Value>) {
 	return random_generate_string_extend_ascii_from (string, count, CHARACTERS_FOR_ASCII_PUNCTUATION);
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ inline (never) ]
 pub fn random_generate_string_extend_ascii_graphic (string : &Value, count : &Value) -> (Outcome<Value>) {
 	return random_generate_string_extend_ascii_from (string, count, CHARACTERS_FOR_ASCII_GRAPHIC);
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn random_generate_string_extend_ascii_from (string : &Value, count : &Value, characters : &[u8]) -> (Outcome<Value>) {
 	let string = try_as_string_mutable_ref! (string);

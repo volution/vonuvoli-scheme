@@ -18,12 +18,14 @@ pub mod exports {
 	pub use super::{pair};
 	pub use super::{pair_left, pair_right};
 	pub use super::{pair_left_ref, pair_right_ref};
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	pub use super::{pair_left_set, pair_right_set};
 	
 	pub use super::{pair_left as list_first, pair_right as list_rest};
 	pub use super::{pair_left_ref as list_first_ref, pair_right_ref as list_rest_ref};
 	pub use super::{list_first_at, list_rest_at};
 	pub use super::{list_first_at_ref, list_rest_at_ref};
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	pub use super::{list_first_at_set, list_rest_at_set};
 	pub use super::{list_pair_at, list_pair_at_ref};
 	
@@ -98,6 +100,7 @@ pub fn pair_right_ref <'a> (pair : &'a Value) -> (Outcome<ValueRef<'a>>) {
 	succeed! (pair.right_ref_into ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn pair_left_set <ValueRef1 : StdAsRef<Value>, ValueRef2 : StdAsRef<Value>> (pair : ValueRef1, value : ValueRef2) -> (Outcome<Value>) {
 	let pair = try_as_pair_mutable_ref! (pair.as_ref ());
@@ -107,6 +110,7 @@ pub fn pair_left_set <ValueRef1 : StdAsRef<Value>, ValueRef2 : StdAsRef<Value>> 
 	succeed! (value_swap);
 }
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn pair_right_set <ValueRef1 : StdAsRef<Value>, ValueRef2 : StdAsRef<Value>> (pair : ValueRef1, value : ValueRef2) -> (Outcome<Value>) {
 	let pair = try_as_pair_mutable_ref! (pair.as_ref ());
@@ -150,11 +154,13 @@ pub fn list_rest_at_ref (list : &Value, index : usize) -> (Outcome<ValueRef>) {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn list_first_at_set (_list : &Value, _index : usize, _value : &Value) -> (Outcome<Value>) {
 	fail_unimplemented! (0x562f049a); // deferred
 }
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn list_rest_at_set (_list : &Value, _index : usize, _value : &Value) -> (Outcome<Value>) {
 	fail_unimplemented! (0x2ef281ce); // deferred

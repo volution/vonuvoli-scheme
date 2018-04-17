@@ -282,14 +282,22 @@ pub mod exports {
 	
 	pub use super::{
 			
-			is_pair, is_pair_immutable, is_pair_mutable,
-			
+			is_pair,
 			is_pair_all_2, is_pair_all_3, is_pair_all_4, is_pair_all_n,
-			is_pair_immutable_all_2, is_pair_immutable_all_3, is_pair_immutable_all_4, is_pair_immutable_all_n,
-			is_pair_mutable_all_2, is_pair_mutable_all_3, is_pair_mutable_all_4, is_pair_mutable_all_n,
-			
 			is_pair_any_2, is_pair_any_3, is_pair_any_4, is_pair_any_n,
+			
+			is_pair_immutable,
+			is_pair_immutable_all_2, is_pair_immutable_all_3, is_pair_immutable_all_4, is_pair_immutable_all_n,
 			is_pair_immutable_any_2, is_pair_immutable_any_3, is_pair_immutable_any_4, is_pair_immutable_any_n,
+			
+	};
+	
+	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	pub use super::{
+			
+			is_pair_mutable,
+			is_pair_mutable_all_2, is_pair_mutable_all_3, is_pair_mutable_all_4, is_pair_mutable_all_n,
 			is_pair_mutable_any_2, is_pair_mutable_any_3, is_pair_mutable_any_4, is_pair_mutable_any_n,
 			
 	};
@@ -336,31 +344,34 @@ pub mod exports {
 	pub use super::{
 			
 			is_array, is_array_empty, is_array_not_empty,
-			is_array_immutable, is_array_immutable_empty, is_array_immutable_not_empty,
-			is_array_mutable, is_array_mutable_empty, is_array_mutable_not_empty,
-			
 			is_array_all_2, is_array_all_3, is_array_all_4, is_array_all_n,
-			is_array_immutable_all_2, is_array_immutable_all_3, is_array_immutable_all_4, is_array_immutable_all_n,
-			is_array_mutable_all_2, is_array_mutable_all_3, is_array_mutable_all_4, is_array_mutable_all_n,
-			
 			is_array_any_2, is_array_any_3, is_array_any_4, is_array_any_n,
-			is_array_immutable_any_2, is_array_immutable_any_3, is_array_immutable_any_4, is_array_immutable_any_n,
-			is_array_mutable_any_2, is_array_mutable_any_3, is_array_mutable_any_4, is_array_mutable_any_n,
-			
 			is_array_empty_all_2, is_array_empty_all_3, is_array_empty_all_4, is_array_empty_all_n,
-			is_array_immutable_empty_all_2, is_array_immutable_empty_all_3, is_array_immutable_empty_all_4, is_array_immutable_empty_all_n,
-			is_array_mutable_empty_all_2, is_array_mutable_empty_all_3, is_array_mutable_empty_all_4, is_array_mutable_empty_all_n,
-			
 			is_array_empty_any_2, is_array_empty_any_3, is_array_empty_any_4, is_array_empty_any_n,
-			is_array_immutable_empty_any_2, is_array_immutable_empty_any_3, is_array_immutable_empty_any_4, is_array_immutable_empty_any_n,
-			is_array_mutable_empty_any_2, is_array_mutable_empty_any_3, is_array_mutable_empty_any_4, is_array_mutable_empty_any_n,
-			
 			is_array_not_empty_all_2, is_array_not_empty_all_3, is_array_not_empty_all_4, is_array_not_empty_all_n,
-			is_array_immutable_not_empty_all_2, is_array_immutable_not_empty_all_3, is_array_immutable_not_empty_all_4, is_array_immutable_not_empty_all_n,
-			is_array_mutable_not_empty_all_2, is_array_mutable_not_empty_all_3, is_array_mutable_not_empty_all_4, is_array_mutable_not_empty_all_n,
-			
 			is_array_not_empty_any_2, is_array_not_empty_any_3, is_array_not_empty_any_4, is_array_not_empty_any_n,
+			
+			is_array_immutable, is_array_immutable_empty, is_array_immutable_not_empty,
+			is_array_immutable_all_2, is_array_immutable_all_3, is_array_immutable_all_4, is_array_immutable_all_n,
+			is_array_immutable_any_2, is_array_immutable_any_3, is_array_immutable_any_4, is_array_immutable_any_n,
+			is_array_immutable_empty_all_2, is_array_immutable_empty_all_3, is_array_immutable_empty_all_4, is_array_immutable_empty_all_n,
+			is_array_immutable_empty_any_2, is_array_immutable_empty_any_3, is_array_immutable_empty_any_4, is_array_immutable_empty_any_n,
+			is_array_immutable_not_empty_all_2, is_array_immutable_not_empty_all_3, is_array_immutable_not_empty_all_4, is_array_immutable_not_empty_all_n,
 			is_array_immutable_not_empty_any_2, is_array_immutable_not_empty_any_3, is_array_immutable_not_empty_any_4, is_array_immutable_not_empty_any_n,
+			
+	};
+	
+	
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	pub use super::{
+			
+			is_array_mutable, is_array_mutable_empty, is_array_mutable_not_empty,
+			is_array_mutable_all_2, is_array_mutable_all_3, is_array_mutable_all_4, is_array_mutable_all_n,
+			is_array_mutable_any_2, is_array_mutable_any_3, is_array_mutable_any_4, is_array_mutable_any_n,
+			is_array_mutable_empty_all_2, is_array_mutable_empty_all_3, is_array_mutable_empty_all_4, is_array_mutable_empty_all_n,
+			is_array_mutable_empty_any_2, is_array_mutable_empty_any_3, is_array_mutable_empty_any_4, is_array_mutable_empty_any_n,
+			is_array_mutable_not_empty_all_2, is_array_mutable_not_empty_all_3, is_array_mutable_not_empty_all_4, is_array_mutable_not_empty_all_n,
 			is_array_mutable_not_empty_any_2, is_array_mutable_not_empty_any_3, is_array_mutable_not_empty_any_4, is_array_mutable_not_empty_any_n,
 			
 	};
@@ -380,14 +391,23 @@ pub mod exports {
 	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	pub use super::{
 			
-			is_record, is_record_immutable, is_record_mutable,
-			
+			is_record,
 			is_record_all_2, is_record_all_3, is_record_all_4, is_record_all_n,
-			is_record_immutable_all_2, is_record_immutable_all_3, is_record_immutable_all_4, is_record_immutable_all_n,
-			is_record_mutable_all_2, is_record_mutable_all_3, is_record_mutable_all_4, is_record_mutable_all_n,
-			
 			is_record_any_2, is_record_any_3, is_record_any_4, is_record_any_n,
+			
+			is_record_immutable,
+			is_record_immutable_all_2, is_record_immutable_all_3, is_record_immutable_all_4, is_record_immutable_all_n,
 			is_record_immutable_any_2, is_record_immutable_any_3, is_record_immutable_any_4, is_record_immutable_any_n,
+			
+	};
+	
+	
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	pub use super::{
+			
+			is_record_mutable,
+			is_record_mutable_all_2, is_record_mutable_all_3, is_record_mutable_all_4, is_record_mutable_all_n,
 			is_record_mutable_any_2, is_record_mutable_any_3, is_record_mutable_any_4, is_record_mutable_any_n,
 			
 	};
@@ -396,14 +416,23 @@ pub mod exports {
 	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	pub use super::{
 			
-			is_record_of_kind, is_record_of_kind_immutable, is_record_of_kind_mutable,
-			
+			is_record_of_kind,
 			is_record_of_kind_all_2, is_record_of_kind_all_3, is_record_of_kind_all_4, is_record_of_kind_all_n,
-			is_record_of_kind_immutable_all_2, is_record_of_kind_immutable_all_3, is_record_of_kind_immutable_all_4, is_record_of_kind_immutable_all_n,
-			is_record_of_kind_mutable_all_2, is_record_of_kind_mutable_all_3, is_record_of_kind_mutable_all_4, is_record_of_kind_mutable_all_n,
-			
 			is_record_of_kind_any_2, is_record_of_kind_any_3, is_record_of_kind_any_4, is_record_of_kind_any_n,
+			
+			is_record_of_kind_immutable,
+			is_record_of_kind_immutable_all_2, is_record_of_kind_immutable_all_3, is_record_of_kind_immutable_all_4, is_record_of_kind_immutable_all_n,
 			is_record_of_kind_immutable_any_2, is_record_of_kind_immutable_any_3, is_record_of_kind_immutable_any_4, is_record_of_kind_immutable_any_n,
+			
+	};
+	
+	
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	pub use super::{
+			
+			is_record_of_kind_mutable,
+			is_record_of_kind_mutable_all_2, is_record_of_kind_mutable_all_3, is_record_of_kind_mutable_all_4, is_record_of_kind_mutable_all_n,
 			is_record_of_kind_mutable_any_2, is_record_of_kind_mutable_any_3, is_record_of_kind_mutable_any_4, is_record_of_kind_mutable_any_n,
 			
 	};
@@ -413,31 +442,34 @@ pub mod exports {
 	pub use super::{
 			
 			is_bytes, is_bytes_empty, is_bytes_not_empty,
-			is_bytes_immutable, is_bytes_immutable_empty, is_bytes_immutable_not_empty,
-			is_bytes_mutable, is_bytes_mutable_empty, is_bytes_mutable_not_empty,
-			
 			is_bytes_all_2, is_bytes_all_3, is_bytes_all_4, is_bytes_all_n,
-			is_bytes_immutable_all_2, is_bytes_immutable_all_3, is_bytes_immutable_all_4, is_bytes_immutable_all_n,
-			is_bytes_mutable_all_2, is_bytes_mutable_all_3, is_bytes_mutable_all_4, is_bytes_mutable_all_n,
-			
 			is_bytes_any_2, is_bytes_any_3, is_bytes_any_4, is_bytes_any_n,
-			is_bytes_immutable_any_2, is_bytes_immutable_any_3, is_bytes_immutable_any_4, is_bytes_immutable_any_n,
-			is_bytes_mutable_any_2, is_bytes_mutable_any_3, is_bytes_mutable_any_4, is_bytes_mutable_any_n,
-			
 			is_bytes_empty_all_2, is_bytes_empty_all_3, is_bytes_empty_all_4, is_bytes_empty_all_n,
-			is_bytes_immutable_empty_all_2, is_bytes_immutable_empty_all_3, is_bytes_immutable_empty_all_4, is_bytes_immutable_empty_all_n,
-			is_bytes_mutable_empty_all_2, is_bytes_mutable_empty_all_3, is_bytes_mutable_empty_all_4, is_bytes_mutable_empty_all_n,
-			
 			is_bytes_empty_any_2, is_bytes_empty_any_3, is_bytes_empty_any_4, is_bytes_empty_any_n,
-			is_bytes_immutable_empty_any_2, is_bytes_immutable_empty_any_3, is_bytes_immutable_empty_any_4, is_bytes_immutable_empty_any_n,
-			is_bytes_mutable_empty_any_2, is_bytes_mutable_empty_any_3, is_bytes_mutable_empty_any_4, is_bytes_mutable_empty_any_n,
-			
 			is_bytes_not_empty_all_2, is_bytes_not_empty_all_3, is_bytes_not_empty_all_4, is_bytes_not_empty_all_n,
-			is_bytes_immutable_not_empty_all_2, is_bytes_immutable_not_empty_all_3, is_bytes_immutable_not_empty_all_4, is_bytes_immutable_not_empty_all_n,
-			is_bytes_mutable_not_empty_all_2, is_bytes_mutable_not_empty_all_3, is_bytes_mutable_not_empty_all_4, is_bytes_mutable_not_empty_all_n,
-			
 			is_bytes_not_empty_any_2, is_bytes_not_empty_any_3, is_bytes_not_empty_any_4, is_bytes_not_empty_any_n,
+			
+			is_bytes_immutable, is_bytes_immutable_empty, is_bytes_immutable_not_empty,
+			is_bytes_immutable_all_2, is_bytes_immutable_all_3, is_bytes_immutable_all_4, is_bytes_immutable_all_n,
+			is_bytes_immutable_any_2, is_bytes_immutable_any_3, is_bytes_immutable_any_4, is_bytes_immutable_any_n,
+			is_bytes_immutable_empty_all_2, is_bytes_immutable_empty_all_3, is_bytes_immutable_empty_all_4, is_bytes_immutable_empty_all_n,
+			is_bytes_immutable_empty_any_2, is_bytes_immutable_empty_any_3, is_bytes_immutable_empty_any_4, is_bytes_immutable_empty_any_n,
+			is_bytes_immutable_not_empty_all_2, is_bytes_immutable_not_empty_all_3, is_bytes_immutable_not_empty_all_4, is_bytes_immutable_not_empty_all_n,
 			is_bytes_immutable_not_empty_any_2, is_bytes_immutable_not_empty_any_3, is_bytes_immutable_not_empty_any_4, is_bytes_immutable_not_empty_any_n,
+			
+	};
+	
+	
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	pub use super::{
+			
+			is_bytes_mutable, is_bytes_mutable_empty, is_bytes_mutable_not_empty,
+			is_bytes_mutable_all_2, is_bytes_mutable_all_3, is_bytes_mutable_all_4, is_bytes_mutable_all_n,
+			is_bytes_mutable_any_2, is_bytes_mutable_any_3, is_bytes_mutable_any_4, is_bytes_mutable_any_n,
+			is_bytes_mutable_empty_all_2, is_bytes_mutable_empty_all_3, is_bytes_mutable_empty_all_4, is_bytes_mutable_empty_all_n,
+			is_bytes_mutable_empty_any_2, is_bytes_mutable_empty_any_3, is_bytes_mutable_empty_any_4, is_bytes_mutable_empty_any_n,
+			is_bytes_mutable_not_empty_all_2, is_bytes_mutable_not_empty_all_3, is_bytes_mutable_not_empty_all_4, is_bytes_mutable_not_empty_all_n,
 			is_bytes_mutable_not_empty_any_2, is_bytes_mutable_not_empty_any_3, is_bytes_mutable_not_empty_any_4, is_bytes_mutable_not_empty_any_n,
 			
 	};
@@ -447,31 +479,34 @@ pub mod exports {
 	pub use super::{
 			
 			is_string, is_string_empty, is_string_not_empty,
-			is_string_immutable, is_string_immutable_empty, is_string_immutable_not_empty,
-			is_string_mutable, is_string_mutable_empty, is_string_mutable_not_empty,
-			
 			is_string_all_2, is_string_all_3, is_string_all_4, is_string_all_n,
-			is_string_immutable_all_2, is_string_immutable_all_3, is_string_immutable_all_4, is_string_immutable_all_n,
-			is_string_mutable_all_2, is_string_mutable_all_3, is_string_mutable_all_4, is_string_mutable_all_n,
-			
 			is_string_any_2, is_string_any_3, is_string_any_4, is_string_any_n,
-			is_string_immutable_any_2, is_string_immutable_any_3, is_string_immutable_any_4, is_string_immutable_any_n,
-			is_string_mutable_any_2, is_string_mutable_any_3, is_string_mutable_any_4, is_string_mutable_any_n,
-			
 			is_string_empty_all_2, is_string_empty_all_3, is_string_empty_all_4, is_string_empty_all_n,
-			is_string_immutable_empty_all_2, is_string_immutable_empty_all_3, is_string_immutable_empty_all_4, is_string_immutable_empty_all_n,
-			is_string_mutable_empty_all_2, is_string_mutable_empty_all_3, is_string_mutable_empty_all_4, is_string_mutable_empty_all_n,
-			
 			is_string_empty_any_2, is_string_empty_any_3, is_string_empty_any_4, is_string_empty_any_n,
-			is_string_immutable_empty_any_2, is_string_immutable_empty_any_3, is_string_immutable_empty_any_4, is_string_immutable_empty_any_n,
-			is_string_mutable_empty_any_2, is_string_mutable_empty_any_3, is_string_mutable_empty_any_4, is_string_mutable_empty_any_n,
-			
 			is_string_not_empty_all_2, is_string_not_empty_all_3, is_string_not_empty_all_4, is_string_not_empty_all_n,
-			is_string_immutable_not_empty_all_2, is_string_immutable_not_empty_all_3, is_string_immutable_not_empty_all_4, is_string_immutable_not_empty_all_n,
-			is_string_mutable_not_empty_all_2, is_string_mutable_not_empty_all_3, is_string_mutable_not_empty_all_4, is_string_mutable_not_empty_all_n,
-			
 			is_string_not_empty_any_2, is_string_not_empty_any_3, is_string_not_empty_any_4, is_string_not_empty_any_n,
+			
+			is_string_immutable, is_string_immutable_empty, is_string_immutable_not_empty,
+			is_string_immutable_all_2, is_string_immutable_all_3, is_string_immutable_all_4, is_string_immutable_all_n,
+			is_string_immutable_any_2, is_string_immutable_any_3, is_string_immutable_any_4, is_string_immutable_any_n,
+			is_string_immutable_empty_all_2, is_string_immutable_empty_all_3, is_string_immutable_empty_all_4, is_string_immutable_empty_all_n,
+			is_string_immutable_empty_any_2, is_string_immutable_empty_any_3, is_string_immutable_empty_any_4, is_string_immutable_empty_any_n,
+			is_string_immutable_not_empty_all_2, is_string_immutable_not_empty_all_3, is_string_immutable_not_empty_all_4, is_string_immutable_not_empty_all_n,
 			is_string_immutable_not_empty_any_2, is_string_immutable_not_empty_any_3, is_string_immutable_not_empty_any_4, is_string_immutable_not_empty_any_n,
+			
+	};
+	
+	
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	pub use super::{
+			
+			is_string_mutable, is_string_mutable_empty, is_string_mutable_not_empty,
+			is_string_mutable_all_2, is_string_mutable_all_3, is_string_mutable_all_4, is_string_mutable_all_n,
+			is_string_mutable_any_2, is_string_mutable_any_3, is_string_mutable_any_4, is_string_mutable_any_n,
+			is_string_mutable_empty_all_2, is_string_mutable_empty_all_3, is_string_mutable_empty_all_4, is_string_mutable_empty_all_n,
+			is_string_mutable_empty_any_2, is_string_mutable_empty_any_3, is_string_mutable_empty_any_4, is_string_mutable_empty_any_n,
+			is_string_mutable_not_empty_all_2, is_string_mutable_not_empty_all_3, is_string_mutable_not_empty_all_4, is_string_mutable_not_empty_all_n,
 			is_string_mutable_not_empty_any_2, is_string_mutable_not_empty_any_3, is_string_mutable_not_empty_any_4, is_string_mutable_not_empty_any_n,
 			
 	};
@@ -1628,12 +1663,15 @@ def_fn_predicate_all! (is_pair_immutable, is_pair_immutable_all_2, is_pair_immut
 def_fn_predicate_any! (is_pair_immutable, is_pair_immutable_any_2, is_pair_immutable_any_3, is_pair_immutable_any_4, is_pair_immutable_any_n);
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_pair_mutable (value : &Value) -> (bool) {
 	return value.is_kind (ValueKind::PairMutable);
 }
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 def_fn_predicate_all! (is_pair_mutable, is_pair_mutable_all_2, is_pair_mutable_all_3, is_pair_mutable_all_4, is_pair_mutable_all_n);
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 def_fn_predicate_any! (is_pair_mutable, is_pair_mutable_any_2, is_pair_mutable_any_3, is_pair_mutable_any_4, is_pair_mutable_any_n);
 
 
@@ -1783,14 +1821,17 @@ def_fn_predicate_any! (is_array_immutable, is_array_immutable_any_2, is_array_im
 
 
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_array_mutable (value : &Value) -> (bool) {
 	return value.is_kind (ValueKind::ArrayMutable);
 }
 
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 def_fn_predicate_all! (is_array_mutable, is_array_mutable_all_2, is_array_mutable_all_3, is_array_mutable_all_4, is_array_mutable_all_n);
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 def_fn_predicate_any! (is_array_mutable, is_array_mutable_any_2, is_array_mutable_any_3, is_array_mutable_any_4, is_array_mutable_any_n);
 
 
@@ -1820,6 +1861,7 @@ def_fn_try_predicate_any! (is_array_immutable_empty, is_array_immutable_empty_an
 
 
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_array_mutable_empty (value : &Value) -> (Outcome<bool>) {
 	let value = try_as_array_mutable_ref! (value);
@@ -1828,8 +1870,10 @@ pub fn is_array_mutable_empty (value : &Value) -> (Outcome<bool>) {
 }
 
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 def_fn_try_predicate_all! (is_array_mutable_empty, is_array_mutable_empty_all_2, is_array_mutable_empty_all_3, is_array_mutable_empty_all_4, is_array_mutable_empty_all_n);
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 def_fn_try_predicate_any! (is_array_mutable_empty, is_array_mutable_empty_any_2, is_array_mutable_empty_any_3, is_array_mutable_empty_any_4, is_array_mutable_empty_any_n);
 
 
@@ -1859,6 +1903,7 @@ def_fn_try_predicate_any! (is_array_immutable_not_empty, is_array_immutable_not_
 
 
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_array_mutable_not_empty (value : &Value) -> (Outcome<bool>) {
 	let value = try_as_array_mutable_ref! (value);
@@ -1867,8 +1912,10 @@ pub fn is_array_mutable_not_empty (value : &Value) -> (Outcome<bool>) {
 }
 
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 def_fn_try_predicate_all! (is_array_mutable_not_empty, is_array_mutable_not_empty_all_2, is_array_mutable_not_empty_all_3, is_array_mutable_not_empty_all_4, is_array_mutable_not_empty_all_n);
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 def_fn_try_predicate_any! (is_array_mutable_not_empty, is_array_mutable_not_empty_any_2, is_array_mutable_not_empty_any_3, is_array_mutable_not_empty_any_4, is_array_mutable_not_empty_any_n);
 
 
@@ -1913,14 +1960,17 @@ def_fn_predicate_any! (is_record_immutable, is_record_immutable_any_2, is_record
 
 
 #[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_record_mutable (value : &Value) -> (bool) {
 	return value.is_kind (ValueKind::RecordMutable);
 }
 
 #[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 def_fn_predicate_all! (is_record_mutable, is_record_mutable_all_2, is_record_mutable_all_3, is_record_mutable_all_4, is_record_mutable_all_n);
 #[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 def_fn_predicate_any! (is_record_mutable, is_record_mutable_any_2, is_record_mutable_any_3, is_record_mutable_any_4, is_record_mutable_any_n);
 
 
@@ -1932,6 +1982,7 @@ pub fn is_record_of_kind (kind : &RecordKind, value : &Value) -> (bool) {
 	match value.kind_match_as_ref () {
 		ValueKindMatchAsRef::RecordImmutable (value) =>
 			return RecordKind::is_self (value.kind (), kind),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ValueKindMatchAsRef::RecordMutable (value) =>
 			return RecordKind::is_self (value.kind (), kind),
 		_ =>
@@ -1951,6 +2002,7 @@ pub fn is_record_of_kind_immutable (kind : &RecordKind, value : &Value) -> (bool
 	match value.kind_match_as_ref () {
 		ValueKindMatchAsRef::RecordImmutable (value) =>
 			return RecordKind::is_self (value.kind (), kind),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ValueKindMatchAsRef::RecordMutable (_) =>
 			return false,
 		_ =>
@@ -1965,6 +2017,7 @@ def_fn_predicate_any_x1! (is_record_of_kind_immutable, &RecordKind, is_record_of
 
 
 #[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_record_of_kind_mutable (kind : &RecordKind, value : &Value) -> (bool) {
 	match value.kind_match_as_ref () {
@@ -1978,8 +2031,10 @@ pub fn is_record_of_kind_mutable (kind : &RecordKind, value : &Value) -> (bool) 
 }
 
 #[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 def_fn_predicate_all_x1! (is_record_of_kind_mutable, &RecordKind, is_record_of_kind_mutable_all_2, is_record_of_kind_mutable_all_3, is_record_of_kind_mutable_all_4, is_record_of_kind_mutable_all_n);
 #[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 def_fn_predicate_any_x1! (is_record_of_kind_mutable, &RecordKind, is_record_of_kind_mutable_any_2, is_record_of_kind_mutable_any_3, is_record_of_kind_mutable_any_4, is_record_of_kind_mutable_any_n);
 
 
@@ -2010,14 +2065,17 @@ def_fn_predicate_any! (is_bytes_immutable, is_bytes_immutable_any_2, is_bytes_im
 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_bytes_mutable (value : &Value) -> (bool) {
 	return value.is_kind (ValueKind::BytesMutable);
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 def_fn_predicate_all! (is_bytes_mutable, is_bytes_mutable_all_2, is_bytes_mutable_all_3, is_bytes_mutable_all_4, is_bytes_mutable_all_n);
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 def_fn_predicate_any! (is_bytes_mutable, is_bytes_mutable_any_2, is_bytes_mutable_any_3, is_bytes_mutable_any_4, is_bytes_mutable_any_n);
 
 
@@ -2047,6 +2105,7 @@ def_fn_try_predicate_any! (is_bytes_immutable_empty, is_bytes_immutable_empty_an
 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_bytes_mutable_empty (value : &Value) -> (Outcome<bool>) {
 	let value = try_as_bytes_mutable_ref! (value);
@@ -2055,8 +2114,10 @@ pub fn is_bytes_mutable_empty (value : &Value) -> (Outcome<bool>) {
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 def_fn_try_predicate_all! (is_bytes_mutable_empty, is_bytes_mutable_empty_all_2, is_bytes_mutable_empty_all_3, is_bytes_mutable_empty_all_4, is_bytes_mutable_empty_all_n);
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 def_fn_try_predicate_any! (is_bytes_mutable_empty, is_bytes_mutable_empty_any_2, is_bytes_mutable_empty_any_3, is_bytes_mutable_empty_any_4, is_bytes_mutable_empty_any_n);
 
 
@@ -2086,6 +2147,7 @@ def_fn_try_predicate_any! (is_bytes_immutable_not_empty, is_bytes_immutable_not_
 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_bytes_mutable_not_empty (value : &Value) -> (Outcome<bool>) {
 	let value = try_as_bytes_mutable_ref! (value);
@@ -2094,8 +2156,10 @@ pub fn is_bytes_mutable_not_empty (value : &Value) -> (Outcome<bool>) {
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 def_fn_try_predicate_all! (is_bytes_mutable_not_empty, is_bytes_mutable_not_empty_all_2, is_bytes_mutable_not_empty_all_3, is_bytes_mutable_not_empty_all_4, is_bytes_mutable_not_empty_all_n);
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 def_fn_try_predicate_any! (is_bytes_mutable_not_empty, is_bytes_mutable_not_empty_any_2, is_bytes_mutable_not_empty_any_3, is_bytes_mutable_not_empty_any_4, is_bytes_mutable_not_empty_any_n);
 
 
@@ -2126,14 +2190,17 @@ def_fn_predicate_any! (is_string_immutable, is_string_immutable_any_2, is_string
 
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_string_mutable (value : &Value) -> (bool) {
 	return value.is_kind (ValueKind::StringMutable);
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 def_fn_predicate_all! (is_string_mutable, is_string_mutable_all_2, is_string_mutable_all_3, is_string_mutable_all_4, is_string_mutable_all_n);
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 def_fn_predicate_any! (is_string_mutable, is_string_mutable_any_2, is_string_mutable_any_3, is_string_mutable_any_4, is_string_mutable_any_n);
 
 
@@ -2163,6 +2230,7 @@ def_fn_try_predicate_any! (is_string_immutable_empty, is_string_immutable_empty_
 
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_string_mutable_empty (value : &Value) -> (Outcome<bool>) {
 	let value = try_as_string_mutable_ref! (value);
@@ -2171,8 +2239,10 @@ pub fn is_string_mutable_empty (value : &Value) -> (Outcome<bool>) {
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 def_fn_try_predicate_all! (is_string_mutable_empty, is_string_mutable_empty_all_2, is_string_mutable_empty_all_3, is_string_mutable_empty_all_4, is_string_mutable_empty_all_n);
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 def_fn_try_predicate_any! (is_string_mutable_empty, is_string_mutable_empty_any_2, is_string_mutable_empty_any_3, is_string_mutable_empty_any_4, is_string_mutable_empty_any_n);
 
 
@@ -2202,6 +2272,7 @@ def_fn_try_predicate_any! (is_string_immutable_not_empty, is_string_immutable_no
 
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_string_mutable_not_empty (value : &Value) -> (Outcome<bool>) {
 	let value = try_as_string_mutable_ref! (value);
@@ -2210,8 +2281,10 @@ pub fn is_string_mutable_not_empty (value : &Value) -> (Outcome<bool>) {
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 def_fn_try_predicate_all! (is_string_mutable_not_empty, is_string_mutable_not_empty_all_2, is_string_mutable_not_empty_all_3, is_string_mutable_not_empty_all_4, is_string_mutable_not_empty_all_n);
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 def_fn_try_predicate_any! (is_string_mutable_not_empty, is_string_mutable_not_empty_any_2, is_string_mutable_not_empty_any_3, is_string_mutable_not_empty_any_4, is_string_mutable_not_empty_any_n);
 
 
@@ -2725,6 +2798,7 @@ pub fn list_class_o1 (value : &Value) -> (Option<ListClass>) {
 			return Some (ListClass::Empty),
 		ListMatchAsRef::PairImmutable (_) =>
 			return Some (ListClass::Cell),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ListMatchAsRef::PairMutable (_) =>
 			return Some (ListClass::Cell),
 		ListMatchAsRef::Value (_) =>
@@ -2740,6 +2814,7 @@ pub fn list_class_on (value : &Value) -> (Outcome<Option<ListClass>>) {
 			succeed! (Some (ListClass::Empty)),
 		ListMatchAsRef::PairImmutable (pair) =>
 			succeed! (Some (try! (list_class_on_0 (value, pair.right ())))),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ListMatchAsRef::PairMutable (pair) =>
 			succeed! (Some (try! (list_class_on_0 (value, try! (pair.pair_ref ()) .right ())))),
 		ListMatchAsRef::Value (_) =>
@@ -2759,6 +2834,7 @@ fn list_class_on_0 (value : &Value, cursor : &Value) -> (Outcome<ListClass>) {
 				succeed! (ListClass::Proper),
 			ListMatchAsRef::PairImmutable (pair) =>
 				cursor = pair.right (),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ListMatchAsRef::PairMutable (pair) =>
 				return list_class_on_0 (value, try! (pair.pair_ref ()) .right ()),
 			ListMatchAsRef::Value (_) =>

@@ -1,10 +1,14 @@
 
 
-use super::builtins::exports::*;
-use super::constants::exports::*;
 use super::conversions::exports::*;
 use super::errors::exports::*;
 use super::values::exports::*;
+
+#[ allow (unused_imports) ]
+use super::builtins::exports::*;
+
+#[ allow (unused_imports) ]
+use super::constants::exports::*;
 
 use super::prelude::*;
 
@@ -18,6 +22,12 @@ pub mod exports {
 	pub use super::{
 			
 			crypto_generate_bytes_build,
+			
+		};
+	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	pub use super::{
+			
 			crypto_generate_bytes_extend,
 			
 			crypto_generate_bytes_fill_1,
@@ -81,6 +91,7 @@ pub fn crypto_generate_bytes_build (count : &Value) -> (Outcome<Value>) {
 
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ inline (never) ]
 pub fn crypto_generate_bytes_extend (bytes : &Value, count : &Value) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_mutable_ref! (bytes);
@@ -95,21 +106,25 @@ pub fn crypto_generate_bytes_extend (bytes : &Value, count : &Value) -> (Outcome
 
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ inline (never) ]
 pub fn crypto_generate_bytes_fill_1 (bytes : &Value) -> (Outcome<Value>) {
 	return crypto_generate_bytes_fill_g (bytes, None, None);
 }
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ inline (never) ]
 pub fn crypto_generate_bytes_fill_2 (bytes : &Value, range_start : &Value) -> (Outcome<Value>) {
 	return crypto_generate_bytes_fill_g (bytes, Some (range_start), None);
 }
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ inline (never) ]
 pub fn crypto_generate_bytes_fill_3 (bytes : &Value, range_start : &Value, range_end : &Value) -> (Outcome<Value>) {
 	return crypto_generate_bytes_fill_g (bytes, Some (range_start), Some (range_end));
 }
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn crypto_generate_bytes_fill_g (bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_mutable_ref! (bytes);
@@ -120,6 +135,7 @@ pub fn crypto_generate_bytes_fill_g (bytes : &Value, range_start : Option<&Value
 	succeed! (VOID_VALUE);
 }
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ inline (never) ]
 pub fn crypto_generate_bytes_fill_v (arguments : usize) -> (Outcome<ProcedureNativeInternals>) {
 	match arguments {
