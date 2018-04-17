@@ -269,7 +269,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "pairs", "car", ListPrimitive1::PairLeft.into ()),
 			("base", "pairs", "cdr", ListPrimitive1::PairRight.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base", "pairs", "set-car!", ListPrimitive2::PairLeftSet.into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base", "pairs", "set-cdr!", ListPrimitive2::PairRightSet.into ()),
 			
 			("base", "pairs", "caar", ListPrimitive1::ListFirstOfFirst.into ()),
@@ -294,6 +296,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "lists", "list-ref", ListPrimitive2::ListFirstAt.into ()),
 			("base", "lists", "list-tail", ListPrimitive2::ListPairAt.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base", "lists", "list-set!", ListPrimitive3::ListFirstAtSet.into ()),
 			
 			("base", "lists", "reverse", ListPrimitive1::ListReverse.into ()),
@@ -329,10 +332,13 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "vectors", "vector-ref", ArrayPrimitive2::ArrayAt.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base", "vectors", "vector-set!", ArrayPrimitive3::ArrayAtSet.into ()),
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base", "vectors", "vector-fill!", ArrayPrimitiveV::ArrayRangeFill.into ()),
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base", "vectors", "vector-copy!", ArrayPrimitiveV::ArrayRangeCopy.into ()),
 			
 			
@@ -358,8 +364,10 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "bytes", "bytevector-u8-ref", BytesPrimitive2::BytesAt.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base", "bytes", "bytevector-u8-set!", BytesPrimitive3::BytesAtSet.into ()),
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base", "bytes", "bytevector-copy!", BytesPrimitiveV::BytesRangeCopy.into ()),
 			
 			
@@ -385,10 +393,13 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "strings", "string-ref", StringPrimitive2::StringAt.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base", "strings", "string-set!", StringPrimitive3::StringAtSet.into ()),
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base", "strings", "string-fill!", StringPrimitiveV::StringRangeFill.into ()),
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base", "strings", "string-copy!", StringPrimitiveV::StringRangeCopy.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
@@ -604,6 +615,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "ports", "read-bytevector", PortPrimitiveV::BytesReadCollect.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base", "ports", "read-bytevector!", PortPrimitiveV::BytesReadCopy.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]

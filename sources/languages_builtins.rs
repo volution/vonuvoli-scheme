@@ -173,14 +173,18 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("string-reverse", StringPrimitive1::StringCloneReverse.into ()),
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("string-reverse!", StringPrimitiveV::StringRangeReverse.into ()),
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("string->immutable", StringPrimitive1::StringToImmutable.into ()),
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("string->mutable", StringPrimitive1::StringToMutable.into ()),
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("string-immutable?", TypePrimitiveV::IsStringImmutable.into ()),
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("string-mutable?", TypePrimitiveV::IsStringMutable.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
@@ -193,8 +197,10 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("bytevector-reverse", BytesPrimitive1::BytesCloneReverse.into ()),
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("bytevector-reverse!", BytesPrimitiveV::BytesRangeReverse.into ()),
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("bytevector-u8-fill!", BytesPrimitiveV::BytesRangeFill.into ()),
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("bytevector-u8-map", FunctionsPrimitiveV::BytesMap.into ()),
@@ -211,33 +217,45 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("list->bytevector", BytesPrimitiveV::ListRangeToBytes.into ()),
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("bytevector->immutable", BytesPrimitive1::BytesToImmutable.into ()),
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("bytevector->mutable", BytesPrimitive1::BytesToMutable.into ()),
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("bytevector-immutable?", TypePrimitiveV::IsBytesImmutable.into ()),
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("bytevector-mutable?", TypePrimitiveV::IsBytesMutable.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("pair->immutable", ListPrimitive1::PairToImmutable.into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("pair->mutable", ListPrimitive1::PairToMutable.into ()),
 			("pair-immutable?", TypePrimitiveV::IsPairImmutable.into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("pair-mutable?", TypePrimitiveV::IsPairMutable.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("list->immutable", ListPrimitive1::ListToImmutable.into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("list->mutable", ListPrimitive1::ListToMutable.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("vector-reverse", ArrayPrimitive1::ArrayCloneReverse.into ()),
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("vector-reverse!", ArrayPrimitiveV::ArrayRangeReverse.into ()),
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("vector->immutable", ArrayPrimitive1::ArrayToImmutable.into ()),
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("vector->mutable", ArrayPrimitive1::ArrayToMutable.into ()),
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("vector-immutable?", TypePrimitiveV::IsArrayImmutable.into ()),
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("vector-mutable?", TypePrimitiveV::IsArrayMutable.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_values_values" ) ]
@@ -258,6 +276,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("record-type-accessor", RecordPrimitiveV::RecordGetFn.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("record-type-mutator", RecordPrimitiveV::RecordSetFn.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("record-type-identifier", RecordPrimitive1::RecordKindIdentifier.into ()),
@@ -275,16 +294,20 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("record-immutable?", TypePrimitiveV::IsRecordImmutable.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("record-mutable?", TypePrimitiveV::IsRecordMutable.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("make-record", RecordPrimitiveV::RecordBuild.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("record-ref", RecordPrimitiveV::RecordGet.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("record-set!", RecordPrimitiveV::RecordSet.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("record->immutable", RecordPrimitive1::RecordToImmutable.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("record->mutable", RecordPrimitive1::RecordToMutable.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
@@ -523,6 +546,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("read-bytevector-line", PortPrimitiveV::BytesReadLine.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("read-bytevector-append!", PortPrimitiveV::BytesReadExtend.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
@@ -533,6 +557,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("read-string-line", PortPrimitiveV::StringReadLine.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("read-string-append!", PortPrimitiveV::StringReadExtend.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
@@ -1019,8 +1044,10 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("crypto-bytevector", procedure_native_1 (crypto_generate_bytes_build) .into ()),
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("crypto-bytevector-append!", procedure_native_2 (crypto_generate_bytes_extend) .into ()),
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("crypto-bytevector-fill!", procedure_native_v (crypto_generate_bytes_fill_v) .into ()),
 			
 			("crypto-md5", procedure_native_1 (crypto_hash_md5) .into ()),
@@ -1089,10 +1116,13 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("random-bytevector-permutation", procedure_native_0 (random_generate_bytes_permutation) .into ()),
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("random-bytevector-append!", procedure_native_2 (random_generate_bytes_extend) .into ()),
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("random-bytevector-fill!", procedure_native_v (random_generate_bytes_fill_v) .into ()),
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("random-bytevector-shuffle!", procedure_native_v (random_generate_bytes_shuffle_v) .into ()),
 			
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
@@ -1176,28 +1206,40 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("random-string-ascii-graphic-permutation", procedure_native_0 (random_generate_string_permutation_ascii_graphic) .into ()),
 			
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("random-string-ascii-append!", procedure_native_2 (random_generate_string_extend_ascii) .into ()),
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("random-string-ascii-numeric-append!", procedure_native_2 (random_generate_string_extend_ascii_numeric) .into ()),
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("random-string-ascii-numeric-8-append!", procedure_native_2 (random_generate_string_extend_ascii_numeric_base_8) .into ()),
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("random-string-ascii-numeric-16-append!", procedure_native_2 (random_generate_string_extend_ascii_numeric_base_16) .into ()),
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("random-string-ascii-alphabetic-append!", procedure_native_2 (random_generate_string_extend_ascii_alphabetic) .into ()),
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("random-string-ascii-upper-case-append!", procedure_native_2 (random_generate_string_extend_ascii_alphabetic_upper_case) .into ()),
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("random-string-ascii-lower-case-append!", procedure_native_2 (random_generate_string_extend_ascii_alphabetic_lower_case) .into ()),
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("random-string-ascii-alphabetic-or-numeric-append!", procedure_native_2 (random_generate_string_extend_ascii_alphabetic_or_numeric) .into ()),
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("random-string-ascii-whitespace-append!", procedure_native_2 (random_generate_string_extend_ascii_whitespace) .into ()),
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("random-string-ascii-control-append!", procedure_native_2 (random_generate_string_extend_ascii_control) .into ()),
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("random-string-ascii-punctuation-append!", procedure_native_2 (random_generate_string_extend_ascii_punctuation) .into ()),
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("random-string-ascii-graphic-append!", procedure_native_2 (random_generate_string_extend_ascii_graphic) .into ()),
 			
 		]);
@@ -1206,80 +1248,124 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 	definitions.extend_from_slice (&[
 			
 			("hex-lower-encode", procedure_native_1 (encode_hex_lower_build) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("hex-lower-encode-append!", procedure_native_2 (encode_hex_lower_extend) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("hex-lower-encode-fill!", procedure_native_2 (encode_hex_lower_fill) .into ()),
 			("hex-upper-encode", procedure_native_1 (encode_hex_upper_build) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("hex-upper-encode-append!", procedure_native_2 (encode_hex_upper_extend) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("hex-upper-encode-fill!", procedure_native_2 (encode_hex_upper_fill) .into ()),
 			
 			("hex-encode", procedure_native_1 (encode_hex_lower_build) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("hex-encode-append!", procedure_native_2 (encode_hex_lower_extend) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("hex-encode-fill!", procedure_native_2 (encode_hex_lower_fill) .into ()),
 			("hex-decode", procedure_native_1 (decode_hex_build) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("hex-decode-append!", procedure_native_2 (decode_hex_extend) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("hex-decode-fill!", procedure_native_2 (decode_hex_fill) .into ()),
 			
 			("base32-encode", procedure_native_1 (encode_base32_build) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base32-encode-append!", procedure_native_2 (encode_base32_extend) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base32-encode-fill!", procedure_native_2 (encode_base32_fill) .into ()),
 			("base32-decode", procedure_native_1 (decode_base32_build) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base32-decode-append!", procedure_native_2 (decode_base32_extend) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base32-decode-fill!", procedure_native_2 (decode_base32_fill) .into ()),
 			
 			("base32-nopad-encode", procedure_native_1 (encode_base32_nopad_build) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base32-nopad-encode-append!", procedure_native_2 (encode_base32_nopad_extend) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base32-nopad-encode-fill!", procedure_native_2 (encode_base32_nopad_fill) .into ()),
 			("base32-nopad-decode", procedure_native_1 (decode_base32_nopad_build) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base32-nopad-decode-append!", procedure_native_2 (decode_base32_nopad_extend) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base32-nopad-decode-fill!", procedure_native_2 (decode_base32_nopad_fill) .into ()),
 			
 			("base32-hex-encode", procedure_native_1 (encode_base32_hex_build) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base32-hex-encode-append!", procedure_native_2 (encode_base32_hex_extend) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base32-hex-encode-fill!", procedure_native_2 (encode_base32_hex_fill) .into ()),
 			("base32-hex-decode", procedure_native_1 (decode_base32_hex_build) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base32-hex-decode-append!", procedure_native_2 (decode_base32_hex_extend) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base32-hex-decode-fill!", procedure_native_2 (decode_base32_hex_fill) .into ()),
 			
 			("base32-hex-nopad-encode", procedure_native_1 (encode_base32_hex_nopad_build) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base32-hex-nopad-encode-append!", procedure_native_2 (encode_base32_hex_nopad_extend) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base32-hex-nopad-encode-fill!", procedure_native_2 (encode_base32_hex_nopad_fill) .into ()),
 			("base32-hex-nopad-decode", procedure_native_1 (decode_base32_hex_nopad_build) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base32-hex-nopad-decode-append!", procedure_native_2 (decode_base32_hex_nopad_extend) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base32-hex-nopad-decode-fill!", procedure_native_2 (decode_base32_hex_nopad_fill) .into ()),
 			
 			("base64-encode", procedure_native_1 (encode_base64_build) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base64-encode-append!", procedure_native_2 (encode_base64_extend) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base64-encode-fill!", procedure_native_2 (encode_base64_fill) .into ()),
 			("base64-decode", procedure_native_1 (decode_base64_build) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base64-decode-append!", procedure_native_2 (decode_base64_extend) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base64-decode-fill!", procedure_native_2 (decode_base64_fill) .into ()),
 			
 			("base64-nopad-encode", procedure_native_1 (encode_base64_nopad_build) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base64-nopad-encode-append!", procedure_native_2 (encode_base64_nopad_extend) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base64-nopad-encode-fill!", procedure_native_2 (encode_base64_nopad_fill) .into ()),
 			("base64-nopad-decode", procedure_native_1 (decode_base64_nopad_build) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base64-nopad-decode-append!", procedure_native_2 (decode_base64_nopad_extend) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base64-nopad-decode-fill!", procedure_native_2 (decode_base64_nopad_fill) .into ()),
 			
 			("base64-url-encode", procedure_native_1 (encode_base64_url_build) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base64-url-encode-append!", procedure_native_2 (encode_base64_url_extend) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base64-url-encode-fill!", procedure_native_2 (encode_base64_url_fill) .into ()),
 			("base64-url-decode", procedure_native_1 (decode_base64_url_build) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base64-url-decode-append!", procedure_native_2 (decode_base64_url_extend) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base64-url-decode-fill!", procedure_native_2 (decode_base64_url_fill) .into ()),
 			
 			("base64-url-nopad-encode", procedure_native_1 (encode_base64_url_nopad_build) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base64-url-nopad-encode-append!", procedure_native_2 (encode_base64_url_nopad_extend) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base64-url-nopad-encode-fill!", procedure_native_2 (encode_base64_url_nopad_fill) .into ()),
 			("base64-url-nopad-decode", procedure_native_1 (decode_base64_url_nopad_build) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base64-url-nopad-decode-append!", procedure_native_2 (decode_base64_url_nopad_extend) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base64-url-nopad-decode-fill!", procedure_native_2 (decode_base64_url_nopad_fill) .into ()),
 			
 			("base64-mime-encode", procedure_native_1 (encode_base64_mime_build) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base64-mime-encode-append!", procedure_native_2 (encode_base64_mime_extend) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base64-mime-encode-fill!", procedure_native_2 (encode_base64_mime_fill) .into ()),
 			("base64-mime-decode", procedure_native_1 (decode_base64_mime_build) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base64-mime-decode-append!", procedure_native_2 (decode_base64_mime_extend) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base64-mime-decode-fill!", procedure_native_2 (decode_base64_mime_fill) .into ()),
 			
 		]);
