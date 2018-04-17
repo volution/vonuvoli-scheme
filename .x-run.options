@@ -137,6 +137,10 @@
 	exec -- x-run ':: execute / features / combinations' x-run ':: compile / lib / debug' "${@}"
 !!
 
+<< compile / lib / debug / features / except-one
+	exec -- x-run ':: execute / features / except-one' x-run ':: compile / lib / debug' "${@}"
+!!
+
 << compile / lib / debug / features / individual
 	exec -- x-run ':: execute / features / individual' x-run ':: compile / lib / debug' "${@}"
 !!
@@ -150,7 +154,7 @@
 !!
 
 << compile / lib / dependencies
-		x-run ':: compile / clean / perhaps'
+		# x-run ':: compile / clean / perhaps'
 		x-run ':: compile / lib / peg'
 		x-run ':: compile / lib / sources-include'
 !!
@@ -400,6 +404,26 @@
 				|		_options = [_option.strip () for _option in _stream]
 				|	_options_count_min = 1
 				|	_options_count_max = 3 # len (_options)
+				|	for _count in xrange (_options_count_min, _options_count_max + 1) :
+				|		for _variants in itertools.combinations (_options, _count) :
+				|			print " ".join (_variants)
+				' \
+			) \
+			<( \
+				x-run ':: environment / features / list / individual' \
+			)
+!!
+
+<< environment / features / list / except-one
+		test "${#}" -eq 0
+		exec -- python2 -- \
+			<(
+				exec -- sed -r -e 's/^\t+\|\t//' <<<'
+				|	import itertools, sys
+				|	with open (sys.argv[1]) as _stream :
+				|		_options = [_option.strip () for _option in _stream]
+				|	_options_count_min = len (_options) - 1
+				|	_options_count_max = _options_count_min
 				|	for _count in xrange (_options_count_min, _options_count_max + 1) :
 				|		for _variants in itertools.combinations (_options, _count) :
 				|			print " ".join (_variants)
@@ -2549,8 +2573,23 @@
 << execute / features / combinations
 		readarray -t -- VONUVOLI_SCHEME_FEATURES < <( x-run ':: environment / features / list / combinations' | sort -R )
 		for VONUVOLI_SCHEME_FEATURES in "${VONUVOLI_SCHEME_FEATURES[@]}" ; do
+			_identifier="$( printf -- '%s' "${VONUVOLI_SCHEME_FEATURES}" | md5sum -b )" ; _identifier="${_identifier%% *}"
+			_target="$( exec -- readlink -e -- ./target )/features--${_identifier}"
+			if ! env VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" "${@}" ; then
+				printf -- '[ee]  failed using features `%s`!\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
+				exit -- 1
+			fi
+			printf -- '[--]\n' >&2
+		done
+!!
+
+<< execute / features / except-one
+		readarray -t -- VONUVOLI_SCHEME_FEATURES < <( x-run ':: environment / features / list / except-one' | sort -R )
+		for VONUVOLI_SCHEME_FEATURES in "${VONUVOLI_SCHEME_FEATURES[@]}" ; do
 			printf -- '[ii]  using features `%s`...\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
-			if ! env VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" "${@}" ; then
+			_identifier="$( printf -- '%s' "${VONUVOLI_SCHEME_FEATURES}" | md5sum -b )" ; _identifier="${_identifier%% *}"
+			_target="$( exec -- readlink -e -- ./target )/features--${_identifier}"
+			if ! env VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" "${@}" ; then
 				printf -- '[ee]  failed using features `%s`!\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
 				exit -- 1
 			fi
@@ -2562,7 +2601,9 @@
 		readarray -t -- VONUVOLI_SCHEME_FEATURES < <( x-run ':: environment / features / list / individual' | sort -R )
 		for VONUVOLI_SCHEME_FEATURES in "${VONUVOLI_SCHEME_FEATURES[@]}" ; do
 			printf -- '[ii]  using features `%s`...\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
-			if ! env VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" "${@}" ; then
+			_identifier="$( printf -- '%s' "${VONUVOLI_SCHEME_FEATURES}" | md5sum -b )" ; _identifier="${_identifier%% *}"
+			_target="$( exec -- readlink -e -- ./target )/features--${_identifier}"
+			if ! env VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" "${@}" ; then
 				printf -- '[ee]  failed using features `%s`!\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
 				exit -- 1
 			fi
@@ -2573,8 +2614,9 @@
 << execute / features / targets
 		readarray -t -- VONUVOLI_SCHEME_FEATURES < <( exec -- x-run ':: environment / features / list / targets' )
 		for VONUVOLI_SCHEME_FEATURES in "${VONUVOLI_SCHEME_FEATURES[@]}" ; do
-			printf -- '[ii]  using features `%s`...\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
-			if ! env VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" "${@}" ; then
+			_identifier="$( printf -- '%s' "${VONUVOLI_SCHEME_FEATURES}" | md5sum -b )" ; _identifier="${_identifier%% *}"
+			_target="$( exec -- readlink -e -- ./target )/features--${_identifier}"
+			if ! env VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" "${@}" ; then
 				printf -- '[ee]  failed using features `%s`!\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
 				exit -- 1
 			fi
@@ -5461,7 +5503,7 @@
 		test -e ./.rust/.initialized
 		export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
 		export -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"
-		export -- PATH="${RUST_PATH}"
+		export -- PATH="${RUST_PATH:-$( exec -- readlink -e -- ./.rust/rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}}"
 		nice -n 19 -- cargo install --force peg
 		nice -n 19 -- cargo install --force cargo-kcov
 		nice -n 19 -- cargo install --force cargo-tree
@@ -5472,16 +5514,27 @@
 		test -e ./.rust/.initialized
 		export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
 		export -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"
-		export -- PATH="${RUST_PATH}"
+		export -- PATH="${RUST_PATH:-$( exec -- readlink -e -- ./.rust/rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}}"
 		nice -n 19 -- cargo update
+!!
+
+<< workbench / initialize
+		test "${#}" -eq 0
+		x-run ':: workbench / workspace / initialize'
+		x-run ':: workbench / rust-up / initialize'
+		x-run ':: workbench / rust-up / install'
+		x-run ':: workbench / cargo / install or upgrade'
+		x-run ':: workbench / python / initialize'
+		x-run ':: workbench / python / install or upgrade'
 !!
 
 << workbench / python / initialize
 		test "${#}" -eq 0
-		test ! -e ./.python/.initialized
-		test -e ./.python
-		nice -n 19 -- virtualenv --python python2.7 -- ./.python
-		touch -- ./.python/.initialized
+		if test ! -e ./.python/.initialized ; then
+			test -e ./.python
+			nice -n 19 -- virtualenv-2.7 --python python2.7 -- ./.python
+			touch -- ./.python/.initialized
+		fi
 !!
 
 << workbench / python / install or upgrade
@@ -5493,17 +5546,18 @@
 
 << workbench / rust-up / initialize
 		test "${#}" -eq 0
-		test ! -e ./.rust/.initialized
 		test -e ./.rust
-		mkdir -- ./.rust/rustup
-		mkdir -- ./.rust/cargo
-		curl -s -o ./.rust/rustup-init.tmp -- https://static.rust-lang.org/rustup/dist/x86_64-unknown-linux-gnu/rustup-init
-		chmod +x -- ./.rust/rustup-init.tmp
-		mv -n -T -- ./.rust/rustup-init.tmp ./.rust/rustup-init
-		export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
-		export -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"
-		nice -n 19 -- ./.rust/rustup-init -y --no-modify-path
-		touch -- ./.rust/.initialized
+		if test ! -e ./.rust/.initialized ; then
+			mkdir -- ./.rust/rustup
+			mkdir -- ./.rust/cargo
+			curl -s -o ./.rust/rustup-init.tmp -- https://static.rust-lang.org/rustup/dist/x86_64-unknown-linux-gnu/rustup-init
+			chmod +x -- ./.rust/rustup-init.tmp
+			mv -n -T -- ./.rust/rustup-init.tmp ./.rust/rustup-init
+			export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
+			export -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"
+			nice -n 19 -- ./.rust/rustup-init -y --no-modify-path
+			touch -- ./.rust/.initialized
+		fi
 !!
 
 << workbench / rust-up / install
@@ -5523,5 +5577,27 @@
 		export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
 		export -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"
 		nice -n 19 -- ./.rust/cargo/bin/rustup update
+!!
+
+<< workbench / workspace / initialize
+		test "${#}" -eq 0
+		if test ! -e ./.cargo ; then
+			mkdir -- ./.cargo
+		fi
+		if test ! -e ./.rust ; then
+			mkdir -- ./.rust
+		fi
+		if test ! -e ./.python ; then
+			mkdir -- ./.python
+		fi
+		if test ! -e ./target ; then
+			mkdir -- ./target
+		fi
+		if test ! -e ./tests/_outputs ; then
+			mkdir -- ./tests/_outputs
+		fi
+		if test ! -e ./examples/_outputs ; then
+			mkdir -- ./examples/_outputs
+		fi
 !!
 
