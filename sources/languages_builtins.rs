@@ -697,6 +697,43 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			
 		]);
 	
+	// NOTE:  bytes regular expressions
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	definitions.extend_from_slice (&[
+			
+			("bytevector-regex?", TypePrimitiveV::IsBytesRegex.into ()),
+			("not-bytevector-regex?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsBytesRegex) .into ()),
+			("make-bytevector-regex", BytesPrimitive1::BytesRegexCompile.into ()),
+			
+			("bytevector-regex-match?", BytesPrimitive2::BytesRegexMatches.into ()),
+			
+			("bytevector-regex-match", BytesPrimitive2::BytesRegexMatchExtractFirst.into ()),
+			("bytevector-regex-match-all", BytesPrimitive2::BytesRegexMatchExtractAllAsList.into ()),
+			("bytevector-regex-match-all->vector", BytesPrimitive2::BytesRegexMatchExtractAllAsArray.into ()),
+			
+			("bytevector-regex-match-position", BytesPrimitive2::BytesRegexMatchPositionFirst.into ()),
+			("bytevector-regex-match-position-all", BytesPrimitive2::BytesRegexMatchPositionAllAsList.into ()),
+			("bytevector-regex-match-position-all->vector", BytesPrimitive2::BytesRegexMatchPositionAllAsArray.into ()),
+			
+			("bytevector-regex-match-captures", BytesPrimitive2::BytesRegexMatchCapturesExtractFirstAsList.into ()),
+			("bytevector-regex-match-captures->assoc", BytesPrimitive2::BytesRegexMatchCapturesExtractFirstAsAssoc.into ()),
+			("bytevector-regex-match-captures->vector", BytesPrimitive2::BytesRegexMatchCapturesExtractFirstAsArray.into ()),
+			
+			("bytevector-regex-match-captures-all", BytesPrimitive2::BytesRegexMatchCapturesExtractAllAsList.into ()),
+			("bytevector-regex-match-captures-all->assoc", BytesPrimitive2::BytesRegexMatchCapturesExtractAllAsAssoc.into ()),
+			("bytevector-regex-match-captures-all->vector", BytesPrimitive2::BytesRegexMatchCapturesExtractAllAsArray.into ()),
+			
+			("bytevector-regex-match-captures-position", BytesPrimitive2::BytesRegexMatchCapturesPositionFirstAsList.into ()),
+			("bytevector-regex-match-captures-position->assoc", BytesPrimitive2::BytesRegexMatchCapturesPositionFirstAsAssoc.into ()),
+			("bytevector-regex-match-captures-position->vector", BytesPrimitive2::BytesRegexMatchCapturesPositionFirstAsArray.into ()),
+			
+			("bytevector-regex-match-captures-position-all", BytesPrimitive2::BytesRegexMatchCapturesPositionAllAsList.into ()),
+			("bytevector-regex-match-captures-position-all->assoc", BytesPrimitive2::BytesRegexMatchCapturesPositionAllAsAssoc.into ()),
+			("bytevector-regex-match-captures-position-all->vector", BytesPrimitive2::BytesRegexMatchCapturesPositionAllAsArray.into ()),
+			
+		]);
+	
 	// NOTE:  R7RS functional equivalents
 	definitions.extend_from_slice (&[
 			

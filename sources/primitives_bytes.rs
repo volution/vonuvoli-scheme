@@ -89,6 +89,9 @@ pub enum BytesPrimitive1 {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	BytesToMutable,
 	
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	BytesRegexCompile,
+	
 }
 
 
@@ -116,6 +119,49 @@ pub enum BytesPrimitive2 {
 	BytesRangeToArray,
 	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ArrayRangeToBytes,
+	
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	BytesRegexMatches,
+	
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	BytesRegexMatchExtractFirst,
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	BytesRegexMatchExtractAllAsList,
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	BytesRegexMatchExtractAllAsArray,
+	
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	BytesRegexMatchPositionFirst,
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	BytesRegexMatchPositionAllAsList,
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	BytesRegexMatchPositionAllAsArray,
+	
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	BytesRegexMatchCapturesExtractFirstAsList,
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	BytesRegexMatchCapturesExtractFirstAsAssoc,
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	BytesRegexMatchCapturesExtractFirstAsArray,
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	BytesRegexMatchCapturesExtractAllAsList,
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	BytesRegexMatchCapturesExtractAllAsAssoc,
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	BytesRegexMatchCapturesExtractAllAsArray,
+	
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	BytesRegexMatchCapturesPositionFirstAsList,
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	BytesRegexMatchCapturesPositionFirstAsAssoc,
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	BytesRegexMatchCapturesPositionFirstAsArray,
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	BytesRegexMatchCapturesPositionAllAsList,
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	BytesRegexMatchCapturesPositionAllAsAssoc,
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	BytesRegexMatchCapturesPositionAllAsArray,
 	
 }
 
@@ -274,6 +320,10 @@ pub fn bytes_primitive_1_evaluate (primitive : BytesPrimitive1, input_1 : &Value
 		BytesPrimitive1::BytesToMutable =>
 			return try_as_bytes_as_ref! (input_1) .to_mutable () .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		BytesPrimitive1::BytesRegexCompile =>
+			return bytes_regex_compile (input_1) .into_0 (),
+		
 	}
 }
 
@@ -324,6 +374,82 @@ pub fn bytes_primitive_2_evaluate (primitive : BytesPrimitive2, input_1 : &Value
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		BytesPrimitive2::ArrayRangeToBytes =>
 			return array_range_to_bytes (input_1, Some (input_2), None),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		BytesPrimitive2::BytesRegexMatches =>
+			return bytes_regex_matches (input_1, input_2) .into_0 (),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		BytesPrimitive2::BytesRegexMatchExtractFirst =>
+			return bytes_regex_match_extract_first (input_1, input_2),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		BytesPrimitive2::BytesRegexMatchExtractAllAsList =>
+			return bytes_regex_match_extract_all (input_1, input_2, false),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		BytesPrimitive2::BytesRegexMatchExtractAllAsArray =>
+			return bytes_regex_match_extract_all (input_1, input_2, true),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		BytesPrimitive2::BytesRegexMatchPositionFirst =>
+			return bytes_regex_match_position_first (input_1, input_2),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		BytesPrimitive2::BytesRegexMatchPositionAllAsList =>
+			return bytes_regex_match_position_all (input_1, input_2, false),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		BytesPrimitive2::BytesRegexMatchPositionAllAsArray =>
+			return bytes_regex_match_position_all (input_1, input_2, true),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		BytesPrimitive2::BytesRegexMatchCapturesExtractFirstAsList =>
+			return bytes_regex_match_captures_extract_first (input_1, input_2, false, false, false),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		BytesPrimitive2::BytesRegexMatchCapturesExtractFirstAsAssoc =>
+			return bytes_regex_match_captures_extract_first (input_1, input_2, false, true, true),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		BytesPrimitive2::BytesRegexMatchCapturesExtractFirstAsArray =>
+			return bytes_regex_match_captures_extract_first (input_1, input_2, true, false, false),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		BytesPrimitive2::BytesRegexMatchCapturesExtractAllAsList =>
+			return bytes_regex_match_captures_extract_all (input_1, input_2, false, false, false),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		BytesPrimitive2::BytesRegexMatchCapturesExtractAllAsAssoc =>
+			return bytes_regex_match_captures_extract_all (input_1, input_2, false, true, true),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		BytesPrimitive2::BytesRegexMatchCapturesExtractAllAsArray =>
+			return bytes_regex_match_captures_extract_all (input_1, input_2, true, false, false),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		BytesPrimitive2::BytesRegexMatchCapturesPositionFirstAsList =>
+			return bytes_regex_match_captures_position_first (input_1, input_2, false, false, false),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		BytesPrimitive2::BytesRegexMatchCapturesPositionFirstAsAssoc =>
+			return bytes_regex_match_captures_position_first (input_1, input_2, false, true, true),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		BytesPrimitive2::BytesRegexMatchCapturesPositionFirstAsArray =>
+			return bytes_regex_match_captures_position_first (input_1, input_2, true, false, false),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		BytesPrimitive2::BytesRegexMatchCapturesPositionAllAsList =>
+			return bytes_regex_match_captures_position_all (input_1, input_2, false, false, false),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		BytesPrimitive2::BytesRegexMatchCapturesPositionAllAsAssoc =>
+			return bytes_regex_match_captures_position_all (input_1, input_2, false, true, true),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		BytesPrimitive2::BytesRegexMatchCapturesPositionAllAsArray =>
+			return bytes_regex_match_captures_position_all (input_1, input_2, true, false, false),
 		
 	}
 }
