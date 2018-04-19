@@ -157,7 +157,15 @@ string_array -> values::Value = "#string" "(" space? elements : string_array_cha
 	}
 string_array_character -> char = value : $( [0-9]+ ) {? u32::from_str (value) .map_err (|_| "invalid character syntax") .and_then (|value| char::from_u32 (value) .ok_or ("invalid character value")) }
 
-bytes -> values::Value = ( "#u8" / "#U8" / "#bytes" ) "(" space? elements : bytes_byte ** space space?  ")" {?
+bytes -> values::Value = bytes_quoted / bytes_array
+bytes_quoted -> values::Value = ( "#u8" / "#U8" / "#bytes" ) "\"" elements : string_character* "\"" {?
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
+		let outcome = Ok (values::bytes_immutable_clone_characters (elements.as_slice ()) .into ());
+		#[ cfg ( not ( feature = "vonuvoli_values_string" ) ) ]
+		let outcome = Err ("strings are not supported");
+		outcome
+	}
+bytes_array -> values::Value = ( "#u8" / "#U8" / "#bytes" ) "(" space? elements : bytes_byte ** space space?  ")" {?
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	let outcome = Ok (values::bytes_immutable_new (elements) .into ());
 	#[ cfg ( not ( feature = "vonuvoli_values_bytes" ) ) ]

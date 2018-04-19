@@ -2976,6 +2976,98 @@ fn __parse_bytes<'input>(
 {
 	#![allow(non_snake_case, unused)]
 	{
+		let __choice_res = __parse_bytes_quoted(__input, __state, __pos);
+		match __choice_res {
+			Matched(__pos, __value) => Matched(__pos, __value),
+			Failed => __parse_bytes_array(__input, __state, __pos),
+		}
+	}
+}
+
+fn __parse_bytes_quoted<'input>(
+	__input : &'input str,
+	__state : &mut ParseState<'input>,
+	__pos : usize,
+) -> RuleResult<values::Value>
+{
+	#![allow(non_snake_case, unused)]
+	{
+		let __seq_res = {
+			let __choice_res = slice_eq(__input, __state, __pos, "#u8");
+			match __choice_res {
+				Matched(__pos, __value) => Matched(__pos, __value),
+				Failed => {
+					let __choice_res = slice_eq(__input, __state, __pos, "#U8");
+					match __choice_res {
+						Matched(__pos, __value) => Matched(__pos, __value),
+						Failed => slice_eq(__input, __state, __pos, "#bytes"),
+					}
+				},
+			}
+		};
+		match __seq_res {
+			Matched(__pos, _) => {
+				let __seq_res = slice_eq(__input, __state, __pos, "\"");
+				match __seq_res {
+					Matched(__pos, _) => {
+						let __seq_res = {
+							let mut __repeat_pos = __pos;
+							let mut __repeat_value = vec![];
+							loop {
+								let __pos = __repeat_pos;
+								let __step_res = __parse_string_character(__input, __state, __pos);
+								match __step_res {
+									Matched(__newpos, __value) => {
+										__repeat_pos = __newpos;
+										__repeat_value.push(__value);
+									},
+									Failed => {
+										break;
+									},
+								}
+							}
+							Matched(__repeat_pos, __repeat_value)
+						};
+						match __seq_res {
+							Matched(__pos, elements) => {
+								let __seq_res = slice_eq(__input, __state, __pos, "\"");
+								match __seq_res {
+									Matched(__pos, _) =>
+										match {
+											#[cfg(feature = "vonuvoli_values_string")]
+											let outcome = Ok(values::bytes_immutable_clone_characters(elements.as_slice()).into());
+											#[cfg(not(feature = "vonuvoli_values_string"))]
+											let outcome = Err("strings are not supported");
+											outcome
+										} {
+											Ok(res) => Matched(__pos, res),
+											Err(expected) => {
+												__state.mark_failure(__pos, expected);
+												Failed
+											},
+										},
+									Failed => Failed,
+								}
+							},
+							Failed => Failed,
+						}
+					},
+					Failed => Failed,
+				}
+			},
+			Failed => Failed,
+		}
+	}
+}
+
+fn __parse_bytes_array<'input>(
+	__input : &'input str,
+	__state : &mut ParseState<'input>,
+	__pos : usize,
+) -> RuleResult<values::Value>
+{
+	#![allow(non_snake_case, unused)]
+	{
 		let __seq_res = {
 			let __choice_res = slice_eq(__input, __state, __pos, "#u8");
 			match __choice_res {
