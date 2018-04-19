@@ -546,6 +546,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("read-bytevector-line", PortPrimitiveV::BytesReadLine.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			("read-bytevector-zero", PortPrimitiveV::BytesReadZero.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("read-bytevector-append!", PortPrimitiveV::BytesReadExtend.into ()),
 			
@@ -555,6 +558,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("read-string-line", PortPrimitiveV::StringReadLine.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("read-string-zero", PortPrimitiveV::StringReadZero.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]

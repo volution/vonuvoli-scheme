@@ -97,6 +97,8 @@ pub enum PortPrimitive0 {
 	BytesReadChunk,
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	BytesReadLine,
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	BytesReadZero,
 	
 	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	StringReadCollect,
@@ -104,6 +106,8 @@ pub enum PortPrimitive0 {
 	StringReadChunk,
 	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	StringReadLine,
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
+	StringReadZero,
 	
 	ValueRead,
 	
@@ -171,6 +175,8 @@ pub enum PortPrimitive1 {
 	BytesReadChunk,
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	BytesReadLine,
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	BytesReadZero,
 	
 	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -181,6 +187,8 @@ pub enum PortPrimitive1 {
 	StringReadChunk,
 	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	StringReadLine,
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
+	StringReadZero,
 	
 	ValueRead,
 	
@@ -239,6 +247,8 @@ pub enum PortPrimitive2 {
 	BytesReadChunk,
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	BytesReadLine,
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	BytesReadZero,
 	
 	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -249,6 +259,8 @@ pub enum PortPrimitive2 {
 	StringReadChunk,
 	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	StringReadLine,
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
+	StringReadZero,
 	
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	ByteWrite,
@@ -372,6 +384,8 @@ pub enum PortPrimitiveV {
 	BytesReadChunk,
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	BytesReadLine,
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	BytesReadZero,
 	
 	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -382,6 +396,8 @@ pub enum PortPrimitiveV {
 	StringReadChunk,
 	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	StringReadLine,
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
+	StringReadZero,
 	
 	ValueRead,
 	
@@ -557,7 +573,11 @@ pub fn port_primitive_0_evaluate (primitive : PortPrimitive0, evaluator : &mut E
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive0::BytesReadLine =>
-			return port_input_bytes_read_line (stdin_ref! (evaluator), Some (false), None, Some (true)),
+			return port_input_bytes_read_collect_line (stdin_ref! (evaluator), Some (false), None, Some (true)),
+		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		PortPrimitive0::BytesReadZero =>
+			return port_input_bytes_read_collect_zero (stdin_ref! (evaluator), Some (false), None, Some (true)),
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitive0::StringReadCollect =>
@@ -569,7 +589,11 @@ pub fn port_primitive_0_evaluate (primitive : PortPrimitive0, evaluator : &mut E
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitive0::StringReadLine =>
-			return port_input_string_read_line (stdin_ref! (evaluator), Some (false), None, Some (true)),
+			return port_input_string_read_collect_line (stdin_ref! (evaluator), Some (false), None, Some (true)),
+		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
+		PortPrimitive0::StringReadZero =>
+			return port_input_string_read_collect_zero (stdin_ref! (evaluator), Some (false), None, Some (true)),
 		
 		PortPrimitive0::ValueRead =>
 			fail_unimplemented! (0x75ffa1de), // deferred
@@ -686,7 +710,11 @@ pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, input_1 : &Value, 
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive1::BytesReadLine =>
-			return port_input_bytes_read_line (input_1, Some (false), None, Some (true)),
+			return port_input_bytes_read_collect_line (input_1, Some (false), None, Some (true)),
+		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		PortPrimitive1::BytesReadZero =>
+			return port_input_bytes_read_collect_zero (input_1, Some (false), None, Some (true)),
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -703,7 +731,11 @@ pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, input_1 : &Value, 
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitive1::StringReadLine =>
-			return port_input_string_read_line (input_1, Some (false), None, Some (true)),
+			return port_input_string_read_collect_line (input_1, Some (false), None, Some (true)),
+		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
+		PortPrimitive1::StringReadZero =>
+			return port_input_string_read_collect_zero (input_1, Some (false), None, Some (true)),
 		
 		PortPrimitive1::ValueRead =>
 			fail_unimplemented! (0xae3d8a9f), // deferred
@@ -837,7 +869,11 @@ pub fn port_primitive_2_evaluate (primitive : PortPrimitive2, input_1 : &Value, 
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive2::BytesReadLine =>
-			return port_input_bytes_read_line (input_1, Some (false), Some (input_2), Some (true)),
+			return port_input_bytes_read_collect_line (input_1, Some (false), Some (input_2), Some (true)),
+		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		PortPrimitive2::BytesReadZero =>
+			return port_input_bytes_read_collect_zero (input_1, Some (false), Some (input_2), Some (true)),
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -854,7 +890,11 @@ pub fn port_primitive_2_evaluate (primitive : PortPrimitive2, input_1 : &Value, 
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitive2::StringReadLine =>
-			return port_input_string_read_line (input_1, Some (false), Some (input_2), Some (true)),
+			return port_input_string_read_collect_line (input_1, Some (false), Some (input_2), Some (true)),
+		
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
+		PortPrimitive2::StringReadZero =>
+			return port_input_string_read_collect_zero (input_1, Some (false), Some (input_2), Some (true)),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive2::ByteWrite =>
@@ -1045,6 +1085,9 @@ pub fn port_primitive_v_alternative_0 (primitive : PortPrimitiveV) -> (Option<Po
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitiveV::BytesReadLine =>
 			Some (PortPrimitive0::BytesReadLine),
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		PortPrimitiveV::BytesReadZero =>
+			Some (PortPrimitive0::BytesReadZero),
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		PortPrimitiveV::StringReadExtend =>
@@ -1058,6 +1101,9 @@ pub fn port_primitive_v_alternative_0 (primitive : PortPrimitiveV) -> (Option<Po
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitiveV::StringReadLine =>
 			Some (PortPrimitive0::StringReadLine),
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
+		PortPrimitiveV::StringReadZero =>
+			Some (PortPrimitive0::StringReadZero),
 		PortPrimitiveV::ValueRead =>
 			Some (PortPrimitive0::ValueRead),
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
@@ -1148,6 +1194,9 @@ pub fn port_primitive_v_alternative_1 (primitive : PortPrimitiveV) -> (Option<Po
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitiveV::BytesReadLine =>
 			Some (PortPrimitive1::BytesReadLine),
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		PortPrimitiveV::BytesReadZero =>
+			Some (PortPrimitive1::BytesReadZero),
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		PortPrimitiveV::StringReadExtend =>
@@ -1161,6 +1210,9 @@ pub fn port_primitive_v_alternative_1 (primitive : PortPrimitiveV) -> (Option<Po
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitiveV::StringReadLine =>
 			Some (PortPrimitive1::StringReadLine),
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
+		PortPrimitiveV::StringReadZero =>
+			Some (PortPrimitive1::StringReadZero),
 		PortPrimitiveV::ValueRead =>
 			Some (PortPrimitive1::ValueRead),
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
@@ -1251,6 +1303,9 @@ pub fn port_primitive_v_alternative_2 (primitive : PortPrimitiveV) -> (Option<Po
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitiveV::BytesReadLine =>
 			Some (PortPrimitive2::BytesReadLine),
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		PortPrimitiveV::BytesReadZero =>
+			Some (PortPrimitive2::BytesReadZero),
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		PortPrimitiveV::StringReadExtend =>
@@ -1264,6 +1319,9 @@ pub fn port_primitive_v_alternative_2 (primitive : PortPrimitiveV) -> (Option<Po
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitiveV::StringReadLine =>
 			Some (PortPrimitive2::StringReadLine),
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
+		PortPrimitiveV::StringReadZero =>
+			Some (PortPrimitive2::StringReadZero),
 		PortPrimitiveV::ValueRead =>
 			None,
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
@@ -1354,6 +1412,9 @@ pub fn port_primitive_v_alternative_3 (primitive : PortPrimitiveV) -> (Option<Po
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitiveV::BytesReadLine =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		PortPrimitiveV::BytesReadZero =>
+			None,
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		PortPrimitiveV::StringReadExtend =>
@@ -1366,6 +1427,9 @@ pub fn port_primitive_v_alternative_3 (primitive : PortPrimitiveV) -> (Option<Po
 			None,
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitiveV::StringReadLine =>
+			None,
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
+		PortPrimitiveV::StringReadZero =>
 			None,
 		PortPrimitiveV::ValueRead =>
 			None,
@@ -1457,6 +1521,9 @@ pub fn port_primitive_v_alternative_4 (primitive : PortPrimitiveV) -> (Option<Po
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitiveV::BytesReadLine =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		PortPrimitiveV::BytesReadZero =>
+			None,
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		PortPrimitiveV::StringReadExtend =>
@@ -1469,6 +1536,9 @@ pub fn port_primitive_v_alternative_4 (primitive : PortPrimitiveV) -> (Option<Po
 			None,
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitiveV::StringReadLine =>
+			None,
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
+		PortPrimitiveV::StringReadZero =>
 			None,
 		PortPrimitiveV::ValueRead =>
 			None,
@@ -1560,6 +1630,9 @@ pub fn port_primitive_v_alternative_5 (primitive : PortPrimitiveV) -> (Option<Po
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitiveV::BytesReadLine =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		PortPrimitiveV::BytesReadZero =>
+			None,
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		PortPrimitiveV::StringReadExtend =>
@@ -1572,6 +1645,9 @@ pub fn port_primitive_v_alternative_5 (primitive : PortPrimitiveV) -> (Option<Po
 			None,
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitiveV::StringReadLine =>
+			None,
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
+		PortPrimitiveV::StringReadZero =>
 			None,
 		PortPrimitiveV::ValueRead =>
 			None,
@@ -1663,6 +1739,9 @@ pub fn port_primitive_v_alternative_n (primitive : PortPrimitiveV) -> (Option<Po
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitiveV::BytesReadLine =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		PortPrimitiveV::BytesReadZero =>
+			None,
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		PortPrimitiveV::StringReadExtend =>
@@ -1675,6 +1754,9 @@ pub fn port_primitive_v_alternative_n (primitive : PortPrimitiveV) -> (Option<Po
 			None,
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitiveV::StringReadLine =>
+			None,
+		#[ cfg ( feature = "vonuvoli_values_string" ) ]
+		PortPrimitiveV::StringReadZero =>
 			None,
 		PortPrimitiveV::ValueRead =>
 			None,
