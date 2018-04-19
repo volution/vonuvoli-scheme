@@ -155,6 +155,15 @@ def_scheme_benchmarks_from_file! (
 
 
 
+#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+def_scheme_tests_from_file! (
+		
+		test__regex_strings => "scheme/regex-strings.sst",
+		test__regex_bytes => "scheme/regex-bytes.sst",
+		
+	);
+
+
 #[ cfg ( feature = "vonuvoli_builtins_crypto" ) ]
 def_scheme_tests_from_file! (
 		

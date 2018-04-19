@@ -1,0 +1,78 @@
+
+
+(define r-a (~make-string-regex "^(a+)(.*)$")) => !ignore
+(define r-b (~make-string-regex "(a+)(?:(b+)|(c+))?")) => !ignore
+
+
+(~string-regex? r-a) => #t
+(~bytevector-regex? r-a) => #f
+
+(string? r-a) => #f
+(procedure? r-a) => #f
+
+
+
+
+(~string-regex-match? r-a "a") => #t
+(~string-regex-match? r-a "aa") => #t
+(~string-regex-match? r-a "aaa") => #t
+
+(~string-regex-match? r-a "ab") => #t
+(~string-regex-match? r-a "aabc") => #t
+(~string-regex-match? r-a "aaabcd") => #t
+
+(~string-regex-match? r-a "") => #f
+(~string-regex-match? r-a "x") => #f
+(~string-regex-match? r-a "xa") => #f
+
+
+(~string-regex-match r-a "a") => "a"
+(~string-regex-match r-a "ab") => "ab"
+(~string-regex-match r-a "") => #f
+
+(~string-regex-match-all r-a "a") => '("a")
+(~string-regex-match-all r-a "ab") => '("ab")
+(~string-regex-match-all r-a "") => #f
+
+(~string-regex-match-all->vector r-a "a") => #("a")
+(~string-regex-match-all->vector r-a "ab") => #("ab")
+(~string-regex-match-all->vector r-a "") => #f
+
+
+(~string-regex-match-captures r-a "a") => '("a" "a" "")
+(~string-regex-match-captures r-a "ab") => '("ab" "a" "b")
+(~string-regex-match-captures r-a "") => #f
+
+(~string-regex-match-captures->vector r-a "a") => #("a" "a" "")
+(~string-regex-match-captures->vector r-a "ab") => #("ab" "a" "b")
+(~string-regex-match-captures->vector r-a "") => #f
+
+(~string-regex-match-captures->assoc r-a "a") => '((0 . "a") (1 . "a") (2 . ""))
+(~string-regex-match-captures->assoc r-a "ab") => '((0 . "ab") (1 . "a") (2 . "b"))
+(~string-regex-match-captures->assoc r-a "") => #f
+
+
+(~string-regex-match-captures-all r-a "a") => '(("a" "a" ""))
+(~string-regex-match-captures-all r-a "ab") => '(("ab" "a" "b"))
+(~string-regex-match-captures-all r-a "") => #f
+
+(~string-regex-match-captures-all->vector r-a "a") => #(#("a" "a" ""))
+(~string-regex-match-captures-all->vector r-a "ab") => #(#("ab" "a" "b"))
+(~string-regex-match-captures-all->vector r-a "") => #f
+
+(~string-regex-match-captures-all->assoc r-a "a") => '(((0 . "a") (1 . "a") (2 . "")))
+(~string-regex-match-captures-all->assoc r-a "ab") => '(((0 . "ab") (1 . "a") (2 . "b")))
+(~string-regex-match-captures-all->assoc r-a "") => #f
+
+
+
+
+(~string-regex-match-captures-all r-b "") => #f
+(~string-regex-match-captures-all r-b "123") => #f
+(~string-regex-match-captures-all r-b "a") => '(("a" "a" #f #f))
+(~string-regex-match-captures-all r-b "1a") => '(("a" "a" #f #f))
+(~string-regex-match-captures-all r-b "a2") => '(("a" "a" #f #f))
+(~string-regex-match-captures-all r-b "1a2") => '(("a" "a" #f #f))
+(~string-regex-match-captures-all r-b "1a2a3") => '(("a" "a" #f #f) ("a" "a" #f #f))
+(~string-regex-match-captures-all r-b "1aa2ab3ac4") => '(("aa" "aa" #f #f) ("ab" "a" "b" #f) ("ac" "a" #f "c"))
+

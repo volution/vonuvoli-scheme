@@ -1,0 +1,78 @@
+
+
+(define r-a (~make-bytevector-regex "^(a+)(.*)$")) => !ignore
+(define r-b (~make-bytevector-regex "(a+)(?:(b+)|(c+))?")) => !ignore
+
+
+(~bytevector-regex? r-a) => #t
+(~string-regex? r-a) => #f
+
+(bytevector? r-a) => #f
+(procedure? r-a) => #f
+
+
+
+
+(~bytevector-regex-match? r-a #u8"a") => #t
+(~bytevector-regex-match? r-a #u8"aa") => #t
+(~bytevector-regex-match? r-a #u8"aaa") => #t
+
+(~bytevector-regex-match? r-a #u8"ab") => #t
+(~bytevector-regex-match? r-a #u8"aabc") => #t
+(~bytevector-regex-match? r-a #u8"aaabcd") => #t
+
+(~bytevector-regex-match? r-a #u8"") => #f
+(~bytevector-regex-match? r-a #u8"x") => #f
+(~bytevector-regex-match? r-a #u8"xa") => #f
+
+
+(~bytevector-regex-match r-a #u8"a") => #u8"a"
+(~bytevector-regex-match r-a #u8"ab") => #u8"ab"
+(~bytevector-regex-match r-a #u8"") => #f
+
+(~bytevector-regex-match-all r-a #u8"a") => '(#u8"a")
+(~bytevector-regex-match-all r-a #u8"ab") => '(#u8"ab")
+(~bytevector-regex-match-all r-a #u8"") => #f
+
+(~bytevector-regex-match-all->vector r-a #u8"a") => #(#u8"a")
+(~bytevector-regex-match-all->vector r-a #u8"ab") => #(#u8"ab")
+(~bytevector-regex-match-all->vector r-a #u8"") => #f
+
+
+(~bytevector-regex-match-captures r-a #u8"a") => '(#u8"a" #u8"a" #u8"")
+(~bytevector-regex-match-captures r-a #u8"ab") => '(#u8"ab" #u8"a" #u8"b")
+(~bytevector-regex-match-captures r-a #u8"") => #f
+
+(~bytevector-regex-match-captures->vector r-a #u8"a") => #(#u8"a" #u8"a" #u8"")
+(~bytevector-regex-match-captures->vector r-a #u8"ab") => #(#u8"ab" #u8"a" #u8"b")
+(~bytevector-regex-match-captures->vector r-a #u8"") => #f
+
+(~bytevector-regex-match-captures->assoc r-a #u8"a") => '((0 . #u8"a") (1 . #u8"a") (2 . #u8""))
+(~bytevector-regex-match-captures->assoc r-a #u8"ab") => '((0 . #u8"ab") (1 . #u8"a") (2 . #u8"b"))
+(~bytevector-regex-match-captures->assoc r-a #u8"") => #f
+
+
+(~bytevector-regex-match-captures-all r-a #u8"a") => '((#u8"a" #u8"a" #u8""))
+(~bytevector-regex-match-captures-all r-a #u8"ab") => '((#u8"ab" #u8"a" #u8"b"))
+(~bytevector-regex-match-captures-all r-a #u8"") => #f
+
+(~bytevector-regex-match-captures-all->vector r-a #u8"a") => #(#(#u8"a" #u8"a" #u8""))
+(~bytevector-regex-match-captures-all->vector r-a #u8"ab") => #(#(#u8"ab" #u8"a" #u8"b"))
+(~bytevector-regex-match-captures-all->vector r-a #u8"") => #f
+
+(~bytevector-regex-match-captures-all->assoc r-a #u8"a") => '(((0 . #u8"a") (1 . #u8"a") (2 . #u8"")))
+(~bytevector-regex-match-captures-all->assoc r-a #u8"ab") => '(((0 . #u8"ab") (1 . #u8"a") (2 . #u8"b")))
+(~bytevector-regex-match-captures-all->assoc r-a #u8"") => #f
+
+
+
+
+(~bytevector-regex-match-captures-all r-b #u8"") => #f
+(~bytevector-regex-match-captures-all r-b #u8"123") => #f
+(~bytevector-regex-match-captures-all r-b #u8"a") => '((#u8"a" #u8"a" #f #f))
+(~bytevector-regex-match-captures-all r-b #u8"1a") => '((#u8"a" #u8"a" #f #f))
+(~bytevector-regex-match-captures-all r-b #u8"a2") => '((#u8"a" #u8"a" #f #f))
+(~bytevector-regex-match-captures-all r-b #u8"1a2") => '((#u8"a" #u8"a" #f #f))
+(~bytevector-regex-match-captures-all r-b #u8"1a2a3") => '((#u8"a" #u8"a" #f #f) (#u8"a" #u8"a" #f #f))
+(~bytevector-regex-match-captures-all r-b #u8"1aa2ab3ac4") => '((#u8"aa" #u8"aa" #f #f) (#u8"ab" #u8"a" #u8"b" #f) (#u8"ac" #u8"a" #f #u8"c"))
+
