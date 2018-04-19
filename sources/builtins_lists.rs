@@ -54,7 +54,7 @@ pub mod exports {
 	pub use super::{vec_list_ref_append_2_dotted, vec_list_ref_append_3_dotted, vec_list_ref_append_4_dotted, vec_list_ref_append_n_dotted};
 	pub use super::{vec_list_ref_clone, vec_list_ref_clone_dotted, vec_list_ref_drain, vec_list_ref_drain_dotted};
 	
-	pub use super::{build_list_or_array};
+	pub use super::{build_list_or_array, build_list_or_array_or_false_if_empty};
 	
 }
 
@@ -856,6 +856,15 @@ pub fn build_list_or_array (values : StdVec<Value>, return_array : bool) -> (Out
 		fail_panic! (0x2b2ec760);
 	} else {
 		succeed! (list_collect (values, None));
+	}
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn build_list_or_array_or_false_if_empty (values : StdVec<Value>, return_array : bool) -> (Outcome<Value>) {
+	if values.is_empty () {
+		succeed! (FALSE_VALUE);
+	} else {
+		return build_list_or_array (values, return_array);
 	}
 }
 
