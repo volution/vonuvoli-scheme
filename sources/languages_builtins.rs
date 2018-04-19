@@ -660,6 +660,43 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			
 		]);
 	
+	// NOTE:  string regular expressions
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
+	definitions.extend_from_slice (&[
+			
+			("string-regex?", TypePrimitiveV::IsStringRegex.into ()),
+			("not-string-regex?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsStringRegex) .into ()),
+			("make-string-regex", StringPrimitive1::StringRegexCompile.into ()),
+			
+			("string-regex-match?", StringPrimitive2::StringRegexMatches.into ()),
+			
+			("string-regex-match", StringPrimitive2::StringRegexMatchExtractFirst.into ()),
+			("string-regex-match-all", StringPrimitive2::StringRegexMatchExtractAllAsList.into ()),
+			("string-regex-match-all->vector", StringPrimitive2::StringRegexMatchExtractAllAsArray.into ()),
+			
+			("string-regex-match-position", StringPrimitive2::StringRegexMatchPositionFirst.into ()),
+			("string-regex-match-position-all", StringPrimitive2::StringRegexMatchPositionAllAsList.into ()),
+			("string-regex-match-position-all->vector", StringPrimitive2::StringRegexMatchPositionAllAsArray.into ()),
+			
+			("string-regex-match-captures", StringPrimitive2::StringRegexMatchCapturesExtractFirstAsList.into ()),
+			("string-regex-match-captures->assoc", StringPrimitive2::StringRegexMatchCapturesExtractFirstAsAssoc.into ()),
+			("string-regex-match-captures->vector", StringPrimitive2::StringRegexMatchCapturesExtractFirstAsArray.into ()),
+			
+			("string-regex-match-captures-all", StringPrimitive2::StringRegexMatchCapturesExtractAllAsList.into ()),
+			("string-regex-match-captures-all->assoc", StringPrimitive2::StringRegexMatchCapturesExtractAllAsAssoc.into ()),
+			("string-regex-match-captures-all->vector", StringPrimitive2::StringRegexMatchCapturesExtractAllAsArray.into ()),
+			
+			("string-regex-match-captures-position", StringPrimitive2::StringRegexMatchCapturesPositionFirstAsList.into ()),
+			("string-regex-match-captures-position->assoc", StringPrimitive2::StringRegexMatchCapturesPositionFirstAsAssoc.into ()),
+			("string-regex-match-captures-position->vector", StringPrimitive2::StringRegexMatchCapturesPositionFirstAsArray.into ()),
+			
+			("string-regex-match-captures-position-all", StringPrimitive2::StringRegexMatchCapturesPositionAllAsList.into ()),
+			("string-regex-match-captures-position-all->assoc", StringPrimitive2::StringRegexMatchCapturesPositionAllAsAssoc.into ()),
+			("string-regex-match-captures-position-all->vector", StringPrimitive2::StringRegexMatchCapturesPositionAllAsArray.into ()),
+			
+		]);
+	
 	// NOTE:  R7RS functional equivalents
 	definitions.extend_from_slice (&[
 			

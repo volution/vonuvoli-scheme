@@ -127,6 +127,9 @@ pub enum StringPrimitive1 {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	StringToMutable,
 	
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	StringRegexCompile,
+	
 }
 
 
@@ -162,6 +165,49 @@ pub enum StringPrimitive2 {
 	StringToNumber,
 	NumberToString,
 	CharacterToDigitNumber,
+	
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	StringRegexMatches,
+	
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	StringRegexMatchExtractFirst,
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	StringRegexMatchExtractAllAsList,
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	StringRegexMatchExtractAllAsArray,
+	
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	StringRegexMatchPositionFirst,
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	StringRegexMatchPositionAllAsList,
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	StringRegexMatchPositionAllAsArray,
+	
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	StringRegexMatchCapturesExtractFirstAsList,
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	StringRegexMatchCapturesExtractFirstAsAssoc,
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	StringRegexMatchCapturesExtractFirstAsArray,
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	StringRegexMatchCapturesExtractAllAsList,
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	StringRegexMatchCapturesExtractAllAsAssoc,
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	StringRegexMatchCapturesExtractAllAsArray,
+	
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	StringRegexMatchCapturesPositionFirstAsList,
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	StringRegexMatchCapturesPositionFirstAsAssoc,
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	StringRegexMatchCapturesPositionFirstAsArray,
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	StringRegexMatchCapturesPositionAllAsList,
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	StringRegexMatchCapturesPositionAllAsAssoc,
+	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+	StringRegexMatchCapturesPositionAllAsArray,
 	
 }
 
@@ -418,6 +464,10 @@ pub fn string_primitive_1_evaluate (primitive : StringPrimitive1, input_1 : &Val
 		StringPrimitive1::StringToMutable =>
 			return try_as_string_as_ref! (input_1) .to_mutable () .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		StringPrimitive1::StringRegexCompile =>
+			return string_regex_compile (input_1) .into_0 (),
+		
 	}
 }
 
@@ -485,6 +535,82 @@ pub fn string_primitive_2_evaluate (primitive : StringPrimitive2, input_1 : &Val
 		
 		StringPrimitive2::CharacterToDigitNumber =>
 			return character_to_digit_number (input_1, Some (input_2)),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		StringPrimitive2::StringRegexMatches =>
+			return string_regex_matches (input_1, input_2) .into_0 (),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		StringPrimitive2::StringRegexMatchExtractFirst =>
+			return string_regex_match_extract_first (input_1, input_2),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		StringPrimitive2::StringRegexMatchExtractAllAsList =>
+			return string_regex_match_extract_all (input_1, input_2, false),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		StringPrimitive2::StringRegexMatchExtractAllAsArray =>
+			return string_regex_match_extract_all (input_1, input_2, true),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		StringPrimitive2::StringRegexMatchPositionFirst =>
+			return string_regex_match_position_first (input_1, input_2),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		StringPrimitive2::StringRegexMatchPositionAllAsList =>
+			return string_regex_match_position_all (input_1, input_2, false),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		StringPrimitive2::StringRegexMatchPositionAllAsArray =>
+			return string_regex_match_position_all (input_1, input_2, true),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		StringPrimitive2::StringRegexMatchCapturesExtractFirstAsList =>
+			return string_regex_match_captures_extract_first (input_1, input_2, false, false, false),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		StringPrimitive2::StringRegexMatchCapturesExtractFirstAsAssoc =>
+			return string_regex_match_captures_extract_first (input_1, input_2, false, true, true),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		StringPrimitive2::StringRegexMatchCapturesExtractFirstAsArray =>
+			return string_regex_match_captures_extract_first (input_1, input_2, true, false, false),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		StringPrimitive2::StringRegexMatchCapturesExtractAllAsList =>
+			return string_regex_match_captures_extract_all (input_1, input_2, false, false, false),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		StringPrimitive2::StringRegexMatchCapturesExtractAllAsAssoc =>
+			return string_regex_match_captures_extract_all (input_1, input_2, false, true, true),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		StringPrimitive2::StringRegexMatchCapturesExtractAllAsArray =>
+			return string_regex_match_captures_extract_all (input_1, input_2, true, false, false),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		StringPrimitive2::StringRegexMatchCapturesPositionFirstAsList =>
+			return string_regex_match_captures_position_first (input_1, input_2, false, false, false),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		StringPrimitive2::StringRegexMatchCapturesPositionFirstAsAssoc =>
+			return string_regex_match_captures_position_first (input_1, input_2, false, true, true),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		StringPrimitive2::StringRegexMatchCapturesPositionFirstAsArray =>
+			return string_regex_match_captures_position_first (input_1, input_2, true, false, false),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		StringPrimitive2::StringRegexMatchCapturesPositionAllAsList =>
+			return string_regex_match_captures_position_all (input_1, input_2, false, false, false),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		StringPrimitive2::StringRegexMatchCapturesPositionAllAsAssoc =>
+			return string_regex_match_captures_position_all (input_1, input_2, false, true, true),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+		StringPrimitive2::StringRegexMatchCapturesPositionAllAsArray =>
+			return string_regex_match_captures_position_all (input_1, input_2, true, false, false),
 		
 	}
 }
