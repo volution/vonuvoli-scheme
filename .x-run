@@ -976,22 +976,23 @@ EOS-31f6e6b1
 	
 	while read -r -- _option ; do
 		case "${_option}" in
-			( *' / watch' )
-				continue
-			;;
-		esac
-		case "${_option}" in
 			( ':: compile / '* | ':: execute / '* | ':: workbench / '* )
-				_option="${_option/#:: }"
+				_option="${_option#:: }"
+				
+				case "${_option}" in
+					( *' / watch' )
+						_option="${_option% / watch}"
+						printf -- '\n<< builder / %s / watch\n' "${_option}"
+						printf -- 'exec -- "${X_RUN[@]}" '\'':: execute / watch'\'' "${X_RUN[@]}" %q\n' ":: builder / ${_option}"
+						printf -- '!!\n\n'
+						continue
+					;;
+				esac
 				
 				printf -- '\n<< builder / %s\n' "${_option}"
 				printf -- '"${X_RUN[@]}" %q\n' ":: builder / synchronize / sources / push"
 				_scriptlet="$( printf -- 'cd -- ./vonuvoli-scheme-builder/ && if test -e ./.rust/rustup/toolchains -a -e ./.rust/cargo/bin ; then export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}" ; fi && export -- VONUVOLI_SCHEME_FEATURES=%q && ./.x-run.execute %q' "${VONUVOLI_SCHEME_FEATURES:-}" ":: ${_option}" )"
 				printf -- 'exec -- ssh -- vonuvoli-scheme-builder %q\n' "${_scriptlet}"
-				printf -- '!!\n\n'
-				
-				printf -- '\n<< builder / %s / watch\n' "${_option}"
-				printf -- 'exec -- "${X_RUN[@]}" '\'':: execute / watch'\'' "${X_RUN[@]}" %q\n' ":: builder / ${_option}"
 				printf -- '!!\n\n'
 				
 			;;

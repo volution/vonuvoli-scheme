@@ -766,6 +766,8 @@
 	if test './tests/scheme/random.sst' -nt './tests/_outputs/scheme--benchmark__random.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__random.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/random.sst' "${@}" ; fi
 	if test './tests/scheme/records-procedures.sst' -nt './tests/_outputs/scheme--benchmark__records_procedures.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__records_procedures.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/records-procedures.sst' "${@}" ; fi
 	if test './tests/scheme/records-syntaxes.sst' -nt './tests/_outputs/scheme--benchmark__records_syntaxes.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__records_syntaxes.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/records-syntaxes.sst' "${@}" ; fi
+	if test './tests/scheme/regex-bytes.sst' -nt './tests/_outputs/scheme--benchmark__regex_bytes.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__regex_bytes.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/regex-bytes.sst' "${@}" ; fi
+	if test './tests/scheme/regex-strings.sst' -nt './tests/_outputs/scheme--benchmark__regex_strings.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__regex_strings.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/regex-strings.sst' "${@}" ; fi
 	if test './tests/scheme/runtime.sst' -nt './tests/_outputs/scheme--benchmark__runtime.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__runtime.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/runtime.sst' "${@}" ; fi
 	if test './tests/scheme/scratchpad.sst' -nt './tests/_outputs/scheme--benchmark__scratchpad.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__scratchpad.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/scratchpad.sst' "${@}" ; fi
 	if test './tests/scheme/srfi-1.sst' -nt './tests/_outputs/scheme--benchmark__srfi_1.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__srfi_1.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/srfi-1.sst' "${@}" ; fi
@@ -1359,6 +1361,30 @@
 	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__records_syntaxes.out' "${X_RUN[@]}" ':: execute / bin / bencher / release' './tests/scheme/records-syntaxes.sst' "${@}"
 !!
 
+<< execute / bin / bencher / regex-bytes / debug
+	exec -- taskset -c 2 "${X_RUN[@]}" ':: execute / bin / bencher / debug' './tests/scheme/regex-bytes.sst' "${@}"
+!!
+
+<< execute / bin / bencher / regex-bytes / debug / watch
+	exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / bin / bencher / regex-bytes / debug'
+!!
+
+<< execute / bin / bencher / regex-bytes / release
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__regex_bytes.out' "${X_RUN[@]}" ':: execute / bin / bencher / release' './tests/scheme/regex-bytes.sst' "${@}"
+!!
+
+<< execute / bin / bencher / regex-strings / debug
+	exec -- taskset -c 2 "${X_RUN[@]}" ':: execute / bin / bencher / debug' './tests/scheme/regex-strings.sst' "${@}"
+!!
+
+<< execute / bin / bencher / regex-strings / debug / watch
+	exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / bin / bencher / regex-strings / debug'
+!!
+
+<< execute / bin / bencher / regex-strings / release
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__regex_strings.out' "${X_RUN[@]}" ':: execute / bin / bencher / release' './tests/scheme/regex-strings.sst' "${@}"
+!!
+
 << execute / bin / bencher / release
 	"${X_RUN[@]}" ':: compile / bin / bencher / release' ; exec -- ./target/release/vonuvoli-scheme-bencher "${@}"
 !!
@@ -1873,6 +1899,8 @@
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/random.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/records-procedures.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/records-syntaxes.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/regex-bytes.sst' "${@}"
+	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/regex-strings.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/runtime.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/scratchpad.sst' "${@}"
 	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/srfi-1.sst' "${@}"
@@ -2464,6 +2492,30 @@
 
 << execute / bin / tester / records-syntaxes / release
 	exec -- nice -n 19 -- "${X_RUN[@]}" ':: execute / bin / tester / release' './tests/scheme/records-syntaxes.sst' "${@}"
+!!
+
+<< execute / bin / tester / regex-bytes / debug
+	exec -- nice -n 19 -- "${X_RUN[@]}" ':: execute / bin / tester / debug' './tests/scheme/regex-bytes.sst' "${@}"
+!!
+
+<< execute / bin / tester / regex-bytes / debug / watch
+	exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / bin / tester / regex-bytes / debug'
+!!
+
+<< execute / bin / tester / regex-bytes / release
+	exec -- nice -n 19 -- "${X_RUN[@]}" ':: execute / bin / tester / release' './tests/scheme/regex-bytes.sst' "${@}"
+!!
+
+<< execute / bin / tester / regex-strings / debug
+	exec -- nice -n 19 -- "${X_RUN[@]}" ':: execute / bin / tester / debug' './tests/scheme/regex-strings.sst' "${@}"
+!!
+
+<< execute / bin / tester / regex-strings / debug / watch
+	exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / bin / tester / regex-strings / debug'
+!!
+
+<< execute / bin / tester / regex-strings / release
+	exec -- nice -n 19 -- "${X_RUN[@]}" ':: execute / bin / tester / release' './tests/scheme/regex-strings.sst' "${@}"
 !!
 
 << execute / bin / tester / release
@@ -3271,6 +3323,22 @@
 	"${X_RUN[@]}" ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__records_syntaxes' --exact "${@}"
 !!
 
+<< execute / test / scheme / benchmarks / regex_bytes / debug
+	"${X_RUN[@]}" ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__regex_bytes' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / regex_bytes / release
+	"${X_RUN[@]}" ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__regex_bytes' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / regex_strings / debug
+	"${X_RUN[@]}" ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__regex_strings' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / regex_strings / release
+	"${X_RUN[@]}" ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__regex_strings' --exact "${@}"
+!!
+
 << execute / test / scheme / benchmarks / runtime / debug
 	"${X_RUN[@]}" ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__runtime' --exact "${@}"
 !!
@@ -3921,6 +3989,30 @@
 
 << execute / test / scheme / tests / records_syntaxes / release
 	"${X_RUN[@]}" ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__records_syntaxes' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / regex_bytes / debug
+	"${X_RUN[@]}" ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__regex_bytes' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / regex_bytes / debug / watch
+	exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / test / scheme / tests / regex_bytes / debug' "${@}"
+!!
+
+<< execute / test / scheme / tests / regex_bytes / release
+	"${X_RUN[@]}" ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__regex_bytes' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / regex_strings / debug
+	"${X_RUN[@]}" ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__regex_strings' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / regex_strings / debug / watch
+	exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / test / scheme / tests / regex_strings / debug' "${@}"
+!!
+
+<< execute / test / scheme / tests / regex_strings / release
+	"${X_RUN[@]}" ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__regex_strings' --exact "${@}"
 !!
 
 << execute / test / scheme / tests / runtime / debug
@@ -4691,6 +4783,14 @@
 
 << files / edit / tests/scheme/records-syntaxes.sst
 	exec -- sce ./tests/scheme/records-syntaxes.sst
+!!
+
+<< files / edit / tests/scheme/regex-bytes.sst
+	exec -- sce ./tests/scheme/regex-bytes.sst
+!!
+
+<< files / edit / tests/scheme/regex-strings.sst
+	exec -- sce ./tests/scheme/regex-strings.sst
 !!
 
 << files / edit / tests/scheme/runtime.sst
@@ -5471,6 +5571,14 @@
 
 << files / view / tests/scheme/records-syntaxes.sst
 	exec -- less -- ./tests/scheme/records-syntaxes.sst
+!!
+
+<< files / view / tests/scheme/regex-bytes.sst
+	exec -- less -- ./tests/scheme/regex-bytes.sst
+!!
+
+<< files / view / tests/scheme/regex-strings.sst
+	exec -- less -- ./tests/scheme/regex-strings.sst
 !!
 
 << files / view / tests/scheme/runtime.sst
