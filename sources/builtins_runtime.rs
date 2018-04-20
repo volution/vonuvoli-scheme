@@ -67,6 +67,7 @@ pub mod exports {
 	pub use super::{
 			process_argument,
 			process_arguments,
+			process_arguments_count,
 			process_environment_variable,
 			process_environment_variables,
 		};
@@ -374,6 +375,10 @@ pub fn parameter_configure (parameter : &Value, value : &Value, evaluator : &mut
 pub fn process_argument (index : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let index = try! (count_coerce (index));
 	let arguments = try! (try! (evaluator.parameters ()) .resolve_process_arguments ());
+	if index == 0 {
+		succeed! (FALSE_VALUE);
+	}
+	let index = index - 1;
 	let argument = try_some! (arguments.get (index), 0x4a3957c9);
 	let argument = try! (os_string_clone_into_value (argument));
 	succeed! (argument);
@@ -383,8 +388,22 @@ pub fn process_argument (index : &Value, evaluator : &mut EvaluatorContext) -> (
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_arguments (evaluator : &mut EvaluatorContext, return_array : bool) -> (Outcome<Value>) {
 	let arguments = try! (try! (evaluator.parameters ()) .resolve_process_arguments ());
-	let arguments = try_vec_map! (arguments.iter (), argument, os_string_clone_into_value (argument));
-	return build_list_or_array (arguments, return_array);
+	let mut arguments_all = StdVec::new ();
+	arguments_all.push (FALSE_VALUE);
+	for argument in arguments.iter () {
+		let argument = try! (os_string_clone_into_value (argument));
+		arguments_all.push (argument);
+	}
+	return build_list_or_array (arguments_all, return_array);
+}
+
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn process_arguments_count (evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	let arguments = try! (try! (evaluator.parameters ()) .resolve_process_arguments ());
+	let count = arguments.len () + 1;
+	let count = try! (NumberInteger::try_from (count));
+	succeed! (count.into ());
 }
 
 

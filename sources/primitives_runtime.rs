@@ -63,6 +63,7 @@ pub enum RuntimePrimitive0 {
 	ProcessArgumentsAsList,
 	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ProcessArgumentsAsArray,
+	ProcessArgumentsCount,
 	ProcessEnvironmentVariablesAsList,
 	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ProcessEnvironmentVariablesAsArray,
@@ -353,6 +354,9 @@ pub fn runtime_primitive_0_evaluate (primitive : RuntimePrimitive0, evaluator : 
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		RuntimePrimitive0::ProcessArgumentsAsArray =>
 			return process_arguments (evaluator, true),
+		
+		RuntimePrimitive0::ProcessArgumentsCount =>
+			return process_arguments_count (evaluator),
 		
 		RuntimePrimitive0::ProcessEnvironmentVariablesAsList =>
 			return process_environment_variables (evaluator, false),

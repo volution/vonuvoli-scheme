@@ -625,6 +625,8 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("command-line-ref", RuntimePrimitive1::ProcessArgument.into ()),
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("command-line->vector", RuntimePrimitive0::ProcessArgumentsAsArray.into ()),
+			("command-line-length", RuntimePrimitive0::ProcessArgumentsCount.into ()),
+			
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("get-environment-variables->vector", RuntimePrimitive0::ProcessEnvironmentVariablesAsArray.into ()),
 			

@@ -41,6 +41,8 @@ pub mod exports {
 	pub use super::{execute_main};
 	pub use super::{panic_with_error};
 	
+	pub use super::{parse_os_arguments, parse_os_environment};
+	
 	pub use super::super::runtime_backtrace::exports::*;
 	pub use super::super::runtime_configurations::exports::*;
 	pub use super::super::runtime_iterators::exports::*;
@@ -613,6 +615,58 @@ pub fn panic_with_error (error : Error, source : &(&'static str, u32, u32)) -> !
 		let error = format! ("{}", error);
 		::std::rt::begin_panic (error, source);
 	}
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn parse_os_arguments () -> (Outcome<(StdVec<ffi::OsString>, StdVec<ffi::OsString>)>) {
+	
+	let mut interpreter_arguments = StdVec::new ();
+	let mut process_arguments = StdVec::new ();
+	
+	let mut interpreter_expand = true;
+	for argument in env::args_os () {
+		if interpreter_expand {
+			if let Some (argument) = argument.to_str () {
+				if argument == "--" {
+					interpreter_expand = false;
+					continue;
+				}
+			}
+		}
+		if interpreter_expand {
+			interpreter_arguments.push (argument);
+		} else {
+			process_arguments.push (argument);
+		}
+	}
+	
+	succeed! ((interpreter_arguments, process_arguments));
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn parse_os_environment () -> (Outcome<(StdVec<(ffi::OsString, ffi::OsString)>, StdVec<(ffi::OsString, ffi::OsString)>)>) {
+	
+	let mut interpreter_environment = StdVec::new ();
+	let mut process_environment = StdVec::new ();
+	
+	for (name, value) in env::vars_os () {
+		let interpreter_extend = if let Some (name) = name.to_str () {
+			name.starts_with ("VONUVOLI_SCHEME_")
+		} else {
+			false
+		};
+		if interpreter_extend {
+			interpreter_environment.push ((name, value));
+		} else {
+			process_environment.push ((name, value));
+		}
+	}
+	
+	succeed! ((interpreter_environment, process_environment));
 }
 
 

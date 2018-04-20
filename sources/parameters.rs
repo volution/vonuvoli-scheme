@@ -73,7 +73,11 @@ impl Parameters {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new_standard () -> (Outcome<Parameters>) {
+	pub fn new_standard <ProcessArguments, ProcessEnvironment> (process_arguments : ProcessArguments, process_environment : ProcessEnvironment) -> (Outcome<Parameters>)
+			where
+				ProcessArguments : iter::IntoIterator<Item = ffi::OsString>,
+				ProcessEnvironment : iter::IntoIterator<Item = (ffi::OsString, ffi::OsString)>,
+	{
 		let internals = ParametersInternals {
 				bindings : StdMap::new (),
 				#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
@@ -82,8 +86,8 @@ impl Parameters {
 				stdout : Some (try! (Port::new_stdout ())),
 				#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 				stderr : Some (try! (Port::new_stderr ())),
-				process_arguments : Some (StdRc::new (vec_map_into! (env::args_os (), value, value.into_boxed_os_str ()) .into_boxed_slice ())),
-				process_environment : Some (StdRc::new (vec_map_into! (env::vars_os (), (name, value), (name.into_boxed_os_str (), value.into_boxed_os_str ())) .into_boxed_slice ())),
+				process_arguments : Some (StdRc::new (vec_map_into! (process_arguments, value, value.into_boxed_os_str ()) .into_boxed_slice ())),
+				process_environment : Some (StdRc::new (vec_map_into! (process_environment, (name, value), (name.into_boxed_os_str (), value.into_boxed_os_str ())) .into_boxed_slice ())),
 				#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 				transcript : transcript_for_script (),
 				parent : None,

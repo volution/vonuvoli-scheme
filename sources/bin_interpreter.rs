@@ -22,14 +22,16 @@ fn main () -> () {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn main_0 () -> (Outcome<u32>) {
 	
-	let arguments = env::args () .collect::<StdVec<_>> ();
-	let (_identifier, source_path) = match arguments.len () {
+	let (interpreter_arguments, process_arguments) = try! (parse_os_arguments ());
+	let (_interpreter_environment, process_environment) = try! (parse_os_environment ());
+	
+	let (_identifier, source_path) = match interpreter_arguments.len () {
 		0 =>
 			("<stdin>", None),
 		1 =>
 			("<stdin>", None),
 		2 =>
-			(arguments[1].as_str (), Some (&arguments[1])),
+			(interpreter_arguments[1].to_str () .unwrap_or ("<script>"), Some (&interpreter_arguments[1])),
 		_ =>
 			fail! (0x1615e2d3),
 	};
@@ -39,7 +41,7 @@ fn main_0 () -> (Outcome<u32>) {
 	try! (context.define_all (try! (language_builtins_generate_binding_templates ()) .as_ref ()));
 	
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
-	let parameters = Some (try! (Parameters::new_standard ()));
+	let parameters = Some (try! (Parameters::new_standard (process_arguments, process_environment)));
 	#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
 	let parameters = None;
 	
