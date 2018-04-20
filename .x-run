@@ -253,7 +253,7 @@ cat <<'EOS-31f6e6b1'
 	export -- PATH="${RUST_PATH}"
 	rustc \
 			--test \
-			--extern vonuvoli_scheme=./target/debug/libvonuvoli_scheme.rlib \
+			--extern vonuvoli_scheme=./target/default/debug/libvonuvoli_scheme.rlib \
 			-Z unstable-options \
 			--pretty=expanded \
 			-- ./tests/scheme.rs \
@@ -387,17 +387,17 @@ cat <<'EOS-31f6e6b1'
 
 
 
-:: execute / bin / interpreter / debug :: "${X_RUN[@]}" ':: compile / bin / interpreter / debug' ; exec -- ./target/debug/vonuvoli-scheme-interpreter "${@}"
-:: execute / bin / interpreter / release :: "${X_RUN[@]}" ':: compile / bin / interpreter / release' ; exec -- ./target/release/vonuvoli-scheme-interpreter "${@}"
+:: execute / bin / interpreter / debug :: "${X_RUN[@]}" ':: compile / bin / interpreter / debug' ; exec -- ./target/default/debug/vonuvoli-scheme-interpreter "${@}"
+:: execute / bin / interpreter / release :: "${X_RUN[@]}" ':: compile / bin / interpreter / release' ; exec -- ./target/default/release/vonuvoli-scheme-interpreter "${@}"
 
-:: execute / bin / compiler / debug :: "${X_RUN[@]}" ':: compile / bin / compiler / debug' ; exec -- ./target/debug/vonuvoli-scheme-compiler "${@}"
-:: execute / bin / compiler / release :: "${X_RUN[@]}" ':: compile / bin / compiler / release' ; exec -- ./target/release/vonuvoli-scheme-compiler "${@}"
+:: execute / bin / compiler / debug :: "${X_RUN[@]}" ':: compile / bin / compiler / debug' ; exec -- ./target/default/debug/vonuvoli-scheme-compiler "${@}"
+:: execute / bin / compiler / release :: "${X_RUN[@]}" ':: compile / bin / compiler / release' ; exec -- ./target/default/release/vonuvoli-scheme-compiler "${@}"
 
-:: execute / bin / tester / debug :: "${X_RUN[@]}" ':: compile / bin / tester / debug' ; exec -- ./target/debug/vonuvoli-scheme-tester "${@}"
-:: execute / bin / tester / release :: "${X_RUN[@]}" ':: compile / bin / tester / release' ; exec -- ./target/release/vonuvoli-scheme-tester "${@}"
+:: execute / bin / tester / debug :: "${X_RUN[@]}" ':: compile / bin / tester / debug' ; exec -- ./target/default/debug/vonuvoli-scheme-tester "${@}"
+:: execute / bin / tester / release :: "${X_RUN[@]}" ':: compile / bin / tester / release' ; exec -- ./target/default/release/vonuvoli-scheme-tester "${@}"
 
-:: execute / bin / bencher / debug :: "${X_RUN[@]}" ':: compile / bin / bencher / debug' ; exec -- ./target/debug/vonuvoli-scheme-bencher "${@}"
-:: execute / bin / bencher / release :: "${X_RUN[@]}" ':: compile / bin / bencher / release' ; exec -- ./target/release/vonuvoli-scheme-bencher "${@}"
+:: execute / bin / bencher / debug :: "${X_RUN[@]}" ':: compile / bin / bencher / debug' ; exec -- ./target/default/debug/vonuvoli-scheme-bencher "${@}"
+:: execute / bin / bencher / release :: "${X_RUN[@]}" ':: compile / bin / bencher / release' ; exec -- ./target/default/release/vonuvoli-scheme-bencher "${@}"
 
 :: execute / test / all / debug :: "${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --test-threads 1 --test 'test__' "${@}"
 :: execute / test / all / release :: "${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --test-threads 1 --test 'test__' "${@}"
@@ -413,8 +413,8 @@ cat <<'EOS-31f6e6b1'
 
 
 
-:: execute / bin / interpreter / debug / time :: "${X_RUN[@]}" ':: compile / bin / interpreter / debug' ; exec --  time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-interpreter "${@}"
-:: execute / bin / interpreter / release / time :: "${X_RUN[@]}" ':: compile / bin / interpreter / release' ; exec --  time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-interpreter "${@}"
+:: execute / bin / interpreter / debug / time :: "${X_RUN[@]}" ':: compile / bin / interpreter / debug' ; exec --  time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/default/debug/vonuvoli-scheme-interpreter "${@}"
+:: execute / bin / interpreter / release / time :: "${X_RUN[@]}" ':: compile / bin / interpreter / release' ; exec --  time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/default/release/vonuvoli-scheme-interpreter "${@}"
 
 :: execute / chibi / time :: exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- chibi-scheme -m scheme.base -m scheme.case-lambda -m scheme.char -m scheme.complex -m scheme.cxr -m scheme.eval -m scheme.file -m scheme.inexact -m scheme.lazy -m scheme.load -m scheme.process-context -m scheme.r5rs -m scheme.read -m scheme.repl -m scheme.time -m scheme.write "${@}"
 :: execute / gauche / time :: exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- gosh -b -q -u scheme.base -u scheme.case-lambda -u scheme.char -u scheme.complex -u scheme.cxr -u scheme.eval -u scheme.file -u scheme.inexact -u scheme.lazy -u scheme.load -u scheme.process-context -u scheme.r5rs -u scheme.read -u scheme.repl -u scheme.time -u scheme.write "${@}"
@@ -719,7 +719,7 @@ find ./tests/scheme -xdev -type f -name '*.sst' -printf '%f\n' \
 | sort -u \
 | while read _test ; do
 sed -r -e 's#@\{TEST\}#'"${_test}"'#g' -e 's#\{IDENTIFIER\}'#"${_test//-/_}"'#g' <<'EOS'
-nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/@{TEST}.sst' "${@}"
+nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/@{TEST}.sst' "${@}"
 EOS
 done
 printf -- '%s\n' '!!'
@@ -732,7 +732,7 @@ find ./tests/scheme -xdev -type f -name '*.sst' -printf '%f\n' \
 | sort -u \
 | while read _test ; do
 sed -r -e 's#@\{TEST\}#'"${_test}"'#g' -e 's#\{IDENTIFIER\}'#"${_test//-/_}"'#g' <<'EOS'
-if test './tests/scheme/@{TEST}.sst' -nt './tests/_outputs/scheme--benchmark__{IDENTIFIER}.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__{IDENTIFIER}.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/@{TEST}.sst' "${@}" ; fi
+if test './tests/scheme/@{TEST}.sst' -nt './tests/_outputs/scheme--benchmark__{IDENTIFIER}.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__{IDENTIFIER}.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/@{TEST}.sst' "${@}" ; fi
 EOS
 done
 printf -- '%s\n' '!!'
@@ -824,7 +824,7 @@ find ./examples -xdev -type f \( -name 'optimizer--*.ss' -o -name 'benchmark--*.
 | sort -u \
 | while read _script ; do
 sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
-nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/@{SCRIPT}.ss' "${@}" >| './examples/_outputs/@{SCRIPT}--vonuvoli-compile.out'
+nice -n 19 -- ./target/default/debug/vonuvoli-scheme-compiler './examples/@{SCRIPT}.ss' "${@}" >| './examples/_outputs/@{SCRIPT}--vonuvoli-compile.out'
 EOS
 done
 printf -- '%s\n' '!!'
@@ -860,6 +860,16 @@ sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
 EOS
 done
 
+find ./examples -xdev -type f -name 'examples--*.ss' -name '*--r7rs.ss' -printf '%f\n' \
+| sed -r -e 's/^examples--//' -e 's/\.ss$//' -e 's/--r7rs$//' \
+| sort -u \
+| while read _script ; do
+sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
+:: execute / chibi / examples / @{SCRIPT} :: exec -- "${X_RUN[@]}" ':: execute / chibi' -- './examples/examples--@{SCRIPT}--r7rs.ss' "${@}"
+:: execute / chibi / time / examples / @{SCRIPT} :: exec -- "${X_RUN[@]}" ':: execute / chibi / time' -- './examples/examples--@{SCRIPT}--r7rs.ss' "${@}"
+EOS
+done
+
 
 find ./examples -xdev -type f -name 'examples--*.ss' -name '*--gauche.ss' -printf '%f\n' \
 | sed -r -e 's/^examples--//' -e 's/\.ss$//' -e 's/--gauche$//' \
@@ -868,6 +878,16 @@ find ./examples -xdev -type f -name 'examples--*.ss' -name '*--gauche.ss' -print
 sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
 :: execute / gauche / examples / @{SCRIPT} :: exec -- "${X_RUN[@]}" ':: execute / gauche' -- './examples/examples--@{SCRIPT}--gauche.ss' "${@}"
 :: execute / gauche / time / examples / @{SCRIPT} :: exec -- "${X_RUN[@]}" ':: execute / gauche / time' -- './examples/examples--@{SCRIPT}--gauche.ss' "${@}"
+EOS
+done
+
+find ./examples -xdev -type f -name 'examples--*.ss' -name '*--r7rs.ss' -printf '%f\n' \
+| sed -r -e 's/^examples--//' -e 's/\.ss$//' -e 's/--r7rs$//' \
+| sort -u \
+| while read _script ; do
+sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
+:: execute / gauche / examples / @{SCRIPT} :: exec -- "${X_RUN[@]}" ':: execute / gauche' -- './examples/examples--@{SCRIPT}--r7rs.ss' "${@}"
+:: execute / gauche / time / examples / @{SCRIPT} :: exec -- "${X_RUN[@]}" ':: execute / gauche / time' -- './examples/examples--@{SCRIPT}--r7rs.ss' "${@}"
 EOS
 done
 

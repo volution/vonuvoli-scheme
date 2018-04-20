@@ -343,7 +343,7 @@
 		export -- PATH="${RUST_PATH}"
 		rustc \
 				--test \
-				--extern vonuvoli_scheme=./target/debug/libvonuvoli_scheme.rlib \
+				--extern vonuvoli_scheme=./target/default/debug/libvonuvoli_scheme.rlib \
 				-Z unstable-options \
 				--pretty=expanded \
 				-- ./tests/scheme.rs \
@@ -718,63 +718,63 @@
 
 << execute / bin / bencher / all / release
 	"${X_RUN[@]}" ':: compile / bin / bencher / release'
-	if test './tests/scheme/arithmetic.sst' -nt './tests/_outputs/scheme--benchmark__arithmetic.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__arithmetic.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/arithmetic.sst' "${@}" ; fi
-	if test './tests/scheme/arrays.sst' -nt './tests/_outputs/scheme--benchmark__arrays.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__arrays.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/arrays.sst' "${@}" ; fi
-	if test './tests/scheme/booleans.sst' -nt './tests/_outputs/scheme--benchmark__booleans.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__booleans.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/booleans.sst' "${@}" ; fi
-	if test './tests/scheme/bytes.sst' -nt './tests/_outputs/scheme--benchmark__bytes.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__bytes.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/bytes.sst' "${@}" ; fi
-	if test './tests/scheme/comparisons-equivalent-by-identity.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_equivalent_by_identity.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_identity.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-by-identity.sst' "${@}" ; fi
-	if test './tests/scheme/comparisons-equivalent-by-identity-negated.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_equivalent_by_identity_negated.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_identity_negated.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-by-identity-negated.sst' "${@}" ; fi
-	if test './tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_recursive.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_recursive.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst' "${@}" ; fi
-	if test './tests/scheme/comparisons-equivalent-by-value-coerced-recursive-negated.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_recursive_negated.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_recursive_negated.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-by-value-coerced-recursive-negated.sst' "${@}" ; fi
-	if test './tests/scheme/comparisons-equivalent-by-value-coerced-shallow.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_shallow.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_shallow.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-by-value-coerced-shallow.sst' "${@}" ; fi
-	if test './tests/scheme/comparisons-equivalent-by-value-coerced-shallow-negated.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_shallow_negated.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_shallow_negated.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-by-value-coerced-shallow-negated.sst' "${@}" ; fi
-	if test './tests/scheme/comparisons-equivalent-by-value-strict-recursive.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_recursive.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_recursive.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-by-value-strict-recursive.sst' "${@}" ; fi
-	if test './tests/scheme/comparisons-equivalent-by-value-strict-recursive-negated.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_recursive_negated.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_recursive_negated.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-by-value-strict-recursive-negated.sst' "${@}" ; fi
-	if test './tests/scheme/comparisons-equivalent-by-value-strict-shallow.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_shallow.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_shallow.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-by-value-strict-shallow.sst' "${@}" ; fi
-	if test './tests/scheme/comparisons-equivalent-by-value-strict-shallow-negated.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_shallow_negated.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_shallow_negated.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-by-value-strict-shallow-negated.sst' "${@}" ; fi
-	if test './tests/scheme/comparisons-equivalent-objects.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_equivalent_objects.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_objects.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-objects.sst' "${@}" ; fi
-	if test './tests/scheme/comparisons-equivalent-objects-negated.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_equivalent_objects_negated.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_objects_negated.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-objects-negated.sst' "${@}" ; fi
-	if test './tests/scheme/comparisons-ordering-numbers.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_ordering_numbers.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_ordering_numbers.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-ordering-numbers.sst' "${@}" ; fi
-	if test './tests/scheme/comparisons-ordering-numbers-negated.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_ordering_numbers_negated.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_ordering_numbers_negated.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-ordering-numbers-negated.sst' "${@}" ; fi
-	if test './tests/scheme/comparisons-ordering-objects.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_ordering_objects.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_ordering_objects.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-ordering-objects.sst' "${@}" ; fi
-	if test './tests/scheme/comparisons-ordering-objects-negated.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_ordering_objects_negated.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_ordering_objects_negated.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-ordering-objects-negated.sst' "${@}" ; fi
-	if test './tests/scheme/contexts.sst' -nt './tests/_outputs/scheme--benchmark__contexts.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__contexts.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/contexts.sst' "${@}" ; fi
-	if test './tests/scheme/control.sst' -nt './tests/_outputs/scheme--benchmark__control.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__control.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/control.sst' "${@}" ; fi
-	if test './tests/scheme/crypto.sst' -nt './tests/_outputs/scheme--benchmark__crypto.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__crypto.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/crypto.sst' "${@}" ; fi
-	if test './tests/scheme/encoding.sst' -nt './tests/_outputs/scheme--benchmark__encoding.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__encoding.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/encoding.sst' "${@}" ; fi
-	if test './tests/scheme/errors.sst' -nt './tests/_outputs/scheme--benchmark__errors.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__errors.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/errors.sst' "${@}" ; fi
-	if test './tests/scheme/filesystem.sst' -nt './tests/_outputs/scheme--benchmark__filesystem.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__filesystem.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/filesystem.sst' "${@}" ; fi
-	if test './tests/scheme/functions.sst' -nt './tests/_outputs/scheme--benchmark__functions.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/functions.sst' "${@}" ; fi
-	if test './tests/scheme/functions-arrays.sst' -nt './tests/_outputs/scheme--benchmark__functions_arrays.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_arrays.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/functions-arrays.sst' "${@}" ; fi
-	if test './tests/scheme/functions-bytes.sst' -nt './tests/_outputs/scheme--benchmark__functions_bytes.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_bytes.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/functions-bytes.sst' "${@}" ; fi
-	if test './tests/scheme/functions-higher.sst' -nt './tests/_outputs/scheme--benchmark__functions_higher.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_higher.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/functions-higher.sst' "${@}" ; fi
-	if test './tests/scheme/functions-lists.sst' -nt './tests/_outputs/scheme--benchmark__functions_lists.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_lists.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/functions-lists.sst' "${@}" ; fi
-	if test './tests/scheme/functions-strings.sst' -nt './tests/_outputs/scheme--benchmark__functions_strings.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_strings.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/functions-strings.sst' "${@}" ; fi
-	if test './tests/scheme/issues.sst' -nt './tests/_outputs/scheme--benchmark__issues.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__issues.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/issues.sst' "${@}" ; fi
-	if test './tests/scheme/lambdas.sst' -nt './tests/_outputs/scheme--benchmark__lambdas.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__lambdas.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/lambdas.sst' "${@}" ; fi
-	if test './tests/scheme/lists.sst' -nt './tests/_outputs/scheme--benchmark__lists.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__lists.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/lists.sst' "${@}" ; fi
-	if test './tests/scheme/loops.sst' -nt './tests/_outputs/scheme--benchmark__loops.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__loops.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/loops.sst' "${@}" ; fi
-	if test './tests/scheme/pairs.sst' -nt './tests/_outputs/scheme--benchmark__pairs.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__pairs.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/pairs.sst' "${@}" ; fi
-	if test './tests/scheme/parameters.sst' -nt './tests/_outputs/scheme--benchmark__parameters.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__parameters.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/parameters.sst' "${@}" ; fi
-	if test './tests/scheme/paths.sst' -nt './tests/_outputs/scheme--benchmark__paths.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__paths.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/paths.sst' "${@}" ; fi
-	if test './tests/scheme/ports.sst' -nt './tests/_outputs/scheme--benchmark__ports.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/ports.sst' "${@}" ; fi
-	if test './tests/scheme/ports-memory.sst' -nt './tests/_outputs/scheme--benchmark__ports_memory.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports_memory.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/ports-memory.sst' "${@}" ; fi
-	if test './tests/scheme/ports-native.sst' -nt './tests/_outputs/scheme--benchmark__ports_native.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports_native.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/ports-native.sst' "${@}" ; fi
-	if test './tests/scheme/ports-parameters.sst' -nt './tests/_outputs/scheme--benchmark__ports_parameters.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports_parameters.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/ports-parameters.sst' "${@}" ; fi
-	if test './tests/scheme/processes.sst' -nt './tests/_outputs/scheme--benchmark__processes.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__processes.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/processes.sst' "${@}" ; fi
-	if test './tests/scheme/quotation.sst' -nt './tests/_outputs/scheme--benchmark__quotation.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__quotation.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/quotation.sst' "${@}" ; fi
-	if test './tests/scheme/random.sst' -nt './tests/_outputs/scheme--benchmark__random.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__random.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/random.sst' "${@}" ; fi
-	if test './tests/scheme/records-procedures.sst' -nt './tests/_outputs/scheme--benchmark__records_procedures.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__records_procedures.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/records-procedures.sst' "${@}" ; fi
-	if test './tests/scheme/records-syntaxes.sst' -nt './tests/_outputs/scheme--benchmark__records_syntaxes.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__records_syntaxes.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/records-syntaxes.sst' "${@}" ; fi
-	if test './tests/scheme/regex-bytes.sst' -nt './tests/_outputs/scheme--benchmark__regex_bytes.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__regex_bytes.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/regex-bytes.sst' "${@}" ; fi
-	if test './tests/scheme/regex-strings.sst' -nt './tests/_outputs/scheme--benchmark__regex_strings.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__regex_strings.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/regex-strings.sst' "${@}" ; fi
-	if test './tests/scheme/runtime.sst' -nt './tests/_outputs/scheme--benchmark__runtime.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__runtime.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/runtime.sst' "${@}" ; fi
-	if test './tests/scheme/scratchpad.sst' -nt './tests/_outputs/scheme--benchmark__scratchpad.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__scratchpad.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/scratchpad.sst' "${@}" ; fi
-	if test './tests/scheme/srfi-1.sst' -nt './tests/_outputs/scheme--benchmark__srfi_1.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__srfi_1.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/srfi-1.sst' "${@}" ; fi
-	if test './tests/scheme/strings.sst' -nt './tests/_outputs/scheme--benchmark__strings.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__strings.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/strings.sst' "${@}" ; fi
-	if test './tests/scheme/types.sst' -nt './tests/_outputs/scheme--benchmark__types.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__types.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/types.sst' "${@}" ; fi
-	if test './tests/scheme/types-negated.sst' -nt './tests/_outputs/scheme--benchmark__types_negated.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__types_negated.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/types-negated.sst' "${@}" ; fi
-	if test './tests/scheme/values.sst' -nt './tests/_outputs/scheme--benchmark__values.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__values.out' ./target/release/vonuvoli-scheme-bencher './tests/scheme/values.sst' "${@}" ; fi
+	if test './tests/scheme/arithmetic.sst' -nt './tests/_outputs/scheme--benchmark__arithmetic.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__arithmetic.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/arithmetic.sst' "${@}" ; fi
+	if test './tests/scheme/arrays.sst' -nt './tests/_outputs/scheme--benchmark__arrays.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__arrays.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/arrays.sst' "${@}" ; fi
+	if test './tests/scheme/booleans.sst' -nt './tests/_outputs/scheme--benchmark__booleans.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__booleans.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/booleans.sst' "${@}" ; fi
+	if test './tests/scheme/bytes.sst' -nt './tests/_outputs/scheme--benchmark__bytes.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__bytes.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/bytes.sst' "${@}" ; fi
+	if test './tests/scheme/comparisons-equivalent-by-identity.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_equivalent_by_identity.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_identity.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-by-identity.sst' "${@}" ; fi
+	if test './tests/scheme/comparisons-equivalent-by-identity-negated.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_equivalent_by_identity_negated.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_identity_negated.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-by-identity-negated.sst' "${@}" ; fi
+	if test './tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_recursive.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_recursive.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst' "${@}" ; fi
+	if test './tests/scheme/comparisons-equivalent-by-value-coerced-recursive-negated.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_recursive_negated.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_recursive_negated.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-by-value-coerced-recursive-negated.sst' "${@}" ; fi
+	if test './tests/scheme/comparisons-equivalent-by-value-coerced-shallow.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_shallow.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_shallow.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-by-value-coerced-shallow.sst' "${@}" ; fi
+	if test './tests/scheme/comparisons-equivalent-by-value-coerced-shallow-negated.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_shallow_negated.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_shallow_negated.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-by-value-coerced-shallow-negated.sst' "${@}" ; fi
+	if test './tests/scheme/comparisons-equivalent-by-value-strict-recursive.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_recursive.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_recursive.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-by-value-strict-recursive.sst' "${@}" ; fi
+	if test './tests/scheme/comparisons-equivalent-by-value-strict-recursive-negated.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_recursive_negated.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_recursive_negated.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-by-value-strict-recursive-negated.sst' "${@}" ; fi
+	if test './tests/scheme/comparisons-equivalent-by-value-strict-shallow.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_shallow.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_shallow.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-by-value-strict-shallow.sst' "${@}" ; fi
+	if test './tests/scheme/comparisons-equivalent-by-value-strict-shallow-negated.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_shallow_negated.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_shallow_negated.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-by-value-strict-shallow-negated.sst' "${@}" ; fi
+	if test './tests/scheme/comparisons-equivalent-objects.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_equivalent_objects.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_objects.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-objects.sst' "${@}" ; fi
+	if test './tests/scheme/comparisons-equivalent-objects-negated.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_equivalent_objects_negated.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_objects_negated.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-objects-negated.sst' "${@}" ; fi
+	if test './tests/scheme/comparisons-ordering-numbers.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_ordering_numbers.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_ordering_numbers.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-ordering-numbers.sst' "${@}" ; fi
+	if test './tests/scheme/comparisons-ordering-numbers-negated.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_ordering_numbers_negated.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_ordering_numbers_negated.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-ordering-numbers-negated.sst' "${@}" ; fi
+	if test './tests/scheme/comparisons-ordering-objects.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_ordering_objects.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_ordering_objects.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-ordering-objects.sst' "${@}" ; fi
+	if test './tests/scheme/comparisons-ordering-objects-negated.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_ordering_objects_negated.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_ordering_objects_negated.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-ordering-objects-negated.sst' "${@}" ; fi
+	if test './tests/scheme/contexts.sst' -nt './tests/_outputs/scheme--benchmark__contexts.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__contexts.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/contexts.sst' "${@}" ; fi
+	if test './tests/scheme/control.sst' -nt './tests/_outputs/scheme--benchmark__control.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__control.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/control.sst' "${@}" ; fi
+	if test './tests/scheme/crypto.sst' -nt './tests/_outputs/scheme--benchmark__crypto.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__crypto.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/crypto.sst' "${@}" ; fi
+	if test './tests/scheme/encoding.sst' -nt './tests/_outputs/scheme--benchmark__encoding.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__encoding.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/encoding.sst' "${@}" ; fi
+	if test './tests/scheme/errors.sst' -nt './tests/_outputs/scheme--benchmark__errors.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__errors.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/errors.sst' "${@}" ; fi
+	if test './tests/scheme/filesystem.sst' -nt './tests/_outputs/scheme--benchmark__filesystem.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__filesystem.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/filesystem.sst' "${@}" ; fi
+	if test './tests/scheme/functions.sst' -nt './tests/_outputs/scheme--benchmark__functions.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/functions.sst' "${@}" ; fi
+	if test './tests/scheme/functions-arrays.sst' -nt './tests/_outputs/scheme--benchmark__functions_arrays.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_arrays.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/functions-arrays.sst' "${@}" ; fi
+	if test './tests/scheme/functions-bytes.sst' -nt './tests/_outputs/scheme--benchmark__functions_bytes.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_bytes.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/functions-bytes.sst' "${@}" ; fi
+	if test './tests/scheme/functions-higher.sst' -nt './tests/_outputs/scheme--benchmark__functions_higher.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_higher.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/functions-higher.sst' "${@}" ; fi
+	if test './tests/scheme/functions-lists.sst' -nt './tests/_outputs/scheme--benchmark__functions_lists.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_lists.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/functions-lists.sst' "${@}" ; fi
+	if test './tests/scheme/functions-strings.sst' -nt './tests/_outputs/scheme--benchmark__functions_strings.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_strings.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/functions-strings.sst' "${@}" ; fi
+	if test './tests/scheme/issues.sst' -nt './tests/_outputs/scheme--benchmark__issues.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__issues.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/issues.sst' "${@}" ; fi
+	if test './tests/scheme/lambdas.sst' -nt './tests/_outputs/scheme--benchmark__lambdas.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__lambdas.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/lambdas.sst' "${@}" ; fi
+	if test './tests/scheme/lists.sst' -nt './tests/_outputs/scheme--benchmark__lists.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__lists.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/lists.sst' "${@}" ; fi
+	if test './tests/scheme/loops.sst' -nt './tests/_outputs/scheme--benchmark__loops.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__loops.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/loops.sst' "${@}" ; fi
+	if test './tests/scheme/pairs.sst' -nt './tests/_outputs/scheme--benchmark__pairs.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__pairs.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/pairs.sst' "${@}" ; fi
+	if test './tests/scheme/parameters.sst' -nt './tests/_outputs/scheme--benchmark__parameters.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__parameters.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/parameters.sst' "${@}" ; fi
+	if test './tests/scheme/paths.sst' -nt './tests/_outputs/scheme--benchmark__paths.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__paths.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/paths.sst' "${@}" ; fi
+	if test './tests/scheme/ports.sst' -nt './tests/_outputs/scheme--benchmark__ports.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/ports.sst' "${@}" ; fi
+	if test './tests/scheme/ports-memory.sst' -nt './tests/_outputs/scheme--benchmark__ports_memory.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports_memory.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/ports-memory.sst' "${@}" ; fi
+	if test './tests/scheme/ports-native.sst' -nt './tests/_outputs/scheme--benchmark__ports_native.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports_native.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/ports-native.sst' "${@}" ; fi
+	if test './tests/scheme/ports-parameters.sst' -nt './tests/_outputs/scheme--benchmark__ports_parameters.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports_parameters.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/ports-parameters.sst' "${@}" ; fi
+	if test './tests/scheme/processes.sst' -nt './tests/_outputs/scheme--benchmark__processes.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__processes.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/processes.sst' "${@}" ; fi
+	if test './tests/scheme/quotation.sst' -nt './tests/_outputs/scheme--benchmark__quotation.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__quotation.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/quotation.sst' "${@}" ; fi
+	if test './tests/scheme/random.sst' -nt './tests/_outputs/scheme--benchmark__random.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__random.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/random.sst' "${@}" ; fi
+	if test './tests/scheme/records-procedures.sst' -nt './tests/_outputs/scheme--benchmark__records_procedures.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__records_procedures.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/records-procedures.sst' "${@}" ; fi
+	if test './tests/scheme/records-syntaxes.sst' -nt './tests/_outputs/scheme--benchmark__records_syntaxes.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__records_syntaxes.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/records-syntaxes.sst' "${@}" ; fi
+	if test './tests/scheme/regex-bytes.sst' -nt './tests/_outputs/scheme--benchmark__regex_bytes.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__regex_bytes.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/regex-bytes.sst' "${@}" ; fi
+	if test './tests/scheme/regex-strings.sst' -nt './tests/_outputs/scheme--benchmark__regex_strings.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__regex_strings.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/regex-strings.sst' "${@}" ; fi
+	if test './tests/scheme/runtime.sst' -nt './tests/_outputs/scheme--benchmark__runtime.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__runtime.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/runtime.sst' "${@}" ; fi
+	if test './tests/scheme/scratchpad.sst' -nt './tests/_outputs/scheme--benchmark__scratchpad.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__scratchpad.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/scratchpad.sst' "${@}" ; fi
+	if test './tests/scheme/srfi-1.sst' -nt './tests/_outputs/scheme--benchmark__srfi_1.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__srfi_1.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/srfi-1.sst' "${@}" ; fi
+	if test './tests/scheme/strings.sst' -nt './tests/_outputs/scheme--benchmark__strings.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__strings.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/strings.sst' "${@}" ; fi
+	if test './tests/scheme/types.sst' -nt './tests/_outputs/scheme--benchmark__types.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__types.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/types.sst' "${@}" ; fi
+	if test './tests/scheme/types-negated.sst' -nt './tests/_outputs/scheme--benchmark__types_negated.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__types_negated.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/types-negated.sst' "${@}" ; fi
+	if test './tests/scheme/values.sst' -nt './tests/_outputs/scheme--benchmark__values.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__values.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/values.sst' "${@}" ; fi
 !!
 
 << execute / bin / bencher / arithmetic / debug
@@ -1054,7 +1054,7 @@
 !!
 
 << execute / bin / bencher / debug
-	"${X_RUN[@]}" ':: compile / bin / bencher / debug' ; exec -- ./target/debug/vonuvoli-scheme-bencher "${@}"
+	"${X_RUN[@]}" ':: compile / bin / bencher / debug' ; exec -- ./target/default/debug/vonuvoli-scheme-bencher "${@}"
 !!
 
 << execute / bin / bencher / debug / watch
@@ -1386,7 +1386,7 @@
 !!
 
 << execute / bin / bencher / release
-	"${X_RUN[@]}" ':: compile / bin / bencher / release' ; exec -- ./target/release/vonuvoli-scheme-bencher "${@}"
+	"${X_RUN[@]}" ':: compile / bin / bencher / release' ; exec -- ./target/default/release/vonuvoli-scheme-bencher "${@}"
 !!
 
 << execute / bin / bencher / runtime / debug
@@ -1475,22 +1475,22 @@
 
 << execute / bin / compiler / all / debug
 	"${X_RUN[@]}" ':: compile / bin / compiler / debug'
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/benchmark--controls.ss' "${@}" >| './examples/_outputs/benchmark--controls--vonuvoli-compile.out'
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/benchmark--loop.ss' "${@}" >| './examples/_outputs/benchmark--loop--vonuvoli-compile.out'
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/benchmark--make-cons.ss' "${@}" >| './examples/_outputs/benchmark--make-cons--vonuvoli-compile.out'
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/benchmark--make-vector.ss' "${@}" >| './examples/_outputs/benchmark--make-vector--vonuvoli-compile.out'
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/examples--backtrace.ss' "${@}" >| './examples/_outputs/examples--backtrace--vonuvoli-compile.out'
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/examples--disk-usage.ss' "${@}" >| './examples/_outputs/examples--disk-usage--vonuvoli-compile.out'
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/examples--display-1.ss' "${@}" >| './examples/_outputs/examples--display-1--vonuvoli-compile.out'
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/examples--process-1.ss' "${@}" >| './examples/_outputs/examples--process-1--vonuvoli-compile.out'
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/examples--process-2.ss' "${@}" >| './examples/_outputs/examples--process-2--vonuvoli-compile.out'
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/examples--random-1.ss' "${@}" >| './examples/_outputs/examples--random-1--vonuvoli-compile.out'
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/examples--stdio-1.ss' "${@}" >| './examples/_outputs/examples--stdio-1--vonuvoli-compile.out'
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/examples--stdio-2.ss' "${@}" >| './examples/_outputs/examples--stdio-2--vonuvoli-compile.out'
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/examples--transcript.ss' "${@}" >| './examples/_outputs/examples--transcript--vonuvoli-compile.out'
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/optimizer--conditionals.ss' "${@}" >| './examples/_outputs/optimizer--conditionals--vonuvoli-compile.out'
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/optimizer--controls.ss' "${@}" >| './examples/_outputs/optimizer--controls--vonuvoli-compile.out'
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-compiler './examples/optimizer--loops.ss' "${@}" >| './examples/_outputs/optimizer--loops--vonuvoli-compile.out'
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-compiler './examples/benchmark--controls.ss' "${@}" >| './examples/_outputs/benchmark--controls--vonuvoli-compile.out'
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-compiler './examples/benchmark--loop.ss' "${@}" >| './examples/_outputs/benchmark--loop--vonuvoli-compile.out'
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-compiler './examples/benchmark--make-cons.ss' "${@}" >| './examples/_outputs/benchmark--make-cons--vonuvoli-compile.out'
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-compiler './examples/benchmark--make-vector.ss' "${@}" >| './examples/_outputs/benchmark--make-vector--vonuvoli-compile.out'
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-compiler './examples/examples--backtrace.ss' "${@}" >| './examples/_outputs/examples--backtrace--vonuvoli-compile.out'
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-compiler './examples/examples--disk-usage.ss' "${@}" >| './examples/_outputs/examples--disk-usage--vonuvoli-compile.out'
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-compiler './examples/examples--display-1.ss' "${@}" >| './examples/_outputs/examples--display-1--vonuvoli-compile.out'
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-compiler './examples/examples--process-1.ss' "${@}" >| './examples/_outputs/examples--process-1--vonuvoli-compile.out'
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-compiler './examples/examples--process-2.ss' "${@}" >| './examples/_outputs/examples--process-2--vonuvoli-compile.out'
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-compiler './examples/examples--random-1.ss' "${@}" >| './examples/_outputs/examples--random-1--vonuvoli-compile.out'
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-compiler './examples/examples--stdio.ss' "${@}" >| './examples/_outputs/examples--stdio--vonuvoli-compile.out'
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-compiler './examples/examples--stdio--r7rs.ss' "${@}" >| './examples/_outputs/examples--stdio--r7rs--vonuvoli-compile.out'
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-compiler './examples/examples--transcript.ss' "${@}" >| './examples/_outputs/examples--transcript--vonuvoli-compile.out'
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-compiler './examples/optimizer--conditionals.ss' "${@}" >| './examples/_outputs/optimizer--conditionals--vonuvoli-compile.out'
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-compiler './examples/optimizer--controls.ss' "${@}" >| './examples/_outputs/optimizer--controls--vonuvoli-compile.out'
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-compiler './examples/optimizer--loops.ss' "${@}" >| './examples/_outputs/optimizer--loops--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / benchmarks / controls / debug
@@ -1526,7 +1526,7 @@
 !!
 
 << execute / bin / compiler / debug
-	"${X_RUN[@]}" ':: compile / bin / compiler / debug' ; exec -- ./target/debug/vonuvoli-scheme-compiler "${@}"
+	"${X_RUN[@]}" ':: compile / bin / compiler / debug' ; exec -- ./target/default/debug/vonuvoli-scheme-compiler "${@}"
 !!
 
 << execute / bin / compiler / debug / watch
@@ -1589,20 +1589,20 @@
 	nice -n 19 -- "${X_RUN[@]}" ':: execute / bin / compiler / release' './examples/examples--random-1.ss' "${@}" >| './examples/_outputs/examples--random-1--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--random-1--vonuvoli-compile.out'
 !!
 
-<< execute / bin / compiler / examples / stdio-1 / debug
-	nice -n 19 -- "${X_RUN[@]}" ':: execute / bin / compiler / debug' './examples/examples--stdio-1.ss' "${@}" >| './examples/_outputs/examples--stdio-1--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--stdio-1--vonuvoli-compile.out'
+<< execute / bin / compiler / examples / stdio / debug
+	nice -n 19 -- "${X_RUN[@]}" ':: execute / bin / compiler / debug' './examples/examples--stdio.ss' "${@}" >| './examples/_outputs/examples--stdio--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--stdio--vonuvoli-compile.out'
 !!
 
-<< execute / bin / compiler / examples / stdio-1 / release
-	nice -n 19 -- "${X_RUN[@]}" ':: execute / bin / compiler / release' './examples/examples--stdio-1.ss' "${@}" >| './examples/_outputs/examples--stdio-1--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--stdio-1--vonuvoli-compile.out'
+<< execute / bin / compiler / examples / stdio / release
+	nice -n 19 -- "${X_RUN[@]}" ':: execute / bin / compiler / release' './examples/examples--stdio.ss' "${@}" >| './examples/_outputs/examples--stdio--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--stdio--vonuvoli-compile.out'
 !!
 
-<< execute / bin / compiler / examples / stdio-2 / debug
-	nice -n 19 -- "${X_RUN[@]}" ':: execute / bin / compiler / debug' './examples/examples--stdio-2.ss' "${@}" >| './examples/_outputs/examples--stdio-2--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--stdio-2--vonuvoli-compile.out'
+<< execute / bin / compiler / examples / stdio--r7rs / debug
+	nice -n 19 -- "${X_RUN[@]}" ':: execute / bin / compiler / debug' './examples/examples--stdio--r7rs.ss' "${@}" >| './examples/_outputs/examples--stdio--r7rs--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--stdio--r7rs--vonuvoli-compile.out'
 !!
 
-<< execute / bin / compiler / examples / stdio-2 / release
-	nice -n 19 -- "${X_RUN[@]}" ':: execute / bin / compiler / release' './examples/examples--stdio-2.ss' "${@}" >| './examples/_outputs/examples--stdio-2--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--stdio-2--vonuvoli-compile.out'
+<< execute / bin / compiler / examples / stdio--r7rs / release
+	nice -n 19 -- "${X_RUN[@]}" ':: execute / bin / compiler / release' './examples/examples--stdio--r7rs.ss' "${@}" >| './examples/_outputs/examples--stdio--r7rs--vonuvoli-compile.out' ; exec -- less -- './examples/_outputs/examples--stdio--r7rs--vonuvoli-compile.out'
 !!
 
 << execute / bin / compiler / examples / transcript / debug
@@ -1638,15 +1638,15 @@
 !!
 
 << execute / bin / compiler / release
-	"${X_RUN[@]}" ':: compile / bin / compiler / release' ; exec -- ./target/release/vonuvoli-scheme-compiler "${@}"
+	"${X_RUN[@]}" ':: compile / bin / compiler / release' ; exec -- ./target/default/release/vonuvoli-scheme-compiler "${@}"
 !!
 
 << execute / bin / interpreter / debug
-	"${X_RUN[@]}" ':: compile / bin / interpreter / debug' ; exec -- ./target/debug/vonuvoli-scheme-interpreter "${@}"
+	"${X_RUN[@]}" ':: compile / bin / interpreter / debug' ; exec -- ./target/default/debug/vonuvoli-scheme-interpreter "${@}"
 !!
 
 << execute / bin / interpreter / debug / time
-	"${X_RUN[@]}" ':: compile / bin / interpreter / debug' ; exec --  time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/debug/vonuvoli-scheme-interpreter "${@}"
+	"${X_RUN[@]}" ':: compile / bin / interpreter / debug' ; exec --  time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/default/debug/vonuvoli-scheme-interpreter "${@}"
 !!
 
 << execute / bin / interpreter / debug / watch
@@ -1781,44 +1781,44 @@
 	exec -- "${X_RUN[@]}" ':: execute / bin / interpreter / release / time' './examples/examples--random-1.ss' "${@}"
 !!
 
-<< execute / bin / interpreter / examples / stdio-1 / debug
-	exec -- "${X_RUN[@]}" ':: execute / bin / interpreter / debug' './examples/examples--stdio-1.ss' "${@}"
+<< execute / bin / interpreter / examples / stdio / debug
+	exec -- "${X_RUN[@]}" ':: execute / bin / interpreter / debug' './examples/examples--stdio.ss' "${@}"
 !!
 
-<< execute / bin / interpreter / examples / stdio-1 / debug / time
-	exec -- "${X_RUN[@]}" ':: execute / bin / interpreter / debug / time' './examples/examples--stdio-1.ss' "${@}"
+<< execute / bin / interpreter / examples / stdio / debug / time
+	exec -- "${X_RUN[@]}" ':: execute / bin / interpreter / debug / time' './examples/examples--stdio.ss' "${@}"
 !!
 
-<< execute / bin / interpreter / examples / stdio-1 / debug / watch
-	exec -- "${X_RUN[@]}" ':: execute / bin / interpreter / debug / watch' './examples/examples--stdio-1.ss' "${@}"
+<< execute / bin / interpreter / examples / stdio / debug / watch
+	exec -- "${X_RUN[@]}" ':: execute / bin / interpreter / debug / watch' './examples/examples--stdio.ss' "${@}"
 !!
 
-<< execute / bin / interpreter / examples / stdio-1 / release
-	exec -- "${X_RUN[@]}" ':: execute / bin / interpreter / release' './examples/examples--stdio-1.ss' "${@}"
+<< execute / bin / interpreter / examples / stdio / release
+	exec -- "${X_RUN[@]}" ':: execute / bin / interpreter / release' './examples/examples--stdio.ss' "${@}"
 !!
 
-<< execute / bin / interpreter / examples / stdio-1 / release / time
-	exec -- "${X_RUN[@]}" ':: execute / bin / interpreter / release / time' './examples/examples--stdio-1.ss' "${@}"
+<< execute / bin / interpreter / examples / stdio / release / time
+	exec -- "${X_RUN[@]}" ':: execute / bin / interpreter / release / time' './examples/examples--stdio.ss' "${@}"
 !!
 
-<< execute / bin / interpreter / examples / stdio-2 / debug
-	exec -- "${X_RUN[@]}" ':: execute / bin / interpreter / debug' './examples/examples--stdio-2.ss' "${@}"
+<< execute / bin / interpreter / examples / stdio--r7rs / debug
+	exec -- "${X_RUN[@]}" ':: execute / bin / interpreter / debug' './examples/examples--stdio--r7rs.ss' "${@}"
 !!
 
-<< execute / bin / interpreter / examples / stdio-2 / debug / time
-	exec -- "${X_RUN[@]}" ':: execute / bin / interpreter / debug / time' './examples/examples--stdio-2.ss' "${@}"
+<< execute / bin / interpreter / examples / stdio--r7rs / debug / time
+	exec -- "${X_RUN[@]}" ':: execute / bin / interpreter / debug / time' './examples/examples--stdio--r7rs.ss' "${@}"
 !!
 
-<< execute / bin / interpreter / examples / stdio-2 / debug / watch
-	exec -- "${X_RUN[@]}" ':: execute / bin / interpreter / debug / watch' './examples/examples--stdio-2.ss' "${@}"
+<< execute / bin / interpreter / examples / stdio--r7rs / debug / watch
+	exec -- "${X_RUN[@]}" ':: execute / bin / interpreter / debug / watch' './examples/examples--stdio--r7rs.ss' "${@}"
 !!
 
-<< execute / bin / interpreter / examples / stdio-2 / release
-	exec -- "${X_RUN[@]}" ':: execute / bin / interpreter / release' './examples/examples--stdio-2.ss' "${@}"
+<< execute / bin / interpreter / examples / stdio--r7rs / release
+	exec -- "${X_RUN[@]}" ':: execute / bin / interpreter / release' './examples/examples--stdio--r7rs.ss' "${@}"
 !!
 
-<< execute / bin / interpreter / examples / stdio-2 / release / time
-	exec -- "${X_RUN[@]}" ':: execute / bin / interpreter / release / time' './examples/examples--stdio-2.ss' "${@}"
+<< execute / bin / interpreter / examples / stdio--r7rs / release / time
+	exec -- "${X_RUN[@]}" ':: execute / bin / interpreter / release / time' './examples/examples--stdio--r7rs.ss' "${@}"
 !!
 
 << execute / bin / interpreter / examples / transcript / debug
@@ -1842,72 +1842,72 @@
 !!
 
 << execute / bin / interpreter / release
-	"${X_RUN[@]}" ':: compile / bin / interpreter / release' ; exec -- ./target/release/vonuvoli-scheme-interpreter "${@}"
+	"${X_RUN[@]}" ':: compile / bin / interpreter / release' ; exec -- ./target/default/release/vonuvoli-scheme-interpreter "${@}"
 !!
 
 << execute / bin / interpreter / release / time
-	"${X_RUN[@]}" ':: compile / bin / interpreter / release' ; exec --  time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/release/vonuvoli-scheme-interpreter "${@}"
+	"${X_RUN[@]}" ':: compile / bin / interpreter / release' ; exec --  time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/default/release/vonuvoli-scheme-interpreter "${@}"
 !!
 
 << execute / bin / tester / all / debug
 	"${X_RUN[@]}" ':: compile / bin / tester / debug'
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/arithmetic.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/arrays.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/booleans.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/bytes.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-by-identity.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-by-identity-negated.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-by-value-coerced-recursive-negated.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-by-value-coerced-shallow.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-by-value-coerced-shallow-negated.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-by-value-strict-recursive.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-by-value-strict-recursive-negated.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-by-value-strict-shallow.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-by-value-strict-shallow-negated.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-objects.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-objects-negated.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-ordering-numbers.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-ordering-numbers-negated.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-ordering-objects.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-ordering-objects-negated.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/contexts.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/control.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/crypto.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/encoding.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/errors.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/filesystem.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/functions.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/functions-arrays.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/functions-bytes.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/functions-higher.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/functions-lists.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/functions-strings.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/issues.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/lambdas.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/lists.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/loops.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/pairs.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/parameters.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/paths.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/ports.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/ports-memory.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/ports-native.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/ports-parameters.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/processes.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/quotation.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/random.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/records-procedures.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/records-syntaxes.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/regex-bytes.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/regex-strings.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/runtime.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/scratchpad.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/srfi-1.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/strings.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/types.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/types-negated.sst' "${@}"
-	nice -n 19 -- ./target/debug/vonuvoli-scheme-tester './tests/scheme/values.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/arithmetic.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/arrays.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/booleans.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/bytes.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-by-identity.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-by-identity-negated.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-by-value-coerced-recursive-negated.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-by-value-coerced-shallow.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-by-value-coerced-shallow-negated.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-by-value-strict-recursive.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-by-value-strict-recursive-negated.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-by-value-strict-shallow.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-by-value-strict-shallow-negated.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-objects.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-objects-negated.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-ordering-numbers.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-ordering-numbers-negated.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-ordering-objects.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-ordering-objects-negated.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/contexts.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/control.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/crypto.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/encoding.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/errors.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/filesystem.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/functions.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/functions-arrays.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/functions-bytes.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/functions-higher.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/functions-lists.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/functions-strings.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/issues.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/lambdas.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/lists.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/loops.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/pairs.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/parameters.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/paths.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/ports.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/ports-memory.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/ports-native.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/ports-parameters.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/processes.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/quotation.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/random.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/records-procedures.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/records-syntaxes.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/regex-bytes.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/regex-strings.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/runtime.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/scratchpad.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/srfi-1.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/strings.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/types.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/types-negated.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/values.sst' "${@}"
 !!
 
 << execute / bin / tester / arithmetic / debug
@@ -2187,7 +2187,7 @@
 !!
 
 << execute / bin / tester / debug
-	"${X_RUN[@]}" ':: compile / bin / tester / debug' ; exec -- ./target/debug/vonuvoli-scheme-tester "${@}"
+	"${X_RUN[@]}" ':: compile / bin / tester / debug' ; exec -- ./target/default/debug/vonuvoli-scheme-tester "${@}"
 !!
 
 << execute / bin / tester / debug / watch
@@ -2519,7 +2519,7 @@
 !!
 
 << execute / bin / tester / release
-	"${X_RUN[@]}" ':: compile / bin / tester / release' ; exec -- ./target/release/vonuvoli-scheme-tester "${@}"
+	"${X_RUN[@]}" ':: compile / bin / tester / release' ; exec -- ./target/default/release/vonuvoli-scheme-tester "${@}"
 !!
 
 << execute / bin / tester / runtime / debug
@@ -2614,12 +2614,20 @@
 	exec -- "${X_RUN[@]}" ':: execute / chibi' -- './examples/examples--disk-usage--chibi.ss' "${@}"
 !!
 
+<< execute / chibi / examples / stdio
+	exec -- "${X_RUN[@]}" ':: execute / chibi' -- './examples/examples--stdio--r7rs.ss' "${@}"
+!!
+
 << execute / chibi / time
 	exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- chibi-scheme -m scheme.base -m scheme.case-lambda -m scheme.char -m scheme.complex -m scheme.cxr -m scheme.eval -m scheme.file -m scheme.inexact -m scheme.lazy -m scheme.load -m scheme.process-context -m scheme.r5rs -m scheme.read -m scheme.repl -m scheme.time -m scheme.write "${@}"
 !!
 
 << execute / chibi / time / examples / disk-usage
 	exec -- "${X_RUN[@]}" ':: execute / chibi / time' -- './examples/examples--disk-usage--chibi.ss' "${@}"
+!!
+
+<< execute / chibi / time / examples / stdio
+	exec -- "${X_RUN[@]}" ':: execute / chibi / time' -- './examples/examples--stdio--r7rs.ss' "${@}"
 !!
 
 << execute / features / combinations
@@ -2687,8 +2695,16 @@
 	exec -- gosh -b -q -u scheme.base -u scheme.case-lambda -u scheme.char -u scheme.complex -u scheme.cxr -u scheme.eval -u scheme.file -u scheme.inexact -u scheme.lazy -u scheme.load -u scheme.process-context -u scheme.r5rs -u scheme.read -u scheme.repl -u scheme.time -u scheme.write "${@}"
 !!
 
+<< execute / gauche / examples / stdio
+	exec -- "${X_RUN[@]}" ':: execute / gauche' -- './examples/examples--stdio--r7rs.ss' "${@}"
+!!
+
 << execute / gauche / time
 	exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- gosh -b -q -u scheme.base -u scheme.case-lambda -u scheme.char -u scheme.complex -u scheme.cxr -u scheme.eval -u scheme.file -u scheme.inexact -u scheme.lazy -u scheme.load -u scheme.process-context -u scheme.r5rs -u scheme.read -u scheme.repl -u scheme.time -u scheme.write "${@}"
+!!
+
+<< execute / gauche / time / examples / stdio
+	exec -- "${X_RUN[@]}" ':: execute / gauche / time' -- './examples/examples--stdio--r7rs.ss' "${@}"
 !!
 
 << execute / python
@@ -4165,12 +4181,12 @@
 	exec -- sce ./examples/examples--random-1.ss
 !!
 
-<< files / edit / examples/examples--stdio-1.ss
-	exec -- sce ./examples/examples--stdio-1.ss
+<< files / edit / examples/examples--stdio--r7rs.ss
+	exec -- sce ./examples/examples--stdio--r7rs.ss
 !!
 
-<< files / edit / examples/examples--stdio-2.ss
-	exec -- sce ./examples/examples--stdio-2.ss
+<< files / edit / examples/examples--stdio.ss
+	exec -- sce ./examples/examples--stdio.ss
 !!
 
 << files / edit / examples/examples--transcript.ss
@@ -4953,12 +4969,12 @@
 	exec -- less -- ./examples/examples--random-1.ss
 !!
 
-<< files / view / examples/examples--stdio-1.ss
-	exec -- less -- ./examples/examples--stdio-1.ss
+<< files / view / examples/examples--stdio--r7rs.ss
+	exec -- less -- ./examples/examples--stdio--r7rs.ss
 !!
 
-<< files / view / examples/examples--stdio-2.ss
-	exec -- less -- ./examples/examples--stdio-2.ss
+<< files / view / examples/examples--stdio.ss
+	exec -- less -- ./examples/examples--stdio.ss
 !!
 
 << files / view / examples/examples--transcript.ss
