@@ -44,6 +44,16 @@ pub mod exports {
 	};
 	
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	pub use super::{
+		
+		port_input_bytes_read_collect_fold,
+		port_input_bytes_read_collect_until_fold,
+		port_input_bytes_read_collect_line_fold,
+		port_input_bytes_read_collect_zero_fold,
+		
+	};
+	
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	pub use super::{
 		
@@ -67,6 +77,16 @@ pub mod exports {
 		port_input_string_read_collect_zero,
 		
 		port_output_character_write, port_output_string_write,
+		
+	};
+	
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
+	pub use super::{
+		
+		port_input_string_read_collect_fold,
+		port_input_string_read_collect_until_fold,
+		port_input_string_read_collect_line_fold,
+		port_input_string_read_collect_zero_fold,
 		
 	};
 	
@@ -295,6 +315,25 @@ pub fn port_input_bytes_read_collect (port : &Value, count : Option<&Value>, ful
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn port_input_bytes_read_collect_fold (port : &Value, count : Option<&Value>, full : Option<bool>, callable : &Value, accumulator : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
+	let (port, count, full, buffer_size) = try! (port_input_coerce_arguments (port, count, full, false));
+	let mut accumulator = accumulator.clone ();
+	loop {
+		// TODO:  Use `Rc` of buffer and try to re-use it if the callable doesn't uses it anymore.
+		let mut buffer = StdVec::with_capacity (buffer_size);
+		if let Some (_) = try! (port.byte_read_extend (&mut buffer, count, full)) {
+			let value = bytes_new (buffer) .into ();
+			accumulator = try! (evaluator.evaluate_procedure_call_2 (callable, &value, &accumulator));
+		} else {
+			succeed! (accumulator);
+		}
+	}
+}
+
+
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_bytes_read_extend (port : &Value, bytes : &Value, count : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
@@ -326,6 +365,25 @@ pub fn port_input_string_read_collect (port : &Value, count : Option<&Value>, fu
 		succeed! (PORT_EOF.into ());
 	}
 }
+
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn port_input_string_read_collect_fold (port : &Value, count : Option<&Value>, full : Option<bool>, callable : &Value, accumulator : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
+	let (port, count, full, buffer_size) = try! (port_input_coerce_arguments (port, count, full, false));
+	let mut accumulator = accumulator.clone ();
+	loop {
+		// TODO:  Use `Rc` of buffer and try to re-use it if the callable doesn't uses it anymore.
+		let mut buffer = StdString::with_capacity (buffer_size);
+		if let Some (_) = try! (port.char_read_string (&mut buffer, count, full)) {
+			let value = string_new (buffer) .into ();
+			accumulator = try! (evaluator.evaluate_procedure_call_2 (callable, &value, &accumulator));
+		} else {
+			succeed! (accumulator);
+		}
+	}
+}
+
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -392,6 +450,62 @@ fn port_input_bytes_read_collect_until_0 (port : &Value, delimiter : u8, include
 		succeed! (bytes_new (buffer) .into ());
 	} else {
 		succeed! (PORT_EOF.into ());
+	}
+}
+
+
+
+
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn port_input_bytes_read_collect_until_fold (port : &Value, delimiter : Option<&Value>, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>, callable : &Value, accumulator : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
+	let delimiter = if let Some (delimiter) = delimiter { try! (try_as_number_integer_ref! (delimiter) .try_to_u8 ()) } else { '\n' as u8 };
+	return port_input_bytes_read_collect_until_fold_0 (port, delimiter, include_delimiter, count, full, callable, accumulator, evaluator);
+}
+
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn port_input_bytes_read_collect_line_fold (port : &Value, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>, callable : &Value, accumulator : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
+	let delimiter = '\n' as u8;
+	return port_input_bytes_read_collect_until_fold_0 (port, delimiter, include_delimiter, count, full, callable, accumulator, evaluator);
+}
+
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn port_input_bytes_read_collect_zero_fold (port : &Value, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>, callable : &Value, accumulator : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
+	let delimiter = '\0' as u8;
+	return port_input_bytes_read_collect_until_fold_0 (port, delimiter, include_delimiter, count, full, callable, accumulator, evaluator);
+}
+
+
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn port_input_bytes_read_collect_until_fold_0 (port : &Value, delimiter : u8, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>, callable : &Value, accumulator : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
+	let (port, count, full, buffer_size) = try! (port_input_coerce_arguments (port, count, full, true));
+	let include_delimiter = include_delimiter.unwrap_or (false);
+	let mut accumulator = accumulator.clone ();
+	loop {
+		// TODO:  Use `Rc` of buffer and try to re-use it if the callable doesn't uses it anymore.
+		let mut buffer = StdVec::with_capacity (buffer_size);
+		if let Some (_) = try! (port.byte_read_extend_until (&mut buffer, delimiter, count, full)) {
+			if ! include_delimiter {
+				if let Some (last) = buffer.pop () {
+					if last != delimiter {
+						buffer.push (last);
+					}
+				} else {
+					fail_panic! (0xf1ebcba1);
+				}
+			}
+			let value = bytes_new (buffer) .into ();
+			accumulator = try! (evaluator.evaluate_procedure_call_2 (callable, &value, &accumulator));
+		} else {
+			succeed! (accumulator);
+		}
 	}
 }
 
@@ -506,6 +620,62 @@ fn port_input_string_read_collect_until_0 (port : &Value, delimiter : char, incl
 		succeed! (string_new (buffer) .into ());
 	} else {
 		succeed! (PORT_EOF.into ());
+	}
+}
+
+
+
+
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn port_input_string_read_collect_until_fold (port : &Value, delimiter : Option<&Value>, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>, callable : &Value, accumulator : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
+	let delimiter = if let Some (delimiter) = delimiter { try_as_character_ref! (delimiter) .value () } else { '\n' };
+	return port_input_string_read_collect_until_fold_0 (port, delimiter, include_delimiter, count, full, callable, accumulator, evaluator);
+}
+
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn port_input_string_read_collect_line_fold (port : &Value, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>, callable : &Value, accumulator : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
+	let delimiter = '\n';
+	return port_input_string_read_collect_until_fold_0 (port, delimiter, include_delimiter, count, full, callable, accumulator, evaluator);
+}
+
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn port_input_string_read_collect_zero_fold (port : &Value, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>, callable : &Value, accumulator : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
+	let delimiter = '\0';
+	return port_input_string_read_collect_until_fold_0 (port, delimiter, include_delimiter, count, full, callable, accumulator, evaluator);
+}
+
+
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn port_input_string_read_collect_until_fold_0 (port : &Value, delimiter : char, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>, callable : &Value, accumulator : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
+	let (port, count, full, buffer_size) = try! (port_input_coerce_arguments (port, count, full, true));
+	let include_delimiter = include_delimiter.unwrap_or (false);
+	let mut accumulator = accumulator.clone ();
+	loop {
+		// TODO:  Use `Rc` of buffer and try to re-use it if the callable doesn't uses it anymore.
+		let mut buffer = StdString::with_capacity (buffer_size);
+		if let Some (_) = try! (port.char_read_string_until (&mut buffer, delimiter, count, full)) {
+			if ! include_delimiter {
+				if let Some (last) = buffer.pop () {
+					if last != delimiter {
+						buffer.push (last);
+					}
+				} else {
+					fail_panic! (0x946e6d5d);
+				}
+			}
+			let value = string_new (buffer) .into ();
+			accumulator = try! (evaluator.evaluate_procedure_call_2 (callable, &value, &accumulator));
+		} else {
+			succeed! (accumulator);
+		}
 	}
 }
 
