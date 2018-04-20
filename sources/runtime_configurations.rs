@@ -74,6 +74,8 @@ pub const DEFAULT_PORT_OUTPUT_VALUE_WRITE_SEPARATOR : char = ' ';
 pub const DEFAULT_PORT_OUTPUT_NEWLINE_FLUSH : bool = cfg! (feature = "vonuvoli_port_output_newline_flush");
 #[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 pub const DEFAULT_PORT_OUTPUT_NEWLINE_SEPARATOR : char = '\n';
+#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+pub const DEFAULT_PORT_OUTPUT_ZERO_SEPARATOR : char = '\0';
 
 #[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 pub const DEFAULT_PORT_BUFFER_SIZE : usize = 16 * 1024;
