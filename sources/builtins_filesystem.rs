@@ -57,6 +57,8 @@ pub mod exports {
 	
 	pub use super::{
 		
+		filesystem_any_exists,
+		
 		filesystem_file_exists,
 		filesystem_file_delete,
 		
@@ -1435,6 +1437,32 @@ pub fn filesystem_metadata_is_self (left : &Value, right : &Value, follow : bool
 		succeed! (false);
 	}
 	succeed! (true);
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_any_exists (path : &Value, follow : bool) -> (Outcome<bool>) {
+	let path = try! (path_slice_coerce (path));
+	let path = path.deref ();
+	match
+			if follow {
+				fs::metadata (path)
+			} else {
+				fs::symlink_metadata (path)
+			}
+	{
+		Ok (_) =>
+			succeed! (true),
+		Err (error) =>
+			match error.raw_os_error () {
+				Some (ext::libc::ENOENT) =>
+					succeed! (false),
+				_ =>
+					fail! (0xe00c6835),
+			},
+	}
 }
 
 

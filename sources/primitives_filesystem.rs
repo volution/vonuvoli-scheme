@@ -60,6 +60,7 @@ pub enum FileSystemPrimitive0 {}
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum FileSystemPrimitive1 {
 	
+	AnyExists,
 	FileExists,
 	FileDelete,
 	DirectoryExists,
@@ -132,6 +133,7 @@ pub enum FileSystemPrimitive1 {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum FileSystemPrimitive2 {
 	
+	AnyExists,
 	FileExists,
 	DirectoryExists,
 	MountPointIs,
@@ -244,6 +246,7 @@ pub enum FileSystemPrimitiveN {
 #[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
 pub enum FileSystemPrimitiveV {
 	
+	AnyExists,
 	FileExists,
 	DirectoryExists,
 	MountPointIs,
@@ -303,6 +306,9 @@ pub fn filesystem_primitive_0_evaluate (primitive : FileSystemPrimitive0, _evalu
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_1_evaluate (primitive : FileSystemPrimitive1, input_1 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
+		
+		FileSystemPrimitive1::AnyExists =>
+			return filesystem_any_exists (input_1, true) .into_0 (),
 		
 		FileSystemPrimitive1::FileExists =>
 			return filesystem_file_exists (input_1, true) .into_0 (),
@@ -470,6 +476,9 @@ pub fn filesystem_primitive_1_evaluate (primitive : FileSystemPrimitive1, input_
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_2_evaluate (primitive : FileSystemPrimitive2, input_1 : &Value, input_2 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
+		
+		FileSystemPrimitive2::AnyExists =>
+			return filesystem_any_exists (input_1, try! (boolean_coerce (input_2))) .into_0 (),
 		
 		FileSystemPrimitive2::FileExists =>
 			return filesystem_file_exists (input_1, try! (boolean_coerce (input_2))) .into_0 (),
@@ -735,6 +744,8 @@ pub fn filesystem_primitive_n_evaluate (primitive : FileSystemPrimitiveN, inputs
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_v_alternative_0 (primitive : FileSystemPrimitiveV) -> (Option<FileSystemPrimitive0>) {
 	match primitive {
+		FileSystemPrimitiveV::AnyExists =>
+			None,
 		FileSystemPrimitiveV::FileExists =>
 			None,
 		FileSystemPrimitiveV::DirectoryExists =>
@@ -812,6 +823,8 @@ pub fn filesystem_primitive_v_alternative_0 (primitive : FileSystemPrimitiveV) -
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_v_alternative_1 (primitive : FileSystemPrimitiveV) -> (Option<FileSystemPrimitive1>) {
 	match primitive {
+		FileSystemPrimitiveV::AnyExists =>
+			Some (FileSystemPrimitive1::AnyExists),
 		FileSystemPrimitiveV::FileExists =>
 			Some (FileSystemPrimitive1::FileExists),
 		FileSystemPrimitiveV::DirectoryExists =>
@@ -889,6 +902,8 @@ pub fn filesystem_primitive_v_alternative_1 (primitive : FileSystemPrimitiveV) -
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_v_alternative_2 (primitive : FileSystemPrimitiveV) -> (Option<FileSystemPrimitive2>) {
 	match primitive {
+		FileSystemPrimitiveV::AnyExists =>
+			Some (FileSystemPrimitive2::AnyExists),
 		FileSystemPrimitiveV::FileExists =>
 			Some (FileSystemPrimitive2::FileExists),
 		FileSystemPrimitiveV::DirectoryExists =>
@@ -966,6 +981,8 @@ pub fn filesystem_primitive_v_alternative_2 (primitive : FileSystemPrimitiveV) -
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_v_alternative_3 (primitive : FileSystemPrimitiveV) -> (Option<FileSystemPrimitive3>) {
 	match primitive {
+		FileSystemPrimitiveV::AnyExists =>
+			None,
 		FileSystemPrimitiveV::FileExists =>
 			None,
 		FileSystemPrimitiveV::DirectoryExists =>
@@ -1043,6 +1060,8 @@ pub fn filesystem_primitive_v_alternative_3 (primitive : FileSystemPrimitiveV) -
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_v_alternative_4 (primitive : FileSystemPrimitiveV) -> (Option<FileSystemPrimitive4>) {
 	match primitive {
+		FileSystemPrimitiveV::AnyExists =>
+			None,
 		FileSystemPrimitiveV::FileExists =>
 			None,
 		FileSystemPrimitiveV::DirectoryExists =>
@@ -1120,6 +1139,8 @@ pub fn filesystem_primitive_v_alternative_4 (primitive : FileSystemPrimitiveV) -
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_v_alternative_5 (primitive : FileSystemPrimitiveV) -> (Option<FileSystemPrimitive5>) {
 	match primitive {
+		FileSystemPrimitiveV::AnyExists =>
+			None,
 		FileSystemPrimitiveV::FileExists =>
 			None,
 		FileSystemPrimitiveV::DirectoryExists =>
@@ -1197,6 +1218,8 @@ pub fn filesystem_primitive_v_alternative_5 (primitive : FileSystemPrimitiveV) -
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_v_alternative_n (primitive : FileSystemPrimitiveV) -> (Option<FileSystemPrimitiveN>) {
 	match primitive {
+		FileSystemPrimitiveV::AnyExists =>
+			None,
 		FileSystemPrimitiveV::FileExists =>
 			None,
 		FileSystemPrimitiveV::DirectoryExists =>

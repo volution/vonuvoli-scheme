@@ -928,6 +928,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("fs-metadata-unix-inode-number", FileSystemPrimitiveV::MetadataUnixGetInodeNumber.into ()),
 			("fs-metadata-unix-inode-links", FileSystemPrimitiveV::MetadataUnixGetInodeLinks.into ()),
 			
+			("fs-exists?", FileSystemPrimitiveV::AnyExists.into ()),
 			("fs-file-exists?", FileSystemPrimitiveV::FileExists.into ()),
 			("fs-file-delete", FileSystemPrimitive1::FileDelete.into ()),
 			("fs-directory-exists?", FileSystemPrimitiveV::DirectoryExists.into ()),
