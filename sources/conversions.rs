@@ -797,6 +797,21 @@ pub fn count_coerce_option (value : Option<&Value>) -> (Outcome<Option<usize>>) 
 }
 
 
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn offset_coerce (value : &Value, size : usize) -> (Outcome<usize>) {
+	let offset = try! (count_coerce (value));
+	if offset >= size {
+		fail! (0xc1e1c0a3);
+	}
+	succeed! (offset);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn offset_coerce_option (value : Option<&Value>, size : usize) -> (Outcome<Option<usize>>) {
+	succeed! (try_option_map! (value, offset_coerce (value, size)));
+}
+
+
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
