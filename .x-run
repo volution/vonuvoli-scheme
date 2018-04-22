@@ -588,7 +588,7 @@ cat <<'EOS-31f6e6b1'
 	test -e ./.rust/.initialized
 	export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
 	export -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"
-	export -- PATH="${RUST_PATH:-$( exec -- readlink -e -- ./.rust/rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}}"
+	export -- PATH="${RUST_PATH:-$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}}"
 	nice -n 19 -- cargo install --force peg
 	nice -n 19 -- cargo install --force cargo-kcov
 	nice -n 19 -- cargo install --force cargo-tree
@@ -599,7 +599,7 @@ cat <<'EOS-31f6e6b1'
 	test -e ./.rust/.initialized
 	export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
 	export -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"
-	export -- PATH="${RUST_PATH:-$( exec -- readlink -e -- ./.rust/rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}}"
+	export -- PATH="${RUST_PATH:-$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}}"
 	nice -n 19 -- cargo update
 !!
 
@@ -927,8 +927,6 @@ if true ; then
 			--info=backup,copy,del,misc,mount,name,remove,skip,symsafe --itemize-changes \
 			--filter 'H /.git' \
 			--filter 'P /.git' \
-			--filter 'H /.cargo' \
-			--filter 'P /.cargo' \
 			--filter 'H /.rust' \
 			--filter 'P /.rust' \
 			--filter 'H /.python' \
@@ -939,6 +937,32 @@ if true ; then
 			--filter 'P /examples/_outputs' \
 			--filter 'H /tests/_outputs' \
 			--filter 'P /tests/_outputs' \
+			--filter '+ /.cargo/' \
+			--filter '+ /.x-run.execute' \
+			--filter '- .*' \
+			-- \
+		./ \
+		vonuvoli-scheme-builder:./vonuvoli-scheme-builder/ \
+	#
+!!
+
+
+<< builder / synchronize / sources / push / clear
+	test "${#}" -eq 0
+	exec -- rsync \
+			--archive \
+			--delete-after --delete-excluded \
+			--no-specials --prune-empty-dirs --links \
+			--times --omit-dir-times --omit-link-times \
+			--compress-level 0 \
+			--info=backup,copy,del,misc,mount,name,remove,skip,symsafe --itemize-changes \
+			--filter 'H /.git' \
+			--filter 'H /.rust' \
+			--filter 'H /.python' \
+			--filter 'H /target' \
+			--filter 'H /examples/_outputs' \
+			--filter 'H /tests/_outputs' \
+			--filter '+ /.cargo/' \
 			--filter '+ /.x-run.execute' \
 			--filter '- .*' \
 			-- \
@@ -991,6 +1015,72 @@ if true ; then
 !!
 
 
+<< builder / synchronize / binaries / pull
+	test "${#}" -eq 0
+	exec -- rsync \
+			--archive \
+			--delete-after --delete-excluded \
+			--no-specials --prune-empty-dirs --links \
+			--times --omit-dir-times --omit-link-times \
+			--compress-level 0 \
+			--info=backup,copy,del,misc,mount,name,remove,skip,symsafe --itemize-changes \
+			--filter '+ /debug/' \
+			--filter '+ /debug/vonuvoli-scheme-interpreter' \
+			--filter '+ /debug/vonuvoli-scheme-compiler' \
+			--filter '+ /debug/vonuvoli-scheme-tester' \
+			--filter '+ /debug/vonuvoli-scheme-bencher' \
+			--filter '+ /release/' \
+			--filter '+ /release/vonuvoli-scheme-interpreter' \
+			--filter '+ /release/vonuvoli-scheme-compiler' \
+			--filter '+ /release/vonuvoli-scheme-tester' \
+			--filter '+ /release/vonuvoli-scheme-bencher' \
+			--filter 'P /***' \
+			--filter 'H /***' \
+			-- \
+		vonuvoli-scheme-builder:./vonuvoli-scheme-builder/target/build/ \
+		./target/binaries/ \
+	#
+!!
+
+
+:: builder / build / all / debug / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: builder / build / all / debug'
+<< builder / build / all / debug
+	test "${#}" -eq 0
+	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_release CARGO_TARGET_DIR=./target/build
+	"${X_RUN[@]}" ':: builder / synchronize / sources / push'
+	"${X_RUN[@]}" ':: builder / compile / bin / all / debug'
+	"${X_RUN[@]}" ':: builder / synchronize / binaries / pull'
+!!
+
+:: builder / build / all / release / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: builder / build / all / release'
+<< builder / build / all / release
+	test "${#}" -eq 0
+	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_release CARGO_TARGET_DIR=./target/build
+	"${X_RUN[@]}" ':: builder / synchronize / sources / push'
+	"${X_RUN[@]}" ':: builder / compile / bin / all / release'
+	"${X_RUN[@]}" ':: builder / synchronize / binaries / pull'
+!!
+
+
+:: builder / build / interpreter / debug / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: builder / build / interpreter / debug'
+<< builder / build / interpreter / debug
+	test "${#}" -eq 0
+	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_release CARGO_TARGET_DIR=./target/build
+	"${X_RUN[@]}" ':: builder / synchronize / sources / push'
+	"${X_RUN[@]}" ':: builder / compile / bin / interpreter / debug'
+	"${X_RUN[@]}" ':: builder / synchronize / binaries / pull'
+!!
+
+:: builder / build / interpreter / release / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: builder / build / interpreter / release'
+<< builder / build / interpreter / release
+	test "${#}" -eq 0
+	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_release CARGO_TARGET_DIR=./target/build
+	"${X_RUN[@]}" ':: builder / synchronize / sources / push'
+	"${X_RUN[@]}" ':: builder / compile / bin / interpreter / release'
+	"${X_RUN[@]}" ':: builder / synchronize / binaries / pull'
+!!
+
+
 EOS-31f6e6b1
 	
 	
@@ -1011,8 +1101,8 @@ EOS-31f6e6b1
 				
 				printf -- '\n<< builder / %s\n' "${_option}"
 				printf -- '"${X_RUN[@]}" %q\n' ":: builder / synchronize / sources / push"
-				_scriptlet="$( printf -- 'cd -- ./vonuvoli-scheme-builder/ && if test -e ./.rust/rustup/toolchains -a -e ./.rust/cargo/bin ; then export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}" ; fi && export -- VONUVOLI_SCHEME_FEATURES=%q && ./.x-run.execute %q' "${VONUVOLI_SCHEME_FEATURES:-}" ":: ${_option}" )"
-				printf -- 'exec -- ssh -- vonuvoli-scheme-builder %q\n' "${_scriptlet}"
+				_scriptlet="$( printf -- 'cd -- ./vonuvoli-scheme-builder/ && if test -e ./.rust/rustup/toolchains -a -e ./.rust/cargo/bin ; then export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}" ; fi && export -- VONUVOLI_SCHEME_FEATURES=%%q && if test -z "${VONUVOLI_SCHEME_FEATURES}" ; then unset -- VONUVOLI_SCHEME_FEATURES ; fi && export -- CARGO_TARGET_DIR=%%q && if test -z "${CARGO_TARGET_DIR}" ; then unset -- CARGO_TARGET_DIR ; fi && ./.x-run.execute %q' ":: ${_option}" )"
+				printf -- 'exec -- ssh -- vonuvoli-scheme-builder "$( printf -- %q "${VONUVOLI_SCHEME_FEATURES:-}" "${CARGO_TARGET_DIR:-}" )"\n' "${_scriptlet}"
 				printf -- '!!\n\n'
 				
 			;;
@@ -1026,6 +1116,15 @@ EOS-31f6e6b1
 	mv -T -- ./.x-run.builder.tmp2 ./.x-run.builder
 	rm -- ./.x-run.builder.tmp1
 	
+fi
+
+
+
+
+if true ; then
+	X_RUN_ACTION=scriptlets x-run < <( exec -- cat -- ./.x-run.options ./.x-run.builder ) >| ./.x-run.execute-local.tmp1
+	mv -T -- ./.x-run.execute-local.tmp1 ./.x-run.execute-local
+	chmod +x -- ./.x-run.execute-local
 fi
 
 

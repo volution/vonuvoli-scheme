@@ -7841,12 +7841,12 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 ;;
 
 ( ::\ workbench\ /\ cargo\ /\ install\ or\ upgrade )
-	eval -- $'\ttest "${#}" -eq 0\n\ttest -e ./.rust/.initialized\n\texport -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"\n\texport -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"\n\texport -- PATH="${RUST_PATH:-$( exec -- readlink -e -- ./.rust/rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}}"\n\tnice -n 19 -- cargo install --force peg\n\tnice -n 19 -- cargo install --force cargo-kcov\n\tnice -n 19 -- cargo install --force cargo-tree\n'
+	eval -- $'\ttest "${#}" -eq 0\n\ttest -e ./.rust/.initialized\n\texport -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"\n\texport -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"\n\texport -- PATH="${RUST_PATH:-$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}}"\n\tnice -n 19 -- cargo install --force peg\n\tnice -n 19 -- cargo install --force cargo-kcov\n\tnice -n 19 -- cargo install --force cargo-tree\n'
 	exit -- 0
 ;;
 
 ( ::\ workbench\ /\ cargo\ /\ update )
-	eval -- $'\ttest "${#}" -eq 0\n\ttest -e ./.rust/.initialized\n\texport -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"\n\texport -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"\n\texport -- PATH="${RUST_PATH:-$( exec -- readlink -e -- ./.rust/rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}}"\n\tnice -n 19 -- cargo update\n'
+	eval -- $'\ttest "${#}" -eq 0\n\ttest -e ./.rust/.initialized\n\texport -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"\n\texport -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"\n\texport -- PATH="${RUST_PATH:-$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}}"\n\tnice -n 19 -- cargo update\n'
 	exit -- 0
 ;;
 
