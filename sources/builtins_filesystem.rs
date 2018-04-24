@@ -91,6 +91,7 @@ pub mod exports {
 		filesystem_metadata_resolve,
 		filesystem_metadata_coerce,
 		
+		filesystem_metadata_is,
 		filesystem_metadata_is_self,
 		
 		filesystem_metadata_get_kind,
@@ -1423,6 +1424,11 @@ pub fn filesystem_metadata_unix_get_inode_links (metadata : &Value, follow : boo
 
 
 
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_metadata_is (value : &Value) -> (bool) {
+	return Opaque::value_is::<fs::Metadata> (value);
+}
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_metadata_is_self (left : &Value, right : &Value, follow : bool) -> (Outcome<bool>) {
