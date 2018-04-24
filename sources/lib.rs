@@ -93,6 +93,19 @@ pub extern crate data_encoding;
 #[ cfg ( feature = "lmdb-zero" ) ]
 pub extern crate lmdb_zero;
 
+#[ cfg ( feature = "serde" ) ]
+pub extern crate serde;
+
+#[ cfg ( feature = "serde_derive" ) ]
+#[ macro_use ]
+pub extern crate serde_derive;
+
+#[ cfg ( feature = "serde_bytes" ) ]
+pub extern crate serde_bytes;
+
+#[ cfg ( feature = "bincode" ) ]
+pub extern crate bincode;
+
 #[ cfg ( feature = "blake2-rfc" ) ]
 pub extern crate blake2_rfc;
 
@@ -141,6 +154,15 @@ pub mod externals {
 	
 	#[ cfg ( feature = "lmdb-zero" ) ]
 	pub use lmdb_zero as lmdb;
+	
+	#[ cfg ( feature = "serde" ) ]
+	pub use serde;
+	#[ cfg ( feature = "serde_derive" ) ]
+	pub use serde_derive;
+	#[ cfg ( feature = "serde_bytes" ) ]
+	pub use serde_bytes;
+	#[ cfg ( feature = "bincode" ) ]
+	pub use bincode;
 	
 	#[ cfg ( feature = "blake2-rfc" ) ]
 	pub use blake2_rfc;

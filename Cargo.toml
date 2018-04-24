@@ -200,6 +200,7 @@ vonuvoli_builtins_all = [
 	"vonuvoli_builtins_random",
 	"vonuvoli_builtins_encoding",
 	"vonuvoli_builtins_cache",
+	"vonuvoli_builtins_serde",
 ]
 
 vonuvoli_builtins_parameters = []
@@ -247,6 +248,12 @@ vonuvoli_builtins_cache = [
 	"vonuvoli_values_opaque",
 	"lmdb-zero",
 ]
+vonuvoli_builtins_serde = [
+	"serde",
+	"serde_derive",
+	"serde_bytes",
+	"bincode",
+]
 
 vonuvoli_features_all = [
 	
@@ -289,6 +296,7 @@ vonuvoli_features_all = [
 	"vonuvoli_builtins_random",
 	"vonuvoli_builtins_encoding",
 	"vonuvoli_builtins_cache",
+	"vonuvoli_builtins_serde",
 	
 	"vonuvoli_parser",
 	"vonuvoli_tests",
@@ -434,6 +442,34 @@ default-features = false
 [dependencies.lmdb-zero]
 # https://github.com/AltSysrq/lmdb-zero
 version = "~0.4.4"
+optional = true
+features = []
+default-features = false
+
+[dependencies.serde]
+# https://github.com/serde-rs/serde
+version = "~1.0.43"
+optional = true
+features = ["std"]
+default-features = false
+
+[dependencies.serde_derive]
+# https://github.com/serde-rs/serde
+version = "~1.0.43"
+optional = true
+features = []
+default-features = false
+
+[dependencies.serde_bytes]
+# https://github.com/serde-rs/bytes
+version = "~0.10.4"
+optional = true
+features = ["std"]
+default-features = false
+
+[dependencies.bincode]
+# https://github.com/TyOverby/bincode
+version = "~1.0.0"
 optional = true
 features = []
 default-features = false
