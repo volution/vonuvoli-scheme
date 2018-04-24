@@ -445,6 +445,12 @@ pub fn process_arguments (_evaluator : &mut EvaluatorContext, _return_array : bo
 	fail_unimplemented! (0xf1e93d2d);
 }
 
+#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn process_arguments_count (_evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	fail_unimplemented! (0x802b2f86);
+}
+
 
 #[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
