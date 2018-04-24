@@ -150,6 +150,13 @@ pub enum RuntimePrimitive1 {
 	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 	CacheExcludeAll,
 	
+	#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	SerdeSerializeBytes,
+	#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	SerdeDeserializeBytes,
+	
 }
 
 
@@ -558,6 +565,16 @@ pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, input_1 : &V
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		RuntimePrimitive1::CacheExcludeAll =>
 			return cache_exclude_all (input_1, None, None) .into_0 (),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		RuntimePrimitive1::SerdeSerializeBytes =>
+			return serde_serialize_into_bytes (input_1),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		RuntimePrimitive1::SerdeDeserializeBytes =>
+			return serde_deserialize_from_bytes (input_1),
 		
 	}
 }
@@ -1002,7 +1019,6 @@ pub fn runtime_primitive_v_alternative_1 (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitiveV::ProcessSpawnExtended =>
 			Some (RuntimePrimitive1::ProcessSpawnExtended),
-		
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		RuntimePrimitiveV::CacheOpen =>
 			Some (RuntimePrimitive1::CacheOpen),

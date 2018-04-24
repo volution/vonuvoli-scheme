@@ -1539,6 +1539,16 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			
 		]);
 	
+	#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
+	definitions.extend_from_slice (&[
+			
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			("serialize-bytevector", RuntimePrimitive1::SerdeSerializeBytes.into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			("deserialize-bytevector", RuntimePrimitive1::SerdeDeserializeBytes.into ()),
+			
+		]);
+	
 	let definitions = vec_map_into! (
 			definitions,
 			(identifier, value),
