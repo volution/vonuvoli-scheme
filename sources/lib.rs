@@ -56,45 +56,44 @@ pub extern crate test;
 
 
 
-#[ cfg ( feature = "vonuvoli_backtrace" ) ]
+#[ cfg ( feature = "backtrace" ) ]
 pub extern crate backtrace;
-#[ cfg ( feature = "vonuvoli_backtrace" ) ]
+#[ cfg ( feature = "rustc-demangle" ) ]
 pub extern crate rustc_demangle;
 
-#[ cfg ( feature = "vonuvoli_terminal" ) ]
+#[ cfg ( feature = "ansi_term" ) ]
 pub extern crate ansi_term;
-#[ cfg ( feature = "vonuvoli_terminal" ) ]
+#[ cfg ( feature = "atty" ) ]
 pub extern crate atty;
 
-#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
+#[ cfg ( feature = "regex" ) ]
 pub extern crate regex;
 
-#[ cfg ( feature = "vonuvoli_builtins_crypto" ) ]
+#[ cfg ( feature = "ring" ) ]
 pub extern crate ring;
-#[ cfg ( feature = "vonuvoli_builtins_crypto" ) ]
+#[ cfg ( feature = "digest" ) ]
 pub extern crate digest;
-#[ cfg ( feature = "vonuvoli_builtins_crypto" ) ]
+#[ cfg ( feature = "sha-1" ) ]
 pub extern crate sha1;
-#[ cfg ( feature = "vonuvoli_builtins_crypto" ) ]
+#[ cfg ( feature = "sha2" ) ]
 pub extern crate sha2;
-#[ cfg ( feature = "vonuvoli_builtins_crypto" ) ]
+#[ cfg ( feature = "sha3" ) ]
 pub extern crate sha3;
-#[ cfg ( feature = "vonuvoli_builtins_crypto" ) ]
+#[ cfg ( feature = "md-5" ) ]
 pub extern crate md5;
-#[ cfg ( feature = "vonuvoli_builtins_crypto" ) ]
+#[ cfg ( feature = "blake2" ) ]
 pub extern crate blake2;
 
-#[ cfg ( feature = "vonuvoli_builtins_random" ) ]
+#[ cfg ( feature = "rand" ) ]
 pub extern crate rand;
 
-#[ cfg ( feature = "vonuvoli_builtins_encoding" ) ]
+#[ cfg ( feature = "data-encoding" ) ]
 pub extern crate data_encoding;
 
-#[ cfg ( feature = "lmdb_zero" ) ]
+#[ cfg ( feature = "lmdb-zero" ) ]
 pub extern crate lmdb_zero;
 
-#[ cfg ( feature = "vonuvoli_transcript" ) ]
-#[ cfg ( feature = "vonuvoli_transcript_code_hashes" ) ]
+#[ cfg ( feature = "blake2-rfc" ) ]
 pub extern crate blake2_rfc;
 
 
@@ -106,52 +105,46 @@ pub mod externals {
 	pub use libc;
 	pub use test;
 	
-	#[ cfg ( feature = "vonuvoli_backtrace" ) ]
-	pub use {
-		backtrace,
-		rustc_demangle,
-	};
+	#[ cfg ( feature = "backtrace" ) ]
+	pub use backtrace;
+	#[ cfg ( feature = "rustc-demangle" ) ]
+	pub use rustc_demangle;
 	
-	#[ cfg ( feature = "vonuvoli_terminal" ) ]
-	pub use {
-		ansi_term,
-		atty,
-	};
+	#[ cfg ( feature = "ansi_term" ) ]
+	pub use ansi_term;
+	#[ cfg ( feature = "atty" ) ]
+	pub use atty;
 	
-	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
-	pub use {
-		regex,
-	};
+	#[ cfg ( feature = "regex" ) ]
+	pub use regex;
 	
-	#[ cfg ( feature = "vonuvoli_builtins_crypto" ) ]
-	pub use {
-		ring,
-		digest,
-		sha1,
-		sha2,
-		sha3,
-		md5,
-		blake2,
-	};
+	#[ cfg ( feature = "ring" ) ]
+	pub use ring;
+	#[ cfg ( feature = "digest" ) ]
+	pub use digest;
+	#[ cfg ( feature = "sha-1" ) ]
+	pub use sha1;
+	#[ cfg ( feature = "sha2" ) ]
+	pub use sha2;
+	#[ cfg ( feature = "sha3" ) ]
+	pub use sha3;
+	#[ cfg ( feature = "md-5" ) ]
+	pub use md5;
+	#[ cfg ( feature = "blake2" ) ]
+	pub use blake2;
 	
-	#[ cfg ( feature = "vonuvoli_builtins_random" ) ]
-	pub use {
-		rand,
-	};
+	#[ cfg ( feature = "rand" ) ]
+	pub use rand;
 	
-	#[ cfg ( feature = "vonuvoli_builtins_encoding" ) ]
-	pub use {
-		data_encoding,
-	};
+	#[ cfg ( feature = "data-encoding" ) ]
+	pub use data_encoding;
 	
-	#[ cfg ( feature = "lmdb_zero" ) ]
+	#[ cfg ( feature = "lmdb-zero" ) ]
 	pub use lmdb_zero as lmdb;
 	
-	#[ cfg ( feature = "vonuvoli_transcript" ) ]
-	#[ cfg ( feature = "vonuvoli_transcript_code_hashes" ) ]
-	pub use {
-		blake2_rfc,
-	};
+	#[ cfg ( feature = "blake2-rfc" ) ]
+	pub use blake2_rfc;
+	
 }
 
 

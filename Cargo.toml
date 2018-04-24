@@ -244,6 +244,7 @@ vonuvoli_builtins_encoding = [
 	"data-encoding",
 ]
 vonuvoli_builtins_cache = [
+	"vonuvoli_values_opaque",
 	"lmdb-zero",
 ]
 
