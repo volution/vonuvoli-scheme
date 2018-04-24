@@ -143,6 +143,13 @@ pub enum RuntimePrimitive1 {
 	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	ProcessStderrGet,
 	
+	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+	CacheOpen,
+	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+	CacheClose,
+	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+	CacheExcludeAll,
+	
 }
 
 
@@ -179,6 +186,17 @@ pub enum RuntimePrimitive2 {
 	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	ProcessSpawnExtended,
 	
+	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+	CacheOpen,
+	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	CacheSelectBytes,
+	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	CacheExcludeBytes,
+	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+	CacheExcludeAll,
+	
 }
 
 
@@ -211,6 +229,18 @@ pub enum RuntimePrimitive3 {
 	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	ProcessSpawnExtended,
 	
+	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+	CacheOpen,
+	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	CacheSelectBytes,
+	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	CacheIncludeBytes,
+	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	CacheExcludeBytes,
+	
 }
 
 
@@ -236,6 +266,12 @@ pub enum RuntimePrimitive4 {
 	TranscriptTraceInternal,
 	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceDebugging,
+	
+	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+	CacheOpen,
+	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	CacheIncludeBytes,
 	
 }
 
@@ -334,6 +370,20 @@ pub enum RuntimePrimitiveV {
 	
 	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	ProcessSpawnExtended,
+	
+	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+	CacheOpen,
+	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	CacheSelectBytes,
+	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	CacheIncludeBytes,
+	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	CacheExcludeBytes,
+	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+	CacheExcludeAll,
 	
 }
 
@@ -497,6 +547,18 @@ pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, input_1 : &V
 		RuntimePrimitive1::ProcessStderrGet =>
 			return process_stderr_get (input_1),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		RuntimePrimitive1::CacheOpen =>
+			return cache_open (input_1, None, None, None),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		RuntimePrimitive1::CacheClose =>
+			return cache_close (input_1) .into_0 (),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		RuntimePrimitive1::CacheExcludeAll =>
+			return cache_exclude_all (input_1, None, None) .into_0 (),
+		
 	}
 }
 
@@ -560,6 +622,24 @@ pub fn runtime_primitive_2_evaluate (primitive : RuntimePrimitive2, input_1 : &V
 		RuntimePrimitive2::ProcessSpawnExtended =>
 			return process_spawn_extended (input_1, Some (input_2), None, &mut Some (evaluator)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		RuntimePrimitive2::CacheOpen =>
+			return cache_open (input_1, Some (input_2), None, None),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		RuntimePrimitive2::CacheSelectBytes =>
+			return cache_select_bytes (input_1, None, input_2, None),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		RuntimePrimitive2::CacheExcludeBytes =>
+			return cache_exclude_bytes (input_1, None, input_2, None) .into_0 (),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		RuntimePrimitive2::CacheExcludeAll =>
+			return cache_exclude_all (input_1, Some (input_2), None) .into_0 (),
+		
 	}
 }
 
@@ -615,6 +695,25 @@ pub fn runtime_primitive_3_evaluate (primitive : RuntimePrimitive3, input_1 : &V
 		RuntimePrimitive3::ProcessSpawnExtended =>
 			return process_spawn_extended (input_1, Some (input_2), Some (input_3), &mut Some (evaluator)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		RuntimePrimitive3::CacheOpen =>
+			return cache_open (input_1, Some (input_2), Some (input_3), None),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		RuntimePrimitive3::CacheSelectBytes =>
+			return cache_select_bytes (input_1, Some (input_2), input_3, None),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		RuntimePrimitive3::CacheIncludeBytes =>
+			return cache_include_bytes (input_1, None, input_2, input_3, None) .into_0 (),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		RuntimePrimitive3::CacheExcludeBytes =>
+			return cache_exclude_bytes (input_1, Some (input_2), input_3, None) .into_0 (),
+		
 	}
 }
 
@@ -661,6 +760,15 @@ pub fn runtime_primitive_4_evaluate (primitive : RuntimePrimitive4, input_1 : &V
 		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitive4::TranscriptTraceDebugging =>
 			return transcript_trace_g (TranscriptLevel::Debugging, &[input_1, input_2, input_3, input_4], evaluator) .into_0 (),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		RuntimePrimitive4::CacheOpen =>
+			return cache_open (input_1, Some (input_2), Some (input_3), Some (input_4)),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		RuntimePrimitive4::CacheIncludeBytes =>
+			return cache_include_bytes (input_1, Some (input_2), input_3, input_4, None) .into_0 (),
 		
 	}
 }
@@ -824,6 +932,24 @@ pub fn runtime_primitive_v_alternative_0 (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitiveV::ProcessSpawnExtended =>
 			None,
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		RuntimePrimitiveV::CacheOpen =>
+			None,
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		RuntimePrimitiveV::CacheSelectBytes =>
+			None,
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		RuntimePrimitiveV::CacheIncludeBytes =>
+			None,
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		RuntimePrimitiveV::CacheExcludeBytes =>
+			None,
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		RuntimePrimitiveV::CacheExcludeAll =>
+			None,
 	}
 }
 
@@ -876,6 +1002,25 @@ pub fn runtime_primitive_v_alternative_1 (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitiveV::ProcessSpawnExtended =>
 			Some (RuntimePrimitive1::ProcessSpawnExtended),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		RuntimePrimitiveV::CacheOpen =>
+			Some (RuntimePrimitive1::CacheOpen),
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		RuntimePrimitiveV::CacheSelectBytes =>
+			None,
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		RuntimePrimitiveV::CacheIncludeBytes =>
+			None,
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		RuntimePrimitiveV::CacheExcludeBytes =>
+			None,
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		RuntimePrimitiveV::CacheExcludeAll =>
+			Some (RuntimePrimitive1::CacheExcludeAll),
 	}
 }
 
@@ -928,6 +1073,24 @@ pub fn runtime_primitive_v_alternative_2 (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitiveV::ProcessSpawnExtended =>
 			Some (RuntimePrimitive2::ProcessSpawnExtended),
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		RuntimePrimitiveV::CacheOpen =>
+			Some (RuntimePrimitive2::CacheOpen),
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		RuntimePrimitiveV::CacheSelectBytes =>
+			Some (RuntimePrimitive2::CacheSelectBytes),
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		RuntimePrimitiveV::CacheIncludeBytes =>
+			None,
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		RuntimePrimitiveV::CacheExcludeBytes =>
+			Some (RuntimePrimitive2::CacheExcludeBytes),
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		RuntimePrimitiveV::CacheExcludeAll =>
+			Some (RuntimePrimitive2::CacheExcludeAll),
 	}
 }
 
@@ -980,6 +1143,24 @@ pub fn runtime_primitive_v_alternative_3 (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitiveV::ProcessSpawnExtended =>
 			Some (RuntimePrimitive3::ProcessSpawnExtended),
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		RuntimePrimitiveV::CacheOpen =>
+			Some (RuntimePrimitive3::CacheOpen),
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		RuntimePrimitiveV::CacheSelectBytes =>
+			Some (RuntimePrimitive3::CacheSelectBytes),
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		RuntimePrimitiveV::CacheIncludeBytes =>
+			Some (RuntimePrimitive3::CacheIncludeBytes),
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		RuntimePrimitiveV::CacheExcludeBytes =>
+			Some (RuntimePrimitive3::CacheExcludeBytes),
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		RuntimePrimitiveV::CacheExcludeAll =>
+			None,
 	}
 }
 
@@ -1031,6 +1212,24 @@ pub fn runtime_primitive_v_alternative_4 (primitive : RuntimePrimitiveV) -> (Opt
 			None,
 		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitiveV::ProcessSpawnExtended =>
+			None,
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		RuntimePrimitiveV::CacheOpen =>
+			Some (RuntimePrimitive4::CacheOpen),
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		RuntimePrimitiveV::CacheSelectBytes =>
+			None,
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		RuntimePrimitiveV::CacheIncludeBytes =>
+			Some (RuntimePrimitive4::CacheIncludeBytes),
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		RuntimePrimitiveV::CacheExcludeBytes =>
+			None,
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		RuntimePrimitiveV::CacheExcludeAll =>
 			None,
 	}
 }
@@ -1084,6 +1283,24 @@ pub fn runtime_primitive_v_alternative_5 (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitiveV::ProcessSpawnExtended =>
 			None,
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		RuntimePrimitiveV::CacheOpen =>
+			None,
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		RuntimePrimitiveV::CacheSelectBytes =>
+			None,
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		RuntimePrimitiveV::CacheIncludeBytes =>
+			None,
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		RuntimePrimitiveV::CacheExcludeBytes =>
+			None,
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		RuntimePrimitiveV::CacheExcludeAll =>
+			None,
 	}
 }
 
@@ -1135,6 +1352,24 @@ pub fn runtime_primitive_v_alternative_n (primitive : RuntimePrimitiveV) -> (Opt
 			None,
 		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitiveV::ProcessSpawnExtended =>
+			None,
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		RuntimePrimitiveV::CacheOpen =>
+			None,
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		RuntimePrimitiveV::CacheSelectBytes =>
+			None,
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		RuntimePrimitiveV::CacheIncludeBytes =>
+			None,
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		RuntimePrimitiveV::CacheExcludeBytes =>
+			None,
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		RuntimePrimitiveV::CacheExcludeAll =>
 			None,
 	}
 }

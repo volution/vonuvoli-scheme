@@ -1516,6 +1516,23 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			
 		]);
 	
+	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+	definitions.extend_from_slice (&[
+			
+			("cache-open", RuntimePrimitiveV::CacheOpen.into ()),
+			("cache-close", RuntimePrimitive1::CacheClose.into ()),
+			
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			("cache-select-bytevector", RuntimePrimitiveV::CacheSelectBytes.into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			("cache-include-bytevector", RuntimePrimitiveV::CacheIncludeBytes.into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			("cache-exclude-bytevector", RuntimePrimitiveV::CacheExcludeBytes.into ()),
+			
+			("cache-exclude-all", RuntimePrimitiveV::CacheExcludeAll.into ()),
+			
+		]);
+	
 	let definitions = vec_map_into! (
 			definitions,
 			(identifier, value),
