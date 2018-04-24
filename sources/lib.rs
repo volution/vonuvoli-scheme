@@ -90,6 +90,9 @@ pub extern crate rand;
 #[ cfg ( feature = "vonuvoli_builtins_encoding" ) ]
 pub extern crate data_encoding;
 
+#[ cfg ( feature = "lmdb_zero" ) ]
+pub extern crate lmdb_zero;
+
 #[ cfg ( feature = "vonuvoli_transcript" ) ]
 #[ cfg ( feature = "vonuvoli_transcript_code_hashes" ) ]
 pub extern crate blake2_rfc;
@@ -141,6 +144,9 @@ pub mod externals {
 		data_encoding,
 	};
 	
+	#[ cfg ( feature = "lmdb_zero" ) ]
+	pub use lmdb_zero as lmdb;
+	
 	#[ cfg ( feature = "vonuvoli_transcript" ) ]
 	#[ cfg ( feature = "vonuvoli_transcript_code_hashes" ) ]
 	pub use {
@@ -161,6 +167,8 @@ pub(crate) mod builtins;
 pub(crate) mod builtins_arrays;
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 pub(crate) mod builtins_bytes;
+#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+pub(crate) mod builtins_cache;
 pub(crate) mod builtins_comparisons;
 #[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 pub(crate) mod builtins_filesystem;
@@ -308,6 +316,8 @@ pub mod internals {
 	pub use super::builtins_arrays::exports as builtins_arrays;
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	pub use super::builtins_bytes::exports as builtins_bytes;
+	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+	pub use super::builtins_cache::exports as builtins_cache;
 	pub use super::builtins_comparisons::exports as builtins_comparisons;
 	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	pub use super::builtins_filesystem::exports as builtins_filesystem;

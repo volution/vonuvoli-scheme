@@ -46,5 +46,8 @@ pub mod exports {
 	#[ cfg ( feature = "vonuvoli_builtins_encoding" ) ]
 	pub use super::super::builtins_encoding::exports::*;
 	
+	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+	pub use super::super::builtins_cache::exports::*;
+	
 }
 
