@@ -199,3 +199,12 @@ def_scheme_tests_from_file! (
 		
 	);
 
+
+#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
+def_scheme_tests_from_file! (
+		
+		test__serde => "scheme/serde.sst",
+		
+	);
+
+

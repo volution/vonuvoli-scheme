@@ -18,6 +18,76 @@
 
 
 
+(~cache-select cache-a 'k1) => #f
+(~cache-select cache-b 'k1) => #f
+
+(~cache-select cache-a 'k2) => #f
+(~cache-select cache-b 'k2) => #f
+
+
+
+
+(~cache-include cache-a 'k1 #(v1-1)) => #void
+(~cache-include cache-b 'k2 #(v2-1)) => #void
+
+(~cache-select cache-a 'k1) => #(v1-1)
+(~cache-select cache-b 'k1) => #(v1-1)
+
+(~cache-select cache-a 'k2) => #(v2-1)
+(~cache-select cache-b 'k2) => #(v2-1)
+
+
+
+
+(~cache-include cache-a 'k1 #(v1-2)) => #void
+(~cache-include cache-b 'k2 #(v2-2)) => #void
+
+(~cache-select cache-a 'k1) => #(v1-2)
+(~cache-select cache-b 'k1) => #(v1-2)
+
+(~cache-select cache-a 'k2) => #(v2-2)
+(~cache-select cache-b 'k2) => #(v2-2)
+
+
+
+
+(~cache-exclude cache-a 'k1) => !ignore
+
+(~cache-select cache-a 'k1) => #f
+(~cache-select cache-b 'k1) => #f
+
+(~cache-select cache-a 'k2) => #(v2-2)
+(~cache-select cache-b 'k2) => #(v2-2)
+
+
+
+
+(~cache-exclude cache-b 'k2) => !ignore
+
+(~cache-select cache-a 'k1) => #f
+(~cache-select cache-b 'k1) => #f
+
+(~cache-select cache-a 'k2) => #f
+(~cache-select cache-b 'k2) => #f
+
+
+
+
+(~cache-include cache-a 'k1 #(v1-3)) => #void
+(~cache-include cache-b 'k2 #(v2-3)) => #void
+
+(~cache-exclude-all cache-a) => !ignore
+(~cache-exclude-all cache-b) => !ignore
+
+(~cache-select cache-a 'k1) => #f
+(~cache-select cache-b 'k1) => #f
+
+(~cache-select cache-a 'k2) => #f
+(~cache-select cache-b 'k2) => #f
+
+
+
+
 (~cache-exclude-all cache-a) => #void
 (~cache-exclude-all cache-b) => #void
 

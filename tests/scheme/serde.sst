@@ -1,0 +1,34 @@
+
+
+(define inputs '(
+		
+		#null
+		#void
+		#undefined
+		
+		#true
+		#false
+		
+		-1 0 1
+		-1.0 0.0 1.0
+		-1.5 0.5 1.5
+		
+		#\a #\b #\c
+		|| |abc|
+		"" "abc"
+		#u8"" #u8"abc"
+		
+		(#null . #null)
+		((1 2 3) . (1 2 3))
+		
+		(#null #t 0 "" (1 2 3))
+		#(#null #t 0 "" (1 2 3))
+		#values(#null #t 0 "" (1 2 3))
+		
+	)) => !ignore
+
+
+(bytevector? (~serialize-bytevector #t)) => #t
+
+(map (lambda (input) (~deserialize-bytevector (~serialize-bytevector input))) inputs) => inputs
+
