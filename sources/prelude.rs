@@ -36,6 +36,7 @@ pub use std::convert::TryInto as StdTryInto;
 pub use std::ops::Deref as StdDeref;
 pub use std::ops::DerefMut as StdDerefMut;
 pub use std::rc::Rc as StdRc;
+pub use std::sync::Arc as StdArc;
 pub use std::string::String as StdString;
 pub use std::vec::Vec as StdVec;
 
