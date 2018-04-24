@@ -88,6 +88,13 @@ cat <<'EOS-31f6e6b1'
 
 
 
+<< compile / lib / debug / features / all
+	"${X_RUN[@]}" ':: compile / lib / debug / features / targets'
+	"${X_RUN[@]}" ':: compile / lib / debug / features / individual'
+	"${X_RUN[@]}" ':: compile / lib / debug / features / except-one'
+!!
+
+
 << execute / features / individual
 	test "${#}" -ge 1
 	readarray -t -- VONUVOLI_SCHEME_FEATURES < <( "${X_RUN[@]}" ':: environment / features / list / individual' | sort -R )
@@ -130,7 +137,7 @@ cat <<'EOS-31f6e6b1'
 	for VONUVOLI_SCHEME_FEATURES in "${VONUVOLI_SCHEME_FEATURES[@]}" ; do
 		printf -- '[ii]  using features `%s`...\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
 		_identifier="$( printf -- '%s' "${VONUVOLI_SCHEME_FEATURES}" | md5sum -b )" ; _identifier="${_identifier%% *}"
-		_target="$( exec -- readlink -e -- ./target )/features--${_identifier}"
+		_target="$( exec -- readlink -e -- ./target )/random--${_identifier}"
 		if ! VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" "${@}" ; then
 			printf -- '[ee]  failed using features `%s`!\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
 			exit -- 1
@@ -149,7 +156,7 @@ cat <<'EOS-31f6e6b1'
 	for VONUVOLI_SCHEME_FEATURES in "${VONUVOLI_SCHEME_FEATURES[@]}" ; do
 		printf -- '[ii]  using features `%s`...\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
 		_identifier="$( printf -- '%s' "${VONUVOLI_SCHEME_FEATURES}" | md5sum -b )" ; _identifier="${_identifier%% *}"
-		_target="$( exec -- readlink -e -- ./target )/features--${_identifier}"
+		_target="$( exec -- readlink -e -- ./target )/targets--${_identifier}"
 		if ! VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" "${@}" ; then
 			printf -- '[ee]  failed using features `%s`!\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
 			exit -- 1
@@ -283,6 +290,7 @@ cat <<'EOS-31f6e6b1'
 	|	# vonuvoli_abort_on_panic
 	|	vonuvoli_backtrace
 	|	# vonuvoli_backtrace_sources
+	|	vonuvoli_builtins_cache
 	|	vonuvoli_builtins_crypto
 	|	vonuvoli_builtins_encoding
 	|	vonuvoli_builtins_filesystem
@@ -293,6 +301,7 @@ cat <<'EOS-31f6e6b1'
 	|	vonuvoli_builtins_random
 	|	vonuvoli_builtins_records
 	|	vonuvoli_builtins_regex
+	|	vonuvoli_builtins_serde
 	|	vonuvoli_builtins_transcript
 	|	# vonuvoli_compiler_trace_error
 	|	# vonuvoli_evaluator_trace_error

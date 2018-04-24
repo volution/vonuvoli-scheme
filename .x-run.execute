@@ -43,6 +43,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ compile\ /\ bin\ /\ all\ /\ debug\\n
 	printf -- ::\ compile\ /\ bin\ /\ all\ /\ release\ /\ watch\\n
 	printf -- ::\ compile\ /\ bin\ /\ all\ /\ release\\n
+	printf -- ::\ compile\ /\ lib\ /\ debug\ /\ features\ /\ all\\n
 	printf -- ::\ execute\ /\ features\ /\ individual\\n
 	printf -- ::\ compile\ /\ lib\ /\ debug\ /\ features\ /\ individual\\n
 	printf -- ::\ execute\ /\ features\ /\ except-one\\n
@@ -185,6 +186,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ files\ /\ edit\ /\ sources/builtins.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ sources/builtins_arrays.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ sources/builtins_bytes.rs\\n
+	printf -- ::\ files\ /\ edit\ /\ sources/builtins_cache.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ sources/builtins_comparisons.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ sources/builtins_crypto.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ sources/builtins_encoding.rs\\n
@@ -197,6 +199,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ files\ /\ edit\ /\ sources/builtins_records.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ sources/builtins_regularex.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ sources/builtins_runtime.rs\\n
+	printf -- ::\ files\ /\ edit\ /\ sources/builtins_serde.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ sources/builtins_strings.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ sources/builtins_types.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ sources/compiler.rs\\n
@@ -283,6 +286,10 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ files\ /\ edit\ /\ tests/scheme/arrays.sst\\n
 	printf -- ::\ files\ /\ edit\ /\ tests/scheme/booleans.sst\\n
 	printf -- ::\ files\ /\ edit\ /\ tests/scheme/bytes.sst\\n
+	printf -- ::\ files\ /\ edit\ /\ tests/scheme/cache-bytes-default.sst\\n
+	printf -- ::\ files\ /\ edit\ /\ tests/scheme/cache-bytes-namespace.sst\\n
+	printf -- ::\ files\ /\ edit\ /\ tests/scheme/cache-objects-default.sst\\n
+	printf -- ::\ files\ /\ edit\ /\ tests/scheme/cache-objects-namespace.sst\\n
 	printf -- ::\ files\ /\ edit\ /\ tests/scheme/comparisons-equivalent-by-identity-negated.sst\\n
 	printf -- ::\ files\ /\ edit\ /\ tests/scheme/comparisons-equivalent-by-identity.sst\\n
 	printf -- ::\ files\ /\ edit\ /\ tests/scheme/comparisons-equivalent-by-value-coerced-recursive-negated.sst\\n
@@ -331,6 +338,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ files\ /\ edit\ /\ tests/scheme/regex-strings.sst\\n
 	printf -- ::\ files\ /\ edit\ /\ tests/scheme/runtime.sst\\n
 	printf -- ::\ files\ /\ edit\ /\ tests/scheme/scratchpad.sst\\n
+	printf -- ::\ files\ /\ edit\ /\ tests/scheme/serde.sst\\n
 	printf -- ::\ files\ /\ edit\ /\ tests/scheme/srfi-1.sst\\n
 	printf -- ::\ files\ /\ edit\ /\ tests/scheme/strings.sst\\n
 	printf -- ::\ files\ /\ edit\ /\ tests/scheme/types-negated.sst\\n
@@ -360,6 +368,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ files\ /\ view\ /\ sources/builtins.rs\\n
 	printf -- ::\ files\ /\ view\ /\ sources/builtins_arrays.rs\\n
 	printf -- ::\ files\ /\ view\ /\ sources/builtins_bytes.rs\\n
+	printf -- ::\ files\ /\ view\ /\ sources/builtins_cache.rs\\n
 	printf -- ::\ files\ /\ view\ /\ sources/builtins_comparisons.rs\\n
 	printf -- ::\ files\ /\ view\ /\ sources/builtins_crypto.rs\\n
 	printf -- ::\ files\ /\ view\ /\ sources/builtins_encoding.rs\\n
@@ -372,6 +381,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ files\ /\ view\ /\ sources/builtins_records.rs\\n
 	printf -- ::\ files\ /\ view\ /\ sources/builtins_regularex.rs\\n
 	printf -- ::\ files\ /\ view\ /\ sources/builtins_runtime.rs\\n
+	printf -- ::\ files\ /\ view\ /\ sources/builtins_serde.rs\\n
 	printf -- ::\ files\ /\ view\ /\ sources/builtins_strings.rs\\n
 	printf -- ::\ files\ /\ view\ /\ sources/builtins_types.rs\\n
 	printf -- ::\ files\ /\ view\ /\ sources/compiler.rs\\n
@@ -458,6 +468,10 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ files\ /\ view\ /\ tests/scheme/arrays.sst\\n
 	printf -- ::\ files\ /\ view\ /\ tests/scheme/booleans.sst\\n
 	printf -- ::\ files\ /\ view\ /\ tests/scheme/bytes.sst\\n
+	printf -- ::\ files\ /\ view\ /\ tests/scheme/cache-bytes-default.sst\\n
+	printf -- ::\ files\ /\ view\ /\ tests/scheme/cache-bytes-namespace.sst\\n
+	printf -- ::\ files\ /\ view\ /\ tests/scheme/cache-objects-default.sst\\n
+	printf -- ::\ files\ /\ view\ /\ tests/scheme/cache-objects-namespace.sst\\n
 	printf -- ::\ files\ /\ view\ /\ tests/scheme/comparisons-equivalent-by-identity-negated.sst\\n
 	printf -- ::\ files\ /\ view\ /\ tests/scheme/comparisons-equivalent-by-identity.sst\\n
 	printf -- ::\ files\ /\ view\ /\ tests/scheme/comparisons-equivalent-by-value-coerced-recursive-negated.sst\\n
@@ -506,6 +520,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ files\ /\ view\ /\ tests/scheme/regex-strings.sst\\n
 	printf -- ::\ files\ /\ view\ /\ tests/scheme/runtime.sst\\n
 	printf -- ::\ files\ /\ view\ /\ tests/scheme/scratchpad.sst\\n
+	printf -- ::\ files\ /\ view\ /\ tests/scheme/serde.sst\\n
 	printf -- ::\ files\ /\ view\ /\ tests/scheme/srfi-1.sst\\n
 	printf -- ::\ files\ /\ view\ /\ tests/scheme/strings.sst\\n
 	printf -- ::\ files\ /\ view\ /\ tests/scheme/types-negated.sst\\n
@@ -608,6 +623,26 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ execute\ /\ test\ /\ scheme\ /\ tests\ /\ bytes\ /\ release\\n
 	printf -- ::\ execute\ /\ test\ /\ scheme\ /\ benchmarks\ /\ bytes\ /\ debug\\n
 	printf -- ::\ execute\ /\ test\ /\ scheme\ /\ benchmarks\ /\ bytes\ /\ release\\n
+	printf -- ::\ execute\ /\ test\ /\ scheme\ /\ tests\ /\ cache_bytes_default\ /\ debug\ /\ watch\\n
+	printf -- ::\ execute\ /\ test\ /\ scheme\ /\ tests\ /\ cache_bytes_default\ /\ debug\\n
+	printf -- ::\ execute\ /\ test\ /\ scheme\ /\ tests\ /\ cache_bytes_default\ /\ release\\n
+	printf -- ::\ execute\ /\ test\ /\ scheme\ /\ benchmarks\ /\ cache_bytes_default\ /\ debug\\n
+	printf -- ::\ execute\ /\ test\ /\ scheme\ /\ benchmarks\ /\ cache_bytes_default\ /\ release\\n
+	printf -- ::\ execute\ /\ test\ /\ scheme\ /\ tests\ /\ cache_bytes_namespace\ /\ debug\ /\ watch\\n
+	printf -- ::\ execute\ /\ test\ /\ scheme\ /\ tests\ /\ cache_bytes_namespace\ /\ debug\\n
+	printf -- ::\ execute\ /\ test\ /\ scheme\ /\ tests\ /\ cache_bytes_namespace\ /\ release\\n
+	printf -- ::\ execute\ /\ test\ /\ scheme\ /\ benchmarks\ /\ cache_bytes_namespace\ /\ debug\\n
+	printf -- ::\ execute\ /\ test\ /\ scheme\ /\ benchmarks\ /\ cache_bytes_namespace\ /\ release\\n
+	printf -- ::\ execute\ /\ test\ /\ scheme\ /\ tests\ /\ cache_objects_default\ /\ debug\ /\ watch\\n
+	printf -- ::\ execute\ /\ test\ /\ scheme\ /\ tests\ /\ cache_objects_default\ /\ debug\\n
+	printf -- ::\ execute\ /\ test\ /\ scheme\ /\ tests\ /\ cache_objects_default\ /\ release\\n
+	printf -- ::\ execute\ /\ test\ /\ scheme\ /\ benchmarks\ /\ cache_objects_default\ /\ debug\\n
+	printf -- ::\ execute\ /\ test\ /\ scheme\ /\ benchmarks\ /\ cache_objects_default\ /\ release\\n
+	printf -- ::\ execute\ /\ test\ /\ scheme\ /\ tests\ /\ cache_objects_namespace\ /\ debug\ /\ watch\\n
+	printf -- ::\ execute\ /\ test\ /\ scheme\ /\ tests\ /\ cache_objects_namespace\ /\ debug\\n
+	printf -- ::\ execute\ /\ test\ /\ scheme\ /\ tests\ /\ cache_objects_namespace\ /\ release\\n
+	printf -- ::\ execute\ /\ test\ /\ scheme\ /\ benchmarks\ /\ cache_objects_namespace\ /\ debug\\n
+	printf -- ::\ execute\ /\ test\ /\ scheme\ /\ benchmarks\ /\ cache_objects_namespace\ /\ release\\n
 	printf -- ::\ execute\ /\ test\ /\ scheme\ /\ tests\ /\ comparisons_equivalent_by_identity\ /\ debug\ /\ watch\\n
 	printf -- ::\ execute\ /\ test\ /\ scheme\ /\ tests\ /\ comparisons_equivalent_by_identity\ /\ debug\\n
 	printf -- ::\ execute\ /\ test\ /\ scheme\ /\ tests\ /\ comparisons_equivalent_by_identity\ /\ release\\n
@@ -848,6 +883,11 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ execute\ /\ test\ /\ scheme\ /\ tests\ /\ scratchpad\ /\ release\\n
 	printf -- ::\ execute\ /\ test\ /\ scheme\ /\ benchmarks\ /\ scratchpad\ /\ debug\\n
 	printf -- ::\ execute\ /\ test\ /\ scheme\ /\ benchmarks\ /\ scratchpad\ /\ release\\n
+	printf -- ::\ execute\ /\ test\ /\ scheme\ /\ tests\ /\ serde\ /\ debug\ /\ watch\\n
+	printf -- ::\ execute\ /\ test\ /\ scheme\ /\ tests\ /\ serde\ /\ debug\\n
+	printf -- ::\ execute\ /\ test\ /\ scheme\ /\ tests\ /\ serde\ /\ release\\n
+	printf -- ::\ execute\ /\ test\ /\ scheme\ /\ benchmarks\ /\ serde\ /\ debug\\n
+	printf -- ::\ execute\ /\ test\ /\ scheme\ /\ benchmarks\ /\ serde\ /\ release\\n
 	printf -- ::\ execute\ /\ test\ /\ scheme\ /\ tests\ /\ srfi_1\ /\ debug\ /\ watch\\n
 	printf -- ::\ execute\ /\ test\ /\ scheme\ /\ tests\ /\ srfi_1\ /\ debug\\n
 	printf -- ::\ execute\ /\ test\ /\ scheme\ /\ tests\ /\ srfi_1\ /\ release\\n
@@ -897,6 +937,30 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ execute\ /\ bin\ /\ bencher\ /\ bytes\ /\ debug\ /\ watch\\n
 	printf -- ::\ execute\ /\ bin\ /\ bencher\ /\ bytes\ /\ debug\\n
 	printf -- ::\ execute\ /\ bin\ /\ bencher\ /\ bytes\ /\ release\\n
+	printf -- ::\ execute\ /\ bin\ /\ tester\ /\ cache-bytes-default\ /\ debug\ /\ watch\\n
+	printf -- ::\ execute\ /\ bin\ /\ tester\ /\ cache-bytes-default\ /\ debug\\n
+	printf -- ::\ execute\ /\ bin\ /\ tester\ /\ cache-bytes-default\ /\ release\\n
+	printf -- ::\ execute\ /\ bin\ /\ bencher\ /\ cache-bytes-default\ /\ debug\ /\ watch\\n
+	printf -- ::\ execute\ /\ bin\ /\ bencher\ /\ cache-bytes-default\ /\ debug\\n
+	printf -- ::\ execute\ /\ bin\ /\ bencher\ /\ cache-bytes-default\ /\ release\\n
+	printf -- ::\ execute\ /\ bin\ /\ tester\ /\ cache-bytes-namespace\ /\ debug\ /\ watch\\n
+	printf -- ::\ execute\ /\ bin\ /\ tester\ /\ cache-bytes-namespace\ /\ debug\\n
+	printf -- ::\ execute\ /\ bin\ /\ tester\ /\ cache-bytes-namespace\ /\ release\\n
+	printf -- ::\ execute\ /\ bin\ /\ bencher\ /\ cache-bytes-namespace\ /\ debug\ /\ watch\\n
+	printf -- ::\ execute\ /\ bin\ /\ bencher\ /\ cache-bytes-namespace\ /\ debug\\n
+	printf -- ::\ execute\ /\ bin\ /\ bencher\ /\ cache-bytes-namespace\ /\ release\\n
+	printf -- ::\ execute\ /\ bin\ /\ tester\ /\ cache-objects-default\ /\ debug\ /\ watch\\n
+	printf -- ::\ execute\ /\ bin\ /\ tester\ /\ cache-objects-default\ /\ debug\\n
+	printf -- ::\ execute\ /\ bin\ /\ tester\ /\ cache-objects-default\ /\ release\\n
+	printf -- ::\ execute\ /\ bin\ /\ bencher\ /\ cache-objects-default\ /\ debug\ /\ watch\\n
+	printf -- ::\ execute\ /\ bin\ /\ bencher\ /\ cache-objects-default\ /\ debug\\n
+	printf -- ::\ execute\ /\ bin\ /\ bencher\ /\ cache-objects-default\ /\ release\\n
+	printf -- ::\ execute\ /\ bin\ /\ tester\ /\ cache-objects-namespace\ /\ debug\ /\ watch\\n
+	printf -- ::\ execute\ /\ bin\ /\ tester\ /\ cache-objects-namespace\ /\ debug\\n
+	printf -- ::\ execute\ /\ bin\ /\ tester\ /\ cache-objects-namespace\ /\ release\\n
+	printf -- ::\ execute\ /\ bin\ /\ bencher\ /\ cache-objects-namespace\ /\ debug\ /\ watch\\n
+	printf -- ::\ execute\ /\ bin\ /\ bencher\ /\ cache-objects-namespace\ /\ debug\\n
+	printf -- ::\ execute\ /\ bin\ /\ bencher\ /\ cache-objects-namespace\ /\ release\\n
 	printf -- ::\ execute\ /\ bin\ /\ tester\ /\ comparisons-equivalent-by-identity\ /\ debug\ /\ watch\\n
 	printf -- ::\ execute\ /\ bin\ /\ tester\ /\ comparisons-equivalent-by-identity\ /\ debug\\n
 	printf -- ::\ execute\ /\ bin\ /\ tester\ /\ comparisons-equivalent-by-identity\ /\ release\\n
@@ -1185,6 +1249,12 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ execute\ /\ bin\ /\ bencher\ /\ scratchpad\ /\ debug\ /\ watch\\n
 	printf -- ::\ execute\ /\ bin\ /\ bencher\ /\ scratchpad\ /\ debug\\n
 	printf -- ::\ execute\ /\ bin\ /\ bencher\ /\ scratchpad\ /\ release\\n
+	printf -- ::\ execute\ /\ bin\ /\ tester\ /\ serde\ /\ debug\ /\ watch\\n
+	printf -- ::\ execute\ /\ bin\ /\ tester\ /\ serde\ /\ debug\\n
+	printf -- ::\ execute\ /\ bin\ /\ tester\ /\ serde\ /\ release\\n
+	printf -- ::\ execute\ /\ bin\ /\ bencher\ /\ serde\ /\ debug\ /\ watch\\n
+	printf -- ::\ execute\ /\ bin\ /\ bencher\ /\ serde\ /\ debug\\n
+	printf -- ::\ execute\ /\ bin\ /\ bencher\ /\ serde\ /\ release\\n
 	printf -- ::\ execute\ /\ bin\ /\ tester\ /\ srfi-1\ /\ debug\ /\ watch\\n
 	printf -- ::\ execute\ /\ bin\ /\ tester\ /\ srfi-1\ /\ debug\\n
 	printf -- ::\ execute\ /\ bin\ /\ tester\ /\ srfi-1\ /\ release\\n
@@ -1485,6 +1555,11 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	exit -- 0
 ;;
 
+( ::\ compile\ /\ lib\ /\ debug\ /\ features\ /\ all )
+	eval -- $'\t"${X_RUN[@]}" \':: compile / lib / debug / features / targets\'\n\t"${X_RUN[@]}" \':: compile / lib / debug / features / individual\'\n\t"${X_RUN[@]}" \':: compile / lib / debug / features / except-one\'\n'
+	exit -- 0
+;;
+
 ( ::\ compile\ /\ lib\ /\ debug\ /\ features\ /\ combinations )
 	eval -- $'exec -- "${X_RUN[@]}" \':: execute / features / combinations\' "${X_RUN[@]}" \':: compile / lib / debug\' "${@}"\n'
 	exit -- 0
@@ -1736,7 +1811,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 ;;
 
 ( ::\ environment\ /\ features\ /\ list\ /\ individual )
-	eval -- $'\ttest "${#}" -eq 0\n\texec -- sed -r -e \'s/^\\t+\\|\\t//\' -e \'/^\\t*$/d\' -e \'/^\\t*#/d\' <<<\'\n\t|\t# vonuvoli_abort_on_panic\n\t|\tvonuvoli_backtrace\n\t|\t# vonuvoli_backtrace_sources\n\t|\tvonuvoli_builtins_crypto\n\t|\tvonuvoli_builtins_encoding\n\t|\tvonuvoli_builtins_filesystem\n\t|\tvonuvoli_builtins_parameters\n\t|\tvonuvoli_builtins_ports\n\t|\tvonuvoli_builtins_processes\n\t|\tvonuvoli_builtins_promises\n\t|\tvonuvoli_builtins_random\n\t|\tvonuvoli_builtins_records\n\t|\tvonuvoli_builtins_regex\n\t|\tvonuvoli_builtins_transcript\n\t|\t# vonuvoli_compiler_trace_error\n\t|\t# vonuvoli_evaluator_trace_error\n\t|\t# vonuvoli_inline\n\t|\t# vonuvoli_new_immutable\n\t|\t# vonuvoli_optimizer_trace_error\n\t|\tvonuvoli_panic_on_failed\n\t|\tvonuvoli_parser\n\t|\t# vonuvoli_port_output_display_flush\n\t|\t# vonuvoli_port_output_newline_flush\n\t|\t# vonuvoli_port_output_write_flush\n\t|\tvonuvoli_terminal\n\t|\tvonuvoli_tests\n\t|\tvonuvoli_transcript\n\t|\t# vonuvoli_transcript_ansi_always\n\t|\tvonuvoli_transcript_ansi_enabled\n\t|\tvonuvoli_transcript_code_hashes\n\t|\t# vonuvoli_transcript_compact\n\t|\tvonuvoli_values_array\n\t|\tvonuvoli_values_bytes\n\t|\tvonuvoli_values_contexts\n\t|\tvonuvoli_values_error\n\t|\tvonuvoli_values_extended\n\t|\tvonuvoli_values_keyword\n\t|\tvonuvoli_values_lambda\n\t|\tvonuvoli_values_mutable\n\t|\tvonuvoli_values_native\n\t|\tvonuvoli_values_opaque\n\t|\tvonuvoli_values_string\n\t|\tvonuvoli_values_unique\n\t|\tvonuvoli_values_values\n\'\n'
+	eval -- $'\ttest "${#}" -eq 0\n\texec -- sed -r -e \'s/^\\t+\\|\\t//\' -e \'/^\\t*$/d\' -e \'/^\\t*#/d\' <<<\'\n\t|\t# vonuvoli_abort_on_panic\n\t|\tvonuvoli_backtrace\n\t|\t# vonuvoli_backtrace_sources\n\t|\tvonuvoli_builtins_cache\n\t|\tvonuvoli_builtins_crypto\n\t|\tvonuvoli_builtins_encoding\n\t|\tvonuvoli_builtins_filesystem\n\t|\tvonuvoli_builtins_parameters\n\t|\tvonuvoli_builtins_ports\n\t|\tvonuvoli_builtins_processes\n\t|\tvonuvoli_builtins_promises\n\t|\tvonuvoli_builtins_random\n\t|\tvonuvoli_builtins_records\n\t|\tvonuvoli_builtins_regex\n\t|\tvonuvoli_builtins_serde\n\t|\tvonuvoli_builtins_transcript\n\t|\t# vonuvoli_compiler_trace_error\n\t|\t# vonuvoli_evaluator_trace_error\n\t|\t# vonuvoli_inline\n\t|\t# vonuvoli_new_immutable\n\t|\t# vonuvoli_optimizer_trace_error\n\t|\tvonuvoli_panic_on_failed\n\t|\tvonuvoli_parser\n\t|\t# vonuvoli_port_output_display_flush\n\t|\t# vonuvoli_port_output_newline_flush\n\t|\t# vonuvoli_port_output_write_flush\n\t|\tvonuvoli_terminal\n\t|\tvonuvoli_tests\n\t|\tvonuvoli_transcript\n\t|\t# vonuvoli_transcript_ansi_always\n\t|\tvonuvoli_transcript_ansi_enabled\n\t|\tvonuvoli_transcript_code_hashes\n\t|\t# vonuvoli_transcript_compact\n\t|\tvonuvoli_values_array\n\t|\tvonuvoli_values_bytes\n\t|\tvonuvoli_values_contexts\n\t|\tvonuvoli_values_error\n\t|\tvonuvoli_values_extended\n\t|\tvonuvoli_values_keyword\n\t|\tvonuvoli_values_lambda\n\t|\tvonuvoli_values_mutable\n\t|\tvonuvoli_values_native\n\t|\tvonuvoli_values_opaque\n\t|\tvonuvoli_values_string\n\t|\tvonuvoli_values_unique\n\t|\tvonuvoli_values_values\n\'\n'
 	exit -- 0
 ;;
 
@@ -1956,7 +2031,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 ;;
 
 ( ::\ execute\ /\ bin\ /\ bencher\ /\ all\ /\ release )
-	eval -- $'"${X_RUN[@]}" \':: compile / bin / bencher / release\'\nif test \'./tests/scheme/arithmetic.sst\' -nt \'./tests/_outputs/scheme--benchmark__arithmetic.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__arithmetic.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/arithmetic.sst\' "${@}" ; fi\nif test \'./tests/scheme/arrays.sst\' -nt \'./tests/_outputs/scheme--benchmark__arrays.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__arrays.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/arrays.sst\' "${@}" ; fi\nif test \'./tests/scheme/booleans.sst\' -nt \'./tests/_outputs/scheme--benchmark__booleans.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__booleans.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/booleans.sst\' "${@}" ; fi\nif test \'./tests/scheme/bytes.sst\' -nt \'./tests/_outputs/scheme--benchmark__bytes.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__bytes.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/bytes.sst\' "${@}" ; fi\nif test \'./tests/scheme/comparisons-equivalent-by-identity.sst\' -nt \'./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_identity.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_identity.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/comparisons-equivalent-by-identity.sst\' "${@}" ; fi\nif test \'./tests/scheme/comparisons-equivalent-by-identity-negated.sst\' -nt \'./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_identity_negated.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_identity_negated.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/comparisons-equivalent-by-identity-negated.sst\' "${@}" ; fi\nif test \'./tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst\' -nt \'./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_recursive.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_recursive.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst\' "${@}" ; fi\nif test \'./tests/scheme/comparisons-equivalent-by-value-coerced-recursive-negated.sst\' -nt \'./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_recursive_negated.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_recursive_negated.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/comparisons-equivalent-by-value-coerced-recursive-negated.sst\' "${@}" ; fi\nif test \'./tests/scheme/comparisons-equivalent-by-value-coerced-shallow.sst\' -nt \'./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_shallow.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_shallow.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/comparisons-equivalent-by-value-coerced-shallow.sst\' "${@}" ; fi\nif test \'./tests/scheme/comparisons-equivalent-by-value-coerced-shallow-negated.sst\' -nt \'./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_shallow_negated.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_shallow_negated.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/comparisons-equivalent-by-value-coerced-shallow-negated.sst\' "${@}" ; fi\nif test \'./tests/scheme/comparisons-equivalent-by-value-strict-recursive.sst\' -nt \'./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_recursive.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_recursive.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/comparisons-equivalent-by-value-strict-recursive.sst\' "${@}" ; fi\nif test \'./tests/scheme/comparisons-equivalent-by-value-strict-recursive-negated.sst\' -nt \'./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_recursive_negated.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_recursive_negated.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/comparisons-equivalent-by-value-strict-recursive-negated.sst\' "${@}" ; fi\nif test \'./tests/scheme/comparisons-equivalent-by-value-strict-shallow.sst\' -nt \'./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_shallow.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_shallow.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/comparisons-equivalent-by-value-strict-shallow.sst\' "${@}" ; fi\nif test \'./tests/scheme/comparisons-equivalent-by-value-strict-shallow-negated.sst\' -nt \'./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_shallow_negated.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_shallow_negated.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/comparisons-equivalent-by-value-strict-shallow-negated.sst\' "${@}" ; fi\nif test \'./tests/scheme/comparisons-equivalent-objects.sst\' -nt \'./tests/_outputs/scheme--benchmark__comparisons_equivalent_objects.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__comparisons_equivalent_objects.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/comparisons-equivalent-objects.sst\' "${@}" ; fi\nif test \'./tests/scheme/comparisons-equivalent-objects-negated.sst\' -nt \'./tests/_outputs/scheme--benchmark__comparisons_equivalent_objects_negated.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__comparisons_equivalent_objects_negated.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/comparisons-equivalent-objects-negated.sst\' "${@}" ; fi\nif test \'./tests/scheme/comparisons-ordering-numbers.sst\' -nt \'./tests/_outputs/scheme--benchmark__comparisons_ordering_numbers.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__comparisons_ordering_numbers.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/comparisons-ordering-numbers.sst\' "${@}" ; fi\nif test \'./tests/scheme/comparisons-ordering-numbers-negated.sst\' -nt \'./tests/_outputs/scheme--benchmark__comparisons_ordering_numbers_negated.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__comparisons_ordering_numbers_negated.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/comparisons-ordering-numbers-negated.sst\' "${@}" ; fi\nif test \'./tests/scheme/comparisons-ordering-objects.sst\' -nt \'./tests/_outputs/scheme--benchmark__comparisons_ordering_objects.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__comparisons_ordering_objects.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/comparisons-ordering-objects.sst\' "${@}" ; fi\nif test \'./tests/scheme/comparisons-ordering-objects-negated.sst\' -nt \'./tests/_outputs/scheme--benchmark__comparisons_ordering_objects_negated.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__comparisons_ordering_objects_negated.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/comparisons-ordering-objects-negated.sst\' "${@}" ; fi\nif test \'./tests/scheme/contexts.sst\' -nt \'./tests/_outputs/scheme--benchmark__contexts.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__contexts.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/contexts.sst\' "${@}" ; fi\nif test \'./tests/scheme/control.sst\' -nt \'./tests/_outputs/scheme--benchmark__control.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__control.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/control.sst\' "${@}" ; fi\nif test \'./tests/scheme/crypto.sst\' -nt \'./tests/_outputs/scheme--benchmark__crypto.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__crypto.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/crypto.sst\' "${@}" ; fi\nif test \'./tests/scheme/encoding.sst\' -nt \'./tests/_outputs/scheme--benchmark__encoding.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__encoding.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/encoding.sst\' "${@}" ; fi\nif test \'./tests/scheme/errors.sst\' -nt \'./tests/_outputs/scheme--benchmark__errors.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__errors.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/errors.sst\' "${@}" ; fi\nif test \'./tests/scheme/filesystem.sst\' -nt \'./tests/_outputs/scheme--benchmark__filesystem.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__filesystem.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/filesystem.sst\' "${@}" ; fi\nif test \'./tests/scheme/functions.sst\' -nt \'./tests/_outputs/scheme--benchmark__functions.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__functions.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/functions.sst\' "${@}" ; fi\nif test \'./tests/scheme/functions-arrays.sst\' -nt \'./tests/_outputs/scheme--benchmark__functions_arrays.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__functions_arrays.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/functions-arrays.sst\' "${@}" ; fi\nif test \'./tests/scheme/functions-bytes.sst\' -nt \'./tests/_outputs/scheme--benchmark__functions_bytes.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__functions_bytes.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/functions-bytes.sst\' "${@}" ; fi\nif test \'./tests/scheme/functions-higher.sst\' -nt \'./tests/_outputs/scheme--benchmark__functions_higher.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__functions_higher.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/functions-higher.sst\' "${@}" ; fi\nif test \'./tests/scheme/functions-lists.sst\' -nt \'./tests/_outputs/scheme--benchmark__functions_lists.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__functions_lists.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/functions-lists.sst\' "${@}" ; fi\nif test \'./tests/scheme/functions-strings.sst\' -nt \'./tests/_outputs/scheme--benchmark__functions_strings.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__functions_strings.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/functions-strings.sst\' "${@}" ; fi\nif test \'./tests/scheme/issues.sst\' -nt \'./tests/_outputs/scheme--benchmark__issues.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__issues.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/issues.sst\' "${@}" ; fi\nif test \'./tests/scheme/lambdas.sst\' -nt \'./tests/_outputs/scheme--benchmark__lambdas.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__lambdas.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/lambdas.sst\' "${@}" ; fi\nif test \'./tests/scheme/lists.sst\' -nt \'./tests/_outputs/scheme--benchmark__lists.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__lists.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/lists.sst\' "${@}" ; fi\nif test \'./tests/scheme/loops.sst\' -nt \'./tests/_outputs/scheme--benchmark__loops.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__loops.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/loops.sst\' "${@}" ; fi\nif test \'./tests/scheme/pairs.sst\' -nt \'./tests/_outputs/scheme--benchmark__pairs.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__pairs.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/pairs.sst\' "${@}" ; fi\nif test \'./tests/scheme/parameters.sst\' -nt \'./tests/_outputs/scheme--benchmark__parameters.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__parameters.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/parameters.sst\' "${@}" ; fi\nif test \'./tests/scheme/paths.sst\' -nt \'./tests/_outputs/scheme--benchmark__paths.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__paths.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/paths.sst\' "${@}" ; fi\nif test \'./tests/scheme/ports.sst\' -nt \'./tests/_outputs/scheme--benchmark__ports.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__ports.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/ports.sst\' "${@}" ; fi\nif test \'./tests/scheme/ports-memory.sst\' -nt \'./tests/_outputs/scheme--benchmark__ports_memory.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__ports_memory.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/ports-memory.sst\' "${@}" ; fi\nif test \'./tests/scheme/ports-native.sst\' -nt \'./tests/_outputs/scheme--benchmark__ports_native.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__ports_native.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/ports-native.sst\' "${@}" ; fi\nif test \'./tests/scheme/ports-parameters.sst\' -nt \'./tests/_outputs/scheme--benchmark__ports_parameters.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__ports_parameters.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/ports-parameters.sst\' "${@}" ; fi\nif test \'./tests/scheme/processes.sst\' -nt \'./tests/_outputs/scheme--benchmark__processes.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__processes.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/processes.sst\' "${@}" ; fi\nif test \'./tests/scheme/quotation.sst\' -nt \'./tests/_outputs/scheme--benchmark__quotation.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__quotation.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/quotation.sst\' "${@}" ; fi\nif test \'./tests/scheme/random.sst\' -nt \'./tests/_outputs/scheme--benchmark__random.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__random.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/random.sst\' "${@}" ; fi\nif test \'./tests/scheme/records-procedures.sst\' -nt \'./tests/_outputs/scheme--benchmark__records_procedures.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__records_procedures.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/records-procedures.sst\' "${@}" ; fi\nif test \'./tests/scheme/records-syntaxes.sst\' -nt \'./tests/_outputs/scheme--benchmark__records_syntaxes.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__records_syntaxes.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/records-syntaxes.sst\' "${@}" ; fi\nif test \'./tests/scheme/regex-bytes.sst\' -nt \'./tests/_outputs/scheme--benchmark__regex_bytes.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__regex_bytes.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/regex-bytes.sst\' "${@}" ; fi\nif test \'./tests/scheme/regex-strings.sst\' -nt \'./tests/_outputs/scheme--benchmark__regex_strings.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__regex_strings.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/regex-strings.sst\' "${@}" ; fi\nif test \'./tests/scheme/runtime.sst\' -nt \'./tests/_outputs/scheme--benchmark__runtime.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__runtime.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/runtime.sst\' "${@}" ; fi\nif test \'./tests/scheme/scratchpad.sst\' -nt \'./tests/_outputs/scheme--benchmark__scratchpad.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__scratchpad.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/scratchpad.sst\' "${@}" ; fi\nif test \'./tests/scheme/srfi-1.sst\' -nt \'./tests/_outputs/scheme--benchmark__srfi_1.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__srfi_1.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/srfi-1.sst\' "${@}" ; fi\nif test \'./tests/scheme/strings.sst\' -nt \'./tests/_outputs/scheme--benchmark__strings.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__strings.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/strings.sst\' "${@}" ; fi\nif test \'./tests/scheme/types.sst\' -nt \'./tests/_outputs/scheme--benchmark__types.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__types.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/types.sst\' "${@}" ; fi\nif test \'./tests/scheme/types-negated.sst\' -nt \'./tests/_outputs/scheme--benchmark__types_negated.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__types_negated.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/types-negated.sst\' "${@}" ; fi\nif test \'./tests/scheme/values.sst\' -nt \'./tests/_outputs/scheme--benchmark__values.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__values.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/values.sst\' "${@}" ; fi\n'
+	eval -- $'"${X_RUN[@]}" \':: compile / bin / bencher / release\'\nif test \'./tests/scheme/arithmetic.sst\' -nt \'./tests/_outputs/scheme--benchmark__arithmetic.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__arithmetic.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/arithmetic.sst\' "${@}" ; fi\nif test \'./tests/scheme/arrays.sst\' -nt \'./tests/_outputs/scheme--benchmark__arrays.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__arrays.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/arrays.sst\' "${@}" ; fi\nif test \'./tests/scheme/booleans.sst\' -nt \'./tests/_outputs/scheme--benchmark__booleans.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__booleans.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/booleans.sst\' "${@}" ; fi\nif test \'./tests/scheme/bytes.sst\' -nt \'./tests/_outputs/scheme--benchmark__bytes.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__bytes.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/bytes.sst\' "${@}" ; fi\nif test \'./tests/scheme/cache-bytes-default.sst\' -nt \'./tests/_outputs/scheme--benchmark__cache_bytes_default.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__cache_bytes_default.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/cache-bytes-default.sst\' "${@}" ; fi\nif test \'./tests/scheme/cache-bytes-namespace.sst\' -nt \'./tests/_outputs/scheme--benchmark__cache_bytes_namespace.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__cache_bytes_namespace.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/cache-bytes-namespace.sst\' "${@}" ; fi\nif test \'./tests/scheme/cache-objects-default.sst\' -nt \'./tests/_outputs/scheme--benchmark__cache_objects_default.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__cache_objects_default.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/cache-objects-default.sst\' "${@}" ; fi\nif test \'./tests/scheme/cache-objects-namespace.sst\' -nt \'./tests/_outputs/scheme--benchmark__cache_objects_namespace.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__cache_objects_namespace.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/cache-objects-namespace.sst\' "${@}" ; fi\nif test \'./tests/scheme/comparisons-equivalent-by-identity.sst\' -nt \'./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_identity.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_identity.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/comparisons-equivalent-by-identity.sst\' "${@}" ; fi\nif test \'./tests/scheme/comparisons-equivalent-by-identity-negated.sst\' -nt \'./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_identity_negated.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_identity_negated.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/comparisons-equivalent-by-identity-negated.sst\' "${@}" ; fi\nif test \'./tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst\' -nt \'./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_recursive.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_recursive.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst\' "${@}" ; fi\nif test \'./tests/scheme/comparisons-equivalent-by-value-coerced-recursive-negated.sst\' -nt \'./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_recursive_negated.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_recursive_negated.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/comparisons-equivalent-by-value-coerced-recursive-negated.sst\' "${@}" ; fi\nif test \'./tests/scheme/comparisons-equivalent-by-value-coerced-shallow.sst\' -nt \'./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_shallow.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_shallow.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/comparisons-equivalent-by-value-coerced-shallow.sst\' "${@}" ; fi\nif test \'./tests/scheme/comparisons-equivalent-by-value-coerced-shallow-negated.sst\' -nt \'./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_shallow_negated.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_shallow_negated.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/comparisons-equivalent-by-value-coerced-shallow-negated.sst\' "${@}" ; fi\nif test \'./tests/scheme/comparisons-equivalent-by-value-strict-recursive.sst\' -nt \'./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_recursive.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_recursive.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/comparisons-equivalent-by-value-strict-recursive.sst\' "${@}" ; fi\nif test \'./tests/scheme/comparisons-equivalent-by-value-strict-recursive-negated.sst\' -nt \'./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_recursive_negated.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_recursive_negated.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/comparisons-equivalent-by-value-strict-recursive-negated.sst\' "${@}" ; fi\nif test \'./tests/scheme/comparisons-equivalent-by-value-strict-shallow.sst\' -nt \'./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_shallow.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_shallow.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/comparisons-equivalent-by-value-strict-shallow.sst\' "${@}" ; fi\nif test \'./tests/scheme/comparisons-equivalent-by-value-strict-shallow-negated.sst\' -nt \'./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_shallow_negated.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_strict_shallow_negated.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/comparisons-equivalent-by-value-strict-shallow-negated.sst\' "${@}" ; fi\nif test \'./tests/scheme/comparisons-equivalent-objects.sst\' -nt \'./tests/_outputs/scheme--benchmark__comparisons_equivalent_objects.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__comparisons_equivalent_objects.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/comparisons-equivalent-objects.sst\' "${@}" ; fi\nif test \'./tests/scheme/comparisons-equivalent-objects-negated.sst\' -nt \'./tests/_outputs/scheme--benchmark__comparisons_equivalent_objects_negated.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__comparisons_equivalent_objects_negated.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/comparisons-equivalent-objects-negated.sst\' "${@}" ; fi\nif test \'./tests/scheme/comparisons-ordering-numbers.sst\' -nt \'./tests/_outputs/scheme--benchmark__comparisons_ordering_numbers.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__comparisons_ordering_numbers.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/comparisons-ordering-numbers.sst\' "${@}" ; fi\nif test \'./tests/scheme/comparisons-ordering-numbers-negated.sst\' -nt \'./tests/_outputs/scheme--benchmark__comparisons_ordering_numbers_negated.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__comparisons_ordering_numbers_negated.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/comparisons-ordering-numbers-negated.sst\' "${@}" ; fi\nif test \'./tests/scheme/comparisons-ordering-objects.sst\' -nt \'./tests/_outputs/scheme--benchmark__comparisons_ordering_objects.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__comparisons_ordering_objects.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/comparisons-ordering-objects.sst\' "${@}" ; fi\nif test \'./tests/scheme/comparisons-ordering-objects-negated.sst\' -nt \'./tests/_outputs/scheme--benchmark__comparisons_ordering_objects_negated.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__comparisons_ordering_objects_negated.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/comparisons-ordering-objects-negated.sst\' "${@}" ; fi\nif test \'./tests/scheme/contexts.sst\' -nt \'./tests/_outputs/scheme--benchmark__contexts.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__contexts.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/contexts.sst\' "${@}" ; fi\nif test \'./tests/scheme/control.sst\' -nt \'./tests/_outputs/scheme--benchmark__control.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__control.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/control.sst\' "${@}" ; fi\nif test \'./tests/scheme/crypto.sst\' -nt \'./tests/_outputs/scheme--benchmark__crypto.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__crypto.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/crypto.sst\' "${@}" ; fi\nif test \'./tests/scheme/encoding.sst\' -nt \'./tests/_outputs/scheme--benchmark__encoding.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__encoding.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/encoding.sst\' "${@}" ; fi\nif test \'./tests/scheme/errors.sst\' -nt \'./tests/_outputs/scheme--benchmark__errors.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__errors.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/errors.sst\' "${@}" ; fi\nif test \'./tests/scheme/filesystem.sst\' -nt \'./tests/_outputs/scheme--benchmark__filesystem.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__filesystem.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/filesystem.sst\' "${@}" ; fi\nif test \'./tests/scheme/functions.sst\' -nt \'./tests/_outputs/scheme--benchmark__functions.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__functions.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/functions.sst\' "${@}" ; fi\nif test \'./tests/scheme/functions-arrays.sst\' -nt \'./tests/_outputs/scheme--benchmark__functions_arrays.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__functions_arrays.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/functions-arrays.sst\' "${@}" ; fi\nif test \'./tests/scheme/functions-bytes.sst\' -nt \'./tests/_outputs/scheme--benchmark__functions_bytes.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__functions_bytes.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/functions-bytes.sst\' "${@}" ; fi\nif test \'./tests/scheme/functions-higher.sst\' -nt \'./tests/_outputs/scheme--benchmark__functions_higher.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__functions_higher.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/functions-higher.sst\' "${@}" ; fi\nif test \'./tests/scheme/functions-lists.sst\' -nt \'./tests/_outputs/scheme--benchmark__functions_lists.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__functions_lists.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/functions-lists.sst\' "${@}" ; fi\nif test \'./tests/scheme/functions-strings.sst\' -nt \'./tests/_outputs/scheme--benchmark__functions_strings.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__functions_strings.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/functions-strings.sst\' "${@}" ; fi\nif test \'./tests/scheme/issues.sst\' -nt \'./tests/_outputs/scheme--benchmark__issues.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__issues.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/issues.sst\' "${@}" ; fi\nif test \'./tests/scheme/lambdas.sst\' -nt \'./tests/_outputs/scheme--benchmark__lambdas.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__lambdas.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/lambdas.sst\' "${@}" ; fi\nif test \'./tests/scheme/lists.sst\' -nt \'./tests/_outputs/scheme--benchmark__lists.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__lists.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/lists.sst\' "${@}" ; fi\nif test \'./tests/scheme/loops.sst\' -nt \'./tests/_outputs/scheme--benchmark__loops.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__loops.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/loops.sst\' "${@}" ; fi\nif test \'./tests/scheme/pairs.sst\' -nt \'./tests/_outputs/scheme--benchmark__pairs.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__pairs.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/pairs.sst\' "${@}" ; fi\nif test \'./tests/scheme/parameters.sst\' -nt \'./tests/_outputs/scheme--benchmark__parameters.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__parameters.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/parameters.sst\' "${@}" ; fi\nif test \'./tests/scheme/paths.sst\' -nt \'./tests/_outputs/scheme--benchmark__paths.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__paths.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/paths.sst\' "${@}" ; fi\nif test \'./tests/scheme/ports.sst\' -nt \'./tests/_outputs/scheme--benchmark__ports.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__ports.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/ports.sst\' "${@}" ; fi\nif test \'./tests/scheme/ports-memory.sst\' -nt \'./tests/_outputs/scheme--benchmark__ports_memory.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__ports_memory.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/ports-memory.sst\' "${@}" ; fi\nif test \'./tests/scheme/ports-native.sst\' -nt \'./tests/_outputs/scheme--benchmark__ports_native.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__ports_native.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/ports-native.sst\' "${@}" ; fi\nif test \'./tests/scheme/ports-parameters.sst\' -nt \'./tests/_outputs/scheme--benchmark__ports_parameters.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__ports_parameters.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/ports-parameters.sst\' "${@}" ; fi\nif test \'./tests/scheme/processes.sst\' -nt \'./tests/_outputs/scheme--benchmark__processes.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__processes.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/processes.sst\' "${@}" ; fi\nif test \'./tests/scheme/quotation.sst\' -nt \'./tests/_outputs/scheme--benchmark__quotation.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__quotation.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/quotation.sst\' "${@}" ; fi\nif test \'./tests/scheme/random.sst\' -nt \'./tests/_outputs/scheme--benchmark__random.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__random.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/random.sst\' "${@}" ; fi\nif test \'./tests/scheme/records-procedures.sst\' -nt \'./tests/_outputs/scheme--benchmark__records_procedures.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__records_procedures.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/records-procedures.sst\' "${@}" ; fi\nif test \'./tests/scheme/records-syntaxes.sst\' -nt \'./tests/_outputs/scheme--benchmark__records_syntaxes.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__records_syntaxes.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/records-syntaxes.sst\' "${@}" ; fi\nif test \'./tests/scheme/regex-bytes.sst\' -nt \'./tests/_outputs/scheme--benchmark__regex_bytes.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__regex_bytes.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/regex-bytes.sst\' "${@}" ; fi\nif test \'./tests/scheme/regex-strings.sst\' -nt \'./tests/_outputs/scheme--benchmark__regex_strings.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__regex_strings.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/regex-strings.sst\' "${@}" ; fi\nif test \'./tests/scheme/runtime.sst\' -nt \'./tests/_outputs/scheme--benchmark__runtime.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__runtime.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/runtime.sst\' "${@}" ; fi\nif test \'./tests/scheme/scratchpad.sst\' -nt \'./tests/_outputs/scheme--benchmark__scratchpad.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__scratchpad.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/scratchpad.sst\' "${@}" ; fi\nif test \'./tests/scheme/serde.sst\' -nt \'./tests/_outputs/scheme--benchmark__serde.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__serde.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/serde.sst\' "${@}" ; fi\nif test \'./tests/scheme/srfi-1.sst\' -nt \'./tests/_outputs/scheme--benchmark__srfi_1.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__srfi_1.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/srfi-1.sst\' "${@}" ; fi\nif test \'./tests/scheme/strings.sst\' -nt \'./tests/_outputs/scheme--benchmark__strings.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__strings.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/strings.sst\' "${@}" ; fi\nif test \'./tests/scheme/types.sst\' -nt \'./tests/_outputs/scheme--benchmark__types.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__types.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/types.sst\' "${@}" ; fi\nif test \'./tests/scheme/types-negated.sst\' -nt \'./tests/_outputs/scheme--benchmark__types_negated.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__types_negated.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/types-negated.sst\' "${@}" ; fi\nif test \'./tests/scheme/values.sst\' -nt \'./tests/_outputs/scheme--benchmark__values.out\' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__values.out\' ./target/default/release/vonuvoli-scheme-bencher \'./tests/scheme/values.sst\' "${@}" ; fi\n'
 	exit -- 0
 ;;
 
@@ -2017,6 +2092,66 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 
 ( ::\ execute\ /\ bin\ /\ bencher\ /\ bytes\ /\ release )
 	eval -- $'exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__bytes.out\' "${X_RUN[@]}" \':: execute / bin / bencher / release\' \'./tests/scheme/bytes.sst\' "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ bin\ /\ bencher\ /\ cache-bytes-default\ /\ debug )
+	eval -- $'exec -- taskset -c 2 "${X_RUN[@]}" \':: execute / bin / bencher / debug\' \'./tests/scheme/cache-bytes-default.sst\' "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ bin\ /\ bencher\ /\ cache-bytes-default\ /\ debug\ /\ watch )
+	eval -- $'exec -- "${X_RUN[@]}" \':: execute / watch\' "${X_RUN[@]}" \':: execute / bin / bencher / cache-bytes-default / debug\'\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ bin\ /\ bencher\ /\ cache-bytes-default\ /\ release )
+	eval -- $'exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__cache_bytes_default.out\' "${X_RUN[@]}" \':: execute / bin / bencher / release\' \'./tests/scheme/cache-bytes-default.sst\' "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ bin\ /\ bencher\ /\ cache-bytes-namespace\ /\ debug )
+	eval -- $'exec -- taskset -c 2 "${X_RUN[@]}" \':: execute / bin / bencher / debug\' \'./tests/scheme/cache-bytes-namespace.sst\' "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ bin\ /\ bencher\ /\ cache-bytes-namespace\ /\ debug\ /\ watch )
+	eval -- $'exec -- "${X_RUN[@]}" \':: execute / watch\' "${X_RUN[@]}" \':: execute / bin / bencher / cache-bytes-namespace / debug\'\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ bin\ /\ bencher\ /\ cache-bytes-namespace\ /\ release )
+	eval -- $'exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__cache_bytes_namespace.out\' "${X_RUN[@]}" \':: execute / bin / bencher / release\' \'./tests/scheme/cache-bytes-namespace.sst\' "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ bin\ /\ bencher\ /\ cache-objects-default\ /\ debug )
+	eval -- $'exec -- taskset -c 2 "${X_RUN[@]}" \':: execute / bin / bencher / debug\' \'./tests/scheme/cache-objects-default.sst\' "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ bin\ /\ bencher\ /\ cache-objects-default\ /\ debug\ /\ watch )
+	eval -- $'exec -- "${X_RUN[@]}" \':: execute / watch\' "${X_RUN[@]}" \':: execute / bin / bencher / cache-objects-default / debug\'\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ bin\ /\ bencher\ /\ cache-objects-default\ /\ release )
+	eval -- $'exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__cache_objects_default.out\' "${X_RUN[@]}" \':: execute / bin / bencher / release\' \'./tests/scheme/cache-objects-default.sst\' "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ bin\ /\ bencher\ /\ cache-objects-namespace\ /\ debug )
+	eval -- $'exec -- taskset -c 2 "${X_RUN[@]}" \':: execute / bin / bencher / debug\' \'./tests/scheme/cache-objects-namespace.sst\' "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ bin\ /\ bencher\ /\ cache-objects-namespace\ /\ debug\ /\ watch )
+	eval -- $'exec -- "${X_RUN[@]}" \':: execute / watch\' "${X_RUN[@]}" \':: execute / bin / bencher / cache-objects-namespace / debug\'\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ bin\ /\ bencher\ /\ cache-objects-namespace\ /\ release )
+	eval -- $'exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__cache_objects_namespace.out\' "${X_RUN[@]}" \':: execute / bin / bencher / release\' \'./tests/scheme/cache-objects-namespace.sst\' "${@}"\n'
 	exit -- 0
 ;;
 
@@ -2755,6 +2890,21 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	exit -- 0
 ;;
 
+( ::\ execute\ /\ bin\ /\ bencher\ /\ serde\ /\ debug )
+	eval -- $'exec -- taskset -c 2 "${X_RUN[@]}" \':: execute / bin / bencher / debug\' \'./tests/scheme/serde.sst\' "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ bin\ /\ bencher\ /\ serde\ /\ debug\ /\ watch )
+	eval -- $'exec -- "${X_RUN[@]}" \':: execute / watch\' "${X_RUN[@]}" \':: execute / bin / bencher / serde / debug\'\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ bin\ /\ bencher\ /\ serde\ /\ release )
+	eval -- $'exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--benchmark__serde.out\' "${X_RUN[@]}" \':: execute / bin / bencher / release\' \'./tests/scheme/serde.sst\' "${@}"\n'
+	exit -- 0
+;;
+
 ( ::\ execute\ /\ bin\ /\ bencher\ /\ srfi-1\ /\ debug )
 	eval -- $'exec -- taskset -c 2 "${X_RUN[@]}" \':: execute / bin / bencher / debug\' \'./tests/scheme/srfi-1.sst\' "${@}"\n'
 	exit -- 0
@@ -3281,7 +3431,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 ;;
 
 ( ::\ execute\ /\ bin\ /\ tester\ /\ all\ /\ debug )
-	eval -- $'"${X_RUN[@]}" \':: compile / bin / tester / debug\'\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/arithmetic.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/arrays.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/booleans.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/bytes.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-equivalent-by-identity.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-equivalent-by-identity-negated.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-equivalent-by-value-coerced-recursive-negated.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-equivalent-by-value-coerced-shallow.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-equivalent-by-value-coerced-shallow-negated.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-equivalent-by-value-strict-recursive.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-equivalent-by-value-strict-recursive-negated.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-equivalent-by-value-strict-shallow.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-equivalent-by-value-strict-shallow-negated.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-equivalent-objects.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-equivalent-objects-negated.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-ordering-numbers.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-ordering-numbers-negated.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-ordering-objects.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-ordering-objects-negated.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/contexts.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/control.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/crypto.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/encoding.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/errors.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/filesystem.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/functions.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/functions-arrays.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/functions-bytes.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/functions-higher.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/functions-lists.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/functions-strings.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/issues.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/lambdas.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/lists.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/loops.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/pairs.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/parameters.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/paths.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/ports.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/ports-memory.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/ports-native.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/ports-parameters.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/processes.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/quotation.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/random.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/records-procedures.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/records-syntaxes.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/regex-bytes.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/regex-strings.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/runtime.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/scratchpad.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/srfi-1.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/strings.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/types.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/types-negated.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/values.sst\' "${@}"\n'
+	eval -- $'"${X_RUN[@]}" \':: compile / bin / tester / debug\'\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/arithmetic.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/arrays.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/booleans.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/bytes.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/cache-bytes-default.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/cache-bytes-namespace.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/cache-objects-default.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/cache-objects-namespace.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-equivalent-by-identity.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-equivalent-by-identity-negated.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-equivalent-by-value-coerced-recursive-negated.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-equivalent-by-value-coerced-shallow.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-equivalent-by-value-coerced-shallow-negated.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-equivalent-by-value-strict-recursive.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-equivalent-by-value-strict-recursive-negated.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-equivalent-by-value-strict-shallow.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-equivalent-by-value-strict-shallow-negated.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-equivalent-objects.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-equivalent-objects-negated.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-ordering-numbers.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-ordering-numbers-negated.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-ordering-objects.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-ordering-objects-negated.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/contexts.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/control.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/crypto.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/encoding.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/errors.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/filesystem.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/functions.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/functions-arrays.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/functions-bytes.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/functions-higher.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/functions-lists.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/functions-strings.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/issues.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/lambdas.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/lists.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/loops.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/pairs.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/parameters.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/paths.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/ports.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/ports-memory.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/ports-native.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/ports-parameters.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/processes.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/quotation.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/random.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/records-procedures.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/records-syntaxes.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/regex-bytes.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/regex-strings.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/runtime.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/scratchpad.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/serde.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/srfi-1.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/strings.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/types.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/types-negated.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/values.sst\' "${@}"\n'
 	exit -- 0
 ;;
 
@@ -3342,6 +3492,66 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 
 ( ::\ execute\ /\ bin\ /\ tester\ /\ bytes\ /\ release )
 	eval -- $'exec -- nice -n 19 -- "${X_RUN[@]}" \':: execute / bin / tester / release\' \'./tests/scheme/bytes.sst\' "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ bin\ /\ tester\ /\ cache-bytes-default\ /\ debug )
+	eval -- $'exec -- nice -n 19 -- "${X_RUN[@]}" \':: execute / bin / tester / debug\' \'./tests/scheme/cache-bytes-default.sst\' "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ bin\ /\ tester\ /\ cache-bytes-default\ /\ debug\ /\ watch )
+	eval -- $'exec -- "${X_RUN[@]}" \':: execute / watch\' "${X_RUN[@]}" \':: execute / bin / tester / cache-bytes-default / debug\'\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ bin\ /\ tester\ /\ cache-bytes-default\ /\ release )
+	eval -- $'exec -- nice -n 19 -- "${X_RUN[@]}" \':: execute / bin / tester / release\' \'./tests/scheme/cache-bytes-default.sst\' "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ bin\ /\ tester\ /\ cache-bytes-namespace\ /\ debug )
+	eval -- $'exec -- nice -n 19 -- "${X_RUN[@]}" \':: execute / bin / tester / debug\' \'./tests/scheme/cache-bytes-namespace.sst\' "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ bin\ /\ tester\ /\ cache-bytes-namespace\ /\ debug\ /\ watch )
+	eval -- $'exec -- "${X_RUN[@]}" \':: execute / watch\' "${X_RUN[@]}" \':: execute / bin / tester / cache-bytes-namespace / debug\'\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ bin\ /\ tester\ /\ cache-bytes-namespace\ /\ release )
+	eval -- $'exec -- nice -n 19 -- "${X_RUN[@]}" \':: execute / bin / tester / release\' \'./tests/scheme/cache-bytes-namespace.sst\' "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ bin\ /\ tester\ /\ cache-objects-default\ /\ debug )
+	eval -- $'exec -- nice -n 19 -- "${X_RUN[@]}" \':: execute / bin / tester / debug\' \'./tests/scheme/cache-objects-default.sst\' "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ bin\ /\ tester\ /\ cache-objects-default\ /\ debug\ /\ watch )
+	eval -- $'exec -- "${X_RUN[@]}" \':: execute / watch\' "${X_RUN[@]}" \':: execute / bin / tester / cache-objects-default / debug\'\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ bin\ /\ tester\ /\ cache-objects-default\ /\ release )
+	eval -- $'exec -- nice -n 19 -- "${X_RUN[@]}" \':: execute / bin / tester / release\' \'./tests/scheme/cache-objects-default.sst\' "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ bin\ /\ tester\ /\ cache-objects-namespace\ /\ debug )
+	eval -- $'exec -- nice -n 19 -- "${X_RUN[@]}" \':: execute / bin / tester / debug\' \'./tests/scheme/cache-objects-namespace.sst\' "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ bin\ /\ tester\ /\ cache-objects-namespace\ /\ debug\ /\ watch )
+	eval -- $'exec -- "${X_RUN[@]}" \':: execute / watch\' "${X_RUN[@]}" \':: execute / bin / tester / cache-objects-namespace / debug\'\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ bin\ /\ tester\ /\ cache-objects-namespace\ /\ release )
+	eval -- $'exec -- nice -n 19 -- "${X_RUN[@]}" \':: execute / bin / tester / release\' \'./tests/scheme/cache-objects-namespace.sst\' "${@}"\n'
 	exit -- 0
 ;;
 
@@ -4080,6 +4290,21 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	exit -- 0
 ;;
 
+( ::\ execute\ /\ bin\ /\ tester\ /\ serde\ /\ debug )
+	eval -- $'exec -- nice -n 19 -- "${X_RUN[@]}" \':: execute / bin / tester / debug\' \'./tests/scheme/serde.sst\' "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ bin\ /\ tester\ /\ serde\ /\ debug\ /\ watch )
+	eval -- $'exec -- "${X_RUN[@]}" \':: execute / watch\' "${X_RUN[@]}" \':: execute / bin / tester / serde / debug\'\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ bin\ /\ tester\ /\ serde\ /\ release )
+	eval -- $'exec -- nice -n 19 -- "${X_RUN[@]}" \':: execute / bin / tester / release\' \'./tests/scheme/serde.sst\' "${@}"\n'
+	exit -- 0
+;;
+
 ( ::\ execute\ /\ bin\ /\ tester\ /\ srfi-1\ /\ debug )
 	eval -- $'exec -- nice -n 19 -- "${X_RUN[@]}" \':: execute / bin / tester / debug\' \'./tests/scheme/srfi-1.sst\' "${@}"\n'
 	exit -- 0
@@ -4186,7 +4411,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 ;;
 
 ( ::\ execute\ /\ features\ /\ combinations )
-	eval -- $'\ttest "${#}" -ge 1\n\treadarray -t -- VONUVOLI_SCHEME_FEATURES < <( "${X_RUN[@]}" \':: environment / features / list / combinations\' | sort -R )\n\tfor VONUVOLI_SCHEME_FEATURES in "${VONUVOLI_SCHEME_FEATURES[@]}" ; do\n\t\tprintf -- \'[ii]  using features `%s`...\\n\' "${VONUVOLI_SCHEME_FEATURES}" >&2\n\t\t_identifier="$( printf -- \'%s\' "${VONUVOLI_SCHEME_FEATURES}" | md5sum -b )" ; _identifier="${_identifier%% *}"\n\t\t_target="$( exec -- readlink -e -- ./target )/features--${_identifier}"\n\t\tif ! VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" "${@}" ; then\n\t\t\tprintf -- \'[ee]  failed using features `%s`!\\n\' "${VONUVOLI_SCHEME_FEATURES}" >&2\n\t\t\texit -- 1\n\t\tfi\n\t\trm -R -f -- "${_target}"\n\t\tprintf -- \'[--]\\n\' >&2\n\tdone\n'
+	eval -- $'\ttest "${#}" -ge 1\n\treadarray -t -- VONUVOLI_SCHEME_FEATURES < <( "${X_RUN[@]}" \':: environment / features / list / combinations\' | sort -R )\n\tfor VONUVOLI_SCHEME_FEATURES in "${VONUVOLI_SCHEME_FEATURES[@]}" ; do\n\t\tprintf -- \'[ii]  using features `%s`...\\n\' "${VONUVOLI_SCHEME_FEATURES}" >&2\n\t\t_identifier="$( printf -- \'%s\' "${VONUVOLI_SCHEME_FEATURES}" | md5sum -b )" ; _identifier="${_identifier%% *}"\n\t\t_target="$( exec -- readlink -e -- ./target )/random--${_identifier}"\n\t\tif ! VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" "${@}" ; then\n\t\t\tprintf -- \'[ee]  failed using features `%s`!\\n\' "${VONUVOLI_SCHEME_FEATURES}" >&2\n\t\t\texit -- 1\n\t\tfi\n\t\trm -R -f -- "${_target}"\n\t\tprintf -- \'[--]\\n\' >&2\n\tdone\n'
 	exit -- 0
 ;;
 
@@ -4201,7 +4426,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 ;;
 
 ( ::\ execute\ /\ features\ /\ targets )
-	eval -- $'\ttest "${#}" -ge 1\n\treadarray -t -- VONUVOLI_SCHEME_FEATURES < <( exec -- "${X_RUN[@]}" \':: environment / features / list / targets\' )\n\tfor VONUVOLI_SCHEME_FEATURES in "${VONUVOLI_SCHEME_FEATURES[@]}" ; do\n\t\tprintf -- \'[ii]  using features `%s`...\\n\' "${VONUVOLI_SCHEME_FEATURES}" >&2\n\t\t_identifier="$( printf -- \'%s\' "${VONUVOLI_SCHEME_FEATURES}" | md5sum -b )" ; _identifier="${_identifier%% *}"\n\t\t_target="$( exec -- readlink -e -- ./target )/features--${_identifier}"\n\t\tif ! VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" "${@}" ; then\n\t\t\tprintf -- \'[ee]  failed using features `%s`!\\n\' "${VONUVOLI_SCHEME_FEATURES}" >&2\n\t\t\texit -- 1\n\t\tfi\n\t\tprintf -- \'[--]\\n\' >&2\n\tdone\n'
+	eval -- $'\ttest "${#}" -ge 1\n\treadarray -t -- VONUVOLI_SCHEME_FEATURES < <( exec -- "${X_RUN[@]}" \':: environment / features / list / targets\' )\n\tfor VONUVOLI_SCHEME_FEATURES in "${VONUVOLI_SCHEME_FEATURES[@]}" ; do\n\t\tprintf -- \'[ii]  using features `%s`...\\n\' "${VONUVOLI_SCHEME_FEATURES}" >&2\n\t\t_identifier="$( printf -- \'%s\' "${VONUVOLI_SCHEME_FEATURES}" | md5sum -b )" ; _identifier="${_identifier%% *}"\n\t\t_target="$( exec -- readlink -e -- ./target )/targets--${_identifier}"\n\t\tif ! VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" "${@}" ; then\n\t\t\tprintf -- \'[ee]  failed using features `%s`!\\n\' "${VONUVOLI_SCHEME_FEATURES}" >&2\n\t\t\texit -- 1\n\t\tfi\n\t\tprintf -- \'[--]\\n\' >&2\n\tdone\n'
 	exit -- 0
 ;;
 
@@ -4557,6 +4782,46 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 
 ( ::\ execute\ /\ test\ /\ scheme\ /\ benchmarks\ /\ bytes\ /\ release )
 	eval -- $'"${X_RUN[@]}" \':: compile / test / scheme / release\' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--{IDENTIFIER}.out\' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench \'benchmark__bytes\' --exact "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ test\ /\ scheme\ /\ benchmarks\ /\ cache_bytes_default\ /\ debug )
+	eval -- $'"${X_RUN[@]}" \':: compile / test / scheme / debug\' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench \'benchmark__cache_bytes_default\' --exact "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ test\ /\ scheme\ /\ benchmarks\ /\ cache_bytes_default\ /\ release )
+	eval -- $'"${X_RUN[@]}" \':: compile / test / scheme / release\' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--{IDENTIFIER}.out\' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench \'benchmark__cache_bytes_default\' --exact "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ test\ /\ scheme\ /\ benchmarks\ /\ cache_bytes_namespace\ /\ debug )
+	eval -- $'"${X_RUN[@]}" \':: compile / test / scheme / debug\' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench \'benchmark__cache_bytes_namespace\' --exact "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ test\ /\ scheme\ /\ benchmarks\ /\ cache_bytes_namespace\ /\ release )
+	eval -- $'"${X_RUN[@]}" \':: compile / test / scheme / release\' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--{IDENTIFIER}.out\' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench \'benchmark__cache_bytes_namespace\' --exact "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ test\ /\ scheme\ /\ benchmarks\ /\ cache_objects_default\ /\ debug )
+	eval -- $'"${X_RUN[@]}" \':: compile / test / scheme / debug\' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench \'benchmark__cache_objects_default\' --exact "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ test\ /\ scheme\ /\ benchmarks\ /\ cache_objects_default\ /\ release )
+	eval -- $'"${X_RUN[@]}" \':: compile / test / scheme / release\' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--{IDENTIFIER}.out\' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench \'benchmark__cache_objects_default\' --exact "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ test\ /\ scheme\ /\ benchmarks\ /\ cache_objects_namespace\ /\ debug )
+	eval -- $'"${X_RUN[@]}" \':: compile / test / scheme / debug\' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench \'benchmark__cache_objects_namespace\' --exact "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ test\ /\ scheme\ /\ benchmarks\ /\ cache_objects_namespace\ /\ release )
+	eval -- $'"${X_RUN[@]}" \':: compile / test / scheme / release\' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--{IDENTIFIER}.out\' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench \'benchmark__cache_objects_namespace\' --exact "${@}"\n'
 	exit -- 0
 ;;
 
@@ -5040,6 +5305,16 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	exit -- 0
 ;;
 
+( ::\ execute\ /\ test\ /\ scheme\ /\ benchmarks\ /\ serde\ /\ debug )
+	eval -- $'"${X_RUN[@]}" \':: compile / test / scheme / debug\' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench \'benchmark__serde\' --exact "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ test\ /\ scheme\ /\ benchmarks\ /\ serde\ /\ release )
+	eval -- $'"${X_RUN[@]}" \':: compile / test / scheme / release\' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/scheme--{IDENTIFIER}.out\' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench \'benchmark__serde\' --exact "${@}"\n'
+	exit -- 0
+;;
+
 ( ::\ execute\ /\ test\ /\ scheme\ /\ benchmarks\ /\ srfi_1\ /\ debug )
 	eval -- $'"${X_RUN[@]}" \':: compile / test / scheme / debug\' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench \'benchmark__srfi_1\' --exact "${@}"\n'
 	exit -- 0
@@ -5172,6 +5447,66 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 
 ( ::\ execute\ /\ test\ /\ scheme\ /\ tests\ /\ bytes\ /\ release )
 	eval -- $'"${X_RUN[@]}" \':: compile / test / scheme / release\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test \'test__bytes\' --exact "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ test\ /\ scheme\ /\ tests\ /\ cache_bytes_default\ /\ debug )
+	eval -- $'"${X_RUN[@]}" \':: compile / test / scheme / debug\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --test \'test__cache_bytes_default\' --exact "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ test\ /\ scheme\ /\ tests\ /\ cache_bytes_default\ /\ debug\ /\ watch )
+	eval -- $'exec -- "${X_RUN[@]}" \':: execute / watch\' "${X_RUN[@]}" \':: execute / test / scheme / tests / cache_bytes_default / debug\' "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ test\ /\ scheme\ /\ tests\ /\ cache_bytes_default\ /\ release )
+	eval -- $'"${X_RUN[@]}" \':: compile / test / scheme / release\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test \'test__cache_bytes_default\' --exact "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ test\ /\ scheme\ /\ tests\ /\ cache_bytes_namespace\ /\ debug )
+	eval -- $'"${X_RUN[@]}" \':: compile / test / scheme / debug\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --test \'test__cache_bytes_namespace\' --exact "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ test\ /\ scheme\ /\ tests\ /\ cache_bytes_namespace\ /\ debug\ /\ watch )
+	eval -- $'exec -- "${X_RUN[@]}" \':: execute / watch\' "${X_RUN[@]}" \':: execute / test / scheme / tests / cache_bytes_namespace / debug\' "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ test\ /\ scheme\ /\ tests\ /\ cache_bytes_namespace\ /\ release )
+	eval -- $'"${X_RUN[@]}" \':: compile / test / scheme / release\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test \'test__cache_bytes_namespace\' --exact "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ test\ /\ scheme\ /\ tests\ /\ cache_objects_default\ /\ debug )
+	eval -- $'"${X_RUN[@]}" \':: compile / test / scheme / debug\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --test \'test__cache_objects_default\' --exact "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ test\ /\ scheme\ /\ tests\ /\ cache_objects_default\ /\ debug\ /\ watch )
+	eval -- $'exec -- "${X_RUN[@]}" \':: execute / watch\' "${X_RUN[@]}" \':: execute / test / scheme / tests / cache_objects_default / debug\' "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ test\ /\ scheme\ /\ tests\ /\ cache_objects_default\ /\ release )
+	eval -- $'"${X_RUN[@]}" \':: compile / test / scheme / release\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test \'test__cache_objects_default\' --exact "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ test\ /\ scheme\ /\ tests\ /\ cache_objects_namespace\ /\ debug )
+	eval -- $'"${X_RUN[@]}" \':: compile / test / scheme / debug\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --test \'test__cache_objects_namespace\' --exact "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ test\ /\ scheme\ /\ tests\ /\ cache_objects_namespace\ /\ debug\ /\ watch )
+	eval -- $'exec -- "${X_RUN[@]}" \':: execute / watch\' "${X_RUN[@]}" \':: execute / test / scheme / tests / cache_objects_namespace / debug\' "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ test\ /\ scheme\ /\ tests\ /\ cache_objects_namespace\ /\ release )
+	eval -- $'"${X_RUN[@]}" \':: compile / test / scheme / release\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test \'test__cache_objects_namespace\' --exact "${@}"\n'
 	exit -- 0
 ;;
 
@@ -5895,6 +6230,21 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	exit -- 0
 ;;
 
+( ::\ execute\ /\ test\ /\ scheme\ /\ tests\ /\ serde\ /\ debug )
+	eval -- $'"${X_RUN[@]}" \':: compile / test / scheme / debug\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --test \'test__serde\' --exact "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ test\ /\ scheme\ /\ tests\ /\ serde\ /\ debug\ /\ watch )
+	eval -- $'exec -- "${X_RUN[@]}" \':: execute / watch\' "${X_RUN[@]}" \':: execute / test / scheme / tests / serde / debug\' "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ test\ /\ scheme\ /\ tests\ /\ serde\ /\ release )
+	eval -- $'"${X_RUN[@]}" \':: compile / test / scheme / release\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test \'test__serde\' --exact "${@}"\n'
+	exit -- 0
+;;
+
 ( ::\ execute\ /\ test\ /\ scheme\ /\ tests\ /\ srfi_1\ /\ debug )
 	eval -- $'"${X_RUN[@]}" \':: compile / test / scheme / debug\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --test \'test__srfi_1\' --exact "${@}"\n'
 	exit -- 0
@@ -6095,6 +6445,11 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	exit -- 0
 ;;
 
+( ::\ files\ /\ edit\ /\ sources/builtins_cache.rs )
+	eval -- $'exec -- sce ./sources/builtins_cache.rs\n'
+	exit -- 0
+;;
+
 ( ::\ files\ /\ edit\ /\ sources/builtins_comparisons.rs )
 	eval -- $'exec -- sce ./sources/builtins_comparisons.rs\n'
 	exit -- 0
@@ -6152,6 +6507,11 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 
 ( ::\ files\ /\ edit\ /\ sources/builtins_runtime.rs )
 	eval -- $'exec -- sce ./sources/builtins_runtime.rs\n'
+	exit -- 0
+;;
+
+( ::\ files\ /\ edit\ /\ sources/builtins_serde.rs )
+	eval -- $'exec -- sce ./sources/builtins_serde.rs\n'
 	exit -- 0
 ;;
 
@@ -6585,6 +6945,26 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	exit -- 0
 ;;
 
+( ::\ files\ /\ edit\ /\ tests/scheme/cache-bytes-default.sst )
+	eval -- $'exec -- sce ./tests/scheme/cache-bytes-default.sst\n'
+	exit -- 0
+;;
+
+( ::\ files\ /\ edit\ /\ tests/scheme/cache-bytes-namespace.sst )
+	eval -- $'exec -- sce ./tests/scheme/cache-bytes-namespace.sst\n'
+	exit -- 0
+;;
+
+( ::\ files\ /\ edit\ /\ tests/scheme/cache-objects-default.sst )
+	eval -- $'exec -- sce ./tests/scheme/cache-objects-default.sst\n'
+	exit -- 0
+;;
+
+( ::\ files\ /\ edit\ /\ tests/scheme/cache-objects-namespace.sst )
+	eval -- $'exec -- sce ./tests/scheme/cache-objects-namespace.sst\n'
+	exit -- 0
+;;
+
 ( ::\ files\ /\ edit\ /\ tests/scheme/comparisons-equivalent-by-identity-negated.sst )
 	eval -- $'exec -- sce ./tests/scheme/comparisons-equivalent-by-identity-negated.sst\n'
 	exit -- 0
@@ -6822,6 +7202,11 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 
 ( ::\ files\ /\ edit\ /\ tests/scheme/scratchpad.sst )
 	eval -- $'exec -- sce ./tests/scheme/scratchpad.sst\n'
+	exit -- 0
+;;
+
+( ::\ files\ /\ edit\ /\ tests/scheme/serde.sst )
+	eval -- $'exec -- sce ./tests/scheme/serde.sst\n'
 	exit -- 0
 ;;
 
@@ -7080,6 +7465,11 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	exit -- 0
 ;;
 
+( ::\ files\ /\ view\ /\ sources/builtins_cache.rs )
+	eval -- $'exec -- less -- ./sources/builtins_cache.rs\n'
+	exit -- 0
+;;
+
 ( ::\ files\ /\ view\ /\ sources/builtins_comparisons.rs )
 	eval -- $'exec -- less -- ./sources/builtins_comparisons.rs\n'
 	exit -- 0
@@ -7137,6 +7527,11 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 
 ( ::\ files\ /\ view\ /\ sources/builtins_runtime.rs )
 	eval -- $'exec -- less -- ./sources/builtins_runtime.rs\n'
+	exit -- 0
+;;
+
+( ::\ files\ /\ view\ /\ sources/builtins_serde.rs )
+	eval -- $'exec -- less -- ./sources/builtins_serde.rs\n'
 	exit -- 0
 ;;
 
@@ -7570,6 +7965,26 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	exit -- 0
 ;;
 
+( ::\ files\ /\ view\ /\ tests/scheme/cache-bytes-default.sst )
+	eval -- $'exec -- less -- ./tests/scheme/cache-bytes-default.sst\n'
+	exit -- 0
+;;
+
+( ::\ files\ /\ view\ /\ tests/scheme/cache-bytes-namespace.sst )
+	eval -- $'exec -- less -- ./tests/scheme/cache-bytes-namespace.sst\n'
+	exit -- 0
+;;
+
+( ::\ files\ /\ view\ /\ tests/scheme/cache-objects-default.sst )
+	eval -- $'exec -- less -- ./tests/scheme/cache-objects-default.sst\n'
+	exit -- 0
+;;
+
+( ::\ files\ /\ view\ /\ tests/scheme/cache-objects-namespace.sst )
+	eval -- $'exec -- less -- ./tests/scheme/cache-objects-namespace.sst\n'
+	exit -- 0
+;;
+
 ( ::\ files\ /\ view\ /\ tests/scheme/comparisons-equivalent-by-identity-negated.sst )
 	eval -- $'exec -- less -- ./tests/scheme/comparisons-equivalent-by-identity-negated.sst\n'
 	exit -- 0
@@ -7807,6 +8222,11 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 
 ( ::\ files\ /\ view\ /\ tests/scheme/scratchpad.sst )
 	eval -- $'exec -- less -- ./tests/scheme/scratchpad.sst\n'
+	exit -- 0
+;;
+
+( ::\ files\ /\ view\ /\ tests/scheme/serde.sst )
+	eval -- $'exec -- less -- ./tests/scheme/serde.sst\n'
 	exit -- 0
 ;;
 
