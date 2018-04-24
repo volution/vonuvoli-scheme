@@ -32,7 +32,12 @@
 (~opaque? (~fs-metadata "./tests")) => #t
 (~opaque? (~fs-metadata "./tests/scheme.rs")) => #t
 (~opaque? (~fs-metadata "./__does_not_exist__")) => #f
+
+(~fs-metadata? (~fs-metadata "./tests")) => #t
+(~fs-metadata? (~fs-metadata "./tests/scheme.rs")) => #t
 (~fs-metadata "./__does_not_exist__") => #f
+
+(~fs-metadata? (~fs-metadata "./__does_not_exist__")) => #f
 
 (~opaque? (~fs-metadata "/proc/self")) => #t
 (~opaque? (~fs-metadata "/proc/self" #t)) => #t

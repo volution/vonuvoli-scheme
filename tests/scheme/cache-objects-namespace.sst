@@ -1,0 +1,23 @@
+
+(define tmp-path "/tmp/vonuvoli-scheme--tests--cache--4") => !ignore
+
+
+(define cache-a (~cache-open tmp-path)) => !ignore
+(define cache-b (~cache-open tmp-path)) => !ignore
+
+(~cache? cache-a) => #t
+(~cache? cache-b) => #t
+
+
+(~cache-exclude-all cache-a) => #void
+(~cache-exclude-all cache-b) => #void
+
+
+
+
+(~cache-exclude-all cache-a) => #void
+(~cache-exclude-all cache-b) => #void
+
+(~cache-close cache-a) => #void
+(~cache-close cache-b) => #void
+

@@ -187,3 +187,15 @@ def_scheme_tests_from_file! (
 		
 	);
 
+
+#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+def_scheme_tests_from_file! (
+		
+		test__cache_bytes_default => "scheme/cache-bytes-default.sst",
+		test__cache_bytes_namespace => "scheme/cache-bytes-namespace.sst",
+		
+		test__cache_objects_default => "scheme/cache-objects-default.sst",
+		test__cache_objects_namespace => "scheme/cache-objects-namespace.sst",
+		
+	);
+
