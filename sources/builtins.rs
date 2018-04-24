@@ -49,5 +49,8 @@ pub mod exports {
 	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 	pub use super::super::builtins_cache::exports::*;
 	
+	#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
+	pub use super::super::builtins_serde::exports::*;
+	
 }
 

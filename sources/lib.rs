@@ -198,6 +198,8 @@ pub(crate) mod builtins_records;
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 pub(crate) mod builtins_regularex;
 pub(crate) mod builtins_runtime;
+#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
+pub(crate) mod builtins_serde;
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 pub(crate) mod builtins_strings;
 pub(crate) mod builtins_types;
@@ -347,6 +349,8 @@ pub mod internals {
 	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 	pub use super::builtins_regularex::exports as builtins_regularex;
 	pub use super::builtins_runtime::exports as builtins_runtime;
+	#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
+	pub use super::builtins_serde::exports as builtins_serde;
 	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	pub use super::builtins_strings::exports as builtins_strings;
 	pub use super::builtins_types::exports as builtins_types;
