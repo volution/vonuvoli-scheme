@@ -893,6 +893,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("fs-directory-fold", FileSystemPrimitiveV::DirectoryListFold.into ()),
 			("fs-directory-fold-recursive", FileSystemPrimitiveV::DirectoryListFoldRecursive.into ()),
 			
+			("fs-metadata?", TypePrimitiveV::IsFileSystemMetadata.into ()),
+			("not-fs-metadata?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsFileSystemMetadata) .into ()),
+			
 			("fs-metadata", FileSystemPrimitiveV::MetadataResolve.into ()),
 			("fs-metadata-eq?", FileSystemPrimitiveV::MetadataIsSelf.into ()),
 			
@@ -1518,6 +1521,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 	
 	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 	definitions.extend_from_slice (&[
+			
+			("cache?", TypePrimitiveV::IsCache.into ()),
+			("not-cache?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsCache) .into ()),
 			
 			("cache-open", RuntimePrimitiveV::CacheOpen.into ()),
 			("cache-close", RuntimePrimitive1::CacheClose.into ()),

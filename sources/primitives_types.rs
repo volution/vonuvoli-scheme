@@ -1,6 +1,6 @@
 
 
-use super::builtins::exports::*;
+use super::builtins_types::exports::*;
 use super::constants::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
@@ -315,6 +315,12 @@ macro_rules! def_type_primitive_enum {
 			IsCharacterAsciiPunctuation,
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			IsCharacterAsciiGraphic,
+			
+			#[ cfg ( feature = "vonuvoli_builtins_filesystem") ]
+			IsFileSystemMetadata,
+			
+			#[ cfg ( feature = "vonuvoli_builtins_cache") ]
+			IsCache,
 			
 		}
 		
@@ -846,6 +852,14 @@ pub fn type_primitive_1_evaluate_0 (primitive : TypePrimitive1, input_1 : &Value
 		TypePrimitive1::IsCharacterAsciiGraphic =>
 			return is_character_ascii_graphic (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem") ]
+		TypePrimitive1::IsFileSystemMetadata =>
+			return is_filesystem_metadata (input_1) .into_0 (),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_cache") ]
+		TypePrimitive1::IsCache =>
+			return is_cache (input_1) .into_0 (),
+		
 	}
 }
 
@@ -1348,6 +1362,14 @@ pub fn type_primitive_2_evaluate_0 (primitive : TypePrimitive2, input_1 : &Value
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive2::IsCharacterAsciiGraphic =>
 			return is_character_ascii_graphic_all_2 (input_1, input_2) .into_0 (),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem") ]
+		TypePrimitive2::IsFileSystemMetadata =>
+			return is_filesystem_metadata_all_2 (input_1, input_2) .into_0 (),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_cache") ]
+		TypePrimitive2::IsCache =>
+			return is_cache_all_2 (input_1, input_2) .into_0 (),
 		
 	}
 }
@@ -1852,6 +1874,14 @@ pub fn type_primitive_3_evaluate_0 (primitive : TypePrimitive3, input_1 : &Value
 		TypePrimitive3::IsCharacterAsciiGraphic =>
 			return is_character_ascii_graphic_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem") ]
+		TypePrimitive3::IsFileSystemMetadata =>
+			return is_filesystem_metadata_all_3 (input_1, input_2, input_3) .into_0 (),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_cache") ]
+		TypePrimitive3::IsCache =>
+			return is_cache_all_3 (input_1, input_2, input_3) .into_0 (),
+		
 	}
 }
 
@@ -2354,6 +2384,14 @@ pub fn type_primitive_4_evaluate_0 (primitive : TypePrimitive4, input_1 : &Value
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		TypePrimitive4::IsCharacterAsciiGraphic =>
 			return is_character_ascii_graphic_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem") ]
+		TypePrimitive4::IsFileSystemMetadata =>
+			return is_filesystem_metadata_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_cache") ]
+		TypePrimitive4::IsCache =>
+			return is_cache_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
 	}
 }
@@ -2866,6 +2904,14 @@ pub fn type_primitive_n_evaluate_0 (primitive : TypePrimitiveN, inputs : &[&Valu
 		TypePrimitiveN::IsCharacterAsciiGraphic =>
 			return is_character_ascii_graphic_all_n (inputs) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem") ]
+		TypePrimitiveN::IsFileSystemMetadata =>
+			return is_filesystem_metadata_all_n (inputs) .into_0 (),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_cache") ]
+		TypePrimitiveN::IsCache =>
+			return is_cache_all_n (inputs) .into_0 (),
+		
 	}
 }
 
@@ -3235,6 +3281,12 @@ macro_rules! def_type_primitive_v_alternative_fn {
 				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				TypePrimitiveV::IsCharacterAsciiGraphic =>
 					Some ($alternative::IsCharacterAsciiGraphic),
+				#[ cfg ( feature = "vonuvoli_builtins_filesystem") ]
+				TypePrimitiveV::IsFileSystemMetadata =>
+					Some ($alternative::IsFileSystemMetadata),
+				#[ cfg ( feature = "vonuvoli_builtins_cache") ]
+				TypePrimitiveV::IsCache =>
+					Some ($alternative::IsCache),
 			}
 		}
 		

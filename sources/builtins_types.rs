@@ -128,35 +128,8 @@ pub mod exports {
 	};
 	
 	#[ cfg ( feature = "vonuvoli_values_string" ) ]
-	pub use super::super::builtins_strings::{
-			
-			character_is_numeric as is_character_numeric,
-			character_is_alphabetic as is_character_alphabetic,
-			character_is_alphabetic_upper_case as is_character_alphabetic_upper_case,
-			character_is_alphabetic_lower_case as is_character_alphabetic_lower_case,
-			character_is_alphabetic_or_numeric as is_character_alphabetic_or_numeric,
-			character_is_whitespace as is_character_whitespace,
-			character_is_control as is_character_control,
-			
-			character_is_ascii as is_character_ascii,
-			character_is_ascii_numeric as is_character_ascii_numeric,
-			character_is_ascii_numeric_base_8 as is_character_ascii_numeric_base_8,
-			character_is_ascii_numeric_base_16 as is_character_ascii_numeric_base_16,
-			character_is_ascii_alphabetic as is_character_ascii_alphabetic,
-			character_is_ascii_alphabetic_upper_case as is_character_ascii_alphabetic_upper_case,
-			character_is_ascii_alphabetic_lower_case as is_character_ascii_alphabetic_lower_case,
-			character_is_ascii_alphabetic_or_numeric as is_character_ascii_alphabetic_or_numeric,
-			character_is_ascii_whitespace as is_character_ascii_whitespace,
-			character_is_ascii_control as is_character_ascii_control,
-			character_is_ascii_punctuation as is_character_ascii_punctuation,
-			character_is_ascii_graphic as is_character_ascii_graphic,
-			
-	};
-	
-	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	pub use super::{
 			
-			/*
 			is_character_numeric,
 			is_character_alphabetic,
 			is_character_alphabetic_upper_case,
@@ -177,7 +150,6 @@ pub mod exports {
 			is_character_ascii_control,
 			is_character_ascii_punctuation,
 			is_character_ascii_graphic,
-			*/
 			
 			is_character_numeric_all_2, is_character_numeric_all_3, is_character_numeric_all_4, is_character_numeric_all_n,
 			is_character_numeric_any_2, is_character_numeric_any_3, is_character_numeric_any_4, is_character_numeric_any_n,
@@ -719,6 +691,17 @@ pub mod exports {
 	};
 	
 	
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
+	pub use super::{
+			
+			is_filesystem_metadata,
+			
+			is_filesystem_metadata_all_2, is_filesystem_metadata_all_3, is_filesystem_metadata_all_4, is_filesystem_metadata_all_n,
+			is_filesystem_metadata_any_2, is_filesystem_metadata_any_3, is_filesystem_metadata_any_4, is_filesystem_metadata_any_n,
+			
+	};
+	
+	
 	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	pub use super::{
 			
@@ -740,6 +723,17 @@ pub mod exports {
 			
 			is_internal_all_2, is_internal_all_3, is_internal_all_4, is_internal_all_n,
 			is_internal_any_2, is_internal_any_3, is_internal_any_4, is_internal_any_n,
+			
+	};
+	
+	
+	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+	pub use super::{
+			
+			is_cache,
+			
+			is_cache_all_2, is_cache_all_3, is_cache_all_4, is_cache_all_n,
+			is_cache_any_2, is_cache_any_3, is_cache_any_4, is_cache_any_n,
 			
 	};
 	
@@ -1433,7 +1427,8 @@ def_fn_predicate_any! (is_character, is_character_any_2, is_character_any_3, is_
 
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-use super::builtins_strings::{
+#[ allow (unreachable_pub) ]  // NOTE:  For some reason the compiler emits a warning...
+pub use super::builtins_strings::{
 		
 		character_is_numeric as is_character_numeric,
 		character_is_alphabetic as is_character_alphabetic,
@@ -2752,6 +2747,32 @@ pub fn is_internal (value : &Value) -> (bool) {
 
 def_fn_predicate_all! (is_internal, is_internal_all_2, is_internal_all_3, is_internal_all_4, is_internal_all_n);
 def_fn_predicate_any! (is_internal, is_internal_any_2, is_internal_any_3, is_internal_any_4, is_internal_any_n);
+
+
+
+
+#[ cfg ( feature = "vonuvoli_builtins_filesystem") ]
+#[ allow (unreachable_pub) ]  // NOTE:  For some reason the compiler emits a warning...
+pub use super::builtins_filesystem::{
+	filesystem_metadata_is as is_filesystem_metadata,
+};
+
+#[ cfg ( feature = "vonuvoli_builtins_filesystem") ]
+def_fn_predicate_all! (is_filesystem_metadata, is_filesystem_metadata_all_2, is_filesystem_metadata_all_3, is_filesystem_metadata_all_4, is_filesystem_metadata_all_n);
+#[ cfg ( feature = "vonuvoli_builtins_filesystem") ]
+def_fn_predicate_any! (is_filesystem_metadata, is_filesystem_metadata_any_2, is_filesystem_metadata_any_3, is_filesystem_metadata_any_4, is_filesystem_metadata_any_n);
+
+
+#[ cfg ( feature = "vonuvoli_builtins_cache") ]
+#[ allow (unreachable_pub) ]  // NOTE:  For some reason the compiler emits a warning...
+pub use super::builtins_cache::{
+	cache_is as is_cache,
+};
+
+#[ cfg ( feature = "vonuvoli_builtins_cache") ]
+def_fn_predicate_all! (is_cache, is_cache_all_2, is_cache_all_3, is_cache_all_4, is_cache_all_n);
+#[ cfg ( feature = "vonuvoli_builtins_cache") ]
+def_fn_predicate_any! (is_cache, is_cache_any_2, is_cache_any_3, is_cache_any_4, is_cache_any_n);
 
 
 
