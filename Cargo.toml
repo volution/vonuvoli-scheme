@@ -199,6 +199,7 @@ vonuvoli_builtins_all = [
 	"vonuvoli_builtins_crypto",
 	"vonuvoli_builtins_random",
 	"vonuvoli_builtins_encoding",
+	"vonuvoli_builtins_cache",
 ]
 
 vonuvoli_builtins_parameters = []
@@ -242,6 +243,9 @@ vonuvoli_builtins_encoding = [
 	"vonuvoli_values_bytes",
 	"data-encoding",
 ]
+vonuvoli_builtins_cache = [
+	"lmdb-zero",
+]
 
 vonuvoli_features_all = [
 	
@@ -283,6 +287,7 @@ vonuvoli_features_all = [
 	"vonuvoli_builtins_crypto",
 	"vonuvoli_builtins_random",
 	"vonuvoli_builtins_encoding",
+	"vonuvoli_builtins_cache",
 	
 	"vonuvoli_parser",
 	"vonuvoli_tests",
@@ -423,6 +428,13 @@ default-features = false
 version = "~0.2.18"
 optional = true
 features = ["simd_asm"]
+default-features = false
+
+[dependencies.lmdb-zero]
+# https://github.com/AltSysrq/lmdb-zero
+version = "~0.4.4"
+optional = true
+features = []
 default-features = false
 
 
