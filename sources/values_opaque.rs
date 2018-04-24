@@ -1,6 +1,7 @@
 
 
 use super::runtime::exports::*;
+use super::values::exports::*;
 
 use super::prelude::*;
 
@@ -57,13 +58,33 @@ impl Opaque {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn is <Value : StdAny> (&self) -> (bool) {
-		self.any_as_ref () .is::<Value> ()
+	pub fn is <OpaqueValue : StdAny> (&self) -> (bool) {
+		self.any_as_ref () .is::<OpaqueValue> ()
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn downcast <Value : StdAny> (&self) -> (Option<&Value>) {
-		self.any_as_ref () .downcast_ref::<Value> ()
+	pub fn downcast <OpaqueValue : StdAny> (&self) -> (Option<&OpaqueValue>) {
+		self.any_as_ref () .downcast_ref::<OpaqueValue> ()
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn value_is <OpaqueValue : StdAny> (value : &Value) -> (bool) {
+		match value.kind_match_as_ref () {
+			ValueKindMatchAsRef::Opaque (value) =>
+				return value.is::<OpaqueValue> (),
+			_ =>
+				return false,
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn value_downcast <OpaqueValue : StdAny> (value : &Value) -> (Option<&OpaqueValue>) {
+		match value.kind_match_as_ref () {
+			ValueKindMatchAsRef::Opaque (value) =>
+				return value.downcast::<OpaqueValue> (),
+			_ =>
+				return None,
+		}
 	}
 }
 
