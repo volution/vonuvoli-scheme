@@ -7,6 +7,9 @@ use super::values::exports::*;
 #[ allow (unused_imports) ]
 use super::constants::exports::*;
 
+#[ allow (unused_imports) ]
+use super::builtins::exports::*;
+
 use super::prelude::*;
 
 
@@ -27,6 +30,13 @@ pub mod exports {
 	
 	pub use super::{
 			cache_exclude_all,
+		};
+	
+	#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
+	pub use super::{
+			cache_select_serde,
+			cache_include_serde,
+			cache_exclude_serde,
 		};
 	
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
@@ -189,6 +199,63 @@ pub fn cache_is (value : &Value) -> (bool) {
 
 
 
+#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn cache_select_serde (cache : &Value, namespace : Option<&Value>, key : &Value, namespace_create : Option<bool>) -> (Outcome<Value>) {
+	
+	let database = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
+	let database = database.deref ();
+	
+	// FIXME:  Replace this with hasher!
+	let key = try! (serde_serialize_into_buffer (key));
+	let key = key.deref ();
+	
+	let value = try! (cache_backend_select (database, key, |value| serde_deserialize_from_buffer (value)));
+	let value = value.unwrap_or (FALSE_VALUE);
+	
+	succeed! (value);
+}
+
+
+#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn cache_include_serde (cache : &Value, namespace : Option<&Value>, key : &Value, value : &Value, namespace_create : Option<bool>) -> (Outcome<()>) {
+	
+	let database = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
+	let database = database.deref ();
+	
+	// FIXME:  Replace this with hasher!
+	let key = try! (serde_serialize_into_buffer (key));
+	let key = key.deref ();
+	
+	let value = try! (serde_serialize_into_buffer (value));
+	let value = value.deref ();
+	
+	try! (cache_backend_include (database, key, value));
+	
+	succeed! (());
+}
+
+
+#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn cache_exclude_serde (cache : &Value, namespace : Option<&Value>, key : &Value, namespace_create : Option<bool>) -> (Outcome<()>) {
+	
+	let database = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
+	let database = database.deref ();
+	
+	// FIXME:  Replace this with hasher!
+	let key = try! (serde_serialize_into_buffer (key));
+	let key = key.deref ();
+	
+	try! (cache_backend_exclude (database, key));
+	
+	succeed! (());
+}
+
+
+
+
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn cache_select_bytes (cache : &Value, namespace : Option<&Value>, key : &Value, namespace_create : Option<bool>) -> (Outcome<Value>) {
@@ -196,6 +263,7 @@ pub fn cache_select_bytes (cache : &Value, namespace : Option<&Value>, key : &Va
 	let database = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
 	let database = database.deref ();
 	
+	// FIXME:  Replace this with hasher!
 	let key = try! (bytes_slice_coerce_1a (key));
 	let key = key.deref ();
 	
@@ -213,6 +281,7 @@ pub fn cache_include_bytes (cache : &Value, namespace : Option<&Value>, key : &V
 	let database = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
 	let database = database.deref ();
 	
+	// FIXME:  Replace this with hasher!
 	let key = try! (bytes_slice_coerce_1a (key));
 	let key = key.deref ();
 	
@@ -232,6 +301,7 @@ pub fn cache_exclude_bytes (cache : &Value, namespace : Option<&Value>, key : &V
 	let database = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
 	let database = database.deref ();
 	
+	// FIXME:  Replace this with hasher!
 	let key = try! (bytes_slice_coerce_1a (key));
 	let key = key.deref ();
 	

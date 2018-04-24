@@ -1535,6 +1535,13 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("cache-exclude-bytevector", RuntimePrimitiveV::CacheExcludeBytes.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
+			("cache-select", RuntimePrimitiveV::CacheSelectSerde.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
+			("cache-include", RuntimePrimitiveV::CacheIncludeSerde.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
+			("cache-exclude", RuntimePrimitiveV::CacheExcludeSerde.into ()),
+			
 			("cache-exclude-all", RuntimePrimitiveV::CacheExcludeAll.into ()),
 			
 		]);
