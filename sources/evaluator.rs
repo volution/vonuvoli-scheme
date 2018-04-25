@@ -131,7 +131,7 @@ impl Evaluator {
 	}
 	
 	
-	#[ inline (always) ] // OK
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline (always) ) ]
 	fn evaluate_00 (&self, evaluation : &mut EvaluatorContext, input : &Expression) -> (Outcome<Value>) {
 		match *input {
 			

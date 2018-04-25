@@ -61,7 +61,7 @@ pub enum Alternative2 <T1, T2> {
 
 impl <T1, T2> Alternative2<T1, T2> {
 	
-	#[ inline (always) ] // OK
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline (always) ) ]
 	pub fn is_variant_1 (&self) -> (bool) {
 		match *self {
 			Alternative2::Variant1 (_) =>
@@ -71,7 +71,7 @@ impl <T1, T2> Alternative2<T1, T2> {
 		}
 	}
 	
-	#[ inline (always) ] // OK
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline (always) ) ]
 	pub fn is_variant_2 (&self) -> (bool) {
 		match *self {
 			Alternative2::Variant2 (_) =>
@@ -197,17 +197,17 @@ pub struct Handle ( u64 );
 
 impl Handle {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline (always) ) ]
 	pub fn new (handle : u64) -> (Handle) {
 		return Handle ( handle );
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline (always) ) ]
 	pub const fn for_builtin (handle : u32) -> (Handle) {
 		return Handle ( handle as u64 );
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline (always) ) ]
 	pub fn value (&self) -> (u64) {
 		return self.0;
 	}
