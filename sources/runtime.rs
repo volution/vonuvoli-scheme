@@ -602,7 +602,8 @@ pub fn execute_main <Main, Tracer> (main : Main, transcript : &Tracer) -> !
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn panic_with_error (error : Error, source : &(&'static str, u32, u32)) -> ! {
+pub fn panic_with_error (error : Error, source : &(&'static str, u32, u32), _message : Option<&'static str>) -> ! {
+	//  TODO:  use message if provided!
 	#[ cfg ( feature = "vonuvoli_transcript" ) ]
 	trace_critical! (super::TRANSCRIPT, 0x6be7d1b0 => "unexpected panic encountered;  aborting!" => (), error = &error);
 	if ABORT_ON_PANIC_WITH_ERROR {

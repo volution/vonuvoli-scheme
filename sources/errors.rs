@@ -65,7 +65,8 @@ pub type ErrorMessage = Symbol;
 impl Error {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new (code : u64) -> (Error) {
+	pub fn new (code : u64, _message : Option<&'static str>) -> (Error) {
+		//  TODO:  use message if provided!
 		#[ cfg ( feature = "vonuvoli_backtrace" ) ]
 		let internals = if ERRORS_WITH_BACKTRACE {
 			ErrorInternals::WithBacktrace (code, Backtrace::new ())
@@ -345,17 +346,17 @@ impl Error {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn error_generic (code : u32) -> (Error) {
-	Error::new (code as u64)
+pub fn error_generic (code : u32, message : Option<&'static str>) -> (Error) {
+	Error::new (code as u64, message)
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn error_unimplemented (code : u32) -> (Error) {
-	Error::new (code as u64)
+pub fn error_unimplemented (code : u32, message : Option<&'static str>) -> (Error) {
+	Error::new (code as u64, message)
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn error_panic (code : u32) -> (Error) {
-	Error::new (code as u64)
+pub fn error_panic (code : u32, message : Option<&'static str>) -> (Error) {
+	Error::new (code as u64, message)
 }
 
