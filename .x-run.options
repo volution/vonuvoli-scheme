@@ -5152,19 +5152,19 @@
 !!
 
 << files / grep / sources / unimplemented / all / list
-	exec -- git grep --no-index -l -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- ./sources
+	exec -- git grep --no-index -l -P -e 'unimplemented!(?!.*// (deferred|OK|FIXME:.*)$)' -- ./sources
 !!
 
 << files / grep / sources / unimplemented / all / show
-	exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- ./sources
+	exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK|FIXME:.*)$)' -- ./sources
 !!
 
 << files / grep / sources / unimplemented / builtins / show
-	exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- './sources/builtins*.rs'
+	exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK|FIXME:.*)$)' -- './sources/builtins*.rs'
 !!
 
 << files / grep / sources / unimplemented / primitives / show
-	exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- './sources/primitives*.rs'
+	exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK|FIXME:.*)$)' -- './sources/primitives*.rs'
 !!
 
 << files / grep / sources / x-selection / clipboard

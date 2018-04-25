@@ -7296,22 +7296,22 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 ;;
 
 ( ::\ files\ /\ grep\ /\ sources\ /\ unimplemented\ /\ all\ /\ list )
-	eval -- $'exec -- git grep --no-index -l -P -e \'unimplemented!(?!.*// (deferred|OK)$)\' -- ./sources\n'
+	eval -- $'exec -- git grep --no-index -l -P -e \'unimplemented!(?!.*// (deferred|OK|FIXME:.*)$)\' -- ./sources\n'
 	exit -- 0
 ;;
 
 ( ::\ files\ /\ grep\ /\ sources\ /\ unimplemented\ /\ all\ /\ show )
-	eval -- $'exec -- git grep --no-index -C10 -P -e \'unimplemented!(?!.*// (deferred|OK)$)\' -- ./sources\n'
+	eval -- $'exec -- git grep --no-index -C10 -P -e \'unimplemented!(?!.*// (deferred|OK|FIXME:.*)$)\' -- ./sources\n'
 	exit -- 0
 ;;
 
 ( ::\ files\ /\ grep\ /\ sources\ /\ unimplemented\ /\ builtins\ /\ show )
-	eval -- $'exec -- git grep --no-index -C10 -P -e \'unimplemented!(?!.*// (deferred|OK)$)\' -- \'./sources/builtins*.rs\'\n'
+	eval -- $'exec -- git grep --no-index -C10 -P -e \'unimplemented!(?!.*// (deferred|OK|FIXME:.*)$)\' -- \'./sources/builtins*.rs\'\n'
 	exit -- 0
 ;;
 
 ( ::\ files\ /\ grep\ /\ sources\ /\ unimplemented\ /\ primitives\ /\ show )
-	eval -- $'exec -- git grep --no-index -C10 -P -e \'unimplemented!(?!.*// (deferred|OK)$)\' -- \'./sources/primitives*.rs\'\n'
+	eval -- $'exec -- git grep --no-index -C10 -P -e \'unimplemented!(?!.*// (deferred|OK|FIXME:.*)$)\' -- \'./sources/primitives*.rs\'\n'
 	exit -- 0
 ;;
 

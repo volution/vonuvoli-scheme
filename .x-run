@@ -503,10 +503,10 @@ cat <<'EOS-31f6e6b1'
 :: files / grep / sources / todo / show :: exec -- git grep --no-index -C10 -P -e 'TODO' -- ./sources
 :: files / grep / sources / todo / list :: exec -- git grep --no-index -l -P -e 'TODO' -- ./sources
 
-:: files / grep / sources / unimplemented / all / show :: exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- ./sources
-:: files / grep / sources / unimplemented / all / list :: exec -- git grep --no-index -l -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- ./sources
-:: files / grep / sources / unimplemented / primitives / show :: exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- './sources/primitives*.rs'
-:: files / grep / sources / unimplemented / builtins / show :: exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK)$)' -- './sources/builtins*.rs'
+:: files / grep / sources / unimplemented / all / show :: exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK|FIXME:.*)$)' -- ./sources
+:: files / grep / sources / unimplemented / all / list :: exec -- git grep --no-index -l -P -e 'unimplemented!(?!.*// (deferred|OK|FIXME:.*)$)' -- ./sources
+:: files / grep / sources / unimplemented / primitives / show :: exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK|FIXME:.*)$)' -- './sources/primitives*.rs'
+:: files / grep / sources / unimplemented / builtins / show :: exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK|FIXME:.*)$)' -- './sources/builtins*.rs'
 
 :: files / grep / sources / errors / duplicates / list :: grep -o -P -e '(?<=0x)[0-9a-f]{8}(?=[)])|(?<=")[0-9a-f]{8}(?=")' -h -r ./sources -r ./tests --include '*.rs' --include '*.in' | sort | uniq -d
 :: files / grep / sources / errors / duplicates / show :: "${X_RUN[@]}" ':: files / grep / sources / errors / duplicates / list' | git grep --no-index -C0 -F -f /dev/stdin -- ./sources ./tests
