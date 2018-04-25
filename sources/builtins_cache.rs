@@ -441,7 +441,7 @@ fn cache_backend_exclude (database : &ext::lmdb::Database, key : &[u8]) -> (Outc
 fn cache_backend_exclude_all (database : &ext::lmdb::Database) -> (Outcome<()>) {
 	
 	let environment = database.env ();
-	let transaction = try_or_fail! (ext::lmdb::WriteTransaction::new (environment), 0x6600ae94);
+	let transaction = try_or_fail! (ext::lmdb::WriteTransaction::new (environment), 0xc8e40f4d);
 	
 	{
 		let mut accessor = transaction.access ();

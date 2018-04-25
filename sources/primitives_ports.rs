@@ -1169,27 +1169,27 @@ pub fn port_primitive_3_evaluate (primitive : PortPrimitive3, input_1 : &Value, 
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive3::BytesWrite =>
-			fail_unimplemented! (0xe9bfad62),
+			fail_unimplemented! (0xe9bfad62),  // FIXME:  Implement This!
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive3::BytesWriteLine =>
-			fail_unimplemented! (0x9663d291),
+			fail_unimplemented! (0x9663d291),  // FIXME:  Implement This!
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive3::BytesWriteZero =>
-			fail_unimplemented! (0x8e6d3047),
+			fail_unimplemented! (0x8e6d3047),  // FIXME:  Implement This!
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitive3::StringWrite =>
-			fail_unimplemented! (0x0145ea8e),
+			fail_unimplemented! (0x0145ea8e),  // FIXME:  Implement This!
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitive3::StringWriteLine =>
-			fail_unimplemented! (0x5de9e054),
+			fail_unimplemented! (0x5de9e054),  // FIXME:  Implement This!
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitive3::StringWriteZero =>
-			fail_unimplemented! (0x7a384ca1),
+			fail_unimplemented! (0x7a384ca1),  // FIXME:  Implement This!
 		
 	}
 }
@@ -1251,27 +1251,27 @@ pub fn port_primitive_4_evaluate (primitive : PortPrimitive4, input_1 : &Value, 
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive4::BytesWrite =>
-			fail_unimplemented! (0x2e16ec86),
+			fail_unimplemented! (0x2e16ec86),  // FIXME:  Implement This!
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive4::BytesWriteLine =>
-			fail_unimplemented! (0x408f7a94),
+			fail_unimplemented! (0x408f7a94),  // FIXME:  Implement This!
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive4::BytesWriteZero =>
-			fail_unimplemented! (0x77bd7caa),
+			fail_unimplemented! (0x77bd7caa),  // FIXME:  Implement This!
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitive4::StringWrite =>
-			fail_unimplemented! (0xa5f90fe1),
+			fail_unimplemented! (0xa5f90fe1),  // FIXME:  Implement This!
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitive4::StringWriteLine =>
-			fail_unimplemented! (0x9d44f6fa),
+			fail_unimplemented! (0x9d44f6fa),  // FIXME:  Implement This!
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitive4::StringWriteZero =>
-			fail_unimplemented! (0x6faae2f3),
+			fail_unimplemented! (0x6faae2f3),  // FIXME:  Implement This!
 		
 	}
 }

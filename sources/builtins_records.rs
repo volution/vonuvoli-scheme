@@ -375,7 +375,7 @@ pub fn record_build_fn (kind : &RecordKind, fields : Option<&Value>, immutable :
 				Some (fields.into_boxed_slice ())
 			},
 			_ =>
-				fail_unimplemented! (0x0b12cf86),
+				fail_unimplemented! (0x0b12cf86), // deferred
 		}
 	} else {
 		None

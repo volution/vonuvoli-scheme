@@ -1542,7 +1542,7 @@ pub fn string_regex_compare_1a <ValueRef : StdAsRef<StringRegex>> (_value : Valu
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_regex_compare_2a <ValueRef : StdAsRef<StringRegex>> (_left : ValueRef, _right : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	fail_unimplemented! (0x06a9dbac);
+	fail_unimplemented! (0x06a9dbac);  // FIXME:  Implement This!
 }
 
 
@@ -1565,7 +1565,7 @@ pub fn bytes_regex_compare_1a <ValueRef : StdAsRef<BytesRegex>> (_value : ValueR
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_regex_compare_2a <ValueRef : StdAsRef<BytesRegex>> (_left : ValueRef, _right : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	fail_unimplemented! (0x35ee0e57);
+	fail_unimplemented! (0x35ee0e57);  // FIXME:  Implement This!
 }
 
 
@@ -2247,7 +2247,7 @@ pub fn parameters_compare_1a <ValueRef : StdAsRef<Parameters>> (_value : ValueRe
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn parameters_compare_2a <ValueRef : StdAsRef<Parameters>> (_left : ValueRef, _right : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	fail_unimplemented! (0xe857ac8b);
+	fail_unimplemented! (0xe857ac8b);  // FIXME:  Implement This!
 }
 
 
@@ -2267,7 +2267,7 @@ pub fn parameter_compare_1a <ValueRef : StdAsRef<Parameter>> (_value : ValueRef,
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn parameter_compare_2a <ValueRef : StdAsRef<Parameter>> (_left : ValueRef, _right : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	fail_unimplemented! (0xc8cd8929);
+	fail_unimplemented! (0xc8cd8929);  // FIXME:  Implement This!
 }
 
 
@@ -2287,7 +2287,7 @@ pub fn promise_compare_1a <ValueRef : StdAsRef<Promise>> (_value : ValueRef, com
 #[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn promise_compare_2a <ValueRef : StdAsRef<Promise>> (_left : ValueRef, _right : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	fail_unimplemented! (0x48381d6c);
+	fail_unimplemented! (0x48381d6c);  // FIXME:  Implement This!
 }
 
 
@@ -2307,7 +2307,7 @@ pub fn opaque_compare_1a <ValueRef : StdAsRef<Opaque>> (_value : ValueRef, compa
 #[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn opaque_compare_2a <ValueRef : StdAsRef<Opaque>> (_left : ValueRef, _right : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	fail_unimplemented! (0x2cde5f59);
+	fail_unimplemented! (0x2cde5f59);  // FIXME:  Implement This!
 }
 
 

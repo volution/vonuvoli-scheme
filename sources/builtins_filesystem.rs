@@ -692,8 +692,8 @@ pub fn filesystem_directory_fold (path : &Value, callable : &Value, accumulator 
 	let path = try! (path_slice_coerce (path));
 	let path = path.deref ();
 	let mut accumulator = accumulator.clone ();
-	for entry in try_or_fail! (fs::read_dir (path), 0xc28bc39c) {
-		let entry = try_or_fail! (entry, 0xeea94f1d);
+	for entry in try_or_fail! (fs::read_dir (path), 0xb051b19b) {
+		let entry = try_or_fail! (entry, 0xe5411945);
 		let (entry_path, entry_kind, entry_metadata) = try! (filesystem_directory_entry_extract (&entry, join_parent, include_kind, include_metadata, follow));
 		accumulator = try! (filesystem_directory_entry_fold (None, entry_path, entry_kind, entry_metadata, callable, &accumulator, evaluator));
 	}

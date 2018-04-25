@@ -204,7 +204,7 @@ pub fn procedure_extended_evaluate_2 (extended : &ProcedureExtended, input_1 : &
 			if ignore {
 				succeed! (value.clone ());
 			} else {
-				fail! (0x478a25fd);
+				fail! (0xafb82b34);
 			},
 		
 		ProcedureExtendedInternals::Not (ref callable) =>
@@ -238,7 +238,7 @@ pub fn procedure_extended_evaluate_3 (extended : &ProcedureExtended, input_1 : &
 			if ignore {
 				succeed! (value.clone ());
 			} else {
-				fail! (0x478a25fd);
+				fail! (0xbbbd9722);
 			},
 		
 		ProcedureExtendedInternals::Not (ref callable) =>
@@ -272,7 +272,7 @@ pub fn procedure_extended_evaluate_4 (extended : &ProcedureExtended, input_1 : &
 			if ignore {
 				succeed! (value.clone ());
 			} else {
-				fail! (0x478a25fd);
+				fail! (0x58bf628b);
 			},
 		
 		ProcedureExtendedInternals::Not (ref callable) =>
@@ -306,7 +306,7 @@ pub fn procedure_extended_evaluate_5 (extended : &ProcedureExtended, input_1 : &
 			if ignore {
 				succeed! (value.clone ());
 			} else {
-				fail! (0x478a25fd);
+				fail! (0xdf30d703);
 			},
 		
 		ProcedureExtendedInternals::Not (ref callable) =>
