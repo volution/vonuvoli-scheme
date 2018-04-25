@@ -1,17 +1,58 @@
 
 
 #[ macro_export ]
-macro_rules! panic_with_error {
-	( $error : expr ) => (
-		$crate::exports::panic_with_error ($error, &(file! (), line! (), 0))
+macro_rules! issue_tracking {
+	( OK ) => (
+		()
+	);
+	( issue_optional ) => (
+		()
+	);
+	( issue_mandatory ) => (
+		{
+			#[ cfg ( feature = "vonuvoli_release" ) ]
+			compile_error! ("issue tracking is mandatory!");
+		}
+	);
+	( github_issue_new ) => (
+		{
+			let _url = "https://github.com/volution/vonuvoli-scheme/issues/new";
+		}
+	);
+	( ( github_issue, $code : expr ) ) => (
+		{
+			let _code : u16 = $code;
+			let _url = concat! ("https://github.com/volution/vonuvoli-scheme/issues/", $code);
+		}
 	);
 }
+
+
+
+
+#[ macro_export ]
+macro_rules! panic_with_error {
+	( $error : expr ) => (
+		panic_with_error! ($error, issue_mandatory)
+	);
+	( $error : expr, $tracking : tt ) => (
+		{
+			issue_tracking! ($tracking);
+			$crate::exports::panic_with_error ($error, &(file! (), line! (), 0));
+		}
+	);
+}
+
+
 
 
 #[ macro_export ]
 macro_rules! panic_0 {
 	( $code : expr ) => (
-		panic_with_error! ($crate::exports::error_panic ($code))
+		panic_0! ($code, issue_mandatory)
+	);
+	( $code : expr, $tracking : tt ) => (
+		panic_with_error! ($crate::exports::error_panic ($code), $tracking)
 	);
 }
 
@@ -21,7 +62,7 @@ macro_rules! panic {
 //		panic_0! ($code)
 //	);
 	( $( _ : tt )* ) => (
-		compiler_error! (0x359c8d4b)
+		compile_error! ("`panic!` macro is dissalowed!  use `panic_0!` macro instead!")
 	);
 }
 
@@ -29,7 +70,10 @@ macro_rules! panic {
 #[ macro_export ]
 macro_rules! unreachable_0 {
 	( $code : expr ) => (
-		panic_with_error! ($crate::exports::error_panic ($code))
+		unreachable_0! ($code, issue_mandatory)
+	);
+	( $code : expr, $tracking : tt ) => (
+		panic_with_error! ($crate::exports::error_panic ($code), $tracking)
 	);
 }
 
@@ -39,7 +83,7 @@ macro_rules! unreachable {
 //		unreachable_0! ($code)
 //	);
 	( $( _ : tt )* ) => (
-		compiler_error! (0xe1450afa)
+		compile_error! ("`unreachable!` macro is dissalowed!  use `unreachable_0!` macro instead!")
 	);
 }
 
@@ -47,7 +91,10 @@ macro_rules! unreachable {
 #[ macro_export ]
 macro_rules! unimplemented_0 {
 	( $code : expr ) => (
-		panic_with_error! ($crate::exports::error_unimplemented ($code))
+		unimplemented_0! ($code, issue_mandatory)
+	);
+	( $code : expr, $tracking : tt ) => (
+		panic_with_error! ($crate::exports::error_unimplemented ($code), $tracking)
 	);
 }
 
@@ -57,7 +104,7 @@ macro_rules! unimplemented {
 //		unimplemented_0! ($code)
 //	);
 	( $( _ : tt )* ) => (
-		compiler_error! (0x3bdc969f)
+		compile_error! ("`unimplemented!` macro is dissalowed!  use `unimplemented_0!` macro instead!")
 	);
 }
 
@@ -71,22 +118,17 @@ macro_rules! succeeded {
 	);
 }
 
-// #[ macro_export ]
-// macro_rules! failed_or_panic {
-//	( $code : expr, $outcome : expr ) => (
-//		if $crate::internals::runtime_configurations::PANIC_ON_FAILED {
-//			panic_0! ($code);
-//		} else {
-//			$outcome
-//		}
-//	);
-// }
+
+
 
 #[ cfg ( feature = "vonuvoli_panic_on_failed" ) ]
 #[ macro_export ]
 macro_rules! failed_or_panic {
 	( $code : expr, $outcome : expr ) => (
-		panic_0! ($code);
+		failed_or_panic! ($code, $outcome, issue_mandatory)
+	);
+	( $code : expr, $outcome : expr, $tracking : tt ) => (
+		panic_0! ($code, $tracking);
 	);
 }
 
@@ -94,31 +136,60 @@ macro_rules! failed_or_panic {
 #[ macro_export ]
 macro_rules! failed_or_panic {
 	( $code : expr, $outcome : expr ) => (
-		$outcome
+		failed_or_panic! ($code, $outcome, issue_mandatory)
+	);
+	( $code : expr, $outcome : expr, $tracking : tt ) => (
+		{
+			issue_tracking! ($tracking);
+			$outcome
+		}
 	);
 }
+
+
 
 
 #[ macro_export ]
 macro_rules! failed {
 	( $code : expr ) => (
-		failed_or_panic! ($code, $crate::prelude::Result::Err ($crate::exports::error_generic ($code)))
+		failed! ($code, issue_optional)
+	);
+	( $code : expr, $tracking : tt ) => (
+		failed_or_panic! ($code, $crate::prelude::Result::Err ($crate::exports::error_generic ($code)), $tracking)
 	);
 }
 
 #[ macro_export ]
 macro_rules! failed_unimplemented {
 	( $code : expr ) => (
-		failed_or_panic! ($code, $crate::prelude::Result::Err ($crate::exports::error_unimplemented ($code)))
+		failed_unimplemented! ($code, issue_mandatory)
+	);
+	( $code : expr, $tracking : tt ) => (
+		failed_or_panic! ($code, $crate::prelude::Result::Err ($crate::exports::error_unimplemented ($code)), $tracking)
 	);
 }
 
 #[ macro_export ]
 macro_rules! failed_panic {
 	( $code : expr ) => (
-		failed_or_panic! ($code, $crate::prelude::Result::Err ($crate::exports::error_panic ($code)))
+		failed_panic! ($code, issue_mandatory)
+	);
+	( $code : expr, $tracking : tt ) => (
+		failed_or_panic! ($code, $crate::prelude::Result::Err ($crate::exports::error_panic ($code)), $tracking)
 	);
 }
+
+#[ macro_export ]
+macro_rules! failed_unreachable {
+	( $code : expr ) => (
+		failed_unreachable! ($code, issue_mandatory)
+	);
+	( $code : expr, $tracking : tt ) => (
+		failed_or_panic! ($code, $crate::prelude::Result::Err ($crate::exports::error_panic ($code)), $tracking)
+	);
+}
+
+
 
 
 #[ macro_export ]
@@ -128,35 +199,47 @@ macro_rules! succeed {
 	);
 }
 
+
+
+
 #[ macro_export ]
 macro_rules! fail {
 	( $code : expr ) => (
+		fail! ($code, issue_optional)
+	);
+	( $code : expr, $tracking : tt ) => (
 		#[ allow ( unreachable_code ) ]
-		return failed! ($code);
+		return failed! ($code, $tracking);
 	);
 }
 
 #[ macro_export ]
 macro_rules! fail_unimplemented {
 	( $code : expr ) => (
-		#[ allow ( unreachable_code ) ]
-		return failed_unimplemented! ($code); // OK
+		fail_unimplemented! ($code, issue_mandatory)
+	);
+	( $code : expr, $tracking : tt ) => (
+		return failed_unimplemented! ($code, $tracking); // OK
 	);
 }
 
 #[ macro_export ]
 macro_rules! fail_panic {
 	( $code : expr ) => (
-		#[ allow ( unreachable_code ) ]
-		return failed_panic! ($code);
+		fail_panic! ($code, issue_mandatory)
+	);
+	( $code : expr, $tracking : tt ) => (
+		return failed_panic! ($code, $tracking); // OK
 	);
 }
 
 #[ macro_export ]
 macro_rules! fail_unreachable {
 	( $code : expr ) => (
-		#[ allow ( unreachable_code ) ]
-		return failed_panic! ($code);
+		fail_unreachable! ($code, issue_mandatory)
+	);
+	( $code : expr, $tracking : tt ) => (
+		return failed_unreachable! ($code, $tracking); // OK
 	);
 }
 
@@ -166,10 +249,13 @@ macro_rules! fail_unreachable {
 #[ macro_export ]
 macro_rules! succeed_or_fail {
 	( $result : expr, $code : expr ) => (
+		succeed_or_fail! ($result, $code, issue_optional)
+	);
+	( $result : expr, $code : expr, $tracking : tt ) => (
 		if let $crate::prelude::Result::Ok (value) = $result {
 			succeed! (value);
 		} else {
-			fail! ($code);
+			fail! ($code, $tracking);
 		}
 	);
 }
@@ -177,10 +263,13 @@ macro_rules! succeed_or_fail {
 #[ macro_export ]
 macro_rules! try_or_fail {
 	( $result : expr, $code : expr ) => (
+		try_or_fail! ($result, $code, issue_optional)
+	);
+	( $result : expr, $code : expr, $tracking : tt ) => (
 		if let $crate::prelude::Result::Ok (value) = $result {
 			value
 		} else {
-			fail! ($code);
+			fail! ($code, $tracking);
 		}
 	);
 }
@@ -202,8 +291,11 @@ macro_rules! try_or_return {
 #[ macro_export ]
 macro_rules! enforce {
 	( $expression : expr, $code : expr ) => (
+		enforce! ($expression, $code, issue_optional)
+	);
+	( $expression : expr, $code : expr, $tracking : tt ) => (
 		if !$expression {
-			fail! ($code);
+			fail! ($code, $tracking);
 		}
 	);
 }
@@ -213,30 +305,39 @@ macro_rules! enforce {
 
 macro_rules! try_some {
 	( $option : expr, $code : expr ) => (
+		try_some! ($option, $code, issue_optional)
+	);
+	( $option : expr, $code : expr, $tracking : tt ) => (
 		if let $crate::prelude::Option::Some (value) = $option {
 			value
 		} else {
-			fail! ($code);
+			fail! ($code, $tracking);
 		}
 	);
 }
 
 macro_rules! try_some_ref {
 	( $option : expr, $code : expr ) => (
+		try_some_ref! ($option, $code, issue_optional)
+	);
+	( $option : expr, $code : expr, $tracking : tt ) => (
 		if let $crate::prelude::Option::Some (ref value) = $option {
 			value
 		} else {
-			fail! ($code);
+			fail! ($code, $tracking);
 		}
 	);
 }
 
 macro_rules! try_some_ref_mut {
 	( $option : expr, $code : expr ) => (
+		try_some_ref_mut! ($option, $code, issue_optional)
+	);
+	( $option : expr, $code : expr, $tracking : tt ) => (
 		if let $crate::prelude::Option::Some (ref mut value) = $option {
 			value
 		} else {
-			fail! ($code);
+			fail! ($code, $tracking);
 		}
 	);
 }
@@ -244,19 +345,28 @@ macro_rules! try_some_ref_mut {
 
 macro_rules! try_some_2 {
 	( $result : expr, $code : expr ) => (
-		try_some! (try! ($result), $code)
+		try_some_2! ($result, $code, issue_optional)
+	);
+	( $result : expr, $code : expr, $tracking : tt ) => (
+		try_some! (try! ($result), $code, $tracking)
 	);
 }
 
 macro_rules! try_some_ref_2 {
 	( $result : expr, $code : expr ) => (
-		try_some_ref! (try! ($result), $code)
+		try_some_ref_2! ($result, $code, issue_optional)
+	);
+	( $result : expr, $code : expr, $tracking : tt ) => (
+		try_some_ref! (try! ($result), $code, $tracking)
 	);
 }
 
 macro_rules! try_some_ref_mut_2 {
 	( $result : expr, $code : expr ) => (
-		try_some_ref_mut! (try! ($result), $code)
+		try_some_ref_mut_2! ($result, $code, issue_optional)
+	);
+	( $result : expr, $code : expr, $tracking : tt ) => (
+		try_some_ref_mut! (try! ($result), $code, $tracking)
 	);
 }
 
