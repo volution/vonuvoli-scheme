@@ -168,9 +168,9 @@ impl Parameters {
 					ParameterConversion::None =>
 						value,
 					ParameterConversion::OnConfigure (_) =>
-						fail_panic! (0x0f94930a),
+						fail_panic! (0x0f94930a, github_issue_new),
 					ParameterConversion::OnResolveOnce (_) =>
-						fail_panic! (0x19d8c728),
+						fail_panic! (0x19d8c728, github_issue_new),
 					ParameterConversion::OnResolveAlways (ref converter) =>
 						try! (evaluator.evaluate_procedure_call_1 (converter, &value)),
 				};
@@ -207,13 +207,13 @@ impl Parameters {
 		};
 		match self_0.bindings.entry (key.clone ()) {
 			StdMapEntry::Occupied (_) =>
-				fail_unreachable! (0x06fa511f),
+				fail_unreachable! (0x06fa511f, github_issue_new),
 			StdMapEntry::Vacant (entry) => {
 				if let Some ((ref value, ref conversion)) = value_and_conversion {
 					let binding = if let Some (parameter) = parameter {
 						try! (parameter.new_binding ())
 					} else {
-						fail_unreachable! (0x3a0cd886);
+						fail_unreachable! (0x3a0cd886, github_issue_new);
 					};
 					try! (binding.initialize (value.clone ()));
 					entry.insert (Some ((binding, conversion.clone ())));

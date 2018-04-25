@@ -2361,7 +2361,7 @@ def_fn_predicate_any! (is_error, is_error_any_2, is_error_any_3, is_error_any_4,
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_error_syntax (value : &Value) -> (Outcome<bool>) {
 	let _value = try_as_error_ref! (value);
-	fail_unimplemented! (0x18d9951d); // deferred
+	fail_unimplemented! (0x18d9951d, (github_issue, 7));
 }
 
 #[ cfg ( feature = "vonuvoli_values_error" ) ]
@@ -2375,7 +2375,7 @@ def_fn_try_predicate_any! (is_error_syntax, is_error_syntax_any_2, is_error_synt
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_error_file (value : &Value) -> (Outcome<bool>) {
 	let _value = try_as_error_ref! (value);
-	fail_unimplemented! (0xdc61fd91); // deferred
+	fail_unimplemented! (0xdc61fd91, (github_issue, 44));
 }
 
 #[ cfg ( feature = "vonuvoli_values_error" ) ]
@@ -2391,7 +2391,7 @@ def_fn_try_predicate_any! (is_error_file, is_error_file_any_2, is_error_file_any
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_error_port (value : &Value) -> (Outcome<bool>) {
 	let _value = try_as_error_ref! (value);
-	fail_unimplemented! (0xc1084d3e); // deferred
+	fail_unimplemented! (0xc1084d3e, (github_issue, 44));
 }
 
 #[ cfg ( feature = "vonuvoli_values_error" ) ]
@@ -2407,7 +2407,7 @@ def_fn_try_predicate_any! (is_error_port, is_error_port_any_2, is_error_port_any
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_error_port_input (value : &Value) -> (Outcome<bool>) {
 	let _value = try_as_error_ref! (value);
-	fail_unimplemented! (0xb0f9d9e5); // deferred
+	fail_unimplemented! (0xb0f9d9e5, (github_issue, 44));
 }
 
 #[ cfg ( feature = "vonuvoli_values_error" ) ]
@@ -2423,7 +2423,7 @@ def_fn_try_predicate_any! (is_error_port_input, is_error_port_input_any_2, is_er
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_error_port_output (value : &Value) -> (Outcome<bool>) {
 	let _value = try_as_error_ref! (value);
-	fail_unimplemented! (0x2ec6d6b7); // deferred
+	fail_unimplemented! (0x2ec6d6b7, (github_issue, 44));
 }
 
 #[ cfg ( feature = "vonuvoli_values_error" ) ]

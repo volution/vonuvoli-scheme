@@ -710,7 +710,7 @@ pub fn port_primitive_0_evaluate (primitive : PortPrimitive0, evaluator : &mut E
 			return port_input_string_read_collect_zero (stdin_ref! (evaluator), Some (false), None, Some (true)),
 		
 		PortPrimitive0::ValueRead =>
-			fail_unimplemented! (0x75ffa1de), // deferred
+			fail_unimplemented! (0x75ffa1de, (github_issue, 19)),
 		
 		PortPrimitive0::NewLine =>
 			return port_output_newline (stdout_ref! (evaluator), None, Some (true)) .into_0 (),
@@ -731,11 +731,11 @@ pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, input_1 : &Value, 
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive1::OutputToBytes =>
-			fail_unimplemented! (0xf2c90a09), // deferred
+			fail_unimplemented! (0xf2c90a09, (github_issue, 53)),
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitive1::OutputToString =>
-			fail_unimplemented! (0xe31eb4dd), // deferred
+			fail_unimplemented! (0xe31eb4dd, (github_issue, 53)),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive1::InputFromBytes =>
@@ -852,7 +852,7 @@ pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, input_1 : &Value, 
 			return port_input_string_read_collect_zero (input_1, Some (false), None, Some (true)),
 		
 		PortPrimitive1::ValueRead =>
-			fail_unimplemented! (0xae3d8a9f), // deferred
+			fail_unimplemented! (0xae3d8a9f, (github_issue, 19)),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive1::ByteWrite =>
@@ -1051,7 +1051,7 @@ pub fn port_primitive_2_evaluate (primitive : PortPrimitive2, input_1 : &Value, 
 			return port_input_string_read_collect_zero_fold (stdin_ref! (evaluator), Some (false), None, Some (true), input_1, input_2, evaluator),
 		
 		PortPrimitive2::ValueReadFold =>
-			fail_unimplemented! (0xf0afe093), // deferred
+			fail_unimplemented! (0xf0afe093, (github_issue, 19)),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive2::ByteWrite =>
@@ -1165,31 +1165,31 @@ pub fn port_primitive_3_evaluate (primitive : PortPrimitive3, input_1 : &Value, 
 			return port_input_string_read_collect_zero_fold (input_1, Some (false), None, Some (true), input_2, input_3, evaluator),
 		
 		PortPrimitive3::ValueReadFold =>
-			fail_unimplemented! (0xf9064a28), // deferred
+			fail_unimplemented! (0xf9064a28, (github_issue, 19)),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive3::BytesWrite =>
-			fail_unimplemented! (0xe9bfad62),  // FIXME:  Implement This!
+			fail_unimplemented! (0xe9bfad62, (github_issue, 27)),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive3::BytesWriteLine =>
-			fail_unimplemented! (0x9663d291),  // FIXME:  Implement This!
+			fail_unimplemented! (0x9663d291, (github_issue, 27)),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive3::BytesWriteZero =>
-			fail_unimplemented! (0x8e6d3047),  // FIXME:  Implement This!
+			fail_unimplemented! (0x8e6d3047, (github_issue, 27)),
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitive3::StringWrite =>
-			fail_unimplemented! (0x0145ea8e),  // FIXME:  Implement This!
+			fail_unimplemented! (0x0145ea8e, (github_issue, 28)),
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitive3::StringWriteLine =>
-			fail_unimplemented! (0x5de9e054),  // FIXME:  Implement This!
+			fail_unimplemented! (0x5de9e054, (github_issue, 28)),
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitive3::StringWriteZero =>
-			fail_unimplemented! (0x7a384ca1),  // FIXME:  Implement This!
+			fail_unimplemented! (0x7a384ca1, (github_issue, 28)),
 		
 	}
 }
@@ -1251,27 +1251,27 @@ pub fn port_primitive_4_evaluate (primitive : PortPrimitive4, input_1 : &Value, 
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive4::BytesWrite =>
-			fail_unimplemented! (0x2e16ec86),  // FIXME:  Implement This!
+			fail_unimplemented! (0x2e16ec86, (github_issue, 27)),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive4::BytesWriteLine =>
-			fail_unimplemented! (0x408f7a94),  // FIXME:  Implement This!
+			fail_unimplemented! (0x408f7a94, (github_issue, 27)),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive4::BytesWriteZero =>
-			fail_unimplemented! (0x77bd7caa),  // FIXME:  Implement This!
+			fail_unimplemented! (0x77bd7caa, (github_issue, 27)),
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitive4::StringWrite =>
-			fail_unimplemented! (0xa5f90fe1),  // FIXME:  Implement This!
+			fail_unimplemented! (0xa5f90fe1, (github_issue, 28)),
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitive4::StringWriteLine =>
-			fail_unimplemented! (0x9d44f6fa),  // FIXME:  Implement This!
+			fail_unimplemented! (0x9d44f6fa, (github_issue, 28)),
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitive4::StringWriteZero =>
-			fail_unimplemented! (0x6faae2f3),  // FIXME:  Implement This!
+			fail_unimplemented! (0x6faae2f3, (github_issue, 28)),
 		
 	}
 }

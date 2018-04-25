@@ -436,32 +436,32 @@ pub fn process_environment_variables (evaluator : &mut EvaluatorContext, return_
 #[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_argument (_index : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
-	fail_unimplemented! (0x281325c0);  // OK
+	fail_unimplemented! (0x281325c0, OK);
 }
 
 #[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_arguments (_evaluator : &mut EvaluatorContext, _return_array : bool) -> (Outcome<Value>) {
-	fail_unimplemented! (0xf1e93d2d);  // OK
+	fail_unimplemented! (0xf1e93d2d, OK);
 }
 
 #[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_arguments_count (_evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
-	fail_unimplemented! (0x802b2f86);  // OK
+	fail_unimplemented! (0x802b2f86, OK);
 }
 
 
 #[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_environment_variable (_variable : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
-	fail_unimplemented! (0x8b409a18);  // OK
+	fail_unimplemented! (0x8b409a18, OK);
 }
 
 #[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_environment_variables (_evaluator : &mut EvaluatorContext, _return_array : bool) -> (Outcome<Value>) {
-	fail_unimplemented! (0x0aa2b0bf);  // OK
+	fail_unimplemented! (0x0aa2b0bf, OK);
 }
 
 
@@ -500,7 +500,7 @@ pub fn posix_timestamp () -> (NumberReal) {
 			elapsed,
 		Err (_) =>
 			// NOTE:  It is impossible for the clock to be before the epoch!
-			panic_0! (0x09bcf425),
+			panic_0! (0x09bcf425, github_issue_new),
 	};
 	let elapsed =
 			(elapsed.as_secs () as f64)
@@ -525,7 +525,7 @@ pub fn jiffies_timestamp () -> (NumberInteger) {
 							+ (elapsed.subsec_nanos () as u64);
 					return elapsed.expect_into_0 ();
 				} else {
-					panic_0! (0x70f11280);
+					panic_0! (0x70f11280, github_issue_new);
 				}
 			},
 			None => {

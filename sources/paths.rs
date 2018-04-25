@@ -27,7 +27,7 @@ impl Path {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_from_raw (path : fs_path::PathBuf, normalize : bool) -> (Path) {
 		if normalize && path.as_os_str () .is_empty () {
-			panic_0! (0xba1ee991);
+			panic_0! (0xba1ee991, (github_issue, 49));
 		}
 		Path (StdRc::new (path.into_boxed_path ()))
 	}
@@ -91,7 +91,7 @@ impl Path {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn from_string_rc (rc : StdRc<StdBox<str>>, normalize : bool) -> (Path) {
 		if normalize && rc.is_empty () {
-			panic_0! (0x6f442154);
+			panic_0! (0x6f442154, (github_issue, 49));
 		}
 		if normalize {
 			// FIXME:  Check if the normalized path is the same and if so keep the current `rc`!
@@ -112,7 +112,7 @@ impl Path {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn from_rc (rc : StdRc<StdBox<fs_path::Path>>, normalize : bool) -> (Path) {
 		if normalize && rc.as_os_str () .is_empty () {
-			panic_0! (0xe4a2aadd);
+			panic_0! (0xe4a2aadd, (github_issue, 49));
 		}
 		if normalize {
 			// FIXME:  Check if the normalized path is the same and if so keep the current `rc`!

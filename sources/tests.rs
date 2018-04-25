@@ -704,7 +704,7 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 				
 			},
 		(_, _) =>
-			fail_panic! (0x2f1f97f3),
+			fail_panic! (0x2f1f97f3, github_issue_new),
 	} {
 		let expected_value_without_optimizations = expected_value_without_optimizations.as_ref () .unwrap ();
 		let expected_value_with_optimizations = expected_value_with_optimizations.as_ref () .unwrap ();
@@ -862,7 +862,7 @@ pub(crate) fn benchmark_main <Benchmark> (identifier : &str, benchmark : Benchma
 		(Some (bencher), _) =>
 			bencher,
 		_ =>
-			fail_panic! (0x5e76028c),
+			fail_panic! (0x5e76028c, github_issue_new),
 	};
 	
 	let mut output_buffer = StdVec::with_capacity (1024);

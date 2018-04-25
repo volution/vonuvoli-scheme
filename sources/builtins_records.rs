@@ -46,6 +46,7 @@ pub mod exports {
 			record_to_array, record_from_array,
 			record_to_values, record_from_values,
 			record_to_list, record_from_list,
+			record_to_assoc, record_from_assoc,
 			
 		};
 	
@@ -83,7 +84,7 @@ pub fn record_kind_build (identifier : Option<&Value>, fields : &Value) -> (Outc
 		ValueKindMatchAsRef::NumberInteger (fields) =>
 			(None, try! (fields.try_to_usize ())),
 		_ =>
-			fail_unimplemented! (0xefef1c6f), // deferred
+			fail_unimplemented! (0xefef1c6f, (github_issue, 38)),
 	};
 	let identifier = if let Some (identifier) = identifier {
 		match identifier.kind_match_as_ref () {
@@ -294,7 +295,7 @@ pub fn record_get_x (kind : Option<&RecordKind>, field : &Value, record : &Value
 		ValueKindMatchAsRef::NumberInteger (field) =>
 			return record_get (kind, try! (field.try_to_usize ()), record),
 		ValueKindMatchAsRef::Symbol (_) =>
-			fail_unimplemented! (0x8424a427), // deferred
+			fail_unimplemented! (0x8424a427, (github_issue, 39)),
 		_ =>
 			fail! (0x8dbc8031),
 	}
@@ -308,7 +309,7 @@ pub fn record_set_x (kind : Option<&RecordKind>, field : &Value, record : &Value
 		ValueKindMatchAsRef::NumberInteger (field) =>
 			return record_set (kind, try! (field.try_to_usize ()), record, value),
 		ValueKindMatchAsRef::Symbol (_) =>
-			fail_unimplemented! (0xd2d2f80a), // deferred
+			fail_unimplemented! (0xd2d2f80a, (github_issue, 39)),
 		_ =>
 			fail! (0x194d0fbf),
 	}
@@ -319,33 +320,43 @@ pub fn record_set_x (kind : Option<&RecordKind>, field : &Value, record : &Value
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_to_array (_kind : Option<&RecordKind>, _record : &Value, _immutable : Option<bool>) -> (Outcome<Value>) {
-	fail_unimplemented! (0x2bb3bd43); // deferred
+	fail_unimplemented! (0x2bb3bd43, (github_issue, 40));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_to_values (_kind : Option<&RecordKind>, _record : &Value, _immutable : Option<bool>) -> (Outcome<Value>) {
-	fail_unimplemented! (0xb9e5c4ce); // deferred
+	fail_unimplemented! (0xb9e5c4ce, (github_issue, 40));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_to_list (_kind : Option<&RecordKind>, _record : &Value, _immutable : Option<bool>) -> (Outcome<Value>) {
-	fail_unimplemented! (0x18314e71); // deferred
+	fail_unimplemented! (0x18314e71, (github_issue, 40));
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn record_to_assoc (_kind : Option<&RecordKind>, _record : &Value, _immutable : Option<bool>) -> (Outcome<Value>) {
+	fail_unimplemented! (0xd7b46e66, (github_issue, 41));
 }
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_from_array (_kind : Option<&RecordKind>, _values : &Value, _immutable : Option<bool>) -> (Outcome<Value>) {
-	fail_unimplemented! (0xd1a160d3); // deferred
+	fail_unimplemented! (0xd1a160d3, (github_issue, 40));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_from_values (_kind : Option<&RecordKind>, _values : &Value, _immutable : Option<bool>) -> (Outcome<Value>) {
-	fail_unimplemented! (0x6f32a452); // deferred
+	fail_unimplemented! (0x6f32a452, (github_issue, 40));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_from_list (_kind : Option<&RecordKind>, _values : &Value, _immutable : Option<bool>) -> (Outcome<Value>) {
-	fail_unimplemented! (0xdd729ef6); // deferred
+	fail_unimplemented! (0xdd729ef6, (github_issue, 40));
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn record_from_assoc (_kind : Option<&RecordKind>, _values : &Value, _immutable : Option<bool>) -> (Outcome<Value>) {
+	fail_unimplemented! (0x8ccef2c5, (github_issue, 41));
 }
 
 
@@ -375,7 +386,7 @@ pub fn record_build_fn (kind : &RecordKind, fields : Option<&Value>, immutable :
 				Some (fields.into_boxed_slice ())
 			},
 			_ =>
-				fail_unimplemented! (0x0b12cf86), // deferred
+				fail_unimplemented! (0x0b12cf86, (github_issue, 42)),
 		}
 	} else {
 		None

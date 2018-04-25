@@ -452,7 +452,7 @@ fn port_input_bytes_read_collect_until_0 (port : &Value, delimiter : u8, include
 					buffer.push (last);
 				}
 			} else {
-				fail_panic! (0x87f51301);
+				fail_panic! (0x87f51301, github_issue_new);
 			}
 		}
 		succeed! (bytes_new (buffer) .into ());
@@ -506,7 +506,7 @@ fn port_input_bytes_read_collect_until_fold_0 (port : &Value, delimiter : u8, in
 						buffer.push (last);
 					}
 				} else {
-					fail_panic! (0xf1ebcba1);
+					fail_panic! (0xf1ebcba1, github_issue_new);
 				}
 			}
 			let value = bytes_new (buffer) .into ();
@@ -569,7 +569,7 @@ fn port_input_bytes_read_extend_until_0 (port : &Value, bytes : &Value, delimite
 					count - 1
 				}
 			} else {
-				fail_panic! (0x1ccb568e);
+				fail_panic! (0x1ccb568e, github_issue_new);
 			}
 		} else {
 			count
@@ -622,7 +622,7 @@ fn port_input_string_read_collect_until_0 (port : &Value, delimiter : char, incl
 					buffer.push (last);
 				}
 			} else {
-				fail_panic! (0xec6380c4);
+				fail_panic! (0xec6380c4, github_issue_new);
 			}
 		}
 		succeed! (string_new (buffer) .into ());
@@ -676,7 +676,7 @@ fn port_input_string_read_collect_until_fold_0 (port : &Value, delimiter : char,
 						buffer.push (last);
 					}
 				} else {
-					fail_panic! (0x946e6d5d);
+					fail_panic! (0x946e6d5d, github_issue_new);
 				}
 			}
 			let value = string_new (buffer) .into ();
@@ -739,7 +739,7 @@ fn port_input_string_read_extend_until_0 (port : &Value, string : &Value, delimi
 					count - 1
 				}
 			} else {
-				fail_panic! (0xd2798fc4);
+				fail_panic! (0xd2798fc4, github_issue_new);
 			}
 		} else {
 			count
@@ -1111,13 +1111,13 @@ pub fn port_output_value_display_0 (port : &mut PortBackendWriter, value : &Valu
 		
 		#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 		ValueClassMatchAsRef::Unique (_value) => {
-			fail_unimplemented! (0x5702df25);  // FIXME:  Implement This!
+			fail_unimplemented! (0x5702df25, (github_issue, 18));
 		},
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ValueClassMatchAsRef::StringRegex (_value) => {
-			fail_unimplemented! (0xd8a1cb13);  // FIXME:  Implement This!
+			fail_unimplemented! (0xd8a1cb13, (github_issue, 18));
 		},
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
@@ -1130,7 +1130,7 @@ pub fn port_output_value_display_0 (port : &mut PortBackendWriter, value : &Valu
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ValueClassMatchAsRef::BytesRegex (_value) => {
-			fail_unimplemented! (0x992efa31);  // FIXME:  Implement This!
+			fail_unimplemented! (0x992efa31, (github_issue, 18));
 		},
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]

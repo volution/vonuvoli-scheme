@@ -1599,11 +1599,11 @@ impl Optimizer {
 			ProcedurePrimitive::PrimitiveV (primitive) =>
 				return self.optimize_procedure_primitive_v (optimization, primitive, inputs),
 			ProcedurePrimitive::Unimplemented =>
-				fail_unimplemented! (0x6befd021), // OK
+				fail! (0x6befd021),
 			ProcedurePrimitive::Unsupported =>
-				fail_unimplemented! (0x6b673d0f), // OK
+				fail! (0x6b673d0f),
 			ProcedurePrimitive::Reserved =>
-				fail_unimplemented! (0x15fb6cc0), // OK
+				fail! (0x15fb6cc0),
 		}
 	}
 	

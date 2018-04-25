@@ -119,14 +119,14 @@ impl Error {
 					ErrorInternals::WithValue (_, value) =>
 						return value,
 					_ =>
-						unreachable_0! (0x3411e156),
+						unreachable_0! (0x3411e156, github_issue_new),
 				},
 			Err (internals) =>
 				match *internals.as_ref () {
 					ErrorInternals::WithValue (_, ref value) =>
 						return value.clone (),
 					_ =>
-						unreachable_0! (0xd2d8f3b9),
+						unreachable_0! (0xd2d8f3b9, github_issue_new),
 				},
 		}
 	}

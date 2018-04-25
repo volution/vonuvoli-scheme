@@ -1061,7 +1061,7 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 			Value::Opaque (_, _, _) => ValueKind::Opaque,
 			
-			Value::__NonExhaustive => unreachable_0! (0x7bbc0f95),
+			Value::__NonExhaustive => unreachable_0! (0x7bbc0f95, github_issue_new),
 			
 		}
 	}
@@ -1168,7 +1168,7 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 			Value::Opaque (_, ref self_0, _) => ValueKindMatchAsRef::Opaque (self_0),
 			
-			Value::__NonExhaustive => unreachable_0! (0x60a44540),
+			Value::__NonExhaustive => unreachable_0! (0x60a44540, github_issue_new),
 			
 		}
 	}
@@ -1275,7 +1275,7 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 			Value::Opaque (_, self_0, _) => ValueKindMatchInto::Opaque (self_0),
 			
-			Value::__NonExhaustive => unreachable_0! (0x91f4d229),
+			Value::__NonExhaustive => unreachable_0! (0x91f4d229, github_issue_new),
 			
 		}
 	}
@@ -1386,8 +1386,8 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 			(&Value::Opaque (_, ref self_0, _), &Value::Opaque (_, ref other_0, _)) => ValueKindMatchAsRef2::Opaque (self_0, other_0),
 			
-			(&Value::__NonExhaustive, _) => unreachable_0! (0x13867aa3),
-			(_, &Value::__NonExhaustive) => unreachable_0! (0x5285f71e),
+			(&Value::__NonExhaustive, _) => unreachable_0! (0x13867aa3, github_issue_new),
+			(_, &Value::__NonExhaustive) => unreachable_0! (0x5285f71e, github_issue_new),
 			
 			// NOTE:  !!! match-fallback !!!
 			(_, _) => ValueKindMatchAsRef2::Missmatched,
@@ -1497,7 +1497,7 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 			Value::Opaque (_, _, _) => ValueClass::Opaque,
 			
-			Value::__NonExhaustive => unreachable_0! (0x5f4a0853),
+			Value::__NonExhaustive => unreachable_0! (0x5f4a0853, github_issue_new),
 			
 		}
 	}
@@ -1604,7 +1604,7 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 			Value::Opaque (_, ref self_0, _) => ValueClassMatchAsRef::Opaque (self_0),
 			
-			Value::__NonExhaustive => unreachable_0! (0xeb981b3d),
+			Value::__NonExhaustive => unreachable_0! (0xeb981b3d, github_issue_new),
 			
 		}
 	}
@@ -1711,7 +1711,7 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 			Value::Opaque (_, self_0, _) => ValueClassMatchInto::Opaque (self_0),
 			
-			Value::__NonExhaustive => unreachable_0! (0xcb4d88e4),
+			Value::__NonExhaustive => unreachable_0! (0xcb4d88e4, github_issue_new),
 			
 		}
 	}
@@ -1828,8 +1828,8 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 			(&Value::Opaque (_, ref self_0, _), &Value::Opaque (_, ref other_0, _)) => ValueClassMatchAsRef2::Opaque (self_0, other_0),
 			
-			(&Value::__NonExhaustive, _) => unreachable_0! (0x15e280a3),
-			(_, &Value::__NonExhaustive) => unreachable_0! (0xf9cc335c),
+			(&Value::__NonExhaustive, _) => unreachable_0! (0x15e280a3, github_issue_new),
+			(_, &Value::__NonExhaustive) => unreachable_0! (0xf9cc335c, github_issue_new),
 			
 			// NOTE:  !!! match-fallback !!!
 			_ =>
@@ -1858,7 +1858,7 @@ impl Value {
 			Value::PairImmutable (_, ref self_0, _) => ListMatchAsRef::PairImmutable (self_0),
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			Value::PairMutable (_, ref self_0, _) => ListMatchAsRef::PairMutable (self_0),
-			Value::__NonExhaustive => unreachable_0! (0x2d521611),
+			Value::__NonExhaustive => unreachable_0! (0x2d521611, github_issue_new),
 			// NOTE:  !!! match-fallback !!!
 			_ => ListMatchAsRef::Value (self),
 		}
@@ -1871,7 +1871,7 @@ impl Value {
 			Value::PairImmutable (_, self_0, _) => ListMatchInto::PairImmutable (self_0),
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			Value::PairMutable (_, self_0, _) => ListMatchInto::PairMutable (self_0),
-			Value::__NonExhaustive => unreachable_0! (0xa32b87fa),
+			Value::__NonExhaustive => unreachable_0! (0xa32b87fa, github_issue_new),
 			// NOTE:  !!! match-fallback !!!
 			_ => ListMatchInto::Value (self),
 		}
@@ -2081,7 +2081,7 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 			Value::Opaque (_, _, _) => fail! (0x3a5f06fc),
 			
-			Value::__NonExhaustive => unreachable_0! (0xe6a3ce23),
+			Value::__NonExhaustive => unreachable_0! (0xe6a3ce23, github_issue_new),
 			
 		}
 	}
@@ -2120,7 +2120,7 @@ impl Value {
 			#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 			Value::Opaque (_, _, _) => fail! (0x1f7ae54b),
 			
-			Value::__NonExhaustive => unreachable_0! (0xdbf88c4a),
+			Value::__NonExhaustive => unreachable_0! (0xdbf88c4a, github_issue_new),
 			
 			// NOTE:  !!! match-fallback !!!
 			_ => fail! (0x34e2a415),

@@ -290,7 +290,7 @@ impl ProcessState {
 				} else if let Some (code) = unix_process::ExitStatusExt::signal (exit) {
 					succeed! (ProcessStatus::Killed (code as u32));
 				} else {
-					fail_panic! (0x4075cf67);
+					fail_panic! (0x4075cf67, github_issue_new);
 				}
 			},
 			ProcessState::Failed (ref error) =>

@@ -241,7 +241,7 @@ pub fn call_composed_1 <CallableRef : StdAsRef<Value>> (evaluator : &mut Evaluat
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn call_composed_v <CallableRef : StdAsRef<Value>, ValueRef : StdAsRef<Value>> (_evaluator : &mut EvaluatorContext, _callables : &[CallableRef], _inputs : &[ValueRef]) -> (Outcome<Value>) {
-	fail_unimplemented! (0x35389b82);  // FIXME:  Implement This!
+	fail_unimplemented! (0x35389b82, (github_issue, 17));
 }
 
 

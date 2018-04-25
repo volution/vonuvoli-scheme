@@ -719,7 +719,7 @@ pub fn number_to_string (number : &Value, radix : Option<&Value>, sign : Option<
 							if let Some (number) = number.checked_abs () {
 								(number, "-")
 							} else {
-								fail_unimplemented! (0x231c95ca); // deferred
+								fail_unimplemented! (0x231c95ca, (github_issue, 43));
 							}
 						};
 						match radix {
@@ -732,7 +732,7 @@ pub fn number_to_string (number : &Value, radix : Option<&Value>, sign : Option<
 							Some (16) =>
 								format! ("{}{:x}", prefix, number),
 							_ =>
-								fail_unimplemented! (0x3bd46548), // deferred
+								fail_unimplemented! (0x3bd46548, (github_issue, 43)),
 						}
 					} else {
 						match sign {
@@ -769,7 +769,7 @@ pub fn number_to_string (number : &Value, radix : Option<&Value>, sign : Option<
 					} else if number.is_nan () {
 						StdString::from ("nan")
 					} else {
-						fail_unreachable! (0xf8a1f4d5);
+						fail_unreachable! (0xf8a1f4d5, github_issue_new);
 					};
 					succeed! (string.into ());
 				},

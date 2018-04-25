@@ -203,7 +203,7 @@ impl Compiler {
 				return self.compile_syntax_quote_0 (compilation, class.value ()),
 			
 			ValueClassMatchInto::Syntax (_class) =>
-				fail_unimplemented! (0xc617f3c7), // deferred
+				fail! (0xc617f3c7),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			ValueClassMatchInto::Path (value) =>
@@ -299,13 +299,13 @@ impl Compiler {
 						succeed! ((compilation, Alternative2::Variant1 (syntax))),
 					#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 					SyntaxMatchInto::Extended (_syntax) =>
-						fail_unimplemented! (0xb9915ee0), // deferred
+						fail_unimplemented! (0xb9915ee0, (github_issue, 45)),
 					#[ cfg ( feature = "vonuvoli_values_native" ) ]
 					SyntaxMatchInto::Native (_syntax) =>
-						fail_unimplemented! (0x09bdd94b), // deferred
+						fail_unimplemented! (0x09bdd94b, (github_issue, 45)),
 					#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 					SyntaxMatchInto::Lambda (_syntax) =>
-						fail_unimplemented! (0xd3517f42), // deferred
+						fail_unimplemented! (0xd3517f42, (github_issue, 46)),
 				},
 			
 			class =>
@@ -381,15 +381,15 @@ impl Compiler {
 						return self.compile_syntax_do (compilation, tokens),
 					
 					SyntaxPrimitiveV::DoCond =>
-						fail_unimplemented! (0x2e2b0079), // deferred
+						fail_unimplemented! (0x2e2b0079, (github_issue, 47)),
 					
 					SyntaxPrimitiveV::While |
 					SyntaxPrimitiveV::Until =>
-						fail_unimplemented! (0xdae6d716), // deferred
+						fail_unimplemented! (0xdae6d716, (github_issue, 47)),
 					
 					SyntaxPrimitiveV::WhileCond |
 					SyntaxPrimitiveV::UntilCond =>
-						fail_unimplemented! (0x9e9861c0), // deferred
+						fail_unimplemented! (0x9e9861c0, (github_issue, 47)),
 					
 					SyntaxPrimitiveV::Loop =>
 						return self.compile_syntax_loop (compilation, tokens),
@@ -448,10 +448,10 @@ impl Compiler {
 				fail! (0xc64adbb8),
 			
 			SyntaxPrimitive::Unimplemented =>
-				fail_unimplemented! (0xa4e41f62), // OK
+				fail_unimplemented! (0xa4e41f62, github_issue_new),
 			
 			SyntaxPrimitive::Unsupported =>
-				fail_unimplemented! (0x175a7f9e), // OK
+				fail_unimplemented! (0x175a7f9e, github_issue_new),
 			
 			SyntaxPrimitive::Reserved =>
 				fail! (0x1aed14f3),
@@ -515,7 +515,7 @@ impl Compiler {
 							if_true),
 				]
 		} else {
-			fail_unreachable! (0xbc801c5d);
+			fail_unreachable! (0xbc801c5d, github_issue_new);
 		};
 		
 		let clauses = ExpressionConditionalIfClauses::Multiple (clauses.into_boxed_slice ());
@@ -548,7 +548,7 @@ impl Compiler {
 			SyntaxPrimitiveV::Unless =>
 				true,
 			_ =>
-				fail_unreachable! (0x500d298f),
+				fail_unreachable! (0x500d298f, github_issue_new),
 		};
 		
 		let clauses = vec! [
@@ -603,7 +603,7 @@ impl Compiler {
 			};
 			
 			let (compilation_1, guard_consumer) = if ! statements.is_empty () && is_symbol_eq ("=>", &statements[0]) {
-				fail_unimplemented! (0xfa332991); // deferred
+				fail_unimplemented! (0xfa332991, (github_issue, 24));
 			} else {
 				(compilation_1, ExpressionValueConsumer::Ignore)
 			};
@@ -672,7 +672,7 @@ impl Compiler {
 			};
 			
 			let (compilation_1, guard_consumer) = if ! statements.is_empty () && is_symbol_eq ("=>", &statements[0]) {
-				fail_unimplemented! (0xef5d468c); // deferred
+				fail_unimplemented! (0xef5d468c, (github_issue, 24));
 			} else {
 				(compilation, ExpressionValueConsumer::Ignore)
 			};
@@ -1068,7 +1068,7 @@ impl Compiler {
 			},
 			
 			_ =>
-				fail_unreachable! (0xa1c3e4ac),
+				fail_unreachable! (0xa1c3e4ac, github_issue_new),
 			
 		}
 		
@@ -1082,7 +1082,7 @@ impl Compiler {
 			SyntaxPrimitiveV::LetRecursiveSequential =>
 				false,
 			_ =>
-				fail_unreachable! (0xa615e40c),
+				fail_unreachable! (0xa615e40c, github_issue_new),
 		};
 		
 		let binding_initializers = try! (self.compile_syntax_binding_set_n (binding_templates, binding_initializers, parallel, true));
@@ -1178,7 +1178,7 @@ impl Compiler {
 			},
 			
 			_ =>
-				fail_unreachable! (0x7498ded2),
+				fail_unreachable! (0x7498ded2, github_issue_new),
 			
 		}
 		
@@ -1413,7 +1413,7 @@ impl Compiler {
 			CompilerBinding::Register (_, index, _) =>
 				succeed! (ExpressionValueConsumer::RegisterInitialize (index)),
 			CompilerBinding::Undefined =>
-				fail_panic! (0xce4f018f),
+				fail_panic! (0xce4f018f, github_issue_new),
 		}
 	}
 	
@@ -2364,9 +2364,9 @@ impl CompilerBindings {
 	fn unfork_locals (self) -> (Outcome<(CompilerBindings, StdVec<RegisterTemplate>)>) {
 		match self {
 			CompilerBindings::None (_) =>
-				fail_panic! (0x98657e5a),
+				fail_panic! (0x98657e5a, github_issue_new),
 			CompilerBindings::Globals1 (_, _) =>
-				fail_panic! (0xdd470d36),
+				fail_panic! (0xdd470d36, github_issue_new),
 			CompilerBindings::Globals2 (parent, _, _) =>
 				succeed! ((*parent, StdVec::new ())),
 			CompilerBindings::Locals (parent, _, registers, _, _) =>
@@ -2517,11 +2517,11 @@ impl CompilerBindings {
 				if let Some (ref identifier) = *identifier {
 					match *self {
 						CompilerBindings::None (_) =>
-							fail_panic! (0x3a1f3306),
+							fail_panic! (0x3a1f3306, github_issue_new),
 						CompilerBindings::Globals1 (_, _) =>
-							fail_panic! (0xcdf142d8),
+							fail_panic! (0xcdf142d8, github_issue_new),
 						CompilerBindings::Globals2 (_, _, _) =>
-							fail_panic! (0x382ba35e),
+							fail_panic! (0x382ba35e, github_issue_new),
 						CompilerBindings::Locals (_, ref mut cached, _, _, _) => {
 							cached.remove (identifier);
 							succeed! (());
@@ -2561,7 +2561,7 @@ impl CompilerBindings {
 				define_allowed,
 		};
 		if *define_allowed == 0 {
-			fail_panic! (0x987257ca);
+			fail_panic! (0x987257ca, github_issue_new);
 		}
 		*define_allowed -= 1;
 		succeed! (());

@@ -296,7 +296,7 @@ pub fn filesystem_path_name (path : &Value) -> (Outcome<Value>) {
 	let path = path.deref ();
 	if let Some (name) = path.file_name () {
 		if name.is_empty () {
-			fail_panic! (0x97c85be5);
+			fail_panic! (0x97c85be5, github_issue_new);
 		}
 		succeed! (Path::new_from_ref (fs_path::Path::new (name), false) .into ());
 	} else {
@@ -311,7 +311,7 @@ pub fn filesystem_path_name_without_extension (path : &Value) -> (Outcome<Value>
 	let path = path.deref ();
 	let name = if let Some (name) = path.file_name () {
 		if name.is_empty () {
-			fail_panic! (0xc3e91299);
+			fail_panic! (0xc3e91299, github_issue_new);
 		}
 		fs_path::Path::new (name)
 	} else {
@@ -319,7 +319,7 @@ pub fn filesystem_path_name_without_extension (path : &Value) -> (Outcome<Value>
 	};
 	if let Some (stem) = name.file_stem () {
 		if stem.is_empty () {
-			fail_panic! (0x8ae49f96);
+			fail_panic! (0x8ae49f96, github_issue_new);
 		}
 		if stem.as_bytes () .iter () .find (|byte| (**byte) != ('.' as u8)) .is_none () {
 			// NOTE:  The name starts with multiple dots and it has no other extension.
@@ -328,7 +328,7 @@ pub fn filesystem_path_name_without_extension (path : &Value) -> (Outcome<Value>
 			succeed! (Path::new_from_ref (fs_path::Path::new (stem), false) .into ());
 		}
 	} else {
-		fail_unreachable! (0x4109a459);
+		fail_unreachable! (0x4109a459, github_issue_new);
 	}
 }
 
@@ -339,7 +339,7 @@ pub fn filesystem_path_name_only_extension (path : &Value) -> (Outcome<Value>) {
 	let path = path.deref ();
 	let name = if let Some (name) = path.file_name () {
 		if name.is_empty () {
-			fail_panic! (0xfafb61b7);
+			fail_panic! (0xfafb61b7, github_issue_new);
 		}
 		fs_path::Path::new (name)
 	} else {
@@ -348,7 +348,7 @@ pub fn filesystem_path_name_only_extension (path : &Value) -> (Outcome<Value>) {
 	if let Some (extension) = name.extension () {
 		if let Some (stem) = name.file_stem () {
 			if stem.is_empty () {
-				fail_panic! (0x32e4db76);
+				fail_panic! (0x32e4db76, github_issue_new);
 			}
 			if stem.as_bytes () .iter () .find (|byte| (**byte) != ('.' as u8)) .is_none () {
 				// NOTE:  The name starts with multiple dots and it has no other extension.
@@ -357,7 +357,7 @@ pub fn filesystem_path_name_only_extension (path : &Value) -> (Outcome<Value>) {
 				succeed! (Path::new_from_ref (fs_path::Path::new (extension), false) .into ());
 			}
 		} else {
-			fail_unreachable! (0xd9b8e113);
+			fail_unreachable! (0xd9b8e113, github_issue_new);
 		}
 	} else {
 		succeed! (FALSE_VALUE);
@@ -373,7 +373,7 @@ pub fn filesystem_path_name_split (path : &Value, return_array : bool) -> (Outco
 	let path = path.deref ();
 	let mut name = if let Some (name) = path.file_name () {
 		if name.is_empty () {
-			fail_panic! (0x6c0dff54);
+			fail_panic! (0x6c0dff54, github_issue_new);
 		}
 		fs_path::Path::new (name)
 	} else {
@@ -384,7 +384,7 @@ pub fn filesystem_path_name_split (path : &Value, return_array : bool) -> (Outco
 		match (name.file_stem (), name.extension ()) {
 			(Some (stem), Some (extension)) => {
 				if stem.is_empty () {
-					fail_panic! (0x25fece1e);
+					fail_panic! (0x25fece1e, github_issue_new);
 				}
 				if stem.as_bytes () .iter () .find (|byte| (**byte) != ('.' as u8)) .is_none () {
 					// NOTE:  The name starts with multiple dots and it has no other extension.
@@ -400,9 +400,9 @@ pub fn filesystem_path_name_split (path : &Value, return_array : bool) -> (Outco
 				break;
 			},
 			(None, Some (_)) =>
-				fail_unreachable! (0x3dc45bfd),
+				fail_unreachable! (0x3dc45bfd, github_issue_new),
 			(None, None) =>
-				fail_unreachable! (0x19cbe613),
+				fail_unreachable! (0x19cbe613, github_issue_new),
 		}
 	}
 	components.reverse ();
@@ -431,7 +431,7 @@ pub fn filesystem_path_name_join (values : &[&Value]) -> (Outcome<Path>) {
 				} else {
 					if let Some (name) = path.file_name () {
 						if name.is_empty () {
-							fail_panic! (0x47deb6f8);
+							fail_panic! (0x47deb6f8, github_issue_new);
 						}
 						if name == path {
 							buffer.push (".");
@@ -458,7 +458,7 @@ pub fn filesystem_path_name_join (values : &[&Value]) -> (Outcome<Path>) {
 				} else {
 					if let Some (name) = path.file_name () {
 						if name.is_empty () {
-							fail_panic! (0x0fd246e1);
+							fail_panic! (0x0fd246e1, github_issue_new);
 						}
 						if name == path {
 							buffer.push (".");
@@ -513,7 +513,7 @@ pub fn filesystem_path_name_is (path : &Value, expected : &Value) -> (Outcome<bo
 	let expected = expected.deref ();
 	let path_name = if let Some (path_name) = path.file_name () {
 		if path_name.is_empty () {
-			fail_panic! (0x68aa0374);
+			fail_panic! (0x68aa0374, github_issue_new);
 		}
 		path_name
 	} else {
@@ -521,7 +521,7 @@ pub fn filesystem_path_name_is (path : &Value, expected : &Value) -> (Outcome<bo
 	};
 	let expected_name = if let Some (expected_name) = expected.file_name () {
 		if expected_name.is_empty () {
-			fail_panic! (0x2988b840);
+			fail_panic! (0x2988b840, github_issue_new);
 		}
 		if expected_name != expected {
 			fail! (0x4d5c2779);
@@ -542,7 +542,7 @@ pub fn filesystem_path_name_has_prefix (path : &Value, prefix : &Value) -> (Outc
 	let prefix = prefix.deref ();
 	let path_name = if let Some (path_name) = path.file_name () {
 		if path_name.is_empty () {
-			fail_panic! (0x01f73eaf);
+			fail_panic! (0x01f73eaf, github_issue_new);
 		}
 		path_name
 	} else {
@@ -551,7 +551,7 @@ pub fn filesystem_path_name_has_prefix (path : &Value, prefix : &Value) -> (Outc
 	let path_name = path_name.as_bytes ();
 	let prefix_name = if let Some (prefix_name) = prefix.file_name () {
 		if prefix_name.is_empty () {
-			fail_panic! (0x81b12ef4);
+			fail_panic! (0x81b12ef4, github_issue_new);
 		}
 		if prefix_name != prefix {
 			fail! (0x4ec40ed6);
@@ -581,7 +581,7 @@ pub fn filesystem_path_name_has_suffix (path : &Value, suffix : &Value) -> (Outc
 	let suffix = suffix.deref ();
 	let path_name = if let Some (path_name) = path.file_name () {
 		if path_name.is_empty () {
-			fail_panic! (0x2e54c28a);
+			fail_panic! (0x2e54c28a, github_issue_new);
 		}
 		path_name
 	} else {
@@ -590,7 +590,7 @@ pub fn filesystem_path_name_has_suffix (path : &Value, suffix : &Value) -> (Outc
 	let path_name = path_name.as_bytes ();
 	let suffix_name = if let Some (suffix_name) = suffix.file_name () {
 		if suffix_name.is_empty () {
-			fail_panic! (0xe5482553);
+			fail_panic! (0xe5482553, github_issue_new);
 		}
 		if suffix_name != suffix {
 			fail! (0x9a1ae18e);
@@ -1082,7 +1082,7 @@ impl <'a> StdTryFrom<&'a fs::FileType> for FileSystemMetadataKind {
 		} else if kind.is_char_device () {
 			FileSystemMetadataKind::CharacterDevice
 		} else {
-			fail_panic! (0x27130fff);
+			fail_panic! (0x27130fff, github_issue_new);
 		};
 		succeed! (kind);
 	}
@@ -1362,7 +1362,7 @@ pub fn filesystem_metadata_unix_get_data_accessed_at (metadata : &Value, follow 
 	let metadata = metadata.deref ();
 	let timestamp = metadata.atime ();
 	if timestamp < 0 {
-		fail_panic! (0x689c9eb8);
+		fail_panic! (0x689c9eb8, github_issue_new);
 	}
 	let timestamp = NumberInteger::from (timestamp);
 	succeed! (timestamp.into ());
@@ -1374,7 +1374,7 @@ pub fn filesystem_metadata_unix_get_data_modified_at (metadata : &Value, follow 
 	let metadata = metadata.deref ();
 	let timestamp = metadata.mtime ();
 	if timestamp < 0 {
-		fail_panic! (0x01d8a0c5);
+		fail_panic! (0x01d8a0c5, github_issue_new);
 	}
 	let timestamp = NumberInteger::from (timestamp);
 	succeed! (timestamp.into ());
@@ -1386,7 +1386,7 @@ pub fn filesystem_metadata_unix_get_inode_changed_at (metadata : &Value, follow 
 	let metadata = metadata.deref ();
 	let timestamp = metadata.ctime ();
 	if timestamp < 0 {
-		fail_panic! (0x29b73822);
+		fail_panic! (0x29b73822, github_issue_new);
 	}
 	let timestamp = NumberInteger::from (timestamp);
 	succeed! (timestamp.into ());

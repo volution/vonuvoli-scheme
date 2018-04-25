@@ -347,7 +347,7 @@ pub fn process_run_check (arguments : &[&Value], evaluator : &mut Option<&mut Ev
 pub fn process_status_check (status : ProcessStatus) -> (Outcome<()>) {
 	match status {
 		ProcessStatus::Running =>
-			fail_panic! (0x38f2a39a),
+			fail_panic! (0x38f2a39a, github_issue_new),
 		ProcessStatus::Succeeded =>
 			succeed! (()),
 		ProcessStatus::Failed (_) =>

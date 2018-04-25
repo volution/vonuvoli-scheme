@@ -940,7 +940,7 @@ pub fn option_unwrap_ref <T> (option : &Option<T>) -> (&T) {
 		Some (ref value) =>
 			value,
 		None =>
-			panic_0! (0x652a4430),
+			panic_0! (0x652a4430, github_issue_new),
 	}
 }
 
@@ -963,7 +963,7 @@ pub fn option_box_unwrap <T> (option : Option<StdBox<T>>) -> (T) {
 		Some (value) =>
 			*value,
 		None =>
-			panic_0! (0x75a8fcd5),
+			panic_0! (0x75a8fcd5, github_issue_new),
 	}
 }
 

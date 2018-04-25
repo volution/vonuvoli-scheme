@@ -155,7 +155,7 @@ pub fn string_regex_match_position_all (pattern : &Value, string : &Value, retur
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn string_regex_match_position_0 (_string : &str, _matched : &ext::regex::Match) -> (Outcome<Value>) {
-	fail_unimplemented! (0x74964611);  // FIXME:  Implement This!
+	fail_unimplemented! (0x74964611, (github_issue, 22));
 }
 
 
@@ -383,7 +383,7 @@ pub fn bytes_regex_match_position_all (pattern : &Value, bytes : &Value, return_
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn bytes_regex_match_position_0 (_bytes : &[u8], _matched : &ext::regex::bytes::Match) -> (Outcome<Value>) {
-	fail_unimplemented! (0x1c538088);  // FIXME:  Implement This!
+	fail_unimplemented! (0x1c538088, (github_issue, 22));
 }
 
 

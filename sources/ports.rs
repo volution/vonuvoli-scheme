@@ -821,7 +821,7 @@ impl PortBackend {
 				return backend.output_close (),
 			
 			PortBackend::Descriptor (_) =>
-				fail_unimplemented! (0xb7f61dce), // deferred
+				fail_unimplemented! (0xb7f61dce, (github_issue, 54)),
 			
 		}
 	}

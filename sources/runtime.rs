@@ -131,8 +131,7 @@ impl <T, U> StdExpectInto0<U> for T where T : StdTryInto0<U> {
 			Ok (value) =>
 				value,
 			Err (_) =>
-				// TODO:  Report the actual error!
-				panic_0! (0x073cc689),
+				panic_0! (0x073cc689, github_issue_new),
 		}
 	}
 }
@@ -184,8 +183,7 @@ impl <T, U> StdExpectAsRef0<U> for T where T : StdTryAsRef0<U> {
 			Ok (value) =>
 				value,
 			Err (_) =>
-				// TODO:  Report the actual error!
-				panic_0! (0xdd0868fb),
+				panic_0! (0xdd0868fb, github_issue_new),
 		}
 	}
 }
@@ -318,7 +316,7 @@ pub fn vec_explode_3n <Element> (vector : StdVec<Element>) -> (Outcome<(Element,
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn vec_zip_2 <Element1, Element2> (vector_1 : StdVec<Element1>, vector_2 : StdVec<Element2>) -> (StdVec<(Element1, Element2)>) {
 	if vector_1.len () != vector_2.len () {
-		panic_0! (0xa8f6ee9e);
+		panic_0! (0xa8f6ee9e, github_issue_new);
 	}
 	let mut vector = StdVec::with_capacity (vector_1.len ());
 	let mut vector_1 = vector_1.into_iter ();
@@ -330,9 +328,9 @@ pub fn vec_zip_2 <Element1, Element2> (vector_1 : StdVec<Element1>, vector_2 : S
 			(None, None) =>
 				return vector,
 			(Some (_), None) =>
-				panic_0! (0x7c360c22),
+				unreachable_0! (0x7c360c22, github_issue_new),
 			(None, Some (_)) =>
-				panic_0! (0xaac907db),
+				unreachable_0! (0xaac907db, github_issue_new),
 		}
 	}
 }
@@ -455,7 +453,7 @@ pub fn libc_getrusage_for_thread () -> (ext::libc::rusage) {
 		if ext::libc::getrusage (ext::libc::RUSAGE_THREAD, &mut resources) == 0 {
 			resources
 		} else {
-			panic_0! (0xfc7fa1cb);
+			panic_0! (0xfc7fa1cb, github_issue_new);
 		}
 	}
 }
@@ -512,7 +510,7 @@ pub fn libc_getgroups () -> (StdBox<[u32]>) {
 	let groups_count = unsafe {
 		let outcome = ext::libc::getgroups (0, 0 as *mut u32);
 		if outcome < 0 {
-			panic_0! (0xa42932ca);
+			panic_0! (0xa42932ca, github_issue_new);
 		}
 		outcome as usize
 	};
@@ -520,10 +518,10 @@ pub fn libc_getgroups () -> (StdBox<[u32]>) {
 	unsafe {
 		let outcome = ext::libc::getgroups (groups_count as i32, groups.as_mut_ptr ());
 		if outcome < 0 {
-			panic_0! (0xcb1afa65);
+			panic_0! (0xcb1afa65, github_issue_new);
 		}
 		if outcome as usize != groups_count {
-			panic_0! (0x78984a31);
+			panic_0! (0x78984a31, github_issue_new);
 		}
 		groups.set_len (groups_count);
 	}

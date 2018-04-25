@@ -699,7 +699,7 @@ impl NumberReal {
 		} else  if value == f64::NEG_INFINITY {
 			succeed! (f32::NEG_INFINITY);
 		} else {
-			fail_panic! (0xa371a722);
+			fail_panic! (0xa371a722, github_issue_new);
 		}
 	}
 	

@@ -186,8 +186,7 @@ impl <'a, T : Transcript + ?Sized + 'a> TranscriptBuffer<'a, T> {
 			Ok (()) =>
 				(),
 			Err (_error) =>
-				// FIXME:  Handle this error and do not panic!
-				panic_0! (0x232a35a0),
+				panic_0! (0x232a35a0, (github_issue, 48)),
 		}
 	}
 	
@@ -197,8 +196,7 @@ impl <'a, T : Transcript + ?Sized + 'a> TranscriptBuffer<'a, T> {
 			Ok (()) =>
 				(),
 			Err (_error) =>
-				// FIXME:  Handle this error and do not panic!
-				panic_0! (0x4308fce7),
+				panic_0! (0x4308fce7, (github_issue, 48)),
 		}
 	}
 	
@@ -647,8 +645,7 @@ impl TranscriptBackendForStderr {
 			Ok (()) =>
 				(),
 			Err (_error) =>
-				// FIXME:  Handle this error and do not panic!
-				panic_0! (0x89a3e336),
+				panic_0! (0x89a3e336, (github_issue, 48)),
 		}
 	}
 }

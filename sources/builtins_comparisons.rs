@@ -1291,7 +1291,7 @@ pub fn character_compare_2a <ValueRef : StdAsRef<Character>> (left : ValueRef, r
 				None | Some (true) =>
 					return std_ord_compare_2_ordering_val (left, right, ordering, negated),
 				_ =>
-					fail_unimplemented! (0xea3c51f1), // deferred
+					fail_unimplemented! (0xea3c51f1, (github_issue, 35)),
 			},
 	}
 }
@@ -1320,7 +1320,7 @@ pub fn symbol_compare_2a <ValueRef : StdAsRef<Symbol>> (left : ValueRef, right :
 				None | Some (true) =>
 					return std_ord_compare_2_ordering_val (left, right, ordering, negated),
 				_ =>
-					fail_unimplemented! (0xc4ef7065), // deferred
+					fail_unimplemented! (0xc4ef7065, (github_issue, 35)),
 			},
 	}
 }
@@ -1352,7 +1352,7 @@ pub fn keyword_compare_2a <ValueRef : StdAsRef<Keyword>> (left : ValueRef, right
 				None | Some (true) =>
 					return std_ord_compare_2_ordering_val (left, right, ordering, negated),
 				_ =>
-					fail_unimplemented! (0x3a2cf6b7), // deferred
+					fail_unimplemented! (0x3a2cf6b7, (github_issue, 35)),
 			},
 	}
 }
@@ -1448,7 +1448,7 @@ pub(crate) fn string_ref_compare_2a <'a, ValueRef : StdAsRef<StringRef<'a>>> (le
 				None | Some (true) =>
 					return std_ord_compare_2_ordering_ref (left, right, ordering, negated),
 				_ =>
-					fail_unimplemented! (0x2736b1f6), // deferred
+					fail_unimplemented! (0x2736b1f6, (github_issue, 35)),
 			},
 	}
 }
@@ -1517,7 +1517,7 @@ pub(crate) fn bytes_ref_compare_2a <'a, ValueRef : StdAsRef<BytesRef<'a>>> (left
 				None | Some (true) =>
 					return std_ord_compare_2_ordering_ref (left, right, ordering, negated),
 				_ =>
-					fail_unimplemented! (0x5be9ea91), // deferred
+					fail_unimplemented! (0x5be9ea91, (github_issue, 35)),
 			},
 	}
 }
@@ -1542,7 +1542,7 @@ pub fn string_regex_compare_1a <ValueRef : StdAsRef<StringRegex>> (_value : Valu
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_regex_compare_2a <ValueRef : StdAsRef<StringRegex>> (_left : ValueRef, _right : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	fail_unimplemented! (0x06a9dbac);  // FIXME:  Implement This!
+	fail_unimplemented! (0x06a9dbac, (github_issue, 15));
 }
 
 
@@ -1565,7 +1565,7 @@ pub fn bytes_regex_compare_1a <ValueRef : StdAsRef<BytesRegex>> (_value : ValueR
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_regex_compare_2a <ValueRef : StdAsRef<BytesRegex>> (_left : ValueRef, _right : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	fail_unimplemented! (0x35ee0e57);  // FIXME:  Implement This!
+	fail_unimplemented! (0x35ee0e57, (github_issue, 15));
 }
 
 
@@ -2117,7 +2117,7 @@ pub fn path_compare_2a <ValueRef : StdAsRef<Path>> (left : ValueRef, right : Val
 				None | Some (true) =>
 					return std_ord_compare_2_ordering_ref::<fs_path::Path, _> (left.path_ref (), right.path_ref (), ordering, negated),
 				_ =>
-					fail_unimplemented! (0x17fe4dd5), // deferred
+					fail_unimplemented! (0x17fe4dd5, (github_issue, 35)),
 			},
 	}
 }
@@ -2247,7 +2247,7 @@ pub fn parameters_compare_1a <ValueRef : StdAsRef<Parameters>> (_value : ValueRe
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn parameters_compare_2a <ValueRef : StdAsRef<Parameters>> (_left : ValueRef, _right : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	fail_unimplemented! (0xe857ac8b);  // FIXME:  Implement This!
+	fail_unimplemented! (0xe857ac8b, (github_issue, 15));
 }
 
 
@@ -2267,7 +2267,7 @@ pub fn parameter_compare_1a <ValueRef : StdAsRef<Parameter>> (_value : ValueRef,
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn parameter_compare_2a <ValueRef : StdAsRef<Parameter>> (_left : ValueRef, _right : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	fail_unimplemented! (0xc8cd8929);  // FIXME:  Implement This!
+	fail_unimplemented! (0xc8cd8929, (github_issue, 15));
 }
 
 
@@ -2287,7 +2287,7 @@ pub fn promise_compare_1a <ValueRef : StdAsRef<Promise>> (_value : ValueRef, com
 #[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn promise_compare_2a <ValueRef : StdAsRef<Promise>> (_left : ValueRef, _right : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	fail_unimplemented! (0x48381d6c);  // FIXME:  Implement This!
+	fail_unimplemented! (0x48381d6c, (github_issue, 15));
 }
 
 
@@ -2307,7 +2307,7 @@ pub fn opaque_compare_1a <ValueRef : StdAsRef<Opaque>> (_value : ValueRef, compa
 #[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn opaque_compare_2a <ValueRef : StdAsRef<Opaque>> (_left : ValueRef, _right : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	fail_unimplemented! (0x2cde5f59);  // FIXME:  Implement This!
+	fail_unimplemented! (0x2cde5f59, (github_issue, 15));
 }
 
 
@@ -2618,7 +2618,7 @@ pub fn vec_compare_2 (left : &[Value], right : &[Value], comparison : Comparison
 			(None, Some (_)) =>
 				match comparison {
 					Comparison::Equivalence (_, _, _, _) =>
-						fail_unreachable! (0x97e8a0c7),
+						fail_unreachable! (0x97e8a0c7, github_issue_new),
 					Comparison::Ordering (ordering, _, _, negated) =>
 						match ordering {
 							Ordering::Lesser | Ordering::LesserOrEqual =>
@@ -2631,7 +2631,7 @@ pub fn vec_compare_2 (left : &[Value], right : &[Value], comparison : Comparison
 			(Some (_), None) =>
 				match comparison {
 					Comparison::Equivalence (_, _, _, _) =>
-						fail_unreachable! (0x2558c7ee),
+						fail_unreachable! (0x2558c7ee, github_issue_new),
 					Comparison::Ordering (ordering, _, _, negated) =>
 						match ordering {
 							Ordering::Greater | Ordering::GreaterOrEqual =>
