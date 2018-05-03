@@ -364,6 +364,20 @@ macro_rules! try_some {
 	);
 }
 
+macro_rules! try_some_or_panic {
+	( $option : expr, $code : expr ) => (
+		try_some_or_panic! ($option, $code, issue_optional)
+	);
+	( $option : expr, $code : expr, $tracking : tt ) => (
+		if let $crate::prelude::Option::Some (value) = $option {
+			value
+		} else {
+			panic_0! ($code, $tracking);
+		}
+	);
+}
+
+
 macro_rules! try_some_ref {
 	( $option : expr, $code : expr ) => (
 		try_some_ref! ($option, $code, issue_optional)
@@ -373,6 +387,19 @@ macro_rules! try_some_ref {
 			value
 		} else {
 			fail! ($code, $tracking);
+		}
+	);
+}
+
+macro_rules! try_some_ref_or_panic {
+	( $option : expr, $code : expr ) => (
+		try_some_ref_or_panic! ($option, $code, issue_optional)
+	);
+	( $option : expr, $code : expr, $tracking : tt ) => (
+		if let $crate::prelude::Option::Some (ref value) = $option {
+			value
+		} else {
+			panic_0! ($code, $tracking);
 		}
 	);
 }
@@ -390,6 +417,19 @@ macro_rules! try_some_ref_mut {
 	);
 }
 
+macro_rules! try_some_ref_mut_or_panic {
+	( $option : expr, $code : expr ) => (
+		try_some_ref_mut_or_panic! ($option, $code, issue_optional)
+	);
+	( $option : expr, $code : expr, $tracking : tt ) => (
+		if let $crate::prelude::Option::Some (ref mut value) = $option {
+			value
+		} else {
+			panic_0! ($code, $tracking);
+		}
+	);
+}
+
 
 macro_rules! try_some_2 {
 	( $result : expr, $code : expr ) => (
@@ -397,6 +437,15 @@ macro_rules! try_some_2 {
 	);
 	( $result : expr, $code : expr, $tracking : tt ) => (
 		try_some! (try! ($result), $code, $tracking)
+	);
+}
+
+macro_rules! try_some_2_or_panic {
+	( $result : expr, $code : expr ) => (
+		try_some_2_or_panic! ($result, $code, issue_optional)
+	);
+	( $result : expr, $code : expr, $tracking : tt ) => (
+		try_some_or_panic! (try_or_panic! ($result, $tracking), $code, $tracking)
 	);
 }
 
@@ -409,12 +458,30 @@ macro_rules! try_some_ref_2 {
 	);
 }
 
+macro_rules! try_some_ref_2_or_panic {
+	( $result : expr, $code : expr ) => (
+		try_some_ref_2_or_panic! ($result, $code, issue_optional)
+	);
+	( $result : expr, $code : expr, $tracking : tt ) => (
+		try_some_ref_or_panic! (try_or_panic! ($result, $tracking), $code, $tracking)
+	);
+}
+
 macro_rules! try_some_ref_mut_2 {
 	( $result : expr, $code : expr ) => (
 		try_some_ref_mut_2! ($result, $code, issue_optional)
 	);
 	( $result : expr, $code : expr, $tracking : tt ) => (
 		try_some_ref_mut! (try! ($result), $code, $tracking)
+	);
+}
+
+macro_rules! try_some_ref_mut_2_or_panic {
+	( $result : expr, $code : expr ) => (
+		try_some_ref_mut_2_or_panic! ($result, $code, issue_optional)
+	);
+	( $result : expr, $code : expr, $tracking : tt ) => (
+		try_some_ref_mut_or_panic! (try_or_panic! ($result, $tracking), $code, $tracking)
 	);
 }
 
